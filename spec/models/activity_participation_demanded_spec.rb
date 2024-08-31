@@ -72,7 +72,7 @@ describe ActivityParticipationDemanded, freeze: "2022-01-01" do
 
   context "custom logic" do
     before do
-      Current.acp.update!(activity_participations_demanded_logic: <<~LIQUID)
+      Current.org.update!(activity_participations_demanded_logic: <<~LIQUID)
         {% if member.salary_basket %}
           0
         {% elsif membership.baskets < 2 %}
@@ -115,7 +115,7 @@ describe ActivityParticipationDemanded, freeze: "2022-01-01" do
 
   context "custom logic with full_year_max_deliveries" do
     before do
-      Current.acp.update!(activity_participations_demanded_logic: <<~LIQUID)
+      Current.org.update!(activity_participations_demanded_logic: <<~LIQUID)
         {{ membership.baskets | divided_by: full_year_max_deliveries | times: membership.full_year_activity_participations | round }}
       LIQUID
     end

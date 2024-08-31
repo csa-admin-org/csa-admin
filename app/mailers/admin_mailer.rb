@@ -59,12 +59,12 @@ class AdminMailer < ApplicationMailer
     admin = params[:admin]
     I18n.with_locale(admin.language) do
       content = liquid_template.render(
-        "acp" => Liquid::ACPDrop.new(Current.acp),
+        "organization" => Liquid::OrganizationDrop.new(Current.org),
         "admin" => Liquid::AdminDrop.new(admin),
         "action_url" => params[:action_url])
       content_mail(content,
         to: admin.email,
-        subject: t(".subject", acp: Current.acp.name),
+        subject: t(".subject", org: Current.org.name),
         tag: "admin-invitation")
     end
   end
@@ -168,7 +168,7 @@ class AdminMailer < ApplicationMailer
     @subject_class = "alert"
     I18n.with_locale(@admin.language) do
       content = liquid_template.render(
-        "acp" => Liquid::ACPDrop.new(Current.acp),
+        "organization" => Liquid::OrganizationDrop.new(Current.org),
         "admin" => Liquid::AdminDrop.new(@admin),
         "pending_memberships" => params[:pending_memberships].map { |m| Liquid::AdminMembershipDrop.new(m) },
         "opened_memberships" => params[:opened_memberships].map { |m| Liquid::AdminMembershipDrop.new(m) },

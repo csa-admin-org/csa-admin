@@ -186,7 +186,7 @@ class Newsletter
         base[:basket_complement_id] = BasketComplement.used
       end
       base[:invoice_state] = invoice_state_records.sort_by(&:name)
-      if Current.acp.feature?("shop")
+      if Current.org.feature?("shop")
         base[:shop_delivery_gid] = (
           ::Delivery
             .between(1.week.ago..)
@@ -202,7 +202,7 @@ class Newsletter
             .limit(8)
         ).sort_by(&:date).first(8)
       end
-      if Current.acp.feature?("activity")
+      if Current.org.feature?("activity")
         base[:activity_state] = activity_state_records
         base[:activity_id] =
           Activity.joins(:participations).coming.limit(12).distinct.order(:date)
@@ -220,7 +220,7 @@ class Newsletter
 
     def member_state_records
       states = Member::STATES - %w[pending]
-      states -= %w[support] unless Current.acp.member_support?
+      states -= %w[support] unless Current.org.member_support?
       states += %w[all not_inactive]
       states.map { |s| record_for(:member_state, s) }
     end

@@ -8,10 +8,10 @@ class AddMemberFormModeToAcps < ActiveRecord::Migration[7.0]
     reversible do |dir|
       dir.up do
         if Tenant.inside?
-          acp = ACP.find_by!(tenant_name: Tenant.current)
-          if acp.membership_extra_texts.present?
-            acp.member_form_extra_texts = acp.membership_extra_texts
-            acp.save!
+          org = Organization.find_by!(tenant_name: Tenant.current)
+          if org.membership_extra_texts.present?
+            org.member_form_extra_texts = org.membership_extra_texts
+            org.save!
           end
         end
       end

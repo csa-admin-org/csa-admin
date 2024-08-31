@@ -11,13 +11,13 @@ describe "Shop" do
   end
 
   specify "no shop delivery" do
-    Current.acp.update!(shop_admin_only: false, features: [ "shop" ])
+    Current.org.update!(shop_admin_only: false, features: [ "shop" ])
     visit "/shop"
     expect(current_path).not_to eq "/shop"
   end
 
   specify "only shop special delivery" do
-    Current.acp.update!(shop_admin_only: false, features: [ "shop" ])
+    Current.org.update!(shop_admin_only: false, features: [ "shop" ])
     create(:shop_special_delivery)
     visit "/"
     expect(page).to have_css('nav li[aria-label="Shop Menu"]')
@@ -30,14 +30,14 @@ describe "Shop" do
     end
 
     specify "no shop feature" do
-      Current.acp.update!(features: [])
+      Current.org.update!(features: [])
 
       visit "/shop"
       expect(current_path).not_to eq "/shop"
     end
 
     specify "menu only for session originated from admin", freeze: "2022-01-01" do
-      Current.acp.update!(shop_admin_only: true, features: [ "shop" ])
+      Current.org.update!(shop_admin_only: true, features: [ "shop" ])
 
       visit "/"
       expect(page).not_to have_css('nav li[aria-label="Shop Menu"]')
@@ -49,7 +49,7 @@ describe "Shop" do
     end
 
     specify "open to members", freeze: "2022-01-01" do
-      Current.acp.update!(shop_admin_only: false, features: [ "shop" ])
+      Current.org.update!(shop_admin_only: false, features: [ "shop" ])
 
       visit "/"
 

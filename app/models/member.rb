@@ -15,8 +15,8 @@ class Member < ApplicationRecord
   attr_accessor :basket, :shop_order
 
   attr_accessor :public_create
-  attribute :annual_fee, :decimal, default: -> { Current.acp.annual_fee }
-  attribute :language, :string, default: -> { Current.acp.languages.first }
+  attribute :annual_fee, :decimal, default: -> { Current.org.annual_fee }
+  attribute :language, :string, default: -> { Current.org.languages.first }
 
   audited_attributes \
     :state, :name, :address, :zip, :city, :country_code, :emails, :phones, :contact_sharing, \
@@ -77,32 +77,32 @@ class Member < ApplicationRecord
 
   validates_acceptance_of :terms_of_service
   validates :waiting_billing_year_division,
-    inclusion: { in: proc { Current.acp.billing_year_divisions }, allow_nil: true },
+    inclusion: { in: proc { Current.org.billing_year_divisions }, allow_nil: true },
     on: :create,
     if: :public_create
   validates :waiting_billing_year_division,
-    inclusion: { in: ACP.billing_year_divisions, allow_nil: true }
+    inclusion: { in: Organization.billing_year_divisions, allow_nil: true }
   validates :country_code,
     inclusion: { in: ISO3166::Country.all.map(&:alpha2), allow_blank: true }
   validates :name, presence: true
   validates :emails, presence: true, if: :public_create
   validates :phones, presence: true, if: :public_create
   validates :profession, presence: true,
-    if: -> { public_create && Current.acp.member_profession_form_mode == "required" }
+    if: -> { public_create && Current.org.member_profession_form_mode == "required" }
   validates :come_from, presence: true,
-    if: -> { public_create && Current.acp.member_come_from_form_mode == "required" }
+    if: -> { public_create && Current.org.member_come_from_form_mode == "required" }
   validates :address, :city, :zip, :country_code, presence: true, unless: :inactive?
   validates :waiting_basket_size, inclusion: { in: proc { BasketSize.all }, allow_nil: true }, on: :create
   validates :waiting_basket_size_id, presence: true, if: :waiting_depot, on: :create
   validates :waiting_activity_participations_demanded_annually, numericality: true, allow_nil: true
   validates :waiting_activity_participations_demanded_annually,
     numericality: {
-      greater_than_or_equal_to: -> { Current.acp.activity_participations_form_min || 0 },
-      less_than_or_equal_to: -> { Current.acp.activity_participations_form_max || 1000 },
+      greater_than_or_equal_to: -> { Current.org.activity_participations_form_min || 0 },
+      less_than_or_equal_to: -> { Current.org.activity_participations_form_max || 1000 },
       allow_nil: true
     },
-    if: -> { public_create && Current.acp.feature?("activity") }
-  validates :waiting_basket_price_extra, presence: true, if: -> { Current.acp.feature?("basket_price_extra") && waiting_depot }, on: :create
+    if: -> { public_create && Current.org.feature?("activity") }
+  validates :waiting_basket_price_extra, presence: true, if: -> { Current.org.feature?("basket_price_extra") && waiting_depot }, on: :create
   validates :waiting_depot, inclusion: { in: proc { Depot.all }, allow_nil: true }, on: :create
   validates :waiting_depot_id, presence: true, if: :waiting_basket_size, on: :create
   validates :shop_depot, inclusion: { in: proc { Depot.all }, allow_nil: true }
@@ -114,9 +114,9 @@ class Member < ApplicationRecord
   validates :desired_acp_shares_number, presence: true, numericality: { greater_than_or_equal_to: 0 }
   validates :desired_acp_shares_number,
     numericality: {
-      greater_than_or_equal_to: ->(m) { m.waiting_basket_size&.acp_shares_number || Current.acp.shares_number || 0 }
+      greater_than_or_equal_to: ->(m) { m.waiting_basket_size&.acp_shares_number || Current.org.shares_number || 0 }
     },
-    if: -> { public_create && Current.acp.share? }
+    if: -> { public_create && Current.org.share? }
   validate :billing_truemail
   validates :iban, presence: true, if: :sepa_mandate_id?
   validates :iban, format: -> { Billing.iban_format }, allow_nil: :true
@@ -207,11 +207,11 @@ class Member < ApplicationRecord
   end
 
   def update_trial_baskets!
-    return if Current.acp.trial_basket_count.zero?
+    return if Current.org.trial_basket_count.zero?
 
     transaction do
       baskets.trial.update_all(state: "normal")
-      baskets.normal.limit(Current.acp.trial_basket_count).update_all(state: "trial")
+      baskets.normal.limit(Current.org.trial_basket_count).update_all(state: "trial")
     end
   end
 
@@ -240,7 +240,7 @@ class Member < ApplicationRecord
 
     self.state = WAITING_STATE
     self.waiting_started_at = Time.current
-    self.annual_fee ||= Current.acp.annual_fee
+    self.annual_fee ||= Current.org.annual_fee
     save!
   end
 
@@ -265,7 +265,7 @@ class Member < ApplicationRecord
     return if active?
 
     self.state = ACTIVE_STATE
-    self.annual_fee ||= Current.acp.annual_fee
+    self.annual_fee ||= Current.org.annual_fee
     self.activated_at ||= Time.current
     save!
 
@@ -377,13 +377,13 @@ class Member < ApplicationRecord
   private
 
   def set_defaults
-    self[:country_code] ||= Current.acp.country_code
+    self[:country_code] ||= Current.org.country_code
   end
 
   def set_default_waiting_billing_year_division
     if (waiting_basket_size_id? && !waiting_billing_year_division?) ||
-        (waiting_billing_year_division? && !waiting_billing_year_division.in?(Current.acp.billing_year_divisions))
-      self[:waiting_billing_year_division] = Current.acp.billing_year_divisions.last
+        (waiting_billing_year_division? && !waiting_billing_year_division.in?(Current.org.billing_year_divisions))
+      self[:waiting_billing_year_division] = Current.org.billing_year_divisions.last
     end
   end
 
@@ -432,7 +432,7 @@ class Member < ApplicationRecord
   end
 
   def handle_annual_fee_change
-    return unless Current.acp.annual_fee?
+    return unless Current.org.annual_fee?
 
     if annual_fee&.positive?
       self.state = SUPPORT_STATE if inactive?
@@ -443,7 +443,7 @@ class Member < ApplicationRecord
   end
 
   def handle_required_acp_shares_number_change
-    return unless Current.acp.share?
+    return unless Current.org.share?
 
     final_acp_shares_number = [ acp_shares_number, desired_acp_shares_number ].max
     if (final_acp_shares_number + required_acp_shares_number).positive?

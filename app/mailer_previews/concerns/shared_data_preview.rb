@@ -34,7 +34,7 @@ module SharedDataPreview
       delivery_cycle: delivery_cycle,
       next_basket: basket,
       basket_quantity: 1,
-      remaning_trial_baskets_count: Current.acp.trial_basket_count,
+      remaning_trial_baskets_count: Current.org.trial_basket_count,
       activity_participations_demanded: participations_demanded,
       activity_participations_accepted: participations_accepted,
       activity_participations_missing: [participations_demanded - participations_accepted, 0].max,

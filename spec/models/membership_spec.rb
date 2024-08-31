@@ -89,7 +89,7 @@ describe Membership do
     end
 
     it "prevents date modification when renewed" do
-      next_fy = Current.acp.fiscal_year_for(Date.today.year + 1)
+      next_fy = Current.org.fiscal_year_for(Date.today.year + 1)
       create(:delivery, date: next_fy.beginning_of_year)
       membership = create(:membership)
       membership.renew!
@@ -352,7 +352,7 @@ describe Membership do
   end
 
   specify "with custom basket dynamic extra price" do
-    Current.acp.update!(
+    Current.org.update!(
       features: [ :basket_price_extra ],
       basket_price_extra_dynamic_pricing: <<~LIQUID)
         {{ extra | divided_by: 2.0 }}
@@ -468,14 +468,14 @@ describe Membership do
     let(:basket_size) { create(:basket_size, activity_participations_demanded_annually: 3) }
 
     specify "active membership with no activity participations", freeze: "2024-01-01" do
-      Current.acp.update!(trial_basket_count: 0)
+      Current.org.update!(trial_basket_count: 0)
       membership = create(:membership, basket_size_id: basket_size.id)
 
       expect(membership.activity_participations_missing).to eq 3
     end
 
     specify "when in trial period", freeze: "2024-01-01" do
-      Current.acp.update!(trial_basket_count: 1)
+      Current.org.update!(trial_basket_count: 1)
       membership = create(:membership, basket_size_id: basket_size.id, deliveries_count: 2)
 
       expect(membership.trial?).to eq true
@@ -484,7 +484,7 @@ describe Membership do
     end
 
     specify "when in trial period", freeze: "2024-02-01"  do
-      Current.acp.update!(trial_basket_count: 1)
+      Current.org.update!(trial_basket_count: 1)
       membership = create(:membership, basket_size_id: basket_size.id,
         deliveries_count: 1,
         started_on: "2024-01-01",
@@ -527,7 +527,7 @@ describe Membership do
   end
 
   describe "set_activity_participations" do
-    before { Current.acp.update!(activity_price: 90) }
+    before { Current.org.update!(activity_price: 90) }
 
     specify "when overriden" do
       membership = create(:membership,
@@ -582,7 +582,7 @@ describe Membership do
     end
 
     specify "when activity feature is disabled" do
-      Current.acp.update!(features: [])
+      Current.org.update!(features: [])
 
       membership = create(:membership,
         activity_participations_annual_price_change: nil,
@@ -720,7 +720,7 @@ describe Membership do
   end
 
   specify "updates future baskets price_extra when config change" do
-    Current.acp.update! features: [ :basket_price_extra ]
+    Current.org.update! features: [ :basket_price_extra ]
     travel_to("2023-03-01") do
       create(:delivery, date: "2023-03-01")
       create(:delivery, date: "2023-06-15")
@@ -746,7 +746,7 @@ describe Membership do
   end
 
   it "updates baskets counts after commit" do
-    Current.acp.update!(trial_basket_count: 3)
+    Current.org.update!(trial_basket_count: 3)
 
     travel_to "2017-01-01" do
       create(:delivery, date: "2017-01-01")
@@ -771,7 +771,7 @@ describe Membership do
 
   describe "#update_member_and_baskets" do
     before do
-      Current.acp.update!(
+      Current.org.update!(
         trial_basket_count: 0,
         absences_billed: true)
     end
@@ -797,7 +797,7 @@ describe Membership do
     end
 
     specify "updates trial and absent baskets", freeze: "2024-01-01" do
-      Current.acp.update!(trial_basket_count: 2)
+      Current.org.update!(trial_basket_count: 2)
       delivery1 = create(:delivery, date: "2024-01-01")
       delivery2 = create(:delivery, date: "2024-02-01")
       delivery3 = create(:delivery, date: "2024-03-01")
@@ -829,7 +829,7 @@ describe Membership do
     end
 
     specify "marks absent baskets as not billable", freeze: "2024-01-01" do
-      Current.acp.update!(absences_billed: false)
+      Current.org.update!(absences_billed: false)
       delivery1 = create(:delivery, date: "2024-01-01")
       delivery2 = create(:delivery, date: "2024-02-01")
       member = create(:member)
@@ -851,7 +851,7 @@ describe Membership do
     end
 
     specify "mark last baskets are absent when all included absence aren't used yet", freeze: "2024-01-01" do
-      Current.acp.update!(absences_billed: true)
+      Current.org.update!(absences_billed: true)
       delivery1 = create(:delivery, date: "2024-01-01")
       delivery2 = create(:delivery, date: "2024-02-01")
       delivery3 = create(:delivery, date: "2024-03-01")
@@ -894,7 +894,7 @@ describe Membership do
     end
 
     specify "mark last baskets are absent when all included absence aren't used yet", freeze: "2024-01-01" do
-      Current.acp.update!(absences_billed: true)
+      Current.org.update!(absences_billed: true)
       delivery1 = create(:delivery, date: "2024-01-01")
       delivery2 = create(:delivery, date: "2024-02-01")
       delivery3 = create(:delivery, date: "2024-03-01")
@@ -938,7 +938,7 @@ describe Membership do
     end
 
     specify "update baskets counts after commit" do
-      Current.acp.update!(trial_basket_count: 3)
+      Current.org.update!(trial_basket_count: 3)
 
       travel_to "2017-01-01" do
         create(:delivery, date: "2017-01-01")
@@ -988,7 +988,7 @@ describe Membership do
     end
 
     it "sets renewal_opened_at" do
-      next_fy = Current.acp.fiscal_year_for(Date.today.year + 1)
+      next_fy = Current.org.fiscal_year_for(Date.today.year + 1)
       create(:delivery, date: next_fy.beginning_of_year)
       membership = create(:membership)
 
@@ -1000,7 +1000,7 @@ describe Membership do
     end
 
     it "sends member-renewal email template", sidekiq: :inline do
-      next_fy = Current.acp.fiscal_year_for(Date.today.year + 1)
+      next_fy = Current.org.fiscal_year_for(Date.today.year + 1)
       create(:delivery, date: next_fy.beginning_of_year)
       membership = create(:membership)
 
@@ -1014,7 +1014,7 @@ describe Membership do
 
   describe "#renew" do
     it "sets renewal_note attrs" do
-      next_fy = Current.acp.fiscal_year_for(Date.today.year + 1)
+      next_fy = Current.org.fiscal_year_for(Date.today.year + 1)
       create(:delivery, date: next_fy.beginning_of_year)
       membership = create(:membership)
 
@@ -1065,7 +1065,7 @@ describe Membership do
 
       membership.reload
       expect(membership).to be_canceled
-      expect(membership.renewal_annual_fee).to eq Current.acp.annual_fee
+      expect(membership.renewal_annual_fee).to eq Current.org.annual_fee
     end
   end
 
@@ -1079,7 +1079,7 @@ describe Membership do
 
   describe "#update_renewal_of_previous_membership_after_deletion" do
     it "clears renewed_at when renewed membership is destroyed" do
-      next_fy = Current.acp.fiscal_year_for(Date.today.year + 1)
+      next_fy = Current.org.fiscal_year_for(Date.today.year + 1)
       create(:delivery, date: next_fy.beginning_of_year)
       membership = create(:membership)
       membership.renew!
@@ -1091,7 +1091,7 @@ describe Membership do
     end
 
     it "cancels previous membership when renewed membership is destroyed and in new fiscal" do
-      next_fy = Current.acp.fiscal_year_for(Date.today.year + 1)
+      next_fy = Current.org.fiscal_year_for(Date.today.year + 1)
       create(:delivery, date: next_fy.beginning_of_year)
       membership = create(:membership)
       membership.renew!
@@ -1108,7 +1108,7 @@ describe Membership do
   end
 
   specify "#keep_renewed_membership_up_to_date!" do
-    next_fy = Current.acp.fiscal_year_for(Date.today.year + 1)
+    next_fy = Current.org.fiscal_year_for(Date.today.year + 1)
     create(:delivery, date: next_fy.beginning_of_year)
     membership = create(:membership)
     membership.renew!
@@ -1121,7 +1121,7 @@ describe Membership do
 
   describe "#cancel_overcharged_invoice!" do
     before do
-      Current.acp.update!(
+      Current.org.update!(
         trial_basket_count: 0,
         fiscal_year_start_month: 1,
         recurring_billing_wday: 1,
@@ -1182,7 +1182,7 @@ describe Membership do
     end
 
     specify "new absent basket not billed are updated", sidekiq: :inline do
-      Current.acp.update!(absences_billed: false)
+      Current.org.update!(absences_billed: false)
 
       member = create(:member)
       membership = travel_to "2022-01-01" do
@@ -1245,7 +1245,7 @@ describe Membership do
 
   describe "#destroy_or_cancel_invoices!" do
     specify "cancel or destroy membership invoices on destroy", sidekiq: :inline do
-      Current.acp.update!(
+      Current.org.update!(
         trial_basket_count: 0,
         fiscal_year_start_month: 1,
         recurring_billing_wday: 1,
@@ -1271,7 +1271,7 @@ describe Membership do
   end
 
   specify "#can_member_update?" do
-    Current.acp.update!(membership_depot_update_allowed: false)
+    Current.org.update!(membership_depot_update_allowed: false)
 
     membership = travel_to "2022-12-01" do
       create(:delivery, date: "2022-12-15")
@@ -1282,8 +1282,8 @@ describe Membership do
       expect(membership.can_member_update?).to be false
     end
 
-    Current.acp.update!(membership_depot_update_allowed: true)
-    Current.acp.update!(basket_update_limit_in_days: 5)
+    Current.org.update!(membership_depot_update_allowed: true)
+    Current.org.update!(basket_update_limit_in_days: 5)
 
     travel_to "2022-12-10" do
       expect(membership.can_member_update?).to be true
@@ -1292,7 +1292,7 @@ describe Membership do
       expect(membership.can_member_update?).to be false
     end
 
-    Current.acp.update!(basket_update_limit_in_days: 0)
+    Current.org.update!(basket_update_limit_in_days: 0)
 
     travel_to "2022-12-15" do
       expect(membership.can_member_update?).to be true
@@ -1313,12 +1313,12 @@ describe Membership do
       create(:membership, depot: depot)
     end
 
-    Current.acp.update!(membership_depot_update_allowed: false)
+    Current.org.update!(membership_depot_update_allowed: false)
     expect { membership.member_update!(depot_id: new_depot.id) }
       .to raise_error(RuntimeError, "update not allowed")
 
     travel_to "2022-02-01" do
-      Current.acp.update!(
+      Current.org.update!(
         membership_depot_update_allowed: true,
         basket_update_limit_in_days: 1)
       expect {
@@ -1341,7 +1341,7 @@ describe Membership do
   end
 
   specify "can be destroyed" do
-    Current.acp.update!(features: %w[absence activity])
+    Current.org.update!(features: %w[absence activity])
     membership = create(:membership, absences_included_annually: 3)
 
     expect {

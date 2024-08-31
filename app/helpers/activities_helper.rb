@@ -2,15 +2,15 @@
 
 module ActivitiesHelper
   def display_activity?
-    Current.acp.feature?("activity") && !current_member.inactive?
+    Current.org.feature?("activity") && !current_member.inactive?
   end
 
   def activity_human_name
-    I18n.t("activities.#{Current.acp.activity_i18n_scope}.one")
+    I18n.t("activities.#{Current.org.activity_i18n_scope}.one")
   end
 
   def activities_human_name
-    I18n.t("activities.#{Current.acp.activity_i18n_scope}.other")
+    I18n.t("activities.#{Current.org.activity_i18n_scope}.other")
   end
 
   def t_activity(key, **options)
@@ -18,7 +18,7 @@ module ActivitiesHelper
   end
 
   def activity_scoped_attribute(attr)
-    "#{attr}/#{Current.acp.activity_i18n_scope}".to_sym
+    "#{attr}/#{Current.org.activity_i18n_scope}".to_sym
   end
 
   def activities_collection(activities, data: {})

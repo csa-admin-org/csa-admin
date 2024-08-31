@@ -86,7 +86,7 @@ class Members::Shop::OrdersController < Members::Shop::BaseController
       .require(:shop_order)
       .permit(:amount_percentage, items_attributes: %i[id quantity])
       .tap do |whitelisted|
-        unless whitelisted[:amount_percentage].to_i.in?(Current.acp[:shop_member_percentages])
+        unless whitelisted[:amount_percentage].to_i.in?(Current.org[:shop_member_percentages])
           whitelisted[:amount_percentage] = nil
         end
         whitelisted[:items_attributes].each do |_, item|

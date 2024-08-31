@@ -3,7 +3,7 @@
 module DashboardHelper
   def onboarding?
     Delivery.none? || Depot.kept.none? ||
-      (Current.acp.member_form_mode == "membership" && BasketSize.kept.none?)
+      (Current.org.member_form_mode == "membership" && BasketSize.kept.none?)
   end
 
   def next_delivery_panel_action(delivery)

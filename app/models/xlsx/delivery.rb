@@ -19,7 +19,7 @@ module XLSX
         build_depot_worksheet(d)
       end
 
-      if Current.acp.feature?("absence")
+      if Current.org.feature?("absence")
         build_absences_worksheet if !depot && @delivery.baskets.absent.any?
       end
     end
@@ -67,7 +67,7 @@ module XLSX
 
       add_baskets_line(nil, bold: true, title: t("total"))
 
-      if Current.acp.feature?("absence")
+      if Current.org.feature?("absence")
         add_empty_line
         add_empty_line
 
@@ -96,7 +96,7 @@ module XLSX
         cols_count = 3 + @basket_sizes.count
         @basket_complements.each_with_index do |complement, i|
           amount = baskets.complement_count(complement)
-          if Current.acp.feature?("shop")
+          if Current.org.feature?("shop")
             amount += shop_orders.complement_count(complement)
           end
           @worksheet.add_cell(@line, cols_count + i, amount).set_number_format("0")
@@ -190,7 +190,7 @@ module XLSX
           members.map { |m| m.basket&.complements_description },
           border: border)
       end
-      if Current.acp.feature?("shop")
+      if Current.org.feature?("shop")
         add_column(
           I18n.t("shop.title_orders", count: 2),
           members.map { |m| m.shop_order ? "X" : "" },

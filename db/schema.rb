@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_08_23_145938) do
+ActiveRecord::Schema[7.2].define(version: 2024_08_30_152633) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
   enable_extension "plpgsql"
@@ -24,106 +24,6 @@ ActiveRecord::Schema[7.2].define(version: 2024_08_23_145938) do
     t.datetime "updated_at", precision: nil
     t.bigint "session_id"
     t.index ["member_id"], name: "index_absences_on_member_id"
-  end
-
-  create_table "acps", force: :cascade do |t|
-    t.string "name", null: false
-    t.string "host", null: false
-    t.string "tenant_name", null: false
-    t.datetime "created_at", precision: nil, null: false
-    t.datetime "updated_at", precision: nil, null: false
-    t.string "features", default: [], null: false, array: true
-    t.string "email_default_host"
-    t.string "email_default_from"
-    t.integer "fiscal_year_start_month", default: 1, null: false
-    t.integer "trial_basket_count", default: 0, null: false
-    t.decimal "annual_fee", precision: 8, scale: 2
-    t.integer "billing_year_divisions", default: [], null: false, array: true
-    t.string "activity_i18n_scope", default: "halfday_work", null: false
-    t.string "email"
-    t.string "phone"
-    t.string "url"
-    t.integer "activity_participation_deletion_deadline_in_days"
-    t.string "vat_number"
-    t.decimal "vat_membership_rate", precision: 8, scale: 2
-    t.string "languages", default: ["fr"], null: false, array: true
-    t.decimal "share_price", precision: 8, scale: 2
-    t.jsonb "invoice_infos", default: {}, null: false
-    t.jsonb "invoice_footers", default: {}, null: false
-    t.jsonb "delivery_pdf_footers", default: {}, null: false
-    t.jsonb "terms_of_service_urls", default: {}, null: false
-    t.jsonb "statutes_urls", default: {}, null: false
-    t.integer "activity_availability_limit_in_days", default: 3, null: false
-    t.string "activity_phone"
-    t.decimal "activity_price", precision: 8, scale: 2, default: "0.0", null: false
-    t.boolean "absences_billed", default: true, null: false
-    t.integer "recurring_billing_wday"
-    t.string "email_notifications", default: [], null: false, array: true
-    t.string "feature_flags", default: [], null: false, array: true
-    t.integer "open_renewal_reminder_sent_after_in_days"
-    t.string "iban"
-    t.string "creditor_name", limit: 70
-    t.string "creditor_address", limit: 70
-    t.string "creditor_city", limit: 35
-    t.string "creditor_zip", limit: 16
-    t.string "country_code", limit: 2, default: "CH", null: false
-    t.string "currency_code", limit: 3, default: "CHF"
-    t.jsonb "email_signatures", default: {}, null: false
-    t.jsonb "email_footers", default: {}, null: false
-    t.boolean "billing_starts_after_first_delivery", default: true, null: false
-    t.boolean "allow_alternative_depots", default: false, null: false
-    t.boolean "member_form_extra_text_only", default: false, null: false
-    t.decimal "basket_price_extras", precision: 8, scale: 2, default: [], null: false, array: true
-    t.jsonb "basket_price_extra_titles", default: {}, null: false
-    t.jsonb "basket_price_extra_texts", default: {}, null: false
-    t.jsonb "basket_price_extra_labels", default: {}, null: false
-    t.jsonb "basket_price_extra_label_details", default: {}, null: false
-    t.boolean "membership_renewal_depot_update", default: true, null: false
-    t.integer "absence_notice_period_in_days", default: 7, null: false
-    t.jsonb "shop_invoice_infos", default: {}, null: false
-    t.decimal "shop_order_maximum_weight_in_kg", precision: 8, scale: 3
-    t.decimal "shop_order_minimal_amount", precision: 8, scale: 2
-    t.integer "shop_delivery_open_delay_in_days"
-    t.time "shop_delivery_open_last_day_end_time"
-    t.jsonb "shop_delivery_pdf_footers", default: {}, null: false
-    t.jsonb "shop_terms_of_sale_urls", default: {}, null: false
-    t.boolean "absence_extra_text_only", default: false, null: false
-    t.boolean "shop_admin_only", default: true, null: false
-    t.jsonb "basket_price_extra_public_titles", default: {}, null: false
-    t.string "icalendar_auth_token"
-    t.string "bank_reference"
-    t.text "activity_participations_demanded_logic", default: "{% if member.salary_basket %}\n  0\n{% else %}\n  {{ membership.baskets | divided_by: membership.full_year_deliveries | times: membership.full_year_activity_participations | round }}\n{% endif %}\n", null: false
-    t.boolean "send_closed_invoice", default: false, null: false
-    t.string "member_profession_form_mode", default: "visible", null: false
-    t.string "member_come_from_form_mode", default: "visible", null: false
-    t.integer "basket_update_limit_in_days", default: 0, null: false
-    t.boolean "membership_depot_update_allowed", default: false, null: false
-    t.text "basket_price_extra_dynamic_pricing"
-    t.decimal "vat_activity_rate", precision: 8, scale: 2
-    t.decimal "vat_shop_rate", precision: 8, scale: 2
-    t.string "member_form_mode", default: "membership", null: false
-    t.boolean "membership_complements_update_allowed", default: false, null: false
-    t.decimal "shop_member_percentages", precision: 8, scale: 2, default: [], null: false, array: true
-    t.string "basket_sizes_member_order_mode", default: "price_desc", null: false
-    t.string "basket_complements_member_order_mode", default: "deliveries_count_desc", null: false
-    t.string "depots_member_order_mode", default: "price_asc", null: false
-    t.string "delivery_cycles_member_order_mode", default: "deliveries_count_desc", null: false
-    t.integer "shop_order_automatic_invoicing_delay_in_days"
-    t.string "membership_renewed_attributes", default: ["baskets_annual_price_change", "basket_complements_annual_price_change", "activity_participations_demanded_annually", "activity_participations_annual_price_change", "absences_included_annually"], array: true
-    t.decimal "new_member_fee", precision: 8, scale: 2
-    t.jsonb "new_member_fee_descriptions", default: {}, null: false
-    t.jsonb "member_information_titles", default: {}, null: false
-    t.boolean "billing_ends_on_last_delivery_fy_month", default: false, null: false
-    t.integer "shares_number"
-    t.jsonb "privacy_policy_urls", default: {}, null: false
-    t.jsonb "charter_urls", default: {}, null: false
-    t.integer "activity_participations_form_min"
-    t.integer "activity_participations_form_max"
-    t.jsonb "activity_participations_form_details", default: {}, null: false
-    t.string "sepa_creditor_identifier"
-    t.string "delivery_pdf_member_info", default: "none", null: false
-    t.index ["host"], name: "index_acps_on_host"
-    t.index ["tenant_name"], name: "index_acps_on_tenant_name"
   end
 
   create_table "action_text_rich_texts", force: :cascade do |t|
@@ -704,6 +604,106 @@ ActiveRecord::Schema[7.2].define(version: 2024_08_23_145938) do
     t.jsonb "signatures", default: {}, null: false
     t.jsonb "audience_names", default: {}, null: false
     t.index ["newsletter_template_id"], name: "index_newsletters_on_newsletter_template_id"
+  end
+
+  create_table "organizations", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "host", null: false
+    t.string "tenant_name", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
+    t.string "features", default: [], null: false, array: true
+    t.string "email_default_host"
+    t.string "email_default_from"
+    t.integer "fiscal_year_start_month", default: 1, null: false
+    t.integer "trial_basket_count", default: 0, null: false
+    t.decimal "annual_fee", precision: 8, scale: 2
+    t.integer "billing_year_divisions", default: [], null: false, array: true
+    t.string "activity_i18n_scope", default: "halfday_work", null: false
+    t.string "email"
+    t.string "phone"
+    t.string "url"
+    t.integer "activity_participation_deletion_deadline_in_days"
+    t.string "vat_number"
+    t.decimal "vat_membership_rate", precision: 8, scale: 2
+    t.string "languages", default: ["fr"], null: false, array: true
+    t.decimal "share_price", precision: 8, scale: 2
+    t.jsonb "invoice_infos", default: {}, null: false
+    t.jsonb "invoice_footers", default: {}, null: false
+    t.jsonb "delivery_pdf_footers", default: {}, null: false
+    t.jsonb "terms_of_service_urls", default: {}, null: false
+    t.jsonb "statutes_urls", default: {}, null: false
+    t.integer "activity_availability_limit_in_days", default: 3, null: false
+    t.string "activity_phone"
+    t.decimal "activity_price", precision: 8, scale: 2, default: "0.0", null: false
+    t.boolean "absences_billed", default: true, null: false
+    t.integer "recurring_billing_wday"
+    t.string "email_notifications", default: [], null: false, array: true
+    t.string "feature_flags", default: [], null: false, array: true
+    t.integer "open_renewal_reminder_sent_after_in_days"
+    t.string "iban"
+    t.string "creditor_name", limit: 70
+    t.string "creditor_address", limit: 70
+    t.string "creditor_city", limit: 35
+    t.string "creditor_zip", limit: 16
+    t.string "country_code", limit: 2, default: "CH", null: false
+    t.string "currency_code", limit: 3, default: "CHF"
+    t.jsonb "email_signatures", default: {}, null: false
+    t.jsonb "email_footers", default: {}, null: false
+    t.boolean "billing_starts_after_first_delivery", default: true, null: false
+    t.boolean "allow_alternative_depots", default: false, null: false
+    t.boolean "member_form_extra_text_only", default: false, null: false
+    t.decimal "basket_price_extras", precision: 8, scale: 2, default: [], null: false, array: true
+    t.jsonb "basket_price_extra_titles", default: {}, null: false
+    t.jsonb "basket_price_extra_texts", default: {}, null: false
+    t.jsonb "basket_price_extra_labels", default: {}, null: false
+    t.jsonb "basket_price_extra_label_details", default: {}, null: false
+    t.boolean "membership_renewal_depot_update", default: true, null: false
+    t.integer "absence_notice_period_in_days", default: 7, null: false
+    t.jsonb "shop_invoice_infos", default: {}, null: false
+    t.decimal "shop_order_maximum_weight_in_kg", precision: 8, scale: 3
+    t.decimal "shop_order_minimal_amount", precision: 8, scale: 2
+    t.integer "shop_delivery_open_delay_in_days"
+    t.time "shop_delivery_open_last_day_end_time"
+    t.jsonb "shop_delivery_pdf_footers", default: {}, null: false
+    t.jsonb "shop_terms_of_sale_urls", default: {}, null: false
+    t.boolean "absence_extra_text_only", default: false, null: false
+    t.boolean "shop_admin_only", default: true, null: false
+    t.jsonb "basket_price_extra_public_titles", default: {}, null: false
+    t.string "icalendar_auth_token"
+    t.string "bank_reference"
+    t.text "activity_participations_demanded_logic", default: "{% if member.salary_basket %}\n  0\n{% else %}\n  {{ membership.baskets | divided_by: membership.full_year_deliveries | times: membership.full_year_activity_participations | round }}\n{% endif %}\n", null: false
+    t.boolean "send_closed_invoice", default: false, null: false
+    t.string "member_profession_form_mode", default: "visible", null: false
+    t.string "member_come_from_form_mode", default: "visible", null: false
+    t.integer "basket_update_limit_in_days", default: 0, null: false
+    t.boolean "membership_depot_update_allowed", default: false, null: false
+    t.text "basket_price_extra_dynamic_pricing"
+    t.decimal "vat_activity_rate", precision: 8, scale: 2
+    t.decimal "vat_shop_rate", precision: 8, scale: 2
+    t.string "member_form_mode", default: "membership", null: false
+    t.boolean "membership_complements_update_allowed", default: false, null: false
+    t.decimal "shop_member_percentages", precision: 8, scale: 2, default: [], null: false, array: true
+    t.string "basket_sizes_member_order_mode", default: "price_desc", null: false
+    t.string "basket_complements_member_order_mode", default: "deliveries_count_desc", null: false
+    t.string "depots_member_order_mode", default: "price_asc", null: false
+    t.string "delivery_cycles_member_order_mode", default: "deliveries_count_desc", null: false
+    t.integer "shop_order_automatic_invoicing_delay_in_days"
+    t.string "membership_renewed_attributes", default: ["baskets_annual_price_change", "basket_complements_annual_price_change", "activity_participations_demanded_annually", "activity_participations_annual_price_change", "absences_included_annually"], array: true
+    t.decimal "new_member_fee", precision: 8, scale: 2
+    t.jsonb "new_member_fee_descriptions", default: {}, null: false
+    t.jsonb "member_information_titles", default: {}, null: false
+    t.boolean "billing_ends_on_last_delivery_fy_month", default: false, null: false
+    t.integer "shares_number"
+    t.jsonb "privacy_policy_urls", default: {}, null: false
+    t.jsonb "charter_urls", default: {}, null: false
+    t.integer "activity_participations_form_min"
+    t.integer "activity_participations_form_max"
+    t.jsonb "activity_participations_form_details", default: {}, null: false
+    t.string "sepa_creditor_identifier"
+    t.string "delivery_pdf_member_info", default: "none", null: false
+    t.index ["host"], name: "index_organizations_on_host"
+    t.index ["tenant_name"], name: "index_organizations_on_tenant_name"
   end
 
   create_table "payments", force: :cascade do |t|

@@ -26,7 +26,7 @@ class Liquid::MemberDrop < Liquid::Drop
   end
 
   def activities_url
-    return unless Current.acp.feature?("activity")
+    return unless Current.org.feature?("activity")
 
     url(:members_activity_participations)
   end
@@ -50,7 +50,7 @@ class Liquid::MemberDrop < Liquid::Drop
   def url(name, **options)
     helper = Rails.application.routes.url_helpers
     helper.send("#{name}_url",
-      { host: Current.acp.email_default_host }.merge(**options)
+      { host: Current.org.email_default_host }.merge(**options)
     ).gsub(/\/+\z/, "")
   end
 end

@@ -23,7 +23,7 @@ class Depot < ApplicationRecord
 
   acts_as_list
 
-  attribute :language, :string, default: -> { Current.acp.languages.first }
+  attribute :language, :string, default: -> { Current.org.languages.first }
 
   translated_attributes :public_name
   translated_rich_texts :public_note
@@ -39,7 +39,7 @@ class Depot < ApplicationRecord
   scope :member_ordered, -> {
     order_clauses = [ "member_order_priority" ]
     order_clauses <<
-      case Current.acp.depots_member_order_mode
+      case Current.org.depots_member_order_mode
       when "price_asc"; "price ASC"
       when "price_desc"; "price DESC"
       end

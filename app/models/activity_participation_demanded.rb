@@ -40,7 +40,7 @@ class ActivityParticipationDemanded
 
   def initialize(membership)
     @membership = membership
-    liquid_logic = Current.acp.activity_participations_demanded_logic
+    liquid_logic = Current.org.activity_participations_demanded_logic
     @liquid_template = Liquid::Template.parse(liquid_logic)
   end
 

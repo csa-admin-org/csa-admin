@@ -7,7 +7,7 @@ describe "BasketContents V1 API" do
 
   describe "/api/v1/basket_contents/current" do
     def request(api_token: nil)
-      api_token ||= Current.acp.credentials(:api_token)
+      api_token ||= Current.org.credentials(:api_token)
       authorization =
         ActionController::HttpAuthentication::Token.encode_credentials(api_token)
       headers = {

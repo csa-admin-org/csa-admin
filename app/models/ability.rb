@@ -34,8 +34,8 @@ class Ability
     writable_models = []
 
     if admin.permission.can_write?(:acp)
-      can :read, ACP
-      can :update, ACP, id: Current.acp.id
+      can :read, Organization
+      can :update, Organization, id: Current.org.id
     end
 
     if admin.permission.can_write?(:admin)

@@ -14,7 +14,7 @@ describe Liquid::DataPreview do
     data =  described_class.for(mail_template, random: 1)
 
     expect(data).to eq({
-      "acp" => {
+      "organization" => {
         "activity_phone" => "+41 77 447 26 16",
         "email" => "info@ragedevert.ch",
         "name"=> "Rage de Vert",
@@ -93,7 +93,7 @@ describe Liquid::DataPreview do
     data = described_class.for(mail_template, random: 1)
 
     expect(data).to eq({
-      "acp" => {
+      "organization" => {
         "activity_phone" => "+41 77 447 26 16",
         "email" => "info@ragedevert.ch",
         "name"=> "Rage de Vert",
@@ -117,7 +117,7 @@ describe Liquid::DataPreview do
   end
 
   specify "without any feature", freeze: "2020-01-01" do
-    Current.acp.update!(features: [])
+    Current.org.update!(features: [])
     create(:delivery, date: "2020-01-07")
     create(:delivery, date: "2020-10-06")
     create(:depot, id: 12, name: "Jardin de la main")
@@ -128,7 +128,7 @@ describe Liquid::DataPreview do
     data = described_class.for(mail_template, random: 1)
 
     expect(data).to eq({
-      "acp" => {
+      "organization" => {
         "email" => "info@ragedevert.ch",
         "name"=> "Rage de Vert",
         "phone"=> "+41 77 447 26 16",

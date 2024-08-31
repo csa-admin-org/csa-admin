@@ -1,7 +1,7 @@
 doctype html
 html lang=I18n.locale
   head
-    title = [Current.acp.name, t('.title')].join(' – ')
+    title = [Current.org.name, t('.title')].join(' – ')
     = render "layouts/sentry_js"
     script async=true src="https://ga.jspm.io/npm:es-module-shims@1.10.0/dist/es-module-shims.js" data-turbo-track="reload"
     = javascript_importmap_tags 'members'
@@ -33,8 +33,8 @@ html lang=I18n.locale
           div class="my-auto"
             header class='flex'
               div class='mx-auto my-8 md:my-16 print:!my-6'
-                = link_to Current.acp.url do
-                  = image_tag(acp_logo_url, alt: "#{Current.acp.name} Logo", class: 'h-32 w-32 md:h-60 md:w-60 print:!h-16 print:!w-16')
+                = link_to Current.org.url do
+                  = image_tag(org_logo_url, alt: "#{Current.org.name} Logo", class: 'h-32 w-32 md:h-60 md:w-60 print:!h-16 print:!w-16')
             main class="w-full" data-menu-target='body'
               section class="w-full"
                 = render 'layouts/members/flashes'

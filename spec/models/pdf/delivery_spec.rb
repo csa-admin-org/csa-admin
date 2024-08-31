@@ -5,14 +5,14 @@ require "rails_helper"
 describe PDF::Delivery, freeze: "2023-01-01" do
   def save_pdf_and_return_strings(delivery, depot)
     pdf = PDF::Delivery.new(delivery)
-    # pdf_path = "tmp/delivery-#{Current.acp.name}-#{delivery.date}-#{depot.name}.pdf"
+    # pdf_path = "tmp/delivery-#{Current.org.name}-#{delivery.date}-#{depot.name}.pdf"
     # pdf.render_file(Rails.root.join(pdf_path))
     PDF::Inspector::Text.analyze(pdf.render).strings
   end
 
   context "signature mode" do
     before {
-      Current.acp.update!(
+      Current.org.update!(
         name: "ldc",
         delivery_pdf_footer: "Si vous avez des remarques ou problèmes, veuillez contacter Julien (079 705 89 01) jusqu'au vendredi midi.")
     }
@@ -100,7 +100,7 @@ describe PDF::Delivery, freeze: "2023-01-01" do
     end
 
     specify "includes shop orders" do
-      Current.acp.update!(features: [ "shop" ])
+      Current.org.update!(features: [ "shop" ])
       depot = create(:depot, name: "Fleurs Kissling")
       delivery = create(:delivery, shop_open: true)
       member = create(:member, name: "Alain Reymond")

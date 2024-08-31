@@ -20,11 +20,11 @@ ActiveAdmin.register MailTemplate do
   scope :member
   scope :membership
   scope -> { Activity.model_name.human }, :activity,
-    if: -> { Current.acp.feature?("activity") }
+    if: -> { Current.org.feature?("activity") }
   scope :invoice
 
-  action_item :view, only: :index, if: -> { authorized?(:update, ACP) } do
-    link_to t(".settings"), edit_acp_path(anchor: "mail"), class: "action-item-button"
+  action_item :view, only: :index, if: -> { authorized?(:update, Organization) } do
+    link_to t(".settings"), edit_organization_path(anchor: "mail"), class: "action-item-button"
   end
 
   index download_links: false do
@@ -37,9 +37,9 @@ ActiveAdmin.register MailTemplate do
   show do |mail_template|
     columns do
       column "data-controller" => "iframe" do
-        Current.acp.languages.each do |locale|
+        Current.org.languages.each do |locale|
           title = t(".preview")
-          title += " (#{t("languages.#{locale}")})" if Current.acp.languages.many?
+          title += " (#{t("languages.#{locale}")})" if Current.org.languages.many?
           panel title do
             div class: "iframe-wrapper" do
               iframe(
@@ -103,10 +103,10 @@ ActiveAdmin.register MailTemplate do
         })
     end
     div "data-controller" => "iframe", class: "flex  gap-5" do
-      Current.acp.languages.each do |locale|
+      Current.org.languages.each do |locale|
         div class: "w-full" do
           title = t(".preview")
-          title += " (#{t("languages.#{locale}")})" if Current.acp.languages.many?
+          title += " (#{t("languages.#{locale}")})" if Current.org.languages.many?
           f.inputs title do
             div class: "iframe-wrapper" do
               iframe(
@@ -144,7 +144,7 @@ ActiveAdmin.register MailTemplate do
 
     def scoped_collection
       scoped = end_of_association_chain
-      unless Current.acp.feature?("activity")
+      unless Current.org.feature?("activity")
         scoped = scoped.where.not(title: MailTemplate::ACTIVITY_TITLES)
       end
       scoped.joins(<<-SQL).order("t.ord")

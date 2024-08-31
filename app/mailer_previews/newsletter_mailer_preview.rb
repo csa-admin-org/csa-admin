@@ -18,7 +18,7 @@ class NewsletterMailerPreview < ActionMailer::Preview
       membership: membership,
       basket: basket
     }
-    if Current.acp.feature?(:activity)
+    if Current.org.feature?(:activity)
       data[:future_activities] = Activity.available.first(10).each { |a|
         Liquid::ActivityDrop.new(a)
       }

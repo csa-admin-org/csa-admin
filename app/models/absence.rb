@@ -27,7 +27,7 @@ class Absence < ApplicationRecord
     where("started_on <= ? AND ended_on >= ?", date, date)
   }
   scope :during_year, ->(year) {
-    fy = Current.acp.fiscal_year_for(year)
+    fy = Current.org.fiscal_year_for(year)
     where(started_on: fy.range).or(where(ended_on: fy.range))
   }
   scope :overlaps, ->(period) {
@@ -35,7 +35,7 @@ class Absence < ApplicationRecord
   }
 
   def self.min_started_on
-    Current.acp.absence_notice_period_in_days.days.from_now.beginning_of_day.to_date
+    Current.org.absence_notice_period_in_days.days.from_now.beginning_of_day.to_date
   end
 
   def self.max_ended_on

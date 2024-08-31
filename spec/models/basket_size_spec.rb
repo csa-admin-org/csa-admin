@@ -14,10 +14,10 @@ describe BasketSize do
 
     expect(member_ordered_names).to eq %w[grand moyen petit]
 
-    Current.acp.update! basket_sizes_member_order_mode: "price_asc"
+    Current.org.update! basket_sizes_member_order_mode: "price_asc"
     expect(member_ordered_names).to eq %w[petit moyen grand]
 
-    Current.acp.update! basket_sizes_member_order_mode: "name_asc"
+    Current.org.update! basket_sizes_member_order_mode: "name_asc"
     expect(member_ordered_names).to eq %w[grand moyen petit]
 
     small_size.update! member_order_priority: 0

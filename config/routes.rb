@@ -28,9 +28,9 @@ Rails.application.routes.draw do
     get "billing/:year" => "billings#show", as: :billing
     get "billing/snapshots/:id" => "billing_snapshots#show", as: :billing_snapshot
 
-    get "settings" => "acps#edit", as: :edit_acp
-    get "settings" => "acps#edit", as: :acps
-    resource :acp, path: "settings", only: :update
+    get "settings" => "organizations#edit", as: :edit_organization
+    get "settings" => "organizations#edit", as: :organizations
+    resource :organization, path: "settings", only: :update
 
     get "deliveries/next" => "next_delivery#next"
     get "handbook/:id" => "handbook#index", as: :handbook_page

@@ -94,7 +94,7 @@ class MailTemplate < ApplicationRecord
   end
 
   def liquid_data_preview_yamls
-    Current.acp.languages.map { |locale|
+    Current.org.languages.map { |locale|
       data =
         @liquid_data_previews&.dig(locale) ||
           I18n.with_locale(locale) { Liquid::DataPreview.for(self) }
@@ -147,7 +147,7 @@ class MailTemplate < ApplicationRecord
   end
 
   def active
-    if title == "invoice_overdue_notice" && !Current.acp.send_invoice_overdue_notice?
+    if title == "invoice_overdue_notice" && !Current.org.send_invoice_overdue_notice?
       false
     else
       super
@@ -172,7 +172,7 @@ class MailTemplate < ApplicationRecord
   end
 
   def default_subjects
-    Current.acp.languages.reduce({}) do |h, locale|
+    Current.org.languages.reduce({}) do |h, locale|
       h[locale] = subjects[locale] || I18n.with_locale(locale) {
         I18n.t("mail_template.default_subjects.#{title}")
       }
@@ -181,7 +181,7 @@ class MailTemplate < ApplicationRecord
   end
 
   def default_contents
-    Current.acp.languages.reduce({}) do |h, locale|
+    Current.org.languages.reduce({}) do |h, locale|
       path = Rails.root.join("app/views/mail_templates/#{title}.#{locale}.liquid")
       h[locale] = contents[locale] || File.read(path)
       h

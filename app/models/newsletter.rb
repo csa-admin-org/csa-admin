@@ -29,7 +29,7 @@ class Newsletter < ApplicationRecord
   validate :at_least_one_block_must_be_present
   validate :attachments_must_not_exceed_maximum_size
   validates :from, format: {
-    with: ->(n) { /.*@#{Current.acp.email_hostname}\z/ },
+    with: ->(n) { /.*@#{Current.org.email_hostname}\z/ },
     allow_nil: true
   }
 
@@ -68,7 +68,7 @@ class Newsletter < ApplicationRecord
   end
 
   def signatures
-    self[:signatures].presence || Current.acp.email_signatures
+    self[:signatures].presence || Current.org.email_signatures
   end
 
   def sent?
@@ -127,7 +127,7 @@ class Newsletter < ApplicationRecord
   end
 
   def liquid_data_preview_yamls
-    Current.acp.languages.map { |locale|
+    Current.org.languages.map { |locale|
       data =
         @liquid_data_previews&.dig(locale) ||
           I18n.with_locale(locale) { Liquid::DataPreview.for(self) }
@@ -191,7 +191,7 @@ class Newsletter < ApplicationRecord
   end
 
   def set_audience_names
-    Current.acp.languages.each do |locale|
+    Current.org.languages.each do |locale|
       I18n.with_locale(locale) do
         self.send "audience_name_#{locale}=", Audience.name(audience_segment)
       end

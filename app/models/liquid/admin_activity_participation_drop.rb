@@ -22,7 +22,7 @@ class Liquid::AdminActivityParticipationDrop < Liquid::Drop
   end
 
   def carpooling_phone
-    @activity_participation.carpooling_phone&.phony_formatted(normalize: Current.acp.country_code, format: :international)
+    @activity_participation.carpooling_phone&.phony_formatted(normalize: Current.org.country_code, format: :international)
   end
 
   def carpooling_city
@@ -34,6 +34,6 @@ class Liquid::AdminActivityParticipationDrop < Liquid::Drop
       .application
       .routes
       .url_helpers
-      .activity_participations_url(scope: :future, q: { member_id_eq: @activity_participation.member_id }, host: Current.acp.email_default_host)
+      .activity_participations_url(scope: :future, q: { member_id_eq: @activity_participation.member_id }, host: Current.org.email_default_host)
   end
 end

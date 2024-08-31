@@ -12,7 +12,7 @@ module Postmark
 
   def webhook_url
     Rails.application.routes.url_helpers.postmark_webhooks_url(
-      host: Current.acp.url,
+      host: Current.org.url,
       protocol: "https")
   end
 end

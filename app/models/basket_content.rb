@@ -21,7 +21,7 @@ class BasketContent < ApplicationRecord
   scope :in_pc, -> { where(unit: "pc") }
   scope :during_year, ->(year) {
     joins(:delivery)
-      .where(deliveries: { date: Current.acp.fiscal_year_for(year).range })
+      .where(deliveries: { date: Current.org.fiscal_year_for(year).range })
   }
 
   after_initialize :set_defaults

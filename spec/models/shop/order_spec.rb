@@ -26,7 +26,7 @@ describe Shop::Order do
     }
 
     specify "validate maximum weight when defined" do
-      Current.acp.update!(shop_order_maximum_weight_in_kg: 10)
+      Current.org.update!(shop_order_maximum_weight_in_kg: 10)
       order = build(:shop_order, :pending, items_attributes: {
         "0" => {
           product_id: product1.id,
@@ -47,7 +47,7 @@ describe Shop::Order do
     end
 
     specify "is valid when equal to the maximum weight limit" do
-      Current.acp.update!(shop_order_maximum_weight_in_kg: 10)
+      Current.org.update!(shop_order_maximum_weight_in_kg: 10)
       order = build(:shop_order, :pending, items_attributes: {
         "1" => {
           product_id: product2.id,
@@ -60,7 +60,7 @@ describe Shop::Order do
     end
 
     specify "skip validation when maximum weight is not defined" do
-      Current.acp.update!(shop_order_maximum_weight_in_kg: nil)
+      Current.org.update!(shop_order_maximum_weight_in_kg: nil)
       order = build(:shop_order, :pending, items_attributes: {
         "1" => {
           product_id: product2.id,
@@ -73,7 +73,7 @@ describe Shop::Order do
     end
 
     specify "skip validation when edited by admin" do
-      Current.acp.update!(shop_order_maximum_weight_in_kg: 10)
+      Current.org.update!(shop_order_maximum_weight_in_kg: 10)
       order = build(:shop_order, :pending, items_attributes: {
         "0" => {
           product_id: product1.id,
@@ -114,7 +114,7 @@ describe Shop::Order do
     }
 
     specify "validate minimum order amount when defined" do
-      Current.acp.update!(shop_order_minimal_amount: 20)
+      Current.org.update!(shop_order_minimal_amount: 20)
       order = build(:shop_order, :pending, items_attributes: {
         "0" => {
           product_id: product1.id,
@@ -135,7 +135,7 @@ describe Shop::Order do
     end
 
     specify "is valid when equal to the minimal amount" do
-      Current.acp.update!(shop_order_minimal_amount: 20)
+      Current.org.update!(shop_order_minimal_amount: 20)
       order = build(:shop_order, :pending, items_attributes: {
         "0" => {
           product_id: product1.id,
@@ -148,7 +148,7 @@ describe Shop::Order do
     end
 
     specify "skip validation when maximum weight is not defined" do
-      Current.acp.update!(shop_order_minimal_amount: nil)
+      Current.org.update!(shop_order_minimal_amount: nil)
       order = build(:shop_order, :pending, items_attributes: {
         "1" => {
           product_id: product1.id,
@@ -161,7 +161,7 @@ describe Shop::Order do
     end
 
     specify "skip validation when edited by admin" do
-      Current.acp.update!(shop_order_minimal_amount: 20)
+      Current.org.update!(shop_order_minimal_amount: 20)
       order = build(:shop_order, :pending, items_attributes: {
         "0" => {
           product_id: product1.id,
@@ -463,7 +463,7 @@ describe Shop::Order do
     specify "auto invoice after delivery date" do
       delivery = create(:delivery, date: 3.days.from_now)
       order = create(:shop_order, :pending, delivery_gid: delivery.gid)
-      Current.acp.update!(shop_order_automatic_invoicing_delay_in_days: 3)
+      Current.org.update!(shop_order_automatic_invoicing_delay_in_days: 3)
 
       travel 5.days do
         expect { order.auto_invoice! }.not_to change { order.reload.state }
@@ -479,7 +479,7 @@ describe Shop::Order do
     specify "auto invoice before delivery date" do
       delivery = create(:delivery, date: Date.today)
       order = create(:shop_order, :pending, delivery_gid: delivery.gid)
-      Current.acp.update!(shop_order_automatic_invoicing_delay_in_days: -2)
+      Current.org.update!(shop_order_automatic_invoicing_delay_in_days: -2)
 
       travel -3.days do
         expect { order.auto_invoice! }.not_to change { order.reload.state }
@@ -494,7 +494,7 @@ describe Shop::Order do
     specify "auto invoice the delivery date" do
       delivery = create(:delivery, date: Date.today)
       order = create(:shop_order, :pending, delivery_gid: delivery.gid)
-      Current.acp.update!(shop_order_automatic_invoicing_delay_in_days: 0)
+      Current.org.update!(shop_order_automatic_invoicing_delay_in_days: 0)
 
       expect { order.auto_invoice! }
         .to change { order.reload.state }.from("pending").to("invoiced")
@@ -503,20 +503,20 @@ describe Shop::Order do
     specify "do nothing when no delay configured" do
       delivery = create(:delivery, date: Date.today)
       order = create(:shop_order, :pending, delivery_gid: delivery.gid)
-      Current.acp.update!(shop_order_automatic_invoicing_delay_in_days: nil)
+      Current.org.update!(shop_order_automatic_invoicing_delay_in_days: nil)
 
       expect { order.auto_invoice! }.not_to change { order.reload.state }
     end
 
     specify "do nothing for cart order" do
-      Current.acp.update!(shop_order_automatic_invoicing_delay_in_days: 0)
+      Current.org.update!(shop_order_automatic_invoicing_delay_in_days: 0)
 
       order = create(:shop_order, :cart)
       expect { order.auto_invoice! }.not_to change { order.reload.state }
     end
 
     specify "do nothing for invoiced order" do
-      Current.acp.update!(shop_order_automatic_invoicing_delay_in_days: 0)
+      Current.org.update!(shop_order_automatic_invoicing_delay_in_days: 0)
 
       order = create(:shop_order, :invoiced)
       expect { order.auto_invoice! }.not_to change { order.reload.state }

@@ -36,12 +36,12 @@ ul class='my-2 md:mr-4 -mx-2 relative p-2 space-y-2' id=membership.fiscal_year.y
         = "#{membership.baskets_count} #{Delivery.model_name.human(count: membership.baskets_count)}"
         - if membership.trial?
           = ", #{t('.remaning_trial_baskets_count', count: membership.remaning_trial_baskets_count)}"
-      - if Current.acp.feature?('absence') && membership.baskets.absent.any?
+      - if Current.org.feature?('absence') && membership.baskets.absent.any?
         = ', '
         = link_to members_absences_path do
           = t('.absent_baskets_count', count: membership.baskets.absent.count)
 
-  - if Current.acp.feature?('activity')
+  - if Current.org.feature?('activity')
     li class='mt-1 flex flex-row items-center'
       = inline_svg_tag 'members/hand.svg', class: 'h-6 w-6 flex-shrink-0 fill-stroke text-gray-300 dark:text-gray-700'
       span class='ml-2'

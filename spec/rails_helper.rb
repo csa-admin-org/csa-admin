@@ -23,8 +23,8 @@ RSpec.configure do |config|
   config.include ActiveSupport::Testing::TimeHelpers
 
   config.before(:suite) do
-    unless ACP.exists?(host: "ragedevert")
-      FactoryBot.create(:acp, host: "ragedevert", tenant_name: "ragedevert")
+    unless Organization.exists?(host: "ragedevert")
+      FactoryBot.create(:organization, host: "ragedevert", tenant_name: "ragedevert")
     end
   end
 

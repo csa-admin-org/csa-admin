@@ -5,14 +5,14 @@ class Current < ActiveSupport::CurrentAttributes
 
   delegate :year, :range, to: :fiscal_year, prefix: :fy
 
-  resets { @acp = nil }
+  resets { @org = nil }
 
-  def acp
-    @acp ||= ACP.find_by!(tenant_name: Tenant.current)
+  def org
+    @org ||= Organization.find_by!(tenant_name: Tenant.current)
   end
 
   def fiscal_year
-    acp.current_fiscal_year
+    org.current_fiscal_year
   end
 
   # AcitveJob inline queue adapter is reseting the Current attributes

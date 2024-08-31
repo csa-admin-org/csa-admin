@@ -25,10 +25,10 @@ class Newsletter
 
     def self.create_defaults!
       DEFAULTS.each do |key|
-        title = I18n.with_locale(Current.acp.default_locale) {
+        title = I18n.with_locale(Current.org.default_locale) {
           I18n.t("newsletters.template.#{key}.title")
         }
-        contents = Current.acp.languages.reduce({}) { |h, l|
+        contents = Current.org.languages.reduce({}) { |h, l|
           path = Rails.root.join("app/views/newsletter_templates/#{key}.#{l}.liquid")
           h[l] = File.read(path)
           h
@@ -58,7 +58,7 @@ class Newsletter
     end
 
     def liquid_data_preview_yamls
-      Current.acp.languages.map { |locale|
+      Current.org.languages.map { |locale|
         data =
           @liquid_data_previews&.dig(locale) ||
             I18n.with_locale(locale) {
@@ -79,7 +79,7 @@ class Newsletter
     end
 
     def content_blocks
-      Current.acp.languages.map { |locale|
+      Current.org.languages.map { |locale|
         blocks = I18n.with_locale(locale) {
           Liquid::Template.parse(content).root.nodelist.select { |node|
             node.class.to_s == "Liquid::ContentBlock"
@@ -126,7 +126,7 @@ class Newsletter
     end
 
     def content_block_ids_must_be_unique
-      Current.acp.languages.each do |locale|
+      Current.org.languages.each do |locale|
         ids = content_blocks[locale].map(&:id)
         if ids.uniq.size != ids.size
           errors.add("content_#{locale}".to_sym, :content_block_ids_must_be_unique)
@@ -136,9 +136,9 @@ class Newsletter
     end
 
     def content_block_ids_must_be_equal_for_all_languages
-      return unless Current.acp.languages.many?
+      return unless Current.org.languages.many?
 
-      Current.acp.languages.each do |locale|
+      Current.org.languages.each do |locale|
         ids = content_blocks[locale].map(&:id)
         if ids != content_block_ids
           errors.add("content_#{locale}".to_sym, :content_block_ids_must_be_equal_for_all_languages)

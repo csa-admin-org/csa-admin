@@ -64,7 +64,7 @@ class ApplicationController < ActionController::Base
     I18n.locale =
       (params_locale.in?(I18n.available_locales.map(&:to_s)) && params_locale) ||
       current_admin&.language ||
-      Current.acp.languages.first
+      Current.org.languages.first
   end
 
   def update_last_usage(session)

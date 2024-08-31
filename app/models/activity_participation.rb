@@ -54,7 +54,7 @@ class ActivityParticipation < ApplicationRecord
   end
 
   def self.invoice_all_missing(year)
-    return unless Current.acp.activity_price.positive?
+    return unless Current.org.activity_price.positive?
 
     Membership.during_year(year).each do |membership|
       # Check for trial/trial_only memberships
@@ -84,7 +84,7 @@ class ActivityParticipation < ApplicationRecord
 
   def carpooling_phone=(phone)
     super PhonyRails.normalize_number(phone,
-      default_country_code: Current.acp.country_code)
+      default_country_code: Current.org.country_code)
   end
 
   def carpooling=(boolean)
@@ -96,7 +96,7 @@ class ActivityParticipation < ApplicationRecord
   end
 
   def destroyable?
-    deadline = Current.acp.activity_participation_deletion_deadline_in_days || 0
+    deadline = Current.org.activity_participation_deletion_deadline_in_days || 0
     created_at > 1.day.ago || activity.date > deadline.days.from_now.to_date
   end
 

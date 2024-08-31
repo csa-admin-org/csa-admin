@@ -3,7 +3,7 @@
 require "rails_helper"
 
 describe Absence, freeze: "2021-06-15" do
-  before { current_acp.update!(features: %w[absence]) }
+  before { current_org.update!(features: %w[absence]) }
 
   describe "validations" do
     it "validates started_on and ended_on dates when submited by member" do
@@ -58,7 +58,7 @@ describe Absence, freeze: "2021-06-15" do
     end
 
     it "updates membership price when absent baskets are not billed" do
-      current_acp.update!(absences_billed: false)
+      current_org.update!(absences_billed: false)
 
       member = create(:member)
       membership =

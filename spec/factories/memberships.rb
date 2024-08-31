@@ -17,11 +17,11 @@ FactoryBot.define do
     end
 
     trait :last_year do
-      fiscal_year { Current.acp.fiscal_year_for(1.year.ago) }
+      fiscal_year { Current.org.fiscal_year_for(1.year.ago) }
     end
 
     trait :next_year do
-      fiscal_year { Current.acp.fiscal_year_for(1.year.from_now) }
+      fiscal_year { Current.org.fiscal_year_for(1.year.from_now) }
     end
 
     before :create do |_, evaluator|

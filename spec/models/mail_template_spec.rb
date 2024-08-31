@@ -22,7 +22,7 @@ describe MailTemplate do
   end
 
   specify "set default subject and content for all languages" do
-    Current.acp.update! languages: %w[fr de]
+    Current.org.update! languages: %w[fr de]
     expect(template.subjects).to eq(
       "fr" => "Bienvenue!",
       "de" => "Herzlich willkommen!")
@@ -40,7 +40,7 @@ describe MailTemplate do
   end
 
   specify "invoice_overdue_notice is not always active" do
-    expect(Current.acp.send_invoice_overdue_notice?).to eq true
+    expect(Current.org.send_invoice_overdue_notice?).to eq true
     template = MailTemplate.find_by(title: "invoice_overdue_notice")
     expect(template).to be_active
 
@@ -48,7 +48,7 @@ describe MailTemplate do
     expect(template).to be_active
     expect(template[:active]).to eq true
 
-    allow(Current.acp).to receive(:send_invoice_overdue_notice?).and_return(false)
+    allow(Current.org).to receive(:send_invoice_overdue_notice?).and_return(false)
     expect(template).not_to be_active
 
     template.active = false
@@ -76,7 +76,7 @@ describe MailTemplate do
   end
 
   specify "all defaults templates are valid" do
-    Current.acp.update! languages: ACP.languages
+    Current.org.update! languages: Organization.languages
     MailTemplate.create_all!
     MailTemplate.find_each do |template|
       expect(template).to be_valid

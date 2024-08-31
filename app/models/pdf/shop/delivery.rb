@@ -132,7 +132,7 @@ module PDF
       def footer
         font_size 11
         bounding_box [ 0, 60 ], width: bounds.width do
-          footer_text = Current.acp.shop_delivery_pdf_footer
+          footer_text = Current.org.shop_delivery_pdf_footer
           if footer_text.present?
             text footer_text, align: :center
           end

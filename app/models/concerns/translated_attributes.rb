@@ -12,7 +12,7 @@ module TranslatedAttributes
         end
         define_method("#{attr}_with_fallback") do |locale = I18n.locale|
           self[column][locale.to_s].presence ||
-            self[column][Current.acp.default_locale.to_s].presence
+            self[column][Current.org.default_locale.to_s].presence
         end
         define_method("#{attr}_without_fallback") do |locale = I18n.locale|
           self[column][locale.to_s].presence
@@ -21,11 +21,11 @@ module TranslatedAttributes
           send(attr, locale).present?
         end
         define_method("#{attr}=") do |str|
-          ACP::LANGUAGES.each do |locale|
+          Organization::LANGUAGES.each do |locale|
             send("#{attr}_#{locale}=", str)
           end
         end
-        ACP::LANGUAGES.each do |locale|
+        Organization::LANGUAGES.each do |locale|
           define_method("#{attr}_#{locale}") { self[column][locale].presence }
           define_method("#{attr}_#{locale}=") do |str|
             if str.present?
@@ -50,9 +50,9 @@ module TranslatedAttributes
         }
 
         if required
-          ACP::LANGUAGES.each do |locale|
+          Organization::LANGUAGES.each do |locale|
             validates "#{attr}_#{locale}".to_sym, presence: true, if: -> {
-              locale.in?(Current.acp.languages)
+              locale.in?(Current.org.languages)
             }
           end
         end

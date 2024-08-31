@@ -15,7 +15,7 @@ class ActivityParticipationsCalendarController < ApplicationController
   private
 
   def verify_icalendar_auth_token
-    token = Current.acp.icalendar_auth_token
+    token = Current.org.icalendar_auth_token
 
     if !token || params[:auth_token] != token
       render plain: "unauthorized", status: :unauthorized

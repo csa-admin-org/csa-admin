@@ -18,13 +18,13 @@ describe DeliveryCycle, freeze: "2022-01-01" do
 
     expect(member_ordered_names).to eq %w[a c b]
 
-    Current.acp.update! delivery_cycles_member_order_mode: "deliveries_count_asc"
+    Current.org.update! delivery_cycles_member_order_mode: "deliveries_count_asc"
     expect(member_ordered_names).to eq %w[b c a]
 
-    Current.acp.update! delivery_cycles_member_order_mode: "name_asc"
+    Current.org.update! delivery_cycles_member_order_mode: "name_asc"
     expect(member_ordered_names).to eq %w[a b c]
 
-    Current.acp.update! delivery_cycles_member_order_mode: "wdays_asc"
+    Current.org.update! delivery_cycles_member_order_mode: "wdays_asc"
     expect(member_ordered_names).to eq %w[b a c]
 
     a.update! member_order_priority: 2

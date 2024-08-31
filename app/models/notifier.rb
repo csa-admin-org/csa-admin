@@ -19,7 +19,7 @@ module Notifier
   end
 
   def send_invoice_overdue_notice_emails
-    return unless Current.acp.send_invoice_overdue_notice?
+    return unless Current.org.send_invoice_overdue_notice?
 
     Invoice.open.each { |i| InvoiceOverdueNoticer.perform(i) }
   end
@@ -63,13 +63,13 @@ module Notifier
       .memberships_url(
         q: { during_year: Current.fy_year }.merge(options),
         scope: :all,
-        host: Current.acp.email_default_host)
+        host: Current.org.email_default_host)
   end
 
   def send_membership_renewal_reminder_emails
     return unless MailTemplate.active_template(:membership_renewal_reminder)
 
-    in_days = Current.acp.open_renewal_reminder_sent_after_in_days
+    in_days = Current.org.open_renewal_reminder_sent_after_in_days
     return unless in_days
 
     memberships =
@@ -109,7 +109,7 @@ module Notifier
   end
 
   def send_activity_participation_reminder_emails
-    return unless Current.acp.feature?("activity")
+    return unless Current.org.feature?("activity")
 
     participations =
       ActivityParticipation
@@ -126,7 +126,7 @@ module Notifier
   end
 
   def send_activity_participation_validated_emails
-    return unless Current.acp.feature?("activity")
+    return unless Current.org.feature?("activity")
     return unless MailTemplate.active_template(:activity_participation_validated)
 
     participations =
@@ -144,7 +144,7 @@ module Notifier
   end
 
   def send_activity_participation_rejected_emails
-    return unless Current.acp.feature?("activity")
+    return unless Current.org.feature?("activity")
     return unless MailTemplate.active_template(:activity_participation_rejected)
 
     participations =
@@ -162,7 +162,7 @@ module Notifier
   end
 
   def send_admin_new_activity_participation_emails
-    return unless Current.acp.feature?("activity")
+    return unless Current.org.feature?("activity")
 
     participations =
       ActivityParticipation

@@ -19,8 +19,8 @@ module PDF
       {
         Producer: "Prawn",
         CreationDate: Time.current,
-        Author:  Current.acp.name,
-        Creator: Current.acp.name
+        Author:  Current.org.name,
+        Creator: Current.org.name
       }
     end
 
@@ -43,8 +43,8 @@ module PDF
 
     def acp_logo_io
       logo =
-        if Current.acp.logo.attached?
-          Current.acp.logo.download
+        if Current.org.logo.attached?
+          Current.org.logo.download
         else
           path = Rails.root.join("app/assets/images/logo.png")
           URI.open(path).read

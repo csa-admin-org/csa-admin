@@ -32,7 +32,7 @@ class MembershipPricing
       BasketComplement.visible.sum(:price).zero? &&
       DeliveryCycle.visible.map(&:billable_deliveries_count).uniq.one? &&
       deliveries_counts.one? &&
-      !Current.acp.feature?("basket_price_extra")
+      !Current.org.feature?("basket_price_extra")
   end
 
   def basket_size
@@ -64,10 +64,10 @@ class MembershipPricing
   end
 
   def calculate_price_extra(extra, basket_size, complements_price, deliveries_count)
-    return 0 unless Current.acp.feature?("basket_price_extra")
+    return 0 unless Current.org.feature?("basket_price_extra")
     return 0 unless basket_size
 
-    Current.acp.calculate_basket_price_extra(
+    Current.org.calculate_basket_price_extra(
       extra,
       basket_size.price,
       basket_size.id,
@@ -116,7 +116,7 @@ class MembershipPricing
       default = ActivityParticipationDemanded.new(m).count
       m.activity_participations_demanded_annually = @params[:waiting_activity_participations_demanded_annually]
       demanded = ActivityParticipationDemanded.new(m).count
-      -1 * (demanded - default)  * Current.acp.activity_price
+      -1 * (demanded - default)  * Current.org.activity_price
     }
     [ counts.min, counts.max ]
   end

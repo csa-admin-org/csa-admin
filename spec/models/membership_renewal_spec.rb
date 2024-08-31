@@ -3,7 +3,7 @@
 require "rails_helper"
 
 describe MembershipRenewal do
-  let(:next_fy) { Current.acp.fiscal_year_for(Date.today.year + 1) }
+  let(:next_fy) { Current.org.fiscal_year_for(Date.today.year + 1) }
 
   it "raises when no next year deliveries" do
     membership = create(:membership)
@@ -158,7 +158,7 @@ describe MembershipRenewal do
   end
 
   specify "with activity_participations_demanded_annually change" do
-    Current.acp.update!(
+    Current.org.update!(
       activity_participations_form_max: 10,
       activity_price: 50)
     create(:delivery, date: next_fy.beginning_of_year)
@@ -189,7 +189,7 @@ describe MembershipRenewal do
   end
 
   specify "with activity_participations_demanded_annually not changing" do
-    Current.acp.update!(
+    Current.org.update!(
       activity_participations_form_max: 10,
       activity_price: 50)
     create(:delivery, date: next_fy.beginning_of_year)
@@ -235,7 +235,7 @@ describe MembershipRenewal do
         "0" => { basket_complement_id: 1, quantity: 1 }
       })
 
-    Current.acp.update!(membership_renewed_attributes: %w[
+    Current.org.update!(membership_renewed_attributes: %w[
       activity_participations_demanded_annually
     ])
 

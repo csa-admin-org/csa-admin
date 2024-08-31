@@ -4,7 +4,7 @@ class MembershipsRenewal
   attr_reader :next_fy
 
   def initialize
-    @next_fy = Current.acp.fiscal_year_for(1.year.from_now)
+    @next_fy = Current.org.fiscal_year_for(1.year.from_now)
   end
 
   def to_renew

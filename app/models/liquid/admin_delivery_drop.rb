@@ -14,6 +14,6 @@ class Liquid::AdminDeliveryDrop < Liquid::Drop
       .application
       .routes
       .url_helpers
-      .delivery_url(@delivery.id, {}, host: Current.acp.email_default_host)
+      .delivery_url(@delivery.id, {}, host: Current.org.email_default_host)
   end
 end

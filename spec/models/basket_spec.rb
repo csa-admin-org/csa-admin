@@ -77,7 +77,7 @@ describe Basket do
   end
 
   specify "#can_member_update?" do
-    Current.acp.update!(membership_depot_update_allowed: false)
+    Current.org.update!(membership_depot_update_allowed: false)
 
     delivery = build(:delivery, date: "2022-12-15")
     basket = build(:basket, delivery: delivery)
@@ -86,8 +86,8 @@ describe Basket do
       expect(basket.can_member_update?).to be false
     end
 
-    Current.acp.update!(membership_depot_update_allowed: true)
-    Current.acp.update!(basket_update_limit_in_days: 5)
+    Current.org.update!(membership_depot_update_allowed: true)
+    Current.org.update!(basket_update_limit_in_days: 5)
 
     travel_to "2022-12-10" do
       expect(basket.can_member_update?).to be true
@@ -96,7 +96,7 @@ describe Basket do
       expect(basket.can_member_update?).to be false
     end
 
-    Current.acp.update!(basket_update_limit_in_days: 0)
+    Current.org.update!(basket_update_limit_in_days: 0)
 
     travel_to "2022-12-15" do
       expect(basket.can_member_update?).to be true
@@ -117,11 +117,11 @@ describe Basket do
     basket = create(:membership, depot: depot).baskets.first
 
     travel_to Time.current.beginning_of_year do
-      Current.acp.update!(membership_depot_update_allowed: false)
+      Current.org.update!(membership_depot_update_allowed: false)
       expect { basket.member_update!(depot_id: new_depot.id) }
         .to raise_error(RuntimeError, "update not allowed")
 
-      Current.acp.update!(membership_depot_update_allowed: true)
+      Current.org.update!(membership_depot_update_allowed: true)
       expect { basket.member_update!(depot_id: new_depot.id) }
         .to change { basket.reload.depot }.from(depot).to(new_depot)
         .and change { basket.reload.depot_price }.from(2).to(3)
@@ -130,7 +130,7 @@ describe Basket do
   end
 
   describe "#calculate_price_extra" do
-    before { Current.acp.update! features: [ :basket_price_extra ] }
+    before { Current.org.update! features: [ :basket_price_extra ] }
     let(:membership) { create(:membership) }
     let(:basket) {
       basket = Basket.new(
@@ -141,7 +141,7 @@ describe Basket do
     }
 
     specify "without basket_price_extra feature" do
-      Current.acp.update! features: []
+      Current.org.update! features: []
 
       expect(basket.send(:calculate_price_extra)).to eq 0
     end
@@ -162,7 +162,7 @@ describe Basket do
     end
 
     specify "when non billable basket" do
-      Current.acp.update!(absences_billed: false)
+      Current.org.update!(absences_billed: false)
       basket.state = "absent"
       expect(basket.send(:calculate_price_extra)).to eq 2.42
     end
@@ -185,7 +185,7 @@ describe Basket do
         quantity: 2,
         membership: membership)
 
-      Current.acp.update!(basket_price_extra_dynamic_pricing: <<~LIQUID)
+      Current.org.update!(basket_price_extra_dynamic_pricing: <<~LIQUID)
         {% if basket_size_id == 1 %}
           {{ 15 | minus: 10 | divided_by: 3.0 }}
         {% else %}
@@ -198,7 +198,7 @@ describe Basket do
     end
 
     specify "with dynamic pricing based on basket_size and complements prices" do
-      Current.acp.update!(basket_price_extra_dynamic_pricing: <<~LIQUID)
+      Current.org.update!(basket_price_extra_dynamic_pricing: <<~LIQUID)
         {% assign price = basket_price | plus: complements_price %}
         {{ price | divided_by: 100.0 | times: extra }}
       LIQUID
@@ -228,7 +228,7 @@ describe Basket do
         quantity: 2,
         membership: create(:membership))
 
-      Current.acp.update!(basket_price_extra_dynamic_pricing: <<~LIQUID)
+      Current.org.update!(basket_price_extra_dynamic_pricing: <<~LIQUID)
         {{ extra | divided_by: deliveries_count }}
       LIQUID
 

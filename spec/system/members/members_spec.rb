@@ -10,7 +10,7 @@ describe "members page" do
 
   context "new inscription" do
     it "creates a new member with membership" do
-      Current.acp.update!(
+      Current.org.update!(
         languages: %w[fr de],
         basket_price_extra_title: "Cotistation solidaire",
         basket_price_extras: "0, 1, 2, 4, 8",
@@ -90,12 +90,12 @@ describe "members page" do
       expect(member.waiting_depot.name).to eq "Vélo"
       expect(member.waiting_basket_complements.map(&:name)).to eq %w[Oeufs Pain]
       expect(member.members_basket_complements.map(&:quantity)).to eq [ 1, 2 ]
-      expect(member.annual_fee).to eq Current.acp.annual_fee
+      expect(member.annual_fee).to eq Current.org.annual_fee
       expect(member.waiting_billing_year_division).to eq 4
     end
 
     specify "create a new member with membership and depot group" do
-      Current.acp.update!(
+      Current.org.update!(
         languages: %w[fr de],
         basket_price_extra_title: "Cotistation solidaire",
         basket_price_extras: "0, 1, 2, 4, 8",
@@ -180,12 +180,12 @@ describe "members page" do
       expect(member.waiting_depot.name).to eq "Vélo"
       expect(member.waiting_basket_complements.map(&:name)).to eq %w[Oeufs Pain]
       expect(member.members_basket_complements.map(&:quantity)).to eq [ 1, 2 ]
-      expect(member.annual_fee).to eq Current.acp.annual_fee
+      expect(member.annual_fee).to eq Current.org.annual_fee
       expect(member.waiting_billing_year_division).to eq 4
     end
 
     specify "creates a new member with custom activity participations" do
-      Current.acp.update!(
+      Current.org.update!(
         features: %w[activity],
         activity_participations_form_min: 0)
       create_deliveries(2)
@@ -340,7 +340,7 @@ describe "members page" do
     end
 
     it "creates a new member with membership and alternative depots" do
-      Current.acp.update!(allow_alternative_depots: true)
+      Current.org.update!(allow_alternative_depots: true)
 
       create_deliveries(2)
       create(:basket_size, :small)
@@ -406,7 +406,7 @@ describe "members page" do
     end
 
     it "creates a new shop-only member" do
-      Current.acp.update!(
+      Current.org.update!(
         member_form_mode: "shop",
         terms_of_service_url: nil,
         annual_fee: nil)
@@ -452,7 +452,7 @@ describe "members page" do
     end
 
     it "creates a new support member (annual fee)" do
-      Current.acp.update!(
+      Current.org.update!(
         languages: %w[fr de],
         terms_of_service_url: nil,
         annual_fee: 42)
@@ -490,12 +490,12 @@ describe "members page" do
         language: "fr")
       expect(member.waiting_basket_size).to be_nil
       expect(member.waiting_depot).to be_nil
-      expect(member.annual_fee).to eq Current.acp.annual_fee
+      expect(member.annual_fee).to eq Current.org.annual_fee
       expect(member.waiting_billing_year_division).to be_nil
     end
 
     it "creates a new support member (acp_share)" do
-      Current.acp.update!(
+      Current.org.update!(
         languages: %w[fr de],
         terms_of_service_url: "https://terms_of_service.com",
         statutes_url: "https://statutes.com",
@@ -546,7 +546,7 @@ describe "members page" do
     end
 
     it "hides waiting_billing_year_division when only one is configured" do
-      Current.acp.update!(billing_year_divisions: [ 12 ])
+      Current.org.update!(billing_year_divisions: [ 12 ])
 
       visit "/new"
 
@@ -557,13 +557,13 @@ describe "members page" do
     it "shows only membership extra text" do
       default_text = "Chaque membre s'engage pour un abonnement d'une année"
       extra_text = "Règles spéciales"
-      Current.acp.update!(member_form_extra_text: extra_text)
+      Current.org.update!(member_form_extra_text: extra_text)
 
       visit "/new"
       expect(page).to have_content default_text
       expect(page).to have_content extra_text
 
-      Current.acp.update!(member_form_extra_text_only: true)
+      Current.org.update!(member_form_extra_text_only: true)
       visit "/new"
 
       expect(page).not_to have_content default_text
@@ -586,7 +586,7 @@ describe "members page" do
     end
 
     it "notifies spam detection" do
-      Current.acp.update!(
+      Current.org.update!(
         languages: %w[fr de],
         terms_of_service_url: nil,
         annual_fee: 42)
@@ -611,8 +611,8 @@ describe "members page" do
       expect(Member.last).to be_nil
     end
 
-    specify "without annual fee or ACP shares" do
-      Current.acp.update!(annual_fee: nil, share_price: nil)
+    specify "without annual fee or organization shares" do
+      Current.org.update!(annual_fee: nil, share_price: nil)
 
       visit "/new"
 
@@ -623,7 +623,7 @@ describe "members page" do
     end
 
     specify "with different form modes" do
-      Current.acp.update!(
+      Current.org.update!(
         member_profession_form_mode: "hidden",
         member_come_from_form_mode: "required")
 
@@ -694,7 +694,7 @@ describe "members page" do
     end
 
     it "redirects to shop", freeze: "2023-01-01" do
-      current_acp.update!(
+      current_org.update!(
         features: [ "shop" ],
         shop_admin_only: false)
 
@@ -713,7 +713,7 @@ describe "members page" do
     end
 
     it "redirects to billing without activity feature" do
-      current_acp.update!(features: [])
+      current_org.update!(features: [])
 
       login(create(:member, state: "active"))
 

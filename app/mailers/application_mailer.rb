@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 class ApplicationMailer < ActionMailer::Base
-  helper :acps
-  default from: -> { Current.acp.email_from }
+  helper :organizations
+  default from: -> { Current.org.email_from }
   layout "mailer"
 
   attr_reader :content
@@ -12,7 +12,7 @@ class ApplicationMailer < ActionMailer::Base
   private
 
   def default_url_options
-    { host: Current.acp.email_host }
+    { host: Current.org.email_host }
   end
 
   def content_mail(content, **args)
@@ -25,7 +25,7 @@ class ApplicationMailer < ActionMailer::Base
 
   def set_postmark_api_token
     mail.delivery_method.settings[:api_token] =
-      Current.acp.credentials(:postmark, :api_token)
+      Current.org.credentials(:postmark, :api_token)
   end
 
   def liquid_template

@@ -28,7 +28,7 @@ div class: "flex justify-center" do
                 end
               end
             end
-            if Current.acp.member_form_mode == "membership"
+            if Current.org.member_form_mode == "membership"
               li do
                 if BasketSize.kept.any?
                   a href: basket_sizes_path do

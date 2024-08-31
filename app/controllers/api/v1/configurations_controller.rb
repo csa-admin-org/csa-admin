@@ -57,7 +57,7 @@ module API
       end
 
       def all_locales
-        Current.acp.languages.map { |l|
+        Current.org.languages.map { |l|
           I18n.with_locale(l) { yield(l) }
         }.to_h
       end

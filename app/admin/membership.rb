@@ -22,7 +22,7 @@ ActiveAdmin.register Membership do
   end
 
   scope :all
-  scope :trial, if: -> { Current.acp.trial_basket_count.positive? }
+  scope :trial, if: -> { Current.org.trial_basket_count.positive? }
   scope :ongoing, default: true
   scope :future
   scope :past
@@ -58,18 +58,18 @@ ActiveAdmin.register Membership do
       divisions.map { |i| [ t("billing.year_division.x#{i}"), i ] }
     }
   filter :basket_price_extra,
-    label: proc { Current.acp.basket_price_extra_title },
-    if: proc { Current.acp.feature?("basket_price_extra") }
+    label: proc { Current.org.basket_price_extra_title },
+    if: proc { Current.org.feature?("basket_price_extra") }
   filter :activity_participations_accepted,
     label: proc { Membership.human_attribute_name(activity_scoped_attribute(:activity_participations_accepted)) },
-    if: proc { Current.acp.feature?("activity") }
+    if: proc { Current.org.feature?("activity") }
   filter :activity_participations_demanded,
     label: proc { Membership.human_attribute_name(activity_scoped_attribute(:activity_participations_demanded)) },
-    if: proc { Current.acp.feature?("activity") }
+    if: proc { Current.org.feature?("activity") }
   filter :activity_participations_missing,
     as: :numeric,
     label: proc { Membership.human_attribute_name(activity_scoped_attribute(:activity_participations_missing)) },
-    if: proc { Current.acp.feature?("activity") }
+    if: proc { Current.org.feature?("activity") }
 
   includes :member, :baskets, :delivery_cycle
   index do
@@ -77,7 +77,7 @@ ActiveAdmin.register Membership do
     column :member, sortable: "members.name"
     column :started_on, ->(m) { auto_link m, l(m.started_on, format: :number_short) }, class: "text-right"
     column :ended_on, ->(m) { auto_link m, l(m.ended_on, format: :number_short) }, class: "text-right"
-    if Current.acp.feature?("activity")
+    if Current.org.feature?("activity")
       column activities_human_name, ->(m) {
         link_to(
           "#{m.activity_participations_accepted} / #{m.activity_participations_demanded}",
@@ -108,7 +108,7 @@ ActiveAdmin.register Membership do
               count: openable_count,
               count_link: link_to(
                 openable_count,
-                collection_path(scope: :all, q: { renewal_state_eq: :renewal_pending, during_year: Current.acp.current_fiscal_year.year }))
+                collection_path(scope: :all, q: { renewal_state_eq: :renewal_pending, during_year: Current.org.current_fiscal_year.year }))
             ).html_safe
           end
           if MailTemplate.active_template(:membership_renewal)
@@ -118,7 +118,7 @@ ActiveAdmin.register Membership do
                 count: renewal_opened_count,
                 count_link: link_to(
                   renewal_opened_count,
-                  collection_path(scope: :all, q: { renewal_state_eq: :renewal_opened, during_year: Current.acp.current_fiscal_year.year }))
+                  collection_path(scope: :all, q: { renewal_state_eq: :renewal_opened, during_year: Current.org.current_fiscal_year.year }))
               ).html_safe
             end
           end
@@ -128,17 +128,17 @@ ActiveAdmin.register Membership do
               count: renewed_count,
               count_link: link_to(
                 renewed_count,
-                collection_path(scope: :all, q: { renewal_state_eq: :renewed, during_year: Current.acp.current_fiscal_year.year }))
+                collection_path(scope: :all, q: { renewal_state_eq: :renewed, during_year: Current.org.current_fiscal_year.year }))
             ).html_safe
           end
           li do
-            end_of_year = Current.acp.current_fiscal_year.end_of_year
+            end_of_year = Current.org.current_fiscal_year.end_of_year
             renewal_canceled_count = Membership.where(renew: false).where(ended_on: end_of_year).count
             t(".canceled_renewals",
               count: renewal_canceled_count,
               count_link: link_to(
                 renewal_canceled_count,
-                collection_path(scope: :all, q: { renewal_state_eq: :renewal_canceled, during_year: Current.acp.current_fiscal_year.year, ended_on_gteq: end_of_year, ended_on_lteq: end_of_year }))
+                collection_path(scope: :all, q: { renewal_state_eq: :renewal_canceled, during_year: Current.org.current_fiscal_year.year, ended_on_gteq: end_of_year, ended_on_lteq: end_of_year }))
             ).html_safe
           end
         end
@@ -182,8 +182,8 @@ ActiveAdmin.register Membership do
     end
   end
 
-  sidebar :basket_price_extra_title, only: :index, if: -> { Current.acp.feature?("basket_price_extra") && params.dig(:q, :during_year).present? } do
-    side_panel Current.acp.basket_price_extra_title, action: handbook_icon_link("basket_price_extra") do
+  sidebar :basket_price_extra_title, only: :index, if: -> { Current.org.feature?("basket_price_extra") && params.dig(:q, :during_year).present? } do
+    side_panel Current.org.basket_price_extra_title, action: handbook_icon_link("basket_price_extra") do
       coll =
         collection
           .unscope(:includes, :joins, :order)
@@ -237,7 +237,7 @@ ActiveAdmin.register Membership do
     column(:started_on)
     column(:ended_on)
     column(:baskets_count)
-    if Current.acp.trial_basket_count.positive?
+    if Current.org.trial_basket_count.positive?
       column(:baskets_trial_count) { |m| m.baskets.count(&:trial?) }
     end
     if feature?("absence")
@@ -246,15 +246,15 @@ ActiveAdmin.register Membership do
     end
     column(:basket_size) { |m| basket_size_description(m, text_only: true, public_name: false) }
     column(:basket_price) { |m| cur(m.basket_price) }
-    if Current.acp.feature?("basket_price_extra")
-      column(Current.acp.basket_price_extra_title) { |m|
-        if Current.acp.basket_price_extra_dynamic_pricing?
+    if Current.org.feature?("basket_price_extra")
+      column(Current.org.basket_price_extra_title) { |m|
+        if Current.org.basket_price_extra_dynamic_pricing?
           m.basket_price_extra
         else
           cur(m.basket_price_extra)
         end
       }
-      column("#{Current.acp.basket_price_extra_title} - #{Membership.human_attribute_name(:total)}") { |m| cur(m.baskets_price_extra) }
+      column("#{Current.org.basket_price_extra_title} - #{Membership.human_attribute_name(:total)}") { |m| cur(m.baskets_price_extra) }
     end
     column(:basket_quantity)
     if BasketComplement.kept.any?
@@ -267,7 +267,7 @@ ActiveAdmin.register Membership do
     column(:depot) { |m| m.depot.name }
     column(:depot_price) { |m| cur(m.depot_price) }
     column(:delivery_cycle) { |m| m.delivery_cycle.name }
-    if Current.acp.feature?("activity")
+    if Current.org.feature?("activity")
       column(activity_scoped_attribute(:activity_participations_demanded), &:activity_participations_demanded)
       column(activity_scoped_attribute(:activity_participations_accepted), &:activity_participations_accepted)
       column(activity_scoped_attribute(:activity_participations_missing), &:activity_participations_missing)
@@ -378,7 +378,7 @@ ActiveAdmin.register Membership do
                 row(:renewed_membership)
                 row :renewal_note
               elsif m.canceled?
-                if Current.acp.annual_fee?
+                if Current.org.annual_fee?
                   row(:renewal_annual_fee) {
                     status_tag(!!m.renewal_annual_fee)
                     span { cur(m.renewal_annual_fee) }
@@ -401,7 +401,7 @@ ActiveAdmin.register Membership do
                 end
               elsif m.renewal_opened?
                 row(:renewal_opened_at) { l m.renewal_opened_at.to_date }
-                if Current.acp.open_renewal_reminder_sent_after_in_days?
+                if Current.org.open_renewal_reminder_sent_after_in_days?
                   row(:renewal_reminder_sent_at) {
                     if m.renewal_reminder_sent_at
                       l m.renewal_reminder_sent_at.to_date
@@ -507,7 +507,7 @@ ActiveAdmin.register Membership do
                   cur(m.basket_complements_annual_price_change, unit: false)
                 }
               end
-              if Current.acp.feature?("basket_price_extra") && m.basket_price_extra.nonzero?
+              if Current.org.feature?("basket_price_extra") && m.basket_price_extra.nonzero?
                 row(:basket_price_extra_title, class: "text-right") {
                   description = baskets_price_extra_info(m, m.baskets, highlight: true)
                   display_price_description(m.baskets_price_extra, description)
@@ -518,7 +518,7 @@ ActiveAdmin.register Membership do
                   display_price_description(m.depots_price, depots_price_info(m.baskets))
                 }
               end
-              if Current.acp.feature?("activity") && m.activity_participations_annual_price_change.nonzero?
+              if Current.org.feature?("activity") && m.activity_participations_annual_price_change.nonzero?
                 row(t_activity(".activity_participations_annual_price_change"), class: "text-right") {
                   cur(m.activity_participations_annual_price_change, unit: false)
                 }
@@ -545,7 +545,7 @@ ActiveAdmin.register Membership do
             row(:missing_invoices_amount) { cur(m.missing_invoices_amount) }
             if resource.billable?
               row(:next_invoice_on) {
-                if Current.acp.recurring_billing?
+                if Current.org.recurring_billing?
                   invoicer = Billing::Invoicer.new(resource.member, resource, Date.tomorrow)
                   if invoicer.next_date
                     div class: "flex items-center justify-between gap-2" do
@@ -575,7 +575,7 @@ ActiveAdmin.register Membership do
           end
         end
 
-        if Current.acp.feature?("activity")
+        if Current.org.feature?("activity")
           panel activities_human_name, action: handbook_icon_link("activity") do
             ul class: "counts justify-evenly" do
               li class: "w-1/3" do
@@ -619,13 +619,13 @@ ActiveAdmin.register Membership do
       end
     end
 
-    if Current.acp.annual_fee? && f.object.canceled?
+    if Current.org.annual_fee? && f.object.canceled?
       f.inputs Membership.human_attribute_name(:renew) do
         f.input :renewal_annual_fee
       end
     end
 
-    if Current.acp.feature?("activity")
+    if Current.org.feature?("activity")
       f.inputs activities_human_name, "data-controller" => "form-reset" do
         div class: "panel-actions" do
           handbook_icon_link("activity")
@@ -711,8 +711,8 @@ ActiveAdmin.register Membership do
         hint: true,
         required: false,
         input_html: { data: { form_reset_target: "input" } }
-      if Current.acp.feature?("basket_price_extra")
-        f.input :basket_price_extra, required: true, label: Current.acp.basket_price_extra_title
+      if Current.org.feature?("basket_price_extra")
+        f.input :basket_price_extra, required: true, label: Current.org.basket_price_extra_title
       end
       f.input :basket_quantity
 

@@ -27,7 +27,7 @@ module Templatable
   def set_data(data)
     @data = data.dup
     @template = params[:template]
-    @data["acp"] = Liquid::ACPDrop.new(Current.acp)
+    @data["organization"] = Liquid::OrganizationDrop.new(Current.org)
     @data.merge!(@template.liquid_data_preview) if @template.liquid_data_preview
     @data["subject"] = data["subject"] || @data["subject"] || @template.subject
     set_template_content_blocks_data

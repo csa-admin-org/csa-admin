@@ -29,9 +29,9 @@ module PDF
         basket_sizes = BasketSize.for(baskets)
         member_ids = (baskets.filled.pluck(:member_id) + shop_orders.pluck(:member_id)).uniq
         members_per_page =
-          if Current.acp.delivery_pdf_member_info == "phones" || depot.delivery_sheets_mode == "home_delivery"
+          if Current.org.delivery_pdf_member_info == "phones" || depot.delivery_sheets_mode == "home_delivery"
             16
-          elsif Current.acp.delivery_pdf_member_info == "food_note"
+          elsif Current.org.delivery_pdf_member_info == "food_note"
             19
           else
             22
@@ -476,7 +476,7 @@ module PDF
         basket = baskets.find { |b| b.membership.member_id == member.id }
         shop_order = shop_orders.find { |so| so.member_id == member.id }
 
-        case Current.acp.delivery_pdf_member_info
+        case Current.org.delivery_pdf_member_info
         when "phones"
           phones = member.phones_array
           if phones.any?
@@ -618,7 +618,7 @@ module PDF
 
     def footer
       bounding_box [ 20, 80 ], width: (bounds.width - 40) do
-        footer_text = Current.acp.delivery_pdf_footer
+        footer_text = Current.org.delivery_pdf_footer
         if footer_text.present?
           text_box footer_text,
             at: [ 0, 0 ],

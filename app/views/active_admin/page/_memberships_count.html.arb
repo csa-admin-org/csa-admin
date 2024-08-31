@@ -2,11 +2,11 @@
 
 ul class: "counts" do
   scopes = %i[trial ongoing future]
-  scopes.delete(:trial) unless Current.acp.trial_basket_count.positive?
+  scopes.delete(:trial) unless Current.org.trial_basket_count.positive?
   scopes << :future_next if Delivery.any_next_year?
 
   scopes.each do |scope|
-    fy = (scope == :future_next) ? Current.acp.next_fiscal_year : Current.fiscal_year
+    fy = (scope == :future_next) ? Current.org.next_fiscal_year : Current.fiscal_year
     scope = :future if scope == :future_next
     title =
       I18n.t("active_admin.resources.membership.scopes.#{scope}").capitalize

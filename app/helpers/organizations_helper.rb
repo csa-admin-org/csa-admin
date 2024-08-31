@@ -1,24 +1,24 @@
 # frozen_string_literal: true
 
-module AcpsHelper
+module OrganizationsHelper
   def feature?(feature)
-    Current.acp.feature?(feature)
+    Current.org.feature?(feature)
   end
 
   def fiscal_year_months_range
-    Current.acp.current_fiscal_year
+    Current.org.current_fiscal_year
       .range.minmax
       .map { |d| l(d, format: "%B") }
       .join(" – ")
   end
 
   def link_to_acp_website(options = {})
-    link_to Current.acp.url.sub(/https?:\/\//, ""), Current.acp.url, options
+    link_to Current.org.url.sub(/https?:\/\//, ""), Current.org.url, options
   end
 
-  def acp_logo_url
-    if Current.acp.logo.attached?
-      logo_url(Current.acp.tenant_name, host: ENV["ASSET_HOST"])
+  def org_logo_url
+    if Current.org.logo.attached?
+      logo_url(Current.org.tenant_name, host: ENV["ASSET_HOST"])
     else
       image_path("logo.png")
     end
@@ -55,7 +55,7 @@ module AcpsHelper
   end
 
   def billing_year_divisions_collection
-    ACP.billing_year_divisions.map { |i|
+    Organization.billing_year_divisions.map { |i|
       [
         I18n.t("billing.year_division.x#{i}"),
         i

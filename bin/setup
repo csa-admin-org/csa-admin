@@ -2,7 +2,7 @@
 require "fileutils"
 
 APP_ROOT = File.expand_path("..", __dir__)
-APP_NAME = "acp-admin"
+APP_NAME = "csa-admin"
 
 def system!(*args)
   system(*args, exception: true)

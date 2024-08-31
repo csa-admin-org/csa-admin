@@ -29,7 +29,7 @@ section
         span class='ml-4 text-gray-300 dark:text-gray-700 italic'
           = t('.no_phones')
 
-    - if Current.acp.languages.many?
+    - if Current.org.languages.many?
     li class='flex flex-row'
       = inline_svg_tag 'members/globe.svg', class: 'h-6 w-6 flex-shrink-0 fill-stroke'
       span class='ml-4'

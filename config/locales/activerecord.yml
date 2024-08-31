@@ -22,422 +22,6 @@ _:
           _en: With note
           _fr: Avec remarque
           _it: Con nota
-      acp:
-        absence_extra_text:
-          _de: Zusätzliche Erklärung
-          _en: Additional explanation
-          _fr: Explication supplémentaire
-          _it: Spiegazione di consegne
-        absence_extra_text_only:
-          _de: Nur zusätzliche Erklärungen anzeigen
-          _en: Show only additional explanations
-          _fr: Afficher uniquement les explications supplémentaires
-          _it: Mostra solo spiegazioni supplementari
-        absence_notice_period_in_days:
-          _de: Kündigungsfrist (in Tagen)
-          _en: Notice period (in days)
-          _fr: Délai de préavis (en jours)
-          _it: Periodo di preavviso (in giorni)
-        absences_billed:
-          _de: Fakturierung von Taschen bei Abwesenheiten
-          _en: Billing of baskets during absences
-          _fr: Facturation des paniers durant les absences
-          _it: Fatturazione delle ceste durante le assenze
-        activity_availability_limit_in_days:
-          _de: Anmeldefrist (in Tagen)
-          _en: Registration deadline (in days)
-          _fr: Limite d'inscription à l'avance (en jours)
-          _it: Limite d'iscrizione in anticipo (in giorni)
-        activity_i18n_scope:
-          _de: Bezeichnung
-          _en: Designation
-          _fr: Appellation
-          _it: Designazione
-        activity_participation_deletion_deadline_in_days:
-          _de: Abmeldungsfrist (in Tagen)
-          _en: Cancellation deadline (in days)
-          _fr: Délai de désinscription (en jours)
-          _it: Scdenza della disiscrizione (in giorni)
-        activity_participations_demanded_logic:
-          _de: Logik zur Berechnung der verlangten Beteiligungen
-          _en: Logic for calculating requested participations
-          _fr: Logique de calcul des participations demandées
-          _it: Logica di calcolo delle partecipazioni richieste
-        activity_participations_form_detail:
-          _de: Beschreibung
-          _en: Description
-          _fr: Description
-          _it: Descrizione
-        activity_participations_form_max:
-          _de: Maximale Beteiligung
-          _en: Maximum participations
-          _fr: Participations maximales
-          _it: Partecipazioni massime
-        activity_participations_form_min:
-          _de: Minimale Beteiligung
-          _en: Minimum participations
-          _fr: Participations minimales
-          _it: Partecipazioni minime
-        activity_phone:
-          _de: Telefon
-          _en: Phone
-          _fr: Téléphone
-          _it: Telefono
-        activity_price:
-          _de: Preis der Beteiligung
-          _en: Participation price
-          _fr: Prix de la participation
-          _it: Prezzo della partecipazione
-        allow_alternative_depots:
-          _de: Auswahl an alternativen Depots
-          _en: Choice of alternative depots
-          _fr: Choix de dépôts alternatifs
-          _it: Scelta di un punto di ritiro alternativo
-        annual_fee:
-          _de: Betrag
-          _en: Amount
-          _fr: Montant
-          _it: Importo
-        bank_reference:
-          _de: Bankreferenz
-          _en: Bank reference
-          _fr: Référence bancaire
-          _it: Riferimento bancario
-        basket_complements_member_order_mode:
-          _de: Reihenfolge der Zusätze
-          _en: Order of complements
-          _fr: Ordre des compléments
-          _it: Ordine dei aggiunta
-        basket_price_extra_dynamic_pricing:
-          _de: Dynamischer Preis
-          _en: Dynamic price
-          _fr: Prix dynamique
-          _it: Prezzo dinamico
-        basket_price_extra_label:
-          _de: Label
-          _en: Label
-          _fr: Label
-          _it: Etichetta
-        basket_price_extra_label_detail:
-          _de: Beschreibung
-          _en: Description
-          _fr: Description
-          _it: Descrizione
-        basket_price_extra_public_title:
-          _de: Titel (Mitglied)
-          _en: Title (Member)
-          _fr: Titre (Membre)
-          _it: Titolo (Socio)
-        basket_price_extra_text:
-          _de: Erläuterung
-          _en: Explanation
-          _fr: Explication
-          _it: Spiegazione
-        basket_price_extra_title:
-          _de: Titel
-          _en: Title
-          _fr: Titre
-          _it: Titolo
-        basket_price_extras:
-          _de: Preisen Taschen (zusätzlich)
-          _en: Basket price (extras)
-          _fr: Prix panier (extras)
-          _it: Prezzo della cesta (extras)
-        basket_sizes_member_order_mode:
-          _de: Reihenfolge der Taschengrößen
-          _en: Order of basket sizes
-          _fr: Ordre des tailles de panier
-          _it: Ordine delle dimensioni del cesto
-        basket_update_limit_in_days:
-          _de: Änderungen vor der Lieferung erlauben (in Tagen)
-          _en: Allow changes before delivery (in days)
-          _fr: Délai de modification avant la livraison (en jours)
-          _it: Permettere la modifica prima della consegna (in giorni)
-        billing_ends_on_last_delivery_fy_month:
-          _de: Abonnements nur bis zu ihrer letzten Lieferung in Rechnung stellen
-          _en: Bill subscriptions only until their last delivery
-          _fr: Facturer les abonnements jusqu'à leur dernière livraison uniquement
-          _it: Fatturare gli abbonamenti solo fino all'ultima consegna
-        billing_starts_after_first_delivery:
-          _de: Abonnements erst nach ihrer ersten Lieferung in Rechnung stellen
-          _en: Bill subscriptions only after their first delivery
-          _fr: Facturer les abonnements seulement après leur première livraison
-          _it: Fatturare gli abbonamenti solo dopo la loro prima consegna
-        billing_year_divisions:
-          _de: Zahlungsintervall
-          _en: Payment interval
-          _fr: Intervalle de paiement
-          _it: Intervallo di pagamento
-        charter_url:
-          _de: Satzung (URL)
-          _en: Charter (URL)
-          _fr: Charte (URL)
-          _it: Carta (URL)
-        creditor_address:
-          _de: Adresse
-          _en: Address
-          _fr: Adresse
-          _it: Indirizzo
-        creditor_city:
-          _de: Stadt
-          _en: City
-          _fr: Ville
-          _it: Citta
-        creditor_name:
-          _de: Name
-          _en: Name
-          _fr: Nom
-          _it: Nome
-        creditor_zip:
-          _de: PLZ
-          _en: ZIP code
-          _fr: NPA
-          _it: CAP
-        currency_code:
-          _de: Währung
-          _en: Currency
-          _fr: Monnaie
-          _it: Valuta
-        delivery_cycles_member_order_mode:
-          _de: Reihenfolge der Lieferzyklen
-          _en: Order of delivery cycles
-          _fr: Ordre des cycles de livraisons
-          _it: Ordine dei cicli di consegna
-        delivery_pdf_footer:
-          _de: Fußzeile
-          _en: Footer
-          _fr: Bas de page
-          _it: Piè di pagina
-        delivery_pdf_member_info:
-          _de: Zusätzliche Informationen
-          _en: Additional information
-          _fr: Information supplémentaire
-          _it: Informazioni aggiuntive
-        depots_member_order_mode:
-          _de: Reihenfolge der Depots
-          _en: Order of depots
-          _fr: Ordre des dépôts
-          _it: Ordine dei punti di ritiro
-        email:
-          _de: E-Mail
-          _en: Email
-          _fr: Email
-          _it: E-mail
-        email_default_from:
-          _de: Absender-Adresse
-          _en: Sender address
-          _fr: Adresse d'envoi
-          _it: Indirizzo di spedizione
-        email_footer:
-          _de: Fußzeile
-          _en: Footer
-          _fr: Bas de page
-          _it: Piè di pagina
-        email_signature:
-          _de: Signatur
-          _en: Signature
-          _fr: Signature
-          _it: Firma
-        features:
-          _de: Zusätzliche Funktionen
-          _en: Additional features
-          _fr: Fonctionnalités supplémentaires
-          _it: Funzionalità aggiuntive
-        fiscal_year_start_month:
-          _de: 1. Monat vom Geschäftsjahr
-          _en: 1st month of the fiscal year
-          _fr: 1er mois de l'année fiscale
-          _it: 1° mese dell'anno fiscale
-        iban:
-          _de: IBAN
-          _en: IBAN
-          _fr: IBAN
-          _it: IBAN
-        invoice_footer:
-          _de: Fußzeile
-          _en: Footer
-          _fr: Bas de page
-          _it: Piè di pagina
-        invoice_info:
-          _de: Informationszeile
-          _en: Information text
-          _fr: Texte d'information
-          _it: Riga d'informazione
-        languages:
-          _de: Sprachen
-          _en: Languages
-          _fr: Languages
-          _it: Lingue
-        member_form_complements_text:
-          _de: Erläuterung Zusätze
-          _en: Explanation of complements
-          _fr: Explication compléments
-          _it: Spiegazione aggiunte
-        member_form_extra_text:
-          _de: Zusätzliche Erklärung
-          _en: Additional explanation
-          _fr: Explication supplémentaire
-          _it: Spiegazioni supplementari
-        member_form_extra_text_only:
-          _de: Nur zusätzliche Erklärungen anzeigen
-          _en: Show only additional explanations
-          _fr: Afficher uniquement les explications supplémentaires
-          _it: Mostra solo spiegazioni supplementari
-        member_information_text:
-          _de: Informationsseite
-          _en: Information page
-          _fr: Page d'information
-          _it: Pagina d'informazione
-        member_information_title:
-          _de: Titel der Informationsseite
-          _en: Title of the information page
-          _fr: Intitulé de la page d'information
-          _it: Titolo della pagina d'informazione
-        membership_complements_update_allowed:
-          _de: Änderung der Zusätze erlauben
-          _en: Allow modification of complements
-          _fr: Permettre la modification des compléments
-          _it: Permettere la modifica dei aggiunte
-        membership_depot_update_allowed:
-          _de: Änderung des Depots erlauben
-          _en: Allow modification of depot
-          _fr: Permettre la modification du dépôt
-          _it: Permettere la modifica del punto di ritiro
-        membership_renewal_depot_update:
-          _de: Erlauben Sie die Änderung das Depot
-          _en: Allow changing the depot
-          _fr: Permettre le changement du dépôt
-          _it: Permettere il cambiamento del punto di ritiro
-        membership_renewed_attributes:
-          _de: Übernommene Konfigurationen
-          _en: Configurations carried over
-          _fr: Configurations reprises
-          _it: Configurazioni riprese
-        membership_update_text:
-          _de: Erläuterung
-          _en: Explanation
-          _fr: Explication
-          _it: Spiegazione
-        open_renewal_reminder_sent_after_in_days:
-          _de: Senden Sie eine Mahnung nach (in Tagen)
-          _en: Send a reminder after (in days)
-          _fr: Envoyer un rappel après (en jours)
-          _it: Inviare un promemoria dopo (in giorni)
-        open_renewal_text:
-          _de: Erläuterung
-          _en: Explanation
-          _fr: Explication
-          _it: Spiegazione
-        phone:
-          _de: Telefon
-          _en: Phone
-          _fr: Téléphone
-          _it: Telefono
-        privacy_policy_url:
-          _de: Datenschutzerklärung (URL)
-          _en: Privacy policy (URL)
-          _fr: Politique de confidentialité (URL)
-          _it: Politica sulla privacy (URL)
-        send_closed_invoice:
-          _de: Versenden neuer Rechnungen, die als bereits bezahlt gelten
-          _en: Send new invoices considered as already paid
-          _fr: Envoyer les nouvelles factures considérées comme déjà payées
-          _it: Inviare nuove fatture considerate già pagate
-        sepa_creditor_identifier:
-          _de: Gläubiger-ID (SEPA)
-          _en: Creditor ID (SEPA)
-          _fr: ID du créancier (SEPA)
-          _it: ID del creditore (SEPA)
-        share_price:
-          _de: Betrag
-          _en: Price
-          _fr: Prix
-          _it: Importo
-        shares_number:
-          _de: Anzahl
-          _en: Number
-          _fr: Nombre
-          _it: Numero
-        shop_admin_only:
-          _de: Den Zugriff nur auf Admins beschränken
-          _en: Restrict access to admins only
-          _fr: Limiter l'accès uniquement aux admins
-          _it: Limitare l'accesso solo agli amministratori
-        shop_delivery_open_delay_in_days:
-          _de: Dauer der Bestellung bis zur Lieferung (in Tagen)
-          _en: Order to delivery delay (in days)
-          _fr: Délai de commande avant la livraison (en jours)
-          _it: Tempo di consegna dell'ordine (in giorni)
-        shop_delivery_open_last_day_end_time:
-          _de: Annahmeschluss am letzten Tag der Bestellung
-          _en: Closing time on the last day of ordering
-          _fr: Heure de fermeture le dernier jour de commande
-          _it: Orario di chiusura dell'ultimo giorno d'ordine
-        shop_delivery_pdf_footer:
-          _de: Fußzeile des Lieferscheins (PDF)
-          _en: Footer of the delivery note (PDF)
-          _fr: Bas de page du bulletin de livraison (PDF)
-          _it: Piè di pagina della bolla di consegna (PDF)
-        shop_invoice_info:
-          _de: Informationszeile Rechnung
-          _en: Invoice information line
-          _fr: Facture ligne info
-          _it: Riga d'informazione della fattura
-        shop_member_percentages:
-          _de: Verfügbare Prozentsätze für Mitglieder
-          _en: Available percentages for members
-          _fr: Pourcentages disponibles pour les membres
-          _it: Percentuali disponibili per i soci
-        shop_order_automatic_invoicing_delay_in_days:
-          _de: Automatische Rechnungsstellung vor/nach der Lieferung (in Tagen)
-          _en: Automatic invoicing before/after delivery (in days)
-          _fr: Facturation automatique avant/après la livraison (en jours)
-          _it: Fatturazione automatica prima/dopo la consegna (in giorni)
-        shop_order_maximum_weight_in_kg:
-          _de: Maximales Gewicht einer Bestellung (in kg)
-          _en: Maximum weight of an order (in kg)
-          _fr: Poids maximal d'une commande (en kg)
-          _it: Peso massimo di un ordine (in kg)
-        shop_order_minimal_amount:
-          _de: Mindestbestellwert
-          _en: Minimum order amount
-          _fr: Montant minimal d'une commande
-          _it: Valore minimo dell'ordine
-        shop_terms_of_sale_url:
-          _de: Verkaufsbedingungen (URL)
-          _en: Terms of sale (URL)
-          _fr: Conditions de vente (URL)
-          _it: Condizioni di vendita (URL)
-        shop_text:
-          _de: Erläuterung
-          _en: Explanation
-          _fr: Explication
-          _it: Spiegazione
-        statutes_url:
-          _de: Statuten (URL)
-          _en: Statutes (URL)
-          _fr: Statuts (URL)
-          _it: Statuto (URL)
-        terms_of_service_url:
-          _de: Regeln (URL)
-          _en: Rules (URL)
-          _fr: Règlement (URL)
-          _it: Regolamento (URL)
-        trial_basket_count:
-          _de: Probetaschen
-          _en: Trial baskets
-          _fr: Paniers à l'essai
-          _it: Ceste di prova
-        url:
-          _de: Webseite URL
-          _en: Website URL
-          _fr: Site URL
-          _it: URL del sito
-        vat_number:
-          _de: Nummer
-          _en: Number
-          _fr: Numéro
-          _it: Numero
       activity_participation:
         activity:
           _de: Aktivität
@@ -1572,6 +1156,422 @@ _:
           _en: Content
           _fr: Contenu
           _it: Contenuto
+      organization:
+        absence_extra_text:
+          _de: Zusätzliche Erklärung
+          _en: Additional explanation
+          _fr: Explication supplémentaire
+          _it: Spiegazione di consegne
+        absence_extra_text_only:
+          _de: Nur zusätzliche Erklärungen anzeigen
+          _en: Show only additional explanations
+          _fr: Afficher uniquement les explications supplémentaires
+          _it: Mostra solo spiegazioni supplementari
+        absence_notice_period_in_days:
+          _de: Kündigungsfrist (in Tagen)
+          _en: Notice period (in days)
+          _fr: Délai de préavis (en jours)
+          _it: Periodo di preavviso (in giorni)
+        absences_billed:
+          _de: Fakturierung von Taschen bei Abwesenheiten
+          _en: Billing of baskets during absences
+          _fr: Facturation des paniers durant les absences
+          _it: Fatturazione delle ceste durante le assenze
+        activity_availability_limit_in_days:
+          _de: Anmeldefrist (in Tagen)
+          _en: Registration deadline (in days)
+          _fr: Limite d'inscription à l'avance (en jours)
+          _it: Limite d'iscrizione in anticipo (in giorni)
+        activity_i18n_scope:
+          _de: Bezeichnung
+          _en: Designation
+          _fr: Appellation
+          _it: Designazione
+        activity_participation_deletion_deadline_in_days:
+          _de: Abmeldungsfrist (in Tagen)
+          _en: Cancellation deadline (in days)
+          _fr: Délai de désinscription (en jours)
+          _it: Scdenza della disiscrizione (in giorni)
+        activity_participations_demanded_logic:
+          _de: Logik zur Berechnung der verlangten Beteiligungen
+          _en: Logic for calculating requested participations
+          _fr: Logique de calcul des participations demandées
+          _it: Logica di calcolo delle partecipazioni richieste
+        activity_participations_form_detail:
+          _de: Beschreibung
+          _en: Description
+          _fr: Description
+          _it: Descrizione
+        activity_participations_form_max:
+          _de: Maximale Beteiligung
+          _en: Maximum participations
+          _fr: Participations maximales
+          _it: Partecipazioni massime
+        activity_participations_form_min:
+          _de: Minimale Beteiligung
+          _en: Minimum participations
+          _fr: Participations minimales
+          _it: Partecipazioni minime
+        activity_phone:
+          _de: Telefon
+          _en: Phone
+          _fr: Téléphone
+          _it: Telefono
+        activity_price:
+          _de: Preis der Beteiligung
+          _en: Participation price
+          _fr: Prix de la participation
+          _it: Prezzo della partecipazione
+        allow_alternative_depots:
+          _de: Auswahl an alternativen Depots
+          _en: Choice of alternative depots
+          _fr: Choix de dépôts alternatifs
+          _it: Scelta di un punto di ritiro alternativo
+        annual_fee:
+          _de: Betrag
+          _en: Amount
+          _fr: Montant
+          _it: Importo
+        bank_reference:
+          _de: Bankreferenz
+          _en: Bank reference
+          _fr: Référence bancaire
+          _it: Riferimento bancario
+        basket_complements_member_order_mode:
+          _de: Reihenfolge der Zusätze
+          _en: Order of complements
+          _fr: Ordre des compléments
+          _it: Ordine dei aggiunta
+        basket_price_extra_dynamic_pricing:
+          _de: Dynamischer Preis
+          _en: Dynamic price
+          _fr: Prix dynamique
+          _it: Prezzo dinamico
+        basket_price_extra_label:
+          _de: Label
+          _en: Label
+          _fr: Label
+          _it: Etichetta
+        basket_price_extra_label_detail:
+          _de: Beschreibung
+          _en: Description
+          _fr: Description
+          _it: Descrizione
+        basket_price_extra_public_title:
+          _de: Titel (Mitglied)
+          _en: Title (Member)
+          _fr: Titre (Membre)
+          _it: Titolo (Socio)
+        basket_price_extra_text:
+          _de: Erläuterung
+          _en: Explanation
+          _fr: Explication
+          _it: Spiegazione
+        basket_price_extra_title:
+          _de: Titel
+          _en: Title
+          _fr: Titre
+          _it: Titolo
+        basket_price_extras:
+          _de: Preisen Taschen (zusätzlich)
+          _en: Basket price (extras)
+          _fr: Prix panier (extras)
+          _it: Prezzo della cesta (extras)
+        basket_sizes_member_order_mode:
+          _de: Reihenfolge der Taschengrößen
+          _en: Order of basket sizes
+          _fr: Ordre des tailles de panier
+          _it: Ordine delle dimensioni del cesto
+        basket_update_limit_in_days:
+          _de: Änderungen vor der Lieferung erlauben (in Tagen)
+          _en: Allow changes before delivery (in days)
+          _fr: Délai de modification avant la livraison (en jours)
+          _it: Permettere la modifica prima della consegna (in giorni)
+        billing_ends_on_last_delivery_fy_month:
+          _de: Abonnements nur bis zu ihrer letzten Lieferung in Rechnung stellen
+          _en: Bill subscriptions only until their last delivery
+          _fr: Facturer les abonnements jusqu'à leur dernière livraison uniquement
+          _it: Fatturare gli abbonamenti solo fino all'ultima consegna
+        billing_starts_after_first_delivery:
+          _de: Abonnements erst nach ihrer ersten Lieferung in Rechnung stellen
+          _en: Bill subscriptions only after their first delivery
+          _fr: Facturer les abonnements seulement après leur première livraison
+          _it: Fatturare gli abbonamenti solo dopo la loro prima consegna
+        billing_year_divisions:
+          _de: Zahlungsintervall
+          _en: Payment interval
+          _fr: Intervalle de paiement
+          _it: Intervallo di pagamento
+        charter_url:
+          _de: Satzung (URL)
+          _en: Charter (URL)
+          _fr: Charte (URL)
+          _it: Carta (URL)
+        creditor_address:
+          _de: Adresse
+          _en: Address
+          _fr: Adresse
+          _it: Indirizzo
+        creditor_city:
+          _de: Stadt
+          _en: City
+          _fr: Ville
+          _it: Citta
+        creditor_name:
+          _de: Name
+          _en: Name
+          _fr: Nom
+          _it: Nome
+        creditor_zip:
+          _de: PLZ
+          _en: ZIP code
+          _fr: NPA
+          _it: CAP
+        currency_code:
+          _de: Währung
+          _en: Currency
+          _fr: Monnaie
+          _it: Valuta
+        delivery_cycles_member_order_mode:
+          _de: Reihenfolge der Lieferzyklen
+          _en: Order of delivery cycles
+          _fr: Ordre des cycles de livraisons
+          _it: Ordine dei cicli di consegna
+        delivery_pdf_footer:
+          _de: Fußzeile
+          _en: Footer
+          _fr: Bas de page
+          _it: Piè di pagina
+        delivery_pdf_member_info:
+          _de: Zusätzliche Informationen
+          _en: Additional information
+          _fr: Information supplémentaire
+          _it: Informazioni aggiuntive
+        depots_member_order_mode:
+          _de: Reihenfolge der Depots
+          _en: Order of depots
+          _fr: Ordre des dépôts
+          _it: Ordine dei punti di ritiro
+        email:
+          _de: E-Mail
+          _en: Email
+          _fr: Email
+          _it: E-mail
+        email_default_from:
+          _de: Absender-Adresse
+          _en: Sender address
+          _fr: Adresse d'envoi
+          _it: Indirizzo di spedizione
+        email_footer:
+          _de: Fußzeile
+          _en: Footer
+          _fr: Bas de page
+          _it: Piè di pagina
+        email_signature:
+          _de: Signatur
+          _en: Signature
+          _fr: Signature
+          _it: Firma
+        features:
+          _de: Zusätzliche Funktionen
+          _en: Additional features
+          _fr: Fonctionnalités supplémentaires
+          _it: Funzionalità aggiuntive
+        fiscal_year_start_month:
+          _de: 1. Monat vom Geschäftsjahr
+          _en: 1st month of the fiscal year
+          _fr: 1er mois de l'année fiscale
+          _it: 1° mese dell'anno fiscale
+        iban:
+          _de: IBAN
+          _en: IBAN
+          _fr: IBAN
+          _it: IBAN
+        invoice_footer:
+          _de: Fußzeile
+          _en: Footer
+          _fr: Bas de page
+          _it: Piè di pagina
+        invoice_info:
+          _de: Informationszeile
+          _en: Information text
+          _fr: Texte d'information
+          _it: Riga d'informazione
+        languages:
+          _de: Sprachen
+          _en: Languages
+          _fr: Languages
+          _it: Lingue
+        member_form_complements_text:
+          _de: Erläuterung Zusätze
+          _en: Explanation of complements
+          _fr: Explication compléments
+          _it: Spiegazione aggiunte
+        member_form_extra_text:
+          _de: Zusätzliche Erklärung
+          _en: Additional explanation
+          _fr: Explication supplémentaire
+          _it: Spiegazioni supplementari
+        member_form_extra_text_only:
+          _de: Nur zusätzliche Erklärungen anzeigen
+          _en: Show only additional explanations
+          _fr: Afficher uniquement les explications supplémentaires
+          _it: Mostra solo spiegazioni supplementari
+        member_information_text:
+          _de: Informationsseite
+          _en: Information page
+          _fr: Page d'information
+          _it: Pagina d'informazione
+        member_information_title:
+          _de: Titel der Informationsseite
+          _en: Title of the information page
+          _fr: Intitulé de la page d'information
+          _it: Titolo della pagina d'informazione
+        membership_complements_update_allowed:
+          _de: Änderung der Zusätze erlauben
+          _en: Allow modification of complements
+          _fr: Permettre la modification des compléments
+          _it: Permettere la modifica dei aggiunte
+        membership_depot_update_allowed:
+          _de: Änderung des Depots erlauben
+          _en: Allow modification of depot
+          _fr: Permettre la modification du dépôt
+          _it: Permettere la modifica del punto di ritiro
+        membership_renewal_depot_update:
+          _de: Erlauben Sie die Änderung das Depot
+          _en: Allow changing the depot
+          _fr: Permettre le changement du dépôt
+          _it: Permettere il cambiamento del punto di ritiro
+        membership_renewed_attributes:
+          _de: Übernommene Konfigurationen
+          _en: Configurations carried over
+          _fr: Configurations reprises
+          _it: Configurazioni riprese
+        membership_update_text:
+          _de: Erläuterung
+          _en: Explanation
+          _fr: Explication
+          _it: Spiegazione
+        open_renewal_reminder_sent_after_in_days:
+          _de: Senden Sie eine Mahnung nach (in Tagen)
+          _en: Send a reminder after (in days)
+          _fr: Envoyer un rappel après (en jours)
+          _it: Inviare un promemoria dopo (in giorni)
+        open_renewal_text:
+          _de: Erläuterung
+          _en: Explanation
+          _fr: Explication
+          _it: Spiegazione
+        phone:
+          _de: Telefon
+          _en: Phone
+          _fr: Téléphone
+          _it: Telefono
+        privacy_policy_url:
+          _de: Datenschutzerklärung (URL)
+          _en: Privacy policy (URL)
+          _fr: Politique de confidentialité (URL)
+          _it: Politica sulla privacy (URL)
+        send_closed_invoice:
+          _de: Versenden neuer Rechnungen, die als bereits bezahlt gelten
+          _en: Send new invoices considered as already paid
+          _fr: Envoyer les nouvelles factures considérées comme déjà payées
+          _it: Inviare nuove fatture considerate già pagate
+        sepa_creditor_identifier:
+          _de: Gläubiger-ID (SEPA)
+          _en: Creditor ID (SEPA)
+          _fr: ID du créancier (SEPA)
+          _it: ID del creditore (SEPA)
+        share_price:
+          _de: Betrag
+          _en: Price
+          _fr: Prix
+          _it: Importo
+        shares_number:
+          _de: Anzahl
+          _en: Number
+          _fr: Nombre
+          _it: Numero
+        shop_admin_only:
+          _de: Den Zugriff nur auf Admins beschränken
+          _en: Restrict access to admins only
+          _fr: Limiter l'accès uniquement aux admins
+          _it: Limitare l'accesso solo agli amministratori
+        shop_delivery_open_delay_in_days:
+          _de: Dauer der Bestellung bis zur Lieferung (in Tagen)
+          _en: Order to delivery delay (in days)
+          _fr: Délai de commande avant la livraison (en jours)
+          _it: Tempo di consegna dell'ordine (in giorni)
+        shop_delivery_open_last_day_end_time:
+          _de: Annahmeschluss am letzten Tag der Bestellung
+          _en: Closing time on the last day of ordering
+          _fr: Heure de fermeture le dernier jour de commande
+          _it: Orario di chiusura dell'ultimo giorno d'ordine
+        shop_delivery_pdf_footer:
+          _de: Fußzeile des Lieferscheins (PDF)
+          _en: Footer of the delivery note (PDF)
+          _fr: Bas de page du bulletin de livraison (PDF)
+          _it: Piè di pagina della bolla di consegna (PDF)
+        shop_invoice_info:
+          _de: Informationszeile Rechnung
+          _en: Invoice information line
+          _fr: Facture ligne info
+          _it: Riga d'informazione della fattura
+        shop_member_percentages:
+          _de: Verfügbare Prozentsätze für Mitglieder
+          _en: Available percentages for members
+          _fr: Pourcentages disponibles pour les membres
+          _it: Percentuali disponibili per i soci
+        shop_order_automatic_invoicing_delay_in_days:
+          _de: Automatische Rechnungsstellung vor/nach der Lieferung (in Tagen)
+          _en: Automatic invoicing before/after delivery (in days)
+          _fr: Facturation automatique avant/après la livraison (en jours)
+          _it: Fatturazione automatica prima/dopo la consegna (in giorni)
+        shop_order_maximum_weight_in_kg:
+          _de: Maximales Gewicht einer Bestellung (in kg)
+          _en: Maximum weight of an order (in kg)
+          _fr: Poids maximal d'une commande (en kg)
+          _it: Peso massimo di un ordine (in kg)
+        shop_order_minimal_amount:
+          _de: Mindestbestellwert
+          _en: Minimum order amount
+          _fr: Montant minimal d'une commande
+          _it: Valore minimo dell'ordine
+        shop_terms_of_sale_url:
+          _de: Verkaufsbedingungen (URL)
+          _en: Terms of sale (URL)
+          _fr: Conditions de vente (URL)
+          _it: Condizioni di vendita (URL)
+        shop_text:
+          _de: Erläuterung
+          _en: Explanation
+          _fr: Explication
+          _it: Spiegazione
+        statutes_url:
+          _de: Statuten (URL)
+          _en: Statutes (URL)
+          _fr: Statuts (URL)
+          _it: Statuto (URL)
+        terms_of_service_url:
+          _de: Regeln (URL)
+          _en: Rules (URL)
+          _fr: Règlement (URL)
+          _it: Regolamento (URL)
+        trial_basket_count:
+          _de: Probetaschen
+          _en: Trial baskets
+          _fr: Paniers à l'essai
+          _it: Ceste di prova
+        url:
+          _de: Webseite URL
+          _en: Website URL
+          _fr: Site URL
+          _it: URL del sito
+        vat_number:
+          _de: Nummer
+          _en: Number
+          _fr: Numéro
+          _it: Numero
       payment:
         comment:
           _de: Kommentar

@@ -4,7 +4,7 @@ require "rails_helper"
 
 describe Billing::InvoicerNewMemberFee do
   before do
-    current_acp.update!(
+    current_org.update!(
       features: [ "new_member_fee" ],
       new_member_fee_description: "Paniers vides",
       trial_basket_count: 3,
@@ -33,7 +33,7 @@ describe Billing::InvoicerNewMemberFee do
   end
 
   specify "do nothing if new_member_fee is not enabled", freeze: "2023-02-01" do
-    current_acp.update!(features: [])
+    current_org.update!(features: [])
     member = create(:member, :waiting)
     create(:membership, member: member, deliveries_count: 4)
 
@@ -72,7 +72,7 @@ describe Billing::InvoicerNewMemberFee do
   end
 
   specify "ignore member not billable (SEPA)" do
-    Current.acp.update!(country_code: "DE", iban: "DE89370400440532013000")
+    Current.org.update!(country_code: "DE", iban: "DE89370400440532013000")
     member = create(:member, :waiting, iban: nil)
     create(:membership, member: member, deliveries_count: 4)
 

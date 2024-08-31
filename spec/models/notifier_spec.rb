@@ -32,9 +32,9 @@ describe Notifier do
   end
 
   specify ".send_membership_renewal_reminder_emails", sidekiq: :inline do
-    Current.acp.update!(open_renewal_reminder_sent_after_in_days: 10)
+    Current.org.update!(open_renewal_reminder_sent_after_in_days: 10)
     MailTemplate.find_by(title: :membership_renewal_reminder).update!(active: true)
-    next_fy = Current.acp.fiscal_year_for(Date.today.year + 1)
+    next_fy = Current.org.fiscal_year_for(Date.today.year + 1)
     create(:delivery, date: next_fy.beginning_of_year)
     member = create(:member, emails: "john@doe.com")
 
@@ -53,7 +53,7 @@ describe Notifier do
   end
 
   specify ".send_membership_last_trial_basket_emails", sidekiq: :inline do
-    Current.acp.update!(trial_basket_count: 2)
+    Current.org.update!(trial_basket_count: 2)
     MailTemplate.find_by(title: :membership_last_trial_basket).update!(active: true)
     travel_to "2021-05-01" do
       create(:delivery, date: "2021-05-01")

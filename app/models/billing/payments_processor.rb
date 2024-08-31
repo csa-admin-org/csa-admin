@@ -15,9 +15,9 @@ module Billing
     end
 
     def self.provider
-      if ebics_credentials = Current.acp.credentials(:ebics)
+      if ebics_credentials = Current.org.credentials(:ebics)
         EBICS.new(ebics_credentials)
-      elsif bas_credentials = Current.acp.credentials(:bas)
+      elsif bas_credentials = Current.org.credentials(:bas)
         BAS.new(bas_credentials)
       end
     end

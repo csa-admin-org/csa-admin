@@ -5,8 +5,8 @@ namespace :anonymizer do
   task run: :environment do
     raise "Dev only!" unless Rails.env.development?
 
-    ACP.switch_each do |acp|
-      Faker::Config.locale = acp.default_locale
+    Organization.switch_each do |org|
+      Faker::Config.locale = org.default_locale
       emails_mapping = {}
       Member.find_each do |member|
         fake_emails = member.emails_array.map do |email|

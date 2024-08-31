@@ -90,11 +90,11 @@ class Basket < ApplicationRecord
 
   def can_member_update?
     return false if absent?
-    return false unless Current.acp.membership_depot_update_allowed? ||
-                        Current.acp.membership_complements_update_allowed?
-    return false unless Current.acp.basket_update_limit_in_days
+    return false unless Current.org.membership_depot_update_allowed? ||
+                        Current.org.membership_complements_update_allowed?
+    return false unless Current.org.basket_update_limit_in_days
 
-    delivery.date >= Current.acp.basket_update_limit_in_days.days.from_now
+    delivery.date >= Current.org.basket_update_limit_in_days.days.from_now
   end
 
   def member_update!(params)
@@ -152,14 +152,14 @@ class Basket < ApplicationRecord
   end
 
   def calculate_price_extra
-    return 0 unless Current.acp.feature?("basket_price_extra")
+    return 0 unless Current.org.feature?("basket_price_extra")
     return 0 if basket_price.zero? && complements_price.zero?
 
-    Current.acp.calculate_basket_price_extra(
+    Current.org.calculate_basket_price_extra(
       price_extra,
       basket_price,
       basket_size_id,
       complements_price,
-      Current.acp.deliveries_count(membership.fy_year))
+      Current.org.deliveries_count(membership.fy_year))
   end
 end

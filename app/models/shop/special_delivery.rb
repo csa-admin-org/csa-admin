@@ -65,7 +65,7 @@ module Shop
     end
 
     def shop_open?(depot_id: nil, ignore_closing_at: false)
-      return false unless Current.acp.feature?("shop")
+      return false unless Current.org.feature?("shop")
       return false unless open
 
       ignore_closing_at || !shop_closing_at.past?

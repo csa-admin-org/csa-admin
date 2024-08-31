@@ -23,7 +23,7 @@ FactoryBot.define do
 
     trait :activity_participation do
       paid_missing_activity_participations { 1 }
-      activity_price { Current.acp.activity_price }
+      activity_price { Current.org.activity_price }
     end
 
     trait :manual do

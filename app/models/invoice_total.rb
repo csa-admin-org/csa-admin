@@ -6,10 +6,10 @@ class InvoiceTotal
 
   def self.all(year)
     scopes = %w[Membership]
-    scopes << "AnnualFee" if Current.acp.annual_fee?
-    scopes << "ACPShare" if Current.acp.share?
-    scopes << "Shop::Order" if Current.acp.feature?("shop")
-    scopes << "ActivityParticipation" if Current.acp.feature?("activity")
+    scopes << "AnnualFee" if Current.org.annual_fee?
+    scopes << "ACPShare" if Current.org.share?
+    scopes << "Shop::Order" if Current.org.feature?("shop")
+    scopes << "ActivityParticipation" if Current.org.feature?("activity")
     scopes << "Other" if Invoice.current_year.not_canceled.other_type.any?
     all = scopes.flatten.map { |scope| new(scope, year) }
     sum = all.sum(&:price)

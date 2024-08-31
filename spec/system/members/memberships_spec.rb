@@ -22,7 +22,7 @@ describe "Membership" do
   end
 
   specify "active member with absence", freeze: "2020-01-01" do
-    Current.acp.update!(trial_basket_count: 0)
+    Current.org.update!(trial_basket_count: 0)
     create(:membership,
       member: member,
       basket_size: basket_size,
@@ -73,7 +73,7 @@ describe "Membership" do
   end
 
   specify "future membership", freeze: "2020-01-01" do
-    Current.acp.update!(trial_basket_count: 0)
+    Current.org.update!(trial_basket_count: 0)
     create(:membership,
       member: member,
       basket_size: basket_size,
@@ -98,7 +98,7 @@ describe "Membership" do
   end
 
   specify "update depot", freeze: "2022-01-01" do
-    Current.acp.update!(membership_depot_update_allowed: true)
+    Current.org.update!(membership_depot_update_allowed: true)
 
     depot_1 = create(:depot, public_name: "Joli Lieu")
     depot_2 = create(:depot, public_name: "Beau Lieu")

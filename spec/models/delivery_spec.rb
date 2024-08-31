@@ -68,7 +68,7 @@ describe Delivery do
     basket3 = delivery.baskets.find_by(membership: membership_3)
     basket3.update!(complement_ids: [ 1, 2 ])
 
-    Current.acp.update!(recurring_billing_wday: 1)
+    Current.org.update!(recurring_billing_wday: 1)
     membership_1.update!(billing_year_division: 1)
     invoice_1 = Billing::Invoicer.force_invoice!(membership_1.member)
     invoice_1.process!
@@ -213,8 +213,8 @@ describe Delivery do
       expect(delivery.shop_open?).to eq true
     end
 
-    specify "when ACP#shop_delivery_open_delay_in_days is set" do
-      Current.acp.update!(shop_delivery_open_delay_in_days: 2)
+    specify "when Organization#shop_delivery_open_delay_in_days is set" do
+      Current.org.update!(shop_delivery_open_delay_in_days: 2)
 
       delivery = travel_to "2021-08-08" do
         create(:delivery, date: "2021-08-10", shop_open: true)
@@ -228,8 +228,8 @@ describe Delivery do
       end
     end
 
-    specify "when ACP#shop_delivery_open_last_day_end_time is set" do
-      Current.acp.update!(shop_delivery_open_last_day_end_time: "12:00")
+    specify "when Organization#shop_delivery_open_last_day_end_time is set" do
+      Current.org.update!(shop_delivery_open_last_day_end_time: "12:00")
 
       delivery = travel_to "2021-08-08" do
         create(:delivery, date: "2021-08-10", shop_open: true)
@@ -243,8 +243,8 @@ describe Delivery do
       end
     end
 
-    specify "when both ACP#shop_delivery_open_delay_in_days and ACP#shop_delivery_open_last_day_end_time are set" do
-      Current.acp.update!(
+    specify "when both Organization#shop_delivery_open_delay_in_days and Organization#shop_delivery_open_last_day_end_time are set" do
+      Current.org.update!(
         shop_delivery_open_delay_in_days: 1,
         shop_delivery_open_last_day_end_time: "12:30")
 

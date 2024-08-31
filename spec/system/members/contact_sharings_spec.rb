@@ -7,7 +7,7 @@ describe "Contact sharing" do
 
   before do
     Capybara.app_host = "http://membres.ragedevert.test"
-    current_acp.update!(features: current_acp.features + [ "contact_sharing" ])
+    current_org.update!(features: current_org.features + [ "contact_sharing" ])
     login(member)
   end
 
@@ -69,7 +69,7 @@ describe "Contact sharing" do
 
   it "redirects when contact_sharing is not a feature" do
     create(:membership, member: member)
-    current_acp.update!(features: [])
+    current_org.update!(features: [])
 
     visit "/contact_sharing"
 

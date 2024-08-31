@@ -21,12 +21,12 @@ ActiveAdmin.register BasketSize do
     column :deliveries, ->(bs) {
       deliveries_count_range(bs.billable_deliveries_counts)
     }, class: "text-right"
-    if Current.acp.feature?("activity")
+    if Current.org.feature?("activity")
       column activities_human_name,
         ->(bs) { bs.activity_participations_demanded_annually },
         class: "text-right"
     end
-    if Current.acp.share?
+    if Current.org.share?
       column t("billing.acp_shares"), ->(bs) { bs.acp_shares_number }, class: "text-right"
     end
     column :visible, class: "text-right"
@@ -39,14 +39,14 @@ ActiveAdmin.register BasketSize do
       translated_input(f, :public_names,
         hint: t("formtastic.hints.basket_size.public_name"))
       f.input :price, as: :number, min: 0, hint: f.object.persisted?
-      if Current.acp.feature?("activity")
+      if Current.org.feature?("activity")
         f.input :activity_participations_demanded_annually,
           label: BasketSize.human_attribute_name(activity_scoped_attribute(:activity_participations_demanded_annually)),
           as: :number,
           step: 1,
           min: 0
       end
-      if Current.acp.share?
+      if Current.org.share?
         f.input :acp_shares_number, as: :number, step: 1
       end
     end
@@ -57,7 +57,7 @@ ActiveAdmin.register BasketSize do
         collection: member_order_priorities_collection,
         as: :select,
         prompt: true,
-        hint: t("formtastic.hints.acp.member_order_priority_html")
+        hint: t("formtastic.hints.organization.member_order_priority_html")
       translated_input(f, :form_details,
         hint: t("formtastic.hints.basket_size.form_detail"),
         placeholder: ->(locale) {
@@ -87,7 +87,7 @@ ActiveAdmin.register BasketSize do
     *I18n.available_locales.map { |l| "form_detail_#{l}" })
 
   before_build do |basket_size|
-    basket_size.acp_shares_number ||= Current.acp.shares_number
+    basket_size.acp_shares_number ||= Current.org.shares_number
   end
 
   controller do

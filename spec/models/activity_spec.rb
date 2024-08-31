@@ -24,7 +24,7 @@ describe Activity do
   end
 
   it "validates that period is one hour when activity_i18n_scope is hour_work" do
-    current_acp.update!(activity_i18n_scope: "hour_work")
+    current_org.update!(activity_i18n_scope: "hour_work")
 
     activity = Activity.new(start_time: "10:00", end_time: "11:01")
     expect(activity).not_to have_valid(:end_time)

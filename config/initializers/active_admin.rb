@@ -6,7 +6,7 @@ ActiveAdmin.setup do |config|
   # Set the title that is displayed on the main layout
   # for each of the active admin pages.
   #
-  config.site_title = ->(view) { Current.acp.name }
+  config.site_title = ->(view) { Current.org.name }
 
   # == Default Namespace
   #

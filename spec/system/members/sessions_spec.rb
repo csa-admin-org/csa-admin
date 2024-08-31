@@ -37,7 +37,7 @@ describe "Member sessions" do
   end
 
   it "redirects to billing when activity is not a feature" do
-    current_acp.update!(features: [])
+    current_org.update!(features: [])
 
     login(create(:member))
 

@@ -3,7 +3,7 @@
 require "rails_helper"
 
 describe MembershipRenewalJob, freeze: "2022-01-01" do
-  let(:next_fy) { Current.acp.fiscal_year_for(Date.today.year + 1) }
+  let(:next_fy) { Current.org.fiscal_year_for(Date.today.year + 1) }
 
   it "raises when no next year deliveries", sidekiq: :inline do
     membership = create(:membership)

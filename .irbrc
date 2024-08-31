@@ -3,27 +3,27 @@
 # Skip non-interactive terminal
 return unless $stdout.tty?
 
-# Helper available in IRB, which helps choosing a ACP to enter.
+# Helper available in IRB, which helps choosing a Organization to enter.
 def enter
-  acps = ACP.where("id < 100").order(:id)
-  options = acps.map { |acp| "#{acp.id.to_s.rjust(2)}: #{acp.name}" }
+  orgs = Organization.where("id < 100").order(:id)
+  options = orgs.map { |org| "#{org.id.to_s.rjust(2)}: #{org.name}" }
 
-  puts "Select ACP context: (empty for no ACP)"
+  puts "Select Organization context: (empty for none)"
   puts options
 
   selection = gets.strip.presence
-  acp = acps.detect { |acp| acp.id == selection.to_i } if selection
+  org = orgs.detect { |org| org.id == selection.to_i } if selection
 
   Tenant.reset if Tenant.inside?
-  if acp
-    Tenant.switch!(acp.tenant_name)
-    puts "Entered #{acp.name} (#{acp.tenant_name}) context."
+  if org
+    Tenant.switch!(org.tenant_name)
+    puts "Entered #{org.name} (#{org.tenant_name}) context."
   else
-    puts "No ACP selected."
+    puts "No Organization selected."
   end
 end
 
 if Tenant.outside?
-  # Show ACPs upon start. Prevent output of return value with `;`.
+  # Show Organizations upon start. Prevent output of return value with `;`.
   enter
 end

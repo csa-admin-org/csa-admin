@@ -2,12 +2,12 @@
 
 module DeliveryCyclesHelper
   def deliveries_current_year_title
-    fiscal_year = Current.acp.current_fiscal_year
+    fiscal_year = Current.org.current_fiscal_year
     "#{Delivery.model_name.human(count: 2)} (#{fiscal_year})"
   end
 
   def deliveries_next_year_title
-    fiscal_year = Current.acp.fiscal_year_for(1.year.from_now)
+    fiscal_year = Current.org.fiscal_year_for(1.year.from_now)
     "#{Delivery.model_name.human(count: 2)} (#{fiscal_year})"
   end
 

@@ -7,12 +7,12 @@ default: &default
 
 development:
   <<: *default
-  database: acp_admin_development
+  database: csa_admin_development
   port: <%= ENV['DB_PORT'] || 5432 %>
 
 test:
   <<: *default
-  database: acp_admin_test
+  database: csa_admin_test
   port: <%= ENV['DB_PORT'] || 5432 %>
 
 production:

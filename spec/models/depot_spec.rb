@@ -14,10 +14,10 @@ describe Depot do
 
     expect(member_ordered_names).to eq %w[ferme gare poste]
 
-    Current.acp.update! depots_member_order_mode: "price_desc"
+    Current.org.update! depots_member_order_mode: "price_desc"
     expect(member_ordered_names).to eq %w[poste gare ferme]
 
-    Current.acp.update! depots_member_order_mode: "name_asc"
+    Current.org.update! depots_member_order_mode: "name_asc"
     expect(member_ordered_names).to eq %w[ferme gare poste]
 
     farm.update! member_order_priority: 2

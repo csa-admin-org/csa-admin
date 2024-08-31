@@ -3,7 +3,7 @@
 require "tenant/migration_context"
 require "tenant/schema_creator"
 require "tenant/pg_adapter_patch"
-require "tenant/active_record_signed_id_acp"
+require "tenant/active_record_signed_id_organization"
 
 module Tenant
   extend self

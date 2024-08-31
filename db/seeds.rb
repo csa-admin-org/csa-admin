@@ -4,13 +4,13 @@
 # The data can then be loaded with the rake db:seed (or created alongside the db with db:setup).
 include FactoryBot::Syntax::Methods
 
-create(:acp,
+create(:organization,
   name: 'CSA Admin',
   url: 'https://www.csa-admin.org',
-  host: "acp-admin",
+  host: "csa-admin",
   email: "info@csa-admin.org",
   phone: "076 449 59 38",
-  tenant_name: "acp-admin",
+  tenant_name: "csa-admin",
   email_default_host: "https://membres.csa-admin.org",
   email_default_from: "info@csa-admin.org",
   email_signature: "Au plaisir,\nCSA Admin",
@@ -24,7 +24,7 @@ create(:acp,
   invoice_footer: "<b>CSA Admin</b>, Inconnue 42, 2300 La Chaux-de-Fonds /// info@csa-admin.org",
   terms_of_service_url: nil)
 
-ACP.switch_each do
+Organization.switch_each do
   create(:admin,
     name: "Admin",
     email: "admin@example.com")

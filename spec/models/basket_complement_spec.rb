@@ -18,16 +18,16 @@ describe BasketComplement do
 
     expect(member_ordered_names).to eq %w[fromage pain oeuf]
 
-    Current.acp.update! basket_complements_member_order_mode: "price_asc"
+    Current.org.update! basket_complements_member_order_mode: "price_asc"
     expect(member_ordered_names).to eq %w[oeuf fromage pain]
 
-    Current.acp.update! basket_complements_member_order_mode: "price_desc"
+    Current.org.update! basket_complements_member_order_mode: "price_desc"
     expect(member_ordered_names).to eq %w[pain fromage oeuf]
 
-    Current.acp.update! basket_complements_member_order_mode: "deliveries_count_asc"
+    Current.org.update! basket_complements_member_order_mode: "deliveries_count_asc"
     expect(member_ordered_names).to eq %w[oeuf pain fromage]
 
-    Current.acp.update! basket_complements_member_order_mode: "name_asc"
+    Current.org.update! basket_complements_member_order_mode: "name_asc"
     expect(member_ordered_names).to eq %w[fromage oeuf pain]
 
     egg.update! member_order_priority: 2

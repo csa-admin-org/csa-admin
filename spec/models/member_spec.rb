@@ -39,20 +39,20 @@ describe Member do
       expect(member).not_to have_valid(:country_code)
     end
 
-    it "sets first ACP billing_year_divisions by default" do
-      Current.acp.billing_year_divisions = [ 4, 12 ]
+    it "sets first organization billing_year_divisions by default" do
+      Current.org.billing_year_divisions = [ 4, 12 ]
       member = create(:member, :waiting, waiting_billing_year_division: nil)
       expect(member.waiting_billing_year_division).to eq 12
     end
 
-    it "sets last ACP billing_year_divisions by default " do
-      Current.acp.billing_year_divisions = [ 4, 12 ]
+    it "sets last organization billing_year_divisions by default " do
+      Current.org.billing_year_divisions = [ 4, 12 ]
       member = create(:member, :waiting, waiting_billing_year_division: 1)
       expect(member.waiting_billing_year_division).to eq 12
     end
 
-    it "only accepts ACP billing_year_divisions" do
-      Current.acp.billing_year_divisions = [ 1, 12 ]
+    it "only accepts organization billing_year_divisions" do
+      Current.org.billing_year_divisions = [ 1, 12 ]
       member = build(:member, :waiting, waiting_billing_year_division: 3)
 
       member.validate
@@ -126,7 +126,7 @@ describe Member do
     end
 
     it "validates desired_acp_shares_number on public create" do
-      Current.acp.update!(annual_fee: 50, share_price: nil, shares_number: nil)
+      Current.org.update!(annual_fee: 50, share_price: nil, shares_number: nil)
       member = build(:member, desired_acp_shares_number: 0)
 
       member.public_create = nil
@@ -134,7 +134,7 @@ describe Member do
       member.public_create = true
       expect(member).to have_valid(:desired_acp_shares_number)
 
-      Current.acp.update!(annual_fee: nil, share_price: 100, shares_number: 1)
+      Current.org.update!(annual_fee: nil, share_price: 100, shares_number: 1)
 
       member.public_create = nil
       expect(member).to have_valid(:desired_acp_shares_number)
@@ -143,7 +143,7 @@ describe Member do
       member.desired_acp_shares_number = 1
       expect(member).to have_valid(:desired_acp_shares_number)
 
-      Current.acp.update!(annual_fee: nil, share_price: 100, shares_number: 2)
+      Current.org.update!(annual_fee: nil, share_price: 100, shares_number: 2)
       expect(member).not_to have_valid(:desired_acp_shares_number)
       member.desired_acp_shares_number = 2
       expect(member).to have_valid(:desired_acp_shares_number)
@@ -156,18 +156,18 @@ describe Member do
     end
 
     specify "validates waiting_activity_participations_demanded_annually on public create" do
-      Current.acp.update!(features: [ "activity" ])
+      Current.org.update!(features: [ "activity" ])
       member = build(:member, waiting_activity_participations_demanded_annually: nil)
 
       member.public_create = true
 
-      Current.acp.update!(activity_participations_form_min: 2)
+      Current.org.update!(activity_participations_form_min: 2)
       member.waiting_activity_participations_demanded_annually = 1
       expect(member).not_to have_valid(:waiting_activity_participations_demanded_annually)
       member.waiting_activity_participations_demanded_annually = 2
       expect(member).to have_valid(:waiting_activity_participations_demanded_annually)
 
-      Current.acp.update!(activity_participations_form_max: 4)
+      Current.org.update!(activity_participations_form_max: 4)
       member.waiting_activity_participations_demanded_annually = 5
       expect(member).not_to have_valid(:waiting_activity_participations_demanded_annually)
       member.waiting_activity_participations_demanded_annually = 4
@@ -178,34 +178,34 @@ describe Member do
     end
 
     specify "required profession mode on public create" do
-      Current.acp.update!(member_profession_form_mode: "visible")
+      Current.org.update!(member_profession_form_mode: "visible")
       member = build(:member,
         public_create: true,
         profession: nil)
 
       expect(member).to have_valid(:profession)
 
-      Current.acp.update!(member_profession_form_mode: "required")
+      Current.org.update!(member_profession_form_mode: "required")
 
       expect(member).not_to have_valid(:profession)
     end
 
     specify "required come_form mode on public create" do
-      Current.acp.update!(member_come_from_form_mode: "visible")
+      Current.org.update!(member_come_from_form_mode: "visible")
       member = build(:member,
         public_create: true,
         come_from: nil)
 
       expect(member).to have_valid(:come_from)
 
-      Current.acp.update!(member_come_from_form_mode: "required")
+      Current.org.update!(member_come_from_form_mode: "required")
 
       expect(member).not_to have_valid(:come_from)
     end
 
     context "with SEPA" do
       before do
-        Current.acp.update!(
+        Current.org.update!(
           country_code: "DE",
           iban: "DE89370400440532013000")
       end
@@ -234,14 +234,14 @@ describe Member do
     expect(member.emails_array).to eq [ "foo@gmail.com" ]
   end
 
-  it "initializes with annual_fee from ACP" do
-    Current.acp.update!(annual_fee: 42)
+  it "initializes with annual_fee from organization" do
+    Current.org.update!(annual_fee: 42)
     expect(Member.new.annual_fee).to eq 42
   end
 
-  it "initializes with ACP country code" do
+  it "initializes with organization country code" do
     expect(Member.new.country_code).to eq "CH"
-    Current.acp.update!(
+    Current.org.update!(
       country_code: "DE",
       iban: "DE89370400440532013000")
     expect(Member.new.country_code).to eq "DE"
@@ -300,7 +300,7 @@ describe Member do
 
   describe "#update_trial_basket_count", freeze: "2024-01-01" do
     specify "ignore absent basket" do
-      Current.acp.update!(trial_basket_count: 2)
+      Current.org.update!(trial_basket_count: 2)
 
       create(:delivery, date: "2024-11-01")
       create(:delivery, date: "2024-12-01")
@@ -367,7 +367,7 @@ describe Member do
     end
 
     it "sets state to support if desired_acp_shares_number is present" do
-      Current.acp.update!(annual_fee: nil, share_price: 100, shares_number: 1)
+      Current.org.update!(annual_fee: nil, share_price: 100, shares_number: 1)
       member = create(:member, :pending,
         desired_acp_shares_number: 10,
         waiting_basket_size: nil,
@@ -387,7 +387,7 @@ describe Member do
 
   describe "#wait!" do
     it "sets state to waiting and reset waiting_started_at" do
-      Current.acp.update!(annual_fee: 30)
+      Current.org.update!(annual_fee: 30)
       member = create(:member, :support_annual_fee,
         waiting_started_at: 1.month.ago,
         annual_fee: 42)
@@ -398,7 +398,7 @@ describe Member do
     end
 
     it "sets state to waiting and set default annual_fee" do
-      Current.acp.update!(annual_fee: 30)
+      Current.org.update!(annual_fee: 30)
       member = create(:member, :inactive)
 
       expect { member.wait! }.to change(member, :state).to("waiting")
@@ -457,7 +457,7 @@ describe Member do
     end
 
     it "sets state to support when user still has acp_shares", freeze: "2021-06-15" do
-      Current.acp.update!(share_price: 100, shares_number: 1, annual_fee: nil)
+      Current.org.update!(share_price: 100, shares_number: 1, annual_fee: nil)
       member = create(:member, :active)
       member.membership.update_column(:ended_on, 1.day.ago)
       create(:invoice, member: member, acp_shares_number: 1, entity_type: "ACPShare")
@@ -469,7 +469,7 @@ describe Member do
     end
 
     it "sets state to inactive and desired_acp_shares_number to 0 when membership ended", freeze: "2021-06-15" do
-      Current.acp.update!(share_price: 100, shares_number: 1, annual_fee: nil)
+      Current.org.update!(share_price: 100, shares_number: 1, annual_fee: nil)
       member = create(:member, :trial)
       member.update!(desired_acp_shares_number: 1)
       member.membership.update_column(:ended_on, 1.day.ago)
@@ -500,7 +500,7 @@ describe Member do
 
     context "other country phone" do
       before do
-        Current.acp.update!(
+        Current.org.update!(
           country_code: "DE",
           iban: "DE89370400440532013000")
       end
@@ -510,7 +510,7 @@ describe Member do
         expect(member.phones).to eq "+33987654321"
       end
 
-      specify "use ACP country code" do
+      specify "use organization country code" do
         member = create(:member, :inactive, phones: "987 6543 21, ", country_code: nil)
         expect(member.phones).to eq "+49987654321"
       end
@@ -603,7 +603,7 @@ describe Member do
     end
 
     context "with acp shares" do
-      before { Current.acp.update!(share_price: 100, shares_number: 1, annual_fee: nil) }
+      before { Current.org.update!(share_price: 100, shares_number: 1, annual_fee: nil) }
 
       specify "support member with acp shares" do
         member = create(:member, :support_acp_share, acp_shares_number: 2)
@@ -683,7 +683,7 @@ describe Member do
   end
 
   describe "#handle_required_acp_shares_number_change" do
-    before { Current.acp.update!(share_price: 100, shares_number: 1, annual_fee: nil) }
+    before { Current.org.update!(share_price: 100, shares_number: 1, annual_fee: nil) }
 
     specify "change to negative number" do
       member = create(:member, :support_acp_share, acp_shares_number: 2)

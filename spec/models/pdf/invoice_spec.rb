@@ -6,7 +6,7 @@ describe PDF::Invoice do
   let(:member) { create(:member, id: 4242) }
   context "Rage de Vert settings" do
     before {
-      Current.acp.update!(
+      Current.org.update!(
         name: "rdv",
         iban: "CH44 3199 9123 0008 8901 2",
         bank_reference: "11041",
@@ -121,7 +121,7 @@ describe PDF::Invoice do
     end
 
     it "generates invoice with membership basket_price_extra", sidekiq: :inline do
-      Current.acp.update!(
+      Current.org.update!(
         features: [ "basket_price_extra" ],
         basket_price_extra_title: "Prix Extra",
         basket_price_extra_public_title: "Cotistation Solidaire")
@@ -145,7 +145,7 @@ describe PDF::Invoice do
     end
 
     it "generates invoice with membership basket_price_extra and dynamic pricing", sidekiq: :inline do
-      Current.acp.update!(
+      Current.org.update!(
         features: [ "basket_price_extra" ],
         basket_price_extra_title: "Classe",
         basket_price_extra_public_title: "Classe salariale",
@@ -224,7 +224,7 @@ describe PDF::Invoice do
     end
 
     specify "invoice with ActivityParticipation object and VAT", sidekiq: :inline do
-      Current.acp.update!(
+      Current.org.update!(
         vat_activity_rate: 7.7,
         vat_number: "CHE-123.456.789",
         activity_price: 60)
@@ -299,7 +299,7 @@ describe PDF::Invoice do
     end
 
     it "generates an invoice with items and VAT", sidekiq: :inline do
-      Current.acp.update!(vat_number: "CHE-123.456.789")
+      Current.org.update!(vat_number: "CHE-123.456.789")
       payment = create(:payment, amount: 12)
       invoice = create(:invoice,
         date: "2023-01-14",
@@ -352,7 +352,7 @@ describe PDF::Invoice do
 
   context "Lumiere des Champs settings" do
     before {
-      Current.acp.update!(
+      Current.org.update!(
         name: "ldc",
         fiscal_year_start_month: 4,
         vat_membership_rate: 0.1,
@@ -653,7 +653,7 @@ describe PDF::Invoice do
 
   context "TaPatate! settings" do
     before {
-      Current.acp.update!(
+      Current.org.update!(
         name: "tap",
         share_price: 250,
         shares_number: 1,
@@ -705,7 +705,7 @@ describe PDF::Invoice do
 
   context "QR-Code settings" do
     before {
-      Current.acp.update!(
+      Current.org.update!(
         name: "qrcode",
         country_code: "CH",
         iban: "CH4431999123000889012",
@@ -762,7 +762,7 @@ describe PDF::Invoice do
 
   context "France payment section" do
     before {
-      Current.acp.update!(
+      Current.org.update!(
         name: "france",
         country_code: "FR",
         currency_code: "EUR",
@@ -809,7 +809,7 @@ describe PDF::Invoice do
 
   context "German EPC QR Code payment section" do
     before {
-      Current.acp.update!(
+      Current.org.update!(
         name: "epc-qr",
         country_code: "DE",
         currency_code: "EUR",
@@ -874,7 +874,7 @@ describe PDF::Invoice do
 
   context "P2R settings" do
     before {
-      Current.acp.update!(
+      Current.org.update!(
         name: "p2r",
         fiscal_year_start_month: 1,
         iban: "CH1830123031135810006",
@@ -941,7 +941,7 @@ describe PDF::Invoice do
     end
 
     specify "shop order with credit and vat", sidekiq: :inline do
-      Current.acp.update!(vat_shop_rate: 2.5, vat_number: "CHE-123.456.789")
+      Current.org.update!(vat_shop_rate: 2.5, vat_number: "CHE-123.456.789")
       member = create(:member)
       create(:payment, member: member, amount: 12)
       product = create(:shop_product,
@@ -993,7 +993,7 @@ describe PDF::Invoice do
   end
 
   specify "new member fee invoice", freeze: "2023-01-10", sidekiq: :inline do
-    current_acp.update!(
+    current_org.update!(
       features: [ "new_member_fee" ],
       new_member_fee_description: "Paniers vides",
       trial_basket_count: 0,

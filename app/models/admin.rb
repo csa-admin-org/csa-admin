@@ -3,7 +3,7 @@
 class Admin < ApplicationRecord
   include HasSessions
 
-  attribute :language, :string, default: -> { Current.acp.languages.first }
+  attribute :language, :string, default: -> { Current.org.languages.first }
 
   belongs_to :permission
   has_many :validated_member,
@@ -20,7 +20,7 @@ class Admin < ApplicationRecord
 
   validates :name, presence: true
   validates :email, presence: true, uniqueness: true
-  validates :language, presence: true, inclusion: { in: proc { ACP.languages } }
+  validates :language, presence: true, inclusion: { in: proc { Organization.languages } }
   validate :truemail
 
   after_create -> { Update.mark_as_read!(self) }
@@ -51,11 +51,11 @@ class Admin < ApplicationRecord
       invoice_third_overdue_notice
       memberships_renewal_pending
     ]
-    if Current.acp.feature?("absence")
+    if Current.org.feature?("absence")
       all << "new_absence"
       all << "new_absence_with_note" # only with note
     end
-    if Current.acp.feature?("activity")
+    if Current.org.feature?("activity")
       all << "new_activity_participation"
       all << "new_activity_participation_with_note" # only with note
     end

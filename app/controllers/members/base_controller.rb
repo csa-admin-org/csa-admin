@@ -27,16 +27,16 @@ class Members::BaseController < ApplicationController
 
   def set_locale
     params_locale = params[:locale]&.first(2)
-    if params_locale.in?(Current.acp.languages)
+    if params_locale.in?(Current.org.languages)
       cookies.permanent[:locale] = params_locale
     end
-    unless cookies[:locale].in?(Current.acp.languages)
+    unless cookies[:locale].in?(Current.org.languages)
       cookies.delete(:locale)
     end
     I18n.locale =
       current_member&.language ||
       cookies[:locale] ||
-      Current.acp.languages.first
+      Current.org.languages.first
   end
 
   def set_sentry_user
@@ -46,7 +46,7 @@ class Members::BaseController < ApplicationController
   end
 
   def current_shop_delivery
-    return unless Current.acp.feature?("shop")
+    return unless Current.org.feature?("shop")
 
     @current_shop_delivery ||=
       Delivery
@@ -57,7 +57,7 @@ class Members::BaseController < ApplicationController
   helper_method :current_shop_delivery
 
   def next_shop_delivery
-    return unless Current.acp.feature?("shop")
+    return unless Current.org.feature?("shop")
     return unless current_shop_delivery
 
     @next_shop_delivery ||=
@@ -70,7 +70,7 @@ class Members::BaseController < ApplicationController
   helper_method :next_shop_delivery
 
   def shop_special_deliveries
-    return unless Current.acp.feature?("shop")
+    return unless Current.org.feature?("shop")
 
     @shop_special_deliveries ||= Shop::SpecialDelivery.coming.open.select(&:shop_open?)
   end
