@@ -48,12 +48,12 @@ _:
         _it: Ultimo cestino da provare!
       membership_renewal:
         _de: Ihr Abonnement verlängern
-        _en: Renew Your Subscription
+        _en: Renew Your Membership
         _fr: Renouvellement de votre abonnement
         _it: Rinnovo del vostro abbonamento
       membership_renewal_reminder:
         _de: Ihr Abonnement verlängern (Mahnung)
-        _en: Renew Your Subscription (Reminder)
+        _en: Renew Your Membership (Reminder)
         _fr: Renouvellement de votre abonnement (Rappel)
         _it: Rinnovo del vostro abbonamento (promemoria)
     description:
@@ -89,7 +89,7 @@ _:
         _it: Inviato automaticamente quando una fattura è ancora aperta 35 giorni dopo la sua creazione o il suo ultimo promemoria.</br><i>Disattivato quando i pagamenti non vengono elaborati automaticamente (EBICS).</i>
       member_activated:
         _de: Wird gesendet, wenn ein Mitglied zum ersten Mal aktiv wird, sobald sein erster (aktueller oder zukünftiger) Abonnement erstellt wird.
-        _en: Sent when a member becomes active for the first time as soon as their first (current or future) subscription is created.
+        _en: Sent when a member becomes active for the first time as soon as their first (current or future) membership is created.
         _fr: Envoyé quand un membre devient actif, pour la première fois, dès que son premier abonnement (en cours ou futur) est créé.
         _it: Inviato quando un socio diventa attivo, per la prima volta, non appena viene creato il suo primo abbonamento (attuale o futuro).
       member_validated:
@@ -99,17 +99,17 @@ _:
         _it: Inviato quando la registrazione di un nuovo socio viene convalidata.
       membership_last_trial_basket:
         _de: Wird gesendet am Tag der Auslieferung des letzten Probetasche das Mitglied zu fragen, ob er wünscht, sein Abonnement bis zum Ende des Geschäftsjahres fortsetzen.
-        _en: Sent on the day of delivery of the last trial basket to ask the member if they wish to continue their subscription until the end of the fiscal year.
+        _en: Sent on the day of delivery of the last trial basket to ask the member if they wish to continue their membership until the end of the fiscal year.
         _fr: Envoyé le jour de la livraison du dernier panier à l'essai afin de demander au membre si il désire continuer son abonnement jusqu'à la fin de l'année fiscale.
         _it: Inviato il giorno della consegna dell'ultimo cestino di prova per chiedere al membro se desidera continuare il suo abbonamento fino alla fine dell'anno fiscale.
       membership_renewal:
         _de: Wird gesendet, um das Mitglied über das Formular auf seiner Mitgliederseite zu fragen, ob es sein Abonnement erneuern möchte oder nicht.
-        _en: Sent to ask the member via the form on their member page whether they wish to renew their subscription or not.
+        _en: Sent to ask the member via the form on their member page whether they wish to renew their membership or not.
         _fr: Envoyé afin de demander au membre si il désire ou non renouveler son abonnement via le formulaire sur sa page de membre.
         _it: Inviato per chiedere al socio se desidera o meno rinnovare il suo abbonamento tramite il modulo nella sua pagina membro.
       membership_renewal_reminder:
         _de: Gesendet, um das Mitglied daran zu erinnern, dass es das Abonnementserneuerungsformular noch nicht ausgefüllt hat (siehe <a href='/settings#membership_renewal'>die Einstellungen</a> für die Frist).
-        _en: Sent to remind the member that they have not yet completed the subscription renewal form (see <a href='/settings#membership_renewal'>settings</a> for the deadline).
+        _en: Sent to remind the member that they have not yet completed the membership renewal form (see <a href='/settings#membership_renewal'>settings</a> for the deadline).
         _fr: Envoyé afin de rappeler au membre qu'il n'a pas encore rempli le formulaire de renouvellement de son abonnement (voir <a href='/settings#membership_renewal'>les paramètres</a> pour le délai).
         _it: Inviato per ricordare al socio che non ha ancora completato il modulo di rinnovo dell'abbonamento (vedi <a href='/settings#membership_renewal'>parametri</a> per le scadenze).
     title:

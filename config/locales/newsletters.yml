@@ -35,7 +35,7 @@ _:
         _it: Criteri
       info_html:
         _de: Die Audienzsegmente ermöglichen es Ihnen, Ihre Newsletter anhand bestimmter Kriterien zu ciblieren. Diese Kriterien gelten immer <b>nur für aktive Mitglieder</b> und für die <b>aktuelle oder zukünftige Abonnementkonfiguration</b>.
-        _en: Audience segments allow you to target your newsletters based on specific criteria. These criteria always apply <b>only to active members</b> and to the <b>current or future subscription configuration</b>.
+        _en: Audience segments allow you to target your newsletters based on specific criteria. These criteria always apply <b>only to active members</b> and to the <b>current or future membership configuration</b>.
         _fr: Les segments d'audience vous permettent de cibler vos newsletters en fonction de critères précis. Ces critères s'appliquent toujours <b>uniquement aux membres actifs</b> et à la configuration de leur <b>abonnement actuel ou future</b>.
         _it: I segmenti di pubblico ti permettono di indirizzare le tue newsletter in base a criteri precisi. Questi criteri si applicano sempre <b>solo ai soci attivi</b> e alla <b>configurazione dell'abbonamento attuale o futura</b>.
       title:
