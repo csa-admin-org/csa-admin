@@ -2,7 +2,7 @@ _:
   billing:
     acp_shares:
       _de: Anteilscheine
-      _en: Cooperative share
+      _en: Cooperative shares
       _fr: Part Sociales
       _it: Quota sociale cooperativa
     adjustments:
@@ -63,7 +63,7 @@ _:
         _it: 'Fatturazione trimestrale #%{number}'
     memberships_total:
       _de: Abonnements gesamt
-      _en: Total subscriptions
+      _en: Total memberships
       _fr: Abonnements Total
       _it: Abbonamenti totali
     missing_amounts:
@@ -83,13 +83,13 @@ _:
       _it: Rimborsi
     remaining_memberships:
       _de: Noch zu fakturierende Abonnements
-      _en: Remaining subscriptions to be billed
+      _en: Remaining memberships to be billed
       _fr: Abonnements restant à facturer
       _it: Abbonamenti restanti da fatturare
     scope:
       acp_share:
         _de: Anteilschein
-        _en: Cooperative share
+        _en: Share
         _fr: Part Sociale
         _it: Quota sociale cooperativa
       activity/basket_preparation:

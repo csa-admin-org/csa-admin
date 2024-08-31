@@ -595,7 +595,7 @@ describe Membership do
     end
   end
 
-  it "adds basket_complement to coming baskets when subscription is added" do
+  it "adds basket_complement to coming baskets when membership is added" do
     create(:basket_complement, id: 1, price: 3.2)
     create(:basket_complement, id: 2, price: 4.5)
 
@@ -640,7 +640,7 @@ describe Membership do
     end
   end
 
-  it "removes basket_complement to coming baskets when subscription is removed" do
+  it "removes basket_complement to coming baskets when membership is removed" do
     create(:basket_complement, id: 1, price: 3.2)
     create(:basket_complement, id: 2, price: 4.5)
 

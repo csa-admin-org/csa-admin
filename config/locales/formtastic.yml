@@ -63,7 +63,7 @@ _:
           _it: Saranno aggiunti a quelli della dimensione del cestino.
         current_deliveries_html:
           _de: Jede Abonnements mit diesem Zusatz werden bei Änderungen automatisch aktualisiert. <b>Achtung, <a href='/handbook/billing#price-change'>die Rechnungung dieser Abonnements kann beeinflusst werden.</a></b>
-          _en: All subscriptions with this supplement will be automatically updated in case of changes. <b>Attention, <a href='/handbook/billing#price-change'>the billing of these subscriptions may be affected.</a></b>
+          _en: All memberships with this supplement will be automatically updated in case of changes. <b>Attention, <a href='/handbook/billing#price-change'>the billing of these memberships may be affected.</a></b>
           _fr: Tous les abonnements qui ont souscrit à ce complément seront automatiquement mis à jour en cas de changement. <b>Attention, <a href='/handbook/billing#price-change'>la facturation de ces abonnements peut-être affectée.</a></b>
           _it: Tutti gli abbonamenti che hanno sottoscritto questo supplemento verranno automaticamente aggiornati in caso di modifica. <b>Attenzione, <a href='/handbook/billing#price-change'>la fatturazione di questi abbonamenti potrebbe essere influenzata.</a></b>
         form_detail:
@@ -73,12 +73,12 @@ _:
           _it: Lasciare vuoto per il testo predefinito.
         future_deliveries:
           _de: Jede Abonnements mit diesem Zusatz werden bei Änderungen automatisch aktualisiert.
-          _en: All subscriptions with this supplement will be automatically updated in case of changes.
+          _en: All memberships with this supplement will be automatically updated in case of changes.
           _fr: Tous les abonnements qui ont souscrit à ce complément seront automatiquement mis à jour en cas de changement.
           _it: Tutti gli abbonamenti che hanno sottoscritto questo supplemento verranno automaticamente aggiornati in caso di modifica.
         price:
           _de: Alle Preisänderungen gelten nur für neue Abonnements und werden nicht rückwirkend angewendet.
-          _en: All price changes are only valid for new subscriptions and are not applied retroactively.
+          _en: All price changes are only valid for new memberships and are not applied retroactively.
           _fr: Tout changement de prix est uniquement valable pour les nouveaux abonnements et n'est pas rétroactivement appliqué.
           _it: Tutte le modifiche al prezzo sono valide solo per i nuovi abbonamenti e non sono applicate retroattivamente.
         public_name:
@@ -126,7 +126,7 @@ _:
           _it: Lasciare vuoto per il testo predefinito.
         price:
           _de: Alle Preisänderungen gelten nur für neue Abonnements und werden nicht rückwirkend angewendet.
-          _en: All price changes are only valid for new subscriptions and are not applied retroactively.
+          _en: All price changes are only valid for new memberships and are not applied retroactively.
           _fr: Tout changement de prix est uniquement valable pour les nouveaux abonnements et n'est pas rétroactivement appliqué.
           _it: Tutte le modifiche al prezzo sono valide solo per i nuovi abbonamenti e non sono applicate retroattivamente.
         public_name:
@@ -148,12 +148,12 @@ _:
       delivery:
         basket_complements:
           _de: Alle Abonnements, die diese Zusätze abonniert haben und diese/n neue/n Datum/Daten beinhalten, werden automatisch aktualisiert.
-          _en: All subscriptions that have subscribed to these supplements and include this/these new date(s) will be automatically updated.
+          _en: All memberships that have subscribed to these supplements and include this/these new date(s) will be automatically updated.
           _fr: Tous les abonnements qui ont souscrit à ces compléments et qui incluent cette/ces nouvelle(s) date(s) seront mis à jour automatiquement.
           _it: Tutti gli abbonamenti che hanno sottoscritto questi supplementi e che includono questa/data nuova saranno automaticamente aggiornati.
         date_html:
           _de: Im Falle einer Änderung werden alle betroffenen Abonnements, basierend auf ihrem Anfangs- und Enddatum sowie ihrem Lieferungszyklus, automatisch aktualisiert. <b>Achtung, <a href='/handbook/billing#price-change'>die Rechnung für diese Abonnements kann beeinflusst werden.</a></b>
-          _en: In case of change, all affected subscriptions, based on their start and end dates as well as their delivery cycle, will be automatically updated. <b>Attention, <a href='/handbook/billing#price-change'>the billing of these subscriptions may be affected.</a></b>
+          _en: In case of change, all affected memberships, based on their start and end dates as well as their delivery cycle, will be automatically updated. <b>Attention, <a href='/handbook/billing#price-change'>the billing of these memberships may be affected.</a></b>
           _fr: En cas de changement, tous les abonnements concernés, en fonction de leurs dates de début et de fin ainsi que leur cycle de livraisons, seront automatiquement mis à jour. <b>Attention, <a href='/handbook/billing#price-change'>la facturation de ces abonnements peut-être affectée.</a></b>
           _it: In caso di modifica, tutti gli abbonamenti interessati, secondo le loro date di inizio e fine e il loro ciclo di consegna, saranno automaticamente aggiornati. <b>Attenzione, <a href='/handbook/billing#price-change'>la fatturazione di questi abbonamenti potrebbe essere influenzata.</a></b>
         depots:
@@ -344,12 +344,12 @@ _:
           _it: Che potrebbe essere potenzialmente utile per le nostre attività.
         required_acp_shares_number_html:
           _de: Ermöglicht die Änderung der Standardanzahl, die von der Taschengröße des aktuellen Abonnements abhängt.
-          _en: Allows changing the default number, which depends on the basket size of the current subscription.</br>A negative number indicates that the shares will not be refunded to make the member inactive.
+          _en: Allows changing the default number, which depends on the basket size of the current membership.</br>A negative number indicates that the shares will not be refunded to make the member inactive.
           _fr: Permet de changer le nombre par défaut qui dépends de la taille du panier de l'abonnement en cours.</br>Un nombre négatif permet d'indiquer que les parts ne seront pas remboursées afin de rendre le membre inactif.
           _it: Consente di modificare il numero predefinito che dipende dalla dimensione del cestino dell'abbonamento corrente.
         shop_depot:
           _de: Ermöglicht es einem Mitglied ohne Abonnement, Produkte vom Hofladen zu bestellen.
-          _en: Allows a member without a subscription to place grocery orders.
+          _en: Allows a member without a membership to place grocery orders.
           _fr: Permet à un membre sans abonnement de passer des commandes d'épicerie.
           _it: Consente a un socio senza abbonamento di effettuare ordini di drogheria.
         waiting_alternative_depot_ids:
@@ -365,7 +365,7 @@ _:
           _it: Lasciare vuoto il campo per il numero predefinito del ciclo di consegna.<br/>Il numero finale sarà calcolato automaticamente in proporzione al numero di cesti.
         activity_participations_annual_price_change_html:
           _de: Erhöhung oder Reduktion des Abonnement-Preises, je nach erbrachten Leistungen.
-          _en: Increase or decrease in the subscription price, depending on the services rendered.
+          _en: Increase or decrease in the membership price, depending on the services rendered.
           _fr: Laisser blanc pour que le système calcule le montant automatiquement.<br/>Augmentation ou réduction du prix de l'abonnement contre service rendu ou non.
           _it: Aumento o riduzione del prezzo dell'abbonamento a seconda del servizio reso o meno.
         activity_participations_demanded_annually_html:
@@ -395,7 +395,7 @@ _:
           _it: Modifica l'importo finale indipendentemente dal numero di ceste.
         billing_year_division:
           _de: Der Zeitraum des erneuerten Abonnements wird ebenfalls automatisch aktualisiert.
-          _en: The interval of the renewed subscription will also be updated automatically.
+          _en: The interval of the renewed membership will also be updated automatically.
           _fr: L'intervalle de l'abonnement renouvelé sera également automatiquement mis à jour.
           _it: Anche l'intervallo dell'abbonamento rinnovato verrà aggiornato automaticamente.
         depot_price:
@@ -416,7 +416,7 @@ _:
       memberships_basket_complement:
         delivery_cycle:
           _de: Wenn ein Lieferzyklus ausgewählt ist, werden nur die Überschneidungen der Lieferungen des Abonnements, des Zusatzes und des Lieferzyklus berücksichtigt.
-          _en: If a delivery cycle is selected, only the intersections of the deliveries of the subscription, the supplement, and the cycle will be considered.
+          _en: If a delivery cycle is selected, only the intersections of the deliveries of the membership, the supplement, and the cycle will be considered.
           _fr: Si un cycle de livraisons est sélectionné, seule l'intersection des livraisons de l'abonnement, du complément et de ce cycle seront considérées.
           _it: Se si seleziona un ciclo di consegna, verrà considerato solo l'incrocio delle consegne dell'abbonamento, della ricarica e di questo ciclo.
       newsletter:
@@ -463,7 +463,7 @@ _:
           _it: Permette di distinguere tra nuovi soci attivi e vecchi soci che erano già abbonati negli anni precedenti.
         renewal_state:
           _de: Unterscheidet aktive Mitglieder nach dem Erneuerungsstatus ihres aktuellen oder zukünftigen Abonnements.
-          _en: Differentiates active members by the renewal status of their current or future subscription.
+          _en: Differentiates active members by the renewal status of their current or future membership.
           _fr: Permet de différencier les membres actifs par l'état de renouvellement de leur abonnement actuel ou future.
           _it: Permette di differenziare i soci attivi in base allo stato di rinnovo dell'abbonamento attuale o futuro.
       organization:
@@ -499,7 +499,7 @@ _:
           _it: Testo visualizzato nel modulo di registrazione/rinnovo se il numero min/max di partecipazioni può essere modificato dal socio. Lasciare vuoto per il testo predefinito.
         activity_participations_demanded_logic_html:
           _de: 'Logik, die <a href=''https://shopify.github.io/liquid/'' target=''_blank''>die Liquid-Syntax</a> verwendet, um die Anzahl der Teilnahmen für ein Abonnement zu berechnen.</br>Die folgenden Variablen stehen zur Verfügung:</br>– <b>member.salary_basket</b>: Mitglied mit Lohnkorb</br>– <b>full_year_max_deliveries</b>: Maximale Anzahl von Lieferungen für ein ganzes Jahr, unabhängig vom Zyklus</br>– <b>membership.full_year_deliveries</b>: Anzahl der Lieferungen für ein ganzes Jahr (Abonnement)</br>– <b>membership.baskets</b>: Anzahl der Körbe des Abonnements</br>– <b>member.full_year_activity_participations</b>: Anzahl der Teilnahmen des Abonnements für ein ganzes Jahr'
-          _en: 'Logic using <a href=''https://shopify.github.io/liquid/'' target=''_blank''>the Liquid syntax</a> to calculate the number of participations required for a subscription.</br>The following variables are available:</br>– <b>member.salary_basket</b>: Member with salary basket</br>– <b>full_year_max_deliveries</b>: Maximum number of deliveries for a whole year, regardless of the cycle</br>– <b>membership.full_year_deliveries</b>: Number of deliveries for a whole year (subscription)</br>– <b>membership.baskets</b>: Number of baskets of the subscription</br>– <b>member.full_year_activity_participations</b>: Number of participations required for the subscription for a whole year'
+          _en: 'Logic using <a href=''https://shopify.github.io/liquid/'' target=''_blank''>the Liquid syntax</a> to calculate the number of participations required for a membership.</br>The following variables are available:</br>– <b>member.salary_basket</b>: Member with salary basket</br>– <b>full_year_max_deliveries</b>: Maximum number of deliveries for a whole year, regardless of the cycle</br>– <b>membership.full_year_deliveries</b>: Number of deliveries for a whole year (membership)</br>– <b>membership.baskets</b>: Number of baskets of the membership</br>– <b>member.full_year_activity_participations</b>: Number of participations required for the membership for a whole year'
           _fr: 'Logique utilisant <a href=''https://shopify.github.io/liquid/'' target=''_blank''>la syntaxe Liquid</a> qui permet de calculer le nombre de participations demandées pour un abonnement.</br>Les variables suivantes sont disponibles:</br>– <b>member.salary_basket</b>: Membre avec panier-salaire</br>– <b>full_year_max_deliveries</b>: Nombre maximum de livraisons pour une année complète tout cycles confondus</br>– <b>membership.full_year_deliveries</b>: Nombre de livraisons pour une année complète (abonnement)</br>– <b>membership.baskets</b>: Nombre de paniers de l''abonnement</br>– <b>member.full_year_activity_participations</b>: Nombre de participations demandées de l''abonnement pour une année complète'
           _it: 'Logica che utilizza <a href=''https://shopify.github.io/liquid/'' target=''_blank''>la sintassi Liquid</a> per calcolare il numero di partecipazioni richieste per un abbonamento.</br>Le seguenti variabili sono disponibili:</br>– <b>member.salary_basket</b>: Socio con cesto salariale</br>– <b>full_year_max_deliveries</b>: Numero massimo di consegne per un anno completo, indipendentemente dal ciclo</br>– <b>membership.full_year_deliveries</b>: Numero di consegne per un anno completo (abbonamento)</br>– <b>membership.baskets</b>: Numero di cesti dell''abbonamento</br>– <b>member.full_year_activity_participations</b>: Numero di partecipazioni richieste dell''abbonamento per un anno completo'
         activity_participations_form_max:
@@ -579,12 +579,12 @@ _:
           _it: Dopo questo periodo, la modifica non è più possibile. Zero significa che la modifica è ancora possibile il giorno della consegna.
         billing_ends_on_last_delivery_fy_month:
           _de: Wenn deaktiviert, erstreckt sich die Rechnungsstellung bis zum Ende des Abonnements.
-          _en: If disabled, billing extends until the end of the subscription.
+          _en: If disabled, billing extends until the end of the membership.
           _fr: Si désactivée, la facturation s'étend jusqu'à la date de fin de l'abonnement.
           _it: Se disattivato, la fatturazione si estende fino alla data di fine dell'abbonamento.
         billing_starts_after_first_delivery:
           _de: Wenn deaktiviert, beginnt die Rechnungsstellung mit dem Beginn des Abonnements.
-          _en: If disabled, billing starts from the beginning of the subscription.
+          _en: If disabled, billing starts from the beginning of the membership.
           _fr: Si désactivée, la facturation commence dès la date du début de l'abonnement.
           _it: Se disattivato, la fatturazione inizia con l'inizio dell'abbonamento.
         billing_year_divisions:
@@ -669,7 +669,7 @@ _:
           _it: Definisce la modalità di visualizzazione di questo campo nel modulo di registrazione.
         membership_complements_update_allowed:
           _de: Nur die Änderung zukünftiger Lieferungen ist erlaubt. Die Änderung ist nur pro Lieferung und nicht für das gesamte Abonnement möglich.
-          _en: Only the modification of future deliveries is allowed. The modification is only possible per delivery and not for the entire subscription.
+          _en: Only the modification of future deliveries is allowed. The modification is only possible per delivery and not for the entire membership.
           _fr: Seule la modification des futures livraisons est autorisée. La modification est uniquement possible par livraison et non pour l'ensemble de l'abonnement.
           _it: È consentita solo la modifica delle consegne future. La modifica è possibile solo per consegna e non per l'intero abbonamento.
         membership_depot_update_allowed:
@@ -679,17 +679,17 @@ _:
           _it: È consentita solo la modifica delle consegne future.
         membership_renewal_depot_update:
           _de: Ermöglicht es Mitgliedern, das Depot bei der Verlängerung ihres Abonnements über das Formular zu ändern.
-          _en: Allows members to change the depot when renewing their subscription via the form.
+          _en: Allows members to change the depot when renewing their membership via the form.
           _fr: Permettre au membre de changer de dépôt lors du renouvellement de son abonnement via le formulaire.
           _it: Permettere al socio di cambiare il punto di ritiro al momento del rinnovo dell'abbonamento tramite il modulo.
         membership_renewed_attributes:
           _de: Die ausgewählten Konfigurationen werden beim Verlängern des Abonnements automatisch übernommen. Wenn die Korbgröße oder die Zusätze vom Mitglied geändert werden, werden die entsprechenden Konfigurationen sowieso gelöscht.
-          _en: The selected configurations will be automatically carried over when renewing the subscription. If the basket size or complements are changed by the member, the corresponding configurations will be deleted anyway.
+          _en: The selected configurations will be automatically carried over when renewing the membership. If the basket size or complements are changed by the member, the corresponding configurations will be deleted anyway.
           _fr: Les configurations sélectionnées seront automatiquement reprises lors du renouvellement de l'abonnement tel quel. Si la taille du panier ou les compléments sont modifiés par le membre, alors les configurations correspondantes seront de toute façon effacées.
           _it: Le configurazioni selezionate saranno automaticamente riprese al momento del rinnovo dell'abbonamento. Se la dimensione del cesto o gli extra vengono modificati dal socio, le configurazioni corrispondenti saranno comunque cancellate.
         membership_update_text:
           _de: Optionaler Text, der auf der Mitgliederseite über dem Formular zur Änderung des Abonnements oder der Tasche angezeigt wird.
-          _en: Optional text displayed on the member page above the subscription or basket modification form.
+          _en: Optional text displayed on the member page above the membership or basket modification form.
           _fr: Texte optionnel affiché sur la page de membre au-dessus du formulaire de modification de l'abonnement ou du panier.
           _it: Testo opzionale visualizzato nella pagina del socio sopra il modulo di iscrizione o di modifica del cestino.
         new_member_fee_description:
@@ -784,7 +784,7 @@ _:
           _it: Testo visibile nella parte superiore della pagina di socio del droghiere.
         trial_basket_count:
           _de: Das Abonnement wird in Rechnung gestellt, sobald alle Probetaschen ausgeliefert wurden. Wenn das Abonnement während oder am Ende der Probezeit beendet wird, dann werden nur die gelieferten Taschen in Rechnung gestellt.
-          _en: The subscription is billed once all trial baskets have been delivered. If the subscription is terminated during or at the end of the trial period, only the delivered baskets are billed.
+          _en: The membership is billed once all trial baskets have been delivered. If the membership is terminated during or at the end of the trial period, only the delivered baskets are billed.
           _fr: L'abonnement est facturé une fois que tous les paniers à l'essai ont été livrés. Si l'abonnement est arrêté pendant ou à la fin de la période d'essai, alors seulement les paniers livrés sont facturés.
           _it: L'abbonamento viene fatturato una volta che tutti i cestini di prova sono stati consegnati. Se l'abbonamento viene interrotto durante o alla fine del periodo di prova, vengono addebitati solo i cestini consegnati.
       shop/order:
@@ -842,13 +842,13 @@ _:
       member:
         salary_basket:
           _de: Lohntasche(n) / Gratis-Abonnements
-          _en: Salary basket(s) / Free subscription(s)
+          _en: Salary basket(s) / Free membership(s)
           _fr: Panier(s) salaire / Abonnement(s) gratuit(s)
           _it: Ceste-compenso / Abbonamento/i gratuito/i
       membership:
         activity_participations_annual_price_change:
           _de: Anpassung Preis Abonnement
-          _en: Subscription price adjustment
+          _en: Membership price adjustment
           _fr: Ajustement du prix de l'abonnement
           _it: Adeguamento del prezzo dell'abbonamento
     'no':

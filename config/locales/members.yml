@@ -12,12 +12,12 @@ _:
         absences_included_explanation_html:
           one:
             _de: Ihr Abonnement beinhaltet <b>1 Abwesenheit</b>. Wenn die Abwesenheit nicht gemeldet wird, wird sie provisorisch auf die letzte Lieferung angewendet.
-            _en: Your subscription includes <b>1 absence</b>. If the absence is not reported, it will be provisionally applied to the last delivery.
+            _en: Your membership includes <b>1 absence</b>. If the absence is not reported, it will be provisionally applied to the last delivery.
             _fr: Votre abonnement prévoit <b>1 absence</b>. Si l'absence n'est pas annoncée elle est appliquée provisoirement sur la dernière livraison.
             _it: Il tuo abbonamento prevede <b>1 assenza</b>. Se l'assenza non è annunciata, viene applicata provvisoriamente all'ultima consegna.
           other:
             _de: Ihr Abonnement beinhaltet <b>%{count} Abwesenheiten</b>. Die Abwesenheiten, die noch nicht gemeldet wurden, werden provisorisch auf die letzten Lieferungen angewendet.
-            _en: Your subscription includes <b>%{count} absences</b>. Absences that have not yet been reported will be provisionally applied to the last deliveries.
+            _en: Your membership includes <b>%{count} absences</b>. Absences that have not yet been reported will be provisionally applied to the last deliveries.
             _fr: Votre abonnement prévoit <b>%{count} absences</b>. Les absences qui ne sont pas encore annoncées sont appliquées provisoirement sur les dernières livraisons.
             _it: Il tuo abbonamento prevede <b>%{count} assenze</b>. Le assenze non ancora annunciate vengono applicate provvisoriamente alle ultime consegne.
         cancel_link:
@@ -524,7 +524,7 @@ _:
             _it: Ogni socio è parte della cooperativa e deve acquisire quote sociali della cooperativa (<b>%{price}</b>/part).
           annual_fee_text:
             _de: Jedes Mitglied tritt dem Verein bei und zahlt zusätzlich zum Gemüseabo einen jährlichen Beitrag von <b>%{price}</b> ein.
-            _en: Each member also joins the association and pays an annual fee of <b>%{price}</b> in addition to the vegetable subscription.
+            _en: Each member also joins the association and pays an annual fee of <b>%{price}</b> in addition to the vegetable membership.
             _fr: Chaque membre fait également partie de l'association et verse une cotisation annuelle de <b>%{price}</b> en plus de l'abonnement à son panier.
             _it: Ogni socio fa parte dell'associazione e versa una quota associativa annuale di <b>%{price}</b> in aggiunta all'abbonamento per la propria cesta.
           desired_acp_shares_number_hint:
@@ -638,7 +638,7 @@ _:
         flash:
           canceled:
             _de: Ihr Abonnement wurde gekündigt.
-            _en: Your subscription has been canceled.
+            _en: Your membership has been canceled.
             _fr: Votre abonnement a été résilié.
             _it: Il tuo abbonamento è stato annullato.
           error:
@@ -648,7 +648,7 @@ _:
             _it: Si è verificato un errore. Riprova o contattaci.
           renewed:
             _de: Ihr Abonnement wurde erneuert. Vielen Dank!
-            _en: Your subscription has been renewed. Thank you!
+            _en: Your membership has been renewed. Thank you!
             _fr: Votre abonnement a été renouvelé. Merci!
             _it: Il tuo abbonamento è stato rinnovato. Grazie!
       new:
@@ -682,12 +682,12 @@ _:
         text:
           cancel:
             _de: Einmal gekündigt, endet Ihr Abonnement nach der letzten Lieferung am <u>%{last_delivery_date}</u>.
-            _en: Once canceled, your subscription will end after the last delivery on <u>%{last_delivery_date}</u>.
+            _en: Once canceled, your membership will end after the last delivery on <u>%{last_delivery_date}</u>.
             _fr: Une fois résilié, votre abonnement se terminera après la dernière livraison du <u>%{last_delivery_date}</u>.
             _it: Una volta terminato, l'abbonamento terminerà dopo l'ultima consegna del <u>%{last_delivery_date}</u>.
           renew:
             _de: Unten haben Sie die Möglichkeit, die Zusammensetzung Ihres zukünftigen Abonnements anzupassen, alle bestehenden Anpassungen bleiben erhalten. Ihr zukünftiges Abonnement beginnt mit der Lieferung des <u>%{first_delivery_date}</u>. Zögern Sie nicht, uns bei Fragen oder spezifischen Bedürfnissen zu kontaktieren.
-            _en: Below you have the option to adjust the composition of your future subscription, all existing adjustments will be retained. Your future subscription will start with the delivery on <u>%{first_delivery_date}</u>. Do not hesitate to contact us with any questions or specific needs.
+            _en: Below you have the option to adjust the composition of your future membership, all existing adjustments will be retained. Your future membership will start with the delivery on <u>%{first_delivery_date}</u>. Do not hesitate to contact us with any questions or specific needs.
             _fr: Vous avez la possibilité de modifier ci-dessous la composition de votre futur abonnement, les éventuels ajustements existants seront conservés. Votre futur abonnement débutera avec la livraison du <u>%{first_delivery_date}</u>. N'hésitez pas à nous contacter pour toutes questions ou besoins spécifiques.
             _it: Hai la possibilità di modificare la composizione del tuo futuro abbonamento, eventuali aggiustamenti esistenti verranno mantenuti. Il tuo futuro abbonamento inizierà con la consegna del <u>%{first_delivery_date}</u>. Non esitate a contattarci per qualsiasi domanda o esigenza specifica.
         title:
@@ -720,7 +720,7 @@ _:
           _it: Modifica
         title:
           _de: Abonnement %{year}
-          _en: Subscription %{year}
+          _en: Membership %{year}
           _fr: Abonnement %{year}
           _it: Abbonamento %{year}
         updateable_baskets:
@@ -738,18 +738,18 @@ _:
         renewal:
           canceled:
             _de: Ihr Abonnement wurde gekündigt und endet nach der Lieferung des <u>%{last_delivery_date}</u>.
-            _en: Your subscription has been canceled and will end after the delivery on <u>%{last_delivery_date}</u>.
+            _en: Your membership has been canceled and will end after the delivery on <u>%{last_delivery_date}</u>.
             _fr: Votre abonnement a été résilié et se terminera après la livraison du <u>%{last_delivery_date}</u>.
             _it: Il tuo abbonamento è stato annullato e terminerà dopo la consegna del <u>%{last_delivery_date}</u>.
           options:
             cancel:
               _de: Mein Abonnement kündigen
-              _en: Cancel my subscription
+              _en: Cancel my membership
               _fr: Résilier mon abonnement
               _it: Annullare il mio abbonamento
             renew:
               _de: Mein Abonnement erneuern
-              _en: Renew my subscription
+              _en: Renew my membership
               _fr: Renouveler mon abonnement
               _it: Rinnovare il mio abbonamento
             renew_hint:

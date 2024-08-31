@@ -328,12 +328,12 @@ _:
         _it: Le richieste di rinnovo stanno venendo inviate ...
       renew_missing_deliveries_alert:
         _de: Abonnements können nicht erneuert werden, wenn %{next_year} keine Lieferungen vorhanden sind!
-        _en: Subscriptions cannot be renewed if there are no deliveries in %{next_year}!
+        _en: Memberships cannot be renewed if there are no deliveries in %{next_year}!
         _fr: Impossible de renouveler les abonnements si les livraisons %{next_year} n'existent pas!
         _it: Impossibile rinnovare l'abbonamento se le consegne %{next_year} non esistono!
       renew_notice:
         _de: Die Abonnements werden erneuert...
-        _en: Subscriptions are being renewed...
+        _en: Memberships are being renewed...
         _fr: Les abonnements sont en train d'être renouvelés...
         _it: Gli abbonamenti sono in corso di rinnovamento...
       sending_overdue_notices:
@@ -736,12 +736,12 @@ _:
           _it: Partecipazione dei soci
         membership_configuration_text:
           _de: Alle Taschen in diesem Abonnement werden nach der folgenden Konfiguration erstellt.
-          _en: All baskets in this subscription will be created according to the following configuration.
+          _en: All baskets in this membership will be created according to the following configuration.
           _fr: Tous les paniers de cet abonnement seront créés en fonction de la configuration ci-dessous.
           _it: Tutti i cesti di questo abbonamento saranno creati secondo la seguente configurazione.
         membership_configuration_warning_text:
           _de: Achtung, jede Änderung der Konfiguration wird die Taschen dieses Abonnements ab dem unten angegebenen Datum neu erstellen!
-          _en: Warning, any change in the configuration will recreate the baskets of this subscription from the date below!
+          _en: Warning, any change in the configuration will recreate the baskets of this membership from the date below!
           _fr: Attention, toute modification de la configuration recréera les paniers de cet abonnement à partir de la date ci-dessous!
           _it: Attenzione, qualsiasi modifica alla configurazione ricreerà i cestini per questo abbonamento a partire dalla data sottostante!
         membership_renewal:
@@ -751,7 +751,7 @@ _:
           _it: Rinnovo
         membership_renewal_text_html:
           _de: <a href="/mail_templates?scope=membership">E-Mail-Vorlagen</a> für Abonnementverlängerungen müssen ebenfalls bearbeitet und aktiviert werden, bevor Anträge von der Abonnementsseite gesendet werden können.
-          _en: <a href="/mail_templates?scope=membership">Email templates</a> for subscription renewals must also be edited and activated before requests can be sent from the subscriptions page.
+          _en: <a href="/mail_templates?scope=membership">Email templates</a> for membership renewals must also be edited and activated before requests can be sent from the memberships page.
           _fr: <a href="/mail_templates?scope=membership">Les templates email</a> pour le renouvellement des abonnements doivent également être édités et activés avant de pouvoir envoyer les demandes depuis la page des abonnements.
           _it: <a href="/mail_templates?scope=membership">I templates delle email</a> per il rinnovo degli abbonamenti devono essere editati e attivati prima di poter inviare le domande attraverso alla pagina degli abbonamenti.
         membership_update_text_html:

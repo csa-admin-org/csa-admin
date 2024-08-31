@@ -327,7 +327,7 @@ _:
       _it: Lingua
     last_membership_ended_on:
       _de: Enddatum des letzten Abonnements
-      _en: End date of the last subscription
+      _en: End date of the last membership
       _fr: Date de fin du dernier abonnement
       _it: Date di fine dell'ultimo abbonamento
     liquid_data_preview_yaml:
@@ -352,7 +352,7 @@ _:
       _it: Priorità
     membership:
       _de: Abonnement
-      _en: Subscription
+      _en: Membership
       _fr: Abonnement
       _it: Abbonamento
     missing_amount:

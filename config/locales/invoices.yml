@@ -10,7 +10,7 @@ _:
     entity_type:
       acp_share:
         _de: Anteilschein
-        _en: Share certificate
+        _en: Cooperative share
         _fr: Part sociale
         _it: Quota sociale cooperativa
       annual_fee:
