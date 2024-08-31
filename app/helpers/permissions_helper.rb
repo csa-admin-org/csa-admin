@@ -26,8 +26,6 @@ module PermissionsHelper
 
   def feature_name(feature)
     case feature
-    when :acp
-      t("active_admin.settings")
     when :comment
       ActiveAdmin::Comment.model_name.human(count: 2)
     when :activity

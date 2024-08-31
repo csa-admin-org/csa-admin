@@ -17,7 +17,7 @@ describe Permission do
     permission = Permission.superadmin
     expect(permission.rights).to be_empty
     expect(permission.superadmin?).to be_truthy
-    expect(permission.can_write?(:acp)).to be_truthy
+    expect(permission.can_write?(:organization)).to be_truthy
     expect(permission.can_write?(:comment)).to be_truthy
     expect(permission.can_write?(:basket_size)).to be_truthy
     expect(permission.can_destroy?).to be_falsey

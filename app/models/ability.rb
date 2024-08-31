@@ -33,7 +33,7 @@ class Ability
 
     writable_models = []
 
-    if admin.permission.can_write?(:acp)
+    if admin.permission.can_write?(:organization)
       can :read, Organization
       can :update, Organization, id: Current.org.id
     end
