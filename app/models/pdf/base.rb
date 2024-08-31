@@ -41,7 +41,7 @@ module PDF
       font(name)
     end
 
-    def acp_logo_io
+    def org_logo_io
       logo =
         if Current.org.logo.attached?
           Current.org.logo.download

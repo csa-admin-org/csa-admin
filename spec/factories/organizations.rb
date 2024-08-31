@@ -6,7 +6,7 @@ FactoryBot.define do
     url { "https://www.ragedevert.ch" }
     email { "info@ragedevert.ch" }
     phone { "077 447 26 16" }
-    sequence(:tenant_name) { |n| "acp#{n}" }
+    sequence(:tenant_name) { |n| "org-#{n}" }
     email_default_host { "https://membres.ragedevert.ch" }
     email_default_from { "info@ragedevert.ch" }
     email_signature { "Au plaisir,\nRage de Vert" }

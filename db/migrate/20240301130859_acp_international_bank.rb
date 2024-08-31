@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class ACPInternationalBank < ActiveRecord::Migration[7.1]
+class AcpInternationalBank < ActiveRecord::Migration[7.1]
   def change
     rename_column :acps, :qr_iban, :iban
     rename_column :acps, :qr_bank_reference, :bank_reference

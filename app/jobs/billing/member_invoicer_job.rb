@@ -6,7 +6,7 @@ module Billing
 
     def perform(member)
       if Current.org.share?
-        Billing::InvoicerACPShare.invoice(member, send_email: true)
+        Billing::InvoicerShare.invoice(member, send_email: true)
       end
       if Current.org.feature?("new_member_fee")
         Billing::InvoicerNewMemberFee.invoice(member, send_email: true)

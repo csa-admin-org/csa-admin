@@ -1,16 +1,5 @@
 _:
   helpers:
-    acp_shares_number:
-      one:
-        _de: "%{count} Anteilschein"
-        _en: "%{count} share certificate"
-        _fr: "%{count} part sociale"
-        _it: "%{count} quota sociale cooperativa"
-      other:
-        _de: "%{count} Anteilscheine"
-        _en: "%{count} share certificates"
-        _fr: "%{count} parts sociales"
-        _it: "%{count} quote sociali cooperativa"
     activities_count_per_year/basket_preparation:
       one:
         _de: "%{count} Taschen befüllung"
@@ -92,16 +81,16 @@ _:
       _en: Become a supporting member
       _fr: Devenir membre de soutien
       _it: Diventa un socio sostenitore
-    no_basket_size_acp_share:
-      _de: Nur Anteilschein
-      _en: Cooperative share only
-      _fr: Part sociale uniquement
-      _it: Solamente quota sociale cooperativa
     no_basket_size_annual_fee:
       _de: Nur jährlicher Beitrag
       _en: Annual fee only
       _fr: Cotisation annuelle uniquement
       _it: Solamente quota associativa annuale
+    no_basket_size_share:
+      _de: Nur Anteilschein
+      _en: Cooperative share only
+      _fr: Part sociale uniquement
+      _it: Solamente quota sociale cooperativa
     none:
       _de: Kein
       _en: None
@@ -131,3 +120,14 @@ _:
       _en: "%{price}/delivery"
       _fr: "%{price}/livraison"
       _it: "%{price}/consegna"
+    shares_number:
+      one:
+        _de: "%{count} Anteilschein"
+        _en: "%{count} share certificate"
+        _fr: "%{count} part sociale"
+        _it: "%{count} quota sociale cooperativa"
+      other:
+        _de: "%{count} Anteilscheine"
+        _en: "%{count} share certificates"
+        _fr: "%{count} parts sociales"
+        _it: "%{count} quote sociali cooperativa"

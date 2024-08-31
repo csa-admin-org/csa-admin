@@ -109,12 +109,12 @@ class Member < ApplicationRecord
   validates :annual_fee, numericality: { greater_than_or_equal_to: 0 }, allow_nil: true
   validate :email_must_be_unique
   validate :unique_waiting_basket_complement_id
-  validates :existing_acp_shares_number, presence: true, numericality: { greater_than_or_equal_to: 0 }
-  validates :required_acp_shares_number, numericality: { allow_nil: true }
-  validates :desired_acp_shares_number, presence: true, numericality: { greater_than_or_equal_to: 0 }
-  validates :desired_acp_shares_number,
+  validates :existing_shares_number, presence: true, numericality: { greater_than_or_equal_to: 0 }
+  validates :required_shares_number, numericality: { allow_nil: true }
+  validates :desired_shares_number, presence: true, numericality: { greater_than_or_equal_to: 0 }
+  validates :desired_shares_number,
     numericality: {
-      greater_than_or_equal_to: ->(m) { m.waiting_basket_size&.acp_shares_number || Current.org.shares_number || 0 }
+      greater_than_or_equal_to: ->(m) { m.waiting_basket_size&.shares_number || Current.org.shares_number || 0 }
     },
     if: -> { public_create && Current.org.share? }
   validate :billing_truemail
@@ -123,14 +123,14 @@ class Member < ApplicationRecord
   validates :sepa_mandate_id, presence: true, if: :sepa_mandate_signed_on?
   validates :sepa_mandate_signed_on, presence: true, if: :sepa_mandate_id?
 
-  before_save :handle_annual_fee_change, :handle_required_acp_shares_number_change
+  before_save :handle_annual_fee_change, :handle_required_shares_number_change
   after_save :update_membership_if_salary_basket_changed
   after_update :review_active_state!
   after_create_commit :notify_admins!, if: :public_create
 
   def billable?
     support? ||
-      missing_acp_shares_number.positive? ||
+      missing_shares_number.positive? ||
       current_year_membership&.billable? ||
       future_membership&.billable?
   end
@@ -221,7 +221,7 @@ class Member < ApplicationRecord
     if waiting_basket_size_id? || waiting_depot_id?
       self.waiting_started_at ||= Time.current
       self.state = WAITING_STATE
-    elsif annual_fee&.positive? || desired_acp_shares_number.positive?
+    elsif annual_fee&.positive? || desired_shares_number.positive?
       self.state = SUPPORT_STATE
     else
       self.state = INACTIVE_STATE
@@ -252,7 +252,7 @@ class Member < ApplicationRecord
     elsif active?
       if last_membership&.renewal_annual_fee&.positive?
         support!(annual_fee: last_membership.renewal_annual_fee)
-      elsif acp_shares_number.positive?
+      elsif shares_number.positive?
         support!
       else
         deactivate!
@@ -290,11 +290,11 @@ class Member < ApplicationRecord
       state: INACTIVE_STATE,
       shop_depot: nil,
       annual_fee: nil,
-      desired_acp_shares_number: 0,
+      desired_shares_number: 0,
       waiting_started_at: nil
     }
-    if acp_shares_number.positive?
-      attrs[:required_acp_shares_number] = -1 * acp_shares_number
+    if shares_number.positive?
+      attrs[:required_shares_number] = -1 * shares_number
     end
 
     update!(**attrs)
@@ -345,29 +345,29 @@ class Member < ApplicationRecord
     [ balance_amount, 0 ].max
   end
 
-  def acp_shares_number
-    existing_acp_shares_number.to_i + invoices.not_canceled.acp_share.sum(:acp_shares_number)
+  def shares_number
+    existing_shares_number.to_i + invoices.not_canceled.share.sum(:shares_number)
   end
 
-  def required_acp_shares_number=(value)
-    self[:required_acp_shares_number] = value.presence
+  def required_shares_number=(value)
+    self[:required_shares_number] = value.presence
   end
 
-  def required_acp_shares_number
-    (self[:required_acp_shares_number] ||
-      default_required_acp_shares_number).to_i
+  def required_shares_number
+    (self[:required_shares_number] ||
+      default_required_shares_number).to_i
   end
 
-  def default_required_acp_shares_number
-    current_or_future_membership&.basket_size&.acp_shares_number.to_i
+  def default_required_shares_number
+    current_or_future_membership&.basket_size&.shares_number.to_i
   end
 
-  def missing_acp_shares_number
-    [ [ required_acp_shares_number, desired_acp_shares_number ].max - acp_shares_number, 0 ].max
+  def missing_shares_number
+    [ [ required_shares_number, desired_shares_number ].max - shares_number, 0 ].max
   end
 
-  def handle_acp_shares_change!
-    if acp_shares_number.positive?
+  def handle_shares_change!
+    if shares_number.positive?
       update_column(:state, SUPPORT_STATE) if inactive?
     elsif support?
       update_column(:state, INACTIVE_STATE)
@@ -442,14 +442,14 @@ class Member < ApplicationRecord
     end
   end
 
-  def handle_required_acp_shares_number_change
+  def handle_required_shares_number_change
     return unless Current.org.share?
 
-    final_acp_shares_number = [ acp_shares_number, desired_acp_shares_number ].max
-    if (final_acp_shares_number + required_acp_shares_number).positive?
+    final_shares_number = [ shares_number, desired_shares_number ].max
+    if (final_shares_number + required_shares_number).positive?
       self.state = SUPPORT_STATE if inactive?
     elsif support?
-      self.desired_acp_shares_number = 0
+      self.desired_shares_number = 0
       self.state = INACTIVE_STATE
     end
   end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_08_30_152633) do
+ActiveRecord::Schema[7.2].define(version: 2024_08_31_085555) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
   enable_extension "plpgsql"
@@ -216,7 +216,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_08_30_152633) do
     t.decimal "price", precision: 8, scale: 3, default: "0.0", null: false
     t.integer "activity_participations_demanded_annually", default: 0, null: false
     t.jsonb "names", default: {}, null: false
-    t.integer "acp_shares_number"
+    t.integer "shares_number"
     t.boolean "visible", default: true, null: false
     t.jsonb "public_names", default: {}, null: false
     t.jsonb "form_details", default: {}, null: false
@@ -390,7 +390,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_08_30_152633) do
     t.bigint "entity_id"
     t.integer "paid_missing_activity_participations"
     t.decimal "vat_amount", precision: 8, scale: 2
-    t.integer "acp_shares_number"
+    t.integer "shares_number"
     t.datetime "overpaid_notification_sent_at", precision: nil
     t.decimal "vat_rate", precision: 8, scale: 2
     t.decimal "amount_percentage", precision: 8, scale: 2
@@ -437,19 +437,19 @@ ActiveRecord::Schema[7.2].define(version: 2024_08_30_152633) do
     t.text "come_from"
     t.decimal "annual_fee", precision: 8, scale: 2
     t.string "language", default: "fr", null: false
-    t.string "acp_shares_info"
-    t.integer "existing_acp_shares_number", default: 0, null: false
+    t.string "shares_info"
+    t.integer "existing_shares_number", default: 0, null: false
     t.datetime "activated_at", precision: nil
     t.decimal "waiting_basket_price_extra", precision: 8, scale: 2
     t.string "country_code", limit: 2
     t.boolean "contact_sharing", default: false, null: false
-    t.integer "desired_acp_shares_number", default: 0, null: false
+    t.integer "desired_shares_number", default: 0, null: false
     t.bigint "waiting_delivery_cycle_id"
     t.string "billing_email"
     t.integer "memberships_count", default: 0, null: false
     t.bigint "shop_depot_id"
     t.string "delivery_note"
-    t.integer "required_acp_shares_number"
+    t.integer "required_shares_number"
     t.integer "waiting_activity_participations_demanded_annually"
     t.string "iban"
     t.string "sepa_mandate_id"

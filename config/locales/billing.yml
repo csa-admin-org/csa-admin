@@ -1,10 +1,5 @@
 _:
   billing:
-    acp_shares:
-      _de: Anteilscheine
-      _en: Cooperative shares
-      _fr: Part Sociales
-      _it: Quota sociale cooperativa
     adjustments:
       _de: Anpassungen
       _en: Adjustments
@@ -87,11 +82,6 @@ _:
       _fr: Abonnements restant à facturer
       _it: Abbonamenti restanti da fatturare
     scope:
-      acp_share:
-        _de: Anteilschein
-        _en: Share
-        _fr: Part Sociale
-        _it: Quota sociale cooperativa
       activity/basket_preparation:
         _de: Anpassung Taschen befüllung
         _en: Basket preparation adjustment
@@ -158,6 +148,16 @@ _:
         _en: Paid
         _fr: Payé
         _it: Pagato
+      share:
+        _de: Anteilschein
+        _en: Share
+        _fr: Part Sociale
+        _it: Quota sociale cooperativa
+    shares:
+      _de: Anteilscheine
+      _en: Cooperative shares
+      _fr: Part Sociales
+      _it: Quota sociale cooperativa
     title:
       _de: Rechnungsstellung
       _en: Billing

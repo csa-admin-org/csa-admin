@@ -89,7 +89,7 @@ module XLSX
         add_line("#{t_invoice}: #{t('annual_fees')}", invoices_total(:annual_fee), Current.org.annual_fee)
       end
       if Current.org.share?
-        add_line("#{t_invoice}: #{t('acp_shares')}", @invoices.acp_share.sum(:amount), Current.org.share_price)
+        add_line("#{t_invoice}: #{t('shares')}", @invoices.share.sum(:amount), Current.org.share_price)
       end
       if Current.org.feature?("shop")
         add_line("#{t_invoice}: #{I18n.t('shop.title_orders', count: 2)}", @invoices.shop_order_type.sum(:amount))

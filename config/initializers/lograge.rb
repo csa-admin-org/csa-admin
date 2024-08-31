@@ -21,7 +21,7 @@ Rails.application.configure do
 
   config.lograge.custom_options = lambda do |event|
     options = {}
-    options[:acp] = Tenant.current if Tenant.inside?
+    options[:org] = Tenant.current if Tenant.inside?
     options
   end
 end

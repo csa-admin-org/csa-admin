@@ -12,7 +12,7 @@ module OrganizationsHelper
       .join(" – ")
   end
 
-  def link_to_acp_website(options = {})
+  def link_to_org_website(options = {})
     link_to Current.org.url.sub(/https?:\/\//, ""), Current.org.url, options
   end
 

@@ -44,7 +44,7 @@ class BasketSize < ApplicationRecord
   validates :activity_participations_demanded_annually,
     numericality: { greater_than_or_equal_to: 0 },
     presence: true
-  validates :acp_shares_number,
+  validates :shares_number,
     numericality: { greater_than_or_equal_to: 1 },
     allow_nil: true
 

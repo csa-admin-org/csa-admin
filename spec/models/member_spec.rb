@@ -125,34 +125,34 @@ describe Member do
       expect(member).not_to have_valid(:waiting_depot_id)
     end
 
-    it "validates desired_acp_shares_number on public create" do
+    it "validates desired_shares_number on public create" do
       Current.org.update!(annual_fee: 50, share_price: nil, shares_number: nil)
-      member = build(:member, desired_acp_shares_number: 0)
+      member = build(:member, desired_shares_number: 0)
 
       member.public_create = nil
-      expect(member).to have_valid(:desired_acp_shares_number)
+      expect(member).to have_valid(:desired_shares_number)
       member.public_create = true
-      expect(member).to have_valid(:desired_acp_shares_number)
+      expect(member).to have_valid(:desired_shares_number)
 
       Current.org.update!(annual_fee: nil, share_price: 100, shares_number: 1)
 
       member.public_create = nil
-      expect(member).to have_valid(:desired_acp_shares_number)
+      expect(member).to have_valid(:desired_shares_number)
       member.public_create = true
-      expect(member).not_to have_valid(:desired_acp_shares_number)
-      member.desired_acp_shares_number = 1
-      expect(member).to have_valid(:desired_acp_shares_number)
+      expect(member).not_to have_valid(:desired_shares_number)
+      member.desired_shares_number = 1
+      expect(member).to have_valid(:desired_shares_number)
 
       Current.org.update!(annual_fee: nil, share_price: 100, shares_number: 2)
-      expect(member).not_to have_valid(:desired_acp_shares_number)
-      member.desired_acp_shares_number = 2
-      expect(member).to have_valid(:desired_acp_shares_number)
+      expect(member).not_to have_valid(:desired_shares_number)
+      member.desired_shares_number = 2
+      expect(member).to have_valid(:desired_shares_number)
 
-      basket_size = create(:basket_size, acp_shares_number: 3)
+      basket_size = create(:basket_size, shares_number: 3)
       member.waiting_basket_size_id = basket_size.id
-      expect(member).not_to have_valid(:desired_acp_shares_number)
-      member.desired_acp_shares_number = 3
-      expect(member).to have_valid(:desired_acp_shares_number)
+      expect(member).not_to have_valid(:desired_shares_number)
+      member.desired_shares_number = 3
+      expect(member).to have_valid(:desired_shares_number)
     end
 
     specify "validates waiting_activity_participations_demanded_annually on public create" do
@@ -366,10 +366,10 @@ describe Member do
       expect(member.validator).to eq admin
     end
 
-    it "sets state to support if desired_acp_shares_number is present" do
+    it "sets state to support if desired_shares_number is present" do
       Current.org.update!(annual_fee: nil, share_price: 100, shares_number: 1)
       member = create(:member, :pending,
-        desired_acp_shares_number: 10,
+        desired_shares_number: 10,
         waiting_basket_size: nil,
         waiting_depot: nil,
         annual_fee: nil)
@@ -456,29 +456,29 @@ describe Member do
       end
     end
 
-    it "sets state to support when user still has acp_shares", freeze: "2021-06-15" do
+    it "sets state to support when user still has shares", freeze: "2021-06-15" do
       Current.org.update!(share_price: 100, shares_number: 1, annual_fee: nil)
       member = create(:member, :active)
       member.membership.update_column(:ended_on, 1.day.ago)
-      create(:invoice, member: member, acp_shares_number: 1, entity_type: "ACPShare")
+      create(:invoice, member: member, shares_number: 1, entity_type: "Share")
 
-      expect(member.acp_shares_number).to eq 1
+      expect(member.shares_number).to eq 1
       expect { member.review_active_state! }
         .to change { member.reload.state }.to("support")
       expect(member.annual_fee).to be_nil
     end
 
-    it "sets state to inactive and desired_acp_shares_number to 0 when membership ended", freeze: "2021-06-15" do
+    it "sets state to inactive and desired_shares_number to 0 when membership ended", freeze: "2021-06-15" do
       Current.org.update!(share_price: 100, shares_number: 1, annual_fee: nil)
       member = create(:member, :trial)
-      member.update!(desired_acp_shares_number: 1)
+      member.update!(desired_shares_number: 1)
       member.membership.update_column(:ended_on, 1.day.ago)
 
       expect { member.review_active_state! }
         .to change { member.reload.state }.to("inactive")
-        .and change { member.reload.desired_acp_shares_number }.from(1).to(0)
+        .and change { member.reload.desired_shares_number }.from(1).to(0)
       expect(member.annual_fee).to be_nil
-      expect(member.acp_shares_number).to eq 0
+      expect(member.shares_number).to eq 0
     end
   end
 
@@ -602,23 +602,23 @@ describe Member do
       end
     end
 
-    context "with acp shares" do
+    context "with shares" do
       before { Current.org.update!(share_price: 100, shares_number: 1, annual_fee: nil) }
 
-      specify "support member with acp shares" do
-        member = create(:member, :support_acp_share, acp_shares_number: 2)
+      specify "support member with shares" do
+        member = create(:member, :support_share, shares_number: 2)
 
         expect { member.deactivate! }.to change(member, :state).from("support").to("inactive")
-        expect(member.desired_acp_shares_number).to be_zero
-        expect(member.required_acp_shares_number).to eq -2
+        expect(member.desired_shares_number).to be_zero
+        expect(member.required_shares_number).to eq -2
       end
 
       specify "support member with only desired shares" do
-        member = create(:member, state: "support", desired_acp_shares_number: 1)
+        member = create(:member, state: "support", desired_shares_number: 1)
 
         expect { member.deactivate! }.to change(member, :state).from("support").to("inactive")
-        expect(member.desired_acp_shares_number).to be_zero
-        expect(member.required_acp_shares_number).to be_zero
+        expect(member.desired_shares_number).to be_zero
+        expect(member.required_shares_number).to be_zero
       end
     end
   end
@@ -682,104 +682,104 @@ describe Member do
     end
   end
 
-  describe "#handle_required_acp_shares_number_change" do
+  describe "#handle_required_shares_number_change" do
     before { Current.org.update!(share_price: 100, shares_number: 1, annual_fee: nil) }
 
     specify "change to negative number" do
-      member = create(:member, :support_acp_share, acp_shares_number: 2)
+      member = create(:member, :support_share, shares_number: 2)
 
-      expect { member.update!(required_acp_shares_number: -1) }.not_to change { member.reload.state }.from("support")
-      expect { member.update!(required_acp_shares_number: -2) }.to change(member, :state).from("support").to("inactive")
-      expect(member.desired_acp_shares_number).to be_zero
-      expect(member.acp_shares_number).to eq 2
+      expect { member.update!(required_shares_number: -1) }.not_to change { member.reload.state }.from("support")
+      expect { member.update!(required_shares_number: -2) }.to change(member, :state).from("support").to("inactive")
+      expect(member.desired_shares_number).to be_zero
+      expect(member.shares_number).to eq 2
     end
 
-    specify "change to negative number, with only desired acp shares" do
-      member = create(:member, state: "support", desired_acp_shares_number: 2)
+    specify "change to negative number, with only desired shares" do
+      member = create(:member, state: "support", desired_shares_number: 2)
 
-      expect { member.update!(required_acp_shares_number: -1) }.not_to change { member.reload.state }.from("support")
-      expect { member.update!(required_acp_shares_number: -2) }.to change(member, :state).from("support").to("inactive")
-      expect(member.desired_acp_shares_number).to be_zero
-      expect(member.acp_shares_number).to be_zero
+      expect { member.update!(required_shares_number: -1) }.not_to change { member.reload.state }.from("support")
+      expect { member.update!(required_shares_number: -2) }.to change(member, :state).from("support").to("inactive")
+      expect(member.desired_shares_number).to be_zero
+      expect(member.shares_number).to be_zero
     end
 
     specify "removing negative number" do
-      member = create(:member, :support_acp_share, acp_shares_number: 2)
-      member.update!(required_acp_shares_number: -2)
+      member = create(:member, :support_share, shares_number: 2)
+      member.update!(required_shares_number: -2)
 
-      expect { member.update!(required_acp_shares_number: 0) }.to change(member, :state).from("inactive").to("support")
+      expect { member.update!(required_shares_number: 0) }.to change(member, :state).from("inactive").to("support")
 
-      expect(member.desired_acp_shares_number).to be_zero
-      expect(member.acp_shares_number).to eq 2
+      expect(member.desired_shares_number).to be_zero
+      expect(member.shares_number).to eq 2
     end
   end
 
-  describe "#missing_acp_shares_number" do
-    specify "when desired_acp_shares_number only" do
+  describe "#missing_shares_number" do
+    specify "when desired_shares_number only" do
       member = Member.new(
-        desired_acp_shares_number: 10,
-        existing_acp_shares_number: 0)
-      expect(member.missing_acp_shares_number).to eq 10
+        desired_shares_number: 10,
+        existing_shares_number: 0)
+      expect(member.missing_shares_number).to eq 10
     end
 
-    specify "when matching existing_acp_shares_number" do
+    specify "when matching existing_shares_number" do
       member = Member.new(
-        desired_acp_shares_number: 5,
-        existing_acp_shares_number: 5)
-      expect(member.missing_acp_shares_number).to eq 0
+        desired_shares_number: 5,
+        existing_shares_number: 5)
+      expect(member.missing_shares_number).to eq 0
     end
 
-    specify "when more existing_acp_shares_number" do
+    specify "when more existing_shares_number" do
       member = Member.new(
-        desired_acp_shares_number: 5,
-        existing_acp_shares_number: 6)
-      expect(member.missing_acp_shares_number).to eq 0
+        desired_shares_number: 5,
+        existing_shares_number: 6)
+      expect(member.missing_shares_number).to eq 0
     end
 
-    specify "when less existing_acp_shares_number" do
+    specify "when less existing_shares_number" do
       member = Member.new(
-        desired_acp_shares_number: 6,
-        existing_acp_shares_number: 4)
-      expect(member.missing_acp_shares_number).to eq 2
+        desired_shares_number: 6,
+        existing_shares_number: 4)
+      expect(member.missing_shares_number).to eq 2
     end
 
     specify "when requiring more membership shares" do
-      basket_size = create(:basket_size, acp_shares_number: 2)
+      basket_size = create(:basket_size, shares_number: 2)
       member = create(:member,
-        desired_acp_shares_number: 1,
-        existing_acp_shares_number: 0)
+        desired_shares_number: 1,
+        existing_shares_number: 0)
       create(:membership, member: member, basket_size: basket_size)
-      expect(member.missing_acp_shares_number).to eq 2
+      expect(member.missing_shares_number).to eq 2
     end
 
     specify "when explicitly requiring more shares" do
-      basket_size = create(:basket_size, acp_shares_number: 2)
+      basket_size = create(:basket_size, shares_number: 2)
       member = create(:member,
-        desired_acp_shares_number: 1,
-        existing_acp_shares_number: 0,
-        required_acp_shares_number: 3)
+        desired_shares_number: 1,
+        existing_shares_number: 0,
+        required_shares_number: 3)
       create(:membership, member: member, basket_size: basket_size)
-      expect(member.missing_acp_shares_number).to eq 3
+      expect(member.missing_shares_number).to eq 3
     end
 
     specify "when explicitly requiring less shares but still desired one" do
-      basket_size = create(:basket_size, acp_shares_number: 2)
+      basket_size = create(:basket_size, shares_number: 2)
       member = create(:member,
-        desired_acp_shares_number: 0,
-        existing_acp_shares_number: 0,
-        required_acp_shares_number: 0)
+        desired_shares_number: 0,
+        existing_shares_number: 0,
+        required_shares_number: 0)
       create(:membership, member: member, basket_size: basket_size)
-      expect(member.missing_acp_shares_number).to eq 0
+      expect(member.missing_shares_number).to eq 0
     end
 
     specify "when explicitly requiring less shares but still desired one" do
-      basket_size = create(:basket_size, acp_shares_number: 2)
+      basket_size = create(:basket_size, shares_number: 2)
       member = create(:member,
-        desired_acp_shares_number: 1,
-        existing_acp_shares_number: 0,
-        required_acp_shares_number: 0)
+        desired_shares_number: 1,
+        existing_shares_number: 0,
+        required_shares_number: 0)
       create(:membership, member: member, basket_size: basket_size)
-      expect(member.missing_acp_shares_number).to eq 1
+      expect(member.missing_shares_number).to eq 1
     end
   end
 

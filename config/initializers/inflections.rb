@@ -18,7 +18,6 @@
 # end
 
 ActiveSupport::Inflector.inflections do |inflect|
-  inflect.acronym "ACP"
   inflect.acronym "API"
   inflect.acronym "BAS"
   inflect.acronym "PDF"

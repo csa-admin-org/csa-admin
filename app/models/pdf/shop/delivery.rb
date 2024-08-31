@@ -54,7 +54,7 @@ module PDF
       end
 
       def header(member, depot = nil, page:, total_pages:)
-        image acp_logo_io, at: [ 15, bounds.height - 20 ], width: 110
+        image org_logo_io, at: [ 15, bounds.height - 20 ], width: 110
         bounding_box [ bounds.width - 450, bounds.height - 20 ], width: 430, height: 120 do
           text member.name, size: 22, align: :right
           move_down 10

@@ -10,11 +10,6 @@ _:
       _en: Baskets (absent)
       _fr: Paniers (absents)
       _it: Ceste (assenti)
-    acp_shares_number:
-      _de: Anzahl Anteilscheine
-      _en: Number of shares
-      _fr: Nombre de parts sociales
-      _it: Numero di quote sociali della cooperativa
     address:
       _de: Adresse
       _en: Address
@@ -510,6 +505,11 @@ _:
       _en: Sent by
       _fr: Envoyé par
       _it: Inviato da
+    shares_number:
+      _de: Anzahl Anteilscheine
+      _en: Number of shares
+      _fr: Nombre de parts sociales
+      _it: Numero di quote sociali della cooperativa
     shop:
       _de: Hofladen
       _en: Shop

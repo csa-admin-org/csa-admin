@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-describe Billing::InvoicerACPShare do
+describe Billing::InvoicerShare do
   before { current_org.update!(share_price: 250, shares_number: 1, trial_basket_count: 0) }
 
   def invoice(member, **attrs)
@@ -10,21 +10,21 @@ describe Billing::InvoicerACPShare do
   end
 
   it "creates invoice for member with ongoing memberships that does not have the organization shares billed already", freeze: "2023-01-01" do
-    basket_size = create(:basket_size, acp_shares_number: 3)
+    basket_size = create(:basket_size, shares_number: 3)
     membership = create(:membership, basket_size: basket_size)
     member = membership.member
 
     expect { invoice(member) }
       .to change { member.invoices.count }.by(1)
-      .and change { member.reload.acp_shares_number }.from(0).to(3)
+      .and change { member.reload.shares_number }.from(0).to(3)
     invoice = member.invoices.last
-    expect(invoice.entity_type).to eq "ACPShare"
-    expect(invoice.acp_shares_number).to eq 3
+    expect(invoice.entity_type).to eq "Share"
+    expect(invoice.shares_number).to eq 3
     expect(invoice.date).to eq Date.current
   end
 
   it "sends emails directly when the send_email attribute is set", freeze: "2023-01-01", sidekiq: :inline do
-    basket_size = create(:basket_size, acp_shares_number: 3)
+    basket_size = create(:basket_size, shares_number: 3)
     membership = create(:membership, basket_size: basket_size)
     member = membership.member
     invoice = nil
@@ -38,22 +38,22 @@ describe Billing::InvoicerACPShare do
   end
 
   it "creates invoice when the organization shares already partially billed", freeze: "2023-01-01" do
-    basket_size = create(:basket_size, acp_shares_number: 3)
+    basket_size = create(:basket_size, shares_number: 3)
     membership = create(:membership, basket_size: basket_size)
     member = membership.member
-    create(:invoice, member: member, acp_shares_number: 2)
+    create(:invoice, member: member, shares_number: 2)
 
     expect { invoice(member) }
       .to change { member.invoices.count }.by(1)
-      .and change { member.acp_shares_number }.from(2).to(3)
+      .and change { member.shares_number }.from(2).to(3)
   end
 
   it "creates invoice when the organization shares desired and on support", freeze: "2023-01-01" do
-    member = create(:member, state: "support", desired_acp_shares_number: 2)
+    member = create(:member, state: "support", desired_shares_number: 2)
 
     expect { invoice(member) }
       .to change { member.invoices.count }.by(1)
-      .and change { member.acp_shares_number }.from(0).to(2)
+      .and change { member.shares_number }.from(0).to(2)
   end
 
   specify "create invoice when the organization shares desired and active with an shop depot", freeze: "2023-01-01" do
@@ -61,27 +61,27 @@ describe Billing::InvoicerACPShare do
     member = create(:member,
       state: "active",
       shop_depot: depot,
-      desired_acp_shares_number: 2)
+      desired_shares_number: 2)
 
     expect { invoice(member) }
       .to change { member.invoices.count }.by(1)
-      .and change { member.acp_shares_number }.from(0).to(2)
+      .and change { member.shares_number }.from(0).to(2)
   end
 
   it "does nothing when the organization shares already billed", freeze: "2023-01-01" do
-    basket_size = create(:basket_size, acp_shares_number: 3)
+    basket_size = create(:basket_size, shares_number: 3)
     membership = create(:membership, basket_size: basket_size)
     member = membership.member
-    create(:invoice, member: member, acp_shares_number: 3)
+    create(:invoice, member: member, shares_number: 3)
 
     expect { invoice(member) }.not_to change { member.invoices.count }
   end
 
   it "does nothing when the organization shares already exists prior to system use", freeze: "2023-01-01" do
-    basket_size = create(:basket_size, acp_shares_number: 3)
+    basket_size = create(:basket_size, shares_number: 3)
     membership = create(:membership, basket_size: basket_size)
     member = membership.member
-    member.update!(existing_acp_shares_number: 3)
+    member.update!(existing_shares_number: 3)
 
     expect { invoice(member) }.not_to change { member.invoices.count }
   end
@@ -92,7 +92,7 @@ describe Billing::InvoicerACPShare do
   end
 
   specify "ignore member in trial period" do
-    basket_size = create(:basket_size, acp_shares_number: 3)
+    basket_size = create(:basket_size, shares_number: 3)
     Current.org.update!(trial_basket_count: 3)
     membership = travel_to "2021-01-01" do
       create(:delivery, date: "2021-09-21")

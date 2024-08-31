@@ -16,9 +16,9 @@ FactoryBot.define do
       annual_fee { member.annual_fee }
     end
 
-    trait :acp_share do
-      entity_type { "ACPShare" }
-      acp_shares_number { 1 }
+    trait :share do
+      entity_type { "Share" }
+      shares_number { 1 }
     end
 
     trait :activity_participation do
