@@ -919,56 +919,6 @@ _:
             _en: "%{used} of %{count} reported"
             _fr: "%{used} sur %{count} annoncées"
             _it: "%{used} su %{count} annunciate"
-        acp_shares_number:
-          existing:
-            one:
-              _de: 1 bestehenden
-              _en: 1 existing
-              _fr: 1 existante
-              _it: 1 esistente
-            other:
-              _de: "%{count} bestehende"
-              _en: "%{count} existing"
-              _fr: "%{count} existantes"
-              _it: "%{count} esistenti"
-          invoiced:
-            one:
-              _de: 1 abgerechneten
-              _en: 1 invoiced
-              _fr: 1 facturée
-              _it: 1 che sarà fatturato
-            other:
-              _de: "%{count} abgerechnete"
-              _en: "%{count} invoiced"
-              _fr: "%{count} facturées"
-              _it: "%{count} fatturate"
-          missing:
-            one:
-              _de: 1 der in Rechnung gestellt wird
-              _en: 1 missing
-              _fr: 1 qui sera facturée
-              _it: 1 che sarà fatturato
-            other:
-              _de: "%{count} die in Rechnung gestellt werden"
-              _en: "%{count} missing"
-              _fr: "%{count} qui seront facturées"
-              _it: "%{count} che saranno fatturati"
-          required:
-            one:
-              _de: 1 benötigten
-              _en: 1 required
-              _fr: 1 requise
-              _it: 1 richiesto
-            other:
-              _de: "%{count} benötigte"
-              _en: "%{count} required"
-              _fr: "%{count} requises"
-              _it: "%{count} richiesti"
-            zero:
-              _de: 0 benötigten
-              _en: 0 required
-              _fr: 0 requise
-              _it: 0 richiesto
         activity_participations_annual_price_change/basket_preparation:
           _de: Anpassung Taschen befüllung
           _en: Basket preparation adjustment
@@ -1218,6 +1168,56 @@ _:
           _en: Send
           _fr: Envoyer
           _it: Inviare
+        shares_number:
+          existing:
+            one:
+              _de: 1 bestehenden
+              _en: 1 existing
+              _fr: 1 existante
+              _it: 1 esistente
+            other:
+              _de: "%{count} bestehende"
+              _en: "%{count} existing"
+              _fr: "%{count} existantes"
+              _it: "%{count} esistenti"
+          invoiced:
+            one:
+              _de: 1 abgerechneten
+              _en: 1 invoiced
+              _fr: 1 facturée
+              _it: 1 che sarà fatturato
+            other:
+              _de: "%{count} abgerechnete"
+              _en: "%{count} invoiced"
+              _fr: "%{count} facturées"
+              _it: "%{count} fatturate"
+          missing:
+            one:
+              _de: 1 der in Rechnung gestellt wird
+              _en: 1 missing
+              _fr: 1 qui sera facturée
+              _it: 1 che sarà fatturato
+            other:
+              _de: "%{count} die in Rechnung gestellt werden"
+              _en: "%{count} missing"
+              _fr: "%{count} qui seront facturées"
+              _it: "%{count} che saranno fatturati"
+          required:
+            one:
+              _de: 1 benötigten
+              _en: 1 required
+              _fr: 1 requise
+              _it: 1 richiesto
+            other:
+              _de: "%{count} benötigte"
+              _en: "%{count} required"
+              _fr: "%{count} requises"
+              _it: "%{count} richiesti"
+            zero:
+              _de: 0 benötigten
+              _en: 0 required
+              _fr: 0 requise
+              _it: 0 richiesto
         show_all:
           _de: alles anzeigen
           _en: show all

@@ -100,7 +100,7 @@ ActiveAdmin.register Member do
       column(:annual_fee) { |m| cur(m.annual_fee) }
     end
     if Current.org.share?
-      column(:acp_shares_number)
+      column(:shares_number)
     end
     column(:salary_basket, &:salary_basket?)
     column(:waiting_started_at)
@@ -473,9 +473,9 @@ ActiveAdmin.register Member do
         if Current.org.share?
           panel t("active_admin.resource.new.shares") do
             attributes_table do
-              row(Organization.human_attribute_name(:shares_number)) { display_acp_shares_number(member) }
-              row(:acp_shares_info) { member.acp_shares_info }
-              invoicer = Billing::InvoicerACPShare.new(member)
+              row(Organization.human_attribute_name(:shares_number)) { display_shares_number(member) }
+              row(:shares_info) { member.shares_info }
+              invoicer = Billing::InvoicerShare.new(member)
               if invoicer.billable?
                 row(:next_invoice_on) {
                   if Current.org.recurring_billing?
@@ -483,8 +483,8 @@ ActiveAdmin.register Member do
                       span class: "next_date" do
                         l(invoicer.next_date, format: :medium)
                       end
-                      if authorized?(:force_acp_share_billing, member)
-                        button_to t(".invoice_now"), force_acp_share_billing_member_path(member),
+                      if authorized?(:force_share_billing, member)
+                        button_to t(".invoice_now"), force_share_billing_member_path(member),
                           form: {
                             data: { controller: "disable", disable_with_value: t("formtastic.processing") },
                             class: "inline"
@@ -640,17 +640,17 @@ ActiveAdmin.register Member do
 
     if Current.org.share?
       f.inputs t(".shares") do
-        f.input :existing_acp_shares_number
-        if member.acp_shares_number.zero? || member.desired_acp_shares_number.positive?
-          f.input :desired_acp_shares_number
+        f.input :existing_shares_number
+        if member.shares_number.zero? || member.desired_shares_number.positive?
+          f.input :desired_shares_number
         end
-        f.input :required_acp_shares_number,
+        f.input :required_shares_number,
           input_html: {
-            value: f.object[:required_acp_shares_number],
-            placeholder: f.object.default_required_acp_shares_number
+            value: f.object[:required_shares_number],
+            placeholder: f.object.default_required_shares_number
           },
-          hint: t("formtastic.hints.member.required_acp_shares_number_html")
-        f.input :acp_shares_info
+          hint: t("formtastic.hints.member.required_shares_number_html")
+        f.input :shares_info
       end
     end
 
@@ -671,8 +671,8 @@ ActiveAdmin.register Member do
     :annual_fee, :salary_basket,
     :billing_email,
     :iban, :sepa_mandate_id, :sepa_mandate_signed_on,
-    :acp_shares_info, :existing_acp_shares_number,
-    :desired_acp_shares_number, :required_acp_shares_number,
+    :shares_info, :existing_shares_number,
+    :desired_shares_number, :required_shares_number,
     :waiting, :waiting_basket_size_id, :waiting_basket_price_extra,
     :waiting_activity_participations_demanded_annually,
     :waiting_depot_id, :waiting_delivery_cycle_id,
@@ -746,8 +746,8 @@ ActiveAdmin.register Member do
     end
   end
 
-  member_action :force_acp_share_billing, method: :post do
-    if invoice = Billing::InvoicerACPShare.invoice(resource)
+  member_action :force_share_billing, method: :post do
+    if invoice = Billing::InvoicerShare.invoice(resource)
       redirect_to invoice
     else
       redirect_back fallback_location: resource

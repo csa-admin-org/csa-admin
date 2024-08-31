@@ -7,7 +7,7 @@ class InvoiceTotal
   def self.all(year)
     scopes = %w[Membership]
     scopes << "AnnualFee" if Current.org.annual_fee?
-    scopes << "ACPShare" if Current.org.share?
+    scopes << "Share" if Current.org.share?
     scopes << "Shop::Order" if Current.org.feature?("shop")
     scopes << "ActivityParticipation" if Current.org.feature?("activity")
     scopes << "Other" if Invoice.current_year.not_canceled.other_type.any?
@@ -36,8 +36,8 @@ class InvoiceTotal
       I18n.t("billing.remaining_memberships")
     when "AnnualFee"
       link_to_invoices(I18n.t("billing.annual_fees"), %w[Membership AnnualFee])
-    when "ACPShare"
-      link_to_invoices I18n.t("billing.acp_shares")
+    when "Share"
+      link_to_invoices I18n.t("billing.shares")
     when "Shop::Order"
       link_to_invoices I18n.t("shop.title_orders", count: 2)
     when "ActivityParticipation"

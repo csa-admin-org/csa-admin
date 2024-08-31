@@ -8,11 +8,6 @@ _:
           _fr: Facture annulée
           _it: Fattura annullata
     entity_type:
-      acp_share:
-        _de: Anteilschein
-        _en: Cooperative share
-        _fr: Part sociale
-        _it: Quota sociale cooperativa
       annual_fee:
         _de: Beitrag
         _en: Annual fee
@@ -28,29 +23,12 @@ _:
         _en: Other
         _fr: Autre
         _it: Altro
+      share:
+        _de: Anteilschein
+        _en: Cooperative share
+        _fr: Part sociale
+        _it: Quota sociale cooperativa
     pdf:
-      acp_shares_number:
-        one:
-          _de: Erwerb eines Anteilscheins
-          _en: Acquisition of one share certificate
-          _fr: Acquisition d'une part sociale
-          _it: Acquisto di una quota sociale cooperativa
-        other:
-          _de: Erwerb von %{count} Anteilscheinen
-          _en: Acquisition of %{count} share certificates
-          _fr: Acquisition de %{count} parts sociales
-          _it: Acquisto di  %{count} quote sociali cooperative
-      acp_shares_number_negative:
-        one:
-          _de: Rückzahlung eines Anteilscheins
-          _en: Refund of one share certificate
-          _fr: Remboursement d'une part sociale
-          _it: Rimborso di una quota sociale cooperativa
-        other:
-          _de: Rückzahlung von %{count} Anteilscheinen
-          _en: Refund of %{count} share certificates
-          _fr: Remboursement de %{count} parts sociales
-          _it: Rimborso di %{count} quote sociali cooperative
       all_taxes_included:
         _de: inkl. MwSt.
         _en: All taxes included
@@ -255,6 +233,28 @@ _:
         _en: This corrective invoice replaces the canceled invoices no. %{ids}.
         _fr: Cette facture rectificative remplace les factures annulées n° %{ids}.
         _it: Questa fattura rettificativa sostituisce le fatture annullate n° %{ids}.
+      shares_number:
+        one:
+          _de: Erwerb eines Anteilscheins
+          _en: Acquisition of one share certificate
+          _fr: Acquisition d'une part sociale
+          _it: Acquisto di una quota sociale cooperativa
+        other:
+          _de: Erwerb von %{count} Anteilscheinen
+          _en: Acquisition of %{count} share certificates
+          _fr: Acquisition de %{count} parts sociales
+          _it: Acquisto di  %{count} quote sociali cooperative
+      shares_number_negative:
+        one:
+          _de: Rückzahlung eines Anteilscheins
+          _en: Refund of one share certificate
+          _fr: Remboursement d'une part sociale
+          _it: Rimborso di una quota sociale cooperativa
+        other:
+          _de: Rückzahlung von %{count} Anteilscheinen
+          _en: Refund of %{count} share certificates
+          _fr: Remboursement de %{count} parts sociales
+          _it: Rimborso di %{count} quote sociali cooperative
       total:
         _de: Gesamt
         _en: Total

@@ -54,7 +54,7 @@ module PDF
     end
 
     def header(page:, total_pages:)
-      image acp_logo_io, at: [ 15, bounds.height - 20 ], width: 110
+      image org_logo_io, at: [ 15, bounds.height - 20 ], width: 110
       bounding_box [ 155, bounds.height - 55 ], width: 200, height: 2.6.cm do
         text "#{::Invoice.model_name.human} N° #{invoice.id}", style: :bold, size: 16
         move_down 5
@@ -93,10 +93,10 @@ module PDF
           text part, valign: :top, leading: 2
           move_down 2
         end
-        if invoice.acp_share_type? && invoice.member.acp_shares_info?
+        if invoice.share_type? && invoice.member.shares_info?
           move_down 6
-          attr_name = Member.human_attribute_name(:acp_shares_info)
-          text "#{attr_name}: #{invoice.member.acp_shares_info}", valign: :top, leading: 2, size: 10
+          attr_name = Member.human_attribute_name(:shares_info)
+          text "#{attr_name}: #{invoice.member.shares_info}", valign: :top, leading: 2, size: 10
         end
       end
     end
@@ -171,12 +171,12 @@ module PDF
           str = t_activity("missed_activity_participations", count: invoice.paid_missing_activity_participations)
         end
         data << [ str, _cur(invoice.amount) ]
-      when "ACPShare"
+      when "Share"
         str =
-          if invoice.acp_shares_number.positive?
-            t("acp_shares_number", count: invoice.acp_shares_number)
+          if invoice.shares_number.positive?
+            t("shares_number", count: invoice.shares_number)
           else
-            t("acp_shares_number_negative", count: invoice.acp_shares_number.abs)
+            t("shares_number_negative", count: invoice.shares_number.abs)
           end
         data << [ str, _cur(invoice.amount) ]
       when "Other", "Shop::Order", "NewMemberFee"

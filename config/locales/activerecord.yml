@@ -470,11 +470,6 @@ _:
           _fr: Template
           _it: Template
       member:
-        acp_shares_info:
-          _de: N° Anteilschein
-          _en: Share certificate No.
-          _fr: N° part sociale
-          _it: N° quote sociali cooperative
         basket_complements:
           _de: Taschenzusätze
           _en: Basket complements
@@ -530,12 +525,12 @@ _:
           _en: Depot
           _fr: Dépôt
           _it: Punto di ritiro
-        desired_acp_shares_number:
+        desired_shares_number:
           _de: Anteilscheine
           _en: Share certificates
           _fr: Parts sociales
           _it: Quote sociali della cooperativa
-        existing_acp_shares_number:
+        existing_shares_number:
           _de: Anzahl der bestehenden Anteilscheine
           _en: Number of existing share certificates
           _fr: Nombre de parts sociales existantes
@@ -565,7 +560,7 @@ _:
           _en: Profession / Skills
           _fr: Profession / Compétences
           _it: Professione / Competenze
-        required_acp_shares_number:
+        required_shares_number:
           _de: Anzahl der benötigten Anteilscheine
           _en: Number of required share certificates
           _fr: Nombre de parts sociales requises
@@ -585,6 +580,11 @@ _:
           _en: Mandate signed on
           _fr: Mandat signé le
           _it: Mandato firmato il
+        shares_info:
+          _de: N° Anteilschein
+          _en: Share certificate No.
+          _fr: N° part sociale
+          _it: N° quote sociali cooperative
         shop_depot:
           _de: Depot (Hofladen)
           _en: Depot (shop)

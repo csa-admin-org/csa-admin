@@ -31,7 +31,7 @@ module MembersHelper
     Current.org.languages.map { |l| [ t("languages.#{l}"), l ] }
   end
 
-  def acp_billing_year_divisions_collection(data: {})
+  def organization_billing_year_divisions_collection(data: {})
     Current.org.billing_year_divisions.sort.map { |i|
       [
         I18n.t("billing.year_division.x#{i}"),
@@ -44,7 +44,7 @@ module MembersHelper
   def basket_size_details(bs, force_default: false)
     return bs.form_detail if !force_default && bs.form_detail?
 
-    @org_shares_numbers ||= BasketSize.visible.pluck(:acp_shares_number).uniq
+    @org_shares_numbers ||= BasketSize.visible.pluck(:shares_number).uniq
     details = []
     if bs.price.positive?
       details << "#{deliveries_based_price_info(bs.price, bs.billable_deliveries_counts)} (#{short_price(bs.price)} x #{deliveries_count(bs.billable_deliveries_counts)})"
@@ -53,7 +53,7 @@ module MembersHelper
     end
     details << activities_count(bs.activity_participations_demanded_annually)
     if @org_shares_numbers.size > 1
-      details << acp_shares_number(bs.acp_shares_number)
+      details << shares_number(bs.shares_number)
     end
     details.compact.join(", ").html_safe
   end
@@ -64,7 +64,7 @@ module MembersHelper
         collection_text(bs.public_name, details: basket_size_details(bs)),
         bs.id,
         data: {
-          form_min_value_min_value_param: bs.acp_shares_number,
+          form_min_value_min_value_param: bs.shares_number,
           activity: bs.activity_participations_demanded_annually
         }.merge(data)
       ]
@@ -76,7 +76,7 @@ module MembersHelper
             if Current.org.annual_fee
               t("helpers.no_basket_size_annual_fee")
             elsif Current.org.share?
-              t("helpers.no_basket_size_acp_share")
+              t("helpers.no_basket_size_share")
             end
         ),
         0,
@@ -262,24 +262,24 @@ module MembersHelper
       .any?
   end
 
-  def display_acp_shares_number(member)
+  def display_shares_number(member)
     parts = []
-    if member.existing_acp_shares_number&.positive?
-      parts << t(".acp_shares_number.existing", count: member.existing_acp_shares_number)
+    if member.existing_shares_number&.positive?
+      parts << t(".shares_number.existing", count: member.existing_shares_number)
     end
-    invoiced_number = member.invoices.not_canceled.acp_share.sum(:acp_shares_number)
+    invoiced_number = member.invoices.not_canceled.share.sum(:shares_number)
     if invoiced_number.positive?
       parts << link_to(
-        t(".acp_shares_number.invoiced", count: invoiced_number),
-        invoices_path(q: { member_id_eq: member.id, entity_type_in: "ACPShare" }, scope: :all))
+        t(".shares_number.invoiced", count: invoiced_number),
+        invoices_path(q: { member_id_eq: member.id, entity_type_in: "Share" }, scope: :all))
     end
-    if member.missing_acp_shares_number.positive?
-      parts << t(".acp_shares_number.missing", count: member.missing_acp_shares_number)
+    if member.missing_shares_number.positive?
+      parts << t(".shares_number.missing", count: member.missing_shares_number)
     end
     txt = parts.to_sentence.html_safe
-    if member.acp_shares_number > member.required_acp_shares_number
-      sign = member.required_acp_shares_number.negative? ? "-" : ""
-      txt += " (#{sign}#{t('.acp_shares_number.required', count: member.required_acp_shares_number.abs)})"
+    if member.shares_number > member.required_shares_number
+      sign = member.required_shares_number.negative? ? "-" : ""
+      txt += " (#{sign}#{t('.shares_number.required', count: member.required_shares_number.abs)})"
     end
     txt
   end
@@ -414,10 +414,10 @@ module MembersHelper
     t_activity("helpers.activities_count_per_year", count: count).gsub(/\s/, "&nbsp;")
   end
 
-  def acp_shares_number(number)
+  def shares_number(number)
     return unless number
 
-    t("helpers.acp_shares_number", count: number)
+    t("helpers.shares_number", count: number)
   end
 
   def member_features_sentence

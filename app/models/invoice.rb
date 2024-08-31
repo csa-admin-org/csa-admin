@@ -29,7 +29,7 @@ class Invoice < ApplicationRecord
 
   scope :annual_fee, -> { where.not(annual_fee: nil) }
   scope :membership, -> { where(entity_type: "Membership") }
-  scope :acp_share, -> { where(entity_type: "ACPShare") }
+  scope :share, -> { where(entity_type: "Share") }
   scope :not_processing, -> { where.not(state: PROCESSING_STATE) }
   scope :not_canceled, -> { where.not(state: CANCELED_STATE) }
   scope :sent, -> { where.not(sent_at: nil) }
@@ -77,10 +77,10 @@ class Invoice < ApplicationRecord
     numericality: { greater_than_or_equal_to: 1 },
     if: :paid_missing_activity_participations,
     on: :create
-  validates :acp_shares_number,
+  validates :shares_number,
     numericality: { other_than: 0, allow_blank: true }
-  validates :acp_shares_number, absence: true, unless: :acp_share_type?
-  validates :items, absence: true, if: :acp_share_type?
+  validates :shares_number, absence: true, unless: :share_type?
+  validates :items, absence: true, if: :share_type?
   validates :paid_memberships_amount,
     numericality: { greater_than_or_equal_to: 0 },
     allow_nil: true
@@ -108,7 +108,7 @@ class Invoice < ApplicationRecord
     types << "ActivityParticipation"
     types << "Shop::Order"
     types << "AnnualFee"
-    types << "ACPShare"
+    types << "Share"
     types << "NewMemberFee"
     types
   end
@@ -118,7 +118,7 @@ class Invoice < ApplicationRecord
     types << "ActivityParticipation" if Current.org.feature?("activity")
     types << "Shop::Order" if Current.org.feature?("shop")
     types << "AnnualFee" if Current.org.annual_fee?
-    types << "ACPShare" if Current.org.share?
+    types << "Share" if Current.org.share?
     types << "NewMemberFee" if Current.org.feature?("new_member_fee")
     types += pluck(:entity_type)
     types.uniq.sort
@@ -136,7 +136,7 @@ class Invoice < ApplicationRecord
     return unless processing?
 
     Billing::PaymentsRedistributor.redistribute!(member_id)
-    handle_acp_shares_change!
+    handle_shares_change!
     reload # ensure that paid_amount/state change are reflected.
     attach_pdf
     Billing::PaymentsRedistributor.redistribute!(member_id)
@@ -180,7 +180,7 @@ class Invoice < ApplicationRecord
         canceled_at: Time.current,
         state: CANCELED_STATE)
       Billing::PaymentsRedistributor.redistribute!(member_id)
-      handle_acp_shares_change!
+      handle_shares_change!
     end
   end
 
@@ -287,11 +287,11 @@ class Invoice < ApplicationRecord
     self[:entity_type] = "ActivityParticipation" unless entity_type?
   end
 
-  def acp_shares_number=(number)
+  def shares_number=(number)
     return if number.to_i == 0
 
     super
-    self[:entity_type] = "ACPShare" unless entity_type?
+    self[:entity_type] = "Share" unless entity_type?
     self[:amount] = number.to_i * Current.org.share_price
   end
 
@@ -316,7 +316,7 @@ class Invoice < ApplicationRecord
       !processing? &&
       !canceled? &&
       (current_year? || open?) &&
-      (!acp_share_type? || open?) &&
+      (!share_type? || open?) &&
       (!entity_id? || entity_latest?)
   end
 
@@ -355,8 +355,8 @@ class Invoice < ApplicationRecord
 
   def can_refund?
     closed? &&
-      acp_shares_number.to_i.positive? &&
-      member.acp_shares_number.to_i.positive?
+      shares_number.to_i.positive? &&
+      member.shares_number.to_i.positive?
   end
 
   def membership_type?
@@ -367,8 +367,8 @@ class Invoice < ApplicationRecord
     entity_type == "ActivityParticipation"
   end
 
-  def acp_share_type?
-    entity_type == "ACPShare"
+  def share_type?
+    entity_type == "Share"
   end
 
   def shop_order_type?
@@ -496,8 +496,8 @@ class Invoice < ApplicationRecord
       send_email: @previous_state == OPEN_STATE)
   end
 
-  def handle_acp_shares_change!
-    member.handle_acp_shares_change! if acp_share_type?
+  def handle_shares_change!
+    member.handle_shares_change! if share_type?
   end
 
   def update_membership_activity_participations_accepted!

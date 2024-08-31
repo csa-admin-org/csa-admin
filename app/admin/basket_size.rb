@@ -27,7 +27,7 @@ ActiveAdmin.register BasketSize do
         class: "text-right"
     end
     if Current.org.share?
-      column t("billing.acp_shares"), ->(bs) { bs.acp_shares_number }, class: "text-right"
+      column t("billing.shares"), ->(bs) { bs.shares_number }, class: "text-right"
     end
     column :visible, class: "text-right"
     actions
@@ -47,7 +47,7 @@ ActiveAdmin.register BasketSize do
           min: 0
       end
       if Current.org.share?
-        f.input :acp_shares_number, as: :number, step: 1
+        f.input :shares_number, as: :number, step: 1
       end
     end
 
@@ -77,7 +77,7 @@ ActiveAdmin.register BasketSize do
 
   permit_params(
     :price,
-    :acp_shares_number,
+    :shares_number,
     :activity_participations_demanded_annually,
     :visible,
     :member_order_priority,
@@ -87,7 +87,7 @@ ActiveAdmin.register BasketSize do
     *I18n.available_locales.map { |l| "form_detail_#{l}" })
 
   before_build do |basket_size|
-    basket_size.acp_shares_number ||= Current.org.shares_number
+    basket_size.shares_number ||= Current.org.shares_number
   end
 
   controller do

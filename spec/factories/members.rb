@@ -67,17 +67,17 @@ FactoryBot.define do
       annual_fee { Current.org.annual_fee }
     end
 
-    trait :support_acp_share do
+    trait :support_share do
       transient do
-        acp_shares_number { 1 }
+        shares_number { 1 }
       end
 
       state { "support" }
-      required_acp_shares_number { acp_shares_number }
+      required_shares_number { shares_number }
 
       after :create do |member, evaluator|
         create(:invoice, member: member,
-          acp_shares_number: evaluator.acp_shares_number)
+          shares_number: evaluator.shares_number)
       end
     end
 

@@ -200,8 +200,8 @@ ActiveAdmin.register Invoice do
             row :id
             row :member
             row(:entity) { display_entity(invoice) }
-            if invoice.acp_share_type?
-              row(:acp_shares_number)
+            if invoice.share_type?
+              row(:shares_number)
             end
             if invoice.activity_participation_type?
               row(:paid_missing_activity_participations)
@@ -267,9 +267,9 @@ ActiveAdmin.register Invoice do
   end
 
   action_item :refund, only: :show, if: -> { resource.can_refund? } do
-    acp_shares_number = [ resource.acp_shares_number, resource.member.acp_shares_number ].min
+    shares_number = [ resource.shares_number, resource.member.shares_number ].min
     link_to t(".refund"),
-      new_invoice_path(member_id: resource.member_id, acp_shares_number: -acp_shares_number, anchor: "acp_share"),
+      new_invoice_path(member_id: resource.member_id, shares_number: -shares_number, anchor: "share"),
       class: "action-item-button"
   end
 
@@ -352,8 +352,8 @@ ActiveAdmin.register Invoice do
             end
           end
           if Current.org.share?
-            tab t_invoice_entity_type("ACPShare"), id: "acp_share", hidden: f.object.entity.is_a?(ActivityParticipation) do
-              f.input :acp_shares_number, as: :number, step: 1
+            tab t_invoice_entity_type("Share"), id: "share", hidden: f.object.entity.is_a?(ActivityParticipation) do
+              f.input :shares_number, as: :number, step: 1
             end
           end
         end
@@ -380,7 +380,7 @@ ActiveAdmin.register Invoice do
     :comment,
     :paid_missing_activity_participations,
     :activity_price,
-    :acp_shares_number,
+    :shares_number,
     :vat_rate,
     items_attributes: %i[id description amount _destroy]
 
@@ -394,8 +394,8 @@ ActiveAdmin.register Invoice do
       member = Member.find(params[:member_id])
       invoice.member = member
     end
-    if params[:acp_shares_number]
-      invoice.acp_shares_number ||= params[:acp_shares_number]
+    if params[:shares_number]
+      invoice.shares_number ||= params[:shares_number]
     end
 
     invoice.member_id ||= referer_filter(:member_id)

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Billing
-  class InvoicerACPShare
+  class InvoicerShare
     attr_reader :member
 
     def self.invoice(member, **attrs)
@@ -16,14 +16,14 @@ module Billing
       return unless billable?
 
       attrs[:date] = Date.current
-      attrs[:acp_shares_number] = member.missing_acp_shares_number
+      attrs[:shares_number] = member.missing_shares_number
       member.invoices.create!(attrs)
     end
 
     def billable?
       (ongoing_membership || member.support? || member.shop_depot_id?) &&
         member.billable? &&
-        member.missing_acp_shares_number.positive?
+        member.missing_shares_number.positive?
     end
 
     def next_date

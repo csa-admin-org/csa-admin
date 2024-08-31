@@ -317,7 +317,7 @@ _:
           _en: Leave blank if the same.
           _fr: Laisser vide si identique.
           _it: Lascia vuoto se identico.
-        desired_acp_shares_number:
+        desired_shares_number:
           _de: Erlaubt dem Mitglied, mehr Anteilscheine zu haben als die erforderliche Anzahl. Sie werden automatisch in Rechnung gestellt.
           _en: Allows the member to have more shares than required. They will be billed automatically.
           _fr: Permet au membre d'avoir plus de parts sociales que celles requises. Elles seront facturées automatiquement.
@@ -327,7 +327,7 @@ _:
           _en: Separated by a comma.
           _fr: Séparés par une virgule.
           _it: Separate da una virgola.
-        existing_acp_shares_number:
+        existing_shares_number:
           _de: Nützlich, wenn einige Anteilschein außerhalb des Systems fakturiert wurden.
           _en: Useful if some shares were billed outside the system.
           _fr: Utile si certaines parts sociales ont été facturées en dehors du système.
@@ -342,7 +342,7 @@ _:
           _en: Which could potentially be useful for our activities.
           _fr: Qui pourraient éventuellement s'avérer utiles à nos activités.
           _it: Che potrebbe essere potenzialmente utile per le nostre attività.
-        required_acp_shares_number_html:
+        required_shares_number_html:
           _de: Ermöglicht die Änderung der Standardanzahl, die von der Taschengröße des aktuellen Abonnements abhängt.
           _en: Allows changing the default number, which depends on the basket size of the current membership.</br>A negative number indicates that the shares will not be refunded to make the member inactive.
           _fr: Permet de changer le nombre par défaut qui dépends de la taille du panier de l'abonnement en cours.</br>Un nombre négatif permet d'indiquer que les parts ne seront pas remboursées afin de rendre le membre inactif.

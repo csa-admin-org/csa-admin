@@ -137,13 +137,13 @@ describe Invoice do
     end
   end
 
-  context "when acp_share" do
-    it "sets entity_type to ACPShare with acp_shares_number" do
+  context "when share" do
+    it "sets entity_type to Share with shares_number" do
       Current.org.update!(share_price: 250, shares_number: 1)
-      invoice = create(:invoice, :manual, acp_shares_number: -2)
+      invoice = create(:invoice, :manual, shares_number: -2)
 
-      expect(invoice.entity_type).to eq "ACPShare"
-      expect(invoice.acp_shares_number).to eq -2
+      expect(invoice.entity_type).to eq "Share"
+      expect(invoice.shares_number).to eq -2
       expect(invoice.amount).to eq -500
     end
   end
@@ -429,18 +429,18 @@ describe Invoice do
     end
   end
 
-  describe "#handle_acp_shares_change!" do
+  describe "#handle_shares_change!" do
     before { Current.org.update!(share_price: 250, shares_number: 1) }
 
     it "changes inactive member state to support", sidekiq: :inline do
       member = create(:member, :inactive)
-      expect { create(:invoice, member: member, acp_shares_number: 1) }
+      expect { create(:invoice, member: member, shares_number: 1) }
         .to change { member.reload.state }.from("inactive").to("support")
     end
 
     it "changes support member state to inactive", sidekiq: :inline do
-      member = create(:member, :support_acp_share, acp_shares_number: 1)
-      expect { create(:invoice, member: member, acp_shares_number: -1) }
+      member = create(:member, :support_share, shares_number: 1)
+      expect { create(:invoice, member: member, shares_number: -1) }
         .to change { member.reload.state }.from("support").to("inactive")
     end
   end
@@ -512,15 +512,15 @@ describe Invoice do
       expect(invoice.can_cancel?).to eq false
     end
 
-    specify "when acp_shares type and closed" do
+    specify "when shares type and closed" do
       Current.org.update!(share_price: 250, shares_number: 1)
-      invoice = create(:invoice, :acp_share, :closed)
+      invoice = create(:invoice, :share, :closed)
       expect(invoice.can_cancel?).to eq false
     end
 
-    specify "when acp_shares type and open" do
+    specify "when shares type and open" do
       Current.org.update!(share_price: 250, shares_number: 1)
-      invoice = create(:invoice, :acp_share, :open)
+      invoice = create(:invoice, :share, :open)
       expect(invoice.can_cancel?).to eq true
     end
   end

@@ -136,7 +136,7 @@ describe Billing::PaymentsRedistributor do
       invoice2 = create(:invoice, :open,
         date: beginning_of_year + 1.day,
         member: member,
-        acp_shares_number: -2)
+        shares_number: -2)
       invoice3 = create(:invoice, :open,
         date: beginning_of_year + 2.days,
         member: member,
@@ -170,7 +170,7 @@ describe Billing::PaymentsRedistributor do
       invoice2 = create(:invoice, :open,
         date: beginning_of_year + 1.day,
         member: member,
-        acp_shares_number: -2)
+        shares_number: -2)
       invoice3 = create(:invoice, :open,
         date: beginning_of_year + 2.days,
         member: member,

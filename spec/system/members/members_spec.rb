@@ -494,7 +494,7 @@ describe "members page" do
       expect(member.waiting_billing_year_division).to be_nil
     end
 
-    it "creates a new support member (acp_share)" do
+    it "creates a new support member (share)" do
       Current.org.update!(
         languages: %w[fr de],
         terms_of_service_url: "https://terms_of_service.com",
@@ -541,7 +541,7 @@ describe "members page" do
       expect(member.waiting_basket_size).to be_nil
       expect(member.waiting_depot).to be_nil
       expect(member.annual_fee).to be_nil
-      expect(member.desired_acp_shares_number).to eq 3
+      expect(member.desired_shares_number).to eq 3
       expect(member.waiting_billing_year_division).to be_nil
     end
 

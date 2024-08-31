@@ -662,17 +662,17 @@ describe PDF::Invoice do
         invoice_footer: "<b>TaPatate!<b>, c/o Danielle Huser, Dunantstrasse 6, 3006 Bern /// info@tapatate.ch")
     }
 
-    it "generates invoice with positive acp_shares_number", sidekiq: :inline do
+    it "generates invoice with positive shares_number", sidekiq: :inline do
       member = create(:member,
         name: "Manuel Rast",
         address: "Donnerbühlweg 31",
         zip: "3012",
         city: "Bern",
-        acp_shares_info: "345")
+        shares_info: "345")
       create(:payment, amount: 75, member: member)
       invoice = create(:invoice,
         member: member,
-        acp_shares_number: 2)
+        shares_number: 2)
 
       pdf_strings = save_pdf_and_return_strings(invoice)
       expect(pdf_strings)
@@ -684,7 +684,7 @@ describe PDF::Invoice do
         .and contain_sequence("L’historique de votre facturation est disponible à tout moment sur votre page de membre.")
     end
 
-    it "generates invoice with negative acp_shares_number", sidekiq: :inline do
+    it "generates invoice with negative shares_number", sidekiq: :inline do
       member = create(:member,
         name: "Manuel Rast",
         address: "Donnerbühlweg 31",
@@ -692,7 +692,7 @@ describe PDF::Invoice do
         city: "Bern")
       invoice = create(:invoice,
         member: member,
-        acp_shares_number: -2)
+        shares_number: -2)
       create(:payment, amount: 75, member: member)
 
       pdf_strings = save_pdf_and_return_strings(invoice)
@@ -733,7 +733,7 @@ describe PDF::Invoice do
       invoice = create(:invoice,
         id: 1001,
         member: member,
-        acp_shares_number: 5)
+        shares_number: 5)
 
       pdf_strings = save_pdf_and_return_strings(invoice)
       expect(pdf_strings)
@@ -794,7 +794,7 @@ describe PDF::Invoice do
       invoice = create(:invoice,
         id: 8001,
         member: member,
-        acp_shares_number: 5)
+        shares_number: 5)
 
       pdf_strings = save_pdf_and_return_strings(invoice)
       expect(pdf_strings)
@@ -842,7 +842,7 @@ describe PDF::Invoice do
       invoice = create(:invoice,
         id: 9001,
         member: member,
-        acp_shares_number: 5)
+        shares_number: 5)
 
       pdf_strings = save_pdf_and_return_strings(invoice)
       expect(pdf_strings)
@@ -859,7 +859,7 @@ describe PDF::Invoice do
       invoice = create(:invoice,
         id: 9002,
         member: member,
-        acp_shares_number: 1)
+        shares_number: 1)
 
       pdf_strings = save_pdf_and_return_strings(invoice)
       expect(pdf_strings)

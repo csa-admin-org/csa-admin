@@ -349,11 +349,6 @@ _:
           _it: Consegna il %{date}
     billing:
       index:
-        acp_shares:
-          _de: Anteilscheine
-          _en: Cooperative shares
-          _fr: Parts sociales
-          _it: Quote sociali della cooperativa
         billing:
           _de: Rechnungsstellung
           _en: Billing
@@ -389,6 +384,11 @@ _:
           _en: Open invoices
           _fr: Factures ouvertes
           _it: Fatture aperte
+        shares:
+          _de: Anteilscheine
+          _en: Cooperative shares
+          _fr: Parts sociales
+          _it: Quote sociali della cooperativa
         show_all:
           _de: Alle anzeigen
           _en: Show all
@@ -517,21 +517,21 @@ _:
     members:
       form_modes:
         membership:
-          acp_shares_text:
-            _de: Jedes Mitglied tritt der Genossenschaft bei und muss ein oder merhere Anteilscheine (<b>%{price}</b>/Anteilschein) erwerben.
-            _en: Each member joins the cooperative and must acquire one or more shares (<b>%{price}</b>/share).
-            _fr: Chaque membre fait également partie de la coopérative et se doit d'acquérir des parts sociales (<b>%{price}</b>/part).
-            _it: Ogni socio è parte della cooperativa e deve acquisire quote sociali della cooperativa (<b>%{price}</b>/part).
           annual_fee_text:
             _de: Jedes Mitglied tritt dem Verein bei und zahlt zusätzlich zum Gemüseabo einen jährlichen Beitrag von <b>%{price}</b> ein.
             _en: Each member also joins the association and pays an annual fee of <b>%{price}</b> in addition to the vegetable membership.
             _fr: Chaque membre fait également partie de l'association et verse une cotisation annuelle de <b>%{price}</b> en plus de l'abonnement à son panier.
             _it: Ogni socio fa parte dell'associazione e versa una quota associativa annuale di <b>%{price}</b> in aggiunta all'abbonamento per la propria cesta.
-          desired_acp_shares_number_hint:
+          desired_shares_number_hint:
             _de: Sie können sich entscheiden mehr Anteilscheine zu kaufen um die Genossenschaft zu unterstützen.
             _en: You can choose to buy more shares to support the cooperative.
             _fr: Acquérir plus de parts sociales pour soutenir la coopérative.
             _it: Comperandone più di una quota sostieni la cooperativa.
+          shares_text:
+            _de: Jedes Mitglied tritt der Genossenschaft bei und muss ein oder merhere Anteilscheine (<b>%{price}</b>/Anteilschein) erwerben.
+            _en: Each member joins the cooperative and must acquire one or more shares (<b>%{price}</b>/share).
+            _fr: Chaque membre fait également partie de la coopérative et se doit d'acquérir des parts sociales (<b>%{price}</b>/part).
+            _it: Ogni socio è parte della cooperativa e deve acquisire quote sociali della cooperativa (<b>%{price}</b>/part).
           text:
             _de: Jeder Abonnent verpflichtet sich für ein ganzes Geschäftsjahr (%{fiscal_year_months_range}). Im Falle eines Einstiegs im Verlauf des laufenden Geschäftsjahrs wird der Preis durch die Anzahl der restlichen Lieferungen bestimmt.
             _en: Each subscriber commits for a full fiscal year (%{fiscal_year_months_range}). In case of joining during the current fiscal year, the price is determined by the number of remaining deliveries.
@@ -618,7 +618,7 @@ _:
           _fr: an
           _it: anno
       welcome:
-        return_to_acp_website:
+        return_to_org_website:
           _de: Zurück zu %{link}
           _en: Return to %{link}
           _fr: Retourner sur %{link}
