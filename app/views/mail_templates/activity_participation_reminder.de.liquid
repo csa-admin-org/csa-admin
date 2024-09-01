@@ -15,7 +15,9 @@
   <strong>Teilnehmer:</strong> {{ activity_participation.participants_count }}
 {% endhighlight_list %}
 
-<p>Eine Frage? Sie können uns gerne anrufen <strong>{{ organization.activity_phone }}</strong> oder einfach auf diese Email antworten.</p>
+{% if organization.activity_phone %}
+  <p>Eine Frage? Sie können uns gerne anrufen <strong>{{ organization.activity_phone }}</strong> oder einfach auf diese Email antworten.</p>
+{% endif %}
 
 {% if activity_participation.carpooling.size > 0 %}
   <p>Fahrgemeinschaften: folgende Mitglieder fahren mit dem Auto. Nehmen Sie ungeniert Kontakt mit Ihnen auf:</p>

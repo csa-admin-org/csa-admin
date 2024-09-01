@@ -15,7 +15,9 @@
   <strong>Partecipanti:</strong> {{ activity_participation.participants_count }}
 {% endhighlight_list %}
 
-<p>In caso di rinuncia all'ultimo minuto, si prega di contattateci al <strong>{{ organization.activity_phone }}</strong>, questo ci evita attese inutili.</p>
+{% if organization.activity_phone %}
+  <p>In caso di rinuncia all'ultimo minuto, si prega di contattateci al <strong>{{ organization.activity_phone }}</strong>, questo ci evita attese inutili.</p>
+{% endif %}
 
 <p>Iscrivetevi ad altre attività dalla vostra pagina di socio.</p>
 

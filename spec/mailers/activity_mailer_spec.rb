@@ -3,6 +3,7 @@
 require "rails_helper"
 
 describe ActivityMailer do
+  before { Current.org.update!(activity_phone: "+41 77 333 44 55") }
   let(:member) { create(:member, emails: "example@csa-admin.org") }
   let(:activity) {
     create(:activity,
@@ -43,6 +44,7 @@ describe ActivityMailer do
     expect(mail.body).to include("<strong>Activité:</strong> Aide aux champs")
     expect(mail.body).to include("<strong>Description:</strong> Que du bonheur")
     expect(mail.body).to include("<strong>Participants:</strong> 2")
+    expect(mail.body).to include("<strong>+41 77 333 44 55</strong>")
     expect(mail.body).to include("<strong>Elea Asah</strong>: +41 76 543 12 43 (La Chaux-de-Fonds)")
     expect(mail.body).to include("https://membres.ragedevert.ch/activity_participations")
     expect(mail[:from].decoded).to eq "Rage de Vert <info@ragedevert.ch>"
@@ -66,6 +68,7 @@ describe ActivityMailer do
     expect(mail.body).to include("<strong>Activité:</strong> Aide aux champs")
     expect(mail.body).to include("<strong>Description:</strong> Que du bonheur")
     expect(mail.body).to include("<strong>Participants:</strong> 2")
+    expect(mail.body).to include("<strong>+41 77 333 44 55</strong>")
     expect(mail.body).to include("https://membres.ragedevert.ch/activity_participations")
     expect(mail[:from].decoded).to eq "Rage de Vert <info@ragedevert.ch>"
     expect(mail[:message_stream].to_s).to eq "outbound"
@@ -88,6 +91,7 @@ describe ActivityMailer do
     expect(mail.body).to include("<strong>Activité:</strong> Aide aux champs")
     expect(mail.body).to include("<strong>Description:</strong> Que du bonheur")
     expect(mail.body).to include("<strong>Participants:</strong> 2")
+    expect(mail.body).to include("<strong>+41 77 333 44 55</strong>")
     expect(mail.body).to include("https://membres.ragedevert.ch/activity_participations")
     expect(mail[:from].decoded).to eq "Rage de Vert <info@ragedevert.ch>"
     expect(mail[:message_stream].to_s).to eq "outbound"

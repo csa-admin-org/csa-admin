@@ -15,7 +15,7 @@ describe Liquid::DataPreview do
 
     expect(data).to eq({
       "organization" => {
-        "activity_phone" => "+41 77 447 26 16",
+        "activity_phone" => nil,
         "email" => "info@ragedevert.ch",
         "name"=> "Rage de Vert",
         "phone"=> "+41 77 447 26 16",
@@ -94,7 +94,7 @@ describe Liquid::DataPreview do
 
     expect(data).to eq({
       "organization" => {
-        "activity_phone" => "+41 77 447 26 16",
+        "activity_phone" => nil,
         "email" => "info@ragedevert.ch",
         "name"=> "Rage de Vert",
         "phone"=> "+41 77 447 26 16",

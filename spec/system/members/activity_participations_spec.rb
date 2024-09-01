@@ -56,7 +56,7 @@ describe "Activity Participation" do
       expect(page).to have_selector('span[title="Covoiturage: 077 447 58 31"] svg')
     end
     expect(member.activity_participations.last).to have_attributes(
-      carpooling_phone: "+41774475831",
+      carpooling_phone: "+41 77 447 58 31", # phormatted
       carpooling_city: "La Chaux-de-Fonds")
   end
 

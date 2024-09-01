@@ -512,6 +512,11 @@ _:
           _en: Leave blank if the member cannot reduce the number of participations via the registration/renewal form.
           _fr: Laissez blanc si le membre ne peux pas réduire le nombre de participation via le formulaire d'inscription/renouvellement.
           _it: Lasciare vuoto se il socio non può ridurre il numero di partecipazioni tramite il modulo di registrazione/rinnovo.
+        activity_phone_html:
+          _de: Nummer, die in <a href="/mail_templates?scope=activity">den E-Mail-Vorlagen der Aktivitäten</a> angezeigt wird.
+          _en: Number displayed in <a href="/mail_templates?scope=activity">the activity email templates</a>.
+          _fr: Numéro affiché dans <a href="/mail_templates?scope=activity">les templates email des activités</a>.
+          _it: Numero visualizzato in <a href="/mail_templates?scope=activity">i template email delle attività</a>.
         activity_price:
           _de: Lassen Sie es auf Null, wenn fehlende oder überschüssige Teilnahmen nicht in Rechnung gestellt werden.
           _en: Leave at zero if missing or excess participations are not billed.
@@ -607,6 +612,11 @@ _:
           _en: Sets the order of depots in the registration form after considering their individual priority.
           _fr: Permet de définir l'ordre d'affichage des dépôts dans le formulaire d'inscription, après avoir pris en compte leur priorité individuelle.
           _it: Permette di definire l'ordine di visualizzazione dei punti di ritiro nel modulo di iscrizione, dopo aver preso in considerazione la loro priorità individuale.
+        email:
+          _de: Adresse, die im Footer der Mitgliederseite angezeigt wird.
+          _en: Address displayed in the footer of the members page.
+          _fr: Adresse affichée dans le bas de page de la page des membres.
+          _it: Indirizzo visualizzato nel piè di pagina della pagina dei soci.
         fiscal_year_start_month:
           _de: Bitte kontaktieren Sie mich für Änderungen.
           _en: Please contact me for changes.
@@ -707,6 +717,11 @@ _:
           _en: Text displayed on the member page above the renewal request form.
           _fr: Texte affiché sur la page de membre au-dessus du formulaire de demande du renouvellement.
           _it: Testo visibile sulla pagina dei soci sotto il formulario con la domanda di rinnovo.
+        phone:
+          _de: Nummer, die im Footer der Mitgliederseite angezeigt wird.
+          _en: Number displayed in the footer of the members page.
+          _fr: Numéro affiché dans le bas de page de la page des membres.
+          _it: Numero visualizzato nel piè di pagina della pagina dei soci.
         recurring_billing_wday_html:
           _de: Die Rechnungsstellung erfolgt automatisch jede Woche zu Beginn des gewählten Tages. Auf diese Weise erstellte Rechnungen werden ebenfalls automatisch versendet. <u>Es ist ratsam, einen anderen Tag als den Lieferungstag zu wählen.</u>
           _en: Automatic billing is done every week at the beginning of the chosen day. Invoices created this way are also sent automatically. <u>It is advisable to choose a day other than the delivery day.</u>

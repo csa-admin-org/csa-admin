@@ -61,7 +61,8 @@ class Organization < ApplicationRecord
   validates :email_default_from, presence: true
   validates :email_default_from, format: { with: /\A[^@\s]+@[^@\s]+\.[^@\s]+\z/ }
   validates :email_default_from, format: { with: ->(a) { /.*@#{a.email_hostname}\z/ } }
-  validates :activity_phone, presence: true, if: -> { feature?("activity") }
+  validates_plausible_phone :phone, country_code: ->(org) { org.country_code }
+  validates_plausible_phone :activity_phone, country_code: ->(org) { org.country_code }
   validates :iban, :creditor_name, :creditor_address,
     :creditor_city, :creditor_zip,
     presence: true
@@ -190,6 +191,22 @@ class Organization < ApplicationRecord
     super divisions.map(&:to_i) & BILLING_YEAR_DIVISIONS
   end
 
+  def phone=(phone)
+    super PhonyRails.normalize_number(phone, default_country_code: country_code)
+  end
+
+  def phone
+    super.presence&.phony_formatted(format: :international)
+  end
+
+  def activity_phone=(phone)
+    super PhonyRails.normalize_number(phone, default_country_code: country_code)
+  end
+
+  def activity_phone
+    super.presence&.phony_formatted(format: :international)
+  end
+
   def languages=(languages)
     super languages & self.class.languages
   end
@@ -242,10 +259,6 @@ class Organization < ApplicationRecord
 
   def activity_participations_form?
     activity_participations_form_min || activity_participations_form_max
-  end
-
-  def activity_phone
-    super.presence || phone
   end
 
   def basket_price_extra_title
@@ -382,3 +395,6 @@ class Organization < ApplicationRecord
       .update_all(annual_fee: annual_fee)
   end
 end
+
+# Alias
+Org = Organization
