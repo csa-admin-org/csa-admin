@@ -15,7 +15,9 @@
   <strong>Participants:</strong> {{ activity_participation.participants_count }}
 {% endhighlight_list %}
 
-<p>En cas d'empêchement de dernière minute, merci de nous contacter au <strong>{{ organization.activity_phone }}</strong>, cela évite de vous faire attendre inutilement.</p>
+{% if organization.activity_phone %}
+  <p>En cas d'empêchement de dernière minute, merci de nous contacter au <strong>{{ organization.activity_phone }}</strong>, cela évite de vous faire attendre inutilement.</p>
+{% endif %}
 
 <p>Inscrivez-vous à d'autres activités depuis votre page de membre.</p>
 

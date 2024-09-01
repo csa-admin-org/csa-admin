@@ -15,7 +15,9 @@
   <strong>Participants:</strong> {{ activity_participation.participants_count }}
 {% endhighlight_list %}
 
-<p>Une question? Vous pouvez nous contacter au <strong>{{ organization.activity_phone }}</strong> ou en répondant simplement à cet email.</p>
+{% if organization.activity_phone %}
+  <p>Une question? Vous pouvez nous contacter au <strong>{{ organization.activity_phone }}</strong> ou en répondant simplement à cet email.</p>
+{% endif %}
 
 {% if activity_participation.carpooling.size > 0 %}
   <p>Covoiturage, les membres suivants se déplacent en voiture, n'hésitez pas à prendre contact avec eux:</p>

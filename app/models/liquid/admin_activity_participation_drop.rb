@@ -22,7 +22,7 @@ class Liquid::AdminActivityParticipationDrop < Liquid::Drop
   end
 
   def carpooling_phone
-    @activity_participation.carpooling_phone&.phony_formatted(normalize: Current.org.country_code, format: :international)
+    @activity_participation.carpooling_phone
   end
 
   def carpooling_city

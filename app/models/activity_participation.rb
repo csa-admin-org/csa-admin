@@ -87,6 +87,10 @@ class ActivityParticipation < ApplicationRecord
       default_country_code: Current.org.country_code)
   end
 
+  def carpooling_phone
+    super&.phony_formatted(format: :international)
+  end
+
   def carpooling=(boolean)
     @carpooling = ActiveRecord::Type::Boolean.new.cast(boolean)
   end

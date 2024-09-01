@@ -105,7 +105,7 @@ ActiveAdmin.register ActivityParticipation do
     column(:email_session) { |ap| ap.session&.email }
     column(:note)
     column(:participants_count)
-    column(:carpooling_phone) { |ap| ap.carpooling_phone&.phony_formatted }
+    column(:carpooling_phone) { |ap| ap.carpooling_phone }
     column(:carpooling_city, &:carpooling_city)
     column(:state, &:state_i18n_name)
     column(:latest_reminder_sent_at)

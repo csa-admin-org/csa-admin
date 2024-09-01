@@ -15,7 +15,9 @@
   <strong>Partecipanti:</strong> {{ activity_participation.participants_count }}
 {% endhighlight_list %}
 
-<p>Avete una domanda? Potete contattarci al <strong>{{ organization.activity_phone }}</strong> o rispondere semplicemente a questo e-mail.</p>
+{% if organization.activity_phone %}
+  <p>Avete una domanda? Potete contattarci al <strong>{{ organization.activity_phone }}</strong> o rispondere semplicemente a questo e-mail.</p>
+{% endif %}
 
 {% if activity_participation.carpooling.size > 0 %}
   <p>Condivisione auto: i soci seguenti si spostano in automobile, non esitate a contattarli per un passaggio:</p>

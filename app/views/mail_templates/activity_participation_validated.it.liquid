@@ -15,7 +15,9 @@
   <strong>Partecipanti:</strong> {{ activity_participation.participants_count }}
 {% endhighlight_list %}
 
-<p>Avete una domanda? Potete contattarci al <strong>{{ organization.activity_phone }}</strong> o rispondere semplicemente a questa e-mail.</p>
+{% if organization.activity_phone %}
+  <p>Avete una domanda? Potete contattarci al <strong>{{ organization.activity_phone }}</strong> o rispondere semplicemente a questa e-mail.</p>
+{% endif %}
 
 <p>Iscrivetevi ad altre attività dalla vosrta pagina di socio.</p>
 

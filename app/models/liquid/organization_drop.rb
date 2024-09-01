@@ -18,10 +18,10 @@ class Liquid::OrganizationDrop < Liquid::Drop
   end
 
   def phone
-    @org.phone&.phony_formatted(normalize: @org.country_code, format: :international)
+    @org.phone
   end
 
   def activity_phone
-    @org.activity_phone&.phony_formatted(normalize: @org.country_code, format: :international)
+    @org.activity_phone
   end
 end

@@ -332,7 +332,8 @@ ActiveAdmin.register Organization do
 
           f.input :activity_availability_limit_in_days, required: true
           f.input :activity_participation_deletion_deadline_in_days
-          f.input :activity_phone, as: :phone
+          f.input :activity_phone, as: :phone,
+            hint: t("formtastic.hints.organization.activity_phone_html")
 
           handbook_button(self, "activity")
         end
