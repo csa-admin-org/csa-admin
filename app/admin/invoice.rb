@@ -251,7 +251,8 @@ ActiveAdmin.register Invoice do
   action_item :cancel_and_edit_shop_order, only: :show, if: -> { resource.shop_order_type? && authorized?(:cancel, resource.entity) } do
     button_to t(".cancel_and_edit_shop_order"), cancel_shop_order_path(resource.entity),
       form: { data: { controller: "disable", disable_with_value: t("formtastic.processing") } },
-      data: { confirm: t(".cancel_action_confirm") }
+      data: { confirm: t(".cancel_action_confirm") },
+      class: "action-item-button"
   end
 
   action_item :pdf, only: :show, if: -> { !resource.processing? } do
