@@ -34,7 +34,7 @@ _:
       _de: Preis Extra-Tasche
       _en: Extra basket price
       _fr: Prix panier extra
-      _it: Prezzo extra del cesto
+      _it: Prezzo extra cesta
     basket_price_extra_hint:
       _de: Bietet ein Werkzeug, um den Inhalt der Taschen einer Lieferung anteilig nach dem Preis der Taschengröße zu berechnen.<br/>Bitte <a href="/handbook/basket_price_extra">konsultieren Sie das Handbuch</a> für weitere Informationen.
       _en: Provides a tool to calculate the content of a delivery basket proportionally to the basket size price.<br/>Please <a href="/handbook/basket_price_extra">consult the manual</a> for more information.
@@ -54,7 +54,7 @@ _:
       _de: Teilnahmegebühr
       _en: New member fee
       _fr: Frais d'adhésion
-      _it: Quota di iscrizione
+      _it: Quota di adesione
     new_member_fee_hint:
       _de: Ermöglicht es, einen bestimmten Betrag (z.B. für wiederverwendbare Körbe/Taschen) von neuen Mitgliedern zu berechnen (nach ihrer eventuellen Probezeit).<br/>Bitte <a href="/handbook/new_member_fee">konsultieren Sie das Handbuch</a> für weitere Informationen.
       _en: Allows charging a specific amount (e.g., for reusable baskets/bags) to new members (after their potential trial period).<br/>Please <a href="/handbook/new_member_fee">consult the manual</a> for more information.
@@ -64,7 +64,7 @@ _:
       _de: Hofladen
       _en: Shop
       _fr: Épicerie
-      _it: Drogheria
+      _it: Bottega
     shop_hint:
       _de: Ermöglicht es Mitgliedern, bei jeder Lieferung von Taschen zusätzliche Produkte zu bestellen.<br/>Bitte <a href="/handbook/shop">konsultieren Sie das Handbuch</a> für weitere Informationen.
       _en: Allows members to order additional products with each basket delivery.<br/>Please <a href="/handbook/shop">consult the manual</a> for more information.

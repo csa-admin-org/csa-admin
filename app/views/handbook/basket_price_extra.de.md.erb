@@ -1,0 +1,52 @@
+# Preis Extra-Tasche
+
+Diese Funktion ermöglicht es Ihnen, Ihren Mitgliedern anzubieten, für jede Tasche einen zusätzlichen Betrag zu zahlen.
+
+Dieses zusätzliche Einkommen kann verschiedenen Bedürfnissen dienen, zum Beispiel:
+
+- Ein Solidaritätsbeitrag zur Reduzierung des Preises anderer Mitgliedschaften
+- Erhöhung des Gehalts der Landwirte
+
+## Konfiguration
+
+Sobald diese zusätzliche Funktion in [Ihren Einstellungen](/settings#organization_features_input) aktiviert ist, können Sie mit [mehreren Einstellungen](/settings#basket_price_extra) konfigurieren, wie diese Extras Ihren Mitgliedern bei ihrer Anmeldung oder [Erneuerung](/handbook/membership_renewal) ihrer Mitgliedschaft präsentiert werden.
+
+Nachdem Sie den Titel des Extras und einen (optionalen) Erklärungstext gewählt haben, können Sie eine Liste von durch Kommas getrennten Extras definieren, zum Beispiel:
+
+~~~
+0.0, 1.0, 1.5, 3.0, 5.0
+~~~
+
+Anschließend müssen Sie definieren, mit welchem Label Ihre Extras angezeigt werden, zum Beispiel mit Hilfe der folgenden [Liquid-Syntax](https://shopify.github.io/liquid):
+
+~~~ liquid
+{% if extra == 0 %}
+Basispreis
+{% elsif extra == 1.5 %}
++ {{ extra }}/Tasche
+{% else %}
++ {{ extra | ceil }}.-/Tasche
+{% endif %}
+~~~
+
+Dies ergibt folgende Darstellung (bei 40 Lieferungen):
+![Label-Anzeige](<%= image_url('handbook/basket_price_extra/label.de.png') %>)
+
+Sie können auch wählen, dem Label mehr Details hinzuzufügen, zum Beispiel mit Hilfe der folgenden [Liquid-Syntax](https://shopify.github.io/liquid):
+
+~~~ liquid
+{% if extra == 1.5 %}
+Gehalt ~{{ extra | plus: 20 }} netto/Stunde, ~{{ extra | plus: 20 | times: 100 | ceil }}.- netto/Monat bei 50%
+{% else %}
+Gehalt ~{{ extra | plus: 20 | ceil }}.- netto/Stunde, ~{{ extra | plus: 20 | times: 100 | ceil }}.- netto/Monat bei 50%
+{% endif %}
+~~~
+
+Dies ergibt diese detailliertere Darstellung (bei 40 Lieferungen):
+![Detaillierte Label-Anzeige](<%= image_url('handbook/basket_price_extra/label_with_details.de.png') %>)
+
+## Bericht
+
+Der Gesamtbetrag aller Extras wird unten rechts in [der Mitgliedschaftsliste](https://admin.tapatate.test/memberships?q%5Bduring_year%5D=<%= Current.fy_year %>&scope=all&subdomain=admin&order=started_on_desc), unterhalb der Filter angezeigt. Vergessen Sie nicht, die Mitgliedschaften nach Geschäftsjahr zu filtern, um den richtigen Betrag zu erhalten.
+
+Sie können [die Mitgliedschaftsliste](/memberships?q%5Bbasket_price_extra_gt%5D=0&subdomain=admin&order=started_on_desc) mit einem Extra leicht mit dem dafür vorgesehenen Filter auf der rechten Seite filtern. Diese Information findet sich auch im [CSV-Export der Mitgliedschaften](/memberships.csv).

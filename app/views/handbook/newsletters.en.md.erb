@@ -1,0 +1,50 @@
+# Newsletters
+
+In addition to [automatic emails](/mail_templates) sent during specific events (new invoice, renewal, ...), CSA Admin also offers the possibility to send [newsletters (group emails)](/newsletters).
+
+These newsletters can be addressed to all your members or to a specific group (status, basket size, depot, ...).
+
+> Unlike [automatic emails](/mail_templates), newsletters are always sent manually by an admin and they include an unsubscribe link (mandatory) in their footer.
+
+## Templates
+
+To facilitate the creation of your newsletters, CSA Admin offers a sophisticated [template system](/newsletter_templates). These templates are email models with predefined content blocks that you can create and modify according to your needs.
+
+By default, [2 templates](/newsletter_templates) are available:
+
+- <strong>Free text</strong>: a simple template with a single content block without a title.
+- <strong>Next delivery</strong>: a more complex template with several content blocks, as well as dynamic information (basket content, next activity, ...).
+
+Feel free to duplicate them and modify them as you wish or [create new ones](/newsletter_templates/new).
+
+> Despite the "group" sending of a newsletter, the content of each email is generated individually based on each member's information (name, language, membership, ...).
+
+### Content blocks
+
+Each template must contain at least one content block. This is a free text block that can then be modified when creating a newsletter. A block whose content is left empty when editing a newsletter will simply be ignored.
+
+Each block is defined with a unique identifier (`id`) and optionally a title (`title`) as well as default content.
+
+Example of a block with a title and default content:
+
+~~~ liquid
+{% content id: "identifier", title: "An optional title" %}
+  <p>Optional default content</p>
+{% endcontent %}
+~~~
+
+## Attachments
+
+You can add attachments to your newsletters, but the total weight of these attachments must not exceed 5 MB.
+
+If you wish to send heavier attachments, you can use an external service such as [SwissTransfer](https://www.swisstransfer.com) or host them on your website and simply add a link to these files in your newsletter.
+
+## Unsubscriptions
+
+Newsletters sent with CSA Admin include an unsubscribe link (mandatory) in their footer.
+
+A resubscription link is present in [the member's account](<%= members_account_url(subdomain: Current.org.members_subdomain) %>) below their email address.
+
+![resubscription link](<%= image_url('handbook/newsletters/subscribe-back.en.png') %>){:class="small"}
+
+> Please note that the unsubscribe link is only displayed in the member's account when the session was initiated directly by the member and not by an admin.

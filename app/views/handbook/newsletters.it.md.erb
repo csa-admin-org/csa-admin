@@ -1,0 +1,50 @@
+# Newsletter
+
+In aggiunta [alle email automatiche](/mail_templates) inviate durante eventi specifici (nuova fattura, rinnovo, ...), CSA Admin offre anche la possibilità di inviare [newsletter (email di gruppo)](/newsletters).
+
+Queste newsletter possono essere indirizzate a tutti i vostri soci o a un gruppo specifico (stato, dimensione della cesta, deposito, ...).
+
+> Contrariamente [alle email automatiche](/mail_templates), le newsletter sono sempre inviate manualmente da un admin e includono un link di disiscrizione (obbligatorio) nel loro piè di pagina.
+
+## Template
+
+Per facilitare la creazione delle vostre newsletter, CSA Admin propone un sistema sofisticato di [template](/newsletter_templates). Questi template sono modelli di email con blocchi di contenuto predefiniti che potete creare e modificare secondo le vostre esigenze.
+
+Per default, [2 template](/newsletter_templates) sono disponibili:
+
+- <strong>Testo libero</strong>: un template semplice con un solo blocco di contenuto senza titolo.
+- <strong>Prossima consegna</strong>: un template più complesso con diversi blocchi di contenuto, così come informazioni dinamiche (contenuto cesta, prossima attività, ...).
+
+Non esitate a duplicarli e modificarli a vostro piacimento o a [crearne di nuovi](/newsletter_templates/new).
+
+> Nonostante l'invio "di gruppo" di una newsletter, il contenuto di ogni email viene generato individualmente in base alle informazioni di ogni socio (nome, lingua, abbonamento, ...).
+
+### Blocchi di contenuto
+
+Ogni template deve contenere almeno un blocco di contenuto. Si tratta di un blocco di testo libero che potrà poi essere modificato durante la creazione di una newsletter. Un blocco il cui contenuto verrà lasciato vuoto durante la modifica di una newsletter sarà semplicemente ignorato.
+
+Ogni blocco è definito con un identificatore (`id`) unico e opzionalmente un titolo (`title`) così come un contenuto predefinito.
+
+Esempio di un blocco con un titolo e un contenuto predefinito:
+
+~~~ liquid
+{% content id: "identificatore", title: "Un titolo opzionale" %}
+  <p>Contenuto predefinito opzionale</p>
+{% endcontent %}
+~~~
+
+## Allegati
+
+Potete aggiungere allegati alle vostre newsletter, ma il peso totale di questi allegati non deve superare i 5 MB.
+
+Se desiderate inviare allegati più pesanti, potete utilizzare un servizio esterno come [SwissTransfer](https://www.swisstransfer.com) o ospitarli sul vostro sito e semplicemente aggiungere un link a questi file nella vostra newsletter.
+
+## Disiscrizioni
+
+Le newsletter inviate con CSA Admin includono un link di disiscrizione (obbligatorio) nel loro piè di pagina.
+
+Un link di reiscrizione è presente nell'[account del socio](<%= members_account_url(subdomain: Current.org.members_subdomain) %>) sotto il suo indirizzo email.
+
+![link di reiscrizione](<%= image_url('handbook/newsletters/subscribe-back.it.png') %>){:class="small"}
+
+> Si prega di notare che il link di disiscrizione viene visualizzato nell'account del socio solo quando la sessione è stata avviata direttamente dal socio e non da un admin.

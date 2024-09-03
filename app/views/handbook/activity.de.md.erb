@@ -1,0 +1,49 @@
+# Beteiligung der Mitglieder
+
+Diese Funktion ermöglicht es Ihnen, Aktivitäten sowie deren Teilnahme durch die Mitglieder zu verwalten. Diese Teilnahmen können optional oder obligatorisch sein und können in Rechnung gestellt werden oder nicht.
+
+## Konfiguration
+
+Sobald diese zusätzliche Funktion in [Ihren Einstellungen](/settings#organization_features_input) aktiviert ist, können Sie mit mehreren Einstellungen [die Funktionsweise der Aktivitäten und Teilnahmen konfigurieren](/settings#activity).
+
+### Anmeldeformular und Erneuerung
+
+Die standardmäßig angeforderte Anzahl von Teilnahmen hängt von der für die Taschengröße konfigurierten Anzahl sowie den Ergänzungen der Mitgliedschaft ab.
+
+Es ist jedoch möglich, den Mitgliedern die Wahl zu lassen, wie viele Teilnahmen sie bei ihrer Anmeldung oder [Erneuerung](/handbook/membership_renewal) wünschen. Dazu müssen Sie einfach eine Mindestanzahl (die es dem Mitglied ermöglicht, die angeforderte Anzahl zu reduzieren) und/oder eine Höchstanzahl (die es dem Mitglied ermöglicht, die angeforderte Anzahl zu erhöhen) von Teilnahmen konfigurieren.
+
+> Wenn ein Preis für die Teilnahme festgelegt ist, wird die Differenz zwischen der Standardanzahl und der gewählten Anzahl automatisch zum Gesamtbetrag der Mitgliedschaft hinzugefügt oder davon abgezogen (Felder "Anpassung des Mitgliedschaftspreises").
+
+### Logik zur Berechnung der angeforderten Teilnahmen
+
+Die Konfiguration der Anzahl der angeforderten Teilnahmen gilt immer für ein vollständiges Geschäftsjahr. Standardmäßig wird die endgültige angeforderte Anzahl anteilig zur Anzahl der Lieferungen der Mitgliedschaft berechnet.
+
+Diese Logik kann mithilfe der [Liquid-Syntax](https://shopify.github.io/liquid) im Feld "Logik zur Berechnung der angeforderten Teilnahmen" in [den Einstellungen](/settings#activity) geändert werden.
+
+### Anmeldung zu Aktivitäten
+
+Mitglieder können sich über ihr Mitgliedskonto für Aktivitäten anmelden. Sie können auch die Aktivitäten sehen, für die sie angemeldet sind, sowie die Teilnahmen, die sie absolviert haben, und deren Bestätigungen.
+
+Bei der Anmeldung kann das Mitglied die Anzahl der Teilnehmer angeben (jeder Teilnehmer zählt als eine Teilnahme), eine Bemerkung hinterlassen und wählen, ob es seine Telefonnummer sowie seinen Abfahrtsort für Fahrgemeinschaften teilen möchte. Ihre Kontaktdaten werden dann mit den anderen Mitgliedern geteilt, die für dieselbe Aktivität angemeldet sind, in [der Erinnerungs-E-Mail, die 3 Tage vor der Aktivität gesendet wird](/mail_templates/activity_participation_reminder).
+
+Eine Anmeldefrist (in Tagen) vor dem Datum der Aktivität kann in [den Einstellungen](/settings#activity) festgelegt werden, um Anmeldungen in letzter Minute zu vermeiden.
+
+Eine Frist (in Tagen) zum Stornieren einer Anmeldung kann ebenfalls in [den Einstellungen](/settings#activity) festgelegt werden. Nach dieser Frist können die Mitglieder ihre Anmeldung nicht mehr stornieren.
+
+## Aktivitäten
+
+Sie können Aktivitäten über [die Aktivitätenliste](/activities) erstellen, indem Sie auf "Neue Aktivität" klicken. Wie bei den Lieferungen können Sie einfach Aktivitäten in Chargen mit Hilfe der Registerkarte "Mehrere Termine" im [Erstellungsformular](/activities/new) erstellen.
+
+> Wenn Sie oft ähnliche Aktivitäten am selben Ort anbieten, denken Sie daran, ["Vorlagen" für Aktivitäten](/activity_presets) zu erstellen, um Zeit zu sparen.
+
+## Teilnahmen
+
+Die von den Mitgliedern vorgenommenen Anmeldungen zu Aktivitäten sind in [der Teilnahmeliste](/activity_participations) sichtbar. Administratoren können dort auch manuell Mitglieder anmelden oder bestehende Teilnahmen ändern/löschen.
+
+Teilnahmen an Aktivitäten (am selben Tag oder vergangene) können von Administratoren bestätigt oder abgelehnt werden. Die Mitglieder erhalten dann eine E-Mail [zur Bestätigung](/mail_templates/activity_participation_validated) oder [zur Ablehnung](/mail_templates/activity_participation_rejected) ihrer Teilnahme.
+
+## Abrechnung
+
+Wenn ein Preis für eine Teilnahme festgelegt ist, können Sie einfach alle fehlenden Teilnahmen über [die Teilnahmeliste](/activity_participations) in Rechnung stellen. Jede in Rechnung gestellte Teilnahme wird automatisch als bestätigte Teilnahme betrachtet.
+
+Weitere Informationen zur [Abrechnung von Teilnahmen](/handbook/billing#activity) finden Sie auf der Handbuchseite zur Abrechnung.

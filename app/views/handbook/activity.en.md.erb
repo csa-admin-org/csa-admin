@@ -1,0 +1,49 @@
+# Member Participation
+
+This feature allows you to manage activities and member participation in them. These participations can be optional or mandatory and can be billed or not.
+
+## Configuration
+
+Once this additional feature is activated in [your settings](/settings#organization_features_input), several settings allow you to [configure](/settings#activity) how activities and participations work.
+
+### Registration Form and Renewal
+
+The default number of participations requested will depend on the number configured for the basket size and the membership complements.
+
+However, it is possible to let members choose the number of participations they want during their registration or [renewal](/handbook/membership_renewal). To do this, simply configure a minimum number (allowing the member to reduce the number requested) and/or a maximum number (allowing the member to increase the number requested) of participations.
+
+> If a participation price is defined, the difference between the default number and the chosen number will be automatically added to or subtracted from the total membership amount (fields "Membership price adjustment").
+
+### Logic for Calculating Requested Participations
+
+The configuration of the number of requested participations is always understood for a complete fiscal year; by default, the final number requested will be calculated pro-rata based on the number of deliveries in the membership.
+
+This logic can be modified using [Liquid syntax](https://shopify.github.io/liquid) in the "Logic for calculating requested participations" field in [the settings](/settings#activity).
+
+### Signing Up for Activities
+
+Members can sign up for activities from their member account. They can also see the activities they are signed up for, as well as the participations they have completed and their validations.
+
+When signing up, the member can specify the number of participants (each participant counting as one participation), add a note, and choose to share their phone number and departure location for carpooling. Their contact information will then be shared with other members signed up for the same activity in [the reminder email sent 3 days before the activity](/mail_templates/activity_participation_reminder).
+
+A sign-up deadline (in days) before the activity date can be defined in [the settings](/settings#activity) to avoid last-minute registrations.
+
+A cancellation deadline (in days) can also be defined in [the settings](/settings#activity). After this deadline, members will no longer be able to cancel their registration.
+
+## Activities
+
+You can create activities from [the activities list](/activities) by clicking on "New activity". As with deliveries, you can easily create activities in bulk using the "Multiple dates" tab in [the creation form](/activities/new).
+
+> If you often offer similar activities at the same location, consider creating ["activity presets"](/activity_presets) to save time.
+
+## Participations
+
+Activity sign-ups made by members are visible from [the participations list](/activity_participations). Admins can also manually sign up members or modify/delete existing participations.
+
+Participations in activities (of the same day or past) can be validated or rejected by admins. Members will then receive an email [of confirmation](/mail_templates/activity_participation_validated) or [of rejection](/mail_templates/activity_participation_rejected) of their participation.
+
+## Billing
+
+If a price is defined for a participation, you can simply bill all missing participations from [the participations list](/activity_participations). Each billed participation will automatically be considered as a validated participation.
+
+More information on [billing participations](/handbook/billing#activity) is available in the manual page dedicated to billing.

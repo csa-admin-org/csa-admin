@@ -92,7 +92,7 @@ _:
           _fr: Refuser
           _it: Rifiutare
         renew:
-          _de: Verlängern
+          _de: Erneuern
           _en: Renew
           _fr: Renouveler
           _it: Rinnovare
@@ -412,7 +412,7 @@ _:
         _de: Hofladen
         _en: Shop
         _fr: Épicerie
-        _it: Drogheria
+        _it: Bottega
     new_model:
       _de: Neu %{model}
       _en: New %{model}
@@ -793,7 +793,7 @@ _:
           _de: Hofladen
           _en: Shop
           _fr: Épicerie
-          _it: Drogheria
+          _it: Bottega
         submit:
           preview:
             _de: Vorschau der Änderungen
@@ -1946,7 +1946,7 @@ _:
           _fr: Aucune participation manquante
           _it: Nessuna partecipazione mancante
         no_next_year_deliveries:
-          _de: Bitte <a href="%{new_delivery_path}">erstellen Sie die Lieferungen %{fiscal_year}</a>, bevor Sie mit den Verlängerungen fortfahren.
+          _de: Bitte <a href="%{new_delivery_path}">erstellen Sie die Lieferungen %{fiscal_year}</a>, bevor Sie mit den Erneuerungen fortfahren.
           _en: Please <a href="%{new_delivery_path}">create the deliveries %{fiscal_year}</a> before proceeding with renewals.
           _fr: Merci de <a href="%{new_delivery_path}">créer les livraisons %{fiscal_year}</a> avant de procéder aux renouvellements.
           _it: Grazie per <a href="%{new_delivery_path}">creare le consegne %{fiscal_year}</a> prima di procedere al rinnovo.
@@ -2010,17 +2010,17 @@ _:
           _it: Pagine
         renew_all_action:
           one:
-            _de: Verlängern (%{count})
+            _de: Erneuern (%{count})
             _en: Renew (%{count})
             _fr: Renouveler (%{count})
             _it: Rinnovare (%{count})
           other:
-            _de: Verlängern (%{count})
+            _de: Erneuern (%{count})
             _en: Renew (%{count})
             _fr: Renouveler (%{count})
             _it: Rinnovare (%{count})
         renewal:
-          _de: Verlängerungen
+          _de: Erneuerungen
           _en: Renewals
           _fr: Renouvellements
           _it: Rinnovi
@@ -2036,7 +2036,7 @@ _:
             _fr: "%{count_link} renouvellements"
             _it: "%{count_link} rinnovi"
         renewing:
-          _de: Verlängerungen am laufen...
+          _de: Erneuerungen am laufen...
           _en: Renewing...
           _fr: Renouvellements en cours...
           _it: Rinnovi in corso...

@@ -1,0 +1,78 @@
+# Bottega
+
+La bottega online permette ai vostri soci di ordinare prodotti aggiuntivi dal loro account alcuni giorni prima della consegna delle loro prossime ceste.
+
+Per permettervi di preparare il contenuto della vostra bottega tranquillamente, per default, la bottega **non appare** nel menu dell'account socio. Solo gli admin che possono accedere all'account di un socio (dal pulsante "Accedere all'account" della pagina admin di un socio) possono vedere la bottega. Potete così assicurarvi che tutti i prodotti siano ben presentati. Una volta tutto a posto, questa limitazione può essere disattivata dalle [impostazioni](/settings#shop).
+
+> Se necessario, è possibile chiudere la bottega per consegna dalla pagina admin di queste ultime.
+
+## Produttori
+
+Ogni prodotto può essere associato a [un produttore](/shop_producers). Una descrizione così come un link verso un sito web o documento sono definibili per ciascuno di essi. Tutti i prodotti possono essere filtrati per produttore nell'interfaccia socio della bottega.
+
+## Prodotti
+
+Molte opzioni sono offerte per gestire al meglio i prodotti della vostra bottega.
+
+### Tag
+
+[I tag](/shop_tags) sono parole chiave che permettono di filtrare i prodotti nell'interfaccia socio della bottega. Ogni prodotto può essere associato a uno o più tag.
+
+### Varianti
+
+Ogni prodotto si declina in una o più varianti. Le varianti permettono di definire caratteristiche diverse (peso, dimensione, tipo) di questo prodotto.
+
+Ogni variante ha il proprio nome, prezzo, peso (opzionale), e stock (opzionale).
+
+### Disponibilità
+
+La disponibilità di un prodotto può essere definita per se stesso o per ciascuna delle sue varianti separatamente. Se necessario, un prodotto può anche essere reso indisponibile per deposito o per una futura consegna.
+
+> Se lo stock di una variante è definito e scende a zero, apparirà sempre ma semplicemente non sarà più possibile aggiungerla al carrello.
+
+### Complementi
+
+È possibile collegare un prodotto a un complemento di cesta esistente; gli ordini di questo prodotto saranno allora automaticamente aggiunti al numero di questo complemento nel riepilogo (XLSX) e nei fogli (PDF) della consegna delle ceste.
+
+Questo prodotto sarà anche disponibile solo nei giorni di consegna del complemento.
+
+## Ordini
+
+Per lasciarvi il tempo di elaborare e fatturare gli ordini effettuati prima della consegna, una scadenza (giorni e ore) fino alla quale gli ordini sono possibili, può essere definita dalle [impostazioni della bottega](/settings#shop). Passata questa scadenza, i soci non potranno più creare o modificare il loro ordine per la consegna imminente.
+
+È anche possibile impostare un importo minimo di ordine così come un peso massimo, se questa informazione è stata ben inserita per ogni variante dei prodotti.
+
+Una volta effettuato un ordine, appare con lo stato "da preparare" nella [lista degli ordini](/shop_orders?scope=pending). Questi ordini sono sempre modificabili dai soci fino alla scadenza configurata. Un admin può anche modificarli in qualsiasi momento.
+
+Un bollettino di consegna (PDF), che non include il prezzo dei prodotti, è disponibile per ogni ordine se desiderate stamparli e allegarli alle ceste.
+
+### Fatturazione
+
+Per default, una volta preparati gli ordini, gli ordini devono essere fatturati **manualmente** (possibilità di fatturarli tutti in una volta tramite un'azione di gruppo). La fattura viene poi automaticamente inviata via email al socio.
+
+È anche possibile configurare la **fatturazione automatica** degli ordini, dalle [impostazioni della bottega](/settings#shop), dopo o prima un certo numero di giorni seguenti o precedenti la data di consegna.
+
+> Se un ordine già fatturato viene modificato, la fattura esistente viene automaticamente annullata e una nuova fattura dovrà essere generata e inviata.
+
+È possibile aggiungere un testo specifico nel [template email "Nuova fattura"](/mail_templates/invoice_created) utilizzando [la sintassi Liquid](https://shopify.github.io/liquid) seguente:
+
+~~~ liquid
+{% case invoice.entity_type %}
+{% when 'Shop::Order' %}
+  <p>Ecco la vostra nuova fattura, per il vostro ordine N° {{ invoice.entity_number }}; tutti i dettagli si trovano nel PDF allegato.</p>
+{% else %}
+  <p>Ecco la vostra nuova fattura; tutti i dettagli si trovano nel PDF allegato.</p>
+{% endcase %}
+~~~
+
+## Accesso ai soci senza abbonamento
+
+Per default, e al di fuori [delle consegne speciali](#consegne-speciali), l'accesso alla bottega è limitato ai soci attivi con un abbonamento. Tuttavia, è possibile definire un deposito, modificando il profilo di un socio inattivo, come "deposito della bottega" per dargli accesso alla bottega. Gli ordini di questi soci si troveranno allora nei fogli (PDF) dei depositi corrispondenti.
+
+## Consegne speciali
+
+Le consegne speciali vi permettono di proporre prodotti aggiuntivi ai vostri soci al di fuori delle consegne di ceste abituali tramite la bottega online.
+
+I prodotti disponibili possono essere definiti separatamente per ogni consegna speciale, l'impostazione individuale della disponibilità di ogni prodotto viene ignorata. Invece, la disponibilità delle varianti così come lo stato del loro stock sono sempre rispettati.
+
+> Poiché le consegne speciali sono consegnate al di fuori delle consegne di ceste, sono aperte a tutti i vostri soci attivi o meno.

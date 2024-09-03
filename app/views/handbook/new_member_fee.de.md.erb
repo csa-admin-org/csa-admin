@@ -1,0 +1,22 @@
+# Teilnahmegebühr
+
+Diese Funktion ermöglicht es Ihnen, automatisch eine Teilnahmegebühr für Ihre neuen Mitglieder zu berechnen, beispielsweise für wiederverwendbare Taschen/Säcke.
+
+Sobald diese zusätzliche Funktion aktiviert ist, müssen die Beschreibung sowie der Betrag Ihrer Teilnahmegebühr in [Ihren Einstellungen](/settings#new_member_fee) definiert werden.
+
+> Wenn Sie bereits manuell Teilnahmegebühren berechnet haben (Rechnung "Sonstiges"), kontaktieren Sie bitte [mich](mailto:info@csa-admin.org), damit ich mich um deren Migration kümmern kann, um zu vermeiden, dass diese Gebühren Ihren Mitgliedern unnötigerweise zweimal berechnet werden.
+
+### Abrechnung
+
+Das System kümmert sich darum, diese Gebühren jedem neuen Mitglied am automatischen Abrechnungstag zu berechnen, der in [Ihren Einstellungen](/settings#billing) definiert ist. Wenn Sie Probetaschen haben, werden diese Gebühren erst am Ende der Probezeit berechnet, wenn das Mitglied sich entscheidet, weiterzumachen.
+
+Es ist möglich, einen spezifischen Text in der [E-Mail-Vorlage "Neue Rechnung"](/mail_templates/invoice_created) mit Hilfe der folgenden [Liquid-Syntax](https://shopify.github.io/liquid) hinzuzufügen:
+
+~~~ liquid
+{% case invoice.entity_type %}
+{% when 'NewMemberFee' %}
+  <p>Hier ist Ihre neue Rechnung für Ihre Teilnahmegebühr; alle Details finden Sie im angehängten PDF.</p>
+{% else %}
+  <p>Hier ist Ihre neue Rechnung; alle Details finden Sie im angehängten PDF.</p>
+{% endcase %}
+~~~

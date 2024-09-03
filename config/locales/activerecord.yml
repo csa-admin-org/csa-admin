@@ -2150,7 +2150,7 @@ _:
           _de: Hofladen
           _en: Shop
           _fr: Épicerie
-          _it: Drogheria
+          _it: Bottega
       shop/order:
         one:
           _de: Bestellung

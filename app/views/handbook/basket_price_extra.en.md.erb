@@ -1,0 +1,52 @@
+# Extra Basket Price
+
+This feature allows you to offer your members the option to pay an extra amount for each basket.
+
+This additional income can serve different needs, for example:
+
+- A solidarity contribution to reduce the price of other memberships
+- Increase farmers' salaries
+
+## Configuration
+
+Once this additional feature is activated in [your settings](/settings#organization_features_input), [several settings](/settings#basket_price_extra) allow you to configure how these extras will be presented to your members during their registration or [membership renewal](/handbook/membership_renewal).
+
+After choosing the title of the extra and an explanation text (optional), you can then define a list of extras separated by commas, for example:
+
+~~~
+0.0, 1.0, 1.5, 3.0, 5.0
+~~~
+
+Next, you need to define how your extras will be displayed, for example using [Liquid syntax](https://shopify.github.io/liquid) as follows:
+
+~~~ liquid
+{% if extra == 0 %}
+Base price
+{% elsif extra == 1.5 %}
++ {{ extra }}/basket
+{% else %}
++ {{ extra | ceil }}.-/basket
+{% endif %}
+~~~
+
+This will give the following presentation (with 40 deliveries):
+![Label display](<%= image_url('handbook/basket_price_extra/label.en.png') %>)
+
+You can also choose to add more details to the label, for example using [Liquid syntax](https://shopify.github.io/liquid) as follows:
+
+~~~ liquid
+{% if extra == 1.5 %}
+salary ~{{ extra | plus: 20 }} net/hour, ~{{ extra | plus: 20 | times: 100 | ceil }}.- net/month at 50%
+{% else %}
+salary ~{{ extra | plus: 20 | ceil }}.- net/hour, ~{{ extra | plus: 20 | times: 100 | ceil }}.- net/month at 50%
+{% endif %}
+~~~
+
+This will give this more detailed presentation (with 40 deliveries):
+![Detailed label display](<%= image_url('handbook/basket_price_extra/label_with_details.en.png') %>)
+
+## Report
+
+The total amount of all extras is displayed at the bottom right of [the memberships list](https://admin.tapatate.test/memberships?q%5Bduring_year%5D=<%= Current.fy_year %>&scope=all&subdomain=admin&order=started_on_desc), below the filters. Don't forget to filter the memberships by fiscal year to get the correct amount.
+
+You can easily filter [the memberships list](/memberships?q%5Bbasket_price_extra_gt%5D=0&subdomain=admin&order=started_on_desc) with an extra using the filter on the right provided for this purpose. This information is also found in [the CSV export of memberships](/memberships.csv).
