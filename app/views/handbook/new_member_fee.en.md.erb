@@ -1,0 +1,22 @@
+# New member fee
+
+This feature allows you to automatically bill a new member fee, for example for reusable baskets/bags, to your new members.
+
+Once this additional feature is activated, the description and amount of your new member fee must be defined in [your settings](/settings#new_member_fee).
+
+> If you were already billing new member fees manually (using "Other" invoices), please [contact me](mailto:info@csa-admin.org) so that I can take care of migrating them, to avoid unnecessarily billing these fees twice to your members.
+
+### Billing
+
+The system takes care of billing these fees to each new member on the automatic billing day defined in [your settings](/settings#billing). If you have trial baskets, these fees will only be billed at the end of the trial period, if the member decides to continue.
+
+It's possible to add specific text in the ["New invoice" email template](/mail_templates/invoice_created) using [Liquid syntax](https://shopify.github.io/liquid) as follows:
+
+~~~ liquid
+{% case invoice.entity_type %}
+{% when 'NewMemberFee' %}
+  <p>Here is your new invoice for your new member fee; all details can be found in the attached PDF.</p>
+{% else %}
+  <p>Here is your new invoice; all details can be found in the attached PDF.</p>
+{% endcase %}
+~~~

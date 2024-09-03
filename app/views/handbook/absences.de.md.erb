@@ -1,0 +1,17 @@
+# Abwesenheiten
+
+Diese Funktion ermöglicht es Ihnen, die Abwesenheiten Ihrer Mitglieder zu verwalten und abwesende Taschen automatisch von Ihren Lieferungen abzuziehen. Ihre Mitglieder können ihre Abwesenheiten direkt über ihren Mitgliederbereich melden. Sie können als Administrator auch Abwesenheiten für Ihre Mitglieder hinzufügen ([Sonstiges > Abwesenheiten](/absences)).
+
+## Konfiguration
+
+Sobald diese zusätzliche Funktion in [Ihren Einstellungen](/settings#organization_features_input) aktiviert ist, können Sie mit [mehreren Einstellungen](/settings#absence) den Erklärungstext sowie die Vorankündigungsfrist konfigurieren.
+
+## Abrechnung
+
+Standardmäßig werden als abwesend markierte und nicht gelieferte Taschen in Rechnung gestellt, und den Mitgliedern wird empfohlen, einen Bekannten zu finden, der ihre Tasche an ihrer Stelle abholt. In [den Einstellungen](/settings#absence) können Sie auch wählen, sie nicht in Rechnung zu stellen. Das System wird dann automatisch [die Abrechnung der Mitgliedschaft anpassen](/handbook/billing#price-change).
+
+## Inbegriffene Abwesenheiten
+
+Es ist auch möglich, eine Anzahl von Abwesenheiten zu konfigurieren, die in der Mitgliedschaft enthalten sind. Diese Abwesenheiten werden dann automatisch abgezogen und nicht in Rechnung gestellt, sobald die Mitgliedschaft beginnt. Das System wird vorübergehend die letzten Lieferungen der Mitgliedschaft als abwesend markieren, bis die Anzahl der inbegriffenen Abwesenheiten vom Mitglied angekündigt wird. Zusätzliche Abwesenheiten werden gemäß [Ihren Einstellungen](/settings#absence) in Rechnung gestellt oder nicht.
+
+> Die Anzahl der inbegriffenen Abwesenheiten kann auch auf der Ebene eines [Lieferzyklus](/handbook/deliveries#lieferzyklen) eingestellt werden, um Mitgliedschaften mit einer Anzahl von inbegriffenen Abwesenheiten (und damit Lieferungen) auf [Ihrem Anmeldeformular](<%= new_members_member_url(subdomain: Current.org.members_subdomain) %>) anzubieten.

@@ -1,0 +1,58 @@
+# Renewal
+
+Each membership necessarily stops at the end of its fiscal year; it is therefore necessary to renew memberships for the following fiscal year.
+
+All memberships can be manually renewed by an administrator; either from a membership page, or from [the memberships page](/memberships) (section "Renewals" below the filters). It is also possible to send a renewal request by email to all members who can then renew or terminate their membership from a form on their member page.
+
+## Prerequisites
+
+In order to be able to renew memberships, it is first necessary to create all [the deliveries](/deliveries/new) for the new fiscal year. Indeed, renewing a membership consists of creating a new membership with the same information as the current one, but for the following fiscal year.
+
+Once the deliveries are created, administrators can renew memberships manually, at the time of their choice, but imperatively before the end of the fiscal year.
+
+## Sending requests
+
+Section "Renewals" below the filters of [the memberships page](/memberships) once the prerequisites below are met:
+![memberships section](<%= image_url('handbook/membership_renewal/section.en.png') %>){:class="small"}
+
+> It is important to note that the system does not automatically send renewal requests to members; it is therefore up to you to choose the appropriate time to send them according to your statutes or regulations. <br/><br/>
+> If members do not respond, it is also up to you to tacitly renew (or not) these memberships at the time of your choice using the "Renew X memberships" button found on [the memberships page](/memberships).
+
+### Prerequisites
+
+In order to be able to send renewal requests, you must first set up the following elements:
+
+- Create all [the deliveries](/deliveries/new) for the new fiscal year.
+- Edit and activate [the "Membership Renewal" email template](/mail_templates/membership_renewal).
+- Edit and activate [the "Membership Renewal (Reminder)" email template](/mail_templates/membership_renewal_reminder) (optional).
+- Edit [the settings](/settings#membership_renewal), such as the explanation text displayed on the member page (requires "maximum" permission).
+
+### Test sending a request
+
+Once the prerequisites are met, it is possible to send a renewal request by email for a single member (for example you) from their membership page. This allows you to ensure that everything is working correctly.
+
+### Reminder email
+
+If configured, field "Send a reminder after (in days)" in [the settings](/settings#membership_renewal), the system automatically sends a reminder email to each member who has not yet renewed or terminated their membership X days after sending the renewal request.
+
+[The "Membership Renewal (Reminder)" email template](/mail_templates/membership_renewal_reminder) must also have been edited and activated beforehand.
+
+> As memberships can only be renewed or terminated before the end of the fiscal year, make sure there is always enough time between sending the reminder and the end of the fiscal year.
+
+## Renewal form
+
+Once the renewal request is sent, the member will have access to a form on their membership page, which will offer them to renew or terminate their membership:
+
+![memberships section](<%= image_url('handbook/membership_renewal/form.en.png') %>)
+
+### Renewal
+
+If the member chooses to renew their membership, they will be redirected to the renewal page which will allow them to change their basket size, their complements (if available), their depot (if activated in [the settings](/settings#membership_renewal)), the payment interval, as well as leave a free comment.
+
+Once confirmed, their membership for the following fiscal year is automatically created and can be consulted and modified from the administration interface like any other membership. In case of error, the membership can be easily deleted, which will cancel the renewal.
+
+### Termination
+
+If the member chooses to terminate their membership, they will then be redirected to the termination page which will allow them to leave a free comment as well as choose to continue supporting the association as a supporting member by paying the annual fee (if applicable).
+
+If necessary, the termination of the membership can be cancelled by an administrator from the membership page.

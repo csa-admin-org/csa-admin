@@ -6,21 +6,22 @@ class Handbook
   DIR_PATH = "app/views/handbook"
   attr_reader :name
 
-  def self.all(context)
-    path = Rails.root.join(DIR_PATH, "*.md.erb")
+  def self.all(context, locale = I18n.locale)
+    path = Rails.root.join(DIR_PATH, "*.#{locale}.md.erb")
     Dir.glob(path).map { |path|
-      name = File.basename(path, ".md.erb")
-      new(name, context)
+      name = File.basename(path, ".#{locale}.md.erb")
+      new(name, context, locale)
     }.sort
   end
 
-  def initialize(name, context)
+  def initialize(name, context, locale = I18n.locale)
     @name = name
     @context = context
+    @locale = locale
   end
 
   def filepath
-    Rails.root.join(DIR_PATH, "#{name}.md.erb")
+    Rails.root.join(DIR_PATH, "#{name}.#{@locale}.md.erb")
   end
 
   def body

@@ -32,7 +32,7 @@ _:
         _fr: Recevoir une notification lorsque le 3ᵉ rappel d'une facture est envoyée à un membre.
         _it: Ricevi una notifica quando il 3° richiamo di una fattura viene inviato ad un membro.
       memberships_renewal_pending:
-        _de: Mitgliedschaft, wartende Verlängerungen
+        _de: Mitgliedschaft, wartende Erneuerungen
         _en: Membership, pending renewals
         _fr: Abonnement, renouvellements en attente
         _it: Abbonamento, rinnovi in attesa

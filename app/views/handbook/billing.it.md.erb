@@ -1,0 +1,137 @@
+# Fatturazione
+
+CSA Admin mira ad automatizzare la maggior parte dei compiti relativi alla fatturazione ([abbonamenti](#abbonamenti), <% if Current.org.share? %>[quote sociali](#quote-sociali), <% end %>[elaborazione dei pagamenti](#pagamenti)), ma alcuni aspetti <% if Current.org.feature?('activity') %>come la fatturazione delle [<%= activities_human_name %> non effettuate](#<%= activities_human_name %>-non-effettuate) <% end %>devono essere eseguiti manualmente.
+
+Per la Svizzera, CSA Admin genera fatture-QR con numero di riferimento (PDF) e le invia a tutte le email del socio interessato. Per poter generare queste fatture, dovete richiedere un QR-IBAN alla vostra banca, attenzione questo numero è diverso dall'IBAN del vostro conto bancario. Potete poi inserirlo nelle [vostre impostazioni di fatturazione](/settings#billing).
+
+## Abbonamenti
+
+La fatturazione degli abbonamenti è completamente automatizzata dal sistema. Potete definire nelle [impostazioni (Fatturazione automatica)](/settings#billing) il giorno della settimana in cui il sistema esaminerà tutti gli abbonamenti e creerà e invierà automaticamente le fatture necessarie. Per esempio, se un socio viene fatturato ogni trimestre, allora una nuova fattura sarà automaticamente creata e inviata il primo giorno della settimana configurato di un nuovo trimestre.
+
+L'importo della fattura è calcolato così: importo totale dell'abbonamento / numero di intervalli di pagamento. Per esempio, per un abbonamento di 1000.- pagato ogni trimestre, ogni fattura sarà di 250.-.
+
+È quindi fondamentale che ogni configurazione di abbonamento sia ben aggiornata affinché le fatture siano corrette.
+
+Per impostazione predefinita, la prima fattura viene inviata il giorno di fatturazione successivo alla prima consegna della cesta, ma è possibile modificarlo nelle [impostazioni](/settings#billing) (Fatturare gli abbonamenti solo dopo la loro prima consegna) per fatturare l'abbonamento dall'inizio dello stesso.
+
+Per impostazione predefinita, la fatturazione si estende fino alla data di fine dell'abbonamento, ma è possibile modificarlo nelle [impostazioni](/settings#billing) (Fatturare gli abbonamenti solo fino alla loro ultima consegna) per estendere il periodo di fatturazione solo fino alla data della loro ultima consegna. Questo è utile quando, per esempio, gli ultimi mesi dell'anno fiscale non hanno consegne.
+
+> Dalla pagina di un socio o di un abbonamento, potete vedere nella sezione "Fatturazione" (colonna di destra) il giorno di creazione della prossima fattura.
+
+### Fatturare ora
+
+In alcuni casi, per esempio dopo un cambiamento di configurazione dell'abbonamento, è possibile forzare la creazione di una nuova fattura piuttosto che lasciare che il sistema lo faccia automaticamente il prossimo giorno di fatturazione. Per farlo, cliccate sul pulsante "Fatturare ora" nella sezione "Fatturazione" (colonna di destra). La fattura sarà quindi creata, ma <u>non inviata</u>, potete poi consultare il PDF e inviarlo manualmente utilizzando il pulsante "Inviare" sulla pagina della stessa. Questo è utile se siete in contatto con un socio e volete rettificare rapidamente una fattura.
+
+### Cambio di prezzo {#price-change}
+
+Se la configurazione di un abbonamento (date, dimensione della cesta, ...) viene modificata, sono possibili diversi casi:
+
+- Una fattura futura deve ancora essere inviata (è la metà dell'anno e il socio viene fatturato ogni trimestre); in questo caso, il cambiamento di prezzo (positivo o negativo) sarà semplicemente applicato alla prossima fattura.
+- L'ultima fattura è già stata inviata (è la fine dell'anno o il socio viene fatturato una volta), ci sono allora 2 possibilità:
+  - Il cambiamento di prezzo è positivo, una nuova fattura (con un importo più elevato) sarà semplicemente creata il prossimo giorno di fatturazione per fatturare l'importo mancante.
+  - Il cambiamento di prezzo è negativo, l'ultima/e fattura/e dell'abbonamento sarà/saranno quindi automaticamente annullata/e e una nuova fattura (con un importo inferiore) sarà ricreata il prossimo giorno di fatturazione. Se la vecchia fattura annullata era già stata pagata, allora la nuova fattura sarà automaticamente chiusa e il socio si troverà con un saldo positivo. Se necessario, potete riflettere un rimborso del saldo del socio [creando un pagamento negativo](/payments/new).
+
+<% if Current.org.annual_fee? %>
+### Quota annuale
+
+La quota annuale è automaticamente inclusa nella prima fattura dell'abbonamento. Se il socio non ha un abbonamento (supporto) allora viene creata automaticamente una fattura specifica all'inizio dell'anno fiscale.
+<% end %>
+
+### Ceste di prova
+
+Se un numero di ceste di prova è definito nelle [impostazioni di fatturazione](/settings#billing), allora l'abbonamento sarà fatturato solo una volta che tutte le ceste di prova saranno state consegnate, il prossimo giorno di fatturazione successivo alla consegna della prima cesta non di prova.
+
+Se l'abbonamento viene interrotto durante il periodo di prova, allora solo le ceste consegnate saranno fatturate, il prossimo giorno di fatturazione. <% if Current.org.annual_fee? %> In questo caso, la quota annuale non viene fatturata.<% end %>
+
+<% if Current.org.share? %>
+## Quote sociali
+
+Ogni giorno di fatturazione, il sistema crea automaticamente le fatture per le quote sociali mancanti, per esempio per un socio il cui abbonamento è appena iniziato.
+
+Per rimborsare una quota sociale già fatturata, andate sulla pagina della fattura e cliccate sul pulsante "Rimborso" in alto a destra, potete quindi creare facilmente una fattura di quota sociale negativa. Assicuratevi che il socio non abbia più bisogno di quote sociali, altrimenti saranno automaticamente create di nuovo il prossimo giorno di fatturazione.
+
+Se le quote sociali sono già state fatturate al di fuori di CSA Admin, potete riflettere questa informazione modificando il profilo del socio, sezione "Fatturazione" (Numero di quote sociali esistenti). Queste quote non saranno quindi fatturate.
+
+> Dalla pagina di un socio, potete vedere nella sezione "Fatturazione" (colonna di destra) il numero di quote sociali che saranno o sono già fatturate con un link alle fatture corrispondenti.
+<% end %>
+
+<% if Current.org.feature?('activity') %>
+## <%= activities_human_name %> non effettuate {#activity}
+
+Ogni organizzazione ha una politica di fatturazione delle <%= activities_human_name.downcase %> non effettuate diversa, alcune le fatturano, altre no.
+CSA Admin vi permette di fatturare individualmente o in gruppo le <%= activities_human_name.downcase %> non effettuate.
+
+### Definire i soci da fatturare
+
+Il totale delle <%= activities_human_name.downcase %> non effettuate è visualizzato sul [cruscotto](/dashboard). Per maggiori dettagli, potete esportare il CSV [degli abbonamenti](/memberships) dell'anno fiscale interessato. La colonna "<%= activities_human_name %> mancanti" è disponibile specificamente per questo.
+Aprendo il CSV con Excel, è facile determinare i soci da fatturare ordinandoli utilizzando questa colonna. Se necessario, potete quindi regolare il numero di <%= activities_human_name.downcase %> richieste per ogni socio modificando direttamente il loro abbonamento (campo: "<%= activities_human_name %> (anno completo)").
+
+### Fatturazione individuale
+
+Sia utilizzando il pulsante "Fatturare" dalla pagina di una partecipazione rifiutata o dalla [pagina di creazione di una nuova fattura](/invoices/new). È sufficiente inserire il numero di <%= activities_human_name.downcase %> da fatturare e cliccare sul pulsante "Creare Fattura".
+
+Non dimenticate di inviare la fattura, non viene inviata automaticamente in modo che possiate verificarla.
+
+> Le <%= activities_human_name.downcase %> fatturate sono automaticamente conteggiate come <%= activities_human_name.downcase %> effettuate; di conseguenza è importante che la data della fattura sia compresa nell'anno fiscale dell'abbonamento interessato.
+
+### Fatturazione di gruppo
+
+Dalla [pagina delle partecipazioni](/activity_participations), sotto i filtri, una sezione "Fatturazione" vi permette di fatturare tutte le partecipazioni mancanti di un anno specifico con un clic. ✨
+
+Le fatture vengono qui inviate automaticamente.
+
+### Contenuto dell'[email "Nuova fattura"](/mail_templates/invoice_created) {#activity-email}
+
+È possibile aggiungere un testo specifico nel [template email "Nuova fattura"](/mail_templates/invoice_created) per le fatture delle <%= activities_human_name.downcase %> utilizzando [la sintassi Liquid](https://shopify.github.io/liquid) seguente:
+
+~~~ liquid
+{% case invoice.entity_type %}
+  {% when 'ActivityParticipation' %}
+    <p>Il mio testo speciale!</p>
+  {% else %}
+    <p>Il mio testo standard.</p>
+{% endcase %}
+~~~
+<% end %>
+
+## Fattura manuale (Altro)
+
+CSA Admin offre la possibilità di fatturare manualmente articoli o servizi vari (per esempio, acquisto di borse in tessuto per i nuovi abbonati). Per farlo, è sufficiente [creare una nuova fattura](/invoices/new) e inserire gli articoli sotto la scheda "Altro". Dopo aver verificato il PDF, potete inviare manualmente la fattura utilizzando il pulsante "Inviare" sulla pagina della stessa.
+
+> Attenzione, le fatture di tipo "Altro" non devono essere utilizzate per fatturare gli abbonamenti<% if Current.org.share? %>, quote sociali<% end %><% if Current.org.feature?('activity') %> o <%= activities_human_name.downcase %><% end %>, perché il sistema non le prenderà in considerazione.
+
+## Pagamenti
+
+Ogni volta che un pagamento viene creato (automaticamente o manualmente) o una fattura viene creata o annullata, il sistema distribuirà l'importo di tutti i pagamenti alle fatture esistenti nell'ordine di priorità seguente:
+
+1. Pagamento con numero di riferimento, ridistribuzione fino a quando la fattura referenziata non sia chiusa.
+2. Ridistribuzione dei pagamenti senza numero di riferimento e degli importi eccedenti sulle fatture che erano precedentemente già segnate come chiuse in ordine cronologico.
+3. Ridistribuzione dei pagamenti senza numero di riferimento e degli importi eccedenti sulle fatture ancora aperte in ordine cronologico, le fatture più vecchie vengono chiuse per prime.
+
+Questa modalità di ridistribuzione è molto comoda e permette così di gestire i casi in cui un socio riutilizzerebbe un vecchio numero di riferimento per pagare una nuova fattura.
+
+### Importazione automatica
+
+Il modo più efficiente per elaborare i vostri pagamenti è chiedere alla vostra banca di impostare [una connessione EBICS](https://www.six-group.com/it/products-services/banking-services/standardization.html#scrollTo=ebics). Questo permette al sistema di importare automaticamente (ogni notte) i pagamenti delle fatture con numero di riferimento dei vostri soci tramite il formato ISO camt.054.
+
+CSA Admin gestisce anche il recupero automatico dei pagamenti della [Banca Alternativa Svizzera](https://www.bas.ch/it) che non supporta il sistema EBICS.
+
+> Se avete domande riguardanti il supporto di una banca in particolare o l'impostazione di EBICS, non esitate a [chiedermelo](mailto:info@csa-admin.org).
+
+### Importazione manuale
+
+Quando l'importazione automatica tramite [EBICS](https://www.six-group.com/it/products-services/banking-services/standardization.html#scrollTo=ebics) non è ancora configurata, potete facilmente importare i pagamenti delle fatture con numero di riferimento dei vostri soci scaricando un file in formato camt.054 dal vostro e-banking e caricandolo in CSA Admin dalla [pagina dei pagamenti](/payments), sezione "Importazione" nella colonna di destra. Non dimenticate di ripetere l'operazione regolarmente (ogni settimana) affinché il sistema non invii promemoria inutilmente.
+
+Per i pagamenti senza numero di riferimento (contanti o versamento diretto), è sufficiente [creare un nuovo pagamento manualmente](/payments/new). L'importo di questo sarà automaticamente ridistribuito alle fatture esistenti.
+
+### Rimborso
+
+Se desiderate rimborsare un socio per qualsiasi motivo, è sufficiente creare un nuovo pagamento con un importo negativo. Notate che il rimborso deve essere effettuato da voi dal vostro e-banking per esempio, CSA Admin non può creare un versamento.
+
+## Promemoria
+
+Quando i pagamenti vengono importati automaticamente, il sistema si occupa automaticamente di inviare un promemoria via email a tutti i soci che hanno una fattura non pagata ogni 35 giorni, fino a quando la fattura non viene pagata (1° promemoria dopo 35 giorni, 2° promemoria dopo 70 giorni, ecc.).
+
+Potete configurare il contenuto di questo promemoria modificando [il template email "Promemoria fattura"](/mail_templates/invoice_overdue_notice).
+
+> Potete essere notificati via email quando viene inviato il 3° promemoria di una fattura. Gestite le vostre notifiche dal [vostro account admin](/admins/<%= current_admin.id %>/edit).

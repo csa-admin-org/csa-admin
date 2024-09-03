@@ -1,0 +1,58 @@
+# Erneuerung
+
+Jede Mitgliedschaft endet zwangsläufig am Ende ihres Geschäftsjahres; daher ist es notwendig, die Mitgliedschaften für das folgende Geschäftsjahr zu erneuern.
+
+Alle Mitgliedschaften können manuell von einem Administrator erneuert werden; entweder von der Seite einer Mitgliedschaft aus oder von [der Seite der Mitgliedschaften](/memberships) (Abschnitt "Erneuerungen" unterhalb der Filter). Es ist auch möglich, eine Erneuerungsanfrage per E-Mail an alle Mitglieder zu senden, die dann ihre Mitgliedschaft über ein Formular auf ihrer Mitgliederseite erneuern oder kündigen können.
+
+## Voraussetzungen
+
+Um die Mitgliedschaften erneuern zu können, ist es zunächst notwendig, alle [Lieferungen](/deliveries/new) für das neue Geschäftsjahr zu erstellen. Eine Mitgliedschaft zu erneuern bedeutet nämlich, eine neue Mitgliedschaft mit den gleichen Informationen wie die aktuelle zu erstellen, aber für das folgende Geschäftsjahr.
+
+Sobald die Lieferungen erstellt sind, können Administratoren die Mitgliedschaften manuell erneuern, zu einem Zeitpunkt ihrer Wahl, aber unbedingt vor Ende des Geschäftsjahres.
+
+## Versenden von Anfragen
+
+Abschnitt "Erneuerungen" unterhalb der Filter auf [der Seite der Mitgliedschaften](/memberships), sobald die unten genannten Voraussetzungen erfüllt sind:
+![Mitgliedschaften Abschnitt](<%= image_url('handbook/membership_renewal/section.de.png') %>){:class="small"}
+
+> Es ist wichtig zu beachten, dass das System nicht automatisch Erneuerungsanfragen an die Mitglieder sendet; es liegt also an Ihnen, den geeigneten Zeitpunkt für den Versand entsprechend Ihren Statuten oder Vorschriften zu wählen. <br/><br/>
+> Wenn Mitglieder nicht antworten, liegt es ebenfalls an Ihnen, diese Mitgliedschaften zum Zeitpunkt Ihrer Wahl stillschweigend zu erneuern (oder nicht) mit Hilfe der Schaltfläche "X Mitgliedschaften erneuern", die sich auf [der Seite der Mitgliedschaften](/memberships) befindet.
+
+### Voraussetzungen
+
+Um Erneuerungsanfragen versenden zu können, müssen Sie zunächst die folgenden Elemente einrichten:
+
+- Erstellen Sie alle [Lieferungen](/deliveries/new) für das neue Geschäftsjahr.
+- Bearbeiten und aktivieren Sie [die E-Mail-Vorlage "Mitgliedschaftserneuerung"](/mail_templates/membership_renewal).
+- Bearbeiten und aktivieren Sie [die E-Mail-Vorlage "Mitgliedschaftserneuerung (Erinnerung)"](/mail_templates/membership_renewal_reminder) (optional).
+- Bearbeiten Sie [die Einstellungen](/settings#membership_renewal), wie den Erklärungstext, der auf der Mitgliederseite angezeigt wird (erfordert "maximale" Berechtigung).
+
+### Test des Versands einer Anfrage
+
+Sobald die Voraussetzungen erfüllt sind, ist es möglich, eine Erneuerungsanfrage per E-Mail für ein einzelnes Mitglied (zum Beispiel Sie) von der Seite seiner Mitgliedschaft aus zu versenden. Dies ermöglicht es Ihnen, sicherzustellen, dass alles korrekt funktioniert.
+
+### Erinnerungs-E-Mail
+
+Wenn konfiguriert, Feld "Eine Erinnerung senden nach (in Tagen)" in [den Einstellungen](/settings#membership_renewal), sendet das System automatisch eine Erinnerungs-E-Mail an jedes Mitglied, das seine Mitgliedschaft noch nicht erneuert oder gekündigt hat, X Tage nach dem Versand der Erneuerungsanfrage.
+
+[Die E-Mail-Vorlage "Mitgliedschaftserneuerung (Erinnerung)"](/mail_templates/membership_renewal_reminder) muss ebenfalls zuvor bearbeitet und aktiviert worden sein.
+
+> Da Mitgliedschaften nur vor Ende des Geschäftsjahres erneuert oder gekündigt werden können, achten Sie darauf, dass zwischen dem Versand der Erinnerung und dem Ende des Geschäftsjahres immer genug Zeit bleibt.
+
+## Erneuerungsformular
+
+Sobald die Erneuerungsanfrage gesendet wurde, hat das Mitglied Zugriff auf ein Formular auf der Seite seiner Mitgliedschaft, das ihm anbietet, seine Mitgliedschaft zu erneuern oder zu kündigen:
+
+![Mitgliedschaften Abschnitt](<%= image_url('handbook/membership_renewal/form.de.png') %>)
+
+### Erneuerung
+
+Wenn das Mitglied sich für die Erneuerung seiner Mitgliedschaft entscheidet, wird es zur Erneuerungsseite weitergeleitet, auf der es seine Taschengröße, seine Ergänzungen (falls verfügbar), sein Depot (falls in [den Einstellungen](/settings#membership_renewal) aktiviert), das Zahlungsintervall ändern sowie einen freien Kommentar hinterlassen kann.
+
+Nach der Bestätigung wird seine Mitgliedschaft für das folgende Geschäftsjahr automatisch erstellt und kann wie jede andere Mitgliedschaft über die Administrationsschnittstelle eingesehen und geändert werden. Im Fehlerfall kann die Mitgliedschaft ohne weiteres gelöscht werden, was die Erneuerung rückgängig macht.
+
+### Kündigung
+
+Wenn das Mitglied sich für die Kündigung seiner Mitgliedschaft entscheidet, wird es zur Kündigungsseite weitergeleitet, auf der es einen freien Kommentar hinterlassen sowie wählen kann, die Vereinigung weiterhin als unterstützendes Mitglied zu unterstützen, indem es den Jahresbeitrag zahlt (falls zutreffend).
+
+Bei Bedarf kann die Kündigung der Mitgliedschaft von einem Administrator von der Seite der Mitgliedschaft aus rückgängig gemacht werden.

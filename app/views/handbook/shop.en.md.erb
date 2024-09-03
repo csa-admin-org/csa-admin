@@ -1,0 +1,78 @@
+# Shop
+
+The online shop allows your members to order additional products from their account a few days before the delivery of their next baskets.
+
+To allow you to prepare the content of your shop calmly, by default, the shop **does not appear** in the member account menu. Only admins who can access a member's account (from the "Access account" button on a member's admin page) can see the shop. This way, you can ensure that all products are well presented. Once everything is in place, this limitation can be disabled from [the settings](/settings#shop).
+
+> If needed, it's possible to close the shop by delivery from the admin page of the latter.
+
+## Producers
+
+Each product can be associated with [a producer](/shop_producers). A description as well as a link to a website or document can be defined for each of them. All products can be filtered by producer in the member interface of the shop.
+
+## Products
+
+Many options are offered to best manage the products of your shop.
+
+### Tags
+
+[Tags](/shop_tags) are keywords that allow filtering products in the member interface of the shop. Each product can be associated with one or more tags.
+
+### Variants
+
+Each product comes in one or more variants. Variants allow defining different characteristics (weight, size, type) of this product.
+
+Each variant has its own name, price, weight (optional), and stock (optional).
+
+### Availability
+
+The availability of a product can be defined for itself or for each of its variants separately. If needed, a product can also be made unavailable by depot or for a future delivery.
+
+> If the stock of a variant is defined and falls to zero, it will still appear but it will simply no longer be possible to add it to the shopping cart.
+
+### Complements
+
+It's possible to link a product to an existing basket complement; orders for this product will then be automatically added to the number of this complement in the summary (XLSX) and sheets (PDF) of the basket delivery.
+
+This product will also only be available on the delivery days of the complement.
+
+## Orders
+
+To give you time to process and bill orders placed before delivery, a deadline (days and hours) until which orders are possible can be defined from [the shop settings](/settings#shop). After this deadline, members will no longer be able to create or modify their order for the upcoming delivery.
+
+It's also possible to set a minimum order amount as well as a maximum weight, if this information has been properly entered for each product variant.
+
+Once an order is placed, it appears with the status "to prepare" in [the orders list](/shop_orders?scope=pending). These orders are always modifiable by members until the configured deadline. An admin can also modify them at any time.
+
+A delivery note (PDF), not including the price of products, is available for each order if you wish to print them and attach them to the baskets.
+
+### Billing
+
+By default, once the orders are prepared, the orders must be **manually** billed (possibility to bill them all at once via a group action). The invoice is then automatically sent by email to the member.
+
+It's also possible to configure **automatic billing** of orders, from [the shop settings](/settings#shop), after or before a certain number of days following or preceding the delivery date.
+
+> If an already billed order is modified, the existing invoice is automatically cancelled and a new invoice will need to be generated and sent.
+
+It's possible to add specific text in the ["New invoice" email template](/mail_templates/invoice_created) using [Liquid syntax](https://shopify.github.io/liquid) as follows:
+
+~~~ liquid
+{% case invoice.entity_type %}
+{% when 'Shop::Order' %}
+  <p>Here is your new invoice, for your order N° {{ invoice.entity_number }}; all details can be found in the attached PDF.</p>
+{% else %}
+  <p>Here is your new invoice; all details can be found in the attached PDF.</p>
+{% endcase %}
+~~~
+
+## Access for members without membership
+
+By default, and outside of [special deliveries](#special-deliveries), access to the shop is limited to active members with a membership. However, it's possible to define a depot, by modifying the profile of an inactive member, as a "shop depot" to give them access to the shop. Orders from these members will then appear in the sheets (PDF) of the corresponding depots.
+
+## Special deliveries
+
+Special deliveries allow you to offer additional products to your members outside of regular basket deliveries via the online shop.
+
+Available products can be defined separately for each special delivery, the individual setting of the availability of each product is ignored. However, the availability of variants as well as the state of their stock are always respected.
+
+> As special deliveries are delivered outside of basket deliveries, they are open to all your members, active or not.

@@ -1,0 +1,49 @@
+# Partecipazione dei soci
+
+Questa funzione permette di gestire le attività e la loro partecipazione da parte dei soci. Queste partecipazioni possono essere opzionali o obbligatorie e possono essere fatturate o meno.
+
+## Configurazione
+
+Una volta attivata questa funzione aggiuntiva nelle [vostre impostazioni](/settings#organization_features_input), diverse impostazioni vi permettono di [configurare](/settings#activity) il funzionamento delle attività e delle partecipazioni.
+
+### Modulo di iscrizione e rinnovo
+
+Il numero di partecipazioni richieste per impostazione predefinita dipenderà dal numero configurato per la dimensione della cesta e dai complementi dell'abbonamento.
+
+Tuttavia, è possibile lasciare ai soci la scelta del numero di partecipazioni che desiderano al momento dell'iscrizione o del [rinnovo](/handbook/membership_renewal). Per farlo, è sufficiente configurare un numero minimo (che permette al socio di ridurre il numero richiesto) e/o un numero massimo (che permette al socio di aumentare il numero richiesto) di partecipazioni.
+
+> Se viene definito un prezzo per la partecipazione, la differenza tra il numero predefinito e il numero scelto verrà automaticamente aggiunta o sottratta dall'importo totale dell'abbonamento (campi "Adeguamento del prezzo dell'abbonamento").
+
+### Logica di calcolo delle partecipazioni richieste
+
+La configurazione del numero di partecipazioni richieste si intende sempre per un intero anno fiscale; per impostazione predefinita, il numero finale richiesto sarà calcolato in proporzione al numero di consegne dell'abbonamento.
+
+Questa logica può essere modificata utilizzando [la sintassi Liquid](https://shopify.github.io/liquid) nel campo "Logica di calcolo delle partecipazioni richieste" nelle [impostazioni](/settings#activity).
+
+### Iscrizione alle attività
+
+I soci possono iscriversi alle attività dal loro account. Possono anche vedere le attività a cui sono iscritti, le partecipazioni che hanno effettuato e le loro convalide.
+
+Al momento dell'iscrizione, il socio può specificare il numero di partecipanti (ogni partecipante conta come una partecipazione), lasciare un commento e scegliere di condividere il proprio numero di telefono e il luogo di partenza per il car sharing. Il loro contatto sarà quindi condiviso con gli altri soci iscritti alla stessa attività nell'[email di promemoria inviata 3 giorni prima dell'attività](/mail_templates/activity_participation_reminder).
+
+Un limite (in giorni) di iscrizione prima della data dell'attività può essere definito nelle [impostazioni](/settings#activity) per evitare iscrizioni all'ultimo minuto.
+
+Un termine (in giorni) per cancellare un'iscrizione può anche essere definito nelle [impostazioni](/settings#activity). Passato questo termine, i soci non potranno più cancellare la loro iscrizione.
+
+## Attività
+
+Potete creare attività dalla [lista delle attività](/activities) cliccando su "Nuova attività". Come per le consegne, potete facilmente creare attività in batch utilizzando la scheda "Date multiple" nel [modulo di creazione](/activities/new).
+
+> Se offrite spesso attività simili nello stesso luogo, pensate di creare ["preset" di attività](/activity_presets) per risparmiare tempo.
+
+## Partecipazioni
+
+Le iscrizioni alle attività fatte dai soci sono visibili dalla [lista delle partecipazioni](/activity_participations). Gli amministratori possono anche iscrivere manualmente i soci o modificare/eliminare partecipazioni esistenti.
+
+Le partecipazioni alle attività (dello stesso giorno o passate) possono essere convalidate o rifiutate dagli amministratori. I soci riceveranno quindi un'email di [conferma](/mail_templates/activity_participation_validated) o di [rifiuto](/mail_templates/activity_participation_rejected) della loro partecipazione.
+
+## Fatturazione
+
+Se è definito un prezzo per una partecipazione, potete semplicemente fatturare tutte le partecipazioni mancanti dalla [lista delle partecipazioni](/activity_participations). Ogni partecipazione fatturata sarà automaticamente considerata come una partecipazione convalidata.
+
+Maggiori informazioni sulla [fatturazione delle partecipazioni](/handbook/billing#activity) sono disponibili nella pagina del manuale dedicata alla fatturazione.

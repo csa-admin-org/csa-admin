@@ -1,0 +1,137 @@
+# Abrechnung
+
+CSA Admin zielt darauf ab, die meisten Aufgaben im Zusammenhang mit der Abrechnung ([Mitgliedschaften](#mitgliedschaften), <% if Current.org.share? %>[Anteilskapital](#anteilskapital), <% end %>[Zahlungsverarbeitung](#zahlungen)) zu automatisieren, aber einige Aspekte <% if Current.org.feature?('activity') %>wie die Abrechnung von [nicht durchgeführten <%= activities_human_name %>](#nicht-durchgefhrte-<%= activities_human_name %>)<% end %> müssen manuell durchgeführt werden.
+
+Für die Schweiz generiert CSA Admin QR-Rechnungen mit Referenznummern (PDF) und sendet sie an alle E-Mail-Adressen des betreffenden Mitglieds. Um diese Rechnungen generieren zu können, müssen Sie eine QR-IBAN von Ihrer Bank anfordern. Beachten Sie, dass diese Nummer sich von der IBAN Ihres Bankkontos unterscheidet. Sie können sie dann in [Ihren Abrechnungseinstellungen](/settings#billing) eingeben.
+
+## Mitgliedschaften
+
+Die Abrechnung der Mitgliedschaften wird vollständig vom System automatisiert. Sie können in [den Einstellungen (Automatische Abrechnung)](/settings#billing) den Wochentag festlegen, an dem das System alle Mitgliedschaften überprüft und automatisch die erforderlichen Rechnungen erstellt und versendet. Wenn ein Mitglied beispielsweise vierteljährlich abgerechnet wird, wird am ersten konfigurierten Wochentag eines neuen Quartals automatisch eine neue Rechnung erstellt und versendet.
+
+Der Rechnungsbetrag wird wie folgt berechnet: Gesamtbetrag der Mitgliedschaft / Anzahl der Zahlungsintervalle. Bei einer Mitgliedschaft von 1000.-, die vierteljährlich bezahlt wird, beträgt jede Rechnung beispielsweise 250.-.
+
+Es ist daher entscheidend, dass jede Mitgliedschaftskonfiguration aktuell ist, damit die Rechnungen korrekt sind.
+
+Standardmäßig wird die erste Rechnung am Abrechnungstag nach der ersten Taschenlieferung versendet, aber es ist möglich, dies in [den Einstellungen](/settings#billing) zu ändern (Mitgliedschaften erst nach ihrer ersten Lieferung abrechnen), um die Mitgliedschaft ab ihrem Beginn abzurechnen.
+
+Standardmäßig erstreckt sich die Abrechnung bis zum Enddatum der Mitgliedschaft, aber es ist möglich, dies in [den Einstellungen](/settings#billing) zu ändern (Mitgliedschaften nur bis zu ihrer letzten Lieferung abrechnen), um den Abrechnungszeitraum nur bis zum Datum ihrer letzten Lieferung zu verlängern. Dies ist nützlich, wenn beispielsweise die letzten Monate des Geschäftsjahres keine Lieferungen haben.
+
+> Von der Seite eines Mitglieds oder einer Mitgliedschaft aus können Sie im Abschnitt "Abrechnung" (rechte Spalte) den Erstellungstag der nächsten Rechnung sehen.
+
+### Jetzt abrechnen
+
+In einigen Fällen, beispielsweise nach einer Änderung der Mitgliedschaftskonfiguration, ist es möglich, die Erstellung einer neuen Rechnung zu erzwingen, anstatt das System dies automatisch am nächsten Abrechnungstag tun zu lassen. Klicken Sie dazu auf die Schaltfläche "Jetzt abrechnen" im Abschnitt "Abrechnung" (rechte Spalte). Die Rechnung wird dann erstellt, aber <u>nicht gesendet</u>. Sie können dann das PDF einsehen und es manuell mit der Schaltfläche "Senden" auf der Seite der Rechnung versenden. Dies ist nützlich, wenn Sie in Kontakt mit einem Mitglied stehen und schnell eine Rechnung korrigieren möchten.
+
+### Preisänderung {#price-change}
+
+Wenn eine Mitgliedschaftskonfiguration (Daten, Taschengröße, ...) geändert wird, sind mehrere Fälle möglich:
+
+- Eine zukünftige Rechnung muss noch gesendet werden (es ist Mitte des Jahres und das Mitglied wird vierteljährlich abgerechnet); in diesem Fall wird die Preisänderung (positiv oder negativ) einfach auf die nächste Rechnung angewendet.
+- Die letzte Rechnung wurde bereits gesendet (es ist das Ende des Jahres oder das Mitglied wird einmal abgerechnet), dann gibt es 2 Möglichkeiten:
+  - Die Preisänderung ist positiv, eine neue Rechnung (mit einem höheren Betrag) wird einfach am nächsten Abrechnungstag erstellt, um den fehlenden Betrag in Rechnung zu stellen.
+  - Die Preisänderung ist negativ, die letzte(n) Rechnung(en) der Mitgliedschaft wird/werden dann automatisch storniert und eine neue Rechnung (mit einem niedrigeren Betrag) wird am nächsten Abrechnungstag neu erstellt. Wenn die alte stornierte Rechnung bereits bezahlt war, wird die neue Rechnung automatisch geschlossen und das Mitglied hat einen positiven Saldo. Bei Bedarf können Sie eine Rückerstattung des Mitgliedersaldos durch [Erstellung einer negativen Zahlung](/payments/new) für sie vornehmen.
+
+<% if Current.org.annual_fee? %>
+### Jahresgebühr
+
+Die Jahresgebühr ist automatisch in der ersten Rechnung der Mitgliedschaft enthalten. Wenn das Mitglied keine Mitgliedschaft hat (Unterstützung), wird zu Beginn des Geschäftsjahres automatisch eine spezielle Rechnung erstellt.
+<% end %>
+
+### Probetaschen
+
+Wenn in [den Abrechnungseinstellungen](/settings#billing) eine Anzahl von Probetaschen definiert ist, wird die Mitgliedschaft erst abgerechnet, wenn alle Probetaschen geliefert wurden, und zwar am nächsten Abrechnungstag nach der Lieferung der ersten Nicht-Probetasche.
+
+Wenn die Mitgliedschaft während der Probezeit beendet wird, werden nur die gelieferten Taschen am nächsten Abrechnungstag in Rechnung gestellt. <% if Current.org.annual_fee? %> In diesem Fall wird die Jahresgebühr nicht berechnet.<% end %>
+
+<% if Current.org.share? %>
+## Anteilskapital
+
+An jedem Abrechnungstag erstellt das System automatisch Rechnungen für fehlendes Anteilskapital, beispielsweise für ein Mitglied, dessen Mitgliedschaft gerade begonnen hat.
+
+Um bereits in Rechnung gestelltes Anteilskapital zurückzuerstatten, gehen Sie zur Rechnungsseite und klicken Sie oben rechts auf die Schaltfläche "Rückerstattung". Sie können dann einfach eine negative Anteilskapitalrechnung erstellen. Stellen Sie sicher, dass das Mitglied kein Anteilskapital mehr benötigt, andernfalls wird es am nächsten Abrechnungstag automatisch neu erstellt.
+
+Wenn Anteilskapital bereits außerhalb von CSA Admin in Rechnung gestellt wurde, können Sie diese Information widerspiegeln, indem Sie das Profil des Mitglieds bearbeiten, Abschnitt "Abrechnung" (Anzahl bestehender Anteile). Diese Anteile werden dann nicht in Rechnung gestellt.
+
+> Von der Seite eines Mitglieds aus können Sie im Abschnitt "Abrechnung" (rechte Spalte) die Anzahl der Anteile sehen, die in Rechnung gestellt werden oder bereits in Rechnung gestellt wurden, mit einem Link zu den entsprechenden Rechnungen.
+<% end %>
+
+<% if Current.org.feature?('activity') %>
+## Nicht durchgeführte <%= activities_human_name %> {#activity}
+
+Jede Organisation hat eine andere Abrechnungspolitik für nicht durchgeführte <%= activities_human_name.downcase %>; einige stellen sie in Rechnung, andere nicht.
+CSA Admin ermöglicht es Ihnen, nicht durchgeführte <%= activities_human_name.downcase %> einzeln oder in Gruppen in Rechnung zu stellen.
+
+### Festlegung der zu berechnenden Mitglieder
+
+Die Gesamtzahl der nicht durchgeführten <%= activities_human_name.downcase %> wird auf [dem Dashboard](/dashboard) angezeigt. Für weitere Details können Sie die CSV-Datei [der Mitgliedschaften](/memberships) für das betreffende Geschäftsjahr exportieren. Die Spalte "Fehlende <%= activities_human_name %>" ist speziell dafür verfügbar.
+Beim Öffnen der CSV-Datei mit Excel ist es einfach, die zu berechnenden Mitglieder zu bestimmen, indem Sie sie anhand dieser Spalte sortieren. Bei Bedarf können Sie dann die Anzahl der angeforderten <%= activities_human_name.downcase %> für jedes Mitglied anpassen, indem Sie ihre Mitgliedschaft direkt ändern (Feld: "<%= activities_human_name %> (volles Jahr)").
+
+### Einzelabrechnung
+
+Entweder über die Schaltfläche "Abrechnen" von der Seite einer abgelehnten Teilnahme oder von [der Seite zur Erstellung einer neuen Rechnung](/invoices/new). Geben Sie einfach die Anzahl der abzurechnenden <%= activities_human_name.downcase %> ein und klicken Sie auf die Schaltfläche "Rechnung erstellen".
+
+Vergessen Sie nicht, die Rechnung zu senden, sie wird nicht automatisch gesendet, damit Sie sie überprüfen können.
+
+> Abgerechnete <%= activities_human_name.downcase %> werden automatisch als durchgeführte <%= activities_human_name.downcase %> gezählt; folglich ist es wichtig, dass das Rechnungsdatum innerhalb des Geschäftsjahres der betreffenden Mitgliedschaft liegt.
+
+### Gruppenabrechnung
+
+Von [der Teilnahmeseite](/activity_participations) aus können Sie unterhalb der Filter in einem Abschnitt "Abrechnung" alle fehlenden Teilnahmen für ein bestimmtes Jahr mit einem Klick abrechnen. ✨
+
+Die Rechnungen werden hier automatisch versendet.
+
+### Inhalt der [E-Mail "Neue Rechnung"](/mail_templates/invoice_created) {#activity-email}
+
+Es ist möglich, spezifischen Text in der [E-Mail-Vorlage "Neue Rechnung"](/mail_templates/invoice_created) für <%= activities_human_name.downcase %>-Rechnungen hinzuzufügen, indem Sie [Liquid-Syntax](https://shopify.github.io/liquid) wie folgt verwenden:
+
+~~~ liquid
+{% case invoice.entity_type %}
+  {% when 'ActivityParticipation' %}
+    <p>Mein spezieller Text!</p>
+  {% else %}
+    <p>Mein Standardtext.</p>
+{% endcase %}
+~~~
+<% end %>
+
+## Manuelle Rechnung (Sonstiges)
+
+CSA Admin bietet die Möglichkeit, verschiedene Artikel oder Dienstleistungen manuell in Rechnung zu stellen (zum Beispiel den Kauf von Stofftaschen für neue Abonnenten). Dazu müssen Sie einfach [eine neue Rechnung erstellen](/invoices/new) und die Artikel unter der Registerkarte "Sonstiges" eingeben. Nach Überprüfung des PDFs können Sie die Rechnung manuell mit der Schaltfläche "Senden" auf der Seite der Rechnung versenden.
+
+> Achtung, Rechnungen vom Typ "Sonstiges" sollten nicht verwendet werden, um Mitgliedschaften<% if Current.org.share? %>, Anteilskapital<% end %><% if Current.org.feature?('activity') %> oder <%= activities_human_name.downcase %><% end %> in Rechnung zu stellen, da das System diese nicht berücksichtigt.
+
+## Zahlungen
+
+Jedes Mal, wenn eine Zahlung erstellt wird (automatisch oder manuell) oder eine Rechnung erstellt oder storniert wird, verteilt das System den Betrag aller Zahlungen auf bestehende Rechnungen in der folgenden Prioritätsreihenfolge:
+
+1. Zahlung mit Referenznummer, Umverteilung bis die referenzierte Rechnung geschlossen ist.
+2. Umverteilung von Zahlungen ohne Referenznummer und überschüssigen Beträgen auf Rechnungen, die zuvor bereits als geschlossen markiert wurden, in chronologischer Reihenfolge.
+3. Umverteilung von Zahlungen ohne Referenznummer und überschüssigen Beträgen auf noch offene Rechnungen in chronologischer Reihenfolge, die ältesten Rechnungen werden zuerst geschlossen.
+
+Dieser Umverteilungsmodus ist sehr praktisch und ermöglicht es so, Fälle zu verwalten, in denen ein Mitglied eine alte Referenznummer wiederverwenden würde, um eine neue Rechnung zu bezahlen.
+
+### Automatischer Import
+
+Die effizienteste Methode zur Verarbeitung Ihrer Zahlungen besteht darin, Ihre Bank zu bitten, [eine EBICS-Verbindung](https://www.six-group.com/de/products-services/banking-services/standardization.html#scrollTo=ebics) einzurichten. Dies ermöglicht es dem System, Zahlungen von Rechnungen mit Referenznummern Ihrer Mitglieder automatisch (jede Nacht) über das ISO camt.054-Format zu importieren.
+
+CSA Admin verwaltet auch den automatischen Abruf von Zahlungen der [Alternativen Bank Schweiz](https://www.bas.ch/de), die das EBICS-System nicht unterstützt.
+
+> Wenn Sie Fragen zur Unterstützung einer bestimmten Bank oder zur Einrichtung von EBICS haben, zögern Sie nicht, [mich zu fragen](mailto:info@csa-admin.org).
+
+### Manueller Import
+
+Wenn der automatische Import über [EBICS](https://www.six-group.com/de/products-services/banking-services/standardization.html#scrollTo=ebics) noch nicht konfiguriert ist, können Sie Zahlungen von Rechnungen mit Referenznummern Ihrer Mitglieder einfach importieren, indem Sie eine Datei im camt.054-Format von Ihrem E-Banking herunterladen und in CSA Admin von [der Zahlungsseite](/payments) aus hochladen, Abschnitt "Import" in der rechten Spalte. Vergessen Sie nicht, den Vorgang regelmäßig (jede Woche) zu wiederholen, damit das System nicht unnötig Erinnerungen sendet.
+
+Für Zahlungen ohne Referenznummer (Bargeld oder direkte Einzahlung) müssen Sie einfach [eine neue Zahlung manuell erstellen](/payments/new). Der Betrag wird automatisch auf bestehende Rechnungen umverteilt.
+
+### Rückerstattung
+
+Wenn Sie ein Mitglied aus irgendeinem Grund zurückerstatten möchten, erstellen Sie einfach eine neue Zahlung mit einem negativen Betrag. Beachten Sie, dass die Rückerstattung von Ihnen beispielsweise über Ihr E-Banking durchgeführt werden muss, da CSA Admin keine Überweisung erstellen kann.
+
+## Erinnerungen
+
+Wenn Zahlungen automatisch importiert werden, kümmert sich das System automatisch darum, alle 35 Tage eine Erinnerungs-E-Mail an alle Mitglieder zu senden, die eine unbezahlte Rechnung haben, bis die Rechnung bezahlt ist (1. Erinnerung nach 35 Tagen, 2. Erinnerung nach 70 Tagen usw.).
+
+Sie können den Inhalt dieser Erinnerung konfigurieren, indem Sie [die E-Mail-Vorlage "Rechnungserinnerung"](/mail_templates/invoice_overdue_notice) bearbeiten.
+
+> Sie können per E-Mail benachrichtigt werden, wenn die 3. Erinnerung einer Rechnung gesendet wird. Verwalten Sie Ihre Benachrichtigungen über [Ihr Administratorkonto](/admins/<%= current_admin.id %>/edit).
