@@ -9,7 +9,7 @@ pin "@hotwired/stimulus", to: "stimulus.min.js"
 pin "@hotwired/stimulus-loading", to: "stimulus-loading.js"
 pin "@hotwired/turbo-rails", to: "turbo.min.js"
 pin_all_from "app/javascript/components", under: "components"
-pin "throttle-debounce" # @5.0.0
+pin "throttle-debounce" # @5.0.2
 
 # ActiveAdmin (used also by members)
 pin "flowbite", to: "flowbite.turbo.min.js" # @2.4.1
@@ -33,15 +33,15 @@ pin "@joeattardi/emoji-button", to: "@joeattardi--emoji-button.js", preload: fal
 pin "@roderickhsiao/emoji-button-locale-data/dist/de", to: "@roderickhsiao--emoji-button-locale-data--dist--de.js", preload: false # @0.1.2
 pin "@roderickhsiao/emoji-button-locale-data/dist/fr", to: "@roderickhsiao--emoji-button-locale-data--dist--fr.js", preload: false # @0.1.2
 pin "@roderickhsiao/emoji-button-locale-data/dist/it", to: "@roderickhsiao--emoji-button-locale-data--dist--it.js", preload: false # @0.1.2
-pin "ace-builds", preload: false # @1.9.6
-pin "ace-builds/src-noconflict/mode-liquid", to: "ace-builds--src-noconflict--mode-liquid.js", preload: false # @1.9.6
-pin "ace-builds/src-noconflict/mode-yaml", to: "ace-builds--src-noconflict--mode-yaml.js", preload: false # @1.9.6
-pin "ace-builds/src-noconflict/theme-textmate", to: "ace-builds--src-noconflict--theme-textmate.js" # @1.35.4
+pin "ace-builds", preload: false # @1.36.2
+pin "ace-builds/src-noconflict/mode-liquid", to: "ace-builds--src-noconflict--mode-liquid.js", preload: false # @1.36.2
+pin "ace-builds/src-noconflict/mode-yaml", to: "ace-builds--src-noconflict--mode-yaml.js", preload: false # @1.36.2
+pin "ace-builds/src-noconflict/theme-textmate", to: "ace-builds--src-noconflict--theme-textmate.js", preload: false # @1.36.2
 # Don't forget to update app/assets/stylesheets/tom-select.css too
-pin "tom-select", preload: false # @2.1.0
-pin "@stimulus-components/sortable", to: "@stimulus-components--sortable.js" # @5.0.1
-pin "@rails/request.js", to: "@rails--request.js.js" # @0.0.8
-pin "sortablejs" # @1.15.2
+pin "tom-select", preload: false # @2.3.1
+pin "@stimulus-components/sortable", to: "@stimulus-components--sortable.js", preload: false # @5.0.1
+pin "@rails/request.js", to: "@rails--request.js.js", preload: false # @0.0.11
+pin "sortablejs", preload: false # @1.15.3
 # ActiveAdmin
-pin "@rails/ujs", to: "@rails--ujs.js", preload: false # @7.0.8
+pin "@rails/ujs", to: "@rails--ujs.js", preload: false # @7.1.3
 pin_all_from File.join(`bundle show activeadmin`.strip, "app/javascript/active_admin"), under: "active_admin", preload: false

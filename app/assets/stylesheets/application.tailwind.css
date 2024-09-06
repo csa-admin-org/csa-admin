@@ -2,7 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-
 @layer base {
   /* Admin */
   a {
@@ -1004,6 +1003,10 @@
   /* tom-select */
   .ts-control {
     @apply border rounded-md text-base bg-gray-50 dark:bg-gray-700 dark:border-gray-600 !important;
+
+    input {
+      @apply inline w-0 !important;
+    }
   }
 
   /* browser-update */
