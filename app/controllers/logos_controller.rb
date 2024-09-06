@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class LogosController < ActionController::Base
   around_action :switch_tenant!
 
@@ -8,7 +10,7 @@ class LogosController < ActionController::Base
       send_data(logo.download,
         filename: logo.filename.to_s,
         type: logo.content_type,
-        disposition: 'inline')
+        disposition: "inline")
     else
       File.open(Rails.root.join("app/assets/images/logo.png"), "r") do |f|
         send_data(f.read, type: "image/png", disposition: "inline")

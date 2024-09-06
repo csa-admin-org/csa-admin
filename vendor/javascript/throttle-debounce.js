@@ -19,7 +19,7 @@
  *
  * @returns {Function} A new, throttled, function.
  */
-function throttle(e,o,n){var i=n||{},t=i.noTrailing,r=void 0!==t&&t,a=i.noLeading,c=void 0!==a&&a,l=i.debounceMode,u=void 0===l?void 0:l;var v;var d=false;var f=0;function clearExistingTimeout(){v&&clearTimeout(v)}function cancel(e){var o=e||{},n=o.upcomingOnly,i=void 0!==n&&n;clearExistingTimeout();d=!i}function wrapper(){for(var n=arguments.length,i=new Array(n),t=0;t<n;t++)i[t]=arguments[t];var a=this;var l=Date.now()-f;if(!d){c||!u||v||exec();clearExistingTimeout();if(void 0===u&&l>e)if(c){f=Date.now();r||(v=setTimeout(u?clear:exec,e))}else exec();else true!==r&&(v=setTimeout(u?clear:exec,void 0===u?e-l:e))}function exec(){f=Date.now();o.apply(a,i)}function clear(){v=void 0}}wrapper.cancel=cancel;return wrapper}
+function throttle(e,o,n){var i=n||{},t=i.noTrailing,r=t!==void 0&&t,a=i.noLeading,c=a!==void 0&&a,l=i.debounceMode,u=l===void 0?void 0:l;var v;var d=false;var f=0;function clearExistingTimeout(){v&&clearTimeout(v)}function cancel(e){var o=e||{},n=o.upcomingOnly,i=n!==void 0&&n;clearExistingTimeout();d=!i}function wrapper(){for(var n=arguments.length,i=new Array(n),t=0;t<n;t++)i[t]=arguments[t];var a=this;var l=Date.now()-f;if(!d){c||!u||v||exec();clearExistingTimeout();if(u===void 0&&l>e)if(c){f=Date.now();r||(v=setTimeout(u?clear:exec,e))}else exec();else r!==true&&(v=setTimeout(u?clear:exec,u===void 0?e-l:e))}function exec(){f=Date.now();o.apply(a,i)}function clear(){v=void 0}}wrapper.cancel=cancel;return wrapper}
 /**
  * Debounce execution of a function. Debouncing, unlike throttling,
  * guarantees that a function is only executed a single time, either at the
@@ -34,5 +34,5 @@ function throttle(e,o,n){var i=n||{},t=i.noTrailing,r=void 0!==t&&t,a=i.noLeadin
  *                                        (After the throttled-function has not been called for `delay` milliseconds, the internal counter is reset).
  *
  * @returns {Function} A new, debounced function.
- */function debounce(e,o,n){var i=n||{},t=i.atBegin,r=void 0!==t&&t;return throttle(e,o,{debounceMode:false!==r})}export{debounce,throttle};
+ */function debounce(e,o,n){var i=n||{},t=i.atBegin,r=t!==void 0&&t;return throttle(e,o,{debounceMode:r!==false})}export{debounce,throttle};
 
