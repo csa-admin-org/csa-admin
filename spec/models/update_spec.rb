@@ -3,6 +3,11 @@
 require "rails_helper"
 
 describe Update do
+  specify "#name does not include locale" do
+    updates = Update.all
+    expect(updates.first.name).not_to include ".#{I18n.locale}"
+  end
+
   specify ".unread_count" do
     updates = Update.all
 
