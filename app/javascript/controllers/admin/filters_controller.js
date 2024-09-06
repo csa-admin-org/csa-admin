@@ -10,6 +10,9 @@ export default class extends Controller {
         // Let the select_and_search active admin JS do its job first
         setTimeout(() => { form.submit() }, 50)
       }
+    } else if (event.target.type === 'date') {
+      // Add a timeout for date input so the user can finish entering the date
+      setTimeout(() => { form.submit() }, 1000)
     } else {
       form.submit()
     }

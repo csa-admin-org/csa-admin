@@ -643,6 +643,12 @@
       @apply h-7 text-sm py-0 px-2;
     }
 
+    @supports (-moz-appearance: none) {
+      input[type="date"] {
+        letter-spacing: -1.5px;
+      }
+    }
+
     .checkbox-legend input {
       @apply hidden !important;
     }
