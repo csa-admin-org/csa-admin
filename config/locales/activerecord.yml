@@ -28,6 +28,31 @@ _:
           _en: Activity
           _fr: Activité
           _it: Attività
+        activity_date:
+          _de: Datum der Aktivität
+          _en: Activity date
+          _fr: Date de l'activité
+          _it: Data dell'attività
+        activity_id:
+          _de: Aktivität ID
+          _en: Activity ID
+          _fr: Activité ID
+          _it: Attività ID
+        activity_period:
+          _de: Zeitraum der Aktivität
+          _en: Activity period
+          _fr: Période de l'activité
+          _it: Periodo dell'attività
+        activity_place:
+          _de: Ort der Aktivität
+          _en: Activity place
+          _fr: Lieu de l'activité
+          _it: Luogo dell'attività
+        activity_title:
+          _de: Aktivität
+          _en: Activity
+          _fr: Activité
+          _it: Attività
         carpooling_city:
           _de: Abfahrt Stadt
           _en: Departure city
