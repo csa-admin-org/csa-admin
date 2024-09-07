@@ -88,7 +88,14 @@ ActiveAdmin.register Invoice do
     column :paid_amount
     column :balance
     column :overdue_notices_count
+    column :overdue_notice_sent_at
     column :state, &:state_i18n_name
+    column :created_at
+    column(:created_by) { |i| i.created_by&.name }
+    column :canceled_at
+    column(:canceled_by) { |i| i.canceled_by&.name }
+    column :closed_at
+    column(:closed_by) { |i| i.closed_by&.name }
   end
 
   sidebar :total, only: :index do
