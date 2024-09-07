@@ -95,7 +95,12 @@ ActiveAdmin.register ActivityParticipation do
   end
 
   csv do
-    column(:activity) { |ap| ap.activity.name }
+    column(:id) { |ap| ap.id }
+    column(:activity_id) { |ap| ap.activity.id }
+    column(:activity_title) { |ap| ap.activity.title }
+    column(:activity_date) { |ap| ap.activity.date }
+    column(:activity_period) { |ap| ap.activity.period }
+    column(:activity_place) { |ap| ap.activity.place }
     column(:member_id, &:member_id)
     column(:member_name) { |ap| ap.member.name }
     column(:member_phones) { |ap|
