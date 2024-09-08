@@ -60,7 +60,7 @@ ActiveAdmin.register ActivityParticipation do
       link_to ap.activity.name(show_place: false), activity_participations_path(q: { activity_id_eq: ap.activity_id }, scope: :all)
     }, sortable: "activities.date", class: "text-right"
     column :participants_short, ->(ap) {
-      ap.participants_count
+      link_to ap.participants_count, ap
     }, sortable: "participants_count", class: "text-right"
     column :state, ->(ap) { status_tag ap.state }, class: "text-right"
     actions
@@ -132,21 +132,39 @@ ActiveAdmin.register ActivityParticipation do
   sidebar :billing, only: :index, if: -> { Current.org.activity_price.positive? } do
     side_panel t(".billing"), action: handbook_icon_link("billing", anchor: "activity") do
       no_counts = true
-      div class: "space-y-4" do
+      div class: "space-y-6" do
         [ Current.fy_year - 1, Current.fy_year ].each do |year|
           fy = Current.org.fiscal_year_for(year)
           missing_count = Membership.during_year(fy).sum(&:activity_participations_missing)
           if missing_count.positive?
             no_counts = false
             div do
-              para t(".missing_activity_participations_count_html", year: fy.to_s, count: missing_count)
+              para do
+                link_to memberships_path(scope: :all, q: { activity_participations_missing_gt: 0, during_year: fy.year }) do
+                  t(".missing_activity_participations_count_html", year: fy.to_s, count: missing_count)
+                end
+              end
               if authorized?(:invoice_all, ActivityParticipation)
-                div class: "mt-2" do
-                  button_to invoice_all_activity_participations_path,
-                    params: { year: fy.year },
-                    form: { class: "flex justify-center", data: { controller: "disable", disable_with_value: t(".invoicing") } },
-                    data: { confirm: t(".invoice_all_confirm", year: fy.to_s, count: missing_count, activity_price: cur(Current.org.activity_price)) }, class: "action-item-button secondary small" do
-                      icon("banknotes", class: "h-4 w-4 mr-2") + t(".invoice_all")
+                div class: "mt-2 flex items-center justify-center gap-2" do
+                  div do
+                    button_to invoice_all_activity_participations_path,
+                      params: { year: fy.year },
+                      form: { class: "flex justify-center", data: { controller: "disable", disable_with_value: t(".invoicing") } },
+                      data: {  confirm: t(".invoice_all_confirm", year: fy.to_s, count: missing_count, activity_price: cur(Current.org.activity_price)) },
+                      class: "action-item-button small secondary" do
+                        icon("banknotes", class: "h-4 w-4 mr-2") + t(".invoice_all")
+                      end
+                  end
+                  if authorized?(:update, Membership) && fy.past?
+                    div do
+                      button_to clear_all_activity_participations_demanded_memberships_path,
+                        params: { year: fy.year },
+                        form: { class: "flex justify-center", data: { controller: "disable", disable_with_value: "..." } },
+                        data: { confirm: t_activity("active_admin.resource.show.clear_activity_participations_demanded_confirm", year: fy.to_s, count: missing_count) },
+                        class: "action-item-button small borderless" do
+                          icon("x-circle", class: "h-6 w-6")
+                        end
+                      end
                     end
                 end
               end
@@ -163,7 +181,7 @@ ActiveAdmin.register ActivityParticipation do
   collection_action :invoice_all, method: :post do
     authorize!(:invoice_all, ActivityParticipation)
     ActivityParticipation.invoice_all_missing(params[:year])
-    redirect_to collection_path, notice: t("active_admin.resource.index.invoicing")
+    redirect_to collection_path, notice: t("active_admin.shared.sidebar_section.invoicing")
   end
 
   sidebar :calendar, if: -> { Current.org.icalendar_auth_token? }, only: :index do
@@ -226,6 +244,11 @@ ActiveAdmin.register ActivityParticipation do
         panel t(".details") do
           attributes_table do
             row(:activity) { link_to ap.activity.name, activity_participations_path(q: { activity_id_eq: ap.activity_id }, scope: :all) }
+            row(:membership) {
+              if membership = ap.member.membership(ap.activity.fiscal_year)
+                auto_link membership
+              end
+            }
             row(:participants_count)
             if ap.note?
               row(:note) { ap.note }
@@ -261,6 +284,12 @@ ActiveAdmin.register ActivityParticipation do
   } do
     link_to t(".invoice_action"), new_invoice_path(activity_participation_id: resource.id, anchor: "activity_participation"),
       class: "action-item-button"
+  end
+
+  before_action only: :index do
+    if params.except(:subdomain, :controller, :action).empty? && params[:q].blank?
+      redirect_to q: { during_year: Current.fiscal_year.year }, utf8: "✓"
+    end
   end
 
   before_build do |ap|

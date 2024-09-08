@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_08_31_085555) do
+ActiveRecord::Schema[7.2].define(version: 2024_09_07_093843) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
   enable_extension "plpgsql"
@@ -388,7 +388,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_08_31_085555) do
     t.string "state", default: "processing", null: false
     t.string "entity_type", null: false
     t.bigint "entity_id"
-    t.integer "paid_missing_activity_participations"
+    t.integer "missing_activity_participations_count"
     t.decimal "vat_amount", precision: 8, scale: 2
     t.integer "shares_number"
     t.datetime "overpaid_notification_sent_at", precision: nil
@@ -396,6 +396,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_08_31_085555) do
     t.decimal "amount_percentage", precision: 8, scale: 2
     t.decimal "amount_before_percentage", precision: 8, scale: 2
     t.datetime "stamped_at"
+    t.integer "missing_activity_participations_fiscal_year"
     t.index ["entity_type", "entity_id"], name: "index_invoices_on_entity_type_and_entity_id"
     t.index ["member_id"], name: "index_invoices_on_member_id"
     t.index ["state"], name: "index_invoices_on_state"

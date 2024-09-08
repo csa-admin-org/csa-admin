@@ -16,6 +16,7 @@ class Activity < ApplicationRecord
 
   has_many :participations, class_name: "ActivityParticipation"
 
+  scope :future, -> { where("activities.date > ?", Date.current) }
   scope :ordered, ->(order) { order(date: order, start_time: :asc) }
   scope :past_current_year, -> { between(Current.fy_range.min...Date.current) }
   scope :without_participations, -> {

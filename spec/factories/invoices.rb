@@ -22,7 +22,8 @@ FactoryBot.define do
     end
 
     trait :activity_participation do
-      paid_missing_activity_participations { 1 }
+      missing_activity_participations_count { 1 }
+      missing_activity_participations_fiscal_year { Current.fiscal_year.year }
       activity_price { Current.org.activity_price }
     end
 

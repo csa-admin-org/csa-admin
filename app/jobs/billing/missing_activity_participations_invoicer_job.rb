@@ -12,9 +12,14 @@ module Billing
       Invoice.create!(
         send_email: true,
         member: membership.member,
-        date: [ Date.today, membership.fiscal_year.end_of_year ].min,
+        date: Date.today,
         entity_type: "ActivityParticipation",
-        paid_missing_activity_participations: missing_count)
+        missing_activity_participations_fiscal_year: membership.fiscal_year,
+        missing_activity_participations_count: missing_count)
+
+      # Ensure that for Organization that might have changed their first fiscal year month
+      # the past membership is still updated correctly
+      membership.update_activity_participations_accepted!
     end
   end
 end

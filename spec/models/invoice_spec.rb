@@ -59,10 +59,11 @@ describe Invoice do
 
   it "updates membership activity_participations_accepted", sidekiq: :inline do
     member = create(:member)
-    membership = create(:membership, member: member)
+    membership = create(:membership, :last_year, member: member)
     invoice = build(:invoice,
       member: member,
-      paid_missing_activity_participations: 2,
+      missing_activity_participations_count: 2,
+      missing_activity_participations_fiscal_year: membership.fiscal_year,
       activity_price: 60)
 
     expect { invoice.save! }.to change { membership.reload.activity_participations_accepted }.by(2)
@@ -121,19 +122,35 @@ describe Invoice do
   end
 
   context "when activity_participation" do
-    it "validates activity_price presence when paid_missing_activity_participations is present" do
-      invoice = build(:invoice, paid_missing_activity_participations: 1, activity_price: nil)
+    it "validates activity_price presence when missing_activity_participations_count is present" do
+      invoice = build(:invoice,
+        missing_activity_participations_count: 1,
+        missing_activity_participations_fiscal_year: Current.fiscal_year,
+        activity_price: nil)
       expect(invoice).not_to have_valid(:activity_price)
     end
 
-    it "sets entity_type to ActivityParticipation with paid_missing_activity_participations" do
+    it "sets entity_type to ActivityParticipation with missing_activity_participations_count" do
       invoice = create(:invoice, :manual,
-        paid_missing_activity_participations: 2,
+        missing_activity_participations_count: 2,
+        missing_activity_participations_fiscal_year: Current.fiscal_year,
         activity_price: 21)
 
       expect(invoice.entity_type).to eq "ActivityParticipation"
-      expect(invoice.paid_missing_activity_participations).to eq 2
+      expect(invoice.missing_activity_participations_count).to eq 2
+      expect(invoice.missing_activity_participations_fiscal_year.year).to eq Date.today.year
       expect(invoice.amount).to eq 42
+    end
+
+    specify "automatically sets fiscal year and participation count", freeze: "2022-01-01" do
+      part = create(:activity_participation,
+        activity: create(:activity, date: "2022-05-01"),
+        participants_count: 3)
+      invoice = create(:invoice, entity: part)
+
+      expect(invoice.member).to eq part.member
+      expect(invoice.missing_activity_participations_count).to eq 3
+      expect(invoice.missing_activity_participations_fiscal_year).to eq Current.org.fiscal_year_for(2022)
     end
   end
 
@@ -407,7 +424,8 @@ describe Invoice do
     it "sets the vat_amount for activity participation invoice" do
       Current.org.update!(vat_activity_rate: 5.5, vat_number: "XXX")
       invoice = create(:invoice,
-        paid_missing_activity_participations: 2,
+        missing_activity_participations_count: 2,
+        missing_activity_participations_fiscal_year: Current.fiscal_year,
         activity_price: 60)
 
       expect(invoice.vat_rate).to eq 5.5

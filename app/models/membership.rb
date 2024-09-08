@@ -221,6 +221,12 @@ class Membership < ApplicationRecord
     member_updatable_baskets.any?
   end
 
+  def can_clear_activity_participations_demanded?
+    return false unless Current.org.feature?("activity")
+
+    fiscal_year.past? && activity_participations_demanded > activity_participations_accepted
+  end
+
   def member_updatable_baskets
     baskets.includes(:delivery).select(&:can_member_update?)
   end
@@ -458,10 +464,16 @@ class Membership < ApplicationRecord
 
   def update_activity_participations_accepted!
     participations = member.activity_participations.not_rejected.during_year(fiscal_year)
-    invoices = member.invoices.not_canceled.activity_participation_type.during_year(fiscal_year)
+    invoices = member.invoices.not_canceled.activity_participations_fiscal_year(fiscal_year)
     update_column(
       :activity_participations_accepted,
-      participations.sum(:participants_count) + invoices.sum(:paid_missing_activity_participations))
+      participations.sum(:participants_count) + invoices.sum(:missing_activity_participations_count))
+  end
+
+  def clear_activity_participations_demanded!
+    return unless Current.org.feature?("activity")
+
+    update_column(:activity_participations_demanded, 0)
   end
 
   def update_baskets_counts!

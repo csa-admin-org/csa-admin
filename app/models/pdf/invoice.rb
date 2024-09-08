@@ -162,13 +162,16 @@ module PDF
       when "ActivityParticipation"
         if entity
           str = t_activity("missed_activity_participation_with_date", date: I18n.l(entity.activity.date))
-          if invoice.paid_missing_activity_participations > 1
-            str += " (#{invoice.paid_missing_activity_participations} #{ActivityParticipation.human_attribute_name(:participants).downcase})"
+          if invoice.missing_activity_participations_count > 1
+            str += " (#{invoice.missing_activity_participations_count} #{ActivityParticipation.human_attribute_name(:participants).downcase})"
           end
-        elsif invoice.paid_missing_activity_participations == 1
-          str = t_activity("missed_activity_participation")
+        elsif invoice.missing_activity_participations_count == 1
+          str = t_activity("missed_activity_participation",
+            year: invoice.missing_activity_participations_fiscal_year)
         else
-          str = t_activity("missed_activity_participations", count: invoice.paid_missing_activity_participations)
+          str = t_activity("missed_activity_participations",
+            year: invoice.missing_activity_participations_fiscal_year,
+            count: invoice.missing_activity_participations_count)
         end
         data << [ str, _cur(invoice.amount) ]
       when "Share"

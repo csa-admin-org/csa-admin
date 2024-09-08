@@ -44,9 +44,19 @@ class Invoice < ApplicationRecord
   scope :with_overdue_notice, -> { unpaid.where("overdue_notices_count > 0") }
   scope :shop_order_type, -> { where(entity_type: "Shop::Order") }
   scope :activity_participation_type, -> { where(entity_type: "ActivityParticipation") }
+  scope :activity_participations_fiscal_year, ->(year) {
+    activity_participation_type
+      .where(missing_activity_participations_fiscal_year: Current.org.fiscal_year_for(year).year)
+  }
   scope :other_type, -> { where(entity_type: "Other") }
   scope :new_member_fee_type, -> { where(entity_type: "NewMemberFee") }
   scope :same_entity, ->(invoice) { where(member_id: invoice.member_id, entity: invoice.entity) }
+  # scope :during_year, ->(year) {
+  #   where(
+  #     entity_type: (entity_types - %w[ActivityParticipation]),
+  #     date: Current.org.fiscal_year_for(year).range)
+  #   .or(activity_participations_fiscal_year(year))
+  # }
 
   with_options if: :membership_type?, on: :create do
     before_validation \
@@ -54,6 +64,7 @@ class Invoice < ApplicationRecord
       :set_remaining_memberships_amount,
       :set_memberships_amount
   end
+  before_validation :set_missing_activity_participations, on: :create, if: :activity_participation_type?
   before_validation :set_amount, :set_vat_rate_and_amount, on: :create
 
   validates :member, presence: true
@@ -67,15 +78,20 @@ class Invoice < ApplicationRecord
       less_than_or_equal_to: 200,
       allow_nil: true
     }
-  validates :paid_missing_activity_participations,
+  validates :missing_activity_participations_count,
     numericality: { greater_than_or_equal_to: 1, allow_blank: true }
-  validates :paid_missing_activity_participations,
+  validates :missing_activity_participations_count,
     absence: true,
     unless: :activity_participation_type?
   validates :items, absence: true, if: :activity_participation_type?
   validates :activity_price,
     numericality: { greater_than_or_equal_to: 1 },
-    if: :paid_missing_activity_participations,
+    if: :missing_activity_participations_count,
+    on: :create
+  validates :missing_activity_participations_fiscal_year,
+    numericality: true,
+    inclusion: { in: -> { Current.org.fiscal_years } },
+    if: :missing_activity_participations_count,
     on: :create
   validates :shares_number,
     numericality: { other_than: 0, allow_blank: true }
@@ -125,7 +141,11 @@ class Invoice < ApplicationRecord
   end
 
   def self.ransackable_scopes(_auth_object = nil)
-    super + %i[balance_eq balance_gt balance_lt sent_eq]
+    super + %i[
+      balance_eq balance_gt balance_lt
+      sent_eq
+      activity_participations_fiscal_year
+    ]
   end
 
   def display_name
@@ -280,7 +300,15 @@ class Invoice < ApplicationRecord
     self[:amount] = items.reject(&:marked_for_destruction?).sum(&:amount)
   end
 
-  def paid_missing_activity_participations=(number)
+  def missing_activity_participations_fiscal_year=(year)
+    super Current.org.fiscal_year_for(year).year
+  end
+
+  def missing_activity_participations_fiscal_year
+    Current.org.fiscal_year_for(super)
+  end
+
+  def missing_activity_participations_count=(number)
     return if number.blank?
 
     super
@@ -456,10 +484,18 @@ class Invoice < ApplicationRecord
     self[:memberships_amount] ||= amount.round_to_five_cents
   end
 
+  def set_missing_activity_participations
+    if ActivityParticipation === entity
+      self.member = entity.member
+      self.missing_activity_participations_fiscal_year = entity.activity.fiscal_year
+      self.missing_activity_participations_count = entity.participants_count
+    end
+  end
+
   def set_amount
     self[:amount] ||=
       if activity_participation_type? && activity_price
-        paid_missing_activity_participations * activity_price
+        missing_activity_participations_count * activity_price
       else
         (memberships_amount || 0) + (annual_fee || 0)
       end
@@ -502,7 +538,7 @@ class Invoice < ApplicationRecord
 
   def update_membership_activity_participations_accepted!
     if activity_participation_type?
-      member.membership(fy_year)&.update_activity_participations_accepted!
+      member.membership(missing_activity_participations_fiscal_year)&.update_activity_participations_accepted!
     end
   end
 

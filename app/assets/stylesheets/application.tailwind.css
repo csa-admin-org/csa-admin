@@ -178,6 +178,10 @@
   }
   button.action-item-button {
     @apply border border-green-600 text-white hover:text-white hover:border-green-700 text-white bg-green-600 hover:bg-green-700 focus:ring-green-300 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800;
+
+    &.borderless {
+      @apply px-0 bg-transparent hover:bg-transparent border-0 text-gray-400 dark:text-gray-600 hover:text-green-600 dark:hover:text-green-600;
+    }
   }
 
   .panel {
@@ -390,7 +394,7 @@
   }
 
   .count-value {
-    @apply text-2xl font-semibold;
+    @apply text-2xl font-semibold tracking-tight;
   }
 
   .count-zero {

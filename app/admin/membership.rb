@@ -561,7 +561,7 @@ ActiveAdmin.register Membership do
                             },
                             data: { confirm: t(".invoice_now_confirm") },
                             class: "action-item-button tiny secondary"
-                            end
+                        end
                       end
                     end
                   end
@@ -588,16 +588,26 @@ ActiveAdmin.register Membership do
                   link_to activity_participations_path(scope: scope, q: { member_id_eq: resource.member_id, during_year: resource.fiscal_year.year }) do
                     counter_tag(
                       Membership.human_attribute_name("activity_participations_#{scope}"),
-                      m.member.activity_participations.during_year(m.fiscal_year).send(scope).sum(:participants_count))
+                      m.member.activity_participations.during_year(m.fiscal_year.year).send(scope).sum(:participants_count))
                   end
                 end
               end
               li class: "w-1/3" do
-                link_to invoices_path(scope: :all, q: { entity_type_in: "ActivityParticipation", member_id_eq: resource.member_id, during_year: resource.fiscal_year.year }) do
+                link_to invoices_path(scope: :all, q: { entity_type_in: "ActivityParticipation", member_id_eq: resource.member_id, missing_participations_fiscal_year: resource.fiscal_year.year }) do
                   counter_tag(
                     Membership.human_attribute_name(:activity_participations_paid),
-                    m.member.invoices.not_canceled.activity_participation_type.during_year(m.fiscal_year).sum(:paid_missing_activity_participations))
+                    m.member.invoices.not_canceled.activity_participations_fiscal_year(m.fiscal_year).sum(:missing_activity_participations_count))
                 end
+              end
+            end
+            if authorized?(:clear_activity_participations_demanded, m)
+              div class: "mt-2 py-1 flex items-center justify-center gap-4" do
+                button_to clear_activity_participations_demanded_membership_path(m),
+                  form: { class: "inline" },
+                  data: { confirm: t_activity(".clear_activity_participations_demanded_confirm") },
+                  class: "action-item-button tiny secondary" do
+                    icon("x-circle", class: "h-4 w-4 me-1.5") + t_activity(".clear_activity_participations_demanded")
+                  end
               end
             end
           end
@@ -760,6 +770,19 @@ ActiveAdmin.register Membership do
   member_action :open_renewal, method: :post do
     resource.open_renewal!
     redirect_to resource
+  end
+
+  member_action :clear_activity_participations_demanded, method: :post do
+    resource.clear_activity_participations_demanded!
+    redirect_to resource
+  end
+
+  collection_action :clear_all_activity_participations_demanded, method: :post do
+    authorize!(:update, Membership)
+    Membership.during_year(params[:year]).find_each do |m|
+      m.clear_activity_participations_demanded!
+    end
+    redirect_back fallback_location: activity_participations_path
   end
 
   member_action :mark_renewal_as_pending, method: :post do

@@ -443,6 +443,36 @@ _:
           _en: Membership amount
           _fr: Montant abonnement
           _it: Importo abbonamento
+        missing_activity_participations_count:
+          _de: Anzahl / Teilnehmer
+          _en: Number / Participants
+          _fr: Nombre / Participants
+          _it: Numero / Partecipanti
+        missing_activity_participations_fiscal_year:
+          _de: Geschäftsjahr
+          _en: Fiscal year
+          _fr: Année fiscale
+          _it: Anno fiscale
+        missing_participations_fiscal_year/basket_preparation:
+          _de: Geschäftsjahr (Taschen befüllung)
+          _en: Fiscal year (basket preparation)
+          _fr: Année fiscale (mises en panier)
+          _it: Anno fiscale (riempimento della cesta)
+        missing_participations_fiscal_year/day_work:
+          _de: Geschäftsjahr (Arbeitstage)
+          _en: Fiscal year (work days)
+          _fr: Année fiscale (journées de travail)
+          _it: Anno fiscale (giorni di lavoro)
+        missing_participations_fiscal_year/halfday_work:
+          _de: Geschäftsjahr (½ Tage)
+          _en: Fiscal year (½ days)
+          _fr: Année fiscale (½ journées)
+          _it: Anno fiscale (½ giornate)
+        missing_participations_fiscal_year/hour_work:
+          _de: Geschäftsjahr (Arbeitsstunden)
+          _en: Fiscal year (work hours)
+          _fr: Année fiscale (heures de travail)
+          _it: Anno fiscale (ore di lavoro)
         overdue_notice_sent_at:
           _de: Letzte Mahnung gesendet am
           _en: Last reminder sent on
@@ -453,11 +483,6 @@ _:
           _en: Reminders
           _fr: Rappels
           _it: Promemoria
-        paid_missing_activity_participations:
-          _de: Anzahl / Teilnehmer
-          _en: Number / Participants
-          _fr: Nombre / Participants
-          _it: Numero / Partecipanti
         sent:
           _de: Gesendete
           _en: Sent

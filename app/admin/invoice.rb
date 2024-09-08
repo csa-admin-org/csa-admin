@@ -43,6 +43,12 @@ ActiveAdmin.register Invoice do
   filter :during_year,
     as: :select,
     collection: -> { fiscal_years_collection }
+  filter :activity_participations_fiscal_year,
+    label: -> {
+      Invoice.human_attribute_name(activity_scoped_attribute(:missing_participations_fiscal_year))
+    },
+    as: :select,
+    collection: -> { fiscal_years_collection }
 
   includes :payments, pdf_file_attachment: :blob, member: :last_membership
   index download_links: -> {
@@ -84,6 +90,10 @@ ActiveAdmin.register Invoice do
       column :amount_without_vat
       column :vat_amount
       column :amount_with_vat
+    end
+    if feature?("activity")
+      column :missing_activity_participations_fiscal_year
+      column :missing_activity_participations_count
     end
     column :paid_amount
     column :balance
@@ -211,7 +221,13 @@ ActiveAdmin.register Invoice do
               row(:shares_number)
             end
             if invoice.activity_participation_type?
-              row(:paid_missing_activity_participations)
+              row(:missing_activity_participations_fiscal_year)
+              row(:membership) {
+                if membership = invoice.member.membership(invoice.missing_activity_participations_fiscal_year)
+                  auto_link membership
+                end
+              }
+              row(:missing_activity_participations_count)
             end
             row(:date) { l invoice.date }
             row(:sent) { status_tag invoice.sent_at? }
@@ -355,7 +371,16 @@ ActiveAdmin.register Invoice do
                   parts.join.html_safe
                 end
               end
-              f.input :paid_missing_activity_participations, as: :number, step: 1
+              f.input :missing_activity_participations_fiscal_year,
+                as: :select,
+                prompt: true,
+                collection: fiscal_years_collection,
+                selected: f.object.missing_activity_participations_fiscal_year.year,
+                input_html: { disabled: f.object.entity.is_a?(ActivityParticipation) }
+              f.input :missing_activity_participations_count,
+                as: :number,
+                step: 1,
+                input_html: { disabled: f.object.entity.is_a?(ActivityParticipation) }
               f.input :activity_price, as: :number, min: 0, max: 99999.95, step: 0.05, hint: true
             end
           end
@@ -386,7 +411,8 @@ ActiveAdmin.register Invoice do
     :entity_type,
     :date,
     :comment,
-    :paid_missing_activity_participations,
+    :missing_activity_participations_count,
+    :missing_activity_participations_fiscal_year,
     :activity_price,
     :shares_number,
     :vat_rate,
@@ -397,7 +423,8 @@ ActiveAdmin.register Invoice do
       ap = ActivityParticipation.find(params[:activity_participation_id])
       invoice.member = ap.member
       invoice.entity = ap
-      invoice.paid_missing_activity_participations = ap.participants_count
+      invoice.missing_activity_participations_count = ap.participants_count
+      invoice.missing_activity_participations_fiscal_year = ap.activity.fiscal_year
     elsif params[:member_id]
       member = Member.find(params[:member_id])
       invoice.member = member
@@ -408,6 +435,7 @@ ActiveAdmin.register Invoice do
 
     invoice.member_id ||= referer_filter(:member_id)
     invoice.date ||= Date.current
+    invoice.missing_activity_participations_fiscal_year ||= Current.fiscal_year
   end
 
   after_create do |invoice|
