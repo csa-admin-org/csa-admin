@@ -208,14 +208,12 @@ describe PDF::Invoice do
       expect(pdf_strings).not_to include "Cotisation annuelle association"
     end
 
-    it "generates invoice with ActivityParticipation object", sidekiq: :inline do
+    it "generates invoice with ActivityParticipation object", sidekiq: :inline, freeze: "2018-05-01" do
       activity = create(:activity, date: "2018-3-4")
       rejected_participation = create(:activity_participation, :rejected,
-        activity: activity)
-      invoice = create(:invoice,
-        date: "2018-4-5",
-        entity: rejected_participation,
-        paid_missing_activity_participations: 2)
+        activity: activity,
+        participants_count: 2)
+      invoice = create(:invoice, date: "2019-01-01", entity: rejected_participation)
 
       pdf_strings = save_pdf_and_return_strings(invoice)
       expect(pdf_strings)
@@ -223,7 +221,7 @@ describe PDF::Invoice do
         .and contain_sequence("Total", "120.00")
     end
 
-    specify "invoice with ActivityParticipation object and VAT", sidekiq: :inline do
+    specify "invoice with ActivityParticipation object and VAT", sidekiq: :inline, freeze: "2018-05-01" do
       Current.org.update!(
         vat_activity_rate: 7.7,
         vat_number: "CHE-123.456.789",
@@ -231,36 +229,41 @@ describe PDF::Invoice do
       activity = create(:activity, date: "2018-3-4")
       invoice = create(:invoice,
         date: "2023-1-13",
-        paid_missing_activity_participations: 2)
+        missing_activity_participations_count: 2,
+        missing_activity_participations_fiscal_year: 2018)
 
       pdf_strings = save_pdf_and_return_strings(invoice)
       expect(pdf_strings)
-        .to contain_sequence("Total", "* 120.00")
+        .to contain_sequence("2 ", "½ ", "journées non effectuées (2018)")
+        .and contain_sequence("Total", "* 120.00")
         .and contain_sequence("* TTC, CHF 111.42 HT, CHF 8.58 TVA (7.7%)")
         .and contain_sequence("N° TVA CHE-123.456.789")
     end
 
-    it "generates invoice with ActivityParticipation type (one participant)", sidekiq: :inline do
+    it "generates invoice with ActivityParticipation type (one participant)", sidekiq: :inline, freeze: "2018-05-01" do
       invoice = create(:invoice,
         date: "2018-4-5",
-        paid_missing_activity_participations: 1)
+        missing_activity_participations_count: 1,
+        missing_activity_participations_fiscal_year: 2018)
 
       pdf_strings = save_pdf_and_return_strings(invoice)
 
       expect(pdf_strings)
-        .to contain_sequence("½ ", "journée non-effectuée", "60.00")
+        .to contain_sequence("½ ", "journée non-effectuée (2018)", "60.00")
         .and contain_sequence("Total", "60.00")
     end
 
-    it "generates invoice with ActivityParticipation type (many participants)", sidekiq: :inline do
+    it "generates invoice with ActivityParticipation type (many participants)", sidekiq: :inline, freeze: "2018-05-01" do
+      Current.org.update!(fiscal_year_start_month: 4)
       invoice = create(:invoice,
         date: "2018-4-5",
-        paid_missing_activity_participations: 3,
+        missing_activity_participations_count: 3,
+        missing_activity_participations_fiscal_year: 2018,
         activity_price: 60)
 
       pdf_strings = save_pdf_and_return_strings(invoice)
       expect(pdf_strings)
-        .to contain_sequence("3 ", "½ ", "journées non effectuées", "180.00")
+        .to contain_sequence("3 ", "½ ", "journées non effectuées (2018-19)", "180.00")
         .and contain_sequence("Total", "180.00")
     end
 

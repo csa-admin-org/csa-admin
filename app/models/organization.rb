@@ -310,6 +310,14 @@ class Organization < ApplicationRecord
         .sort
   end
 
+  def fiscal_years
+    min_year = Delivery.minimum(:date)&.year || Date.today.year
+    max_year = Delivery.maximum(:date)&.year || Date.today.year
+    (min_year..max_year).map { |year|
+      Current.org.fiscal_year_for(year)
+    }
+  end
+
   def current_fiscal_year
     FiscalYear.current(start_month: fiscal_year_start_month)
   end

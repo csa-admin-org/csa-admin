@@ -95,7 +95,10 @@ module XLSX
         add_line("#{t_invoice}: #{I18n.t('shop.title_orders', count: 2)}", @invoices.shop_order_type.sum(:amount))
       end
       if Current.org.feature?("activity")
-        add_line("#{t_invoice}: #{ApplicationController.helpers.activities_human_name}", @invoices.activity_participation_type.sum(:amount))
+        @invoices.activity_participation_type.group(:missing_activity_participations_fiscal_year).sum(:amount).sort.each do |year, amount|
+          fy = Current.org.fiscal_year_for(year)
+          add_line("#{t_invoice}: #{ApplicationController.helpers.activities_human_name} (#{fy})", amount)
+        end
       end
       if Current.org.feature?("new_member_fee")
         add_line("#{t_invoice}: #{I18n.t('invoices.entity_type.new_member_fee')}", @invoices.new_member_fee_type.sum(:amount))

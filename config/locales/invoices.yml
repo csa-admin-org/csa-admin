@@ -78,25 +78,25 @@ _:
         _fr: Avoir restant
         _it: Credito residuo
       missed_activity_participation/basket_preparation:
-        _de: Nicht geleistete Taschen befüllung
-        _en: Missed basket preparation
-        _fr: Mise en panier non-effectuée
-        _it: Preparazione ceste non effettuata
+        _de: Nicht geleistete Taschen befüllung (%{year})
+        _en: Missed basket preparation (%{year})
+        _fr: Mise en panier non-effectuée (%{year})
+        _it: Preparazione ceste non effettuata (%{year})
       missed_activity_participation/day_work:
-        _de: Nicht geleisteter Arbeitstag
-        _en: Missed workday
-        _fr: Journée de travail non-effectuée
-        _it: Giorno di lavoro non effettuato
+        _de: Nicht geleisteter Arbeitstag (%{year})
+        _en: Missed workday (%{year})
+        _fr: Journée de travail non-effectuée (%{year})
+        _it: Giorno di lavoro non effettuato (%{year})
       missed_activity_participation/halfday_work:
-        _de: nicht geleisteter ½ Tag
-        _en: Missed half-day
-        _fr: "½ journée non-effectuée"
-        _it: "½ giornata non effettuata"
+        _de: nicht geleisteter ½ Tag (%{year})
+        _en: Missed half-day (%{year})
+        _fr: "½ journée non-effectuée (%{year})"
+        _it: "½ giornata non effettuata (%{year})"
       missed_activity_participation/hour_work:
-        _de: nicht geleisteter Arbeitsstunde
-        _en: Missed hour of work
-        _fr: Heure de travail non-effectuée
-        _it: Ora di lavoro non effettuata
+        _de: nicht geleisteter Arbeitsstunde (%{year})
+        _en: Missed hour of work (%{year})
+        _fr: Heure de travail non-effectuée (%{year})
+        _it: Ora di lavoro non effettuata (%{year})
       missed_activity_participation_with_date/basket_preparation:
         _de: Nicht geleistete Taschen befüllung vom %{date}
         _en: Missed basket preparation on %{date}
@@ -118,25 +118,25 @@ _:
         _fr: Heure de travail du %{date} non-effectuée
         _it: Ora di lavoro del %{date} non effettuata
       missed_activity_participations/basket_preparation:
-        _de: "%{count} nicht geleistete Taschen befüllung"
-        _en: "%{count} missed basket preparations"
-        _fr: "%{count} mises en panier non effectuées"
-        _it: "%{count} preparazioni ceste non effettuate"
+        _de: "%{count} nicht geleistete Taschen befüllung (%{year})"
+        _en: "%{count} missed basket preparations (%{year})"
+        _fr: "%{count} mises en panier non effectuées (%{year})"
+        _it: "%{count} preparazioni ceste non effettuate (%{year})"
       missed_activity_participations/day_work:
-        _de: "%{count} nicht geleistete Arbeitstage"
-        _en: "%{count} missed workdays"
-        _fr: "%{count} journées de travail non effectuées"
-        _it: "%{count} giorni di lavoro non effettuato"
+        _de: "%{count} nicht geleistete Arbeitstage (%{year})"
+        _en: "%{count} missed workdays (%{year})"
+        _fr: "%{count} journées de travail non effectuées (%{year})"
+        _it: "%{count} giorni di lavoro non effettuato (%{year})"
       missed_activity_participations/halfday_work:
-        _de: "%{count} nicht geleistete ½ Tage"
-        _en: "%{count} missed half-days"
-        _fr: "%{count} ½ journées non effectuées"
-        _it: "%{count} ½ giornate non effettuate"
+        _de: "%{count} nicht geleistete ½ Tage (%{year})"
+        _en: "%{count} missed half-days (%{year})"
+        _fr: "%{count} ½ journées non effectuées (%{year})"
+        _it: "%{count} ½ giornate non effettuate (%{year})"
       missed_activity_participations/hour_work:
-        _de: "%{count} nicht geleistete Arbeitsstunden"
-        _en: "%{count} missed hours of work"
-        _fr: "%{count} heure de travail non effectuées"
-        _it: "%{count} ore di lavoro non effettuate"
+        _de: "%{count} nicht geleistete Arbeitsstunden (%{year})"
+        _en: "%{count} missed hours of work (%{year})"
+        _fr: "%{count} heure de travail non effectuées (%{year})"
+        _it: "%{count} ore di lavoro non effettuate (%{year})"
       missing_amount:
         _de: Zu begleichen
         _en: To be paid

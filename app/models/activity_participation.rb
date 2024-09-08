@@ -23,6 +23,7 @@ class ActivityParticipation < ApplicationRecord
   scope :pending, -> { joins(:activity).merge(Activity.past_and_today).where(state: "pending") }
   scope :coming, -> { joins(:activity).merge(Activity.coming) }
   scope :future, -> { joins(:activity).merge(Activity.future) }
+  scope :between, ->(range) { joins(:activity).merge(Activity.between(range)) }
   scope :activity_wday, ->(wday) { joins(:activity).merge(Activity.wday(wday)) }
   scope :activity_month, ->(month) { joins(:activity).merge(Activity.month(month)) }
   scope :past_current_year, -> { joins(:activity).merge(Activity.past_current_year) }

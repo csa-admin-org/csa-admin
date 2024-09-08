@@ -33,7 +33,8 @@ describe Billing::MissingActivityParticipationsInvoicerJob do
     expect(invoice).to have_attributes(
       member_id: membership.member_id,
       date: Date.today,
-      paid_missing_activity_participations: 2,
+      missing_activity_participations_count: 2,
+      missing_activity_participations_fiscal_year: membership.fiscal_year,
       entity_type: "ActivityParticipation",
       entity_id: nil,
       amount: 2 * 90)
@@ -50,7 +51,12 @@ describe Billing::MissingActivityParticipationsInvoicerJob do
       .to change(Invoice, :count).by(1)
 
     invoice = Invoice.last
-    expect(invoice.date.to_s).to eq "2021-04-30"
+    expect(invoice).to have_attributes(
+      member_id: membership.member_id,
+      date: Date.today,
+      missing_activity_participations_fiscal_year: Current.org.fiscal_year_for(2020),
+      entity_type: "ActivityParticipation",
+      entity_id: nil)
     expect(invoice).to be_sent
   end
 end

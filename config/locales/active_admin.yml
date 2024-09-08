@@ -980,6 +980,46 @@ _:
           _en: Cancel renewal
           _fr: Résilier
           _it: Terminare
+        clear_activity_participations_demanded/basket_preparation:
+          _de: Geforderte Taschenbefüllungen löschen
+          _en: Clear demanded basket preparations
+          _fr: Annuler les préparations de paniers demandées
+          _it: Annulla le preparazioni cestini richieste
+        clear_activity_participations_demanded/day_work:
+          _de: Geforderte Arbeitstage löschen
+          _en: Clear demanded work days
+          _fr: Annuler les jours de travail demandés
+          _it: Annulla i giorni di lavoro richiesti
+        clear_activity_participations_demanded/halfday_work:
+          _de: Geforderte ½ Tage löschen
+          _en: Clear demanded half-days
+          _fr: Annuler les demi-journées demandées
+          _it: Annulla le mezze giornate richieste
+        clear_activity_participations_demanded/hour_work:
+          _de: Geforderte Arbeitsstunden löschen
+          _en: Clear demanded work hours
+          _fr: Annuler les heures de travail demandées
+          _it: Annulla le ore di lavoro richieste
+        clear_activity_participations_demanded_confirm/basket_preparation:
+          _de: Sind Sie sicher? Die Anzahl der geforderten Taschenbefüllungen wird auf null gesetzt.
+          _en: Are you sure? The number of demanded basket preparations will be set to zero.
+          _fr: Êtes-vous sûr? Le nombre de préparations de paniers demandées sera mis à zéro.
+          _it: Siete sicuri? Il numero di preparazioni cestini richieste sarà impostato a zero.
+        clear_activity_participations_demanded_confirm/day_work:
+          _de: Sind Sie sicher? Die Anzahl der geforderten Arbeitstage wird auf null gesetzt.
+          _en: Are you sure? The number of demanded work days will be set to zero.
+          _fr: Êtes-vous sûr? Le nombre de jours de travail demandés sera mis à zéro.
+          _it: Siete sicuri? Il numero di giorni di lavoro richiesti sarà impostato a zero.
+        clear_activity_participations_demanded_confirm/halfday_work:
+          _de: Sind Sie sicher? Die Anzahl der geforderten ½ Tage wird auf null gesetzt.
+          _en: Are you sure? The number of demanded half-days will be set to zero.
+          _fr: Êtes-vous sûr? Le nombre de demi-journées demandées sera mis à zéro.
+          _it: Siete sicuri? Il numero di mezze giornate richieste sarà impostato a zero.
+        clear_activity_participations_demanded_confirm/hour_work:
+          _de: Sind Sie sicher? Die Anzahl der geforderten Arbeitsstunden wird auf null gesetzt.
+          _en: Are you sure? The number of demanded work hours will be set to zero.
+          _fr: Êtes-vous sûr? Le nombre d'heures de travail demandées sera mis à zéro.
+          _it: Siete sicuri? Il numero di ore di lavoro richieste sarà impostato a zero.
         config:
           _de: Konfiguration
           _en: Configuration

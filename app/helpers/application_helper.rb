@@ -103,10 +103,7 @@ module ApplicationHelper
   end
 
   def fiscal_years_collection
-    min_year = Delivery.minimum(:date)&.year || Date.today.year
-    max_year = Delivery.maximum(:date)&.year || Date.today.year
-    (min_year..max_year).map { |year|
-      fy = Current.org.fiscal_year_for(year)
+    Current.org.fiscal_years.map { |fy|
       [ fy.to_s, fy.year ]
     }.reverse
   end

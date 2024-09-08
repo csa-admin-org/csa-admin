@@ -15,8 +15,13 @@
         </ol>
       </nav>
     <% end %>
-    <div class="flex flex-wrap items-center gap-1 md:gap-3">
+    <div class="flex flex-wrap items-center gap-2 md:gap-4">
       <h2 class="text-4xl text-left font-thin" aria-label="Page Title"><%= title %></h2>
+      <% if params[:action] == "index" && year = params.dig(:q, :during_year) %>
+      <span class="inline text-4xl font-thin text-gray-300 dark:text-gray-600">
+        <%= Current.org.fiscal_year_for(year) %>
+      </span>
+      <% end %>
       <% if params[:action] == "show" && params[:id] && resource&.respond_to?(:state) %>
         <div class="flex-grow md:grow-0 text-right">
           <span class="status-tag m-0 mr-auto leading-3 text-base font-bold h-auto py-2 px-2.5" data-status="<%= resource.state %>">
