@@ -394,16 +394,9 @@ p {
   text-align: center;
 }
 
-.email-masthead_logo {
-  width: 94px;
-}
-
-.email-masthead_name {
-  font-size: 16px;
-  font-weight: bold;
-  color: #a8aaaf;
-  text-decoration: none;
-  text-shadow: 0 1px 0 white;
+.email-masthead img {
+  width: 100px;
+  height: 100px;
 }
 
 /* Body ------------------------------ */
