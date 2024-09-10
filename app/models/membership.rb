@@ -172,7 +172,7 @@ class Membership < ApplicationRecord
   end
 
   def trial_only?
-    baskets_count == baskets.trial.count
+    baskets_count == trial_baskets_count
   end
 
   def fiscal_year
@@ -482,6 +482,7 @@ class Membership < ApplicationRecord
     cols = { past_baskets_count: baskets.past.count }
     if Current.org.trial_basket_count.positive?
       cols[:remaning_trial_baskets_count] = baskets.coming.trial.count
+      cols[:trial_baskets_count] = baskets.trial.count
     end
     update_columns(cols)
   end

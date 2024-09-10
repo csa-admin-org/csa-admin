@@ -1,11 +1,26 @@
 _:
   states:
     activity_participation:
+      accepted:
+        _de: akzeptiert
+        _en: Accepted
+        _fr: acceptées
+        _it: accettato
+      demanded:
+        _de: angefordert
+        _en: Requested
+        _fr: demandées
+        _it: richiesto
       future:
         _de: Kommend
         _en: Upcoming
         _fr: à venir
         _it: venendo
+      missing:
+        _de: fehlende
+        _en: missing
+        _fr: manquantes
+        _it: mancante
       pending:
         _de: Zu bestätigen
         _en: Pending

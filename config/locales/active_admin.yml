@@ -1902,17 +1902,17 @@ _:
           _en: Calendar
           _fr: Calendrier
           _it: Calendario
-        canceled_renewals:
+        canceled_renewals_html:
           one:
-            _de: "%{count_link} Kündigung"
-            _en: "%{count_link} cancellation"
-            _fr: "%{count_link} résiliation"
-            _it: "%{count_link} résiliation"
+            _de: "<b>%{count}</b> Kündigung"
+            _en: "<b>%{count}</b> cancellation"
+            _fr: "<b>%{count}</b> résiliation"
+            _it: "<b>%{count}</b> résiliation"
           other:
-            _de: "%{count_link} Kündigungen"
-            _en: "%{count_link} cancellations"
-            _fr: "%{count_link} résiliations"
-            _it: "%{count_link} risoluzione"
+            _de: "<b>%{count}</b> Kündigungen"
+            _en: "<b>%{count}</b> cancellations"
+            _fr: "<b>%{count}</b> résiliations"
+            _it: "<b>%{count}</b> risoluzione"
         confirm:
           _de: Sind Sie mehr als sicher?
           _en: Are you absolutely sure?
@@ -2001,28 +2001,28 @@ _:
             _en: Send requests (%{count})
             _fr: Envoyer demandes (%{count})
             _it: Inviare domande (%{count})
-        openable_renewals:
+        openable_renewals_html:
           one:
-            _de: "%{count_link} Anfrage zu senden"
-            _en: "%{count_link} request to send"
-            _fr: "%{count_link} demande à envoyer"
-            _it: "%{count_link} domanda da inviare"
+            _de: "<b>%{count}</b> Anfrage zu senden"
+            _en: "<b>%{count}</b> request to send"
+            _fr: "<b>%{count}</b> demande à envoyer"
+            _it: "<b>%{count}</b> domanda da inviare"
           other:
-            _de: "%{count_link} Anfragen zu senden"
-            _en: "%{count_link} requests to send"
-            _fr: "%{count_link} demandes à envoyer"
-            _it: "%{count_link} domande da inviare"
-        opened_renewals:
+            _de: "<b>%{count}</b> Anfragen zu senden"
+            _en: "<b>%{count}</b> requests to send"
+            _fr: "<b>%{count}</b> demandes à envoyer"
+            _it: "<b>%{count}</b> domande da inviare"
+        opened_renewals_html:
           one:
-            _de: "%{count_link} offener Antrag"
-            _en: "%{count_link} open request"
-            _fr: "%{count_link} demande ouverte"
-            _it: "%{count_link} domanda aperta"
+            _de: "<b>%{count}</b> offener Antrag"
+            _en: "<b>%{count}</b> open request"
+            _fr: "<b>%{count}</b> demande ouverte"
+            _it: "<b>%{count}</b> domanda aperta"
           other:
-            _de: "%{count_link} offene Anträge"
-            _en: "%{count_link} open requests"
-            _fr: "%{count_link} demandes ouvertes"
-            _it: "%{count_link} domande aperte"
+            _de: "<b>%{count}</b> offene Anträge"
+            _en: "<b>%{count}</b> open requests"
+            _fr: "<b>%{count}</b> demandes ouvertes"
+            _it: "<b>%{count}</b> domande aperte"
         opening:
           _de: Anfragen werden gesendet ...
           _en: Requests being sent...
@@ -2064,17 +2064,17 @@ _:
           _en: Renewals
           _fr: Renouvellements
           _it: Rinnovi
-        renewed_renewals:
+        renewed_renewals_html:
           one:
-            _de: "%{count_link} Erneuerung"
-            _en: "%{count_link} renewal"
-            _fr: "%{count_link} renouvellement"
-            _it: "%{count_link} rinnovo"
+            _de: "<b>%{count}</b> Erneuerung"
+            _en: "<b>%{count}</b> renewal"
+            _fr: "<b>%{count}</b> renouvellement"
+            _it: "<b>%{count}</b> rinnovo"
           other:
-            _de: "%{count_link} Erneuerungen"
-            _en: "%{count_link} renewals"
-            _fr: "%{count_link} renouvellements"
-            _it: "%{count_link} rinnovi"
+            _de: "<b>%{count}</b> Erneuerungen"
+            _en: "<b>%{count}</b> renewals"
+            _fr: "<b>%{count}</b> renouvellements"
+            _it: "<b>%{count}</b> rinnovi"
         renewing:
           _de: Erneuerungen am laufen...
           _en: Renewing...

@@ -123,7 +123,7 @@ ActiveAdmin.register ActivityParticipation do
     side_panel t(".total") do
       all = collection.unscope(:includes).offset(nil).limit(nil)
         div class: "flex justify-between" do
-        span activities_human_name + ":"
+        span activities_human_name
         span all.sum(:participants_count), class: "font-bold"
       end
     end
