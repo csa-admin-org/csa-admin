@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_09_07_093843) do
+ActiveRecord::Schema[7.2].define(version: 2024_09_10_092937) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
   enable_extension "plpgsql"
@@ -511,6 +511,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_09_07_093843) do
     t.integer "absences_included_annually", null: false
     t.integer "absences_included", default: 0, null: false
     t.integer "billing_year_division", default: 1, null: false
+    t.integer "trial_baskets_count", default: 0
     t.index ["basket_size_id"], name: "index_memberships_on_basket_size_id"
     t.index ["delivery_cycle_id"], name: "index_memberships_on_delivery_cycle_id"
     t.index ["depot_id"], name: "index_memberships_on_depot_id"

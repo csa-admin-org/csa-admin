@@ -93,6 +93,57 @@ ActiveAdmin.register Membership do
     actions
   end
 
+  sidebar :activity_participations, only: :index, if: -> {
+    Current.org.feature?("activity") && %w[
+      activity_participations_accepted_eq
+      activity_participations_accepted_gt
+      activity_participations_accepted_lt
+      activity_participations_demanded_eq
+      activity_participations_demanded_gt
+      activity_participations_demanded_lt
+      activity_participations_missing_eq
+      activity_participations_missing_gt
+      activity_participations_missing_lt
+    ].any? { |a| params.dig(:q, a).present? }
+  } do
+    side_panel activities_human_name do
+      all = collection.offset(nil).limit(nil).to_a
+      %w[ accepted demanded missing ].each do |state|
+        div class: "flex justify-between" do
+          span t("states.activity_participation.#{state}").capitalize
+          span all.sum(&"activity_participations_#{state}".to_sym), class: "font-bold"
+        end
+      end
+    end
+  end
+
+  sidebar :basket_price_extra_title, only: :index, if: -> { Current.org.feature?("basket_price_extra") && params.dig(:q, :during_year).present? } do
+    side_panel Current.org.basket_price_extra_title, action: handbook_icon_link("basket_price_extra") do
+      coll =
+        collection
+          .unscope(:includes, :joins, :order)
+          .offset(nil).limit(nil)
+          .joins(:member)
+          .merge(Member.no_salary_basket)
+      baskets = Basket.billable.where(membership: coll)
+      if coll.where("basket_price_extra < 0").any?
+        div class: "flex justify-end" do
+          sum = baskets.where("price_extra > 0").sum("quantity * price_extra")
+          span cur(sum)
+        end
+        div class: "flex justify-end" do
+          sum = baskets.where("price_extra < 0").sum("quantity * price_extra")
+          span cur(sum)
+        end
+      end
+      div class: "flex justify-between" do
+        sum = baskets.sum("quantity * price_extra")
+        span t("active_admin.shared.sidebar_section.amount")
+        span cur(sum), class: "font-bold"
+      end
+    end
+  end
+
   sidebar :renewal, only: :index do
     side_panel t(".renewal"), action: handbook_icon_link("membership_renewal") do
       renewal = MembershipsRenewal.new
@@ -103,43 +154,28 @@ ActiveAdmin.register Membership do
       else
         ul do
           li do
-            openable_count = renewal.openable.count
-            t(".openable_renewals",
-              count: openable_count,
-              count_link: link_to(
-                openable_count,
-                collection_path(scope: :all, q: { renewal_state_eq: :renewal_pending, during_year: Current.org.current_fiscal_year.year }))
-            ).html_safe
+            link_to(
+              t(".openable_renewals_html", count: renewal.openable.count),
+              collection_path(scope: :all, q: { renewal_state_eq: :renewal_pending, during_year: Current.org.current_fiscal_year.year }))
           end
           if MailTemplate.active_template(:membership_renewal)
             li do
-              renewal_opened_count = renewal.opened.count
-              t(".opened_renewals",
-                count: renewal_opened_count,
-                count_link: link_to(
-                  renewal_opened_count,
-                  collection_path(scope: :all, q: { renewal_state_eq: :renewal_opened, during_year: Current.org.current_fiscal_year.year }))
-              ).html_safe
+              link_to(
+                t(".opened_renewals_html", count: renewal.opened.count),
+                collection_path(scope: :all, q: { renewal_state_eq: :renewal_opened, during_year: Current.org.current_fiscal_year.year }))
             end
           end
           li do
-            renewed_count = renewal.renewed.count
-            t(".renewed_renewals",
-              count: renewed_count,
-              count_link: link_to(
-                renewed_count,
-                collection_path(scope: :all, q: { renewal_state_eq: :renewed, during_year: Current.org.current_fiscal_year.year }))
-            ).html_safe
+            link_to(
+              t(".renewed_renewals_html", count: renewal.renewed.count),
+              collection_path(scope: :all, q: { renewal_state_eq: :renewed, during_year: Current.org.current_fiscal_year.year }))
           end
           li do
             end_of_year = Current.org.current_fiscal_year.end_of_year
             renewal_canceled_count = Membership.where(renew: false).where(ended_on: end_of_year).count
-            t(".canceled_renewals",
-              count: renewal_canceled_count,
-              count_link: link_to(
-                renewal_canceled_count,
-                collection_path(scope: :all, q: { renewal_state_eq: :renewal_canceled, during_year: Current.org.current_fiscal_year.year, ended_on_gteq: end_of_year, ended_on_lteq: end_of_year }))
-            ).html_safe
+            link_to(
+              t(".canceled_renewals_html", count: renewal_canceled_count),
+              collection_path(scope: :all, q: { renewal_state_eq: :renewal_canceled, during_year: Current.org.current_fiscal_year.year, ended_on_gteq: end_of_year, ended_on_lteq: end_of_year }))
           end
         end
         renewable_count = renewal.renewable.count
@@ -178,33 +214,6 @@ ActiveAdmin.register Membership do
             end
           end
         end
-      end
-    end
-  end
-
-  sidebar :basket_price_extra_title, only: :index, if: -> { Current.org.feature?("basket_price_extra") && params.dig(:q, :during_year).present? } do
-    side_panel Current.org.basket_price_extra_title, action: handbook_icon_link("basket_price_extra") do
-      coll =
-        collection
-          .unscope(:includes, :joins, :order)
-          .offset(nil).limit(nil)
-          .joins(:member)
-          .merge(Member.no_salary_basket)
-      baskets = Basket.billable.where(membership: coll)
-      if coll.where("basket_price_extra < 0").any?
-        div class: "flex justify-end" do
-          sum = baskets.where("price_extra > 0").sum("quantity * price_extra")
-          span cur(sum)
-        end
-        div class: "flex justify-end" do
-          sum = baskets.where("price_extra < 0").sum("quantity * price_extra")
-          span cur(sum)
-        end
-      end
-      div class: "flex justify-between" do
-        sum = baskets.sum("quantity * price_extra")
-        span t("active_admin.shared.sidebar_section.amount")
-        span cur(sum), class: "font-bold"
       end
     end
   end
