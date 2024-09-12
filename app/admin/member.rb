@@ -114,12 +114,12 @@ ActiveAdmin.register Member do
       }
     end
     if feature?("activity")
-      column(I18n.t("active_admin.resource.index.waiting_attribute", attribute: activities_human_name)) { |m|
+      column(I18n.t("active_admin.shared.sidebar_section.waiting_attribute", attribute: activities_human_name)) { |m|
         cur(m.waiting_activity_participations_demanded_annually)
       }
     end
     if feature?("basket_price_extra")
-      column(I18n.t("active_admin.resource.index.waiting_attribute", attribute: Current.org.basket_price_extra_title)) { |m|
+      column(I18n.t("active_admin.shared.sidebar_section.waiting_attribute", attribute: Current.org.basket_price_extra_title)) { |m|
         cur(m.waiting_basket_price_extra)
       }
     end
