@@ -516,7 +516,7 @@ ActiveAdmin.register Membership do
                   cur(m.basket_complements_annual_price_change, unit: false)
                 }
               end
-              if Current.org.feature?("basket_price_extra") && m.basket_price_extra.nonzero?
+              if Current.org.feature?("basket_price_extra") && (m.basket_price_extra.nonzero? || m.baskets.any? { |b| b.price_extra.nonzero? })
                 row(:basket_price_extra_title, class: "text-right") {
                   description = baskets_price_extra_info(m, m.baskets, highlight: true)
                   display_price_description(m.baskets_price_extra, description)
