@@ -39,6 +39,7 @@ Rails.application.routes.draw do
 
     namespace :api do
       namespace :v1 do
+        resources :members, only: :create
         resource :configuration, only: :show
         get "basket_contents/current" => "basket_contents#index"
       end

@@ -5,7 +5,7 @@ require "rails_helper"
 describe "BasketContents V1 API" do
   before { integration_session.host = "admin.ragedevert.test" }
 
-  describe "/api/v1/basket_contents/current" do
+  describe "GET /api/v1/basket_contents/current" do
     def request(api_token: nil)
       api_token ||= Current.org.credentials(:api_token)
       authorization =
