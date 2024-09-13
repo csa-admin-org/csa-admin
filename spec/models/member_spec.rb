@@ -109,6 +109,7 @@ describe Member do
 
     it "validates waiting_basket_price_extra presence" do
       member = build(:member,
+        public_create: true,
         waiting_depot: create(:depot),
         waiting_basket_price_extra: nil)
 

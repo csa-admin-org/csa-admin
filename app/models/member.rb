@@ -102,7 +102,7 @@ class Member < ApplicationRecord
       allow_nil: true
     },
     if: -> { public_create && Current.org.feature?("activity") }
-  validates :waiting_basket_price_extra, presence: true, if: -> { Current.org.feature?("basket_price_extra") && waiting_depot }, on: :create
+  validates :waiting_basket_price_extra, presence: true, if: -> { public_create && Current.org.feature?("basket_price_extra") && waiting_depot }, on: :create
   validates :waiting_depot, inclusion: { in: proc { Depot.all }, allow_nil: true }, on: :create
   validates :waiting_depot_id, presence: true, if: :waiting_basket_size, on: :create
   validates :shop_depot, inclusion: { in: proc { Depot.all }, allow_nil: true }
