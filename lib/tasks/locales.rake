@@ -1,4 +1,6 @@
 # frozen_string_literal: true
+require 'uri'
+require 'cgi'
 
 namespace :locales do
   desc "Automatically format the locale files"
@@ -14,6 +16,21 @@ namespace :locales do
       puts "Locales did not pass format verification."
       puts "Run `rails locales:format` and inspect the diff."
       exit 1
+    end
+  end
+
+  desc "Open an URL in all available locales"
+  task open: :environment do
+    url = ENV['URL']
+    raise "URL is required" unless url
+    locales = used_locales
+    locales.each do |locale|
+      uri = URI.parse(URI::DEFAULT_PARSER.escape(url)) # Encode the URL before parsing
+      params = CGI.parse(uri.query || '')
+      params['locale'] = [locale] # Add or update the locale parameter
+      uri.query = URI.encode_www_form(params)
+      full_url = uri.to_s
+      system("open -a 'Safari' '#{full_url}'") # This will open the URL in Safari
     end
   end
 

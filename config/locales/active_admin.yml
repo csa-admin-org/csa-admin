@@ -1949,7 +1949,7 @@ _:
           _fr: Info
           _it: Info
         invoice_all:
-          _de: Alles in Rechnung stellen
+          _de: Alle fakturieren
           _en: Invoice all
           _fr: Tout facturer
           _it: Fattura tutti
