@@ -118,7 +118,7 @@ ActiveAdmin.register Membership do
     end
   end
 
-  sidebar :billing, only: :index, if: -> { params[:scope] == "future" || params.dig(:q, :during_year).present? } do
+  sidebar :billing, only: :index, if: -> { params.dig(:q, :during_year).present? } do
     side_panel t(".billing"), action: handbook_icon_link("billing") do
       ids = collection.offset(nil).limit(nil).unscope(:includes, :joins, :order).pluck(:id)
       all = Membership.where(id: ids)
@@ -126,11 +126,11 @@ ActiveAdmin.register Membership do
       invoiced = all.sum(:invoices_amount)
       missing = [ total - invoiced, 0 ].max
       div class: "flex justify-between" do
-        span t(".invoice_done")
+        span t(".invoices_done")
         span cur(invoiced), class: "tabular-nums"
       end
       div class: "flex justify-between" do
-        span t(".invoice_missing")
+        span t(".invoices_remaining")
         span cur(missing), class: "tabular-nums"
       end
       div class: "flex justify-between mt-1 border-t border-black dark:border-white" do
@@ -138,12 +138,12 @@ ActiveAdmin.register Membership do
         span cur(total), class: "font-bold tabular-nums"
       end
 
-      if missing.positive? && params[:scope] == "future" && params.dig(:q, :during_year).present? && authorized?(:future_billing, Membership)
+      if missing.positive? && all.minimum(:started_on).future? && authorized?(:future_billing, Membership)
         latest_created_at = Invoice.membership.maximum(:created_at)
         if !latest_created_at || latest_created_at < 5.seconds.ago
           div class: "mt-3" do
             button_to future_billing_all_memberships_path,
-              params: { year: params.dig(:q, :during_year) },
+              params: { ids: ids },
               form: { class: "flex justify-center", data: { controller: "disable", disable_with_value: t(".invoicing") } },
               data: { confirm:  t(".future_billing#{"_with_annual_fee" if Current.org.annual_fee?}_confirm") },
               class: "action-item-button secondary small" do
@@ -158,7 +158,9 @@ ActiveAdmin.register Membership do
   collection_action :future_billing_all, method: :post do
     authorize!(:future_billing, Membership)
 
-    Membership.future.during_year(params[:year]).find_each do |membership|
+    Membership.where(id: params[:ids]).find_each do |membership|
+      next unless membership.future? && membership.billable?
+
       MembershipFutureBillingJob.perform_later(membership)
     end
 

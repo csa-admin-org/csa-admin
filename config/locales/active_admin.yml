@@ -1989,16 +1989,16 @@ _:
             _en: Are you sure you want to invoice %{count} missing participations (%{activity_price}/part.) for the year %{year}?
             _fr: Êtes-vous sûr de vouloir facturer %{count} participations manquantes (%{activity_price}/part.) pour l'année %{year}?
             _it: Siete sicuri di voler addebitare %{count} partecipazioni mancanti ({activity_price}/part.) per l'anno %{year}?
-        invoice_done:
-          _de: Erledigt
-          _en: Done
-          _fr: Effectuée
-          _it: Fatto
-        invoice_missing:
-          _de: Fehlt
-          _en: Missing
-          _fr: Manquante
-          _it: Mancante
+        invoices_done:
+          _de: Abgerechnet
+          _en: Invoiced
+          _fr: Facturés
+          _it: Fatturato
+        invoices_remaining:
+          _de: Verbleibend
+          _en: Remaining
+          _fr: Restant
+          _it: Restante
         invoicing:
           _de: Rechnungen werden erstellt ...
           _en: Invoicing in progress...
