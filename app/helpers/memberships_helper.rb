@@ -6,7 +6,7 @@ module MembershipsHelper
     if basket.baskets_basket_complements.any?
       parts << basket_complements_description(basket.baskets_basket_complements, text_only: text_only)
     end
-    parts.join(", ")
+    parts.join(", ").html_safe
   end
 
   def membership_period(membership, format: :number)
@@ -48,7 +48,7 @@ module MembershipsHelper
       .sort
       .map { |price, bbs|
         "#{bbs.sum { |q, _| q }}x #{precise_cur(price).strip}"
-      }.join(" + ")
+      }.join(" + ").html_safe
   end
 
   def show_basket_price_extras?
@@ -112,7 +112,7 @@ module MembershipsHelper
       .sort
       .map { |price, bbcs|
         "#{bbcs.sum { |q, _| q }}x #{precise_cur(price)}"
-      }.join(" + ")
+      }.join(" + ").html_safe
   end
 
   def basket_complement_price_info(membership, basket_complement)
@@ -125,7 +125,7 @@ module MembershipsHelper
       .sort
       .map { |price, bbcs|
         "#{bbcs.sum { |q, _| q }}x #{precise_cur(price)}"
-      }.join(" + ")
+      }.join(" + ").html_safe
   end
 
   def depots_price_info(baskets)
@@ -137,7 +137,7 @@ module MembershipsHelper
       .sort
       .map { |price, bbs|
         "#{bbs.sum { |q, _| q }}x #{precise_cur(price)}"
-      }.join(" + ")
+      }.join(" + ").html_safe
   end
 
   def renewal_decisions_collection

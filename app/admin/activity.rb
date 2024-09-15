@@ -34,7 +34,7 @@ ActiveAdmin.register Activity do
       resource_selection_cell(a) if a.can_destroy?
     end
     column :date, ->(a) { l a.date, format: :medium }, sortable: :date, class: "text-right"
-    column :period, ->(a) { a.period }, class: "text-right"
+    column :period, ->(a) { a.period }, class: "text-right tabular-nums"
     column :place, ->(a) { display_place(a) }
     column :title, ->(a) { a.title }
     column :participants_short, ->(a) {

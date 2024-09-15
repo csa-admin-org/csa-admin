@@ -3,7 +3,7 @@
 module Shop
   class SpecialDelivery < ApplicationRecord
     include HasDate
-    include HasFiscalYearScopes
+    include HasFiscalYear
     include TranslatedRichTexts
     include TranslatedAttributes
 

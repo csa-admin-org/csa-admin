@@ -79,7 +79,7 @@ describe Ability do
     specify { expect(ability.can?(:update, Payment)).to be_truthy }
     specify { expect(ability.can?(:batch_action, Payment)).to be_truthy }
 
-    specify { expect(ability.can?(:force_recurring_billing, Member)).to be_truthy }
+    specify { expect(ability.can?(:recurring_billing, Member)).to be_truthy }
     specify { expect(ability.can?(:force_share_billing, Member)).to be_truthy }
     specify { expect(ability.can?(:send_email, Invoice)).to be_truthy }
     specify { expect(ability.can?(:cancel, Invoice)).to be_truthy }

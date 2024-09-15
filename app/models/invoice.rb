@@ -4,7 +4,7 @@ require "rounding"
 require "bigdecimal"
 
 class Invoice < ApplicationRecord
-  include HasFiscalYearScopes
+  include HasFiscalYear
   include HasState
   include Auditable
   include ActionView::Helpers::NumberHelper
@@ -51,12 +51,7 @@ class Invoice < ApplicationRecord
   scope :other_type, -> { where(entity_type: "Other") }
   scope :new_member_fee_type, -> { where(entity_type: "NewMemberFee") }
   scope :same_entity, ->(invoice) { where(member_id: invoice.member_id, entity: invoice.entity) }
-  # scope :during_year, ->(year) {
-  #   where(
-  #     entity_type: (entity_types - %w[ActivityParticipation]),
-  #     date: Current.org.fiscal_year_for(year).range)
-  #   .or(activity_participations_fiscal_year(year))
-  # }
+  scope :membership_eq, ->(membership) { where(entity: membership) }
 
   with_options if: :membership_type?, on: :create do
     before_validation \
@@ -108,7 +103,7 @@ class Invoice < ApplicationRecord
   validates :memberships_amount_description,
     presence: true,
     if: -> { memberships_amount? }
-  validate :validate_memberships_amount_for_current_year,
+  validate :memberships_amount_not_too_high,
     on: :create,
     if: :membership_type?
 
@@ -145,6 +140,7 @@ class Invoice < ApplicationRecord
       balance_eq balance_gt balance_lt
       sent_eq
       activity_participations_fiscal_year
+      membership_eq
     ]
   end
 
@@ -362,6 +358,10 @@ class Invoice < ApplicationRecord
     id == self.class.not_canceled.same_entity(self).maximum(:id)
   end
 
+  def entity_fy_year
+    entity_id? ? entity&.fy_year : fy_year
+  end
+
   def previously_canceled_entity_invoice_ids
     return [] unless entity_id?
 
@@ -463,15 +463,15 @@ class Invoice < ApplicationRecord
     @closed_audit ||= audits.reversed.find_change_of(:state, to: CLOSED_STATE)
   end
 
-  def validate_memberships_amount_for_current_year
-    paid_invoices = member.invoices.not_canceled.membership.during_year(fy_year)
+  def memberships_amount_not_too_high
+    paid_invoices = entity.invoices.not_canceled
     if paid_invoices.sum(:memberships_amount) + memberships_amount > entity.price
       errors.add(:base, "Somme de la facturation des abonnements trop grande")
     end
   end
 
   def set_paid_memberships_amount
-    paid_invoices = member.invoices.not_canceled.membership.during_year(fy_year)
+    paid_invoices = entity.invoices.not_canceled
     self[:paid_memberships_amount] ||= paid_invoices.sum(:memberships_amount)
   end
 

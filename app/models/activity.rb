@@ -3,7 +3,7 @@
 class Activity < ApplicationRecord
   include HasDate
   include TranslatedAttributes
-  include HasFiscalYearScopes
+  include HasFiscalYear
   include BulkDatesInsert
 
   attr_reader :preset_id, :preset

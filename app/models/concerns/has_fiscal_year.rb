@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module HasFiscalYearScopes
+module HasFiscalYear
   extend ActiveSupport::Concern
 
   included do
@@ -24,6 +24,10 @@ module HasFiscalYearScopes
 
   def current_year?
     fy_year == Current.fy_year
+  end
+
+  def current_or_future_year?
+    fy_year >= Current.fy_year
   end
 
   class_methods do

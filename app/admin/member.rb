@@ -356,11 +356,11 @@ ActiveAdmin.register Member do
           attributes_table do
             row(:id) {
               div class: "flex items-center justify-between" do
-                span { member.id.to_s }
+                div { member.id.to_s }
                 if authorized?(:become, resource)
                   div do
-                    link_to become_member_path(resource), class: "ms-2 action-item-button tiny whitespace-nowrap", data: { turbo: false } do
-                      icon("arrow-right-end-on-rectangle", class: "h-4 w-4 mr-1") + t(".become_member")
+                    link_to become_member_path(resource), class: "ms-2 action-item-button small whitespace-nowrap", data: { turbo: false } do
+                      icon("arrow-right-end-on-rectangle", class: "h-4 w-4 me-1") + t(".become_member")
                     end
                   end
                 end
@@ -397,26 +397,26 @@ ActiveAdmin.register Member do
         end
         panel t(".billing"), action: handbook_icon_link("billing") do
           attributes_table do
-            if member.billing_email?
-              row(t(".email")) { display_email_with_link(self, member.billing_email) }
-            end
             if member.salary_basket?
-              row(:salary_basket) { status_tag(member.salary_basket) }
+              row(:salary_basket, class: "text-right") { status_tag(member.salary_basket) }
+            end
+            if member.billing_email?
+              row(t(".email"), class: "text-right") { display_email_with_link(self, member.billing_email) }
             end
             if Current.org.annual_fee
-              row(:annual_fee) { cur member.annual_fee }
+              row(:annual_fee, class: "text-right tabular-nums") { cur member.annual_fee }
             end
-            row(:invoices_amount) {
+            row(:invoices_amount, class: "text-right tabular-nums") {
               link_to(
                 cur(member.invoices_amount),
                 invoices_path(q: { member_id_eq: member.id }, scope: :all))
             }
-            row(:payments_amount) {
+            row(:payments_amount, class: "text-right tabular-nums") {
               link_to(
                 cur(member.payments_amount),
                 payments_path(q: { member_id_eq: member.id }, scope: :all))
             }
-            row(:balance_amount) {
+            row(:balance_amount, class: "text-right tabular-nums") {
               if member.balance_amount.zero?
                 cur member.balance_amount
               else
@@ -425,24 +425,24 @@ ActiveAdmin.register Member do
                 end
               end
             }
-            invoicer = Billing::Invoicer.new(member, nil, Date.tomorrow)
+            invoicer = Billing::Invoicer.new(member, date: Date.tomorrow)
             if invoicer.next_date
-              row(:next_invoice_on) {
+              row(:next_invoice_on, class: "text-right") {
                 if Current.org.recurring_billing?
-                  div class: "flex items-center justify-between gap-2" do
+                  div class: "flex items-center justify-end gap-2" do
                     if invoicer.next_date
                       span do
                         l(invoicer.next_date, format: :medium)
                       end
-                      if authorized?(:force_recurring_billing, member) && invoicer.billable?
+                      if authorized?(:recurring_billing, member) && invoicer.billable?
                         div do
-                          button_to t(".invoice_now"), force_recurring_billing_member_path(member),
+                          button_to t(".recurring_billing"), recurring_billing_member_path(member),
                             form: {
                               data: { controller: "disable", disable_with_value: t("formtastic.processing") },
                               class: "inline"
                             },
-                            data: { confirm: t(".invoice_now_confirm") },
-                            class: "action-item-button tiny secondary"
+                            data: { confirm: t(".recurring_billing_confirm") },
+                            class: "action-item-button small secondary"
                         end
                       end
                     end
@@ -484,12 +484,12 @@ ActiveAdmin.register Member do
                         l(invoicer.next_date, format: :medium)
                       end
                       if authorized?(:force_share_billing, member)
-                        button_to t(".invoice_now"), force_share_billing_member_path(member),
+                        button_to t(".recurring_billing"), force_share_billing_member_path(member),
                           form: {
                             data: { controller: "disable", disable_with_value: t("formtastic.processing") },
                             class: "inline"
                           },
-                          data: { confirm: t(".invoice_now_confirm") }
+                          data: { confirm: t(".recurring_billing_confirm") }
                       end
                     end
                   else
@@ -738,7 +738,7 @@ ActiveAdmin.register Member do
       allow_other_host: true
   end
 
-  member_action :force_recurring_billing, method: :post do
+  member_action :recurring_billing, method: :post do
     if invoice = Billing::Invoicer.force_invoice!(resource)
       redirect_to invoice
     else

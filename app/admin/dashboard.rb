@@ -74,7 +74,7 @@ ActiveAdmin.register_page "Dashboard" do
                   InvoiceTotal.all(Current.fiscal_year).each do |total|
                     tr class: "px-2 h-10 border-dotted border-b border-gray-200 dark:border-gray-700" do
                       td total.title
-                      td class: "text-right w-36" do
+                      td class: "text-right tabular-nums w-36" do
                         cur(total.price)
                       end
                     end
@@ -90,8 +90,8 @@ ActiveAdmin.register_page "Dashboard" do
                   PaymentTotal.all.each do |total|
                     tr class: "h-10 border-dotted border-b border-gray-200 dark:border-gray-700" do
                       td total.title
-                      td class: "text-right w-36" do
-                        cur(total.price)
+                      td class: "text-right tabular-nums w-36" do
+                       cur(total.price)
                       end
                     end
                   end

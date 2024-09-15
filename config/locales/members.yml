@@ -519,7 +519,7 @@ _:
         membership:
           annual_fee_text:
             _de: Jedes Mitglied tritt dem Verein bei und zahlt zusätzlich zum Gemüseabo einen jährlichen Beitrag von <b>%{price}</b> ein.
-            _en: Each member also joins the association and pays an annual fee of <b>%{price}</b> in addition to the vegetable membership.
+            _en: Each member also joins the association and pays an annual fee of <b>%{price}</b> in addition to the membership to the basket.
             _fr: Chaque membre fait également partie de l'association et verse une cotisation annuelle de <b>%{price}</b> en plus de l'abonnement à son panier.
             _it: Ogni socio fa parte dell'associazione e versa una quota associativa annuale di <b>%{price}</b> in aggiunta all'abbonamento per la propria cesta.
           desired_shares_number_hint:

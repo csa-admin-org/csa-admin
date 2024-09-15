@@ -12,22 +12,22 @@ ActiveAdmin.register BasketSize do
   index download_links: false do
     column :id
     column :name, ->(bs) { display_name_with_public_name(bs) }
-    column :price, ->(bs) { cur(bs.price, precision: 3) }, class: "text-right"
+    column :price, ->(bs) { cur(bs.price, precision: 3) }, class: "text-right tabular-nums"
     column :annual_price, ->(bs) {
       if bs.price.positive?
         deliveries_based_price_info(bs.price, bs.billable_deliveries_counts)
       end
-    }, class: "text-right"
+    }, class: "text-right tabular-nums"
     column :deliveries, ->(bs) {
       deliveries_count_range(bs.billable_deliveries_counts)
-    }, class: "text-right"
+    }, class: "text-right tabular-nums"
     if Current.org.feature?("activity")
       column activities_human_name,
         ->(bs) { bs.activity_participations_demanded_annually },
-        class: "text-right"
+        class: "text-right tabular-nums"
     end
     if Current.org.share?
-      column t("billing.shares"), ->(bs) { bs.shares_number }, class: "text-right"
+      column t("billing.shares"), ->(bs) { bs.shares_number }, class: "text-right tabular-nums"
     end
     column :visible, class: "text-right"
     actions

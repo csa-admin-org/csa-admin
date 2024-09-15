@@ -156,11 +156,7 @@
     @apply hover:text-green-600 dark:hover:text-green-500 inline-flex items-center cursor-pointer;
 
     &.small {
-      @apply text-sm py-1 px-2;
-    }
-
-    &.tiny {
-      @apply text-sm py-0 px-2;
+      @apply text-sm py-0.5 px-2 font-normal;
     }
 
     &.light {

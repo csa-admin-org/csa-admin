@@ -84,9 +84,22 @@ module XLSX
       add_empty_line
 
       t_invoice = Invoice.model_name.human(count: 2)
-      add_line("#{t_invoice}: #{Membership.model_name.human(count: 2)}", @invoices.sum(:memberships_amount))
+      invoices_per_year = @invoices.membership.includes(:entity).all.group_by(&:entity_fy_year).sort
+      invoices_per_year.each do |year, invoices|
+        add_line(t_invoice_with_year(Membership.model_name.human(count: 2), year), invoices.sum(&:memberships_amount))
+      end
       if Current.org.annual_fee
-        add_line("#{t_invoice}: #{t('annual_fees')}", invoices_total(:annual_fee), Current.org.annual_fee)
+        # Add current year if not present (no memberships)
+        unless invoices_per_year.map(&:first).include?(@year)
+          invoices_per_year.unshift([@year, []])
+        end
+        invoices_per_year.each do |year, invoices|
+          amount = invoices.sum { |i| i.annual_fee || 0 }
+          if year == @year # Add annual fee invoices outside of memberships
+            amount += @invoices.where(entity_type: "AnnualFee").sum(:amount)
+          end
+          add_line(t_invoice_with_year(t('annual_fees'), year), amount, Current.org.annual_fee)
+        end
       end
       if Current.org.share?
         add_line("#{t_invoice}: #{t('shares')}", @invoices.share.sum(:amount), Current.org.share_price)
@@ -96,8 +109,7 @@ module XLSX
       end
       if Current.org.feature?("activity")
         @invoices.activity_participation_type.group(:missing_activity_participations_fiscal_year).sum(:amount).sort.each do |year, amount|
-          fy = Current.org.fiscal_year_for(year)
-          add_line("#{t_invoice}: #{ApplicationController.helpers.activities_human_name} (#{fy})", amount)
+          add_line(t_invoice_with_year(ApplicationController.helpers.activities_human_name, year), amount)
         end
       end
       if Current.org.feature?("new_member_fee")
@@ -186,6 +198,15 @@ module XLSX
 
     def t(key, *args)
       I18n.t("billing.#{key}", *args)
+    end
+
+    def t_invoice_with_year(text, year)
+      txt = "#{Invoice.model_name.human(count: 2)}: #{text}"
+      if year != @year
+        fy = Current.org.fiscal_year_for(year)
+        txt += " (#{fy})"
+      end
+      txt
     end
   end
 end

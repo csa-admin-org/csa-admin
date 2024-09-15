@@ -55,7 +55,7 @@ class InvoiceTotal
       when "Membership"
         @invoices.sum(:memberships_amount)
       when "RemainingMembership"
-        invoices_total = @invoices.sum(:memberships_amount)
+        invoices_total = @invoices.where(entity: @memberships).sum(:memberships_amount)
         memberships_total = @memberships.sum(:price)
         [ memberships_total - invoices_total, 0 ].max
       when "AnnualFee"
