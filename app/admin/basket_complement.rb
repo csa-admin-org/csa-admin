@@ -12,15 +12,15 @@ ActiveAdmin.register BasketComplement do
   index download_links: false do
     column :id
     column :name, ->(bc) { display_name_with_public_name(bc) }
-    column :price, ->(bc) { cur(bc.price) }, class: "text-right"
+    column :price, ->(bc) { cur(bc.price) }, class: "text-right tabular-nums"
     column :annual_price, ->(bc) {
       if bc.deliveries_count.positive?
         deliveries_based_price_info(bc.price, bc.billable_deliveries_counts)
       end
-    }, class: "text-right"
+    }, class: "text-right tabular-nums"
     column :deliveries, ->(bc) {
       deliveries_count_range(bc.billable_deliveries_counts)
-    }, class: "text-right"
+    }, class: "text-right tabular-nums"
     column Current.org.current_fiscal_year, ->(bc) {
       link_to bc.current_deliveries.size, deliveries_path(
         q: {
@@ -28,7 +28,7 @@ ActiveAdmin.register BasketComplement do
           during_year: Current.org.current_fiscal_year.year
         },
         scope: :all)
-    }, class: "text-right"
+    }, class: "text-right tabular-nums"
     column Current.org.fiscal_year_for(1.year.from_now), ->(bc) {
       link_to bc.future_deliveries.size, deliveries_path(
         q: {
@@ -36,11 +36,11 @@ ActiveAdmin.register BasketComplement do
           during_year: Current.org.current_fiscal_year.year + 1
         },
         scope: :all)
-    }, class: "text-right"
+    }, class: "text-right tabular-nums"
     if Current.org.feature?("activity")
       column activities_human_name,
         ->(bc) { bc.activity_participations_demanded_annually },
-        class: "text-right"
+        class: "text-right tabular-nums"
     end
     column :visible, class: "text-right"
     actions

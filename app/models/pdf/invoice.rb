@@ -114,14 +114,14 @@ module PDF
           entity.basket_sizes.uniq.each do |basket_size|
             data << [
               membership_basket_size_description(basket_size),
-              _cur(entity.basket_size_price(basket_size))
+              cur(entity.basket_size_price(basket_size))
             ]
           end
         end
         unless entity.baskets_annual_price_change.zero?
           data << [
             t("baskets_annual_price_change"),
-            _cur(entity.baskets_annual_price_change)
+            cur(entity.baskets_annual_price_change)
           ]
         end
         if entity.basket_complements_price.positive?
@@ -131,20 +131,20 @@ module PDF
           basket_complements.each do |basket_complement|
             data << [
               membership_basket_complement_description(basket_complement),
-              _cur(entity.basket_complement_total_price(basket_complement))
+              cur(entity.basket_complement_total_price(basket_complement))
             ]
           end
         end
         unless entity.basket_complements_annual_price_change.zero?
           data << [
             t("basket_complements_annual_price_change"),
-            _cur(entity.basket_complements_annual_price_change)
+            cur(entity.basket_complements_annual_price_change)
           ]
         end
         if Current.org.feature?("basket_price_extra") && !entity.baskets_price_extra.zero?
           data << [
             membership_baskets_price_extra_description,
-            _cur(entity.baskets_price_extra)
+            cur(entity.baskets_price_extra)
           ]
         end
         entity.depots.uniq.each do |depot|
@@ -152,12 +152,12 @@ module PDF
           if price.positive?
             data << [
               membership_depot_description(depot),
-              _cur(price)
+              cur(price)
             ]
           end
         end
         unless entity.activity_participations_annual_price_change.zero?
-          data << [ activity_participations_annual_price_change_description, _cur(entity.activity_participations_annual_price_change) ]
+          data << [ activity_participations_annual_price_change_description, cur(entity.activity_participations_annual_price_change) ]
         end
       when "ActivityParticipation"
         if entity
@@ -173,7 +173,7 @@ module PDF
             year: invoice.missing_activity_participations_fiscal_year,
             count: invoice.missing_activity_participations_count)
         end
-        data << [ str, _cur(invoice.amount) ]
+        data << [ str, cur(invoice.amount) ]
       when "Share"
         str =
           if invoice.shares_number.positive?
@@ -181,10 +181,10 @@ module PDF
           else
             t("shares_number_negative", count: invoice.shares_number.abs)
           end
-        data << [ str, _cur(invoice.amount) ]
+        data << [ str, cur(invoice.amount) ]
       when "Other", "Shop::Order", "NewMemberFee"
         items.each do |item|
-          data << [ item.description, _cur(item.amount) ]
+          data << [ item.description, cur(item.amount) ]
         end
       end
 
@@ -192,49 +192,49 @@ module PDF
         if invoice.paid_memberships_amount.to_f.positive?
           data << [
             t("paid_memberships_amount"),
-            _cur(-invoice.paid_memberships_amount)
+            cur(-invoice.paid_memberships_amount)
           ]
           data << [
             t("remaining_annual_memberships_amount"),
-            _cur(invoice.remaining_memberships_amount)
+            cur(invoice.remaining_memberships_amount)
           ]
         elsif invoice.remaining_memberships_amount?
           data << [
             t("annual_memberships_amount"),
-            _cur(invoice.remaining_memberships_amount)
+            cur(invoice.remaining_memberships_amount)
           ]
         end
 
         if invoice.memberships_amount?
           data << [
             invoice.memberships_amount_description,
-            _cur_with_vat_appendice(invoice, invoice.memberships_amount)
+            cur_with_vat_appendice(invoice, invoice.memberships_amount)
           ]
         end
 
         if invoice.annual_fee?
-          data << [ t("annual_fee"), _cur(invoice.annual_fee) ]
+          data << [ t("annual_fee"), cur(invoice.annual_fee) ]
         end
 
         if invoice.amount_percentage?
-          data << [ t("total_before_percentage"), _cur(invoice.amount_before_percentage) ]
+          data << [ t("total_before_percentage"), cur(invoice.amount_before_percentage) ]
           data << [
             _number_to_percentage(invoice.amount_percentage, precision: 1),
-            _cur(invoice.amount - invoice.amount_before_percentage) ]
+            cur(invoice.amount - invoice.amount_before_percentage) ]
         end
 
         if invoice.amount.positive? && @missing_amount != invoice.amount
           already_paid = invoice.amount - @missing_amount
-          credit_amount = _cur(-(already_paid + invoice.member.credit_amount))
+          credit_amount = cur(-(already_paid + invoice.member.credit_amount))
           unless invoice.memberships_amount?
-            data << [ t("total"), _cur_with_vat_appendice(invoice, invoice.amount) ]
+            data << [ t("total"), cur_with_vat_appendice(invoice, invoice.amount) ]
           end
           data << [ t("credit_amount"), "#{appendice_star} #{credit_amount}" ]
-          data << [ t("missing_amount"), _cur(@missing_amount) ]
+          data << [ t("missing_amount"), cur(@missing_amount) ]
         elsif invoice.memberships_amount? && invoice.annual_fee?
-          data << [ t("total"), _cur(invoice.amount) ]
+          data << [ t("total"), cur(invoice.amount) ]
         elsif invoice.entity_type != "Membership"
-          data << [ t("total"), _cur_with_vat_appendice(invoice, invoice.amount) ]
+          data << [ t("total"), cur_with_vat_appendice(invoice, invoice.amount) ]
         end
       end
 
@@ -309,7 +309,7 @@ module PDF
       if invoice.member.credit_amount.positive?
         move_down 5
 
-        data = [ [ t("extra_credit"), _cur(invoice.member.credit_amount) ] ]
+        data = [ [ t("extra_credit"), cur(invoice.member.credit_amount) ] ]
         table data, column_widths: [ bounds.width - 120, 70 ], position: :center do |t|
           t.cells.borders = []
           t.cells.align = :right
@@ -325,8 +325,8 @@ module PDF
       if invoice.vat_amount&.positive?
         membership_vat_text = [
           "#{appendice_star} #{t('all_taxes_included')}",
-          "#{_cur(invoice.amount_without_vat, unit: true)} #{t("without_taxes")}",
-          "#{_cur(invoice.vat_amount, unit: true)} #{t("vat")} (#{invoice.vat_rate}%)"
+          "#{cur(invoice.amount_without_vat, unit: true)} #{t("without_taxes")}",
+          "#{cur(invoice.vat_amount, unit: true)} #{t("vat")} (#{invoice.vat_rate}%)"
         ].join(", ")
         bounding_box [ 0, y - 25 ], width: bounds.width - 24 do
           text membership_vat_text, width: 200, align: :right, style: :italic, size: 9
@@ -458,7 +458,7 @@ module PDF
         end
         bounding_box [ 65, 98 ], width: 200 do
           qr_text_title t("payment.amount"), size: 6
-          qr_text _cur(@missing_amount, delimiter: " "), size: 8
+          qr_text cur(@missing_amount, delimiter: " "), size: 8
         end
 
         bounding_box [ 105, 48 ], width: 200 do
@@ -481,7 +481,7 @@ module PDF
         end
         bounding_box [ 65, 100 ], width: 200 do
           qr_text_title t("payment.amount")
-          qr_text _cur(@missing_amount, delimiter: " ")
+          qr_text cur(@missing_amount, delimiter: " ")
         end
 
         bounding_box [ 146, 270 ], width: 230 do
@@ -566,7 +566,7 @@ module PDF
           move_down spacing
 
           qr_text_title t("payment.amount")
-          qr_text [ Current.org.currency_code, _cur(@missing_amount, delimiter: " ") ].join(" ")
+          qr_text [ Current.org.currency_code, cur(@missing_amount, delimiter: " ") ].join(" ")
         end
       end
     end
@@ -683,12 +683,12 @@ module PDF
       end
     end
 
-    def _cur(amount, unit: false, **options)
-      cur(amount, unit: unit, **options)
+    def cur(amount, unit: false, **options)
+      super(amount, unit: unit, **options)
     end
 
-    def _cur_with_vat_appendice(invoice, amount, unit: false, **options)
-      amount = _cur(amount).to_s
+    def cur_with_vat_appendice(invoice, amount, unit: false, **options)
+      amount = cur(amount).to_s
       if invoice.vat_amount&.positive?
         "#{appendice_star}#{amount}"
       else

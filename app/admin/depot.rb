@@ -24,7 +24,7 @@ ActiveAdmin.register Depot do
     column :name, ->(d) { link_to display_name_with_public_name(d), d }
     column :group
     if Depot.kept.pluck(:price).any?(&:positive?)
-      column :price, ->(d) { cur(d.price) }, class: "text-right"
+      column :price, ->(d) { cur(d.price) }, class: "text-right tabular-nums"
     end
     if DeliveryCycle.visible?
       column :delivery_cycles, ->(d) {

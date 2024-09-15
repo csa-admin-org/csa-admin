@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Payment < ApplicationRecord
-  include HasFiscalYearScopes
+  include HasFiscalYear
   include Auditable
 
   attr_accessor :comment

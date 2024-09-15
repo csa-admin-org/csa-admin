@@ -2,7 +2,7 @@
 
 module Billing
   class Invoicer
-    attr_reader :member, :membership, :invoices, :date, :fy_month
+    attr_reader :member, :membership, :invoices, :date, :period_date, :fy_month, :billing_year_division
 
     def self.invoice(member, **attrs)
       invoicer = new(member)
@@ -15,14 +15,21 @@ module Billing
       new(member).invoice(**attrs)
     end
 
-    def initialize(member, membership = nil, date = nil)
+    def initialize(member, membership: nil, date: nil, period_date: nil, billing_year_division: nil)
       @member = member
       @membership = membership || [
         member.current_year_membership,
         member.future_membership
       ].compact.select(&:billable?).first
-      @invoices = member.invoices.not_canceled.current_year
+      @invoices =
+        if @membership
+          @membership.invoices.not_canceled
+        else
+          member.invoices.not_canceled.current_year
+        end
+      @billing_year_division = billing_year_division || @membership&.billing_year_division || 1
       @date = date || Date.current
+      @period_date = period_date || @date
       @fy_month = Current.org.fy_month_for(@date)
     end
 
@@ -114,7 +121,7 @@ module Billing
     end
 
     def current_period
-      @current_period ||= periods.find { |d| d.cover?(date) }
+      @current_period ||= periods.find { |d| d.cover?(period_date) }
     end
 
     def current_period_billed?
@@ -129,7 +136,7 @@ module Billing
 
     def periods
       @periods ||= begin
-        min = Current.org.fiscal_year_for(date).beginning_of_year
+        min = Current.org.fiscal_year_for(period_date).beginning_of_year
         billing_year_division.times.map do |i|
           old_min = min
           max = min + period_length_in_months.months
@@ -137,10 +144,6 @@ module Billing
           old_min...max
         end
       end
-    end
-
-    def billing_year_division
-      membership&.billing_year_division || 1
     end
 
     def next_billing_day_after_first_billable_delivery

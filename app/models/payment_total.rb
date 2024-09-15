@@ -26,13 +26,13 @@ class PaymentTotal
       overpaid = @invoices.overpaid.sum("paid_amount - amount")
       if overpaid.positive?
         link = link_to_invoices(
-          I18n.t("billing.scope.overpaid_amount", amount: cur(overpaid, format: "%n")),
+          I18n.t("billing.scope.overpaid_amount", amount: cur(overpaid, format: "%n")).html_safe,
           scope: :closed,
           q: {
             amount_gt: 0,
             balance_gt: 0
           })
-        txt += content_tag(:span, "(#{link})".html_safe, class: "text-sm text-gray-500 ms-2")
+        txt += content_tag(:span, "(#{link})".html_safe, class: "text-sm text-gray-500 ms-2").html_safe
       end
       txt
     when :missing

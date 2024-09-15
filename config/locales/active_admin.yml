@@ -1082,16 +1082,21 @@ _:
             _en: Emails
             _fr: Emails
             _it: Email
-        invoice_now:
-          _de: Abrechnen
-          _en: Invoice now
-          _fr: Facturer
-          _it: Fatturare
-        invoice_now_confirm:
-          _de: Sind Sie sicher? Vergessen Sie nicht, die Rechnung nach der Überprüfung abzusenden.
-          _en: Are you sure? Don't forget to send the invoice after reviewing it.
-          _fr: Êtes-vous sûr? N'oubliez pas d'envoyer la facture, après l'avoir vérifiée.
-          _it: Siete sicuri? Non dimenticate d'inviare la fattura dopo la verifica.
+        future_billing:
+          _de: Alle in Zukunft abrechnen
+          _en: Invoice all in advance
+          _fr: Tout facturer à l'avance
+          _it: Fatturare tutto in anticipo
+        future_billing_confirm:
+          _de: Sind Sie sicher? Das Abonnement wird in voller Höhe abgerechnet. Vergessen Sie nicht, die Rechnung nach der Überprüfung abzusenden.
+          _en: Are you sure? The membership will be billed in full. Don't forget to send the invoice after reviewing it.
+          _fr: Êtes-vous sûr? L'abonnement sera facturé dans son intégralité. N'oubliez pas d'envoyer la facture, après l'avoir vérifiée.
+          _it: Siete sicuri? L'abbonamento verrà fatturato per intero. Non dimenticate di inviare la fattura dopo la verifica.
+        future_billing_with_annual_fee_confirm:
+          _de: Sind Sie sicher? Das Abonnement wird in voller Höhe abgerechnet, einschließlich des jährlichen Beitrags. Vergessen Sie nicht, die Rechnung nach der Überprüfung abzusenden.
+          _en: Are you sure? The membership will be billed in full, including the annual fee. Don't forget to send the invoice after reviewing it.
+          _fr: Êtes-vous sûr? L'abonnement sera facturé dans son intégralité, y compris la cotisation annuelle. N'oubliez pas d'envoyer la facture, après l'avoir vérifiée.
+          _it: Siete sicuri? L'abbonamento verrà fatturato per intero, compresa la quota annuale. Non dimenticate di inviare la fattura dopo la verifica.
         mark_renewal_as_pending:
           _de: Kündigung abbrechen
           _en: Cancel termination
@@ -1188,6 +1193,16 @@ _:
           _en: The last baskets are temporarily marked as absent until the member has reported all their absences.
           _fr: Les derniers paniers sont marqués provisoirement comme absents tant que le membre n'a pas annoncé toutes ses absences.
           _it: Gli ultimi cesti sono marcati provvisoriamente come assenti finché il membro non ha annunciato tutte le sue assenze.
+        recurring_billing:
+          _de: Abrechnen
+          _en: Invoice now
+          _fr: Facturer
+          _it: Fatturare
+        recurring_billing_confirm:
+          _de: Sind Sie sicher? Vergessen Sie nicht, die Rechnung nach der Überprüfung abzusenden.
+          _en: Are you sure? Don't forget to send the invoice after reviewing it.
+          _fr: Êtes-vous sûr? N'oubliez pas d'envoyer la facture, après l'avoir vérifiée.
+          _it: Siete sicuri? Non dimenticate d'inviare la fattura dopo la verifica.
         recurring_billing_disabled:
           _de: Automatische Rechnungsstellung Deaktiviert
           _en: Recurring billing disabled
@@ -1933,6 +1948,16 @@ _:
           _en: Edit settings
           _fr: Modifier les paramètres
           _it: Modifica parametri
+        future_billing_confirm:
+          _de: Sind Sie sicher? Die Abonnements werden in voller Höhe berechnet.
+          _en: Are you sure? The memberships will be billed in full.
+          _fr: Êtes-vous sûr? Les abonnements seront facturés dans leur intégralité.
+          _it: Sei sicuro? Gli abbonamenti saranno fatturati per intero.
+        future_billing_with_annual_fee_confirm:
+          _de: Sind Sie sicher? Die Abonnements werden in voller Höhe berechnet, einschließlich der Jahresgebühr.
+          _en: Are you sure? The memberships will be billed in full, including their annual fee.
+          _fr: Êtes-vous sûr? Les abonnements seront facturés dans leur intégralité, y compris leur cotisation annuelle.
+          _it: Sei sicuro? Gli abbonamenti saranno fatturati per intero, compresa la quota annuale.
         help:
           _de: Hilfe
           _en: Help
@@ -1964,6 +1989,16 @@ _:
             _en: Are you sure you want to invoice %{count} missing participations (%{activity_price}/part.) for the year %{year}?
             _fr: Êtes-vous sûr de vouloir facturer %{count} participations manquantes (%{activity_price}/part.) pour l'année %{year}?
             _it: Siete sicuri di voler addebitare %{count} partecipazioni mancanti ({activity_price}/part.) per l'anno %{year}?
+        invoice_done:
+          _de: Erledigt
+          _en: Done
+          _fr: Effectuée
+          _it: Fatto
+        invoice_missing:
+          _de: Fehlt
+          _en: Missing
+          _fr: Manquante
+          _it: Mancante
         invoicing:
           _de: Rechnungen werden erstellt ...
           _en: Invoicing in progress...

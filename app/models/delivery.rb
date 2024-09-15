@@ -2,8 +2,9 @@
 
 class Delivery < ApplicationRecord
   include HasDate
-  include HasFiscalYearScopes
+  include HasFiscalYear
   include BulkDatesInsert
+  include ActionView::Helpers::TagHelper
 
   default_scope { order(:date) }
 
@@ -72,7 +73,11 @@ class Delivery < ApplicationRecord
   end
 
   def display_name(format: :medium_long)
-    "#{I18n.l(date, format: format)} (#{display_number})"
+    content_tag(:span, class: "whitespace-nowrap") {
+      content_tag(:span, class: "tabular-nums") {
+        I18n.l(date, format: format)
+      } + " (#{display_number})"
+    }.html_safe
   end
 
   def name; display_name; end

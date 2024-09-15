@@ -75,8 +75,8 @@ ActiveAdmin.register Membership do
   index do
     column :id, ->(m) { auto_link m, m.id }
     column :member, sortable: "members.name"
-    column :started_on, ->(m) { auto_link m, l(m.started_on, format: :number_short) }, class: "text-right"
-    column :ended_on, ->(m) { auto_link m, l(m.ended_on, format: :number_short) }, class: "text-right"
+    column :started_on, ->(m) { auto_link m, l(m.started_on, format: :number_short) }, class: "text-right tabular-nums"
+    column :ended_on, ->(m) { auto_link m, l(m.ended_on, format: :number_short) }, class: "text-right tabular-nums"
     if Current.org.feature?("activity")
       column activities_human_name, ->(m) {
         link_to(
@@ -107,7 +107,8 @@ ActiveAdmin.register Membership do
     ].any? { |a| params.dig(:q, a).present? }
   } do
     side_panel activities_human_name do
-      all = collection.offset(nil).limit(nil).to_a
+      ids = collection.offset(nil).limit(nil).unscope(:includes, :joins, :order).pluck(:id)
+      all = Membership.where(id: ids)
       %w[ accepted demanded missing ].each do |state|
         div class: "flex justify-between" do
           span t("states.activity_participation.#{state}").capitalize
@@ -115,6 +116,53 @@ ActiveAdmin.register Membership do
         end
       end
     end
+  end
+
+  sidebar :billing, only: :index, if: -> { params[:scope] == "future" || params.dig(:q, :during_year).present? } do
+    side_panel t(".billing"), action: handbook_icon_link("billing") do
+      ids = collection.offset(nil).limit(nil).unscope(:includes, :joins, :order).pluck(:id)
+      all = Membership.where(id: ids)
+      total = all.sum(:price)
+      invoiced = all.sum(:invoices_amount)
+      missing = [ total - invoiced, 0 ].max
+      div class: "flex justify-between" do
+        span t(".invoice_done")
+        span cur(invoiced), class: "tabular-nums"
+      end
+      div class: "flex justify-between" do
+        span t(".invoice_missing")
+        span cur(missing), class: "tabular-nums"
+      end
+      div class: "flex justify-between mt-1 border-t border-black dark:border-white" do
+        span t(".total")
+        span cur(total), class: "font-bold tabular-nums"
+      end
+
+      if missing.positive? && params[:scope] == "future" && params.dig(:q, :during_year).present? && authorized?(:future_billing, Membership)
+        latest_created_at = Invoice.membership.maximum(:created_at)
+        if !latest_created_at || latest_created_at < 5.seconds.ago
+          div class: "mt-3" do
+            button_to future_billing_all_memberships_path,
+              params: { year: params.dig(:q, :during_year) },
+              form: { class: "flex justify-center", data: { controller: "disable", disable_with_value: t(".invoicing") } },
+              data: { confirm:  t(".future_billing#{"_with_annual_fee" if Current.org.annual_fee?}_confirm") },
+              class: "action-item-button secondary small" do
+                icon("banknotes", class: "h-4 w-4 me-1.5") + t("active_admin.resource.show.future_billing")
+              end
+          end
+        end
+      end
+    end
+  end
+
+  collection_action :future_billing_all, method: :post do
+    authorize!(:future_billing, Membership)
+
+    Membership.future.during_year(params[:year]).find_each do |membership|
+      MembershipFutureBillingJob.perform_later(membership)
+    end
+
+    redirect_to collection_path, notice: t("active_admin.shared.sidebar_section.invoicing")
   end
 
   sidebar :basket_price_extra_title, only: :index, if: -> { Current.org.feature?("basket_price_extra") && params.dig(:q, :during_year).present? } do
@@ -129,17 +177,17 @@ ActiveAdmin.register Membership do
       if coll.where("basket_price_extra < 0").any?
         div class: "flex justify-end" do
           sum = baskets.where("price_extra > 0").sum("quantity * price_extra")
-          span cur(sum)
+          span cur(sum), class: "tabular-nums"
         end
         div class: "flex justify-end" do
           sum = baskets.where("price_extra < 0").sum("quantity * price_extra")
-          span cur(sum)
+          span cur(sum), class: "tabular-nums"
         end
       end
       div class: "flex justify-between" do
         sum = baskets.sum("quantity * price_extra")
-        span t("active_admin.shared.sidebar_section.amount")
-        span cur(sum), class: "font-bold"
+        span t(".amount")
+        span cur(sum), class: "font-bold tabular-nums"
       end
     end
   end
@@ -395,7 +443,7 @@ ActiveAdmin.register Membership do
                 end
                 row :renewal_note
                 if m.ended_on == Current.fiscal_year.end_of_year && authorized?(:mark_renewal_as_pending, m)
-                  div class: "mt-2 py-1 flex items-center justify-center gap-4" do
+                  div class: "mt-2 flex items-center justify-center gap-4" do
                     div do
                       button_to mark_renewal_as_pending_membership_path(m),
                         form: {
@@ -403,7 +451,7 @@ ActiveAdmin.register Membership do
                         },
                         class: "action-item-button small secondary",
                         data: { confirm: t(".confirm") } do
-                          icon("arrow-uturn-left", class: "h-4 w-4 mr-2") + t(".mark_renewal_as_pending")
+                          icon("arrow-uturn-left", class: "h-4 w-4 me-1.5") + t(".mark_renewal_as_pending")
                         end
                     end
                   end
@@ -417,31 +465,35 @@ ActiveAdmin.register Membership do
                     end
                   }
                 end
-                div class: "mt-2 py-1 flex items-center justify-center gap-4" do
+                div class: "mt-2 flex items-center justify-center gap-4" do
                   if authorized?(:renew, m)
-                    button_to renew_membership_path(m),
-                      form: {
-                        data: { controller: "disable", disable_with_value: t("formtastic.processing") }
-                      },
-                      data: { confirm: t(".confirm") },
-                      class: "action-item-button small secondary",
-                      disabled: !m.can_renew? do
-                        icon("arrow-path", class: "h-4 w-4 mr-2") + t(".renew")
-                      end
+                    div do
+                      button_to renew_membership_path(m),
+                        form: {
+                          data: { controller: "disable", disable_with_value: t("formtastic.processing") }
+                        },
+                        data: { confirm: t(".confirm") },
+                        class: "action-item-button small secondary",
+                        disabled: !m.can_renew? do
+                          icon("arrow-path", class: "h-4 w-4 me-1.5") + t(".renew")
+                        end
+                    end
                   end
                   if authorized?(:cancel, m)
-                    button_to cancel_membership_path(m),
-                      form: {
-                        data: { controller: "disable", disable_with_value: t("formtastic.processing") }
-                      },
-                      data: { confirm: t(".confirm") },
-                      class: "action-item-button small secondary" do
-                        icon("x-circle", class: "h-4 w-4 mr-2") + t(".cancel_renewal")
-                      end
+                    div do
+                      button_to cancel_membership_path(m),
+                        form: {
+                          data: { controller: "disable", disable_with_value: t("formtastic.processing") }
+                        },
+                        data: { confirm: t(".confirm") },
+                        class: "action-item-button small secondary" do
+                          icon("x-circle", class: "h-4 w-4 me-1.5") + t(".cancel_renewal")
+                        end
+                    end
                   end
                 end
               else
-                div class: "mt-2 py-1 flex items-center justify-center gap-4" do
+                div class: "mt-2 flex items-center justify-center gap-4" do
                   if Delivery.any_next_year?
                     if authorized?(:open_renewal, m) && MailTemplate.active_template(:membership_renewal)
                       div do
@@ -451,7 +503,7 @@ ActiveAdmin.register Membership do
                           },
                           data: { confirm: t(".confirm") },
                           class: "action-item-button small secondary" do
-                            icon("paper-airplane", class: "h-4 w-4 mr-2") + t(".open_renewal")
+                            icon("paper-airplane", class: "h-4 w-4 me-1.5") + t(".open_renewal")
                           end
                       end
                     end
@@ -464,7 +516,7 @@ ActiveAdmin.register Membership do
                           data: { confirm: t(".confirm") },
                           class: "action-item-button small secondary",
                           disabled: !m.can_renew? do
-                            icon("arrow-path", class: "h-4 w-4 mr-2") + t(".renew")
+                            icon("arrow-path", class: "h-4 w-4 me-1.5") + t(".renew")
                           end
                       end
                     end
@@ -477,7 +529,7 @@ ActiveAdmin.register Membership do
                         },
                         data: { confirm: t(".confirm") },
                         class: "action-item-button small secondary" do
-                          icon("x-circle", class: "h-4 w-4 mr-2") + t(".cancel_renewal")
+                          icon("x-circle", class: "h-4 w-4 me-1.5") + t(".cancel_renewal")
                         end
                     end
                   end
@@ -495,44 +547,44 @@ ActiveAdmin.register Membership do
           else
             attributes_table do
               if m.basket_sizes_price.nonzero?
-                row(Basket.model_name.human(count: m.baskets_count), class: "text-right") {
+                row(Basket.model_name.human(count: m.baskets_count), class: "text-right tabular-nums") {
                   display_price_description(m.basket_sizes_price, basket_sizes_price_info(m, m.baskets))
                 }
               end
               if m.baskets_annual_price_change.nonzero?
-                row(t(".baskets_annual_price_change"), class: "text-right") {
+                row(t(".baskets_annual_price_change"), class: "text-right tabular-nums") {
                   cur(m.baskets_annual_price_change, unit: false)
                 }
               end
               if m.basket_complements.any? && m.basket_complements_price.nonzero?
-                row(BasketComplement.model_name.human(count: m.basket_complements.count), class: "text-right") {
+                row(BasketComplement.model_name.human(count: m.basket_complements.count), class: "text-right tabular-nums") {
                   display_price_description(
                     m.basket_complements_price,
                     membership_basket_complements_price_info(m))
                 }
               end
               if m.basket_complements_annual_price_change.nonzero?
-                row(t(".basket_complements_annual_price_change"), class: "text-right") {
+                row(t(".basket_complements_annual_price_change"), class: "text-right tabular-nums") {
                   cur(m.basket_complements_annual_price_change, unit: false)
                 }
               end
               if Current.org.feature?("basket_price_extra") && (m.basket_price_extra.nonzero? || m.baskets.any? { |b| b.price_extra.nonzero? })
-                row(:basket_price_extra_title, class: "text-right") {
+                row(:basket_price_extra_title, class: "text-right tabular-nums") {
                   description = baskets_price_extra_info(m, m.baskets, highlight: true)
                   display_price_description(m.baskets_price_extra, description)
                 }
               end
               if m.depots_price.nonzero?
-                row(Depot.model_name.human(count: m.baskets_count), class: "text-right") {
+                row(Depot.model_name.human(count: m.baskets_count), class: "text-right tabular-nums") {
                   display_price_description(m.depots_price, depots_price_info(m.baskets))
                 }
               end
               if Current.org.feature?("activity") && m.activity_participations_annual_price_change.nonzero?
-                row(t_activity(".activity_participations_annual_price_change"), class: "text-right") {
+                row(t_activity(".activity_participations_annual_price_change"), class: "text-right tabular-nums") {
                   cur(m.activity_participations_annual_price_change, unit: false)
                 }
               end
-              row(:price, class: "border-solid border-0 border-t border-gray-800 dark:border-gray-200 text-right font-bold") {
+              row(:price, class: "border-solid border-0 border-t border-gray-800 dark:border-gray-200 text-right font-bold tabular-nums") {
                 cur(m.price, format: "%u %n")
               }
             end
@@ -541,35 +593,35 @@ ActiveAdmin.register Membership do
 
         panel t(".billing"), action: handbook_icon_link("billing") do
           attributes_table do
-            row(:billing_year_division) { t("billing.year_division.x#{m.billing_year_division}") }
-            row(:invoices_amount) {
+            row(:billing_year_division, class: "text-right") { t("billing.year_division.x#{m.billing_year_division}") }
+            row(:invoices_amount, class: "text-right tabular-nums") {
               link_to(
                 cur(m.invoices_amount),
                 invoices_path(scope: :all, q: {
                   member_id_eq: resource.member_id,
+                  membership_eq: resource.id,
                   entity_type_in: "Membership",
-                  during_year: resource.fiscal_year.year
                 }))
             }
-            row(:missing_invoices_amount) { cur(m.missing_invoices_amount) }
+            row(:missing_invoices_amount, class: "text-right tabular-nums") { cur(m.missing_invoices_amount) }
             if resource.billable?
               row(:next_invoice_on) {
                 if Current.org.recurring_billing?
-                  invoicer = Billing::Invoicer.new(resource.member, resource, Date.tomorrow)
+                  invoicer = Billing::Invoicer.new(resource.member, membership: resource, date: Date.tomorrow)
                   if invoicer.next_date
-                    div class: "flex items-center justify-between gap-2" do
+                    div class: "flex items-center justify-end gap-2" do
                       span do
                         l(invoicer.next_date, format: :medium)
                       end
-                      if authorized?(:force_recurring_billing, resource.member) && invoicer.billable?
+                      if authorized?(:recurring_billing, resource.member) && invoicer.billable?
                         div do
-                          button_to t(".invoice_now"), force_recurring_billing_member_path(resource.member),
+                          button_to t(".recurring_billing"), recurring_billing_member_path(resource.member),
                             form: {
                               data: { controller: "disable", disable_with_value: t("formtastic.processing") },
                               class: "inline"
                             },
-                            data: { confirm: t(".invoice_now_confirm") },
-                            class: "action-item-button tiny secondary"
+                            data: { confirm: t(".recurring_billing_confirm") },
+                            class: "action-item-button small secondary"
                         end
                       end
                     end
@@ -580,6 +632,25 @@ ActiveAdmin.register Membership do
                   end
                 end
               }
+            end
+          end
+          if authorized?(:future_billing, resource) && resource.future?
+            invoicer = Billing::Invoicer.new(resource.member,
+              membership: resource,
+              period_date: resource.started_on,
+              billing_year_division: 1)
+            if invoicer.billable?
+              div class: "mt-2 flex items-center justify-center gap-4" do
+                button_to future_billing_membership_path(resource),
+                  form: {
+                    data: { controller: "disable", disable_with_value: t("formtastic.processing") },
+                    class: "inline"
+                  },
+                  data: { confirm:  t(".future_billing#{"_with_annual_fee" if resource.member.annual_fee&.positive?}_confirm") },
+                  class: "action-item-button small secondary" do
+                    icon("banknotes", class: "h-4 w-4 me-1.5") + t(".future_billing")
+                  end
+              end
             end
           end
         end
@@ -610,11 +681,11 @@ ActiveAdmin.register Membership do
               end
             end
             if authorized?(:clear_activity_participations_demanded, m)
-              div class: "mt-2 py-1 flex items-center justify-center gap-4" do
+              div class: "mt-3 flex items-center justify-center gap-4" do
                 button_to clear_activity_participations_demanded_membership_path(m),
                   form: { class: "inline" },
                   data: { confirm: t_activity(".clear_activity_participations_demanded_confirm") },
-                  class: "action-item-button tiny secondary" do
+                  class: "action-item-button small secondary" do
                     icon("x-circle", class: "h-4 w-4 me-1.5") + t_activity(".clear_activity_participations_demanded")
                   end
               end
@@ -784,6 +855,19 @@ ActiveAdmin.register Membership do
   member_action :clear_activity_participations_demanded, method: :post do
     resource.clear_activity_participations_demanded!
     redirect_to resource
+  end
+
+  member_action :future_billing, method: :post do
+    invoicer = Billing::Invoicer.new(resource.member,
+      membership: resource,
+      period_date: resource.started_on,
+      billing_year_division: 1)
+
+    if invoice = invoicer.invoice
+      redirect_to invoice
+    else
+      redirect_back fallback_location: resource
+    end
   end
 
   collection_action :clear_all_activity_participations_demanded, method: :post do

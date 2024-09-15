@@ -32,6 +32,10 @@ ActiveAdmin.register Invoice do
   filter :member,
     as: :select,
     collection: -> { Member.order(:name) }
+  filter :membership,
+    as: :select,
+    collection: -> { Membership.where(member_id: params.dig(:q, :member_id_eq)).all.map { |m| [ m.id, m.id ] } },
+    if: ->(a) { params.dig(:q, :member_id_eq).present? && params.dig(:q, :entity_type_eq) == "Membership" }
   filter :entity_type,
     as: :check_boxes,
     collection: -> { entity_type_collection }
@@ -59,10 +63,10 @@ ActiveAdmin.register Invoice do
     end
    } do
     column :id, ->(i) { auto_link i, i.id }
-    column :date, ->(i) { l i.date, format: :number }, class: "text-right"
+    column :date, ->(i) { l i.date, format: :number }, class: "text-right tabular-nums"
     column :member, sortable: "members.name"
-    column :amount, ->(invoice) { cur(invoice.amount) }, class: "text-right"
-    column :paid_amount, ->(invoice) { cur(invoice.paid_amount) }, class: "text-right"
+    column :amount, ->(invoice) { cur(invoice.amount) }, class: "text-right tabular-nums"
+    column :paid_amount, ->(invoice) { cur(invoice.paid_amount) }, class: "text-right tabular-nums"
     column :overdue_notices_count, class: "text-right"
     column :state, ->(invoice) { status_tag invoice.state }, class: "text-right"
     actions do |invoice|
@@ -115,20 +119,20 @@ ActiveAdmin.register Invoice do
       if Array(params.dig(:q, :entity_type_in)).include?("Membership") && Current.org.annual_fee?
         div class: "flex justify-between" do
           span Membership.model_name.human(count: 2)
-          span cur(all.sum(:memberships_amount))
+          span cur(all.sum(:memberships_amount)), class: "tabular-nums"
         end
         div class: "flex justify-between" do
           span t("billing.annual_fees")
-          span cur(all.sum(:annual_fee))
+          span cur(all.sum(:annual_fee)), class: "tabular-nums"
         end
-        div class: "flex justify-between" do
+        div class: "flex justify-between mt-1 border-t border-black dark:border-white" do
           span t(".amount")
-          span cur(all.sum(:amount)), class: "font-bold"
+          span cur(all.sum(:amount)), class: "font-bold tabular-nums"
         end
       elsif params[:scope].in? [ "open", "all", "closed", nil ]
         div class: "flex justify-between" do
           span t("billing.scope.paid")
-          span cur(all.not_canceled.sum(:paid_amount))
+          span cur(all.not_canceled.sum(:paid_amount)), class: "tabular-nums"
         end
         div class: "flex justify-between" do
           amount = all.not_canceled.sum("amount - paid_amount")
@@ -137,16 +141,16 @@ ActiveAdmin.register Invoice do
           else
             span t(".overpaid")
           end
-          span cur(amount)
+          span cur(amount), class: "tabular-nums"
         end
-        div class: "flex justify-between mt-0.5" do
+        div class: "flex justify-between mt-1 border-t border-black dark:border-white" do
           span t(".amount")
-          span cur(all.not_canceled.sum(:amount)), class: "font-bold"
+          span cur(all.not_canceled.sum(:amount)), class: "font-bold tabular-nums"
         end
       else
         div class: "flex justify-between" do
           span t(".amount")
-          span cur(all.sum(:amount)), class: "font-bold"
+          span cur(all.sum(:amount)), class: "font-bold tabular-nums"
         end
       end
     end
@@ -187,7 +191,7 @@ ActiveAdmin.register Invoice do
           else
             table_for(payments, class: "table-auto") do
               column(:date) { |p| auto_link p, l(p.date, format: :number) }
-              column(:amount, class: "text-right") { |p| cur(p.amount) }
+              column(:amount, class: "text-right tabular-nums") { |p| cur(p.amount) }
               column(:type, class: "text-right") { |p| status_tag p.type }
             end
           end
@@ -196,7 +200,7 @@ ActiveAdmin.register Invoice do
           panel InvoiceItem.model_name.human(count: 2), count: invoice.items.count do
             table_for(invoice.items, class: "table-auto") do
               column(:description) { |ii| ii.description }
-              column(:amount, class: "text-right") { |ii| cur(ii.amount) }
+              column(:amount, class: "text-right tabular-nums") { |ii| cur(ii.amount) }
             end
           end
         end
@@ -250,12 +254,12 @@ ActiveAdmin.register Invoice do
         panel Invoice.human_attribute_name(:amount) do
           attributes_table do
             if invoice.amount_percentage?
-              row(:amount_before_percentage) { cur(invoice.amount_before_percentage) }
-              row(:amount_percentage) { number_to_percentage(invoice.amount_percentage, precision: 1) }
+              row(:amount_before_percentage, class: "tabular-nums text-right") { cur(invoice.amount_before_percentage) }
+              row(:amount_percentage, class: "tabular-nums text-right") { number_to_percentage(invoice.amount_percentage, precision: 1) }
             end
-            row(:amount) { cur(invoice.amount) }
-            row(:paid_amount) { cur(invoice.paid_amount) }
-            row(:balance) { cur(invoice.balance) }
+            row(:amount, class: "tabular-nums text-right") { cur(invoice.amount) }
+            row(:paid_amount, class: "tabular-nums text-right") { cur(invoice.paid_amount) }
+            row(:balance, class: "tabular-nums text-right font-bold") { cur(invoice.balance) }
           end
         end
 

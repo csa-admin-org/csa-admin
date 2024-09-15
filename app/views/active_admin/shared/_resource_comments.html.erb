@@ -21,7 +21,7 @@
               </span>
               <% if authorized?(ActiveAdmin::Auth::DESTROY, comment) %>
                 <div class="absolute top-0 right-0 hidden group-hover:flex justify-center items-center mb-2">
-                  <%= link_to I18n.t("active_admin.comments.delete"), url_for_comments(comment.id), method: :delete, data: { confirm: I18n.t("active_admin.comments.delete_confirmation") }, class: "action-item-button secondary tiny" %>
+                  <%= link_to I18n.t("active_admin.comments.delete"), url_for_comments(comment.id), method: :delete, data: { confirm: I18n.t("active_admin.comments.delete_confirmation") }, class: "action-item-button secondary small" %>
                 </div>
               <% end %>
             </div>

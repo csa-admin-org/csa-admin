@@ -199,16 +199,16 @@ class Membership < ApplicationRecord
     started? && ended_on >= Date.current
   end
 
-  def current_year?
-    fy_year == Current.fy_year
+  def current_or_future_year?
+    fy_year >= Current.fy_year
   end
 
   def can_destroy?
-    !fiscal_year.past?
+    current_or_future_year?
   end
 
   def can_update?
-    !fiscal_year.past?
+    current_or_future_year?
   end
 
   def can_send_email?
@@ -504,7 +504,7 @@ class Membership < ApplicationRecord
 
   def cancel_overcharged_invoice!
     return if destroyed?
-    return unless current_year?
+    return unless current_or_future_year?
     return unless overcharged_invoices_amount?
 
     invoices.not_canceled.order(:id).last.destroy_or_cancel!
