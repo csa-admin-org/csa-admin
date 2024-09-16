@@ -373,7 +373,7 @@ class Membership < ApplicationRecord
 
     count = basket_quantity * basket_size&.activity_participations_demanded_annually
     memberships_basket_complements.each do |mbc|
-      count += mbc.quantity * mbc.basket_complement.activity_participations_demanded_annually
+      count += mbc.quantity * mbc.basket_complement&.activity_participations_demanded_annually.to_i
     end
     count
   end
