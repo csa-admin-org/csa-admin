@@ -39,6 +39,7 @@ describe "Members V1 API" do
         address: "123 Main St",
         zip: "1234",
         city: "La Ville",
+        note: "Crée depuis l'API",
         waiting_basket_size_id: basket.id,
         waiting_depot_id: depot1.id,
         waiting_alternative_depot_ids: [ depot2.id ],
@@ -59,6 +60,7 @@ describe "Members V1 API" do
         address: "123 Main St",
         zip: "1234",
         city: "La Ville",
+        note: "Crée depuis l'API",
         waiting_basket_size_id: basket.id,
         waiting_depot_id: depot1.id,
         waiting_delivery_cycle_id: 1)
