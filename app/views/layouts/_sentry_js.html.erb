@@ -3,16 +3,23 @@
     window.sentryOnLoad = function () {
       Sentry.init({
         ignoreErrors: [
-          "AbortError: The operation was aborted.",
-          "AbortError: The user aborted a request.",
+          /AbortError: Fetch is aborted/,
+          /AbortError: The operation was aborted/,
+          /AbortError: The operation was aborted/,
           /Error: Method not found/,
-          /TypeError: undefined is not an object/,
-          /TypeError: Module specifier/,
-          /TypeError: Failed to resolve module specifier/,
-          /TypeError: Error resolving module specifier/,
-          /TypeError: Unable to fetch/,
-          /TypeError: Failed to fetch/,
+          /ErrorEvent: Event/,
           /SyntaxError: Unexpected token/,
+          /TypeError: 404 Not Found/,
+          /TypeError: Content-Length header of network response exceeds response Body/,
+          /TypeError: Error resolving module specifier/,
+          /TypeError: Failed to fetch/,
+          /TypeError: Failed to resolve module specifier/,
+          /TypeError: Load failed/,
+          /TypeError: Module specifier/,
+          /TypeError: NetworkError when attempting to fetch resource/,
+          /TypeError: Unable to fetch/,
+          /TypeError: undefined is not an object/,
+          /UnhandledRejection: Non-Error promise rejection captured with value/,
         ],
       });
     };
