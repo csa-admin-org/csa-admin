@@ -133,7 +133,7 @@ ActiveAdmin.register Invoice do
   end
 
   sidebar :overdue_notice_not_sent_warning, only: :index, if: -> { !Current.org.send_invoice_overdue_notice? } do
-    side_panel t(".overdue_notice_not_sent_warning"), action: handbook_icon_link("billing", anchor: "rappels") do
+    side_panel t(".overdue_notice_not_sent_warning"), action: handbook_icon_link("billing", anchor: "overdue_notice") do
       para class: "p-2 rounded bg-red-100 text-red-800" do
         t(".overdue_notice_not_sent_warning_text_html")
       end

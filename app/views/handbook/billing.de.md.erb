@@ -1,52 +1,62 @@
 # Abrechnung
 
-CSA Admin zielt darauf ab, die meisten Aufgaben im Zusammenhang mit der Abrechnung ([Mitgliedschaften](#mitgliedschaften), <% if Current.org.share? %>[Anteilskapital](#anteilskapital), <% end %>[Zahlungsverarbeitung](#zahlungen)) zu automatisieren, aber einige Aspekte <% if Current.org.feature?('activity') %>wie die Abrechnung von [nicht durchgeführten <%= activities_human_name %>](#nicht-durchgefhrte-<%= activities_human_name %>)<% end %> müssen manuell durchgeführt werden.
+CSA Admin zielt darauf ab, die meisten Aufgaben im Zusammenhang mit der Abrechnung ([Abonnements](#memberships), <% if Current.org.share? %>[Anteilskapital](#anteilskapital), <% end %>[Zahlungsverarbeitung](#zahlungen)) zu automatisieren, aber einige Aspekte <% if Current.org.feature?('activity') %>wie die Abrechnung von [nicht durchgeführten <%= activities_human_name %>](#nicht-durchgefhrte-<%= activities_human_name %>)<% end %> müssen manuell durchgeführt werden.
 
 Für die Schweiz generiert CSA Admin QR-Rechnungen mit Referenznummern (PDF) und sendet sie an alle E-Mail-Adressen des betreffenden Mitglieds. Um diese Rechnungen generieren zu können, müssen Sie eine QR-IBAN von Ihrer Bank anfordern. Beachten Sie, dass diese Nummer sich von der IBAN Ihres Bankkontos unterscheidet. Sie können sie dann in [Ihren Abrechnungseinstellungen](/settings#billing) eingeben.
 
-## Mitgliedschaften
+## Abonnements {#memberships}
 
-Die Abrechnung der Mitgliedschaften wird vollständig vom System automatisiert. Sie können in [den Einstellungen (Automatische Abrechnung)](/settings#billing) den Wochentag festlegen, an dem das System alle Mitgliedschaften überprüft und automatisch die erforderlichen Rechnungen erstellt und versendet. Wenn ein Mitglied beispielsweise vierteljährlich abgerechnet wird, wird am ersten konfigurierten Wochentag eines neuen Quartals automatisch eine neue Rechnung erstellt und versendet.
+Die Abrechnung der Abonnements wird vollständig vom System automatisiert. Sie können in [den Einstellungen (Automatische Abrechnung)](/settings#billing) den Wochentag festlegen, an dem das System alle Abonnements überprüft und automatisch die erforderlichen Rechnungen erstellt und versendet. Wenn ein Mitglied beispielsweise vierteljährlich abgerechnet wird, wird am ersten konfigurierten Wochentag eines neuen Quartals automatisch eine neue Rechnung erstellt und versendet.
 
-Der Rechnungsbetrag wird wie folgt berechnet: Gesamtbetrag der Mitgliedschaft / Anzahl der Zahlungsintervalle. Bei einer Mitgliedschaft von 1000.-, die vierteljährlich bezahlt wird, beträgt jede Rechnung beispielsweise 250.-.
+Der Rechnungsbetrag wird wie folgt berechnet: Gesamtbetrag des Abonnements / Anzahl der Zahlungsintervalle. Bei einem Abonnement von 1000.-, das vierteljährlich bezahlt wird, beträgt jede Rechnung beispielsweise 250.-.
 
-Es ist daher entscheidend, dass jede Mitgliedschaftskonfiguration aktuell ist, damit die Rechnungen korrekt sind.
+Es ist daher entscheidend, dass jede Abonnementskonfiguration aktuell ist, damit die Rechnungen korrekt sind.
 
-Standardmäßig wird die erste Rechnung am Abrechnungstag nach der ersten Taschenlieferung versendet, aber es ist möglich, dies in [den Einstellungen](/settings#billing) zu ändern (Mitgliedschaften erst nach ihrer ersten Lieferung abrechnen), um die Mitgliedschaft ab ihrem Beginn abzurechnen.
+Standardmäßig wird die erste Rechnung am Abrechnungstag nach der ersten Taschenlieferung versendet, aber es ist möglich, dies in [den Einstellungen](/settings#billing) zu ändern (Abonnements erst nach ihrer ersten Lieferung abrechnen), um das Abonnement ab seinem Beginn abzurechnen.
 
-Standardmäßig erstreckt sich die Abrechnung bis zum Enddatum der Mitgliedschaft, aber es ist möglich, dies in [den Einstellungen](/settings#billing) zu ändern (Mitgliedschaften nur bis zu ihrer letzten Lieferung abrechnen), um den Abrechnungszeitraum nur bis zum Datum ihrer letzten Lieferung zu verlängern. Dies ist nützlich, wenn beispielsweise die letzten Monate des Geschäftsjahres keine Lieferungen haben.
+Standardmäßig erstreckt sich die Abrechnung bis zum Enddatum des Abonnements, aber es ist möglich, dies in [den Einstellungen](/settings#billing) zu ändern (Abonnements nur bis zu ihrer letzten Lieferung abrechnen), um den Abrechnungszeitraum nur bis zum Datum ihrer letzten Lieferung zu verlängern. Dies ist nützlich, wenn beispielsweise die letzten Monate des Geschäftsjahres keine Lieferungen haben.
 
-> Von der Seite eines Mitglieds oder einer Mitgliedschaft aus können Sie im Abschnitt "Abrechnung" (rechte Spalte) den Erstellungstag der nächsten Rechnung sehen.
+> Von der Seite eines Mitglieds oder eines Abonnements aus können Sie im Abschnitt "Abrechnung" (rechte Spalte) den Erstellungstag der nächsten Rechnung sehen.
 
 ### Jetzt abrechnen
 
-In einigen Fällen, beispielsweise nach einer Änderung der Mitgliedschaftskonfiguration, ist es möglich, die Erstellung einer neuen Rechnung zu erzwingen, anstatt das System dies automatisch am nächsten Abrechnungstag tun zu lassen. Klicken Sie dazu auf die Schaltfläche "Jetzt abrechnen" im Abschnitt "Abrechnung" (rechte Spalte). Die Rechnung wird dann erstellt, aber <u>nicht gesendet</u>. Sie können dann das PDF einsehen und es manuell mit der Schaltfläche "Senden" auf der Seite der Rechnung versenden. Dies ist nützlich, wenn Sie in Kontakt mit einem Mitglied stehen und schnell eine Rechnung korrigieren möchten.
+In einigen Fällen, beispielsweise nach einer Änderung der Abonnementskonfiguration, ist es möglich, die Erstellung einer neuen Rechnung zu erzwingen, anstatt das System dies automatisch am nächsten Abrechnungstag tun zu lassen. Klicken Sie dazu auf die Schaltfläche "Jetzt abrechnen" im Abschnitt "Abrechnung" (rechte Spalte). Die Rechnung wird dann erstellt, aber <u>nicht gesendet</u>. Sie können dann das PDF einsehen und es manuell mit der Schaltfläche "Senden" auf der Seite der Rechnung versenden. Dies ist nützlich, wenn Sie in Kontakt mit einem Mitglied stehen und schnell eine Rechnung korrigieren möchten.
+
+### Alle in Zukunft abrechnen {#future_billing}
+
+Es ist möglich, ein zukünftiges Abonnement im Voraus abzurechnen, mit einem Startdatum in der Zukunft, sei es im aktuellen Geschäftsjahr oder im nächsten Geschäftsjahr. Abonnements, die auf diese Weise abgerechnet werden, werden vollständig auf einmal abgerechnet, unabhängig vom konfigurierten Zahlungsintervall für das Abonnement.
+
+Die Vorausabrechnung kann von der Seite eines zukünftigen Abonnements aus erfolgen, indem Sie auf die Schaltfläche "Alle in Zukunft abrechnen" im Abschnitt "Abrechnung" (rechte Spalte) klicken. Es ist auch möglich, mehrere zukünftige Abonnements auf einmal von [der Abonnementseite](/memberships?scope=future&q[during_year]=<%= Current.fy_year + 1 %>) aus abzurechnen, indem Sie das Feld "Zukunft" verwenden und nach Geschäftsjahr filtern. Sie können dann auf die Schaltfläche "Alle in Zukunft abrechnen" im Abschnitt "Abrechnung" (rechte Spalte), unterhalb der Filter, klicken. Filtern Sie zukünftige Abonnements nach Zahlungsintervall (z.B. nur "Jährlich"), um Ihre Auswahl zu verfeinern.
+
+<% if Current.org.annual_fee? %>
+> Die Jahresgebühr, die dem Geschäftsjahr des Abonnements entspricht, ist automatisch in der Rechnung enthalten.
+<% end %>
 
 ### Preisänderung {#price-change}
 
-Wenn eine Mitgliedschaftskonfiguration (Daten, Taschengröße, ...) geändert wird, sind mehrere Fälle möglich:
+Wenn eine Abonnementskonfiguration (Daten, Taschengröße, ...) geändert wird, sind mehrere Fälle möglich:
 
 - Eine zukünftige Rechnung muss noch gesendet werden (es ist Mitte des Jahres und das Mitglied wird vierteljährlich abgerechnet); in diesem Fall wird die Preisänderung (positiv oder negativ) einfach auf die nächste Rechnung angewendet.
 - Die letzte Rechnung wurde bereits gesendet (es ist das Ende des Jahres oder das Mitglied wird einmal abgerechnet), dann gibt es 2 Möglichkeiten:
   - Die Preisänderung ist positiv, eine neue Rechnung (mit einem höheren Betrag) wird einfach am nächsten Abrechnungstag erstellt, um den fehlenden Betrag in Rechnung zu stellen.
-  - Die Preisänderung ist negativ, die letzte(n) Rechnung(en) der Mitgliedschaft wird/werden dann automatisch storniert und eine neue Rechnung (mit einem niedrigeren Betrag) wird am nächsten Abrechnungstag neu erstellt. Wenn die alte stornierte Rechnung bereits bezahlt war, wird die neue Rechnung automatisch geschlossen und das Mitglied hat einen positiven Saldo. Bei Bedarf können Sie eine Rückerstattung des Mitgliedersaldos durch [Erstellung einer negativen Zahlung](/payments/new) für sie vornehmen.
+  - Die Preisänderung ist negativ, die letzte(n) Rechnung(en) des Abonnements wird/werden dann automatisch storniert und eine neue Rechnung (mit einem niedrigeren Betrag) wird am nächsten Abrechnungstag neu erstellt. Wenn die alte stornierte Rechnung bereits bezahlt war, wird die neue Rechnung automatisch geschlossen und das Mitglied hat einen positiven Saldo. Bei Bedarf können Sie eine Rückerstattung des Mitgliedersaldos durch [Erstellung einer negativen Zahlung](/payments/new) für sie vornehmen.
 
 <% if Current.org.annual_fee? %>
 ### Jahresgebühr
 
-Die Jahresgebühr ist automatisch in der ersten Rechnung der Mitgliedschaft enthalten. Wenn das Mitglied keine Mitgliedschaft hat (Unterstützung), wird zu Beginn des Geschäftsjahres automatisch eine spezielle Rechnung erstellt.
+Die Jahresgebühr ist automatisch in der ersten Rechnung des Abonnements enthalten. Wenn das Mitglied kein Abonnement hat (Unterstützung), wird zu Beginn des Geschäftsjahres automatisch eine spezielle Rechnung erstellt.
 <% end %>
 
 ### Probetaschen
 
-Wenn in [den Abrechnungseinstellungen](/settings#billing) eine Anzahl von Probetaschen definiert ist, wird die Mitgliedschaft erst abgerechnet, wenn alle Probetaschen geliefert wurden, und zwar am nächsten Abrechnungstag nach der Lieferung der ersten Nicht-Probetasche.
+Wenn in [den Abrechnungseinstellungen](/settings#billing) eine Anzahl von Probetaschen definiert ist, wird das Abonnement erst abgerechnet, wenn alle Probetaschen geliefert wurden, und zwar am nächsten Abrechnungstag nach der Lieferung der ersten Nicht-Probetasche.
 
-Wenn die Mitgliedschaft während der Probezeit beendet wird, werden nur die gelieferten Taschen am nächsten Abrechnungstag in Rechnung gestellt. <% if Current.org.annual_fee? %> In diesem Fall wird die Jahresgebühr nicht berechnet.<% end %>
+Wenn das Abonnement während der Probezeit beendet wird, werden nur die gelieferten Taschen am nächsten Abrechnungstag in Rechnung gestellt. <% if Current.org.annual_fee? %> In diesem Fall wird die Jahresgebühr nicht berechnet.<% end %>
 
 <% if Current.org.share? %>
 ## Anteilskapital
 
-An jedem Abrechnungstag erstellt das System automatisch Rechnungen für fehlendes Anteilskapital, beispielsweise für ein Mitglied, dessen Mitgliedschaft gerade begonnen hat.
+An jedem Abrechnungstag erstellt das System automatisch Rechnungen für fehlendes Anteilskapital, beispielsweise für ein Mitglied, dessen Abonnement gerade begonnen hat.
 
 Um bereits in Rechnung gestelltes Anteilskapital zurückzuerstatten, gehen Sie zur Rechnungsseite und klicken Sie oben rechts auf die Schaltfläche "Rückerstattung". Sie können dann einfach eine negative Anteilskapitalrechnung erstellen. Stellen Sie sicher, dass das Mitglied kein Anteilskapital mehr benötigt, andernfalls wird es am nächsten Abrechnungstag automatisch neu erstellt.
 
@@ -63,8 +73,8 @@ CSA Admin ermöglicht es Ihnen, nicht durchgeführte <%= activities_human_name.d
 
 ### Festlegung der zu berechnenden Mitglieder
 
-Die Gesamtzahl der nicht durchgeführten <%= activities_human_name.downcase %> wird auf [dem Dashboard](/dashboard) angezeigt. Für weitere Details können Sie die CSV-Datei [der Mitgliedschaften](/memberships) für das betreffende Geschäftsjahr exportieren. Die Spalte "Fehlende <%= activities_human_name %>" ist speziell dafür verfügbar.
-Beim Öffnen der CSV-Datei mit Excel ist es einfach, die zu berechnenden Mitglieder zu bestimmen, indem Sie sie anhand dieser Spalte sortieren. Bei Bedarf können Sie dann die Anzahl der angeforderten <%= activities_human_name.downcase %> für jedes Mitglied anpassen, indem Sie ihre Mitgliedschaft direkt ändern (Feld: "<%= activities_human_name %> (volles Jahr)").
+Die Gesamtzahl der nicht durchgeführten <%= activities_human_name.downcase %> wird auf [dem Dashboard](/dashboard) angezeigt. Für weitere Details können Sie die CSV-Datei [der Abonnements](/memberships) für das betreffende Geschäftsjahr exportieren. Die Spalte "Fehlende <%= activities_human_name %>" ist speziell dafür verfügbar.
+Beim Öffnen der CSV-Datei mit Excel ist es einfach, die zu berechnenden Mitglieder zu bestimmen, indem Sie sie anhand dieser Spalte sortieren. Bei Bedarf können Sie dann die Anzahl der angeforderten <%= activities_human_name.downcase %> für jedes Mitglied anpassen, indem Sie ihr Abonnement direkt ändern (Feld: "<%= activities_human_name %> (volles Jahr)").
 
 ### Einzelabrechnung
 
@@ -96,7 +106,7 @@ Es ist möglich, spezifischen Text in der [E-Mail-Vorlage "Neue Rechnung"](/mail
 
 CSA Admin bietet die Möglichkeit, verschiedene Artikel oder Dienstleistungen manuell in Rechnung zu stellen (zum Beispiel den Kauf von Stofftaschen für neue Abonnenten). Dazu müssen Sie einfach [eine neue Rechnung erstellen](/invoices/new) und die Artikel unter der Registerkarte "Sonstiges" eingeben. Nach Überprüfung des PDFs können Sie die Rechnung manuell mit der Schaltfläche "Senden" auf der Seite der Rechnung versenden.
 
-> Achtung, Rechnungen vom Typ "Sonstiges" sollten nicht verwendet werden, um Mitgliedschaften<% if Current.org.share? %>, Anteilskapital<% end %><% if Current.org.feature?('activity') %> oder <%= activities_human_name.downcase %><% end %> in Rechnung zu stellen, da das System diese nicht berücksichtigt.
+> Achtung, Rechnungen vom Typ "Sonstiges" sollten nicht verwendet werden, um Abonnements<% if Current.org.share? %>, Anteilskapital<% end %><% if Current.org.feature?('activity') %> oder <%= activities_human_name.downcase %><% end %> in Rechnung zu stellen, da das System diese nicht berücksichtigt.
 
 ## Zahlungen
 
@@ -126,7 +136,7 @@ Für Zahlungen ohne Referenznummer (Bargeld oder direkte Einzahlung) müssen Sie
 
 Wenn Sie ein Mitglied aus irgendeinem Grund zurückerstatten möchten, erstellen Sie einfach eine neue Zahlung mit einem negativen Betrag. Beachten Sie, dass die Rückerstattung von Ihnen beispielsweise über Ihr E-Banking durchgeführt werden muss, da CSA Admin keine Überweisung erstellen kann.
 
-## Erinnerungen
+## Erinnerungen {#overdue_notice}
 
 Wenn Zahlungen automatisch importiert werden, kümmert sich das System automatisch darum, alle 35 Tage eine Erinnerungs-E-Mail an alle Mitglieder zu senden, die eine unbezahlte Rechnung haben, bis die Rechnung bezahlt ist (1. Erinnerung nach 35 Tagen, 2. Erinnerung nach 70 Tagen usw.).
 

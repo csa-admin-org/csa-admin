@@ -116,27 +116,30 @@ ActiveAdmin.register Membership do
   end
 
   sidebar :billing, only: :index, if: -> { params.dig(:q, :during_year).present? } do
-    side_panel t(".billing"), action: handbook_icon_link("billing") do
+    side_panel t(".billing"), action: handbook_icon_link("billing", anchor: "memberships") do
       ids = collection.offset(nil).limit(nil).unscope(:includes, :joins, :order).pluck(:id)
       all = Membership.where(id: ids)
       total = all.sum(:price)
       invoiced = all.sum(:invoices_amount)
       missing = [ total - invoiced, 0 ].max
-      div number_line(t(".invoices_done"), cur(invoiced), bold: false)
-      div number_line(t(".invoices_remaining"), cur(missing), bold: false)
-      div number_line(t(".total"), cur(total), border_top: true)
-
-      if missing.positive? && all.minimum(:started_on).future? && authorized?(:future_billing, Membership)
-        latest_created_at = Invoice.membership.maximum(:created_at)
-        if !latest_created_at || latest_created_at < 5.seconds.ago
-          div class: "mt-4" do
-            button_to future_billing_all_memberships_path,
-              params: { ids: ids },
-              form: { class: "flex justify-center", data: { controller: "disable", disable_with_value: t(".invoicing") } },
-              data: { confirm:  t(".future_billing#{"_with_annual_fee" if Current.org.annual_fee?}_confirm") },
-              class: "action-item-button secondary small" do
-                icon("banknotes", class: "h-4 w-4 me-1.5") + t("active_admin.resource.show.future_billing")
-              end
+      div class: "space-y-4" do
+        div do
+          div number_line(t(".invoices_done"), cur(invoiced), bold: false)
+          div number_line(t(".invoices_remaining"), cur(missing), bold: false)
+          div number_line(t(".total"), cur(total), border_top: true)
+        end
+        if authorized?(:future_billing, Membership) && missing.positive? && all.minimum(:started_on).future?
+          latest_created_at = Invoice.membership.maximum(:created_at)
+          if !latest_created_at || latest_created_at < 5.seconds.ago
+            div do
+              button_to future_billing_all_memberships_path,
+                params: { ids: ids },
+                form: { class: "flex justify-center", data: { controller: "disable", disable_with_value: t(".invoicing") } },
+                data: { confirm:  t(".future_billing#{"_with_annual_fee" if Current.org.annual_fee?}_confirm") },
+                class: "action-item-button secondary small" do
+                  icon("banknotes", class: "h-4 w-4 me-1.5") + t("active_admin.resource.show.future_billing")
+                end
+            end
           end
         end
       end
@@ -147,7 +150,7 @@ ActiveAdmin.register Membership do
     authorize!(:future_billing, Membership)
 
     Membership.where(id: params[:ids]).find_each do |membership|
-      next unless membership.future? && membership.billable?
+      next unless Billing::InvoicerFuture.new(membership).billable?
 
       MembershipFutureBillingJob.perform_later(membership)
     end
@@ -581,7 +584,7 @@ ActiveAdmin.register Membership do
           end
         end
 
-        panel t(".billing"), action: handbook_icon_link("billing") do
+        panel t(".billing"), action: handbook_icon_link("billing", anchor: "memberships") do
           attributes_table do
             row(:billing_year_division, class: "text-right") { t("billing.year_division.x#{m.billing_year_division}") }
             row(:invoices_amount, class: "text-right tabular-nums") {
@@ -590,7 +593,7 @@ ActiveAdmin.register Membership do
                 invoices_path(scope: :all, q: {
                   member_id_eq: resource.member_id,
                   membership_eq: resource.id,
-                  entity_type_in: "Membership",
+                  entity_type_in: "Membership"
                 }))
             }
             row(:missing_invoices_amount, class: "text-right tabular-nums") { cur(m.missing_invoices_amount) }
@@ -625,10 +628,7 @@ ActiveAdmin.register Membership do
             end
           end
           if authorized?(:future_billing, resource) && resource.future?
-            invoicer = Billing::Invoicer.new(resource.member,
-              membership: resource,
-              period_date: resource.started_on,
-              billing_year_division: 1)
+            invoicer = Billing::InvoicerFuture.new(resource)
             if invoicer.billable?
               div class: "mt-2 flex items-center justify-center gap-4" do
                 button_to future_billing_membership_path(resource),
@@ -848,12 +848,7 @@ ActiveAdmin.register Membership do
   end
 
   member_action :future_billing, method: :post do
-    invoicer = Billing::Invoicer.new(resource.member,
-      membership: resource,
-      period_date: resource.started_on,
-      billing_year_division: 1)
-
-    if invoice = invoicer.invoice
+    if invoice = Billing::InvoicerFuture.invoice(resource)
       redirect_to invoice
     else
       redirect_back fallback_location: resource
