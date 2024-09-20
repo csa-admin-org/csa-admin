@@ -513,6 +513,38 @@ describe Billing::Invoicer do
     end
   end
 
+  specify "future billing" do
+    membership = create(:membership, :next_year, billing_year_division: 4)
+    expect(membership.started_on).to be > Current.fy_range.min
+    expect(membership).to be_billable
+    expect(membership.price).to be_positive
+
+    invoicer = described_class.new(membership.member,
+      membership: membership,
+      period_date: membership.started_on,
+      billing_year_division: 1)
+
+    expect(invoicer.next_date).to be >= membership.started_on
+    expect(invoicer).to be_billable
+
+    invoice = invoicer.invoice
+    expect(invoice.date).to eq Date.current
+    expect(invoice.entity).to eq membership
+    expect(invoice.annual_fee).to eq 30
+    expect(invoice.memberships_amount).to eq membership.price
+    expect(invoice.membership_amount_fraction).to eq 1
+
+    membership.reload
+    expect(membership.missing_invoices_amount).to be_zero
+    expect(membership).not_to be_billable
+
+    invoicer = described_class.new(membership.member,
+      membership: membership,
+      period_date: membership.started_on,
+      billing_year_division: 1)
+    expect(invoicer).not_to be_billable
+  end
+
   describe "#next_date" do
     specify "pending member" do
       member = create(:member, :pending)

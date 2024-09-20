@@ -1917,17 +1917,11 @@ _:
           _en: Calendar
           _fr: Calendrier
           _it: Calendario
-        canceled_renewals_html:
-          one:
-            _de: "<b>%{count}</b> Kündigung"
-            _en: "<b>%{count}</b> cancellation"
-            _fr: "<b>%{count}</b> résiliation"
-            _it: "<b>%{count}</b> résiliation"
-          other:
-            _de: "<b>%{count}</b> Kündigungen"
-            _en: "<b>%{count}</b> cancellations"
-            _fr: "<b>%{count}</b> résiliations"
-            _it: "<b>%{count}</b> risoluzione"
+        canceled_renewals:
+          _de: Kündigungen
+          _en: Cancellations
+          _fr: Résiliations
+          _it: Risoluzione
         confirm:
           _de: Sind Sie mehr als sicher?
           _en: Are you absolutely sure?
@@ -2004,17 +1998,11 @@ _:
           _en: Invoicing in progress...
           _fr: Facturation en cours...
           _it: Creazione delle fatture in corso...
-        missing_activity_participations_count_html:
-          one:
-            _de: "<b>%{count}</b> fehlende in %{year}"
-            _en: "<b>%{count}</b> missing in %{year}"
-            _fr: "<b>%{count}</b> manquante en %{year}"
-            _it: "<b>%{count}</b> mancante in %{year}"
-          other:
-            _de: "<b>%{count}</b> fehlende in %{year}"
-            _en: "<b>%{count}</b> missing in %{year}"
-            _fr: "<b>%{count}</b> manquantes en %{year}"
-            _it: "<b>%{count}</b> mancanti in %{year}"
+        missing_activity_participations:
+          _de: Fehlende
+          _en: Missing
+          _fr: Manquantes
+          _it: Mancante
         no_missing_activity_participations:
           _de: Keine fehlenden Teilnahmen
           _en: No missing participations
@@ -2036,28 +2024,16 @@ _:
             _en: Send requests (%{count})
             _fr: Envoyer demandes (%{count})
             _it: Inviare domande (%{count})
-        openable_renewals_html:
-          one:
-            _de: "<b>%{count}</b> Anfrage zu senden"
-            _en: "<b>%{count}</b> request to send"
-            _fr: "<b>%{count}</b> demande à envoyer"
-            _it: "<b>%{count}</b> domanda da inviare"
-          other:
-            _de: "<b>%{count}</b> Anfragen zu senden"
-            _en: "<b>%{count}</b> requests to send"
-            _fr: "<b>%{count}</b> demandes à envoyer"
-            _it: "<b>%{count}</b> domande da inviare"
-        opened_renewals_html:
-          one:
-            _de: "<b>%{count}</b> offener Antrag"
-            _en: "<b>%{count}</b> open request"
-            _fr: "<b>%{count}</b> demande ouverte"
-            _it: "<b>%{count}</b> domanda aperta"
-          other:
-            _de: "<b>%{count}</b> offene Anträge"
-            _en: "<b>%{count}</b> open requests"
-            _fr: "<b>%{count}</b> demandes ouvertes"
-            _it: "<b>%{count}</b> domande aperte"
+        openable_renewals:
+          _de: Anfragen zu senden
+          _en: Requests to send
+          _fr: Demandes à envoyer
+          _it: Domande da inviare
+        opened_renewals:
+          _de: Offene Anträge
+          _en: Open requests
+          _fr: Demandes ouvertes
+          _it: Domande aperte
         opening:
           _de: Anfragen werden gesendet ...
           _en: Requests being sent...
@@ -2099,17 +2075,11 @@ _:
           _en: Renewals
           _fr: Renouvellements
           _it: Rinnovi
-        renewed_renewals_html:
-          one:
-            _de: "<b>%{count}</b> Erneuerung"
-            _en: "<b>%{count}</b> renewal"
-            _fr: "<b>%{count}</b> renouvellement"
-            _it: "<b>%{count}</b> rinnovo"
-          other:
-            _de: "<b>%{count}</b> Erneuerungen"
-            _en: "<b>%{count}</b> renewals"
-            _fr: "<b>%{count}</b> renouvellements"
-            _it: "<b>%{count}</b> rinnovi"
+        renewed_renewals:
+          _de: Erneuerungen
+          _en: Renewals
+          _fr: Renouvellements
+          _it: Rinnovi
         renewing:
           _de: Erneuerungen am laufen...
           _en: Renewing...

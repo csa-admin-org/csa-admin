@@ -26,6 +26,17 @@ ActiveAdmin.register Payment do
   scope :auto
   scope :manual
 
+  filter :during_year,
+    as: :select,
+    collection: -> { fiscal_years_collection }
+  filter :date
+  filter :id, as: :numeric
+  filter :member,
+    as: :select,
+    collection: -> { Member.joins(:payments).order(:name).distinct }
+  filter :invoice_id, as: :numeric
+  filter :amount
+
   includes :member, :invoice
   index do
     column :id, ->(p) { auto_link p, p.id }
@@ -52,24 +63,10 @@ ActiveAdmin.register Payment do
     column :type
   end
 
-  filter :id, as: :numeric
-  filter :member,
-    as: :select,
-    collection: -> { Member.joins(:payments).order(:name).distinct }
-  filter :invoice_id, as: :numeric
-  filter :amount
-  filter :date
-  filter :during_year,
-    as: :select,
-    collection: -> { fiscal_years_collection }
-
-  sidebar :total, only: :index do
+  sidebar :total, only: :index, if: -> { params[:q] } do
     side_panel t(".total") do
       all = collection.unscope(:includes).offset(nil).limit(nil)
-      div class: "flex justify-between" do
-        span t(".amount")
-        span cur(all.sum(:amount)), class: "font-bold"
-      end
+      div number_line(t(".amount"), cur(all.sum(:amount)))
     end
   end
 

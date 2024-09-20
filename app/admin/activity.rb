@@ -19,14 +19,14 @@ ActiveAdmin.register Activity do
   scope :coming, default: true
   scope :past
 
+  filter :during_year,
+    as: :select,
+    collection: -> { fiscal_years_collection }
   filter :place, as: :select, collection: -> { Activity.select(:places).distinct.map(&:place).compact.sort }
   filter :title, as: :select, collection: -> { Activity.select(:titles).distinct.map(&:title).compact.sort }
   filter :date
   filter :wday, as: :select, collection: -> { wdays_collection }
   filter :month, as: :select, collection: -> { months_collection }
-  filter :during_year,
-    as: :select,
-    collection: -> { fiscal_years_collection }
 
   includes :participations
   index do

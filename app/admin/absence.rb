@@ -26,17 +26,17 @@ ActiveAdmin.register Absence do
   scope :current
   scope :future
 
-  filter :member,
+  filter :during_year,
     as: :select,
-    collection: -> { Member.joins(:absences).order(:name).distinct }
-  filter :with_note, as: :boolean
+    collection: -> { fiscal_years_collection }
   filter :including_date,
     as: :select,
     collection: -> { Delivery.reorder(date: :desc).map { |d| [ d.display_name, d.date ] } },
     label: -> { Delivery.model_name.human }
-  filter :during_year,
+  filter :member,
     as: :select,
-    collection: -> { fiscal_years_collection }
+    collection: -> { Member.joins(:absences).order(:name).distinct }
+  filter :with_note, as: :boolean
 
   includes :member, :session, :baskets
   index do

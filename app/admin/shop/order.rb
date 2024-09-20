@@ -27,6 +27,14 @@ ActiveAdmin.register Shop::Order do
   scope :pending
   scope :invoiced
 
+  filter :_delivery_gid,
+    as: :select,
+    collection: -> { shop_deliveries_collection },
+    label: -> { Delivery.model_name.human }
+  filter :during_year,
+    as: :select,
+    collection: -> { fiscal_years_collection }
+  filter :created_at
   filter :id, as: :numeric
   filter :member,
     as: :select,
@@ -36,13 +44,8 @@ ActiveAdmin.register Shop::Order do
         .order(:name)
         .distinct
     }
-  filter :_delivery_gid,
-    as: :select,
-    collection: -> { shop_deliveries_collection },
-    label: -> { Delivery.model_name.human }
   filter :depot, as: :select, collection: -> { admin_depots_collection }
   filter :amount
-  filter :created_at
 
   includes :member, :depot, invoice: { pdf_file_attachment: :blob }
   index title: -> {
@@ -91,23 +94,11 @@ ActiveAdmin.register Shop::Order do
     side_panel t(".total") do
       all = collection.unscope(:includes).eager_load(:invoice).offset(nil).limit(nil)
       if params[:scope].in? [ "invoiced", nil ]
-        div class: "flex justify-between" do
-          span t("billing.scope.paid")
-          span cur(all.sum("invoices.paid_amount"))
-        end
-        div class: "flex justify-between" do
-          span t("billing.scope.missing")
-          span cur(all.sum("invoices.amount - invoices.paid_amount"))
-        end
-        div class: "flex justify-between" do
-          span t("active_admin.shared.sidebar_section.amount")
-          span cur(all.sum(:amount)), class: "font-bold"
-        end
+        div number_line(t("billing.scope.paid"), cur(all.sum("invoices.paid_amount")), bold: false)
+        div number_line(t("billing.scope.missing"), cur(all.sum("invoices.amount - invoices.paid_amount")), bold: false)
+        div number_line(t(".amount"), cur(all.sum(:amount)), border_top: true)
       else
-        div class: "flex justify-between" do
-          span t("active_admin.shared.sidebar_section.amount")
-          span cur(all.sum(:amount)), class: "font-bold"
-        end
+        div number_line(t(".amount"), cur(all.sum(:amount)))
       end
     end
   end

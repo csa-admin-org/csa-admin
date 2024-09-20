@@ -26,6 +26,12 @@ ActiveAdmin.register ActivityParticipation do
   scope :validated
   scope :rejected
 
+  filter :during_year,
+    as: :select,
+    collection: -> { fiscal_years_collection }
+  filter :activity_date,
+    label: -> { Activity.human_attribute_name(:date) },
+    as: :date_range
   filter :member,
     as: :select,
     collection: -> { Member.joins(:activity_participations).order(:name).distinct }
@@ -33,9 +39,6 @@ ActiveAdmin.register ActivityParticipation do
   filter :activity,
     as: :select,
     collection: -> { Activity.order(date: :desc, start_time: :desc) }
-  filter :activity_date,
-    label: -> { Activity.human_attribute_name(:date) },
-    as: :date_range
   filter :activity_wday,
     label: -> { Activity.human_attribute_name(:wday) },
     as: :select,
@@ -44,9 +47,6 @@ ActiveAdmin.register ActivityParticipation do
     label: -> { Activity.human_attribute_name(:month) },
     as: :select,
     collection: -> { months_collection }
-  filter :during_year,
-    as: :select,
-    collection: -> { fiscal_years_collection }
 
   includes :member, :activity, :session
   index do
@@ -122,57 +122,47 @@ ActiveAdmin.register ActivityParticipation do
   sidebar :total, only: :index do
     side_panel t(".total") do
       all = collection.unscope(:includes).offset(nil).limit(nil)
-        div class: "flex justify-between" do
-        span activities_human_name
-        span all.sum(:participants_count), class: "font-bold"
-      end
+      number_line activities_human_name, all.sum(:participants_count)
     end
   end
 
-  sidebar :billing, only: :index, if: -> { Current.org.activity_price.positive? } do
+  sidebar :billing, only: :index, if: -> { Current.org.activity_price.positive? && params.dig(:q, :during_year).present? } do
     side_panel t(".billing"), action: handbook_icon_link("billing", anchor: "activity") do
-      no_counts = true
-      div class: "space-y-6" do
-        [ Current.fy_year - 1, Current.fy_year ].each do |year|
-          fy = Current.org.fiscal_year_for(year)
-          missing_count = Membership.during_year(fy).sum(&:activity_participations_missing)
-          if missing_count.positive?
-            no_counts = false
-            div do
-              para do
-                link_to memberships_path(scope: :all, q: { activity_participations_missing_gt: 0, during_year: fy.year }) do
-                  t(".missing_activity_participations_count_html", year: fy.to_s, count: missing_count)
-                end
-              end
-              if authorized?(:invoice_all, ActivityParticipation)
-                div class: "mt-2 flex items-center justify-center gap-2" do
-                  div do
-                    button_to invoice_all_activity_participations_path,
-                      params: { year: fy.year },
-                      form: { class: "flex justify-center", data: { controller: "disable", disable_with_value: t(".invoicing") } },
-                      data: {  confirm: t(".invoice_all_confirm", year: fy.to_s, count: missing_count, activity_price: cur(Current.org.activity_price)) },
-                      class: "action-item-button small secondary" do
-                        icon("banknotes", class: "h-4 w-4 mr-2") + t(".invoice_all")
-                      end
+      fy = Current.org.fiscal_year_for(params.dig(:q, :during_year))
+      missing_count = Membership.during_year(fy).sum(&:activity_participations_missing)
+      if missing_count.positive?
+        div class: "space-y-4" do
+          div do
+            link_to(memberships_path(scope: :all, q: { activity_participations_missing_gt: 0, during_year: fy.year })) do
+              number_line t(".missing_activity_participations"), missing_count
+            end
+          end
+          if authorized?(:invoice_all, ActivityParticipation)
+            div class: "flex items-center justify-center gap-2" do
+              div do
+                button_to invoice_all_activity_participations_path,
+                  params: { year: fy.year },
+                  form: { class: "flex justify-center", data: { controller: "disable", disable_with_value: t(".invoicing") } },
+                  data: {  confirm: t(".invoice_all_confirm", year: fy.to_s, count: missing_count, activity_price: cur(Current.org.activity_price)) },
+                  class: "action-item-button small secondary" do
+                    icon("banknotes", class: "h-4 w-4 mr-2") + t(".invoice_all")
                   end
-                  if authorized?(:update, Membership) && fy.past?
-                    div do
-                      button_to clear_all_activity_participations_demanded_memberships_path,
-                        params: { year: fy.year },
-                        form: { class: "flex justify-center", data: { controller: "disable", disable_with_value: "..." } },
-                        data: { confirm: t_activity("active_admin.resource.show.clear_activity_participations_demanded_confirm", year: fy.to_s, count: missing_count) },
-                        class: "action-item-button small borderless" do
-                          icon("x-circle", class: "h-6 w-6")
-                        end
-                      end
-                    end
-                end
               end
+              if authorized?(:update, Membership) && fy.past?
+                div do
+                  button_to clear_all_activity_participations_demanded_memberships_path,
+                    params: { year: fy.year },
+                    form: { class: "flex justify-center", data: { controller: "disable", disable_with_value: "..." } },
+                    data: { confirm: t_activity("active_admin.resource.show.clear_activity_participations_demanded_confirm", year: fy.to_s, count: missing_count) },
+                    class: "action-item-button small borderless" do
+                      icon("x-circle", class: "h-6 w-6")
+                    end
+                  end
+                end
             end
           end
         end
-      end
-      if no_counts
+      else
         div t(".no_missing_activity_participations"), class: "text-center italic"
       end
     end
@@ -187,7 +177,7 @@ ActiveAdmin.register ActivityParticipation do
   sidebar :calendar, if: -> { Current.org.icalendar_auth_token? }, only: :index do
     side_panel t(".calendar") do
       para t(".activity_participation_ical_text_html")
-      div class: "mt-2.5 text-center" do
+      div class: "mt-4 text-center" do
         link_to activity_participations_calendar_url(auth_token: Current.org.icalendar_auth_token).gsub(/^https/, "webcal"), data: { turbolinks: false }, class: "action-item-button small" do
           icon("calendar-days", class: "h-4 w-4 me-2") + t(".subscribe_ical_link")
         end
