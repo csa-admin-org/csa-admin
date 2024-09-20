@@ -61,7 +61,7 @@ module Shop
       allow_destroy: true
 
     def self.ransackable_scopes(_auth_object = nil)
-      super + %i[_delivery_gid_eq]
+      super + %i[during_year _delivery_gid_eq]
     end
 
     def self.complement_count(complement)

@@ -7,20 +7,21 @@ ActiveAdmin.register Delivery do
   scope :coming, default: true
   scope :past
 
+  filter :during_year,
+    as: :select,
+    collection: -> { fiscal_years_collection }
+  filter :date
+  filter :wday, as: :select, collection: -> { wdays_collection }
+  filter :month, as: :select, collection: -> { months_collection }
   filter :basket_complements,
     as: :select,
     collection: -> { admin_basket_complements_collection },
     if: :any_basket_complements?
-  filter :note, as: :string
   filter :shop_open,
+    label: -> { t("shop.title") },
     as: :boolean,
     if: ->(proc) { Current.org.feature?("shop") }
-  filter :date
-  filter :wday, as: :select, collection: -> { wdays_collection }
-  filter :month, as: :select, collection: -> { months_collection }
-  filter :during_year,
-    as: :select,
-    collection: -> { fiscal_years_collection }
+  filter :note, as: :string
 
   includes :basket_complements, :basket_complements_deliveries
 

@@ -28,6 +28,10 @@ ActiveAdmin.register Invoice do
   scope :closed
   scope :canceled
 
+  filter :during_year,
+    as: :select,
+    collection: -> { fiscal_years_collection }
+  filter :date
   filter :id, as: :numeric
   filter :member,
     as: :select,
@@ -43,10 +47,6 @@ ActiveAdmin.register Invoice do
   filter :amount
   filter :balance, as: :numeric
   filter :overdue_notices_count
-  filter :date
-  filter :during_year,
-    as: :select,
-    collection: -> { fiscal_years_collection }
   filter :activity_participations_fiscal_year,
     label: -> {
       Invoice.human_attribute_name(activity_scoped_attribute(:missing_participations_fiscal_year))
@@ -117,41 +117,17 @@ ActiveAdmin.register Invoice do
       all = collection.unscope(:includes).offset(nil).limit(nil)
 
       if Array(params.dig(:q, :entity_type_in)).include?("Membership") && Current.org.annual_fee?
-        div class: "flex justify-between" do
-          span Membership.model_name.human(count: 2)
-          span cur(all.sum(:memberships_amount)), class: "tabular-nums"
-        end
-        div class: "flex justify-between" do
-          span t("billing.annual_fees")
-          span cur(all.sum(:annual_fee)), class: "tabular-nums"
-        end
-        div class: "flex justify-between mt-1 border-t border-black dark:border-white" do
-          span t(".amount")
-          span cur(all.sum(:amount)), class: "font-bold tabular-nums"
-        end
+        div number_line(Membership.model_name.human(count: 2), cur(all.sum(:memberships_amount)), bold: false)
+        div number_line(t("billing.annual_fees"), cur(all.sum(:annual_fee)), bold: false)
+        div number_line(t(".amount"), cur(all.sum(:amount)), border_top: true)
       elsif params[:scope].in? [ "open", "all", "closed", nil ]
-        div class: "flex justify-between" do
-          span t("billing.scope.paid")
-          span cur(all.not_canceled.sum(:paid_amount)), class: "tabular-nums"
-        end
-        div class: "flex justify-between" do
-          amount = all.not_canceled.sum("amount - paid_amount")
-          if amount >= 0
-            span t("billing.scope.missing")
-          else
-            span t(".overpaid")
-          end
-          span cur(amount), class: "tabular-nums"
-        end
-        div class: "flex justify-between mt-1 border-t border-black dark:border-white" do
-          span t(".amount")
-          span cur(all.not_canceled.sum(:amount)), class: "font-bold tabular-nums"
-        end
+        div number_line(t("billing.scope.paid"), cur(all.not_canceled.sum(:paid_amount)), bold: false)
+        amount = all.not_canceled.sum("amount - paid_amount")
+        title = amount >= 0 ? t("billing.scope.missing") : t(".overpaid")
+        div number_line(title, cur(amount), bold: false)
+        div number_line(t(".amount"), cur(all.not_canceled.sum(:amount)), border_top: true)
       else
-        div class: "flex justify-between" do
-          span t(".amount")
-          span cur(all.sum(:amount)), class: "font-bold tabular-nums"
-        end
+        div number_line(t(".amount"), cur(all.sum(:amount)))
       end
     end
   end

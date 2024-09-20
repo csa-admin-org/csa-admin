@@ -5,12 +5,12 @@ ActiveAdmin.register BasketContent do
   actions :all, except: [ :show ]
 
   filter :delivery, as: :select
-  filter :product, as: :select
-  filter :basket_size, as: :select, collection: -> { BasketSize.paid }
-  filter :depots, as: :select, collection: -> { admin_depots_collection }
   filter :during_year,
     as: :select,
     collection: -> { fiscal_years_collection }
+  filter :product, as: :select
+  filter :basket_size, as: :select, collection: -> { BasketSize.paid }
+  filter :depots, as: :select, collection: -> { admin_depots_collection }
 
   includes :depots, :delivery, :product, :basketcontents_depots
 

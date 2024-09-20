@@ -27,6 +27,11 @@ ActiveAdmin.register Membership do
   scope :future
   scope :past
 
+  filter :during_year,
+    as: :select,
+    collection: -> { fiscal_years_collection }
+  filter :started_on
+  filter :ended_on
   filter :id
   filter :member,
     as: :select,
@@ -46,11 +51,6 @@ ActiveAdmin.register Membership do
   filter :renewal_state,
     as: :select,
     collection: -> { renewal_states_collection }
-  filter :started_on
-  filter :ended_on
-  filter :during_year,
-    as: :select,
-    collection: -> { fiscal_years_collection }
   filter :billing_year_division,
     as: :select,
     collection: -> {
@@ -110,10 +110,7 @@ ActiveAdmin.register Membership do
       ids = collection.offset(nil).limit(nil).unscope(:includes, :joins, :order).pluck(:id)
       all = Membership.where(id: ids)
       %w[ accepted demanded missing ].each do |state|
-        div class: "flex justify-between" do
-          span t("states.activity_participation.#{state}").capitalize
-          span all.sum(&"activity_participations_#{state}".to_sym), class: "font-bold"
-        end
+        div number_line t("states.activity_participation.#{state}").capitalize, all.sum(&"activity_participations_#{state}".to_sym)
       end
     end
   end
@@ -125,23 +122,14 @@ ActiveAdmin.register Membership do
       total = all.sum(:price)
       invoiced = all.sum(:invoices_amount)
       missing = [ total - invoiced, 0 ].max
-      div class: "flex justify-between" do
-        span t(".invoices_done")
-        span cur(invoiced), class: "tabular-nums"
-      end
-      div class: "flex justify-between" do
-        span t(".invoices_remaining")
-        span cur(missing), class: "tabular-nums"
-      end
-      div class: "flex justify-between mt-1 border-t border-black dark:border-white" do
-        span t(".total")
-        span cur(total), class: "font-bold tabular-nums"
-      end
+      div number_line(t(".invoices_done"), cur(invoiced), bold: false)
+      div number_line(t(".invoices_remaining"), cur(missing), bold: false)
+      div number_line(t(".total"), cur(total), border_top: true)
 
       if missing.positive? && all.minimum(:started_on).future? && authorized?(:future_billing, Membership)
         latest_created_at = Invoice.membership.maximum(:created_at)
         if !latest_created_at || latest_created_at < 5.seconds.ago
-          div class: "mt-3" do
+          div class: "mt-4" do
             button_to future_billing_all_memberships_path,
               params: { ids: ids },
               form: { class: "flex justify-center", data: { controller: "disable", disable_with_value: t(".invoicing") } },
@@ -176,6 +164,7 @@ ActiveAdmin.register Membership do
           .joins(:member)
           .merge(Member.no_salary_basket)
       baskets = Basket.billable.where(membership: coll)
+      total = baskets.sum("quantity * price_extra")
       if coll.where("basket_price_extra < 0").any?
         div class: "flex justify-end" do
           sum = baskets.where("price_extra > 0").sum("quantity * price_extra")
@@ -185,11 +174,9 @@ ActiveAdmin.register Membership do
           sum = baskets.where("price_extra < 0").sum("quantity * price_extra")
           span cur(sum), class: "tabular-nums"
         end
-      end
-      div class: "flex justify-between" do
-        sum = baskets.sum("quantity * price_extra")
-        span t(".amount")
-        span cur(sum), class: "font-bold tabular-nums"
+        div number_line(t(".amount"), cur(total), border_top: true)
+      else
+        div number_line(t(".amount"), cur(total))
       end
     end
   end
@@ -198,67 +185,69 @@ ActiveAdmin.register Membership do
     side_panel t(".renewal"), action: handbook_icon_link("membership_renewal") do
       renewal = MembershipsRenewal.new
       if !Delivery.any_next_year?
-        t(".no_next_year_deliveries",
+        div t(".no_next_year_deliveries",
           fiscal_year: renewal.next_fy,
           new_delivery_path: new_delivery_path).html_safe
       else
-        ul do
-          li do
-            link_to(
-              t(".openable_renewals_html", count: renewal.openable.count),
-              collection_path(scope: :all, q: { renewal_state_eq: :renewal_pending, during_year: Current.org.current_fiscal_year.year }))
-          end
-          if MailTemplate.active_template(:membership_renewal)
+        div class: "space-y-4" do
+          ul do
             li do
-              link_to(
-                t(".opened_renewals_html", count: renewal.opened.count),
-                collection_path(scope: :all, q: { renewal_state_eq: :renewal_opened, during_year: Current.org.current_fiscal_year.year }))
+              link_to collection_path(scope: :all, q: { renewal_state_eq: :renewal_pending, during_year: Current.org.current_fiscal_year.year }) do
+                number_line t(".openable_renewals"), renewal.openable.count
+              end
             end
-          end
-          li do
-            link_to(
-              t(".renewed_renewals_html", count: renewal.renewed.count),
-              collection_path(scope: :all, q: { renewal_state_eq: :renewed, during_year: Current.org.current_fiscal_year.year }))
-          end
-          li do
-            end_of_year = Current.org.current_fiscal_year.end_of_year
-            renewal_canceled_count = Membership.where(renew: false).where(ended_on: end_of_year).count
-            link_to(
-              t(".canceled_renewals_html", count: renewal_canceled_count),
-              collection_path(scope: :all, q: { renewal_state_eq: :renewal_canceled, during_year: Current.org.current_fiscal_year.year, ended_on_gteq: end_of_year, ended_on_lteq: end_of_year }))
-          end
-        end
-        renewable_count = renewal.renewable.count
-        if renewable_count.positive?
-          if renewal.renewing?
-            div class: "mt-3 flex justify-center items-center italic" do
-              icon("arrow-path", class: "h-4 w-4 mr-2") + t(".renewing")
-            end
-          elsif renewal.opening?
-            div class: "mt-3 flex justify-center items-center italic" do
-              icon("paper-airplane", class: "h-4 w-4 mr-2") + t(".opening")
-            end
-          else
-            div class: "mt-2" do
-              if authorized?(:open_renewal_all, Membership) && MailTemplate.active_template(:membership_renewal)
-                openable_count = renewal.openable.count
-                if openable_count.positive?
-                  div class: "mt-2" do
-                    button_to open_renewal_all_memberships_path,
-                      form: { class: "flex justify-center", data: { controller: "disable", disable_with_value: t(".opening") } },
-                      class: "action-item-button secondary small", data: { confirm: t("active_admin.batch_actions.default_confirmation") } do
-                        icon("paper-airplane", class: "h-4 w-4 mr-2") + t(".open_renewal_all_action", count: openable_count)
-                      end
-                  end
+            if MailTemplate.active_template(:membership_renewal)
+              li do
+                link_to collection_path(scope: :all, q: { renewal_state_eq: :renewal_opened, during_year: Current.org.current_fiscal_year.year }) do
+                  number_line t(".opened_renewals"), renewal.opened.count
                 end
               end
-              if authorized?(:renew_all, Membership)
-                div class: "mt-2" do
-                  button_to renew_all_memberships_path,
-                    form: { class: "flex justify-center", data: { controller: "disable", disable_with_value: t(".renewing") } },
-                    class: "action-item-button secondary small", data: { confirm: t("active_admin.batch_actions.default_confirmation") } do
-                      icon("arrow-path", class: "h-4 w-4 mr-2") + t(".renew_all_action", count: renewable_count)
+            end
+            li do
+              link_to collection_path(scope: :all, q: { renewal_state_eq: :renewed, during_year: Current.org.current_fiscal_year.year }) do
+                number_line t(".renewed_renewals"), renewal.renewed.count
+              end
+            end
+            li do
+              end_of_year = Current.org.current_fiscal_year.end_of_year
+              renewal_canceled_count = Membership.where(renew: false).where(ended_on: end_of_year).count
+              link_to collection_path(scope: :all, q: { renewal_state_eq: :renewal_canceled, during_year: Current.org.current_fiscal_year.year, ended_on_gteq: end_of_year, ended_on_lteq: end_of_year }) do
+                number_line t(".canceled_renewals"), renewal_canceled_count
+              end
+            end
+          end
+          renewable_count = renewal.renewable.count
+          if renewable_count.positive?
+            if renewal.renewing?
+              div class: "flex justify-center items-center italic" do
+                icon("arrow-path", class: "h-4 w-4 mr-2") + t(".renewing")
+              end
+            elsif renewal.opening?
+              div class: "flex justify-center items-center italic" do
+                icon("paper-airplane", class: "h-4 w-4 mr-2") + t(".opening")
+              end
+            else
+              div class: "space-y-2" do
+                if authorized?(:open_renewal_all, Membership) && MailTemplate.active_template(:membership_renewal)
+                  openable_count = renewal.openable.count
+                  if openable_count.positive?
+                    div do
+                      button_to open_renewal_all_memberships_path,
+                        form: { class: "flex justify-center", data: { controller: "disable", disable_with_value: t(".opening") } },
+                        class: "action-item-button secondary small", data: { confirm: t("active_admin.batch_actions.default_confirmation") } do
+                          icon("paper-airplane", class: "h-4 w-4 mr-2") + t(".open_renewal_all_action", count: openable_count)
+                        end
                     end
+                  end
+                end
+                if authorized?(:renew_all, Membership)
+                  div do
+                    button_to renew_all_memberships_path,
+                      form: { class: "flex justify-center", data: { controller: "disable", disable_with_value: t(".renewing") } },
+                      class: "action-item-button secondary small", data: { confirm: t("active_admin.batch_actions.default_confirmation") } do
+                        icon("arrow-path", class: "h-4 w-4 mr-2") + t(".renew_all_action", count: renewable_count)
+                      end
+                  end
                 end
               end
             end
