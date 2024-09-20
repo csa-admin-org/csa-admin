@@ -239,9 +239,8 @@ ActiveAdmin.register Invoice do
           end
         end
 
-        panel Invoice.human_attribute_name(:overdue_notices_count) do
+        panel Invoice.human_attribute_name(:overdue_notices_count), count: invoice.overdue_notices_count do
           attributes_table do
-            row :overdue_notices_count
             row(:overdue_notice_sent_at) { l invoice.overdue_notice_sent_at if invoice.overdue_notice_sent_at }
           end
         end

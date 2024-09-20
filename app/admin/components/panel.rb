@@ -6,6 +6,7 @@ class Panel < ActiveAdmin::Component
   def build(title, *args)
     args = args.extract_options!
     action = args.delete(:action) if args.key?(:action)
+    state = args.delete(:state) if args.key?(:state)
     count = args.delete(:count) if args.key?(:count)
     super(args)
     add_class "panel"
@@ -13,6 +14,7 @@ class Panel < ActiveAdmin::Component
       div class: "flex items-center gap-2" do
         @title = h3(title.to_s, class: "")
         span(class: "panel-title-count") { count } if count
+        div(status_tag(state)) if state
       end
       div(class: "panel-actions") { action } if action
     end

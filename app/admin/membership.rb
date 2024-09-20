@@ -418,9 +418,8 @@ ActiveAdmin.register Membership do
         end
 
         if Current.fiscal_year >= m.fiscal_year
-          panel Membership.human_attribute_name(:renew), action: handbook_icon_link("membership_renewal") do
+          panel Membership.human_attribute_name(:renew), state: m.renewal_state, action: handbook_icon_link("membership_renewal") do
             attributes_table do
-              row(:status) { status_tag(m.renewal_state) }
               if m.renewed?
                 row(:renewed_at) { l m.renewed_at.to_date }
                 row(:renewed_membership)
