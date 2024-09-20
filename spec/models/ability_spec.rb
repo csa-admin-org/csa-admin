@@ -65,6 +65,7 @@ describe Ability do
     specify { expect(ability.can?(:open_renewal_all, Membership)).to be_truthy }
     specify { expect(ability.can?(:open_renewal, Membership)).to be_truthy }
     specify { expect(ability.can?(:mark_renewal_as_pending, Membership)).to be_truthy }
+    specify { expect(ability.can?(:future_billing, Membership)).to be_truthy }
     specify { expect(ability.can?(:renew, Membership)).to be_truthy }
     specify { expect(ability.can?(:cancel, Membership)).to be_truthy }
   end

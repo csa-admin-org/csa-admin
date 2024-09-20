@@ -1,10 +1,10 @@
 # Facturation
 
-CSA Admin vise à automatiser la plupart des tâches relative à la facturation ([abonnements](#abonnements), <% if Current.org.share? %>[parts sociales](#parts-sociales), <% end %>[traitements des paiements](#paiements)), mais certains aspects <% if Current.org.feature?('activity') %>comme la facturation des [<%= activities_human_name %> non effectuées](#<%= activities_human_name %>-non-effectuees) <% end %>doivent être effectués manuellement.
+CSA Admin vise à automatiser la plupart des tâches relative à la facturation ([abonnements](#memberships), <% if Current.org.share? %>[parts sociales](#parts-sociales), <% end %>[traitements des paiements](#paiements)), mais certains aspects <% if Current.org.feature?('activity') %>comme la facturation des [<%= activities_human_name %> non effectuées](#<%= activities_human_name %>-non-effectuees) <% end %>doivent être effectués manuellement.
 
 Pour la Suisse, CSA Admin génère des factures-QR avec numéro de référence (PDF) et les envoie à tous les emails du membre concerné. Afin de pouvoir générer ces factures, il vous faut demander un QR-IBAN à votre banque, attention ce numéro est différent de l'IBAN de votre compte bancaire. Vous pouvez ensuite l'entrer dans [vos paramètres de facturation](/settings#billing).
 
-## Abonnements
+## Abonnements {#memberships}
 
 La facturation des abonnements est complètement automatisée par le système. Vous pouvez définir dans [les paramètres (Facturation automatique)](/settings#billing) le jour de la semaine où le système va passer en revue tous les abonnements et créer et envoyer automatiquement les factures nécessaires. Par exemple, si un membre est facturé tous les trimestres, alors une nouvelle facture sera automatiquement créée et envoyée le premier jour de la semaine configuré d'un nouveau trimestre.
 
@@ -21,6 +21,16 @@ Par défaut, la facturation s'étend jusqu'à la date de fin de l'abonnement, ma
 ### Facturer maintenant
 
 Dans certain cas, par exemple après un changement de configuration de l'abonnement, il est possible de forcer la création d'une nouvelle facture plutôt que de laisser le système le faire automatiquement le prochain jour de facturation. Pour cela, cliquez sur le bouton "Facturer maintenant" dans la section "Facturation" (colonne de droite). La facture sera alors créée, mais <u>non envoyée</u>, vous pouvez alors la consulter le PDF et l'envoyer manuellement à l'aide du bouton "Envoyer" sur la page de celle-ci. Cela s'avère utile si vous êtes en contact avec un membre et voulez rectifier rapidement une facture.
+
+### Tout facturer à l'avance {#future_billing}
+
+Il est possible de facturer à l'avance un abonnement qui n’a pas encore commencé, avec une date de début dans le futur, que ce soit dans l’année fiscale en cours ou dans l’année fiscale suivante. Les abonnements facturés ainsi sont intégralement facturés en une seule fois, quel que soit l’intervalle de paiement configuré pour l’abonnement.
+
+La facturation à l’avance peut être effectuée depuis la page d’un abonnement futur, en cliquant sur le bouton “Tout facturer à l’avance” dans la section “Facturation” (colonne de droite). Il est également possible de facturer plusieurs abonnements futurs en une seule fois depuis [la page des abonnements](/memberships?scope=future&q[during_year]=<%= Current.fy_year + 1 %>), en utilisant le champ “Futurs” et en filtrant par année fiscale. Vous pouvez alors cliquer sur le bouton “Tout facturer à l’avance” dans la section “Facturation” (colonne de droite), en dessous des filtres. N’hésitez pas à filtrer les futurs abonnements par intervalle de paiement (par exemple “Annuel” uniquement) pour affiner votre sélection.
+
+<% if Current.org.annual_fee? %>
+> La cotisation annuelle correspondant à l’année fiscale de l’abonnement est automatiquement incluse dans la facture.
+<% end %>
 
 ### Changement de prix {#price-change}
 
@@ -135,7 +145,7 @@ Pour les paiements sans numéro de référence (liquide ou versement direct), il
 Si vous souhaitez rembourser un membre pour une raison quelconque, il suffit de créer un nouveau paiement avec un montant négatif. Noter que le remboursement doit bien être effectué par vos soins depuis votre e-banking par exemple, CSA Admin ne pouvant pas créer de versement.
 
 
-## Rappels
+## Rappels {#overdue_notice}
 
 Quand les paiements sont importés automatiquement, le système s'occupe automatiquement d'envoyer un rappel par email à tous les membres qui ont une facture non payée tous les 35 jours, jusqu'à ce que la facture soit payée (1er rappel après 35 jours, 2ᵉ rappel après 70 jours, etc.).
 

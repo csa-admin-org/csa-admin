@@ -4,7 +4,7 @@ CSA Admin aims to automate most tasks related to billing ([memberships](#members
 
 For Switzerland, CSA Admin generates QR-invoices with reference numbers (PDF) and sends them to all emails of the concerned member. To generate these invoices, you need to request a QR-IBAN from your bank, note that this number is different from your bank account IBAN. You can then enter it in [your billing settings](/settings#billing).
 
-## Memberships
+## Memberships {#memberships}
 
 Membership billing is completely automated by the system. You can define in [the settings (Automatic billing)](/settings#billing) the day of the week when the system will review all memberships and automatically create and send necessary invoices. For example, if a member is billed every quarter, then a new invoice will be automatically created and sent on the first configured day of the week of a new quarter.
 
@@ -21,6 +21,16 @@ By default, billing extends until the membership end date, but it's possible to 
 ### Bill now
 
 In some cases, for example after a change in membership configuration, it's possible to force the creation of a new invoice rather than letting the system do it automatically on the next billing day. To do this, click on the "Bill now" button in the "Billing" section (right column). The invoice will then be created, but <u>not sent</u>, you can then consult the PDF and send it manually using the "Send" button on its page. This is useful if you're in contact with a member and want to quickly rectify an invoice.
+
+### Invoice all in advance {#future_billing}
+
+It is possible to invoice an upcoming subscription in advance, with a start date in the future, whether it is in the current fiscal year or the next fiscal year. Subscriptions invoiced in this way are fully invoiced at once, regardless of the payment interval configured for the subscription.
+
+Advance invoicing can be done from the page of a future subscription by clicking on the "Invoice all in advance" button in the "Billing" section (right column). It is also possible to invoice multiple future subscriptions at once from [the subscriptions page](/memberships?scope=future&q[during_year]=<%= Current.fy_year + 1 %>), using the "Future" field and filtering by fiscal year. You can then click on the "Invoice all in advance" button in the "Billing" section (right column), below the filters. Feel free to filter future subscriptions by payment interval (e.g., "Annual" only) to refine your selection.
+
+<% if Current.org.annual_fee? %>
+> The annual fee corresponding to the fiscal year of the subscription is automatically included in the invoice.
+<% end %>
 
 ### Price change {#price-change}
 
@@ -126,7 +136,7 @@ For payments without a reference number (cash or direct deposit), you simply nee
 
 If you wish to refund a member for any reason, simply create a new payment with a negative amount. Note that the refund must be made by you from your e-banking for example, as CSA Admin cannot create a transfer.
 
-## Reminders
+## Overdue notice {#overdue_notice}
 
 When payments are imported automatically, the system automatically takes care of sending a reminder email to all members who have an unpaid invoice every 35 days, until the invoice is paid (1st reminder after 35 days, 2nd reminder after 70 days, etc.).
 

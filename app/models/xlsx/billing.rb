@@ -91,14 +91,14 @@ module XLSX
       if Current.org.annual_fee
         # Add current year if not present (no memberships)
         unless invoices_per_year.map(&:first).include?(@year)
-          invoices_per_year.unshift([@year, []])
+          invoices_per_year.unshift([ @year, [] ])
         end
         invoices_per_year.each do |year, invoices|
           amount = invoices.sum { |i| i.annual_fee || 0 }
           if year == @year # Add annual fee invoices outside of memberships
             amount += @invoices.where(entity_type: "AnnualFee").sum(:amount)
           end
-          add_line(t_invoice_with_year(t('annual_fees'), year), amount, Current.org.annual_fee)
+          add_line(t_invoice_with_year(t("annual_fees"), year), amount, Current.org.annual_fee)
         end
       end
       if Current.org.share?

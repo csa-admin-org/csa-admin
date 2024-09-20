@@ -88,8 +88,7 @@ class Ability
       can :open_renewal, Membership, can_send_email?: true
       can :clear_activity_participations_demanded, Membership, can_clear_activity_participations_demanded?: true
       can :mark_renewal_as_pending, Membership
-      # TODO: remove this line when the feature is ready
-      # can :future_billing, Membership
+      can :future_billing, Membership
       can :renew, Membership
       can :cancel, Membership
     end

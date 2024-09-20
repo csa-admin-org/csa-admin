@@ -158,7 +158,7 @@ ActiveAdmin.register ActivityParticipation do
                       icon("x-circle", class: "h-6 w-6")
                     end
                   end
-                end
+              end
             end
           end
         end
