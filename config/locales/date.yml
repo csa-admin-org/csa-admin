@@ -46,3 +46,8 @@ _:
         _en: "%e %B"
         _fr: "%e %B"
         _it: "%e %B"
+      short_year:
+        _de: "%e %B %y"
+        _en: "%e %B %y"
+        _fr: "%e %B %y"
+        _it: "%e %B %y"

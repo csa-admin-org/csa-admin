@@ -389,9 +389,9 @@ ActiveAdmin.register Membership do
           attributes_table do
             row :id
             row :member
-            row(:period) { [ l(m.started_on), l(m.ended_on) ].join(" - ") }
             row(:fiscal_year)
-            row(:created_at) { l m.created_at, format: :long }
+            row(:period) { m.display_period }
+            row(:created_at) { l m.created_at, format: :medium_long }
           end
         end
 
@@ -424,7 +424,7 @@ ActiveAdmin.register Membership do
           panel Membership.human_attribute_name(:renew), state: m.renewal_state, action: handbook_icon_link("membership_renewal") do
             attributes_table do
               if m.renewed?
-                row(:renewed_at) { l m.renewed_at.to_date }
+                row(:renewed_at) { l m.renewed_at.to_date  }
                 row(:renewed_membership)
                 row :renewal_note
               elsif m.canceled?
