@@ -112,10 +112,10 @@ ActiveAdmin.register Newsletter do
           attributes_table do
             case newsletter.state
             when "sent"
-              row(:sent_at) { I18n.l(newsletter.sent_at, format: :medium) }
+              row(:sent_at) { I18n.l(newsletter.sent_at, format: :medium_long) }
               row(:sent_by) { newsletter.sent_by&.name }
             when "draft"
-              row(:updated_at) { I18n.l(newsletter.updated_at, format: :medium) }
+              row(:updated_at) { I18n.l(newsletter.updated_at, format: :medium_long) }
             end
             row(:attachments) { newsletter.attachments.map { |a| display_attachment(a.file) } }
           end

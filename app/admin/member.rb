@@ -366,8 +366,8 @@ ActiveAdmin.register Member do
                 end
               end
             }
-            row(:created_at) { l member.created_at, format: :long }
-            row(:validated_at) { member.validated_at ? l(member.validated_at, format: :long) : nil }
+            row(:created_at) { l(member.created_at, format: :medium_long) }
+            row(:validated_at) { member.validated_at ? l(member.validated_at, format: :medium_long) : nil }
             row :validator
           end
         end

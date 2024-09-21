@@ -444,6 +444,13 @@ class Membership < ApplicationRecord
     started_on..ended_on
   end
 
+  def display_period
+    [ started_on, ended_on ].map { |date|
+      format = Current.org.fiscal_year_start_month == 1 ? :short : :short_year
+      I18n.l(date, format: format)
+    }.join(" – ")
+  end
+
   def basket_size
     return unless basket_size_id
 
