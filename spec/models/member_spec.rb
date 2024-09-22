@@ -301,7 +301,7 @@ describe Member do
 
   describe "#update_trial_baskets!" do
     specify "ignore absent basket", freeze: "2024-01-01" do
-      Current.org.update!(trial_basket_count: 2)
+      Current.org.update!(trial_baskets_count: 2)
 
       create(:delivery, date: "2024-11-01")
       create(:delivery, date: "2024-12-01")
@@ -322,7 +322,7 @@ describe Member do
     end
 
     specify "only consider baskets from continuous previous memberships" do
-      Current.org.update!(trial_basket_count: 3)
+      Current.org.update!(trial_baskets_count: 3)
       member = create(:member)
 
       # One trial basket in 2022
@@ -360,7 +360,7 @@ describe Member do
         [ "2023-02-01", true ],
         [ "2024-01-01", true ],
         [ "2024-02-01", false ],
-        [ "2025-01-01", false ],
+        [ "2025-01-01", false ]
       ]
     end
   end

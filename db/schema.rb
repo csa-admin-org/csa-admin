@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_09_10_092937) do
+ActiveRecord::Schema[7.2].define(version: 2024_09_22_103018) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
   enable_extension "plpgsql"
@@ -618,7 +618,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_09_10_092937) do
     t.string "email_default_host"
     t.string "email_default_from"
     t.integer "fiscal_year_start_month", default: 1, null: false
-    t.integer "trial_basket_count", default: 0, null: false
+    t.integer "trial_baskets_count", default: 0, null: false
     t.decimal "annual_fee", precision: 8, scale: 2
     t.integer "billing_year_divisions", default: [], null: false, array: true
     t.string "activity_i18n_scope", default: "halfday_work", null: false

@@ -62,7 +62,7 @@ describe ActivityParticipation, freeze: "2021-06-15" do
 
   describe ".invoice_all_missing" do
     before do
-      Current.org.update!(activity_price: 90, trial_basket_count: 0)
+      Current.org.update!(activity_price: 90, trial_baskets_count: 0)
       create(:membership, activity_participations_demanded_annually: 0)
       create(:membership, activity_participations_demanded_annually: 1)
       create(:membership, activity_participations_demanded_annually: 2)

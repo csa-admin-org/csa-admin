@@ -22,7 +22,7 @@ describe "Membership" do
   end
 
   specify "active member with absence", freeze: "2020-01-01" do
-    Current.org.update!(trial_basket_count: 0)
+    Current.org.update!(trial_baskets_count: 0)
     create(:membership,
       member: member,
       basket_size: basket_size,
@@ -73,7 +73,7 @@ describe "Membership" do
   end
 
   specify "future membership", freeze: "2020-01-01" do
-    Current.org.update!(trial_basket_count: 0)
+    Current.org.update!(trial_baskets_count: 0)
     create(:membership,
       member: member,
       basket_size: basket_size,

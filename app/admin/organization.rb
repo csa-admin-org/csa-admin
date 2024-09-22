@@ -60,7 +60,7 @@ ActiveAdmin.register Organization do
             as: :select,
             collection: Organization::CURRENCIES,
             input_html: { disabled: true }
-          f.input :trial_basket_count
+          f.input :trial_baskets_count
           f.input :send_closed_invoice, as: :boolean
           f.input :billing_starts_after_first_delivery, as: :boolean
           f.input :billing_ends_on_last_delivery_fy_month, as: :boolean
@@ -404,7 +404,7 @@ ActiveAdmin.register Organization do
     :name, :host,
     :url, :logo, :email, :phone,
     :email_default_host, :email_default_from, :email_footer,
-    :trial_basket_count,
+    :trial_baskets_count,
     :iban, :sepa_creditor_identifier, :bank_reference, :creditor_name,
     :creditor_address, :creditor_city, :creditor_zip,
     :annual_fee, :share_price, :shares_number,

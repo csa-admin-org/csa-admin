@@ -5,7 +5,7 @@ require "rails_helper"
 describe Billing::Invoicer do
   before {
     Current.org.update!(
-      trial_basket_count: 0,
+      trial_baskets_count: 0,
       billing_year_divisions: [ 1, 2, 3, 4, 12 ],
       fiscal_year_start_month: 1,
       recurring_billing_wday: 1) # Monday
@@ -23,7 +23,7 @@ describe Billing::Invoicer do
   end
 
   it "does not create an invoice for member with future membership", freeze: "2022-01-01" do
-    Current.org.update!(trial_basket_count: 0)
+    Current.org.update!(trial_baskets_count: 0)
     member = create(:member)
     create(:delivery, date: "2022-02-01")
     create(:membership, member: member, billing_year_division: 12)
@@ -51,7 +51,7 @@ describe Billing::Invoicer do
   end
 
   it "creates an invoice for trial membership when forced", freeze: "2022-01-01" do
-    Current.org.update!(trial_basket_count: 4)
+    Current.org.update!(trial_baskets_count: 4)
     member = create(:member)
     membership = create(:membership, member: member)
 
@@ -62,7 +62,7 @@ describe Billing::Invoicer do
   it "does not bill annual fee for canceled trial membership", sidekiq: :inline do
     Current.org.update!(
       billing_year_divisions: [ 12 ],
-      trial_basket_count: 4)
+      trial_baskets_count: 4)
     member = create(:member, :inactive)
 
     travel_to "2021-01-01" do
@@ -758,7 +758,7 @@ describe Billing::Invoicer do
     context "with trial baskets" do
       before {
         Current.org.update!(
-          trial_basket_count: 4,
+          trial_baskets_count: 4,
           billing_starts_after_first_delivery: false)
       }
 
