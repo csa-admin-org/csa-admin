@@ -299,8 +299,8 @@ describe Member do
     end
   end
 
-  describe "#update_trial_basket_count", freeze: "2024-01-01" do
-    specify "ignore absent basket" do
+  describe "#update_trial_baskets!" do
+    specify "ignore absent basket", freeze: "2024-01-01" do
       Current.org.update!(trial_basket_count: 2)
 
       create(:delivery, date: "2024-11-01")
@@ -318,6 +318,49 @@ describe Member do
         [ "2024-12-01", false ],
         [ "2025-01-01", true ],
         [ "2025-02-01", false ]
+      ]
+    end
+
+    specify "only consider baskets from continuous previous memberships" do
+      Current.org.update!(trial_basket_count: 3)
+      member = create(:member)
+
+      # One trial basket in 2022
+      travel_to "2021-01-01" do
+        create(:delivery, date: "2021-01-01")
+        create(:delivery, date: "2021-02-01")
+        create(:membership, member: member, started_on: "2021-01-01", ended_on: "2021-12-31")
+      end
+
+      # Two trial baskets in 2023
+      travel_to "2023-01-01" do
+        create(:delivery, date: "2023-01-01")
+        create(:delivery, date: "2023-02-01")
+        create(:membership, member: member, started_on: "2023-01-01", ended_on: "2023-12-31")
+      end
+
+      # Two trial baskets in 2024
+      travel_to "2024-01-01" do
+        create(:delivery, date: "2024-01-01")
+        create(:delivery, date: "2024-02-01")
+        create(:membership, member: member, started_on: "2024-01-01", ended_on: "2024-12-31")
+      end
+
+      # No trial baskets in 2024
+      travel_to "2025-01-01" do
+        create(:delivery, date: "2025-01-01")
+        create(:membership, member: member, started_on: "2025-01-01", ended_on: "2025-12-31")
+      end
+
+      expect(member.baskets.map { |b| [ b.delivery.date.to_s, b.trial? ] }).to eq [
+        [ "2021-01-01", true ],
+        [ "2021-02-01", true ],
+        # Gap
+        [ "2023-01-01", true ],
+        [ "2023-02-01", true ],
+        [ "2024-01-01", true ],
+        [ "2024-02-01", false ],
+        [ "2025-01-01", false ],
       ]
     end
   end
