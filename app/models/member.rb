@@ -207,11 +207,19 @@ class Member < ApplicationRecord
   end
 
   def update_trial_baskets!
-    return if Current.org.trial_basket_count.zero?
+    trial_limit = Current.org.trial_basket_count
+    return if trial_limit.zero?
 
+    # Only consider past continuous memberships
+    min_date = Current.fiscal_year.beginning_of_year
+    while membership = memberships.including_date(min_date - 1.day).first
+      min_date = membership.started_on
+    end
+
+    recent_baskets = self.baskets.where(deliveries: { date: min_date..})
     transaction do
-      baskets.trial.update_all(state: "normal")
-      baskets.normal.limit(Current.org.trial_basket_count).update_all(state: "trial")
+      recent_baskets.trial.update_all(state: "normal")
+      recent_baskets.normal.limit(trial_limit).update_all(state: "trial")
     end
   end
 

@@ -798,10 +798,10 @@ _:
           _fr: Texte affiché en haut de la page de membre de l'épicerie.
           _it: Testo visibile nella parte superiore della pagina di socio del droghiere.
         trial_basket_count:
-          _de: Das Abonnement wird in Rechnung gestellt, sobald alle Probetaschen ausgeliefert wurden. Wenn das Abonnement während oder am Ende der Probezeit beendet wird, dann werden nur die gelieferten Taschen in Rechnung gestellt.
-          _en: The membership is billed once all trial baskets have been delivered. If the membership is terminated during or at the end of the trial period, only the delivered baskets are billed.
-          _fr: L'abonnement est facturé une fois que tous les paniers à l'essai ont été livrés. Si l'abonnement est arrêté pendant ou à la fin de la période d'essai, alors seulement les paniers livrés sont facturés.
-          _it: L'abbonamento viene fatturato una volta che tutti i cestini di prova sono stati consegnati. Se l'abbonamento viene interrotto durante o alla fine del periodo di prova, vengono addebitati solo i cestini consegnati.
+          _de: Das Abonnement wird in Rechnung gestellt, sobald alle Probetaschen ausgeliefert wurden. Wenn das Abonnement während oder am Ende der Probezeit beendet wird, dann werden nur die gelieferten Taschen in Rechnung gestellt. Wenn das Mitglied später erneut eintritt, wird die Anzahl der bereits verwendeten Probetaschen zurückgesetzt, unabhängig von der Dauer der Unterbrechung.
+          _en: The membership is billed once all trial baskets have been delivered. If the membership is terminated during or at the end of the trial period, only the delivered baskets are billed. If the member renews later, the number of trial baskets already used is reset, regardless of the duration of the interruption.
+          _fr: L'abonnement est facturé une fois que tous les paniers à l'essai ont été livrés. Si l'abonnement est arrêté pendant ou à la fin de la période d'essai, alors seulement les paniers livrés sont facturés. Si le membre se réinscrit ultérieurement, le nombre de paniers à l'essai déjà utilisés est réinitialisé, peu importe la durée de l'interruption.
+          _it: L'abbonamento viene fatturato una volta che tutti i cestini di prova sono stati consegnati. Se l'abbonamento viene interrotto durante o alla fine del periodo di prova, vengono addebitati solo i cestini consegnati. Se il socio si rinnova in seguito, il numero di cestini di prova già utilizzati viene azzerato, indipendentemente dalla durata dell'interruzione.
       shop/order:
         amount_percentage:
           _de: Verändert den Schlussbetrag der Bestellung um einen bestimmten Prozentsatz.

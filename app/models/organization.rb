@@ -322,6 +322,10 @@ class Organization < ApplicationRecord
     FiscalYear.current(start_month: fiscal_year_start_month)
   end
 
+  def last_fiscal_year
+    fiscal_year_for(current_fiscal_year.year - 1)
+  end
+
   def next_fiscal_year
     fiscal_year_for(current_fiscal_year.year + 1)
   end
