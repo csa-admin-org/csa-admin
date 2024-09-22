@@ -487,7 +487,7 @@ class Membership < ApplicationRecord
     return if destroyed?
 
     cols = { past_baskets_count: baskets.past.count }
-    if Current.org.trial_basket_count.positive?
+    if Current.org.trial_baskets_count.positive?
       cols[:remaning_trial_baskets_count] = baskets.coming.trial.count
       cols[:trial_baskets_count] = baskets.trial.count
     end

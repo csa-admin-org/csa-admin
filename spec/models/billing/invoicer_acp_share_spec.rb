@@ -3,7 +3,7 @@
 require "rails_helper"
 
 describe Billing::InvoicerShare do
-  before { current_org.update!(share_price: 250, shares_number: 1, trial_basket_count: 0) }
+  before { current_org.update!(share_price: 250, shares_number: 1, trial_baskets_count: 0) }
 
   def invoice(member, **attrs)
     described_class.invoice(member, **attrs)
@@ -93,7 +93,7 @@ describe Billing::InvoicerShare do
 
   specify "ignore member in trial period" do
     basket_size = create(:basket_size, shares_number: 3)
-    Current.org.update!(trial_basket_count: 3)
+    Current.org.update!(trial_baskets_count: 3)
     membership = travel_to "2021-01-01" do
       create(:delivery, date: "2021-09-21")
       create(:delivery, date: "2021-09-28")

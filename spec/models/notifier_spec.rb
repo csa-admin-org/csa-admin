@@ -53,7 +53,7 @@ describe Notifier do
   end
 
   specify ".send_membership_last_trial_basket_emails", sidekiq: :inline do
-    Current.org.update!(trial_basket_count: 2)
+    Current.org.update!(trial_baskets_count: 2)
     MailTemplate.find_by(title: :membership_last_trial_basket).update!(active: true)
     travel_to "2021-05-01" do
       create(:delivery, date: "2021-05-01")

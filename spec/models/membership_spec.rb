@@ -468,14 +468,14 @@ describe Membership do
     let(:basket_size) { create(:basket_size, activity_participations_demanded_annually: 3) }
 
     specify "active membership with no activity participations", freeze: "2024-01-01" do
-      Current.org.update!(trial_basket_count: 0)
+      Current.org.update!(trial_baskets_count: 0)
       membership = create(:membership, basket_size_id: basket_size.id)
 
       expect(membership.activity_participations_missing).to eq 3
     end
 
     specify "when in trial period", freeze: "2024-01-01" do
-      Current.org.update!(trial_basket_count: 1)
+      Current.org.update!(trial_baskets_count: 1)
       membership = create(:membership, basket_size_id: basket_size.id, deliveries_count: 2)
 
       expect(membership.trial?).to eq true
@@ -484,7 +484,7 @@ describe Membership do
     end
 
     specify "when in trial period", freeze: "2024-02-01"  do
-      Current.org.update!(trial_basket_count: 1)
+      Current.org.update!(trial_baskets_count: 1)
       membership = create(:membership, basket_size_id: basket_size.id,
         deliveries_count: 1,
         started_on: "2024-01-01",
@@ -746,7 +746,7 @@ describe Membership do
   end
 
   it "updates baskets counts after commit" do
-    Current.org.update!(trial_basket_count: 3)
+    Current.org.update!(trial_baskets_count: 3)
 
     travel_to "2017-01-01" do
       create(:delivery, date: "2017-01-01")
@@ -772,7 +772,7 @@ describe Membership do
   describe "#update_member_and_baskets" do
     before do
       Current.org.update!(
-        trial_basket_count: 0,
+        trial_baskets_count: 0,
         absences_billed: true)
     end
     specify "updates absent baskets", freeze: "2024-01-01" do
@@ -797,7 +797,7 @@ describe Membership do
     end
 
     specify "updates trial and absent baskets", freeze: "2024-01-01" do
-      Current.org.update!(trial_basket_count: 2)
+      Current.org.update!(trial_baskets_count: 2)
       delivery1 = create(:delivery, date: "2024-01-01")
       delivery2 = create(:delivery, date: "2024-02-01")
       delivery3 = create(:delivery, date: "2024-03-01")
@@ -938,7 +938,7 @@ describe Membership do
     end
 
     specify "update baskets counts after commit" do
-      Current.org.update!(trial_basket_count: 3)
+      Current.org.update!(trial_baskets_count: 3)
 
       travel_to "2017-01-01" do
         create(:delivery, date: "2017-01-01")
@@ -1122,7 +1122,7 @@ describe Membership do
   describe "#cancel_overcharged_invoice!" do
     before do
       Current.org.update!(
-        trial_basket_count: 0,
+        trial_baskets_count: 0,
         fiscal_year_start_month: 1,
         recurring_billing_wday: 1,
         billing_year_divisions: [ 1, 3 ])
@@ -1246,7 +1246,7 @@ describe Membership do
   describe "#destroy_or_cancel_invoices!" do
     specify "cancel or destroy membership invoices on destroy", sidekiq: :inline do
       Current.org.update!(
-        trial_basket_count: 0,
+        trial_baskets_count: 0,
         fiscal_year_start_month: 1,
         recurring_billing_wday: 1,
         billing_year_divisions: [ 12 ])

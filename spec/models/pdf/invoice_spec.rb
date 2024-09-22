@@ -1000,7 +1000,7 @@ describe PDF::Invoice do
     current_org.update!(
       features: [ "new_member_fee" ],
       new_member_fee_description: "Paniers vides",
-      trial_basket_count: 0,
+      trial_baskets_count: 0,
       new_member_fee: 42)
 
     member = create(:member, :waiting)

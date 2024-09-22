@@ -156,7 +156,7 @@ describe Newsletter::Template do
   end
 
   specify "send default next delivery template", sidekiq: :inline do
-    Current.org.update!(trial_basket_count: 0)
+    Current.org.update!(trial_baskets_count: 0)
     template = Newsletter::Template.find_by(title: "Prochaine livraison")
     member = create(:member, :active, name: "John Doe")
     create(:activity, date: 1.week.from_now)

@@ -11,7 +11,7 @@ FactoryBot.define do
     email_default_from { "info@ragedevert.ch" }
     email_signature { "Au plaisir,\nRage de Vert" }
     email_footer { "En cas de questions ou remarques, répondez simplement à cet email.\nAssociation Rage de Vert, Closel-Bourbon 3, 2075 Thielle" }
-    trial_basket_count { 4 }
+    trial_baskets_count { 4 }
     billing_year_divisions { [ 1, 4 ] }
     annual_fee { 30 }
     activity_price { 60 }
