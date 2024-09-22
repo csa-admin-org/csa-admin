@@ -152,7 +152,7 @@ describe "Shop::Order" do
 
       visit "/shop/orders/#{order.id}"
       expect(current_path).to eq "/shop/orders/#{order.id}"
-      expect(page).to have_content "Votre commande peut-être passée ou modifié jusqu'au lundi 08 novembre 2021 12h00."
+      expect(page).to have_content "Votre commande peut-être passée ou modifié jusqu'au lundi 8 novembre 2021, 12:00."
       expect(page).to have_button("Commander")
     end
     travel_to "2021-11-08 12:01 +01" do
@@ -216,7 +216,7 @@ describe "Shop::Order" do
 
       visit "/shop/orders/#{order.id}"
       expect(current_path).to eq "/shop/orders/#{order.id}"
-      expect(page).to have_content "Votre commande a bien été reçue mais peut encore être annulée ou modifiée jusqu'au lundi 08 novembre 2021 12h00. Une facture vous sera envoyée ultérieurement, avant la livraison, par email. Merci de la régler rapidement."
+      expect(page).to have_content "Votre commande a bien été reçue mais peut encore être annulée ou modifiée jusqu'au lundi 8 novembre 2021, 12:00. Une facture vous sera envoyée ultérieurement, avant la livraison, par email. Merci de la régler rapidement."
       expect(page).to have_button("Modifier")
       expect(page).to have_button("Annuler la commande")
     end

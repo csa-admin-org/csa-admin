@@ -42,7 +42,7 @@ module Shop
       to_global_id.to_s
     end
 
-    def display_name(format: :medium_long)
+    def display_name(format: :medium)
       "#{I18n.l(date, format: format)} (#{display_number})"
     end
 

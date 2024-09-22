@@ -56,7 +56,7 @@ describe PDF::Invoice do
 
       pdf_strings = save_pdf_and_return_strings(invoice)
       expect(pdf_strings)
-        .to include(/01\.01\.20\d\d – 31\.12\.20\d\d/)
+        .to include(/01\.01\.\d\d – 31\.12\.\d\d/)
         .and contain_sequence("Panier: Abondance PUBLIC 2x 33.25", "66.50")
         .and contain_sequence("Montant annuel", "66.50", "Facturation annuelle", "66.50")
         .and contain_sequence("Cotisation annuelle association", "42.00")
@@ -82,7 +82,7 @@ describe PDF::Invoice do
 
       pdf_strings = save_pdf_and_return_strings(invoice)
       expect(pdf_strings)
-        .to include(/01\.01\.20\d\d – 31\.12\.20\d\d/)
+        .to include(/01\.01\.\d\d – 31\.12\.\d\d/)
         .and contain_sequence("Panier: Abondance PUBLIC 2x 33.25", "66.50")
         .and contain_sequence("Réduction pour 6 ", "½ ", "journées supplémentaires", "-20.50")
         .and contain_sequence("Montant annuel", "46.00", "Facturation annuelle", "46.00")
@@ -110,7 +110,7 @@ describe PDF::Invoice do
 
       pdf_strings = save_pdf_and_return_strings(invoice)
       expect(pdf_strings)
-        .to include(/01\.01\.20\d\d – 31\.12\.20\d\d/)
+        .to include(/01\.01\.\d\d – 31\.12\.\d\d/)
         .and contain_sequence("Panier: Eveil PUBLIC 2x 23.125", "46.25")
         .and contain_sequence("Dépôt: La Chaux-de-Fonds PUBLIC 2x 4.00", "8.00")
         .and contain_sequence("Montant annuel", "54.25")
@@ -137,7 +137,7 @@ describe PDF::Invoice do
 
       pdf_strings = save_pdf_and_return_strings(invoice)
       expect(pdf_strings)
-        .to include(/01\.01\.20\d\d – 31\.12\.20\d\d/)
+        .to include(/01\.01\.\d\d – 31\.12\.\d\d/)
         .and contain_sequence("Panier: Abondance PUBLIC 2x 33.25", "66.50")
         .and contain_sequence("Cotistation Solidaire: 2x 4.00", "8.00")
         .and contain_sequence("Cotisation annuelle association", "42.00")
@@ -163,7 +163,7 @@ describe PDF::Invoice do
 
       pdf_strings = save_pdf_and_return_strings(invoice)
       expect(pdf_strings)
-        .to include(/01\.01\.20\d\d – 31\.12\.20\d\d/)
+        .to include(/01\.01\.\d\d – 31\.12\.\d\d/)
         .and contain_sequence("Panier: Abondance PUBLIC 2x 33.25", "66.50")
         .and contain_sequence("Classe salariale: 2x 4.20, Classe 4", "8.40")
         .and contain_sequence("Montant annuel", "74.90")
@@ -199,7 +199,7 @@ describe PDF::Invoice do
 
       pdf_strings = save_pdf_and_return_strings(invoice)
       expect(pdf_strings)
-        .to include(/01\.01\.20\d\d – 31\.12\.20\d\d/)
+        .to include(/01\.01\.\d\d – 31\.12\.\d\d/)
         .and contain_sequence("Panier: Abondance PUBLIC 2x 33.25", "66.50",)
         .and contain_sequence("Déjà facturé", "-33.25")
         .and contain_sequence("Montant annuel restant", "33.25")
@@ -400,7 +400,7 @@ describe PDF::Invoice do
 
       pdf_strings = save_pdf_and_return_strings(invoice)
       expect(pdf_strings)
-        .to include(/01.04.20\d\d – 31.03.20\d\d/)
+        .to include(/01.04.\d\d – 31.03.\d\d/)
         .and contain_sequence("Panier: Grand PUBLIC 4x 30.50", "122.00")
         .and contain_sequence("Oeufs PUBLIC: 2x 4.80", "9.60")
         .and contain_sequence("Tomme de Lavaux PUBLIC: 2x 7.40", "14.80")
@@ -441,7 +441,7 @@ describe PDF::Invoice do
 
       pdf_strings = save_pdf_and_return_strings(invoice)
       expect(pdf_strings)
-        .to contain_sequence("01.04.2019 – 31.03.2020")
+        .to contain_sequence("01.04.19 – 31.03.20")
         .and contain_sequence("Panier: Grand PUBLIC 1x 30.50", "30.50")
         .and contain_sequence("Déjà facturé", "-10.15")
         .and contain_sequence("Montant annuel restant", "20.35")
@@ -493,7 +493,7 @@ describe PDF::Invoice do
 
       pdf_strings = save_pdf_and_return_strings(invoice)
       expect(pdf_strings)
-        .to include(/01.04.20\d\d – 31.03.20\d\d/)
+        .to include(/01.04.\d\d – 31.03.\d\d/)
         .and contain_sequence("Panier: Petit PUBLIC 4x 21.00", "84.00")
         .and contain_sequence("Oeufs PUBLIC: 2x 4.80", "9.60")
         .and contain_sequence("Déjà facturé", "-15.60")
@@ -533,7 +533,7 @@ describe PDF::Invoice do
 
       pdf_strings = save_pdf_and_return_strings(invoice)
       expect(pdf_strings)
-        .to include(/15.04.20\d\d – 31.03.20\d\d/)
+        .to include(/15.04.\d\d – 31.03.\d\d/)
         .and contain_sequence("Panier: Grand PUBLIC 2x 30.50", "61.00")
         .and contain_sequence("Ajustement du prix des paniers", "-44.00")
         .and contain_sequence("Tomme de Lavaux PUBLIC: 2x 7.40", "14.80")
@@ -574,7 +574,7 @@ describe PDF::Invoice do
 
       pdf_strings = save_pdf_and_return_strings(invoice)
       expect(pdf_strings)
-        .to include(/15.04.20\d\d – 31.03.20\d\d/)
+        .to include(/15.04.\d\d – 31.03.\d\d/)
         .and contain_sequence("Panier: Grand PUBLIC 2x 30.50", "61.00")
         .and contain_sequence("Tomme de Lavaux PUBLIC: 2x 7.40", "14.80")
         .and contain_sequence("Ajustement du prix des compléments", "-14.15")
@@ -601,7 +601,7 @@ describe PDF::Invoice do
 
       pdf_strings = save_pdf_and_return_strings(invoice)
       expect(pdf_strings)
-        .to include(/01.04.20\d\d – 31.03.20\d\d/)
+        .to include(/01.04.\d\d – 31.03.\d\d/)
         .and contain_sequence("Panier: Grand PUBLIC 4x 30.50", "122.00")
         .and contain_sequence("Montant annuel", "122.00", "Facturation annuelle", "* 122.00")
         .and contain_sequence("Cotisation annuelle association", "75.00")
@@ -637,7 +637,7 @@ describe PDF::Invoice do
 
       pdf_strings = save_pdf_and_return_strings(invoice)
       expect(pdf_strings)
-        .to include(/01.04.20\d\d – 31.03.20\d\d/)
+        .to include(/01.04.\d\d – 31.03.\d\d/)
         .and contain_sequence("Panier: Grand PUBLIC 4x 30.50", "122.00")
         .and contain_sequence("Déjà facturé", "-10.15")
         .and contain_sequence("Montant annuel restant", "111.85")

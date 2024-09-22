@@ -209,19 +209,19 @@ ActiveAdmin.register Invoice do
               }
               row(:missing_activity_participations_count)
             end
-            row(:date) { l invoice.date }
+            row(:date) { l invoice.date, format: :medium }
             row(:sent) { status_tag invoice.sent_at? }
-            row(:created_at) { l(invoice.created_at, format: :medium_long) }
+            row(:created_at) { l(invoice.created_at, format: :medium) }
             row(:created_by)
             if invoice.sent_at?
-              row(:sent_at) { l(invoice.sent_at, format: :medium_long) if invoice.sent_at }
+              row(:sent_at) { l(invoice.sent_at, format: :medium) if invoice.sent_at }
               row(:sent_by)
             end
             if invoice.closed?
-              row(:closed_at) { l(invoice.closed_at, format: :medium_long) if invoice.closed_at }
+              row(:closed_at) { l(invoice.closed_at, format: :medium) if invoice.closed_at }
               row(:closed_by)
             elsif invoice.canceled?
-              row(:canceled_at) { l invoice.canceled_at, format: :medium_long }
+              row(:canceled_at) { l invoice.canceled_at, format: :medium }
               row(:canceled_by)
             end
           end

@@ -145,7 +145,7 @@ class Invoice < ApplicationRecord
   end
 
   def display_name
-    "#{model_name.human} ##{id} (#{I18n.l date})"
+    "#{model_name.human} ##{id} (#{I18n.l date, format: :short})"
   end
 
   def process!(send_email: false)

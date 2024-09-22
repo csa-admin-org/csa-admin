@@ -113,7 +113,6 @@ ActiveAdmin.register Delivery do
         panel t(".details") do
           attributes_table do
             row("#") { delivery.number }
-            row(:date) { l(delivery.date, format: :medium_long) }
             row(:note) { text_format(delivery.note) }
           end
         end

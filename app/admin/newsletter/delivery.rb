@@ -65,13 +65,13 @@ ActiveAdmin.register Newsletter::Delivery do
           attributes_table do
             case delivery.state
             when "delivered"
-              row(:delivered_at) { l(delivery.delivered_at, format: :medium_long) }
+              row(:delivered_at) { l(delivery.delivered_at, format: :medium) }
             when "bounced"
-              row(:bounced_at) { l(delivery.bounced_at, format: :medium_long) }
+              row(:bounced_at) { l(delivery.bounced_at, format: :medium) }
               row(:bounce_type)
               row(:bounce_description)
             when "ignored"
-              row(:processed_at) { l(delivery.processed_at, format: :medium_long) }
+              row(:processed_at) { l(delivery.processed_at, format: :medium) }
               row(:email_suppression_reasons) {
                 content_tag :div do
                   if delivery.email?

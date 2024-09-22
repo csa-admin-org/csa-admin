@@ -219,7 +219,7 @@ ActiveAdmin.register Member do
             div(class: "missing-data") { t(".no_memberships") }
           else
             table_for(memberships.limit(3), class: "table-memberships") do
-              column(:period) { |m| auto_link m, membership_period(m, format: :number_short) }
+              column(:period) { |m| auto_link m, membership_period(m, format: :number) }
               if Current.org.feature?("activity")
                 column(activities_human_name, class: "text-right") { |m|
                   auto_link m, "#{m.activity_participations_accepted} / #{m.activity_participations_demanded}"
@@ -252,7 +252,7 @@ ActiveAdmin.register Member do
             else
               table_for(orders.limit(3), class: "table-auto") do
                 column(:id) { |o| auto_link o, o.id }
-                column(:date) { |o| l(o.date, format: :number_short) }
+                column(:date) { |o| l(o.date, format: :number) }
                 column(:delivery) { |o| link_to o.delivery.display_name(format: :number), o.delivery }
                 column(:amount, class: "text-right") { |o| cur(o.amount) }
                 column(:status, class: "text-right") { |o| status_tag o.state, label: o.state_i18n_name }
@@ -298,7 +298,7 @@ ActiveAdmin.register Member do
           else
             table_for(invoices.limit(10), class: "table-auto") do
               column(:id, class: "") { |i| auto_link i, i.id }
-              column(:date, class: "text-right") { |i| l(i.date, format: :number_short) }
+              column(:date, class: "text-right") { |i| l(i.date, format: :number) }
               column(:amount, class: "text-right") { |i|
                 (content_tag(:span, cur(i.paid_amount) + " /", class: "text-sm whitespace-nowrap text-gray-500") + " " +
                   content_tag(:span, cur(i.amount), class: "whitespace-nowrap")).html_safe
@@ -320,7 +320,7 @@ ActiveAdmin.register Member do
           else
             table_for(payments.limit(10), class: "table-auto") do
               column(:id) { |p| auto_link p, p.id }
-              column(:date, class: "text-right") { |p| l(p.date, format: :number_short) }
+              column(:date, class: "text-right") { |p| l(p.date, format: :number) }
               column(:invoice_id, class: "text-right") { |p| p.invoice_id ? auto_link(p.invoice, p.invoice_id) : "–" }
               column(:amount, class: "text-right") { |p| cur(p.amount) }
               column(:type, class: "text-right") { |p| status_tag p.type }
@@ -366,8 +366,8 @@ ActiveAdmin.register Member do
                 end
               end
             }
-            row(:created_at) { l(member.created_at, format: :medium_long) }
-            row(:validated_at) { member.validated_at ? l(member.validated_at, format: :medium_long) : nil }
+            row(:created_at) { l(member.created_at, format: :medium) }
+            row(:validated_at) { member.validated_at ? l(member.validated_at, format: :medium) : nil }
             row :validator
           end
         end

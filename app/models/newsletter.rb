@@ -61,9 +61,9 @@ class Newsletter < ApplicationRecord
 
   def audience_name
     if sent?
-      audience_name_with_fallback
+      audience_name_with_fallback.html_safe
     else
-      Audience.name(audience_segment)
+      Audience.name(audience_segment).html_safe
     end
   end
 

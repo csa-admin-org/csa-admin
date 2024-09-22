@@ -446,7 +446,7 @@ class Membership < ApplicationRecord
 
   def display_period
     [ started_on, ended_on ].map { |date|
-      format = Current.org.fiscal_year_start_month == 1 ? :short : :short_year
+      format = Current.org.fiscal_year_start_month == 1 ? :short_no_year : :short
       I18n.l(date, format: format)
     }.join(" – ")
   end

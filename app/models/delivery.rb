@@ -72,7 +72,7 @@ class Delivery < ApplicationRecord
     past?
   end
 
-  def display_name(format: :medium_long)
+  def display_name(format: :medium)
     content_tag(:span, class: "whitespace-nowrap") {
       content_tag(:span, class: "tabular-nums") {
         I18n.l(date, format: format)

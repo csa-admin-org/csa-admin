@@ -25,7 +25,7 @@ describe "Shop::Order" do
       visit "/shop"
       expect(current_path).to eq "/shop"
       expect(page).to have_content "Livraison du mercredi 17 novembre 2021"
-      expect(page).to have_content "Votre commande peut-être passée ou modifié jusqu'au lundi 15 novembre 2021 12h00."
+      expect(page).to have_content "Votre commande peut-être passée ou modifié jusqu'au lundi 15 novembre 2021, 12:00."
     end
   end
 
@@ -79,13 +79,13 @@ describe "Shop::Order" do
     travel_to "2021-11-08 11:59 +01" do
       visit "/shop"
       expect(current_path).to eq "/shop"
-      expect(page).to have_content "Votre commande peut-être passée ou modifié jusqu'au lundi 08 novembre 2021 12h00."
+      expect(page).to have_content "Votre commande peut-être passée ou modifié jusqu'au lundi 8 novembre 2021, 12:00."
     end
     travel_to "2021-11-08 12:01 +01" do
       visit "/shop"
       expect(current_path).to eq "/shop"
       expect(page).to have_content "Il n'est plus possible de passer commande pour cette livraison."
-      expect(page).to have_link "Livraison du 17 novembre 2021", href: "/shop/next"
+      expect(page).to have_link "Livraison du mercredi 17 novembre 2021", href: "/shop/next"
     end
   end
 
@@ -109,14 +109,14 @@ describe "Shop::Order" do
       visit "/shop"
       expect(current_path).to eq "/shop"
       expect(page).to have_content "Épicerie\n⤷ 17 novembre 2021"
-      expect(page).to have_content "Livraison du mercredi 17 novembre 2021\nVotre commande peut-être passée ou modifié jusqu'au lundi 15 novembre 2021 12h00."
+      expect(page).to have_content "Livraison du mercredi 17 novembre 2021\nVotre commande peut-être passée ou modifié jusqu'au lundi 15 novembre 2021, 12:00."
     end
     travel_to "2021-11-15 12:01 +01" do
       visit "/shop"
       expect(current_path).to eq "/shop"
       expect(page).to have_content "Épicerie\n⤷ 17 novembre 2021"
       expect(page).to have_content "Il n'est plus possible de passer commande pour cette livraison."
-      expect(page).to have_link "Livraison du 30 novembre 2021", href: "/shop/next"
+      expect(page).to have_link "Livraison du mardi 30 novembre 2021", href: "/shop/next"
     end
   end
 
