@@ -46,10 +46,10 @@ ActiveAdmin.register Absence do
       end
     }, sortable: "members.name"
     column :started_on, ->(absence) {
-      link_to l(absence.started_on, format: :medium), absence
+      link_to l(absence.started_on, format: :short), absence
     }, class: "text-right"
     column :ended_on, ->(absence) {
-      link_to l(absence.ended_on, format: :medium), absence
+      link_to l(absence.ended_on, format: :short), absence
     }, class: "text-right"
     column :deliveries, ->(absence) {
       link_to absence.baskets.size, absence

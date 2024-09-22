@@ -243,9 +243,9 @@ ActiveAdmin.register ActivityParticipation do
             if ap.note?
               row(:note) { ap.note }
             end
-            row(:latest_reminder_sent_at) { l(ap.latest_reminder_sent_at, format: :medium_long) if ap.latest_reminder_sent_at }
-            row(:created_at) { l(ap.created_at, format: :medium_long) }
-            row(:updated_at) { l(ap.updated_at, format: :medium_long) }
+            row(:latest_reminder_sent_at) { l(ap.latest_reminder_sent_at, format: :medium) if ap.latest_reminder_sent_at }
+            row(:created_at) { l(ap.created_at, format: :medium) }
+            row(:updated_at) { l(ap.updated_at, format: :medium) }
           end
         end
 
@@ -255,10 +255,10 @@ ActiveAdmin.register ActivityParticipation do
             attributes_table do
               row :validator
               if ap.validated?
-                row(:validated_at) { l(ap.validated_at, format: :medium_long) }
+                row(:validated_at) { l(ap.validated_at, format: :medium) }
               end
               if ap.rejected?
-                row(:rejected_at) { l(ap.rejected_at, format: :medium_long) }
+                row(:rejected_at) { l(ap.rejected_at, format: :medium) }
               end
             end
           end

@@ -108,7 +108,7 @@ ActiveAdmin.register Shop::Order do
       delivery = GlobalID::Locator.locate(params[:q][:_delivery_gid_eq])
       if delivery == Delivery.shop_open.next
         if delivery.shop_open?
-          span t("active_admin.shared.sidebar_section.shop_open_until_html", date: l(delivery.date, format: :long), end_date: l(delivery.shop_closing_at, format: :medium_long))
+          span t("active_admin.shared.sidebar_section.shop_open_until_html", date: l(delivery.date, format: :long), end_date: l(delivery.shop_closing_at, format: :medium))
         else
           span t("active_admin.shared.sidebar_section.shop_closed_html", date: l(delivery.date, format: :long))
         end
@@ -154,8 +154,8 @@ ActiveAdmin.register Shop::Order do
             row(:delivery) { auto_link order.delivery, order.delivery.display_name }
             row(:depot)
             row(:weight) { kg(order.weight_in_kg) }
-            row(:created_at) { l(order.created_at, format: :medium_long) }
-            row(:updated_at) { l(order.updated_at, format: :medium_long) }
+            row(:created_at) { l(order.created_at, format: :medium) }
+            row(:updated_at) { l(order.updated_at, format: :medium) }
           end
         end
 

@@ -35,10 +35,11 @@ ActiveAdmin.register Shop::SpecialDelivery do
   # https://github.com/activeadmin/activeadmin/issues/4945#issuecomment-302729459
   includes :shop_orders
   index download_links: -> { params[:action] == "show" ? [ :xlsx ] : false } do
-    column :date, ->(d) { auto_link d, l(d.date, format: :medium_long).capitalize }
+    column :id, ->(d) { auto_link d, d.id }
+    column :date, ->(d) { auto_link d, l(d.date, format: :medium) }
     column :open_until, ->(d) {
       if d.shop_open?
-        l(d.shop_closing_at, format: :medium_long).capitalize
+        l(d.shop_closing_at, format: :medium)
       else
         status_tag :closed, class: "red"
       end
@@ -99,10 +100,10 @@ ActiveAdmin.register Shop::SpecialDelivery do
         panel t(".details") do
           attributes_table do
             row(:title)
-            row(:date) { l(delivery.date, format: :medium_long) }
+            row(:date) { l(delivery.date, format: :medium) }
             row(:open) { status_tag(delivery.shop_open?) }
             if delivery.shop_open?
-              row(:open_until) { l(delivery.shop_closing_at, format: :medium_long) }
+              row(:open_until) { l(delivery.shop_closing_at, format: :medium) }
             end
             row(:products) {
               link_to(

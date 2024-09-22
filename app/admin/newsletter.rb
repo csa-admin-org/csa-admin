@@ -31,7 +31,7 @@ ActiveAdmin.register Newsletter do
     column :sent_at, ->(n) {
       span class: "whitespace-nowrap" do
         if n.sent_at?
-          I18n.l(n.sent_at, format: :medium)
+          I18n.l(n.sent_at.to_date, format: :short)
         else
           status_tag :draft
         end
@@ -112,10 +112,10 @@ ActiveAdmin.register Newsletter do
           attributes_table do
             case newsletter.state
             when "sent"
-              row(:sent_at) { I18n.l(newsletter.sent_at, format: :medium_long) }
+              row(:sent_at) { I18n.l(newsletter.sent_at, format: :medium) }
               row(:sent_by) { newsletter.sent_by&.name }
             when "draft"
-              row(:updated_at) { I18n.l(newsletter.updated_at, format: :medium_long) }
+              row(:updated_at) { I18n.l(newsletter.updated_at, format: :medium) }
             end
             row(:attachments) { newsletter.attachments.map { |a| display_attachment(a.file) } }
           end

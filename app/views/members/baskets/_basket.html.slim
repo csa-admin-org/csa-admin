@@ -6,7 +6,7 @@ ul class="relative my-2 md:mr-4 -mx-2 p-2 rounded hover:bg-gray-100 dark:hover:b
   li class='flex flex-row items-center'
     = inline_svg_tag 'members/calendar.svg', class: 'h-6 w-6 flex-shrink-0 fill-stroke text-gray-300 dark:text-gray-700'
     span class='ml-2'
-      = l(basket.delivery.date, format: :medium_long).titleize
+      = l(basket.delivery.date, format: :medium).titleize
 
   li class='mt-1 flex flex-row items-center'
     = inline_svg_tag 'members/basket.svg', class: 'h-6 w-6 flex-shrink-0 fill-stroke text-gray-300 dark:text-gray-700'

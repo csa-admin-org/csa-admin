@@ -226,7 +226,7 @@
     }
 
     .data-table :where(thead > tr > th) {
-      @apply text-lg font-medium bg-transparent px-3;
+      @apply text-lg font-medium bg-transparent px-3 whitespace-nowrap;
     }
 
     .data-table :where(tbody > tr > td)  {

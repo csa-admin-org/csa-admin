@@ -21,7 +21,7 @@ ActiveAdmin.register Session, as: "MSession" do
     column :owner
     column :browser, ->(s) { s.last_user_agent&.to_s }, class: "text-right"
     column :os, ->(s) { s.last_user_agent&.os&.to_s }, class: "text-right"
-    column :last_used_at, ->(s) { l(s.last_used_at, format: :medium) if s.last_used_at }, class: "text-right whitespace-nowrap"
+    column :last_used_at, ->(s) { l(s.last_used_at, format: :short) if s.last_used_at }, class: "text-right whitespace-nowrap"
     column nil, ->(s) {
       content_tag(:span, class: "flex items-center gap-1 justify-end text-gray-500") {
         txt = ""

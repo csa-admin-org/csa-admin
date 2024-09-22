@@ -48,7 +48,7 @@
         div class='flex flex-row items-center'
           = inline_svg_tag('members/shopping_cart.svg', class: 'w-5 h-5 stroke-current')
           span class='ml-1 text-base font-normal'
-            = t('.next_shop_delivery_link', date: l(next_shop_delivery.date))
+            = t('.next_shop_delivery_link', date: l(next_shop_delivery.date, format: :long))
 
 - if Current.org.shop_terms_of_sale_url
   div class='mt-24 text-sm text-gray-400 dark:text-gray-600 text-center underline'

@@ -75,8 +75,8 @@ ActiveAdmin.register Membership do
   index do
     column :id, ->(m) { auto_link m, m.id }
     column :member, sortable: "members.name"
-    column :started_on, ->(m) { auto_link m, l(m.started_on, format: :number_short) }, class: "text-right tabular-nums"
-    column :ended_on, ->(m) { auto_link m, l(m.ended_on, format: :number_short) }, class: "text-right tabular-nums"
+    column :started_on, ->(m) { auto_link m, l(m.started_on, format: :number) }, class: "text-right tabular-nums"
+    column :ended_on, ->(m) { auto_link m, l(m.ended_on, format: :number) }, class: "text-right tabular-nums"
     if Current.org.feature?("activity")
       column activities_human_name, ->(m) {
         link_to(
@@ -360,7 +360,7 @@ ActiveAdmin.register Membership do
             },
             class: "table-auto"
           ) do
-            column(:delivery, class: "md:w-32") { |b| link_to b.delivery.display_name(format: :number_short), b.delivery }
+            column(:delivery, class: "md:w-32") { |b| link_to b.delivery.display_name(format: :number), b.delivery }
             column(:description)
             column(:depot)
             if m.baskets.where(state: [ :absent, :trial ]).any?
@@ -391,7 +391,7 @@ ActiveAdmin.register Membership do
             row :member
             row(:fiscal_year)
             row(:period) { m.display_period }
-            row(:created_at) { l m.created_at, format: :medium_long }
+            row(:created_at) { l m.created_at, format: :medium }
           end
         end
 
