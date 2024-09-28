@@ -1,9 +1,20 @@
 # frozen_string_literal: true
 
-# This file is used by Rack-based servers to start the application.
+if ENV["MAINTENANCE_MODE"] == "ON"
+  use Rack::Static, urls: [ "/maintenance.html" ], root: "public"
 
-require_relative "config/environment"
+  run lambda { |env|
+    [
+      503, # HTTP status code for Service Unavailable
+      { "Content-Type" => "text/html", "Content-Length" => ::File.size("public/maintenance.html").to_s },
+      [ ::File.read("public/maintenance.html") ]
+    ]
+  }
+else
+  # Fallback to the usual Rails app
+  require_relative "config/environment"
 
-use Rack::Status
-run Rails.application
-Rails.application.load_server
+  use Rack::Status
+  run Rails.application
+  Rails.application.load_server
+end
