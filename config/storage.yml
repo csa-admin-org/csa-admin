@@ -1,7 +1,17 @@
 test:
-  service: Disk
+  service: TenantDisk
   root: <%= Rails.root.join("tmp/storage") %>
 
 local:
   service: Disk
   root: <%= Rails.root.join("storage") %>
+
+tenant_disk:
+  service: TenantDisk
+  root: <%= Rails.root.join("storage") %>
+
+mirror:
+  service: Mirror
+  primary: local
+  mirrors:
+    - tenant_disk
