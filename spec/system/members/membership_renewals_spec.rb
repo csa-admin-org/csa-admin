@@ -35,6 +35,8 @@ describe "Memberships Renewal" do
     choose "Renouveler mon abonnement"
     click_on "Suivant"
 
+    expect(page).to have_selector("turbo-frame#pricing", text: "CHF 30.00/an")
+
     choose "Nouveau Lieu"
     choose "Grand PUBLIC"
     fill_in "Oeufs", with: "2"
@@ -101,6 +103,8 @@ describe "Memberships Renewal" do
     choose "Renouveler mon abonnement"
     click_on "Suivant"
 
+    expect(page).to have_selector("turbo-frame#pricing", text: "CHF 60.00/an")
+
     choose "Nouveau cycle"
 
     click_on "Confirmer"
@@ -151,6 +155,8 @@ describe "Memberships Renewal" do
 
     choose "Renouveler mon abonnement"
     click_on "Suivant"
+
+    expect(page).to have_selector("turbo-frame#pricing", text: "CHF 30.00/an")
 
     choose "Grand PUBLIC"
 
@@ -245,6 +251,23 @@ describe "Memberships Renewal" do
       ended_on: Date.parse("2021-12-31"),
       basket_size: big_basket,
       basket_price_extra: 0)
+  end
+
+  specify "renew membership (salary basket)", freeze: "2024-09-30" do
+    member.update!(salary_basket: true)
+    membership = create(:membership, member: member)
+    create_deliveries(1, Current.org.fiscal_year_for(2025))
+    membership.open_renewal!
+
+    login(member)
+
+    expect(menu_nav).to include("Abonnement\n⤷ Renouvellement ?")
+    click_on "Abonnement"
+
+    choose "Renouveler mon abonnement"
+    click_on "Suivant"
+
+    expect(page).to have_selector("turbo-frame#pricing", text: "Panier salaire (gratuit)")
   end
 
   specify "cancel membership", freeze: "2020-09-30" do

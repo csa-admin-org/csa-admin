@@ -4,7 +4,13 @@ require "rounding"
 
 class MembershipPricing
   def initialize(params = {})
-    @params = params
+    # Works with both the registration and renewal form params
+    @params = params.transform_keys { |k|
+      k.to_s
+        .sub(/\Awaiting_/, "")
+        .sub(/members_basket_complements_attributes/, "memberships_basket_complements_attributes")
+    }.with_indifferent_access
+    Rails.logger.debug "MembershipPricing: #{@params.inspect}"
     @min = 0
     @max = 0
   end
@@ -36,7 +42,7 @@ class MembershipPricing
   end
 
   def basket_size
-    @basket_size ||= BasketSize.find_by(id: @params[:waiting_basket_size_id])
+    @basket_size ||= BasketSize.find_by(id: @params[:basket_size_id])
   end
 
   def baskets_prices
@@ -49,7 +55,7 @@ class MembershipPricing
   end
 
   def baskets_price_extras
-    extra = @params[:waiting_basket_price_extra].to_f
+    extra = @params[:basket_price_extra].to_f
     return [ 0, 0 ] if extra.zero?
 
     comp_prices = [ 0, 0 ]
@@ -76,7 +82,7 @@ class MembershipPricing
   end
 
   def complements_prices
-    attrs = @params[:members_basket_complements_attributes].to_h
+    attrs = @params[:memberships_basket_complements_attributes].to_h
     return [ [ 0, 0 ] ] unless attrs.present?
 
     attrs.map { |_, attrs|
@@ -99,7 +105,7 @@ class MembershipPricing
   end
 
   def activity_participations_prices
-    return [ 0, 0 ] unless @params[:waiting_activity_participations_demanded_annually]
+    return [ 0, 0 ] unless @params[:activity_participations_demanded_annually]
     return [ 0, 0 ] unless basket_size
 
     counts = delivery_cycles.map { |dc|
@@ -110,11 +116,11 @@ class MembershipPricing
         member: Member.new(salary_basket: false),
         basket_size: basket_size,
         delivery_cycle: dc,
-        memberships_basket_complements_attributes: @params[:members_basket_complements_attributes].to_h,
+        memberships_basket_complements_attributes: @params[:memberships_basket_complements_attributes].to_h,
         activity_participations_annual_price_change: nil)
       m.activity_participations_demanded_annually = m.activity_participations_demanded_annually_by_default
       default = ActivityParticipationDemanded.new(m).count
-      m.activity_participations_demanded_annually = @params[:waiting_activity_participations_demanded_annually]
+      m.activity_participations_demanded_annually = @params[:activity_participations_demanded_annually]
       demanded = ActivityParticipationDemanded.new(m).count
       -1 * (demanded - default)  * Current.org.activity_price
     }
@@ -146,7 +152,7 @@ class MembershipPricing
 
   def delivery_cycle
     @delivery_cycle ||=
-      DeliveryCycle.find_by(id: @params[:waiting_delivery_cycle_id])
+      DeliveryCycle.find_by(id: @params[:delivery_cycle_id])
   end
 
   def depots
@@ -156,7 +162,7 @@ class MembershipPricing
   end
 
   def depot
-    @depot ||= Depot.find_by(id: @params[:waiting_depot_id])
+    @depot ||= Depot.find_by(id: @params[:depot_id])
   end
 
   def add(prices)

@@ -10,7 +10,14 @@ class Members::MembershipRenewalsController < Members::BaseController
     @membership.renewal_decision = params[:decision]
     set_basket_complements
 
-    redirect_to members_member_path unless @membership&.renewal_opened?
+    if @membership&.renewal_opened?
+      respond_to do |format|
+        format.html
+        format.turbo_stream
+      end
+    else
+      redirect_to members_member_path
+    end
   end
 
   # POST /membership/renewal
@@ -57,6 +64,9 @@ class Members::MembershipRenewalsController < Members::BaseController
   end
 
   def redirect_renewal_decision_params!
+    # Avoid redirect for pricing frame update
+    return if params.dig(:membership, :renewal_note)
+
     if decision = params.dig(:membership, :renewal_decision)
       redirect_to url_for(decision: decision)
     end
@@ -82,4 +92,5 @@ class Members::MembershipRenewalsController < Members::BaseController
       }
       permitted
   end
+  helper_method :renewal_params
 end

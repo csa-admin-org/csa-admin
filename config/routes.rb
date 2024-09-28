@@ -70,6 +70,7 @@ Rails.application.routes.draw do
           only: %i[new create],
           as: "membership_renewal",
           controller: "membership_renewals"
+        get "renew(:format)" => "membership_renewals#new", as: "renew_membership", decision: "renew"
         get ":decision" => "membership_renewals#new"
       end
 

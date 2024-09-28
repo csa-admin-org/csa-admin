@@ -612,6 +612,11 @@ _:
           _fr: Formulaire d'inscription
           _it: Formulario d'iscrizione
       pricing:
+        salary_basket:
+          _de: Lohn-Tasche (gratis)
+          _en: Salary basket (free)
+          _fr: Panier salaire (gratuit)
+          _it: Cesta-compenso (gratuita)
         year:
           _de: Jahr
           _en: year

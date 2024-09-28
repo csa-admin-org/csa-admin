@@ -1,6 +1,10 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
+  static get values() {
+    return { url: String }
+  }
+
   refresh() {
     const form = this.element
     const data = new FormData(form)
@@ -16,8 +20,7 @@ export default class extends Controller {
     data.delete('member[come_from]')
     data.delete('member[note]')
     data.delete('member[terms_of_service]')
-    const url = new URL(window.location.href)
-    url.pathname = '/new'
+    const url = new URL(this.urlValue)
     url.search = new URLSearchParams(data).toString()
 
     Turbo.visit(url, { frame: 'pricing' })
