@@ -3,6 +3,7 @@
 class Newsletter < ApplicationRecord
   include TranslatedAttributes
   include Auditable
+  include Liquidable
 
   ATTACHMENTS_MAXIMUM_SIZE = 3.megabytes
 
@@ -26,6 +27,7 @@ class Newsletter < ApplicationRecord
   scope :sent, -> { where.not(sent_at: nil) }
 
   validates :audience, presence: true
+  validate :subjects_must_be_valid
   validate :at_least_one_block_must_be_present
   validate :attachments_must_not_exceed_maximum_size
   validates :from, format: {
@@ -177,6 +179,11 @@ class Newsletter < ApplicationRecord
   end
 
   private
+
+  def subjects_must_be_valid
+    validate_liquid(:subjects)
+    validate_html(:subjects)
+  end
 
   def at_least_one_block_must_be_present
     if relevant_blocks.none?(&:any_contents?)

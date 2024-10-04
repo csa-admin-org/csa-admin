@@ -3,6 +3,22 @@
 module Liquidable
   extend ActiveSupport::Concern
 
+  def valid_liquid?(attr)
+    Current.org.languages.each do |locale|
+      Liquid::Template.parse(send(attr)[locale])
+    end
+    true
+  rescue Liquid::SyntaxError
+    false
+  end
+
+  def valid_html?(attr)
+    Current.org.languages.sum { |locale|
+      doc = Nokogiri::HTML5.fragment(send(attr)[locale], max_errors: 10)
+      doc.errors.size
+    }.zero?
+  end
+
   private
 
   def validate_liquid(attr)
