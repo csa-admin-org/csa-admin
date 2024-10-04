@@ -47,6 +47,12 @@ export default class extends Controller {
   }
 
   _iframeBodies() {
-    return this.iframeTargets.map(i => i.contentWindow.document.body).filter(Boolean)
+    return this.iframeTargets.map(i => {
+      try {
+        return i.contentWindow.document.body
+      } catch (e) {
+        return null // Handle the error gracefully
+      }
+    }).filter(Boolean);
   }
 }
