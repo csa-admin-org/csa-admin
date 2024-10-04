@@ -79,13 +79,18 @@ ActiveAdmin.register DeliveryCycle do
         end
 
         if DeliveryCycle.visible?
-          attributes_table t(".member_new_form") do
-            row(:visible) { status_tag(dc.visible?) }
-            if dc.visible?
-              table_for dc.depots, class: "depots" do
-                column Depot.model_name.human, ->(d) { auto_link d }
-                column :visible
+          panel t(".member_new_form") do
+            attributes_table do
+              row(:visible, class: "text-right") { status_tag(dc.visible?) }
+              if dc.visible?
+                row(:form_detail, class: "text-right") { delivery_cycle_details(dc) }
               end
+            end
+            if dc.visible?
+                table_for dc.depots, class: "mt-4" do
+                  column Depot.model_name.human, ->(d) { auto_link d }, class: "text-left"
+                  column :visible, class: "text-right"
+                end
             end
           end
         end
@@ -140,6 +145,13 @@ ActiveAdmin.register DeliveryCycle do
           as: :select,
           prompt: true,
           hint: t("formtastic.hints.organization.member_order_priority_html")
+        translated_input(f, :form_details,
+          hint: t("formtastic.hints.delivery_cycle.form_detail"),
+          placeholder: ->(locale) {
+            I18n.with_locale(locale) {
+              delivery_cycle_details(f.object, force_default: true)
+            }
+          })
         f.input :depots,
           as: :check_boxes,
           disabled: depot_ids_with_only(f.object)
@@ -186,6 +198,7 @@ ActiveAdmin.register DeliveryCycle do
     :minimum_gap_in_days,
     *I18n.available_locales.map { |l| "name_#{l}" },
     *I18n.available_locales.map { |l| "public_name_#{l}" },
+    *I18n.available_locales.map { |l| "form_detail_#{l}" },
     wdays: [],
     months: [],
     depot_ids: [])
