@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_09_22_103018) do
+ActiveRecord::Schema[7.2].define(version: 2024_10_04_115827) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
   enable_extension "plpgsql"
@@ -293,6 +293,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_09_22_103018) do
     t.integer "minimum_gap_in_days"
     t.integer "absences_included_annually", default: 0, null: false
     t.datetime "discarded_at"
+    t.jsonb "form_details", default: {}, null: false
     t.index ["discarded_at"], name: "index_delivery_cycles_on_discarded_at"
   end
 

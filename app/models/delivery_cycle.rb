@@ -35,6 +35,7 @@ class DeliveryCycle < ApplicationRecord
   has_and_belongs_to_many :depots, -> { kept } # Visibility
 
   translated_attributes :public_name
+  translated_attributes :form_detail
   translated_attributes :name, required: true
 
   default_scope { order_by_name }

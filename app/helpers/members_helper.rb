@@ -176,6 +176,12 @@ module MembersHelper
     }
   end
 
+  def delivery_cycle_details(dc, force_default: false)
+    return dc.form_detail if !force_default && dc.form_detail?
+
+    deliveries_count(dc.billable_deliveries_count)
+  end
+
   def visible_delivery_cycles_collection(membership: nil, only_with_future_deliveries: false, data: {})
     ids = visible_basket_sizes(object: membership).map(&:delivery_cycle_id).compact
     ids += visible_depots(object: membership).flat_map(&:delivery_cycle_ids)
@@ -197,8 +203,7 @@ module MembersHelper
 
     cycles.map { |dc|
       [
-        collection_text(dc.public_name,
-          details: deliveries_count(dc.billable_deliveries_count)),
+        collection_text(dc.public_name, details: delivery_cycle_details(dc)),
         dc.id,
         data: data,
         checked: dc.id == checked_id

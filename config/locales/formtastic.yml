@@ -182,6 +182,11 @@ _:
           _en: Depots for which this delivery cycle is available to members at registration. In any case, the choice of delivery cycle is only offered to members if at least two different delivery cycles are available for a depot.
           _fr: Dépôts pour lesquels ce cycle de livraisons est disponible pour les membres lors de l'inscription. Dans tous les cas, le choix du cycle de livraisons est proposé aux membres uniquement si au moins deux cycles de livraisons différents sont disponibles pour un dépôt.
           _it: Punti di ritiro per i quali questo ciclo di consegna è disponibile per i soci al momento della registrazione. In ogni caso, la scelta del ciclo di consegna viene proposta ai soci solo se sono disponibili almeno due cicli di consegna diversi per un punto di ritiro.
+        form_detail:
+          _de: Leer lassen für den Standardtext.
+          _en: Leave blank for the default text.
+          _fr: Laisser blanc pour le texte par défaut.
+          _it: Lasciare vuoto per il testo predefinito.
         minimum_gap_in_days:
           _de: Ermöglicht es Ihnen, die Mindestanzahl von Tagen zwischen zwei Lieferungen festzulegen. Zum Beispiel 13 für eine Lieferung alle 2 Wochen.
           _en: Allows you to set the minimum number of days between two deliveries. For example, 13 for a delivery every 2 weeks.
