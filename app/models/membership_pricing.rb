@@ -38,7 +38,8 @@ class MembershipPricing
       BasketComplement.visible.sum(:price).zero? &&
       DeliveryCycle.visible.map(&:billable_deliveries_count).uniq.one? &&
       deliveries_counts.one? &&
-      !Current.org.feature?("basket_price_extra")
+      !Current.org.feature?("basket_price_extra") &&
+      !@params[:activity_participations_demanded_annually]
   end
 
   def basket_size
