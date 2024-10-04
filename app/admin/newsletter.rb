@@ -172,6 +172,7 @@ ActiveAdmin.register Newsletter do
   end
 
   form data: {
+    turbo: false,
     controller: "code-editor form-select-hidder auto-save",
     code_editor_target: "form",
     code_editor_preview_path_value: "/newsletters/preview.js",
@@ -216,6 +217,7 @@ ActiveAdmin.register Newsletter do
 
       errors_on(self, f, :blocks)
       f.semantic_fields_for :blocks do |b|
+        b.object.validate
         b.input :id, as: :hidden
         b.input :block_id, as: :hidden
         b.input :template_id, as: :hidden

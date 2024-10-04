@@ -39,15 +39,43 @@ describe Newsletter do
     expect(newsletter).to have_valid(:from)
   end
 
+  specify "validate subject liquid" do
+    newsletter = build(:newsletter, template: template,
+      subject: "Foo {{ ")
+
+    expect(newsletter).not_to have_valid(:subject_fr)
+    expect(newsletter.errors[:subject_fr])
+      .to include "Liquid syntax error: Variable '{{' was not properly terminated with regexp: /\\}\\}/"
+  end
+
+  specify "validate subject html" do
+    newsletter = build(:newsletter, template: template,
+      subject: "Foo <i>bar")
+
+    expect(newsletter).not_to have_valid(:subject_fr)
+    expect(newsletter.errors[:subject_fr])
+      .to include "HTML error at line 1: Generic parser"
+  end
+
   specify "validate at least content must be present" do
     newsletter = build(:newsletter, template: template,
       blocks_attributes: {
         "0" => { block_id: "first", content_fr: "" },
         "1" => { block_id: "second", content_fr: "" }
-      }
-    )
+      })
 
     expect(newsletter).not_to have_valid(:blocks)
+  end
+
+  specify "validate block content liquid" do
+    newsletter = build(:newsletter, template: template,
+      blocks_attributes: {
+        "0" => { block_id: "first", content_fr: "Foo {{" }
+      })
+
+    expect(newsletter.relevant_blocks.first).not_to have_valid(:content_fr)
+    expect(newsletter.relevant_blocks.first.errors[:content_fr])
+      .to include "Liquid syntax error: Variable '{{' was not properly terminated with regexp: /\\}\\}/"
   end
 
   specify "mailpreview" do
@@ -57,8 +85,7 @@ describe Newsletter do
       blocks_attributes: {
         "0" => { block_id: "first", content_fr: "Hello {{ member.name }}" },
         "1" => { block_id: "second", content_fr: "Youpla Boom" }
-      }
-    )
+      })
     newsletter.liquid_data_preview_yamls = {
       "fr" => <<~YAML
         member:
@@ -92,8 +119,7 @@ describe Newsletter do
       blocks_attributes: {
         "0" => { block_id: "first", content_fr: "Hello {{ member.name }}" },
         "1" => { block_id: "second", content_fr: "Youpla Boom" }
-      }
-    )
+      })
     preview_yamls = {
       "fr" => <<~YAML
         member:
