@@ -13,7 +13,7 @@ pin "throttle-debounce" # @5.0.2
 
 # ActiveAdmin (used also by members)
 pin "flowbite", to: "flowbite.turbo.min.js" # @2.4.1
-pin "browser-update" # @3.3.53
+pin "browser-update" # @3.3.54
 
 # Members
 pin "members", preload: false
