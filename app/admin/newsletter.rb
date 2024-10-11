@@ -65,7 +65,7 @@ ActiveAdmin.register Newsletter do
         end
       end
       column do
-        panel "#{Newsletter.human_attribute_name(:audience)} – #{newsletter.audience_name}" do
+        panel "#{Newsletter.human_attribute_name(:audience)} – #{newsletter.audience_name}".html_safe do
           ul class: "counts" do
             if newsletter.sent?
               li do
