@@ -596,16 +596,16 @@ _:
           _en: Submit
           _fr: Envoyer
           _it: Inviare
+        subtitle:
+          _de: Bitte folgendes Formular ausfüllen. Bei Fragen können Sie uns gerne kontaktieren.
+          _en: Please fill out the form below. Do not hesitate to contact us for any additional information.
+          _fr: Merci de remplir le formulaire ci-dessous. N'hésitez pas à nous contacter pour tout renseignement complémentaire.
+          _it: Si prega di compilare il modulo sottostante. Non esitate a contattarci per ulteriori informazioni.
         terms_of_service_html:
           _de: Ich habe %{documents} gelesen und bin mit diesen einverstanden.
           _en: I have read and agree to %{documents}.
           _fr: J'ai lu attentivement et accepte %{documents}.
           _it: Ho letto attentamente e accetto %{documents}.
-        text:
-          _de: Bitte folgendes Formular ausfüllen. Bei Fragen können Sie uns gerne kontaktieren.
-          _en: Please fill out the form below. Do not hesitate to contact us for any additional information.
-          _fr: Merci de remplir le formulaire ci-dessous. N'hésitez pas à nous contacter pour tout renseignement complémentaire.
-          _it: Si prega di compilare il modulo sottostante. Non esitate a contattarci per ulteriori informazioni.
         title:
           _de: Anmeldeformular
           _en: Registration form
