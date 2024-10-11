@@ -76,8 +76,20 @@ div data-controller="form-disabler form-min-value form-choice-excluder form-choi
         = f.input :waiting_delivery_cycle_id, as: :radio_buttons, collection: visible_delivery_cycles_collection(data: { form_disabler_target: 'input', form_choices_limiter_target: 'input', action: 'form-pricing#refresh' }), disabled: (f.object.waiting_depot ? (DeliveryCycle.pluck(:id) - (f.object.waiting_depot&.delivery_cycle_ids || [])) : []), label: Delivery.model_name.human(count: 2), required: true,
         wrapper_html: { class: ('disabled' if support_checked), data: { form_disabler_target: 'label' } }, input_html: { disabled: support_checked, class: 'mr-4 flex-none h-6 w-6 border-2 border-gray-300 dark:border-gray-700 text-green-500 bg-gray-50 dark:bg-black focus:outline-none focus:ring-green-500 focus:border-green-500 cursor-pointer' }, item_label_class: "border-gray-200 dark:border-gray-800 border rounded px-4 py-2 flex flex-row flex-nowrap items-center cursor-pointer print:border-0 print:py-0 #{'disabled' if (support_checked || !f.object.waiting_depot)}", wrapper_class: 'flex flex-col space-y-2', label_html: { class: 'font-medium text-gray-700 dark:text-gray-300' }
 
-      - if Current.org.allow_alternative_depots?
-        = f.input :waiting_alternative_depot_ids, as: :check_boxes, collection: depots_collection(data: { form_disabler_target: 'input', form_choice_excluder_target: 'input' }), disabled: [f.object.waiting_depot_id].compact, required: false, hint: true, wrapper_html: { class: ('disabled' if support_checked), data: { form_disabler_target: 'label' } }, input_html: { disabled: (depots_collection.map(&:last) if support_checked), class: 'mr-4 flex-none h-6 w-6 rounded border-2 border-gray-300 dark:border-gray-700 text-green-500 bg-gray-50 dark:bg-black focus:outline-none focus:ring-green-500 focus:border-green-500 cursor-pointer' }, item_label_class: 'border-gray-200 dark:border-gray-800 border rounded px-4 py-2 flex flex-row flex-nowrap items-center cursor-pointer print:border-0 print:py-0', wrapper_class: 'flex flex-col space-y-2', label_html: { class: 'font-medium text-gray-700 dark:text-gray-300' }
+    - if Current.org.allow_alternative_depots?
+      div
+        label class="font-medium text-gray-700 dark:text-gray-300"
+          = Member.human_attribute_name(:waiting_alternative_depot_ids)
+        p class="mt-1 mb-3 text-sm text-justify"
+            = t('.alternative_depots_subtitle')
+
+        - selected = f.object.waiting_alternative_depot_ids.any?
+        - unless selected
+          div class="flex flex-row justify-center"
+            = link_to t('.alternative_depots_show_all'), '#', class: 'py-1 px-2 border border-gray-200 dark:border-gray-800 hover:bg-gray-100 dark:hover:bg-gray-900 rounded text-sm cursor-pointer',
+            onclick: "document.querySelector('.member_waiting_alternative_depot_ids').classList.toggle('hidden'); this.classList.toggle('hidden'); return false;"
+
+        = f.input :waiting_alternative_depot_ids, label: false, as: :check_boxes, collection: depots_collection(data: { form_disabler_target: 'input', form_choice_excluder_target: 'input' }), disabled: [f.object.waiting_depot_id].compact, required: false, hint: true, wrapper_html: { class: ('disabled' if support_checked), data: { form_disabler_target: 'label' } }, input_html: { disabled: (depots_collection.map(&:last) if support_checked), class: 'mr-4 flex-none h-6 w-6 rounded border-2 border-gray-300 dark:border-gray-700 text-green-500 bg-gray-50 dark:bg-black focus:outline-none focus:ring-green-500 focus:border-green-500 cursor-pointer' }, item_label_class: 'border-gray-200 dark:border-gray-800 border rounded px-4 py-2 flex flex-row flex-nowrap items-center cursor-pointer print:border-0 print:py-0', wrapper_class: "flex flex-col space-y-2 #{"hidden" unless selected}"
 
     - if Current.org.billing_year_divisions.many?
       div class="print:break-inside-avoid"
