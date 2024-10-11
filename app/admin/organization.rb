@@ -120,6 +120,17 @@ ActiveAdmin.register Organization do
           handbook_button(self, "billing")
         end
         tab t(".registration"), id: "registration" do
+          translated_input(f, :member_form_subtitles,
+            hint: t("formtastic.hints.organization.member_form_subtitle"),
+            placeholder: ->(locale) {
+              I18n.with_locale(locale) {
+                I18n.t("members.members.new.subtitle")
+              }
+            },
+            required: false,
+            as: :action_text,
+            input_html: { rows: 1 })
+
           translated_input(f, :member_form_extra_texts,
             hint: t("formtastic.hints.organization.member_form_extra_text"),
             required: false,
@@ -446,6 +457,7 @@ ActiveAdmin.register Organization do
     *I18n.available_locales.map { |l| "statutes_url_#{l}" },
     *I18n.available_locales.map { |l| "terms_of_service_url_#{l}" },
     *I18n.available_locales.map { |l| "privacy_policy_url_#{l}" },
+    *I18n.available_locales.map { |l| "member_form_subtitle_#{l}" },
     *I18n.available_locales.map { |l| "member_form_extra_text_#{l}" },
     *I18n.available_locales.map { |l| "member_form_complements_text_#{l}" },
     *I18n.available_locales.map { |l| "shop_invoice_info_#{l}" },

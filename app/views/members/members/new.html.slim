@@ -2,7 +2,7 @@ h1 class="text-center text-xl sm:text-2xl font-extrabold text-gray-900 dark:text
   = t('.title')
 
 div class="mt-4 text-justify"
-  p = t('.text')
+  p == Current.org.member_form_subtitle? ? Current.org.member_form_subtitle : t('.subtitle')
 
 div class="mt-8"
   = simple_form_for @member, url: members_member_path, data: { turbo: false, controller: 'form-pricing', 'form-pricing-url-value' => new_members_member_url } do |f|

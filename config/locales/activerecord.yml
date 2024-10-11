@@ -1467,6 +1467,11 @@ _:
           _en: Show only additional explanations
           _fr: Afficher uniquement les explications supplémentaires
           _it: Mostra solo spiegazioni supplementari
+        member_form_subtitle:
+          _de: Einführungstext
+          _en: Introduction text
+          _fr: Texte d'introduction
+          _it: Testo introduttivo
         member_information_text:
           _de: Informationsseite
           _en: Information page

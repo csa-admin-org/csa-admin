@@ -662,6 +662,11 @@ _:
           _en: Removes the default generated explanation text and displays only the additional explanations.
           _fr: Enlève le texte d'explication généré par défaut et affiche uniquement les explications supplémentaires.
           _it: Rimuove il testo di spiegazione generato di default e visualizza solo le spiegazioni supplementari.
+        member_form_subtitle:
+          _de: Text, der unter dem Titel des Anmeldeformulars angezeigt wird.
+          _en: Text displayed below the title of the registration form.
+          _fr: Texte affiché en dessous du titre du formulaire d'inscription.
+          _it: Testo visualizzato sotto il titolo del modulo di registrazione.
         member_information_text:
           _de: Wenn vorhanden, wird der Inhalt dieses Feldes im Mitgliederkonto unter dem Punkt "Informationen" angezeigt. Sie können es z.B. verwenden, um vertrauliche Informationen mit Ihren Mitgliedern zu teilen.
           _en: If present, the content of this field will be displayed on the member's account under the "Information" section. You can use it, for example, to share confidential information with your members.

@@ -44,6 +44,7 @@ class Organization < ApplicationRecord
   translated_rich_texts :membership_update_text
   translated_rich_texts :member_information_text
   translated_attributes :member_information_title
+  translated_rich_texts :member_form_subtitle
   translated_rich_texts :member_form_extra_text
   translated_rich_texts :member_form_complements_text
   translated_attributes :activity_participations_form_detail
