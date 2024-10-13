@@ -23,14 +23,16 @@ describe Billing::InvoicerShare do
     expect(invoice.date).to eq Date.current
   end
 
-  it "sends emails directly when the send_email attribute is set", freeze: "2023-01-01", sidekiq: :inline do
+  it "sends emails directly when the send_email attribute is set", freeze: "2023-01-01" do
     basket_size = create(:basket_size, shares_number: 3)
     membership = create(:membership, basket_size: basket_size)
     member = membership.member
     invoice = nil
 
     expect {
-      invoice = invoice(member, send_email: true)
+      invoice = perform_enqueued_jobs {
+        invoice(member, send_email: true)
+      }
     }.to change { InvoiceMailer.deliveries.size }.by(1)
 
     mail = InvoiceMailer.deliveries.last

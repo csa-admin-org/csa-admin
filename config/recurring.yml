@@ -1,0 +1,49 @@
+production:
+
+  billing_invoices:
+    class: ScheduledJob
+    args: [Scheduled::BillingMembersInvoicerJob]
+    queue: low
+    schedule: at 5am every day
+
+  billing_shop_orders:
+    class: ScheduledJob
+    args: [Scheduled::BillingShopOrdersAutoInvoicerJob]
+    queue: low
+    schedule: at 4:45am every day
+
+  billing_payments:
+    class: ScheduledJob
+    args: [Scheduled::BillingPaymentsProcessorJob]
+    queue: low
+    schedule: at 4am every day
+
+  billing_snapshot:
+    class: ScheduledJob
+    args: [Scheduled::BillingSnapshotJob]
+    queue: low
+    schedule: "0 45-59/1 23 28-31 * *" # last 15 minutes of each quarter
+
+  chores:
+    class: ScheduledJob
+    args: [Scheduled::ChoresJob]
+    queue: low
+    schedule: at midnight every day
+
+  notifier_daily:
+    class: ScheduledJob
+    args: [Scheduled::NotifierDailyJob]
+    queue: low
+    schedule: at 4:30am every day
+
+  notifier_hourly:
+    class: ScheduledJob
+    args: [Scheduled::NotifierHourlyJob]
+    queue: low
+    schedule: every hour
+
+  postmark_sync_suppressions:
+    class: ScheduledJob
+    args: [Scheduled::PostmarkSyncSuppressionsJob]
+    queue: low
+    schedule: every hour

@@ -2,7 +2,7 @@
 
 module Scheduled
   class BaseJob < ApplicationJob
-    sidekiq_options retry: 5
+    retry_on Exception, wait: :polynomially_longer, attempts: 5
     queue_as :low
   end
 end

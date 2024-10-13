@@ -1,20 +1,32 @@
-default: &default
+pg_default: &pg_default
   adapter: postgresql
   encoding: unicode
   # For details on connection pooling, see rails configuration guide
   # http://guides.rubyonrails.org/configuring.html#database-pooling
   pool: <%= ENV['DB_POOL'] || ENV['RAILS_MAX_THREADS'] || 5 %>
 
+sqlite_default: &sqlite_default
+  adapter: sqlite3
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  timeout: 5000
+
 development:
-  <<: *default
-  database: csa_admin_development
-  port: <%= ENV['DB_PORT'] || 5432 %>
+  primary:
+    <<: *pg_default
+    database: csa_admin_development
+    port: <%= ENV['DB_PORT'] || 5432 %>
 
 test:
-  <<: *default
-  database: csa_admin_test
-  port: <%= ENV['DB_PORT'] || 5432 %>
+  primary:
+    <<: *pg_default
+    database: csa_admin_test
+    port: <%= ENV['DB_PORT'] || 5432 %>
 
 production:
-  <<: *default
-  url:  <%= ENV["DATABASE_URL"] %>
+  primary:
+    <<: *pg_default
+    url:  <%= ENV["DATABASE_URL"] %>
+  queue:
+    <<: *sqlite_default
+    database: storage/production_queue.sqlite3
+    migrations_paths: db/queue_migrate

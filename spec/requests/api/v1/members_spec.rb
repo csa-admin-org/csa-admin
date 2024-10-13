@@ -22,7 +22,7 @@ describe "Members V1 API" do
       expect(response.status).to eq 401
     end
 
-    specify "create new member and notify admin", sidekiq: :inline do
+    specify "create new member and notify admin" do
       admin = create(:admin, notifications: [ "new_inscription" ])
 
       basket = create(:basket_size, :small)
@@ -48,6 +48,7 @@ describe "Members V1 API" do
           { basket_complement_id: basket_complement2.id, quantity: 2 }
         ]
       })
+      perform_enqueued_jobs
 
       expect(response.status).to eq 201
 

@@ -11,7 +11,7 @@ Bundler.require(*Rails.groups)
 module CSAAdmin
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
-    config.load_defaults 7.2
+    config.load_defaults 8.0
 
     # Please, add to the `ignore` list any other `lib` subdirectories that do
     # not contain `.rb` files, or that should not be reloaded or eager loaded.
@@ -43,6 +43,9 @@ module CSAAdmin
     end
 
     config.action_mailer.preview_paths = [ "#{Rails.root}/app/mailer_previews" ]
+
+
+    config.mission_control.jobs.base_controller_class = "MissonControlController"
 
     # https://github.com/heartcombo/responders?tab=readme-ov-file#configuring-error-and-redirect-statuses
     config.responders.error_status = :unprocessable_entity

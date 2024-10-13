@@ -229,7 +229,7 @@ describe "Shop::Order" do
     end
   end
 
-  specify "invoiced order", sidekiq: :inline do
+  specify "invoiced order" do
     travel_to "2021-11-08 12:01 +01" do
       Current.org.update!(
         shop_delivery_open_delay_in_days: 2,
@@ -246,7 +246,10 @@ describe "Shop::Order" do
             quantity: 1
           }
         })
-      order.invoice!
+
+      perform_enqueued_jobs do
+        order.invoice!
+      end
 
       visit "/shop/orders/#{order.id}"
       expect(current_path).to eq "/shop/orders/#{order.id}"

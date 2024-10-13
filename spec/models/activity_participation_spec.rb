@@ -82,9 +82,10 @@ describe ActivityParticipation, freeze: "2021-06-15" do
       }.not_to change { Invoice.count }
     end
 
-    specify "noop if no missing activity participations", sidekiq: :inline do
+    specify "noop if no missing activity participations" do
       expect {
         described_class.invoice_all_missing(Date.today.year)
+        perform_enqueued_jobs
       }.to change { Invoice.count }.by(2)
     end
   end

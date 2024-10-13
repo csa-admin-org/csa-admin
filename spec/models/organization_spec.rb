@@ -136,7 +136,6 @@ describe Organization do
   specify "creates default deliveries cycle" do
     Tenant.reset
     create(:organization, tenant_name: "test")
-    Tenant.switch!("test")
 
     expect(DeliveryCycle.count).to eq 1
     expect(DeliveryCycle.first).to have_attributes(

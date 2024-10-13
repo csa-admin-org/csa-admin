@@ -36,7 +36,7 @@ This application is currently used by [more than 25 organizations](https://csa-a
 ## Technical details
 
 - This application is built with Ruby on Rails and uses PostgreSQL as the database.
-- Asynchronous jobs are handled by Sidekiq/ActiveJob and are backed by Redis.
+- Asynchronous jobs are handled by SolidQueue/ActiveJob and are backed by SQLite.
 - Transactional emails and newsletters are sent using the Postmark service.
 
 ## Development and support

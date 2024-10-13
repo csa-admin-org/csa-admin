@@ -58,14 +58,16 @@ describe Basket do
     }.to change(basket, :complements_price).from(3.2 + 4.5).to(4.5)
   end
 
-  it "sets basket_complement on creation when its match membership subscriptions", freeze: "2022-01-01", sidekiq: :inline do
+  it "sets basket_complement on creation when its match membership subscriptions", freeze: "2022-01-01" do
     create(:basket_complement, id: 1, price: 3.2)
     create(:basket_complement, id: 2, price: 4.5)
 
     create(:delivery)
+    perform_enqueued_jobs
     membership_1 = create(:membership, subscribed_basket_complement_ids: [ 1, 2 ])
     membership_2 = create(:membership, subscribed_basket_complement_ids: [ 2 ])
     delivery = create(:delivery, basket_complement_ids: [ 1, 2 ])
+    perform_enqueued_jobs
 
     basket1 = delivery.baskets.find_by(membership: membership_1)
     expect(basket1.complement_ids).to match_array [ 1, 2 ]

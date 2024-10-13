@@ -3,7 +3,7 @@
 require "rails_helper"
 
 describe "Invoices" do
-  it "creates an invoice for a rejected activity participation", sidekiq: :inline do
+  it "creates an invoice for a rejected activity participation" do
     member = create(:member, name: "Jean Paul")
     create(:membership, id: 42, member: member)
     create(:activity_participation, :rejected,
@@ -17,7 +17,9 @@ describe "Invoices" do
     click_link "Facturer"
 
     fill_in "Commentaire", with: "A oublier de venir."
-    click_button "Créer Facture"
+    perform_enqueued_jobs do
+      click_button "Créer Facture"
+    end
 
     expect(page)
       .to have_content("Détails")

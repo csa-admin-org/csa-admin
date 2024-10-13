@@ -15,7 +15,7 @@ describe Newsletter::Delivery do
     )
   }
 
-  specify "store emails on creation", sidekiq: :inline do
+  specify "store emails on creation" do
     member = create(:member, emails: "john@bob.com, jane@bob.com")
     create(:email_suppression,
       id: 512312,
@@ -30,6 +30,7 @@ describe Newsletter::Delivery do
 
     expect {
       Newsletter::Delivery.create_for!(newsletter, member)
+      perform_enqueued_jobs
     }.to change(Newsletter::Delivery, :count).by(2)
 
     expect(Newsletter::Delivery.processing.first).to have_attributes(
@@ -45,7 +46,9 @@ describe Newsletter::Delivery do
     member = create(:member, emails: "")
 
     expect {
-      Newsletter::Delivery.create_for!(newsletter, member)
+      perform_enqueued_jobs {
+        Newsletter::Delivery.create_for!(newsletter, member)
+      }
     }.to change(Newsletter::Delivery, :count).by(1)
 
     expect(Newsletter::Delivery.first).to have_attributes(
@@ -53,13 +56,16 @@ describe Newsletter::Delivery do
       email_suppression_ids: [])
   end
 
-  specify "send newsletter", sidekiq: :inline do
+  specify "send newsletter" do
     # simulate newsletter sent
     newsletter.update!(template_contents: template.contents)
     member = create(:member, name: "Bob", emails: "john@bob.com, jane@bob.com")
 
-    expect { Newsletter::Delivery.create_for!(newsletter, member) }
-      .to change { ActionMailer::Base.deliveries.count }.by(2)
+    expect {
+      perform_enqueued_jobs {
+        Newsletter::Delivery.create_for!(newsletter, member)
+      }
+    }.to change { ActionMailer::Base.deliveries.count }.by(2)
 
     delivery = Newsletter::Delivery.first
     expect(delivery.subject).to eq "Subject Bob"
@@ -78,21 +84,24 @@ describe Newsletter::Delivery do
     expect(mail_body).to include "Au plaisir,\r\n<br />Rage de Vert</p>"
   end
 
-  specify "send newsletter with custom from", sidekiq: :inline do
+  specify "send newsletter with custom from" do
     newsletter.update!(
       # simulate newsletter sent
       template_contents: template.contents,
       from: "contact@ragedevert.ch")
     member = create(:member)
 
-    expect { Newsletter::Delivery.create_for!(newsletter, member) }
-      .to change { ActionMailer::Base.deliveries.count }
+    expect {
+      perform_enqueued_jobs {
+        Newsletter::Delivery.create_for!(newsletter, member)
+      }
+    }.to change { ActionMailer::Base.deliveries.count }
 
     email = ActionMailer::Base.deliveries.first
     expect(email.from).to eq [ "contact@ragedevert.ch" ]
   end
 
-  specify "send newsletter with custom signature", sidekiq: :inline do
+  specify "send newsletter with custom signature" do
     Current.org.update! email_signature: "Signature"
     newsletter.update!(
       # simulate newsletter sent
@@ -100,8 +109,11 @@ describe Newsletter::Delivery do
       signature: "Au plaisir")
     member = create(:member, emails: "john@doe.com")
 
-    expect { Newsletter::Delivery.create_for!(newsletter, member) }
-      .to change { ActionMailer::Base.deliveries.count }
+    expect {
+      perform_enqueued_jobs {
+        Newsletter::Delivery.create_for!(newsletter, member)
+      }
+    }.to change { ActionMailer::Base.deliveries.count }
 
     email = ActionMailer::Base.deliveries.first
     mail_body = email.parts.map(&:body).join
@@ -109,7 +121,7 @@ describe Newsletter::Delivery do
     expect(mail_body).to include "Au plaisir</p>"
   end
 
-  specify "send newsletter with attachments", sidekiq: :inline do
+  specify "send newsletter with attachments" do
     attachment = Newsletter::Attachment.new
     attachment.file.attach(
       io: File.open(file_fixture("qrcode-test.png")),
@@ -121,8 +133,11 @@ describe Newsletter::Delivery do
 
     member = create(:member, name: "Bob", emails: "john@bob.com, jane@bob.com")
 
-    expect { Newsletter::Delivery.create_for!(newsletter, member) }
-      .to change { ActionMailer::Base.deliveries.count }.by(2)
+    expect {
+      perform_enqueued_jobs {
+        Newsletter::Delivery.create_for!(newsletter, member)
+      }
+    }.to change { ActionMailer::Base.deliveries.count }.by(2)
 
     mail = ActionMailer::Base.deliveries.first
     expect(mail[:message_stream].to_s).to eq "broadcast"

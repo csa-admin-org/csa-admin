@@ -61,7 +61,7 @@ describe NewsletterMailer do
 
     expect(mail.attachments.size).to eq 1
     attachment = mail.attachments.first
-    expect(attachment.filename).to eq "Un code 'QR' style.png"
+    expect(attachment.filename).to eq "Un code -QR- style.png"
     expect(attachment.content_type).to eq "image/png"
   end
 end

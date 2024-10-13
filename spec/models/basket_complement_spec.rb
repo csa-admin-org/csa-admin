@@ -52,7 +52,7 @@ describe BasketComplement do
     end
   end
 
-  it "adds basket_complement on subscribed baskets", freeze: "2022-01-01", sidekiq: :inline do
+  it "adds basket_complement on subscribed baskets", freeze: "2022-01-01" do
     basket_complement1 = create(:basket_complement, id: 1, price: 3.2)
     basket_complement2 = create(:basket_complement, id: 2, price: 4.5)
 
@@ -62,6 +62,7 @@ describe BasketComplement do
     membership_3 = create(:membership, subscribed_basket_complement_ids: [ 1 ])
 
     delivery = create(:delivery, basket_complement_ids: [ 1, 2 ])
+    perform_enqueued_jobs
 
     basket3 = delivery.baskets.find_by(membership: membership_3)
     basket3.update!(complement_ids: [ 1, 2 ])
@@ -82,7 +83,7 @@ describe BasketComplement do
     expect(basket3.complements_price).to eq 3.2 + 4.5
   end
 
-  it "removes basket_complement on baskets", freeze: "2022-01-01", sidekiq: :inline do
+  it "removes basket_complement on baskets", freeze: "2022-01-01" do
     basket_complement1 = create(:basket_complement, id: 1, price: 3.2)
     basket_complement2 = create(:basket_complement, id: 2, price: 4.5)
 
@@ -92,6 +93,7 @@ describe BasketComplement do
     membership_3 = create(:membership, subscribed_basket_complement_ids: [ 1 ])
 
     delivery = create(:delivery, basket_complement_ids: [ 1, 2 ])
+    perform_enqueued_jobs
 
     basket3 = delivery.baskets.find_by(membership: membership_3)
     basket3.update!(complement_ids: [ 1, 2 ])
@@ -111,7 +113,7 @@ describe BasketComplement do
     expect(basket3.complements_price).to eq 3.2
   end
 
-  it "does not modify basket_complement on subscribed baskets for past deliveries", sidekiq: :inline do
+  it "does not modify basket_complement on subscribed baskets for past deliveries" do
     basket_complement1 = create(:basket_complement, id: 1, price: 3.2)
     basket_complement2 = create(:basket_complement, id: 2, price: 4.5)
 
@@ -125,6 +127,7 @@ describe BasketComplement do
       membership_3 = create(:membership, subscribed_basket_complement_ids: [ 1 ])
 
       delivery = create(:delivery, basket_complement_ids: [ 1, 2 ])
+      perform_enqueued_jobs
 
       basket1 = delivery.baskets.find_by(membership: membership_1)
       basket2 = delivery.baskets.find_by(membership: membership_2)

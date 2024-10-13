@@ -3,7 +3,7 @@
 require "rails_helper"
 
 describe "Admin sessions" do
-  it "creates a new session from email", sidekiq: :inline do
+  it "creates a new session from email" do
     admin = create(:admin, email: "thibaud@thibaud.gg")
 
     visit "/"
@@ -12,6 +12,7 @@ describe "Admin sessions" do
 
     fill_in "Email", with: " Thibaud@thibaud.gg "
     click_button "Envoyer"
+    perform_enqueued_jobs
 
     session = admin.sessions.last
 

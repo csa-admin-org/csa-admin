@@ -21,10 +21,12 @@ describe Billing::MissingActivityParticipationsInvoicerJob do
       .not_to change(Invoice, :count)
   end
 
-  specify "create invoice and send invoice", sidekiq: :inline do
+  specify "create invoice and send invoice" do
     membership = create(:membership, activity_participations_demanded_annually: 2)
 
-    expect { described_class.perform_later(membership) }
+    expect {
+      perform_enqueued_jobs { described_class.perform_later(membership) }
+    }
       .to change(Invoice, :count).by(1)
       .and change { membership.reload.activity_participations_missing }.to(0)
       .and change { InvoiceMailer.deliveries.size }.by(1)
@@ -41,14 +43,15 @@ describe Billing::MissingActivityParticipationsInvoicerJob do
     expect(invoice).to be_sent
   end
 
-  specify "create invoice for previous year membership", sidekiq: :inline do
+  specify "create invoice for previous year membership" do
     Current.org.update!(fiscal_year_start_month: 5)
     membership = travel_to "2021-01-06" do
       create(:membership, activity_participations_demanded_annually: 2)
     end
 
-    expect { described_class.perform_later(membership) }
-      .to change(Invoice, :count).by(1)
+    expect {
+      perform_enqueued_jobs { described_class.perform_later(membership) }
+    }.to change(Invoice, :count).by(1)
 
     invoice = Invoice.last
     expect(invoice).to have_attributes(

@@ -23,7 +23,7 @@ describe "Postmark Webhooks" do
       expect(response.status).to eq 401
     end
 
-    specify "handle delivery webhook", sidekiq: :inline do
+    specify "handle delivery webhook" do
       delivery = create(:newsletter_delivery, :processed,
         email: "john@doe.com")
 
@@ -44,9 +44,9 @@ describe "Postmark Webhooks" do
         }
       JSON_STRING
 
-
       expect {
         request(params: json)
+        perform_enqueued_jobs
         expect(response.status).to eq 200
       }.to change { delivery.reload.state }.from("processing").to("delivered")
 
@@ -56,7 +56,7 @@ describe "Postmark Webhooks" do
         postmark_details: "Test delivery webhook details")
     end
 
-    specify "handle bounce webhook", sidekiq: :inline do
+    specify "handle bounce webhook" do
       delivery = create(:newsletter_delivery, :processed,
         email: "john@doe.com")
 
@@ -91,6 +91,7 @@ describe "Postmark Webhooks" do
 
       expect {
         request(params: json)
+        perform_enqueued_jobs
         expect(response.status).to eq 200
       }.to change { delivery.reload.state }.from("processing").to("bounced")
 

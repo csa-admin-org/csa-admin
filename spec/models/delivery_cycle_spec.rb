@@ -216,13 +216,15 @@ describe DeliveryCycle, freeze: "2022-01-01" do
     expect(cycle.future_deliveries_count).to eq 4
   end
 
-  specify "async membership baskets update after config change", freeze: "2023-01-01", sidekiq: :inline do
+  specify "async membership baskets update after config change", freeze: "2023-01-01" do
     create(:delivery, date: "2023-01-05")
     create(:delivery, date: "2023-01-06")
     cycle = create(:delivery_cycle, wdays: [ 4, 5 ])
     membership = create(:membership, delivery_cycle: cycle)
 
-    expect { cycle.reload.update!(wdays: [ 4 ]) }
-      .to change { membership.baskets.count }
+    expect {
+      cycle.reload.update!(wdays: [ 4 ])
+      perform_enqueued_jobs
+    }.to change { membership.baskets.count }
   end
 end

@@ -55,12 +55,6 @@ Rails.application.configure do
   # Print deprecation notices to the Rails logger.
   config.active_support.deprecation = :log
 
-  # Raise exceptions for disallowed deprecations.
-  config.active_support.disallowed_deprecation = :raise
-
-  # Tell Active Support which deprecation messages to disallow.
-  config.active_support.disallowed_deprecation_warnings = []
-
   # Raise an error on page load if there are pending migrations.
   config.active_record.migration_error = :page_load
 
@@ -69,6 +63,9 @@ Rails.application.configure do
 
   # Highlight code that enqueued background job in logs.
   config.active_job.verbose_enqueue_logs = true
+
+  # Append comments with runtime information tags to SQL queries in logs.
+  config.active_record.query_log_tags_enabled = true
 
   # Raises error for missing translations.
   config.i18n.raise_on_missing_translations = true
@@ -87,15 +84,4 @@ Rails.application.configure do
 
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
-
-  config.after_initialize do
-    Bullet.enable = true
-    Bullet.bullet_logger = true
-    Bullet.console = true
-    Bullet.rails_logger = true
-    Bullet.add_footer = true
-    Bullet.unused_eager_loading_enable = false
-  end
-
-  config.active_job.queue_adapter = :inline
 end

@@ -31,9 +31,10 @@ describe Billing::Invoicer do
     expect { create_invoice(member) }.not_to change(Invoice, :count)
   end
 
-  it "creates an invoice for not already billed support member", freeze: "2022-01-01", sidekiq: :inline do
+  it "creates an invoice for not already billed support member", freeze: "2022-01-01" do
     member = create(:member, :support_annual_fee)
     invoice = create_invoice(member)
+    perform_enqueued_jobs
 
     expect(invoice.entity).to be_nil
     expect(invoice.entity_type).to eq "AnnualFee"
@@ -59,7 +60,7 @@ describe Billing::Invoicer do
     expect { create_invoice(member) }.to change(Invoice, :count).by(1)
   end
 
-  it "does not bill annual fee for canceled trial membership", sidekiq: :inline do
+  it "does not bill annual fee for canceled trial membership" do
     Current.org.update!(
       billing_year_divisions: [ 12 ],
       trial_baskets_count: 4)
@@ -79,6 +80,7 @@ describe Billing::Invoicer do
     invoice = travel_to "2021-04-01" do
       create_invoice(member)
     end
+    perform_enqueued_jobs
 
     expect(invoice.entity).to eq membership
     expect(invoice.annual_fee).to be_nil
@@ -100,10 +102,11 @@ describe Billing::Invoicer do
     expect { create_invoice(member) }.not_to change(Invoice, :count)
   end
 
-  it "creates an invoice for already billed support member (last year)", freeze: "2022-01-01", sidekiq: :inline do
+  it "creates an invoice for already billed support member (last year)", freeze: "2022-01-01" do
     member = create(:member, :support_annual_fee)
     create(:invoice, :annual_fee, member: member, date: 1.year.ago)
     invoice = create_invoice(member)
+    perform_enqueued_jobs
 
     expect(invoice.entity).to be_nil
     expect(invoice.annual_fee).to be_present
@@ -116,8 +119,9 @@ describe Billing::Invoicer do
     let(:member) { create(:member, :active) }
     let(:membership) { member.current_membership }
 
-    specify "when not already billed", sidekiq: :inline do
+    specify "when not already billed" do
       invoice = create_invoice(member)
+      perform_enqueued_jobs
 
       expect(invoice.entity).to eq membership
       expect(invoice.annual_fee).to be_present
@@ -137,7 +141,7 @@ describe Billing::Invoicer do
       expect(invoice.annual_fee).to be_nil
     end
 
-    specify "when not already billed with complements and many baskets", sidekiq: :inline do
+    specify "when not already billed with complements and many baskets" do
       create_deliveries(2)
       create(:basket_complement, id: 1, price: 3.4)
       create(:basket_complement, id: 2, price: 5.6)
@@ -153,6 +157,7 @@ describe Billing::Invoicer do
           })
       }
       invoice = create_invoice(member)
+      perform_enqueued_jobs
 
       expect(invoice.entity).to eq membership
       expect(invoice.annual_fee).to be_present
@@ -164,9 +169,10 @@ describe Billing::Invoicer do
       expect(invoice.pdf_file).to be_attached
     end
 
-    specify "when salary basket & support member", freeze: "2022-01-01", sidekiq: :inline do
+    specify "when salary basket & support member", freeze: "2022-01-01" do
       member = create(:member, :support_annual_fee, salary_basket: true)
       invoice = create_invoice(member)
+      perform_enqueued_jobs
 
       expect(invoice.entity).to be_nil
       expect(invoice.annual_fee).to be_present
@@ -200,14 +206,16 @@ describe Billing::Invoicer do
       expect(invoice.memberships_amount).to eq 2 * 2
     end
 
-    specify "when already billed, but with a membership change (overcharged)", freeze: "2022-01-01", sidekiq: :inline do
+    specify "when already billed, but with a membership change (overcharged)", freeze: "2022-01-01" do
       create_deliveries(2)
       overcharged_invoice = create_invoice(member, send_email: true)
+      perform_enqueued_jobs
       membership.update!(basket_price: 20)
 
       invoice = nil
       expect {
         invoice = create_invoice(member)
+        perform_enqueued_jobs
       }.to change { overcharged_invoice.reload.state }.to("canceled")
 
       expect(invoice.entity).to eq membership
@@ -261,10 +269,12 @@ describe Billing::Invoicer do
       }
     end
 
-    specify "when quarter #2 (already billed but canceled)", sidekiq: :inline do
+    specify "when quarter #2 (already billed but canceled)" do
       travel_to("2022-01-01") { create_invoice(member) }
       travel_to("2022-04-01") {
-        create_invoice(member, send_email: true).reload.cancel!
+        canceled_invoice = create_invoice(member, send_email: true)
+        perform_enqueued_jobs
+        canceled_invoice.reload.cancel!
         invoice = create_invoice(member)
 
         expect(invoice.entity).to eq membership
@@ -291,7 +301,7 @@ describe Billing::Invoicer do
       }
     end
 
-    specify "when quarter #3 (with overpaid on previous invoices)", sidekiq: :inline do
+    specify "when quarter #3 (with overpaid on previous invoices)" do
       first_invoice = travel_to("2022-01-01") {
         create_deliveries(2)
         create_invoice(member)
@@ -303,10 +313,12 @@ describe Billing::Invoicer do
 
         create(:payment, member: member, amount: memberships_amount + annual_fee + 1)
         create(:payment, member: member, amount: memberships_amount + 5)
+        perform_enqueued_jobs
 
         expect(first_invoice.reload.overpaid).to be_zero
         expect(second_invoice.reload.overpaid).to eq(6)
         invoice = create_invoice(member)
+        perform_enqueued_jobs
 
         expect(invoice.paid_memberships_amount).to eq membership.price / 2.0
         expect(invoice.memberships_amount).to eq membership.price / 4.0
