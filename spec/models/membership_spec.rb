@@ -994,18 +994,20 @@ describe Membership do
 
       expect {
         membership.open_renewal!
+        perform_enqueued_jobs
       }.to change { membership.reload.renewal_opened_at }.from(nil)
 
       expect(membership).to be_renewal_opened
     end
 
-    it "sends member-renewal email template", sidekiq: :inline do
+    it "sends member-renewal email template" do
       next_fy = Current.org.fiscal_year_for(Date.today.year + 1)
       create(:delivery, date: next_fy.beginning_of_year)
       membership = create(:membership)
 
       expect {
         membership.open_renewal!
+        perform_enqueued_jobs
       }.to change { MembershipMailer.deliveries.size }.by(1)
       mail = MembershipMailer.deliveries.last
       expect(mail.subject).to eq "Renouvellement de votre abonnement"
@@ -1128,7 +1130,7 @@ describe Membership do
         billing_year_divisions: [ 1, 3 ])
     end
 
-    specify "membership period is reduced", sidekiq: :inline do
+    specify "membership period is reduced" do
       member = create(:member)
       membership = travel_to "2022-01-01" do
         create(:delivery, date: "2022-01-01")
@@ -1137,14 +1139,18 @@ describe Membership do
       end
       travel_to "2022-05-01" do
         invoice = Billing::Invoicer.force_invoice!(member, send_email: true)
+        perform_enqueued_jobs
         membership.update!(ended_on: "2022-05-01")
-        expect { membership.cancel_overcharged_invoice! }
+        expect {
+          membership.cancel_overcharged_invoice!
+          perform_enqueued_jobs
+        }
           .to change { invoice.reload.state }.from("open").to("canceled")
           .and change { membership.reload.invoices_amount }.to(0)
       end
     end
 
-    specify "only cancel the over-paid invoices", sidekiq: :inline do
+    specify "only cancel the over-paid invoices" do
       member = create(:member)
       membership = travel_to "2022-01-01" do
         create(:membership, member: member, billing_year_division: 3)
@@ -1152,11 +1158,14 @@ describe Membership do
       invoice_1 = travel_to "2022-01-01" do
         Billing::Invoicer.force_invoice!(member, send_email: true)
       end
+      perform_enqueued_jobs
       invoice_2 = travel_to "2022-05-01" do
         Billing::Invoicer.force_invoice!(member, send_email: true)
       end
+      perform_enqueued_jobs
       travel_to "2022-09-01" do
         invoice_3 = Billing::Invoicer.force_invoice!(member, send_email: true)
+        perform_enqueued_jobs
         membership.update!(baskets_annual_price_change: -11)
         expect {
           expect { membership.cancel_overcharged_invoice! }
@@ -1167,13 +1176,14 @@ describe Membership do
       end
     end
 
-    specify "membership basket price is reduced", sidekiq: :inline do
+    specify "membership basket price is reduced" do
       member = create(:member)
       membership = travel_to "2022-01-01" do
         create(:membership, member: member, billing_year_division: 1)
       end
       travel_to "2022-02-01" do
         invoice = Billing::Invoicer.force_invoice!(member, send_email: true)
+        perform_enqueued_jobs
         membership.baskets.first.update!(basket_price: 5)
         expect { membership.cancel_overcharged_invoice! }
           .to change { invoice.reload.state }.from("open").to("canceled")
@@ -1181,7 +1191,7 @@ describe Membership do
       end
     end
 
-    specify "new absent basket not billed are updated", sidekiq: :inline do
+    specify "new absent basket not billed are updated" do
       Current.org.update!(absences_billed: false)
 
       member = create(:member)
@@ -1192,6 +1202,7 @@ describe Membership do
       end
       travel_to "2022-02-01" do
         invoice = Billing::Invoicer.force_invoice!(member, send_email: true)
+        perform_enqueued_jobs
         expect {
           create(:absence,
             member: member,
@@ -1205,10 +1216,11 @@ describe Membership do
       end
     end
 
-    specify "past membership period is not reduced", sidekiq: :inline do
+    specify "past membership period is not reduced" do
       member = create(:member)
       membership = create(:membership, member: member, billing_year_division: 1)
       invoice = Billing::Invoicer.force_invoice!(member, send_email: true)
+      perform_enqueued_jobs
       travel_to(Date.new(Current.fy_year + 1, 12, 15)) do
         membership.baskets.first.update!(basket_price: 5)
         expect { membership.cancel_overcharged_invoice! }
@@ -1217,7 +1229,7 @@ describe Membership do
       end
     end
 
-    specify "basket complement is added", sidekiq: :inline do
+    specify "basket complement is added" do
       member = create(:member)
       membership = travel_to "2022-01-01" do
         create(:delivery, date: "2022-01-01")
@@ -1233,6 +1245,7 @@ describe Membership do
       create(:basket_complement, id: 2, price: 4)
       travel_to "2022-05-01" do
         invoice = Billing::Invoicer.force_invoice!(member, send_email: true)
+        perform_enqueued_jobs
         membership.reload
         membership.update!(memberships_basket_complements_attributes: {
           "0" => { basket_complement_id: 2, quantity: 1 }
@@ -1244,7 +1257,7 @@ describe Membership do
   end
 
   describe "#destroy_or_cancel_invoices!" do
-    specify "cancel or destroy membership invoices on destroy", sidekiq: :inline do
+    specify "cancel or destroy membership invoices on destroy" do
       Current.org.update!(
         trial_baskets_count: 0,
         fiscal_year_start_month: 1,
@@ -1257,9 +1270,11 @@ describe Membership do
       sent_invoice = travel_to "2022-02-01" do
         Billing::Invoicer.force_invoice!(member, send_email: true)
       end
+      perform_enqueued_jobs
       not_sent_invoice = travel_to "2022-03-01" do
         Billing::Invoicer.force_invoice!(member, send_email: false)
       end
+      perform_enqueued_jobs
 
       travel_to "2022-04-01" do
         expect { membership.destroy }

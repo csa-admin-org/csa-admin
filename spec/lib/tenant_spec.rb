@@ -14,14 +14,17 @@ describe Tenant do
     expect(Tenant).to be_outside
   end
 
-  specify ".switch" do
+  specify ".switch!" do
     Tenant.reset
 
     expect(Tenant.current).to eq Tenant.default
-    expect(Tenant.current).not_to eq "ragedevert"
-    Tenant.switch("ragedevert") do
-      expect(Tenant.current).to eq "ragedevert"
-    end
-    expect(Tenant.current).to eq Tenant.default
+    Tenant.switch!("ragedevert")
+    expect(Tenant.current).to eq "ragedevert"
+  end
+
+  specify ".switch! from inside?" do
+    expect {
+      Tenant.switch!("other-org")
+    }.to raise_error("Illegal tenant switch (ragedevert => other-org)")
   end
 end

@@ -302,7 +302,8 @@ describe BasketContent do
     let(:basket_size_1) { BasketSize.find(1001) }
     let(:basket_size_2) { BasketSize.find(1002) }
 
-    specify "with all depots content", sidekiq: :inline do
+    specify "with all depots content" do
+      perform_enqueued_jobs { delivery }
       expect {
         create(:basket_content,
           basket_size_ids_percentages: {
@@ -313,6 +314,7 @@ describe BasketContent do
           quantity: 100,
           unit: "pc",
           unit_price: 2)
+        perform_enqueued_jobs
       }.to change { delivery.reload.basket_content_avg_prices }
 
       expect(delivery.basket_content_avg_prices).to eq(
@@ -326,8 +328,9 @@ describe BasketContent do
         basket_size_2 => { depot => 122.0.to_d })
     end
 
-    specify "with different depots content", sidekiq: :inline do
-      other_depot = create(:depot)
+    specify "with different depots content" do
+      perform_enqueued_jobs { delivery }
+      create(:depot)
       create(:basket_content,
         basket_size_ids_percentages: {
           1001 => 40,
@@ -350,7 +353,8 @@ describe BasketContent do
         })
     end
 
-    specify "with all in one basket_size", sidekiq: :inline do
+    specify "with all in one basket_size" do
+      perform_enqueued_jobs { delivery }
       create(:basket_content,
         delivery: delivery,
         basket_size_ids_percentages: {
@@ -368,8 +372,10 @@ describe BasketContent do
         basket_size_2 => { depot => 200.0 })
     end
 
-    specify "with other delivery basket content", sidekiq: :inline do
+    specify "with other delivery basket content" do
       other_delivery = create(:delivery)
+      perform_enqueued_jobs
+      perform_enqueued_jobs { delivery }
       create(:basket_content,
         basket_size_ids_percentages: {
           1001 => 40,

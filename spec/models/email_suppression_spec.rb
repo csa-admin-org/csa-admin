@@ -102,11 +102,12 @@ describe EmailSuppression do
     end
   end
 
-  specify "notifies admins when created", sidekiq: :inline do
+  specify "notifies admins when created" do
     admin = create(:admin, notifications: [ "new_email_suppression" ])
     create(:admin, notifications: [])
 
     suppress!("outbound", "a@b.com", "HardBounce", "Recipient")
+    perform_enqueued_jobs
 
     expect(AdminMailer.deliveries.size).to eq 1
     mail = AdminMailer.deliveries.last

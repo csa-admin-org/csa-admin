@@ -574,7 +574,7 @@ describe Member do
   describe "#activate!" do
     before { MailTemplate.find_by(title: :member_activated).update!(active: true) }
 
-    it "activates new active member and sent member-activated email", sidekiq: :inline do
+    it "activates new active member and sent member-activated email" do
       travel_to(Date.new(Current.fy_year, 1, 15)) do
         member = create(:member, :inactive, activated_at: nil)
         membership = create(:membership,
@@ -583,10 +583,12 @@ describe Member do
         membership.update_column(:ended_on, 1.day.from_now)
         member.reload
 
-        expect { member.activate! }
+        expect {
+          perform_enqueued_jobs { member.activate! }
+        }
           .to change(member, :state).from("inactive").to("active")
           .and change(member, :activated_at).from(nil)
-          .and change { MemberMailer.deliveries.size }.by(1)
+          .and change(MemberMailer.deliveries, :count).by(1)
 
         mail = MemberMailer.deliveries.last
         expect(mail.subject).to eq "Bienvenue!"
@@ -668,13 +670,15 @@ describe Member do
   end
 
   describe "notify_new_inscription_to_admins" do
-    it "notifies admin with new_inscription notifications on when publicly created", sidekiq: :inline do
+    it "notifies admin with new_inscription notifications on when publicly created" do
       admin1 = create(:admin, notifications: [ "new_inscription" ])
       admin2 = create(:admin, notifications: [])
 
-      member = create(:member, :waiting,
-        name: "John Doe",
-        public_create: true)
+      perform_enqueued_jobs do
+        create(:member, :waiting,
+          name: "John Doe",
+          public_create: true)
+      end
 
       expect(AdminMailer.deliveries.size).to eq 1
       mail = AdminMailer.deliveries.last

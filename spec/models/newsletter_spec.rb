@@ -169,7 +169,7 @@ describe Newsletter do
       )
     }
 
-    specify "send newsletter", sidekiq: :inline do
+    specify "send newsletter" do
       create(:member, name: "Doe", emails: "john@doe.com, jane@doe.com")
       create(:member, name: "Bob", emails: "john@bob.com, jane@bob.com")
       create(:email_suppression,
@@ -189,7 +189,9 @@ describe Newsletter do
       expect(newsletter[:liquid_data_preview_yamls]).to be_empty
       expect(newsletter.audience_names).to be_empty
 
-      expect { newsletter.send! }
+      expect {
+        perform_enqueued_jobs { newsletter.send! }
+      }
         .to change { newsletter.deliveries.count }.by(4)
         .and change { newsletter.sent_at }.from(nil)
         .and change { ActionMailer::Base.deliveries.count }.by(3)

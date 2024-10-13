@@ -270,10 +270,11 @@ describe Shop::Order do
         .and change { order.reload.state }.from("cart").to("pending")
     end
 
-    specify "persist the depot", sidekiq: :inline, freeze: "2023-01-01" do
+    specify "persist the depot", freeze: "2023-01-01" do
       member = create(:member, :active)
       depot = member.current_membership.depot
       order = create(:shop_order, :cart, member: member)
+      perform_enqueued_jobs
 
       expect(order.depot).to eq(depot)
 
@@ -360,10 +361,11 @@ describe Shop::Order do
       expect(order.items.size).to eq(2)
     end
 
-    specify "persist the depot", sidekiq: :inline, freeze: "2023-01-01" do
+    specify "persist the depot", freeze: "2023-01-01" do
       member = create(:member, :active)
       depot = member.current_membership.depot
       order = create(:shop_order, :cart, member: member)
+      perform_enqueued_jobs
 
       expect(order.depot).to eq(depot)
 
@@ -407,10 +409,11 @@ describe Shop::Order do
         .and change { order.reload.state }.from("pending").to("cart")
     end
 
-    specify "persist the depot", sidekiq: :inline, freeze: "2023-01-01" do
+    specify "persist the depot", freeze: "2023-01-01" do
       member = create(:member, :active)
       depot = member.current_membership.depot
       order = create(:shop_order, :cart, member: member)
+      perform_enqueued_jobs
 
       expect(order.depot).to eq(depot)
 
@@ -524,7 +527,7 @@ describe Shop::Order do
   end
 
   describe "#invoice!" do
-    specify "create an invoice and set state to invoiced", sidekiq: :inline do
+    specify "create an invoice and set state to invoiced" do
       product = create(:shop_product,
         name: "Courge",
         variants_attributes: {
@@ -552,7 +555,10 @@ describe Shop::Order do
       })
 
       travel_to "2021-08-21 09:01:42 +02" do
-        expect { order.invoice! }
+        expect {
+          order.invoice!
+          perform_enqueued_jobs
+        }
           .to change { order.reload.state }.from("pending").to("invoiced")
           .and change { Invoice.count }.by(1)
       end
@@ -574,9 +580,10 @@ describe Shop::Order do
   end
 
   describe "#cancel!" do
-    specify "cancel the invoice and set state back to pending", sidekiq: :inline do
+    specify "cancel the invoice and set state back to pending" do
       order = create(:shop_order, :pending)
       invoice = order.invoice!
+      perform_enqueued_jobs
 
       expect { order.cancel! }
         .to change { order.reload.state }.from("invoiced").to("pending")

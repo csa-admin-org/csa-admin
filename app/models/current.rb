@@ -14,13 +14,4 @@ class Current < ActiveSupport::CurrentAttributes
   def fiscal_year
     org.current_fiscal_year
   end
-
-  # AcitveJob inline queue adapter is reseting the Current attributes
-  # after each run. This is a workaround to keep the Current attributes
-  # set when a job is performed inline in a spec.
-  # https://github.com/rails/rails/issues/36298
-  if Rails.env.test?
-    alias :reset! :reset
-    def reset; nil end
-  end
 end

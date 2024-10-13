@@ -5,7 +5,7 @@ require "rails_helper"
 describe "Member sessions" do
   before { Capybara.app_host = "http://membres.ragedevert.test" }
 
-  it "creates a new session from email", sidekiq: :inline do
+  it "creates a new session from email" do
     member = create(:member, emails: "thibaud@thibaud.gg, john@doe.com")
 
     visit "/"
@@ -14,6 +14,7 @@ describe "Member sessions" do
 
     fill_in "session_email", with: " thibaud@Thibaud.GG "
     click_button "Envoyer"
+    perform_enqueued_jobs
 
     session = member.sessions.last
 

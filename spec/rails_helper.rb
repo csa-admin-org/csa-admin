@@ -8,11 +8,9 @@ require "super_diff/rspec-rails"
 require "capybara/rails"
 require "capybara/rspec"
 require "capybara/email/rspec"
-require "sidekiq/testing"
 
 Dir[Rails.root.join("spec/support/**/*.rb")].each { |f| require f }
 ActiveRecord::Migration.maintain_test_schema!
-ActiveJob::Uniqueness.test_mode!
 
 Faker::Config.locale = :fr
 
@@ -21,6 +19,7 @@ RSpec.configure do |config|
   config.infer_spec_type_from_file_location!
   config.include FactoryBot::Syntax::Methods
   config.include ActiveSupport::Testing::TimeHelpers
+  config.include ActiveJob::TestHelper
 
   config.before(:suite) do
     unless Organization.exists?(host: "ragedevert")
@@ -34,18 +33,14 @@ RSpec.configure do |config|
   end
 
   config.around(:each) do |example|
-    Tenant.switch("ragedevert") do
-      example.run
-    end
+    Tenant.switch!("ragedevert")
+    example.run
+  ensure
+    Tenant.reset
   end
 
   config.after(:each) do
     FactoryBot.rewind_sequences
-    Current.reset!
     Faker::UniqueGenerator.clear
-  end
-
-  shared_context "sidekiq:inline", sidekiq: :inline do
-    around(:each) { |ex| Sidekiq::Testing.inline!(&ex) }
   end
 end

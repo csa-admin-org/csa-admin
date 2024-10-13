@@ -14,7 +14,7 @@ describe PDF::Invoice do
         invoice_footer: "<b>Association Rage de Vert</b>, Closel-Bourbon 3, 2075 Thielle /// info@ragedevert.ch, 076 481 13 84")
     }
 
-    it "generates invoice with all settings and member name and address", sidekiq: :inline do
+    it "generates invoice with all settings and member name and address" do
       member = create(:member,
         name: "John Doe",
         address: "Unknown Str. 42",
@@ -31,7 +31,7 @@ describe PDF::Invoice do
         .and include("CH44 3199 9123 0008 8901 2")
     end
 
-    it "generates invoice with only annual_fee amount", sidekiq: :inline do
+    it "generates invoice with only annual_fee amount" do
       invoice = create(:invoice, :annual_fee, member: member, id: 807, annual_fee: 42)
       pdf_strings = save_pdf_and_return_strings(invoice)
 
@@ -41,7 +41,7 @@ describe PDF::Invoice do
       expect(pdf_strings).not_to include("Facturation annuelle")
     end
 
-    it "generates invoice with annual_fee amount + annual membership", sidekiq: :inline do
+    it "generates invoice with annual_fee amount + annual membership" do
       membership = create(:membership,
         member: member,
         basket_size: create(:basket_size, :big),
@@ -65,7 +65,7 @@ describe PDF::Invoice do
       expect(pdf_strings).not_to include "Montant annuel restant"
     end
 
-    it "generates invoice with support ammount + annual membership + activity_participations reduc", sidekiq: :inline do
+    it "generates invoice with support ammount + annual membership + activity_participations reduc" do
       membership = create(:membership,
         member: member,
         basket_size: create(:basket_size, :big),
@@ -92,7 +92,7 @@ describe PDF::Invoice do
       expect(pdf_strings).not_to include "Montant annuel restant"
     end
 
-    it "generates invoice with support ammount + quarter membership", sidekiq: :inline do
+    it "generates invoice with support ammount + quarter membership" do
       member = create(:member, id: 4444)
       membership = create(:membership,
         member: member,
@@ -120,7 +120,7 @@ describe PDF::Invoice do
         .and include "11 04100 00000 04444 00000 00080"
     end
 
-    it "generates invoice with membership basket_price_extra", sidekiq: :inline do
+    it "generates invoice with membership basket_price_extra" do
       Current.org.update!(
         features: [ "basket_price_extra" ],
         basket_price_extra_title: "Prix Extra",
@@ -144,7 +144,7 @@ describe PDF::Invoice do
         .and contain_sequence("Total", "116.50")
     end
 
-    it "generates invoice with membership basket_price_extra and dynamic pricing", sidekiq: :inline do
+    it "generates invoice with membership basket_price_extra and dynamic pricing" do
       Current.org.update!(
         features: [ "basket_price_extra" ],
         basket_price_extra_title: "Classe",
@@ -169,7 +169,7 @@ describe PDF::Invoice do
         .and contain_sequence("Montant annuel", "74.90")
     end
 
-    it "generates invoice with quarter menbership and paid amount", sidekiq: :inline do
+    it "generates invoice with quarter menbership and paid amount" do
       member = create(:member, id: 42)
       membership = create(:membership,
         member: member,
@@ -208,7 +208,7 @@ describe PDF::Invoice do
       expect(pdf_strings).not_to include "Cotisation annuelle association"
     end
 
-    it "generates invoice with ActivityParticipation object", sidekiq: :inline, freeze: "2018-05-01" do
+    it "generates invoice with ActivityParticipation object", freeze: "2018-05-01" do
       activity = create(:activity, date: "2018-3-4")
       rejected_participation = create(:activity_participation, :rejected,
         activity: activity,
@@ -221,7 +221,7 @@ describe PDF::Invoice do
         .and contain_sequence("Total", "120.00")
     end
 
-    specify "invoice with ActivityParticipation object and VAT", sidekiq: :inline, freeze: "2018-05-01" do
+    specify "invoice with ActivityParticipation object and VAT", freeze: "2018-05-01" do
       Current.org.update!(
         vat_activity_rate: 7.7,
         vat_number: "CHE-123.456.789",
@@ -240,7 +240,7 @@ describe PDF::Invoice do
         .and contain_sequence("N° TVA CHE-123.456.789")
     end
 
-    it "generates invoice with ActivityParticipation type (one participant)", sidekiq: :inline, freeze: "2018-05-01" do
+    it "generates invoice with ActivityParticipation type (one participant)", freeze: "2018-05-01" do
       invoice = create(:invoice,
         date: "2018-4-5",
         missing_activity_participations_count: 1,
@@ -253,7 +253,7 @@ describe PDF::Invoice do
         .and contain_sequence("Total", "60.00")
     end
 
-    it "generates invoice with ActivityParticipation type (many participants)", sidekiq: :inline, freeze: "2018-05-01" do
+    it "generates invoice with ActivityParticipation type (many participants)", freeze: "2018-05-01" do
       Current.org.update!(fiscal_year_start_month: 4)
       invoice = create(:invoice,
         date: "2018-4-5",
@@ -267,7 +267,7 @@ describe PDF::Invoice do
         .and contain_sequence("Total", "180.00")
     end
 
-    it "generates an invoice with items", sidekiq: :inline do
+    it "generates an invoice with items" do
       invoice = create(:invoice,
         date: "2018-11-01",
         items_attributes: {
@@ -283,7 +283,7 @@ describe PDF::Invoice do
         .and contain_sequence("Total", "42.00")
     end
 
-    it "generates an invoice with items and percentage", sidekiq: :inline do
+    it "generates an invoice with items and percentage" do
       invoice = create(:invoice,
         date: "2018-11-01",
         amount_percentage: 4.2,
@@ -301,7 +301,7 @@ describe PDF::Invoice do
         .and contain_sequence("Total", "44.42")
     end
 
-    it "generates an invoice with items and VAT", sidekiq: :inline do
+    it "generates an invoice with items and VAT" do
       Current.org.update!(vat_number: "CHE-123.456.789")
       payment = create(:payment, amount: 12)
       invoice = create(:invoice,
@@ -325,7 +325,7 @@ describe PDF::Invoice do
         .and contain_sequence("N° TVA CHE-123.456.789")
     end
 
-    specify "with items over 2 pages", sidekiq: :inline do
+    specify "with items over 2 pages" do
       invoice = create(:invoice,
         date: "2023-05-05",
         items_attributes: 50.times.map { |i|
@@ -338,7 +338,7 @@ describe PDF::Invoice do
         .and contain_sequence("2 / 2")
     end
 
-    specify "with items over 3 pages", sidekiq: :inline do
+    specify "with items over 3 pages" do
       invoice = create(:invoice,
         date: "2023-05-05",
         items_attributes: 51.times.map { |i|
@@ -366,7 +366,7 @@ describe PDF::Invoice do
       create_deliveries(4)
     }
 
-    it "generates invoice with support amount + complements + annual membership", sidekiq: :inline do
+    it "generates invoice with support amount + complements + annual membership" do
       member = create(:member,
         id: 42,
         name: "Alain Reymond",
@@ -413,7 +413,7 @@ describe PDF::Invoice do
       expect(pdf_strings).not_to include "Montant annuel restant"
     end
 
-    it "generates invoice with support ammount + four month membership + winter basket", freeze: "2019-04-01", sidekiq: :inline do
+    it "generates invoice with support ammount + four month membership + winter basket", freeze: "2019-04-01" do
       create(:delivery, date: "2019-10-01")
       winter_dc = create(:delivery_cycle, months: [ 1, 2, 3, 10, 11, 12 ])
       member = create(:member,
@@ -451,7 +451,7 @@ describe PDF::Invoice do
       expect(pdf_strings).not_to include "Cotisation annuelle association"
     end
 
-    it "generates invoice with mensual membership + complements", sidekiq: :inline do
+    it "generates invoice with mensual membership + complements" do
       member = create(:member,
         name: "Alain Reymond",
         address: "Bd Plumhof 6",
@@ -504,7 +504,7 @@ describe PDF::Invoice do
       expect(pdf_strings).not_to include "Cotisation annuelle association"
     end
 
-    it "generates invoice with support ammount + baskets_annual_price_change reduc + complements", freeze: "2020-04-01", sidekiq: :inline do
+    it "generates invoice with support ammount + baskets_annual_price_change reduc + complements", freeze: "2020-04-01" do
       member = create(:member,
         name: "Alain Reymond",
         address: "Bd Plumhof 6",
@@ -545,7 +545,7 @@ describe PDF::Invoice do
       expect(pdf_strings).not_to include "Montant restant"
     end
 
-    it "generates invoice with support ammount + basket_complements_annual_price_change reduc + complements", freeze: "2020-04-01", sidekiq: :inline do
+    it "generates invoice with support ammount + basket_complements_annual_price_change reduc + complements", freeze: "2020-04-01" do
       member = create(:member,
         name: "Alain Reymond",
         address: "Bd Plumhof 6",
@@ -586,7 +586,7 @@ describe PDF::Invoice do
       expect(pdf_strings).not_to include "Montant restant"
     end
 
-    it "generates an invoice with support and a previous extra payment covering part of its amount", sidekiq: :inline do
+    it "generates an invoice with support and a previous extra payment covering part of its amount" do
       member = create(:member)
       membership = create(:membership,
         basket_size: create(:basket_size, name: "Grand"),
@@ -614,7 +614,7 @@ describe PDF::Invoice do
         expect(pdf_strings).not_to include "Montant restant"
     end
 
-    it "generates an invoice and a previous extra payment covering part of its amount", sidekiq: :inline do
+    it "generates an invoice and a previous extra payment covering part of its amount" do
       member = create(:member)
       membership = create(:membership,
         basket_size: create(:basket_size, name: "Grand"),
@@ -665,7 +665,7 @@ describe PDF::Invoice do
         invoice_footer: "<b>TaPatate!<b>, c/o Danielle Huser, Dunantstrasse 6, 3006 Bern /// info@tapatate.ch")
     }
 
-    it "generates invoice with positive shares_number", sidekiq: :inline do
+    it "generates invoice with positive shares_number" do
       member = create(:member,
         name: "Manuel Rast",
         address: "Donnerbühlweg 31",
@@ -687,7 +687,7 @@ describe PDF::Invoice do
         .and contain_sequence("L’historique de votre facturation est disponible à tout moment sur votre page de membre.")
     end
 
-    it "generates invoice with negative shares_number", sidekiq: :inline do
+    it "generates invoice with negative shares_number" do
       member = create(:member,
         name: "Manuel Rast",
         address: "Donnerbühlweg 31",
@@ -732,7 +732,7 @@ describe PDF::Invoice do
         country_code: "CH")
     }
 
-    it "generates invoice with QR Code", sidekiq: :inline do
+    it "generates invoice with QR Code" do
       invoice = create(:invoice,
         id: 1001,
         member: member,
@@ -793,7 +793,7 @@ describe PDF::Invoice do
         sepa_mandate_signed_on: nil)
     }
 
-    specify "invoice without SEPA payment section", sidekiq: :inline do
+    specify "invoice without SEPA payment section" do
       invoice = create(:invoice,
         id: 8001,
         member: member,
@@ -842,7 +842,7 @@ describe PDF::Invoice do
         sepa_mandate_signed_on: "2024-03-02")
     }
 
-    specify "invoice with SEPA payment section", sidekiq: :inline do
+    specify "invoice with SEPA payment section" do
       invoice = create(:invoice,
         id: 9001,
         member: member,
@@ -858,7 +858,7 @@ describe PDF::Invoice do
         .and contain_sequence("Betrag", "EUR 1 250.00")
     end
 
-    specify "invoice with zero-amount SEPA payment section", sidekiq: :inline do
+    specify "invoice with zero-amount SEPA payment section" do
       create(:payment, member: member, amount: 250)
       invoice = create(:invoice,
         id: 9002,
@@ -893,7 +893,7 @@ describe PDF::Invoice do
         shop_invoice_info: "Payable jusqu'au %{date}, avec nos remerciements.")
     }
 
-    it "generates an invoice for a shop order", sidekiq: :inline do
+    it "generates an invoice for a shop order" do
       member = create(:member)
       product = create(:shop_product,
         name: "Courge",
@@ -944,7 +944,7 @@ describe PDF::Invoice do
       expect(pdf_strings).not_to include "Cotisation annuelle association"
     end
 
-    specify "shop order with credit and vat", sidekiq: :inline do
+    specify "shop order with credit and vat" do
       Current.org.update!(vat_shop_rate: 2.5, vat_number: "CHE-123.456.789")
       member = create(:member)
       create(:payment, member: member, amount: 12)
@@ -996,7 +996,7 @@ describe PDF::Invoice do
     end
   end
 
-  specify "new member fee invoice", freeze: "2023-01-10", sidekiq: :inline do
+  specify "new member fee invoice", freeze: "2023-01-10" do
     current_org.update!(
       features: [ "new_member_fee" ],
       new_member_fee_description: "Paniers vides",
@@ -1015,7 +1015,7 @@ describe PDF::Invoice do
       .and contain_sequence("Total", "42.00")
   end
 
-  specify "includes previous cancelled invoices references", sidekiq: :inline do
+  specify "includes previous cancelled invoices references" do
     p = create(:activity_participation)
     m = p.member
     i1 = create(:invoice, :activity_participation, :open, member: m, entity: p, id: 1)

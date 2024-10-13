@@ -4,11 +4,13 @@ source "https://rubygems.org"
 
 ruby file: ".ruby-version"
 
-gem "rails", "7.2.1"
+gem "rails", github: "rails/rails", branch: "main"
 
 gem "bootsnap", require: false
+gem "thruster", require: false
 gem "propshaft"
 gem "pg"
+gem "sqlite3"
 gem "puma"
 
 gem "lograge"
@@ -43,9 +45,8 @@ gem "rails_icons"
 
 gem "cld"
 
-gem "sidekiq"
-gem "sidekiq-scheduler"
-gem "activejob-uniqueness"
+gem "solid_queue", github: "rails/solid_queue", branch: "main"
+gem "mission_control-jobs", github: "rails/mission_control-jobs", branch: "main"
 
 gem "faraday"
 gem "faraday-cookie_jar"
@@ -80,13 +81,12 @@ gem "user_agent_parser"
 
 gem "sentry-ruby"
 gem "sentry-rails"
-gem "sentry-sidekiq"
 
 gem "kramdown"
 gem "nokogiri"
 
 group :production do
-  gem "redis"
+  # TODO: try to remove this dependency
   gem "matrix"
 end
 
@@ -107,7 +107,6 @@ group :development do
   # Can be configured to work on production as well see: https://github.com/MiniProfiler/rack-mini-profiler/blob/master/README.md
   # gem 'rack-mini-profiler', '~> 2.0'
   gem "listen"
-  gem "bullet"
   gem "letter_opener"
 
   gem "terminal-table"

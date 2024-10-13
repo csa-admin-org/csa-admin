@@ -3,35 +3,45 @@
 require "rails_helper"
 
 describe Notifier do
-  specify ".send_admin_memberships_renewal_pending_emails", sidekiq: :inline do
+  specify ".send_admin_memberships_renewal_pending_emails" do
     create(:admin, notifications: [])
     create(:admin, notifications: [ "memberships_renewal_pending" ])
     end_of_fiscal_year = Current.fiscal_year.end_of_year
     create(:membership, renew: true, renewal_opened_at: nil, renewed_at: nil)
 
     travel_to end_of_fiscal_year - 11.days do
-      expect { Notifier.send_admin_memberships_renewal_pending_emails }
-        .not_to change { AdminMailer.deliveries.size }
+      expect {
+        Notifier.send_admin_memberships_renewal_pending_emails
+        perform_enqueued_jobs
+      }.not_to change { AdminMailer.deliveries.size }
     end
     travel_to end_of_fiscal_year - 10.days do
-      expect { Notifier.send_admin_memberships_renewal_pending_emails }
-        .to change { AdminMailer.deliveries.size }.by(1)
+      expect {
+        Notifier.send_admin_memberships_renewal_pending_emails
+        perform_enqueued_jobs
+      }.to change { AdminMailer.deliveries.size }.by(1)
     end
     travel_to end_of_fiscal_year - 7.days do
-      expect { Notifier.send_admin_memberships_renewal_pending_emails }
-        .not_to change { AdminMailer.deliveries.size }
+      expect {
+        Notifier.send_admin_memberships_renewal_pending_emails
+        perform_enqueued_jobs
+      }.not_to change { AdminMailer.deliveries.size }
     end
     travel_to end_of_fiscal_year - 4.days do
-      expect { Notifier.send_admin_memberships_renewal_pending_emails }
-        .to change { AdminMailer.deliveries.size }.by(1)
+      expect {
+        Notifier.send_admin_memberships_renewal_pending_emails
+        perform_enqueued_jobs
+      }.to change { AdminMailer.deliveries.size }.by(1)
     end
     travel_to end_of_fiscal_year do
-      expect { Notifier.send_admin_memberships_renewal_pending_emails }
-        .not_to change { AdminMailer.deliveries.size }
+      expect {
+        Notifier.send_admin_memberships_renewal_pending_emails
+        perform_enqueued_jobs
+      }.not_to change { AdminMailer.deliveries.size }
     end
   end
 
-  specify ".send_membership_renewal_reminder_emails", sidekiq: :inline do
+  specify ".send_membership_renewal_reminder_emails" do
     Current.org.update!(open_renewal_reminder_sent_after_in_days: 10)
     MailTemplate.find_by(title: :membership_renewal_reminder).update!(active: true)
     next_fy = Current.org.fiscal_year_for(Date.today.year + 1)
@@ -44,7 +54,10 @@ describe Notifier do
     create(:membership, renewal_opened_at: 10.days.ago, renewal_reminder_sent_at: 1.minute.ago)
     create(:membership, :last_year, renewal_opened_at: 10.days.ago)
 
-    expect { Notifier.send_membership_renewal_reminder_emails }
+    expect {
+      Notifier.send_membership_renewal_reminder_emails
+      perform_enqueued_jobs
+    }
       .to change { MembershipMailer.deliveries.size }.by(1)
 
     mail = MembershipMailer.deliveries.last
@@ -52,7 +65,7 @@ describe Notifier do
     expect(mail.to).to eq [ "john@doe.com" ]
   end
 
-  specify ".send_membership_last_trial_basket_emails", sidekiq: :inline do
+  specify ".send_membership_last_trial_basket_emails" do
     Current.org.update!(trial_baskets_count: 2)
     MailTemplate.find_by(title: :membership_last_trial_basket).update!(active: true)
     travel_to "2021-05-01" do
@@ -70,8 +83,10 @@ describe Notifier do
       create(:membership, started_on: "2021-05-02", ended_on: "2021-05-03")
       create(:membership, started_on: "2021-05-02", last_trial_basket_sent_at: 1.minute.ago)
 
-      expect { Notifier.send_membership_last_trial_basket_emails }
-        .to change { MembershipMailer.deliveries.size }.by(1)
+      expect {
+        Notifier.send_membership_last_trial_basket_emails
+        perform_enqueued_jobs
+      }.to change { MembershipMailer.deliveries.size }.by(1)
 
       mail = MembershipMailer.deliveries.last
       expect(mail.subject).to eq "Dernier panier à l'essai!"
@@ -80,7 +95,7 @@ describe Notifier do
   end
 
   describe ".send_activity_participation_validated_emails" do
-    specify "send email for recently validated participation", sidekiq: :inline do
+    specify "send email for recently validated participation" do
       MailTemplate.find_by(title: :activity_participation_validated).update!(active: true)
 
       create(:activity_participation, :validated,
@@ -96,8 +111,10 @@ describe Notifier do
       create(:activity_participation, :validated,
         validated_at: 4.days.ago)
 
-      expect { Notifier.send_activity_participation_validated_emails }
-        .to change { ActivityMailer.deliveries.size }.by(1)
+      expect {
+        Notifier.send_activity_participation_validated_emails
+        perform_enqueued_jobs
+      }.to change { ActivityMailer.deliveries.size }.by(1)
 
       mail = ActivityMailer.deliveries.last
       expect(mail.subject).to eq "Activité validée 🎉"
@@ -111,13 +128,15 @@ describe Notifier do
         review_sent_at: nil,
         validated_at: 1.day.ago)
 
-      expect { Notifier.send_activity_participation_validated_emails }
-        .not_to change { ActivityMailer.deliveries.size }
+      expect {
+        Notifier.send_activity_participation_validated_emails
+        perform_enqueued_jobs
+      }.not_to change { ActivityMailer.deliveries.size }
     end
   end
 
   describe ".send_activity_participation_rejected_emails" do
-    specify "send email for recently rejected participation", sidekiq: :inline do
+    specify "send email for recently rejected participation" do
       MailTemplate.find_by(title: :activity_participation_rejected).update!(active: true)
 
       create(:activity_participation, :rejected,
@@ -133,8 +152,10 @@ describe Notifier do
       create(:activity_participation, :rejected,
         rejected_at: 4.days.ago)
 
-      expect { Notifier.send_activity_participation_rejected_emails }
-        .to change { ActivityMailer.deliveries.size }.by(1)
+      expect {
+        Notifier.send_activity_participation_rejected_emails
+        perform_enqueued_jobs
+      }.to change { ActivityMailer.deliveries.size }.by(1)
 
       mail = ActivityMailer.deliveries.last
       expect(mail.subject).to eq "Activité refusée 😬"
@@ -148,15 +169,17 @@ describe Notifier do
         review_sent_at: nil,
         rejected_at: 1.day.ago)
 
-      expect { Notifier.send_activity_participation_rejected_emails }
-        .not_to change { ActivityMailer.deliveries.size }
+      expect {
+        Notifier.send_activity_participation_rejected_emails
+        perform_enqueued_jobs
+       }.not_to change { ActivityMailer.deliveries.size }
     end
   end
 
   describe ".send_admin_new_activity_participation_emails" do
     let(:member) { create(:member) }
 
-    specify "send email recently created participations in group", sidekiq: :inline do
+    specify "send email recently created participations in group" do
       admin = create(:admin, notifications: [ "new_activity_participation" ])
 
       date = 1.week.from_now.to_date
@@ -166,8 +189,10 @@ describe Notifier do
       part1 = create(:activity_participation, member: member, activity: activity1)
       part2 = create(:activity_participation, member: member, activity: activity2)
 
-      expect { Notifier.send_admin_new_activity_participation_emails }
-        .to change { ActivityMailer.deliveries.size }.by(1)
+      expect {
+        Notifier.send_admin_new_activity_participation_emails
+        perform_enqueued_jobs
+      }.to change { ActivityMailer.deliveries.size }.by(1)
 
       mail = ActivityMailer.deliveries.last
       expect(mail.subject).to eq "Nouvelle participation à une ½ journée"
@@ -182,19 +207,23 @@ describe Notifier do
       create(:admin, notifications: [ "new_activity_participation" ])
       create(:activity_participation, member: member, created_at: 25.hours.ago)
 
-      expect { Notifier.send_admin_new_activity_participation_emails }
-        .not_to change { ActivityMailer.deliveries.size }
+      expect {
+        Notifier.send_admin_new_activity_participation_emails
+        perform_enqueued_jobs
+      }.not_to change { ActivityMailer.deliveries.size }
     end
 
     specify "ignores already notified participations" do
       create(:admin, notifications: [ "new_activity_participation" ])
       create(:activity_participation, member: member, admins_notified_at: 1.hour.ago)
 
-      expect { Notifier.send_admin_new_activity_participation_emails }
-        .not_to change { ActivityMailer.deliveries.size }
+      expect {
+        Notifier.send_admin_new_activity_participation_emails
+        perform_enqueued_jobs
+      }.not_to change { ActivityMailer.deliveries.size }
     end
 
-    specify "only notify participation with note", sidekiq: :inline do
+    specify "only notify participation with note" do
       admin = create(:admin, notifications: [ "new_activity_participation_with_note" ])
 
       activity1 = create(:activity, date: 1.weeks.from_now)
@@ -204,8 +233,10 @@ describe Notifier do
       part2 = create(:activity_participation, :carpooling, activity: activity2, member: member,
         note: "Super Remarque")
 
-      expect { Notifier.send_admin_new_activity_participation_emails }
-        .to change { ActivityMailer.deliveries.size }.by(1)
+      expect {
+        Notifier.send_admin_new_activity_participation_emails
+        perform_enqueued_jobs
+      }.to change { ActivityMailer.deliveries.size }.by(1)
 
       mail = ActivityMailer.deliveries.last
       expect(mail.subject).to eq "Nouvelle participation à une ½ journée"
@@ -217,7 +248,7 @@ describe Notifier do
       expect(part2.reload.admins_notified_at).to be_present
     end
 
-    specify "skip admin that created the participation", sidekiq: :inline do
+    specify "skip admin that created the participation" do
       admin = create(:admin, notifications: [ "new_activity_participation" ])
 
       activity1 = create(:activity, date: 1.weeks.from_now)
@@ -227,8 +258,10 @@ describe Notifier do
         session: create(:session, admin: admin))
       part2 = create(:activity_participation, :carpooling, activity: activity2, member: member)
 
-      expect { Notifier.send_admin_new_activity_participation_emails }
-        .to change { ActivityMailer.deliveries.size }.by(1)
+      expect {
+        Notifier.send_admin_new_activity_participation_emails
+        perform_enqueued_jobs
+      }.to change { ActivityMailer.deliveries.size }.by(1)
 
       mail = ActivityMailer.deliveries.last
       expect(mail.subject).to eq "Nouvelle participation à une ½ journée"

@@ -1,19 +1,12 @@
 # frozen_string_literal: true
 
-require "sidekiq/web"
-require "sidekiq-scheduler/web"
-
 Rails.application.routes.draw do
   get "up" => "rails/health#show", as: :rails_health_check
 
   resources :logos, only: :show
 
-  constraints subdomain: "sidekiq" do
-    Sidekiq::Web.use Rack::Auth::Basic do |username, password|
-      ActiveSupport::SecurityUtils.secure_compare(::Digest::SHA256.hexdigest(username), ::Digest::SHA256.hexdigest("sidekiq")) &&
-        ActiveSupport::SecurityUtils.secure_compare(::Digest::SHA256.hexdigest(password), ::Digest::SHA256.hexdigest(ENV["SIDEKIQ_WEB_PASSWORD"]))
-    end if Rails.env.production?
-    mount Sidekiq::Web, at: "/"
+  constraints subdomain: "mc" do
+    mount MissionControl::Jobs::Engine, at: "/jobs"
   end
 
   constraints subdomain: "admin" do

@@ -133,9 +133,9 @@ describe Newsletter::Template do
     expect(mail).to include "bla bla</p>"
   end
 
-  specify "send default simple template", sidekiq: :inline do
+  specify "send default simple template" do
     template = Newsletter::Template.find_by(title: "Texte simple")
-    member = create(:member,
+    create(:member,
       name: "John Doe",
       emails: "john@doe.com")
     newsletter = create(:newsletter,
@@ -146,8 +146,9 @@ describe Newsletter::Template do
         "0" => { block_id: "text", content_fr: "Hello {{ member.name }}" }
       })
 
-    expect { newsletter.send! }
-      .to change { newsletter.deliveries.count }.by(1)
+    expect {
+      perform_enqueued_jobs { newsletter.send! }
+    }.to change { newsletter.deliveries.count }.by(1)
 
     email = ActionMailer::Base.deliveries.first
     expect(email.subject).to eq "Texte simple test"
@@ -155,7 +156,7 @@ describe Newsletter::Template do
     expect(mail_body).to include "Hello John Doe"
   end
 
-  specify "send default next delivery template", sidekiq: :inline do
+  specify "send default next delivery template" do
     Current.org.update!(trial_baskets_count: 0)
     template = Newsletter::Template.find_by(title: "Prochaine livraison")
     member = create(:member, :active, name: "John Doe")
@@ -172,8 +173,9 @@ describe Newsletter::Template do
         "3" => { block_id: "recipe", content_fr: "" }
       })
 
-    expect { newsletter.send! }
-      .to change { newsletter.deliveries.count }.by(2)
+    expect {
+      perform_enqueued_jobs { newsletter.send! }
+    }.to change { newsletter.deliveries.count }.by(2)
 
     email = ActionMailer::Base.deliveries.first
     expect(email.subject).to eq "Prochaine livraison test"
@@ -189,7 +191,7 @@ describe Newsletter::Template do
     expect(mail_body).to include "En tenant compte de vos inscriptions actuelles"
   end
 
-  specify "send default next delivery template (without ativities)", sidekiq: :inline do
+  specify "send default next delivery template (without ativities)" do
     Current.org.update!(features: [])
     template = Newsletter::Template.find_by(title: "Prochaine livraison")
     create(:membership)
@@ -204,19 +206,20 @@ describe Newsletter::Template do
         "3" => { block_id: "recipe", content_fr: "" }
       })
 
-    expect { newsletter.send! }
-      .to change { newsletter.deliveries.count }.by(2)
+    expect {
+      perform_enqueued_jobs { newsletter.send! }
+    }.to change { newsletter.deliveries.count }.by(2)
 
     email = ActionMailer::Base.deliveries.first
     mail_body = email.parts.map(&:body).join
     expect(mail_body).not_to include "Voici les activités à venir pour lesquelles nous avons encore besoin de monde:"
   end
 
-  specify "send default next delivery template (with basket content)", freeze: "2023-01-01", sidekiq: :inline do
+  specify "send default next delivery template (with basket content)", freeze: "2023-01-01" do
     Current.org.update!(features: [])
     template = Newsletter::Template.find_by(title: "Prochaine livraison")
 
-    delivery = create(:delivery, date: 1.week.from_now)
+    create(:delivery, date: 1.week.from_now)
 
     create(:basket_complement, id: 1, name: "Pain")
     create(:basket_complement, id: 2, name: "Oeufs")
@@ -255,8 +258,9 @@ describe Newsletter::Template do
         "3" => { block_id: "recipe", content_fr: "" }
       })
 
-    expect { newsletter.send! }
-      .to change { newsletter.deliveries.count }.by(2)
+    expect {
+      perform_enqueued_jobs { newsletter.send! }
+    }.to change { newsletter.deliveries.count }.by(2)
 
     email = ActionMailer::Base.deliveries.first
     mail_body = email.parts.map(&:body).join

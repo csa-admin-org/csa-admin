@@ -10,9 +10,10 @@ describe "Billing" do
     login(member)
   end
 
-  it "list open invoices", sidekiq: :inline do
+  it "list open invoices" do
     create(:invoice, :annual_fee, id: 4242,
       member: member, date: "2018-2-1", annual_fee: 42)
+    perform_enqueued_jobs
 
     visit "/"
     click_on "Facturation"
@@ -25,13 +26,15 @@ describe "Billing" do
     expect(page).to have_content([ "Intervalle de paiement", "Annuel" ].join)
   end
 
-  it "list invoices and payments history", sidekiq: :inline do
+  it "list invoices and payments history" do
     closed_invoice = create(:invoice, :annual_fee, id: 103,
       member: member, date: "2017-03-19", sent_at: nil)
+    perform_enqueued_jobs
     closed_invoice.update_column(:state, "closed")
-    inovice = create(:invoice, :activity_participation, id: 242,
+    invoice = create(:invoice, :activity_participation, id: 242,
       member: member, date: "2018-04-12", activity_price: 120)
-    create(:payment, invoice: inovice, member: member, date: "2018-5-1", amount: 162)
+    perform_enqueued_jobs
+    create(:payment, invoice: invoice, member: member, date: "2018-5-1", amount: 162)
 
     visit "/billing"
 

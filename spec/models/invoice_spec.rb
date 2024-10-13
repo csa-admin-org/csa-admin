@@ -21,19 +21,26 @@ describe Invoice do
       .to raise_error(NoMethodError)
   end
 
-  it "generates and sets pdf after creation", sidekiq: :inline do
+  it "generates and sets pdf after creation" do
     invoice = create(:invoice, :annual_fee)
+    perform_enqueued_jobs
+
     expect(invoice.pdf_file).to be_attached
     expect(invoice.pdf_file.byte_size).to be_positive
   end
 
   context "with mail template" do
-    it "sends email when send_email is true on creation", sidekiq: :inline do
-      expect { create(:invoice, :annual_fee, :processing) }
-        .not_to change { InvoiceMailer.deliveries.size }
+    it "sends email when send_email is true on creation" do
+      expect {
+        create(:invoice, :annual_fee, :processing)
+        perform_enqueued_jobs
+      }.not_to change { InvoiceMailer.deliveries.size }
 
-      expect { create(:invoice, :annual_fee, :processing, send_email: true) }
-        .to change { InvoiceMailer.deliveries.size }.by(1)
+      expect {
+        perform_enqueued_jobs {
+          create(:invoice, :annual_fee, :processing, send_email: true)
+        }
+      }.to change { InvoiceMailer.deliveries.size }.by(1)
     end
 
     specify "does not send email when invoice is closed" do
@@ -41,15 +48,20 @@ describe Invoice do
       create(:payment, amount: 100, member: member)
 
       expect {
-        create(:invoice, :processing, :annual_fee, member: member, send_email: true)
+        perform_enqueued_jobs {
+          create(:invoice, :processing, :annual_fee, member: member, send_email: true)
+        }
       }.not_to change { InvoiceMailer.deliveries.size }
     end
 
-    it "closes invoice before sending email", sidekiq: :inline do
+    it "closes invoice before sending email" do
       Current.org.update!(send_closed_invoice: true)
       member = create(:member, annual_fee: 42)
       create(:payment, amount: 100, member: member)
-      invoice = create(:invoice, :processing, :annual_fee, member: member, send_email: true)
+
+      invoice = perform_enqueued_jobs {
+        create(:invoice, :processing, :annual_fee, member: member, send_email: true)
+      }
 
       mail = InvoiceMailer.deliveries.last
       expect(mail.subject).to eq "Nouvelle facture ##{invoice.id}"
@@ -57,7 +69,7 @@ describe Invoice do
     end
   end
 
-  it "updates membership activity_participations_accepted", sidekiq: :inline do
+  it "updates membership activity_participations_accepted" do
     member = create(:member)
     membership = create(:membership, :last_year, member: member)
     invoice = build(:invoice,
@@ -66,8 +78,14 @@ describe Invoice do
       missing_activity_participations_fiscal_year: membership.fiscal_year,
       activity_price: 60)
 
-    expect { invoice.save! }.to change { membership.reload.activity_participations_accepted }.by(2)
-    expect { invoice.reload.cancel! }.to change { membership.reload.activity_participations_accepted }.by(-2)
+    expect {
+      invoice.save!
+      perform_enqueued_jobs
+    }.to change { membership.reload.activity_participations_accepted }.by(2)
+    expect {
+      invoice.reload.cancel!
+      perform_enqueued_jobs
+    }.to change { membership.reload.activity_participations_accepted }.by(-2)
   end
 
   specify "when annual fee only" do
@@ -259,9 +277,10 @@ describe Invoice do
   describe "#send!" do
     let(:invoice) { create(:invoice, :annual_fee, :open, :not_sent) }
 
-    it "delivers email", sidekiq: :inline do
-      expect { invoice.send! }
-        .to change { InvoiceMailer.deliveries.size }.by(1)
+    it "delivers email" do
+      expect {
+        perform_enqueued_jobs { invoice.send! }
+      }.to change { InvoiceMailer.deliveries.size }.by(1)
       mail = InvoiceMailer.deliveries.last
       expect(mail.subject).to eq "Nouvelle facture ##{invoice.id}"
     end
@@ -356,13 +375,14 @@ describe Invoice do
       expect(invoice.canceled_by).to eq admin
     end
 
-    specify "send invoice_cancelled when the invoice was open", sidekiq: :inline do
+    specify "send invoice_cancelled when the invoice was open" do
       template = MailTemplate.find_by(title: "invoice_cancelled")
       template.update!(active: true)
       invoice = create(:invoice, :annual_fee, :open)
 
-      expect { invoice.cancel! }
-        .to change { InvoiceMailer.deliveries.size }
+      expect {
+        perform_enqueued_jobs { invoice.cancel! }
+      }.to change { InvoiceMailer.deliveries.size }
 
       mail = InvoiceMailer.deliveries.last
       expect(mail.subject).to eq "Facture annulée ##{invoice.id}"
@@ -370,29 +390,32 @@ describe Invoice do
         .to include "Votre facture ##{invoice.id} du #{I18n.l(invoice.date)} vient d'être annulée."
     end
 
-    specify "does not send email when invoice is closed", sidekiq: :inline do
+    specify "does not send email when invoice is closed" do
       template = MailTemplate.find_by(title: "invoice_cancelled")
       template.update!(active: true)
       invoice = create(:invoice, :annual_fee, :closed)
 
-      expect { invoice.cancel! }
-        .not_to change { InvoiceMailer.deliveries.size }
+      expect {
+        perform_enqueued_jobs { invoice.cancel! }
+      }.not_to change { InvoiceMailer.deliveries.size }
     end
 
-    specify "does not send email when template is not active", sidekiq: :inline do
+    specify "does not send email when template is not active" do
       template = MailTemplate.find_by(title: "invoice_cancelled")
       template.update!(active: false)
       invoice = create(:invoice, :annual_fee, :open)
 
-      expect { invoice.cancel! }
-        .not_to change { InvoiceMailer.deliveries.size }
+      expect {
+        perform_enqueued_jobs { invoice.cancel! }
+      }.not_to change { InvoiceMailer.deliveries.size }
     end
 
-    specify "stamp the pdf", sidekiq: :inline do
+    specify "stamp the pdf" do
       invoice = create(:invoice, :annual_fee, :open)
 
-      expect { invoice.cancel! }
-        .to change { invoice.reload.stamped_at }.from(nil)
+      expect {
+        perform_enqueued_jobs { invoice.cancel! }
+      }.to change { invoice.reload.stamped_at }.from(nil)
     end
   end
 
@@ -450,16 +473,20 @@ describe Invoice do
   describe "#handle_shares_change!" do
     before { Current.org.update!(share_price: 250, shares_number: 1) }
 
-    it "changes inactive member state to support", sidekiq: :inline do
+    it "changes inactive member state to support" do
       member = create(:member, :inactive)
-      expect { create(:invoice, member: member, shares_number: 1) }
-        .to change { member.reload.state }.from("inactive").to("support")
+      expect {
+        create(:invoice, member: member, shares_number: 1)
+        perform_enqueued_jobs
+      }.to change { member.reload.state }.from("inactive").to("support")
     end
 
-    it "changes support member state to inactive", sidekiq: :inline do
+    it "changes support member state to inactive" do
       member = create(:member, :support_share, shares_number: 1)
-      expect { create(:invoice, member: member, shares_number: -1) }
-        .to change { member.reload.state }.from("support").to("inactive")
+      expect {
+        create(:invoice, member: member, shares_number: -1)
+        perform_enqueued_jobs
+      }.to change { member.reload.state }.from("support").to("inactive")
     end
   end
 
@@ -572,11 +599,13 @@ describe Invoice do
         })
     }
 
-    specify "send notification and touch overpaid_notification_sent_at", sidekiq: :inline do
+    specify "send notification and touch overpaid_notification_sent_at" do
       create(:payment, invoice: invoice, amount: 110)
       admin = create(:admin, name: "John", notifications: %w[invoice_overpaid])
 
-      expect { invoice.send_overpaid_notification_to_admins! }
+      expect {
+        perform_enqueued_jobs { invoice.send_overpaid_notification_to_admins! }
+      }
         .to change { invoice.reload.overpaid_notification_sent_at }.from(nil)
         .and change { AdminMailer.deliveries.size }.by(1)
 
@@ -595,11 +624,13 @@ describe Invoice do
       expect(AdminMailer.deliveries.size).to be_zero
     end
 
-    specify "when already notified", sidekiq: :inline do
+    specify "when already notified" do
       create(:payment, invoice: invoice, amount: 110)
-      admin = create(:admin, notifications: %w[invoice_overpaid])
+      create(:admin, notifications: %w[invoice_overpaid])
 
-      invoice.send_overpaid_notification_to_admins!
+      perform_enqueued_jobs do
+        invoice.send_overpaid_notification_to_admins!
+      end
       expect(AdminMailer.deliveries.size).to eq 1
 
       expect {
@@ -610,11 +641,12 @@ describe Invoice do
     end
   end
 
-  specify "redistribute payments after destroy", sidekiq: :inline do
+  specify "redistribute payments after destroy" do
     member = create(:member)
     invoice1 = create(:invoice, :manual, member: member, item_price: 10, date: "2022-01-01")
     invoice2 = create(:invoice, :manual, member: member, item_price: 10, date: "2022-01-02")
     create(:payment, member: member, amount: 15)
+    perform_enqueued_jobs
 
     expect(invoice1.reload).to be_closed
     expect {
@@ -622,10 +654,11 @@ describe Invoice do
     }.to change { invoice1.reload.paid_amount }.from(10).to(15)
   end
 
-  specify "set creator once processed", sidekiq: :inline do
+  specify "set creator once processed" do
     admin = create(:admin)
     Current.session = create(:session, admin: admin)
     invoice = create(:invoice, :annual_fee, :processing)
+    perform_enqueued_jobs
 
     invoice.reload
     expect(invoice).to be_processed

@@ -18,8 +18,11 @@ describe MembershipBasketsUpdater do
       ended_on: "2022-01-31")
   }
 
-  specify "update membership when cycle updated", freeze: "2022-01-01", sidekiq: :inline do
-    expect { cycle.update!(wdays: [ 3 ]) }
+  specify "update membership when cycle updated", freeze: "2022-01-01" do
+    expect {
+      cycle.update!(wdays: [ 3 ])
+      perform_enqueued_jobs
+    }
       .to change { membership.reload.baskets.count }.from(6).to(3)
       .and change { membership.reload.price }.from(180).to(90)
 
@@ -29,8 +32,10 @@ describe MembershipBasketsUpdater do
       "2022-01-19"
     ])
 
-    expect { cycle.update!(wdays: [ 4 ]) }
-      .not_to change { membership.reload.baskets.count }.from(3)
+    expect {
+      cycle.update!(wdays: [ 4 ])
+      perform_enqueued_jobs
+    }.not_to change { membership.reload.baskets.count }.from(3)
 
     expect(membership.deliveries.map(&:date).map(&:to_s)).to eq([
       "2022-01-06",
@@ -38,15 +43,19 @@ describe MembershipBasketsUpdater do
       "2022-01-20"
     ])
 
-    expect { cycle.update!(wdays: [ 3, 4 ]) }
-      .to change { membership.reload.baskets.count }.from(3).to(6)
+    expect {
+      cycle.update!(wdays: [ 3, 4 ])
+      perform_enqueued_jobs
+    }.to change { membership.reload.baskets.count }.from(3).to(6)
   end
 
-  specify "only change future baskets", sidekiq: :inline do
+  specify "only change future baskets" do
     travel_to("2022-01-01") { membership }
     travel_to "2022-01-07" do
-      expect { cycle.update!(wdays: [ 3 ]) }
-        .to change { membership.reload.baskets.count }.from(6).to(4)
+      expect {
+        cycle.update!(wdays: [ 3 ])
+        perform_enqueued_jobs
+      }.to change { membership.reload.baskets.count }.from(6).to(4)
     end
     expect(membership.deliveries.map(&:date).map(&:to_s)).to eq([
       "2022-01-05",
@@ -69,10 +78,13 @@ describe MembershipBasketsUpdater do
     end
   end
 
-  specify "update when delivery is created", freeze: "2022-01-01", sidekiq: :inline do
+  specify "update when delivery is created", freeze: "2022-01-01" do
     membership
 
-    expect { create(:delivery, date: "2022-01-31") }
+    expect {
+      create(:delivery, date: "2022-01-31")
+      perform_enqueued_jobs
+    }
       .to change { membership.reload.baskets.count }.from(6).to(7)
       .and change { membership.reload.price }.from(180).to(210)
 
@@ -87,11 +99,14 @@ describe MembershipBasketsUpdater do
     ])
   end
 
-  specify "update when delivery date is changing", freeze: "2022-01-01", sidekiq: :inline do
+  specify "update when delivery date is changing", freeze: "2022-01-01" do
     membership
     delivery = Delivery.find_by(date: "2022-01-12")
 
-    expect { delivery.update!(date: "2022-02-02") }
+    expect {
+      delivery.update!(date: "2022-02-02")
+      perform_enqueued_jobs
+    }
       .to change { membership.reload.baskets.count }.from(6).to(5)
       .and change { membership.reload.price }.from(180).to(150)
 
@@ -104,11 +119,14 @@ describe MembershipBasketsUpdater do
     ])
   end
 
-  specify "update when delivery date is destroyed", freeze: "2022-01-01", sidekiq: :inline do
+  specify "update when delivery date is destroyed", freeze: "2022-01-01" do
     membership
     delivery = Delivery.find_by(date: "2022-01-12")
 
-    expect { delivery.destroy! }
+    expect {
+      delivery.destroy!
+      perform_enqueued_jobs
+    }
       .to change { membership.reload.baskets.count }.from(6).to(5)
       .and change { membership.reload.price }.from(180).to(150)
 

@@ -29,16 +29,19 @@ describe Delivery do
     expect(Delivery.all.map(&:basket_complement_ids)).to eq [ [ 1 ], [ 1 ], [ 1 ] ]
   end
 
-  it "adds basket_complement on subscribed baskets", freeze: "2022-01-01", sidekiq: :inline do
+  it "adds basket_complement on subscribed baskets", freeze: "2022-01-01" do
     create(:basket_complement, id: 1, price: 3.2)
     create(:basket_complement, id: 2, price: 4.5)
 
     create(:delivery)
+    perform_enqueued_jobs
+
     membership_1 = create(:membership, subscribed_basket_complement_ids: [ 1, 2 ])
     membership_2 = create(:membership, subscribed_basket_complement_ids: [ 2 ])
     membership_3 = create(:membership, subscribed_basket_complement_ids: [ 1 ])
 
     delivery = create(:delivery, basket_complement_ids: [ 1, 2 ])
+    perform_enqueued_jobs
 
     basket1 = delivery.baskets.find_by(membership: membership_1)
     expect(basket1.complement_ids).to match_array [ 1, 2 ]
@@ -54,16 +57,19 @@ describe Delivery do
     expect(basket3.complements_price).to eq 3.2 + 4.5
   end
 
-  it "removes basket_complement on subscribed baskets", freeze: "2022-01-01", sidekiq: :inline do
+  it "removes basket_complement on subscribed baskets", freeze: "2022-01-01" do
     create(:basket_complement, id: 1, price: 3.2)
     create(:basket_complement, id: 2, price: 4.5)
 
     create(:delivery)
+    perform_enqueued_jobs
+
     membership_1 = create(:membership, subscribed_basket_complement_ids: [ 1, 2 ])
     membership_2 = create(:membership, subscribed_basket_complement_ids: [ 2 ])
     membership_3 = create(:membership, subscribed_basket_complement_ids: [ 1 ])
 
     delivery = create(:delivery, basket_complement_ids: [ 1, 2 ])
+    perform_enqueued_jobs
 
     basket3 = delivery.baskets.find_by(membership: membership_3)
     basket3.update!(complement_ids: [ 1, 2 ])
@@ -78,7 +84,10 @@ describe Delivery do
     invoice_2.process!
     invoice_2.mark_as_sent!
 
-    expect { delivery.update!(basket_complement_ids: [ 1 ]) }
+    expect {
+      delivery.update!(basket_complement_ids: [ 1 ])
+      perform_enqueued_jobs
+    }
       .to change { membership_1.reload.price }.by(-4.5)
       .and change { membership_2.reload.price }.by(-4.5)
 
@@ -95,12 +104,15 @@ describe Delivery do
     expect(basket3.complements_price).to eq 3.2
   end
 
-  it "updated membership price when destroy", freeze: "2022-01-01", sidekiq: :inline do
+  it "updated membership price when destroy", freeze: "2022-01-01" do
     basket_size = create(:basket_size, price: 42)
     membership = create(:membership, basket_size: basket_size, deliveries_count: 2)
     delivery = membership.deliveries.last
 
-    expect { delivery.destroy! }
+    expect {
+      delivery.destroy!
+      perform_enqueued_jobs
+    }
       .to change { membership.baskets.count }.by(-1)
       .and change { membership.reload.price }.by(-42)
   end
@@ -125,21 +137,24 @@ describe Delivery do
     expect(last.reload.number).to eq 3
   end
 
-  it "handles date change", freeze: "2020-01-01", sidekiq: :inline do
+  it "handles date change", freeze: "2020-01-01" do
     delivery_1 = create(:delivery, date: "2020-02-01")
     delivery_2 = create(:delivery, date: "2020-04-01")
 
     membership1 = create(:membership, started_on: "2020-01-01", ended_on: "2020-05-01")
     membership2 = create(:membership, started_on: "2020-03-01", ended_on: "2020-08-01")
 
-    expect { delivery_1.update!(date: "2020-06-01") }
+    expect {
+      delivery_1.update!(date: "2020-06-01")
+      perform_enqueued_jobs
+    }
       .to change { membership1.reload.baskets.size }.from(2).to(1)
       .and change { membership2.reload.baskets.size }.from(1).to(2)
       .and change { membership1.reload.price }.from(60).to(30)
       .and change { membership2.reload.price }.from(30).to(60)
   end
 
-  specify "handles new delivery change", freeze: "2020-01-01", sidekiq: :inline do
+  specify "handles new delivery change", freeze: "2020-01-01" do
     create(:delivery, date: "2020-02-01")
     create(:delivery, date: "2020-04-01")
 
@@ -147,13 +162,16 @@ describe Delivery do
     membership2 = create(:membership, started_on: "2020-03-01", ended_on: "2020-08-01")
 
     expect {
-      expect { create(:delivery, date: "2020-06-01") }
+      expect {
+        create(:delivery, date: "2020-06-01")
+        perform_enqueued_jobs
+      }
         .to change { membership2.reload.baskets.size }.from(1).to(2)
         .and change { membership2.reload.price }.from(30).to(60)
     }.not_to change { membership1.reload.baskets.size }
   end
 
-  it "flags basket when creating them", freeze: "2020-01-01", sidekiq: :inline do
+  it "flags basket when creating them", freeze: "2020-01-01" do
     create(:delivery, date: "2020-02-01")
     membership = create(:membership, started_on: "2020-01-01", ended_on: "2020-06-01")
     absence = create(:absence,
@@ -165,6 +183,7 @@ describe Delivery do
     expect(membership.baskets.first).to be_absent
 
     delivery = create(:delivery, date: "2020-02-15")
+    perform_enqueued_jobs
     membership.reload
 
     expect(membership.baskets_count).to eq 2
