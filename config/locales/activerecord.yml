@@ -402,6 +402,12 @@ _:
           _en: Price/basket
           _fr: Prix/panier
           _it: Prezzo/cesta
+      depot_group:
+        information_text:
+          _de: Informationstext
+          _en: Information text
+          _fr: Texte d'information
+          _it: Testo informativo
       invoice:
         activity_price:
           _de: Betrag
