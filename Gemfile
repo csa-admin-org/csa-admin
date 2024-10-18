@@ -46,7 +46,7 @@ gem "rails_icons"
 gem "cld"
 
 gem "solid_queue", github: "rails/solid_queue", branch: "main"
-gem "mission_control-jobs", github: "rails/mission_control-jobs", branch: "main"
+gem "mission_control-jobs"
 
 gem "faraday"
 gem "faraday-cookie_jar"
