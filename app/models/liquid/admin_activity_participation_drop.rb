@@ -34,6 +34,9 @@ class Liquid::AdminActivityParticipationDrop < Liquid::Drop
       .application
       .routes
       .url_helpers
-      .activity_participations_url(scope: :future, q: { member_id_eq: @activity_participation.member_id }, host: Current.org.email_default_host)
+      .activity_participations_url(
+        scope: :future,
+        q: { member_id_eq: @activity_participation.member_id },
+        host: Current.org.admin_url)
   end
 end

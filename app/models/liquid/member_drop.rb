@@ -50,7 +50,7 @@ class Liquid::MemberDrop < Liquid::Drop
   def url(name, **options)
     helper = Rails.application.routes.url_helpers
     helper.send("#{name}_url",
-      { host: Current.org.email_default_host }.merge(**options)
+      { host: Current.org.members_url }.merge(**options)
     ).gsub(/\/+\z/, "")
   end
 end

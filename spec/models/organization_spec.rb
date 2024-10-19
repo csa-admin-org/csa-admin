@@ -24,9 +24,8 @@ describe Organization do
   end
 
   specify "validates email_default_from format" do
-    org = Organization.new(email_default_host: "https://membres.ragedevert.ch")
-
-    expect(org.email_hostname).to eq "ragedevert.ch"
+    org = current_org
+    expect(org.domain).to eq "ragedevert.ch"
 
     org.email_default_from = "info@ragedevert.ch"
     expect(org).to have_valid(:email_default_from)

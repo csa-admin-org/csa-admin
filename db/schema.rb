@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2024_10_04_115827) do
+ActiveRecord::Schema[8.0].define(version: 2024_10_19_102158) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
   enable_extension "pg_catalog.plpgsql"
@@ -611,13 +611,10 @@ ActiveRecord::Schema[8.0].define(version: 2024_10_04_115827) do
 
   create_table "organizations", force: :cascade do |t|
     t.string "name", null: false
-    t.string "host", null: false
-    t.string "tenant_name", null: false
     t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
     t.string "features", default: [], null: false, array: true
-    t.string "email_default_host"
-    t.string "email_default_from"
+    t.string "email_default_from", null: false
     t.integer "fiscal_year_start_month", default: 1, null: false
     t.integer "trial_baskets_count", default: 0, null: false
     t.decimal "annual_fee", precision: 8, scale: 2
@@ -705,8 +702,7 @@ ActiveRecord::Schema[8.0].define(version: 2024_10_04_115827) do
     t.jsonb "activity_participations_form_details", default: {}, null: false
     t.string "sepa_creditor_identifier"
     t.string "delivery_pdf_member_info", default: "none", null: false
-    t.index ["host"], name: "index_organizations_on_host"
-    t.index ["tenant_name"], name: "index_organizations_on_tenant_name"
+    t.string "members_subdomain", null: false
   end
 
   create_table "payments", force: :cascade do |t|

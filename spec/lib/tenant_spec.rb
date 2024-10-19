@@ -30,11 +30,13 @@ describe Tenant do
 
   specify "creates default deliveries cycle" do
     Tenant.reset
-    Tenant.create!("demo") do
-      create(:organization, :demo)
+    Tenant.create!("p2r") do
+      create(:organization,
+        url: "https://p2r.ch",
+        email_default_from: "info@p2r.ch")
     end
 
-    Tenant.switch!("demo") do
+    Tenant.switch!("p2r") do
       expect(DeliveryCycle.count).to eq 1
       expect(DeliveryCycle.first).to have_attributes(
         names: {

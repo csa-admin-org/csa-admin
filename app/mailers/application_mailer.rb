@@ -2,7 +2,7 @@
 
 class ApplicationMailer < ActionMailer::Base
   helper :organizations
-  default from: -> { Current.org.email_from }
+  default from: -> { Current.org.email_default_from_address }
   layout "mailer"
 
   attr_reader :content
@@ -12,7 +12,7 @@ class ApplicationMailer < ActionMailer::Base
   private
 
   def default_url_options
-    { host: Current.org.email_host }
+    { host: Current.org.members_url }
   end
 
   def content_mail(content, **args)
