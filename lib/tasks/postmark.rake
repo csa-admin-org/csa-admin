@@ -3,8 +3,8 @@
 namespace :postmark do
   desc "Create/update message streams"
   task message_streams_setup: :environment do
-    Organization.switch_each do |org|
-      if api_token = org.credentials(:postmark, :api_token)
+    Tenant.switch_each do
+      if api_token = Current.org.credentials(:postmark, :api_token)
         client = Postmark::ApiClient.new(api_token)
 
         outbound = client.get_message_stream("outbound")
@@ -31,8 +31,8 @@ namespace :postmark do
 
   desc "Create/update postmark webhook"
   task webhook_setup: :environment do
-    Organization.switch_each do |org|
-      if api_token = org.credentials(:postmark, :api_token)
+    Tenant.switch_each do
+      if api_token = Current.org.credentials(:postmark, :api_token)
         client = Postmark::ApiClient.new(api_token)
 
         attrs = {
@@ -51,10 +51,10 @@ namespace :postmark do
         webhooks = client.get_webhooks
         if webhook = webhooks.find { |wh| wh[:message_stream] == "broadcast" }
           client.update_webhook(webhook[:id], attrs)
-          puts "#{org.name} - Webhook updated"
+          puts "#{Current.org.name} - Webhook updated"
         else
           client.create_webhook(attrs)
-          puts "#{org.name} - Webhook created"
+          puts "#{Current.org.name} - Webhook created"
         end
       end
     end
@@ -62,10 +62,10 @@ namespace :postmark do
 
   desc "Sync newsletter deliveries status"
   task sync_newsletter_deliveries: :environment do
-    Organization.switch_each do |org|
-      if api_token = org.credentials(:postmark, :api_token)
+    Tenant.switch_each do
+      if api_token = Current.org.credentials(:postmark, :api_token)
         client = Postmark::ApiClient.new(api_token)
-        pp "Syncing newsletter deliveries for #{org.name}"
+        pp "Syncing newsletter deliveries for #{Current.org.name}"
 
         Newsletter.where(sent_at: 2.weeks.ago..).each do |newsletter|
           messages = client.get_messages(

@@ -27,4 +27,22 @@ describe Tenant do
       Tenant.switch!("other-org")
     }.to raise_error("Illegal tenant switch (ragedevert => other-org)")
   end
+
+  specify "creates default deliveries cycle" do
+    Tenant.reset
+    Tenant.create!("demo") do
+      create(:organization, :demo)
+    end
+
+    Tenant.switch!("demo") do
+      expect(DeliveryCycle.count).to eq 1
+      expect(DeliveryCycle.first).to have_attributes(
+        names: {
+          "de" => "Alle",
+          "fr" => "Toutes",
+          "it" => "Tutte",
+          "en" => "All"
+        })
+    end
+  end
 end
