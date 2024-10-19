@@ -18,7 +18,7 @@ describe SessionMailer do
 
     expect(mail.body).to include("Accéder à mon compte")
     expect(mail.body).to include("https://example.com/session/token")
-    expect(mail[:from].decoded).to eq "Rage de Vert <info@ragedevert.ch>"
+    expect(mail[:from].decoded).to eq "Rage de Vert <info@organization.test>"
   end
 
   specify "#new_admin_session_email" do
@@ -36,6 +36,6 @@ describe SessionMailer do
 
     expect(mail.body).to include("Accéder à mon compte admin")
     expect(mail.body).to include("https://example.com/session/token")
-    expect(mail[:from].decoded).to eq "Rage de Vert <info@ragedevert.ch>"
+    expect(mail[:from].decoded).to eq "Rage de Vert <info@organization.test>"
   end
 end

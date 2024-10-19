@@ -2,12 +2,18 @@
 
 FactoryBot.define do
   factory :organization do
+    trait :another do
+      url { "https://www.another-organization.test" }
+      email { "info@another-organization.test" }
+      email_default_from { "info@another-organization.test" }
+    end
+
     name { "Rage de Vert" }
-    url { "https://www.ragedevert.ch" }
-    email { "info@ragedevert.ch" }
+    url { "https://www.organization.test" }
+    email { "info@organization.test" }
     phone { "077 447 26 16" }
     members_subdomain { "membres" }
-    email_default_from { "info@ragedevert.ch" }
+    email_default_from { "info@organization.test" }
     email_signature { "Au plaisir,\nRage de Vert" }
     email_footer { "En cas de questions ou remarques, répondez simplement à cet email.\nAssociation Rage de Vert, Closel-Bourbon 3, 2075 Thielle" }
     trial_baskets_count { 4 }

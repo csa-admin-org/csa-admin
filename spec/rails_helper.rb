@@ -22,8 +22,8 @@ RSpec.configure do |config|
   config.include ActiveJob::TestHelper
 
   config.before(:suite) do
-    unless Tenant.schema_exists?("ragedevert")
-      Tenant.create!("ragedevert") do
+    unless Tenant.schema_exists?("test")
+      Tenant.create!("test") do
         FactoryBot.create(:organization)
       end
     end
@@ -31,11 +31,11 @@ RSpec.configure do |config|
 
   config.before(:each, type: :system) do
     driven_by :rack_test
-    Capybara.app_host = "http://admin.ragedevert.test"
+    Capybara.app_host = "http://admin.organization.test"
   end
 
   config.around(:each) do |example|
-    Tenant.switch!("ragedevert")
+    Tenant.switch!("test")
     example.run
   ensure
     Tenant.reset

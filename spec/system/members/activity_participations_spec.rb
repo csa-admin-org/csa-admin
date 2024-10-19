@@ -6,7 +6,7 @@ describe "Activity Participation" do
   let(:member) { create(:member) }
 
   before do
-    Capybara.app_host = "http://membres.ragedevert.test"
+    Capybara.app_host = "http://membres.organization.test"
     login(member)
   end
 

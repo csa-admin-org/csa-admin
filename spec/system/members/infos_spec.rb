@@ -3,7 +3,7 @@
 require "rails_helper"
 
 describe "Info" do
-  before { Capybara.app_host = "http://membres.ragedevert.test" }
+  before { Capybara.app_host = "http://membres.organization.test" }
 
   specify "show informations link" do
     Current.org.update!(member_information_text: "Some confidential infos")

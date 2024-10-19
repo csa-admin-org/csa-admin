@@ -3,7 +3,7 @@
 require "rails_helper"
 
 describe "Member sessions" do
-  before { Capybara.app_host = "http://membres.ragedevert.test" }
+  before { Capybara.app_host = "http://membres.organization.test" }
 
   it "creates a new session from email" do
     member = create(:member, emails: "thibaud@thibaud.gg, john@doe.com")

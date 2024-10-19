@@ -6,7 +6,7 @@ describe "Baskets" do
   let(:member) { create(:member) }
 
   before do
-    Capybara.app_host = "http://membres.ragedevert.test"
+    Capybara.app_host = "http://membres.organization.test"
   end
 
   specify "update depot", freeze: "2022-01-01" do

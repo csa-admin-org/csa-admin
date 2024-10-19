@@ -3,7 +3,7 @@
 require "rails_helper"
 
 describe "Newsletter subscriptions" do
-  before { Capybara.app_host = "http://membres.ragedevert.test" }
+  before { Capybara.app_host = "http://membres.organization.test" }
 
   describe "unsubscribe" do
     specify "with valid token" do

@@ -16,10 +16,10 @@ describe Liquid::DataPreview do
     expect(data).to eq({
       "organization" => {
         "activity_phone" => nil,
-        "email" => "info@ragedevert.ch",
+        "email" => "info@organization.test",
         "name"=> "Rage de Vert",
         "phone"=> "+41 77 447 26 16",
-        "url" => "https://www.ragedevert.ch"
+        "url" => "https://www.organization.test"
       },
       "basket" => {
         "complements" => [],
@@ -44,10 +44,10 @@ describe Liquid::DataPreview do
         "name" => "John Doe",
         "balance" => "CHF 0.00",
         "billing_email" => false,
-        "page_url" => "https://membres.ragedevert.ch",
-        "billing_url" => "https://membres.ragedevert.ch/billing",
-        "activities_url" => "https://membres.ragedevert.ch/activity_participations",
-        "membership_renewal_url" => "https://membres.ragedevert.ch/memberships#renewal",
+        "page_url" => "https://membres.organization.test",
+        "billing_url" => "https://membres.organization.test/billing",
+        "activities_url" => "https://membres.organization.test/activity_participations",
+        "membership_renewal_url" => "https://membres.organization.test/memberships#renewal",
         "shop_depot" => nil
       },
       "membership" => {
@@ -95,19 +95,19 @@ describe Liquid::DataPreview do
     expect(data).to eq({
       "organization" => {
         "activity_phone" => nil,
-        "email" => "info@ragedevert.ch",
+        "email" => "info@organization.test",
         "name"=> "Rage de Vert",
         "phone"=> "+41 77 447 26 16",
-        "url" => "https://www.ragedevert.ch"
+        "url" => "https://www.organization.test"
       },
       "member" =>  {
         "name" => "John Doe",
         "balance" => "CHF 0.00",
         "billing_email" => false,
-        "page_url" => "https://membres.ragedevert.ch",
-        "billing_url" => "https://membres.ragedevert.ch/billing",
-        "activities_url" => "https://membres.ragedevert.ch/activity_participations",
-        "membership_renewal_url" => "https://membres.ragedevert.ch/memberships#renewal",
+        "page_url" => "https://membres.organization.test",
+        "billing_url" => "https://membres.organization.test/billing",
+        "activities_url" => "https://membres.organization.test/activity_participations",
+        "membership_renewal_url" => "https://membres.organization.test/memberships#renewal",
         "shop_depot" => nil
       },
       "waiting_list_position" => 1,
@@ -129,10 +129,10 @@ describe Liquid::DataPreview do
 
     expect(data).to eq({
       "organization" => {
-        "email" => "info@ragedevert.ch",
+        "email" => "info@organization.test",
         "name"=> "Rage de Vert",
         "phone"=> "+41 77 447 26 16",
-        "url" => "https://www.ragedevert.ch"
+        "url" => "https://www.organization.test"
       },
       "basket" => {
         "complements" => [],
@@ -156,9 +156,9 @@ describe Liquid::DataPreview do
         "name" => "John Doe",
         "balance" => "CHF 0.00",
         "billing_email" => false,
-        "page_url" => "https://membres.ragedevert.ch",
-        "billing_url" => "https://membres.ragedevert.ch/billing",
-        "membership_renewal_url" => "https://membres.ragedevert.ch/memberships#renewal"
+        "page_url" => "https://membres.organization.test",
+        "billing_url" => "https://membres.organization.test/billing",
+        "membership_renewal_url" => "https://membres.organization.test/memberships#renewal"
       },
       "membership" => {
         "basket_complement_names" => nil,

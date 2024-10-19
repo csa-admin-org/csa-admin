@@ -3,7 +3,7 @@
 require "rails_helper"
 
 describe "BasketContents V1 API" do
-  before { integration_session.host = "admin.ragedevert.test" }
+  before { integration_session.host = "admin.organization.test" }
 
   describe "GET /api/v1/basket_contents/current" do
     def request(api_token: nil)

@@ -9,7 +9,7 @@ describe "Membership" do
 
   before do
     create_deliveries(2)
-    Capybara.app_host = "http://membres.ragedevert.test"
+    Capybara.app_host = "http://membres.organization.test"
   end
 
   specify "inactive member" do
@@ -17,7 +17,7 @@ describe "Membership" do
 
     expect(menu_nav).to eq [ "Facturation\n⤷ Consulter l'historique" ]
 
-    visit "http://membres.ragedevert.test/memberships"
+    visit "http://membres.organization.test/memberships"
     expect(current_path).to eq "/billing"
   end
 

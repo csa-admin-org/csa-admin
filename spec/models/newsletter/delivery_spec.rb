@@ -76,7 +76,7 @@ describe Newsletter::Delivery do
       %w[john@bob.com], %w[jane@bob.com])
 
     email = ActionMailer::Base.deliveries.first
-    expect(email.from).to eq [ "info@ragedevert.ch" ]
+    expect(email.from).to eq [ "info@organization.test" ]
     expect(email.subject).to eq "Subject Bob"
     mail_body = email.parts.map(&:body).join
     expect(mail_body).to include "Salut Bob,"
@@ -88,7 +88,7 @@ describe Newsletter::Delivery do
     newsletter.update!(
       # simulate newsletter sent
       template_contents: template.contents,
-      from: "contact@ragedevert.ch")
+      from: "contact@organization.test")
     member = create(:member)
 
     expect {
@@ -98,7 +98,7 @@ describe Newsletter::Delivery do
     }.to change { ActionMailer::Base.deliveries.count }
 
     email = ActionMailer::Base.deliveries.first
-    expect(email.from).to eq [ "contact@ragedevert.ch" ]
+    expect(email.from).to eq [ "contact@organization.test" ]
   end
 
   specify "send newsletter with custom signature" do

@@ -4,7 +4,7 @@ require "rails_helper"
 
 describe Tenant do
   specify ".inside? / .outside?" do
-    expect(Tenant.current).to eq "ragedevert"
+    expect(Tenant.current).to eq "test"
     expect(Tenant).to be_inside
     expect(Tenant).not_to be_outside
 
@@ -18,25 +18,23 @@ describe Tenant do
     Tenant.reset
 
     expect(Tenant.current).to eq Tenant.default
-    Tenant.switch!("ragedevert")
-    expect(Tenant.current).to eq "ragedevert"
+    Tenant.switch!("test")
+    expect(Tenant.current).to eq "test"
   end
 
   specify ".switch! from inside?" do
     expect {
-      Tenant.switch!("other-org")
-    }.to raise_error("Illegal tenant switch (ragedevert => other-org)")
+      Tenant.switch!("other")
+    }.to raise_error("Illegal tenant switch (test => other)")
   end
 
   specify "creates default deliveries cycle" do
     Tenant.reset
-    Tenant.create!("p2r") do
-      create(:organization,
-        url: "https://p2r.ch",
-        email_default_from: "info@p2r.ch")
+    Tenant.create!("another_test") do
+      create(:organization, :another)
     end
 
-    Tenant.switch!("p2r") do
+    Tenant.switch!("another_test") do
       expect(DeliveryCycle.count).to eq 1
       expect(DeliveryCycle.first).to have_attributes(
         names: {

@@ -15,7 +15,7 @@ describe "Account" do
   }
 
   before do
-    Capybara.app_host = "http://membres.ragedevert.test"
+    Capybara.app_host = "http://membres.organization.test"
     login(member)
   end
 
