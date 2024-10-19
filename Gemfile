@@ -10,8 +10,10 @@ gem "bootsnap", require: false
 gem "thruster", require: false
 gem "propshaft"
 gem "pg"
-gem "sqlite3"
 gem "puma"
+
+gem "sqlite3"
+gem "litestream"
 
 gem "lograge"
 
