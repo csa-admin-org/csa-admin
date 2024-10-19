@@ -37,7 +37,7 @@ class NewsletterMailer < ApplicationMailer
   def members_unsubscribe_newsletter_post_url
     helper = Rails.application.routes.url_helpers
     helper.members_unsubscribe_newsletter_post_url(
-      host: Current.org.email_default_host,
+      host: Current.org.members_url,
       token: @unsubscribe_token)
   end
 

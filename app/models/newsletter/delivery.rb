@@ -90,7 +90,7 @@ class Newsletter
       mailer = NewsletterMailer.new
       mailer.send(:content_mail,
         # Fix image URLs, not sure why they are not resolved by ActionMailer with example.org
-        content.gsub(%r{<img src=\"http://example.org}, "<img src=\"#{Current.org.email_default_host}"),
+        content.gsub(%r{<img src=\"http://example.org}, "<img src=\"https://#{Current.org.members_url}"),
         subject: subject
       ).body
     end

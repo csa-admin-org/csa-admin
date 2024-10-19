@@ -22,6 +22,7 @@ class Organization < ApplicationRecord
   MEMBER_FORM_MODES = %w[membership shop]
   INPUT_FORM_MODES = %w[hidden visible required]
   DELIVERY_PDF_MEMBER_INFOS = %w[none phones food_note]
+  MEMBERS_SUBDOMAINS = %w[membres mitglieder soci members]
 
   attribute :shop_delivery_open_last_day_end_time, :time_only
   attribute :icalendar_auth_token, :string, default: -> { SecureRandom.hex(16) }
@@ -54,12 +55,10 @@ class Organization < ApplicationRecord
     presence: true,
     format: { with: ->(org) { %r{\Ahttps://.*#{org.domain}\z} } }
   validates :email, presence: true
-  validates :email_default_host,
-    presence: true,
-    format: { with: ->(org) { %r{\Ahttps://.*#{org.domain}\z} } }
+  validates :members_subdomain, inclusion: { in: MEMBERS_SUBDOMAINS }
   validates :email_default_from, presence: true
   validates :email_default_from, format: { with: /\A[^@\s]+@[^@\s]+\.[^@\s]+\z/ }
-  validates :email_default_from, format: { with: ->(org) { /.*@#{org.email_hostname}\z/ } }
+  validates :email_default_from, format: { with: ->(org) { /.*@#{org.domain}\z/ } }
   validates_plausible_phone :phone, country_code: ->(org) { org.country_code }
   validates_plausible_phone :activity_phone, country_code: ->(org) { org.country_code }
   validates :iban, :creditor_name, :creditor_address,
@@ -67,7 +66,6 @@ class Organization < ApplicationRecord
     presence: true
   validates :bank_reference, format: { with: /\A\d+\z/, allow_blank: true }
   validates :iban, format: ->(org) { Billing.iban_format(org.country_code) }, if: :country_code?
-  validates :tenant_name, presence: true
   validates :fiscal_year_start_month,
     presence: true,
     inclusion: { in: 1..12 }
@@ -223,29 +221,19 @@ class Organization < ApplicationRecord
     country_code == "DE"
   end
 
-  def email_from
+  def email_default_from_address
     Mail::Address.new.tap { |builder|
       builder.address = email_default_from
       builder.display_name = name
     }.to_s
   end
 
-  def email_host
-    if Rails.env.development?
-      email_default_host.gsub(/\.\w+\z/, ".test")
-    else
-      email_default_host
-    end
+  def members_url
+    "https://#{members_subdomain}.#{domain}"
   end
 
-  def members_subdomain
-    URI.parse(email_default_host).host.split(".").first
-  end
-
-  def email_hostname
-    return unless email_default_host
-
-    URI.parse(email_default_host).host.gsub(/\A#{members_subdomain}./, "")
+  def admin_url
+    "https://admin.#{domain}"
   end
 
   def activity_participations_form?

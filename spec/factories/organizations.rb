@@ -2,25 +2,11 @@
 
 FactoryBot.define do
   factory :organization do
-    trait :demo do
-      # TODO: Remove
-      tenant_name { "demo" }
-      host { "acp-admin" }
-
-      url { "https://www.acp-admin.ch" }
-      email_default_host { "https://membres.acp-admin.ch" }
-      email_default_from { "info@acp-admin.ch" }
-    end
-
-    # TODO: Remove
-    tenant_name { "ragedevert" }
-    host { "ragedevert" }
-
     name { "Rage de Vert" }
     url { "https://www.ragedevert.ch" }
     email { "info@ragedevert.ch" }
     phone { "077 447 26 16" }
-    email_default_host { "https://membres.ragedevert.ch" }
+    members_subdomain { "membres" }
     email_default_from { "info@ragedevert.ch" }
     email_signature { "Au plaisir,\nRage de Vert" }
     email_footer { "En cas de questions ou remarques, répondez simplement à cet email.\nAssociation Rage de Vert, Closel-Bourbon 3, 2075 Thielle" }

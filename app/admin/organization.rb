@@ -414,7 +414,7 @@ ActiveAdmin.register Organization do
   permit_params \
     :name, :host,
     :url, :logo, :email, :phone,
-    :email_default_host, :email_default_from, :email_footer,
+    :email_default_from, :email_footer,
     :trial_baskets_count,
     :iban, :sepa_creditor_identifier, :bank_reference, :creditor_name,
     :creditor_address, :creditor_city, :creditor_zip,
