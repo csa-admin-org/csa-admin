@@ -45,7 +45,7 @@ module CSAAdmin
     config.action_mailer.preview_paths = [ "#{Rails.root}/app/mailer_previews" ]
 
 
-    config.mission_control.jobs.base_controller_class = "MissonControlController"
+    config.mission_control.jobs.base_controller_class = "MissionControlController"
 
     # https://github.com/heartcombo/responders?tab=readme-ov-file#configuring-error-and-redirect-statuses
     config.responders.error_status = :unprocessable_entity
