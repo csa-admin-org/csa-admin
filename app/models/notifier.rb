@@ -63,7 +63,7 @@ module Notifier
       .memberships_url(
         q: { during_year: Current.fy_year }.merge(options),
         scope: :all,
-        host: Current.org.email_default_host)
+        host: Current.org.admin_url)
   end
 
   def send_membership_renewal_reminder_emails

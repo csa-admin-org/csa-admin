@@ -18,7 +18,7 @@ module OrganizationsHelper
 
   def org_logo_url
     if Current.org.logo.attached?
-      logo_url(Current.org.tenant_name, host: ENV["ASSET_HOST"])
+      logo_url(Tenant.current, host: ENV["ASSET_HOST"])
     else
       image_path("logo.png")
     end

@@ -426,10 +426,10 @@ _:
           _it: Se si seleziona un ciclo di consegna, verrà considerato solo l'incrocio delle consegne dell'abbonamento, della ricarica e di questo ciclo.
       newsletter:
         from_html:
-          _de: Leer lassen, um die Standardadresse zu verwenden, muss mit <i>@%{hostname}</i> enden.
-          _en: Leave blank to use the default address, must end with <i>@%{hostname}</i>.
-          _fr: Laisser vide pour utiliser l'adresse par défaut, doit finir par <i>@%{hostname}</i>.
-          _it: Lasciare vuoto per utilizzare l'indirizzo predefinito, deve terminare con <i>@%{hostname}</i>.
+          _de: Leer lassen, um die Standardadresse zu verwenden, muss mit <i>@%{domain}</i> enden.
+          _en: Leave blank to use the default address, must end with <i>@%{domain}</i>.
+          _fr: Laisser vide pour utiliser l'adresse par défaut, doit finir par <i>@%{domain}</i>.
+          _it: Lasciare vuoto per utilizzare l'indirizzo predefinito, deve terminare con <i>@%{domain}</i>.
       newsletter/segment:
         basket_complement_ids:
           _de: Alle Warenkorbzusätze sind enthalten, wenn keiner ausgewählt ist.
