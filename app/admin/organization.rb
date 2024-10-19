@@ -18,7 +18,7 @@ ActiveAdmin.register Organization do
       tabs do
         tab t(".general"), id: "general" do
           f.input :name
-          f.input :url
+          f.input :url, input_html: { disabled: true }
           f.input :email, as: :email
           f.input :phone, as: :phone
           f.input :country_code,

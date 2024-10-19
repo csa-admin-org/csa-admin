@@ -1,9 +1,6 @@
 # frozen_string_literal: true
 
 class Organization < ApplicationRecord
-  self.table_name = "public.organizations"
-  self.sequence_name = "public.organizations_id_seq"
-
   include TranslatedAttributes
   include TranslatedRichTexts
   include HasIBAN
@@ -53,15 +50,16 @@ class Organization < ApplicationRecord
   has_one_attached :logo
 
   validates :name, presence: true
-  validates :host, presence: true
-  validates :url, presence: true, format: { with: %r{\Ahttps://.*\z} }
+  validates :url,
+    presence: true,
+    format: { with: ->(org) { %r{\Ahttps://.*#{org.domain}\z} } }
   validates :email, presence: true
   validates :email_default_host,
     presence: true,
-    format: { with: %r{\Ahttps://.*\z} }
+    format: { with: ->(org) { %r{\Ahttps://.*#{org.domain}\z} } }
   validates :email_default_from, presence: true
   validates :email_default_from, format: { with: /\A[^@\s]+@[^@\s]+\.[^@\s]+\z/ }
-  validates :email_default_from, format: { with: ->(a) { /.*@#{a.email_hostname}\z/ } }
+  validates :email_default_from, format: { with: ->(org) { /.*@#{org.email_hostname}\z/ } }
   validates_plausible_phone :phone, country_code: ->(org) { org.country_code }
   validates_plausible_phone :activity_phone, country_code: ->(org) { org.country_code }
   validates :iban, :creditor_name, :creditor_address,
@@ -140,8 +138,8 @@ class Organization < ApplicationRecord
   validates :new_member_fee_description,
     presence: true,
     if: -> { feature?("new_member_fee") && new_member_fee? }
+  validate :only_one_organization, on: :create
 
-  after_create :create_tenant!
   after_save :apply_annual_fee_change
 
   def self.features
@@ -153,11 +151,8 @@ class Organization < ApplicationRecord
   def self.activity_i18n_scopes; ACTIVITY_I18N_SCOPES end
   def self.billing_year_divisions; BILLING_YEAR_DIVISIONS end
 
-  def self.switch_each
-    all.each do |org|
-      Tenant.switch(org.tenant_name) { yield org }
-    end
-    nil
+  def self.instance
+    first!
   end
 
   def features
@@ -251,11 +246,6 @@ class Organization < ApplicationRecord
     return unless email_default_host
 
     URI.parse(email_default_host).host.gsub(/\A#{members_subdomain}./, "")
-  end
-
-  def url=(url)
-    super
-    self.host ||= PublicSuffix.parse(URI(url).host).sld
   end
 
   def activity_participations_form?
@@ -354,7 +344,11 @@ class Organization < ApplicationRecord
   end
 
   def credentials(*keys)
-    Rails.application.credentials.dig(tenant_name.to_sym, *keys)
+    Rails.application.credentials.dig(:organizations, Tenant.current.to_sym, *keys)
+  end
+
+  def domain
+    @domain ||= PublicSuffix.parse(credentials(:domain)).domain
   end
 
   def deliveries_count(year)
@@ -380,6 +374,12 @@ class Organization < ApplicationRecord
 
   private
 
+  def only_one_organization
+    return if Organization.count.zero?
+
+    errors.add(:base, "Only one organization is allowed")
+  end
+
   def activity_participations_demanded_logic_must_be_valid
     Liquid::Template.parse(activity_participations_demanded_logic)
   rescue Liquid::SyntaxError => e
@@ -390,14 +390,6 @@ class Organization < ApplicationRecord
     Liquid::Template.parse(basket_price_extra_dynamic_pricing)
   rescue Liquid::SyntaxError => e
     errors.add(:basket_price_extra_dynamic_pricing, e.message)
-  end
-
-  def create_tenant!
-    Tenant.create!(tenant_name)
-    Permission.create_superadmin!
-    MailTemplate.create_all!
-    Newsletter::Template.create_defaults!
-    DeliveryCycle.create_default!
   end
 
   def apply_annual_fee_change

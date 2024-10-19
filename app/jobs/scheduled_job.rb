@@ -5,6 +5,6 @@ class ScheduledJob < ActiveJob::Base
 
   def perform(job_class)
     job = job_class.constantize
-    Organization.switch_each { job.perform_later }
+    Tenant.switch_each { job.perform_later }
   end
 end

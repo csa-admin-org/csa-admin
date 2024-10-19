@@ -8,7 +8,7 @@ class Current < ActiveSupport::CurrentAttributes
   resets { @org = nil }
 
   def org
-    @org ||= Organization.find_by!(tenant_name: Tenant.current)
+    @org ||= Organization.instance
   end
 
   def fiscal_year

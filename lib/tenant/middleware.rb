@@ -8,10 +8,9 @@ module Tenant
 
     def call(env)
       request = ActionDispatch::Request.new(env)
-      host = request.host.split(".")[-2]
 
-      if tenant_name = Organization.find_by(host: host)&.tenant_name
-        Tenant.switch(tenant_name) { @app.call(env) }
+      if tenant = Tenant.find_by(host: request.host)
+        Tenant.switch(tenant) { @app.call(env) }
       else
         @app.call(env)
       end

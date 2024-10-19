@@ -22,8 +22,10 @@ RSpec.configure do |config|
   config.include ActiveJob::TestHelper
 
   config.before(:suite) do
-    unless Organization.exists?(host: "ragedevert")
-      FactoryBot.create(:organization, host: "ragedevert", tenant_name: "ragedevert")
+    unless Tenant.schema_exists?("ragedevert")
+      Tenant.create!("ragedevert") do
+        FactoryBot.create(:organization)
+      end
     end
   end
 

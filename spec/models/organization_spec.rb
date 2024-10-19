@@ -3,12 +3,24 @@
 require "rails_helper"
 
 describe Organization do
-  specify "validate url https" do
-    org = Organization.new(url: "http://www.ragedevert.ch")
-    expect(org).not_to have_valid(:url)
+  specify "validate only one instance" do
+    org = Organization.new(name: "Foo")
 
-    org = Organization.new(url: "https://www.ragedevert.ch")
-    expect(org).to have_valid(:url)
+    expect(org).not_to have_valid(:base)
+    expect(org.errors[:base]).to include("Only one organization is allowed")
+  end
+
+  specify "validate url https" do
+    expect(current_org.domain).to eq "ragedevert.ch"
+
+    current_org.url = "https://www.foobar.ch"
+    expect(current_org).not_to have_valid(:url)
+
+    current_org.url = "http://www.ragedevert.ch"
+    expect(current_org).not_to have_valid(:url)
+
+    current_org.url = "https://www.ragedevert.ch"
+    expect(current_org).to have_valid(:url)
   end
 
   specify "validates email_default_from format" do
@@ -124,27 +136,6 @@ describe Organization do
       org = Organization.new(billing_year_divisions: [ "", "1", "6", "12" ])
       expect(org.billing_year_divisions).to eq [ 1, 12 ]
     end
-  end
-
-  describe "url=" do
-    it "sets host at the same time" do
-      org = Organization.new(url: "https://www.ragedevert.ch")
-      expect(org.host).to eq "ragedevert"
-    end
-  end
-
-  specify "creates default deliveries cycle" do
-    Tenant.reset
-    create(:organization, tenant_name: "test")
-
-    expect(DeliveryCycle.count).to eq 1
-    expect(DeliveryCycle.first).to have_attributes(
-      names: {
-        "de" => "Alle",
-        "fr" => "Toutes",
-        "it" => "Tutte",
-        "en" => "All"
-      })
   end
 
   specify "apply_annual_fee_change" do

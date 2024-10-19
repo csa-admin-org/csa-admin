@@ -2,11 +2,24 @@
 
 FactoryBot.define do
   factory :organization do
+    trait :demo do
+      # TODO: Remove
+      tenant_name { "demo" }
+      host { "acp-admin" }
+
+      url { "https://www.acp-admin.ch" }
+      email_default_host { "https://membres.acp-admin.ch" }
+      email_default_from { "info@acp-admin.ch" }
+    end
+
+    # TODO: Remove
+    tenant_name { "ragedevert" }
+    host { "ragedevert" }
+
     name { "Rage de Vert" }
     url { "https://www.ragedevert.ch" }
     email { "info@ragedevert.ch" }
     phone { "077 447 26 16" }
-    sequence(:tenant_name) { |n| "org-#{n}" }
     email_default_host { "https://membres.ragedevert.ch" }
     email_default_from { "info@ragedevert.ch" }
     email_signature { "Au plaisir,\nRage de Vert" }

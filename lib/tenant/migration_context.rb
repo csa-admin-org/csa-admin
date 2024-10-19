@@ -6,7 +6,7 @@ module Tenant
       if primary?
         puts "Migrating #{Tenant.default}"
         super
-        switch_each do |tenant|
+        Tenant.switch_each do |tenant|
           puts "Migrating #{tenant}"
           super
         end
@@ -19,7 +19,7 @@ module Tenant
       if primary?
         puts "Rolling back #{Tenant.default}"
         super
-        switch_each do |tenant|
+        Tenant.switch_each do |tenant|
           puts "Rolling back #{tenant}"
           super
         end
@@ -32,7 +32,7 @@ module Tenant
       if primary?
         puts "#{direction} #{Tenant.default}"
         super
-        switch_each do |tenant|
+        Tenant.switch_each do |tenant|
           puts "#{direction} #{tenant}"
           super
         end
@@ -42,13 +42,6 @@ module Tenant
     end
 
     private
-
-    def switch_each
-      tenants = Organization.pluck(:tenant_name)
-      tenants.each do |tenant|
-        Tenant.switch(tenant) { yield tenant }
-      end
-    end
 
     def primary?
       Array(@migrations_paths).all? { |path| path.end_with?("db/migrate") }
