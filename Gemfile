@@ -4,7 +4,7 @@ source "https://rubygems.org"
 
 ruby file: ".ruby-version"
 
-gem "rails", github: "rails/rails", branch: "main"
+gem "rails", "8.0.0.rc1"
 
 gem "bootsnap", require: false
 gem "thruster", require: false
@@ -29,7 +29,7 @@ gem "truemail"
 gem "tod"
 gem "discard"
 
-gem "activeadmin", "~> 4.0.0.beta12"
+gem "activeadmin", "~> 4.0.0.beta13"
 gem "cancancan"
 gem "acts_as_list"
 

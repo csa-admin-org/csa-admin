@@ -22,6 +22,6 @@ class Liquid::AdminDrop < Liquid::Drop
       .application
       .routes
       .url_helpers
-      .admin_url(@admin.id, {}, host: Current.org.email_default_host)
+      .admin_url(@admin.id, {}, host: Current.org.admin_url)
   end
 end

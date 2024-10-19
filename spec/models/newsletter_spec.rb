@@ -24,7 +24,7 @@ describe Newsletter do
   }
 
   specify "validate from hostname" do
-    Current.org.update!(email_default_host: "https://membres.ragedevert.ch")
+    expect(Current.org.domain).to eq "ragedevert.ch"
 
     newsletter = build(:newsletter, from: "info@rave.ch")
     expect(newsletter).not_to have_valid(:from)

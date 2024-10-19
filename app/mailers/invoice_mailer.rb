@@ -42,7 +42,7 @@ class InvoiceMailer < ApplicationMailer
     invoice = params[:invoice]
     filename = [
       Invoice.model_name.human.downcase.parameterize,
-      Current.org.tenant_name,
+      Tenant.current,
       invoice.id
     ].join("-") + ".pdf"
     attachments[filename] = {

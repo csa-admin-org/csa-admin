@@ -196,7 +196,7 @@ ActiveAdmin.register Newsletter do
       f.input :from,
         as: :string,
         placeholder: Current.org.email_default_from.html_safe,
-        hint: t("formtastic.hints.newsletter.from_html", hostname: Current.org.email_hostname)
+        hint: t("formtastic.hints.newsletter.from_html", domain: Current.org.domain)
 
       f.has_many :attachments, allow_destroy: true do |a|
         if a.object.persisted?
