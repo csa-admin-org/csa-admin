@@ -24,12 +24,12 @@ describe Newsletter do
   }
 
   specify "validate from hostname" do
-    expect(Current.org.domain).to eq "ragedevert.ch"
+    expect(Current.org.domain).to eq "organization.test"
 
-    newsletter = build(:newsletter, from: "info@rave.ch")
+    newsletter = build(:newsletter, from: "info@orga.ch")
     expect(newsletter).not_to have_valid(:from)
 
-    newsletter = build(:newsletter, from: "contact@ragedevert.ch")
+    newsletter = build(:newsletter, from: "contact@organization.test")
     expect(newsletter).to have_valid(:from)
 
     newsletter = build(:newsletter, from: nil)

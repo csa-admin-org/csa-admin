@@ -3,7 +3,7 @@
 require "rails_helper"
 
 describe "Postmark Webhooks" do
-  before { integration_session.host = "admin.ragedevert.test" }
+  before { integration_session.host = "admin.organization.test" }
 
   describe "/postmark/webhooks" do
     def request(token: nil, params: {})

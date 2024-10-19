@@ -11,32 +11,32 @@ describe Organization do
   end
 
   specify "validate url https" do
-    expect(current_org.domain).to eq "ragedevert.ch"
+    expect(current_org.domain).to eq "organization.test"
 
-    current_org.url = "https://www.foobar.ch"
+    current_org.url = "https://www.orga.test"
     expect(current_org).not_to have_valid(:url)
 
-    current_org.url = "http://www.ragedevert.ch"
+    current_org.url = "http://www.organization.test"
     expect(current_org).not_to have_valid(:url)
 
-    current_org.url = "https://www.ragedevert.ch"
+    current_org.url = "https://www.organization.test"
     expect(current_org).to have_valid(:url)
   end
 
   specify "validates email_default_from format" do
     org = current_org
-    expect(org.domain).to eq "ragedevert.ch"
+    expect(org.domain).to eq "organization.test"
 
-    org.email_default_from = "info@ragedevert.ch"
+    org.email_default_from = "info@organization.test"
     expect(org).to have_valid(:email_default_from)
 
-    org.email_default_from = "contact@ragedevert.ch"
+    org.email_default_from = "contact@organization.test"
     expect(org).to have_valid(:email_default_from)
 
-    org.email_default_from = "info@rave.ch"
+    org.email_default_from = "info@orga.test"
     expect(org).not_to have_valid(:email_default_from)
 
-    org.email_default_from = "ragedevert.ch"
+    org.email_default_from = "organization.test"
     expect(org).not_to have_valid(:email_default_from)
   end
 

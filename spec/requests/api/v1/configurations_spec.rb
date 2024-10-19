@@ -3,7 +3,7 @@
 require "rails_helper"
 
 describe "Configurations V1 API" do
-  before { integration_session.host = "admin.ragedevert.test" }
+  before { integration_session.host = "admin.organization.test" }
 
   describe "GET /api/v1/configuration" do
     def request(api_token: nil)

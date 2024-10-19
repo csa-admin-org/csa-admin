@@ -17,8 +17,8 @@ describe MembershipMailer, freeze: "2022-01-01" do
     expect(mail.to).to eq([ "example@csa-admin.org" ])
     expect(mail.tag).to eq("membership-last-trial-basket")
     expect(mail.body).to include("C'est le jour de votre dernier panier à l'essai...")
-    expect(mail.body).to include("https://membres.ragedevert.ch")
-    expect(mail[:from].decoded).to eq "Rage de Vert <info@ragedevert.ch>"
+    expect(mail.body).to include("https://membres.organization.test")
+    expect(mail[:from].decoded).to eq "Rage de Vert <info@organization.test>"
     expect(mail[:message_stream].to_s).to eq "outbound"
   end
 
@@ -35,8 +35,8 @@ describe MembershipMailer, freeze: "2022-01-01" do
     expect(mail.to).to eq([ "example@csa-admin.org" ])
     expect(mail.tag).to eq("membership-renewal")
     expect(mail.body).to include("Accéder au formulaire de renouvellement")
-    expect(mail.body).to include("https://membres.ragedevert.ch/memberships#renewal")
-    expect(mail[:from].decoded).to eq "Rage de Vert <info@ragedevert.ch>"
+    expect(mail.body).to include("https://membres.organization.test/memberships#renewal")
+    expect(mail[:from].decoded).to eq "Rage de Vert <info@organization.test>"
     expect(mail[:message_stream].to_s).to eq "outbound"
   end
 
@@ -53,8 +53,8 @@ describe MembershipMailer, freeze: "2022-01-01" do
     expect(mail.to).to eq([ "example@csa-admin.org" ])
     expect(mail.tag).to eq("membership-renewal-reminder")
     expect(mail.body).to include("Accéder au formulaire de renouvellement")
-    expect(mail.body).to include("https://membres.ragedevert.ch/memberships#renewal")
-    expect(mail[:from].decoded).to eq "Rage de Vert <info@ragedevert.ch>"
+    expect(mail.body).to include("https://membres.organization.test/memberships#renewal")
+    expect(mail[:from].decoded).to eq "Rage de Vert <info@organization.test>"
     expect(mail[:message_stream].to_s).to eq "outbound"
   end
 end
