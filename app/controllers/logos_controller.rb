@@ -22,7 +22,7 @@ class LogosController < ActionController::Base
 
   def switch_tenant!
     tenant = params[:id]
-    if Organization.schema_exists?(tenant)
+    if Tenant.schema_exists?(tenant)
       Tenant.switch(tenant) { yield }
     else
       head :not_found
