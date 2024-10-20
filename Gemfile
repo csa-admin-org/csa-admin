@@ -117,6 +117,9 @@ group :development do
   gem "ruby-lsp-rspec", require: false
 
   gem "rubocop-rails-omakase", require: false
+
+  gem "prosopite"
+  gem "pg_query"
 end
 
 group :test do

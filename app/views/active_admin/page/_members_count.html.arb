@@ -3,9 +3,10 @@
 ul class: "counts" do
   states = %i[pending waiting active]
   states += %i[support] if Current.org.member_support?
+  counts = Member.where(state: states).group(:state).count
   states.each do |scope|
     li do
-      count = Member.send(scope).count
+      count = counts[scope.to_s] || 0
       a href: members_path(scope: scope) do
         counter_tag(I18n.t("active_admin.scopes.#{scope}").capitalize, count)
       end
