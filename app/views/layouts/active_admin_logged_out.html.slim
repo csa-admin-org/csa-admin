@@ -1,7 +1,7 @@
 doctype html
 html lang=I18n.locale
   head
-    title = html_head_site_title
+    title = strip_tags(html_head_site_title)
     = render "active_admin/html_head"
 
   body class="h-screen flex flex-col dark:bg-black text-gray-950 dark:text-gray-100 antialiased"
