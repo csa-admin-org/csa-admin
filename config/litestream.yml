@@ -18,3 +18,5 @@ dbs:
         endpoint: s3.eu-central-003.backblazeb2.com
         access-key-id: $LITESTREAM_ACCESS_KEY_ID
         secret-access-key: $LITESTREAM_SECRET_ACCESS_KEY
+        retention: 24h
+        sync-interval: 5m
