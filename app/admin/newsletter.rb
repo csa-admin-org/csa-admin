@@ -351,6 +351,7 @@ ActiveAdmin.register Newsletter do
     def assign_attributes(resource, attributes)
       attrs = Array(attributes).first
       template_id = attrs[:newsletter_template_id]
+
       if attrs[:blocks_attributes]
         if params[:action] == "preview"
           attrs[:blocks_attributes].select! { |_, v| v[:template_id] == template_id }
@@ -363,6 +364,26 @@ ActiveAdmin.register Newsletter do
           end
         end
       end
+
+      # Handle attachments separately
+      if attrs[:attachments_attributes]
+        attrs[:attachments_attributes].each do |_, attachment_attrs|
+          if attachment_attrs[:file].present?
+            begin
+              # Try to find or create the blob
+              blob = ActiveStorage::Blob.find_signed!(attachment_attrs[:file])
+            rescue ActiveSupport::MessageVerifier::InvalidSignature
+              # If the signed ID is invalid, create a new blob
+              blob = ActiveStorage::Blob.create_and_upload!(
+                io: StringIO.new(attachment_attrs[:file]),
+                filename: "attachment"
+              )
+            end
+            attachment_attrs[:file] = blob
+          end
+        end
+      end
+
       super resource, [ attrs ]
     end
   end
