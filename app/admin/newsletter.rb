@@ -365,23 +365,8 @@ ActiveAdmin.register Newsletter do
         end
       end
 
-      # Handle attachments separately
-      if attrs[:attachments_attributes]
-        attrs[:attachments_attributes].each do |_, attachment_attrs|
-          if attachment_attrs[:file].present?
-            begin
-              # Try to find or create the blob
-              blob = ActiveStorage::Blob.find_signed!(attachment_attrs[:file])
-            rescue ActiveSupport::MessageVerifier::InvalidSignature
-              # If the signed ID is invalid, create a new blob
-              blob = ActiveStorage::Blob.create_and_upload!(
-                io: StringIO.new(attachment_attrs[:file]),
-                filename: "attachment"
-              )
-            end
-            attachment_attrs[:file] = blob
-          end
-        end
+      if params[:action] == "preview"
+        attrs.delete(:attachments_attributes)
       end
 
       super resource, [ attrs ]
