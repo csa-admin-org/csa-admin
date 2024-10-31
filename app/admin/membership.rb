@@ -759,7 +759,7 @@ ActiveAdmin.register Membership do
           required: false,
           input_html: { data: { form_reset_target: "input" } }
       end
-      ol "data-controller" => "form-reset" do
+      ol "data-controller" => "form-reset", class: "mt-6" do
         f.input :delivery_cycle,
           collection: admin_delivery_cycles_collection,
           as: :select,
