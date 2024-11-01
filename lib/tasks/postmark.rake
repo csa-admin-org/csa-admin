@@ -31,6 +31,8 @@ namespace :postmark do
 
   desc "Create/update postmark webhook"
   task webhook_setup: :environment do
+    raise "Only run this rake task in production env" unless Rails.env.production?
+
     Tenant.switch_each do
       if api_token = Current.org.credentials(:postmark, :api_token)
         client = Postmark::ApiClient.new(api_token)
@@ -82,7 +84,6 @@ namespace :postmark do
                 if details[:status] == "Sent"
                   if event = details[:message_events].find { |e| e["Type"] == "Delivered" && e["Recipient"] == email }
                     delivery.transaction do
-                      delivery.update_column(:state, "pending")
                       delivery.delivered!(
                         at: event["ReceivedAt"],
                         postmark_message_id: message[:message_id],
@@ -93,7 +94,6 @@ namespace :postmark do
                     bounce_id = event.dig("Details", "BounceID")
                     bounce = client.get_bounce(bounce_id)
                     delivery.transaction do
-                      delivery.update_column(:state, "pending")
                       delivery.bounced!(
                         at: bounce[:bounced_at],
                         postmark_message_id: bounce[:message_id],
