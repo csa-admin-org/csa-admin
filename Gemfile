@@ -4,7 +4,7 @@ source "https://rubygems.org"
 
 ruby file: ".ruby-version"
 
-gem "rails", "8.0.0.rc1"
+gem "rails", "8.0.0.rc2"
 
 gem "bootsnap", require: false
 gem "thruster", require: false
@@ -54,7 +54,6 @@ gem "faraday"
 gem "faraday-cookie_jar"
 
 gem "icalendar"
-gem "ostruct" # waiting for new "icalendar > 2.10.2 release"
 gem "image_processing"
 # https://github.com/prawnpdf/ttfunk/issues/102
 gem "prawn", "2.4.0"
