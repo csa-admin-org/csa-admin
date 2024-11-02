@@ -15,6 +15,22 @@ class Newsletter
     validates :coming_deliveries_in_days,
       numericality: { only_integer: true, greater_than_or_equal_to: 0, allow_blank: true }
 
+    def basket_complement_ids=(ids)
+      super ids.map(&:presence).compact.map(&:to_i)
+    end
+
+    def basket_size_ids=(ids)
+      super ids.map(&:presence).compact.map(&:to_i)
+    end
+
+    def delivery_cycle_ids=(ids)
+      super ids.map(&:presence).compact.map(&:to_i)
+    end
+
+    def depot_ids=(ids)
+      super ids.map(&:presence).compact.map(&:to_i)
+    end
+
     def name; title end
 
     def members

@@ -43,10 +43,10 @@ module Shop
       joins(:variants).merge(ProductVariant.name_cont(str))
     }
     scope :depot_eq, ->(depot_id) {
-      where.not("? = ANY (unavailable_for_depot_ids)", depot_id)
+      where.not("EXISTS (SELECT 1 FROM json_each(unavailable_for_depot_ids) WHERE json_each.value = ?)", depot_id)
     }
     scope :delivery_eq, ->(delivery_id) {
-      where.not("? = ANY (unavailable_for_delivery_ids)", delivery_id)
+      where.not("EXISTS (SELECT 1 FROM json_each(unavailable_for_delivery_ids) WHERE json_each.value = ?)", delivery_id)
     }
     scope :displayed_in_delivery_sheets, -> {
       # Does not include product linked to a basket complement as they are
@@ -74,7 +74,7 @@ module Shop
           .delivery_eq(delivery)
           .where("shop_products.basket_complement_id IS NULL OR basket_complements_deliveries.delivery_id = ?", delivery)
       if depot
-        products = products.where.not("? = ANY (unavailable_for_depot_ids)", depot)
+        products = products.where.not("EXISTS (SELECT 1 FROM json_each(unavailable_for_depot_ids) WHERE json_each.value = ?)", depot)
       end
       products.order_by_name
     end

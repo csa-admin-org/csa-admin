@@ -3,7 +3,7 @@
 require "rails_helper"
 
 describe "Activitys RSS feed" do
-  before { integration_session.host = "membres.organization.test" }
+  before { integration_session.host = "membres.acme.test" }
 
   it "returns an RSS feed with coming and available activities" do
     create(:activity, date: Date.today + 2.days, place: "Too Soon")

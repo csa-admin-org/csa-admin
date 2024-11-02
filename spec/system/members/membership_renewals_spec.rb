@@ -10,7 +10,7 @@ describe "Memberships Renewal" do
   before do
     Current.org.update!(billing_year_divisions: [ 1, 4, 12 ])
     MailTemplate.find_by(title: :membership_renewal).update!(active: true)
-    Capybara.app_host = "http://membres.organization.test"
+    Capybara.app_host = "http://membres.acme.test"
   end
 
   specify "renew membership", freeze: "2020-09-30" do

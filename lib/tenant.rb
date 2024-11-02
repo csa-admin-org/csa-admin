@@ -1,112 +1,104 @@
 # frozen_string_literal: true
 
-require "tenant/migration_context"
-require "tenant/schema_creator"
-require "tenant/pg_adapter_patch"
-
 module Tenant
   extend self
 
   def all
-    @all ||= organization_credentials.keys.map(&:to_s)
+    @all ||= config.keys.map(&:to_s)
   end
 
   def find_by(host:)
-    @domains ||= organization_credentials.map { |tenant, attrs|
-      [ relevant_domain(attrs[:domain]), tenant.to_s ]
+    @domains ||= config.map { |tenant, attrs|
+      [ relevant_domain(attrs["domain"]), tenant.to_s ]
     }.to_h
     @domains[relevant_domain(host)]
   end
 
-  def all_schemas
-    ActiveRecord::Base.connection.execute("SELECT schema_name FROM information_schema.schemata").map { |row| row["schema_name"] }
+  def domain
+    config.dig(current.to_s, "domain")
   end
 
-  def schema_exists?(tenant)
-    ActiveRecord::Base.connection.schema_exists?(tenant)
+  def exists?(tenant)
+    all.include?(tenant.to_s)
   end
 
   def current
-    Thread.current[:current_tenant] ||= default
+    Thread.current[:current_tenant]
   end
 
   def outside?
-    current == default
+    !current
   end
 
   def inside?
     !outside?
   end
 
-  def default
-    "public"
-  end
-
   def switch_each
-    (all & all_schemas).each do |tenant|
+    all.each do |tenant|
       switch(tenant) { yield(tenant) }
     end
     nil
   end
 
   def switch(tenant)
-    switch!(tenant)
-    yield
+    enter(tenant)
+    ActiveRecord::Base.connected_to(shard: tenant.to_sym) do
+      ActiveRecord::Base.prohibit_shard_swapping(!Rails.env.test?) do
+        yield
+      end
+    end
   ensure
-    reset unless Rails.env.test?
+    # In test environment, where jobs are run inline, we don't want to reset
+    # the current tenant as will break tests that rely on it.
+    leave unless Rails.env.test?
   end
 
-  def switch!(tenant)
-    return if tenant == current
-    raise "Illegal tenant switch (#{current} => #{tenant})" unless outside?
+  def connect(tenant)
+    raise "Only for use in Rails console" unless defined?(Rails::Console)
 
-    connect(tenant)
+    enter(tenant)
+    ActiveRecord::Base.connecting_to(shard: tenant.to_sym)
   end
 
-  def create!(tenant)
-    connection = ActiveRecord::Base.connection
-    connection.execute(%(CREATE SCHEMA "#{tenant}"))
-    switch!(tenant)
-    SchemaCreator.new(connection, ActiveRecord::Base.connection_db_config.configuration_hash).run
+  # Only for use in console
+  def disconnect
+    raise "Only for use in Rails console" unless defined?(Rails::Console)
 
-    yield # Create organization here
-    raise "Organization not created" unless Organization.exists?
-
-    Permission.create_superadmin!
-    MailTemplate.create_all!
-    Newsletter::Template.create_defaults!
-    DeliveryCycle.create_default!
-  end
-
-  def reset
-    connect(nil)
+    leave
+    ActiveRecord::Base.connecting_to(shard: :default)
   end
 
   private
 
-  def organization_credentials
-    Rails.application.credentials.dig(:organizations)
+  def enter(tenant)
+    return if tenant == current
+    raise "Unknown tenant '#{tenant}'" unless exists?(tenant)
+    raise "Illegal tenant switch (#{current} => #{tenant})" unless outside?
+
+    self.current = tenant
   end
 
-  def relevant_domain(domain)
-    domain =  PublicSuffix.parse(domain)
-    # Ignore tld locally
-    Rails.env.local? ? domain.sld : domain.domain
+  def leave
+    self.current = nil
   end
 
-  def connect(tenant)
+  def current=(tenant)
     Thread.current[:current_tenant] = tenant
     Current.reset
     Sentry.set_tags(tenant: tenant)
-    ActiveRecord::Base.connection.schema_search_path = schema_search_path
-    ActiveRecord::Base.connection.clear_query_cache
   end
 
-  def schema_search_path
-    [ current, *persistent_schemas ].map(&:inspect).join(", ")
+  def config
+    @config ||= begin
+      config_file = Rails.root.join("config", "tenant.yml")
+      YAML.load_file(config_file, aliases: true)[Rails.env]
+    end
   end
 
-  def persistent_schemas
-    [ "extensions" ]
+  def relevant_domain(domain)
+    domain = PublicSuffix.parse(domain)
+    # Ignore tld locally
+    Rails.env.local? ? domain.sld : domain.domain
   end
 end

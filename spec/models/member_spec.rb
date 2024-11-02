@@ -89,6 +89,8 @@ describe Member do
       create(:member, emails: "super-john@DOE.com, mega-jane@doe.com")
       expect(Member.new(emails: "john@DOE.com")).to have_valid(:emails)
       expect(Member.new(emails: "JANE@doe.com")).to have_valid(:emails)
+      expect(Member.new(emails: "super-john@DOE.com")).not_to have_valid(:emails)
+      expect(Member.new(emails: "mega-jane@doe.com")).not_to have_valid(:emails)
     end
 
     it "validates annual_fee to be greater or equal to zero" do

@@ -7,7 +7,7 @@ module BulkDatesInsert
     attribute :bulk_dates_starts_on, :date
     attribute :bulk_dates_ends_on, :date
     attribute :bulk_dates_weeks_frequency, :integer
-    attribute :bulk_dates_wdays, :integer, array: true
+    attribute :bulk_dates_wdays, :json, default: []
 
     with_options if: :date? do
       validates :bulk_dates_starts_on, absence: true
@@ -40,8 +40,8 @@ module BulkDatesInsert
     end
   end
 
-  def bulk_dates_wdays
-    @bulk_dates_wdays ||= self[:bulk_dates_wdays] & Array(0..6)
+  def bulk_dates_wdays=(wdays)
+    super wdays.map(&:to_i) & Array(0..6).map(&:to_i)
   end
 
   def bulk_dates

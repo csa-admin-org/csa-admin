@@ -31,7 +31,7 @@ class Newsletter < ApplicationRecord
   validate :at_least_one_block_must_be_present
   validate :attachments_must_not_exceed_maximum_size
   validates :from, format: {
-    with: ->(n) { /.*@#{Current.org.domain}\z/ },
+    with: ->(n) { /.*@#{Tenant.domain}\z/ },
     allow_nil: true
   }
 

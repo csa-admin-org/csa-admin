@@ -29,8 +29,8 @@ describe MemberMailer do
     expect(mail.body).to include("<strong>Taille panier:</strong> Eveil")
     expect(mail.body).to include("<strong>Compléments:</strong> Oeuf et Pain")
     expect(mail.body).to include("Accéder à ma page de membre")
-    expect(mail.body).to include("https://membres.organization.test")
-    expect(mail[:from].decoded).to eq "Rage de Vert <info@organization.test>"
+    expect(mail.body).to include("https://membres.acme.test")
+    expect(mail[:from].decoded).to eq "Rage de Vert <info@acme.test>"
     expect(mail[:message_stream].to_s).to eq "outbound"
   end
 
@@ -47,8 +47,8 @@ describe MemberMailer do
     expect(mail.tag).to eq("member-validated")
     expect(mail.body).to include("Position sur la liste d'attente: <strong>1</strong>")
     expect(mail.body).to include("Accéder à ma page de membre")
-    expect(mail.body).to include("https://membres.organization.test")
-    expect(mail[:from].decoded).to eq "Rage de Vert <info@organization.test>"
+    expect(mail.body).to include("https://membres.acme.test")
+    expect(mail[:from].decoded).to eq "Rage de Vert <info@acme.test>"
     expect(mail[:message_stream].to_s).to eq "outbound"
   end
 end

@@ -3,7 +3,7 @@
 require "rails_helper"
 
 describe "Newsletter subscriptions" do
-  before { integration_session.host = "membres.organization.test" }
+  before { integration_session.host = "membres.acme.test" }
 
   describe "unsubscribe" do
     specify "with POST request (List-Unsubscribe-Post)" do

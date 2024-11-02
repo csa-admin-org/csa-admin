@@ -61,8 +61,8 @@ class Member < ApplicationRecord
   scope :not_inactive, -> { where.not(state: "inactive") }
   scope :trial, -> { joins(:current_membership).merge(Membership.trial) }
   scope :sharing_contact, -> { where(contact_sharing: true) }
-  scope :with_name, ->(name) { where("members.name ILIKE ?", "%#{name}%") }
-  scope :with_address, ->(address) { where("members.address ILIKE ?", "%#{address}%") }
+  scope :with_name, ->(name) { where("lower(members.name) LIKE ?", "%#{name.downcase}%") }
+  scope :with_address, ->(address) { where("lower(members.address) LIKE ?", "%#{address.downcase}%") }
   scope :no_salary_basket, -> { where(salary_basket: false) }
   scope :with_waiting_depots_eq, ->(depot_id) {
     left_joins(:members_waiting_alternative_depots).where(<<-SQL, depot_id: depot_id).distinct

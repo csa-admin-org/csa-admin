@@ -6,7 +6,7 @@ describe "Absences", freeze: "2021-06-15" do
   let(:member) { create(:member, :active) }
 
   before do
-    Capybara.app_host = "http://membres.organization.test"
+    Capybara.app_host = "http://membres.acme.test"
     login(member)
   end
 

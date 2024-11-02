@@ -37,16 +37,16 @@ module TranslatedAttributes
         end
 
         scope "order_by_#{attr}", -> {
-          order(Arel.sql("#{table_name}.#{column}->>'#{I18n.locale}'"))
+          order(Arel.sql("json_extract(#{table_name}.#{column}, '$.#{I18n.locale}')"))
         }
         scope "reorder_by_#{attr}", -> {
-          reorder(Arel.sql("#{table_name}.#{column}->>'#{I18n.locale}'"))
+          reorder(Arel.sql("json_extract(#{table_name}.#{column}, '$.#{I18n.locale}')"))
         }
         scope "#{attr}_eq", ->(str) {
-          where("#{table_name}.#{column}->>'#{I18n.locale}' = ?", str)
+          where("json_extract(#{table_name}.#{column}, '$.#{I18n.locale}') = ?", str)
         }
         scope "#{attr}_cont", ->(str) {
-          where("#{table_name}.#{column}->>'#{I18n.locale}' ILIKE ?", "%#{str}%")
+          where("lower(json_extract(#{table_name}.#{column}, '$.#{I18n.locale}')) LIKE ?", "%#{str.downcase}%")
         }
 
         if required

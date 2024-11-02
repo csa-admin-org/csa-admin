@@ -13,7 +13,7 @@ class DepotGroup < ApplicationRecord
 
   scope :member_ordered, -> {
     order_clauses = [ "member_order_priority" ]
-    order_clauses << "COALESCE(NULLIF(public_names->>'#{I18n.locale}', ''), name)"
+    order_clauses << "COALESCE(NULLIF(json_extract(public_names, '$.#{I18n.locale}'), ''), name)"
     reorder(Arel.sql(order_clauses.compact.join(", ")))
   }
 

@@ -1,0 +1,70 @@
+production: &production
+  ragedevert:
+    domain: ragedevert.ch
+  lumieredeschamps:
+    domain: lumiere-des-champs.ch
+  tapatate:
+    domain: tapatate.ch
+  clefdeschamps:
+    domain: clef-des-champs.ch
+  croquterre:
+    domain: croquterre.ch
+  alabellecourgette:
+    domain: alabellecourgette.ch
+  lesjardinsdouchy:
+    domain: lesjardinsdouchy.ch
+  lamule:
+    domain: lamule.ch
+  lafermedugoupil:
+    domain: lafermedugoupil.ch
+  lafermedessavanes:
+    domain: lafermedessavanes.ch
+  seminterra:
+    domain: seminterra.ch
+  p2r:
+    domain: p2r.ch
+  grundnahrig:
+    domain: grundnahrig.ch
+  jardindesturricules:
+    domain: jardindesturricules.ch
+  lepetitsecheron:
+    domain: lepetitsecheron.ch
+  paniersdesavigny:
+    domain: paniersdesavigny.ch
+  cocagne:
+    domain: cocagne.ch
+  potagersdegaia:
+    domain: potagersdegaia.ch
+  latouviere:
+    domain: touviere.ch
+  alpgrava:
+    domain: alpgrava.ch
+  locali:
+    domain: panier-locali.ch
+  wurzelkollektiv:
+    domain: wurzelkollektiv.de
+  fermedesverpilleres:
+    domain: ferme-des-verpilleres.ch
+  hofnarr:
+    domain: hof-narr.ch
+  lejardindemax:
+    domain: lejardindemax.ch
+  fairdura:
+    domain: fairdura.ch
+  ortie:
+    domain: ortie-microferme.ch
+  cultureslocales:
+    domain: cultureslocales.ch
+  mamajah:
+    domain: mamajah.org
+  unjardinquichante:
+    domain: unjardinquichante.fr
+  demo:
+    domain: acp-admin.ch
+
+development:
+  <<: *production
+
+test:
+  acme:
+    domain: acme.test

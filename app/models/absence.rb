@@ -19,19 +19,15 @@ class Absence < ApplicationRecord
   after_create_commit :notify_admins!
   after_commit :update_memberships!
 
-  scope :past, -> { where("ended_on < ?", Time.current) }
-  scope :future, -> { where("started_on > ?", Time.current) }
-  scope :present_or_future, -> { where("ended_on > ?", Time.current) }
+  scope :past, -> { where(ended_on: ..Date.yesterday) }
+  scope :future, -> { where(started_on: Date.tomorrow..) }
+  scope :present_or_future, -> { where(ended_on: Date.tomorrow..) }
   scope :current, -> { including_date(Date.current) }
-  scope :including_date, ->(date) {
-    where("started_on <= ? AND ended_on >= ?", date, date)
-  }
+  scope :including_date, ->(date) { where(started_on: ..date, ended_on: date..) }
+  scope :overlaps, ->(period) { where(started_on: ..period.max, ended_on: period.min..) }
   scope :during_year, ->(year) {
     fy = Current.org.fiscal_year_for(year)
     where(started_on: fy.range).or(where(ended_on: fy.range))
-  }
-  scope :overlaps, ->(period) {
-    where("(started_on, ended_on) OVERLAPS (?, ?)", period.min, period.max)
   }
 
   def self.min_started_on

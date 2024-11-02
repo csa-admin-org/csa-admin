@@ -16,7 +16,7 @@ module XLSX
             .joins(:order)
             .merge(orders)
             .eager_load(:product_variant, product: :producer, order: [ :invoice, :member, :depot ])
-            .order(Arel.sql("members.name, shop_products.names->>'#{I18n.locale}', shop_product_variants.names->>'#{I18n.locale}'"))
+            .order(Arel.sql("members.name, json_extract(shop_products.names, '$.#{I18n.locale}'), json_extract(shop_product_variants.names, '$.#{I18n.locale}')"))
         @producers = @order_items.map { |i| i.product.producer }.uniq
 
         build_all_producers_worksheet unless producer

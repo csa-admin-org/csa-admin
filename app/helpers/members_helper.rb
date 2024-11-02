@@ -107,7 +107,7 @@ module MembersHelper
 
     label_template = Liquid::Template.parse(Current.org.basket_price_extra_label)
     details_template = Liquid::Template.parse(Current.org.basket_price_extra_label_detail_or_default)
-    Current.org[:basket_price_extras].map do |extra|
+    Current.org[:basket_price_extras].map(&:to_f).map do |extra|
       full_year_price = deliveries_based_price_info(extra) if extra.positive?
       details = details_template.render(
         "extra" => extra,

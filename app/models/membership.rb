@@ -84,24 +84,22 @@ class Membership < ApplicationRecord
   after_commit :update_member_and_baskets!
   after_commit :update_price_and_invoices_amount!, on: %i[create update]
 
-  scope :started, -> { where("started_on < ?", Time.current) }
-  scope :past, -> { where("ended_on < ?", Time.current) }
-  scope :future, -> { where("started_on > ?", Time.current) }
-  scope :trial, -> { current.where("remaning_trial_baskets_count > 0") }
+  scope :started, -> { where(started_on: ..Date.yesterday) }
+  scope :past, -> { where(ended_on: ..Date.yesterday) }
+  scope :future, -> { where(started_on: Date.tomorrow..) }
+  scope :trial, -> { current.where(remaning_trial_baskets_count: 1..) }
   scope :ongoing, -> { current.where(remaning_trial_baskets_count: 0) }
   scope :current, -> { including_date(Date.current) }
   scope :current_or_future, -> { current.or(future).order(:started_on) }
-  scope :including_date, ->(date) { where("started_on <= ? AND ended_on >= ?", date, date) }
-  scope :duration_gt, ->(days) { where("age(ended_on, started_on) > interval '? day'", days) }
+  scope :including_date, ->(date) { where(started_on: ..date, ended_on: date..) }
+  scope :duration_gt, ->(days) { where("julianday(ended_on) - julianday(started_on) > ?", days) }
   scope :current_year, -> { during_year(Current.fy_year) }
   scope :during_year, ->(year) {
     fy = Current.org.fiscal_year_for(year)
     where(started_on: fy.range.min.., ended_on: ..fy.range.max)
   }
   scope :current_and_future_year, -> { where(started_on: Current.fy_range.min..) }
-  scope :overlaps, ->(period) {
-    where("(started_on, ended_on) OVERLAPS (?, ?)", period.min, period.max)
-  }
+  scope :overlaps, ->(period) { where(started_on: ..period.max, ended_on: period.min..) }
   scope :renewed, -> { where.not(renewed_at: nil) }
   scope :not_renewed, -> { where(renewed_at: nil) }
   scope :renewal_state_eq, ->(state) {
@@ -121,13 +119,13 @@ class Membership < ApplicationRecord
       .where(memberships_basket_complements: { basket_complement_id: id })
   }
   scope :activity_participations_missing_eq, ->(count) {
-    where("GREATEST(activity_participations_demanded - activity_participations_accepted, 0) = ?", count)
+    where("MAX(activity_participations_demanded - activity_participations_accepted, 0) = ?", count)
   }
   scope :activity_participations_missing_gt, ->(count) {
-    where("GREATEST(activity_participations_demanded - activity_participations_accepted, 0) > ?", count)
+    where("MAX(activity_participations_demanded - activity_participations_accepted, 0) > ?", count)
   }
   scope :activity_participations_missing_lt, ->(count) {
-    where("GREATEST(activity_participations_demanded - activity_participations_accepted, 0) < ?", count)
+    where("MAX(activity_participations_demanded - activity_participations_accepted, 0) < ?", count)
   }
 
   def self.ransackable_scopes(_auth_object = nil)

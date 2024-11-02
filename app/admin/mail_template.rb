@@ -147,11 +147,12 @@ ActiveAdmin.register MailTemplate do
       unless Current.org.feature?("activity")
         scoped = scoped.where.not(title: MailTemplate::ACTIVITY_TITLES)
       end
-      scoped.joins(<<-SQL).order("t.ord")
-        JOIN unnest(string_to_array('#{MailTemplate::TITLES.join(',')}', ','))
-        WITH ORDINALITY t(title, ord)
-        USING (title)
-      SQL
+      # Order by title
+      order_clause = MailTemplate::TITLES.each_with_index.map do |title, index|
+        "WHEN #{ActiveRecord::Base.connection.quote(title)} THEN #{index + 1}"
+      end.join(" ")
+      order_sql = "CASE title #{order_clause} ELSE #{MailTemplate::TITLES.size + 1} END"
+      scoped.order(Arel.sql(order_sql))
     end
 
     def find_resource

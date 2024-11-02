@@ -11,33 +11,32 @@ describe Organization do
   end
 
   specify "validate url https" do
-    expect(current_org.domain).to eq "organization.test"
+    expect(Tenant.domain).to eq "acme.test"
 
     current_org.url = "https://www.orga.test"
     expect(current_org).not_to have_valid(:url)
 
-    current_org.url = "http://www.organization.test"
+    current_org.url = "http://www.acme.test"
     expect(current_org).not_to have_valid(:url)
 
-    current_org.url = "https://www.organization.test"
+    current_org.url = "https://www.acme.test"
     expect(current_org).to have_valid(:url)
   end
 
   specify "validates email_default_from format" do
-    org = current_org
-    expect(org.domain).to eq "organization.test"
+    expect(Tenant.domain).to eq "acme.test"
 
-    org.email_default_from = "info@organization.test"
-    expect(org).to have_valid(:email_default_from)
+    current_org.email_default_from = "info@acme.test"
+    expect(current_org).to have_valid(:email_default_from)
 
-    org.email_default_from = "contact@organization.test"
-    expect(org).to have_valid(:email_default_from)
+    current_org.email_default_from = "contact@acme.test"
+    expect(current_org).to have_valid(:email_default_from)
 
-    org.email_default_from = "info@orga.test"
-    expect(org).not_to have_valid(:email_default_from)
+    current_org.email_default_from = "info@orga.test"
+    expect(current_org).not_to have_valid(:email_default_from)
 
-    org.email_default_from = "organization.test"
-    expect(org).not_to have_valid(:email_default_from)
+    current_org.email_default_from = "acme.test"
+    expect(current_org).not_to have_valid(:email_default_from)
   end
 
   specify "validates that activity_price cannot be 0" do

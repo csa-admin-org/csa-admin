@@ -10,7 +10,7 @@ module Shop
         .where(delivery: delivery)
         .all_without_cart
         .eager_load(items: [ :product_variant, product: :producer ])
-        .order(Arel.sql("shop_producers.name, shop_products.names->>'#{I18n.locale}', shop_product_variants.names->>'#{I18n.locale}'"))
+        .order(Arel.sql("shop_producers.name, json_extract(shop_products.names, '$.#{I18n.locale}'), json_extract(shop_product_variants.names, '$.#{I18n.locale}')"))
         .flat_map(&:items)
         .group_by { |i| i.product.producer }
 
