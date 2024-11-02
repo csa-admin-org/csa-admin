@@ -1,32 +1,34 @@
-pg_default: &pg_default
-  adapter: postgresql
-  encoding: unicode
-  # For details on connection pooling, see rails configuration guide
-  # http://guides.rubyonrails.org/configuring.html#database-pooling
-  pool: <%= ENV['DB_POOL'] || ENV['RAILS_MAX_THREADS'] || 5 %>
-
-sqlite_default: &sqlite_default
+default: &default
   adapter: sqlite3
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
   timeout: 5000
 
+tenants: &tenants
+  # Add a void database in first place, to ensure that the application is not
+  # connecting by default to the first tenant database.
+  <% unless Rails.env.test? %>
+  void:
+    <<: *default
+    database: storage/void.sqlite3
+    replica: true
+  <% end %>
+  <% tenants = YAML.load_file(Rails.root.join("config", "tenant.yml"), aliases: true)[Rails.env].keys %>
+  <% tenants.each do |tenant| %>
+  <%= tenant %>:
+    <<: *default
+    database: storage/<%= "#{Rails.env}_#{tenant}" %>.sqlite3
+    migrations_paths: db/migrate
+  <% end %>
+
 development:
-  primary:
-    <<: *pg_default
-    database: csa_admin_development
-    port: <%= ENV['DB_PORT'] || 5432 %>
+  <<: *tenants
 
 test:
-  primary:
-    <<: *pg_default
-    database: csa_admin_test
-    port: <%= ENV['DB_PORT'] || 5432 %>
+  <<: *tenants
 
 production:
-  primary:
-    <<: *pg_default
-    url:  <%= ENV["DATABASE_URL"] %>
+  <<: *tenants
   queue:
-    <<: *sqlite_default
+    <<: *default
     database: storage/production_queue.sqlite3
     migrations_paths: db/queue_migrate

@@ -4,7 +4,7 @@ module HasPhones
   extend ActiveSupport::Concern
 
   included do
-    scope :with_phone, ->(phone) { where("phones ILIKE ?", "%#{phone}%") }
+    scope :with_phone, ->(phone) { where("lower(phones) LIKE ?", "%#{phone.downcase}%") }
     before_validation :normalize_phones
   end
 

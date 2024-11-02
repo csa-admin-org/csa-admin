@@ -12,9 +12,11 @@ class BasketContent < ApplicationRecord
   belongs_to :product, class_name: "BasketContent::Product"
   has_and_belongs_to_many :depots
 
-  scope :basket_size_eq, ->(id) { where("basket_size_ids @> ?", "{#{id}}") }
+  scope :basket_size_eq, ->(id) {
+    where("EXISTS (SELECT 1 FROM json_each(basket_size_ids) WHERE json_each.value = ?)", id)
+  }
   scope :for_depot, ->(depot) {
-    joins(:depots).where("basket_contents_depots.depot_id = ?", depot)
+    joins(:depots).where(basket_contents_depots: { depot_id: depot })
   }
   scope :with_unit_price, -> { where.not(unit_price: nil) }
   scope :in_kg, -> { where(unit: "kg") }
@@ -286,7 +288,7 @@ class BasketContent < ApplicationRecord
 
   def set_basket_quantities_automatically
     non_zero_pcts = @percentages.compact.reject { |_, p| p.to_i.zero? }
-    self[:basket_size_ids] = non_zero_pcts.keys
+    self[:basket_size_ids] = non_zero_pcts.keys.map(&:to_i)
     self[:basket_percentages] = non_zero_pcts.values.map(&:to_i)
     set_baskets_counts
 
@@ -310,7 +312,7 @@ class BasketContent < ApplicationRecord
     self[:basket_percentages] = basket_percentages_pro_rated
 
     non_zero_qts = @quantities.compact.reject { |_, p| p.to_i.zero? }
-    self[:basket_size_ids] = non_zero_qts.keys
+    self[:basket_size_ids] = non_zero_qts.keys.map(&:to_i)
     self[:basket_quantities] =
       case unit
       when "kg"; non_zero_qts.values.map { |q| q.to_f / 1000.0 }

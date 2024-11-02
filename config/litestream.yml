@@ -9,14 +9,173 @@
 # `replicate` command.
 #
 # For more details, see: https://litestream.io/reference/config/
+
+replica_defaults: &replica_defaults
+  type: s3
+  bucket: $LITESTREAM_REPLICA_BUCKET
+  endpoint: s3.eu-central-003.backblazeb2.com
+  access-key-id: $LITESTREAM_ACCESS_KEY_ID
+  secret-access-key: $LITESTREAM_SECRET_ACCESS_KEY
+  retention: 24h
+  sync-interval: 5m
+
 dbs:
   - path: storage/production_queue.sqlite3
     replicas:
-      - type: s3
-        bucket: $LITESTREAM_REPLICA_BUCKET
+      - <<: *replica_defaults
         path: storage/production_queue.sqlite3
-        endpoint: s3.eu-central-003.backblazeb2.com
-        access-key-id: $LITESTREAM_ACCESS_KEY_ID
-        secret-access-key: $LITESTREAM_SECRET_ACCESS_KEY
-        retention: 24h
-        sync-interval: 5m
+
+  - path: storage/production_ragedevert.sqlite3
+    replicas:
+      - <<: *replica_defaults
+        path: storage/production_ragedevert.sqlite3
+
+  # - path: storage/production_lumieredeschamps.sqlite3
+  #   replicas:
+  #     - <<: *replica_defaults
+  #       path: storage/production_lumieredeschamps.sqlite3
+
+  # - path: storage/production_tapatate.sqlite3
+  #   replicas:
+  #     - <<: *replica_defaults
+  #       path: storage/production_tapatate.sqlite3
+
+  # - path: storage/production_clefdeschamps.sqlite3
+  #   replicas:
+  #     - <<: *replica_defaults
+  #       path: storage/production_clefdeschamps.sqlite3
+
+  # - path: storage/production_croquterre.sqlite3
+  #   replicas:
+  #     - <<: *replica_defaults
+  #       path: storage/production_croquterre.sqlite3
+
+  # - path: storage/production_alabellecourgette.sqlite3
+  #   replicas:
+  #     - <<: *replica_defaults
+  #       path: storage/production_alabellecourgette.sqlite3
+
+  # - path: storage/production_lesjardinsdouchy.sqlite3
+  #   replicas:
+  #     - <<: *replica_defaults
+  #       path: storage/production_lesjardinsdouchy.sqlite3
+
+  # - path: storage/production_lamule.sqlite3
+  #   replicas:
+  #     - <<: *replica_defaults
+  #       path: storage/production_lamule.sqlite3
+
+  # - path: storage/production_lafermedugoupil.sqlite3
+  #   replicas:
+  #     - <<: *replica_defaults
+  #       path: storage/production_lafermedugoupil.sqlite3
+
+  # - path: storage/production_lafermedessavanes.sqlite3
+  #   replicas:
+  #     - <<: *replica_defaults
+  #       path: storage/production_lafermedessavanes.sqlite3
+
+  # - path: storage/production_seminterra.sqlite3
+  #   replicas:
+  #     - <<: *replica_defaults
+  #       path: storage/production_seminterra.sqlite3
+
+  # - path: storage/production_p2r.sqlite3
+  #   replicas:
+  #     - <<: *replica_defaults
+  #       path: storage/production_p2r.sqlite3
+
+  # - path: storage/production_grundnahrig.sqlite3
+  #   replicas:
+  #     - <<: *replica_defaults
+  #       path: storage/production_grundnahrig.sqlite3
+
+  # - path: storage/production_jardindesturricules.sqlite3
+  #   replicas:
+  #     - <<: *replica_defaults
+  #       path: storage/production_jardindesturricules.sqlite3
+
+  # - path: storage/production_lepetitsecheron.sqlite3
+  #   replicas:
+  #     - <<: *replica_defaults
+  #       path: storage/production_lepetitsecheron.sqlite3
+
+  # - path: storage/production_paniersdesavigny.sqlite3
+  #   replicas:
+  #     - <<: *replica_defaults
+  #       path: storage/production_paniersdesavigny.sqlite3
+
+  # - path: storage/production_cocagne.sqlite3
+  #   replicas:
+  #     - <<: *replica_defaults
+  #       path: storage/production_cocagne.sqlite3
+
+  # - path: storage/production_potagersdegaia.sqlite3
+  #   replicas:
+  #     - <<: *replica_defaults
+  #       path: storage/production_potagersdegaia.sqlite3
+
+  # - path: storage/production_latouviere.sqlite3
+  #   replicas:
+  #     - <<: *replica_defaults
+  #       path: storage/production_latouviere.sqlite3
+
+  # - path: storage/production_alpgrava.sqlite3
+  #   replicas:
+  #     - <<: *replica_defaults
+  #       path: storage/production_alpgrava.sqlite3
+
+  # - path: storage/production_locali.sqlite3
+  #   replicas:
+  #     - <<: *replica_defaults
+  #       path: storage/production_locali.sqlite3
+
+  # - path: storage/production_wurzelkollektiv.sqlite3
+  #   replicas:
+  #     - <<: *replica_defaults
+  #       path: storage/production_wurzelkollektiv.sqlite3
+
+  # - path: storage/production_fermedesverpilleres.sqlite3
+  #   replicas:
+  #     - <<: *replica_defaults
+  #       path: storage/production_fermedesverpilleres.sqlite3
+
+  # - path: storage/production_hofnarr.sqlite3
+  #   replicas:
+  #     - <<: *replica_defaults
+  #       path: storage/production_hofnarr.sqlite3
+
+  # - path: storage/production_lejardindemax.sqlite3
+  #   replicas:
+  #     - <<: *replica_defaults
+  #       path: storage/production_lejardindemax.sqlite3
+
+  # - path: storage/production_fairdura.sqlite3
+  #   replicas:
+  #     - <<: *replica_defaults
+  #       path: storage/production_fairdura.sqlite3
+
+  # - path: storage/production_ortie.sqlite3
+  #   replicas:
+  #     - <<: *replica_defaults
+  #       path: storage/production_ortie.sqlite3
+
+  # - path: storage/production_cultureslocales.sqlite3
+  #   replicas:
+  #     - <<: *replica_defaults
+  #       path: storage/production_cultureslocales.sqlite3
+
+  # - path: storage/production_mamajah.sqlite3
+  #   replicas:
+  #     - <<: *replica_defaults
+  #       path: storage/production_mamajah.sqlite3
+
+  # - path: storage/production_unjardinquichante.sqlite3
+  #   replicas:
+  #     - <<: *replica_defaults
+  #       path: storage/production_unjardinquichante.sqlite3
+
+  # - path: storage/production_demo.sqlite3
+  #   replicas:
+  #     - <<: *replica_defaults
+  #       path: storage/production_demo.sqlite3

@@ -3,7 +3,7 @@
 require "rails_helper"
 
 describe "members page" do
-  before { Capybara.app_host = "http://membres.organization.test" }
+  before { Capybara.app_host = "http://membres.acme.test" }
 
   it "shows current membership info and activities count" do
     travel_to "2020-06-01" do

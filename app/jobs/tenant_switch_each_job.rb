@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class ScheduledJob < ActiveJob::Base
+class TenantSwitchEachJob < ActiveJob::Base
   queue_as :low
 
   def perform(job_class)

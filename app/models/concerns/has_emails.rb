@@ -8,9 +8,9 @@ module HasEmails
 
     validate :truemails
 
-    scope :with_email, ->(email) { where("emails ILIKE ?", "%#{email}%") }
+    scope :with_email, ->(email) { where("lower(emails) LIKE ?", "%#{email.downcase}%") }
     scope :including_email, ->(email) {
-      where("lower(emails) ~ ('(^|,\s)' || lower(?) || '(,\s|$)')", Regexp.escape(email))
+      where("(',' || REPLACE(lower(emails), ' ', '') || ',') LIKE ?", "%,#{email.downcase.gsub(/\s+/, '')},%")
     }
   end
 

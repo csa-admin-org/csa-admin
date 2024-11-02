@@ -9,8 +9,9 @@ gem "rails", "8.0.0.rc2"
 gem "bootsnap", require: false
 gem "thruster", require: false
 gem "propshaft"
-gem "pg"
 gem "puma"
+# TODO: remove this dependency, once fully switched to SQLite
+gem "pg"
 
 gem "sqlite3"
 gem "litestream"
@@ -85,11 +86,6 @@ gem "sentry-rails"
 
 gem "kramdown"
 gem "nokogiri"
-
-group :production do
-  # TODO: try to remove this dependency
-  gem "matrix"
-end
 
 group :development, :test do
   gem "dotenv"

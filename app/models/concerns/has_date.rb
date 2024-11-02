@@ -9,8 +9,8 @@ module HasDate
     scope :future, -> { between(Date.tomorrow..) }
     scope :past_and_today, -> { between(..Date.current) }
     scope :past, -> { between(...Date.current) }
-    scope :wday, ->(wday) { where("EXTRACT(DOW FROM date) = ?", wday) }
-    scope :month, ->(month) { where("EXTRACT(MONTH FROM date) = ?", month) }
+    scope :wday, ->(wday) { where("strftime('%w', date) = ?", wday.to_s) }
+    scope :month, ->(month) { where("strftime('%m', date) = ?", month.to_s.rjust(2, "0")) }
   end
 
   class_methods do

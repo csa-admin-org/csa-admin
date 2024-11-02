@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Postmark
-  class WebhookHandlerJob < ::ApplicationJob
+  class WebhookHandlerJob < ApplicationJob
     queue_as :low
 
     def perform(payload)

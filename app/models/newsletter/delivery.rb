@@ -13,8 +13,8 @@ class Newsletter
     belongs_to :newsletter
     belongs_to :member
 
-    scope :with_email, ->(email) { where("email ILIKE ?", "%#{email}%") }
-    scope :stale, -> { processing.where("created_at < ?", CONSIDER_STALE_AFTER.ago) }
+    scope :with_email, ->(email) { where("lower(email) LIKE ?", "%#{email.downcase}%") }
+    scope :stale, -> { processing.where(created_at: ...CONSIDER_STALE_AFTER.ago) }
 
     before_create :check_email_suppressions
     after_create_commit :enqueue_delivery_process_job

@@ -47,7 +47,7 @@ class Delivery < ApplicationRecord
   end
 
   def self.current
-    where("date <= ?", Date.current).order(:date).last
+    past_and_today.order(:date).last
   end
 
   def self.any_in_year?(year)

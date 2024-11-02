@@ -29,7 +29,7 @@ describe NewsletterMailer do
 
     expect(mail.subject).to eq "Ma Newsletter"
     expect(mail.to).to eq [ "john@doe.com" ]
-    expect(mail[:from].decoded).to eq "Rage de Vert <info@organization.test>"
+    expect(mail[:from].decoded).to eq "Rage de Vert <info@acme.test>"
     expect(mail[:message_stream].to_s).to eq "broadcast"
     expect(mail[:tag].to_s).to eq "newsletter-42"
 
@@ -37,10 +37,10 @@ describe NewsletterMailer do
     expect(mail.body).to include('<h2 class="content_title">Content Title</h2>')
     expect(mail.body).to include("Example Text John Doe")
     expect(mail.body).to have_link("Désinscription",
-      href: %r{https://membres.organization.test/newsletters/unsubscribe/\w{32}})
+      href: %r{https://membres.acme.test/newsletters/unsubscribe/\w{32}})
     expect(mail["List-Unsubscribe-Post"].to_s).to eq "List-Unsubscribe=One-Click"
     expect(mail["List-Unsubscribe"].to_s)
-      .to match %r{<https://membres.organization.test/newsletters/unsubscribe/\w{32}/post>}
+      .to match %r{<https://membres.acme.test/newsletters/unsubscribe/\w{32}/post>}
   end
 
   specify "#newsletter_email with attachments" do

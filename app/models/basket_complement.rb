@@ -54,12 +54,12 @@ class BasketComplement < ApplicationRecord
     ids =
       baskets
         .joins(:baskets_basket_complements)
-        .where("baskets_basket_complements.quantity > 0")
+        .where(baskets_basket_complements: { quantity: 1.. })
         .pluck(:basket_complement_id)
     ids +=
       shop_orders
         .joins(:products)
-        .pluck("shop_products.basket_complement_id")
+        .pluck(shop_products: :basket_complement_id)
     where(id: ids.uniq)
   end
 

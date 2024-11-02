@@ -43,7 +43,7 @@ class Depot < ApplicationRecord
       when "price_asc"; "price ASC"
       when "price_desc"; "price DESC"
       end
-    order_clauses << "COALESCE(NULLIF(public_names->>'#{I18n.locale}', ''), name)"
+    order_clauses << "COALESCE(NULLIF(json_extract(public_names, '$.#{I18n.locale}'), ''), name)"
     reorder(Arel.sql(order_clauses.compact.join(", ")))
   }
   scope :used, -> {

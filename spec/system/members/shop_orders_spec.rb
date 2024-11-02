@@ -6,7 +6,7 @@ describe "Shop::Order" do
   let(:member) { create(:member, id: 110128) }
 
   before do
-    Capybara.app_host = "http://membres.organization.test"
+    Capybara.app_host = "http://membres.acme.test"
     login(member)
   end
 
@@ -188,7 +188,7 @@ describe "Shop::Order" do
 
       expect(page).to have_content("TotalCHF 15.0")
 
-      select "Soutien +10.0%"
+      select "Soutien +10%"
       find('input[aria-label="update_order"]', visible: false).click
 
       expect(page).to have_content("TotalCHF 16.5")

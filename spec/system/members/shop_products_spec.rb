@@ -7,7 +7,7 @@ describe "Shop::Order" do
 
   before do
     Current.org.update!(shop_admin_only: false)
-    Capybara.app_host = "http://membres.organization.test"
+    Capybara.app_host = "http://membres.acme.test"
     login(member)
   end
 

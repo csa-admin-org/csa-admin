@@ -15,10 +15,10 @@ class Announcement < ApplicationRecord
   validate :must_be_unique_per_depot_and_delivery
 
   scope :depots_eq, ->(id) {
-    where("depot_ids @> ?", "{#{id}}")
+    where("EXISTS (SELECT 1 FROM json_each(depot_ids) WHERE json_each.value = ?)", id)
   }
   scope :deliveries_eq, ->(id) {
-    where("delivery_ids @> ?", "{#{id}}")
+    where("EXISTS (SELECT 1 FROM json_each(delivery_ids) WHERE json_each.value = ?)", id)
   }
 
   def self.for(delivery, depot)
@@ -30,7 +30,7 @@ class Announcement < ApplicationRecord
   end
 
   def depot_ids=(ids)
-    super ids.map(&:presence).compact.sort
+    super ids.map(&:presence).compact.map(&:to_i).sort
   end
 
   def depots
@@ -38,7 +38,7 @@ class Announcement < ApplicationRecord
   end
 
   def delivery_ids=(ids)
-    super ids.map(&:presence).compact.sort
+    super ids.map(&:presence).compact.map(&:to_i).sort
   end
 
   def deliveries

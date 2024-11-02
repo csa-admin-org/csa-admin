@@ -41,7 +41,7 @@ class Invoice < ApplicationRecord
   scope :balance_eq, ->(amount) { where("(paid_amount - amount) = ?", amount.to_f) }
   scope :balance_gt, ->(amount) { where("(paid_amount - amount) > ?", amount.to_f) }
   scope :balance_lt, ->(amount) { where("(paid_amount - amount) < ?", amount.to_f) }
-  scope :with_overdue_notice, -> { unpaid.where("overdue_notices_count > 0") }
+  scope :with_overdue_notice, -> { unpaid.where(overdue_notices_count: 1..) }
   scope :shop_order_type, -> { where(entity_type: "Shop::Order") }
   scope :activity_participation_type, -> { where(entity_type: "ActivityParticipation") }
   scope :activity_participations_fiscal_year, ->(year) {

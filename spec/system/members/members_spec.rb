@@ -6,7 +6,7 @@ require "rails_helper"
 describe "members page" do
   let(:member) { create(:member, :active, phones: "76 332 33 11") }
 
-  before { Capybara.app_host = "http://membres.organization.test" }
+  before { Capybara.app_host = "http://membres.acme.test" }
 
   context "new inscription" do
     it "creates a new member with membership" do

@@ -26,6 +26,15 @@ class Organization < ApplicationRecord
 
   attribute :shop_delivery_open_last_day_end_time, :time_only
   attribute :icalendar_auth_token, :string, default: -> { SecureRandom.hex(16) }
+  attribute :activity_participations_demanded_logic, :string, default: -> {
+    <<~LIQUID
+      {% if member.salary_basket %}
+        0
+      {% else %}
+        {{ membership.baskets | divided_by: membership.full_year_deliveries | times: membership.full_year_activity_participations | round }}
+      {% endif %}
+    LIQUID
+  }
 
   translated_attributes :invoice_info, :invoice_footer
   translated_attributes :delivery_pdf_footer
@@ -53,12 +62,12 @@ class Organization < ApplicationRecord
   validates :name, presence: true
   validates :url,
     presence: true,
-    format: { with: ->(org) { %r{\Ahttps://.*#{org.domain}\z} } }
+    format: { with: ->(org) { %r{\Ahttps://.*#{Tenant.domain}\z} } }
   validates :email, presence: true
   validates :members_subdomain, inclusion: { in: MEMBERS_SUBDOMAINS }
   validates :email_default_from, presence: true
   validates :email_default_from, format: { with: /\A[^@\s]+@[^@\s]+\.[^@\s]+\z/ }
-  validates :email_default_from, format: { with: ->(org) { /.*@#{org.domain}\z/ } }
+  validates :email_default_from, format: { with: ->(org) { /.*@#{Tenant.domain}\z/ } }
   validates_plausible_phone :phone, country_code: ->(org) { org.country_code }
   validates_plausible_phone :activity_phone, country_code: ->(org) { org.country_code }
   validates :iban, :creditor_name, :creditor_address,
@@ -139,6 +148,7 @@ class Organization < ApplicationRecord
   validate :only_one_organization, on: :create
 
   after_save :apply_annual_fee_change
+  after_create :create_default_configurations
 
   def self.features
     (FEATURES | Current.org.features)
@@ -229,11 +239,11 @@ class Organization < ApplicationRecord
   end
 
   def members_url
-    "https://#{members_subdomain}.#{domain}"
+    "https://#{members_subdomain}.#{Tenant.domain}"
   end
 
   def admin_url
-    "https://admin.#{domain}"
+    "https://admin.#{Tenant.domain}"
   end
 
   def activity_participations_form?
@@ -267,7 +277,7 @@ class Organization < ApplicationRecord
   end
 
   def basket_price_extras=(string)
-    self[:basket_price_extras] = string.split(",").map(&:presence).compact
+    self[:basket_price_extras] = string.split(",").map(&:presence).compact.map(&:to_f)
   end
 
   def shop_member_percentages?
@@ -335,10 +345,6 @@ class Organization < ApplicationRecord
     Rails.application.credentials.dig(:organizations, Tenant.current.to_sym, *keys)
   end
 
-  def domain
-    @domain ||= PublicSuffix.parse(credentials(:domain)).domain
-  end
-
   def deliveries_count(year)
     @max_deliveries_counts ||=
       DeliveryCycle
@@ -366,6 +372,13 @@ class Organization < ApplicationRecord
     return if Organization.count.zero?
 
     errors.add(:base, "Only one organization is allowed")
+  end
+
+  def create_default_configurations
+    Permission.create_superadmin!
+    MailTemplate.create_all!
+    Newsletter::Template.create_defaults!
+    DeliveryCycle.create_default!
   end
 
   def activity_participations_demanded_logic_must_be_valid

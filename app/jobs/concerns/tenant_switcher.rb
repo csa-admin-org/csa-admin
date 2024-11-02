@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module CurrentContext
+module TenantSwitcher
   extend ActiveSupport::Concern
 
   included do

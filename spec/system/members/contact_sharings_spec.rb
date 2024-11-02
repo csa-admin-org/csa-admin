@@ -6,7 +6,7 @@ describe "Contact sharing" do
   let(:member) { create(:member) }
 
   before do
-    Capybara.app_host = "http://membres.organization.test"
+    Capybara.app_host = "http://membres.acme.test"
     current_org.update!(features: current_org.features + [ "contact_sharing" ])
     login(member)
   end
