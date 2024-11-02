@@ -329,6 +329,13 @@ ActiveAdmin.register Newsletter do
     redirect_to resource_path, notice: t(".flash.notice")
   end
 
+  order_by(:sent_at) do |order_clause|
+    [
+      order_clause.to_sql,
+      "NULLS #{order_clause.order == "desc" ? "FIRST" : "LAST"}"
+    ].join(" ")
+  end
+
   controller do
     skip_before_action :verify_authenticity_token, only: :preview
 
