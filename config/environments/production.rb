@@ -82,8 +82,4 @@ Rails.application.configure do
   # ]
   # Skip DNS rebinding protection for the default health check endpoint.
   # config.host_authorization = { exclude: ->(request) { request.path == "/up" } }
-
-  if ENV["RUBY_DISABLE_YJIT"] == "true"
-    config.yjit = false
-  end
 end
