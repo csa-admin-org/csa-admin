@@ -11,8 +11,6 @@ gem "thruster", require: false
 gem "propshaft"
 gem "puma"
 
-gem "pg"
-
 gem "sqlite3"
 gem "litestream"
 

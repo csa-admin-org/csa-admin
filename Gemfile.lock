@@ -359,7 +359,6 @@ GEM
       hashery (~> 2.0)
       ruby-rc4
       ttfunk
-    pg (1.5.9)
     pg_query (5.1.0)
       google-protobuf (>= 3.22.3)
     phony (2.20.15)
@@ -653,7 +652,6 @@ DEPENDENCIES
   parallel
   pdf-core (= 0.9.0)
   pdf-inspector
-  pg
   pg_query
   phony_rails
   postmark-rails
