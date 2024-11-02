@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 Rails.application.configure do
   litestream_credentials = Rails.application.credentials.litestream
   config.litestream.replica_bucket = litestream_credentials&.replica_bucket

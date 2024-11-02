@@ -9,7 +9,7 @@ class ActivityParticipationsCalendarController < ApplicationController
       ActivityParticipation
         .joins(:activity)
         .includes(:member)
-        .where("activities.date >= ?", 1.month.ago)
+        .where(activities: { date: 1.month.ago.. })
   end
 
   private

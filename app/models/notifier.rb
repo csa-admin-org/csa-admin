@@ -78,7 +78,7 @@ module Notifier
         .not_renewed
         .where(renew: true)
         .where(renewal_reminder_sent_at: nil)
-        .where("renewal_opened_at <= ?", in_days.days.ago)
+        .where(renewal_opened_at: ..in_days.days.ago)
         .includes(:member)
         .select(&:can_send_email?)
 
@@ -131,7 +131,7 @@ module Notifier
 
     participations =
       ActivityParticipation
-        .where("validated_at >= ?", 3.days.ago)
+        .where(validated_at: 3.days.ago..)
         .review_not_sent
         .includes(:activity, :member)
         .select(&:can_send_email?)
@@ -149,7 +149,7 @@ module Notifier
 
     participations =
       ActivityParticipation
-        .where("rejected_at >= ?", 3.days.ago)
+        .where(rejected_at: 3.days.ago..)
         .review_not_sent
         .includes(:activity, :member)
         .select(&:can_send_email?)

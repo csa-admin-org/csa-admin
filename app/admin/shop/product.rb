@@ -182,7 +182,7 @@ ActiveAdmin.register Shop::Product do
       if params[:format] == "csv"
         collection = collection.left_joins(:variants).select(<<-SQL)
           shop_products.*,
-          shop_product_variants.names->>'#{I18n.locale}' as variant_name,
+          json_extract(shop_product_variants.names, '$.#{I18n.locale}') as variant_name,
           shop_product_variants.price as variant_price,
           shop_product_variants.weight_in_kg as variant_weight_in_kg,
           shop_product_variants.stock as variant_stock

@@ -202,11 +202,11 @@ class DeliveryCycle < ApplicationRecord
   end
 
   def wdays=(wdays)
-    super wdays.map(&:to_s) & Array(0..6).map(&:to_s)
+    super wdays.map(&:to_i) & Array(0..6).map(&:to_i)
   end
 
   def months=(months)
-    super months.map(&:to_s) & Array(1..12).map(&:to_s)
+    super months.map(&:to_i) & Array(1..12).map(&:to_i)
   end
 
   def can_delete?
@@ -226,13 +226,13 @@ class DeliveryCycle < ApplicationRecord
   def deliveries(year)
     scoped =
       Delivery
-        .where("EXTRACT(DOW FROM date) IN (?)", wdays)
-        .where("EXTRACT(MONTH FROM date) IN (?)", months)
+        .where("strftime('%w', date) IN (?)", wdays.map(&:to_s))
+        .where("strftime('%m', date) IN (?)", months.map { |m| m.to_s.rjust(2, "0") })
         .during_year(year)
     if odd_week_numbers?
-      scoped = scoped.where("EXTRACT(WEEK FROM date)::integer % 2 = ?", 1)
+      scoped = scoped.where("CAST(strftime('%W', date) AS integer) % 2 = ?", 1)
     elsif even_week_numbers?
-      scoped = scoped.where("EXTRACT(WEEK FROM date)::integer % 2 = ?", 0)
+      scoped = scoped.where("CAST(strftime('%W', date) AS integer) % 2 = ?", 0)
     end
     if all_but_first_results?
       scoped = scoped.to_a[1..-1] || []

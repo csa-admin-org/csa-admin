@@ -28,6 +28,7 @@ class Tabs < ActiveAdmin::Component
       "data-action": "tabs#updateAnchor #{data_action}",
       role: "tab",
       "aria-controls": fragment,
+      "aria-selected": options.delete(:selected) || false,
       href: "##{fragment}")
     a html_options do
       title

@@ -19,7 +19,7 @@ class Permission < ApplicationRecord
       names: Organization.languages.map { |l|
         [ l, I18n.t("permissions.superadmin.name", locale: l) ]
       }.to_h)
-    connection.reset_pk_sequence!(table_name)
+    reset_pk_sequence!
   end
 
   def self.superadmin

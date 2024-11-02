@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class LogosController < ActionController::Base
-  around_action :switch_tenant!
+  around_action :switch_tenant
 
   def show
     if Current.org.logo.attached?
@@ -20,9 +20,9 @@ class LogosController < ActionController::Base
 
   private
 
-  def switch_tenant!
+  def switch_tenant
     tenant = params[:id]
-    if Tenant.schema_exists?(tenant)
+    if Tenant.exists?(tenant)
       Tenant.switch(tenant) { yield }
     else
       head :not_found

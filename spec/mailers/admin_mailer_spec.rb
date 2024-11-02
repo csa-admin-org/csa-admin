@@ -25,7 +25,7 @@ describe AdminMailer do
     expect(mail.subject).to eq("Liste livraison du 6 novembre 2020 (Jardin de la Main)")
     expect(mail.to).to eq([ "respondent1@csa-admin.org", "respondent2@csa-admin.org" ])
     expect(mail.tag).to eq("admin-depot-delivery-list")
-    expect(mail[:from].decoded).to eq "Rage de Vert <info@organization.test>"
+    expect(mail[:from].decoded).to eq "Rage de Vert <info@acme.test>"
 
     body = mail.html_part.body
     expect(body).to include("Voici la liste des membres:")
@@ -60,13 +60,13 @@ describe AdminMailer do
     expect(mail.subject).to eq("Liste livraison du 6 novembre 2023")
     expect(mail.to).to eq([ "admin@csa-admin.org" ])
     expect(mail.tag).to eq("admin-delivery-list")
-    expect(mail[:from].decoded).to eq "Rage de Vert <info@organization.test>"
+    expect(mail[:from].decoded).to eq "Rage de Vert <info@acme.test>"
 
     body = mail.html_part.body
     expect(body).to include("(XLSX)")
     expect(body).to include("(PDF)")
     expect(body).to include("Accéder à la page de la livraison")
-    expect(body).to include("https://admin.organization.test/deliveries/1")
+    expect(body).to include("https://admin.acme.test/deliveries/1")
     expect(body).to include("Gérer mes notifications")
 
     expect(mail.attachments.size).to eq 2
@@ -96,7 +96,7 @@ describe AdminMailer do
     expect(mail.body).to include("Accéder à l'admin de Rage de Vert")
     expect(mail.body).to include("https://admin.ragedevert.ch")
     expect(mail.body).not_to include("Gérer mes notifications")
-    expect(mail[:from].decoded).to eq "Rage de Vert <info@organization.test>"
+    expect(mail[:from].decoded).to eq "Rage de Vert <info@acme.test>"
   end
 
   specify "#invoice_overpaid_email" do
@@ -122,10 +122,10 @@ describe AdminMailer do
     expect(mail.body).to include("Facture #42")
     expect(mail.body).to include("Martha")
     expect(mail.body).to include("Accéder à la page du membre")
-    expect(mail.body).to include("https://admin.organization.test/members/2")
-    expect(mail.body).to include("https://admin.organization.test/admins/1/edit#notifications")
+    expect(mail.body).to include("https://admin.acme.test/members/2")
+    expect(mail.body).to include("https://admin.acme.test/admins/1/edit#notifications")
     expect(mail.body).to include("Gérer mes notifications")
-    expect(mail[:from].decoded).to eq "Rage de Vert <info@organization.test>"
+    expect(mail[:from].decoded).to eq "Rage de Vert <info@acme.test>"
   end
 
   specify "#invoice_third_overdue_notice_email" do
@@ -150,10 +150,10 @@ describe AdminMailer do
     expect(mail.body).to include("Le 3ᵉ rappel vient d'être envoyé pour la facture #42")
     expect(mail.body).to include("Martha")
     expect(mail.body).to include("Accéder à la page du membre")
-    expect(mail.body).to include("https://admin.organization.test/members/2")
-    expect(mail.body).to include("https://admin.organization.test/admins/1/edit#notifications")
+    expect(mail.body).to include("https://admin.acme.test/members/2")
+    expect(mail.body).to include("https://admin.acme.test/admins/1/edit#notifications")
     expect(mail.body).to include("Gérer mes notifications")
-    expect(mail[:from].decoded).to eq "Rage de Vert <info@organization.test>"
+    expect(mail[:from].decoded).to eq "Rage de Vert <info@acme.test>"
   end
 
   specify "#new_absence_email" do
@@ -182,10 +182,10 @@ describe AdminMailer do
     expect(mail.body).to include("10 novembre 2020 au 20 novembre 2020")
     expect(mail.body).to include("Remarque du membre:<br/>\r\n  <i>Une Super Remarque!</i>")
     expect(mail.body).to include("Accéder à la page de l'absence")
-    expect(mail.body).to include("https://admin.organization.test/absences/1")
-    expect(mail.body).to include("https://admin.organization.test/admins/1/edit#notifications")
+    expect(mail.body).to include("https://admin.acme.test/absences/1")
+    expect(mail.body).to include("https://admin.acme.test/admins/1/edit#notifications")
     expect(mail.body).to include("Gérer mes notifications")
-    expect(mail[:from].decoded).to eq "Rage de Vert <info@organization.test>"
+    expect(mail[:from].decoded).to eq "Rage de Vert <info@acme.test>"
   end
 
   specify "#new_activity_participation_email" do
@@ -229,10 +229,10 @@ describe AdminMailer do
     expect(mail.body).to include("<strong>Covoiturage:</strong> +41 76 543 12 43 (La Chaux-de-Fonds)")
     expect(mail.body).to include("Remarque du membre:<br/>\r\n  <i>Une Super Remarque!</i>")
     expect(mail.body).to include("Accéder à la page des participations de ce membre")
-    expect(mail.body).to include("https://admin.organization.test/activity_participations?q%5Bmember_id_eq%5D=1512&scope=future")
-    expect(mail.body).to include("https://admin.organization.test/admins/1/edit#notifications")
+    expect(mail.body).to include("https://admin.acme.test/activity_participations?q%5Bmember_id_eq%5D=1512&scope=future")
+    expect(mail.body).to include("https://admin.acme.test/admins/1/edit#notifications")
     expect(mail.body).to include("Gérer mes notifications")
-    expect(mail[:from].decoded).to eq "Rage de Vert <info@organization.test>"
+    expect(mail[:from].decoded).to eq "Rage de Vert <info@acme.test>"
   end
 
   specify "#new_email_suppression_email" do
@@ -264,12 +264,12 @@ describe AdminMailer do
     expect(mail.body).to include("Salut John,")
     expect(mail.body).to include("L'email <strong>john@doe.com</strong> a été rejeté lors de l'envoi du dernier message à cause de la raison suivante: <strong>HardBounce</strong>.")
     expect(mail.body).to include("Admin: Martha")
-    expect(mail.body).to include("https://admin.organization.test/admins/4")
+    expect(mail.body).to include("https://admin.acme.test/admins/4")
     expect(mail.body).to include("Membre: Martha")
-    expect(mail.body).to include("https://admin.organization.test/members/2")
-    expect(mail.body).to include("https://admin.organization.test/admins/1/edit#notifications")
+    expect(mail.body).to include("https://admin.acme.test/members/2")
+    expect(mail.body).to include("https://admin.acme.test/admins/1/edit#notifications")
     expect(mail.body).to include("Gérer mes notifications")
-    expect(mail[:from].decoded).to eq "Rage de Vert <info@organization.test>"
+    expect(mail[:from].decoded).to eq "Rage de Vert <info@acme.test>"
   end
 
   specify "#new_inscription_email" do
@@ -292,10 +292,10 @@ describe AdminMailer do
     expect(mail.body).to include("Salut John,")
     expect(mail.body).to include("Martha")
     expect(mail.body).to include("Accéder à la page du membre")
-    expect(mail.body).to include("https://admin.organization.test/members/2")
-    expect(mail.body).to include("https://admin.organization.test/admins/1/edit#notifications")
+    expect(mail.body).to include("https://admin.acme.test/members/2")
+    expect(mail.body).to include("https://admin.acme.test/admins/1/edit#notifications")
     expect(mail.body).to include("Gérer mes notifications")
-    expect(mail[:from].decoded).to eq "Rage de Vert <info@organization.test>"
+    expect(mail[:from].decoded).to eq "Rage de Vert <info@acme.test>"
   end
 
   specify "#memberships_renewal_pending_email" do
@@ -326,9 +326,9 @@ describe AdminMailer do
     expect(mail.body).to include("https://admin.example.com/memberships/opened")
     expect(mail.body).to include("Accéder aux abonnements")
     expect(mail.body).to include("https://admin.example.com/memberships")
-    expect(mail.body).to include("https://admin.organization.test/admins/1/edit#notifications")
+    expect(mail.body).to include("https://admin.acme.test/admins/1/edit#notifications")
     expect(mail.body).to include("Gérer mes notifications")
-    expect(mail[:from].decoded).to eq "Rage de Vert <info@organization.test>"
+    expect(mail[:from].decoded).to eq "Rage de Vert <info@acme.test>"
   end
 
   specify "#memberships_renewal_pending_email (pending only)" do

@@ -22,14 +22,14 @@ describe InvoiceMailer do
     body = mail.html_part.body
     expect(body).to include("Voici votre nouvelle facture")
     expect(body).to include("Accéder à ma page de membre")
-    expect(body).to include("https://membres.organization.test/billing")
+    expect(body).to include("https://membres.acme.test/billing")
     expect(mail.tag).to eq("invoice-created")
-    expect(mail[:from].decoded).to eq "Rage de Vert <info@organization.test>"
+    expect(mail[:from].decoded).to eq "Rage de Vert <info@acme.test>"
     expect(mail[:message_stream].to_s).to eq "outbound"
 
     expect(mail.attachments.size).to eq 1
     attachment = mail.attachments.first
-    expect(attachment.filename).to eq "facture-test-42.pdf"
+    expect(attachment.filename).to eq "facture-acme-42.pdf"
     expect(attachment.content_type).to eq "application/pdf"
   end
 
@@ -116,12 +116,12 @@ describe InvoiceMailer do
     body = mail.html_part.body
     expect(body).to include("Voici votre nouvelle facture")
     expect(body).not_to include("Accéder à ma page de membre")
-    expect(body).not_to include("https://membres.organization.test/billing")
-    expect(mail[:from].decoded).to eq "Rage de Vert <info@organization.test>"
+    expect(body).not_to include("https://membres.acme.test/billing")
+    expect(mail[:from].decoded).to eq "Rage de Vert <info@acme.test>"
 
     expect(mail.attachments.size).to eq 1
     attachment = mail.attachments.first
-    expect(attachment.filename).to eq "facture-test-42.pdf"
+    expect(attachment.filename).to eq "facture-acme-42.pdf"
     expect(attachment.content_type).to eq "application/pdf"
   end
 
@@ -146,8 +146,8 @@ describe InvoiceMailer do
     expect(body)
       .to include "Votre facture ##{invoice.id} du #{I18n.l(invoice.date)} vient d'être annulée."
     expect(body).to include("Accéder à ma page de membre")
-    expect(body).to include("https://membres.organization.test/billing")
-    expect(mail[:from].decoded).to eq "Rage de Vert <info@organization.test>"
+    expect(body).to include("https://membres.acme.test/billing")
+    expect(mail[:from].decoded).to eq "Rage de Vert <info@acme.test>"
     expect(mail[:message_stream].to_s).to eq "outbound"
 
     expect(mail.attachments.size).to be_zero
@@ -174,12 +174,12 @@ describe InvoiceMailer do
     body = mail.html_part.body
     expect(body).to include("Le montant restant à payer est de: CHF 62")
     expect(body).to include("Accéder à ma page de membre")
-    expect(body).to include("https://membres.organization.test/billing")
-    expect(mail[:from].decoded).to eq "Rage de Vert <info@organization.test>"
+    expect(body).to include("https://membres.acme.test/billing")
+    expect(mail[:from].decoded).to eq "Rage de Vert <info@acme.test>"
 
     expect(mail.attachments.size).to eq 1
     attachment = mail.attachments.first
-    expect(attachment.filename).to eq "facture-test-42.pdf"
+    expect(attachment.filename).to eq "facture-acme-42.pdf"
     expect(attachment.content_type).to eq "application/pdf"
   end
 
@@ -206,13 +206,13 @@ describe InvoiceMailer do
     body = mail.html_part.body
     expect(body).to include("Le montant restant à payer est de: CHF 62")
     expect(body).not_to include("Accéder à ma page de membre")
-    expect(body).not_to include("https://membres.organization.test/billing")
-    expect(mail[:from].decoded).to eq "Rage de Vert <info@organization.test>"
+    expect(body).not_to include("https://membres.acme.test/billing")
+    expect(mail[:from].decoded).to eq "Rage de Vert <info@acme.test>"
     expect(mail[:message_stream].to_s).to eq "outbound"
 
     expect(mail.attachments.size).to eq 1
     attachment = mail.attachments.first
-    expect(attachment.filename).to eq "facture-test-42.pdf"
+    expect(attachment.filename).to eq "facture-acme-42.pdf"
     expect(attachment.content_type).to eq "application/pdf"
   end
 

@@ -3,6 +3,10 @@
 class ApplicationRecord < ActiveRecord::Base
   self.abstract_class = true
 
+  connects_to shards: Tenant.all.map(&:to_sym).map { |tenant|
+    [ tenant, { writing: tenant } ]
+  }.to_h
+
   def can_update?; true end
   def can_destroy?; true end
 
@@ -15,6 +19,8 @@ class ApplicationRecord < ActiveRecord::Base
   end
 
   def self.reset_pk_sequence!
-    self.connection.reset_pk_sequence!(self.table_name)
+    new_seq = maximum(:id) || 0
+    connection.execute(
+      "UPDATE sqlite_sequence SET seq = #{new_seq} WHERE name = '#{table_name}'")
   end
 end

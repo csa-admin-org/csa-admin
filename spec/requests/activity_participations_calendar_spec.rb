@@ -3,7 +3,7 @@
 require "rails_helper"
 
 describe "Activity Particiations calendar feed" do
-  before { integration_session.host = "admin.organization.test" }
+  before { integration_session.host = "admin.acme.test" }
 
   specify "without auth token" do
     Current.org.update!(icalendar_auth_token: nil)

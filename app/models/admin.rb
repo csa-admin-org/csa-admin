@@ -15,7 +15,9 @@ class Admin < ApplicationRecord
     foreign_key: :validator_id,
     dependent: :nullify
 
-  scope :notification, ->(notification) { where("? = ANY (notifications)", notification) }
+  scope :notification, ->(notification) {
+    where("EXISTS (SELECT 1 FROM json_each(notifications) WHERE json_each.value = ?)", notification)
+  }
   scope :with_email, ->(email) { where("lower(email) = ?", email.downcase) }
 
   validates :name, presence: true
@@ -63,7 +65,7 @@ class Admin < ApplicationRecord
   end
 
   def notifications=(notifications)
-    super(notifications.select(&:presence).compact)
+    super(notifications.map(&:presence).compact)
   end
 
   def master?

@@ -6,52 +6,27 @@ jobs:
   test:
     runs-on: ubuntu-latest
 
-    services:
-      postgres:
-        image: postgres:16
-        env:
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: postgres
-        options: >-
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-        ports:
-          - 5432:5432
-
     steps:
-    - uses: actions/checkout@v4
+    - name: Checkout
+      uses: actions/checkout@v4
 
     - name: Install libvips and pdftoppm
       run: |
         sudo apt-get update -qq -o Acquire::Retries=3
         sudo apt-get install -y --fix-missing -qq -o Acquire::Retries=3 libvips poppler-utils
 
-    - name: Install PostgreSQL client
-      run: |
-        sudo apt-get -y remove --purge postgresql*
-        sudo apt-get update -qq -o Acquire::Retries=3
-        sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt/ `lsb_release -cs`-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
-        wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
-        sudo apt-get update -qq -o Acquire::Retries=3
-        sudo apt-get install -y --fix-missing -qq -o Acquire::Retries=3 postgresql-client-16
-
     - name: Install Ruby and run Bundler install with cache
       uses: ruby/setup-ruby@v1
       with:
         bundler-cache: true
 
-    - name: Setup timezone
-      uses: zcong1993/setup-timezone@master
+    - name: Set timezone
+      uses: szenius/set-timezone@v2.0
       with:
-        timezone: Europe/Zurich
+        timezoneLinux: Europe/Zurich
 
     - name: Rails tests
       env:
-        PGHOST: localhost
-        PGUSER: postgres
-        PGPASSWORD: postgres
         RAILS_ENV: test
         RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
       run: |

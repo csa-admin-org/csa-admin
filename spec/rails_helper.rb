@@ -10,8 +10,8 @@ require "capybara/rspec"
 require "capybara/email/rspec"
 
 Dir[Rails.root.join("spec/support/**/*.rb")].each { |f| require f }
-ActiveRecord::Migration.maintain_test_schema!
 
+ActiveRecord::Migration.maintain_test_schema!
 Faker::Config.locale = :fr
 
 RSpec.configure do |config|
@@ -22,23 +22,18 @@ RSpec.configure do |config|
   config.include ActiveJob::TestHelper
 
   config.before(:suite) do
-    unless Tenant.schema_exists?("test")
-      Tenant.create!("test") do
-        FactoryBot.create(:organization)
-      end
+    Tenant.switch("acme") do
+      FactoryBot.create(:organization) unless Organization.exists?
     end
+  end
+
+  config.around(:example) do |example|
+    Tenant.switch("acme") { example.run }
   end
 
   config.before(:each, type: :system) do
     driven_by :rack_test
-    Capybara.app_host = "http://admin.organization.test"
-  end
-
-  config.around(:each) do |example|
-    Tenant.switch!("test")
-    example.run
-  ensure
-    Tenant.reset
+    Capybara.app_host = "http://admin.acme.test"
   end
 
   config.after(:each) do

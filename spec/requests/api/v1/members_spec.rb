@@ -3,7 +3,7 @@
 require "rails_helper"
 
 describe "Members V1 API" do
-  before { integration_session.host = "admin.organization.test" }
+  before { integration_session.host = "admin.acme.test" }
 
   describe "POST /api/v1/members" do
     def request(api_token: nil, params: {})
