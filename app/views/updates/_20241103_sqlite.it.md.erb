@@ -1,0 +1,9 @@
+# Cambio di Database (SQLite)
+
+Questo fine settimana ho effettuato un'operazione a cuore aperto sulla piattaforma e migrato il database da PostgreSQL a SQLite.
+
+In pratica, questo non dovrebbe cambiare nulla per voi, se non un leggero miglioramento delle prestazioni dell'applicazione. Tuttavia, potrebbero esserci alcune differenze, come un diverso ordine di ordinamento in alcune liste, che potrebbero essere sfuggite alla mia attenzione. Se notate qualcosa di strano, non esitate a farmelo sapere. Grazie!
+
+Tecnicamente, ciò significa che ogni ACP ora ha il proprio database SQLite, invece di condividere un database PostgreSQL comune (con schemi separati). Questo semplifica la gestione dei dati e garantisce un migliore isolamento dei dati tra gli ACP. Ogni database SQLite viene inoltre salvato continuamente tramite [Litestream](https://litestream.io). I vostri dati e i loro backup sono ancora ospitati presso Infomaniak, in Svizzera.
+
+SQLite è il sistema di database più utilizzato al mondo, riconosciuto per la sua grande affidabilità, longevità e per essere open-source. Maggiori informazioni su SQLite sono disponibili sul [sito ufficiale](https://www.sqlite.org/about.html).

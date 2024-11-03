@@ -1,0 +1,9 @@
+# Datenbankwechsel (SQLite)
+
+An diesem Wochenende habe ich eine Operation am offenen Herzen auf der Plattform durchgeführt und die Datenbank von PostgreSQL auf SQLite migriert.
+
+In der Praxis sollte sich für Sie nichts ändern, außer einer leichten Verbesserung der Leistung der Anwendung. Es ist jedoch möglich, dass einige Unterschiede, wie eine andere Sortierreihenfolge in bestimmten Listen, meiner Aufmerksamkeit entgangen sind. Wenn Ihnen etwas Ungewöhnliches auffällt, lassen Sie es mich bitte wissen. Vielen Dank!
+
+Technisch bedeutet dies, dass jede Solawi nun ihre eigene SQLite-Datenbank hat, anstatt eine gemeinsame PostgreSQL-Datenbank (mit separaten Schemata) zu teilen. Dies vereinfacht das Datenmanagement und sorgt für eine bessere Datenisolation zwischen den Solawis. Jede SQLite-Datenbank wird auch kontinuierlich über [Litestream](https://litestream.io) gesichert. Ihre Daten und deren Backups werden weiterhin bei Infomaniak in der Schweiz gehostet.
+
+SQLite ist das weltweit am häufigsten verwendete Datenbanksystem, bekannt für seine große Zuverlässigkeit, Langlebigkeit und dass es Open-Source ist. Weitere Informationen zu SQLite finden Sie auf [der offiziellen Website](https://www.sqlite.org/about.html).
