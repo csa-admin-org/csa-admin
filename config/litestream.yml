@@ -13,7 +13,7 @@
 replica_defaults: &replica_defaults
   type: s3
   bucket: $LITESTREAM_REPLICA_BUCKET
-  endpoint: s3.eu-central-003.backblazeb2.com
+  endpoint: s3.pub1.infomaniak.cloud
   access-key-id: $LITESTREAM_ACCESS_KEY_ID
   secret-access-key: $LITESTREAM_SECRET_ACCESS_KEY
   retention: 24h
