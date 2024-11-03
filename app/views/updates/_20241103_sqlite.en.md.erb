@@ -1,0 +1,9 @@
+# Database Change (SQLite)
+
+This weekend, I performed an open-heart operation on the platform and migrated the database from PostgreSQL to SQLite.
+
+In practice, this shouldn't change anything for you, except for a slight improvement in the application's performance. However, some differences, such as a different sorting order on certain lists, may have escaped my notice. If you notice anything unusual, please feel free to let me know. Thank you!
+
+Technically, this means that each organization now has its own SQLite database, rather than sharing a common PostgreSQL database (with separate schemas). This simplifies data management and ensures better data isolation between organizations. Each SQLite database is also continuously backed up via [Litestream](https://litestream.io). Your data and their backups are still hosted at Infomaniak, in Switzerland.
+
+SQLite is the most widely used database system in the world, recognized for its great reliability, longevity, and being open-source. More information about SQLite is available on [the official website](https://www.sqlite.org/about.html).
