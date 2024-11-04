@@ -41,7 +41,7 @@ module BulkDatesInsert
   end
 
   def bulk_dates_wdays=(wdays)
-    super wdays.map(&:to_i) & Array(0..6).map(&:to_i)
+    super wdays.map(&:presence).compact.map(&:to_i) & Array(0..6).map(&:to_i)
   end
 
   def bulk_dates

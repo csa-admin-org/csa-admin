@@ -111,7 +111,7 @@ class Delivery < ApplicationRecord
 
   def shop_open_for_depot_ids=(ids)
     @shop_open_for_depot_ids = nil
-    self[:shop_closed_for_depot_ids] = Depot.pluck(:id) - ids.map(&:to_i)
+    self[:shop_closed_for_depot_ids] = Depot.pluck(:id) - ids.map(&:presence).compact.map(&:to_i)
   end
 
   def shop_closing_at

@@ -86,7 +86,7 @@ module Shop
     def available_for_depot_ids=(ids)
       self[:unavailable_for_depot_ids] =
         if available?
-          Depot.pluck(:id) - ids.map(&:to_i)
+          Depot.pluck(:id) - ids.map(&:presence).compact.map(&:to_i)
         else
           []
         end
@@ -99,7 +99,7 @@ module Shop
     def available_for_delivery_ids=(ids)
       self[:unavailable_for_delivery_ids] =
         if available?
-          Delivery.coming.shop_open.pluck(:id) - ids.map(&:to_i)
+          Delivery.coming.shop_open.pluck(:id) - ids.map(&:presence).compact.map(&:to_i)
         else
           []
         end
