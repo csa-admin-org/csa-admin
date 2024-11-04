@@ -192,7 +192,7 @@ class Organization < ApplicationRecord
   end
 
   def billing_year_divisions=(divisions)
-    super divisions.map(&:to_i) & BILLING_YEAR_DIVISIONS
+    super divisions.map(&:presence).compact.map(&:to_i) & BILLING_YEAR_DIVISIONS
   end
 
   def phone=(phone)

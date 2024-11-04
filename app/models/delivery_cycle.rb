@@ -202,11 +202,11 @@ class DeliveryCycle < ApplicationRecord
   end
 
   def wdays=(wdays)
-    super wdays.map(&:to_i) & Array(0..6).map(&:to_i)
+    super wdays.map(&:presence).compact.map(&:to_i) & Array(0..6).map(&:to_i)
   end
 
   def months=(months)
-    super months.map(&:to_i) & Array(1..12).map(&:to_i)
+    super months.map(&:presence).compact.map(&:to_i) & Array(1..12).map(&:to_i)
   end
 
   def can_delete?
