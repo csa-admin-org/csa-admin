@@ -96,6 +96,8 @@ class Organization < ApplicationRecord
     numericality: { greater_than_or_equal_to: 0 }
   validates :activity_participations_form_min, :activity_participations_form_max,
     numericality: { greater_than_or_equal_to: 0, allow_nil: true }
+  validates :activity_participations_form_step,
+    numericality: { greater_than_or_equal_to: 1 }, presence: true
   validate :activity_participations_demanded_logic_must_be_valid
   validate :basket_price_extra_dynamic_pricing_logic_must_be_valid
   validates :open_renewal_reminder_sent_after_in_days,

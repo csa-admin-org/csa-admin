@@ -9,14 +9,16 @@ export default class extends Controller {
     let input = event.target
     let value = parseInt(input.value)
 
-    let minValue = input.getAttribute("min")
-    if (minValue && value < minValue) {
-      input.value = minValue
-    }
+    let minValue = parseInt(input.getAttribute("min")) || 0
+    let maxValue = parseInt(input.getAttribute("max")) || Infinity
+    let step = parseInt(input.getAttribute("step")) || 1
 
-    let maxValue = input.getAttribute("max")
-    if (maxValue && value > maxValue) {
+    if (value < minValue) {
+      input.value = minValue
+    } else if (value > maxValue) {
       input.value = maxValue
+    } else {
+      input.value = Math.round((value - minValue) / step) * step + minValue
     }
   }
 }
