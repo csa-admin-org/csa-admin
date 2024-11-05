@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2024_10_19_102158) do
+ActiveRecord::Schema[8.0].define(version: 2024_11_05_155415) do
   create_table "absences", force: :cascade do |t|
     t.bigint "member_id"
     t.date "started_on"
@@ -703,6 +703,7 @@ ActiveRecord::Schema[8.0].define(version: 2024_10_19_102158) do
     t.string "sepa_creditor_identifier"
     t.string "delivery_pdf_member_info", default: "none", null: false
     t.string "members_subdomain", null: false
+    t.integer "activity_participations_form_step", default: 1, null: false
     t.check_constraint "JSON_TYPE(basket_price_extras) = 'array'", name: "organizations_basket_price_extras_is_array"
     t.check_constraint "JSON_TYPE(billing_year_divisions) = 'array'", name: "organizations_billing_year_divisions_is_array"
     t.check_constraint "JSON_TYPE(email_notifications) = 'array'", name: "organizations_email_notifications_is_array"

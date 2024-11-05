@@ -324,6 +324,7 @@ ActiveAdmin.register Organization do
           f.input :activity_price
           f.input :activity_participations_form_min
           f.input :activity_participations_form_max
+          f.input :activity_participations_form_step, input_html: { min: 1 }
           translated_input(f, :activity_participations_form_details,
             hint: t("formtastic.hints.organization.activity_participations_demanded_annually_form_detail"),
             required: false,
@@ -423,6 +424,7 @@ ActiveAdmin.register Organization do
     :activity_i18n_scope, :activity_participation_deletion_deadline_in_days,
     :activity_availability_limit_in_days, :activity_price, :activity_phone,
     :activity_participations_form_min, :activity_participations_form_max,
+    :activity_participations_form_step,
     :activity_participations_demanded_logic,
     :vat_number, :vat_membership_rate, :vat_activity_rate, :vat_shop_rate,
     :absences_billed,
