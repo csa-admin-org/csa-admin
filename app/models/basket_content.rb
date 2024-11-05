@@ -13,7 +13,7 @@ class BasketContent < ApplicationRecord
   has_and_belongs_to_many :depots
 
   scope :basket_size_eq, ->(id) {
-    where("EXISTS (SELECT 1 FROM json_each(basket_size_ids) WHERE json_each.value = ?)", id)
+    where("EXISTS (SELECT 1 FROM json_each(basket_size_ids) WHERE json_each.value = ?)", id.to_i)
   }
   scope :for_depot, ->(depot) {
     joins(:depots).where(basket_contents_depots: { depot_id: depot })

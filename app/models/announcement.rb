@@ -15,10 +15,10 @@ class Announcement < ApplicationRecord
   validate :must_be_unique_per_depot_and_delivery
 
   scope :depots_eq, ->(id) {
-    where("EXISTS (SELECT 1 FROM json_each(depot_ids) WHERE json_each.value = ?)", id)
+    where("EXISTS (SELECT 1 FROM json_each(depot_ids) WHERE json_each.value = ?)", id.to_i)
   }
   scope :deliveries_eq, ->(id) {
-    where("EXISTS (SELECT 1 FROM json_each(delivery_ids) WHERE json_each.value = ?)", id)
+    where("EXISTS (SELECT 1 FROM json_each(delivery_ids) WHERE json_each.value = ?)", id.to_i)
   }
 
   def self.for(delivery, depot)
