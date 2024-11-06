@@ -22,9 +22,6 @@ module PDF
       depots = Array(depot || @depots)
       depots.each do |depot|
         baskets = @baskets.where(depot: depot)
-        if depot.delivery_sheets_mode == "home_delivery"
-          baskets = baskets.active
-        end
         shop_orders = @shop_orders.where(depot: depot)
         basket_sizes = BasketSize.for(baskets)
         member_ids = (baskets.filled.pluck(:member_id) + shop_orders.pluck(:member_id)).uniq
@@ -510,40 +507,35 @@ module PDF
             align: :left,
             valign: :center,
             width: address_width,
-            padding_top: 1
+            padding_top: 1,
+            font_style: basket&.absent? ? :italic : nil,
+            text_color: basket&.absent? ? "999999" : nil
           }
         end
         basket_sizes.each do |bs|
-          line <<
-            if basket&.absent?
-              "–"
-            else
-              basket && basket.basket_size_id == bs.id ? display_quantity(basket.quantity) : ""
-            end
+          content = (basket && basket.basket_size_id == bs.id) ? display_quantity(basket.quantity) : ""
+          line << counter_line(content, basket)
         end
         basket_complements.each do |c|
-          line <<
-            if basket&.absent?
-              "–"
-            else
-              quantity = basket&.baskets_basket_complements&.find { |bbc| bbc.basket_complement_id == c.id }&.quantity || 0
-              if shop_order
-                shop_order_item = shop_order.items.find { |i| i.product.basket_complement_id == c.id }
-                quantity += shop_order_item&.quantity || 0
-              end
-              display_quantity(quantity)
-            end
+          quantity = basket&.baskets_basket_complements&.find { |bbc| bbc.basket_complement_id == c.id }&.quantity || 0
+          if shop_order
+            shop_order_item = shop_order.items.find { |i| i.product.basket_complement_id == c.id }
+            quantity += shop_order_item&.quantity || 0
+          end
+          content = display_quantity(quantity)
+          line << counter_line(content, basket)
         end
         if shop_orders.any?
-          line <<
+          content =
             if basket&.absent?
               "–"
             else
               shop_order ? "X" : ""
             end
+          line << counter_line(content, basket)
         end
         shop_products.each do |p|
-          line <<
+          content =
             if basket&.absent?
               "–"
             elsif shop_order
@@ -552,20 +544,25 @@ module PDF
             else
               ""
             end
+          line << counter_line(content, basket)
         end
         extra_content =
-          case depot.delivery_sheets_mode
-          when "signature"; basket&.absent? ? Basket.human_attribute_name(:absent).upcase : ""
-          when "home_delivery"; member.delivery_note
+          if basket&.absent?
+            Basket.human_attribute_name(:absent).upcase
+          elsif depot.delivery_sheets_mode == "home_delivery"
+            member.delivery_note
+          else
+            ""
           end
         line << {
           content: extra_content,
           width: extra_width,
           align: :right,
           valign: :center,
-          size: 9,
-          font_style: depot.delivery_sheets_mode == "home_delivery" ? :italic : nil,
-          padding_top: 1
+          size: depot.delivery_sheets_mode == "home_delivery" ? 9 : 10,
+          padding_top: depot.delivery_sheets_mode == "home_delivery" ? 1 : 2,
+          font_style: (depot.delivery_sheets_mode == "home_delivery" || basket&.absent?) ? :italic : nil,
+          text_color: basket&.absent? ? "999999" : nil
         }
         data << line
       end
@@ -580,9 +577,6 @@ module PDF
         numbers_column_offset = depot.delivery_sheets_mode == "home_delivery" ? 2 : 1
         (bs_size + bc_size + sp_size).times do |i|
           t.column(numbers_column_offset + i).width = number_width
-          t.column(numbers_column_offset + i).align = :center
-          t.column(numbers_column_offset + i).padding_top = -1
-          t.column(numbers_column_offset + i).font_style = :light # Ensure number is well centered in the cell!
         end
 
         t.row(0).size = 11
@@ -614,6 +608,21 @@ module PDF
         t.row(0).border_bottom_width = 1
         t.row(0).border_bottom_color = "000000"
       end
+    end
+
+    def counter_line(content, basket)
+      line = {
+        content: content,
+        align: :center,
+        padding_top: 1
+      }
+      if basket&.absent?
+        line[:font_style] = :italic
+        line[:text_color] = "999999"
+        line[:padding_top] = 2
+        line[:padding_left] = 0
+      end
+      line
     end
 
     def footer

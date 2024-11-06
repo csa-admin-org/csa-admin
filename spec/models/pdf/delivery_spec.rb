@@ -76,7 +76,7 @@ describe PDF::Delivery, freeze: "2023-01-01" do
         .and contain_sequence("Membre", "2", "1", "3", "1", "Signature")
         .and contain_sequence("Alain Reymond", "1", "1", "1")
         .and contain_sequence("John Doe", "2", "2")
-        .and contain_sequence("Missing Joe", "–", "–", "–", "–", "ABSENT·E")
+        .and contain_sequence("Missing Joe", "1", "3", "ABSENT·E")
         .and contain_sequence("Si vous avez des remarques ou problèmes, veuillez contacter Julien (079 705 89 01) jusqu'au vendredi midi.")
       expect(pdf_strings).not_to include "Jame Dane"
       expect(pdf_strings).not_to include "Moyen PUBLIC"
