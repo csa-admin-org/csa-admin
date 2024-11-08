@@ -37,3 +37,4 @@ development:
 production:
   <<: *defaults
   active: true
+  revision: "<%= ENV['GIT_REV'] %>"
