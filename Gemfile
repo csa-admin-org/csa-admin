@@ -4,7 +4,7 @@ source "https://rubygems.org"
 
 ruby file: ".ruby-version"
 
-gem "rails", "8.0.0.rc2"
+gem "rails", "~> 8.0"
 
 gem "bootsnap", require: false
 gem "thruster", require: false
@@ -20,7 +20,8 @@ gem "bcrypt"
 gem "date_validator"
 gem "i18n"
 gem "i18n-backend-side_by_side"
-gem "rails-i18n"
+# Waiting for a new release supporting Rails 8
+gem "rails-i18n", github: "Shopify/rails-i18n", branch: "schwad_rails_8"
 
 gem "rack-status"
 gem "rack-cors"
@@ -46,7 +47,7 @@ gem "rails_icons"
 
 gem "cld"
 
-gem "solid_queue", github: "rails/solid_queue", branch: "main"
+gem "solid_queue"
 gem "mission_control-jobs"
 
 gem "faraday"
