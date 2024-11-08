@@ -16,7 +16,7 @@ class Members::BaseController < ApplicationController
       cookies.delete(:session_id)
       redirect_to members_login_path, alert: t("sessions.flash.expired")
     else
-      set_sentry_user
+      set_appsignal_tags
       update_last_usage(current_session)
     end
   end
@@ -39,8 +39,8 @@ class Members::BaseController < ApplicationController
       Current.org.languages.first
   end
 
-  def set_sentry_user
-    Sentry.set_user(
+  def set_appsignal_tags
+    Appsignal.add_tags(
       id: "member_#{current_member.id}",
       session_id: current_session.id)
   end

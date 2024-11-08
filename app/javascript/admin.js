@@ -1,3 +1,4 @@
+import "components/appsignal"
 import "@hotwired/turbo-rails"
 import "admin/trix"
 import "controllers/admin"

@@ -50,7 +50,7 @@ module Billing
         invoice.send_overpaid_notification_to_admins!
       end
     rescue => e
-      Sentry.capture_exception(e, extra: { data: data })
+      Error.report(e, data: data)
     end
 
     def find_invoice(data)
@@ -78,11 +78,10 @@ module Billing
       if Invoice.not_canceled.sent.where("created_at > ?", NO_RECENT_PAYMENTS_SINCE.ago).any? &&
           Payment.auto.where("created_at > ?", NO_RECENT_PAYMENTS_SINCE.ago).none?
         if last_payment = Payment.auto.reorder(:created_at).last
-          Sentry.capture_message("No recent payment error", extra: {
+          Error.notify("No recent payment error",
             last_payment_id: last_payment.id,
             last_payment_date: last_payment.date,
-            last_payment_created_at: last_payment.created_at
-          })
+            last_payment_created_at: last_payment.created_at)
         end
       end
     end

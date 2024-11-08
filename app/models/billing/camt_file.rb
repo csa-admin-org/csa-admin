@@ -57,7 +57,7 @@ module Billing
         }
       }.compact.uniq(&:fingerprint)
     rescue CamtParser::Errors::UnsupportedNamespaceError, ArgumentError => e
-      Sentry.capture_exception(e, extra: { file: @files.first.read })
+      Error.report(e, file: @files.first.read)
       raise UnsupportedFileError, e.message
     end
   end

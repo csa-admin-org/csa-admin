@@ -10,10 +10,9 @@ module API
           Admin.notify!(:new_inscription, member: @member)
           head :created
         else
-          Sentry.capture_message("API Member invalid", extra: {
+          Error.notify("API Member invalid",
             params: params,
-            permitted_params: member_params
-          })
+            permitted_params: member_params)
           head :unprocessable_entity
         end
       end

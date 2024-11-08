@@ -36,7 +36,7 @@ module Billing
         }
       }.compact
     rescue Cmxl::Field::LineFormatError, ArgumentError => e
-      Sentry.capture_exception(e, extra: { file: @files.first })
+      Error.report(e, file: @files.first)
       raise UnsupportedFileError, e.message
     end
   end

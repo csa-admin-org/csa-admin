@@ -55,10 +55,7 @@ module Billing
       elsif res.body.include?(NO_DATA_INFO_MSG)
         nil
       else
-        Sentry.capture_message("BAS CAMT054 GET issue", extra: {
-          version: version,
-          body: res.body
-        })
+        Error.notify("BAS CAMT054 GET issue", version: version, body: res.body)
         nil
       end
     end
