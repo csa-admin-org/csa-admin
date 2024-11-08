@@ -41,10 +41,11 @@ module PDF
       font(name)
     end
 
-    def org_logo_io
+    def org_logo_io(size:)
       logo =
         if Current.org.logo.attached?
-          Current.org.logo.download
+          limit = [ size * 3, size * 3 ]
+          Current.org.logo.variant(resize_to_limit: limit).processed.download
         else
           path = Rails.root.join("app/assets/images/logo.png")
           URI.open(path).read

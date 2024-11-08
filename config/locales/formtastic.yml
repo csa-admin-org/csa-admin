@@ -642,6 +642,11 @@ _:
           _en: Text displayed in italics after the invoice amount.
           _fr: Texte affiché en italique après le montant de la facture.
           _it: Testo visualizzato in corsivo dopo l'importo della fattura.
+        invoice_logo:
+          _de: Optionales Logo/Label, das unten rechts auf der Rechnung über dem Footer angezeigt wird. Nützlich, z.B. für ein "Bio" oder "Demeter" Label.
+          _en: Optional logo/label that is displayed at the bottom right of the invoice, above the footer. Useful, for example, for an "Organic" or "Demeter" label.
+          _fr: Logo/Label optionnel qui est affiché en bas à droite de la facture, au-dessus du bas de page. Utile, par exemple, pour le label "Bio Suisse" ou "Demeter".
+          _it: Logo/etichetta opzionale che viene visualizzato in basso a destra della fattura, sopra il piè di pagina. Utile, ad esempio, per un'etichetta "Biologico" o "Demeter".
         languages:
           _de: Bitte kontaktieren Sie mich für Änderungen.
           _en: Please contact me for changes.

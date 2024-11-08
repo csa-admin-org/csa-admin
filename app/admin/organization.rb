@@ -85,6 +85,12 @@ ActiveAdmin.register Organization do
           end
           translated_input(f, :invoice_infos,
             hint: t("formtastic.hints.organization.invoice_info"))
+          f.input :invoice_logo, as: :file, input_html: { accept: "image/jpeg, image/png" }
+          if resource.invoice_logo.attached?
+            div class: "mt-2" do
+              image_tag resource.invoice_logo, class: "h-16"
+            end
+          end
           translated_input(f, :invoice_footers,
             hint: t("formtastic.hints.organization.invoice_footer"))
 
@@ -418,6 +424,7 @@ ActiveAdmin.register Organization do
     :email_default_from, :email_footer,
     :trial_baskets_count,
     :iban, :sepa_creditor_identifier, :bank_reference, :creditor_name,
+    :invoice_logo,
     :creditor_address, :creditor_city, :creditor_zip,
     :annual_fee, :share_price, :shares_number,
     :absence_notice_period_in_days,
