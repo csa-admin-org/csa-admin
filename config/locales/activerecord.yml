@@ -301,10 +301,10 @@ _:
           _fr: Compléments paniers
           _it: Aggiunte nella cesta
         note:
-          _de: Notiz (Admin)
-          _en: Note (Admin)
-          _fr: Note (Admin)
-          _it: Nota (Admin)
+          _de: Interne Notiz
+          _en: Internal memo
+          _fr: Note interne
+          _it: Nota interna
         number:
           _de: Nummer
           _en: Number
@@ -397,6 +397,11 @@ _:
           _en: Group
           _fr: Groupe
           _it: Gruppo
+        note:
+          _de: Interne Notiz
+          _en: Internal memo
+          _fr: Note interne
+          _it: Nota interna
         price:
           _de: Preis/Tasche
           _en: Price/basket
