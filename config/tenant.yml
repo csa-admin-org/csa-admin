@@ -57,8 +57,7 @@ production: &production
     domain: cultureslocales.ch
   mamajah:
     domain: mamajah.org
-  unjardinquichante:
-    domain: unjardinquichante.fr
+
   demo:
     domain: acp-admin.ch
 
