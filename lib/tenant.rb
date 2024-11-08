@@ -86,7 +86,7 @@ module Tenant
   def current=(tenant)
     Thread.current[:current_tenant] = tenant
     Current.reset
-    Sentry.set_tags(tenant: tenant)
+    Appsignal.add_tags(tenant: tenant)
   end
 
   def config

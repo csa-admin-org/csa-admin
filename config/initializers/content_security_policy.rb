@@ -17,6 +17,8 @@ Rails.application.configure do
     policy.frame_src   :self, "*.youtube.com", "*.vimeo.com"
     # Specify URI for violation reports
     # policy.report_uri "/csp-violation-report-endpoint"
+
+    policy.connect_src :self, "https://appsignal-endpoint.net"
   end
 
   # Generate session nonces for permitted importmap, inline scripts, and inline styles.

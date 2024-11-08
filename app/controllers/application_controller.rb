@@ -30,7 +30,7 @@ class ApplicationController < ActionController::Base
       cookies.delete(:session_id)
       redirect_to login_path, alert: t("sessions.flash.expired")
     else
-      set_sentry_user
+      set_appsignal_tags
       update_last_usage(current_session)
     end
   end
@@ -78,8 +78,8 @@ class ApplicationController < ActionController::Base
       last_user_agent: request.env.fetch("HTTP_USER_AGENT", "-"))
   end
 
-  def set_sentry_user
-    Sentry.set_user(
+  def set_appsignal_tags
+    Appsignal.add_tags(
       id: "admin_#{current_admin.id}",
       session_id: current_session.id)
   end

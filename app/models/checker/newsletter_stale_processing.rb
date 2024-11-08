@@ -14,10 +14,9 @@ module Checker
     end
 
     def check!
-      Sentry.capture_message("Newsletter stale delivery proccesing ", extra: {
-          newsletter_id: id,
-          pending_deliveries: deliveries.processing.count
-        })
+      Error.notify("Newsletter stale delivery proccesing",
+        newsletter_id: id,
+        pending_deliveries: deliveries.processing.count)
     end
   end
 end

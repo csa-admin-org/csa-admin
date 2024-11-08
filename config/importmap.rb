@@ -11,6 +11,12 @@ pin "@hotwired/turbo-rails", to: "turbo.min.js"
 pin_all_from "app/javascript/components", under: "components"
 pin "throttle-debounce" # @5.0.2
 
+# AppSignal
+pin "@appsignal/javascript", to: "@appsignal--javascript.js" # @1.4.0
+pin "@appsignal/core", to: "@appsignal--core.js" # @1.1.23
+pin "https" # @2.1.0
+pin "tslib" # @2.8.1
+
 # ActiveAdmin (used also by members)
 pin "flowbite", to: "flowbite.turbo.min.js" # @2.4.1
 pin "browser-update" # @3.3.54

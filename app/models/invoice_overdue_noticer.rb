@@ -27,11 +27,10 @@ class InvoiceOverdueNoticer
       Admin.notify!(:invoice_third_overdue_notice, invoice: invoice)
     end
   rescue => e
-    Sentry.capture_exception(e, extra: {
+    Error.report(e,
       invoice_id: invoice.id,
       emails: invoice.member.emails,
-      member_id: invoice.member_id
-    })
+      member_id: invoice.member_id)
   end
 
   private

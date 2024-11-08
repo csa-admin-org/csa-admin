@@ -172,11 +172,10 @@ class Invoice < ApplicationRecord
     update!(sent_at: Time.current)
     close_or_open!
   rescue => e
-    Sentry.capture_exception(e, extra: {
+    Error.report(e,
       invoice_id: id,
       emails: member.emails,
-      member_id: member_id
-    })
+      member_id: member_id)
   end
 
   def mark_as_sent!

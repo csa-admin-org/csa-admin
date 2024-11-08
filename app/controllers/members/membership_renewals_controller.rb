@@ -34,10 +34,9 @@ class Members::MembershipRenewalsController < Members::BaseController
 
     redirect_to members_memberships_path
   rescue => e
-    Sentry.capture_exception(e, extra: {
+    Error.report(e,
       member_id: current_member.id,
-      membership_id: membership&.id
-    })
+      membership_id: membership&.id)
     redirect_back fallback_location: members_memberships_path, alert: t(".flash.error")
   end
 

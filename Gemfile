@@ -14,6 +14,7 @@ gem "puma"
 gem "sqlite3"
 gem "litestream"
 
+gem "appsignal"
 gem "lograge"
 
 gem "bcrypt"
@@ -79,9 +80,6 @@ gem "girocode" # EPC QR code
 gem "rqrcode"
 gem "countries"
 gem "user_agent_parser"
-
-gem "sentry-ruby"
-gem "sentry-rails"
 
 gem "kramdown"
 gem "nokogiri"
