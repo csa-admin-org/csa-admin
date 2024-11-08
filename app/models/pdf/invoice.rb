@@ -54,7 +54,7 @@ module PDF
     end
 
     def header(page:, total_pages:)
-      image org_logo_io, at: [ 15, bounds.height - 20 ], width: 110
+      image org_logo_io(size: 110), at: [ 15, bounds.height - 20 ], width: 110
       bounding_box [ 155, bounds.height - 55 ], width: 200, height: 2.6.cm do
         text "#{::Invoice.model_name.human} N° #{invoice.id}", style: :bold, size: 16
         move_down 5
@@ -373,6 +373,13 @@ module PDF
 
     def footer(last_page:)
       y = last_page ? payment_section_y : 40
+
+      if Current.org.invoice_logo.attached?
+        logo = Current.org.invoice_logo.variant(resize_to_limit: [ 165, 165 ]).processed.download
+        logo_io = StringIO.new(logo)
+        image logo_io, at: [ 15, y + 65 ], width: 55
+      end
+
       font_size 10
       bounding_box [ 0, y ], width: bounds.width, height: 50 do
         text Current.org.invoice_footer, inline_format: true, align: :center

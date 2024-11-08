@@ -136,7 +136,6 @@ ActiveAdmin.register Newsletter do
                   reasons: active_suppressions.select { |s| s.email == email }.map(&:reason).uniq)
               }
               table_for(suppressions, class: "partially-hidden table-auto", data: { "show-all-target" => "elements" }) do
-                # column(Member.model_name.human) { |s|  }
                 column(Newsletter::Delivery.human_attribute_name(:email)) { |s|
                   div do
                     span { s.email } + span(class: "block text-sm") { auto_link s.member }

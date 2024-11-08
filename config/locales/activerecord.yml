@@ -1463,6 +1463,11 @@ _:
           _en: Information text
           _fr: Texte d'information
           _it: Riga d'informazione
+        invoice_logo:
+          _de: Logo / Label
+          _en: Logo / Label
+          _fr: Logo / Label
+          _it: Logo / Etichetta
         languages:
           _de: Sprachen
           _en: Languages

@@ -58,6 +58,7 @@ class Organization < ApplicationRecord
   translated_attributes :new_member_fee_description
 
   has_one_attached :logo
+  has_one_attached :invoice_logo
 
   validates :name, presence: true
   validates :url,

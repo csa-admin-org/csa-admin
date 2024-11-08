@@ -62,7 +62,7 @@ module PDF
     end
 
     def summary_header
-      image org_logo_io, at: [ 15, bounds.height - 20 ], width: 110
+      image org_logo_io(size: 110), at: [ 15, bounds.height - 20 ], width: 110
       bounding_box [ bounds.width - 370, bounds.height - 20 ], width: 350, height: 120 do
         text I18n.t("delivery.summary"), size: 24, align: :right
         move_down 5
@@ -309,7 +309,7 @@ module PDF
     end
 
     def header(depot, page:, total_pages:)
-      image org_logo_io, at: [ 15, bounds.height - 20 ], width: 110
+      image org_logo_io(size: 110), at: [ 15, bounds.height - 20 ], width: 110
       if announcement = Announcement.for(delivery, depot)
         bounding_box [ 20, bounds.height - 130 ], width: 290, height: 70 do
           text announcement.text,
