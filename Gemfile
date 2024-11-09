@@ -22,7 +22,7 @@ gem "date_validator"
 gem "i18n"
 gem "i18n-backend-side_by_side"
 # Waiting for a new release supporting Rails 8
-gem "rails-i18n", github: "Shopify/rails-i18n", branch: "schwad_rails_8"
+gem "rails-i18n", github: "svenfuchs/rails-i18n"
 
 gem "rack-status"
 gem "rack-cors"
