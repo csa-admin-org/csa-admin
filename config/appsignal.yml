@@ -12,18 +12,8 @@ default: &defaults
   # Errors that should not be recorded by AppSignal
   # For more information see our docs:
   # https://docs.appsignal.com/ruby/configuration/ignore-errors.html
-  # ignore_errors:
-  #   - Exception
-  #   - NoMemoryError
-  #   - ScriptError
-  #   - LoadError
-  #   - NotImplementedError
-  #   - SyntaxError
-  #   - SecurityError
-  #   - SignalException
-  #   - Interrupt
-  #   - SystemExit
-  #   - SystemStackError
+  ignore_errors:
+    - ActionController::InvalidAuthenticityToken
 
   # See https://docs.appsignal.com/ruby/configuration/options.html for
   # all configuration options.
