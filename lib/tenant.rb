@@ -86,7 +86,7 @@ module Tenant
   def current=(tenant)
     Thread.current[:current_tenant] = tenant
     Current.reset
-    Appsignal.add_tags(tenant: tenant)
+    Appsignal.add_session_data(tenant: tenant)
   end
 
   def config

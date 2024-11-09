@@ -30,7 +30,7 @@ class ApplicationController < ActionController::Base
       cookies.delete(:session_id)
       redirect_to login_path, alert: t("sessions.flash.expired")
     else
-      set_appsignal_tags
+      add_appsignal_session_data
       update_last_usage(current_session)
     end
   end
@@ -78,9 +78,9 @@ class ApplicationController < ActionController::Base
       last_user_agent: request.env.fetch("HTTP_USER_AGENT", "-"))
   end
 
-  def set_appsignal_tags
-    Appsignal.add_tags(
-      id: "admin_#{current_admin.id}",
+  def add_appsignal_session_data
+    Appsignal.add_session_data(
+      admin_id: current_admin.id,
       session_id: current_session.id)
   end
 
