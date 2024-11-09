@@ -1,9 +1,8 @@
 GIT
-  remote: https://github.com/Shopify/rails-i18n.git
-  revision: 96778ff0651365a08db1b88aba486b844a0ac3e7
-  branch: schwad_rails_8
+  remote: https://github.com/svenfuchs/rails-i18n.git
+  revision: 955a47c06c793815b4a356609f64c04901e10051
   specs:
-    rails-i18n (7.0.9)
+    rails-i18n (7.0.10)
       i18n (>= 0.7, < 2)
       railties (>= 6.0.0)
 
@@ -482,7 +481,7 @@ GEM
     rspec-mocks (3.13.2)
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.13.0)
-    rspec-rails (7.0.1)
+    rspec-rails (7.1.0)
       actionpack (>= 7.0)
       activesupport (>= 7.0)
       railties (>= 7.0)
