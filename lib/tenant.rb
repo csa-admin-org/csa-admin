@@ -77,6 +77,7 @@ module Tenant
     raise "Illegal tenant switch (#{current} => #{tenant})" unless outside?
 
     self.current = tenant
+    Appsignal.add_tags(tenant: tenant)
   end
 
   def leave
@@ -86,7 +87,6 @@ module Tenant
   def current=(tenant)
     Thread.current[:current_tenant] = tenant
     Current.reset
-    Appsignal.add_session_data(tenant: tenant)
   end
 
   def config

@@ -27,4 +27,5 @@ development:
 production:
   <<: *defaults
   active: true
+  running_in_container: true
   revision: "<%= ENV['GIT_REV'] %>"
