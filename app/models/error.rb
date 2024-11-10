@@ -11,7 +11,7 @@ module Error
 
   def report(error, **extra)
     Appsignal.report_error(error) do
-      Appsignal.set_tags(extra)
+      Appsignal.add_tags(extra)
     end
   end
 end
