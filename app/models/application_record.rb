@@ -18,9 +18,24 @@ class ApplicationRecord < ActiveRecord::Base
     authorizable_ransackable_associations
   end
 
-  def self.reset_pk_sequence!
-    new_seq = maximum(:id) || 0
-    connection.execute(
-      "UPDATE sqlite_sequence SET seq = #{new_seq} WHERE name = '#{table_name}'")
+  def self.pk_sequence
+    connection.execute("SELECT seq FROM sqlite_sequence WHERE name = '#{table_name}'").first&.fetch("seq")
+  end
+
+  def self.reset_pk_sequence!(force: nil)
+    transaction do
+      if pk_sequence
+        max = maximum(:id) || 0
+        raise "force value cannot be lower than max id" if force && force < max
+
+        new_seq = force || max
+        connection.execute(
+          "UPDATE sqlite_sequence SET seq = #{new_seq} WHERE name = '#{table_name}'")
+      else
+        new_seq = force || 0
+        connection.execute(
+          "INSERT INTO sqlite_sequence (name, seq) VALUES ('#{table_name}', #{new_seq})")
+      end
+    end
   end
 end
