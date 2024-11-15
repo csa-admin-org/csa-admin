@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2024_11_15_082050) do
+ActiveRecord::Schema[8.0].define(version: 2024_11_15_145304) do
   create_table "absences", force: :cascade do |t|
     t.bigint "member_id"
     t.date "started_on"
@@ -20,6 +20,7 @@ ActiveRecord::Schema[8.0].define(version: 2024_11_15_082050) do
     t.datetime "updated_at"
     t.bigint "session_id"
     t.index ["member_id"], name: "index_absences_on_member_id"
+    t.index ["session_id"], name: "index_absences_on_session_id"
   end
 
   create_table "action_text_rich_texts", force: :cascade do |t|
@@ -108,6 +109,7 @@ ActiveRecord::Schema[8.0].define(version: 2024_11_15_082050) do
     t.datetime "admins_notified_at"
     t.index ["activity_id"], name: "index_activity_participations_on_activity_id"
     t.index ["member_id"], name: "index_activity_participations_on_member_id"
+    t.index ["session_id"], name: "index_activity_participations_on_session_id"
     t.index ["state"], name: "index_activity_participations_on_state"
     t.index ["validator_id"], name: "index_activity_participations_on_validator_id"
   end
@@ -452,7 +454,9 @@ ActiveRecord::Schema[8.0].define(version: 2024_11_15_082050) do
     t.integer "waiting_billing_year_division"
     t.index ["shop_depot_id"], name: "index_members_on_shop_depot_id"
     t.index ["state"], name: "index_members_on_state"
+    t.index ["validator_id"], name: "index_members_on_validator_id"
     t.index ["waiting_basket_size_id"], name: "index_members_on_waiting_basket_size_id"
+    t.index ["waiting_delivery_cycle_id"], name: "index_members_on_waiting_delivery_cycle_id"
     t.index ["waiting_depot_id"], name: "index_members_on_waiting_depot_id"
     t.index ["waiting_started_at"], name: "index_members_on_waiting_started_at"
   end
@@ -469,6 +473,8 @@ ActiveRecord::Schema[8.0].define(version: 2024_11_15_082050) do
   create_table "members_waiting_alternative_depots", id: false, force: :cascade do |t|
     t.bigint "depot_id", null: false
     t.bigint "member_id", null: false
+    t.index ["depot_id"], name: "index_members_waiting_alternative_depots_on_depot_id"
+    t.index ["member_id"], name: "index_members_waiting_alternative_depots_on_member_id"
   end
 
   create_table "memberships", force: :cascade do |t|
@@ -523,6 +529,7 @@ ActiveRecord::Schema[8.0].define(version: 2024_11_15_082050) do
     t.datetime "updated_at", null: false
     t.bigint "delivery_cycle_id"
     t.index ["basket_complement_id", "membership_id"], name: "memberships_basket_complements_unique_index", unique: true
+    t.index ["delivery_cycle_id"], name: "index_memberships_basket_complements_on_delivery_cycle_id"
   end
 
   create_table "newsletter_attachments", force: :cascade do |t|
@@ -819,6 +826,7 @@ ActiveRecord::Schema[8.0].define(version: 2024_11_15_082050) do
   create_table "shop_products_special_deliveries", id: false, force: :cascade do |t|
     t.bigint "special_delivery_id", null: false
     t.bigint "product_id", null: false
+    t.index ["product_id"], name: "index_shop_products_special_deliveries_on_product_id"
     t.index ["special_delivery_id"], name: "index_shop_products_special_deliveries_on_special_delivery_id"
   end
 

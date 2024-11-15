@@ -1,0 +1,21 @@
+name: Check Indexes
+
+on:
+  push:
+    branches: [ "master", Checks ]
+  pull_request:
+    paths:
+      - 'db/migrate/**.rb'
+
+jobs:
+  check-indexes:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - name: Check Migration Indexes
+      uses: speedshop/ids_must_be_indexed@latest
