@@ -144,6 +144,22 @@ _:
           _en: Notifications
           _fr: Notifications
           _it: Notifiche
+      audit:
+        actor:
+          _de: Autor
+          _en: Author
+          _fr: Auteur
+          _it: Autore
+        changes:
+          _de: Änderungen
+          _en: Changes
+          _fr: Modifications
+          _it: Modifiche
+        updated_at:
+          _de: Geändert am
+          _en: Changed on
+          _fr: Modifié le
+          _it: Modificato il
       basket:
         absent:
           _de: abwesend
@@ -647,6 +663,11 @@ _:
           _fr: N° part sociale
           _it: N° quote sociali cooperative
         shop_depot:
+          _de: Depot (Hofladen)
+          _en: Depot (shop)
+          _fr: Dépôt (épicerie)
+          _it: Punto di ritiro (drogheria)
+        shop_depot_id:
           _de: Depot (Hofladen)
           _en: Depot (shop)
           _fr: Dépôt (épicerie)
@@ -1930,6 +1951,17 @@ _:
           _en: Announcements
           _fr: Annonces
           _it: Annunci
+      audit:
+        one:
+          _de: Audit
+          _en: Audit
+          _fr: Audit
+          _it: Audit
+        other:
+          _de: Audits
+          _en: Audits
+          _fr: Audits
+          _it: Audits
       basket:
         one:
           _de: Tasche

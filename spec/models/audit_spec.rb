@@ -3,7 +3,7 @@
 require "rails_helper"
 
 describe Auditable do
-  it "saves changes on audited attributes without session" do
+  specify "save changes on audited attributes without session" do
     member = create(:member, name: "Joe Doe")
 
     expect {
@@ -18,7 +18,7 @@ describe Auditable do
       })
   end
 
-  it "saves changes on audited attributes with current session" do
+  specify "save changes on audited attributes with current session" do
     member = create(:member, name: "Joe Doe")
     session = create(:session, member: member)
     Current.session = session
@@ -31,7 +31,24 @@ describe Auditable do
       actor: member,
       session: session,
       audited_changes: {
-        "name" => [ "Joe Doe", "John Doe" ]
+        "name" => [ "Joe Doe", "John Doe" ],
+        "note" => [ nil, "Doo" ]
       })
+  end
+
+  specify "ignore changes with no present value" do
+    member = create(:member, note: nil)
+
+    expect {
+      member.update!(note: "  ")
+    }.not_to change(Audit, :count)
+  end
+
+  specify "ignore changes with similar values" do
+    member = create(:member, note: "Foo")
+
+    expect {
+      member.update!(note: "  Foo ")
+    }.not_to change(Audit, :count)
   end
 end

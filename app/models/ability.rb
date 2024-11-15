@@ -27,7 +27,7 @@ class Ability
   }
 
   def initialize(admin)
-    can :read, [ ActiveAdmin::Page, ActiveAdmin::Comment ]
+    can :read, [ ActiveAdmin::Page, ActiveAdmin::Comment, Audit ]
     can :read, available_models
     can :pdf, Invoice
 

@@ -685,6 +685,11 @@ ActiveAdmin.register Member do
       :id, :basket_complement_id, :quantity, :_destroy
     ]
 
+  action_item :audits, only: :show, if: -> { authorized?(:read, Audit) && resource.audits.any? } do
+    link_to Audit.model_name.human(count: 2), member_audits_path(resource),
+      class: "action-item-button"
+  end
+
   action_item :sessions, only: :show, if: -> { authorized?(:read, Session) } do
     link_to Session.model_name.human(count: 2), m_sessions_path(q: { member_id_eq: resource.id }, scope: :all),
       class: "action-item-button"
