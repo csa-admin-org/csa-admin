@@ -128,12 +128,6 @@ _:
           _fr: "%{count} %{plural_model} supprimés"
           _it: "%{count} %{plural_model} cancellati"
     blank_slate:
-      announcement:
-        content:
-          _de: Es gibt noch keine %{resource_name}.
-          _en: There are no %{resource_name} yet.
-          _fr: Il n'y a pas encore!!! de %{resource_name}.
-          _it: Non ci sono ancora %{resource_name}.
       content:
         _de: Es gibt noch keine %{resource_name}.
         _en: There are no %{resource_name} yet.
@@ -2323,6 +2317,11 @@ _:
         _en: waiting
         _fr: liste d'attente
         _it: lista d'attesa
+    unknown:
+      _de: Unbekannt
+      _en: Unknown
+      _fr: Inconnu
+      _it: Sconosciuto
     update_model:
       _de: "%{model} bearbeiten"
       _en: Edit %{model}

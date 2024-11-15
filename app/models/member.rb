@@ -19,7 +19,12 @@ class Member < ApplicationRecord
   attribute :language, :string, default: -> { Current.org.languages.first }
 
   audited_attributes \
-    :state, :name, :address, :zip, :city, :country_code, :emails, :phones, :contact_sharing, \
+    :state, :name, :emails, :billing_email, :newsletter, :phones, :contact_sharing, \
+    :address, :zip, :city, :country_code, \
+    :delivery_address, :delivery_zip, :delivery_city, :delivery_country_code, \
+    :profession, :come_from, :note, :delivery_note, :food_note, \
+    :annual_fee, :shares_info, :existing_shares_number, :required_shares_number, :desired_shares_number, \
+    :shop_depot_id, \
     :iban, :sepa_mandate_id, :sepa_mandate_signed_on
 
   has_states :pending, :waiting, :active, :support, :inactive

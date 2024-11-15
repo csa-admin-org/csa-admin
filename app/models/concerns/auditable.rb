@@ -21,6 +21,14 @@ module Auditable
 
   def audit_changes!
     audited_changes = changes.slice(*self.class.auditable_attributes)
+    audited_changes.transform_values! { |changes|
+      changes
+        .map(&:presence)
+        .map { |v| v.is_a?(String) ? v.strip : v }
+    }
+    audited_changes.reject! { |_, changes|
+      changes.all?(&:nil?) || changes.uniq.size == 1
+    }
     return if audited_changes.none?
 
     self.audits.build(
