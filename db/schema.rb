@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2024_11_05_155415) do
+ActiveRecord::Schema[8.0].define(version: 2024_11_15_082050) do
   create_table "absences", force: :cascade do |t|
     t.bigint "member_id"
     t.date "started_on"
@@ -420,7 +420,6 @@ ActiveRecord::Schema[8.0].define(version: 2024_11_05_155415) do
     t.text "note"
     t.bigint "validator_id"
     t.datetime "validated_at"
-    t.boolean "newsletter"
     t.bigint "waiting_basket_size_id"
     t.bigint "waiting_depot_id"
     t.boolean "salary_basket", default: false
