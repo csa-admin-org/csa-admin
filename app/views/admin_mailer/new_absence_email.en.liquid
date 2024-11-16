@@ -1,0 +1,14 @@
+<p>Hello {{ admin.name }},</p>
+
+<p>The member <strong>{{ member.name }}</strong> will be absent from {{ absence.started_on }} to {{ absence.ended_on }}.</p>
+
+{% if absence.note %}
+<p>
+  Member's note:<br/>
+  <i>{{ absence.note }}</i>
+</p>
+{% endif %}
+
+{% button absence.admin_url %}
+  Access the absence page
+{% endbutton %}

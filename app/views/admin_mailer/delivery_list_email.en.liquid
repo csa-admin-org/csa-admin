@@ -1,0 +1,7 @@
+<p>Hello {{ admin.name }},</p>
+
+<p>Attached are the summary file (XLSX) and the sheets (PDF) for the delivery on {{ delivery.date }}.</p>
+
+{% button delivery.admin_url %}
+  Access the delivery page
+{% endbutton %}

@@ -1,0 +1,7 @@
+<p>Hello {{ admin.name }},</p>
+
+<p>The 3rd reminder has just been sent for invoice #{{ invoice.number }} of <strong>{{ member.name }}</strong>.</p>
+
+{% button member.admin_url %}
+  Access member page
+{% endbutton %}
