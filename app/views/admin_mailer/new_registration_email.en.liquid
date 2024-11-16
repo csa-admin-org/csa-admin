@@ -1,0 +1,12 @@
+<p>Hello {{ admin.name }},</p>
+
+{% if member.existing %}
+  <p>An existing member, <strong>{{ member.name }}</strong>, has re-registered!</p>
+  <p>Their account has been updated and added to the waiting list. You can review the changes made in the <a href="{{ member.admin_audits_url }}">audit log</a>.</p>
+{% else %}
+  <p>A new member, <strong>{{ member.name }}</strong>, has just signed up!</p>
+{% endif %}
+
+{% button member.admin_url %}
+  Access the member's page
+{% endbutton %}

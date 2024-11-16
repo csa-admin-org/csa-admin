@@ -91,13 +91,13 @@ _:
         _en: Receive a notification when an email is rejected by Postmark and could not be delivered.
         _fr: Recevoir une notification lorsqu'un email est rejeté par Postmark et n'a pas pu être délivré.
         _it: Ricevi una notifica quando un'e-mail viene rifiutata da Postmark e non può essere consegnata.
-      new_inscription:
+      new_registration:
         _de: Neue Anmeldung
-        _en: New inscription
+        _en: New registration
         _fr: Nouvelle inscription
         _it: Nuova iscrizione
-      new_inscription_hint:
+      new_registration_hint:
         _de: Erhalte eine Benachrichtigung, wenn eine Anmeldung eines Mitglieds erstellt und validiert werden muss.
-        _en: Receive a notification when a member's inscription is created and needs to be validated.
+        _en: Receive a notification when a member's registration is created and needs to be validated.
         _fr: Recevoir une notification lorsqu'une inscription d'un membre est créée et doit être validée.
         _it: Ricevi una notifica quando viene creata un'iscrizione di un membro e deve essere validata.

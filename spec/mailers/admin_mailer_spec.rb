@@ -272,7 +272,7 @@ describe AdminMailer do
     expect(mail[:from].decoded).to eq "Rage de Vert <info@acme.test>"
   end
 
-  specify "#new_inscription_email" do
+  specify "#new_registration_email" do
     admin = Admin.new(
       id: 1,
       name: "John",
@@ -284,7 +284,7 @@ describe AdminMailer do
     mail = AdminMailer.with(
       admin: admin,
       member: member
-    ).new_inscription_email
+    ).new_registration_email
 
     expect(mail.subject).to eq("Nouvelle inscription")
     expect(mail.to).to eq([ "admin@csa-admin.org" ])

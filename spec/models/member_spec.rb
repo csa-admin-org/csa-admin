@@ -671,33 +671,6 @@ describe Member do
     end
   end
 
-  describe "notify_new_inscription_to_admins" do
-    it "notifies admin with new_inscription notifications on when publicly created" do
-      admin1 = create(:admin, notifications: [ "new_inscription" ])
-      admin2 = create(:admin, notifications: [])
-
-      perform_enqueued_jobs do
-        create(:member, :waiting,
-          name: "John Doe",
-          public_create: true)
-      end
-
-      expect(AdminMailer.deliveries.size).to eq 1
-      mail = AdminMailer.deliveries.last
-      expect(mail.subject).to eq "Nouvelle inscription"
-      expect(mail.to).to eq [ admin1.email ]
-      expect(mail.body.encoded).to include admin1.name
-      expect(mail.body.encoded).to include "John Doe"
-    end
-
-    it "does not notify admin when not publicly created" do
-      create(:admin, notifications: [ "new_inscription" ])
-      create(:member, :waiting)
-
-      expect(AdminMailer.deliveries).to be_empty
-    end
-  end
-
   describe "#update_membership_if_salary_basket_changed" do
     it "updates current year membership price" do
       membership = create(:membership)

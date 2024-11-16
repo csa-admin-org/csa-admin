@@ -5,6 +5,13 @@ div class="mt-4 text-justify"
   p == Current.org.member_form_subtitle? ? Current.org.member_form_subtitle : t('.subtitle')
 
 div class="mt-8"
+  - if @member.errors.of_kind?(:emails, :taken)
+    div class="block mb-4 p-4 bg-red-100 dark:bg-red-900 text-red-500 rounded-md relative" role="alert"
+      strong class="font-bold"
+        = @member.emails_array.many? ? t('.emails_taken') : t('.email_taken')
+      span class="block mt-1"
+        = t('.email_taken_hint')
+
   = simple_form_for @member, url: members_member_path, data: { turbo: false, controller: 'form-pricing', 'form-pricing-url-value' => new_members_member_url } do |f|
     div class="space-y-8"
       div class="print:break-after-page"

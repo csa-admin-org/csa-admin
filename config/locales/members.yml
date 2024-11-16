@@ -586,6 +586,21 @@ _:
             _en: the rules
             _fr: le règlement
             _it: il regolamento
+        email_taken:
+          _de: Ein aktives Konto existiert bereits für diese E-Mail-Adresse!
+          _en: An active account already exists for this email address!
+          _fr: Un compte actif existe déjà pour cette adresse e-mail!
+          _it: Un account attivo esiste già per questo indirizzo email!
+        email_taken_hint:
+          _de: Bitte kontaktieren Sie uns für weitere Informationen.
+          _en: Please contact us for more information.
+          _fr: Merci de nous contacter pour plus d'informations.
+          _it: Contattaci per ulteriori informazioni.
+        emails_taken:
+          _de: Ein aktives Konto existiert bereits für eine dieser E-Mail-Adressen!
+          _en: An active account already exists for one of these email addresses!
+          _fr: Un compte actif existe déjà pour une de ces adresses e-mail!
+          _it: Un account attivo esiste già per uno di questi indirizzi email!
         more_info:
           _de: Zusatzinformationen
           _en: Additional information

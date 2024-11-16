@@ -69,9 +69,15 @@ _:
         _en: Email rejected (%{reason})
         _fr: Email rejeté (%{reason})
         _it: E-mail rifiutatata (%{reason})
-    new_inscription_email:
+    new_registration_email:
       subject:
-        _de: Neue Einschreibung
-        _en: New inscription
-        _fr: Nouvelle inscription
-        _it: Nuova iscrizione
+        existing:
+          _de: Neue Wiederanmeldung
+          _en: New re-registration
+          _fr: Nouvelle réinscription
+          _it: Nuova ri-iscrizione
+        new:
+          _de: Neue Einschreibung
+          _en: New registration
+          _fr: Nouvelle inscription
+          _it: Nuova iscrizione
