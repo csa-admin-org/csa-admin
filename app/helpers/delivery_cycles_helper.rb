@@ -1,6 +1,21 @@
 # frozen_string_literal: true
 
 module DeliveryCyclesHelper
+  def delivery_cycle_link(delivery_cycle, fy_year: nil)
+    return unless delivery_cycle
+
+    count ||=
+      if fy_year
+        delivery_cycle.deliveries_count_for(fy_year)
+      else
+        delivery_cycle.deliveries_count
+      end
+    content_tag(:span, class: "flex items-center gap-2") {
+      auto_link(delivery_cycle) +
+        content_tag(:span, count, class: "panel-title-count text-sm").html_safe
+    }
+  end
+
   def deliveries_current_year_title
     fiscal_year = Current.org.current_fiscal_year
     "#{Delivery.model_name.human(count: 2)} (#{fiscal_year})"

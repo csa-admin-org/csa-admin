@@ -406,8 +406,7 @@ ActiveAdmin.register Membership do
             end
             row :depot
             row(:delivery_cycle) {
-              cycle = m.delivery_cycle
-              auto_link cycle, "#{cycle.display_name} (#{cycle.deliveries_count_for(m.fy_year)})"
+              delivery_cycle_link(m.delivery_cycle, fy_year: m.fy_year)
             }
             if feature?("absence") && m.absences_included_annually.positive?
               row(:absences_included) {

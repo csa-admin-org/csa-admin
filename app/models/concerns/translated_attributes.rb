@@ -36,8 +36,8 @@ module TranslatedAttributes
           end
         end
 
-        scope "order_by_#{attr}", -> {
-          order(Arel.sql("json_extract(#{table_name}.#{column}, '$.#{I18n.locale}')"))
+        scope "order_by_#{attr}", ->(dir = "ASC") {
+          order(Arel.sql("json_extract(#{table_name}.#{column}, '$.#{I18n.locale}') #{dir}"))
         }
         scope "reorder_by_#{attr}", -> {
           reorder(Arel.sql("json_extract(#{table_name}.#{column}, '$.#{I18n.locale}')"))

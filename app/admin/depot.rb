@@ -28,9 +28,11 @@ ActiveAdmin.register Depot do
     end
     if DeliveryCycle.visible?
       column :delivery_cycles, ->(d) {
-        d.delivery_cycles.map { |cycle|
-          auto_link cycle, "#{cycle.name} (#{cycle.deliveries_count})"
-        }.join(", ").html_safe
+        div class: "flex justify-end flex-wrap gap-1" do
+          d.delivery_cycles.order_by_name.map { |cycle|
+            delivery_cycle_link(cycle)
+          }.join.html_safe
+        end
       }, class: "text-right"
     end
     column :visible, class: "text-right"
