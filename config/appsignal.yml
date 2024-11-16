@@ -13,6 +13,7 @@ default: &defaults
   # For more information see our docs:
   # https://docs.appsignal.com/ruby/configuration/ignore-errors.html
   ignore_errors:
+    - ActiveRecord::RecordNotFound
     - ActionController::InvalidAuthenticityToken
 
   # See https://docs.appsignal.com/ruby/configuration/options.html for
