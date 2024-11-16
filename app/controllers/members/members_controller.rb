@@ -38,18 +38,22 @@ class Members::MembersController < Members::BaseController
 
   # POST /
   def create
-    @member = Member.new(member_params)
-    @member.language = I18n.locale
-    @member.public_create = true
+    member = Member.new(member_params)
+    member.language = I18n.locale
+    member.public_create = true
 
-    if SpamDetector.spam?(@member)
-      SpamDetector.notify!(@member)
-      redirect_to welcome_members_member_path
-    elsif @member.save
+    if SpamDetector.spam?(member)
+      SpamDetector.notify!(member)
       redirect_to welcome_members_member_path
     else
-      set_basket_complements
-      render :new, status: :unprocessable_entity
+      registration = MemberRegistration.new(member, member_params)
+      if registration.save
+        redirect_to welcome_members_member_path
+      else
+        @member = registration.member
+        set_basket_complements
+        render :new, status: :unprocessable_entity
+      end
     end
   end
 

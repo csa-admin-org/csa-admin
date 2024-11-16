@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require "rails_helper"
-require "rails_helper"
 
 describe "members page" do
   let(:member) { create(:member, :active, phones: "76 332 33 11") }
@@ -10,6 +9,8 @@ describe "members page" do
 
   context "new inscription" do
     it "creates a new member with membership" do
+      admin = create(:admin, notifications: [ "new_registration" ])
+
       Current.org.update!(
         languages: %w[fr de],
         basket_price_extra_title: "Cotistation solidaire",
@@ -92,6 +93,94 @@ describe "members page" do
       expect(member.members_basket_complements.map(&:quantity)).to eq [ 1, 2 ]
       expect(member.annual_fee).to eq Current.org.annual_fee
       expect(member.waiting_billing_year_division).to eq 4
+
+      perform_enqueued_jobs
+      expect(AdminMailer.deliveries.size).to eq 1
+      mail = AdminMailer.deliveries.last
+      expect(mail.subject).to eq "Nouvelle inscription"
+      expect(mail.to).to eq [ admin.email ]
+      expect(mail.body.encoded).to include admin.name
+      expect(mail.body.encoded).to include "John et Jame Doe"
+    end
+
+    specify "put back inactive existing member to waiting list" do
+      admin = create(:admin, notifications: [ "new_registration" ])
+      member = create(:member, :inactive, name: "Jane Doe", emails: "jane@doe.com")
+
+      Current.org.update!(
+        languages: %w[fr de],
+        basket_price_extra_title: "Cotistation solidaire",
+        basket_price_extras: "0, 1, 2, 4, 8",
+        basket_price_extra_label: "+ {{ extra | ceil }}.-/panier")
+      create_deliveries(2)
+      create(:basket_size, :small)
+      create(:basket_size, :big, form_detail: "Super Grand Panier, 66.50 CHF")
+
+      create(:basket_complement, name: "Oeufs", price: 4.8, form_detail: "Seulement 9.60 CHF")
+      create(:basket_complement, name: "Pain", price: 6.5, delivery_ids: Delivery.pluck(:id).select(&:odd?))
+
+      create(:depot, name: "Jardin de la main", price: 0, address: "Rue de la main 6-7", zip: nil)
+      create(:depot, name: "Vélo", price: 8, address: "Uniquement à Neuchâtel", zip: nil)
+      create(:depot, name: "Domicile", visible: false)
+
+      visit "/new"
+
+      fill_in "Nom et prénom", with: "John et Jame Doe"
+      fill_in "Adresse", with: "Nowhere srteet 2"
+      fill_in "NPA", with: "2042"
+      fill_in "Ville", with: "Moon City"
+      select "Suisse", from: "Pays"
+
+      fill_in "Email(s)", with: "john@doe.com, jane@doe.com"
+      fill_in "Téléphone(s)", with: "077 142 42 42, 077 143 44 44"
+
+      choose "Eveil PUBLIC"
+      choose "+ 4.-/panier"
+      fill_in "Oeufs PUBLIC", with: "1"
+      fill_in "Pain PUBLIC", with: "2"
+      choose "Vélo PUBLIC"
+
+      choose "Trimestriel"
+
+      fill_in "Profession", with: "Pompier"
+      fill_in "Comment avez-vous entendu parler de nous?", with: "Bouche à oreille"
+      fill_in "Remarque(s)", with: "Vive Rage de Vert!"
+
+      check "J'ai lu attentivement et accepte le règlement."
+
+      expect {
+        click_button "Envoyer"
+      }.to change { member.reload.state }.from("inactive").to("waiting")
+
+      expect(page).to have_content "Merci pour votre inscription!"
+
+      expect(member).to have_attributes(
+        name: "John et Jame Doe",
+        address: "Nowhere srteet 2",
+        country_code: "CH",
+        zip: "2042",
+        city: "Moon City",
+        emails: "john@doe.com, jane@doe.com",
+        phones: "+41771424242, +41771434444",
+        language: "fr",
+        profession: "Pompier",
+        come_from: "Bouche à oreille",
+        note: "Vive Rage de Vert!")
+      expect(member.waiting_basket_size.name).to eq "Eveil"
+      expect(member.waiting_basket_price_extra).to eq 4
+      expect(member.waiting_depot.name).to eq "Vélo"
+      expect(member.waiting_basket_complements.map(&:name)).to eq %w[Oeufs Pain]
+      expect(member.members_basket_complements.map(&:quantity)).to eq [ 1, 2 ]
+      expect(member.annual_fee).to eq Current.org.annual_fee
+      expect(member.waiting_billing_year_division).to eq 4
+
+      perform_enqueued_jobs
+      expect(AdminMailer.deliveries.size).to eq 1
+      mail = AdminMailer.deliveries.last
+      expect(mail.subject).to eq "Nouvelle réinscription"
+      expect(mail.to).to eq [ admin.email ]
+      expect(mail.body.encoded).to include admin.name
+      expect(mail.body.encoded).to include "John et Jame Doe"
     end
 
     specify "create a new member with membership and depot group" do
@@ -451,15 +540,37 @@ describe "members page" do
       expect(member.waiting_billing_year_division).to be_nil
     end
 
+    specify "with existing active member" do
+      Current.org.update!(terms_of_service_url: nil)
+      create(:basket_size, :small)
+      create(:basket_size, :big)
+      create(:depot, name: "Jardin de la main", price: 0)
+
+      create(:member, :active, emails: "john@doe.com")
+
+      visit "/new"
+
+      fill_in "Nom et prénom", with: "John et Jame Doe"
+      fill_in "Adresse", with: "Nowhere srteet 2"
+      fill_in "NPA", with: "2042"
+      fill_in "Ville", with: "Moon City"
+      fill_in "Email(s)", with: "john@doe.com, jane@doe.com"
+      fill_in "Téléphone(s)", with: "077 142 42 42, 077 143 44 44"
+
+      choose "Devenir membre de soutien"
+
+      expect {
+        click_button "Envoyer"
+      }.not_to change(Member, :count)
+
+      expect(page).to have_content "Un compte actif existe déjà pour une de ces adresses e-mail!"
+    end
+
     it "creates a new support member (annual fee)" do
       Current.org.update!(
         languages: %w[fr de],
         terms_of_service_url: nil,
         annual_fee: 42)
-      create(:basket_size, :small)
-      create(:basket_size, :big)
-
-      create(:depot, name: "Jardin de la main", price: 0)
 
       visit "/new"
 
@@ -488,10 +599,55 @@ describe "members page" do
         emails: "john@doe.com, jane@doe.com",
         phones: "+41771424242, +41771434444",
         language: "fr")
+      expect(member).to be_pending
       expect(member.waiting_basket_size).to be_nil
       expect(member.waiting_depot).to be_nil
       expect(member.annual_fee).to eq Current.org.annual_fee
       expect(member.waiting_billing_year_division).to be_nil
+    end
+
+    specify "new support member with inactive existing member" do
+      admin = create(:admin, notifications: [ "new_registration" ])
+      member = create(:member, :inactive,
+        emails: "john@doe.com",
+        annual_fee: nil)
+      Current.org.update!(
+        terms_of_service_url: nil,
+        annual_fee: 42)
+
+      visit "/new"
+
+      expect(page).to have_content "Chaque membre fait également partie de l'association et verse une cotisation annuelle de CHF 42 en plus de l'abonnement à son panier."
+
+      fill_in "Nom et prénom", with: "John et Jame Doe"
+      fill_in "Adresse", with: "Nowhere srteet 2"
+      fill_in "NPA", with: "2042"
+      fill_in "Ville", with: "Moon City"
+
+      fill_in "Email(s)", with: "john@doe.com, jane@doe.com"
+      fill_in "Téléphone(s)", with: "077 142 42 42, 077 143 44 44"
+
+      choose "Devenir membre de soutien"
+
+      expect {
+        click_button "Envoyer"
+      }.to change { member.reload.state }.from("inactive").to("support")
+
+      expect(page).to have_content "Merci pour votre inscription!"
+
+      member = member.reload
+      expect(member).to have_attributes(
+        name: "John et Jame Doe",
+        address: "Nowhere srteet 2",
+        zip: "2042",
+        city: "Moon City",
+        emails: "john@doe.com, jane@doe.com",
+        phones: "+41771424242, +41771434444",
+        language: "fr")
+      expect(member.annual_fee).to eq Current.org.annual_fee
+
+      perform_enqueued_jobs
+      expect(AdminMailer.deliveries.size).to eq 0
     end
 
     it "creates a new support member (share)" do

@@ -48,7 +48,7 @@ class Admin < ApplicationRecord
     all = %w[
       delivery_list
       new_email_suppression
-      new_inscription
+      new_registration
       invoice_overpaid
       invoice_third_overdue_notice
       memberships_renewal_pending

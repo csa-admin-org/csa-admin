@@ -153,7 +153,7 @@ class AdminMailerPreview < ActionMailer::Preview
     ).new_email_suppression_email
   end
 
-  def new_inscription_email
+  def new_registration_email
     admin = Admin.new(
       id: 1,
       name: "John",
@@ -165,7 +165,7 @@ class AdminMailerPreview < ActionMailer::Preview
     AdminMailer.with(
       admin: admin,
       member: member
-    ).new_inscription_email
+    ).new_registration_email
   end
 
   def memberships_renewal_pending_email

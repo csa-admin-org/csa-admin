@@ -23,7 +23,7 @@ describe "Members V1 API" do
     end
 
     specify "create new member and notify admin" do
-      admin = create(:admin, notifications: [ "new_inscription" ])
+      admin = create(:admin, notifications: [ "new_registration" ])
 
       basket = create(:basket_size, :small)
       depot1 = create(:depot)
@@ -72,7 +72,6 @@ describe "Members V1 API" do
       expect(member.members_basket_complements.second).to have_attributes(
         basket_complement_id: basket_complement2.id,
         quantity: 2)
-
 
       expect(AdminMailer.deliveries.size).to eq 1
       mail = AdminMailer.deliveries.last

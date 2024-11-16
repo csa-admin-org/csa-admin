@@ -150,15 +150,16 @@ class AdminMailer < ApplicationMailer
     end
   end
 
-  def new_inscription_email
+  def new_registration_email
     @admin = params[:admin]
+    existing = params[:existing] || false
     I18n.with_locale(@admin.language) do
       content = liquid_template.render(
         "admin" => Liquid::AdminDrop.new(@admin),
-        "member" => Liquid::AdminMemberDrop.new(params[:member]))
+        "member" => Liquid::AdminMemberDrop.new(params[:member], existing: existing))
       content_mail(content,
         to: @admin.email,
-        subject: t(".subject"),
+        subject: t(".subject.#{existing ? "existing" : "new"}"),
         tag: "admin-member-created")
     end
   end

@@ -1,0 +1,12 @@
+<p>Hallo {{ admin.name }},</p>
+
+{% if member.existing %}
+  <p>Ein bestehendes Mitglied, <strong>{{ member.name }}</strong>, hat sich erneut eingeschrieben!</p>
+  <p>Sein Konto wurde aktualisiert und zur Warteliste hinzugefügt. Sie können die vorgenommenen Änderungen im <a href="{{ member.admin_audits_url }}">Änderungsprotokoll</a> einsehen.</p>
+{% else %}
+  <p>Ein neues Mitglied, <strong>{{ member.name }}</strong>, hat sich soeben eingeschrieben!</p>
+{% endif %}
+
+{% button member.admin_url %}
+  Zur Mitgliederseite gehen
+{% endbutton %}

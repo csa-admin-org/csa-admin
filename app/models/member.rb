@@ -131,7 +131,6 @@ class Member < ApplicationRecord
   before_save :handle_annual_fee_change, :handle_required_shares_number_change
   after_save :update_membership_if_salary_basket_changed
   after_update :review_active_state!
-  after_create_commit :notify_admins!, if: :public_create
 
   def billable?
     support? ||
@@ -141,11 +140,11 @@ class Member < ApplicationRecord
   end
 
   def name=(name)
-    super name.strip
+    super name&.strip
   end
 
   def billing_email=(email)
-    super email.strip.presence
+    super email&.strip.presence
   end
 
   def billing_emails
@@ -292,7 +291,8 @@ class Member < ApplicationRecord
 
     update!(
       state: SUPPORT_STATE,
-      annual_fee: annual_fee,
+      annual_fee: annual_fee || Current.org.annual_fee,
+      waiting_basket_size_id: nil,
       waiting_started_at: nil)
   end
 
@@ -465,9 +465,5 @@ class Member < ApplicationRecord
       self.desired_shares_number = 0
       self.state = INACTIVE_STATE
     end
-  end
-
-  def notify_admins!
-    Admin.notify!(:new_inscription, member: self)
   end
 end

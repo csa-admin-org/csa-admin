@@ -1,0 +1,12 @@
+<p>Ciao {{ admin.name }},</p>
+
+{% if member.existing %}
+  <p>Un socio esistente, <strong>{{ member.name }}</strong>, si è reiscritto!</p>
+  <p>Il suo account è stato aggiornato e aggiunto alla lista d'attesa. Puoi consultare le modifiche applicate nell'<a href="{{ member.admin_audits_url }}">audit delle modifiche</a>.</p>
+{% else %}
+  <p>Un nuovo socio, <strong>{{ member.name }}</strong>, si è appena iscritto!</p>
+{% endif %}
+
+{% button member.admin_url %}
+  Accedere alla pagina del socio
+{% endbutton %}

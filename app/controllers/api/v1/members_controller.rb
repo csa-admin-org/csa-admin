@@ -4,10 +4,10 @@ module API
   module V1
     class MembersController < BaseController
       def create
-        @member = Member.new(member_params)
+        member = Member.new(member_params)
+        registration = MemberRegistration.new(member, member_params)
 
-        if @member.save
-          Admin.notify!(:new_inscription, member: @member)
+        if registration.save
           head :created
         else
           Error.notify("API Member invalid",
