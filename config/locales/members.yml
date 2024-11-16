@@ -633,11 +633,6 @@ _:
           _fr: an
           _it: anno
       welcome:
-        return_to_org_website:
-          _de: Zurück zu %{link}
-          _en: Return to %{link}
-          _fr: Retourner sur %{link}
-          _it: Tornare al %{link}
         text:
           _de: Ihre Anmeldung wird in den nächsten Tagen bestätigt. Bei Fragen stehen wir gerne zur Verfügung.
           _en: Your registration will be confirmed in the coming days. We are at your disposal for any questions.
