@@ -18,8 +18,10 @@ describe TenantSwitcher do
     expect(job["arguments"]).to eq([
       { "_aj_globalid" => "gid://csa-admin/Admin/1" },
       { "name" => "Admin!", "_aj_ruby2_keywords" => [ "name" ] },
-      { "session" => { "_aj_globalid" => "gid://csa-admin/Session/42" }, "_aj_symbol_keys" => [ "session" ] },
-      "acme"
+      {
+        "tenant" => "acme",
+        "current" => { "session" => { "_aj_globalid" => "gid://csa-admin/Session/42" }, "_aj_symbol_keys" => [ "session" ] }, "_aj_symbol_keys" => []
+      }
     ])
 
     perform_enqueued_jobs
@@ -44,8 +46,10 @@ describe TenantSwitcher do
     job = enqueued_jobs.first
     expect(job["arguments"]).to eq([
       "bar",
-      { "session" => { "_aj_globalid" => "gid://csa-admin/Session/42" }, "_aj_symbol_keys" => [ "session" ] },
-      "acme"
+      {
+        "tenant" => "acme",
+        "current" => { "session" => { "_aj_globalid" => "gid://csa-admin/Session/42" }, "_aj_symbol_keys" => [ "session" ] }, "_aj_symbol_keys" => []
+      }
     ])
 
     # rescue Exception one time
@@ -55,8 +59,10 @@ describe TenantSwitcher do
     job = enqueued_jobs.first
     expect(job["arguments"]).to eq([
       "bar",
-      { "session" => { "_aj_globalid" => "gid://csa-admin/Session/42" }, "_aj_symbol_keys" => [ "session" ] },
-      "acme"
+      {
+        "tenant" => "acme",
+        "current" => { "session" => { "_aj_globalid" => "gid://csa-admin/Session/42" }, "_aj_symbol_keys" => [ "session" ] }, "_aj_symbol_keys" => []
+      }
     ])
 
     begin
