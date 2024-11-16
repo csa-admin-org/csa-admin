@@ -1,0 +1,14 @@
+<p>Hello {{ admin.name }},</p>
+
+<p>The email <strong>{{ email_suppression.email }}</strong> was rejected during the last message delivery due to the following reason: <strong>{{ email_suppression.reason }}</strong>.</p>
+
+{% highlight %}
+  <p>This email is linked to:</p>
+  <ul>
+    {% for owner in email_suppression.owners %}
+      <li><a href='{{ owner.admin_url }}'>{{ owner.type }}: {{ owner.name }}</a></li>
+    {% endfor %}
+  </ul>
+{% endhighlight %}
+
+<p>No more messages can be sent to this email, please check.</p>

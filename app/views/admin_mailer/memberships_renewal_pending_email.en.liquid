@@ -1,0 +1,23 @@
+<p>Hello {{ admin.name }},</p>
+
+<p>There are still:</p>
+<ul>
+  {% if pending_memberships.size > 0 %}
+  <li>
+    <a href={{ pending_action_url }}>{{ pending_memberships.size }} membership(s)</a> that have not yet been renewed or canceled.</p>
+  </li>
+  {% endif %}
+
+  {% if opened_memberships.size > 0 %}
+  <li>
+    <a href={{ opened_action_url }}>{{ opened_memberships.size }} open renewal request(s)</a> that have not yet been finalized.</p>
+  </li>
+  {% endif %}
+</ul>
+
+<br/>
+<p>Please check <u>before</u> the end of your fiscal year.</p>
+
+{% button action_url %}
+  Access memberships
+{% endbutton %}

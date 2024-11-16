@@ -1,0 +1,7 @@
+<p>Hello {{ admin.name }},</p>
+
+<p>The invoice #{{ invoice.number }} from <strong>{{ member.name }}</strong> has been overpaid, please verify.</p>
+
+{% button member.admin_url %}
+  Access member page
+{% endbutton %}
