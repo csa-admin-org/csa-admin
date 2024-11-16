@@ -72,8 +72,8 @@ module Tenant
   private
 
   def enter(tenant)
-    return if tenant == current
     raise "Unknown tenant '#{tenant}'" unless exists?(tenant)
+    return if tenant == current
     raise "Illegal tenant switch (#{current} => #{tenant})" unless outside?
 
     self.current = tenant

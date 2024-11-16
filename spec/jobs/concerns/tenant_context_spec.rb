@@ -1,9 +1,9 @@
 require "rails_helper"
 
-describe TenantSwitcher do
+describe TenantContext do
   specify "add current attributes and tenant last arguments" do
     class DummyJob < ActiveJob::Base
-      include TenantSwitcher
+      include TenantContext
       def perform(admin, name: nil)
         admin.update!(name: name)
       end
@@ -31,7 +31,7 @@ describe TenantSwitcher do
 
   specify "retry with the same current attributes and tenant last arguments" do
     class DummyExceptionJob < ActiveJob::Base
-      include TenantSwitcher
+      include TenantContext
       retry_on Exception, wait: :polynomially_longer, attempts: 2
 
       def perform(foo)
