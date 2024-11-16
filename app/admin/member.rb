@@ -168,7 +168,10 @@ ActiveAdmin.register Member do
                 shop_order = next_basket.delivery.shop_orders.all_without_cart.find_by(member_id: member.id)
                 row(t("shop.title")) { auto_link shop_order }
               end
-              row(:delivery_cycle) { auto_link next_basket.membership.delivery_cycle }
+              row(:delivery_cycle) {
+                delivery_cycle_link(next_basket.membership.delivery_cycle,
+                  fy_year: next_basket.membership.fy_year)
+              }
               row(:membership) { link_to "##{next_basket.membership.id} (#{next_basket.membership.fiscal_year})", next_basket.membership }
             end
           end
@@ -178,7 +181,7 @@ ActiveAdmin.register Member do
           panel t(".waiting_membership") do
             div class: "px-2" do
               attributes_table do
-                row(:basket_size) { member.waiting_basket_size&.name }
+                row(:basket_size) { auto_link member.waiting_basket_size }
                 if BasketComplement.kept.any?
                   row(Membership.human_attribute_name(:memberships_basket_complements)) {
                     basket_complements_description(
@@ -191,8 +194,8 @@ ActiveAdmin.register Member do
                 if feature?("basket_price_extra")
                   row(Current.org.basket_price_extra_title) { cur(member.waiting_basket_price_extra) }
                 end
-                row(:depot) { member.waiting_depot&.name }
-                row(:delivery_cycle) { member.waiting_delivery_cycle&.name }
+                row(:depot) { auto_link member.waiting_depot }
+                row(:delivery_cycle) { delivery_cycle_link(member.waiting_delivery_cycle) }
                 if Current.org.allow_alternative_depots?
                   row(:waiting_alternative_depot_ids) {
                     member.waiting_alternative_depots.map(&:name).to_sentence

@@ -21,7 +21,7 @@ ActiveAdmin.register DeliveryCycle do
 
   includes :depots
   index download_links: false do
-    column :name, ->(dc) { link_to display_name_with_public_name(dc), dc }
+    column :name, ->(dc) { link_to display_name_with_public_name(dc), dc }, sortable: true
     column :next_delivery, ->(dc) { auto_link dc.next_delivery }, class: "text-right whitespace-nowrap"
     column Current.org.current_fiscal_year, ->(dc) {
       txt = dc.current_deliveries_count.to_s
@@ -221,6 +221,14 @@ ActiveAdmin.register DeliveryCycle do
     end
   end
 
-  config.sort_order = :default_scope
+  order_by(:name) do |clause|
+    config
+      .resource_class
+      .order_by_name(clause.order)
+      .order_values
+      .join(" ")
+  end
+
+  config.sort_order = :name_asc
   config.paginate = false
 end
