@@ -1,5 +1,5 @@
 # frozen_string_literal: true
 
 Rails.application.config.after_initialize do
-  ActionMailer::MailDeliveryJob.include(TenantSwitcher)
+  ActionMailer::MailDeliveryJob.include(TenantContext)
 end

@@ -1,18 +1,11 @@
 # frozen_string_literal: true
 
-module TenantSwitcher
+module TenantContext
   extend ActiveSupport::Concern
 
   included do
     around_perform do |job, block|
-      begin
-        context = job.arguments.pop
-        Tenant.switch(context["tenant"]) do
-          Current.set(context["current"], &block)
-        end
-      ensure
-        job.set_context(context)
-      end
+      job.with_context(&block)
     end
   end
 
@@ -24,13 +17,22 @@ module TenantSwitcher
     super
   end
 
+  def with_context(&block)
+    context = arguments.pop
+    Tenant.switch(context["tenant"]) do
+      Current.set(context["current"], &block)
+    end
+  ensure
+    set_context(context)
+  end
+
+  private
+
   def set_context(context)
     return if context_set?(context)
 
     self.arguments << context
   end
-
-  private
 
   def context_set?(context)
     last_argument = self.arguments&.last
