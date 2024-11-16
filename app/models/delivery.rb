@@ -76,7 +76,7 @@ class Delivery < ApplicationRecord
     content_tag(:span, class: "whitespace-nowrap") {
       content_tag(:span, class: "tabular-nums") {
         I18n.l(date, format: format)
-      } + " (#{display_number})"
+      } + " #{display_number}"
     }.html_safe
   end
 
