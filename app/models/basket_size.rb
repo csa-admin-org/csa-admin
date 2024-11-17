@@ -21,7 +21,6 @@ class BasketSize < ApplicationRecord
   has_many :members, through: :memberships
   has_many :baskets, through: :memberships
 
-  default_scope { order(:price) }
   scope :member_ordered, -> {
     order_clauses = [ "member_order_priority" ]
     order_clauses <<

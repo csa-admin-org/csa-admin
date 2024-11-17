@@ -8,8 +8,6 @@ class Newsletter
 
     translated_attributes :title
 
-    default_scope { order_by_title }
-
     validates :renewal_state,
       inclusion: { in: Membership::RENEWAL_STATES, allow_blank: true }
     validates :coming_deliveries_in_days,

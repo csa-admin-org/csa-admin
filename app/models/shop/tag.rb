@@ -7,8 +7,6 @@ module Shop
     include TranslatedAttributes
     include Discardable
 
-    default_scope { order_by_name }
-
     translated_attributes :name, required: true
 
     has_and_belongs_to_many :products, class_name: "Shop::Product"

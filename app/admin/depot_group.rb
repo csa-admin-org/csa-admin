@@ -17,7 +17,7 @@ ActiveAdmin.register DepotGroup do
 
   includes :depots
   index download_links: false do
-    column :name, ->(dg) { display_name_with_public_name(dg) }, class: "whitespace-nowrap"
+    column :name, ->(dg) { display_name_with_public_name(dg) }, class: "whitespace-nowrap", sortable: true
     column :depots, ->(dg) { dg.depots.reorder(:name).map { |d| auto_link d }.to_sentence.html_safe }
     actions
   end
@@ -62,8 +62,15 @@ ActiveAdmin.register DepotGroup do
     *I18n.available_locales.map { |l| "information_text_#{l}" },
     depot_ids: [])
 
+  order_by(:name) do |clause|
+    config
+      .resource_class
+      .order_by_name(clause.order)
+      .order_values
+      .join(" ")
+  end
 
-  config.sort_order = :default_scope
+  config.sort_order = "name_asc"
   config.paginate = false
   config.filters = false
 end

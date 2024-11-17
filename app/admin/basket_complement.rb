@@ -11,7 +11,7 @@ ActiveAdmin.register BasketComplement do
   includes :memberships_basket_complements, :baskets_basket_complement, :shop_product
   index download_links: false do
     column :id
-    column :name, ->(bc) { display_name_with_public_name(bc) }
+    column :name, ->(bc) { display_name_with_public_name(bc) }, sortable: true
     column :price, ->(bc) { cur(bc.price) }, class: "text-right tabular-nums"
     column :annual_price, ->(bc) {
       if bc.deliveries_count.positive?
@@ -40,7 +40,8 @@ ActiveAdmin.register BasketComplement do
     if Current.org.feature?("activity")
       column activities_human_name,
         ->(bc) { bc.activity_participations_demanded_annually },
-        class: "text-right tabular-nums"
+        class: "text-right tabular-nums",
+        sortable: :activity_participations_demanded_annually
     end
     column :visible, class: "text-right"
     actions
@@ -118,7 +119,15 @@ ActiveAdmin.register BasketComplement do
     end
   end
 
+  order_by(:name) do |clause|
+    config
+      .resource_class
+      .order_by_name(clause.order)
+      .order_values
+      .join(" ")
+  end
+
   config.filters = false
-  config.sort_order = :default_scope
+  config.sort_order = "name_asc"
   config.paginate = false
 end

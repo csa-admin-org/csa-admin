@@ -19,11 +19,11 @@ ActiveAdmin.register ActivityPreset do
   end
 
   index download_links: false do
-    column :place
+    column :place, sortable: true
     column :place_url, ->(ap) {
       link_to(truncate(ap.place_url, length: 50), ap.place_url) if ap.place_url?
     }
-    column :title
+    column :title, sortable: true
     actions
   end
 
@@ -45,6 +45,21 @@ ActiveAdmin.register ActivityPreset do
     include TranslatedCSVFilename
   end
 
+  order_by(:place) do |clause|
+    config
+      .resource_class
+      .order_by_place(clause.order)
+      .order_values
+      .join(" ")
+  end
+  order_by(:title) do |clause|
+    config
+      .resource_class
+      .order_by_title(clause.order)
+      .order_values
+      .join(" ")
+  end
+
   config.filters = false
-  config.sort_order = :default_scope
+  config.sort_order = "place_asc"
 end

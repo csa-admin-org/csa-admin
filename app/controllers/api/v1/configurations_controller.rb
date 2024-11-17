@@ -6,7 +6,7 @@ module API
       def show
         @basket_sizes = BasketSize.kept
         @depots = Depot.used.kept
-        @basket_content_products = BasketContent::Product.all
+        @basket_content_products = BasketContent::Product.order_by_name
 
         if stale?(cache_object)
           render json: payload

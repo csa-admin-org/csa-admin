@@ -11,8 +11,6 @@ class Permission < ApplicationRecord
 
   has_many :admins
 
-  default_scope { order_by_name }
-
   def self.create_superadmin!
     create!(
       id: SUPERADMIN_ID,

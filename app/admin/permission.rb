@@ -14,7 +14,7 @@ ActiveAdmin.register Permission do
 
   includes :admins
   index download_links: false do
-    column :name
+    column :name, sortable: true
     column [ Permission.human_attribute_name(:rights), t("permissions.rights.write") ].join(" – "), ->(p) { display_rights(p) }
     column :admins, ->(p) {
       link_to p.admins_count, admins_path(q: { permission_id_eq: p.id }, scope: :all)
@@ -66,6 +66,14 @@ ActiveAdmin.register Permission do
     *I18n.available_locales.map { |l| "description_#{l}" },
     rights: {})
 
+  order_by(:name) do |clause|
+    config
+      .resource_class
+      .order_by_name(clause.order)
+      .order_values
+      .join(" ")
+  end
+
   config.filters = false
-  config.sort_order = :default_scope
+  config.sort_order = "name_asc"
 end
