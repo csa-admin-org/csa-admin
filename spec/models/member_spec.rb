@@ -606,10 +606,15 @@ describe Member do
         membership.update_column(:ended_on, 1.day.from_now)
         member.reload
 
-        expect { member.activate! }
-          .not_to change(member, :activated_at)
+        expect {
+          perform_enqueued_jobs { member.activate! }
+        }
+          .to change(member, :state).from("inactive").to("active")
+          .and change(member, :activated_at)
+          .and change(MemberMailer.deliveries, :count).by(1)
 
-        expect(MemberMailer.deliveries).to be_empty
+        mail = MemberMailer.deliveries.last
+        expect(mail.subject).to eq "Bienvenue!"
       end
     end
   end
