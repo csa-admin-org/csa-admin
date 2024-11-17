@@ -228,7 +228,7 @@ class Delivery < ApplicationRecord
   def update_baskets_async
     if saved_change_to_date? || destroyed?
       fiscal_year = Current.org.fiscal_year_for(date)
-      DeliveryBasketsUpdaterJob.perform_later(fiscal_year.year, Tenant.current)
+      DeliveryBasketsUpdaterJob.perform_later(fiscal_year.year)
     end
   end
 end
