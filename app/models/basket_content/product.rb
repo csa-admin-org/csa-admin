@@ -21,8 +21,6 @@ class BasketContent
       }
     end
 
-    default_scope { order_by_name }
-
     validates :names, uniqueness: true
 
     def url_domain

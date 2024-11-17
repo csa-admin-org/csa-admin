@@ -19,7 +19,7 @@ ActiveAdmin.register Newsletter::Segment do
   end
 
   index download_links: false do
-    column :title, ->(s) { link_to s.title, [ :edit, s ] }, sortable: false
+    column :title, ->(s) { link_to s.title, [ :edit, s ] }, sortable: true
     column Member.model_name.human(count: 2), ->(s) { s.members.count }, sortable: false, class: "text-right"
     actions
   end
@@ -90,6 +90,14 @@ ActiveAdmin.register Newsletter::Segment do
     depot_ids: [],
     delivery_cycle_ids: [])
 
+  order_by(:title) do |clause|
+    config
+      .resource_class
+      .order_by_title(clause.order)
+      .order_values
+      .join(" ")
+  end
+
   config.filters = false
-  config.sort_order = :default_scope
+  config.sort_order = "title_asc"
 end

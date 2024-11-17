@@ -43,7 +43,7 @@ ActiveAdmin.register Shop::Product do
   includes :variants, :basket_complement, :uninvoiced_orders, :order_items
   index do
     selectable_column
-    column :name, ->(product) { auto_link product }, sortable: :names
+    column :name, ->(product) { auto_link product }, sortable: true
     column Shop::ProductVariant.model_name.human(count: 2), ->(product) {
       display_variants(self, product)
     }, class: "w-7/12"
@@ -196,6 +196,14 @@ ActiveAdmin.register Shop::Product do
     end
   end
 
+  order_by(:name) do |clause|
+    config
+      .resource_class
+      .order_by_name(clause.order)
+      .order_values
+      .join(" ")
+  end
+
   config.batch_actions = true
-  config.sort_order = :default_scope
+  config.sort_order = "name_asc"
 end

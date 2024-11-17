@@ -35,8 +35,6 @@ class BasketComplement < ApplicationRecord
     after_add: :after_add_delivery!,
     after_remove: :after_remove_delivery!
 
-  default_scope { order_by_name }
-
   scope :used, -> {
     ids = BasketsBasketComplement
       .joins(:delivery)

@@ -22,7 +22,7 @@ class BasketContent
 
     includes :basket_contents, latest_basket_content: :delivery
     index do
-      column :name
+      column :name, sortable: true
       column :url, ->(p) { link_to(p.url_domain, p.url) if p.url? }
       column(:latest_use) { |p|
         if p.latest_basket_content
@@ -75,6 +75,14 @@ class BasketContent
       include TranslatedCSVFilename
     end
 
-    config.sort_order = :default_scope
+    order_by(:name) do |clause|
+      config
+        .resource_class
+        .order_by_name(clause.order)
+        .order_values
+        .join(" ")
+    end
+
+    config.sort_order = "name_asc"
   end
 end

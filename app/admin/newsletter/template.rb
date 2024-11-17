@@ -98,5 +98,5 @@ ActiveAdmin.register Newsletter::Template do
   end
 
   config.filters = false
-  config.sort_order = :title_asc
+  config.sort_order = "title_asc"
 end

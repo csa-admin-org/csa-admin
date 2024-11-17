@@ -11,7 +11,7 @@ ActiveAdmin.register BasketSize do
   includes :memberships
   index download_links: false do
     column :id
-    column :name, ->(bs) { display_name_with_public_name(bs) }
+    column :name, ->(bs) { display_name_with_public_name(bs) }, sortable: true
     column :price, ->(bs) { cur(bs.price, precision: 3) }, class: "text-right tabular-nums"
     column :annual_price, ->(bs) {
       if bs.price.positive?
@@ -24,10 +24,11 @@ ActiveAdmin.register BasketSize do
     if Current.org.feature?("activity")
       column activities_human_name,
         ->(bs) { bs.activity_participations_demanded_annually },
-        class: "text-right tabular-nums"
+        class: "text-right tabular-nums",
+        sortable: :activity_participations_demanded_annually
     end
     if Current.org.share?
-      column t("billing.shares"), ->(bs) { bs.shares_number }, class: "text-right tabular-nums"
+      column t("billing.shares"), ->(bs) { bs.shares_number }, class: "text-right tabular-nums", sortable: :shares_number
     end
     column :visible, class: "text-right"
     actions
@@ -98,6 +99,15 @@ ActiveAdmin.register BasketSize do
     def scoped_collection
       super.kept
     end
+  end
+
+  order_by(:name) do |clause|
+    config
+      .resource_class
+      .unscoped
+      .order_by_name(clause.order)
+      .order_values
+      .join(" ")
   end
 
   config.filters = false

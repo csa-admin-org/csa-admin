@@ -18,7 +18,7 @@ ActiveAdmin.register Shop::Tag do
   includes :products
 
   index download_links: false do
-    column :name, ->(tag) { link_to tag.display_name, [ :edit, tag ] }
+    column :name, ->(tag) { link_to tag.display_name, [ :edit, tag ] }, sortable: true
     column :products, ->(tag) {
       link_to(
         tag.products.size,
@@ -46,6 +46,14 @@ ActiveAdmin.register Shop::Tag do
     end
   end
 
+  order_by(:name) do |clause|
+    config
+      .resource_class
+      .order_by_name(clause.order)
+      .order_values
+      .join(" ")
+  end
+
   config.filters = false
-  config.sort_order = :default_scope
+  config.sort_order = "name_asc"
 end

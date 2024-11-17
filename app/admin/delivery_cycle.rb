@@ -229,6 +229,6 @@ ActiveAdmin.register DeliveryCycle do
       .join(" ")
   end
 
-  config.sort_order = :name_asc
+  config.sort_order = "name_asc"
   config.paginate = false
 end

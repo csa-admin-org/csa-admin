@@ -9,8 +9,6 @@ class DepotGroup < ApplicationRecord
 
   has_many :depots, -> { kept }, inverse_of: :group
 
-  default_scope { order_by_name }
-
   scope :member_ordered, -> {
     order_clauses = [ "member_order_priority" ]
     order_clauses << "COALESCE(NULLIF(json_extract(public_names, '$.#{I18n.locale}'), ''), name)"

@@ -41,13 +41,13 @@ ActiveAdmin.register BasketContent do
     title
   } do
     unless params.dig(:q, :delivery_id_eq).present?
-      column :delivery, ->(bc) { I18n.l bc.delivery.date, format: :number }, class: "whitespace-nowrap"
+      column :delivery, ->(bc) { I18n.l bc.delivery.date, format: :number }, class: "whitespace-nowrap", sortable: :delivery_date
     end
     column :product, ->(bc) {
       display_with_unit_price(bc.unit_price, bc.unit) {
         display_with_external_url(bc.product.name, bc.product.url)
       }
-    }, class: "whitespace-nowrap"
+    }, class: "whitespace-nowrap", sortable: :product_name
     unless params.dig(:q, :basket_size_eq).present?
       column :qt, ->(bc) {
         display_with_price(bc.unit_price, bc.quantity) {
@@ -335,11 +335,25 @@ ActiveAdmin.register BasketContent do
       end
     end
 
-    def collection
-      super
-        .joins(:delivery, :product)
-        .merge(Delivery.reorder(date: :desc))
-        .merge(BasketContent::Product.order_by_name)
+    def scoped_collection
+      super.joins(:delivery, :product)
     end
   end
+
+  order_by(:product_name) do |clause|
+    BasketContent::Product
+      .order_by_name(clause.order)
+      .order_values
+      .join(" ")
+  end
+
+  order_by(:delivery_date) do |clause|
+    Delivery
+      .reorder(date: clause.order)
+      .order_values
+      .map(&:to_sql)
+      .join(" ")
+  end
+
+  config.sort_order = "product_name_asc"
 end
