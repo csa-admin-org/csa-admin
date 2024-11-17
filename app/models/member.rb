@@ -278,10 +278,10 @@ class Member < ApplicationRecord
 
     self.state = ACTIVE_STATE
     self.annual_fee ||= Current.org.annual_fee
-    self.activated_at ||= Time.current
+    self.activated_at = Time.current
     save!
 
-    if activated_at_previously_changed? && emails?
+    if emails?
       MailTemplate.deliver_later(:member_activated, member: self)
     end
   end
