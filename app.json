@@ -4,7 +4,7 @@
       {
         "type": "startup",
         "name": "web check",
-        "initialDelay": 15,
+        "initialDelay": 10,
         "description": "Checking if the app responds to the /up endpoint",
         "path": "/up",
         "attempts": 3
