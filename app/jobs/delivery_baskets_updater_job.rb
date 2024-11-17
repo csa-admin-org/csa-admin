@@ -2,10 +2,9 @@
 
 class DeliveryBasketsUpdaterJob < ApplicationJob
   queue_as :default
-  limits_concurrency key: ->(year, tenant) { [ year, tenant ] }
+  limits_concurrency key: ->(year, context) { [ year, context["tenant"] ] }
 
-  # _tenant argument is a needed to make this job concurrency unique per tenant
-  def perform(year, _tenant)
+  def perform(year)
     memberships = Membership.during_year(year)
     MembershipBasketsUpdater.perform_all!(memberships)
   end

@@ -217,6 +217,30 @@ describe Delivery do
       .to("2023" => 0, "2024" => 0)
   end
 
+  specify "update baskets after date change", freeze: "2024-01-01" do
+    create(:delivery, date: "2024-11-01")
+    delivery = create(:delivery, date: "2024-12-01")
+    membership = create(:membership, started_on: "2024-01-01", ended_on: "2024-11-30")
+
+    expect {
+      perform_enqueued_jobs do
+        delivery.update!(date: "2024-11-30")
+      end
+    }.to change { membership.reload.baskets.size }.from(1).to(2)
+  end
+
+  specify "update baskets after destroy", freeze: "2024-01-01" do
+    create(:delivery, date: "2024-11-01")
+    delivery = create(:delivery, date: "2024-12-01")
+    membership = create(:membership)
+
+    expect {
+      perform_enqueued_jobs do
+        delivery.destroy!
+      end
+    }.to change { membership.reload.baskets.size }.from(2).to(1)
+  end
+
   describe "#shop_open?" do
     before { create(:depot) }
 
