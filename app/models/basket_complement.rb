@@ -35,6 +35,7 @@ class BasketComplement < ApplicationRecord
     after_add: :after_add_delivery!,
     after_remove: :after_remove_delivery!
 
+  scope :ordered, -> { order_by_name }
   scope :used, -> {
     ids = BasketsBasketComplement
       .joins(:delivery)
@@ -58,7 +59,7 @@ class BasketComplement < ApplicationRecord
       shop_orders
         .joins(:products)
         .pluck(shop_products: :basket_complement_id)
-    where(id: ids.uniq)
+    where(id: ids.uniq).ordered
   end
 
   def self.member_ordered

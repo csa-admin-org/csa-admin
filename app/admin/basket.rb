@@ -106,6 +106,7 @@ ActiveAdmin.register Basket do
     ].compact.to_sentence, "data-controller" => "form-reset" do
       f.input :basket_size,
         prompt: true,
+        collection: admin_basket_sizes_collection,
         input_html: { data: { action: "form-reset#reset" } }
       f.input :basket_price,
         hint: true,

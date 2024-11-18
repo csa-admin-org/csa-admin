@@ -8,12 +8,17 @@ FactoryBot.define do
     activity_participations_demanded_annually { 2 }
 
     trait :small do
-      name { "Eveil" }
+      name { "Petit" }
       price { 925 / 40.0 }
     end
 
+    trait :medium do
+      name { "Moyen" }
+      price { 1150 / 40.0 }
+    end
+
     trait :big do
-      name { "Abondance" }
+      name { "Grand" }
       price { 1330 / 40.0 }
     end
   end

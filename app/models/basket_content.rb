@@ -211,9 +211,9 @@ class BasketContent < ApplicationRecord
 
     until pcts.sum == 100
       if pcts.sum < 100
-        pcts[default_basket_sizes.index(BasketSize.paid.last)] += 1
+        pcts[default_basket_sizes.index(BasketSize.order(:price).paid.last)] += 1
       else
-        pcts[default_basket_sizes.index(BasketSize.paid.first)] -= 1
+        pcts[default_basket_sizes.index(BasketSize.order(:price).paid.first)] -= 1
       end
     end
     pcts

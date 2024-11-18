@@ -12,7 +12,7 @@ describe MemberMailer do
     membership = create(:membership,
       member: member,
       depot: create(:depot, id: 12, name: "Jardin de la main"),
-      basket_size: create(:basket_size, id: 33, name: "Eveil"),
+      basket_size: create(:basket_size, :small),
       memberships_basket_complements_attributes: {
         "0" => { basket_complement_id: 1 },
         "1" => { basket_complement_id: 2, quantity: 2 }
@@ -26,7 +26,7 @@ describe MemberMailer do
     expect(mail.to).to eq([ "example@csa-admin.org" ])
     expect(mail.tag).to eq("member-activated")
     expect(mail.body).to include("<strong>Dépôt:</strong> Jardin de la main")
-    expect(mail.body).to include("<strong>Taille panier:</strong> Eveil")
+    expect(mail.body).to include("<strong>Taille panier:</strong> Petit")
     expect(mail.body).to include("<strong>Compléments:</strong> Oeuf et Pain")
     expect(mail.body).to include("Accéder à ma page de membre")
     expect(mail.body).to include("https://membres.acme.test")

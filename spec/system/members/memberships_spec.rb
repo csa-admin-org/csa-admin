@@ -3,7 +3,7 @@
 require "rails_helper"
 
 describe "Membership" do
-  let(:basket_size) { create(:basket_size, name: "Petit") }
+  let(:basket_size) { create(:basket_size, :small, price: 30) }
   let(:depot) { create(:depot, name: "Joli Lieu") }
   let(:member) { create(:member) }
 

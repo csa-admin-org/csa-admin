@@ -38,6 +38,7 @@ class DeliveryCycle < ApplicationRecord
   translated_attributes :form_detail
   translated_attributes :name, required: true
 
+  scope :ordered, -> { order_by_name }
   scope :visible, -> {
     unscoped.kept.joins(:depots).merge(Depot.unscoped.visible).distinct
   }

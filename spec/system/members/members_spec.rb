@@ -30,9 +30,9 @@ describe "members page" do
       visit "/new"
 
       expect(page).to have_selector("span",
-        text: "Abondance PUBLICSuper Grand Panier, 66.50 CHF")
+        text: "Grand PUBLICSuper Grand Panier, 66.50 CHF")
       expect(page).to have_selector("span",
-        text: "Eveil PUBLICCHF 46.25 (~23.15 x 2 livraisons), 2 ½ journées")
+        text: "Petit PUBLICCHF 46.25 (~23.15 x 2 livraisons), 2 ½ journées")
       expect(page).to have_selector("span",
         text: "Devenir membre de soutienCotisation annuelle uniquement")
 
@@ -55,7 +55,7 @@ describe "members page" do
       fill_in "Email(s)", with: "john@doe.com, jane@doe.com"
       fill_in "Téléphone(s)", with: "077 142 42 42, 077 143 44 44"
 
-      choose "Eveil PUBLIC"
+      choose "Petit PUBLIC"
       choose "+ 4.-/panier"
       fill_in "Oeufs PUBLIC", with: "1"
       fill_in "Pain PUBLIC", with: "2"
@@ -86,7 +86,7 @@ describe "members page" do
         profession: "Pompier",
         come_from: "Bouche à oreille",
         note: "Vive Rage de Vert!")
-      expect(member.waiting_basket_size.name).to eq "Eveil"
+      expect(member.waiting_basket_size.name).to eq "Petit"
       expect(member.waiting_basket_price_extra).to eq 4
       expect(member.waiting_depot.name).to eq "Vélo"
       expect(member.waiting_basket_complements.map(&:name)).to eq %w[Oeufs Pain]
@@ -134,7 +134,7 @@ describe "members page" do
       fill_in "Email(s)", with: "john@doe.com, jane@doe.com"
       fill_in "Téléphone(s)", with: "077 142 42 42, 077 143 44 44"
 
-      choose "Eveil PUBLIC"
+      choose "Petit PUBLIC"
       choose "+ 4.-/panier"
       fill_in "Oeufs PUBLIC", with: "1"
       fill_in "Pain PUBLIC", with: "2"
@@ -166,7 +166,7 @@ describe "members page" do
         profession: "Pompier",
         come_from: "Bouche à oreille",
         note: "Vive Rage de Vert!")
-      expect(member.waiting_basket_size.name).to eq "Eveil"
+      expect(member.waiting_basket_size.name).to eq "Petit"
       expect(member.waiting_basket_price_extra).to eq 4
       expect(member.waiting_depot.name).to eq "Vélo"
       expect(member.waiting_basket_complements.map(&:name)).to eq %w[Oeufs Pain]
@@ -205,9 +205,9 @@ describe "members page" do
       visit "/new"
 
       expect(page).to have_selector("span",
-        text: "Abondance PUBLICSuper Grand Panier, 66.50 CHF")
+        text: "Grand PUBLICSuper Grand Panier, 66.50 CHF")
       expect(page).to have_selector("span",
-        text: "Eveil PUBLICCHF 46.25 (~23.15 x 2 livraisons), 2 ½ journées")
+        text: "Petit PUBLICCHF 46.25 (~23.15 x 2 livraisons), 2 ½ journées")
       expect(page).to have_selector("span",
         text: "Devenir membre de soutienCotisation annuelle uniquement")
 
@@ -233,7 +233,7 @@ describe "members page" do
       fill_in "Email(s)", with: "john@doe.com, jane@doe.com"
       fill_in "Téléphone(s)", with: "077 142 42 42, 077 143 44 44"
 
-      choose "Eveil PUBLIC"
+      choose "Petit PUBLIC"
       choose "+ 4.-/panier"
       fill_in "Oeufs PUBLIC", with: "1"
       fill_in "Pain PUBLIC", with: "2"
@@ -264,7 +264,7 @@ describe "members page" do
         profession: "Pompier",
         come_from: "Bouche à oreille",
         note: "Vive Rage de Vert!")
-      expect(member.waiting_basket_size.name).to eq "Eveil"
+      expect(member.waiting_basket_size.name).to eq "Petit"
       expect(member.waiting_basket_price_extra).to eq 4
       expect(member.waiting_depot.name).to eq "Vélo"
       expect(member.waiting_basket_complements.map(&:name)).to eq %w[Oeufs Pain]
@@ -289,7 +289,7 @@ describe "members page" do
       visit "/new"
 
       expect(page).to have_selector("span",
-        text: "Abondance PUBLICCHF 66.50 (33.25 x 2 livraisons), 3 ½ journées")
+        text: "Grand PUBLICCHF 66.50 (33.25 x 2 livraisons), 3 ½ journées")
 
       expect(page).to have_selector("span", text: "Fruits")
       expect(page).to have_selector("span", text: "CHF 8.40 (4.20 x 2 livraisons), 1 ½ journée")
@@ -303,7 +303,7 @@ describe "members page" do
       fill_in "Email(s)", with: "john@doe.com, jane@doe.com"
       fill_in "Téléphone(s)", with: "077 142 42 42, 077 143 44 44"
 
-      choose "Abondance PUBLIC"
+      choose "Grand PUBLIC"
       fill_in "Fruits", with: "2"
 
       fill_in "½ Journées", with: 1
@@ -346,9 +346,9 @@ describe "members page" do
       visit "/new"
 
       expect(page).to have_selector("span",
-        text: "Abondance PUBLICCHF 33.25-66.50 (33.25 x 1-2 livraisons), 2 ½ journées")
+        text: "Grand PUBLICCHF 33.25-66.50 (33.25 x 1-2 livraisons), 2 ½ journées")
       expect(page).to have_selector("span",
-        text: "Eveil PUBLICCHF 23.15-46.25 (~23.15 x 1-2 livraisons), 2 ½ journées")
+        text: "Petit PUBLICCHF 23.15-46.25 (~23.15 x 1-2 livraisons), 2 ½ journées")
       expect(page).to have_selector("span",
         text: "Devenir membre de soutienCotisation annuelle uniquement")
 
@@ -366,7 +366,7 @@ describe "members page" do
       fill_in "Email(s)", with: "john@doe.com, jane@doe.com"
       fill_in "Téléphone(s)", with: "077 142 42 42, 077 143 44 44"
 
-      choose "Eveil PUBLIC"
+      choose "Petit PUBLIC"
 
       choose "2.-/panier"
 
@@ -383,7 +383,7 @@ describe "members page" do
       expect(page).to have_content "Merci pour votre inscription!"
 
       member = Member.last
-      expect(member.waiting_basket_size.name).to eq "Eveil"
+      expect(member.waiting_basket_size.name).to eq "Petit"
       expect(member.waiting_depot.name).to eq "Vélo"
       expect(member.waiting_delivery_cycle.name).to eq "Semaines impaires"
       expect(member.waiting_basket_price_extra).to eq 2
@@ -408,9 +408,9 @@ describe "members page" do
       visit "/new"
 
       expect(page).to have_selector("span",
-        text: "Abondance PUBLICCHF 66.50-133 (33.25 x 2-4 livraisons), 2 ½ journées")
+        text: "Grand PUBLICCHF 66.50-133 (33.25 x 2-4 livraisons), 2 ½ journées")
       expect(page).to have_selector("span",
-        text: "Eveil PUBLICCHF 46.25-92.50 (~23.15 x 2-4 livraisons), 2 ½ journées")
+        text: "Petit PUBLICCHF 46.25-92.50 (~23.15 x 2-4 livraisons), 2 ½ journées")
 
       expect(page).to have_selector("span", text: "Oeufs")
       expect(page).to have_selector("span", text: "CHF 12-24 (6.- x 2-4 livraisons)")
@@ -464,7 +464,7 @@ describe "members page" do
       fill_in "Email(s)", with: "john@doe.com, jane@doe.com"
       fill_in "Téléphone(s)", with: "077 142 42 42, 077 143 44 44"
 
-      choose "Eveil PUBLIC"
+      choose "Petit PUBLIC"
 
       choose "Tarif de base"
 
@@ -804,7 +804,7 @@ describe "members page" do
 
       visit "/new?basket_size_id=55&basket_complements[11]=1&basket_complements[22]=2"
 
-      small_basket_input = find_field("Eveil PUBLIC")
+      small_basket_input = find_field("Petit PUBLIC")
       expect(small_basket_input).to be_checked
 
       eggs_comples_input = find_field("Oeufs")

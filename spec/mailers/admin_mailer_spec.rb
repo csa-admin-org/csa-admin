@@ -29,8 +29,8 @@ describe AdminMailer do
 
     body = mail.html_part.body
     expect(body).to include("Voici la liste des membres:")
-    expect(body).to include("<strong>Charle</strong>, Abondance")
-    expect(body).to include("<strong>Martha</strong>, Eveil")
+    expect(body).to include("<strong>Charle</strong>, Grand")
+    expect(body).to include("<strong>Martha</strong>, Petit")
     expect(body).to include("Voir les pièces jointes pour plus de détails, merci.")
     expect(body).not_to include("Gérer mes notifications")
 

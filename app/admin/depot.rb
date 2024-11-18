@@ -29,7 +29,7 @@ ActiveAdmin.register Depot do
     if DeliveryCycle.visible?
       column :delivery_cycles, ->(d) {
         div class: "flex justify-end flex-wrap gap-1" do
-          d.delivery_cycles.order_by_name.map { |cycle|
+          d.delivery_cycles.ordered.map { |cycle|
             delivery_cycle_link(cycle)
           }.join.html_safe
         end

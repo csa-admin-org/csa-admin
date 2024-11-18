@@ -7,7 +7,7 @@ describe Liquid::DataPreview do
     create(:delivery, date: "2020-01-07")
     create(:delivery, date: "2020-10-06")
     depot = create(:depot, id: 12, name: "Jardin de la main", public_note: "Ouverture 17h")
-    basket_size = create(:basket_size, id: 33, name: "Eveil")
+    basket_size = create(:basket_size, :small, id: 33)
     create(:membership, depot: depot, basket_size: basket_size)
 
     mail_template = MailTemplate.find_by(title: "member_activated")
@@ -33,11 +33,11 @@ describe Liquid::DataPreview do
           "member_note" => "<div class=\"trix-content\">\n  Ouverture 17h\n</div>\n",
           "name" => "Jardin de la main PUBLIC"
         },
-        "description" => "Eveil PUBLIC",
+        "description" => "Petit PUBLIC",
         "quantity" => 1,
         "size" => {
           "id" => 33,
-          "name" => "Eveil PUBLIC"
+          "name" => "Petit PUBLIC"
         }
       },
       "member" =>  {
@@ -60,7 +60,7 @@ describe Liquid::DataPreview do
         "basket_quantity" => 1,
         "basket_size" => {
           "id" => 33,
-          "name" => "Eveil PUBLIC"
+          "name" => "Petit PUBLIC"
         },
         "depot" => {
           "id" => 12,
@@ -121,7 +121,7 @@ describe Liquid::DataPreview do
     create(:delivery, date: "2020-01-07")
     create(:delivery, date: "2020-10-06")
     create(:depot, id: 12, name: "Jardin de la main")
-    create(:basket_size, id: 33, name: "Eveil")
+    create(:basket_size, :small, id: 33)
     create(:membership, depot_id: 12, basket_size_id: 33)
 
     mail_template = MailTemplate.find_by(title: "member_activated")
@@ -145,11 +145,11 @@ describe Liquid::DataPreview do
           "member_note" => nil,
           "name" => "Jardin de la main PUBLIC"
         },
-        "description" => "Eveil PUBLIC",
+        "description" => "Petit PUBLIC",
         "quantity" => 1,
         "size" => {
           "id" => 33,
-          "name" => "Eveil PUBLIC"
+          "name" => "Petit PUBLIC"
         }
       },
       "member" =>  {
@@ -167,7 +167,7 @@ describe Liquid::DataPreview do
         "basket_quantity" => 1,
         "basket_size" => {
           "id" => 33,
-          "name" => "Eveil PUBLIC"
+          "name" => "Petit PUBLIC"
         },
         "depot" => {
           "id" => 12,

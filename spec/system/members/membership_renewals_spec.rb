@@ -3,7 +3,7 @@
 require "rails_helper"
 
 describe "Memberships Renewal" do
-  let(:basket_size) { create(:basket_size, name: "Petit") }
+  let(:basket_size) { create(:basket_size, :small, price: 30) }
   let(:depot) { create(:depot, name: "Joli Lieu") }
   let(:member) { create(:member) }
 
@@ -14,7 +14,7 @@ describe "Memberships Renewal" do
   end
 
   specify "renew membership", freeze: "2020-09-30" do
-    big_basket = create(:basket_size, name: "Grand")
+    big_basket = create(:basket_size, :big, price: 30)
     membership = create(:membership,
       member: member,
       billing_year_division: 4,
@@ -83,7 +83,7 @@ describe "Memberships Renewal" do
   end
 
   specify "renew membership with a new deliveries cycle", freeze: "2020-09-30" do
-    big_basket = create(:basket_size, name: "Grand")
+    big_basket = create(:basket_size, :big, price: 30)
     membership = create(:membership,
       member: member,
       basket_size: basket_size,
@@ -145,7 +145,7 @@ describe "Memberships Renewal" do
       basket_size: basket_size,
       depot: depot)
     create_deliveries(1, Current.org.fiscal_year_for(2021))
-    big_basket = create(:basket_size, name: "Grand")
+    big_basket = create(:basket_size, :big, price: 30)
     membership.open_renewal!
 
     login(member)
@@ -206,7 +206,7 @@ describe "Memberships Renewal" do
       basket_size: basket_size,
       depot: depot)
     create_deliveries(1, Current.org.fiscal_year_for(2021))
-    big_basket = create(:basket_size, name: "Grand")
+    big_basket = create(:basket_size, :big, price: 30)
     membership.open_renewal!
 
     login(member)

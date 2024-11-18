@@ -71,7 +71,7 @@ class Basket < ApplicationRecord
   def complements_description(public_name: false)
     baskets_basket_complements
       .joins(:basket_complement)
-      .merge(BasketComplement.order_by_name)
+      .merge(BasketComplement.ordered)
       .map { |bc| bc.description(public_name: public_name) }
       .compact.to_sentence.presence
   end

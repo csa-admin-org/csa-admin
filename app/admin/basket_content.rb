@@ -8,8 +8,8 @@ ActiveAdmin.register BasketContent do
   filter :during_year,
     as: :select,
     collection: -> { fiscal_years_collection }
-  filter :product, as: :select
-  filter :basket_size, as: :select, collection: -> { BasketSize.paid }
+  filter :product, as: :select, collection: -> { BasketContent::Product.ordered }
+  filter :basket_size, as: :select, collection: -> { BasketSize.ordered.paid }
   filter :depots, as: :select, collection: -> { admin_depots_collection }
 
   includes :depots, :delivery, :product, :basketcontents_depots
@@ -56,9 +56,9 @@ ActiveAdmin.register BasketContent do
       }, class: "text-right whitespace-nowrap"
     end
     basket_sizes = if params.dig(:q, :basket_size_eq).present?
-      BasketSize.where(id: params.dig(:q, :basket_size_eq))
+      BasketSize.ordered.where(id: params.dig(:q, :basket_size_eq))
     else
-      BasketSize.paid
+      BasketSize.ordered.paid
     end
     basket_sizes.each do |basket_size|
       column basket_size.name, ->(bc) {
@@ -90,7 +90,7 @@ ActiveAdmin.register BasketContent do
     column(:unit) { |bc| t("units.#{bc.unit}") }
     column(:unit_price) { |bc| cur(bc.unit_price) }
     column(:quantity) { |bc| bc.quantity }
-    BasketSize.paid.each do |basket_size|
+    BasketSize.paid.ordered.each do |basket_size|
       column("#{basket_size.name} - #{Basket.model_name.human(count: 2)}") { |bc|
         bc.baskets_count(basket_size)
       }
@@ -199,7 +199,7 @@ ActiveAdmin.register BasketContent do
         tabs  do
           tab t("basket_content.distribution_mode.automatic"), id: "automatic", selected: f.object.distribution_automatic?, html_options: { "data-action" => "click->basket-content-distribution#automaticMode" } do
             f.semantic_errors :basket_percentages
-            BasketSize.paid.each do |basket_size|
+            BasketSize.ordered.paid.each do |basket_size|
               f.input :basket_size_ids_percentages,
                 as: :custom_range,
                 step: 1,
@@ -258,7 +258,7 @@ ActiveAdmin.register BasketContent do
           end
           tab t("basket_content.distribution_mode.manual"), id: "manual", selected: f.object.distribution_manual?, html_options: { "data-action" => "click->basket-content-distribution#manualMode" } do
             f.semantic_errors :basket_quantities
-            BasketSize.paid.each do |basket_size|
+            BasketSize.ordered.paid.each do |basket_size|
               f.input :basket_size_ids_quantities,
                 as: :number,
                 step: 1,

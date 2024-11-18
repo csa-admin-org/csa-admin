@@ -617,6 +617,25 @@ describe Member do
         expect(mail.subject).to eq "Bienvenue!"
       end
     end
+
+    specify "previously active member (recent)" do
+      travel_to(Date.new(Current.fy_year, 1, 15)) do
+        member = create(:member, :inactive, activated_at: 1.day.ago)
+        membership = create(:membership,
+          member: member,
+          ended_on: 1.day.ago)
+        membership.update_column(:ended_on, 1.day.from_now)
+        member.reload
+
+        expect {
+          perform_enqueued_jobs { member.activate! }
+        }
+          .to change(member, :state).from("inactive").to("active")
+          .and change(member, :activated_at)
+
+        expect(MemberMailer.deliveries).to be_empty
+      end
+    end
   end
 
   describe "#deactivate!" do

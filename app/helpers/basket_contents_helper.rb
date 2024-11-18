@@ -115,7 +115,10 @@ module BasketContentsHelper
   end
 
   def basket_content_products_collection
-    products = BasketContent::Product.includes(:latest_basket_content_in_kg, :latest_basket_content_in_pc)
+    products =
+      BasketContent::Product
+        .includes(:latest_basket_content_in_kg, :latest_basket_content_in_pc)
+        .ordered
     products.map do |product|
       data = { latest_basket_content: {} }
       bc_kg = product.latest_basket_content_in_kg

@@ -162,7 +162,7 @@ class Delivery < ApplicationRecord
       cycles.each_with_object({}) do |cycle, h|
         range = fiscal_year.beginning_of_year..date
         avg_prices = cycle.deliveries_in(range).map(&:basket_content_avg_prices)
-        BasketSize.paid.each do |basket_size|
+        BasketSize.ordered.paid.each do |basket_size|
           prices = avg_prices.map { |ap| ap[basket_size.id.to_s] }.compact.map(&:to_d)
           basket_prices = prices.size * basket_size.price_for(fy_year)
           prices_sum = prices.sum

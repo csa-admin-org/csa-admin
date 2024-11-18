@@ -32,16 +32,16 @@ describe PDF::Delivery, freeze: "2023-01-01" do
         id: 2,
         name: "Tomme de Lavaux",
         delivery_ids: Delivery.current_year.pluck(:id))
-      small_basket = create(:basket_size, name: "Petit")
-      membership = create(:membership,
+      small_basket = create(:basket_size, :small)
+      create(:membership,
         member: member,
         depot: depot,
-        basket_size: create(:basket_size, name: "Grand"),
+        basket_size: create(:basket_size, :big),
         memberships_basket_complements_attributes: {
           "0" => { basket_complement_id: 1 },
           "1" => { basket_complement_id: 2 }
         })
-      membership = create(:membership,
+      create(:membership,
         member: member2,
         depot: depot,
         basket_size: small_basket,
@@ -49,12 +49,12 @@ describe PDF::Delivery, freeze: "2023-01-01" do
         memberships_basket_complements_attributes: {
           "0" => { basket_complement_id: 1, quantity: 2 }
         })
-      membership = create(:membership,
+      create(:membership,
         member: member3,
         depot: depot,
-        basket_size: create(:basket_size, name: "Moyen"),
+        basket_size: create(:basket_size, :medium),
         basket_quantity: 0)
-      membership = create(:membership,
+      create(:membership,
         member: member4,
         depot: depot,
         basket_size: small_basket,
@@ -113,15 +113,15 @@ describe PDF::Delivery, freeze: "2023-01-01" do
         id: 2,
         name: "Tomme de Lavaux",
         delivery_ids: Delivery.current_year.pluck(:id))
-      small_basket = create(:basket_size, name: "Petit")
-      membership = create(:membership,
+      small_basket = create(:basket_size, :small)
+      create(:membership,
         member: member,
         depot: depot,
-        basket_size: create(:basket_size, name: "Grand"),
+        basket_size: create(:basket_size, :big),
         memberships_basket_complements_attributes: {
           "1" => { basket_complement_id: 2 }
         })
-      membership = create(:membership,
+      create(:membership,
         member: member2,
         depot: depot,
         basket_size: small_basket,
@@ -157,7 +157,7 @@ describe PDF::Delivery, freeze: "2023-01-01" do
             price: "5"
           }
         })
-      order = create(:shop_order, :pending,
+      create(:shop_order, :pending,
         delivery: delivery,
         member: member,
         depot: depot,
@@ -173,7 +173,7 @@ describe PDF::Delivery, freeze: "2023-01-01" do
           quantity: 1
         }
       })
-      order = create(:shop_order, :pending,
+      create(:shop_order, :pending,
         delivery: delivery,
         member: member2,
         depot: depot,

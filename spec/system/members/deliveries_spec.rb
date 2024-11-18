@@ -12,7 +12,7 @@ describe "members page" do
       create(:basket_complement, id: 1, name: "Oeufs")
       member.current_year_membership.update!(
         activity_participations_demanded_annually: 3,
-        basket_size: create(:basket_size, name: "Petit"),
+        basket_size: create(:basket_size, :small),
         depot: create(:depot, name: "Jardin de la main"),
         memberships_basket_complements_attributes: {
           "0" => { basket_complement_id: 1 }

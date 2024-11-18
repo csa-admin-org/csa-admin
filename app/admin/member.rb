@@ -536,6 +536,7 @@ ActiveAdmin.register Member do
       f.inputs t("active_admin.resource.show.waiting_membership") do
         f.input :waiting_basket_size,
           label: BasketSize.model_name.human,
+          collection: admin_basket_sizes_collection,
           required: false
         if feature?("activity")
           f.input :waiting_activity_participations_demanded_annually,

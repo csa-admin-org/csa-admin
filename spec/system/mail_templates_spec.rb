@@ -10,8 +10,8 @@ describe "Mail Templates" do
 
   specify "modify and preview", freeze: "2023-01-01" do
     create(:membership,
-      basket_size: create(:basket_size, id: 33, name: "Eveil"))
-      mail_template = MailTemplate.find_by(title: "member_activated")
+      basket_size: create(:basket_size, :small))
+    mail_template = MailTemplate.find_by(title: "member_activated")
 
     login create(:admin, email: "thibaud@thibaud.gg")
 
@@ -31,6 +31,6 @@ describe "Mail Templates" do
     expect(page).to have_selector "h2[aria-label='Page Title']", text: "Membre activé"
     expect(page).to have_content("Envoi Oui")
     expect(iframe).to have_selector "h1", text: "Bienvenue Jane Doe!!"
-    expect(iframe).to have_selector "p", text: "Panier:: Eveil"
+    expect(iframe).to have_selector "p", text: "Panier:: Petit"
   end
 end
