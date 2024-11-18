@@ -125,6 +125,9 @@ module Billing
     end
 
     def current_period_billed?
+      # Skip if the membership has been invoiced fully in advance
+      return unless membership.fiscal_year.include?(period_date)
+
       invoices.where(entity: membership).any? { |i|
         current_period.cover?(i.date)
       }
