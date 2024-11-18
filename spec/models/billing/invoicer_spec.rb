@@ -746,6 +746,20 @@ describe Billing::Invoicer do
       travel_to "2021-11-01" do # Monday
         expect(described_class.new(member.reload).next_date.to_s).to eq "2022-01-10" # Monday
       end
+
+      # When future invoice is already created
+      travel_to "2021-11-01" do
+        Billing::InvoicerFuture.invoice(membership)
+        expect(described_class.new(member.reload).next_date).to be_nil
+      end
+
+      # When future delivery is added
+      travel_to "2021-11-01" do
+        perform_enqueued_jobs do
+          create(:delivery, date: "2022-01-11")
+        end
+        expect(described_class.new(member.reload).next_date.to_s).to eq "2022-01-10"
+      end
     end
 
     specify "past membership, last year" do
