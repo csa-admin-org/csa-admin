@@ -21,6 +21,7 @@ class BasketSize < ApplicationRecord
   has_many :members, through: :memberships
   has_many :baskets, through: :memberships
 
+  scope :ordered, -> { order(:price).order_by_name }
   scope :member_ordered, -> {
     order_clauses = [ "member_order_priority" ]
     order_clauses <<
@@ -49,7 +50,7 @@ class BasketSize < ApplicationRecord
 
   def self.for(baskets)
     ids = baskets.where(baskets: { quantity: 1.. }).pluck(:basket_size_id).uniq
-    where(id: ids)
+    where(id: ids).ordered
   end
 
   def display_name; name end

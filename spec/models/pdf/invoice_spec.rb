@@ -57,7 +57,7 @@ describe PDF::Invoice do
       pdf_strings = save_pdf_and_return_strings(invoice)
       expect(pdf_strings)
         .to include(/01\.01\.\d\d – 31\.12\.\d\d/)
-        .and contain_sequence("Panier: Abondance PUBLIC 2x 33.25", "66.50")
+        .and contain_sequence("Panier: Grand PUBLIC 2x 33.25", "66.50")
         .and contain_sequence("Montant annuel", "66.50", "Facturation annuelle", "66.50")
         .and contain_sequence("Cotisation annuelle association", "42.00")
         .and contain_sequence("Total", "108.50")
@@ -83,7 +83,7 @@ describe PDF::Invoice do
       pdf_strings = save_pdf_and_return_strings(invoice)
       expect(pdf_strings)
         .to include(/01\.01\.\d\d – 31\.12\.\d\d/)
-        .and contain_sequence("Panier: Abondance PUBLIC 2x 33.25", "66.50")
+        .and contain_sequence("Panier: Grand PUBLIC 2x 33.25", "66.50")
         .and contain_sequence("Réduction pour 6 ", "½ ", "journées supplémentaires", "-20.50")
         .and contain_sequence("Montant annuel", "46.00", "Facturation annuelle", "46.00")
         .and contain_sequence("Cotisation annuelle association", "30.00")
@@ -111,7 +111,7 @@ describe PDF::Invoice do
       pdf_strings = save_pdf_and_return_strings(invoice)
       expect(pdf_strings)
         .to include(/01\.01\.\d\d – 31\.12\.\d\d/)
-        .and contain_sequence("Panier: Eveil PUBLIC 2x 23.125", "46.25")
+        .and contain_sequence("Panier: Petit PUBLIC 2x 23.125", "46.25")
         .and contain_sequence("Dépôt: La Chaux-de-Fonds PUBLIC 2x 4.00", "8.00")
         .and contain_sequence("Montant annuel", "54.25")
         .and contain_sequence("Montant trimestriel #1", "13.55")
@@ -138,7 +138,7 @@ describe PDF::Invoice do
       pdf_strings = save_pdf_and_return_strings(invoice)
       expect(pdf_strings)
         .to include(/01\.01\.\d\d – 31\.12\.\d\d/)
-        .and contain_sequence("Panier: Abondance PUBLIC 2x 33.25", "66.50")
+        .and contain_sequence("Panier: Grand PUBLIC 2x 33.25", "66.50")
         .and contain_sequence("Cotistation Solidaire: 2x 4.00", "8.00")
         .and contain_sequence("Cotisation annuelle association", "42.00")
         .and contain_sequence("Total", "116.50")
@@ -164,7 +164,7 @@ describe PDF::Invoice do
       pdf_strings = save_pdf_and_return_strings(invoice)
       expect(pdf_strings)
         .to include(/01\.01\.\d\d – 31\.12\.\d\d/)
-        .and contain_sequence("Panier: Abondance PUBLIC 2x 33.25", "66.50")
+        .and contain_sequence("Panier: Grand PUBLIC 2x 33.25", "66.50")
         .and contain_sequence("Classe salariale: 2x 4.20, Classe 4", "8.40")
         .and contain_sequence("Montant annuel", "74.90")
     end
@@ -200,7 +200,7 @@ describe PDF::Invoice do
       pdf_strings = save_pdf_and_return_strings(invoice)
       expect(pdf_strings)
         .to include(/01\.01\.\d\d – 31\.12\.\d\d/)
-        .and contain_sequence("Panier: Abondance PUBLIC 2x 33.25", "66.50",)
+        .and contain_sequence("Panier: Grand PUBLIC 2x 33.25", "66.50",)
         .and contain_sequence("Déjà facturé", "-33.25")
         .and contain_sequence("Montant annuel restant", "33.25")
         .and contain_sequence("Facturation trimestrielle #3", "16.65")
@@ -384,7 +384,7 @@ describe PDF::Invoice do
         name: "Tomme de Lavaux",
         delivery_ids: Delivery.current_year.pluck(:id)[2..3])
       membership = create(:membership,
-        basket_size: create(:basket_size, name: "Grand"),
+        basket_size: create(:basket_size, :big),
         depot: create(:depot, price: 0),
         basket_price: 30.5,
         memberships_basket_complements_attributes: {
@@ -422,7 +422,7 @@ describe PDF::Invoice do
         zip: "1800",
         city: "Vevey")
       membership = create(:membership,
-        basket_size: create(:basket_size, name: "Grand"),
+        basket_size: create(:basket_size, :big),
         depot: create(:depot, price: 0, delivery_cycles: [ winter_dc ]),
         basket_price: 30.5)
       create(:invoice,
@@ -463,7 +463,7 @@ describe PDF::Invoice do
         price: 4.8,
         delivery_ids: Delivery.current_year.pluck(:id)[0..1])
       membership = create(:membership,
-        basket_size: create(:basket_size, name: "Petit"),
+        basket_size: create(:basket_size, :small),
         depot: create(:depot, price: 0),
         basket_price: 21,
         memberships_basket_complements_attributes: {
@@ -517,7 +517,7 @@ describe PDF::Invoice do
         delivery_ids: Delivery.current_year.pluck(:id)[2..3])
       membership = create(:membership,
         started_on: Current.fy_range.min + 2.weeks,
-        basket_size: create(:basket_size, name: "Grand"),
+        basket_size: create(:basket_size, :big),
         depot: create(:depot, price: 0),
         basket_price: 30.5,
         baskets_annual_price_change: -44,
@@ -558,7 +558,7 @@ describe PDF::Invoice do
         delivery_ids: Delivery.current_year.pluck(:id)[2..3])
       membership = create(:membership,
         started_on: Current.fy_range.min + 2.weeks,
-        basket_size: create(:basket_size, name: "Grand"),
+        basket_size: create(:basket_size, :big),
         depot: create(:depot, price: 0),
         basket_price: 30.5,
         basket_complements_annual_price_change: -14.15,
@@ -589,7 +589,7 @@ describe PDF::Invoice do
     it "generates an invoice with support and a previous extra payment covering part of its amount" do
       member = create(:member)
       membership = create(:membership,
-        basket_size: create(:basket_size, name: "Grand"),
+        basket_size: create(:basket_size, :big),
         basket_price: 30.5)
       create(:payment, amount: 42, member: member)
 
@@ -617,7 +617,7 @@ describe PDF::Invoice do
     it "generates an invoice and a previous extra payment covering part of its amount" do
       member = create(:member)
       membership = create(:membership,
-        basket_size: create(:basket_size, name: "Grand"),
+        basket_size: create(:basket_size, :big),
         basket_price: 30.5)
       create(:payment, amount: 142, member: member)
 

@@ -6,7 +6,7 @@ module XLSX
 
     def initialize(delivery)
       @delivery = delivery
-      @basket_sizes = delivery.basket_sizes.paid
+      @basket_sizes = delivery.basket_sizes.paid.ordered
       @basket_contents =
         @delivery
           .basket_contents

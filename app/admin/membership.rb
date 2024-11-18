@@ -784,6 +784,7 @@ ActiveAdmin.register Membership do
       BasketComplement.kept.any? ? Membership.human_attribute_name(:memberships_basket_complements) : nil
     ].compact.to_sentence, "data-controller" => "form-reset" do
       f.input :basket_size,
+        collection: admin_basket_sizes_collection,
         prompt: true,
         input_html: { data: { action: "form-reset#reset" } }
       f.input :basket_price,

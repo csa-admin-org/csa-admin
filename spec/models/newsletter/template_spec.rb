@@ -224,8 +224,8 @@ describe Newsletter::Template do
     create(:basket_complement, id: 1, name: "Pain")
     create(:basket_complement, id: 2, name: "Oeufs")
 
-    big = create(:basket_size, name: "Grand")
-    small = create(:basket_size, name: "Petit")
+    big = create(:basket_size, :big)
+    small = create(:basket_size, :small)
 
     membership = create(:membership, basket_size: small)
     basket = membership.next_basket

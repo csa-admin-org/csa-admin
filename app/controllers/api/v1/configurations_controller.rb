@@ -4,7 +4,7 @@ module API
   module V1
     class ConfigurationsController < BaseController
       def show
-        @basket_sizes = BasketSize.kept
+        @basket_sizes = BasketSize.kept.ordered
         @depots = Depot.used.kept
         @basket_content_products = BasketContent::Product.order_by_name
 

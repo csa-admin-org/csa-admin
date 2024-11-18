@@ -13,7 +13,7 @@ module XLSX
           .billable
           .joins(membership: :member)
           .merge(Member.no_salary_basket)
-      @basket_sizes = BasketSize.where(id: @baskets.pluck(:basket_size_id))
+      @basket_sizes = BasketSize.where(id: @baskets.pluck(:basket_size_id)).ordered
       @memberships_basket_complements =
         MembershipsBasketComplement
           .joins(membership: :member)

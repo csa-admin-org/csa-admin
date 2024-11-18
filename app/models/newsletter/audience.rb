@@ -180,10 +180,10 @@ class Newsletter
         member_state: member_state_records.sort_by(&:name),
         delivery_id: ::Delivery.between(1.week.ago..).limit(8),
         depot_id: Depot.used.reorder(:name),
-        basket_size_id: BasketSize.used
+        basket_size_id: BasketSize.used.ordered
       }
       if BasketComplement.kept.any?
-        base[:basket_complement_id] = BasketComplement.used
+        base[:basket_complement_id] = BasketComplement.used.ordered
       end
       base[:invoice_state] = invoice_state_records.sort_by(&:name)
       if Current.org.feature?("shop")

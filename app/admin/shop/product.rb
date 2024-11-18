@@ -85,7 +85,7 @@ ActiveAdmin.register Shop::Product do
             input_html: { multiple: true, data: { controller: "select-tags" } }
           f.input :producer, collection: Shop::Producer.kept
           f.input :basket_complement,
-            collection: BasketComplement.includes(:shop_product).map { |bc|
+            collection: BasketComplement.includes(:shop_product).ordered.map { |bc|
               [ bc.name, bc.id, disabled: !!bc.shop_product && bc.shop_product != f.object ]
             },
             hint: t("formtastic.hints.shop/product.basket_complement")
