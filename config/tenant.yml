@@ -57,6 +57,8 @@ production: &production
     domain: cultureslocales.ch
   mamajah:
     domain: mamajah.org
+  boisdunant:
+    domain: ferme-boisdunant.ch
 
   demo:
     domain: acp-admin.ch
