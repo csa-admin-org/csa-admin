@@ -169,3 +169,8 @@ dbs:
     replicas:
       - <<: *replica_defaults
         path: storage/production_mamajah.sqlite3
+
+  - path: storage/production_boisdunant.sqlite3
+    replicas:
+      - <<: *replica_defaults
+        path: storage/production_boisdunant.sqlite3
