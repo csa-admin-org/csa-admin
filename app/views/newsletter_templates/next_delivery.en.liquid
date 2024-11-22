@@ -1,7 +1,7 @@
 {% content id: "intro" %}{% endcontent %}
 
 {% if basket.contents.size > 0 and basket.quantity > 0 %}
-  <h2>Inhalt Tasche</h2>
+  <h2>Basket Contents</h2>
 
   <span>{{ basket.description }}:</span>
   <ul>
@@ -11,18 +11,18 @@
   </ul>
 
   {% if basket.complements.size > 0 %}
-    <p>Zusatz(e): {{ basket.complements_description }}</p>
+    <p>Complement(s): {{ basket.complements_description }}</p>
   {% endif %}
 {% endif %}
 
-{% content id: "events", title: "Bevorstehende Veranstaltungen" %}{% endcontent %}
+{% content id: "events", title: "Upcoming Events" %}{% endcontent %}
 
-{% content id: "recipe", title: "Das Rezept" %}{% endcontent %}
+{% content id: "recipe", title: "Recipe" %}{% endcontent %}
 
 {% if member.activities_url %}
   {% lowlight %}
     {% if future_activities.size > 0 %}
-      <span>Hier sind die kommenden Aktivitäten, für die wir noch Leute brauchen:</span>
+      <span>Here are the upcoming activities where we still need people:</span>
       <ul>
         {% assign activities = future_activities | slice: 0, 7 %}
         {% for activity in activities %}
@@ -33,7 +33,7 @@
     {% endif %}
 
     {% if coming_activity_participations.size > 0 %}
-      <span>Ihre Anmeldungen in Kürze:</span>
+      <span>Your upcoming registrations:</span>
       <ul>
         {% for participation in coming_activity_participations %}
           <li>{{ participation.activity.date_long }}, {{ participation.activity.period }}, {{ participation.activity.title }}, {{ participation.activity.place }}</li>
@@ -43,15 +43,15 @@
     {% endif %}
 
     {% if membership.activity_participations_missing_count > 0 %}
-      <p>Unter Berücksichtigung Ihrer derzeitigen Anmeldungen müssen Sie noch
-        <span class="bold">{{ membership.activity_participations_missing_count }}</span>
-        Aktivität(en) absolvieren.</p>
+      <p>Considering your current registrations, you still have
+        <strong>{{ membership.activity_participations_missing_count }}
+          activity(s)</strong>
+        to complete.</p>
     {% endif %}
 
     <p>
-      Verwalten Sie Ihre Anmeldungen
-      <a href="{{ member.activities_url }}">von Ihrem Konto</a>
-      aus.
+      Manage your registrations from
+      <a href="{{ member.activities_url }}">your account</a>.
     </p>
   {% endlowlight %}
 {% endif %}
