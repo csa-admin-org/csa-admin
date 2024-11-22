@@ -50,6 +50,7 @@ class DeliveryCycle < ApplicationRecord
       allow_nil: true
     }
   validates :absences_included_annually,
+    presence: true,
     numericality: {
       greater_than_or_equal_to: 0,
       only_integer: true
