@@ -139,6 +139,7 @@ module Notifier
     baskets =
       Membership
         .current
+        .renewed
         .where(last_basket_sent_at: nil)
         .includes(:member, baskets: :delivery)
         .select(&:can_send_email?)
