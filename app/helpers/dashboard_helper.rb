@@ -32,7 +32,7 @@ module DashboardHelper
               end.join.html_safe
             end
           end
-        end || ""
+        end || "".html_safe
       ) + icon_link(:xlsx_file, Invoice.human_attribute_name(:summary), billing_path(Current.fy_year, format: :xlsx))
     end
   end
