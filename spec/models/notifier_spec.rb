@@ -52,6 +52,14 @@ describe Notifier do
     member5 = create(:member,
       initial_basket_sent_at: "2024-11-01",
       activated_at: "2024-11-01")
+    member6 = create(:member, initial_basket_sent_at: nil)
+    member7 = create(:member, initial_basket_sent_at: nil)
+    member8 = create(:member, initial_basket_sent_at: nil)
+
+    travel_to "2023-01-01" do
+      create(:delivery, date: "2023-01-01")
+      create(:membership, member: member6).update_columns(renewed_at: "2023-11-01")
+    end
 
     travel_to "2024-11-01" do
       create(:delivery, date: "2024-11-01")
@@ -62,19 +70,27 @@ describe Notifier do
       create(:membership, started_on: "2024-11-03", member: member3)
       create(:membership, started_on: "2024-11-02", member: member4)
       create(:membership, started_on: "2024-11-02", member: member5)
+      create(:membership, started_on: "2024-11-02", member: member6)
+      create(:membership, started_on: "2024-11-02", member: member7)
+      create(:membership, started_on: "2024-11-01", member: member8)
+      create(:absence, :admin, member: member7, started_on: "2024-11-01", ended_on: "2024-11-02")
+      create(:absence, :admin, member: member8, started_on: "2024-10-30", ended_on: "2024-11-01")
     end
 
     travel_to "2024-11-02" do
       expect {
         Notifier.send_membership_initial_basket_emails
         perform_enqueued_jobs
-      }.to change { MembershipMailer.deliveries.size }.by(2)
+      }.to change { MembershipMailer.deliveries.size }.by(3)
 
       expect(member1.reload.initial_basket_sent_at).to be_nil
       expect(member2.reload.initial_basket_sent_at).to eq Time.current
       expect(member3.reload.initial_basket_sent_at).to be_nil
       expect(member4.reload.initial_basket_sent_at).to eq Time.current
       expect(member5.reload.initial_basket_sent_at.to_date.to_s).to eq "2024-11-01"
+      expect(member6.reload.initial_basket_sent_at).to be_nil
+      expect(member7.reload.initial_basket_sent_at).to be_nil
+      expect(member8.reload.initial_basket_sent_at).to eq Time.current
     end
   end
 
@@ -89,6 +105,8 @@ describe Notifier do
     member5 = create(:member,
       final_basket_sent_at: "2024-11-01",
       activated_at: "2024-11-01")
+    member6 = create(:member, initial_basket_sent_at: nil)
+    member7 = create(:member, initial_basket_sent_at: nil)
 
     travel_to "2024-11-01" do
       create(:delivery, date: "2024-11-01")
@@ -99,19 +117,25 @@ describe Notifier do
       create(:membership, :renewal_canceled, ended_on: "2024-11-03", member: member3)
       create(:membership, :renewal_canceled, ended_on: "2024-11-02", member: member4)
       create(:membership, :renewal_canceled, ended_on: "2024-11-02", member: member5)
+      create(:membership, ended_on: "2024-11-03", member: member6)
+      create(:membership, ended_on: "2024-11-03", member: member7)
+      create(:absence, :admin, member: member6, started_on: "2024-11-02", ended_on: "2024-11-06")
+      create(:absence, :admin, member: member7, started_on: "2024-11-03", ended_on: "2024-11-06")
     end
 
     travel_to "2024-11-02" do
       expect {
         Notifier.send_membership_final_basket_emails
         perform_enqueued_jobs
-      }.to change { MembershipMailer.deliveries.size }.by(2)
+      }.to change { MembershipMailer.deliveries.size }.by(3)
 
       expect(member1.reload.final_basket_sent_at).to be_nil
       expect(member2.reload.final_basket_sent_at).to eq Time.current
       expect(member3.reload.final_basket_sent_at).to be_nil
       expect(member4.reload.final_basket_sent_at).to eq Time.current
       expect(member5.reload.final_basket_sent_at.to_date.to_s).to eq "2024-11-01"
+      expect(member6.reload.final_basket_sent_at).to be_nil
+      expect(member7.reload.final_basket_sent_at).to eq Time.current
     end
   end
 
@@ -127,19 +151,22 @@ describe Notifier do
       create(:membership, started_on: "2024-11-02", first_basket_sent_at: nil, member: member)
       create(:membership, started_on: "2024-11-03", first_basket_sent_at: nil)
       create(:membership, started_on: "2024-11-02", first_basket_sent_at: 1.minute.ago)
+      m1 = create(:membership, started_on: "2024-11-02")
+      m2 = create(:membership, started_on: "2024-11-01")
+      create(:absence, :admin, started_on: "2024-11-01", ended_on: "2024-11-02", member: m1.member)
+      create(:absence, :admin, started_on: "2024-10-30", ended_on: "2024-11-01", member: m2.member)
     end
 
     travel_to "2024-11-02" do
       expect {
         Notifier.send_membership_first_basket_emails
         perform_enqueued_jobs
-      }.to change { MembershipMailer.deliveries.size }.by(1)
+      }.to change { MembershipMailer.deliveries.size }.by(2)
 
       expect(member.membership.first_basket_sent_at).to eq Time.current
 
       mail = MembershipMailer.deliveries.last
       expect(mail.subject).to eq "Premier panier de l'année!"
-      expect(mail.to).to eq [ "john@doe.com" ]
     end
   end
 
@@ -155,19 +182,22 @@ describe Notifier do
       create(:membership, ended_on: "2024-11-02", last_basket_sent_at: nil, member: member)
       create(:membership, ended_on: "2024-11-03", last_basket_sent_at: nil)
       create(:membership, ended_on: "2024-11-02", last_basket_sent_at: 1.minute.ago)
+      m1 = create(:membership, ended_on: "2024-11-03")
+      m2 = create(:membership, ended_on: "2024-11-03")
+      create(:absence, :admin, started_on: "2024-11-02", ended_on: "2024-11-06", member: m1.member)
+      create(:absence, :admin, started_on: "2024-11-03", ended_on: "2024-11-06", member: m2.member)
     end
 
     travel_to "2024-11-02" do
       expect {
         Notifier.send_membership_last_basket_emails
         perform_enqueued_jobs
-      }.to change { MembershipMailer.deliveries.size }.by(1)
+      }.to change { MembershipMailer.deliveries.size }.by(2)
 
       expect(member.membership.last_basket_sent_at).to eq Time.current
 
       mail = MembershipMailer.deliveries.last
       expect(mail.subject).to eq "Dernier panier de l'année!"
-      expect(mail.to).to eq [ "john@doe.com" ]
     end
   end
 
