@@ -41,28 +41,134 @@ describe Notifier do
     end
   end
 
-  specify ".send_membership_renewal_reminder_emails" do
-    Current.org.update!(open_renewal_reminder_sent_after_in_days: 10)
-    MailTemplate.find_by(title: :membership_renewal_reminder).update!(active: true)
-    next_fy = Current.org.fiscal_year_for(Date.today.year + 1)
-    create(:delivery, date: next_fy.beginning_of_year)
+  specify ".send_membership_initial_basket_emails" do
+    MailTemplate.find_by(title: :membership_initial_basket).update!(active: true)
+    member1 = create(:member, initial_basket_sent_at: nil)
+    member2 = create(:member, initial_basket_sent_at: nil)
+    member3 = create(:member, initial_basket_sent_at: nil)
+    member4 = create(:member,
+      initial_basket_sent_at: "2022-01-01",
+      activated_at: "2024-11-01")
+    member5 = create(:member,
+      initial_basket_sent_at: "2024-11-01",
+      activated_at: "2024-11-01")
+
+    travel_to "2024-11-01" do
+      create(:delivery, date: "2024-11-01")
+      create(:delivery, date: "2024-11-02")
+      create(:delivery, date: "2024-11-03")
+      create(:membership, started_on: "2024-11-01", member: member1)
+      create(:membership, started_on: "2024-11-02", member: member2)
+      create(:membership, started_on: "2024-11-03", member: member3)
+      create(:membership, started_on: "2024-11-02", member: member4)
+      create(:membership, started_on: "2024-11-02", member: member5)
+    end
+
+    travel_to "2024-11-02" do
+      expect {
+        Notifier.send_membership_initial_basket_emails
+        perform_enqueued_jobs
+      }.to change { MembershipMailer.deliveries.size }.by(2)
+
+      expect(member1.reload.initial_basket_sent_at).to be_nil
+      expect(member2.reload.initial_basket_sent_at).to eq Time.current
+      expect(member3.reload.initial_basket_sent_at).to be_nil
+      expect(member4.reload.initial_basket_sent_at).to eq Time.current
+      expect(member5.reload.initial_basket_sent_at.to_date.to_s).to eq "2024-11-01"
+    end
+  end
+
+  specify ".send_membership_final_basket_emails" do
+    MailTemplate.find_by(title: :membership_final_basket).update!(active: true)
+    member1 = create(:member, final_basket_sent_at: nil)
+    member2 = create(:member, final_basket_sent_at: nil)
+    member3 = create(:member, final_basket_sent_at: nil)
+    member4 = create(:member,
+      final_basket_sent_at: "2022-01-01",
+      activated_at: "2024-11-01")
+    member5 = create(:member,
+      final_basket_sent_at: "2024-11-01",
+      activated_at: "2024-11-01")
+
+    travel_to "2024-11-01" do
+      create(:delivery, date: "2024-11-01")
+      create(:delivery, date: "2024-11-02")
+      create(:delivery, date: "2024-11-03")
+      create(:membership, :renewed, ended_on: "2024-11-02", member: member1)
+      create(:membership, :renewal_canceled, ended_on: "2024-11-02", member: member2)
+      create(:membership, :renewal_canceled, ended_on: "2024-11-03", member: member3)
+      create(:membership, :renewal_canceled, ended_on: "2024-11-02", member: member4)
+      create(:membership, :renewal_canceled, ended_on: "2024-11-02", member: member5)
+    end
+
+    travel_to "2024-11-02" do
+      expect {
+        Notifier.send_membership_final_basket_emails
+        perform_enqueued_jobs
+      }.to change { MembershipMailer.deliveries.size }.by(2)
+
+      expect(member1.reload.final_basket_sent_at).to be_nil
+      expect(member2.reload.final_basket_sent_at).to eq Time.current
+      expect(member3.reload.final_basket_sent_at).to be_nil
+      expect(member4.reload.final_basket_sent_at).to eq Time.current
+      expect(member5.reload.final_basket_sent_at.to_date.to_s).to eq "2024-11-01"
+    end
+  end
+
+  specify ".send_membership_first_basket_emails" do
+    MailTemplate.find_by(title: :membership_first_basket).update!(active: true)
     member = create(:member, emails: "john@doe.com")
 
-    create(:membership, renewal_opened_at: nil)
-    create(:membership, renewal_opened_at: 10.days.ago).update_column(:renewed_at, 10.days.ago)
-    create(:membership, renewal_opened_at: 10.days.ago, member: member)
-    create(:membership, renewal_opened_at: 10.days.ago, renewal_reminder_sent_at: 1.minute.ago)
-    create(:membership, :last_year, renewal_opened_at: 10.days.ago)
+    travel_to "2024-11-01" do
+      create(:delivery, date: "2024-11-01")
+      create(:delivery, date: "2024-11-02")
+      create(:delivery, date: "2024-11-03")
+      create(:membership, started_on: "2024-11-01", first_basket_sent_at: nil)
+      create(:membership, started_on: "2024-11-02", first_basket_sent_at: nil, member: member)
+      create(:membership, started_on: "2024-11-03", first_basket_sent_at: nil)
+      create(:membership, started_on: "2024-11-02", first_basket_sent_at: 1.minute.ago)
+    end
 
-    expect {
-      Notifier.send_membership_renewal_reminder_emails
-      perform_enqueued_jobs
-    }
-      .to change { MembershipMailer.deliveries.size }.by(1)
+    travel_to "2024-11-02" do
+      expect {
+        Notifier.send_membership_first_basket_emails
+        perform_enqueued_jobs
+      }.to change { MembershipMailer.deliveries.size }.by(1)
 
-    mail = MembershipMailer.deliveries.last
-    expect(mail.subject).to eq "Renouvellement de votre abonnement (Rappel)"
-    expect(mail.to).to eq [ "john@doe.com" ]
+      expect(member.membership.first_basket_sent_at).to eq Time.current
+
+      mail = MembershipMailer.deliveries.last
+      expect(mail.subject).to eq "Premier panier de l'année!"
+      expect(mail.to).to eq [ "john@doe.com" ]
+    end
+  end
+
+  specify ".send_membership_last_basket_emails" do
+    MailTemplate.find_by(title: :membership_last_basket).update!(active: true)
+    member = create(:member, emails: "john@doe.com")
+
+    travel_to "2024-11-01" do
+      create(:delivery, date: "2024-11-01")
+      create(:delivery, date: "2024-11-02")
+      create(:delivery, date: "2024-11-03")
+      create(:membership, ended_on: "2024-11-01", last_basket_sent_at: nil)
+      create(:membership, ended_on: "2024-11-02", last_basket_sent_at: nil, member: member)
+      create(:membership, ended_on: "2024-11-03", last_basket_sent_at: nil)
+      create(:membership, ended_on: "2024-11-02", last_basket_sent_at: 1.minute.ago)
+    end
+
+    travel_to "2024-11-02" do
+      expect {
+        Notifier.send_membership_last_basket_emails
+        perform_enqueued_jobs
+      }.to change { MembershipMailer.deliveries.size }.by(1)
+
+      expect(member.membership.last_basket_sent_at).to eq Time.current
+
+      mail = MembershipMailer.deliveries.last
+      expect(mail.subject).to eq "Dernier panier de l'année!"
+      expect(mail.to).to eq [ "john@doe.com" ]
+    end
   end
 
   specify ".send_membership_last_trial_basket_emails" do
@@ -88,10 +194,36 @@ describe Notifier do
         perform_enqueued_jobs
       }.to change { MembershipMailer.deliveries.size }.by(1)
 
+      expect(member.membership.last_trial_basket_sent_at).to eq Time.current
+
       mail = MembershipMailer.deliveries.last
       expect(mail.subject).to eq "Dernier panier à l'essai!"
       expect(mail.to).to eq [ "john@doe.com" ]
     end
+  end
+
+  specify ".send_membership_renewal_reminder_emails" do
+    Current.org.update!(open_renewal_reminder_sent_after_in_days: 10)
+    MailTemplate.find_by(title: :membership_renewal_reminder).update!(active: true)
+    next_fy = Current.org.fiscal_year_for(Date.today.year + 1)
+    create(:delivery, date: next_fy.beginning_of_year)
+    member = create(:member, emails: "john@doe.com")
+
+    create(:membership, renewal_opened_at: nil)
+    create(:membership, renewal_opened_at: 10.days.ago).update_column(:renewed_at, 10.days.ago)
+    create(:membership, renewal_opened_at: 10.days.ago, member: member)
+    create(:membership, renewal_opened_at: 10.days.ago, renewal_reminder_sent_at: 1.minute.ago)
+    create(:membership, :last_year, renewal_opened_at: 10.days.ago)
+
+    expect {
+      Notifier.send_membership_renewal_reminder_emails
+      perform_enqueued_jobs
+    }
+      .to change { MembershipMailer.deliveries.size }.by(1)
+
+    mail = MembershipMailer.deliveries.last
+    expect(mail.subject).to eq "Renouvellement de votre abonnement (Rappel)"
+    expect(mail.to).to eq [ "john@doe.com" ]
   end
 
   describe ".send_activity_participation_validated_emails" do

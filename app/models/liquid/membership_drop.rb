@@ -13,6 +13,14 @@ class Liquid::MembershipDrop < Liquid::Drop
     I18n.l(@membership.ended_on)
   end
 
+  def state
+    @membership.state
+  end
+
+  def renewal_state
+    @membership.renewal_state
+  end
+
   def first_delivery
     if delivery = @membership.deliveries.first
       Liquid::DeliveryDrop.new(delivery)

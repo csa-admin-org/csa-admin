@@ -51,6 +51,8 @@ describe Liquid::DataPreview do
         "shop_depot" => nil
       },
       "membership" => {
+        "state" => "ongoing",
+        "renewal_state" => "renewal_pending",
         "activity_participations_accepted_count" => 2,
         "activity_participations_demanded_count" => 2,
         "activity_participations_missing_count" => 0,
@@ -161,6 +163,8 @@ describe Liquid::DataPreview do
         "membership_renewal_url" => "https://membres.acme.test/memberships#renewal"
       },
       "membership" => {
+        "state" => "ongoing",
+        "renewal_state" => "renewal_pending",
         "basket_complement_names" => nil,
         "basket_complements" => [],
         "basket_complements_description" => nil,

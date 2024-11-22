@@ -28,8 +28,10 @@ ActiveAdmin.register MailTemplate do
   end
 
   index download_links: false do
-    column :title, ->(mt) { link_to mt.display_name, mt }, sortable: false, class: "whitespace-nowrap"
-    column :description
+    column :title, ->(mt) {
+      div link_to(mt.display_name, mt)
+      span mt.description, class: "mt-1 description"
+    }
     column :active, sortable: false, class: "text-right"
     actions
   end
@@ -54,8 +56,10 @@ ActiveAdmin.register MailTemplate do
       end
       column do
         panel t(".details") do
+          div class: "mx-2 mb-4" do
+            para mail_template.description, class: "text-base description"
+          end
           attributes_table do
-            row(:description)
             row(:active)
           end
         end
@@ -75,7 +79,7 @@ ActiveAdmin.register MailTemplate do
     code_editor_preview_path_value: "/mail_templates/preview.js"
   } do |f|
     f.inputs t(".settings") do
-      para f.object.description, class: "description"
+      para f.object.description, class: "text-base description"
       f.input :title, as: :hidden
 
       if mail_template.always_active?

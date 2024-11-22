@@ -560,12 +560,17 @@
     @apply w-full grid md:grid-cols-3 space-y-0 gap-2;
   }
 
-  .formtastic :where(.inline-hints) {
+  .formtastic :where(.inline-hints), .description {
     @apply text-sm m-0;
 
     a {
       @apply text-gray-500 dark:text-gray-500 hover:text-green-600 dark:hover:text-green-600;
     }
+  }
+
+  .description {
+    @apply text-sm;
+    @apply text-gray-500 dark:text-gray-500;
   }
 
   .formtastic :where(.buttons, .actions) {

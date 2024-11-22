@@ -5,10 +5,17 @@ module Notifier
 
   def send_all_daily
     send_invoice_overdue_notice_emails
+
     send_admin_delivery_list_emails
     send_admin_memberships_renewal_pending_emails
-    send_membership_renewal_reminder_emails
+
+    send_membership_initial_basket_emails
+    send_membership_final_basket_emails
+    send_membership_first_basket_emails
+    send_membership_last_basket_emails
     send_membership_last_trial_basket_emails
+    send_membership_renewal_reminder_emails
+
     send_activity_participation_reminder_emails
     send_activity_participation_validated_emails
     send_activity_participation_rejected_emails
@@ -66,6 +73,105 @@ module Notifier
         host: Current.org.admin_url)
   end
 
+  def send_membership_initial_basket_emails
+    return unless MailTemplate.active_template(:membership_initial_basket)
+
+    baskets =
+      Membership
+        .current
+        .includes(:member, baskets: :delivery)
+        .select(&:can_send_email?)
+        .map { |m| m.baskets.first }
+        .select { |b| b.delivery.date.today? }
+
+    baskets.each do |basket|
+      next if basket.member.initial_basket_sent_at? && basket.member.initial_basket_sent_at >= basket.member.activated_at
+
+      MailTemplate.deliver_later(:membership_initial_basket,
+        basket: basket)
+      basket.member.touch(:initial_basket_sent_at)
+    end
+  end
+
+  def send_membership_final_basket_emails
+    return unless MailTemplate.active_template(:membership_final_basket)
+
+    baskets =
+      Membership
+        .current
+        .renewal_state_eq(:renewal_canceled)
+        .includes(:member, baskets: :delivery)
+        .select(&:can_send_email?)
+        .map { |m| m.baskets.last }
+        .select { |b| b.delivery.date.today? }
+
+    baskets.each do |basket|
+      next if basket.member.final_basket_sent_at? && basket.member.final_basket_sent_at >= basket.member.activated_at
+
+      MailTemplate.deliver_later(:membership_final_basket,
+        basket: basket)
+      basket.member.touch(:final_basket_sent_at)
+    end
+  end
+
+  def send_membership_first_basket_emails
+    return unless MailTemplate.active_template(:membership_first_basket)
+
+    baskets =
+      Membership
+        .current
+        .where(first_basket_sent_at: nil)
+        .includes(:member, baskets: :delivery)
+        .select(&:can_send_email?)
+        .map { |m| m.baskets.first }
+        .select { |b| b.delivery.date.today? }
+
+    baskets.each do |basket|
+      MailTemplate.deliver_later(:membership_first_basket,
+        basket: basket)
+      basket.membership.touch(:first_basket_sent_at)
+    end
+  end
+
+  def send_membership_last_basket_emails
+    return unless MailTemplate.active_template(:membership_last_basket)
+
+    baskets =
+      Membership
+        .current
+        .where(last_basket_sent_at: nil)
+        .includes(:member, baskets: :delivery)
+        .select(&:can_send_email?)
+        .map { |m| m.baskets.last }
+        .select { |b| b.delivery.date.today? }
+
+    baskets.each do |basket|
+      MailTemplate.deliver_later(:membership_last_basket,
+        basket: basket)
+      basket.membership.touch(:last_basket_sent_at)
+    end
+  end
+
+  def send_membership_last_trial_basket_emails
+    return unless MailTemplate.active_template(:membership_last_trial_basket)
+
+    baskets =
+      Membership
+        .trial
+        .where(last_trial_basket_sent_at: nil)
+        .includes(:member, baskets: :delivery)
+        .select(&:can_send_email?)
+        .reject(&:trial_only?)
+        .map { |m| m.baskets.trial.last }
+        .select { |b| b.delivery.date.today? }
+
+    baskets.each do |basket|
+      MailTemplate.deliver_later(:membership_last_trial_basket,
+        basket: basket)
+      basket.membership.touch(:last_trial_basket_sent_at)
+    end
+  end
+
   def send_membership_renewal_reminder_emails
     return unless MailTemplate.active_template(:membership_renewal_reminder)
 
@@ -85,26 +191,6 @@ module Notifier
     memberships.each do |m|
       MailTemplate.deliver_later(:membership_renewal_reminder, membership: m)
       m.touch(:renewal_reminder_sent_at)
-    end
-  end
-
-  def send_membership_last_trial_basket_emails
-    return unless MailTemplate.active_template(:membership_last_trial_basket)
-
-    memberships =
-      Membership
-        .trial
-        .where(last_trial_basket_sent_at: nil)
-        .includes(baskets: :delivery)
-        .select(&:can_send_email?)
-        .reject(&:trial_only?)
-        .select { |m| m.baskets.trial.last.delivery.date.today? }
-
-    memberships.each do |m|
-      last_trial_basket = m.baskets.trial.last
-      MailTemplate.deliver_later(:membership_last_trial_basket,
-        basket: last_trial_basket)
-      m.touch(:last_trial_basket_sent_at)
     end
   end
 

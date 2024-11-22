@@ -28,6 +28,8 @@ module SharedDataPreview
     OpenStruct.new(
       started_on: started_on,
       ended_on: ended_on,
+      state: "ongoing",
+      renewal_state: "renewal_pending",
       basket_size: basket_size,
       deliveries: deliveries,
       depot: depot,
