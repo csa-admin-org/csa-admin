@@ -25,7 +25,7 @@ module Shop
 
     scope :open, -> { where(open: true) }
 
-    validates :date, uniqueness: true
+    validates :date, uniqueness: true, presence: true
     validates :products, presence: true
 
     before_save :update_shop_products_count
