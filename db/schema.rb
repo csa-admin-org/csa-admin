@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2024_11_15_145304) do
+ActiveRecord::Schema[8.0].define(version: 2024_11_20_152110) do
   create_table "absences", force: :cascade do |t|
     t.bigint "member_id"
     t.date "started_on"
@@ -452,6 +452,8 @@ ActiveRecord::Schema[8.0].define(version: 2024_11_15_145304) do
     t.string "sepa_mandate_id"
     t.date "sepa_mandate_signed_on"
     t.integer "waiting_billing_year_division"
+    t.datetime "initial_basket_sent_at"
+    t.datetime "final_basket_sent_at"
     t.index ["shop_depot_id"], name: "index_members_on_shop_depot_id"
     t.index ["state"], name: "index_members_on_state"
     t.index ["validator_id"], name: "index_members_on_validator_id"
@@ -512,6 +514,8 @@ ActiveRecord::Schema[8.0].define(version: 2024_11_15_145304) do
     t.integer "absences_included", default: 0, null: false
     t.integer "billing_year_division", default: 1, null: false
     t.integer "trial_baskets_count", default: 0
+    t.datetime "first_basket_sent_at"
+    t.datetime "last_basket_sent_at"
     t.index ["basket_size_id"], name: "index_memberships_on_basket_size_id"
     t.index ["delivery_cycle_id"], name: "index_memberships_on_delivery_cycle_id"
     t.index ["depot_id"], name: "index_memberships_on_depot_id"

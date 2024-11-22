@@ -439,7 +439,7 @@ _:
           _fr: Merci de nous <a href='mailto:%{email}'>contacter par email</a> si vous désirez arrêter de partager vos coordonnées.
           _it: Per favore <a href='mailto:%{email}'>contattaci via email</a> se vuoi smettere di condividere le tue informazioni.
         description:
-          _de: Hier ist die Liste der Mitglieder Ihres Depots, die ihre Kontaktinformationen mitteilen. Sie können sich mit ihnen in Verbindung setzen, um eine Abholung Ihres Korbes zu vereinbaren, wenn Sie gelegentlich verhindert sind.
+          _de: Hier ist die Liste der Mitglieder Ihres Depots, die ihre Kontaktinformationen mitteilen. Sie können sich mit ihnen in Verbindung setzen, um eine Abholung Ihrer Tasche zu vereinbaren, wenn Sie gelegentlich verhindert sind.
           _en: Here is the list of members of your depot who share their contact information. You can contact them to arrange a pickup of your basket if you are occasionally prevented.
           _fr: Voici la liste des membres de votre dépôt partageant leurs coordonnées. Vous pouvez les contacter pour organiser une récupération de votre panier en cas d’empêchement occasionnel.
           _it: Ecco la lista dei soci del tuo punto di ritiro che condividono le loro informazioni di contatto. Potete contattarli per organizzare il ritiro della vostra cesta nel caso in cui non possiate partecipare occasionalmente.
@@ -952,7 +952,7 @@ _:
       orders:
         cart:
           no_order_items:
-            _de: Leere Warenkörbe
+            _de: Warenkorb ist leer
             _en: Empty shopping cart
             _fr: Panier d'achat vide
             _it: Carrello vuoto
@@ -1129,7 +1129,7 @@ _:
             _it: Consegna il %{date}
         variant:
           add_to_basket:
-            _de: In den Warenkorb legen
+            _de: In den Warenkorb
             _en: Add to basket
             _fr: Ajouter au panier
             _it: Aggiungi al carrello

@@ -41,11 +41,31 @@ _:
         _en: Registration Validated!
         _fr: Inscription validée!
         _it: Iscrizione confermata!
+      membership_final_basket:
+        _de: Letzte Tasche!
+        _en: Last Basket!
+        _fr: Dernier panier!
+        _it: Ultimo cestino!
+      membership_first_basket:
+        _de: Erste Tasche des Jahres!
+        _en: First Basket of the Year!
+        _fr: Premier panier de l'année!
+        _it: Primo cestino dell'anno!
+      membership_initial_basket:
+        _de: Erste Tasche!
+        _en: First Basket!
+        _fr: Premier panier!
+        _it: Primo cestino!
+      membership_last_basket:
+        _de: Letzte Tasche des Jahres!
+        _en: Last Basket of the Year!
+        _fr: Dernier panier de l'année!
+        _it: Ultimo cestino dell'anno!
       membership_last_trial_basket:
-        _de: Letzte Probe Tasche!
         _en: Last Trial Basket!
         _fr: Dernier panier à l'essai!
         _it: Ultimo cestino da provare!
+        _de: Letzte Probe Tasche!
       membership_renewal:
         _de: Ihr Abonnement verlängern
         _en: Renew Your Membership
@@ -97,8 +117,28 @@ _:
         _en: Sent when the registration of a new member is validated.
         _fr: Envoyé quand l'inscription d'un nouveau membre est validée.
         _it: Inviato quando la registrazione di un nuovo socio viene convalidata.
+      membership_final_basket:
+        _de: Wird gesendet am Tag der Auslieferung der allerletzten Tasche des Mitglieds, falls das Abonnement gekündigt wird.
+        _en: Sent on the delivery day of the member's very last basket, in case the membership is canceled.
+        _fr: Envoyé le jour de la livraison du tout dernier panier du membre, dans le cas où l'abonnement est résilié.
+        _it: Inviato il giorno della consegna dell'ultimo cestino del socio, nel caso in cui l'abbonamento viene terminato.
+      membership_first_basket:
+        _de: Wird gesendet am Tag der Auslieferung der ersten Tasche jedes Abonnements, jedes Geschäftsjahr.
+        _en: Sent on the delivery day of the first basket of each membership, each fiscal year.
+        _fr: Envoyé le jour de la livraison du premier panier de chaque abonnement, chaque année fiscale.
+        _it: Inviato il giorno della consegna del primo cestino di ogni abbonamento, ogni anno fiscale.
+      membership_initial_basket:
+        _de: Wird gesendet am Tag der Auslieferung der allerersten Tasche des Mitglieds. Wird nur einmal gesendet, es sei denn, das Mitglied abonniert sich nach einer Unterbrechung erneut.
+        _en: Sent on the delivery day of the member's very first basket. Sent only once, unless the member resubscribes after an interruption.
+        _fr: Envoyé le jour de la livraison du tout premier panier du membre. Envoyé une seule fois, à moins que le membre ne se réabonne après une interruption.
+        _it: Inviato il giorno della consegna del primo cestino in assoluto del socio. Inviato una sola volta, a meno che il socio non si riabboni dopo un'interruzione.
+      membership_last_basket:
+        _de: Wird gesendet am Tag der Auslieferung der letzten Tasche jedes Abonnements, nur wenn das Abonnement verlängert wird.
+        _en: Sent on the delivery day of the last basket of each membership, only if the membership is renewed.
+        _fr: Envoyé le jour de la livraison du dernier panier de chaque abonnement, uniquement si l'abonnement est renouvelé.
+        _it: Inviato il giorno della consegna dell'ultimo cestino di ogni abbonamento, solo se l'abbonamento viene rinnovato.
       membership_last_trial_basket:
-        _de: Wird gesendet am Tag der Auslieferung des letzten Probetasche das Mitglied zu fragen, ob er wünscht, sein Abonnement bis zum Ende des Geschäftsjahres fortsetzen.
+        _de: Wird gesendet am Tag der Auslieferung der letzten Probe-Tasche, um das Mitglied zu fragen, ob es sein Abonnement bis zum Ende des Geschäftsjahres fortsetzen möchte.
         _en: Sent on the day of delivery of the last trial basket to ask the member if they wish to continue their membership until the end of the fiscal year.
         _fr: Envoyé le jour de la livraison du dernier panier à l'essai afin de demander au membre si il désire continuer son abonnement jusqu'à la fin de l'année fiscale.
         _it: Inviato il giorno della consegna dell'ultimo cestino di prova per chiedere al membro se desidera continuare il suo abbonamento fino alla fine dell'anno fiscale.
@@ -153,6 +193,26 @@ _:
         _en: Member validated
         _fr: Membre validé
         _it: Socio confermato
+      membership_final_basket:
+        _de: Letzte Tasche
+        _en: Final Basket
+        _fr: Panier final
+        _it: Cestino finale
+      membership_first_basket:
+        _de: Erste Tasche
+        _en: First Basket
+        _fr: Premier panier
+        _it: Primo cestino
+      membership_initial_basket:
+        _de: Initiale Tasche
+        _en: Initial Basket
+        _fr: Panier initial
+        _it: Cestino iniziale
+      membership_last_basket:
+        _de: Letzte Tasche
+        _en: Last Basket
+        _fr: Dernier panier
+        _it: Ultimo cestino
       membership_last_trial_basket:
         _de: Letzte Probe Tasche
         _en: Last trial basket

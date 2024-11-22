@@ -10,6 +10,10 @@ class MailTemplate < ApplicationRecord
     member_activated
   ].freeze
   MEMBERSHIP_TITLES = %w[
+    membership_initial_basket
+    membership_final_basket
+    membership_first_basket
+    membership_last_basket
     membership_last_trial_basket
     membership_renewal
     membership_renewal_reminder

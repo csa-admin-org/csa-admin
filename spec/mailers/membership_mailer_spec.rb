@@ -3,6 +3,78 @@
 require "rails_helper"
 
 describe MembershipMailer, freeze: "2022-01-01" do
+  specify "#initial_basket_email" do
+    template = MailTemplate.find_by(title: "membership_initial_basket")
+    member = create(:member, emails: "example@csa-admin.org")
+    membership = create(:membership, member: member)
+    basket = membership.baskets.first
+    mail = MembershipMailer.with(
+      template: template,
+      basket: basket,
+    ).initial_basket_email
+
+    expect(mail.subject).to eq("Premier panier!")
+    expect(mail.to).to eq([ "example@csa-admin.org" ])
+    expect(mail.tag).to eq("membership-initial-basket")
+    expect(mail.body).to include("https://membres.acme.test")
+    expect(mail[:from].decoded).to eq "Rage de Vert <info@acme.test>"
+    expect(mail[:message_stream].to_s).to eq "outbound"
+  end
+
+  specify "#final_basket_email" do
+    template = MailTemplate.find_by(title: "membership_final_basket")
+    member = create(:member, emails: "example@csa-admin.org")
+    membership = create(:membership, member: member)
+    basket = membership.baskets.last
+    mail = MembershipMailer.with(
+      template: template,
+      basket: basket,
+    ).final_basket_email
+
+    expect(mail.subject).to eq("Dernier panier!")
+    expect(mail.to).to eq([ "example@csa-admin.org" ])
+    expect(mail.tag).to eq("membership-final-basket")
+    expect(mail.body). to include("https://membres.acme.test")
+    expect(mail[:from].decoded). to eq "Rage de Vert <info@acme.test>"
+    expect(mail[:message_stream].to_s). to eq "outbound"
+  end
+
+  specify "#first_basket_email" do
+    template = MailTemplate.find_by(title: "membership_first_basket")
+    member = create(:member, emails: "example@csa-admin.org")
+    membership = create(:membership, member: member)
+    basket = membership.baskets.first
+    mail = MembershipMailer.with(
+      template: template,
+      basket: basket,
+    ).first_basket_email
+
+    expect(mail.subject).to eq("Premier panier de l'année!")
+    expect(mail.to).to eq([ "example@csa-admin.org" ])
+    expect(mail.tag).to eq("membership-first-basket")
+    expect(mail.body).to include("https://membres.acme.test")
+    expect(mail[:from].decoded).to eq "Rage de Vert <info@acme.test>"
+    expect(mail[:message_stream].to_s).to eq "outbound"
+  end
+
+  specify "#last_basket_email" do
+    template = MailTemplate.find_by(title: "membership_last_basket")
+    member = create(:member, emails: "example@csa-admin.org")
+    membership = create(:membership, member: member)
+    basket = membership.baskets.last
+    mail = MembershipMailer.with(
+      template: template,
+      basket: basket,
+    ).last_basket_email
+
+    expect(mail.subject).to eq("Dernier panier de l'année!")
+    expect(mail.to).to eq([ "example@csa-admin.org" ])
+    expect(mail.tag).to eq("membership-last-basket")
+    expect(mail.body).to include("https://membres.acme.test")
+    expect(mail[:from].decoded).to eq "Rage de Vert <info@acme.test>"
+    expect(mail[:message_stream].to_s).to eq "outbound"
+  end
+
   specify "#last_trial_basket_email" do
     template = MailTemplate.find_by(title: "membership_last_trial_basket")
     member = create(:member, emails: "example@csa-admin.org")

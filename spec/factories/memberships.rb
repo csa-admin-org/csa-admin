@@ -16,6 +16,20 @@ FactoryBot.define do
       deliveries_count { 1 }
     end
 
+    trait :renewed do
+      after :create do |membership, _|
+        membership.update!(
+          renewed_at: Time.current,
+          renew: true)
+      end
+    end
+
+    trait :renewal_canceled do
+      renewal_opened_at { nil }
+      renewed_at { nil }
+      renew { false }
+    end
+
     trait :last_year do
       fiscal_year { Current.org.fiscal_year_for(1.year.ago) }
     end
