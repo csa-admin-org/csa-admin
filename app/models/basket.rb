@@ -6,7 +6,7 @@ class Basket < ApplicationRecord
 
   has_states :normal, :absent, :trial
 
-  default_scope { joins(:delivery).order("deliveries.date") }
+  default_scope { joins(:delivery).order(deliveries: { date: :asc }) }
 
   belongs_to :membership, counter_cache: true, touch: true
   belongs_to :delivery

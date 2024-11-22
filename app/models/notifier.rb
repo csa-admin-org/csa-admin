@@ -81,15 +81,16 @@ module Notifier
         .current
         .includes(:member, baskets: :delivery)
         .select(&:can_send_email?)
-        .map { |m| m.baskets.first }
+        .map { |m| m.baskets.deliverable.first }
         .select { |b| b.delivery.date.today? }
 
-    baskets.each do |basket|
-      next if basket.member.initial_basket_sent_at? && basket.member.initial_basket_sent_at >= basket.member.activated_at
+    baskets.each do |b|
+      member = b.member
+      next if member.initial_basket_sent_at? && member.initial_basket_sent_at >= b.member.activated_at
+      next if b.membership.previous_membership&.renewed?
 
-      MailTemplate.deliver_later(:membership_initial_basket,
-        basket: basket)
-      basket.member.touch(:initial_basket_sent_at)
+      MailTemplate.deliver_later(:membership_initial_basket, basket: b)
+      member.touch(:initial_basket_sent_at)
     end
   end
 
@@ -102,15 +103,15 @@ module Notifier
         .renewal_state_eq(:renewal_canceled)
         .includes(:member, baskets: :delivery)
         .select(&:can_send_email?)
-        .map { |m| m.baskets.last }
+        .map { |m| m.baskets.deliverable.last }
         .select { |b| b.delivery.date.today? }
 
-    baskets.each do |basket|
-      next if basket.member.final_basket_sent_at? && basket.member.final_basket_sent_at >= basket.member.activated_at
+    baskets.each do |b|
+      member = b.member
+      next if member.final_basket_sent_at? && member.final_basket_sent_at >= b.member.activated_at
 
-      MailTemplate.deliver_later(:membership_final_basket,
-        basket: basket)
-      basket.member.touch(:final_basket_sent_at)
+      MailTemplate.deliver_later(:membership_final_basket, basket: b)
+      member.touch(:final_basket_sent_at)
     end
   end
 
@@ -123,13 +124,12 @@ module Notifier
         .where(first_basket_sent_at: nil)
         .includes(:member, baskets: :delivery)
         .select(&:can_send_email?)
-        .map { |m| m.baskets.first }
+        .map { |m| m.baskets.deliverable.first }
         .select { |b| b.delivery.date.today? }
 
-    baskets.each do |basket|
-      MailTemplate.deliver_later(:membership_first_basket,
-        basket: basket)
-      basket.membership.touch(:first_basket_sent_at)
+    baskets.each do |b|
+      MailTemplate.deliver_later(:membership_first_basket, basket: b)
+      b.membership.touch(:first_basket_sent_at)
     end
   end
 
@@ -142,13 +142,12 @@ module Notifier
         .where(last_basket_sent_at: nil)
         .includes(:member, baskets: :delivery)
         .select(&:can_send_email?)
-        .map { |m| m.baskets.last }
+        .map { |m| m.baskets.deliverable.last }
         .select { |b| b.delivery.date.today? }
 
-    baskets.each do |basket|
-      MailTemplate.deliver_later(:membership_last_basket,
-        basket: basket)
-      basket.membership.touch(:last_basket_sent_at)
+    baskets.each do |b|
+      MailTemplate.deliver_later(:membership_last_basket, basket: b)
+      b.membership.touch(:last_basket_sent_at)
     end
   end
 
@@ -165,10 +164,9 @@ module Notifier
         .map { |m| m.baskets.trial.last }
         .select { |b| b.delivery.date.today? }
 
-    baskets.each do |basket|
-      MailTemplate.deliver_later(:membership_last_trial_basket,
-        basket: basket)
-      basket.membership.touch(:last_trial_basket_sent_at)
+    baskets.each do |b|
+      MailTemplate.deliver_later(:membership_last_trial_basket, basket: b)
+      b.membership.touch(:last_trial_basket_sent_at)
     end
   end
 
