@@ -59,6 +59,8 @@ production: &production
     domain: mamajah.org
   boisdunant:
     domain: ferme-boisdunant.ch
+  wilderauke:
+    domain: wilde-rauke.de
 
   demo:
     domain: acp-admin.ch
