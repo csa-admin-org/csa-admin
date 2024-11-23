@@ -174,3 +174,8 @@ dbs:
     replicas:
       - <<: *replica_defaults
         path: storage/production_boisdunant.sqlite3
+
+  - path: storage/production_wilderauke.sqlite3
+    replicas:
+      - <<: *replica_defaults
+        path: storage/production_wilderauke.sqlite3
