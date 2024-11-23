@@ -94,8 +94,9 @@
     }
 
     a:hover,
-    a:hover h2 {
-      @apply text-green-500;
+    a:hover h2,
+    a:hover span {
+      @apply text-green-500 border-green-200 dark:border-green-800
     }
 
     /* Custom CSS */

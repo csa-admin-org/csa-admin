@@ -13,6 +13,16 @@ _:
         _it: Disiscrizione
     members:
       footer:
+        calendar:
+          _de: Kalender
+          _en: Calendar
+          _fr: Calendrier
+          _it: Calendario
+        calendar_feed:
+          _de: Kalender-Feed
+          _en: Calendar feed
+          _fr: Flux de calendrier
+          _it: Feed del calendario
         contact:
           _de: Kontakt
           _en: Contact

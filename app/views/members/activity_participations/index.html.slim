@@ -1,5 +1,7 @@
-h1 class="mt-1 mb-8 text-xl sm:text-2xl font-extrabold text-gray-900 dark:text-gray-100"
-  = activities_human_name
+div class="flex justify-between mb-8 mt-1"
+  h1 class="text-xl sm:text-2xl font-extrabold text-gray-900 dark:text-gray-100"
+    = activities_human_name
+  = render "members/calendars/subscribe_button"
 
 h2 class="mt-8 text-lg font-bold text-gray-900 dark:text-gray-100"
   = t('.activity_participation_form_title')

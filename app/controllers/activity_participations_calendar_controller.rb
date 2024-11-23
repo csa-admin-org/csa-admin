@@ -10,6 +10,8 @@ class ActivityParticipationsCalendarController < ApplicationController
         .joins(:activity)
         .includes(:member)
         .where(activities: { date: 1.month.ago.. })
+
+    fresh_when(@activity_participations)
   end
 
   private

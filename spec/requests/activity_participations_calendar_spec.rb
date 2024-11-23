@@ -23,5 +23,6 @@ describe "Activity Particiations calendar feed" do
     expect(response.status).to eq 200
     expect(response.headers["Content-Type"]).to eq "text/calendar; charset=utf-8"
     expect(response.body).to include "#{participation.member.name} (3)"
+    expect(response.body).to include "TZID:Europe/Zurich"
   end
 end

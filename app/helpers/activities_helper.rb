@@ -89,15 +89,4 @@ module ActivitiesHelper
       activity.title
     end
   end
-
-  def activity_participation_summary(activity_participation)
-    summary = activity_participation.member.name
-    if activity_participation.participants_count > 1
-      summary << " (#{activity_participation.participants_count})"
-    end
-    if activity_participation.pending? || activity_participation.rejected? || activity_participation.validated?
-      summary << " [#{activity_participation.state_i18n_name}]"
-    end
-    summary
-  end
 end

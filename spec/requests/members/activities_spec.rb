@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-describe "Activitys RSS feed" do
+describe "Activities RSS feed" do
   before { integration_session.host = "membres.acme.test" }
 
   it "returns an RSS feed with coming and available activities" do

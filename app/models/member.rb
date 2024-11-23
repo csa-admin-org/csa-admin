@@ -11,6 +11,8 @@ class Member < ApplicationRecord
 
   BILLING_INTERVALS = %w[annual quarterly].freeze
 
+  generates_token_for :calendar
+
   # Temporary attributes for Delivery XLSX worksheet
   attr_accessor :basket, :shop_order
 

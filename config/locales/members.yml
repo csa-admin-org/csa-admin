@@ -425,6 +425,45 @@ _:
           _en: Refund
           _fr: Remboursement
           _it: Rimborso
+    calendars:
+      show:
+        description:
+          _de: Taschenlieferungskalender.
+          _en: Basket delivery calendar.
+          _fr: Calendrier des livraisons de paniers.
+          _it: Calendario delle consegne di ceste.
+        event:
+          summary:
+            _de: Tasche %{org_name}
+            _en: Basket %{org_name}
+            _fr: Panier %{org_name}
+            _it: Cesta %{org_name}
+          summary_absent:
+            _de: Tasche %{org_name} (abwesend)
+            _en: Basket %{org_name} (absent)
+            _fr: Panier %{org_name} (absent)
+            _it: Cesta %{org_name} (assente)
+          summary_trial:
+            _de: Tasche %{org_name} (Probe)
+            _en: Basket %{org_name} (trial)
+            _fr: Panier %{org_name} (essai)
+            _it: Cesta %{org_name} (prova)
+        name:
+          _de: "%{org_name} Kalender"
+          _en: "%{org_name} calendar"
+          _fr: Calendrier %{org_name}
+          _it: Calendario %{org_name}
+      subscribe_button:
+        calendar_feed:
+          _de: Kalender-Feed
+          _en: Calendar feed
+          _fr: Flux de calendrier
+          _it: Feed calendario
+        subscribe:
+          _de: Abonnieren
+          _en: Subscribe
+          _fr: S'abonner
+          _it: Iscriviti
     contact_sharings:
       flash:
         joined:
