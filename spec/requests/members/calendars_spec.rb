@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-describe "Calendar feed" do
+describe "Calendars feed" do
   before { integration_session.host = "members.acme.test" }
 
   specify "without token" do
@@ -29,8 +29,8 @@ describe "Calendar feed" do
       expect(response.status).to eq 200
       expect(response.headers["Content-Type"]).to eq "text/calendar; charset=utf-8"
 
-      expect(lines).to include "NAME:Calendrier Rage de Vert"
-      expect(lines).to include "X-WR-CALNAME:Calendrier Rage de Vert"
+      expect(lines).to include "NAME:Rage de Vert"
+      expect(lines).to include "X-WR-CALNAME:Rage de Vert"
       expect(lines).to include "URL;VALUE=URI:https://membres.acme.test"
       expect(lines).to include "COLOR:#19A24A"
       expect(lines).to include "X-APPLE-CALENDAR-COLOR:#19A24A"

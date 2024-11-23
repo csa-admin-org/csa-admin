@@ -448,11 +448,6 @@ _:
             _en: Basket %{org_name} (trial)
             _fr: Panier %{org_name} (essai)
             _it: Cesta %{org_name} (prova)
-        name:
-          _de: "%{org_name} Kalender"
-          _en: "%{org_name} calendar"
-          _fr: Calendrier %{org_name}
-          _it: Calendario %{org_name}
       subscribe_button:
         calendar_feed:
           _de: Kalender-Feed

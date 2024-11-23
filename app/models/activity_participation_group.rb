@@ -34,7 +34,7 @@ class ActivityParticipationGroup
     to: :participation
 
   def initialize(participations)
-    @participations = participations
+    @participations = participations.sort_by { |p| p.activity.start_time }
   end
 
   def ids
