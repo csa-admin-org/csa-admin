@@ -230,6 +230,14 @@ class Organization < ApplicationRecord
     end
   end
 
+  def country
+    ISO3166::Country.new(country_code)
+  end
+
+  def time_zone
+    country.timezones.zone_info.first.identifier
+  end
+
   def sepa?
     country_code == "DE"
   end

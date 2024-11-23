@@ -173,6 +173,12 @@ class Member < ApplicationRecord
     ISO3166::Country.new(country_code)
   end
 
+  def time_zone
+    Current.org.time_zone unless country_code?
+
+    country.timezones.zone_info.first.identifier
+  end
+
   def sepa?
     iban? && sepa_mandate_id? && sepa_mandate_signed_on?
   end

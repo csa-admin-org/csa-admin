@@ -2,7 +2,9 @@
 
 class Members::BaseController < ApplicationController
   layout "members"
+
   before_action :authenticate_member!
+  around_action :set_time_zone
 
   helper_method :current_member
 
@@ -23,6 +25,11 @@ class Members::BaseController < ApplicationController
 
   def current_member
     current_session&.member
+  end
+
+  def set_time_zone
+    time_zone = current_member&.time_zone || Current.org.time_zone
+    Time.use_zone(time_zone) { yield }
   end
 
   def set_locale
