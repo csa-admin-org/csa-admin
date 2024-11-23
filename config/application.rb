@@ -26,7 +26,7 @@ module CSAAdmin
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
 
-    config.time_zone = "Zurich"
+    config.time_zone = "Europe/Zurich"
 
     config.i18n.available_locales = %w[en fr de it]
     config.i18n.default_locale = :fr

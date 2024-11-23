@@ -6,6 +6,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
   before_action :set_locale
 
+  around_action :set_time_zone
   around_action :n_plus_one_detection, if: -> { Rails.env.development? }
 
   helper_method :current_admin, :current_session
@@ -67,6 +68,10 @@ class ApplicationController < ActionController::Base
       (params_locale.in?(I18n.available_locales.map(&:to_s)) && params_locale) ||
       current_admin&.language ||
       Current.org.languages.first
+  end
+
+  def set_time_zone
+    Time.use_zone(Current.org.time_zone) { yield }
   end
 
   def update_last_usage(session)
