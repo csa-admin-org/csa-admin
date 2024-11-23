@@ -5,8 +5,8 @@ require "icalendar/tzinfo"
 
 cal = Icalendar::Calendar.new
 
-cal.ip_name = t(".name", org_name: Current.org.name)
-cal.x_wr_calname = t(".name", org_name: Current.org.name)
+cal.ip_name = Current.org.name
+cal.x_wr_calname = Current.org.name
 cal.url = Current.org.members_url
 cal.image = org_logo_url
 cal.refresh_interval = "P1W"
