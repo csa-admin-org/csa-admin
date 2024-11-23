@@ -90,6 +90,7 @@ Rails.application.routes.draw do
       resource :info, only: :show
       resource :contact_sharing, only: %i[show create]
       resource :email_suppression, only: :destroy
+      resource :calendar, only: :show, defaults: { format: :ics }
     end
   end
 end

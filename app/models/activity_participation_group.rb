@@ -2,7 +2,7 @@
 
 class ActivityParticipationGroup
   class ActivityGroup < SimpleDelegator
-    attr_accessor :period
+    attr_accessor :period, :start_time, :end_time
   end
 
   def self.group(participations)
@@ -29,6 +29,7 @@ class ActivityParticipationGroup
     :participants_count,
     :note, :note?,
     :carpooling_phone, :carpooling_city,
+    :carpooling_participations,
     :session,
     to: :participation
 
@@ -52,7 +53,17 @@ class ActivityParticipationGroup
   def activity
     @activity = ActivityGroup.new(activities.first)
     @activity.period = period
+    @activity.start_time = activities.first.start_time
+    @activity.end_time = activities.last.end_time
     @activity
+  end
+
+  def validated?
+    @activities_validated ||= @participations.all?(&:validated?)
+  end
+
+  def rejected?
+    @activities_rejected ||= @participations.all?(&:rejected?)
   end
 
   private

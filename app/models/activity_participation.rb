@@ -83,6 +83,14 @@ class ActivityParticipation < ApplicationRecord
     participants_count
   end
 
+  def carpooling_participations
+    @carpooling_participations ||= self.class
+      .where(activity_id: activity_id)
+      .where.not(member_id: member_id)
+      .carpooling
+      .includes(:member)
+  end
+
   def carpooling_phone=(phone)
     super PhonyRails.normalize_number(phone,
       default_country_code: Current.org.country_code)
