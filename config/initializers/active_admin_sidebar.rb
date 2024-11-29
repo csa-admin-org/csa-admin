@@ -25,12 +25,14 @@ ActiveAdmin.before_load do |app|
           if: -> { Current.org.shop_admin_only },
           only: :index
         ) do
-          para class: "p-2 rounded text-sm text-red-800 dark:text-red-100 bg-red-100 dark:bg-red-800" do
-            t("active_admin.shared.sidebar_section.shop_admin_only_text_html")
-          end
-          if authorized?(:read, Current.org)
-            div class: "text-center text-sm mt-3" do
-              a(href: "/settings#shop") { t("active_admin.shared.sidebar_section.edit_settings") }
+          side_panel nil do
+            para class: "-mt-2 p-2 rounded text-sm text-red-800 dark:text-red-100 bg-red-100 dark:bg-red-800" do
+              t("active_admin.shared.sidebar_section.shop_admin_only_text_html")
+            end
+            if authorized?(:read, Current.org)
+              div class: "text-center text-sm mt-3" do
+                a(href: "/settings#shop") { t("active_admin.shared.sidebar_section.edit_settings") }
+              end
             end
           end
         end
