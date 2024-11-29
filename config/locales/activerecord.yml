@@ -418,11 +418,6 @@ _:
           _en: Internal memo
           _fr: Note interne
           _it: Nota interna
-        price:
-          _de: Preis/Tasche
-          _en: Price/basket
-          _fr: Prix/panier
-          _it: Prezzo/cesta
       depot_group:
         information_text:
           _de: Informationstext

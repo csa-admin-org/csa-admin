@@ -445,6 +445,11 @@ _:
       _en: Price
       _fr: Prix
       _it: Prezzo
+    price_per_delivery:
+      _de: Preis pro Lieferung
+      _en: Price per delivery
+      _fr: Prix par livraison
+      _it: Prezzo per consegna
     producer:
       _de: Produzent
       _en: Producer

@@ -23,7 +23,7 @@ ActiveAdmin.register Depot do
     column :id, ->(d) { auto_link d, d.id }
     column :name, ->(d) { link_to display_name_with_public_name(d), d }
     column :group
-    if Depot.kept.pluck(:price).any?(&:positive?)
+    if Depot.prices?
       column :price, ->(d) { cur(d.price) }, class: "text-right tabular-nums"
     end
     if DeliveryCycle.visible?
@@ -119,9 +119,14 @@ ActiveAdmin.register Depot do
             if Current.org.languages.many?
               row(:language) { t("languages.#{depot.language}") }
             end
-            row(:price) { cur(depot.price) }
             row(:note) { text_format(depot.note) }
             row(:public_note) { depot.public_note if depot.public_note? }
+          end
+        end
+
+        panel t(".billing") do
+          attributes_table do
+            row(:price) { cur(depot.price) }
           end
         end
 
@@ -180,12 +185,18 @@ ActiveAdmin.register Depot do
         as: :select,
         hint: t("formtastic.hints.depot.group_html")
       language_input(f)
-      f.input :price, hint: true
       f.input :note, input_html: { rows: 3 }
       translated_input(f, :public_notes,
         as: :action_text,
         required: false,
         hint: t("formtastic.hints.depot.public_note"))
+    end
+
+    f.inputs t(".billing") do
+      f.input :price,
+        min: 0,
+        hint: true,
+        label: Depot.human_attribute_name(:price_per_delivery)
     end
 
     f.inputs Delivery.human_attribute_name(:sheets_pdf) do

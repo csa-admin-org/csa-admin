@@ -58,6 +58,10 @@ class Depot < ApplicationRecord
   validates :delivery_sheets_mode, inclusion: { in: DELIVERY_SHEETS_MODES }, presence: :true
   validates :delivery_cycles, presence: true
 
+  def self.prices?
+    kept.pluck(:price).any?(&:positive?)
+  end
+
   def display_name; name end
 
   def public_name

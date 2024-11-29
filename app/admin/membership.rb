@@ -316,7 +316,9 @@ ActiveAdmin.register Membership do
       }
     end
     column(:depot) { |m| m.depot.name }
-    column(:depot_price) { |m| cur(m.depot_price) }
+    if Depot.prices?
+      column(:depot_price) { |m| cur(m.depot_price) }
+    end
     column(:delivery_cycle) { |m| m.delivery_cycle.name }
     if Current.org.feature?("activity")
       column(activity_scoped_attribute(:activity_participations_demanded), &:activity_participations_demanded)
@@ -743,10 +745,7 @@ ActiveAdmin.register Membership do
         f.input :new_config_from, as: :date_picker, required: true
       end
     end
-    f.inputs [
-      Depot.model_name.human(count: 1),
-      DeliveryCycle.model_name.human(count: 1)
-    ].to_sentence do
+    f.inputs Delivery.model_name.human(count: 2) do
        ol "data-controller" => "form-reset" do
         f.input :depot,
           collection: admin_depots_collection,
@@ -754,9 +753,11 @@ ActiveAdmin.register Membership do
           input_html: {
             data: { action: "form-reset#reset" }
           }
-        f.input :depot_price,
-          required: false,
-          input_html: { data: { form_reset_target: "input" } }
+        if Depot.prices?
+          f.input :depot_price,
+            required: false,
+            input_html: { data: { form_reset_target: "input" } }
+        end
       end
       ol "data-controller" => "form-reset", class: "mt-6" do
         f.input :delivery_cycle,
