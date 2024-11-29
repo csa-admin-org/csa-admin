@@ -14,7 +14,7 @@ ActiveAdmin.register Basket do
       auto_link(resource.membership)
     ]
     if params["action"].in? %W[edit]
-      links << [ Basket.model_name.human, resource.delivery.display_name(format: :number) ].join(" ")
+      links << [ Basket.model_name.human, resource.delivery.display_name(format: :number) ].join(" ").html_safe
     end
     links
   end
