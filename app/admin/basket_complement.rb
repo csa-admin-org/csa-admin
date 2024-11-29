@@ -52,7 +52,13 @@ ActiveAdmin.register BasketComplement do
       translated_input(f, :names)
       translated_input(f, :public_names,
         hint: t("formtastic.hints.basket_complement.public_name"))
-      f.input :price, as: :number, min: 0, hint: f.object.persisted?
+    end
+
+    f.inputs t(".billing") do
+      f.input :price,
+        min: 0,
+        hint: f.object.persisted?,
+        label: BasketComplement.human_attribute_name(:price_per_delivery)
       if Current.org.feature?("activity")
         f.input :activity_participations_demanded_annually,
           label: BasketSize.human_attribute_name(activity_scoped_attribute(:activity_participations_demanded_annually)),
