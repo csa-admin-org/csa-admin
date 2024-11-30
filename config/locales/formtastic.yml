@@ -51,10 +51,10 @@ _:
           _fr: Laisser blanc pour le prix par défaut.
           _it: Lasciare vuoto per il prezzo standard.
         delivery_cycle_price:
-          _fr: Laisser blanc pour le prix par défaut (cycle de livraison).
-          _en: Leave blank for the default price (delivery cycle).
-          _it: Lasciare vuoto per il prezzo standard (ciclo di consegna).
           _de: Leer lassen für den Standardpreis (Lieferzyklus).
+          _en: Leave blank for the default price (delivery cycle).
+          _fr: Laisser blanc pour le prix par défaut (cycle de livraison).
+          _it: Lasciare vuoto per il prezzo standard (ciclo di consegna).
         depot_price:
           _de: Leer lassen für den Standardpreis.
           _en: Leave blank for the default price.
