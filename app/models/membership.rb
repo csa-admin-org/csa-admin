@@ -42,6 +42,7 @@ class Membership < ApplicationRecord
   before_validation do
     self.basket_price ||= basket_size&.price
     self.depot_price ||= depot&.price
+    self.delivery_cycle_price ||= delivery_cycle&.price
     self.activity_participations_demanded_annually ||= activity_participations_demanded_annually_by_default
     self.absences_included_annually ||= delivery_cycle&.absences_included_annually
   end
@@ -54,6 +55,7 @@ class Membership < ApplicationRecord
   validates :basket_quantity, numericality: { greater_than_or_equal_to: 0 }, presence: true
   validates :basket_price, numericality: { greater_than_or_equal_to: 0 }, presence: true
   validates :depot_price, numericality: { greater_than_or_equal_to: 0 }, presence: true
+  validates :delivery_cycle_price, numericality: { greater_than_or_equal_to: 0 }, presence: true
   validates :basket_price_extra, numericality: true, presence: true
   validates :baskets_annual_price_change, numericality: true
   validates :basket_complements_annual_price_change, numericality: true
@@ -430,6 +432,10 @@ class Membership < ApplicationRecord
         .sum("quantity * depot_price"))
   end
 
+  def deliveries_price
+    rounded_price(baskets.sum(:delivery_cycle_price))
+  end
+
   def missing_invoices_amount
     [ price - invoices_amount, 0 ].max
   end
@@ -495,6 +501,7 @@ class Membership < ApplicationRecord
   def create_basket!(delivery)
     baskets.create!(
       delivery_id: delivery.id,
+      delivery_cycle_price: delivery_cycle_price,
       basket_size_id: basket_size_id,
       basket_price: basket_price,
       price_extra: basket_price_extra,
@@ -572,7 +579,7 @@ class Membership < ApplicationRecord
   def attributes_config_changed?
     tracked_attributes = %w[
       basket_size_id basket_price basket_price_extra basket_quantity
-      depot_id depot_price delivery_cycle_id
+      depot_id depot_price delivery_cycle_id delivery_cycle_price
     ]
     (saved_changes.keys & tracked_attributes).any? || !new_config_from.today?
   end
@@ -667,6 +674,7 @@ class Membership < ApplicationRecord
         basket_complements_price +
         basket_complements_annual_price_change +
         depots_price +
+        deliveries_price +
         activity_participations_annual_price_change),
       invoices_amount: invoices.not_canceled.sum(:memberships_amount))
   end

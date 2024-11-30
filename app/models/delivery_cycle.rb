@@ -3,6 +3,7 @@
 class DeliveryCycle < ApplicationRecord
   include TranslatedAttributes
   include Discardable
+  include HasPrice
 
   MEMBER_ORDER_MODES = %w[
     name_asc
@@ -99,6 +100,10 @@ class DeliveryCycle < ApplicationRecord
 
   def self.visible?
     !basket_size_config? && visible.many?
+  end
+
+  def self.prices?
+    kept.pluck(:price).any?(&:positive?)
   end
 
   def self.greatest

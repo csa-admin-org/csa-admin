@@ -84,11 +84,6 @@ ActiveAdmin.register Basket do
   form do |f|
     delivery_collection = basket_deliveries_collection(f.object)
     f.inputs Delivery.model_name.human(count: 1), "data-controller" => "form-reset" do
-      if delivery_collection.many?
-        f.input :delivery,
-          collection: delivery_collection,
-          prompt: true
-      end
       f.input :depot,
         prompt: true,
         input_html: { data: { action: "form-reset#reset" } }
@@ -97,6 +92,14 @@ ActiveAdmin.register Basket do
           hint: true,
           required: false,
           input_html: { data: { form_reset_target: "input" } }
+      end
+      if delivery_collection.many?
+        f.input :delivery,
+          collection: delivery_collection,
+          prompt: true
+      end
+      if DeliveryCycle.prices?
+        f.input :delivery_cycle_price, required: false, min: 0
       end
     end
     f.inputs [
@@ -145,7 +148,7 @@ ActiveAdmin.register Basket do
   permit_params \
     :basket_size_id, :basket_price, :price_extra, :quantity,
     :delivery_id,
-    :depot_id, :depot_price,
+    :depot_id, :depot_price, :delivery_cycle_price,
     baskets_basket_complements_attributes: %i[
       id basket_complement_id
       price quantity

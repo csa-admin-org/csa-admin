@@ -179,7 +179,18 @@ module MembersHelper
   def delivery_cycle_details(dc, force_default: false)
     return dc.form_detail if !force_default && dc.form_detail?
 
-    deliveries_count(dc.billable_deliveries_count)
+    details = []
+    if dc.price.positive?
+      counts = [ dc.billable_deliveries_count ]
+      details << "#{deliveries_based_price_info(dc.price, counts)} (#{short_price(dc.price)} x #{deliveries_count(counts)})"
+    else
+      details << deliveries_count(dc.billable_deliveries_count)
+    end
+    absences_included_text = t("helpers.absences_included", count: dc.absences_included_annually)
+    if dc.absences_included_annually.positive? && dc.public_name.exclude?(absences_included_text)
+      details << absences_included_text
+    end
+    details.compact.join(", ")
   end
 
   def visible_delivery_cycles_collection(membership: nil, only_with_future_deliveries: false, data: {})

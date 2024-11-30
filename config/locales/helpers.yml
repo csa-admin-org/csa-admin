@@ -1,5 +1,16 @@
 _:
   helpers:
+    absences_included:
+      one:
+        _de: "%{count} Abwesenheit inklusive"
+        _en: "%{count} absence included"
+        _fr: "%{count} absence incluse"
+        _it: "%{count} assenza inclusa"
+      other:
+        _de: "%{count} Abwesenheiten inklusive"
+        _en: "%{count} absences included"
+        _fr: "%{count} absences incluses"
+        _it: "%{count} assenze incluse"
     activities_count_per_year/basket_preparation:
       one:
         _de: "%{count} Taschen befüllung"

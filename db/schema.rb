@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2024_11_20_152110) do
+ActiveRecord::Schema[8.0].define(version: 2024_11_29_130332) do
   create_table "absences", force: :cascade do |t|
     t.bigint "member_id"
     t.date "started_on"
@@ -248,6 +248,7 @@ ActiveRecord::Schema[8.0].define(version: 2024_11_20_152110) do
     t.string "state", default: "normal", null: false
     t.bigint "absence_id"
     t.boolean "billable", default: true, null: false
+    t.decimal "delivery_cycle_price", precision: 8, scale: 2, null: false
     t.index ["absence_id"], name: "index_baskets_on_absence_id"
     t.index ["basket_size_id"], name: "index_baskets_on_basket_size_id"
     t.index ["delivery_id", "membership_id"], name: "index_baskets_on_delivery_id_and_membership_id", unique: true
@@ -300,6 +301,7 @@ ActiveRecord::Schema[8.0].define(version: 2024_11_20_152110) do
     t.integer "absences_included_annually", default: 0, null: false
     t.datetime "discarded_at"
     t.json "form_details", default: {}, null: false
+    t.decimal "price", precision: 8, scale: 2, default: "0.0", null: false
     t.index ["discarded_at"], name: "index_delivery_cycles_on_discarded_at"
     t.check_constraint "JSON_TYPE(months) = 'array'", name: "delivery_cycles_months_is_array"
     t.check_constraint "JSON_TYPE(wdays) = 'array'", name: "delivery_cycles_wdays_is_array"
@@ -516,6 +518,7 @@ ActiveRecord::Schema[8.0].define(version: 2024_11_20_152110) do
     t.integer "trial_baskets_count", default: 0
     t.datetime "first_basket_sent_at"
     t.datetime "last_basket_sent_at"
+    t.decimal "delivery_cycle_price", precision: 8, scale: 2, null: false
     t.index ["basket_size_id"], name: "index_memberships_on_basket_size_id"
     t.index ["delivery_cycle_id"], name: "index_memberships_on_delivery_cycle_id"
     t.index ["depot_id"], name: "index_memberships_on_depot_id"

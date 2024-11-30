@@ -169,7 +169,24 @@ describe PDF::Invoice do
         .and contain_sequence("Montant annuel", "74.90")
     end
 
-    it "generates invoice with quarter menbership and paid amount" do
+    specify "generate invoice with membership delivery cycle price" do
+      membership = create(:membership,
+        basket_size: create(:basket_size, :big),
+        delivery_cycle: create(:delivery_cycle, price: 2, public_name: "1 semaine sur 2"),
+        deliveries_count: 2)
+      invoice = create(:invoice,
+        entity: membership,
+        memberships_amount_description: "Facturation annuelle")
+
+      pdf_strings = save_pdf_and_return_strings(invoice)
+      expect(pdf_strings)
+        .to include(/01\.01\.\d\d – 31\.12\.\d\d/)
+        .and contain_sequence("Panier: Grand PUBLIC 2x 33.25", "66.50")
+        .and contain_sequence("Livraisons (1 semaine sur 2): 2x 2.00", "4.00")
+        .and contain_sequence("Montant annuel", "70.50")
+    end
+
+    it "generates invoice with quarter membership and paid amount" do
       member = create(:member, id: 42)
       membership = create(:membership,
         member: member,

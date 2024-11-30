@@ -46,8 +46,9 @@ class Basket < ApplicationRecord
 
   validates :basket_price, numericality: { greater_than_or_equal_to: 0 }, presence: true
   validates :price_extra, numericality: true, presence: true
-  validates :depot_price, numericality: { greater_than_or_equal_to: 0 }, presence: true
+  validates :delivery_cycle_price, numericality: { greater_than_or_equal_to: 0 }, presence: true
   validates :quantity, numericality: { greater_than_or_equal_to: 0 }, presence: true
+  validates :depot_price, numericality: { greater_than_or_equal_to: 0 }, presence: true
   validate :unique_basket_complement_id
   validate :delivery_must_be_in_membership_period
 
@@ -128,6 +129,7 @@ class Basket < ApplicationRecord
   def set_prices
     self.basket_price ||= basket_size&.price
     self.depot_price ||= depot&.price
+    self.delivery_cycle_price ||= membership.delivery_cycle&.price
   end
 
   def unique_basket_complement_id

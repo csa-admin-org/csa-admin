@@ -140,6 +140,18 @@ module MembershipsHelper
       }.join(" + ").html_safe
   end
 
+  def delivery_cycle_price_info(baskets)
+    baskets
+      .billable
+      .pluck(:quantity, :delivery_cycle_price)
+      .select { |_, p| p.positive? }
+      .group_by { |_, p| p }
+      .sort
+      .map { |price, bbs|
+        "#{bbs.sum { |q, _| q }}x #{precise_cur(price)}"
+      }.join(" + ").html_safe
+  end
+
   def renewal_decisions_collection
     [
       [

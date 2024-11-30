@@ -22,9 +22,11 @@ ActiveAdmin.register Depot do
   index do
     column :id, ->(d) { auto_link d, d.id }
     column :name, ->(d) { link_to display_name_with_public_name(d), d }
-    column :group
+    if DepotGroup.any?
+      column :group
+    end
     if Depot.prices?
-      column :price, ->(d) { cur(d.price) }, class: "text-right tabular-nums"
+      column :price, ->(d) { cur(d.price) }, class: "text-right tabular-nums whitespace-nowrap"
     end
     if DeliveryCycle.visible?
       column :delivery_cycles, ->(d) {

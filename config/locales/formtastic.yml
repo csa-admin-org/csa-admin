@@ -50,6 +50,11 @@ _:
           _en: Leave blank for the default price.
           _fr: Laisser blanc pour le prix par défaut.
           _it: Lasciare vuoto per il prezzo standard.
+        delivery_cycle_price:
+          _fr: Laisser blanc pour le prix par défaut (cycle de livraison).
+          _en: Leave blank for the default price (delivery cycle).
+          _it: Lasciare vuoto per il prezzo standard (ciclo di consegna).
+          _de: Leer lassen für den Standardpreis (Lieferzyklus).
         depot_price:
           _de: Leer lassen für den Standardpreis.
           _en: Leave blank for the default price.
@@ -192,6 +197,11 @@ _:
           _en: Allows you to set the minimum number of days between two deliveries. For example, 13 for a delivery every 2 weeks.
           _fr: Permet de définir le nombre minimum de jours entre deux livraisons. Par exemple 13 pour une livraison tous les 2 semaines.
           _it: Permette di definire il numero minimo di giorni tra due consegne. Ad esempio 13 per una consegna ogni 2 settimane.
+        price:
+          _de: Zuschlag für die Verwaltung und/oder Lieferung mit diesem Zyklus.
+          _en: Supplement for the management and/or delivery with this cycle.
+          _fr: Supplément pour la gestion et/ou la livraison avec ce cycle.
+          _it: Supplemento per la gestione e/o la consegna con questo ciclo.
         public_name:
           _de: Wenn vorhanden, ersetzt den für Mitglieder angezeigten Namen (Registrierungsformular).
           _en: If present, replaces the name displayed to members (registration form).
@@ -403,6 +413,11 @@ _:
           _en: The interval of the renewed membership will also be updated automatically.
           _fr: L'intervalle de l'abonnement renouvelé sera également automatiquement mis à jour.
           _it: Anche l'intervallo dell'abbonamento rinnovato verrà aggiornato automaticamente.
+        delivery_cycle_price:
+          _de: Leer lassen für den Standardpreis.
+          _en: Leave blank for the default price.
+          _fr: Laisser blanc pour le prix par défaut.
+          _it: Lasciare vuoto per il prezzo standard.
         depot_price:
           _de: Leer lassen für den Standardpreis.
           _en: Leave blank for the default price.

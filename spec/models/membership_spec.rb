@@ -298,30 +298,32 @@ describe Membership do
     expect(membership.price).to eq membership.basket_sizes_price
   end
 
-  specify "with paid depot" do
+  specify "with depot price" do
     membership = create(:membership,
       basket_size_id: create(:basket_size, price: 23.125).id,
       depot_id: create(:depot, price: 2).id)
 
     expect(membership.basket_sizes_price).to eq 1 * 23.15
     expect(membership.depots_price).to eq 1 * 2
+    expect(membership.deliveries_price).to be_zero
     expect(membership.activity_participations_annual_price_change).to be_zero
     expect(membership.basket_complements_price).to be_zero
     expect(membership.price)
       .to eq membership.basket_sizes_price + membership.depots_price
   end
 
-  specify "with paid depot" do
+  specify "with delivery_cycle price" do
     membership = create(:membership,
       basket_size_id: create(:basket_size, price: 23.125).id,
-      depot_id: create(:depot, price: 2).id)
+      delivery_cycle_id: create(:delivery_cycle, price: 2).id)
 
     expect(membership.basket_sizes_price).to eq 1 * 23.15
-    expect(membership.depots_price).to eq 1 * 2
+    expect(membership.depots_price).to be_zero
+    expect(membership.deliveries_price).to eq 1 * 2
     expect(membership.activity_participations_annual_price_change).to be_zero
     expect(membership.basket_complements_price).to be_zero
     expect(membership.price)
-      .to eq membership.basket_sizes_price + membership.depots_price
+      .to eq membership.basket_sizes_price + membership.deliveries_price
   end
 
   specify "with custom prices and quantity" do

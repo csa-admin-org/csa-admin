@@ -20,6 +20,7 @@ class MembershipPricing
       add(baskets_prices)
       add(baskets_price_extras)
       add(depot_prices)
+      add(delivery_cycle_prices)
       complements_prices.each { |prices| add(prices) }
       add(activity_participations_prices)
 
@@ -37,6 +38,7 @@ class MembershipPricing
     Depot.visible.sum(:price).zero? &&
       BasketComplement.visible.sum(:price).zero? &&
       DeliveryCycle.visible.map(&:billable_deliveries_count).uniq.one? &&
+      DeliveryCycle.visible.sum(:price).zero? &&
       deliveries_counts.one? &&
       !Current.org.feature?("basket_price_extra") &&
       !@params[:activity_participations_demanded_annually]
@@ -134,6 +136,15 @@ class MembershipPricing
     [
       deliveries_counts.min * depot.price,
       deliveries_counts.max * depot.price
+    ]
+  end
+
+  def delivery_cycle_prices
+    return [ 0, 0 ] unless delivery_cycle
+
+    [
+      deliveries_counts.min * delivery_cycle.price,
+      deliveries_counts.max * delivery_cycle.price
     ]
   end
 
