@@ -186,14 +186,19 @@ _:
           _en: Complements
           _fr: Compléments
           _it: Complementi
+        delivery_cycle_price:
+          _de: Preis Lieferung
+          _en: Delivery price
+          _fr: Prix livraison
+          _it: Prezzo di consegna
         depot_id:
           _de: Depot ID
           _en: Depot ID
           _fr: Dépôt ID
           _it: Punto di ritiro ID
         depot_price:
-          _de: Preis Lieferung
-          _en: Delivery price
+          _de: Preis Depot
+          _en: Depot price
           _fr: Prix dépôt
           _it: Prezzo del punto di ritiro
         description:
@@ -1042,6 +1047,11 @@ _:
           _en: Delivered baskets
           _fr: Paniers livrés
           _it: Ceste consegnate
+        delivery_cycle_price:
+          _de: Preis Lieferzyklus
+          _en: Delivery cycle price
+          _fr: Prix cycle de livraison
+          _it: Prezzo ciclo di consegna
         depot:
           _de: Depot
           _en: Depot
@@ -1053,15 +1063,15 @@ _:
           _fr: Dépôt
           _it: Punto di ritiro
         depot_price:
-          _de: Preis Lieferung
+          _de: Preis Depot
           _en: Depot price
           _fr: Prix dépôt
-          _it: Prezzo punto di ritiro
+          _it: Prezzo del punto di ritiro
         depots_price:
-          _de: Preis Lieferungen
+          _de: Preis Depots
           _en: Depot prices
           _fr: Prix dépôts
-          _it: Prezzo punto di ritiro
+          _it: Prezzo punti di ritiro
         ended_on:
           _de: Ende
           _en: End

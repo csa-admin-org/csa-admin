@@ -84,6 +84,18 @@ describe MembershipPricing do
       expect(pricing.prices).to eq [ 3 * 10 ]
     end
 
+    specify "with multiple delivery cycles price" do
+      create_deliveries(5)
+
+      create(:delivery_cycle, id: 2, results: :odd, depots: Depot.all, price: 2)
+      create(:delivery_cycle, id: 3, results: :all, depots: Depot.all)
+
+      pricing = pricing(waiting_basket_size_id: 1, waiting_delivery_cycle_id: 1)
+      expect(pricing.prices).to eq [ 5 * 10 ]
+      pricing = pricing(waiting_basket_size_id: 1, waiting_delivery_cycle_id: 2)
+      expect(pricing.prices).to eq [ 3 * (10 + 2) ]
+    end
+
     specify "with multiple delivery cycles (absences included)" do
       create_deliveries(5)
       depot = create(:depot, id: 1)

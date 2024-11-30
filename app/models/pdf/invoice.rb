@@ -156,6 +156,12 @@ module PDF
             ]
           end
         end
+        if entity.deliveries_price.positive?
+          data << [
+            membership_deliveries_description,
+            cur(entity.deliveries_price)
+          ]
+        end
         unless entity.activity_participations_annual_price_change.zero?
           data << [ activity_participations_annual_price_change_description, cur(entity.activity_participations_annual_price_change) ]
         end
@@ -674,6 +680,22 @@ module PDF
     def membership_depot_description(depot)
       baskets = entity.baskets.where(depot: depot)
       "#{Depot.model_name.human}: #{depot.public_name} #{depots_price_info(baskets)}"
+    end
+
+    def membership_deliveries_description
+      most_used_price =
+        entity
+          .baskets
+          .pluck(:delivery_cycle_price)
+          .select(&:positive?)
+          .tally
+          .max_by { |_, v| v }
+          &.first
+      if entity.delivery_cycle.price != most_used_price
+        cycle = DeliveryCycle.find_by(price: most_used_price)
+      end
+      cycle ||= entity.delivery_cycle
+      "#{::Delivery.model_name.human(count: 2)} (#{cycle.public_name}): #{delivery_cycle_price_info(entity.baskets)}"
     end
 
     def activity_participations_annual_price_change_description

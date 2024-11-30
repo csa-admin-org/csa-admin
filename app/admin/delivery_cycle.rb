@@ -22,6 +22,9 @@ ActiveAdmin.register DeliveryCycle do
   includes :depots
   index download_links: false do
     column :name, ->(dc) { link_to display_name_with_public_name(dc), dc }, sortable: true
+    if DeliveryCycle.prices?
+      column :price, ->(d) { cur(d.price) }, class: "text-right tabular-nums whitespace-nowrap"
+    end
     column :next_delivery, ->(dc) { auto_link dc.next_delivery }, class: "text-right whitespace-nowrap"
     column Current.org.current_fiscal_year, ->(dc) {
       txt = dc.current_deliveries_count.to_s
@@ -98,6 +101,7 @@ ActiveAdmin.register DeliveryCycle do
         if feature?("absence")
           panel t(".billing") do
             attributes_table do
+              row(:price) { cur(dc.price) }
               row :absences_included_annually
             end
           end
@@ -160,8 +164,11 @@ ActiveAdmin.register DeliveryCycle do
 
     if feature?("absence")
       f.inputs t(".billing") do
+        f.input :price,
+          min: 0,
+          hint: true,
+          label: DeliveryCycle.human_attribute_name(:price_per_delivery)
         f.input :absences_included_annually
-
         handbook_button(self, "absences", anchor: "absences-incluses")
       end
     end
@@ -192,7 +199,7 @@ ActiveAdmin.register DeliveryCycle do
   permit_params(
     :visible,
     :member_order_priority,
-    :absences_included_annually,
+    :price, :absences_included_annually,
     :week_numbers,
     :results,
     :minimum_gap_in_days,

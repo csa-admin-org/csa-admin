@@ -12,12 +12,12 @@ ActiveAdmin.register BasketSize do
   index download_links: false do
     column :id
     column :name, ->(bs) { display_name_with_public_name(bs) }, sortable: true
-    column :price, ->(bs) { cur(bs.price, precision: 3) }, class: "text-right tabular-nums"
+    column :price, ->(bs) { cur(bs.price, precision: 3) }, class: "text-right tabular-nums whitespace-nowrap"
     column :annual_price, ->(bs) {
       if bs.price.positive?
         deliveries_based_price_info(bs.price, bs.billable_deliveries_counts)
       end
-    }, class: "text-right tabular-nums"
+    }, class: "text-right tabular-nums whitespace-nowrap"
     column :deliveries, ->(bs) {
       deliveries_count_range(bs.billable_deliveries_counts)
     }, class: "text-right tabular-nums"

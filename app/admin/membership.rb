@@ -573,6 +573,11 @@ ActiveAdmin.register Membership do
                   display_price_description(m.depots_price, depots_price_info(m.baskets))
                 }
               end
+              if m.deliveries_price.nonzero?
+                row(Delivery.model_name.human(count: 2), class: "text-right tabular-nums") {
+                  display_price_description(m.deliveries_price, delivery_cycle_price_info(m.baskets))
+                }
+              end
               if Current.org.feature?("activity") && m.activity_participations_annual_price_change.nonzero?
                 row(t_activity(".activity_participations_annual_price_change"), class: "text-right tabular-nums") {
                   cur(m.activity_participations_annual_price_change, unit: false)
@@ -767,6 +772,11 @@ ActiveAdmin.register Membership do
           input_html: {
             data: { action: "form-reset#reset" }
           }
+        if DeliveryCycle.prices?
+          f.input :delivery_cycle_price,
+            required: false,
+            input_html: { data: { form_reset_target: "input" } }
+        end
         if feature?("absence")
           f.input :absences_included_annually,
             required: false,
@@ -824,7 +834,7 @@ ActiveAdmin.register Membership do
   permit_params \
     :member_id,
     :basket_size_id, :basket_price, :basket_price_extra, :basket_quantity, :baskets_annual_price_change,
-    :depot_id, :depot_price, :delivery_cycle_id,
+    :depot_id, :depot_price, :delivery_cycle_id, :delivery_cycle_price,
     :billing_year_division,
     :started_on, :ended_on, :renew, :renewal_annual_fee,
     :activity_participations_annual_price_change, :activity_participations_demanded_annually,
