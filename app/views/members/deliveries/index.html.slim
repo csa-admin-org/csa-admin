@@ -18,10 +18,10 @@ ul class="mt-2 grid md:grid-cols-2 gap-4"
       li class='w-full'
         = render basket
 
-    - if @future_baskets.provisionally_absent.any?
-      div class='flex mt-4 mb-4 text-sm text-gray-400 dark:text-gray-600'
-        span class='left mr-2' *
-        p = t('.provisionally_absent_explanation_html')
+- if @future_baskets.provisionally_absent.any?
+  div class='flex mt-4 mb-4 text-sm text-gray-400 dark:text-gray-600'
+    span class='left mr-2' *
+    p = t('.provisionally_absent_explanation_html')
 
 h2 class="mt-8 text-lg font-bold text-gray-900 dark:text-gray-100"
   = t('.past_deliveries', count: @past_baskets.count)
