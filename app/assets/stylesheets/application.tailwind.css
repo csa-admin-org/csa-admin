@@ -901,17 +901,17 @@
   }
 
 
-  /* Ace */
-  .ace_editor {
-    @apply bg-gray-50 border border-gray-300 focus:border-2 text-gray-900 rounded-md focus:ring-green-600 focus:border-green-600 w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-green-600 dark:focus:border-green-600 !important;
+  /* CodeMirror */
+  .cm-editor {
+    @apply bg-gray-50 border border-gray-300 text-gray-900 rounded-md w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white !important;
   }
 
-  .ace_editor .ace_content {
-    @apply pt-3;
+  .cm-focused {
+    @apply outline outline-green-500 border-green-500 dark:outline-green-600 dark:outline-green-600 !important;
   }
 
-  .ace_editor .ace_placeholder {
-    @apply text-lg text-gray-600 dark:text-gray-300 !important;
+  .cm-gutters {
+    @apply rounded-l-md !important;
   }
 
   /* Trix */

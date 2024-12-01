@@ -1,2 +1,0 @@
-var e={};var t={exports:e};ace.define("ace/theme/textmate",["require","exports","module","ace/theme/textmate-css","ace/lib/dom"],(function(e,t,s){t.isDark=false;t.cssClass="ace-tm";t.cssText=e("./textmate-css");t.$id="ace/theme/textmate";var a=e("../lib/dom");a.importCssString(t.cssText,t.cssClass,false)}));(function(){ace.require(["ace/theme/textmate"],(function(e){t&&(t.exports=e)}))})();var s=t.exports;const a=t.exports.isDark,r=t.exports.cssClass,c=t.exports.cssText,o=t.exports.$id;export{o as $id,r as cssClass,c as cssText,s as default,a as isDark};
-
