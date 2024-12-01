@@ -12,14 +12,14 @@ pin_all_from "app/javascript/components", under: "components"
 pin "throttle-debounce" # @5.0.2
 
 # AppSignal
-pin "@appsignal/javascript", to: "@appsignal--javascript.js" # @1.4.0
-pin "@appsignal/core", to: "@appsignal--core.js" # @1.1.23
+pin "@appsignal/javascript", to: "@appsignal--javascript.js" # @1.5.0
+pin "@appsignal/core", to: "@appsignal--core.js" # @1.1.24
 pin "https" # @2.1.0
 pin "tslib" # @2.8.1
 
 # ActiveAdmin (used also by members)
 pin "flowbite", to: "flowbite.turbo.min.js" # @2.4.1
-pin "browser-update" # @3.3.54
+pin "browser-update" # @3.3.55
 
 # Members
 pin "members", preload: false
@@ -43,7 +43,7 @@ pin "@roderickhsiao/emoji-button-locale-data/dist/it", to: "@roderickhsiao--emoj
 pin "tom-select", preload: false # @2.3.1
 pin "@stimulus-components/sortable", to: "@stimulus-components--sortable.js", preload: false # @5.0.1
 pin "@rails/request.js", to: "@rails--request.js.js", preload: false # @0.0.11
-pin "sortablejs", preload: false # @1.15.3
+pin "sortablejs", preload: false # @1.15.6
 # Codemirror
 pin "codemirror" # @6.0.1
 pin "@codemirror/autocomplete", to: "@codemirror--autocomplete.js" # @6.18.3
