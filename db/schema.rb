@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2024_11_29_130332) do
+ActiveRecord::Schema[8.0].define(version: 2024_12_01_092817) do
   create_table "absences", force: :cascade do |t|
     t.bigint "member_id"
     t.date "started_on"
@@ -575,6 +575,7 @@ ActiveRecord::Schema[8.0].define(version: 2024_11_29_130332) do
     t.integer "bounce_type_code"
     t.string "bounce_description"
     t.index ["member_id"], name: "index_newsletter_deliveries_on_member_id"
+    t.index ["newsletter_id", "member_id", "email"], name: "idx_on_newsletter_id_member_id_email_00311dbc8c", unique: true
     t.index ["newsletter_id"], name: "index_newsletter_deliveries_on_newsletter_id"
     t.index ["state"], name: "index_newsletter_deliveries_on_state"
     t.check_constraint "JSON_TYPE(email_suppression_ids) = 'array'", name: "newsletter_deliveries_email_suppression_ids_is_array"
