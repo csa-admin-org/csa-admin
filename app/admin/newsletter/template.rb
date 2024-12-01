@@ -36,9 +36,7 @@ ActiveAdmin.register Newsletter::Template do
       translated_input(f, :contents,
         as: :text,
         hint: t("formtastic.hints.liquid").html_safe,
-        wrapper_html: { class: "ace-editor" },
         input_html: {
-          class: "ace-editor",
           data: { mode: "liquid", code_editor_target: "editor" }
         })
 
@@ -62,9 +60,7 @@ ActiveAdmin.register Newsletter::Template do
               locale: locale,
               as: :text,
               hint: t("formtastic.hints.liquid_data_preview"),
-              wrapper_html: { class: "ace-editor" },
               input_html: {
-                class: "ace-editor",
                 data: { mode: "yaml", code_editor_target: "editor" },
                 name: "newsletter_template[liquid_data_preview_yamls][#{locale}]"
               })

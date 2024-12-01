@@ -100,9 +100,7 @@ ActiveAdmin.register MailTemplate do
       translated_input(f, :contents,
         as: :text,
         hint: t("formtastic.hints.liquid").html_safe,
-        wrapper_html: { class: "ace-editor" },
         input_html: {
-          class: "ace-editor",
           data: { mode: "liquid", code_editor_target: "editor" }
         })
     end
@@ -124,9 +122,7 @@ ActiveAdmin.register MailTemplate do
               locale: locale,
               as: :text,
               hint: t("formtastic.hints.liquid_data_preview"),
-              wrapper_html: { class: "ace-editor" },
               input_html: {
-                class: "ace-editor",
                 data: { mode: "yaml", code_editor_target: "editor" },
                 name: "mail_template[liquid_data_preview_yamls][#{locale}]"
               })

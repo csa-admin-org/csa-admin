@@ -265,9 +265,7 @@ ActiveAdmin.register Newsletter do
               locale: locale,
               as: :text,
               hint: t("formtastic.hints.liquid_data_preview"),
-              wrapper_html: { class: "ace-editor" },
               input_html: {
-                class: "ace-editor",
                 data: {
                   mode: "yaml",
                   code_editor_target: "editor"

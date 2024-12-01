@@ -342,9 +342,7 @@ ActiveAdmin.register Organization do
           f.input :activity_participations_demanded_logic,
             as: :text,
             hint: t("formtastic.hints.organization.activity_participations_demanded_logic_html"),
-            wrapper_html: { class: "ace-editor" },
             input_html: {
-              class: "ace-editor",
               data: { mode: "liquid", code_editor_target: "editor" }
             }
 
@@ -384,27 +382,21 @@ ActiveAdmin.register Organization do
           translated_input(f, :basket_price_extra_labels,
             as: :text,
             hint: t("formtastic.hints.organization.basket_price_extra_labels_html"),
-            wrapper_html: { class: "ace-editor" },
             input_html: {
-              class: "ace-editor",
               data: { mode: "liquid", code_editor_target: "editor" }
             })
           translated_input(f, :basket_price_extra_label_details,
             as: :text,
             placeholder: Current.org.basket_price_extra_label_detail_default,
             hint: t("formtastic.hints.organization.basket_price_extra_label_details_html"),
-            wrapper_html: { class: "ace-editor" },
             input_html: {
-              class: "ace-editor",
               data: { mode: "liquid", code_editor_target: "editor" }
             })
 
           f.input :basket_price_extra_dynamic_pricing,
             as: :text,
             hint: t("formtastic.hints.organization.basket_price_extra_dynamic_pricing_html"),
-            wrapper_html: { class: "ace-editor" },
             input_html: {
-              class: "ace-editor",
               data: { mode: "liquid", code_editor_target: "editor" }
             }
 
