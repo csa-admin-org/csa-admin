@@ -21,7 +21,13 @@ export default class extends Controller {
       localeEmojiData = itEmojiData;
     }
 
+    const prefersDarkScheme = window.matchMedia("(prefers-color-scheme: dark)").matches
+    const hasDarkClass = document.documentElement.classList.contains("dark")
+    const useDarkTheme = prefersDarkScheme || hasDarkClass
+    const theme = useDarkTheme ? 'dark' : 'light'
+
     this.application.picker = new EmojiButton({
+      theme: theme,
       initialCategory: 'food',
       showRecents: false,
       emojisPerRow: 8,
