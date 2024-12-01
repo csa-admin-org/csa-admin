@@ -39,9 +39,9 @@ class Newsletter
       members = by_delivery_cycle(members)
       members = by_renewal_state(members)
       members = by_first_membership(members)
-      members = by_coming_deliveries_in_days(members)
       members = by_billing_year_division(members)
-      members
+      members = by_coming_deliveries_in_days(members)
+      members.uniq
     end
 
     private
@@ -88,6 +88,12 @@ class Newsletter
       end
     end
 
+    def by_billing_year_division(members)
+      return members unless billing_year_division?
+
+      members.where(memberships: { billing_year_division: billing_year_division })
+    end
+
     # TODO: Try to use an association here instead of select
     def by_coming_deliveries_in_days(members)
       return members unless coming_deliveries_in_days?
@@ -96,12 +102,6 @@ class Newsletter
       members.includes(next_basket: :delivery).select { |m|
         m.next_basket && m.next_basket.delivery.date <= limit
       }
-    end
-
-    def by_billing_year_division(members)
-      return members unless billing_year_division?
-
-      members.where(memberships: { billing_year_division: billing_year_division })
     end
   end
 end
