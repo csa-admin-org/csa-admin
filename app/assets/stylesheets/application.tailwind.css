@@ -171,14 +171,14 @@
     }
 
     &.secondary, &[data-method="delete"] {
-      @apply border-0 text-white bg-green-600 hover:bg-green-700 focus:ring-green-300 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800;
+      @apply border-0 text-white dark:text-white hover:text-white dark:hover:text-white bg-green-600 hover:bg-green-700 focus:ring-green-300 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800;
     }
   }
   button.action-item-button {
-    @apply border border-green-600 text-white hover:text-white hover:border-green-700 text-white bg-green-600 hover:bg-green-700 focus:ring-green-300 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800;
+    @apply border border-green-600 dark:border-green-600 text-white dark:text-white hover:text-white dark:hover:text-white hover:border-green-700 bg-green-600 hover:bg-green-700 focus:ring-green-300  dark:bg-green-600 dark:hover:bg-green-700 dark:hover:border-green-700 dark:focus:ring-green-800;
 
     &.borderless {
-      @apply px-0 bg-transparent hover:bg-transparent border-0 text-gray-400 dark:text-gray-600 hover:text-green-600 dark:hover:text-green-600;
+      @apply px-0 bg-transparent dark:hover:bg-transparent border-0 text-gray-400 dark:text-gray-600 hover:text-green-600 dark:hover:text-green-600;
     }
   }
 
