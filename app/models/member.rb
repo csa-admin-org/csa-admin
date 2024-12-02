@@ -289,7 +289,7 @@ class Member < ApplicationRecord
     self.activated_at = Time.current
     save!
 
-    if emails? && activated_at_previously_was.nil? || activated_at_previously_was < 1.week.ago
+    if emails? && (activated_at_previously_was.nil? || activated_at_previously_was < 1.week.ago)
       MailTemplate.deliver_later(:member_activated, member: self)
     end
   end
