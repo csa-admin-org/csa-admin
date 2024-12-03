@@ -179,3 +179,8 @@ dbs:
     replicas:
       - <<: *replica_defaults
         path: storage/production_wilderauke.sqlite3
+
+  - path: storage/production_lepetrichor.sqlite3
+    replicas:
+      - <<: *replica_defaults
+        path: storage/production_lepetrichor.sqlite3
