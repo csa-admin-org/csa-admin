@@ -61,6 +61,8 @@ production: &production
     domain: ferme-boisdunant.ch
   wilderauke:
     domain: wilde-rauke.de
+  lepetrichor:
+    domain: lepetrichor.ch
 
   demo:
     domain: acp-admin.ch
