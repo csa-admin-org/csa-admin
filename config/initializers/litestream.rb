@@ -6,6 +6,6 @@ Rails.application.configure do
   config.litestream.replica_key_id = litestream_credentials&.replica_key_id
   config.litestream.replica_access_key = litestream_credentials&.replica_access_key
 
-  config.litestream.username = "mc"
-  config.litestream.password = ENV["MISSION_CONTROL_PASSWORD"]
+  config.litestream.username = Rails.application.credentials.http_basic_auth_user
+  config.litestream.password = Rails.application.credentials.http_basic_auth_password
 end
