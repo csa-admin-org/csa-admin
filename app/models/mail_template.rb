@@ -34,6 +34,10 @@ class MailTemplate < ApplicationRecord
     invoice_overdue_notice
     activity_participation_reminder
   ]
+  TITLES_WITH_DELIVERY_CYCLES_SCOPE = MEMBERSHIP_TITLES - %w[
+    membership_renewal
+    membership_renewal_reminder
+  ].freeze
 
   audited_attributes :subjects, :contents
 
@@ -42,6 +46,7 @@ class MailTemplate < ApplicationRecord
     presence: true,
     inclusion: { in: TITLES },
     uniqueness: true
+  validates :delivery_cycle_ids, presence: true, if: :active?
   validate :subjects_must_be_valid, :contents_must_be_valid
 
   after_initialize :set_defaults
@@ -122,6 +127,10 @@ class MailTemplate < ApplicationRecord
     I18n.t("mail_template.description.#{title}").html_safe
   end
 
+  def with_delivery_cycles_scope?
+    title.in?(TITLES_WITH_DELIVERY_CYCLES_SCOPE)
+  end
+
   def mailer
     "#{title.split('_').first}_mailer".classify.constantize
   end
@@ -156,6 +165,16 @@ class MailTemplate < ApplicationRecord
     else
       super
     end
+  end
+
+  def delivery_cycle_ids=(ids)
+    all_ids = DeliveryCycle.order(:id).pluck(:id)
+    ids = ids.map(&:presence).compact.map(&:to_i) & all_ids
+    super (ids.sort == all_ids || ids.empty?) ? nil : ids
+  end
+
+  def delivery_cycle_ids
+    super || DeliveryCycle.pluck(:id)
   end
 
   private

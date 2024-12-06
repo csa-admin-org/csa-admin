@@ -26,8 +26,6 @@ describe "Mail Templates" do
       click_button "Mettre à jour Template Email"
     }.to change(Audit, :count).by(1)
 
-    click_link "Membre activé"
-
     expect(page).to have_selector "h2[aria-label='Page Title']", text: "Membre activé"
     expect(page).to have_content("Envoi Oui")
     expect(iframe).to have_selector "h1", text: "Bienvenue Jane Doe!!"

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2024_12_01_092817) do
+ActiveRecord::Schema[8.0].define(version: 2024_12_06_100507) do
   create_table "absences", force: :cascade do |t|
     t.bigint "member_id"
     t.date "started_on"
@@ -408,7 +408,9 @@ ActiveRecord::Schema[8.0].define(version: 2024_12_01_092817) do
     t.json "contents", default: {}, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.json "delivery_cycle_ids"
     t.index ["title"], name: "index_mail_templates_on_title", unique: true
+    t.check_constraint "JSON_TYPE(delivery_cycle_ids) = 'array'", name: "mail_templates_delivery_cycle_ids_is_array"
   end
 
   create_table "members", force: :cascade do |t|

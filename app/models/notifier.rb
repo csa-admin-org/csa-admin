@@ -74,11 +74,13 @@ module Notifier
   end
 
   def send_membership_initial_basket_emails
-    return unless MailTemplate.active_template(:membership_initial_basket)
+    template = MailTemplate.active_template(:membership_initial_basket)
+    return unless template
 
     baskets =
       Membership
         .current
+        .where(delivery_cycle_id: template.delivery_cycle_ids)
         .includes(:member, baskets: :delivery)
         .select(&:can_send_email?)
         .map { |m| m.baskets.deliverable.first }
@@ -95,11 +97,13 @@ module Notifier
   end
 
   def send_membership_final_basket_emails
-    return unless MailTemplate.active_template(:membership_final_basket)
+    template = MailTemplate.active_template(:membership_final_basket)
+    return unless template
 
     baskets =
       Membership
         .current
+        .where(delivery_cycle_id: template.delivery_cycle_ids)
         .renewal_state_eq(:renewal_canceled)
         .includes(:member, baskets: :delivery)
         .select(&:can_send_email?)
@@ -116,11 +120,13 @@ module Notifier
   end
 
   def send_membership_first_basket_emails
-    return unless MailTemplate.active_template(:membership_first_basket)
+    template = MailTemplate.active_template(:membership_first_basket)
+    return unless template
 
     baskets =
       Membership
         .current
+        .where(delivery_cycle_id: template.delivery_cycle_ids)
         .where(first_basket_sent_at: nil)
         .includes(:member, baskets: :delivery)
         .select(&:can_send_email?)
@@ -134,12 +140,14 @@ module Notifier
   end
 
   def send_membership_last_basket_emails
-    return unless MailTemplate.active_template(:membership_last_basket)
+    template = MailTemplate.active_template(:membership_last_basket)
+    return unless template
 
     baskets =
       Membership
         .current
         .renewed
+        .where(delivery_cycle_id: template.delivery_cycle_ids)
         .where(last_basket_sent_at: nil)
         .includes(:member, baskets: :delivery)
         .select(&:can_send_email?)
@@ -153,11 +161,13 @@ module Notifier
   end
 
   def send_membership_last_trial_basket_emails
-    return unless MailTemplate.active_template(:membership_last_trial_basket)
+    template = MailTemplate.active_template(:membership_last_trial_basket)
+    return unless template
 
     baskets =
       Membership
         .trial
+        .where(delivery_cycle_id: template.delivery_cycle_ids)
         .where(last_trial_basket_sent_at: nil)
         .includes(:member, baskets: :delivery)
         .select(&:can_send_email?)

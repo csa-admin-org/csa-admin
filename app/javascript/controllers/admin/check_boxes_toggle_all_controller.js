@@ -12,7 +12,7 @@ export default class extends Controller {
 
   updateToggle() {
     if (
-      this.inputTargets.length > 2 &&
+      this.inputTargets.length >= 2 &&
       !this.toggleTarget.closest("form.filter_form") &&
       !this.toggleTarget.closest("li.no-check-boxes-toggle-all")
     ) {
