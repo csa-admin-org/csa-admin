@@ -297,10 +297,15 @@ _:
           _fr: Cet email n'est pas envoyé par défaut, veuillez vérifier son contenu avant de l'activer.
           _it: Questa email non viene inviata per default, controlla il suo contenuto prima di attivarla
         always_active:
-          _de: Diese E-Mail ist obligatorisch und kann nicht geändert werden.
-          _en: This email is mandatory and cannot be changed.
-          _fr: Cet email est obligatoire et ne peut pas être modifié.
-          _it: Questo indirizzo e-mail è obbligatorio e non può essere modificato.
+          _de: Diese E-Mail ist obligatorisch und kann nicht deaktiviert werden.
+          _en: This email is mandatory and cannot be deactivated.
+          _fr: Cet email est obligatoire et ne peut pas être désactivé.
+          _it: Questo indirizzo e-mail è obbligatorio e non può essere disattivato.
+        delivery_cycle_ids:
+          _de: Diese E-Mail nur an Abonnements senden, die die ausgewählten Lieferzyklen verwenden.
+          _en: Only send this email to memberships using the selected delivery cycles.
+          _fr: Uniquement envoyer cet email aux abonnement utilisant les cycles de livraison sélectionnés.
+          _it: Invia questa email solo agli abbonamenti che utilizzano i cicli di consegna selezionati.
       member:
         billing_email:
           _de: Wenn vorhanden, werden die Benachrichtigungs-E-Mails für neue Rechnungen und Mahnungen an diese Adresse anstelle der E-Mail(s) des Mitglieds gesendet.

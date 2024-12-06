@@ -387,9 +387,9 @@ class Organization < ApplicationRecord
 
   def create_default_configurations
     Permission.create_superadmin!
+    DeliveryCycle.create_default!
     MailTemplate.create_all!
     Newsletter::Template.create_defaults!
-    DeliveryCycle.create_default!
   end
 
   def activity_participations_demanded_logic_must_be_valid

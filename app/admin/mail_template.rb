@@ -59,36 +59,56 @@ ActiveAdmin.register MailTemplate do
           div class: "mx-2 mb-4" do
             para mail_template.description, class: "text-base description"
           end
-          attributes_table do
-            row(:active)
+          if !mail_template.active? || !mail_template.with_delivery_cycles_scope?
+            attributes_table do
+              row(:active, class: "text-right") { status_tag(mail_template.active?) }
+            end
+          else
+            table_for DeliveryCycle.kept.ordered, class: "table-auto" do
+              column DeliveryCycle.model_name.human, ->(dc) { auto_link dc }
+              column MailTemplate.human_attribute_name(:active), ->(dc) {
+                status_tag(dc.id.in?(mail_template.delivery_cycle_ids))
+              }, class: "text-right"
+            end
           end
         end
       end
     end
   end
 
-  permit_params(
-    :active,
-    *I18n.available_locales.map { |l| "subject_#{l}" },
-    *I18n.available_locales.map { |l| "content_#{l}" },
-    liquid_data_preview_yamls: I18n.available_locales)
-
   form data: {
     controller: "code-editor",
     code_editor_target: "form",
-    code_editor_preview_path_value: "/mail_templates/preview.js"
+    code_editor_preview_path_value: "/mail_templates/preview.js",
+    turbo: false
   } do |f|
     f.inputs t(".settings") do
       para f.object.description, class: "text-base description"
       f.input :title, as: :hidden
 
-      if mail_template.always_active?
-        f.input :active,
-          input_html: { disabled: true },
-          required: false,
-          hint: t("formtastic.hints.mail_template.always_active")
-      else
-        f.input :active, hint: true
+      div "data-controller" => "form-checkbox-toggler" do
+        if mail_template.always_active?
+          f.input :active,
+            input_html: { disabled: true },
+            required: false,
+            hint: t("formtastic.hints.mail_template.always_active")
+        else
+          f.input :active,
+            hint: !mail_template.active?,
+            input_html: { data: {
+              form_checkbox_toggler_target: "checkbox",
+              action: "form-checkbox-toggler#toggleInput"
+            } }
+        end
+        if mail_template.with_delivery_cycles_scope? && DeliveryCycle.kept.many?
+          f.input :delivery_cycle_ids,
+            as: :check_boxes,
+            collection: admin_delivery_cycles_collection,
+            input_html: {
+              data: { form_checkbox_toggler_target: "input" }
+            },
+            label: DeliveryCycle.model_name.human(count: 2)
+        end
       end
     end
     f.inputs do
@@ -133,6 +153,13 @@ ActiveAdmin.register MailTemplate do
     f.actions
   end
 
+  permit_params(
+    :active,
+    *I18n.available_locales.map { |l| "subject_#{l}" },
+    *I18n.available_locales.map { |l| "content_#{l}" },
+    liquid_data_preview_yamls: I18n.available_locales,
+    delivery_cycle_ids: [])
+
   collection_action :preview, method: :post do
     @mail_template = scoped_collection.where(title: params[:mail_template][:title]).first!
     resource.assign_attributes(permitted_params[:mail_template])
@@ -164,9 +191,7 @@ ActiveAdmin.register MailTemplate do
       if resource.valid? && (params.keys & %w[preview edit]).any?
         render :edit
       else
-        super do |success, _failure|
-          success.html { redirect_to mail_templates_path }
-        end
+        super
       end
     end
   end

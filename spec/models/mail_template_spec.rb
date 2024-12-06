@@ -82,4 +82,20 @@ describe MailTemplate do
       expect(template).to be_valid
     end
   end
+
+  specify "#delivery_cycle_ids" do
+    create(:delivery_cycle, id: 2)
+
+    template.delivery_cycle_ids = [ 2, 1 ]
+    expect(template[:delivery_cycle_ids]).to be_nil
+    expect(template.delivery_cycle_ids).to eq [ 1, 2 ]
+
+    template.delivery_cycle_ids = []
+    expect(template[:delivery_cycle_ids]).to be_nil
+    expect(template.delivery_cycle_ids).to eq [ 1, 2 ]
+
+    template.delivery_cycle_ids = [ 2 ]
+    expect(template[:delivery_cycle_ids]).to eq [ 2 ]
+    expect(template.delivery_cycle_ids).to eq [ 2 ]
+  end
 end

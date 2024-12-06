@@ -42,9 +42,14 @@ describe Notifier do
   end
 
   specify ".send_membership_initial_basket_emails" do
-    MailTemplate.find_by(title: :membership_initial_basket).update!(active: true)
+    cycle = create(:delivery_cycle)
+    cycle_ids = DeliveryCycle.pluck(:id) - [ cycle.id ]
+    MailTemplate
+      .find_by(title: :membership_initial_basket)
+      .update!(active: true, delivery_cycle_ids: cycle_ids)
     member1 = create(:member, initial_basket_sent_at: nil)
     member2 = create(:member, initial_basket_sent_at: nil)
+    member2_bis = create(:member, initial_basket_sent_at: nil)
     member3 = create(:member, initial_basket_sent_at: nil)
     member4 = create(:member,
       initial_basket_sent_at: "2022-01-01",
@@ -67,6 +72,7 @@ describe Notifier do
       create(:delivery, date: "2024-11-03")
       create(:membership, started_on: "2024-11-01", member: member1)
       create(:membership, started_on: "2024-11-02", member: member2)
+      create(:membership, started_on: "2024-11-02", member: member2_bis, delivery_cycle: cycle)
       create(:membership, started_on: "2024-11-03", member: member3)
       create(:membership, started_on: "2024-11-02", member: member4)
       create(:membership, started_on: "2024-11-02", member: member5)
@@ -85,6 +91,7 @@ describe Notifier do
 
       expect(member1.reload.initial_basket_sent_at).to be_nil
       expect(member2.reload.initial_basket_sent_at).to eq Time.current
+      expect(member2_bis.reload.initial_basket_sent_at).to be_nil
       expect(member3.reload.initial_basket_sent_at).to be_nil
       expect(member4.reload.initial_basket_sent_at).to eq Time.current
       expect(member5.reload.initial_basket_sent_at.to_date.to_s).to eq "2024-11-01"
@@ -95,9 +102,14 @@ describe Notifier do
   end
 
   specify ".send_membership_final_basket_emails" do
-    MailTemplate.find_by(title: :membership_final_basket).update!(active: true)
+    cycle = create(:delivery_cycle)
+    cycle_ids = DeliveryCycle.pluck(:id) - [ cycle.id ]
+    MailTemplate
+      .find_by(title: :membership_final_basket)
+      .update!(active: true, delivery_cycle_ids: cycle_ids)
     member1 = create(:member, final_basket_sent_at: nil)
     member2 = create(:member, final_basket_sent_at: nil)
+    member2_bis = create(:member, initial_basket_sent_at: nil)
     member3 = create(:member, final_basket_sent_at: nil)
     member4 = create(:member,
       final_basket_sent_at: "2022-01-01",
@@ -114,6 +126,7 @@ describe Notifier do
       create(:delivery, date: "2024-11-03")
       create(:membership, :renewed, ended_on: "2024-11-02", member: member1)
       create(:membership, :renewal_canceled, ended_on: "2024-11-02", member: member2)
+      create(:membership, :renewal_canceled, ended_on: "2024-11-02", member: member2_bis, delivery_cycle: cycle)
       create(:membership, :renewal_canceled, ended_on: "2024-11-03", member: member3)
       create(:membership, :renewal_canceled, ended_on: "2024-11-02", member: member4)
       create(:membership, :renewal_canceled, ended_on: "2024-11-02", member: member5)
@@ -131,6 +144,7 @@ describe Notifier do
 
       expect(member1.reload.final_basket_sent_at).to be_nil
       expect(member2.reload.final_basket_sent_at).to eq Time.current
+      expect(member2_bis.reload.initial_basket_sent_at).to be_nil
       expect(member3.reload.final_basket_sent_at).to be_nil
       expect(member4.reload.final_basket_sent_at).to eq Time.current
       expect(member5.reload.final_basket_sent_at.to_date.to_s).to eq "2024-11-01"
@@ -140,7 +154,11 @@ describe Notifier do
   end
 
   specify ".send_membership_first_basket_emails" do
-    MailTemplate.find_by(title: :membership_first_basket).update!(active: true)
+    cycle = create(:delivery_cycle)
+    cycle_ids = DeliveryCycle.pluck(:id) - [ cycle.id ]
+    MailTemplate
+      .find_by(title: :membership_first_basket)
+      .update!(active: true, delivery_cycle_ids: cycle_ids)
     member = create(:member, emails: "john@doe.com")
 
     travel_to "2024-11-01" do
@@ -149,6 +167,7 @@ describe Notifier do
       create(:delivery, date: "2024-11-03")
       create(:membership, started_on: "2024-11-01", first_basket_sent_at: nil)
       create(:membership, started_on: "2024-11-02", first_basket_sent_at: nil, member: member)
+      create(:membership, started_on: "2024-11-02", first_basket_sent_at: nil, delivery_cycle: cycle)
       create(:membership, started_on: "2024-11-03", first_basket_sent_at: nil)
       create(:membership, started_on: "2024-11-02", first_basket_sent_at: 1.minute.ago)
       m1 = create(:membership, started_on: "2024-11-02")
@@ -171,7 +190,11 @@ describe Notifier do
   end
 
   specify ".send_membership_last_basket_emails" do
-    MailTemplate.find_by(title: :membership_last_basket).update!(active: true)
+    cycle = create(:delivery_cycle)
+    cycle_ids = DeliveryCycle.pluck(:id) - [ cycle.id ]
+    MailTemplate
+      .find_by(title: :membership_last_basket)
+      .update!(active: true, delivery_cycle_ids: cycle_ids)
     member = create(:member, emails: "john@doe.com")
 
     travel_to "2024-11-01" do
@@ -180,6 +203,7 @@ describe Notifier do
       create(:delivery, date: "2024-11-03")
       create(:membership, :renewed, ended_on: "2024-11-01", last_basket_sent_at: nil)
       create(:membership, :renewed, ended_on: "2024-11-02", last_basket_sent_at: nil, member: member)
+      create(:membership, :renewed, ended_on: "2024-11-02", last_basket_sent_at: nil, delivery_cycle: cycle)
       create(:membership, :renewal_canceled, ended_on: "2024-11-02", last_basket_sent_at: nil)
       create(:membership, :renewed, ended_on: "2024-11-03", last_basket_sent_at: nil)
       create(:membership, :renewed, ended_on: "2024-11-02", last_basket_sent_at: 1.minute.ago)
@@ -204,7 +228,11 @@ describe Notifier do
 
   specify ".send_membership_last_trial_basket_emails" do
     Current.org.update!(trial_baskets_count: 2)
-    MailTemplate.find_by(title: :membership_last_trial_basket).update!(active: true)
+    cycle = create(:delivery_cycle)
+    cycle_ids = DeliveryCycle.pluck(:id) - [ cycle.id ]
+    MailTemplate
+      .find_by(title: :membership_last_trial_basket)
+      .update!(active: true, delivery_cycle_ids: cycle_ids)
     travel_to "2021-05-01" do
       create(:delivery, date: "2021-05-01")
       create(:delivery, date: "2021-05-02")
@@ -217,6 +245,7 @@ describe Notifier do
       create(:membership, started_on: "2021-05-01")
       create(:membership, started_on: "2021-05-03")
       create(:membership, started_on: "2021-05-02", member: member)
+      create(:membership, started_on: "2021-05-02", delivery_cycle: cycle)
       create(:membership, started_on: "2021-05-02", ended_on: "2021-05-03")
       create(:membership, started_on: "2021-05-02", last_trial_basket_sent_at: 1.minute.ago)
 
