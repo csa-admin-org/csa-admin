@@ -4,7 +4,7 @@ class Newsletter
   class Delivery < ApplicationRecord
     self.table_name = "newsletter_deliveries"
 
-    CONSIDER_STALE_AFTER = 1.hour
+    CONSIDER_STALE_AFTER = 12.hour
 
     include HasState
 
