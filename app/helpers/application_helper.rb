@@ -13,6 +13,15 @@ module ApplicationHelper
     simple_format(text) if text.present?
   end
 
+  def csa_admin_website_url
+    path =
+      case I18n.locale
+      when :fr, :it then "/acp"
+      when :de then "/solawi"
+      end
+    "https://csa-admin.org#{path}"
+  end
+
   def display_emails_with_link(arbre, emails)
     return unless emails.present?
 

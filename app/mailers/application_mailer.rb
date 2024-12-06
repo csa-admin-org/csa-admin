@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class ApplicationMailer < ActionMailer::Base
-  helper :organizations
+  helper :application, :organizations
   default from: -> { Current.org.email_default_from_address }
   layout "mailer"
 
