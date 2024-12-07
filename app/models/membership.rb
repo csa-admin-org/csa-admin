@@ -121,13 +121,13 @@ class Membership < ApplicationRecord
       .where(memberships_basket_complements: { basket_complement_id: id })
   }
   scope :activity_participations_missing_eq, ->(count) {
-    where("MAX(activity_participations_demanded - activity_participations_accepted, 0) = ?", count)
+    where("MAX(activity_participations_demanded - activity_participations_accepted, 0) = ?", count.to_i)
   }
   scope :activity_participations_missing_gt, ->(count) {
-    where("MAX(activity_participations_demanded - activity_participations_accepted, 0) > ?", count)
+    where("MAX(activity_participations_demanded - activity_participations_accepted, 0) > ?", count.to_i)
   }
   scope :activity_participations_missing_lt, ->(count) {
-    where("MAX(activity_participations_demanded - activity_participations_accepted, 0) < ?", count)
+    where("MAX(activity_participations_demanded - activity_participations_accepted, 0) < ?", count.to_i)
   }
 
   def self.ransackable_scopes(_auth_object = nil)

@@ -31,12 +31,12 @@ module Shop
 
     scope :available, -> { kept.where(available: true) }
     scope :unavailable, -> { where(available: false) }
-    scope :price_eq, ->(v) { joins(:variants).where("price = ?", v) }
-    scope :price_gt, ->(v) { joins(:variants).where("price > ?", v) }
-    scope :price_lt, ->(v) { joins(:variants).where("price < ?", v) }
-    scope :stock_eq, ->(v) { joins(:variants).where("stock IS NOT NULL AND stock = ?", v) }
-    scope :stock_gt, ->(v) { joins(:variants).where("stock IS NOT NULL AND stock > ?", v) }
-    scope :stock_lt, ->(v) { joins(:variants).where("stock IS NOT NULL AND stock < ?", v) }
+    scope :price_eq, ->(v) { joins(:variants).where("shop_product_variants.price = ?", v.to_f) }
+    scope :price_gt, ->(v) { joins(:variants).where("shop_product_variants.price > ?", v.to_f) }
+    scope :price_lt, ->(v) { joins(:variants).where("shop_product_variants.price < ?", v.to_f) }
+    scope :stock_eq, ->(v) { joins(:variants).where("stock IS NOT NULL AND stock = ?", v.to_i) }
+    scope :stock_gt, ->(v) { joins(:variants).where("stock IS NOT NULL AND stock > ?", v.to_i) }
+    scope :stock_lt, ->(v) { joins(:variants).where("stock IS NOT NULL AND stock < ?", v.to_i) }
     scope :variant_name_cont, ->(str) {
       joins(:variants).merge(ProductVariant.name_cont(str))
     }
