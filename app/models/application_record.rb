@@ -4,7 +4,7 @@ class ApplicationRecord < ActiveRecord::Base
   self.abstract_class = true
 
   connects_to shards: Tenant.all.map(&:to_sym).map { |tenant|
-    [ tenant, { writing: tenant } ]
+    [ tenant, writing: tenant ]
   }.to_h
 
   def can_update?; true end

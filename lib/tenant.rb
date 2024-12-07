@@ -35,7 +35,8 @@ module Tenant
   end
 
   def switch_each
-    all.each do |tenant|
+    tenants = ENV["TENANT"] ? ENV["TENANT"].split(",") : all
+    tenants.each do |tenant|
       switch(tenant) { yield(tenant) }
     end
     nil

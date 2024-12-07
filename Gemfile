@@ -84,6 +84,10 @@ gem "user_agent_parser"
 gem "kramdown"
 gem "nokogiri"
 
+group :production do
+  gem "cloudflare-rails"
+end
+
 group :development, :test do
   gem "dotenv"
   gem "byebug"
@@ -109,6 +113,9 @@ group :development do
   gem "ruby-lsp-rspec", require: false
 
   gem "rubocop-rails-omakase", require: false
+
+  gem "cloudflare"
+  gem "resolv"
 
   gem "prosopite"
   gem "pg_query"
