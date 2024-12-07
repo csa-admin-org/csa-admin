@@ -257,6 +257,13 @@ class Organization < ApplicationRecord
     "https://admin.#{Tenant.domain}"
   end
 
+  def hostnames
+    [
+      admin_url,
+      members_url
+    ].map { |url| URI.parse(url).host }
+  end
+
   def activity_participations_form?
     activity_participations_form_min || activity_participations_form_max
   end

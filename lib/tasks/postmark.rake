@@ -2,7 +2,7 @@
 
 namespace :postmark do
   desc "Create/update message streams"
-  task message_streams_setup: :environment do
+  task message_streams: :environment do
     Tenant.switch_each do
       if api_token = Current.org.credentials(:postmark, :api_token)
         client = Postmark::ApiClient.new(api_token)
@@ -10,27 +10,31 @@ namespace :postmark do
         outbound = client.get_message_stream("outbound")
         unless outbound[:name] == "Transactional Stream"
           client.update_message_stream("outbound", name: "Transactional Stream")
+          pp "#{Current.org.name} - Outbound Stream updated"
         end
 
         inbound = client.get_message_stream("inbound")
         unless inbound[:name] == "Inbound Stream"
           client.update_message_stream("inbound", name: "Inbound Stream")
+          pp "#{Current.org.name} - Inbound Stream updated"
         end
 
         brodcast = client.get_message_stream("broadcast")
         unless brodcast[:name] == "Broadcasts Stream"
           client.update_message_stream("broadcast", name: "Broadcasts Stream")
+          pp "#{Current.org.name} - Broadcast Stream updated"
         end
         unless brodcast.dig(:subscription_management_configuration, "UnsubscribeHandlingType") == "Custom"
           client.update_message_stream("broadcast",
             subscription_management_configuration: { UnsubscribeHandlingType: "Custom" })
+          pp "#{Current.org.name} - Broadcast Stream updated"
         end
       end
     end
   end
 
   desc "Create/update postmark webhook"
-  task webhook_setup: :environment do
+  task webhook: :environment do
     raise "Only run this rake task in production env" unless Rails.env.production?
 
     Tenant.switch_each do
