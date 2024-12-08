@@ -1,8 +1,10 @@
-const defaultTheme = require('tailwindcss/defaultTheme')
-const execSync = require('child_process').execSync
-const activeAdminPath = execSync('bundle show activeadmin', { encoding: 'utf-8' }).trim();
+import { execSync } from 'child_process'
 
-module.exports = {
+const defaultTheme = require('tailwindcss/defaultTheme')
+const activeAdminPath = execSync('bundle show activeadmin', { encoding: 'utf-8' }).trim()
+const activeAdminPlugin = require(`${activeAdminPath}/plugin`)
+
+export default {
   content: [
     './app/helpers/**/*.rb',
     './app/javascript/**/*.js',
@@ -29,8 +31,6 @@ module.exports = {
   darkMode: "class",
   plugins: [
     require('@tailwindcss/forms'),
-    require('@tailwindcss/aspect-ratio'),
-    require('@tailwindcss/typography'),
-    require(`${activeAdminPath}/plugin`),
+    require(`${activeAdminPath}/plugin`)
   ]
 }
