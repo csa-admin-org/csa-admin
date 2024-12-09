@@ -6,13 +6,16 @@ return unless $stdout.tty?
 # Helper available in IRB, which helps choosing an Organization to enter.
 def enter
   Tenant.disconnect
-  tenants = Tenant.all
+  tenants = Tenant.numbered
 
   puts "Select Organization context: (empty for none)"
-  puts tenants.map.with_index { |tenant, i| "#{(i + 1).to_s.rjust(2)}: #{tenant}" }.join("\n")
+  tenants.map { |i, tenant|
+    puts "–––" if i == 100
+    puts "#{i.to_s.rjust(3)}: #{tenant}"
+  }
 
   @selection = gets.strip.presence
-  tenant_name = tenants[@selection.to_i - 1] if @selection
+  tenant_name = tenants[@selection.to_i] if @selection
 
   if tenant_name
     Tenant.connect(tenant_name.to_s)
