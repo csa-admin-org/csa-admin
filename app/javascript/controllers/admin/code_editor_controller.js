@@ -31,7 +31,7 @@ export default class extends Controller {
     // Initialize CodeMirror editor
     const extensions = [
       basicSetup,
-      EditorView.lineWrapping, // Add line wrapping extension
+      EditorView.lineWrapping,
       ...theme,
     ]
     if (element.dataset.mode === "yaml") {
@@ -45,13 +45,17 @@ export default class extends Controller {
         this.updatePreview()
       }
     }))
-    const editor = new EditorView({
+    this.editor = new EditorView({
       state: EditorState.create({
         doc: element.value,
         extensions: extensions
       }),
       parent: editDiv
     })
+  }
+
+  disconnect() {
+    this.editor?.destroy()
   }
 
   updatePreview() {
