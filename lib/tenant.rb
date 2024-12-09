@@ -7,6 +7,12 @@ module Tenant
     @all ||= config.keys.map(&:to_s)
   end
 
+  def numbered
+    config.map.with_index { |(tenant, attrs), i|
+      [ (attrs["number"] || i + 1).to_i, tenant.to_s ]
+    }.to_h
+  end
+
   def find_by(host:)
     @domains ||= config.map { |tenant, attrs|
       [ relevant_domain(attrs["domain"]), tenant.to_s ]
@@ -16,6 +22,10 @@ module Tenant
 
   def domain
     config.dig(current.to_s, "domain")
+  end
+
+  def with_number?
+    config.dig(current.to_s, "number").present?
   end
 
   def exists?(tenant)

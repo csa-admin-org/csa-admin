@@ -63,9 +63,16 @@ production: &production
     domain: wilde-rauke.de
   lepetrichor:
     domain: lepetrichor.ch
+  lamilpadesiles:
+    domain: lamilpadesiles.ch
+
 
   demo:
     domain: acp-admin.ch
+    number: 100
+  microfermes:
+    domain: microfermes.ch
+    number: 101
 
 development:
   <<: *production
