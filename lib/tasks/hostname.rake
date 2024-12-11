@@ -12,6 +12,8 @@ namespace :hostname do
       zone = cf.zones.find_by_name("csa-admin.org")
 
       Tenant.switch_each do |tenant|
+        next if Tenant.with_number? && !ENV["TENANT"]
+
         puts "\n#{tenant}"
         Current.org.hostnames.each do |hostname|
           print "- #{hostname} "
@@ -55,6 +57,8 @@ namespace :hostname do
 
     Resolv::DNS.open do |dns|
       Tenant.switch_each do |tenant|
+        next if Tenant.with_number? && !ENV["TENANT"]
+
         puts "\n#{tenant}"
 
         ns = dns.getresources Tenant.domain, Resolv::DNS::Resource::IN::NS
