@@ -31,8 +31,15 @@ module MembersHelper
     Current.org.languages.map { |l| [ t("languages.#{l}"), l ] }
   end
 
-  def organization_billing_year_divisions_collection(data: {})
-    Current.org.billing_year_divisions.sort.map { |i|
+  def organization_billing_year_divisions_collection(data: {}, membership: nil)
+    divisions = Current.org.billing_year_divisions
+
+    # Still allow renewing with the current membership division
+    if membership && divisions.exclude?(membership.billing_year_division)
+      divisions << membership.billing_year_division
+    end
+
+    divisions.sort.map { |i|
       [
         I18n.t("billing.year_division.x#{i}"),
         i,
