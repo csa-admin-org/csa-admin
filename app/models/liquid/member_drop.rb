@@ -18,7 +18,9 @@ class Liquid::MemberDrop < Liquid::Drop
   end
 
   def annual_fee
-    @member.annual_fee
+    return unless Current.org.annual_fee?
+
+    cur(@member.annual_fee.to_f)
   end
 
   def page_url
