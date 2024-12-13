@@ -581,6 +581,11 @@ _:
             _en: Each subscriber commits for a full fiscal year (%{fiscal_year_months_range}). In case of joining during the current fiscal year, the price is determined by the number of remaining deliveries.
             _fr: Chaque membre s'engage pour un abonnement d'une année (%{fiscal_year_months_range}). Le prix en cours d'année est au prorata du nombre de livraisons restantes.
             _it: Ogni socio si impegna per un abbonamento di un anno (%{fiscal_year_months_range}). Il prezzo durante l'anno è proporzionale al numero di consegne rimanenti.
+          title:
+            _de: Mitgliedschaft
+            _en: Membership
+            _fr: Adhésion
+            _it: Adesione
           trial_text:
             one:
               _de: Die erste Tasche ist noch unverbindlich (Probetaschen).
@@ -601,7 +606,7 @@ _:
       new:
         documents:
           charter:
-            _de: die Statzung
+            _de: die Satzung
             _en: the charter
             _fr: la charte
             _it: la carta
