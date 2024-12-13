@@ -30,7 +30,9 @@ class MemberMailerPreview < ActionMailer::Preview
       member: member,
       waiting_list_position: Member.waiting.count + 1,
       waiting_basket_size_id: member.waiting_basket_size_id,
-      waiting_depot_id: member.waiting_depot_id
+      waiting_basket_size: member.waiting_basket_size,
+      waiting_depot_id: member.waiting_depot_id,
+      waiting_depot: member.waiting_depot
     }
   end
 end

@@ -17,6 +17,10 @@ class Liquid::MemberDrop < Liquid::Drop
     cur(@member.balance_amount.to_f)
   end
 
+  def annual_fee
+    @member.annual_fee
+  end
+
   def page_url
     url(:members_member)
   end

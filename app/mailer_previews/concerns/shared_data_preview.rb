@@ -14,9 +14,12 @@ module SharedDataPreview
       id: 1,
       name: [ "Jane Doe", "John Doe" ].sample(random: random),
       language: params[:locale] || I18n.locale,
+      annual_fee: Current.org.annual_fee,
       current_or_future_membership: membership,
       waiting_basket_size_id: basket_size&.id,
+      waiting_basket_size: basket_size,
       waiting_depot_id: depot&.id,
+      waiting_depot: depot,
       activity_participations: ActivityParticipation.coming.limit(1))
   end
 
@@ -62,11 +65,11 @@ module SharedDataPreview
   end
 
   def basket_size
-    basket&.basket_size
+    @basket_size ||= basket&.basket_size || BasketSize.visible.sample(random: random)
   end
 
   def depot
-    basket&.depot
+    @depot ||= basket&.depot || Depot.visible.sample(random: random)
   end
 
   def delivery_cycle
