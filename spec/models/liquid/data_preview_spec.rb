@@ -43,7 +43,7 @@ describe Liquid::DataPreview do
       "member" =>  {
         "name" => "John Doe",
         "balance" => "CHF 0.00",
-        "annual_fee" => 30,
+        "annual_fee" => "CHF 30.00",
         "billing_email" => false,
         "page_url" => "https://membres.acme.test",
         "billing_url" => "https://membres.acme.test/billing",
@@ -106,7 +106,7 @@ describe Liquid::DataPreview do
       "member" =>  {
         "name" => "John Doe",
         "balance" => "CHF 0.00",
-        "annual_fee" => 30,
+        "annual_fee" => "CHF 30.00",
         "billing_email" => false,
         "page_url" => "https://membres.acme.test",
         "billing_url" => "https://membres.acme.test/billing",
@@ -130,7 +130,7 @@ describe Liquid::DataPreview do
   end
 
   specify "without any feature", freeze: "2020-01-01" do
-    Current.org.update!(features: [])
+    Current.org.update!(features: [], annual_fee: nil)
     create(:delivery, date: "2020-01-07")
     create(:delivery, date: "2020-10-06")
     create(:depot, id: 12, name: "Jardin de la main")
@@ -168,7 +168,7 @@ describe Liquid::DataPreview do
       "member" =>  {
         "name" => "John Doe",
         "balance" => "CHF 0.00",
-        "annual_fee" => 30,
+        "annual_fee" => nil,
         "billing_email" => false,
         "page_url" => "https://membres.acme.test",
         "billing_url" => "https://membres.acme.test/billing",
