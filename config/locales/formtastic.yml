@@ -562,6 +562,11 @@ _:
           _en: Leave blank at zero if no annual fee. Any change will be automatically applied to all existing members, but only to those who have exactly the previous amount.
           _fr: Laisser vide si aucune cotisation annuelle. Tout changement sera automatiquement appliqué aux membres existants, mais uniquement à ceux qui ont exactement le montant précédent.
           _it: Lasciare vuoto se non è prevista nessuna quota annuale associativa. Qualsiasi modifica verrà automaticamente applicata ai soci esistenti, ma solo a quelli che hanno lo stesso importo precedente.
+        annual_fee_member_form:
+          _de: Ermöglicht es unterstützenden Mitgliedern, den Betrag ihres jährlichen Beitrags bei der Anmeldung zu wählen. Aktive Mitglieder (die eine Taschengröße wählen) können diesen Betrag nicht ändern.
+          _en: Allow supporting members to choose the amount of their annual fee at registration. Active members (choosing a basket size) cannot modify this amount.
+          _fr: Permettre aux membres de soutien de choisir le montant de leur cotisation annuelle lors de l'inscription. Les membres actifs (choisissant une taille de panier) ne peuvent pas modifier ce montant.
+          _it: Consentire ai membri sostenitori di scegliere l'importo della loro quota annuale all'iscrizione. I soci attivi (che scelgono una dimensione del cestino) non possono modificare questo importo.
         bank_reference:
           _de: Lassen Sie es leer, wenn Ihre Bank keine bereitstellt, wird in die Rechnungsreferenznummer aufgenommen.
           _en: Leave blank if your bank does not provide one, it will be included in the invoice reference number.
@@ -767,11 +772,6 @@ _:
           _en: Automatic billing is done every week at the beginning of the chosen day. Invoices created this way are also sent automatically. <u>It is advisable to choose a day other than the delivery day.</u>
           _fr: La facturation automatique est effectuée chaque semaine au début du jour choisi. Les factures ainsi créées sont également automatiquement envoyées. <u>Il est préférable de choisir un jour différent de celui de la livraison.</u>
           _it: La fatturazione automatica è effettuata ogni settimana all'inizio del giorno scelto. Le fatture create sono inviate automaticamente. <u>È consigliabile scegliere un giorno diverso da quello della consegna.</u>
-        registration_url:
-          _de: Neue Mitglieder müssen bestätigen, dass sie dieses Dokument zur Kenntnis genommen haben, wenn sie sich anmelden.
-          _en: New members must confirm that they have read this document when they register.
-          _fr: Les nouveaux membres devront confirmer avoir pris connaissance de ce document en s'inscrivant.
-          _it: I nuovi soci dovranno confermare di aver preso visione di questo documento al momento dell'iscrizione.
         send_closed_invoice:
           _de: Wenn deaktiviert, werden neue Rechnungen, die aufgrund eines positiven Saldos als bereits bezahlt gelten, nicht über die automatische Rechnungsstellung versendet.
           _en: If disabled, new invoices considered already paid due to a positive balance are not sent by automatic billing.

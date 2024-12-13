@@ -115,6 +115,7 @@ ActiveAdmin.register Organization do
             span t(".if_applicable"), class: "optional"
           end
           f.input :annual_fee, as: :number
+          f.input :annual_fee_member_form, as: :boolean
 
           li class: "subtitle" do
             h2 t(".shares")
@@ -137,6 +138,10 @@ ActiveAdmin.register Organization do
             as: :action_text,
             input_html: { rows: 1 })
 
+
+          li class: "subtitle" do
+            h2 t("members.members.form_modes.membership.title")
+          end
           translated_input(f, :member_form_extra_texts,
             hint: t("formtastic.hints.organization.member_form_extra_text"),
             required: false,
@@ -165,6 +170,10 @@ ActiveAdmin.register Organization do
             collection: member_order_modes_collection(DeliveryCycle),
             prompt: true
           f.input :allow_alternative_depots, as: :boolean
+
+          li class: "subtitle" do
+            h2 t("members.members.new.more_info")
+          end
           f.input :member_profession_form_mode,
             label: Member.human_attribute_name(:profession),
             as: :select,
@@ -177,18 +186,15 @@ ActiveAdmin.register Organization do
             collection: form_modes_collection,
             include_blank: false,
             required: false
-          translated_input(f, :charter_urls,
-            required: false,
-            hint: t("formtastic.hints.organization.registration_url"))
-          translated_input(f, :statutes_urls,
-            required: false,
-            hint: t("formtastic.hints.organization.registration_url"))
-          translated_input(f, :terms_of_service_urls,
-            required: false,
-            hint: t("formtastic.hints.organization.registration_url"))
-          translated_input(f, :privacy_policy_urls,
-            required: false,
-            hint: t("formtastic.hints.organization.registration_url"))
+
+          li class: "subtitle" do
+            h2 t(".documents_to_validate")
+            span t(".documents_to_validate_hint")
+          end
+          translated_input(f, :charter_urls, required: false)
+          translated_input(f, :statutes_urls, required: false)
+          translated_input(f, :terms_of_service_urls, required: false)
+          translated_input(f, :privacy_policy_urls, required: false)
 
           para class: "mt-4 flex justify-center" do
             a href: new_members_member_url(subdomain: Current.org.members_subdomain), class: "action-item-button light small" do
@@ -418,7 +424,8 @@ ActiveAdmin.register Organization do
     :iban, :sepa_creditor_identifier, :bank_reference, :creditor_name,
     :invoice_logo,
     :creditor_address, :creditor_city, :creditor_zip,
-    :annual_fee, :share_price, :shares_number,
+    :annual_fee, :annual_fee_member_form,
+    :share_price, :shares_number,
     :absence_notice_period_in_days,
     :activity_i18n_scope, :activity_participation_deletion_deadline_in_days,
     :activity_availability_limit_in_days, :activity_price, :activity_phone,

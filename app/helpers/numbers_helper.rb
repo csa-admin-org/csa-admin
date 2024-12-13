@@ -39,4 +39,10 @@ module NumbersHelper
       txt
     end
   end
+
+  def prefer_integer(number)
+    return if number&.zero?
+
+    number == number.to_i ? number.to_i : number
+  end
 end

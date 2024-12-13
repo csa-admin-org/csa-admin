@@ -561,6 +561,11 @@ _:
             _en: If the depot selected above is full, you can choose one or more alternative depots.
             _fr: Dans le cas où le dépôt sélectionné ci-dessus serait complet, vous pouvez choisir un ou plusieurs dépôts alternatifs.
             _it: Se il punto di ritiro selezionato sopra è pieno, puoi scegliere uno o più punti di ritiro alternativi.
+          annual_fee_hint:
+            _de: Betrag in %{currency}
+            _en: Amount in %{currency}
+            _fr: Montant en %{currency}
+            _it: Importo in %{currency}
           annual_fee_text:
             _de: Jedes Mitglied tritt dem Verein bei und zahlt zusätzlich zum Gemüseabo einen jährlichen Beitrag von <b>%{price}</b> ein.
             _en: Each member also joins the association and pays an annual fee of <b>%{price}</b> in addition to the membership to the basket.

@@ -94,7 +94,7 @@ class Members::MembersController < Members::BaseController
         :waiting_activity_participations_demanded_annually,
         :waiting_depot_id, :waiting_delivery_cycle_id,
         :waiting_billing_year_division,
-        :desired_shares_number,
+        :annual_fee, :desired_shares_number,
         :shop_depot_id,
         :profession, :come_from, :note,
         :terms_of_service,
