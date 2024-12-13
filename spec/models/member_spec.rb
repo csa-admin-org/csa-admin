@@ -100,6 +100,27 @@ describe Member do
       expect(Member.new(annual_fee: -1)).not_to have_valid(:annual_fee)
     end
 
+    specify "validates positive annual_fee for new support member" do
+      Current.org.update!(
+        annual_fee: 0,
+        annual_fee_member_form: true)
+
+      member = Member.new(annual_fee: nil, public_create: true)
+      expect(member).not_to have_valid(:annual_fee)
+
+      member = Member.new(annual_fee: 0, public_create: true, waiting_basket_size_id: 0)
+      expect(member).not_to have_valid(:annual_fee)
+
+      member = Member.new(annual_fee: 1, public_create: true, waiting_basket_size_id: 0)
+      expect(member).to have_valid(:annual_fee)
+
+      member = Member.new(annual_fee: 0, public_create: true, waiting_basket_size_id: 1)
+      expect(member).to have_valid(:annual_fee)
+
+      member = Member.new(annual_fee: 0, public_create: false)
+      expect(member).to have_valid(:annual_fee)
+    end
+
     it "validates waiting_basket_size presence when a depot is set" do
       member = build(:member,
         waiting_basket_size: nil,

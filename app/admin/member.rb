@@ -96,7 +96,7 @@ ActiveAdmin.register Member do
     column(:delivery_city)
     column(:profession)
     column(:billing_email)
-    if Current.org.annual_fee
+    if Current.org.annual_fee?
       column(:annual_fee) { |m| cur(m.annual_fee) }
     end
     if Current.org.share?
@@ -406,7 +406,7 @@ ActiveAdmin.register Member do
             if member.billing_email?
               row(t(".email"), class: "text-right") { display_email_with_link(self, member.billing_email) }
             end
-            if Current.org.annual_fee
+            if Current.org.annual_fee?
               row(:annual_fee, class: "text-right tabular-nums") { cur member.annual_fee }
             end
             row(:invoices_amount, class: "text-right tabular-nums") {
@@ -636,7 +636,7 @@ ActiveAdmin.register Member do
       end
     end
 
-    if Current.org.annual_fee
+    if Current.org.annual_fee?
       f.inputs t(".annual_fee") do
         f.input :annual_fee, label: Organization.human_attribute_name(:annual_fee)
       end

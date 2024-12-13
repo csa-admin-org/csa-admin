@@ -1324,6 +1324,11 @@ _:
           _en: Amount
           _fr: Montant
           _it: Importo
+        annual_fee_member_form:
+          _de: Freier Betrag
+          _en: Free amount
+          _fr: Montant libre
+          _it: Importo libero
         bank_reference:
           _de: Bankreferenz
           _en: Bank reference

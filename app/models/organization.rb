@@ -81,7 +81,8 @@ class Organization < ApplicationRecord
     inclusion: { in: 1..12 }
   validates :billing_year_divisions, presence: true
   validates :trial_baskets_count, numericality: { greater_than_or_equal_to: 0 }, presence: true
-  validates :annual_fee, numericality: { greater_than_or_equal_to: 1 }, allow_nil: true
+  validates :annual_fee, numericality: { greater_than_or_equal_to: 0 }, allow_nil: true
+  validates :annual_fee_member_form, absence: true, unless: :annual_fee?
   validates :share_price, numericality: { greater_than_or_equal_to: 1 }, allow_nil: true
   validates :share_price, presence: true, if: :shares_number?
   validates :shares_number, numericality: { greater_than_or_equal_to: 1 }, allow_nil: true
@@ -352,7 +353,7 @@ class Organization < ApplicationRecord
   end
 
   def annual_fee?
-    annual_fee&.positive?
+    annual_fee && annual_fee >= 0
   end
 
   def share?

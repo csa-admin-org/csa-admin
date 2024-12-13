@@ -114,6 +114,11 @@ class Member < ApplicationRecord
   validates :waiting_depot_id, presence: true, if: :waiting_basket_size, on: :create
   validates :shop_depot, inclusion: { in: proc { Depot.all }, allow_nil: true }
   validates :annual_fee, numericality: { greater_than_or_equal_to: 0 }, allow_nil: true
+  validates :annual_fee,
+    presence: true,
+    numericality: { greater_than_or_equal_to: 1 },
+    on: :create,
+    if: -> { public_create && Current.org.annual_fee? && Current.org.annual_fee_member_form? && !waiting_basket_size_id? }
   validate :email_must_be_unique
   validate :unique_waiting_basket_complement_id
   validates :existing_shares_number, presence: true, numericality: { greater_than_or_equal_to: 0 }

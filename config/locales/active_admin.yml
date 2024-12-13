@@ -673,6 +673,16 @@ _:
           _en: Details
           _fr: Détails
           _it: Dettagli
+        documents_to_validate:
+          _de: Dokumente zur Validierung
+          _en: Documents to validate
+          _fr: Documents à valider
+          _it: Documenti da validare
+        documents_to_validate_hint:
+          _de: Neue Mitglieder müssen bestätigen, dass sie diese Dokumente gelesen haben, wenn sie sich anmelden.
+          _en: New members will have to confirm that they have read these documents when signing up.
+          _fr: Les nouveaux membres devront confirmer avoir pris connaissance de ces documents en s'inscrivant.
+          _it: I nuovi membri dovranno confermare di aver letto questi documenti al momento dell'iscrizione.
         email:
           _de: E-Mail
           _en: Email

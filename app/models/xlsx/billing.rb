@@ -88,7 +88,7 @@ module XLSX
       invoices_per_year.each do |year, invoices|
         add_line(t_invoice_with_year(Membership.model_name.human(count: 2), year), invoices.sum(&:memberships_amount))
       end
-      if Current.org.annual_fee
+      if Current.org.annual_fee?
         # Add current year if not present (no memberships)
         unless invoices_per_year.map(&:first).include?(@year)
           invoices_per_year.unshift([ @year, [] ])

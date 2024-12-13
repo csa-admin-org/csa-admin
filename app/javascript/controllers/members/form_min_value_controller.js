@@ -8,9 +8,12 @@ export default class extends Controller {
   setMinValue({ params: { minValue } }) {
     if (!this.hasInputTarget) return
 
-    if (this.inputTarget.getAttribute("min") != minValue) {
+    const inputMinValue = Number(this.inputTarget.getAttribute("min"))
+    if (inputMinValue != minValue) {
       this.inputTarget.setAttribute("min", minValue)
-      this.inputTarget.value = minValue
+      if (this.inputTarget.value < minValue) {
+        this.inputTarget.value = minValue
+      }
     }
   }
 }
