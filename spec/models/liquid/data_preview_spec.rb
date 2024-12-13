@@ -43,6 +43,7 @@ describe Liquid::DataPreview do
       "member" =>  {
         "name" => "John Doe",
         "balance" => "CHF 0.00",
+        "annual_fee" => 30,
         "billing_email" => false,
         "page_url" => "https://membres.acme.test",
         "billing_url" => "https://membres.acme.test/billing",
@@ -105,6 +106,7 @@ describe Liquid::DataPreview do
       "member" =>  {
         "name" => "John Doe",
         "balance" => "CHF 0.00",
+        "annual_fee" => 30,
         "billing_email" => false,
         "page_url" => "https://membres.acme.test",
         "billing_url" => "https://membres.acme.test/billing",
@@ -114,6 +116,15 @@ describe Liquid::DataPreview do
       },
       "waiting_list_position" => 1,
       "waiting_basket_size_id" => basket_size.id,
+      "waiting_basket_size" => {
+        "id" => basket_size.id,
+        "name" => basket_size.public_name
+      },
+      "waiting_depot" => {
+        "id" => depot.id,
+        "member_note" => nil,
+        "name" => depot.public_name
+      },
       "waiting_depot_id" => depot.id
     })
   end
@@ -157,6 +168,7 @@ describe Liquid::DataPreview do
       "member" =>  {
         "name" => "John Doe",
         "balance" => "CHF 0.00",
+        "annual_fee" => 30,
         "billing_email" => false,
         "page_url" => "https://membres.acme.test",
         "billing_url" => "https://membres.acme.test/billing",
