@@ -285,17 +285,13 @@ ActiveAdmin.register Shop::Order do
   action_item :delivery_pdf, only: :index, if: -> { params.dig(:q, :_delivery_gid_eq).present? } do
     delivery_gid = params.dig(:q, :_delivery_gid_eq)
     depot_id = params.dig(:q, :depot_id_eq)
-    link_to delivery_shop_orders_path(delivery_gid: delivery_gid, depot_id: depot_id, format: :pdf), class: "action-item-button", target: "_blank", title: t(".delivery_orders_pdf") do
-      inline_svg_tag "admin/pdf_file.svg", class: "w-5 h-5"
-    end
+    icon_file_link :pdf, delivery_shop_orders_path(delivery_gid: delivery_gid, depot_id: depot_id, format: :pdf), size: 5, class: "action-item-button", target: "_blank", title: t(".delivery_orders_pdf")
   end
 
   action_item :delivery_xlsx, only: :index, if: -> { params.dig(:q, :_delivery_gid_eq).present? } do
     delivery_gid = params.dig(:q, :_delivery_gid_eq)
     depot_id = params.dig(:q, :depot_id_eq)
-    link_to delivery_shop_orders_path(delivery_gid: delivery_gid, depot_id: depot_id, format: :xlsx), class: "action-item-button", target: "_blank", title: "XLSX" do
-      inline_svg_tag "admin/xlsx_file.svg", class: "w-5 h-5"
-    end
+    icon_file_link :xlsx, delivery_shop_orders_path(delivery_gid: delivery_gid, depot_id: depot_id, format: :xlsx), size: 5, class: "action-item-button", target: "_blank"
   end
 
   batch_action :invoice, if: ->(attr) { params[:scope].in?([ nil, "pending" ]) }, confirm: true do |selection|

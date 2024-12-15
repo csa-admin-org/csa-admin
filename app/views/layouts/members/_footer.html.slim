@@ -4,22 +4,22 @@ footer class="w-full flex flex-col text-base text-gray-400 mt-16 dark:text-gray-
       - if current_member && Current.org.member_information_text?
         li class="mx-auto px-4 md:mx-0 md:px-0"
           = link_to members_info_path, class: 'flex items-center hover:text-green-500 py-1 px-4 md:px-0' do
-            = inline_svg_tag 'members/information.svg', class: 'h-6 w-6 flex-shrink-0 fill-stroke'
+            = icon 'newspaper', class: 'h-6 w-6'
             span class='ml-2' = member_information_title
       - if current_member
         li class="mx-auto px-4 md:mx-0 md:px-0 mb-4"
           = link_to calendar_webcal_url, class: 'flex items-center hover:text-green-500 py-1 px-4 md:px-0', title: t(".calendar_feed") do
-            = icon('calendar-days', class: 'h-6 w-6 flex-shrink-0 fill-stroke')
+            = icon 'calendar-days', class: 'h-6 w-6'
             span class='ml-2' = t('.calendar')
       - if Current.org.phone?
         li class="mx-auto px-4 #{'md:mx-0 md:px-0' if current_member}"
           = link_to "tel:#{Current.org.phone.phony_formatted(spaces: '', format: :international)}", class: 'flex items-center hover:text-green-500 py-1 px-4 md:px-0' do
-            = inline_svg_tag 'members/phone.svg', class: 'h-6 w-6 flex-shrink-0 fill-stroke'
+            = icon 'phone', class: 'h-6 w-6'
             span class='ml-2'
               = Current.org.phone
       li class="mx-auto px-4 #{'md:mx-0 md:px-0' if current_member}"
         = mail_to Current.org.email, class: 'flex items-center hover:text-green-500 py-1 px-4 md:px-0' do
-          = inline_svg_tag 'members/mail.svg', class: 'h-6 w-6 flex-shrink-0 fill-stroke'
+          = icon 'envelope', class: 'h-6 w-6'
           span class='ml-2'
             = t('.contact')
   - if Current.org.languages.many? && !current_member
@@ -28,8 +28,7 @@ footer class="w-full flex flex-col text-base text-gray-400 mt-16 dark:text-gray-
         - Current.org.languages.each do |locale|
           li class='hover:bg-gray-100 dark:hover:bg-gray-900'
             = link_to locale, url_for(locale: locale), title: t("languages.#{locale}"), data: { turbolinks: false }, class: 'block w-12 leading-8 hover:text-green-500 uppercase'
-  div class="mx-auto #{'md:mx-0' if current_member} mb-4 mt-12 text-gray-300 dark:text-gray-700"
+  div class="mx-auto #{'md:mx-0.5' if current_member} mb-4 mt-12 text-gray-300 dark:text-gray-700"
     = link_to csa_admin_website_url, class: 'flex items-center hover:text-green-500' do
-      = inline_svg_tag 'logo.svg', class: 'flex-shrink-0 w-5 h-5 fill-current'
-      span class='ml-2'
-        = 'CSA Admin'
+      = icon "logo", class: "w-5 h-5 me-2 md:me-2.5 fill-current", library: "own"
+      = 'CSA Admin'

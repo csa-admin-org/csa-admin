@@ -4,24 +4,24 @@ h1 class="mt-2 mb-8 text-xl sm:text-2xl font-extrabold text-gray-900 dark:text-g
 section
   ul class='space-y-4'
     li class='flex flex-row items-center'
-      = inline_svg_tag 'members/identification.svg', class: 'h-6 w-6 flex-shrink-0 fill-stroke'
+      = icon 'identification', class: 'h-6 w-6'
       span class='ml-4'
         = current_member.name
 
     li class='flex flex-row'
-      = inline_svg_tag 'members/map.svg', class: 'h-6 w-6 flex-shrink-0 fill-stroke'
+      = icon "map", class: 'h-6 w-6'
       span class='ml-4'
         = display_address(current_member)
 
     li class='flex flex-row'
-      = inline_svg_tag 'members/mail.svg', class: 'h-6 w-6 flex-shrink-0 fill-stroke'
+      = icon 'envelope', class: 'h-6 w-6'
       span class='ml-4'
         = display_emails(current_member)
         - if newsletter_unsubscribed?
           = button_to t('.subscribe_back_to_newsletter'), members_email_suppression_path, method: :delete, class: 'mt-1 block text-left md:min-w-min min-w-full text-sm hover:text-green-500 underline'
 
     li class='flex flex-row'
-      = inline_svg_tag 'members/phone.svg', class: 'h-6 w-6 flex-shrink-0 fill-stroke'
+      = icon 'phone', class: 'h-6 w-6'
       - if current_member.phones_array.any?
         span class='ml-4'
           = display_phones(current_member)
@@ -31,13 +31,13 @@ section
 
     - if Current.org.languages.many?
     li class='flex flex-row'
-      = inline_svg_tag 'members/globe.svg', class: 'h-6 w-6 flex-shrink-0 fill-stroke'
+      = icon 'language', class: 'h-6 w-6'
       span class='ml-4'
         = t("languages.#{current_member.language}")
 
     - if current_member.use_shop_depot?
       li class='pt-6 flex flex-row'
-        = inline_svg_tag 'members/basket.svg', class: '-mt-0.5 h-6 w-6 flex-shrink-0 fill-stroke'
+        = icon 'shopping-basket', class: 'h-6 w-6', library: "lucide"
         span class='ml-4'
           - depot = current_member.shop_depot
           - if depot.full_address

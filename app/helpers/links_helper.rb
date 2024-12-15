@@ -1,10 +1,11 @@
 # frozen_string_literal: true
 
 module LinksHelper
-  def icon_link(icon, title, url, size: 22, **options)
+  def icon_file_link(type, url, size: 6, title: nil, **options)
+    title ||= type.upcase
     content_tag :span do
       link_to(url, title: title, **options) do
-        inline_svg_tag("admin/#{icon}.svg", size: size.to_s)
+        icon "file-#{type}", class: "h-#{size} w-#{size}", library: "own"
       end
     end
   end

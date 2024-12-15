@@ -34,7 +34,7 @@ module InvoicesHelper
       if block
         block.call
       else
-        inline_svg_tag "admin/pdf_file.svg", class: "w-5 h-5"
+        icon "file-pdf", class: "h-5 w-5", library: "own"
       end
     end
   end
