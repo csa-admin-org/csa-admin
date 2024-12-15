@@ -559,6 +559,9 @@ GEM
       rubocop-minitest
       rubocop-performance
       rubocop-rails
+    rubocop-slim (0.2.8)
+      rubocop (~> 1.45)
+      slimi (~> 0.7)
     ruby-lsp (0.22.1)
       language_server-protocol (~> 3.17.0)
       prism (>= 1.2, < 2.0)
@@ -585,6 +588,10 @@ GEM
     slim (5.2.1)
       temple (~> 0.10.0)
       tilt (>= 2.1.0)
+    slimi (0.7.5)
+      temple
+      thor
+      tilt
     solid_queue (1.1.0)
       activejob (>= 7.1)
       activerecord (>= 7.1)
@@ -716,6 +723,7 @@ DEPENDENCIES
   rqrcode
   rspec-rails
   rubocop-rails-omakase
+  rubocop-slim
   ruby-lsp-rails
   ruby-lsp-rspec
   rubyXL

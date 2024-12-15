@@ -1,15 +1,15 @@
-ul class="relative p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-900 #{'text-gray-300 dark:text-gray-700' if basket.absent?} #{'bg-gray-200 dark:bg-gray-800' if basket == @next_basket}"
+ul class="relative p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-900 #{"text-gray-300 dark:text-gray-700" if basket.absent?} #{"bg-gray-200 dark:bg-gray-800" if basket == @next_basket}"
   - if basket.can_member_update?
-    = link_to edit_members_basket_path(basket), title: t('.edit'), class: 'absolute top-0 right-0 p-2 ' do
-      = icon 'pencil-square', class: 'h-5 w-5 text-gray-400 dark:text-gray-600 hover:text-green-500 dark:hover:text-green-500'
+    = link_to edit_members_basket_path(basket), title: t(".edit"), class: "absolute top-0 right-0 p-2 " do
+      = icon "pencil-square", class: "h-5 w-5 text-gray-400 dark:text-gray-600 hover:text-green-500 dark:hover:text-green-500"
 
   li class='flex flex-row items-center'
-    = icon 'calendar-days', class: 'h-6 w-6 text-gray-300 dark:text-gray-700'
+    = icon "calendar-days", class: "h-6 w-6 text-gray-300 dark:text-gray-700"
     span class='ml-2'
       = l(basket.delivery.date, format: :medium).titleize
 
   li class='mt-1 flex flex-row items-center'
-    = icon 'shopping-bag', class: 'h-6 w-6 text-gray-300 dark:text-gray-700'
+    = icon "shopping-bag", class: "h-6 w-6 text-gray-300 dark:text-gray-700"
     span class='ml-2'
       p
         = h basket_description(basket)
@@ -23,11 +23,11 @@ ul class="relative p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-900 #{'text-
               = " *"
 
   li class='mt-1 flex flex-row items-center'
-    = icon "map", class: 'h-6 w-6 text-gray-300 dark:text-gray-700'
+    = icon "map", class: "h-6 w-6 text-gray-300 dark:text-gray-700"
     span class='ml-2'
       - depot = basket.depot
       - if depot.full_address
-        = link_to "https://www.google.com/maps?q=#{depot.full_address}", title: depot.full_address, target: :blank, class: 'hover:text-green-500' do
+        = link_to "https://www.google.com/maps?q=#{depot.full_address}", title: depot.full_address, target: :blank, class: "hover:text-green-500" do
           = h depot.public_name
       - else
         = h depot.public_name

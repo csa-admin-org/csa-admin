@@ -1,11 +1,11 @@
 doctype html
 html lang=I18n.locale
   head
-    title = [Current.org.name, t('.title')].join(' – ')
+    title = [ Current.org.name, t(".title") ].join(" – ")
     script async=true src="https://ga.jspm.io/npm:es-module-shims@1.10.1/dist/es-module-shims.js" data-turbo-track="reload"
-    = javascript_importmap_tags 'members'
-    = stylesheet_link_tag 'https://npmcdn.com/flatpickr/dist/themes/confetti.css'
-    = stylesheet_link_tag "tailwind", "inter-font", data: { turbo_track: 'reload' }
+    = javascript_importmap_tags "members"
+    = stylesheet_link_tag "https://npmcdn.com/flatpickr/dist/themes/confetti.css"
+    = stylesheet_link_tag "tailwind", "inter-font", data: { turbo_track: "reload" }
     = csrf_meta_tags
     meta charset="UTF-8"
     meta name="viewport" content="width=device-width, initial-scale=1.0"
@@ -16,13 +16,13 @@ html lang=I18n.locale
       div class="flex flex-col md:flex-row md:mx-auto md:max-w-4xl"
         div class="flex flex-col md:w-80"
           div
-            = render 'layouts/members/header'
+            = render "layouts/members/header"
           div class="md:mx-8 hidden md:block flex" data-menu-target='menu'
-            = render 'layouts/members/footer'
+            = render "layouts/members/footer"
         main class="mt-4 md:mt-48 mb-24 mx-auto px-4 md:pl-0 w-full md:max-w-xl" data-menu-target='body'
           section class="relative w-full"
             div class='md:absolute md:-mt-24 w-full md:pr-4'
-              = render 'layouts/members/flashes'
+              = render "layouts/members/flashes"
             div class=''
               = yield
 
@@ -33,10 +33,10 @@ html lang=I18n.locale
             header class='flex'
               div class='mx-auto my-8 md:my-16 print:!my-6'
                 = link_to Current.org.url do
-                  = image_tag(org_logo_url, alt: "#{Current.org.name} Logo", class: 'h-32 w-32 md:h-60 md:w-60 print:!h-16 print:!w-16')
+                  = image_tag(org_logo_url, alt: "#{Current.org.name} Logo", class: "h-32 w-32 md:h-60 md:w-60 print:!h-16 print:!w-16")
             main class="w-full" data-menu-target='body'
               section class="w-full"
-                = render 'layouts/members/flashes'
+                = render "layouts/members/flashes"
                 = yield
           div class='mt-48 flex-none flex print:hidden'
-            = render 'layouts/members/footer'
+            = render "layouts/members/footer"

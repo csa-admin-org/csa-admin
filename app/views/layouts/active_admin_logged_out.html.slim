@@ -7,7 +7,7 @@ html lang=I18n.locale
   body class="h-screen flex flex-col dark:bg-black text-gray-950 dark:text-gray-100 antialiased"
     div class="flex-grow flex flex-col items-center align-middle justify-center md:w-2/5 mx-auto px-2"
       div class="mt-12 md:mt-24 mb-12 w-auto"
-        = image_tag(org_logo_url, size: '500', alt: "#{Current.org.name} Logo", class: "logo h-40 w-40 md:h-52 md:w-52")
+        = image_tag(org_logo_url, size: "500", alt: "#{Current.org.name} Logo", class: "logo h-40 w-40 md:h-52 md:w-52")
       = render "active_admin/flash_messages"
       div class="w-full px-2 md:px-5"
         = yield
@@ -18,9 +18,9 @@ html lang=I18n.locale
           ul class="flex flex-row w-full items-center justify-center"
             - Current.org.languages.each do |locale|
               li class="[&:not(:first-child)]:before:content-['/'] uppercase text-gray-300 dark:text-gray-700"
-                = link_to locale, url_for(locale: locale), title: t("languages.#{locale}"), onclick: 'Turbolinks.clearCache()', class: 'px-2 text-gray-400 dark:text-gray-600'
+                = link_to locale, url_for(locale: locale), title: t("languages.#{locale}"), onclick: "Turbolinks.clearCache()", class: "px-2 text-gray-400 dark:text-gray-600"
 
       div class="pt-8 flex justify-center gap-2"
         = link_to csa_admin_website_url, class: "inline-flex items-center text-sm py-1 px-2 text-gray-300 dark:text-gray-700 hover:text-green-600 hover:text-green-600 dark:hover:text-green-500 hover:bg-gray-100 dark:hover:bg-gray-700 font-medium focus:outline-none rounded-md no-underline" do
           = icon "logo", class: "w-4 h-4 me-2 fill-current", library: "own"
-          = 'CSA Admin'
+          = "CSA Admin"
