@@ -7,11 +7,11 @@
           = icon "banknotes", class: "h-6 w-6 text-gray-400 dark:text-gray-600"
           span class="ml-3"
             - if current_member&.salary_basket?
-              span class="italic text-gray-400 dark:text-gray-600" = t('.salary_basket')
+              span class="italic text-gray-400 dark:text-gray-600" = t(".salary_basket")
             - else
               - if pricing.prices.one?
                 = cur(pricing.prices.first)
               - else
-                = [cur(pricing.prices.min), cur(pricing.prices.max, format: '%n')].join('-')
+                = [ cur(pricing.prices.min), cur(pricing.prices.max, format: "%n") ].join("-")
               span class="ml-1 text-gray-400 dark:text-gray-600"
                 = "/#{t('.year')}"

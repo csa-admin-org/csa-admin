@@ -2,17 +2,17 @@ h2 class="mt-8 text-lg font-bold text-gray-900 dark:text-gray-100"
   = membership.fiscal_year
 
   - if membership.can_member_update?
-    = link_to edit_members_membership_path(membership), title: t('.edit'), class: 'ml-1.5 p-2' do
-      = icon 'pencil-square', class: 'mb-1.5 inline h-5 w-5 text-gray-400 dark:text-gray-600 hover:text-green-500 dark:hover:text-green-500'
+    = link_to edit_members_membership_path(membership), title: t(".edit"), class: "ml-1.5 p-2" do
+      = icon "pencil-square", class: "mb-1.5 inline h-5 w-5 text-gray-400 dark:text-gray-600 hover:text-green-500 dark:hover:text-green-500"
 
 ul class='my-2 md:mr-4 -mx-2 relative p-2 space-y-2' id=membership.fiscal_year.year
   li class='flex flex-row items-center'
-    = icon 'calendar-days', class: 'h-6 w-6 text-gray-300 dark:text-gray-700'
+    = icon "calendar-days", class: "h-6 w-6 text-gray-300 dark:text-gray-700"
     span class='ml-2'
-      = [membership.started_on, membership.ended_on].map { |d| l(d) }.join(' – ')
+      = [ membership.started_on, membership.ended_on ].map { |d| l(d) }.join(" – ")
 
   li class='mt-1 flex flex-row items-center'
-    = icon 'shopping-bag', class: 'h-6 w-6 text-gray-300 dark:text-gray-700'
+    = icon "shopping-bag", class: "h-6 w-6 text-gray-300 dark:text-gray-700"
     span class='ml-2 flex flex-col'
       span = basket_size_description(membership)
       - complements = membership.memberships_basket_complements.includes(:basket_complement)
@@ -20,34 +20,34 @@ ul class='my-2 md:mr-4 -mx-2 relative p-2 space-y-2' id=membership.fiscal_year.y
         span = basket_complements_description(complements)
 
   li class='mt-1 flex flex-row items-center'
-    = icon "map", class: 'h-6 w-6 text-gray-300 dark:text-gray-700'
+    = icon "map", class: "h-6 w-6 text-gray-300 dark:text-gray-700"
     span class='ml-2'
       - depot = membership.depot
       - if depot.full_address
-        = link_to "https://www.google.com/maps?q=#{depot.full_address}", title: depot.full_address, target: :blank, class: 'hover:text-green-500' do
+        = link_to "https://www.google.com/maps?q=#{depot.full_address}", title: depot.full_address, target: :blank, class: "hover:text-green-500" do
           = h depot.public_name
       - else
         = h depot.public_name
 
   li class='mt-1 flex flex-row items-center'
-    = icon 'truck', class: 'h-6 w-6 text-gray-300 dark:text-gray-700'
+    = icon "truck", class: "h-6 w-6 text-gray-300 dark:text-gray-700"
     span class='ml-2'
       = link_to members_deliveries_path do
         = "#{membership.baskets_count} #{Delivery.model_name.human(count: membership.baskets_count)}"
         - if membership.trial?
           = ", #{t('.remaning_trial_baskets_count', count: membership.remaning_trial_baskets_count)}"
-      - if Current.org.feature?('absence') && membership.baskets.absent.any?
-        = ', '
+      - if Current.org.feature?("absence") && membership.baskets.absent.any?
+        = ", "
         = link_to members_absences_path do
-          = t('.absent_baskets_count', count: membership.baskets.absent.count)
+          = t(".absent_baskets_count", count: membership.baskets.absent.count)
 
-  - if Current.org.feature?('activity')
+  - if Current.org.feature?("activity")
     li class='mt-1 flex flex-row items-center'
-      = icon 'hand-raised', class: 'h-6 w-6 text-gray-300 dark:text-gray-700'
+      = icon "hand-raised", class: "h-6 w-6 text-gray-300 dark:text-gray-700"
       span class='ml-2'
         = "#{activities_human_name}: "
         = link_to members_activity_participations_path do
-          = t('.activity_participations_demanded', count: membership.activity_participations_demanded)
+          = t(".activity_participations_demanded", count: membership.activity_participations_demanded)
 
   li
     li class="mt-1 flex flex-row items-center"
@@ -55,10 +55,10 @@ ul class='my-2 md:mr-4 -mx-2 relative p-2 space-y-2' id=membership.fiscal_year.y
       span class='ml-2'
         - if current_member.salary_basket?
           span class="italic text-gray-400 dark:text-gray-600"
-            = t('.price_salary_basket')
+            = t(".price_salary_basket")
         - else
           span class="flex flex-row items-center"
             = link_to members_billing_path do
               = cur(membership.price)
             - if membership.invoices.any?
-              = tooltip "membership-price-#{membership.id}", t('.price_tooltip')
+              = tooltip "membership-price-#{membership.id}", t(".price_tooltip")

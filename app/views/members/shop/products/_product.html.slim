@@ -5,7 +5,7 @@ div class=''
     - if product.tags.any?
       ul class='ml-2 flex items-center space-x-2'
         - product.tags.each do |tag|
-          li = render partial: 'members/shop/products/tag', object: tag
+          li = render partial: "members/shop/products/tag", object: tag
 
   - if params[:producer_id].blank? && product.producer_id?
     div class='mt-1 text-sm font-medium'
@@ -14,7 +14,7 @@ div class=''
           = product.producer.name
         - if product.producer.website_url?
           = link_to product.producer.website_url, target: :blank, class: "ml-1 flex flex-row items-center" do
-            = icon 'link', class: 'h-4 w-4'
+            = icon "link", class: "h-4 w-4"
 
   - if product.description?
     div class='mt-2 text-sm'
@@ -24,4 +24,4 @@ div class=''
     - product.variants.select(&:available?).each do |variant|
       li class="-ml-1 p-1 w-full hover:bg-gray-100 dark:hover:bg-gray-900"
         = turbo_frame_tag "product_variant_#{variant.id}" do
-          = render partial: 'members/shop/products/variant', object: variant
+          = render partial: "members/shop/products/variant", object: variant

@@ -1,55 +1,55 @@
 h1 class="text-center text-xl sm:text-2xl font-extrabold text-gray-900 dark:text-gray-100"
-  = t('.title')
+  = t(".title")
 
 div class="mt-4 text-justify"
-  p == Current.org.member_form_subtitle? ? Current.org.member_form_subtitle : t('.subtitle')
+  p == Current.org.member_form_subtitle? ? Current.org.member_form_subtitle : t(".subtitle")
 
 div class="mt-8"
   - if @member.errors.of_kind?(:emails, :taken)
     div class="block mb-4 p-4 bg-red-100 dark:bg-red-900 text-red-500 rounded-md relative" role="alert"
       strong class="font-bold"
-        = @member.emails_array.many? ? t('.emails_taken') : t('.email_taken')
+        = @member.emails_array.many? ? t(".emails_taken") : t(".email_taken")
       span class="block mt-1"
-        = t('.email_taken_hint')
+        = t(".email_taken_hint")
 
-  = simple_form_for @member, url: members_member_path, data: { turbo: false, controller: 'form-pricing', 'form-pricing-url-value' => new_members_member_url } do |f|
+  = simple_form_for @member, url: members_member_path, data: { turbo: false, controller: "form-pricing", "form-pricing-url-value" => new_members_member_url } do |f|
     div class="space-y-8"
       div class="print:break-after-page"
         legend class="text-lg font-medium text-gray-700 dark:text-gray-300"
           = Member.human_attribute_name(:contact)
         div class="mt-2 space-y-6"
-          = f.input :name, label: t('.name'), label_html: { class: 'text-sm font-medium text-gray-700 dark:text-gray-300' }, input_html: { class: 'mt-1 dark:bg-black w-full px-3 py-2 border border-gray-300 dark:border-gray-700 placeholder-gray-400 dark:placeholder-gray-600 text-gray-900 dark:text-gray-100 rounded-md focus:outline-none focus:ring-green-500 focus:border-green-500 focus:z-10' }
+          = f.input :name, label: t(".name"), label_html: { class: "text-sm font-medium text-gray-700 dark:text-gray-300" }, input_html: { class: "mt-1 dark:bg-black w-full px-3 py-2 border border-gray-300 dark:border-gray-700 placeholder-gray-400 dark:placeholder-gray-600 text-gray-900 dark:text-gray-100 rounded-md focus:outline-none focus:ring-green-500 focus:border-green-500 focus:z-10" }
 
-          = f.input :address, required: true, label_html: { class: 'text-sm font-medium text-gray-700 dark:text-gray-300' }, input_html: { class: 'mt-1 dark:bg-black w-full px-3 py-2 border border-gray-300 dark:border-gray-700 placeholder-gray-400 dark:placeholder-gray-600 text-gray-900 dark:text-gray-100 rounded-md focus:outline-none focus:ring-green-500 focus:border-green-500 focus:z-10' }
+          = f.input :address, required: true, label_html: { class: "text-sm font-medium text-gray-700 dark:text-gray-300" }, input_html: { class: "mt-1 dark:bg-black w-full px-3 py-2 border border-gray-300 dark:border-gray-700 placeholder-gray-400 dark:placeholder-gray-600 text-gray-900 dark:text-gray-100 rounded-md focus:outline-none focus:ring-green-500 focus:border-green-500 focus:z-10" }
 
           div class='flex flex-row w-full'
-            = f.input :zip, required: true, label_html: { class: 'text-sm font-medium text-gray-700 dark:text-gray-300' }, input_html: { class: 'mt-1 dark:bg-black w-full px-3 py-2 border border-gray-300 dark:border-gray-700 placeholder-gray-400 dark:placeholder-gray-600 text-gray-900 dark:text-gray-100 rounded-md focus:outline-none focus:ring-green-500 focus:border-green-500 focus:z-10', size: 6, maxlength: 6 }, wrapper_html: { class: 'w-24' }
-            = f.input :city, required: true, label_html: { class: 'text-sm font-medium text-gray-700 dark:text-gray-300' }, input_html: { class: 'mt-1 dark:bg-black w-full px-3 py-2 border border-gray-300 dark:border-gray-700 placeholder-gray-400 dark:placeholder-gray-600 text-gray-900 dark:text-gray-100 rounded-md focus:outline-none focus:ring-green-500 focus:border-green-500 focus:z-10' }, wrapper_html: { class: 'w-full pl-2' }
+            = f.input :zip, required: true, label_html: { class: "text-sm font-medium text-gray-700 dark:text-gray-300" }, input_html: { class: "mt-1 dark:bg-black w-full px-3 py-2 border border-gray-300 dark:border-gray-700 placeholder-gray-400 dark:placeholder-gray-600 text-gray-900 dark:text-gray-100 rounded-md focus:outline-none focus:ring-green-500 focus:border-green-500 focus:z-10", size: 6, maxlength: 6 }, wrapper_html: { class: "w-24" }
+            = f.input :city, required: true, label_html: { class: "text-sm font-medium text-gray-700 dark:text-gray-300" }, input_html: { class: "mt-1 dark:bg-black w-full px-3 py-2 border border-gray-300 dark:border-gray-700 placeholder-gray-400 dark:placeholder-gray-600 text-gray-900 dark:text-gray-100 rounded-md focus:outline-none focus:ring-green-500 focus:border-green-500 focus:z-10" }, wrapper_html: { class: "w-full pl-2" }
 
-          = f.input :country_code, required: true, as: :select, collection: countries_collection, label_html: { class: 'text-sm font-medium text-gray-700 dark:text-gray-300' }, input_html: { class: 'mt-1 dark:bg-black w-full px-3 py-2 border border-gray-300 dark:border-gray-700 placeholder-gray-400 dark:placeholder-gray-600 text-gray-900 dark:text-gray-100 rounded-md focus:outline-none focus:ring-green-500 focus:border-green-500 focus:z-10' }
+          = f.input :country_code, required: true, as: :select, collection: countries_collection, label_html: { class: "text-sm font-medium text-gray-700 dark:text-gray-300" }, input_html: { class: "mt-1 dark:bg-black w-full px-3 py-2 border border-gray-300 dark:border-gray-700 placeholder-gray-400 dark:placeholder-gray-600 text-gray-900 dark:text-gray-100 rounded-md focus:outline-none focus:ring-green-500 focus:border-green-500 focus:z-10" }
 
-          = f.input :emails, as: :string, required: true, label_html: { class: 'text-sm font-medium text-gray-700 dark:text-gray-300' }, input_html: { class: 'mt-1 dark:bg-black w-full px-3 py-2 border border-gray-300 dark:border-gray-700 placeholder-gray-400 dark:placeholder-gray-600 text-gray-900 dark:text-gray-100 rounded-md focus:outline-none focus:ring-green-500 focus:border-green-500 focus:z-10' }, hint_html: { class: 'text-sm' }
+          = f.input :emails, as: :string, required: true, label_html: { class: "text-sm font-medium text-gray-700 dark:text-gray-300" }, input_html: { class: "mt-1 dark:bg-black w-full px-3 py-2 border border-gray-300 dark:border-gray-700 placeholder-gray-400 dark:placeholder-gray-600 text-gray-900 dark:text-gray-100 rounded-md focus:outline-none focus:ring-green-500 focus:border-green-500 focus:z-10" }, hint_html: { class: "text-sm" }
 
-          = f.input :phones, as: :string, required: true, label_html: { class: 'text-sm font-medium text-gray-700 dark:text-gray-300' }, input_html: { class: 'mt-1 dark:bg-black w-full px-3 py-2 border border-gray-300 dark:border-gray-700 placeholder-gray-400 dark:placeholder-gray-600 text-gray-900 dark:text-gray-100 rounded-md focus:outline-none focus:ring-green-500 focus:border-green-500 focus:z-10' }, hint_html: { class: 'text-sm' }
+          = f.input :phones, as: :string, required: true, label_html: { class: "text-sm font-medium text-gray-700 dark:text-gray-300" }, input_html: { class: "mt-1 dark:bg-black w-full px-3 py-2 border border-gray-300 dark:border-gray-700 placeholder-gray-400 dark:placeholder-gray-600 text-gray-900 dark:text-gray-100 rounded-md focus:outline-none focus:ring-green-500 focus:border-green-500 focus:z-10" }, hint_html: { class: "text-sm" }
 
       = render "members/members/form_modes/#{Current.org.member_form_mode}", f: f
 
       div
         legend class="text-lg font-medium text-gray-700 dark:text-gray-300"
-          = t('.more_info')
+          = t(".more_info")
         div class="mt-2 space-y-6"
-          - unless Current.org.member_profession_form_mode == 'hidden'
-            = f.input :profession, hint: true, required: (Current.org.member_profession_form_mode == 'required'), label_html: { class: 'text-sm font-medium text-gray-700 dark:text-gray-300' }, input_html: { class: 'mt-1 dark:bg-black w-full px-3 py-2 border border-gray-300 dark:border-gray-700 placeholder-gray-400 dark:placeholder-gray-600 text-gray-900 dark:text-gray-100 rounded-md focus:outline-none focus:ring-green-500 focus:border-green-500 focus:z-10' }, hint_html: { class: 'inline-block w-full text-sm'}
-          - unless Current.org.member_come_from_form_mode == 'hidden'
-            = f.input :come_from, as: :text, required: (Current.org.member_come_from_form_mode == 'required'), label_html: { class: 'text-sm font-medium text-gray-700 dark:text-gray-300' }, input_html: { rows: 1, class: 'mt-1 dark:bg-black w-full px-3 py-2 border border-gray-300 dark:border-gray-700 placeholder-gray-400 dark:placeholder-gray-600 text-gray-900 dark:text-gray-100 rounded-md focus:outline-none focus:ring-green-500 focus:border-green-500 focus:z-10' }
-          = f.input :note, as: :text, label: t('.note'), label_html: { class: 'text-sm font-medium text-gray-700 dark:text-gray-300' }, input_html: { rows: 3, class: 'mt-1 dark:bg-black w-full px-3 py-2 border border-gray-300 dark:border-gray-700 placeholder-gray-400 dark:placeholder-gray-600 text-gray-900 dark:text-gray-100 rounded-md focus:outline-none focus:ring-green-500 focus:border-green-500 focus:z-10' }
+          - unless Current.org.member_profession_form_mode == "hidden"
+            = f.input :profession, hint: true, required: (Current.org.member_profession_form_mode == "required"), label_html: { class: "text-sm font-medium text-gray-700 dark:text-gray-300" }, input_html: { class: "mt-1 dark:bg-black w-full px-3 py-2 border border-gray-300 dark:border-gray-700 placeholder-gray-400 dark:placeholder-gray-600 text-gray-900 dark:text-gray-100 rounded-md focus:outline-none focus:ring-green-500 focus:border-green-500 focus:z-10" }, hint_html: { class: "inline-block w-full text-sm" }
+          - unless Current.org.member_come_from_form_mode == "hidden"
+            = f.input :come_from, as: :text, required: (Current.org.member_come_from_form_mode == "required"), label_html: { class: "text-sm font-medium text-gray-700 dark:text-gray-300" }, input_html: { rows: 1, class: "mt-1 dark:bg-black w-full px-3 py-2 border border-gray-300 dark:border-gray-700 placeholder-gray-400 dark:placeholder-gray-600 text-gray-900 dark:text-gray-100 rounded-md focus:outline-none focus:ring-green-500 focus:border-green-500 focus:z-10" }
+          = f.input :note, as: :text, label: t(".note"), label_html: { class: "text-sm font-medium text-gray-700 dark:text-gray-300" }, input_html: { rows: 3, class: "mt-1 dark:bg-black w-full px-3 py-2 border border-gray-300 dark:border-gray-700 placeholder-gray-400 dark:placeholder-gray-600 text-gray-900 dark:text-gray-100 rounded-md focus:outline-none focus:ring-green-500 focus:border-green-500 focus:z-10" }
 
       - if Current.org.terms_of_service?
-        = f.input :terms_of_service, as: :boolean, label: terms_of_service_label, input_html: { class: 'mr-4 flex-none h-6 w-6 rounded border-2 border-gray-300 dark:border-gray-700 text-green-500 bg-gray-50 dark:bg-black focus:outline-none focus:ring-green-500 focus:border-green-500 cursor-pointer' }, label_html: { class: 'text-sm font-normal text-gray-700 dark:text-gray-300 flex flex-row flex-nowrap items-center cursor-pointer' }, wrapper_class: 'border-gray-200 dark:border-gray-800 border rounded px-4 py-4'
+        = f.input :terms_of_service, as: :boolean, label: terms_of_service_label, input_html: { class: "mr-4 flex-none h-6 w-6 rounded border-2 border-gray-300 dark:border-gray-700 text-green-500 bg-gray-50 dark:bg-black focus:outline-none focus:ring-green-500 focus:border-green-500 cursor-pointer" }, label_html: { class: "text-sm font-normal text-gray-700 dark:text-gray-300 flex flex-row flex-nowrap items-center cursor-pointer" }, wrapper_class: "border-gray-200 dark:border-gray-800 border rounded px-4 py-4"
 
       div class='text-right print:hidden'
-        = f.button :submit, t('.submit'), class: 'min-w-full md:min-w-min py-2 px-6 border border-green-400 dark:border-green-600 bg-green-400 dark:bg-green-600 hover:border-green-500 hover:bg-green-500 text-white font-medium rounded-md focus:outline-none focus:ring-green-500 focus:border-green-500 focus:z-10 text-base cursor-pointer'
+        = f.button :submit, t(".submit"), class: "min-w-full md:min-w-min py-2 px-6 border border-green-400 dark:border-green-600 bg-green-400 dark:bg-green-600 hover:border-green-500 hover:bg-green-500 text-white font-medium rounded-md focus:outline-none focus:ring-green-500 focus:border-green-500 focus:z-10 text-base cursor-pointer"
 
-  = turbo_frame_tag 'pricing' do
+  = turbo_frame_tag "pricing" do
     - if params[:member].present?
-      = render partial: 'members/members/pricing', locals: { params: member_params.to_unsafe_h }
+      = render partial: "members/members/pricing", locals: { params: member_params.to_unsafe_h }

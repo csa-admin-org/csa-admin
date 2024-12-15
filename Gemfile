@@ -112,6 +112,7 @@ group :development do
   gem "ruby-lsp-rspec", require: false
 
   gem "rubocop-rails-omakase", require: false
+  gem "rubocop-slim", require: false
 
   gem "cloudflare"
   gem "resolv"
