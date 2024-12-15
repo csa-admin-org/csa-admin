@@ -426,7 +426,7 @@ module MembersHelper
 
   def map_icon(location)
     link_to "https://www.google.com/maps?q=#{location}", title: location, target: :blank do
-      inline_svg_tag "members/map.svg", class: "inline-block text-gray-300 dark:text-gray-700 hover:text-green-500"
+      icon "map", class: "inline-block text-gray-300 dark:text-gray-700 hover:text-green-500"
     end
   end
 

@@ -14,7 +14,7 @@ div class=''
           = product.producer.name
         - if product.producer.website_url?
           = link_to product.producer.website_url, target: :blank, class: "ml-1 flex flex-row items-center" do
-            = inline_svg_tag 'members/link.svg'
+            = icon 'link', class: 'h-4 w-4'
 
   - if product.description?
     div class='mt-2 text-sm'

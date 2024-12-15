@@ -40,21 +40,9 @@ ActiveAdmin.register Delivery do
       column :shop, ->(delivery) { status_tag(delivery.shop_configured_open?) }, class: "text-right"
     end
     actions do |delivery|
-      div do
-        link_to baskets_path(q: { delivery_id_eq: delivery.id }, format: :csv), title: "CSV" do
-          inline_svg_tag "admin/csv_file.svg", class: "w-5 h-5"
-        end
-      end
-      div do
-        link_to delivery_path(delivery, format: :xlsx), title: "XLSX" do
-          inline_svg_tag "admin/xlsx_file.svg", class: "w-5 h-5"
-        end
-      end
-      div do
-        link_to delivery_path(delivery, format: :pdf), target: "_blank", title: "PDF" do
-          inline_svg_tag "admin/pdf_file.svg", class: "w-5 h-5"
-        end
-      end
+      icon_file_link(:csv, baskets_path(q: { delivery_id_eq: delivery.id }, format: :csv), title: Delivery.human_attribute_name(:summary), size: 5) +
+      icon_file_link(:xlsx, delivery_path(delivery, format: :xlsx), title: Delivery.human_attribute_name(:summary), size: 5) +
+      icon_file_link(:pdf, delivery_path(delivery, format: :pdf), target: "_blank", title: Delivery.human_attribute_name(:sheets), size: 5)
     end
   end
 
@@ -84,9 +72,9 @@ ActiveAdmin.register Delivery do
     columns do
       column do
         panel Basket.model_name.human(count: 2), action: (
-          icon_link(:csv_file, Delivery.human_attribute_name(:summary), baskets_path(q: { delivery_id_eq: delivery.id }, format: :csv)) +
-          icon_link(:xlsx_file, Delivery.human_attribute_name(:summary), delivery_path(delivery, format: :xlsx)) +
-          icon_link(:pdf_file, Delivery.human_attribute_name(:sheets), delivery_path(delivery, format: :pdf), target: "_blank")
+          icon_file_link(:csv, baskets_path(q: { delivery_id_eq: delivery.id }, format: :csv), title: Delivery.human_attribute_name(:summary)) +
+          icon_file_link(:xlsx, delivery_path(delivery, format: :xlsx), title: Delivery.human_attribute_name(:summary)) +
+          icon_file_link(:pdf, delivery_path(delivery, format: :pdf), target: "_blank", title: Delivery.human_attribute_name(:sheets))
         ) do
           counts = delivery.basket_counts
           if counts.present?

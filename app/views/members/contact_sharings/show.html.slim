@@ -19,15 +19,15 @@ section
           li class='w-full md:w-1/2 my-2'
             ul class="md:mr-4 -mx-2 relative p-2 space-y-1"
               li class='flex flex-row items-center'
-                = inline_svg_tag 'members/user_circle.svg', class: 'h-6 w-6 flex-shrink-0 fill-stroke text-gray-300 dark:text-gray-700'
+                = icon 'user-circle', class: 'h-6 w-6 text-gray-300 dark:text-gray-700'
                 span class='ml-2'
                   = member.name
               li class='flex flex-row items-center'
-                = inline_svg_tag 'members/phone.svg', class: 'h-6 w-6 flex-shrink-0 fill-stroke text-gray-300 dark:text-gray-700'
+                = icon 'phone', class: 'h-6 w-6 text-gray-300 dark:text-gray-700'
                 span class='ml-2'
                   = display_phones(member)
               li class='flex flex-row items-center'
-                = inline_svg_tag 'members/map.svg', class: 'h-6 w-6 flex-shrink-0 fill-stroke text-gray-300 dark:text-gray-700'
+                = icon "map", class: 'h-6 w-6 text-gray-300 dark:text-gray-700'
                 span class='ml-2'
                   = display_address(member, country: false)
 

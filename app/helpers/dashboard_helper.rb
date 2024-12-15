@@ -9,9 +9,9 @@ module DashboardHelper
   end
 
   def next_delivery_panel_action(delivery)
-    icon_link(:csv_file, Delivery.human_attribute_name(:summary), baskets_path(q: { delivery_id_eq: delivery.id }, format: :csv)) +
-      icon_link(:xlsx_file, Delivery.human_attribute_name(:summary), delivery_path(delivery, format: :xlsx)) +
-      icon_link(:pdf_file, Delivery.human_attribute_name(:sheets), delivery_path(delivery, format: :pdf), target: "_blank")
+    icon_file_link(:csv, baskets_path(q: { delivery_id_eq: delivery.id }, format: :csv), title: Delivery.human_attribute_name(:summary)) +
+      icon_file_link(:xlsx, delivery_path(delivery, format: :xlsx), title: Delivery.human_attribute_name(:summary)) +
+      icon_file_link(:pdf, delivery_path(delivery, format: :pdf), target: "_blank", title: Delivery.human_attribute_name(:sheets))
   end
 
   def billing_panel_action
@@ -35,7 +35,7 @@ module DashboardHelper
             end
           end
         end || "".html_safe
-      ) + icon_link(:xlsx_file, Invoice.human_attribute_name(:summary), billing_path(Current.fy_year, format: :xlsx))
+      ) + icon_file_link(:xlsx, billing_path(Current.fy_year, format: :xlsx), title: Invoice.human_attribute_name(:summary))
     end
   end
 end

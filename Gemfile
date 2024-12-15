@@ -36,7 +36,6 @@ gem "cancancan"
 gem "acts_as_list"
 
 gem "simple_form"
-gem "inline_svg"
 gem "slim"
 
 gem "importmap-rails"

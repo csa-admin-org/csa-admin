@@ -32,7 +32,7 @@ module ActivitiesHelper
           content_tag(:span, class: "mr-1") {
             "#{activity.participants_count}/#{activity.participants_limit || '∞'}"
           }.concat(
-            icon("users", class: "ms-1 h-5 w-5 text-gray-500", library: "lucide"))
+            icon("users", class: "ms-1 h-5 w-5", library: "lucide", stroke_width: 2))
         })
       [
         text,

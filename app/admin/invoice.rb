@@ -181,7 +181,7 @@ ActiveAdmin.register Invoice do
           end
         end
         unless invoice.processing?
-          panel "PDF", action: icon_link(:pdf_file, "PDF", pdf_invoice_path(invoice), target: "_blank") do
+          panel "PDF", action: icon_file_link(:pdf, pdf_invoice_path(invoice), target: "_blank") do
             div class: "p-2" do
               link_to_invoice_pdf(invoice) do
                 image_tag invoice.pdf_file.preview(resize_to_limit: [ 2000, 2000 ]), class: "w-full"
@@ -259,7 +259,7 @@ ActiveAdmin.register Invoice do
 
   action_item :pdf, only: :show, if: -> { !resource.processing? } do
     link_to_invoice_pdf(resource, class: "action-item-button") do
-      "PDF"
+      icon "file-pdf", class: "h-5 w-5", library: "own"
     end
   end
 

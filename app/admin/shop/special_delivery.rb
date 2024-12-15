@@ -56,16 +56,8 @@ ActiveAdmin.register Shop::SpecialDelivery do
           q: { _delivery_gid_eq: d.gid }, scope: :all_without_cart))
     }, sortable: false, class: "text-right"
     actions do |delivery|
-      div do
-        link_to shop_special_delivery_path(delivery, format: :xlsx), title: "XLSX" do
-          inline_svg_tag "admin/xlsx_file.svg", class: "h-5 w-5"
-        end
-      end
-      div do
-        link_to delivery_shop_orders_path(delivery_gid: delivery.gid, format: :pdf), title: "PDF", target: "_blank" do
-          inline_svg_tag "admin/pdf_file.svg", class: "h-5 w-5"
-        end
-      end
+      icon_file_link(:xlsx, shop_special_delivery_path(delivery, format: :xlsx), size: 5) +
+      icon_file_link(:pdf, delivery_shop_orders_path(delivery_gid: delivery.gid, format: :pdf), target: "_blank", size: 5)
     end
   end
 
@@ -83,7 +75,7 @@ ActiveAdmin.register Shop::SpecialDelivery do
           end
         else
           all.each do |producer, items|
-            panel producer.name, action: icon_link(:xlsx_file, "XLSX", shop_special_delivery_path(delivery, format: :xlsx, producer_id: producer.id)) do
+            panel producer.name, action: icon_file_link(:xlsx, shop_special_delivery_path(delivery, format: :xlsx, producer_id: producer.id)) do
               table_for items, i18n: Shop::OrderItem, class: "table-auto data-table-total" do
                 column(:product) { |i| auto_link i.product }
                 column(:product_variant) { |i| i.product_variant }

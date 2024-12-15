@@ -15,14 +15,14 @@ div class: "flex justify-center" do
               if Delivery.any?
                 a href: deliveries_path do
                   span class: "flex items-center line-through text-gray-400 dark:text-gray-600" do
-                    span inline_svg_tag("admin/clipboard-check.svg", class: "h-8 w-8")
+                    span icon("clipboard-check", class: "h-7 w-7 mr-2", library: "lucide", stroke_width: 1)
                     span t(".create_deliveries")
                   end
                 end
               else
                 a href: new_delivery_path do
                   span class: "flex items-center" do
-                    span inline_svg_tag("admin/clipboard.svg", class: "h-8 w-8")
+                    span icon("clipboard", class: "h-7 w-7 mr-2", library: "lucide", stroke_width: 1)
                     span t(".create_deliveries")
                   end
                 end
@@ -33,14 +33,14 @@ div class: "flex justify-center" do
                 if BasketSize.kept.any?
                   a href: basket_sizes_path do
                     span class: "flex items-center line-through text-gray-400 dark:text-gray-600" do
-                    span inline_svg_tag("admin/clipboard-check.svg", class: "h-8 w-8")
+                      span icon("clipboard-check", class: "h-7 w-7 mr-2", library: "lucide", stroke_width: 1)
                       span t(".create_basket_sizes")
                     end
                   end
                 else
                   a href: new_basket_size_path do
                     span class: "flex items-center" do
-                    span inline_svg_tag("admin/clipboard.svg", class: "h-8 w-8")
+                      span icon("clipboard", class: "h-7 w-7 mr-2", library: "lucide", stroke_width: 1)
                       span t(".create_basket_sizes")
                     end
                   end
@@ -51,14 +51,14 @@ div class: "flex justify-center" do
               if Depot.kept.any?
                 a href: depots_path do
                   span class: "flex items-center line-through text-gray-400 dark:text-gray-600" do
-                    span inline_svg_tag("admin/clipboard-check.svg", class: "h-8 w-8")
+                    span icon("clipboard-check", class: "h-7 w-7 mr-2", library: "lucide", stroke_width: 1)
                     span t(".create_depots")
                   end
                 end
               else
                 a href: new_depot_path do
                   span class: "flex items-center" do
-                    span inline_svg_tag("admin/clipboard.svg", class: "h-8 w-8")
+                    span icon("clipboard", class: "h-7 w-7 mr-2", library: "lucide", stroke_width: 1)
                     span t(".create_depots")
                   end
                 end

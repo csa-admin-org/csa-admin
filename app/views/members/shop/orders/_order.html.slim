@@ -33,15 +33,15 @@
               button aria-label="minus" class="bg-gray-200 dark:bg-gray-800 text-gray-400 dark:text-gray-600 hover:bg-gray-300 dark:hover:bg-gray-700 rounded-l cursor-pointer outline-none z-0 " data-action="form-number-controls#decrement"
                 div class="mx-2 flex items-center"
                   - if ff.object.quantity == 1
-                    = inline_svg_tag('members/trash.svg', class: 'w-4 h-4 flex-shrink-0 stroke-current')
+                    = icon 'trash', class: 'w-4 h-4'
                   - else
-                    = inline_svg_tag('members/minus.svg', class: 'w-4 h-4 flex-shrink-0 stroke-current')
+                    = icon 'minus', class: 'w-4 h-4'
 
               = ff.input_field :quantity, class: 'controls-none outline-none focus:outline-none border-none text-center dark:text-gray-400 w-8 bg-gray-200 dark:bg-gray-800 font-semibold px-0 hover:text-black dark:hover:text-gray-200 focus:text-black dark:focus:text-white md:text-base cursor-default focus:outline-none focus:ring-green-500 focus:border-green-500 focus:z-10 text-gray-700 z-10', min: 0, max: ff.object.product_variant.stock, data: { form_number_controls_target: 'input', action: "change->form-submitter#submit" }
 
               button aria-label="plus" class="bg-gray-200 dark:bg-gray-800 text-gray-400 dark:text-gray-600 rounded-r cursor-pointer outline-none #{'hover:bg-gray-300 dark:hover:bg-gray-700' if !ff.object.product_variant.stock || ff.object.quantity < ff.object.product_variant.stock.to_i}" data-action="form-number-controls#increment" disabled=(available_products.exclude?(ff.object.product) || ff.object.product_variant.unavailable? || (ff.object.product_variant.stock && ff.object.quantity >= ff.object.product_variant.stock.to_i))
                 div class="mx-2 flex items-center"
-                  = inline_svg_tag('members/plus.svg', class: 'w-4 h-4 flex-shrink-0 stroke-current')
+                  = icon 'plus', class: 'w-4 h-4'
 
   div class='mt-6 md:mt-4 flex flex-row justify-end flex-wrap md:flex-nowrap'
     - if Current.org.shop_member_percentages?
@@ -71,7 +71,7 @@
           = cur(f.object.amount)
 
     div class='w-24 mt-2.5 text-sm text-gray-400 dark:text-gray-600 flex flex-row justify-end' title=t('.order_total_weight')
-      = inline_svg_tag('members/scale.svg', class: 'w-4 h-4 stroke-current')
+      = icon 'scale', class: 'w-4 h-4'
       span class='ml-1'
         = kg(f.object.weight_in_kg)
 
@@ -92,7 +92,7 @@ div class='w-full mt-8 flex flex-col md:flex-row md:justify-end'
 div class='mt-12 flex flex-row justify-center md:justify-end'
   = button_to members_shop_order_path(@order), method: :delete, form: { data: { turbo: false, controller: "confirmation", confirmation_message_value: t('.destroy_cart_confirm'), action: "submit->confirmation#confirm" } }, class: 'focus:outline-none focus:ring-green-500 focus:border-green-500 focus:z-10 text-base cursor-pointer' do
       div class='flex flex-row items-center'
-        = inline_svg_tag('members/trash.svg', class: 'w-4 h-4 stroke-current')
+        = icon 'trash', class: 'w-4 h-4'
         span class='ml-1 text-sm font-normal'
           = t('.destroy_cart')
 

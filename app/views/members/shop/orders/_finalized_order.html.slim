@@ -32,7 +32,7 @@ div class="mt-2 space-y-4 md:space-y-2"
 
 div class='mt-6 md:mt-4 flex flex-row items-center justify-end'
   div class='text-sm text-gray-400 dark:text-gray-600 flex flex-row items-center justify-end' title=t('.order_total_weight')
-    = inline_svg_tag('members/scale.svg', class: 'w-4 h-4 stroke-current')
+    = icon 'scale', class: 'w-4 h-4'
     span class='ml-1'
       = kg(@order.weight_in_kg)
 
@@ -51,7 +51,7 @@ div class='mt-6 md:mt-4 flex flex-row items-center justify-end'
   div class='mt-12 flex flex-row justify-center md:justify-end'
     = button_to members_shop_order_path(@order), method: :delete, form: { data: { turbo: false, controller: "confirmation", confirmation_message_value: t('.cancel_order_confirm'), action: "submit->confirmation#confirm" } }, class: 'focus:outline-none focus:ring-green-500 focus:border-green-500 focus:z-10 text-base cursor-pointer' do
         div class='flex flex-row items-center'
-          = inline_svg_tag('members/trash.svg', class: 'w-4 h-4 stroke-current')
+          = icon 'trash', class: 'w-4 h-4'
           span class='ml-1 text-sm font-normal'
             = t('.cancel_order')
 - else

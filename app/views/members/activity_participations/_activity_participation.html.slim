@@ -13,10 +13,10 @@ span class="flex-none flex flex-row flex-nowrap md:flex-wrap"
   span class='h-8 md:ml-5 space-x-2 flex flex-row justify-start md:justify-end'
     span class='ms-1 flex flex-row justify-center items-center' title=t('activities.participant_count', count: activity_participation.participants_count)
       span = activity_participation.participants_count
-      = icon "users", class: "ms-1 h-5 w-5 text-gray-500", library: "lucide"
+      = icon "users", class: "ms-1 h-5 w-5", library: "lucide", stroke_width: 2
     - if activity_participation.carpooling?
       span class='ms-1 flex justify-center items-center' title="#{t('.carpooling')}: #{activity_participation.carpooling_phone.phony_formatted}"
-        = icon "car", library: "lucide", stroke_width: 1.5, class: "h-6 w-6 text-gray-500"
+        = icon "car", library: "lucide", stroke_width: 1.5, class: "h-6 w-6"
     - if activity_participation.note?
       = tooltip("activity-participation-#{activity_participation.id}", activity_participation.note, icon_name: "chat-bubble-bottom-center-text")
 
