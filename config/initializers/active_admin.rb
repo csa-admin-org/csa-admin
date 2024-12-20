@@ -188,7 +188,7 @@ ActiveAdmin.setup do |config|
       menu.add label: :activities_human_name, priority: 7
       menu.add label: -> { I18n.t("active_admin.menu.billing") }, priority: 9, id: :navbilling
       menu.add label: -> {
-        icon "ellipsis-horizontal", class: "w-5 h-5", title: t("active_admin.settings")
+        icon "ellipsis-horizontal", class: "w-6 h-6 md:w-5 md:h-5", title: t("active_admin.settings")
       }, priority: 20, id: :other, html_options: { data: { controller: "menu-sorting" } }
     end
 

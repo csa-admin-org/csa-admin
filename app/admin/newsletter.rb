@@ -2,7 +2,7 @@
 
 ActiveAdmin.register Newsletter do
   menu priority: 99, label: -> {
-    icon "envelope", title: Newsletter.model_name.human, class: "w-5 h-5 my-0.5 min-w-6"
+    icon "envelope", title: Newsletter.model_name.human, class: "w-6 h-6 md:w-5 md:h-5 my-0.5 min-w-6"
   }
 
   filter :id
