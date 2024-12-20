@@ -2,7 +2,7 @@
 
 ActiveAdmin.register Organization do
   menu priority: 100, label: -> {
-    icon "cog", title: t("active_admin.settings"), class: "w-5 h-5 my-0.5 min-w-6"
+    icon "cog", title: t("active_admin.settings"), class: "w-6 h-6 md:w-5 md:h-5 my-0.5 min-w-6"
   }
 
   actions :edit, :update

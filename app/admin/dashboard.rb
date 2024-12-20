@@ -4,7 +4,7 @@ ActiveAdmin.register_page "Dashboard" do
   DEPOTS_LIMIT = 12
 
   menu priority: 1, label: -> {
-    icon "home", title: t("active_admin.dashboard"), class: "w-5 h-5 my-0.5 min-w-6"
+    icon "home", title: t("active_admin.dashboard"), class: "w-6 h-6 md:w-5 md:h-5 my-0.5 min-w-6"
   }
 
   content title: proc { onboarding? ? "" : t("active_admin.dashboard") } do

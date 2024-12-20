@@ -8,10 +8,10 @@
     </div>
 
     <nav class="grow hidden w-full md:block md:w-auto order-3 md:order-2" id="navbar-dropdown">
-      <ul class="flex flex-col md:items-center text-sm  font-medium my-4 md:my-0 space-y-2 md:space-y-0 md:space-x-2 md:flex-row">
+      <ul class="flex flex-col md:items-center text-sm  font-medium my-4 md:my-0 space-y-1 md:space-y-0 md:space-x-2 md:flex-row">
         <% current_menu.items(self).each do |item| %>
           <% children = item.items(self).presence %>
-          <li class="group " data-item-id="<%= item.id %>">
+          <li class="group text-base md:text-sm" data-item-id="<%= item.id %>">
             <% if children %>
               <button id="dropdownHoverButton-<%= item.id %>" data-dropdown-toggle="<%= item.id %>" data-dropdown-trigger="hover" data-dropdown-placement="bottom-start" data-dropdown-offset-distance="0" data-dropdown-delay="0"
                 class="flex items-center w-full py-1 px-2 text-white dark:text-black hover:text-white dark:hover:text-black rounded-md hover:bg-transparent/20 md:border-0 md:w-auto <%= "bg-transparent/20" if children.any? { |j| current_menu_item?(j) } %>"><%= item.label(self) %>
