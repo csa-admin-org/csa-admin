@@ -1,12 +1,12 @@
 # frozen_string_literal: true
 
-Liquid::Template.error_mode = :strict
-
 Rails.application.config.after_initialize do
-  Liquid::Template.register_tag("button", Liquid::ButtonBlock)
-  Liquid::Template.register_tag("lowlight", Liquid::LowlightBlock)
-  Liquid::Template.register_tag("highlight", Liquid::HighlightBlock)
-  Liquid::Template.register_tag("highlight_list", Liquid::HighlightListBlock)
+  env = Liquid::Environment.default
+  env.error_mode = :strict
 
-  Liquid::Template.register_tag("content", Liquid::ContentBlock)
+  env.register_tag("button", Liquid::ButtonBlock)
+  env.register_tag("lowlight", Liquid::LowlightBlock)
+  env.register_tag("highlight", Liquid::HighlightBlock)
+  env.register_tag("highlight_list", Liquid::HighlightListBlock)
+  env.register_tag("content", Liquid::ContentBlock)
 end
