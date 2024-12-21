@@ -42,8 +42,9 @@ Rails.application.configure do
   # Change to "debug" to log everything (including potentially personally-identifiable information!)
   config.log_level = ENV.fetch("RAILS_LOG_LEVEL", "info")
   config.lograge.enabled = true
-  config.lograge.keep_original_rails_log = true
-  config.lograge.logger = Appsignal::Logger.new("rails", format: Appsignal::Logger::LOGFMT)
+  appsignal_logger = Appsignal::Logger.new("rails", format: Appsignal::Logger::LOGFMT)
+  appsignal_logger.broadcast_to(Rails.logger)
+  config.lograge.logger = appsignal_logger
 
   # Prevent health checks from clogging up the logs.
   config.silence_healthcheck_path = "/up"
