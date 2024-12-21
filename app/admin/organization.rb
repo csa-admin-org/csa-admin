@@ -92,7 +92,8 @@ ActiveAdmin.register Organization do
             end
           end
           translated_input(f, :invoice_footers,
-            hint: t("formtastic.hints.organization.invoice_footer"))
+            hint: t("formtastic.hints.organization.invoice_footer"),
+            as: :text, input_html: { rows: 2 })
 
           li class: "subtitle" do
             h2 t(".vat")
