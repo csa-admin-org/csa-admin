@@ -387,8 +387,10 @@ module PDF
       end
 
       font_size 10
-      bounding_box [ 0, y ], width: bounds.width, height: 50 do
-        text Current.org.invoice_footer, inline_format: true, align: :center
+      lines = Current.org.invoice_footer&.lines&.size.to_i
+      height = lines * 25
+      bounding_box [ 0, y + (lines - 1) * 10 ], width: bounds.width, height: height do
+        text Current.org.invoice_footer, inline_format: true, align: :center, leading: 3
       end
     end
 
