@@ -24,4 +24,6 @@ Rails.application.configure do
     options[:org] = Tenant.current if Tenant.inside?
     options
   end
+
+  config.lograge.ignore_actions = [ "Rails::HealthController#show" ]
 end
