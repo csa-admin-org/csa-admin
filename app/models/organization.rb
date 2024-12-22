@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class Organization < ApplicationRecord
+  include HasSocialNetworkUrls
   include TranslatedAttributes
   include TranslatedRichTexts
   include HasIBAN

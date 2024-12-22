@@ -158,6 +158,11 @@ _:
           _en: is too short (at least %{count} characters)
           _fr: est trop court (au moins %{count} caractères)
           _it: è troppo corto (al meno %{count} caratteri)
+      unsupported_social_network_url:
+        _de: enthält eine nicht unterstützte URL für ein soziales Netzwerk
+        _en: contains an unsupported social network URL
+        _fr: contient une URL de réseau social non supportée
+        _it: contiene un URL di social network non supportato
       wrong_length:
         one:
           _de: hat nicht die richtige Länge (muss ein einziges Zeichen enthalten)

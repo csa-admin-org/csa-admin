@@ -21,6 +21,7 @@ ActiveAdmin.register Organization do
           f.input :url, input_html: { disabled: true }
           f.input :email, as: :email
           f.input :phone, as: :phone
+          f.input :social_network_urls, as: :string
           f.input :country_code,
             as: :select,
             collection: countries_collection,
@@ -457,6 +458,7 @@ ActiveAdmin.register Organization do
     :basket_update_limit_in_days,
     :basket_price_extra_dynamic_pricing,
     :new_member_fee,
+    :social_network_urls,
     *I18n.available_locales.map { |l| "invoice_info_#{l}" },
     *I18n.available_locales.map { |l| "invoice_footer_#{l}" },
     *I18n.available_locales.map { |l| "email_signature_#{l}" },
