@@ -520,6 +520,11 @@ _:
       _en: Shop
       _fr: Épicerie
       _it: Bottega
+    social_network_urls:
+      _de: Soziale Netzwerke (URLs)
+      _en: Social networks (URLs)
+      _fr: Réseaux sociaux (URLs)
+      _it: Reti sociali (URL)
     start_time:
       _de: Anfangszeit
       _en: Start time

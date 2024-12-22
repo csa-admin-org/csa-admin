@@ -837,6 +837,11 @@ _:
           _en: Text displayed at the top of the member page of the farm shop.
           _fr: Texte affiché en haut de la page de membre de l'épicerie.
           _it: Testo visibile nella parte superiore della pagina di socio del droghiere.
+        social_network_urls:
+          _de: Durch Komma getrennt. Links (Logos) im Fußbereich der Mitgliederseite und E-Mails angezeigt.
+          _en: Separated by a comma. Links (logos) displayed in the footer of the members page and emails.
+          _fr: Séparés par une virgule. Liens (logos) affichés dans le bas de page de la page des membres et des emails.
+          _it: Separati da una virgola. Link (loghi) visualizzati nel piè di pagina della pagina dei soci e delle email.
         trial_baskets_count:
           _de: Das Abonnement wird in Rechnung gestellt, sobald alle Probetaschen ausgeliefert wurden. Wenn das Abonnement während oder am Ende der Probezeit beendet wird, dann werden nur die gelieferten Taschen in Rechnung gestellt. Wenn das Mitglied später erneut eintritt, wird die Anzahl der bereits verwendeten Probetaschen zurückgesetzt, unabhängig von der Dauer der Unterbrechung.
           _en: The membership is billed once all trial baskets have been delivered. If the membership is terminated during or at the end of the trial period, only the delivered baskets are billed. If the member renews later, the number of trial baskets already used is reset, regardless of the duration of the interruption.

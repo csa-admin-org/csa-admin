@@ -11,24 +11,34 @@ footer class="w-full flex flex-col text-base text-gray-400 mt-16 dark:text-gray-
           = link_to calendar_webcal_url, class: "flex items-center hover:text-green-500 py-1 px-4 md:px-0", title: t(".calendar_feed") do
             = icon "calendar-days", class: "h-6 w-6"
             span class='ml-2' = t(".calendar")
+      li class="mx-auto px-4 #{"md:mx-0 md:px-0" if current_member}"
+        = mail_to Current.org.email, class: "flex items-center hover:text-green-500 py-1 px-4 md:px-0" do
+          = icon "envelope", class: "h-6 w-6"
+          span class='ml-2'
+            = t(".contact")
       - if Current.org.phone?
         li class="mx-auto px-4 #{"md:mx-0 md:px-0" if current_member}"
           = link_to "tel:#{Current.org.phone.phony_formatted(spaces: '', format: :international)}", class: "flex items-center hover:text-green-500 py-1 px-4 md:px-0" do
             = icon "phone", class: "h-6 w-6"
             span class='ml-2'
               = Current.org.phone
-      li class="mx-auto px-4 #{"md:mx-0 md:px-0" if current_member}"
-        = mail_to Current.org.email, class: "flex items-center hover:text-green-500 py-1 px-4 md:px-0" do
-          = icon "envelope", class: "h-6 w-6"
-          span class='ml-2'
-            = t(".contact")
+
+    - if Current.org.social_networks.any?
+      div class="mt-2 mx-auto #{current_member ? "md:mx-0 md:px-0" : "mt-3 mb-6"}"
+        ul class="md:ml-0.5 text-center flex flex-wrap space-x-3 justify-center md:justify-start #{"md:justify-center" unless current_member}"
+          - Current.org.social_networks.each do |network|
+            li
+              = link_to network.url, class: "flex items-center py-1 fill-gray-400 dark:fill-gray-600 hover:fill-green-500 hover:dark:fill-green-500" do
+                = icon network.icon, class: "h-5 w-5 ", library: "simpleicons"
+
   - if Current.org.languages.many? && !current_member
-    div class="mx-auto p-4 "
+    div class="mx-auto p-4"
       ul class="divide-x divide-gray-200 dark:divide-gray-800 border border-gray-200 dark:border-gray-800 rounded text-center flex flex-row"
         - Current.org.languages.each do |locale|
           li class='hover:bg-gray-100 dark:hover:bg-gray-900'
             = link_to locale, url_for(locale: locale), title: t("languages.#{locale}"), data: { turbolinks: false }, class: "block w-12 leading-8 hover:text-green-500 uppercase"
+
   div class="mx-auto #{"md:mx-0.5" if current_member} mb-4 mt-12 text-gray-300 dark:text-gray-700"
-    = link_to csa_admin_website_url, class: "flex items-center hover:text-green-500" do
-      = icon "logo", class: "w-5 h-5 me-2 md:me-2.5 fill-current", library: "own"
+    = link_to csa_admin_website_url, class: "flex items-center text-sm hover:text-green-500" do
+      = icon "logo", class: "w-4 h-4 me-2 md:ms-0.5 md:me-3 fill-current", library: "own"
       = "CSA Admin"

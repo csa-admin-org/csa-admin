@@ -438,6 +438,15 @@ p {
   color: #aaaaaa;
 }
 
+.email-footer p.app {
+  margin-top: 40px;
+}
+
+.email-footer .social-network a {
+  margin: 0 5px;
+  text-decoration: none;
+}
+
 .body-action {
   width: 100%;
   margin: 30px auto;

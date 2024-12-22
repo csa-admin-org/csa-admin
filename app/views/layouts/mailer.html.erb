@@ -67,7 +67,17 @@
                       <p class="f-fallback sub align-center">
                         <%= link_to Current.org.name, Current.org.url, target: '_blank' %>
                       </p>
-                      <p class="f-fallback sub align-center">
+                      <% if Current.org.social_networks.any? %>
+                        <p class="f-fallback sub social-network align-center">
+                          <% Current.org.social_networks.each do |network| %>
+                            <%= link_to network.url, target: '_blank' do %>
+                              <img src="<%= image_url("simpleicons/#{network.icon}.png") %>" width="20" height="20" alt="<%= network.icon %>" align="center"/>
+                            <% end %>
+                          <% end %>
+                        </p>
+                      <% end %>
+
+                      <p class="f-fallback app sub align-center">
                         <%= link_to csa_admin_website_url, target: '_blank' do %>
                           <img src="https://cdn.csa-admin.org/logo-text.png" width="90" height="18" alt="CSA Admin" align="center"/>
                         <% end %>

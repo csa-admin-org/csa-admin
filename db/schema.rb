@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2024_12_13_124725) do
+ActiveRecord::Schema[8.0].define(version: 2024_12_16_132926) do
   create_table "absences", force: :cascade do |t|
     t.bigint "member_id"
     t.date "started_on"
@@ -721,6 +721,7 @@ ActiveRecord::Schema[8.0].define(version: 2024_12_13_124725) do
     t.string "members_subdomain", null: false
     t.integer "activity_participations_form_step", default: 1, null: false
     t.boolean "annual_fee_member_form", default: false, null: false
+    t.json "social_network_urls", default: [], null: false
     t.check_constraint "JSON_TYPE(basket_price_extras) = 'array'", name: "organizations_basket_price_extras_is_array"
     t.check_constraint "JSON_TYPE(billing_year_divisions) = 'array'", name: "organizations_billing_year_divisions_is_array"
     t.check_constraint "JSON_TYPE(email_notifications) = 'array'", name: "organizations_email_notifications_is_array"
@@ -729,6 +730,7 @@ ActiveRecord::Schema[8.0].define(version: 2024_12_13_124725) do
     t.check_constraint "JSON_TYPE(languages) = 'array'", name: "organizations_languages_is_array"
     t.check_constraint "JSON_TYPE(membership_renewed_attributes) = 'array'", name: "organizations_membership_renewed_attributes_is_array"
     t.check_constraint "JSON_TYPE(shop_member_percentages) = 'array'", name: "organizations_shop_member_percentages_is_array"
+    t.check_constraint "JSON_TYPE(social_network_urls) = 'array'", name: "organizations_social_network_urls_is_array"
   end
 
   create_table "payments", force: :cascade do |t|
