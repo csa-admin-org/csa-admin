@@ -1,0 +1,158 @@
+# Name of your application. Used to uniquely configure containers.
+service: csa-admin
+
+# Name of the container image.
+image: thibaudgg/csa-admin
+
+# Deploy to these servers.
+servers:
+  web:
+    - isle.thibaud.gg
+
+# Enable SSL auto certification via Let's Encrypt and allow for multiple apps on a single web server.
+# Remove this section when using multiple web servers and ensure you terminate SSL at your load balancer.
+#
+# Note: If using Cloudflare, set encryption mode in SSL/TLS setting to "Full" to enable CF-to-app encryption.
+proxy:
+  ssl: true
+  forward_headers: true
+  hosts:
+    - cdn.csa-admin.org
+    - mc.csa-admin.org
+    - connect.csa-admin.org
+    - app.csa-admin.org
+    - app.acp-admin.ch
+
+    - admin.ragedevert.ch
+    - membres.ragedevert.ch
+    - admin.lumiere-des-champs.ch
+    - membres.lumiere-des-champs.ch
+    - admin.tapatate.ch
+    - membres.tapatate.ch
+    - admin.clef-des-champs.ch
+    - membres.clef-des-champs.ch
+    - admin.croquterre.ch
+    - membres.croquterre.ch
+    - admin.alabellecourgette.ch
+    - membres.alabellecourgette.ch
+    - admin.lesjardinsdouchy.ch
+    - membres.lesjardinsdouchy.ch
+    - admin.lamule.ch
+    - membres.lamule.ch
+    - admin.lafermedugoupil.ch
+    - membres.lafermedugoupil.ch
+    - admin.lafermedessavanes.ch
+    - membres.lafermedessavanes.ch
+    - admin.seminterra.ch
+    - soci.seminterra.ch
+    - admin.p2r.ch
+    - membres.p2r.ch
+    - admin.grundnahrig.ch
+    - mitglieder.grundnahrig.ch
+    - admin.jardindesturricules.ch
+    - membres.jardindesturricules.ch
+    - admin.lepetitsecheron.ch
+    - membres.lepetitsecheron.ch
+    - admin.paniersdesavigny.ch
+    - membres.paniersdesavigny.ch
+    - admin.cocagne.ch
+    - membres.cocagne.ch
+    - admin.potagersdegaia.ch
+    - membres.potagersdegaia.ch
+    - admin.touviere.ch
+    - membres.touviere.ch
+    - admin.alpgrava.ch
+    - membres.alpgrava.ch
+    - admin.panier-locali.ch
+    - membres.panier-locali.ch
+    - admin.wurzelkollektiv.de
+    - mitglieder.wurzelkollektiv.de
+    - admin.ferme-des-verpilleres.ch
+    - membres.ferme-des-verpilleres.ch
+    - admin.hof-narr.ch
+    - mitglieder.hof-narr.ch
+    - admin.lejardindemax.ch
+    - membres.lejardindemax.ch
+    - admin.fairdura.ch
+    - mitglieder.fairdura.ch
+    - admin.ortie-microferme.ch
+    - membres.ortie-microferme.ch
+    - admin.cultureslocales.ch
+    - membres.cultureslocales.ch
+    - admin.mamajah.org
+    - membres.mamajah.org
+    - admin.ferme-boisdunant.ch
+    - membres.ferme-boisdunant.ch
+    - admin.wilde-rauke.de
+    - mitglieder.wilde-rauke.de
+    - admin.lepetrichor.ch
+    - membres.lepetrichor.ch
+    - admin.lamilpadesiles.ch
+    - membres.lamilpadesiles.ch
+
+    - admin.acp-admin.ch
+    - membres.acp-admin.ch
+    - admin.microfermes.ch
+
+# Credentials for your image host.
+registry:
+  # Specify the registry server, if you're not using Docker Hub
+  # server: registry.digitalocean.com / ghcr.io / ...
+  username: thibaudgg
+
+  # Always use an access token rather than real password when possible.
+  password:
+    - KAMAL_REGISTRY_PASSWORD
+
+# Inject ENV variables into containers (secrets come from .kamal/secrets).
+env:
+  secret:
+    - RAILS_MASTER_KEY
+    - APPSIGNAL_PUSH_API_KEY
+  clear:
+    # Run the Solid Queue Supervisor inside the web server's Puma process to do jobs.
+    # When you start using multiple servers, you should split out job processing to a dedicated machine.
+    SOLID_QUEUE_IN_PUMA: true
+    APP_DOMAIN: csa-admin.org
+    ALLOWED_COUNTRY_CODES: CH,FR,DE,IT,LI
+    ASSET_HOST: https://cdn.csa-admin.org
+    MASTER_ADMIN_EMAIL: info@csa-admin.org
+    MAINTENANCE_MODE: OFF
+
+# Aliases are triggered with "bin/kamal <alias>". You can overwrite arguments on invocation:
+# "bin/kamal logs -r job" will tail logs from the first server in the job section.
+aliases:
+  console: app exec --interactive --reuse "bin/rails console"
+  shell: app exec --interactive --reuse "bash"
+  logs: app logs -f -n 100
+  dbc: app exec --interactive --reuse "bin/rails dbconsole"
+
+
+# Use a persistent storage volume for sqlite database files and local Active Storage files.
+# Recommended to change this to a mounted volume path that is backed up off server.
+volumes:
+  - "/mnt/storage/csa-admin:/rails/storage"
+
+
+# Bridge fingerprinted assets, like JS and CSS, between versions to avoid
+# hitting 404 on in-flight requests. Combines all files from new and old
+# version inside the asset_path.
+asset_path: /rails/public/assets
+
+# Configure the image builder.
+builder:
+  arch: amd64
+
+  # # Build image via remote server (useful for faster amd64 builds on arm64 computers)
+  # remote: ssh://docker@docker-builder-server
+  #
+  # # Pass arguments and secrets to the Docker build process
+  # args:
+  #   RUBY_VERSION: ruby-3.3.6
+  # secrets:
+  #   - GITHUB_TOKEN
+  #   - RAILS_MASTER_KEY
+
+# Use a different ssh user than root
+ssh:
+  user: kamal
