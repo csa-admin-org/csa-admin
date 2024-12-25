@@ -13,7 +13,7 @@ class SocialNetwork
     telegram: %w[telegram t.me],
     tiktok: %w[tiktok],
     whatsapp: %w[whatsapp],
-    x: %w[x.com twitter t.co],
+    x: %w[x.com twitter t.co]
   }
 
   def initialize(url)
