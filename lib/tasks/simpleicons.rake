@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # lib/tasks/svg_to_png.rake
 require "image_processing/vips"
 
