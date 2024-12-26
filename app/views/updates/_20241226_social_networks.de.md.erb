@@ -1,0 +1,14 @@
+# Links zu sozialen Netzwerken
+
+In [deinen allgemeinen Einstellungen](/settings) hast du jetzt die Möglichkeit, Links (URLs) zu deinen Profilen in sozialen Netzwerken anzugeben.
+
+Diese Links werden als Symbole angezeigt:
+
+- Im Footer des Bereichs, der deinen Mitgliedern gewidmet ist.
+- Im Footer deiner E-Mails.
+
+Hier ist die Liste der derzeit unterstützten sozialen Netzwerke mit ihrem entsprechenden Symbol. Wenn du das Gefühl hast, dass ein soziales Netzwerk fehlt, zögere nicht, [uns dies mitzuteilen](mailto:info@csa-admin.org).
+
+<% SocialNetwork::URLS.keys.each do |network| %>
+  - ![<%= network.to_s %>](<%= image_url("simpleicons/#{network}.png") %>){:class="icon" width="20" height="20"} <%= network.to_s.titleize %>
+<% end %>

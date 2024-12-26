@@ -813,6 +813,9 @@
     img.tiny {
       @apply mx-auto my-2 w-2/3 md:w-1/4;
     }
+    img.icon {
+      @apply me-2 my-0 -mt-1 w-5 inline;
+    }
   }
 
 
