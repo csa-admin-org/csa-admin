@@ -1,0 +1,5 @@
+simple_john:
+  newsletter: simple
+  member: john
+  email: john@doe.com
+  state: processing

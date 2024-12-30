@@ -4,6 +4,8 @@ harvest_help:
   end_time: "12:00"
   places:
     en: Farm
+  place_urls:
+    en: https://farm.example.com
   titles:
     en: Help with the harvest
   descriptions:

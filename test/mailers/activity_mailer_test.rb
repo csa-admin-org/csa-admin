@@ -20,8 +20,8 @@ class ActivityMailerTest < ActionMailer::TestCase
     assert_includes mail.body, "<strong>Schedule:</strong> 8:30-12:00"
     assert_includes mail.body, "<strong>Activity:</strong> Help with the harvest"
     assert_includes mail.body, "<strong>Description:</strong> Picking vegetables"
-    assert_includes mail.body, "<strong>Location:</strong> Farm"
-    assert_includes mail.body, "<strong>Participants:</strong> 1"
+    assert_includes mail.body, "<strong>Location:</strong> <a href=\"https://farm.example.com\" target=\"_black\">Farm</a>"
+    assert_includes mail.body, "<strong>Participants:</strong> 2"
     assert_includes mail.body, "<strong>Jane Doe</strong>: +41 79 123 45 67 (La Chaux-de-Fonds)"
     assert_includes mail.body, "https://members.acme.test/activity_participations"
     assert_equal "Acme <info@acme.test>", mail[:from].decoded
@@ -44,8 +44,8 @@ class ActivityMailerTest < ActionMailer::TestCase
     assert_includes mail.body, "<strong>Schedule:</strong> 8:30-12:00"
     assert_includes mail.body, "<strong>Activity:</strong> Help with the harvest"
     assert_includes mail.body, "<strong>Description:</strong> Picking vegetables"
-    assert_includes mail.body, "<strong>Location:</strong> Farm"
-    assert_includes mail.body, "<strong>Participants:</strong> 1"
+    assert_includes mail.body, "<strong>Location:</strong> <a href=\"https://farm.example.com\" target=\"_black\">Farm</a>"
+    assert_includes mail.body, "<strong>Participants:</strong> 2"
     assert_includes mail.body, "https://members.acme.test/activity_participations"
     assert_equal "Acme <info@acme.test>", mail[:from].decoded
     assert_equal "outbound", mail[:message_stream].to_s
@@ -67,8 +67,8 @@ class ActivityMailerTest < ActionMailer::TestCase
     assert_includes mail.body, "<strong>Schedule:</strong> 8:30-12:00"
     assert_includes mail.body, "<strong>Activity:</strong> Help with the harvest"
     assert_includes mail.body, "<strong>Description:</strong> Picking vegetables"
-    assert_includes mail.body, "<strong>Location:</strong> Farm"
-    assert_includes mail.body, "<strong>Participants:</strong> 1"
+    assert_includes mail.body, "<strong>Location:</strong> <a href=\"https://farm.example.com\" target=\"_black\">Farm</a>"
+    assert_includes mail.body, "<strong>Participants:</strong> 2"
     assert_includes mail.body, "https://members.acme.test/activity_participations"
     assert_equal "Acme <info@acme.test>", mail[:from].decoded
     assert_equal "outbound", mail[:message_stream].to_s

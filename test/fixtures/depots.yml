@@ -9,6 +9,9 @@ farm:
     en: Our farm
   price: 0
   language: en
+  address: 42 Nowhere
+  zip: 1234
+  city: Unknown
 
 bakery:
   name: Bakery
