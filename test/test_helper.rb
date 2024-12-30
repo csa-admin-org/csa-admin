@@ -7,6 +7,8 @@ require "rails/test_help"
 require "support/sessions_helper"
 require "support/mail_templates_helper"
 
+Minitest::Test.make_my_diffs_pretty!
+
 module ActiveSupport
   class TestCase
     include ActiveJob::TestHelper

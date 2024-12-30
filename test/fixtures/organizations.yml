@@ -24,10 +24,13 @@ acme:
     en: <b>Acme</b>, Nowhere 42, 1234 City // info@acme.test
   terms_of_service_urls:
     en: https://www.acme.test/terms
+  annual_fee: 30
+  trial_baskets_count: 2
   features:
     - absence
     - activity
     - shop
+    - basket_content
   feature_flags: []
   activity_price: 50
   activity_participations_demanded_logic: "<%= Organization::ACTIVITY_PARTICIPATIONS_DEMANDED_LOGIC_DEFAULT %>"

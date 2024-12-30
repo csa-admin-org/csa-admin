@@ -18,6 +18,7 @@ describe "Email Suppressions" do
 
     visit "/account"
 
+
     expect {
       click_on "Je souhaite à nouveau m'inscrire aux newsletters"
     }.to change { suppression.reload.unsuppressed_at }.from(nil)

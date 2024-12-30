@@ -7,14 +7,23 @@
 small:
   names:
     en: "Small"
+  public_names:
+    en: "Small basket"
   price: 10
+  activity_participations_demanded_annually: 2
 
 medium:
   names:
     en: "Medium"
+  public_names:
+    en: "Medium basket"
   price: 20
+  activity_participations_demanded_annually: 2
 
 large:
   names:
     en: "Large"
+  public_names:
+    en: "Large basket"
   price: 30
+  activity_participations_demanded_annually: 3
