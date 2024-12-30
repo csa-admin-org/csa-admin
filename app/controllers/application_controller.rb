@@ -4,10 +4,9 @@ class ApplicationController < ActionController::Base
   # Prevent CSRF attacks by raising an exception.
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
-  before_action :set_locale
 
+  before_action :set_locale
   around_action :set_time_zone
-  around_action :n_plus_one_detection, if: -> { Rails.env.development? }
 
   helper_method :current_admin, :current_session
 
@@ -99,13 +98,5 @@ class ApplicationController < ActionController::Base
       remote_addr: request.remote_addr,
       user_agent: request.env.fetch("HTTP_USER_AGENT", "-"),
       admin_email: admin.email)
-  end
-
-  # https://github.com/charkost/prosopite?tab=readme-ov-file#development-environment-usage
-  def n_plus_one_detection
-    Prosopite.scan
-    yield
-  ensure
-    Prosopite.finish
   end
 end

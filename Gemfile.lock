@@ -225,9 +225,6 @@ GEM
       rqrcode
     globalid (1.2.1)
       activesupport (>= 6.1)
-    google-protobuf (4.29.2)
-      bigdecimal
-      rake (>= 13)
     has_scope (0.8.2)
       actionpack (>= 5.2)
       activesupport (>= 5.2)
@@ -400,8 +397,6 @@ GEM
       hashery (~> 2.0)
       ruby-rc4
       ttfunk
-    pg_query (6.0.0)
-      google-protobuf (>= 3.25.3)
     phony (2.20.15)
     phony_rails (0.15.0)
       activesupport (>= 3.0)
@@ -435,7 +430,6 @@ GEM
       activesupport (>= 7.0.0)
       rack
       railties (>= 7.0.0)
-    prosopite (1.4.2)
     protocol-hpack (1.5.1)
     protocol-http (0.47.1)
     protocol-http1 (0.28.1)
@@ -714,7 +708,6 @@ DEPENDENCIES
   parallel
   pdf-core (= 0.9.0)
   pdf-inspector
-  pg_query
   phony_rails
   postmark-rails
   prawn (= 2.4.0)
@@ -722,7 +715,6 @@ DEPENDENCIES
   prawn-table
   premailer-rails
   propshaft
-  prosopite
   public_suffix
   puma
   rack-cors
