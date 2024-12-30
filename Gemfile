@@ -83,6 +83,8 @@ gem "user_agent_parser"
 gem "kramdown"
 gem "nokogiri"
 
+gem "cloudflare", require: false
+
 group :production do
   gem "cloudflare-rails"
 end
@@ -114,8 +116,6 @@ group :development do
   gem "rubocop-slim", require: false
 
   gem "brakeman", require: false
-
-  gem "cloudflare", require: false
   gem "resolv", require: false
 
   gem "prosopite"
