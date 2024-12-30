@@ -115,9 +115,6 @@ group :development do
 
   gem "brakeman", require: false
   gem "resolv", require: false
-
-  gem "prosopite"
-  gem "pg_query"
 end
 
 group :test do
