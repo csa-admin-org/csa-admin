@@ -1,7 +1,8 @@
 john_harvest:
   member: john
   activity: harvest_help
-  participants_count: 1
+  participants_count: 2
+  state: pending
 
 jane_harvest:
   member: jane
@@ -10,3 +11,4 @@ jane_harvest:
   carpooling_phone: +41 79 123 45 67
   carpooling_city: La Chaux-de-Fonds
   note: I will bring my own gloves
+  state: pending

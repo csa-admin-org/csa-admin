@@ -187,7 +187,7 @@ class AdminMailerTest < ActionMailer::TestCase
     assert_includes body, "<strong>Schedule:</strong> 8:30-12:00"
     assert_includes body, "<strong>Activity:</strong> Help with the harvest"
     assert_includes body, "<strong>Description:</strong> Picking vegetables"
-    assert_includes body, "<strong>Location:</strong> Farm"
+    assert_includes body, "<strong>Location:</strong> <a href=\"https://farm.example.com\" target=\"_blank\">Farm</a>"
     assert_includes body, "<strong>Participants:</strong> 1"
     assert_includes body, "<strong>Carpooling:</strong> +41 79 123 45 67 (La Chaux-de-Fonds)"
     assert_includes body, "Member's note:<br/>\r\n  <i>I will bring my own gloves</i>"

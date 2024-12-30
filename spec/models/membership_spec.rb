@@ -151,6 +151,7 @@ describe Membership do
   end
 
   it "deletes baskets when started_on and ended_on changes" do
+    travel_to "2024-11-01"
     create_deliveries(3)
     create(:delivery, date: Current.fiscal_year.end_of_year)
     membership = create(:membership)
@@ -516,6 +517,7 @@ describe Membership do
     end
 
     it "sets renew to false when ended_on is not changed to end of year" do
+      travel_to "2024-11-01"
       membership = create(:membership, ended_on: Date.current.end_of_year)
       membership.update!(ended_on: Date.current.end_of_year - 1.day)
       expect(membership.renew).to eq false

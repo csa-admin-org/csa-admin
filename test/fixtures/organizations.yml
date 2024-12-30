@@ -34,3 +34,4 @@ acme:
   feature_flags: []
   activity_price: 50
   activity_participations_demanded_logic: "<%= Organization::ACTIVITY_PARTICIPATIONS_DEMANDED_LOGIC_DEFAULT %>"
+  icalendar_auth_token: 1234abcd
