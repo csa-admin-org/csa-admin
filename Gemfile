@@ -90,24 +90,22 @@ group :production do
 end
 
 group :development, :test do
+  # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
+  gem "debug", platforms: %i[ mri windows ], require: "debug/prelude"
+
   gem "dotenv"
-  gem "byebug"
-  gem "pdf-inspector", require: "pdf/inspector"
-  gem "rspec-rails"
-  gem "faker"
-  gem "factory_bot_rails"
+  gem "faker", require: false
+
+  gem "rspec-rails" # RSpec
+  gem "factory_bot_rails" # RSpec
 end
 
 group :development do
-  # Access an interactive console on exception pages or by calling 'console' anywhere in the code.
+  # Use console on exceptions pages [https://github.com/rails/web-console]
   gem "web-console"
-  # Display performance information such as SQL time and flame graphs for each request in your browser.
-  # Can be configured to work on production as well see: https://github.com/MiniProfiler/rack-mini-profiler/blob/master/README.md
-  # gem 'rack-mini-profiler', '~> 2.0'
-  gem "listen"
-  gem "letter_opener"
 
-  gem "terminal-table"
+  gem "letter_opener"
+  gem "terminal-table", require: false
 
   gem "ruby-lsp-rails", require: false
   gem "ruby-lsp-rspec", require: false
@@ -123,9 +121,8 @@ group :development do
 end
 
 group :test do
-  gem "launchy"
   gem "capybara"
   gem "capybara-email"
-  gem "super_diff"
-  gem "test-prof"
+  gem "pdf-inspector", require: "pdf/inspector"
+  gem "super_diff" # RSpec
 end

@@ -5,6 +5,8 @@ home_delivery:
 
 farm:
   name: Farm
+  public_names:
+    en: Our farm
   price: 0
   language: en
 
