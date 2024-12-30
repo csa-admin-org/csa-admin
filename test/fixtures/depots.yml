@@ -1,0 +1,14 @@
+home_delivery:
+  name: Home Delivery
+  price: 9
+  language: en
+
+farm:
+  name: Farm
+  price: 0
+  language: en
+
+bakery:
+  name: Bakery
+  price: 4
+  language: en

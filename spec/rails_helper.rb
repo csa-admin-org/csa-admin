@@ -22,6 +22,7 @@ RSpec.configure do |config|
   config.include ActiveJob::TestHelper
 
   config.before(:suite) do
+    I18n.locale = :fr
     Tenant.switch("acme") do
       FactoryBot.create(:organization) unless Organization.exists?
     end

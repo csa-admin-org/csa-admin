@@ -1,0 +1,32 @@
+john:
+  member: john
+  price: 200
+  renew: true
+  invoices_amount: 0
+  baskets_count: 10
+  basket_size: medium
+  basket_price: 20
+  depot: farm
+  depot_price: 0
+  delivery_cycle: mondays
+  delivery_cycle_price: 0
+  absences_included_annually: 0
+  started_on: <%= Date.new(Date.today.year, 1, 1) %>
+  ended_on: <%= Date.new(Date.today.year, 12, 31) %>
+  activity_participations_demanded_annually: 2
+
+jane:
+  member: jane
+  price: 300
+  invoices_amount: 0
+  baskets_count: 10
+  basket_size: large
+  basket_price: 30
+  depot: bakery
+  depot_price: 4
+  delivery_cycle: mondays
+  delivery_cycle_price: 0
+  absences_included_annually: 0
+  started_on: <%= Date.new(Date.today.year, 1, 1) %>
+  ended_on: <%= Date.new(Date.today.year, 12, 31) %>
+  activity_participations_demanded_annually: 2

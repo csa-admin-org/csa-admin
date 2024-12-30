@@ -3,32 +3,32 @@ _:
     default_subjects:
       activity_participation_rejected:
         _de: "Abgelehnte Aktivität \U0001F62C"
-        _en: "Activity Rejected \U0001F62C"
+        _en: "Activity rejected \U0001F62C"
         _fr: "Activité refusée \U0001F62C"
         _it: "Attività rifiutata \U0001F62C"
       activity_participation_reminder:
         _de: Bevorstehende Aktivität ({{ activity.date }})
-        _en: Upcoming Activity ({{ activity.date }})
+        _en: Upcoming activity ({{ activity.date }})
         _fr: Activité à venir ({{ activity.date }})
         _it: Attività futura ({{ activity.date }})
       activity_participation_validated:
         _de: "Bestätigte Aktivität \U0001F389"
-        _en: "Activity Confirmed \U0001F389"
+        _en: "Activity confirmed \U0001F389"
         _fr: "Activité validée \U0001F389"
         _it: "Attività confermata \U0001F389"
       invoice_cancelled:
         _de: 'Stornierte Rechnung #{{ invoice.number }}'
-        _en: 'Cancelled Invoice #{{ invoice.number }}'
+        _en: 'Cancelled invoice #{{ invoice.number }}'
         _fr: 'Facture annulée #{{ invoice.number }}'
         _it: 'Fattura annullata #{{ invoice.number }}'
       invoice_created:
         _de: 'Neue Rechnung #{{ invoice.number }}'
-        _en: 'New Invoice #{{ invoice.number }}'
+        _en: 'New invoice #{{ invoice.number }}'
         _fr: 'Nouvelle facture #{{ invoice.number }}'
         _it: 'Nuova fattura #{{ invoice.number }}'
       invoice_overdue_notice:
         _de: "Mahnung #{{ invoice.overdue_notices_count }} der Rechnung #{{ invoice.number }} \U0001F62C"
-        _en: "Overdue Notice #{{ invoice.overdue_notices_count }} for Invoice #{{ invoice.number }} \U0001F62C"
+        _en: "Overdue notice #{{ invoice.overdue_notices_count }} for invoice #{{ invoice.number }} \U0001F62C"
         _fr: "Rappel #{{ invoice.overdue_notices_count }} de la facture #{{ invoice.number }} \U0001F62C"
         _it: "Promemoria #{{ invoice.overdue_notices_count }} della fattura #{{ invoice.number }} \U0001F62C"
       member_activated:
@@ -38,42 +38,42 @@ _:
         _it: Benvenuto/a!
       member_validated:
         _de: Registrierung validiert!
-        _en: Registration Validated!
+        _en: Registration validated!
         _fr: Inscription validée!
         _it: Iscrizione confermata!
       membership_final_basket:
         _de: Letzte Tasche!
-        _en: Last Basket!
+        _en: Last basket!
         _fr: Dernier panier!
         _it: Ultimo cestino!
       membership_first_basket:
         _de: Erste Tasche des Jahres!
-        _en: First Basket of the Year!
+        _en: First basket of the year!
         _fr: Premier panier de l'année!
         _it: Primo cestino dell'anno!
       membership_initial_basket:
         _de: Erste Tasche!
-        _en: First Basket!
+        _en: First basket!
         _fr: Premier panier!
         _it: Primo cestino!
       membership_last_basket:
         _de: Letzte Tasche des Jahres!
-        _en: Last Basket of the Year!
+        _en: Last basket of the year!
         _fr: Dernier panier de l'année!
         _it: Ultimo cestino dell'anno!
       membership_last_trial_basket:
         _de: Letzte Probe Tasche!
-        _en: Last Trial Basket!
+        _en: Last trial basket!
         _fr: Dernier panier à l'essai!
         _it: Ultimo cestino da provare!
       membership_renewal:
         _de: Ihr Abonnement verlängern
-        _en: Renew Your Membership
+        _en: Renew your membership
         _fr: Renouvellement de votre abonnement
         _it: Rinnovo del vostro abbonamento
       membership_renewal_reminder:
         _de: Ihr Abonnement verlängern (Mahnung)
-        _en: Renew Your Membership (Reminder)
+        _en: Renew your membership (reminder)
         _fr: Renouvellement de votre abonnement (Rappel)
         _it: Rinnovo del vostro abbonamento (promemoria)
     description:

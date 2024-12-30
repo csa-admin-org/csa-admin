@@ -1,0 +1,11 @@
+bread_500:
+  product: bread
+  names:
+    en: 500g
+  price: 5
+
+bread_1000:
+  product: bread
+  names:
+    en: 1kg
+  price: 10

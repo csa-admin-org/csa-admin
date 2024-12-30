@@ -1,0 +1,90 @@
+monday_1:
+  number: 1
+  date: 2024-04-01
+
+monday_2:
+  number: 3
+  date: 2024-04-08
+
+monday_3:
+  number: 5
+  date: 2024-04-15
+
+monday_4:
+  number: 7
+  date: 2024-04-22
+
+monday_5:
+  number: 9
+  date: 2024-04-29
+
+monday_6:
+  number: 11
+  date: 2024-05-06
+
+monday_7:
+  number: 13
+  date: 2024-05-13
+
+monday_8:
+  number: 15
+  date: 2024-05-20
+
+monday_9:
+  number: 17
+  date: 2024-05-27
+
+monday_10:
+  number: 19
+  date: 2024-06-03
+
+
+thursday_1:
+  number: 2
+  date: 2024-04-04
+  basket_complements: [ bread, eggs ]
+
+thursday_2:
+  number: 4
+  date: 2024-04-11
+  basket_complements: [ bread, eggs ]
+
+thursday_3:
+  number: 6
+  date: 2024-04-18
+  basket_complements: [ bread, eggs ]
+
+thursday_4:
+  number: 8
+  date: 2024-04-25
+  basket_complements: [ bread, eggs ]
+
+thursday_5:
+  number: 10
+  date: 2024-05-02
+  basket_complements: [ bread, eggs ]
+
+thursday_6:
+  number: 12
+  date: 2024-05-09
+  basket_complements: [ bread, eggs ]
+
+thursday_7:
+  number: 14
+  date: 2024-05-16
+  basket_complements: [ bread, eggs ]
+
+thursday_8:
+  number: 16
+  date: 2024-05-23
+  basket_complements: [ bread, eggs ]
+
+thursday_9:
+  number: 18
+  date: 2024-05-30
+  basket_complements: [ bread, eggs ]
+
+thursday_10:
+  number: 20
+  date: 2024-06-06
+  basket_complements: [ bread, eggs ]

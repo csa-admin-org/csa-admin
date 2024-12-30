@@ -1,0 +1,14 @@
+bread:
+  names:
+    en: Bread
+  price: 4
+
+cheese:
+  names:
+    en: Cheese
+  price: 5
+
+eggs:
+  names:
+    en: Eggs
+  price: 6

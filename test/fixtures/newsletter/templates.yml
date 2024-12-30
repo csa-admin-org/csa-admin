@@ -1,0 +1,9 @@
+simple:
+  title: Simple
+  contents:
+    en: |
+      Hello {{ member.name }},
+
+      {% content id: 'main', title: "Content Title" %}
+        Example Text {{ member.name }}
+      {% endcontent %}

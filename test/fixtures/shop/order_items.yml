@@ -1,0 +1,6 @@
+john_bread_500:
+  order: john
+  product: bread
+  product_variant: bread_500
+  item_price: 5
+  quantity: 1

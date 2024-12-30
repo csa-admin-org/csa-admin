@@ -1,0 +1,33 @@
+acme:
+  name: Acme
+  url: https://www.acme.test
+  country_code: CH
+  currency_code: CHF
+  languages: [en]
+  email: info@acme.test
+  phone: +41 76 449 59 38
+  members_subdomain: members
+  email_default_from: info@acme.test
+  email_signatures:
+    en: "Best regards,\nAcme"
+  email_footers:
+    en: "In case of questions or remarks, simply reply to this email.\nAcme, Nowhere 42, 1234 City"
+  billing_year_divisions: [1, 4]
+  iban: CH4431999123000889012
+  creditor_name: Acme
+  creditor_address: Nowhere 42
+  creditor_city: City
+  creditor_zip: 1234
+  invoice_infos:
+    en: Payable within 30 days, with our thanks.
+  invoice_footers:
+    en: <b>Acme</b>, Nowhere 42, 1234 City // info@acme.test
+  terms_of_service_urls:
+    en: https://www.acme.test/terms
+  features:
+    - absence
+    - activity
+    - shop
+  feature_flags: []
+  activity_price: 50
+  activity_participations_demanded_logic: "<%= Organization::ACTIVITY_PARTICIPATIONS_DEMANDED_LOGIC_DEFAULT %>"

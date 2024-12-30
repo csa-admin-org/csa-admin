@@ -1,0 +1,8 @@
+<% 10.times do |i| %>
+
+jane_bread_<%= i + 1 %>:
+  basket: jane_<%= i + 1 %>
+  basket_complement: bread
+  price: 4
+
+<% end %>

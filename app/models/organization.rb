@@ -24,17 +24,18 @@ class Organization < ApplicationRecord
   INPUT_FORM_MODES = %w[hidden visible required]
   DELIVERY_PDF_MEMBER_INFOS = %w[none phones food_note]
   MEMBERS_SUBDOMAINS = %w[membres mitglieder soci members]
+  ACTIVITY_PARTICIPATIONS_DEMANDED_LOGIC_DEFAULT = <<-LIQUID
+    {% if member.salary_basket %}
+      0
+    {% else %}
+      {{ membership.baskets | divided_by: membership.full_year_deliveries | times: membership.full_year_activity_participations | round }}
+    {% endif %}
+  LIQUID
 
   attribute :shop_delivery_open_last_day_end_time, :time_only
   attribute :icalendar_auth_token, :string, default: -> { SecureRandom.hex(16) }
   attribute :activity_participations_demanded_logic, :string, default: -> {
-    <<~LIQUID
-      {% if member.salary_basket %}
-        0
-      {% else %}
-        {{ membership.baskets | divided_by: membership.full_year_deliveries | times: membership.full_year_activity_participations | round }}
-      {% endif %}
-    LIQUID
+    ACTIVITY_PARTICIPATIONS_DEMANDED_LOGIC_DEFAULT
   }
 
   translated_attributes :invoice_info, :invoice_footer

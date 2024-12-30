@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require "cloudflare"
 require "cloudflare-rails"
 
 namespace :hostname do

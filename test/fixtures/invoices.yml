@@ -1,0 +1,8 @@
+annual_fee:
+  state: open
+  member: support_annual_fee
+  entity_type: AnnualFee
+  amount: 30
+  vat_rate: 0.0
+  vat_amount: 0.0
+  date: <%= Date.today %>

@@ -1,0 +1,14 @@
+_fixture:
+  model_class: ActiveAdmin::Comment
+
+super_admin:
+  namespace: root
+  body: "This is a comment from the super admin"
+  resource: small (BasketSize)
+  author: super (Admin)
+
+external:
+  namespace: root
+  body: "This is a comment from the external consultant"
+  resource: small (BasketSize)
+  author: external (Admin)

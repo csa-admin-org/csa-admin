@@ -65,7 +65,7 @@ gem "hexapdf"
 gem "public_suffix"
 gem "rubyXL"
 gem "rexml"
-gem "rubyzip", require: "zip"
+gem "rubyzip", "~> 2.4.rc1", require: "zip"
 gem "parallel"
 
 gem "postmark-rails"
@@ -94,7 +94,6 @@ group :development, :test do
   gem "rspec-rails"
   gem "faker"
   gem "factory_bot_rails"
-  gem "brakeman"
 end
 
 group :development do
@@ -114,8 +113,10 @@ group :development do
   gem "rubocop-rails-omakase", require: false
   gem "rubocop-slim", require: false
 
-  gem "cloudflare"
-  gem "resolv"
+  gem "brakeman", require: false
+
+  gem "cloudflare", require: false
+  gem "resolv", require: false
 
   gem "prosopite"
   gem "pg_query"
