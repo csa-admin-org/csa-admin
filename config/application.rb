@@ -29,7 +29,7 @@ module CSAAdmin
     config.time_zone = "Europe/Zurich"
 
     config.i18n.available_locales = %w[en fr de it]
-    config.i18n.default_locale = :fr
+    config.i18n.default_locale = :en
     config.i18n.fallbacks = true
 
     # :time must not be included here because of the tod gem

@@ -3,7 +3,7 @@ name: Tests
 on: push
 
 jobs:
-  test:
+  tests:
     runs-on: ubuntu-24.04
 
     steps:
@@ -25,11 +25,9 @@ jobs:
       with:
         timezoneLinux: Europe/Zurich
 
-    - name: Rails tests
+    - name: Run tests
       env:
         RAILS_ENV: test
         RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
       run: |
-        bin/rails db:setup
-        bin/rails test:prepare
-        bin/rspec
+        bin/rails test:all

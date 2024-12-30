@@ -1033,6 +1033,7 @@ describe PDF::Invoice do
   end
 
   specify "includes previous cancelled invoices references" do
+    travel_to "2024-01-01"
     p = create(:activity_participation)
     m = p.member
     i1 = create(:invoice, :activity_participation, :open, member: m, entity: p, id: 1)

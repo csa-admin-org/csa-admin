@@ -5,7 +5,6 @@ class Permission < ApplicationRecord
 
   RIGHTS = %i[read write].freeze
   SUPERADMIN_ID = 1
-  SUPERADMIN_FEATURES =
 
   translated_attributes :name, required: true
 

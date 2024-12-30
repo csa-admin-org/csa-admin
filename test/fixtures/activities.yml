@@ -1,0 +1,10 @@
+harvest_help:
+  date: 2024-07-01
+  start_time: "08:30"
+  end_time: "12:00"
+  places:
+    en: Farm
+  titles:
+    en: Help with the harvest
+  descriptions:
+    en: Picking vegetables

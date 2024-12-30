@@ -1,0 +1,22 @@
+<% 10.times do |i| %>
+
+john_<%= i + 1 %>:
+  membership: john
+  delivery: monday_<%= i + 1 %>
+  delivery_cycle_price: 0
+  basket_size: medium
+  basket_price: 20
+  depot: farm
+  depot_price: 0
+
+jane_<%= i + 1 %>:
+  membership: jane
+  delivery: thursday_<%= i + 1 %>
+  state: <%= (i + 1) == 5 ? "absent" : "normal" %>
+  delivery_cycle_price: 0
+  basket_size: large
+  basket_price: 30
+  depot: bakery
+  depot_price: 4
+
+<% end %>

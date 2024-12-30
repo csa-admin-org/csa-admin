@@ -1,0 +1,19 @@
+mondays:
+  names:
+    en: Mondays
+  wdays: [1]
+  depots:
+    - home_delivery
+    - farm
+    - bakery
+  deliveries_counts: { "2024": 10, "2025": 0 }
+
+thursdays:
+  names:
+    en: Thursdays
+  wdays: [4]
+  depots:
+    - home_delivery
+    - farm
+    - bakery
+  deliveries_counts: { "2024": 10, "2025": 0 }

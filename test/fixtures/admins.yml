@@ -1,0 +1,10 @@
+super:
+  name: Thibaud
+  email: info@csa-admin.org
+  language: en
+  permission_id: 1 # super_admin
+
+external:
+  name: External Consultant
+  email: external@support.com
+  permission: read_only

@@ -1,0 +1,29 @@
+john:
+  name: John Doe
+  emails: john@doe.com
+  annual_fee: 30
+  language: en
+  country_code: CH
+  address: Nowhere 42
+  zip: 1234
+  city: City
+
+jane:
+  name: Jane Doe
+  emails: jane@doe.com
+  annual_fee: 30
+  language: en
+  country_code: CH
+  address: Nowhere 42
+  zip: 1234
+  city: City
+
+support_annual_fee:
+  name: Martha
+  emails: support@annual.com
+  annual_fee: 30
+  language: en
+  country_code: CH
+  address: Nowhere 42
+  zip: 1234
+  city: City

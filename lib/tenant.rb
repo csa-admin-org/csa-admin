@@ -66,7 +66,7 @@ module Tenant
   end
 
   def connect(tenant)
-    raise "Only for use in Rails console" unless defined?(Rails::Console)
+    ensure_test_env_or_rails_console!
 
     enter(tenant)
     ActiveRecord::Base.connecting_to(shard: tenant.to_sym)
@@ -74,7 +74,7 @@ module Tenant
 
   # Only for use in console
   def disconnect
-    raise "Only for use in Rails console" unless defined?(Rails::Console)
+    ensure_test_env_or_rails_console!
 
     leave
     ActiveRecord::Base.connecting_to(shard: :default)
@@ -111,5 +111,12 @@ module Tenant
     domain = PublicSuffix.parse(domain)
     # Ignore tld locally
     Rails.env.local? ? domain.sld : domain.domain
+  end
+
+  def ensure_test_env_or_rails_console!
+    return if Rails.env.test?
+    return if defined?(Rails::Console)
+
+    raise "Only for use in Rails console or test environment"
   end
 end

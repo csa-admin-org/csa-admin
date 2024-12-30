@@ -1,0 +1,8 @@
+super_admin:
+  id: 1
+  names:
+    en: SuperAdmin
+
+read_only:
+  names:
+    en: ReadOnly

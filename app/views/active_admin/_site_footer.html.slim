@@ -1,11 +1,11 @@
 footer class="pt-40"
 
   ul class="flex justify-center" role="group"
-    li = link_to updates_path, class: "inline-flex items-center px-2 py-1 no-underline text-sm font-medium text-gray-400 dark:text-gray-600 bg-white border border-gray-200 rounded-s-lg hover:bg-gray-100 hover:text-green-600 focus:z-10 focus:ring-2 focus:ring-green-700 focus:text-green-700 dark:bg-transparent dark:border-gray-800 dark:hover:text-green-500 dark:hover:bg-gray-700 dark:focus:ring-green-500 dark:focus:text-white" do
+    li = link_to updates_path, class: "action-item-button px-2 py-1 rounded-e-none text-gray-400 dark:text-gray-500" do
       = icon "gift", class: "w-5 h-5 me-2"
       = t(".updates")
 
-    li = link_to handbook_path, class: "inline-flex items-center px-2 py-1 no-underline text-sm font-medium text-gray-400 dark:text-gray-600 bg-white border border-l-0 border-gray-200 rounded-e-lg hover:bg-gray-100 hover:text-green-600 focus:z-10 focus:ring-2 focus:ring-green-700 focus:text-green-700 dark:bg-transparent dark:border-gray-800 dark:hover:text-green-500 dark:hover:bg-gray-700 dark:focus:ring-green-500 dark:focus:text-white" do
+    li = link_to handbook_path, class: "action-item-button px-2 py-1 border-s-0 rounded-s-none text-gray-400 dark:text-gray-500" do
       = icon "book-open", class: "w-5 h-5 me-2"
       = t(".handbook")
 

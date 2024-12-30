@@ -170,12 +170,11 @@ class Invoice < ApplicationRecord
     # Leave some time for the invoice PDF to be uploaded
     MailTemplate.deliver_later(:invoice_created, invoice: self)
     update!(sent_at: Time.current)
-    close_or_open!
-  rescue => e
-    Error.report(e,
-      invoice_id: id,
-      emails: member.emails,
-      member_id: member_id)
+    rescue => e
+      Error.report(e,
+        invoice_id: id,
+        emails: member.emails,
+        member_id: member_id)
   end
 
   def mark_as_sent!
