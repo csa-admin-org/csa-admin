@@ -4,7 +4,7 @@ require "test_helper"
 
 class AdminTest < ActiveSupport::TestCase
   test "deletes sessions when destroyed" do
-    admin = admins(:super)
+    admin = admins(:master)
     session = create_session(admin)
 
     assert_difference "Session.count", -1 do
@@ -29,7 +29,7 @@ class AdminTest < ActiveSupport::TestCase
   end
 
   test "notify! with suppressed email" do
-    admin = admins(:super)
+    admin = admins(:master)
     admin.update!(notifications: [ "new_absence" ])
     EmailSuppression.suppress!(admin.email,
       stream_id: "outbound",

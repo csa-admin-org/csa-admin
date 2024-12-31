@@ -15,6 +15,7 @@ class MembershipRenewalJobTest < ActiveJob::TestCase
 
   test "raises when no next year deliveries" do
     membership = memberships(:john)
+    Delivery.future.delete_all
     assert_equal 0, Delivery.between(next_fy.range).count
 
     MembershipRenewalJob.perform_later(membership)
@@ -25,8 +26,7 @@ class MembershipRenewalJobTest < ActiveJob::TestCase
 
   test "renews a membership" do
     travel_to "2024-01-01"
-    Delivery.create!(date: "2025-01-06")
-    membership = memberships(:john)
+    membership = memberships(:jane)
     membership.update!(
       basket_quantity: 2,
       basket_price: 42,

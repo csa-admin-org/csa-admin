@@ -119,10 +119,10 @@ class Liquid::DataPreviewTest < ActiveSupport::TestCase
         "url" => "https://www.acme.test"
       },
       "waiting_list_position" => 1,
-      "waiting_basket_size_id" => basket_sizes(:large).id,
+      "waiting_basket_size_id" => basket_sizes(:medium).id,
       "waiting_basket_size" => {
-        "id" => basket_sizes(:large).id,
-        "name" => "Large basket"
+        "id" => basket_sizes(:medium).id,
+        "name" => "Medium basket"
       },
       "waiting_depot" => {
         "id" => depots(:bakery).id,

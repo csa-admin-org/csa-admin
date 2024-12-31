@@ -148,15 +148,15 @@ class DeliveryTest < ActiveSupport::TestCase
     travel_to "2024-01-01"
     cycle = delivery_cycles(:mondays)
 
-    assert_changes -> { cycle.reload.deliveries_counts }, from: { "2024" => 10, "2025" => 0 }, to: { "2024" => 11, "2025" => 0 } do
+    assert_changes -> { cycle.reload.deliveries_counts }, from: { "2024" => 10, "2025" => 10 }, to: { "2024" => 11, "2025" => 10 } do
       Delivery.create!(date: "2024-06-10")
     end
 
-    assert_changes -> { cycle.reload.deliveries_counts }, from: { "2024" => 11, "2025" => 0 }, to: { "2024" => 10, "2025" => 0 } do
+    assert_changes -> { cycle.reload.deliveries_counts }, from: { "2024" => 11, "2025" => 10 }, to: { "2024" => 10, "2025" => 10 } do
       cycle.deliveries(2024).last.update!(date: "2024-06-11")
     end
 
-    assert_changes -> { cycle.reload.deliveries_counts }, from: { "2024" => 10, "2025" => 0 }, to: { "2024" => 9, "2025" => 0 } do
+    assert_changes -> { cycle.reload.deliveries_counts }, from: { "2024" => 10, "2025" => 10 }, to: { "2024" => 9, "2025" => 10 } do
       cycle.deliveries(2024).first.destroy!
     end
   end

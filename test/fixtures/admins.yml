@@ -1,6 +1,12 @@
-super:
+master:
   name: Thibaud
   email: info@csa-admin.org
+  language: en
+  permission_id: 1 # super_admin
+
+super:
+  name: Acme Super Admin
+  email: info@acme.com
   language: en
   permission_id: 1 # super_admin
 

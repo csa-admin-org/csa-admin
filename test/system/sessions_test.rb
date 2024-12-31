@@ -4,7 +4,7 @@ require "application_system_test_case"
 
 class SessionsTest < ApplicationSystemTestCase
   test "creates a new session from email" do
-    admin = admins(:super)
+    admin = admins(:master)
 
     visit "/"
 
@@ -79,7 +79,7 @@ class SessionsTest < ApplicationSystemTestCase
   end
 
   test "does not accept old session when not logged in" do
-    old_session =  create_session(admins(:super), created_at: 1.hour.ago)
+    old_session =  create_session(admins(:master), created_at: 1.hour.ago)
 
     visit "/sessions/#{old_session.token}"
 
@@ -88,7 +88,7 @@ class SessionsTest < ApplicationSystemTestCase
   end
 
   test "handles old session when already logged in" do
-    admin = admins(:super)
+    admin = admins(:master)
     login(admin)
     old_session = create_session(admin, created_at: 1.hour.ago)
 
@@ -99,7 +99,7 @@ class SessionsTest < ApplicationSystemTestCase
   end
 
   test "logout session without email" do
-    admin = admins(:super)
+    admin = admins(:master)
     login(admin)
     admin.sessions.last.update!(email: nil)
 
@@ -110,7 +110,7 @@ class SessionsTest < ApplicationSystemTestCase
   end
 
   test "logout expired session" do
-    admin = admins(:super)
+    admin = admins(:master)
     login(admin)
     admin.sessions.last.update!(created_at: 1.year.ago)
 
@@ -126,7 +126,7 @@ class SessionsTest < ApplicationSystemTestCase
   end
 
   test "update last usage column every hour when using the session" do
-    admin = admins(:super)
+    admin = admins(:master)
 
     travel_to Time.new(2018, 7, 6, 1) do
       login(admin)
@@ -149,7 +149,7 @@ class SessionsTest < ApplicationSystemTestCase
   end
 
   test "revoke session on logout" do
-    admin = admins(:super)
+    admin = admins(:master)
     login(admin)
     session = admin.sessions.last
 
