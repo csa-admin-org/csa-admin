@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module MailTemplatesHelper
   def mail_templates(titles)
     Array(titles).map do |title|
