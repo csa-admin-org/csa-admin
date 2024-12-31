@@ -48,7 +48,7 @@ class AdminMailerTest < ActionMailer::TestCase
   test "delivery_list_email" do
     delivery = deliveries(:monday_1)
     mail = AdminMailer.with(
-      admin: admins(:super),
+      admin: admins(:master),
       delivery: delivery
     ).delivery_list_email
 
@@ -101,7 +101,7 @@ class AdminMailerTest < ActionMailer::TestCase
     invoice = invoices(:annual_fee)
 
     mail = AdminMailer.with(
-      admin: admins(:super),
+      admin: admins(:master),
       member: invoice.member,
       invoice: invoice
     ).invoice_overpaid_email
@@ -117,7 +117,7 @@ class AdminMailerTest < ActionMailer::TestCase
     assert_includes body, "Martha"
     assert_includes body, "Access member page"
     assert_includes body, "https://admin.acme.test/members/#{invoice.member_id}"
-    assert_includes body, "https://admin.acme.test/admins/#{admins(:super).id}/edit#notifications"
+    assert_includes body, "https://admin.acme.test/admins/#{admins(:master).id}/edit#notifications"
     assert_includes body, "Manage my notifications"
   end
 
@@ -125,7 +125,7 @@ class AdminMailerTest < ActionMailer::TestCase
     invoice = invoices(:annual_fee)
 
     mail = AdminMailer.with(
-      admin: admins(:super),
+      admin: admins(:master),
       invoice: invoice
     ).invoice_third_overdue_notice_email
 
@@ -140,7 +140,7 @@ class AdminMailerTest < ActionMailer::TestCase
     assert_includes body, "Martha"
     assert_includes body, "Access member page"
     assert_includes body, "https://admin.acme.test/members/#{invoice.member_id}"
-    assert_includes body, "https://admin.acme.test/admins/#{admins(:super).id}/edit#notifications"
+    assert_includes body, "https://admin.acme.test/admins/#{admins(:master).id}/edit#notifications"
     assert_includes body, "Manage my notifications"
   end
 
@@ -148,7 +148,7 @@ class AdminMailerTest < ActionMailer::TestCase
     absence = absences(:jane_thursday_5)
 
     mail = AdminMailer.with(
-      admin: admins(:super),
+      admin: admins(:master),
       member: absence.member,
       absence: absence
     ).new_absence_email
@@ -165,13 +165,13 @@ class AdminMailerTest < ActionMailer::TestCase
     assert_includes body, "Member's note:<br/>\n  <i>Vacation</i>"
     assert_includes body, "Access the absence page"
     assert_includes body, "https://admin.acme.test/absences/#{absence.id}"
-    assert_includes body, "https://admin.acme.test/admins/#{admins(:super).id}/edit#notifications"
+    assert_includes body, "https://admin.acme.test/admins/#{admins(:master).id}/edit#notifications"
     assert_includes body, "Manage my notifications"
   end
 
   test "new_activity_participation_email" do
     mail = AdminMailer.with(
-      admin: admins(:super),
+      admin: admins(:master),
       activity_participation_ids: [ activity_participations(:jane_harvest).id ]
     ).new_activity_participation_email
 
@@ -193,7 +193,7 @@ class AdminMailerTest < ActionMailer::TestCase
     assert_includes body, "Member's note:<br/>\r\n  <i>I will bring my own gloves</i>"
     assert_includes body, "Access the member's participation page"
     assert_includes body, "https://admin.acme.test/activity_participations?q%5Bmember_id_eq%5D=#{members(:jane).id}&scope=future"
-    assert_includes body, "https://admin.acme.test/admins/#{admins(:super).id}/edit#notifications"
+    assert_includes body, "https://admin.acme.test/admins/#{admins(:master).id}/edit#notifications"
     assert_includes body, "Manage my notifications"
   end
 
@@ -205,7 +205,7 @@ class AdminMailerTest < ActionMailer::TestCase
     )
 
     mail = AdminMailer.with(
-      admin: admins(:super),
+      admin: admins(:master),
       email_suppression: email_suppression
     ).new_email_suppression_email
 
@@ -219,13 +219,13 @@ class AdminMailerTest < ActionMailer::TestCase
     assert_includes body, "Email rejected (HardBounce)</h1>\n\n<p>Hello Thibaud,</p>\n\n<p>The email <strong>john@doe.com</strong> was rejected during the last message delivery due to the following reason: <strong>HardBounce</strong>"
     assert_includes body, "Member: John Doe"
     assert_includes body, "https://admin.acme.test/members/#{members(:john).id}"
-    assert_includes body, "https://admin.acme.test/admins/#{admins(:super).id}/edit#notifications"
+    assert_includes body, "https://admin.acme.test/admins/#{admins(:master).id}/edit#notifications"
     assert_includes body, "Manage my notifications"
   end
 
   test "new_registration_email" do
     mail = AdminMailer.with(
-      admin: admins(:super),
+      admin: admins(:master),
       member: members(:john),
     ).new_registration_email
 
@@ -239,13 +239,13 @@ class AdminMailerTest < ActionMailer::TestCase
     assert_includes body, "John Doe"
     assert_includes body, "Access member page"
     assert_includes body, "https://admin.acme.test/members/#{members(:john).id}"
-    assert_includes body, "https://admin.acme.test/admins/#{admins(:super).id}/edit#notifications"
+    assert_includes body, "https://admin.acme.test/admins/#{admins(:master).id}/edit#notifications"
     assert_includes body, "Manage my notifications"
   end
 
   test "memberships_renewal_pending_email" do
     mail = AdminMailer.with(
-      admin: admins(:super),
+      admin: admins(:master),
       pending_memberships: [ memberships(:john), memberships(:jane) ],
       opened_memberships: [ memberships(:jane) ],
       pending_action_url: "https://admin.example.com/memberships/pending",
@@ -266,13 +266,13 @@ class AdminMailerTest < ActionMailer::TestCase
     assert_includes body, "https://admin.example.com/memberships/opened"
     assert_includes body, "Access memberships"
     assert_includes body, "https://admin.example.com/memberships"
-    assert_includes body, "https://admin.acme.test/admins/#{admins(:super).id}/edit#notifications"
+    assert_includes body, "https://admin.acme.test/admins/#{admins(:master).id}/edit#notifications"
     assert_includes body, "Manage my notifications"
   end
 
   test "memberships_renewal_pending_email_pending_only" do
     mail = AdminMailer.with(
-      admin: admins(:super),
+      admin: admins(:master),
       pending_memberships: [ memberships(:john), memberships(:jane) ],
       opened_memberships: [],
       pending_action_url: "https://admin.example.com/memberships/pending",
@@ -289,7 +289,7 @@ class AdminMailerTest < ActionMailer::TestCase
 
   test "memberships_renewal_pending_email_opened_only" do
     mail = AdminMailer.with(
-      admin: admins(:super),
+      admin: admins(:master),
       pending_memberships: [],
       opened_memberships: [ memberships(:john), memberships(:jane) ],
       pending_action_url: "https://admin.example.com/memberships/pending",
