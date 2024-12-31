@@ -4,6 +4,8 @@ ENV["RAILS_ENV"] ||= "test"
 require_relative "../config/environment"
 require "rails/test_help"
 
+require 'capybara/email'
+
 require "support/activities_helper"
 require "support/mail_templates_helper"
 require "support/responses_helper"
@@ -14,6 +16,7 @@ Minitest::Test.make_my_diffs_pretty!
 module ActiveSupport
   class TestCase
     include ActiveJob::TestHelper
+    include Capybara::Email::DSL
 
     include ActivitiesHelper
     include SessionsHelper
@@ -32,6 +35,7 @@ module ActiveSupport
 
     teardown do
       Tenant.disconnect
+      clear_emails
     end
   end
 end
