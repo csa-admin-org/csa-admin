@@ -190,6 +190,11 @@ dbs:
       - <<: *replica_defaults
         path: storage/production_lamilpadesiles.sqlite3
 
+  - path: storage/production_baieattitude.sqlite3
+    replicas:
+      - <<: *replica_defaults
+        path: storage/production_baieattitude.sqlite3
+
 
   - path: storage/production_microfermes.sqlite3
     replicas:
