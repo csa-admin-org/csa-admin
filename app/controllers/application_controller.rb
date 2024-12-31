@@ -16,6 +16,10 @@ class ApplicationController < ActionController::Base
       alert: t("active_admin.flash.invalid_foreign_key_alert"))
   end
 
+  rescue_from ActionController::UnknownFormat do
+    render plain: "Unsupported media type", status: :unsupported_media_type
+  end
+
   def access_denied(exception)
     redirect_back fallback_location: root_path, alert: exception.message
   end
