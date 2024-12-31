@@ -65,7 +65,8 @@ production: &production
     domain: lepetrichor.ch
   lamilpadesiles:
     domain: lamilpadesiles.ch
-
+  baieattitude:
+    domain: baie-attitude.ch
 
   demo:
     domain: acp-admin.ch
