@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module FlashMessagesHelper
   def flash_error
     find("[aria-label=\"flash error\"]")&.text
