@@ -1,0 +1,13 @@
+john:
+  member: john
+  email: john@doe.com
+  token: 1234abcd
+  user_agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36
+  remote_addr: 192.168.1.1
+
+master:
+  admin: master
+  email: info@csa-admin.org
+  token: 5678efgh
+  user_agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36
+  remote_addr: 192.168.1.1

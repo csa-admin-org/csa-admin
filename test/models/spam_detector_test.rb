@@ -1,23 +1,23 @@
 # frozen_string_literal: true
 
-require "rails_helper"
+require "test_helper"
 
-describe SpamDetector do
+class SpamDetectorTest < ActiveSupport::TestCase
   def spam?(member)
     SpamDetector.spam?(member)
   end
 
-  it "detects too long note" do
+  test "detects too long note" do
     member = Member.new(note: "fobar" * 1000 + "A")
-    expect(spam?(member)).to eq true
+    assert_equal true, spam?(member)
   end
 
-  it "detects too long food note" do
+  test "detects too long food note" do
     member = Member.new(food_note: "fobar" * 1000 + "A")
-    expect(spam?(member)).to eq true
+    assert_equal true, spam?(member)
   end
 
-  it "detects duplicated long texts" do
+  test "detects duplicated long texts" do
     member = Member.new(
       note:
         "Bonjour,\r\n" \
@@ -35,77 +35,77 @@ describe SpamDetector do
         "Un expert me contacte : http://foo.bar" \
         "Cordialement," \
         "L'équipe E-Réputation")
-    expect(spam?(member)).to eq true
+    assert_equal true, spam?(member)
 
-    expect(member.note).to include " "
-    expect(member.come_from).to include " "
+    assert_includes member.note, " "
+    assert_includes member.come_from, " "
   end
 
-  it "skips duplicated short texts" do
+  test "skips duplicated short texts" do
     member = Member.new(
       note: "Merci  ",
       come_from: "Merci")
-    expect(spam?(member)).to eq false
+    assert_equal false, spam?(member)
   end
 
-  it "detects wrong zip" do
+  test "detects wrong zip" do
     member = Member.new(zip: "153535")
-    expect(spam?(member)).to eq true
+    assert_equal true, spam?(member)
   end
 
-  it "detects cyrillic address" do
+  test "detects cyrillic address" do
     member = Member.new(address: "РњРѕСЃРєРІР°")
-    expect(spam?(member)).to eq true
+    assert_equal true, spam?(member)
   end
 
-  it "detects cyrillic city" do
+  test "detects cyrillic city" do
     member = Member.new(city: "РњРѕСЃРєРІР°")
-    expect(spam?(member)).to eq true
+    assert_equal true, spam?(member)
   end
 
-  it "detects cyrillic come_from" do
+  test "detects cyrillic come_from" do
     member = Member.new(come_from: "Р РѕСЃСЃРёСЏ")
-    expect(spam?(member)).to eq true
+    assert_equal true, spam?(member)
   end
 
-  it "detects non native language text" do
+  test "detects non native language text" do
     member = Member.new(note: "¿Está buscando una interfaz de contabilidad en la nube que haga que el funcionamiento de su empresa sea fácil, rápido y seguro?")
-    expect(spam?(member)).to eq true
+    assert_equal true, spam?(member)
   end
 
-  it "ignores blank text" do
+  test "ignores blank text" do
     member = Member.new(food_note: "")
-    expect(spam?(member)).to eq false
+    assert_equal false, spam?(member)
   end
 
-  it "ignores short text" do
+  test "ignores short text" do
     member = Member.new(food_note: "YEAH ROCK ON!")
-    expect(spam?(member)).to eq false
+    assert_equal false, spam?(member)
   end
 
-  it "accepts native language text" do
+  test "accepts native language text" do
     member = Member.new(note: "Je me réjouis vraiment de recevoir mon panier!" * 3)
-    expect(spam?(member)).to eq false
+    assert_equal false, spam?(member)
   end
 
-  specify "allowed country" do
+  test "allowed country" do
     ENV["ALLOWED_COUNTRY_CODES"] = "CH,FR"
     member = Member.new(country_code: "CH")
-    expect(spam?(member)).to eq false
+    assert_equal false, spam?(member)
   ensure
     ENV["ALLOWED_COUNTRY_CODES"] = nil
   end
 
-  specify "allowed countries not enabled" do
+  test "allowed countries not enabled" do
     ENV["ALLOWED_COUNTRY_CODES"] = nil
     member = Member.new(country_code: "VG")
-    expect(spam?(member)).to eq false
+    assert_equal false, spam?(member)
   end
 
-  specify "non allowed country" do
+  test "non allowed country" do
     ENV["ALLOWED_COUNTRY_CODES"] = "CH,FR"
     member = Member.new(country_code: "VG")
-    expect(spam?(member)).to eq true
+    assert_equal true, spam?(member)
   ensure
     ENV["ALLOWED_COUNTRY_CODES"] = nil
   end

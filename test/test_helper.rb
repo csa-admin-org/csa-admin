@@ -10,6 +10,7 @@ require "support/activities_helper"
 require "support/deliveries_helper"
 require "support/organizations_helper"
 require "support/mail_templates_helper"
+require "support/payments_helper"
 require "support/responses_helper"
 require "support/sessions_helper"
 
@@ -25,6 +26,7 @@ module ActiveSupport
     include SessionsHelper
     include MailTemplatesHelper
     include OrganizationsHelper
+    include PaymentsHelper
     include ResponsesHelper
 
     # Run tests in parallel with specified workers
