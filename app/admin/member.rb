@@ -15,6 +15,7 @@ ActiveAdmin.register Member do
   filter :with_address, as: :string
   filter :with_phone, as: :string
   filter :with_email, as: :string
+  filter :with_note, as: :string
   filter :with_waiting_depots,
     label: -> { Member.human_attribute_name(:waiting_depot) },
     as: :select,

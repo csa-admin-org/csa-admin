@@ -70,6 +70,7 @@ class Member < ApplicationRecord
   scope :sharing_contact, -> { where(contact_sharing: true) }
   scope :with_name, ->(name) { where("lower(members.name) LIKE ?", "%#{name.downcase}%") }
   scope :with_address, ->(address) { where("lower(members.address) LIKE ?", "%#{address.downcase}%") }
+  scope :with_note, ->(note) { where("lower(members.note) LIKE ?", "%#{note.downcase}%") }
   scope :no_salary_basket, -> { where(salary_basket: false) }
   scope :with_waiting_depots_eq, ->(depot_id) {
     left_joins(:members_waiting_alternative_depots).where(<<-SQL, depot_id: depot_id).distinct
@@ -220,7 +221,7 @@ class Member < ApplicationRecord
   end
 
   def self.ransackable_scopes(_auth_object = nil)
-    %i[with_name with_address with_email with_phone with_waiting_depots_eq]
+    %i[with_name with_address with_email with_phone with_waiting_depots_eq with_note]
   end
 
   def update_trial_baskets!
