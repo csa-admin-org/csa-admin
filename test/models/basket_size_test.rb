@@ -10,10 +10,10 @@ class BasketSizeTest < ActiveSupport::TestCase
   test "#member_ordered" do
     assert_equal %w[Large Medium Small], ordered_names
 
-    Current.org.update!(basket_sizes_member_order_mode: "price_asc")
+    org(basket_sizes_member_order_mode: "price_asc")
     assert_equal %w[Small Medium Large], ordered_names
 
-    Current.org.update!(basket_sizes_member_order_mode: "name_asc")
+    org(basket_sizes_member_order_mode: "name_asc")
     assert_equal %w[Large Medium Small], ordered_names
 
     basket_sizes(:small).update!(member_order_priority: 0)

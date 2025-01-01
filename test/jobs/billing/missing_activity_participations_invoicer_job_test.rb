@@ -10,7 +10,7 @@ class Billing::MissingActivityParticipationsInvoicerJobTest < ActiveJob::TestCas
   end
 
   test "noop if no activity price" do
-    Current.org.update!(activity_price: 0)
+    org(activity_price: 0)
     membership = memberships(:john)
 
     assert_no_difference "Invoice.count" do

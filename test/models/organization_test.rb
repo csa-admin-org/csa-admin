@@ -136,7 +136,7 @@ class OrganizationTest < ActiveSupport::TestCase
   end
 
   test "apply_annual_fee_change" do
-    Current.org.update!(annual_fee: 30)
+    org(annual_fee: 30)
 
     members(:john).update_column(:annual_fee, 20)
     members(:jane).update_column(:annual_fee, 30)
