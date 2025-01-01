@@ -11,19 +11,19 @@ john: &john
   delivery_cycle: mondays
   delivery_cycle_price: 0
   absences_included_annually: 0
-  started_on: <%= Date.new(Date.today.year, 1, 1) %>
-  ended_on: <%= Date.new(Date.today.year, 12, 31) %>
+  started_on: 2024-01-01
+  ended_on: 2024-12-31
   activity_participations_demanded_annually: 2
 
 john_past:
   <<: *john
-  started_on: <%= Date.new(Date.today.year - 1, 1, 1) %>
-  ended_on: <%= Date.new(Date.today.year - 1, 12, 31) %>
+  started_on: 2023-01-01
+  ended_on: 2023-12-31
 
 john_future:
   <<: *john
-  started_on: <%= Date.new(Date.today.year + 1, 1, 1) %>
-  ended_on: <%= Date.new(Date.today.year + 1, 12, 31) %>
+  started_on: 2025-01-01
+  ended_on: 2025-12-31
 
 jane:
   member: jane
@@ -38,6 +38,6 @@ jane:
   delivery_cycle: mondays
   delivery_cycle_price: 0
   absences_included_annually: 0
-  started_on: <%= Date.new(Date.today.year, 1, 1) %>
-  ended_on: <%= Date.new(Date.today.year, 12, 31) %>
+  started_on: 2024-01-01
+  ended_on: 2024-12-31
   activity_participations_demanded_annually: 2

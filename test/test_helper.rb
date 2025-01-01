@@ -7,6 +7,8 @@ require "rails/test_help"
 require 'capybara/email'
 
 require "support/activities_helper"
+require "support/deliveries_helper"
+require "support/organizations_helper"
 require "support/mail_templates_helper"
 require "support/responses_helper"
 require "support/sessions_helper"
@@ -19,8 +21,10 @@ module ActiveSupport
     include Capybara::Email::DSL
 
     include ActivitiesHelper
+    include DeliveriesHelper
     include SessionsHelper
     include MailTemplatesHelper
+    include OrganizationsHelper
     include ResponsesHelper
 
     # Run tests in parallel with specified workers

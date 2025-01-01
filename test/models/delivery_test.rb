@@ -175,7 +175,7 @@ class DeliveryTest < ActiveSupport::TestCase
   end
 
   test "when Organization#shop_delivery_open_delay_in_days is set" do
-    Current.org.update!(shop_delivery_open_delay_in_days: 2)
+    org(shop_delivery_open_delay_in_days: 2)
     delivery = deliveries(:monday_1)
 
     travel_to "2024-03-30 23:59:59" do
@@ -187,7 +187,7 @@ class DeliveryTest < ActiveSupport::TestCase
   end
 
   test "when Organization#shop_delivery_open_last_day_end_time is set" do
-    Current.org.update!(shop_delivery_open_last_day_end_time: "12:00")
+    org(shop_delivery_open_last_day_end_time: "12:00")
     delivery = deliveries(:monday_1)
 
     travel_to "2024-04-01 11:59" do
@@ -199,7 +199,7 @@ class DeliveryTest < ActiveSupport::TestCase
   end
 
   test "when both Organization#shop_delivery_open_delay_in_days and Organization#shop_delivery_open_last_day_end_time are set" do
-    Current.org.update!(
+    org(
       shop_delivery_open_delay_in_days: 1,
       shop_delivery_open_last_day_end_time: "12:30")
     delivery = deliveries(:monday_1)

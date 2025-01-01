@@ -13,7 +13,7 @@ class AbilityTest < ActiveSupport::TestCase
     assert ability.can?(:manage, ActiveAdmin::Comment)
     assert ability.can?(:create, Absence)
 
-    Current.org.update!(features: [])
+    org(features: [])
     ability = Ability.new(admins(:master))
 
     assert_not ability.can?(:create, Absence)
@@ -97,7 +97,7 @@ class AbilityTest < ActiveSupport::TestCase
   end
 
   test "shop write permissions" do
-    Current.org.update!(features: [ :shop ])
+    org(features: [ :shop ])
     admin = admins(:external)
     admin.permission.update!(rights: { shop: :write })
     ability = Ability.new(admin)
