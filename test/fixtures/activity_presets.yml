@@ -1,0 +1,7 @@
+harvest_help:
+  places:
+    en: Farm
+  place_urls:
+    en: https://farm.example.com
+  titles:
+    en: Help with the harvest
