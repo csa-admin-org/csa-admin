@@ -14,6 +14,7 @@ require "support/mail_templates_helper"
 require "support/members_helper"
 require "support/memberships_helper"
 require "support/payments_helper"
+require "support/postmark_helper"
 require "support/responses_helper"
 require "support/sessions_helper"
 
@@ -33,6 +34,7 @@ module ActiveSupport
     include MembershipsHelper
     include OrganizationsHelper
     include PaymentsHelper
+    include PostmarkHelper
     include ResponsesHelper
 
     # Run tests in parallel with specified workers
