@@ -5,7 +5,7 @@ require "test_helper"
 class MembershipMailerTest < ActionMailer::TestCase
   test "initial_basket_email" do
     travel_to "2024-01-01"
-    template = mail_template(:membership_initial_basket)
+    template = mail_templates(:membership_initial_basket)
     membership = memberships(:john)
     basket = membership.baskets.first
 
@@ -24,7 +24,7 @@ class MembershipMailerTest < ActionMailer::TestCase
 
   test "final_basket_email" do
     travel_to "2024-01-01"
-    template = mail_template(:membership_final_basket)
+    template = mail_templates(:membership_final_basket)
     membership = memberships(:john)
     basket = membership.baskets.last
 
@@ -43,7 +43,7 @@ class MembershipMailerTest < ActionMailer::TestCase
 
   test "first_basket_email" do
     travel_to "2024-01-01"
-    template = mail_template(:membership_first_basket)
+    template = mail_templates(:membership_first_basket)
     membership = memberships(:john)
     basket = membership.baskets.first
 
@@ -62,7 +62,7 @@ class MembershipMailerTest < ActionMailer::TestCase
 
   test "last_basket_email" do
     travel_to "2024-01-01"
-    template = mail_template(:membership_last_basket)
+    template = mail_templates(:membership_last_basket)
     membership = memberships(:john)
     basket = membership.baskets.last
 
@@ -81,7 +81,7 @@ class MembershipMailerTest < ActionMailer::TestCase
 
   test "last_trial_basket_email" do
     travel_to "2024-01-01"
-    template = mail_template(:membership_last_trial_basket)
+    template = mail_templates(:membership_last_trial_basket)
     membership = memberships(:john)
     basket = membership.baskets.first
 
@@ -101,7 +101,7 @@ class MembershipMailerTest < ActionMailer::TestCase
 
   test "renewal_email" do
     travel_to "2024-01-01"
-    template = mail_template(:membership_renewal)
+    template = mail_templates(:membership_renewal)
     membership = memberships(:john)
 
     mail = MembershipMailer.with(
@@ -120,7 +120,7 @@ class MembershipMailerTest < ActionMailer::TestCase
 
   test "renewal_reminder_email" do
     travel_to "2024-01-01"
-    template = mail_template(:membership_renewal_reminder)
+    template = mail_templates(:membership_renewal_reminder)
     membership = memberships(:john)
 
     mail = MembershipMailer.with(

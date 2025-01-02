@@ -5,7 +5,7 @@ require "test_helper"
 class InvoiceMailerTest < ActionMailer::TestCase
   test "created_email" do
     travel_to "2024-01-01"
-    template = mail_template(:invoice_created)
+    template = mail_templates(:invoice_created)
     invoice = invoices(:annual_fee)
 
     mail = InvoiceMailer.with(
@@ -32,7 +32,7 @@ class InvoiceMailerTest < ActionMailer::TestCase
 
   test "created_email (closed)" do
     travel_to "2024-01-01"
-    template = mail_template(:invoice_created)
+    template = mail_templates(:invoice_created)
     invoice = invoices(:annual_fee)
     invoice.state = "closed"
 
@@ -48,7 +48,7 @@ class InvoiceMailerTest < ActionMailer::TestCase
 
   test "created_email (partially paid)" do
     travel_to "2024-01-01"
-    template = mail_template(:invoice_created)
+    template = mail_templates(:invoice_created)
     invoice = invoices(:annual_fee)
     Payment.create!(invoice: invoice, amount: 11, date: Date.yesterday)
     invoice.reload
@@ -65,7 +65,7 @@ class InvoiceMailerTest < ActionMailer::TestCase
 
   test "created_email (Shop::Order)" do
     travel_to "2024-01-01"
-    template = mail_template(:invoice_created)
+    template = mail_templates(:invoice_created)
     order = shop_orders(:john)
     invoice = order.invoice!
 
@@ -83,7 +83,7 @@ class InvoiceMailerTest < ActionMailer::TestCase
 
   test "created_email (billing_email)" do
     travel_to "2024-01-01"
-    template = mail_template(:invoice_created)
+    template = mail_templates(:invoice_created)
     invoice = invoices(:annual_fee)
     invoice.member.billing_email = "info@accounting.com"
 
@@ -109,7 +109,7 @@ class InvoiceMailerTest < ActionMailer::TestCase
 
   test "cancelled_email" do
     travel_to "2024-01-01"
-    template = mail_template(:invoice_cancelled)
+    template = mail_templates(:invoice_cancelled)
     invoice = invoices(:annual_fee)
 
     mail = InvoiceMailer.with(
@@ -133,7 +133,7 @@ class InvoiceMailerTest < ActionMailer::TestCase
 
   test "overdue_notice_email" do
     travel_to "2024-01-01"
-    template = mail_template(:invoice_overdue_notice)
+    template = mail_templates(:invoice_overdue_notice)
     invoice = invoices(:annual_fee)
     invoice.overdue_notices_count = 2
 
@@ -160,7 +160,7 @@ class InvoiceMailerTest < ActionMailer::TestCase
 
   test "overdue_notice_email (billing_email)" do
     travel_to "2024-01-01"
-    template = mail_template(:invoice_overdue_notice)
+    template = mail_templates(:invoice_overdue_notice)
     invoice = invoices(:annual_fee)
     invoice.overdue_notices_count = 2
     invoice.member.billing_email = "info@accounting.com"
@@ -189,7 +189,7 @@ class InvoiceMailerTest < ActionMailer::TestCase
 
   test "sanitize html from subject" do
     travel_to "2024-01-01"
-    template = mail_template(:invoice_overdue_notice)
+    template = mail_templates(:invoice_overdue_notice)
     template.update!(subject: 'Reminder <strong>#{{ invoice.overdue_notices_count }}</strong> 😬')
 
     invoice = invoices(:annual_fee)

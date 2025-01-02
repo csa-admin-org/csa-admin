@@ -43,7 +43,7 @@ class NotifierTest < ActiveSupport::TestCase
     cycle = DeliveryCycle.create!(delivery_cycles(:mondays).attributes.except("id", "created_at", "updated_at"))
     cycle_ids = DeliveryCycle.pluck(:id) - [ cycle.id ]
 
-    mail_template(:membership_initial_basket).update!(active: true, delivery_cycle_ids: cycle_ids)
+    mail_templates(:membership_initial_basket).update!(active: true, delivery_cycle_ids: cycle_ids)
 
     member1 = create_member
     member2 = create_member
@@ -92,7 +92,7 @@ class NotifierTest < ActiveSupport::TestCase
     cycle = DeliveryCycle.create!(delivery_cycles(:mondays).attributes.except("id", "created_at", "updated_at"))
     cycle_ids = DeliveryCycle.pluck(:id) - [ cycle.id ]
 
-    mail_template(:membership_final_basket).update!(active: true, delivery_cycle_ids: cycle_ids)
+    mail_templates(:membership_final_basket).update!(active: true, delivery_cycle_ids: cycle_ids)
 
     member1 = create_member
     member2 = create_member
@@ -135,7 +135,7 @@ class NotifierTest < ActiveSupport::TestCase
     cycle = DeliveryCycle.create!(delivery_cycles(:mondays).attributes.except("id", "created_at", "updated_at"))
     cycle_ids = DeliveryCycle.pluck(:id) - [ cycle.id ]
 
-    mail_template(:membership_first_basket).update!(active: true, delivery_cycle_ids: cycle_ids)
+    mail_templates(:membership_first_basket).update!(active: true, delivery_cycle_ids: cycle_ids)
     member1 = create_member
     member2 = create_member
     member3 = create_member
@@ -167,7 +167,7 @@ class NotifierTest < ActiveSupport::TestCase
     cycle = DeliveryCycle.create!(delivery_cycles(:mondays).attributes.except("id", "created_at", "updated_at"))
     cycle_ids = DeliveryCycle.pluck(:id) - [ cycle.id ]
 
-    mail_template(:membership_last_basket).update!(active: true, delivery_cycle_ids: cycle_ids)
+    mail_templates(:membership_last_basket).update!(active: true, delivery_cycle_ids: cycle_ids)
     member1 = create_member
     member2 = create_member
     member3 = create_member
@@ -200,7 +200,7 @@ class NotifierTest < ActiveSupport::TestCase
     cycle = DeliveryCycle.create!(delivery_cycles(:mondays).attributes.except("id", "created_at", "updated_at"))
     cycle_ids = DeliveryCycle.pluck(:id) - [ cycle.id ]
 
-    mail_template(:membership_last_trial_basket).update!(active: true, delivery_cycle_ids: cycle_ids)
+    mail_templates(:membership_last_trial_basket).update!(active: true, delivery_cycle_ids: cycle_ids)
     member = create_member(emails: "bob@doe.com")
 
     travel_to "2024-04-01"
@@ -226,7 +226,7 @@ class NotifierTest < ActiveSupport::TestCase
 
   test "send_membership_renewal_reminder_emails" do
     org(open_renewal_reminder_sent_after_in_days: 10)
-    mail_template(:membership_renewal_reminder).update!(active: true)
+    mail_templates(:membership_renewal_reminder).update!(active: true)
     member = create_member(emails: "bob@doe.com")
 
     travel_to "2024-01-01"
@@ -254,7 +254,7 @@ class NotifierTest < ActiveSupport::TestCase
   end
 
   test "send_activity_participation_validated_emails" do
-    mail_template(:activity_participation_validated).update!(active: true)
+    mail_templates(:activity_participation_validated).update!(active: true)
     member = create_member(emails: "bob@doe.com")
 
     create_participation(review_sent_at: nil, validated_at: 1.day.ago, member: member)
@@ -273,7 +273,7 @@ class NotifierTest < ActiveSupport::TestCase
   end
 
   test "does not send activity_participation_validated email when template is not active" do
-    mail_template(:activity_participation_validated).update!(active: false)
+    mail_templates(:activity_participation_validated).update!(active: false)
 
     create_participation(review_sent_at: nil, validated_at: 1.day.ago)
 
@@ -284,7 +284,7 @@ class NotifierTest < ActiveSupport::TestCase
   end
 
   test "send_activity_participation_rejected_emails" do
-    mail_template(:activity_participation_rejected).update!(active: true)
+    mail_templates(:activity_participation_rejected).update!(active: true)
     member = create_member(emails: "bob@doe.com")
 
     create_participation(review_sent_at: nil, rejected_at: 1.day.ago, member: member)
@@ -303,7 +303,7 @@ class NotifierTest < ActiveSupport::TestCase
   end
 
   test "does not send activity_participation_rejected email when template is not active" do
-    mail_template(:activity_participation_rejected).update!(active: false)
+    mail_templates(:activity_participation_rejected).update!(active: false)
 
     create_participation(review_sent_at: nil, rejected_at: 1.day.ago)
 

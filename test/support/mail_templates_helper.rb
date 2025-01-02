@@ -1,13 +1,7 @@
 # frozen_string_literal: true
 
 module MailTemplatesHelper
-  def mail_templates(titles)
-    Array(titles).map do |title|
-      MailTemplate.create!(title: title)
-    end
-  end
-
-  def mail_template(title)
+  def mail_templates(title)
     MailTemplate.create!(title: title)
   end
 end

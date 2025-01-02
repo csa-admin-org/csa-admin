@@ -5,7 +5,7 @@ require "test_helper"
 class Liquid::DataPreviewTest < ActiveSupport::TestCase
   test "recursively render drop data" do
     travel_to "2024-01-01"
-    mail_template = mail_template(:member_activated)
+    mail_template = mail_templates(:member_activated)
     data = Liquid::DataPreview.for(mail_template, random: 1)
 
     assert_equal({
@@ -96,7 +96,7 @@ class Liquid::DataPreviewTest < ActiveSupport::TestCase
   end
 
   test "render non-drop data" do
-    mail_template = mail_template(:member_validated)
+    mail_template = mail_templates(:member_validated)
     data = Liquid::DataPreview.for(mail_template, random: 1)
 
     assert_equal({
@@ -136,7 +136,7 @@ class Liquid::DataPreviewTest < ActiveSupport::TestCase
   test "without any feature" do
     travel_to "2024-01-01"
     Current.org.update_column(:features, [])
-    mail_template = mail_template(:member_activated)
+    mail_template = mail_templates(:member_activated)
     data = Liquid::DataPreview.for(mail_template, random: 1)
 
     assert_equal({

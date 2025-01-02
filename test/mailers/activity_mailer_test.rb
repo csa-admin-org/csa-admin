@@ -4,7 +4,7 @@ require "test_helper"
 
 class ActivityMailerTest < ActionMailer::TestCase
   test "participation_reminder_email" do
-    template = mail_template(:activity_participation_reminder)
+    template = mail_templates(:activity_participation_reminder)
     participation = activity_participations(:john_harvest)
     group = ActivityParticipationGroup.group([ participation ]).first
 
@@ -29,7 +29,7 @@ class ActivityMailerTest < ActionMailer::TestCase
   end
 
   test "participation_validated_email" do
-    template = mail_template(:activity_participation_validated)
+    template = mail_templates(:activity_participation_validated)
     participation = activity_participations(:john_harvest)
 
     mail = ActivityMailer.with(
@@ -52,7 +52,7 @@ class ActivityMailerTest < ActionMailer::TestCase
   end
 
   test "participation_rejected_email" do
-    template = mail_template(:activity_participation_rejected)
+    template = mail_templates(:activity_participation_rejected)
     participation = activity_participations(:john_harvest)
 
     mail = ActivityMailer.with(

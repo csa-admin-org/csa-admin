@@ -3,9 +3,7 @@
 require "test_helper"
 
 class EmailSuppressionTest < ActiveSupport::TestCase
-  teardown do
-    postmark_client.reset!
-  end
+  setup { postmark_client.reset! }
 
   def suppress!(stream_id, email, reason, origin)
     EmailSuppression.create!(
