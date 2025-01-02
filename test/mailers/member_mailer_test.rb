@@ -5,7 +5,7 @@ require "test_helper"
 class MemberMailerTest < ActionMailer::TestCase
   test "activated_email" do
     travel_to "2024-01-01"
-    template = mail_template(:member_activated)
+    template = mail_templates(:member_activated)
     membership = memberships(:jane)
 
     mail = MemberMailer.with(
@@ -28,7 +28,7 @@ class MemberMailerTest < ActionMailer::TestCase
   end
 
   test "validated_email" do
-    template = mail_template(:member_validated)
+    template = mail_templates(:member_validated)
     member = members(:john)
 
     mail = MemberMailer.with(
