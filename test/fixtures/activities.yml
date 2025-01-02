@@ -10,3 +10,16 @@ harvest_help:
     en: Help with the harvest
   descriptions:
     en: Picking vegetables
+
+harvest_help_afternoon:
+  date: 2024-07-01
+  start_time: "13:30"
+  end_time: "17:00"
+  places:
+    en: Farm
+  place_urls:
+    en: https://farm.example.com
+  titles:
+    en: Help with the harvest
+  descriptions:
+    en: Picking vegetables

@@ -3,6 +3,7 @@ john_harvest:
   activity: harvest_help
   participants_count: 2
   state: pending
+  admins_notified_at: 2024-06-01
 
 jane_harvest:
   member: jane
@@ -12,3 +13,4 @@ jane_harvest:
   carpooling_city: La Chaux-de-Fonds
   note: I will bring my own gloves
   state: pending
+  admins_notified_at: 2024-06-01

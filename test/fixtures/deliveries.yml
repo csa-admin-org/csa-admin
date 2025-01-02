@@ -1,5 +1,9 @@
 <% 10.times do |i| %>
 
+monday_past_<%= i + 1 %>:
+  number: <%= i * 2 + 1 %> # 1, 3, 5, 7, 9, 11, 13, 15, 17, 19
+  date: <%= Date.new(2023, 4, 3) + i.weeks %>
+
 monday_<%= i + 1 %>:
   number: <%= i * 2 + 1 %> # 1, 3, 5, 7, 9, 11, 13, 15, 17, 19
   date: <%= Date.new(2024, 4, 1) + i.weeks %>
@@ -7,6 +11,11 @@ monday_<%= i + 1 %>:
 monday_future_<%= i + 1 %>:
   number: <%= i * 2 + 1  %> # 1, 3, 5, 7, 9, 11, 13, 15, 17, 19
   date: <%= Date.new(2025, 4, 7) + i.weeks %>
+
+thursday_past_<%= i + 1 %>:
+  number: <%= i * 2 + 2 %> # 2, 4, 6, 8, 10, 12, 14, 16, 18, 20
+  date: <%= Date.new(2023, 4, 6) + i.weeks %>
+  basket_complements: [ bread, eggs ]
 
 thursday_<%= i + 1 %>:
   number: <%= i * 2 + 2 %> # 2, 4, 6, 8, 10, 12, 14, 16, 18, 20
