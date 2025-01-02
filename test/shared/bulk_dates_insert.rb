@@ -8,7 +8,7 @@ module Shared
       def setup
         super
         shared_class = self.class.name.gsub(/Test$/, "").classify.constantize
-        @model = shared_class.new(date: nil)
+        @model ||= shared_class.new(date: nil)
       end
 
       test "bulk_dates is nil with a date set" do
@@ -52,16 +52,15 @@ module Shared
       end
 
       test "save includes all the days between starts and ends dates following wdays" do
-        travel_to Date.parse("2018-01-01") do
-          @model.bulk_dates_starts_on = Date.parse("2018-11-05")
-          @model.bulk_dates_ends_on = Date.parse("2018-11-11") + 1.month
-          @model.bulk_dates_weeks_frequency = 2
-          @model.bulk_dates_wdays = Array(0..6)
+        travel_to "2018-01-01"
+        @model.bulk_dates_starts_on = "2018-11-05"
+        @model.bulk_dates_ends_on = "2018-12-11"
+        @model.bulk_dates_weeks_frequency = 2
+        @model.bulk_dates_wdays = Array(0..6)
 
-          assert_equal 21, @model.bulk_dates.size
-          assert_difference("#{@model.class.name}.count", 21) do
-            @model.save
-          end
+        assert_equal 21, @model.bulk_dates.size
+        assert_difference("#{@model.class.name}.count", 21) do
+          @model.save
         end
       end
     end
