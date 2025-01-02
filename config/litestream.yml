@@ -150,6 +150,11 @@ dbs:
       - <<: *replica_defaults
         path: storage/production_lejardindemax.sqlite3
 
+  - path: storage/production_cultureslocales.sqlite3
+    replicas:
+      - <<: *replica_defaults
+        path: storage/production_cultureslocales.sqlite3
+
   - path: storage/production_fairdura.sqlite3
     replicas:
       - <<: *replica_defaults
@@ -159,11 +164,6 @@ dbs:
     replicas:
       - <<: *replica_defaults
         path: storage/production_ortie.sqlite3
-
-  - path: storage/production_cultureslocales.sqlite3
-    replicas:
-      - <<: *replica_defaults
-        path: storage/production_cultureslocales.sqlite3
 
   - path: storage/production_mamajah.sqlite3
     replicas:
