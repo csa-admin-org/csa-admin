@@ -165,13 +165,13 @@ class DeliveryCycleTest < ActiveSupport::TestCase
   test "reset caches after update" do
     cycle = delivery_cycles(:mondays)
 
-    assert_equal({ "2024" => 10, "2025" => 10 }, cycle.deliveries_counts)
+    assert_equal({ "2023" => 10, "2024" => 10, "2025" => 10 }, cycle.deliveries_counts)
 
     assert_changes -> { cycle.reload.deliveries_counts } do
       cycle.update!(months: [ 4 ])
     end
 
-    assert_equal({ "2024" => 5, "2025" => 4 }, cycle.deliveries_counts)
+    assert_equal({ "2023" => 4, "2024" => 5, "2025" => 4 }, cycle.deliveries_counts)
   end
 
   test "async membership baskets update after config change" do

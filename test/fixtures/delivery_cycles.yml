@@ -6,7 +6,7 @@ mondays:
     - home_delivery
     - farm
     - bakery
-  deliveries_counts: { "2024": 10, "2025": 10 }
+  deliveries_counts: { "2023": 10, "2024": 10, "2025": 10 }
 
 thursdays:
   names:
@@ -16,4 +16,4 @@ thursdays:
     - home_delivery
     - farm
     - bakery
-  deliveries_counts: { "2024": 10, "2025": 10 }
+  deliveries_counts: { "2023": 10, "2024": 10, "2025": 10 }
