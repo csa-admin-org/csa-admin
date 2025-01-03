@@ -1,8 +1,3 @@
-home_delivery:
-  name: Home Delivery
-  price: 9
-  language: en
-
 farm:
   name: Farm
   public_names:
@@ -12,8 +7,16 @@ farm:
   address: 42 Nowhere
   zip: 1234
   city: Unknown
+  position: 1
 
 bakery:
   name: Bakery
   price: 4
   language: en
+  position: 3
+
+home:
+  name: Home
+  price: 9
+  language: en
+  position: 2

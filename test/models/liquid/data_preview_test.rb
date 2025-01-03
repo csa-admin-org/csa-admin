@@ -125,11 +125,11 @@ class Liquid::DataPreviewTest < ActiveSupport::TestCase
         "name" => "Medium basket"
       },
       "waiting_depot" => {
-        "id" => depots(:bakery).id,
+        "id" => depots(:farm).id,
         "member_note" => nil,
-        "name" => "Bakery"
+        "name" => "Our farm"
       },
-      "waiting_depot_id" => depots(:bakery).id
+      "waiting_depot_id" => depots(:farm).id
     }, data)
   end
 

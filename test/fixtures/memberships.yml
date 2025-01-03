@@ -35,7 +35,7 @@ jane:
   basket_price: 30
   depot: bakery
   depot_price: 4
-  delivery_cycle: mondays
+  delivery_cycle: thursdays
   delivery_cycle_price: 0
   absences_included_annually: 0
   started_on: 2024-01-01
