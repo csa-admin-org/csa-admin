@@ -199,6 +199,10 @@ class Membership < ApplicationRecord
     started? && ended_on >= Date.current
   end
 
+  def current_year?
+    fy_year == Current.fy_year
+  end
+
   def current_or_future_year?
     fy_year >= Current.fy_year
   end
