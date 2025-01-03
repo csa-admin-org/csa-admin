@@ -536,6 +536,14 @@ describe Invoice do
       expect(invoice.can_cancel?).to eq false
     end
 
+    specify "when not current year, closed, but membership current year" do
+      membership = create(:membership)
+      invoice = create(:invoice, :membership, :closed,
+        date: 13.months.ago,
+        entity: membership)
+      expect(invoice.can_cancel?).to eq true
+    end
+
     specify "when not current year but open" do
       invoice = create(:invoice, :annual_fee, :open, date: 13.months.ago)
       expect(invoice.can_cancel?).to eq true
