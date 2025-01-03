@@ -615,6 +615,11 @@ _:
       _en: Email
       _fr: Email
       _it: E-mail
+    with_note:
+      _de: Notiz
+      _en: Note
+      _fr: Note
+      _it: Note
     zip:
       _de: PLZ
       _en: ZIP
