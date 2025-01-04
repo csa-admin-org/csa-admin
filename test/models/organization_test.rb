@@ -140,7 +140,7 @@ class OrganizationTest < ActiveSupport::TestCase
 
     members(:john).update_column(:annual_fee, 20)
     members(:jane).update_column(:annual_fee, 30)
-    members(:support_annual_fee).update_column(:annual_fee, 30)
+    members(:martha).update_column(:annual_fee, 30)
 
     assert_difference -> { Member.where(annual_fee: 40).count }, 2 do
       Current.org.update!(annual_fee: 40)

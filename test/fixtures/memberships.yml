@@ -14,6 +14,8 @@ john: &john
   started_on: 2024-01-01
   ended_on: 2024-12-31
   activity_participations_demanded_annually: 2
+  activity_participations_demanded: 2
+  activity_participations_accepted: 2
 
 john_past:
   <<: *john
@@ -41,3 +43,4 @@ jane:
   started_on: 2024-01-01
   ended_on: 2024-12-31
   activity_participations_demanded_annually: 2
+  activity_participations_demanded: 2

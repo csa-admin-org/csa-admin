@@ -1,13 +1,13 @@
 john_harvest:
   member: john
-  activity: harvest_help
+  activity: harvest
   participants_count: 2
   state: pending
   admins_notified_at: 2024-06-01
 
 jane_harvest:
   member: jane
-  activity: harvest_help
+  activity: harvest
   participants_count: 1
   carpooling_phone: +41 79 123 45 67
   carpooling_city: La Chaux-de-Fonds

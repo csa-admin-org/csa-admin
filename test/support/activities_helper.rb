@@ -2,10 +2,12 @@
 
 module ActivitiesHelper
   def create_activity(attributes = {})
-    Activity.create!({
+    activity = Activity.create!({
       place: "Farm",
       start_time: "08:00",
-      end_time: "10:00"
+      end_time: "10:00",
+      preset_id: activity_presets(:harvest).id
     }.merge(attributes))
+    Activity.find(activity.id) # hard reload to get preset
   end
 end

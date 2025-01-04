@@ -10,7 +10,7 @@ class ActivityTest < ActiveSupport::TestCase
     @model ||= Activity.new(
       start_time: "8:30",
       end_time: "12:00",
-      preset_id: activity_presets(:harvest_help).id)
+      preset_id: activity_presets(:harvest).id)
   end
 
   test "validates title presence" do
@@ -64,7 +64,7 @@ class ActivityTest < ActiveSupport::TestCase
   end
 
   test "creates an activity with preset" do
-    preset = activity_presets(:harvest_help)
+    preset = activity_presets(:harvest)
     activity = Activity.new(
       date: "2018-03-24",
       start_time: "8:30",
