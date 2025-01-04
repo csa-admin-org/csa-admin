@@ -249,8 +249,9 @@ class NotifierTest < ActiveSupport::TestCase
   end
 
   def create_participation(attributes = {})
-    activity = activities(:harvest_help)
-    create_activity_participation(activity: activity, **attributes)
+    activity = activities(:harvest)
+    attributes[:member] ||= create_member
+    ActivityParticipation.create!(activity: activity, **attributes)
   end
 
   test "send_activity_participation_validated_emails" do
@@ -318,8 +319,8 @@ class NotifierTest < ActiveSupport::TestCase
     admin.update(notifications: [ "new_activity_participation" ])
 
     member = create_member(emails: "bob@doe.com")
-    p1 = create_participation(member: member, activity: activities(:harvest_help))
-    p2 = create_participation(member: member, activity: activities(:harvest_help_afternoon))
+    p1 = create_participation(member: member, activity: activities(:harvest))
+    p2 = create_participation(member: member, activity: activities(:harvest_afternoon))
     create_participation(session: sessions(:master))
     create_participation(created_at: 2.days.ago)
     create_participation(admins_notified_at: Date.today)
@@ -343,10 +344,10 @@ class NotifierTest < ActiveSupport::TestCase
     admin.update(notifications: [ "new_activity_participation_with_note" ])
 
     member = create_member(emails: "bob@doe.com")
-    create_participation(activity: activities(:harvest_help))
+    create_participation(activity: activities(:harvest))
     p = create_participation(
       member: member,
-      activity: activities(:harvest_help),
+      activity: activities(:harvest),
       carpooling: true,
       carpooling_phone: "+41 79 123 45 67",
       carpooling_city: "Somwhere",

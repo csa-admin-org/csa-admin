@@ -11,7 +11,7 @@ class Billing::MissingActivityParticipationsInvoicerJobTest < ActiveJob::TestCas
 
   test "noop if no activity price" do
     org(activity_price: 0)
-    membership = memberships(:john)
+    membership = memberships(:jane)
 
     assert_no_difference "Invoice.count" do
       perform(membership)
@@ -19,7 +19,7 @@ class Billing::MissingActivityParticipationsInvoicerJobTest < ActiveJob::TestCas
   end
 
   test "noop if no missing activity participations" do
-    membership = memberships(:john)
+    membership = memberships(:jane)
     membership.update!(activity_participations_demanded_annually: 0)
 
     assert_no_difference "Invoice.count" do
@@ -29,7 +29,7 @@ class Billing::MissingActivityParticipationsInvoicerJobTest < ActiveJob::TestCas
 
   test "create invoice and send invoice" do
     mail_templates(:invoice_created)
-    membership = memberships(:john)
+    membership = memberships(:jane)
     membership.update!(activity_participations_demanded_annually: 2)
 
     assert_difference [ "Invoice.count", "InvoiceMailer.deliveries.size" ], 1 do
@@ -51,7 +51,7 @@ class Billing::MissingActivityParticipationsInvoicerJobTest < ActiveJob::TestCas
   test "create invoice for previous year membership" do
     travel_to "2025-01-01"
 
-    membership = memberships(:john)
+    membership = memberships(:jane)
     membership.update!(activity_participations_demanded_annually: 2)
 
     assert_difference "Invoice.count", 1 do

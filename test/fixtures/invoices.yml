@@ -1,6 +1,6 @@
 annual_fee:
   state: open
-  member: support_annual_fee
+  member: martha
   entity_type: AnnualFee
   amount: 30
   vat_rate: 0.0

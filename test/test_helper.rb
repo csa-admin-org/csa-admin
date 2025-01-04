@@ -7,7 +7,6 @@ require "rails/test_help"
 require 'capybara/email'
 
 require "support/activities_helper"
-require "support/activity_participations_helper"
 require "support/deliveries_helper"
 require "support/organizations_helper"
 require "support/mail_templates_helper"
@@ -26,7 +25,6 @@ module ActiveSupport
     include Capybara::Email::DSL
 
     include ActivitiesHelper
-    include ActivityParticipationsHelper
     include DeliveriesHelper
     include SessionsHelper
     include MailTemplatesHelper
