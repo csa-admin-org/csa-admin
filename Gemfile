@@ -65,7 +65,7 @@ gem "hexapdf"
 gem "public_suffix"
 gem "rubyXL"
 gem "rexml"
-gem "rubyzip", "~> 2.4.rc1", require: "zip"
+gem "rubyzip", require: "zip"
 gem "parallel"
 
 gem "postmark-rails"
