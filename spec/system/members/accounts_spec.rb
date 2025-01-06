@@ -24,6 +24,7 @@ describe "Account" do
 
     click_on "Doe Jame and John"
 
+    expect(page).to have_content(member.id)
     expect(page).to have_content("Doe Jame and John")
     expect(page).to have_content("Nowhere 11234 TownSuisse")
     expect(page).to have_content("john@doe.com, jame@doe.com")
