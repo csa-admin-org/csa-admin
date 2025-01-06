@@ -4,6 +4,11 @@ h1 class="mt-2 mb-8 text-xl sm:text-2xl font-extrabold text-gray-900 dark:text-g
 section
   ul class='space-y-4'
     li class='flex flex-row items-center'
+      = icon "hashtag", class: "h-5 w-5 mx-0.5"
+      span class='ml-4'
+        = current_member.id
+
+    li class='flex flex-row items-center'
       = icon "identification", class: "h-6 w-6"
       span class='ml-4'
         = current_member.name
