@@ -142,10 +142,10 @@ class OrganizationTest < ActiveSupport::TestCase
     members(:jane).update_column(:annual_fee, 30)
     members(:martha).update_column(:annual_fee, 30)
 
-    assert_difference -> { Member.where(annual_fee: 40).count }, 2 do
+    assert_difference -> { Member.where(annual_fee: 40).count }, 4 do
       Current.org.update!(annual_fee: 40)
     end
 
-    assert_equal [ 20, 40, 40 ], Member.pluck(:annual_fee).sort
+    assert_equal [ 20, 40, 40, 40, 40 ], Member.pluck(:annual_fee).sort
   end
 end

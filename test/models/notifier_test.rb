@@ -201,7 +201,7 @@ class NotifierTest < ActiveSupport::TestCase
     cycle_ids = DeliveryCycle.pluck(:id) - [ cycle.id ]
 
     mail_templates(:membership_last_trial_basket).update!(active: true, delivery_cycle_ids: cycle_ids)
-    member = create_member(emails: "bob@doe.com")
+    member = create_member(emails: "anybody@doe.com")
 
     travel_to "2024-04-01"
     create_membership(started_on: "2024-04-01")
@@ -221,13 +221,13 @@ class NotifierTest < ActiveSupport::TestCase
 
     mail = MembershipMailer.deliveries.last
     assert_equal "Last trial basket!", mail.subject
-    assert_equal [ "bob@doe.com" ], mail.to
+    assert_equal [ "anybody@doe.com" ], mail.to
   end
 
   test "send_membership_renewal_reminder_emails" do
     org(open_renewal_reminder_sent_after_in_days: 10)
     mail_templates(:membership_renewal_reminder).update!(active: true)
-    member = create_member(emails: "bob@doe.com")
+    member = create_member(emails: "anybody@doe.com")
 
     travel_to "2024-01-01"
     create_membership(renewal_opened_at: nil)
@@ -245,7 +245,7 @@ class NotifierTest < ActiveSupport::TestCase
 
     mail = MembershipMailer.deliveries.last
     assert_equal "Renew your membership (reminder)", mail.subject
-    assert_equal [ "bob@doe.com" ], mail.to
+    assert_equal [ "anybody@doe.com" ], mail.to
   end
 
   def create_participation(attributes = {})
@@ -256,7 +256,7 @@ class NotifierTest < ActiveSupport::TestCase
 
   test "send_activity_participation_validated_emails" do
     mail_templates(:activity_participation_validated).update!(active: true)
-    member = create_member(emails: "bob@doe.com")
+    member = create_member(emails: "anybody@doe.com")
 
     create_participation(review_sent_at: nil, validated_at: 1.day.ago, member: member)
     create_participation(review_sent_at: nil, rejected_at: 1.day.ago)
@@ -270,7 +270,7 @@ class NotifierTest < ActiveSupport::TestCase
 
     mail = ActivityMailer.deliveries.last
     assert_equal "Activity confirmed 🎉", mail.subject
-    assert_equal [ "bob@doe.com" ], mail.to
+    assert_equal [ "anybody@doe.com" ], mail.to
   end
 
   test "does not send activity_participation_validated email when template is not active" do
@@ -286,7 +286,7 @@ class NotifierTest < ActiveSupport::TestCase
 
   test "send_activity_participation_rejected_emails" do
     mail_templates(:activity_participation_rejected).update!(active: true)
-    member = create_member(emails: "bob@doe.com")
+    member = create_member(emails: "anybody@doe.com")
 
     create_participation(review_sent_at: nil, rejected_at: 1.day.ago, member: member)
     create_participation(review_sent_at: nil, validated_at: 1.day.ago)
@@ -300,7 +300,7 @@ class NotifierTest < ActiveSupport::TestCase
 
     mail = ActivityMailer.deliveries.last
     assert_equal "Activity rejected 😬", mail.subject
-    assert_equal [ "bob@doe.com" ], mail.to
+    assert_equal [ "anybody@doe.com" ], mail.to
   end
 
   test "does not send activity_participation_rejected email when template is not active" do
@@ -318,7 +318,7 @@ class NotifierTest < ActiveSupport::TestCase
     admin = admins(:master)
     admin.update(notifications: [ "new_activity_participation" ])
 
-    member = create_member(emails: "bob@doe.com")
+    member = create_member(emails: "anybody@doe.com")
     p1 = create_participation(member: member, activity: activities(:harvest))
     p2 = create_participation(member: member, activity: activities(:harvest_afternoon))
     create_participation(session: sessions(:master))
@@ -343,7 +343,7 @@ class NotifierTest < ActiveSupport::TestCase
     admin = admins(:master)
     admin.update(notifications: [ "new_activity_participation_with_note" ])
 
-    member = create_member(emails: "bob@doe.com")
+    member = create_member(emails: "anybody@doe.com")
     create_participation(activity: activities(:harvest))
     p = create_participation(
       member: member,

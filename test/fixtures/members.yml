@@ -14,7 +14,27 @@ jane:
   annual_fee: 30
   language: en
   country_code: CH
-  address: Nowhere 42
+  address: Nowhere 43
+  zip: 1234
+  city: City
+
+bob:
+  name: Bob Doe
+  emails: bob@doe.com
+  annual_fee: 30
+  language: en
+  country_code: CH
+  address: Nowhere 44
+  zip: 1234
+  city: City
+
+anna:
+  name: Anna Doe
+  emails: anna@doe.com
+  annual_fee: 30
+  language: en
+  country_code: CH
+  address: Nowhere 45
   zip: 1234
   city: City
 
