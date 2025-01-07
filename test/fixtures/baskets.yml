@@ -20,3 +20,21 @@ jane_<%= i + 1 %>:
   depot_price: 4
 
 <% end %>
+
+bob_1:
+  membership: bob
+  delivery: monday_1
+  delivery_cycle_price: 0
+  basket_size: small
+  basket_price: 10
+  depot: home
+  depot_price: 9
+
+anna_1:
+  membership: anna
+  delivery: monday_1
+  delivery_cycle_price: 0
+  basket_size: large
+  basket_price: 30
+  depot: bakery
+  depot_price: 4

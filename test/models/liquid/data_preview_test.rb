@@ -17,15 +17,15 @@ class Liquid::DataPreviewTest < ActiveSupport::TestCase
           "date" => "1 April 2024"
         },
         "depot" => {
-          "id" => depots(:farm).id,
+          "id" => depots(:home).id,
           "member_note" => nil,
-          "name" => "Our farm"
+          "name" => "Home"
         },
-        "description" => "Medium basket",
+        "description" => "Small basket",
         "quantity" => 1,
         "size" => {
-          "id" => basket_sizes(:medium).id,
-          "name" => "Medium basket"
+          "id" => basket_sizes(:small).id,
+          "name" => "Small basket"
         }
       },
       "member" =>  {
@@ -40,34 +40,34 @@ class Liquid::DataPreviewTest < ActiveSupport::TestCase
         "shop_depot" => nil
       },
       "membership" => {
-        "activity_participations_accepted_count" => 0,
+        "activity_participations_accepted_count" => 2,
         "activity_participations_demanded_count" => 2,
-        "activity_participations_missing_count" => 2,
-        "basket_complement_names" => "Bread and Cheese",
+        "activity_participations_missing_count" => 0,
+        "basket_complement_names" => "Bread and Eggs",
         "basket_complements" => [
+          {
+            "description" => "Eggs",
+            "id" => basket_complements(:eggs).id,
+            "name" => "Eggs",
+            "quantity" => 1
+          },
           {
             "description" => "Bread",
             "id" => basket_complements(:bread).id,
             "name" => "Bread",
             "quantity" => 1
-          },
-          {
-            "description" => "Cheese",
-            "id" => basket_complements(:cheese).id,
-            "name" => "Cheese",
-            "quantity" => 1
           }
         ],
-        "basket_complements_description" => "Bread and Cheese",
+        "basket_complements_description" => "Bread and Eggs",
         "basket_quantity" => 1,
         "basket_size" => {
           "id" => basket_sizes(:medium).id,
           "name" => "Medium basket"
         },
         "depot" => {
-          "id" => depots(:farm).id,
+          "id" => depots(:home).id,
           "member_note" => nil,
-          "name" => "Our farm"
+          "name" => "Home"
         },
         "delivery_cycle" => {
           "id" => 1,
@@ -147,15 +147,15 @@ class Liquid::DataPreviewTest < ActiveSupport::TestCase
           "date" => "1 April 2024"
         },
         "depot" => {
-          "id" => depots(:farm).id,
+          "id" => depots(:home).id,
           "member_note" => nil,
-          "name" => "Our farm"
+          "name" => "Home"
         },
-        "description" => "Medium basket",
+        "description" => "Small basket",
         "quantity" => 1,
         "size" => {
-          "id" => basket_sizes(:medium).id,
-          "name" => "Medium basket"
+          "id" => basket_sizes(:small).id,
+          "name" => "Small basket"
         }
       },
       "member" =>  {
@@ -168,31 +168,31 @@ class Liquid::DataPreviewTest < ActiveSupport::TestCase
         "page_url" => "https://members.acme.test"
       },
       "membership" => {
-        "basket_complement_names" => "Bread and Cheese",
+        "basket_complement_names" => "Bread and Eggs",
         "basket_complements" => [
+          {
+            "description" => "Eggs",
+            "id" => basket_complements(:eggs).id,
+            "name" => "Eggs",
+            "quantity" => 1
+          },
           {
             "description" => "Bread",
             "id" => basket_complements(:bread).id,
             "name" => "Bread",
             "quantity" => 1
-          },
-          {
-            "description" => "Cheese",
-            "id" => basket_complements(:cheese).id,
-            "name" => "Cheese",
-            "quantity" => 1
           }
         ],
-        "basket_complements_description" => "Bread and Cheese",
+        "basket_complements_description" => "Bread and Eggs",
         "basket_quantity" => 1,
         "basket_size" => {
           "id" => basket_sizes(:medium).id,
           "name" => "Medium basket"
         },
         "depot" => {
-          "id" => depots(:farm).id,
+          "id" => depots(:home).id,
           "member_note" => nil,
-          "name" => "Our farm"
+          "name" => "Home"
         },
         "delivery_cycle" => {
           "id" => 1,

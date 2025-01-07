@@ -292,10 +292,12 @@ class BasketContent < ApplicationRecord
     self[:basket_percentages] = non_zero_pcts.values.map(&:to_i)
     set_baskets_counts
 
+
     roundings = %i[up upup down downdown]
     permutations = roundings.repeated_permutation(basket_size_ids.size)
     possibilities = permutations.map { |r| possibility(r) }
     possibilities.reject! { |p|
+      p.any?(&:nil?) ||
       p.any?(&:negative?) ||
       p.map.with_index { |q, i|
         count = baskets_counts[i]

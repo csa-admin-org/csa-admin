@@ -33,9 +33,9 @@ class DepotTest < ActiveSupport::TestCase
     d1 = depots(:farm)
     d2 = depots(:home)
     d3 = depots(:bakery)
-    create_membership(depot: d2)
+    memberships(:bob).destroy!
 
-    assert_changes -> { Depot.pluck(:id) }, from: [ d1.id, d2.id, d3.id ], to: [ d2.id, d1.id, d3.id ] do
+    assert_changes -> { Depot.pluck(:id) }, from: [ d1.id, d2.id, d3.id ], to: [ d2.id, d3.id, d1.id ] do
       d1.move_to(2, deliveries(:monday_1))
     end
   end
@@ -45,9 +45,8 @@ class DepotTest < ActiveSupport::TestCase
     d1 = depots(:farm)
     d2 = depots(:home)
     d3 = depots(:bakery)
-    memberships(:jane).update!(depot: d3, delivery_cycle: delivery_cycles(:mondays))
 
-    assert_changes -> { Depot.pluck(:id) }, from: [ d1.id, d2.id, d3.id ], to: [ d2.id, d3.id, d1.id ] do
+    assert_changes -> { Depot.pluck(:id) }, from: [ d1.id, d2.id, d3.id ], to: [ d2.id, d1.id, d3.id ] do
       d1.move_to(2, deliveries(:monday_1))
     end
   end
@@ -62,10 +61,9 @@ class DepotTest < ActiveSupport::TestCase
     depot.update_column(:delivery_sheets_mode, "home_delivery")
     members(:john).update!(name: "John")
     members(:jane).update!(name: "Jane")
-    bob = create_member(name: "Bob")
+    members(:bob).update!(name: "Bob")
     memberships(:john).update!(depot: depot)
     memberships(:jane).update!(depot: depot, delivery_cycle: delivery_cycles(:mondays))
-    create_membership(depot: depot, member: bob)
 
     assert_changes -> { depot_member_names(depot, deliveries(:monday_1)) }, from: %w[ Bob Jane John ], to: %w[ Bob John Jane ] do
       depot.move_member_to(2, members(:john), deliveries(:monday_1))
@@ -81,15 +79,14 @@ class DepotTest < ActiveSupport::TestCase
     depot.update_column(:delivery_sheets_mode, "home_delivery")
     members(:john).update!(name: "John")
     members(:jane).update!(name: "Jane")
-    bob = create_member(name: "Bob")
+    members(:bob).update!(name: "Bob")
     memberships(:john).update!(depot: depot)
     memberships(:jane).update!(depot: depot, delivery_cycle: delivery_cycles(:mondays))
-    create_membership(depot: depot, member: bob, started_on: deliveries(:monday_2).date)
 
-    assert_changes -> { depot_member_names(depot, deliveries(:monday_1)) }, from: %w[ Jane John ], to: %w[ John Jane ] do
+    assert_changes -> { depot_member_names(depot, deliveries(:monday_1)) }, from: %w[ Bob Jane John ], to: %w[ John Bob Jane ] do
       depot.move_member_to(1, members(:john), deliveries(:monday_1))
     end
 
-    assert_equal %w[ John Jane Bob ], depot_member_names(depot, deliveries(:monday_2))
+    assert_equal %w[ John Jane ], depot_member_names(depot, deliveries(:monday_2))
   end
 end

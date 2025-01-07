@@ -3,7 +3,7 @@ mondays:
     en: Mondays
   wdays: [1]
   depots:
-    - home_delivery
+    - home
     - farm
     - bakery
   deliveries_counts: { "2023": 10, "2024": 10, "2025": 10 }
@@ -13,7 +13,7 @@ thursdays:
     en: Thursdays
   wdays: [4]
   depots:
-    - home_delivery
+    - home
     - farm
     - bakery
   deliveries_counts: { "2023": 10, "2024": 10, "2025": 10 }

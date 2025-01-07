@@ -44,3 +44,41 @@ jane:
   ended_on: 2024-12-31
   activity_participations_demanded_annually: 2
   activity_participations_demanded: 2
+
+bob:
+  member: bob
+  price: 19
+  renew: true
+  invoices_amount: 0
+  baskets_count: 1
+  basket_size: small
+  basket_price: 10
+  depot: home
+  depot_price: 9
+  delivery_cycle: mondays
+  delivery_cycle_price: 0
+  absences_included_annually: 0
+  started_on: 2024-01-01
+  ended_on: 2024-04-05
+  activity_participations_demanded_annually: 0
+  activity_participations_demanded: 0
+  activity_participations_accepted: 0
+
+anna:
+  member: anna
+  price: 34
+  renew: true
+  invoices_amount: 0
+  baskets_count: 1
+  basket_size: large
+  basket_price: 30
+  depot: bakery
+  depot_price: 4
+  delivery_cycle: mondays
+  delivery_cycle_price: 0
+  absences_included_annually: 0
+  started_on: 2024-01-01
+  ended_on: 2024-04-05
+  activity_participations_demanded_annually: 0
+  activity_participations_demanded: 0
+  activity_participations_accepted: 0

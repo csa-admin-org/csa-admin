@@ -34,9 +34,13 @@ class API::V1::ConfigurationsControllerTest < ActionDispatch::IntegrationTest
       ],
       "depots" => [
         { "id" => depots(:bakery).id, "visible" => true, "names" => { "en" => "Bakery" } },
-        { "id" => depots(:farm).id, "visible" => true, "names" => { "en" => "Our farm" } }
+        { "id" => depots(:farm).id, "visible" => true, "names" => { "en" => "Our farm" } },
+        { "id" => depots(:home).id, "visible" => true, "names" => { "en" => "Home" } }
       ],
-      "basket_content_products" => []
+      "basket_content_products" => [
+        { "id" => basket_content_products(:carrots).id, "names" => { "en" => "Carrots" } },
+        { "id" => basket_content_products(:cucumbers).id, "names" => { "en" => "Cucumbers" } }
+      ]
     }, json_response)
   end
 end

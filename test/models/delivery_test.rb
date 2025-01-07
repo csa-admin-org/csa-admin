@@ -106,7 +106,7 @@ class DeliveryTest < ActiveSupport::TestCase
     travel_to "2024-01-01"
     membership = memberships(:john)
     basket = baskets(:john_1)
-    delivery = deliveries(:monday_1)
+    delivery = deliveries(:monday_2)
 
     assert_difference -> { membership.baskets.count }, -1 do
       assert_difference -> { membership.reload.price }, -basket.basket_price do
@@ -123,7 +123,7 @@ class DeliveryTest < ActiveSupport::TestCase
 
     assert_difference -> { membership.baskets.count }, -1 do
       assert_difference -> { membership.reload.price }, -basket.basket_price do
-        membership.deliveries.first.destroy!
+        membership.deliveries.second.destroy!
         perform_enqueued_jobs
       end
     end
