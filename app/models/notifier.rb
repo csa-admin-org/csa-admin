@@ -28,7 +28,7 @@ module Notifier
   def send_invoice_overdue_notice_emails
     return unless Current.org.send_invoice_overdue_notice?
 
-    Invoice.open.each { |i| InvoiceOverdueNoticer.perform(i) }
+    Invoice.open.each { |i| InvoiceOverdueNotice.deliver(i) }
   end
 
   def send_admin_delivery_list_emails

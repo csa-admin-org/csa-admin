@@ -146,6 +146,6 @@ class OrganizationTest < ActiveSupport::TestCase
       Current.org.update!(annual_fee: 40)
     end
 
-    assert_equal [ 20, 40, 40, 40, 40 ], Member.pluck(:annual_fee).sort
+    assert_equal [ 0, 20, 40, 40, 40, 40 ], Member.pluck(:annual_fee).sort
   end
 end

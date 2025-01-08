@@ -1,0 +1,4 @@
+other_closed_item:
+  invoice: other_closed
+  description: "Some item"
+  amount: 10

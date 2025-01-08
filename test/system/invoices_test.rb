@@ -4,6 +4,7 @@ require 'application_system_test_case'
 
 class InvoicesTest < ApplicationSystemTestCase
   test "creates an invoice for a rejected activity participation" do
+    enable_invoice_pdf
     travel_to "2024-09-01"
     participation = activity_participations(:john_harvest)
     participation.reject!(admins(:super))

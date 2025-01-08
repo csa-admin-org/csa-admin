@@ -29,6 +29,7 @@ class Billing::MissingActivityParticipationsInvoicerJobTest < ActiveJob::TestCas
 
   test "create invoice and send invoice" do
     mail_templates(:invoice_created)
+    enable_invoice_pdf
     membership = memberships(:jane)
     membership.update!(activity_participations_demanded_annually: 2)
 
