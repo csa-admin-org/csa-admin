@@ -3,6 +3,26 @@ annual_fee:
   member: martha
   entity_type: AnnualFee
   amount: 30
+  date: 2024-04-01
+
+other_closed:
+  state: closed
+  member: john
+  entity_type: Other
+  amount: 10
   vat_rate: 0.0
   vat_amount: 0.0
-  date: <%= Date.today %>
+  date: 2024-04-01
+
+bob_membership:
+  state: open
+  member: bob
+  entity: bob (Membership)
+  amount: 19
+  memberships_amount_description: Annual invoicing
+  memberships_amount: 19
+  paid_memberships_amount: 0
+  remaining_memberships_amount: 0
+  vat_rate: 0.0
+  vat_amount: 0.0
+  date: 2024-04-05

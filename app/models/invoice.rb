@@ -170,11 +170,11 @@ class Invoice < ApplicationRecord
     # Leave some time for the invoice PDF to be uploaded
     MailTemplate.deliver_later(:invoice_created, invoice: self)
     update!(sent_at: Time.current)
-    rescue => e
-      Error.report(e,
-        invoice_id: id,
-        emails: member.emails,
-        member_id: member_id)
+  rescue => e
+    Error.report(e,
+      invoice_id: id,
+      emails: member.emails,
+      member_id: member_id)
   end
 
   def mark_as_sent!
@@ -444,6 +444,8 @@ class Invoice < ApplicationRecord
   end
 
   def attach_pdf
+    return if Rails.env.test? && Thread.current[:skip_invoice_pdf]
+
     I18n.with_locale(member.language) do
       invoice_pdf = PDF::Invoice.new(self)
       pdf_file.attach(

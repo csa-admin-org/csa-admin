@@ -8,6 +8,8 @@ require 'capybara/email'
 
 require "support/activities_helper"
 require "support/deliveries_helper"
+require "support/email_suppressions_helper"
+require "support/invoices_helper"
 require "support/organizations_helper"
 require "support/mail_templates_helper"
 require "support/members_helper"
@@ -26,7 +28,8 @@ module ActiveSupport
 
     include ActivitiesHelper
     include DeliveriesHelper
-    include SessionsHelper
+    include EmailSuppressionsHelper
+    include InvoicesHelper
     include MailTemplatesHelper
     include MembersHelper
     include MembershipsHelper
@@ -34,6 +37,7 @@ module ActiveSupport
     include PaymentsHelper
     include PostmarkHelper
     include ResponsesHelper
+    include SessionsHelper
 
     # Run tests in parallel with specified workers
     parallelize(workers: :number_of_processors)
@@ -43,6 +47,7 @@ module ActiveSupport
 
     setup do
       Tenant.connect("acme")
+      skip_invoice_pdf
     end
 
     teardown do

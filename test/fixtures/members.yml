@@ -47,3 +47,13 @@ martha:
   address: Nowhere 42
   zip: 1234
   city: City
+
+inactive:
+  name: Inactive
+  state: inactive
+  annual_fee: 0
+  language: en
+  country_code: CH
+  address: Nowhere 42
+  zip: 1234
+  city: City

@@ -151,7 +151,7 @@ ActiveAdmin.register Invoice do
 
   collection_action :send_overdue_notices, method: :post do
     authorize!(:create, Invoice)
-    Invoice.open.each { |i| InvoiceOverdueNoticer.perform(i) }
+    Invoice.open.each { |i| InvoiceOverdueNotice.deliver(i) }
     redirect_to collection_path, notice: t("active_admin.flash.sending_overdue_notices")
   end
 

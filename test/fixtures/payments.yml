@@ -1,0 +1,5 @@
+other_closed:
+  invoice: other_closed
+  member: john
+  amount: 10
+  date: <%= Date.today %>

@@ -1,19 +1,19 @@
 # frozen_string_literal: true
 
-class InvoiceOverdueNoticer
+class InvoiceOverdueNotice
   DAYS_DELAY = 35.days.freeze
   attr_reader :invoice
 
-  def self.perform(*args)
-    new(*args).perform
+  def self.deliver(*args)
+    new(*args).deliver
   end
 
   def initialize(invoice)
     @invoice = invoice
   end
 
-  def perform
-    return unless overdue_noticable?
+  def deliver
+    return unless deliverable?
 
     invoice.increment(:overdue_notices_count)
     invoice.overdue_notice_sent_at = Time.current
@@ -35,7 +35,7 @@ class InvoiceOverdueNoticer
 
   private
 
-  def overdue_noticable?
+  def deliverable?
     invoice.open? &&
       last_sent_at &&
       last_sent_at < DAYS_DELAY.ago &&
