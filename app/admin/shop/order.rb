@@ -197,31 +197,29 @@ ActiveAdmin.register Shop::Order do
       f.input :amount_percentage,
         step: 0.1, min: -100, max: 200,
         hint: I18n.t("formtastic.hints.shop/order.amount_percentage")
-      f.has_many :items, allow_destroy: true do |ff|
+      f.has_many :items, allow_destroy: true, data: { controller: "form-reset form-select-options-filter", form_select_options_filter_attribute_value: "data-product-id" } do |ff|
         f.semantic_errors :items
-        ff.inputs class: "blank", "data-controller" => "form-reset form-select-options-filter", "data-form-select-options-filter-attribute-value" => "data-product-id" do
-          ff.input :product,
-            collection: products_collection,
-            prompt: true,
-            input_html: {
-              data: { action: "form-reset#reset form-select-options-filter#filter" }
+        ff.input :product,
+          collection: products_collection,
+          prompt: true,
+          input_html: {
+            data: { action: "form-reset#reset form-select-options-filter#filter" }
+          }
+        ff.input :product_variant,
+          collection: product_variants_collection(ff.object.product_id),
+          input_html: {
+            class: "hide-disabled-options",
+            disabled: ff.object.product_variant_id.blank?,
+            data: {
+              action: "form-reset#reset",
+              form_select_options_filter_target: "select"
             }
-          ff.input :product_variant,
-            collection: product_variants_collection(ff.object.product_id),
-            input_html: {
-              class: "hide-disabled-options",
-              disabled: ff.object.product_variant_id.blank?,
-              data: {
-                action: "form-reset#reset",
-                form_select_options_filter_target: "select"
-              }
-            }
-          ff.input :quantity, as: :number, step: 1, min: 1
-          ff.input :item_price,
-            hint: true,
-            required: false,
-            input_html: { data: { form_reset_target: "input" } }
-        end
+          }
+        ff.input :quantity, as: :number, step: 1, min: 1
+        ff.input :item_price,
+          hint: true,
+          required: false,
+          input_html: { data: { form_reset_target: "input" } }
       end
     end
     f.actions

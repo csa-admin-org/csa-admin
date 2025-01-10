@@ -119,23 +119,21 @@ ActiveAdmin.register Basket do
       end
       f.input :quantity
       if BasketComplement.kept.any?
-        f.has_many :baskets_basket_complements, allow_destroy: true do |ff|
-          ff.inputs class: "blank", "data-controller" => "form-reset" do
-            ff.input :basket_complement,
-              collection: basket_complements_collection(f.object),
-              prompt: true,
-              input_html: {
-                data: {
-                  action: "form-reset#reset",
-                  form_select_options_filter_target: "select"
-                }
+        f.has_many :baskets_basket_complements, allow_destroy: true, data: { controller: "form-reset" } do |ff|
+          ff.input :basket_complement,
+            collection: basket_complements_collection(f.object),
+            prompt: true,
+            input_html: {
+              data: {
+                action: "form-reset#reset",
+                form_select_options_filter_target: "select"
               }
-            ff.input :price,
-              hint: true,
-              required: false,
-              input_html: { data: { form_reset_target: "input" } }
-            ff.input :quantity
-          end
+            }
+          ff.input :price,
+            hint: true,
+            required: false,
+            input_html: { data: { form_reset_target: "input" } }
+          ff.input :quantity
         end
       end
     end
