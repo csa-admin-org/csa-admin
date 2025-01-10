@@ -186,11 +186,11 @@ ActiveAdmin.register Membership do
 
   sidebar :renewal, only: :index do
     side_panel t(".renewal"), action: handbook_icon_link("membership_renewal") do
-      fy_year = params.dig(:q, :during_year)&.to_i || Current.fy_year
+      fy_year = params.dig(:q, :during_year).presence&.to_i || Current.fy_year
       renewal = MembershipsRenewal.new(fy_year)
       if !renewal.future_deliveries?
         div t(".no_next_year_deliveries",
-          fiscal_year: renewal.next_fy,
+          fiscal_year: renewal.next_fy.to_s,
           new_delivery_path: new_delivery_path).html_safe
       else
         div class: "space-y-4" do
