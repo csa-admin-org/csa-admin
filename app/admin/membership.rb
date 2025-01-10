@@ -808,23 +808,21 @@ ActiveAdmin.register Membership do
       f.input :basket_quantity
 
       if BasketComplement.kept.any?
-        f.has_many :memberships_basket_complements, allow_destroy: true do |ff|
-          div "data-controller" => "form-reset" do
-            ff.input :basket_complement,
-              collection: admin_basket_complements_collection,
-              prompt: true,
-              input_html: { data: { action: "form-reset#reset" } }
-            ff.input :price,
-              hint: true,
-              required: false,
-              input_html: { data: { form_reset_target: "input" } }
-            ff.input :quantity
-            ff.input :delivery_cycle,
-              as: :select,
-              collection: admin_delivery_cycles_collection,
-              include_blank: true,
-              hint: true
-          end
+        f.has_many :memberships_basket_complements, allow_destroy: true, data: { controller: "form-reset" } do |ff|
+          ff.input :basket_complement,
+            collection: admin_basket_complements_collection,
+            prompt: true,
+            input_html: { data: { action: "form-reset#reset" } }
+          ff.input :price,
+            hint: true,
+            required: false,
+            input_html: { data: { form_reset_target: "input" } }
+          ff.input :quantity
+          ff.input :delivery_cycle,
+            as: :select,
+            collection: admin_delivery_cycles_collection,
+            include_blank: true,
+            hint: true
         end
       end
     end
