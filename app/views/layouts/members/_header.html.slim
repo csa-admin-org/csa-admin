@@ -13,7 +13,7 @@ header class='flex-grow flex flex-col flex-nowrap justify-between'
         = icon "x-mark", title: "Hide Menu", class: "h-10 w-10"
 
     div class='mr-8 flex flex-grow h-full flex-col justify-between'
-      - membership = current_member.current_or_future_membership
+      - membership = current_member.closest_membership
       ul class='flex-grow'
 
         - if next_basket = current_member.next_basket

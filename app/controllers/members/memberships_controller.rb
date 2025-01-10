@@ -6,7 +6,7 @@ class Members::MembershipsController < Members::BaseController
 
   # GET /memberships
   def index
-    @membership = current_member.current_or_future_membership
+    @membership = current_member.closest_membership
     if @membership
       @membership.renewal_decision = :renew
     else

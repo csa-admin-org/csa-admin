@@ -1,12 +1,13 @@
 # frozen_string_literal: true
 
 class Members::MembershipRenewalsController < Members::BaseController
+  before_action :load_membership
   before_action :redirect_renewal_decision_params!, only: :new
 
   # GET /membership/renewal/new
   # GET /membership/:decision
   def new
-    @membership = current_member.current_year_membership.dup
+    @membership = @membership.dup
     @membership.renewal_decision = params[:decision]
     set_basket_complements
 
@@ -22,13 +23,12 @@ class Members::MembershipRenewalsController < Members::BaseController
 
   # POST /membership/renewal
   def create
-    membership = current_member.current_year_membership
     case params.require(:membership).require(:renewal_decision)
     when "cancel"
-      membership.cancel!(renewal_params)
+      @membership.cancel!(renewal_params)
       flash[:notice] = t(".flash.canceled")
     when "renew"
-      membership.renew!(renewal_params)
+      @membership.renew!(renewal_params)
       flash[:notice] = t(".flash.renewed")
     end
 
@@ -36,11 +36,16 @@ class Members::MembershipRenewalsController < Members::BaseController
   rescue => e
     Error.report(e,
       member_id: current_member.id,
-      membership_id: membership&.id)
+      membership_id: @membership&.id)
     redirect_back fallback_location: members_memberships_path, alert: t(".flash.error")
   end
 
   private
+
+  def load_membership
+    @membership = current_member.last_membership
+    raise ActiveRecord::RecordNotFound unless @membership&.renewal_opened?
+  end
 
   def set_basket_complements
     complement_ids =
@@ -52,7 +57,7 @@ class Members::MembershipRenewalsController < Members::BaseController
     complement_ids.each do |id|
       quantity =
         current_member
-          .current_year_membership
+          .last_membership
           .memberships_basket_complements
           .find { |mbc| mbc.basket_complement_id == id }
           &.quantity

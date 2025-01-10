@@ -371,7 +371,10 @@ module MembersHelper
     end
 
     if only_with_future_deliveries
-      depots = depots.select { |d| d.future_deliveries_counts.any?(&:positive?) }
+      futures_depots = depots.select { |d| d.future_deliveries_counts.any?(&:positive?) }
+      if futures_depots.any?
+        depots = futures_depots
+      end
     end
 
     depots
