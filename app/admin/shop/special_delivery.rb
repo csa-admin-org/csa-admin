@@ -180,6 +180,12 @@ ActiveAdmin.register Shop::SpecialDelivery do
     *I18n.available_locales.map { |l| "shop_text_#{l}" },
     product_ids: []
 
+  before_action only: :index do
+    if params.dig(:q, :during_year) && params.dig(:q, :during_year).to_i < Current.fy_year
+      params[:scope] ||= "all"
+    end
+  end
+
   controller do
     include TranslatedCSVFilename
 

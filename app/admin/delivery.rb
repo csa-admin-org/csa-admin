@@ -201,6 +201,12 @@ ActiveAdmin.register Delivery do
     redirect_back fallback_location: collection_path
   end
 
+  before_action only: :index do
+    if params.dig(:q, :during_year) && params.dig(:q, :during_year).to_i < Current.fy_year
+      params[:scope] ||= "all"
+    end
+  end
+
   controller do
     include TranslatedCSVFilename
 
