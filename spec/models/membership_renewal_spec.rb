@@ -108,7 +108,7 @@ describe MembershipRenewal do
       ended_on: next_fy.end_of_year)
   end
 
-  it "renews a membership with a new depot and deliveries cycle" do
+  it "renews a membership with a new depot and delivery cycle" do
     create(:delivery, date: next_fy.beginning_of_year)
     membership = create(:membership)
     new_delivery_cycle = create(:delivery_cycle)
@@ -123,6 +123,21 @@ describe MembershipRenewal do
 
     expect(membership.reload.renewed_membership).to have_attributes(
       depot_id: new_depot.id,
+      delivery_cycle_id: new_delivery_cycle.id)
+  end
+
+  specify "renew a membership with a basket size delivery cycle" do
+    create(:delivery, date: next_fy.beginning_of_year)
+    membership = create(:membership)
+    new_delivery_cycle = create(:delivery_cycle)
+    basket_size = create(:basket_size, delivery_cycle: new_delivery_cycle)
+
+    expect {
+      MembershipRenewal.new(membership).renew!(
+        basket_size_id: basket_size.id)
+    }.to change(Membership, :count).by(1)
+
+    expect(membership.reload.renewed_membership).to have_attributes(
       delivery_cycle_id: new_delivery_cycle.id)
   end
 
