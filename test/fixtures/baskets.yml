@@ -9,6 +9,24 @@ john_<%= i + 1 %>:
   depot: farm
   depot_price: 0
 
+john_past_<%= i + 1 %>:
+  membership: john_past
+  delivery: monday_past_<%= i + 1 %>
+  delivery_cycle_price: 0
+  basket_size: medium
+  basket_price: 20
+  depot: farm
+  depot_price: 0
+
+john_future_<%= i + 1 %>:
+  membership: john_future
+  delivery: monday_future_<%= i + 1 %>
+  delivery_cycle_price: 0
+  basket_size: medium
+  basket_price: 20
+  depot: farm
+  depot_price: 0
+
 jane_<%= i + 1 %>:
   membership: jane
   delivery: thursday_<%= i + 1 %>

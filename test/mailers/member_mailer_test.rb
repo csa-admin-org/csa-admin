@@ -43,7 +43,7 @@ class MemberMailerTest < ActionMailer::TestCase
     assert_equal "outbound", mail[:message_stream].to_s
 
     body = mail.body.to_s
-    assert_includes body, "Waiting list position: <strong>1</strong>"
+    assert_includes body, "Waiting list position: <strong>2</strong>"
     assert_includes body, "Access my member page"
     assert_includes body, "https://members.acme.test"
   end

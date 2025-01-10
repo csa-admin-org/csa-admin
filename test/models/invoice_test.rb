@@ -478,7 +478,7 @@ class InvoiceTest < ActiveSupport::TestCase
 
   test "changes inactive member state to support and back to inactive" do
     org(share_price: 250, shares_number: 1)
-    member = members(:inactive)
+    member = members(:mary)
 
     assert_changes -> { member.reload.state }, from: "inactive", to: "support" do
       create_invoice(member: member, shares_number: 1)

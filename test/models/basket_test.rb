@@ -236,6 +236,6 @@ class BasketTest < ActiveSupport::TestCase
     basket = baskets(:jane_1)
     basket.price_extra = 4
 
-    assert_equal 4 / 10.0, basket.send(:calculate_price_extra)
+    assert_equal 4 / 20.0, basket.send(:calculate_price_extra)
   end
 end

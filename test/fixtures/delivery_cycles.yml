@@ -17,3 +17,13 @@ thursdays:
     - farm
     - bakery
   deliveries_counts: { "2023": 10, "2024": 10, "2025": 10 }
+
+all:
+  names:
+    en: All
+  wdays: [1, 4]
+  depots:
+    - home
+    - farm
+    - bakery
+  deliveries_counts: { "2023": 20, "2024": 20, "2025": 20 }
