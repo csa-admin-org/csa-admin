@@ -1,14 +1,28 @@
 # frozen_string_literal: true
 
 class MembershipsRenewal
-  attr_reader :next_fy
+  attr_reader :fy, :next_fy
 
-  def initialize
-    @next_fy = Current.org.fiscal_year_for(1.year.from_now)
+  def initialize(year)
+    @fy = Current.org.fiscal_year_for(year)
+    @next_fy = Current.org.fiscal_year_for(year + 1)
+    @memberships = Membership.during_year(@fy)
+  end
+
+  def fy_year
+    fy.year
+  end
+
+  def future_deliveries?
+    Delivery.any_in_year?(next_fy)
+  end
+
+  def actionable?
+    future_deliveries? && renewable.count.positive? && fy_year >= (Current.fy_year - 1)
   end
 
   def to_renew
-    Membership.current_year.where(renew: true)
+    @memberships.where(renew: true)
   end
 
   def renewed
@@ -38,7 +52,7 @@ class MembershipsRenewal
   end
 
   def renew_all!
-    unless Delivery.any_next_year?
+    unless future_deliveries?
       raise MembershipRenewal::MissingDeliveriesError, "Deliveries for next fiscal year are missing."
     end
 
@@ -48,7 +62,7 @@ class MembershipsRenewal
   end
 
   def open_all!
-    unless Delivery.any_next_year?
+    unless future_deliveries?
       raise MembershipRenewal::MissingDeliveriesError, "Deliveries for next fiscal year are missing."
     end
 

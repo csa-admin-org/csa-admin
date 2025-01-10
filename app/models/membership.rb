@@ -285,7 +285,7 @@ class Membership < ApplicationRecord
     end
     raise "already renewed" if renewed?
     raise "`renew` must be true before opening renewal" unless renew?
-    unless Delivery.any_next_year?
+    unless Delivery.any_in_year?(fy_year + 1)
       raise MembershipRenewal::MissingDeliveriesError, "Deliveries for next fiscal year are missing."
     end
     return unless can_send_email?
@@ -293,6 +293,10 @@ class Membership < ApplicationRecord
     MailTemplate.deliver_later(:membership_renewal,
       membership: self)
     touch(:renewal_opened_at)
+  end
+
+  def can_open_renewal?
+    can_send_email? && fy_year == Current.fy_year
   end
 
   def renewal_pending?
