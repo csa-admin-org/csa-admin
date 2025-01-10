@@ -186,8 +186,9 @@ ActiveAdmin.register Membership do
 
   sidebar :renewal, only: :index do
     side_panel t(".renewal"), action: handbook_icon_link("membership_renewal") do
-      renewal = MembershipsRenewal.new
-      if !Delivery.any_next_year?
+      fy_year = params.dig(:q, :during_year)&.to_i || Current.fy_year
+      renewal = MembershipsRenewal.new(fy_year)
+      if !renewal.future_deliveries?
         div t(".no_next_year_deliveries",
           fiscal_year: renewal.next_fy,
           new_delivery_path: new_delivery_path).html_safe
@@ -195,32 +196,31 @@ ActiveAdmin.register Membership do
         div class: "space-y-4" do
           ul do
             li do
-              link_to collection_path(scope: :all, q: { renewal_state_eq: :renewal_pending, during_year: Current.org.current_fiscal_year.year }) do
+              link_to collection_path(scope: :all, q: { renewal_state_eq: :renewal_pending, during_year: renewal.fy_year }) do
                 number_line t(".openable_renewals"), renewal.openable.count
               end
             end
             if MailTemplate.active_template(:membership_renewal)
               li do
-                link_to collection_path(scope: :all, q: { renewal_state_eq: :renewal_opened, during_year: Current.org.current_fiscal_year.year }) do
+                link_to collection_path(scope: :all, q: { renewal_state_eq: :renewal_opened, during_year: renewal.fy_year }) do
                   number_line t(".opened_renewals"), renewal.opened.count
                 end
               end
             end
             li do
-              link_to collection_path(scope: :all, q: { renewal_state_eq: :renewed, during_year: Current.org.current_fiscal_year.year }) do
+              link_to collection_path(scope: :all, q: { renewal_state_eq: :renewed, during_year: renewal.fy_year }) do
                 number_line t(".renewed_renewals"), renewal.renewed.count
               end
             end
             li do
-              end_of_year = Current.org.current_fiscal_year.end_of_year
+              end_of_year = renewal.fy.end_of_year
               renewal_canceled_count = Membership.where(renew: false).where(ended_on: end_of_year).count
-              link_to collection_path(scope: :all, q: { renewal_state_eq: :renewal_canceled, during_year: Current.org.current_fiscal_year.year, ended_on_gteq: end_of_year, ended_on_lteq: end_of_year }) do
+              link_to collection_path(scope: :all, q: { renewal_state_eq: :renewal_canceled, during_year: renewal.fy_year, ended_on_gteq: end_of_year, ended_on_lteq: end_of_year }) do
                 number_line t(".canceled_renewals"), renewal_canceled_count
               end
             end
           end
-          renewable_count = renewal.renewable.count
-          if renewable_count.positive?
+          if renewal.actionable?
             if renewal.renewing?
               div class: "flex justify-center items-center italic" do
                 icon("arrow-path", class: "h-4 w-4 mr-2") + t(".renewing")
@@ -231,11 +231,12 @@ ActiveAdmin.register Membership do
               end
             else
               div class: "space-y-2" do
-                if authorized?(:open_renewal_all, Membership) && MailTemplate.active_template(:membership_renewal)
+                if renewal.fy == Current.fiscal_year && authorized?(:open_renewal_all, Membership) && MailTemplate.active_template(:membership_renewal)
                   openable_count = renewal.openable.count
                   if openable_count.positive?
                     div do
                       button_to open_renewal_all_memberships_path,
+                        params: { year: renewal.fy_year },
                         form: { class: "flex justify-center", data: { controller: "disable", disable_with_value: t(".opening") } },
                         class: "action-item-button secondary small", data: { confirm: t("active_admin.batch_actions.default_confirmation") } do
                           icon("paper-airplane", class: "h-4 w-4 mr-2") + t(".open_renewal_all_action", count: openable_count)
@@ -246,9 +247,10 @@ ActiveAdmin.register Membership do
                 if authorized?(:renew_all, Membership)
                   div do
                     button_to renew_all_memberships_path,
+                      params: { year: renewal.fy_year },
                       form: { class: "flex justify-center", data: { controller: "disable", disable_with_value: t(".renewing") } },
                       class: "action-item-button secondary small", data: { confirm: t("active_admin.batch_actions.default_confirmation") } do
-                        icon("arrow-path", class: "h-4 w-4 mr-2") + t(".renew_all_action", count: renewable_count)
+                        icon("arrow-path", class: "h-4 w-4 mr-2") + t(".renew_all_action", count: renewal.renewable.count)
                       end
                   end
                 end
@@ -262,7 +264,8 @@ ActiveAdmin.register Membership do
 
   collection_action :renew_all, method: :post do
     authorize!(:renew_all, Membership)
-    MembershipsRenewal.new.renew_all!
+    year = params.require(:year).to_i
+    MembershipsRenewal.new(year).renew_all!
     redirect_to collection_path, notice: t("active_admin.flash.renew_notice")
   rescue MembershipsRenewal::MissingDeliveriesError
     redirect_to collection_path,
@@ -271,7 +274,8 @@ ActiveAdmin.register Membership do
 
   collection_action :open_renewal_all, method: :post do
     authorize!(:open_renewal_all, Membership)
-    MembershipsRenewal.new.open_all!
+    year = params.require(:year).to_i
+    MembershipsRenewal.new(year).open_all!
     redirect_to collection_path, notice: t("active_admin.flash.open_renewals_notice")
   rescue MembershipsRenewal::MissingDeliveriesError
     redirect_to collection_path,
@@ -488,7 +492,7 @@ ActiveAdmin.register Membership do
                 end
               else
                 div class: "mt-2 flex items-center justify-center gap-4" do
-                  if Delivery.any_next_year?
+                  if Delivery.any_in_year?(m.fy_year + 1)
                     if authorized?(:open_renewal, m) && MailTemplate.active_template(:membership_renewal)
                       div do
                         button_to open_renewal_membership_path(m),
