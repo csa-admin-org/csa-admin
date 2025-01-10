@@ -118,7 +118,7 @@ class Liquid::DataPreviewTest < ActiveSupport::TestCase
         "phone"=> "+41 76 449 59 38",
         "url" => "https://www.acme.test"
       },
-      "waiting_list_position" => 1,
+      "waiting_list_position" => 2,
       "waiting_basket_size_id" => basket_sizes(:medium).id,
       "waiting_basket_size" => {
         "id" => basket_sizes(:medium).id,

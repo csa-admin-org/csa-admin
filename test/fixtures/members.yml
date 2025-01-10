@@ -1,6 +1,7 @@
 john:
   name: John Doe
   emails: john@doe.com
+  state: active
   annual_fee: 30
   language: en
   country_code: CH
@@ -11,6 +12,7 @@ john:
 jane:
   name: Jane Doe
   emails: jane@doe.com
+  state: active
   annual_fee: 30
   language: en
   country_code: CH
@@ -42,18 +44,33 @@ martha:
   name: Martha
   emails: support@annual.com
   annual_fee: 30
+  state: support
   language: en
   country_code: CH
   address: Nowhere 42
   zip: 1234
   city: City
 
-inactive:
-  name: Inactive
+mary:
+  name: Mary
+  emails: mary@doe.com
   state: inactive
-  annual_fee: 0
   language: en
   country_code: CH
   address: Nowhere 42
   zip: 1234
   city: City
+
+aria:
+  name: Aria
+  emails: aria@doe.com
+  state: waiting
+  annual_fee: 30
+  language: en
+  country_code: CH
+  address: Nowhere 42
+  zip: 1234
+  city: City
+  waiting_started_at: 2024-04-01
+  waiting_basket_size: medium
+  waiting_depot: farm

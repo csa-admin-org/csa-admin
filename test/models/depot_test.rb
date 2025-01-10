@@ -23,7 +23,7 @@ class DepotTest < ActiveSupport::TestCase
   test "deliveries_count counts future deliveries when exists" do
     travel_to "2024-01-01"
     depot = depots(:farm)
-    assert_changes -> { depot.reload.billable_deliveries_counts }, from: [ 10 ], to: [ 10, 11 ] do
+    assert_changes -> { depot.reload.billable_deliveries_counts }, from: [ 10, 20 ], to: [ 10, 11, 21 ] do
       Delivery.create!(date: deliveries(:monday_future_10).date + 1.week)
     end
   end

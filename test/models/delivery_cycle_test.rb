@@ -14,19 +14,19 @@ class DeliveryCycleTest < ActiveSupport::TestCase
   test "member_ordered" do
     create_delivery_cycle(name: "MondaysOdd", results: :odd, wdays: [ 1 ])
 
-    assert_equal %w[Mondays Thursdays MondaysOdd], member_ordered_names
+    assert_equal %w[All Mondays Thursdays MondaysOdd], member_ordered_names
 
     org(delivery_cycles_member_order_mode: "deliveries_count_asc")
-    assert_equal %w[MondaysOdd Mondays Thursdays], member_ordered_names
+    assert_equal %w[MondaysOdd Mondays Thursdays All], member_ordered_names
 
     org(delivery_cycles_member_order_mode: "name_asc")
-    assert_equal %w[Mondays MondaysOdd Thursdays], member_ordered_names
+    assert_equal %w[All Mondays MondaysOdd Thursdays], member_ordered_names
 
     org(delivery_cycles_member_order_mode: "wdays_asc")
-    assert_equal %w[Mondays MondaysOdd Thursdays], member_ordered_names
+    assert_equal %w[Mondays MondaysOdd All Thursdays], member_ordered_names
 
     delivery_cycles(:mondays).update!(member_order_priority: 2)
-    assert_equal %w[MondaysOdd Thursdays Mondays], member_ordered_names
+    assert_equal %w[MondaysOdd All Thursdays Mondays], member_ordered_names
   end
 
   test "only mondays" do

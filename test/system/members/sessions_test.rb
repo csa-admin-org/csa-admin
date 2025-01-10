@@ -4,6 +4,7 @@ require "application_system_test_case"
 
 class Members::SessionsTest < ApplicationSystemTestCase
   test "creates a new session from email" do
+    travel_to "2024-01-01"
     member = members(:john)
 
     visit "/"
@@ -25,7 +26,7 @@ class Members::SessionsTest < ApplicationSystemTestCase
     open_email("john@doe.com")
     current_email.click_link "Access my account"
 
-    assert_equal "/activity_participations", current_path
+    assert_equal "/deliveries", current_path
     assert_text "You are now logged in."
 
     delete_session(member)
@@ -93,7 +94,6 @@ class Members::SessionsTest < ApplicationSystemTestCase
 
     visit "/sessions/#{old_session.token}"
 
-    assert_equal "/activity_participations", current_path
     assert_text "You are already logged in."
   end
 

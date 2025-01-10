@@ -107,14 +107,15 @@ class MailTemplateTest < ActiveSupport::TestCase
     template = mail_templates(:member_activated)
     c1 = delivery_cycles(:mondays)
     c2 = delivery_cycles(:thursdays)
+    c3 = delivery_cycles(:all)
 
-    template.delivery_cycle_ids = [ c2.id, c1.id ]
+    template.delivery_cycle_ids = [ c3.id, c2.id, c1.id ]
     assert_nil template[:delivery_cycle_ids]
-    assert_equal [ c1.id, c2.id ].sort, template.delivery_cycle_ids.sort
+    assert_equal [ c1.id, c2.id, c3.id ].sort, template.delivery_cycle_ids.sort
 
     template.delivery_cycle_ids = []
     assert_nil template[:delivery_cycle_ids]
-    assert_equal [ c1.id, c2.id ].sort, template.delivery_cycle_ids.sort
+    assert_equal [ c1.id, c2.id, c3.id ].sort, template.delivery_cycle_ids.sort
 
     template.delivery_cycle_ids = [ c2.id ]
     assert_equal [ c2.id ], template[:delivery_cycle_ids]
