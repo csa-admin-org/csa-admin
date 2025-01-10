@@ -5,7 +5,7 @@ h2 class="mt-8 text-lg font-bold text-gray-900 dark:text-gray-100"
   = t(".title.#{params[:decision]}")
 
 p class='mt-2 justify'
-  = t(".text.#{params[:decision]}", last_delivery_date: l(Delivery.current_year.last.date), first_delivery_date: l(Delivery.future_year.first.date)).html_safe
+  = t(".text.#{params[:decision]}", last_delivery_date: l(Delivery.during_year(@membership.fy_year).last.date), first_delivery_date: l(Delivery.during_year(@membership.fy_year + 1).first.date)).html_safe
 
 div class="mt-4"
   = simple_form_for @membership, url: members_membership_renewal_path, data: { turbo: false, controller: "form-pricing", "form-pricing-url-value" => members_renew_membership_url }, method: :post do |f|
@@ -46,7 +46,7 @@ div class="mt-4"
 
           - if Current.org.membership_renewal_depot_update?
             div class='space-y-8'
-              - grouped_depots = visible_depots(object: @membership, delivery_cycle: @membership.delivery_cycle, only_with_future_deliveries: true).group_by(&:group)
+              - grouped_depots = visible_depots(object: @membership, only_with_future_deliveries: true).group_by(&:group)
               - if grouped_depots.keys.compact.any?
                 div
                   label class="font-medium text-gray-700 dark:text-gray-300"

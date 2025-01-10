@@ -343,6 +343,10 @@ class Member < ApplicationRecord
     absences.any? { |absence| absence.period.include?(date.to_date) }
   end
 
+  def closest_membership
+    current_or_future_membership || last_membership
+  end
+
   def membership(year = nil)
     year ||= Current.fiscal_year
     memberships.during_year(year).first
