@@ -24,19 +24,27 @@ class MembershipRenewal
     unless Delivery.any_in_year?(@fiscal_year)
       raise MissingDeliveriesError, "Deliveries for the renewed fiscal year are missing."
     end
+
     new_membership = Membership.new(renewed_attrs(attrs))
-    renew_complements(new_membership, attrs)
+
+    if new_membership.basket_size&.delivery_cycle_id?
+      new_membership.delivery_cycle_id = new_membership.basket_size.delivery_cycle_id
+    end
     if membership.basket_size_id != new_membership.basket_size_id
       new_membership.baskets_annual_price_change = nil
     end
+
+    renew_complements(new_membership, attrs)
     if basket_complements_changed?(new_membership)
       new_membership.basket_complements_annual_price_change = nil
     end
+
     if activity_participations_demanded_annually_changed?(new_membership)
       new_membership.activity_participations_demanded_annually =
         attrs[:activity_participations_demanded_annually]
       new_membership.activity_participations_annual_price_change = nil
     end
+
     new_membership.save!
   end
 
