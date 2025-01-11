@@ -44,6 +44,7 @@ jane:
   ended_on: 2024-12-31
   activity_participations_demanded_annually: 2
   activity_participations_demanded: 2
+  billing_year_division: 4
 
 bob:
   member: bob

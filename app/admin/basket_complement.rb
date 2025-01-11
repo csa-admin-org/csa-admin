@@ -94,7 +94,7 @@ ActiveAdmin.register BasketComplement do
       end
       if Delivery.future_year.any?
         f.input :future_deliveries,
-          label: FiscalYear.for(1.year.from_now).to_s,
+          label: Current.org.next_fiscal_year.to_s,
           as: :check_boxes,
           collection: Delivery.future_year,
           hint: f.object.persisted?
