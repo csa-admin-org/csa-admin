@@ -13,10 +13,6 @@ class BasketContentTest < ActiveSupport::TestCase
     baskets(:anna_1).update_column(:quantity, large)
   end
 
-  def small_id; basket_sizes(:small).id; end
-  def medium_id; basket_sizes(:medium).id; end
-  def large_id; basket_sizes(:large).id; end
-
   def build_basket_content(attrs)
     BasketContent.new({
       product: basket_content_products(:carrots),
