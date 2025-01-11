@@ -7,7 +7,10 @@ require "rails/test_help"
 require 'capybara/email'
 
 require "support/activities_helper"
-require "support/deliveries_helper"
+require "support/basket_complements_helper"
+require "support/basket_sizes_helper"
+require "support/delivery_cycles_helper"
+require "support/depots_helper"
 require "support/email_suppressions_helper"
 require "support/invoices_helper"
 require "support/organizations_helper"
@@ -27,7 +30,10 @@ module ActiveSupport
     include Capybara::Email::DSL
 
     include ActivitiesHelper
-    include DeliveriesHelper
+    include BasketComplementsHelper
+    include BasketSizesHelper
+    include DeliveryCyclesHelper
+    include DepotsHelper
     include EmailSuppressionsHelper
     include InvoicesHelper
     include MailTemplatesHelper
