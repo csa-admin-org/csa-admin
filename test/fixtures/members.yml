@@ -8,6 +8,7 @@ john:
   address: Nowhere 42
   zip: 1234
   city: City
+  memberships_count: 3
 
 jane:
   name: Jane Doe
@@ -19,6 +20,7 @@ jane:
   address: Nowhere 43
   zip: 1234
   city: City
+  memberships_count: 1
 
 bob:
   name: Bob Doe
@@ -29,6 +31,7 @@ bob:
   address: Nowhere 44
   zip: 1234
   city: City
+  memberships_count: 1
 
 anna:
   name: Anna Doe
@@ -39,6 +42,7 @@ anna:
   address: Nowhere 45
   zip: 1234
   city: City
+  memberships_count: 1
 
 martha:
   name: Martha
@@ -50,6 +54,7 @@ martha:
   address: Nowhere 42
   zip: 1234
   city: City
+  memberships_count: 0
 
 mary:
   name: Mary
@@ -60,6 +65,7 @@ mary:
   address: Nowhere 42
   zip: 1234
   city: City
+  memberships_count: 0
 
 aria:
   name: Aria
@@ -74,3 +80,4 @@ aria:
   waiting_started_at: 2024-04-01
   waiting_basket_size: medium
   waiting_depot: farm
+  memberships_count: 0

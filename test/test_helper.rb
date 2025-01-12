@@ -6,21 +6,7 @@ require "rails/test_help"
 
 require 'capybara/email'
 
-require "support/activities_helper"
-require "support/basket_complements_helper"
-require "support/basket_sizes_helper"
-require "support/delivery_cycles_helper"
-require "support/depots_helper"
-require "support/email_suppressions_helper"
-require "support/invoices_helper"
-require "support/organizations_helper"
-require "support/mail_templates_helper"
-require "support/members_helper"
-require "support/memberships_helper"
-require "support/payments_helper"
-require "support/postmark_helper"
-require "support/responses_helper"
-require "support/sessions_helper"
+Dir[Rails.root.join("test/support/**/*.rb")].each { |f| require f }
 
 Minitest::Test.make_my_diffs_pretty!
 
@@ -31,6 +17,7 @@ module ActiveSupport
 
     include ActivitiesHelper
     include BasketComplementsHelper
+    include BasketContentsHelper
     include BasketSizesHelper
     include DeliveryCyclesHelper
     include DepotsHelper
@@ -39,6 +26,7 @@ module ActiveSupport
     include MailTemplatesHelper
     include MembersHelper
     include MembershipsHelper
+    include NewslettersHelper
     include OrganizationsHelper
     include PaymentsHelper
     include PostmarkHelper

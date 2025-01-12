@@ -7,3 +7,21 @@ simple:
       {% content id: 'main', title: "Content Title" %}
         Example Text {{ member.name }}
       {% endcontent %}
+
+dual:
+  title: Dual
+  contents:
+    en: |
+      {% content id: 'first', title: 'First EN' %}
+        FIRST CONTENT EN
+      {% endcontent %}
+      {% content id: 'second' %}
+        SECOND CONTENT EN
+      {% endcontent %}
+    fr: |
+      {% content id: 'first', title: 'First FR' %}
+        FIRST CONTENT FR
+      {% endcontent %}
+      {% content id: 'second' %}
+        SECOND CONTENT FR
+      {% endcontent %}
