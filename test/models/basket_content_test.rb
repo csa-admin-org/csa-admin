@@ -13,19 +13,6 @@ class BasketContentTest < ActiveSupport::TestCase
     baskets(:anna_1).update_column(:quantity, large)
   end
 
-  def build_basket_content(attrs)
-    BasketContent.new({
-      product: basket_content_products(:carrots),
-      delivery: deliveries(:monday_1),
-      depots: Depot.all,
-      quantity: 100
-    }.merge(attrs))
-  end
-
-  def create_basket_content(attrs)
-    build_basket_content(attrs).tap(&:save!)
-  end
-
   test "validates quantity presence" do
     basket_content = build_basket_content(quantity: nil)
     assert_not basket_content.valid?

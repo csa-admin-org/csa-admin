@@ -1,0 +1,5 @@
+newsletter_block_main:
+  record: simple_main (Newsletter::Block)
+  name: content_en
+  body: |
+    Block {{ member.name }}
