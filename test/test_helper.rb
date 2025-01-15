@@ -15,6 +15,7 @@ module ActiveSupport
     include ActiveJob::TestHelper
     include Capybara::Email::DSL
 
+    include AbsencesHelper
     include ActivitiesHelper
     include BasketComplementsHelper
     include BasketContentsHelper

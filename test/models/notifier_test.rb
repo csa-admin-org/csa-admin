@@ -68,8 +68,8 @@ class NotifierTest < ActiveSupport::TestCase
     create_membership(started_on: "2024-04-08", member: member6)
     create_membership(started_on: "2024-04-08", member: member7)
     create_membership(started_on: "2024-04-01", member: member8)
-    Absence.create!(member: member7, started_on: "2024-04-01", ended_on: "2024-04-08", admin: true)
-    Absence.create!(member: member8, started_on: "2024-03-31", ended_on: "2024-04-01", admin: true)
+    create_absence(member: member7, started_on: "2024-04-01", ended_on: "2024-04-08")
+    create_absence(member: member8, started_on: "2024-03-31", ended_on: "2024-04-01")
 
     travel_to "2024-04-08"
     assert_difference -> { MembershipMailer.deliveries.size }, 3 do
@@ -112,8 +112,8 @@ class NotifierTest < ActiveSupport::TestCase
     create_membership(ended_on: "2024-05-27", member: member5, renew: false)
     create_membership(ended_on: "2024-05-27", member: member6)
     create_membership(ended_on: "2024-06-03", member: member7)
-    Absence.create!(member: member6, started_on: "2024-05-27", ended_on: "2024-06-30", admin: true)
-    Absence.create!(member: member7, started_on: "2024-06-03", ended_on: "2024-06-30", admin: true)
+    create_absence(member: member6, started_on: "2024-05-27", ended_on: "2024-06-30")
+    create_absence(member: member7, started_on: "2024-06-03", ended_on: "2024-06-30")
 
     travel_to "2024-05-27"
     assert_difference -> { MembershipMailer.deliveries.size }, 3 do
@@ -143,13 +143,13 @@ class NotifierTest < ActiveSupport::TestCase
     travel_to "2024-04-01"
     create_membership(started_on: "2024-04-01", first_basket_sent_at: nil)
     create_membership(started_on: "2024-04-08", first_basket_sent_at: nil, member: member1)
-    create_membership(started_on: "2024-04-01", first_basket_sent_at: nil, delivery_cycle: cycle)
-    create_membership(started_on: "2024-04-15", first_basket_sent_at: nil)
-    create_membership(started_on: "2024-04-08", first_basket_sent_at: 1.minute.ago)
+    create_membership(started_on: "2024-04-01", first_basket_sent_at: nil, member: create_member, delivery_cycle: cycle)
+    create_membership(started_on: "2024-04-15", first_basket_sent_at: nil, member: create_member)
+    create_membership(started_on: "2024-04-08", first_basket_sent_at: 1.minute.ago, member: create_member)
     create_membership(started_on: "2024-04-08", first_basket_sent_at: nil, member: member2)
     create_membership(started_on: "2024-04-01", first_basket_sent_at: nil, member: member3)
-    Absence.create!(member: member2, started_on: "2024-04-01", ended_on: "2024-04-08", admin: true)
-    Absence.create!(member: member3, started_on: "2024-03-31", ended_on: "2024-04-01", admin: true)
+    create_absence(member: member2, started_on: "2024-04-01", ended_on: "2024-04-08")
+    create_absence(member: member3, started_on: "2024-03-31", ended_on: "2024-04-01")
 
     travel_to "2024-04-08"
     assert_difference -> { MembershipMailer.deliveries.size }, 2 do
@@ -175,14 +175,14 @@ class NotifierTest < ActiveSupport::TestCase
     travel_to "2024-04-01"
     create_membership(ended_on: "2024-04-01", last_basket_sent_at: nil).update_columns(renewed_at: "2024-04-01", renew: true)
     create_membership(ended_on: "2024-04-08", last_basket_sent_at: nil, member: member1).update_columns(renewed_at: "2024-04-01", renew: true)
-    create_membership(ended_on: "2024-04-08", last_basket_sent_at: nil, delivery_cycle: cycle).update_columns(renewed_at: "2024-04-01", renew: true)
-    create_membership(ended_on: "2024-04-08", last_basket_sent_at: nil, renew: false)
-    create_membership(ended_on: "2024-04-15", last_basket_sent_at: nil).update_columns(renewed_at: "2024-04-01", renew: true)
-    create_membership(ended_on: "2024-04-08", last_basket_sent_at: 1.minute.ago).update_columns(renewed_at: "2024-04-01", renew: true)
+    create_membership(ended_on: "2024-04-08", last_basket_sent_at: nil, member: create_member, delivery_cycle: cycle).update_columns(renewed_at: "2024-04-01", renew: true)
+    create_membership(ended_on: "2024-04-08", last_basket_sent_at: nil, member: create_member, renew: false)
+    create_membership(ended_on: "2024-04-15", last_basket_sent_at: nil, member: create_member).update_columns(renewed_at: "2024-04-01", renew: true)
+    create_membership(ended_on: "2024-04-08", last_basket_sent_at: 1.minute.ago, member: create_member).update_columns(renewed_at: "2024-04-01", renew: true)
     create_membership(ended_on: "2024-04-15", last_basket_sent_at: nil, member: member2).update_columns(renewed_at: "2024-04-01", renew: true)
     create_membership(ended_on: "2024-04-15", last_basket_sent_at: nil, member: member3).update_columns(renewed_at: "2024-04-01", renew: true)
-    Absence.create!(member: member2, started_on: "2024-04-08", ended_on: "2024-04-30", admin: true)
-    Absence.create!(member: member3, started_on: "2024-04-15", ended_on: "2024-04-30", admin: true)
+    create_absence(member: member2, started_on: "2024-04-08", ended_on: "2024-04-30")
+    create_absence(member: member3, started_on: "2024-04-15", ended_on: "2024-04-30")
 
     travel_to "2024-04-08"
     assert_difference -> { MembershipMailer.deliveries.size }, 2 do
@@ -205,11 +205,11 @@ class NotifierTest < ActiveSupport::TestCase
 
     travel_to "2024-04-01"
     create_membership(started_on: "2024-04-01")
-    create_membership(started_on: "2024-04-15")
+    create_membership(started_on: "2024-04-15", member: create_member)
     create_membership(started_on: "2024-04-08", member: member)
-    create_membership(started_on: "2024-04-08", delivery_cycle: cycle)
-    create_membership(started_on: "2024-04-08", ended_on: "2024-04-15")
-    create_membership(started_on: "2024-04-08", last_trial_basket_sent_at: 1.minute.ago)
+    create_membership(started_on: "2024-04-08", member: create_member, delivery_cycle: cycle)
+    create_membership(started_on: "2024-04-08", member: create_member, ended_on: "2024-04-15")
+    create_membership(started_on: "2024-04-08", member: create_member, last_trial_basket_sent_at: 1.minute.ago)
 
     travel_to "2024-04-15"
     assert_difference -> { MembershipMailer.deliveries.size }, 1 do
@@ -231,9 +231,9 @@ class NotifierTest < ActiveSupport::TestCase
 
     travel_to "2024-01-01"
     create_membership(renewal_opened_at: nil)
-    create_membership(renewal_opened_at: "2024-09-01").update_columns(renewed_at: "2024-09-02")
+    create_membership(renewal_opened_at: "2024-09-01", member: create_member).update_columns(renewed_at: "2024-09-02")
     create_membership(renewal_opened_at: "2024-09-01", member: member)
-    create_membership(renewal_opened_at: "2024-09-01", renewal_reminder_sent_at: "2024-09-10")
+    create_membership(renewal_opened_at: "2024-09-01", member: create_member, renewal_reminder_sent_at: "2024-09-10")
     travel_to "2023-01-01"
     create_membership(renewal_opened_at: "2024-09-01")
 

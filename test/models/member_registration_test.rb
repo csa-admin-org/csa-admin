@@ -65,7 +65,7 @@ class MemberRegistrationTest < ActiveSupport::TestCase
     end
 
     assert_not member.valid?
-    assert_includes member.errors[:emails], "is not available"
+    assert_includes member.errors[:emails], "has already been taken"
   end
 
   test "put back in waiting list matching inactive member" do
