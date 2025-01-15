@@ -26,6 +26,10 @@ module HasFiscalYear
     fy_year == Current.fy_year
   end
 
+  def last_year?
+    fy_year == Current.fy_year - 1
+  end
+
   def current_or_future_year?
     fy_year >= Current.fy_year
   end
