@@ -531,6 +531,19 @@ class InvoiceTest < ActiveSupport::TestCase
     assert_not invoice.can_cancel?
   end
 
+  test "can cancel last year activity participation invoice" do
+    travel_to "2024-01-01"
+    invoice = Invoice.create!(
+      entity: activity_participations(:john_harvest),
+      date: Date.today)
+    perform_enqueued_jobs
+    invoice.update!(state: "closed")
+    create_annual_fee_invoice # no more last invoice
+
+    travel_to "2025-01-01"
+    assert invoice.can_cancel?
+  end
+
   test "can cancel when not current year, closed, but membership current year" do
     travel_to "2024-01-01"
     invoice = invoices(:bob_membership)

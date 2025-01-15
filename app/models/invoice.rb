@@ -337,7 +337,7 @@ class Invoice < ApplicationRecord
     !can_destroy? &&
       !processing? &&
       !canceled? &&
-      (current_year? || open? || (membership_type? && entity.current_year?)) &&
+      (current_year? || open? || (activity_participation_type? && last_year?) || (membership_type? && entity.current_year?)) &&
       (!share_type? || open?) &&
       (!entity_id? || entity_latest?)
   end
