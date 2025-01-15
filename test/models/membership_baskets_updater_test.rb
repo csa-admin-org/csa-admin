@@ -56,12 +56,12 @@ class MembershipBasketsUpdaterTest < ActiveSupport::TestCase
 
   test "leave untouched past baskets of ended membership" do
     travel_to "2024-01-01"
-    membership = memberships(:john)
+    membership = memberships(:jane)
     membership.update!(ended_on: "2024-05-15")
 
     travel_to "2024-05-01"
     assert_no_difference -> { membership.reload.baskets.count } do
-      deliveries(:thursday_2).update!(date: "2024-06-10") # Monday
+      deliveries(:monday_2).update!(date: "2024-06-13") # Thursday
       perform_enqueued_jobs
     end
   end

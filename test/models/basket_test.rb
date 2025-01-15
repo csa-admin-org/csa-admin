@@ -31,7 +31,7 @@ class BasketTest < ActiveSupport::TestCase
     basket.validate
     bbc = basket.baskets_basket_complements.last
 
-    assert_includes bbc.errors[:basket_complement_id], "is not available"
+    assert_includes bbc.errors[:basket_complement_id], "has already been taken"
   end
 
   test "validates delivery is in membership date range" do

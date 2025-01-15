@@ -13,6 +13,8 @@ acme:
   email_footers:
     en: "In case of questions or remarks, simply reply to this email.\nAcme, Nowhere 42, 1234 City"
   billing_year_divisions: [1, 4]
+  recurring_billing_wday: 1
+  billing_starts_after_first_delivery: false
   iban: CH4431999123000889012
   creditor_name: Acme
   creditor_address: Nowhere 42
@@ -26,6 +28,7 @@ acme:
     en: https://www.acme.test/terms
   annual_fee: 30
   trial_baskets_count: 2
+  absences_billed: true
   features:
     - absence
     - activity

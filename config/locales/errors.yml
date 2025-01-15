@@ -132,10 +132,10 @@ _:
         _fr: doit être dans la même année fiscale
         _it: dev'essere nello stesso anno fiscale
       taken:
-        _de: ist nicht verfügbar
-        _en: is not available
-        _fr: n'est pas disponible
-        _it: non disponibile
+        _de: ist bereits vergeben
+        _en: has already been taken
+        _fr: est déjà utilisé(e)
+        _it: è già presente
       too_long:
         one:
           _de: ist zu lang (nicht mehr als ein Zeichen)

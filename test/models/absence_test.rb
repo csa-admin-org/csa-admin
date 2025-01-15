@@ -34,8 +34,7 @@ class AbsenceTest < ActiveSupport::TestCase
     assert_equal 0, current_membership.baskets.absent.count
     assert_equal 0, future_membership.baskets.absent.count
 
-    absence = Absence.create!(
-      admin: admins(:master),
+    absence = create_absence(
       member: member,
       started_on: "2024-05-01",
       ended_on: "2025-05-01")
@@ -60,8 +59,7 @@ class AbsenceTest < ActiveSupport::TestCase
     membership = memberships(:john)
 
     assert_difference -> { membership.reload.price }, -100 do
-      Absence.create!(
-        admin: Admin.new,
+      create_absence(
         member: members(:john),
         started_on: "2024-05-01",
         ended_on: "2024-12-01")
@@ -77,7 +75,7 @@ class AbsenceTest < ActiveSupport::TestCase
     admin2.update_column(:notifications, %w[new_absence_with_note])
     admin3.update_column(:notifications, %w[])
 
-    absence = Absence.create!(
+    absence = create_absence(
       member: members(:john),
       note: " ",
       started_on: 1.week.from_now,
@@ -104,7 +102,7 @@ class AbsenceTest < ActiveSupport::TestCase
     admin2.update_column(:notifications, %w[new_absence_with_note])
     admin3.update_column(:notifications, %w[])
 
-    absence = Absence.create!(
+    absence = create_absence(
       admin: admin1,
       member: members(:john),
       note: "A Super Note!",

@@ -83,7 +83,7 @@ class MemberTest < ActiveSupport::TestCase
   test "validates email uniqueness" do
     member = Member.new(emails: "jen@doe.com, JANE@doe.com")
     assert_not member.valid?
-    assert_includes member.errors[:emails], "is not available"
+    assert_includes member.errors[:emails], "has already been taken"
   end
 
   test "validates email uniqueness even when emails includes other ones" do
@@ -301,9 +301,9 @@ class MemberTest < ActiveSupport::TestCase
   test "update_trial_baskets! ignore absent basket" do
     travel_to "2024-01-01"
     org(trial_baskets_count: 2)
+    memberships(:john_past).update_column(:renewed_at, nil)
     memberships(:john_past).update!(started_on: "2023-05-29")
-    Absence.create!(member: members(:john), admin: admins(:super),
-      started_on: "2023-06-01", ended_on: "2024-04-05")
+    create_absence(member: members(:john), started_on: "2023-06-01", ended_on: "2024-04-05")
 
     members(:john).update_trial_baskets!
     range = Date.new(2023, 5, 25)..Date.new(2024, 4, 15)
@@ -320,6 +320,7 @@ class MemberTest < ActiveSupport::TestCase
   test "update_trial_baskets! only consider baskets from continuous previous memberships" do
     travel_to "2025-01-01"
     org(trial_baskets_count: 2)
+    memberships(:john_past).update_column(:renewed_at, nil)
     memberships(:john_past).update!(started_on: "2023-05-22")
     memberships(:john).destroy
 
@@ -537,7 +538,7 @@ class MemberTest < ActiveSupport::TestCase
 
   test "absent? returns true for a given date during the absence window" do
     travel_to "2024-05-1"
-    absence = Absence.create!(
+    absence = create_absence(
       member: members(:john),
       started_on: 2.weeks.from_now,
       ended_on: 4.weeks.from_now)
