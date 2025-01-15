@@ -16,7 +16,7 @@ WORKDIR /rails
 
 # Install base packages
 RUN apt-get update -qq && \
-    apt-get install --no-install-recommends -y curl libjemalloc2 poppler-utils libvips sqlite3 && \
+    apt-get install --no-install-recommends -y curl build-essential libssl-dev pkg-config libyaml-dev libjemalloc2 poppler-utils libvips sqlite3 && \
     rm -rf /var/lib/apt/lists /var/cache/apt/archives
 
 # Set production environment
