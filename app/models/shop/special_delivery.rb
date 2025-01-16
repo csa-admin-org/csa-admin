@@ -24,11 +24,19 @@ module Shop
     default_scope { order(:date) }
 
     scope :open, -> { where(open: true) }
+    scope :depot_eq, ->(depot_id) {
+      where.not("EXISTS (SELECT 1 FROM json_each(unavailable_for_depot_ids) WHERE json_each.value = ?)", depot_id.to_i)
+    }
 
     validates :date, uniqueness: true, presence: true
     validates :products, presence: true
+    validate :ensure_at_least_one_available_depot
 
     before_save :update_shop_products_count
+
+    def self.ransackable_scopes(_auth_object = nil)
+      super + %i[depot_eq]
+    end
 
     def self.next
       coming.open.order(:date).first
@@ -67,8 +75,26 @@ module Shop
     def shop_open?(depot_id: nil, ignore_closing_at: false)
       return false unless Current.org.feature?("shop")
       return false unless open
+      return false if depot_id && depot_id.in?(unavailable_for_depot_ids)
 
       ignore_closing_at || !shop_closing_at.past?
+    end
+
+    def available_for_depots
+      Depot.where.not(id: unavailable_for_depot_ids)
+    end
+
+    def available_for_depot_ids
+      available_for_depots.pluck(:id)
+    end
+
+    def available_for_depot_ids=(ids)
+      self[:unavailable_for_depot_ids] =
+        if open?
+          Depot.pluck(:id) - ids.map(&:presence).compact.map(&:to_i)
+        else
+          []
+        end
     end
 
     def shop_orders_count
@@ -84,6 +110,12 @@ module Shop
     end
 
     private
+
+    def ensure_at_least_one_available_depot
+      if open? && available_for_depot_ids.none?
+        self.errors.add(:available_for_depot_ids, :empty)
+      end
+    end
 
     def update_shop_products_count
       self.shop_products_count = products.size

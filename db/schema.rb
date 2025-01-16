@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2024_12_16_132926) do
+ActiveRecord::Schema[8.0].define(version: 2025_01_16_102119) do
   create_table "absences", force: :cascade do |t|
     t.bigint "member_id"
     t.date "started_on"
@@ -858,7 +858,9 @@ ActiveRecord::Schema[8.0].define(version: 2024_12_16_132926) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.json "titles", default: {}
+    t.json "unavailable_for_depot_ids", default: [], null: false
     t.index ["date"], name: "index_shop_special_deliveries_on_date", unique: true
+    t.check_constraint "JSON_TYPE(unavailable_for_depot_ids) = 'array'", name: "shop_special_deliveries_unavailable_for_depot_ids_is_array"
   end
 
   create_table "shop_tags", force: :cascade do |t|

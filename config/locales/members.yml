@@ -1185,12 +1185,12 @@ _:
               _it: "%{count} disponibile"
             other:
               _de: "%{count} verfügbares"
-              _en: "%{count} availabl"
+              _en: "%{count} available"
               _fr: "%{count} disponibles"
               _it: "%{count} disponibili"
             zero:
               _de: "%{count} verfügbar"
-              _en: "%{count} availabl"
+              _en: "%{count} available"
               _fr: "%{count} disponible"
               _it: "%{count} disponibili"
       terms_of_sale:

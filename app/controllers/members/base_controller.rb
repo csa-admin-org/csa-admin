@@ -79,7 +79,10 @@ class Members::BaseController < ApplicationController
   def shop_special_deliveries
     return unless Current.org.feature?("shop")
 
-    @shop_special_deliveries ||= Shop::SpecialDelivery.coming.open.select(&:shop_open?)
+    @shop_special_deliveries ||=
+      Shop::SpecialDelivery.coming.open.select { |sd|
+        sd.shop_open?(depot_id: current_member.shop_depot&.id, ignore_closing_at: true)
+      }
   end
   helper_method :shop_special_deliveries
 

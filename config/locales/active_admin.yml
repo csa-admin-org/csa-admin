@@ -763,6 +763,11 @@ _:
           _en: Allow your members to individually change the configuration of their membership or future baskets from their account.
           _fr: Permettez à vos membres de modifier la configuration de leur abonnement ou futures paniers individuellement depuis leur compte.
           _it: Consentite ai vostri soci di modificare le impostazioni di abbonamento o i cestini futuri individualmente dal loro account.
+        opening:
+          _de: Öffnung
+          _en: Opening
+          _fr: Ouverture
+          _it: Apertura
         preview:
           _de: Vorschau
           _en: Preview
@@ -1176,6 +1181,11 @@ _:
           _en: Send request
           _fr: Envoyer la demande
           _it: Inviare la richiesta
+        opening:
+          _de: Öffnung
+          _en: Opening
+          _fr: Ouverture
+          _it: Apertura
         orders_canceled:
           one:
             _de: 1 stornierte
