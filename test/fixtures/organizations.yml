@@ -36,6 +36,7 @@ acme:
     - basket_price_extra
     - shop
   feature_flags: []
+  shop_admin_only: false
   activity_price: 50
   activity_participations_demanded_logic: "<%= Organization::ACTIVITY_PARTICIPATIONS_DEMANDED_LOGIC_DEFAULT %>"
   icalendar_auth_token: 1234abcd

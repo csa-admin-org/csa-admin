@@ -216,8 +216,12 @@ class Member < ApplicationRecord
     read_attribute(:delivery_zip).presence || zip
   end
 
+  def shop_depot
+    use_shop_depot? ? super : current_or_future_membership&.depot
+  end
+
   def use_shop_depot?
-    shop_depot.present? && current_or_future_membership.nil?
+    shop_depot_id? && current_or_future_membership.nil?
   end
 
   def self.ransackable_scopes(_auth_object = nil)

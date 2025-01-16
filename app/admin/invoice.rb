@@ -432,7 +432,7 @@ ActiveAdmin.register Invoice do
       params[:q] ||= {}
       params[:q][:sent_eq] = false
     end
-    if params.dig(:q, :during_year) && params.dig(:q, :during_year).to_i < Current.fy_year
+    if params.dig(:q, :during_year).present? && params.dig(:q, :during_year).to_i < Current.fy_year
       params[:scope] ||= "all"
     end
   end

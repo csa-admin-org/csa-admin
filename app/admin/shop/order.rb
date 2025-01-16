@@ -332,7 +332,7 @@ ActiveAdmin.register Shop::Order do
           Shop::SpecialDelivery.last
       redirect_to q: { _delivery_gid_eq: next_delivery.gid }, utf8: "✓"
     end
-    if params.dig(:q, :during_year) && params.dig(:q, :during_year).to_i < Current.fy_year
+    if params.dig(:q, :during_year).present? && params.dig(:q, :during_year).to_i < Current.fy_year
       params[:scope] ||= "all"
     end
   end

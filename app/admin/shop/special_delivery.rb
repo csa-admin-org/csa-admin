@@ -23,13 +23,13 @@ ActiveAdmin.register Shop::SpecialDelivery do
   scope :coming, default: true
   scope :past
 
-  filter :open
-  filter :date
-  filter :wday, as: :select, collection: -> { wdays_collection }
-  filter :month, as: :select, collection: -> { months_collection }
   filter :during_year,
     as: :select,
     collection: -> { fiscal_years_collection }
+  filter :date
+  filter :wday, as: :select, collection: -> { wdays_collection }
+  filter :month, as: :select, collection: -> { months_collection }
+  filter :depot, as: :select, collection: -> { admin_depots_collection }
 
   # Workaround for ActionController::UnknownFormat (xlsx download)
   # https://github.com/activeadmin/activeadmin/issues/4945#issuecomment-302729459
@@ -93,10 +93,6 @@ ActiveAdmin.register Shop::SpecialDelivery do
           attributes_table do
             row(:title)
             row(:date) { l(delivery.date, format: :medium) }
-            row(:open) { status_tag(delivery.shop_open?) }
-            if delivery.shop_open?
-              row(:open_until) { l(delivery.shop_closing_at, format: :medium) }
-            end
             row(:products) {
               link_to(
                 delivery.shop_products_count,
@@ -108,6 +104,17 @@ ActiveAdmin.register Shop::SpecialDelivery do
                 shop_orders_path(
                   q: { _delivery_gid_eq: delivery.gid }, scope: :all_without_cart))
                   }
+          end
+        end
+        panel t(".opening") do
+          attributes_table do
+            row(:open) { status_tag(delivery.shop_open?) }
+            if delivery.shop_open?
+              row(:open_until) { l(delivery.shop_closing_at, format: :medium) }
+            end
+            row(Depot.model_name.human(count: 2)) {
+              display_depots(delivery.available_for_depots)
+            }
           end
         end
         panel Shop::SpecialDelivery.human_attribute_name(:description) do
@@ -134,13 +141,25 @@ ActiveAdmin.register Shop::SpecialDelivery do
 
   form do |f|
     f.inputs t(".details") do
-      f.input :open
       translated_input(f, :titles,
         required: false,
         placeholder: ->(locale) {
           I18n.with_locale(locale) { f.object.class.model_name.human }
         })
       f.input :date, as: :date_picker
+      translated_input(f, :shop_texts,
+        as: :action_text,
+        required: false,
+        hint: t("formtastic.hints.organization.shop_text"))
+    end
+
+    f.inputs t(".opening"), data: { controller: "form-checkbox-toggler" } do
+      f.input :open,
+        hint: t("formtastic.hints.delivery.shop_open"),
+        input_html: { data: {
+          form_checkbox_toggler_target: "checkbox",
+          action: "form-checkbox-toggler#toggleInput"
+        } }
       f.input :open_delay_in_days, hint: t("formtastic.hints.organization.shop_delivery_open_delay_in_days")
       f.input :open_last_day_end_time,
         as: :time_picker,
@@ -148,10 +167,13 @@ ActiveAdmin.register Shop::SpecialDelivery do
         input_html: {
           value: f.object.open_last_day_end_time&.strftime("%H:%M")
         }
-      translated_input(f, :shop_texts,
-        as: :action_text,
-        required: false,
-        hint: t("formtastic.hints.organization.shop_text"))
+      f.input :available_for_depot_ids,
+        label: Depot.model_name.human(count: 2),
+        as: :check_boxes,
+        collection: admin_depots_collection,
+        input_html: {
+          data: { form_checkbox_toggler_target: "input" }
+        }
     end
 
     f.inputs Shop::SpecialDelivery.human_attribute_name(:products), id: "products" do
@@ -178,10 +200,11 @@ ActiveAdmin.register Shop::SpecialDelivery do
     :open,
     *I18n.available_locales.map { |l| "title_#{l}" },
     *I18n.available_locales.map { |l| "shop_text_#{l}" },
+    available_for_depot_ids: [],
     product_ids: []
 
   before_action only: :index do
-    if params.dig(:q, :during_year) && params.dig(:q, :during_year).to_i < Current.fy_year
+    if params.dig(:q, :during_year).present? && params.dig(:q, :during_year).to_i < Current.fy_year
       params[:scope] ||= "all"
     end
   end

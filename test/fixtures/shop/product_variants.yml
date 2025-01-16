@@ -3,9 +3,36 @@ bread_500:
   names:
     en: 500g
   price: 5
+  weight_in_kg: 0.5
 
-bread_1000:
-  product: bread
+oil_500:
+  product: oil
   names:
-    en: 1kg
+    en: Olive 500ml
+  price: 6
+  weight_in_kg: 0.5
+  stock: 100
+
+oil_1000:
+  product: oil
+  names:
+    en: Olive 1l
   price: 10
+  weight_in_kg: 1
+  stock: 100
+
+flour_wheat:
+  product: flour
+  names:
+    en: Wheat 1kg
+  price: 3
+  stock: 100
+  weight_in_kg: 1
+
+flour_buckwheat:
+  product: flour
+  names:
+    en: Buckwheat 1kg
+  price: 4
+  stock: 100
+  weight_in_kg: 1

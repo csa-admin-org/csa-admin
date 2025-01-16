@@ -922,7 +922,7 @@ ActiveAdmin.register Membership do
   end
 
   before_action only: :index do
-    if params.dig(:q, :during_year) && params.dig(:q, :during_year).to_i < Current.fy_year
+    if params.dig(:q, :during_year).present? && params.dig(:q, :during_year).to_i < Current.fy_year
       params[:scope] ||= "all"
     end
   end

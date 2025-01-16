@@ -280,7 +280,7 @@ ActiveAdmin.register ActivityParticipation do
     if params.except(:subdomain, :controller, :action).empty? && params[:q].blank?
       redirect_to q: { during_year: Current.fiscal_year.year }, utf8: "✓"
     end
-    if params.dig(:q, :during_year) && params.dig(:q, :during_year).to_i < Current.fy_year
+    if params.dig(:q, :during_year).present? && params.dig(:q, :during_year).to_i < Current.fy_year
       params[:scope] ||= "all"
     end
   end

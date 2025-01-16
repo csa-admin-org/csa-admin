@@ -46,7 +46,7 @@ class Liquid::MemberDrop < Liquid::Drop
   end
 
   def shop_depot
-    return unless @member.shop_depot
+    return unless @member.use_shop_depot?
 
     Liquid::DepotDrop.new(@member.shop_depot)
   end
