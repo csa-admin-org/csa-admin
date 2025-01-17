@@ -51,7 +51,7 @@ martha:
   state: support
   language: en
   country_code: CH
-  address: Nowhere 42
+  address: Nowhere 46
   zip: 1234
   city: City
   memberships_count: 0
@@ -62,7 +62,7 @@ mary:
   state: inactive
   language: en
   country_code: CH
-  address: Nowhere 42
+  address: Nowhere 47
   zip: 1234
   city: City
   memberships_count: 0
@@ -74,7 +74,7 @@ aria:
   annual_fee: 30
   language: en
   country_code: CH
-  address: Nowhere 42
+  address: Nowhere 48
   zip: 1234
   city: City
   waiting_started_at: 2024-04-01
