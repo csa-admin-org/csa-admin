@@ -34,12 +34,16 @@ acme:
     - activity
     - basket_content
     - basket_price_extra
+    - new_member_fee
     - shop
   feature_flags: []
   shop_admin_only: false
   activity_price: 50
   activity_participations_demanded_logic: "<%= Organization::ACTIVITY_PARTICIPATIONS_DEMANDED_LOGIC_DEFAULT %>"
   icalendar_auth_token: 1234abcd
+  new_member_fee: 33
+  new_member_fee_descriptions:
+    en: Empty baskets
   basket_price_extras: ["0", "1", "2", "3"]
   basket_price_extra_public_titles:
     en: "Support"

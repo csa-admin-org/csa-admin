@@ -41,7 +41,7 @@ module Billing
     end
 
     def recent_window
-      (TIME_WINDOW.ago.to_date)..Date.today
+      (TIME_WINDOW.ago.to_date)..Date.yesterday
     end
   end
 end
