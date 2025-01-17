@@ -20,6 +20,7 @@ module ActiveSupport
     include BasketComplementsHelper
     include BasketContentsHelper
     include BasketSizesHelper
+    include BillingHelper
     include DeliveryCyclesHelper
     include DepotsHelper
     include EmailSuppressionsHelper

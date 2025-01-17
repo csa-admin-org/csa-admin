@@ -10,16 +10,4 @@ module InvoicesHelper
     invoice.reload
     invoice
   end
-
-  def force_invoice(member, **options)
-    Billing::Invoicer.force_invoice!(member, **options)
-  end
-
-  def skip_invoice_pdf
-    Thread.current[:skip_invoice_pdf] = true
-  end
-
-  def enable_invoice_pdf
-    Thread.current[:skip_invoice_pdf] = false
-  end
 end
