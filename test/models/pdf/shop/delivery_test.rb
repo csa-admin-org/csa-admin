@@ -5,8 +5,7 @@ require "test_helper"
 class PDF::Shop::DeliveryTest < ActiveSupport::TestCase
   def save_pdf_and_return_strings(delivery, order: nil)
     pdf = PDF::Shop::Delivery.new(delivery, order: order)
-    # pdf_path = "tmp/shop-delivery-#{Current.org.name}-#{delivery.date}.pdf"
-    # pdf.render_file(Rails.root.join(pdf_path))
+    # pdf.render_file(Rails.root.join("tmp/shop-delivery.pdf"))
     PDF::Inspector::Text.analyze(pdf.render).strings
   end
 

@@ -20,3 +20,4 @@ home:
   price: 9
   language: en
   position: 2
+  delivery_sheets_mode: home_delivery
