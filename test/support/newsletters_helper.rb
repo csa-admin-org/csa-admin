@@ -5,7 +5,7 @@ module NewslettersHelper
     Newsletter.new({
       subject: "Hello",
       audience: "member_state::all",
-      template: newsletter_templates(:dual),
+      template: newsletter_templates(:dual)
     }.merge(attributes))
   end
 end

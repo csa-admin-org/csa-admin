@@ -96,7 +96,7 @@ class Newsletter::TemplateTest < ActiveSupport::TestCase
 
     assert_equal %w[main second third], template.content_block_ids
     content_blocks = template.content_blocks["en"]
-    assert_equal ["Content Title", "Second Title", nil], content_blocks.map(&:title)
+    assert_equal [ "Content Title", "Second Title", nil ], content_blocks.map(&:title)
     assert_equal [
       "<div>Example Text {{ member.name }}\n  {% if member.email  %}\n  Hello {{ member.email }}\n{% endif %}</div>",
       "<div></div>",

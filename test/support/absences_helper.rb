@@ -4,7 +4,7 @@ module AbsencesHelper
   def create_absence(attributes = {})
     Absence.create!({
       member: members(:john),
-      admin: admins(:super),
+      admin: admins(:super)
     }.merge(attributes))
   end
 end
