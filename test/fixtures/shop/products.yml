@@ -2,6 +2,7 @@ bread:
   names:
     en: Bread
   basket_complement: bread
+  producer: farm
 
 oil:
   names:

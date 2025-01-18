@@ -97,10 +97,12 @@ module PDF
         items = items.map { |item|
           item_description = [
             item.product.name,
-            item.product_variant.name,
-            item.product.producer&.name
-          ].compact.join(", ")
-          [ item_description, item.quantity ]
+            item.product_variant.name
+          ]
+          if item.product.producer && item.product.producer_id?
+            item_description << item.product.producer.name
+          end
+          [ item_description.join(", "), item.quantity ]
         }.sort_by { |(desc, q)| desc }
 
         items.each do |item_description, quantity|
