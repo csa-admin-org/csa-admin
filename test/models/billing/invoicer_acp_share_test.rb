@@ -115,7 +115,6 @@ class Billing::InvoicerShareTest < ActiveSupport::TestCase
     travel_to "2024-01-01"
     basket_sizes(:large).update!(shares_number: 3)
     member = members(:jane)
-    member.update_trial_baskets!
 
     assert_equal "2024-04-11", member.baskets.trial.last.delivery.date.to_s
 

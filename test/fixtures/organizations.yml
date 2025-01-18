@@ -12,7 +12,7 @@ acme:
     en: "Best regards,\nAcme"
   email_footers:
     en: "In case of questions or remarks, simply reply to this email.\nAcme, Nowhere 42, 1234 City"
-  billing_year_divisions: [1, 4]
+  billing_year_divisions: [1, 2, 3, 4, 12]
   recurring_billing_wday: 1
   billing_starts_after_first_delivery: false
   iban: CH4431999123000889012

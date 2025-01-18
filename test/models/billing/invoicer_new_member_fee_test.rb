@@ -8,8 +8,8 @@ class Billing::InvoicerNewMemberFeeTest < ActiveSupport::TestCase
   end
 
   test "create invoice for recent new member" do
-    travel_to "2024-04-05"
-    member = members(:jane)
+    travel_to "2023-05-01"
+    member = members(:john)
 
     assert_difference -> { member.invoices.count }, 1 do
       invoice(member)
@@ -25,9 +25,9 @@ class Billing::InvoicerNewMemberFeeTest < ActiveSupport::TestCase
   end
 
   test "do nothing if new_member_fee is not enabled" do
-    travel_to "2024-04-05"
+    travel_to "2023-05-01"
     org(features: [])
-    member = members(:jane)
+    member = members(:john)
 
     assert_no_difference -> { member.invoices.count } do
       invoice(member)
@@ -43,8 +43,8 @@ class Billing::InvoicerNewMemberFeeTest < ActiveSupport::TestCase
   end
 
   test "do nothing if member already has a new_member_fee invoice" do
-    travel_to "2024-04-05"
-    member = members(:jane)
+    travel_to "2023-05-01"
+    member = members(:john)
 
     assert_difference -> { member.invoices.count }, 1 do
       invoice(member)
@@ -56,7 +56,6 @@ class Billing::InvoicerNewMemberFeeTest < ActiveSupport::TestCase
 
   test "do nothing if member is still on trial basket" do
     member = members(:jane)
-    member.update_trial_baskets!
 
     assert_equal "2024-04-11", member.baskets.trial.last.delivery.date.to_s
 
@@ -68,7 +67,6 @@ class Billing::InvoicerNewMemberFeeTest < ActiveSupport::TestCase
 
   test "do nothing if member first non-trial basket is no more recent" do
     member = members(:jane)
-    member.update_trial_baskets!
 
     assert_equal "2024-04-11", member.baskets.trial.last.delivery.date.to_s
 

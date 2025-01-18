@@ -2,6 +2,7 @@
 
 module BillingHelper
   def force_invoice(member, **options)
+    member.reload
     Billing::Invoicer.force_invoice!(member, **options)
   end
 

@@ -53,12 +53,10 @@ class Billing::SwissQRCodeTest < ActiveSupport::TestCase
       zip: "1234",
       city: "City",
       country_code: "CH")
-    invoice = create_invoice(
+    invoice = create_annual_fee_invoice(
       id: 4321,
       member: member,
-      date: "2024-01-01",
-      entity_type: "AnnualFee",
-      annual_fee: 30.0)
+      date: "2024-01-01")
 
     qr_image = Billing::SwissQRCode.new(invoice).generate(rails_env: "not_test")
     # FileUtils.cp(qr_image.path, file_fixture("qrcode-check.png"))
