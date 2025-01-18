@@ -2,6 +2,7 @@ bread:
   names:
     en: Bread
   basket_complement: bread
+  display_in_delivery_sheets: true
   producer: farm
 
 oil:

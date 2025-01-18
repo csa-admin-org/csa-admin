@@ -28,6 +28,8 @@ acme:
     en: https://www.acme.test/terms
   shop_delivery_pdf_footers:
     en: Invoice sent separately by email.
+  delivery_pdf_footers:
+    en: If you have any comments or issues, please contact us at +41 76 449 59 38.
   annual_fee: 30
   trial_baskets_count: 2
   absences_billed: true
