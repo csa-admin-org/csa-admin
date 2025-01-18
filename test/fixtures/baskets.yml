@@ -12,6 +12,7 @@ john_<%= i + 1 %>:
 john_past_<%= i + 1 %>:
   membership: john_past
   delivery: monday_past_<%= i + 1 %>
+  state: <%= i.in?([0, 1]) ? "trial" : "normal" %>
   delivery_cycle_price: 0
   basket_size: medium
   basket_price: 20
@@ -30,13 +31,18 @@ john_future_<%= i + 1 %>:
 jane_<%= i + 1 %>:
   membership: jane
   delivery: thursday_<%= i + 1 %>
-  state: <%= (i + 1) == 5 ? "absent" : "normal" %>
+  state: <%=
+    case i
+    when 0, 1 then "trial"
+    when 5 then "absent"
+    else "normal"
+    end
+   %>
   delivery_cycle_price: 0
   basket_size: large
   basket_price: 30
   depot: bakery
   depot_price: 4
-
 <% end %>
 
 bob_1:
@@ -47,6 +53,7 @@ bob_1:
   basket_price: 10
   depot: home
   depot_price: 9
+  state: trial
 
 anna_1:
   membership: anna
@@ -56,3 +63,4 @@ anna_1:
   basket_price: 30
   depot: bakery
   depot_price: 4
+  state: trial

@@ -21,6 +21,7 @@ module Billing
         member.current_year_membership,
         member.future_membership
       ].compact.select(&:billable?).first
+
       @invoices =
         if @membership
           @membership.invoices.not_canceled

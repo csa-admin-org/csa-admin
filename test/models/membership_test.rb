@@ -787,12 +787,12 @@ class MembershipTest < ActiveSupport::TestCase
     member = members(:jane)
     member.update!(annual_fee: 0)
     membership = memberships(:jane)
+    membership.update!(billing_year_division: 1)
 
     travel_to "2024-05-01"
-    membership.update!(billing_year_division: 1)
     invoice = force_invoice(member, send_email: true)
     perform_enqueued_jobs
-    membership.reload.update!(ended_on: "2024-05-02")
+    membership.reload.update!(ended_on: "2024-05-15")
 
     assert_difference -> { membership.reload.invoices_amount }, -invoice.amount do
       membership.cancel_overcharged_invoice!

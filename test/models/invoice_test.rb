@@ -3,21 +3,6 @@
 require "test_helper"
 
 class InvoiceTest < ActiveSupport::TestCase
-  def create_annual_fee_invoice(attrs = {})
-    create_invoice({
-      entity_type: "AnnualFee",
-      annual_fee: 30
-    }.merge(attrs))
-  end
-
-  def create_membership_invoice(attrs = {})
-    create_invoice({
-      entity: memberships(:john),
-      membership_amount_fraction: 1,
-      memberships_amount_description: "Annual billing"
-    }.merge(attrs))
-  end
-
   test "raises on amount=" do
     assert_raises(NoMethodError) { Invoice.new(amount: 1) }
   end

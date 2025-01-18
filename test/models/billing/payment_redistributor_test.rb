@@ -9,28 +9,10 @@ class Billing::PaymentsRedistributorTest < ActiveSupport::TestCase
 
   test "splits payments amount on not canceled invoices" do
     travel_to "2024-01-01"
-    membership = memberships(:john)
-    invoice1 = create_invoice(
-      date: "2024-01-01",
-      entity: membership,
-      memberships_amount_description: "Amount #1",
-      membership_amount_fraction: 3)
-    invoice2 = create_invoice(
-      date: "2024-01-02",
-      entity: membership,
-      memberships_amount_description: "Amount #2",
-      membership_amount_fraction: 2)
-    invoice3 = create_invoice(
-      state: "canceled",
-      date: "2024-01-03",
-      entity: membership,
-      memberships_amount_description: "Amount #3",
-      membership_amount_fraction: 1)
-    invoice3_bis = create_invoice(
-      date: "2024-01-04",
-      entity: membership,
-      memberships_amount_description: "Amount #3",
-      membership_amount_fraction: 1)
+    invoice1 = create_membership_invoice(membership_amount_fraction: 3)
+    invoice2 = create_membership_invoice(membership_amount_fraction: 2)
+    invoice3 = create_membership_invoice(state: "canceled", membership_amount_fraction: 1)
+    invoice3_bis = create_membership_invoice(membership_amount_fraction: 1)
 
     create_payment(invoice: invoice3, amount: 66.65)
     create_payment(amount: 70)
@@ -49,22 +31,9 @@ class Billing::PaymentsRedistributorTest < ActiveSupport::TestCase
 
   test "handles payments with invoice_id first" do
     travel_to "2024-01-01"
-    membership = memberships(:john)
-    invoice1 = create_invoice(
-      date: "2024-01-01",
-      entity: membership,
-      memberships_amount_description: "Amount #1",
-      membership_amount_fraction: 3)
-    invoice2 = create_invoice(
-      date: "2024-01-02",
-      entity: membership,
-      memberships_amount_description: "Amount #2",
-      membership_amount_fraction: 2)
-    invoice3 = create_invoice(
-      date: "2024-01-03",
-      entity: membership,
-      memberships_amount_description: "Amount #3",
-      membership_amount_fraction: 1)
+    invoice1 = create_membership_invoice(membership_amount_fraction: 3)
+    invoice2 = create_membership_invoice(membership_amount_fraction: 2)
+    invoice3 = create_membership_invoice(membership_amount_fraction: 1)
 
     create_payment(invoice: invoice1, amount: 66.65)
     create_payment(invoice: invoice3, amount: 60)
@@ -83,22 +52,9 @@ class Billing::PaymentsRedistributorTest < ActiveSupport::TestCase
 
   test "handles payments with invoice_id first, but remove money from the previously open invoice" do
     travel_to "2024-01-01"
-    membership = memberships(:john)
-    invoice1 = create_invoice(
-      date: "2024-01-01",
-      entity: membership,
-      memberships_amount_description: "Amount #1",
-      membership_amount_fraction: 3)
-    invoice2 = create_invoice(
-      date: "2024-01-02",
-      entity: membership,
-      memberships_amount_description: "Amount #2",
-      membership_amount_fraction: 2)
-    invoice3 = create_invoice(
-      date: "2024-01-03",
-      entity: membership,
-      memberships_amount_description: "Amount #3",
-      membership_amount_fraction: 1)
+    invoice1 = create_membership_invoice(membership_amount_fraction: 3)
+    invoice2 = create_membership_invoice(membership_amount_fraction: 2)
+    invoice3 = create_membership_invoice(membership_amount_fraction: 1)
 
     create_payment(invoice: invoice1, amount: 66.65)
     create_payment(invoice: invoice3, amount: 66.65)
@@ -119,20 +75,9 @@ class Billing::PaymentsRedistributorTest < ActiveSupport::TestCase
     travel_to "2024-01-01"
     org(share_price: 30, shares_number: 1)
 
-    membership = memberships(:john)
-    invoice1 = create_invoice(
-      date: "2024-01-01",
-      entity: membership,
-      memberships_amount_description: "Amount #1",
-      membership_amount_fraction: 3)
-    invoice2 = create_invoice(
-      date: "2024-01-02",
-      shares_number: -2)
-    invoice3 = create_invoice(
-      date: "2024-01-03",
-      entity: membership,
-      memberships_amount_description: "Amount #2",
-      membership_amount_fraction: 2)
+    invoice1 = create_membership_invoice(membership_amount_fraction: 3)
+    invoice2 = create_invoice(shares_number: -2)
+    invoice3 = create_membership_invoice(membership_amount_fraction: 2)
 
     create_payment(invoice: invoice1, amount: 66.65)
 
@@ -150,20 +95,9 @@ class Billing::PaymentsRedistributorTest < ActiveSupport::TestCase
     travel_to "2024-01-01"
     org(share_price: 30, shares_number: 1)
 
-    membership = memberships(:john)
-    invoice1 = create_invoice(
-      date: "2024-01-01",
-      entity: membership,
-      memberships_amount_description: "Amount #1",
-      membership_amount_fraction: 3)
-    invoice2 = create_invoice(
-      date: "2024-01-02",
-      shares_number: -2)
-    invoice3 = create_invoice(
-      date: "2024-01-03",
-      entity: membership,
-      memberships_amount_description: "Amount #2",
-      membership_amount_fraction: 2)
+    invoice1 = create_membership_invoice(membership_amount_fraction: 3)
+    invoice2 = create_invoice(shares_number: -2)
+    invoice3 = create_membership_invoice(membership_amount_fraction: 2)
 
     create_payment(invoice: invoice1, amount: 66.65)
     create_payment(invoice: invoice2, amount: -60)
