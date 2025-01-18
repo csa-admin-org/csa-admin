@@ -77,7 +77,7 @@ class Newsletter::AudienceTest < ActiveSupport::TestCase
     segment = segment_for("basket_complement_id::#{bread_id}")
     assert_equal [ members(:jane) ], segment.members
     segment = segment_for("basket_complement_id::#{eggs_id}")
-    assert_equal [ ], segment.members
+    assert_equal [], segment.members
 
     segment = segment_for("depot_id::#{farm_id}")
     assert_equal [ members(:john) ], segment.members

@@ -159,7 +159,7 @@ class NewsletterTest < ActiveSupport::TestCase
     assert_equal 1, newsletter.deliveries.ignored.count
     assert_equal "jojo@old.com", newsletter.deliveries.ignored.first.email
     assert_equal [ suppression.id ], newsletter.deliveries.ignored.first.email_suppression_ids
-    assert_equal ["HardBounce"], newsletter.deliveries.ignored.first.email_suppression_reasons
+    assert_equal [ "HardBounce" ], newsletter.deliveries.ignored.first.email_suppression_reasons
 
     newsletter = Newsletter.find(newsletter.id) # hard reload
     assert newsletter.sent?

@@ -17,7 +17,7 @@ class NewsletterDeliveryTest < ActiveSupport::TestCase
     processing = Newsletter::Delivery.processing.last
     assert_equal members(:john), processing.member
     assert_equal "john@bob.com", processing.email
-    assert_equal [ ], processing.email_suppression_ids
+    assert_equal [], processing.email_suppression_ids
 
     ignored = Newsletter::Delivery.ignored.last
     assert_equal members(:john), ignored.member
@@ -61,7 +61,7 @@ class NewsletterDeliveryTest < ActiveSupport::TestCase
     assert_equal [ %w[ jane@doe.com ] ], ActionMailer::Base.deliveries.map(&:to)
 
     email = ActionMailer::Base.deliveries.first
-    assert_equal ["info@acme.test"], email.from
+    assert_equal [ "info@acme.test" ], email.from
     assert_equal "Subject Jane Doe", email.subject
     mail_body = email.parts.map(&:body).join
     assert_includes mail_body, "Hello Jane Doe,"
@@ -83,7 +83,7 @@ class NewsletterDeliveryTest < ActiveSupport::TestCase
     end
 
     email = ActionMailer::Base.deliveries.first
-    assert_equal ["contact@acme.test"], email.from
+    assert_equal [ "contact@acme.test" ], email.from
   end
 
   test "send newsletter with custom signature" do
@@ -111,7 +111,7 @@ class NewsletterDeliveryTest < ActiveSupport::TestCase
 
     newsletter = newsletters(:simple)
     newsletter.update!(
-      attachments: [attachment],
+      attachments: [ attachment ],
       # simulate newsletter sent
       template_contents: newsletter.template.contents)
 

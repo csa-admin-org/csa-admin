@@ -7,7 +7,7 @@ module BasketContentsHelper
       delivery: deliveries(:monday_1),
       depots: Depot.all,
       quantity: 100,
-      unit: "pc",
+      unit: "pc"
     }.merge(attrs))
   end
 

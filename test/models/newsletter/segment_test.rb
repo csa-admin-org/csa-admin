@@ -23,7 +23,7 @@ class Newsletter::SegmentTest < ActiveSupport::TestCase
     assert_equal [ members(:jane) ], segment.members
 
     segment = Newsletter::Segment.create!(basket_complement_ids: [ eggs_id ])
-    assert_equal [ ], segment.members
+    assert_equal [], segment.members
 
     segment = Newsletter::Segment.create!(basket_complement_ids: [ bread_id, eggs_id ])
     assert_equal [ members(:jane) ], segment.members
