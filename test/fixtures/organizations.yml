@@ -26,6 +26,8 @@ acme:
     en: <b>Acme</b>, Nowhere 42, 1234 City // info@acme.test
   terms_of_service_urls:
     en: https://www.acme.test/terms
+  shop_delivery_pdf_footers:
+    en: Invoice sent separately by email.
   annual_fee: 30
   trial_baskets_count: 2
   absences_billed: true

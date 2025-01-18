@@ -10,11 +10,14 @@ class Shop::ProducerTest < ActiveSupport::TestCase
 
   test "can discard / delete" do
     producer = shop_producers(:farm)
+    product = shop_products(:bread)
+
+    product.update!(producer: nil)
+    producer.reload
 
     assert producer.can_delete?
     assert_not producer.can_discard?
 
-    product = shop_products(:bread)
     product.update!(producer: producer)
     producer.reload
 
