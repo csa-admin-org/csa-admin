@@ -22,7 +22,7 @@ ActiveAdmin.register Membership do
   end
 
   scope :all
-  scope :trial, if: -> { Current.org.trial_baskets_count.positive? }
+  scope :trial, if: -> { Current.org.trial_baskets? }
   scope :ongoing, default: true
   scope :future
   scope :past
@@ -292,9 +292,7 @@ ActiveAdmin.register Membership do
     column(:started_on)
     column(:ended_on)
     column(:baskets_count)
-    if Current.org.trial_baskets_count.positive?
-      column(:baskets_trial_count) { |m| m.baskets.count(&:trial?) }
-    end
+    column(:baskets_trial_count) { |m| m.baskets.count(&:trial?) }
     if feature?("absence")
       column(:absences_included)
       column(:baskets_absent_count) { |m| m.baskets.count(&:absent?) }

@@ -570,6 +570,11 @@ _:
       _en: Total
       _fr: Total
       _it: Totale
+    trial_baskets_count:
+      _de: Probetaschen
+      _en: Trial baskets
+      _fr: Paniers à l'essai
+      _it: Ceste di prova
     unit_price:
       _de: Einheitspreis
       _en: Unit price

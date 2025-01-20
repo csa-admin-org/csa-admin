@@ -348,8 +348,10 @@ class MembershipTest < ActiveSupport::TestCase
 
   test "activity_participations_missing when in trial period with specific dates" do
     travel_to "2024-05-01"
-    org(trial_baskets_count: 5)
+    member = members(:mary)
+    member.update!(trial_baskets_count: 5)
     membership = create_membership(
+      member: member,
       started_on: "2024-04-01",
       ended_on: "2024-04-30")
 
@@ -538,8 +540,9 @@ class MembershipTest < ActiveSupport::TestCase
 
   test "updates baskets counts after commit" do
     travel_to "2024-04-15"
-    org(trial_baskets_count: 5)
-    membership = create_membership
+    member = members(:mary)
+    member.update!(trial_baskets_count: 5)
+    membership = create_membership(member: member)
 
     assert_equal 10, membership.baskets_count
     assert_equal 2, membership.past_baskets_count
@@ -911,9 +914,10 @@ class MembershipTest < ActiveSupport::TestCase
   end
 
   test "#destroy_or_cancel_invoices! cancel or destroy membership invoices on destroy" do
-    org(trial_baskets_count: 0, billing_year_divisions: [ 12 ])
+    org(billing_year_divisions: [ 12 ])
     mail_templates(:invoice_created)
     member = members(:jane)
+    member.update!(trial_baskets_count: 0)
     membership = memberships(:jane)
     membership.update_column(:billing_year_division, 12)
 

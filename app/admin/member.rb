@@ -624,6 +624,9 @@ ActiveAdmin.register Member do
 
     f.inputs t("active_admin.resource.show.billing") do
       f.input :billing_email, type: :email, label: t(".email")
+      if Current.org.trial_baskets? || f.object.trial_baskets_count != Current.org.trial_baskets_count
+        f.input :trial_baskets_count
+      end
       f.input :salary_basket
     end
 
@@ -674,7 +677,7 @@ ActiveAdmin.register Member do
     :address, :city, :zip, :country_code,
     :delivery_address, :delivery_city, :delivery_zip,
     :annual_fee, :salary_basket,
-    :billing_email,
+    :billing_email, :trial_baskets_count,
     :iban, :sepa_mandate_id, :sepa_mandate_signed_on,
     :shares_info, :existing_shares_number,
     :desired_shares_number, :required_shares_number,

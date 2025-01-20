@@ -9,6 +9,7 @@ john:
   zip: 1234
   city: City
   memberships_count: 3
+  trial_baskets_count: 2
 
 jane:
   name: Jane Doe
@@ -21,6 +22,7 @@ jane:
   zip: 1234
   city: City
   memberships_count: 1
+  trial_baskets_count: 2
 
 bob:
   name: Bob Doe
@@ -32,6 +34,7 @@ bob:
   zip: 1234
   city: City
   memberships_count: 1
+  trial_baskets_count: 2
 
 anna:
   name: Anna Doe
@@ -43,6 +46,7 @@ anna:
   zip: 1234
   city: City
   memberships_count: 1
+  trial_baskets_count: 2
 
 martha:
   name: Martha
@@ -55,6 +59,7 @@ martha:
   zip: 1234
   city: City
   memberships_count: 0
+  trial_baskets_count: 2
 
 mary:
   name: Mary
@@ -66,6 +71,7 @@ mary:
   zip: 1234
   city: City
   memberships_count: 0
+  trial_baskets_count: 2
 
 aria:
   name: Aria
@@ -81,3 +87,4 @@ aria:
   waiting_basket_size: medium
   waiting_depot: farm
   memberships_count: 0
+  trial_baskets_count: 2

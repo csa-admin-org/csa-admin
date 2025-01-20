@@ -498,12 +498,10 @@ class Membership < ApplicationRecord
   def update_baskets_counts!
     return if destroyed?
 
-    cols = { past_baskets_count: baskets.past.count }
-    if Current.org.trial_baskets_count.positive?
-      cols[:remaining_trial_baskets_count] = baskets.coming.trial.count
-      cols[:trial_baskets_count] = baskets.trial.count
-    end
-    update_columns(cols)
+    update_columns(
+      past_baskets_count: baskets.past.count,
+      remaining_trial_baskets_count: baskets.coming.trial.count,
+      trial_baskets_count: baskets.trial.count)
   end
 
   def create_basket!(delivery)

@@ -429,8 +429,9 @@ class Billing::InvoicerTest < ActiveSupport::TestCase
 
   test "when billed monthly, month #1" do
     travel_to "2024-01-01"
-    org(billing_year_divisions: [ 12 ], trial_baskets_count: 0)
+    org(billing_year_divisions: [ 12 ])
     member = members(:jane)
+    member.update!(trial_baskets_count: 0)
     membership = member.current_membership
     membership.update!(billing_year_division: 12)
     invoice = force_invoice(member)
@@ -445,8 +446,9 @@ class Billing::InvoicerTest < ActiveSupport::TestCase
 
   test "when billed monthly, month #4" do
     travel_to "2024-01-01"
-    org(billing_year_divisions: [ 12 ], trial_baskets_count: 0)
+    org(billing_year_divisions: [ 12 ])
     member = members(:jane)
+    member.update!(trial_baskets_count: 0)
     membership = member.current_membership
     membership.update!(billing_year_division: 12)
     force_invoice(member)
@@ -470,8 +472,9 @@ class Billing::InvoicerTest < ActiveSupport::TestCase
 
   test "when billed monthly, month #4 but membership ends at the end of the month" do
     travel_to "2024-01-01"
-    org(billing_year_divisions: [ 12 ], trial_baskets_count: 0)
+    org(billing_year_divisions: [ 12 ])
     member = members(:jane)
+    member.update!(trial_baskets_count: 0)
     membership = member.current_membership
     membership.update!(billing_year_division: 12)
     force_invoice(member)
@@ -496,8 +499,9 @@ class Billing::InvoicerTest < ActiveSupport::TestCase
 
   test "when billed monthly, month #4 but membership ends in 2 months" do
     travel_to "2024-01-01"
-    org(billing_year_divisions: [ 12 ], trial_baskets_count: 0)
+    org(billing_year_divisions: [ 12 ])
     member = members(:jane)
+    member.update!(trial_baskets_count: 0)
     membership = member.current_membership
     membership.update!(billing_year_division: 12)
     force_invoice(member)
@@ -522,8 +526,9 @@ class Billing::InvoicerTest < ActiveSupport::TestCase
 
   test "when billed monthly, month #12" do
     travel_to "2024-01-01"
-    org(billing_year_divisions: [ 12 ], trial_baskets_count: 0)
+    org(billing_year_divisions: [ 12 ])
     member = members(:jane)
+    member.update!(trial_baskets_count: 0)
     membership = member.current_membership
     membership.update!(billing_year_division: 12)
     force_invoice(member)
@@ -801,9 +806,8 @@ class Billing::InvoicerTest < ActiveSupport::TestCase
 
   test "next_date with trial baskets, three trial baskets" do
     travel_to "2024-01-01"
-    org(trial_baskets_count: 11)
     member = members(:jane)
-    member.update_trial_baskets!
+    member.update!(trial_baskets_count: 11)
     membership = memberships(:jane)
     membership.update_baskets_counts!
 
@@ -821,9 +825,8 @@ class Billing::InvoicerTest < ActiveSupport::TestCase
 
   test "next_date with custom deliveries cycle" do
     travel_to "2024-01-01"
-    org(trial_baskets_count: 0)
-
     member = members(:jane)
+    member.update!(trial_baskets_count: 0)
     membership = memberships(:jane)
     membership.update!(billing_year_division: 12)
     delivery_cycles(:thursdays).update!(months: [ 5 ])
