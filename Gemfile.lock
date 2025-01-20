@@ -670,7 +670,7 @@ GEM
 PLATFORMS
   arm64-darwin
   ruby
-  x86_64-linux
+  x86_64-linux-gnu
 
 DEPENDENCIES
   activeadmin (~> 4.0.0.beta13)
