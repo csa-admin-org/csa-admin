@@ -17,7 +17,7 @@ john: &john
   activity_participations_demanded: 2
   activity_participations_accepted: 2
   renewed_at: 2024-12-01
-  remaning_trial_baskets_count: 0
+  remaining_trial_baskets_count: 0
   trial_baskets_count: 0
 
 john_past:
@@ -51,7 +51,7 @@ jane:
   activity_participations_demanded_annually: 2
   activity_participations_demanded: 2
   billing_year_division: 4
-  remaning_trial_baskets_count: 0
+  remaining_trial_baskets_count: 0
   trial_baskets_count: 2
 
 bob:
@@ -73,7 +73,7 @@ bob:
   activity_participations_demanded: 0
   activity_participations_accepted: 0
   billing_year_division: 1
-  remaning_trial_baskets_count: 1
+  remaining_trial_baskets_count: 1
   trial_baskets_count: 1
 
 anna:
@@ -95,5 +95,5 @@ anna:
   activity_participations_demanded: 0
   activity_participations_accepted: 0
   billing_year_division: 1
-  remaning_trial_baskets_count: 1
+  remaining_trial_baskets_count: 1
   trial_baskets_count: 1

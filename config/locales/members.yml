@@ -884,7 +884,7 @@ _:
           _en: Please consult your last PDF invoice (available on the billing page) for more details.
           _fr: Merci de consulter votre dernière facture PDF (disponible depuis la page facturation) pour plus de détails.
           _it: Per maggiori dettagli, consulta l'ultima fattura PDF (disponibile dalla pagina di fatturazione).
-        remaning_trial_baskets_count:
+        remaining_trial_baskets_count:
           one:
             _de: mehr als eine auf Probe und unverbindlich
             _en: more than one on trial and without commitment

@@ -35,7 +35,7 @@ ul class='my-2 md:mr-4 -mx-2 relative p-2 space-y-2' id=membership.fiscal_year.y
       = link_to members_deliveries_path do
         = "#{membership.baskets_count} #{Delivery.model_name.human(count: membership.baskets_count)}"
         - if membership.trial?
-          = ", #{t('.remaning_trial_baskets_count', count: membership.remaning_trial_baskets_count)}"
+          = ", #{t('.remaining_trial_baskets_count', count: membership.remaining_trial_baskets_count)}"
       - if Current.org.feature?("absence") && membership.baskets.absent.any?
         = ", "
         = link_to members_absences_path do

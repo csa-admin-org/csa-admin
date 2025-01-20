@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_01_16_102119) do
+ActiveRecord::Schema[8.0].define(version: 2025_01_20_121815) do
   create_table "absences", force: :cascade do |t|
     t.bigint "member_id"
     t.date "started_on"
@@ -503,7 +503,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_01_16_102119) do
     t.decimal "baskets_annual_price_change", precision: 8, scale: 2, default: "0.0", null: false
     t.decimal "basket_complements_annual_price_change", precision: 8, scale: 2, default: "0.0", null: false
     t.integer "past_baskets_count", default: 0, null: false
-    t.integer "remaning_trial_baskets_count", default: 0, null: false
+    t.integer "remaining_trial_baskets_count", default: 0, null: false
     t.decimal "price", precision: 8, scale: 2
     t.decimal "invoices_amount", precision: 8, scale: 2
     t.decimal "renewal_annual_fee", precision: 8, scale: 2
