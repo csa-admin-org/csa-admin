@@ -89,8 +89,8 @@ class Membership < ApplicationRecord
   scope :started, -> { where(started_on: ..Date.yesterday) }
   scope :past, -> { where(ended_on: ..Date.yesterday) }
   scope :future, -> { where(started_on: Date.tomorrow..) }
-  scope :trial, -> { current.where(remaning_trial_baskets_count: 1..) }
-  scope :ongoing, -> { current.where(remaning_trial_baskets_count: 0) }
+  scope :trial, -> { current.where(remaining_trial_baskets_count: 1..) }
+  scope :ongoing, -> { current.where(remaining_trial_baskets_count: 0) }
   scope :current, -> { including_date(Date.current) }
   scope :current_or_future, -> { current.or(future).order(:started_on) }
   scope :including_date, ->(date) { where(started_on: ..date, ended_on: date..) }
@@ -168,7 +168,7 @@ class Membership < ApplicationRecord
   end
 
   def trial?
-    remaning_trial_baskets_count.positive?
+    remaining_trial_baskets_count.positive?
   end
 
   def trial_only?
@@ -500,7 +500,7 @@ class Membership < ApplicationRecord
 
     cols = { past_baskets_count: baskets.past.count }
     if Current.org.trial_baskets_count.positive?
-      cols[:remaning_trial_baskets_count] = baskets.coming.trial.count
+      cols[:remaining_trial_baskets_count] = baskets.coming.trial.count
       cols[:trial_baskets_count] = baskets.trial.count
     end
     update_columns(cols)

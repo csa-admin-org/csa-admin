@@ -34,7 +34,7 @@ class Liquid::MembershipDrop < Liquid::Drop
   end
 
   def trial_baskets_count
-    @membership.remaning_trial_baskets_count
+    @membership.remaining_trial_baskets_count
   end
 
   def activity_participations_demanded_count

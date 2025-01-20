@@ -543,7 +543,7 @@ class MembershipTest < ActiveSupport::TestCase
 
     assert_equal 10, membership.baskets_count
     assert_equal 2, membership.past_baskets_count
-    assert_equal 3, membership.remaning_trial_baskets_count
+    assert_equal 3, membership.remaining_trial_baskets_count
     assert membership.trial?
   end
 
