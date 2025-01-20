@@ -4,6 +4,7 @@ john_harvest:
   participants_count: 2
   state: pending
   admins_notified_at: 2024-06-01
+  created_at: 2024-02-01
 
 jane_harvest:
   member: jane
@@ -14,3 +15,4 @@ jane_harvest:
   note: I will bring my own gloves
   state: pending
   admins_notified_at: 2024-06-01
+  created_at: 2024-02-01
