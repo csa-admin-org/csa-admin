@@ -1,6 +1,7 @@
 john:
   name: John Doe
   emails: john@doe.com
+  phones: +41 79 123 45 67
   state: active
   annual_fee: 30
   language: en
