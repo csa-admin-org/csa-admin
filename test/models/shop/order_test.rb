@@ -138,7 +138,7 @@ class Shop::OrderTest < ActiveSupport::TestCase
 
   test "support polymorphic delivery association" do
     delivery = deliveries(:monday_1)
-    order = create_shop_order(delivery_gid: delivery.gid)
+    order = shop_orders(:john)
     special_delivery = shop_special_deliveries(:wednesday)
     special_order = create_shop_order(delivery_gid: special_delivery.gid)
 

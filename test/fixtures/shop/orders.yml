@@ -1,4 +1,4 @@
 john:
   member: john
-  delivery: mondays_1
+  delivery: monday_1
   state: pending
