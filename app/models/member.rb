@@ -19,6 +19,8 @@ class Member < ApplicationRecord
   attr_accessor :public_create
   attribute :annual_fee, :decimal, default: -> { Current.org.annual_fee }
   attribute :language, :string, default: -> { Current.org.languages.first }
+  attribute :country_code, :string, default: -> { Current.org.country_code }
+  attribute :trial_baskets_count, :integer, default: -> { Current.org.trial_baskets_count }
 
   audited_attributes \
     :state, :name, :emails, :billing_email, :newsletter, :phones, :contact_sharing, \
@@ -79,7 +81,6 @@ class Member < ApplicationRecord
     SQL
   }
 
-  after_initialize :set_defaults, unless: :persisted?
   before_validation :set_default_waiting_billing_year_division
   before_validation :set_default_waiting_delivery_cycle
 
@@ -130,6 +131,7 @@ class Member < ApplicationRecord
       greater_than_or_equal_to: ->(m) { m.waiting_basket_size&.shares_number || Current.org.shares_number || 0 }
     },
     if: -> { public_create && Current.org.share? }
+  validates :trial_baskets_count, numericality: { greater_than_or_equal_to: 0 }, presence: true
   validate :billing_truemail
   validates :iban, presence: true, if: :sepa_mandate_id?
   validates :iban, format: -> { Billing.iban_format }, allow_nil: :true
@@ -139,6 +141,7 @@ class Member < ApplicationRecord
   before_save :handle_annual_fee_change, :handle_required_shares_number_change
   after_save :update_membership_if_salary_basket_changed
   after_update :review_active_state!
+  after_update :update_trial_baskets!, if: :trial_baskets_count_previously_changed?
 
   def billable?
     support? ||
@@ -228,9 +231,13 @@ class Member < ApplicationRecord
     %i[with_name with_address with_email with_phone with_waiting_depots_eq with_note]
   end
 
+  # TODO: Remove this method, once the trial_baskets_count is required
+  def trial_baskets_count
+    super || Current.org.trial_baskets_count
+  end
+
   def update_trial_baskets!
-    trial_limit = Current.org.trial_baskets_count
-    return if trial_limit.zero?
+    return unless Current.org.trial_baskets? || trial_baskets_count_previously_changed?
 
     # Only consider past continuous memberships
     min_date = Current.fiscal_year.beginning_of_year
@@ -238,10 +245,11 @@ class Member < ApplicationRecord
       min_date = membership.started_on
     end
 
-    recent_baskets = self.baskets.where(deliveries: { date: min_date.. })
+    recent_baskets = self.baskets.where(deliveries: { date: min_date.. }).includes(:membership)
     transaction do
       recent_baskets.trial.update_all(state: "normal")
-      recent_baskets.normal.limit(trial_limit).update_all(state: "trial")
+      recent_baskets.normal.limit(trial_baskets_count).update_all(state: "trial")
+      recent_baskets.map(&:membership).uniq.each(&:update_baskets_counts!)
     end
   end
 
@@ -410,10 +418,6 @@ class Member < ApplicationRecord
   end
 
   private
-
-  def set_defaults
-    self[:country_code] ||= Current.org.country_code
-  end
 
   def set_default_waiting_billing_year_division
     if (waiting_basket_size_id? && !waiting_billing_year_division?) ||

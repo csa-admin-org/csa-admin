@@ -8,7 +8,7 @@ class MemberCount
 
   def self.all
     member_states = MEMBER_STATES.dup
-    states.delete(:trial) if Current.org.trial_baskets_count.zero?
+    states.delete(:trial) if Current.org.trial_baskets?
     states.map { |state| new(state) }
   end
 

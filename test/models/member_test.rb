@@ -337,6 +337,20 @@ class MemberTest < ActiveSupport::TestCase
     ], members(:john).baskets.between(range).map { |b| [ b.delivery.date.to_s, b.trial? ] }
   end
 
+  test "update_trial_baskets! with member trial_baskets_count" do
+    travel_to "2024-01-01"
+    org(trial_baskets_count: 2)
+    members(:jane).update!(trial_baskets_count: 3)
+    range = Date.new(2024, 1, 1)..Date.new(2024, 5, 1)
+
+    assert_equal [
+     [ "2024-04-04", true ],
+     [ "2024-04-11", true ],
+     [ "2024-04-18", true ],
+     [ "2024-04-25", false ]
+    ], members(:jane).baskets.between(range).map { |b| [ b.delivery.date.to_s, b.trial? ] }
+  end
+
   test "validate! sets state to waiting if waiting basket/depot" do
     admin = admins(:super)
     member = members(:aria)

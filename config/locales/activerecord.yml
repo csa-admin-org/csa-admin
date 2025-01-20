@@ -1664,11 +1664,6 @@ _:
           _en: Rules (URL)
           _fr: Règlement (URL)
           _it: Regolamento (URL)
-        trial_baskets_count:
-          _de: Probetaschen
-          _en: Trial baskets
-          _fr: Paniers à l'essai
-          _it: Ceste di prova
         url:
           _de: Webseite URL
           _en: Website URL

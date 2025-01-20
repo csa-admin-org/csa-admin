@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_01_20_121815) do
+ActiveRecord::Schema[8.0].define(version: 2025_01_20_123306) do
   create_table "absences", force: :cascade do |t|
     t.bigint "member_id"
     t.date "started_on"
@@ -458,6 +458,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_01_20_121815) do
     t.integer "waiting_billing_year_division"
     t.datetime "initial_basket_sent_at"
     t.datetime "final_basket_sent_at"
+    t.integer "trial_baskets_count"
     t.index ["shop_depot_id"], name: "index_members_on_shop_depot_id"
     t.index ["state"], name: "index_members_on_state"
     t.index ["validator_id"], name: "index_members_on_validator_id"

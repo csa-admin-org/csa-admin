@@ -195,6 +195,10 @@ class Organization < ApplicationRecord
     charter_url || statutes_url || terms_of_service_url || privacy_policy_url
   end
 
+  def trial_baskets?
+    trial_baskets_count.positive?
+  end
+
   def recurring_billing?
     !!recurring_billing_wday
   end

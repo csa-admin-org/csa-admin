@@ -372,6 +372,11 @@ _:
           _en: Allows a member without a membership to place grocery orders.
           _fr: Permet à un membre sans abonnement de passer des commandes d'épicerie.
           _it: Consente a un socio senza abbonamento di effettuare ordini di drogheria.
+        trial_baskets_count:
+          _de: Ermöglicht es Ihnen, die Standardanzahl der Probetaschen zu ändern, was nützlich ist, wenn das Mitglied beispielsweise bereits Taschen erhalten hat, bevor es sich angemeldet hat.
+          _en: Allows you to change the default number of trial baskets, useful if, for example, the member has already received baskets before registering.
+          _fr: Permet de modifier le nombre de paniers d’essai par défaut, pratique si, par exemple, le membre a déjà reçu des paniers avant son inscription.
+          _it: Consente di modificare il numero predefinito di ceste di prova, utile se, ad esempio, il socio ha già ricevuto ceste prima di registrarsi.
         waiting_alternative_depot_ids:
           _de: Sie können eine oder mehrere alternative Depots wählen, falls Ihre erste Wahl bereits voll ist. Wenn Sie sich damit einverstanden erklären, Ihre Taschen vorübergehend in einem alternativen Depot zu erhalten, sollten Sie in der Lage sein, schneller zu starten.
           _en: You can choose one or more alternative depots if your first choice is already full. By agreeing to temporarily receive your baskets at an alternative depot, you should be able to start faster.
