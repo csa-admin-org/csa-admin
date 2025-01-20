@@ -231,11 +231,6 @@ class Member < ApplicationRecord
     %i[with_name with_address with_email with_phone with_waiting_depots_eq with_note]
   end
 
-  # TODO: Remove this method, once the trial_baskets_count is required
-  def trial_baskets_count
-    super || Current.org.trial_baskets_count
-  end
-
   def update_trial_baskets!
     return unless Current.org.trial_baskets? || trial_baskets_count_previously_changed?
 
