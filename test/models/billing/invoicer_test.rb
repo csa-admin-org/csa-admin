@@ -20,7 +20,7 @@ class Billing::InvoicerTest < ActiveSupport::TestCase
   end
 
   test "creates an invoice for not already billed support member" do
-    travel_to "2024-01-01"
+    travel_to "2025-01-01"
     member = members(:martha)
     invoice = force_invoice(member)
 
@@ -32,7 +32,7 @@ class Billing::InvoicerTest < ActiveSupport::TestCase
   end
 
   test "does not create an invoice for already billed support member" do
-    travel_to "2024-01-01"
+    travel_to "2025-01-01"
     member = members(:martha)
     create_annual_fee_invoice(member: member)
 
@@ -66,7 +66,7 @@ class Billing::InvoicerTest < ActiveSupport::TestCase
   end
 
   test "does not bill annual fee when member annual_fee is nil" do
-    travel_to "2024-01-01"
+    travel_to "2025-01-01"
     member = members(:martha)
     member.update_column(:annual_fee, nil)
 
@@ -76,7 +76,7 @@ class Billing::InvoicerTest < ActiveSupport::TestCase
   end
 
   test "does not bill annual fee when member annual_fee is zero" do
-    travel_to "2024-01-01"
+    travel_to "2025-01-01"
     member = members(:martha)
     member.update_column(:annual_fee, 0)
 
@@ -86,7 +86,7 @@ class Billing::InvoicerTest < ActiveSupport::TestCase
   end
 
   test "creates an invoice for already billed support member (last year)" do
-    travel_to "2024-01-01"
+    travel_to "2025-01-01"
     member = members(:martha)
     create_annual_fee_invoice(member: member, date: 1.year.ago)
 
@@ -626,17 +626,17 @@ class Billing::InvoicerTest < ActiveSupport::TestCase
 
   test "next_date for support_annual_fee member" do
     member = members(:martha)
-    travel_to "2024-01-01"
-    assert_equal "2024-01-01", Billing::Invoicer.new(member).next_date.to_s
-    travel_to "2024-01-04"
-    assert_equal "2024-01-08", Billing::Invoicer.new(member).next_date.to_s
+    travel_to "2025-01-01"
+    assert_equal "2025-01-06", Billing::Invoicer.new(member).next_date.to_s
+    travel_to "2025-01-07"
+    assert_equal "2025-01-13", Billing::Invoicer.new(member).next_date.to_s
   end
 
   test "next_date for support_annual_fee member already invoiced" do
     member = members(:martha)
-    travel_to "2024-01-01"
+    travel_to "2025-01-01"
     create_annual_fee_invoice(member: member)
-    assert_equal "2025-01-06", Billing::Invoicer.new(member.reload).next_date.to_s
+    assert_equal "2026-01-05", Billing::Invoicer.new(member.reload).next_date.to_s
   end
 
   test "next_date for support_annual_fee member with no annual fee" do

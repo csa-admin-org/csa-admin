@@ -14,6 +14,7 @@ module ActiveSupport
   class TestCase
     include ActiveJob::TestHelper
     include Capybara::Email::DSL
+    include Assertions
 
     include AbsencesHelper
     include ActivitiesHelper

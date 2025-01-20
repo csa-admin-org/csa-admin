@@ -29,9 +29,9 @@ class PDF::Shop::DeliveryTest < ActiveSupport::TestCase
     assert_includes pdf_strings, "Bakery"
     assert_includes pdf_strings, "4 April 2024"
     assert_includes pdf_strings, "Delivery note"
-    assert_includes pdf_strings, "Quantity", "Product"
-    assert_includes pdf_strings, "2", "Bread, 500g, Farm"
-    assert_includes pdf_strings, "1", "Oil, Olive 1l"
+    assert_contains pdf_strings, "Quantity", "Product"
+    assert_contains pdf_strings, "2", "Bread, 500g, Farm"
+    assert_contains pdf_strings, "1", "Oil, Olive 1l"
     assert_includes pdf_strings, "Invoice sent separately by email."
   end
 

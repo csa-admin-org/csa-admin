@@ -8,13 +8,13 @@ module Billing
     PREFIX = "RF"
     MAPPING = ("A".."Z").to_a.zip((10..35).to_a).to_h.freeze
     REF_PART_SIZE = 8
-    REGEPX = /\ARF\d{2}\s?\d{4}\s?\d{4}\s?\d{4}\s?\d{4}\z/
+    REGEXP = /\ARF\d{2}\s?\d{4}\s?\d{4}\s?\d{4}\s?\d{4}\z/
 
     attr_accessor :invoice
 
     def initialize(invoice)
       @invoice = invoice
-      @ref = add_checksum("#{member_ref}#{invoice_ref}")
+      @ref = add_checksum("#{build_ref(invoice.member_id)}#{build_ref(invoice.id)}")
     end
 
     def to_s
@@ -26,7 +26,7 @@ module Billing
     end
 
     def self.valid?(ref)
-      return unless ref.present? && ref.match?(REGEPX)
+      return unless ref.present? && ref.match?(REGEXP)
 
       payload = payload(ref)
       invoice = OpenStruct.new(
@@ -49,18 +49,14 @@ module Billing
 
     private
 
-    def member_ref
-      ref = @invoice.member_id.to_s
-      ref.prepend("0") until ref.length == REF_PART_SIZE
-      ref
-    end
-
-    def invoice_ref
-      @invoice_ref ||= begin
-        ref = @invoice.id.to_s
+    def build_ref(id)
+      ref = id.to_s
+      if ref.length < REF_PART_SIZE
         ref.prepend("0") until ref.length == REF_PART_SIZE
-        ref
+      else
+        ref = ref.last(REF_PART_SIZE)
       end
+      ref
     end
 
     def add_checksum(ref)
