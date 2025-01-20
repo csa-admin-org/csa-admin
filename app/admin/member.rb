@@ -102,6 +102,7 @@ ActiveAdmin.register Member do
     end
     if Current.org.share?
       column(:shares_number)
+      column(:shares_info)
     end
     column(:salary_basket, &:salary_basket?)
     column(:waiting_started_at)
