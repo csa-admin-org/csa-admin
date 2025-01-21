@@ -1,5 +1,5 @@
 test:
-  service: TenantDisk
+  service: Disk
   root: <%= Rails.root.join("tmp/storage") %>
 
 tenant_disk:

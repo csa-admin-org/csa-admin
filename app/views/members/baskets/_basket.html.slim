@@ -1,4 +1,4 @@
-ul class="relative p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-900 #{"text-gray-300 dark:text-gray-700" if basket.absent?} #{"bg-gray-200 dark:bg-gray-800" if basket == @next_basket}"
+ul id=dom_id(basket) class="relative p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-900 #{"text-gray-300 dark:text-gray-700" if basket.absent?} #{"bg-gray-200 dark:bg-gray-800" if basket == @next_basket}"
   - if basket.can_member_update?
     = link_to edit_members_basket_path(basket), title: t(".edit"), class: "absolute top-0 right-0 p-2 " do
       = icon "pencil-square", class: "h-5 w-5 text-gray-400 dark:text-gray-600 hover:text-green-500 dark:hover:text-green-500"
