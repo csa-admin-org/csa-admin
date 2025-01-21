@@ -1,0 +1,9 @@
+annual_fee_pdf:
+  name: pdf_file
+  record: annual_fee (Invoice)
+  blob: invoice_pdf
+
+other_closed_pdf:
+  name: pdf_file
+  record: other_closed (Invoice)
+  blob: invoice_pdf
