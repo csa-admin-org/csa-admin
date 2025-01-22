@@ -122,4 +122,5 @@ group :test do
   gem "capybara-email"
   gem "pdf-inspector", require: "pdf/inspector"
   gem "super_diff" # RSpec
+  gem "minitest-difftastic"
 end
