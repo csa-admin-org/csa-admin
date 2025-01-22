@@ -178,6 +178,9 @@ GEM
       irb (~> 1.10)
       reline (>= 0.3.8)
     diff-lcs (1.5.1)
+    difftastic (0.0.1)
+    difftastic (0.0.1-arm64-darwin)
+    difftastic (0.0.1-x86_64-linux)
     discard (1.4.0)
       activerecord (>= 4.2, < 9.0)
     domain_name (0.6.20240107)
@@ -265,7 +268,8 @@ GEM
     io-endpoint (0.14.0)
     io-event (1.7.5)
     io-stream (0.6.1)
-    irb (1.14.3)
+    irb (1.15.1)
+      pp (>= 0.6.0)
       rdoc (>= 4.0.0)
       reline (>= 0.4.2)
     json (2.9.1)
@@ -349,6 +353,8 @@ GEM
     mini_mime (1.1.5)
     mini_portile2 (2.8.8)
     minitest (5.25.4)
+    minitest-difftastic (0.1.1)
+      difftastic (~> 0.0.1)
     mission_control-jobs (1.0.1)
       actioncable (>= 7.1)
       actionpack (>= 7.1)
@@ -410,6 +416,8 @@ GEM
     postmark-rails (0.22.1)
       actionmailer (>= 3.0.0)
       postmark (>= 1.21.3, < 2.0)
+    pp (0.6.2)
+      prettyprint
     prawn (2.4.0)
       pdf-core (~> 0.9.0)
       ttfunk (~> 1.7)
@@ -428,6 +436,7 @@ GEM
       actionmailer (>= 3)
       net-smtp
       premailer (~> 1.7, >= 1.7.9)
+    prettyprint (0.2.0)
     prism (1.3.0)
     propshaft (1.1.0)
       actionpack (>= 7.0.0)
@@ -605,7 +614,7 @@ GEM
       fugit (~> 1.11.0)
       railties (>= 7.1)
       thor (~> 1.3.1)
-    sorbet-runtime (0.5.11766)
+    sorbet-runtime (0.5.11770)
     sqlite3 (2.5.0)
       mini_portile2 (~> 2.8.0)
     sqlite3 (2.5.0-arm64-darwin)
@@ -709,6 +718,7 @@ DEPENDENCIES
   liquid
   litestream
   lograge
+  minitest-difftastic
   mission_control-jobs
   nokogiri
   parallel
@@ -812,6 +822,9 @@ CHECKSUMS
   date_validator (0.12.0) sha256=68c9834da240347b9c17441c553a183572508617ebfbe8c020020f3192ce3058
   debug (1.10.0) sha256=11e28ca74875979e612444104f3972bd5ffb9e79179907d7ad46dba44bd2e7a4
   diff-lcs (1.5.1) sha256=273223dfb40685548436d32b4733aa67351769c7dea621da7d9dd4813e63ddfe
+  difftastic (0.0.1) sha256=8e1ac71a10abcc16294005c7f3c0779b2776d436c03b9e57925c06175a24bc85
+  difftastic (0.0.1-arm64-darwin) sha256=ae3ae3bc44255c53744890e79abaf92882c886810f948010d036b33966e2040a
+  difftastic (0.0.1-x86_64-linux) sha256=2ea7c0d9933a37d48fd8f47328b0042bb65549fc81f3cd294df2c77ca36317f0
   discard (1.4.0) sha256=6efcd2a53ddf96781f81b825d398f1c88ab88c0faa84e131bea6e16ef95d65d0
   domain_name (0.6.20240107) sha256=5f693b2215708476517479bf2b3802e49068ad82167bcd2286f899536a17d933
   dotenv (3.1.7) sha256=c670df478675d23889e657beaca6fb423228f75ce9f052a0690c0d0daa333cf3
@@ -854,7 +867,7 @@ CHECKSUMS
   io-endpoint (0.14.0) sha256=51755235ef1aa27f48286f408eb25d7eb14d54d79bd3b3752486f74bbe7f5535
   io-event (1.7.5) sha256=99fbc90dd0f35b3b6a52e52f06fd6e38737017d0d2141c0b9bcab913fa5052e8
   io-stream (0.6.1) sha256=4520f0c1412dfd264e9ab0d363e9aca90a43541850220b47f1ebd5499ad2e96f
-  irb (1.14.3) sha256=c457f1f2f1438ae9ce5c5be3981ae2138dec7fb894c7d73777eeeb0a6c0d0752
+  irb (1.15.1) sha256=d9bca745ac4207a8b728a52b98b766ca909b86ff1a504bcde3d6f8c84faae890
   json (2.9.1) sha256=d2bdef4644052fad91c1785d48263756fe32fcac08b96a20bb15840e96550d11
   kamal (2.4.0) sha256=5f62f1858cc15c1506e55b60b075c89a1e7ef9c6bb0a7e3c01b54af190f85181
   kaminari (1.2.2) sha256=c4076ff9adccc6109408333f87b5c4abbda5e39dc464bd4c66d06d9f73442a3e
@@ -881,6 +894,7 @@ CHECKSUMS
   mini_mime (1.1.5) sha256=8681b7e2e4215f2a159f9400b5816d85e9d8c6c6b491e96a12797e798f8bccef
   mini_portile2 (2.8.8) sha256=8e47136cdac04ce81750bb6c09733b37895bf06962554e4b4056d78168d70a75
   minitest (5.25.4) sha256=9cf2cae25ac4dfc90c988ebc3b917f53c054978b673273da1bd20bcb0778f947
+  minitest-difftastic (0.1.1) sha256=328bbd1c83f7ae3a1d316038fbec6de4db975ea61a8268da2591038101d862a2
   mission_control-jobs (1.0.1) sha256=3bcccd10ed807a0d59c36054bab2be077e3ee37c48b0d67d25e25802cb0d79ca
   msgpack (1.7.5) sha256=ffb04979f51e6406823c03abe50e1da2c825c55a37dee138518cdd09d9d3aea8
   net-http (0.6.0) sha256=9621b20c137898af9d890556848c93603716cab516dc2c89b01a38b894e259fb
@@ -908,11 +922,13 @@ CHECKSUMS
   phony_rails (0.15.0) sha256=30b395499f7975daf8554e2b7c19885c039dba6281ffa93715ec01506f1951dc
   postmark (1.25.1) sha256=2ac110fa1b4f85a62996fdc63167922eea1c4284a9a7ceb9e007f2758d9e17be
   postmark-rails (0.22.1) sha256=fcea27dda4f7418123d7723622ec5447df4dacacc10a20a40add0f6789135d8f
+  pp (0.6.2) sha256=947ec3120c6f92195f8ee8aa25a7b2c5297bb106d83b41baa02983686577b6ff
   prawn (2.4.0) sha256=82062744f7126c2d77501da253a154271790254dfa8c309b8e52e79bc5de2abd
   prawn-svg (0.36.0) sha256=5b969296db9edb6044507b188d802d6f785a1fdf78155e7a0a604032c60d1701
   prawn-table (0.2.2) sha256=336d46e39e003f77bf973337a958af6a68300b941c85cb22288872dc2b36addb
   premailer (1.27.0) sha256=0fe2348cd82738855c482b31c915a06ecb1d3ad004578c19042905196ddbd1e7
   premailer-rails (1.12.0) sha256=c13815d161b9bc7f7d3d81396b0bb0a61a90fa9bd89931548bf4e537c7710400
+  prettyprint (0.2.0) sha256=2bc9e15581a94742064a3cc8b0fb9d45aae3d03a1baa6ef80922627a0766f193
   prism (1.3.0) sha256=b11620829831b1cb7e6c9b46c81ff8a6e36ccb3f888f164485eb7351f386273a
   propshaft (1.1.0) sha256=d389361faf66aeb17e8d204828962c1e506edd14a1a17adb3fa475435c070f6b
   protocol-hpack (1.5.1) sha256=6feca238b8078da1cd295677d6f306c6001af92d75fe0643d33e6956cbc3ad91
@@ -976,7 +992,7 @@ CHECKSUMS
   slim (5.2.1) sha256=72351dff7e2ff20e2d5c393cfc385bb9142cef5db059141628fd7163ac3c13e7
   slimi (0.7.5) sha256=bc68f5958d1c660a71ec13112924836a4cfb9eaf5c0fe1266084126d9d732a13
   solid_queue (1.1.2) sha256=178c9396d1cf0dac595c7508da90ddb397d25848ca007b5c5ed48e6ac6fc360c
-  sorbet-runtime (0.5.11766) sha256=42150b3c472f9c05ac478ce92676d10402c9a800e4012e12655717b4e4966de0
+  sorbet-runtime (0.5.11770) sha256=78f77b835d512a9128361f57d669b466b242503970387db208b3695804d28549
   sqlite3 (2.5.0) sha256=87fa0036e6369c3f3cfeca749865c2b2b63649d3b17b223d1939a8eed4841a6b
   sqlite3 (2.5.0-arm64-darwin) sha256=65370ddbc7bd7e65a03c18f8bf0e9be0f4f3cf50f758f8c1d3181aece5515ecf
   sqlite3 (2.5.0-x86_64-linux-gnu) sha256=c62c8d625da7e2ce93d694f02cd9c9d537638f56b09f2e8f28bea2d030b3923b
