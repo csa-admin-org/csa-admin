@@ -8,7 +8,7 @@ Style/StringLiterals:
     - "app/**/*"
     - "config/**/*"
     - "lib/**/*"
-    - "spec/**/*"
+    - "test/**/*"
     - "Gemfile"
     - "Rakefile"
 

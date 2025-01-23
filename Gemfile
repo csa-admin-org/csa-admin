@@ -31,7 +31,7 @@ gem "truemail"
 gem "tod"
 gem "discard"
 
-gem "activeadmin", "~> 4.0.0.beta13"
+gem "activeadmin", "~> 4.0.0.beta15"
 gem "cancancan"
 gem "acts_as_list"
 
@@ -42,6 +42,7 @@ gem "importmap-rails"
 gem "turbo-rails"
 gem "stimulus-rails"
 gem "tailwindcss-rails"
+gem "tailwindcss-ruby", "~> 3.4"
 gem "rails_icons"
 
 gem "cld"
@@ -95,9 +96,6 @@ group :development, :test do
 
   gem "dotenv"
   gem "faker", require: false
-
-  gem "rspec-rails" # RSpec
-  gem "factory_bot_rails" # RSpec
 end
 
 group :development do
@@ -108,7 +106,6 @@ group :development do
   gem "terminal-table", require: false
 
   gem "ruby-lsp-rails", require: false
-  gem "ruby-lsp-rspec", require: false
 
   gem "rubocop-rails-omakase", require: false
   gem "rubocop-slim", require: false
@@ -121,6 +118,5 @@ group :test do
   gem "capybara"
   gem "capybara-email"
   gem "pdf-inspector", require: "pdf/inspector"
-  gem "super_diff" # RSpec
   gem "minitest-difftastic"
 end

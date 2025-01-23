@@ -55,7 +55,7 @@ module Billing
       # Generating the QR code image is slow so we skip it for performance reasons
       # in the test env.
       if rails_env == "test"
-        File.new(Rails.root.join("spec", "fixtures", "files", "qrcode-test.png"))
+        File.new(Rails.root.join("test", "fixtures", "files", "qrcode-test.png"))
       else
         qrcode_image.composite(logo_image, gravity: :centre).convert(:png).call
       end

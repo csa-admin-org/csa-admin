@@ -77,11 +77,12 @@ class Members::BaseController < ApplicationController
   helper_method :next_shop_delivery
 
   def shop_special_deliveries
-    return unless Current.org.feature?("shop")
+    return [] unless Current.org.feature?("shop")
+    return [] unless shop_depot = current_member.shop_depot
 
     @shop_special_deliveries ||=
       Shop::SpecialDelivery.coming.open.select { |sd|
-        sd.shop_open?(depot_id: current_member.shop_depot&.id, ignore_closing_at: true)
+        sd.shop_open?(depot_id: shop_depot.id, ignore_closing_at: true)
       }
   end
   helper_method :shop_special_deliveries

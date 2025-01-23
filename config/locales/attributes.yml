@@ -257,7 +257,7 @@ _:
       _it: E-mail (sessione)
     emails:
       _de: E-Mail(s)
-      _en: Emails
+      _en: Email(s)
       _fr: Email(s)
       _it: E-mail
     end_time:

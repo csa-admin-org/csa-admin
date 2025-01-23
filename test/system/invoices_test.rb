@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'application_system_test_case'
+require "application_system_test_case"
 
 class InvoicesTest < ApplicationSystemTestCase
   test "creates an invoice for a rejected activity participation" do

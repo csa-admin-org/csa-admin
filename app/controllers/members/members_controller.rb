@@ -111,7 +111,9 @@ class Members::MembersController < Members::BaseController
   helper_method :member_params
 
   def shop_path
-    if !current_shop_delivery&.shop_open? && next_shop_delivery
+    if current_shop_delivery&.shop_open?
+      members_shop_path
+    elsif next_shop_delivery
       members_shop_next_path
     elsif shop_special_deliveries.any?
       members_shop_special_delivery_path(shop_special_deliveries.first.date)
