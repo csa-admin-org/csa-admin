@@ -32,12 +32,12 @@ class InvoiceTest < ActiveSupport::TestCase
   test "sends email when send_email is true on creation" do
     mail_templates(:invoice_created)
 
-    assert_no_difference 'InvoiceMailer.deliveries.size' do
+    assert_no_difference "InvoiceMailer.deliveries.size" do
       create_annual_fee_invoice(send_email: false)
       perform_enqueued_jobs
     end
 
-    assert_difference 'InvoiceMailer.deliveries.size', 1 do
+    assert_difference "InvoiceMailer.deliveries.size", 1 do
       create_annual_fee_invoice(send_email: true)
       perform_enqueued_jobs
     end
@@ -50,7 +50,7 @@ class InvoiceTest < ActiveSupport::TestCase
     mail_templates(:invoice_created)
     create_payment(amount: 100)
 
-    assert_no_difference 'InvoiceMailer.deliveries.size' do
+    assert_no_difference "InvoiceMailer.deliveries.size" do
       create_annual_fee_invoice(send_email: true)
       perform_enqueued_jobs
     end
@@ -286,7 +286,7 @@ class InvoiceTest < ActiveSupport::TestCase
     invoice = invoices(:annual_fee)
     invoice.touch(:sent_at)
 
-    assert_no_difference 'InvoiceMailer.deliveries.size' do
+    assert_no_difference "InvoiceMailer.deliveries.size" do
       invoice.send!
       perform_enqueued_jobs
     end
@@ -299,7 +299,7 @@ class InvoiceTest < ActiveSupport::TestCase
     invoice.member.active_emails.each { |email| suppress_email(email) }
 
     assert_equal [], invoice.member.reload.billing_emails
-    assert_no_difference 'InvoiceMailer.deliveries.size' do
+    assert_no_difference "InvoiceMailer.deliveries.size" do
       invoice.send!
       perform_enqueued_jobs
     end
@@ -314,7 +314,7 @@ class InvoiceTest < ActiveSupport::TestCase
     suppress_email("john@doe.com")
 
     assert_equal [], invoice.member.reload.billing_emails
-    assert_no_difference 'InvoiceMailer.deliveries.size' do
+    assert_no_difference "InvoiceMailer.deliveries.size" do
       invoice.send!
       perform_enqueued_jobs
     end
@@ -327,7 +327,7 @@ class InvoiceTest < ActiveSupport::TestCase
     invoice = invoices(:annual_fee)
     invoice.member.update!(emails: "")
 
-    assert_no_difference 'InvoiceMailer.deliveries.size' do
+    assert_no_difference "InvoiceMailer.deliveries.size" do
       invoice.send!
       perform_enqueued_jobs
     end
@@ -352,7 +352,7 @@ class InvoiceTest < ActiveSupport::TestCase
 
     assert_no_changes -> { invoice.state }, from: "open" do
       assert_changes -> { invoice.sent_at }, from: nil do
-        assert_no_difference 'InvoiceMailer.deliveries.size' do
+        assert_no_difference "InvoiceMailer.deliveries.size" do
           invoice.mark_as_sent!
           perform_enqueued_jobs
         end
@@ -376,7 +376,7 @@ class InvoiceTest < ActiveSupport::TestCase
     mail_templates(:invoice_cancelled).update!(active: true)
     invoice = invoices(:annual_fee)
 
-    assert_difference 'InvoiceMailer.deliveries.size' do
+    assert_difference "InvoiceMailer.deliveries.size" do
       perform_enqueued_jobs { invoice.cancel! }
     end
 
@@ -391,7 +391,7 @@ class InvoiceTest < ActiveSupport::TestCase
     invoice = invoices(:annual_fee)
     invoice.update!(state: "closed")
 
-    assert_no_difference 'InvoiceMailer.deliveries.size' do
+    assert_no_difference "InvoiceMailer.deliveries.size" do
       perform_enqueued_jobs { invoice.cancel! }
     end
   end
@@ -400,7 +400,7 @@ class InvoiceTest < ActiveSupport::TestCase
     mail_templates(:invoice_cancelled).update!(active: false)
     invoice = invoices(:annual_fee)
 
-    assert_no_difference 'InvoiceMailer.deliveries.size' do
+    assert_no_difference "InvoiceMailer.deliveries.size" do
       perform_enqueued_jobs { invoice.cancel! }
     end
   end
@@ -585,7 +585,7 @@ class InvoiceTest < ActiveSupport::TestCase
       create_payment(invoice: invoice, amount: 100)
     end
 
-    assert_difference 'AdminMailer.deliveries.size' do
+    assert_difference "AdminMailer.deliveries.size" do
       perform_enqueued_jobs { invoice.send_overpaid_notification_to_admins! }
     end
 
@@ -616,7 +616,7 @@ class InvoiceTest < ActiveSupport::TestCase
     admin = admins(:master)
     admin.update!(notifications: %w[invoice_overpaid])
 
-    assert_no_difference 'AdminMailer.deliveries.size' do
+    assert_no_difference "AdminMailer.deliveries.size" do
       perform_enqueued_jobs { invoice.send_overpaid_notification_to_admins! }
     end
   end

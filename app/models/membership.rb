@@ -312,6 +312,7 @@ class Membership < ApplicationRecord
     raise "`renew` must be true for renewing" unless renew?
 
     renewal = MembershipRenewal.new(self)
+
     transaction do
       renewal.renew!(attrs)
       self[:renewal_note] = attrs[:renewal_note]

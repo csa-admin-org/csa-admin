@@ -212,7 +212,8 @@ module MembersHelper
       .to_a
 
     if only_with_future_deliveries
-      cycles = cycles.select { |d| d.future_deliveries_count.positive? }
+      future_cycles = cycles.select { |d| d.future_deliveries_count.positive? }
+      cycles = future_cycles if future_cycles.any?
       checked_id =
         cycles.find { |dc| dc.id == membership&.delivery_cycle_id }&.id ||
         cycles.find { |dc| dc.depots.include?(membership&.depot) }&.id ||

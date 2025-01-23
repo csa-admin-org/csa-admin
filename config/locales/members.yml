@@ -106,7 +106,7 @@ _:
           _it: Nessuno
         subscribe_back_to_newsletter:
           _de: Ich möchte mich erneut für Newsletter anmelden
-          _en: I would like to subscribe to the newsletters again
+          _en: I would like to subscribe to the newsletter again
           _fr: Je souhaite à nouveau m'inscrire aux newsletters
           _it: Vorrei iscrivermi nuovamente alle newsletter
         title:
@@ -539,7 +539,7 @@ _:
         flash:
           notice:
             _de: Vielen Dank, dass Sie sich wieder für unseren Newsletter angemeldet haben!
-            _en: Thank you for re-subscribing to our newsletter!
+            _en: Thank you for subscribing to our newsletter again!
             _fr: Merci de vous être à nouveau inscrit à nos newsletters!
             _it: Grazie per esservi nuovamente iscritti alla nostra newsletter!
     information:
@@ -861,7 +861,7 @@ _:
             _it: 1 richiesta
           other:
             _de: "%{count} angefordert"
-            _en: "%{count} requeste"
+            _en: "%{count} requested"
             _fr: "%{count} demandées"
             _it: "%{count} richieste"
           zero:
@@ -899,7 +899,7 @@ _:
       create:
         title:
           _de: Ihre E-Mail (%{email}) wurde wieder zur Verteilerliste hinzugefügt.
-          _en: Your email (%{email}) has been re-added to the mailing list.
+          _en: Your email (%{email}) has been added back to the mailing list.
           _fr: Votre email (%{email}) est à nouveau inscrit à la liste de diffusion.
           _it: La tua email (%{email}) è stata nuovamente iscritta alla lista di distribuzione.
       destroy:

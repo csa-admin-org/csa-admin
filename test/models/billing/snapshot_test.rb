@@ -7,7 +7,7 @@ class Billing::SnapshotTest < ActiveSupport::TestCase
     travel_to "2020-03-31 23:59:55 +02"
 
     snapshot = nil
-    assert_difference 'Billing::Snapshot.count', 1 do
+    assert_difference "Billing::Snapshot.count", 1 do
       snapshot = Billing::Snapshot.create_or_update_current_quarter!
     end
 
@@ -22,7 +22,7 @@ class Billing::SnapshotTest < ActiveSupport::TestCase
 
     travel_to "2020-03-31 23:59:59 +02"
 
-    assert_no_difference 'Billing::Snapshot.count' do
+    assert_no_difference "Billing::Snapshot.count" do
       snapshot = Billing::Snapshot.create_or_update_current_quarter!
     end
 
@@ -34,7 +34,7 @@ class Billing::SnapshotTest < ActiveSupport::TestCase
   test "does not create a new snapshot when it is too late" do
     travel_to "2020-04-01 00:10:00 +02"
 
-    assert_no_difference 'Billing::Snapshot.count' do
+    assert_no_difference "Billing::Snapshot.count" do
       Billing::Snapshot.create_or_update_current_quarter!
     end
   end

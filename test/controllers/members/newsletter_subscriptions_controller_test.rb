@@ -9,7 +9,7 @@ class Members::NewsletterSubscriptionsControllerTest < ActionDispatch::Integrati
 
   test "unsubscribe with get request (List-Unsubscribe-Post)" do
     token = Newsletter::Audience.encrypt_email("john@doe.com")
-    assert_difference 'EmailSuppression.active.count', 1 do
+    assert_difference "EmailSuppression.active.count", 1 do
       get "/newsletters/unsubscribe/#{token}"
     end
 
@@ -18,7 +18,7 @@ class Members::NewsletterSubscriptionsControllerTest < ActionDispatch::Integrati
 
   test "unsubscribe with invalid token" do
     token = "invalid"
-    assert_no_difference 'EmailSuppression.active.count' do
+    assert_no_difference "EmailSuppression.active.count" do
       get "/newsletters/unsubscribe/#{token}"
     end
 
@@ -27,7 +27,7 @@ class Members::NewsletterSubscriptionsControllerTest < ActionDispatch::Integrati
 
   test "unsubscribe with POST request (List-Unsubscribe-Post)" do
     token = Newsletter::Audience.encrypt_email("john@doe.com")
-    assert_difference 'EmailSuppression.active.count', 1 do
+    assert_difference "EmailSuppression.active.count", 1 do
       post "/newsletters/unsubscribe/#{token}/post"
     end
 
@@ -38,7 +38,7 @@ class Members::NewsletterSubscriptionsControllerTest < ActionDispatch::Integrati
     token = Newsletter::Audience.encrypt_email("john@doe.com")
     get "/newsletters/unsubscribe/#{token}"
 
-    assert_difference 'EmailSuppression.active.count', -1 do
+    assert_difference "EmailSuppression.active.count", -1 do
       post "/newsletters/subscribe/#{token}"
     end
 

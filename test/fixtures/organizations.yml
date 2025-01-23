@@ -38,6 +38,7 @@ acme:
     - activity
     - basket_content
     - basket_price_extra
+    - contact_sharing
     - new_member_fee
     - shop
   feature_flags: []

@@ -5,7 +5,7 @@ require "test_helper"
 class Billing::InvoicerTest < ActiveSupport::TestCase
   test "does not create an invoice for inactive member (non-support)" do
     member = members(:mary)
-    assert_no_difference 'Invoice.count' do
+    assert_no_difference "Invoice.count" do
       force_invoice(member)
     end
   end
@@ -14,7 +14,7 @@ class Billing::InvoicerTest < ActiveSupport::TestCase
     travel_to "2023-01-01"
     member = members(:jane)
 
-    assert_no_difference 'Invoice.count' do
+    assert_no_difference "Invoice.count" do
       force_invoice(member)
     end
   end
@@ -36,7 +36,7 @@ class Billing::InvoicerTest < ActiveSupport::TestCase
     member = members(:martha)
     create_annual_fee_invoice(member: member)
 
-    assert_no_difference 'Invoice.count' do
+    assert_no_difference "Invoice.count" do
       force_invoice(member)
     end
   end
@@ -48,7 +48,7 @@ class Billing::InvoicerTest < ActiveSupport::TestCase
     membership.update!(billing_year_division: 1)
 
     assert memberships(:jane).trial?
-    assert_difference 'Invoice.count', 1 do
+    assert_difference "Invoice.count", 1 do
       force_invoice(member)
     end
   end
@@ -70,7 +70,7 @@ class Billing::InvoicerTest < ActiveSupport::TestCase
     member = members(:martha)
     member.update_column(:annual_fee, nil)
 
-    assert_no_difference 'Invoice.count' do
+    assert_no_difference "Invoice.count" do
       force_invoice(member)
     end
   end
@@ -80,7 +80,7 @@ class Billing::InvoicerTest < ActiveSupport::TestCase
     member = members(:martha)
     member.update_column(:annual_fee, 0)
 
-    assert_no_difference 'Invoice.count' do
+    assert_no_difference "Invoice.count" do
       force_invoice(member)
     end
   end
@@ -117,7 +117,7 @@ class Billing::InvoicerTest < ActiveSupport::TestCase
     member = members(:john)
     force_invoice(member)
 
-    assert_no_difference 'Invoice.count' do
+    assert_no_difference "Invoice.count" do
       force_invoice(member)
     end
   end
@@ -127,7 +127,7 @@ class Billing::InvoicerTest < ActiveSupport::TestCase
     member = members(:john)
     member.current_membership.update_column(:started_on, "2024-02-01")
 
-    assert_difference 'Invoice.count', 1 do
+    assert_difference "Invoice.count", 1 do
       force_invoice(member)
     end
   end
@@ -191,7 +191,7 @@ class Billing::InvoicerTest < ActiveSupport::TestCase
     member.current_membership.update!(billing_year_division: 4)
     force_invoice(member)
 
-    assert_no_difference 'Invoice.count' do
+    assert_no_difference "Invoice.count" do
       force_invoice(member)
     end
   end
@@ -223,7 +223,7 @@ class Billing::InvoicerTest < ActiveSupport::TestCase
     travel_to "2024-04-01"
     force_invoice(member)
 
-    assert_no_difference 'Invoice.count' do
+    assert_no_difference "Invoice.count" do
       force_invoice(member)
     end
   end
@@ -315,7 +315,7 @@ class Billing::InvoicerTest < ActiveSupport::TestCase
     force_invoice(member)
 
     assert_not Billing::Invoicer.new(member.reload).billable?
-    assert_no_difference 'Invoice.count' do
+    assert_no_difference "Invoice.count" do
       force_invoice(member)
     end
   end
@@ -334,7 +334,7 @@ class Billing::InvoicerTest < ActiveSupport::TestCase
     member.current_membership.update!(depot_price: 2)
 
     assert_not Billing::Invoicer.new(member.reload).billable?
-    assert_no_difference 'Invoice.count' do
+    assert_no_difference "Invoice.count" do
       force_invoice(member)
     end
   end
@@ -379,7 +379,7 @@ class Billing::InvoicerTest < ActiveSupport::TestCase
     force_invoice(member)
 
     assert_not Billing::Invoicer.new(member.reload).billable?
-    assert_no_difference 'Invoice.count' do
+    assert_no_difference "Invoice.count" do
       force_invoice(member)
     end
   end
@@ -562,7 +562,7 @@ class Billing::InvoicerTest < ActiveSupport::TestCase
     travel_to "2024-05-01"
     membership.update!(ended_on: "2024-04-30")
 
-    assert_difference 'Invoice.count', 1 do
+    assert_difference "Invoice.count", 1 do
       force_invoice(member)
     end
     assert_not Billing::Invoicer.new(member.reload).billable?

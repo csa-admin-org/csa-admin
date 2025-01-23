@@ -6,7 +6,7 @@ class PostmarkWrapper
       server_token = Current.org.credentials(:postmark, :api_token)
       Postmark::ApiClient.new(server_token)
     else
-      require Rails.root + "spec/support/postmark_mock_client"
+      require Rails.root + "test/support/postmark_mock_client"
       PostmarkMockClient.instance
     end
   end

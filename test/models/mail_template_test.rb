@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require "test_helper"
-require 'minitest/autorun'
+require "minitest/autorun"
 
 class MailTemplateTest < ActiveSupport::TestCase
   test "audit subject and content changes" do
@@ -9,7 +9,7 @@ class MailTemplateTest < ActiveSupport::TestCase
     Current.session = session
     template = mail_templates(:member_activated)
 
-    assert_difference 'Audit.count', 1 do
+    assert_difference "Audit.count", 1 do
       template.update!(
         subject: "Welcome!",
         content: "Hello {{ member.name }}"

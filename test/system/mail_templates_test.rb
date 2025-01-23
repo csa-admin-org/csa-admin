@@ -21,7 +21,7 @@ class MailTemplatesTest < ApplicationSystemTestCase
     fill_in "Subject", with: "Welcome {{ member.name }}!!"
     fill_in "Content", with: "<p>Basket: {{ membership.basket_size.name }}</p>"
 
-    assert_difference 'Audit.count', 1 do
+    assert_difference "Audit.count", 1 do
       click_button "Update Email template"
     end
 
