@@ -23,6 +23,8 @@ class MemberMailer < ApplicationMailer
       "waiting_basket_size_id" => member.waiting_basket_size_id,
       "waiting_basket_size" => Liquid::BasketSizeDrop.new(member.waiting_basket_size),
       "waiting_depot_id" => member.waiting_depot_id,
-      "waiting_depot" => Liquid::DepotDrop.new(member.waiting_depot))
+      "waiting_depot" => Liquid::DepotDrop.new(member.waiting_depot),
+      "waiting_delivery_cycle_id" => member.waiting_delivery_cycle_id,
+      "waiting_delivery_cycle" => Liquid::DeliveryCycleDrop.new(member.waiting_delivery_cycle))
   end
 end

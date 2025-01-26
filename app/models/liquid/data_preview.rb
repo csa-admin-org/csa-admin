@@ -48,10 +48,8 @@ class Liquid::DataPreview
       drop_class.constantize
     else
       case key
-      when /waiting_basket_size\z/
-        Liquid::BasketSizeDrop
-      when /waiting_depot\z/
-        Liquid::DepotDrop
+      when /waiting_.*/
+        drop_class key.to_s.sub(/waiting_/, "")
       when /.*_activities\z/
         Liquid::ActivityDrop
       when /.*_activity_participations\z/
