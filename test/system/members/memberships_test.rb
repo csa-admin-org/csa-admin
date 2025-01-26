@@ -15,7 +15,7 @@ class Members::MembershipsTest < ApplicationSystemTestCase
     click_on "Membership"
 
     within "#2024 ul" do
-      assert_text "1 January 2024 – 31 December 2024"
+      assert_text "1 April 2024 – 3 June 202"
       assert_text " Medium basket"
       assert_text "Our farm"
       assert_text "10 Deliveries, one absence"
@@ -32,11 +32,11 @@ class Members::MembershipsTest < ApplicationSystemTestCase
     click_on "Membership"
 
     within "#2024 ul" do
-      assert_text "1 January 2024 – 31 December 2024"
+      assert_text "4 April 2024 – 6 June 2024"
       assert_text "Large basket"
       assert_text "Bread"
       assert_text "Bakery"
-      assert_text " 10 Deliveries, 2 more on trial and without commitmen"
+      assert_text " 10 Deliveries, 2 more on trial and without commitment"
       assert_text "½ Days: 2 requested"
       assert_text "CHF 380.00"
     end
