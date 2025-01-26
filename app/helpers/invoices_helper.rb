@@ -10,6 +10,12 @@ module InvoicesHelper
   def display_entity(invoice, link: true)
     if link && invoice.entity
       auto_link invoice.entity
+    elsif invoice.entity_type == "Membership"
+      t("billing.membership_entity",
+        fiscal_year: invoice.entity.fiscal_year,
+        number: invoice.memberships_amount_description[/#\d+\z/])
+    elsif invoice.entity_type == "Shop::Order"
+      t("shop.title")
     else
       t_invoice_entity_type(invoice.entity_type)
     end
