@@ -453,6 +453,10 @@ class Membership < ApplicationRecord
     baskets.first&.delivery
   end
 
+  def last_delivery
+    baskets.last&.delivery
+  end
+
   def period
     started_on..ended_on
   end

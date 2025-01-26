@@ -10,7 +10,7 @@ div id=membership.fiscal_year.year
     li class='flex flex-row items-center'
       = icon "calendar-days", class: "h-6 w-6 text-gray-300 dark:text-gray-700"
       span class='ml-2'
-        = [ membership.started_on, membership.ended_on ].map { |d| l(d) }.join(" – ")
+        = [ membership.first_delivery.date, membership.last_delivery.date ].map { |d| l(d) }.join(" – ")
 
     li class='mt-1 flex flex-row items-center'
       = icon "shopping-bag", class: "h-6 w-6 text-gray-300 dark:text-gray-700"

@@ -38,7 +38,7 @@ class Members::MembershipRenewalsTest < ApplicationSystemTestCase
 
     assert_includes menu_nav, "Membership\n⤷ Current"
     within "#2025 ul" do
-      assert_text "1 January 2025 – 31 December 2025"
+      assert_text "7 April 2025 – 12 June 2025"
       assert_text "Medium basket"
       assert_text "2x Bread and Eggs"
       assert_text "Home"
@@ -89,7 +89,7 @@ class Members::MembershipRenewalsTest < ApplicationSystemTestCase
 
     assert_includes menu_nav, "Membership\n⤷ Current"
     within "#2025 ul" do
-      assert_text "1 January 2025 – 31 December 2025"
+      assert_text "10 April 2025 – 12 June 2025"
     end
 
     renewed_membership = membership.reload.renewed_membership
@@ -117,7 +117,7 @@ class Members::MembershipRenewalsTest < ApplicationSystemTestCase
     assert_selector ".flash", text: "Your membership has been renewed. Thank you!"
     assert_includes menu_nav, "Membership\n⤷ Current"
     within "#2025 ul" do
-      assert_text "1 January 2025 – 31 December 2025"
+      assert_text "10 April 2025 – 12 June 2025"
       assert_text "Salary baskets"
     end
 
