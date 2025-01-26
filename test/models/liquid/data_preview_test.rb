@@ -40,6 +40,7 @@ class Liquid::DataPreviewTest < ActiveSupport::TestCase
         "shop_depot" => nil
       },
       "membership" => {
+        "absences_included" => 0,
         "activity_participations_accepted_count" => 2,
         "activity_participations_demanded_count" => 2,
         "activity_participations_missing_count" => 0,
@@ -71,7 +72,8 @@ class Liquid::DataPreviewTest < ActiveSupport::TestCase
         },
         "delivery_cycle" => {
           "id" => 1,
-          "name" => "Mondays"
+          "name" => "Mondays",
+          "absences_included_annually" => 0
         },
         "end_date" => "31 December 2024",
         "first_delivery" => {
@@ -118,18 +120,24 @@ class Liquid::DataPreviewTest < ActiveSupport::TestCase
         "phone"=> "+41 76 449 59 38",
         "url" => "https://www.acme.test"
       },
-      "waiting_list_position" => 2,
-      "waiting_basket_size_id" => basket_sizes(:medium).id,
       "waiting_basket_size" => {
         "id" => basket_sizes(:medium).id,
         "name" => "Medium basket"
       },
+      "waiting_basket_size_id" => basket_sizes(:medium).id,
+      "waiting_delivery_cycle" => {
+        "absences_included_annually" => 0,
+        "id" => 1,
+        "name" => "Mondays"
+      },
+      "waiting_delivery_cycle_id" => 1,
       "waiting_depot" => {
         "id" => depots(:farm).id,
         "member_note" => nil,
         "name" => "Our farm"
       },
-      "waiting_depot_id" => depots(:farm).id
+      "waiting_depot_id" => depots(:farm).id,
+      "waiting_list_position" => 2
     }, data)
   end
 
@@ -168,6 +176,7 @@ class Liquid::DataPreviewTest < ActiveSupport::TestCase
         "page_url" => "https://members.acme.test"
       },
       "membership" => {
+        "absences_included" => 0,
         "basket_complement_names" => "Bread and Eggs",
         "basket_complements" => [
           {
@@ -196,7 +205,8 @@ class Liquid::DataPreviewTest < ActiveSupport::TestCase
         },
         "delivery_cycle" => {
           "id" => 1,
-          "name" => "Mondays"
+          "name" => "Mondays",
+          "absences_included_annually" => 0
         },
         "end_date" => "31 December 2024",
         "first_delivery" => {

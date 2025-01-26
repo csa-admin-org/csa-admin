@@ -91,6 +91,10 @@ class Liquid::MembershipDrop < Liquid::Drop
     Liquid::DeliveryCycleDrop.new(@membership.delivery_cycle)
   end
 
+  def absences_included
+    @membership.absences_included
+  end
+
   private
 
   def helpers

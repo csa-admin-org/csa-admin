@@ -20,6 +20,8 @@ module SharedDataPreview
       waiting_basket_size: basket_size,
       waiting_depot_id: depot&.id,
       waiting_depot: depot,
+      waiting_delivery_cycle_id: delivery_cycle.id,
+      waiting_delivery_cycle: delivery_cycle,
       activity_participations: ActivityParticipation.coming.limit(1))
   end
 
@@ -37,6 +39,7 @@ module SharedDataPreview
       deliveries: deliveries,
       depot: depot,
       delivery_cycle: delivery_cycle,
+      absences_included: delivery_cycle.absences_included_annually,
       next_basket: basket,
       basket_quantity: 1,
       remaining_trial_baskets_count: Current.org.trial_baskets_count,
@@ -76,7 +79,8 @@ module SharedDataPreview
     wday = deliveries.first.date.wday
     OpenStruct.new(
       id: 1,
-      public_name: I18n.t("date.day_names")[wday].titleize.pluralize)
+      public_name: I18n.t("date.day_names")[wday].titleize.pluralize,
+      absences_included_annually: 0)
   end
 
   def memberships_basket_complements
