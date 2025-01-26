@@ -852,6 +852,26 @@ _:
           _en: The membership is billed once all trial baskets have been delivered. If the membership is terminated during or at the end of the trial period, only the delivered baskets are billed. If the member renews later, the number of trial baskets already used is reset, regardless of the duration of the interruption.
           _fr: L'abonnement est facturé une fois que tous les paniers à l'essai ont été livrés. Si l'abonnement est arrêté pendant ou à la fin de la période d'essai, alors seulement les paniers livrés sont facturés. Si le membre se réinscrit ultérieurement, le nombre de paniers à l'essai déjà utilisés est réinitialisé, peu importe la durée de l'interruption.
           _it: L'abbonamento viene fatturato una volta che tutti i cestini di prova sono stati consegnati. Se l'abbonamento viene interrotto durante o alla fine del periodo di prova, vengono addebitati solo i cestini consegnati. Se il socio si rinnova in seguito, il numero di cestini di prova già utilizzati viene azzerato, indipendentemente dalla durata dell'interruzione.
+        vat_activity_rate:
+          _de: Die Preise der Plattform sind immer inklusive Mehrwertsteuer, und der Mehrwertsteuerbetrag wird vom Gesamtbetrag der Rechnung abgezogen.
+          _en: Platform prices are always VAT-inclusive, and the VAT amount is deducted from the total invoice amount
+          _fr: Les prix de la plateforme sont toujours TTC, et le montant de la TVA est déduit du montant total de la facture.
+          _it: I prezzi della piattaforma sono sempre IVA inclusa, e l’importo dell’IVA viene detratto dall’importo totale della fattura.
+        vat_membership_rate:
+          _de: Die Preise der Plattform sind immer inklusive Mehrwertsteuer, und der Mehrwertsteuerbetrag wird vom Gesamtbetrag der Rechnung abgezogen.
+          _en: Platform prices are always VAT-inclusive, and the VAT amount is deducted from the total invoice amount
+          _fr: Les prix de la plateforme sont toujours TTC, et le montant de la TVA est déduit du montant total de la facture.
+          _it: I prezzi della piattaforma sono sempre IVA inclusa, e l’importo dell’IVA viene detratto dall’importo totale della fattura.
+        vat_number:
+          _de: Mehrwertsteuernummer, die auf der Rechnung angezeigt wird.
+          _en: VAT number displayed on the invoice.
+          _fr: Numéro de TVA, affiché sur la facture.
+          _it: Numero di partita IVA visualizzato sulla fattura.
+        vat_shop_rate:
+          _de: Die Preise der Plattform sind immer inklusive Mehrwertsteuer, und der Mehrwertsteuerbetrag wird vom Gesamtbetrag der Rechnung abgezogen.
+          _en: Platform prices are always VAT-inclusive, and the VAT amount is deducted from the total invoice amount
+          _fr: Les prix de la plateforme sont toujours TTC, et le montant de la TVA est déduit du montant total de la facture.
+          _it: I prezzi della piattaforma sono sempre IVA inclusa, e l’importo dell’IVA viene detratto dall’importo totale della fattura.
       shop/order:
         amount_percentage:
           _de: Verändert den Schlussbetrag der Bestellung um einen bestimmten Prozentsatz.

@@ -100,7 +100,9 @@ ActiveAdmin.register Organization do
             h2 t(".vat")
             span t(".if_applicable"), class: "optional"
           end
-          f.input :vat_number
+          f.input :vat_number, input_html: {
+            placeholder: Current.org.country_code == "CH" ? "CHE-123.456.789" : nil
+          }
           f.input :vat_membership_rate, as: :number, min: 0, max: 100, step: 0.01,
             label: t(".vat_rate", type: Membership.model_name.human(count: 2))
           if Current.org.feature?("activity")
