@@ -17,14 +17,14 @@ class Liquid::DataPreviewTest < ActiveSupport::TestCase
           "date" => "1 April 2024"
         },
         "depot" => {
-          "id" => depots(:home).id,
+          "id" => home_id,
           "member_note" => nil,
           "name" => "Home"
         },
         "description" => "Small basket",
         "quantity" => 1,
         "size" => {
-          "id" => basket_sizes(:small).id,
+          "id" => small_id,
           "name" => "Small basket"
         }
       },
@@ -48,13 +48,13 @@ class Liquid::DataPreviewTest < ActiveSupport::TestCase
         "basket_complements" => [
           {
             "description" => "Eggs",
-            "id" => basket_complements(:eggs).id,
+            "id" => eggs_id,
             "name" => "Eggs",
             "quantity" => 1
           },
           {
             "description" => "Bread",
-            "id" => basket_complements(:bread).id,
+            "id" => bread_id,
             "name" => "Bread",
             "quantity" => 1
           }
@@ -62,18 +62,18 @@ class Liquid::DataPreviewTest < ActiveSupport::TestCase
         "basket_complements_description" => "Bread and Eggs",
         "basket_quantity" => 1,
         "basket_size" => {
-          "id" => basket_sizes(:medium).id,
+          "id" => medium_id,
           "name" => "Medium basket"
         },
+        "delivery_cycle" => {
+          "id" => all_id,
+          "name" => "All",
+          "absences_included_annually" => 0
+        },
         "depot" => {
-          "id" => depots(:home).id,
+          "id" => home_id,
           "member_note" => nil,
           "name" => "Home"
-        },
-        "delivery_cycle" => {
-          "id" => 1,
-          "name" => "Mondays",
-          "absences_included_annually" => 0
         },
         "end_date" => "31 December 2024",
         "first_delivery" => {
@@ -121,16 +121,16 @@ class Liquid::DataPreviewTest < ActiveSupport::TestCase
         "url" => "https://www.acme.test"
       },
       "waiting_basket_size" => {
-        "id" => basket_sizes(:medium).id,
+        "id" => medium_id,
         "name" => "Medium basket"
       },
-      "waiting_basket_size_id" => basket_sizes(:medium).id,
+      "waiting_basket_size_id" => medium_id,
       "waiting_delivery_cycle" => {
         "absences_included_annually" => 0,
-        "id" => 1,
-        "name" => "Mondays"
+        "id" => all_id,
+        "name" => "All"
       },
-      "waiting_delivery_cycle_id" => 1,
+      "waiting_delivery_cycle_id" => all_id,
       "waiting_depot" => {
         "id" => depots(:farm).id,
         "member_note" => nil,
@@ -155,14 +155,14 @@ class Liquid::DataPreviewTest < ActiveSupport::TestCase
           "date" => "1 April 2024"
         },
         "depot" => {
-          "id" => depots(:home).id,
+          "id" => home_id,
           "member_note" => nil,
           "name" => "Home"
         },
         "description" => "Small basket",
         "quantity" => 1,
         "size" => {
-          "id" => basket_sizes(:small).id,
+          "id" => small_id,
           "name" => "Small basket"
         }
       },
@@ -181,13 +181,13 @@ class Liquid::DataPreviewTest < ActiveSupport::TestCase
         "basket_complements" => [
           {
             "description" => "Eggs",
-            "id" => basket_complements(:eggs).id,
+            "id" => eggs_id,
             "name" => "Eggs",
             "quantity" => 1
           },
           {
             "description" => "Bread",
-            "id" => basket_complements(:bread).id,
+            "id" => bread_id,
             "name" => "Bread",
             "quantity" => 1
           }
@@ -195,18 +195,18 @@ class Liquid::DataPreviewTest < ActiveSupport::TestCase
         "basket_complements_description" => "Bread and Eggs",
         "basket_quantity" => 1,
         "basket_size" => {
-          "id" => basket_sizes(:medium).id,
+          "id" => medium_id,
           "name" => "Medium basket"
         },
+        "delivery_cycle" => {
+          "id" => all_id,
+          "name" => "All",
+          "absences_included_annually" => 0
+        },
         "depot" => {
-          "id" => depots(:home).id,
+          "id" => home_id,
           "member_note" => nil,
           "name" => "Home"
-        },
-        "delivery_cycle" => {
-          "id" => 1,
-          "name" => "Mondays",
-          "absences_included_annually" => 0
         },
         "end_date" => "31 December 2024",
         "first_delivery" => {
