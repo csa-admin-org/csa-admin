@@ -28,14 +28,14 @@ class API::V1::ConfigurationsControllerTest < ActionDispatch::IntegrationTest
     assert_includes response.content_type, "application/json"
     assert_equal({
       "basket_sizes" => [
-        { "id" => basket_sizes(:small).id, "visible" => true, "names" => { "en" => "Small basket" } },
-        { "id" => basket_sizes(:medium).id, "visible" => true, "names" => { "en" => "Medium basket" } },
+        { "id" => small_id, "visible" => true, "names" => { "en" => "Small basket" } },
+        { "id" => medium_id, "visible" => true, "names" => { "en" => "Medium basket" } },
         { "id" => basket_sizes(:large).id, "visible" => true, "names" => { "en" => "Large basket" } }
       ],
       "depots" => [
         { "id" => depots(:bakery).id, "visible" => true, "names" => { "en" => "Bakery" } },
         { "id" => depots(:farm).id, "visible" => true, "names" => { "en" => "Our farm" } },
-        { "id" => depots(:home).id, "visible" => true, "names" => { "en" => "Home" } }
+        { "id" => home_id, "visible" => true, "names" => { "en" => "Home" } }
       ],
       "basket_content_products" => [
         { "id" => basket_content_products(:carrots).id, "names" => { "en" => "Carrots" } },

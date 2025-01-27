@@ -58,7 +58,7 @@ module SharedDataPreview
   end
 
   def deliveries
-    Delivery.between(started_on..ended_on)
+    @deliveries ||= delivery_cycle.deliveries(fiscal_year)
   end
 
   def basket
@@ -76,11 +76,7 @@ module SharedDataPreview
   end
 
   def delivery_cycle
-    wday = deliveries.first.date.wday
-    OpenStruct.new(
-      id: 1,
-      public_name: I18n.t("date.day_names")[wday].titleize.pluralize,
-      absences_included_annually: 0)
+    @delivery_cycle ||= DeliveryCycle.greatest
   end
 
   def memberships_basket_complements

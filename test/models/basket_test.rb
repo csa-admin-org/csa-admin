@@ -195,7 +195,7 @@ class BasketTest < ActiveSupport::TestCase
   test "calculate_price_extra with dynamic pricing based on basket_size" do
     org(features: [ :basket_price_extra ])
     org(basket_price_extra_dynamic_pricing: <<-LIQUID)
-      {% if basket_size_id == #{basket_sizes(:small).id} %}
+      {% if basket_size_id == #{small_id} %}
         {{ 15 | minus: 10 | divided_by: 3.0 }}
       {% else %}
         2.5

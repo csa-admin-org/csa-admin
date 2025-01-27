@@ -30,11 +30,11 @@ class API::V1::MembersControllerTest < ActionDispatch::IntegrationTest
       country_code: "CH",
       emails: "john@woo.com",
       phones: "+41 12 345 67 89",
-      waiting_basket_size_id: basket_sizes(:small).id,
+      waiting_basket_size_id: small_id,
       waiting_depot_id: depots(:bakery).id,
       members_basket_complements_attributes: [
-        { basket_complement_id: basket_complements(:bread).id, quantity: 1 },
-        { basket_complement_id: basket_complements(:eggs).id, quantity: 2 }
+        { basket_complement_id: bread_id, quantity: 1 },
+        { basket_complement_id: eggs_id, quantity: 2 }
       ]
     }
 
