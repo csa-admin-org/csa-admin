@@ -58,7 +58,12 @@ module SharedDataPreview
   end
 
   def deliveries
-    @deliveries ||= delivery_cycle.deliveries(fiscal_year)
+    @deliveries ||=
+      if delivery_cycle.current_deliveries_count.positive?
+        Delivery.where(id: delivery_cycle.current_deliveries.map(&:id))
+      else
+        Delivery.where(id: delivery_cycle.future_deliveries.map(&:id))
+      end
   end
 
   def basket

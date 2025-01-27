@@ -774,7 +774,7 @@ ActiveAdmin.register Membership do
           input_html: {
             data: { action: "form-reset#reset" }
           }
-        if DeliveryCycle.prices?
+        if DeliveryCycle.prices? || f.object.delivery_cycle_price&.positive?
           f.input :delivery_cycle_price,
             required: false,
             input_html: { data: { form_reset_target: "input" } }
