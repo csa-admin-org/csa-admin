@@ -98,7 +98,7 @@ ActiveAdmin.register Basket do
           collection: delivery_collection,
           prompt: true
       end
-      if DeliveryCycle.prices?
+      if DeliveryCycle.prices? || f.object.delivery_cycle_price&.positive?
         f.input :delivery_cycle_price, required: false, min: 0
       end
     end
