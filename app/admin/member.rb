@@ -149,6 +149,8 @@ ActiveAdmin.register Member do
     column(:balance_amount) { |m| cur m.balance_amount }
   end
 
+  sidebar_handbook_link("members")
+
   show do |member|
     columns do
       column do

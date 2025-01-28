@@ -1825,8 +1825,8 @@ _:
           _fr: Créer abonnement
           _it: Creare abbonamento
         deactivate:
-          _de: Inaktiv setzen
-          _en: Deactivate
+          _de: Deaktivieren
+          _en: Make inactive
           _fr: Rendre inactif
           _it: Disattivare
         delivery_order_pdf:
@@ -1901,10 +1901,10 @@ _:
           _fr: Valider
           _it: Confermare
         wait:
-          _de: Nochmals auf die Warteliste setzen
-          _en: Put back on waiting list
+          _de: Auf die Warteliste setzen
+          _en: Put on waiting list
           _fr: Mettre en liste d'attente
-          _it: Mettere in lista d'attesa
+          _it: Metti in lista d'attesa
       sidebar_section:
         activity_participation_ical_text_html:
           _de: Feed <a href="https://fr.wikipedia.org/wiki/ICalendar">iCalendar</a>, der alle Teilnahmen an bevorstehenden Aktivitäten enthält.
