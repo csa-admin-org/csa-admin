@@ -1,0 +1,43 @@
+# Mitglieder
+
+Ein Mitglied repräsentiert eine Person, Familie, Wohngemeinschaft oder ein Unternehmen und ermöglicht die Verwaltung seiner Informationen (Adresse, Kontakt usw.). Die Mitgliedschaft wird über Abonnements verwaltet, wobei nur ein Abonnement pro Geschäftsjahr zulässig ist.
+
+Ein Mitglied wird über das [Anmeldeformular](<%= new_members_member_url(subdomain: Current.org.members_subdomain) %>) oder durch einen Administrator über das [Mitgliedererstellungsformular](/members/new) angelegt.
+
+## Status
+
+### Zu bestätigen
+
+Neue Mitglieder, die über das [Anmeldeformular](<%= new_members_member_url(subdomain: Current.org.members_subdomain) %>) erstellt werden, erscheinen in [der Liste der zu bestätigenden Mitglieder](/members?scope=pending). Sie müssen von einem Administrator bestätigt werden, um sicherzustellen, dass alle Informationen korrekt sind.
+
+Es ist möglich, beim Bestätigen eines Mitglieds automatisch eine Willkommens-E-Mail zu senden, indem [die E-Mail-Vorlage "Mitglied bestätigt"](/mail_templates/member_validated) konfiguriert wird.
+
+> Administratoren können per E-Mail benachrichtigt werden, wenn eine neue Anmeldung erfolgt, indem sie ihre [Benachrichtigungseinstellungen](<%= edit_admin_path(current_admin) %>) verwalten.
+
+### Warteliste
+
+Nachdem ein Mitglied bestätigt wurde oder direkt von einem Admin erstellt wurde, landet es mit einer (ausstehenden) Abonnementskonfiguration auf der Warteliste. Diese ist hilfreich für Organisationen mit einer Kapazitätsgrenze an aktiven Mitgliedern.
+
+Um ein Mitglied zu aktivieren, erstellen Sie ein Abonnement für das Mitglied (Schaltfläche „Abonnement erstellen“ oben rechts auf der Seite des Mitglieds). Die (ausstehende) Konfiguration wird automatisch in das Formular für die Abonnementserstellung übernommen.
+
+Es ist möglich, beim Aktivieren eines Mitglieds automatisch eine Willkommens-E-Mail zu versenden, indem [die E-Mail-Vorlage "Mitglied aktiviert"](/mail_templates/member_activated) eingerichtet wird.
+
+### Aktiv
+
+Ein aktives Mitglied ist ein Mitglied mit einem Abonnement für das laufende oder kommende Geschäftsjahr. Ein Mitglied, das einen definierten Abholort (Depot) für Lebensmittelbestellungen hat, gilt ebenfalls als aktiv.
+
+Sobald das aktuelle Abonnement endet oder gelöscht wird, wird das Mitglied automatisch inaktiv.
+
+### Support
+
+Ein Support-Mitglied besitzt kein Abonnement, zahlt jedoch einen jährlichen Beitrag (bei Vereinen) oder hält Geschäftsanteile (bei Genossenschaften). Sobald für ein Support-Mitglied ein Abonnement erstellt wird, wird es aktiv.
+
+Über die Schaltfläche „Deaktivieren“ oben rechts in der Mitgliederansicht kann ein Support-Mitglied inaktiv gemacht werden, wodurch sein jährlicher Beitrag entfernt oder die erforderliche Anzahl an Geschäftsanteilen auf Null gesetzt wird.
+
+Über die Schaltfläche „Auf die Warteliste setzen“ kann ein Support-Mitglied wieder auf die Warteliste gesetzt werden. Beitrag oder Geschäftsanteile bleiben dabei unverändert.
+
+### Inaktiv
+
+Ein inaktives Mitglied besitzt kein Abonnement für das laufende oder kommende Geschäftsjahr und zahlt keinen Jahresbeitrag oder hält keine Geschäftsanteile. Ein inaktives Mitglied kann erneut auf die Warteliste gesetzt werden.
+
+Mit der Schaltfläche „Auf die Warteliste setzen“ können Sie ein Support-Mitglied ebenfalls auf die Warteliste setzen. In diesem Fall wird sein Jahresbeitrag wieder auf den Standardwert der Organisation gesetzt.
