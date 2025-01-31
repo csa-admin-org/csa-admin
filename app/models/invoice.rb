@@ -106,6 +106,7 @@ class Invoice < ApplicationRecord
   validate :memberships_amount_not_too_high,
     on: :create,
     if: :membership_type?
+  validate :organization_iban_must_be_present
 
   before_destroy :ensure_latest_invoice!
   after_destroy -> { self.class.reset_pk_sequence! }
@@ -468,6 +469,12 @@ class Invoice < ApplicationRecord
     if paid_invoices.sum(:memberships_amount) + memberships_amount > entity.price
       errors.add(:base, "Somme de la facturation des abonnements trop grande")
     end
+  end
+
+  def organization_iban_must_be_present
+    return if Current.org.iban?
+
+    errors.add(:base, :missing_iban)
   end
 
   def set_paid_memberships_amount

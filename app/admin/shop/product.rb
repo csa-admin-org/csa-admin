@@ -70,8 +70,10 @@ ActiveAdmin.register Shop::Product do
   sidebar_handbook_link("shop#produits")
 
   form do |f|
-    f.semantic_errors :base
-    errors_on(self, f, :variants)
+    div class: "mb-6" do
+      f.semantic_errors :base
+      errors_on(self, f, :variants)
+    end
 
     f.inputs do
       tabs do

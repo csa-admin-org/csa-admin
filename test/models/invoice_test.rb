@@ -29,6 +29,13 @@ class InvoiceTest < ActiveSupport::TestCase
     assert invoice.pdf_file.byte_size.positive?
   end
 
+  test "ensure organization IBAN presence" do
+    org(iban: nil)
+    invoice = Invoice.new
+    assert_not invoice.valid?
+    assert_includes invoice.errors[:base], "Your IBAN number is not configured"
+  end
+
   test "sends email when send_email is true on creation" do
     mail_templates(:invoice_created)
 

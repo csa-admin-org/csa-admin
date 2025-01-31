@@ -144,6 +144,12 @@ ActiveAdmin.register BasketContent do
   end
 
   form do |f|
+    div class: "mb-6" do
+      f.object.errors.attribute_names.each do |attr|
+        para f.semantic_errors attr
+      end
+    end
+
     f.inputs t(".details") do
       f.input :delivery,
         collection: Delivery.all,
@@ -196,7 +202,7 @@ ActiveAdmin.register BasketContent do
     div "data-controller" => "basket-content-distribution" do
       h2 t("basket_content.distribution"), class: "text-2xl font-extralight mb-2"
       f.inputs do
-        tabs  do
+        tabs do
           tab t("basket_content.distribution_mode.automatic"), id: "automatic", selected: f.object.distribution_automatic?, html_options: { "data-action" => "click->basket-content-distribution#automaticMode" } do
             f.semantic_errors :basket_percentages
             BasketSize.ordered.paid.each do |basket_size|
