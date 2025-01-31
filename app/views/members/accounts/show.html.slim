@@ -42,7 +42,7 @@ section
 
     - if current_member.use_shop_depot?
       li class='pt-6 flex flex-row'
-        = icon "shopping-basket", class: "h-6 w-6", library: "lucide"
+        = icon "shopping-basket", class: "h-6 w-6"
         span class='ml-4'
           - depot = current_member.shop_depot
           - if depot.full_address

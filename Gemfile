@@ -43,7 +43,7 @@ gem "turbo-rails"
 gem "stimulus-rails"
 gem "tailwindcss-rails"
 gem "tailwindcss-ruby", "~> 3.4"
-gem "rails_icons"
+gem "inline_svg"
 
 gem "cld"
 

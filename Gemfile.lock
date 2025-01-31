@@ -94,10 +94,12 @@ GEM
     arbre (2.1.0)
       activesupport (>= 7.0)
     ast (2.4.2)
-    async (2.21.1)
+    async (2.21.3)
       console (~> 1.29)
       fiber-annotation
-      io-event (~> 1.6, >= 1.6.5)
+      io-event (~> 1.7)
+      metrics (~> 0.12)
+      traces (~> 0.15)
     async-http (0.87.0)
       async (>= 2.10.2)
       async-pool (~> 0.9)
@@ -176,9 +178,9 @@ GEM
     debug (1.10.0)
       irb (~> 1.10)
       reline (>= 0.3.8)
-    difftastic (0.2.0)
-    difftastic (0.2.0-arm64-darwin)
-    difftastic (0.2.0-x86_64-linux)
+    difftastic (0.4.0)
+    difftastic (0.4.0-arm64-darwin)
+    difftastic (0.4.0-x86_64-linux)
     discard (1.4.0)
       activerecord (>= 4.2, < 9.0)
     domain_name (0.6.20240107)
@@ -257,6 +259,9 @@ GEM
       has_scope (>= 0.6)
       railties (>= 7.0)
       responders (>= 2)
+    inline_svg (1.10.0)
+      activesupport (>= 3.0)
+      nokogiri (>= 1.6)
     io-console (0.8.0)
     io-endpoint (0.14.0)
     io-event (1.7.5)
@@ -449,7 +454,7 @@ GEM
       nio4r (~> 2.0)
     raabro (1.4.0)
     racc (1.8.1)
-    rack (3.1.8)
+    rack (3.1.9)
     rack-cors (2.0.2)
       rack (>= 2.0.0)
     rack-session (2.1.0)
@@ -484,9 +489,6 @@ GEM
     rails-i18n (8.0.1)
       i18n (>= 0.7, < 2)
       railties (>= 8.0.0, < 9)
-    rails_icons (1.1.0)
-      nokogiri (~> 1.16, >= 1.16.4)
-      rails (> 6.1)
     railties (8.0.1)
       actionpack (= 8.0.1)
       activesupport (= 8.0.1)
@@ -586,7 +588,7 @@ GEM
       fugit (~> 1.11.0)
       railties (>= 7.1)
       thor (~> 1.3.1)
-    sorbet-runtime (0.5.11787)
+    sorbet-runtime (0.5.11796)
     sqlite3 (2.5.0)
       mini_portile2 (~> 2.8.0)
     sqlite3 (2.5.0-arm64-darwin)
@@ -617,7 +619,7 @@ GEM
     tilt (2.6.0)
     timeout (0.4.3)
     tod (3.1.2)
-    traces (0.14.1)
+    traces (0.15.0)
     truemail (3.3.1)
       simpleidn (~> 0.2.1)
     ttfunk (1.7.0)
@@ -681,6 +683,7 @@ DEPENDENCIES
   icalendar
   image_processing
   importmap-rails
+  inline_svg
   kamal
   kramdown
   letter_opener
@@ -706,7 +709,6 @@ DEPENDENCIES
   rack-status
   rails (~> 8.0)
   rails-i18n
-  rails_icons
   resolv
   rexml
   rqrcode
@@ -752,7 +754,7 @@ CHECKSUMS
   appsignal (4.3.3) sha256=81759f0d63756c16068c05156ba41a1efb75aa532599996e9fb97fa4e6419788
   arbre (2.1.0) sha256=d1aee12be534a94748dbd783d772771c5067147fceb58f3ffb405937d09ed0c0
   ast (2.4.2) sha256=1e280232e6a33754cde542bc5ef85520b74db2aac73ec14acef453784447cc12
-  async (2.21.1) sha256=5d60f69cede1c493870b5d70488eaf5792bacf3d92495c730c5bf7ffc231589d
+  async (2.21.3) sha256=326d9a0f4cc26a47d320c1385d7eb1dc314c5b5e005c46b3c4f17aed7ff1729f
   async-http (0.87.0) sha256=fb5ff0db7bb77b1ee352cad62488be4c7f77ba27713757b266ec7766b4001a80
   async-pool (0.10.2) sha256=26e7b24ec6ad23f23a0086610b2d41e9e27f44cd2b82bc8a3b350bd99c8f35ac
   async-rest (0.19.1) sha256=0f3545f5c43992604c83ffc8273f8e8ace3b055bfec23c5d4cc638b8e974c87f
@@ -787,9 +789,9 @@ CHECKSUMS
   date (3.4.1) sha256=bf268e14ef7158009bfeaec40b5fa3c7271906e88b196d958a89d4b408abe64f
   date_validator (0.12.0) sha256=68c9834da240347b9c17441c553a183572508617ebfbe8c020020f3192ce3058
   debug (1.10.0) sha256=11e28ca74875979e612444104f3972bd5ffb9e79179907d7ad46dba44bd2e7a4
-  difftastic (0.2.0) sha256=a2f8e59b7ab977bde82848265e1e3caca3bbb5d09a4db64afe137825aaaefa71
-  difftastic (0.2.0-arm64-darwin) sha256=4c5f84fcef4b0ae80c5a4caede236c4e846d92bf851b8585aef36055b5458763
-  difftastic (0.2.0-x86_64-linux) sha256=fae24be0638b49ec5affeeacbd0531f329e74b0f58aa3c2e781aeee2f11e6c8f
+  difftastic (0.4.0) sha256=5bce86aaae10982ebebbf39d497b3163222f2b057d23396bd909bbb449076ee8
+  difftastic (0.4.0-arm64-darwin) sha256=c6414212d28b86cf144795033c3c2b8c7d68d15290a136dae4d9531fbb44c725
+  difftastic (0.4.0-x86_64-linux) sha256=75f3574a98fbaa59208d3205f706642a413bf82a7b436e51525b7c33f125c9ba
   discard (1.4.0) sha256=6efcd2a53ddf96781f81b825d398f1c88ab88c0faa84e131bea6e16ef95d65d0
   domain_name (0.6.20240107) sha256=5f693b2215708476517479bf2b3802e49068ad82167bcd2286f899536a17d933
   dotenv (3.1.7) sha256=c670df478675d23889e657beaca6fb423228f75ce9f052a0690c0d0daa333cf3
@@ -826,6 +828,7 @@ CHECKSUMS
   image_processing (1.13.0) sha256=71cffe2707573b16a4800b10619dc851add8cf9e667931ae900b7cac1d9cdd65
   importmap-rails (2.1.0) sha256=9f10c67d60651a547579f448100d033df311c5d5db578301374aeb774faae741
   inherited_resources (2.1.0) sha256=74f3f1862790fc1066b4eeb354717ddee220f59421fee4cea4bb1c4b775f4603
+  inline_svg (1.10.0) sha256=5b652934236fd9f8adc61f3fd6e208b7ca3282698b19f28659971da84bf9a10f
   io-console (0.8.0) sha256=cd6a9facbc69871d69b2cb8b926fc6ea7ef06f06e505e81a64f14a470fddefa2
   io-endpoint (0.14.0) sha256=51755235ef1aa27f48286f408eb25d7eb14d54d79bd3b3752486f74bbe7f5535
   io-event (1.7.5) sha256=99fbc90dd0f35b3b6a52e52f06fd6e38737017d0d2141c0b9bcab913fa5052e8
@@ -901,7 +904,7 @@ CHECKSUMS
   puma (6.6.0) sha256=f25c06873eb3d5de5f0a4ebc783acc81a4ccfe580c760cfe323497798018ad87
   raabro (1.4.0) sha256=d4fa9ff5172391edb92b242eed8be802d1934b1464061ae5e70d80962c5da882
   racc (1.8.1) sha256=4a7f6929691dbec8b5209a0b373bc2614882b55fc5d2e447a21aaa691303d62f
-  rack (3.1.8) sha256=d3fbcbca43dc2b43c9c6d7dfbac01667ae58643c42cea10013d0da970218a1b1
+  rack (3.1.9) sha256=3d0a390444dcc753ced32978159463f92ac920ae28d7058b6fd633abb9dd349d
   rack-cors (2.0.2) sha256=415d4e1599891760c5dc9ef0349c7fecdf94f7c6a03e75b2e7c2b54b82adda1b
   rack-session (2.1.0) sha256=437c3916535b58ef71c816ce4a2dee0a01c8a52ae6077dc2b6cd19085760a290
   rack-status (1.0.0) sha256=9d4e827e796057c976c031bf9e16702ee97365c82b9fb7dab9163ad0c051aa64
@@ -911,7 +914,6 @@ CHECKSUMS
   rails-dom-testing (2.2.0) sha256=e515712e48df1f687a1d7c380fd7b07b8558faa26464474da64183a7426fa93b
   rails-html-sanitizer (1.6.2) sha256=35fce2ca8242da8775c83b6ba9c1bcaad6751d9eb73c1abaa8403475ab89a560
   rails-i18n (8.0.1) sha256=15303195450bdac9a80636cf14c7e5ada2f43907cc60fcd19bbb3f81ab45be0d
-  rails_icons (1.1.0) sha256=2eb10a7f291531a3feadaf34839e52c56d934765e9ce519cef4709b03a2a46b8
   railties (8.0.1) sha256=8f653c6b1b0721b553045bd0deda1f22074b9ddc2209526e6f7285fcf607ac51
   rainbow (3.1.1) sha256=039491aa3a89f42efa1d6dec2fc4e62ede96eb6acd95e52f1ad581182b79bc6a
   rake (13.2.1) sha256=46cb38dae65d7d74b6020a4ac9d48afed8eb8149c040eccf0523bec91907059d
@@ -947,7 +949,7 @@ CHECKSUMS
   slim (5.2.1) sha256=72351dff7e2ff20e2d5c393cfc385bb9142cef5db059141628fd7163ac3c13e7
   slimi (0.7.5) sha256=bc68f5958d1c660a71ec13112924836a4cfb9eaf5c0fe1266084126d9d732a13
   solid_queue (1.1.3) sha256=c7b4a84819eca6a61250aa8d7e48b8ded6882026e78ee21d3701d372ca741aa2
-  sorbet-runtime (0.5.11787) sha256=21ae34164a1d826819d3a3963c6d1cbf140b0234066841ee48746f6b0301ce5d
+  sorbet-runtime (0.5.11796) sha256=204a90fa82aee7a3d626ce19442d69e2883098c1f27c5273fde2eadfb48d4415
   sqlite3 (2.5.0) sha256=87fa0036e6369c3f3cfeca749865c2b2b63649d3b17b223d1939a8eed4841a6b
   sqlite3 (2.5.0-arm64-darwin) sha256=65370ddbc7bd7e65a03c18f8bf0e9be0f4f3cf50f758f8c1d3181aece5515ecf
   sqlite3 (2.5.0-x86_64-linux-gnu) sha256=c62c8d625da7e2ce93d694f02cd9c9d537638f56b09f2e8f28bea2d030b3923b
@@ -968,7 +970,7 @@ CHECKSUMS
   tilt (2.6.0) sha256=263d748466e0d83e510aa1a2e2281eff547937f0ef06be33d3632721e255f76b
   timeout (0.4.3) sha256=9509f079b2b55fe4236d79633bd75e34c1c1e7e3fb4b56cb5fda61f80a0fe30e
   tod (3.1.2) sha256=e67bf57dc67c8ec806edf0b61e6e499b27eea4e1eb23da1907ec77d45226fb08
-  traces (0.14.1) sha256=13bcb62820d597be103eaf71ee6fa2714bd214d36fe3c77cb4dd8de1deeaabff
+  traces (0.15.0) sha256=21cfb37d35266cfffc5d911f4676442ad702bfe39fb8390adce320c56689d27d
   truemail (3.3.1) sha256=26e07453e8a174ac487ec76cbca4904446eadad15fb7b26fb1ffcdc894488913
   ttfunk (1.7.0) sha256=2370ba484b1891c70bdcafd3448cfd82a32dd794802d81d720a64c15d3ef2a96
   turbo-rails (2.0.11) sha256=fc47674736372780abd2a4dc0d84bef242f5ca156a457cd7fa6308291e397fcf

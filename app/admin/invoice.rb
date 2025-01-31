@@ -259,7 +259,7 @@ ActiveAdmin.register Invoice do
 
   action_item :pdf, only: :show, if: -> { !resource.processing? } do
     link_to_invoice_pdf(resource, class: "action-item-button") do
-      icon "file-pdf", class: "h-5 w-5", library: "own"
+      icon "file-pdf", class: "h-5 w-5"
     end
   end
 

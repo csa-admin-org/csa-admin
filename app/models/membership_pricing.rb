@@ -10,7 +10,6 @@ class MembershipPricing
         .sub(/\Awaiting_/, "")
         .sub(/members_basket_complements_attributes/, "memberships_basket_complements_attributes")
     }.with_indifferent_access
-    Rails.logger.debug "MembershipPricing: #{@params.inspect}"
     @min = 0
     @max = 0
   end

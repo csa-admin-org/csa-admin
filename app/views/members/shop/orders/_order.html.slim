@@ -70,7 +70,7 @@
         span class='inline-block w-28'
           = cur(f.object.amount)
 
-    div class='w-24 mt-2.5 text-sm text-gray-400 dark:text-gray-600 flex flex-row justify-end' title=t(".order_total_weight")
+    div class='w-24 mt-2.5 text-sm text-gray-400 dark:text-gray-600 flex flex-row items-center justify-end' title=t(".order_total_weight")
       = icon "scale", class: "w-4 h-4"
       span class='ml-1'
         = kg(f.object.weight_in_kg)

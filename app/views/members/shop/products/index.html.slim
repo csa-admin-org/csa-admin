@@ -46,7 +46,7 @@
     div class='mt-12 flex flex-row justify-center'
       = link_to members_shop_next_path, class: "cursor-pointer underline" do
         div class='flex flex-row items-center'
-          = icon "shopping-basket", class: "w-5 h-5", library: "lucide"
+          = icon "shopping-basket", class: "w-5 h-5"
           span class='ml-1 text-base font-normal'
             = t(".next_shop_delivery_link", date: l(next_shop_delivery.date, format: :long))
 
