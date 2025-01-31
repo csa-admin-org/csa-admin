@@ -29,7 +29,7 @@ footer class="w-full flex flex-col text-base text-gray-400 mt-16 dark:text-gray-
           - Current.org.social_networks.each do |network|
             li
               = link_to network.url, class: "flex items-center py-1 fill-gray-400 dark:fill-gray-600 hover:fill-green-500 hover:dark:fill-green-500" do
-                = icon network.icon, class: "h-5 w-5 ", library: "simpleicons"
+                = icon network.icon, class: "h-5 w-5", variant:  "simpleicons"
 
   - if Current.org.languages.many? && !current_member
     div class="mx-auto p-4"
@@ -40,5 +40,5 @@ footer class="w-full flex flex-col text-base text-gray-400 mt-16 dark:text-gray-
 
   div class="mx-auto #{"md:mx-0.5" if current_member} mb-4 mt-12 text-gray-300 dark:text-gray-700"
     = link_to csa_admin_website_url, class: "flex items-center text-sm hover:text-green-500" do
-      = icon "logo", class: "w-4 h-4 me-2 md:ms-0.5 md:me-3 fill-current", library: "own"
+      = icon "logo", class: "w-4 h-4 me-2 md:ms-0.5 md:me-3 fill-current", variant: "solid"
       = "CSA Admin"

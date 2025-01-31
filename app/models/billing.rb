@@ -30,8 +30,6 @@ module Billing
   end
 
   def import_payments(file)
-    Rails.logger.debug "IMPORT PAYMENTS"
-    Rails.logger.debug file.content_type
     if file.content_type == "text/xml"
       CamtFile.process!(file)
     else

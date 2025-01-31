@@ -87,7 +87,7 @@ module Billing
     end
 
     def log(event, data)
-      Rails.logger.info "payment_processing #{event} #{data.fingerprint}"
+      Rails.logger.info { "payment_processing #{event} #{data.fingerprint}" }
     end
   end
 end

@@ -8,7 +8,7 @@ namespace :simpleicons do
   task svg_to_png: :environment do
     require "fileutils"
 
-    svg_dir = Rails.root.join("app/assets/svg/icons/simpleicons")
+    svg_dir = Rails.root.join("app/assets/icons/simpleicons")
     output_dir = Rails.root.join("app/assets/images/simpleicons")
     FileUtils.mkdir_p(output_dir.to_s)
 

@@ -5,7 +5,7 @@ module LinksHelper
     title ||= type.upcase
     content_tag :span do
       link_to(url, title: title, **options) do
-        icon "file-#{type}", class: "h-#{size} w-#{size}", library: "own"
+        icon "file-#{type}", class: "h-#{size} w-#{size}"
       end
     end
   end
