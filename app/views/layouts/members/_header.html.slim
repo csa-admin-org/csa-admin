@@ -14,14 +14,19 @@ header class='flex-grow flex flex-col flex-nowrap justify-between'
 
     div class='mr-8 flex flex-grow h-full flex-col justify-between'
       - membership = current_member.closest_membership
+      - next_basket = current_member.next_basket
       ul class='flex-grow'
 
-        - if next_basket = current_member.next_basket
+        - if current_member.baskets.any?
           li class="#{nav_class("deliveries")}"
             = link_to members_deliveries_path, class: "block py-2 px-8" do
               h2 class='font-medium text-gray-700 dark:text-gray-400'
                 = Delivery.model_name.human(count: 2)
-              span = t(".delivery", date: l(next_basket.delivery.date))
+              span
+                - if next_basket
+                  = t(".delivery", date: l(next_basket.delivery.date))
+                - else
+                  = t(".see_history")
 
         - if show_shop_menu?
           li class="py-2" aria-label="Shop Menu"

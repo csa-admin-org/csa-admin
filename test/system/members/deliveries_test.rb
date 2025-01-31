@@ -13,6 +13,7 @@ class Members::DeliveriesTest < ApplicationSystemTestCase
 
     visit "/deliveries"
     assert_equal "/deliveries", current_path
+    assert_includes menu_nav, "Deliveries\n" + "⤷ 4 April 2024"
 
     assert_text "Information: Bakery"
     assert_text "Bakery front door code is 1234"
@@ -23,6 +24,32 @@ class Members::DeliveriesTest < ApplicationSystemTestCase
       assert_text "Bread"
       assert_text "Bakery"
     end
+  end
+
+  test "show past deliveries only (current year)" do
+    travel_to "2024-07-01"
+    member = members(:jane)
+    login(member)
+
+    visit "/deliveries"
+    assert_equal "/deliveries", current_path
+    assert_includes menu_nav, "Deliveries\n" + "⤷ View history"
+
+    assert_text "Future deliveries (0)"
+    assert_text "Past deliveries (10)"
+  end
+
+  test "show past deliveries only (past year)" do
+    travel_to "2025-01-01"
+    member = members(:jane)
+    login(member)
+
+    visit "/deliveries"
+    assert_equal "/deliveries", current_path
+    assert_includes menu_nav, "Deliveries\n" + "⤷ View history"
+
+    assert_text "Future deliveries (0)"
+    assert_text "Past deliveries (10)"
   end
 
   test "redirects when no membership" do
