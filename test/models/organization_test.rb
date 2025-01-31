@@ -95,7 +95,7 @@ class OrganizationTest < ActiveSupport::TestCase
     assert_not org.valid?
 
     org.iban = ""
-    assert_not org.valid?
+    assert org.valid?
   end
 
   test "validates IBAN format with FR IBAN" do

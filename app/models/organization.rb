@@ -73,11 +73,9 @@ class Organization < ApplicationRecord
   validates :email_default_from, format: { with: ->(org) { /.*@#{Tenant.domain}\z/ } }
   validates_plausible_phone :phone, country_code: ->(org) { org.country_code }
   validates_plausible_phone :activity_phone, country_code: ->(org) { org.country_code }
-  validates :iban, :creditor_name, :creditor_address,
-    :creditor_city, :creditor_zip,
-    presence: true
+  validates :creditor_name, :creditor_address, :creditor_city, :creditor_zip, presence: true
   validates :bank_reference, format: { with: /\A\d+\z/, allow_blank: true }
-  validates :iban, format: ->(org) { Billing.iban_format(org.country_code) }, if: :country_code?
+  validates :iban, format: ->(org) { Billing.iban_format(org.country_code) }, allow_nil: true, if: :country_code?
   validates :fiscal_year_start_month,
     presence: true,
     inclusion: { in: 1..12 }

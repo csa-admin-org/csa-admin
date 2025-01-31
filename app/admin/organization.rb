@@ -8,7 +8,7 @@ ActiveAdmin.register Organization do
   actions :edit, :update
 
   form data: { controller: "code-editor" } do |f|
-    div do
+    div class: "mb-6" do
       f.object.errors.attribute_names.each do |attr|
         para f.semantic_errors attr
       end
@@ -70,6 +70,7 @@ ActiveAdmin.register Organization do
             h2 t(".invoice")
           end
           f.input :iban,
+            label: f.object.country_code == "CH" ? "QR-IBAN" : "IBAN",
             placeholder: Billing.iban_placeholder(f.object.country_code),
             input_html: { value: f.object.iban_formatted }
           if f.object.country_code == "DE"

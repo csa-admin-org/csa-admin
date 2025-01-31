@@ -25,7 +25,12 @@ ActiveAdmin.register Announcement do
   end
 
   form do |f|
-    f.semantic_errors :base
+    div class: "mb-6" do
+      f.object.errors.attribute_names.each do |attr|
+        para f.semantic_errors attr
+      end
+    end
+
     f.inputs t(".details") do
       translated_input(f, :texts,
         as: :text,

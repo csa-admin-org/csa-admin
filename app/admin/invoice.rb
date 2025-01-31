@@ -315,6 +315,12 @@ ActiveAdmin.register Invoice do
   end
 
   form do |f|
+    div class: "mb-6" do
+      f.object.errors.attribute_names.each do |attr|
+        para f.semantic_errors attr
+      end
+    end
+
     f.inputs t(".details") do
       f.input :member,
         collection: Member.order(:name).distinct,

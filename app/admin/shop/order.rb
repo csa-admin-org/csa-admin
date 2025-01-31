@@ -181,8 +181,11 @@ ActiveAdmin.register Shop::Order do
   end
 
   form do |f|
-    f.semantic_errors :base
-    f.semantic_errors :amount
+    div class: "mb-6" do
+      f.semantic_errors :base
+      f.semantic_errors :amount
+    end
+
     f.inputs t(".details") do
       f.input :member, collection: Member.reorder(:name), prompt: true
       f.input :delivery_gid,

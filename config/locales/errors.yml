@@ -96,6 +96,11 @@ _:
         _en: must be less than or equal to %{count}
         _fr: doit être inférieur ou égal à %{count}
         _it: deve essere inferiore o uguale a a %{count}
+      missing_iban:
+        _de: Ihre IBAN-Nummer ist nicht konfiguriert
+        _en: Your IBAN number is not configured
+        _fr: Votre numéro IBAN n'est pas configuré
+        _it: Il tuo numero IBAN non è configurato
       must_be_one_hour:
         _de: muss eine Stunde länger als der Anfang sein
         _en: must be one hour longer than the start
