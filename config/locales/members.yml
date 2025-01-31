@@ -515,15 +515,15 @@ _:
           _fr: Prochaine livraison
           _it: Prossime consegne
         no_future_deliveries:
-          _de: Keine, es ist fast fertig für dieses Jahr.
-          _en: None, it's almost done for this year!
-          _fr: Aucune, c'est presque fini pour cette année!
-          _it: Nessuno, è quasi finita per quest'anno!
+          _de: Keine zukünftigen Lieferungen
+          _en: No future deliveries
+          _fr: Aucune livraison à venir
+          _it: Nessuna consegna futura
         no_past_deliveries:
-          _de: Keine, es wird bald anfangen!
-          _en: None, it will start soon!
-          _fr: Aucune, cela va bientôt commencer!
-          _it: Nessuno, inizierà presto!
+          _de: Keine vergangenen Lieferungen
+          _en: No past deliveries
+          _fr: Aucune livraison passée
+          _it: Nessuna consegna passata
         past_deliveries:
           _de: Alte Lieferungen (%{count})
           _en: Past deliveries (%{count})
