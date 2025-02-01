@@ -74,7 +74,7 @@ ActiveAdmin.register Organization do
             placeholder: Billing.iban_placeholder(f.object.country_code),
             input_html: { value: f.object.iban_formatted }
           if f.object.country_code == "DE"
-            f.input :sepa_creditor_identifier, input_html: { maxlength: 35 }
+            f.input :sepa_creditor_identifier, input_html: { maxlength: 35, placeholder: "DE98ZZZ09999999999" }
           end
           if f.object.country_code == "CH"
             f.input :bank_reference, input_html: { maxlength: 16 }
@@ -87,6 +87,10 @@ ActiveAdmin.register Organization do
           end
           translated_input(f, :invoice_infos,
             hint: t("formtastic.hints.organization.invoice_info"))
+          if f.object.country_code == "DE"
+            translated_input(f, :invoice_sepa_infos,
+              hint: t("formtastic.hints.organization.invoice_sepa_info"))
+          end
           f.input :invoice_logo, as: :file, input_html: { accept: "image/jpeg, image/png" }
           if resource.invoice_logo.attached?
             div class: "mt-2" do
@@ -463,6 +467,7 @@ ActiveAdmin.register Organization do
     :new_member_fee,
     :social_network_urls,
     *I18n.available_locales.map { |l| "invoice_info_#{l}" },
+    *I18n.available_locales.map { |l| "invoice_sepa_info_#{l}" },
     *I18n.available_locales.map { |l| "invoice_footer_#{l}" },
     *I18n.available_locales.map { |l| "email_signature_#{l}" },
     *I18n.available_locales.map { |l| "email_footer_#{l}" },

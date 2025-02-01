@@ -196,8 +196,8 @@ _:
         payment_part:
           _de: Zahlteil
           _en: Payment part
-          _fr: Section paiement
-          _it: Sezione pagamenti
+          _fr: Paiement
+          _it: Parte di pagamento
         receipt:
           _de: Empfangsschein
           _en: Receipt
@@ -209,15 +209,20 @@ _:
           _fr: Référence
           _it: Referenza
         sepa_creditor_identifier:
-          _de: Gläubiger-ID
+          _de: Gläubiger-ID
           _en: Creditor ID
           _fr: ID créancier
           _it: ID creditore
+        sepa_direct_debit:
+          _de: SEPA-Lastschriftverfahren
+          _en: SEPA direct debit
+          _fr: Prélèvement SEPA
+          _it: Addebito diretto SEPA
         sepa_mandate_id:
-          _de: Mandatsreferenz
-          _en: Mandate reference
-          _fr: Référence du mandat
-          _it: Riferimento del mandato
+          _de: SEPA Mandatsreferenz
+          _en: SEPA mandate reference
+          _fr: Référence de mandat SEPA
+          _it: Riferimento del mandato SEPA
       remaining_annual_memberships_amount:
         _de: Jährlicher Betrag noch offen
         _en: Remaining annual amount

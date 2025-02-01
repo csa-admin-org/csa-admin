@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_01_20_140229) do
+ActiveRecord::Schema[8.0].define(version: 2025_02_01_102701) do
   create_table "absences", force: :cascade do |t|
     t.bigint "member_id"
     t.date "started_on"
@@ -396,6 +396,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_01_20_140229) do
     t.decimal "amount_before_percentage", precision: 8, scale: 2
     t.datetime "stamped_at"
     t.integer "missing_activity_participations_fiscal_year"
+    t.json "sepa_metadata", default: {}, null: false
     t.index ["entity_type", "entity_id"], name: "index_invoices_on_entity_type_and_entity_id"
     t.index ["member_id"], name: "index_invoices_on_member_id"
     t.index ["state"], name: "index_invoices_on_state"
@@ -723,6 +724,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_01_20_140229) do
     t.integer "activity_participations_form_step", default: 1, null: false
     t.boolean "annual_fee_member_form", default: false, null: false
     t.json "social_network_urls", default: [], null: false
+    t.json "invoice_sepa_infos", default: {}, null: false
     t.check_constraint "JSON_TYPE(basket_price_extras) = 'array'", name: "organizations_basket_price_extras_is_array"
     t.check_constraint "JSON_TYPE(billing_year_divisions) = 'array'", name: "organizations_billing_year_divisions_is_array"
     t.check_constraint "JSON_TYPE(email_notifications) = 'array'", name: "organizations_email_notifications_is_array"

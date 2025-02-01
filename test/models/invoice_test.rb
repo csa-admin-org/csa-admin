@@ -640,6 +640,27 @@ class InvoiceTest < ActiveSupport::TestCase
     end
   end
 
+  test "persisted sepa_metadata on invoice creation" do
+    org(
+      country_code: "DE",
+      sepa_creditor_identifier: "DE98ZZZ09999999999")
+    member = create_member(
+      name: "John Doe",
+      country_code: "DE",
+      iban: "DE89370400440532013000",
+      sepa_mandate_id: "123",
+      sepa_mandate_signed_on: Date.parse("2024-01-01"))
+
+    invoice = create_annual_fee_invoice(member: member)
+    assert_equal({
+      "name" => "John Doe",
+      "iban" => "DE89370400440532013000",
+      "mandate_id" => "123",
+      "mandate_signed_on" => "2024-01-01"
+    }, invoice.sepa_metadata)
+    assert invoice.sepa?
+  end
+
   test "set creator once processed" do
     admin = admins(:master)
     Current.session = create_session(admin)
