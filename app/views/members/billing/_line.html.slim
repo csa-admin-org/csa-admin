@@ -1,19 +1,14 @@
-span class="order-2 md:order-1 flex-none w-24 mr-2"
+span class="order-2 md:order-1 flex-none mr-6 tabular-nums"
   = l(object.date, format: :number)
 - case object
 - when Invoice
   span class="order-1 md:order-2 w-full flex flex-grow justify-between items-center"
     span
-      - if object.canceled?
-        == t(".canceled_invoice_info", id: object.id, type: display_entity(object, link: false))
-      - elsif object.open?
-        == t(".open_invoice_info", id: object.id, type: display_entity(object, link: false))
-      - else
-        == t(".invoice_info", id: object.id, type: display_entity(object, link: false))
+      == t(".invoice_info", id: object.id, type: display_entity(object, link: false))
     span
       = link_to rails_blob_path(object.pdf_file, disposition: "attachment") do
         = icon "document-arrow-down", class: "h-5 w-5"
-  span class="order-3 flex-none text-right w-28"
+  span class="order-3 flex-none text-right w-28 tabular-nums"
     = cur(object.amount)
 - when Payment
   span class="order-1 w-full flex-grow"

@@ -11,7 +11,7 @@ class Members::BillingTest < ApplicationSystemTestCase
 
     assert_text "Billing\n⤷ 1 open invoice"
     assert_text "1 open invoice"
-    assert_text "01.04.24Open invoice ##{invoice.id} (Annual fee) CHF 30.00"
+    assert_text "01.04.24Invoice ##{invoice.id} (Annual fee) CHF 30.00"
     assert_text "Amount remaining to be paidCHF 30.00"
     assert_text "Payment intervalAnnual"
   end
