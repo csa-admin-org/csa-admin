@@ -4,7 +4,9 @@ require "test_helper"
 
 class PDF::InvoiceTest < ActiveSupport::TestCase
   def save_pdf_and_return_strings(invoice)
-    pdf = PDF::Invoice.new(invoice)
+    pdf = I18n.with_locale(invoice.member.language) do
+      PDF::Invoice.new(invoice)
+    end
     pdf.render_file(Rails.root.join("tmp/invoice.pdf"))
     PDF::Inspector::Text.analyze(pdf.render).strings
   end
@@ -348,6 +350,8 @@ class PDF::InvoiceTest < ActiveSupport::TestCase
   end
 
   test "shop order" do
+    Current.org.update!(
+      shop_invoice_info: "Invoice of you shop order of %{date}.")
     order = create_shop_order(
       items_attributes: {
         "0" => {
@@ -374,7 +378,9 @@ class PDF::InvoiceTest < ActiveSupport::TestCase
       "Description", "Amount (CHF)",
       "Oil, Olive 500ml, 2x 9.90", "19.80",
       "Flour, Wheat 1kg, 3x 3.00", "9.00",
-      "Total", "28.80"
+      "Total", "28.80",
+      "Invoice of you shop order of 4 April 2024.",
+      "Payable within 30 days, with our thanks."
     ]
   end
 
@@ -392,6 +398,7 @@ class PDF::InvoiceTest < ActiveSupport::TestCase
 
   test "France invoice" do
     org(
+      languages: [ "fr" ],
       country_code: "FR",
       currency_code: "EUR",
       iban: "FR1420041010050500013M02606",
@@ -399,40 +406,43 @@ class PDF::InvoiceTest < ActiveSupport::TestCase
       creditor_address: "1 rue de la Paix",
       creditor_city: "Paris",
       creditor_zip: "75000")
+    members(:martha).update!(language: "fr")
     invoice = invoices(:annual_fee)
     pdf_strings = save_pdf_and_return_strings(invoice)
 
     assert_equal [
-      "Invoice N° #{invoice.id}",
-      "1 April 2024",
+      "Facture N° #{invoice.id}",
+      "1 avril 2024",
       "Martha",
       "Nowhere 46", "1234 City",
-      "Description", "Amount (", "€", ")",
-      "Annual association fee", "30.00",
+      "Description", "Montant (", "€", ")",
+      "Cotisation annuelle association", "30.00",
       "Total", "30.00",
-      "Payable within 30 days, with our thanks.",
-      "Acme", ", Nowhere 42, 1234 City // info@acme.test",
-      "Payment part",
-      "Amount", "30.00",
-      "Payable to",
+      "Paiement",
+      "Montant", "EUR 30.00",
+      "Payable à",
       "Jardin Réunis", "1 rue de la Paix", "75000 Paris",
       "IBAN: ", "FR14 2004 1010 0505 0001 3M02 606",
-      "Invoice number / Reference", "#{invoice.id}",
-      "Payable by",
+      "Référence", invoice.reference.formatted,
+      "Payable par",
       "Martha", "Nowhere 46", "1234 City"
     ], pdf_strings
   end
 
   test "Germany invoice (Girocode QR)" do
     Current.org.update!(
+      languages: [ "de" ],
       country_code: "DE",
       currency_code: "EUR",
       iban: "DE87200500001234567890",
+      invoice_info: "Zahlbar innerhalb der nächsten zwei Wochen",
+      invoice_sepa_info: "Skipped",
       creditor_name: "Gläubiger GmbH",
       creditor_address: "Sonnenallee 1",
       creditor_city: "Hannover",
       creditor_zip: "30159")
     members(:martha).update!(
+      language: "de",
       address: "Grosse Marktgasse 28",
       zip: "30952",
       city: "Ronnenberg",
@@ -442,24 +452,78 @@ class PDF::InvoiceTest < ActiveSupport::TestCase
     pdf_strings = save_pdf_and_return_strings(invoice)
 
     assert_equal [
-      "Invoice N° #{invoice.id}",
-      "1 April 2024",
+      "Rechnung N° #{invoice.id}",
+      "1. April 2024",
       "Martha",
       "Grosse Marktgasse 28", "30952 Ronnenberg",
-      "Description", "Amount (", "€", ")",
-      "Annual association fee", "30.00",
-      "Total", "30.00",
-      "Payable within 30 days, with our thanks.",
-      "Acme", ", Nowhere 42, 1234 City // info@acme.test",
-      "Payment part",
-      "Pay with code",
+      "Beschreibung", "Betrag (", "€", ")",
+      "Jährlicher Vereinsbeitrag", "30.00",
+      "Gesamt", "30.00",
+      "Zahlbar innerhalb der nächsten zwei Wochen",
+      "Zahlteil",
+      "Zahlen mit Code",
       "IBAN", "DE87 2005 0000 1234 5678 90",
-      "Payable to",
+      "Zahlbar an",
       "Gläubiger GmbH",
-      "Reference",
-      "RF79 1485 7506 8928 1004",
-      "Amount",
-      "EUR 30.00"
+      "Referenz", invoice.reference.formatted,
+      "Betrag", "EUR 30.00"
+    ], pdf_strings
+  end
+
+  test "Germany invoice (SEPA)" do
+    travel_to "2024-01-01"
+    Current.org.update!(
+      languages: [ "de" ],
+      country_code: "DE",
+      currency_code: "EUR",
+      iban: "DE87200500001234567890",
+      sepa_creditor_identifier: "DE98ZZZ09999999999",
+      invoice_info: "Skipped",
+      invoice_sepa_info: "Der Rechnungsbetrag wird per SEPA-Lastschrift automatisch eingezogen. Bitte stellen Sie sicher, dass Ihr Konto ausreichend gedeckt ist.",
+      creditor_name: "Gläubiger GmbH",
+      creditor_address: "Sonnenallee 1",
+      creditor_city: "Hannover",
+      creditor_zip: "30159")
+    member = members(:anna)
+    member.update!(
+      language: "de",
+      iban: "DE21500500009876543210",
+      sepa_mandate_id: "123456",
+      sepa_mandate_signed_on: "2023-12-24",
+      address: "Grosse Marktgasse 28",
+      zip: "30952",
+      city: "Ronnenberg",
+      country_code: "DE")
+
+    invoice = create_annual_fee_invoice(id: 412351, member: member)
+    assert_equal({
+      "name" => "Anna Doe",
+      "iban" => "DE21500500009876543210",
+      "mandate_id" => "123456",
+      "mandate_signed_on" => "2023-12-24"
+    }, invoice.sepa_metadata)
+
+    pdf_strings = save_pdf_and_return_strings(invoice)
+    assert_equal [
+      "Rechnung N° #{invoice.id}",
+      "1. Januar 2024",
+      "Anna Doe",
+      "Grosse Marktgasse 28", "30952 Ronnenberg",
+      "Beschreibung", "Betrag (", "€", ")",
+      "Jährlicher Vereinsbeitrag", "30.00",
+      "Gesamt", "30.00",
+      "Der Rechnungsbetrag wird per SEPA-Lastschrift automatisch eingezogen. Bitte stellen Sie sicher, dass Ihr Konto ausreichend gedeckt ist.",
+      "SEPA-Lastschriftverfahren",
+      "Betrag", "EUR 30.00",
+      "Zahlbar an",
+      "Gläubiger GmbH", "Sonnenallee 1", "30159 Hannover",
+      "IBAN: ", "DE87 2005 0000 1234 5678 90",
+      "Gläubiger-ID: ", "DE98ZZZ09999999999",
+      "Referenz", invoice.reference.formatted,
+      "Zahlbar durch",
+      "Anna Doe", "Grosse Marktgasse 28", "30952 Ronnenberg",
+      "IBAN: ", "DE21 5005 0000 9876 5432 10",
+      "SEPA Mandatsreferenz: ", "123456", " (24. Dez 23)"
     ], pdf_strings
   end
 

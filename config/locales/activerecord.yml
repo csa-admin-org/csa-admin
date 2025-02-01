@@ -1499,6 +1499,11 @@ _:
           _en: Logo / Label
           _fr: Logo / Label
           _it: Logo / Etichetta
+        invoice_sepa_info:
+          _de: Informationszeile (SEPA)
+          _en: Information text (SEPA)
+          _fr: Texte d'information (SEPA)
+          _it: Riga d'informazione (SEPA)
         languages:
           _de: Sprachen
           _en: Languages

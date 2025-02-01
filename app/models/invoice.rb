@@ -59,6 +59,7 @@ class Invoice < ApplicationRecord
       :set_remaining_memberships_amount,
       :set_memberships_amount
   end
+  before_validation :set_sepa_metadata, on: :create
   before_validation :set_missing_activity_participations, on: :create, if: :activity_participation_type?
   before_validation :set_amount, :set_vat_rate_and_amount, on: :create
 
@@ -380,6 +381,10 @@ class Invoice < ApplicationRecord
     !processing? && !sent_at? && !canceled?
   end
 
+  def sepa?
+    Current.org.sepa_creditor_identifier? && sepa_metadata.present?
+  end
+
   def can_refund?
     closed? &&
       shares_number.to_i.positive? &&
@@ -489,6 +494,12 @@ class Invoice < ApplicationRecord
   def set_memberships_amount
     amount = remaining_memberships_amount / membership_amount_fraction.to_f
     self[:memberships_amount] ||= amount.round_to_five_cents
+  end
+
+  def set_sepa_metadata
+    return unless member&.sepa?
+
+    self.sepa_metadata = member.sepa_metadata
   end
 
   def set_missing_activity_participations

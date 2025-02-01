@@ -237,6 +237,23 @@ class MemberTest < ActiveSupport::TestCase
     assert member.valid?
   end
 
+  test "sepa_metadata / sepa?" do
+    member = build_member(name: "John Doe")
+    assert_empty member.sepa_metadata
+    assert_not member.sepa?
+
+    member.iban = "DE89370400440532013000"
+    member.sepa_mandate_id = "123"
+    member.sepa_mandate_signed_on = "2024-01-01"
+    assert_equal({
+      name: "John Doe",
+      iban: "DE89370400440532013000",
+      mandate_id: "123",
+      mandate_signed_on: Date.parse("2024-01-01")
+    }, member.sepa_metadata)
+    assert member.sepa?
+  end
+
   test "strips whitespaces from emails and downcase" do
     member = Member.new(emails: " foo@Gmail.COM ")
     assert_equal [ "foo@gmail.com" ], member.emails_array

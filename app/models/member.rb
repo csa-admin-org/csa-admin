@@ -194,6 +194,17 @@ class Member < ApplicationRecord
     iban? && sepa_mandate_id? && sepa_mandate_signed_on?
   end
 
+  def sepa_metadata
+    return {} unless sepa?
+
+    {
+      name: name,
+      iban: iban,
+      mandate_id: sepa_mandate_id,
+      mandate_signed_on: sepa_mandate_signed_on
+    }
+  end
+
   def display_delivery_address
     return if final_delivery_address.blank?
 

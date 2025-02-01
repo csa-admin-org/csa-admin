@@ -366,13 +366,15 @@ module PDF
       end
 
       bounding_box [ 0, y - yy - 10 ], width: bounds.width - 24 do
-        invoice_info =
-          if invoice.entity_type == "Shop::Order" && Current.org.shop_invoice_info
-            Current.org.shop_invoice_info % {
-              date: I18n.l(invoice.entity.delivery.date)
-            }
-          else Current.org.invoice_info
-          end
+        if invoice.entity_type == "Shop::Order" && Current.org.shop_invoice_info
+          shop_invoice_info = Current.org.shop_invoice_info % {
+            date: I18n.l(invoice.entity.delivery.date)
+          }
+          text shop_invoice_info, width: 200, align: :right, style: :italic, size: 9
+          move_down 10
+        end
+
+        invoice_info = invoice.sepa? ? Current.org.invoice_sepa_info : Current.org.invoice_info
         text invoice_info, width: 200, align: :right, style: :italic, size: 9
       end
     end
@@ -401,7 +403,12 @@ module PDF
       bounding_box [ 0, y ], width: bounds.width - border, height: y do
         case country_code
         when "CH"; swiss_qr(border)
-        when "DE"; epc_qr(border)
+        when "DE"
+          if invoice.sepa_metadata.present?
+            payment_info(border)
+          else
+            epc_qr(border)
+          end
         else payment_info(border)
         end
       end
@@ -592,13 +599,14 @@ module PDF
       border = 2 * border
       payment_info_border(border)
       bounding_box [ border, payment_section_y - 40 ], width: 570, height: payment_section_y do
-        payment_info_text t("payment.payment_part"), size: 12, style: :bold
+        title = invoice.sepa? ? t("payment.sepa_direct_debit") : t("payment.payment_part")
+        payment_info_text title, size: 12, style: :bold
         y_start = bounds.height - 28
         x_split = bounds.width / 2
 
         bounding_box [ 0, y_start ], width: x_split - 30 do
           payment_info_title t("payment.amount")
-          payment_info_text cur(@missing_amount, delimiter: " "), size: 14
+          payment_info_text [ Current.org.currency_code, cur(@missing_amount, delimiter: " ") ].join(" "), size: 14
           move_down 10
 
           payment_info_title t("payment.payable_to")
@@ -607,23 +615,29 @@ module PDF
           payment_info_text Current.org.creditor_zip + " " + Current.org.creditor_city
           move_down 5
           payment_info_text "IBAN: <b>#{Current.org.iban_formatted}</b>"
-          if Current.org.sepa_creditor_identifier?
+          if invoice.sepa?
             payment_info_text "#{t("payment.sepa_creditor_identifier")}: <b>#{Current.org.sepa_creditor_identifier}</b>"
           end
         end
         bounding_box [ x_split, y_start ], width: x_split do
-          payment_info_title "#{t("payment.invoice_number")} / #{t("payment.reference")}"
-          payment_info_text invoice.id.to_s, size: 14
+          payment_info_title t("payment.reference")
+          payment_info_text invoice.reference.formatted, size: 14
           move_down 10
 
           payment_info_title t("payment.payable_by")
-          payment_info_text invoice.member.name.truncate(70)
-          payment_info_text invoice.member.address.truncate(70)
-          payment_info_text invoice.member.zip + " " + invoice.member.city
-          if invoice.member.iban? && invoice.member.sepa_mandate_id?
+          if invoice.sepa?
+            payment_info_text invoice.sepa_metadata["name"].truncate(70)
+            payment_info_text invoice.member.address.truncate(70)
+            payment_info_text invoice.member.zip + " " + invoice.member.city
+
             move_down 5
-            payment_info_text "IBAN: <b>#{invoice.member.iban_formatted}</b>"
-            payment_info_text "#{t("payment.sepa_mandate_id")}: <b>#{invoice.member.sepa_mandate_id}</b> (#{I18n.l(invoice.member.sepa_mandate_signed_on)})"
+            payment_info_text "IBAN: <b>#{invoice.sepa_metadata["iban"].scan(/.{1,4}/)&.join(" ")}</b>"
+            mandate_signed_on = Date.parse(invoice.sepa_metadata["mandate_signed_on"])
+            payment_info_text "#{t("payment.sepa_mandate_id")}: <b>#{invoice.sepa_metadata["mandate_id"]}</b> (#{I18n.l(mandate_signed_on, format: :short)})"
+          else
+            payment_info_text invoice.member.name.truncate(70)
+            payment_info_text invoice.member.address.truncate(70)
+            payment_info_text invoice.member.zip + " " + invoice.member.city
           end
         end
       end

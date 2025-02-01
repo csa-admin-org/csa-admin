@@ -39,6 +39,7 @@ class Organization < ApplicationRecord
   }
 
   translated_attributes :invoice_info, :invoice_footer
+  translated_attributes :invoice_sepa_info, :invoice_footer
   translated_attributes :delivery_pdf_footer
   translated_attributes :charter_url, :statutes_url, :terms_of_service_url, :privacy_policy_url
   translated_attributes :shop_invoice_info
