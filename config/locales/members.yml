@@ -395,11 +395,6 @@ _:
           _fr: Tout afficher
           _it: Mostra tutto
       line:
-        canceled_invoice_info:
-          _de: Stornierte Rechnungen <em>#%{id}</em> (%{type})
-          _en: Canceled invoice <em>#%{id}</em> (%{type})
-          _fr: Facture annulée <em>#%{id}</em> (%{type})
-          _it: Fattura annuale <em>#%{id}</em> (%{type})
         invoice_info:
           _de: Rechnung <em>#%{id}</em> (%{type})
           _en: Invoice <em>#%{id}</em> (%{type})
@@ -410,11 +405,6 @@ _:
           _en: Payment without reference
           _fr: Paiement sans référence
           _it: Pagamento senza numero di riferimento
-        open_invoice_info:
-          _de: Offene Rechnung <em>#%{id}</em> (%{type})
-          _en: Open invoice <em>#%{id}</em> (%{type})
-          _fr: Facture ouverte <em>#%{id}</em> (%{type})
-          _it: Fattura aperta <em>#%{id}</em> (%{type})
         payment_info:
           _de: Einzahlung der Rechnung <em>#%{invoice_id}</em>
           _en: Payment of invoice <em>#%{invoice_id}</em>
