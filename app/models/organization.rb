@@ -80,6 +80,7 @@ class Organization < ApplicationRecord
   validates :fiscal_year_start_month,
     presence: true,
     inclusion: { in: 1..12 }
+  validates_with SEPA::CreditorIdentifierValidator, field_name: :sepa_creditor_identifier, if: :sepa_creditor_identifier?
   validates :billing_year_divisions, presence: true
   validates :trial_baskets_count, numericality: { greater_than_or_equal_to: 0 }, presence: true
   validates :annual_fee, numericality: { greater_than_or_equal_to: 0 }, allow_nil: true

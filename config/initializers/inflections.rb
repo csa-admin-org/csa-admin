@@ -26,6 +26,7 @@ ActiveSupport::Inflector.inflections do |inflect|
   inflect.acronym "EPC"
   inflect.acronym "QR"
   inflect.acronym "EBICS"
+  inflect.acronym "SEPA"
   inflect.acronym "SLog"
   inflect.acronym "IBAN"
 end

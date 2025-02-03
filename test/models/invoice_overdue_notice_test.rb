@@ -41,8 +41,20 @@ class InvoiceOverdueNoticeTest < ActiveSupport::TestCase
 
   test "only send overdue notice when invoice is open" do
     invoice = invoices(:other_closed)
-    assert_equal "closed", invoice.state
 
+    assert invoice.closed?
+    assert_no_difference -> { InvoiceMailer.deliveries.size } do
+      deliver(invoice)
+    end
+  end
+
+  test "skip overdue notice when SEPA invoice" do
+    invoice = invoices(:annual_fee)
+    org(sepa_creditor_identifier: "DE98ZZZ09999999999")
+    invoice.update!(sepa_metadata: { iban: "CH9300762011623852957" })
+
+    assert invoice.open?
+    assert invoice.sepa?
     assert_no_difference -> { InvoiceMailer.deliveries.size } do
       deliver(invoice)
     end

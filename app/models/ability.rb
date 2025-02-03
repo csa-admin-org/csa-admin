@@ -30,6 +30,8 @@ class Ability
     can :read, [ ActiveAdmin::Page, ActiveAdmin::Comment, Audit ]
     can :read, available_models
     can :pdf, Invoice
+    can :sepa_pain, Invoice
+    can :sepa_pain_all, Invoice
 
     writable_models = []
 

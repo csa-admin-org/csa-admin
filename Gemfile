@@ -77,6 +77,7 @@ gem "camt_parser"
 gem "cmxl"
 gem "epics"
 gem "girocode" # EPC QR code
+gem "sepa_king"
 gem "rqrcode"
 gem "countries"
 gem "user_agent_parser"
