@@ -67,7 +67,7 @@ ActiveAdmin.register Invoice do
     column :member, sortable: "members.name"
     column :amount, ->(invoice) { cur(invoice.amount) }, class: "text-right tabular-nums"
     column :paid_amount, ->(invoice) { cur(invoice.paid_amount) }, class: "text-right tabular-nums"
-    column :overdue_notices_count, class: "text-right"
+    column :overdue_notices_count, ->(invoice) { invoice.sepa? ? "–" : invoice.overdue_notices_count }, class: "text-right"
     column :state, ->(invoice) { status_tag invoice.state }, class: "text-right"
     actions do |invoice|
       link_to_invoice_pdf(invoice)
@@ -128,6 +128,17 @@ ActiveAdmin.register Invoice do
         div number_line(t(".amount"), cur(all.not_canceled.sum(:amount)), border_top: true)
       else
         div number_line(t(".amount"), cur(all.sum(:amount)))
+      end
+    end
+  end
+
+  sidebar :sepa_pain, only: :index, if: -> { params[:scope].in?([ nil, "all", "open" ]) && !Billing::SEPADirectDebit.new(collection.offset(nil).limit(nil)).blank? } do
+    side_panel "SEPA" do
+      para t(".sepa_pain_text_html", count: collection.count)
+      div class: "mt-3 flex justify-center" do
+        link_to sepa_pain_all_invoices_path(params.permit(:scope, q: {})), class: "action-item-button small secondary", title: Billing::SEPADirectDebit::SCHEMA do
+          icon("document-arrow-down", class: "h-4 w-4 mr-2") + t(".sepa_pain")
+        end
       end
     end
   end
@@ -239,9 +250,29 @@ ActiveAdmin.register Invoice do
           end
         end
 
-        panel Invoice.human_attribute_name(:overdue_notices_count), count: invoice.overdue_notices_count do
-          attributes_table do
-            row(:overdue_notice_sent_at) { l invoice.overdue_notice_sent_at if invoice.overdue_notice_sent_at }
+        if invoice.sepa?
+          panel "SEPA" do
+            attributes_table do
+              row(:iban) { invoice.sepa_metadata["iban"].gsub(/.{4}/, '\0 ') }
+              row(Member.human_attribute_name(:sepa_mandate_id)) {
+                "#{invoice.sepa_metadata["mandate_id"]} (#{l Date.parse(invoice.sepa_metadata["mandate_signed_on"]), format: :short})"
+              }
+            end
+            if invoice.open?
+              div class: "mt-2 flex items-center justify-center gap-4" do
+                link_to sepa_pain_invoice_path(invoice), class: "action-item-button small secondary", title: Billing::SEPADirectDebit::SCHEMA do
+                  icon("document-arrow-down", class: "h-4 w-4 me-1.5") + t(".sepa_pain")
+                end
+              end
+            end
+          end
+        end
+
+        unless invoice.sepa?
+          panel Invoice.human_attribute_name(:overdue_notices_count), count: invoice.overdue_notices_count do
+            attributes_table do
+              row(:overdue_notice_sent_at) { l invoice.overdue_notice_sent_at if invoice.overdue_notice_sent_at }
+            end
           end
         end
 
@@ -312,6 +343,17 @@ ActiveAdmin.register Invoice do
   member_action :cancel, method: :post do
     resource.cancel!
     redirect_to resource_path, notice: t(".flash.notice")
+  end
+
+  member_action :sepa_pain, method: :get do
+    xml = Billing::SEPADirectDebit.xml(resource)
+    send_data xml, type: "application/xml", filename: "invoice-#{resource.id}-pain.xml"
+  end
+
+  collection_action :sepa_pain_all, method: :get do
+    invoices = scoped_collection.offset(nil).limit(nil).to_a
+    xml = Billing::SEPADirectDebit.xml(invoices)
+    send_data xml, type: "application/xml", filename: "invoices-#{Date.today.strftime("%Y%m%d")}-pain.xml"
   end
 
   form do |f|

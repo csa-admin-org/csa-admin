@@ -136,6 +136,7 @@ class Member < ApplicationRecord
   validates :iban, presence: true, if: :sepa_mandate_id?
   validates :iban, format: -> { Billing.iban_format }, allow_nil: :true
   validates :sepa_mandate_id, presence: true, if: :sepa_mandate_signed_on?
+  validates_with SEPA::MandateIdentifierValidator, field_name: :sepa_mandate_id, if: :sepa_mandate_id?
   validates :sepa_mandate_signed_on, presence: true, if: :sepa_mandate_id?
 
   before_save :handle_annual_fee_change, :handle_required_shares_number_change

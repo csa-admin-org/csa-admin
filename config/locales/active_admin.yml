@@ -1237,6 +1237,11 @@ _:
           _en: Send
           _fr: Envoyer
           _it: Inviare
+        sepa_pain:
+          _de: SEPA-Lastschrift (XML)
+          _en: SEPA Direct Debit (XML)
+          _fr: Prélèvement SEPA (XML)
+          _it: Addebito diretto SEPA (XML)
         shares_number:
           existing:
             one:
@@ -2114,6 +2119,22 @@ _:
           _en: Sending...
           _fr: Envois en cours...
           _it: Invio in corso...
+        sepa_pain:
+          _de: SEPA-Lastschrift (XML)
+          _en: SEPA Direct Debit (XML)
+          _fr: Prélèvement SEPA (XML)
+          _it: Addebito diretto SEPA (XML)
+        sepa_pain_text_html:
+          one:
+            _de: "<b>1</b> offene Rechnung, die per SEPA-Lastschrift bezahlt werden muss."
+            _en: "<b>1</b> open invoice to be paid by SEPA Direct Debit."
+            _fr: "<b>1</b> facture ouverte à payer par prélèvement SEPA."
+            _it: "<b>1</b> fattura aperta da pagare con addebito diretto SEPA."
+          other:
+            _de: "<b>%{count}</b> offene Rechnungen, die per SEPA-Lastschrift bezahlt werden müssen."
+            _en: "<b>%{count}</b> open invoices to be paid by SEPA Direct Debit."
+            _fr: "<b>%{count}</b> factures ouvertes à payer par prélèvement SEPA."
+            _it: "<b>%{count}</b> fatture aperte da pagare con addebito diretto SEPA."
         shop_admin_only:
           _de: Beschränkter Zugang!
           _en: Restricted access!

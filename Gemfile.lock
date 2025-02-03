@@ -91,7 +91,7 @@ GEM
     appsignal (4.3.3)
       logger
       rack
-    arbre (2.1.0)
+    arbre (2.2.0)
       activesupport (>= 7.0)
     ast (2.4.2)
     async (2.21.3)
@@ -242,6 +242,7 @@ GEM
     i18n-backend-side_by_side (1.3.0)
       activesupport (>= 6.0.0)
       i18n (>= 1.10.0)
+    iban-tools (1.2.1)
     icalendar (2.10.3)
       ice_cube (~> 0.16)
       ostruct
@@ -402,7 +403,7 @@ GEM
       hashery (~> 2.0)
       ruby-rc4
       ttfunk
-    phony (2.21.1)
+    phony (2.21.2)
     phony_rails (0.15.0)
       activesupport (>= 3.0)
       phony (>= 2.18.12)
@@ -416,7 +417,7 @@ GEM
     prawn (2.4.0)
       pdf-core (~> 0.9.0)
       ttfunk (~> 1.7)
-    prawn-svg (0.36.1)
+    prawn-svg (0.36.2)
       css_parser (~> 1.6)
       matrix (~> 0.4.2)
       prawn (>= 0.11.1, < 3)
@@ -569,6 +570,10 @@ GEM
       rubyzip (>= 1.3.0)
     rubyzip (2.4.1)
     securerandom (0.4.1)
+    sepa_king (0.14.0)
+      activemodel (>= 4.2)
+      iban-tools
+      nokogiri
     simple_form (5.3.1)
       actionpack (>= 5.2)
       activemodel (>= 5.2)
@@ -716,6 +721,7 @@ DEPENDENCIES
   ruby-lsp-rails
   rubyXL
   rubyzip
+  sepa_king
   simple_form
   slim
   solid_queue
@@ -751,7 +757,7 @@ CHECKSUMS
   addressable (2.8.7) sha256=462986537cf3735ab5f3c0f557f14155d778f4b43ea4f485a9deb9c8f7c58232
   afm (0.2.2) sha256=c83e698e759ab0063331ff84ca39c4673b03318f4ddcbe8e90177dd01e4c721a
   appsignal (4.3.3) sha256=81759f0d63756c16068c05156ba41a1efb75aa532599996e9fb97fa4e6419788
-  arbre (2.1.0) sha256=d1aee12be534a94748dbd783d772771c5067147fceb58f3ffb405937d09ed0c0
+  arbre (2.2.0) sha256=d71de0acae2536b96cd795c5ca574ad87bc1bc10a4170d0799509a2cb7a8ba71
   ast (2.4.2) sha256=1e280232e6a33754cde542bc5ef85520b74db2aac73ec14acef453784447cc12
   async (2.21.3) sha256=326d9a0f4cc26a47d320c1385d7eb1dc314c5b5e005c46b3c4f17aed7ff1729f
   async-http (0.87.0) sha256=fb5ff0db7bb77b1ee352cad62488be4c7f77ba27713757b266ec7766b4001a80
@@ -822,6 +828,7 @@ CHECKSUMS
   http-cookie (1.0.8) sha256=b14fe0445cf24bf9ae098633e9b8d42e4c07c3c1f700672b09fbfe32ffd41aa6
   i18n (1.14.7) sha256=ceba573f8138ff2c0915427f1fc5bdf4aa3ab8ae88c8ce255eb3ecf0a11a5d0f
   i18n-backend-side_by_side (1.3.0) sha256=9a48d06549d4d5e4e6640ab66c560ffa4a73883f29a881818810bd30e49f95d8
+  iban-tools (1.2.1) sha256=099962fc60fc8eff0674e1ce3d387a29cfa89d578cf5f08554ec7c6020ac631c
   icalendar (2.10.3) sha256=0ebfc2672f9fa77b86b4d8c0e25e9b2319aad45a33319fed06d0be8ddd0cd485
   ice_cube (0.17.0) sha256=32deb45dda4b4acc53505c2f581f6d32b5afc04d29b9004769944a0df5a5fcbe
   image_processing (1.13.0) sha256=71cffe2707573b16a4800b10619dc851add8cf9e667931ae900b7cac1d9cdd65
@@ -881,13 +888,13 @@ CHECKSUMS
   pdf-core (0.9.0) sha256=4f368b2f12b57ec979872d4bf4bd1a67e8648e0c81ab89801431d2fc89f4e0bb
   pdf-inspector (1.3.0) sha256=fc107579d6f29b636e2da3d6743479b2624d9e390bf2d84beef8fd4ebe1a05bd
   pdf-reader (2.14.0) sha256=676bf8bba61f07365f20e336d302aef6e7128754dec9d605bbf7fd742ec916a2
-  phony (2.21.1) sha256=709b2efdcf8704a393c3cc4f004904eeeb89bfad5a14becd25d10df664d283a2
+  phony (2.21.2) sha256=05becae4120d59280ee219e2dd75a1ad29f8d55f53e38a86209bb387acf17722
   phony_rails (0.15.0) sha256=30b395499f7975daf8554e2b7c19885c039dba6281ffa93715ec01506f1951dc
   postmark (1.25.1) sha256=2ac110fa1b4f85a62996fdc63167922eea1c4284a9a7ceb9e007f2758d9e17be
   postmark-rails (0.22.1) sha256=fcea27dda4f7418123d7723622ec5447df4dacacc10a20a40add0f6789135d8f
   pp (0.6.2) sha256=947ec3120c6f92195f8ee8aa25a7b2c5297bb106d83b41baa02983686577b6ff
   prawn (2.4.0) sha256=82062744f7126c2d77501da253a154271790254dfa8c309b8e52e79bc5de2abd
-  prawn-svg (0.36.1) sha256=dda323475efb01f9526d834e0f900b70cc55223e9ccfba5b9d451218444028c1
+  prawn-svg (0.36.2) sha256=b87031f946b730e4802fda0054971f292f755aee81e7a21c0a71669c646a1c32
   prawn-table (0.2.2) sha256=336d46e39e003f77bf973337a958af6a68300b941c85cb22288872dc2b36addb
   premailer (1.27.0) sha256=0fe2348cd82738855c482b31c915a06ecb1d3ad004578c19042905196ddbd1e7
   premailer-rails (1.12.0) sha256=c13815d161b9bc7f7d3d81396b0bb0a61a90fa9bd89931548bf4e537c7710400
@@ -943,6 +950,7 @@ CHECKSUMS
   rubyXL (3.4.33) sha256=dc2732dacf5f963fdd9732eb36b3342cb240414371ed8d9f327f667d2b286d2e
   rubyzip (2.4.1) sha256=8577c88edc1fde8935eb91064c5cb1aef9ad5494b940cf19c775ee833e075615
   securerandom (0.4.1) sha256=cc5193d414a4341b6e225f0cb4446aceca8e50d5e1888743fac16987638ea0b1
+  sepa_king (0.14.0) sha256=56a97ced91fef18138dce2c6e8f0c19c184a61d1ec24e45b00dce7c438e8239c
   simple_form (5.3.1) sha256=3891a36a89a7f8c69f1361624c5357591578a9e9c318257cd7b9cc7b6ce47460
   simpleidn (0.2.3) sha256=08ce96f03fa1605286be22651ba0fc9c0b2d6272c9b27a260bc88be05b0d2c29
   slim (5.2.1) sha256=72351dff7e2ff20e2d5c393cfc385bb9142cef5db059141628fd7163ac3c13e7

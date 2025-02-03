@@ -34,6 +34,7 @@ class Invoice < ApplicationRecord
   scope :not_canceled, -> { where.not(state: CANCELED_STATE) }
   scope :sent, -> { where.not(sent_at: nil) }
   scope :not_sent, -> { where(sent_at: nil) }
+  scope :not_sepa, -> { where(sepa_metadata: {}) }
   scope :sent_eq, ->(bool) { ActiveRecord::Type::Boolean.new.cast(bool) ? sent : not_sent }
   scope :history, -> { not_processing.where.not(state: OPEN_STATE) }
   scope :unpaid, -> { not_canceled.where("paid_amount < amount") }
