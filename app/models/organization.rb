@@ -66,7 +66,7 @@ class Organization < ApplicationRecord
   validates :name, presence: true
   validates :url,
     presence: true,
-    format: { with: ->(org) { %r{\Ahttps://.*#{Tenant.domain}\z} } }
+    format: { with: ->(org) { %r{\Ahttps?://.*#{Tenant.domain}\z} } }
   validates :email, presence: true
   validates :members_subdomain, inclusion: { in: MEMBERS_SUBDOMAINS }
   validates :email_default_from, presence: true
