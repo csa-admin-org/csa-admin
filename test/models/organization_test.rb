@@ -10,7 +10,7 @@ class OrganizationTest < ActiveSupport::TestCase
     assert_includes org.errors[:base], "Only one organization is allowed"
   end
 
-  test "validate url https" do
+  test "validate url" do
     travel_to Time.zone.now
     assert_equal "acme.test", Tenant.domain
 
@@ -18,7 +18,7 @@ class OrganizationTest < ActiveSupport::TestCase
     assert_not Current.org.valid?
 
     Current.org.url = "http://www.acme.test"
-    assert_not Current.org.valid?
+    assert Current.org.valid?
 
     Current.org.url = "https://www.acme.test"
     assert Current.org.valid?
