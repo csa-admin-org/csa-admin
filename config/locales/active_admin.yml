@@ -1151,6 +1151,11 @@ _:
           _en: No baskets
           _fr: Pas de paniers
           _it: Niente ceste
+        no_invoice:
+          _de: Diese Einzahlung ist nicht direkt mit einer Rechnung verbunden.
+          _en: This payment is not directly linked to an invoice.
+          _fr: Ce paiement n'est pas directement lié à une facture.
+          _it: Questo pagamento non è direttamente collegato a una fattura.
         no_invoices:
           _de: Keine Rechnungen
           _en: No invoices
