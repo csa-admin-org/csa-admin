@@ -45,7 +45,9 @@ ActiveAdmin.register Payment do
     column :invoice_id, ->(p) { p.invoice_id ? auto_link(p.invoice, p.invoice_id) : "–" }, class: "text-right"
     column :amount, ->(p) { cur(p.amount) }, class: "text-right tabular-nums"
     column :type, ->(p) { status_tag p.type }, class: "text-right"
-    actions
+    actions do |payment|
+      link_to_invoice_pdf(payment.invoice) if payment.invoice_id?
+    end
   end
 
   csv do
@@ -87,27 +89,42 @@ ActiveAdmin.register Payment do
     end
   end
 
-  show do |payement|
+  show do |payment|
     columns do
       column do
-        panel t(".details") do
-          attributes_table do
-            row :id
-            row :member
-            row :invoice
-            row(:date) { l payement.date }
-            row(:amount) { cur(payement.amount) }
-            row(:created_at) { l(payement.created_at, format: :medium) }
-            row(:created_by)
-            if payment.manual? && payment.updated?
-              row(:updated_at) { l(payement.updated_at, format: :medium) }
-              row(:updated_by)
+        if payment.invoice_id?
+          panel auto_link(payment.invoice), action: icon_file_link(:pdf, pdf_invoice_path(payment.invoice), target: "_blank") do
+            div class: "p-2" do
+              link_to_invoice_pdf(payment.invoice) do
+                image_tag payment.invoice.pdf_file.preview(resize_to_limit: [ 2000, 2000 ]), class: "w-full"
+              end
+            end
+          end
+        else
+          panel Invoice.model_name.human do
+            div class: "missing-data" do
+              t(".no_invoice")
             end
           end
         end
       end
       column do
-        active_admin_comments_for(payement)
+        panel t(".details") do
+          attributes_table do
+            row :id
+            row :member
+            row(:date) { l payment.date }
+            row(:amount) { cur(payment.amount) }
+            row(:created_at) { l(payment.created_at, format: :medium) }
+            row(:created_by)
+            if payment.manual? && payment.updated?
+              row(:updated_at) { l(payment.updated_at, format: :medium) }
+              row(:updated_by)
+            end
+          end
+        end
+
+        active_admin_comments_for(payment)
       end
     end
   end
