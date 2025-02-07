@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_02_07_083345) do
+ActiveRecord::Schema[8.0].define(version: 2025_02_07_141051) do
   create_table "absences", force: :cascade do |t|
     t.bigint "member_id"
     t.date "started_on"
@@ -146,13 +146,11 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_07_083345) do
   end
 
   create_table "attachments", force: :cascade do |t|
-    t.bigint "newsletter_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "attachable_type"
-    t.integer "attachable_id"
+    t.string "attachable_type", null: false
+    t.integer "attachable_id", null: false
     t.index ["attachable_type", "attachable_id"], name: "index_attachments_on_attachable"
-    t.index ["newsletter_id"], name: "index_attachments_on_newsletter_id"
   end
 
   create_table "audits", force: :cascade do |t|
@@ -882,7 +880,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_07_083345) do
   add_foreign_key "activity_participations", "admins", column: "validator_id"
   add_foreign_key "activity_participations", "members"
   add_foreign_key "admins", "permissions"
-  add_foreign_key "attachments", "newsletters"
   add_foreign_key "basket_contents", "basket_content_products", column: "product_id"
   add_foreign_key "basket_contents", "deliveries"
   add_foreign_key "basket_contents_depots", "basket_contents"
