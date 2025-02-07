@@ -427,7 +427,7 @@
   }
 
   .formtastic ul.errors {
-    @apply m-0 p-2 gap-2 bg-red-100 dark:bg-red-900 text-red-500 !important;
+    @apply m-0 mt-2 p-2 gap-2 bg-red-100 dark:bg-red-900 text-red-500 !important;
   }
 
   .formtastic ul.errors li {

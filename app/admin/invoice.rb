@@ -276,6 +276,8 @@ ActiveAdmin.register Invoice do
           end
         end
 
+        render "active_admin/attachments/panel", attachments: invoice.attachments
+
         active_admin_comments_for(invoice)
       end
     end
@@ -357,10 +359,8 @@ ActiveAdmin.register Invoice do
   end
 
   form do |f|
-    div class: "mb-6" do
-      f.object.errors.attribute_names.each do |attr|
-        para f.semantic_errors attr
-      end
+    f.object.errors.attribute_names.each do |attr|
+      f.semantic_errors attr
     end
 
     f.inputs t(".details") do
@@ -429,6 +429,12 @@ ActiveAdmin.register Invoice do
         end
       end
     end
+
+    render partial: "active_admin/attachments/form", locals: {
+      f: f,
+      text: t(".invoice_attachments_html")
+    }
+
     f.actions
   end
 
@@ -443,7 +449,8 @@ ActiveAdmin.register Invoice do
     :activity_price,
     :shares_number,
     :vat_rate,
-    items_attributes: %i[id description amount _destroy]
+    items_attributes: %i[id description amount _destroy],
+    attachments_attributes: [ :id, :file, :_destroy ]
 
   before_build do |invoice|
     if params[:activity_participation_id]

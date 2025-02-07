@@ -63,6 +63,34 @@ class InvoiceMailerTest < ActionMailer::TestCase
     assert_includes body, "Considering previous payments, the remaining amount to be paid is: CHF 19.00"
   end
 
+  test "created_email (with invoice attachments)" do
+    travel_to "2024-01-01"
+    template = mail_templates(:invoice_created)
+    invoice = invoices(:annual_fee)
+    attachment = Attachment.new
+    attachment.file.attach(
+      io: File.open(file_fixture("logo.png")),
+      filename: "Our logo.png")
+    invoice.update!(attachments: [ attachment ])
+
+    mail = InvoiceMailer.with(
+      template: template,
+      invoice: invoice,
+    ).created_email
+
+    assert_equal "New invoice ##{invoice.id}", mail.subject
+    body = mail.html_part.body.to_s
+    assert_includes body, "Here is your new invoice"
+
+    assert_equal 2, mail.attachments.size
+    invoice_pdf = mail.attachments.first
+    assert_equal "invoice-acme-#{invoice.id}.pdf", invoice_pdf.filename
+    assert_equal "application/pdf", invoice_pdf.content_type
+    attachment = mail.attachments.last
+    assert_equal "Our logo.png", attachment.filename
+    assert_equal "image/png", attachment.content_type
+  end
+
   test "created_email (Shop::Order)" do
     travel_to "2024-01-01"
     template = mail_templates(:invoice_created)
@@ -79,6 +107,34 @@ class InvoiceMailerTest < ActionMailer::TestCase
 
     assert_equal 1, mail.attachments.size
     assert_equal "application/pdf", mail.attachments.first.content_type
+  end
+
+  test "created_email (Shop::Order with attachments)" do
+    travel_to "2024-01-01"
+    template = mail_templates(:invoice_created)
+    order = shop_orders(:john)
+    attachment = Attachment.new
+    attachment.file.attach(
+      io: File.open(file_fixture("logo.png")),
+      filename: "Our logo.png")
+    order.update!(attachments: [ attachment ])
+    invoice = order.invoice!
+
+    mail = InvoiceMailer.with(
+      template: template,
+      invoice: invoice,
+    ).created_email
+
+    body = mail.html_part.body.to_s
+    assert_includes body, "Here is your new invoice for your order number #{order.id}, "
+
+    assert_equal 2, mail.attachments.size
+    invoice_pdf = mail.attachments.first
+    assert_equal "invoice-acme-#{invoice.id}.pdf", invoice_pdf.filename
+    assert_equal "application/pdf", mail.attachments.first.content_type
+    attachment = mail.attachments.last
+    assert_equal "Our logo.png", attachment.filename
+    assert_equal "image/png", attachment.content_type
   end
 
   test "created_email (billing_email)" do

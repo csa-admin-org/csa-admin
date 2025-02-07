@@ -1,0 +1,13 @@
+panel Attachment.model_name.human(count: 2) do
+  if attachments.any?
+    div class: "p-2 pt-0" do
+      ul class: "ms-6 list-disc list-outside space-y-0.5" do
+        attachments.map { |a| display_attachment(a.file) }.each do |a|
+          li { a }
+        end
+      end
+    end
+  else
+    div(class: "missing-data") { t("active_admin.empty") }
+  end
+end

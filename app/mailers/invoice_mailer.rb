@@ -7,6 +7,7 @@ class InvoiceMailer < ApplicationMailer
     invoice = params[:invoice]
     member = invoice.member
     attach_invoice_pdf!
+    attach_attachments!
     template_mail(member,
       to: member.billing_emails,
       tag: "invoice-created",
@@ -48,6 +49,19 @@ class InvoiceMailer < ApplicationMailer
     attachments[filename] = {
       mime_type: "application/pdf",
       content: invoice.pdf_file.download
+    }
+  end
+
+  def attach_attachments!
+    return unless params[:invoice].attachments.present?
+
+    params[:invoice].attachments.map(&:file).each { |file|
+      filename =
+        ActiveSupport::Inflector.transliterate(file.filename.to_s.gsub(/"/, "'"))
+      attachments[filename] = {
+        mime_type: file.content_type,
+        content: file.download
+      }
     }
   end
 end

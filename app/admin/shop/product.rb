@@ -70,10 +70,8 @@ ActiveAdmin.register Shop::Product do
   sidebar_handbook_link("shop#produits")
 
   form do |f|
-    div class: "mb-6" do
-      f.semantic_errors :base
-      errors_on(self, f, :variants)
-    end
+    f.semantic_errors :base
+    f.semantic_errors :variants
 
     f.inputs do
       tabs do
@@ -132,6 +130,7 @@ ActiveAdmin.register Shop::Product do
             ff.input :stock, as: :number, step: 1, min: 0, required: false
             ff.input :available, as: :boolean, required: false
           end
+          f.semantic_errors :variants
         end
       end
     end

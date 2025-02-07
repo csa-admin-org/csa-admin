@@ -117,9 +117,10 @@ ActiveAdmin.register Newsletter do
             when "draft"
               row(:updated_at) { I18n.l(newsletter.updated_at, format: :medium) }
             end
-            row(:attachments) { newsletter.attachments.map { |a| display_attachment(a.file) } }
           end
         end
+        render "active_admin/attachments/panel", attachments: newsletter.attachments
+
         unless newsletter.sent?
           suppressed_emails = newsletter.audience_segment.suppressed_emails
           panel t(".suppressed_emails", count: 2), count: suppressed_emails.size, data: { controller: "show-all" }, id: "suppressed-emails" do
@@ -190,21 +191,14 @@ ActiveAdmin.register Newsletter do
           data: { action: "code-editor#updatePreview" }
         })
       f.input :audience, collection: newsletter_audience_collection, prompt: true
-      errors_on(self, f, :attachments)
 
       f.input :from,
         as: :string,
         placeholder: Current.org.email_default_from.html_safe,
         hint: t("formtastic.hints.newsletter.from_html", domain: Tenant.domain)
-
-      f.has_many :attachments, allow_destroy: true do |a|
-        if a.object.persisted?
-          content_tag :span, display_attachment(a.object.file), class: "filename"
-        else
-          a.input :file, as: :file
-        end
-      end
     end
+
+    render partial: "active_admin/attachments/form", locals: { f: f }
 
     f.inputs t(".content") do
       f.input :template,
@@ -214,7 +208,6 @@ ActiveAdmin.register Newsletter do
           data: { action: "form-select-hidder#toggle code-editor#updatePreview" }
         }
 
-      errors_on(self, f, :blocks)
       f.semantic_fields_for :blocks do |b|
         b.object.validate
         b.input :id, as: :hidden
@@ -238,6 +231,7 @@ ActiveAdmin.register Newsletter do
             data: { action: "trix-change->code-editor#updatePreview" }
           })
       end
+      f.semantic_errors :blocks
 
       translated_input(f, :signatures,
         as: :text,

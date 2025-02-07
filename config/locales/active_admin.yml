@@ -718,6 +718,11 @@ _:
           _en: Invoice
           _fr: Facture
           _it: Fattura
+        invoice_attachments_html:
+          _de: Dateien, die zusätzlich zur PDF-Rechnung in der <a href="/mail_templates/invoice_created">"neue Rechnung"-E-Mail</a> gesendet werden.
+          _en: Files sent in addition to the PDF invoice in the <a href="/mail_templates/invoice_created">"new invoice" email</a>.
+          _fr: Fichiers envoyés en plus de la facture PDF dans <a href="/mail_templates/invoice_created">l'email "nouvelle facture"</a>.
+          _it: File inviati in aggiunta alla fattura PDF nell'<a href="/mail_templates/invoice_created">email "nuova fattura"</a>.
         mailer:
           _de: E-Mail
           _en: Email
