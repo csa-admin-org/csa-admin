@@ -175,16 +175,17 @@ ActiveAdmin.register Shop::Order do
           end
         end
 
+        render "active_admin/attachments/panel", attachments: order.attachments
+
+
         active_admin_comments_for(order)
       end
     end
   end
 
   form do |f|
-    div class: "mb-6" do
-      f.semantic_errors :base
-      f.semantic_errors :amount
-    end
+    f.semantic_errors :base
+    f.semantic_errors :amount
 
     f.inputs t(".details") do
       f.input :member, collection: Member.reorder(:name), prompt: true
@@ -201,30 +202,36 @@ ActiveAdmin.register Shop::Order do
         step: 0.1, min: -100, max: 200,
         hint: I18n.t("formtastic.hints.shop/order.amount_percentage")
       f.has_many :items, allow_destroy: true, data: { controller: "form-reset form-select-options-filter", form_select_options_filter_attribute_value: "data-product-id" } do |ff|
-        f.semantic_errors :items
         ff.input :product,
-          collection: products_collection,
-          prompt: true,
-          input_html: {
-            data: { action: "form-reset#reset form-select-options-filter#filter" }
-          }
+        collection: products_collection,
+        prompt: true,
+        input_html: {
+          data: { action: "form-reset#reset form-select-options-filter#filter" }
+        }
         ff.input :product_variant,
-          collection: product_variants_collection(ff.object.product_id),
-          input_html: {
-            class: "hide-disabled-options",
+        collection: product_variants_collection(ff.object.product_id),
+        input_html: {
+          class: "hide-disabled-options",
             disabled: ff.object.product_variant_id.blank?,
             data: {
               action: "form-reset#reset",
               form_select_options_filter_target: "select"
             }
           }
-        ff.input :quantity, as: :number, step: 1, min: 1
-        ff.input :item_price,
+          ff.input :quantity, as: :number, step: 1, min: 1
+          ff.input :item_price,
           hint: true,
           required: false,
           input_html: { data: { form_reset_target: "input" } }
-      end
+        end
+        f.semantic_errors :items
     end
+
+    render partial: "active_admin/attachments/form", locals: {
+      f: f,
+      text: t(".invoice_attachments_html")
+    }
+
     f.actions
   end
 
@@ -233,6 +240,7 @@ ActiveAdmin.register Shop::Order do
     :delivery_gid,
     :depot_id,
     :amount_percentage,
+    attachments_attributes: [ :id, :file, :_destroy ],
     items_attributes: [
       :id,
       :product_id,

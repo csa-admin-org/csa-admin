@@ -1,5 +1,12 @@
 _:
   errors:
+    attributes:
+      attachments:
+        too_large:
+          _de: Die Anhänge dürfen nicht größer als 5 Mo sein
+          _en: Attachments must not exceed 5 MB
+          _fr: Les pièces jointes ne doivent pas dépasser 5 Mo
+          _it: Gli allegati non devono superare i 5 Mo
     format:
       _de: "%{attribute} %{message}"
       _en: "%{attribute} %{message}"

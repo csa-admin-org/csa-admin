@@ -6,7 +6,7 @@ class NewsletterMailer < ApplicationMailer
 
   def newsletter_email
     set_unsubscribe_token
-    attach_attchments!
+    attach_attachments!
     template_mail(params[:member],
       from: params[:from],
       to: params[:to],
@@ -41,7 +41,7 @@ class NewsletterMailer < ApplicationMailer
       token: @unsubscribe_token)
   end
 
-  def attach_attchments!
+  def attach_attachments!
     return unless params[:attachments].present?
 
     params[:attachments].map(&:file).each { |file|

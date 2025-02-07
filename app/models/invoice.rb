@@ -7,6 +7,7 @@ class Invoice < ApplicationRecord
   include HasFiscalYear
   include HasState
   include Auditable
+  include HasAttachments
   include ActionView::Helpers::NumberHelper
   UnprocessedError = Class.new(StandardError)
 
@@ -203,6 +204,14 @@ class Invoice < ApplicationRecord
 
   def reference
     Billing.reference.new(self)
+  end
+
+  def attachments
+    if entity&.respond_to?(:attachments)
+      entity.attachments
+    else
+      super
+    end
   end
 
   def stamp_pdf_as_canceled!

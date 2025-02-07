@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_02_01_102701) do
+ActiveRecord::Schema[8.0].define(version: 2025_02_07_083345) do
   create_table "absences", force: :cascade do |t|
     t.bigint "member_id"
     t.date "started_on"
@@ -143,6 +143,16 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_01_102701) do
     t.datetime "updated_at", null: false
     t.check_constraint "JSON_TYPE(delivery_ids) = 'array'", name: "announcements_delivery_ids_is_array"
     t.check_constraint "JSON_TYPE(depot_ids) = 'array'", name: "announcements_depot_ids_is_array"
+  end
+
+  create_table "attachments", force: :cascade do |t|
+    t.bigint "newsletter_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "attachable_type"
+    t.integer "attachable_id"
+    t.index ["attachable_type", "attachable_id"], name: "index_attachments_on_attachable"
+    t.index ["newsletter_id"], name: "index_attachments_on_newsletter_id"
   end
 
   create_table "audits", force: :cascade do |t|
@@ -543,13 +553,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_01_102701) do
     t.index ["delivery_cycle_id"], name: "index_memberships_basket_complements_on_delivery_cycle_id"
   end
 
-  create_table "newsletter_attachments", force: :cascade do |t|
-    t.bigint "newsletter_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["newsletter_id"], name: "index_newsletter_attachments_on_newsletter_id"
-  end
-
   create_table "newsletter_blocks", force: :cascade do |t|
     t.bigint "newsletter_id", null: false
     t.string "block_id", null: false
@@ -879,6 +882,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_01_102701) do
   add_foreign_key "activity_participations", "admins", column: "validator_id"
   add_foreign_key "activity_participations", "members"
   add_foreign_key "admins", "permissions"
+  add_foreign_key "attachments", "newsletters"
   add_foreign_key "basket_contents", "basket_content_products", column: "product_id"
   add_foreign_key "basket_contents", "deliveries"
   add_foreign_key "basket_contents_depots", "basket_contents"
@@ -896,7 +900,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_01_102701) do
   add_foreign_key "memberships", "delivery_cycles"
   add_foreign_key "memberships", "depots"
   add_foreign_key "memberships_basket_complements", "delivery_cycles"
-  add_foreign_key "newsletter_attachments", "newsletters"
   add_foreign_key "newsletter_blocks", "newsletters"
   add_foreign_key "newsletter_deliveries", "members"
   add_foreign_key "newsletter_deliveries", "newsletters"

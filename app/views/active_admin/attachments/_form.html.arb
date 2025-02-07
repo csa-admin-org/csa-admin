@@ -1,0 +1,14 @@
+text ||= nil
+f.inputs Attachment.model_name.human(count: 2) do
+  if text
+    f.para text
+  end
+  f.has_many :attachments, allow_destroy: true, heading: "" do |a|
+      if a.object.persisted?
+        content_tag :span, display_attachment(a.object.file), class: "filename"
+      else
+        a.input :file, as: :file
+      end
+  end
+  f.semantic_errors :attachments
+end

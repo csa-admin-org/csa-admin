@@ -5,6 +5,7 @@ module Shop
     include NumbersHelper
     include HasState
     include HasDescription
+    include HasAttachments
 
     self.table_name = "shop_orders"
 

@@ -106,7 +106,7 @@ class NewsletterDeliveryTest < ActiveSupport::TestCase
   end
 
   test "send newsletter with attachments" do
-    attachment = Newsletter::Attachment.new
+    attachment = Attachment.new
     attachment.file.attach(io: File.open(file_fixture("qrcode-test.png")), filename: "qrcode-test.png")
 
     newsletter = newsletters(:simple)

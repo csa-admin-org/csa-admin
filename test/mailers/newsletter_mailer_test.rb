@@ -36,7 +36,7 @@ class NewsletterMailerTest < ActionMailer::TestCase
     newsletter = newsletters(:simple)
     member = members(:john)
 
-    attachment = Newsletter::Attachment.new
+    attachment = Attachment.new
     attachment.file.attach(
       io: File.open(file_fixture("qrcode-test.png")),
       filename: 'A "stylish" QR code.png')

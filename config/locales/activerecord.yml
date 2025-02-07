@@ -144,6 +144,12 @@ _:
           _en: Notifications
           _fr: Notifications
           _it: Notifiche
+      attachment:
+        file:
+          _de: Datei
+          _en: File
+          _fr: Fichier
+          _it: File
       audit:
         actor:
           _de: Autor
@@ -1189,12 +1195,6 @@ _:
           _en: Subject
           _fr: Sujet
           _it: Soggeto
-      newsletter/attachment:
-        file:
-          _de: Datei
-          _en: File
-          _fr: Fichier
-          _it: File
       newsletter/delivery:
         bounce_description:
           _de: Beschreibung der Ablehnung
@@ -1821,14 +1821,6 @@ _:
                 _en: Insufficient (missing %{miss})
                 _fr: Insuffisante (manque %{miss})
                 _it: Insufficiente (manca %{miss})
-        newsletter:
-          attributes:
-            attachments:
-              too_large:
-                _de: Die Anhänge dürfen nicht größer als 5 Mo sein
-                _en: Attachments must not exceed 5 MB
-                _fr: Les pièces jointes ne doivent pas dépasser 5 Mo
-                _it: Gli allegati non devono superare i 5 Mo
         session:
           attributes:
             email:
@@ -1961,6 +1953,17 @@ _:
           _en: Announcements
           _fr: Annonces
           _it: Annunci
+      attachment:
+        one:
+          _de: Datei
+          _en: File
+          _fr: fichier
+          _it: file
+        other:
+          _de: Anhänge
+          _en: Attachments
+          _fr: Pièces jointes
+          _it: Allegati
       audit:
         one:
           _de: Audit
@@ -2186,17 +2189,6 @@ _:
           _en: Newsletters
           _fr: Newsletters
           _it: Newsletters
-      newsletter/attachment:
-        one:
-          _de: Datei
-          _en: File
-          _fr: fichier
-          _it: file
-        other:
-          _de: Anhänge
-          _en: Attachments
-          _fr: Pièces jointes
-          _it: Allegati
       newsletter/delivery:
         one:
           _de: Verteilung
