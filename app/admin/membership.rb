@@ -553,7 +553,7 @@ ActiveAdmin.register Membership do
                 }
               end
               if m.basket_complements.any? && m.basket_complements_price.nonzero?
-                row(BasketComplement.model_name.human(count: m.basket_complements.count), class: "text-right tabular-nums") {
+                row(MembershipsBasketComplement.model_name.human(count: m.basket_complements.count), class: "text-right tabular-nums") {
                   display_price_description(
                     m.basket_complements_price,
                     membership_basket_complements_price_info(m))

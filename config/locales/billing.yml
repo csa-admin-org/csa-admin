@@ -56,11 +56,6 @@ _:
         _en: 'Quarterly billing #%{number}'
         _fr: 'Facturation trimestrielle #%{number}'
         _it: 'Fatturazione trimestrale #%{number}'
-    membership_entity:
-      _de: Abo. %{fiscal_year} %{number}
-      _en: Membership %{fiscal_year} %{number}
-      _fr: Abo. %{fiscal_year} %{number}
-      _it: Abbo. %{fiscal_year} %{number}
     memberships_total:
       _de: Abonnements gesamt
       _en: Total memberships

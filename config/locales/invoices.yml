@@ -13,6 +13,16 @@ _:
         _en: Annual fee
         _fr: Cotisation
         _it: Quota annuale associativa
+      membership:
+        _de: Abo. %{fiscal_year}
+        _en: Membership %{fiscal_year}
+        _fr: Abo. %{fiscal_year}
+        _it: Abbo. %{fiscal_year}
+      membership_with_annual_fee:
+        _de: Abo.+Beit. %{fiscal_year}
+        _en: Membership+Fee %{fiscal_year}
+        _fr: Abo.+Coti. %{fiscal_year}
+        _it: Abbo.+Quota %{fiscal_year}
       new_member_fee:
         _de: Teilnahmegebühr
         _en: New member fee

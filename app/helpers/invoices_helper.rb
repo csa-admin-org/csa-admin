@@ -11,9 +11,11 @@ module InvoicesHelper
     if link && invoice.entity
       auto_link invoice.entity
     elsif invoice.entity.is_a?(Membership)
-      t("billing.membership_entity",
-        fiscal_year: invoice.entity.fiscal_year,
-        number: invoice.memberships_amount_description[/#\d+\z/])
+      if invoice.annual_fee?
+        t("invoices.entity_type.membership_with_annual_fee", fiscal_year: invoice.entity.fiscal_year)
+      else
+        t("invoices.entity_type.membership", fiscal_year: invoice.entity.fiscal_year)
+      end
     elsif invoice.entity_type == "Shop::Order"
       t("shop.title")
     else
