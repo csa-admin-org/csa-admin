@@ -153,6 +153,10 @@
   }
 }
 
+.hovered {
+  @apply bg-gray-100 dark:bg-gray-900
+}
+
 @layer components {
   .action-item-button {
     @apply hover:text-green-600 dark:hover:text-green-500 inline-flex items-center cursor-pointer;

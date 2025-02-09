@@ -349,6 +349,16 @@ _:
           _it: Consegna il %{date}
     billing:
       index:
+        already_invoiced:
+          _de: Bereits in Rechnung gestellt
+          _en: Already invoiced
+          _fr: Déjà facturé
+          _it: Già fatturato
+        annual_fee:
+          _de: Jahresbeitrag
+          _en: Annual fee
+          _fr: Cotisation annuelle
+          _it: Quota annuale
         billing:
           _de: Rechnungsstellung
           _en: Billing
@@ -370,10 +380,10 @@ _:
           _fr: Historique
           _it: Cronologia
         missing_amount:
-          _de: Noch zu zahlender Betrag
-          _en: Amount remaining to be paid
-          _fr: Montant restant à payer
-          _it: Montante restante da pagare
+          _de: Zu zahlen
+          _en: To pay
+          _fr: À payer
+          _it: Da pagare
         no_billing_history:
           _de: Im Moment keine Rechnung oder Einzahlung.
           _en: No invoice or payment at the moment.
@@ -384,6 +394,11 @@ _:
           _en: Open invoices
           _fr: Factures ouvertes
           _it: Fatture aperte
+        remaining_to_invoice:
+          _de: Noch zu verrechnen
+          _en: Remaining to invoice
+          _fr: Restant à facturer
+          _it: Rimasto da fatturare
         shares:
           _de: Anteilscheine
           _en: Cooperative shares
