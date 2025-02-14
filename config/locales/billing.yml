@@ -103,10 +103,10 @@ _:
         _fr: Ajustement heures de travail
         _it: Correzioni ore di lavoro
       annual_fee:
-        _de: Beitrag
+        _de: Jahresbeitrag
         _en: Annual fee
-        _fr: Cotisation
-        _it: Partecipazione
+        _fr: Cotisation annuelle
+        _it: Contributo annuale
       basket_complement:
         _de: Zusatz
         _en: Complement
