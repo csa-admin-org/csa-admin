@@ -204,6 +204,10 @@ class Organization < ApplicationRecord
   end
 
   def send_invoice_overdue_notice?
+    automatic_payments_processing? && MailTemplate.active_template("invoice_overdue_notice")
+  end
+
+  def automatic_payments_processing?
     [ credentials(:ebics), credentials(:bas) ].any?(&:present?)
   end
 

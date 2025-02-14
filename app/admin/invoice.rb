@@ -143,10 +143,14 @@ ActiveAdmin.register Invoice do
     end
   end
 
-  sidebar :overdue_notice_not_sent_warning, only: :index, if: -> { !Current.org.send_invoice_overdue_notice? } do
+  sidebar :overdue_notice_not_sent_warning, only: :index, unless: -> { Current.org.send_invoice_overdue_notice? } do
     side_panel t(".overdue_notice_not_sent_warning"), action: handbook_icon_link("billing", anchor: "overdue_notice") do
       para class: "p-2 rounded bg-red-100 text-red-800" do
-        t(".overdue_notice_not_sent_warning_text_html")
+        if Current.org.automatic_payments_processing?
+          t(".overdue_notice_not_sent_warning_mail_template_not_active_text_html")
+        else
+          t(".overdue_notice_not_sent_warning_no_automatic_payment_processing_text_html")
+        end
       end
       if authorized?(:create, Invoice)
         div class: "mt-3 " do
