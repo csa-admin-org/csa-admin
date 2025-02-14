@@ -105,7 +105,7 @@ class MemberTest < ActiveSupport::TestCase
     org(annual_fee: 0, annual_fee_member_form: true)
     member = build_member(annual_fee: nil, public_create: true)
     assert_not member.valid?
-    assert_includes member.errors[:annual_fee], "can't be blank"
+    assert_includes member.errors[:annual_fee], "must be greater than or equal to 1"
 
     member.update(annual_fee: 0, waiting_basket_size_id: 0)
     assert_not member.valid?
@@ -469,6 +469,16 @@ class MemberTest < ActiveSupport::TestCase
     assert_equal 30, member.annual_fee
   end
 
+  test "wait! sets state to waiting and clear annual_fee when annual_fee_support_member_only is true" do
+    org(annual_fee_support_member_only: true)
+    member = members(:mary)
+    assert_changes -> { member.state }, from: "inactive", to: "waiting" do
+      member.wait!
+    end
+    assert member.waiting_started_at > 1.minute.ago
+    assert_nil member.annual_fee
+  end
+
   test "wait! raises if not support or inactive" do
     member = members(:john)
     assert_raises(InvalidTransitionError) { member.wait! }
@@ -579,15 +589,28 @@ class MemberTest < ActiveSupport::TestCase
   test "activate! activates new active member and sent member-activated email" do
     mail_templates(:member_activated).update!(active: true)
     member = members(:john)
-    member.update_columns(state: "inactive", activated_at: nil)
+    member.update_columns(state: "inactive", activated_at: nil, annual_fee: nil)
 
     assert_difference "MemberMailer.deliveries.size" do
       perform_enqueued_jobs { member.activate! }
     end
 
+    assert_equal 30, member.annual_fee
     assert member.activated_at?
     mail = MemberMailer.deliveries.last
     assert_equal "Welcome!", mail.subject
+  end
+
+  test "activate! when annual_fee_support_member_only is true" do
+    org(annual_fee_support_member_only: true)
+    member = members(:john)
+    member.update_columns(state: "inactive", activated_at: nil, annual_fee: nil)
+
+    assert_no_changes -> { member.reload.annual_fee } do
+      perform_enqueued_jobs { member.activate! }
+    end
+
+    assert member.activated_at?
   end
 
   test "activate! activates previously active member" do
@@ -751,6 +774,22 @@ class MemberTest < ActiveSupport::TestCase
     member.update_columns(state: "inactive")
     assert member.invoices.one?
     assert_not member.can_destroy?
+  end
+
+  test "set default annual_fee when support member" do
+    org(annual_fee_support_member_only: false)
+    member = build_member(annual_fee: nil)
+    assert_equal 30, member.annual_fee
+
+    member = build_member(annual_fee: nil, waiting_basket_size_id: small_id)
+    assert_equal 30, member.annual_fee
+
+    org(annual_fee_support_member_only: true)
+    member = build_member(annual_fee: nil)
+    assert_equal 30, member.annual_fee
+
+    member = build_member(annual_fee: nil, waiting_basket_size_id: small_id)
+    assert_nil member.annual_fee
   end
 
   test "set_default_waiting_delivery_cycle when basket_size has a delivery_cycle" do

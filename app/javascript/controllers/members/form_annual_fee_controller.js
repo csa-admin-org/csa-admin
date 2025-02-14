@@ -12,6 +12,7 @@ export default class extends Controller {
 
     removeClass(this.wrapper, "disabled")
     prop(this.input, "disabled", false)
+    this.input.value = this.input.dataset.defaultValue
   }
 
   disableInput() {
@@ -19,6 +20,6 @@ export default class extends Controller {
 
     addClass(this.wrapper, "disabled")
     prop(this.input, "disabled", true)
-    this.input.value = this.input.dataset.defaultValue
+    this.input.value = this.input.dataset.disabledValue
   }
 }

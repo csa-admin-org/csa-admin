@@ -93,15 +93,20 @@ _:
       _fr: Membre de soutien
       _it: Socio sostenitore
     no_basket_size_annual_fee:
-      _de: Nur jährlicher Beitrag
+      _de: Nur Jahresbeitrag
       _en: Annual fee only
       _fr: Cotisation annuelle uniquement
-      _it: Solamente quota associativa annuale
+      _it: Solamente quota annuale
+    no_basket_size_annual_fee_and_share:
+      _de: Nur Jahresbeitrag und Anteilschein
+      _en: Annual fee and cooperative share only
+      _fr: Cotisation annuelle et part sociale uniquement
+      _it: Solo quota annuale e quota sociale cooperativa
     no_basket_size_share:
       _de: Nur Anteilschein
       _en: Cooperative share only
       _fr: Part sociale uniquement
-      _it: Solamente quota sociale cooperativa
+      _it: Solo quota sociale cooperativa
     none:
       _de: Kein
       _en: None

@@ -629,10 +629,15 @@ _:
           _fr: Un email de bienvenue sera envoyé à l'admin pour l'inviter à se connecter.
           _it: Un'email di benvenuto verrà inviata all'amministratore per invitarlo a connettersi.
         annual_fee:
-          _de: Jährlicher Vereinsbeitrag
-          _en: Annual membership fee
-          _fr: Cotisation annuelle association
-          _it: Quota annuale associativa
+          _de: Jahresbeitrag
+          _en: Annual fee
+          _fr: Cotisation annuelle
+          _it: Quota annuale
+        annual_fee_hint:
+          _de: Wird zu Beginn jedes Geschäftsjahres oder nach der Anmeldung während des Jahres in Rechnung gestellt. Für aktive Mitglieder ist sie in der ersten Abonnementrechnung enthalten.
+          _en: Invoiced at the beginning of each fiscal year or after signing up during the year. For active members, it is included in the first subscription invoice.
+          _fr: Facturé au début de chaque année fiscale ou après l’inscription en cours d’année. Pour les membres actifs, elle est intégrée à la première facture de l’abonnement.
+          _it: Fatturato all'inizio di ogni anno fiscale o dopo l'iscrizione durante l'anno. Per i soci attivi, è incluso nella prima fattura di abbonamento.
         availability:
           _de: Verfügbarkeit
           _en: Availability
@@ -1107,7 +1112,7 @@ _:
           _fr: Êtes-vous sûr? L'abonnement sera facturé dans son intégralité. N'oubliez pas d'envoyer la facture, après l'avoir vérifiée.
           _it: Siete sicuri? L'abbonamento verrà fatturato per intero. Non dimenticate di inviare la fattura dopo la verifica.
         future_billing_with_annual_fee_confirm:
-          _de: Sind Sie sicher? Das Abonnement wird in voller Höhe abgerechnet, einschließlich des jährlichen Beitrags. Vergessen Sie nicht, die Rechnung nach der Überprüfung abzusenden.
+          _de: Sind Sie sicher? Das Abonnement wird in voller Höhe abgerechnet, einschließlich des Jahresbeitrags. Vergessen Sie nicht, die Rechnung nach der Überprüfung abzusenden.
           _en: Are you sure? The membership will be billed in full, including the annual fee. Don't forget to send the invoice after reviewing it.
           _fr: Êtes-vous sûr? L'abonnement sera facturé dans son intégralité, y compris la cotisation annuelle. N'oubliez pas d'envoyer la facture, après l'avoir vérifiée.
           _it: Siete sicuri? L'abbonamento verrà fatturato per intero, compresa la quota annuale. Non dimenticate di inviare la fattura dopo la verifica.
@@ -1767,7 +1772,7 @@ _:
         _fr: À valider
         _it: Da confermare
       support:
-        _de: Support
+        _de: Förderung
         _en: Support
         _fr: Soutien
         _it: Sostegno
@@ -1977,7 +1982,7 @@ _:
           _fr: Êtes-vous sûr? Les abonnements seront facturés dans leur intégralité.
           _it: Sei sicuro? Gli abbonamenti saranno fatturati per intero.
         future_billing_with_annual_fee_confirm:
-          _de: Sind Sie sicher? Die Abonnements werden in voller Höhe berechnet, einschließlich der Jahresgebühr.
+          _de: Sind Sie sicher? Die Abonnements werden vollständig in Rechnung gestellt, einschließlich des Jahresbeitrags.
           _en: Are you sure? The memberships will be billed in full, including their annual fee.
           _fr: Êtes-vous sûr? Les abonnements seront facturés dans leur intégralité, y compris leur cotisation annuelle.
           _it: Sei sicuro? Gli abbonamenti saranno fatturati per intero, compresa la quota annuale.

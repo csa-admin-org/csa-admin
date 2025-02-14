@@ -122,8 +122,10 @@ ActiveAdmin.register Organization do
           li class: "subtitle" do
             h2 t(".annual_fee")
             span t(".if_applicable"), class: "optional"
+            para t(".annual_fee_hint"), class: "pt-2"
           end
           f.input :annual_fee, as: :number
+          f.input :annual_fee_support_member_only, as: :boolean
           f.input :annual_fee_member_form, as: :boolean
 
           li class: "subtitle" do
@@ -433,7 +435,7 @@ ActiveAdmin.register Organization do
     :iban, :sepa_creditor_identifier, :bank_reference, :creditor_name,
     :invoice_logo,
     :creditor_address, :creditor_city, :creditor_zip,
-    :annual_fee, :annual_fee_member_form,
+    :annual_fee, :annual_fee_member_form, :annual_fee_support_member_only,
     :share_price, :shares_number,
     :absence_notice_period_in_days,
     :activity_i18n_scope, :activity_participation_deletion_deadline_in_days,

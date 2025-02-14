@@ -41,6 +41,7 @@ module NumbersHelper
   end
 
   def prefer_integer(number)
+    return unless number
     return if number&.zero?
 
     number == number.to_i ? number.to_i : number

@@ -28,9 +28,7 @@ Il est possible de facturer à l'avance un abonnement qui n’a pas encore comme
 
 La facturation à l’avance peut être effectuée depuis la page d’un abonnement futur, en cliquant sur le bouton "Tout facturer à l’avance" dans la section "Facturation" (colonne de droite). Il est également possible de facturer plusieurs abonnements futurs en une seule fois depuis [la page des abonnements](/memberships?scope=future&q[during_year]=<%= Current.fy_year + 1 %>), en utilisant le champ "Futurs" et en filtrant par année fiscale. Vous pouvez alors cliquer sur le bouton "Tout facturer à l’avance" dans la section "Facturation" (colonne de droite), en dessous des filtres. N’hésitez pas à filtrer les futurs abonnements par intervalle de paiement (par exemple "Annuel" uniquement) pour affiner votre sélection.
 
-<% if Current.org.annual_fee? %>
 > La cotisation annuelle correspondant à l’année fiscale de l’abonnement est automatiquement incluse dans la facture.
-<% end %>
 
 ### Changement de prix {#price-change}
 
@@ -41,18 +39,16 @@ Si la configuration d'un abonnement (dates, de taille de panier, ...) est modifi
   - Le changement de prix est positif, une nouvelle facture (avec un montant plus élevé) sera simplement créée le prochain jour de facturation afin de facturer le montant manquant.
   - Le changement de prix est négatif, la/les dernière(s) facture(s) de l'abonnement sera/seront alors automatiquement annulée(s) et une nouvelle facture (avec un montant moins élevé) sera recréée le prochain jour de facturation. Si l'ancienne facture annulée était déjà payée, alors la nouvelle facture sera automatiquement fermée et le membre se retrouvera avec une balance positive. Au besoin, vous pouvez refléter un remboursement du solde du membre en lui [créant un paiement négatif](/payments/new).
 
-<% if Current.org.annual_fee? %>
 ### Cotisation annuelle
 
 La cotisation annuelle est automatiquement incluse dans la première facture de l'abonnement. Si le membre n'a pas d'abonnement (soutien) alors une facture spécifique est créée automatiquement au début de l'année fiscale.
-<% end %>
 
 
 ### Paniers à l'essai
 
 Si un nombre de paniers à l'essai est défini dans [les paramètres de facturation](/settings#billing), alors l'abonnement sera uniquement facturé une fois que tous les paniers à l'essai seront livrés, le prochain jour de facturation suivant la livraison du premier panier non à l'essai.
 
-Si l'abonnement est arrêté durant la période d'essai, alors seulement les paniers livrés seront facturés, le prochain jour de facturation. <% if Current.org.annual_fee? %> Dans ce cas, la cotisation annuelle n'est pas facturée.<% end %>
+Si l'abonnement est arrêté durant la période d'essai, alors seulement les paniers livrés seront facturés, le prochain jour de facturation. Dans ce cas, la cotisation annuelle n'est pas facturée.
 
 <% if Current.org.share? %>
 ## Parts sociales

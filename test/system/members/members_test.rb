@@ -260,9 +260,11 @@ class Members::MembersTest < ApplicationSystemTestCase
   end
 
   test "support member (annual fee)" do
+    org(annual_fee_support_member_only: true)
+
     visit "/new"
 
-    assert_text "Each member also joins the association and pays an annual fee of CHF 30 in addition to the membership to the basket."
+    assert_text "Each supporting member (without subscription) pays an annual fee of CHF 30."
 
     fill_in "Name and surname", with: "Ryan Doe"
     fill_in "Address", with: "Nowhere street 2"
@@ -292,7 +294,7 @@ class Members::MembersTest < ApplicationSystemTestCase
 
     visit "/new"
 
-    assert_text "Each member also joins the association and pays an annual fee of CHF 30 in addition to the membership to the basket."
+    assert_text "Each member also pays an annual fee of CHF 30 in addition to the membership to the basket."
 
     fill_in "Name and surname", with: "Ryan Doe"
     fill_in "Address", with: "Nowhere street 2"
@@ -391,7 +393,7 @@ class Members::MembersTest < ApplicationSystemTestCase
   end
 
   test "shows only membership extra text" do
-    default_text = "Each member also joins the association"
+    default_text = "Each member also pays an annual fee"
     extra_text = "Special rules"
     Current.org.update!(member_form_extra_text: extra_text)
 

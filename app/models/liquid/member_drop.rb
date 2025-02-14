@@ -18,7 +18,7 @@ class Liquid::MemberDrop < Liquid::Drop
   end
 
   def annual_fee
-    return unless Current.org.annual_fee?
+    return unless @member.annual_fee
 
     cur(@member.annual_fee.to_f)
   end

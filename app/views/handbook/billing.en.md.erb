@@ -28,9 +28,7 @@ It is possible to invoice an upcoming subscription in advance, with a start date
 
 Advance invoicing can be done from the page of a future subscription by clicking on the "Invoice all in advance" button in the "Billing" section (right column). It is also possible to invoice multiple future subscriptions at once from [the subscriptions page](/memberships?scope=future&q[during_year]=<%= Current.fy_year + 1 %>), using the "Future" field and filtering by fiscal year. You can then click on the "Invoice all in advance" button in the "Billing" section (right column), below the filters. Feel free to filter future subscriptions by payment interval (e.g., "Annual" only) to refine your selection.
 
-<% if Current.org.annual_fee? %>
 > The annual fee corresponding to the fiscal year of the subscription is automatically included in the invoice.
-<% end %>
 
 ### Price change {#price-change}
 
@@ -41,17 +39,15 @@ If a membership configuration (dates, basket size, ...) is modified, several cas
   - The price change is positive, a new invoice (with a higher amount) will simply be created on the next billing day to bill the missing amount.
   - The price change is negative, the last invoice(s) of the membership will then be automatically cancelled and a new invoice (with a lower amount) will be recreated on the next billing day. If the old cancelled invoice was already paid, then the new invoice will be automatically closed and the member will end up with a positive balance. If needed, you can reflect a refund of the member's balance by [creating a negative payment](/payments/new) for them.
 
-<% if Current.org.annual_fee? %>
 ### Annual fee
 
 The annual fee is automatically included in the first invoice of the membership. If the member doesn't have a membership (support) then a specific invoice is automatically created at the beginning of the fiscal year.
-<% end %>
 
 ### Trial baskets
 
 If a number of trial baskets is defined in [the billing settings](/settings#billing), then the membership will only be billed once all trial baskets are delivered, on the next billing day following the delivery of the first non-trial basket.
 
-If the membership is stopped during the trial period, then only the delivered baskets will be billed, on the next billing day. <% if Current.org.annual_fee? %> In this case, the annual fee is not billed.<% end %>
+If the membership is stopped during the trial period, then only the delivered baskets will be billed, on the next billing day. In this case, the annual fee is not billed.
 
 <% if Current.org.share? %>
 ## Share capital
