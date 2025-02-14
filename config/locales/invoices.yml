@@ -9,10 +9,10 @@ _:
           _it: Fattura annullata
     entity_type:
       annual_fee:
-        _de: Beitrag
+        _de: Jahresbeitrag
         _en: Annual fee
-        _fr: Cotisation
-        _it: Quota annuale associativa
+        _fr: Cotisation annuelle
+        _it: Quota annuale
       membership:
         _de: Abo. %{fiscal_year}
         _en: Membership %{fiscal_year}

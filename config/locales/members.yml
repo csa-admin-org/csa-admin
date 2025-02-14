@@ -737,10 +737,10 @@ _:
           _fr: Annuler
           _it: Annullare
         renewal_annual_fee_label:
-          _de: Um die Vereinigung zu unterstützen, zahle ich ab dem nächsten Jahr weiterhin den jährlichen Mitgliedsbeitrag.
-          _en: To support the association, I will continue to pay the annual membership fee from next year.
-          _fr: Pour soutenir l'association, je continue à payer la cotisation annuelle dès l'an prochain.
-          _it: Per sostenere l'associazione continuerò a pagare la quota associativa annuale anche nel prossimo anno.
+          _de: Um uns zu unterstützen, werde ich die Jahresgebühr ab dem nächsten Jahr weiterhin bezahlen.
+          _en: To support us, I will continue to pay the annual membership fee from next year.
+          _fr: Pour nous soutenir, je continue à payer la cotisation annuelle dès l'an prochain.
+          _it: Per sostenerci, continuerò a pagare la quota annuale di iscrizione dall'anno prossimo.
         renewal_note:
           placeholder:
             cancel:

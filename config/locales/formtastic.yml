@@ -578,7 +578,7 @@ _:
           _fr: Permet aux membres de soutien de choisir le montant de leur cotisation annuelle lors de l'inscription. Les membres actifs (choisissant une taille de panier) ne peuvent pas modifier ce montant.
           _it: Consente ai membri sostenitori di scegliere l'importo della loro quota annuale all'iscrizione. I membri attivi (che scelgono una dimensione del cesto) non possono modificare questo importo.
         annual_fee_support_member_only:
-          _de: Wenn aktiviert, haben nur unterstützende Mitglieder den Jahresbeitrag standardmäßig bei der Registrierung. Aktive Mitglieder (die eine Taschengröße wählen) haben ihn nicht.
+          _de: Wenn aktiviert, wird der Jahresbeitrag standardmäßig nur für Fördermitglieder bei der Anmeldung angewendet. Aktive Mitglieder (die eine Korbgröße wählen) erhalten ihn nicht.
           _en: If enabled, only supporting members will have the annual fee applied by default at registration. Active members (choosing a basket size) will not have it.
           _fr: Si activé, seuls les membres de soutien auront la cotisation annuelle appliquée par défaut lors de leur l'inscription. Les membres actifs (choisissant une taille de panier) n'en auront pas.
           _it: Se attivato, solo i membri sostenitori avranno la quota annuale applicata per impostazione predefinita all'iscrizione. I membri attivi (che scelgono una dimensione del cesto) non lo avranno.
