@@ -21,6 +21,7 @@ ActiveAdmin.register DeliveryCycle do
 
   includes :depots
   index download_links: false do
+    column :id, ->(dc) { link_to dc.id, dc }
     column :name, ->(dc) { link_to display_name_with_public_name(dc), dc }, sortable: true
     if DeliveryCycle.prices?
       column :price, ->(d) { cur(d.price) }, class: "text-right tabular-nums whitespace-nowrap"
@@ -76,6 +77,7 @@ ActiveAdmin.register DeliveryCycle do
       column do
         panel t(".details") do
           attributes_table do
+            row :id
             row :name
             row :public_name
           end
