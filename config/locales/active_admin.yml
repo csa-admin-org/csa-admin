@@ -2078,11 +2078,16 @@ _:
           _en: Overdue notices disabled!
           _fr: Rappels désactivés!
           _it: Promemoria disabilitati!
-        overdue_notice_not_sent_warning_text_html:
+        overdue_notice_not_sent_warning_no_automatic_payment_processing_text_html:
           _de: Die Mahnungen werden nicht automatisch versendet, solange die Zahlungen nicht ebenfalls automatisch verarbeitet werden (EBICS).
           _en: Overdue notices are not automatically sent as long as payments are not also automatically processed (EBICS).
           _fr: Les rappels ne sont pas automatiquement envoyés tant que les paiements ne sont pas également traités automatiquement (EBICS).
           _it: I promemoria non vengono inviati automaticamente finché i pagamenti non vengono elaborati automaticamente (EBICS).
+        overdue_notice_not_sent_warning_mail_template_not_active_text_html:
+          _fr: L'envoi automatique de l'email <a href="/mail_templates/invoice_overdue_notice">"Rappel facture"</a> est désactivé.
+          _de: Der Versand des E-Mails <a href="/mail_templates/invoice_overdue_notice">"Mahnung Rechnung"</a> ist deaktiviert.
+          _en: The automatic sending of the email <a href="/mail_templates/invoice_overdue_notice">"Invoice overdue notice"</a> is disabled.
+          _it: L'invio automatico dell'email <a href="/mail_templates/invoice_overdue_notice">"Promemoria fattura"</a> è disabilitato.
         overpaid:
           _de: 'Überbezahlt:'
           _en: 'Overpaid:'

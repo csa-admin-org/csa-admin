@@ -92,6 +92,11 @@ ActiveAdmin.register MailTemplate do
             input_html: { disabled: true },
             required: false,
             hint: t("formtastic.hints.mail_template.always_active")
+        elsif mail_template.title == "invoice_overdue_notice" && !Current.org.automatic_payments_processing?
+          f.input :active,
+            input_html: { disabled: true },
+            required: false,
+            hint: t("formtastic.hints.mail_template.invoice_overdue_notice")
         else
           f.input :active,
             hint: !mail_template.active?,

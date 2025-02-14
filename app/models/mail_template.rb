@@ -31,8 +31,10 @@ class MailTemplate < ApplicationRecord
   TITLES = MEMBER_TITLES + MEMBERSHIP_TITLES + ACTIVITY_TITLES + INVOICE_TITLES
   ALWAYS_ACTIVE_TITLES = %w[
     invoice_created
-    invoice_overdue_notice
     activity_participation_reminder
+  ]
+  ACTIVE_BY_DEFAULT_TITLES = ALWAYS_ACTIVE_TITLES + %w[
+    invoice_overdue_notice
   ]
   TITLES_WITH_DELIVERY_CYCLES_SCOPE = MEMBERSHIP_TITLES - %w[
     membership_renewal
@@ -151,6 +153,10 @@ class MailTemplate < ApplicationRecord
     title.in?(ALWAYS_ACTIVE_TITLES)
   end
 
+  def active_by_default?
+    title.in?(ACTIVE_BY_DEFAULT_TITLES)
+  end
+
   def active=(value)
     if always_active?
       super(true)
@@ -160,7 +166,7 @@ class MailTemplate < ApplicationRecord
   end
 
   def active
-    if title == "invoice_overdue_notice" && !Current.org.send_invoice_overdue_notice?
+    if title == "invoice_overdue_notice" && !Current.org.automatic_payments_processing?
       false
     else
       super
@@ -189,7 +195,7 @@ class MailTemplate < ApplicationRecord
   end
 
   def set_defaults
-    self.active = always_active? if new_record? && !active
+    self.active = active_by_default? if new_record? && !active
     self.subjects = default_subjects
     self.contents = default_contents
   end
