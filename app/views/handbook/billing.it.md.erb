@@ -28,9 +28,7 @@ In alcuni casi, per esempio dopo un cambiamento di configurazione dell'abbonamen
 
 La fatturazione anticipata può essere effettuata dalla pagina di un abbonamento futuro cliccando sul pulsante "Fatturare tutto in anticipo" nella sezione "Fatturazione" (colonna di destra). È anche possibile fatturare più abbonamenti futuri contemporaneamente dalla [pagina degli abbonamenti](/memberships?scope=future&q[during_year]=<%= Current.fy_year + 1 %>), utilizzando il campo "Futuro" e filtrando per anno fiscale. È quindi possibile cliccare sul pulsante "Fatturare tutto in anticipo" nella sezione "Fatturazione" (colonna di destra), sotto i filtri. Sentitevi liberi di filtrare gli abbonamenti futuri per intervallo di pagamento (ad esempio, solo "Annuale") per affinare la vostra selezione.
 
-<% if Current.org.annual_fee? %>
 > La quota annuale corrispondente all'anno fiscale dell'abbonamento è automaticamente inclusa nella fattura.
-<% end %>
 
 ### Cambio di prezzo {#price-change}
 
@@ -41,17 +39,15 @@ Se la configurazione di un abbonamento (date, dimensione della cesta, ...) viene
   - Il cambiamento di prezzo è positivo, una nuova fattura (con un importo più elevato) sarà semplicemente creata il prossimo giorno di fatturazione per fatturare l'importo mancante.
   - Il cambiamento di prezzo è negativo, l'ultima/e fattura/e dell'abbonamento sarà/saranno quindi automaticamente annullata/e e una nuova fattura (con un importo inferiore) sarà ricreata il prossimo giorno di fatturazione. Se la vecchia fattura annullata era già stata pagata, allora la nuova fattura sarà automaticamente chiusa e il socio si troverà con un saldo positivo. Se necessario, potete riflettere un rimborso del saldo del socio [creando un pagamento negativo](/payments/new).
 
-<% if Current.org.annual_fee? %>
 ### Quota annuale
 
 La quota annuale è automaticamente inclusa nella prima fattura dell'abbonamento. Se il socio non ha un abbonamento (supporto) allora viene creata automaticamente una fattura specifica all'inizio dell'anno fiscale.
-<% end %>
 
 ### Ceste di prova
 
 Se un numero di ceste di prova è definito nelle [impostazioni di fatturazione](/settings#billing), allora l'abbonamento sarà fatturato solo una volta che tutte le ceste di prova saranno state consegnate, il prossimo giorno di fatturazione successivo alla consegna della prima cesta non di prova.
 
-Se l'abbonamento viene interrotto durante il periodo di prova, allora solo le ceste consegnate saranno fatturate, il prossimo giorno di fatturazione. <% if Current.org.annual_fee? %> In questo caso, la quota annuale non viene fatturata.<% end %>
+Se l'abbonamento viene interrotto durante il periodo di prova, allora solo le ceste consegnate saranno fatturate, il prossimo giorno di fatturazione. In questo caso, la quota annuale non viene fatturata.
 
 <% if Current.org.share? %>
 ## Quote sociali

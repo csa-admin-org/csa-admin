@@ -410,7 +410,7 @@ ActiveAdmin.register Member do
             if member.billing_email?
               row(t(".email"), class: "text-right") { display_email_with_link(self, member.billing_email) }
             end
-            if Current.org.annual_fee?
+            if Current.org.annual_fee? || member.annual_fee
               row(:annual_fee, class: "text-right tabular-nums") { cur member.annual_fee }
             end
             row(:invoices_amount, class: "text-right tabular-nums") {

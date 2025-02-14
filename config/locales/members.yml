@@ -571,21 +571,26 @@ _:
             _en: Amount in %{currency}
             _fr: Montant en %{currency}
             _it: Importo in %{currency}
+          annual_fee_support_member_only_text:
+            _de: Jedes Fördermitglied (ohne Abonnement) zahlt einen Jahresbeitrag von <b class="whitespace-nowrap">%{price}</b>.
+            _en: Each supporting member (without subscription) pays an annual fee of <b class="whitespace-nowrap">%{price}</b>.
+            _fr: Chaque membre de soutien (sans abonnement) verse une cotisation annuelle de <b class="whitespace-nowrap">%{price}</b>.
+            _it: Ogni socio sostenitore (senza abbonamento) paga una quota annuale di <b class="whitespace-nowrap">%{price}</b>.
           annual_fee_text:
-            _de: Jedes Mitglied tritt dem Verein bei und zahlt zusätzlich zum Gemüseabo einen jährlichen Beitrag von <b>%{price}</b> ein.
-            _en: Each member also joins the association and pays an annual fee of <b>%{price}</b> in addition to the membership to the basket.
-            _fr: Chaque membre fait également partie de l'association et verse une cotisation annuelle de <b>%{price}</b> en plus de l'abonnement à son panier.
-            _it: Ogni socio fa parte dell'associazione e versa una quota associativa annuale di <b>%{price}</b> in aggiunta all'abbonamento per la propria cesta.
+            _de: Jedes Mitglied zahlt zusätzlich zum Abonnement für den Korb auch einen Jahresbeitrag von %{price}.
+            _en: Each member also pays an annual fee of <b class="whitespace-nowrap">%{price}</b> in addition to the membership to the basket.
+            _fr: Chaque membre verse une cotisation annuelle de <b class="whitespace-nowrap">%{price}</b> en plus de l'abonnement à son panier.
+            _it: Ogni socio paga anche una quota annuale di <b class="whitespace-nowrap">%{price}</b> oltre all'abbonamento alla cesta.
           desired_shares_number_hint:
             _de: Sie können sich entscheiden mehr Anteilscheine zu kaufen um die Genossenschaft zu unterstützen.
             _en: You can choose to buy more shares to support the cooperative.
             _fr: Acquérir plus de parts sociales pour soutenir la coopérative.
             _it: Comperandone più di una quota sostieni la cooperativa.
           shares_text:
-            _de: Jedes Mitglied tritt der Genossenschaft bei und muss ein oder merhere Anteilscheine (<b>%{price}</b>/Anteilschein) erwerben.
-            _en: Each member joins the cooperative and must acquire one or more shares (<b>%{price}</b>/share).
-            _fr: Chaque membre fait également partie de la coopérative et se doit d'acquérir des parts sociales (<b>%{price}</b>/part).
-            _it: Ogni socio è parte della cooperativa e deve acquisire quote sociali della cooperativa (<b>%{price}</b>/part).
+            _de: Jedes Mitglied tritt der Genossenschaft bei und muss ein oder merhere Anteilscheine (<b class="whitespace-nowrap">%{price}</b>/Anteilschein) erwerben.
+            _en: Each member joins the cooperative and must acquire one or more shares (<b class="whitespace-nowrap">%{price}</b>/share).
+            _fr: Chaque membre fait également partie de la coopérative et se doit d'acquérir des parts sociales (<b class="whitespace-nowrap">%{price}</b>/part).
+            _it: Ogni socio è parte della cooperativa e deve acquisire quote sociali della cooperativa (<b class="whitespace-nowrap">%{price}</b>/part).
           text:
             _de: Jeder Abonnent verpflichtet sich für ein ganzes Geschäftsjahr (%{fiscal_year_months_range}). Im Falle eines Einstiegs im Verlauf des laufenden Geschäftsjahrs wird der Preis durch die Anzahl der restlichen Lieferungen bestimmt.
             _en: Each subscriber commits for a full fiscal year (%{fiscal_year_months_range}). In case of joining during the current fiscal year, the price is determined by the number of remaining deliveries.

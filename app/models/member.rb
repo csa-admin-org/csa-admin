@@ -17,7 +17,6 @@ class Member < ApplicationRecord
   attr_accessor :basket, :shop_order
 
   attr_accessor :public_create
-  attribute :annual_fee, :decimal, default: -> { Current.org.annual_fee }
   attribute :language, :string, default: -> { Current.org.languages.first }
   attribute :country_code, :string, default: -> { Current.org.country_code }
   attribute :trial_baskets_count, :integer, default: -> { Current.org.trial_baskets_count }
@@ -139,6 +138,7 @@ class Member < ApplicationRecord
   validates_with SEPA::MandateIdentifierValidator, field_name: :sepa_mandate_id, if: :sepa_mandate_id?
   validates :sepa_mandate_signed_on, presence: true, if: :sepa_mandate_id?
 
+  after_initialize :set_default_annual_fee
   before_save :handle_annual_fee_change, :handle_required_shares_number_change
   after_save :update_membership_if_salary_basket_changed
   after_update :review_active_state!
@@ -285,7 +285,11 @@ class Member < ApplicationRecord
 
     self.state = WAITING_STATE
     self.waiting_started_at = Time.current
-    self.annual_fee ||= Current.org.annual_fee
+    if Current.org.annual_fee_support_member_only?
+      self.annual_fee = nil
+    else
+      self.annual_fee ||= Current.org.annual_fee
+    end
     save!
   end
 
@@ -310,7 +314,9 @@ class Member < ApplicationRecord
     return if active?
 
     self.state = ACTIVE_STATE
-    self.annual_fee ||= Current.org.annual_fee
+    unless Current.org.annual_fee_support_member_only?
+      self.annual_fee ||= Current.org.annual_fee
+    end
     self.activated_at = Time.current
     save!
 
@@ -425,6 +431,16 @@ class Member < ApplicationRecord
   end
 
   private
+
+  def set_default_annual_fee
+    return unless new_record?
+    return if annual_fee
+    return unless Current.org.annual_fee?
+
+    unless Current.org.annual_fee_support_member_only? && waiting_basket_size_id?
+      self[:annual_fee] ||= Current.org.annual_fee
+    end
+  end
 
   def set_default_waiting_billing_year_division
     if (waiting_basket_size_id? && !waiting_billing_year_division?) ||

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_02_07_141051) do
+ActiveRecord::Schema[8.0].define(version: 2025_02_14_094847) do
   create_table "absences", force: :cascade do |t|
     t.bigint "member_id"
     t.date "started_on"
@@ -726,6 +726,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_07_141051) do
     t.boolean "annual_fee_member_form", default: false, null: false
     t.json "social_network_urls", default: [], null: false
     t.json "invoice_sepa_infos", default: {}, null: false
+    t.boolean "annual_fee_support_member_only", default: false, null: false
     t.check_constraint "JSON_TYPE(basket_price_extras) = 'array'", name: "organizations_basket_price_extras_is_array"
     t.check_constraint "JSON_TYPE(billing_year_divisions) = 'array'", name: "organizations_billing_year_divisions_is_array"
     t.check_constraint "JSON_TYPE(email_notifications) = 'array'", name: "organizations_email_notifications_is_array"

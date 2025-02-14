@@ -1129,10 +1129,10 @@ _:
           _fr: Renouvellement
           _it: Rinnovo
         renewal_annual_fee:
-          _de: Zahlt weiterhin den jährlichen Mitgliedsbeitrag
-          _en: Continues to pay the annual membership fee
+          _de: Zahlt weiterhin den Jahresbeitrag
+          _en: Continues to pay the annual fee
           _fr: Continue à payer la cotisation annuelle
-          _it: Continuare a pagare la quota associativa annuale
+          _it: Continua a pagare la quota annuale
         renewal_note:
           _de: Anmerkung(en)
           _en: Note(s)
@@ -1329,6 +1329,11 @@ _:
           _en: Free amount
           _fr: Montant libre
           _it: Importo libero
+        annual_fee_support_member_only:
+          _de: Nur für Fördermitglieder
+          _en: Only for supporting members
+          _fr: Uniquement pour les membres de soutien
+          _it: Solo per i soci sostenitori
         bank_reference:
           _de: Bankreferenz
           _en: Bank reference

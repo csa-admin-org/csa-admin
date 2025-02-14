@@ -45,10 +45,10 @@ _:
         _fr: TTC
         _it: IVA inclusa
       annual_fee:
-        _de: Jährlicher Vereinsbeitrag
-        _en: Annual association fee
-        _fr: Cotisation annuelle association
-        _it: Quota annuale associativa
+        _de: Jahresbeitrag
+        _en: Annual fee
+        _fr: Cotisation annuelle
+        _it: Quota annuale
       annual_memberships_amount:
         _de: Jährlicher Betrag
         _en: Annual amount

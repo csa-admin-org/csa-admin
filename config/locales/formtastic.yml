@@ -307,6 +307,11 @@ _:
           _fr: Uniquement envoyer cet email aux abonnement utilisant les cycles de livraison sélectionnés.
           _it: Invia questa email solo agli abbonamenti che utilizzano i cicli di consegna selezionati.
       member:
+        annual_fee:
+          _de: Leer lassen, wenn kein Jahresbeitrag anfällt.
+          _en: Leave blank if no annual fee.
+          _fr: Laisser vide si aucune cotisation annuelle.
+          _it: Lasciare vuoto se non c'è nessuna quota annuale.
         billing_email:
           _de: Wenn vorhanden, werden die Benachrichtigungs-E-Mails für neue Rechnungen und Mahnungen an diese Adresse anstelle der E-Mail(s) des Mitglieds gesendet.
           _en: If present, notification emails for new invoices and reminders will be sent to this address instead of the member's email(s).
@@ -563,15 +568,20 @@ _:
           _fr: Permet de choisir un ou plusieurs dépôts alternatifs lors de l'inscription. Utile si le premier choix est déjà complet.
           _it: Permette di scegliere uno più luoghi di deposito alternativi durante la registrazione. Utile se la prima scelta è giâ completa.
         annual_fee:
-          _de: Leer lassen bei Null, wenn kein jährlicher Beitrag. Jede Änderung wird automatisch auf alle bestehenden Mitglieder angewendet, aber nur auf diejenigen, die genau den vorherigen Betrag haben.
+          _de: Leer lassen, wenn kein Jahresbeitrag anfällt. Änderungen werden automatisch auf alle bestehenden Mitglieder angewendet, jedoch nur auf diejenigen, die genau den vorherigen Betrag haben.
           _en: Leave blank at zero if no annual fee. Any change will be automatically applied to all existing members, but only to those who have exactly the previous amount.
           _fr: Laisser vide si aucune cotisation annuelle. Tout changement sera automatiquement appliqué aux membres existants, mais uniquement à ceux qui ont exactement le montant précédent.
-          _it: Lasciare vuoto se non è prevista nessuna quota annuale associativa. Qualsiasi modifica verrà automaticamente applicata ai soci esistenti, ma solo a quelli che hanno lo stesso importo precedente.
+          _it: Lasciare vuoto se non c'è nessuna quota annuale. Eventuali modifiche saranno applicate automaticamente a tutti i membri esistenti, ma solo a quelli che hanno esattamente l'importo precedente.
         annual_fee_member_form:
-          _de: Ermöglicht es unterstützenden Mitgliedern, den Betrag ihres jährlichen Beitrags bei der Anmeldung zu wählen. Aktive Mitglieder (die eine Taschengröße wählen) können diesen Betrag nicht ändern.
+          _de: Ermöglicht Fördermitgliedern, den Betrag ihres Jahresbeitrags bei der Anmeldung selbst festzulegen. Aktive Mitglieder (die eine Korbgröße wählen) können diesen Betrag nicht ändern.
           _en: Allow supporting members to choose the amount of their annual fee at registration. Active members (choosing a basket size) cannot modify this amount.
-          _fr: Permettre aux membres de soutien de choisir le montant de leur cotisation annuelle lors de l'inscription. Les membres actifs (choisissant une taille de panier) ne peuvent pas modifier ce montant.
-          _it: Consentire ai membri sostenitori di scegliere l'importo della loro quota annuale all'iscrizione. I soci attivi (che scelgono una dimensione del cestino) non possono modificare questo importo.
+          _fr: Permet aux membres de soutien de choisir le montant de leur cotisation annuelle lors de l'inscription. Les membres actifs (choisissant une taille de panier) ne peuvent pas modifier ce montant.
+          _it: Consente ai membri sostenitori di scegliere l'importo della loro quota annuale all'iscrizione. I membri attivi (che scelgono una dimensione del cesto) non possono modificare questo importo.
+        annual_fee_support_member_only:
+          _de: Wenn aktiviert, haben nur unterstützende Mitglieder den Jahresbeitrag standardmäßig bei der Registrierung. Aktive Mitglieder (die eine Taschengröße wählen) haben ihn nicht.
+          _en: If enabled, only supporting members will have the annual fee applied by default at registration. Active members (choosing a basket size) will not have it.
+          _fr: Si activé, seuls les membres de soutien auront la cotisation annuelle appliquée par défaut lors de leur l'inscription. Les membres actifs (choisissant une taille de panier) n'en auront pas.
+          _it: Se attivato, solo i membri sostenitori avranno la quota annuale applicata per impostazione predefinita all'iscrizione. I membri attivi (che scelgono una dimensione del cesto) non lo avranno.
         bank_reference:
           _de: Lassen Sie es leer, wenn Ihre Bank keine bereitstellt, wird in die Rechnungsreferenznummer aufgenommen.
           _en: Leave blank if your bank does not provide one, it will be included in the invoice reference number.

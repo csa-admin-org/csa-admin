@@ -28,9 +28,7 @@ Es ist möglich, ein zukünftiges Abonnement im Voraus abzurechnen, mit einem St
 
 Die Vorausabrechnung kann von der Seite eines zukünftigen Abonnements aus erfolgen, indem Sie auf die Schaltfläche "Alle in Zukunft abrechnen" im Abschnitt "Abrechnung" (rechte Spalte) klicken. Es ist auch möglich, mehrere zukünftige Abonnements auf einmal von [der Abonnementseite](/memberships?scope=future&q[during_year]=<%= Current.fy_year + 1 %>) aus abzurechnen, indem Sie das Feld "Zukunft" verwenden und nach Geschäftsjahr filtern. Sie können dann auf die Schaltfläche "Alle in Zukunft abrechnen" im Abschnitt "Abrechnung" (rechte Spalte), unterhalb der Filter, klicken. Filtern Sie zukünftige Abonnements nach Zahlungsintervall (z.B. nur "Jährlich"), um Ihre Auswahl zu verfeinern.
 
-<% if Current.org.annual_fee? %>
-> Die Jahresgebühr, die dem Geschäftsjahr des Abonnements entspricht, ist automatisch in der Rechnung enthalten.
-<% end %>
+> Der Jahresbeitrag, der dem Geschäftsjahr des Abonnements entspricht, ist automatisch in der Rechnung enthalten.
 
 ### Preisänderung {#price-change}
 
@@ -41,17 +39,15 @@ Wenn eine Abonnementskonfiguration (Daten, Taschengröße, ...) geändert wird, 
   - Die Preisänderung ist positiv, eine neue Rechnung (mit einem höheren Betrag) wird einfach am nächsten Abrechnungstag erstellt, um den fehlenden Betrag in Rechnung zu stellen.
   - Die Preisänderung ist negativ, die letzte(n) Rechnung(en) des Abonnements wird/werden dann automatisch storniert und eine neue Rechnung (mit einem niedrigeren Betrag) wird am nächsten Abrechnungstag neu erstellt. Wenn die alte stornierte Rechnung bereits bezahlt war, wird die neue Rechnung automatisch geschlossen und das Mitglied hat einen positiven Saldo. Bei Bedarf können Sie eine Rückerstattung des Mitgliedersaldos durch [Erstellung einer negativen Zahlung](/payments/new) für sie vornehmen.
 
-<% if Current.org.annual_fee? %>
-### Jahresgebühr
+### Jahresbeitrag
 
-Die Jahresgebühr ist automatisch in der ersten Rechnung des Abonnements enthalten. Wenn das Mitglied kein Abonnement hat (Unterstützung), wird zu Beginn des Geschäftsjahres automatisch eine spezielle Rechnung erstellt.
-<% end %>
+Der Jahresbeitrag ist automatisch in der ersten Rechnung des Abonnements enthalten. Wenn das Mitglied kein Abonnement hat (Förderung), wird zu Beginn des Geschäftsjahres automatisch eine spezielle Rechnung erstellt.
 
 ### Probetaschen
 
 Wenn in [den Abrechnungseinstellungen](/settings#billing) eine Anzahl von Probetaschen definiert ist, wird das Abonnement erst abgerechnet, wenn alle Probetaschen geliefert wurden, und zwar am nächsten Abrechnungstag nach der Lieferung der ersten Nicht-Probetasche.
 
-Wenn das Abonnement während der Probezeit beendet wird, werden nur die gelieferten Taschen am nächsten Abrechnungstag in Rechnung gestellt. <% if Current.org.annual_fee? %> In diesem Fall wird die Jahresgebühr nicht berechnet.<% end %>
+Wenn das Abonnement während der Probezeit beendet wird, werden nur die gelieferten Taschen am nächsten Abrechnungstag in Rechnung gestellt. In diesem Fall wird der Jahresbeitrag nicht berechnet.
 
 <% if Current.org.share? %>
 ## Anteilskapital
@@ -124,7 +120,7 @@ Die effizienteste Methode zur Verarbeitung Ihrer Zahlungen besteht darin, Ihre B
 
 CSA Admin verwaltet auch den automatischen Abruf von Zahlungen der [Alternativen Bank Schweiz](https://www.bas.ch/de), die das EBICS-System nicht unterstützt.
 
-> Wenn Sie Fragen zur Unterstützung einer bestimmten Bank oder zur Einrichtung von EBICS haben, zögern Sie nicht, [mich zu fragen](mailto:info@csa-admin.org).
+> Wenn Sie Fragen zur Förderung einer bestimmten Bank oder zur Einrichtung von EBICS haben, zögern Sie nicht, [mich zu fragen](mailto:info@csa-admin.org).
 
 ### Manueller Import
 

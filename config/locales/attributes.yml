@@ -31,10 +31,10 @@ _:
       _fr: Pourcentage
       _it: Percentuale
     annual_fee:
-      _de: Jährlicher Beitrag
+      _de: Jahresbeitrag
       _en: Annual fee
       _fr: Cotisation annuelle
-      _it: Quota associativa annuale
+      _it: Quota annuale
     annual_price:
       _de: Jährlicher Preis
       _en: Annual price

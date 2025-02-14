@@ -20,7 +20,7 @@ class PDF::InvoiceTest < ActiveSupport::TestCase
       "1 April 2024",
       "Martha", "Nowhere 46", "1234 City",
       "Description", "Amount (CHF)",
-      "Annual association fee", "30.00",
+      "Annual fee", "30.00",
       "Total", "30.00",
       "Payable within 30 days, with our thanks.",
       "Acme", ", Nowhere 42, 1234 City // info@acme.test",
@@ -93,7 +93,7 @@ class PDF::InvoiceTest < ActiveSupport::TestCase
       "Depot: Bakery 10x 4.00", "40.00",
       "Annual amount", "352.00",
       "Annual billing", "352.00",
-      "Annual association fee", "30.00",
+      "Annual fee", "30.00",
       "Total", "382.00"
     ]
   end
@@ -189,7 +189,7 @@ class PDF::InvoiceTest < ActiveSupport::TestCase
       "Basket: Medium basket 10x 20.00", "200.00",
       "Annual amount", "200.00",
       "Quarterly amount #1", "50.00",
-      "Annual association fee", "30.00",
+      "Annual fee", "30.00",
       "Total", "80.00"
     ]
   end
@@ -416,7 +416,7 @@ class PDF::InvoiceTest < ActiveSupport::TestCase
       "Martha",
       "Nowhere 46", "1234 City",
       "Description", "Montant (", "€", ")",
-      "Cotisation annuelle association", "30.00",
+      "Cotisation annuelle", "30.00",
       "Total", "30.00",
       "Paiement",
       "Montant", "EUR 30.00",
@@ -457,7 +457,7 @@ class PDF::InvoiceTest < ActiveSupport::TestCase
       "Martha",
       "Grosse Marktgasse 28", "30952 Ronnenberg",
       "Beschreibung", "Betrag (", "€", ")",
-      "Jährlicher Vereinsbeitrag", "30.00",
+      "Jahresbeitrag", "30.00",
       "Gesamt", "30.00",
       "Zahlbar innerhalb der nächsten zwei Wochen",
       "Zahlteil",
@@ -510,7 +510,7 @@ class PDF::InvoiceTest < ActiveSupport::TestCase
       "Anna Doe",
       "Grosse Marktgasse 28", "30952 Ronnenberg",
       "Beschreibung", "Betrag (", "€", ")",
-      "Jährlicher Vereinsbeitrag", "30.00",
+      "Jahresbeitrag", "30.00",
       "Gesamt", "30.00",
       "Der Rechnungsbetrag wird per SEPA-Lastschrift automatisch eingezogen. Bitte stellen Sie sicher, dass Ihr Konto ausreichend gedeckt ist.",
       "SEPA-Lastschriftverfahren",

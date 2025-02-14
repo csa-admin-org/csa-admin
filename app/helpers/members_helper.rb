@@ -80,7 +80,9 @@ module MembersHelper
       col << [
         collection_text(t("helpers.no_basket_size"),
           details:
-            if Current.org.annual_fee?
+            if Current.org.annual_fee? && Current.org.share?
+              t("helpers.no_basket_size_annual_fee_and_share")
+            elsif Current.org.annual_fee?
               t("helpers.no_basket_size_annual_fee")
             elsif Current.org.share?
               t("helpers.no_basket_size_share")
