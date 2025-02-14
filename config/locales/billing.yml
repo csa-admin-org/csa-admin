@@ -16,10 +16,10 @@ _:
       _fr: Montant HT
       _it: Importo IVA esclusa
     annual_fees:
-      _de: Beiträge
+      _de: Jahresbeiträge
       _en: Annual fees
-      _fr: Cotisations
-      _it: Contributi
+      _fr: Cotisations annuelles
+      _it: Contributi annuali
     auto:
       _de: Automatisch importiert
       _en: Automatically imported
