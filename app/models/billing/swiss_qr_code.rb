@@ -41,6 +41,9 @@ require "image_processing/vips"
 
 module Billing
   class SwissQRCode
+    # Allowed characters (as a single-character regex) per Swiss QR Bill:
+    ALLOWED_CHAR_REGEX = /[a-zA-Z0-9\.,;:'\+\-\/\(\)?\*\[\]\{\}\|\\`´~ !"#%&<>÷=@_$£^àáâäçèéêëìíîïñòóôöùúûüýßÀÁÂÄÇÈÉÊËÌÍÎÏÒÓÔÖÙÚÛÜÑ]/
+
     def self.generate(invoice)
       new(invoice).generate
     end
@@ -68,11 +71,11 @@ module Billing
         "1",
         @org.iban,
         "S",
-        @org.creditor_name,
-        @org.creditor_address,
+        transliterate(@org.creditor_name).truncate(70),
+        transliterate(@org.creditor_address).truncate(70),
         "",
-        @org.creditor_zip,
-        @org.creditor_city,
+        transliterate(@org.creditor_zip),
+        transliterate(@org.creditor_city).truncate(70),
         @org.country_code,
         "",
         "",
@@ -84,14 +87,14 @@ module Billing
         sprintf("%.2f", @invoice.missing_amount),
         @org.currency_code,
         "S",
-        @member.name.truncate(70),
-        @member.address.truncate(70),
+        transliterate(@member.name).truncate(70),
+        transliterate(@member.address).truncate(70),
         "",
-        @member.zip,
-        @member.city,
+        transliterate(@member.zip),
+        transliterate(@member.city).truncate(70),
         @member.country_code,
         "QRR",
-        @invoice.reference,
+        @invoice.reference.to_s,
         "#{Invoice.model_name.human} #{@invoice.id}",
         "EPD",
         "",
@@ -119,6 +122,12 @@ module Billing
       path = "#{Rails.root}/lib/assets/images/swiss_cross.png"
       ImageProcessing::Vips.source(path)
         .resize_to_limit!(166, 166)
+    end
+
+    def transliterate(string)
+      string.chars.map { |char|
+        char.match?(ALLOWED_CHAR_REGEX) ? char : I18n.transliterate(char)
+      }.join
     end
   end
 end

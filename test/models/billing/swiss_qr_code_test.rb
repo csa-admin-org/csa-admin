@@ -6,6 +6,9 @@ require "image_processing/vips"
 class Billing::SwissQRCodeTest < ActiveSupport::TestCase
   test "payload" do
     invoice = invoices(:annual_fee)
+    invoice.member.update_columns(
+      name: "VIŠČEK João Münster",
+      address: "Saarstraße 7")
     payload = Billing::SwissQRCode.new(invoice).payload
 
     assert_equal(
@@ -30,8 +33,8 @@ class Billing::SwissQRCodeTest < ActiveSupport::TestCase
       "30.00\r\n" +
       "CHF\r\n" +
       "S\r\n" +
-      "Martha\r\n" +
-      "Nowhere 46\r\n" +
+      "VISCEK Joao Münster\r\n" +
+      "Saarstraße 7\r\n" +
       "\r\n" +
       "1234\r\n" +
       "City\r\n" +
