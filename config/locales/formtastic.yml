@@ -301,16 +301,16 @@ _:
           _en: This email is mandatory and cannot be deactivated.
           _fr: Cet email est obligatoire et ne peut pas être désactivé.
           _it: Questo indirizzo e-mail è obbligatorio e non può essere disattivato.
-        invoice_overdue_notice:
-          _fr: Cet email sera envoyé par défaut une fois que les paiements seront traités automatiquement.
-          _en: This email will be sent by default once payments are processed automatically.
-          _de: Diese E-Mail wird standardmäßig gesendet, sobald die Zahlungen automatisch verarbeitet werden.
-          _it: Questa email verrà inviata per default una volta che i pagamenti saranno processati automaticamente.
         delivery_cycle_ids:
           _de: Diese E-Mail nur an Abonnements senden, die die ausgewählten Lieferzyklen verwenden.
           _en: Only send this email to memberships using the selected delivery cycles.
           _fr: Uniquement envoyer cet email aux abonnement utilisant les cycles de livraison sélectionnés.
           _it: Invia questa email solo agli abbonamenti che utilizzano i cicli di consegna selezionati.
+        invoice_overdue_notice:
+          _de: Diese E-Mail wird standardmäßig gesendet, sobald die Zahlungen automatisch verarbeitet werden.
+          _en: This email will be sent by default once payments are processed automatically.
+          _fr: Cet email sera envoyé par défaut une fois que les paiements seront traités automatiquement.
+          _it: Questa email verrà inviata per default una volta che i pagamenti saranno processati automaticamente.
       member:
         annual_fee:
           _de: Leer lassen, wenn kein Jahresbeitrag anfällt.
