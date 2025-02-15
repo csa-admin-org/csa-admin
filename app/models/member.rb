@@ -8,6 +8,7 @@ class Member < ApplicationRecord
   include HasSessions
   include HasIBAN
   include Auditable
+  include NormalizedString
 
   BILLING_INTERVALS = %w[annual quarterly].freeze
 
@@ -29,6 +30,7 @@ class Member < ApplicationRecord
     :annual_fee, :shares_info, :existing_shares_number, :required_shares_number, :desired_shares_number, \
     :shop_depot_id, \
     :iban, :sepa_mandate_id, :sepa_mandate_signed_on
+  normalized_string_attributes :name, :address, :city, :zip
 
   has_states :pending, :waiting, :active, :support, :inactive
 

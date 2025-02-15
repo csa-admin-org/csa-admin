@@ -4,6 +4,7 @@ class Organization < ApplicationRecord
   include HasSocialNetworkUrls
   include TranslatedAttributes
   include TranslatedRichTexts
+  include NormalizedString
   include HasIBAN
 
   FEATURES = %i[
@@ -59,6 +60,8 @@ class Organization < ApplicationRecord
   translated_rich_texts :member_form_complements_text
   translated_attributes :activity_participations_form_detail
   translated_attributes :new_member_fee_description
+
+  normalized_string_attributes :creditor_name, :creditor_address, :creditor_city, :creditor_zip
 
   has_one_attached :logo
   has_one_attached :invoice_logo
