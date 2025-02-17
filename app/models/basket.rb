@@ -107,6 +107,11 @@ class Basket < ApplicationRecord
     update!(params)
   end
 
+  def update_calculated_price_extra!
+    set_calculated_price_extra
+    save!
+  end
+
   private
 
   def add_complements
@@ -155,6 +160,7 @@ class Basket < ApplicationRecord
 
   def calculate_price_extra
     return 0 unless Current.org.feature?("basket_price_extra")
+    return 0 unless billable?
     return 0 if basket_price.zero? && complements_price.zero?
 
     Current.org.calculate_basket_price_extra(

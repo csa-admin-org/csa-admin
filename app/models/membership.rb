@@ -674,6 +674,7 @@ class Membership < ApplicationRecord
         absent_baskets = absent_baskets.limit(absences_included)
       end
       absent_baskets.update_all(billable: false)
+      baskets.find_each(&:update_calculated_price_extra!)
     end
   end
 

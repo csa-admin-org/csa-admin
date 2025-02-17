@@ -139,6 +139,32 @@ class BasketTest < ActiveSupport::TestCase
     assert_equal 0, basket.send(:calculate_price_extra)
   end
 
+  test "calculate_price_extra when absent (billable)" do
+    org(features: [ :basket_price_extra, :absence ], absences_billed: true)
+    basket = build_basket(
+      state: "absent",
+      absence: create_absence(started_on: Date.today, ended_on: 1.week.from_now),
+      quantity: 2,
+      basket_price: 19,
+      price_extra: 2.42,
+      billable: true)
+
+    assert_equal 2.42, basket.send(:calculate_price_extra)
+  end
+
+  test "calculate_price_extra when non billable basket" do
+    org(features: [ :basket_price_extra, :absence ], absences_billed: false)
+    basket = build_basket(
+      membership: memberships(:john),
+      billable: false,
+      quantity: 2,
+      basket_price: 19,
+      price_extra: 2.42,
+      state: "absent")
+
+    assert_equal 0, basket.send(:calculate_price_extra)
+  end
+
   test "calculate_price_extra when basket_price is zero" do
     org(features: [ :basket_price_extra ])
     basket = build_basket(
@@ -167,18 +193,6 @@ class BasketTest < ActiveSupport::TestCase
       price_extra: 0)
 
     assert_equal 0, basket.send(:calculate_price_extra)
-  end
-
-  test "calculate_price_extra when non billable basket" do
-    org(features: [ :basket_price_extra ], absences_billed: false)
-    basket = build_basket(
-      membership: memberships(:john),
-      quantity: 2,
-      basket_price: 19,
-      price_extra: 2.42,
-      state: "absent")
-
-    assert_equal 2.42, basket.send(:calculate_price_extra)
   end
 
   test "calculate_price_extra without dynamic pricing" do
