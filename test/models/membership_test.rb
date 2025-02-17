@@ -594,7 +594,7 @@ class MembershipTest < ActiveSupport::TestCase
   test "marks absent baskets as not billable" do
     travel_to "2024-01-01"
     org(trial_baskets_count: 0, absences_billed: false)
-    absence = create_absence(
+    create_absence(
       member: members(:john),
       started_on: "2024-04-05",
       ended_on: "2024-04-15")
@@ -611,7 +611,7 @@ class MembershipTest < ActiveSupport::TestCase
   test "mark last baskets are absent when all included absence aren't used yet" do
     travel_to "2024-01-01"
     org(trial_baskets_count: 0, absences_billed: true)
-    absence = create_absence(
+    create_absence(
       member: members(:john),
       started_on: "2024-04-05",
       ended_on: "2024-04-12")
@@ -627,10 +627,29 @@ class MembershipTest < ActiveSupport::TestCase
     ], membership.baskets.map { |b| [ b.state, b.billable ] }
   end
 
+  test "mark last baskets are absent when all included absence aren't used yet (with basket_price_extra)" do
+    travel_to "2024-01-01"
+    org(features: [ :basket_price_extra, :absence ], trial_baskets_count: 0, absences_billed: true)
+    create_absence(
+      member: members(:john),
+      started_on: "2024-04-05",
+      ended_on: "2024-04-12")
+    membership = memberships(:john)
+    membership.update!(absences_included_annually: 3, basket_price_extra: 1)
+
+    assert_equal [
+      [ "normal", true, 1 ],
+      [ "absent", false, 0 ],
+      *[ [ "normal", true, 1 ] ] * 6,
+      [ "absent", false, 0 ],
+      [ "absent", false, 0 ]
+    ], membership.baskets.map { |b| [ b.state, b.billable, b.calculated_price_extra.to_i ] }
+  end
+
   test "mark last baskets are absent when all included absence aren't used yet with extended absence" do
     travel_to "2024-01-01"
     org(trial_baskets_count: 0, absences_billed: true)
-    absence = create_absence(
+    create_absence(
       member: members(:john),
       started_on: "2024-04-05",
       ended_on: "2024-04-29")
