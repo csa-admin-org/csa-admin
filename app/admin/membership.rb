@@ -48,6 +48,8 @@ ActiveAdmin.register Membership do
   filter :delivery_cycle,
     as: :select,
     collection: -> { admin_delivery_cycles_collection }
+  filter :absences_included,
+    if: proc { Current.org.feature?("absence") }
   filter :renewal_state,
     as: :select,
     collection: -> { renewal_states_collection }
