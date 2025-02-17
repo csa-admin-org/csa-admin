@@ -69,10 +69,12 @@ ActiveAdmin.register Admin do
   end
 
   after_create do |admin|
-    AdminMailer.with(
-      admin: admin,
-      action_url: root_url
-    ).invitation_email.deliver_later
+    if admin.persisted?
+      AdminMailer.with(
+        admin: admin,
+        action_url: root_url
+      ).invitation_email.deliver_later
+    end
   end
 
   controller do
