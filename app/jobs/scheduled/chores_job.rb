@@ -9,6 +9,7 @@ module Scheduled
       Checker::DeliveryBasketContentAvgPrices.check_all!
       Checker::NewsletterStaleProcessing.check_all!
       clear_stale_cart_shop_orders!
+      clear_finished_solid_queue_jobs!
       purge_unattached_active_storage_blobs!
     end
 
@@ -33,6 +34,10 @@ module Scheduled
         .find_each do |order|
           order.destroy! if order.stale?
         end
+    end
+
+    def clear_finished_solid_queue_jobs!
+      SolidQueue::Job.clear_finished_in_batches
     end
 
     def purge_unattached_active_storage_blobs!
