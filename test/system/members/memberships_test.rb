@@ -36,7 +36,7 @@ class Members::MembershipsTest < ApplicationSystemTestCase
       assert_text "Large basket"
       assert_text "Bread"
       assert_text "Bakery"
-      assert_text " 10 Deliveries, 2 more on trial and without commitment"
+      assert_text "10 Deliveries, 2 more on trial and without commitment"
       assert_text "½ Days: 2 requested"
       assert_text "CHF 380.00"
     end

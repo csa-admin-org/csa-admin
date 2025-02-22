@@ -16,4 +16,4 @@ Style/FrozenStringLiteralComment:
   Enabled: true
 
 require:
-  - rubocop-slim
+  - rubocop-erb

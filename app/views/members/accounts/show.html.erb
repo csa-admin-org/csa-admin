@@ -1,0 +1,72 @@
+<h1 class="mt-2 mb-8 text-xl sm:text-2xl font-extrabold text-gray-900 dark:text-gray-100">
+  <%= t(".title") %>
+</h1>
+<section>
+  <ul class="space-y-4">
+    <li class="flex flex-row items-center">
+      <%= icon "hashtag", class: "h-5 w-5 mx-0.5" %>
+      <span class="ml-4">
+        <%= current_member.id %>
+      </span>
+    </li>
+    <li class="flex flex-row items-center">
+      <%= icon "identification", class: "h-6 w-6" %>
+      <span class="ml-4">
+        <%= current_member.name %>
+      </span>
+    </li>
+    <li class="flex flex-row">
+      <%= icon "map", class: "h-6 w-6" %>
+      <span class="ml-4">
+        <%= display_address(current_member) %>
+      </span>
+    </li>
+    <li class="flex flex-row">
+      <%= icon "envelope", class: "h-6 w-6" %>
+      <span class="ml-4">
+        <%= display_emails(current_member) %>
+        <% if newsletter_unsubscribed? %>
+          <%= button_to t(".subscribe_back_to_newsletter"), members_email_suppression_path, method: :delete, class: "mt-1 block text-left md:min-w-min min-w-full text-sm hover:text-green-500 underline" %>
+        <% end %>
+      </span>
+    </li>
+    <li class="flex flex-row">
+      <%= icon "phone", class: "h-6 w-6" %>
+      <% if current_member.phones_array.any? %>
+        <span class="ml-4">
+          <%= display_phones(current_member) %>
+        </span>
+      <% else %>
+        <span class="ml-4 text-gray-300 dark:text-gray-700 italic">
+          <%= t(".no_phones") %>
+        </span>
+      <% end %>
+    </li>
+    <% if Current.org.languages.many? %>
+      <li class="flex flex-row">
+        <%= icon "language", class: "h-6 w-6" %>
+        <span class="ml-4">
+          <%= t("languages.#{current_member.language}") %>
+        </span>
+      </li>
+    <% end %>
+    <% if current_member.use_shop_depot? %>
+      <li class="pt-6 flex flex-row">
+        <%= icon "shopping-basket", class: "h-6 w-6" %>
+        <span class="ml-4">
+          <% depot = current_member.shop_depot %>
+          <% if depot.full_address %>
+            <%= link_to "https://www.google.com/maps?q=#{depot.full_address}", title: depot.full_address, target: :blank, class: "hover:text-green-500" do %>
+              <%= h depot.public_name %>
+            <% end %>
+          <% else %>
+            <%= h depot.public_name %>
+          <% end %>
+        </span>
+      </li>
+    <% end %>
+  </ul>
+  <div class="flex mt-8 w-full md:max-w-max">
+    <%= link_to t(".edit_link"), edit_members_account_path, class: "button md:min-w-min min-w-full text-center py-2 px-4 border border-green-400 dark:border-green-600 hover:border-green-500 hover:bg-green-500 font-medium rounded-md focus:outline-none focus:ring-green-500 focus:border-green-500 focus:z-10 text-base cursor-pointer" %>
+  </div>
+</section>

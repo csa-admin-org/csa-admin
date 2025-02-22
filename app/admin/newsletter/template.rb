@@ -35,7 +35,7 @@ ActiveAdmin.register Newsletter::Template do
       f.input :title
       translated_input(f, :contents,
         as: :text,
-        hint: t("formtastic.hints.liquid").html_safe,
+        hint: t("formtastic.hints.liquid_html"),
         input_html: {
           data: { mode: "liquid", code_editor_target: "editor" }
         })

@@ -186,7 +186,7 @@ ActiveAdmin.register Newsletter do
     f.inputs t(".details") do
       f.input :id, as: :hidden
       translated_input(f, :subjects,
-        hint: t("formtastic.hints.liquid").html_safe,
+        hint: t("formtastic.hints.liquid_html"),
         input_html: {
           data: { action: "code-editor#updatePreview" }
         })
@@ -219,7 +219,7 @@ ActiveAdmin.register Newsletter do
             label = b.object.titles[locale] || b.object.block_id.titleize
             label_with_language(label, locale)
           },
-          hint: t("formtastic.hints.liquid").html_safe,
+          hint: t("formtastic.hints.liquid_html"),
           wrapper_html: {
             data: {
               form_select_hidder_target: "element",

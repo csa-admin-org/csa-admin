@@ -16,7 +16,7 @@
       </nav>
     <% end %>
     <div class="flex flex-wrap items-center gap-2 md:gap-4">
-      <h2 class="text-4xl text-left font-thin" aria-label="Page Title"><%= title.html_safe %></h2>
+      <h2 class="text-4xl text-left font-thin" aria-label="Page Title"><%= sanitize(title) %></h2>
       <% if params[:action] == "index" && year = params.dig(:q, :during_year).presence %>
       <span class="inline text-4xl font-thin text-gray-300 dark:text-gray-600">
         <%= Current.org.fiscal_year_for(year) %>

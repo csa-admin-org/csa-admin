@@ -17,7 +17,7 @@ class Members::MembershipRenewalsTest < ApplicationSystemTestCase
     choose "Renew my membership"
     click_on "Next"
 
-    assert_selector "turbo-frame#pricing", text: "CHF 390.00/year"
+    assert_selector "turbo-frame#pricing", text: "CHF 390.00 /year"
 
     choose "Home"
     choose "Medium"
@@ -81,7 +81,7 @@ class Members::MembershipRenewalsTest < ApplicationSystemTestCase
     choose "Renew my membership"
     click_on "Next"
 
-    assert_selector "turbo-frame#pricing", text: "CHF 390.00/year"
+    assert_selector "turbo-frame#pricing", text: "CHF 390.00 /year"
 
     click_on "Confirm"
 
@@ -140,8 +140,7 @@ class Members::MembershipRenewalsTest < ApplicationSystemTestCase
     click_on "Next"
 
     fill_in "Note", with: "Not enough spinach!"
-    check "To support us, I will continue to pay the annual membership fee from next year."
-
+    check "To support us, I will continue to pay the annual membership fee from next year. CHF 30"
     click_on "Confirm"
 
     assert_selector ".flash", text: "Your membership has been canceled."

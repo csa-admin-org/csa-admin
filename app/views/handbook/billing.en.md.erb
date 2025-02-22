@@ -1,6 +1,6 @@
 # Billing
 
-CSA Admin aims to automate most tasks related to billing ([memberships](#memberships), <% if Current.org.share? %>[share capital](#share-capital), <% end %>[payment processing](#payments)), but some aspects <% if Current.org.feature?('activity') %>such as billing for [uncompleted <%= activities_human_name %>](#uncompleted-<%= activities_human_name %>)<% end %> must be done manually.
+CSA Admin aims to automate most tasks related to billing ([memberships](#memberships), <% if Current.org.share? %>[share capital](#share-capital), <% end %>[payment processing](#payments)), but some aspects <% if Current.org.feature?("activity") %>such as billing for [uncompleted <%= activities_human_name %>](#uncompleted-<%= activities_human_name %>)<% end %> must be done manually.
 
 For Switzerland, CSA Admin generates QR-invoices with reference numbers (PDF) and sends them to all emails of the concerned member. To generate these invoices, you need to request a QR-IBAN from your bank, note that this number is different from your bank account IBAN. You can then enter it in [your billing settings](/settings#billing).
 
@@ -61,7 +61,7 @@ If share capital has already been billed outside of CSA Admin, you can reflect t
 > From a member's page, you can see in the "Billing" section (right column) the number of share capital that will be or are already billed with a link to the corresponding invoices.
 <% end %>
 
-<% if Current.org.feature?('activity') %>
+<% if Current.org.feature?("activity") %>
 ## Uncompleted <%= activities_human_name %> {#activity}
 
 Each organization has a different billing policy for uncompleted <%= activities_human_name.downcase %>, some bill them, others don't.
@@ -102,7 +102,7 @@ It's possible to add specific text in the ["New invoice" email template](/mail_t
 
 CSA Admin offers the possibility to manually bill various items or services (for example, purchase of fabric bags for new subscribers). To do this, simply [create a new invoice](/invoices/new) and enter the items under the "Other" tab. After checking the PDF, you can manually send the invoice using the "Send" button on its page.
 
-> Attention, "Other" type invoices should not be used to bill memberships<% if Current.org.share? %>, share capital<% end %><% if Current.org.feature?('activity') %> or <%= activities_human_name.downcase %><% end %>, as the system will not take them into account.
+> Attention, "Other" type invoices should not be used to bill memberships<% if Current.org.share? %>, share capital<% end %><% if Current.org.feature?("activity") %> or <%= activities_human_name.downcase %><% end %>, as the system will not take them into account.
 
 ## Payments
 

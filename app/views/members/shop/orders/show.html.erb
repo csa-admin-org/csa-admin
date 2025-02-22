@@ -1,0 +1,60 @@
+<%= render partial: "members/shop/shared/header" %>
+<% case @order.state %>
+<% when Shop::Order::CART_STATE %>
+  <p class="mt-2">
+    <%= t("members.shop.products.index.closing_at_html", date: l(@order.delivery.shop_closing_at, format: :long)) %>
+    <%= " " %>
+    <%= t(".finalize_order") %>
+  </p>
+  <h2 class="mt-8 text-lg font-bold text-gray-900 dark:text-gray-100">
+    <%= t(".cart") %>
+  </h2>
+  <%= turbo_frame_tag "order" do %>
+    <%= render partial: "members/shop/orders/order" %>
+  <% end %>
+<% when Shop::Order::PENDING_STATE %>
+  <p class="mt-2">
+    <% if @order.can_member_update? %>
+      <%= t(".received_order_html", date: l(@order.delivery.shop_closing_at, format: :long)) %>
+    <% else %>
+      <%= t(".pending_order_html") %>
+    <% end %>
+  </p>
+  <h2 class="mt-8 text-lg font-bold text-gray-900 dark:text-gray-100 flex flex-row">
+    <%= Shop::Order.model_name.human %>
+    <% if @order.can_member_update? %>
+      <span class="ml-2 my-1 px-3 flex items-center text-sm font-normal text-green-700 dark:text-green-300 rounded-full bg-green-300 dark:bg-green-700">
+        <%= t(".order_received_state") %>
+      </span>
+    <% else %>
+      <span class="ml-2 my-1 px-3 flex items-center text-sm font-normal text-yellow-700 dark:text-yellow-300 rounded-full bg-yellow-300 dark:bg-yellow-700">
+        <%= t(".order_pending_state") %>
+      </span>
+    <% end %>
+  </h2>
+  <%= render partial: "members/shop/orders/finalized_order" %>
+<% when Shop::Order::INVOICED_STATE %>
+  <p class="mt-2">
+    <%= t(".invoiced_order_html") %>
+  </p>
+  <div class="mt-4 mb-6">
+    <%= link_to rails_blob_path(@order.invoice.pdf_file, disposition: "attachment") do %>
+      <div class="mx-auto w-max px-4 py-1 flex flex-row items-center text-gray-500 rounded-full border border-gray-300 hover:border-green-300 hover:text-green-500">
+        <%= icon "document-arrow-down", class: "w-5 h-5" %>
+        <span class="ml-1"><%= t(".download_invoice_html", number: @order.invoice.id) %></span>
+      </div>
+    <% end %>
+  </div>
+  <h2 class="mt-8 text-lg font-bold text-gray-900 dark:text-gray-100 flex flex-row">
+    <%= Shop::Order.model_name.human %>
+    <span class="ml-2 my-1 px-3 flex items-center text-sm font-normal text-green-700 dark:text-green-300 rounded-full bg-green-300 dark:bg-green-700">
+      <%= t(".order_invoiced_state") %>
+    </span>
+  </h2>
+  <%= render partial: "members/shop/orders/finalized_order" %>
+<% end %>
+<% if Current.org.shop_terms_of_sale_url %>
+  <div class="mt-24 text-sm text-gray-400 dark:text-gray-600 text-center underline">
+    <%= link_to t("members.shop.terms_of_sale"), Current.org.shop_terms_of_sale_url, target: "_blank" %>
+  </div>
+<% end %>

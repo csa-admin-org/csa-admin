@@ -1,18 +1,18 @@
-<%= stylesheet_link_tag "tailwind", "trix", "tom-select", "inter-font", data: { turbo_track: 'reload' } %>
+<%= stylesheet_link_tag "tailwind", "trix", "tom-select", "inter-font", data: { turbo_track: "reload" } %>
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <%= csrf_meta_tags %>
 <%= csp_meta_tag %>
-<% # On page load or when changing themes, best to add inline in `head` to avoid FOUC %>
-<%= javascript_tag nonce: true do %>
+<%# On page load or when changing themes, best to add inline in `head` to avoid FOUC %>
+<script nonce="true">
   if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
     document.documentElement.classList.add('dark')
   } else {
     document.documentElement.classList.remove('dark')
   }
-<% end %>
+</script>
 
 <script async src="https://ga.jspm.io/npm:es-module-shims@1.10.1/dist/es-module-shims.js" data-turbo-track="reload"></script>
-<%= javascript_importmap_tags 'admin' %>
+<%= javascript_importmap_tags "admin" %>
 
 <meta name="turbo-refresh-method" content="morph">
 <meta name="turbo-refresh-scroll" content="preserve">

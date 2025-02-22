@@ -4,6 +4,7 @@ require "application_system_test_case"
 
 class Members::AccountsTest < ApplicationSystemTestCase
   test "shows current member data" do
+    org(languages: %w[en fr])
     member = members(:john)
     member.update!(phones: "+41 79 123 45 67, +33 6 12 34 56 78")
     login(member)

@@ -174,22 +174,22 @@ _:
           _en: Please check the box below if you are traveling by car and want to share the ride. Your phone number and departure location will be shared with other members registered on the same day.
           _fr: Merci de cocher la case ci-dessous si vous vous déplacez en voiture et désirez partager le voyage. Votre numéro de téléphone ainsi que votre ville de départ seront partagés avec les autres membres inscrits le même jour.
           _it: Seleziona la casella sottostante se ti sposti in auto e desideri condividere il viaggio. Il tuo numero di telefono e il luogo di partenza saranno condivisi con altri soci registrati per lo stesso giorno.
-        coming_activity_participation_cannot_be_cancel_explanation/basket_preparation:
+        coming_activity_participation_cannot_be_cancel_explanation/basket_preparation_html:
           _de: Aus Organisationsgründe, die Anmeldungen zu die Taschen befüllung, die in weniger als %{days_count} Tagen stattfinden, können nicht mehr abgesagt werden. Bei einer Verhinderung, bitte uns schreiben %{contact_link}.
           _en: For organizational reasons, registrations for basket preparation that take place in less than %{days_count} days can no longer be canceled. In case of hindrance, please contact us %{contact_link}.
           _fr: Pour des raisons d'organisation, les inscriptions aux mises en panier qui ont lieu dans moins de %{days_count} jours ne peuvent plus être annulées. En cas d'empêchement, merci de nous %{contact_link}.
           _it: Per motivi organizzativi, le iscrizioni per la preparazione delle ceste che avvengono entro %{days_count} giorni non possono essere annullate. In caso di impedimenti gravi grazie per contattarci tempestivamente %{contact_link}.
-        coming_activity_participation_cannot_be_cancel_explanation/day_work:
+        coming_activity_participation_cannot_be_cancel_explanation/day_work_html:
           _de: Aus Organisationsgründe, die Anmeldungen zu Arbeitstagen, die in weniger als %{days_count} Tagen stattfinden, können nicht mehr abgesagt werden. Bei einer Verhinderung, bitte uns schreiben %{contact_link}.
           _en: For organizational reasons, registrations for workdays that take place in less than %{days_count} days can no longer be canceled. In case of hindrance, please contact us %{contact_link}.
           _fr: Pour des raisons d'organisation, les inscriptions aux journées de travail qui ont lieu dans moins de %{days_count} jours ne peuvent plus être annulées. En cas d'empêchement, merci de nous %{contact_link}.
           _it: Per motivi organizzativi, le iscrizioni per i giorni di lavoro che avvengono entro %{days_count} giorni non possono essere annullate. In caso di impedimenti gravi grazie per contattarci tempestivamente %{contact_link}.
-        coming_activity_participation_cannot_be_cancel_explanation/halfday_work:
+        coming_activity_participation_cannot_be_cancel_explanation/halfday_work_html:
           _de: Aus Organisationsgründe, die Anmeldungen zu den ½ Tage, die in weniger als %{days_count} Tagen stattfinden, können nicht mehr abgesagt werden. Bei einer Verhinderung, bitte uns schreiben %{contact_link}.
           _en: For organizational reasons, registrations for ½ days that take place in less than %{days_count} days can no longer be canceled. In case of hindrance, please contact us %{contact_link}.
           _fr: Pour des raisons d'organisation, les inscriptions aux ½ journées qui ont lieu dans moins de %{days_count} jours ne peuvent plus être annulées. En cas d'empêchement, merci de nous %{contact_link}.
           _it: Per motivi organizzativi, le iscrizioni per le ½ giornate di lavoro che avvengono entro %{days_count} giorni non possono essere annullate. In caso di impedimenti gravi grazie per contattarci tempestivamente %{contact_link}.
-        coming_activity_participation_cannot_be_cancel_explanation/hour_work:
+        coming_activity_participation_cannot_be_cancel_explanation/hour_work_html:
           _de: Aus Organisationsgründe, die Anmeldungen zu die Arbeitsstunden, die in weniger als %{days_count} Tagen stattfinden, können nicht mehr abgesagt werden. Bei einer Verhinderung, bitte uns schreiben %{contact_link}.
           _en: For organizational reasons, registrations for work hours that take place in less than %{days_count} days can no longer be canceled. In case of hindrance, please contact us %{contact_link}.
           _fr: Pour des raisons d'organisation, les inscriptions aux heures de travail qui ont lieu dans moins de %{days_count} jours ne peuvent plus être annulées. En cas d'empêchement, merci de nous %{contact_link}.
@@ -410,7 +410,7 @@ _:
           _fr: Tout afficher
           _it: Mostra tutto
       line:
-        invoice_info:
+        invoice_info_html:
           _de: Rechnung <em>#%{id}</em> (%{type})
           _en: Invoice <em>#%{id}</em> (%{type})
           _fr: Facture <em>#%{id}</em> (%{type})
@@ -420,7 +420,7 @@ _:
           _en: Payment without reference
           _fr: Paiement sans référence
           _it: Pagamento senza numero di riferimento
-        payment_info:
+        payment_info_html:
           _de: Einzahlung der Rechnung <em>#%{invoice_id}</em>
           _en: Payment of invoice <em>#%{invoice_id}</em>
           _fr: Paiement de la facture <em>#%{invoice_id}</em>
@@ -571,12 +571,12 @@ _:
             _en: Amount in %{currency}
             _fr: Montant en %{currency}
             _it: Importo in %{currency}
-          annual_fee_support_member_only_text:
+          annual_fee_support_member_only_text_html:
             _de: Jedes Fördermitglied (ohne Abonnement) zahlt einen Jahresbeitrag von <b class="whitespace-nowrap">%{price}</b>.
             _en: Each supporting member (without subscription) pays an annual fee of <b class="whitespace-nowrap">%{price}</b>.
             _fr: Chaque membre de soutien (sans abonnement) verse une cotisation annuelle de <b class="whitespace-nowrap">%{price}</b>.
             _it: Ogni socio sostenitore (senza abbonamento) paga una quota annuale di <b class="whitespace-nowrap">%{price}</b>.
-          annual_fee_text:
+          annual_fee_text_html:
             _de: Jedes Mitglied zahlt zusätzlich zum Abonnement für den Korb auch einen Jahresbeitrag von %{price}.
             _en: Each member also pays an annual fee of <b class="whitespace-nowrap">%{price}</b> in addition to the membership to the basket.
             _fr: Chaque membre verse une cotisation annuelle de <b class="whitespace-nowrap">%{price}</b> en plus de l'abonnement à son panier.
@@ -586,7 +586,7 @@ _:
             _en: You can choose to buy more shares to support the cooperative.
             _fr: Acquérir plus de parts sociales pour soutenir la coopérative.
             _it: Comperandone più di una quota sostieni la cooperativa.
-          shares_text:
+          shares_text_html:
             _de: Jedes Mitglied tritt der Genossenschaft bei und muss ein oder merhere Anteilscheine (<b class="whitespace-nowrap">%{price}</b>/Anteilschein) erwerben.
             _en: Each member joins the cooperative and must acquire one or more shares (<b class="whitespace-nowrap">%{price}</b>/share).
             _fr: Chaque membre fait également partie de la coopérative et se doit d'acquérir des parts sociales (<b class="whitespace-nowrap">%{price}</b>/part).
@@ -736,11 +736,11 @@ _:
           _en: Cancel
           _fr: Annuler
           _it: Annullare
-        renewal_annual_fee_label:
-          _de: Um uns zu unterstützen, werde ich die Jahresgebühr ab dem nächsten Jahr weiterhin bezahlen.
-          _en: To support us, I will continue to pay the annual membership fee from next year.
-          _fr: Pour nous soutenir, je continue à payer la cotisation annuelle dès l'an prochain.
-          _it: Per sostenerci, continuerò a pagare la quota annuale di iscrizione dall'anno prossimo.
+        renewal_annual_fee_label_html:
+          _de: Um uns zu unterstützen, werde ich die Jahresgebühr ab dem nächsten Jahr weiterhin bezahlen. %{price_tag}
+          _en: To support us, I will continue to pay the annual membership fee from next year. %{price_tag}
+          _fr: Pour nous soutenir, je continue à payer la cotisation annuelle dès l'an prochain. %{price_tag}
+          _it: Per sostenerci, continuerò a pagare la quota annuale di iscrizione dall'anno prossimo. %{price_tag}
         renewal_note:
           placeholder:
             cancel:
@@ -759,12 +759,12 @@ _:
           _fr: Confirmer
           _it: Confermare
         text:
-          cancel:
+          cancel_html:
             _de: Einmal gekündigt, endet Ihr Abonnement nach der letzten Lieferung am <u>%{last_delivery_date}</u>.
             _en: Once canceled, your membership will end after the last delivery on <u>%{last_delivery_date}</u>.
             _fr: Une fois résilié, votre abonnement se terminera après la dernière livraison du <u>%{last_delivery_date}</u>.
             _it: Una volta terminato, l'abbonamento terminerà dopo l'ultima consegna del <u>%{last_delivery_date}</u>.
-          renew:
+          renew_html:
             _de: Unten haben Sie die Möglichkeit, die Zusammensetzung Ihres zukünftigen Abonnements anzupassen, alle bestehenden Anpassungen bleiben erhalten. Ihr zukünftiges Abonnement beginnt mit der Lieferung des <u>%{first_delivery_date}</u>. Zögern Sie nicht, uns bei Fragen oder spezifischen Bedürfnissen zu kontaktieren.
             _en: Below you have the option to adjust the composition of your future membership, all existing adjustments will be retained. Your future membership will start with the delivery on <u>%{first_delivery_date}</u>. Do not hesitate to contact us with any questions or specific needs.
             _fr: Vous avez la possibilité de modifier ci-dessous la composition de votre futur abonnement, les éventuels ajustements existants seront conservés. Votre futur abonnement débutera avec la livraison du <u>%{first_delivery_date}</u>. N'hésitez pas à nous contacter pour toutes questions ou besoins spécifiques.
@@ -815,7 +815,7 @@ _:
             _it: "%{count} consegne a partire dal %{first_date} verranno modificate."
       index:
         renewal:
-          canceled:
+          canceled_html:
             _de: Ihr Abonnement wurde gekündigt und endet nach der Lieferung des <u>%{last_delivery_date}</u>.
             _en: Your membership has been canceled and will end after the delivery on <u>%{last_delivery_date}</u>.
             _fr: Votre abonnement a été résilié et se terminera après la livraison du <u>%{last_delivery_date}</u>.

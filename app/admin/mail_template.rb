@@ -118,13 +118,13 @@ ActiveAdmin.register MailTemplate do
     end
     f.inputs do
       translated_input(f, :subjects,
-        hint: t("formtastic.hints.liquid").html_safe,
+        hint: t("formtastic.hints.liquid_html"),
         input_html: {
           data: { action: "code-editor#updatePreview" }
         })
       translated_input(f, :contents,
         as: :text,
-        hint: t("formtastic.hints.liquid").html_safe,
+        hint: t("formtastic.hints.liquid_html"),
         input_html: {
           data: { mode: "liquid", code_editor_target: "editor" }
         })

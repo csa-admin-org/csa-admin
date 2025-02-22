@@ -1,0 +1,111 @@
+<h1 class="mt-1 mb-8 text-xl sm:text-2xl font-extrabold text-gray-900 dark:text-gray-100">
+  <%= t("members.members.form_modes.membership.title") %>
+</h1>
+<h2 class="mt-8 text-lg font-bold text-gray-900 dark:text-gray-100">
+  <%= t(".title.#{params[:decision]}") %>
+</h2>
+<p class="mt-2 justify">
+  <%= t(".text.#{params[:decision]}_html", last_delivery_date: l(Delivery.during_year(@membership.fy_year).last.date), first_delivery_date: l(Delivery.during_year(@membership.fy_year + 1).first.date)) %>
+</p>
+<div class="mt-4">
+  <%= simple_form_for @membership, url: members_membership_renewal_path, data: { turbo: false, controller: "form-pricing", "form-pricing-url-value" => members_renew_membership_url }, method: :post do |f| %>
+    <%= f.hidden_field :renewal_decision %>
+    <div class="space-y-8">
+      <% case params[:decision] %>
+      <% when "cancel" %>
+        <%= f.input :renewal_note, as: :text, placeholder: t(".renewal_note.placeholder.cancel"), label_html: { class: "text-sm font-medium text-gray-700 dark:text-gray-300" }, input_html: { rows: 3, class: "mt-1 dark:bg-black w-full px-3 py-2 border border-gray-300 dark:border-gray-700 placeholder-gray-400 dark:placeholder-gray-600 text-gray-900 dark:text-gray-100 rounded-md focus:outline-none focus:ring-green-500 focus:border-green-500 focus:z-10" } %>
+        <% if Current.org.annual_fee? %>
+          <% label = t(".renewal_annual_fee_label_html", price_tag: content_tag(:span, cur(Current.org.annual_fee, precision: 0), class: "text-lg text-gray-400 dark:text-gray-600 whitespace-nowrap")) %>
+          <%= f.input :renewal_annual_fee, as: :boolean, label: label, input_html: { class: "mr-4 flex-none h-6 w-6 rounded border-2 border-gray-300 dark:border-gray-700 text-green-500 bg-gray-50 dark:bg-black focus:outline-none focus:ring-green-500 focus:border-green-500 cursor-pointer" }, label_html: { class: "flex flex-row text-sm font-normal text-gray-700 dark:text-gray-300 flex flex-row flex-nowrap items-center cursor-pointer" }, wrapper_class: "border-gray-200 dark:border-gray-800 border rounded px-4 py-4" %>
+        <% end %>
+      <% when "renew" %>
+        <div class="space-y-6" data-controller="form-choices-limiter form-activity">
+          <%= f.input :basket_size_id, as: :radio_buttons, collection: basket_sizes_collection(membership: @membership, no_basket_option: false, data: { action: "form-choices-limiter#limitChoices form-activity#updateInput form-pricing#refresh" }), required: true, label: BasketSize.model_name.human, label_html: { class: "font-medium text-gray-700 dark:text-gray-300" }, input_html: { class: "mr-4 flex-none h-6 w-6 border-2 border-gray-300 dark:border-gray-700 text-green-500 bg-gray-50 dark:bg-black focus:outline-none focus:ring-green-500 focus:border-green-500 cursor-pointer" }, item_label_class: "border-gray-200 dark:border-gray-800 border rounded px-4 py-2 flex flex-row flex-nowrap items-center cursor-pointer", wrapper_class: "flex flex-col space-y-2" %>
+          <% if @membership.memberships_basket_complements.any? %>
+            <div>
+              <label class="font-medium text-gray-700 dark:text-gray-300">
+                <%= BasketComplement.model_name.human(count: 2) %>
+              </label>
+              <% if Current.org.member_form_complements_text? %>
+                <div class="mt-1 mb-4 text-sm text-justify">
+                  <%= Current.org.member_form_complements_text %>
+                </div>
+              <% end %>
+              <%= f.simple_fields_for :memberships_basket_complements, data: { form_disabler_target: "label" } do |ff| %>
+                <%= ff.input :basket_complement_id, as: :hidden %>
+                <%= ff.input :quantity, as: :numeric, label: basket_complement_label(ff.object.basket_complement), required: false, input_html: { min: 0, data: { action: "form-activity#updateInput form-pricing#refresh", activity: ff.object.basket_complement.activity_participations_demanded_annually }, class: "order-1 dark:bg-black w-16 px-3 py-2 border border-gray-300 dark:border-gray-700 placeholder-gray-400 dark:placeholder-gray-600 text-gray-900 dark:text-gray-100 rounded-md focus:outline-none focus:ring-green-500 focus:border-green-500 focus:z-10" }, label_html: { class: "order-2 ml-4" }, wrapper_class: "mt-2 flex items-center" %>
+              <% end %>
+            </div>
+          <% end %>
+          <% if show_activity_participations? %>
+            <%= f.input :activity_participations_demanded_annually, as: :numeric, label: activities_human_name, required: true, input_html: { min: Current.org.activity_participations_form_min || f.object.activity_participations_demanded_annually, max: Current.org.activity_participations_form_max || f.object.activity_participations_demanded_annually, data: { min: Current.org.activity_participations_form_min, max: Current.org.activity_participations_form_max, form_activity_target: "input", action: "form-pricing#refresh" }, class: "mt-1 dark:bg-black w-20 px-3 py-2 border border-gray-300 dark:border-gray-700 placeholder-gray-400 dark:placeholder-gray-600 text-gray-900 dark:text-gray-100 rounded-md focus:outline-none focus:ring-green-500 focus:border-green-500 focus:z-10 " }, hint: activity_participations_form_detail, label_html: { class: "inline-block w-full font-medium text-gray-700 dark:text-gray-300" }, hint_html: { class: "inline-block w-full text-sm" } %>
+          <% end %>
+          <% if show_basket_price_extras? && !current_member.salary_basket? %>
+            <div>
+              <label class="font-medium text-gray-700 dark:text-gray-300">
+                <%= Current.org.basket_price_extra_public_title %>
+              </label>
+              <div class="my-1 text-sm text-justify trix">
+                <%= Current.org.basket_price_extra_text %>
+              </div>
+              <%= f.input :basket_price_extra, as: :radio_buttons, collection: basket_prices_extra_collection(data: { action: "form-pricing#refresh" }), label: false, required: true, input_html: { class: "mr-4 flex-none h-6 w-6 border-2 border-gray-300 dark:border-gray-700 text-green-500 bg-gray-50 dark:bg-black focus:outline-none focus:ring-green-500 focus:border-green-500 cursor-pointer" }, item_label_class: "border-gray-200 dark:border-gray-800 border rounded px-4 py-2 flex flex-row flex-nowrap items-center cursor-pointer", wrapper_class: "flex flex-col space-y-2" %>
+            </div>
+          <% end %>
+          <% if Current.org.membership_renewal_depot_update? %>
+            <div class="space-y-8">
+              <% grouped_depots = visible_depots(object: @membership, only_with_future_deliveries: true).group_by(&:group) %>
+              <% if grouped_depots.keys.compact.any? %>
+                <div>
+                  <label class="font-medium text-gray-700 dark:text-gray-300">
+                    <%= Depot.model_name.human(count: 2) %>
+                    <abbr title="<%= t("simple_form.required.text") %>"><%= t("simple_form.required.mark") %></abbr>
+                  </label>
+                  <div class="mt-2 space-y-6">
+                    <% grouped_depots = grouped_depots.sort_by { |g, _d| g&.member_order_priority.to_s + g&.public_name.to_s } %>
+                    <% grouped_depots.each do |group, depots| %>
+                      <div>
+                        <% if group %>
+                          <label class="font-medium text-sm text-gray-700 dark:text-gray-300">
+                            <%= group.public_name %>
+                          </label>
+                          <div class="mt-1 mb-3 text-sm text-justify">
+                            <%= group.information_text %>
+                          </div>
+                        <% end %>
+                        <%= f.input :depot_id, hidden_fields: false, as: :radio_buttons, collection: depots_collection(depots: depots, data: { action: " form-choices-limiter#limitChoices form-pricing#refresh" }), label: false, wrapper_html: { data: { form_disabler_target: "label" } }, input_html: { class: "mr-4 flex-none h-6 w-6 border-2 border-gray-300 dark:border-gray-700 text-green-500 bg-gray-50 dark:bg-black focus:outline-none focus:ring-green-500 focus:border-green-500 cursor-pointer" }, item_label_class: "border-gray-200 dark:border-gray-800 border rounded px-4 py-2 flex flex-row flex-nowrap items-center cursor-pointer print:border-0 print:py-0", wrapper_class: "flex flex-col space-y-2", include_hidden: false %>
+                      </div>
+                    <% end %>
+                  </div>
+                </div>
+              <% else %>
+                <%= f.input :depot_id, as: :radio_buttons, collection: depots_collection(membership: @membership, only_with_future_deliveries: true, data: { action: "form-choices-limiter#limitChoices form-pricing#refresh" }), label: Depot.model_name.human, required: true, input_html: { class: "mr-4 flex-none h-6 w-6 border-2 border-gray-300 dark:border-gray-700 text-green-500 bg-gray-50 dark:bg-black focus:outline-none focus:ring-green-500 focus:border-green-500 cursor-pointer" }, item_label_class: "border-gray-200 dark:border-gray-800 border rounded px-4 py-2 flex flex-row flex-nowrap items-center cursor-pointer", wrapper_class: "flex flex-col space-y-2", label_html: { class: "font-medium text-gray-700 dark:text-gray-300" } %>
+              <% end %>
+              <% if DeliveryCycle.visible? %>
+                <%= f.input :delivery_cycle_id, as: :radio_buttons, collection: visible_delivery_cycles_collection(membership: @membership, only_with_future_deliveries: true, data: { form_choices_limiter_target: "input", action: "form-pricing#refresh" }), disabled: (DeliveryCycle.pluck(:id) - @membership.depot.delivery_cycle_ids - [ @membership.delivery_cycle_id ]), label: Delivery.model_name.human(count: 2), required: true, input_html: { class: "mr-4 flex-none h-6 w-6 border-2 border-gray-300 dark:border-gray-700 text-green-500 bg-gray-50 dark:bg-black focus:outline-none focus:ring-green-500 focus:border-green-500 cursor-pointer" }, item_label_class: "border-gray-200 dark:border-gray-800 border rounded px-4 py-2 flex flex-row flex-nowrap items-center cursor-pointer", wrapper_class: "flex flex-col space-y-2", label_html: { class: "font-medium text-gray-700 dark:text-gray-300" } %>
+              <% end %>
+            </div>
+          <% end %>
+          <% if Current.org.billing_year_divisions.many? %>
+            <div>
+              <label class="font-medium text-gray-700 dark:text-gray-300">
+                <%= t("active_admin.resource.show.billing") %>
+                <abbr title="<%= t("simple_form.required.text") %>"><%= t("simple_form.required.mark") %></abbr>
+              </label>
+              <%= f.input :billing_year_division, as: :radio_buttons, collection: organization_billing_year_divisions_collection(membership: @membership), input_html: { class: "mr-4 flex-none h-6 w-6 border-2 border-gray-300 dark:border-gray-700 text-green-500 bg-gray-50 dark:bg-black focus:outline-none focus:ring-green-500 focus:border-green-500 cursor-pointer" }, item_label_class: "text-sm font-medium text-gray-700 dark:text-gray-300 border-gray-200 dark:border-gray-800 border rounded px-4 py-2 flex flex-row flex-nowrap items-center cursor-pointer print:border-0 print:py-0", wrapper_class: "flex flex-col space-y-2", label: false %>
+            </div>
+          <% end %>
+        </div>
+        <%= f.input :renewal_note, as: :text, placeholder: t(".renewal_note.placeholder.renew"), label_html: { class: "text-sm font-medium text-gray-700 dark:text-gray-300" }, input_html: { rows: 5, class: "mt-1 dark:bg-black w-full px-3 py-2 border border-gray-300 dark:border-gray-700 placeholder-gray-400 dark:placeholder-gray-600 text-gray-900 dark:text-gray-100 rounded-md focus:outline-none focus:ring-green-500 focus:border-green-500 focus:z-10" } %>
+      <% end %>
+    </div>
+    <div class="flex flex-col md:flex-row justify-end mt-8 md:space-x-4">
+      <%= link_to t(".cancel"), members_memberships_path, class: "button order-2 md:order-1 mt-4 md:mt-0 md:min-w-min min-w-full text-center py-2 px-4 border border-green-400 dark:border-green-600 hover:border-green-500 hover:bg-green-500 font-medium rounded-md focus:outline-none focus:ring-green-500 focus:border-green-500 focus:z-10 text-base cursor-pointer" %>
+      <%= f.button :submit, t(".submit"), class: "order-1 md:order-2 min-w-full md:min-w-min py-2 px-6 border border-green-400 dark:border-green-600 bg-green-400 dark:bg-green-600 hover:border-green-500 hover:bg-green-500 text-white font-medium rounded-md focus:outline-none focus:ring-green-500 focus:border-green-500 focus:z-10 text-base cursor-pointer" %>
+    </div>
+  <% end %>
+  <% if params[:decision] == "renew" %>
+    <%= turbo_frame_tag "pricing" do %>
+      <%= render partial: "members/members/pricing", locals: { params: (params[:membership].present? ? renewal_params.to_unsafe_h : @membership.attributes) } %>
+    <% end %>
+  <% end %>
+</div>

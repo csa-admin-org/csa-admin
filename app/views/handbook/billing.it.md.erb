@@ -1,6 +1,6 @@
 # Fatturazione
 
-CSA Admin mira ad automatizzare la maggior parte dei compiti relativi alla fatturazione ([abbonamenti](#memberships), <% if Current.org.share? %>[quote sociali](#quote-sociali), <% end %>[elaborazione dei pagamenti](#pagamenti)), ma alcuni aspetti <% if Current.org.feature?('activity') %>come la fatturazione delle [<%= activities_human_name %> non effettuate](#<%= activities_human_name %>-non-effettuate) <% end %>devono essere eseguiti manualmente.
+CSA Admin mira ad automatizzare la maggior parte dei compiti relativi alla fatturazione ([abbonamenti](#memberships), <% if Current.org.share? %>[quote sociali](#quote-sociali), <% end %>[elaborazione dei pagamenti](#pagamenti)), ma alcuni aspetti <% if Current.org.feature?("activity") %>come la fatturazione delle [<%= activities_human_name %> non effettuate](#<%= activities_human_name %>-non-effettuate) <% end %>devono essere eseguiti manualmente.
 
 Per la Svizzera, CSA Admin genera fatture-QR con numero di riferimento (PDF) e le invia a tutte le email del socio interessato. Per poter generare queste fatture, dovete richiedere un QR-IBAN alla vostra banca, attenzione questo numero è diverso dall'IBAN del vostro conto bancario. Potete poi inserirlo nelle [vostre impostazioni di fatturazione](/settings#billing).
 
@@ -61,7 +61,7 @@ Se le quote sociali sono già state fatturate al di fuori di CSA Admin, potete r
 > Dalla pagina di un socio, potete vedere nella sezione "Fatturazione" (colonna di destra) il numero di quote sociali che saranno o sono già fatturate con un link alle fatture corrispondenti.
 <% end %>
 
-<% if Current.org.feature?('activity') %>
+<% if Current.org.feature?("activity") %>
 ## <%= activities_human_name %> non effettuate {#activity}
 
 Ogni organizzazione ha una politica di fatturazione delle <%= activities_human_name.downcase %> non effettuate diversa, alcune le fatturano, altre no.
@@ -102,7 +102,7 @@ Le fatture vengono qui inviate automaticamente.
 
 CSA Admin offre la possibilità di fatturare manualmente articoli o servizi vari (per esempio, acquisto di borse in tessuto per i nuovi abbonati). Per farlo, è sufficiente [creare una nuova fattura](/invoices/new) e inserire gli articoli sotto la scheda "Altro". Dopo aver verificato il PDF, potete inviare manualmente la fattura utilizzando il pulsante "Inviare" sulla pagina della stessa.
 
-> Attenzione, le fatture di tipo "Altro" non devono essere utilizzate per fatturare gli abbonamenti<% if Current.org.share? %>, quote sociali<% end %><% if Current.org.feature?('activity') %> o <%= activities_human_name.downcase %><% end %>, perché il sistema non le prenderà in considerazione.
+> Attenzione, le fatture di tipo "Altro" non devono essere utilizzate per fatturare gli abbonamenti<% if Current.org.share? %>, quote sociali<% end %><% if Current.org.feature?("activity") %> o <%= activities_human_name.downcase %><% end %>, perché il sistema non le prenderà in considerazione.
 
 ## Pagamenti
 
