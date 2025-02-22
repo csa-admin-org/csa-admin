@@ -326,31 +326,6 @@ GEM
     liquid (5.7.2)
       bigdecimal
       strscan (>= 3.1.1)
-    litestream (0.12.0)
-      actionpack (>= 7.0)
-      actionview (>= 7.0)
-      activejob (>= 7.0)
-      activesupport (>= 7.0)
-      logfmt (>= 0.0.10)
-      railties (>= 7.0)
-      sqlite3
-    litestream (0.12.0-arm64-darwin)
-      actionpack (>= 7.0)
-      actionview (>= 7.0)
-      activejob (>= 7.0)
-      activesupport (>= 7.0)
-      logfmt (>= 0.0.10)
-      railties (>= 7.0)
-      sqlite3
-    litestream (0.12.0-x86_64-linux)
-      actionpack (>= 7.0)
-      actionview (>= 7.0)
-      activejob (>= 7.0)
-      activesupport (>= 7.0)
-      logfmt (>= 0.0.10)
-      railties (>= 7.0)
-      sqlite3
-    logfmt (0.0.10)
     logger (1.6.6)
     lograge (0.14.0)
       actionpack (>= 4)
@@ -368,7 +343,7 @@ GEM
     marcel (1.0.4)
     matrix (0.4.2)
     metrics (0.12.1)
-    mini_magick (5.1.2)
+    mini_magick (5.2.0)
       benchmark
       logger
     mini_mime (1.1.5)
@@ -715,7 +690,6 @@ DEPENDENCIES
   kramdown
   letter_opener
   liquid
-  litestream
   lograge
   minitest-difftastic
   mission_control-jobs
@@ -877,10 +851,6 @@ CHECKSUMS
   letter_opener (1.10.0) sha256=2ff33f2e3b5c3c26d1959be54b395c086ca6d44826e8bf41a14ff96fdf1bdbb2
   lint_roller (1.1.0) sha256=2c0c845b632a7d172cb849cc90c1bce937a28c5c8ccccb50dfd46a485003cc87
   liquid (5.7.2) sha256=558c44f4f5333f3ed7770b8405af8eb10246d0ddb9a4d7817016d80e71f10c79
-  litestream (0.12.0) sha256=d622732819f3831db537bba88e0e2e453638fa8e18f98d08b821de5cd11ab8ec
-  litestream (0.12.0-arm64-darwin) sha256=d48e90167a44f5efe605e7247b4cecddecc8917c04af1c24907943c7f10f4eb1
-  litestream (0.12.0-x86_64-linux) sha256=a28a60264fad4151fccd992362a05edee0dd672e6deefee06a00fc4059e509c4
-  logfmt (0.0.10) sha256=dd0a66f9a717b3d535963a4c84b3d377c40efadffa68a565253200d13c35d36c
   logger (1.6.6) sha256=dd618d24e637715472732e7eed02e33cfbdf56deaad225edd0f1f89d38024017
   lograge (0.14.0) sha256=42371a75823775f166f727639f5ddce73dd149452a55fc94b90c303213dc9ae1
   loofah (2.24.0) sha256=61e6a710883abb8210887f3dc868cf3ed66594c509d9ff6987621efa6651ee1e
@@ -888,7 +858,7 @@ CHECKSUMS
   marcel (1.0.4) sha256=0d5649feb64b8f19f3d3468b96c680bae9746335d02194270287868a661516a4
   matrix (0.4.2) sha256=71083ccbd67a14a43bfa78d3e4dc0f4b503b9cc18e5b4b1d686dc0f9ef7c4cc0
   metrics (0.12.1) sha256=42ec8eeadb92a57549a72bdd1baf86d4270089bc598917b93cf9cb6f95fcc29c
-  mini_magick (5.1.2) sha256=2c57112a2c55d9f86b1ed7ab568b3c389a3265788ac5c1ad3e632a201b629a7e
+  mini_magick (5.2.0) sha256=2757ffbfdb1d38242d1da9ff1505360ab75d59dc02eb7ab79ff6d5acb1243f4a
   mini_mime (1.1.5) sha256=8681b7e2e4215f2a159f9400b5816d85e9d8c6c6b491e96a12797e798f8bccef
   mini_portile2 (2.8.8) sha256=8e47136cdac04ce81750bb6c09733b37895bf06962554e4b4056d78168d70a75
   minitest (5.25.4) sha256=9cf2cae25ac4dfc90c988ebc3b917f53c054978b673273da1bd20bcb0778f947
