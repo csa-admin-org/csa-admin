@@ -36,7 +36,6 @@ gem "cancancan"
 gem "acts_as_list"
 
 gem "simple_form"
-gem "slim"
 
 gem "importmap-rails"
 gem "turbo-rails"
@@ -107,9 +106,10 @@ group :development do
   gem "terminal-table", require: false
 
   gem "ruby-lsp-rails", require: false
+  gem "erb_lint", require: false
 
   gem "rubocop-rails-omakase", require: false
-  gem "rubocop-slim", require: false
+  gem "rubocop-erb", require: false
 
   gem "brakeman", require: false
   gem "resolv", require: false

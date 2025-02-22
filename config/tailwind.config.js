@@ -9,8 +9,8 @@ export default {
   content: [
     './app/helpers/**/*.rb',
     './app/javascript/**/*.js',
-    './app/views/**/*.{arb,erb,slim,html,rb}',
-    './app/admin/**/*.{arb,erb,slim,html,rb}',
+    './app/views/**/*.{arb,erb,html,rb}',
+    './app/admin/**/*.{arb,erb,html,rb}',
     './app/assets/**/*.css',
     `./vendor/javascript/flowbite.js`,
     './config/initializers/active_admin.rb',

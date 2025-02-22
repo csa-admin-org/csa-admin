@@ -111,12 +111,12 @@ class Members::ShopOrdersTest < ApplicationSystemTestCase
     visit "/shop/orders/#{order.id}"
     assert_equal "/shop/orders/#{order.id}", current_path
 
-    assert_text "TotalCHF 6.00"
+    assert_text "Total CHF 6.00"
 
     select "Support +10%"
     find('input[aria-label="update_order"]').click
 
-    assert_text "TotalCHF 6.60"
+    assert_text "Total CHF 6.60"
   end
 
   test "pending order can be modified/deleted depending date" do

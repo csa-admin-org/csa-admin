@@ -2,11 +2,10 @@
   <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto px-4 p-2">
     <div class="flex grow order-1 md:hidden">
       <button data-collapse-toggle="navbar-dropdown" type="button" class="inline-flex items-center p-1 w-10 h-10 justify-center text-sm text-white/50 hover:text-white  dark:text-black/50 dark:hover:text-black rounded-lg md:hidden focus:outline-none focus:ring-2 focus:ring-gray-200 dark:focus:ring-gray-600" aria-controls="navbar-dropdown" aria-expanded="false">
-          <%= icon "bars-3", class: "h-8 w-8" %>
-          <span class="sr-only">Open main menu</span>
+        <%= icon "bars-3", class: "h-8 w-8" %>
+        <span class="sr-only">Open main menu</span>
       </button>
     </div>
-
     <nav class="grow hidden w-full md:block md:w-auto order-3 md:order-2" id="navbar-dropdown">
       <ul class="flex flex-col md:items-center text-sm  font-medium my-4 md:my-0 space-y-1 md:space-y-0 md:space-x-2 md:flex-row">
         <% current_menu.items(self).each do |item| %>
@@ -33,26 +32,22 @@
         <% end %>
       </ul>
     </nav>
-
     <div class="flex order-2 md:order-3">
       <% if Update.unread_count(current_active_admin_user).positive? %>
-        <a href=<%= updates_path %> class="relative flex items-center w-9 h-9 justify-center text-white/75 dark:text-black/50 hover:text-white  dark:hover:text-black focus:outline-none text-sm">
+        <a href="<%= updates_path %>" class="relative flex items-center w-9 h-9 justify-center text-white/75 dark:text-black/50 hover:text-white  dark:hover:text-black focus:outline-none text-sm">
           <%= icon "gift", class: "w-5 h-5" %>
           <div class="absolute w-2 h-2 text-xs font-semibold text-white bg-red-500 rounded-full top-1 end-1 dark:border-gray-900"></div>
         </a>
       <% end %>
-
       <button type="button" class="dark-mode-toggle flex items-center w-9 h-9 justify-center text-white/75 dark:text-black/50 hover:text-white  dark:hover:text-black focus:outline-none text-sm">
         <%= icon "moon", class: "w-5 h-5 hidden dark:block" %>
         <%= icon "sun", class: "w-5 h-5 dark:hidden" %>
       </button>
-
       <button id="user-menu-button" class="flex items-center w-9 h-9 justify-center text-sm text-white/50 hover:text-white focus:outline-none dark:text-black/50 dark:hover:text-black ms-1" data-dropdown-toggle="user-menu" data-dropdown-offset-distance="3" data-dropdown-placement="bottom-end">
         <%= icon "user-circle", class: "w-8 h-8", variant: "solid" %>
       </button>
-
       <div id="user-menu" class="z-50 hidden min-w-max bg-white rounded shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none dark:bg-gray-700 py-1 text-sm text-right text-gray-700 dark:text-gray-200" aria-labelledby="user-menu-button">
-        <ul class="">
+        <ul>
           <% if current_active_admin_user? %>
             <li><%= auto_link current_active_admin_user, class: "block px-2.5 py-2 no-underline text-gray-700 hover:bg-gray-100 hover:text-gray-900 dark:text-white dark:hover:bg-gray-600 dark:hover:text-white" %></li>
             <li>

@@ -1,0 +1,6 @@
+<%= link_to calendar_webcal_url, class: "flex items-center", title: t(".calendar_feed") do %>
+  <span class="py-0.5 px-2 flex items-center border rounded-full border-gray-200 dark:border-gray-800">
+    <%= icon("calendar-days", class: "h-4 w-4 mr-2") %>
+    <span class="text-sm"><%= t(".subscribe") %></span>
+  </span>
+<% end %>

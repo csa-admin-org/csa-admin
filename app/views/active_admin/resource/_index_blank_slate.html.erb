@@ -8,7 +8,6 @@
           instance_exec(&link) if link.is_a?(Proc)
         else
           link_to(I18n.t("active_admin.blank_slate.link"), new_resource_path)
-        end
-    %>
+        end %>
   <% end %>
 </div>

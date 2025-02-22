@@ -1,11 +1,11 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="x-apple-disable-message-reformatting" />
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="x-apple-disable-message-reformatting">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title></title>
-    <%= stylesheet_link_tag 'mailer', media: 'all' %>
+    <%= stylesheet_link_tag "mailer", media: "all" %>
     <!--[if mso]>
       <style type="text/css">
         .f-fallback  {
@@ -38,7 +38,7 @@
                     <td class="content-cell">
                       <div class="f-fallback">
                         <%= yield %>
-                        <%= simple_format @signature || Current.org.email_signature, class: 'closing' %>
+                        <%= simple_format @signature || Current.org.email_signature, class: "closing" %>
                       </div>
                     </td>
                   </tr>
@@ -50,36 +50,36 @@
                 <table class="email-footer" align="center" width="570" cellpadding="0" cellspacing="0" role="presentation">
                   <tr>
                     <td class="content-cell" align="center">
-                      <%= simple_format Current.org.email_footer, class: 'f-fallback sub align-center' %>
+                      <%= simple_format Current.org.email_footer, class: "f-fallback sub align-center" %>
 
                       <% if @admin %>
                       <p class="f-fallback sub align-center">
-                        <%= link_to t('.manage_admin_notifications'), edit_admin_url(@admin, anchor: 'notifications') %>
+                        <%= link_to t(".manage_admin_notifications"), edit_admin_url(@admin, anchor: "notifications") %>
                       </p>
                       <% end %>
 
                       <% if @unsubscribe_token %>
                       <p class="f-fallback sub align-center">
-                        <%= link_to t('.unsubscribe'), members_unsubscribe_newsletter_url(@unsubscribe_token) %>
+                        <%= link_to t(".unsubscribe"), members_unsubscribe_newsletter_url(@unsubscribe_token) %>
                       </p>
                       <% end %>
 
                       <p class="f-fallback sub align-center">
-                        <%= link_to Current.org.name, Current.org.url, target: '_blank' %>
+                        <%= link_to Current.org.name, Current.org.url, target: "_blank" %>
                       </p>
                       <% if Current.org.social_networks.any? %>
                         <p class="f-fallback sub social-network align-center">
                           <% Current.org.social_networks.each do |network| %>
-                            <%= link_to network.url, target: '_blank' do %>
-                              <img src="<%= image_url("simpleicons/#{network.icon}.png") %>" width="20" height="20" alt="<%= network.icon %>" align="center"/>
+                            <%= link_to network.url, target: "_blank" do %>
+                              <img src="<%= image_url("simpleicons/#{network.icon}.png") %>" width="20" height="20" alt="<%= network.icon %>" align="center">
                             <% end %>
                           <% end %>
                         </p>
                       <% end %>
 
                       <p class="f-fallback app sub align-center">
-                        <%= link_to csa_admin_website_url, target: '_blank' do %>
-                          <img src="https://cdn.csa-admin.org/logo-text.png" width="90" height="18" alt="CSA Admin" align="center"/>
+                        <%= link_to csa_admin_website_url, target: "_blank" do %>
+                          <img src="https://cdn.csa-admin.org/logo-text.png" width="90" height="18" alt="CSA Admin" align="center">
                         <% end %>
                       </p>
                     </td>

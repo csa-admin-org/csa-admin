@@ -112,25 +112,6 @@ _:
       _en: None
       _fr: Aucun
       _it: Nessuno
-    page_entries_info:
-      more_pages:
-        display_entries:
-          _de: "%{entry_name}  <b>%{first} - %{last}</b> von insgesamt <b>%{total}</b>"
-          _en: "%{entry_name}  <b>%{first} - %{last}</b> of a total of <b>%{total}</b>"
-          _fr: "%{entry_name}  <b>%{first} - %{last}</b> sur <b>%{total}</b> au total"
-          _it: "%{entry_name}  <b>%{first} - %{last}</b> su <b>%{total}</b> in totale"
-      one_page:
-        display_entries:
-          one:
-            _de: "<b>%{count}</b> %{entry_name}"
-            _en: "<b>%{count}</b> %{entry_name}"
-            _fr: "<b>%{count}</b> %{entry_name}"
-            _it: "<b>%{count}</b> %{entry_name}"
-          other:
-            _de: "<b>jede %{count}</b> %{entry_name}"
-            _en: "<b>every %{count}</b> %{entry_name}"
-            _fr: "<b>tous les %{count}</b> %{entry_name}"
-            _it: "<b>ogni %{count}</b> %{entry_name}"
     price_per_delivery:
       _de: "%{price}/Lieferung"
       _en: "%{price}/delivery"

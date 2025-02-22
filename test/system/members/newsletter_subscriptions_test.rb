@@ -18,7 +18,7 @@ class Members::NewsletterSubscriptionsTest < ApplicationSystemTestCase
     assert_equal "ManualSuppression", suppression.reason
     assert_equal "Customer", suppression.origin
 
-    assert_text "👋🏻Your email (j...n@do...om) has been removed from the mailing list."
+    assert_text "👋🏻 Your email (j...n@do...om) has been removed from the mailing list."
     assert_equal [
       [ :create_suppressions, "broadcast", email ]
     ], postmark_client.calls
@@ -28,7 +28,7 @@ class Members::NewsletterSubscriptionsTest < ApplicationSystemTestCase
       click_button "I want to subscribe again."
     end
     assert_predicate suppression.reload.unsuppressed_at, :present?
-    assert_text "🤗Your email (j...n@do...om) has been added back to the mailing list."
+    assert_text "🤗 Your email (j...n@do...om) has been added back to the mailing list."
 
     assert_equal [
       [ :create_suppressions, "broadcast", email ],
@@ -54,7 +54,7 @@ class Members::NewsletterSubscriptionsTest < ApplicationSystemTestCase
     end
 
     assert_equal 404, page.status_code
-    assert_text "😬This link has expired or is invalid."
+    assert_text "😬 This link has expired or is invalid."
   end
 
   test "unsubscribe with email no more link to a member" do
@@ -66,6 +66,6 @@ class Members::NewsletterSubscriptionsTest < ApplicationSystemTestCase
     end
 
     assert_equal 404, page.status_code
-    assert_text "😬This link has expired or is invalid."
+    assert_text "😬 This link has expired or is invalid."
   end
 end

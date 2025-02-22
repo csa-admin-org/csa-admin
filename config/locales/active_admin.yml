@@ -2042,7 +2042,7 @@ _:
           _en: No missing participations
           _fr: Aucune participation manquante
           _it: Nessuna partecipazione mancante
-        no_next_year_deliveries:
+        no_next_year_deliveries_html:
           _de: Bitte <a href="%{new_delivery_path}">erstellen Sie die Lieferungen %{fiscal_year}</a>, bevor Sie mit den Erneuerungen fortfahren.
           _en: Please <a href="%{new_delivery_path}">create the deliveries %{fiscal_year}</a> before proceeding with renewals.
           _fr: Merci de <a href="%{new_delivery_path}">créer les livraisons %{fiscal_year}</a> avant de procéder aux renouvellements.

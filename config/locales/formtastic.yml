@@ -280,7 +280,7 @@ _:
           _en: Amount for a single participation.
           _fr: Montant pour une seule participation.
           _it: Importo per una singola partecipazione.
-      liquid:
+      liquid_html:
         _de: Unterstützt <a href='https://shopify.github.io/liquid/' target='_blank'>die Liquid-Syntax</a> mit der unten definierten Datenstruktur.
         _en: Supports <a href='https://shopify.github.io/liquid/' target='_blank'>Liquid syntax</a> with the data structure defined below.
         _fr: Supporte <a href='https://shopify.github.io/liquid/' target='_blank'>la syntaxe Liquid</a> avec la structure de données définie ci-dessous.

@@ -21,7 +21,7 @@ _:
         _en: "&lsaquo;"
         _fr: "&lsaquo;"
         _it: "&lsaquo;"
-      truncate:
+      truncate_html:
         _de: "&hellip;"
         _en: "&hellip;"
         _fr: "&hellip;"

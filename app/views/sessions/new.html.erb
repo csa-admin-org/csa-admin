@@ -1,0 +1,16 @@
+<div class="mt-2 panel">
+  <div class="panel-title text-2xl pb-1">
+    <h1><%= set_page_title t(".title") %></h1>
+  </div>
+  <div class="panel-body">
+    <p class="px-2 text-sm text-gray-500">
+      <%= t(".form_text") %>
+    </p>
+    <%= semantic_form_for @session, as: :session do |f| %>
+      <ol class="p-2 list-none">
+        <%= f.input :email, label: t(".email_input"), required: true %>
+        <%= f.action :submit, label: t(".submit"), button_html: { value: t(".submit") }, wrapper_html: { class: "text-right" } %>
+      </ol>
+    <% end %>
+  </div>
+</div>

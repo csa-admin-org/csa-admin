@@ -18,7 +18,9 @@ module ActivitiesHelper
   end
 
   def activity_scoped_attribute(attr)
-    "#{attr}/#{Current.org.activity_i18n_scope}".to_sym
+    html = attr.end_with?("_html")
+    attr = attr.to_s.delete_suffix("_html")
+    "#{attr}/#{Current.org.activity_i18n_scope}#{html ? "_html" : ""}".to_sym
   end
 
   def activities_collection(activities, data: {})

@@ -1,0 +1,13 @@
+<%= form_tag import_payments_path, multipart: true, class: "sidebar_form" do %>
+  <% case Current.org.country_code %>
+  <% when "DE" %>
+    <%= label_tag :file, t(".file_label_de") %>
+    <%= file_field_tag :file, accept: "text/xml, .mta", required: true, class: "mt-1" %>
+  <% else %>
+    <%= label_tag :file, t(".file_label") %>
+    <%= file_field_tag :file, accept: "text/xml", required: true, class: "mt-1" %>
+  <% end %>
+  <div class="flex justify-end mt-1 py-1">
+    <%= submit_tag t(".submit"), class: "action-item-button secondary small" %>
+  </div>
+<% end %>

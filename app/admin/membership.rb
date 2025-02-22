@@ -191,9 +191,9 @@ ActiveAdmin.register Membership do
       fy_year = params.dig(:q, :during_year).presence&.to_i || Current.fy_year
       renewal = MembershipsRenewal.new(fy_year)
       if !renewal.future_deliveries?
-        div t(".no_next_year_deliveries",
+        div t(".no_next_year_deliveries_html",
           fiscal_year: renewal.next_fy.to_s,
-          new_delivery_path: new_delivery_path).html_safe
+          new_delivery_path: new_delivery_path)
       else
         div class: "space-y-4" do
           ul do
