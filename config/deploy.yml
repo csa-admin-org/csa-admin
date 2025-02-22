@@ -16,6 +16,7 @@ servers:
 proxy:
   ssl: true
   forward_headers: true
+
   hosts:
     - cdn.csa-admin.org
     - mc.csa-admin.org
@@ -147,3 +148,5 @@ builder:
 # Use a different ssh user than root
 ssh:
   user: kamal
+
+deploy_timeout: 600
