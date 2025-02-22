@@ -280,16 +280,16 @@ _:
           _en: Amount for a single participation.
           _fr: Montant pour une seule participation.
           _it: Importo per una singola partecipazione.
-      liquid_html:
-        _de: Unterstützt <a href='https://shopify.github.io/liquid/' target='_blank'>die Liquid-Syntax</a> mit der unten definierten Datenstruktur.
-        _en: Supports <a href='https://shopify.github.io/liquid/' target='_blank'>Liquid syntax</a> with the data structure defined below.
-        _fr: Supporte <a href='https://shopify.github.io/liquid/' target='_blank'>la syntaxe Liquid</a> avec la structure de données définie ci-dessous.
-        _it: Supporta <a href='https://shopify.github.io/liquid/' target='_blank'>la sintassi Liquid</a> con la struttura dei dati definita qui.
       liquid_data_preview:
         _de: Diese Datenstruktur wird als Beispiel vorgestellt und wird halbzufällig generiert. Sie können ihre Werte nach Belieben ändern, um eine Vorschau Ihrer Vorlage zu erhalten.
         _en: This data structure is presented as an example and is generated semi-randomly. You can change its values at will to preview your template.
         _fr: Cette structure de données est présentée à titre d'exemple et est générée semi-aléatoirement, vous pouvez modifier ses valeurs à volonté pour prévisualiser votre template.
         _it: Questa struttura dati è presentata come un esempio e viene generata in modo semi-casuale, potete modificarne i valori a piacimento per visualizzare in anteprima il tuo template.
+      liquid_html:
+        _de: Unterstützt <a href='https://shopify.github.io/liquid/' target='_blank'>die Liquid-Syntax</a> mit der unten definierten Datenstruktur.
+        _en: Supports <a href='https://shopify.github.io/liquid/' target='_blank'>Liquid syntax</a> with the data structure defined below.
+        _fr: Supporte <a href='https://shopify.github.io/liquid/' target='_blank'>la syntaxe Liquid</a> avec la structure de données définie ci-dessous.
+        _it: Supporta <a href='https://shopify.github.io/liquid/' target='_blank'>la sintassi Liquid</a> con la struttura dei dati definita qui.
       mail_template:
         active:
           _de: Diese E-Mail wird standardmäßig nicht gesendet, bitte überprüfen Sie den Inhalt, bevor Sie sie aktivieren.
