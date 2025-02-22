@@ -8,6 +8,10 @@ image: thibaudgg/csa-admin
 servers:
   web:
     - isle.thibaud.gg
+  job:
+    hosts:
+      - isle.thibaud.gg
+    cmd: bin/jobs
 
 # Enable SSL auto certification via Let's Encrypt and allow for multiple apps on a single web server.
 # Remove this section when using multiple web servers and ensure you terminate SSL at your load balancer.
@@ -113,9 +117,6 @@ env:
     - RAILS_MASTER_KEY
     - APPSIGNAL_PUSH_API_KEY
   clear:
-    # Run the Solid Queue Supervisor inside the web server's Puma process to do jobs.
-    # When you start using multiple servers, you should split out job processing to a dedicated machine.
-    SOLID_QUEUE_IN_PUMA: true
     APP_DOMAIN: csa-admin.org
     ALLOWED_COUNTRY_CODES: CH,FR,DE,IT,LI
     ASSET_HOST: https://cdn.csa-admin.org
