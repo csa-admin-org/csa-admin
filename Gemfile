@@ -12,7 +12,6 @@ gem "propshaft"
 gem "puma"
 
 gem "sqlite3"
-gem "litestream"
 
 gem "appsignal"
 gem "lograge"

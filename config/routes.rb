@@ -7,7 +7,6 @@ Rails.application.routes.draw do
 
   constraints subdomain: "mc" do
     mount MissionControl::Jobs::Engine, at: "/jobs"
-    mount Litestream::Engine, at: "/litestream"
   end
 
   constraints subdomain: "admin" do
