@@ -14,6 +14,10 @@
 /config/master.key
 /config/credentials/*.key
 
+# Ignore the default Rails test directory.
+/test/*
+/db/seeds.rb
+
 # Ignore all logfiles and tempfiles.
 /log/*
 /tmp/*
@@ -49,3 +53,4 @@
 # Ignore Docker-related files
 /.dockerignore
 /Dockerfile*
+
