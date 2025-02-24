@@ -150,4 +150,5 @@ builder:
 ssh:
   user: kamal
 
-deploy_timeout: 600
+deploy_timeout: 60
+retain_containers: 3
