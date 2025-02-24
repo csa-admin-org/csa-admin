@@ -17,7 +17,7 @@ module PDF
         start_new_page
       end
 
-      @baskets = @baskets.joins(:member).order("members.name")
+      @baskets = @baskets.joins(:member).order("LOWER(members.name)")
 
       depots = Array(depot || @depots)
       depots.each do |depot|

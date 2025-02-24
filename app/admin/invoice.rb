@@ -524,7 +524,7 @@ ActiveAdmin.register Invoice do
     end
 
     def apply_sorting(chain)
-      super(chain).joins(:member).order("members.name", id: :desc)
+      super(chain).joins(:member).order("LOWER(members.name)", id: :desc)
     end
 
     def refresh_invoice
@@ -548,6 +548,10 @@ ActiveAdmin.register Invoice do
         resource.pdf_file.attach io: file, filename: "invoice-#{resource.id}.pdf"
       end
     end
+  end
+
+  order_by("members.name") do |clause|
+    "LOWER(members.name) #{clause.order}"
   end
 
   config.sort_order = "date_desc"

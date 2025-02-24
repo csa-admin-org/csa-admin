@@ -179,8 +179,12 @@ ActiveAdmin.register Payment do
     include ApplicationHelper
 
     def apply_sorting(chain)
-      super(chain).joins(:member).order("members.name", id: :desc)
+      super(chain).joins(:member).order("LOWER(members.name)", id: :desc)
     end
+  end
+
+  order_by("members.name") do |clause|
+    "LOWER(members.name) #{clause.order}"
   end
 
   config.sort_order = "date_desc"

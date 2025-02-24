@@ -3,18 +3,6 @@
 require "test_helper"
 
 class AdminMailerTest < ActionMailer::TestCase
-  # setup do
-  #   @admin = admins(:john) # Ensure there is a fixture named :john in admins.yml
-  #   @delivery = deliveries(:one) # Ensure there is a fixture named :one in deliveries.yml
-  #   @depot = depots(:jardin_de_la_main) # Ensure there is a fixture named :jardin_de_la_main in depots.yml
-  #   @membership_small = memberships(:small_membership) # Fixture for small membership
-  #   @membership_big = memberships(:big_membership) # Fixture for big membership
-  #   @member_martha = members(:martha) # Fixture for member Martha
-  #   @member_charle = members(:charle) # Fixture for member Charle
-  #   @absence = absences(:one) # Ensure there is a fixture named :one in absences.yml
-  #   @invoice = invoices(:one) # Ensure there is a fixture named :one in invoices.yml
-  # end
-
   test "depot_delivery_list_email" do
     depot = depots(:farm)
     depot.update!(emails: "respondent1@csa-admin.org, respondent2@csa-admin.org")

@@ -307,9 +307,9 @@ ActiveAdmin.register ActivityParticipation do
 
     def apply_sorting(chain)
       if params[:scope].in?(%w[validated rejected]) && !params[:order]
-        super(chain).joins(:member).reorder("activities.date DESC, members.name", id: :desc)
+        super(chain).joins(:member).reorder("activities.date DESC, LOWER(members.name)", id: :desc)
       else
-        super(chain).joins(:member).order("members.name", id: :desc)
+        super(chain).joins(:member).order("LOWER(members.name)", id: :desc)
       end
     end
 
@@ -331,6 +331,10 @@ ActiveAdmin.register ActivityParticipation do
         success.html { redirect_to collection_url }
       end
     end
+  end
+
+  order_by("members.name") do |clause|
+    "LOWER(members.name) #{clause.order}"
   end
 
   config.sort_order = "activities.date_asc"
