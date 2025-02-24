@@ -13,7 +13,7 @@ module XLSX
 
       build_summary_worksheet unless depot
 
-      @baskets = @baskets.includes(:member).order("members.name")
+      @baskets = @baskets.joins(:member).order("LOWER(members.name)")
 
       Array(depot || @depots).each do |d|
         build_depot_worksheet(d)
@@ -124,7 +124,7 @@ module XLSX
     def build_depot_worksheet(depot)
       baskets = @baskets.where(depot: depot).includes(:membership, :basket_size, :complements, baskets_basket_complements: :basket_complement)
       shop_orders = @shop_orders.where(depot: depot).includes(:member, items: { product: :basket_complement })
-      member_ids = (baskets.filled.pluck(:member_id) + shop_orders.pluck(:member_id)).uniq
+      member_ids = (baskets.filled.pluck(memberships: :member_id) + shop_orders.pluck(shop_orders: :member_id)).uniq
       members = Member.where(id: member_ids).sort_by { |m| depot.member_sorting(m) }
       members.each do |member|
         member.basket = baskets.find { |b| b.membership.member_id == member.id }

@@ -384,6 +384,10 @@ ActiveAdmin.register Shop::Order do
     end
   end
 
+  order_by("members.name") do |clause|
+    "LOWER(members.name) #{clause.order}"
+  end
+
   config.sort_order = "created_at_desc"
   config.batch_actions = true
 end

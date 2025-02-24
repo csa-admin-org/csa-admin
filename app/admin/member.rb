@@ -798,5 +798,9 @@ ActiveAdmin.register Member do
     end
   end
 
+  order_by("name") do |clause|
+    "LOWER(name) #{clause.order}"
+  end
+
   config.sort_order = "name_asc"
 end
