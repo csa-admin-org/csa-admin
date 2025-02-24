@@ -88,7 +88,7 @@ GEM
     addressable (2.8.7)
       public_suffix (>= 2.0.2, < 7.0)
     afm (0.2.2)
-    appsignal (4.5.0)
+    appsignal (4.5.2)
       logger
       rack
     arbre (2.2.0)
@@ -323,7 +323,7 @@ GEM
     letter_opener (1.10.0)
       launchy (>= 2.2, < 4)
     lint_roller (1.1.0)
-    liquid (5.7.2)
+    liquid (5.7.3)
       bigdecimal
       strscan (>= 3.1.1)
     logger (1.6.6)
@@ -546,7 +546,7 @@ GEM
       lint_roller (~> 1.1)
       rubocop (>= 1.72.1, < 2.0)
       rubocop-ast (>= 1.38.0, < 2.0)
-    rubocop-rails (2.30.1)
+    rubocop-rails (2.30.2)
       activesupport (>= 4.2.0)
       lint_roller (~> 1.1)
       rack (>= 1.1)
@@ -752,7 +752,7 @@ CHECKSUMS
   acts_as_list (1.2.4) sha256=5e6ed695f1879d66ae7d8eb1625a72db215a26a9c8ec0047b866a80883ea5651
   addressable (2.8.7) sha256=462986537cf3735ab5f3c0f557f14155d778f4b43ea4f485a9deb9c8f7c58232
   afm (0.2.2) sha256=c83e698e759ab0063331ff84ca39c4673b03318f4ddcbe8e90177dd01e4c721a
-  appsignal (4.5.0) sha256=9dd7d630eebdcd4941ecc09478621d2fcfcf844d945b70619aafe570fdac484a
+  appsignal (4.5.2) sha256=956d1a4b35675c0ede7e473725bcb9c54eeac1cd43758e692c3376b1601557a7
   arbre (2.2.0) sha256=d71de0acae2536b96cd795c5ca574ad87bc1bc10a4170d0799509a2cb7a8ba71
   ast (2.4.2) sha256=1e280232e6a33754cde542bc5ef85520b74db2aac73ec14acef453784447cc12
   async (2.23.0) sha256=8323f3942046fcf206eac256954b419f0933a449d997b0fca926f9d118eb495c
@@ -850,7 +850,7 @@ CHECKSUMS
   launchy (3.1.1) sha256=72b847b5cc961589dde2c395af0108c86ff0119f42d4648d25b5440ebb10059e
   letter_opener (1.10.0) sha256=2ff33f2e3b5c3c26d1959be54b395c086ca6d44826e8bf41a14ff96fdf1bdbb2
   lint_roller (1.1.0) sha256=2c0c845b632a7d172cb849cc90c1bce937a28c5c8ccccb50dfd46a485003cc87
-  liquid (5.7.2) sha256=558c44f4f5333f3ed7770b8405af8eb10246d0ddb9a4d7817016d80e71f10c79
+  liquid (5.7.3) sha256=1f9db4b93a98e3c5e7ad511ecdd0745493e11fdf552b33f01c1418c87188808d
   logger (1.6.6) sha256=dd618d24e637715472732e7eed02e33cfbdf56deaad225edd0f1f89d38024017
   lograge (0.14.0) sha256=42371a75823775f166f727639f5ddce73dd149452a55fc94b90c303213dc9ae1
   loofah (2.24.0) sha256=61e6a710883abb8210887f3dc868cf3ed66594c509d9ff6987621efa6651ee1e
@@ -937,7 +937,7 @@ CHECKSUMS
   rubocop-erb (0.5.5) sha256=362adee5431d5f7b214f011532e900887aa8f3ed518b92a6d27763fbb1306ee5
   rubocop-minitest (0.37.1) sha256=dcdcc2c835a859193e50bc67296daaf95ac99f6410838119374df31490460d36
   rubocop-performance (1.24.0) sha256=e5bd39ff3e368395b9af886927cc37f5892f43db4bd6c8526594352d5b4440b5
-  rubocop-rails (2.30.1) sha256=5eb39fbfce4e63fb0d79d48ba9a3fbc23d33dd9fa4585b8f9c811056fe156c10
+  rubocop-rails (2.30.2) sha256=1948435c001e3e5981f90cc451b800e5386a609baf8a8ebbaf4cb310e071027a
   rubocop-rails-omakase (1.0.0) sha256=26635821283d6a03dc8b68172123716a62db96123eb035f736ebb91283f96418
   ruby-lsp (0.23.11) sha256=d9100f18ae4356f33e37e6aa7e4039d945bedfae596a73d88fff4a20c182a0c3
   ruby-lsp-rails (0.4.0) sha256=0924df0e89ba9bed5e70655a9ecb32c7c3305008c37ce61a62e54ba37cb35e78
