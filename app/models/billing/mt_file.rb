@@ -21,8 +21,8 @@ module Billing
           statement.transactions.map { |transaction|
             if transaction.credit?
               date = transaction.date
-              ref = transaction.information.gsub(/\W/, "")[/RF\d{18}/i]
-              if Billing.reference.valid?(ref)
+              ref = extract_ref(transaction.information)
+              if ref && Billing.reference.valid?(ref)
                 payload = Billing.reference.payload(ref)
                 PaymentData.new(
                   member_id: payload[:member_id],
@@ -38,6 +38,18 @@ module Billing
     rescue Cmxl::Field::LineFormatError, ArgumentError => e
       Error.report(e, file: @files.first)
       raise UnsupportedFileError, e.message
+    end
+
+    private
+
+    def extract_ref(string)
+      case Current.org.country_code
+      when "DE"
+        string.gsub(/\W/, "")[/RF\d{18}/i]
+      when "CH"
+        bank_ref = Current.org.bank_reference
+        string[/#{bank_ref}\d{#{27 - bank_ref.length}}/i]
+      end
     end
   end
 end
