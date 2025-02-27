@@ -571,11 +571,6 @@ _:
     payments:
       import:
         file_label:
-          _de: camt.054 XML-Datei
-          _en: camt.054 XML file
-          _fr: Fichier XML camt.054
-          _it: File XML camt.054
-        file_label_de:
           _de: camt.054 XML-Datei oder MT940
           _en: camt.054 XML file or MT940
           _fr: Fichier XML camt.054 ou MT940
