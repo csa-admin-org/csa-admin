@@ -7,13 +7,7 @@ module ActiveStorage
     private
 
     def object_for(key)
-      # Prepend the tenant name to the original key
-      super(namespaced_key(key))
-    end
-
-    def namespaced_key(key)
-      # Assumes Current.tenant.name provides the current tenant's name
-      "#{Current.tenant.name}/#{key}"
+      super [ Tenant.current, key ].join("/")
     end
   end
 end
