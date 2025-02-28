@@ -14,9 +14,3 @@ tenant_object_store:
   access_key_id: <%= Rails.application.credentials.dig(:object_store, Rails.env, :access_key_id) %>
   secret_access_key: <%= Rails.application.credentials.dig(:object_store, Rails.env, :secret_access_key) %>
   force_path_style: true
-
-mirror:
-  service: Mirror
-  primary: tenant_disk
-  mirrors:
-    - tenant_object_store
