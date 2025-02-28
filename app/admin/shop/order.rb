@@ -382,6 +382,10 @@ ActiveAdmin.register Shop::Order do
         .includes(items: [ :product, :product_variant ])
         .first!
     end
+
+    def scoped_collection
+      super.joins(:member)
+    end
   end
 
   order_by("members.name") do |clause|
