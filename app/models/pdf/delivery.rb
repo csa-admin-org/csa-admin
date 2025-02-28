@@ -78,7 +78,7 @@ module PDF
       font_size 9
       move_down 1.cm
 
-      bs_size = basket_sizes.size
+      bs_size = basket_sizes.size + 1
       bc_size = basket_complements.size
       sp_size = 0
       sp_size += 1 if @shop_orders.any?
@@ -96,13 +96,15 @@ module PDF
       header_index = 0
       bounding_box [ page_border, cursor ], width: width, height: 25, position: :bottom do
         text_box "", width: depot_name_width, at: [ 0, cursor ]
-        basket_sizes.each_with_index do |bs, i|
+        bs_names = basket_sizes.map(&:public_name)
+        bs_names << I18n.t("delivery.basket_sizes_total")
+        bs_names.each_with_index do |name, i|
           fill_color header_index.even? ? "666666" : "000000"
-          text_box bs.public_name,
+          text_box name,
             rotate: total_rotate,
             at: [ depot_name_width + i * number_width + offset_x, cursor + offset_y ],
             valign: :center,
-            size: 8,
+            size: name == bs_names.last ? 9 : 8,
             style: :bold,
             width: 150
           header_index += 1
@@ -161,6 +163,11 @@ module PDF
           align: :center
         }
       end
+      total_line << {
+        content: all_baskets.sum(:quantity).to_s,
+        width: number_width,
+        align: :center
+      }
       basket_complements.each do |c|
         total_line << {
           content: (all_baskets.complement_count(c) + @shop_orders.complement_count(c)).to_s,
@@ -198,6 +205,7 @@ module PDF
         basket_sizes.each do |bs|
           line << display_quantity(baskets.where(basket_size: bs).sum(:quantity))
         end
+        line << display_quantity(baskets.sum(:quantity))
         basket_complements.each do |c|
           line << display_quantity(baskets.complement_count(c) + shop_orders.complement_count(c))
         end
@@ -217,7 +225,7 @@ module PDF
         when 30..37
           { size: 10, height: 16, padding: 2 }
         else
-          { size: 9, height: 12, padding: 1 }
+          { size: 9, height: 12, padding: 0.5 }
         end
 
       table(
@@ -236,6 +244,8 @@ module PDF
           t.column(1 + i).align = :center
           t.column(1 + i).font_style = :light # Ensure number is well centered in the cell!
         end
+        t.column(bs_size).font_style = :bold
+        t.column(bs_size).padding_top = cell_style[:padding] + 1  # Ensure number is well centered in the cell!
 
         t.row(0).height = 22
         t.row(0).size = 10
@@ -246,19 +256,27 @@ module PDF
         t.column(0).padding_right = 10
 
         t.cells.column_count.times do |i|
-         if i%2 == 1
-           t.column(i).background_color = "CCCCCC"
-         end
+          if i%2 == 1
+            t.column(i).background_color = "CCCCCC"
+          end
         end
+
         if t.cells.row_count%2 == 0
-          t.row(-1).borders = %i[bottom left]
+          t.row(-1).borders = %i[bottom right]
           t.row(-1).border_bottom_width = 1
           t.row(-1).border_bottom_color = "CCCCCC"
+        end
+        if t.cells.column_count%2 == 1
+          t.column(-1).borders = %i[bottom right]
+          t.column(-1).border_right_width = 1
+          t.column(-1).border_right_color = "CCCCCC"
         end
 
         t.row(0).borders = %i[bottom right]
         t.row(0).border_bottom_width = 1
         t.row(0).border_bottom_color = "000000"
+
+        t.column(bs_size).background_color = "999999"
       end
     end
 

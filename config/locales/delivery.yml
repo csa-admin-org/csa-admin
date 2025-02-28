@@ -1,5 +1,10 @@
 _:
   delivery:
+    basket_sizes_total:
+      _de: Gesamt Anzahl Taschen
+      _en: Total baskets
+      _fr: Total paniers
+      _it: Totale cesti
     delivered_by:
       _de: Liefert von
       _en: Delivered by
