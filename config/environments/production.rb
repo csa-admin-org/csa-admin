@@ -24,7 +24,7 @@ Rails.application.configure do
   config.asset_host = ENV["ASSET_HOST"]
 
   # Store uploaded files on the local file system (see config/storage.yml for options).
-  config.active_storage.service = :tenant_disk
+  config.active_storage.service = :mirror
 
   # Assume all access to the app is happening through a SSL-terminating reverse proxy.
   config.assume_ssl = true

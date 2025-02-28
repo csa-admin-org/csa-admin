@@ -12,6 +12,7 @@ gem "propshaft"
 gem "puma"
 
 gem "sqlite3"
+gem "aws-sdk-s3"
 
 gem "appsignal"
 gem "lograge"
