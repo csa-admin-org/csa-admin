@@ -111,12 +111,14 @@ module MembersHelper
     basket.baskets_basket_complements
   end
 
-  def basket_prices_extra_collection(data: {})
+  def basket_prices_extra_collection(data: {}, current_price_extra: nil)
     return unless Current.org.basket_price_extras?
 
     label_template = Liquid::Template.parse(Current.org.basket_price_extra_label)
     details_template = Liquid::Template.parse(Current.org.basket_price_extra_label_detail_or_default)
-    Current.org[:basket_price_extras].map(&:to_f).map do |extra|
+    extras = Current.org[:basket_price_extras]
+    extras << current_price_extra if current_price_extra
+    extras.map(&:to_f).uniq.compact.sort.map do |extra|
       full_year_price = deliveries_based_price_info(extra) if extra.positive?
       details = details_template.render(
         "extra" => extra,
