@@ -6,52 +6,45 @@ require "json"
 namespace :maintenance do
   desc "Enable Cloudflare Worker-based maintenance page for all tenant hostnames"
   task on: :environment do
-    # Mandatory environment vars:
     zone_id     = ENV["CLOUDFLARE_ZONE_ID"] || abort("Missing CF_ZONE_ID")
     email       = ENV["CLOUDFLARE_EMAIL"] || abort("Missing CLOUDFLARE_EMAIL")
     api_key     = ENV["CLOUDFLARE_API_KEY"] || abort("Missing CLOUDFLARE_API_KEY")
     worker_name = "maintenance"
-
     client = CloudflareClient.new(email, api_key, zone_id)
+    routes = client.worker_routes
 
-    Tenant.switch_each do |tenant|
-      puts "\nTenant: #{tenant}"
-
-      Current.org.hostnames.each do |hostname|
-        pattern = "#{hostname}/*"
-        print "- #{pattern} "
-
-        existing_routes = client.worker_routes
-        unless existing_routes.any? { |r| r["pattern"] == pattern }
-          client.create_worker_route(pattern, worker_name)
-        end
-
-        print "✅\n"
+    hostnames do |hostname|
+      pattern = "#{hostname}/*"
+      unless routes.any? { |r| r["pattern"] == pattern }
+        client.create_worker_route(pattern, worker_name)
       end
+      puts "#{hostname} ✅"
     end
   end
 
   desc "Disable Cloudflare Worker-based maintenance page for all tenant hostnames"
   task off: :environment do
-    zone_id     = ENV["CLOUDFLARE_ZONE_ID"] || abort("Missing CF_ZONE_ID")
-    email       = ENV["CLOUDFLARE_EMAIL"] || abort("Missing CLOUDFLARE_EMAIL")
-    api_key     = ENV["CLOUDFLARE_API_KEY"] || abort("Missing CLOUDFLARE_API_KEY")
-
+    zone_id = ENV["CLOUDFLARE_ZONE_ID"] || abort("Missing CF_ZONE_ID")
+    email   = ENV["CLOUDFLARE_EMAIL"] || abort("Missing CLOUDFLARE_EMAIL")
+    api_key = ENV["CLOUDFLARE_API_KEY"] || abort("Missing CLOUDFLARE_API_KEY")
     client = CloudflareClient.new(email, api_key, zone_id)
+    routes = client.worker_routes
 
-    Tenant.switch_each do |tenant|
-      puts "\nTenant: #{tenant}"
+    hostnames do |hostname|
+      pattern = "#{hostname}/*"
+      if route = routes.find { |r| r["pattern"] == pattern }
+        client.delete_worker_route(route["id"])
+      end
+      puts "#{hostname} ✅"
+    end
+  end
+end
 
+def hostnames(&block)
+  Parallel.each(Tenant.all) do |tenant|
+    Tenant.switch(tenant) do
       Current.org.hostnames.each do |hostname|
-        pattern = "#{hostname}/*"
-        print "- #{pattern} "
-
-        existing_routes = client.worker_routes
-        if route = existing_routes.find { |r| r["pattern"] == pattern }
-          client.delete_worker_route(route["id"])
-        end
-
-        print "✅\n"
+        block.call(hostname)
       end
     end
   end
