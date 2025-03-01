@@ -16,7 +16,7 @@ namespace :litestream do
 
       kamal_config = YAML.load_file(Rails.root.join("config", "deploy.yml"))
       volume_path = kamal_config["volumes"].first.split(":").first
-      s3_credentials = Rails.application.credentials.object_store.production
+      s3_credentials = Rails.application.credentials.litestream
       replica_config = {
         "type" => "s3",
         "bucket" => "csa-admin-litestream",

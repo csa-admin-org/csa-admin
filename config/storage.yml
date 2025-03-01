@@ -9,8 +9,7 @@ tenant_disk:
 tenant_object_store:
   service: TenantS3
   bucket: csa-admin-storage
-  region: <%= Rails.application.credentials.dig(:object_store, Rails.env, :region) || "us-east-1" %>
+  region: <%= Rails.application.credentials.dig(:object_store, Rails.env, :region) || "auto" %>
   endpoint: <%= Rails.application.credentials.dig(:object_store, Rails.env, :endpoint) %>
   access_key_id: <%= Rails.application.credentials.dig(:object_store, Rails.env, :access_key_id) %>
   secret_access_key: <%= Rails.application.credentials.dig(:object_store, Rails.env, :secret_access_key) %>
-  force_path_style: true

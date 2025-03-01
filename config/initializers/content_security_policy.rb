@@ -10,11 +10,11 @@ Rails.application.configure do
   config.content_security_policy do |policy|
     policy.default_src :self, :https, :unsafe_inline, :blob
     policy.font_src    :self, :https, :data
-    policy.img_src     :self, :https, :data, "https://s3.pub1.infomaniak.cloud"
+    policy.img_src     :self, :https, :data
     policy.object_src  :none
     policy.script_src  :self, :https, :unsafe_inline, :unsafe_eval, :blob
     policy.style_src   :self, :https, :unsafe_inline
     policy.frame_src   :self, "*.youtube.com", "*.vimeo.com"
-    policy.connect_src :self, "https://appsignal-endpoint.net", "https://s3.pub1.infomaniak.cloud"
+    policy.connect_src :self, "https://appsignal-endpoint.net"
   end
 end
