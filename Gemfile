@@ -12,7 +12,8 @@ gem "propshaft"
 gem "puma"
 
 gem "sqlite3"
-gem "aws-sdk-s3"
+# https://developers.cloudflare.com/r2/examples/aws/aws-sdk-ruby/
+gem "aws-sdk-s3", "1.177.0"
 
 gem "appsignal"
 gem "lograge"

@@ -10,11 +10,11 @@ Rails.application.configure do
   config.content_security_policy do |policy|
     policy.default_src :self, :https, :unsafe_inline, :blob
     policy.font_src    :self, :https, :data
-    policy.img_src     :self, :https, :data
+    policy.img_src     :self, :https, :data, "https://csa-admin-storage.ffdfd84ded457e75852ca37f08621d87.r2.cloudflarestorage.com"
     policy.object_src  :none
     policy.script_src  :self, :https, :unsafe_inline, :unsafe_eval, :blob
     policy.style_src   :self, :https, :unsafe_inline
     policy.frame_src   :self, "*.youtube.com", "*.vimeo.com"
-    policy.connect_src :self, "https://appsignal-endpoint.net"
+    policy.connect_src :self, "https://appsignal-endpoint.net", "https://csa-admin-storage.ffdfd84ded457e75852ca37f08621d87.r2.cloudflarestorage.com"
   end
 end
