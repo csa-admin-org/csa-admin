@@ -48,7 +48,7 @@
               <div class="my-1 text-sm text-justify trix">
                 <%= Current.org.basket_price_extra_text %>
               </div>
-              <%= f.input :basket_price_extra, as: :radio_buttons, collection: basket_prices_extra_collection(data: { action: "form-pricing#refresh" }), label: false, required: true, input_html: { class: "mr-4 flex-none h-6 w-6 border-2 border-gray-300 dark:border-gray-700 text-green-500 bg-gray-50 dark:bg-black focus:outline-none focus:ring-green-500 focus:border-green-500 cursor-pointer" }, item_label_class: "border-gray-200 dark:border-gray-800 border rounded px-4 py-2 flex flex-row flex-nowrap items-center cursor-pointer", wrapper_class: "flex flex-col space-y-2" %>
+              <%= f.input :basket_price_extra, as: :radio_buttons, collection: basket_prices_extra_collection(data: { action: "form-pricing#refresh" }, current_price_extra: f.object.basket_price_extra), label: false, required: true, input_html: { class: "mr-4 flex-none h-6 w-6 border-2 border-gray-300 dark:border-gray-700 text-green-500 bg-gray-50 dark:bg-black focus:outline-none focus:ring-green-500 focus:border-green-500 cursor-pointer" }, item_label_class: "border-gray-200 dark:border-gray-800 border rounded px-4 py-2 flex flex-row flex-nowrap items-center cursor-pointer", wrapper_class: "flex flex-col space-y-2" %>
             </div>
           <% end %>
           <% if Current.org.membership_renewal_depot_update? %>
