@@ -116,7 +116,7 @@ GEM
       async-http (~> 0.42)
       protocol-http (~> 0.45)
     aws-eventstream (1.3.1)
-    aws-partitions (1.1057.0)
+    aws-partitions (1.1058.0)
     aws-sdk-core (3.219.0)
       aws-eventstream (~> 1, >= 1.3.0)
       aws-partitions (~> 1, >= 1.992.0)
@@ -603,7 +603,7 @@ GEM
       fugit (~> 1.11.0)
       railties (>= 7.1)
       thor (~> 1.3.1)
-    sorbet-runtime (0.5.11874)
+    sorbet-runtime (0.5.11875)
     sqlite3 (2.6.0)
       mini_portile2 (~> 2.8.0)
     sqlite3 (2.6.0-arm64-darwin)
@@ -774,7 +774,7 @@ CHECKSUMS
   async-pool (0.10.3) sha256=b542f9decc34fd3d6d0544576408bb79d6d2d2aa9ca467a75b546ac45765008a
   async-rest (0.19.1) sha256=0f3545f5c43992604c83ffc8273f8e8ace3b055bfec23c5d4cc638b8e974c87f
   aws-eventstream (1.3.1) sha256=4465b2add71d69a36fb1268a738d9b3d1a593c789e0286f28fad38e132d4403b
-  aws-partitions (1.1057.0) sha256=9cc210b9fb40899c2eb107d2e6bc1d63e1a0583af5dc3ca9f519c15139ac8130
+  aws-partitions (1.1058.0) sha256=3cf0e4c4e1ad0f155946904cede5016c8e3cacc5e6e4892d40ca02eb5498fc85
   aws-sdk-core (3.219.0) sha256=d10c3832ece1f1de8edb7cbbcd737dd49b2789fae8744537943e86fdd822c649
   aws-sdk-kms (1.99.0) sha256=ba292fc3ffd672532aae2601fe55ff424eee78da8e23c23ba6ce4037138275a8
   aws-sdk-s3 (1.182.0) sha256=d0fc3579395cb6cb69bf6e975240ce031fc673190e74c8dddbdd6c18572b450d
@@ -972,7 +972,7 @@ CHECKSUMS
   simpleidn (0.2.3) sha256=08ce96f03fa1605286be22651ba0fc9c0b2d6272c9b27a260bc88be05b0d2c29
   smart_properties (1.17.0) sha256=f9323f8122e932341756ddec8e0ac9ec6e238408a7661508be99439ca6d6384b
   solid_queue (1.1.3) sha256=c7b4a84819eca6a61250aa8d7e48b8ded6882026e78ee21d3701d372ca741aa2
-  sorbet-runtime (0.5.11874) sha256=51d59a4ca6e72c64c70d9a59ad427bd7bedf3663c86d974dce394ad652287bc7
+  sorbet-runtime (0.5.11875) sha256=633ee0d4ebfd3a455709c2345505efbbdda510e81e10abcd6cebb9129ca0a2b4
   sqlite3 (2.6.0) sha256=a1c625f11948e6726eb082700283a8a3f4cf20b0548c0051c6104c56fedbe314
   sqlite3 (2.6.0-arm64-darwin) sha256=88a793bf0010339e85657e460ab3ad2c7e9ee5d0e468b9dea383ff1039380056
   sqlite3 (2.6.0-x86_64-linux-gnu) sha256=415a950be612b865152dd4529b16fdce2c8962ff9fa3f6b95adbfa7b8f54f2d0
