@@ -35,6 +35,7 @@ class Newsletter
       when :depot_id; Depot.model_name.human
       when :delivery_id; ::Delivery.model_name.human
       when :member_state; Member.model_name.human(count: 2)
+      when :membership_state; Membership.model_name.human(count: 2)
       when :invoice_state; Invoice.model_name.human(count: 2)
       when :activity_state; activities_human_name
       when :activity_id; Activity.model_name.human
@@ -105,6 +106,8 @@ class Newsletter
           when "not_inactive"; Member.not_pending.not_inactive
           else; Member.where(state: value)
           end
+        when :membership_state
+          Member.joins(:memberships).merge(Membership.send(value)).distinct
         when :invoice_state
           case value
           when "open"
@@ -160,6 +163,8 @@ class Newsletter
             I18n.t("newsletters.member_state.#{value}")
           end
         OpenStruct.new(id: value, name: name)
+      when :membership_state
+        OpenStruct.new(id: value, name: I18n.t("states.membership.#{value}").capitalize)
       when :invoice_state
         OpenStruct.new(
           id: value,
@@ -178,6 +183,7 @@ class Newsletter
       base = {
         segment_id: Newsletter::Segment.all,
         member_state: member_state_records.sort_by(&:name),
+        membership_state: membership_state_records.sort_by(&:name),
         delivery_id: ::Delivery.between(1.week.ago..).limit(8),
         depot_id: Depot.used.reorder(:name),
         basket_size_id: BasketSize.used.ordered
@@ -223,6 +229,13 @@ class Newsletter
       states -= %w[support] unless Current.org.member_support?
       states += %w[all not_inactive]
       states.map { |s| record_for(:member_state, s) }
+    end
+
+    def membership_state_records
+      states = []
+      states << "trial" if Current.org.trial_baskets?
+      states += [ "ongoing", "future", "past" ]
+      states.map { |s| record_for(:membership_state, s) }
     end
 
     def invoice_state_records
