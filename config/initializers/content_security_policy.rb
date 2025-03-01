@@ -10,21 +10,11 @@ Rails.application.configure do
   config.content_security_policy do |policy|
     policy.default_src :self, :https, :unsafe_inline, :blob
     policy.font_src    :self, :https, :data
-    policy.img_src     :self, :https, :data
+    policy.img_src     :self, :https, :data, "https://s3.pub1.infomaniak.cloud"
     policy.object_src  :none
     policy.script_src  :self, :https, :unsafe_inline, :unsafe_eval, :blob
     policy.style_src   :self, :https, :unsafe_inline
     policy.frame_src   :self, "*.youtube.com", "*.vimeo.com"
-    # Specify URI for violation reports
-    # policy.report_uri "/csp-violation-report-endpoint"
-
-    policy.connect_src :self, "https://appsignal-endpoint.net"
+    policy.connect_src :self, "https://appsignal-endpoint.net", "https://s3.pub1.infomaniak.cloud"
   end
-
-  # Generate session nonces for permitted importmap, inline scripts, and inline styles.
-  # config.content_security_policy_nonce_generator = ->(request) { request.session.id.to_s }
-  # config.content_security_policy_nonce_directives = %w(script-src style-src)
-
-  # Report violations without enforcing the policy.
-  # config.content_security_policy_report_only = true
 end
