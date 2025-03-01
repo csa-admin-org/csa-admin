@@ -134,7 +134,7 @@ aliases:
 # Use a persistent storage volume for sqlite database files and local Active Storage files.
 # Recommended to change this to a mounted volume path that is backed up off server.
 volumes:
-  - "/mnt/storage/csa-admin:/rails/storage"
+  - "/var/lib/csa-admin:/rails/storage"
 
 
 # Bridge fingerprinted assets, like JS and CSS, between versions to avoid
