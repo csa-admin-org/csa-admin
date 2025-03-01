@@ -96,7 +96,7 @@ ActiveAdmin.register Payment do
           panel auto_link(payment.invoice), action: icon_file_link(:pdf, pdf_invoice_path(payment.invoice), target: "_blank") do
             div class: "p-2" do
               link_to_invoice_pdf(payment.invoice) do
-                image_tag payment.invoice.pdf_file.preview(resize_to_limit: [ 2000, 2000 ]), class: "w-full"
+                render "invoice_preview", invoice: payment.invoice
               end
             end
           end
