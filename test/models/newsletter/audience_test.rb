@@ -51,6 +51,38 @@ class Newsletter::AudienceTest < ActiveSupport::TestCase
     assert_equal [ inactive ], segment.members
   end
 
+  test "membership_state" do
+    travel_to "2023-01-01"
+    segment = segment_for("membership_state::ongoing")
+    assert_equal [ members(:john) ], segment.members
+    segment = segment_for("membership_state::trial")
+    assert_empty segment.members
+    segment = segment_for("membership_state::future")
+    assert_equal [ members(:anna), members(:john), members(:bob), members(:jane)  ], segment.members
+    segment = segment_for("membership_state::past")
+    assert_empty segment.members
+
+    travel_to "2024-01-01"
+    segment = segment_for("membership_state::ongoing")
+    assert_equal [ members(:john), members(:jane) ], segment.members
+    segment = segment_for("membership_state::trial")
+    assert_equal [ members(:anna), members(:bob) ], segment.members
+    segment = segment_for("membership_state::future")
+    assert_equal [ members(:john)  ], segment.members
+    segment = segment_for("membership_state::past")
+    assert_equal [ members(:john)  ], segment.members
+
+    travel_to "2025-01-01"
+    segment = segment_for("membership_state::ongoing")
+    assert_equal [ members(:john) ], segment.members
+    segment = segment_for("membership_state::trial")
+    assert_empty segment.members
+    segment = segment_for("membership_state::future")
+    assert_empty segment.members
+    segment = segment_for("membership_state::past")
+    assert_equal [ members(:john), members(:anna), members(:bob), members(:jane)  ], segment.members
+  end
+
   test "activity_state" do
     travel_to "2024-01-01"
 
