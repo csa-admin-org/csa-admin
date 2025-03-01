@@ -126,8 +126,8 @@ GEM
     aws-sdk-kms (1.99.0)
       aws-sdk-core (~> 3, >= 3.216.0)
       aws-sigv4 (~> 1.5)
-    aws-sdk-s3 (1.182.0)
-      aws-sdk-core (~> 3, >= 3.216.0)
+    aws-sdk-s3 (1.177.0)
+      aws-sdk-core (~> 3, >= 3.210.0)
       aws-sdk-kms (~> 1)
       aws-sigv4 (~> 1.5)
     aws-sigv4 (1.11.0)
@@ -671,7 +671,7 @@ DEPENDENCIES
   activeadmin (~> 4.0.0.beta15)
   acts_as_list
   appsignal
-  aws-sdk-s3
+  aws-sdk-s3 (= 1.177.0)
   bcrypt
   bootsnap
   brakeman
@@ -777,7 +777,7 @@ CHECKSUMS
   aws-partitions (1.1058.0) sha256=3cf0e4c4e1ad0f155946904cede5016c8e3cacc5e6e4892d40ca02eb5498fc85
   aws-sdk-core (3.219.0) sha256=d10c3832ece1f1de8edb7cbbcd737dd49b2789fae8744537943e86fdd822c649
   aws-sdk-kms (1.99.0) sha256=ba292fc3ffd672532aae2601fe55ff424eee78da8e23c23ba6ce4037138275a8
-  aws-sdk-s3 (1.182.0) sha256=d0fc3579395cb6cb69bf6e975240ce031fc673190e74c8dddbdd6c18572b450d
+  aws-sdk-s3 (1.177.0) sha256=bf2fd9210c3e534f2bd4d90cf855429859bdbfc1911f4d61045a3aaa3ff2f183
   aws-sigv4 (1.11.0) sha256=50a8796991a862324442036ad7a395920572b84bb6cd29b945e5e1800e8da1db
   bank-contact (0.0.6) sha256=498891f74b6c63312de2a2bc71d79d53e589f04425838329c386cb5351ff64f0
   base64 (0.2.0) sha256=0f25e9b21a02a0cc0cea8ef92b2041035d39350946e8789c562b2d1a3da01507
