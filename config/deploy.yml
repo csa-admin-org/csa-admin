@@ -7,10 +7,10 @@ image: thibaudgg/csa-admin
 # Deploy to these servers.
 servers:
   web:
-    - 167.235.144.18
+    - isle.thibaud.gg
   job:
     hosts:
-      - 167.235.144.18
+      - isle.thibaud.gg
     cmd: bin/jobs
 
 # Enable SSL auto certification via Let's Encrypt and allow for multiple apps on a single web server.
@@ -122,6 +122,7 @@ env:
     ASSET_HOST: https://cdn.csa-admin.org
     MASTER_ADMIN_EMAIL: info@csa-admin.org
     MAINTENANCE_MODE: OFF
+    WEB_CONCURRENCY: 2
 
 # Aliases are triggered with "bin/kamal <alias>". You can overwrite arguments on invocation:
 # "bin/kamal logs -r job" will tail logs from the first server in the job section.
