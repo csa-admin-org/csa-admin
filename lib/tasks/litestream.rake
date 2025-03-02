@@ -20,7 +20,7 @@ namespace :litestream do
       replica_config = {
         "type" => "s3",
         "bucket" => "csa-admin-litestream",
-        "endpoint" => URI(s3_credentials.endpoint).host,
+        "endpoint" => s3_credentials.endpoint,
         "sync-interval" => "1h"
       }
       db_names = Tenant.all + [ "queue" ]
@@ -45,7 +45,7 @@ namespace :litestream do
         if test("[ -f /etc/litestream.yml ]")
           existing_yaml = capture("sudo cat /etc/litestream.yml")
           existing_config = YAML.safe_load(existing_yaml)
-          new_config = existing_config.merge(config) do |key, old_val, new_val|
+          config = existing_config.merge(config) do |key, old_val, new_val|
             if key == "dbs"
               (old_val.reject { |db| db["path"].start_with?(volume_path) } + new_val)
             else
