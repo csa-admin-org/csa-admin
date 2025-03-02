@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require "kamal"
 require "sshkit"
 require "sshkit/dsl"
 require "yaml"
@@ -14,8 +15,8 @@ namespace :litestream do
     task server: :environment do
       raise "Only run this task in dev!" unless Rails.env.development?
 
-      kamal_config = YAML.load_file(Rails.root.join("config", "deploy.yml"))
-      volume_path = kamal_config["volumes"].first.split(":").first
+      kamal = Kamal::Configuration.create_from(config_file: Rails.root.join("config/deploy.yml"))
+      volume_path = kamal.raw_config["volumes"].first.split(":").first
       s3_credentials = Rails.application.credentials.litestream
       replica_config = {
         "type" => "s3",
@@ -38,8 +39,8 @@ namespace :litestream do
       }
 
       host = SSHKit::Host.new(
-        hostname: kamal_config.dig("servers", "web").first,
-        user: kamal_config.dig("ssh", "user"))
+        hostname: kamal.raw_config.dig("servers", "web").first,
+        user: kamal.ssh.user)
 
       on host do
         if test("[ -f /etc/litestream.yml ]")

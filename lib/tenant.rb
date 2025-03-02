@@ -4,7 +4,11 @@ module Tenant
   extend self
 
   def all
-    @all ||= config.keys.map(&:to_s)
+    if ENV["TENANT"]
+      ENV["TENANT"].split(",")
+    else
+      @all ||= config.keys.map(&:to_s)
+    end
   end
 
   def numbered
@@ -45,8 +49,7 @@ module Tenant
   end
 
   def switch_each
-    tenants = ENV["TENANT"] ? ENV["TENANT"].split(",") : all
-    tenants.each do |tenant|
+    all.each do |tenant|
       switch(tenant) { yield(tenant) }
     end
     nil
