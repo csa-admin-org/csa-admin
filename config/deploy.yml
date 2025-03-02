@@ -7,10 +7,10 @@ image: thibaudgg/csa-admin
 # Deploy to these servers.
 servers:
   web:
-    - isle.thibaud.gg
+    - 167.235.144.18
   job:
     hosts:
-      - isle.thibaud.gg
+      - 167.235.144.18
     cmd: bin/jobs
 
 # Enable SSL auto certification via Let's Encrypt and allow for multiple apps on a single web server.
@@ -130,12 +130,10 @@ aliases:
   shell: app exec --interactive --reuse "bash"
   logs: app logs -f -n 100
 
-
 # Use a persistent storage volume for sqlite database files and local Active Storage files.
 # Recommended to change this to a mounted volume path that is backed up off server.
 volumes:
-  - "/var/lib/csa-admin:/rails/storage"
-
+  - "/storage/csa-admin:/rails/storage"
 
 # Bridge fingerprinted assets, like JS and CSS, between versions to avoid
 # hitting 404 on in-flight requests. Combines all files from new and old
@@ -144,11 +142,4 @@ asset_path: /rails/public/assets
 
 # Configure the image builder.
 builder:
-  arch: amd64
-
-# Use a different ssh user than root
-ssh:
-  user: kamal
-
-deploy_timeout: 60
-retain_containers: 3
+  arch: arm64
