@@ -123,6 +123,7 @@ env:
     MASTER_ADMIN_EMAIL: info@csa-admin.org
     MAINTENANCE_MODE: OFF
     WEB_CONCURRENCY: 2
+    JOB_CONCURRENCY: 2
 
 # Aliases are triggered with "bin/kamal <alias>". You can overwrite arguments on invocation:
 # "bin/kamal logs -r job" will tail logs from the first server in the job section.
