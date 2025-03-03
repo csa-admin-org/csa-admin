@@ -202,6 +202,17 @@ class Invoice < ApplicationRecord
     end
   end
 
+  def uncancel!
+    transaction do
+      update!(
+        canceled_at: Time.current,
+        state: OPEN_STATE)
+      Billing::PaymentsRedistributor.redistribute!(member_id)
+      handle_shares_change!
+    end
+    attach_pdf
+  end
+
   def reference
     Billing.reference.new(self)
   end
