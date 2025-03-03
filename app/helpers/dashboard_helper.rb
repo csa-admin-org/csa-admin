@@ -2,7 +2,7 @@
 
 module DashboardHelper
   def onboarding?
-    return false if Tenant.with_number?
+    return false if Tenant.custom?
 
     Delivery.none? || Depot.kept.none? ||
       (Current.org.member_form_mode == "membership" && BasketSize.kept.none?)

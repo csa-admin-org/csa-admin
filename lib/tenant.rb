@@ -12,8 +12,14 @@ module Tenant
   end
 
   def numbered
-    config.map.with_index { |(tenant, attrs), i|
-      [ (attrs["number"] || i + 1).to_i, tenant.to_s ]
+    config.group_by { |tenant, attrs| attrs["state"] }.flat_map { |state, tenants|
+      offset =
+        case state
+        when "onboarding" then 99
+        when "custom" then 199
+        else 0
+        end
+      tenants.map.with_index { |(tenant, attrs), i| [ i + 1 + offset, tenant ] }
     }.to_h
   end
 
@@ -28,8 +34,12 @@ module Tenant
     config.dig(current.to_s, "domain")
   end
 
-  def with_number?
-    config.dig(current.to_s, "number").present?
+  def state
+    config.dig(current.to_s, "env") || "production"
+  end
+
+  def custom?
+    state == "custom"
   end
 
   def exists?(tenant)

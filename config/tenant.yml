@@ -53,27 +53,35 @@ production: &production
     domain: cultureslocales.ch
   lepetrichor:
     domain: lepetrichor.ch
+
   fairdura:
     domain: fairdura.ch
+    state: onboarding
   ortie:
     domain: ortie-microferme.ch
+    state: onboarding
   mamajah:
     domain: mamajah.org
+    state: onboarding
   boisdunant:
     domain: ferme-boisdunant.ch
+    state: onboarding
   wilderauke:
     domain: wilde-rauke.de
+    state: onboarding
   lamilpadesiles:
     domain: lamilpadesiles.ch
+    state: onboarding
   baieattitude:
     domain: baie-attitude.ch
+    state: onboarding
 
   demo:
     domain: acp-admin.ch
-    number: 100
+    state: custom
   microfermes:
     domain: microfermes.ch
-    number: 101
+    state: custom
 
 development:
   <<: *production

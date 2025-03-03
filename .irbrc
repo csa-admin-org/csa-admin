@@ -10,7 +10,7 @@ def enter
 
   puts "Select Organization context: (empty for none)"
   tenants.map { |i, tenant|
-    puts "–––" if i == 100
+    puts "–––" if i%100 == 0
     puts "#{i.to_s.rjust(3)}: #{tenant}"
   }
 
