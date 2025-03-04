@@ -13,7 +13,7 @@ module XLSX
 
       build_summary_worksheet unless depot
 
-      @baskets = @baskets.joins(:member).order("LOWER(members.name)")
+      @baskets = @baskets.joins(:member).order("unaccent(text_lower(members.name))")
 
       Array(depot || @depots).each do |d|
         build_depot_worksheet(d)

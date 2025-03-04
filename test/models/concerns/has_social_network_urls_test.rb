@@ -12,35 +12,34 @@ class HasSocialNetworkUrlsTest < ActiveSupport::TestCase
     attribute :social_network_urls
   end
 
-  def setup
-    @dummy = DummyClass.new
-  end
-
   test "set social network urls" do
-    @dummy.social_network_urls = "https://x.com/org, https://fb.me/org"
+    dummy = DummyClass.new
+    dummy.social_network_urls = "https://x.com/org, https://fb.me/org"
 
-    assert_equal "https://x.com/org, https://fb.me/org", @dummy.social_network_urls
-    assert @dummy.social_networks.all?(&:valid?)
-    assert_equal %i[x facebook], @dummy.social_networks.map(&:icon)
+    assert_equal "https://x.com/org, https://fb.me/org", dummy.social_network_urls
+    assert dummy.social_networks.all?(&:valid?)
+    assert_equal %i[x facebook], dummy.social_networks.map(&:icon)
   end
 
   test "validate urls format" do
-    @dummy.social_network_urls = "https://x.com/org"
-    assert @dummy.valid?(:social_network_urls)
+    dummy = DummyClass.new
+    dummy.social_network_urls = "https://x.com/org"
+    assert dummy.valid?(:social_network_urls)
 
-    @dummy.social_network_urls = "https://x.com/org, argh"
-    assert_not @dummy.valid?(:social_network_urls)
-
-    assert_includes @dummy.errors.map(&:type), :invalid
+    dummy = DummyClass.new
+    dummy.social_network_urls = "https://x.com/org, argh"
+    assert_not dummy.valid?(:social_network_urls)
+    assert_includes dummy.errors.map(&:type), :invalid
   end
 
   test "validate social network urls" do
-    @dummy.social_network_urls = "https://x.com/org"
-    assert @dummy.valid?(:social_network_urls)
+    dummy = DummyClass.new
+    dummy.social_network_urls = "https://x.com/org"
+    assert dummy.valid?(:social_network_urls)
 
-    @dummy.social_network_urls = "https://x.com/org, https://foo.test"
-    assert_not @dummy.valid?(:social_network_urls)
-
-    assert_includes @dummy.errors.map(&:type), :unsupported_social_network_url
+    dummy = DummyClass.new
+    dummy.social_network_urls = "https://x.com/org, https://foo.test"
+    assert_not dummy.valid?(:social_network_urls)
+    assert_includes dummy.errors.map(&:type), :unsupported_social_network_url
   end
 end

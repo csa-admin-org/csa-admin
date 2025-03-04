@@ -276,6 +276,10 @@ ActiveAdmin.register Depot do
     end
   end
 
+  order_by("name") do |clause|
+    "unaccent(text_lower(name)) #{clause.order}"
+  end
+
   config.sort_order = "name_asc"
   config.paginate = false
 end
