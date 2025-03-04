@@ -2,6 +2,9 @@ default: &default
   adapter: sqlite3
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
   timeout: 5000
+  extensions:
+    - SQLean::Text
+    - SQLean::Unicode
 
 tenants: &tenants
   <% tenants = YAML.load_file(Rails.root.join("config", "tenant.yml"), aliases: true)[Rails.env].keys %>

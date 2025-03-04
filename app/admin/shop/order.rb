@@ -389,7 +389,7 @@ ActiveAdmin.register Shop::Order do
   end
 
   order_by("members.name") do |clause|
-    "LOWER(members.name) #{clause.order}"
+    "unaccent(text_lower(members.name)) #{clause.order}"
   end
 
   config.sort_order = "created_at_desc"

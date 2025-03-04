@@ -2,7 +2,8 @@
 
 source "https://rubygems.org"
 
-gem "rails", "~> 8.0"
+
+gem "rails", github: "rails/rails"
 
 gem "bootsnap", require: false
 gem "thruster", require: false
@@ -12,6 +13,7 @@ gem "propshaft"
 gem "puma"
 
 gem "sqlite3"
+gem "sqlean"
 
 # S3 Compatible storage service interaction
 # https://github.com/rails/rails/issues/54374

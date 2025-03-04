@@ -799,7 +799,7 @@ ActiveAdmin.register Member do
   end
 
   order_by("name") do |clause|
-    "LOWER(name) #{clause.order}"
+    "unaccent(text_lower(name)) #{clause.order}"
   end
 
   config.sort_order = "name_asc"

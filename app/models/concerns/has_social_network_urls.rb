@@ -14,6 +14,7 @@ module HasSocialNetworkUrls
 
   def social_network_urls=(value)
     @social_networks = nil
+    pp @social_networks
     super(value.split(",").map(&:strip))
   end
 
