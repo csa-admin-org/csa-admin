@@ -33,7 +33,7 @@ ActiveAdmin.register Payment do
   filter :id, as: :numeric
   filter :member,
     as: :select,
-    collection: -> { Member.joins(:payments).order(:name).distinct }
+    collection: -> { Member.joins(:payments).order_by_name.distinct }
   filter :invoice_id, as: :numeric
   filter :amount
 
@@ -135,7 +135,7 @@ ActiveAdmin.register Payment do
         f.input :member_id, as: :hidden
       end
       f.input :member,
-        collection: Member.order(:name).distinct,
+        collection: Member.order_by_name,
         prompt: true,
         input_html: { disabled: f.object.invoice_id? }
       if f.object.invoice_id?
@@ -179,12 +179,15 @@ ActiveAdmin.register Payment do
     include ApplicationHelper
 
     def apply_sorting(chain)
-      super(chain).joins(:member).order("unaccent(text_lower(members.name))", id: :desc)
+      super(chain).joins(:member).merge(Member.order_by_name)
     end
   end
 
   order_by("members.name") do |clause|
-    "unaccent(text_lower(members.name)) #{clause.order}"
+    Member
+      .order_by_name(clause.order)
+      .order_values
+      .join(" ")
   end
 
   config.sort_order = "date_desc"

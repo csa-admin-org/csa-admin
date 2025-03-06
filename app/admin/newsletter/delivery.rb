@@ -7,7 +7,7 @@ ActiveAdmin.register Newsletter::Delivery do
   filter :newsletter
   filter :member,
     as: :select,
-    collection: -> { Member.joins(:newsletter_deliveries).order(:name).distinct }
+    collection: -> { Member.joins(:newsletter_deliveries).order_by_name.distinct }
   filter :with_email, as: :string
 
   breadcrumb do

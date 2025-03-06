@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class Admin < ApplicationRecord
+  include HasName
   include HasSessions
 
   attribute :language, :string, default: -> { Current.org.languages.first }
@@ -20,7 +21,6 @@ class Admin < ApplicationRecord
   }
   scope :with_email, ->(email) { where("lower(email) = ?", email.downcase) }
 
-  validates :name, presence: true
   validates :email, presence: true, uniqueness: true
   validates :language, presence: true, inclusion: { in: proc { Organization.languages } }
   validate :truemail

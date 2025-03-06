@@ -34,7 +34,7 @@ ActiveAdmin.register ActivityParticipation do
     as: :date_range
   filter :member,
     as: :select,
-    collection: -> { Member.joins(:activity_participations).order(:name).distinct }
+    collection: -> { Member.joins(:activity_participations).order_by_name.distinct }
   filter :with_note, as: :boolean
   filter :activity,
     as: :select,
@@ -193,7 +193,7 @@ ActiveAdmin.register ActivityParticipation do
         collection: Activity.order(date: :desc),
         prompt: true
       f.input :member,
-        collection: Member.order(:name).distinct,
+        collection: Member.order_by_name,
         prompt: true
       f.input :participants_count
       if f.object.persisted?
@@ -307,10 +307,9 @@ ActiveAdmin.register ActivityParticipation do
 
     def apply_sorting(chain)
       if params[:scope].in?(%w[validated rejected]) && !params[:order]
-        super(chain).joins(:member).reorder("activities.date DESC, unaccent(text_lower(members.name))", id: :desc)
-      else
-        super(chain).joins(:member).order("unaccent(text_lower(members.name))", id: :desc)
+        params[:order] = "activities.date_desc"
       end
+      super(chain).joins(:member).merge(Member.order_by_name)
     end
 
     before_create do |participation|
@@ -334,7 +333,10 @@ ActiveAdmin.register ActivityParticipation do
   end
 
   order_by("members.name") do |clause|
-    "unaccent(text_lower(members.name)) #{clause.order}"
+    Member
+      .order_by_name(clause.order)
+      .order_values
+      .join(" ")
   end
 
   config.sort_order = "activities.date_asc"

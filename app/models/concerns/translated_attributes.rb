@@ -39,8 +39,8 @@ module TranslatedAttributes
         scope "order_by_#{attr}", ->(dir = "ASC") {
           order(Arel.sql("unaccent(text_lower(json_extract(#{table_name}.#{column}, '$.#{I18n.locale}'))) #{dir}"))
         }
-        scope "reorder_by_#{attr}", -> {
-          reorder(Arel.sql("unaccent(text_lower(json_extract(#{table_name}.#{column}, '$.#{I18n.locale}')))"))
+        scope "reorder_by_#{attr}", ->(dir = "ASC") {
+          unscope(:order).send("order_by_#{attr}", dir)
         }
         scope "#{attr}_eq", ->(str) {
           where("json_extract(#{table_name}.#{column}, '$.#{I18n.locale}') = ?", str)

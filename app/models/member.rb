@@ -2,6 +2,7 @@
 
 class Member < ApplicationRecord
   include HasState
+  include HasName
   include HasEmails
   include HasPhones
   include HasLanguage
@@ -71,9 +72,6 @@ class Member < ApplicationRecord
   scope :not_inactive, -> { where.not(state: "inactive") }
   scope :trial, -> { joins(:current_membership).merge(Membership.trial) }
   scope :sharing_contact, -> { where(contact_sharing: true) }
-  scope :with_name, ->(name) { where("lower(members.name) LIKE ?", "%#{name.downcase}%") }
-  scope :with_address, ->(address) { where("lower(members.address) LIKE ?", "%#{address.downcase}%") }
-  scope :with_note, ->(note) { where("lower(members.note) LIKE ?", "%#{note.downcase}%") }
   scope :no_salary_basket, -> { where(salary_basket: false) }
   scope :with_waiting_depots_eq, ->(depot_id) {
     left_joins(:members_waiting_alternative_depots).where(<<-SQL, depot_id: depot_id).distinct
@@ -94,7 +92,6 @@ class Member < ApplicationRecord
     inclusion: { in: Organization.billing_year_divisions, allow_nil: true }
   validates :country_code,
     inclusion: { in: ISO3166::Country.all.map(&:alpha2), allow_blank: true }
-  validates :name, presence: true
   validates :emails, presence: true, if: :public_create
   validates :phones, presence: true, if: :public_create
   validates :profession, presence: true,
@@ -242,7 +239,7 @@ class Member < ApplicationRecord
   end
 
   def self.ransackable_scopes(_auth_object = nil)
-    %i[with_name with_address with_email with_phone with_waiting_depots_eq with_note]
+    super + %i[ with_email with_phone with_waiting_depots_eq]
   end
 
   def update_trial_baskets!

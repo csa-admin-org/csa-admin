@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class Depot < ApplicationRecord
+  include HasName
   include HasEmails
   include HasPhones
   include HasLanguage
@@ -43,8 +44,7 @@ class Depot < ApplicationRecord
       when "price_asc"; "price ASC"
       when "price_desc"; "price DESC"
       end
-    order_clauses << "unaccent(text_lower(COALESCE(NULLIF(json_extract(public_names, '$.#{I18n.locale}'), ''), name)))"
-    reorder(Arel.sql(order_clauses.compact.join(", ")))
+    reorder(Arel.sql(order_clauses.compact.join(", "))).order_by_public_name
   }
   scope :used, -> {
     joins(:memberships)

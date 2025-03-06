@@ -188,7 +188,7 @@ ActiveAdmin.register Shop::Order do
     f.semantic_errors :amount
 
     f.inputs t(".details") do
-      f.input :member, collection: Member.reorder(:name), prompt: true
+      f.input :member, collection: Member.order_by_name, prompt: true
       f.input :delivery_gid,
         label: Delivery.model_name.human,
         prompt: true,
@@ -383,13 +383,16 @@ ActiveAdmin.register Shop::Order do
         .first!
     end
 
-    def scoped_collection
-      super.joins(:member)
+    def apply_sorting(chain)
+      super(chain).joins(:member).merge(Member.order_by_name)
     end
   end
 
   order_by("members.name") do |clause|
-    "unaccent(text_lower(members.name)) #{clause.order}"
+    Member
+      .order_by_name(clause.order)
+      .order_values
+      .join(" ")
   end
 
   config.sort_order = "created_at_desc"

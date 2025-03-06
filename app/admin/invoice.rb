@@ -369,7 +369,7 @@ ActiveAdmin.register Invoice do
 
     f.inputs t(".details") do
       f.input :member,
-        collection: Member.order(:name).distinct,
+        collection: Member.order_by_name,
         prompt: true,
         input_html: {
           disabled: f.object.entity.is_a?(ActivityParticipation)
@@ -524,7 +524,7 @@ ActiveAdmin.register Invoice do
     end
 
     def apply_sorting(chain)
-      super(chain).joins(:member).order("unaccent(text_lower(members.name))", id: :desc)
+      super(chain).joins(:member).merge(Member.order_by_name)
     end
 
     def refresh_invoice
@@ -551,7 +551,10 @@ ActiveAdmin.register Invoice do
   end
 
   order_by("members.name") do |clause|
-    "unaccent(text_lower(members.name)) #{clause.order}"
+    Member
+      .order_by_name(clause.order)
+      .order_values
+      .join(" ")
   end
 
   config.sort_order = "date_desc"

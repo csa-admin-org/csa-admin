@@ -35,7 +35,7 @@ ActiveAdmin.register Absence do
     label: -> { Delivery.model_name.human }
   filter :member,
     as: :select,
-    collection: -> { Member.joins(:absences).order(:name).distinct }
+    collection: -> { Member.joins(:absences).order_by_name.distinct }
   filter :with_note, as: :boolean
 
   includes :member, :session, :baskets
@@ -88,7 +88,7 @@ ActiveAdmin.register Absence do
   form do |f|
     f.inputs t(".details") do
       f.input :member,
-        collection: Member.joins(:memberships).distinct.order(:name).map { |d| [ d.name, d.id ] },
+        collection: Member.joins(:memberships).distinct.order_by_name.map { |d| [ d.name, d.id ] },
         prompt: true
       div class: "single-line" do
         f.input :started_on, as: :date_picker
@@ -131,12 +131,15 @@ ActiveAdmin.register Absence do
     include ApplicationHelper
 
     def apply_sorting(chain)
-      super(chain).joins(:member).order("unaccent(text_lower(members.name))", id: :desc)
+      super(chain).joins(:member).merge(Member.order_by_name)
     end
   end
 
   order_by("members.name") do |clause|
-    "unaccent(text_lower(members.name)) #{clause.order}"
+    Member
+      .order_by_name(clause.order)
+      .order_values
+      .join(" ")
   end
 
   config.sort_order = "started_on_desc"

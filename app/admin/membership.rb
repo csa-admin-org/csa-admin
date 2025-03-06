@@ -35,7 +35,7 @@ ActiveAdmin.register Membership do
   filter :id
   filter :member,
     as: :select,
-    collection: -> { Member.joins(:memberships).order(:name).distinct }
+    collection: -> { Member.joins(:memberships).order_by_name.distinct }
   filter :basket_size,
     as: :select,
     collection: -> { admin_basket_sizes_collection }
@@ -701,7 +701,7 @@ ActiveAdmin.register Membership do
   form do |f|
     f.inputs t(".details") do
       f.input :member,
-        collection: Member.order(:name).map { |d| [ d.name, d.id ] },
+        collection: Member.order_by_name.map { |d| [ d.name, d.id ] },
         prompt: true
       div class: "single-line" do
         f.input :started_on, as: :date_picker
@@ -936,12 +936,15 @@ ActiveAdmin.register Membership do
     end
 
     def apply_sorting(chain)
-      super(chain).joins(:member).order("unaccent(text_lower(members.name))", id: :desc)
+      super(chain).joins(:member).merge(Member.order_by_name)
     end
   end
 
   order_by("members.name") do |clause|
-    "unaccent(text_lower(members.name)) #{clause.order}"
+    Member
+      .order_by_name(clause.order)
+      .order_values
+      .join(" ")
   end
 
   config.sort_order = "started_on_desc"

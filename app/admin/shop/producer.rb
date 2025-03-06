@@ -19,7 +19,7 @@ ActiveAdmin.register Shop::Producer do
     end
   end
 
-  filter :name
+  filter :name_cont, label: -> { Shop::Producer.human_attribute_name(:name) }
 
   includes :products
 
@@ -57,6 +57,14 @@ ActiveAdmin.register Shop::Producer do
     def scoped_collection
       super.kept
     end
+  end
+
+  order_by("name") do |clause|
+    config
+      .resource_class
+      .reorder_by_name(clause.order)
+      .order_values
+      .join(" ")
   end
 
   config.sort_order = "name_asc"

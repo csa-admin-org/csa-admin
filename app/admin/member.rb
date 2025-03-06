@@ -11,11 +11,11 @@ ActiveAdmin.register Member do
   scope :inactive
 
   filter :id
-  filter :with_name, as: :string
-  filter :with_address, as: :string
+  filter :name_cont, label: -> { Member.human_attribute_name(:name) }
+  filter :address_cont, label: -> { Member.human_attribute_name(:address) }
+  filter :note_cont, label: -> { Member.human_attribute_name(:note) }
   filter :with_phone, as: :string
   filter :with_email, as: :string
-  filter :with_note, as: :string
   filter :with_waiting_depots,
     label: -> { Member.human_attribute_name(:waiting_depot) },
     as: :select,
@@ -799,7 +799,11 @@ ActiveAdmin.register Member do
   end
 
   order_by("name") do |clause|
-    "unaccent(text_lower(name)) #{clause.order}"
+    config
+      .resource_class
+      .order_by_name(clause.order)
+      .order_values
+      .join(" ")
   end
 
   config.sort_order = "name_asc"
