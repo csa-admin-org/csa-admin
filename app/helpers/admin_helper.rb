@@ -2,7 +2,7 @@
 
 module AdminHelper
   def admin_depots_collection
-    Depot.kept.reorder(:name)
+    Depot.kept.order_by_name
   end
 
   def admin_basket_sizes_collection

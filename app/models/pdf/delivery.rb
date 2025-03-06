@@ -17,7 +17,7 @@ module PDF
         start_new_page
       end
 
-      @baskets = @baskets.joins(:member).order("unaccent(text_lower(members.name))")
+      @baskets = @baskets.joins(:member).merge(Member.order_by_name)
 
       depots = Array(depot || @depots)
       depots.each do |depot|

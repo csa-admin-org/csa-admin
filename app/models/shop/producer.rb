@@ -6,14 +6,14 @@ module Shop
 
     include TranslatedRichTexts
     include Discardable
+    include HasName
 
-    default_scope { order(:name) }
+    default_scope { order_by_name }
 
     translated_rich_texts :description
 
     has_many :products, class_name: "Shop::Product"
 
-    validates :name, presence: true
     validates :website_url, format: {
       with: %r{\Ahttps?://.*\z},
       allow_blank: true

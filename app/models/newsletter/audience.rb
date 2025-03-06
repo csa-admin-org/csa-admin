@@ -185,7 +185,7 @@ class Newsletter
         member_state: member_state_records.sort_by(&:name),
         membership_state: membership_state_records.sort_by(&:name),
         delivery_id: ::Delivery.between(1.week.ago..).limit(8),
-        depot_id: Depot.used.reorder(:name),
+        depot_id: Depot.used.order_by_name,
         basket_size_id: BasketSize.used.ordered
       }
       if BasketComplement.kept.any?

@@ -4,8 +4,8 @@ ActiveAdmin.register Admin do
   menu parent: :other, priority: 2
   actions :all, except: [ :show ]
 
-  filter :name
-  filter :email
+  filter :name_cont, label: -> { Admin.human_attribute_name(:name) }
+  filter :email_cont, label: -> { Admin.human_attribute_name(:email) }
   filter :permission
 
   includes :last_session, :permission
@@ -92,7 +92,11 @@ ActiveAdmin.register Admin do
   end
 
   order_by("name") do |clause|
-    "unaccent(text_lower(name)) #{clause.order}"
+    config
+      .resource_class
+      .order_by_name(clause.order)
+      .order_values
+      .join(" ")
   end
 
   config.sort_order = "name_asc"

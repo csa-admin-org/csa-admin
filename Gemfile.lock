@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/rails/rails.git
-  revision: 0f9de98e869e82b726c0da62d9e5e36c2b0e9d8e
+  revision: af6bbef1df4542a120b4a37a2a7580966f8b3554
   specs:
     actioncable (8.1.0.alpha)
       actionpack (= 8.1.0.alpha)
@@ -115,9 +115,9 @@ GEM
     addressable (2.8.7)
       public_suffix (>= 2.0.2, < 7.0)
     afm (0.2.2)
-    appsignal (4.5.2)
+    appsignal (4.5.3)
       logger
-      rack
+      rack (>= 2.0.0)
     arbre (2.2.0)
       activesupport (>= 7.0)
     ast (2.4.2)
@@ -143,7 +143,7 @@ GEM
       async-http (~> 0.42)
       protocol-http (~> 0.45)
     aws-eventstream (1.3.1)
-    aws-partitions (1.1059.0)
+    aws-partitions (1.1061.0)
     aws-sdk-core (3.211.0)
       aws-eventstream (~> 1, >= 1.3.0)
       aws-partitions (~> 1, >= 1.992.0)
@@ -610,7 +610,7 @@ GEM
       fugit (~> 1.11.0)
       railties (>= 7.1)
       thor (~> 1.3.1)
-    sorbet-runtime (0.5.11882)
+    sorbet-runtime (0.5.11899)
     sqlean (0.3.0-aarch64-linux-gnu)
     sqlean (0.3.0-arm64-darwin)
     sqlean (0.3.0-x86_64-linux-gnu)
@@ -782,7 +782,7 @@ CHECKSUMS
   acts_as_list (1.2.4) sha256=5e6ed695f1879d66ae7d8eb1625a72db215a26a9c8ec0047b866a80883ea5651
   addressable (2.8.7) sha256=462986537cf3735ab5f3c0f557f14155d778f4b43ea4f485a9deb9c8f7c58232
   afm (0.2.2) sha256=c83e698e759ab0063331ff84ca39c4673b03318f4ddcbe8e90177dd01e4c721a
-  appsignal (4.5.2) sha256=956d1a4b35675c0ede7e473725bcb9c54eeac1cd43758e692c3376b1601557a7
+  appsignal (4.5.3) sha256=ad0382f73c48c17cfd8604ccc3b56e0e69c9c68aafe560356b1c550efde22487
   arbre (2.2.0) sha256=d71de0acae2536b96cd795c5ca574ad87bc1bc10a4170d0799509a2cb7a8ba71
   ast (2.4.2) sha256=1e280232e6a33754cde542bc5ef85520b74db2aac73ec14acef453784447cc12
   async (2.23.0) sha256=8323f3942046fcf206eac256954b419f0933a449d997b0fca926f9d118eb495c
@@ -790,7 +790,7 @@ CHECKSUMS
   async-pool (0.10.3) sha256=b542f9decc34fd3d6d0544576408bb79d6d2d2aa9ca467a75b546ac45765008a
   async-rest (0.19.1) sha256=0f3545f5c43992604c83ffc8273f8e8ace3b055bfec23c5d4cc638b8e974c87f
   aws-eventstream (1.3.1) sha256=4465b2add71d69a36fb1268a738d9b3d1a593c789e0286f28fad38e132d4403b
-  aws-partitions (1.1059.0) sha256=330ea90950246e89ac4c0d7c14994902b289f507a3bc8dc8c380d6d752b902c5
+  aws-partitions (1.1061.0) sha256=665e0b012737d54506daa51a5dbe3412c9a3bfb45ebb87270e119dbac18f3a22
   aws-sdk-core (3.211.0) sha256=338334de05703632f32b636dd589716c465ff16f7ddd2ce6a6d0b70e25d3bb9a
   aws-sdk-kms (1.96.0) sha256=b1818e140b4d1b3cbe154e6b2df1d157f8c65aa297d488f69b5745995a6ba375
   aws-sdk-s3 (1.170.0) sha256=e5a143e9c418813f8bb56322f589c77027f0a04b0c6a9d1b085fc2967dde9e9a
@@ -989,7 +989,7 @@ CHECKSUMS
   simpleidn (0.2.3) sha256=08ce96f03fa1605286be22651ba0fc9c0b2d6272c9b27a260bc88be05b0d2c29
   smart_properties (1.17.0) sha256=f9323f8122e932341756ddec8e0ac9ec6e238408a7661508be99439ca6d6384b
   solid_queue (1.1.3) sha256=c7b4a84819eca6a61250aa8d7e48b8ded6882026e78ee21d3701d372ca741aa2
-  sorbet-runtime (0.5.11882) sha256=b0b7fe4eaeabf3d8191acf679ae83f588a1eb000e58db40d6dae25f5de65bde6
+  sorbet-runtime (0.5.11899) sha256=3d43844a97f3a9078e54d05e4db78f577a9a4d966df484552facf663bdf2b187
   sqlean (0.3.0-aarch64-linux-gnu) sha256=2b88dcefd7c9a92a9287c1bf8d650f286275d2645c95d5836c2efe8a0255a078
   sqlean (0.3.0-arm64-darwin) sha256=32ffa1e5a908a52c028fb06fa2dbe61f600a865c95960d7ec4f3fbc82f28bf78
   sqlean (0.3.0-x86_64-linux-gnu) sha256=51e7e0a66ceebf26c4a4509001412bea2214fb748752fde96a228db9cb2e85ce

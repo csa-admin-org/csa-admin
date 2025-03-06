@@ -277,7 +277,11 @@ ActiveAdmin.register Depot do
   end
 
   order_by("name") do |clause|
-    "unaccent(text_lower(name)) #{clause.order}"
+    config
+      .resource_class
+      .reorder_by_name(clause.order)
+      .order_values
+      .join(" ")
   end
 
   config.sort_order = "name_asc"
