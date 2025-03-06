@@ -84,10 +84,10 @@ ActiveAdmin.register Depot do
   show do |depot|
     columns do
       column do
-        if next_delivery = depot.next_delivery
-          panel t("active_admin.page.index.next_delivery", delivery: link_to(next_delivery.display_name(format: :long), next_delivery)).html_safe, action: (
-            icon_file_link(:xlsx, delivery_path(next_delivery, format: :xlsx, depot_id: depot.id), title: Delivery.human_attribute_name(:summary)) +
-            icon_file_link(:pdf, delivery_path(next_delivery, format: :pdf, depot_id: depot.id), target: "_blank", title: Delivery.human_attribute_name(:sheets))
+        if delivery = params[:delivery_id] ? Delivery.find(params[:delivery_id]) : depot.next_delivery
+          panel t("active_admin.page.index.next_delivery", delivery: link_to(delivery.display_name(format: :long), delivery)).html_safe, action: (
+            icon_file_link(:xlsx, delivery_path(delivery, format: :xlsx, depot_id: depot.id), title: Delivery.human_attribute_name(:summary)) +
+            icon_file_link(:pdf, delivery_path(delivery, format: :pdf, depot_id: depot.id), target: "_blank", title: Delivery.human_attribute_name(:sheets))
           ) do
             attrs = {}
             if authorized?(:update, depot) && depot.delivery_sheets_mode == "home_delivery"
@@ -98,7 +98,7 @@ ActiveAdmin.register Depot do
               }
             end
 
-            table_for(depot.baskets_for(next_delivery), **attrs) do
+            table_for(depot.baskets_for(delivery), **attrs) do
               column Member.model_name.human, ->(b) { auto_link b.member }
               column Basket.model_name.human, ->(b) { link_to(b.description, b.membership) }
             end

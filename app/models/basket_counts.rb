@@ -51,7 +51,7 @@ class BasketCounts
       @shop_orders = shop_orders.select { |so| so.depot_id == depot.id }
     end
 
-    def title
+    def depot
       @depot
     end
 
