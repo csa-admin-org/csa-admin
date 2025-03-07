@@ -17,6 +17,8 @@ namespace :lint do
     system("bin/rubocop --parallel --autocorrect-all") || abort("Rubocop autocorrect failed")
     puts "Running ERB Lint with autocorrect..."
     system("bin/erb_lint --lint-all --autocorrect") || abort("ERB Lint autocorrect failed")
+    puts "Running locales format..."
+    Rake::Task["locales:format"].invoke
   end
 end
 
