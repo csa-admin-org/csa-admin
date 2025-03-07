@@ -550,6 +550,35 @@ class MembershipTest < ActiveSupport::TestCase
     assert membership.trial?
   end
 
+  test "baskets counts does not count empty baskets" do
+    travel_to "2024-05-15"
+    membership = memberships(:jane)
+    membership.touch
+
+    assert_equal 10, membership.baskets_count
+    assert_equal 6, membership.past_baskets_count
+
+    membership.baskets.first.update!(quantity: 0)
+    membership.baskets.first.baskets_basket_complements.first.update!(quantity: 0)
+
+    assert_equal 9, membership.baskets_count
+    assert_equal 5, membership.past_baskets_count
+  end
+
+  test "baskets counts does not count non-billable baskets" do
+    travel_to "2024-05-15"
+    membership = memberships(:jane)
+    membership.touch
+
+    assert_equal 10, membership.baskets_count
+    assert_equal 6, membership.past_baskets_count
+
+    membership.update!(absences_included_annually: 3)
+
+    assert_equal 7, membership.baskets_count
+    assert_equal 5, membership.past_baskets_count
+  end
+
   test "updates absent baskets" do
     travel_to "2024-01-01"
     org(trial_baskets_count: 0, absences_billed: true)

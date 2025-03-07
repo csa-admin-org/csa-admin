@@ -8,7 +8,7 @@ class Basket < ApplicationRecord
 
   default_scope { joins(:delivery).order(deliveries: { date: :asc }) }
 
-  belongs_to :membership, counter_cache: true, touch: true
+  belongs_to :membership, touch: true
   belongs_to :delivery
   belongs_to :basket_size
   belongs_to :depot
@@ -43,6 +43,7 @@ class Basket < ApplicationRecord
     left_outer_joins(:baskets_basket_complements)
       .where("baskets.quantity > 0 OR baskets_basket_complements.quantity > 0")
   }
+  scope :countable, -> { billable.filled.distinct }
 
   validates :basket_price, numericality: { greater_than_or_equal_to: 0 }, presence: true
   validates :price_extra, numericality: true, presence: true

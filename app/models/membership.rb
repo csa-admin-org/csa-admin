@@ -85,6 +85,7 @@ class Membership < ApplicationRecord
   after_commit :update_absences_included!, on: %i[create update]
   after_commit :update_member_and_baskets!
   after_commit :update_price_and_invoices_amount!, on: %i[create update]
+  after_touch :update_member_and_baskets!
 
   scope :started, -> { where(started_on: ..Date.yesterday) }
   scope :past, -> { where(ended_on: ..Date.yesterday) }
@@ -504,7 +505,8 @@ class Membership < ApplicationRecord
     return if destroyed?
 
     update_columns(
-      past_baskets_count: baskets.past.count,
+      baskets_count: baskets.countable.count,
+      past_baskets_count: baskets.countable.past.count,
       remaining_trial_baskets_count: baskets.coming.trial.count,
       trial_baskets_count: baskets.trial.count)
   end
