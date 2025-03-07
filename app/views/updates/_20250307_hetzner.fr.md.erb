@@ -1,0 +1,11 @@
+# Changement d'Hébergeur
+
+Vous avez peut-être remarqué que, la semaine dernière, les temps de réponse de l'application ont été particulièrement lents (voir le graphique ci-dessous). Cette perturbation était due à un problème technique chez Infomaniak, affectant leur cluster de stockage Public Cloud. Malgré de nombreux échanges par email et appels avec leur support, aucune amélioration significative n'a été constatée après plus d'une semaine. Face à cette situation, j'ai décidé de changer d'hébergeur. Offrir une expérience fluide et rapide me tient à cœur, et le service d'Infomaniak ne répondait plus à ces attentes. Ce n'est malheureusement pas la première fois que des problèmes similaires surviennent avec leur infrastructure.
+
+Ainsi, dimanche dernier (2 mars), j'ai migré l'application vers un serveur chez [Hetzner](https://www.hetzner.com), en Allemagne. Hetzner est un hébergeur renommé pour la qualité et la fiabilité de ses services, existant depuis 1997. Il utilise également du [courant 100% renouvelable (hydroélectrique) pour ses datacenters](https://www.hetzner.com/unternehmen/nachhaltigkeit). De plus, le nouveau serveur offre une performance deux fois supérieure à celle de l'ancien.
+
+Pour plus de transparence, vous trouverez des détails sur les services tiers utilisés par CSA Admin, ainsi que leur conformité au **Règlement Général sur la Protection des Données (RGPD)**, dans la nouvelle section [Services Tiers et Conformité](/handbook/compliance) du manuel.
+
+![Temps de réponse de l'application](<%= image_url("updates/20250307_hetzner/response_time.png") %>)
+
+*Graphique : Évolution des temps de réponse de CSA Admin, avec une nette détérioration des performances le 22 février. Un retour à la normale est observé depuis la migration vers Hetzner le 2 mars.*

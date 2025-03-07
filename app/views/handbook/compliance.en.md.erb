@@ -1,0 +1,30 @@
+# Third-Party Services and Compliance
+
+To ensure its proper functioning, security, and performance, CSA Admin uses specialized third-party services. These partners play a key role in hosting, storage, backup, communication, and monitoring of the application. Each service is selected for its reliability and compliance with the requirements of the **General Data Protection Regulation (GDPR)** of the European Union as well as applicable Swiss legislation.
+<br><br>
+Below is a detailed list of these services, their role in the CSA Admin infrastructure, and links to their privacy policies or GDPR commitments.
+
+### Hetzner
+- **Role**: Hosting of the main CSA Admin server, located in Germany (Nuremberg). This is where the application runs and the SQLite databases are stored.
+- **Compliance**: Hetzner complies with GDPR requirements and offers data processing agreements (DPAs) upon request.
+- **More Info**: [Hetzner Privacy Policy](https://www.hetzner.com/legal/privacy-policy), [Sustainability at Hetzner](https://www.hetzner.com/unternehmen/nachhaltigkeit)
+
+### Cloudflare R2
+- **Role**: Storage of attachments uploaded to CSA Admin (such as documents or images) on an object storage solution based in Central Europe. This data is encrypted server-side (SSE) and backed up daily on my personal computer, which is also encrypted.
+- **Compliance**: Cloudflare commits to GDPR compliance through DPAs and secure practices.
+- **More Info**: [Cloudflare and GDPR](https://www.cloudflare.com/trust-hub/gdpr/)
+
+### Backblaze B2
+- **Role**: Backup of CSA Admin databases via the [Litestream](https://litestream.io) tool, with storage located in Europe (Amsterdam). This data is encrypted server-side (SSE) and backed up daily on my personal computer, which is also encrypted.
+- **Compliance**: Backblaze adheres to the EU-U.S. Data Privacy Framework and offers DPAs for European clients.
+- **More Info**: [Backblaze GDPR Policy](https://www.backblaze.com/company/policy/gdpr)
+
+### Postmark
+- **Role**: Sending transactional emails ([email templates](/mail_templates)) as well as newsletters (broadcast) to CSA Admin users.
+- **Compliance**: Managed by ActiveCampaign, Postmark complies with GDPR and provides DPAs to ensure data protection.
+- **More Info**: [GDPR at Postmark/ActiveCampaign](https://www.postmarkapp.com/eu-privacy)
+
+### AppSignal
+- **Role**: Monitoring of CSA Admin application performance, collecting metrics, and analyzing logs to quickly detect and resolve technical issues. The data sent is anonymized and contains no personal information.
+- **Compliance**: AppSignal complies with GDPR and offers DPAs for its clients.
+- **More Info**: [AppSignal Privacy Policy](https://docs.appsignal.com/appsignal/gdpr.html)

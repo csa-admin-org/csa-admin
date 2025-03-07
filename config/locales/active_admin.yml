@@ -631,7 +631,7 @@ _:
         annual_fee_hint:
           _de: Wird zu Beginn jedes Geschäftsjahres oder nach der Anmeldung während des Jahres in Rechnung gestellt. Für aktive Mitglieder ist sie in der ersten Abonnementrechnung enthalten.
           _en: Invoiced at the beginning of each fiscal year or after signing up during the year. For active members, it is included in the first subscription invoice.
-          _fr: Facturé au début de chaque année fiscale ou après l’inscription en cours d’année. Pour les membres actifs, elle est intégrée à la première facture de l’abonnement.
+          _fr: Facturé au début de chaque année fiscale ou après l'inscription en cours d'année. Pour les membres actifs, elle est intégrée à la première facture de l'abonnement.
           _it: Fatturato all'inizio di ogni anno fiscale o dopo l'iscrizione durante l'anno. Per i soci attivi, è incluso nella prima fattura di abbonamento.
         availability:
           _de: Verfügbarkeit

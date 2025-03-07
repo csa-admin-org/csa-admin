@@ -1,6 +1,6 @@
 # Members
 
-A member represents a person, family, shared accommodation, or company, and allows you to manage their information (address, contact details, etc.). A member’s membership is managed via their subscriptions, with only one subscription per fiscal year.
+A member represents a person, family, shared accommodation, or company, and allows you to manage their information (address, contact details, etc.). A member's membership is managed via their subscriptions, with only one subscription per fiscal year.
 
 A member is created through the [registration form](<%= new_members_member_url(subdomain: Current.org.members_subdomain) %>) or by an admin through the [member creation form](/members/new).
 
@@ -18,7 +18,7 @@ It is possible to automatically send a welcome email when validating a member by
 
 Once validated, or directly created by an admin, a member with a (pending) subscription configuration ends up on the waiting list. The waiting list is useful for organizations that have a capacity limit on active members.
 
-To make a member active, simply create a subscription for them (click "Create a subscription" at the top right of the member’s page). The (pending) subscription configuration is automatically carried into the subscription creation form.
+To make a member active, simply create a subscription for them (click "Create a subscription" at the top right of the member's page). The (pending) subscription configuration is automatically carried into the subscription creation form.
 
 It is possible to automatically send a welcome email when activating a member by configuring [the "Member activated" email template](/mail_templates/member_activated).
 
@@ -32,12 +32,12 @@ As soon as the current subscription is ended or deleted, the member becomes inac
 
 A support member is one without any subscriptions who pays an annual fee (for associations) or who owns share capital (for cooperatives). If a subscription is created for a support member, they become active.
 
-Using the "Make inactive" button at the top right of the member’s page, it is possible to make a support member inactive, which will remove their annual fee or set their required share capital to zero.
+Using the "Make inactive" button at the top right of the member's page, it is possible to make a support member inactive, which will remove their annual fee or set their required share capital to zero.
 
-Using the "Put on waiting list" button at the top right of the member’s page, you can put a support member back on the waiting list. Their annual fee or number of share capital remains unchanged.
+Using the "Put on waiting list" button at the top right of the member's page, you can put a support member back on the waiting list. Their annual fee or number of share capital remains unchanged.
 
 ### Inactive
 
 An inactive member is one who does not have a subscription for the current or future fiscal year and does not pay an annual fee or have share capital. An inactive member can be put on the waiting list again.
 
-Using the "Put on waiting list" button at the top right of the member’s page, you can put a support member on the waiting list. Their annual fee will then be reset to the organization’s default value.
+Using the "Put on waiting list" button at the top right of the member's page, you can put a support member on the waiting list. Their annual fee will then be reset to the organization's default value.

@@ -1,32 +1,32 @@
 # Soci
 
-Un socio rappresenta una persona, una famiglia, una coabitazione o un'azienda, e permette di gestirne le informazioni (indirizzo, dettagli di contatto, ecc.). L’adesione di un socio è gestita tramite i suoi abbonamenti, con un solo abbonamento per anno fiscale.
+Un socio rappresenta una persona, una famiglia, una coabitazione o un'azienda, e permette di gestirne le informazioni (indirizzo, dettagli di contatto, ecc.). L'adesione di un socio è gestita tramite i suoi abbonamenti, con un solo abbonamento per anno fiscale.
 
-Un socio viene creato tramite il [formulario d’iscrizione](<%= new_members_member_url(subdomain: Current.org.members_subdomain) %>) oppure da un admin con il [formulario di creazione del socio](/members/new).
+Un socio viene creato tramite il [formulario d'iscrizione](<%= new_members_member_url(subdomain: Current.org.members_subdomain) %>) oppure da un admin con il [formulario di creazione del socio](/members/new).
 
 ## Statuti
 
 ### Da confermare
 
-I nuovi soci creati tramite il [formulario d’iscrizione](<%= new_members_member_url(subdomain: Current.org.members_subdomain) %>) vengono aggiunti [all’elenco dei soci da confermare](/members?scope=pending). Devono essere confermati da un amministratore per assicurarsi che le informazioni siano corrette.
+I nuovi soci creati tramite il [formulario d'iscrizione](<%= new_members_member_url(subdomain: Current.org.members_subdomain) %>) vengono aggiunti [all'elenco dei soci da confermare](/members?scope=pending). Devono essere confermati da un amministratore per assicurarsi che le informazioni siano corrette.
 
-È possibile inviare automaticamente un’email di benvenuto durante la conferma di un socio configurando [il template email “Socio confermato”](/mail_templates/member_validated).
+È possibile inviare automaticamente un'email di benvenuto durante la conferma di un socio configurando [il template email “Socio confermato”](/mail_templates/member_validated).
 
 > Gli amministratori possono ricevere notifiche via email per ogni nuova iscrizione gestendo le [preferenze di notifica](<%= edit_admin_path(current_admin) %>).
 
-### Lista d’attesa
+### Lista d'attesa
 
-Una volta confermato, o creato direttamente da un admin, un socio con una configurazione di abbonamento (in attesa) finisce nella lista d’attesa. La lista d’attesa è utile per le organizzazioni che hanno un limite di capacità per i soci attivi.
+Una volta confermato, o creato direttamente da un admin, un socio con una configurazione di abbonamento (in attesa) finisce nella lista d'attesa. La lista d'attesa è utile per le organizzazioni che hanno un limite di capacità per i soci attivi.
 
-Per rendere un socio attivo, basta creare un abbonamento (clic sul pulsante “Crea un abbonamento” in alto a destra nella pagina del socio). La configurazione dell’abbonamento (in attesa) viene trasferita automaticamente nel formulario di creazione dell’abbonamento.
+Per rendere un socio attivo, basta creare un abbonamento (clic sul pulsante “Crea un abbonamento” in alto a destra nella pagina del socio). La configurazione dell'abbonamento (in attesa) viene trasferita automaticamente nel formulario di creazione dell'abbonamento.
 
-È possibile inviare automaticamente un’email di benvenuto quando si attiva un socio, configurando [il template email “Socio attivato”](/mail_templates/member_activated).
+È possibile inviare automaticamente un'email di benvenuto quando si attiva un socio, configurando [il template email “Socio attivato”](/mail_templates/member_activated).
 
 ### Attivo
 
-Un socio è considerato attivo se possiede un abbonamento per l’anno fiscale in corso o futuro. Un socio che possiede un deposito definito per gli ordini d’emporio è anch’esso considerato attivo.
+Un socio è considerato attivo se possiede un abbonamento per l'anno fiscale in corso o futuro. Un socio che possiede un deposito definito per gli ordini d'emporio è anch'esso considerato attivo.
 
-Non appena l’abbonamento in corso termina o viene eliminato, il socio diventa inattivo.
+Non appena l'abbonamento in corso termina o viene eliminato, il socio diventa inattivo.
 
 ### Support
 
@@ -34,10 +34,10 @@ Un socio di supporto è un socio privo di abbonamenti che paga una quota annuale
 
 Con il pulsante “Disattivare” in alto a destra nella pagina del socio, è possibile rendere inattivo un socio di supporto, rimuovendo così la sua quota annuale o azzerando le parti sociali richieste.
 
-Con il pulsante “Metti in lista d’attesa” in alto a destra nella pagina del socio, è possibile rimettere in lista d’attesa un socio di supporto. La sua quota annuale o il numero di parti sociali restano invariati.
+Con il pulsante “Metti in lista d'attesa” in alto a destra nella pagina del socio, è possibile rimettere in lista d'attesa un socio di supporto. La sua quota annuale o il numero di parti sociali restano invariati.
 
 ### Inattivo
 
-Un socio inattivo è un socio che non possiede un abbonamento per l’anno fiscale in corso o futuro e non paga la quota annuale né possiede parti sociali. Un socio inattivo può essere rimesso in lista d’attesa.
+Un socio inattivo è un socio che non possiede un abbonamento per l'anno fiscale in corso o futuro e non paga la quota annuale né possiede parti sociali. Un socio inattivo può essere rimesso in lista d'attesa.
 
-Con il pulsante “Metti in lista d’attesa” in alto a destra nella pagina del socio, è possibile rimettere in lista d’attesa un socio di supporto. La sua quota annuale verrà quindi reimpostata al valore predefinito dell’organizzazione.
+Con il pulsante “Metti in lista d'attesa” in alto a destra nella pagina del socio, è possibile rimettere in lista d'attesa un socio di supporto. La sua quota annuale verrà quindi reimpostata al valore predefinito dell'organizzazione.
