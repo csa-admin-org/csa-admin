@@ -360,8 +360,8 @@ ActiveAdmin.register Membership do
             row_html: ->(b) {
               classes = []
               classes << "bg-gray-200 dark:bg-gray-700" if b == next_basket
-              classes << "disabled" if b.absent?
-              classes << "line-through" unless b.billable?
+              classes << "disabled" if b.absent? || b.empty?
+              classes << "line-through" if !b.billable? || b.empty?
               { class: classes.join(" ") }
             },
             class: "table-auto"
