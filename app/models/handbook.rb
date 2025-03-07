@@ -45,6 +45,6 @@ class Handbook
   end
 
   def <=>(other)
-    title <=> other.title
+    I18n.transliterate(title) <=> I18n.transliterate(other.title)
   end
 end

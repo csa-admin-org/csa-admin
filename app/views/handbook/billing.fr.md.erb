@@ -24,11 +24,11 @@ Dans certain cas, par exemple après un changement de configuration de l'abonnem
 
 ### Tout facturer à l'avance {#future_billing}
 
-Il est possible de facturer à l'avance un abonnement qui n’a pas encore commencé, avec une date de début dans le futur, que ce soit dans l’année fiscale en cours ou dans l’année fiscale suivante. Les abonnements facturés ainsi sont intégralement facturés en une seule fois, quel que soit l’intervalle de paiement configuré pour l’abonnement.
+Il est possible de facturer à l'avance un abonnement qui n'a pas encore commencé, avec une date de début dans le futur, que ce soit dans l'année fiscale en cours ou dans l'année fiscale suivante. Les abonnements facturés ainsi sont intégralement facturés en une seule fois, quel que soit l'intervalle de paiement configuré pour l'abonnement.
 
-La facturation à l’avance peut être effectuée depuis la page d’un abonnement futur, en cliquant sur le bouton "Tout facturer à l’avance" dans la section "Facturation" (colonne de droite). Il est également possible de facturer plusieurs abonnements futurs en une seule fois depuis [la page des abonnements](/memberships?scope=future&q[during_year]=<%= Current.fy_year + 1 %>), en utilisant le champ "Futurs" et en filtrant par année fiscale. Vous pouvez alors cliquer sur le bouton "Tout facturer à l’avance" dans la section "Facturation" (colonne de droite), en dessous des filtres. N’hésitez pas à filtrer les futurs abonnements par intervalle de paiement (par exemple "Annuel" uniquement) pour affiner votre sélection.
+La facturation à l'avance peut être effectuée depuis la page d'un abonnement futur, en cliquant sur le bouton "Tout facturer à l'avance" dans la section "Facturation" (colonne de droite). Il est également possible de facturer plusieurs abonnements futurs en une seule fois depuis [la page des abonnements](/memberships?scope=future&q[during_year]=<%= Current.fy_year + 1 %>), en utilisant le champ "Futurs" et en filtrant par année fiscale. Vous pouvez alors cliquer sur le bouton "Tout facturer à l'avance" dans la section "Facturation" (colonne de droite), en dessous des filtres. N'hésitez pas à filtrer les futurs abonnements par intervalle de paiement (par exemple "Annuel" uniquement) pour affiner votre sélection.
 
-> La cotisation annuelle correspondant à l’année fiscale de l’abonnement est automatiquement incluse dans la facture.
+> La cotisation annuelle correspondant à l'année fiscale de l'abonnement est automatiquement incluse dans la facture.
 
 ### Changement de prix {#price-change}
 
@@ -42,7 +42,6 @@ Si la configuration d'un abonnement (dates, de taille de panier, ...) est modifi
 ### Cotisation annuelle
 
 La cotisation annuelle est automatiquement incluse dans la première facture de l'abonnement. Si le membre n'a pas d'abonnement (soutien) alors une facture spécifique est créée automatiquement au début de l'année fiscale.
-
 
 ### Paniers à l'essai
 
@@ -61,7 +60,6 @@ Si des parts sociales ont déjà été facturées en dehors d'CSA Admin, vous po
 
 > Depuis la page d'un membre, vous pouvez voir dans la section "Facturation" (colonne de droite) le nombre de parts sociales qui seront ou sont déjà facturées avec un lien sur les factures correspondantes.
 <% end %>
-
 
 <% if Current.org.feature?("activity") %>
 ## <%= activities_human_name %> non effectuées {#activity}
@@ -100,14 +98,11 @@ Il est possible d'ajouter un texte spécifique dans le [template email "Nouvelle
 ~~~
 <% end %>
 
-
 ## Facture manuelle (Autre)
 
 CSA Admin offre la possibilité de facturer manuellement des articles ou des services divers (par exemple, achat de sac en tissus pour les nouveaux abonnés). Pour cela, il suffit de [créer une nouvelle facture](/invoices/new) et de rentrer les articles sous l'onglet "Autre". Après vérification du PDF, vous pouvez manuellement la facture à l'aide du bouton "Envoyer" sur la page de celle-ci.
 
 > Attention, les factures de type "Autre" ne doivent pas être utilisées pour facturer les abonnements<% if Current.org.share? %>, parts sociales<% end %><% if Current.org.feature?("activity") %> ou <%= activities_human_name.downcase %><% end %>, car le système ne les prendra pas en compte.
-
-
 
 ## Paiements
 
@@ -119,7 +114,6 @@ CSA Admin offre la possibilité de facturer manuellement des articles ou des ser
 
 Ce mode de redistribution est très commode et permet de gérer ainsi les cas ou un membre réutiliserait un ancien numéro de référence pour payer une nouvelle facture.
 
-
 ### Importation automatique
 
 La manière la plus efficace de traiter vos paiements est de demander à votre banque de mettre en place [une connexion EBICS](https://www.six-group.com/fr/products-services/banking-services/standardization.html#scrollTo=ebics). Cela permet au système d'importer automatiquement (chaque nuit) les paiements des factures avec numéro de référence de vos membres via le format ISO camt.054.
@@ -128,13 +122,11 @@ CSA Admin gère également la récupération automatique des paiements de la [Ba
 
 > Si vous avez des questions concernant le support d'une banque en particulier ou la mise en place d'EBICS, n'hésitez pas à [me demander](mailto:info@csa-admin.org).
 
-
 ### Importation manuelle
 
 Lorsque l'importation automatique via [EBICS](https://www.six-group.com/fr/products-services/banking-services/standardization.html#scrollTo=ebics) n'est pas encore configurée, vous pouvez facilement importer les paiements des factures avec numéro de référence de vos membres en téléchargeant un fichier au format camt.054 depuis votre e-banking et en l'uploadant dans CSA Admin depuis [la page des paiements](/payments), section "Importation" dans la colonne de droite. N'oubliez pas de répéter l'opération régulièrement (chaque semaine) afin que le système n'envoie pas de rappel inutilement.
 
 Pour les paiements sans numéro de référence (liquide ou versement direct), il vous suffit de [créer un nouveau paiement manuellement](/payments/new). Le montant de celui-ci sera automatiquement redistribué aux factures existantes.
-
 
 ### Remboursement
 

@@ -385,7 +385,7 @@ _:
         trial_baskets_count:
           _de: Ermöglicht es Ihnen, die Standardanzahl der Probetaschen zu ändern, was nützlich ist, wenn das Mitglied beispielsweise bereits Taschen erhalten hat, bevor es sich angemeldet hat.
           _en: Allows you to change the default number of trial baskets, useful if, for example, the member has already received baskets before registering.
-          _fr: Permet de modifier le nombre de paniers d’essai par défaut, pratique si, par exemple, le membre a déjà reçu des paniers avant son inscription.
+          _fr: Permet de modifier le nombre de paniers d'essai par défaut, pratique si, par exemple, le membre a déjà reçu des paniers avant son inscription.
           _it: Consente di modificare il numero predefinito di ceste di prova, utile se, ad esempio, il socio ha già ricevuto ceste prima di registrarsi.
         waiting_alternative_depot_ids:
           _de: Sie können eine oder mehrere alternative Depots wählen, falls Ihre erste Wahl bereits voll ist. Wenn Sie sich damit einverstanden erklären, Ihre Taschen vorübergehend in einem alternativen Depot zu erhalten, sollten Sie in der Lage sein, schneller zu starten.
@@ -876,12 +876,12 @@ _:
           _de: Die Preise der Plattform sind immer inklusive Mehrwertsteuer, und der Mehrwertsteuerbetrag wird vom Gesamtbetrag der Rechnung abgezogen.
           _en: Platform prices are always VAT-inclusive, and the VAT amount is deducted from the total invoice amount
           _fr: Les prix de la plateforme sont toujours TTC, et le montant de la TVA est déduit du montant total de la facture.
-          _it: I prezzi della piattaforma sono sempre IVA inclusa, e l’importo dell’IVA viene detratto dall’importo totale della fattura.
+          _it: I prezzi della piattaforma sono sempre IVA inclusa, e l'importo dell'IVA viene detratto dall'importo totale della fattura.
         vat_membership_rate:
           _de: Die Preise der Plattform sind immer inklusive Mehrwertsteuer, und der Mehrwertsteuerbetrag wird vom Gesamtbetrag der Rechnung abgezogen.
           _en: Platform prices are always VAT-inclusive, and the VAT amount is deducted from the total invoice amount
           _fr: Les prix de la plateforme sont toujours TTC, et le montant de la TVA est déduit du montant total de la facture.
-          _it: I prezzi della piattaforma sono sempre IVA inclusa, e l’importo dell’IVA viene detratto dall’importo totale della fattura.
+          _it: I prezzi della piattaforma sono sempre IVA inclusa, e l'importo dell'IVA viene detratto dall'importo totale della fattura.
         vat_number:
           _de: Mehrwertsteuernummer, die auf der Rechnung angezeigt wird.
           _en: VAT number displayed on the invoice.
@@ -891,7 +891,7 @@ _:
           _de: Die Preise der Plattform sind immer inklusive Mehrwertsteuer, und der Mehrwertsteuerbetrag wird vom Gesamtbetrag der Rechnung abgezogen.
           _en: Platform prices are always VAT-inclusive, and the VAT amount is deducted from the total invoice amount
           _fr: Les prix de la plateforme sont toujours TTC, et le montant de la TVA est déduit du montant total de la facture.
-          _it: I prezzi della piattaforma sono sempre IVA inclusa, e l’importo dell’IVA viene detratto dall’importo totale della fattura.
+          _it: I prezzi della piattaforma sono sempre IVA inclusa, e l'importo dell'IVA viene detratto dall'importo totale della fattura.
       shop/order:
         amount_percentage:
           _de: Verändert den Schlussbetrag der Bestellung um einen bestimmten Prozentsatz.

@@ -1,0 +1,11 @@
+# Change of Hosting Provider
+
+You may have noticed that last week, the application's response times were particularly slow (see the graph below). This disruption was due to a technical issue at Infomaniak, affecting their Public Cloud storage cluster. Despite numerous email exchanges and call with their support, no significant improvement was observed after more than a week. Faced with this situation, I decided to switch hosting providers. Offering a smooth and fast experience is very important to me, and Infomaniak's service no longer met those expectations. Unfortunately, this is not the first time I have encountered similar issues with their infrastructure.
+
+Thus, last Sunday (March 2), I migrated the application to a server at [Hetzner](https://www.hetzner.com) in Germany. Hetzner is a renowned hosting provider known for the quality and reliability of its services, operating since 1997. It also uses [100% renewable energy (hydroelectric) for its data centers](https://www.hetzner.com/unternehmen/nachhaltigkeit). Additionally, the new server offers twice the performance of the previous one.
+
+For greater transparency, you can find details about the third-party services used by CSA Admin, as well as their compliance with the **General Data Protection Regulation (GDPR)**, in the new [Third-Party Services and Compliance](/handbook/compliance) section of the manual.
+
+![Application Response Times](<%= image_url("updates/20250307_hetzner/response_time.png") %>)
+
+*Graph: Evolution of CSA Admin response times, with a clear performance degradation on February 22. A return to normal is observed since the migration to Hetzner on March 2.*

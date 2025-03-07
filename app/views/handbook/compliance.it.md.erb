@@ -1,0 +1,30 @@
+# Servizi di Terze Parti e Conformità
+
+Per garantire il corretto funzionamento, la sicurezza e le prestazioni di CSA Admin, CSA Admin utilizza servizi di terze parti specializzati. Questi partner svolgono un ruolo chiave nell'hosting, nell'archiviazione, nel backup, nella comunicazione e nel monitoraggio dell'applicazione. Ogni servizio è stato scelto per la sua affidabilità e per il rispetto dei requisiti del **Regolamento Generale sulla Protezione dei Dati (GDPR)** dell'Unione Europea, nonché della legislazione svizzera applicabile.
+<br><br>
+Di seguito è riportata una lista dettagliata di questi servizi, il loro ruolo nell'infrastruttura di CSA Admin e i link alle loro politiche sulla privacy o agli impegni GDPR.
+
+### Hetzner
+- **Ruolo**: Hosting del server principale di CSA Admin, situato in Germania (Norimberga). Qui viene eseguita l'applicazione e vengono archiviati i database SQLite.
+- **Conformità**: Hetzner rispetta i requisiti del GDPR e offre accordi sul trattamento dei dati (DPA) su richiesta.
+- **Ulteriori informazioni**: [Politica sulla privacy di Hetzner](https://www.hetzner.com/legal/privacy-policy), [Sostenibilità presso Hetzner](https://www.hetzner.com/unternehmen/nachhaltigkeit)
+
+### Cloudflare R2
+- **Ruolo**: Archiviazione degli allegati caricati su CSA Admin (come documenti o immagini) su una soluzione di object storage basata nell'Europa centrale. Questi dati sono crittografati lato server (SSE) e salvati quotidianamente sul mio computer personale, anch'esso crittografato.
+- **Conformità**: Cloudflare si impegna a rispettare il GDPR attraverso DPA e pratiche sicure.
+- **Ulteriori informazioni**: [Cloudflare e GDPR](https://www.cloudflare.com/trust-hub/gdpr/)
+
+### Backblaze B2
+- **Ruolo**: Backup dei database di CSA Admin tramite lo strumento [Litestream](https://litestream.io), con archiviazione situata in Europa (Amsterdam). Questi dati sono crittografati lato server (SSE) e salvati quotidianamente sul mio computer personale, anch'esso crittografato.
+- **Conformità**: Backblaze aderisce al EU-U.S. Data Privacy Framework e offre DPA per i clienti europei.
+- **Ulteriori informazioni**: [Politica GDPR di Backblaze](https://www.backblaze.com/company/policy/gdpr)
+
+### Postmark
+- **Ruolo**: Invio di email transazionali ([Modelli Email](/mail_templates)) e newsletter (broadcast) agli utenti di CSA Admin.
+- **Conformità**: Gestito da ActiveCampaign, Postmark rispetta il GDPR e fornisce DPA per garantire la protezione dei dati.
+- **Ulteriori informazioni**: [GDPR presso Postmark/ActiveCampaign](https://www.postmarkapp.com/eu-privacy)
+
+### AppSignal
+- **Ruolo**: Monitoraggio delle prestazioni dell'applicazione CSA Admin, raccolta di metriche e analisi dei log per rilevare e risolvere rapidamente eventuali problemi tecnici. I dati inviati sono anonimizzati e non contengono informazioni personali.
+- **Conformità**: AppSignal è conforme al GDPR e offre DPA ai suoi clienti.
+- **Ulteriori informazioni**: [Politica sulla privacy di AppSignal](https://docs.appsignal.com/appsignal/gdpr.html)

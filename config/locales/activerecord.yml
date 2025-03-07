@@ -1302,7 +1302,7 @@ _:
         activity_participations_form_step:
           _de: Schritt der Erhöhung/Verminderung
           _en: Step of the increment/decrement
-          _fr: Pas de l’incrémentation/décrémentation
+          _fr: Pas de l'incrémentation/décrémentation
           _it: Passo dell'incremento/decremento
         activity_phone:
           _de: Telefon

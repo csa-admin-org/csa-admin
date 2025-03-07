@@ -2,7 +2,7 @@
 
 {% if member.existing %}
   <p>Un membre existant, <strong>{{ member.name }}</strong>, s'est réinscrit !</p>
-  <p>Son compte a été mis à jour et ajouté à la liste d'attente. Vous pouvez consulter les changements appliqués dans <a href="{{ member.admin_audits_url }}">l’audit des modifications</a>.</p>
+  <p>Son compte a été mis à jour et ajouté à la liste d'attente. Vous pouvez consulter les changements appliqués dans <a href="{{ member.admin_audits_url }}">l'audit des modifications</a>.</p>
 {% else %}
   <p>Un nouveau membre, <strong>{{ member.name }}</strong>, vient de s'inscrire!</p>
 {% endif %}
