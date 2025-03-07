@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/rails/rails.git
-  revision: af6bbef1df4542a120b4a37a2a7580966f8b3554
+  revision: aa2bfad1a137c9add1b35de118b391494e13ca06
   specs:
     actioncable (8.1.0.alpha)
       actionpack (= 8.1.0.alpha)
@@ -142,8 +142,8 @@ GEM
     async-rest (0.19.1)
       async-http (~> 0.42)
       protocol-http (~> 0.45)
-    aws-eventstream (1.3.1)
-    aws-partitions (1.1061.0)
+    aws-eventstream (1.3.2)
+    aws-partitions (1.1062.0)
     aws-sdk-core (3.211.0)
       aws-eventstream (~> 1, >= 1.3.0)
       aws-partitions (~> 1, >= 1.992.0)
@@ -210,7 +210,7 @@ GEM
       rchardet
     concurrent-ruby (1.3.5)
     connection_pool (2.5.0)
-    console (1.29.3)
+    console (1.30.0)
       fiber-annotation
       fiber-local (~> 1.1)
       json
@@ -610,7 +610,7 @@ GEM
       fugit (~> 1.11.0)
       railties (>= 7.1)
       thor (~> 1.3.1)
-    sorbet-runtime (0.5.11899)
+    sorbet-runtime (0.5.11906)
     sqlean (0.3.0-aarch64-linux-gnu)
     sqlean (0.3.0-arm64-darwin)
     sqlean (0.3.0-x86_64-linux-gnu)
@@ -789,8 +789,8 @@ CHECKSUMS
   async-http (0.87.0) sha256=fb5ff0db7bb77b1ee352cad62488be4c7f77ba27713757b266ec7766b4001a80
   async-pool (0.10.3) sha256=b542f9decc34fd3d6d0544576408bb79d6d2d2aa9ca467a75b546ac45765008a
   async-rest (0.19.1) sha256=0f3545f5c43992604c83ffc8273f8e8ace3b055bfec23c5d4cc638b8e974c87f
-  aws-eventstream (1.3.1) sha256=4465b2add71d69a36fb1268a738d9b3d1a593c789e0286f28fad38e132d4403b
-  aws-partitions (1.1061.0) sha256=665e0b012737d54506daa51a5dbe3412c9a3bfb45ebb87270e119dbac18f3a22
+  aws-eventstream (1.3.2) sha256=7e2c3a55ca70d7861d5d3c98e47daa463ed539c349caba22b48305b8919572d7
+  aws-partitions (1.1062.0) sha256=b7095f9a71d209da2c33396a339771039ed1c31e45f2b0c01c4eff4be496576a
   aws-sdk-core (3.211.0) sha256=338334de05703632f32b636dd589716c465ff16f7ddd2ce6a6d0b70e25d3bb9a
   aws-sdk-kms (1.96.0) sha256=b1818e140b4d1b3cbe154e6b2df1d157f8c65aa297d488f69b5745995a6ba375
   aws-sdk-s3 (1.170.0) sha256=e5a143e9c418813f8bb56322f589c77027f0a04b0c6a9d1b085fc2967dde9e9a
@@ -819,7 +819,7 @@ CHECKSUMS
   cmxl (2.2) sha256=2f502f7dd8e9b64db40a75c7c18023e6b554a10f26a6f34c55ee61c412b10bda
   concurrent-ruby (1.3.5) sha256=813b3e37aca6df2a21a3b9f1d497f8cbab24a2b94cab325bffe65ee0f6cbebc6
   connection_pool (2.5.0) sha256=233b92f8d38e038c1349ccea65dd3772727d669d6d2e71f9897c8bf5cd53ebfc
-  console (1.29.3) sha256=ad954d8619d58c07ea84025fa96709f2dab3f11ba8f6942d4b501f95d9426d01
+  console (1.30.0) sha256=3d06e3fe06a60c6d7bf534a0e872387b9f0ee49f448e59fe4dba28ec41ce4082
   countries (7.1.1) sha256=7f116ff1459e07591030a94df0994b212c5e6a9702c305af60d0b122b1d7eaf7
   crass (1.0.6) sha256=dc516022a56e7b3b156099abc81b6d2b08ea1ed12676ac7a5657617f012bd45d
   css_parser (1.21.0) sha256=6753f5b8b49dd6d5c6a90f300d5a82af8399c19dbba56d886081740ec7014518
@@ -989,7 +989,7 @@ CHECKSUMS
   simpleidn (0.2.3) sha256=08ce96f03fa1605286be22651ba0fc9c0b2d6272c9b27a260bc88be05b0d2c29
   smart_properties (1.17.0) sha256=f9323f8122e932341756ddec8e0ac9ec6e238408a7661508be99439ca6d6384b
   solid_queue (1.1.3) sha256=c7b4a84819eca6a61250aa8d7e48b8ded6882026e78ee21d3701d372ca741aa2
-  sorbet-runtime (0.5.11899) sha256=3d43844a97f3a9078e54d05e4db78f577a9a4d966df484552facf663bdf2b187
+  sorbet-runtime (0.5.11906) sha256=7f81b9fcebebb12034f7bfdc38c05cb984979bb920afcde9bfef515f8cb19bc0
   sqlean (0.3.0-aarch64-linux-gnu) sha256=2b88dcefd7c9a92a9287c1bf8d650f286275d2645c95d5836c2efe8a0255a078
   sqlean (0.3.0-arm64-darwin) sha256=32ffa1e5a908a52c028fb06fa2dbe61f600a865c95960d7ec4f3fbc82f28bf78
   sqlean (0.3.0-x86_64-linux-gnu) sha256=51e7e0a66ceebf26c4a4509001412bea2214fb748752fde96a228db9cb2e85ce
