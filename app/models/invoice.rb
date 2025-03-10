@@ -352,6 +352,10 @@ class Invoice < ApplicationRecord
     !sent? && other_type?
   end
 
+  def can_destroy_or_cancel?
+    can_destroy? || can_cancel?
+  end
+
   def can_destroy?
     latest? && !processing? && !sent? && payments.none?
   end

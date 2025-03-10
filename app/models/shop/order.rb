@@ -142,7 +142,7 @@ module Shop
     end
 
     def can_cancel?
-      invoiced?
+      invoiced? && invoice&.can_destroy_or_cancel?
     end
 
     def confirm!
