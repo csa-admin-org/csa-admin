@@ -280,6 +280,11 @@ _:
           _en: Amount for a single participation.
           _fr: Montant pour une seule participation.
           _it: Importo per una singola partecipazione.
+        vat_rate:
+          _de: Leer lassen, wenn keine MwSt. anfällt.
+          _en: Leave blank if no VAT is applicable.
+          _fr: Laisser vide si aucune TVA n'est applicable.
+          _it: Lasciare vuoto se nessuna IVA è applicabile.
       liquid_data_preview:
         _de: Diese Datenstruktur wird als Beispiel vorgestellt und wird halbzufällig generiert. Sie können ihre Werte nach Belieben ändern, um eine Vorschau Ihrer Vorlage zu erhalten.
         _en: This data structure is presented as an example and is generated semi-randomly. You can change its values at will to preview your template.
