@@ -34,8 +34,9 @@ td {
 body,
 td,
 th {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
-    Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  font-family:
+    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial,
+    sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
 }
 
 h1 {
@@ -89,7 +90,8 @@ h2 {
   margin-top: 2em;
 }
 
-h2, .trix-content h1 {
+h2,
+.trix-content h1 {
   color: #444444;
   font-size: 20px;
   font-weight: 400;
@@ -471,80 +473,100 @@ p {
   margin: 20px auto;
 }
 
-.content-block h2, .trix-content h1 {
+.content-block h2,
+.trix-content h1 {
   margin-bottom: 10px;
 }
 
 .trix-content {
-  line-height: 1.5; }
-  .trix-content * {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0; }
-  .trix-content blockquote {
-    border: 0 solid #ccc;
-    border-left-width: 0.3em;
-    margin-left: 0.3em;
-    padding-left: 0.6em; }
-  .trix-content [dir=rtl] blockquote,
-  .trix-content blockquote[dir=rtl] {
-    border-width: 0;
-    border-right-width: 0.3em;
-    margin-right: 0.3em;
-    padding-right: 0.6em; }
-  .trix-content ul,
-  .trix-content ol {
-    margin: 0.4em 0; }
-  .trix-content li {
-    margin-left: 1.6em; }
-  .trix-content [dir=rtl] li {
-    margin-right: 1.6em; }
-  .trix-content pre {
-    display: inline-block;
-    width: 100%;
-    vertical-align: top;
-    font-family: monospace;
-    font-size: 0.9em;
-    padding: 0.5em;
-    white-space: pre;
-    background-color: #eee;
-    overflow-x: auto; }
-  .trix-content img {
-    max-width: 100%;
-    height: auto; }
-  .trix-content .attachment {
-    display: inline-block;
-    position: relative;
-    max-width: 100%; }
-    .trix-content .attachment a {
-      color: inherit;
-      text-decoration: none; }
-      .trix-content .attachment a:hover, .trix-content .attachment a:visited:hover {
-        color: inherit; }
-  .trix-content .attachment--preview {
-    width: 100%;
-    text-align: center; }
-    .trix-content .attachment--preview .attachment__caption {
-      color: #666;
-      font-size: 0.9em;
-      line-height: 1.2; }
-  .trix-content .attachment--file {
-    color: #333;
-    line-height: 1;
-    margin: 0 2px 2px 2px;
-    padding: 0.4em 1em;
-    border: 1px solid #bbb;
-    border-radius: 5px; }
-  .trix-content .attachment-gallery {
-    position: relative; }
-    .trix-content .attachment-gallery .attachment {
-      margin: auto;
-      padding: 0 0.5em;
-      max-width: 33%; }
-    .trix-content .attachment-gallery.attachment-gallery--2 .attachment, .trix-content .attachment-gallery.attachment-gallery--4 .attachment {
-      margin: auto;
-      max-width: 50%; }
-
+  line-height: 1.5;
+}
+.trix-content * {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+.trix-content blockquote {
+  border: 0 solid #ccc;
+  border-left-width: 0.3em;
+  margin-left: 0.3em;
+  padding-left: 0.6em;
+}
+.trix-content [dir="rtl"] blockquote,
+.trix-content blockquote[dir="rtl"] {
+  border-width: 0;
+  border-right-width: 0.3em;
+  margin-right: 0.3em;
+  padding-right: 0.6em;
+}
+.trix-content ul,
+.trix-content ol {
+  margin: 0.4em 0;
+}
+.trix-content li {
+  margin-left: 1.6em;
+}
+.trix-content [dir="rtl"] li {
+  margin-right: 1.6em;
+}
+.trix-content pre {
+  display: inline-block;
+  width: 100%;
+  vertical-align: top;
+  font-family: monospace;
+  font-size: 0.9em;
+  padding: 0.5em;
+  white-space: pre;
+  background-color: #eee;
+  overflow-x: auto;
+}
+.trix-content img {
+  max-width: 100%;
+  height: auto;
+}
+.trix-content .attachment {
+  display: inline-block;
+  position: relative;
+  max-width: 100%;
+}
+.trix-content .attachment a {
+  color: inherit;
+  text-decoration: none;
+}
+.trix-content .attachment a:hover,
+.trix-content .attachment a:visited:hover {
+  color: inherit;
+}
+.trix-content .attachment--preview {
+  width: 100%;
+  text-align: center;
+}
+.trix-content .attachment--preview .attachment__caption {
+  color: #666;
+  font-size: 0.9em;
+  line-height: 1.2;
+}
+.trix-content .attachment--file {
+  color: #333;
+  line-height: 1;
+  margin: 0 2px 2px 2px;
+  padding: 0.4em 1em;
+  border: 1px solid #bbb;
+  border-radius: 5px;
+}
+.trix-content .attachment-gallery {
+  position: relative;
+}
+.trix-content .attachment-gallery .attachment {
+  margin: auto;
+  padding: 0 0.5em;
+  max-width: 33%;
+}
+.trix-content .attachment-gallery.attachment-gallery--2 .attachment,
+.trix-content .attachment-gallery.attachment-gallery--4 .attachment {
+  margin: auto;
+  max-width: 50%;
+}
 
 /*Media Queries ------------------------------ */
 

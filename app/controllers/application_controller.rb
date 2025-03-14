@@ -10,6 +10,10 @@ class ApplicationController < ActionController::Base
 
   helper_method :current_admin, :current_session
 
+  # Allow only browsers natively supporting webp images, web push, badges, import maps, CSS nesting, and CSS :has
+  # See also: https://tailwindcss.com/docs/compatibility
+  allow_browser versions: { safari: 16.4, chrome: 120, firefox: 128, opera: 106, ie: false }, block: :handle_outdated_browser
+
   rescue_from ActiveRecord::InvalidForeignKey do
     redirect_back(
       fallback_location: root_path,
@@ -102,5 +106,9 @@ class ApplicationController < ActionController::Base
       remote_addr: request.remote_addr,
       user_agent: request.env.fetch("HTTP_USER_AGENT", "-"),
       admin_email: admin.email)
+  end
+
+  def handle_outdated_browser
+    render file: Rails.root.join("public/406-unsupported-browser-#{I18n.locale}.html"), status: :not_acceptable, layout: false
   end
 end

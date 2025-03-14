@@ -2,7 +2,6 @@ import "components/appsignal"
 import "@hotwired/turbo-rails"
 import "admin/trix"
 import "controllers/admin"
-import "components/browser_update"
 
 // Active Admin
 import "flowbite"
@@ -11,7 +10,7 @@ window.document.addEventListener("turbo:submit-end", (_event) => {
   window.setTimeout(() => {
     window.initFlowbite()
   }, 10)
-});
+})
 
 import Rails from "@rails/ujs"
 import "active_admin/features/batch_actions"
