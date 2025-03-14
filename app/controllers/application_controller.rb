@@ -12,7 +12,7 @@ class ApplicationController < ActionController::Base
 
   # Allow only browsers natively supporting webp images, web push, badges, import maps, CSS nesting, and CSS :has
   # See also: https://tailwindcss.com/docs/compatibility
-  allow_browser versions: { safari: 16.4, chrome: 120, firefox: 128, opera: 106, ie: false }, block: :handle_outdated_browser
+  allow_browser versions: { safari: 16.4, chrome: 116, firefox: 128, opera: 106, ie: false }, block: :handle_outdated_browser
 
   rescue_from ActiveRecord::InvalidForeignKey do
     redirect_back(
