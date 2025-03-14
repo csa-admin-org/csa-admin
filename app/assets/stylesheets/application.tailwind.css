@@ -9,7 +9,8 @@
     @apply underline-offset-2 decoration-green-300 dark:decoration-green-600;
   }
 
-  .content-page img, img.logo {
+  .content-page img,
+  img.logo {
     @apply dark:invert dark:hue-rotate-180;
   }
 
@@ -23,34 +24,35 @@
     }
   }
 
-  input[type=file]::file-selector-button {
+  input[type="file"]::file-selector-button {
     @apply ms-0 py-1 px-2 file:border rounded-md text-sm;
     @apply text-gray-900 dark:text-gray-100 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700;
   }
 
-  [type='text'],
-  [type='email'],
-  [type='url'],
-  [type='password'],
-  [type='number'],
-  [type='date'],
-  [type='datetime-local'],
-  [type='month'],
-  [type='search'],
-  [type='tel'],
-  [type='time'],
-  [type='week'],
+  [type="text"],
+  [type="email"],
+  [type="url"],
+  [type="password"],
+  [type="number"],
+  [type="date"],
+  [type="datetime-local"],
+  [type="month"],
+  [type="search"],
+  [type="tel"],
+  [type="time"],
+  [type="week"],
   [multiple],
   textarea,
   select {
     @apply focus:border-green-500 focus:ring-green-500 dark:focus:border-green-600 dark:focus:ring-green-600;
   }
 
-  [type='checkbox'], [type='radio'] {
+  [type="checkbox"],
+  [type="radio"] {
     @apply text-green-600 focus:ring-green-500 dark:focus:ring-green-600;
   }
 
-  [type='range'] {
+  [type="range"] {
     @apply appearance-none h-2 rounded-full bg-gray-200 dark:bg-gray-700;
 
     &::-webkit-slider-thumb {
@@ -64,13 +66,13 @@
     }
   }
 
-  [type='range']:disabled::-webkit-slider-thumb {
+  [type="range"]:disabled::-webkit-slider-thumb {
     @apply bg-gray-400 dark:bg-gray-600 hover:cursor-not-allowed;
   }
-  [type='range']:disabled::-moz-range-thumb {
+  [type="range"]:disabled::-moz-range-thumb {
     @apply bg-gray-400 dark:bg-gray-600 hover:cursor-not-allowed;
   }
-  [type='range']:disabled::-ms-thumb {
+  [type="range"]:disabled::-ms-thumb {
     @apply bg-gray-400 dark:bg-gray-600 hover:cursor-not-allowed;
   }
 
@@ -84,7 +86,8 @@
       @apply hover:text-white;
     }
 
-    p a, label a {
+    p a,
+    label a {
       @apply underline;
     }
 
@@ -96,7 +99,7 @@
     a:hover,
     a:hover h2,
     a:hover span {
-      @apply text-green-500 border-green-200 dark:border-green-800
+      @apply text-green-500 border-green-200 dark:border-green-800;
     }
 
     /* Custom CSS */
@@ -154,7 +157,7 @@
 }
 
 .hovered {
-  @apply bg-gray-100 dark:bg-gray-900
+  @apply bg-gray-100 dark:bg-gray-900;
 }
 
 @layer components {
@@ -174,7 +177,8 @@
       @apply text-gray-700 cursor-not-allowed;
     }
 
-    &.secondary, &[data-method="delete"] {
+    &.secondary,
+    &[data-method="delete"] {
       @apply border-0 text-white dark:text-white hover:text-white dark:hover:text-white bg-green-600 hover:bg-green-700 focus:ring-green-300 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800;
     }
   }
@@ -201,7 +205,8 @@
   .panel-actions {
     @apply flex items-center space-x-3;
 
-    a, button {
+    a,
+    button {
       @apply text-gray-400 dark:text-gray-600 hover:text-green-600 dark:hover:text-green-600;
     }
   }
@@ -214,8 +219,9 @@
     @apply hover:text-green-600 dark:hover:text-green-600 !important;
   }
 
-  .scopes-count, .panel-title-count {
-    @apply font-medium bg-green-200/80 text-green-800 dark:bg-green-800 dark:text-green-200 ;
+  .scopes-count,
+  .panel-title-count {
+    @apply font-medium bg-green-200/80 text-green-800 dark:bg-green-800 dark:text-green-200;
   }
 
   .full-table table tr th {
@@ -235,7 +241,7 @@
       @apply text-lg font-medium bg-transparent px-3 whitespace-nowrap;
     }
 
-    .data-table :where(tbody > tr > td)  {
+    .data-table :where(tbody > tr > td) {
       @apply px-3;
     }
 
@@ -332,7 +338,9 @@
   }
 
   .data-table-invoice-total {
-    tr:last-child, tr:nth-last-child(2), tr:nth-last-child(4) {
+    tr:last-child,
+    tr:nth-last-child(2),
+    tr:nth-last-child(4) {
       @apply border-0;
     }
     tr:nth-last-child(2) td:last-child,
@@ -345,7 +353,8 @@
   }
 
   .data-table-total {
-    tr:last-child, tr:nth-last-child(2) {
+    tr:last-child,
+    tr:nth-last-child(2) {
       @apply border-0;
     }
     tr:nth-last-child(2) td:last-child {
@@ -357,7 +366,7 @@
   }
 
   .attributes-table {
-    @apply px-2 mb-0 border-none shadow-none ;
+    @apply px-2 mb-0 border-none shadow-none;
   }
   .attributes-table :where(tbody > tr) {
     @apply border-dotted border-gray-200 dark:border-gray-700;
@@ -372,7 +381,7 @@
     @apply p-0 py-1.5 text-base;
   }
   .attributes-table :where(tbody > tr > th) {
-    @apply w-32 md:w-48 text-base text-start leading-5 font-semibold text-gray-700 dark:text-gray-300 normal-case bg-transparent dark:bg-transparent ;
+    @apply w-32 md:w-48 text-base text-start leading-5 font-semibold text-gray-700 dark:text-gray-300 normal-case bg-transparent dark:bg-transparent;
   }
   .attributes-table :where(tbody > tr > td) {
     @apply pl-4 leading-5;
@@ -380,7 +389,6 @@
   .attributes-table td .status-tag {
     @apply mb-0;
   }
-
 
   .counts {
     @apply flex flex-wrap items-center justify-around;
@@ -412,7 +420,7 @@
   }
 
   .disabled {
-    @apply text-gray-400 decoration-gray-400 ;
+    @apply text-gray-400 decoration-gray-400;
     a {
       @apply text-gray-400 decoration-gray-400 no-underline;
     }
@@ -422,7 +430,7 @@
     @apply relative w-full m-0 mb-8 p-4 bg-white dark:bg-gray-950/95 border border-gray-200 rounded-lg shadow-md dark:border-gray-700;
   }
 
-  .formtastic .fieldset-title, {
+  .formtastic .fieldset-title {
     @apply float-left m-0 mb-6 block text-xl border-none bg-transparent font-extralight;
   }
 
@@ -482,8 +490,14 @@
     @apply text-base;
   }
 
-  .formtastic :where(li > label, .checkbox-legend label, .choices label, .has-many-container h3) {
-    @apply block m-0 border-none text-base font-semibold text-gray-700 dark:text-gray-300 ;
+  .formtastic
+    :where(
+      li > label,
+      .checkbox-legend label,
+      .choices label,
+      .has-many-container h3
+    ) {
+    @apply block m-0 border-none text-base font-semibold text-gray-700 dark:text-gray-300;
   }
 
   .formtastic label abbr {
@@ -532,10 +546,10 @@
     }
   }
 
-  .formtastic .inputs ol > li:first-child, .formtastic .inputs ol > .single-line:first-child {
+  .formtastic .inputs ol > li:first-child,
+  .formtastic .inputs ol > .single-line:first-child {
     @apply mt-0;
   }
-
 
   .formtastic .inputs ol :where(li.hidden:first-child + li) {
     @apply mt-0 !important;
@@ -569,7 +583,8 @@
     @apply w-full grid md:grid-cols-3 space-y-0 gap-2;
   }
 
-  .formtastic :where(.inline-hints), .description {
+  .formtastic :where(.inline-hints),
+  .description {
     @apply text-sm m-0;
 
     a {
@@ -586,20 +601,20 @@
     @apply mt-3 flex justify-end;
   }
 
-  .formtastic :where([type='checkbox'], [type='radio']) {
+  .formtastic :where([type="checkbox"], [type="radio"]) {
     @apply w-5 h-5 bg-gray-100 dark:bg-gray-800;
   }
 
-  .formtastic :where(input, textarea, button, select)  {
+  .formtastic :where(input, textarea, button, select) {
     @apply disabled:bg-gray-200 checked:disabled:bg-gray-300 checked:disabled:dark:bg-gray-700 disabled:dark:bg-gray-800 !important;
-    @apply hover:disabled:cursor-not-allowed
+    @apply hover:disabled:cursor-not-allowed;
   }
 
-  .formtastic :where([type='number'], [type='date'], [type='time']) {
+  .formtastic :where([type="number"], [type="date"], [type="time"]) {
     @apply md:w-40;
   }
 
-  .formtastic :where([type=submit], [type=button], button) {
+  .formtastic :where([type="submit"], [type="button"], button) {
     @apply text-white bg-green-600 hover:bg-green-700 focus:ring-green-300 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800;
   }
 
@@ -632,7 +647,7 @@
     }
   }
   .formtastic .no-toggle-all .checkbox-legend input {
-      @apply hidden !important;
+    @apply hidden !important;
   }
 
   .formtastic li.legend-title {
@@ -752,11 +767,11 @@
   }
 
   table.partially-hidden {
-    tr:nth-child(n+10) {
+    tr:nth-child(n + 10) {
       @apply border-0;
     }
 
-    tr:nth-child(n+11) {
+    tr:nth-child(n + 11) {
       @apply hidden;
     }
   }
@@ -787,7 +802,7 @@
     }
 
     pre {
-      @apply  mt-4 py-2 px-4;
+      @apply mt-4 py-2 px-4;
       @apply border-l-2 border-neutral-400 dark:border-neutral-600 bg-neutral-100 dark:bg-neutral-900;
       @apply overflow-x-auto;
 
@@ -796,7 +811,8 @@
       }
     }
 
-    ul, ol {
+    ul,
+    ol {
       @apply list-outside p-4 pt-2;
     }
 
@@ -821,7 +837,6 @@
       @apply me-2 my-0 -mt-1 w-5 inline;
     }
   }
-
 
   /* Flatpickr */
   .flatpickr-calendar.inline {
@@ -911,7 +926,6 @@
     @apply border rounded-b border-green-500;
   }
 
-
   /* CodeMirror */
   .cm-editor {
     @apply bg-gray-50 border border-gray-300 text-gray-900 rounded-md w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white !important;
@@ -966,8 +980,13 @@
     max-width: 33% !important;
   }
 
-  .trix-content .attachment-gallery.attachment-gallery--2 > action-text-attachment,
-  .trix-content .attachment-gallery.attachment-gallery--2 > .attachment, .trix-content .attachment-gallery.attachment-gallery--4 > action-text-attachment,
+  .trix-content
+    .attachment-gallery.attachment-gallery--2
+    > action-text-attachment,
+  .trix-content .attachment-gallery.attachment-gallery--2 > .attachment,
+  .trix-content
+    .attachment-gallery.attachment-gallery--4
+    > action-text-attachment,
   .trix-content .attachment-gallery.attachment-gallery--4 > .attachment {
     flex-basis: 50% !important;
     max-width: 50% !important;
@@ -980,7 +999,7 @@
 
   .trix-content img {
     margin: 0 auto !important;
-    max-height: 20rem  !important;
+    max-height: 20rem !important;
     object-fit: contain !important;
   }
 
@@ -991,8 +1010,13 @@
     max-width: 33% !important;
   }
 
-  .trix-content .attachment-gallery.attachment-gallery--2 > action-text-attachment,
-  .trix-content .attachment-gallery.attachment-gallery--2 > .attachment, .trix-content .attachment-gallery.attachment-gallery--4 > action-text-attachment,
+  .trix-content
+    .attachment-gallery.attachment-gallery--2
+    > action-text-attachment,
+  .trix-content .attachment-gallery.attachment-gallery--2 > .attachment,
+  .trix-content
+    .attachment-gallery.attachment-gallery--4
+    > action-text-attachment,
   .trix-content .attachment-gallery.attachment-gallery--4 > .attachment {
     flex-basis: 50% !important;
     max-width: 50% !important;
@@ -1038,27 +1062,5 @@
     input {
       @apply inline w-0 !important;
     }
-  }
-
-  /* browser-update */
-  body .buorg {
-    @apply bg-orange-200 border-orange-500 border-0 border-t shadow-none;
-    @apply font-sans text-base;
-  }
-
-  body .buorg-icon {
-    @apply h-5 w-5 mb-0.5 mr-0.5;
-  }
-
-  body .buorg-pad {
-    @apply p-4 leading-5;
-  }
-
-  body #buorgul {
-    @apply mt-2 border-none text-white hover:text-white bg-green-600 hover:bg-green-700 focus:ring-green-300 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800 shadow-none text-base;
-  }
-
-  body #buorgig {
-    @apply mt-2 border-none text-white hover:text-white bg-neutral-400 hover:bg-neutral-500 focus:ring-green-300 dark:bg-neutral-400 dark:hover:bg-neutral-500 dark:focus:ring-green-800 shadow-none text-base;
   }
 }

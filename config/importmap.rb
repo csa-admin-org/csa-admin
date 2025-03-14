@@ -19,7 +19,6 @@ pin "tslib", preload: false # @2.8.1
 
 # ActiveAdmin (used also by members)
 pin "flowbite", to: "flowbite.turbo.min.js" # @2.4.1
-pin "browser-update" # @3.3.55
 
 # Members
 pin "members", preload: false
