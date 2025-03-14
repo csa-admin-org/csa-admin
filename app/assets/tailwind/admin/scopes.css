@@ -1,0 +1,9 @@
+@layer components {
+  .scopes {
+    @apply flex flex-wrap gap-1.5;
+  }
+
+  .scopes-count {
+    @apply ms-2 inline-flex items-center justify-center rounded-full bg-green-200/80 px-1.5 py-1 text-xs font-medium font-normal leading-none text-green-800 dark:bg-green-800 dark:text-green-200;
+  }
+}

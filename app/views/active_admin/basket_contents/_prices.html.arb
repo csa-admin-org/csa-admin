@@ -24,7 +24,7 @@ div class: "flex justify-evenly mt-4 mb-6 gap-4" do
         end
 
         if prices.many?
-          div id: "tooltip-#{basket_size.id}", role: "tooltip", class: "absolute z-10 invisible inline-block max-w-96 px-3 py-2 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700 " do
+          div id: "tooltip-#{basket_size.id}", role: "tooltip", class: "absolute z-10 invisible inline-block max-w-96 px-3 py-2 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-xs opacity-0 tooltip dark:bg-gray-700 " do
             ul class: "list-none text-left" do
               depot_prices.sort_by { |d, p| [ p, d.name ] }.map do |depot, price|
                 li "#{depot.name}:#{cur(price, unit: false)}"

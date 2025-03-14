@@ -1,0 +1,155 @@
+@layer components {
+  .status-tag {
+    @apply mb-1 inline-flex items-center whitespace-nowrap rounded-full bg-gray-200 px-2 py-0.5 text-[0.7rem] font-bold uppercase leading-4 text-white dark:text-black;
+
+    &.large {
+      @apply m-0 px-3 py-1.5 text-lg;
+    }
+  }
+
+  .status-tag {
+    &[data-status="renewed"] {
+      @apply bg-green-500 dark:bg-green-500;
+    }
+
+    &[data-status="delivered"] {
+      @apply bg-green-500 dark:bg-green-500;
+    }
+
+    &[data-status="invoiced"] {
+      @apply bg-green-500 dark:bg-green-500;
+    }
+
+    &[data-status="active"] {
+      @apply bg-green-500 dark:bg-green-500;
+    }
+
+    &[data-status="closed"] {
+      @apply bg-green-500 dark:bg-green-500;
+    }
+
+    &[data-status="auto"] {
+      @apply bg-green-500 dark:bg-green-500;
+    }
+
+    &[data-status="ongoing"] {
+      @apply bg-green-500 dark:bg-green-500;
+    }
+
+    &[data-status="validated"] {
+      @apply bg-green-500 dark:bg-green-500;
+    }
+
+    &[data-status="sent"] {
+      @apply bg-green-500 dark:bg-green-500;
+    }
+
+    &[data-status="yes"] {
+      @apply bg-green-500 dark:bg-green-500;
+    }
+
+    &[data-status="support"] {
+      @apply bg-yellow-400 dark:bg-yellow-600;
+    }
+
+    &[data-status="future"] {
+      @apply bg-yellow-400 dark:bg-yellow-600;
+    }
+
+    &[data-status="renewal_pending"] {
+      @apply bg-orange-500 dark:bg-orange-500;
+    }
+
+    &[data-status="waiting"] {
+      @apply bg-orange-500 dark:bg-orange-500;
+    }
+
+    &[data-status="renewal_opened"] {
+      @apply bg-lime-400 dark:bg-lime-400;
+    }
+
+    &[data-status="pending"] {
+      @apply bg-lime-400 dark:bg-lime-400;
+    }
+
+    &[data-status="ignored"] {
+      @apply bg-blue-500 dark:bg-blue-500;
+    }
+
+    &[data-status="coming"] {
+      @apply bg-blue-500 dark:bg-blue-500;
+    }
+
+    &[data-status="draft"] {
+      @apply bg-blue-500 dark:bg-blue-500;
+    }
+
+    &[data-status="manual"] {
+      @apply bg-blue-500 dark:bg-blue-500;
+    }
+
+    &[data-status="not_sent"] {
+      @apply bg-blue-500 dark:bg-blue-500;
+    }
+
+    &[data-status="manual_suppression"] {
+      @apply bg-blue-500 dark:bg-blue-500;
+    }
+
+    &[data-status="trial"] {
+      @apply bg-blue-500 dark:bg-blue-500;
+    }
+
+    &[data-status="renewal_canceled"] {
+      @apply bg-red-500 dark:bg-red-500;
+    }
+
+    &[data-status="hard_bounce"] {
+      @apply bg-red-500 dark:bg-red-500;
+    }
+
+    &[data-status="bounced"] {
+      @apply bg-red-500 dark:bg-red-500;
+    }
+
+    &[data-status="spam_complaint"] {
+      @apply bg-red-500 dark:bg-red-500;
+    }
+
+    &[data-status="no"] {
+      @apply bg-red-500 dark:bg-red-500;
+    }
+
+    &[data-status="open"] {
+      @apply bg-red-500 dark:bg-red-500;
+    }
+
+    &[data-status="rejected"] {
+      @apply bg-red-500 dark:bg-red-500;
+    }
+
+    &[data-status="absent"] {
+      @apply bg-neutral-300 dark:bg-neutral-600;
+    }
+
+    &[data-status="processing"] {
+      @apply bg-neutral-300 dark:bg-neutral-600;
+    }
+
+    &[data-status="no_email"] {
+      @apply bg-neutral-300 dark:bg-neutral-600;
+    }
+
+    &[data-status="canceled"] {
+      @apply bg-neutral-300 dark:bg-neutral-600;
+    }
+
+    &[data-status="past"] {
+      @apply bg-neutral-300 dark:bg-neutral-600;
+    }
+
+    &[data-status="inactive"] {
+      @apply bg-neutral-300 dark:bg-neutral-600;
+    }
+  }
+}

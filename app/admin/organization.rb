@@ -8,9 +8,11 @@ ActiveAdmin.register Organization do
   actions :edit, :update
 
   form data: { controller: "code-editor" } do |f|
-    div class: "mb-6" do
-      f.object.errors.attribute_names.each do |attr|
-        para f.semantic_errors attr
+    if f.object.errors.any?
+      div class: "mb-6" do
+        f.object.errors.attribute_names.each do |attr|
+          para f.semantic_errors attr
+        end
       end
     end
 

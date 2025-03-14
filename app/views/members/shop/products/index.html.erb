@@ -5,8 +5,8 @@
   </p>
   <div class="mt-6 h-12 w-full">
     <div data-controller="sticky" data-sticky-target="container" data-sticky-offset-value="114" data-sticky-desktop-offset-value="178" data-sticky-sticky-class="fixed top-4 md:-ml-10 inset-x-4 md:inset-x-1/2" data-action="scroll@window->sticky#update resize@window->sticky#update">
-      <div class="-mx-4 md:-mx-0 px-4 md:px-0 bg-white md:bg-transparent">
-        <div class="shadow-md mx-0 md:mx-auto w-full md:w-96 flex flex-col border dark:border-gray-700 rounded bg-gray-100 dark:bg-gray-900 text-gray-400 dark:text-gray-600">
+      <div class="-mx-4 md:-mx-0 px-4 md:px-0 bg-white dark:bg-black md:bg-transparent">
+        <div class="shadow-md mx-0 md:mx-auto w-full md:w-96 flex flex-col border border-gray-200 dark:border-gray-700 rounded-sm bg-gray-100 dark:bg-gray-900 text-gray-400 dark:text-gray-600">
           <%= turbo_frame_tag "cart" do %>
             <%= render partial: "members/shop/orders/cart" %>
           <% end %>
@@ -23,7 +23,7 @@
         <% if params[:tag_id].present? %>
           <%= hidden_field_tag :tag_id, params[:tag_id] %>
         <% end %>
-        <%= select_tag :producer_id, options_from_collection_for_select(available_producers, :id, :name, params[:producer_id]), include_blank: t(".all_producers"), class: "mt-1 dark:bg-black w-full md:w-auto text-sm px-3 md:pl-3 md:pr-16 py-1 border rounded-full focus:outline-none focus:ring-green-500 focus:border-green-500 focus:z-10 #{params[:producer_id].present? ? 'text-gray-600 bg-green-400 dark:bg-green-600 dark:text-gray-300 border-green-400 dark:border-green-600' : 'text-gray-600 dark:text-gray-400 bg-gray-100 dark:bg-gray-800 border-gray-200 dark:border-gray-700'}", data: { action: "form-submitter#submit" } %>
+        <%= select_tag :producer_id, options_from_collection_for_select(available_producers, :id, :name, params[:producer_id]), include_blank: t(".all_producers"), class: "mt-1 dark:bg-black w-full md:w-auto text-sm px-3 md:pl-3 md:pr-16 py-1 border rounded-full focus:outline-hidden focus:ring-green-500 focus:border-green-500 focus:z-10 #{params[:producer_id].present? ? 'text-gray-600 bg-green-400 dark:bg-green-600 dark:text-gray-300 border-green-400 dark:border-green-600' : 'text-gray-600 dark:text-gray-400 bg-gray-100 dark:bg-gray-800 border-gray-200 dark:border-gray-700'}", data: { action: "form-submitter#submit" } %>
       <% end %>
     </div>
   <% end %>
@@ -37,7 +37,7 @@
   <% if params[:producer_id].present? %>
     <% producer = Shop::Producer.find(params[:producer_id]) %>
     <% if producer.description? || producer.website_url? %>
-      <div class="mt-2 text-sm border dark:border-gray-700 rounded p-4 space-y-2">
+      <div class="mt-2 text-sm border border-gray-200 dark:border-gray-700 rounded-sm p-4 space-y-2">
         <% if producer.description? %>
           <div><%= producer.description %></div>
         <% end %>

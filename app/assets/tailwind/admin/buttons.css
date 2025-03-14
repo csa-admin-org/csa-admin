@@ -1,0 +1,30 @@
+@layer components {
+  .action-item-button {
+    @apply focus:outline-hidden inline-flex cursor-pointer items-center rounded-md border border-gray-200 bg-white px-3 py-2 text-sm font-medium text-gray-900 no-underline hover:bg-gray-100 hover:text-green-600 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-green-500 dark:focus:ring-gray-700;
+
+    &.small {
+      @apply px-2 py-0.5 text-sm font-normal;
+    }
+
+    &.light {
+      @apply text-gray-400 hover:text-green-600 dark:bg-gray-900 dark:text-gray-600 dark:hover:bg-gray-700 dark:hover:text-green-600;
+    }
+
+    &.disabled {
+      @apply cursor-not-allowed bg-gray-200 text-gray-700 dark:bg-gray-800;
+    }
+
+    &.secondary,
+    &[data-method="delete"] {
+      @apply border-0 bg-green-600 text-white hover:bg-green-700 hover:text-white focus:ring-green-300 dark:bg-green-600 dark:text-white dark:hover:bg-green-700 dark:hover:text-white dark:focus:ring-green-800;
+    }
+
+    &button {
+      @apply border border-green-600 bg-green-600 text-white hover:border-green-700 hover:bg-green-700 hover:text-white focus:ring-green-300 dark:border-green-600 dark:bg-green-600 dark:text-white dark:hover:border-green-700 dark:hover:bg-green-700 dark:hover:text-white dark:focus:ring-green-800;
+
+      &.borderless {
+        @apply border-0 bg-transparent px-0 text-gray-400 hover:text-green-600 dark:text-gray-600 dark:hover:bg-transparent dark:hover:text-green-600;
+      }
+    }
+  }
+}

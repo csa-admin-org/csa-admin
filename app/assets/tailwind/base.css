@@ -1,0 +1,275 @@
+@layer base {
+  /* Input elements grouped */
+  [type="text"],
+  [type="email"],
+  [type="url"],
+  [type="password"],
+  [type="number"],
+  [type="date"],
+  [type="datetime-local"],
+  [type="month"],
+  [type="search"],
+  [type="tel"],
+  [type="time"],
+  [type="week"],
+  textarea,
+  select {
+    @apply mt-1 w-full appearance-none rounded-md border border-gray-300 bg-gray-50 bg-origin-border p-2 text-base text-gray-900 shadow-none focus:border-green-500 focus:ring-green-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-green-600 dark:focus:ring-green-600;
+  }
+
+  /* Focus states for input elements */
+  [type="text"]:focus,
+  [type="email"]:focus,
+  [type="url"]:focus,
+  [type="password"]:focus,
+  [type="number"]:focus,
+  [type="date"]:focus,
+  [type="datetime-local"]:focus,
+  [type="month"]:focus,
+  [type="search"]:focus,
+  [type="tel"]:focus,
+  [type="time"]:focus,
+  [type="week"]:focus,
+  textarea:focus,
+  select:focus {
+    @apply outline-hidden border-green-600 shadow-none ring-1 ring-green-600 ring-offset-0;
+  }
+
+  /* Placeholders */
+  input::placeholder,
+  textarea::placeholder {
+    @apply text-gray-500 opacity-100;
+  }
+
+  /* Webkit datetime edit fields */
+  ::-webkit-datetime-edit {
+    @apply inline-flex pb-0 pt-0;
+  }
+
+  ::-webkit-datetime-edit-year-field,
+  ::-webkit-datetime-edit-month-field,
+  ::-webkit-datetime-edit-day-field,
+  ::-webkit-datetime-edit-hour-field,
+  ::-webkit-datetime-edit-minute-field,
+  ::-webkit-datetime-edit-second-field,
+  ::-webkit-datetime-edit-millisecond-field,
+  ::-webkit-datetime-edit-meridiem-field {
+    @apply pb-0 pt-0;
+  }
+
+  ::-webkit-date-and-time-value {
+    @apply min-h-6;
+    text-align: inherit;
+  }
+
+  /* Select element */
+  select {
+    @apply bg-no-repeat pe-8;
+    background-image: url("data:image/svg+xml,<svg aria-hidden='true' xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 10 6'><path stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1' d='m1 1 4 4 4-4'/></svg>");
+    print-color-adjust: exact;
+    background-position: right calc(var(--spacing) * 3) center;
+    background-size: calc(var(--spacing) * 3.5) calc(var(--spacing) * 3.5);
+  }
+
+  /* RTL select */
+  :is(:where([dir="rtl"]) select) {
+    background-position: left calc(var(--spacing) * 3) center;
+  }
+
+  /* Multiple select */
+  [multiple] {
+    @apply bg-none bg-auto bg-repeat pe-3;
+    print-color-adjust: unset;
+  }
+
+  /* Checkbox and radio base styles */
+  [type="checkbox"],
+  [type="radio"] {
+    @apply inline-block size-5 shrink-0 select-none appearance-none border border-gray-300 bg-gray-100 bg-origin-border p-0 align-middle text-green-600 shadow-none focus:ring-2 focus:ring-green-500 dark:border-gray-600 dark:bg-gray-700 dark:focus:ring-green-600;
+  }
+
+  [type="checkbox"] {
+    @apply rounded-sm;
+  }
+
+  [type="radio"] {
+    @apply rounded-full;
+  }
+
+  /* Focus states for checkbox and radio */
+  [type="checkbox"]:focus,
+  [type="radio"]:focus {
+    @apply outline-hidden ring-2 ring-green-600 ring-offset-2 ring-offset-white;
+  }
+
+  /* Checked states */
+  [type="checkbox"]:checked,
+  [type="radio"]:checked,
+  .dark [type="checkbox"]:checked,
+  .dark [type="radio"]:checked {
+    @apply border-transparent bg-current bg-center bg-no-repeat;
+    background-size: calc(var(--spacing) * 2.5) calc(var(--spacing) * 2.5);
+  }
+
+  [type="checkbox"]:checked {
+    @apply bg-[length:0.65rem_0.65rem];
+    background-image: url("data:image/svg+xml,<svg aria-hidden='true' xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 16 12'><path stroke='white' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='M1 5.917 5.724 10.5 15 1.5'/></svg>");
+    print-color-adjust: exact;
+  }
+
+  [type="radio"]:checked,
+  .dark [type="radio"]:checked {
+    background-image: url("data:image/svg+xml,<svg viewBox='0 0 16 16' fill='white' xmlns='http://www.w3.org/2000/svg'><circle cx='8' cy='8' r='3'/></svg>");
+    background-size: 1rem 1rem;
+  }
+
+  /* Indeterminate checkbox */
+  [type="checkbox"]:indeterminate,
+  .dark [type="checkbox"]:indeterminate {
+    @apply border-transparent bg-current bg-center bg-no-repeat;
+    background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 16 16'><path stroke='white' stroke-linecap='round' stroke-linejoin='round' stroke-width='4' d='M2 8h12'/></svg>");
+    background-size: calc(var(--spacing) * 2.5) calc(var(--spacing) * 2.5);
+    print-color-adjust: exact;
+  }
+
+  /* Range input */
+  [type="range"] {
+    @apply h-2 appearance-none rounded-full bg-gray-200 dark:bg-gray-700;
+
+    &::-webkit-slider-thumb {
+      @apply h-5 w-5 appearance-none rounded-full bg-green-600;
+    }
+    &::-moz-range-thumb {
+      @apply h-5 w-5 appearance-none rounded-full bg-green-600;
+    }
+    &::-ms-thumb {
+      @apply h-5 w-5 appearance-none rounded-full bg-green-600;
+    }
+  }
+
+  [type="range"]:disabled {
+    &::-webkit-slider-thumb {
+      @apply bg-gray-400 hover:cursor-not-allowed dark:bg-gray-600;
+    }
+    &::-moz-range-thumb {
+      @apply bg-gray-400 hover:cursor-not-allowed dark:bg-gray-600;
+    }
+    &::-ms-thumb {
+      @apply bg-gray-400 hover:cursor-not-allowed dark:bg-gray-600;
+    }
+  }
+
+  /* File input */
+  [type="file"] {
+    @apply rounded-none border-0 bg-transparent p-0 text-base leading-normal;
+    border-color: inherit;
+  }
+
+  [type="file"]:focus {
+    outline: 1px auto inherit;
+  }
+
+  /* File selector button */
+  input[type="file"]::file-selector-button {
+    @apply me-4 ms-0 cursor-pointer rounded-md border-0 bg-gray-100 px-2 py-1 text-sm text-gray-900 hover:bg-gray-200 dark:bg-gray-800 dark:text-gray-100 dark:hover:bg-gray-700;
+  }
+
+  /* Tooltip arrow */
+  .tooltip-arrow,
+  .tooltip-arrow:before {
+    @apply absolute h-2 w-2;
+    background: inherit;
+  }
+
+  .tooltip-arrow {
+    @apply invisible;
+  }
+
+  .tooltip-arrow:before {
+    @apply visible;
+    content: "";
+    transform: rotate(45deg);
+  }
+
+  .tooltip[data-popper-placement^="top"] > .tooltip-arrow {
+    @apply -bottom-1;
+  }
+
+  .tooltip[data-popper-placement^="bottom"] > .tooltip-arrow {
+    @apply -top-1;
+  }
+
+  .tooltip[data-popper-placement^="left"] > .tooltip-arrow {
+    @apply -right-1;
+  }
+
+  .tooltip[data-popper-placement^="right"] > .tooltip-arrow {
+    @apply -left-1;
+  }
+
+  .tooltip.invisible > .tooltip-arrow:before {
+    @apply invisible;
+  }
+
+  /* Popper arrow */
+  [data-popper-arrow],
+  [data-popper-arrow]:before {
+    @apply absolute h-2 w-2;
+    background: inherit;
+  }
+
+  [data-popper-arrow] {
+    @apply invisible;
+  }
+
+  [data-popper-arrow]:before {
+    @apply visible;
+    content: "";
+    transform: rotate(45deg);
+  }
+
+  [data-popover][role="tooltip"][data-popper-placement^="top"]
+    > [data-popper-arrow] {
+    @apply -bottom-[5px];
+  }
+
+  [data-popover][role="tooltip"][data-popper-placement^="bottom"]
+    > [data-popper-arrow] {
+    @apply -top-[5px];
+  }
+
+  [data-popover][role="tooltip"][data-popper-placement^="left"]
+    > [data-popper-arrow] {
+    @apply -right-[5px];
+  }
+
+  [data-popover][role="tooltip"][data-popper-placement^="right"]
+    > [data-popper-arrow] {
+    @apply -left-[5px];
+  }
+
+  [role="tooltip"].invisible > [data-popper-arrow]:before {
+    @apply invisible;
+  }
+
+  /* Links */
+  a {
+    @apply text-gray-900 underline decoration-green-300 underline-offset-2 hover:text-green-600 dark:text-gray-100 dark:decoration-green-600 dark:hover:text-green-600;
+  }
+
+  .disabled {
+    @apply text-gray-400 decoration-gray-400;
+
+    a {
+      @apply text-gray-400 no-underline decoration-gray-400;
+    }
+  }
+}
+
+@utility hovered {
+  @apply bg-gray-100 dark:bg-gray-900;
+}
+
+@utility missing-data {
+  @apply block w-full py-2 text-center italic text-gray-400 dark:text-gray-600;
+}

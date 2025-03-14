@@ -26,7 +26,7 @@ ActiveAdmin.before_load do |app|
           only: :index
         ) do
           side_panel nil do
-            para class: "-mt-2 p-2 rounded text-sm text-red-800 dark:text-red-100 bg-red-100 dark:bg-red-800" do
+            para class: "-mt-2 p-2 rounded-sm text-sm text-red-800 dark:text-red-100 bg-red-100 dark:bg-red-800" do
               t("active_admin.shared.sidebar_section.shop_admin_only_text_html")
             end
             if authorized?(:read, Current.org)

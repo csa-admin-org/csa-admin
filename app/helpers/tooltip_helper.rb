@@ -14,7 +14,7 @@ module TooltipHelper
     content_tag(:div,
       id: tooltip_id,
       role: "tooltip",
-      class: "absolute z-10 invisible inline-block max-w-96 px-3 py-2 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700"
+      class: "absolute z-10 invisible inline-block max-w-96 px-3 py-2 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-xs opacity-0 tooltip dark:bg-gray-700"
     ) {
       content_tag(:p, text) +
         content_tag(:div, nil, class: "tooltip-arrow", data: { "popper-arrow" => true })

@@ -1,5 +1,5 @@
 <div class="p-5 py-3 mt-14 mb-4 flex flex-col gap-4 md:flex-row md:items-center justify-between dark:border-gray-800/50">
-  <div class="flex flex-grow flex-col gap-1 pt-1">
+  <div class="flex grow flex-col gap-1 pt-1">
     <% breadcrumb_links = build_breadcrumb_links(request.path, class: " no-underline") %>
     <% if breadcrumb_links.present? %>
       <nav aria-label="breadcrumb">
@@ -23,14 +23,14 @@
       </span>
       <% end %>
       <% if params[:action] == "show" && params[:id] && resource&.respond_to?(:state) %>
-        <div class="flex-grow md:grow-0 text-right">
-          <span class="status-tag m-0 mr-auto leading-3 text-base font-bold h-auto py-2 px-2.5" data-status="<%= resource.state %>">
+        <div class="flex grow items-center md:grow-0 text-right">
+          <span class="status-tag large" data-status="<%= resource.state %>">
             <%= t("states.#{resource.model_name.to_s.underscore}.#{resource.state}") %>
           </span>
         </div>
       <% end %>
       <% if params[:controller] == "dashboard" %>
-        <span class="flex-grow text-4xl font-thin text-right text-gray-300 dark:text-gray-600">
+        <span class="grow text-4xl font-thin text-right text-gray-300 dark:text-gray-600">
           <%= Current.fiscal_year %>
         </span>
       <% end %>

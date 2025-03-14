@@ -131,28 +131,28 @@ ActiveAdmin.register MailTemplate do
     end
     div "data-controller" => "iframe", class: "flex  gap-5" do
       Current.org.languages.each do |locale|
-        div class: "w-full" do
+          div class: "w-full" do
           title = t(".preview")
           title += " (#{t("languages.#{locale}")})" if Current.org.languages.many?
-          f.inputs title do
-            div class: "iframe-wrapper" do
-              iframe(
-                srcdoc: mail_template.mail_preview(locale),
-                scrolling: "no",
-                class: "mail_preview",
-                id: "mail_preview_#{locale}",
-                "data-iframe-target" => "iframe")
+            f.inputs title do
+              li class: "iframe-wrapper" do
+                iframe(
+                  srcdoc: mail_template.mail_preview(locale),
+                  scrolling: "no",
+                  class: "mail_preview",
+                  id: "mail_preview_#{locale}",
+                  "data-iframe-target" => "iframe")
+              end
+              translated_input(f, :liquid_data_preview_yamls,
+                locale: locale,
+                as: :text,
+                hint: t("formtastic.hints.liquid_data_preview"),
+                input_html: {
+                  data: { mode: "yaml", code_editor_target: "editor" },
+                  name: "mail_template[liquid_data_preview_yamls][#{locale}]"
+                })
             end
-            translated_input(f, :liquid_data_preview_yamls,
-              locale: locale,
-              as: :text,
-              hint: t("formtastic.hints.liquid_data_preview"),
-              input_html: {
-                data: { mode: "yaml", code_editor_target: "editor" },
-                name: "mail_template[liquid_data_preview_yamls][#{locale}]"
-              })
           end
-        end
       end
     end
     f.actions

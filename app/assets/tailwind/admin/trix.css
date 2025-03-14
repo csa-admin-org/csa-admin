@@ -1,0 +1,339 @@
+@layer components {
+  trix-editor {
+    @apply border-gray-300! bg-gray-50! p-2! px-3! text-gray-900! focus:border-green-500! focus:ring-green-500! dark:placeholder-gray-400! dark:focus:border-green-600! dark:focus:ring-green-600! text-base! focus:ring-1! dark:border-gray-600! dark:bg-gray-700! dark:text-white! rounded-md! border! w-full!;
+  }
+
+  trix-editor figcaption {
+    @apply hidden!;
+  }
+
+  trix-toolbar {
+    @apply mt-2;
+  }
+
+  .field_with_errors {
+    & trix-editor {
+      @apply border-2! border-red-500!;
+    }
+  }
+
+  .dark {
+    trix-toolbar .trix-button {
+      filter: invert();
+    }
+
+    trix-editor {
+      color: white;
+    }
+
+    trix-toolbar .trix-button:disabled {
+      filter: invert() grayscale(1) brightness(2);
+    }
+    trix-toolbar .trix-button--icon::before {
+      opacity: 1;
+    }
+    trix-toolbar .trix-button--icon:disabled::before {
+      opacity: 0.5;
+    }
+
+    .trix-dialog .trix-button-group {
+      filter: invert();
+    }
+    .trix-input--dialog,
+    .trix-button--dialog {
+      color: black;
+    }
+  }
+
+  .trix-button--icon-quote {
+    @apply hidden!;
+  }
+
+  .trix-button--icon-code {
+    @apply hidden!;
+  }
+
+  .trix-content {
+    & * {
+      margin: 0 !important;
+      padding: 0 !important;
+    }
+
+    & .attachment-gallery {
+      display: flex !important;
+      flex-wrap: wrap !important;
+      position: relative !important;
+    }
+
+    & .attachment-gallery > action-text-attachment {
+      flex: 1 0 33% !important;
+      padding: 0 0.5em !important;
+      max-width: 33% !important;
+    }
+
+    & .attachment-gallery > .attachment {
+      flex: 1 0 33% !important;
+      padding: 0 0.5em !important;
+      max-width: 33% !important;
+    }
+
+    & .attachment-gallery.attachment-gallery--2 > action-text-attachment {
+      flex-basis: 50% !important;
+      max-width: 50% !important;
+    }
+
+    & .attachment-gallery.attachment-gallery--2 > .attachment {
+      flex-basis: 50% !important;
+      max-width: 50% !important;
+    }
+
+    & .attachment-gallery.attachment-gallery--4 > action-text-attachment {
+      flex-basis: 50% !important;
+      max-width: 50% !important;
+    }
+
+    & .attachment-gallery.attachment-gallery--4 > .attachment {
+      flex-basis: 50% !important;
+      max-width: 50% !important;
+    }
+
+    & .attachment {
+      padding: 0 !important;
+      width: 100% !important;
+    }
+
+    & img {
+      margin: 0 auto !important;
+      max-height: 20rem !important;
+      object-fit: contain !important;
+    }
+
+    & .attachment-gallery > action-text-attachment {
+      flex: 1 0 33% !important;
+      padding: 0 0.5em !important;
+      max-width: 33% !important;
+    }
+
+    & .attachment-gallery > .attachment {
+      flex: 1 0 33% !important;
+      padding: 0 0.5em !important;
+      max-width: 33% !important;
+    }
+
+    & .attachment-gallery.attachment-gallery--2 > action-text-attachment {
+      flex-basis: 50% !important;
+      max-width: 50% !important;
+    }
+
+    & .attachment-gallery.attachment-gallery--2 > .attachment {
+      flex-basis: 50% !important;
+      max-width: 50% !important;
+    }
+
+    & .attachment-gallery.attachment-gallery--4 > action-text-attachment {
+      flex-basis: 50% !important;
+      max-width: 50% !important;
+    }
+
+    & .attachment-gallery.attachment-gallery--4 > .attachment {
+      flex-basis: 50% !important;
+      max-width: 50% !important;
+    }
+
+    & action-text-attachment .attachment {
+      padding: 0 !important;
+      width: 100% !important;
+    }
+
+    & h1 {
+      font-size: 20px !important;
+      font-weight: 400 !important;
+      text-align: left !important;
+      margin-bottom: 10px !important;
+    }
+
+    & a {
+      @apply underline;
+    }
+
+    & ul {
+      margin: 0.4em 0 !important;
+    }
+
+    & ol {
+      margin: 0.4em 0 !important;
+    }
+
+    & ul li {
+      @apply list-disc! list-outside! border-none! m-0! ml-6!;
+    }
+
+    & ol li {
+      @apply list-decimal! list-outside! border-none! m-0! ml-6!;
+    }
+
+    & strong {
+      @apply font-semibold! text-gray-600! dark:text-gray-400!;
+    }
+  }
+
+  .attachment-gallery {
+    .trix-content & {
+      display: flex !important;
+      flex-wrap: wrap !important;
+      position: relative !important;
+    }
+
+    .trix-content & > action-text-attachment {
+      flex: 1 0 33% !important;
+      padding: 0 0.5em !important;
+      max-width: 33% !important;
+    }
+
+    .trix-content & > .attachment {
+      flex: 1 0 33% !important;
+      padding: 0 0.5em !important;
+      max-width: 33% !important;
+    }
+
+    .trix-content &.attachment-gallery--2 > action-text-attachment {
+      flex-basis: 50% !important;
+      max-width: 50% !important;
+    }
+
+    .trix-content &.attachment-gallery--2 > .attachment {
+      flex-basis: 50% !important;
+      max-width: 50% !important;
+    }
+
+    .trix-content &.attachment-gallery--4 > action-text-attachment {
+      flex-basis: 50% !important;
+      max-width: 50% !important;
+    }
+
+    .trix-content &.attachment-gallery--4 > .attachment {
+      flex-basis: 50% !important;
+      max-width: 50% !important;
+    }
+
+    .trix-content & > action-text-attachment {
+      flex: 1 0 33% !important;
+      padding: 0 0.5em !important;
+      max-width: 33% !important;
+    }
+
+    .trix-content & > .attachment {
+      flex: 1 0 33% !important;
+      padding: 0 0.5em !important;
+      max-width: 33% !important;
+    }
+
+    .trix-content &.attachment-gallery--2 > action-text-attachment {
+      flex-basis: 50% !important;
+      max-width: 50% !important;
+    }
+
+    .trix-content &.attachment-gallery--2 > .attachment {
+      flex-basis: 50% !important;
+      max-width: 50% !important;
+    }
+
+    .trix-content &.attachment-gallery--4 > action-text-attachment {
+      flex-basis: 50% !important;
+      max-width: 50% !important;
+    }
+
+    .trix-content &.attachment-gallery--4 > .attachment {
+      flex-basis: 50% !important;
+      max-width: 50% !important;
+    }
+  }
+
+  .attachment {
+    .trix-content .attachment-gallery > & {
+      flex: 1 0 33% !important;
+      padding: 0 0.5em !important;
+      max-width: 33% !important;
+    }
+
+    .trix-content .attachment-gallery.attachment-gallery--2 > & {
+      flex-basis: 50% !important;
+      max-width: 50% !important;
+    }
+
+    .trix-content .attachment-gallery.attachment-gallery--4 > & {
+      flex-basis: 50% !important;
+      max-width: 50% !important;
+    }
+
+    .trix-content & {
+      padding: 0 !important;
+      width: 100% !important;
+    }
+
+    .trix-content .attachment-gallery > & {
+      flex: 1 0 33% !important;
+      padding: 0 0.5em !important;
+      max-width: 33% !important;
+    }
+
+    .trix-content .attachment-gallery.attachment-gallery--2 > & {
+      flex-basis: 50% !important;
+      max-width: 50% !important;
+    }
+
+    .trix-content .attachment-gallery.attachment-gallery--4 > & {
+      flex-basis: 50% !important;
+      max-width: 50% !important;
+    }
+
+    .trix-content action-text-attachment & {
+      padding: 0 !important;
+      width: 100% !important;
+    }
+  }
+
+  .attachment-gallery--2 {
+    .trix-content &.attachment-gallery > action-text-attachment {
+      flex-basis: 50% !important;
+      max-width: 50% !important;
+    }
+
+    .trix-content &.attachment-gallery > .attachment {
+      flex-basis: 50% !important;
+      max-width: 50% !important;
+    }
+
+    .trix-content &.attachment-gallery > action-text-attachment {
+      flex-basis: 50% !important;
+      max-width: 50% !important;
+    }
+
+    .trix-content &.attachment-gallery > .attachment {
+      flex-basis: 50% !important;
+      max-width: 50% !important;
+    }
+  }
+
+  .attachment-gallery--4 {
+    .trix-content &.attachment-gallery > action-text-attachment {
+      flex-basis: 50% !important;
+      max-width: 50% !important;
+    }
+
+    .trix-content &.attachment-gallery > .attachment {
+      flex-basis: 50% !important;
+      max-width: 50% !important;
+    }
+
+    .trix-content &.attachment-gallery > action-text-attachment {
+      flex-basis: 50% !important;
+      max-width: 50% !important;
+    }
+
+    .trix-content &.attachment-gallery > .attachment {
+      flex-basis: 50% !important;
+      max-width: 50% !important;
+    }
+  }
+}

@@ -19,15 +19,17 @@ ActiveAdmin.register Announcement do
   end
 
   sidebar :info, only: :index do
-    div class: "panel text-sm p-4 rounded b text-gray-800 dark:bg-gray-800 dark:text-gray-200" do
+    div class: "panel text-sm p-4 rounded-sm b text-gray-800 dark:bg-gray-800 dark:text-gray-200" do
       t(".announcement_info")
     end
   end
 
   form do |f|
-    div class: "mb-6" do
-      f.object.errors.attribute_names.each do |attr|
-        para f.semantic_errors attr
+    if f.object.errors.any?
+      div class: "mb-6" do
+        f.object.errors.attribute_names.each do |attr|
+          para f.semantic_errors attr
+        end
       end
     end
 

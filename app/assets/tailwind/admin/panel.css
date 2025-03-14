@@ -1,0 +1,36 @@
+@layer components {
+  .panel {
+    @apply m-0 rounded-lg border border-gray-200 bg-white shadow-md dark:border-gray-700 dark:bg-gray-950/95;
+  }
+
+  .panel-title {
+    @apply mb-2 mt-3 flex flex-wrap items-center gap-2 overflow-x-auto whitespace-nowrap bg-transparent px-4 text-xl font-extralight;
+  }
+
+  .panel-title-count {
+    @apply m-0 rounded-full bg-green-200/80 px-2 py-0 text-base font-medium text-green-800 dark:bg-green-800 dark:text-green-200;
+  }
+
+  /* Panel Actions */
+  .panel-actions {
+    @apply flex items-center space-x-3;
+
+    a,
+    button {
+      @apply text-gray-400 hover:text-green-600 dark:text-gray-600 dark:hover:text-green-600;
+    }
+
+    .formtastic & {
+      @apply absolute right-4 top-4 m-0 p-0;
+    }
+
+    .formtastic & + li {
+      @apply mt-0;
+    }
+  }
+
+  /* Panel Content */
+  .panel-body {
+    @apply overflow-x-auto rounded-t-none border-none px-2 py-2;
+  }
+}

@@ -25,7 +25,7 @@ module ActivitiesHelper
 
   def activities_collection(activities, data: {})
     activities.map do |activity|
-      text = content_tag(:span, class: "inline-block flex-grow #{'cursor-not-allowed text-gray-300 dark:text-gray-700' if activity.full?}") {
+      text = content_tag(:span, class: "inline-block grow #{'cursor-not-allowed text-gray-300 dark:text-gray-700' if activity.full?}") {
         content_tag(:span, class: "flex flex-col md:flex-row flex-wrap justify-start mr-2") do
           activity_label(activity).html_safe
         end

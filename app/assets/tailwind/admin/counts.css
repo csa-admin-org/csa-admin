@@ -1,0 +1,25 @@
+@layer components {
+  .counts {
+    @apply flex flex-wrap items-center justify-around;
+
+    a {
+      @apply no-underline;
+    }
+  }
+
+  .count {
+    @apply flex flex-col items-center rounded-md px-3 py-1 hover:bg-gray-50 dark:hover:bg-gray-900;
+  }
+
+  .count-value {
+    @apply text-2xl font-semibold tracking-tight;
+  }
+
+  .count-zero {
+    @apply font-thin;
+  }
+
+  .count-title {
+    @apply text-sm font-light dark:text-gray-400;
+  }
+}

@@ -49,14 +49,14 @@ if delivery.depots.any?(&:free?) && delivery.depots.any?(&:paid?)
   end
 end
 
-table_for nil, class: "font-bold text-lg -mt-2 data-no-hover" do
-  column(nil, :title, class: "w-2/5") { t("active_admin.page.index.total", number: "") }
+table_for nil, class: "font-bold -mt-2 data-no-hover" do
+  column(nil, :title, class: "w-2/5 text-lg!") { t("active_admin.page.index.total", number: "") }
   if show_shop_orders
-    column(class: "text-right") { counts.sum_shop_orders }
+    column(class: "text-right text-lg!") { counts.sum_shop_orders }
   end
   if counts.sum.positive?
-    column(class: "text-right") { counts.sum }
-    column(class: "text-right") { counts.sum_detail }
+    column(class: "text-right text-lg!") { counts.sum }
+    column(class: "text-right text-lg!") { counts.sum_detail }
   end
 end
 

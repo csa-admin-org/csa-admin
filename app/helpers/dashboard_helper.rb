@@ -23,7 +23,7 @@ module DashboardHelper
             content_tag :button, id: "billing-snapshots-button", class: "flex items-center w-6 h-6 justify-center", data: { "dropdown-toggle" => "billing-snapshots-menu", "dropdown-offset-distance" => "1", "dropdown-placement" => "bottom-end" } do
               icon "chevron-down", class: "w-6 h-6"
             end
-          } + content_tag(:div, id: "billing-snapshots-menu", class: "z-50 hidden min-w-max bg-white rounded shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none dark:bg-gray-700 py-2 px-2 text-right text-sm text-gray-700 dark:text-gray-200", "aria-labelledby" => "user-menu-button") do
+          } + content_tag(:div, id: "billing-snapshots-menu", class: "z-50 hidden min-w-max bg-white rounded-sm shadow-lg ring-1 ring-black/5 focus:outline-hidden dark:bg-gray-700 py-2 px-2 text-right text-sm text-gray-700 dark:text-gray-200", "aria-labelledby" => "user-menu-button") do
             content_tag(:div, class: "block mb-2") {
               t(".quarterly_snapshots")
             } + content_tag(:ul, class: "space-y-1") do

@@ -9,7 +9,7 @@
     <%= render "active_admin/page_header", title: @page_title || page_title %>
     <%= render "active_admin/flash_messages" %>
     <div
-      class="flex-grow px-2.5 lg:px-5 grid grid-cols-1 gap-4 lg:gap-6 lg:grid-flow-col lg:auto-cols-[minmax(0,250px)]"
+      class="grow px-2.5 lg:px-5 grid grid-cols-1 gap-4 lg:gap-6 lg:grid-flow-col lg:auto-cols-[minmax(0,250px)]"
       data-controller="form-scroll-to-error"
       data-action="turbo:submit-start->form-scroll-to-error#observeForms">
       <%= yield %>
