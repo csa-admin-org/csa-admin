@@ -249,7 +249,7 @@ module MembersHelper
       docs << document_link(:privacy_policy, Current.org.privacy_policy_url)
     end
 
-    content_tag :span, class: "flex-grow font-normal" do
+    content_tag :span, class: "grow font-normal" do
       t(".terms_of_service_html", documents: docs.to_sentence.html_safe)
     end
   end
@@ -420,7 +420,7 @@ module MembersHelper
   end
 
   def collection_text(text, details: nil, icon: nil)
-    txts = [ "<div class='flex-grow flex flex-col'>" ]
+    txts = [ "<div class='grow flex flex-col'>" ]
     txts << "<span class='text-sm font-medium text-gray-700 dark:text-gray-300'>#{text}</span>"
     if details.present?
       txts << "<span class='text-sm'>#{details}</span>"

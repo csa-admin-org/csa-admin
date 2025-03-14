@@ -1,0 +1,39 @@
+@layer components {
+  .tabs-nav {
+    @apply flex flex-wrap pb-1 text-center text-sm font-medium;
+  }
+
+  .tabs-nav > :where(a) {
+    @apply block rounded-t-md border-b-2 border-transparent p-4 no-underline hover:text-gray-600 dark:hover:text-gray-300;
+  }
+
+  .tabs-content {
+    @apply mb-6 p-4;
+  }
+
+  .tabs-nav {
+    a {
+      @apply text-gray-950! dark:text-white! m-0 flex flex-wrap gap-6 border-b-0 border-gray-200 p-0 text-center text-xl font-extralight dark:border-gray-700;
+
+      &[aria-selected="true"] {
+        @apply text-gray-950! dark:text-white! border-b-2! border-green-500! dark:border-green-500!;
+      }
+
+      &:hover {
+        @apply text-gray-950! dark:text-white! border-b-2! border-green-500! dark:border-green-500!;
+      }
+    }
+
+    & > :where(a.hidden) {
+      display: none !important;
+    }
+  }
+
+  .tabs-content {
+    @apply m-0 mt-3 p-0;
+  }
+
+  [role="tabpanel"] {
+    @apply scroll-mt-36;
+  }
+}

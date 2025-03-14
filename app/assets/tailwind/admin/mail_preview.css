@@ -1,0 +1,9 @@
+@layer components {
+  .iframe-wrapper {
+    @apply text-center lg:mb-5;
+  }
+
+  .mail_preview {
+    @apply inline-block h-full min-h-fit w-full max-w-2xl overflow-hidden rounded-lg border-2 border-dashed border-gray-200 dark:border-gray-700;
+  }
+}

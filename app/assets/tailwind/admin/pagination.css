@@ -1,0 +1,47 @@
+@layer components {
+  /* Container Styles */
+  .paginated-collection {
+    @apply flex flex-wrap justify-between overflow-visible rounded-none border-none shadow-none;
+  }
+
+  .paginated-collection-contents {
+    @apply w-full overflow-x-auto rounded-lg border border-gray-200 shadow-md dark:border-gray-700;
+
+    &:has(.table-wrapper) {
+      @apply overflow-visible border-none shadow-none;
+    }
+
+    .index-as-table:has(.table-wrapper) {
+      @apply overflow-visible;
+    }
+
+    .table-wrapper {
+      @apply mt-5 rounded-lg border border-gray-200 bg-white shadow-md dark:border-gray-700 dark:bg-gray-950/95;
+    }
+
+    .table-wrapper-content {
+      @apply overflow-x-auto;
+    }
+  }
+
+  /* Pagination and Footer */
+  .paginated-collection-pagination {
+    @apply inline flex w-1/2 flex-col-reverse items-center justify-between gap-4 py-0 pt-2.5 text-sm lg:flex-row lg:p-3;
+  }
+
+  .paginated-collection-footer {
+    @apply flex w-1/3 items-start justify-end gap-2 border-0 py-4 text-sm font-light;
+  }
+
+  .pagination-per-page {
+    @apply w-auto w-min py-1 pe-7 text-sm;
+  }
+
+  .pagination-information {
+    @apply hidden;
+
+    b {
+      @apply font-bold;
+    }
+  }
+}

@@ -8,6 +8,8 @@
 pin "@hotwired/stimulus", to: "stimulus.min.js"
 pin "@hotwired/stimulus-loading", to: "stimulus-loading.js"
 pin "@hotwired/turbo-rails", to: "turbo.min.js"
+pin "trix"
+pin "@rails/actiontext", to: "actiontext.esm.js"
 pin_all_from "app/javascript/components", under: "components"
 pin "throttle-debounce" # @5.0.2
 
@@ -18,7 +20,7 @@ pin "https", preload: false # @2.1.0
 pin "tslib", preload: false # @2.8.1
 
 # ActiveAdmin (used also by members)
-pin "flowbite", to: "flowbite.turbo.min.js" # @2.4.1
+pin "flowbite", to: "flowbite.turbo.min.js" # @3.1.2
 
 # Members
 pin "members", preload: false

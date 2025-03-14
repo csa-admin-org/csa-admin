@@ -3,8 +3,7 @@
   <head>
     <title><%= [ Current.org.name, t(".title") ].join(" – ") %></title>
     <%= javascript_importmap_tags "members" %>
-    <%= stylesheet_link_tag "https://npmcdn.com/flatpickr/dist/themes/confetti.css" %>
-    <%= stylesheet_link_tag "tailwind", "inter-font", data: { turbo_track: "reload" } %>
+    <%= stylesheet_link_tag "tailwind", data: { turbo_track: "reload" } %>
     <%= csrf_meta_tags %>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -34,10 +33,10 @@
       </div>
     <% else %>
       <div class="flex flex-col mx-4 h-screen md:max-w-xl md:mx-auto">
-        <div class="flex flex-grow flex-col">
+        <div class="flex grow flex-col">
           <div class="my-auto">
             <header class="flex">
-              <div class="mx-auto my-8 md:my-16 print:!my-6">
+              <div class="mx-auto my-16 print:!my-6">
                 <%= link_to Current.org.url do %>
                   <%= image_tag(org_logo_url, alt: "#{Current.org.name} Logo", class: "h-32 w-32 md:h-60 md:w-60 print:!h-16 print:!w-16") %>
                 <% end %>

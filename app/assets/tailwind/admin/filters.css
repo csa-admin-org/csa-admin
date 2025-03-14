@@ -1,0 +1,77 @@
+@layer components {
+  .filters-form {
+    @apply mb-6 text-sm;
+  }
+
+  .filters-form-title {
+    @apply mb-4 text-lg font-bold text-gray-700 dark:text-gray-200;
+  }
+
+  .filters-form :where(.label) {
+    @apply mb-1.5 block text-sm;
+  }
+
+  .filters-form-input-group {
+    @apply grid grid-cols-2 gap-2;
+  }
+
+  .filters-form-field {
+    @apply mb-4;
+  }
+
+  .filters-form-field :where(.choices > label) {
+    @apply mb-1 flex items-center gap-2;
+  }
+
+  .filters-form-buttons {
+    @apply flex items-center justify-center gap-2;
+  }
+
+  .filters-form-buttons a {
+    @apply text-xs text-gray-400 hover:text-green-600 dark:text-gray-600 dark:hover:text-green-600;
+  }
+
+  .filters-form-buttons input {
+    @apply hidden;
+  }
+
+  .filters-form-submit {
+    @apply focus:outline-hidden min-w-[6rem] cursor-pointer rounded-md bg-green-600 px-3 py-2 text-center font-bold text-white hover:bg-green-700 focus:ring-4 focus:ring-green-300 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800;
+  }
+
+  .filters-form-clear {
+    @apply rounded-md px-3 py-2 font-semibold text-gray-700 no-underline hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-inherit dark:hover:text-gray-100 dark:focus:ring-green-800;
+  }
+
+  .active-filters-title {
+    @apply mb-4 text-lg font-bold text-gray-700 dark:text-gray-200;
+  }
+
+  .active-filters-list {
+    @apply list-disc space-y-1 ps-5 text-gray-700 dark:text-gray-200;
+  }
+
+  #filters_sidebar_section {
+    @apply mt-2.5;
+
+    h3 {
+      @apply mb-3 text-xl font-extralight;
+    }
+
+    input[type="text"],
+    input[type="date"],
+    select {
+      @apply m-0 h-7 px-2 py-0 text-sm;
+    }
+
+    @supports (-moz-appearance: none) {
+      input[type="date"] {
+        letter-spacing: -1.5px;
+      }
+    }
+
+    .checkbox-legend input {
+      @apply hidden;
+    }
+  }
+}

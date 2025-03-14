@@ -47,7 +47,6 @@ gem "importmap-rails"
 gem "turbo-rails"
 gem "stimulus-rails"
 gem "tailwindcss-rails"
-gem "tailwindcss-ruby", "~> 3.4"
 gem "inline_svg"
 
 gem "cld"

@@ -1,0 +1,26 @@
+@import "tailwindcss";
+
+@import "./base.css";
+@import "./dark.css";
+
+@import "./admin/buttons.css";
+@import "./admin/breadcrumb.css";
+@import "./admin/counts.css";
+@import "./admin/filters.css";
+@import "./admin/batch_actions.css";
+@import "./admin/markdown.css";
+@import "./admin/pagination.css";
+@import "./admin/panel.css";
+@import "./admin/scopes.css";
+@import "./admin/status_tag.css";
+@import "./admin/table.css";
+@import "./admin/tabs_nav.css";
+@import "./admin/formtastic.css";
+@import "./admin/mail_preview.css";
+
+@import "./admin/trix.css";
+@import "./admin/codemirror.css";
+@import "./admin/tom_select.css";
+@import "./admin/flatpickr.css";
+
+@import "./members/base.css";

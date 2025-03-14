@@ -144,9 +144,11 @@ ActiveAdmin.register BasketContent do
   end
 
   form do |f|
-    div class: "mb-6" do
-      f.object.errors.attribute_names.each do |attr|
-        para f.semantic_errors attr
+    if f.object.errors.any?
+      div class: "mb-6" do
+        f.object.errors.attribute_names.each do |attr|
+          para f.semantic_errors attr
+        end
       end
     end
 
@@ -215,7 +217,7 @@ ActiveAdmin.register BasketContent do
                 required: true,
                 wrapper_html: {
                   id: nil,
-                  class: "flex flex-wrap items-center space-y-0 gap-2"
+                  class: "flex flex-wrap items-center space-y-0 gap-x-3"
                 },
                 label_html: {
                   class: "w-full m-0 p-0"

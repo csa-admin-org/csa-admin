@@ -1,0 +1,237 @@
+@layer components {
+  .index-data-table-toolbar {
+    @apply mb-4 flex flex-col gap-4 lg:flex-row;
+  }
+
+  .index-button-group {
+    @apply inline-flex flex-wrap items-stretch rounded-md;
+  }
+
+  .index-button-group > :where(*:not(:first-child)) {
+    @apply my-0 -ms-px;
+  }
+
+  .index-button {
+    @apply inline-flex items-center justify-center border border-gray-200 bg-white px-3 py-2 text-sm font-medium text-gray-900 no-underline first:rounded-s-md last:rounded-e-md hover:bg-gray-100 focus:z-10 focus:text-blue-700 focus:ring-2 focus:ring-blue-700 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-100 dark:hover:bg-gray-800 dark:hover:text-gray-200 dark:focus:text-white dark:focus:ring-blue-500;
+  }
+
+  .index-button-selected {
+    @apply bg-gray-100 hover:bg-gray-100 dark:bg-gray-800 dark:hover:bg-gray-800;
+  }
+
+  .index-as-table {
+    @apply relative overflow-x-auto;
+  }
+
+  .data-table {
+    @apply w-full text-sm text-gray-800 dark:text-gray-300;
+  }
+
+  .data-table :where(thead > tr > th) {
+    @apply whitespace-nowrap border-b bg-gray-50 px-3 py-3.5 text-start text-xs font-semibold uppercase text-gray-700 dark:border-gray-800 dark:bg-gray-950/50 dark:text-white;
+  }
+
+  .data-table :where(thead > tr > th > a) {
+    @apply inline-flex items-center gap-2 text-inherit no-underline;
+  }
+
+  .data-table-sorted-icon {
+    @apply invisible h-[5px] w-[8px];
+  }
+
+  :where(th[data-sort-direction]) .data-table-sorted-icon {
+    @apply visible;
+  }
+
+  :where(th[data-sort-direction="asc"]) .data-table-sorted-icon {
+    @apply rotate-180;
+  }
+
+  .data-table :where(tbody > tr) {
+    @apply border-b dark:border-gray-800;
+  }
+
+  .data-table :where(td) {
+    @apply px-3 py-4;
+  }
+
+  .data-table-resource-actions {
+    @apply flex gap-2;
+  }
+
+  .attributes-table {
+    @apply shadow-xs mb-6 overflow-hidden rounded-md border border-gray-200 dark:border-gray-800;
+  }
+
+  .attributes-table > :where(table) {
+    @apply w-full text-sm text-gray-800 dark:text-gray-300;
+  }
+
+  .attributes-table :where(tbody > tr) {
+    @apply space-y-0.5 border-b dark:border-gray-800;
+  }
+
+  .attributes-table :where(tbody > tr > th) {
+    @apply w-32 bg-gray-50 text-start text-xs uppercase text-gray-700 sm:w-40 dark:bg-gray-800/60 dark:text-gray-300;
+  }
+
+  .attributes-table :where(tbody > tr > th, tbody > tr > td) {
+    @apply p-3;
+  }
+
+  .attributes-table-empty-value {
+    @apply text-xs font-semibold uppercase text-gray-400/50 dark:text-gray-700/60;
+  }
+
+  .data-table {
+    @apply table-fixed;
+
+    :where(thead > tr > th) {
+      @apply whitespace-normal border-0 bg-transparent px-2 py-2 text-base font-bold normal-case;
+    }
+
+    :where(td) {
+      @apply px-2 py-2 text-base;
+    }
+
+    tbody tr {
+      @apply border-dotted hover:bg-gray-100 dark:hover:bg-gray-800;
+    }
+
+    :where(tbody > tr) {
+      @apply border-b border-dotted border-gray-200 hover:bg-gray-100 dark:border-gray-700 dark:hover:bg-gray-800;
+    }
+
+    tbody tr:first-child {
+      @apply border-t border-t-gray-200 dark:border-t-gray-700;
+    }
+
+    tbody tr:last-child {
+      @apply border-b-0;
+    }
+  }
+
+  .full-table {
+    & table tr th {
+      @apply w-full;
+    }
+  }
+
+  .index-as-table {
+    table {
+      @apply table-auto border-none shadow-none;
+    }
+
+    thead {
+      @apply bg-transparent p-4 dark:bg-transparent;
+    }
+
+    .data-table :where(thead > tr > th) {
+      @apply whitespace-nowrap bg-transparent px-3 text-lg font-medium;
+    }
+
+    .data-table :where(tbody > tr > td) {
+      @apply px-3;
+    }
+
+    .data-table tbody tr:nth-child(odd) {
+      @apply border-dotted bg-gray-50 hover:bg-gray-100 dark:bg-gray-900 dark:hover:bg-gray-800;
+    }
+  }
+
+  .data-no-hover {
+    & tbody tr {
+      @apply hover:bg-transparent;
+    }
+  }
+
+  .text-right {
+    &th a {
+      @apply flex flex-row-reverse;
+    }
+  }
+
+  .data-table-invoice-total {
+    tr:last-child,
+    tr:nth-last-child(2),
+    tr:nth-last-child(4) {
+      @apply border-0;
+    }
+
+    tr:nth-last-child(2) td:last-child,
+    tr:nth-last-child(4) td:last-child {
+      @apply border-b border-black dark:border-white;
+    }
+
+    tr:last-child td {
+      @apply font-bold;
+    }
+  }
+
+  .data-table-total {
+    tr:last-child,
+    tr:nth-last-child(2) {
+      @apply border-0;
+    }
+
+    tr:nth-last-child(2) td:last-child {
+      @apply border-b border-black dark:border-white;
+    }
+
+    tr:last-child td {
+      @apply font-bold;
+    }
+  }
+
+  .data-table-resource-actions {
+    @apply flex items-center justify-end gap-2;
+
+    a {
+      @apply text-gray-400 hover:text-green-600 dark:text-gray-600 dark:hover:text-green-600;
+    }
+  }
+
+  .attributes-table {
+    @apply mb-0 border-none px-2 shadow-none;
+
+    & :where(tbody > tr) {
+      @apply border-dotted border-gray-200 dark:border-gray-700;
+    }
+
+    & :where(tbody > tr:last-child) {
+      @apply border-none;
+    }
+
+    & :where(tbody > tr > th) {
+      @apply flex items-start;
+    }
+
+    & :where(tbody > tr > th, tbody > tr > td) {
+      @apply p-0 py-1.5 text-base;
+    }
+
+    & :where(tbody > tr > th) {
+      @apply w-32 bg-transparent text-start text-base font-semibold normal-case leading-5 text-gray-700 md:w-48 dark:bg-transparent dark:text-gray-300;
+    }
+
+    & :where(tbody > tr > td) {
+      @apply pl-4 leading-5;
+    }
+
+    & td .status-tag {
+      @apply mb-0;
+    }
+  }
+
+  .partially-hidden {
+    &table {
+      tr:nth-child(n + 10) {
+        @apply border-0;
+      }
+
+      tr:nth-child(n + 11) {
+        @apply hidden;
+      }
+    }
+  }
+}

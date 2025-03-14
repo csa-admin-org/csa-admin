@@ -3,7 +3,7 @@
 </span>
 <% case object %>
 <% when Invoice %>
-  <span class="order-1 md:order-2 w-full flex flex-grow justify-between items-center">
+  <span class="order-1 md:order-2 w-full flex grow justify-between items-center">
     <span>
       <%= t(".invoice_info_html", id: object.id, type: display_entity(object, link: false)) %>
     </span>
@@ -17,7 +17,7 @@
     <%= cur(object.amount) %>
   </span>
 <% when Payment %>
-  <span class="order-1 w-full flex-grow">
+  <span class="order-1 w-full grow">
     <% if object.amount.positive? %>
       <% if object.invoice_id %>
         <%= t(".payment_info_html", invoice_id: object.invoice_id) %>

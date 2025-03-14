@@ -48,7 +48,7 @@ ActiveAdmin.register Newsletter::Template do
           title = t(".preview")
           title += " (#{t("languages.#{locale}")})" if Current.org.languages.many?
           f.inputs title do
-            div class: "iframe-wrapper" do
+            li class: "iframe-wrapper" do
               iframe(
                 srcdoc: newsletter_template.mail_preview(locale),
                 scrolling: "no",

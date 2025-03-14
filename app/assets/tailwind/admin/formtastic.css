@@ -1,0 +1,288 @@
+@layer components {
+  /* Base Form Styles */
+  .formtastic {
+    @apply text-sm;
+
+    /* Structural Elements */
+    fieldset.inputs {
+      @apply relative m-0 mb-8 w-full rounded-lg border border-gray-200 bg-white p-4 shadow-md dark:border-gray-700 dark:bg-gray-950/95;
+    }
+
+    .inputs ol,
+    .inputs [role="tabpanel"] {
+      @apply space-y-2;
+    }
+
+    .inputs ol li:last-child {
+      @apply mb-0 pb-0;
+    }
+
+    .inputs .single-line {
+      @apply gap-6 space-y-2 md:flex md:space-y-0;
+    }
+
+    li.single-column ol {
+      @apply flex flex-col;
+    }
+
+    li.single-column ol li {
+      @apply w-full;
+    }
+
+    /* Navigation */
+    .tabs-nav {
+      @apply m-0 mb-6 flex flex-wrap gap-6 border-b-0 border-gray-200 text-center text-xl font-extralight text-gray-950 dark:border-gray-700 dark:text-white;
+    }
+
+    .panel-actions {
+      @apply absolute right-4 top-4 m-0 p-0;
+    }
+
+    .panel-actions + li {
+      @apply mt-0;
+    }
+
+    /* Titles and Labels */
+    & > h3 {
+      @apply mb-2 mt-12 text-3xl font-extralight;
+    }
+
+    & > h3 + p {
+      @apply mb-4 text-base;
+    }
+
+    .fieldset-title {
+      @apply float-left m-0 block border-none bg-transparent pb-4 text-xl font-extralight;
+    }
+
+    .fieldset-title,
+    .has-many-fields-title {
+      @apply mb-3 block w-full border-b text-lg font-bold;
+    }
+
+    li.subtitle {
+      @apply border-t-2 border-dotted border-gray-200 dark:border-gray-700;
+    }
+
+    li.subtitle h2 {
+      @apply mb-0 mt-5 text-2xl font-light;
+    }
+
+    li.subtitle span {
+      @apply text-gray-500 dark:text-gray-500;
+    }
+
+    li.subtitle .optional {
+      @apply italic;
+    }
+
+    .inputs legend,
+    li.legend-title .checkbox-legend label {
+      @apply text-xl font-extralight;
+    }
+
+    li.legend-title {
+      @apply pt-0;
+
+      ol {
+        @apply mt-2;
+      }
+    }
+
+    li > label,
+    .checkbox-legend label,
+    .choices label,
+    .has-many-container h3 {
+      @apply m-0 block border-none text-base font-semibold text-gray-700 dark:text-gray-300;
+    }
+
+    .label {
+      @apply mb-1.5 block;
+    }
+
+    label abbr {
+      @apply ml-0.5 text-gray-500 no-underline;
+    }
+
+    .label abbr {
+      @apply ms-1 no-underline;
+    }
+
+    .checkbox-legend label {
+      @apply text-base font-semibold;
+    }
+
+    /* Form Inputs */
+    .input {
+      @apply py-3;
+    }
+
+    .checkbox-legend {
+      @apply m-0 flex flex-row-reverse items-center gap-2 p-0 pb-1;
+    }
+
+    .boolean label,
+    .choice label {
+      @apply m-0 flex items-center gap-2 p-0 text-base font-normal;
+    }
+
+    .choice {
+      @apply mb-1;
+    }
+
+    .fragments-group {
+      @apply inline-flex flex-wrap gap-1;
+    }
+
+    .fragment label {
+      @apply sr-only;
+    }
+
+    li.radio {
+      @apply m-0 p-0;
+    }
+
+    li.radio ol.choices-group {
+      @apply w-full space-y-1;
+    }
+
+    li.check_boxes ol.choices-group {
+      @apply grid w-full gap-1 space-y-0 md:grid-cols-3;
+    }
+
+    li.features-list {
+      @apply mb-4 list-none;
+    }
+
+    li.features-list .checkbox-legend label {
+      @apply mb-2 text-3xl font-extralight;
+    }
+
+    li.features-list ol.choices-group {
+      @apply ml-2 flex gap-y-4;
+    }
+
+    li.features-list input {
+      @apply h-6 w-6;
+    }
+
+    input,
+    textarea,
+    button,
+    select {
+      @apply disabled:bg-gray-200 checked:disabled:bg-gray-300 hover:disabled:cursor-not-allowed dark:disabled:bg-gray-800 dark:checked:disabled:bg-gray-700;
+    }
+
+    [type="number"],
+    [type="date"],
+    [type="time"] {
+      @apply md:w-40;
+    }
+
+    /* Has-Many Relationships */
+    .has-many-container h3 {
+      @apply mb-2 text-lg font-semibold;
+    }
+
+    li.has-many-container {
+      @apply space-y-4;
+    }
+
+    .has-many-container {
+      @apply mt-4 gap-y-4;
+    }
+
+    .has-many-fields {
+      @apply border-s-4 border-s-gray-200 ps-3 dark:border-s-gray-700;
+    }
+
+    fieldset.has-many-fields {
+      @apply my-3 rounded-md border border-dashed border-gray-300 p-4 pt-2 shadow-none dark:border-gray-700;
+    }
+
+    .has-many-add {
+      @apply inline-block py-3;
+    }
+
+    a.has-many-add {
+      @apply focus:outline-hidden rounded-md border border-gray-200 bg-white px-2 py-1 text-sm font-medium text-gray-900 no-underline hover:bg-gray-100 hover:text-green-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white dark:focus:ring-gray-700;
+    }
+
+    /* Buttons and Actions */
+    .buttons,
+    .actions {
+      @apply mt-3 flex justify-end;
+    }
+
+    .actions > ol {
+      @apply flex flex-row-reverse items-center gap-6;
+    }
+
+    [type="submit"],
+    [type="button"],
+    button {
+      @apply focus:outline-hidden cursor-pointer rounded-lg bg-green-600 px-4 py-2 text-center font-bold text-white hover:bg-green-700 focus:ring-4 focus:ring-green-300 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800;
+    }
+
+    .actions .cancel-link {
+      @apply font-semibold leading-6 text-gray-900 no-underline dark:text-white;
+    }
+
+    /* Hints and Descriptions */
+    .inline-hints {
+      @apply mt-2 text-sm text-gray-500;
+    }
+
+    .inline-hints a {
+      @apply text-gray-500 hover:text-green-600 dark:text-gray-500 dark:hover:text-green-600;
+    }
+
+    .description {
+      @apply m-0 mt-2 text-base text-gray-500 dark:text-gray-500;
+    }
+
+    .description a {
+      @apply text-gray-500 hover:text-green-600 dark:text-gray-500 dark:hover:text-green-600;
+    }
+
+    /* Errors */
+    ul.errors {
+      @apply m-0 mt-2 gap-2 bg-red-100 p-2 text-red-500 dark:bg-red-900;
+    }
+
+    ul.errors li {
+      @apply m-1 list-inside;
+    }
+
+    .errors {
+      @apply mb-6 space-y-2 rounded-md bg-red-50 p-4 text-red-800 dark:bg-red-800 dark:text-red-300;
+    }
+
+    .errors > li {
+      @apply ms-4 list-disc;
+    }
+
+    .inline-errors {
+      @apply mt-2 font-bold text-red-600 dark:text-red-300;
+    }
+
+    .error [type="email"],
+    .error [type="number"],
+    .error [type="password"],
+    .error [type="tel"],
+    .error [type="text"],
+    .error [type="url"],
+    .error textarea {
+      @apply border-red-500;
+    }
+
+    /* Visibility */
+    .hidden .tabs-nav > a {
+      display: none;
+    }
+
+    .no-toggle-all .checkbox-legend input {
+      @apply hidden!;
+    }
+  }
+}
