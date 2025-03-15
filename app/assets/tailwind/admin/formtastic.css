@@ -21,14 +21,6 @@
       @apply gap-6 space-y-2 md:flex md:space-y-0;
     }
 
-    li.single-column ol {
-      @apply flex flex-col;
-    }
-
-    li.single-column ol li {
-      @apply w-full;
-    }
-
     /* Navigation */
     .tabs-nav {
       @apply m-0 mb-6 flex flex-wrap gap-6 border-b-0 border-gray-200 text-center text-xl font-extralight text-gray-950 dark:border-gray-700 dark:text-white;
@@ -150,6 +142,10 @@
       @apply grid w-full gap-1 space-y-0 md:grid-cols-3;
     }
 
+    li.single-column ol.choices-group {
+      @apply flex flex-col;
+    }
+
     li.features-list {
       @apply mb-4 list-none;
     }
@@ -159,7 +155,7 @@
     }
 
     li.features-list ol.choices-group {
-      @apply ml-2 flex gap-y-4;
+      @apply ml-2 gap-y-4;
     }
 
     li.features-list input {
