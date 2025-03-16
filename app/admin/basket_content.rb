@@ -143,22 +143,14 @@ ActiveAdmin.register BasketContent do
     redirect_to basket_contents_path(q: { delivery_id_eq: to })
   end
 
-  form do |f|
-    if f.object.errors.any?
-      div class: "mb-6" do
-        f.object.errors.attribute_names.each do |attr|
-          para f.semantic_errors attr
-        end
-      end
-    end
-
+  form data: { controller: "basket-content-products-select" } do |f|
     f.inputs t(".details") do
       f.input :delivery,
         collection: Delivery.all,
         required: true,
         prompt: true
     end
-    f.inputs BasketContent.human_attribute_name(:content), "data-controller" => "basket-content-products-select" do
+    f.inputs BasketContent.human_attribute_name(:content) do
       f.input :product,
         input_html: {
           data: {
@@ -184,12 +176,6 @@ ActiveAdmin.register BasketContent do
             "basket-content-products-select-target" => "unitSelect"
           }
         }
-      f.input :quantity,
-        input_html: {
-          data: {
-            "basket-content-products-select-target" => "quantityInput"
-          }
-        }
       f.input :unit_price,
         label: BasketContent.human_attribute_name(:price),
         as: :number,
@@ -203,10 +189,26 @@ ActiveAdmin.register BasketContent do
     end
     div "data-controller" => "basket-content-distribution" do
       h2 t("basket_content.distribution"), class: "text-2xl font-extralight mb-2"
+      f.input :distribution_mode,
+        as: :hidden,
+        input_html: {
+          data: {
+            "basket-content-distribution-target" => "mode"
+          }
+        }
       f.inputs do
         tabs do
           tab t("basket_content.distribution_mode.automatic"), id: "automatic", selected: f.object.distribution_automatic?, html_options: { "data-action" => "click->basket-content-distribution#automaticMode" } do
             f.semantic_errors :basket_percentages
+            f.input :quantity,
+              input_html: {
+                required: f.object.distribution_automatic?,
+                disabled: !f.object.distribution_automatic?,
+                data: {
+                  "basket-content-products-select-target" => "quantityInput",
+                  "basket-content-distribution-target" => "quantity"
+                }
+              }
             BasketSize.ordered.paid.each do |basket_size|
               f.input :basket_size_ids_percentages,
                 as: :custom_range,
@@ -266,6 +268,11 @@ ActiveAdmin.register BasketContent do
           end
           tab t("basket_content.distribution_mode.manual"), id: "manual", selected: f.object.distribution_manual?, html_options: { "data-action" => "click->basket-content-distribution#manualMode" } do
             f.semantic_errors :basket_quantities
+
+              para class: "description" do
+                t("basket_content.quantities_hint")
+              end
+
             BasketSize.ordered.paid.each do |basket_size|
               f.input :basket_size_ids_quantities,
                 as: :number,
@@ -274,11 +281,13 @@ ActiveAdmin.register BasketContent do
                 label: basket_size.name,
                 wrapper_html: { id: nil },
                 input_html: {
+                  required: f.object.distribution_manual?,
+                  disabled: !f.object.distribution_manual?,
                   id: "basket_size_ids_quantities_#{basket_size.id}",
                   value: f.object.basket_size_ids_quantity(basket_size),
                   name: "basket_content[basket_size_ids_quantities][#{basket_size.id}]",
                   data: {
-                    "basket-content-distribution-target" => "quantityInput"
+                    "basket-content-distribution-target" => "basketQuantity"
                   }
                 }
             end
@@ -295,7 +304,7 @@ ActiveAdmin.register BasketContent do
     f.actions
   end
 
-  permit_params(*%i[delivery_id product_id quantity unit unit_price],
+  permit_params(*%i[delivery_id product_id quantity unit unit_price distribution_mode],
     depot_ids: [],
     basket_size_ids_percentages: {},
     basket_size_ids_quantities: {})
