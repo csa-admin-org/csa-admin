@@ -2,7 +2,7 @@ _:
   activemodel:
     models:
       system:
-        _de: CSA Admin
         _en: CSA Admin
         _fr: CSA Admin
+        _de: CSA Admin
         _it: CSA Admin

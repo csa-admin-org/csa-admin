@@ -3,14 +3,14 @@ _:
     cancel:
       flash:
         notice:
-          _de: Erneute Bestellung in Vorbereitung. Die Rechnung wurde storniert.
           _en: Order being prepared again. The invoice has been canceled.
           _fr: Commande à nouveau en préparation. La facture a été annulée.
+          _de: Erneute Bestellung in Vorbereitung. Die Rechnung wurde storniert.
           _it: Ordine in preparazione di nuovo. La fattura è stata annullata.
     invoice:
       flash:
         notice:
-          _de: Bestellung erfolgreich fakturiert. Die Rechnung wurde bereits versandt.
           _en: Order successfully invoiced. The invoice has already been sent.
           _fr: Commande facturée avec succès. La facture a été envoyée.
+          _de: Bestellung erfolgreich fakturiert. Die Rechnung wurde bereits versandt.
           _it: Ordine fatturato con successo. La fattura è stata inviata.

@@ -2,22 +2,22 @@ _:
   time:
     formats:
       default:
-        _de: "%-d. %B %Y, %H:%M"
         _en: "%-d %B %Y, %H:%M"
         _fr: "%-d %B %Y, %H:%M"
+        _de: "%-d. %B %Y, %H:%M"
         _it: "%-d %B %Y, %H:%M"
       long:
-        _de: "%A, %-d. %B %Y, %H:%M"
         _en: "%A %-d %B %Y, %H:%M"
         _fr: "%A %-d %B %Y, %H:%M"
+        _de: "%A, %-d. %B %Y, %H:%M"
         _it: "%A %-d %B %Y, %H:%M"
       medium:
-        _de: "%a. %-d. %b. %y, %H:%M"
         _en: "%a %-d %b %y, %H:%M"
         _fr: "%a. %-d %b %y, %H:%M"
+        _de: "%a. %-d. %b. %y, %H:%M"
         _it: "%a. %-d %b. %y, %H:%M"
       short:
-        _de: "%-d. %b. %y, %H:%M"
         _en: "%-d %b %y, %H:%M"
         _fr: "%-d %b %y, %H:%M"
+        _de: "%-d. %b. %y, %H:%M"
         _it: "%-d %b. %y, %H:%M"

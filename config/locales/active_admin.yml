@@ -2,2389 +2,2389 @@ _:
   active_admin:
     access_denied:
       message:
-        _de: Sie sind nicht berechtigt, diese Aktion auszuführen
         _en: You are not authorized to perform this action
         _fr: Vous n'êtes pas autorisé à executer cette action
+        _de: Sie sind nicht berechtigt, diese Aktion auszuführen
         _it: Non siete autorizzati a svolgere questa operazione
     any:
-      _de: Alle
       _en: Any
       _fr: N'importe lequel
+      _de: Alle
       _it: Tutti
     basket_contents:
       duplicate_all_from:
         button:
-          _de: Importieren
           _en: Import
           _fr: Importer
+          _de: Importieren
           _it: Importare
         text:
-          _de: 'Importieren Sie alle Tascheninhalte von der folgenden Lieferung:'
           _en: 'Import all basket contents from the following delivery:'
           _fr: 'Importer tous les contenus de la livraison suivante:'
+          _de: 'Importieren Sie alle Tascheninhalte von der folgenden Lieferung:'
           _it: 'Importare tutti i contenuti della consegna seguente:'
       duplicate_all_to:
         button:
-          _de: Duplizieren
           _en: Duplicate
           _fr: Dupliquer
+          _de: Duplizieren
           _it: Duplicare
         text:
-          _de: 'Duplizieren Sie alle Tascheninhalte von dieser Lieferung auf die Lieferung vom:'
           _en: 'Duplicate all basket contents from this delivery to the delivery on:'
           _fr: 'Dupliquer tous les contenus de cette livraison vers celle du:'
+          _de: 'Duplizieren Sie alle Tascheninhalte von dieser Lieferung auf die Lieferung vom:'
           _it: 'Duplicare tutti i contenuti di questa consegna in quella di:'
     batch_actions:
       action_label:
-        _de: "%{title} die ausgewählte Elemente"
         _en: "%{title} the selected items"
         _fr: "%{title} les éléments sélectionnés"
+        _de: "%{title} die ausgewählte Elemente"
         _it: "%{title} gli elementi selezionati"
       button_label:
-        _de: Gruppierte Aktionen
         _en: Batch Actions
         _fr: Actions groupées
+        _de: Gruppierte Aktionen
         _it: Azioni di gruppo
       default_confirmation:
-        _de: Wollen Sie wirklich das machen?
         _en: Are you sure you want to do this?
         _fr: Êtes-vous sûr de vouloir faire cela ?
+        _de: Wollen Sie wirklich das machen?
         _it: Siete sicuri di volerlo fare?
       delete_confirmation:
-        _de: Wollen Sie diese %{plural_model} wirklich löschen?
         _en: Are you sure you want to delete these %{plural_model}?
         _fr: Êtes-vous sûr de vouloir supprimer ces %{plural_model} ?
+        _de: Wollen Sie diese %{plural_model} wirklich löschen?
         _it: Siete sicuri di voler eliminare %{plural_model} ?
       labels:
         close_shop:
-          _de: Hofladen schließen für
           _en: Close shop for
           _fr: Fermer l'épicerie pour
+          _de: Hofladen schließen für
           _it: Chiudere la drogheria per
         destroy:
-          _de: Löschen
           _en: Delete
           _fr: Supprimer
+          _de: Löschen
           _it: Cancellare
         invoice:
-          _de: Rechnung stellen
           _en: Invoice
           _fr: Facturer
+          _de: Rechnung stellen
           _it: Fatturare
         make_available:
-          _de: Verfügbar machen
           _en: Make available
           _fr: Rendre disponible
+          _de: Verfügbar machen
           _it: Rendere disponibile
         make_unavailable:
-          _de: Unverfügbar machen
           _en: Make unavailable
           _fr: Rendre indisponible
+          _de: Unverfügbar machen
           _it: Rendere non-disponibile
         open_shop:
-          _de: Hofladen öffnen für
           _en: Open shop for
           _fr: Ouvrir l'épicerie pour
+          _de: Hofladen öffnen für
           _it: Aprire la drogheria per
         reject:
-          _de: Verweigern
           _en: Reject
           _fr: Refuser
+          _de: Verweigern
           _it: Rifiutare
         renew:
-          _de: Erneuern
           _en: Renew
           _fr: Renouveler
+          _de: Erneuern
           _it: Rinnovare
         validate:
-          _de: Bestätigen
           _en: Validate
           _fr: Valider
+          _de: Bestätigen
           _it: Confermare
         wait:
-          _de: Auf Warteliste setzen
           _en: Waitlist
           _fr: Mettre en attente
+          _de: Auf Warteliste setzen
           _it: Mettere in lista d'attesa
       link:
-        _de: Erstellen eines
         _en: Create a
         _fr: Créer un
+        _de: Erstellen eines
         _it: Creare un
       selection_toggle_explanation:
-        _de: "(Auswahl invertieren)"
         _en: "(Invert selection)"
         _fr: "(Inverser la sélection)"
+        _de: "(Auswahl invertieren)"
         _it: "(Invertire la selezione)"
       succesfully_destroyed:
         one:
-          _de: 1 %{model} gelöscht
           _en: 1 %{model} deleted
           _fr: 1 %{model} supprimé
+          _de: 1 %{model} gelöscht
           _it: 1 %{model} cancellato
         other:
-          _de: "%{count} %{plural_model} gelöscht"
           _en: "%{count} %{plural_model} delete"
           _fr: "%{count} %{plural_model} supprimés"
+          _de: "%{count} %{plural_model} gelöscht"
           _it: "%{count} %{plural_model} cancellati"
     blank_slate:
       content:
-        _de: Es gibt noch keine %{resource_name}.
         _en: There are no %{resource_name} yet.
         _fr: Il n'y a pas encore de %{resource_name}.
+        _de: Es gibt noch keine %{resource_name}.
         _it: Non ci sono ancora %{resource_name}.
       link:
-        _de: Anlegen
         _en: Create one
         _fr: Créez en un
+        _de: Anlegen
         _it: Creane uno
     cancel:
-      _de: Abbrechen
       _en: Cancel
       _fr: Annuler
+      _de: Abbrechen
       _it: Annullare
     comments:
       add:
-        _de: Kommentar hinzufügen
         _en: Add comment
         _fr: Ajouter un commentaire
+        _de: Kommentar hinzufügen
         _it: Aggiungere un commento
       author:
-        _de: Autor
         _en: Author
         _fr: Auteur
+        _de: Autor
         _it: Autore
       author_type:
-        _de: Profil des Autors
         _en: Author profile
         _fr: Profil de l'auteur
+        _de: Profil des Autors
         _it: Profilo dell'autore
       body:
-        _de: Inhalt
         _en: Body
         _fr: Corps
+        _de: Inhalt
         _it: Corpo
       errors:
         empty_text:
-          _de: Der Kommentar wurde nicht gespeichert, da der Text leer war.
           _en: The comment was not saved because the text was empty.
           _fr: Le commentaire n'a pas été enregistré puisque le texte était vide.
+          _de: Der Kommentar wurde nicht gespeichert, da der Text leer war.
           _it: Il commento non è stato registrato perché il campo era vuoto.
       no_comments_yet:
-        _de: Zurzeit keine Kommentare
         _en: No comments yet
         _fr: Aucun commentaire actuellement
+        _de: Zurzeit keine Kommentare
         _it: Attualmente nessun commento
       resource:
-        _de: Ressource
         _en: Resource
         _fr: Ressource
+        _de: Ressource
         _it: Risorsa
       resource_type:
-        _de: Ressourcentyp
         _en: Resource type
         _fr: Type de ressource
+        _de: Ressourcentyp
         _it: Tipo di risorsa
       title:
-        _de: Kommentar
         _en: Comment
         _fr: Commentaire
+        _de: Kommentar
         _it: Commento
       title_content:
-        _de: Kommentare
         _en: Comments
         _fr: Commentaires
+        _de: Kommentare
         _it: Commenti
     create_model:
-      _de: Neu %{model}
       _en: New %{model}
       _fr: Nouveau %{model}
+      _de: Neu %{model}
       _it: Nuovo %{model}
     dashboard:
-      _de: Übersicht
       _en: Dashboard
       _fr: Tableau de bord
+      _de: Übersicht
       _it: Pannello di controllo
     delete:
-      _de: Löschen
       _en: Delete
       _fr: Supprimer
+      _de: Löschen
       _it: Cancellare
     delete_confirmation:
-      _de: Wirklich löschen?
       _en: Really delete?
       _fr: Êtes-vous certain de vouloir supprimer ceci ?
+      _de: Wirklich löschen?
       _it: Siete sicuri di volerlo cancellare?
     delete_model:
-      _de: Löschen
       _en: Delete
       _fr: Supprimer
+      _de: Löschen
       _it: Cancellare
     details:
-      _de: Details
       _en: Details
       _fr: Détails
+      _de: Details
       _it: Dettagli
     download:
-      _de: 'Herunterladen :'
       _en: 'Download :'
       _fr: 'Télécharger :'
+      _de: 'Herunterladen :'
       _it: 'Scaricare :'
     dropdown_actions:
       button_label:
-        _de: Aktionen
         _en: Actions
         _fr: Actions
+        _de: Aktionen
         _it: Azione
     edit:
-      _de: Bearbeiten
       _en: Edit
       _fr: Modifier
+      _de: Bearbeiten
       _it: Modificare
     edit_model:
-      _de: Bearbeiten
       _en: Edit
       _fr: Modifier
+      _de: Bearbeiten
       _it: Modificare
     empty:
-      _de: Leer
       _en: Empty
       _fr: Vide
+      _de: Leer
       _it: Vuoto
     filters:
       buttons:
         clear:
-          _de: Filter löschen
           _en: Clear filters
           _fr: Supprimer les filtres
+          _de: Filter löschen
           _it: Cancella i filtri
         filter:
-          _de: Filtern
           _en: Filter
           _fr: Filtrer
+          _de: Filtern
           _it: Filtro
       predicates:
         contains:
-          _de: Enthält
           _en: Contains
           _fr: Contient
+          _de: Enthält
           _it: Contiene
         ends_with:
-          _de: Endet mit
           _en: Ends with
           _fr: Se termine par
+          _de: Endet mit
           _it: Finisce con
         equals:
-          _de: Gleich
           _en: Equals
           _fr: Egal à
+          _de: Gleich
           _it: Uguale a
         from:
-          _de: Von
           _en: From
           _fr: De
+          _de: Von
           _it: Da
         greater_than:
-          _de: Grösser als
           _en: Greater than
           _fr: Plus grand que
+          _de: Grösser als
           _it: Maggiore di
         less_than:
-          _de: Kleiner als
           _en: Less than
           _fr: Plus petit que
+          _de: Kleiner als
           _it: Minore di
         q_including_date:
-          _de: Enthält
           _en: Including date
           _fr: Incluant
+          _de: Enthält
           _it: Compreso
         starts_with:
-          _de: Beginnt mit
           _en: Starts with
           _fr: Commence par
+          _de: Beginnt mit
           _it: Comincia con
         to:
-          _de: Bis
           _en: To
           _fr: À
+          _de: Bis
           _it: A
     flash:
       invalid_foreign_key_alert:
-        _de: Dieses Objekt kann nicht gelöscht werden, weil andere Objekte davon abhängen.
         _en: This object cannot be deleted because other objects depend on it.
         _fr: Cet objet ne peut être supprimé car d'autres objets dépendent de lui.
+        _de: Dieses Objekt kann nicht gelöscht werden, weil andere Objekte davon abhängen.
         _it: Questo oggetto non può essere eliminato perché altri oggetti dipendono da lui.
       open_renewals_notice:
-        _de: Verlängerungsanträge werden gesendet...
         _en: Renewal requests are being sent...
         _fr: Les demandes de renouvellement sont en train d'être envoyées...
+        _de: Verlängerungsanträge werden gesendet...
         _it: Le richieste di rinnovo stanno venendo inviate ...
       renew_missing_deliveries_alert:
-        _de: Abonnements können nicht erneuert werden, wenn %{next_year} keine Lieferungen vorhanden sind!
         _en: Memberships cannot be renewed if there are no deliveries in %{next_year}!
         _fr: Impossible de renouveler les abonnements si les livraisons %{next_year} n'existent pas!
+        _de: Abonnements können nicht erneuert werden, wenn %{next_year} keine Lieferungen vorhanden sind!
         _it: Impossibile rinnovare l'abbonamento se le consegne %{next_year} non esistono!
       renew_notice:
-        _de: Die Abonnements werden erneuert...
         _en: Memberships are being renewed...
         _fr: Les abonnements sont en train d'être renouvelés...
+        _de: Die Abonnements werden erneuert...
         _it: Gli abbonamenti sono in corso di rinnovamento...
       sending_overdue_notices:
-        _de: Die Mahnungen werden jetzt verschickt...
         _en: Overdue notices are being sent...
         _fr: Les rappels sont en train d'être envoyés...
+        _de: Die Mahnungen werden jetzt verschickt...
         _it: I promemoria sono stati inviati...
     has_many_delete:
-      _de: Löschen
       _en: Delete
       _fr: Supprimer
+      _de: Löschen
       _it: Cancellare
     has_many_new:
-      _de: Ein neues %{model} hinzufügen
       _en: Add a new %{model}
       _fr: Ajouter un nouveau %{model}
+      _de: Ein neues %{model} hinzufügen
       _it: Aggiungere un nuovo %{model}
     has_many_remove:
-      _de: Entfernen
       _en: Remove
       _fr: Enlever
+      _de: Entfernen
       _it: Rimuovere
     index_list:
       block:
-        _de: Liste
         _en: List
         _fr: Liste
+        _de: Liste
         _it: Lista
       blog:
-        _de: Blog
         _en: Blog
         _fr: Blog
+        _de: Blog
         _it: Blog
       grid:
-        _de: Raster
         _en: Grid
         _fr: Grille
+        _de: Raster
         _it: Griglia
       table:
-        _de: Tabelle
         _en: Table
         _fr: Tableau
+        _de: Tabelle
         _it: Tabella
     logout:
-      _de: Logout
       _en: Logout
       _fr: Déconnexion
+      _de: Logout
       _it: Disconnessione
     main_content:
-      _de: Bitte implementieren Sie %{model}#main_content um den Inhalt anzuzeigen.
       _en: Please implement %{model}#main_content to display the content.
       _fr: Veuillez implémenter %{model}#main_content pour afficher le contenu.
+      _de: Bitte implementieren Sie %{model}#main_content um den Inhalt anzuzeigen.
       _it: Implementa %{model}#main_content per visualizzare il contenuto.
     menu:
       basket_complements:
-        _de: Tasche - Zusätze
         _en: Basket - Complements
         _fr: Panier - Compléments
+        _de: Tasche - Zusätze
         _it: Cestino - Aggiunte
       basket_sizes:
-        _de: Tasche - Größen
         _en: Basket - Sizes
         _fr: Panier - Tailles
+        _de: Tasche - Größen
         _it: Cestino - Dimensioni
       billing:
-        _de: Rechnungsstellung
         _en: Billing
         _fr: Facturation
+        _de: Rechnungsstellung
         _it: Fatturazione
       other:
-        _de: Weiteres
         _en: Other
         _fr: Autre
+        _de: Weiteres
         _it: Altro
       shop:
-        _de: Hofladen
         _en: Shop
         _fr: Épicerie
+        _de: Hofladen
         _it: Bottega
     new_model:
-      _de: Neu %{model}
       _en: New %{model}
       _fr: Nouveau %{model}
+      _de: Neu %{model}
       _it: Nuovo %{model}
     next:
-      _de: Folgende
       _en: Next
       _fr: Suivant
+      _de: Folgende
       _it: Successivo
     page:
       index:
         absences_count:
           one:
-            _de: 1 Abwesenheit
             _en: 1 absence
             _fr: 1 absence
+            _de: 1 Abwesenheit
             _it: 1 assenza
           other:
-            _de: "%{count} Abwesenheiten"
             _en: "%{count} absences"
             _fr: "%{count} absences"
+            _de: "%{count} Abwesenheiten"
             _it: "%{count} assenze"
         billing:
-          _de: Rechnungsstellung
           _en: Billing
           _fr: Facturation
+          _de: Rechnungsstellung
           _it: Fatturazione
         billing_year:
-          _de: Rechnungsstellung %{fiscal_year}
           _en: Billing %{fiscal_year}
           _fr: Facturation %{fiscal_year}
+          _de: Rechnungsstellung %{fiscal_year}
           _it: Fatturazione %{fiscal_year}
         handbook_questions_html:
-          _de: Sie können mich gerne <a href="mailto:info@csa-admin.org">kontaktieren</a>, wenn Sie Fragen oder Anmerkungen zu dieser Seite haben.
           _en: Feel free to <a href="mailto:info@csa-admin.org">contact me</a> if you have any questions or comments about this page.
           _fr: N'hésitez pas à <a href="mailto:info@csa-admin.org">me contacter</a> si vous avez des questions ou remarques à propos de cette page.
+          _de: Sie können mich gerne <a href="mailto:info@csa-admin.org">kontaktieren</a>, wenn Sie Fragen oder Anmerkungen zu dieser Seite haben.
           _it: Sentitevi liberi di <a href="mailto:info@csa-admin.org">contattarmi</a> se avete domande o commenti su questa pagina.
         next_delivery:
-          _de: Lieferung vom %{delivery}
           _en: Delivery on %{delivery}
           _fr: Livraison du %{delivery}
+          _de: Lieferung vom %{delivery}
           _it: Consegna %{delivery}
         no_baskets:
-          _de: Keine Taschen für diese Lieferung
           _en: No baskets for this delivery
           _fr: Aucun panier pour cette livraison
+          _de: Keine Taschen für diese Lieferung
           _it: Nessun cestino per questa consegna
         no_baskets_or_shop_orders:
-          _de: Keine Taschen oder Bestellungen für diese Lieferung
           _en: No baskets or orders for this delivery
           _fr: Aucun panier ou commande pour cette livraison
+          _de: Keine Taschen oder Bestellungen für diese Lieferung
           _it: Nessun cestino o ordine per questa consegna
         no_next_deliveries:
-          _de: Nächste Lieferung
           _en: Next delivery
           _fr: Aucune livraison à venir
+          _de: Nächste Lieferung
           _it: Nessuna consegna futura
         no_next_delivery:
-          _de: Nächste Lieferung
           _en: Next delivery
           _fr: Prochaine livraison
+          _de: Nächste Lieferung
           _it: Prossima consegna
         quarterly_snapshots:
-          _de: Quartalsschnappschüsse
           _en: Quarterly snapshots
           _fr: Instantanés trimestriels
+          _de: Quartalsschnappschüsse
           _it: Panoramica trimestrale
         sheets:
-          _de: Blätter
           _en: Sheets
           _fr: Fiches
+          _de: Blätter
           _it: Fogli
         submit_delivery_note:
-          _de: Notiz aktualisieren
           _en: Update note
           _fr: Mettre à jour la note
+          _de: Notiz aktualisieren
           _it: Aggiornare la nota
         total:
-          _de: Gesamt %{number}
           _en: Total %{number}
           _fr: Total %{number}
+          _de: Gesamt %{number}
           _it: Totale %{number}
         totals:
-          _de: Gesamtsummen %{numbers}
           _en: Totals %{numbers}
           _fr: Totaux %{numbers}
+          _de: Gesamtsummen %{numbers}
           _it: Totali %{numbers}
         updates_explanation_html:
-          _de: Hier finden Sie eine Liste der neuesten Ergänzungen zu CSA Admin (leider nur auf Französisch). Sie können mich gerne <a href="mailto:info@csa-admin.org">kontaktieren</a>, wenn Sie Fragen oder Kommentare haben, danke!
           _en: Here is a list of the latest additions to CSA Admin (unfortunately only in French). Feel free to <a href="mailto:info@csa-admin.org">contact me</a> if you have any questions or comments, thank you!
           _fr: Voici une liste des derniers ajouts apportés à CSA Admin. N'hésitez pas à <a href="mailto:info@csa-admin.org">me contacter</a> si vous avez des questions ou remarques, merci!
+          _de: Hier finden Sie eine Liste der neuesten Ergänzungen zu CSA Admin (leider nur auf Französisch). Sie können mich gerne <a href="mailto:info@csa-admin.org">kontaktieren</a>, wenn Sie Fragen oder Kommentare haben, danke!
           _it: Ecco una lista delle ultime aggiunte a CSA Admin (solo in francese, mi dispiace). Sentitevi liberi di <a href="mailto:info@csa-admin.org">contattarmi</a> se avete domande o osservazioni, grazie!
       onboarding:
         create_basket_sizes:
-          _de: Ihre Taschengrößen erstellen
           _en: Create your basket sizes
           _fr: Créer vos tailles de panier
+          _de: Ihre Taschengrößen erstellen
           _it: Crea le dimensioni del tuo cestino
         create_deliveries:
-          _de: Ihre Lieferungen erstellen
           _en: Create your deliveries
           _fr: Créer vos livraisons
+          _de: Ihre Lieferungen erstellen
           _it: Crea le tue consegne
         create_depots:
-          _de: Ihre Depots erstellen
           _en: Create your depots
           _fr: Créer vos dépôts
+          _de: Ihre Depots erstellen
           _it: Crea i tuoi punti di ritiro
         getting_started:
-          _de: Erste Schritte
           _en: Getting started
           _fr: Premiers pas
+          _de: Erste Schritte
           _it: Primi passi
         intro_html:
-          _de: Willkommen bei CSA Admin! Hier finden Sie die ersten Elemente, die Sie einrichten müssen. Schauen Sie sich <a href='/handbook/getting_started'>das Handbuch</a> an, das Sie immer am Fuß der Seite finden, oder <a href='mailto:info@csa-admin.org'>kontaktieren Sie mich</a>, wenn Sie Fragen haben.
           _en: Welcome to CSA Admin! Here are the first elements you need to set up. Feel free to <a href='/handbook/getting_started'>consult the manual</a>, always available at the bottom of the page, or <a href='mailto:info@csa-admin.org'>contact me</a> if you have any questions.
           _fr: Bienvenue sur CSA Admin! Pour commencer, voici les premiers éléments à mettre en place. N'hésitez pas à <a href='/handbook/getting_started'>consulter le manuel</a>, toujours accessible en pied de page, ou à <a href='mailto:info@csa-admin.org'>me contacter</a> si vous avez des questions.
+          _de: Willkommen bei CSA Admin! Hier finden Sie die ersten Elemente, die Sie einrichten müssen. Schauen Sie sich <a href='/handbook/getting_started'>das Handbuch</a> an, das Sie immer am Fuß der Seite finden, oder <a href='mailto:info@csa-admin.org'>kontaktieren Sie mich</a>, wenn Sie Fragen haben.
           _it: Benvenuto in CSA Admin! Per iniziare, ecco i primi elementi da impostare. Sentitevi liberi di <a href='/handbook/getting_started'>consultare il manuale</a>, sempre disponibile nel footer, o <a href='mailto:info@csa-admin.org'>contattatemi</a> se avete delle domande.
         welcome:
-          _de: "Willkommen! \U0001F64C\U0001F3FB"
           _en: "Welcome! \U0001F64C\U0001F3FB"
           _fr: "Bienvenue! \U0001F64C\U0001F3FB"
+          _de: "Willkommen! \U0001F64C\U0001F3FB"
           _it: "Benvenuti! \U0001F64C\U0001F3FB"
     pagination:
       empty:
-        _de: Kein %{model} gefunden
         _en: No %{model} found
         _fr: Aucun %{model} trouvé
+        _de: Kein %{model} gefunden
         _it: Nessun %{model} trovato
       entry:
         one:
-          _de: Eingabe
           _en: entry
           _fr: entrée
+          _de: Eingabe
           _it: ingresso
         other:
-          _de: Eingaben
           _en: entries
           _fr: entrées
+          _de: Eingaben
           _it: ingressi
       multiple:
-        _de: Anzeige von %{model} <b>%{from}&nbsp;-&nbsp;%{to}</b> aus gesamt <b>%{total}</b>
         _en: Displaying %{model} <b>%{from}&nbsp;-&nbsp;%{to}</b> of total <b>%{total}</b>
         _fr: Affichage de %{model} <b>%{from}&nbsp;-&nbsp;%{to}</b> sur un total de <b>%{total}</b>
+        _de: Anzeige von %{model} <b>%{from}&nbsp;-&nbsp;%{to}</b> aus gesamt <b>%{total}</b>
         _it: Visualizzazione di %{model} <b>%{from}&nbsp;-&nbsp;%{to}</b> su un totale di <b>%{total}</b>
       multiple_without_total:
-        _de: Anzeige von %{model} <b>%{from}&nbsp;-&nbsp;%{to}</b>
         _en: Displaying %{model} <b>%{from}&nbsp;-&nbsp;%{to}</b>
         _fr: Affichage de %{model} <b>%{from}&nbsp;-&nbsp;%{to}</b>
+        _de: Anzeige von %{model} <b>%{from}&nbsp;-&nbsp;%{to}</b>
         _it: Visualizzazione di %{model} <b>%{from}&nbsp;-&nbsp;%{to}</b>
       one:
-        _de: Anzeige von <b>1</b> %{model}
         _en: Displaying <b>1</b> %{model}
         _fr: Affichage de <b>1</b> %{model}
+        _de: Anzeige von <b>1</b> %{model}
         _it: Visualizzazione di <b>1</b> %{model}
       one_page:
-        _de: Anzeige von <b>%{n}</b> %{model}
         _en: Displaying <b>%{n}</b> %{model}
         _fr: Affichage des <b>%{n}</b> %{model}
+        _de: Anzeige von <b>%{n}</b> %{model}
         _it: Visualizzazione di <b>%{n}</b> %{model}
     payments:
       import:
         file_label:
-          _de: camt.054 XML-Datei oder MT940
           _en: camt.054 XML file or MT940
           _fr: Fichier XML camt.054 ou MT940
+          _de: camt.054 XML-Datei oder MT940
           _it: File XML camt.054 o MT940
         submit:
-          _de: Importieren
           _en: Import
           _fr: Importer
+          _de: Importieren
           _it: Importa
     previous:
-      _de: Vorheriger
       _en: Previous
       _fr: Précédent
+      _de: Vorheriger
       _it: Precedente
     resource:
       bulk_dates:
         date_hint:
-          _de: Leer lassen, wenn Mehrere Daten
           _en: Leave empty if multiple dates
           _fr: Laisser vide si dates multiples
+          _de: Leer lassen, wenn Mehrere Daten
           _it: Lasciare vuoto se più date
         multiple_dates:
-          _de: Mehrere Daten
           _en: Multiple dates
           _fr: Dates multiples
+          _de: Mehrere Daten
           _it: Date multiple
         unique_date:
-          _de: Einzeldatum
           _en: Unique date
           _fr: Date unique
+          _de: Einzeldatum
           _it: Data unica
         weeks_frequency_1:
-          _de: Jede Woche
           _en: Every week
           _fr: Toutes les semaines
+          _de: Jede Woche
           _it: Tutte le settimane
         weeks_frequency_2:
-          _de: Alle zwei Wochen
           _en: Every two weeks
           _fr: Toutes les deux semaines
+          _de: Alle zwei Wochen
           _it: Ogni due settimane
         weeks_frequency_4:
-          _de: Alle vier Wochen
           _en: Every four weeks
           _fr: Toutes les quatre semaines
+          _de: Alle vier Wochen
           _it: Ogni quattro settimane
       form:
         admin_invitation:
-          _de: Ein Willkommens-E-Mail wird an den Admin gesendet, um ihn zur Anmeldung einzuladen.
           _en: A welcome email will be sent to the admin to invite them to log in.
           _fr: Un email de bienvenue sera envoyé à l'admin pour l'inviter à se connecter.
+          _de: Ein Willkommens-E-Mail wird an den Admin gesendet, um ihn zur Anmeldung einzuladen.
           _it: Un'email di benvenuto verrà inviata all'amministratore per invitarlo a connettersi.
         annual_fee:
-          _de: Jahresbeitrag
           _en: Annual fee
           _fr: Cotisation annuelle
+          _de: Jahresbeitrag
           _it: Quota annuale
         annual_fee_hint:
-          _de: Wird zu Beginn jedes Geschäftsjahres oder nach der Anmeldung während des Jahres in Rechnung gestellt. Für aktive Mitglieder ist sie in der ersten Abonnementrechnung enthalten.
           _en: Invoiced at the beginning of each fiscal year or after signing up during the year. For active members, it is included in the first subscription invoice.
           _fr: Facturé au début de chaque année fiscale ou après l'inscription en cours d'année. Pour les membres actifs, elle est intégrée à la première facture de l'abonnement.
+          _de: Wird zu Beginn jedes Geschäftsjahres oder nach der Anmeldung während des Jahres in Rechnung gestellt. Für aktive Mitglieder ist sie in der ersten Abonnementrechnung enthalten.
           _it: Fatturato all'inizio di ogni anno fiscale o dopo l'iscrizione durante l'anno. Per i soci attivi, è incluso nella prima fattura di abbonamento.
         availability:
-          _de: Verfügbarkeit
           _en: Availability
           _fr: Disponibilité
+          _de: Verfügbarkeit
           _it: Disponibilità
         basket_and_depot:
-          _de: Tasche und Depot
           _en: Basket and depot
           _fr: Panier et dépôt
+          _de: Tasche und Depot
           _it: Cesta e punto di ritiro
         billing:
-          _de: Rechnungsstellung
           _en: Billing
           _fr: Facturation
+          _de: Rechnungsstellung
           _it: Fatturazione
         check_handbook:
-          _de: Handbuch konsultieren
           _en: Check handbook
           _fr: Consulter le manuel
+          _de: Handbuch konsultieren
           _it: Consultare il manuale
         config:
-          _de: Konfiguration
           _en: Configuration
           _fr: Configuration
+          _de: Konfiguration
           _it: Configurazione
         content:
-          _de: Inhalt
           _en: Content
           _fr: Contenu
+          _de: Inhalt
           _it: Contenuto
         delivery_sheets_text_html:
-          _de: Die Blätter (PDF) werden für jedes Depot und jede Lieferung on-the-fly erstellt.
           _en: The sheets (PDF) are generated on-the-fly for each depot and delivery.
           _fr: Les fiches (PDF) sont générées à la volée pour chaque dépôt et livraison.
+          _de: Die Blätter (PDF) werden für jedes Depot und jede Lieferung on-the-fly erstellt.
           _it: I fogli (PDF) vengono generati al volo per ogni punto di ritiro e consegna.
         details:
-          _de: Details
           _en: Details
           _fr: Détails
+          _de: Details
           _it: Dettagli
         documents_to_validate:
-          _de: Dokumente zur Validierung
           _en: Documents to validate
           _fr: Documents à valider
+          _de: Dokumente zur Validierung
           _it: Documenti da validare
         documents_to_validate_hint:
-          _de: Neue Mitglieder müssen bestätigen, dass sie diese Dokumente gelesen haben, wenn sie sich anmelden.
           _en: New members will have to confirm that they have read these documents when signing up.
           _fr: Les nouveaux membres devront confirmer avoir pris connaissance de ces documents en s'inscrivant.
+          _de: Neue Mitglieder müssen bestätigen, dass sie diese Dokumente gelesen haben, wenn sie sich anmelden.
           _it: I nuovi membri dovranno confermare di aver letto questi documenti al momento dell'iscrizione.
         email:
-          _de: E-Mail
           _en: Email
           _fr: Email
+          _de: E-Mail
           _it: E-mail
         erase:
-          _de: Löschen
           _en: Erase
           _fr: Effacer
+          _de: Löschen
           _it: Cancellare
         full_year:
-          _de: ganzes Jahr
           _en: Full year
           _fr: année complète
+          _de: ganzes Jahr
           _it: anno completo
         general:
-          _de: Allgemeine
           _en: General
           _fr: Généraux
+          _de: Allgemeine
           _it: Generali
         has_many_new_invoice_item:
-          _de: Einen Artikel hinzufügen
           _en: Add an item
           _fr: Ajouter un article
+          _de: Einen Artikel hinzufügen
           _it: Aggiungere un articolo
         if_applicable:
-          _de: Falls zutreffend
           _en: If applicable
           _fr: Si applicable
+          _de: Falls zutreffend
           _it: Se applicabile
         invoice:
-          _de: Rechnung
           _en: Invoice
           _fr: Facture
+          _de: Rechnung
           _it: Fattura
         invoice_attachments_html:
-          _de: Dateien, die zusätzlich zur PDF-Rechnung in der <a href="/mail_templates/invoice_created">"neue Rechnung"-E-Mail</a> gesendet werden.
           _en: Files sent in addition to the PDF invoice in the <a href="/mail_templates/invoice_created">"new invoice" email</a>.
           _fr: Fichiers envoyés en plus de la facture PDF dans <a href="/mail_templates/invoice_created">l'email "nouvelle facture"</a>.
+          _de: Dateien, die zusätzlich zur PDF-Rechnung in der <a href="/mail_templates/invoice_created">"neue Rechnung"-E-Mail</a> gesendet werden.
           _it: File inviati in aggiunta alla fattura PDF nell'<a href="/mail_templates/invoice_created">email "nuova fattura"</a>.
         mailer:
-          _de: E-Mail
           _en: Email
           _fr: Email
+          _de: E-Mail
           _it: E-mail
         mailer_text_html:
-          _de: Diese Einstellungen werden von <a href="/mail_templates">E-Mail-Vorlagen</a> und <a href="/newsletters">Newsletter</a> verwendet.
           _en: These settings are used by <a href="/mail_templates">email templates</a> and <a href="/newsletters">newsletters</a>.
           _fr: Ces paramètres sont utilisés par <a href="/mail_templates">les templates email</a> et <a href="/newsletters">les newsletters</a>.
+          _de: Diese Einstellungen werden von <a href="/mail_templates">E-Mail-Vorlagen</a> und <a href="/newsletters">Newsletter</a> verwendet.
           _it: Queste impostazioni sono utilizzate dai <a href="/mail_templates">modelli email</a> e dalle <a href="/newsletters">newsletter</a>.
         member_account:
-          _de: Mitgliederkonto
           _en: Member account
           _fr: Compte membre
+          _de: Mitgliederkonto
           _it: Account membro
         members_participation:
-          _de: Beteiligung der Mitglieder
           _en: Members' participation
           _fr: Participation des membres
+          _de: Beteiligung der Mitglieder
           _it: Partecipazione dei soci
         membership_configuration_text:
-          _de: Alle Taschen in diesem Abonnement werden nach der folgenden Konfiguration erstellt.
           _en: All baskets in this membership will be created according to the following configuration.
           _fr: Tous les paniers de cet abonnement seront créés en fonction de la configuration ci-dessous.
+          _de: Alle Taschen in diesem Abonnement werden nach der folgenden Konfiguration erstellt.
           _it: Tutti i cesti di questo abbonamento saranno creati secondo la seguente configurazione.
         membership_configuration_warning_text:
-          _de: Achtung, jede Änderung der Konfiguration wird die Taschen dieses Abonnements ab dem unten angegebenen Datum neu erstellen!
           _en: Warning, any change in the configuration will recreate the baskets of this membership from the date below!
           _fr: Attention, toute modification de la configuration recréera les paniers de cet abonnement à partir de la date ci-dessous!
+          _de: Achtung, jede Änderung der Konfiguration wird die Taschen dieses Abonnements ab dem unten angegebenen Datum neu erstellen!
           _it: Attenzione, qualsiasi modifica alla configurazione ricreerà i cestini per questo abbonamento a partire dalla data sottostante!
         membership_renewal:
-          _de: Erneuerung
           _en: Renewal
           _fr: Renouvellement
+          _de: Erneuerung
           _it: Rinnovo
         membership_renewal_text_html:
-          _de: <a href="/mail_templates?scope=membership">E-Mail-Vorlagen</a> für Abonnementverlängerungen müssen ebenfalls bearbeitet und aktiviert werden, bevor Anträge von der Abonnementsseite gesendet werden können.
           _en: <a href="/mail_templates?scope=membership">Email templates</a> for membership renewals must also be edited and activated before requests can be sent from the memberships page.
           _fr: <a href="/mail_templates?scope=membership">Les templates email</a> pour le renouvellement des abonnements doivent également être édités et activés avant de pouvoir envoyer les demandes depuis la page des abonnements.
+          _de: <a href="/mail_templates?scope=membership">E-Mail-Vorlagen</a> für Abonnementverlängerungen müssen ebenfalls bearbeitet und aktiviert werden, bevor Anträge von der Abonnementsseite gesendet werden können.
           _it: <a href="/mail_templates?scope=membership">I templates delle email</a> per il rinnovo degli abbonamenti devono essere editati e attivati prima di poter inviare le domande attraverso alla pagina degli abbonamenti.
         membership_update_text_html:
-          _de: Ermöglichen Sie Ihren Mitgliedern, die Konfiguration ihrer Mitgliedschaft oder Taschenfutures individuell von ihrem Konto aus zu ändern.
           _en: Allow your members to individually change the configuration of their membership or future baskets from their account.
           _fr: Permettez à vos membres de modifier la configuration de leur abonnement ou futures paniers individuellement depuis leur compte.
+          _de: Ermöglichen Sie Ihren Mitgliedern, die Konfiguration ihrer Mitgliedschaft oder Taschenfutures individuell von ihrem Konto aus zu ändern.
           _it: Consentite ai vostri soci di modificare le impostazioni di abbonamento o i cestini futuri individualmente dal loro account.
         opening:
-          _de: Öffnung
           _en: Opening
           _fr: Ouverture
+          _de: Öffnung
           _it: Apertura
         preview:
-          _de: Vorschau
           _en: Preview
           _fr: Prévisualisation
+          _de: Vorschau
           _it: Anteprima
         recurring_billing_disabled:
-          _de: deaktiviert
           _en: disabled
           _fr: désactivée
+          _de: deaktiviert
           _it: disabilitato
         registration:
-          _de: Anmeldung
           _en: Registration
           _fr: Inscription
+          _de: Anmeldung
           _it: Iscrizione
         registration_form:
-          _de: Registrierungsformular
           _en: Registration form
           _fr: Formulaire d'inscription
+          _de: Registrierungsformular
           _it: Formulario d'iscrizione
         settings:
-          _de: Einstellungen
           _en: Settings
           _fr: Paramètres
+          _de: Einstellungen
           _it: Impostazioni
         shares:
-          _de: Anteilscheine
           _en: Shares
           _fr: Parts sociales
+          _de: Anteilscheine
           _it: Quote sociali della cooperativa
         shop:
-          _de: Hofladen
           _en: Shop
           _fr: Épicerie
+          _de: Hofladen
           _it: Bottega
         submit:
           preview:
-            _de: Vorschau der Änderungen
             _en: Preview changes
             _fr: Prévisualiser les modifications
+            _de: Vorschau der Änderungen
             _it: Anteprima delle modifiche
           preview_edit:
-            _de: Korrigieren
             _en: Edit
             _fr: Corriger
+            _de: Korrigieren
             _it: Correggere
           preview_save:
-            _de: Änderungen speichern
             _en: Save changes
             _fr: Sauvegarder les modifications
+            _de: Änderungen speichern
             _it: Salvare le modifiche
         submit_newsletter:
-          _de: Entwurf aktualisieren
           _en: Update draft
           _fr: Mettre à jour Brouillon
+          _de: Entwurf aktualisieren
           _it: Aggiorna bozza
         vat:
-          _de: MwSt
           _en: VAT
           _fr: TVA
+          _de: MwSt
           _it: IVA
         vat_rate:
-          _de: "%{type} (in %)"
           _en: "%{type} (in %)"
           _fr: "%{type} (en %)"
+          _de: "%{type} (in %)"
           _it: "%{type} (en %)"
       index:
         basket_prices:
-          _de: Wert der Taschen (%{currency})
           _en: Basket value (%{currency})
           _fr: Valeur des paniers (%{currency})
+          _de: Wert der Taschen (%{currency})
           _it: Valore dei cestini (%{currency})
         duplicate:
-          _de: Duplizieren
           _en: Duplicate
           _fr: Dupliquer
+          _de: Duplizieren
           _it: Duplicare
       new:
         availability:
-          _de: Verfügbarkeit
           _en: Availability
           _fr: Disponibilité
+          _de: Verfügbarkeit
           _it: Disponibilità
         basket_and_depot:
-          _de: Tasche und Depot
           _en: Basket and depot
           _fr: Panier et dépôt
+          _de: Tasche und Depot
           _it: Cesta e punto di ritiro
         billing:
-          _de: Rechnungsstellung
           _en: Billing
           _fr: Facturation
+          _de: Rechnungsstellung
           _it: Fatturazione
         check_handbook:
-          _de: Handbuch konsultieren
           _en: Check handbook
           _fr: Consulter le manuel
+          _de: Handbuch konsultieren
           _it: Consultare il manuale
         config:
-          _de: Konfiguration
           _en: Configuration
           _fr: Configuration
+          _de: Konfiguration
           _it: Configurazione
         content:
-          _de: Inhalt
           _en: Content
           _fr: Contenu
+          _de: Inhalt
           _it: Contenuto
         details:
-          _de: Details
           _en: Details
           _fr: Détails
+          _de: Details
           _it: Dettagli
         email:
-          _de: E-Mail
           _en: Email
           _fr: Email
+          _de: E-Mail
           _it: E-mail
         full_year:
-          _de: ganzes Jahr
           _en: Full year
           _fr: année complète
+          _de: ganzes Jahr
           _it: anno completo
         has_many_new_invoice_item:
-          _de: Einen Artikel hinzufügen
           _en: Add an item
           _fr: Ajouter un article
+          _de: Einen Artikel hinzufügen
           _it: Aggiungere un articolo
         preview:
-          _de: Vorschau
           _en: Preview
           _fr: Prévisualisation
+          _de: Vorschau
           _it: Anteprima
         refused_activity_participation:
-          _de: Abgelehnte Mitarbeit vom %{date}
           _en: Refused activity participation from %{date}
           _fr: Participation refusée du %{date}
+          _de: Abgelehnte Mitarbeit vom %{date}
           _it: Collaborazione rifiutata da %{date}
         shares:
-          _de: Anteilscheine
           _en: Shares
           _fr: Parts sociales
+          _de: Anteilscheine
           _it: Quote sociali della cooperativa
         submit_newsletter:
-          _de: Entwurf erstellen
           _en: Create draft
           _fr: Créer Brouillon
+          _de: Entwurf erstellen
           _it: Crea Bozza
       show:
         absences_used:
           one:
-            _de: "%{used} von %{count} gemeldet"
             _en: "%{used} of %{count} reported"
             _fr: "%{used} sur %{count} annoncée"
+            _de: "%{used} von %{count} gemeldet"
             _it: "%{used} su %{count} annunciata"
           other:
-            _de: "%{used} von %{count} gemeldet"
             _en: "%{used} of %{count} reported"
             _fr: "%{used} sur %{count} annoncées"
+            _de: "%{used} von %{count} gemeldet"
             _it: "%{used} su %{count} annunciate"
         activity_participations_annual_price_change/basket_preparation:
-          _de: Anpassung Taschen befüllung
           _en: Basket preparation adjustment
           _fr: Ajustement mise en panier
+          _de: Anpassung Taschen befüllung
           _it: Correzione preparazione cestini
         activity_participations_annual_price_change/day_work:
-          _de: Anpassung Arbeitstage
           _en: Day work adjustment
           _fr: Ajustement journées de travail
+          _de: Anpassung Arbeitstage
           _it: Correzione giorni di lavoro
         activity_participations_annual_price_change/halfday_work:
-          _de: Anpassung ½ Tage
           _en: Half-day work adjustment
           _fr: Ajustement ½ journées
+          _de: Anpassung ½ Tage
           _it: Correzione ½ giornate
         activity_participations_annual_price_change/hour_work:
-          _de: Anpassung Arbeitsstunden
           _en: Hour work adjustment
           _fr: Ajustement heures de travail
+          _de: Anpassung Arbeitsstunden
           _it: Correzione ore di lavoro
         basket_complements_annual_price_change:
-          _de: Anpassung Zusätze
           _en: Complements adjustment
           _fr: Ajustement compléments
+          _de: Anpassung Zusätze
           _it: Correzione aggiunte
         baskets_annual_price_change:
-          _de: Anpassung Taschen
           _en: Basket adjustment
           _fr: Ajustement paniers
+          _de: Anpassung Taschen
           _it: Correzione cesto
         become_member:
-          _de: Zugang zum Konto
           _en: Access account
           _fr: Accéder au compte
+          _de: Zugang zum Konto
           _it: Accedere al conto
         billing:
-          _de: Rechnungsstellung
           _en: Billing
           _fr: Facturation
+          _de: Rechnungsstellung
           _it: Fatturazione
         bounced_emails:
           one:
-            _de: Abgelehnte E-Mail
             _en: Bounced email
             _fr: Email rejeté
+            _de: Abgelehnte E-Mail
             _it: Email respinto
           other:
-            _de: Abgelehnte E-Mails
             _en: Bounced emails
             _fr: Emails rejetés
+            _de: Abgelehnte E-Mails
             _it: Email respinte
         cancel:
-          _de: Abbrechen
           _en: Cancel
           _fr: Annuler
+          _de: Abbrechen
           _it: Annullare
         cancel_renewal:
-          _de: Kündigen
           _en: Cancel renewal
           _fr: Résilier
+          _de: Kündigen
           _it: Terminare
         clear_activity_participations_demanded/basket_preparation:
-          _de: Geforderte Taschenbefüllungen löschen
           _en: Clear demanded basket preparations
           _fr: Annuler les préparations de paniers demandées
+          _de: Geforderte Taschenbefüllungen löschen
           _it: Annulla le preparazioni cestini richieste
         clear_activity_participations_demanded/day_work:
-          _de: Geforderte Arbeitstage löschen
           _en: Clear demanded work days
           _fr: Annuler les jours de travail demandés
+          _de: Geforderte Arbeitstage löschen
           _it: Annulla i giorni di lavoro richiesti
         clear_activity_participations_demanded/halfday_work:
-          _de: Geforderte ½ Tage löschen
           _en: Clear demanded half-days
           _fr: Annuler les demi-journées demandées
+          _de: Geforderte ½ Tage löschen
           _it: Annulla le mezze giornate richieste
         clear_activity_participations_demanded/hour_work:
-          _de: Geforderte Arbeitsstunden löschen
           _en: Clear demanded work hours
           _fr: Annuler les heures de travail demandées
+          _de: Geforderte Arbeitsstunden löschen
           _it: Annulla le ore di lavoro richieste
         clear_activity_participations_demanded_confirm/basket_preparation:
-          _de: Sind Sie sicher? Die Anzahl der geforderten Taschenbefüllungen wird auf null gesetzt.
           _en: Are you sure? The number of demanded basket preparations will be set to zero.
           _fr: Êtes-vous sûr? Le nombre de préparations de paniers demandées sera mis à zéro.
+          _de: Sind Sie sicher? Die Anzahl der geforderten Taschenbefüllungen wird auf null gesetzt.
           _it: Siete sicuri? Il numero di preparazioni cestini richieste sarà impostato a zero.
         clear_activity_participations_demanded_confirm/day_work:
-          _de: Sind Sie sicher? Die Anzahl der geforderten Arbeitstage wird auf null gesetzt.
           _en: Are you sure? The number of demanded work days will be set to zero.
           _fr: Êtes-vous sûr? Le nombre de jours de travail demandés sera mis à zéro.
+          _de: Sind Sie sicher? Die Anzahl der geforderten Arbeitstage wird auf null gesetzt.
           _it: Siete sicuri? Il numero di giorni di lavoro richiesti sarà impostato a zero.
         clear_activity_participations_demanded_confirm/halfday_work:
-          _de: Sind Sie sicher? Die Anzahl der geforderten ½ Tage wird auf null gesetzt.
           _en: Are you sure? The number of demanded half-days will be set to zero.
           _fr: Êtes-vous sûr? Le nombre de demi-journées demandées sera mis à zéro.
+          _de: Sind Sie sicher? Die Anzahl der geforderten ½ Tage wird auf null gesetzt.
           _it: Siete sicuri? Il numero di mezze giornate richieste sarà impostato a zero.
         clear_activity_participations_demanded_confirm/hour_work:
-          _de: Sind Sie sicher? Die Anzahl der geforderten Arbeitsstunden wird auf null gesetzt.
           _en: Are you sure? The number of demanded work hours will be set to zero.
           _fr: Êtes-vous sûr? Le nombre d'heures de travail demandées sera mis à zéro.
+          _de: Sind Sie sicher? Die Anzahl der geforderten Arbeitsstunden wird auf null gesetzt.
           _it: Siete sicuri? Il numero di ore di lavoro richieste sarà impostato a zero.
         config:
-          _de: Konfiguration
           _en: Configuration
           _fr: Configuration
+          _de: Konfiguration
           _it: Configurazione
         confirm:
-          _de: Sind Sie sicher?
           _en: Are you sure?
           _fr: Êtes-vous sûr?
+          _de: Sind Sie sicher?
           _it: Siete sicuri?
         delivered_emails:
           one:
-            _de: Verteilte E-Mail
             _en: Delivered email
             _fr: Email distribué
+            _de: Verteilte E-Mail
             _it: Email distribuita
           other:
-            _de: Verteilte E-Mails
             _en: Delivered emails
             _fr: Emails distribués
+            _de: Verteilte E-Mails
             _it: Email distribuite
         delivery_order_pdf:
-          _de: Lieferschein (PDF)
           _en: Delivery order (PDF)
           _fr: Bulletin de livraison (PDF)
+          _de: Lieferschein (PDF)
           _it: Bolla di consegna (PDF)
         delivery_orders_pdf:
-          _de: Lieferscheine (PDF)
           _en: Delivery orders (PDF)
           _fr: Bulletins de livraison (PDF)
+          _de: Lieferscheine (PDF)
           _it: Bolle di consegna (PDF)
         details:
-          _de: Details
           _en: Details
           _fr: Détails
+          _de: Details
           _it: Dettagli
         direct_payments:
-          _de: Direkte Einzahlungen
           _en: Direct payments
           _fr: Paiements directs
+          _de: Direkte Einzahlungen
           _it: Pagamento diretto
         edit:
-          _de: Bearbeiten
           _en: Edit
           _fr: Modifier
+          _de: Bearbeiten
           _it: Modificare
         email:
-          _de: E-Mail
           _en: Email
           _fr: Email
+          _de: E-Mail
           _it: E-mail
         emails:
           one:
-            _de: E-Mail
             _en: Email
             _fr: Email
+            _de: E-Mail
             _it: Email
           other:
-            _de: E-Mails
             _en: Emails
             _fr: Emails
+            _de: E-Mails
             _it: Email
         future_billing:
-          _de: Alle in Zukunft abrechnen
           _en: Invoice all in advance
           _fr: Tout facturer à l'avance
+          _de: Alle in Zukunft abrechnen
           _it: Fatturare tutto in anticipo
         future_billing_confirm:
-          _de: Sind Sie sicher? Das Abonnement wird in voller Höhe abgerechnet. Vergessen Sie nicht, die Rechnung nach der Überprüfung abzusenden.
           _en: Are you sure? The membership will be billed in full. Don't forget to send the invoice after reviewing it.
           _fr: Êtes-vous sûr? L'abonnement sera facturé dans son intégralité. N'oubliez pas d'envoyer la facture, après l'avoir vérifiée.
+          _de: Sind Sie sicher? Das Abonnement wird in voller Höhe abgerechnet. Vergessen Sie nicht, die Rechnung nach der Überprüfung abzusenden.
           _it: Siete sicuri? L'abbonamento verrà fatturato per intero. Non dimenticate di inviare la fattura dopo la verifica.
         future_billing_with_annual_fee_confirm:
-          _de: Sind Sie sicher? Das Abonnement wird in voller Höhe abgerechnet, einschließlich des Jahresbeitrags. Vergessen Sie nicht, die Rechnung nach der Überprüfung abzusenden.
           _en: Are you sure? The membership will be billed in full, including the annual fee. Don't forget to send the invoice after reviewing it.
           _fr: Êtes-vous sûr? L'abonnement sera facturé dans son intégralité, y compris la cotisation annuelle. N'oubliez pas d'envoyer la facture, après l'avoir vérifiée.
+          _de: Sind Sie sicher? Das Abonnement wird in voller Höhe abgerechnet, einschließlich des Jahresbeitrags. Vergessen Sie nicht, die Rechnung nach der Überprüfung abzusenden.
           _it: Siete sicuri? L'abbonamento verrà fatturato per intero, compresa la quota annuale. Non dimenticate di inviare la fattura dopo la verifica.
         mark_renewal_as_pending:
-          _de: Kündigung abbrechen
           _en: Cancel termination
           _fr: Annuler résiliation
+          _de: Kündigung abbrechen
           _it: Annulla la decisione
         member_new_form:
-          _de: Registrierungsformular
           _en: Registration form
           _fr: Formulaire d'inscription
+          _de: Registrierungsformular
           _it: Formulario d'iscrizione
         no_absences:
-          _de: Keine Abwesenheit
           _en: No absences
           _fr: Aucune absence
+          _de: Keine Abwesenheit
           _it: Nessuna assenza
         no_activities/basket_preparation:
-          _de: Keine taschen befüllung
           _en: No basket preparation
           _fr: Aucune mise en panier
+          _de: Keine taschen befüllung
           _it: Nessuna cesta da preparare
         no_activities/day_work:
-          _de: Kein Arbeitstag
           _en: No day work
           _fr: Aucune journée de travail
+          _de: Kein Arbeitstag
           _it: Nessun giorno di lavoro
         no_activities/halfday_work:
-          _de: Kein ½ Tag
           _en: No half-day work
           _fr: Aucune ½ journée
+          _de: Kein ½ Tag
           _it: Nessuna ½ giornata
         no_activities/hour_work:
-          _de: Keine Arbeitsstunden
           _en: No hour work
           _fr: Aucune heure de travail
+          _de: Keine Arbeitsstunden
           _it: Nessuna ora di lavoro
         no_baskets:
-          _de: Keine Taschen
           _en: No baskets
           _fr: Pas de paniers
+          _de: Keine Taschen
           _it: Niente ceste
         no_invoice:
-          _de: Diese Einzahlung ist nicht direkt mit einer Rechnung verbunden.
           _en: This payment is not directly linked to an invoice.
           _fr: Ce paiement n'est pas directement lié à une facture.
+          _de: Diese Einzahlung ist nicht direkt mit einer Rechnung verbunden.
           _it: Questo pagamento non è direttamente collegato a una fattura.
         no_invoices:
-          _de: Keine Rechnungen
           _en: No invoices
           _fr: Aucune facture
+          _de: Keine Rechnungen
           _it: Nessuna fattura
         no_memberships:
-          _de: Keine Abonnements
           _en: No memberships
           _fr: Aucun abonnement
+          _de: Keine Abonnements
           _it: Nessun abbonamento
         no_orders:
-          _de: Keine Bestellungen
           _en: No orders
           _fr: Aucune commande
+          _de: Keine Bestellungen
           _it: Nessun ordine
         no_payments:
-          _de: Keine Einzahlung
           _en: No payments
           _fr: Aucun paiement
+          _de: Keine Einzahlung
           _it: Nessun pagamento
         none:
-          _de: Keine
           _en: None
           _fr: Aucun
+          _de: Keine
           _it: Nessun
         notes:
-          _de: Notizen
           _en: Notes
           _fr: Notes
+          _de: Notizen
           _it: Note
         open_renewal:
-          _de: Anfrage senden
           _en: Send request
           _fr: Envoyer la demande
+          _de: Anfrage senden
           _it: Inviare la richiesta
         opening:
-          _de: Öffnung
           _en: Opening
           _fr: Ouverture
+          _de: Öffnung
           _it: Apertura
         orders_canceled:
           one:
-            _de: 1 stornierte
             _en: 1 canceled
             _fr: 1 annulée
+            _de: 1 stornierte
             _it: 1 annullato
           other:
-            _de: "%{count} stornierte"
             _en: "%{count} canceled"
             _fr: "%{count} annulées"
+            _de: "%{count} stornierte"
             _it: "%{count} annullati"
         preview:
-          _de: Vorschau
           _en: Preview
           _fr: Prévisualisation
+          _de: Vorschau
           _it: Anteprima
         provisional_absences:
-          _de: Die letzten Körbe werden vorübergehend als abwesend markiert, bis das Mitglied alle seine Abwesenheiten gemeldet hat.
           _en: The last baskets are temporarily marked as absent until the member has reported all their absences.
           _fr: Les derniers paniers sont marqués provisoirement comme absents tant que le membre n'a pas annoncé toutes ses absences.
+          _de: Die letzten Körbe werden vorübergehend als abwesend markiert, bis das Mitglied alle seine Abwesenheiten gemeldet hat.
           _it: Gli ultimi cesti sono marcati provvisoriamente come assenti finché il membro non ha annunciato tutte le sue assenze.
         recurring_billing:
-          _de: Abrechnen
           _en: Invoice now
           _fr: Facturer
+          _de: Abrechnen
           _it: Fatturare
         recurring_billing_confirm:
-          _de: Sind Sie sicher? Vergessen Sie nicht, die Rechnung nach der Überprüfung abzusenden.
           _en: Are you sure? Don't forget to send the invoice after reviewing it.
           _fr: Êtes-vous sûr? N'oubliez pas d'envoyer la facture, après l'avoir vérifiée.
+          _de: Sind Sie sicher? Vergessen Sie nicht, die Rechnung nach der Überprüfung abzusenden.
           _it: Siete sicuri? Non dimenticate d'inviare la fattura dopo la verifica.
         recurring_billing_disabled:
-          _de: Automatische Rechnungsstellung Deaktiviert
           _en: Recurring billing disabled
           _fr: Facturation automatique désactivée
+          _de: Automatische Rechnungsstellung Deaktiviert
           _it: Fatturazione automatica disattivata
         renew:
-          _de: Erneuern
           _en: Renew
           _fr: Renouveler
+          _de: Erneuern
           _it: Rinnovare
         salary_basket:
-          _de: Gratis, Lohn-Tasche
           _en: Free, salary basket
           _fr: Gratuit, panier salaire
+          _de: Gratis, Lohn-Tasche
           _it: Gratuito, cesta-compenso
         send_email:
-          _de: Senden
           _en: Send
           _fr: Envoyer
+          _de: Senden
           _it: Inviare
         sepa_pain:
-          _de: SEPA-Lastschrift (XML)
           _en: SEPA Direct Debit (XML)
           _fr: Prélèvement SEPA (XML)
+          _de: SEPA-Lastschrift (XML)
           _it: Addebito diretto SEPA (XML)
         shares_number:
           existing:
             one:
-              _de: 1 bestehenden
               _en: 1 existing
               _fr: 1 existante
+              _de: 1 bestehenden
               _it: 1 esistente
             other:
-              _de: "%{count} bestehende"
               _en: "%{count} existing"
               _fr: "%{count} existantes"
+              _de: "%{count} bestehende"
               _it: "%{count} esistenti"
           invoiced:
             one:
-              _de: 1 abgerechneten
               _en: 1 invoiced
               _fr: 1 facturée
+              _de: 1 abgerechneten
               _it: 1 che sarà fatturato
             other:
-              _de: "%{count} abgerechnete"
               _en: "%{count} invoiced"
               _fr: "%{count} facturées"
+              _de: "%{count} abgerechnete"
               _it: "%{count} fatturate"
           missing:
             one:
-              _de: 1 der in Rechnung gestellt wird
               _en: 1 missing
               _fr: 1 qui sera facturée
+              _de: 1 der in Rechnung gestellt wird
               _it: 1 che sarà fatturato
             other:
-              _de: "%{count} die in Rechnung gestellt werden"
               _en: "%{count} missing"
               _fr: "%{count} qui seront facturées"
+              _de: "%{count} die in Rechnung gestellt werden"
               _it: "%{count} che saranno fatturati"
           required:
             one:
-              _de: 1 benötigten
               _en: 1 required
               _fr: 1 requise
+              _de: 1 benötigten
               _it: 1 richiesto
             other:
-              _de: "%{count} benötigte"
               _en: "%{count} required"
               _fr: "%{count} requises"
+              _de: "%{count} benötigte"
               _it: "%{count} richiesti"
             zero:
-              _de: 0 benötigten
               _en: 0 required
               _fr: 0 requise
+              _de: 0 benötigten
               _it: 0 richiesto
         show_all:
-          _de: alles anzeigen
           _en: show all
           _fr: tout afficher
+          _de: alles anzeigen
           _it: mostra tutto
         show_more:
-          _de: mehr anzeigen
           _en: show more
           _fr: voir plus
+          _de: mehr anzeigen
           _it: vedi altro
         subscribed_emails:
-          _de: aktive E-Mail
           _en: active emails
           _fr: emails actifs
+          _de: aktive E-Mail
           _it: email attive
         suppressed_emails:
           one:
-            _de: Ignorierte E-Mail
             _en: Ignored email
             _fr: Email ignoré
+            _de: Ignorierte E-Mail
             _it: Email ignorata
           other:
-            _de: Ignorierte E-Mails
             _en: Ignored emails
             _fr: Emails ignorés
+            _de: Ignorierte E-Mails
             _it: Email ignorate
         suppressed_emails_description:
-          _de: Die folgenden E-Mails werden beim Versand der Newsletter ignoriert.
           _en: The following emails will be ignored when sending the newsletter.
           _fr: Les emails suivants seront ignorés lors de l'envoi de la newsletter.
+          _de: Die folgenden E-Mails werden beim Versand der Newsletter ignoriert.
           _it: Le seguenti email saranno ignorate durante l'invio della newsletter.
         total:
-          _de: Gesamt %{number}
           _en: Total %{number}
           _fr: Total %{number}
+          _de: Gesamt %{number}
           _it: Totale %{number}
         totals:
-          _de: Gesamtsummen %{numbers}
           _en: Totals %{numbers}
           _fr: Totaux %{numbers}
+          _de: Gesamtsummen %{numbers}
           _it: Totali %{numbers}
         waiting_membership:
-          _de: Abonnement (Warteliste)
           _en: Membership (waiting list)
           _fr: Abonnement (en attente)
+          _de: Abonnement (Warteliste)
           _it: Abbonamento (in attesa)
     resources:
       absence:
         new_model:
-          _de: Neue %{model}
           _en: New %{model}
           _fr: Nouvelle %{model}
+          _de: Neue %{model}
           _it: Nuovo %{model}
         scopes:
           all:
-            _de: Alle
             _en: All
             _fr: Toutes
+            _de: Alle
             _it: Tutto
           past:
-            _de: Vergangene
             _en: Past
             _fr: Passées
+            _de: Vergangene
             _it: Passato
       activity:
         new_model:
-          _de: Neue %{model}
           _en: New %{model}
           _fr: Nouvelle %{model}
+          _de: Neue %{model}
           _it: Nuovo %{model}
         scopes:
           all:
-            _de: Alle
             _en: All
             _fr: Toutes
+            _de: Alle
             _it: Tutto
           past:
-            _de: Vergangene
             _en: Past
             _fr: Passées
+            _de: Vergangene
             _it: Passato
       activity_participation:
         new_model:
-          _de: Neue %{model}
           _en: New %{model}
           _fr: Nouvelle %{model}
+          _de: Neue %{model}
           _it: Nuovo %{model}
         scopes:
           all:
-            _de: Alle
             _en: All
             _fr: Toutes
+            _de: Alle
             _it: Tutto
           future:
-            _de: Kommende
             _en: Future
             _fr: À venir
+            _de: Kommende
             _it: Venendo
           missing:
-            _de: Fehlende
             _en: Missing
             _fr: Manquantes
+            _de: Fehlende
             _it: Mancanti
           paid:
-            _de: Abgerechnete
             _en: Paid
             _fr: Facturées
+            _de: Abgerechnete
             _it: Fatturate
           pending:
-            _de: Zu bestätigen
             _en: Pending
             _fr: À valider
+            _de: Zu bestätigen
             _it: Da confermare
           rejected:
-            _de: Abgelehnte
             _en: Rejected
             _fr: Refusées
+            _de: Abgelehnte
             _it: Rifiutato
           validated:
-            _de: Bestätigte
             _en: Validated
             _fr: Validées
+            _de: Bestätigte
             _it: Confermato
       admin:
         new_model:
-          _de: Einladen %{model}
           _en: Invite %{model}
           _fr: Inviter %{model}
+          _de: Einladen %{model}
           _it: Invitare %{model}
       announcement:
         new_model:
-          _de: Neue %{model}
           _en: New %{model}
           _fr: Nouvelle %{model}
+          _de: Neue %{model}
           _it: Nuovo %{model}
       basket_content:
         new_model:
-          _de: Neuer %{model}
           _en: New %{model}
           _fr: Nouveau %{model}
+          _de: Neuer %{model}
           _it: Nuovo %{model}
       basket_content/product:
         new_model:
-          _de: Neues %{model}
           _en: New %{model}
           _fr: Nouveau %{model}
+          _de: Neues %{model}
           _it: Nuovo %{model}
       basket_size:
         new_model:
-          _de: Neue %{model}
           _en: New %{model}
           _fr: Nouvelle %{model}
+          _de: Neue %{model}
           _it: Nuova %{model}
       delivery:
         new_model:
-          _de: Neue %{model}
           _en: New %{model}
           _fr: Nouvelle %{model}
+          _de: Neue %{model}
           _it: Nuova %{model}
         scopes:
           all:
-            _de: Alle
             _en: All
             _fr: Toutes
+            _de: Alle
             _it: Tutto
           past:
-            _de: Vergangene
             _en: Past
             _fr: Passées
+            _de: Vergangene
             _it: Passato
       depot:
         new_model:
-          _de: Neues %{model}
           _en: New %{model}
           _fr: Nouveau %{model}
+          _de: Neues %{model}
           _it: Nuovo %{model}
       invoice:
         new_model:
-          _de: Neue %{model}
           _en: New %{model}
           _fr: Nouvelle %{model}
+          _de: Neue %{model}
           _it: Nuovo %{model}
         scopes:
           all:
-            _de: Alle
             _en: All
             _fr: Toutes
+            _de: Alle
             _it: Tutte
           canceled:
-            _de: Storniert
             _en: Canceled
             _fr: Annulées
+            _de: Storniert
             _it: Annullate
           closed:
-            _de: Geschlossen
             _en: Closed
             _fr: Fermées
+            _de: Geschlossen
             _it: Chiuse
           open:
-            _de: Offen
             _en: Open
             _fr: Ouvertes
+            _de: Offen
             _it: Aperte
           open_and_not_sent:
-            _de: Offen (nicht gesendeten)
             _en: Open (not sent)
             _fr: Ouvertes (non-envoyées)
+            _de: Offen (nicht gesendeten)
             _it: Aperte (non inviate)
       m_session:
         scopes:
           active:
-            _de: Aktive
             _en: Active
             _fr: Actives
+            _de: Aktive
             _it: Attivo
           expired:
-            _de: Abgelaufene
             _en: Expired
             _fr: Expirées
+            _de: Abgelaufene
             _it: Scaduto
           recent:
-            _de: Letzte
             _en: Recent
             _fr: Récentes
+            _de: Letzte
             _it: Recente
       mail_template:
         scopes:
           invoice:
-            _de: Rechnungsstellung
             _en: Invoice
             _fr: Facturation
+            _de: Rechnungsstellung
             _it: Fatturazione
           member:
-            _de: Mitglied
             _en: Member
             _fr: Membre
+            _de: Mitglied
             _it: Socio
           membership:
-            _de: Abonnement
             _en: Membership
             _fr: Abonnement
+            _de: Abonnement
             _it: Abbonamento
       member:
         new_model:
-          _de: Neues %{model}
           _en: New %{model}
           _fr: Nouveau %{model}
+          _de: Neues %{model}
           _it: Nuovo %{model}
       membership:
         new_model:
-          _de: Neues %{model}
           _en: New %{model}
           _fr: Nouvel %{model}
+          _de: Neues %{model}
           _it: Nuovo %{model}
         scopes:
           future:
-            _de: Künftige
             _en: Future
             _fr: Futurs
+            _de: Künftige
             _it: Futuro
           ongoing:
-            _de: Laufende
             _en: Ongoing
             _fr: En cours
+            _de: Laufende
             _it: In corso
           trial:
-            _de: Proben
             _en: Trial
             _fr: Essais
+            _de: Proben
             _it: prova
       newsletter:
         new_model:
-          _de: Neue %{model}
           _en: New %{model}
           _fr: Nouvelle %{model}
+          _de: Neue %{model}
           _it: Nuovo %{model}
         scopes:
           all:
-            _de: Alle
             _en: All
             _fr: Toutes
+            _de: Alle
             _it: Tutto
           draft:
-            _de: Entwürfe
             _en: Drafts
             _fr: Brouillons
+            _de: Entwürfe
             _it: Bozze
           sent:
-            _de: Gesendete
             _en: Sent
             _fr: Envoyées
+            _de: Gesendete
             _it: Inviato
       newsletter/delivery:
         scopes:
           all:
-            _de: Alle
             _en: All
             _fr: Toutes
+            _de: Alle
             _it: Tutto
           bounced:
-            _de: Abgelehnte
             _en: Bounced
             _fr: Rejetées
+            _de: Abgelehnte
             _it: Respinto
           delivered:
-            _de: Verteilte
             _en: Delivered
             _fr: Distribuées
+            _de: Verteilte
             _it: Distribuito
           ignored:
-            _de: Ignorierte
             _en: Ignored
             _fr: Ignorées
+            _de: Ignorierte
             _it: Ignorato
       organization:
         edit_model:
-          _de: Einstellungen
           _en: Settings
           _fr: Paramètres
+          _de: Einstellungen
           _it: Impostazioni
         submit:
-          _de: Speichern
           _en: Save
           _fr: Sauvegarder
+          _de: Speichern
           _it: Salva
       payment:
         new_model:
-          _de: Neue %{model}
           _en: New %{model}
           _fr: Nouveau %{model}
+          _de: Neue %{model}
           _it: Nuovo %{model}
       permission:
         new_model:
-          _de: Neue %{model}
           _en: New %{model}
           _fr: Nouvelle %{model}
+          _de: Neue %{model}
           _it: Nuovo %{model}
       shop/order:
         new_model:
-          _de: Neue %{model}
           _en: New %{model}
           _fr: Nouvelle %{model}
+          _de: Neue %{model}
           _it: Nuovo %{model}
         scopes:
           all_without_cart:
-            _de: Alle
             _en: All
             _fr: Toutes
+            _de: Alle
             _it: Tutto
           invoiced:
-            _de: Abgerechnet
             _en: Invoiced
             _fr: Facturée
+            _de: Abgerechnet
             _it: Fatturato
           pending:
-            _de: Vorzubereiten
             _en: To be prepared
             _fr: À préparer
+            _de: Vorzubereiten
             _it: Essere preparati
       shop/product:
         scopes:
           available:
-            _de: Verfügbar
             _en: Available
             _fr: Disponible
+            _de: Verfügbar
             _it: Disponibile
           unavailable:
-            _de: Nicht verfügbar
             _en: Unavailable
             _fr: Indisponible
+            _de: Nicht verfügbar
             _it: Indisponibile
       shop/special_delivery:
         new_model:
-          _de: Neue %{model}
           _en: New %{model}
           _fr: Nouvelle %{model}
+          _de: Neue %{model}
           _it: Nuova %{model}
         scopes:
           all:
-            _de: Alle
             _en: All
             _fr: Toutes
+            _de: Alle
             _it: Tutto
           past:
-            _de: Vergangene
             _en: Past
             _fr: Passées
+            _de: Vergangene
             _it: Passato
     scopes:
       active:
-        _de: Aktive
         _en: Active
         _fr: Actifs
+        _de: Aktive
         _it: Attivo
       all:
-        _de: Alle
         _en: All
         _fr: Tous
+        _de: Alle
         _it: Tutto
       auto:
-        _de: Auto
         _en: Auto
         _fr: Auto
+        _de: Auto
         _it: Auto
       coming:
-        _de: Künftige
         _en: Coming
         _fr: Futures
+        _de: Künftige
         _it: Futuro
       current:
-        _de: Laufende
         _en: Current
         _fr: En cours
+        _de: Laufende
         _it: In corso
       current_year:
-        _de: Laufendes Jahr
         _en: Current year
         _fr: Année courante
+        _de: Laufendes Jahr
         _it: Anno corrente
       future:
-        _de: Künftige
         _en: Future
         _fr: Futures
+        _de: Künftige
         _it: Futuro
       future_year:
-        _de: Folgende Jahre
         _en: Future years
         _fr: Années prochaines
+        _de: Folgende Jahre
         _it: Anni prossimi
       hidden:
-        _de: Versteckt
         _en: Hidden
         _fr: Caché
+        _de: Versteckt
         _it: Nascosto
       inactive:
-        _de: Inaktive
         _en: Inactive
         _fr: Inactifs
+        _de: Inaktive
         _it: Inattivo
       manual:
-        _de: Manuelle
         _en: Manual
         _fr: Manuels
+        _de: Manuelle
         _it: Manuale
       next_year:
-        _de: Näschstes Jahr
         _en: Next year
         _fr: Année prochaine
+        _de: Näschstes Jahr
         _it: Anno successivo
       past:
-        _de: Vergangene
         _en: Past
         _fr: Passés
+        _de: Vergangene
         _it: Passato
       past_year:
-        _de: Vergangene Jahre
         _en: Past years
         _fr: Années passées
+        _de: Vergangene Jahre
         _it: Anni passati
       pending:
-        _de: Zu bestätigen
         _en: Pending
         _fr: À valider
+        _de: Zu bestätigen
         _it: Da confermare
       support:
-        _de: Förderung
         _en: Support
         _fr: Soutien
+        _de: Förderung
         _it: Sostegno
       visible:
-        _de: Sichtbar
         _en: Visible
         _fr: Visible
+        _de: Sichtbar
         _it: Visibile
       waiting:
-        _de: Warteliste
         _en: Waiting
         _fr: Liste d'attente
+        _de: Warteliste
         _it: Lista d'attesa
       with_overdue_notice:
-        _de: Mahnungen
         _en: With overdue notice
         _fr: Rappels
+        _de: Mahnungen
         _it: Promemoria
     search_status:
       current_filters:
-        _de: 'Aktuelles Filter:'
         _en: 'Current filters:'
         _fr: 'Filtre courant:'
+        _de: 'Aktuelles Filter:'
         _it: 'Filtri correnti:'
       headline:
-        _de: 'Gültigkeitsbereich:'
         _en: 'Scope:'
         _fr: 'Scope:'
+        _de: 'Gültigkeitsbereich:'
         _it: 'Scopo:'
       no_current_filters:
-        _de: Kein
         _en: None
         _fr: Aucun
+        _de: Kein
         _it: Nessun
     settings:
-      _de: Einstellungen
       _en: Settings
       _fr: Paramètres
+      _de: Einstellungen
       _it: Impostazioni
     settings_emails:
-      _de: E-Mail-Einstellungen
       _en: Email settings
       _fr: Paramètres E-Mails
+      _de: E-Mail-Einstellungen
       _it: Impostazioni dell 'email
     shared:
       action_items:
         cancel_action:
-          _de: Bearbeiten
           _en: Edit
           _fr: Modifier
+          _de: Bearbeiten
           _it: Modificare
         cancel_action_confirm:
-          _de: Die Änderung einer bereits fakturierten Bestellung führt zur Stornierung der bestehenden Rechnung. Sind Sie sicher?
           _en: Modifying an already invoiced order will result in the cancellation of the existing invoice. Are you sure?
           _fr: Modifier une commande déjà facturée aura pour action d'annuler la facture existante. Êtes-vous sûr?
+          _de: Die Änderung einer bereits fakturierten Bestellung führt zur Stornierung der bestehenden Rechnung. Sind Sie sicher?
           _it: Die Änderung einer bereits fakturierten Bestellung führt zur Stornierung der bestehenden Rechnung. Sind Sie sicher?
         cancel_and_edit_shop_order:
-          _de: Bestellung bearbeiten (Abbrechen)
           _en: Edit order (Cancel)
           _fr: Modifier commande (Annuler)
+          _de: Bestellung bearbeiten (Abbrechen)
           _it: Modifica ordine (Annullare)
         cancel_invoice:
-          _de: Stornieren
           _en: Cancel
           _fr: Annuler
+          _de: Stornieren
           _it: Annullare
         create_membership:
-          _de: Abonnement erstellen
           _en: Create membership
           _fr: Créer abonnement
+          _de: Abonnement erstellen
           _it: Creare abbonamento
         deactivate:
-          _de: Deaktivieren
           _en: Make inactive
           _fr: Rendre inactif
+          _de: Deaktivieren
           _it: Disattivare
         delivery_order_pdf:
-          _de: Lieferschein (PDF)
           _en: Delivery note (PDF)
           _fr: Bulletin de livraison (PDF)
+          _de: Lieferschein (PDF)
           _it: Bolla di consegna (PDF)
         delivery_orders_pdf:
-          _de: Lieferscheine (PDF)
           _en: Delivery notes (PDF)
           _fr: Bulletins de livraison (PDF)
+          _de: Lieferscheine (PDF)
           _it: Bolle di consegna (PDF)
         duplicate:
-          _de: Duplizieren
           _en: Duplicate
           _fr: Dupliquer
+          _de: Duplizieren
           _it: Duplicare
         invoice_action:
-          _de: Rechnung stellen
           _en: Invoice
           _fr: Facturer
+          _de: Rechnung stellen
           _it: Fatturare
         invoice_pdf:
-          _de: Rechnung (PDF)
           _en: Invoice (PDF)
           _fr: Facture (PDF)
+          _de: Rechnung (PDF)
           _it: Fattura (PDF)
         link_confirm:
-          _de: Sind Sie mehr als sicher?
           _en: Are you absolutely sure?
           _fr: Êtes-vous sûr de sûr?
+          _de: Sind Sie mehr als sicher?
           _it: Siete davvero sicuri?
         mark_as_sent:
-          _de: Als gesendet markieren
           _en: Mark as sent
           _fr: Marquer comme envoyée
+          _de: Als gesendet markieren
           _it: Contrassegnare come inviata
         new_payment:
-          _de: Neue Einzahlung
           _en: New payment
           _fr: Nouveau paiement
+          _de: Neue Einzahlung
           _it: Nuovo pagamento
         newsletter:
           confirm:
-            _de: Sind Sie sicher, dass Sie diese Newsletter an %{members_count} Mitglieder senden wollen?
             _en: Are you sure you want to send this newsletter to %{members_count} members?
             _fr: Êtes-vous sûr de vouloir envoyer cette newsletter à %{members_count} membres?
+            _de: Sind Sie sicher, dass Sie diese Newsletter an %{members_count} Mitglieder senden wollen?
             _it: Siete sicuri di voler inviare questa newsletter a %{members_count} soci?
         refund:
-          _de: Rückerstattung
           _en: Refund
           _fr: Remboursement
+          _de: Rückerstattung
           _it: Rimborso
         reject:
-          _de: Ablehnen
           _en: Reject
           _fr: Refuser
+          _de: Ablehnen
           _it: Rifiutare
         send_email:
-          _de: Senden
           _en: Send
           _fr: Envoyer
+          _de: Senden
           _it: Inviare
         settings:
-          _de: Einstellungen
           _en: Settings
           _fr: Paramètres
+          _de: Einstellungen
           _it: Impostazioni
         validate:
-          _de: Bestätigen
           _en: Validate
           _fr: Valider
+          _de: Bestätigen
           _it: Confermare
         wait:
-          _de: Auf die Warteliste setzen
           _en: Put on waiting list
           _fr: Mettre en liste d'attente
+          _de: Auf die Warteliste setzen
           _it: Metti in lista d'attesa
       sidebar_section:
         activity_participation_ical_text_html:
-          _de: Feed <a href="https://fr.wikipedia.org/wiki/ICalendar">iCalendar</a>, der alle Teilnahmen an bevorstehenden Aktivitäten enthält.
           _en: Feed <a href="https://en.wikipedia.org/wiki/ICalendar">iCalendar</a> containing all upcoming activity participations.
           _fr: Flux <a href="https://fr.wikipedia.org/wiki/ICalendar">iCalendar</a> contenant toutes les participations aux activités à venir.
+          _de: Feed <a href="https://fr.wikipedia.org/wiki/ICalendar">iCalendar</a>, der alle Teilnahmen an bevorstehenden Aktivitäten enthält.
           _it: Feed <a href="https://it.wikipedia.org/wiki/ICalendar">iCalendar</a> contenente tutte le voci per le prossime attività.
         amount:
-          _de: Betrag
           _en: Amount
           _fr: Montant
+          _de: Betrag
           _it: Quantità
         announcement_info:
-          _de: Ankündigungen ermöglichen es, eine kurze Information auf den Lieferblättern anzuzeigen, oben rechts auf diesen.
           _en: Announcements allow displaying brief information on delivery sheets, at the top right of them.
           _fr: Les annonces permettent d'afficher une information succincte sur les fiches de livraison, en haut à droite de celles-ci.
+          _de: Ankündigungen ermöglichen es, eine kurze Information auf den Lieferblättern anzuzeigen, oben rechts auf diesen.
           _it: Gli annunci consentono di visualizzare un'informazione sintetica sulle schede di consegna, in alto a destra di queste ultime.
         billing:
-          _de: Rechnungsstellung
           _en: Billing
           _fr: Facturation
+          _de: Rechnungsstellung
           _it: Fatturazione
         calendar:
-          _de: Kalender
           _en: Calendar
           _fr: Calendrier
+          _de: Kalender
           _it: Calendario
         canceled_renewals:
-          _de: Kündigungen
           _en: Cancellations
           _fr: Résiliations
+          _de: Kündigungen
           _it: Risoluzione
         confirm:
-          _de: Sind Sie mehr als sicher?
           _en: Are you absolutely sure?
           _fr: Êtes-vous sûr de sûr?
+          _de: Sind Sie mehr als sicher?
           _it: Siete davvero sicuri?
         duplicate_all_from:
-          _de: Import
           _en: Import
           _fr: Importation
+          _de: Import
           _it: Importazione
         duplicate_all_to:
-          _de: Duplizieren
           _en: Duplicate
           _fr: Duplication
+          _de: Duplizieren
           _it: Duplicazione
         edit_settings:
-          _de: Einstellungen bearbeiten
           _en: Edit settings
           _fr: Modifier les paramètres
+          _de: Einstellungen bearbeiten
           _it: Modifica parametri
         future_billing_confirm:
-          _de: Sind Sie sicher? Die Abonnements werden in voller Höhe berechnet.
           _en: Are you sure? The memberships will be billed in full.
           _fr: Êtes-vous sûr? Les abonnements seront facturés dans leur intégralité.
+          _de: Sind Sie sicher? Die Abonnements werden in voller Höhe berechnet.
           _it: Sei sicuro? Gli abbonamenti saranno fatturati per intero.
         future_billing_with_annual_fee_confirm:
-          _de: Sind Sie sicher? Die Abonnements werden vollständig in Rechnung gestellt, einschließlich des Jahresbeitrags.
           _en: Are you sure? The memberships will be billed in full, including their annual fee.
           _fr: Êtes-vous sûr? Les abonnements seront facturés dans leur intégralité, y compris leur cotisation annuelle.
+          _de: Sind Sie sicher? Die Abonnements werden vollständig in Rechnung gestellt, einschließlich des Jahresbeitrags.
           _it: Sei sicuro? Gli abbonamenti saranno fatturati per intero, compresa la quota annuale.
         help:
-          _de: Hilfe
           _en: Help
           _fr: Aide
+          _de: Hilfe
           _it: Aiuto
         import:
-          _de: Import
           _en: Import
           _fr: Importation
+          _de: Import
           _it: Importazione
         info:
-          _de: Info
           _en: Info
           _fr: Info
+          _de: Info
           _it: Info
         invoice_all:
-          _de: Alle fakturieren
           _en: Invoice all
           _fr: Tout facturer
+          _de: Alle fakturieren
           _it: Fattura tutti
         invoice_all_confirm:
           one:
-            _de: Sind Sie sicher, dass Sie 1 fehlende Teilnahme (%{activity_price}/Teiln.) für das Jahr %{year} in Rechnung stellen möchten?
             _en: Are you sure you want to invoice 1 missing participation (%{activity_price}/part.) for the year %{year}?
             _fr: Êtes-vous sûr de vouloir facturer 1 participation manquante (%{activity_price}/part.) pour l'année %{year}?
+            _de: Sind Sie sicher, dass Sie 1 fehlende Teilnahme (%{activity_price}/Teiln.) für das Jahr %{year} in Rechnung stellen möchten?
             _it: Siete sicuri di voler addebitare 1 partecipazione mancante ({activity_price}/part.) per l'anno %{year}?
           other:
-            _de: Sind Sie sicher, dass Sie %{count} fehlende Teilnahmen (%{activity_price}/Teiln.) für das Jahr %{year} in Rechnung stellen möchten?
             _en: Are you sure you want to invoice %{count} missing participations (%{activity_price}/part.) for the year %{year}?
             _fr: Êtes-vous sûr de vouloir facturer %{count} participations manquantes (%{activity_price}/part.) pour l'année %{year}?
+            _de: Sind Sie sicher, dass Sie %{count} fehlende Teilnahmen (%{activity_price}/Teiln.) für das Jahr %{year} in Rechnung stellen möchten?
             _it: Siete sicuri di voler addebitare %{count} partecipazioni mancanti ({activity_price}/part.) per l'anno %{year}?
         invoices_done:
-          _de: Abgerechnet
           _en: Invoiced
           _fr: Facturés
+          _de: Abgerechnet
           _it: Fatturato
         invoices_remaining:
-          _de: Verbleibend
           _en: Remaining
           _fr: Restant
+          _de: Verbleibend
           _it: Restante
         invoicing:
-          _de: Rechnungen werden erstellt ...
           _en: Invoicing in progress...
           _fr: Facturation en cours...
+          _de: Rechnungen werden erstellt ...
           _it: Creazione delle fatture in corso...
         missing_activity_participations:
-          _de: Fehlende
           _en: Missing
           _fr: Manquantes
+          _de: Fehlende
           _it: Mancante
         no_missing_activity_participations:
-          _de: Keine fehlenden Teilnahmen
           _en: No missing participations
           _fr: Aucune participation manquante
+          _de: Keine fehlenden Teilnahmen
           _it: Nessuna partecipazione mancante
         no_next_year_deliveries_html:
-          _de: Bitte <a href="%{new_delivery_path}">erstellen Sie die Lieferungen %{fiscal_year}</a>, bevor Sie mit den Erneuerungen fortfahren.
           _en: Please <a href="%{new_delivery_path}">create the deliveries %{fiscal_year}</a> before proceeding with renewals.
           _fr: Merci de <a href="%{new_delivery_path}">créer les livraisons %{fiscal_year}</a> avant de procéder aux renouvellements.
+          _de: Bitte <a href="%{new_delivery_path}">erstellen Sie die Lieferungen %{fiscal_year}</a>, bevor Sie mit den Erneuerungen fortfahren.
           _it: Grazie per <a href="%{new_delivery_path}">creare le consegne %{fiscal_year}</a> prima di procedere al rinnovo.
         open_renewal_all_action:
           one:
-            _de: Anfrage senden (1)
             _en: Send request (1)
             _fr: Envoyer demande (1)
+            _de: Anfrage senden (1)
             _it: Inviare domanda (1)
           other:
-            _de: Anfrage senden (%{count})
             _en: Send requests (%{count})
             _fr: Envoyer demandes (%{count})
+            _de: Anfrage senden (%{count})
             _it: Inviare domande (%{count})
         openable_renewals:
-          _de: Anfragen zu senden
           _en: Requests to send
           _fr: Demandes à envoyer
+          _de: Anfragen zu senden
           _it: Domande da inviare
         opened_renewals:
-          _de: Offene Anträge
           _en: Open requests
           _fr: Demandes ouvertes
+          _de: Offene Anträge
           _it: Domande aperte
         opening:
-          _de: Anfragen werden gesendet ...
           _en: Requests being sent...
           _fr: Demandes en cours d'envoi...
+          _de: Anfragen werden gesendet ...
           _it: Domanda in corso d'invio...
         overdue_notice_not_sent_warning:
-          _de: Mahnungen deaktiviert!
           _en: Overdue notices disabled!
           _fr: Rappels désactivés!
+          _de: Mahnungen deaktiviert!
           _it: Promemoria disabilitati!
         overdue_notice_not_sent_warning_mail_template_not_active_text_html:
-          _de: Der Versand des E-Mails <a href="/mail_templates/invoice_overdue_notice">"Mahnung Rechnung"</a> ist deaktiviert.
           _en: The automatic sending of the email <a href="/mail_templates/invoice_overdue_notice">"Invoice overdue notice"</a> is disabled.
           _fr: L'envoi automatique de l'email <a href="/mail_templates/invoice_overdue_notice">"Rappel facture"</a> est désactivé.
+          _de: Der Versand des E-Mails <a href="/mail_templates/invoice_overdue_notice">"Mahnung Rechnung"</a> ist deaktiviert.
           _it: L'invio automatico dell'email <a href="/mail_templates/invoice_overdue_notice">"Promemoria fattura"</a> è disabilitato.
         overdue_notice_not_sent_warning_no_automatic_payment_processing_text_html:
-          _de: Die Mahnungen werden nicht automatisch versendet, solange die Zahlungen nicht ebenfalls automatisch verarbeitet werden (EBICS).
           _en: Overdue notices are not automatically sent as long as payments are not also automatically processed (EBICS).
           _fr: Les rappels ne sont pas automatiquement envoyés tant que les paiements ne sont pas également traités automatiquement (EBICS).
+          _de: Die Mahnungen werden nicht automatisch versendet, solange die Zahlungen nicht ebenfalls automatisch verarbeitet werden (EBICS).
           _it: I promemoria non vengono inviati automaticamente finché i pagamenti non vengono elaborati automaticamente (EBICS).
         overpaid:
-          _de: 'Überbezahlt:'
           _en: 'Overpaid:'
           _fr: 'Payé en trop:'
+          _de: 'Überbezahlt:'
           _it: 'Pagamento in eccesso:'
         pages:
-          _de: Seiten
           _en: Pages
           _fr: Pages
+          _de: Seiten
           _it: Pagine
         renew_all_action:
           one:
-            _de: Erneuern (%{count})
             _en: Renew (%{count})
             _fr: Renouveler (%{count})
+            _de: Erneuern (%{count})
             _it: Rinnovare (%{count})
           other:
-            _de: Erneuern (%{count})
             _en: Renew (%{count})
             _fr: Renouveler (%{count})
+            _de: Erneuern (%{count})
             _it: Rinnovare (%{count})
         renewal:
-          _de: Erneuerungen
           _en: Renewals
           _fr: Renouvellements
+          _de: Erneuerungen
           _it: Rinnovi
         renewed_renewals:
-          _de: Erneuerungen
           _en: Renewals
           _fr: Renouvellements
+          _de: Erneuerungen
           _it: Rinnovi
         renewing:
-          _de: Erneuerungen am laufen...
           _en: Renewing...
           _fr: Renouvellements en cours...
+          _de: Erneuerungen am laufen...
           _it: Rinnovi in corso...
         search_status:
-          _de: Resultate der Suche
           _en: Search results
           _fr: Résultats de la recherche
+          _de: Resultate der Suche
           _it: Risultati della ricerca
         send_overdue_notices:
-          _de: Mahnungen versenden
           _en: Send overdue notices
           _fr: Envoyer les rappels
+          _de: Mahnungen versenden
           _it: Invio dei promemoria
         sending:
-          _de: Versand läuft...
           _en: Sending...
           _fr: Envois en cours...
+          _de: Versand läuft...
           _it: Invio in corso...
         sepa_pain:
-          _de: SEPA-Lastschrift (XML)
           _en: SEPA Direct Debit (XML)
           _fr: Prélèvement SEPA (XML)
+          _de: SEPA-Lastschrift (XML)
           _it: Addebito diretto SEPA (XML)
         sepa_pain_text_html:
           one:
-            _de: "<b>1</b> offene Rechnung, die per SEPA-Lastschrift bezahlt werden muss."
             _en: "<b>1</b> open invoice to be paid by SEPA Direct Debit."
             _fr: "<b>1</b> facture ouverte à payer par prélèvement SEPA."
+            _de: "<b>1</b> offene Rechnung, die per SEPA-Lastschrift bezahlt werden muss."
             _it: "<b>1</b> fattura aperta da pagare con addebito diretto SEPA."
           other:
-            _de: "<b>%{count}</b> offene Rechnungen, die per SEPA-Lastschrift bezahlt werden müssen."
             _en: "<b>%{count}</b> open invoices to be paid by SEPA Direct Debit."
             _fr: "<b>%{count}</b> factures ouvertes à payer par prélèvement SEPA."
+            _de: "<b>%{count}</b> offene Rechnungen, die per SEPA-Lastschrift bezahlt werden müssen."
             _it: "<b>%{count}</b> fatture aperte da pagare con addebito diretto SEPA."
         shop_admin_only:
-          _de: Beschränkter Zugang!
           _en: Restricted access!
           _fr: Accès limité!
+          _de: Beschränkter Zugang!
           _it: Accesso limitato!
         shop_admin_only_text_html:
-          _de: Nur Admins können derzeit den Hofladen sehen.
           _en: Only admins can currently see the shop.
           _fr: Seuls les admins peuvent actuellement voir l'épicerie.
+          _de: Nur Admins können derzeit den Hofladen sehen.
           _it: Solo gli amministratori possono attualmente vedere il negozio di drogheria.
         shop_closed_html:
-          _de: Bestellungen für die Lieferung am <u>%{date}</u> sind nicht mehr möglich.
           _en: Orders for delivery on <u>%{date}</u> are no longer possible.
           _fr: Les commandes pour la livraison du <u>%{date}</u> ne sont plus possibles.
+          _de: Bestellungen für die Lieferung am <u>%{date}</u> sind nicht mehr möglich.
           _it: Gli ordini per la consegna il <u>%{date}</u> non sono più possibili.
         shop_not_open_yet_html:
-          _de: Die Bestellungen für die Lieferung am <u>%{date}</u> sind noch nicht möglich.
           _en: Orders for delivery on <u>%{date}</u> are not yet possible.
           _fr: Les commandes pour la livraison du <u>%{date}</u> ne sont pas encore possibles.
+          _de: Die Bestellungen für die Lieferung am <u>%{date}</u> sind noch nicht möglich.
           _it: Gli ordini con consegna il <u>%{date}</u> non sono ancora possibili.
         shop_open_until_html:
-          _de: Bestellungen für die Lieferung am <u>%{date}</u> können von den Mitgliedern noch bis zum <u>%{end_date}</u> aufgegeben, geändert oder storniert werden.
           _en: Orders for delivery on <u>%{date}</u> can still be placed, modified, or canceled by members until <u>%{end_date}</u>.
           _fr: Les commandes pour la livraison du <u>%{date}</u> peuvent encore être passées, modifiées, ou annulées par les membres jusqu'au <u>%{end_date}</u>.
+          _de: Bestellungen für die Lieferung am <u>%{date}</u> können von den Mitgliedern noch bis zum <u>%{end_date}</u> aufgegeben, geändert oder storniert werden.
           _it: Gli ordini per la consegna il <u>%{date}</u> possono ancora essere effettuati, modificati o cancellati dai soci fino al <u>%{end_date}</u>.
         shop_status:
-          _de: Status Hofladen
           _en: Shop status
           _fr: Statut épicerie
+          _de: Status Hofladen
           _it: Stato della drogheria
         subscribe_ical_link:
-          _de: Feed abonnieren
           _en: Subscribe to feed
           _fr: S'abonner au flux
+          _de: Feed abonnieren
           _it: Abbonati al feed
         total:
-          _de: Gesamt
           _en: Total
           _fr: Total
+          _de: Gesamt
           _it: Totale
         waiting_attribute:
-          _de: "%{attribute} (Warteliste)"
           _en: "%{attribute} (waiting list)"
           _fr: "%{attribute} (en attente)"
+          _de: "%{attribute} (Warteliste)"
           _it: "%{attribute} (in lista d'attesa)"
     sidebars:
       filters:
-        _de: Filter
         _en: Filters
         _fr: Filtres
+        _de: Filter
         _it: Filtri
     site_footer:
       handbook:
-        _de: Handbuch
         _en: Handbook
         _fr: Manuel
+        _de: Handbuch
         _it: Manuale
       updates:
-        _de: Letzte Neuigkeiten
         _en: Latest updates
         _fr: Dernières nouveautés
+        _de: Letzte Neuigkeiten
         _it: Ultime notizie
     status_tag:
       absent:
-        _de: abwesend
         _en: absent
         _fr: absent
+        _de: abwesend
         _it: assente
       active:
-        _de: aktiv
         _en: active
         _fr: actif
+        _de: aktiv
         _it: attivo
       auto:
-        _de: Auto
         _en: Auto
         _fr: Auto
+        _de: Auto
         _it: Auto
       bounced:
-        _de: abgelehnte
         _en: bounced
         _fr: rejetée
+        _de: abgelehnte
         _it: respinto
       canceled:
-        _de: storniert
         _en: canceled
         _fr: annulée
+        _de: storniert
         _it: annullata
       closed:
-        _de: geschlossen
         _en: closed
         _fr: fermée
+        _de: geschlossen
         _it: chiusa
       deleted:
-        _de: gelöscht
         _en: deleted
         _fr: supprimé
+        _de: gelöscht
         _it: eliminato
       delivered:
-        _de: verteilte
         _en: delivered
         _fr: distribuée
+        _de: verteilte
         _it: distribuito
       draft:
-        _de: Entwurf
         _en: draft
         _fr: Brouillon
+        _de: Entwurf
         _it: Bozza
       'false':
-        _de: nein
         _en: 'no'
         _fr: non
+        _de: nein
         _it: 'no'
       future:
-        _de: bevorsetehende
         _en: future
         _fr: à venir
+        _de: bevorsetehende
         _it: imminente
       hard_bounce:
-        _de: ungültig (hard bounce)
         _en: hard bounce
         _fr: invalide (hard bounce)
+        _de: ungültig (hard bounce)
         _it: non valido (hard bounce)
       ignored:
-        _de: ignorierte
         _en: ignored
         _fr: ignorée
+        _de: ignorierte
         _it: ignorato
       inactive:
-        _de: inaktiv
         _en: inactive
         _fr: inactif
+        _de: inaktiv
         _it: inattivo
       manual:
-        _de: manuell
         _en: manual
         _fr: manuel
+        _de: manuell
         _it: manuale
       manual_suppression:
-        _de: abgemeldet
         _en: manual suppression
         _fr: désinscrit
+        _de: abgemeldet
         _it: disiscritto
       no_email:
-        _de: keine E-Mail
         _en: no email
         _fr: pas d'email
+        _de: keine E-Mail
         _it: nessuna email
       open:
-        _de: offen
         _en: open
         _fr: ouverte
+        _de: offen
         _it: aperta
       pending:
-        _de: zu bestätigen
         _en: pending
         _fr: à valider
+        _de: zu bestätigen
         _it: da confermare
       processing:
-        _de: in Bearbeitung
         _en: processing
         _fr: en traitement
+        _de: in Bearbeitung
         _it: elaborazione
       rejected:
-        _de: abgelehnte
         _en: rejected
         _fr: refusée
+        _de: abgelehnte
         _it: rifiutato
       renewal_canceled:
-        _de: gekündigt
         _en: renewal canceled
         _fr: résilié
+        _de: gekündigt
         _it: terminato
       renewal_opened:
-        _de: offen
         _en: renewal opened
         _fr: ouvert
+        _de: offen
         _it: aperto
       renewal_pending:
-        _de: warten
         _en: renewal pending
         _fr: en attente
+        _de: warten
         _it: in attesa
       renewed:
-        _de: erneuert
         _en: renewed
         _fr: renouvelé
+        _de: erneuert
         _it: rinnovato
       sent:
-        _de: Gesendet
         _en: sent
         _fr: Envoyée
+        _de: Gesendet
         _it: Inviato
       spam_complaint:
-        _de: Beschwerde (spam complaint)
         _en: spam complaint
         _fr: plainte (spam complaint)
+        _de: Beschwerde (spam complaint)
         _it: reclamo (spam complaint)
       support:
-        _de: Förderung
         _en: support
         _fr: soutien
+        _de: Förderung
         _it: sostegno
       trial:
-        _de: probe
         _en: trial
         _fr: essai
+        _de: probe
         _it: prova
       'true':
-        _de: ja
         _en: 'yes'
         _fr: oui
+        _de: ja
         _it: si
       validated:
-        _de: bestätigte
         _en: validated
         _fr: validée
+        _de: bestätigte
         _it: confermato
       waiting:
-        _de: warteliste
         _en: waiting
         _fr: liste d'attente
+        _de: warteliste
         _it: lista d'attesa
     unknown:
-      _de: Unbekannt
       _en: Unknown
       _fr: Inconnu
+      _de: Unbekannt
       _it: Sconosciuto
     update_model:
-      _de: "%{model} bearbeiten"
       _en: Edit %{model}
       _fr: Modifier %{model}
+      _de: "%{model} bearbeiten"
       _it: Modificare %{model}
     view:
-      _de: Ansehen
       _en: View
       _fr: Voir
+      _de: Ansehen
       _it: Vedi

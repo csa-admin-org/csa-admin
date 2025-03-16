@@ -2,27 +2,27 @@ _:
   views:
     pagination:
       first:
-        _de: "&laquo;"
         _en: "&laquo;"
         _fr: "&laquo;"
+        _de: "&laquo;"
         _it: "&laquo;"
       last:
-        _de: "&raquo;"
         _en: "&raquo;"
         _fr: "&raquo;"
+        _de: "&raquo;"
         _it: "&raquo;"
       next:
-        _de: "&rsaquo;"
         _en: "&rsaquo;"
         _fr: "&rsaquo;"
+        _de: "&rsaquo;"
         _it: "&rsaquo;"
       previous:
-        _de: "&lsaquo;"
         _en: "&lsaquo;"
         _fr: "&lsaquo;"
+        _de: "&lsaquo;"
         _it: "&lsaquo;"
       truncate_html:
-        _de: "&hellip;"
         _en: "&hellip;"
         _fr: "&hellip;"
+        _de: "&hellip;"
         _it: "&hellip;"

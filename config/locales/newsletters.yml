@@ -2,74 +2,74 @@ _:
   newsletters:
     activity_state:
       demanded:
-        _de: Zu leisten
         _en: Demanded
         _fr: Demandées
+        _de: Zu leisten
         _it: Richieste
       missing:
-        _de: Fehlende
         _en: Missing
         _fr: Manquantes
+        _de: Fehlende
         _it: Mancanti
     auto_save_recovered:
-      _de: Lokale automatische Sicherung wiederhergestellt, vergessen Sie nicht, Ihren Entwurf zu speichern!
       _en: Local auto-save recovered, don't forget to save your draft!
       _fr: Sauvegarde automatique locale récupérée, n'oubliez pas de sauver votre brouillon!
+      _de: Lokale automatische Sicherung wiederhergestellt, vergessen Sie nicht, Ihren Entwurf zu speichern!
       _it: Backup automatico locale recuperato, non dimenticare di salvare la tua bozza!
     member_state:
       all:
-        _de: Alle
         _en: All
         _fr: Tous
+        _de: Alle
         _it: Tutti
       not_inactive:
-        _de: Alle außer inaktiv
         _en: All except inactive
         _fr: Tous sauf inactifs
+        _de: Alle außer inaktiv
         _it: Tutti tranne inattivi
     segment:
       criterias:
-        _de: Kriterien
         _en: Criteria
         _fr: Critères
+        _de: Kriterien
         _it: Criteri
       info_html:
-        _de: Die Audienzsegmente ermöglichen es Ihnen, Ihre Newsletter anhand bestimmter Kriterien zu ciblieren. Diese Kriterien gelten immer <b>nur für aktive Mitglieder</b> und für die <b>aktuelle oder zukünftige Abonnementkonfiguration</b>.
         _en: Audience segments allow you to target your newsletters based on specific criteria. These criteria always apply <b>only to active members</b> and to the <b>current or future membership configuration</b>.
         _fr: Les segments d'audience vous permettent de cibler vos newsletters en fonction de critères précis. Ces critères s'appliquent toujours <b>uniquement aux membres actifs</b> et à la configuration de leur <b>abonnement actuel ou future</b>.
+        _de: Die Audienzsegmente ermöglichen es Ihnen, Ihre Newsletter anhand bestimmter Kriterien zu ciblieren. Diese Kriterien gelten immer <b>nur für aktive Mitglieder</b> und für die <b>aktuelle oder zukünftige Abonnementkonfiguration</b>.
         _it: I segmenti di pubblico ti permettono di indirizzare le tue newsletter in base a criteri precisi. Questi criteri si applicano sempre <b>solo ai soci attivi</b> e alla <b>configurazione dell'abbonamento attuale o futura</b>.
       title:
-        _de: Segment
         _en: Segment
         _fr: Segment
+        _de: Segment
         _it: Segmento
     segment_unknown:
-      _de: Unbekannt
       _en: Unknown
       _fr: Inconnu
+      _de: Unbekannt
       _it: Sconosciuto
     send_email:
       flash:
         notice:
-          _de: Versand der Newsletter läuft...
           _en: Sending newsletter in progress...
           _fr: Envoie de la newsletter en cours...
+          _de: Versand der Newsletter läuft...
           _it: Invio della newsletter in corso...
     template:
       next_delivery:
         title:
-          _de: Nächste Lieferung
           _en: Next delivery
           _fr: Prochaine livraison
+          _de: Nächste Lieferung
           _it: Prossima consegna
       simple:
         title:
-          _de: Einfacher Text
           _en: Simple text
           _fr: Texte simple
+          _de: Einfacher Text
           _it: Testo semplice
       subject:
-        _de: Titel der Newsletter
         _en: Newsletter title
         _fr: Titre de la Newsletter
+        _de: Titel der Newsletter
         _it: Titolo della Newsletter

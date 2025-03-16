@@ -1,196 +1,196 @@
 _:
   billing:
     adjustments:
-      _de: Anpassungen
       _en: Adjustments
       _fr: Ajustements
+      _de: Anpassungen
       _it: Correzione
     amount_with_vat:
-      _de: Betrag inkl. MwSt.
       _en: Amount with VAT
       _fr: Montant TTC
+      _de: Betrag inkl. MwSt.
       _it: Importo IVA inclusa
     amount_without_vat:
-      _de: Betrag exkl. MwSt.
       _en: Amount without VAT
       _fr: Montant HT
+      _de: Betrag exkl. MwSt.
       _it: Importo IVA esclusa
     annual_fees:
-      _de: Jahresbeiträge
       _en: Annual fees
       _fr: Cotisations annuelles
+      _de: Jahresbeiträge
       _it: Contributi annuali
     auto:
-      _de: Automatisch importiert
       _en: Automatically imported
       _fr: Importés automatiquement
+      _de: Automatisch importiert
       _it: Importati automaticamente
     manual:
-      _de: Manuell
       _en: Manual
       _fr: Manuel
+      _de: Manuell
       _it: Manuale
     membership_amount_description:
       x1:
-        _de: Jährliche Rechnungsstellung
         _en: Annual billing
         _fr: Facturation annuelle
+        _de: Jährliche Rechnungsstellung
         _it: Fatturazione annuale
       x12:
-        _de: 'Monatliche Rechnungsstellung #%{number}'
         _en: 'Monthly billing #%{number}'
         _fr: 'Facturation mensuelle #%{number}'
+        _de: 'Monatliche Rechnungsstellung #%{number}'
         _it: 'Fatturazione mensile #%{number}'
       x2:
-        _de: 'Halbjährliche Rechnungsstellung #%{number}'
         _en: 'Semi-annual billing #%{number}'
         _fr: 'Facturation semestrielle #%{number}'
+        _de: 'Halbjährliche Rechnungsstellung #%{number}'
         _it: 'Fatturazione semestrale #%{number}'
       x3:
-        _de: 'Dritteljährliche Rechnungsstellung #%{number}'
         _en: 'Four-monthly billing #%{number}'
         _fr: 'Facturation quadrimestrielle #%{number}'
+        _de: 'Dritteljährliche Rechnungsstellung #%{number}'
         _it: 'Fatturazione quadrimestrale #%{number}'
       x4:
-        _de: 'Quartalweise Rechnungsstellung #%{number}'
         _en: 'Quarterly billing #%{number}'
         _fr: 'Facturation trimestrielle #%{number}'
+        _de: 'Quartalweise Rechnungsstellung #%{number}'
         _it: 'Fatturazione trimestrale #%{number}'
     memberships_total:
-      _de: Abonnements gesamt
       _en: Total memberships
       _fr: Abonnements Total
+      _de: Abonnements gesamt
       _it: Abbonamenti totali
     missing_amounts:
-      _de: Fehlende Zahlungen
       _en: Missing payments
       _fr: Paiements manquants
+      _de: Fehlende Zahlungen
       _it: Pagamenti mancanti
     other:
-      _de: Weiteres
       _en: Other
       _fr: Autre
+      _de: Weiteres
       _it: Altro
     refund:
-      _de: Erstattung
       _en: Refund
       _fr: Remboursement
+      _de: Erstattung
       _it: Rimborsi
     remaining_memberships:
-      _de: Noch zu fakturierende Abonnements
       _en: Remaining memberships to be billed
       _fr: Abonnements restant à facturer
+      _de: Noch zu fakturierende Abonnements
       _it: Abbonamenti restanti da fatturare
     scope:
       activity/basket_preparation:
-        _de: Anpassung Taschen befüllung
         _en: Basket preparation adjustment
         _fr: Ajustement mises en panier
+        _de: Anpassung Taschen befüllung
         _it: Correzioni preparazioni cesta
       activity/day_work:
-        _de: Anpassung Arbeitstage
         _en: Day work adjustment
         _fr: Ajustement journées de travail
+        _de: Anpassung Arbeitstage
         _it: Correzione dei giorni di lavoro
       activity/halfday_work:
-        _de: Anpassung ½ Tage
         _en: Half-day work adjustment
         _fr: Ajustement ½ journées
+        _de: Anpassung ½ Tage
         _it: Correzioni ½ giornate
       activity/hour_work:
-        _de: Anpassung Arbeitsstunden
         _en: Hour work adjustment
         _fr: Ajustement heures de travail
+        _de: Anpassung Arbeitsstunden
         _it: Correzioni ore di lavoro
       annual_fee:
-        _de: Jahresbeitrag
         _en: Annual fee
         _fr: Cotisation annuelle
+        _de: Jahresbeitrag
         _it: Contributo annuale
       basket_complement:
-        _de: Zusatz
         _en: Complement
         _fr: Complément
+        _de: Zusatz
         _it: Complément
       basket_size:
-        _de: Tasche %{name}
         _en: Basket %{name}
         _fr: Panier %{name}
+        _de: Tasche %{name}
         _it: Cesta %{name}
       depot:
-        _de: Depot
         _en: Depot
         _fr: Dépôt
+        _de: Depot
         _it: Punto di ritiro
       missing:
-        _de: Fehlende
         _en: Missing
         _fr: Manquant
+        _de: Fehlende
         _it: Mancante
       overdue_notices:
         one:
-          _de: 1 Mahnung
           _en: 1 reminder
           _fr: 1 rappel
+          _de: 1 Mahnung
           _it: 1 richiamo
         other:
-          _de: "%{count} Mahnungen"
           _en: "%{count} reminders"
           _fr: "%{count} rappels"
+          _de: "%{count} Mahnungen"
           _it: "%{count} richiami"
       overpaid_amount:
-        _de: "%{amount} Überschuss"
         _en: "%{amount} surplus"
         _fr: "%{amount} en trop"
+        _de: "%{amount} Überschuss"
         _it: "%{amount} in eccesso"
       paid:
-        _de: Geleistete
         _en: Paid
         _fr: Payé
+        _de: Geleistete
         _it: Pagato
       share:
-        _de: Anteilschein
         _en: Share
         _fr: Part Sociale
+        _de: Anteilschein
         _it: Quota sociale cooperativa
     shares:
-      _de: Anteilscheine
       _en: Cooperative shares
       _fr: Part Sociales
+      _de: Anteilscheine
       _it: Quota sociale cooperativa
     title:
-      _de: Rechnungsstellung
       _en: Billing
       _fr: Facturation
+      _de: Rechnungsstellung
       _it: Fatturazione
     vat_amount:
-      _de: MwSt. Betrag
       _en: VAT amount
       _fr: Montant TVA
+      _de: MwSt. Betrag
       _it: Importo IVA
     year_division:
       x1:
-        _de: Jährlich
         _en: Annual
         _fr: Annuel
+        _de: Jährlich
         _it: Annuale
       x12:
-        _de: Monatlich
         _en: Monthly
         _fr: Mensuel
+        _de: Monatlich
         _it: Mensile
       x2:
-        _de: Halbjährlich
         _en: Semi-annual
         _fr: Semestriel
+        _de: Halbjährlich
         _it: Semestrale
       x3:
-        _de: Dritteljährlich
         _en: Four-monthly
         _fr: Quadrimestriel
+        _de: Dritteljährlich
         _it: Quadrimestrale
       x4:
-        _de: Quartalweise
         _en: Quarterly
         _fr: Trimestriel
+        _de: Quartalweise
         _it: Trimestrale
