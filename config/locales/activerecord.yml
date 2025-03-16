@@ -2021,7 +2021,7 @@ _:
         other:
           _en: Basket contents
           _fr: Contenu Paniers
-          _de: Tascheninhalt
+          _de: Tascheninhalte
           _it: Contenuto ceste
       basket_content/product:
         one:
