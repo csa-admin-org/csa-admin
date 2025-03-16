@@ -1,79 +1,79 @@
 _:
   delivery_cycle:
     default_name:
-      _de: Alle
       _en: All
       _fr: Toutes
+      _de: Alle
       _it: Tutte
     results:
       all:
-        _de: Alle
         _en: All
         _fr: Tous
+        _de: Alle
         _it: Tutti
       all_but_first:
-        _de: Alle außer dem 1.
         _en: All except the 1st
         _fr: Tous sauf le 1er
+        _de: Alle außer dem 1.
         _it: Tutti tranne il 1°
       even:
-        _de: Geraden
         _en: Even
         _fr: Pairs
+        _de: Geraden
         _it: Pari
       first_of_each_month:
-        _de: Erster jedes Monats
         _en: First of each month
         _fr: Premier de chaque mois
+        _de: Erster jedes Monats
         _it: Primo di ogni mese
       last_of_each_month:
-        _de: Letzter jedes Monats
         _en: Last of each month
         _fr: Dernier de chaque mois
+        _de: Letzter jedes Monats
         _it: Ultimo di ogni mese
       odd:
-        _de: Ungeraden
         _en: Odd
         _fr: Impairs
+        _de: Ungeraden
         _it: Dispari
       quarter_1:
-        _de: 1. Viertel
         _en: 1st quarter
         _fr: 1er quart
+        _de: 1. Viertel
         _it: 1° quarto
       quarter_2:
-        _de: 2. Viertel
         _en: 2nd quarter
         _fr: 2ème quart
+        _de: 2. Viertel
         _it: 2° quarto
       quarter_3:
-        _de: 3. Viertel
         _en: 3rd quarter
         _fr: 3ème quart
+        _de: 3. Viertel
         _it: 3° quarto
       quarter_4:
-        _de: 4. Viertel
         _en: 4th quarter
         _fr: 4ème quart
+        _de: 4. Viertel
         _it: 4° quarto
     settings:
-      _de: Konfiguration
       _en: Configuration
       _fr: Configuration
+      _de: Konfiguration
       _it: Configurazione
     week_numbers:
       all:
-        _de: Alle
         _en: All
         _fr: Toutes
+        _de: Alle
         _it: Tutte
       even:
-        _de: Geraden
         _en: Even
         _fr: Paires
+        _de: Geraden
         _it: Pari
       odd:
-        _de: Ungeraden
         _en: Odd
         _fr: Impaires
+        _de: Ungeraden
         _it: Dispari

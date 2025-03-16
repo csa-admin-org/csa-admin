@@ -2,23 +2,23 @@ _:
   permissions:
     rights:
       read:
-        _de: Lesen
         _en: Read
         _fr: Lecture
+        _de: Lesen
         _it: Lettura
       write:
-        _de: Schreiben
         _en: Write
         _fr: Écriture
+        _de: Schreiben
         _it: Scrittura
     superadmin:
       description:
-        _de: Alle, einschließlich der Einstellungen
         _en: All, including settings
         _fr: Tous, y compris les paramètres
+        _de: Alle, einschließlich der Einstellungen
         _it: Tutto, comprese le impostazioni
       name:
-        _de: Super Admin
         _en: Super Admin
         _fr: Super Admin
+        _de: Super Admin
         _it: Super Admin

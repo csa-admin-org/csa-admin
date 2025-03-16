@@ -4,1207 +4,1207 @@ _:
       create:
         flash:
           notice:
-            _de: Danke, dass du uns informiert hast!
             _en: Thank you for informing us!
             _fr: Merci de nous avoir prévenus!
+            _de: Danke, dass du uns informiert hast!
             _it: Grazie per averci informato!
       index:
         absences_included_explanation_html:
           one:
-            _de: Ihr Abonnement beinhaltet <b>1 Abwesenheit</b>. Wenn die Abwesenheit nicht gemeldet wird, wird sie provisorisch auf die letzte Lieferung angewendet.
             _en: Your membership includes <b>1 absence</b>. If the absence is not reported, it will be provisionally applied to the last delivery.
             _fr: Votre abonnement prévoit <b>1 absence</b>. Si l'absence n'est pas annoncée elle est appliquée provisoirement sur la dernière livraison.
+            _de: Ihr Abonnement beinhaltet <b>1 Abwesenheit</b>. Wenn die Abwesenheit nicht gemeldet wird, wird sie provisorisch auf die letzte Lieferung angewendet.
             _it: Il tuo abbonamento prevede <b>1 assenza</b>. Se l'assenza non è annunciata, viene applicata provvisoriamente all'ultima consegna.
           other:
-            _de: Ihr Abonnement beinhaltet <b>%{count} Abwesenheiten</b>. Die Abwesenheiten, die noch nicht gemeldet wurden, werden provisorisch auf die letzten Lieferungen angewendet.
             _en: Your membership includes <b>%{count} absences</b>. Absences that have not yet been reported will be provisionally applied to the last deliveries.
             _fr: Votre abonnement prévoit <b>%{count} absences</b>. Les absences qui ne sont pas encore annoncées sont appliquées provisoirement sur les dernières livraisons.
+            _de: Ihr Abonnement beinhaltet <b>%{count} Abwesenheiten</b>. Die Abwesenheiten, die noch nicht gemeldet wurden, werden provisorisch auf die letzten Lieferungen angewendet.
             _it: Il tuo abbonamento prevede <b>%{count} assenze</b>. Le assenze non ancora annunciate vengono applicate provvisoriamente alle ultime consegne.
         cancel_link:
-          _de: abbrechen
           _en: cancel
           _fr: annuler
+          _de: abbrechen
           _it: annullare
         deliveries_count:
           one:
-            _de: 1 Lieferung
             _en: 1 delivery
             _fr: 1 livraison
+            _de: 1 Lieferung
             _it: 1 consegna
           other:
-            _de: "%{count} Lieferungen"
             _en: "%{count} deliveries"
             _fr: "%{count} livraisons"
+            _de: "%{count} Lieferungen"
             _it: "%{count} consegne"
           zero:
-            _de: keine Lieferung
             _en: no delivery
             _fr: aucune livraison
+            _de: keine Lieferung
             _it: nessuna consegna
         explanation_billed:
-          _de: Während Ihrer Abwesenheit können Sie gerne Ihre Tasche an Freunden, Nachbarn oder Familie schenken. Wenn dies leider nicht möglich ist, sind wir Ihnen dankbar, uns über Ihrer Abwesenheit mit dem unten stehenden Formular zu informieren. Ihre Tasche wird dann unter den anderen Mitgliedern geteilt. Diese Taschen werden nicht zurückerstattet.
           _en: During your absence, you can give your basket to friends, neighbors, or family. If this is not possible, please inform us of your absence using the form below. Your basket will then be shared among other members. These baskets are not refunded.
           _fr: Lors de votre absence, le plus simple est de proposer votre panier à vos ami(e)s, voisin(e)s, famille, ... Si malheureusement ce n'est pas possible, merci d'annoncer votre absence à l'aide du formulaire ci-dessous. Votre panier sera alors partagé avec les autres membres. Ces paniers ne sont pas remboursés.
+          _de: Während Ihrer Abwesenheit können Sie gerne Ihre Tasche an Freunden, Nachbarn oder Familie schenken. Wenn dies leider nicht möglich ist, sind wir Ihnen dankbar, uns über Ihrer Abwesenheit mit dem unten stehenden Formular zu informieren. Ihre Tasche wird dann unter den anderen Mitgliedern geteilt. Diese Taschen werden nicht zurückerstattet.
           _it: In caso di assenza, la soluzione più semplice, è quella di proporre la tua cesta ad amici o parenti, ... Se ciò non è possibile, grazie per farcelo sapere indicando la tua assenza con il modulo sottostante. La tua cesta non verra sprecata. Queste ceste non saranno rimborsate.
         form_title:
-          _de: Abwesenheit melden
           _en: Report an absence
           _fr: Annoncer une absence
+          _de: Abwesenheit melden
           _it: Annunciare un'assenza
         past_absences:
-          _de: Ihre vergangene Abwesenheiten
           _en: Your past absences
           _fr: Vos absences passées
+          _de: Ihre vergangene Abwesenheiten
           _it: Le vostre assenze passate
         present_or_future_absences:
-          _de: Ihre künftige oder aktuelle Abwesenheiten
           _en: Your upcoming or current absences
           _fr: Vos absences à venir ou en cours
+          _de: Ihre künftige oder aktuelle Abwesenheiten
           _it: Le vostre assenze future o in corso
         submit:
-          _de: Senden
           _en: Submit
           _fr: Envoyer
+          _de: Senden
           _it: Inviare
     accounts:
       edit:
         cancel_link:
-          _de: Abbrechen
           _en: Cancel
           _fr: Annuler
+          _de: Abbrechen
           _it: Annullare
         emails_hint:
-          _de: Die für diese Session verwendete E-Mail (%{session_email}) kann nicht geändert werden.
           _en: The email used for this session (%{session_email}) cannot be changed.
           _fr: L'email utilisé pour cette session (%{session_email}) ne peut pas être modifié.
+          _de: Die für diese Session verwendete E-Mail (%{session_email}) kann nicht geändert werden.
           _it: L'email utilizzata per questa sessione (%{session_email}) non può essere modificata.
         name_hint:
-          _de: Bitte geben Sie Ihren Nachnamen zuerst an.
           _en: Please enter your last name first.
           _fr: Merci de mettre votre nom de famille en premier.
+          _de: Bitte geben Sie Ihren Nachnamen zuerst an.
           _it: Per favore, inserisci prima il tuo cognome.
         submit:
-          _de: Einreichen
           _en: Submit
           _fr: Soumettre
+          _de: Einreichen
           _it: Invia
         title:
-          _de: Konto Bearbeiten
           _en: Edit Account
           _fr: Modifier compte
+          _de: Konto Bearbeiten
           _it: Modifica il conto
       show:
         edit_link:
-          _de: Kontoinformationen bearbeiten
           _en: Edit account information
           _fr: Modifier les données du compte
+          _de: Kontoinformationen bearbeiten
           _it: Modifica i dati del conto
         no_phones:
-          _de: Kein
           _en: None
           _fr: Aucun
+          _de: Kein
           _it: Nessuno
         subscribe_back_to_newsletter:
-          _de: Ich möchte mich erneut für Newsletter anmelden
           _en: I would like to subscribe to the newsletter again
           _fr: Je souhaite à nouveau m'inscrire aux newsletters
+          _de: Ich möchte mich erneut für Newsletter anmelden
           _it: Vorrei iscrivermi nuovamente alle newsletter
         title:
-          _de: Konto
           _en: Account
           _fr: Compte
+          _de: Konto
           _it: Conto
     activity_participations:
       activity_participation:
         cancel_link:
-          _de: abbrechen
           _en: cancel
           _fr: annuler
+          _de: abbrechen
           _it: annullare
         carpooling:
-          _de: Fahrgemeinschaften
           _en: Carpooling
           _fr: Covoiturage
+          _de: Fahrgemeinschaften
           _it: Condivisione veicoli
       create:
         flash:
           notice:
-            _de: Vielen Dank für Ihre Anmeldung!
             _en: Thank you for your registration!
             _fr: Merci pour votre inscription!
+            _de: Vielen Dank für Ihre Anmeldung!
             _it: Grazie per la vostra iscrizione!
       index:
         activity_form_submit:
-          _de: Anmeldung
           _en: Register
           _fr: Inscription
+          _de: Anmeldung
           _it: Iscrizione
         activity_label:
-          _de: Zeitplan, Standort und Arbeit
           _en: Schedule, location, and activity
           _fr: Horaire, lieu et activité
+          _de: Zeitplan, Standort und Arbeit
           _it: Orario, luogo e attività
         activity_participation_form_title:
-          _de: Anmeldung
           _en: Registration
           _fr: Inscription
+          _de: Anmeldung
           _it: Iscrizione
         carpooling:
-          _de: Fahrgemeinschaften
           _en: Carpooling
           _fr: Covoiturage
+          _de: Fahrgemeinschaften
           _it: Condivisione veicoli
         carpooling_checkbox:
-          _de: Ich komme mit dem Auto und habe freie Plätze!
           _en: I come by car and have free seats!
           _fr: Je viens en voiture et j'ai de la place!
+          _de: Ich komme mit dem Auto und habe freie Plätze!
           _it: Vengo con l'automobile e ho dei posti liberi
         carpooling_city:
-          _de: Abfahrtsort
           _en: Departure location
           _fr: Ville de départ
+          _de: Abfahrtsort
           _it: Luogo di partenza
         carpooling_phone:
-          _de: Telefon Fahrgemeinschaften
           _en: Carpooling phone
           _fr: Téléphone covoiturage
+          _de: Telefon Fahrgemeinschaften
           _it: Numero di telefono per condivisione auto
         carpooling_tooltip:
-          _de: Falls Sie mit dem Auto kommen und die Fahrt teilen wollen, kreuzen Sie bitte das Kästschen hier unten an. Die anderen Mitglieder, die an diesem Tag angemeldet sind, werden Ihre Telefonnummer sowie den Abfahrtsort bekommen.
           _en: Please check the box below if you are traveling by car and want to share the ride. Your phone number and departure location will be shared with other members registered on the same day.
           _fr: Merci de cocher la case ci-dessous si vous vous déplacez en voiture et désirez partager le voyage. Votre numéro de téléphone ainsi que votre ville de départ seront partagés avec les autres membres inscrits le même jour.
+          _de: Falls Sie mit dem Auto kommen und die Fahrt teilen wollen, kreuzen Sie bitte das Kästschen hier unten an. Die anderen Mitglieder, die an diesem Tag angemeldet sind, werden Ihre Telefonnummer sowie den Abfahrtsort bekommen.
           _it: Seleziona la casella sottostante se ti sposti in auto e desideri condividere il viaggio. Il tuo numero di telefono e il luogo di partenza saranno condivisi con altri soci registrati per lo stesso giorno.
         coming_activity_participation_cannot_be_cancel_explanation/basket_preparation_html:
-          _de: Aus Organisationsgründe, die Anmeldungen zu die Taschen befüllung, die in weniger als %{days_count} Tagen stattfinden, können nicht mehr abgesagt werden. Bei einer Verhinderung, bitte uns schreiben %{contact_link}.
           _en: For organizational reasons, registrations for basket preparation that take place in less than %{days_count} days can no longer be canceled. In case of hindrance, please contact us %{contact_link}.
           _fr: Pour des raisons d'organisation, les inscriptions aux mises en panier qui ont lieu dans moins de %{days_count} jours ne peuvent plus être annulées. En cas d'empêchement, merci de nous %{contact_link}.
+          _de: Aus Organisationsgründe, die Anmeldungen zu die Taschen befüllung, die in weniger als %{days_count} Tagen stattfinden, können nicht mehr abgesagt werden. Bei einer Verhinderung, bitte uns schreiben %{contact_link}.
           _it: Per motivi organizzativi, le iscrizioni per la preparazione delle ceste che avvengono entro %{days_count} giorni non possono essere annullate. In caso di impedimenti gravi grazie per contattarci tempestivamente %{contact_link}.
         coming_activity_participation_cannot_be_cancel_explanation/day_work_html:
-          _de: Aus Organisationsgründe, die Anmeldungen zu Arbeitstagen, die in weniger als %{days_count} Tagen stattfinden, können nicht mehr abgesagt werden. Bei einer Verhinderung, bitte uns schreiben %{contact_link}.
           _en: For organizational reasons, registrations for workdays that take place in less than %{days_count} days can no longer be canceled. In case of hindrance, please contact us %{contact_link}.
           _fr: Pour des raisons d'organisation, les inscriptions aux journées de travail qui ont lieu dans moins de %{days_count} jours ne peuvent plus être annulées. En cas d'empêchement, merci de nous %{contact_link}.
+          _de: Aus Organisationsgründe, die Anmeldungen zu Arbeitstagen, die in weniger als %{days_count} Tagen stattfinden, können nicht mehr abgesagt werden. Bei einer Verhinderung, bitte uns schreiben %{contact_link}.
           _it: Per motivi organizzativi, le iscrizioni per i giorni di lavoro che avvengono entro %{days_count} giorni non possono essere annullate. In caso di impedimenti gravi grazie per contattarci tempestivamente %{contact_link}.
         coming_activity_participation_cannot_be_cancel_explanation/halfday_work_html:
-          _de: Aus Organisationsgründe, die Anmeldungen zu den ½ Tage, die in weniger als %{days_count} Tagen stattfinden, können nicht mehr abgesagt werden. Bei einer Verhinderung, bitte uns schreiben %{contact_link}.
           _en: For organizational reasons, registrations for ½ days that take place in less than %{days_count} days can no longer be canceled. In case of hindrance, please contact us %{contact_link}.
           _fr: Pour des raisons d'organisation, les inscriptions aux ½ journées qui ont lieu dans moins de %{days_count} jours ne peuvent plus être annulées. En cas d'empêchement, merci de nous %{contact_link}.
+          _de: Aus Organisationsgründe, die Anmeldungen zu den ½ Tage, die in weniger als %{days_count} Tagen stattfinden, können nicht mehr abgesagt werden. Bei einer Verhinderung, bitte uns schreiben %{contact_link}.
           _it: Per motivi organizzativi, le iscrizioni per le ½ giornate di lavoro che avvengono entro %{days_count} giorni non possono essere annullate. In caso di impedimenti gravi grazie per contattarci tempestivamente %{contact_link}.
         coming_activity_participation_cannot_be_cancel_explanation/hour_work_html:
-          _de: Aus Organisationsgründe, die Anmeldungen zu die Arbeitsstunden, die in weniger als %{days_count} Tagen stattfinden, können nicht mehr abgesagt werden. Bei einer Verhinderung, bitte uns schreiben %{contact_link}.
           _en: For organizational reasons, registrations for work hours that take place in less than %{days_count} days can no longer be canceled. In case of hindrance, please contact us %{contact_link}.
           _fr: Pour des raisons d'organisation, les inscriptions aux heures de travail qui ont lieu dans moins de %{days_count} jours ne peuvent plus être annulées. En cas d'empêchement, merci de nous %{contact_link}.
+          _de: Aus Organisationsgründe, die Anmeldungen zu die Arbeitsstunden, die in weniger als %{days_count} Tagen stattfinden, können nicht mehr abgesagt werden. Bei einer Verhinderung, bitte uns schreiben %{contact_link}.
           _it: Per motivi organizzativi, le iscrizioni per le ore di lavoro che avvengono entro %{days_count} giorni non possono essere annullate. In caso di impedimenti gravi grazie per contattarci tempestivamente %{contact_link}.
         coming_activity_participations/basket_preparation:
-          _de: Ihre künftigen Taschen befüllung
           _en: Your upcoming basket preparations
           _fr: Vos mises en panier à venir
+          _de: Ihre künftigen Taschen befüllung
           _it: Le vostre prossime preparazioni ceste
         coming_activity_participations/day_work:
-          _de: Ihre künftigen Arbeitstage
           _en: Your upcoming workdays
           _fr: Vos journées de travail à venir
+          _de: Ihre künftigen Arbeitstage
           _it: Le vostre prossime giornate di lavoro
         coming_activity_participations/halfday_work:
-          _de: Ihre künftigen ½ Tage
           _en: Your upcoming ½ days
           _fr: Vos ½ journées à venir
+          _de: Ihre künftigen ½ Tage
           _it: Le vostre prossime ½ giornate di lavoro
         coming_activity_participations/hour_work:
-          _de: Ihre künftigen Arbeitsstunden
           _en: Your upcoming work hours
           _fr: Vos heures de travail à venir
+          _de: Ihre künftigen Arbeitsstunden
           _it: Le vostre prossime ore di lavoro
         contact_link:
-          _de: Kontakt aufnehmen
           _en: contact us
           _fr: contacter
+          _de: Kontakt aufnehmen
           _it: contattaci
         edit_activity_participation_explanation:
-          _de: Um eine Anmeldung zu ändern, brechen Sie sie bitte ab und melden Sie sich neu an.
           _en: To change a registration, please cancel it and register again.
           _fr: Pour modifier une inscription, merci de l'annuler et de vous réinscrire.
+          _de: Um eine Anmeldung zu ändern, brechen Sie sie bitte ab und melden Sie sich neu an.
           _it: Per modificare una registrazione, annullarla e registrarsi nuovamente.
         extra_coming_activity_participations:
-          _de: "... und noch weitere %{count} bis zum %{last_date}!"
           _en: "... and %{count} more until %{last_date}!"
           _fr: "... et encore %{count} autres jusqu'au %{last_date}!"
+          _de: "... und noch weitere %{count} bis zum %{last_date}!"
           _it: "... e ancora %{count} altre entro %{last_date}!"
         no_activities/basket_preparation:
-          _de: Sorry, momentan gibt es keine freie Taschen befüllung.
           _en: Sorry, no basket preparation available at the moment.
           _fr: Désolé, aucune mise en panier disponible pour le moment.
+          _de: Sorry, momentan gibt es keine freie Taschen befüllung.
           _it: Spiacenti, nessuna preparazione cesta è disponibile al momento.
         no_activities/day_work:
-          _de: Sorry, momentan gibt es keine freien Arbeitstage.
           _en: Sorry, no workdays available at the moment.
           _fr: Désolé, aucune journée de travail disponible pour le moment.
+          _de: Sorry, momentan gibt es keine freien Arbeitstage.
           _it: Spiacenti, nessun giorno di lavoro disponibile al momento.
         no_activities/halfday_work:
-          _de: Sorry, momentan gibt es keinen freien ½ Tag.
           _en: Sorry, no ½ days available at the moment.
           _fr: Désolé, aucune ½ journée disponible pour le moment.
+          _de: Sorry, momentan gibt es keinen freien ½ Tag.
           _it: Spiacenti, nessuna ½ giornata di lavoro è disponibile al momento.
         no_activities/hour_work:
-          _de: Sorry, momentan gibt es keinen freie Arbeitsstunde.
           _en: Sorry, no work hours available at the moment.
           _fr: Désolé, aucune heure de travail disponible pour le moment.
+          _de: Sorry, momentan gibt es keinen freie Arbeitsstunde.
           _it: Spiacenti, nessuna ora di lavoro è disponibile al momento.
         no_activities_this_month/basket_preparation:
-          _de: In diesem Monat findet keine Taschen befüllung statt.
           _en: No basket preparation this month.
           _fr: Aucune mise en panier ce mois.
+          _de: In diesem Monat findet keine Taschen befüllung statt.
           _it: Nessuna preparazione di ceste questo mese
         no_activities_this_month/day_work:
-          _de: In diesem Monat findet kein Arbeitstag statt.
           _en: No workday this month.
           _fr: Aucune journée de travail ce mois.
+          _de: In diesem Monat findet kein Arbeitstag statt.
           _it: Nessun giorno di lavoro pianificato questo mese.
         no_activities_this_month/halfday_work:
-          _de: In diesem Monat findet keinen ½ Tag statt.
           _en: No ½ day this month.
           _fr: Aucune ½ journée ce mois.
+          _de: In diesem Monat findet keinen ½ Tag statt.
           _it: Nessuna ½ giornata di lavoro pianificata questo mese
         no_activities_this_month/hour_work:
-          _de: In diesem Monat findet keine Arbeitsstunde statt.
           _en: No work hour this month.
           _fr: Aucune heure de travail ce mois.
+          _de: In diesem Monat findet keine Arbeitsstunde statt.
           _it: Nessuna ora di lavoro pianificata questo mese
         no_coming_activity_participations/basket_preparation:
-          _de: Momentan gibt es keine freie Taschen befüllung.
           _en: No basket preparation available at the moment.
           _fr: Aucune mises en panier disponible pour le moment.
+          _de: Momentan gibt es keine freie Taschen befüllung.
           _it: Nessuna preparazione cesta è disponibile al momento.
         no_coming_activity_participations/day_work:
-          _de: Momentan gibt es keine freien Arbeitstage.
           _en: No workdays available at the moment.
           _fr: Aucune journée de travail disponible pour le moment.
+          _de: Momentan gibt es keine freien Arbeitstage.
           _it: Nessun giorno di lavoro disponibile al momento.
         no_coming_activity_participations/halfday_work:
-          _de: Momentan gibt es keine freie ½ Tage.
           _en: No half-day work available at the moment.
           _fr: Aucune ½ journée disponible pour le moment.
+          _de: Momentan gibt es keine freie ½ Tage.
           _it: Nessuna ½ giornata di lavoro è disponibile al momento.
         no_coming_activity_participations/hour_work:
-          _de: Momentan gibt es keine freie Arbeitsstunde.
           _en: No work hours available at the moment.
           _fr: Aucune heure de travail disponible pour le moment.
+          _de: Momentan gibt es keine freie Arbeitsstunde.
           _it: Nessuna ora di lavoro è disponibile al momento.
         no_past_activity_participations:
-          _de: Momentan nichts zu melden, wir freuen uns Ihnen zu sehen!
           _en: Nothing to report at the moment, we look forward to seeing you!
           _fr: Rien à signaler pour le moment, on se réjouit de vous voir!
+          _de: Momentan nichts zu melden, wir freuen uns Ihnen zu sehen!
           _it: Nulla da segnalare per ora, ma non vediamo l'ora di rivedervi!
         participants_count_label:
-          _de: Anzahl Teilnehmer
           _en: Number of participants
           _fr: Nombre de participants
+          _de: Anzahl Teilnehmer
           _it: Numero di partecipanti
         past_activity_participations/basket_preparation:
-          _de: Ihre geleisteten Taschen befüllung
           _en: Your completed basket preparations
           _fr: Vos mises en panier effectuées
+          _de: Ihre geleisteten Taschen befüllung
           _it: Vostre preparazioni ceste effettuate
         past_activity_participations/day_work:
-          _de: Ihre geleisteten Arbeitstage
           _en: Your completed workdays
           _fr: Vos journées de travail effectuées
+          _de: Ihre geleisteten Arbeitstage
           _it: Le vostre giornate di lavoro effettuate
         past_activity_participations/halfday_work:
-          _de: Ihre geleisteten ½ Tage
           _en: Your completed half-day work
           _fr: Vos ½ journées effectuées
+          _de: Ihre geleisteten ½ Tage
           _it: Le vostre ½ giornate di lavoro già effettuate
         past_activity_participations/hour_work:
-          _de: Ihre geleistete Arbeitsstunden
           _en: Your completed work hours
           _fr: Vos heures de travail effectuées
+          _de: Ihre geleistete Arbeitsstunden
           _it: Vostre ore di lavoro effettuate
     baskets:
       basket:
         edit:
-          _de: Bearbeiten
           _en: Edit
           _fr: Modifier
+          _de: Bearbeiten
           _it: Modifica
       edit:
         cancel_link:
-          _de: Abbrechen
           _en: Cancel
           _fr: Annuler
+          _de: Abbrechen
           _it: Annullare
         submit:
-          _de: Bestätigen
           _en: Confirm
           _fr: Confirmer
+          _de: Bestätigen
           _it: Confermare
         subtitle:
-          _de: Bearbeiten
           _en: Edit
           _fr: Modification
+          _de: Bearbeiten
           _it: Modifica
         title:
-          _de: Lieferung am %{date}
           _en: Delivery on %{date}
           _fr: Livraison du %{date}
+          _de: Lieferung am %{date}
           _it: Consegna il %{date}
     billing:
       index:
         already_invoiced:
-          _de: Bereits in Rechnung gestellt
           _en: Already invoiced
           _fr: Déjà facturé
+          _de: Bereits in Rechnung gestellt
           _it: Già fatturato
         annual_fee:
-          _de: Jahresbeitrag
           _en: Annual fee
           _fr: Cotisation annuelle
+          _de: Jahresbeitrag
           _it: Quota annuale
         billing:
-          _de: Rechnungsstellung
           _en: Billing
           _fr: Facturation
+          _de: Rechnungsstellung
           _it: Fatturazione
         credit_amount:
-          _de: Guthaben
           _en: Credit
           _fr: Avoir
+          _de: Guthaben
           _it: Credito
         explanation:
-          _de: Die Einzahlungen mit Referenznummer werden automatisch über Nacht bearbeitet. Bitte kontaktieren Sie uns, wenn eine Ihrer Einzahlungen nicht erscheint.
           _en: Payments with reference numbers are processed automatically overnight. Please contact us if one of your payments does not appear.
           _fr: Les paiements avec numéro de référence sont automatiquement traités durant la nuit, veuillez nous contacter si un de vos paiements n'apparaîtrait pas.
+          _de: Die Einzahlungen mit Referenznummer werden automatisch über Nacht bearbeitet. Bitte kontaktieren Sie uns, wenn eine Ihrer Einzahlungen nicht erscheint.
           _it: I pagamenti con numero di riferimento vengono elaborati automaticamente durante la notte, contattaci se uno dei tuoi pagamenti non viene visualizzato.
         history:
-          _de: Verlauf
           _en: History
           _fr: Historique
+          _de: Verlauf
           _it: Cronologia
         missing_amount:
-          _de: Zu zahlen
           _en: To pay
           _fr: À payer
+          _de: Zu zahlen
           _it: Da pagare
         no_billing_history:
-          _de: Im Moment keine Rechnung oder Einzahlung.
           _en: No invoice or payment at the moment.
           _fr: Aucune facture ou paiement pour le moment.
+          _de: Im Moment keine Rechnung oder Einzahlung.
           _it: Nessuna fattura o pagamento per il momento
         open_invoices:
-          _de: Offene Rechnungen
           _en: Open invoices
           _fr: Factures ouvertes
+          _de: Offene Rechnungen
           _it: Fatture aperte
         remaining_to_invoice:
-          _de: Noch zu verrechnen
           _en: Remaining to invoice
           _fr: Restant à facturer
+          _de: Noch zu verrechnen
           _it: Rimasto da fatturare
         shares:
-          _de: Anteilscheine
           _en: Cooperative shares
           _fr: Parts sociales
+          _de: Anteilscheine
           _it: Quote sociali della cooperativa
         show_all:
-          _de: Alle anzeigen
           _en: Show all
           _fr: Tout afficher
+          _de: Alle anzeigen
           _it: Mostra tutto
       line:
         invoice_info_html:
-          _de: Rechnung <em>#%{id}</em> (%{type})
           _en: Invoice <em>#%{id}</em> (%{type})
           _fr: Facture <em>#%{id}</em> (%{type})
+          _de: Rechnung <em>#%{id}</em> (%{type})
           _it: Fattura <em>#%{id}</em> (%{type})
         manual_payment_info:
-          _de: Einzahlung ohne Referenz
           _en: Payment without reference
           _fr: Paiement sans référence
+          _de: Einzahlung ohne Referenz
           _it: Pagamento senza numero di riferimento
         payment_info_html:
-          _de: Einzahlung der Rechnung <em>#%{invoice_id}</em>
           _en: Payment of invoice <em>#%{invoice_id}</em>
           _fr: Paiement de la facture <em>#%{invoice_id}</em>
+          _de: Einzahlung der Rechnung <em>#%{invoice_id}</em>
           _it: Pagamento della fattura <em>#%{invoice_id}</em>
         refund_info:
-          _de: Rückerstattung
           _en: Refund
           _fr: Remboursement
+          _de: Rückerstattung
           _it: Rimborso
     calendars:
       show:
         description:
-          _de: Taschenlieferungskalender.
           _en: Basket delivery calendar.
           _fr: Calendrier des livraisons de paniers.
+          _de: Taschenlieferungskalender.
           _it: Calendario delle consegne di ceste.
         event:
           summary:
-            _de: Tasche %{org_name}
             _en: Basket %{org_name}
             _fr: Panier %{org_name}
+            _de: Tasche %{org_name}
             _it: Cesta %{org_name}
           summary_absent:
-            _de: Tasche %{org_name} (abwesend)
             _en: Basket %{org_name} (absent)
             _fr: Panier %{org_name} (absent)
+            _de: Tasche %{org_name} (abwesend)
             _it: Cesta %{org_name} (assente)
           summary_trial:
-            _de: Tasche %{org_name} (Probe)
             _en: Basket %{org_name} (trial)
             _fr: Panier %{org_name} (essai)
+            _de: Tasche %{org_name} (Probe)
             _it: Cesta %{org_name} (prova)
       subscribe_button:
         calendar_feed:
-          _de: Kalender-Feed
           _en: Calendar feed
           _fr: Flux de calendrier
+          _de: Kalender-Feed
           _it: Feed calendario
         subscribe:
-          _de: Abonnieren
           _en: Subscribe
           _fr: S'abonner
+          _de: Abonnieren
           _it: Iscriviti
     contact_sharings:
       flash:
         joined:
-          _de: Ihre Kontaktinformationen sind nun für andere Mitglieder Ihres Depots freigegeben!
           _en: Your contact information is now shared with other members of your depot!
           _fr: Vos coordonnées sont maintenant partagées avec les autres membres de votre dépôt!
+          _de: Ihre Kontaktinformationen sind nun für andere Mitglieder Ihres Depots freigegeben!
           _it: Le tue informazioni di contatto sono ora condivise con gli altri soci del tuo punto di ritiro!
       show:
         cancel_sharing_html:
-          _de: Bitte <a href='mailto:%{email}'>kontaktieren Sie uns per E-Mail</a>, wenn Sie die Weitergabe Ihrer Kontaktdaten beenden möchten.
           _en: Please <a href='mailto:%{email}'>contact us by email</a> if you want to stop sharing your contact information.
           _fr: Merci de nous <a href='mailto:%{email}'>contacter par email</a> si vous désirez arrêter de partager vos coordonnées.
+          _de: Bitte <a href='mailto:%{email}'>kontaktieren Sie uns per E-Mail</a>, wenn Sie die Weitergabe Ihrer Kontaktdaten beenden möchten.
           _it: Per favore <a href='mailto:%{email}'>contattaci via email</a> se vuoi smettere di condividere le tue informazioni.
         description:
-          _de: Hier ist die Liste der Mitglieder Ihres Depots, die ihre Kontaktinformationen mitteilen. Sie können sich mit ihnen in Verbindung setzen, um eine Abholung Ihrer Tasche zu vereinbaren, wenn Sie gelegentlich verhindert sind.
           _en: Here is the list of members of your depot who share their contact information. You can contact them to arrange a pickup of your basket if you are occasionally prevented.
           _fr: Voici la liste des membres de votre dépôt partageant leurs coordonnées. Vous pouvez les contacter pour organiser une récupération de votre panier en cas d'empêchement occasionnel.
+          _de: Hier ist die Liste der Mitglieder Ihres Depots, die ihre Kontaktinformationen mitteilen. Sie können sich mit ihnen in Verbindung setzen, um eine Abholung Ihrer Tasche zu vereinbaren, wenn Sie gelegentlich verhindert sind.
           _it: Ecco la lista dei soci del tuo punto di ritiro che condividono le loro informazioni di contatto. Potete contattarli per organizzare il ritiro della vostra cesta nel caso in cui non possiate partecipare occasionalmente.
         explanation:
-          _de: Die gemeinsame Nutzung von Kontaktdaten ermöglicht es den Mitgliedern eines Depots, sich gegenseitig zu kontaktieren, um die Abholung ihrer Körbe zu arrangieren, falls sie gelegentlich verhindert sein sollten. Sie müssen der Weitergabe Ihrer Kontaktdaten (Name, Adresse und Telefonnummer) zustimmen, um Zugang zu den Daten von Mitgliedern zu erhalten, die sich dazu entschlossen haben, dies ebenfalls zu tun.
           _en: Sharing contact information allows members of a depot to contact each other to arrange the pickup of their baskets if they are occasionally prevented. You must agree to share your contact information (name, address, and phone number) to access the data of members who have also decided to do so.
           _fr: Le copaniérage (covoiturage pour panier) permet aux membres d'un dépôt de se contacter afin d'organiser la récupération de leurs paniers en cas d'empêchement occasionnel. Vous devez accepter de partager vos coordonnées (nom, adresse et téléphone) afin d'avoir accès à celles des membres qui ont décidé de faire de même.
+          _de: Die gemeinsame Nutzung von Kontaktdaten ermöglicht es den Mitgliedern eines Depots, sich gegenseitig zu kontaktieren, um die Abholung ihrer Körbe zu arrangieren, falls sie gelegentlich verhindert sein sollten. Sie müssen der Weitergabe Ihrer Kontaktdaten (Name, Adresse und Telefonnummer) zustimmen, um Zugang zu den Daten von Mitgliedern zu erhalten, die sich dazu entschlossen haben, dies ebenfalls zu tun.
           _it: La condivisione delle informazioni di contatto permette ai soci di un punto di ritiro di contattarsi a vicenda per organizzare la consegna delle loro ceste nel caso in cui siano occasionalmente impossibilitati a partecipare. Devi accettare di condividere le tue informazioni di contatto (nome, indirizzo e numero di telefono) per avere accesso a quelle dei soci che hanno deciso di fare lo stesso.
         nobody_sharing_contact:
-          _de: Keine anderen Mitglieder geben zu diesem Zeitpunkt ihre Kontaktinformationen weiter!
           _en: No other members are sharing their contact information at this time!
           _fr: Aucun autre membre ne partage ses coordonnées pour le moment!
+          _de: Keine anderen Mitglieder geben zu diesem Zeitpunkt ihre Kontaktinformationen weiter!
           _it: Nessun altro membro sta condividendo le sue informazioni di contatto in questo momento!
         submit:
-          _de: Freigeben
           _en: Share
           _fr: Partager
+          _de: Freigeben
           _it: Condividi
         terms_of_service:
-          _de: Ich bin damit einverstanden, dass meine Kontaktinformationen an andere Mitglieder meines Depots weitergegeben werden.
           _en: I agree to share my contact information with other members of my depot.
           _fr: J'accepte de partager mes coordonnées avec les autres membres de mon dépôt.
+          _de: Ich bin damit einverstanden, dass meine Kontaktinformationen an andere Mitglieder meines Depots weitergegeben werden.
           _it: Accetto di condividere le mie informazioni di contatto con altri soci del mio punto di ritiro.
     deliveries:
       index:
         depot_note:
-          _de: 'Informationen: %{depot}'
           _en: 'Information: %{depot}'
           _fr: 'Information: %{depot}'
+          _de: 'Informationen: %{depot}'
           _it: 'Informazione: %{depot}'
         future_deliveries:
-          _de: Zukünftige Lieferungen (%{count})
           _en: Future deliveries (%{count})
           _fr: Futures livraisons (%{count})
+          _de: Zukünftige Lieferungen (%{count})
           _it: Consegne future (%{count})
         next_delivery:
-          _de: Nächste Lieferung
           _en: Next delivery
           _fr: Prochaine livraison
+          _de: Nächste Lieferung
           _it: Prossime consegne
         no_future_deliveries:
-          _de: Keine zukünftigen Lieferungen
           _en: No future deliveries
           _fr: Aucune livraison à venir
+          _de: Keine zukünftigen Lieferungen
           _it: Nessuna consegna futura
         no_past_deliveries:
-          _de: Keine vergangenen Lieferungen
           _en: No past deliveries
           _fr: Aucune livraison passée
+          _de: Keine vergangenen Lieferungen
           _it: Nessuna consegna passata
         past_deliveries:
-          _de: Alte Lieferungen (%{count})
           _en: Past deliveries (%{count})
           _fr: Anciennes livraisons (%{count})
+          _de: Alte Lieferungen (%{count})
           _it: Vecchie consegne(%{count})
         provisionally_absent_explanation_html:
-          _de: Die letzten Lieferungen sind provisorisch als abwesend markiert, bis Sie <a href="/absences">Ihre endgültige Abwesenheit</a> melden.
           _en: The last deliveries are provisionally marked as absent until you <a href="/absences">report your final absence</a>.
           _fr: Les dernières livraisons sont provisoirement marquées comme absentes jusqu'à ce que <a href="/absences">vous annonciez vos absences</a> définitives.
+          _de: Die letzten Lieferungen sind provisorisch als abwesend markiert, bis Sie <a href="/absences">Ihre endgültige Abwesenheit</a> melden.
           _it: Le ultime consegne sono provvisoriamente marcate come assenti fino a quando <a href="/absences">non annuncerai le tue assenze</a> definitive.
     email_suppressions:
       destroy:
         flash:
           notice:
-            _de: Vielen Dank, dass Sie sich wieder für unseren Newsletter angemeldet haben!
             _en: Thank you for subscribing to our newsletter again!
             _fr: Merci de vous être à nouveau inscrit à nos newsletters!
+            _de: Vielen Dank, dass Sie sich wieder für unseren Newsletter angemeldet haben!
             _it: Grazie per esservi nuovamente iscritti alla nostra newsletter!
     information:
       default_title:
-        _de: Informationen
         _en: Information
         _fr: Informations
+        _de: Informationen
         _it: Informazioni
     members:
       form_modes:
         membership:
           alternative_depots_show_all:
-            _de: Alle Depots anzeigen
             _en: Show all depots
             _fr: Afficher les dépôts
+            _de: Alle Depots anzeigen
             _it: Mostra i punti
           alternative_depots_subtitle:
-            _de: Wenn das oben ausgewählte Depot voll ist, können Sie ein oder mehrere alternative Depots auswählen.
             _en: If the depot selected above is full, you can choose one or more alternative depots.
             _fr: Dans le cas où le dépôt sélectionné ci-dessus serait complet, vous pouvez choisir un ou plusieurs dépôts alternatifs.
+            _de: Wenn das oben ausgewählte Depot voll ist, können Sie ein oder mehrere alternative Depots auswählen.
             _it: Se il punto di ritiro selezionato sopra è pieno, puoi scegliere uno o più punti di ritiro alternativi.
           annual_fee_hint:
-            _de: Betrag in %{currency}
             _en: Amount in %{currency}
             _fr: Montant en %{currency}
+            _de: Betrag in %{currency}
             _it: Importo in %{currency}
           annual_fee_support_member_only_text_html:
-            _de: Jedes Fördermitglied (ohne Abonnement) zahlt einen Jahresbeitrag von <b class="whitespace-nowrap">%{price}</b>.
             _en: Each supporting member (without subscription) pays an annual fee of <b class="whitespace-nowrap">%{price}</b>.
             _fr: Chaque membre de soutien (sans abonnement) verse une cotisation annuelle de <b class="whitespace-nowrap">%{price}</b>.
+            _de: Jedes Fördermitglied (ohne Abonnement) zahlt einen Jahresbeitrag von <b class="whitespace-nowrap">%{price}</b>.
             _it: Ogni socio sostenitore (senza abbonamento) paga una quota annuale di <b class="whitespace-nowrap">%{price}</b>.
           annual_fee_text_html:
-            _de: Jedes Mitglied zahlt zusätzlich zum Abonnement für den Korb auch einen Jahresbeitrag von %{price}.
             _en: Each member also pays an annual fee of <b class="whitespace-nowrap">%{price}</b> in addition to the membership to the basket.
             _fr: Chaque membre verse une cotisation annuelle de <b class="whitespace-nowrap">%{price}</b> en plus de l'abonnement à son panier.
+            _de: Jedes Mitglied zahlt zusätzlich zum Abonnement für den Korb auch einen Jahresbeitrag von %{price}.
             _it: Ogni socio paga anche una quota annuale di <b class="whitespace-nowrap">%{price}</b> oltre all'abbonamento alla cesta.
           desired_shares_number_hint:
-            _de: Sie können sich entscheiden mehr Anteilscheine zu kaufen um die Genossenschaft zu unterstützen.
             _en: You can choose to buy more shares to support the cooperative.
             _fr: Acquérir plus de parts sociales pour soutenir la coopérative.
+            _de: Sie können sich entscheiden mehr Anteilscheine zu kaufen um die Genossenschaft zu unterstützen.
             _it: Comperandone più di una quota sostieni la cooperativa.
           shares_text_html:
-            _de: Jedes Mitglied tritt der Genossenschaft bei und muss ein oder merhere Anteilscheine (<b class="whitespace-nowrap">%{price}</b>/Anteilschein) erwerben.
             _en: Each member joins the cooperative and must acquire one or more shares (<b class="whitespace-nowrap">%{price}</b>/share).
             _fr: Chaque membre fait également partie de la coopérative et se doit d'acquérir des parts sociales (<b class="whitespace-nowrap">%{price}</b>/part).
+            _de: Jedes Mitglied tritt der Genossenschaft bei und muss ein oder merhere Anteilscheine (<b class="whitespace-nowrap">%{price}</b>/Anteilschein) erwerben.
             _it: Ogni socio è parte della cooperativa e deve acquisire quote sociali della cooperativa (<b class="whitespace-nowrap">%{price}</b>/part).
           text:
-            _de: Jeder Abonnent verpflichtet sich für ein ganzes Geschäftsjahr (%{fiscal_year_months_range}). Im Falle eines Einstiegs im Verlauf des laufenden Geschäftsjahrs wird der Preis durch die Anzahl der restlichen Lieferungen bestimmt.
             _en: Each subscriber commits for a full fiscal year (%{fiscal_year_months_range}). In case of joining during the current fiscal year, the price is determined by the number of remaining deliveries.
             _fr: Chaque membre s'engage pour un abonnement d'une année (%{fiscal_year_months_range}). Le prix en cours d'année est au prorata du nombre de livraisons restantes.
+            _de: Jeder Abonnent verpflichtet sich für ein ganzes Geschäftsjahr (%{fiscal_year_months_range}). Im Falle eines Einstiegs im Verlauf des laufenden Geschäftsjahrs wird der Preis durch die Anzahl der restlichen Lieferungen bestimmt.
             _it: Ogni socio si impegna per un abbonamento di un anno (%{fiscal_year_months_range}). Il prezzo durante l'anno è proporzionale al numero di consegne rimanenti.
           title:
-            _de: Mitgliedschaft
             _en: Membership
             _fr: Adhésion
+            _de: Mitgliedschaft
             _it: Adesione
           trial_text:
             one:
-              _de: Die erste Tasche ist noch unverbindlich (Probetaschen).
               _en: The first delivery is a trial and without commitment.
               _fr: La première livraison est à l'essai et sans engagement.
+              _de: Die erste Tasche ist noch unverbindlich (Probetaschen).
               _it: La prima consegna è in prova e senza impegno.
             other:
-              _de: Die ersten %{count} Taschen sind noch unverbindlich (Probetaschen).
               _en: The first %{count} deliveries are a trial and without commitment.
               _fr: Les %{count} premières livraisons sont à l'essai et sans engagement.
+              _de: Die ersten %{count} Taschen sind noch unverbindlich (Probetaschen).
               _it: Le %{count} consegne sono in prova e senza impegno.
         shop:
           text:
-            _de: Bitte wählen Sie ein Depot für Ihre Bestellungen.
             _en: Please choose a depot for your orders.
             _fr: Merci de choisir un dépôt pour vos commandes.
+            _de: Bitte wählen Sie ein Depot für Ihre Bestellungen.
             _it: Scegliete un punto di ritiro per i vostri ordini.
       new:
         documents:
           charter:
-            _de: die Satzung
             _en: the charter
             _fr: la charte
+            _de: die Satzung
             _it: la carta
           privacy_policy:
-            _de: die Datenschutzrichtlinie
             _en: the privacy policy
             _fr: la politique de confidentialité
+            _de: die Datenschutzrichtlinie
             _it: la politica sulla privacy
           statutes:
-            _de: die Statuten
             _en: the statutes
             _fr: les statuts
+            _de: die Statuten
             _it: gli statuti
           terms_of_service:
-            _de: die Regeln
             _en: the rules
             _fr: le règlement
+            _de: die Regeln
             _it: il regolamento
         email_taken:
-          _de: Ein aktives Konto existiert bereits für diese E-Mail-Adresse!
           _en: An active account already exists for this email address!
           _fr: Un compte actif existe déjà pour cette adresse e-mail!
+          _de: Ein aktives Konto existiert bereits für diese E-Mail-Adresse!
           _it: Un account attivo esiste già per questo indirizzo email!
         email_taken_hint:
-          _de: Bitte kontaktieren Sie uns für weitere Informationen.
           _en: Please contact us for more information.
           _fr: Merci de nous contacter pour plus d'informations.
+          _de: Bitte kontaktieren Sie uns für weitere Informationen.
           _it: Contattaci per ulteriori informazioni.
         emails_taken:
-          _de: Ein aktives Konto existiert bereits für eine dieser E-Mail-Adressen!
           _en: An active account already exists for one of these email addresses!
           _fr: Un compte actif existe déjà pour une de ces adresses e-mail!
+          _de: Ein aktives Konto existiert bereits für eine dieser E-Mail-Adressen!
           _it: Un account attivo esiste già per uno di questi indirizzi email!
         more_info:
-          _de: Zusatzinformationen
           _en: Additional information
           _fr: Infos complémentaires
+          _de: Zusatzinformationen
           _it: Info supplementari
         name:
-          _de: Name und Vorname
           _en: Name and surname
           _fr: Nom et prénom
+          _de: Name und Vorname
           _it: Nome e cognome
         note:
-          _de: Bemerkung(en)
           _en: Note
           _fr: Remarque(s)
+          _de: Bemerkung(en)
           _it: Note
         submit:
-          _de: Senden
           _en: Submit
           _fr: Envoyer
+          _de: Senden
           _it: Inviare
         subtitle:
-          _de: Bitte folgendes Formular ausfüllen. Bei Fragen können Sie uns gerne kontaktieren.
           _en: Please fill out the form below. Do not hesitate to contact us for any additional information.
           _fr: Merci de remplir le formulaire ci-dessous. N'hésitez pas à nous contacter pour tout renseignement complémentaire.
+          _de: Bitte folgendes Formular ausfüllen. Bei Fragen können Sie uns gerne kontaktieren.
           _it: Si prega di compilare il modulo sottostante. Non esitate a contattarci per ulteriori informazioni.
         terms_of_service_html:
-          _de: Ich habe %{documents} gelesen und bin mit diesen einverstanden.
           _en: I have read and agree to %{documents}.
           _fr: J'ai lu attentivement et accepte %{documents}.
+          _de: Ich habe %{documents} gelesen und bin mit diesen einverstanden.
           _it: Ho letto attentamente e accetto %{documents}.
         title:
-          _de: Anmeldeformular
           _en: Registration form
           _fr: Formulaire d'inscription
+          _de: Anmeldeformular
           _it: Formulario d'iscrizione
       pricing:
         salary_basket:
-          _de: Lohn-Tasche (gratis)
           _en: Salary basket (free)
           _fr: Panier salaire (gratuit)
+          _de: Lohn-Tasche (gratis)
           _it: Cesta-compenso (gratuita)
         year:
-          _de: Jahr
           _en: year
           _fr: an
+          _de: Jahr
           _it: anno
       welcome:
         text:
-          _de: Ihre Anmeldung wird in den nächsten Tagen bestätigt. Bei Fragen stehen wir gerne zur Verfügung.
           _en: Your registration will be confirmed in the coming days. We are at your disposal for any questions.
           _fr: Votre inscription sera validée dans les jours à venir. Nous restons à votre disposition en cas de questions.
+          _de: Ihre Anmeldung wird in den nächsten Tagen bestätigt. Bei Fragen stehen wir gerne zur Verfügung.
           _it: L'iscrizione sarà confermata nei prossimi giorni. Restiamo a disposizione per qualsiasi necessità.
         title:
-          _de: Vielen Dank für Ihre Anmeldung!
           _en: Thank you for your registration!
           _fr: Merci pour votre inscription!
+          _de: Vielen Dank für Ihre Anmeldung!
           _it: Grazie per l'iscrizione!
     membership_renewals:
       create:
         flash:
           canceled:
-            _de: Ihr Abonnement wurde gekündigt.
             _en: Your membership has been canceled.
             _fr: Votre abonnement a été résilié.
+            _de: Ihr Abonnement wurde gekündigt.
             _it: Il tuo abbonamento è stato annullato.
           error:
-            _de: Es ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut oder kontaktieren Sie uns.
             _en: An error occurred. Please try again or contact us.
             _fr: Une erreur est survenue. Merci de réessayer ou de nous contacter.
+            _de: Es ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut oder kontaktieren Sie uns.
             _it: Si è verificato un errore. Riprova o contattaci.
           renewed:
-            _de: Ihr Abonnement wurde erneuert. Vielen Dank!
             _en: Your membership has been renewed. Thank you!
             _fr: Votre abonnement a été renouvelé. Merci!
+            _de: Ihr Abonnement wurde erneuert. Vielen Dank!
             _it: Il tuo abbonamento è stato rinnovato. Grazie!
       new:
         cancel:
-          _de: Abbrechen
           _en: Cancel
           _fr: Annuler
+          _de: Abbrechen
           _it: Annullare
         renewal_annual_fee_label_html:
-          _de: Um uns zu unterstützen, werde ich die Jahresgebühr ab dem nächsten Jahr weiterhin bezahlen. %{price_tag}
           _en: To support us, I will continue to pay the annual membership fee from next year. %{price_tag}
           _fr: Pour nous soutenir, je continue à payer la cotisation annuelle dès l'an prochain. %{price_tag}
+          _de: Um uns zu unterstützen, werde ich die Jahresgebühr ab dem nächsten Jahr weiterhin bezahlen. %{price_tag}
           _it: Per sostenerci, continuerò a pagare la quota annuale di iscrizione dall'anno prossimo. %{price_tag}
         renewal_note:
           placeholder:
             cancel:
-              _de: Danke, dass Sie uns Ihren Kündigungsgrund mitteilen!
               _en: Thank you for sharing your reason for canceling!
               _fr: Merci de partager avec nous ce qui motive votre décision...
+              _de: Danke, dass Sie uns Ihren Kündigungsgrund mitteilen!
               _it: Grazie per condividere con noi i motivi della tua scelta...
             renew:
-              _de: Vielen Dank, dass Sie uns mitteilen, was Ihnen in diesem Jahr gut oder weniger gut gefallen hat!
               _en: Thank you for sharing what you liked or disliked this year!
               _fr: Merci de partager avec nous toutes remarques utiles, ce qui vous a plu ou déplu cette année...
+              _de: Vielen Dank, dass Sie uns mitteilen, was Ihnen in diesem Jahr gut oder weniger gut gefallen hat!
               _it: Grazie per condividere con noi commenti utili, cosa ti è piaciuto o non ti è piaciuto quest'anno ...
         submit:
-          _de: Bestätigen
           _en: Confirm
           _fr: Confirmer
+          _de: Bestätigen
           _it: Confermare
         text:
           cancel_html:
-            _de: Einmal gekündigt, endet Ihr Abonnement nach der letzten Lieferung am <u>%{last_delivery_date}</u>.
             _en: Once canceled, your membership will end after the last delivery on <u>%{last_delivery_date}</u>.
             _fr: Une fois résilié, votre abonnement se terminera après la dernière livraison du <u>%{last_delivery_date}</u>.
+            _de: Einmal gekündigt, endet Ihr Abonnement nach der letzten Lieferung am <u>%{last_delivery_date}</u>.
             _it: Una volta terminato, l'abbonamento terminerà dopo l'ultima consegna del <u>%{last_delivery_date}</u>.
           renew_html:
-            _de: Unten haben Sie die Möglichkeit, die Zusammensetzung Ihres zukünftigen Abonnements anzupassen, alle bestehenden Anpassungen bleiben erhalten. Ihr zukünftiges Abonnement beginnt mit der Lieferung des <u>%{first_delivery_date}</u>. Zögern Sie nicht, uns bei Fragen oder spezifischen Bedürfnissen zu kontaktieren.
             _en: Below you have the option to adjust the composition of your future membership, all existing adjustments will be retained. Your future membership will start with the delivery on <u>%{first_delivery_date}</u>. Do not hesitate to contact us with any questions or specific needs.
             _fr: Vous avez la possibilité de modifier ci-dessous la composition de votre futur abonnement, les éventuels ajustements existants seront conservés. Votre futur abonnement débutera avec la livraison du <u>%{first_delivery_date}</u>. N'hésitez pas à nous contacter pour toutes questions ou besoins spécifiques.
+            _de: Unten haben Sie die Möglichkeit, die Zusammensetzung Ihres zukünftigen Abonnements anzupassen, alle bestehenden Anpassungen bleiben erhalten. Ihr zukünftiges Abonnement beginnt mit der Lieferung des <u>%{first_delivery_date}</u>. Zögern Sie nicht, uns bei Fragen oder spezifischen Bedürfnissen zu kontaktieren.
             _it: Hai la possibilità di modificare la composizione del tuo futuro abbonamento, eventuali aggiustamenti esistenti verranno mantenuti. Il tuo futuro abbonamento inizierà con la consegna del <u>%{first_delivery_date}</u>. Non esitate a contattarci per qualsiasi domanda o esigenza specifica.
         title:
           cancel:
-            _de: Kündigung
             _en: Cancellation
             _fr: Résiliation
+            _de: Kündigung
             _it: Annullamento
           renew:
-            _de: Erneuerung
             _en: Renewal
             _fr: Renouvellement
+            _de: Erneuerung
             _it: Rinnovo
     memberships:
       edit:
         cancel_link:
-          _de: Abbrechen
           _en: Cancel
           _fr: Annuler
+          _de: Abbrechen
           _it: Annullare
         submit:
-          _de: Bestätigen
           _en: Confirm
           _fr: Confirmer
+          _de: Bestätigen
           _it: Confermare
         subtitle:
-          _de: Bearbeiten
           _en: Edit
           _fr: Modification
+          _de: Bearbeiten
           _it: Modifica
         title:
-          _de: Abonnement %{year}
           _en: Membership %{year}
           _fr: Abonnement %{year}
+          _de: Abonnement %{year}
           _it: Abbonamento %{year}
         updateable_baskets:
           one:
-            _de: Nur die Lieferung vom %{first_date} wird geändert.
             _en: Only the delivery on %{first_date} will be changed.
             _fr: Seule la livraison du %{first_date} sera modifiée.
+            _de: Nur die Lieferung vom %{first_date} wird geändert.
             _it: Solo la consegna del %{first_date} verrà modificata.
           other:
-            _de: "%{count} Lieferungen ab dem %{first_date} werden geändert."
             _en: "%{count} deliveries from %{first_date} will be changed."
             _fr: "%{count} livraisons à partir du %{first_date} seront modifiées."
+            _de: "%{count} Lieferungen ab dem %{first_date} werden geändert."
             _it: "%{count} consegne a partire dal %{first_date} verranno modificate."
       index:
         renewal:
           canceled_html:
-            _de: Ihr Abonnement wurde gekündigt und endet nach der Lieferung des <u>%{last_delivery_date}</u>.
             _en: Your membership has been canceled and will end after the delivery on <u>%{last_delivery_date}</u>.
             _fr: Votre abonnement a été résilié et se terminera après la livraison du <u>%{last_delivery_date}</u>.
+            _de: Ihr Abonnement wurde gekündigt und endet nach der Lieferung des <u>%{last_delivery_date}</u>.
             _it: Il tuo abbonamento è stato annullato e terminerà dopo la consegna del <u>%{last_delivery_date}</u>.
           options:
             cancel:
-              _de: Mein Abonnement kündigen
               _en: Cancel my membership
               _fr: Résilier mon abonnement
+              _de: Mein Abonnement kündigen
               _it: Annullare il mio abbonamento
             renew:
-              _de: Mein Abonnement erneuern
               _en: Renew my membership
               _fr: Renouveler mon abonnement
+              _de: Mein Abonnement erneuern
               _it: Rinnovare il mio abbonamento
             renew_hint:
-              _de: Möglichkeit, seine Zusammensetzung zu ändern
               _en: Option to change its composition
               _fr: Possibilité de modifier sa composition
+              _de: Möglichkeit, seine Zusammensetzung zu ändern
               _it: Possibilità di modificare la composizione
           options_label:
-            _de: 'Ich wünsche:'
             _en: 'I wish:'
             _fr: 'Je désire:'
+            _de: 'Ich wünsche:'
             _it: 'Desidero:'
           submit:
-            _de: Nächster
             _en: Next
             _fr: Suivant
+            _de: Nächster
             _it: Prossimo
           title:
-            _de: Erneuerung
             _en: Renewal
             _fr: Renouvellement
+            _de: Erneuerung
             _it: Rinnovo
       membership:
         absent_baskets_count:
           one:
-            _de: eine Abwesenheit
             _en: one absence
             _fr: une absence
+            _de: eine Abwesenheit
             _it: una assenza
           other:
-            _de: "%{count} Abwesenheiten"
             _en: "%{count} absences"
             _fr: "%{count} absences"
+            _de: "%{count} Abwesenheiten"
             _it: "%{count} assenze"
         activity_participations_demanded:
           one:
-            _de: 1 angefordert
             _en: 1 requested
             _fr: 1 demandée
+            _de: 1 angefordert
             _it: 1 richiesta
           other:
-            _de: "%{count} angefordert"
             _en: "%{count} requested"
             _fr: "%{count} demandées"
+            _de: "%{count} angefordert"
             _it: "%{count} richieste"
           zero:
-            _de: Keine Verpflichtung
             _en: No commitment
             _fr: Aucun engagement
+            _de: Keine Verpflichtung
             _it: Nessun impegno
         edit:
-          _de: Bearbeiten
           _en: Edit
           _fr: Modifier
+          _de: Bearbeiten
           _it: Modifica
         price_salary_basket:
-          _de: Lohntaschen
           _en: Salary baskets
           _fr: Paniers salaire
+          _de: Lohntaschen
           _it: Cesta-compenso
         price_tooltip:
-          _de: Bitte konsultieren Sie Ihre letzte PDF-Rechnung (erhältlich auf der Rechnungsstellung-Seite) für weitere Details.
           _en: Please consult your last PDF invoice (available on the billing page) for more details.
           _fr: Merci de consulter votre dernière facture PDF (disponible depuis la page facturation) pour plus de détails.
+          _de: Bitte konsultieren Sie Ihre letzte PDF-Rechnung (erhältlich auf der Rechnungsstellung-Seite) für weitere Details.
           _it: Per maggiori dettagli, consulta l'ultima fattura PDF (disponibile dalla pagina di fatturazione).
         remaining_trial_baskets_count:
           one:
-            _de: mehr als eine auf Probe und unverbindlich
             _en: more than one on trial and without commitment
             _fr: plus que une à l'essai et sans engagement
+            _de: mehr als eine auf Probe und unverbindlich
             _it: uno di prova e senza impegno
           other:
-            _de: "%{count} weitere auf Probe und unverbindlich"
             _en: "%{count} more on trial and without commitment"
             _fr: encore %{count} à l'essai et sans engagement
+            _de: "%{count} weitere auf Probe und unverbindlich"
             _it: ancora %{count} di prova e senza impegno
     newsletter_subscriptions:
       create:
         title:
-          _de: Ihre E-Mail (%{email}) wurde wieder zur Verteilerliste hinzugefügt.
           _en: Your email (%{email}) has been added back to the mailing list.
           _fr: Votre email (%{email}) est à nouveau inscrit à la liste de diffusion.
+          _de: Ihre E-Mail (%{email}) wurde wieder zur Verteilerliste hinzugefügt.
           _it: La tua email (%{email}) è stata nuovamente iscritta alla lista di distribuzione.
       destroy:
         subscribe:
-          _de: Ich möchte mich wieder anmelden.
           _en: I want to subscribe again.
           _fr: Je m'inscris à nouveau.
+          _de: Ich möchte mich wieder anmelden.
           _it: Mi iscrivo nuovamente.
         subscribe_back:
-          _de: Whoops, das war ein Fehler.
           _en: Whoops, that was a mistake.
           _fr: Whoops, c'était une erreur.
+          _de: Whoops, das war ein Fehler.
           _it: Whoops, era un errore.
         title:
-          _de: Ihre E-Mail (%{email}) wurde von der Verteilerliste entfernt.
           _en: Your email (%{email}) has been removed from the mailing list.
           _fr: Votre email (%{email}) a été supprimé de la liste de diffusion.
+          _de: Ihre E-Mail (%{email}) wurde von der Verteilerliste entfernt.
           _it: La tua email (%{email}) è stata rimossa dalla lista di distribuzione.
       invalid:
         title:
-          _de: Dieser Link ist abgelaufen oder ungültig.
           _en: This link has expired or is invalid.
           _fr: Ce lien a expiré ou n'est pas valide.
+          _de: Dieser Link ist abgelaufen oder ungültig.
           _it: Questo link è scaduto o non è valido.
     sessions:
       new:
         email_input:
-          _de: Ihres E-Mail
           _en: Your email
           _fr: Votre email
+          _de: Ihres E-Mail
           _it: Vostra e-mail
         email_placeholder:
-          _de: ihre@email.com
           _en: your@email.com
           _fr: votre@email.com
+          _de: ihre@email.com
           _it: vostra@email.com
         features:
           absence_text:
-            _de: eine Abwesenheit zu melden
             _en: to report an absence
             _fr: d'annoncer une absence
+            _de: eine Abwesenheit zu melden
             _it: annunciare un'assenza
           activity_text/basket_preparation:
-            _de: sich für die Taschen befüllung einschreiben können
             _en: to sign up for basket preparation
             _fr: de s'inscrire aux mises en panier
+            _de: sich für die Taschen befüllung einschreiben können
             _it: registrarsi per la preparazione ceste
           activity_text/day_work:
-            _de: sich für die Arbeitstage einschreiben können
             _en: to sign up for workdays
             _fr: de s'inscrire aux journées de travail
+            _de: sich für die Arbeitstage einschreiben können
             _it: registrarsi per i giorni di lavoro
           activity_text/halfday_work:
-            _de: sich für die Halbtage einschreiben können
             _en: to sign up for half-day work
             _fr: de s'inscrire aux ½ journées
+            _de: sich für die Halbtage einschreiben können
             _it: registrarsi per le ½ giornate di lavoro
           activity_text/hour_work:
-            _de: sich für die Arbeitsstunden einschreiben können
             _en: to sign up for work hours
             _fr: de s'inscrire aux heures de travail
+            _de: sich für die Arbeitsstunden einschreiben können
             _it: registrarsi per le ore di lavoro
           billing_text:
-            _de: den Status von Rechnungen abzufragen
             _en: to check the status of invoices
             _fr: consulter l'état de ses factures
+            _de: den Status von Rechnungen abzufragen
             _it: controllare lo stato delle proprie fatture
           deliveries_text:
-            _de: die nächsten Lieferungsdaten einzusehen
             _en: to see upcoming delivery dates
             _fr: voir ses prochaines livraisons
+            _de: die nächsten Lieferungsdaten einzusehen
             _it: vedere le prossime consegne
         form_text:
-          _de: Der Zugang zu Ihrem Konto erfolgt ohne Passwort über einem Anmeldelink. Dieser Link wird Ihnen über das untenstehende Formular per E-Mail zugestellt.
           _en: Access to your account is password-free via a login link. This link will be sent to you via email using the form below.
           _fr: La connexion à votre compte ne nécessite pas de mot de passe, et s'effectue en recevant un lien de connexion par email à l'aide du formulaire ci-dessous.
+          _de: Der Zugang zu Ihrem Konto erfolgt ohne Passwort über einem Anmeldelink. Dieser Link wird Ihnen über das untenstehende Formular per E-Mail zugestellt.
           _it: La connessione non richiede una password. Puoi connetterti richiedendo il link di connessione con il modulo sottostante (che verrà inviato al tuo indirizzo email).
         submit:
-          _de: Senden
           _en: Send
           _fr: Envoyer
+          _de: Senden
           _it: Inviare
         text:
-          _de: Jedes Mitglied hat Zugang zu einem privaten Konto, das ihm u.a. erlaubt, %{features}.
           _en: Each member has access to a private account that allows them, among other things, %{features}.
           _fr: Chaque membre a accès à un compte privé lui permettant, entre autres, %{features}.
+          _de: Jedes Mitglied hat Zugang zu einem privaten Konto, das ihm u.a. erlaubt, %{features}.
           _it: Ogni socio/a ha accesso a un conto online che gli consente, tra l'altro, %{features}.
         title:
-          _de: Anmeldung mit Ihrem Konto
           _en: Login to your account
           _fr: Connexion à votre compte
+          _de: Anmeldung mit Ihrem Konto
           _it: Connesione al vostro account
     shop:
       orders:
         cart:
           no_order_items:
-            _de: Warenkorb ist leer
             _en: Empty shopping cart
             _fr: Panier d'achat vide
+            _de: Warenkorb ist leer
             _it: Carrello vuoto
           show_basket:
-            _de: Warenkorb ansehen
             _en: View cart
             _fr: Voir panier d'achat
+            _de: Warenkorb ansehen
             _it: Vedere il carrello
         confirm:
           notice:
-            _de: Vielen Dank für Ihre Bestellung!
             _en: Thank you for your order!
             _fr: Merci pour votre commande!
+            _de: Vielen Dank für Ihre Bestellung!
             _it: Grazie per il vostro ordine!
         finalized_order:
           cancel_order:
-            _de: Bestellung abbrechen
             _en: Cancel order
             _fr: Annuler la commande
+            _de: Bestellung abbrechen
             _it: Cancellare l'ordine
           cancel_order_confirm:
-            _de: Sind Sie sicher, dass Sie die Bestellung abbrechen möchten?
             _en: Are you sure you want to cancel the order?
             _fr: Êtes-vous sûr de vouloir annuler la commande?
+            _de: Sind Sie sicher, dass Sie die Bestellung abbrechen möchten?
             _it: Sei sicuro di voler cancellare l'ordine?
           contact_us_html:
-            _de: Haben Sie eine Frage? Zögern Sie nicht, <a href='mailto:%{email}'>uns zu kontaktieren</a>.
             _en: Have a question? Feel free to <a href='mailto:%{email}'>contact us</a>.
             _fr: Une question? N'hésitez pas à <a href='mailto:%{email}'>nous contacter</a>.
+            _de: Haben Sie eine Frage? Zögern Sie nicht, <a href='mailto:%{email}'>uns zu kontaktieren</a>.
             _it: Ha una domanda? Sentitevi liberi di <a href='mailto:%{email}'>contattarci</a>.
           order_total_weight:
-            _de: Gesamtgewicht der Bestellung
             _en: Total order weight
             _fr: Poids total de la commande
+            _de: Gesamtgewicht der Bestellung
             _it: Peso totale dell'ordine
           total:
-            _de: Total
             _en: Total
             _fr: Total
+            _de: Total
             _it: Totale
           unconfirm_order:
-            _de: Bearbeiten
             _en: Edit
             _fr: Modifier
+            _de: Bearbeiten
             _it: Modificare
         order:
           continue_shopping:
-            _de: Weiter einkaufen
             _en: Continue shopping
             _fr: Continuer les achats
+            _de: Weiter einkaufen
             _it: Continua lo shopping
           destroy_cart:
-            _de: Warenkorb löschen
             _en: Empty cart
             _fr: Vider le panier d'achats
+            _de: Warenkorb löschen
             _it: Svuota il carrello
           destroy_cart_confirm:
-            _de: Sind Sie sicher, dass Sie den Warenkorb löschen möchten?
             _en: Are you sure you want to empty the cart?
             _fr: Êtes-vous sûr de vouloir vider le panier d'achats?
+            _de: Sind Sie sicher, dass Sie den Warenkorb löschen möchten?
             _it: Sei sicuro di voler svuotare il carrello?
           order_total_weight:
-            _de: Totalgewicht der Bestellung
             _en: Total order weight
             _fr: Poids total de la commande
+            _de: Totalgewicht der Bestellung
             _it: Peso totale dell'ordine
           stock:
-            _de: "%{count} auf Lager"
             _en: "%{count} in stock"
             _fr: "%{count} en stock"
+            _de: "%{count} auf Lager"
             _it: "%{count} in stock"
           submit_order:
-            _de: Bestellen
             _en: Order
             _fr: Commander
+            _de: Bestellen
             _it: Ordina
           total:
-            _de: Total
             _en: Total
             _fr: Total
+            _de: Total
             _it: Totale
           unavailable:
-            _de: unverfügbar
             _en: unavailable
             _fr: indisponible
+            _de: unverfügbar
             _it: indisponible
         show:
           cart:
-            _de: Warenkorb
             _en: Cart
             _fr: Panier d'achat
+            _de: Warenkorb
             _it: Carrello
           download_invoice_html:
-            _de: Rechnung <i>#%{number}</i>
             _en: Invoice <i>#%{number}</i>
             _fr: Facture <i>#%{number}</i>
+            _de: Rechnung <i>#%{number}</i>
             _it: Fattura <i>#%{numero}</i>
           finalize_order:
-            _de: Bitte schließen Sie Ihre Bestellung ab.
             _en: Please finalize your order.
             _fr: Merci de finaliser votre commande.
+            _de: Bitte schließen Sie Ihre Bestellung ab.
             _it: Per favore, completate il vostro ordine.
           invoiced_order_html:
-            _de: Ihre Bestellung ist fertig, die Rechnung wurde Ihnen per E-Mail zugeschickt. Bitte begleichen Sie diese schnell.
             _en: Your order is ready, the invoice has been sent to you by email. Please pay it quickly.
             _fr: Votre commande est prête, la facture vous a été envoyée par email. Merci de la régler rapidement.
+            _de: Ihre Bestellung ist fertig, die Rechnung wurde Ihnen per E-Mail zugeschickt. Bitte begleichen Sie diese schnell.
             _it: Il tuo ordine è pronto, la fattura ti è stata inviata per e-mail. Per favore, pagate in fretta.
           order_invoiced_state:
-            _de: abgerechnet
             _en: invoiced
             _fr: facturée
+            _de: abgerechnet
             _it: fatturato
           order_pending_state:
-            _de: in Vorbereitung
             _en: in preparation
             _fr: en préparation
+            _de: in Vorbereitung
             _it: in preparazione
           order_received_state:
-            _de: eingegangene
             _en: received
             _fr: reçue
+            _de: eingegangene
             _it: ricevuto
           pending_order_html:
-            _de: Ihre Bestellung wird gerade vorbereitet. Eine Rechnung wird Ihnen in Kürze per E-Mail zugesandt. Bitte begleichen Sie diese schnell.
             _en: Your order is being prepared. An invoice will be sent to you shortly by email. Please pay it quickly.
             _fr: Votre commande est entrain d'être préparée, une facture vous sera bientôt envoyée par email. Merci de la régler rapidement.
+            _de: Ihre Bestellung wird gerade vorbereitet. Eine Rechnung wird Ihnen in Kürze per E-Mail zugesandt. Bitte begleichen Sie diese schnell.
             _it: Il suo ordine è in fase di preparazione e una fattura le sarà inviata a breve via e-mail. Grazie per aver pagato rapidamente.
           received_order_html:
-            _de: Ihre Bestellung ist eingegangen, kann aber noch bis zum <u>%{date}</u> storniert oder geändert werden. Eine Rechnung wird Ihnen später, vor der Lieferung, per E-Mail zugesandt. Bitte begleichen Sie diese schnell.
             _en: Your order has been received but can still be canceled or modified until <u>%{date}</u>. An invoice will be sent to you later, before delivery, by email. Please pay it quickly.
             _fr: Votre commande a bien été reçue mais peut encore être annulée ou modifiée jusqu'au <u>%{date}</u>. Une facture vous sera envoyée ultérieurement, avant la livraison, par email. Merci de la régler rapidement.
+            _de: Ihre Bestellung ist eingegangen, kann aber noch bis zum <u>%{date}</u> storniert oder geändert werden. Eine Rechnung wird Ihnen später, vor der Lieferung, per E-Mail zugesandt. Bitte begleichen Sie diese schnell.
             _it: Il tuo ordine è stato ricevuto ma può ancora essere cancellato o modificato fino al <u>%{date}</u>. Una fattura vi sarà inviata più tardi, prima della consegna, via e-mail. Grazie per aver pagato rapidamente.
       products:
         index:
           all_producers:
-            _de: Alle Produzenten
             _en: All producers
             _fr: Tous les producteurs
+            _de: Alle Produzenten
             _it: Tutti i produttori
           available_product:
-            _de: Verfügbare Produkte
             _en: Available products
             _fr: Produits disponibles
+            _de: Verfügbare Produkte
             _it: Prodotti disponibili
           closed_at_html:
-            _de: Es ist nicht mehr möglich, eine Bestellung für diese Lieferung aufzugeben.
             _en: It is no longer possible to place an order for this delivery.
             _fr: Il n'est plus possible de passer commande pour cette livraison.
+            _de: Es ist nicht mehr möglich, eine Bestellung für diese Lieferung aufzugeben.
             _it: Non è più possibile effettuare un ordine per questa consegna.
           closing_at_html:
-            _de: Ihre Bestellung kann bis zum <u>%{date}</u> aufgegeben oder geändert werden.
             _en: Your order can be placed or modified until <u>%{date}</u>.
             _fr: Votre commande peut-être passée ou modifié jusqu'au <u>%{date}</u>.
+            _de: Ihre Bestellung kann bis zum <u>%{date}</u> aufgegeben oder geändert werden.
             _it: Il tuo ordine può essere effettuato o modificato fino al <u>%{date}</u>.
           delivery:
-            _de: Lieferung von %{date}
             _en: Delivery of %{date}
             _fr: Livraison du %{date}
+            _de: Lieferung von %{date}
             _it: Consegna del %{date}
           delivery_title:
-            _de: "%{title} vom %{date}"
             _en: "%{title} of %{date}"
             _fr: "%{title} du %{date}"
+            _de: "%{title} vom %{date}"
             _it: "%{title} del %{date}"
           next_delivery_html:
-            _de: Die Bestellung für Ihre nächste Lieferung am <u>%{date}</u> kann vom <u>%{start_date}</u> bis zum <u>%{end_date}</u> aufgegeben werden.
             _en: The order for your next delivery on <u>%{date}</u> can be placed from <u>%{start_date}</u> to <u>%{end_date}</u>.
             _fr: La commande pour votre prochaine livraison du <u>%{date}</u> pourra être passée à partir du <u>%{start_date}</u> jusqu'au <u>%{end_date}</u>.
+            _de: Die Bestellung für Ihre nächste Lieferung am <u>%{date}</u> kann vom <u>%{start_date}</u> bis zum <u>%{end_date}</u> aufgegeben werden.
             _it: L'ordine per la sua prossima consegna di <u>%{date}</u> può essere effettuato da <u>%{start_date}</u> a <u>%{end_date}</u>.
           next_shop_delivery_link:
-            _de: Lieferung am %{date}
             _en: Delivery on %{date}
             _fr: Livraison du %{date}
+            _de: Lieferung am %{date}
             _it: Consegna il %{date}
         variant:
           add_to_basket:
-            _de: In den Warenkorb
             _en: Add to basket
             _fr: Ajouter au panier
+            _de: In den Warenkorb
             _it: Aggiungi al carrello
           live_stock:
             one:
-              _de: "%{count} verfügbare"
               _en: "%{count} available"
               _fr: "%{count} disponible"
+              _de: "%{count} verfügbare"
               _it: "%{count} disponibile"
             other:
-              _de: "%{count} verfügbares"
               _en: "%{count} available"
               _fr: "%{count} disponibles"
+              _de: "%{count} verfügbares"
               _it: "%{count} disponibili"
             zero:
-              _de: "%{count} verfügbar"
               _en: "%{count} available"
               _fr: "%{count} disponible"
+              _de: "%{count} verfügbar"
               _it: "%{count} disponibili"
       terms_of_sale:
-        _de: Verkaufsbedingungen
         _en: Terms of sale
         _fr: Conditions de vente
+        _de: Verkaufsbedingungen
         _it: Condizioni di vendita

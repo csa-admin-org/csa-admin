@@ -2,48 +2,48 @@ _:
   member_order:
     modes:
       deliveries_count_asc:
-        _de: Anzahl Lieferungen (aufsteigend), alphabetisch
         _en: Number of deliveries (ascending), alphabetical
         _fr: Nombre de livraisons (croissant), ordre alphabétique
+        _de: Anzahl Lieferungen (aufsteigend), alphabetisch
         _it: Numero di consegne (crescente), ordine alfabetico
       deliveries_count_desc:
-        _de: Anzahl Lieferungen (absteigend), alphabetisch
         _en: Number of deliveries (descending), alphabetical
         _fr: Nombre de livraisons (décroissant), ordre alphabétique
+        _de: Anzahl Lieferungen (absteigend), alphabetisch
         _it: Numero di consegne (decrescente), ordine alfabetico
       name_asc:
-        _de: Nur alphabetisch
         _en: Alphabetical only
         _fr: Ordre alphabétique uniquement
+        _de: Nur alphabetisch
         _it: Solo ordine alfabetico
       price_asc:
-        _de: Preis (aufsteigend), alphabetisch
         _en: Price (ascending), alphabetical
         _fr: Prix (croissant), ordre alphabétique
+        _de: Preis (aufsteigend), alphabetisch
         _it: Prezzo (crescente), ordine alfabetico
       price_desc:
-        _de: Preis (absteigend), alphabetisch
         _en: Price (descending), alphabetical
         _fr: Prix (décroissant), ordre alphabétique
+        _de: Preis (absteigend), alphabetisch
         _it: Prezzo (decrescente), ordine alfabetico
       wdays_asc:
-        _de: Wochentage, Anzahl Lieferungen (absteigend), alphabetisch
         _en: Weekdays, number of deliveries (descending), alphabetical
         _fr: Jours de la semaine, Nombre de livraisons (décroissant), ordre alphabétique
+        _de: Wochentage, Anzahl Lieferungen (absteigend), alphabetisch
         _it: Giorni della settimana, Numero di consegne (decrescente), ordine alfabetico
     priorities:
       default:
-        _de: Keine
         _en: None
         _fr: Aucune
+        _de: Keine
         _it: Nessuna
       first:
-        _de: Erste Position(en)
         _en: First position(s)
         _fr: Première(s) position(s)
+        _de: Erste Position(en)
         _it: Prima posizione
       last:
-        _de: Letzte Position(en)
         _en: Last position(s)
         _fr: Dernière(s) position(s)
+        _de: Letzte Position(en)
         _it: Ultima posizione

@@ -1,72 +1,72 @@
 _:
   features:
     absence:
-      _de: Abwesenheit
       _en: Absence
       _fr: Absence
+      _de: Abwesenheit
       _it: Assenza
     absence_hint:
-      _de: Ermöglicht es, die Abwesenheiten von Mitgliedern zu verwalten. Mitglieder können ihre Abwesenheiten auch von ihrem Konto aus ankündigen.<br/>Bitte <a href="/handbook/absences">konsultieren Sie das Handbuch</a> für weitere Informationen.
       _en: Allows managing member absences. Members can also announce their absences from their account.<br/>Please <a href="/handbook/absences">consult the manual</a> for more information.
       _fr: Permet de gérer les absences des membres. Les membres peuvent également annoncer leurs absences depuis leur compte.<br/>Merci de <a href="/handbook/absences">consulter le manuel</a> pour plus d'informations.
+      _de: Ermöglicht es, die Abwesenheiten von Mitgliedern zu verwalten. Mitglieder können ihre Abwesenheiten auch von ihrem Konto aus ankündigen.<br/>Bitte <a href="/handbook/absences">konsultieren Sie das Handbuch</a> für weitere Informationen.
       _it: Permette di gestire le assenze dei soci. I soci possono anche annunciare le loro assenze dal loro account.<br/>Si prega <a href="/handbook/absences">di consultare il manuale</a> per ulteriori informazioni.
     activity:
-      _de: Beteiligung der Mitglieder
       _en: Member participation
       _fr: Participation des membres
+      _de: Beteiligung der Mitglieder
       _it: Partecipazione dei soci
     activity_hint:
-      _de: Ermöglicht die Verwaltung von Aktivitäten, die von Mitgliedern durchgeführt werden.<br/>Bitte <a href="/handbook/activity">konsultieren Sie das Handbuch</a> für weitere Informationen.
       _en: Allows managing activities carried out by members.<br/>Please <a href="/handbook/activity">consult the manual</a> for more information.
       _fr: Permet de gérer des activités effectuées par les membres.<br/>Merci de <a href="/handbook/activity">consulter le manuel</a> pour plus d'informations.
+      _de: Ermöglicht die Verwaltung von Aktivitäten, die von Mitgliedern durchgeführt werden.<br/>Bitte <a href="/handbook/activity">konsultieren Sie das Handbuch</a> für weitere Informationen.
       _it: Permette di gestire le attività svolte dai soci.<br/>Si prega <a href="/handbook/activity">di consultare il manuale</a> per ulteriori informazioni.
     basket_content:
-      _de: Tascheninhalt
       _en: Basket content
       _fr: Contenu Panier
+      _de: Tascheninhalt
       _it: Contenuto cesta
     basket_content_hint:
-      _de: Bietet ein Tool zur Berechnung des Inhalts und des Werts der Taschen für jede Lieferung.
       _en: Provides a tool to calculate the content and value of baskets for each delivery.
       _fr: Fournit un outil pour calculer le contenu et la valeur des paniers pour chaque livraison.
+      _de: Bietet ein Tool zur Berechnung des Inhalts und des Werts der Taschen für jede Lieferung.
       _it: Fornisce uno strumento per calcolare il contenuto e il valore dei cestini per ogni consegna.
     basket_price_extra:
-      _de: Preis Extra-Tasche
       _en: Extra basket price
       _fr: Prix panier extra
+      _de: Preis Extra-Tasche
       _it: Prezzo extra cesta
     basket_price_extra_hint:
-      _de: Bietet ein Werkzeug, um den Inhalt der Taschen einer Lieferung anteilig nach dem Preis der Taschengröße zu berechnen.<br/>Bitte <a href="/handbook/basket_price_extra">konsultieren Sie das Handbuch</a> für weitere Informationen.
       _en: Provides a tool to calculate the content of a delivery basket proportionally to the basket size price.<br/>Please <a href="/handbook/basket_price_extra">consult the manual</a> for more information.
       _fr: Permet de proposer aux membres de payer un montant supplémentaire pour chaque panier.<br/>Merci de <a href="/handbook/basket_price_extra">consulter le manuel</a> pour plus d'informations.
+      _de: Bietet ein Werkzeug, um den Inhalt der Taschen einer Lieferung anteilig nach dem Preis der Taschengröße zu berechnen.<br/>Bitte <a href="/handbook/basket_price_extra">konsultieren Sie das Handbuch</a> für weitere Informationen.
       _it: Fornisce uno strumento per calcolare il contenuto del cesto di una consegna in proporzione al prezzo della dimensione del cesto.<br/>Si prega <a href="/handbook/basket_price_extra">di consultare il manuale</a> per ulteriori informazioni.
     contact_sharing:
-      _de: Freigeben von Kontaktinformationen
       _en: Contact sharing
       _fr: Copaniérage
+      _de: Freigeben von Kontaktinformationen
       _it: Condivisione di informazioni di contatto
     contact_sharing_hint:
-      _de: Ermöglicht das Teilen von Kontaktdaten zwischen Mitgliedern desselben Depots.
       _en: Allows sharing contact information between members of the same depot.
       _fr: Rends possible le partage des coordonnées entre membres d'un même dépôt.
+      _de: Ermöglicht das Teilen von Kontaktdaten zwischen Mitgliedern desselben Depots.
       _it: Rende possibile la condivisione dei dati di contatto tra i soci dello stesso punto di ritiro.
     new_member_fee:
-      _de: Teilnahmegebühr
       _en: New member fee
       _fr: Frais d'adhésion
+      _de: Teilnahmegebühr
       _it: Quota di adesione
     new_member_fee_hint:
-      _de: Ermöglicht es, einen bestimmten Betrag (z.B. für wiederverwendbare Körbe/Taschen) von neuen Mitgliedern zu berechnen (nach ihrer eventuellen Probezeit).<br/>Bitte <a href="/handbook/new_member_fee">konsultieren Sie das Handbuch</a> für weitere Informationen.
       _en: Allows charging a specific amount (e.g., for reusable baskets/bags) to new members (after their potential trial period).<br/>Please <a href="/handbook/new_member_fee">consult the manual</a> for more information.
       _fr: Permet de facturer un certain montant (par ex. pour des paniers/sacs réutilisables) aux nouveaux membres (après leur éventuelle période d'essai).<br/>Merci de <a href="/handbook/new_member_fee">consulter le manuel</a> pour plus d'informations.
+      _de: Ermöglicht es, einen bestimmten Betrag (z.B. für wiederverwendbare Körbe/Taschen) von neuen Mitgliedern zu berechnen (nach ihrer eventuellen Probezeit).<br/>Bitte <a href="/handbook/new_member_fee">konsultieren Sie das Handbuch</a> für weitere Informationen.
       _it: Permette di fatturare un importo fisso (ad es. per cestini/sacchetti riutilizzabili) ai nuovi soci (dopo il loro eventuale periodo di prova).<br/>Si prega <a href="/handbook/new_member_fee">di consultare il manuale</a> per ulteriori informazioni.
     shop:
-      _de: Hofladen
       _en: Shop
       _fr: Épicerie
+      _de: Hofladen
       _it: Bottega
     shop_hint:
-      _de: Ermöglicht es Mitgliedern, bei jeder Lieferung von Taschen zusätzliche Produkte zu bestellen.<br/>Bitte <a href="/handbook/shop">konsultieren Sie das Handbuch</a> für weitere Informationen.
       _en: Allows members to order additional products with each basket delivery.<br/>Please <a href="/handbook/shop">consult the manual</a> for more information.
       _fr: Permet aux membres de commander des produits supplémentaires à chaque livraison de paniers.<br/>Merci de <a href="/handbook/shop">consulter le manuel</a> pour plus d'informations.
+      _de: Ermöglicht es Mitgliedern, bei jeder Lieferung von Taschen zusätzliche Produkte zu bestellen.<br/>Bitte <a href="/handbook/shop">konsultieren Sie das Handbuch</a> für weitere Informationen.
       _it: Permette ai soci di ordinare prodotti aggiuntivi con ogni consegna del cesto.<br/>Si prega <a href="/handbook/shop">di consultare il manuale</a> per ulteriori informazioni.

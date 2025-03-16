@@ -1,17 +1,17 @@
 _:
   form_modes:
     hidden:
-      _de: Versteckt
       _en: Hidden
       _fr: Caché
+      _de: Versteckt
       _it: Nascosto
     required:
-      _de: Pflichtfeld
       _en: Required
       _fr: Obligatoire
+      _de: Pflichtfeld
       _it: Obbligatorio
     visible:
-      _de: Angezeigt
       _en: Visible
       _fr: Affiché
+      _de: Angezeigt
       _it: Visualizzato

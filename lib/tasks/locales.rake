@@ -141,11 +141,18 @@ namespace :locales do
     File.write(file_name, content)
   end
 
+  # Keep locales in order based on used_locales
   def deep_sort_hash(hash)
-    hash.sort.map { |k, v| [ k, v.is_a?(Hash) ? deep_sort_hash(v) : v ] }.to_h
+    if hash.keys.all? { |k| k.start_with?("_") }
+      locales_order = used_locales.map { |l| "_#{l}" }
+      sorted_keys = hash.keys.sort_by { |k| locales_order.index(k) || locales_order.size }
+    else
+      sorted_keys = hash.keys.sort
+    end
+    sorted_keys.map { |k| [ k, hash[k].is_a?(Hash) ? deep_sort_hash(hash[k]) : hash[k] ] }.to_h
   end
 
   def used_locales
-    I18n.available_locales.sort
+    I18n.available_locales
   end
 end
