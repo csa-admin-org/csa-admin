@@ -98,15 +98,20 @@ _:
           _it: Seleziona "No" se il supplemento non è disponibile durante la registrazione.
       basket_content:
         basket_size_ids_quantities:
-          _de: Pro g oder pro Stück.
-          _en: Per g or per piece.
-          _fr: En g ou à la pièce.
-          _it: Per g o per pezzo.
+          _de: In g oder Stück.
+          _en: g or pieces.
+          _fr: En g ou en pièce.
+          _it: g o pezzi.
         depots:
           _de: Die Depots ohne gelieferte Taschen werden automatisch ignoriert.
           _en: Depots without delivered baskets are automatically ignored.
           _fr: Les dépôts sans paniers livrés sont automatiquement ignorés.
           _it: I punti di ritiro senza ceste consegnate vengono automaticamente ignorati.
+        quantity:
+          _de: In kg oder Stück.
+          _en: Kg or pieces.
+          _fr: En kg ou en pièces.
+          _it: In kg o pezzi.
         unit_price:
           _de: Pro kg oder pro Stück.
           _en: Per kg or per piece.

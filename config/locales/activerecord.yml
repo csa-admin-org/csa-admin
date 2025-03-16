@@ -233,6 +233,11 @@ _:
           _en: Percentage distribution
           _fr: La somme des pourcentages
           _it: Distribuzione percentuale
+        basket_quantities:
+          _de: Mengen
+          _en: Quantities
+          _fr: Quantités
+          _it: Quantità
         basket_size:
           _de: Tasche
           _en: Basket
@@ -248,6 +253,11 @@ _:
           _en: Product
           _fr: Produit
           _it: Prodotto
+        quantity:
+          _de: Gesamtmenge
+          _en: Total quantity
+          _fr: Quantité totale
+          _it: Quantità totale
         surplus:
           _de: Überschuss
           _en: Surplus
@@ -1821,11 +1831,6 @@ _:
                 _en: Insufficient
                 _fr: Insuffisante
                 _it: Insufficiente
-              insufficient_miss:
-                _de: Ungenügende (fehlen %{miss})
-                _en: Insufficient (missing %{miss})
-                _fr: Insuffisante (manque %{miss})
-                _it: Insufficiente (manca %{miss})
         session:
           attributes:
             email:

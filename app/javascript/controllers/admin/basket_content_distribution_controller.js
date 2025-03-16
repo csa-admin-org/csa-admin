@@ -4,7 +4,7 @@ import { addClass, removeClass, show, hide } from "components/utils"
 
 export default class extends Controller {
   static get targets() {
-    return ["range", "input", "sum", "preset", "quantityInput"]
+    return ["mode", "range", "input", "sum", "preset", "basketQuantity", "quantity"]
   }
 
   initialize() {
@@ -13,18 +13,33 @@ export default class extends Controller {
 
   connect() {
     this.updateAll()
+
+    // Ensure correct mode is selected on page load
+    const anchor = window.location.hash
+    if (anchor == "#manual" && this.modeTarget.value == "automatic") {
+      document.querySelector('a[aria-controls="manual"]').click()
+    } else if (anchor == "#automatic" && this.modeTarget.value == "manual") {
+      document.querySelector('a[aria-controls="automatic"]').click()
+    }
   }
 
   automaticMode(_event) {
-    this.presetTargets[0].click()
-    this.quantityInputTargets.forEach((input) => {
-      input.value = ""
+    this.modeTarget.value = "automatic"
+    this.quantityTarget.required = true
+    this.quantityTarget.disabled = false
+    this.basketQuantityTargets.forEach((input) => {
+      input.required = false
+      input.disabled = true
     })
   }
 
   manualMode(_event) {
-    this.quantityInputTargets.forEach((input) => {
-      input.value = 0
+    this.modeTarget.value = "manual"
+    this.quantityTarget.required = false
+    this.quantityTarget.disabled = true
+    this.basketQuantityTargets.forEach((input) => {
+      input.required = true
+      input.disabled = false
     })
   }
 
@@ -84,7 +99,7 @@ export default class extends Controller {
     let targets = this.rangeTargets.filter((t) => {
       return target.name !== t.name && parseInt(t.value) !== 0
     })
-    if(targets.length === 0) {
+    if (targets.length === 0) {
       targets = this.rangeTargets.filter((t) => {
         return target.name !== t.name
       })

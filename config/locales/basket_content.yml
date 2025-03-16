@@ -28,10 +28,10 @@ _:
         _fr: Manuelle
         _it: Manuale
     percentages_hint:
-      _de: Das System optimiert die Verteilung, um den Überschuss zu minimieren, aufgrund dessen kann die endgültige Verteilung leicht von den oben genannten Prozentsätzen abweichen.
-      _en: The system optimizes the distribution to minimize surplus, so the final distribution may slightly differ from the above percentages.
-      _fr: Le système optimise la répartition afin de minimiser le surplus, à cause de cela la distribution finale peut légèrement différer des pourcentages ci-dessus.
-      _it: Il sistema ottimizza la distribuzione per minimizzare il surplus, quindi la distribuzione finale può differire leggermente dalle percentuali di cui sopra.
+      _de: Das System optimiert die Verteilung, um den Überschuss zu minimieren, daher kann die endgültige Verteilung von den oben genannten Prozentsätzen abweichen.
+      _en: The system optimizes the distribution to minimize surplus, so the final distribution may differ from the above percentages.
+      _fr: Le système optimise la répartition afin de minimiser le surplus, à cause de cela la distribution finale peut différer des pourcentages ci-dessus.
+      _it: Il sistema ottimizza la distribuzione per minimizzare il surplus, quindi la distribuzione finale può differire dai percentuali sopra.
     preset:
       basket_content_percentages_even:
         _de: Gleichmäßige Verteilung
@@ -43,3 +43,8 @@ _:
         _en: Pro rata by price
         _fr: Au prorata du prix
         _it: Pro rata al prezzo
+    quantities_hint:
+      _de: Die Gesamtmenge wird automatisch berechnet, basierend auf der Anzahl der Taschen und der Menge jeder Größe.
+      _en: The total quantity will be calculated automatically according to the number of baskets and the quantity of each size.
+      _fr: La quantité totale sera calculée automatiquement selon le nombre de paniers et la quantité de chaque taille.
+      _it: La quantità totale sarà calcolata automaticamente in base al numero di cesti e alla quantità di ciascuna dimensione.
