@@ -155,7 +155,7 @@
     tr:last-child,
     tr:nth-last-child(2),
     tr:nth-last-child(4) {
-      @apply border-0;
+      @apply border-none!;
     }
 
     tr:nth-last-child(2) td:last-child,
@@ -171,7 +171,7 @@
   .data-table-total {
     tr:last-child,
     tr:nth-last-child(2) {
-      @apply border-0;
+      @apply border-none!;
     }
 
     tr:nth-last-child(2) td:last-child {

@@ -23,6 +23,10 @@
     @apply mb-1 flex items-center gap-2;
   }
 
+  .filters-form-field .checkbox-legend input {
+    @apply hidden!;
+  }
+
   .filters-form-buttons {
     @apply flex items-center justify-center gap-2;
   }
