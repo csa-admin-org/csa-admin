@@ -1,10 +1,18 @@
 import { Controller } from "@hotwired/stimulus"
-import { debounce } from 'throttle-debounce'
+import { debounce } from "throttle-debounce"
 import { addClass, removeClass, show, hide } from "components/utils"
 
 export default class extends Controller {
   static get targets() {
-    return ["mode", "range", "input", "sum", "preset", "basketQuantity", "quantity"]
+    return [
+      "mode",
+      "range",
+      "input",
+      "sum",
+      "preset",
+      "basketQuantity",
+      "quantity"
+    ]
   }
 
   initialize() {
@@ -55,9 +63,13 @@ export default class extends Controller {
   }
 
   applyPreset(event) {
-    const preset = Object.entries(JSON.parse(event.currentTarget.dataset.preset))
+    const preset = Object.entries(
+      JSON.parse(event.currentTarget.dataset.preset)
+    )
     preset.forEach(([inputID, value]) => {
-      const input = document.getElementById("basket_size_ids_percentages_" + inputID)
+      const input = document.getElementById(
+        "basket_size_ids_percentages_" + inputID
+      )
       this.set(input, value)
     })
     this.updateAll()
@@ -67,7 +79,9 @@ export default class extends Controller {
     this.presetTargets.forEach((p) => {
       const preset = Object.entries(JSON.parse(p.dataset.preset))
       const matchCurrentPercentages = preset.every(([inputID, value]) => {
-        const input = document.getElementById("basket_size_ids_percentages_" + inputID)
+        const input = document.getElementById(
+          "basket_size_ids_percentages_" + inputID
+        )
         return input && input.value == value
       })
       if (matchCurrentPercentages) {
@@ -79,7 +93,7 @@ export default class extends Controller {
   }
 
   percentagesDiff() {
-    return (this.rangeTargets.reduce((s, t) => s + parseInt(t.value), 0) - 100)
+    return this.rangeTargets.reduce((s, t) => s + parseInt(t.value), 0) - 100
   }
 
   adjustOtherPercentages(target) {
@@ -129,7 +143,7 @@ export default class extends Controller {
   updateRangeStates() {
     const sum = this.percentagesSum()
     this.rangeTargets.forEach((t) => {
-      t.disabled = (sum !== 100)
+      t.disabled = sum !== 100
     })
   }
 

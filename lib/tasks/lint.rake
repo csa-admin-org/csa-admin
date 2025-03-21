@@ -7,18 +7,22 @@ namespace :lint do
     rubocop_success = system("bin/rubocop --parallel")
     puts "Running ERB Lint..."
     erb_lint_success = system("bin/erb_lint --lint-all")
+    puts "Running Prettier..."
+    system("npx prettier app --check")
 
     abort("Linting failed") unless rubocop_success && erb_lint_success
   end
 
   desc "Run Rubocop and ERB Lint with autocorrect"
   task :autocorrect do
+    puts "Running locales format..."
+    Rake::Task["locales:format"].invoke
     puts "Running Rubocop with autocorrect..."
     system("bin/rubocop --parallel --autocorrect-all") || abort("Rubocop autocorrect failed")
     puts "Running ERB Lint with autocorrect..."
     system("bin/erb_lint --lint-all --autocorrect") || abort("ERB Lint autocorrect failed")
-    puts "Running locales format..."
-    Rake::Task["locales:format"].invoke
+    puts "Running Prettier..."
+    system("npx prettier app --write")
   end
 end
 

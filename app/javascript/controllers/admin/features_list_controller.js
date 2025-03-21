@@ -1,5 +1,5 @@
-import { Controller } from "@hotwired/stimulus";
-import { removeClass, addClass, prop } from "components/utils";
+import { Controller } from "@hotwired/stimulus"
+import { removeClass, addClass, prop } from "components/utils"
 
 export default class extends Controller {
   connect() {
@@ -9,7 +9,7 @@ export default class extends Controller {
   }
 
   toggleTab(event) {
-    var feature = event.target.value;
+    var feature = event.target.value
     if (event.target.checked) {
       this.showTab(feature)
     } else {
@@ -38,9 +38,13 @@ export default class extends Controller {
   showFirstActiveTab() {
     var activeFeatures = Array.from(
       this.element.querySelectorAll('input[type="checkbox"]:checked')
-    ).map((feature) => { return feature.value })
+    ).map((feature) => {
+      return feature.value
+    })
     var firstActiveFeature = activeFeatures.find((feature) => {
-      return document.querySelector('[aria-controls="' + feature + '"]') !== null
+      return (
+        document.querySelector('[aria-controls="' + feature + '"]') !== null
+      )
     })
     if (firstActiveFeature) {
       this.showTab(firstActiveFeature)
@@ -49,12 +53,20 @@ export default class extends Controller {
 
   allTabRequiredInputs(hash) {
     return Array.from(
-      document.querySelectorAll('#' + hash + '[role="tabpanel"] li.required input')
+      document.querySelectorAll(
+        "#" + hash + '[role="tabpanel"] li.required input'
+      )
     )
   }
 
   allHiddenTabs() {
-    var tabs = Array.from(document.querySelectorAll('#features [role="tab"][data-tabs-hidden="true"]'))
-    return tabs.map((tab) => { return tab.getAttribute("aria-controls") })
+    var tabs = Array.from(
+      document.querySelectorAll(
+        '#features [role="tab"][data-tabs-hidden="true"]'
+      )
+    )
+    return tabs.map((tab) => {
+      return tab.getAttribute("aria-controls")
+    })
   }
 }

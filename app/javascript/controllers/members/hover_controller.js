@@ -6,17 +6,19 @@ export default class extends Controller {
   }
 
   show() {
-    this._toggleHover(true);
+    this._toggleHover(true)
   }
 
   hide() {
-    this._toggleHover(false);
+    this._toggleHover(false)
   }
 
   _toggleHover(hovering) {
-    const targets = document.querySelectorAll(`[data-hover-id="${this.idValue}"]`);
-    targets.forEach(el => {
-      hovering ? el.classList.add("hovered") : el.classList.remove("hovered");
-    });
+    const targets = document.querySelectorAll(
+      `[data-hover-id="${this.idValue}"]`
+    )
+    targets.forEach((el) => {
+      hovering ? el.classList.add("hovered") : el.classList.remove("hovered")
+    })
   }
 }

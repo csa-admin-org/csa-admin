@@ -13,7 +13,7 @@ export default class extends Controller {
     return {
       dates: Array,
       nonFullDates: Array,
-      defaultDate: String,
+      defaultDate: String
     }
   }
 
@@ -38,7 +38,7 @@ export default class extends Controller {
       onDayCreate: (dObj, dStr, fp, dayElem) => {
         var dateStr = this._dateToISO(dayElem.dateObj)
         if (this.nonFullDatesValue.includes(dateStr)) {
-          dayElem.className += ' not-full'
+          dayElem.className += " not-full"
         }
       }
     })
@@ -49,22 +49,30 @@ export default class extends Controller {
   }
 
   filterDates(event) {
-    var dates = event.target.value ? event.target.value.split(", ") : this.datesValue
+    var dates = event.target.value
+      ? event.target.value.split(", ")
+      : this.datesValue
     this.application.calendar.set("enable", dates)
     this.application.calendar.set("minDate", dates[0])
     this.application.calendar.set("maxDate", dates[dates.length - 1])
     this.application.calendar.set("onDayCreate", (dObj, dStr, fp, dayElem) => {
       var dateStr = this._dateToISO(dayElem.dateObj)
       if (this.nonFullDatesValue.includes(dateStr) && dates.includes(dateStr)) {
-        dayElem.className += ' not-full'
+        dayElem.className += " not-full"
       }
     })
-    this.application.calendar.set("onMonthChange", (selectedDates, dateStr, instance) => {
-      this._monthOrYearChanged(selectedDates, dates, instance)
-    })
-    this.application.calendar.set("onYearChange", (selectedDates, dateStr, instance) => {
-      this._monthOrYearChanged(selectedDates, dates, instance)
-    })
+    this.application.calendar.set(
+      "onMonthChange",
+      (selectedDates, dateStr, instance) => {
+        this._monthOrYearChanged(selectedDates, dates, instance)
+      }
+    )
+    this.application.calendar.set(
+      "onYearChange",
+      (selectedDates, dateStr, instance) => {
+        this._monthOrYearChanged(selectedDates, dates, instance)
+      }
+    )
     this.application.calendar.set("defaultDate", dates[0])
     this.application.calendar.setDate(dates[0])
     this._selectDate(dates[0])
@@ -85,7 +93,11 @@ export default class extends Controller {
       if (dateInputs.every((input) => !input.checked && !input.disabled)) {
         dateInputs[0].checked = true
       }
-      prop(this.submitTarget, "disabled", (dateInputs.every((input) => input.disabled)))
+      prop(
+        this.submitTarget,
+        "disabled",
+        dateInputs.every((input) => input.disabled)
+      )
     }
   }
 
@@ -95,7 +107,7 @@ export default class extends Controller {
     const currentDates = dates.filter((d) => d.startsWith(yearMonth))
     const selectedDate = this._dateToISO(selectedDates[0])
 
-    if (currentDates.find(d => d === selectedDate)) {
+    if (currentDates.find((d) => d === selectedDate)) {
       this._selectDate(selectedDate)
     } else {
       calendar.setDate(currentDates[0])
@@ -109,7 +121,9 @@ export default class extends Controller {
     }
 
     const offset = date.getTimezoneOffset()
-    return new Date(date.getTime() - (offset * 60 * 1000)).toISOString().substring(0, 10)
+    return new Date(date.getTime() - offset * 60 * 1000)
+      .toISOString()
+      .substring(0, 10)
   }
 
   _flatpickrLocale() {

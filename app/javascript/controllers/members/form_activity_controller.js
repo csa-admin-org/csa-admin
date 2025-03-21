@@ -13,7 +13,9 @@ export default class extends Controller {
   }
 
   _updateInputValue() {
-    const inputsArray = Array.from(document.querySelectorAll('input[data-activity]'))
+    const inputsArray = Array.from(
+      document.querySelectorAll("input[data-activity]")
+    )
     let count = 0
     inputsArray.forEach((input) => {
       if (input.type == "radio" && input.checked) {
@@ -23,7 +25,7 @@ export default class extends Controller {
         count += input.value * parseInt(input.dataset.activity)
       }
     })
-    this.inputTarget.value = count;
+    this.inputTarget.value = count
   }
 
   _updateInputMinMax() {
