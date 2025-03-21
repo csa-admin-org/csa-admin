@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 ActiveAdmin.register BasketContent do
-  menu priority: 5
+  menu priority: 5, label: -> { Basket.model_name.human(count: 2) }
   actions :all, except: [ :show ]
 
   filter :delivery, as: :select

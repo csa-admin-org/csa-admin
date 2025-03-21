@@ -1,17 +1,17 @@
 <% if destroy_action_authorized?(resource) && !resource.class.in?([ Member, Membership ]) %>
   <%= link_to resource_path(resource), method: :delete, data: { confirm: delete_confirmation_text }, title: delete_label do %>
-    <%= icon "trash", class: "w-5 h-5" %>
+    <%= icon "trash", class: "size-5" %>
   <% end %>
 <% end %>
 
 <% if edit_action_authorized?(resource) %>
   <%= link_to edit_resource_path(resource), title: edit_label do %>
-    <%= icon "pencil-square", class: "w-5 h-5" %>
+    <%= icon "pencil-square", class: "size-5" %>
   <% end %>
 <% end %>
 
 <% if show_action_authorized?(resource) %>
   <%= link_to resource_path(resource), title: view_label do %>
-    <%= icon "eye", class: "w-5 h-5" %>
+    <%= icon "eye", class: "size-5" %>
   <% end %>
 <% end %>

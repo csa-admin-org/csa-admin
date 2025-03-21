@@ -4,25 +4,25 @@
 <section>
   <ul class="space-y-4">
     <li class="flex flex-row items-center">
-      <%= icon "hashtag", class: "h-5 w-5 mx-0.5" %>
+      <%= icon "hashtag", class: "size-5 mx-0.5" %>
       <span class="ml-4">
         <%= current_member.id %>
       </span>
     </li>
     <li class="flex flex-row items-center">
-      <%= icon "identification", class: "h-6 w-6" %>
+      <%= icon "identification", class: "size-6" %>
       <span class="ml-4">
         <%= current_member.name %>
       </span>
     </li>
     <li class="flex flex-row">
-      <%= icon "map", class: "h-6 w-6" %>
+      <%= icon "map", class: "size-6" %>
       <span class="ml-4">
         <%= display_address(current_member) %>
       </span>
     </li>
     <li class="flex flex-row">
-      <%= icon "envelope", class: "h-6 w-6" %>
+      <%= icon "envelope", class: "size-6" %>
       <span class="ml-4">
         <%= display_emails(current_member) %>
         <% if newsletter_unsubscribed? %>
@@ -31,7 +31,7 @@
       </span>
     </li>
     <li class="flex flex-row">
-      <%= icon "phone", class: "h-6 w-6" %>
+      <%= icon "phone", class: "size-6" %>
       <% if current_member.phones_array.any? %>
         <span class="ml-4">
           <%= display_phones(current_member) %>
@@ -44,7 +44,7 @@
     </li>
     <% if Current.org.languages.many? %>
       <li class="flex flex-row">
-        <%= icon "language", class: "h-6 w-6" %>
+        <%= icon "language", class: "size-6" %>
         <span class="ml-4">
           <%= t("languages.#{current_member.language}") %>
         </span>
@@ -52,7 +52,7 @@
     <% end %>
     <% if current_member.use_shop_depot? %>
       <li class="pt-6 flex flex-row">
-        <%= icon "shopping-basket", class: "h-6 w-6" %>
+        <%= icon "shopping-basket", class: "size-6" %>
         <span class="ml-4">
           <% depot = current_member.shop_depot %>
           <% if depot.full_address %>

@@ -33,7 +33,7 @@ module ActivitiesHelper
         content_tag(:span, class: "flex-none ml-2 flex flex-row items-center flex-nowrap text-gray-400 dark:text-gray-800 #{'font-semibold' if activity.full?}", title: t("activities.participant_count", count: activity.participants_count)) {
           content_tag(:span, class: "mr-1") {
             "#{activity.participants_count}/#{activity.participants_limit || '∞'}"
-          }.concat(icon("users", class: "ms-1 h-5 w-5"))
+          }.concat(icon("users", class: "ms-1 size-5"))
         })
       [
         text,

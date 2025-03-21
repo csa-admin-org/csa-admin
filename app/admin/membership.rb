@@ -139,7 +139,7 @@ ActiveAdmin.register Membership do
                 form: { class: "flex justify-center", data: { controller: "disable", disable_with_value: t(".invoicing") } },
                 data: { confirm:  t(".future_billing#{"_with_annual_fee" if Current.org.annual_fee?}_confirm") },
                 class: "action-item-button secondary small" do
-                  icon("banknotes", class: "h-4 w-4 me-1.5") + t("active_admin.resource.show.future_billing")
+                  icon("banknotes", class: "size-4 me-1.5") + t("active_admin.resource.show.future_billing")
                 end
             end
           end
@@ -225,11 +225,11 @@ ActiveAdmin.register Membership do
           if renewal.actionable?
             if renewal.renewing?
               div class: "flex justify-center items-center italic" do
-                icon("arrow-path", class: "h-4 w-4 mr-2") + t(".renewing")
+                icon("arrow-path", class: "size-4 mr-2") + t(".renewing")
               end
             elsif renewal.opening?
               div class: "flex justify-center items-center italic" do
-                icon("paper-airplane", class: "h-4 w-4 mr-2") + t(".opening")
+                icon("paper-airplane", class: "size-4 mr-2") + t(".opening")
               end
             else
               div class: "space-y-2" do
@@ -241,7 +241,7 @@ ActiveAdmin.register Membership do
                         params: { year: renewal.fy_year },
                         form: { class: "flex justify-center", data: { controller: "disable", disable_with_value: t(".opening") } },
                         class: "action-item-button secondary small", data: { confirm: t("active_admin.batch_actions.default_confirmation") } do
-                          icon("paper-airplane", class: "h-4 w-4 mr-2") + t(".open_renewal_all_action", count: openable_count)
+                          icon("paper-airplane", class: "size-4 mr-2") + t(".open_renewal_all_action", count: openable_count)
                         end
                     end
                   end
@@ -252,7 +252,7 @@ ActiveAdmin.register Membership do
                       params: { year: renewal.fy_year },
                       form: { class: "flex justify-center", data: { controller: "disable", disable_with_value: t(".renewing") } },
                       class: "action-item-button secondary small", data: { confirm: t("active_admin.batch_actions.default_confirmation") } do
-                        icon("arrow-path", class: "h-4 w-4 mr-2") + t(".renew_all_action", count: renewal.renewable.count)
+                        icon("arrow-path", class: "size-4 mr-2") + t(".renew_all_action", count: renewal.renewable.count)
                       end
                   end
                 end
@@ -376,7 +376,7 @@ ActiveAdmin.register Membership do
               if authorized?(:update, b)
                 div class: "data-table-resource-actions" do
                   link_to edit_basket_path(b), title: t(".edit") do
-                    icon "pencil-square", class: "h-5 w-5"
+                    icon "pencil-square", class: "size-5"
                   end
                 end
               end
@@ -449,7 +449,7 @@ ActiveAdmin.register Membership do
                         },
                         class: "action-item-button small secondary",
                         data: { confirm: t(".confirm") } do
-                          icon("arrow-uturn-left", class: "h-4 w-4 me-1.5") + t(".mark_renewal_as_pending")
+                          icon("arrow-uturn-left", class: "size-4 me-1.5") + t(".mark_renewal_as_pending")
                         end
                     end
                   end
@@ -473,7 +473,7 @@ ActiveAdmin.register Membership do
                         data: { confirm: t(".confirm") },
                         class: "action-item-button small secondary",
                         disabled: !m.can_renew? do
-                          icon("arrow-path", class: "h-4 w-4 me-1.5") + t(".renew")
+                          icon("arrow-path", class: "size-4 me-1.5") + t(".renew")
                         end
                     end
                   end
@@ -485,7 +485,7 @@ ActiveAdmin.register Membership do
                         },
                         data: { confirm: t(".confirm") },
                         class: "action-item-button small secondary" do
-                          icon("x-circle", class: "h-4 w-4 me-1.5") + t(".cancel_renewal")
+                          icon("x-circle", class: "size-4 me-1.5") + t(".cancel_renewal")
                         end
                     end
                   end
@@ -501,7 +501,7 @@ ActiveAdmin.register Membership do
                           },
                           data: { confirm: t(".confirm") },
                           class: "action-item-button small secondary" do
-                            icon("paper-airplane", class: "h-4 w-4 me-1.5") + t(".open_renewal")
+                            icon("paper-airplane", class: "size-4 me-1.5") + t(".open_renewal")
                           end
                       end
                     end
@@ -514,7 +514,7 @@ ActiveAdmin.register Membership do
                           data: { confirm: t(".confirm") },
                           class: "action-item-button small secondary",
                           disabled: !m.can_renew? do
-                            icon("arrow-path", class: "h-4 w-4 me-1.5") + t(".renew")
+                            icon("arrow-path", class: "size-4 me-1.5") + t(".renew")
                           end
                       end
                     end
@@ -527,7 +527,7 @@ ActiveAdmin.register Membership do
                         },
                         data: { confirm: t(".confirm") },
                         class: "action-item-button small secondary" do
-                          icon("x-circle", class: "h-4 w-4 me-1.5") + t(".cancel_renewal")
+                          icon("x-circle", class: "size-4 me-1.5") + t(".cancel_renewal")
                         end
                     end
                   end
@@ -648,7 +648,7 @@ ActiveAdmin.register Membership do
                   },
                   data: { confirm:  t(".future_billing#{"_with_annual_fee" if resource.member.annual_fee&.positive?}_confirm") },
                   class: "action-item-button small secondary" do
-                    icon("banknotes", class: "h-4 w-4 me-1.5") + t(".future_billing")
+                    icon("banknotes", class: "size-4 me-1.5") + t(".future_billing")
                   end
               end
             end
@@ -686,7 +686,7 @@ ActiveAdmin.register Membership do
                   form: { class: "inline" },
                   data: { confirm: t_activity(".clear_activity_participations_demanded_confirm") },
                   class: "action-item-button small secondary" do
-                    icon("x-circle", class: "h-4 w-4 me-1.5") + t_activity(".clear_activity_participations_demanded")
+                    icon("x-circle", class: "size-4 me-1.5") + t_activity(".clear_activity_participations_demanded")
                   end
               end
             end

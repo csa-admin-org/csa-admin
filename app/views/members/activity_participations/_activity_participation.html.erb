@@ -14,11 +14,11 @@
   <span class="h-8 md:ml-5 space-x-2 flex flex-row justify-start md:justify-end">
     <span class="ms-1 flex flex-row justify-center items-center" title="<%= t("activities.participant_count", count: activity_participation.participants_count) %>">
       <span><%= activity_participation.participants_count %></span>
-      <%= icon "users", class: "ms-1 h-5 w-5" %>
+      <%= icon "users", class: "ms-1 size-5" %>
     </span>
     <% if activity_participation.carpooling? %>
       <span class="ms-1 flex justify-center items-center" title="<%= t(".carpooling") %>: <%= activity_participation.carpooling_phone.phony_formatted %>">
-        <%= icon "car", class: "h-6 w-6" %>
+        <%= icon "car", class: "size-6" %>
       </span>
     <% end %>
     <% if activity_participation.note? %>

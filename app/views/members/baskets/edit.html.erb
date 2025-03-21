@@ -24,7 +24,7 @@
     <% end %>
     <% if Current.org.membership_depot_update_allowed? %>
       <div class="mt-4 1space-y-8">
-        <%= f.input :depot_id, as: :radio_buttons, collection: depots_collection(basket: @basket, delivery_cycle: @basket.membership.delivery_cycle, only_price_per_delivery: true), label: Depot.model_name.human, required: true, input_html: { class: "mr-4 flex-none h-6 w-6  focus:outline-hidden focus:ring-green-500 focus:border-green-500 cursor-pointer" }, item_label_class: "border-gray-200 dark:border-gray-800 border rounded-sm px-4 py-2 flex flex-row flex-nowrap items-center cursor-pointer", wrapper_class: "flex flex-col space-y-2", label_html: { class: "text-sm font-medium text-gray-700 dark:text-gray-300" } %>
+        <%= f.input :depot_id, as: :radio_buttons, collection: depots_collection(basket: @basket, delivery_cycle: @basket.membership.delivery_cycle, only_price_per_delivery: true), label: Depot.model_name.human, required: true, input_html: { class: "mr-4 flex-none size-6  focus:outline-hidden focus:ring-green-500 focus:border-green-500 cursor-pointer" }, item_label_class: "border-gray-200 dark:border-gray-800 border rounded-sm px-4 py-2 flex flex-row flex-nowrap items-center cursor-pointer", wrapper_class: "flex flex-col space-y-2", label_html: { class: "text-sm font-medium text-gray-700 dark:text-gray-300" } %>
       </div>
     <% end %>
     <div class="flex flex-col md:flex-row justify-end mt-16 md:space-x-4">

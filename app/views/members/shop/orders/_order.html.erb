@@ -80,7 +80,7 @@
       </span>
     </div>
     <div class="w-24 mt-2.5 text-sm text-gray-400 dark:text-gray-600 flex flex-row items-center justify-end" title="<%= t(".order_total_weight") %>">
-      <%= icon "scale", class: "w-4 h-4" %>
+      <%= icon "scale", class: "size-4" %>
       <span class="ml-1"><%= kg(f.object.weight_in_kg) %></span>
     </div>
   </div>
@@ -104,7 +104,7 @@
 <div class="mt-12 flex flex-row justify-center md:justify-end">
   <%= button_to members_shop_order_path(@order), method: :delete, form: { data: { turbo: false, controller: "confirmation", confirmation_message_value: t(".destroy_cart_confirm"), action: "submit->confirmation#confirm" } }, class: "focus:outline-hidden focus:ring-green-500 focus:border-green-500 focus:z-10 text-base cursor-pointer" do %>
     <div class="flex flex-row items-center">
-      <%= icon "trash", class: "w-4 h-4" %>
+      <%= icon "trash", class: "size-4" %>
       <span class="ml-1 text-sm font-normal"><%= t(".destroy_cart") %></span>
     </div>
   <% end %>

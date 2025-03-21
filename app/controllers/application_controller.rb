@@ -46,6 +46,7 @@ class ApplicationController < ActionController::Base
   def current_admin
     auto_sign_in_admin_in_dev || current_session&.admin
   end
+  alias_method :current_user, :current_admin
 
   def auto_sign_in_admin_in_dev
     return unless Rails.env.development?

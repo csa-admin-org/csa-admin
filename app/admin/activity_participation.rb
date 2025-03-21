@@ -145,7 +145,7 @@ ActiveAdmin.register ActivityParticipation do
                   form: { class: "flex justify-center", data: { controller: "disable", disable_with_value: t(".invoicing") } },
                   data: {  confirm: t(".invoice_all_confirm", year: fy.to_s, count: missing_count, activity_price: cur(Current.org.activity_price)) },
                   class: "action-item-button small secondary" do
-                    icon("banknotes", class: "h-4 w-4 mr-2") + t(".invoice_all")
+                    icon("banknotes", class: "size-4 mr-2") + t(".invoice_all")
                   end
               end
               if authorized?(:update, Membership) && fy.past?
@@ -155,7 +155,7 @@ ActiveAdmin.register ActivityParticipation do
                     form: { class: "flex justify-center", data: { controller: "disable", disable_with_value: "..." } },
                     data: { confirm: t_activity("active_admin.resource.show.clear_activity_participations_demanded_confirm", year: fy.to_s, count: missing_count) },
                     class: "action-item-button small borderless" do
-                      icon("x-circle", class: "h-6 w-6")
+                      icon("x-circle", class: "size-6")
                     end
                   end
               end
@@ -179,7 +179,7 @@ ActiveAdmin.register ActivityParticipation do
       para t(".activity_participation_ical_text_html")
       div class: "mt-4 text-center" do
         link_to activity_participations_calendar_url(auth_token: Current.org.icalendar_auth_token).gsub(/^https/, "webcal"), class: "action-item-button small" do
-          icon("calendar-days", class: "h-4 w-4 me-2") + t(".subscribe_ical_link")
+          icon("calendar-days", class: "size-4 me-2") + t(".subscribe_ical_link")
         end
       end
     end

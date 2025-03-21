@@ -155,7 +155,7 @@
         <li class="mt-12">
           <%= link_to members_account_path, class: "py-2 px-8 flex items-center" do %>
             <span class="w-8">
-              <%= icon "user-circle", class: "h-8 w-8" %>
+              <%= icon "user-circle", class: "size-8" %>
             </span>
             <span class="ml-2"><%= current_member.name_was %></span>
           <% end %>
@@ -163,7 +163,7 @@
         <li class="text-gray-300 dark:text-gray-700 hover:text-green-500">
           <%= button_to members_logout_path, method: :delete, class: "px-8 flex items-center" do %>
             <span class="w-8">
-              <%= icon "arrow-right-start-on-rectangle", class: "mx-1 h-6 w-6" %>
+              <%= icon "arrow-right-start-on-rectangle", class: "mx-1 size-6" %>
             </span>
             <span class="ml-2"><%= t(".logout") %></span>
           <% end %>
