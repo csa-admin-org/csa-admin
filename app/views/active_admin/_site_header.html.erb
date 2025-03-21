@@ -28,7 +28,7 @@
               <div class="md:hidden flex items-center w-full mb-1 py-2 px-2 font-semibold text-white/80 dark:text-black/80">
                 <%= item.label(self) %>
               </div>
-              <ul class="mb-3 ml-4 pl-2.5 space-y-1 md:hidden bg-green-600 border-l-2 border-white/40">
+              <ul class="mb-3 ml-4 pl-2.5 space-y-1 md:hidden bg-green-600 border-l-2 border-white/40 dark:border-black/40">
                 <% children.each do |j| %>
                   <li data-item-id="<%= j.id %>">
                     <%= link_to j.label(self), j.url(self), j.html_options.merge(class: "font-semibold text-white dark:text-black hover:text-white dark:hover:text-black hover:bg-green-700 block rounded-md py-1 px-2 no-underline #{(current_menu_item?(j) ? "bg-green-700 selected" : "")}") %>
