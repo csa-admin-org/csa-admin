@@ -32,30 +32,30 @@ _:
       _it: Manuale
     membership_amount_description:
       x1:
-        _en: Annual billing
-        _fr: Facturation annuelle
-        _de: Jährliche Rechnungsstellung
-        _it: Fatturazione annuale
+        _en: Annual amount
+        _fr: Montant annuel
+        _de: Jahresbetrag
+        _it: Importo annuale
       x12:
-        _en: 'Monthly billing #%{number}'
-        _fr: 'Facturation mensuelle #%{number}'
-        _de: 'Monatliche Rechnungsstellung #%{number}'
-        _it: 'Fatturazione mensile #%{number}'
+        _en: 'Monthly amount #%{number}'
+        _fr: 'Montant mensuel #%{number}'
+        _de: 'Monatlicher Betrag #%{number}'
+        _it: 'Importo mensile #%{number}'
       x2:
-        _en: 'Semi-annual billing #%{number}'
-        _fr: 'Facturation semestrielle #%{number}'
-        _de: 'Halbjährliche Rechnungsstellung #%{number}'
-        _it: 'Fatturazione semestrale #%{number}'
+        _en: 'Semi-annual amount #%{number}'
+        _fr: 'Montant semestriel #%{number}'
+        _de: 'Halbjährlicher Betrag #%{number}'
+        _it: 'Importo semestrale #%{number}'
       x3:
-        _en: 'Four-monthly billing #%{number}'
-        _fr: 'Facturation quadrimestrielle #%{number}'
-        _de: 'Dritteljährliche Rechnungsstellung #%{number}'
-        _it: 'Fatturazione quadrimestrale #%{number}'
+        _en: 'Four-monthly amount #%{number}'
+        _fr: 'Montant quadrimestriel #%{number}'
+        _de: 'Vierteljährlicher Betrag #%{number}'
+        _it: 'Importo quadrimestrale #%{number}'
       x4:
-        _en: 'Quarterly billing #%{number}'
-        _fr: 'Facturation trimestrielle #%{number}'
-        _de: 'Quartalweise Rechnungsstellung #%{number}'
-        _it: 'Fatturazione trimestrale #%{number}'
+        _en: 'Quarterly amount #%{number}'
+        _fr: 'Montant trimestriel #%{number}'
+        _de: 'Vierteljährlicher Betrag #%{number}'
+        _it: 'Importo trimestrale #%{number}'
     memberships_total:
       _en: Total memberships
       _fr: Abonnements Total
