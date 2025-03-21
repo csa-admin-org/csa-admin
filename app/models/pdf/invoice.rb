@@ -50,13 +50,13 @@ module PDF
     end
 
     def info
-      super.merge(Title: "#{::Invoice.model_name.human} #{invoice.id}")
+      super.merge(Title: "#{invoice.document_name} #{invoice.id}")
     end
 
     def header(page:, total_pages:)
       image org_logo_io(size: 110), at: [ 15, bounds.height - 20 ], width: 110
-      bounding_box [ 155, bounds.height - 55 ], width: 200, height: 2.6.cm do
-        text "#{::Invoice.model_name.human} N° #{invoice.id}", style: :bold, size: 16
+      bounding_box [ 155, bounds.height - 1.5.cm ], width: 6.5.cm, height: 3.cm do
+        text "#{invoice.document_name} N°\u00A0#{invoice.id}", style: :bold, size: 16, leading: 3
         move_down 5
         text I18n.l(invoice.date)
         case invoice.entity_type
@@ -65,7 +65,7 @@ module PDF
           text membership_period(entity, format: :number), size: 10
         when "Shop::Order"
           move_down 12
-          text "#{::Shop::Order.model_name.human} N° #{entity.id}"
+          text "#{::Shop::Order.model_name.human} N°\u00A0#{entity.id}"
           move_down 5
           text "#{::Delivery.model_name.human}: #{I18n.l(entity.delivery.date)}"
         end
@@ -88,9 +88,9 @@ module PDF
         "#{member.zip} #{member.city}"
       ]
 
-      bounding_box [ 11.5.cm, bounds.height - 55 ], width: 8.cm, height: 2.5.cm do
+      bounding_box [ 12.15.cm, bounds.height - 1.5.cm ], width: 7.8.cm, height: 3.cm do
         parts.each do |part|
-          text part, valign: :top, leading: 2
+          text part, valign: :top, leading: 2, align: :right
           move_down 2
         end
         if invoice.share_type? && invoice.member.shares_info?
@@ -519,7 +519,7 @@ module PDF
           move_down border
 
           qr_text_title t("payment.further_information")
-          qr_text "#{::Invoice.model_name.human} #{invoice.id}"
+          qr_text "#{invoice.document_name} #{invoice.id}"
           move_down border
 
           qr_text_title t("payment.payable_by")

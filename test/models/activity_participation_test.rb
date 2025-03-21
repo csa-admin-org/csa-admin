@@ -28,8 +28,7 @@ class ActivityParticipationTest < ActiveSupport::TestCase
       member: members(:martha),
       activity: nil,
       activity_ids: [ activity1.id, activity2.id ],
-      participants_count: 2
-    )
+      participants_count: 2)
     assert_equal [ "must be less than or equal to 1" ], participation.errors[:participants_count]
   end
 
@@ -47,8 +46,7 @@ class ActivityParticipationTest < ActiveSupport::TestCase
     participation = ActivityParticipation.build(
       activity: activities(:harvest),
       participants_count: 1,
-      carpooling: "1"
-    )
+      carpooling: "1")
     participation.validate
 
     assert_not participation.errors[:carpooling_phone].empty?
@@ -61,8 +59,7 @@ class ActivityParticipationTest < ActiveSupport::TestCase
       activity: activities(:harvest),
       participants_count: 1,
       carpooling_phone: "foo",
-      carpooling: "1"
-    )
+      carpooling: "1")
     participation.validate
 
     assert_not participation.errors[:carpooling_phone].empty?

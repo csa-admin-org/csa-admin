@@ -5,7 +5,7 @@
 <% when Invoice %>
   <span class="order-1 md:order-2 w-full flex grow justify-between items-center">
     <span>
-      <%= t(".invoice_info_html", id: object.id, type: display_entity(object, link: false)) %>
+      <%= t(".invoice_info_html", document_name: object.document_name, id: object.id, type: display_entity(object, link: false)) %>
     </span>
     <span>
       <%= link_to rails_blob_path(object.pdf_file, disposition: "attachment") do %>
@@ -19,8 +19,8 @@
 <% when Payment %>
   <span class="order-1 w-full grow">
     <% if object.amount.positive? %>
-      <% if object.invoice_id %>
-        <%= t(".payment_info_html", invoice_id: object.invoice_id) %>
+      <% if object.invoice %>
+        <%= t(".payment_info_html", invoice_id: object.invoice_id, invoice_type: display_entity(object.invoice, link: false)) %>
       <% else %>
         <%= t(".manual_payment_info") %>
       <% end %>
