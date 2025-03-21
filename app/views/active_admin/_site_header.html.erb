@@ -7,7 +7,7 @@
       </button>
     </div>
     <nav class="grow hidden w-full h-screen md:h-auto overflow-y-auto md:block md:w-auto order-3 md:order-2" id="navbar-dropdown">
-      <ul class="flex flex-col md:items-center text-sm font-medium mt-4 pb-16 md:mt-0 md:pb-0 space-y-1 md:space-y-0 md:space-x-2 md:flex-row">
+      <ul class="flex flex-col md:items-center text-sm font-medium mt-4 pb-32 md:mt-0 md:pb-0 space-y-1 md:space-y-0 md:space-x-2 md:flex-row">
         <% current_menu.items(self).each do |item| %>
           <% children = item.items(self).presence %>
           <li class="group text-base md:text-sm" data-item-id="<%= item.id %>">
