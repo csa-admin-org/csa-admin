@@ -91,6 +91,38 @@ class InvoiceMailerTest < ActionMailer::TestCase
     assert_equal "image/png", attachment.content_type
   end
 
+  test "created_email SEPA membership (with invoice attachments)" do
+    travel_to "2024-01-01"
+    org(
+      languages: [ "de" ],
+      country_code: "DE",
+      currency_code: "EUR",
+      iban: "DE87200500001234567890",
+      sepa_creditor_identifier: "DE98ZZZ09999999999")
+    template = mail_templates(:invoice_created)
+    member = members(:jane)
+    member.update!(
+      language: "de",
+      iban: "DE21500500009876543210",
+      sepa_mandate_id: "123456",
+      sepa_mandate_signed_on: "2023-12-24")
+    invoice = create_invoice(
+      member: member,
+      entity: memberships(:jane),
+      memberships_amount_description: "Jährliche Rechnungsstellung")
+
+    I18n.with_locale(:de) do
+      mail = InvoiceMailer.with(
+        template: template,
+        invoice: invoice,
+      ).created_email
+
+      invoice_pdf = mail.attachments.first
+      assert_equal "mitgliedsbestaetigung-acme-#{invoice.id}.pdf", invoice_pdf.filename
+      assert_equal "application/pdf", invoice_pdf.content_type
+    end
+  end
+
   test "created_email (Shop::Order)" do
     travel_to "2024-01-01"
     template = mail_templates(:invoice_created)

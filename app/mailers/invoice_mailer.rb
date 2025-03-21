@@ -41,12 +41,9 @@ class InvoiceMailer < ApplicationMailer
 
   def attach_invoice_pdf!
     invoice = params[:invoice]
-    filename = [
-      Invoice.model_name.human.downcase.parameterize,
-      Tenant.current,
-      invoice.id
-    ].join("-") + ".pdf"
-    attachments[filename] = {
+    return unless invoice.is_a?(Invoice)
+
+    attachments[invoice.pdf_filename] = {
       mime_type: "application/pdf",
       content: invoice.pdf_file.download
     }

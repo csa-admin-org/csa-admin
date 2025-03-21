@@ -149,7 +149,15 @@ class Invoice < ApplicationRecord
   end
 
   def display_name
-    "#{model_name.human} ##{id} (#{I18n.l date, format: :short})"
+    "#{document_name} ##{id} (#{I18n.l date, format: :short})"
+  end
+
+  def document_name
+    if membership_type? && sepa?
+      I18n.t("invoices.document_name.sepa_membership")
+    else
+      model_name.human
+    end
   end
 
   def process!(send_email: false)
@@ -235,7 +243,7 @@ class Invoice < ApplicationRecord
       end
       pdf_file.attach(
         io: File.open(file.path),
-        filename: "invoice-#{id}.pdf",
+        filename: pdf_filename,
         content_type: "application/pdf")
     end
     touch(:stamped_at)
@@ -481,9 +489,17 @@ class Invoice < ApplicationRecord
       invoice_pdf = PDF::Invoice.new(self)
       pdf_file.attach(
         io: StringIO.new(invoice_pdf.render),
-        filename: "invoice-#{id}.pdf",
+        filename: pdf_filename,
         content_type: "application/pdf")
     end
+  end
+
+  def pdf_filename
+    [
+      document_name.downcase.parameterize,
+      Tenant.current,
+      id
+    ].join("-") + ".pdf"
   end
 
   private

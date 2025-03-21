@@ -47,8 +47,31 @@ class Members::BillingTest < ApplicationSystemTestCase
 
     assert_text "History"
     assert_text "01.05.24 Payment without reference -CHF 42.00"
-    assert_text "02.04.24 Payment of invoice #901871612 -CHF 10.00"
+    assert_text "02.04.24 Payment of #901871612 (Other) -CHF 10.00"
     assert_text "01.04.24 Invoice ##{invoice.id} (Other) CHF 10.00"
     assert_text "Payments with reference numbers are processed automatically overnight. Please contact us if one of your payments does not appear."
+  end
+
+  test "list invoices for membership SEPA" do
+    enable_invoice_pdf
+    travel_to "2024-05-01"
+    org(
+      languages: [ "de" ],
+      country_code: "DE",
+      sepa_creditor_identifier: "DE98ZZZ09999999999")
+    member = create_member(
+      language: "de",
+      name: "John Doe",
+      country_code: "DE",
+      iban: "DE89370400440532013000",
+      sepa_mandate_id: "123",
+      sepa_mandate_signed_on: Date.parse("2024-01-01"))
+    invoice = create_membership_invoice(member: member)
+
+    login(member)
+    visit "/billing"
+
+    assert_text "Offene Rechnungen"
+    assert_text "01.05.24 Mitgliedsbestätigung ##{invoice.id} (Abo. 2024)"
   end
 end

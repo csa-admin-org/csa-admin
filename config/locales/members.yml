@@ -411,20 +411,20 @@ _:
           _it: Mostra tutto
       line:
         invoice_info_html:
-          _en: Invoice <em>#%{id}</em> (%{type})
-          _fr: Facture <em>#%{id}</em> (%{type})
-          _de: Rechnung <em>#%{id}</em> (%{type})
-          _it: Fattura <em>#%{id}</em> (%{type})
+          _en: "%{document_name} <em>#%{id}</em> (%{type})"
+          _fr: "%{document_name} <em>#%{id}</em> (%{type})"
+          _de: "%{document_name} <em>#%{id}</em> (%{type})"
+          _it: "%{document_name} <em>#%{id}</em> (%{type})"
         manual_payment_info:
           _en: Payment without reference
           _fr: Paiement sans référence
           _de: Einzahlung ohne Referenz
           _it: Pagamento senza numero di riferimento
         payment_info_html:
-          _en: Payment of invoice <em>#%{invoice_id}</em>
-          _fr: Paiement de la facture <em>#%{invoice_id}</em>
-          _de: Einzahlung der Rechnung <em>#%{invoice_id}</em>
-          _it: Pagamento della fattura <em>#%{invoice_id}</em>
+          _en: Payment of <em>#%{invoice_id}</em> (%{invoice_type})
+          _fr: Paiement de <em>#%{invoice_id}</em> (%{invoice_type})
+          _de: Einzahlung von <em>#%{invoice_id}</em> (%{invoice_type})
+          _it: Pagamento della <em>#%{invoice_id}</em> (%{invoice_type})
         refund_info:
           _en: Refund
           _fr: Remboursement
