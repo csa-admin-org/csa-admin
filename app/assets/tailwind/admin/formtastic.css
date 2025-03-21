@@ -159,7 +159,7 @@
     }
 
     li.features-list input {
-      @apply h-6 w-6;
+      @apply size-6;
     }
 
     input,

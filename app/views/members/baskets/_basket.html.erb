@@ -1,13 +1,13 @@
 <div id="<%= dom_id(basket) %>" class="relative p-2 rounded-sm hover:bg-gray-100 dark:hover:bg-gray-900 <%= "text-gray-300 dark:text-gray-700" if basket.absent? %> <%= "bg-gray-50 dark:bg-gray-950" if basket == @next_basket %>">
   <% if basket.can_member_update? %>
     <%= link_to edit_members_basket_path(basket), title: t(".edit"), class: "absolute top-0 right-0 p-2" do %>
-      <%= icon "pencil-square", class: "h-5 w-5 text-gray-400 dark:text-gray-600 hover:text-green-500 dark:hover:text-green-500" %>
+      <%= icon "pencil-square", class: "size-5 text-gray-400 dark:text-gray-600 hover:text-green-500 dark:hover:text-green-500" %>
     <% end %>
   <% end %>
   <ul class="space-y-1.5">
     <li class="flex flex-row items-center">
       <span class="w-6">
-        <%= icon "calendar-days", class: "h-6 w-6 text-gray-300 dark:text-gray-700" %>
+        <%= icon "calendar-days", class: "size-6 text-gray-300 dark:text-gray-700" %>
       </span>
       <span class="ml-2">
         <%= l(basket.delivery.date, format: :medium).titleize %>
@@ -15,7 +15,7 @@
     </li>
     <li class="flex flex-row items-center">
       <span class="w-6">
-        <%= icon "shopping-bag", class: "h-6 w-6 text-gray-300 dark:text-gray-700" %>
+        <%= icon "shopping-bag", class: "size-6 text-gray-300 dark:text-gray-700" %>
       </span>
       <span class="ml-2">
         <p>
@@ -38,7 +38,7 @@
     </li>
     <li class="flex flex-row items-center">
       <span class="w-6">
-        <%= icon "map", class: "h-6 w-6 text-gray-300 dark:text-gray-700" %>
+        <%= icon "map", class: "size-6 text-gray-300 dark:text-gray-700" %>
       </span>
       <span class="ml-2">
         <% depot = basket.depot %>

@@ -1,9 +1,7 @@
 # frozen_string_literal: true
 
 ActiveAdmin.register Organization do
-  menu priority: 100, label: -> {
-    icon "cog", title: t("active_admin.settings"), class: "w-6 h-6 md:w-5 md:h-5 my-0.5 min-w-6"
-  }
+  menu false
 
   actions :edit, :update
 
@@ -211,7 +209,7 @@ ActiveAdmin.register Organization do
 
           para class: "mt-4 flex justify-center" do
             a href: new_members_member_url(subdomain: Current.org.members_subdomain), class: "action-item-button light small" do
-              span icon("arrow-top-right-on-square", class: "h-5 w-5 me-1", title: t("active_admin.site_footer.handbook"))
+              span icon("arrow-top-right-on-square", class: "size-5 me-1", title: t("active_admin.site_footer.handbook"))
               span t(".registration_form")
             end.html_safe
           end

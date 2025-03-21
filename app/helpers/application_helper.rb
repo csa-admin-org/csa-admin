@@ -164,7 +164,7 @@ module ApplicationHelper
 
   def handbook_icon_link(*args)
     link_to handbook_page_path(*args), title: I18n.t("active_admin.site_footer.handbook") do
-      icon "book-open", class: "w-6 h-6"
+      icon "book-open", class: "size-6"
     end
   end
 end

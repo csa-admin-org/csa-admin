@@ -559,9 +559,9 @@ _:
           _it: Soggeto
         title:
           _en: Template
-          _fr: Template
+          _fr: Modèle
           _de: Vorlage
-          _it: Template
+          _it: Modello
       member:
         basket_complements:
           _en: Basket complements
@@ -2135,15 +2135,15 @@ _:
           _it: Articoli
       mail_template:
         one:
-          _en: Email template
-          _fr: Template Email
-          _de: E-Mail-Vorlage
-          _it: Template E-mail
+          _en: Automatic email
+          _fr: Email automatique
+          _de: Automatische E-Mail
+          _it: E-mail automatica
         other:
-          _en: Email templates
-          _fr: Templates Email
-          _de: E-Mail-Vorlagen
-          _it: Templates E-mail
+          _en: Automatic emails
+          _fr: Emails automatiques
+          _de: Automatische E-Mails
+          _it: Email automatiche
       member:
         one:
           _en: Member

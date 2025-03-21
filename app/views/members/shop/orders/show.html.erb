@@ -40,7 +40,7 @@
   <div class="mt-4 mb-6">
     <%= link_to rails_blob_path(@order.invoice.pdf_file, disposition: "attachment") do %>
       <div class="mx-auto w-max px-4 py-1 flex flex-row items-center text-gray-500 rounded-full border border-gray-300 hover:border-green-300 hover:text-green-500">
-        <%= icon "document-arrow-down", class: "w-5 h-5" %>
+        <%= icon "document-arrow-down", class: "size-5" %>
         <span class="ml-1"><%= t(".download_invoice_html", number: @order.invoice.id) %></span>
       </div>
     <% end %>

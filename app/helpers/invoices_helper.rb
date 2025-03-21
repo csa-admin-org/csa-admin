@@ -42,7 +42,7 @@ module InvoicesHelper
       if block
         block.call
       else
-        icon "file-pdf", class: "h-5 w-5"
+        icon "file-pdf", class: "size-5"
       end
     end
   end

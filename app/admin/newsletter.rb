@@ -1,9 +1,7 @@
 # frozen_string_literal: true
 
 ActiveAdmin.register Newsletter do
-  menu priority: 99, label: -> {
-    icon "envelope", title: Newsletter.model_name.human, class: "w-6 h-6 md:w-5 md:h-5 my-0.5 min-w-6"
-  }
+  menu parent: :email, priority: 1
 
   filter :id
   filter :subject_cont,
@@ -39,7 +37,7 @@ ActiveAdmin.register Newsletter do
     }, class: "text-right"
     actions do |newsletter|
       link_to new_newsletter_path(newsletter_id: newsletter.id), title: t(".duplicate") do
-        icon "document-duplicate", class: "w-5 h-5"
+        icon "document-duplicate", class: "size-5"
       end
     end
   end
@@ -155,7 +153,7 @@ ActiveAdmin.register Newsletter do
               if suppressed_emails.size > 10
                 div class: "mt-2 flex justify-center" do
                   link_to("#", title: t(".show_all"), class: "show_more", data: { action: "click->show-all#showAll" }) do
-                    icon "ellipsis-horizontal", class: "h-6 w-6"
+                    icon "ellipsis-horizontal", class: "size-6"
                   end
                 end
               end

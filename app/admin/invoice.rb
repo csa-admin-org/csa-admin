@@ -137,7 +137,7 @@ ActiveAdmin.register Invoice do
       para t(".sepa_pain_text_html", count: collection.count)
       div class: "mt-3 flex justify-center" do
         link_to sepa_pain_all_invoices_path(params.permit(:scope, q: {})), class: "action-item-button small secondary", title: Billing::SEPADirectDebit::SCHEMA do
-          icon("document-arrow-down", class: "h-4 w-4 mr-2") + t(".sepa_pain")
+          icon("document-arrow-down", class: "size-4 mr-2") + t(".sepa_pain")
         end
       end
     end
@@ -157,7 +157,7 @@ ActiveAdmin.register Invoice do
           button_to send_overdue_notices_invoices_path,
             form: { class: "flex justify-center", data: { controller: "disable", disable_with_value: t(".sending") } },
             class: "action-item-button secondary small" do
-              icon("paper-airplane", class: "h-4 w-4 mr-2") + t(".send_overdue_notices")
+              icon("paper-airplane", class: "size-4 mr-2") + t(".send_overdue_notices")
             end
         end
       end
@@ -265,7 +265,7 @@ ActiveAdmin.register Invoice do
             if invoice.open?
               div class: "mt-2 flex items-center justify-center gap-4" do
                 link_to sepa_pain_invoice_path(invoice), class: "action-item-button small secondary", title: Billing::SEPADirectDebit::SCHEMA do
-                  icon("document-arrow-down", class: "h-4 w-4 me-1.5") + t(".sepa_pain")
+                  icon("document-arrow-down", class: "size-4 me-1.5") + t(".sepa_pain")
                 end
               end
             end
@@ -296,7 +296,7 @@ ActiveAdmin.register Invoice do
 
   action_item :pdf, only: :show, if: -> { !resource.processing? } do
     link_to_invoice_pdf(resource, class: "action-item-button") do
-      icon "file-pdf", class: "h-5 w-5"
+      icon "file-pdf", class: "size-5"
     end
   end
 

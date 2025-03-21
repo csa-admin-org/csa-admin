@@ -22,7 +22,7 @@ class MailTemplatesTest < ApplicationSystemTestCase
     fill_in "Content", with: "<p>Basket: {{ membership.basket_size.name }}</p>"
 
     assert_difference "Audit.count", 1 do
-      click_button "Update Email template"
+      click_button "Update Automatic email"
     end
 
     assert_selector "h2[aria-label='Page Title']", text: "Member activated"

@@ -20,7 +20,7 @@ ActiveAdmin.register Newsletter::Template do
     }, class: "text-right"
     actions do |template|
       link_to(new_newsletter_template_path(template_id: template.id), title: t(".duplicate")) do
-        icon "document-duplicate", class: "w-5 h-5"
+        icon "document-duplicate", class: "size-5"
       end
     end
   end

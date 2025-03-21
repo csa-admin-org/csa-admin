@@ -9,7 +9,7 @@ module TooltipHelper
       data: { "tooltip-target" => tooltip_id },
       onclick: "event.stopPropagation()"
     ) {
-      icon icon_name, class: "h-5 w-5"
+      icon icon_name, class: "size-5"
     } +
     content_tag(:div,
       id: tooltip_id,

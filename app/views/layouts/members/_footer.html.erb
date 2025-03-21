@@ -4,7 +4,7 @@
       <% if current_member && Current.org.member_information_text? %>
         <li class="mx-auto px-4 md:mx-0 md:px-0">
           <%= link_to members_info_path, class: "flex items-center hover:text-green-500 py-1 px-4 md:px-0" do %>
-            <%= icon "newspaper", class: "h-6 w-6" %>
+            <%= icon "newspaper", class: "size-6" %>
             <span class="ml-2"><%= member_information_title %></span>
           <% end %>
         </li>
@@ -12,21 +12,21 @@
       <% if current_member %>
         <li class="mx-auto px-4 md:mx-0 md:px-0 mb-4">
           <%= link_to calendar_webcal_url, class: "flex items-center hover:text-green-500 py-1 px-4 md:px-0", title: t(".calendar_feed") do %>
-            <%= icon "calendar-days", class: "h-6 w-6" %>
+            <%= icon "calendar-days", class: "size-6" %>
             <span class="ml-2"><%= t(".calendar") %></span>
           <% end %>
         </li>
       <% end %>
       <li class="mx-auto px-4 <%= "md:mx-0 md:px-0" if current_member %>">
         <%= mail_to Current.org.email, class: "flex items-center hover:text-green-500 py-1 px-4 md:px-0" do %>
-          <%= icon "envelope", class: "h-6 w-6" %>
+          <%= icon "envelope", class: "size-6" %>
           <span class="ml-2"><%= t(".contact") %></span>
         <% end %>
       </li>
       <% if Current.org.phone? %>
         <li class="mx-auto px-4 <%= "md:mx-0 md:px-0" if current_member %>">
           <%= link_to "tel:#{Current.org.phone.phony_formatted(spaces: '', format: :international)}", class: "flex items-center hover:text-green-500 py-1 px-4 md:px-0" do %>
-            <%= icon "phone", class: "h-6 w-6" %>
+            <%= icon "phone", class: "size-6" %>
             <span class="ml-2"><%= Current.org.phone %></span>
           <% end %>
         </li>
@@ -39,7 +39,7 @@
         <% Current.org.social_networks.each do |network| %>
           <li>
             <%= link_to network.url, class: "flex items-center py-1 fill-gray-400 dark:fill-gray-600 hover:fill-green-500 hover:dark:fill-green-500" do %>
-              <%= icon network.icon, class: "h-5 w-5", variant: "simpleicons" %>
+              <%= icon network.icon, class: "size-5", variant: "simpleicons" %>
             <% end %>
           </li>
         <% end %>
@@ -59,7 +59,7 @@
   <% end %>
   <div class="mx-auto <%= "md:mx-0.5" if current_member %> mb-4 mt-12 text-gray-300 dark:text-gray-700">
     <%= link_to csa_admin_website_url, class: "flex items-center text-sm hover:text-green-500" do %>
-      <%= icon "logo", class: "w-4 h-4 me-2 md:ms-0.5 md:me-3 fill-current", variant: "solid" %>
+      <%= icon "logo", class: "size-4 me-2 md:ms-0.5 md:me-3 fill-current", variant: "solid" %>
       <%= "CSA Admin" %>
     <% end %>
   </div>

@@ -397,6 +397,11 @@ _:
         _fr: Facturation
         _de: Rechnungsstellung
         _it: Fatturazione
+      email:
+        _en: Email
+        _fr: Email
+        _de: E-Mail
+        _it: E-mail
       other:
         _en: Other
         _fr: Autre

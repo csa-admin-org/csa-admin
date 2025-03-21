@@ -17,7 +17,7 @@ ActiveAdmin.register_page "Handbook" do
           li class: (handbook.name == params[:id] ? "" : "") do
             if handbook.name == params[:id]
               div class: "font-bold flex items-center justify-start" do
-                div { icon "chevron-down", class: "w-4 h-4 me-1" }
+                div { icon "chevron-down", class: "size-4 me-1" }
                 span handbook.title
               end
               ol class: "mt-2 mb-6 ml-5 list-inside list-none space-y-1" do
@@ -32,7 +32,7 @@ ActiveAdmin.register_page "Handbook" do
             else
               a href: handbook_page_path(handbook.name) do
                 div class: "flex items-center justify-start" do
-                  div { icon "chevron-right", class: "w-4 h-4 me-1" }
+                  div { icon "chevron-right", class: "size-4 me-1" }
                   span handbook.title
                 end
               end
