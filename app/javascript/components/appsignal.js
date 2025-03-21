@@ -1,4 +1,4 @@
-import Appsignal from "@appsignal/javascript";
+import Appsignal from "@appsignal/javascript"
 
 export const appsignal = new Appsignal({
   key: "da2af09a-a494-44ea-aa4c-90fb690ec0fa",
@@ -26,6 +26,6 @@ export const appsignal = new Appsignal({
     /TypeError: NetworkError when attempting to fetch resource/,
     /TypeError: Unable to fetch/,
     /TypeError: undefined is not an object/,
-    /UnhandledRejection: Non-Error promise rejection captured with value/,
-  ],
+    /UnhandledRejection: Non-Error promise rejection captured with value/
+  ]
 })

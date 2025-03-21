@@ -2,7 +2,7 @@ import { Controller } from "@hotwired/stimulus"
 import { show } from "components/utils"
 
 export default class extends Controller {
-  static targets = ["form", "warningMessage"];
+  static targets = ["form", "warningMessage"]
 
   connect() {
     this.localStorageKey = window.location
@@ -21,11 +21,12 @@ export default class extends Controller {
 
     for (var pair of form.entries()) {
       if (pair[0] != "authenticity_token") {
-        let editor = this.formTarget.querySelector(`[name='${pair[0]}'] ~ trix-editor`)
+        let editor = this.formTarget.querySelector(
+          `[name='${pair[0]}'] ~ trix-editor`
+        )
         if (editor && !editor.editor.getDocument().isEmpty()) {
           data.push([pair[0], JSON.stringify(editor.editor)])
-        }
-        else if (pair[1]) {
+        } else if (pair[1]) {
           data.push([pair[0], pair[1]])
         }
       }
@@ -54,12 +55,12 @@ export default class extends Controller {
             try {
               const parsedValue = JSON.parse(value)
               editor.editor.loadJSON(parsedValue)
-            } catch (e) { }
+            } catch (e) {}
           } else {
             input.value = value
             // Wait for other Stimulus controllers loading before triggering a change event.
             setTimeout(() => {
-              this.dispatch('change', { target: input, prefix: false })
+              this.dispatch("change", { target: input, prefix: false })
             }, 100)
           }
         }

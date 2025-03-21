@@ -8,7 +8,7 @@ export default class extends Controller {
 
   toggle(event) {
     const selectedId = event.target.value
-    this.elementTargets.forEach(el => {
+    this.elementTargets.forEach((el) => {
       if (el.dataset.elementId == selectedId) {
         show(el)
       } else {

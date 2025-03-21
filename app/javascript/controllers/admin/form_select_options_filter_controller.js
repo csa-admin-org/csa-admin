@@ -9,12 +9,15 @@ export default class extends Controller {
   }
 
   filter(event) {
-    this.selectTargets.forEach(select => {
+    this.selectTargets.forEach((select) => {
       select.removeAttribute("disabled")
       const selectedValue = select.value
       Array.from(select.options).forEach((option) => {
-        const values = option.getAttribute(this.attributeValue)?.split(',')
-        if (values && values.some((v) => v === event.currentTarget.value.toString())) {
+        const values = option.getAttribute(this.attributeValue)?.split(",")
+        if (
+          values &&
+          values.some((v) => v === event.currentTarget.value.toString())
+        ) {
           option.disabled = option.getAttribute("data-disabled") === "true"
           option.hidden = option.getAttribute("data-disabled") === "true"
         } else {

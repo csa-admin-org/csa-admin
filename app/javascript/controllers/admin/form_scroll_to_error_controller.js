@@ -2,12 +2,15 @@ import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
   observeForms() {
-    const forms = document.querySelectorAll('form.formtastic')
+    const forms = document.querySelectorAll("form.formtastic")
     forms.forEach((form) => {
       const observer = new MutationObserver((mutations) => {
         mutations.forEach((mutation) => {
-          if (mutation.type === 'attributes' && mutation.attributeName === 'aria-busy') {
-            if (!form.hasAttribute('aria-busy')) {
+          if (
+            mutation.type === "attributes" &&
+            mutation.attributeName === "aria-busy"
+          ) {
+            if (!form.hasAttribute("aria-busy")) {
               this.observeFormChanges(form)
               observer.disconnect() // Stop observing the aria-busy attribute
             }
@@ -23,7 +26,7 @@ export default class extends Controller {
     this.scroll(form)
     const observer = new MutationObserver((mutations) => {
       mutations.forEach((mutation) => {
-        if (mutation.type === 'childList' && mutation.addedNodes.length > 0) {
+        if (mutation.type === "childList" && mutation.addedNodes.length > 0) {
           this.scroll(form)
           observer.disconnect() // Stop observing once the content is updated
         }

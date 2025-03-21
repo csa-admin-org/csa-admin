@@ -6,7 +6,9 @@ export default class extends Controller {
   }
 
   connect() {
-    let toggleColorThemeButton = document.querySelector("button.dark-mode-toggle")
+    let toggleColorThemeButton = document.querySelector(
+      "button.dark-mode-toggle"
+    )
     toggleColorThemeButton.addEventListener("mouseup", () => {
       this._toggleColorScheme()
     })
@@ -22,37 +24,41 @@ export default class extends Controller {
   }
 
   _resize() {
-    const heights = this._iframeBodies().map(body => body.offsetHeight)
-    this.iframeTargets.forEach(i => i.style.height = Math.max(...heights) + 'px')
+    const heights = this._iframeBodies().map((body) => body.offsetHeight)
+    this.iframeTargets.forEach(
+      (i) => (i.style.height = Math.max(...heights) + "px")
+    )
   }
 
   _setColorScheme() {
-    if (localStorage.getItem('theme')) {
-      if (localStorage.getItem('theme') === 'light') {
-        this._iframeBodies().forEach(body => body.classList.remove('dark'))
+    if (localStorage.getItem("theme")) {
+      if (localStorage.getItem("theme") === "light") {
+        this._iframeBodies().forEach((body) => body.classList.remove("dark"))
       } else {
-        this._iframeBodies().forEach(body => body.classList.add('dark'))
+        this._iframeBodies().forEach((body) => body.classList.add("dark"))
       }
     }
   }
 
   _toggleColorScheme() {
-    this._iframeBodies().forEach(body => {
-      if (body.classList.contains('dark')) {
-        body.classList.remove('dark')
+    this._iframeBodies().forEach((body) => {
+      if (body.classList.contains("dark")) {
+        body.classList.remove("dark")
       } else {
-        body.classList.add('dark')
+        body.classList.add("dark")
       }
     })
   }
 
   _iframeBodies() {
-    return this.iframeTargets.map(i => {
-      try {
-        return i.contentWindow.document.body
-      } catch (e) {
-        return null // Handle the error gracefully
-      }
-    }).filter(Boolean);
+    return this.iframeTargets
+      .map((i) => {
+        try {
+          return i.contentWindow.document.body
+        } catch (e) {
+          return null // Handle the error gracefully
+        }
+      })
+      .filter(Boolean)
   }
 }

@@ -6,14 +6,14 @@ export default class extends Controller {
   }
 
   connect() {
-    this.element.dataset['action'] = 'submit->disable#disableForm'
+    this.element.dataset["action"] = "submit->disable#disableForm"
     if (!this.hasWithValue) {
       this.withValue = "Processing..."
     }
   }
 
   disableForm() {
-    this._submitButtons().forEach(button => {
+    this._submitButtons().forEach((button) => {
       button.disabled = true
       button.innerHTML = this.withValue
     })

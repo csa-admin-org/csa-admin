@@ -15,7 +15,8 @@ export default class extends Controller {
   }
 
   connect() {
-    var offset = (window.innerWidth <= 768) ? this.offsetValue : this.desktopOffsetValue
+    var offset =
+      window.innerWidth <= 768 ? this.offsetValue : this.desktopOffsetValue
     this.application.offset = this.containerTarget.offsetTop + offset
   }
 

@@ -1,23 +1,25 @@
-import { Controller } from "@hotwired/stimulus";
-import { addClass, removeClass } from "components/utils";
+import { Controller } from "@hotwired/stimulus"
+import { addClass, removeClass } from "components/utils"
 
 export default class extends Controller {
   connect() {
     const hash = location.hash.substring(1)
-    if (typeof hash === 'string' && hash.length > 0) {
+    if (typeof hash === "string" && hash.length > 0) {
       this.showTab(hash)
     }
     this._handleHiddenTabs()
   }
 
   showTab(hash) {
-    const tab = this.element.querySelectorAll('[aria-controls="' + hash + '"]')[0]
+    const tab = this.element.querySelectorAll(
+      '[aria-controls="' + hash + '"]'
+    )[0]
     if (tab && tab.getAttribute("data-tabs-hidden") !== "true") {
       this._hideActiveTabs()
       tab.setAttribute("aria-selected", "true")
       const tabContent = document.getElementById(hash)
       removeClass(tabContent, "hidden")
-      document.getElementById(hash).scrollIntoView();
+      document.getElementById(hash).scrollIntoView()
     }
   }
 
@@ -40,7 +42,11 @@ export default class extends Controller {
 
   updateAnchor(event) {
     const hash = event.target.getAttribute("aria-controls")
-    if (typeof hash === 'string' && hash.length > 0 && hash !== location.hash.substring(1)) {
+    if (
+      typeof hash === "string" &&
+      hash.length > 0 &&
+      hash !== location.hash.substring(1)
+    ) {
       if (history.replaceState) {
         history.replaceState(null, null, `#${hash}`)
       } else {

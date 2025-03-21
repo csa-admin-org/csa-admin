@@ -17,7 +17,7 @@ export default class extends Controller {
 
   limitChoices(event) {
     if (this.hasInputTarget && event.params.values) {
-      const values = event.params.values.toString().split(',')
+      const values = event.params.values.toString().split(",")
       for (const input of this.inputTargets) {
         const label = `label[for='${input.id}']`
         if (values.includes(input.value)) {
@@ -29,7 +29,10 @@ export default class extends Controller {
           prop(input, "disabled", true)
         }
       }
-      checked(Array.from(this.inputTargets).find((i) => !i.disabled), true)
+      checked(
+        Array.from(this.inputTargets).find((i) => !i.disabled),
+        true
+      )
     }
   }
 }
