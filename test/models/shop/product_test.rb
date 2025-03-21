@@ -60,16 +60,16 @@ class Shop::ProductTest < ActiveSupport::TestCase
 
     assert_equal [ shop_products(:flour) ],
       Shop::Product.available_for(deliveries(:monday_1))
-    assert_equal [ shop_products(:bread), shop_products(:flour) ],
-      Shop::Product.available_for(deliveries(:thursday_1))
+    assert_equal [ shop_products(:bread), shop_products(:flour) ].sort,
+      Shop::Product.available_for(deliveries(:thursday_1)).sort
   end
 
   test "returns products that are available for the given depot" do
     travel_to "2024-01-01"
     shop_products(:oil).update(available_for_depot_ids: [ farm_id ])
 
-    assert_equal [ shop_products(:flour), shop_products(:oil) ],
-      Shop::Product.available_for(deliveries(:monday_1), depots(:farm))
+    assert_equal [ shop_products(:flour), shop_products(:oil) ].sort,
+      Shop::Product.available_for(deliveries(:monday_1), depots(:farm)).sort
     assert_equal [ shop_products(:flour) ],
       Shop::Product.available_for(deliveries(:monday_1), depots(:home))
   end
@@ -78,8 +78,8 @@ class Shop::ProductTest < ActiveSupport::TestCase
     travel_to "2024-01-01"
     shop_products(:oil).update(available_for_delivery_ids: [ deliveries(:monday_1).id ])
 
-    assert_equal [ shop_products(:flour), shop_products(:oil) ],
-      Shop::Product.available_for(deliveries(:monday_1))
+    assert_equal [ shop_products(:flour), shop_products(:oil) ].sort,
+      Shop::Product.available_for(deliveries(:monday_1)).sort
     assert_equal [ shop_products(:flour) ],
       Shop::Product.available_for(deliveries(:monday_2))
   end

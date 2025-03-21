@@ -45,6 +45,7 @@ module ActiveSupport
 
     setup do
       Tenant.connect("acme")
+      I18n.locale = :en
       skip_invoice_pdf
     end
 

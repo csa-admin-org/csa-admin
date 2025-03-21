@@ -5,18 +5,9 @@ require "test_helper"
 class Billing::SEPADirectDebitTest < ActiveSupport::TestCase
   test "returns direct debit XML pain file for invoices" do
     travel_to "2025-02-01"
-    Current.org.update!(
-      languages: [ "de" ],
-      country_code: "DE",
-      currency_code: "EUR",
+    german_org(
       iban: "DE87200500001234567890",
-      sepa_creditor_identifier: "DE98ZZZ09999999999",
-      invoice_info: "Skipped",
-      invoice_sepa_info: "Der Rechnungsbetrag wird per SEPA-Lastschrift automatisch eingezogen. Bitte stellen Sie sicher, dass Ihr Konto ausreichend gedeckt ist.",
-      creditor_name: "Gläubiger GmbH",
-      creditor_address: "Sonnenallee 1",
-      creditor_city: "Hannover",
-      creditor_zip: "30159")
+      sepa_creditor_identifier: "DE98ZZZ09999999999")
     member = members(:anna)
     member.update!(
       language: "de",
@@ -150,18 +141,9 @@ class Billing::SEPADirectDebitTest < ActiveSupport::TestCase
   end
 
   test "return nil with closed sepa invoice" do
-    Current.org.update!(
-      languages: [ "de" ],
-      country_code: "DE",
-      currency_code: "EUR",
+    german_org(
       iban: "DE87200500001234567890",
-      sepa_creditor_identifier: "DE98ZZZ09999999999",
-      invoice_info: "Skipped",
-      invoice_sepa_info: "Der Rechnungsbetrag wird per SEPA-Lastschrift automatisch eingezogen. Bitte stellen Sie sicher, dass Ihr Konto ausreichend gedeckt ist.",
-      creditor_name: "Gläubiger GmbH",
-      creditor_address: "Sonnenallee 1",
-      creditor_city: "Hannover",
-      creditor_zip: "30159")
+      sepa_creditor_identifier: "DE98ZZZ09999999999")
     member = members(:anna)
     member.update!(
       language: "de",
