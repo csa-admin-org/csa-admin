@@ -37,7 +37,7 @@ if delivery.depots.any?(&:free?) && delivery.depots.any?(&:paid?)
       count:  paid_counts.sum,
       baskets_count: paid_counts.sum_detail)
   ]
-  table_for totals do
+  table_for totals, class: "[&>tbody>tr:first-child]:border-t-0" do
     column nil, :title, class: "w-2/5"
     if show_shop_orders
       column nil, :shop_orders_count, class: "text-right"
@@ -49,7 +49,7 @@ if delivery.depots.any?(&:free?) && delivery.depots.any?(&:paid?)
   end
 end
 
-table_for nil, class: "font-bold -mt-2 data-no-hover" do
+table_for nil, class: "font-bold -mt-2 data-no-hover [&>tbody>tr]:border-none" do
   column(nil, :title, class: "w-2/5 text-lg!") { t("active_admin.page.index.total", number: "") }
   if show_shop_orders
     column(class: "text-right text-lg!") { counts.sum_shop_orders }
