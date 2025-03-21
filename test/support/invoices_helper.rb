@@ -12,7 +12,7 @@ module InvoicesHelper
     create_invoice({
       entity: memberships(:john),
       membership_amount_fraction: 1,
-      memberships_amount_description: "Annual billing"
+      memberships_amount_description: "Annual amount"
     }.merge(attrs))
   end
 

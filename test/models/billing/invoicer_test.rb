@@ -108,7 +108,7 @@ class Billing::InvoicerTest < ActiveSupport::TestCase
     assert invoice.annual_fee.present?
     assert_equal 0, invoice.paid_memberships_amount
     assert_equal 200, invoice.remaining_memberships_amount
-    assert_equal "Annual billing", invoice.memberships_amount_description
+    assert_equal "Annual amount", invoice.memberships_amount_description
     assert_equal membership.price, invoice.memberships_amount
   end
 
@@ -182,7 +182,7 @@ class Billing::InvoicerTest < ActiveSupport::TestCase
     assert_equal 0, invoice.paid_memberships_amount
     assert_equal membership.price, invoice.remaining_memberships_amount
     assert_equal membership.price / 4.0, invoice.memberships_amount
-    assert_equal "Quarterly billing #1", invoice.memberships_amount_description
+    assert_equal "Quarterly amount #1", invoice.memberships_amount_description
   end
 
   test "does not create an invoice for already billed active member billed quarterly" do
@@ -211,7 +211,7 @@ class Billing::InvoicerTest < ActiveSupport::TestCase
     assert_equal membership.price / 4.0, invoice.paid_memberships_amount
     assert_equal membership.price - membership.price / 4.0, invoice.remaining_memberships_amount
     assert_equal membership.price / 4.0, invoice.memberships_amount
-    assert_equal "Quarterly billing #2", invoice.memberships_amount_description
+    assert_equal "Quarterly amount #2", invoice.memberships_amount_description
   end
 
   test "does not create an invoice for already billed active member billed quarterly for quarter #2" do
@@ -246,7 +246,7 @@ class Billing::InvoicerTest < ActiveSupport::TestCase
     assert_equal membership.price / 4.0, invoice.paid_memberships_amount
     assert_equal membership.price - membership.price / 4.0, invoice.remaining_memberships_amount
     assert_equal membership.price / 4.0, invoice.memberships_amount
-    assert_equal "Quarterly billing #2", invoice.memberships_amount_description
+    assert_equal "Quarterly amount #2", invoice.memberships_amount_description
   end
 
   test "creates an invoice for active member billed quarterly for quarter #3" do
@@ -267,7 +267,7 @@ class Billing::InvoicerTest < ActiveSupport::TestCase
     assert_equal membership.price / 2.0, invoice.paid_memberships_amount
     assert_equal membership.price - membership.price / 2.0, invoice.remaining_memberships_amount
     assert_equal membership.price / 4.0, invoice.memberships_amount
-    assert_equal "Quarterly billing #3", invoice.memberships_amount_description
+    assert_equal "Quarterly amount #3", invoice.memberships_amount_description
   end
 
   test "creates an invoice for active member billed quarterly for quarter #3 with overpaid previous invoices" do
@@ -294,7 +294,7 @@ class Billing::InvoicerTest < ActiveSupport::TestCase
 
     assert_equal membership.price / 2.0, invoice.paid_memberships_amount
     assert_equal membership.price / 4.0, invoice.memberships_amount
-    assert_equal "Quarterly billing #3", invoice.memberships_amount_description
+    assert_equal "Quarterly amount #3", invoice.memberships_amount_description
 
     invoice.reload
     assert_equal 0, first_invoice.reload.overpaid
@@ -360,7 +360,7 @@ class Billing::InvoicerTest < ActiveSupport::TestCase
     assert_equal membership.price * 3 / 4.0, invoice.paid_memberships_amount
     assert_equal membership.price - membership.price * 3 / 4.0, invoice.remaining_memberships_amount
     assert_equal membership.price / 4.0, invoice.memberships_amount
-    assert_equal "Quarterly billing #4", invoice.memberships_amount_description
+    assert_equal "Quarterly amount #4", invoice.memberships_amount_description
   end
 
   test "does not create an invoice for already billed active member billed quarterly for quarter #4" do
@@ -408,7 +408,7 @@ class Billing::InvoicerTest < ActiveSupport::TestCase
     assert_equal 200, invoice.paid_memberships_amount
     assert_equal 1 * 2, invoice.remaining_memberships_amount
     assert_equal 1 * 2, invoice.memberships_amount
-    assert_equal "Quarterly billing #4", invoice.memberships_amount_description
+    assert_equal "Quarterly amount #4", invoice.memberships_amount_description
   end
 
   test "does not create an invoice for active member billed quarterly for quarter #4 without deliveries" do
@@ -441,7 +441,7 @@ class Billing::InvoicerTest < ActiveSupport::TestCase
     assert_equal 0, invoice.paid_memberships_amount
     assert_equal membership.price, invoice.remaining_memberships_amount
     assert_equal 31.65, invoice.memberships_amount
-    assert_equal "Monthly billing #1", invoice.memberships_amount_description
+    assert_equal "Monthly amount #1", invoice.memberships_amount_description
   end
 
   test "when billed monthly, month #4" do
@@ -467,7 +467,7 @@ class Billing::InvoicerTest < ActiveSupport::TestCase
     assert_equal 94.95, invoice.paid_memberships_amount
     assert_equal membership.price - 94.95, invoice.remaining_memberships_amount
     assert_equal 31.65, invoice.memberships_amount
-    assert_equal "Monthly billing #4", invoice.memberships_amount_description
+    assert_equal "Monthly amount #4", invoice.memberships_amount_description
   end
 
   test "when billed monthly, month #4 but membership ends at the end of the month" do
@@ -494,7 +494,7 @@ class Billing::InvoicerTest < ActiveSupport::TestCase
     assert_equal 94.95, invoice.paid_memberships_amount
     assert_equal 57.05, invoice.remaining_memberships_amount
     assert_equal invoice.memberships_amount, invoice.remaining_memberships_amount
-    assert_equal "Monthly billing #4", invoice.memberships_amount_description
+    assert_equal "Monthly amount #4", invoice.memberships_amount_description
   end
 
   test "when billed monthly, month #4 but membership ends in 2 months" do
@@ -521,7 +521,7 @@ class Billing::InvoicerTest < ActiveSupport::TestCase
     assert_equal 94.95, invoice.paid_memberships_amount
     assert_equal 247.05, invoice.remaining_memberships_amount
     assert_equal 123.55, invoice.memberships_amount
-    assert_equal "Monthly billing #4", invoice.memberships_amount_description
+    assert_equal "Monthly amount #4", invoice.memberships_amount_description
   end
 
   test "when billed monthly, month #12" do
@@ -545,7 +545,7 @@ class Billing::InvoicerTest < ActiveSupport::TestCase
     assert_equal 63.30, invoice.paid_memberships_amount
     assert_equal 316.70, invoice.remaining_memberships_amount
     assert_equal invoice.memberships_amount, invoice.remaining_memberships_amount
-    assert_equal "Monthly billing #12", invoice.memberships_amount_description
+    assert_equal "Monthly amount #12", invoice.memberships_amount_description
   end
 
   test "when billed monthly, month #5 but membership ended last month" do

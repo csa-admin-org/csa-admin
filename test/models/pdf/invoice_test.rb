@@ -80,7 +80,7 @@ class PDF::InvoiceTest < ActiveSupport::TestCase
     invoice = create_invoice(
       entity: memberships(:jane),
       annual_fee: 30,
-      memberships_amount_description: "Annual billing")
+      memberships_amount_description: "Annual amount")
     pdf_strings = save_pdf_and_return_strings(invoice)
 
     assert_includes pdf_strings, "01.01.24 – 31.12.24"
@@ -92,7 +92,7 @@ class PDF::InvoiceTest < ActiveSupport::TestCase
       "Adjustment of the price of supplements", "5.00",
       "Depot: Bakery 10x 4.00", "40.00",
       "Annual amount", "352.00",
-      "Annual billing", "352.00",
+      "Annual amount", "352.00",
       "Annual fee", "30.00",
       "Total", "382.00"
     ]
@@ -106,7 +106,7 @@ class PDF::InvoiceTest < ActiveSupport::TestCase
     invoice = create_invoice(
       entity: memberships(:john),
       annual_fee: nil,
-      memberships_amount_description: "Annual billing")
+      memberships_amount_description: "Annual amount")
     pdf_strings = save_pdf_and_return_strings(invoice)
 
     assert_contains pdf_strings, [
@@ -114,7 +114,7 @@ class PDF::InvoiceTest < ActiveSupport::TestCase
       "Basket: Medium basket 10x 20.00", "200.00",
       "Discount for 2 additional ", "½ ", "days", "-120.00",
       "Annual amount", "80.00",
-      "Annual billing", "80.00"
+      "Annual amount", "80.00"
     ]
   end
 
@@ -124,7 +124,7 @@ class PDF::InvoiceTest < ActiveSupport::TestCase
     invoice = create_invoice(
       entity: memberships(:john),
       annual_fee: nil,
-      memberships_amount_description: "Annual billing")
+      memberships_amount_description: "Annual amount")
     pdf_strings = save_pdf_and_return_strings(invoice)
 
     assert_contains pdf_strings, [
@@ -132,7 +132,7 @@ class PDF::InvoiceTest < ActiveSupport::TestCase
       "Basket: Medium basket 10x 20.00", "200.00",
       "Support: 10x 4.00", "40.00",
       "Annual amount", "240.00",
-      "Annual billing", "240.00"
+      "Annual amount", "240.00"
     ]
   end
 
@@ -145,7 +145,7 @@ class PDF::InvoiceTest < ActiveSupport::TestCase
     invoice = create_invoice(
       entity: memberships(:john),
       annual_fee: nil,
-      memberships_amount_description: "Annual billing")
+      memberships_amount_description: "Annual amount")
     pdf_strings = save_pdf_and_return_strings(invoice)
 
     assert_contains pdf_strings, [
@@ -153,7 +153,7 @@ class PDF::InvoiceTest < ActiveSupport::TestCase
       "Basket: Medium basket 10x 20.00", "200.00",
       "Support: 10x 4.20, Class 4", "42.00",
       "Annual amount", "242.00",
-      "Annual billing", "242.00"
+      "Annual amount", "242.00"
     ]
   end
 
@@ -163,7 +163,7 @@ class PDF::InvoiceTest < ActiveSupport::TestCase
     invoice = create_invoice(
       entity: memberships(:john),
       annual_fee: nil,
-      memberships_amount_description: "Annual billing")
+      memberships_amount_description: "Annual amount")
     pdf_strings = save_pdf_and_return_strings(invoice)
 
     assert_contains pdf_strings, [
@@ -171,7 +171,7 @@ class PDF::InvoiceTest < ActiveSupport::TestCase
       "Basket: Medium basket 10x 20.00", "200.00",
       "Deliveries (Mondays): 10x 3.00", "30.00",
       "Annual amount", "230.00",
-      "Annual billing", "230.00"
+      "Annual amount", "230.00"
     ]
   end
 
@@ -521,7 +521,7 @@ class PDF::InvoiceTest < ActiveSupport::TestCase
     invoice = create_invoice(
       member: member,
       entity: memberships(:jane),
-      memberships_amount_description: "Annual billing")
+      memberships_amount_description: "Annual amount")
 
     assert_equal({
       "name" => "Jane Doe",
@@ -541,7 +541,7 @@ class PDF::InvoiceTest < ActiveSupport::TestCase
       ": 10x 4.00", "40.00",
       "Depot: Bakery 10x 4.00", "40.00",
       "Jährlicher Betrag", "380.00",
-      "Annual billing", "380.00",
+      "Annual amount", "380.00",
       "Der Rechnungsbetrag wird per SEPA-Lastschrift automatisch eingezogen. Bitte stellen Sie sicher, dass Ihr Konto ausreichend gedeckt ist.",
       "SEPA-Lastschriftverfahren",
       "Betrag", "EUR 380.00",
