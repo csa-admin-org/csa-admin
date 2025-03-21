@@ -397,15 +397,7 @@ class PDF::InvoiceTest < ActiveSupport::TestCase
   end
 
   test "France invoice" do
-    org(
-      languages: [ "fr" ],
-      country_code: "FR",
-      currency_code: "EUR",
-      iban: "FR1420041010050500013M02606",
-      creditor_name: "Jardin Réunis",
-      creditor_address: "1 rue de la Paix",
-      creditor_city: "Paris",
-      creditor_zip: "75000")
+    france_org
     members(:martha).update!(language: "fr")
     invoice = invoices(:annual_fee)
     pdf_strings = save_pdf_and_return_strings(invoice)
@@ -430,17 +422,7 @@ class PDF::InvoiceTest < ActiveSupport::TestCase
   end
 
   test "Germany invoice (Girocode QR)" do
-    Current.org.update!(
-      languages: [ "de" ],
-      country_code: "DE",
-      currency_code: "EUR",
-      iban: "DE87200500001234567890",
-      invoice_info: "Zahlbar innerhalb der nächsten zwei Wochen",
-      invoice_sepa_info: "Skipped",
-      creditor_name: "Gläubiger GmbH",
-      creditor_address: "Sonnenallee 1",
-      creditor_city: "Hannover",
-      creditor_zip: "30159")
+    german_org
     members(:martha).update!(
       language: "de",
       address: "Grosse Marktgasse 28",
@@ -473,18 +455,10 @@ class PDF::InvoiceTest < ActiveSupport::TestCase
 
   test "Germany annual_fee invoice (SEPA)" do
     travel_to "2024-01-01"
-    Current.org.update!(
-      languages: [ "de" ],
-      country_code: "DE",
-      currency_code: "EUR",
+    german_org(
       iban: "DE87200500001234567890",
       sepa_creditor_identifier: "DE98ZZZ09999999999",
-      invoice_info: "Skipped",
-      invoice_sepa_info: "Der Rechnungsbetrag wird per SEPA-Lastschrift automatisch eingezogen. Bitte stellen Sie sicher, dass Ihr Konto ausreichend gedeckt ist.",
-      creditor_name: "Gläubiger GmbH",
-      creditor_address: "Sonnenallee 1",
-      creditor_city: "Hannover",
-      creditor_zip: "30159")
+      invoice_sepa_info: "Der Rechnungsbetrag wird per SEPA-Lastschrift automatisch eingezogen. Bitte stellen Sie sicher, dass Ihr Konto ausreichend gedeckt ist.")
     member = members(:anna)
     member.update!(
       language: "de",
@@ -530,18 +504,10 @@ class PDF::InvoiceTest < ActiveSupport::TestCase
 
   test "Germany membership invoice (SEPA)" do
     travel_to "2024-01-01"
-    Current.org.update!(
-      languages: [ "de" ],
-      country_code: "DE",
-      currency_code: "EUR",
+    german_org(
       iban: "DE87200500001234567890",
       sepa_creditor_identifier: "DE98ZZZ09999999999",
-      invoice_info: "Skipped",
-      invoice_sepa_info: "Der Rechnungsbetrag wird per SEPA-Lastschrift automatisch eingezogen. Bitte stellen Sie sicher, dass Ihr Konto ausreichend gedeckt ist.",
-      creditor_name: "Gläubiger GmbH",
-      creditor_address: "Sonnenallee 1",
-      creditor_city: "Hannover",
-      creditor_zip: "30159")
+      invoice_sepa_info: "Der Rechnungsbetrag wird per SEPA-Lastschrift automatisch eingezogen. Bitte stellen Sie sicher, dass Ihr Konto ausreichend gedeckt ist.")
     member = members(:jane)
     member.update!(
       language: "de",
