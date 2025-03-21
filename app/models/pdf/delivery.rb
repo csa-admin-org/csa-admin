@@ -193,29 +193,13 @@ module PDF
 
       # Depots
       @depots.each do |depot|
-        column_content = depot.name
-        baskets = @baskets.active.where(depot: depot)
-        shop_orders = @shop_orders.where(depot: depot)
+        data << summary_baskets_line(depot, width: depot_name_width, basket_sizes: basket_sizes, basket_complements: basket_complements, shop_products: shop_products)
+      end
 
-        line = [
-          content: column_content,
-          width: depot_name_width,
-          align: :right
-        ]
-        basket_sizes.each do |bs|
-          line << display_quantity(baskets.where(basket_size: bs).sum(:quantity))
-        end
-        line << display_quantity(baskets.sum(:quantity))
-        basket_complements.each do |c|
-          line << display_quantity(baskets.complement_count(c) + shop_orders.complement_count(c))
-        end
-        if @shop_orders.any?
-          line << display_quantity(shop_orders.count)
-        end
-        shop_products.each do |p|
-          line << display_quantity(shop_orders.quantity_for(p))
-        end
-        data << line
+      if @depots.any?(&:free?) && @depots.any?(&:paid?)
+        data << [ "" ]
+        data << summary_baskets_line(@depots.free, title: t("free_depots"), width: depot_name_width, basket_sizes: basket_sizes, basket_complements: basket_complements, shop_products: shop_products)
+        data << summary_baskets_line(@depots.paid, title: t("paid_depots"), width: depot_name_width, basket_sizes: basket_sizes, basket_complements: basket_complements, shop_products: shop_products)
       end
 
       cell_style =
@@ -246,6 +230,7 @@ module PDF
         end
         t.column(bs_size).font_style = :bold
         t.column(bs_size).padding_top = cell_style[:padding] + 1  # Ensure number is well centered in the cell!
+        t.column(0).padding_top = cell_style[:padding] + 1  # Ensure number is well centered in the cell!
 
         t.row(0).height = 22
         t.row(0).size = 10
@@ -277,8 +262,66 @@ module PDF
         t.row(0).border_bottom_color = "000000"
 
         t.column(bs_size).background_color = "999999"
+
+        if @depots.any?(&:free?) && @depots.any?(&:paid?)
+
+          if t.cells.row_count%2 == 1
+            t.row(-4).borders = %i[bottom right]
+            t.row(-4).border_bottom_width = 1
+            t.row(-4).border_bottom_color = "CCCCCC"
+          end
+          if t.cells.column_count%2 == 0
+            t.column(-4).borders = %i[bottom right]
+            t.column(-4).border_right_width = 1
+            t.column(-4).border_right_color = "CCCCCC"
+          end
+
+          if t.cells.row_count%2 == 1
+            t.row(-2).borders = %i[top right]
+            t.row(-2).border_top_width = 1
+            t.row(-2).border_top_color = "CCCCCC"
+          end
+          if t.cells.column_count%2 == 0
+            t.column(-2).borders = %i[top right]
+            t.column(-2).border_right_width = 1
+            t.column(-2).border_right_color = "CCCCCC"
+          end
+
+          t.row(0).borders = %i[bottom right]
+          t.row(0).border_bottom_width = 1
+          t.row(0).border_bottom_color = "000000"
+
+          t.row(-3).height = cell_style[:height] + 4
+          t.row(-3).background_color = "FFFFFF"
+        end
       end
     end
+
+    def summary_baskets_line(depot, title: nil, width:, basket_sizes:, basket_complements:, shop_products:)
+        column_content = title || depot.name
+        baskets = @baskets.active.where(depot: depot)
+        shop_orders = @shop_orders.where(depot: depot)
+
+        line = [
+          content: column_content,
+          width: width,
+          align: :right
+        ]
+        basket_sizes.each do |bs|
+          line << display_quantity(baskets.where(basket_size: bs).sum(:quantity))
+        end
+        line << display_quantity(baskets.sum(:quantity))
+        basket_complements.each do |c|
+          line << display_quantity(baskets.complement_count(c) + shop_orders.complement_count(c))
+        end
+        if @shop_orders.any?
+          line << display_quantity(shop_orders.count)
+        end
+        shop_products.each do |p|
+          line << display_quantity(shop_orders.quantity_for(p))
+        end
+        line
+      end
 
     def delivery_note
       return unless delivery.note?
@@ -662,6 +705,10 @@ module PDF
           align: :center,
           size: 8
       end
+    end
+
+    def t(key, *args)
+      I18n.t("delivery.#{key}", *args)
     end
 
     def display_quantity(quantity)
