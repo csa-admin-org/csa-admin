@@ -85,6 +85,11 @@ ActiveAdmin.register Organization do
             f.input :creditor_zip, input_html: { maxlength: 16 }, wrapper_html: { class: "md:w-50" }
             f.input :creditor_city, input_html: { maxlength: 35 }, wrapper_html: { class: "w-full" }
           end
+          if f.object.country_code == "DE"
+            translated_input(f, :invoice_document_names,
+              hint: t("formtastic.hints.organization.invoice_document_name_html"),
+              input_html: { placeholder: Invoice.model_name.human })
+          end
           translated_input(f, :invoice_infos,
             hint: t("formtastic.hints.organization.invoice_info"))
           if f.object.country_code == "DE"
@@ -468,6 +473,7 @@ ActiveAdmin.register Organization do
     :basket_price_extra_dynamic_pricing,
     :new_member_fee,
     :social_network_urls,
+    *I18n.available_locales.map { |l| "invoice_document_name_#{l}" },
     *I18n.available_locales.map { |l| "invoice_info_#{l}" },
     *I18n.available_locales.map { |l| "invoice_sepa_info_#{l}" },
     *I18n.available_locales.map { |l| "invoice_footer_#{l}" },

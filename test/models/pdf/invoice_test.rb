@@ -458,6 +458,7 @@ class PDF::InvoiceTest < ActiveSupport::TestCase
     german_org(
       iban: "DE87200500001234567890",
       sepa_creditor_identifier: "DE98ZZZ09999999999",
+      invoice_document_name: "Mitgliedsbestätigung",
       invoice_sepa_info: "Der Rechnungsbetrag wird per SEPA-Lastschrift automatisch eingezogen. Bitte stellen Sie sicher, dass Ihr Konto ausreichend gedeckt ist.")
     member = members(:anna)
     member.update!(
@@ -480,7 +481,7 @@ class PDF::InvoiceTest < ActiveSupport::TestCase
 
     pdf_strings = save_pdf_and_return_strings(invoice)
     assert_equal [
-      "Rechnung N°\u00A0#{invoice.id}",
+      "Mitgliedsbestätigung", "N°\u00A0#{invoice.id}",
       "1. Januar 2024",
       "Anna Doe",
       "Grosse Marktgasse 28", "30952 Ronnenberg",
@@ -497,61 +498,6 @@ class PDF::InvoiceTest < ActiveSupport::TestCase
       "Referenz", invoice.reference.formatted,
       "Zahlbar durch",
       "Anna Doe", "Grosse Marktgasse 28", "30952 Ronnenberg",
-      "IBAN: ", "DE21 5005 0000 9876 5432 10",
-      "SEPA Mandatsreferenz: ", "123456", " (24. Dez 23)"
-    ], pdf_strings
-  end
-
-  test "Germany membership invoice (SEPA)" do
-    travel_to "2024-01-01"
-    german_org(
-      iban: "DE87200500001234567890",
-      sepa_creditor_identifier: "DE98ZZZ09999999999",
-      invoice_sepa_info: "Der Rechnungsbetrag wird per SEPA-Lastschrift automatisch eingezogen. Bitte stellen Sie sicher, dass Ihr Konto ausreichend gedeckt ist.")
-    member = members(:jane)
-    member.update!(
-      language: "de",
-      iban: "DE21500500009876543210",
-      sepa_mandate_id: "123456",
-      sepa_mandate_signed_on: "2023-12-24",
-      address: "Grosse Marktgasse 28",
-      zip: "30952",
-      city: "Ronnenberg",
-      country_code: "DE")
-    invoice = create_invoice(
-      member: member,
-      entity: memberships(:jane),
-      memberships_amount_description: "Annual amount")
-
-    assert_equal({
-      "name" => "Jane Doe",
-      "iban" => "DE21500500009876543210",
-      "mandate_id" => "123456",
-      "mandate_signed_on" => "2023-12-24"
-    }, invoice.sepa_metadata)
-
-    pdf_strings = save_pdf_and_return_strings(invoice)
-    assert_equal [
-      "Mitgliedsbestätigung", "N°\u00A0#{invoice.id}",
-      "1. Januar 2024", "01.01.24 – 31.12.24",
-      "Jane Doe",
-      "Grosse Marktgasse 28", "30952 Ronnenberg",
-      "Beschreibung", "Betrag (", "€", ")",
-      "Tasche:  10x 30.00", "300.00",
-      ": 10x 4.00", "40.00",
-      "Depot: Bakery 10x 4.00", "40.00",
-      "Jährlicher Betrag", "380.00",
-      "Annual amount", "380.00",
-      "Der Rechnungsbetrag wird per SEPA-Lastschrift automatisch eingezogen. Bitte stellen Sie sicher, dass Ihr Konto ausreichend gedeckt ist.",
-      "SEPA-Lastschriftverfahren",
-      "Betrag", "EUR 380.00",
-      "Zahlbar an",
-      "Gläubiger GmbH", "Sonnenallee 1", "30159 Hannover",
-      "IBAN: ", "DE87 2005 0000 1234 5678 90",
-      "Gläubiger-ID: ", "DE98ZZZ09999999999",
-      "Referenz", invoice.reference.formatted,
-      "Zahlbar durch",
-      "Jane Doe", "Grosse Marktgasse 28", "30952 Ronnenberg",
       "IBAN: ", "DE21 5005 0000 9876 5432 10",
       "SEPA Mandatsreferenz: ", "123456", " (24. Dez 23)"
     ], pdf_strings

@@ -55,10 +55,11 @@ class Members::BillingTest < ApplicationSystemTestCase
   test "list invoices for membership SEPA" do
     enable_invoice_pdf
     travel_to "2024-05-01"
-    org(
+    german_org(
       languages: [ "de" ],
       country_code: "DE",
-      sepa_creditor_identifier: "DE98ZZZ09999999999")
+      sepa_creditor_identifier: "DE98ZZZ09999999999",
+      invoice_document_name: "Mitgliedsbestätigung")
     member = create_member(
       language: "de",
       name: "John Doe",

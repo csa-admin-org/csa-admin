@@ -7,12 +7,6 @@ _:
           _fr: Facture annulée
           _de: Stornierte Rechnung
           _it: Fattura annullata
-    document_name:
-      sepa_membership:
-        _en: Membership confirmation
-        _fr: Confirmation d'adhésion
-        _de: Mitgliedsbestätigung
-        _it: Conferma di adesione
     entity_type:
       annual_fee:
         _en: Annual fee
