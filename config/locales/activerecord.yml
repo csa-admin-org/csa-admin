@@ -1515,10 +1515,10 @@ _:
           _de: Informationszeile
           _it: Riga d'informazione
         invoice_logo:
-          _en: Logo / Label
-          _fr: Logo / Label
-          _de: Logo / Label
-          _it: Logo / Etichetta
+          _en: Label/Certification
+          _fr: Label/Certification
+          _de: Label/Zertifizierung
+          _it: Etichetta/Certificazione
         invoice_sepa_info:
           _en: Information text (SEPA)
           _fr: Texte d'information (SEPA)

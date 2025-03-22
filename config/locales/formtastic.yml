@@ -703,10 +703,10 @@ _:
           _de: Text, der kursiv nach dem Rechnungsbetrag angezeigt wird.
           _it: Testo visualizzato in corsivo dopo l'importo della fattura.
         invoice_logo:
-          _en: Optional logo/label that is displayed at the bottom right of the invoice, above the footer. Useful, for example, for an "Organic" or "Demeter" label.
-          _fr: Logo/Label optionnel qui est affiché en bas à droite de la facture, au-dessus du bas de page. Utile, par exemple, pour le label "Bio Suisse" ou "Demeter".
-          _de: Optionales Logo/Label, das unten rechts auf der Rechnung über dem Footer angezeigt wird. Nützlich, z.B. für ein "Bio" oder "Demeter" Label.
-          _it: Logo/etichetta opzionale che viene visualizzato in basso a destra della fattura, sopra il piè di pagina. Utile, ad esempio, per un'etichetta "Biologico" o "Demeter".
+          _en: Optional label/certification logo that is displayed at the bottom right of the invoice, above the footer. Useful, for example, for an "Organic" or "Demeter" label.
+          _fr: Logo optionnel d'un logo ou certification qui est affiché en bas à droite de la facture, au-dessus du bas de page. Utile, par exemple, pour le label "Bio Suisse" ou "Demeter".
+          _de: Optionales Label/Zertifizierungslogo, das unten rechts auf der Rechnung über dem Footer angezeigt wird. Nützlich, z.B. für ein "Bio" oder "Demeter" Label.
+          _it: Logo opzionale di un'etichetta o certificazione che viene visualizzato in basso a destra della fattura, sopra il piè di pagina. Utile, ad esempio, per un'etichetta "Biologico" o "Demeter".
         invoice_sepa_info:
           _en: Text displayed in italics after the invoice amount. When set, used in place of the "Information text", but only for SEPA invoices.
           _fr: Texte affiché en italique après le montant de la facture. Lorsqu'il est défini, il est utilisé à la place du "Texte d'information", mais uniquement pour les factures SEPA.
