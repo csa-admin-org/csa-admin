@@ -1499,6 +1499,11 @@ _:
           _fr: IBAN
           _de: IBAN
           _it: IBAN
+        invoice_document_name:
+          _en: Invoice document name
+          _fr: Nom du document de facture
+          _de: Name des Rechnungsdokuments
+          _it: Nome del documento di fattura
         invoice_footer:
           _en: Footer
           _fr: Bas de page

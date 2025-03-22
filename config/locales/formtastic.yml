@@ -687,6 +687,11 @@ _:
           _fr: Merci de me contacter pour tout changement.
           _de: Bitte kontaktieren Sie mich für Änderungen.
           _it: Grazie di contattarmi per qualsiasi modifica.
+        invoice_document_name_html:
+          _en: For tax purposes (especially VAT), changing the name of the PDF documents generated for invoices can be beneficial. Be sure to also update the content of the <a href="mail_templates?scope=invoice">automated billing emails</a> to keep them consistent with this change.
+          _fr: Pour des raisons fiscales (notamment la TVA), il peut être bénéfique de modifier le nom des documents PDF générés pour les factures. Pensez également à mettre à jour le contenu des <a href="mail_templates?scope=invoice">e-mails automatiques de facturation</a> afin qu’ils restent cohérents avec ce changement.
+          _de: Aus steuerlichen Gründen (insbesondere der Mehrwertsteuer) kann es sinnvoll sein, den Namen der für Rechnungen erstellten PDF-Dokumente zu ändern. Denken Sie daran, auch den Inhalt der <a href="mail_templates?scope=invoice">automatischen Rechnungs-E-Mails</a> anzupassen, damit sie mit dieser Änderung übereinstimmen.
+          _it: Per motivi fiscali (soprattutto l’IVA), può essere utile modificare il nome dei documenti PDF generati per le fatture. Ricorda di aggiornare anche il contenuto delle <a href="mail_templates?scope=invoice">e-mail di fatturazione automatiche</a> per mantenerle coerenti con questa modifica.
         invoice_footer:
           _en: Text displayed at the bottom of the invoice, before the payment section.
           _fr: Texte affiché en bas de la facture, avant la section concernant son paiement.

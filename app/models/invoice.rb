@@ -153,11 +153,7 @@ class Invoice < ApplicationRecord
   end
 
   def document_name
-    if membership_type? && sepa?
-      I18n.t("invoices.document_name.sepa_membership")
-    else
-      model_name.human
-    end
+    Current.org.invoice_document_name || model_name.human
   end
 
   def process!(send_email: false)

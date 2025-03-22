@@ -661,32 +661,14 @@ class InvoiceTest < ActiveSupport::TestCase
     assert invoice.sepa?
   end
 
-  test "DE document_name with SEPA member" do
-    org(
-      country_code: "DE",
-      sepa_creditor_identifier: "DE98ZZZ09999999999")
-    member = create_member(
-      name: "John Doe",
-      country_code: "DE",
-      iban: "DE89370400440532013000",
-      sepa_mandate_id: "123",
-      sepa_mandate_signed_on: Date.parse("2024-01-01"))
+  test "document_name and pdf_filename" do
+    invoice = invoices(:annual_fee)
+    assert_equal "Invoice", invoice.document_name
+    assert_equal "invoice-acme-#{invoice.id}.pdf", invoice.pdf_filename
 
-    I18n.with_locale(:de) do
-      invoice = create_membership_invoice(member: member)
-      assert_equal "Mitgliedsbestätigung", invoice.document_name
-    end
-  end
-
-  test "DE document_name with non-SEPA member" do
-    org(
-      country_code: "DE",
-      sepa_creditor_identifier: "DE98ZZZ09999999999")
-
-    I18n.with_locale(:de) do
-      invoice = create_membership_invoice
-      assert_equal "Rechnung", invoice.document_name
-    end
+    Current.org.update!(invoice_document_name: "Receipt")
+    assert_equal "Receipt", invoice.document_name
+    assert_equal "receipt-acme-#{invoice.id}.pdf", invoice.pdf_filename
   end
 
   test "set creator once processed" do
