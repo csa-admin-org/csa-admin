@@ -18,7 +18,7 @@
     }
 
     .inputs .single-line {
-      @apply gap-6 space-y-2 md:flex md:space-y-0;
+      @apply gap-6 space-y-2 md:inline-flex md:space-y-0;
     }
 
     /* Navigation */
