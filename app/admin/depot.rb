@@ -135,6 +135,10 @@ ActiveAdmin.register Depot do
         panel Delivery.human_attribute_name(:sheets_pdf) do
           attributes_table do
             row(:delivery_sheets_mode) { t("delivery.sheets_mode.#{depot.delivery_sheets_mode}") }
+            row(Announcement.model_name.human(count: 2)) {
+              count = Announcement.depots_eq(depot.id).active.count
+              link_to t("announcements.active", count: count), announcements_path(scope: :active, q: { depots_eq: depot.id })
+            }
           end
         end
 

@@ -5,8 +5,8 @@ _:
         too_large:
           _en: Attachments must not exceed 5 MB
           _fr: Les pièces jointes ne doivent pas dépasser 5 Mo
-          _de: Die Anhänge dürfen nicht größer als 5 Mo sein
-          _it: Gli allegati non devono superare i 5 Mo
+          _de: Die Anhänge dürfen nicht größer als 5 MB sein
+          _it: Gli allegati non devono superare i 5 MB
     format:
       _en: "%{attribute} %{message}"
       _fr: "%{attribute} %{message}"
@@ -25,8 +25,8 @@ _:
         _it: deve essere successivo all'inizio
       announcement_not_unique:
         _en: There is already an announcement for the delivery of %{delivery} and the depot %{depot} (%{other_text})
-        _fr: Il y'a déjà une annonce pour la livraison du %{delivery} et le dépôt %{depot} (%{other_text})
-        _de: Es gibt bereits eine Ankündigung für die Lieferung der %{delivery} und die Depot %{depot} (%{other_text})
+        _fr: Il y a déjà une annonce pour la livraison du %{delivery} et le dépôt %{depot} (%{other_text})
+        _de: Es gibt bereits eine Ankündigung für die Lieferung von %{delivery} und das Depot %{depot} (%{other_text})
         _it: C'è già un annuncio per la consegna della %{delivery} e il punto di ritiro %{depot} (%{other_text})
       before_end:
         _en: must be before the end
@@ -67,7 +67,7 @@ _:
         _en: must be even
         _fr: doit être pair
         _de: muss gerade sein
-        _it: deve essere pagato
+        _it: deve essere pari
       exclusion:
         _en: is reserved
         _fr: n'est pas disponible
@@ -76,12 +76,12 @@ _:
       greater_than:
         _en: must be greater than %{count}
         _fr: doit être supérieur à %{count}
-        _de: muss grösser als %{count} sein
+        _de: muss größer als %{count} sein
         _it: deve essere superiore a %{count}
       greater_than_or_equal_to:
         _en: must be greater than or equal to %{count}
         _fr: doit être supérieur ou égal à %{count}
-        _de: muss grösser oder gleich %{count} sein
+        _de: muss größer oder gleich %{count} sein
         _it: deve essere superiore o uguale a %{count}
       inclusion:
         _en: is not included in the list
@@ -102,7 +102,7 @@ _:
         _en: must be less than or equal to %{count}
         _fr: doit être inférieur ou égal à %{count}
         _de: muss kleiner oder gleich %{count} sein
-        _it: deve essere inferiore o uguale a a %{count}
+        _it: deve essere inferiore o uguale a %{count}
       missing_iban:
         _en: Your IBAN number is not configured
         _fr: Votre numéro IBAN n'est pas configuré
@@ -112,7 +112,7 @@ _:
         _en: must be one hour longer than the start
         _fr: doit être une heure de plus que le début
         _de: muss eine Stunde länger als der Anfang sein
-        _it: deve essere un'ora più che l'inizio
+        _it: deve essere un'ora più lungo dell'inizio
       not_a_number:
         _en: is not a number
         _fr: n'est pas un nombre
@@ -122,27 +122,27 @@ _:
         _en: must be an integer
         _fr: doit être un nombre entier
         _de: muss eine ganze Zahl sein
-        _it: deve essere un numero interno
+        _it: deve essere un numero intero
       odd:
         _en: must be odd
         _fr: doit être impair
         _de: muss ungerade sein
-        _it: dev'essere strano
+        _it: deve essere dispari
       record_invalid:
         _en: 'Validation failed: %{errors}'
         _fr: 'La validation a échoué : %{errors}'
         _de: 'Die Bestätigung ist fehlgeschlagen: %{errors}'
-        _it: 'La conferma è fallita : %{errors}'
+        _it: 'La conferma è fallita: %{errors}'
       renewed:
         _en: Membership already renewed
-        _fr: abonnement déjà renouvelé
+        _fr: Abonnement déjà renouvelé
         _de: Abonnement bereits erneuert
-        _it: abbonamento già rinnovato
+        _it: Abbonamento già rinnovato
       same_fiscal_year:
         _en: must be in the same fiscal year
         _fr: doit être dans la même année fiscale
         _de: muss im gleichen Geschäftsjahr sein
-        _it: dev'essere nello stesso anno fiscale
+        _it: deve essere nello stesso anno fiscale
       taken:
         _en: has already been taken
         _fr: est déjà utilisé(e)
@@ -169,7 +169,7 @@ _:
           _en: is too short (at least %{count} characters)
           _fr: est trop court (au moins %{count} caractères)
           _de: ist zu kurz (mindestens %{count} Zeichen)
-          _it: è troppo corto (al meno %{count} caratteri)
+          _it: è troppo corto (almeno %{count} caratteri)
       unsupported_social_network_url:
         _en: contains an unsupported social network URL
         _fr: contient une URL de réseau social non supportée
@@ -197,9 +197,9 @@ _:
           _en: 'This %{model} cannot be saved: 1 error'
           _fr: 'Impossible d''enregistrer ce %{model} : 1 erreur'
           _de: 'Dieses %{model} kann nicht gespeichert werden: 1 Fehlermeldung'
-          _it: 'Impossibile registrare questo %{model} : 1 error'
+          _it: 'Impossibile registrare questo %{model}: 1 errore'
         other:
           _en: 'This %{model} cannot be saved: %{count} errors'
           _fr: 'Impossible d''enregistrer ce %{model} : %{count} erreurs'
           _de: 'Dieses %{model} kann nicht gespeichert werden: %{count} Fehlermeldungen'
-          _it: 'Impossibile registrare questo %{model} : %{count} errori'
+          _it: 'Impossibile registrare questo %{model}: %{count} errori'

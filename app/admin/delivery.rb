@@ -105,6 +105,15 @@ ActiveAdmin.register Delivery do
           end
         end
 
+        panel Delivery.human_attribute_name(:sheets_pdf) do
+          attributes_table do
+            row(Announcement.model_name.human(count: 2)) {
+              count = Announcement.active.deliveries_eq(delivery.id).count
+              link_to t("announcements.active", count: count), announcements_path(scope: :active, q: { deliveries_eq: delivery.id })
+            }
+          end
+        end
+
         if Current.org.feature?("shop")
           panel t("shop.title") do
           attributes_table do
