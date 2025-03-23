@@ -1,4 +1,4 @@
-name: Rubocop and ERB Lint
+name: Lint
 
 on: push
 
@@ -7,18 +7,22 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout
-      uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
 
-    - name: Install libvips and pdftoppm
-      run: |
-        sudo apt-get update -qq -o Acquire::Retries=3
-        sudo apt-get install -y --fix-missing -qq -o Acquire::Retries=3 libvips poppler-utils
+      - name: Install libvips and pdftoppm
+        run: |
+          sudo apt-get update -qq -o Acquire::Retries=3
+          sudo apt-get install -y --fix-missing -qq -o Acquire::Retries=3 libvips poppler-utils
 
-    - name: Install Ruby and run Bundler install with cache
-      uses: ruby/setup-ruby@v1
-      with:
-        bundler-cache: true
+      - name: Install Ruby and run Bundler install with cache
+        uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
 
-    - name: Run lint:check
-      run: bin/rails lint:check
+      - name: Install Node.js and run npm install
+        uses: actions/setup-node@v4
+      - run: npm install
+
+      - name: Run lint:check
+        run: bin/rails lint:check

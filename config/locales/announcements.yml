@@ -1,11 +1,6 @@
 _:
   announcements:
     active:
-      zero:
-        _en: none active
-        _fr: aucune active
-        _de: keine aktive
-        _it: nessuna attiva
       one:
         _en: 1 active
         _fr: 1 active
@@ -16,3 +11,8 @@ _:
         _fr: "%{count} actives"
         _de: "%{count} aktive"
         _it: "%{count} attive"
+      zero:
+        _en: none active
+        _fr: aucune active
+        _de: keine aktive
+        _it: nessuna attiva

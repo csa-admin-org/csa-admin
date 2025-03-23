@@ -111,7 +111,6 @@ group :development do
   gem "terminal-table", require: false
 
   gem "ruby-lsp-rails", require: false
-  gem "erb_lint", require: false
 
   gem "rubocop-rails-omakase", require: false
   gem "rubocop-erb", require: false

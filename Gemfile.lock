@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/rails/rails.git
-  revision: 82cfd9a4e0e8acd4ae96e775e1eaeba70947558e
+  revision: 98892a2d43052698465a443c50e9c2aee828f417
   specs:
     actioncable (8.1.0.alpha)
       actionpack (= 8.1.0.alpha)
@@ -249,13 +249,6 @@ GEM
       nokogiri (>= 1.16.7)
       rexml (>= 3.3.7)
       rubyzip (>= 2.3.2)
-    erb_lint (0.9.0)
-      activesupport
-      better_html (>= 2.0.1)
-      parser (>= 2.7.1.4)
-      rainbow
-      rubocop (>= 1)
-      smart_properties
     erubi (1.13.1)
     et-orbi (1.2.11)
       tzinfo
@@ -448,7 +441,7 @@ GEM
       hashery (~> 2.0)
       ruby-rc4
       ttfunk
-    phony (2.22.0)
+    phony (2.22.1)
     phony_rails (0.15.0)
       activesupport (>= 3.0)
       phony (>= 2.18.12)
@@ -705,7 +698,6 @@ DEPENDENCIES
   discard
   dotenv
   epics
-  erb_lint
   faker
   faraday
   faraday-cookie_jar
@@ -837,7 +829,6 @@ CHECKSUMS
   drb (2.2.1) sha256=e9d472bf785f558b96b25358bae115646da0dbfd45107ad858b0bc0d935cb340
   ed25519 (1.3.0) sha256=514a5584f84d39daac568a17ec93a4e7261e140c52c562ed8c382c18456e627d
   epics (2.8.0) sha256=c301533155f3d406470ec331af9a1f43b88c7b7ae6efab15b4afdb283056144d
-  erb_lint (0.9.0) sha256=dfb5e40ad839e8d1f0d56ca85ec9a7ac4c9cd966ec281138282f35b323ca7c31
   erubi (1.13.1) sha256=a082103b0885dbc5ecf1172fede897f9ebdb745a4b97a5e8dc63953db1ee4ad9
   et-orbi (1.2.11) sha256=d26e868cc21db88280a9ec1a50aa3da5d267eb9b2037ba7b831d6c2731f5df64
   faker (3.5.1) sha256=1ad1fbea279d882f486059c23fe3ddb816ccd1d7052c05a45014b4450d859bfc
@@ -922,7 +913,7 @@ CHECKSUMS
   pdf-core (0.9.0) sha256=4f368b2f12b57ec979872d4bf4bd1a67e8648e0c81ab89801431d2fc89f4e0bb
   pdf-inspector (1.3.0) sha256=fc107579d6f29b636e2da3d6743479b2624d9e390bf2d84beef8fd4ebe1a05bd
   pdf-reader (2.14.1) sha256=b45a4521c249a394ad7ad9e691bfd46d4d00998cfc4f019e4525afb4963b411b
-  phony (2.22.0) sha256=48f609225ce2dfc230e83cfe198268ba19ba78ab5a0ca25cfdb7b16580d7e6ba
+  phony (2.22.1) sha256=7817aa79a8244dc2235e7c1a4d200a798e27930393e626271bd30aa480b14fb4
   phony_rails (0.15.0) sha256=30b395499f7975daf8554e2b7c19885c039dba6281ffa93715ec01506f1951dc
   postmark (1.25.1) sha256=2ac110fa1b4f85a62996fdc63167922eea1c4284a9a7ceb9e007f2758d9e17be
   postmark-rails (0.22.1) sha256=fcea27dda4f7418123d7723622ec5447df4dacacc10a20a40add0f6789135d8f
