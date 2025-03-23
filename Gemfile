@@ -115,6 +115,8 @@ group :development do
   gem "rubocop-rails-omakase", require: false
   gem "rubocop-erb", require: false
 
+  gem "htmlbeautifier", require: false
+
   gem "brakeman", require: false
   gem "resolv", require: false
 end

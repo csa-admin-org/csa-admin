@@ -50,10 +50,10 @@
     <p class="mt-4 text-sm text-gray-400 dark:text-gray-600">
       <%= t(".cancel_sharing_html", email: Current.org.email) %>
     </p>
-    <% else %>
-      <p class="mt-2">
-        <%= t(".explanation") %>
-      </p>
+  <% else %>
+    <p class="mt-2">
+      <%= t(".explanation") %>
+    </p>
     <%= simple_form_for current_member, url: members_contact_sharing_path, method: :post do |f| %>
       <div class="mt-4">
         <%= f.input :contact_sharing, as: :hidden, input_html: { value: true } %>

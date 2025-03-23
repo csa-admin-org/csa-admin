@@ -17,6 +17,8 @@ namespace :lint do
     Rake::Task["locales:format"].invoke
     puts "Running Rubocop with autocorrect..."
     system("bin/rubocop --parallel --autocorrect-all") || abort("Rubocop autocorrect failed")
+    puts "Running htmlbeautifier..."
+    system("bin/htmlbeautifier app/views/**/*.html.erb")
     puts "Running Prettier..."
     system("npx prettier app --write")
   end

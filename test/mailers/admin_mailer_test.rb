@@ -204,7 +204,7 @@ class AdminMailerTest < ActionMailer::TestCase
 
     body = mail.body.to_s
     assert_includes body, "Hello Thibaud,"
-    assert_includes body, "Email rejected (HardBounce)</h1>\n\n<p>Hello Thibaud,</p>\n\n<p>The email <strong>john@doe.com</strong> was rejected during the last message delivery due to the following reason: <strong>HardBounce</strong>"
+    assert_includes body, "Email rejected (HardBounce)</h1>\n<p>Hello Thibaud,</p>\n\n<p>The email <strong>john@doe.com</strong> was rejected during the last message delivery due to the following reason: <strong>HardBounce</strong>.</p>"
     assert_includes body, "Member: John Doe"
     assert_includes body, "https://admin.acme.test/members/#{members(:john).id}"
     assert_includes body, "https://admin.acme.test/admins/#{admins(:master).id}/edit#notifications"

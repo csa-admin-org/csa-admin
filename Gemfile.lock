@@ -292,6 +292,7 @@ GEM
       geom2d (~> 0.4, >= 0.4.1)
       openssl (>= 2.2.1)
       strscan (>= 3.1.2)
+    htmlbeautifier (1.4.3)
     htmlentities (4.3.4)
     http-cookie (1.0.8)
       domain_name (~> 0.5)
@@ -703,6 +704,7 @@ DEPENDENCIES
   faraday-cookie_jar
   girocode
   hexapdf
+  htmlbeautifier
   i18n-backend-side_by_side
   icalendar
   image_processing
@@ -851,6 +853,7 @@ CHECKSUMS
   has_scope (0.8.2) sha256=48cd53d684aecd55d3ede060b3c1da37bbbcab58e273d99936e271fe6d125a54
   hashery (2.1.2) sha256=d239cc2310401903f6b79d458c2bbef5bf74c46f3f974ae9c1061fb74a404862
   hexapdf (1.2.0) sha256=397e1f032608105c5c6048dc23aec48210b1d01be15952a784c5d4bfb0a0e5a8
+  htmlbeautifier (1.4.3)
   htmlentities (4.3.4) sha256=125a73c6c9f2d1b62100b7c3c401e3624441b663762afa7fe428476435a673da
   http-cookie (1.0.8) sha256=b14fe0445cf24bf9ae098633e9b8d42e4c07c3c1f700672b09fbfe32ffd41aa6
   i18n (1.14.7) sha256=ceba573f8138ff2c0915427f1fc5bdf4aa3ab8ae88c8ce255eb3ecf0a11a5d0f

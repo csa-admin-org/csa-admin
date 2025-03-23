@@ -16,7 +16,6 @@
     </p>
   <% end %>
 <% end %>
-
 <div class="mb-12">
   <%= simple_form_for [ :members, @absence ] do |f| %>
     <div class="flex flex-col items-start space-y-4">
@@ -54,7 +53,6 @@
       </div>
     </div>
   <% end %>
-
   <% absences_included = current_member.current_or_future_membership&.absences_included %>
   <% if absences_included&.positive? %>
     <p class="mt-8 text-sm text-gray-400 dark:text-gray-600">
@@ -62,7 +60,6 @@
     </p>
   <% end %>
 </div>
-
 <% @present_or_future_absences = current_member.absences.present_or_future.includes(:baskets) %>
 <% if @present_or_future_absences.any? %>
   <h2 class="mt-8 text-lg font-bold text-gray-900 dark:text-gray-100">
