@@ -1,5 +1,5 @@
 {
-  "plugins": ["prettier-plugin-tailwindcss"],
+  "plugins": ["prettier-plugin-tailwindcss", "prettier-plugin-eruby"],
   "tailwindStylesheet": "./app/assets/tailwind/application.css",
   "semi": false,
   "singleQuote": false,
@@ -16,6 +16,12 @@
       "files": ["*.css"],
       "options": {
         "parser": "css"
+      }
+    },
+    {
+      "files": "*.html.erb",
+      "options": {
+        "parser": "eruby-parse"
       }
     }
   ]
