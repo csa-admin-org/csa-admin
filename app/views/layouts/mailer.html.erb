@@ -28,7 +28,6 @@
               </td>
             </tr>
             <!-- end text/html -->
-
             <!-- Email Body -->
             <tr>
               <td class="email-body" width="570" cellpadding="0" cellspacing="0">
@@ -51,19 +50,16 @@
                   <tr>
                     <td class="content-cell" align="center">
                       <%= simple_format Current.org.email_footer, class: "f-fallback sub align-center" %>
-
                       <% if @admin %>
-                      <p class="f-fallback sub align-center">
-                        <%= link_to t(".manage_admin_notifications"), edit_admin_url(@admin, anchor: "notifications") %>
-                      </p>
+                        <p class="f-fallback sub align-center">
+                          <%= link_to t(".manage_admin_notifications"), edit_admin_url(@admin, anchor: "notifications") %>
+                        </p>
                       <% end %>
-
                       <% if @unsubscribe_token %>
-                      <p class="f-fallback sub align-center">
-                        <%= link_to t(".unsubscribe"), members_unsubscribe_newsletter_url(@unsubscribe_token) %>
-                      </p>
+                        <p class="f-fallback sub align-center">
+                          <%= link_to t(".unsubscribe"), members_unsubscribe_newsletter_url(@unsubscribe_token) %>
+                        </p>
                       <% end %>
-
                       <p class="f-fallback sub align-center">
                         <%= link_to Current.org.name, Current.org.url, target: "_blank" %>
                       </p>
@@ -76,7 +72,6 @@
                           <% end %>
                         </p>
                       <% end %>
-
                       <p class="f-fallback app sub align-center">
                         <%= link_to csa_admin_website_url, target: "_blank" do %>
                           <img src="https://cdn.csa-admin.org/logo-text.png" width="90" height="18" alt="CSA Admin" align="center">

@@ -3,13 +3,11 @@
     <%= icon "trash", class: "size-5" %>
   <% end %>
 <% end %>
-
 <% if edit_action_authorized?(resource) %>
   <%= link_to edit_resource_path(resource), title: edit_label do %>
     <%= icon "pencil-square", class: "size-5" %>
   <% end %>
 <% end %>
-
 <% if show_action_authorized?(resource) %>
   <%= link_to resource_path(resource), title: view_label do %>
     <%= icon "eye", class: "size-5" %>
