@@ -14,6 +14,14 @@ class Announcement < ApplicationRecord
   end
   validate :must_be_unique_per_depot_and_delivery
 
+  scope :active, -> {
+    coming_delivery_ids = Delivery.coming.pluck(:id)
+    where("EXISTS (SELECT 1 FROM json_each(delivery_ids) WHERE json_each.value IN (?))", coming_delivery_ids)
+  }
+  scope :past, -> {
+    coming_delivery_ids = Delivery.coming.pluck(:id)
+    where.not("EXISTS (SELECT 1 FROM json_each(delivery_ids) WHERE json_each.value IN (?))", coming_delivery_ids)
+  }
   scope :depots_eq, ->(id) {
     where("EXISTS (SELECT 1 FROM json_each(depot_ids) WHERE json_each.value = ?)", id.to_i)
   }
@@ -61,7 +69,7 @@ class Announcement < ApplicationRecord
             I18n.t("errors.messages.announcement_not_unique",
               delivery: delivery.display_name,
               depot: depot.name,
-              other_text: announcement.text.truncate(30)))
+              other_text: announcement.text.truncate(30)).html_safe)
         end
       end
     end

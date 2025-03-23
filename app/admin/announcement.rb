@@ -4,6 +4,11 @@ ActiveAdmin.register Announcement do
   menu parent: :other, priority: 3
   actions :all, except: [ :show ]
 
+
+  scope :all
+  scope :active, default: true
+  scope :past
+
   filter :depots, as: :select, collection: -> { admin_depots_collection }
   filter :deliveries, as: :select, collection: -> { Delivery.all }
 
