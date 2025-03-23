@@ -4,15 +4,15 @@
     try {
       return localStorage.getItem(key);
     } catch (e) {
-      console.warn('Unable to access localStorage:', e);
+      console.warn("Unable to access localStorage:", e);
       return null;
     }
   }
 
   function isLocalStorageAvailable() {
     try {
-      localStorage.setItem('test', 'test');
-      localStorage.removeItem('test');
+      localStorage.setItem("test", "test");
+      localStorage.removeItem("test");
       return true;
     } catch (e) {
       return false;
@@ -20,12 +20,12 @@
   }
 
   if (
-    (getSafeLocalStorageItem('color-theme') === 'dark' ||
-      (!isLocalStorageAvailable() || !('color-theme' in localStorage)) &&
-      window.matchMedia('(prefers-color-scheme: dark)').matches)
+    getSafeLocalStorageItem("color-theme") === "dark" ||
+    ((!isLocalStorageAvailable() || !("color-theme" in localStorage)) &&
+      window.matchMedia("(prefers-color-scheme: dark)").matches)
   ) {
-    document.documentElement.classList.add('dark');
+    document.documentElement.classList.add("dark");
   } else {
-    document.documentElement.classList.remove('dark');
+    document.documentElement.classList.remove("dark");
   }
 </script>

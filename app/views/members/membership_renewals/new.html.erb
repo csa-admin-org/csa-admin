@@ -1,6 +1,6 @@
-<h1 class="mt-1 mb-8 text-xl sm:text-2xl font-extrabold text-gray-900 dark:text-gray-100">
+<h1 class=" mt-1 text-xl mb-8 sm:text-2xl font-extrabold text-gray-900 dark:text-gray-100">
   <%= t("members.members.form_modes.membership.title") %>
-</h1>
+        </h1>
 <h2 class="mt-8 text-lg font-bold text-gray-900 dark:text-gray-100">
   <%= t(".title.#{params[:decision]}") %>
 </h2>
@@ -16,7 +16,7 @@
         <%= f.input :renewal_note, as: :text, placeholder: t(".renewal_note.placeholder.cancel"), label_html: { class: "text-sm font-medium text-gray-700 dark:text-gray-300" }, input_html: { rows: 3, class: "mt-1 dark:bg-black w-full px-3 py-2 border border-gray-300 dark:border-gray-700 placeholder-gray-400 dark:placeholder-gray-600 text-gray-900 dark:text-gray-100 rounded-md focus:outline-hidden focus:ring-green-500 focus:border-green-500 focus:z-10" } %>
         <% if Current.org.annual_fee? %>
           <% label = t(".renewal_annual_fee_label_html", price_tag: content_tag(:span, cur(Current.org.annual_fee, precision: 0), class: "text-lg text-gray-400 dark:text-gray-600 whitespace-nowrap")) %>
-          <%= f.input :renewal_annual_fee, as: :boolean, label: label, input_html: { class: "mr-4 flex-none size-6 rounded-sm  focus:outline-hidden focus:ring-green-500 focus:border-green-500 cursor-pointer" }, label_html: { class: "flex flex-row text-sm font-normal text-gray-700 dark:text-gray-300 flex flex-row flex-nowrap items-center cursor-pointer" }, wrapper_class: "border-gray-200 dark:border-gray-800 border rounded-sm px-4 py-4" %>
+          <%= f.input :renewal_annual_fee, as: :boolean, label: label, input_html: { class: "mr-4 flex-none size-6 rounded-sm  focus:outline-hidden focus:ring-green-500 focus:border-green-500 cursor-pointer" }, label_html: { class: "flex flex-row text-sm font-normal text-gray-700 dark:text-gray-300  flex-nowrap items-center cursor-pointer" }, wrapper_class: "border-gray-200 dark:border-gray-800 border rounded-sm px-4 py-4" %>
         <% end %>
       <% when "renew" %>
         <div class="space-y-6" data-controller="form-choices-limiter form-activity">
