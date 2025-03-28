@@ -15,10 +15,7 @@ gem "puma"
 gem "sqlite3"
 gem "sqlean"
 
-# S3 Compatible storage service interaction
-# https://github.com/rails/rails/issues/54374
-gem "aws-sdk-s3", "1.170", require: false
-gem "aws-sdk-core", "3.211"
+gem "aws-sdk-s3"
 
 gem "appsignal"
 gem "lograge"
