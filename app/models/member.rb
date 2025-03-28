@@ -389,7 +389,7 @@ class Member < ApplicationRecord
   end
 
   def payments_amount
-    @payments_amount ||= payments.sum(:amount)
+    @payments_amount ||= payments.not_ignored.sum(:amount)
   end
 
   def balance_amount

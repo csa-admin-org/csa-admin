@@ -6,16 +6,18 @@ class Payment < ApplicationRecord
 
   attr_accessor :comment
 
-  audited_attributes :member_id, :invoice_id, :date, :amount
+  audited_attributes :member_id, :invoice_id, :date, :amount, :ignored_at
 
   default_scope { order(:date) }
 
   belongs_to :member
   belongs_to :invoice, optional: true
 
-  scope :auto, -> { where.not(fingerprint: nil) }
-  scope :manual, -> { where(fingerprint: nil) }
-  scope :refund, -> { where("amount < 0") }
+  scope :ignored, -> { where.not(ignored_at: nil) }
+  scope :not_ignored, -> { where(ignored_at: nil) }
+  scope :auto, -> { not_ignored.where.not(fingerprint: nil) }
+  scope :manual, -> { not_ignored.where(fingerprint: nil) }
+  scope :refund, -> { not_ignored.where("amount < 0") }
   scope :invoice_id_eq, ->(id) { where(invoice_id: id) }
 
   validates :date, presence: true
@@ -39,11 +41,45 @@ class Payment < ApplicationRecord
   end
 
   def state
-    type
+    ignored? ? "ignored" : type
   end
 
   def manual?
     type == "manual"
+  end
+
+  def auto?
+    type == "auto"
+  end
+
+  def ignore!
+    return unless can_ignore?
+
+    update!(ignored_at: Time.current)
+  end
+
+  def can_ignore?
+    auto? && !ignored?
+  end
+
+  def unignore!
+    return unless can_unignore?
+
+    update!(ignored_at: nil)
+  end
+
+  def can_unignore?
+    auto? && ignored?
+  end
+
+  def ignored?
+    ignored_at.present?
+  end
+
+  def ignored_by
+    return unless ignored?
+
+    audits.reversed.find_change_of(:ignored_at, from: nil)&.actor
   end
 
   def self.ransackable_scopes(_auth_object = nil)

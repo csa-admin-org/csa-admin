@@ -65,7 +65,7 @@ _:
           _it: Telefono per condivisione auto
         created_at:
           _en: Created at
-          _fr: Enregistrée à
+          _fr: Enregistrée le
           _de: Erstellt am
           _it: Registrato a
         invoiced_at:
@@ -75,9 +75,9 @@ _:
           _it: Fatturato il
         latest_reminder_sent_at:
           _en: Latest reminder sent at
-          _fr: Dernière rappel envoyé à
-          _de: Letzte Erinnerung gesendet an
-          _it: Ultimo promemoria inviato a
+          _fr: Dernière rappel envoyé le
+          _de: Letzte Erinnerung gesendet am
+          _it: Ultimo promemoria inviato il
         member_emails:
           _en: Email(s)
           _fr: Email(s)
@@ -109,18 +109,18 @@ _:
           _de: Teilnehmer
           _it: Partecipanti
         rejected_at:
-          _en: Rejected on
-          _fr: Refusée à
+          _en: Rejected at
+          _fr: Refusée le
           _de: Abgelehnt am
           _it: Rifiutato in data
         updated_at:
           _en: Updated at
-          _fr: Mise à jour à
+          _fr: Mise à jour le
           _de: Aktualisiert am
           _it: Aggiornato il
         validated_at:
-          _en: Validated on
-          _fr: Validée à
+          _en: Validated at
+          _fr: Validée le
           _de: Bestätigt am
           _it: Confermato il
         validator:
@@ -517,7 +517,7 @@ _:
           _de: Geschäftsjahr (Arbeitsstunden)
           _it: Anno fiscale (ore di lavoro)
         overdue_notice_sent_at:
-          _en: Last reminder sent on
+          _en: Last reminder sent at
           _fr: Dernier rappel envoyé le
           _de: Letzte Mahnung gesendet am
           _it: Ultimo promemoria inviato il
@@ -1705,6 +1705,16 @@ _:
           _fr: Commentaire
           _de: Kommentar
           _it: Commenti
+        ignored_at:
+          _en: Ignored at
+          _fr: Ignoré le
+          _de: Ignoriert am
+          _it: Ignorato il
+        ignored_by:
+          _en: Ignored by
+          _fr: Ignoré par
+          _de: Ignoriert von
+          _it: Ignorato da
       permission:
         rights:
           _en: Access rights

@@ -52,7 +52,7 @@ class PaymentTotal
     @price ||=
       case scope
       when :paid
-        @payments.sum(:amount)
+        @payments.not_ignored.sum(:amount)
       when :missing
         @invoices.open.sum("amount - paid_amount")
       end

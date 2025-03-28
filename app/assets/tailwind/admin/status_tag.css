@@ -73,7 +73,7 @@
     }
 
     &[data-status="ignored"] {
-      @apply bg-blue-500 dark:bg-blue-500;
+      @apply bg-neutral-300 dark:bg-neutral-600;
     }
 
     &[data-status="coming"] {

@@ -268,7 +268,7 @@ class Invoice < ApplicationRecord
   end
 
   def overpaid?
-    payments.sum(:amount) > amount
+    payments.not_ignored.sum(:amount) > amount
   end
 
   def send_overpaid_notification_to_admins!

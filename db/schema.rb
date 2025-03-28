@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_03_22_092212) do
+ActiveRecord::Schema[8.1].define(version: 2025_03_28_151339) do
   create_table "absences", force: :cascade do |t|
     t.datetime "created_at"
     t.date "ended_on"
@@ -744,6 +744,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_03_22_092212) do
     t.datetime "created_at", null: false
     t.date "date", null: false
     t.string "fingerprint"
+    t.datetime "ignored_at"
     t.bigint "invoice_id"
     t.bigint "member_id", null: false
     t.datetime "updated_at", null: false

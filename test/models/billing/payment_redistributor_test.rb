@@ -111,4 +111,24 @@ class Billing::PaymentsRedistributorTest < ActiveSupport::TestCase
     assert_equal 0, invoice3.reload.paid_amount
     assert_equal "open", invoice3.state
   end
+
+  test "does not take ignored payments into account" do
+    travel_to "2024-01-01"
+    org(share_price: 30, shares_number: 1)
+
+    invoice1 = create_membership_invoice(membership_amount_fraction: 3)
+    invoice2 = create_membership_invoice(membership_amount_fraction: 2)
+
+    create_payment(invoice: invoice1, amount: 66.65)
+    create_payment(invoice: invoice1, amount: 10, ignored_at: Time.current)
+
+    redistribute!(members(:john))
+
+    assert_equal 66.65, invoice1.reload.paid_amount
+    assert_equal "closed", invoice1.state
+    assert_equal 0, invoice2.reload.paid_amount
+    assert_equal "open", invoice2.state
+
+    assert_equal -66.7, members(:john).reload.balance_amount
+  end
 end

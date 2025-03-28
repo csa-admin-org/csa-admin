@@ -25,6 +25,7 @@ ActiveAdmin.register Payment do
   scope :all, default: true
   scope :auto
   scope :manual
+  scope :ignored
 
   filter :during_year,
     as: :select,
@@ -44,7 +45,7 @@ ActiveAdmin.register Payment do
     column :date, ->(p) { l p.date, format: :number }, class: "text-right tabular-nums"
     column :invoice_id, ->(p) { p.invoice_id ? auto_link(p.invoice, p.invoice_id) : "–" }, class: "text-right"
     column :amount, ->(p) { cur(p.amount) }, class: "text-right tabular-nums"
-    column :type, ->(p) { status_tag p.type }, class: "text-right"
+    column :type, ->(p) { status_tag p.state }, class: "text-right"
     actions do |payment|
       link_to_invoice_pdf(payment.invoice) if payment.invoice_id?
     end
@@ -62,7 +63,7 @@ ActiveAdmin.register Payment do
         t_invoice_entity_type(type)
       end
     }
-    column :type
+    column(:state) { |p| t("states.payment.#{p.state}") }
   end
 
   sidebar :total, only: :index, if: -> { params[:q] } do
@@ -121,12 +122,35 @@ ActiveAdmin.register Payment do
               row(:updated_at) { l(payment.updated_at, format: :medium) }
               row(:updated_by)
             end
+            if payment.ignored?
+              row(:ignored_at) { l(payment.ignored_at, format: :medium) }
+              row(:ignored_by)
+            end
           end
         end
 
         active_admin_comments_for(payment)
       end
     end
+  end
+
+
+  action_item :ignore, only: :show, if: -> { authorized?(:ignore, resource) } do
+    button_to t(".ignore"), ignore_payment_path(resource), class: "action-item-button"
+  end
+
+  action_item :unignore, only: :show, if: -> { authorized?(:unignore, resource) } do
+    button_to t(".unignore"), unignore_payment_path(resource), class: "action-item-button"
+  end
+
+  member_action :ignore, method: :post do
+    resource.ignore!
+    redirect_to payment_path(resource)
+  end
+
+  member_action :unignore, method: :post do
+    resource.unignore!
+    redirect_to payment_path(resource)
   end
 
   form do |f|

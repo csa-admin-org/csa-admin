@@ -30,6 +30,7 @@ class Members::BillingTest < ApplicationSystemTestCase
     login(member)
     invoice = invoices(:other_closed)
     create_payment(amount: 42)
+    create_payment(amount: 33, ignored_at: Time.current)
 
     visit "/billing"
 
@@ -50,6 +51,8 @@ class Members::BillingTest < ApplicationSystemTestCase
     assert_text "02.04.24 Payment of #901871612 (Other) -CHF 10.00"
     assert_text "01.04.24 Invoice ##{invoice.id} (Other) CHF 10.00"
     assert_text "Payments with reference numbers are processed automatically overnight. Please contact us if one of your payments does not appear."
+
+    assert_no_text "-CHF 33.00"
   end
 
   test "list invoices for membership SEPA" do

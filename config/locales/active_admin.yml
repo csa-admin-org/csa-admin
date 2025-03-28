@@ -1665,6 +1665,12 @@ _:
           _fr: Nouveau %{model}
           _de: Neue %{model}
           _it: Nuovo %{model}
+        scopes:
+          ignored:
+            _en: Ignored
+            _fr: Ignorés
+            _de: Ignorierte
+            _it: Ignorato
       permission:
         new_model:
           _en: New %{model}
@@ -1891,6 +1897,11 @@ _:
           _fr: Dupliquer
           _de: Duplizieren
           _it: Duplicare
+        ignore:
+          _en: Ignore
+          _fr: Ignorer
+          _de: Ignorieren
+          _it: Ignorare
         invoice_action:
           _en: Invoice
           _fr: Facturer
@@ -1942,6 +1953,11 @@ _:
           _fr: Paramètres
           _de: Einstellungen
           _it: Impostazioni
+        unignore:
+          _en: Restore
+          _fr: Restaurer
+          _de: Wiederherstellen
+          _it: Ripristinare
         validate:
           _en: Validate
           _fr: Valider

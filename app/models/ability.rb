@@ -105,6 +105,8 @@ class Ability
       can :cancel, Invoice, can_cancel?: true
       can :import, Payment
       can :invoice_all, ActivityParticipation
+      can :ignore, Payment, can_ignore?: true
+      can :unignore, Payment, can_unignore?: true
     end
 
     if admin.permission.can_write?(:depot)
