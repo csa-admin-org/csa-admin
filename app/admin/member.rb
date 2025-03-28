@@ -332,7 +332,7 @@ ActiveAdmin.register Member do
               column(:date, class: "text-right") { |p| l(p.date, format: :number) }
               column(:invoice_id, class: "text-right") { |p| p.invoice_id ? auto_link(p.invoice, p.invoice_id) : "–" }
               column(:amount, class: "text-right") { |p| cur(p.amount) }
-              column(:type, class: "text-right") { |p| status_tag p.type }
+              column(:type, class: "text-right") { |p| status_tag p.state }
             end
             if payments_count > 10
               div show_more_link(all_payments_path)

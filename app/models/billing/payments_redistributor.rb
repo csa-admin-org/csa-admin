@@ -73,7 +73,7 @@ module Billing
     end
 
     def payments
-      @member.payments
+      @member.payments.not_ignored
     end
 
     def invoices

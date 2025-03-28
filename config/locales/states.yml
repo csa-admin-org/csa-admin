@@ -2,19 +2,19 @@ _:
   states:
     activity_participation:
       accepted:
-        _en: Accepted
+        _en: accepted
         _fr: acceptées
         _de: akzeptiert
         _it: accettato
       demanded:
-        _en: Requested
+        _en: requested
         _fr: demandées
         _de: angefordert
         _it: richiesto
       future:
-        _en: Upcoming
+        _en: upcoming
         _fr: à venir
-        _de: Kommend
+        _de: kommend
         _it: venendo
       missing:
         _en: missing
@@ -22,54 +22,54 @@ _:
         _de: fehlende
         _it: mancante
       pending:
-        _en: Pending
-        _fr: À valider
-        _de: Zu bestätigen
-        _it: Da confermare
+        _en: pending
+        _fr: à valider
+        _de: zu bestätigen
+        _it: da confermare
       rejected:
-        _en: Rejected
+        _en: rejected
         _fr: refusée
         _de: abgelehnt
         _it: rifiutato
       validated:
-        _en: Validated
+        _en: validated
         _fr: validée
         _de: bestätigt
         _it: confermato
     invoice:
       canceled:
-        _en: Canceled
+        _en: canceled
         _fr: annulée
         _de: storniert
         _it: annullata
       closed:
-        _en: Closed
+        _en: closed
         _fr: fermée
         _de: geschlossen
         _it: chiusa
       open:
-        _en: Open
+        _en: open
         _fr: ouverte
         _de: offen
         _it: aperta
       open_with_overdue_notice:
-        _en: Open with overdue notice(s)
+        _en: open with overdue notice(s)
         _fr: ouverte avec rappel(s)
         _de: offen mit Mahnung(en)
         _it: aperta con richiamo(i)
       processing:
-        _en: Processing
+        _en: processing
         _fr: en traitement
         _de: in Bearbeitung
         _it: elaborazione
     member:
       active:
-        _en: Active
+        _en: active
         _fr: actif
         _de: aktiv
         _it: attivo
       inactive:
-        _en: Inactive
+        _en: inactive
         _fr: inactif
         _de: inaktiv
         _it: inattivo
@@ -90,107 +90,112 @@ _:
           _de: Probeabonnements
           _it: Abbonamenti di prova
       pending:
-        _en: Pending
+        _en: pending
         _fr: à valider
         _de: zu bestätigen
         _it: da confermare
       support:
-        _en: Support
+        _en: support
         _fr: soutien
-        _de: Förderung
+        _de: förderung
         _it: sostegno
       trial:
-        _en: Trial
-        _fr: Abonnement à l'essai
-        _de: Probeabonnement
-        _it: Abbonamento di prova
+        _en: trial
+        _fr: abonnement à l'essai
+        _de: probeabonnement
+        _it: abbonamento di prova
       waiting:
-        _en: Waiting list
+        _en: waiting list
         _fr: liste d'attente
-        _de: Warteliste
+        _de: warteliste
         _it: lista d'attesa
     membership:
       future:
-        _en: Future
-        _fr: Futur
-        _de: Künftig
-        _it: Futuro
+        _en: future
+        _fr: futur
+        _de: künftig
+        _it: futuro
       ongoing:
-        _en: Ongoing
-        _fr: En cours
-        _de: Laufend
-        _it: In corso
+        _en: ongoing
+        _fr: en cours
+        _de: laufend
+        _it: in corso
       past:
-        _en: Past
-        _fr: Passé
-        _de: Vergangen
-        _it: Passato
+        _en: past
+        _fr: passé
+        _de: vergangen
+        _it: passato
       trial:
-        _en: Trial
-        _fr: Essai
-        _de: Probe
-        _it: Prova
+        _en: trial
+        _fr: essai
+        _de: probe
+        _it: prova
     newsletter:
       draft:
-        _en: Draft
+        _en: draft
         _fr: brouillon
         _de: Entwurf
         _it: bozza
       processing:
-        _en: Delivery in progress...
-        _fr: Envoi en cours...
+        _en: delivery in progress...
+        _fr: envoi en cours...
         _de: Lieferung in Bearbeitung...
-        _it: Spedizione in corso...
+        _it: spedizione in corso...
       sent:
-        _en: Sent
+        _en: sent
         _fr: envoyé
         _de: gesendet
         _it: inviato
     newsletter/delivery:
       bounced:
-        _en: Bounced
+        _en: bounced
         _fr: rejetée
         _de: abgelehnte
         _it: respinto
       delivered:
-        _en: Delivered
+        _en: delivered
         _fr: distribuée
         _de: verteilte
         _it: distribuito
       ignored:
-        _en: Ignored
+        _en: ignored
         _fr: ignorée
         _de: ignorierte
         _it: ignorato
-      processsing:
-        _en: Processing
+      processing:
+        _en: processing
         _fr: en traitement
         _de: in Bearbeitung
         _it: elaborazione
     payment:
       auto:
-        _en: Auto
+        _en: auto
         _fr: auto
         _de: auto
         _it: auto
+      ignored:
+        _en: ignored
+        _fr: ignoré
+        _de: ignorierte
+        _it: ignorato
       manual:
-        _en: Manual
+        _en: manual
         _fr: manuel
         _de: manuell
         _it: manuale
     shop/order:
       cart:
-        _en: Cart
+        _en: cart
         _fr: panier
-        _de: Warenkorb
+        _de: warenkorb
         _it: carrello
       invoiced:
-        _en: Invoiced
+        _en: invoiced
         _fr: facturée
         _de: abgerechnet
         _it: fatturato
       pending:
-        _en: To be prepared
+        _en: to be prepared
         _fr: à préparer
-        _de: Vorzubereiten
+        _de: vorzubereiten
         _it: essere preparati
