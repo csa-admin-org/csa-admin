@@ -53,12 +53,11 @@ production: &production
     domain: cultureslocales.ch
   lepetrichor:
     domain: lepetrichor.ch
+  ortie:
+    domain: ortie-microferme.ch
 
   fairdura:
     domain: fairdura.ch
-    state: onboarding
-  ortie:
-    domain: ortie-microferme.ch
     state: onboarding
   mamajah:
     domain: mamajah.org
