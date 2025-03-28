@@ -13,3 +13,5 @@ tenant_object_store:
   endpoint: <%= Rails.application.credentials.dig(:object_store, Rails.env, :endpoint) %>
   access_key_id: <%= Rails.application.credentials.dig(:object_store, Rails.env, :access_key_id) %>
   secret_access_key: <%= Rails.application.credentials.dig(:object_store, Rails.env, :secret_access_key) %>
+  request_checksum_calculation: "when_required"
+  response_checksum_validation: "when_required"
