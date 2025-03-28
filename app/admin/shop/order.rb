@@ -29,7 +29,7 @@ ActiveAdmin.register Shop::Order do
 
   filter :_delivery_gid,
     as: :select,
-    collection: -> { shop_deliveries_collection },
+    collection: -> { shop_deliveries_collection(used: true) },
     label: -> { Delivery.model_name.human }
   filter :during_year,
     as: :select,

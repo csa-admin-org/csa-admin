@@ -67,8 +67,15 @@ module ShopHelper
     end
   end
 
-  def shop_deliveries_collection
-    (Delivery.shop_open + Shop::SpecialDelivery.all).sort_by(&:date).map do |delivery|
+  def shop_deliveries_collection(used: false)
+    deliveries =
+      if used
+        Delivery.shop_open.joins(:shop_orders).distinct +
+          Shop::SpecialDelivery.joins(:shop_orders).distinct
+      else
+        Delivery.shop_open + Shop::SpecialDelivery.all
+      end
+    deliveries.sort_by(&:date).map do |delivery|
       [ delivery.display_name, delivery.to_global_id ]
     end
   end
