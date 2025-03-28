@@ -97,7 +97,7 @@ group :development, :test do
   gem "debug", platforms: %i[ mri windows ], require: "debug/prelude"
 
   gem "dotenv"
-  gem "faker", require: false
+  gem "faker"
 end
 
 group :development do
