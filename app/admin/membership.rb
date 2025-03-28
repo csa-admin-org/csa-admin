@@ -318,6 +318,7 @@ ActiveAdmin.register Membership do
           text_only: true,
           public_name: false)
       }
+      column(:basket_complements_price)
     end
     column(:depot) { |m| m.depot.name }
     if Depot.prices?
