@@ -21,9 +21,6 @@ ActiveAdmin.register Invoice do
   scope :all do |scope|
     scope.not_processing
   end
-  scope :open_and_not_sent do |scope|
-    scope.open.not_sent
-  end
   scope :open, default: true
   scope :closed
   scope :canceled
@@ -110,6 +107,16 @@ ActiveAdmin.register Invoice do
     column(:canceled_by) { |i| i.canceled_by&.name }
     column :closed_at
     column(:closed_by) { |i| i.closed_by&.name }
+  end
+
+  sidebar :open_and_not_sent, only: :index, if: -> { params[:scope].in?([ nil, "open" ]) && Invoice.open.not_sent.any? } do
+    side_panel nil, class: "p-2 border-red-500 bg-red-100 dark:bg-red-900" do
+      para class: "-mt-3" do
+        t("active_admin.shared.sidebar_section.invoice_open_not_sent_text_html",
+          count: Invoice.open.not_sent.count,
+          url: invoices_path(scope: "open", q: { sent_eq: false }))
+      end
+    end
   end
 
   sidebar :total, only: :index do
@@ -487,10 +494,6 @@ ActiveAdmin.register Invoice do
   end
 
   before_action only: :index do
-    if params[:scope] == "open_and_not_sent"
-      params[:q] ||= {}
-      params[:q][:sent_eq] = false
-    end
     if params.dig(:q, :during_year).present? && params.dig(:q, :during_year).to_i < Current.fy_year
       params[:scope] ||= "all"
     end
