@@ -254,7 +254,7 @@
 
   /* Links */
   a {
-    @apply text-gray-900 underline decoration-green-300 underline-offset-2 hover:text-green-600 dark:text-gray-100 dark:decoration-green-600 dark:hover:text-green-600;
+    @apply text-gray-900 underline decoration-green-400 underline-offset-2 hover:text-green-600 dark:text-gray-100 dark:decoration-green-600 dark:hover:text-green-600;
   }
 
   .disabled {

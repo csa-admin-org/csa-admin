@@ -1537,11 +1537,6 @@ _:
             _fr: Ouvertes
             _de: Offen
             _it: Aperte
-          open_and_not_sent:
-            _en: Open (not sent)
-            _fr: Ouvertes (non-envoyées)
-            _de: Offen (nicht gesendeten)
-            _it: Aperte (non inviate)
       m_session:
         scopes:
           active:
@@ -2060,6 +2055,17 @@ _:
             _fr: Êtes-vous sûr de vouloir facturer %{count} participations manquantes (%{activity_price}/part.) pour l'année %{year}?
             _de: Sind Sie sicher, dass Sie %{count} fehlende Teilnahmen (%{activity_price}/Teiln.) für das Jahr %{year} in Rechnung stellen möchten?
             _it: Siete sicuri di voler addebitare %{count} partecipazioni mancanti ({activity_price}/part.) per l'anno %{year}?
+        invoice_open_not_sent_text_html:
+          one:
+            _en: Attention, <a href="%{url}">an open invoice</a> has not been sent or marked as sent.
+            _fr: Attention, <a href="%{url}">une facture ouverte</a> n'a pas été envoyée ou marquée comme envoyée.
+            _de: Achtung, <a href="%{url}">eine offene Rechnung</a> wurde nicht gesendet oder als gesendet markiert.
+            _it: Attenzione, <a href="%{url}">una fattura aperta</a> non è stata inviata o contrassegnata come inviata.
+          other:
+            _en: Attention, <a href="%{url}">%{count} open invoices</a> have not been sent or marked as sent.
+            _fr: Attention, <a href="%{url}">%{count} factures ouvertes</a> n'ont pas été envoyées ou marquées comme envoyées.
+            _de: Achtung, <a href="%{url}">%{count} offene Rechnungen</a> wurden nicht gesendet oder als gesendet markiert.
+            _it: Attenzione, <a href="%{url}">%{count} fatture aperte</a> non sono state inviate o contrassegnate come inviate.
         invoices_done:
           _en: Invoiced
           _fr: Facturés
