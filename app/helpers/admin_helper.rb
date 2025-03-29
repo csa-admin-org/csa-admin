@@ -2,15 +2,15 @@
 
 module AdminHelper
   def admin_depots_collection
-    Depot.kept.order_by_name
+    grouped_by_visibility(Depot.kept.order_by_name)
   end
 
   def admin_basket_sizes_collection
-    BasketSize.kept.ordered
+    grouped_by_visibility(BasketSize.kept.ordered)
   end
 
   def admin_basket_complements_collection
-    BasketComplement.kept.ordered
+    grouped_by_visibility(BasketComplement.kept.ordered)
   end
 
   def admin_delivery_cycles_collection
@@ -20,5 +20,18 @@ module AdminHelper
         cycle.id
       ]
     }
+  end
+
+  private
+
+  def grouped_by_visibility(relation)
+    if relation.hidden.none?
+      relation
+    else
+      grouped_options_for_select({
+        t("active_admin.scopes.visible") => relation.visible.map { |a| [ a.name, a.id ] },
+        t("active_admin.scopes.hidden") => relation.hidden.map { |a| [ a.name, a.id ] }
+      })
+    end
   end
 end
