@@ -5,7 +5,7 @@ module API
     class ConfigurationsController < BaseController
       def show
         @basket_sizes = BasketSize.kept.ordered
-        @depots = Depot.used.kept
+        @depots = Depot.used.kept.order_by_name
         @basket_content_products = BasketContent::Product.order_by_name
 
         if stale?(cache_object)

@@ -44,7 +44,7 @@ ActiveAdmin.register Announcement do
         input_html: { rows: 4, cols: 32 },
         hint: t("formtastic.hints.announcement.text_html"))
       f.input :depot_ids,
-        collection: admin_depots_collection,
+        collection: admin_depots,
         as: :check_boxes,
         required: true,
         label: Depot.model_name.human(count: 2)
