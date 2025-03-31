@@ -443,7 +443,7 @@ ActiveAdmin.register Member do
                       span do
                         l(invoicer.next_date, format: :medium)
                       end
-                      if authorized?(:recurring_billing, member) && invoicer.billable?
+                      if authorized?(:recurring_billing, member) && Billing::Invoicer.new(member).billable?
                         div do
                           button_to t(".recurring_billing"), recurring_billing_member_path(member),
                             form: {
