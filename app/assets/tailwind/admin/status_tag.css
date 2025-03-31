@@ -8,146 +8,66 @@
   }
 
   .status-tag {
-    &[data-status="renewed"] {
-      @apply bg-green-500 dark:bg-green-500;
-    }
-
-    &[data-status="delivered"] {
-      @apply bg-green-500 dark:bg-green-500;
-    }
-
-    &[data-status="invoiced"] {
-      @apply bg-green-500 dark:bg-green-500;
-    }
-
-    &[data-status="active"] {
-      @apply bg-green-500 dark:bg-green-500;
-    }
-
-    &[data-status="closed"] {
-      @apply bg-green-500 dark:bg-green-500;
-    }
-
-    &[data-status="auto"] {
-      @apply bg-green-500 dark:bg-green-500;
-    }
-
-    &[data-status="ongoing"] {
-      @apply bg-green-500 dark:bg-green-500;
-    }
-
-    &[data-status="validated"] {
-      @apply bg-green-500 dark:bg-green-500;
-    }
-
-    &[data-status="sent"] {
-      @apply bg-green-500 dark:bg-green-500;
-    }
-
+    /* Green statuses - success/completed actions */
+    &[data-status="renewed"],
+    &[data-status="delivered"],
+    &[data-status="invoiced"],
+    &[data-status="active"],
+    &[data-status="closed"],
+    &[data-status="auto"],
+    &[data-status="ongoing"],
+    &[data-status="validated"],
+    &[data-status="sent"],
     &[data-status="yes"] {
       @apply bg-green-500 dark:bg-green-500;
     }
 
-    &[data-status="support"] {
-      @apply bg-yellow-400 dark:bg-yellow-600;
-    }
-
+    /* Yellow statuses - warning/attention */
+    &[data-status="support"],
     &[data-status="future"] {
       @apply bg-yellow-400 dark:bg-yellow-600;
     }
 
-    &[data-status="renewal_pending"] {
-      @apply bg-orange-500 dark:bg-orange-500;
-    }
-
+    /* Orange statuses - pending attention */
+    &[data-status="renewal_pending"],
     &[data-status="waiting"] {
       @apply bg-orange-500 dark:bg-orange-500;
     }
 
-    &[data-status="renewal_opened"] {
-      @apply bg-lime-400 dark:bg-lime-400;
-    }
-
+    /* Lime statuses - in process */
+    &[data-status="renewal_opened"],
     &[data-status="pending"] {
       @apply bg-lime-400 dark:bg-lime-400;
     }
 
-    &[data-status="ignored"] {
-      @apply bg-neutral-300 dark:bg-neutral-600;
-    }
-
-    &[data-status="coming"] {
-      @apply bg-blue-500 dark:bg-blue-500;
-    }
-
-    &[data-status="draft"] {
-      @apply bg-blue-500 dark:bg-blue-500;
-    }
-
-    &[data-status="manual"] {
-      @apply bg-blue-500 dark:bg-blue-500;
-    }
-
-    &[data-status="not_sent"] {
-      @apply bg-blue-500 dark:bg-blue-500;
-    }
-
-    &[data-status="manual_suppression"] {
-      @apply bg-blue-500 dark:bg-blue-500;
-    }
-
+    /* Blue statuses - information/neutral action */
+    &[data-status="coming"],
+    &[data-status="draft"],
+    &[data-status="manual"],
+    &[data-status="not_sent"],
     &[data-status="trial"] {
       @apply bg-blue-500 dark:bg-blue-500;
     }
 
-    &[data-status="renewal_canceled"] {
-      @apply bg-red-500 dark:bg-red-500;
-    }
-
-    &[data-status="hard_bounce"] {
-      @apply bg-red-500 dark:bg-red-500;
-    }
-
-    &[data-status="bounced"] {
-      @apply bg-red-500 dark:bg-red-500;
-    }
-
-    &[data-status="spam_complaint"] {
-      @apply bg-red-500 dark:bg-red-500;
-    }
-
-    &[data-status="no"] {
-      @apply bg-red-500 dark:bg-red-500;
-    }
-
-    &[data-status="open"] {
-      @apply bg-red-500 dark:bg-red-500;
-    }
-
+    /* Red statuses - error/negative */
+    &[data-status="renewal_canceled"],
+    &[data-status="hard_bounce"],
+    &[data-status="bounced"],
+    &[data-status="spam_complaint"],
+    &[data-status="no"],
+    &[data-status="open"],
     &[data-status="rejected"] {
       @apply bg-red-500 dark:bg-red-500;
     }
 
-    &[data-status="absent"] {
-      @apply bg-neutral-300 dark:bg-neutral-600;
-    }
-
-    &[data-status="processing"] {
-      @apply bg-neutral-300 dark:bg-neutral-600;
-    }
-
-    &[data-status="no_email"] {
-      @apply bg-neutral-300 dark:bg-neutral-600;
-    }
-
-    &[data-status="canceled"] {
-      @apply bg-neutral-300 dark:bg-neutral-600;
-    }
-
-    &[data-status="past"] {
-      @apply bg-neutral-300 dark:bg-neutral-600;
-    }
-
+    /* Grey/Neutral statuses - inactive/disabled */
+    &[data-status="canceled"],
+    &[data-status="absent"],
+    &[data-status="ignored"],
+    &[data-status="processing"],
+    &[data-status="no_email"],
+    &[data-status="manual_suppression"],
+    &[data-status="past"],
     &[data-status="inactive"] {
       @apply bg-neutral-300 dark:bg-neutral-600;
     }

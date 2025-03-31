@@ -566,14 +566,9 @@ ActiveAdmin.register Member do
               form_select_options_target_param: "member_waiting_delivery_cycle_id"
             }
           },
-          collection: admin_depots_collection.map { |d|
-            [
-              d.name, d.id,
-              data: {
-                form_select_options_values_param: d.delivery_cycle_ids.join(",")
-              }
-            ]
-          }
+          collection: admin_depots_collection(->(d) {
+            { data: { form_select_options_values_param: d.delivery_cycle_ids.join(",") } }
+          })
         f.input :waiting_delivery_cycle,
           label: DeliveryCycle.model_name.human,
           as: :select,
@@ -584,9 +579,9 @@ ActiveAdmin.register Member do
           as: :select,
           collection: billing_year_divisions_collection,
           prompt: true
-        if admin_depots_collection.many?
+        if Depot.kept.many?
           f.input :waiting_alternative_depot_ids,
-            collection: admin_depots_collection,
+            collection: admin_depots,
             as: :check_boxes,
             hint: false
         end

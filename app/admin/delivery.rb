@@ -158,7 +158,7 @@ ActiveAdmin.register Delivery do
         f.input :basket_complements,
           as: :check_boxes,
           wrapper_html: { class: "legend-title" },
-          collection: admin_basket_complements_collection,
+          collection: admin_basket_complements,
           hint: true
 
         handbook_button(self, "deliveries", anchor: "complments-de-panier")
@@ -179,7 +179,7 @@ ActiveAdmin.register Delivery do
           label: Depot.model_name.human(count: 2),
           as: :check_boxes,
           required: false,
-          collection: admin_depots_collection,
+          collection: admin_depots,
           input_html: {
             data: { form_checkbox_toggler_target: "input" }
           }
