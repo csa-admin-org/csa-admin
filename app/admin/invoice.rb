@@ -140,9 +140,11 @@ ActiveAdmin.register Invoice do
     end
   end
 
-  sidebar :sepa_pain, only: :index, if: -> { params[:scope].in?([ nil, "all", "open" ]) && !Billing::SEPADirectDebit.new(collection.offset(nil).limit(nil)).blank? } do
+  sidebar :sepa_pain, only: :index, if: -> { params[:scope].in?([ nil, "all", "open" ]) && collection.offset(nil).limit(nil).open.sepa.any? } do
     side_panel "SEPA" do
-      para t(".sepa_pain_text_html", count: collection.offset(nil).limit(nil).sepa.count)
+      para t(".sepa_pain_text_html",
+        count: collection.offset(nil).limit(nil).open.sepa.count,
+        url: invoices_path(scope: "open", q: { sepa_eq: true }))
       div class: "mt-3 flex justify-center" do
         link_to sepa_pain_all_invoices_path(params.permit(:scope, q: {})), class: "action-item-button small secondary", title: Billing::SEPADirectDebit::SCHEMA do
           icon("document-arrow-down", class: "size-4 mr-2") + t(".sepa_pain")

@@ -2195,15 +2195,15 @@ _:
           _it: Addebito diretto SEPA (XML)
         sepa_pain_text_html:
           one:
-            _en: "<b>1</b> open invoice to be paid by SEPA Direct Debit."
-            _fr: "<b>1</b> facture ouverte à payer par prélèvement SEPA."
-            _de: "<b>1</b> offene Rechnung, die per SEPA-Lastschrift bezahlt werden muss."
-            _it: "<b>1</b> fattura aperta da pagare con addebito diretto SEPA."
+            _en: <a href="%{url}"><b>1</b> open invoice</a> to be paid by SEPA Direct Debit.
+            _fr: <a href="%{url}"><b>1</b> facture ouverte</a> à payer par prélèvement SEPA.
+            _de: <a href="%{url}"><b>1</b> offene Rechnung</a>, die per SEPA-Lastschrift bezahlt werden muss.
+            _it: <a href="%{url}"><b>1</b> fattura aperta</a> da pagare con addebito diretto SEPA.
           other:
-            _en: "<b>%{count}</b> open invoices to be paid by SEPA Direct Debit."
-            _fr: "<b>%{count}</b> factures ouvertes à payer par prélèvement SEPA."
-            _de: "<b>%{count}</b> offene Rechnungen, die per SEPA-Lastschrift bezahlt werden müssen."
-            _it: "<b>%{count}</b> fatture aperte da pagare con addebito diretto SEPA."
+            _en: <a href="%{url}"><b>%{count}</b> open invoices</a> to be paid by SEPA Direct Debit.
+            _fr: <a href="%{url}"><b>%{count}</b> factures ouvertes</a> à payer par prélèvement SEPA.
+            _de: <a href="%{url}"><b>%{count}</b> offene Rechnungen</a>, die per SEPA-Lastschrift bezahlt werden müssen.
+            _it: <a href="%{url}"><b>%{count}</b> fatture aperte</a> da pagare con addebito diretto SEPA.
         shop_admin_only:
           _en: Restricted access!
           _fr: Accès limité!
