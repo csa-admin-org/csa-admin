@@ -387,6 +387,11 @@ _:
           _fr: Permet de changer le nombre par défaut qui dépends de la taille du panier de l'abonnement en cours.</br>Un nombre négatif permet d'indiquer que les parts ne seront pas remboursées afin de rendre le membre inactif.
           _de: Ermöglicht die Änderung der Standardanzahl, die von der Taschengröße des aktuellen Abonnements abhängt.
           _it: Consente di modificare il numero predefinito che dipende dalla dimensione del cestino dell'abbonamento corrente.
+        sepa_mandate_id:
+          _en: Unique reference number among your members (reusing the member's ID is recommended).
+          _fr: Numéro de référence unique parmi vos membres (réutiliser l'ID du membre est recommandé).
+          _de: Eindeutige Referenznummer unter Ihren Mitgliedern (die Verwendung der Mitglieds-ID wird empfohlen).
+          _it: Numero di riferimento univoco tra i membri (riutilizzare l'ID del membro è consigliato).
         shop_depot:
           _en: Allows a member without a membership to place grocery orders.
           _fr: Permet à un membre sans abonnement de passer des commandes d'épicerie.

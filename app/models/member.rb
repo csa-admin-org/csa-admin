@@ -32,6 +32,7 @@ class Member < ApplicationRecord
     :shop_depot_id, \
     :iban, :sepa_mandate_id, :sepa_mandate_signed_on
   normalized_string_attributes :name, :address, :city, :zip
+  normalizes :sepa_mandate_id, :iban, with: ->(value) { value.to_s.strip.presence }
 
   has_states :pending, :waiting, :active, :support, :inactive
 
@@ -68,6 +69,9 @@ class Member < ApplicationRecord
 
   accepts_nested_attributes_for :members_basket_complements, allow_destroy: true
 
+  scope :sepa, -> { where.not(sepa_mandate_id: [ nil, "" ]) }
+  scope :not_sepa, -> { where(sepa_mandate_id: nil) }
+  scope :sepa_eq, ->(bool) { ActiveRecord::Type::Boolean.new.cast(bool) ? sepa : not_sepa }
   scope :not_pending, -> { where.not(state: "pending") }
   scope :not_inactive, -> { where.not(state: "inactive") }
   scope :trial, -> { joins(:current_membership).merge(Membership.trial) }
@@ -133,7 +137,7 @@ class Member < ApplicationRecord
   validate :billing_truemail
   validates :iban, presence: true, if: :sepa_mandate_id?
   validates :iban, format: -> { Billing.iban_format }, allow_nil: :true
-  validates :sepa_mandate_id, presence: true, if: :sepa_mandate_signed_on?
+  validates :sepa_mandate_id, uniqueness: true, presence: true, if: :sepa_mandate_signed_on?
   validates_with SEPA::MandateIdentifierValidator, field_name: :sepa_mandate_id, if: :sepa_mandate_id?
   validates :sepa_mandate_signed_on, presence: true, if: :sepa_mandate_id?
 
@@ -239,7 +243,7 @@ class Member < ApplicationRecord
   end
 
   def self.ransackable_scopes(_auth_object = nil)
-    super + %i[ with_email with_phone with_waiting_depots_eq]
+    super + %i[ sepa_eq with_email with_phone with_waiting_depots_eq]
   end
 
   def update_trial_baskets!

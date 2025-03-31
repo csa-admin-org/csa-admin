@@ -35,8 +35,10 @@ class Invoice < ApplicationRecord
   scope :not_canceled, -> { where.not(state: CANCELED_STATE) }
   scope :sent, -> { where.not(sent_at: nil) }
   scope :not_sent, -> { where(sent_at: nil) }
-  scope :not_sepa, -> { where(sepa_metadata: {}) }
   scope :sent_eq, ->(bool) { ActiveRecord::Type::Boolean.new.cast(bool) ? sent : not_sent }
+  scope :sepa, -> { where.not(sepa_metadata: {}) }
+  scope :not_sepa, -> { where(sepa_metadata: {}) }
+  scope :sepa_eq, ->(bool) { ActiveRecord::Type::Boolean.new.cast(bool) ? sepa : not_sepa }
   scope :history, -> { not_processing.where.not(state: OPEN_STATE) }
   scope :unpaid, -> { not_canceled.where("paid_amount < amount") }
   scope :overpaid, -> { not_canceled.where("amount > 0 AND paid_amount > amount") }
@@ -142,7 +144,7 @@ class Invoice < ApplicationRecord
   def self.ransackable_scopes(_auth_object = nil)
     super + %i[
       balance_eq balance_gt balance_lt
-      sent_eq
+      sent_eq sepa_eq
       activity_participations_fiscal_year
       membership_eq
     ]
