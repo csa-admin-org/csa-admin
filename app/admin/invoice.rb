@@ -41,6 +41,7 @@ ActiveAdmin.register Invoice do
     as: :check_boxes,
     collection: -> { entity_type_collection }
   filter :sent, as: :boolean
+  filter :sepa, as: :boolean, if: ->(a) { Current.org.sepa? }
   filter :amount
   filter :balance, as: :numeric
   filter :overdue_notices_count
@@ -141,7 +142,7 @@ ActiveAdmin.register Invoice do
 
   sidebar :sepa_pain, only: :index, if: -> { params[:scope].in?([ nil, "all", "open" ]) && !Billing::SEPADirectDebit.new(collection.offset(nil).limit(nil)).blank? } do
     side_panel "SEPA" do
-      para t(".sepa_pain_text_html", count: collection.count)
+      para t(".sepa_pain_text_html", count: collection.offset(nil).limit(nil).sepa.count)
       div class: "mt-3 flex justify-center" do
         link_to sepa_pain_all_invoices_path(params.permit(:scope, q: {})), class: "action-item-button small secondary", title: Billing::SEPADirectDebit::SCHEMA do
           icon("document-arrow-down", class: "size-4 mr-2") + t(".sepa_pain")

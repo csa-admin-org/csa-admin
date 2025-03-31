@@ -664,10 +664,10 @@ _:
           _de: Lohntasche(n)
           _it: Ceste-compenso
         sepa_mandate_id:
-          _en: Mandate reference
-          _fr: Référence du mandat
+          _en: Mandate reference number
+          _fr: Numéro de référence du mandat
           _de: Mandatsreferenz
-          _it: Riferimento del mandato
+          _it: Numero di riferimento del mandato
         sepa_mandate_signed_on:
           _en: Mandate signed on
           _fr: Mandat signé le
