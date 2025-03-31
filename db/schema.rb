@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_03_28_151339) do
+ActiveRecord::Schema[8.1].define(version: 2025_03_31_173606) do
   create_table "absences", force: :cascade do |t|
     t.datetime "created_at"
     t.date "ended_on"
@@ -468,6 +468,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_03_28_151339) do
     t.bigint "waiting_depot_id"
     t.datetime "waiting_started_at"
     t.string "zip", limit: 255
+    t.index ["sepa_mandate_id"], name: "index_members_on_sepa_mandate_id", unique: true
     t.index ["shop_depot_id"], name: "index_members_on_shop_depot_id"
     t.index ["state"], name: "index_members_on_state"
     t.index ["validator_id"], name: "index_members_on_validator_id"
