@@ -55,10 +55,9 @@ production: &production
     domain: lepetrichor.ch
   ortie:
     domain: ortie-microferme.ch
-
   fairdura:
     domain: fairdura.ch
-    state: onboarding
+
   mamajah:
     domain: mamajah.org
     state: onboarding
