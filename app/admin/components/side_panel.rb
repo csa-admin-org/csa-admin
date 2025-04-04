@@ -9,9 +9,11 @@ class SidePanel < ActiveAdmin::Component
     add_class args.delete(:class) if args.key?(:class)
     super(*args)
     add_class "panel p-4 shadow-xs"
-    div class: "flex items-center justify-between mb-3" do
-      @title = h3(title.to_s, class: "text-xl font-extralight")
-      div(class: "panel-actions") { action }  if action
+    if title.present?
+      div class: "flex items-start justify-between mb-3" do
+        @title = h3(title.to_s, class: "text-xl font-extralight")
+        div(class: "panel-actions") { action }  if action
+      end
     end
     @contents = div(class: "text-sm")
   end

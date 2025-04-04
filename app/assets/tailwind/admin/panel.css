@@ -1,6 +1,10 @@
 @layer components {
   .panel {
     @apply m-0 rounded-lg border border-gray-200 bg-white shadow-md dark:border-gray-700 dark:bg-gray-950/95;
+
+    &.warning {
+      @apply border-red-500 bg-red-100 dark:bg-red-900;
+    }
   }
 
   .panel-title {
@@ -13,7 +17,7 @@
 
   /* Panel Actions */
   .panel-actions {
-    @apply flex items-center space-x-3;
+    @apply flex space-x-3;
 
     a,
     button {

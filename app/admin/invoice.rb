@@ -111,8 +111,8 @@ ActiveAdmin.register Invoice do
   end
 
   sidebar :open_and_not_sent, only: :index, if: -> { params[:scope].in?([ nil, "open" ]) && Invoice.open.not_sent.any? } do
-    side_panel nil, class: "p-2 border-red-500 bg-red-100 dark:bg-red-900" do
-      para class: "-mt-3" do
+    side_panel nil, class: "warning" do
+      para do
         t("active_admin.shared.sidebar_section.invoice_open_not_sent_text_html",
           count: Invoice.open.not_sent.count,
           url: invoices_path(scope: "open", q: { sent_eq: false }))
@@ -154,8 +154,8 @@ ActiveAdmin.register Invoice do
   end
 
   sidebar :overdue_notice_not_sent_warning, only: :index, if: -> { !Current.org.send_invoice_overdue_notice? } do
-    side_panel t(".overdue_notice_not_sent_warning"), action: handbook_icon_link("billing", anchor: "overdue_notice") do
-      para class: "p-2 rounded-sm bg-red-100 text-red-800" do
+    side_panel t(".overdue_notice_not_sent_warning"), action: handbook_icon_link("billing", anchor: "overdue_notice"), class: "warning" do
+      para do
         if Current.org.automatic_payments_processing?
           t(".overdue_notice_not_sent_warning_mail_template_not_active_text_html")
         else
