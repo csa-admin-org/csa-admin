@@ -57,15 +57,14 @@ production: &production
     domain: ortie-microferme.ch
   fairdura:
     domain: fairdura.ch
+  wilderauke:
+    domain: wilde-rauke.de
 
   mamajah:
     domain: mamajah.org
     state: onboarding
   boisdunant:
     domain: ferme-boisdunant.ch
-    state: onboarding
-  wilderauke:
-    domain: wilde-rauke.de
     state: onboarding
   lamilpadesiles:
     domain: lamilpadesiles.ch
