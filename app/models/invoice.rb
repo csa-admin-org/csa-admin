@@ -40,11 +40,11 @@ class Invoice < ApplicationRecord
   scope :not_sepa, -> { where(sepa_metadata: {}) }
   scope :sepa_eq, ->(bool) { ActiveRecord::Type::Boolean.new.cast(bool) ? sepa : not_sepa }
   scope :history, -> { not_processing.where.not(state: OPEN_STATE) }
-  scope :unpaid, -> { not_canceled.where("paid_amount < amount") }
-  scope :overpaid, -> { not_canceled.where("amount > 0 AND paid_amount > amount") }
-  scope :balance_eq, ->(amount) { where("(paid_amount - amount) = ?", amount.to_f) }
-  scope :balance_gt, ->(amount) { where("(paid_amount - amount) > ?", amount.to_f) }
-  scope :balance_lt, ->(amount) { where("(paid_amount - amount) < ?", amount.to_f) }
+  scope :unpaid, -> { not_canceled.where("invoices.paid_amount < invoices.amount") }
+  scope :overpaid, -> { not_canceled.where("invoices.amount > 0 AND invoices.paid_amount > invoices.amount") }
+  scope :balance_eq, ->(amount) { where("(invoices.paid_amount - invoices.amount) = ?", amount.to_f) }
+  scope :balance_gt, ->(amount) { where("(invoices.paid_amount - invoices.amount) > ?", amount.to_f) }
+  scope :balance_lt, ->(amount) { where("(invoices.paid_amount - invoices.amount) < ?", amount.to_f) }
   scope :with_overdue_notice, -> { unpaid.where(overdue_notices_count: 1..) }
   scope :shop_order_type, -> { where(entity_type: "Shop::Order") }
   scope :activity_participation_type, -> { where(entity_type: "ActivityParticipation") }

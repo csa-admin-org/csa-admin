@@ -44,7 +44,10 @@
   }
 
   .filters-form-clear {
-    @apply rounded-md px-3 py-2 font-semibold text-gray-700 no-underline hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-inherit dark:hover:text-gray-100 dark:focus:ring-green-800;
+    @apply rounded-md border border-gray-200 px-3 py-1 font-semibold !text-gray-600 no-underline hover:bg-gray-100 dark:border-gray-600 dark:!text-gray-400 dark:hover:bg-gray-800 dark:hover:text-gray-100 dark:focus:ring-green-800;
+    &.disabled {
+      @apply border-gray-50 !text-gray-300 dark:border-gray-800 dark:!text-gray-600;
+    }
   }
 
   .active-filters-title {
@@ -66,6 +69,13 @@
     input[type="date"],
     select {
       @apply m-0 h-7 px-2 py-0 text-sm;
+    }
+
+    .active {
+      input,
+      select {
+        @apply border-2 border-green-500 bg-gray-100 dark:bg-gray-700;
+      }
     }
 
     @supports (-moz-appearance: none) {

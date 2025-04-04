@@ -16,7 +16,7 @@
   }
 
   .index-button-selected {
-    @apply bg-gray-100 hover:bg-gray-100 dark:bg-gray-800 dark:hover:bg-gray-800;
+    @apply bg-gray-100 hover:bg-gray-100 dark:bg-gray-700 dark:hover:bg-gray-700;
   }
 
   .index-as-table {
