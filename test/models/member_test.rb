@@ -234,6 +234,8 @@ class MemberTest < ActiveSupport::TestCase
     member.update(iban: "CH9300762011623852957")
     assert_not member.valid?
     member.update(iban: "DE89370400440532013333")
+    assert_not member.valid? # check digit is invalid
+    member.update(iban: "DE21500500009876543210")
     assert member.valid?
   end
 
