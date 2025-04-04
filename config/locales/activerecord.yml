@@ -676,7 +676,7 @@ _:
         shares_info:
           _en: Share certificate No.
           _fr: N° part sociale
-          _de: N° Anteilschein
+          _de: Anteilscheinnummer
           _it: N° quote sociali cooperative
         shop_depot:
           _en: Depot (shop)

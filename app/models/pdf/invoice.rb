@@ -70,7 +70,7 @@ module PDF
           text "#{::Delivery.model_name.human}: #{I18n.l(entity.delivery.date)}"
         end
       end
-      member_address
+      member_address_and_id
 
       if total_pages > 1
         bounding_box [ bounds.width - 65, bounds.height - 30 ], width: 50, height: 50 do
@@ -80,7 +80,7 @@ module PDF
       end
     end
 
-    def member_address
+    def member_address_and_id
       member = invoice.member
       parts = [
         member.name.truncate(70),
@@ -93,10 +93,12 @@ module PDF
           text part, valign: :top, leading: 2, align: :right
           move_down 2
         end
+        move_down 10
+        text t(".member_id", id: member.id), valign: :top, leading: 2, align: :right, size: 10
         if invoice.share_type? && invoice.member.shares_info?
-          move_down 6
+          move_down 2
           attr_name = Member.human_attribute_name(:shares_info)
-          text "#{attr_name}: #{invoice.member.shares_info}", valign: :top, leading: 2, size: 10
+          text "#{attr_name}: #{invoice.member.shares_info}", valign: :top, leading: 2, align: :right, size: 10
         end
       end
     end
