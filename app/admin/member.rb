@@ -635,9 +635,10 @@ ActiveAdmin.register Member do
       f.inputs t("active_admin.resource.show.billing") + " (SEPA)" do
         f.input :iban,
           placeholder: Billing.iban_placeholder,
+          required: false,
           input_html: { value: f.object.iban_formatted }
         f.input :sepa_mandate_id
-        f.input :sepa_mandate_signed_on, as: :date_picker
+        f.input :sepa_mandate_signed_on, as: :date_picker, required: false
       end
     end
 
