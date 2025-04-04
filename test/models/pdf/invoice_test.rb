@@ -415,7 +415,7 @@ class PDF::InvoiceTest < ActiveSupport::TestCase
       "Payable à",
       "Jardin Réunis", "1 rue de la Paix", "75000 Paris",
       "IBAN: ", "FR14 2004 1010 0505 0001 3M02 606",
-      "Référence", invoice.reference.formatted,
+      "Numéro de référence", invoice.reference.formatted,
       "Payable par",
       "Martha", "Nowhere 46", "1234 City"
     ], pdf_strings
@@ -448,7 +448,7 @@ class PDF::InvoiceTest < ActiveSupport::TestCase
       "IBAN", "DE87 2005 0000 1234 5678 90",
       "Zahlbar an",
       "Gläubiger GmbH",
-      "Referenz", invoice.reference.formatted,
+      "Referenznummer", invoice.reference.formatted,
       "Betrag", "EUR 30.00"
     ], pdf_strings
   end
@@ -495,7 +495,7 @@ class PDF::InvoiceTest < ActiveSupport::TestCase
       "Gläubiger GmbH", "Sonnenallee 1", "30159 Hannover",
       "IBAN: ", "DE87 2005 0000 1234 5678 90",
       "Gläubiger-ID: ", "DE98ZZZ09999999999",
-      "Referenz", invoice.reference.formatted,
+      "Referenznummer", invoice.reference.formatted,
       "Zahlbar durch",
       "Anna Doe", "Grosse Marktgasse 28", "30952 Ronnenberg",
       "IBAN: ", "DE21 5005 0000 9876 5432 10",

@@ -583,7 +583,7 @@ module PDF
           qr_text Current.org.creditor_name
           move_down spacing
 
-          qr_text_title t("payment.reference")
+          qr_text_title t("payment.reference_number")
           qr_text invoice.reference.formatted
           move_down spacing
 
@@ -620,7 +620,7 @@ module PDF
           end
         end
         bounding_box [ x_split, y_start ], width: x_split do
-          payment_info_title t("payment.reference")
+          payment_info_title t("payment.reference_number")
           payment_info_text invoice.reference.formatted, size: 14
           move_down 10
 
