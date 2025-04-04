@@ -39,11 +39,6 @@ _:
         _de: Anteilschein
         _it: Quota sociale cooperativa
     pdf:
-      member_id:
-        _fr: "N° membre: %{id}"
-        _en: "Member No.: %{id}"
-        _de: "Mitgliedsnummer: %{id}"
-        _it: "N° membro: %{id}"
       all_taxes_included:
         _en: All taxes included
         _fr: TTC
@@ -92,6 +87,11 @@ _:
         _fr: Avoir restant
         _de: Restguthaben
         _it: Credito residuo
+      member_id:
+        _en: 'Member No.: %{id}'
+        _fr: 'N° membre: %{id}'
+        _de: 'Mitgliedsnummer: %{id}'
+        _it: 'N° membro: %{id}'
       missed_activity_participation/basket_preparation:
         _en: Missed basket preparation (%{year})
         _fr: Mise en panier non-effectuée (%{year})
