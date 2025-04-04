@@ -161,7 +161,7 @@
 
   /* File input */
   [type="file"] {
-    @apply rounded-none border-0 bg-transparent p-0 text-base leading-normal;
+    @apply w-full rounded-none border-0 bg-transparent p-0 text-base leading-normal;
     border-color: inherit;
   }
 
