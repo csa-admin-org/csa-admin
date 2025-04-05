@@ -563,31 +563,6 @@ _:
           _de: Vorlage
           _it: Modello
       member:
-        different_billing_info:
-          _en: Use another name and address for billing
-          _fr: Utiliser un autre nom et une autre adresse pour la facturation
-          _de: Eine andere Name und Adresse für die Rechnungstellung verwenden
-          _it: Utilizzare un altro nome e indirizzo per la fatturazione
-        billing_name:
-          _en: Name (billing)
-          _fr: Nom (facturation)
-          _de: Name (Rechnung)
-          _it: Nome (fatturazione)
-        billing_address:
-          _en: Address (billing)
-          _fr: Adresse (facturation)
-          _de: Adresse (Rechnung)
-          _it: Indirizzo (fatturazione)
-        billing_zip:
-          _en: ZIP (billing)
-          _fr: NPA (facturation)
-          _de: PLZ (Rechnung)
-          _it: CAP (fatturazione)
-        billing_city:
-          _en: City (billing)
-          _fr: Ville (facturation)
-          _de: Stadt (Rechnung)
-          _it: Città (fatturazione)
         basket_complements:
           _en: Basket complements
           _fr: Compléments panier
@@ -598,11 +573,31 @@ _:
           _fr: Taille panier
           _de: Taschengrösse
           _it: Dimensione della cesta
+        billing_address:
+          _en: Address (billing)
+          _fr: Adresse (facturation)
+          _de: Adresse (Rechnung)
+          _it: Indirizzo (fatturazione)
+        billing_city:
+          _en: City (billing)
+          _fr: Ville (facturation)
+          _de: Stadt (Rechnung)
+          _it: Città (fatturazione)
         billing_email:
           _en: Email (billing)
           _fr: Email (facturation)
           _de: E-Mail (Rechnung)
           _it: E-mail (fatturazione)
+        billing_name:
+          _en: Name (billing)
+          _fr: Nom (facturation)
+          _de: Name (Rechnung)
+          _it: Nome (fatturazione)
+        billing_zip:
+          _en: ZIP code (billing)
+          _fr: NPA (facturation)
+          _de: PLZ (Rechnung)
+          _it: CAP (fatturazione)
         come_from:
           _en: How did you hear about us?
           _fr: Comment avez-vous entendu parler de nous?
@@ -633,6 +628,11 @@ _:
           _fr: Parts sociales
           _de: Anteilscheine
           _it: Quote sociali della cooperativa
+        different_billing_info:
+          _en: Use another name and address for billing
+          _fr: Utiliser un autre nom et une autre adresse pour la facturation
+          _de: Eine andere Name und Adresse für die Rechnungstellung verwenden
+          _it: Utilizzare un altro nome e indirizzo per la fatturazione
         existing_shares_number:
           _en: Number of existing share certificates
           _fr: Nombre de parts sociales existantes
