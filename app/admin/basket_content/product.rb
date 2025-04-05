@@ -6,7 +6,7 @@ class BasketContent
     actions :all, except: [ :show ]
 
     breadcrumb do
-      links = [ link_to(BasketContent.model_name.human(count: 2), basket_contents_path) ]
+      links = [ link_to(BasketContent.model_name.human(count: 2), smart_basket_contents_path) ]
       if params[:action] != "index"
         links << link_to(Product.model_name.human(count: 2), basket_content_products_path)
       end

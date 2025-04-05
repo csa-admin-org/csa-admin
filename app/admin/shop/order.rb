@@ -1,26 +1,25 @@
 # frozen_string_literal: true
 
 ActiveAdmin.register Shop::Order do
-  menu parent: :navshop, priority: 1
+  menu \
+   parent: :navshop,
+   priority: 1,
+   url: -> { smart_shop_orders_path }
 
   breadcrumb do
-    if params["action"] == "index"
-      [ t("active_admin.menu.shop") ]
-    else
-      links = [
-        t("active_admin.menu.shop"),
-        link_to(Shop::Order.model_name.human(count: 2), shop_orders_path)
-      ]
-      if params["action"].in? %W[show edit]
-        links << link_to(
-          resource.delivery.display_name,
-          shop_orders_path(q: { _delivery_gid_eq: resource.delivery_gid }, scope: :all_without_cart))
-        if params["action"].in? %W[edit]
-          links << auto_link(resource, resource.id)
-        end
+    links = [ t("active_admin.menu.shop") ]
+
+    if params[:action] == "new"
+      links << link_to(Shop::Order.model_name.human(count: 2), smart_shop_orders_path)
+    elsif params[:action] != "index"
+      links << link_to(
+        [ Shop::Order.model_name.human(count: 2), resource.delivery.display_name ].join(" – ").html_safe,
+        shop_orders_path(q: { _delivery_gid_eq: resource.delivery_gid }))
+      if params["action"] == "edit"
+        links << auto_link(resource, resource.id)
       end
-      links
     end
+    links
   end
 
   scope :all_without_cart, default: true
@@ -334,15 +333,6 @@ ActiveAdmin.register Shop::Order do
   end
 
   before_action only: :index do
-    if params.except(:subdomain, :controller, :action).empty? &&
-        params[:q].blank? &&
-        next_delivery =
-          Delivery.shop_open.next ||
-          Shop::SpecialDelivery.next ||
-          Delivery.shop_open.last ||
-          Shop::SpecialDelivery.last
-      redirect_to q: { _delivery_gid_eq: next_delivery.gid }, utf8: "✓"
-    end
     if params.dig(:q, :during_year).present? && params.dig(:q, :during_year).to_i < Current.fy_year
       params[:scope] ||= "all"
     end
