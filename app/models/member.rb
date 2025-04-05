@@ -22,16 +22,18 @@ class Member < ApplicationRecord
   attribute :language, :string, default: -> { Current.org.languages.first }
   attribute :country_code, :string, default: -> { Current.org.country_code }
   attribute :trial_baskets_count, :integer, default: -> { Current.org.trial_baskets_count }
+  attribute :different_billing_info, :boolean, default: -> { false }
 
   audited_attributes \
     :state, :name, :emails, :billing_email, :newsletter, :phones, :contact_sharing, \
     :address, :zip, :city, :country_code, \
-    :delivery_address, :delivery_zip, :delivery_city, :delivery_country_code, \
+    :billing_name, :billing_address, :billing_city, :billing_zip, \
     :profession, :come_from, :note, :delivery_note, :food_note, \
     :annual_fee, :shares_info, :existing_shares_number, :required_shares_number, :desired_shares_number, \
     :shop_depot_id, \
     :iban, :sepa_mandate_id, :sepa_mandate_signed_on
   normalized_string_attributes :name, :address, :city, :zip
+  normalized_string_attributes :billing_name, :billing_address, :billing_city, :billing_zip
   normalizes :sepa_mandate_id, :iban, with: ->(value) { value.to_s.strip.presence }
 
   has_states :pending, :waiting, :active, :support, :inactive
@@ -103,6 +105,8 @@ class Member < ApplicationRecord
   validates :come_from, presence: true,
     if: -> { public_create && Current.org.member_come_from_form_mode == "required" }
   validates :address, :city, :zip, :country_code, presence: true, unless: :inactive?
+  validates :billing_name, :billing_address, :billing_city, :billing_zip,
+     presence: true, if: :different_billing_info
   validates :waiting_basket_size, inclusion: { in: proc { BasketSize.all }, allow_nil: true }, on: :create
   validates :waiting_basket_size_id, presence: true, if: :waiting_depot, on: :create
   validates :waiting_activity_participations_demanded_annually, numericality: true, allow_nil: true
@@ -175,16 +179,6 @@ class Member < ApplicationRecord
     billing_emails.any?
   end
 
-  def display_address
-    return if address.blank?
-
-    parts = []
-    parts << address
-    parts << "#{zip} #{city}"
-    parts << country.translations[I18n.locale.to_s]
-    parts.join("<br/>").html_safe
-  end
-
   def country
     ISO3166::Country.new(country_code)
   end
@@ -210,29 +204,27 @@ class Member < ApplicationRecord
     }
   end
 
-  def display_delivery_address
-    return if final_delivery_address.blank?
-
-    parts = []
-    parts << final_delivery_address
-    parts << "#{final_delivery_zip} #{final_delivery_city}"
-    parts.join("<br/>").html_safe
+  def different_billing_info
+    @different_billing_info ||= [
+      self[:billing_name],
+      self[:billing_address],
+      self[:billing_city],
+      self[:billing_zip]
+    ].all?(&:present?)
   end
 
-  def same_delivery_address?
-    [ final_delivery_address, final_delivery_city, final_delivery_zip ] == [ address, city, zip ]
+  def different_billing_info=(*args)
+    @different_billing_info = super
+    unless self[:different_billing_info]
+      self.billing_name = nil
+      self.billing_address = nil
+      self.billing_city = nil
+      self.billing_zip = nil
+    end
   end
 
-  def final_delivery_address
-    read_attribute(:delivery_address).presence || address
-  end
-
-  def final_delivery_city
-    read_attribute(:delivery_city).presence || city
-  end
-
-  def final_delivery_zip
-    read_attribute(:delivery_zip).presence || zip
+  def billing_info(attribute)
+    send("billing_#{attribute}").presence || send(attribute)
   end
 
   def shop_depot

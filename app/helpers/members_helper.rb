@@ -258,12 +258,18 @@ module MembersHelper
     link_to t(".documents.#{type}"), url, target: "_blank", class: "underline text-green-500 hover:text-green-500"
   end
 
-  def display_address(member, country: true)
+  def display_address(member)
     parts = [
       member.address,
       "#{member.zip} #{member.city}"
+    ].join("</br>").html_safe
+  end
+
+  def display_billing_address(member)
+    parts = [
+      member.billing_info(:address),
+      "#{member.billing_info(:zip)} #{member.billing_info(:city)}"
     ]
-    parts << member.country.translations[I18n.locale.to_s] if country
     parts.join("</br>").html_safe
   end
 

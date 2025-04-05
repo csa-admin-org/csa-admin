@@ -115,10 +115,6 @@ class Depot < ApplicationRecord
       .count
   end
 
-  def require_delivery_address?
-    address.blank?
-  end
-
   def full_address
     return unless [ address, zip, city ].all?(&:present?)
 

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_03_31_173606) do
+ActiveRecord::Schema[8.1].define(version: 2025_04_04_140157) do
   create_table "absences", force: :cascade do |t|
     t.datetime "created_at"
     t.date "ended_on"
@@ -426,7 +426,11 @@ ActiveRecord::Schema[8.1].define(version: 2025_03_31_173606) do
     t.datetime "activated_at"
     t.string "address", limit: 255
     t.decimal "annual_fee", precision: 8, scale: 2
+    t.string "billing_address"
+    t.string "billing_city"
     t.string "billing_email"
+    t.string "billing_name"
+    t.string "billing_zip"
     t.string "city", limit: 255
     t.text "come_from"
     t.boolean "contact_sharing", default: false, null: false
