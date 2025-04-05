@@ -8,6 +8,19 @@ module ShopHelper
     !Current.org.shop_admin_only || current_session.admin_originated?
   end
 
+  def smart_shop_orders_path
+    delivery =
+      Delivery.shop_open.next ||
+        Shop::SpecialDelivery.next ||
+        Delivery.shop_open.last ||
+        Shop::SpecialDelivery.last
+    if delivery
+      shop_orders_path(q: { _delivery_gid_eq: delivery.gid })
+    else
+      shop_orders_path
+    end
+  end
+
   def live_stock(variant, order)
     return unless variant.stock
 

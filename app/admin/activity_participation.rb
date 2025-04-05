@@ -1,12 +1,15 @@
 # frozen_string_literal: true
 
 ActiveAdmin.register ActivityParticipation do
-  menu parent: :activities_human_name, priority: 1
+  menu \
+    parent: :activities_human_name,
+    priority: 1,
+    url: -> { activity_participations_path(q: { during_year: Current.fiscal_year.year }) }
 
   breadcrumb do
     links = [ activities_human_name ]
     if params[:action] == "new"
-      links << link_to(ActivityParticipation.model_name.human(count: 2), activity_participations_path)
+      links << link_to(ActivityParticipation.model_name.human(count: 2), activity_participations_path(q: { during_year: Current.fiscal_year.year }))
     elsif params["action"] != "index"
       links << link_to(Activity.model_name.human(count: 2), activities_path)
       links << auto_link(resource.activity, resource.activity.name(show_place: false))
@@ -277,9 +280,6 @@ ActiveAdmin.register ActivityParticipation do
   end
 
   before_action only: :index do
-    if params.except(:subdomain, :controller, :action).empty? && params[:q].blank?
-      redirect_to q: { during_year: Current.fiscal_year.year }, utf8: "✓"
-    end
     if params.dig(:q, :during_year).present? && params.dig(:q, :during_year).to_i < Current.fy_year
       params[:scope] ||= "all"
     end

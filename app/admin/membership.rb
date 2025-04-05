@@ -874,7 +874,7 @@ ActiveAdmin.register Membership do
     Membership.during_year(params[:year]).find_each do |m|
       m.clear_activity_participations_demanded!
     end
-    redirect_back fallback_location: activity_participations_path
+    redirect_back fallback_location: activity_participations_path(q: { during_year: Current.fiscal_year.year })
   end
 
   member_action :mark_renewal_as_pending, method: :post do

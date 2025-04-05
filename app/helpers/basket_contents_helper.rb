@@ -4,6 +4,15 @@ module BasketContentsHelper
   include ActionView::Helpers::NumberHelper
   include NumbersHelper
 
+  def smart_basket_contents_path
+    delivery = BasketContent.last_delivery || Delivery.next || Delivery.last
+    if delivery
+      basket_contents_path(q: { delivery_id_eq: delivery.id })
+    else
+      basket_contents_path
+    end
+  end
+
   def display_quantity(quantity, unit)
     if unit == "kg" && quantity < 1
       unit = "g"

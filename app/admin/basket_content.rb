@@ -1,7 +1,22 @@
 # frozen_string_literal: true
 
 ActiveAdmin.register BasketContent do
-  menu priority: 5, label: -> { Basket.model_name.human(count: 2) }
+  menu \
+    priority: 5,
+    label: -> { Basket.model_name.human(count: 2) },
+    url: -> { smart_basket_contents_path }
+
+  breadcrumb do
+    links = []
+    case params[:action]
+    when "new"
+      links << link_to(BasketContent.model_name.human(count: 2), smart_basket_contents_path)
+    when "edit"
+      links << link_to(BasketContent.model_name.human(count: 2), basket_contents_path(q: { delivery_id_eq: resource.delivery_id }))
+    end
+    links
+  end
+
   actions :all, except: [ :show ]
 
   filter :delivery, as: :select
@@ -308,14 +323,6 @@ ActiveAdmin.register BasketContent do
     depot_ids: [],
     basket_size_ids_percentages: {},
     basket_size_ids_quantities: {})
-
-  before_action only: :index do
-    if params.except(:subdomain, :controller, :action).empty? &&
-        params[:q].blank? &&
-        (delivery = BasketContent.last_delivery || Delivery.next || Delivery.last)
-      redirect_to q: { delivery_id_eq: delivery.id }, utf8: "✓"
-    end
-  end
 
   before_build do |basket_content|
     basket_content.delivery_id ||= referer_filter(:delivery_id) || Delivery.next&.id
