@@ -1,5 +1,6 @@
 @layer components {
-  .action-item-button {
+  .action-item-button,
+  .actions .cancel-link {
     @apply focus:outline-hidden inline-flex cursor-pointer items-center rounded-md border border-gray-200 bg-white px-3 py-2 text-sm font-medium text-gray-900 no-underline hover:bg-gray-100 hover:text-green-600 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-green-500 dark:focus:ring-gray-700;
 
     &.small {
@@ -7,7 +8,7 @@
     }
 
     &.light {
-      @apply text-gray-400 hover:text-green-600 dark:bg-gray-900 dark:text-gray-600 dark:hover:bg-gray-700 dark:hover:text-green-600;
+      @apply text-gray-400 hover:text-green-600 dark:bg-gray-900 dark:text-gray-500 dark:hover:bg-gray-700 dark:hover:text-green-600;
     }
 
     &.disabled {
