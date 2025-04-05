@@ -205,7 +205,9 @@ class Member < ApplicationRecord
   end
 
   def different_billing_info
-    @different_billing_info ||= [
+    return @different_billing_info if defined?(@different_billing_info)
+
+    @different_billing_info = [
       self[:billing_name],
       self[:billing_address],
       self[:billing_city],
@@ -213,9 +215,9 @@ class Member < ApplicationRecord
     ].all?(&:present?)
   end
 
-  def different_billing_info=(*args)
-    @different_billing_info = super
-    unless self[:different_billing_info]
+  def different_billing_info=(bool)
+    @different_billing_info = ActiveRecord::Type::Boolean.new.cast(bool)
+    unless different_billing_info
       self.billing_name = nil
       self.billing_address = nil
       self.billing_city = nil

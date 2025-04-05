@@ -602,8 +602,8 @@ class MemberTest < ActiveSupport::TestCase
     assert_equal "Acme City", member.billing_info(:city)
     assert_equal "1234", member.billing_info(:zip)
 
-    member.update!(different_billing_info: false)
-    member.different_billing_info = true
+    member.update!(different_billing_info: "0")
+    assert_not member.different_billing_info
     assert_nil member.billing_name
     assert_nil member.billing_address
     assert_nil member.billing_city
