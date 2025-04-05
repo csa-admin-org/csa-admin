@@ -6,7 +6,7 @@
     remote:        data-remote
     paginator:     the paginator that renders the pagination tags inside -%>
 <%= paginator.render do -%>
-  <nav data-test-pagination class="inline-flex flex-wrap -space-x-px text-sm gap-1">
+  <nav data-test-pagination class="inline-flex flex-wrap h-7 gap-0.5 text-sm">
     <%= prev_page_tag unless current_page.first? %>
     <% each_page do |page| -%>
       <% if page.display_tag? -%>

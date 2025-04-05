@@ -211,7 +211,7 @@
     }
 
     .actions > ol {
-      @apply flex flex-row-reverse items-center gap-6;
+      @apply flex flex-row-reverse items-center gap-4;
     }
 
     [type="submit"],
@@ -221,7 +221,7 @@
     }
 
     .actions .cancel-link {
-      @apply font-semibold leading-6 text-gray-900 no-underline dark:text-white;
+      @apply rounded-lg font-semibold text-gray-500 no-underline dark:text-gray-400;
     }
 
     /* Hints and Descriptions */

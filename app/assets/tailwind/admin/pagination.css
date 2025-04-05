@@ -1,7 +1,7 @@
 @layer components {
   /* Container Styles */
   .paginated-collection {
-    @apply flex flex-wrap justify-between overflow-visible rounded-none border-none shadow-none;
+    @apply mb-4 flex flex-wrap gap-3 overflow-visible rounded-none border-none shadow-none;
   }
 
   .paginated-collection-contents {
@@ -26,15 +26,15 @@
 
   /* Pagination and Footer */
   .paginated-collection-pagination {
-    @apply inline flex w-1/2 flex-col-reverse items-center justify-between gap-4 py-0 pt-2.5 text-sm lg:flex-row lg:p-3;
+    @apply flex grow flex-col-reverse justify-start gap-4 justify-self-start px-2 text-sm lg:flex-row;
   }
 
   .paginated-collection-footer {
-    @apply flex w-1/3 items-start justify-end gap-2 border-0 py-4 text-sm font-light;
+    @apply flex grow items-center justify-end gap-2 justify-self-end border-0 px-2 text-sm font-light;
   }
 
   .pagination-per-page {
-    @apply w-auto w-min py-1 pe-7 text-sm;
+    @apply w-min py-1 pe-7 text-sm;
   }
 
   .pagination-information {
