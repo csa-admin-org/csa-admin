@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_04_04_140157) do
+ActiveRecord::Schema[8.1].define(version: 2025_04_05_095255) do
   create_table "absences", force: :cascade do |t|
     t.datetime "created_at"
     t.date "ended_on"
@@ -436,10 +436,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_04_04_140157) do
     t.boolean "contact_sharing", default: false, null: false
     t.string "country_code", limit: 2
     t.datetime "created_at"
-    t.string "delivery_address", limit: 255
-    t.string "delivery_city", limit: 255
     t.string "delivery_note"
-    t.string "delivery_zip", limit: 255
     t.integer "desired_shares_number", default: 0, null: false
     t.string "emails"
     t.integer "existing_shares_number", default: 0, null: false
