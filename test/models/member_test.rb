@@ -579,6 +579,37 @@ class MemberTest < ActiveSupport::TestCase
     assert_equal "+49987654321", member.phones
   end
 
+  test "use different billing info" do
+    member = members(:john)
+    assert_not member.different_billing_info
+
+    member.different_billing_info = true
+    assert_not member.valid?
+    assert_includes member.errors[:billing_name], "can't be blank"
+    assert_includes member.errors[:billing_address], "can't be blank"
+    assert_includes member.errors[:billing_city], "can't be blank"
+    assert_includes member.errors[:billing_zip], "can't be blank"
+
+    member.update!(
+      different_billing_info: true,
+      billing_name: "Acme Doe",
+      billing_address: "Acme Street 42",
+      billing_city: "Acme City",
+      billing_zip: "1234")
+    assert member.different_billing_info
+    assert_equal "Acme Doe", member.billing_info(:name)
+    assert_equal "Acme Street 42", member.billing_info(:address)
+    assert_equal "Acme City", member.billing_info(:city)
+    assert_equal "1234", member.billing_info(:zip)
+
+    member.update!(different_billing_info: false)
+    member.different_billing_info = true
+    assert_nil member.billing_name
+    assert_nil member.billing_address
+    assert_nil member.billing_city
+    assert_nil member.billing_zip
+  end
+
   test "absent? returns true for a given date during the absence window" do
     travel_to "2024-05-1"
     absence = create_absence(

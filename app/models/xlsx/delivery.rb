@@ -168,17 +168,17 @@ module XLSX
       end
       add_column(
         Member.human_attribute_name(:address),
-        members.map { |m| m.final_delivery_address },
+        members.map { |m| m.address },
         border: border)
       unless mode == "home_delivery"
         add_column(
           Member.human_attribute_name(:zip),
-          members.map { |m| m.final_delivery_zip },
+          members.map { |m| m.zip },
           border: border)
       end
       add_column(
         Member.human_attribute_name(:city),
-        members.map { |m| m.final_delivery_city },
+        members.map { |m| m.city },
         border: border)
       add_column(
         Basket.model_name.human(count: 1),

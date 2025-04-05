@@ -563,6 +563,31 @@ _:
           _de: Vorlage
           _it: Modello
       member:
+        different_billing_info:
+          _en: Use another name and address for billing
+          _fr: Utiliser un autre nom et une autre adresse pour la facturation
+          _de: Eine andere Name und Adresse für die Rechnungstellung verwenden
+          _it: Utilizzare un altro nome e indirizzo per la fatturazione
+        billing_name:
+          _en: Name (billing)
+          _fr: Nom (facturation)
+          _de: Name (Rechnung)
+          _it: Nome (fatturazione)
+        billing_address:
+          _en: Address (billing)
+          _fr: Adresse (facturation)
+          _de: Adresse (Rechnung)
+          _it: Indirizzo (fatturazione)
+        billing_zip:
+          _en: ZIP (billing)
+          _fr: NPA (facturation)
+          _de: PLZ (Rechnung)
+          _it: CAP (fatturazione)
+        billing_city:
+          _en: City (billing)
+          _fr: Ville (facturation)
+          _de: Stadt (Rechnung)
+          _it: Città (fatturazione)
         basket_complements:
           _en: Basket complements
           _fr: Compléments panier
@@ -598,21 +623,6 @@ _:
           _fr: Paniers reçus
           _de: Erhaltene Taschen
           _it: Ceste ricevute
-        delivery_address:
-          _en: Address (Delivery)
-          _fr: Adresse (Livraison)
-          _de: Adresse (Lieferung)
-          _it: Indirizzo (Consegna)
-        delivery_city:
-          _en: City (Delivery)
-          _fr: Ville (Livraison)
-          _de: Stadt (Lieferung)
-          _it: Città (Consegna)
-        delivery_zip:
-          _en: ZIP (Delivery)
-          _fr: NPA (Livraison)
-          _de: PLZ (Lieferung)
-          _it: CAP (Consegna)
         depot:
           _en: Depot
           _fr: Dépôt

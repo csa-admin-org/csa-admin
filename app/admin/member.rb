@@ -95,11 +95,12 @@ ActiveAdmin.register Member do
     column(:zip)
     column(:city)
     column(:country_code)
-    column(:delivery_address)
-    column(:delivery_zip)
-    column(:delivery_city)
     column(:profession)
     column(:billing_email)
+    column(:billing_name)
+    column(:billing_address)
+    column(:billing_zip)
+    column(:billing_city)
     if Current.org.annual_fee?
       column(:annual_fee) { |m| cur(m.annual_fee) }
     end
@@ -391,12 +392,9 @@ ActiveAdmin.register Member do
         panel Member.human_attribute_name(:contact) do
           attributes_table do
             row :name
-            row(Member.human_attribute_name(:address)) { member.display_address }
-            unless member.same_delivery_address?
-              row(Member.human_attribute_name(:delivery_address)) { member.display_delivery_address }
-            end
             row(:emails) { display_emails_with_link(self, member.emails_array) }
             row(:phones) { display_phones_with_link(self, member.phones_array) }
+            row(Member.human_attribute_name(:address)) { display_address(member) }
             if Current.org.languages.many?
               row(:language) { t("languages.#{member.language}") }
             end
@@ -412,6 +410,10 @@ ActiveAdmin.register Member do
             end
             if member.billing_email?
               row(t(".email"), class: "text-right") { display_email_with_link(self, member.billing_email) }
+            end
+            if member.different_billing_info
+              row(:name, class: "text-right") { member.billing_name }
+              row(:address, class: "text-right") { display_billing_address(member) }
             end
             if Current.org.annual_fee? || member.annual_fee
               row(:annual_fee, class: "text-right tabular-nums") { cur member.annual_fee }
@@ -533,6 +535,14 @@ ActiveAdmin.register Member do
       f.input :name
       f.input :emails, as: :string
       f.input :phones, as: :string
+      f.input :address
+      div class: "single-line" do
+        f.input :zip, wrapper_html: { class: "md:w-50" }
+        f.input :city, wrapper_html: { class: "w-full" }
+      end
+      f.input :country_code,
+        as: :select,
+        collection: countries_collection
       language_input(f)
       if Current.org.feature?("contact_sharing")
         f.input :contact_sharing
@@ -604,27 +614,19 @@ ActiveAdmin.register Member do
           collection: admin_depots_collection
       end
     end
-    f.inputs Member.human_attribute_name(:address) do
-      f.input :address
-      div class: "single-line" do
-        f.input :zip, wrapper_html: { class: "md:w-50" }
-        f.input :city, wrapper_html: { class: "w-full" }
-      end
-      f.input :country_code,
-        as: :select,
-        collection: countries_collection
-    end
 
-    f.inputs Member.human_attribute_name(:delivery_address) do
-      f.input :delivery_address, label: Member.human_attribute_name(:address)
-      div class: "single-line" do
-        f.input :delivery_zip, label: Member.human_attribute_name(:zip), wrapper_html: { class: "md:w-50" }
-        f.input :delivery_city, label: Member.human_attribute_name(:city), wrapper_html: { class: "w-full" }
-      end
-    end
-
-    f.inputs t("active_admin.resource.show.billing") do
+    f.inputs t("active_admin.resource.show.billing"), data: { controller: "visibility" } do
       f.input :billing_email, type: :email, label: t(".email")
+      f.input :different_billing_info, input_html: { data: { action: "visibility#toggle" } }
+      ol class: "-mt-4 #{f.object.different_billing_info ? "" : "hidden"}", data: { "visibility-target" => "element" } do
+        f.input :billing_name, label: Member.human_attribute_name(:name), required: true, input_html: { disabled: !f.object.different_billing_info }
+        f.input :billing_address, label: Member.human_attribute_name(:address), required: true, input_html: { disabled: !f.object.different_billing_info }
+        div class: "single-line" do
+          f.input :billing_zip, label: Member.human_attribute_name(:zip), required: true, input_html: { disabled: !f.object.different_billing_info }, wrapper_html: { class: "md:w-50" }
+          f.input :billing_city, label: Member.human_attribute_name(:city), required: true, input_html: { disabled: !f.object.different_billing_info }, wrapper_html: { class: "w-full" }
+        end
+        li class: "subtitle"
+      end
       if Current.org.trial_baskets? || f.object.trial_baskets_count != Current.org.trial_baskets_count
         f.input :trial_baskets_count
       end
@@ -677,9 +679,10 @@ ActiveAdmin.register Member do
   permit_params \
     :name, :language, :emails, :phones,
     :address, :city, :zip, :country_code,
-    :delivery_address, :delivery_city, :delivery_zip,
     :annual_fee, :salary_basket,
     :billing_email, :trial_baskets_count,
+    :different_billing_info,
+    :billing_name, :billing_address, :billing_city, :billing_zip,
     :iban, :sepa_mandate_id, :sepa_mandate_signed_on,
     :shares_info, :existing_shares_number,
     :desired_shares_number, :required_shares_number,

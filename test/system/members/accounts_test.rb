@@ -14,7 +14,7 @@ class Members::AccountsTest < ApplicationSystemTestCase
 
     assert_text member.id
     assert_text "John Doe"
-    assert_text "John Doe Nowhere 421234 CitySwitzerland"
+    assert_text "John Doe Nowhere 421234 City"
     assert_text "john@doe.com"
     assert_text "079 123 45 67, +33 6 12 34 56 78"
     assert_text "English"
@@ -36,7 +36,7 @@ class Members::AccountsTest < ApplicationSystemTestCase
     click_button "Submit"
 
     assert_text "John & Jane Doe"
-    assert_text "Nowhere 4212345 VillarGermany"
+    assert_text "Nowhere 4212345 Villar"
 
     assert_equal({
       "zip" => [ "1234", "12345" ],

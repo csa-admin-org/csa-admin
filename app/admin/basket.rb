@@ -37,9 +37,9 @@ ActiveAdmin.register Basket do
     column(:name) { |b| b.member.name }
     column(:emails) { |b| b.member.emails_array.join(", ") }
     column(:phones) { |b| b.member.phones_array.map(&:phony_formatted).join(", ") }
-    column(:address) { |b| b.member.final_delivery_address }
-    column(:zip) { |b| b.member.final_delivery_zip }
-    column(:city) { |b| b.member.final_delivery_city }
+    column(:address) { |b| b.member.address }
+    column(:zip) { |b| b.member.zip }
+    column(:city) { |b| b.member.city }
     column(:food_note) { |b| b.member.food_note }
     column(:delivery_note) { |b| b.member.delivery_note }
     column(:depot_id)

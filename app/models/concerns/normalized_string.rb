@@ -14,6 +14,7 @@ module NormalizedString
           &.gsub(/[\u00A0\u2007\u202F]/, " ")                   # Replace whitespace characters with a space
           &.gsub(/[\u00AD\u200B]/, "")                          # Remove soft hyphens and zero-width spaces
           &.unicode_normalize(:nfkc)                            # Normalize Unicode characters
+          &.strip.presence
       })
     end
   end

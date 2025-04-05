@@ -561,7 +561,7 @@ module PDF
         ]
         if depot.delivery_sheets_mode == "home_delivery"
           content = <<~TEXT
-            <font size='10'>#{member.final_delivery_address}\n#{member.final_delivery_zip} #{member.final_delivery_city}</font>
+            <font size='10'>#{member.address}\n#{member.zip} #{member.city}</font>
           TEXT
           line << {
             content: content,

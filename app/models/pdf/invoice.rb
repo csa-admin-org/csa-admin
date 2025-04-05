@@ -83,9 +83,9 @@ module PDF
     def member_address_and_id
       member = invoice.member
       parts = [
-        member.name.truncate(70),
-        member.address.truncate(70),
-        "#{member.zip} #{member.city}"
+        member.billing_info(:name).truncate(70),
+        member.billing_info(:address).truncate(70),
+        "#{member.billing_info(:zip)} #{member.billing_info(:city)}"
       ]
 
       bounding_box [ 12.15.cm, bounds.height - 1.5.cm ], width: 7.8.cm, height: 3.cm do
@@ -472,9 +472,9 @@ module PDF
         move_down border
 
         qr_text_title t("payment.payable_by"), size: 6
-        qr_text invoice.member.name.truncate(70), size: 8
-        qr_text invoice.member.address.truncate(70), size: 8
-        qr_text invoice.member.zip + " " + invoice.member.city, size: 8
+        qr_text invoice.member.billing_info(:name).truncate(70), size: 8
+        qr_text invoice.member.billing_info(:address).truncate(70), size: 8
+        qr_text invoice.member.billing_info(:zip) + " " + invoice.member.billing_info(:city), size: 8
 
         bounding_box [ 0, 98 ], width: 200 do
           qr_text_title t("payment.currency"), size: 6
@@ -525,9 +525,9 @@ module PDF
           move_down border
 
           qr_text_title t("payment.payable_by")
-          qr_text invoice.member.name.truncate(70)
-          qr_text invoice.member.address.truncate(70)
-          qr_text invoice.member.zip + " " + invoice.member.city
+          qr_text invoice.member.billing_info(:name).truncate(70)
+          qr_text invoice.member.billing_info(:address).truncate(70)
+          qr_text invoice.member.billing_info(:zip) + " " + invoice.member.billing_info(:city)
         end
       end
     end
@@ -629,17 +629,17 @@ module PDF
           payment_info_title t("payment.payable_by")
           if invoice.sepa?
             payment_info_text invoice.sepa_metadata["name"].truncate(70)
-            payment_info_text invoice.member.address.truncate(70)
-            payment_info_text invoice.member.zip + " " + invoice.member.city
+            payment_info_text invoice.member.billing_info(:address).truncate(70)
+            payment_info_text invoice.member.billing_info(:zip) + " " + invoice.member.billing_info(:city)
 
             move_down 5
             payment_info_text "IBAN: <b>#{invoice.sepa_metadata["iban"].scan(/.{1,4}/)&.join(" ")}</b>"
             mandate_signed_on = Date.parse(invoice.sepa_metadata["mandate_signed_on"])
             payment_info_text "#{t("payment.sepa_mandate_id")}: <b>#{invoice.sepa_metadata["mandate_id"]}</b> (#{I18n.l(mandate_signed_on, format: :short)})"
           else
-            payment_info_text invoice.member.name.truncate(70)
-            payment_info_text invoice.member.address.truncate(70)
-            payment_info_text invoice.member.zip + " " + invoice.member.city
+            payment_info_text invoice.member.billing_info(:name).truncate(70)
+            payment_info_text invoice.member.billing_info(:address).truncate(70)
+            payment_info_text invoice.member.billing_info(:zip) + " " + invoice.member.billing_info(:city)
           end
         end
       end

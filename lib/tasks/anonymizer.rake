@@ -24,13 +24,17 @@ namespace :anonymizer do
             address: Faker::Address.street_address,
             city: Faker::Address.city,
             zip: Faker::Address.zip,
-            delivery_address: nil,
-            delivery_city: nil,
-            delivery_zip: nil,
             note: nil,
             food_note: nil,
             come_from: nil,
             profession: nil)
+          if member.different_billing_info
+            member.update_columns(
+              billing_name: Faker::Name.unique.name,
+              billing_address: Faker::Address.street_address,
+              billing_city: Faker::Address.city,
+              billing_zip: Faker::Address.zip)
+          end
           member.sessions.update_all(email: member.emails_array.first)
         end
         Newsletter::Delivery.where.not(email: nil).find_each do |delivery|

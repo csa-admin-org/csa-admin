@@ -46,6 +46,36 @@ class PDF::InvoiceTest < ActiveSupport::TestCase
     ], pdf_strings
   end
 
+  test "use different billing info" do
+    invoice = invoices(:annual_fee)
+    invoice.member.update!(
+      billing_name: "Martha Office",
+      billing_address: "Nowhere 42",
+      billing_city: "Office City",
+      billing_zip: "4321")
+
+    pdf_strings = save_pdf_and_return_strings(invoice)
+
+    assert_contains pdf_strings, [
+      "Invoice N°\u00A0#{invoice.id}",
+      "1 April 2024",
+      "Martha Office", "Nowhere 42", "4321 Office City",
+      "Member No.: #{invoice.member_id}"
+    ]
+    assert_contains pdf_strings, [
+      "Account / Payable to",
+      "CH44 3199 9123 0008 8901 2",
+      "Acme", "Nowhere 42", "1234 City",
+      "Reference", "00 00000 06148 57506 38928 10045",
+      "Payable by", "Martha Office", "Nowhere 42", "4321 Office City"
+    ]
+    assert_contains pdf_strings, [
+      "Further information",
+      "Invoice #{invoice.id}",
+      "Payable by", "Martha Office", "Nowhere 42", "4321 Office City"
+    ]
+  end
+
   test "shares number (positive)" do
     org(share_price: 100)
     invoice = create_invoice(shares_number: 2)
