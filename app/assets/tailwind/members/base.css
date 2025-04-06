@@ -81,8 +81,11 @@
 .disabled .text-sm,
 button:disabled,
 input.string:disabled {
-  @apply pointer-events-auto cursor-not-allowed border-gray-300 text-gray-300 dark:border-gray-800 dark:text-gray-700;
+  @apply pointer-events-auto cursor-not-allowed border-gray-200 text-gray-300 dark:border-gray-900 dark:text-gray-700;
 }
 .disabled a {
   @apply pointer-events-none decoration-gray-300 hover:bg-transparent dark:decoration-gray-700;
+}
+.disabled label {
+  @apply border-gray-100 dark:border-gray-900;
 }
