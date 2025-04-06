@@ -1,4 +1,4 @@
-@layer components {
+@layer utilities {
   trix-editor {
     @apply border-gray-300! bg-gray-50! p-2! px-3! text-gray-900! focus:border-green-500! focus:ring-green-500! dark:placeholder-gray-400! dark:focus:border-green-600! dark:focus:ring-green-600! text-base! focus:ring-1! dark:border-gray-600! dark:bg-gray-700! dark:text-white! rounded-md! border! w-full!;
   }
@@ -153,7 +153,7 @@
     }
 
     & a {
-      @apply underline;
+      @apply !underline;
     }
 
     & ul {
@@ -170,10 +170,6 @@
 
     & ol li {
       @apply list-decimal! list-outside! border-none! m-0! ml-6!;
-    }
-
-    & strong {
-      @apply font-semibold! text-gray-600! dark:text-gray-400!;
     }
   }
 

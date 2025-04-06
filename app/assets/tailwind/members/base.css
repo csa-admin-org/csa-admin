@@ -18,6 +18,11 @@
       color: inherit;
     }
 
+    b,
+    strong {
+      @apply font-semibold;
+    }
+
     a:hover,
     a:hover h2,
     a:hover span {
@@ -58,15 +63,6 @@
       @apply cursor-default text-green-500;
     }
 
-    .disabled label,
-    .disabled span,
-    .disabled input,
-    .disabled div.text-sm,
-    button:disabled,
-    input.string:disabled {
-      @apply pointer-events-auto cursor-not-allowed border-gray-300 text-gray-300 dark:border-gray-800 dark:text-gray-700;
-    }
-
     input.controls-none::-webkit-outer-spin-button,
     input.controls-none::-webkit-inner-spin-button {
       @apply m-0 appearance-none;
@@ -76,4 +72,17 @@
       appearance: textfield;
     }
   }
+}
+
+.disabled label,
+.disabled span,
+.disabled input,
+.disabled a,
+.disabled .text-sm,
+button:disabled,
+input.string:disabled {
+  @apply pointer-events-auto cursor-not-allowed border-gray-300 text-gray-300 dark:border-gray-800 dark:text-gray-700;
+}
+.disabled a {
+  @apply pointer-events-none decoration-gray-300 hover:bg-transparent dark:decoration-gray-700;
 }
