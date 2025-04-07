@@ -316,7 +316,10 @@ ActiveAdmin.register BasketContent do
         wrapper_html: { class: "legend-title" },
         collection: admin_depots
     end
-    f.actions
+    f.actions do
+      f.action :submit, as: :input
+      cancel_link basket_contents_path(q: { delivery_id_eq: f.object.delivery_id })
+    end
   end
 
   permit_params(*%i[delivery_id product_id quantity unit unit_price distribution_mode],
