@@ -5,12 +5,20 @@
 
     /* Structural Elements */
     fieldset.inputs {
-      @apply relative m-0 mb-8 w-full rounded-lg border border-gray-200 bg-white p-4 shadow-md dark:border-gray-700 dark:bg-gray-950/95;
+      @apply relative m-0 mb-8 w-full rounded-lg border border-gray-200 bg-white p-4 pt-2 shadow-md dark:border-gray-700 dark:bg-gray-950/95;
+
+      &:has(> legend) {
+        @apply pt-14;
+      }
     }
 
     .inputs ol,
     .inputs [role="tabpanel"] {
       @apply space-y-2;
+    }
+
+    .inputs ol > p {
+      @apply mt-2;
     }
 
     .inputs ol li:last-child {
@@ -23,7 +31,7 @@
 
     /* Navigation */
     .tabs-nav {
-      @apply m-0 mb-6 flex flex-wrap gap-6 border-b-0 border-gray-200 text-center text-xl font-extralight text-gray-950 dark:border-gray-700 dark:text-white;
+      @apply m-0 mb-6 mt-2 flex flex-wrap gap-6 border-b-0 border-gray-200 text-center text-xl font-extralight text-gray-950 dark:border-gray-700 dark:text-white;
     }
 
     .panel-actions {
@@ -44,12 +52,12 @@
     }
 
     .fieldset-title {
-      @apply float-left m-0 block border-none bg-transparent pb-4 text-xl font-extralight;
+      @apply absolute top-3 bg-transparent pb-4 text-xl font-extralight;
     }
 
     .fieldset-title,
     .has-many-fields-title {
-      @apply mb-3 block w-full border-b text-lg font-bold;
+      @apply mb-3 block w-full border-none text-lg font-bold;
     }
 
     li.subtitle {
@@ -243,7 +251,7 @@
 
     /* Errors */
     ul.errors {
-      @apply m-0 mt-2 gap-2 bg-red-100 p-2 text-red-500 dark:bg-red-900;
+      @apply m-0 my-2 gap-2 bg-red-100 p-2 text-red-500 dark:bg-red-900;
     }
 
     ul.errors li {

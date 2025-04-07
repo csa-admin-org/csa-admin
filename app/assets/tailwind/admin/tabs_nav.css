@@ -1,6 +1,6 @@
 @layer components {
   .tabs-nav {
-    @apply flex flex-wrap pb-1 text-center text-sm font-medium;
+    @apply mt-1 flex flex-wrap pb-1 text-center text-sm font-medium;
   }
 
   .tabs-nav > :where(a) {
