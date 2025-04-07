@@ -222,8 +222,8 @@ ActiveAdmin.register Shop::Order do
           hint: true,
           required: false,
           input_html: { data: { form_reset_target: "input" } }
-        end
-        f.semantic_errors :items
+      end
+      f.semantic_errors :items
     end
 
     render partial: "active_admin/attachments/form", locals: {
@@ -231,7 +231,10 @@ ActiveAdmin.register Shop::Order do
       text: t(".invoice_attachments_html")
     }
 
-    f.actions
+    f.actions do
+      f.action :submit, as: :input
+      cancel_link shop_orders_path(q: { _delivery_gid_eq: f.object.delivery.gid })
+    end
   end
 
   permit_params(
