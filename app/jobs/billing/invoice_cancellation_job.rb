@@ -6,7 +6,7 @@ module Billing
 
     def perform(invoice, send_email: false)
       invoice.stamp_pdf_as_canceled!
-      if send_email
+      if send_email && invoice.member.billing_emails?
         MailTemplate.deliver_later(:invoice_cancelled, invoice: invoice)
       end
     end

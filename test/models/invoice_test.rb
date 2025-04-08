@@ -392,6 +392,16 @@ class InvoiceTest < ActiveSupport::TestCase
     assert_includes mail.html_part.body.to_s, "Your invoice ##{invoice.id} from #{I18n.l(invoice.date)} has been cancelled."
   end
 
+  test "does not send invoice_cancelled email when member has no billing emails" do
+    mail_templates(:invoice_cancelled).update!(active: true)
+    invoice = invoices(:annual_fee)
+    invoice.member.update!(emails: "", billing_email: "")
+
+    assert_no_difference "InvoiceMailer.deliveries.size" do
+      perform_enqueued_jobs { invoice.cancel! }
+    end
+  end
+
   test "does not send invoice_cancelled email when invoice is closed" do
     travel_to "2024-01-01"
     mail_templates(:invoice_cancelled).update!(active: true)
