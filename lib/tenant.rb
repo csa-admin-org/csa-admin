@@ -35,7 +35,7 @@ module Tenant
   end
 
   def state
-    config.dig(current.to_s, "env") || "production"
+    config.dig(current.to_s, "state") || "production"
   end
 
   def custom?
