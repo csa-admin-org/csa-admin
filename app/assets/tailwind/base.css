@@ -256,14 +256,6 @@
   a {
     @apply text-gray-900 underline decoration-green-400 underline-offset-2 hover:text-green-600 dark:text-gray-100 dark:decoration-green-600 dark:hover:text-green-600;
   }
-
-  .disabled {
-    @apply text-gray-400 decoration-gray-400;
-
-    a {
-      @apply text-gray-400 no-underline decoration-gray-400;
-    }
-  }
 }
 
 @utility hovered {

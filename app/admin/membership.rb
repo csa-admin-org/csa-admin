@@ -361,7 +361,7 @@ ActiveAdmin.register Membership do
             row_html: ->(b) {
               classes = []
               classes << "bg-gray-200 dark:bg-gray-700" if b == next_basket
-              classes << "disabled" if b.absent? || b.empty?
+              classes << "text-gray-300 dark:text-gray-500 [&>td>a]:text-gray-300 [&>td>a]:decoration-gray-300 [&>td>a]:dark:text-gray-500 [&>td>a]:dark:decoration-gray-500" if b.absent? || b.empty?
               classes << "line-through" if !b.billable? || b.empty?
               { class: classes.join(" ") }
             },
