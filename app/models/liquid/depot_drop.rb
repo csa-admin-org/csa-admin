@@ -14,6 +14,6 @@ class Liquid::DepotDrop < Liquid::Drop
   end
 
   def member_note
-    @depot.public_note&.html_safe.presence
+    @depot.public_note_as_plain_text.presence
   end
 end
