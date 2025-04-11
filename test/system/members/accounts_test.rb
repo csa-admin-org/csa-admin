@@ -64,4 +64,32 @@ class Members::AccountsTest < ApplicationSystemTestCase
 
     assert_text "Bakery"
   end
+
+  test "edit different billing address" do
+    member = members(:john)
+    member.update!(
+      billing_name: "Acme Doe",
+      billing_address: "Acme Street 42",
+      billing_city: "Acme City",
+      billing_zip: "1234")
+    login(member)
+
+    visit "/"
+    click_on "John Doe"
+
+    assert_text "Acme Doe"
+    assert_text "Acme Street 42"
+    assert_text "Acme City"
+    assert_text "1234"
+
+    click_on "Edit account"
+
+    within "[aria-label='Billing']" do
+      assert find("#member_different_billing_info").checked?
+      fill_in "Name (billing)", with: "Acme Corp."
+    end
+
+    click_button "Submit"
+    assert_text "Acme Corp."
+  end
 end

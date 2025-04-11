@@ -15,6 +15,9 @@ class Members::MembersController < Members::BaseController
     if params[:basket_size_id]
       @member.waiting_basket_size_id = params[:basket_size_id]
     end
+    if params[:different_billing_info] == "true"
+      @member.different_billing_info = true
+    end
     set_basket_complements
 
     respond_to do |format|
@@ -96,6 +99,8 @@ class Members::MembersController < Members::BaseController
         :waiting_billing_year_division,
         :annual_fee, :desired_shares_number,
         :shop_depot_id,
+        :different_billing_info,
+        :billing_name, :billing_address, :billing_zip, :billing_city,
         :profession, :come_from, :note,
         :terms_of_service,
         waiting_alternative_depot_ids: [],

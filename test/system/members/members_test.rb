@@ -388,7 +388,7 @@ class Members::MembersTest < ApplicationSystemTestCase
 
     visit "/new"
 
-    assert_no_text "Billing"
+    assert_no_text "Payment interval"
     assert_no_selector "#member_waiting_billing_year_division_input"
   end
 
@@ -417,6 +417,43 @@ class Members::MembersTest < ApplicationSystemTestCase
 
     depot_ids = all(".member_waiting_depot_id span input").map(&:value).map(&:to_i)
     assert_equal [ farm_id, home_id, bakery_id ], depot_ids
+  end
+
+  test "different billing address" do
+    org(terms_of_service_urls: {})
+
+    visit "/new?different_billing_info=true"
+
+    within "[aria-label='Contact']" do
+      fill_in "Name and surname", with: "Ryan Doe"
+      fill_in "Address", with: "Nowhere street 2"
+      fill_in "ZIP", with: "2042"
+      fill_in "City", with: "Moon City"
+      fill_in "Email(s)", with: "ryan@doe.com"
+      fill_in "Phone(s)", with: "077 142 42 42, 077 143 44 44"
+    end
+
+    choose "Supporting member"
+
+    within "[aria-label='Billing']" do
+      assert find("#member_different_billing_info").checked?
+      fill_in "Name (billing)", with: "Ryan Corp."
+      fill_in "Address (billing)", with: "Corp street 2"
+      fill_in "ZIP", with: "4200"
+      fill_in "City", with: "Corp City"
+    end
+
+    click_button "Submit"
+    assert_text "Thank you for your registration!"
+
+    member = Member.last
+    assert_equal "pending", member.state
+    assert_equal "Ryan Doe", member.name
+    assert_equal "Ryan Corp.", member.billing_name
+    assert_equal "Corp street 2", member.billing_address
+    assert_equal "4200", member.billing_zip
+    assert_equal "Corp City", member.billing_city
+    assert member.different_billing_info
   end
 
   test "notifies spam detection" do
