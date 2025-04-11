@@ -17,7 +17,7 @@
   <% end %>
   <%= simple_form_for @member, url: members_member_path, data: { turbo: false, controller: "form-pricing", "form-pricing-url-value" => new_members_member_url } do |f| %>
     <div class="space-y-12">
-      <div class="print:break-after-page">
+      <div class="print:break-after-page" aria-label="Contact">
         <legend class="text-lg font-medium text-gray-700 dark:text-gray-300">
           <%= Member.human_attribute_name(:contact) %>
         </legend>
