@@ -59,6 +59,8 @@ production: &production
     domain: fairdura.ch
   wilderauke:
     domain: wilde-rauke.de
+  baieattitude:
+    domain: baie-attitude.ch
 
   mamajah:
     domain: mamajah.org
@@ -68,9 +70,6 @@ production: &production
     state: onboarding
   lamilpadesiles:
     domain: lamilpadesiles.ch
-    state: onboarding
-  baieattitude:
-    domain: baie-attitude.ch
     state: onboarding
 
   demo:
