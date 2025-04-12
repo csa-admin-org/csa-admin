@@ -114,11 +114,13 @@ Ogni volta che un pagamento viene creato (automaticamente o manualmente) o una f
 
 Questa modalità di ridistribuzione è molto comoda e permette così di gestire i casi in cui un socio riutilizzerebbe un vecchio numero di riferimento per pagare una nuova fattura.
 
-### Importazione automatica
+### Importazione automatica {#automatic_payments_processing}
 
 Il modo più efficiente per elaborare i vostri pagamenti è chiedere alla vostra banca di impostare [una connessione EBICS](https://www.six-group.com/it/products-services/banking-services/standardization.html#scrollTo=ebics). Questo permette al sistema di importare automaticamente (ogni notte) i pagamenti delle fatture con numero di riferimento dei vostri soci tramite il formato ISO camt.054.
 
+<% if Current.org.country_code == "CH" %>
 CSA Admin gestisce anche il recupero automatico dei pagamenti della [Banca Alternativa Svizzera](https://www.bas.ch/it) che non supporta il sistema EBICS.
+<% end %>
 
 > Se avete domande riguardanti il supporto di una banca in particolare o l'impostazione di EBICS, non esitate a [chiedermelo](mailto:info@csa-admin.org).
 

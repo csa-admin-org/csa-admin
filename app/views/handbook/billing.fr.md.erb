@@ -114,11 +114,13 @@ CSA Admin offre la possibilité de facturer manuellement des articles ou des ser
 
 Ce mode de redistribution est très commode et permet de gérer ainsi les cas ou un membre réutiliserait un ancien numéro de référence pour payer une nouvelle facture.
 
-### Importation automatique
+### Importation automatique {#automatic_payments_processing}
 
 La manière la plus efficace de traiter vos paiements est de demander à votre banque de mettre en place [une connexion EBICS](https://www.six-group.com/fr/products-services/banking-services/standardization.html#scrollTo=ebics). Cela permet au système d'importer automatiquement (chaque nuit) les paiements des factures avec numéro de référence de vos membres via le format ISO camt.054.
 
+<% if Current.org.country_code == "CH" %>
 CSA Admin gère également la récupération automatique des paiements de la [Banque Alternative Suisse](https://www.bas.ch/fr) qui ne supporte pas le système EBICS.
+<% end %>
 
 > Si vous avez des questions concernant le support d'une banque en particulier ou la mise en place d'EBICS, n'hésitez pas à [me demander](mailto:info@csa-admin.org).
 
