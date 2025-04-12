@@ -224,10 +224,10 @@ _:
           _de: Referenz
           _it: Referenza
         reference_number:
-          _en: Reference number
-          _fr: Numéro de référence
-          _de: Referenznummer
-          _it: Numero di riferimento
+          _en: Reference number / Payment purpose
+          _fr: Numéro de référence / Motif du paiement
+          _de: Referenznummer / Verwendungszweck
+          _it: Numero di riferimento / Motivo del pagamento
         sepa_creditor_identifier:
           _en: Creditor ID
           _fr: ID créancier
