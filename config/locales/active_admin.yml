@@ -2030,10 +2030,10 @@ _:
           _de: Hilfe
           _it: Aiuto
         import:
-          _en: Import
-          _fr: Importation
-          _de: Import
-          _it: Importazione
+          _en: Manual Import
+          _fr: Importation manuelle
+          _de: Manuelle Import
+          _it: Importazione manuale
         info:
           _en: Info
           _fr: Info
@@ -2086,6 +2086,16 @@ _:
           _fr: Manquantes
           _de: Fehlende
           _it: Mancante
+        no_automatic_payments_processing_warning:
+          _en: Automatic import
+          _fr: Importation automatique
+          _de: Automatische Import
+          _it: Importazione automatica
+        no_automatic_payments_processing_warning_text_html:
+          _en: Payments are currently not processed automatically, please <a href="mailto:info@csa-admin.org">contact me</a> to set this up.
+          _fr: Les paiements ne sont actuellement pas traités automatiquement, merci de <a href="mailto:info@csa-admin.org">me contacter</a> afin de mettre cela en place.
+          _de: Einzelzahlungen werden aktuell nicht automatisch verarbeitet, bitte <a href="mailto:info@csa-admin.org">kontaktieren Sie mich</a>, um dies zu aktivieren.
+          _it: Le pagamenti non sono attualmente elaborati automaticamente, per favore <a href="mailto:info@csa-admin.org">contattami</a> per impostare questo.
         no_missing_activity_participations:
           _en: No missing participations
           _fr: Aucune participation manquante

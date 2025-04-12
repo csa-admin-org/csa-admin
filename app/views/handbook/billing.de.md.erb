@@ -114,11 +114,13 @@ Jedes Mal, wenn eine Zahlung erstellt wird (automatisch oder manuell) oder eine 
 
 Dieser Umverteilungsmodus ist sehr praktisch und ermöglicht es so, Fälle zu verwalten, in denen ein Mitglied eine alte Referenznummer wiederverwenden würde, um eine neue Rechnung zu bezahlen.
 
-### Automatischer Import
+### Automatischer Import {#automatic_payments_processing}
 
 Die effizienteste Methode zur Verarbeitung Ihrer Zahlungen besteht darin, Ihre Bank zu bitten, [eine EBICS-Verbindung](https://www.six-group.com/de/products-services/banking-services/standardization.html#scrollTo=ebics) einzurichten. Dies ermöglicht es dem System, Zahlungen von Rechnungen mit Referenznummern Ihrer Mitglieder automatisch (jede Nacht) über das ISO camt.054-Format zu importieren.
 
+<% if Current.org.country_code == "CH" %>
 CSA Admin verwaltet auch den automatischen Abruf von Zahlungen der [Alternativen Bank Schweiz](https://www.bas.ch/de), die das EBICS-System nicht unterstützt.
+<% end %>
 
 > Wenn Sie Fragen zur Förderung einer bestimmten Bank oder zur Einrichtung von EBICS haben, zögern Sie nicht, [mich zu fragen](mailto:info@csa-admin.org).
 

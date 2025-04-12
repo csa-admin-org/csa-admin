@@ -114,11 +114,13 @@ Each time a payment is created (automatically or manually) or an invoice is crea
 
 This redistribution mode is very convenient and thus allows managing cases where a member would reuse an old reference number to pay a new invoice.
 
-### Automatic import
+### Automatic import {#automatic_payments_processing}
 
 The most efficient way to process your payments is to ask your bank to set up [an EBICS connection](https://www.six-group.com/en/products-services/banking-services/standardization.html#scrollTo=ebics). This allows the system to automatically import (each night) payments of invoices with reference numbers from your members via the ISO camt.054 format.
 
+<% if Current.org.country_code == "CH" %>
 CSA Admin also manages automatic retrieval of payments from the [Alternative Bank Switzerland](https://www.bas.ch/en) which doesn't support the EBICS system.
+<% end %>
 
 > If you have questions about support for a particular bank or setting up EBICS, don't hesitate to [ask me](mailto:info@csa-admin.org).
 

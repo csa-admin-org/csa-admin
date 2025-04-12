@@ -79,6 +79,14 @@ ActiveAdmin.register Payment do
     end
   end
 
+  sidebar :no_automatic_payments_processing_warning, only: :index, unless: -> { automatic_payments_processing? } do
+    side_panel t(".no_automatic_payments_processing_warning"), action: handbook_icon_link("billing", anchor: "automatic_payments_processing"), class: "warning" do
+      para do
+        t(".no_automatic_payments_processing_warning_text_html")
+      end
+    end
+  end
+
   sidebar_handbook_link("billing#paiements")
 
   collection_action :import, method: :post do
