@@ -200,7 +200,26 @@ class PDF::InvoiceTest < ActiveSupport::TestCase
     assert_contains pdf_strings, [
       "Description", "Amount (CHF)",
       "Basket: Medium basket 10x 20.00", "200.00",
-      "Deliveries (Mondays): 10x 3.00", "30.00",
+      "Deliveries: Mondays 10x 3.00", "30.00",
+      "Annual amount", "230.00",
+      "Annual amount", "230.00"
+    ]
+  end
+
+  test "annual membership with membership delivery cycle price and custom invoice name" do
+    travel_to "2024-01-01"
+    memberships(:john).update!(delivery_cycle_price: 3)
+    memberships(:john).delivery_cycle.update!(invoice_name: "Custom Name")
+    invoice = create_invoice(
+      entity: memberships(:john),
+      annual_fee: nil,
+      memberships_amount_description: "Annual amount")
+    pdf_strings = save_pdf_and_return_strings(invoice)
+
+    assert_contains pdf_strings, [
+      "Description", "Amount (CHF)",
+      "Basket: Medium basket 10x 20.00", "200.00",
+      "Deliveries: Custom Name 10x 3.00", "30.00",
       "Annual amount", "230.00",
       "Annual amount", "230.00"
     ]

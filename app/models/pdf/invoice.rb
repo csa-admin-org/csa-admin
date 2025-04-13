@@ -713,7 +713,8 @@ module PDF
         cycle = DeliveryCycle.find_by(price: most_used_price)
       end
       cycle ||= entity.delivery_cycle
-      "#{::Delivery.model_name.human(count: 2)} (#{cycle.public_name}): #{delivery_cycle_price_info(entity.baskets)}"
+      cycle_name = cycle.invoice_name || cycle.public_name
+      "#{::Delivery.model_name.human(count: 2)}: #{cycle_name} #{delivery_cycle_price_info(entity.baskets)}"
     end
 
     def activity_participations_annual_price_change_description

@@ -368,6 +368,11 @@ _:
           _de: Unterschrift
           _it: Firma
       delivery_cycle:
+        invoice_name:
+          _en: Name (invoice)
+          _fr: Nom (facture)
+          _de: Name (Rechnung)
+          _it: Nome (fattura)
         minimum_gap_in_days:
           _en: Minimum gap (in days)
           _fr: Écart minimum (en jours)

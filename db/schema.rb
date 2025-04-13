@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_04_05_095255) do
+ActiveRecord::Schema[8.1].define(version: 2025_04_13_085715) do
   create_table "absences", force: :cascade do |t|
     t.datetime "created_at"
     t.date "ended_on"
@@ -300,6 +300,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_04_05_095255) do
     t.json "deliveries_counts", default: {}, null: false
     t.datetime "discarded_at"
     t.json "form_details", default: {}, null: false
+    t.json "invoice_names", default: {}, null: false
     t.integer "member_order_priority", default: 1, null: false
     t.integer "minimum_gap_in_days"
     t.json "months", default: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12], null: false

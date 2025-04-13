@@ -100,10 +100,11 @@ ActiveAdmin.register DeliveryCycle do
           end
         end
 
-        if feature?("absence")
-          panel t(".billing") do
-            attributes_table do
-              row(:price) { cur(dc.price) }
+        panel t(".billing") do
+          attributes_table do
+            row(:price) { cur(dc.price) }
+            row(:invoice_name) { dc.invoice_name }
+            if feature?("absence")
               row :absences_included_annually
             end
           end
@@ -170,6 +171,9 @@ ActiveAdmin.register DeliveryCycle do
           min: 0,
           hint: true,
           label: DeliveryCycle.human_attribute_name(:price_per_delivery)
+        translated_input(f, :invoice_names,
+          required: false,
+          hint: t("formtastic.hints.delivery_cycle.invoice_name"))
         f.input :absences_included_annually
         handbook_button(self, "absences", anchor: "absences-incluses")
       end
@@ -207,6 +211,7 @@ ActiveAdmin.register DeliveryCycle do
     :minimum_gap_in_days,
     *I18n.available_locales.map { |l| "name_#{l}" },
     *I18n.available_locales.map { |l| "public_name_#{l}" },
+    *I18n.available_locales.map { |l| "invoice_name_#{l}" },
     *I18n.available_locales.map { |l| "form_detail_#{l}" },
     wdays: [],
     months: [],

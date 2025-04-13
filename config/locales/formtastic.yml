@@ -197,6 +197,11 @@ _:
           _fr: Laisser blanc pour le texte par défaut.
           _de: Leer lassen für den Standardtext.
           _it: Lasciare vuoto per il testo predefinito.
+        invoice_name:
+          _en: If present, replaces the name displayed in the invoice.
+          _fr: Si présent, remplace le nom affiché dans la facture.
+          _de: Wenn vorhanden, ersetzt den Namen auf der Rechnung.
+          _it: Se presente, sostituisce il nome visualizzato nella fattura.
         minimum_gap_in_days:
           _en: Allows you to set the minimum number of days between two deliveries. For example, 13 for a delivery every 2 weeks.
           _fr: Permet de définir le nombre minimum de jours entre deux livraisons. Par exemple 13 pour une livraison tous les 2 semaines.
