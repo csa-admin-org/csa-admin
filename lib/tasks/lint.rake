@@ -18,7 +18,7 @@ namespace :lint do
     puts "Running Rubocop with autocorrect..."
     system("bin/rubocop --parallel --autocorrect-all") || abort("Rubocop autocorrect failed")
     puts "Running htmlbeautifier..."
-    system("bin/htmlbeautifier app/views/**/*.html.erb")
+    system("bin/htmlbeautifier app/views/**/*.html.erb --keep-blank-lines 1")
     puts "Running Prettier..."
     system("npx prettier app --write")
   end

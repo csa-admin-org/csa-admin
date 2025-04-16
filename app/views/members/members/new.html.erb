@@ -1,9 +1,11 @@
 <h1 class="text-center text-xl sm:text-2xl font-extrabold text-gray-900 dark:text-gray-100">
   <%= t(".title") %>
 </h1>
+
 <div class="mt-4 text-justify">
   <p><%= Current.org.member_form_subtitle? ? Current.org.member_form_subtitle : t(".subtitle") %></p>
 </div>
+
 <div class="mt-8">
   <% if @member.errors.of_kind?(:emails, :taken) %>
     <div class="block mb-4 p-4 bg-red-100 dark:bg-red-900 text-red-500 rounded-md relative" role="alert">
