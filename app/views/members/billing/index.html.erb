@@ -126,6 +126,16 @@
           </span>
         </li>
       <% end %>
+      <% if membership.deliveries_price.nonzero? %>
+        <li class="w-full flex flex-row justify-between items-center border-t border-dotted border-gray-200 dark:border-gray-800">
+          <span class="font-light">
+            <%= Delivery.model_name.human(count: membership.baskets_count) %>
+          </span>
+          <span class="text-right tabular-nums">
+            <%= display_price_description(membership.deliveries_price, delivery_cycle_price_info(membership.baskets)) %>
+          </span>
+        </li>
+      <% end %>
       <% if Current.org.feature?("activity") && membership.activity_participations_annual_price_change.nonzero? %>
         <li class="w-full flex flex-row justify-between items-center border-t border-dotted border-gray-200 dark:border-gray-800">
           <span class="font-light">
