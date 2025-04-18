@@ -7,7 +7,7 @@ ActiveAdmin.register DepotGroup do
   breadcrumb do
     links = [ link_to(Depot.model_name.human(count: 2), depots_path) ]
     if params[:action] != "index"
-      links << link_to(DepotGroup.model_name.human(count: 2), depots_path)
+      links << link_to(DepotGroup.model_name.human(count: 2), depot_groups_path)
     end
     if params["action"].in? %W[edit]
       links << auto_link(resource)
