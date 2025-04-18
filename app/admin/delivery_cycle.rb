@@ -173,7 +173,8 @@ ActiveAdmin.register DeliveryCycle do
           label: DeliveryCycle.human_attribute_name(:price_per_delivery)
         translated_input(f, :invoice_names,
           required: false,
-          hint: t("formtastic.hints.delivery_cycle.invoice_name"))
+          hint: t("formtastic.hints.delivery_cycle.invoice_name"),
+          input_html: { placeholder: f.object.invoice_description })
         f.input :absences_included_annually
         handbook_button(self, "absences", anchor: "absences-incluses")
       end

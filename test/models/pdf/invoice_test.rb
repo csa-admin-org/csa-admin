@@ -219,7 +219,7 @@ class PDF::InvoiceTest < ActiveSupport::TestCase
     assert_contains pdf_strings, [
       "Description", "Amount (CHF)",
       "Basket: Medium basket 10x 20.00", "200.00",
-      "Deliveries: Custom Name 10x 3.00", "30.00",
+      "Custom Name 10x 3.00", "30.00",
       "Annual amount", "230.00",
       "Annual amount", "230.00"
     ]
