@@ -1,10 +1,6 @@
 # frozen_string_literal: true
 
 class DeliveryCycle < ApplicationRecord
-  include TranslatedAttributes
-  include Discardable
-  include HasPrice
-
   MEMBER_ORDER_MODES = %w[
     name_asc
     deliveries_count_asc
@@ -18,6 +14,11 @@ class DeliveryCycle < ApplicationRecord
     results
     minimum_gap_in_days
   ]
+
+  include TranslatedAttributes
+  include HasPublicName
+  include Discardable
+  include HasPrice
 
   enum :week_numbers, %i[all odd even], suffix: true
   enum :results, %i[
@@ -35,9 +36,8 @@ class DeliveryCycle < ApplicationRecord
 
   has_and_belongs_to_many :depots, -> { kept } # Visibility
 
-  translated_attributes :public_name, :invoice_name
+  translated_attributes :invoice_name
   translated_attributes :form_detail
-  translated_attributes :name, required: true
 
   scope :ordered, -> { order_by_name }
   scope :visible, -> {
@@ -134,12 +134,6 @@ class DeliveryCycle < ApplicationRecord
     counts = (min..max).map { |y| [ y.to_s, deliveries(y).count ] }.to_h
 
     update_column(:deliveries_counts, counts)
-  end
-
-  def display_name; name end
-
-  def public_name
-    self[:public_names][I18n.locale.to_s].presence || name
   end
 
   def visible?

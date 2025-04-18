@@ -44,6 +44,12 @@ _:
           _fr: Merci de vérifier que l'affichage sur les fiches ne déborde pas.<br/>L'annonce sera affichée sur les fiches (PDF) des paires dépôts/livraisons ci-dessous.
           _de: Bitte überprüfen Sie, dass die Anzeige auf den Blättern nicht überläuft.<br/>Die Ankündigung wird auf den Blättern (PDF) der unten aufgeführten Depots/Lieferungspaare angezeigt.
           _it: Controlla che l'annuncio non esca dal foglio.<br/>L'annuncio verrà visualizzato sulla coppia di fogli punti di ritiro/consegne (PDF) qui sotto.
+      attributes:
+        public_name:
+          _en: If present, replaces the name displayed to members (registration form, invoice, sheets, ...).
+          _fr: Si présent, remplace le nom affiché pour les membres (formulaire d'inscription, facture, fiches, ...).
+          _de: Wenn vorhanden, ersetzt den für Mitglieder angezeigten Namen (Registrierungsformular, Rechnung, Blätter, ...).
+          _it: Se presente, sostituisce il nome visualizzato per i soci (modulo di registrazione, fattura, fogli, ...).
       basket:
         basket_price:
           _en: Leave blank for the default price.
@@ -86,11 +92,6 @@ _:
           _fr: Tout changement de prix est uniquement valable pour les nouveaux abonnements et n'est pas rétroactivement appliqué.
           _de: Alle Preisänderungen gelten nur für neue Abonnements und werden nicht rückwirkend angewendet.
           _it: Tutte le modifiche al prezzo sono valide solo per i nuovi abbonamenti e non sono applicate retroattivamente.
-        public_name:
-          _en: If present, replaces the name displayed to members (registration form, invoice, sheets, ...).
-          _fr: Si présent, remplace le nom affiché pour les membres (formulaire d'inscription, facture, fiches, ...).
-          _de: Wenn vorhanden, ersetzt den für Mitglieder angezeigten Namen (Registrierungsformular, Rechnung, Blätter, ...).
-          _it: Se presente, sostituisce il nome visualizzato per i soci (modulo di registrazione, fattura, fogli, ...).
         visible:
           _en: Select "No" if the supplement is not available during registration.
           _fr: Sélectionner "Non" si le complément n'est pas disponible lors de l'inscription.
@@ -139,11 +140,6 @@ _:
           _fr: Tout changement de prix est uniquement valable pour les nouveaux abonnements et n'est pas rétroactivement appliqué.
           _de: Alle Preisänderungen gelten nur für neue Abonnements und werden nicht rückwirkend angewendet.
           _it: Tutte le modifiche al prezzo sono valide solo per i nuovi abbonamenti e non sono applicate retroattivamente.
-        public_name:
-          _en: If present, replaces the name displayed to members (registration form, invoice, sheets, ...).
-          _fr: Si présent, remplace le nom affiché pour les membres (formulaire d'inscription, facture, fiches, ...).
-          _de: Wenn vorhanden, ersetzt den für Mitglieder angezeigten Namen (Registrierungsformular, Rechnung, Blätter, ...).
-          _it: Se presente, sostituisce il nome visualizzato per i soci (modulo di registrazione, fattura, fogli, ...).
         visible:
           _en: Select "No" if the basket size is not available during registration.
           _fr: Sélectionner "Non" si la taille de panier n'est pas disponible lors de l'inscription.
@@ -212,11 +208,6 @@ _:
           _fr: Supplément pour la gestion et/ou la livraison avec ce cycle.
           _de: Zuschlag für die Verwaltung und/oder Lieferung mit diesem Zyklus.
           _it: Supplemento per la gestione e/o la consegna con questo ciclo.
-        public_name:
-          _en: If present, replaces the name displayed to members (registration form).
-          _fr: Si présent, remplace le nom affiché pour les membres (formulaire d'inscription).
-          _de: Wenn vorhanden, ersetzt den für Mitglieder angezeigten Namen (Registrierungsformular).
-          _it: Se presente, sostituisce il nome visualizzato per i soci (modulo di registrazione).
         results:
           _en: Once the configuration for days, weeks, and months has been applied, only keep the resulting deliveries according to this last criterion.
           _fr: Une fois la configuration des jours, semaines, et mois appliquée, garde uniquement les livraisons résultantes en fonction de ce dernier critère.
@@ -253,11 +244,6 @@ _:
           _fr: Prix pour la préparation et/ou livraison d'un panier.
           _de: Preis für die Abpackung und/oder Lieferung einer Tasche.
           _it: Prezzo per la preparazione e/o consegna di una cesta.
-        public_name:
-          _en: If present, replaces the name displayed to members (registration form, invoice, sheets, ...).
-          _fr: Si présent, remplace le nom affiché pour les membres (formulaire d'inscription, facture, fiches, ...).
-          _de: Wenn vorhanden, ersetzt den für Mitglieder angezeigten Namen (Registrierungsformular, Rechnung, Blätter, ...).
-          _it: Se presente, sostituisce il nome visualizzato per i soci (modulo di registrazione, fattura, fogli, ...).
         public_note:
           _en: Information displayed at the top of the delivery list on the member's account.
           _fr: Information affichée en haut de la liste des livraisons sur le compte du membre.
@@ -279,11 +265,6 @@ _:
           _fr: Trié par ordre alphabétique par défaut.
           _de: Sortiert standardmäßig alphabetisch.
           _it: Ordinato per impostazione predefinita in ordine alfabetico.
-        public_name:
-          _en: If present, replaces the name displayed to members (registration form).
-          _fr: Si présent, remplace le nom affiché pour les membres (formulaire d'inscription).
-          _de: Wenn vorhanden, ersetzt den für Mitglieder angezeigten Namen (Registrierungsformular).
-          _it: Se presente, sostituisce il nome visualizzato per i soci (modulo di registrazione).
       invoice:
         activity_price:
           _en: Amount for a single participation.

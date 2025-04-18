@@ -1,11 +1,6 @@
 # frozen_string_literal: true
 
 class BasketComplement < ApplicationRecord
-  include TranslatedAttributes
-  include HasVisibility
-  include HasPrice
-  include Discardable
-
   MEMBER_ORDER_MODES = %w[
     name_asc
     price_asc
@@ -14,8 +9,12 @@ class BasketComplement < ApplicationRecord
     deliveries_count_desc
   ]
 
-  translated_attributes :name, required: true
-  translated_attributes :public_name
+  include TranslatedAttributes
+  include HasPublicName
+  include HasVisibility
+  include HasPrice
+  include Discardable
+
   translated_attributes :form_detail
 
   has_many :baskets_basket_complement, dependent: :destroy
@@ -97,12 +96,6 @@ class BasketComplement < ApplicationRecord
 
   def current_and_future_delivery_ids
     @current_and_future_delivery_ids ||= deliveries.current_and_future_year.pluck(:id)
-  end
-
-  def display_name; name end
-
-  def public_name
-    self[:public_names][I18n.locale.to_s].presence || name
   end
 
   def can_delete?

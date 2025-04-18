@@ -1,0 +1,5 @@
+# frozen_string_literal: true
+
+translated_input(f, :names)
+translated_input(f, :public_names,
+  hint: t("formtastic.hints.attributes.public_name"))

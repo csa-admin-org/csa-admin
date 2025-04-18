@@ -1,5 +1,6 @@
 farm:
-  name: Farm
+  names:
+    en: Farm
   public_names:
     en: Our farm
   price: 0
@@ -10,13 +11,15 @@ farm:
   position: 1
 
 bakery:
-  name: Bakery
+  names:
+    en: Bakery
   price: 4
   language: en
   position: 3
 
 home:
-  name: Home
+  names:
+    en: Home
   price: 9
   language: en
   position: 2

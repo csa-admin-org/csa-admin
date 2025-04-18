@@ -3,8 +3,8 @@
 class DepotGroup < ApplicationRecord
   include TranslatedAttributes
   include TranslatedRichTexts
+  include HasPublicName
 
-  translated_attributes :name, :public_name
   translated_rich_texts :information_text
 
   has_many :depots, -> { kept }, inverse_of: :group
@@ -14,10 +14,4 @@ class DepotGroup < ApplicationRecord
     order_clauses << "COALESCE(NULLIF(json_extract(public_names, '$.#{I18n.locale}'), ''), name)"
     reorder(Arel.sql(order_clauses.compact.join(", ")))
   }
-
-  def display_name; name end
-
-  def public_name
-    self[:public_names][I18n.locale.to_s].presence || name
-  end
 end

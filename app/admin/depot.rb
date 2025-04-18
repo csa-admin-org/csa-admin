@@ -21,7 +21,7 @@ ActiveAdmin.register Depot do
   includes :memberships, :delivery_cycles
   index do
     column :id, ->(d) { auto_link d, d.id }
-    column :name, ->(d) { link_to display_name_with_public_name(d), d }
+    column :name, ->(d) { link_to display_name_with_public_name(d), d }, sortable: true
     if DepotGroup.any?
       column :group
     end
@@ -183,10 +183,7 @@ ActiveAdmin.register Depot do
 
   form do |f|
     f.inputs t(".details") do
-      f.input :name
-      translated_input(f, :public_names,
-        required: false,
-        hint: t("formtastic.hints.depot.public_name"))
+      render partial: "public_name", locals: { f: f, resource: resource, context: self }
       f.input :group,
         as: :select,
         hint: t("formtastic.hints.depot.group_html")
@@ -255,7 +252,7 @@ ActiveAdmin.register Depot do
 
   permit_params(
     *%i[
-      name language
+      language
       group_id
       price visible note
       address_name address zip city
@@ -263,6 +260,7 @@ ActiveAdmin.register Depot do
       member_order_priority
       delivery_sheets_mode
     ],
+    *I18n.available_locales.map { |l| "name_#{l}" },
     *I18n.available_locales.map { |l| "public_name_#{l}" },
     *I18n.available_locales.map { |l| "public_note_#{l}" },
     delivery_cycle_ids: [])
