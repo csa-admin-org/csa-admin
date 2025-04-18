@@ -109,8 +109,8 @@ ActiveAdmin.register BasketComplement do
     :activity_participations_demanded_annually,
     :visible,
     :member_order_priority,
-    *I18n.available_locales.map { |l| "name_#{l}" },
     *I18n.available_locales.map { |l| "public_name_#{l}" },
+    *I18n.available_locales.map { |l| "admin_name_#{l}" },
     *I18n.available_locales.map { |l| "form_detail_#{l}" },
     current_delivery_ids: [],
     future_delivery_ids: [])

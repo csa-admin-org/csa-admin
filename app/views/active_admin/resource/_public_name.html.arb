@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
-translated_input(f, :names)
 translated_input(f, :public_names,
-  hint: t("formtastic.hints.attributes.public_name"))
+  label: ->(locale) { label_with_language(t("attributes.name"), locale) },
+  required: true)
+translated_input(f, :admin_names,
+  hint: t("formtastic.hints.attributes.admin_name"))

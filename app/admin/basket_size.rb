@@ -87,8 +87,8 @@ ActiveAdmin.register BasketSize do
     :visible,
     :member_order_priority,
     :delivery_cycle_id,
-    *I18n.available_locales.map { |l| "name_#{l}" },
     *I18n.available_locales.map { |l| "public_name_#{l}" },
+    *I18n.available_locales.map { |l| "admin_name_#{l}" },
     *I18n.available_locales.map { |l| "form_detail_#{l}" })
 
   before_build do |basket_size|

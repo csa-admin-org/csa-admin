@@ -78,8 +78,10 @@ ActiveAdmin.register DeliveryCycle do
         panel t(".details") do
           attributes_table do
             row :id
-            row :name
-            row :public_name
+            row(:name) { dc.public_name }
+            if dc.public_name?
+              row(:admin_name) { dc.name }
+            end
           end
         end
 
@@ -207,8 +209,8 @@ ActiveAdmin.register DeliveryCycle do
     :week_numbers,
     :results,
     :minimum_gap_in_days,
-    *I18n.available_locales.map { |l| "name_#{l}" },
     *I18n.available_locales.map { |l| "public_name_#{l}" },
+    *I18n.available_locales.map { |l| "admin_name_#{l}" },
     *I18n.available_locales.map { |l| "invoice_name_#{l}" },
     *I18n.available_locales.map { |l| "form_detail_#{l}" },
     wdays: [],

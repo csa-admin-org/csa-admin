@@ -115,8 +115,10 @@ ActiveAdmin.register Depot do
         panel t(".details") do
           attributes_table do
             row :id
-            row :name
-            row :public_name
+            row(:name) { depot.public_name }
+            if depot.public_name?
+              row(:admin_name) { depot.name }
+            end
             row(:group)
             if Current.org.languages.many?
               row(:language) { t("languages.#{depot.language}") }
@@ -260,8 +262,8 @@ ActiveAdmin.register Depot do
       member_order_priority
       delivery_sheets_mode
     ],
-    *I18n.available_locales.map { |l| "name_#{l}" },
     *I18n.available_locales.map { |l| "public_name_#{l}" },
+    *I18n.available_locales.map { |l| "admin_name_#{l}" },
     *I18n.available_locales.map { |l| "public_note_#{l}" },
     delivery_cycle_ids: [])
 

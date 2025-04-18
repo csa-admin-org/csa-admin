@@ -54,8 +54,8 @@ ActiveAdmin.register DepotGroup do
     *%i[
       member_order_priority
     ],
-    *I18n.available_locales.map { |l| "name_#{l}" },
     *I18n.available_locales.map { |l| "public_name_#{l}" },
+    *I18n.available_locales.map { |l| "admin_name_#{l}" },
     *I18n.available_locales.map { |l| "information_text_#{l}" },
     depot_ids: [])
 
