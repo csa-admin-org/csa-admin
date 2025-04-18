@@ -81,6 +81,10 @@
       @apply text-xl font-extralight;
     }
 
+    li.legend-title.check_boxes legend.label {
+      @apply pt-2;
+    }
+
     li.legend-title {
       @apply pt-0;
 
