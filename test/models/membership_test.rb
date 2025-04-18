@@ -95,23 +95,6 @@ class MembershipTest < ActiveSupport::TestCase
     assert_includes membership.errors[:ended_on], "Membership already renewed"
   end
 
-  test "validates that new_config_from must be in period" do
-    travel_to "2024-01-01"
-    membership = memberships(:john)
-
-    membership.new_config_from = "2025-12-31"
-    assert_not membership.valid?
-    assert_includes membership.errors[:new_config_from], "must be before or equal to 31 December 2024"
-    membership.new_config_from = "2024-12-31"
-    assert membership.valid?
-
-    membership.new_config_from = "2023-01-01"
-    assert_not membership.valid?
-    assert_includes membership.errors[:new_config_from], "must be after or equal to 1 January 2024"
-    membership.new_config_from = "2024-01-01"
-    assert membership.valid?
-  end
-
   test "creates baskets on creation" do
     travel_to "2024-01-01"
     membership = build_membership(

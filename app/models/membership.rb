@@ -40,6 +40,8 @@ class Membership < ApplicationRecord
     end
   end
   before_validation do
+    # Keep new_config_from within the membership period range
+    self.new_config_from = [ [ new_config_from || Date.today, started_on ].max, ended_on ].min
     self.basket_price ||= basket_size&.price
     self.depot_price ||= depot&.price
     self.delivery_cycle_price ||= delivery_cycle&.price
@@ -61,12 +63,6 @@ class Membership < ApplicationRecord
   validates :basket_complements_annual_price_change, numericality: true
   validates :absences_included_annually, numericality: true
   validates :billing_year_division, presence: true, inclusion: { in: Organization.billing_year_divisions }
-  validates :new_config_from,
-    date: {
-      after_or_equal_to: :started_on,
-      before_or_equal_to: :ended_on
-    },
-    on: :update
   validate :good_period_range
   validate :cannot_update_dates_when_renewed
   validate :only_one_per_year
