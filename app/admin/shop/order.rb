@@ -383,7 +383,14 @@ ActiveAdmin.register Shop::Order do
 
   order_by("members.name") do |clause|
     Member
-      .order_by_name(clause.order)
+      .order_by_name(:clause.order)
+      .order_values
+      .join(" ")
+  end
+
+  order_by("depots.name") do |clause|
+    Depot
+      .reorder_by_name(clause.order)
       .order_values
       .join(" ")
   end
