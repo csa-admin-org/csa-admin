@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_04_18_094535) do
+ActiveRecord::Schema[8.1].define(version: 2025_04_18_102656) do
   create_table "absences", force: :cascade do |t|
     t.datetime "created_at"
     t.date "ended_on"
@@ -343,7 +343,6 @@ ActiveRecord::Schema[8.1].define(version: 2025_04_18_094535) do
     t.string "language", default: "fr", null: false
     t.json "member_ids_position", default: []
     t.integer "member_order_priority", default: 1, null: false
-    t.string "name", limit: 255
     t.json "names", default: {}, null: false
     t.text "note"
     t.string "phones"
