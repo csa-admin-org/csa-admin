@@ -3,6 +3,10 @@
 module TranslatedAttributes
   extend ActiveSupport::Concern
 
+  included do
+    class_attribute :ransackable_translated_scopes, default: []
+  end
+
   class_methods do
     def translated_attributes(*attrs, required: false)
       attrs.each do |attr|
@@ -45,9 +49,11 @@ module TranslatedAttributes
         scope "#{attr}_eq", ->(str) {
           where("json_extract(#{table_name}.#{column}, '$.#{I18n.locale}') = ?", str)
         }
+        self.ransackable_translated_scopes << "#{attr}_eq"
         scope "#{attr}_cont", ->(str) {
           where("lower(json_extract(#{table_name}.#{column}, '$.#{I18n.locale}')) LIKE ?", "%#{str.downcase}%")
         }
+        self.ransackable_translated_scopes << "#{attr}_cont"
 
         if required
           Organization::LANGUAGES.each do |locale|
@@ -59,7 +65,7 @@ module TranslatedAttributes
       end
 
       define_singleton_method(:ransackable_scopes) do |_auth_object = nil|
-        super(_auth_object) + attrs.flat_map { |attr| [ "#{attr}_eq", "#{attr}_cont" ] }
+        super(_auth_object) + self.ransackable_translated_scopes
       end
     end
   end
