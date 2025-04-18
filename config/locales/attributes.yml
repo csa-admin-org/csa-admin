@@ -15,6 +15,11 @@ _:
       _fr: Adresse
       _de: Adresse
       _it: Indirizzo
+    admin_name:
+      _en: Internal name
+      _fr: Nom interne
+      _de: Interner Name
+      _it: Nome interno
     amount:
       _en: Amount
       _fr: Montant

@@ -26,17 +26,13 @@ module TranslatedAttributes
         end
         define_method("#{attr}=") do |str|
           Organization::LANGUAGES.each do |locale|
-            send("#{attr}_#{locale}=", str)
+            send("#{attr}_#{locale}=", str.presence&.strip)
           end
         end
         Organization::LANGUAGES.each do |locale|
           define_method("#{attr}_#{locale}") { self[column][locale].presence }
           define_method("#{attr}_#{locale}=") do |str|
-            if str.present?
-              self[column][locale] = str
-            else
-              self[column][locale] = nil
-            end
+            self[column][locale] = str.presence&.strip
           end
         end
 

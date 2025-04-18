@@ -45,11 +45,11 @@ _:
           _de: Bitte überprüfen Sie, dass die Anzeige auf den Blättern nicht überläuft.<br/>Die Ankündigung wird auf den Blättern (PDF) der unten aufgeführten Depots/Lieferungspaare angezeigt.
           _it: Controlla che l'annuncio non esca dal foglio.<br/>L'annuncio verrà visualizzato sulla coppia di fogli punti di ritiro/consegne (PDF) qui sotto.
       attributes:
-        public_name:
-          _en: If present, replaces the name displayed to members (registration form, invoice, sheets, ...).
-          _fr: Si présent, remplace le nom affiché pour les membres (formulaire d'inscription, facture, fiches, ...).
-          _de: Wenn vorhanden, ersetzt den für Mitglieder angezeigten Namen (Registrierungsformular, Rechnung, Blätter, ...).
-          _it: Se presente, sostituisce il nome visualizzato per i soci (modulo di registrazione, fattura, fogli, ...).
+        admin_name:
+          _en: If present, replaces the name displayed in the administration interface. The name for members remains unchanged.
+          _fr: Si présent, remplace le nom affiché dans l'interface d'administration. Le nom pour les membres reste inchangé.
+          _de: Wenn vorhanden, ersetzt den Namen in der Administrationsoberfläche. Der Name für die Mitglieder bleibt unverändert.
+          _it: Se presente, sostituisce il nome visualizzato nell'interfaccia di amministrazione. Il nome per i membri rimane inalterato.
       basket:
         basket_price:
           _en: Leave blank for the default price.
