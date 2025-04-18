@@ -67,7 +67,7 @@ module SharedDataPreview
   end
 
   def basket
-    return unless delivery = (deliveries.next || deliveries.last)
+    return unless delivery
 
     delivery.baskets.where(quantity: 1..).sample(random: random)
   end
@@ -80,8 +80,17 @@ module SharedDataPreview
     @depot ||= basket&.depot || Depot.visible.sample(random: random)
   end
 
+  def delivery
+    @delivery ||= Delivery.next || Delivery.last
+  end
+
   def delivery_cycle
-    @delivery_cycle ||= DeliveryCycle.greatest
+    @delivery_cycle ||=
+     if delivery
+       DeliveryCycle.for(delivery).max_by(&:billable_deliveries_count)
+     else
+       DeliveryCycle.greatest
+     end
   end
 
   def memberships_basket_complements
@@ -96,7 +105,6 @@ module SharedDataPreview
   end
 
   def fiscal_year
-    @fiscal_year ||=
-      (Delivery.next || Delivery.last)&.fiscal_year || Current.fiscal_year
+    @fiscal_year ||= delivery&.fiscal_year || Current.fiscal_year
   end
 end
