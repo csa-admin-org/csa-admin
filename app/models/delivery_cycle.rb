@@ -168,6 +168,14 @@ class DeliveryCycle < ApplicationRecord
     count
   end
 
+  def invoice_description
+    if invoice_name?
+      invoice_name
+    else
+      [ Delivery.model_name.human(count: 2), public_name ].join(": ")
+    end
+  end
+
   def current_deliveries_count
     deliveries_count_for Current.fy_year
   end
