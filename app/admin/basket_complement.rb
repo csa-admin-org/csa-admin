@@ -49,9 +49,7 @@ ActiveAdmin.register BasketComplement do
 
   form do |f|
     f.inputs t(".details") do
-      translated_input(f, :names)
-      translated_input(f, :public_names,
-        hint: t("formtastic.hints.basket_complement.public_name"))
+      render partial: "public_name", locals: { f: f, resource: resource, context: self }
     end
 
     f.inputs t(".billing") do

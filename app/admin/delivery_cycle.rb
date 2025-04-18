@@ -139,10 +139,7 @@ ActiveAdmin.register DeliveryCycle do
 
   form do |f|
     f.inputs t(".details") do
-      translated_input(f, :names, required: true)
-      translated_input(f, :public_names,
-        required: false,
-        hint: t("formtastic.hints.delivery_cycle.public_name"))
+      render partial: "public_name", locals: { f: f, resource: resource, context: self }
     end
 
     unless DeliveryCycle.basket_size_config?

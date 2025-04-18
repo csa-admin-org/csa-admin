@@ -24,10 +24,7 @@ ActiveAdmin.register DepotGroup do
 
   form do |f|
     f.inputs t(".details") do
-      translated_input(f, :names, required: true)
-      translated_input(f, :public_names,
-        required: false,
-        hint: t("formtastic.hints.depot_group.public_name"))
+      render partial: "public_name", locals: { f: f, resource: resource, context: self }
     end
 
     f.inputs t("active_admin.resource.show.member_new_form") do

@@ -1,19 +1,18 @@
 # frozen_string_literal: true
 
 class BasketSize < ApplicationRecord
-  include TranslatedAttributes
-  include HasPrice
-  include HasVisibility
-  include Discardable
-
   MEMBER_ORDER_MODES = %w[
     name_asc
     price_asc
     price_desc
   ]
 
-  translated_attributes :name, required: true
-  translated_attributes :public_name
+  include TranslatedAttributes
+  include HasPublicName
+  include HasPrice
+  include HasVisibility
+  include Discardable
+
   translated_attributes :form_detail
 
   belongs_to :delivery_cycle, optional: true
@@ -54,10 +53,6 @@ class BasketSize < ApplicationRecord
   end
 
   def display_name; name end
-
-  def public_name
-    self[:public_names][I18n.locale.to_s].presence || name
-  end
 
   def can_delete?
     memberships.none? && baskets.none?

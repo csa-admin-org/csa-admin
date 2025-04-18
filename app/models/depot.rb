@@ -1,16 +1,6 @@
 # frozen_string_literal: true
 
 class Depot < ApplicationRecord
-  include HasName
-  include HasEmails
-  include HasPhones
-  include HasLanguage
-  include HasPrice
-  include TranslatedAttributes
-  include TranslatedRichTexts
-  include HasVisibility
-  include Discardable
-
   MEMBER_ORDER_MODES = %w[
     name_asc
     price_asc
@@ -22,11 +12,20 @@ class Depot < ApplicationRecord
     home_delivery
   ]
 
+  include TranslatedAttributes
+  include TranslatedRichTexts
+  include HasEmails
+  include HasPhones
+  include HasLanguage
+  include HasPrice
+  include HasPublicName
+  include HasVisibility
+  include Discardable
+
   acts_as_list
 
   attribute :language, :string, default: -> { Current.org.languages.first }
 
-  translated_attributes :public_name
   translated_rich_texts :public_note
 
   has_many :baskets
@@ -60,12 +59,6 @@ class Depot < ApplicationRecord
 
   def self.prices?
     kept.pluck(:price).any?(&:positive?)
-  end
-
-  def display_name; name end
-
-  def public_name
-    self[:public_names][I18n.locale.to_s].presence || name
   end
 
   def move_to(position, delivery)

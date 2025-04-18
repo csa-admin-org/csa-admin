@@ -48,7 +48,7 @@ module API
 
       def depots_json
         @depots
-          .select(:id, :public_names, :name, :visible)
+          .select(:id, :public_names, :names, :visible)
           .map { |depot|
             depot
               .as_json(only: %i[id visible])
