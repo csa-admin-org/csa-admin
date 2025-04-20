@@ -8,18 +8,20 @@ class Newsletter
 
     include HasState
 
-    has_states :processing, :ignored, :delivered, :bounced
+    has_states :draft, :processing, :ignored, :delivered, :bounced
 
     belongs_to :newsletter
     belongs_to :member
 
     scope :with_email, ->(email) { where("lower(email) LIKE ?", "%#{email.downcase}%") }
     scope :stale, -> { processing.where(created_at: ...CONSIDER_STALE_AFTER.ago) }
+    scope :processed, -> { where.not(processed_at: nil) }
 
     before_create :check_email_suppressions
     after_create_commit :enqueue_delivery_process_job
 
-    def self.create_for!(newsletter, member)
+    def self.create_for!(newsletter, member, draft: false)
+      state = draft ? :draft : :processing
       emails = member.emails_array
       # keep trace of the "delivery" even for members without email
       emails << nil if emails.empty?
@@ -28,7 +30,8 @@ class Newsletter
           create!(
             newsletter: newsletter,
             member: member,
-            email: email)
+            email: email,
+            state: state)
         end
       end
     end
@@ -50,8 +53,12 @@ class Newsletter
       email? && email_suppression_ids.empty?
     end
 
+    def processed?
+      processed_at?
+    end
+
     def process!
-      return if processed_at?
+      return if processed?
 
       attrs = {
         subject: email_render.subject,
@@ -61,11 +68,13 @@ class Newsletter
 
       if deliverable?
         mailer.newsletter_email.deliver_later(queue: :low)
-      else
-        attrs[:state] = IGNORED_STATE
       end
 
       update!(attrs)
+    end
+
+    def ignored!
+      update_columns(state: IGNORED_STATE)
     end
 
     def delivered!(at:, **attrs)
@@ -95,6 +104,14 @@ class Newsletter
       ).body
     end
 
+    def subject
+      processed? ? super : email_render.subject
+    end
+
+    def content
+      processed? ? super : email_render.content
+    end
+
     private
 
     def check_email_suppressions
@@ -105,7 +122,8 @@ class Newsletter
     end
 
     def enqueue_delivery_process_job
-      DeliveryProcessJob.perform_later(self)
+      DeliveryProcessJob.perform_later(self) unless draft?
+      ignored! unless deliverable?
     end
 
     def mailer

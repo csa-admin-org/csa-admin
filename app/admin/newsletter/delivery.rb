@@ -4,7 +4,9 @@ ActiveAdmin.register Newsletter::Delivery do
   menu false
   actions :index, :show
 
-  filter :newsletter
+  filter :newsletter,
+    as: :select,
+    collection: -> { Newsletter.order(id: :desc).distinct }
   filter :member,
     as: :select,
     collection: -> { Member.joins(:newsletter_deliveries).order_by_name.distinct }
@@ -27,6 +29,7 @@ ActiveAdmin.register Newsletter::Delivery do
   end
 
   scope :all
+  scope :draft
   scope :delivered
   scope :bounced
   scope :ignored
@@ -34,15 +37,15 @@ ActiveAdmin.register Newsletter::Delivery do
   includes :newsletter, :member
   index download_links: false do
     if params.dig(:q, :newsletter_id_eq).present?
-      column :member
+      column :member, sortable: "members.name"
     else
-      column :newsletter
+      column :newsletter, sortable: "newsletters.subject"
     end
-    column :email, ->(d) { d.email }
+    column :email, ->(d) { auto_link d, d.email }
     column :date, ->(d) {
       timestamp = d.delivered_at || d.bounced_at || d.processed_at || d.created_at
-      l(timestamp, format: :medium)
-    }
+      auto_link d, l(timestamp, format: :medium)
+    }, sortable: "date"
     column :state, ->(d) { status_tag(d.state) }, class: "text-right"
     actions
   end
@@ -64,6 +67,8 @@ ActiveAdmin.register Newsletter::Delivery do
         panel t(".details") do
           attributes_table do
             case delivery.state
+            when "draft"
+              row(:created_at) { l(delivery.created_at, format: :medium) }
             when "delivered"
               row(:delivered_at) { l(delivery.delivered_at, format: :medium) }
             when "bounced"
@@ -71,7 +76,11 @@ ActiveAdmin.register Newsletter::Delivery do
               row(:bounce_type)
               row(:bounce_description)
             when "ignored"
-              row(:processed_at) { l(delivery.processed_at, format: :medium) }
+              if delivery.processed?
+                row(:processed_at) { l(delivery.processed_at, format: :medium) }
+              else
+                row(:created_at) { l(delivery.created_at, format: :medium) }
+              end
               row(:email_suppression_reasons) {
                 content_tag :div do
                   if delivery.email?
@@ -82,7 +91,9 @@ ActiveAdmin.register Newsletter::Delivery do
                 end
               }
             end
+            row(:newsletter) { auto_link(delivery.newsletter) }
             row(:member) { auto_link(delivery.member) }
+            row(:email) { mail_to(delivery.email) }
             row(:audience) { delivery.newsletter.audience_name }
             row(:from) { delivery.newsletter.from || Current.org.email_default_from }
             row(:attachments) { delivery.newsletter.attachments.map { |a| display_attachment(a.file) } }
@@ -91,4 +102,36 @@ ActiveAdmin.register Newsletter::Delivery do
       end
     end
   end
+
+  controller do
+    def apply_sorting(chain)
+      super(chain).joins(:member, :newsletter).merge(Member.order_by_name)
+    end
+  end
+
+  order_by("members.name") do |clause|
+    Member
+      .order_by_name(clause.order)
+      .order_values
+      .join(" ")
+  end
+
+  order_by("newsletters.subject") do |clause|
+    Newsletter
+      .reorder_by_subject(clause.order)
+      .order_values
+      .join(" ")
+  end
+
+  order_by("date") do |clause|
+    %i[
+      delivered_at
+      bounced_at
+      processed_at
+      created_at
+    ].map { |attr| "newsletter_deliveries.#{attr} #{clause.order}" }.join(", ")
+  end
+
+  config.sort_order = "date_desc"
+  config.per_page = 100
 end

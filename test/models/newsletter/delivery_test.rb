@@ -44,12 +44,12 @@ class NewsletterDeliveryTest < ActiveSupport::TestCase
 
   test "send newsletter" do
     newsletter = newsletters(:simple)
-    # simulate newsletter sent
-    newsletter.update!(template_contents: newsletter_templates(:simple).contents)
+    # # simulate newsletter sent
+    # newsletter.update!(template_contents: newsletter_templates(:simple).contents)
 
-    assert_difference -> { ActionMailer::Base.deliveries.count } do
+    assert_difference -> { ActionMailer::Base.deliveries.count }, 2 do
       perform_enqueued_jobs do
-        Newsletter::Delivery.create_for!(newsletter, members(:jane))
+        newsletter.send!
       end
     end
 
@@ -58,9 +58,9 @@ class NewsletterDeliveryTest < ActiveSupport::TestCase
     assert_includes delivery.content, "Hello Jane Doe,"
     assert_includes delivery.content, "Block Jane Doe"
 
-    assert_equal [ %w[ jane@doe.com ] ], ActionMailer::Base.deliveries.map(&:to)
+    assert_equal [ %w[ john@doe.com ], %w[ jane@doe.com ] ], ActionMailer::Base.deliveries.map(&:to)
 
-    email = ActionMailer::Base.deliveries.first
+    email = ActionMailer::Base.deliveries.last
     assert_equal [ "info@acme.test" ], email.from
     assert_equal "Subject Jane Doe", email.subject
     mail_body = email.parts.map(&:body).join
@@ -71,14 +71,11 @@ class NewsletterDeliveryTest < ActiveSupport::TestCase
 
   test "send newsletter with custom from" do
     newsletter = newsletters(:simple)
-    newsletter.update!(
-      from: "contact@acme.test",
-      # simulate newsletter sent
-      template_contents: newsletter_templates(:simple).contents)
+    newsletter.update!(from: "contact@acme.test")
 
-    assert_difference -> { ActionMailer::Base.deliveries.count } do
+    assert_difference -> { ActionMailer::Base.deliveries.count }, 2 do
       perform_enqueued_jobs do
-        Newsletter::Delivery.create_for!(newsletter, members(:jane))
+        newsletter.send!
       end
     end
 
@@ -88,14 +85,11 @@ class NewsletterDeliveryTest < ActiveSupport::TestCase
 
   test "send newsletter with custom signature" do
     newsletter = newsletters(:simple)
-    newsletter.update!(
-      signature: "XoXo",
-      # simulate newsletter sent
-      template_contents: newsletter_templates(:simple).contents)
+    newsletter.update!(signature: "XoXo")
 
-    assert_difference -> { ActionMailer::Base.deliveries.count } do
+    assert_difference -> { ActionMailer::Base.deliveries.count }, 2 do
       perform_enqueued_jobs do
-        Newsletter::Delivery.create_for!(newsletter, members(:jane))
+        newsletter.send!
       end
     end
 
@@ -110,14 +104,11 @@ class NewsletterDeliveryTest < ActiveSupport::TestCase
     attachment.file.attach(io: File.open(file_fixture("qrcode-test.png")), filename: "qrcode-test.png")
 
     newsletter = newsletters(:simple)
-    newsletter.update!(
-      attachments: [ attachment ],
-      # simulate newsletter sent
-      template_contents: newsletter.template.contents)
+    newsletter.update!(attachments: [ attachment ])
 
-    assert_difference -> { ActionMailer::Base.deliveries.count }, 1 do
+    assert_difference -> { ActionMailer::Base.deliveries.count }, 2 do
       perform_enqueued_jobs do
-        Newsletter::Delivery.create_for!(newsletter, members(:jane))
+        newsletter.send!
       end
     end
 

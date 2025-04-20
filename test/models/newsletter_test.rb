@@ -130,6 +130,26 @@ class NewsletterTest < ActiveSupport::TestCase
     assert_includes mail, "Youpla Boom"
   end
 
+  test "persist deliveries draft when saved" do
+    members(:john).update!(emails: "john@doe.com, jojo@old.com")
+    suppression = suppress_email("jojo@old.com", stream_id: "broadcast")
+
+    newsletter = build_newsletter(
+      audience: "member_state::active",
+      template: newsletter_templates(:simple),
+      blocks_attributes: {
+        "0" => { block_id: "main", content_en: "Hello {{ member.name }}" }
+      })
+
+    assert_difference -> { newsletter.deliveries.count }, 3 do
+      newsletter.save!
+    end
+
+    assert_equal "jojo@old.com", newsletter.deliveries.ignored.first.email
+    assert_equal %w[john@doe.com jane@doe.com], newsletter.deliveries.draft.pluck(:email)
+    assert_empty newsletter.deliveries.processed
+  end
+
   test "send newsletter" do
     newsletter = build_newsletter(
       audience: "member_state::active",
@@ -146,11 +166,11 @@ class NewsletterTest < ActiveSupport::TestCase
     assert_equal %w[john@doe.com jane@doe.com], newsletter.audience_segment.emails
     assert_equal %w[jojo@old.com], newsletter.audience_segment.suppressed_emails
 
-    assert newsletter.template_contents.empty?
+    assert newsletter[:template_contents].empty?
     assert newsletter[:liquid_data_preview_yamls].empty?
     assert newsletter.audience_names.empty?
 
-    assert_difference -> { newsletter.deliveries.count }, 3 do
+    assert_difference -> { newsletter.reload.deliveries.processing.count }, 2 do
       assert_difference -> { ActionMailer::Base.deliveries.count }, 2 do
         perform_enqueued_jobs { newsletter.send! }
       end
