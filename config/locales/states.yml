@@ -157,6 +157,11 @@ _:
         _fr: distribuée
         _de: verteilte
         _it: distribuito
+      draft:
+        _en: draft
+        _fr: brouillon
+        _de: Entwurf
+        _it: bozza
       ignored:
         _en: ignored
         _fr: ignorée
@@ -167,11 +172,6 @@ _:
         _fr: en traitement
         _de: in Bearbeitung
         _it: elaborazione
-      draft:
-        _en: draft
-        _fr: brouillon
-        _de: Entwurf
-        _it: bozza
     payment:
       auto:
         _en: auto
