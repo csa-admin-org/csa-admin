@@ -64,7 +64,7 @@ ActiveAdmin.register Newsletter::Delivery do
         end
       end
       column do
-        panel t(".details") do
+        panel t(".details"), action: handbook_icon_link("newsletters", anchor: "unsubscribe") do
           attributes_table do
             case delivery.state
             when "draft"
@@ -102,6 +102,8 @@ ActiveAdmin.register Newsletter::Delivery do
       end
     end
   end
+
+  sidebar_handbook_link("newsletters")
 
   controller do
     def apply_sorting(chain)
