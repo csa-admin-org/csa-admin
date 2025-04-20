@@ -24,7 +24,7 @@ ActiveAdmin.register Newsletter::Segment do
     actions
   end
 
-  sidebar_handbook_link("newsletters", only: :index)
+  sidebar_handbook_link("newsletters")
 
   form do |f|
     f.inputs t(".details") do
