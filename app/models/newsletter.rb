@@ -16,7 +16,7 @@ class Newsletter < ApplicationRecord
     class_name: "Newsletter::Template",
     foreign_key: "newsletter_template_id"
   has_many :blocks, class_name: "Newsletter::Block", dependent: :destroy
-  has_many :deliveries, class_name: "Newsletter::Delivery", dependent: :destroy
+  has_many :deliveries, class_name: "Newsletter::Delivery", dependent: :delete_all
   has_many :members, -> { distinct }, through: :deliveries
 
   accepts_nested_attributes_for :blocks, allow_destroy: true
@@ -31,6 +31,8 @@ class Newsletter < ApplicationRecord
     with: ->(n) { /.*@#{Tenant.domain}\z/ },
     allow_nil: true
   }
+
+  after_save_commit :save_draft_deliveries!
 
   def from=(value)
     self[:from] = value.presence
@@ -82,6 +84,15 @@ class Newsletter < ApplicationRecord
     deliveries.processing.any?
   end
 
+  def template_contents
+    if sent?
+      super
+    else
+      template.liquid_data_preview_yamls = liquid_data_preview_yamls
+      template.contents
+    end
+  end
+
   def send!
     raise "Already sent!" if sent?
 
@@ -91,10 +102,14 @@ class Newsletter < ApplicationRecord
       self.template_contents = template.contents
       self.sent_at = Time.current
       save!
-      audience_segment.members.each do |member|
-        Delivery.create_for!(self, member)
-      end
+      create_deliveries!(draft: false)
     end
+  end
+
+  def save_draft_deliveries!
+    return if sent?
+
+    create_deliveries!(draft: true)
   end
 
   def mail_preview(locale)
@@ -192,6 +207,15 @@ class Newsletter < ApplicationRecord
     Current.org.languages.each do |locale|
       I18n.with_locale(locale) do
         self.send "audience_name_#{locale}=", Audience.name(audience_segment)
+      end
+    end
+  end
+
+  def create_deliveries!(draft:)
+    transaction do
+      deliveries.delete_all
+      audience_segment.members.each do |member|
+        Delivery.create_for!(self, member, draft: draft)
       end
     end
   end

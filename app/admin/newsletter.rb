@@ -65,11 +65,13 @@ ActiveAdmin.register Newsletter do
       column do
         panel "#{Newsletter.human_attribute_name(:audience)} – #{newsletter.audience_name}".html_safe do
           ul class: "counts" do
-            if newsletter.sent?
-              li do
-                count = newsletter.members.count
+            li do
+              count = newsletter.members.count
+              link_to newsletter_deliveries_path(scope: :all, q: { newsletter_id_eq: newsletter.id }) do
                 counter_tag(Member.model_name.human(count: count), count)
               end
+            end
+            if newsletter.sent?
               li do
                 count = newsletter.deliveries.delivered.count
                 link_to newsletter_deliveries_path(scope: :delivered, q: { newsletter_id_eq: newsletter.id }) do
@@ -82,26 +84,18 @@ ActiveAdmin.register Newsletter do
                   counter_tag(t(".bounced_emails", count: count), count)
                 end
               end
-              li do
-                count = newsletter.deliveries.ignored.count
-                link_to newsletter_deliveries_path(scope: :ignored, q: { newsletter_id_eq: newsletter.id }) do
-                  counter_tag(t(".suppressed_emails", count: count), count)
-                end
-              end
             else
               li do
-                count = newsletter.audience_segment.members.count
-                counter_tag(Member.model_name.human(count: count), count)
+                count = newsletter.deliveries.draft.count
+                link_to newsletter_deliveries_path(scope: :draft, q: { newsletter_id_eq: newsletter.id }) do
+                  counter_tag(t(".emails", count: count), count)
+                end
               end
-              li do
-                count = newsletter.audience_segment.emails.size
-                counter_tag(t(".emails", count: count), count)
-              end
-              li do
-                  count = newsletter.audience_segment.suppressed_emails.size
-                  link_to("#suppressed-emails", data: { turbolinks: false }) do
-                    counter_tag(t(".suppressed_emails", count: count), count)
-                  end
+            end
+            li do
+              count = newsletter.deliveries.ignored.count
+              link_to newsletter_deliveries_path(scope: :ignored, q: { newsletter_id_eq: newsletter.id }) do
+                counter_tag(t(".suppressed_emails", count: count), count)
               end
             end
           end
@@ -118,53 +112,6 @@ ActiveAdmin.register Newsletter do
           end
         end
         render "active_admin/attachments/panel", attachments: newsletter.attachments
-
-        unless newsletter.sent?
-          suppressed_emails = newsletter.audience_segment.suppressed_emails
-          panel t(".suppressed_emails", count: 2), count: suppressed_emails.size, data: { controller: "show-all" }, id: "suppressed-emails" do
-            if suppressed_emails.any?
-              members = newsletter.audience_segment.members
-              active_suppressions = EmailSuppression.active.where(email: suppressed_emails)
-              suppressed_emails.sort_by! { |email|
-                active_suppressions.find { |s| s.email == email }&.created_at || 10.years.ago
-              }&.reverse!
-              suppressions = suppressed_emails.map { |email|
-                OpenStruct.new(
-                  member: members.find { |m| m.emails_array.include?(email) },
-                  email: email,
-                  reasons: active_suppressions.select { |s| s.email == email }.map(&:reason).uniq)
-              }
-              table_for(suppressions, class: "partially-hidden table-auto", data: { "show-all-target" => "elements" }) do
-                column(Newsletter::Delivery.human_attribute_name(:email)) { |s|
-                  div do
-                    span { s.email } + span(class: "block text-sm") { auto_link s.member }
-                  end
-                }
-                column(Newsletter::Delivery.human_attribute_name(:state), class: "text-right") { |s|
-                  if s.reasons.any?
-                    content_tag :div do
-                      s.reasons.map { |r| status_tag(r.underscore) }
-                    end
-                  else
-                    status_tag(:active)
-                  end
-                }
-              end
-              if suppressed_emails.size > 10
-                div class: "mt-2 flex justify-center" do
-                  link_to("#", title: t(".show_all"), class: "show_more", data: { action: "click->show-all#showAll" }) do
-                    icon "ellipsis-horizontal", class: "size-6"
-                  end
-                end
-              end
-              div(class: "mt-2 py-2 text-sm text-center italic") do
-                t(".suppressed_emails_description")
-              end
-            else
-              div(class: "missing-data") { t(".none") }
-            end
-          end
-        end
       end
     end
   end
@@ -268,10 +215,7 @@ ActiveAdmin.register Newsletter do
         end
       end
     end
-    f.actions do
-      action(:submit, label: t(".submit_newsletter"))
-      cancel_link
-    end
+    f.actions
   end
 
   permit_params(
@@ -299,10 +243,17 @@ ActiveAdmin.register Newsletter do
     link_to(t(".duplicate"), new_newsletter_path(newsletter_id: resource.id), class: "action-item-button")
   end
 
-  action_item :deliveries, only: :show, if: -> { resource.sent? } do
+  action_item :deliveries, only: :show do
     link_to(
       Newsletter::Delivery.model_name.human(count: 2),
       newsletter_deliveries_path(scope: :all, q: { newsletter_id_eq: resource.id }),
+      class: "action-item-button")
+  end
+
+  action_item :deliveries, only: :index do
+    link_to(
+      Newsletter::Delivery.model_name.human(count: 2),
+      newsletter_deliveries_path(scope: :all),
       class: "action-item-button")
   end
 
