@@ -19,10 +19,10 @@ _:
           _de: Importieren
           _it: Importare
         text:
-          _en: "Import all basket contents from the following delivery:"
-          _fr: "Importer tous les contenus de la livraison suivante:"
-          _de: "Importieren Sie alle Tascheninhalte von der folgenden Lieferung:"
-          _it: "Importare tutti i contenuti della consegna seguente:"
+          _en: 'Import all basket contents from the following delivery:'
+          _fr: 'Importer tous les contenus de la livraison suivante:'
+          _de: 'Importieren Sie alle Tascheninhalte von der folgenden Lieferung:'
+          _it: 'Importare tutti i contenuti della consegna seguente:'
       duplicate_all_to:
         button:
           _en: Duplicate
@@ -30,10 +30,10 @@ _:
           _de: Duplizieren
           _it: Duplicare
         text:
-          _en: "Duplicate all basket contents from this delivery to the delivery on:"
-          _fr: "Dupliquer tous les contenus de cette livraison vers celle du:"
-          _de: "Duplizieren Sie alle Tascheninhalte von dieser Lieferung auf die Lieferung vom:"
-          _it: "Duplicare tutti i contenuti di questa consegna in quella di:"
+          _en: 'Duplicate all basket contents from this delivery to the delivery on:'
+          _fr: 'Dupliquer tous les contenus de cette livraison vers celle du:'
+          _de: 'Duplizieren Sie alle Tascheninhalte von dieser Lieferung auf die Lieferung vom:'
+          _it: 'Duplicare tutti i contenuti di questa consegna in quella di:'
     batch_actions:
       action_label:
         _en: "%{title} the selected items"
@@ -226,10 +226,10 @@ _:
       _de: Details
       _it: Dettagli
     download:
-      _en: "Download :"
-      _fr: "Télécharger :"
-      _de: "Herunterladen :"
-      _it: "Scaricare :"
+      _en: 'Download :'
+      _fr: 'Télécharger :'
+      _de: 'Herunterladen :'
+      _it: 'Scaricare :'
     dropdown_actions:
       button_label:
         _en: Actions
@@ -1618,11 +1618,6 @@ _:
             _fr: Toutes
             _de: Alle
             _it: Tutto
-          draft:
-            _en: Drafts
-            _fr: Brouillons
-            _de: Entwürfe
-            _it: Bozze
           bounced:
             _en: Bounced
             _fr: Rejetées
@@ -1633,6 +1628,11 @@ _:
             _fr: Distribuées
             _de: Verteilte
             _it: Distribuito
+          draft:
+            _en: Drafts
+            _fr: Brouillons
+            _de: Entwürfe
+            _it: Bozze
           ignored:
             _en: Ignored
             _fr: Ignorées
@@ -1816,15 +1816,15 @@ _:
         _it: Promemoria
     search_status:
       current_filters:
-        _en: "Current filters:"
-        _fr: "Filtre courant:"
-        _de: "Aktuelles Filter:"
-        _it: "Filtri correnti:"
+        _en: 'Current filters:'
+        _fr: 'Filtre courant:'
+        _de: 'Aktuelles Filter:'
+        _it: 'Filtri correnti:'
       headline:
-        _en: "Scope:"
-        _fr: "Scope:"
-        _de: "Gültigkeitsbereich:"
-        _it: "Scopo:"
+        _en: 'Scope:'
+        _fr: 'Scope:'
+        _de: 'Gültigkeitsbereich:'
+        _it: 'Scopo:'
       no_current_filters:
         _en: None
         _fr: Aucun
@@ -2143,10 +2143,10 @@ _:
           _de: Die Mahnungen werden nicht automatisch versendet, solange die Zahlungen nicht ebenfalls automatisch verarbeitet werden (EBICS).
           _it: I promemoria non vengono inviati automaticamente finché i pagamenti non vengono elaborati automaticamente (EBICS).
         overpaid:
-          _en: "Overpaid:"
-          _fr: "Payé en trop:"
-          _de: "Überbezahlt:"
-          _it: "Pagamento in eccesso:"
+          _en: 'Overpaid:'
+          _fr: 'Payé en trop:'
+          _de: 'Überbezahlt:'
+          _it: 'Pagamento in eccesso:'
         pages:
           _en: Pages
           _fr: Pages
@@ -2317,11 +2317,11 @@ _:
         _fr: Brouillon
         _de: Entwurf
         _it: Bozza
-      "false":
-        _en: "no"
+      'false':
+        _en: 'no'
         _fr: non
         _de: nein
-        _it: "no"
+        _it: 'no'
       future:
         _en: future
         _fr: à venir
@@ -2348,10 +2348,10 @@ _:
         _de: manuell
         _it: manuale
       manual_suppression:
+        _en: unsubscribed
         _fr: désinscrit
         _de: abgemeldet
         _it: disiscritto
-        _en: unsubscribed
       no_email:
         _en: no email
         _fr: pas d'email
@@ -2417,8 +2417,8 @@ _:
         _fr: essai
         _de: probe
         _it: prova
-      "true":
-        _en: "yes"
+      'true':
+        _en: 'yes'
         _fr: oui
         _de: ja
         _it: si
