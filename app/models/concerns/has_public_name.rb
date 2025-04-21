@@ -49,12 +49,12 @@ module HasPublicName
   def set_names_and_public_names
     return if self[:admin_names].empty?
 
-    Current.org.languages.each { |locale|
+    Current.org.languages.each do |locale|
       self[:names][locale] = self[:admin_names][locale].presence || self[:public_names][locale].presence
       if self[:public_names][locale].presence == self[:names][locale].presence
         self[:public_names][locale] = nil
       end
-      self[:admin_names][locale] = nil
-    }
+    end
+    self[:admin_names] = nil
   end
 end
