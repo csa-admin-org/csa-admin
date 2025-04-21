@@ -4,30 +4,30 @@ on: push
 
 jobs:
   tests:
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout
-      uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
 
-    - name: Install libvips and pdftoppm
-      run: |
-        sudo apt-get update -qq -o Acquire::Retries=3
-        sudo apt-get install -y --fix-missing -qq -o Acquire::Retries=3 libvips poppler-utils
+      - name: Install libvips and pdftoppm
+        run: |
+          sudo apt-get update -qq -o Acquire::Retries=3
+          sudo apt-get install -y --fix-missing -qq -o Acquire::Retries=3 libvips poppler-utils
 
-    - name: Install Ruby and run Bundler install with cache
-      uses: ruby/setup-ruby@v1
-      with:
-        bundler-cache: true
+      - name: Install Ruby and run Bundler install with cache
+        uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
 
-    - name: Set timezone
-      uses: szenius/set-timezone@v2.0
-      with:
-        timezoneLinux: Europe/Zurich
+      - name: Set timezone
+        uses: szenius/set-timezone@v2.0
+        with:
+          timezoneLinux: Europe/Zurich
 
-    - name: Run tests
-      env:
-        RAILS_ENV: test
-        RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
-      run: |
-        bin/rails test:all
+      - name: Run test:all
+        env:
+          RAILS_ENV: test
+          RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
+        run: |
+          bin/rails test:all

@@ -26,3 +26,24 @@ jobs:
 
       - name: Run lint:check
         run: bin/rails lint:check
+
+      - name: Run locales:missing
+        run: |
+          output=$(bin/rails locales:missing)
+          if [ -n "$output" ]; then
+            echo "Missing locales found:"
+            echo "$output"
+            exit 1
+          fi
+
+      - name: Run locales:verify
+        run: |
+          expected_output="Locales passed format verification."
+          output=$(bin/rails locales:verify)
+          if [ "$output" != "$expected_output" ]; then
+            echo "Locales format is invalid."
+            exit 1
+          fi
+
+      - name: Check Migration Indexes
+        uses: speedshop/ids_must_be_indexed@v1.2.1
