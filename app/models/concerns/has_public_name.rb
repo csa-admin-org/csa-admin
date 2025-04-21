@@ -55,6 +55,6 @@ module HasPublicName
         self[:public_names][locale] = nil
       end
     end
-    self[:admin_names] = nil
+    self[:admin_names] = {}
   end
 end
