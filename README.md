@@ -4,7 +4,7 @@
 
 # CSA/ACP/Solawi Admin
 
-[![Tests](https://github.com/csa-admin-org/csa-admin/actions/workflows/tests.yml/badge.svg)](https://github.com/csa-admin-org/csa-admin/actions/workflows/tests.yml) [![Brakeman Scan](https://github.com/csa-admin-org/csa-admin/actions/workflows/brakeman.yml/badge.svg)](https://github.com/csa-admin-org/csa-admin/actions/workflows/brakeman.yml)
+[![Tests](https://github.com/csa-admin-org/csa-admin/actions/workflows/tests.yml/badge.svg)](https://github.com/csa-admin-org/csa-admin/actions/workflows/tests.yml) [![Security](https://github.com/csa-admin-org/csa-admin/actions/workflows/security.yml/badge.svg)](https://github.com/csa-admin-org/csa-admin/actions/workflows/security.yml)
 
 Web application to manage CSA (Community Supported Agriculture), ACP (Agriculture Contractuelle de Proximité), or Solawi (Solidarische Landwirtschaft) organizations.
 
