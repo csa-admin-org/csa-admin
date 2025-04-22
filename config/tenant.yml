@@ -61,12 +61,11 @@ production: &production
     domain: wilde-rauke.de
   baieattitude:
     domain: baie-attitude.ch
+  boisdunant:
+    domain: ferme-boisdunant.ch
 
   mamajah:
     domain: mamajah.org
-    state: onboarding
-  boisdunant:
-    domain: ferme-boisdunant.ch
     state: onboarding
   lamilpadesiles:
     domain: lamilpadesiles.ch
