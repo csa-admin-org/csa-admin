@@ -146,7 +146,7 @@ ActiveAdmin.register Invoice do
         count: collection.offset(nil).limit(nil).open.sepa.count,
         url: invoices_path(scope: "open", q: { sepa_eq: true }))
       div class: "mt-3 flex justify-center" do
-        link_to sepa_pain_all_invoices_path(params.permit(:scope, q: {})), class: "action-item-button small secondary", title: Billing::SEPADirectDebit::SCHEMA do
+        link_to sepa_pain_all_invoices_path(params.permit(:scope, q: {})), class: "action-item-button small secondary", title: Billing::SEPADirectDebit::SCHEMA,  data: { turbo: false } do
           icon("document-arrow-down", class: "size-4 mr-2") + t(".sepa_pain")
         end
       end
@@ -274,7 +274,7 @@ ActiveAdmin.register Invoice do
             end
             if invoice.open?
               div class: "mt-2 flex items-center justify-center gap-4" do
-                link_to sepa_pain_invoice_path(invoice), class: "action-item-button small secondary", title: Billing::SEPADirectDebit::SCHEMA do
+                link_to sepa_pain_invoice_path(invoice), class: "action-item-button small secondary", title: Billing::SEPADirectDebit::SCHEMA, data: { turbo: false } do
                   icon("document-arrow-down", class: "size-4 me-1.5") + t(".sepa_pain")
                 end
               end
@@ -367,9 +367,21 @@ ActiveAdmin.register Invoice do
   end
 
   collection_action :sepa_pain_all, method: :get do
-    invoices = scoped_collection.offset(nil).limit(nil).to_a
-    xml = Billing::SEPADirectDebit.xml(invoices)
-    send_data xml, type: "application/xml", filename: "invoices-#{Date.today.strftime("%Y%m%d")}-pain.xml"
+    invoices = collection.offset(nil).limit(nil).open.sepa.to_a
+
+    zip = Tempfile.new
+    Zip::File.open(zip.path, create: true) do |zip|
+      invoices.each do |invoice|
+        xml = Billing::SEPADirectDebit.xml(invoice)
+        next unless xml
+
+        zip.get_output_stream("invoice-#{invoice.id}-pain.xml") { |f| f.write(xml) }
+      end
+    end
+
+    send_file zip.path, type: "application/zip", filename: "invoices-#{Date.today.strftime("%Y%m%d")}-pain.zip"
+  ensure
+    zip&.close
   end
 
   form do |f|
