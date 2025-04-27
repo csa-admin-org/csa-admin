@@ -439,7 +439,10 @@ class Membership < ApplicationRecord
   end
 
   def deliveries_price
-    rounded_price(baskets.sum(:delivery_cycle_price))
+    rounded_price(
+      baskets
+        .billable
+        .sum(:delivery_cycle_price))
   end
 
   def missing_invoices_amount
