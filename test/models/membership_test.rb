@@ -208,8 +208,7 @@ class MembershipTest < ActiveSupport::TestCase
       memberships_basket_complements_attributes: {
         "0" => { basket_complement_id: bread_id, quantity: 1 },
         "1" => { basket_complement_id: eggs_id, quantity: 1 }
-      }
-    )
+      })
 
     assert_equal 10 * 20, membership.basket_sizes_price
     assert_equal 10 * 4, membership.depots_price
@@ -217,6 +216,28 @@ class MembershipTest < ActiveSupport::TestCase
     assert_equal 10 * 2, membership.deliveries_price
     assert_equal 0, membership.activity_participations_annual_price_change
     assert_equal 360, membership.price
+  end
+
+  test "price from association with non-billable baskets" do
+    travel_to "2024-01-01"
+    delivery_cycles(:thursdays).update!(
+      price: 2,
+      absences_included_annually: 2)
+    membership = create_membership(
+      basket_size: basket_sizes(:medium),
+      depot: depots(:bakery),
+      delivery_cycle: delivery_cycles(:thursdays),
+      memberships_basket_complements_attributes: {
+        "0" => { basket_complement_id: bread_id, quantity: 1 },
+        "1" => { basket_complement_id: eggs_id, quantity: 1 }
+      })
+
+    assert_equal 8 * 20, membership.basket_sizes_price
+    assert_equal 8 * 4, membership.depots_price
+    assert_equal 8 * (4 + 6), membership.basket_complements_price
+    assert_equal 8 * 2, membership.deliveries_price
+    assert_equal 0, membership.activity_participations_annual_price_change
+    assert_equal 288, membership.price
   end
 
   test "price with custom prices and quantity" do
