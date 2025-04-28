@@ -84,6 +84,7 @@ module Notifier
         .includes(:member, baskets: :delivery)
         .select(&:can_send_email?)
         .map { |m| m.baskets.deliverable.first }
+        .compact
         .select { |b| b.delivery.date.today? }
 
     baskets.each do |b|
@@ -108,6 +109,7 @@ module Notifier
         .includes(:member, baskets: :delivery)
         .select(&:can_send_email?)
         .map { |m| m.baskets.deliverable.last }
+        .compact
         .select { |b| b.delivery.date.today? }
 
     baskets.each do |b|
@@ -131,6 +133,7 @@ module Notifier
         .includes(:member, baskets: :delivery)
         .select(&:can_send_email?)
         .map { |m| m.baskets.deliverable.first }
+        .compact
         .select { |b| b.delivery.date.today? }
 
     baskets.each do |b|
@@ -152,6 +155,7 @@ module Notifier
         .includes(:member, baskets: :delivery)
         .select(&:can_send_email?)
         .map { |m| m.baskets.deliverable.last }
+        .compact
         .select { |b| b.delivery.date.today? }
 
     baskets.each do |b|
@@ -173,6 +177,7 @@ module Notifier
         .select(&:can_send_email?)
         .reject(&:trial_only?)
         .map { |m| m.baskets.trial.last }
+        .compact
         .select { |b| b.delivery.date.today? }
 
     baskets.each do |b|
