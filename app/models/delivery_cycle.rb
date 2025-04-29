@@ -157,7 +157,9 @@ class DeliveryCycle < ApplicationRecord
     count = (basket_complement.delivery_ids & current_and_future_delivery_ids).size
     if absences_included_annually.positive?
       full_year = deliveries_count.to_f
-      count -= (count / full_year * absences_included_annually).round
+      if full_year.positive?
+        count -= (count / full_year * absences_included_annually).round
+      end
     end
     count
   end
