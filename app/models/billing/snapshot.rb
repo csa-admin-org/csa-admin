@@ -16,7 +16,10 @@ module Billing
       return unless end_of_quarter?
 
       fy = Current.fiscal_year
-      xlsx = XLSX::Billing.new(fy.year)
+
+      xlsx = I18n.with_locale(Current.org.default_locale) {
+        XLSX::Billing.new(fy.year)
+      }
       if snapshot = find_by(created_at: fy.current_quarter_range)
         snapshot.update!(file: xlsx.file)
         snapshot
