@@ -29,7 +29,7 @@ module DashboardHelper
             } + content_tag(:ul, class: "space-y-1") do
               latest_snapshots.map do |s|
                 content_tag :li, class: "p2" do
-                  link_to l(s.created_at.to_date, format: :number), billing_snapshot_path(s)
+                  link_to l(s.created_at.to_date, format: :number), billing_snapshot_path(s), data: { turbo: false }
                 end
               end.join.html_safe
             end
