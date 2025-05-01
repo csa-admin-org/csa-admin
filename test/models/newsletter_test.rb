@@ -190,4 +190,29 @@ class NewsletterTest < ActiveSupport::TestCase
     assert_not newsletter[:liquid_data_preview_yamls].empty?
     assert_equal({ "en" => "Members: Active" }, newsletter.audience_names)
   end
+
+  test "send single email" do
+    newsletter = build_newsletter(
+      audience: "member_state::active",
+      template: newsletter_templates(:simple),
+      blocks_attributes: {
+        "0" => { block_id: "main", content_en: "Hello {{ member.name }}" }
+      })
+    newsletter.save!
+    perform_enqueued_jobs { newsletter.send! }
+
+    members(:john).update!(emails: "john@new.com")
+
+    assert_equal %w[john@new.com], newsletter.reload.missing_delivery_emails
+
+    assert_difference -> { newsletter.reload.deliveries.processing.count }, 1 do
+      assert_difference -> { ActionMailer::Base.deliveries.count }, 1 do
+        perform_enqueued_jobs { newsletter.deliver!("john@new.com") }
+      end
+    end
+
+    mail = ActionMailer::Base.deliveries.last
+    assert_equal %w[john@new.com], mail.to
+    assert_includes mail.html_part.body.to_s, "Hello John Doe"
+  end
 end

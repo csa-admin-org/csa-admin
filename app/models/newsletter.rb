@@ -6,6 +6,8 @@ class Newsletter < ApplicationRecord
   include Liquidable
   include HasAttachments
 
+  MISSING_DELIVERY_EMAILS_ALLOWED_PERIOD = 1.week
+
   translated_attributes :audience_name
   translated_attributes :signature
   translated_attributes :subject, required: true
@@ -112,6 +114,15 @@ class Newsletter < ApplicationRecord
     create_deliveries!(draft: true)
   end
 
+  # Allow to already sent newsletter to a new email address
+  def deliver!(email)
+    return unless sent?
+    return unless missing_delivery_emails.include?(email)
+
+    member = Member.find_by_email(email)
+    Delivery.create_for!(self, member, draft: false, email: email)
+  end
+
   def mail_preview(locale)
     if sent?
       template.contents = template_contents
@@ -188,6 +199,15 @@ class Newsletter < ApplicationRecord
 
   def can_send_email?
     !sent? && audience_segment.emails.size.positive?
+  end
+
+  def show_missing_delivery_emails?
+    sent? && sent_at > MISSING_DELIVERY_EMAILS_ALLOWED_PERIOD.ago &&
+      missing_delivery_emails.any?
+  end
+
+  def missing_delivery_emails
+    audience_segment.emails - deliveries.pluck(:email)
   end
 
   private

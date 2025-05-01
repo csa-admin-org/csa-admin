@@ -2231,12 +2231,12 @@ _:
           _it: Newsletters
       newsletter/delivery:
         one:
-          _en: Distribution
+          _en: Delivery
           _fr: Distribution
           _de: Verteilung
           _it: Distribuzione
         other:
-          _en: Distributions
+          _en: Deliveries
           _fr: Distributions
           _de: Verteilungen
           _it: Distribuzioni

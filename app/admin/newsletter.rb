@@ -103,7 +103,7 @@ ActiveAdmin.register Newsletter do
         panel t(".details") do
           attributes_table do
             case newsletter.state
-            when "sent"
+            when "sent", "processing"
               row(:sent_at) { I18n.l(newsletter.sent_at, format: :medium) }
               row(:sent_by) { newsletter.sent_by&.name }
             when "draft"
@@ -112,6 +112,34 @@ ActiveAdmin.register Newsletter do
           end
         end
         render "active_admin/attachments/panel", attachments: newsletter.attachments
+
+        if newsletter.show_missing_delivery_emails?
+          panel t(".missing_deliveries") do
+            div do
+              ul class: "ms-6 list-disc list-outside space-y-2" do
+                newsletter.missing_delivery_emails.each do |email|
+                  member = Member.find_by_email(email)
+                  li do
+                    span { mail_to email }
+                    span { "(#{auto_link(member)})".html_safe }
+                    if authorized?(:send_single_email, resource)
+                      span {
+                        button_to t(".send_email"), send_single_email_newsletter_path(resource),
+                          params: { email: email },
+                          class: "action-item-button secondary small",
+                          form: { class: "inline ms-2", data: { controller: "disable", disable_with_value: t("formtastic.processing") } },
+                          data: { confirm: t(".confirm") }
+                      }
+                    end
+                  end
+                end
+              end
+            end
+            div class: "mt-6 px-2" do
+              para t(".missing_deliveries_description"), class: "italic text-sm text-gray-400 dark:text-gray-600"
+            end
+          end
+        end
       end
     end
   end
@@ -267,6 +295,11 @@ ActiveAdmin.register Newsletter do
   member_action :send_email, method: :post do
     resource.send!
     redirect_to resource_path, notice: t(".flash.notice")
+  end
+
+  member_action :send_single_email, method: :post do
+    resource.deliver!(params.require(:email))
+    redirect_to resource_path, notice: t("newsletters.send_email.flash.notice")
   end
 
   order_by(:sent_at) do |order_clause|
