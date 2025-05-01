@@ -146,6 +146,7 @@ class Ability
 
       can :preview, [ Newsletter, Newsletter::Template ]
       can :send_email, Newsletter, can_send_email?: true
+      can :send_single_email, Newsletter
     end
 
     if admin.master?

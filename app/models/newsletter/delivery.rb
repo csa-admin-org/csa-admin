@@ -20,9 +20,9 @@ class Newsletter
     before_create :check_email_suppressions
     after_create_commit :enqueue_delivery_process_job
 
-    def self.create_for!(newsletter, member, draft: false)
+    def self.create_for!(newsletter, member, draft: false, email: nil)
       state = draft ? :draft : :processing
-      emails = member.emails_array
+      emails = email ? [ email ] : member.emails_array
       # keep trace of the "delivery" even for members without email
       emails << nil if emails.empty?
       transaction do

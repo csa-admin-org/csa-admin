@@ -1127,6 +1127,16 @@ _:
           _fr: Formulaire d'inscription
           _de: Registrierungsformular
           _it: Formulario d'iscrizione
+        missing_deliveries:
+          _en: New emails not delivered
+          _fr: Nouveaux emails non-distribués
+          _de: Neue E-Mails nicht verteilt
+          _it: Nuove email non distribuite
+        missing_deliveries_description:
+          _en: These emails were added or changed after the newsletter was sent. They can be delivered individually for a limited time.
+          _fr: Ces emails ont été ajoutés ou modifiés après l'envoi de cette newsletter. Ils peuvent être distribués individuellement pendant une période limitée.
+          _de: Diese E-Mails wurden nach dem Versand dieser Newsletter hinzugefügt oder geändert. Sie können für eine begrenzte Zeit individuell verteilt werden.
+          _it: Queste email sono state aggiunte o modificate dopo l'invio della newsletter. Possono essere distribuite individualmente per un periodo limitato.
         no_absences:
           _en: No absences
           _fr: Aucune absence
