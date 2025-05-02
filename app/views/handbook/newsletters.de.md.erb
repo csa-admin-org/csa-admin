@@ -1,50 +1,54 @@
-# Newsletter
+# Newsletters
 
-Ergänzend zu [den automatischen E-Mails](/mail_templates), die bei spezifischen Ereignissen gesendet werden (neue Rechnung, Erneuerung, ...), bietet CSA Admin auch die Möglichkeit, [Newsletter (Gruppen-E-Mails)](/newsletters) zu versenden.
+Ergänzend zu [automatischen E-Mails](/mail_templates), die bei bestimmten Ereignissen verschickt werden (neue Rechnung, Verlängerung, ...), bietet CSA Admin auch die Möglichkeit, [Newsletters (Gruppen-E-Mails)](/newsletters) zu versenden.
 
-Diese Newsletter können sich an alle Ihre Mitglieder oder an eine spezifische Gruppe (Status, Taschengröße, Depot, ...) richten.
+Diese Newsletters können an alle Ihre Mitglieder oder an ein spezifisches Publikum (Status, Taschengröße, Depot, ...) gerichtet werden.
 
-> Im Gegensatz zu [den automatischen E-Mails](/mail_templates) werden Newsletter immer manuell von einem Administrator gesendet und enthalten einen Abmeldelink (obligatorisch) in ihrer Fußzeile.
+> Im Gegensatz zu [automatischen E-Mails](/mail_templates) enthalten Newsletters einen (obligatorischen) Abmeldelink in ihrer Fußzeile.
 
 ## Vorlagen
 
-Um die Erstellung Ihrer Newsletter zu erleichtern, bietet CSA Admin ein ausgeklügeltes System von [Vorlagen](/newsletter_templates). Diese Vorlagen sind E-Mail-Modelle mit vordefinierten Inhaltsblöcken, die Sie nach Ihren Bedürfnissen erstellen und ändern können.
+Um die Erstellung Ihrer Newsletters zu erleichtern, bietet CSA Admin ein ausgeklügeltes System von [Vorlagen](/newsletter_templates). Diese Vorlagen sind E-Mail-Modelle mit vordefinierten Inhaltsblöcken, die Sie nach Ihren Bedürfnissen erstellen und ändern können.
 
 Standardmäßig sind [2 Vorlagen](/newsletter_templates) verfügbar:
 
-- <strong>Freier Text</strong>: eine einfache Vorlage mit einem einzigen Inhaltsblock ohne Titel.
+- <strong>Freier Text</strong>: eine einfache Vorlage mit einem einzelnen Inhaltsblock ohne Titel.
 - <strong>Nächste Lieferung</strong>: eine komplexere Vorlage mit mehreren Inhaltsblöcken sowie dynamischen Informationen (Tascheninhalt, nächste Aktivität, ...).
 
-Zögern Sie nicht, sie zu duplizieren und nach Ihren Wünschen zu ändern oder [neue zu erstellen](/newsletter_templates/new).
+Zögern Sie nicht, diese zu duplizieren und nach Belieben zu ändern oder [neue zu erstellen](/newsletter_templates/new).
 
-> Trotz des "Gruppen"-Versands eines Newsletters wird der Inhalt jeder E-Mail individuell basierend auf den Informationen jedes Mitglieds (Name, Sprache, Mitgliedschaft, ...) generiert.
+> Trotz des "Gruppen"-Versands eines Newsletters wird der Inhalt jeder E-Mail individuell anhand der Informationen des jeweiligen Mitglieds (Name, Sprache, Abonnement, ...) generiert.
 
 ### Inhaltsblöcke
 
-Jede Vorlage muss mindestens einen Inhaltsblock enthalten. Dies ist ein freier Textblock, der später bei der Erstellung eines Newsletters geändert werden kann. Ein Block, dessen Inhalt bei der Bearbeitung eines Newsletters leer gelassen wird, wird einfach ignoriert.
+Jede Vorlage muss mindestens einen Inhaltsblock enthalten. Dies ist ein Freitextblock, der später bei der Erstellung eines Newsletters bearbeitet werden kann. Ein Block, dessen Inhalt bei der Bearbeitung eines Newsletters leer gelassen wird, wird einfach ignoriert.
 
 Jeder Block wird mit einer eindeutigen Kennung (`id`) und optional einem Titel (`title`) sowie einem Standardinhalt definiert.
 
-Beispiel eines Blocks mit einem Titel und Standardinhalt:
+Beispiel eines Blocks mit Titel und Standardinhalt:
 
 ~~~ liquid
-{% content id: "kennlung", title: "Ein optionaler Titel" %}
+{% content id: "identifier", title: "Ein optionaler Titel" %}
 <p>Optionaler Standardinhalt</p>
 {% endcontent %}
 ~~~
 
 ## Anhänge
 
-Sie können Ihren Newslettern Anhänge hinzufügen, aber das Gesamtgewicht dieser Anhänge darf 5 MB nicht überschreiten.
+Sie können Ihren Newsletters Anhänge hinzufügen, aber das Gesamtgewicht dieser Anhänge sollte 5 MB nicht überschreiten.
 
 Wenn Sie schwerere Anhänge versenden möchten, können Sie einen externen Dienst wie [SwissTransfer](https://www.swisstransfer.com) verwenden oder sie auf Ihrer Website hosten und einfach einen Link zu diesen Dateien in Ihrem Newsletter hinzufügen.
 
+## Versandplanung
+
+Um den automatischen Versand eines Newsletters zu planen, geben Sie ein zukünftiges Datum im Feld "Versand geplant am" an. Das System wird ihn automatisch in der Nacht des gewählten Datums versenden. Stellen Sie sicher, dass der Inhalt finalisiert ist, bevor Sie einen Versand planen!
+
 ## Abmeldungen {#unsubscribe}
 
-Mit CSA Admin versendete Newsletter enthalten einen Abmeldelink (obligatorisch) in ihrer Fußzeile.
+Mit CSA Admin versandte Newsletters enthalten einen (obligatorischen) Abmeldelink in ihrer Fußzeile.
 
-Ein Wiederanmeldelink befindet sich in [dem Mitgliedskonto](<%= members_account_url(subdomain: Current.org.members_subdomain) %>) unterhalb seiner E-Mail-Adresse.
+Ein Link zur erneuten Anmeldung ist im [Konto des Mitglieds](<%= members_account_url(subdomain: Current.org.members_subdomain) %>) unter seiner E-Mail-Adresse vorhanden.
 
-![Wiederanmeldelink](<%= image_url("handbook/newsletters/subscribe-back.de.png") %>){:class="small"}
+![Link zur erneuten Anmeldung](<%= image_url("handbook/newsletters/subscribe-back.de.png") %>){:class="small"}
 
-> Bitte beachten Sie, dass der Abmeldelink nur im Mitgliedskonto angezeigt wird, wenn die Sitzung direkt vom Mitglied und nicht von einem Administrator initiiert wurde.
+> Bitte beachten Sie, dass der Abmeldelink nur im Konto des Mitglieds angezeigt wird, wenn die Sitzung direkt vom Mitglied und nicht von einem Admin initiiert wurde.

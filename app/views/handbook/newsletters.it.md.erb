@@ -1,50 +1,54 @@
-# Newsletter
+# Newsletters
 
-In aggiunta [alle email automatiche](/mail_templates) inviate durante eventi specifici (nuova fattura, rinnovo, ...), CSA Admin offre anche la possibilità di inviare [newsletter (email di gruppo)](/newsletters).
+In aggiunta alle [email automatiche](/mail_templates) inviate durante specifici eventi (nuova fattura, rinnovo, ...), CSA Admin offre anche la possibilità di inviare [newsletters (email di gruppo)](/newsletters).
 
-Queste newsletter possono essere indirizzate a tutti i vostri soci o a un gruppo specifico (stato, dimensione della cesta, deposito, ...).
+Queste newsletters possono essere indirizzate a tutti i vostri soci o a un pubblico specifico (stato, dimensione della cesta, punto di ritiro, ...).
 
-> Contrariamente [alle email automatiche](/mail_templates), le newsletter sono sempre inviate manualmente da un admin e includono un link di disiscrizione (obbligatorio) nel loro piè di pagina.
+> A differenza delle [email automatiche](/mail_templates), le newsletters includono un link di disiscrizione (obbligatorio) nel loro piè di pagina.
 
-## Template
+## Templates
 
-Per facilitare la creazione delle vostre newsletter, CSA Admin propone un sistema sofisticato di [template](/newsletter_templates). Questi template sono modelli di email con blocchi di contenuto predefiniti che potete creare e modificare secondo le vostre esigenze.
+Per facilitare la creazione delle vostre newsletters, CSA Admin offre un sofisticato sistema di [templates](/newsletter_templates). Questi templates sono modelli di email con blocchi di contenuto predefiniti che potete creare e modificare secondo le vostre necessità.
 
-Per default, [2 template](/newsletter_templates) sono disponibili:
+Di default, sono disponibili [2 templates](/newsletter_templates):
 
-- <strong>Testo libero</strong>: un template semplice con un solo blocco di contenuto senza titolo.
-- <strong>Prossima consegna</strong>: un template più complesso con diversi blocchi di contenuto, così come informazioni dinamiche (contenuto cesta, prossima attività, ...).
+- <strong>Testo libero</strong>: un template semplice con un singolo blocco di contenuto senza titolo.
+- <strong>Prossima consegna</strong>: un template più complesso con diversi blocchi di contenuto, nonché informazioni dinamiche (contenuto della cesta, prossima attività, ...).
 
-Non esitate a duplicarli e modificarli a vostro piacimento o a [crearne di nuovi](/newsletter_templates/new).
+Sentitevi liberi di duplicarli e modificarli come desiderate o [crearne di nuovi](/newsletter_templates/new).
 
-> Nonostante l'invio "di gruppo" di una newsletter, il contenuto di ogni email viene generato individualmente in base alle informazioni di ogni socio (nome, lingua, abbonamento, ...).
+> Nonostante l'invio "di gruppo" di una newsletter, il contenuto di ogni email viene generato individualmente in base alle informazioni di ciascun socio (nome, lingua, abbonamento, ...).
 
 ### Blocchi di contenuto
 
-Ogni template deve contenere almeno un blocco di contenuto. Si tratta di un blocco di testo libero che potrà poi essere modificato durante la creazione di una newsletter. Un blocco il cui contenuto verrà lasciato vuoto durante la modifica di una newsletter sarà semplicemente ignorato.
+Ogni template deve contenere almeno un blocco di contenuto. Si tratta di un blocco di testo libero che può essere modificato durante la creazione di una newsletter. Un blocco il cui contenuto viene lasciato vuoto durante la modifica di una newsletter sarà semplicemente ignorato.
 
-Ogni blocco è definito con un identificatore (`id`) unico e opzionalmente un titolo (`title`) così come un contenuto predefinito.
+Ogni blocco è definito con un identificatore unico (`id`) e opzionalmente un titolo (`title`) così come un contenuto predefinito.
 
-Esempio di un blocco con un titolo e un contenuto predefinito:
+Esempio di un blocco con titolo e contenuto predefinito:
 
 ~~~ liquid
-{% content id: "identificatore", title: "Un titolo opzionale" %}
+{% content id: "identifier", title: "Un titolo opzionale" %}
 <p>Contenuto predefinito opzionale</p>
 {% endcontent %}
 ~~~
 
 ## Allegati
 
-Potete aggiungere allegati alle vostre newsletter, ma il peso totale di questi allegati non deve superare i 5 MB.
+Potete aggiungere allegati alle vostre newsletters, ma il peso totale di questi allegati non deve superare i 5 MB.
 
 Se desiderate inviare allegati più pesanti, potete utilizzare un servizio esterno come [SwissTransfer](https://www.swisstransfer.com) o ospitarli sul vostro sito e semplicemente aggiungere un link a questi file nella vostra newsletter.
 
+## Programmazione dell'invio
+
+Per programmare l'invio automatico di una newsletter, specificate una data futura nel campo "Invio programmato il". Il sistema la invierà automaticamente durante la notte della data scelta. Assicuratevi che il contenuto sia finalizzato prima di programmare un invio!
+
 ## Disiscrizioni {#unsubscribe}
 
-Le newsletter inviate con CSA Admin includono un link di disiscrizione (obbligatorio) nel loro piè di pagina.
+Le newsletters inviate con CSA Admin includono un link di disiscrizione (obbligatorio) nel loro piè di pagina.
 
-Un link di reiscrizione è presente nell'[account del socio](<%= members_account_url(subdomain: Current.org.members_subdomain) %>) sotto il suo indirizzo email.
+Un link per riscriversi è presente nell'[account del socio](<%= members_account_url(subdomain: Current.org.members_subdomain) %>) sotto il suo indirizzo email.
 
-![link di reiscrizione](<%= image_url("handbook/newsletters/subscribe-back.it.png") %>){:class="small"}
+![link per riscriversi](<%= image_url("handbook/newsletters/subscribe-back.it.png") %>){:class="small"}
 
 > Si prega di notare che il link di disiscrizione viene visualizzato nell'account del socio solo quando la sessione è stata avviata direttamente dal socio e non da un admin.

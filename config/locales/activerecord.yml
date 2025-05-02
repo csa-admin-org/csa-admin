@@ -1212,7 +1212,7 @@ _:
       newsletter:
         scheduled_at:
           _en: Delivery scheduled on
-          _fr: Envoie planifié le
+          _fr: Envoi planifié le
           _de: Versand geplant am
           _it: Invio programmato il
         signature:
