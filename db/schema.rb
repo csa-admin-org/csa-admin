@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_04_18_102656) do
+ActiveRecord::Schema[8.1].define(version: 2025_05_01_134751) do
   create_table "absences", force: :cascade do |t|
     t.datetime "created_at"
     t.date "ended_on"
@@ -623,6 +623,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_04_18_102656) do
     t.string "from"
     t.json "liquid_data_preview_yamls", default: {}, null: false
     t.bigint "newsletter_template_id", null: false
+    t.datetime "scheduled_at"
     t.datetime "sent_at"
     t.json "signatures", default: {}, null: false
     t.json "subjects", default: {}, null: false
