@@ -1137,6 +1137,16 @@ _:
           _fr: Ces emails ont été ajoutés ou modifiés après l'envoi de cette newsletter. Ils peuvent être distribués individuellement pendant une période limitée.
           _de: Diese E-Mails wurden nach dem Versand dieser Newsletter hinzugefügt oder geändert. Sie können für eine begrenzte Zeit individuell verteilt werden.
           _it: Queste email sono state aggiunte o modificate dopo l'invio della newsletter. Possono essere distribuite individualmente per un periodo limitato.
+        missing_deliveries_no_emails:
+          _en: No new emails
+          _fr: Aucun nouveau email
+          _de: Keine neue E-Mail
+          _it: Nessuna nuova email
+        missing_deliveries_no_more_allowed:
+          _en: The period for sending to new emails has expired.
+          _fr: La période pour l'envoi aux nouveaux emails est expirée.
+          _de: Der Zeitraum für die Verteilung an neue E-Mails ist abgelaufen.
+          _it: Il periodo per l'invio a nuove email è scaduto.
         newsletter_scheduled_at_html:
           _en: Delivery scheduled during the <strong>%{on}</strong> night
           _fr: Envoi planifié pendant la nuit du <strong>%{on}</strong>

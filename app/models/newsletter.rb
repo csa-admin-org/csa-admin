@@ -218,8 +218,15 @@ class Newsletter < ApplicationRecord
   end
 
   def show_missing_delivery_emails?
-    sent? && sent_at > MISSING_DELIVERY_EMAILS_ALLOWED_PERIOD.ago &&
-      missing_delivery_emails.any?
+    missing_delivery_emails_allowed? && missing_delivery_emails?
+  end
+
+  def missing_delivery_emails_allowed?
+    sent? && sent_at > MISSING_DELIVERY_EMAILS_ALLOWED_PERIOD.ago
+  end
+
+  def missing_delivery_emails?
+    missing_delivery_emails.any?
   end
 
   def missing_delivery_emails
