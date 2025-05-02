@@ -1210,6 +1210,11 @@ _:
           _de: Zusatz
           _it: Aggiunte
       newsletter:
+        scheduled_at:
+          _en: Delivery scheduled on
+          _fr: Envoie planifié le
+          _de: Versand geplant am
+          _it: Invio programmato il
         signature:
           _en: Signature
           _fr: Signature

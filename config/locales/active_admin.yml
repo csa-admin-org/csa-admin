@@ -1137,6 +1137,11 @@ _:
           _fr: Ces emails ont été ajoutés ou modifiés après l'envoi de cette newsletter. Ils peuvent être distribués individuellement pendant une période limitée.
           _de: Diese E-Mails wurden nach dem Versand dieser Newsletter hinzugefügt oder geändert. Sie können für eine begrenzte Zeit individuell verteilt werden.
           _it: Queste email sono state aggiunte o modificate dopo l'invio della newsletter. Possono essere distribuite individualmente per un periodo limitato.
+        newsletter_scheduled_at_html:
+          _en: Delivery scheduled during the <strong>%{on}</strong> night
+          _fr: Envoi planifié pendant la nuit du <strong>%{on}</strong>
+          _de: Geplanter Versand in der Nacht zum <strong>%{on}</strong>
+          _it: Inviare programmato per la notte del <strong>%{on}</strong>
         no_absences:
           _en: No absences
           _fr: Aucune absence
@@ -1804,6 +1809,11 @@ _:
         _fr: À valider
         _de: Zu bestätigen
         _it: Da confermare
+      scheduled:
+        _en: Scheduled
+        _fr: Planifiées
+        _de: Geplant
+        _it: Programmate
       support:
         _en: Support
         _fr: Soutien

@@ -463,6 +463,11 @@ _:
           _fr: Laisser vide pour utiliser l'adresse par défaut, doit finir par <i>@%{domain}</i>.
           _de: Leer lassen, um die Standardadresse zu verwenden, muss mit <i>@%{domain}</i> enden.
           _it: Lasciare vuoto per utilizzare l'indirizzo predefinito, deve terminare con <i>@%{domain}</i>.
+        scheduled_at:
+          _en: Leave blank for sending it manually. If set, the newsletter will be sent automatically during the night of the specified date.
+          _fr: Laisser vide pour l'envoyer manuellement. Si défini, la newsletter sera envoyée automatiquement pendant la nuit du jour spécifié.
+          _de: Lassen Sie es leer, um es manuell zu senden. Wenn es festgelegt ist, wird die Newsletter automatisch während der Nacht des angegebenen Datums gesendet.
+          _it: Lasciare vuoto per inviarlo manualmente. Se impostato, la newsletter verrà inviata automaticamente durante la notte del giorno specificato.
       newsletter/segment:
         basket_complement_ids:
           _en: All basket supplements are included if none are selected.

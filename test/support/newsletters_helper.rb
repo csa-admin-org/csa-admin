@@ -8,4 +8,8 @@ module NewslettersHelper
       template: newsletter_templates(:dual)
     }.merge(attributes))
   end
+
+  def create_newsletter(attributes = {})
+    build_newsletter(attributes).tap(&:save!)
+  end
 end

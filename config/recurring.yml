@@ -1,5 +1,4 @@
 production:
-
   billing_invoices:
     class: TenantSwitchEachJob
     args: [Scheduled::BillingMembersInvoicerJob]
@@ -23,6 +22,12 @@ production:
     args: [Scheduled::BillingSnapshotJob]
     queue: low
     schedule: "0 45-59/1 23 28-31 * *" # last 15 minutes of each quarter
+
+  newsletters_sender:
+    class: TenantSwitchEachJob
+    args: [Scheduled::NewslettersSenderJob]
+    queue: low
+    schedule: at 3:00am every day
 
   chores:
     class: TenantSwitchEachJob

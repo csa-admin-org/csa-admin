@@ -10,13 +10,15 @@ class Panel < ActiveAdmin::Component
     count = args.delete(:count) if args.key?(:count)
     super(args)
     add_class "panel"
-    div class: "panel-title justify-between" do
-      div class: "flex items-center gap-2" do
-        @title = h3(title.to_s, class: "")
-        span(class: "panel-title-count") { count } if count
-        div(status_tag(state)) if state
+    if title
+      div class: "panel-title justify-between" do
+        div class: "flex items-center gap-2" do
+          @title = h3(title.to_s, class: "")
+          span(class: "panel-title-count") { count } if count
+          div(status_tag(state)) if state
+        end
+        div(class: "panel-actions") { action } if action
       end
-      div(class: "panel-actions") { action } if action
     end
     @contents = div(class: "panel-body")
   end
