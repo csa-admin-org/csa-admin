@@ -141,11 +141,16 @@ _:
         _fr: envoi en cours...
         _de: Lieferung in Bearbeitung...
         _it: spedizione in corso...
+      scheduled:
+        _en: scheduled
+        _fr: planifiée
+        _de: geplant
+        _it: programmata
       sent:
         _en: sent
-        _fr: envoyé
+        _fr: envoyée
         _de: gesendet
-        _it: inviato
+        _it: inviata
     newsletter/delivery:
       bounced:
         _en: bounced

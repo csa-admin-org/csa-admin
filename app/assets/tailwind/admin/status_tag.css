@@ -30,6 +30,7 @@
 
     /* Orange statuses - pending attention */
     &[data-status="renewal_pending"],
+    &[data-status="scheduled"],
     &[data-status="waiting"] {
       @apply bg-orange-500 dark:bg-orange-500;
     }

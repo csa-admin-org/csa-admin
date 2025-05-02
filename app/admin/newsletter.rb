@@ -13,6 +13,7 @@ ActiveAdmin.register Newsletter do
 
   scope :all, default: true
   scope :draft
+  scope :scheduled
   scope :sent
 
   action_item :segments, only: :index, if: -> { authorized?(:create, Newsletter::Segment) } do
@@ -28,8 +29,13 @@ ActiveAdmin.register Newsletter do
     column :audience, ->(n) { n.audience_name }
     column :sent_at, ->(n) {
       span class: "whitespace-nowrap" do
-        if n.sent_at?
+        if n.sent?
           I18n.l(n.sent_at.to_date, format: :short)
+        elsif n.scheduled?
+          span class: "status-tag", data: { status: "scheduled" } do
+            span { icon("clock", class: "size-3 me-1.5") }
+            span { l(n.scheduled_at.to_date, format: :short) }
+          end
         else
           status_tag :draft
         end
@@ -63,6 +69,21 @@ ActiveAdmin.register Newsletter do
         end
       end
       column do
+        if newsletter.scheduled?
+          panel nil, class: "m-0 p-0 bg-orange-200 shadow-xs" do
+            div class: "flex items-center text-orange-700 gap-2" do
+              span(class: "ms-0.5") { icon("calendar-clock", class: "size-6") }
+              span(class: "grow") { t(".newsletter_scheduled_at_html", on: l(newsletter.scheduled_at.to_date, format: :short)) }
+              if authorized?(:unschedule, newsletter)
+                span {
+                  button_to unschedule_newsletter_path(newsletter), method: :put, class: "m-0 p-0 text-orange-300 hover:text-orange-500 cursor-pointer", form: { class: "flex items-center" }, data: { confirm: t(".confirm") } do
+                    icon("x-circle", class: "size-6")
+                  end
+                }
+              end
+            end
+          end
+        end
         panel "#{Newsletter.human_attribute_name(:audience)} – #{newsletter.audience_name}".html_safe do
           ul class: "counts" do
             li do
@@ -106,7 +127,7 @@ ActiveAdmin.register Newsletter do
             when "sent", "processing"
               row(:sent_at) { I18n.l(newsletter.sent_at, format: :medium) }
               row(:sent_by) { newsletter.sent_by&.name }
-            when "draft"
+            when "draft", "scheduled"
               row(:updated_at) { I18n.l(newsletter.updated_at, format: :medium) }
             end
           end
@@ -169,6 +190,8 @@ ActiveAdmin.register Newsletter do
         as: :string,
         placeholder: Current.org.email_default_from.html_safe,
         hint: t("formtastic.hints.newsletter.from_html", domain: Tenant.domain)
+
+      f.input :scheduled_at, as: :date_picker, input_html: { min: Date.tomorrow }
     end
 
     render partial: "active_admin/attachments/form", locals: { f: f }
@@ -250,6 +273,7 @@ ActiveAdmin.register Newsletter do
     :from,
     :audience,
     :newsletter_template_id,
+    :scheduled_at,
     *I18n.available_locales.map { |l| "subject_#{l}" },
     *I18n.available_locales.map { |l| "signature_#{l}" },
     liquid_data_preview_yamls: I18n.available_locales,
@@ -292,6 +316,11 @@ ActiveAdmin.register Newsletter do
       class: "action-item-button"
   end
 
+  member_action :unschedule, method: :put do
+    resource.unschedule!
+    redirect_to resource_path
+  end
+
   member_action :send_email, method: :post do
     resource.send!
     redirect_to resource_path, notice: t(".flash.notice")
@@ -305,7 +334,8 @@ ActiveAdmin.register Newsletter do
   order_by(:sent_at) do |order_clause|
     [
       order_clause.to_sql,
-      "NULLS #{order_clause.order == "desc" ? "FIRST" : "LAST"}"
+      "NULLS #{order_clause.order == "desc" ? "FIRST" : "LAST"}",
+      ", scheduled_at #{order_clause.order}"
     ].join(" ")
   end
 

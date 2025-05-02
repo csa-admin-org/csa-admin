@@ -20,6 +20,14 @@ class NewsletterTest < ActiveSupport::TestCase
     assert_includes newsletter.errors[:from], "is invalid"
   end
 
+  test "validate scheduled_at date" do
+    newsletter = build_newsletter(scheduled_at: Date.today)
+    assert_not newsletter.valid?
+
+    newsletter = build_newsletter(scheduled_at: Date.tomorrow)
+    assert newsletter.valid?
+  end
+
   test "validate subject liquid" do
     newsletter = build_newsletter(subject: "Foo {{ ")
     assert_not newsletter.valid?
@@ -50,6 +58,18 @@ class NewsletterTest < ActiveSupport::TestCase
     assert_not newsletter.relevant_blocks.first.valid?
     assert_includes newsletter.relevant_blocks.first.errors[:content_en],
       "Liquid syntax error: Variable '{{' was not properly terminated with regexp: /\\}\\}/"
+  end
+
+  test "schedulable scope" do
+    travel_to "2025-04-01"
+    create_newsletter
+    n1 = create_newsletter(scheduled_at: "2025-04-02")
+    create_newsletter(scheduled_at: "2025-04-02").send!
+    n2 = create_newsletter(scheduled_at: "2025-04-03")
+    create_newsletter(scheduled_at: "2025-04-04")
+
+    travel_to "2025-04-03"
+    assert_equal [ n1.id, n2.id ], Newsletter.schedulable.pluck(:id)
   end
 
   test "mailpreview" do

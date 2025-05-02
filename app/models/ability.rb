@@ -145,6 +145,7 @@ class Ability
       writable_models += models_for(:newsletter)
 
       can :preview, [ Newsletter, Newsletter::Template ]
+      can :unschedule, Newsletter
       can :send_email, Newsletter, can_send_email?: true
       can :send_single_email, Newsletter
     end

@@ -12,7 +12,7 @@ class Newsletter < ApplicationRecord
   translated_attributes :signature
   translated_attributes :subject, required: true
 
-  audited_attributes :sent_at
+  audited_attributes :sent_at, :scheduled_at
 
   belongs_to :template,
     class_name: "Newsletter::Template",
@@ -23,12 +23,18 @@ class Newsletter < ApplicationRecord
 
   accepts_nested_attributes_for :blocks, allow_destroy: true
 
-  scope :draft, -> { where(sent_at: nil) }
+  scope :draft, -> { where(sent_at: nil, scheduled_at: nil) }
+  scope :scheduled, -> { where(sent_at: nil).where.not(scheduled_at: nil) }
+  scope :schedulable, -> { scheduled.where(scheduled_at: ..Time.current) }
   scope :sent, -> { where.not(sent_at: nil) }
 
   validates :audience, presence: true
   validate :subjects_must_be_valid
   validate :at_least_one_block_must_be_present
+  validates :scheduled_at,
+    date: { after: proc { Date.today } },
+    allow_nil: true,
+    if: :scheduled_at_changed?
   validates :from, format: {
     with: ->(n) { /.*@#{Tenant.domain}\z/ },
     allow_nil: true
@@ -53,9 +59,19 @@ class Newsletter < ApplicationRecord
       "processing"
     elsif sent?
       "sent"
+    elsif scheduled?
+      "scheduled"
     else
       "draft"
     end
+  end
+
+  def scheduled?
+    scheduled_at?
+  end
+
+  def unschedule!
+    update_columns(scheduled_at: nil)
   end
 
   def audience_segment
