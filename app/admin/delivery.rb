@@ -233,7 +233,7 @@ ActiveAdmin.register Delivery do
         success.xlsx do
           xlsx =
             if params[:shop]
-              XLSX::Shop::Delivery.new(resource, nil, depot: depot)
+              XLSX::Shop::OrderItem.new(resource.shop_orders.all_without_cart, nil, depot: depot)
             else
               XLSX::Delivery.new(resource, depot)
             end

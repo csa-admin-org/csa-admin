@@ -2,20 +2,17 @@
 
 module XLSX
   module Shop
-    class Delivery < Base
+    class OrderItem < Base
       include ActionView::Helpers::TextHelper
 
-      def initialize(delivery, producer = nil, depot: nil)
-        @delivery = delivery
-        orders = ::Shop::Order.where(delivery: delivery).all_without_cart
+      def initialize(orders, producer = nil, depot: nil)
         if depot
           orders = orders.where(depot: depot)
         end
         @order_items =
           ::Shop::OrderItem
-            .joins(:order)
-            .merge(orders)
-            .eager_load(:product_variant, product: :producer, order: [ :invoice, :member, :depot ])
+            .where(order_id: orders.pluck(:id))
+            .includes(:product_variant, product: :producer, order: [ :invoice, :member, :depot ])
             .order(Arel.sql("members.name, json_extract(shop_products.names, '$.#{I18n.locale}'), json_extract(shop_product_variants.names, '$.#{I18n.locale}')"))
         @producers = @order_items.map { |i| i.product.producer }.uniq
 
@@ -26,11 +23,12 @@ module XLSX
       end
 
       def filename
+        dates = @order_items.map { |i| i.order.delivery.date }
+        dates = [ dates.min, dates.max ].uniq
         [
           I18n.t("shop.title").parameterize,
-          ::Delivery.model_name.human.parameterize,
-          @delivery.display_number,
-          @delivery.date.strftime("%Y%m%d")
+          ::Shop::OrderItem.model_name.human(count: 2).parameterize,
+          *dates.map { it.strftime("%Y%m%d") }
         ].join("-") + ".xlsx"
       end
 
@@ -57,8 +55,11 @@ module XLSX
           align: "right",
           min_width: 12)
         add_column(
-          Member.human_attribute_name(:name),
+          Member.model_name.human,
           order_items.map { |i| i.order.member.name })
+        add_column(
+          ::Delivery.model_name.human,
+          order_items.map { |i| i.order.delivery.date.to_s })
         add_column(
           Depot.model_name.human,
           order_items.map { |i| i.order.depot&.name })
