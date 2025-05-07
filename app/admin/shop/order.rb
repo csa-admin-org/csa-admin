@@ -47,7 +47,7 @@ ActiveAdmin.register Shop::Order do
   filter :amount
 
   includes :member, :depot, invoice: { pdf_file_attachment: :blob }
-  index title: -> {
+  index download_links: [ :csv, :xlsx ], title: -> {
     title = Shop::Order.model_name.human(count: 2)
     if params.dig(:q, :_delivery_gid_eq).present? &&
         delivery = GlobalID::Locator.locate(params.dig(:q, :_delivery_gid_eq))
@@ -76,7 +76,7 @@ ActiveAdmin.register Shop::Order do
     column :member_id
     column(:name) { |o| o.member.name }
     column(:emails) { |o| o.member.emails_array.join(", ") }
-    column(:delivery) { |o| o.delivery.display_name }
+    column(:delivery) { |o| strip_tags(o.delivery.display_name) }
     column(:delivery_date) { |o| o.delivery.date }
     column(:depot) { |o| o.depot&.name }
     column :created_at
@@ -299,10 +299,9 @@ ActiveAdmin.register Shop::Order do
     icon_file_link :pdf, delivery_shop_orders_path(delivery_gid: delivery_gid, depot_id: depot_id, format: :pdf), size: 5, class: "action-item-button", target: "_blank", title: t(".delivery_orders_pdf")
   end
 
-  action_item :delivery_xlsx, only: :index, if: -> { params.dig(:q, :_delivery_gid_eq).present? } do
-    delivery_gid = params.dig(:q, :_delivery_gid_eq)
-    depot_id = params.dig(:q, :depot_id_eq)
-    icon_file_link :xlsx, delivery_shop_orders_path(delivery_gid: delivery_gid, depot_id: depot_id, format: :xlsx), size: 5, class: "action-item-button", target: "_blank"
+  action_item :order_items_xlsx, only: :index do
+    permitted_params = params.permit(:scope, q: {}).to_h
+    icon_file_link :xlsx, shop_orders_path(**permitted_params, format: :xlsx), size: 5, class: "action-item-button", target: "_blank"
   end
 
   batch_action :invoice, if: ->(attr) { params[:scope].in?([ nil, "pending" ]) }, confirm: true do |selection|
@@ -318,23 +317,13 @@ ActiveAdmin.register Shop::Order do
     raise ActiveRecord::RecordNotFound unless delivery
 
     depot = Depot.find(params[:depot_id]) if params[:depot_id].present?
-    case params[:format]
-    when "pdf"
-      order = Shop::Order.find(params[:shop_order_id]) if params[:shop_order_id].present?
-      pdf = PDF::Shop::Delivery.new(delivery, order: order, depot: depot)
-      send_data pdf.render,
-        content_type: pdf.content_type,
-        filename: pdf.filename,
-        disposition: "inline"
-    when "xlsx"
-      producer = Shop::Producer.find(params[:producer_id]) if params[:producer_id].present?
-      xlsx = XLSX::Shop::Delivery.new(delivery, producer, depot: depot)
-      send_data xlsx.data,
-        content_type: xlsx.content_type,
-        filename: xlsx.filename
-    end
+    order = Shop::Order.find(params[:shop_order_id]) if params[:shop_order_id].present?
+    pdf = PDF::Shop::Delivery.new(delivery, order: order, depot: depot)
+    send_data pdf.render,
+      content_type: pdf.content_type,
+      filename: pdf.filename,
+      disposition: "inline"
   end
-
   before_action only: :index do
     if params.dig(:q, :during_year).present? && params.dig(:q, :during_year).to_i < Current.fy_year
       params[:scope] ||= "all"
@@ -378,6 +367,24 @@ ActiveAdmin.register Shop::Order do
 
     def apply_sorting(chain)
       super(chain).joins(:member).merge(Member.order_by_name)
+    end
+
+    # Skip pagination when downloading a xlsx file
+    def apply_pagination(chain)
+      return chain if params["format"] == "xlsx"
+
+      super
+    end
+
+    def index
+      super do |format|
+        format.xlsx do
+          xlsx = XLSX::Shop::OrderItem.new(collection)
+          send_data xlsx.data,
+            content_type: xlsx.content_type,
+            filename: xlsx.filename
+        end
+      end
     end
   end
 

@@ -132,7 +132,8 @@ ActiveAdmin.register Shop::SpecialDelivery do
   end
 
   action_item :xlsx, only: :show do
-    link_to("XLSX", [ resource, format: :xlsx ], class: "action-item-button")
+    # link_to("XLSX", [ resource, format: :xlsx ], class: "action-item-button")
+    icon_file_link :xlsx, [ resource, format: :xlsx ], size: 5, class: "action-item-button", target: "_blank"
   end
 
   action_item :pdf, only: :show do
@@ -222,7 +223,7 @@ ActiveAdmin.register Shop::SpecialDelivery do
         format.html
         format.xlsx do
           producer = Shop::Producer.find(params[:producer_id]) if params[:producer_id].present?
-          xlsx = XLSX::Shop::Delivery.new(resource, producer)
+          xlsx = XLSX::Shop::OrderItem.new(resource.shop_orders.all_without_cart, producer)
           send_data xlsx.data,
             content_type: xlsx.content_type,
             filename: xlsx.filename
