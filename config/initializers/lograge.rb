@@ -8,7 +8,8 @@ Rails.application.configure do
 
   config.lograge.custom_payload do |controller|
     payload = {
-      host: controller.request.host
+      host: controller.request.host,
+      params: controller.request.filtered_parameters.except(:controller, :action)
     }
     if controller.respond_to?(:current_admin, true) && controller.send(:current_admin)
       payload[:admin_id] = controller.send(:current_admin)&.id
