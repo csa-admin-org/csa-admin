@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/rails/rails.git
-  revision: 3515d2fc59ab7cc369d72e8122f9aa2f308cfff6
+  revision: 74701dc88a68a03c3baa00e4150fc2e1682af47c
   specs:
     actioncable (8.1.0.alpha)
       actionpack (= 8.1.0.alpha)
@@ -633,10 +633,10 @@ GEM
     tailwindcss-rails (4.2.3)
       railties (>= 7.0.0)
       tailwindcss-ruby (~> 4.0)
-    tailwindcss-ruby (4.1.5-aarch64-linux-gnu)
-    tailwindcss-ruby (4.1.5-arm64-darwin)
-    tailwindcss-ruby (4.1.5-x86_64-linux-gnu)
-    tailwindcss-ruby (4.1.5-x86_64-linux-musl)
+    tailwindcss-ruby (4.1.6-aarch64-linux-gnu)
+    tailwindcss-ruby (4.1.6-arm64-darwin)
+    tailwindcss-ruby (4.1.6-x86_64-linux-gnu)
+    tailwindcss-ruby (4.1.6-x86_64-linux-musl)
     terminal-table (4.0.0)
       unicode-display_width (>= 1.1.1, < 4)
     thor (1.3.2)
@@ -1002,10 +1002,10 @@ CHECKSUMS
   stringio (3.1.7) sha256=5b78b7cb242a315fb4fca61a8255d62ec438f58da2b90be66048546ade4507fa
   strscan (3.1.5) sha256=f8413b90ea9395a69609a4414a8c88551bcda64337e234272c24fcd4c83e5947
   tailwindcss-rails (4.2.3) sha256=2850bf70819d0753589fd73b3bd30df41d6f1e6e996f8ba635bdffa7446b68a9
-  tailwindcss-ruby (4.1.5-aarch64-linux-gnu) sha256=79981822984b77f23634adb0576abc76e0ddd39cb2d4e3ec464f2037dd7b0cfc
-  tailwindcss-ruby (4.1.5-arm64-darwin) sha256=841f32c8cfb0c69800d315832c01ac6a4fd0e907931be703f2301cddf119656e
-  tailwindcss-ruby (4.1.5-x86_64-linux-gnu) sha256=0e43ec7537ae8cec280cd88162a1546f7ae78e66ca4d606b2e1be0424fb314d3
-  tailwindcss-ruby (4.1.5-x86_64-linux-musl) sha256=25abe030efa349d9f60cb2159bd727772cc6741dea7792fea3dc6bad1a2d3b5f
+  tailwindcss-ruby (4.1.6-aarch64-linux-gnu) sha256=ed8c87ed6fc090aa9bf4b8f57ea27b24dcef75f8f999cf94255d209b349922dd
+  tailwindcss-ruby (4.1.6-arm64-darwin) sha256=226916383d7b72faa7919373567fdebfedc34ded5be5ba04e8386b9717b24c1c
+  tailwindcss-ruby (4.1.6-x86_64-linux-gnu) sha256=9a9ab7ade6129ba83153c3a6bc70f9a6bff16edbd2ce47ca0866a18c51db8308
+  tailwindcss-ruby (4.1.6-x86_64-linux-musl) sha256=608a7e6733db18521d7f0bb0509d9e17a2604f79d74b791626eeed3f32371226
   terminal-table (4.0.0) sha256=f504793203f8251b2ea7c7068333053f0beeea26093ec9962e62ea79f94301d2
   thor (1.3.2) sha256=eef0293b9e24158ccad7ab383ae83534b7ad4ed99c09f96f1a6b036550abbeda
   thruster (0.1.13-aarch64-linux) sha256=32baea3e82733e36851ff8ae2435698b7c9c3d822495214976e9974916d0c0f5
