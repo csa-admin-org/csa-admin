@@ -329,7 +329,7 @@ ActiveAdmin.register BasketContent do
 
   before_build do |basket_content|
     basket_content.delivery_id ||= referer_filter(:delivery_id) || Delivery.next&.id
-    if basket_content.depots.empty?
+    if params[:action] == "new" && basket_content.depots.empty?
       basket_content.depots = Depot.kept
     end
   end
