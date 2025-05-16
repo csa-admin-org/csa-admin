@@ -70,6 +70,9 @@ production: &production
   lamilpadesiles:
     domain: lamilpadesiles.ch
     state: onboarding
+  racine2:
+    domain: racine2.ch
+    state: onboarding
 
   demo:
     domain: acp-admin.ch
