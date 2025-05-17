@@ -146,7 +146,7 @@ GEM
       async-http (~> 0.42)
       protocol-http (~> 0.45)
     aws-eventstream (1.3.2)
-    aws-partitions (1.1103.0)
+    aws-partitions (1.1104.0)
     aws-sdk-core (3.224.0)
       aws-eventstream (~> 1, >= 1.3.0)
       aws-partitions (~> 1, >= 1.992.0)
@@ -503,8 +503,9 @@ GEM
     raabro (1.4.0)
     racc (1.8.1)
     rack (3.1.14)
-    rack-cors (2.0.2)
-      rack (>= 2.0.0)
+    rack-cors (3.0.0)
+      logger
+      rack (>= 3.0.14)
     rack-session (2.1.1)
       base64 (>= 0.1.0)
       rack (>= 3.0.0)
@@ -613,7 +614,7 @@ GEM
       fugit (~> 1.11.0)
       railties (>= 7.1)
       thor (~> 1.3.1)
-    sorbet-runtime (0.5.12109)
+    sorbet-runtime (0.5.12115)
     sqlean (0.3.0-aarch64-linux-gnu)
     sqlean (0.3.0-arm64-darwin)
     sqlean (0.3.0-x86_64-linux-gnu)
@@ -686,6 +687,7 @@ PLATFORMS
   x86_64-linux-musl
 
 DEPENDENCIES
+  action_text-trix
   activeadmin (~> 4.0.0.beta15)
   acts_as_list
   appsignal
@@ -793,7 +795,7 @@ CHECKSUMS
   async-pool (0.10.3) sha256=b542f9decc34fd3d6d0544576408bb79d6d2d2aa9ca467a75b546ac45765008a
   async-rest (0.19.1) sha256=0f3545f5c43992604c83ffc8273f8e8ace3b055bfec23c5d4cc638b8e974c87f
   aws-eventstream (1.3.2) sha256=7e2c3a55ca70d7861d5d3c98e47daa463ed539c349caba22b48305b8919572d7
-  aws-partitions (1.1103.0) sha256=3138c7adf7f159ee93df76e5162cb75f3867784f2d2f162629cd9145ddec64f8
+  aws-partitions (1.1104.0) sha256=7ff527e3f8b0e5cc3a89d09ca4727ee1038b52f1fa2c929cb6bed67e6ab96e58
   aws-sdk-core (3.224.0) sha256=c617aae3f43ba2bfe9f819c1a31c7c9dbda3e1d1a33c746c23c4dc15638817ac
   aws-sdk-kms (1.101.0) sha256=44d8b5b69ce7394cc02f30f9a35bea04ea12c947b5ffe1471535eea5119368d7
   aws-sdk-s3 (1.186.1) sha256=5b703b8aafc26ca4f3f927368412da5f4b8f74909bb0e4651eb8afe8aa105803
@@ -949,7 +951,7 @@ CHECKSUMS
   raabro (1.4.0) sha256=d4fa9ff5172391edb92b242eed8be802d1934b1464061ae5e70d80962c5da882
   racc (1.8.1) sha256=4a7f6929691dbec8b5209a0b373bc2614882b55fc5d2e447a21aaa691303d62f
   rack (3.1.14) sha256=84613c2a8df193bb6711d9c14ecc6d5a65a7cb4312379a65e793562608944b44
-  rack-cors (2.0.2) sha256=415d4e1599891760c5dc9ef0349c7fecdf94f7c6a03e75b2e7c2b54b82adda1b
+  rack-cors (3.0.0) sha256=7b95be61db39606906b61b83bd7203fa802b0ceaaad8fcb2fef39e097bf53f68
   rack-session (2.1.1) sha256=0b6dc07dea7e4b583f58a48e8b806d4c9f1c6c9214ebc202ec94562cbea2e4e9
   rack-status (1.0.0) sha256=9d4e827e796057c976c031bf9e16702ee97365c82b9fb7dab9163ad0c051aa64
   rack-test (2.2.0) sha256=005a36692c306ac0b4a9350355ee080fd09ddef1148a5f8b2ac636c720f5c463
@@ -992,7 +994,7 @@ CHECKSUMS
   simpleidn (0.2.3) sha256=08ce96f03fa1605286be22651ba0fc9c0b2d6272c9b27a260bc88be05b0d2c29
   smart_properties (1.17.0) sha256=f9323f8122e932341756ddec8e0ac9ec6e238408a7661508be99439ca6d6384b
   solid_queue (1.1.5) sha256=bae0c9d76310f4953ebc57466f2e8c78703a0fbf4b89d25756c23c88f9b6df9b
-  sorbet-runtime (0.5.12109) sha256=fa0f106b1102917ff496f10e301b2f70c00a50ca00fb8369e8152f7f185a70c7
+  sorbet-runtime (0.5.12115) sha256=1f8119a405448c1911e0e4359245ba440336f83360240370d0fcf3f719be1916
   sqlean (0.3.0-aarch64-linux-gnu) sha256=2b88dcefd7c9a92a9287c1bf8d650f286275d2645c95d5836c2efe8a0255a078
   sqlean (0.3.0-arm64-darwin) sha256=32ffa1e5a908a52c028fb06fa2dbe61f600a865c95960d7ec4f3fbc82f28bf78
   sqlean (0.3.0-x86_64-linux-gnu) sha256=51e7e0a66ceebf26c4a4509001412bea2214fb748752fde96a228db9cb2e85ce

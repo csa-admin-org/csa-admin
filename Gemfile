@@ -2,7 +2,6 @@
 
 source "https://rubygems.org"
 
-
 gem "rails", github: "rails/rails"
 
 gem "bootsnap", require: false
@@ -44,6 +43,7 @@ gem "importmap-rails"
 gem "turbo-rails"
 gem "stimulus-rails"
 gem "tailwindcss-rails"
+gem "action_text-trix"
 gem "inline_svg"
 
 gem "cld"
