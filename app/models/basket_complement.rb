@@ -123,7 +123,7 @@ class BasketComplement < ApplicationRecord
   end
 
   def update_basket_basket_complements_async
-    return unless deliveries_change.any?(&:present?)
+    return unless deliveries_change.values.any?(&:present?)
 
     BasketsBasketComplementsUpdaterJob.perform_later(self, deliveries_change)
   end
