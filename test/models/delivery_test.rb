@@ -41,13 +41,17 @@ class DeliveryTest < ActiveSupport::TestCase
     membership.update!(subscribed_basket_complements: [ bread, eggs ])
 
     delivery = membership.deliveries.first
-    delivery.update! basket_complements: [ eggs ]
+    perform_enqueued_jobs do
+      delivery.update! basket_complements: [ eggs ]
+    end
 
     basket = membership.baskets.first
     assert_equal [ eggs ], basket.complements
     assert_equal eggs.price, basket.complements_price
 
-    delivery.update! basket_complements: [ bread, eggs ]
+    perform_enqueued_jobs do
+      delivery.update! basket_complements: [ bread, eggs ]
+    end
 
     basket = membership.baskets.first
     assert_equal [ eggs, bread ], basket.complements
@@ -64,7 +68,9 @@ class DeliveryTest < ActiveSupport::TestCase
     assert_equal [ bread ], basket.complements
 
     delivery = membership.deliveries.first
-    delivery.update! basket_complement_ids: []
+    perform_enqueued_jobs do
+      delivery.update! basket_complement_ids: []
+    end
 
     basket = membership.baskets.first
     assert_equal [], basket.complements
