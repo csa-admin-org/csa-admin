@@ -221,15 +221,20 @@ _:
           _de: Zuschlag für die Verwaltung und/oder Lieferung mit diesem Zyklus.
           _it: Supplemento per la gestione e/o la consegna con questo ciclo.
         results:
-          _en: Once the configuration for days, weeks, and months has been applied, only keep the resulting deliveries according to this last criterion.
-          _fr: Une fois la configuration des jours, semaines, et mois appliquée, garde uniquement les livraisons résultantes en fonction de ce dernier critère.
-          _de: Nachdem Sie die Konfiguration für Tage, Wochen und Monate angewendet haben, behalten Sie nur die resultierenden Lieferungen nach dem letztgenannten Kriterium.
-          _it: Una volta che la configurazione di giorni, settimane e mesi è stata applicata, conserva solo le consegne risultanti secondo quest'ultimo criterio.
+          _en: Once the days, week numbers, and months configuration is applied, keeps only the deliveries that match the final filtering criteria.
+          _fr: Une fois la configuration des jours, numéros de semaine, et mois appliquée, garde uniquement les livraisons correspondantes au critère du filtrage final.
+          _de: Nachdem die Konfiguration der Tage, Wochennummern und Monate angewendet wurde, werden nur die Lieferungen behalten, die den endgültigen Filterkriterien entsprechen.
+          _it: Una volta applicata la configurazione dei giorni, dei numeri di settimana e dei mesi, conserva solo le consegne che corrispondono ai criteri di filtraggio finali.
         visible:
           _en: Will be visible in any case if only one depot is selected.
           _fr: Sera de toute façon visible si un seul dépôt est sélectionné.
           _de: Wird auf jeden Fall sichtbar sein, wenn nur eine Depot ausgewählt wurde.
           _it: Sarà comunque visibile se è selezionato un solo punto di ritiro.
+        week_numbers:
+          _en: ⚠️ Warning, use this filter only if you want to exclude deliveries that do not match specifically to an even or odd week number. In most cases, using the "Final Filtering" field is more appropriate.
+          _fr: ⚠️ Attention, n'utilisez ce filtre que si vous souhaitez exclure les livraisons qui ne correspondent pas spécifiquement à un numéro de semaines pair ou impair. Dans la plupart des cas, l'utilisation du champ "Filtrage final" est plus appropriée.
+          _de: ⚠️ Warnung, verwenden Sie diesen Filter nur, wenn Sie Lieferungen ausschließen möchten, die nicht spezifisch zu einer geraden oder ungeraden Wochennummer passen. In den meisten Fällen ist die Verwendung des Felds "Endgültige Filterung" geeigneter.
+          _it: ⚠️ Avvertenza, utilizzare questo filtro solo se si desidera escludere le consegne che non corrispondono specificamente a un numero di settimane pari o dispari. In quasi tutti i casi, l'utilizzo del campo "Filtraggio finale" è più appropriato.
       depot:
         delivery_cycles:
           _en: Delivery cycles available to members at registration for this depot. In any case, the choice of delivery cycle is only offered to members if at least two delivery cycles are available for a depot.
