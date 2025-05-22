@@ -56,17 +56,23 @@ class BasketComplementTest < ActiveSupport::TestCase
     memberships(:john).update!(subscribed_basket_complement_ids: [ c1.id, c2.id ])
 
     assert_changes -> { baskets(:john_1).reload.complement_ids }, from: [], to: [ c1.id ] do
-      c1.update!(current_delivery_ids: [ deliveries(:monday_1).id ])
+      perform_enqueued_jobs do
+        c1.update!(current_delivery_ids: [ deliveries(:monday_1).id ])
+      end
     end
     assert_equal 6, baskets(:john_1).complements_price
 
     assert_changes -> { baskets(:john_1).reload.complement_ids }, from: [ c1.id ], to: [ c1.id, c2.id ] do
-      c2.update!(current_delivery_ids: [ deliveries(:monday_1).id ])
+      perform_enqueued_jobs do
+        c2.update!(current_delivery_ids: [ deliveries(:monday_1).id ])
+      end
     end
     assert_equal 6 + 5, baskets(:john_1).complements_price
 
     assert_changes -> { baskets(:john_1).reload.complement_ids }, from: [ c1.id, c2.id ], to: [ c2.id ] do
-      c1.update!(current_delivery_ids: [])
+      perform_enqueued_jobs do
+        c1.update!(current_delivery_ids: [])
+      end
     end
     assert_equal 5, baskets(:john_1).complements_price
   end
@@ -75,12 +81,16 @@ class BasketComplementTest < ActiveSupport::TestCase
     travel_to "2024-01-01"
     c = basket_complements(:eggs)
     memberships(:john).update!(subscribed_basket_complement_ids: [ c.id ])
-    c.update!(current_delivery_ids: [ deliveries(:monday_1).id ])
+    perform_enqueued_jobs do
+      c.update!(current_delivery_ids: [ deliveries(:monday_1).id ])
+    end
 
     travel_to "2025-01-01"
     c.reload
     assert_no_changes -> { baskets(:john_1).reload.complement_ids }, from: [ c.id ] do
-      c.update!(current_delivery_ids: [])
+      perform_enqueued_jobs do
+        c.update!(current_delivery_ids: [])
+      end
     end
   end
 end

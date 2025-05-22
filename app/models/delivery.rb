@@ -212,11 +212,11 @@ class Delivery < ApplicationRecord
   end
 
   def add_subscribed_baskets_complement!(complement)
-    BasketsBasketComplement.handle_deliveries_addition!(self, complement)
+    BasketsBasketComplementsUpdaterJob.perform_later(complement, added: [ id ])
   end
 
   def remove_subscribed_baskets_complement!(complement)
-    BasketsBasketComplement.handle_deliveries_removal!(self, complement)
+    BasketsBasketComplementsUpdaterJob.perform_later(complement, removed: [ id ])
   end
 
   def reset_delivery_cycle_cache!

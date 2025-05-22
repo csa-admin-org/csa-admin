@@ -34,6 +34,8 @@ class BasketComplement < ApplicationRecord
     after_add: :after_add_delivery!,
     after_remove: :after_remove_delivery!
 
+  after_commit :update_basket_basket_complements_async
+
   scope :ordered, -> { order_by_name }
   scope :used, -> {
     ids = BasketsBasketComplement
@@ -109,10 +111,20 @@ class BasketComplement < ApplicationRecord
   private
 
   def after_add_delivery!(delivery)
-    BasketsBasketComplement.handle_deliveries_addition!(delivery, self)
+    deliveries_change[:added] << delivery.id
   end
 
   def after_remove_delivery!(delivery)
-    BasketsBasketComplement.handle_deliveries_removal!(delivery, self)
+    deliveries_change[:removed] << delivery.id
+  end
+
+  def deliveries_change
+    @deliveries_change ||= { added: [], removed: [] }
+  end
+
+  def update_basket_basket_complements_async
+    return unless deliveries_change.any?(&:present?)
+
+    BasketsBasketComplementsUpdaterJob.perform_later(self, deliveries_change)
   end
 end
