@@ -184,14 +184,15 @@ ActiveAdmin.register DeliveryCycle do
         as: :check_boxes,
         collection: wdays_collection,
         required: true
-      f.input :week_numbers,
-        as: :select,
-        collection: week_numbers_collection,
-        include_blank: false
       f.input :months,
         as: :check_boxes,
         collection: months_collection(fiscal_year_order: true),
         required: true
+      f.input :week_numbers,
+        as: :select,
+        collection: week_numbers_collection,
+        include_blank: false,
+        wrapper_html: { class: "[&>p]:text-red-500" }
       f.input :results,
         as: :select,
         collection: results_collection,

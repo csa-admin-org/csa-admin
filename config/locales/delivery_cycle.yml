@@ -8,33 +8,33 @@ _:
     results:
       all:
         _en: All
-        _fr: Tous
+        _fr: Toutes
         _de: Alle
-        _it: Tutti
+        _it: Tutte
       all_but_first:
         _en: All except the 1st
-        _fr: Tous sauf le 1er
-        _de: Alle außer dem 1.
-        _it: Tutti tranne il 1°
+        _fr: Toutes sauf la 1ère
+        _de: Alle außer der ersten
+        _it: Tutte tranne la prima
       even:
         _en: Even
-        _fr: Pairs
-        _de: Geraden
+        _fr: Paires
+        _de: Gerade
         _it: Pari
       first_of_each_month:
         _en: First of each month
-        _fr: Premier de chaque mois
+        _fr: Première de chaque mois
         _de: Erster jedes Monats
         _it: Primo di ogni mese
       last_of_each_month:
         _en: Last of each month
-        _fr: Dernier de chaque mois
+        _fr: Dernière de chaque mois
         _de: Letzter jedes Monats
         _it: Ultimo di ogni mese
       odd:
         _en: Odd
-        _fr: Impairs
-        _de: Ungeraden
+        _fr: Impaires
+        _de: Ungerade
         _it: Dispari
       quarter_1:
         _en: 1st quarter
@@ -64,16 +64,16 @@ _:
     week_numbers:
       all:
         _en: All
-        _fr: Toutes
+        _fr: Tous
         _de: Alle
         _it: Tutte
       even:
         _en: Even
-        _fr: Paires
-        _de: Geraden
+        _fr: Pairs
+        _de: Gerade
         _it: Pari
       odd:
         _en: Odd
-        _fr: Impaires
-        _de: Ungeraden
+        _fr: Impairs
+        _de: Ungerade
         _it: Dispari

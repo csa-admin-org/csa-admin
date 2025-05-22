@@ -389,20 +389,20 @@ _:
           _de: Nächste Lieferung
           _it: Prossime consegne
         results:
-          _en: Results
-          _fr: Résultats
-          _de: Resultate
-          _it: Risultati
+          _en: Final delivery filtering
+          _fr: Filtrage final des livraisons
+          _de: Endliche Lieferungen filtern
+          _it: Filtraggio finale della consegna
         wdays:
           _en: Days
           _fr: Jours
           _de: Tage
           _it: Giorni
         week_numbers:
-          _en: Weeks
-          _fr: Semaines
-          _de: Wochen
-          _it: Settimane
+          _en: Week numbers
+          _fr: Numéros de semaine
+          _de: Wochennummern
+          _it: Numeri di settimana
       depot:
         address_name:
           _en: Name
