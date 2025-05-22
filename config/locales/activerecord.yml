@@ -1159,10 +1159,10 @@ _:
           _de: Zahlt weiterhin den Jahresbeitrag
           _it: Continua a pagare la quota annuale
         renewal_note:
-          _en: Note(s)
-          _fr: Remarque(s)
-          _de: Anmerkung(en)
-          _it: Note
+          _en: Renewal Note(s)
+          _fr: Note(s) de renouvellement
+          _de: Erneuerungsanmerkung(en)
+          _it: Note di rinnovo
         renewal_opened_at:
           _en: Request sent on
           _fr: Demande envoyée le
