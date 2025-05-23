@@ -111,20 +111,20 @@ class BasketComplement < ApplicationRecord
   private
 
   def after_add_delivery!(delivery)
-    deliveries_change[:added] << delivery.id
+    delivery_ids_change[:added] << delivery.id
   end
 
   def after_remove_delivery!(delivery)
-    deliveries_change[:removed] << delivery.id
+    delivery_ids_change[:removed] << delivery.id
   end
 
-  def deliveries_change
-    @deliveries_change ||= { added: [], removed: [] }
+  def delivery_ids_change
+    @delivery_ids_change ||= { added: [], removed: [] }
   end
 
   def update_basket_basket_complements_async
-    return unless deliveries_change.values.any?(&:present?)
+    return unless delivery_ids_change.values.any?(&:present?)
 
-    BasketsBasketComplementsUpdaterJob.perform_later(self, deliveries_change)
+    BasketsBasketComplementsUpdaterJob.perform_later(self, delivery_ids_change)
   end
 end

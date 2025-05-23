@@ -2,7 +2,7 @@
 
 class BasketsBasketComplementsUpdaterJob < ApplicationJob
   queue_as :default
-  limits_concurrency key: ->(complement, context) { [ complement.id, context["tenant"] ] }
+  limits_concurrency key: ->(complement, delivery_ids, context) { [ complement.id, context["tenant"] ] }
 
   def perform(complement, delivery_ids = {})
     complement.transaction do
