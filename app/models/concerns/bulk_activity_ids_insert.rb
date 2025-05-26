@@ -4,7 +4,7 @@ module BulkActivityIdsInsert
   extend ActiveSupport::Concern
 
   included do
-    attribute :activity_ids, :json, default: []
+    attribute :activity_ids, :json, default: -> { [] }
 
     with_options if: :activity do
       validates :activity_ids, absence: true

@@ -4,7 +4,7 @@ module HasPublicName
   extend ActiveSupport::Concern
 
   included do
-    attribute :admin_names, default: {}
+    attribute :admin_names, default: -> { {} }
 
     translated_attributes :name, required: true
     translated_attributes :public_name
