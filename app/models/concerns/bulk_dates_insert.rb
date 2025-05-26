@@ -7,7 +7,7 @@ module BulkDatesInsert
     attribute :bulk_dates_starts_on, :date
     attribute :bulk_dates_ends_on, :date
     attribute :bulk_dates_weeks_frequency, :integer
-    attribute :bulk_dates_wdays, :json, default: []
+    attribute :bulk_dates_wdays, :json, default: -> { [] }
 
     with_options if: :date? do
       validates :bulk_dates_starts_on, absence: true
