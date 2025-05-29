@@ -154,9 +154,11 @@ ActiveAdmin.register DeliveryCycle do
         translated_input(f, :form_details,
           hint: t("formtastic.hints.delivery_cycle.form_detail"),
           placeholder: ->(locale) {
-            I18n.with_locale(locale) {
-              delivery_cycle_details(f.object, force_default: true)
-            }
+            if f.object.persisted? && !f.object.form_detail?(locale)
+              I18n.with_locale(locale) {
+                delivery_cycle_details(f.object, force_default: true)
+              }
+            end
           })
         f.input :depots,
           as: :check_boxes,

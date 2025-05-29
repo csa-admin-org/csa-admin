@@ -146,7 +146,10 @@ ActiveAdmin.register Depot do
 
         panel t(".member_new_form") do
           attributes_table do
-            row :visible
+            row(:visible, class: "text-right") { status_tag(depot.visible?) }
+            if depot.visible?
+              row(:form_detail, class: "text-right") { depot_details(depot) }
+            end
           end
           if DeliveryCycle.visible?
             table_for depot.delivery_cycles, class: "table-auto" do
@@ -225,6 +228,13 @@ ActiveAdmin.register Depot do
         as: :select,
         prompt: true,
         hint: t("formtastic.hints.organization.member_order_priority_html")
+      translated_input(f, :form_details,
+        hint: t("formtastic.hints.depot.form_detail"),
+        placeholder: ->(locale) {
+          if f.object.persisted? && !f.object.form_detail?(locale)
+            I18n.with_locale(locale) { depot_details(f.object) }
+          end
+        })
       unless DeliveryCycle.basket_size_config?
         f.input :delivery_cycles,
           collection: admin_delivery_cycles_collection,
@@ -265,6 +275,7 @@ ActiveAdmin.register Depot do
     *I18n.available_locales.map { |l| "public_name_#{l}" },
     *I18n.available_locales.map { |l| "admin_name_#{l}" },
     *I18n.available_locales.map { |l| "public_note_#{l}" },
+    *I18n.available_locales.map { |l| "form_detail_#{l}" },
     delivery_cycle_ids: [])
 
   before_build do |depot|

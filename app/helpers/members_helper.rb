@@ -153,38 +153,43 @@ module MembersHelper
       delivery_cycle: delivery_cycle,
       only_with_future_deliveries: only_with_future_deliveries
     )).map { |d|
-      details = []
-      if show_price
-        if only_price_per_delivery
-          if d.price.positive?
-            details << "#{t('helpers.price_per_delivery', price: short_price(d.price))}"
-          end
-        elsif billable_deliveries_counts.many?
-          if d.price.positive?
-            details << "#{deliveries_based_price_info(d.price, d.billable_deliveries_counts)} (#{short_price(d.price)} x #{deliveries_count(d.billable_deliveries_counts)})"
-          elsif d.delivery_cycles != depots_delivery_cycles
-            details << deliveries_count(d.billable_deliveries_counts)
-          end
-        elsif d.price.positive?
-          details << "#{deliveries_based_price_info(d.price, d.billable_deliveries_counts)} (#{t('helpers.price_per_delivery', price: short_price(d.price))})"
-        end
-      end
-      if address = d.full_address
-        details << address
-        icon = map_icon(address).html_safe
-      elsif d.address.present?
-        details << d.address
-      end
       [
         collection_text(d.public_name,
-          details: details.compact.join(", "),
-          icon: icon),
+          details: depot_details(d, show_price: show_price, only_price_per_delivery: only_price_per_delivery),
+          icon: d.full_address && map_icon(d.full_address).html_safe),
         d.id,
         data: {
           form_choices_limiter_values_param: d.delivery_cycle_ids.join(",")
         }.merge(data)
       ]
     }
+  end
+
+  def depot_details(d, show_price: true, only_price_per_delivery: false)
+    return d.form_detail if d.form_detail?
+
+    details = []
+    if show_price
+      if only_price_per_delivery
+        if d.price.positive?
+          details << "#{t('helpers.price_per_delivery', price: short_price(d.price))}"
+        end
+      elsif billable_deliveries_counts.many?
+        if d.price.positive?
+          details << "#{deliveries_based_price_info(d.price, d.billable_deliveries_counts)} (#{short_price(d.price)} x #{deliveries_count(d.billable_deliveries_counts)})"
+        elsif d.delivery_cycles != depots_delivery_cycles
+          details << deliveries_count(d.billable_deliveries_counts)
+        end
+      elsif d.price.positive?
+        details << "#{deliveries_based_price_info(d.price, d.billable_deliveries_counts)} (#{t('helpers.price_per_delivery', price: short_price(d.price))})"
+      end
+    end
+    if address = d.full_address
+      details << address
+    elsif d.address.present?
+      details << d.address
+    end
+    details.compact.join(", ").html_safe
   end
 
   def delivery_cycle_details(dc, force_default: false)
