@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_05_01_134751) do
+ActiveRecord::Schema[8.1].define(version: 2025_05_29_104821) do
   create_table "absences", force: :cascade do |t|
     t.datetime "created_at"
     t.date "ended_on"
@@ -339,6 +339,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_05_01_134751) do
     t.string "delivery_sheets_mode", default: "signature", null: false
     t.datetime "discarded_at"
     t.string "emails"
+    t.json "form_details", default: {}, null: false
     t.bigint "group_id"
     t.string "language", default: "fr", null: false
     t.json "member_ids_position", default: []

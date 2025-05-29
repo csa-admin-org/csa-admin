@@ -76,9 +76,11 @@ ActiveAdmin.register BasketComplement do
       translated_input(f, :form_details,
         hint: t("formtastic.hints.basket_complement.form_detail"),
         placeholder: ->(locale) {
-          I18n.with_locale(locale) {
-            basket_complement_details(f.object, force_default: true)
-          }
+          if f.object.persisted? && !f.object.form_detail?(locale)
+            I18n.with_locale(locale) {
+              basket_complement_details(f.object, force_default: true)
+            }
+          end
         })
     end
 

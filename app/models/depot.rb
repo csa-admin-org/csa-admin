@@ -26,6 +26,7 @@ class Depot < ApplicationRecord
 
   attribute :language, :string, default: -> { Current.org.languages.first }
 
+  translated_attributes :form_detail
   translated_rich_texts :public_note
 
   has_many :baskets

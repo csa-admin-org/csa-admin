@@ -246,6 +246,11 @@ _:
           _fr: Chaque email (séparé par une virgule) reçoit, le jour précédant la livraison, la liste des membres recevant un panier.
           _de: Jede E-Mail-Adresse (durch Komma getrennt) bekommt ein Tag vor der Lieferung eine Liste der Abonnenten, die eine Tasche bekommen.
           _it: Ogni email (separata da una virgola) riceve, il giorno precedente la consega, la lista dei soci che ritireranno una cesta.
+        form_detail:
+          _en: Leave blank for the default text.
+          _fr: Laisser blanc pour le texte par défaut.
+          _de: Leer lassen für den Standardtext.
+          _it: Lasciare vuoto per il testo predefinito.
         group_html:
           _en: Allows you to display depots by <a href='/depot_groups'>group</a> on the registration form.
           _fr: Permet d'afficher les dépôts par <a href='/depot_groups'>groupe</a> sur le formulaire d'inscription.
