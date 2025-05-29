@@ -32,13 +32,13 @@ class BasketContent < ApplicationRecord
 
   validates :delivery, presence: true
   validates :quantity, presence: true
-  validates :depots, presence: true
   validates :unit, inclusion: { in: UNITS }, presence: true
   validates :distribution_mode, inclusion: { in: DISTRIBUTION_MODES }
   validate :basket_size_ids_presence
   validate :basket_percentages_presence
   validate :basket_quantities_presence
   validate :enough_quantity
+  validate :depots_presence
   validates :unit_price, numericality: { greater_than_or_equal_to: 0, allow_nil: true }
 
   after_commit :update_delivery_basket_content_avg_prices!
@@ -364,6 +364,13 @@ class BasketContent < ApplicationRecord
     when "kg"; ((quantity * 1000).send(method) + diff) / 1000.0
     when "pc"; quantity.send(method) + diff
     end
+  end
+
+  def depots_presence
+    # Reload association to prevent stale cache issues that can cause random
+    # "depots cannot be empty" errors in production server instances
+    depots.reload if persisted? && depots.loaded?
+    errors.add(:depots, :blank) if depots.empty?
   end
 
   def update_delivery_basket_content_avg_prices!
