@@ -7,6 +7,11 @@ _:
           _fr: Les pièces jointes ne doivent pas dépasser 5 Mo
           _de: Die Anhänge dürfen nicht größer als 5 MB sein
           _it: Gli allegati non devono superare i 5 MB
+        zero_bytes:
+          _en: Attachments must not be zero bytes
+          _fr: Les pièces jointes ne doivent pas être de taille nulle
+          _de: Die Anhänge dürfen nicht null Bytes haben
+          _it: Gli allegati non devono essere di dimensione zero
     format:
       _en: "%{attribute} %{message}"
       _fr: "%{attribute} %{message}"
