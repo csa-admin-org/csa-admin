@@ -562,10 +562,10 @@ _:
             _de: Alle Depots anzeigen
             _it: Mostra i punti
           alternative_depots_subtitle:
-            _en: If the depot selected above is full, you can choose one or more alternative depots.
-            _fr: Dans le cas où le dépôt sélectionné ci-dessus serait complet, vous pouvez choisir un ou plusieurs dépôts alternatifs.
-            _de: Wenn das oben ausgewählte Depot voll ist, können Sie ein oder mehrere alternative Depots auswählen.
-            _it: Se il punto di ritiro selezionato sopra è pieno, puoi scegliere uno o più punti di ritiro alternativi.
+            _en: If the depot selected above is full, choose one or more alternative depots.
+            _fr: Dans le cas où le dépôt sélectionné ci-dessus serait complet, choisir un ou plusieurs dépôts alternatifs.
+            _de: Falls das oben ausgewählte Depot voll ist, ein oder mehrere alternative Depots wählen.
+            _it: Nel caso in cui il deposito selezionato sopra sia pieno, scegliere uno o più depositi alternativi.
           annual_fee_hint:
             _en: Amount in %{currency}
             _fr: Montant en %{currency}
@@ -582,10 +582,10 @@ _:
             _de: Jedes Mitglied zahlt zusätzlich zum Abonnement für den Korb auch einen Jahresbeitrag von %{price}.
             _it: Ogni socio paga anche una quota annuale di <b class="whitespace-nowrap">%{price}</b> oltre all'abbonamento alla cesta.
           desired_shares_number_hint:
-            _en: You can choose to buy more shares to support the cooperative.
+            _en: Get more shares to support the cooperative.
             _fr: Acquérir plus de parts sociales pour soutenir la coopérative.
-            _de: Sie können sich entscheiden mehr Anteilscheine zu kaufen um die Genossenschaft zu unterstützen.
-            _it: Comperandone più di una quota sostieni la cooperativa.
+            _de: Mehr Anteilscheine erwerben, um die Genossenschaft zu unterstützen.
+            _it: Acquisire altre azioni per sostenere la cooperativa.
           shares_text_html:
             _en: Each member joins the cooperative and must acquire one or more shares (<b class="whitespace-nowrap">%{price}</b>/share).
             _fr: Chaque membre fait également partie de la coopérative et se doit d'acquérir des parts sociales (<b class="whitespace-nowrap">%{price}</b>/part).
