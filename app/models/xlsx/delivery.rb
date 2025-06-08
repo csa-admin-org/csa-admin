@@ -84,35 +84,40 @@ module XLSX
 
     def add_baskets_line(depot, bold: false, title: nil)
       baskets = depot ? @baskets.where(depot: depot) : @baskets
+      cols_count = 1
       @worksheet.add_cell(@line, 0, title || depot.name)
       @worksheet.add_cell(@line, 1, baskets.sum(:quantity)).set_number_format("0")
       @basket_sizes.each_with_index do |basket_size, i|
         amount = baskets.where(basket_size_id: basket_size.id).sum(:quantity)
-        @worksheet.add_cell(@line, 2 + i, amount).set_number_format("0")
+        cols_count += 1
+        @worksheet.add_cell(@line, cols_count, amount).set_number_format("0")
       end
+
 
       shop_orders = depot ? @shop_orders.where(depot: depot) : @shop_orders
       if @basket_complements.any?
-        cols_count = 3 + @basket_sizes.count
+        cols_count += 1
         @basket_complements.each_with_index do |complement, i|
           amount = baskets.complement_count(complement)
+          cols_count += 1
           if Current.org.feature?("shop")
             amount += shop_orders.complement_count(complement)
           end
-          @worksheet.add_cell(@line, cols_count + i, amount).set_number_format("0")
+          @worksheet.add_cell(@line, cols_count, amount).set_number_format("0")
         end
       end
 
       if shop_orders.any?
-        cols_count = 4 + @basket_sizes.count + @basket_complements.count
+        cols_count += 2
         @worksheet.add_cell(@line, cols_count, shop_orders.count).set_number_format("0")
       end
 
       if @shop_products.any?
-        cols_count += 2
+        cols_count += 1
         @shop_products.each_with_index do |product, i|
           amount = shop_orders.quantity_for(product)
-          @worksheet.add_cell(@line, cols_count + i, amount).set_number_format("0")
+          cols_count += 1
+          @worksheet.add_cell(@line, cols_count, amount).set_number_format("0")
         end
       end
 
