@@ -63,12 +63,11 @@ production: &production
     domain: baie-attitude.ch
   boisdunant:
     domain: ferme-boisdunant.ch
+  lamilpadesiles:
+    domain: lamilpadesiles.ch
 
   mamajah:
     domain: mamajah.org
-    state: onboarding
-  lamilpadesiles:
-    domain: lamilpadesiles.ch
     state: onboarding
   racine2:
     domain: racine2.ch

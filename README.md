@@ -31,7 +31,7 @@ Other features can be added as required, please [contact me](mailto:info@csa-adm
 
 ## Organizations
 
-This application is currently used by [more than 25 organizations](https://csa-admin.org/#organizations) in Switzerland and Germany, and manages more than 100,000 basket deliveries per year.
+This application is currently used by [more than 30 organizations](https://csa-admin.org/#organizations) in Switzerland and Germany, and manages more than 100,000 basket deliveries per year.
 
 ## Technical details
 
