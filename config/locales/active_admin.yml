@@ -659,6 +659,51 @@ _:
           _fr: Panier et dépôt
           _de: Tasche und Depot
           _it: Cesta e punto di ritiro
+        basket_content:
+          _en: 'Content: %{content}'
+          _fr: 'Contenu: %{content}'
+          _de: 'Inhalt: %{content}'
+          _it: 'Contenuto: %{content}'
+        basket_shift_declined:
+          _en: Member does not want to shift this absence.
+          _fr: Le membre ne désire pas déplacer cette absence.
+          _de: Mitglied möchte diese Abwesenheit nicht verschieben.
+          _it: Il membro non desidera spostare questa assenza.
+        basket_shift_destroy:
+          _en: Delete shift
+          _fr: Supprimer déplacement
+          _de: Verschiebung löschen
+          _it: Cancellare spostamento
+        basket_shift_explanation:
+          _en: The content of this basket can be shifted to another delivery to compensate for an absence.
+          _fr: Le contenu de ce panier peut être déplacé à une autre livraison pour compenser une absence.
+          _de: Der Inhalt dieses Tasches kann auf eine andere Lieferung verschoben werden, um eine Abwesenheit zu kompensieren.
+          _it: Il contenuto di questo cestino può essere spostato su un'altra consegna per compensare una assenza.
+        basket_shift_none:
+          _en: No shift
+          _fr: Aucun déplacement
+          _de: Keine Verschiebung
+          _it: Nessun spostamento
+        basket_shift_target_description:
+          _en: 'Delivery on %{source_date}: %{description}'
+          _fr: 'Livraison du %{source_date}: %{description}'
+          _de: 'Lieferung am %{source_date}: %{description}'
+          _it: 'Consegna del %{source_date}: %{description}'
+        basket_shift_targets_explanation:
+          _en: 'Part of the content of this basket compensates the following deliveries:'
+          _fr: 'Une partie du contenu de ce panier compense les livraisons suivantes:'
+          _de: 'Ein Teil des Inhalts dieses Tasches kompensiert die folgenden Lieferungen:'
+          _it: 'Parte del contenuto di questo cestino compensa le seguenti consegne:'
+        basket_shift_title:
+          _en: Shift (absence)
+          _fr: Déplacement (absence)
+          _de: Verschiebung (Abwesenheit)
+          _it: Spostamento (assenza)
+        basket_shifted_description_html:
+          _en: The content of this basket has been shifted to <a href="%{target_url}">the delivery of %{target_date}</a>.
+          _fr: Le contenu de ce panier a été déplacé à <a href="%{target_url}">la livraison du %{target_date}</a>.
+          _de: Der Inhalt dieses Tasches wurde auf <a href="%{target_url}">die Lieferung am %{target_date}</a> verschoben.
+          _it: Il contenuto di questo cestino è stato spostato a <a href="%{target_url}">la consegna del %{target_date}</a>.
         billing:
           _en: Billing
           _fr: Facturation
@@ -684,6 +729,11 @@ _:
           _fr: Les fiches (PDF) sont générées à la volée pour chaque dépôt et livraison.
           _de: Die Blätter (PDF) werden für jedes Depot und jede Lieferung on-the-fly erstellt.
           _it: I fogli (PDF) vengono generati al volo per ogni punto di ritiro e consegna.
+        destroy:
+          _en: Delete
+          _fr: Supprimer
+          _de: Löschen
+          _it: Cancellare
         details:
           _en: Details
           _fr: Détails
@@ -709,6 +759,11 @@ _:
           _fr: Effacer
           _de: Löschen
           _it: Cancellare
+        following_deliveries:
+          _en: Following Deliveries
+          _fr: Livraisons suivantes
+          _de: Folgende Lieferungen
+          _it: Consegne successive
         full_year:
           _en: Full year
           _fr: année complète
@@ -794,6 +849,11 @@ _:
           _fr: Prévisualisation
           _de: Vorschau
           _it: Anteprima
+        previous_deliveries:
+          _en: Previous Deliveries
+          _fr: Livraisons précédentes
+          _de: Vergangene Lieferungen
+          _it: Consegne precedenti
         recurring_billing_disabled:
           _en: disabled
           _fr: désactivée
@@ -930,15 +990,15 @@ _:
       show:
         absences_used:
           one:
-            _en: "%{used} of %{count} reported"
-            _fr: "%{used} sur %{count} annoncée"
-            _de: "%{used} von %{count} gemeldet"
-            _it: "%{used} su %{count} annunciata"
+            _en: "%{count} of %{limit} reported"
+            _fr: "%{count} sur %{limit} annoncée"
+            _de: "%{count} von %{limit} gemeldet"
+            _it: "%{count} su %{limit} annunciata"
           other:
-            _en: "%{used} of %{count} reported"
-            _fr: "%{used} sur %{count} annoncées"
-            _de: "%{used} von %{count} gemeldet"
-            _it: "%{used} su %{count} annunciate"
+            _en: "%{count} of %{limit} reported"
+            _fr: "%{count} sur %{limit} annoncées"
+            _de: "%{count} von %{limit} gemeldet"
+            _it: "%{count} su %{limit} annunciate"
         activity_participations_annual_price_change/basket_preparation:
           _en: Basket preparation adjustment
           _fr: Ajustement mise en panier
@@ -964,16 +1024,32 @@ _:
           _fr: Ajustement compléments
           _de: Anpassung Zusätze
           _it: Correzione aggiunte
+        basket_shift_declined_tooltip:
+          _en: Shift declined
+          _fr: Déplacement décliné
+          _de: Verschiebung abgelehnt
+          _it: Spostamento rifiutato
+        basket_shift_tooltip:
+          _en: Shifted to %{target_date}
+          _fr: Déplacé le %{target_date}
+          _de: Verschiebung auf %{target_date}
+          _it: Spostato il %{target_date}
+        basket_shifts_used:
+          one:
+            _en: "%{count} of %{limit} used"
+            _fr: "%{count} sur %{limit} utilisée"
+            _de: "%{count} von %{limit} verwendet"
+            _it: "%{count} su %{limit} utilizzata"
+          other:
+            _en: "%{count} of %{limit} used"
+            _fr: "%{count} sur %{limit} utilisées"
+            _de: "%{count} von %{limit} verwendet"
+            _it: "%{count} su %{limit} utilizzate"
         baskets_annual_price_change:
           _en: Basket adjustment
           _fr: Ajustement paniers
           _de: Anpassung Taschen
           _it: Correzione cesto
-        become_member:
-          _en: Access account
-          _fr: Accéder au compte
-          _de: Zugang zum Konto
-          _it: Accedere al conto
         billing:
           _en: Billing
           _fr: Facturation
@@ -1872,6 +1948,11 @@ _:
       _it: Impostazioni dell 'email
     shared:
       action_items:
+        become_member:
+          _en: Access account
+          _fr: Accéder au compte
+          _de: Zugang zum Konto
+          _it: Accedere al conto
         cancel_action:
           _en: Edit
           _fr: Modifier

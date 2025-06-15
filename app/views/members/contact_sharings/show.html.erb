@@ -14,31 +14,22 @@
         <%= t(".nobody_sharing_contact") %>
       </p>
     <% else %>
-      <ul id="members" class="mt-2 w-full flex flex-row flex-wrap">
+      <ul id="members" class="my-4 w-full flex flex-col gap-4">
         <% @members.each do |member| %>
-          <li class="w-full md:w-1/2 my-2">
-            <ul class="md:mr-4 -mx-2 relative p-2 space-y-1">
-              <li class="flex flex-row items-center">
-                <span class="w-6">
-                  <%= icon "user-circle", class: "size-6 text-gray-300 dark:text-gray-700" %>
-                </span>
-                <span class="ml-2">
-                  <%= member.name %>
-                </span>
-              </li>
-              <li class="flex flex-row items-center">
-                <span class="w-6">
-                  <%= icon "phone", class: "size-6 text-gray-300 dark:text-gray-700" %>
-                </span>
-                <span class="ml-2">
+          <li class="p-2 -mx-2 md:px-3 md:-mx-3 grow rounded-md hover:bg-gray-100 dark:hover:bg-gray-900">
+            <h3 class="mb-2 text-base font-medium text-gray-800 dark:text-gray-200">
+              <%= member.name %>
+            </h3>
+            <ul class="space-y-1.5">
+              <li class="flex flex-row items-center gap-2">
+                <%= icon "phone", class: "size-5 w-6 text-gray-300 dark:text-gray-700" %>
+                <span>
                   <%= display_phones(member) %>
                 </span>
               </li>
-              <li class="flex flex-row items-center">
-                <span class="w-6">
-                  <%= icon "map", class: "size-6 text-gray-300 dark:text-gray-700" %>
-                </span>
-                <span class="ml-2">
+              <li class="flex flex-row items-center gap-2">
+                <%= icon "map", class: "size-5 w-6 text-gray-300 dark:text-gray-700" %>
+                <span>
                   <%= display_address(member) %>
                 </span>
               </li>
@@ -47,7 +38,7 @@
         <% end %>
       </ul>
     <% end %>
-    <p class="mt-4 text-sm text-gray-400 dark:text-gray-600">
+    <p class="mt-8 text-sm text-gray-400 dark:text-gray-600">
       <%= t(".cancel_sharing_html", email: Current.org.email) %>
     </p>
   <% else %>
@@ -59,8 +50,8 @@
         <%= f.input :contact_sharing, as: :hidden, input_html: { value: true } %>
         <%= f.input :terms_of_service, as: :boolean, label: t(".terms_of_service"), input_html: { class: "mr-4 flex-none size-6 rounded-sm  focus:outline-hidden focus:ring-green-500 focus:border-green-500 cursor-pointer" }, label_html: { class: "text-sm font-normal text-gray-700 dark:text-gray-300 flex flex-row flex-nowrap items-center cursor-pointer" }, wrapper_class: "border-gray-200 dark:border-gray-800 border rounded-sm px-4 py-4" %>
       </div>
-      <div class="mt-2 text-right">
-        <%= f.submit t(".submit"), class: "min-w-full md:min-w-min py-2 px-6 border border-green-400 dark:border-green-600 bg-green-400 dark:bg-green-600 hover:border-green-500 hover:bg-green-500 text-white font-medium rounded-md focus:outline-hidden focus:ring-green-500 focus:border-green-500 focus:z-10 text-base cursor-pointer" %>
+      <div class="mt-4 text-right">
+        <%= f.submit t(".submit"), class: "min-w-full md:min-w-min py-2 px-6 border border-green-500 bg-green-500 hover:bg-green-600 hover:border-green-600 hover:dark:bg-green-400 hover:dark:border-green-400 text-white font-medium rounded-md focus:outline-hidden focus:z-10 text-base cursor-pointer" %>
       </div>
     <% end %>
   <% end %>

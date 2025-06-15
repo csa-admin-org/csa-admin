@@ -305,7 +305,7 @@ ActiveAdmin.register Organization do
 
     f.inputs do
       tabs id: "features" do
-        tab Absence.model_name.human, id: "absence", hidden: !Current.org.feature?("absence") do
+        tab Absence.model_name.human, id: "absence", hidden: !Current.org.feature?("absence"), data: { controller: "form-disabler" } do
           translated_input(f, :absence_extra_texts,
             hint: t("formtastic.hints.organization.absence_extra_text"),
             required: false,
@@ -313,8 +313,23 @@ ActiveAdmin.register Organization do
             input_html: { rows: 5 })
           f.input :absence_extra_text_only, as: :boolean
 
-          f.input :absences_billed
+          f.input :absences_billed,
+            input_html: { data: { action: "form-disabler#toggleInputs" } }
           f.input :absence_notice_period_in_days, min: 1, required: true
+
+          f.input :basket_shifts_annually,
+            hint: t("formtastic.hints.organization.basket_shifts_annually_html"),
+            input_html: {
+              data: { form_disabler_target: "input", default_value: f.object.basket_shifts_annually },
+              disabled: !f.object.absences_billed?
+            }
+
+          f.input :basket_shift_deadline_in_weeks,
+            hint: t("formtastic.hints.organization.basket_shift_deadline_in_weeks_html"),
+            input_html: {
+              data: { form_disabler_target: "input", default_value: f.object.basket_shift_deadline_in_weeks },
+              disabled: !f.object.absences_billed?
+            }
 
           handbook_button(self, "absences")
         end
@@ -442,14 +457,15 @@ ActiveAdmin.register Organization do
     :creditor_address, :creditor_city, :creditor_zip,
     :annual_fee, :annual_fee_member_form, :annual_fee_support_member_only,
     :share_price, :shares_number,
-    :absence_notice_period_in_days,
     :activity_i18n_scope, :activity_participation_deletion_deadline_in_days,
     :activity_availability_limit_in_days, :activity_price, :activity_phone,
     :activity_participations_form_min, :activity_participations_form_max,
     :activity_participations_form_step,
     :activity_participations_demanded_logic,
     :vat_number, :vat_membership_rate, :vat_activity_rate, :vat_shop_rate,
-    :absences_billed,
+    :absences_billed, :absence_extra_text_only,
+    :absence_notice_period_in_days,
+    :basket_shifts_annually, :basket_shift_deadline_in_weeks,
     :delivery_pdf_member_info,
     :shop_admin_only,
     :shop_order_maximum_weight_in_kg, :shop_order_minimal_amount,
@@ -466,7 +482,6 @@ ActiveAdmin.register Organization do
     :basket_sizes_member_order_mode, :basket_complements_member_order_mode,
     :depots_member_order_mode, :delivery_cycles_member_order_mode,
     :basket_price_extras,
-    :absence_extra_text_only,
     :member_profession_form_mode, :member_come_from_form_mode,
     :membership_depot_update_allowed, :membership_complements_update_allowed,
     :basket_update_limit_in_days,

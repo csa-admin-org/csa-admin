@@ -12,6 +12,21 @@ Per impostazione predefinita, le ceste segnate come assenti e non consegnate ven
 
 ## Assenze incluse
 
-È anche possibile configurare un numero di assenze incluse nell'abbonamento. Queste assenze vengono quindi automaticamente detratte e non fatturate fin dall'inizio dell'abbonamento. Il sistema segnerà provvisoriamente le ultime consegne dell'abbonamento come assenti, fino a quando il numero di assenze incluse non sarà annunciato dal socio. Le assenze aggiuntive saranno fatturate o meno secondo le [vostre impostazioni](/settings#absence).
+È possibile configurare un numero di assenze incluse nell'abbonamento. Queste assenze vengono quindi automaticamente detratte e non fatturate fin dall'inizio dell'abbonamento. Il sistema segnerà provvisoriamente le ultime consegne dell'abbonamento come assenti, fino a quando il numero di assenze incluse non sarà annunciato dal socio. Le assenze aggiuntive saranno fatturate o meno secondo le [vostre impostazioni](/settings#absence).
 
 > Il numero di assenze incluse può essere impostato anche a livello di [ciclo di consegna](/handbook/deliveries#cicli-di-consegna), per offrire abbonamenti con un numero di assenze incluse (e quindi di consegne) sul [vostro modulo di iscrizione](<%= new_members_member_url(subdomain: Current.org.members_subdomain) %>).
+
+## Spostamenti di cestini {#basket-shift}
+
+È possibile spostare la consegna di un cestino durante un'assenza verso un'altra consegna. Questo permette ai soci di compensare le loro assenze senza cambiare il numero di cestini fatturati.
+
+Dal lato amministrativo, è sufficiente modificare un cestino segnato come assente dalla pagina dell'abbonamento e scegliere un'altra data di consegna. Il contenuto del cestino (complementi inclusi) sarà quindi automaticamente spostato verso il cestino scelto.
+
+Dal lato del socio, lo spostamento di cestini non è possibile per impostazione predefinita. Per attivare questa funzionalità, avete la possibilità di [modificare le seguenti impostazioni](/settings#absence):
+
+- **Numero di spostamenti consentiti**: per limitare, se lo desiderate, il numero di spostamenti possibili da parte dei soci.
+- **Scadenza per gli spostamenti**: per limitare, se lo desiderate, gli spostamenti possibili nel tempo.
+
+Se l'assenza viene annullata, il contenuto del cestino sarà automaticamente restituito alla sua consegna originale.
+
+> Lo spostamento di cestini è possibile solo se le assenze vengono fatturate.

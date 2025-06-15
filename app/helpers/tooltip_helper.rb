@@ -5,7 +5,7 @@ module TooltipHelper
     tooltip_id = "tooltip-#{id}"
     content_tag(:button,
       type: "button",
-      class: "ms-1 block z-20 hover:text-gray-900 dark:hover:text-gray-100",
+      class: "block z-20 hover:text-gray-900 dark:hover:text-gray-100",
       data: { "tooltip-target" => tooltip_id },
       onclick: "event.stopPropagation()"
     ) {
@@ -17,7 +17,7 @@ module TooltipHelper
       class: "absolute z-10 invisible inline-block max-w-96 px-3 py-2 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-xs opacity-0 tooltip dark:bg-gray-700"
     ) {
       content_tag(:p, text) +
-        content_tag(:div, nil, class: "tooltip-arrow", data: { "popper-arrow" => true })
+        content_tag(:div, nil, class: "tooltip-arrow text-left", data: { "popper-arrow" => true })
     }
   end
 end

@@ -147,4 +147,20 @@ class OrganizationTest < ActiveSupport::TestCase
 
     assert_equal [ nil, 20, 40 ], Member.order(:annual_fee).pluck(:annual_fee).uniq
   end
+
+  test "#basket_shift_enabled?" do
+    org(absences_billed: true)
+
+    org(basket_shifts_annually: 0)
+    assert_not Current.org.basket_shift_enabled?
+
+    org(basket_shifts_annually: 1)
+    assert Current.org.basket_shift_enabled?
+
+    org(basket_shifts_annually: nil)
+    assert Current.org.basket_shift_enabled?
+
+    org(absences_billed: false)
+    assert_not Current.org.absences_billed?
+  end
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_05_29_104821) do
+ActiveRecord::Schema[8.1].define(version: 2025_06_06_112848) do
   create_table "absences", force: :cascade do |t|
     t.datetime "created_at"
     t.date "ended_on"
@@ -223,6 +223,19 @@ ActiveRecord::Schema[8.1].define(version: 2025_05_29_104821) do
     t.index ["depot_id"], name: "index_basket_contents_depots_on_depot_id"
   end
 
+  create_table "basket_shifts", force: :cascade do |t|
+    t.integer "absence_id", null: false
+    t.datetime "created_at", null: false
+    t.json "quantities", default: {}, null: false
+    t.integer "source_basket_id", null: false
+    t.integer "target_basket_id", null: false
+    t.datetime "updated_at", null: false
+    t.index ["absence_id", "source_basket_id"], name: "index_basket_shifts_on_absence_id_and_source_basket_id", unique: true
+    t.index ["absence_id"], name: "index_basket_shifts_on_absence_id"
+    t.index ["source_basket_id"], name: "index_basket_shifts_on_source_basket_id"
+    t.index ["target_basket_id"], name: "index_basket_shifts_on_target_basket_id"
+  end
+
   create_table "basket_sizes", force: :cascade do |t|
     t.integer "activity_participations_demanded_annually", default: 0, null: false
     t.datetime "created_at"
@@ -255,6 +268,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_05_29_104821) do
     t.bigint "membership_id", null: false
     t.decimal "price_extra", precision: 8, scale: 2, default: "0.0", null: false
     t.integer "quantity", default: 1, null: false
+    t.datetime "shift_declined_at"
     t.string "state", default: "normal", null: false
     t.datetime "updated_at", null: false
     t.index ["absence_id"], name: "index_baskets_on_absence_id"
@@ -660,6 +674,8 @@ ActiveRecord::Schema[8.1].define(version: 2025_05_29_104821) do
     t.json "basket_price_extra_texts", default: {}, null: false
     t.json "basket_price_extra_titles", default: {}, null: false
     t.json "basket_price_extras", default: [], null: false
+    t.integer "basket_shift_deadline_in_weeks", default: 4
+    t.integer "basket_shifts_annually", default: 0
     t.string "basket_sizes_member_order_mode", default: "price_desc", null: false
     t.integer "basket_update_limit_in_days", default: 0, null: false
     t.boolean "billing_ends_on_last_delivery_fy_month", default: false, null: false
@@ -892,6 +908,9 @@ ActiveRecord::Schema[8.1].define(version: 2025_05_29_104821) do
   add_foreign_key "basket_contents", "deliveries"
   add_foreign_key "basket_contents_depots", "basket_contents"
   add_foreign_key "basket_contents_depots", "depots"
+  add_foreign_key "basket_shifts", "absences"
+  add_foreign_key "basket_shifts", "baskets", column: "source_basket_id"
+  add_foreign_key "basket_shifts", "baskets", column: "target_basket_id"
   add_foreign_key "basket_sizes", "delivery_cycles"
   add_foreign_key "baskets", "absences"
   add_foreign_key "baskets", "basket_sizes"

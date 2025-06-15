@@ -6,7 +6,7 @@ module MembershipsHelper
     if basket.baskets_basket_complements.any?
       parts << basket_complements_description(basket.baskets_basket_complements, text_only: text_only)
     end
-    parts.join(", ").html_safe
+    parts.join(" + ").html_safe
   end
 
   def membership_period(membership, format: :number)

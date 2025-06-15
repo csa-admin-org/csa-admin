@@ -12,6 +12,21 @@ Par défaut, les paniers marqués comme absents et non délivrés sont facturés
 
 ## Absences incluses
 
-Il est également possible de configurer un nombre d'absences incluses dans l'abonnement. Ces absences sont alors automatiquement déduites et non-facturées dès le début de l'abonnement. Le système marquera provisoirement les dernières livraisons de l'abonnement comme absentes, jusqu'à ce que le nombre d'absences incluses soit annoncé par le membre. Les absences supplémentaires seront facturées ou non selon [vos paramètres](/settings#absence).
+Il est possible de configurer un nombre d'absences incluses dans l'abonnement. Ces absences sont alors automatiquement déduites et non-facturées dès le début de l'abonnement. Le système marquera provisoirement les dernières livraisons de l'abonnement comme absentes, jusqu'à ce que le nombre d'absences incluses soit annoncé par le membre. Les absences supplémentaires seront facturées ou non selon [vos paramètres](/settings#absence).
 
 > Le nombre d'absences incluses peut être également paramétré au niveau d'un [cycle de livraison](/handbook/deliveries#cycles-de-livraisons), afin de proposer des abonnements avec un nombre d'absences incluses (et donc de livraisons) sur [votre formulaire d'inscription](<%= new_members_member_url(subdomain: Current.org.members_subdomain) %>).
+
+## Déplacement de paniers {#basket-shift}
+
+Il est possible de déplacer la livraison d'un panier durant une absence vers une autre livraison. Cela permet aux membres de compenser leurs absences sans changer le nombre de paniers facturés.
+
+Côté admin, il suffit de modifier un panier marqué comme absent depuis la page de l'abonnement et de choisir une autre date de livraison. Le contenu du panier (compléments inclus) sera alors automatiquement déplacé vers le panier choisi.
+
+Côté membre, le déplacement de paniers n'est pas possible par défaut. Pour activer cette fonctionnalité, vous avez la possibilité de [modifier les paramètres](/settings#absence) suivants:
+
+- **Nombre de déplacements permis** : afin de limiter, si vous le souhaitez, le nombre de déplacements possibles par les membres.
+- **Délai pour les déplacements** : afin de limiter, si vous le souhaitez, les déplacements possibles dans le temps.
+
+Si l'absence est annulée, le contenu du panier sera automatiquement restitué à sa livraison d'origine.
+
+> Le déplacement de paniers est possible uniquement si les absences sont facturées.

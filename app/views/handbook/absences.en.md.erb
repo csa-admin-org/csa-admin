@@ -12,6 +12,21 @@ By default, baskets marked as absent and not delivered are billed, and members a
 
 ## Included Absences
 
-It is also possible to configure a number of absences included in the membership. These absences are then automatically deducted and not billed from the start of the membership. The system will provisionally mark the last deliveries of the membership as absent, until the number of included absences is announced by the member. Additional absences will be billed or not according to [your settings](/settings#absence).
+It is possible to configure a number of absences included in the membership. These absences are then automatically deducted and not billed from the start of the membership. The system will provisionally mark the last deliveries of the membership as absent, until the number of included absences is announced by the member. Additional absences will be billed or not according to [your settings](/settings#absence).
 
 > The number of included absences can also be set at the level of a [delivery cycle](/handbook/deliveries#delivery-cycles), in order to offer memberships with a number of included absences (and therefore deliveries) on [your registration form](<%= new_members_member_url(subdomain: Current.org.members_subdomain) %>).
+
+## Basket Shifts {#basket-shift}
+
+It is possible to shift the delivery of a basket during an absence to another delivery. This allows members to compensate for their absences without changing the number of baskets billed.
+
+On the admin side, simply modify a basket marked as absent from the membership page and choose another delivery date. The basket content (including complements) will then be automatically shifted to the chosen basket.
+
+On the member side, basket shifting is not possible by default. To activate this feature, you have the option to [modify the following settings](/settings#absence):
+
+- **Number of allowed shifts**: to limit, if you wish, the number of shifts possible by members.
+- **Deadline for shifts**: to limit, if you wish, the shifts possible in time.
+
+If the absence is cancelled, the basket content will be automatically restored to its original delivery.
+
+> Basket shifting is only possible if absences are billed.

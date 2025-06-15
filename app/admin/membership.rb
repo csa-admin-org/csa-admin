@@ -356,6 +356,7 @@ ActiveAdmin.register Membership do
             :depot,
             :complements,
             :absence,
+            shift_as_source: { target_basket: :delivery },
             baskets_basket_complements: :basket_complement
           ),
             row_html: ->(b) {
@@ -363,15 +364,35 @@ ActiveAdmin.register Membership do
               classes << "bg-gray-200 dark:bg-gray-700" if b == next_basket
               classes << "text-gray-300 dark:text-gray-500 [&>td>a]:text-gray-300 [&>td>a]:decoration-gray-300 [&>td>a]:dark:text-gray-500 [&>td>a]:dark:decoration-gray-500" if b.absent? || b.empty?
               classes << "line-through" if !b.billable? || b.empty?
-              { class: classes.join(" ") }
+              { class: classes.join(" "), data: { "hover-id": dom_id(b) } }
             },
             class: "table-auto"
           ) do
             column(:delivery, class: "md:w-32") { |b| link_to b.delivery.display_name(format: :number), b.delivery }
-            column(:description)
+            column(:description) { |b| b.shifted? ? b.shift_as_source.description : b.description }
             column(:depot)
             if m.baskets.where(state: [ :absent, :trial ]).any?
-              column(class: "text-right") { |b| display_basket_state(b) }
+              column(class: "text-right") do |b|
+                div class: "inline-flex items-center justify-between gap-2 " do
+                  ic = "".html_safe
+                  if b.shifted?
+                    ic += tag.div(data: {
+                      controller: "hover",
+                      action: "mouseenter->hover#show mouseleave->hover#hide",
+                      "hover-id-value": dom_id(b.shift_as_source.target_basket),
+                      "hover-class-value": %w[bg-teal-100 dark:bg-teal-900]
+                    }) do
+                      description = t(".basket_shift_tooltip",
+                        target_date: l(b.shift_as_source.target_basket.delivery.date, format: :short))
+                      tooltip(dom_id(b), description, icon_name: "redo")
+                    end
+                  end
+                  if b.shift_declined?
+                    ic += tag.div { tooltip(dom_id(b), t(".basket_shift_declined_tooltip"), icon_name: "redo-off") }
+                  end
+                  ic + display_basket_state(b)
+                end
+              end
             end
             column(nil) { |b|
               if authorized?(:update, b)
@@ -415,13 +436,29 @@ ActiveAdmin.register Membership do
             row(:delivery_cycle) {
               delivery_cycle_link(m.delivery_cycle, fy_year: m.fy_year)
             }
-            if feature?("absence") && m.absences_included_annually.positive?
-              row(:absences_included) {
-                used = m.baskets.definitely_absent.count
-                link_to absences_path(q: { member_id_eq: m.member_id, during_year: m.fy_year }, scope: :all) do
-                  t(".absences_used", used: used, count: m.absences_included)
-                end
-              }
+          end
+        end
+
+        if feature?("absence") && (m.absences_included_annually.positive? || Current.org.basket_shift_enabled? || m.basket_shifts_count.positive?)
+          panel link_to(Absence.model_name.human(count: 2), absences_path(q: { member_id_eq: m.member_id, during_year: m.fy_year }, scope: :all)), count: m.baskets.absent.count, class: "absence-panel" do
+            attributes_table do
+              if m.absences_included_annually.positive?
+                row(:absences_included, class: "text-right") {
+                  used = m.baskets.definitely_absent.count
+                  link_to absences_path(q: { member_id_eq: m.member_id, during_year: m.fy_year }, scope: :all) do
+                    t(".absences_used", count: used, limit: m.absences_included)
+                  end
+                }
+              end
+              if Current.org.basket_shift_enabled? || m.basket_shifts_count.positive?
+                row(:basket_shifts, class: "text-right") {
+                  if Current.org.basket_shifts_annually&.positive?
+                    t(".basket_shifts_used", count: m.basket_shifts_count, limit: Current.org.basket_shifts_annually)
+                  else
+                    m.basket_shifts_count
+                  end
+                }
+              end
             end
           end
         end

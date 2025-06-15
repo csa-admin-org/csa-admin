@@ -1,0 +1,31 @@
+<h1 class="mt-1 mb-8 text-xl sm:text-2xl font-extrabold text-gray-900 dark:text-gray-100">
+  <%= t(".title", date: l(@basket.delivery.date).gsub(" ", "&nbsp;")).html_safe %>
+</h1>
+
+<h2 class="mt-8 text-lg font-bold text-gray-900 dark:text-gray-100">
+  <%= t(".subtitle") %>
+</h2>
+
+<div class="mt-2 mb-8 space-y-2"
+  <p><%= t(".text") %> </p>
+
+<% if Current.org.basket_shift_annual_limit? %>
+  <p><%= t(".limit_text_html", count: @basket.membership.basket_shifts_allowance_remaining) %></p>
+<% end %>
+
+<% if Current.org.basket_shift_deadline_enabled? %>
+  <p><%= t(".deadline_text_html", count: Current.org.basket_shift_deadline_in_weeks) %></p>
+<% end %>
+</div>
+
+<section class="mt-4 w-full">
+  <%= form_for @basket, url: members_basket_basket_shifts_path(@basket), method: :post do |f| %>
+    <%= f.label :shift_target_basket_id, class: "text-sm font-medium text-gray-700 dark:text-gray-300" %>
+    <%= f.select :shift_target_basket_id, basket_shift_targets_member_collection(@basket), { include_blank: false }, { class: "mt-1 dark:bg-black w-full px-2 py-2 border border-gray-300 dark:border-gray-700 placeholder-gray-400 dark:placeholder-gray-600 text-gray-900 dark:text-gray-100 rounded-md focus:outline-hidden focus:ring-green-500 focus:border-green-500 focus:z-10" } %>
+
+    <div class="flex flex-col md:flex-row justify-end mt-8 md:space-x-4">
+      <%= link_to t(".cancel_link"), members_deliveries_path, class: "button order-2 md:order-1 mt-4 md:mt-0 md:min-w-min min-w-full text-center py-2 px-4 border border-gray-300 dark:border-gray-700 hover:border-green-500 hover:dark:border-green-500 hover:text-green-500 font-medium rounded-md focus:outline-hidden text-base cursor-pointer" %>
+      <%= f.submit t(".submit"), class: "order-1 md:order-2 min-w-full md:min-w-min py-2 px-6 border border-green-500 bg-green-500 hover:bg-green-600 hover:border-green-600 hover:dark:bg-green-400 hover:dark:border-green-400 text-white font-medium rounded-md focus:outline-hidden focus:z-10 text-base cursor-pointer" %>
+    </div>
+  <% end %>
+</section>

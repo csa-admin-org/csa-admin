@@ -72,7 +72,7 @@
             <%= t(".price_salary_basket") %>
           </span>
         <% else %>
-          <span class="flex flex-row items-center">
+          <span class="flex flex-row items-center gap-2">
             <%= link_to members_billing_path do %>
               <%= cur(membership.price) %>
             <% end %>
