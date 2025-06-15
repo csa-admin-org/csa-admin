@@ -365,18 +365,7 @@ ActiveAdmin.register Member do
       column do
         panel t(".details") do
           attributes_table do
-            row(:id) {
-              div class: "flex items-center justify-between" do
-                div { member.id.to_s }
-                if authorized?(:become, resource)
-                  div do
-                    link_to become_member_path(resource), class: "ms-2 action-item-button small whitespace-nowrap", data: { turbo: false } do
-                      icon("arrow-right-end-on-rectangle", class: "size-4 me-1") + t(".become_member")
-                    end
-                  end
-                end
-              end
-            }
+            row(:id)
             row(:created_at) { l(member.created_at, format: :medium) }
             row(:validated_at) { member.validated_at ? l(member.validated_at, format: :medium) : nil }
             row :validator
@@ -727,6 +716,12 @@ ActiveAdmin.register Member do
     button_to t(".deactivate"), deactivate_member_path(resource),
       form: { data: { controller: "disable", disable_with_value: t("formtastic.processing") } },
       class: "action-item-button"
+  end
+
+  action_item :become, only: :show do
+    link_to become_member_path(resource), class: "action-item-button", data: { turbo: false } do
+      icon("arrow-right-end-on-rectangle", class: "size-4 me-1") + t(".become_member")
+    end
   end
 
   member_action :validate, method: :post do
