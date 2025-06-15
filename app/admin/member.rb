@@ -443,7 +443,7 @@ ActiveAdmin.register Member do
                               class: "inline"
                             },
                             data: { confirm: t(".recurring_billing_confirm") },
-                            class: "action-item-button small secondary"
+                            class: "btn btn-sm"
                         end
                       end
                     end

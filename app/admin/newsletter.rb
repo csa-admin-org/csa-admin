@@ -148,7 +148,7 @@ ActiveAdmin.register Newsletter do
                         span {
                           button_to t(".send_email"), send_single_email_newsletter_path(resource),
                             params: { email: email },
-                            class: "action-item-button secondary small",
+                            class: "btn btn-sm",
                             form: { class: "inline ms-2", data: { controller: "disable", disable_with_value: t("formtastic.processing") } },
                             data: { confirm: t(".confirm") }
                         }

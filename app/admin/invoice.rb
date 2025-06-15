@@ -146,7 +146,7 @@ ActiveAdmin.register Invoice do
         count: collection.offset(nil).limit(nil).open.sepa.count,
         url: invoices_path(scope: "open", q: { sepa_eq: true }))
       div class: "mt-3 flex justify-center" do
-        link_to sepa_pain_all_invoices_path(params.permit(:scope, q: {})), class: "action-item-button small secondary", title: Billing::SEPADirectDebit::SCHEMA,  data: { turbo: false } do
+        link_to sepa_pain_all_invoices_path(params.permit(:scope, q: {})), class: "btn btn-sm", title: Billing::SEPADirectDebit::SCHEMA,  data: { turbo: false } do
           icon("document-arrow-down", class: "size-4 mr-2") + t(".sepa_pain")
         end
       end
@@ -166,7 +166,7 @@ ActiveAdmin.register Invoice do
         div class: "mt-3 " do
           button_to send_overdue_notices_invoices_path,
             form: { class: "flex justify-center", data: { controller: "disable", disable_with_value: t(".sending") } },
-            class: "action-item-button secondary small" do
+            class: "btn btn-sm" do
               icon("paper-airplane", class: "size-4 mr-2") + t(".send_overdue_notices")
             end
         end
@@ -274,7 +274,7 @@ ActiveAdmin.register Invoice do
             end
             if invoice.open?
               div class: "mt-2 flex items-center justify-center gap-4" do
-                link_to sepa_pain_invoice_path(invoice), class: "action-item-button small secondary", title: Billing::SEPADirectDebit::SCHEMA, data: { turbo: false } do
+                link_to sepa_pain_invoice_path(invoice), class: "btn btn-sm", title: Billing::SEPADirectDebit::SCHEMA, data: { turbo: false } do
                   icon("document-arrow-down", class: "size-4 me-1.5") + t(".sepa_pain")
                 end
               end

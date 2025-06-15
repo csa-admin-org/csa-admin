@@ -25,9 +25,9 @@ module ApplicationHelper
   def display_emails_with_link(arbre, emails)
     return unless emails.present?
 
-    arbre.ul do
+    arbre.ul class: "flex flex-wrap gap-1" do
       Array(emails).map do |email|
-        arbre.li do
+        arbre.li class: "flex flex-wrap gap-1" do
           display_email_with_link(arbre, email)
         end
       end
@@ -56,7 +56,7 @@ module ApplicationHelper
           arbre.span do
             link_to(t("helpers.email_suppressions.destroy"), suppression,
               method: :delete,
-              class: "button",
+              class: "btn btn-xs",
               data: { confirm: t("helpers.email_suppressions.destroy_confirm") })
           end
         end

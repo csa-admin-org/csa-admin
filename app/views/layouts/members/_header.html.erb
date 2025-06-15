@@ -160,8 +160,8 @@
             <span class="ml-2"><%= current_member.name_was %></span>
           <% end %>
         </li>
-        <li class="mt-2 md:mt-0.5 text-gray-300 dark:text-gray-700 hover:text-green-500 flex items-center justify-center md:justify-start">
-          <%= button_to members_logout_path, method: :delete, class: "px-8 flex items-center " do %>
+        <li class="mt-2 md:mt-0.5">
+          <%= button_to members_logout_path, method: :delete, class: "px-8 flex items-center text-gray-300 dark:text-gray-700 hover:text-green-500" do %>
             <span class="w-8 -ms-1">
               <%= icon "arrow-right-start-on-rectangle", class: "mx-1 size-6" %>
             </span>
