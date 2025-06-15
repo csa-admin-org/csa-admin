@@ -9,7 +9,7 @@
     <%= semantic_form_for @session, as: :session do |f| %>
       <ol class="p-2 list-none">
         <%= f.input :email, label: t(".email_input"), required: true %>
-        <%= f.action :submit, label: t(".submit"), button_html: { value: t(".submit") }, wrapper_html: { class: "text-right" } %>
+        <%= f.action :submit, label: t(".submit"), button_html: { value: t(".submit") }, wrapper_html: { class: "actions mt-2" } %>
       </ol>
     <% end %>
   </div>

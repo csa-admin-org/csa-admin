@@ -121,7 +121,7 @@ ActiveAdmin.register Basket do
                         source_date: l(shift.source_basket.delivery.date, format: :short),
                         description: shift.description)
                     span do
-                      link_to t(".destroy"), basket_shift_path(shift), method: :delete, class: "action-item-button small"
+                      link_to t(".destroy"), basket_shift_path(shift), method: :delete, class: "btn btn-sm"
                     end
                   end
                 end

@@ -1,31 +1,49 @@
 @layer components {
+  .btn,
+  .action-item-button,
+  .actions .cancel-link,
+  .actions input[type="submit"],
+  .actions button {
+    @apply inline-flex cursor-pointer items-center justify-center px-3 py-2 no-underline;
+    @apply rounded-md text-sm;
+    @apply focus:outline-hidden focus:z-10 focus:ring-4;
+
+    @apply disabled:cursor-not-allowed disabled:border-gray-100 disabled:bg-gray-100 disabled:text-gray-500 hover:disabled:border-gray-100 hover:disabled:bg-gray-100 hover:disabled:text-gray-500 dark:disabled:border-gray-800 dark:disabled:bg-gray-800 hover:dark:disabled:border-gray-800 hover:dark:disabled:bg-gray-800;
+
+    &.btn-sm {
+      @apply px-2 py-0.5 text-sm font-medium;
+    }
+    &.btn-xs {
+      @apply px-1.5 py-0 text-sm font-medium;
+    }
+
+    &.btn-light {
+      @apply font-light text-gray-400 dark:text-gray-600;
+    }
+  }
+
+  a.btn,
   .action-item-button,
   .actions .cancel-link {
-    @apply focus:outline-hidden inline-flex cursor-pointer items-center rounded-md border border-gray-200 bg-white px-3 py-2 text-sm font-medium text-gray-900 no-underline hover:bg-gray-100 hover:text-green-600 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-green-500 dark:focus:ring-gray-700;
+    @apply font-medium;
+    @apply text-gray-700 hover:text-green-600 dark:text-gray-300 dark:hover:text-green-400;
+    @apply border border-gray-200 dark:border-gray-600;
+    @apply bg-white hover:bg-gray-50 dark:bg-gray-900 dark:hover:bg-gray-800;
+    @apply focus:ring-gray-200 dark:focus:ring-gray-700;
+  }
 
-    &.small {
-      @apply px-2 py-0.5 text-sm font-normal;
-    }
+  button.btn,
+  input.btn,
+  .actions input[type="submit"],
+  .actions button {
+    @apply px-4 font-bold;
+    @apply text-white hover:text-white;
+    @apply bg-green-500 hover:bg-green-600 dark:bg-green-600 dark:hover:bg-green-700;
+    @apply border border-green-500 hover:border-green-600 dark:border-green-600 dark:hover:border-green-700;
+    @apply focus:ring-green-300 dark:focus:ring-green-800;
+  }
 
-    &.light {
-      @apply text-gray-400 hover:text-green-600 dark:bg-gray-900 dark:text-gray-500 dark:hover:bg-gray-700 dark:hover:text-green-600;
-    }
-
-    &.disabled {
-      @apply cursor-not-allowed bg-gray-200 text-gray-700 dark:bg-gray-800;
-    }
-
-    &.secondary,
-    &[data-method="delete"] {
-      @apply border-0 bg-green-600 text-white hover:bg-green-700 hover:text-white focus:ring-green-300 dark:bg-green-600 dark:text-white dark:hover:bg-green-700 dark:hover:text-white dark:focus:ring-green-800;
-    }
-
-    &button {
-      @apply border border-green-600 bg-green-600 text-white hover:border-green-700 hover:bg-green-700 hover:text-white focus:ring-green-300 dark:border-green-600 dark:bg-green-600 dark:text-white dark:hover:border-green-700 dark:hover:bg-green-700 dark:hover:text-white dark:focus:ring-green-800;
-
-      &.borderless {
-        @apply border-0 bg-transparent px-0 text-gray-400 hover:text-green-600 dark:text-gray-600 dark:hover:bg-transparent dark:hover:text-green-600;
-      }
-    }
+  .actions .cancel-link {
+    @apply text-gray-500;
   }
 }

@@ -6,7 +6,7 @@ ActiveAdmin.before_load do |app|
       def sidebar_handbook_link(page, only: :index)
         section = ActiveAdmin::SidebarSection.new(:handbook, only: only) do
           div class: "flex justify-center" do
-            a href: "/handbook/#{page}", class: "action-item-button small light" do
+            a href: "/handbook/#{page}", class: "btn btn-sm btn-light" do
               span do
                 icon "book-open", class: "size-5 me-2"
               end

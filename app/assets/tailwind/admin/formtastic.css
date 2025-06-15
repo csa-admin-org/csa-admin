@@ -226,16 +226,6 @@
       @apply flex flex-row-reverse items-center gap-4;
     }
 
-    [type="submit"],
-    [type="button"],
-    button {
-      @apply focus:outline-hidden cursor-pointer rounded-lg bg-green-600 px-4 py-2 text-center font-bold text-white hover:bg-green-700 focus:ring-4 focus:ring-green-300 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800;
-    }
-
-    .actions .cancel-link {
-      @apply rounded-lg font-semibold text-gray-500 no-underline dark:text-gray-400;
-    }
-
     /* Hints and Descriptions */
     .inline-hints {
       @apply mt-2 text-sm text-gray-500;

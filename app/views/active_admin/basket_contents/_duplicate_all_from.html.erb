@@ -6,6 +6,6 @@
     <%= f.select :from_delivery_id, deliveries.map { |d| [ I18n.l(d.date, format: :medium), d.id ] }, {}, { class: "h-7 text-sm py-0 px-2" } %>
   </div>
   <div class="flex justify-end mt-2">
-    <%= f.submit t(".button"), class: "action-item-button secondary small" %>
+    <%= f.submit t(".button"), class: "btn btn-sm" %>
   </div>
 <% end %>
