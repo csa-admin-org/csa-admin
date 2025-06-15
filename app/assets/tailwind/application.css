@@ -21,6 +21,6 @@
 @import "./admin/trix.css";
 @import "./admin/codemirror.css";
 @import "./admin/tom_select.css";
-@import "./admin/flatpickr.css";
 
 @import "./members/base.css";
+@import "./members/flatpickr.css";
