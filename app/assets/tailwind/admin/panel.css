@@ -1,6 +1,6 @@
 @layer components {
   .panel {
-    @apply m-0 rounded-lg border border-gray-200 bg-white shadow-md dark:border-gray-700 dark:bg-gray-950/95;
+    @apply relative m-0 rounded-lg border border-gray-200 bg-white shadow-md dark:border-gray-700 dark:bg-gray-950/95;
 
     &.warning {
       @apply border-red-500 bg-red-100 dark:bg-red-900;

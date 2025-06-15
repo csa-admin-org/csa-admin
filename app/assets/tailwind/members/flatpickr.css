@@ -1005,7 +1005,7 @@ span.flatpickr-weekday {
   }
 
   .flatpickr-calendar.inline &.not-full {
-    @apply border-gray-700 text-gray-900 dark:border-gray-300 dark:text-gray-100;
+    @apply border-gray-700 text-gray-900 dark:border-gray-400 dark:text-gray-100;
   }
 
   .flatpickr-calendar.inline &.selected {
@@ -1013,7 +1013,7 @@ span.flatpickr-weekday {
   }
 
   &.selected {
-    @apply border-green-500 bg-green-500;
+    @apply border-green-500! bg-green-500! hover:bg-green-500!;
   }
 
   &.nextMonthDay {
