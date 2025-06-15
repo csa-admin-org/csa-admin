@@ -15,7 +15,7 @@
         <%= f.input :renewal_decision, as: :radio_buttons, collection: renewal_decisions_collection, required: false, label: t(".renewal.options_label"), label_html: { class: "text-sm font-medium text-gray-700 dark:text-gray-300" }, input_html: { class: "mr-4 flex-none size-6  focus:outline-hidden focus:ring-green-500 focus:border-green-500 cursor-pointer" }, item_label_class: "border-gray-200 dark:border-gray-800 border rounded-sm px-4 py-2 flex flex-row flex-nowrap items-center cursor-pointer", wrapper_class: "flex flex-col space-y-2" %>
       </div>
       <div class="mt-2 text-right">
-        <%= f.submit t(".renewal.submit"), class: "min-w-full md:min-w-min py-2 px-6 border border-green-400 dark:border-green-600 bg-green-400 dark:bg-green-600 hover:border-green-500 hover:bg-green-500 text-white font-medium rounded-md focus:outline-hidden focus:ring-green-500 focus:border-green-500 focus:z-10 text-base cursor-pointer" %>
+        <%= f.submit t(".renewal.submit"), class: "min-w-full md:min-w-min py-2 px-6 border border-green-500 bg-green-500 hover:bg-green-600 hover:border-green-600 hover:dark:bg-green-400 hover:dark:border-green-400 text-white font-medium rounded-md focus:outline-hidden focus:z-10 text-base cursor-pointer" %>
       </div>
     <% end %>
   </div>

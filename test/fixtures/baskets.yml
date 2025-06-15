@@ -32,12 +32,13 @@ jane_<%= i + 1 %>:
   membership: jane
   delivery: thursday_<%= i + 1 %>
   state: <%=
-    case i
-    when 0, 1 then "trial"
+    case i + 1
+    when 1, 2 then "trial"
     when 5 then "absent"
     else "normal"
     end
    %>
+  absence: <%= i + 1 == 5 && :jane_thursday_5 %>
   delivery_cycle_price: 0
   basket_size: large
   basket_price: 30

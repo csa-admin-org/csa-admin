@@ -83,67 +83,117 @@ ActiveAdmin.register Basket do
 
   form do |f|
     delivery_collection = basket_deliveries_collection(f.object)
-    f.inputs Delivery.model_name.human(count: 1), "data-controller" => "form-reset" do
-      f.input :depot,
-        prompt: true,
-        input_html: { data: { action: "form-reset#reset" } }
-      if Depot.prices?
-        f.input :depot_price,
-          hint: true,
-          required: false,
-          input_html: { data: { form_reset_target: "input" } }
+
+    if f.object.shifted?
+      panel t(".basket_shift_title"), class: "bg-teal-100 mb-8", action: handbook_icon_link("absences", anchor: "basket-shift") do
+        div class: "px-2 mb-2" do
+          para t(".basket_shifted_description_html",
+            target_date: l(f.object.shift_as_source.target_basket.delivery.date, format: :short),
+            target_url: edit_basket_path(f.object.shift_as_source.target_basket)
+          ), class: "description"
+          para t(".basket_content", content: f.object.shift_as_source.description), class: "mt-2 text-base"
+        end
       end
-      if delivery_collection.many?
-        f.input :delivery,
-          collection: delivery_collection,
-          prompt: true
+      f.actions do
+        div link_to t(".basket_shift_destroy"), basket_shift_path(f.object.shift_as_source), method: :delete, class: "action-item-button"
+        cancel_link membership_path(f.object.membership)
       end
-      if DeliveryCycle.prices? || f.object.delivery_cycle_price&.positive?
-        f.input :delivery_cycle_price, required: false, min: 0
+    else
+      if f.object.can_be_shifted?
+        panel t(".basket_shift_title"), class: "bg-teal-100 list-none mb-8 ", action: handbook_icon_link("absences", anchor: "basket-shift") do
+          div class: "px-2 -mb-2" do
+            para t(".basket_shift_explanation"), class: "description"
+            f.input :shift_target_basket_id, as: :select, collection: basket_shift_targets_collection(f.object), include_blank: true
+          end
+        end
       end
-    end
-    f.inputs [
-      Basket.model_name.human(count: 1),
-      BasketComplement.kept.any? ? Membership.human_attribute_name(:memberships_basket_complements) : nil
-    ].compact.to_sentence, "data-controller" => "form-reset" do
-      f.input :basket_size,
-        prompt: true,
-        collection: admin_basket_sizes_collection,
-        input_html: { data: { action: "form-reset#reset" } }
-      f.input :basket_price,
-        hint: true,
-        required: false,
-        input_html: { data: { form_reset_target: "input" } }
-      if Current.org.feature?("basket_price_extra")
-        f.input :price_extra, required: true, label: Current.org.basket_price_extra_title
+
+      if f.object.shifts_as_target.any?
+        panel t(".basket_shift_title"), class: "bg-teal-100 mb-8", action: handbook_icon_link("absences", anchor: "basket-shift") do
+          div class: "px-2 mb-2" do
+            para t(".basket_shift_targets_explanation"), class: "description"
+            ul class: "list-disc list-outside mt-4 ml-6 space-y-2 text-base" do
+              shifts = f.object.shifts_as_target.includes(source_basket: :delivery)
+              shifts.sort_by { |s| s.source_basket.delivery.date }.each do |shift|
+                li do
+                  div class: "flex items-start gap-2" do
+                    span t(".basket_shift_target_description",
+                        source_date: l(shift.source_basket.delivery.date, format: :short),
+                        description: shift.description)
+                    span do
+                      link_to t(".destroy"), basket_shift_path(shift), method: :delete, class: "action-item-button small"
+                    end
+                  end
+                end
+              end
+            end
+          end
+        end
       end
-      f.input :quantity
-      if BasketComplement.kept.any?
-        f.has_many :baskets_basket_complements, allow_destroy: true, data: { controller: "form-reset" } do |ff|
-          ff.input :basket_complement,
-            collection: basket_complements_collection(f.object),
-            prompt: true,
-            input_html: {
-              data: {
-                action: "form-reset#reset",
-                form_select_options_filter_target: "select"
-              }
-            }
-          ff.input :price,
+
+      f.inputs Delivery.model_name.human(count: 1), "data-controller" => "form-reset" do
+        f.input :depot,
+          prompt: true,
+          input_html: { data: { action: "form-reset#reset" } }
+        if Depot.prices?
+          f.input :depot_price,
             hint: true,
             required: false,
             input_html: { data: { form_reset_target: "input" } }
-          ff.input :quantity
+        end
+        if delivery_collection.many?
+          f.input :delivery,
+            collection: delivery_collection,
+            prompt: true
+        end
+        if DeliveryCycle.prices? || f.object.delivery_cycle_price&.positive?
+          f.input :delivery_cycle_price, required: false, min: 0
         end
       end
-    end
-    f.actions do
-      f.action :submit, as: :input
-      cancel_link membership_path(f.object.membership)
+      f.inputs [
+        Basket.model_name.human(count: 1),
+        BasketComplement.kept.any? ? Membership.human_attribute_name(:memberships_basket_complements) : nil
+      ].compact.to_sentence, "data-controller" => "form-reset" do
+        f.input :basket_size,
+          prompt: true,
+          collection: admin_basket_sizes_collection,
+          input_html: { data: { action: "form-reset#reset" } }
+        f.input :basket_price,
+          hint: true,
+          required: false,
+          input_html: { data: { form_reset_target: "input" } }
+        if Current.org.feature?("basket_price_extra")
+          f.input :price_extra, required: true, label: Current.org.basket_price_extra_title
+        end
+        f.input :quantity
+        if BasketComplement.kept.any?
+          f.has_many :baskets_basket_complements, allow_destroy: true, data: { controller: "form-reset" } do |ff|
+            ff.input :basket_complement,
+              collection: basket_complements_collection(f.object),
+              prompt: true,
+              input_html: {
+                data: {
+                  action: "form-reset#reset",
+                  form_select_options_filter_target: "select"
+                }
+              }
+            ff.input :price,
+              hint: true,
+              required: false,
+              input_html: { data: { form_reset_target: "input" } }
+            ff.input :quantity
+          end
+        end
+      end
+      f.actions do
+        f.action :submit, as: :input
+        cancel_link membership_path(f.object.membership)
+      end
     end
   end
 
   permit_params \
+    :shift_target_basket_id,
     :basket_size_id, :basket_price, :price_extra, :quantity,
     :delivery_id,
     :depot_id, :depot_price, :delivery_cycle_price,

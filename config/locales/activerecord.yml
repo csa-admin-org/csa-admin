@@ -222,6 +222,11 @@ _:
           _fr: Abonnement ID
           _de: Abonnement ID
           _it: Abbonamento ID
+        shift_target_basket_id:
+          _en: Shift to the delivery of
+          _fr: Déplacer à la livraison du
+          _de: Verschieben in die Lieferung von
+          _it: Sposta nella consegna di
         trial:
           _en: trial
           _fr: essai
@@ -770,11 +775,16 @@ _:
           _de: Zusatz
           _it: Aggiunte
       membership:
+        absences_count:
+          _en: Absent baskets
+          _fr: Paniers absents
+          _de: Abwesende Taschen
+          _it: Cestini assenti
         absences_included:
-          _en: Absences included
-          _fr: Absences incluses
-          _de: Abwesenheiten inklusive
-          _it: Assenze incluse
+          _en: Included
+          _fr: Incluses
+          _de: Inklusive
+          _it: Inclusi
         activity_participations_accepted/basket_preparation:
           _en: Basket preparations accepted
           _fr: Mises en panier acceptées
@@ -1038,6 +1048,11 @@ _:
           _fr: Quantité
           _de: Menge
           _it: Quantità
+        basket_shifts:
+          _en: Basket shifts
+          _fr: Déplacements
+          _de: Taschenverschiebungen
+          _it: Scambi di cestini
         basket_sizes_price:
           _en: Basket prices
           _fr: Prix paniers
@@ -1409,6 +1424,16 @@ _:
           _fr: Prix panier (extras)
           _de: Preisen Taschen (zusätzlich)
           _it: Prezzo della cesta (extras)
+        basket_shift_deadline_in_weeks:
+          _en: Deadline for shifts (in weeks)
+          _fr: Délai pour les déplacements (en semaines)
+          _de: Frist für Taschenverschiebungen (in Wochen)
+          _it: Scadenza per i spostamenti di cesta (in settimane)
+        basket_shifts_annually:
+          _en: Number of allowed shifts (per year)
+          _fr: Nombre de déplacements permis (par an)
+          _de: Anzahl der zulässigen Verschiebungen (pro Jahr)
+          _it: Numero di spostamenti consentiti (all'anno)
         basket_sizes_member_order_mode:
           _en: Order of basket sizes
           _fr: Ordre des tailles de panier

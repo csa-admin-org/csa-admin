@@ -17,7 +17,7 @@
         <%= icon "x-mark", title: "Hide Menu", class: "h-10 w-10" %>
       <% end %>
     </div>
-    <div class="mr-8 flex grow h-full flex-col justify-between">
+    <div class="flex grow h-full flex-col justify-between">
       <% membership = current_member.closest_membership %>
       <% next_basket = current_member.next_basket %>
       <ul class="grow">
@@ -152,17 +152,17 @@
             <% end %>
           </li>
         <% end %>
-        <li class="mt-12">
+        <li class="mt-12 flex items-center justify-center md:justify-start">
           <%= link_to members_account_path, class: "py-2 px-8 flex items-center" do %>
-            <span class="w-8">
+            <span class="w-8 -ms-1">
               <%= icon "user-circle", class: "size-8" %>
             </span>
             <span class="ml-2"><%= current_member.name_was %></span>
           <% end %>
         </li>
-        <li class="text-gray-300 dark:text-gray-700 hover:text-green-500">
-          <%= button_to members_logout_path, method: :delete, class: "px-8 flex items-center" do %>
-            <span class="w-8">
+        <li class="mt-2 md:mt-0.5 text-gray-300 dark:text-gray-700 hover:text-green-500 flex items-center justify-center md:justify-start">
+          <%= button_to members_logout_path, method: :delete, class: "px-8 flex items-center " do %>
+            <span class="w-8 -ms-1">
               <%= icon "arrow-right-start-on-rectangle", class: "mx-1 size-6" %>
             </span>
             <span class="ml-2"><%= t(".logout") %></span>

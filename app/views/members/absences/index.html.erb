@@ -1,6 +1,18 @@
 <h1 class="mt-1 mb-8 text-xl sm:text-2xl font-extrabold text-gray-900 dark:text-gray-100">
   <%= Absence.model_name.human(count: 2) %>
 </h1>
+
+<% if basket = next_shiftable_basket %>
+  <%= link_to deliveries_path(anchor: dom_id(basket)), data: { turbo: false } do %>
+    <div class="p-2 rounded border-1 border-dashed border-teal-500 bg-teal-100 hover:bg-teal-200 dark:bg-teal-900 hover:dark:bg-teal-800 text-teal-700   dark:text-teal-300 flex items-center gap-2">
+      <%= icon "redo", class: "size-5 w-8 " %>
+      <span>
+        <%= t(".shift_baskets", count: current_member.current_or_future_membership.basket_shifts_allowance_remaining) %>
+      </span>
+    </div>
+  <% end %>
+<% end %>
+
 <h2 class="mt-8 text-lg font-bold text-gray-900 dark:text-gray-100">
   <%= t(".form_title") %>
 </h2>
@@ -11,11 +23,12 @@
 <% end %>
 <% unless Current.org.absence_extra_text_only? %>
   <% if Current.org.absences_billed? %>
-    <p class="mt-2 text-justify">
+    <p class="mt-2">
       <%= t(".explanation_billed") %>
     </p>
   <% end %>
 <% end %>
+
 <div class="mb-12">
   <%= simple_form_for [ :members, @absence ] do |f| %>
     <div class="flex flex-col items-start space-y-4">
@@ -47,9 +60,9 @@
             class: "mt-1 dark:bg-black w-full px-3 py-2 border border-gray-300 dark:border-gray-700 placeholder-gray-400 dark:placeholder-gray-600 text-gray-900 dark:text-gray-100 rounded-md focus:outline-hidden focus:ring-green-500 focus:border-green-500 focus:z-10"
           } %>
       </div>
-      <div class="flex-none w-full">
+      <div class="w-full text-right">
         <%= f.button :submit, t(".submit"),
-          class: "min-w-full md:min-w-min py-2 px-6 border border-green-400 dark:border-green-600 bg-green-400 dark:bg-green-600 hover:border-green-500 hover:bg-green-500 text-white font-medium rounded-md focus:outline-hidden focus:ring-green-500 focus:border-green-500 focus:z-10 text-base cursor-pointer" %>
+          class: "min-w-full md:min-w-min py-2 px-6 border border-green-500 bg-green-500 hover:bg-green-600 hover:border-green-600 hover:dark:bg-green-400 hover:dark:border-green-400 text-white font-medium rounded-md focus:outline-hidden focus:z-10 text-base cursor-pointer" %>
       </div>
     </div>
   <% end %>
@@ -67,7 +80,7 @@
   </h2>
   <ul class="mt-2 space-y-1 w-full">
     <% @present_or_future_absences.each do |absence| %>
-      <li class="space-x-2 flex-none flex flex-wrap flex-row justify-between items-center hover:bg-gray-100 dark:hover:bg-gray-900 rounded-sm p-1 -m-1">
+      <li class="space-x-2 flex-none flex flex-wrap flex-row justify-between items-center hover:bg-gray-100 dark:hover:bg-gray-900 rounded-sm p-1 px-2 -mx-2">
         <span class="min-w-fit flex flex-row items-center">
           <%= "#{l(absence.started_on)} – #{l(absence.ended_on)}" %>
           <%= " (#{t('.deliveries_count', count: absence.baskets.size)})" %>
@@ -77,7 +90,7 @@
         <% end %>
         <span class="mt-1 md:mt-0 grow flex-none flex flex-row items-center align-center justify-end">
           <%= button_to t(".cancel_link"), [ :members, absence ], method: :delete,
-            class: "ml-2 px-2 border border-green-400 dark:border-green-600 bg-green-400 dark:bg-green-600 hover:border-green-500 hover:bg-green-500 text-white hover:text-white font-medium rounded-md focus:outline-hidden focus:ring-green-500 focus:border-green-500 focus:z-10 text-sm cursor-pointer",
+            class: "ml-2 px-2 border border-green-500 bg-green-500 hover:bg-green-600 hover:border-green-600 hover:dark:bg-green-400 hover:dark:border-green-400 text-white hover:text-white font-medium rounded-md focus:outline-hidden focus:ring-green-500 focus:border-green-500 focus:z-10 text-sm cursor-pointer",
             form_class: "flex items-center" %>
         </span>
       </li>
@@ -92,7 +105,7 @@
     </h2>
     <ul class="mt-2 space-y-1 w-full">
       <% @past_absences.each do |absence| %>
-        <li class="space-y-px flex flex-wrap md:flex-nowrap flex-row justify-between items-center align-center hover:bg-gray-100 dark:hover:bg-gray-900 rounded-sm p-1 -m-1">
+        <li class="space-x-2 flex flex-wrap md:flex-nowrap flex-row justify-start items-center align-center hover:bg-gray-100 dark:hover:bg-gray-900 rounded-sm p-1 px-2 -mx-2">
           <span class="min-w-fit flex flex-row items-center">
             <%= "#{l(absence.started_on)} – #{l(absence.ended_on)}" %>
             <%= " (#{t('.deliveries_count', count: absence.baskets.size)})" %>

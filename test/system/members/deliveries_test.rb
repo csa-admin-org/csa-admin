@@ -18,7 +18,7 @@ class Members::DeliveriesTest < ApplicationSystemTestCase
     assert_text "Information: Bakery"
     assert_text "Bakery front door code is 1234"
 
-    assert_text "Future deliveries (10)"
+    assert_text "Future"
     within "#basket_#{basket.id}" do
       assert_text "Large basket"
       assert_text "Bread"
@@ -35,8 +35,9 @@ class Members::DeliveriesTest < ApplicationSystemTestCase
     assert_equal "/deliveries", current_path
     assert_includes menu_nav, "Deliveries\n" + "⤷ View history"
 
-    assert_text "Future deliveries (0)"
-    assert_text "Past deliveries (10)"
+    assert_text "Future"
+    assert_text "No future deliveries"
+    assert_text "Past"
   end
 
   test "show past deliveries only (past year)" do
@@ -48,8 +49,9 @@ class Members::DeliveriesTest < ApplicationSystemTestCase
     assert_equal "/deliveries", current_path
     assert_includes menu_nav, "Deliveries\n" + "⤷ View history"
 
-    assert_text "Future deliveries (0)"
-    assert_text "Past deliveries (10)"
+    assert_text "Future"
+    assert_text "No future deliveries"
+    assert_text "Past"
   end
 
   test "redirects when no membership" do

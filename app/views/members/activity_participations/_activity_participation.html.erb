@@ -27,10 +27,9 @@
   </span>
   <span class="ml-2 grow flex flex-row justify-end items-center">
     <% if activity_participation.destroyable? %>
-      <%= button_to t(".cancel_link"), [ :members, activity_participation ], method: :delete, class: "ml-2 px-2 border border-green-400 dark:border-green-600 bg-green-400 dark:bg-green-600 hover:border-green-500 hover:bg-green-500 text-white hover:text-white font-medium rounded-md focus:outline-hidden focus:ring-green-500 focus:border-green-500 focus:z-10 text-sm cursor-pointer" %>
+      <%= button_to t(".cancel_link"), [ :members, activity_participation ], method: :delete, class: "ml-2 px-2 border border-green-500 bg-green-500 hover:bg-green-600 hover:border-green-600 hover:dark:bg-green-400 hover:dark:border-green-400 text-white hover:text-white font-medium rounded-md focus:outline-hidden focus:ring-green-500 focus:border-green-500 focus:z-10 text-sm cursor-pointer" %>
     <% elsif activity_participation.validated? || activity_participation.rejected? %>
-      <% color = state_color(activity_participation) %>
-      <span class="ml-2 px-2 border border-<%= color %>-300 dark:border-<%= color %>-700 bg-<%= color %>-300 dark:bg-<%= color %>-700 text-<%= color %>-600 dark:text-<%= color %>-400 font-medium rounded-full text-sm">
+      <span class="status-tag" data-status="<%= activity_participation.state %>">
         <%= activity_participation.state_i18n_name %>
       </span>
     <% end %>

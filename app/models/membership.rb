@@ -536,6 +536,21 @@ class Membership < ApplicationRecord
     cancel_overcharged_invoice!
   end
 
+  def basket_shift_allowed?
+    basket_shifts_allowance_remaining.positive?
+  end
+
+  def basket_shifts_allowance_remaining
+    return 0 unless Current.org.basket_shift_enabled?
+    return Float::INFINITY unless Current.org.basket_shift_annual_limit?
+
+    [ Current.org.basket_shifts_annually - basket_shifts_count, 0 ].max
+  end
+
+  def basket_shifts_count
+    baskets.joins(:shift_as_source).count
+  end
+
   private
 
   def set_renew

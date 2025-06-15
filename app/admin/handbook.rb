@@ -4,7 +4,7 @@ ActiveAdmin.register_page "Handbook" do
   menu false
 
   content title: proc { t("active_admin.site_footer.handbook") } do
-    div class: "markdown md:pr-4 content-page" do
+    div class: "markdown md:pr-4 content-page", data: { turbo: false } do
       handbook = Handbook.new(params[:id], binding)
       handbook.body
     end

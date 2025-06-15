@@ -23,10 +23,8 @@
       @apply font-semibold;
     }
 
-    a:hover,
-    a:hover h2,
-    a:hover span {
-      @apply border-green-200 text-green-500 dark:border-green-800;
+    a {
+      @apply hover:border-green-200 hover:text-green-500 hover:dark:border-green-800;
     }
 
     /* Custom CSS */

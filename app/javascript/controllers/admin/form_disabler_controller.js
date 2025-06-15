@@ -6,6 +6,14 @@ export default class extends Controller {
     return ["label", "input"]
   }
 
+  toggleInputs(event) {
+    if (event.target.checked) {
+      this.enableInputs()
+    } else {
+      this.disableInputs()
+    }
+  }
+
   enableInputs() {
     removeClass(this.labelTargets, "disabled")
     prop(this.inputTargets, "disabled", false)

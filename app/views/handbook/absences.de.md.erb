@@ -12,6 +12,21 @@ Standardmäßig werden als abwesend markierte und nicht gelieferte Taschen in Re
 
 ## Inbegriffene Abwesenheiten
 
-Es ist auch möglich, eine Anzahl von Abwesenheiten zu konfigurieren, die im Abonnement enthalten sind. Diese Abwesenheiten werden dann automatisch abgezogen und nicht in Rechnung gestellt, sobald das Abonnement beginnt. Das System wird vorübergehend die letzten Lieferungen des Abonnements als abwesend markieren, bis die Anzahl der inbegriffenen Abwesenheiten vom Mitglied angekündigt wird. Zusätzliche Abwesenheiten werden gemäß [Ihren Einstellungen](/settings#absence) in Rechnung gestellt oder nicht.
+Es ist möglich, eine Anzahl von Abwesenheiten zu konfigurieren, die im Abonnement enthalten sind. Diese Abwesenheiten werden dann automatisch abgezogen und nicht in Rechnung gestellt, sobald das Abonnement beginnt. Das System wird vorübergehend die letzten Lieferungen des Abonnements als abwesend markieren, bis die Anzahl der inbegriffenen Abwesenheiten vom Mitglied angekündigt wird. Zusätzliche Abwesenheiten werden gemäß [Ihren Einstellungen](/settings#absence) in Rechnung gestellt oder nicht.
 
 > Die Anzahl der inbegriffenen Abwesenheiten kann auch auf der Ebene eines [Lieferzyklus](/handbook/deliveries#lieferzyklen) eingestellt werden, um Abonnements mit einer Anzahl von inbegriffenen Abwesenheiten (und damit Lieferungen) auf [Ihrem Anmeldeformular](<%= new_members_member_url(subdomain: Current.org.members_subdomain) %>) anzubieten.
+
+## Taschenverschiebungen {#basket-shift}
+
+Es ist möglich, die Lieferung einer Tasche während einer Abwesenheit auf eine andere Lieferung zu verschieben. Dies ermöglicht es den Mitgliedern, ihre Abwesenheiten zu kompensieren, ohne die Anzahl der in Rechnung gestellten Taschen zu ändern.
+
+Auf der Admin-Seite reicht es aus, eine als abwesend markierte Tasche von der Abonnementseite aus zu bearbeiten und ein anderes Lieferdatum zu wählen. Der Tascheninhalt (einschließlich Ergänzungen) wird dann automatisch auf die gewählte Tasche verschoben.
+
+Auf der Mitgliederseite ist die Taschenverschiebung standardmäßig nicht möglich. Um diese Funktion zu aktivieren, haben Sie die Möglichkeit, [die folgenden Einstellungen zu ändern](/settings#absence):
+
+- **Anzahl der zulässigen Verschiebungen**: um, falls gewünscht, die Anzahl der von den Mitgliedern möglichen Verschiebungen zu begrenzen.
+- **Frist für Verschiebungen**: um, falls gewünscht, die zeitlich möglichen Verschiebungen zu begrenzen.
+
+Wenn die Abwesenheit storniert wird, wird der Tascheninhalt automatisch zu seiner ursprünglichen Lieferung zurückgebracht.
+
+> Taschenverschiebungen sind nur möglich, wenn Abwesenheiten in Rechnung gestellt werden.

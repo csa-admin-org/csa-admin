@@ -52,15 +52,26 @@ _:
           _de: Abwesenheit melden
           _it: Annunciare un'assenza
         past_absences:
-          _en: Your past absences
-          _fr: Vos absences passées
-          _de: Ihre vergangene Abwesenheiten
-          _it: Le vostre assenze passate
+          _en: Past
+          _fr: Passées
+          _de: Vergangene
+          _it: Passate
         present_or_future_absences:
-          _en: Your upcoming or current absences
-          _fr: Vos absences à venir ou en cours
-          _de: Ihre künftige oder aktuelle Abwesenheiten
-          _it: Le vostre assenze future o in corso
+          _en: Upcoming or current
+          _fr: À venir ou en cours
+          _de: Zukünftige oder aktuelle
+          _it: Futuri o attuali
+        shift_baskets:
+          one:
+            _en: Shift your basket delivery during your absence.
+            _fr: Déplacer la livraison d'un panier durant votre absence.
+            _de: Verschieben Sie die Lieferung Ihres Tasches während Ihrer Abwesenheit.
+            _it: Sposta la consegna del tuo cesto durante la tua assenza.
+          other:
+            _en: Shift your basket deliveries during your absence.
+            _fr: Déplacer la livraison de vos paniers durant votre absence.
+            _de: Verschieben Sie die Lieferungen Ihrer Tasche während Ihrer Abwesenheit.
+            _it: Sposta la consegna dei tuoi cestini durante la tua assenza.
         submit:
           _en: Submit
           _fr: Envoyer
@@ -195,25 +206,25 @@ _:
           _de: Aus Organisationsgründe, die Anmeldungen zu die Arbeitsstunden, die in weniger als %{days_count} Tagen stattfinden, können nicht mehr abgesagt werden. Bei einer Verhinderung, bitte uns schreiben %{contact_link}.
           _it: Per motivi organizzativi, le iscrizioni per le ore di lavoro che avvengono entro %{days_count} giorni non possono essere annullate. In caso di impedimenti gravi grazie per contattarci tempestivamente %{contact_link}.
         coming_activity_participations/basket_preparation:
-          _en: Your upcoming basket preparations
-          _fr: Vos mises en panier à venir
-          _de: Ihre künftigen Taschen befüllung
-          _it: Le vostre prossime preparazioni ceste
+          _en: Upcoming
+          _fr: À venir
+          _de: Zukünftige
+          _it: Prossime
         coming_activity_participations/day_work:
-          _en: Your upcoming workdays
-          _fr: Vos journées de travail à venir
-          _de: Ihre künftigen Arbeitstage
-          _it: Le vostre prossime giornate di lavoro
+          _en: Upcoming
+          _fr: À venir
+          _de: Zukünftige
+          _it: Prossime
         coming_activity_participations/halfday_work:
-          _en: Your upcoming ½ days
-          _fr: Vos ½ journées à venir
-          _de: Ihre künftigen ½ Tage
-          _it: Le vostre prossime ½ giornate di lavoro
+          _en: Upcoming
+          _fr: À venir
+          _de: Zukünftige
+          _it: Prossime
         coming_activity_participations/hour_work:
-          _en: Your upcoming work hours
-          _fr: Vos heures de travail à venir
-          _de: Ihre künftigen Arbeitsstunden
-          _it: Le vostre prossime ore di lavoro
+          _en: Upcoming
+          _fr: À venir
+          _de: Zukünftige
+          _it: Prossime
         contact_link:
           _en: contact us
           _fr: contacter
@@ -300,25 +311,105 @@ _:
           _de: Anzahl Teilnehmer
           _it: Numero di partecipanti
         past_activity_participations/basket_preparation:
-          _en: Your completed basket preparations
-          _fr: Vos mises en panier effectuées
-          _de: Ihre geleisteten Taschen befüllung
-          _it: Vostre preparazioni ceste effettuate
+          _en: Completed
+          _fr: Effectuées
+          _de: Geleisteten
+          _it: Effettuate
         past_activity_participations/day_work:
-          _en: Your completed workdays
-          _fr: Vos journées de travail effectuées
-          _de: Ihre geleisteten Arbeitstage
-          _it: Le vostre giornate di lavoro effettuate
+          _en: Completed
+          _fr: Effectuées
+          _de: Geleisteten
+          _it: Effettuate
         past_activity_participations/halfday_work:
-          _en: Your completed half-day work
-          _fr: Vos ½ journées effectuées
-          _de: Ihre geleisteten ½ Tage
-          _it: Le vostre ½ giornate di lavoro già effettuate
+          _en: Completed
+          _fr: Effectuées
+          _de: Geleisteten
+          _it: Effettuate
         past_activity_participations/hour_work:
-          _en: Your completed work hours
-          _fr: Vos heures de travail effectuées
-          _de: Ihre geleistete Arbeitsstunden
-          _it: Vostre ore di lavoro effettuate
+          _en: Completed
+          _fr: Effectuées
+          _de: Geleistete
+          _it: Effettuate
+    basket_shifts:
+      flash:
+        alert:
+          _en: Basket shift is not possible.
+          _fr: Le déplacement du panier n'est pas possible.
+          _de: Die Verschiebung der Tasche ist nicht möglich.
+          _it: Il trasferimento del carrello non è possibile.
+        notice:
+          _en: Basket updated successfully.
+          _fr: Le panier a été mis à jour avec succès.
+          _de: Die Tasche wurde erfolgreich aktualisiert.
+          _it: Il trasferimento del carrello è andato a buon fine.
+      new:
+        after_absence:
+          _en: After your absence
+          _fr: Après votre absence
+          _de: Nach Ihrer Abwesenheit
+          _it: Dopo la tua assenza
+        basket_shift_declined:
+          _en: I don't want to shift my basket
+          _fr: Je ne désire pas déplacer mon panier
+          _de: Ich möchte meine Tasche nicht verschieben
+          _it: Non voglio spostare il mio cestino
+        basket_shift_none:
+          _en: No shift
+          _fr: Aucun déplacement
+          _de: Keine Verschiebung
+          _it: Nessun trasferimento
+        before_absence:
+          _en: Before your absence
+          _fr: Avant votre absence
+          _de: Vor Ihrer Abwesenheit
+          _it: Prima della tua assenza
+        cancel_link:
+          _en: Cancel
+          _fr: Annuler
+          _de: Abbrechen
+          _it: Annullare
+        deadline_text_html:
+          one:
+            _en: The shift is limited to <strong>one week before or after your absence</strong>.
+            _fr: Le déplacement est limité à <strong>une semaine avant ou après votre absence</strong>.
+            _de: Die Verschiebung ist auf <strong>eine Woche vor oder nach Ihrer Abwesenheit beschränkt</strong> .
+            _it: Il trasferimento è limitato a <strong>una settimana prima o dopo la tua assenza</strong>.
+          other:
+            _en: The shift is limited to <strong>%{count} weeks before or after your absence</strong>.
+            _fr: Le déplacement est limité à <strong>%{count} semaines avant ou après votre absence</strong>.
+            _de: Die Verschiebung ist auf <strong>%{count} Wochen vor oder nach Ihrer Abwesenheit beschränkt</strong>.
+            _it: Il trasferimento è limitato a <strong>%{count} settimane prima o dopo la tua assenza</strong>.
+        limit_text_html:
+          one:
+            _en: You can still make <strong>one shift</strong> this year.
+            _fr: Vous pouvez encore effectuer <strong>un déplacement</strong> cette année.
+            _de: Sie können noch <strong>eine Verschiebung</strong> in diesem Jahr durchführen.
+            _it: Puoi ancora effettuare <strong>un trasferimento</strong> questo anno.
+          other:
+            _en: You can still make <strong>%{count} shifts</strong> this year.
+            _fr: Vous pouvez encore effectuer <strong>%{count} déplacements</strong> cette année.
+            _de: Sie können noch <strong>%{count} Verschiebungen</strong> in diesem Jahr durchführen.
+            _it: Puoi ancora effettuare <strong>%{count} trasferimenti</strong> questo anno.
+        submit:
+          _en: Submit
+          _fr: Soumettre
+          _de: Absenden
+          _it: Invia
+        subtitle:
+          _en: Shift during your absence
+          _fr: Déplacement durant votre absence
+          _de: Verschiebung während Ihrer Abwesenheit
+          _it: Spostamento durante la tua assenza
+        text:
+          _en: During your absence, you have the possibility to shift the delivery of your basket to another date.
+          _fr: Durant votre absence, vous avez la possibilité de déplacer la livraison de votre panier à une autre date.
+          _de: Während Ihrer Abwesenheit haben Sie die Möglichkeit, die Lieferung Ihrer Tasche auf ein anderes Datum zu verschieben.
+          _it: Durante la tua assenza, hai la possibilità di spostare la consegna del tuo cestino a un'altra data.
+        title:
+          _en: Delivery of %{date}
+          _fr: Livraison du %{date}
+          _de: Lieferung am %{date}
+          _it: Consegna il %{date}
     baskets:
       basket:
         edit:
@@ -326,6 +417,26 @@ _:
           _fr: Modifier
           _de: Bearbeiten
           _it: Modifica
+        shift:
+          _en: Shift the delivery
+          _fr: Déplacer la livraison
+          _de: Die Lieferung verschieben
+          _it: Spostare la consegna
+        shift_declined:
+          _en: Shift declined
+          _fr: Déplacement décliné
+          _de: Verschiebung abgelehnt
+          _it: Spostamento rifiutato
+        shift_not_possible:
+          _en: It is no longer possible to shift this basket.
+          _fr: Déplacer ce panier n'est plus possible.
+          _de: Es ist nicht mehr möglich, diese Tasche zu verschieben.
+          _it: Non è più possibile spostare questo cestino.
+        shifted:
+          _en: Shifted on %{target_date}
+          _fr: Déplacé au %{target_date}
+          _de: Verschoben am %{target_date}
+          _it: Spostato il %{target_date}
       edit:
         cancel_link:
           _en: Cancel
@@ -343,7 +454,7 @@ _:
           _de: Bearbeiten
           _it: Modifica
         title:
-          _en: Delivery on %{date}
+          _en: Delivery of %{date}
           _fr: Livraison du %{date}
           _de: Lieferung am %{date}
           _it: Consegna il %{date}
@@ -510,10 +621,10 @@ _:
           _de: 'Informationen: %{depot}'
           _it: 'Informazione: %{depot}'
         future_deliveries:
-          _en: Future deliveries (%{count})
-          _fr: Futures livraisons (%{count})
-          _de: Zukünftige Lieferungen (%{count})
-          _it: Consegne future (%{count})
+          _en: Future
+          _fr: À venir
+          _de: Zukünftige
+          _it: Futura
         next_delivery:
           _en: Next delivery
           _fr: Prochaine livraison
@@ -530,10 +641,10 @@ _:
           _de: Keine vergangenen Lieferungen
           _it: Nessuna consegna passata
         past_deliveries:
-          _en: Past deliveries (%{count})
-          _fr: Anciennes livraisons (%{count})
-          _de: Alte Lieferungen (%{count})
-          _it: Vecchie consegne(%{count})
+          _en: Past
+          _fr: Passées
+          _de: Vergangene
+          _it: Passate
         provisionally_absent_explanation_html:
           _en: The last deliveries are provisionally marked as absent until you <a href="/absences">report your final absence</a>.
           _fr: Les dernières livraisons sont provisoirement marquées comme absentes jusqu'à ce que <a href="/absences">vous annonciez vos absences</a> définitives.

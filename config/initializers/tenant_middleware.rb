@@ -3,4 +3,8 @@
 require "tenant"
 require "tenant/middleware"
 
-Rails.application.config.middleware.use Tenant::Middleware
+if Rails.env.development?
+  Rails.application.config.middleware.insert_before WebConsole::Middleware, Tenant::Middleware
+else
+  Rails.application.config.middleware.use Tenant::Middleware
+end

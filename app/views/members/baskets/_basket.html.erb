@@ -1,46 +1,44 @@
-<div id="<%= dom_id(basket) %>" class="relative p-2 rounded-sm hover:bg-gray-100 dark:hover:bg-gray-900 <%= "text-gray-300 dark:text-gray-700" if basket.absent? %> <%= "bg-gray-50 dark:bg-gray-950" if basket == @next_basket %>">
-  <% if basket.can_member_update? %>
-    <%= link_to edit_members_basket_path(basket), title: t(".edit"), class: "absolute top-0 right-0 p-2" do %>
-      <%= icon "pencil-square", class: "size-5 text-gray-400 dark:text-gray-600 hover:text-green-500 dark:hover:text-green-500" %>
-    <% end %>
-  <% end %>
-  <ul class="space-y-1.5">
-    <li class="flex flex-row items-center">
-      <span class="w-6">
-        <%= icon "calendar-days", class: "size-6 text-gray-300 dark:text-gray-700" %>
-      </span>
-      <span class="ml-2">
-        <%= l(basket.delivery.date, format: :medium).titleize %>
+<div id="<%= dom_id(basket) %>" class="p-2 -mx-2 md:px-3 md:-mx-3 grow rounded-md target:bg-teal-100 scroll-m-4 target:dark:bg-teal-950 hover:bg-gray-100 dark:hover:bg-gray-900 <%= "bg-neutral-50 dark:bg-neutral-900 text-gray-400 dark:text-gray-600" if basket.absent? %><%= "bg-blue-50 dark:bg-blue-950" if basket.trial? %>">
+  <div class="mb-2 flex flex-row items-center justify-between">
+    <h3 class="text-base font-medium <%= basket.absent? ? "text-neutral-400 dark:text-neutral-600" : "text-gray-800 dark:text-gray-200" %>">
+      <%= l(basket.delivery.date, format: :long_no_year).titleize %>
+    </h3>
+    <div class="flex flex-row items-center gap-3">
+      <% if basket.trial? %>
+        <span class="px-2 py-0.5 bg-blue-500 text-white font-medium rounded-full text-xs uppercase">
+          <%= Basket.human_attribute_name(:trial) %>
+        </span>
+      <% end %>
+      <% if basket.absent? %>
+        <span class="px-2 py-0.5 bg-neutral-400 dark:bg-neutral-600 text-white font-medium rounded-full text-xs uppercase">
+          <%= Absence.model_name.human %>
+          <% unless basket.absence_id? %>
+            <%= " *" %>
+          <% end %>
+        </span>
+      <% end %>
+      <% if basket.can_member_update? %>
+        <%= link_to edit_members_basket_path(basket), title: t(".edit"), class: "" do %>
+          <%= icon "pencil-square", class: "size-5 text-gray-400 dark:text-gray-600 hover:text-green-500 dark:hover:text-green-500" %>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+
+  <ul class="-ms-0.5 space-y-1.5 <%= "[&_a]:decoration-inherit line-through" if basket.absent? && (!basket.billable? || basket.empty?) %>">
+    <li class="flex flex-row items-center gap-2">
+      <%= icon "shopping-bag", class: "size-5 w-5 text-gray-300 dark:text-gray-700" %>
+      <span>
+        <% if basket.shifted?  %>
+          <%= h basket.shift_as_source.description(public_name: true) %>
+        <% else %>
+          <%= h basket.description(public_name: true) %>
+        <% end %>
       </span>
     </li>
-    <li class="flex flex-row items-center">
-      <span class="w-6">
-        <%= icon "shopping-bag", class: "size-6 text-gray-300 dark:text-gray-700" %>
-      </span>
-      <span class="ml-2">
-        <p>
-          <%= h basket_description(basket) %>
-          <% if basket.trial? %>
-            <span class="ml-2 px-2 border border-blue-300 dark:border-blue-700 bg-blue-300 dark:bg-blue-700 text-blue-600 dark:text-blue-400 font-medium rounded-full text-sm">
-              <%= Basket.human_attribute_name(:trial) %>
-            </span>
-          <% end %>
-          <% if basket.absent? %>
-            <span class="ml-2 px-2 border border-gray-300 dark:border-gray-700 bg-gray-300 dark:bg-gray-700 text-gray-500 font-medium rounded-full text-sm">
-              <%= Basket.human_attribute_name(:absent) %>
-              <% unless basket.absence_id? %>
-                <%= " *" %>
-              <% end %>
-            </span>
-          <% end %>
-        </p>
-      </span>
-    </li>
-    <li class="flex flex-row items-center">
-      <span class="w-6">
-        <%= icon "map", class: "size-6 text-gray-300 dark:text-gray-700" %>
-      </span>
-      <span class="ml-2">
+    <li class="flex flex-row items-center gap-2">
+      <%= icon "map", class: "size-5 w-5 text-gray-300 dark:text-gray-700" %>
+      <span>
         <% depot = basket.depot %>
         <% if depot.full_address %>
           <%= link_to "https://www.google.com/maps?q=#{depot.full_address}", title: depot.full_address, target: :blank, class: "hover:text-green-500" do %>
@@ -52,4 +50,31 @@
       </span>
     </li>
   </ul>
+
+  <% if basket.shifted? %>
+    <div class="mt-3 flex flex-row items-center justify-center text-sm text-neutral-400 dark:text-neutral-500">
+      <%= link_to url_for(anchor: dom_id(basket.shift_as_source.target_basket)), class: "flex flex-row items-center gap-2", data: { turbo: false } do %>
+        <%= icon "redo", class: "size-5 w-5" %>
+        <%= t(".shifted", target_date: l(basket.shift_as_source.target_basket.delivery.date, format: :long_no_year)) %>
+      <% end %>
+    </div>
+  <% elsif basket.shift_declined? %>
+    <div class="mt-3 flex flex-row items-center justify-center text-sm italic text-neutral-400 dark:text-neutral-600 gap-2">
+      <%= icon "redo-off", class: "size-5 w-5" %>
+      <%= t(".shift_declined") %>
+    </div>
+  <% elsif Current.org.basket_shift_enabled? %>
+    <% if basket.can_be_member_shifted? %>
+      <div class="mt-3 text-sm flex flex-row items-center justify-center text-neutral-500 ">
+        <%= link_to new_members_basket_basket_shifts_path(basket), class: "underline flex flex-row items-center gap-2" do %>
+          <%= icon "redo", class: "size-5 w-5" %>
+          <%= t(".shift") %>
+        <% end %>
+      </div>
+    <% elsif basket.absent? %>
+      <div class="mt-3 text-sm flex flex-row items-center justify-center italic text-neutral-400 dark:text-neutral-600">
+        <%= t(".shift_not_possible") %>
+      </div>
+    <% end %>
+  <% end %>
 </div>

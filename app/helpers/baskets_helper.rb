@@ -35,4 +35,43 @@ module BasketsHelper
         } ]
     end
   end
+
+  def basket_shift_targets_collection(source)
+    col = [
+      [ t(".basket_shift_none"), [ [ t(".basket_shift_declined"), :declined ] ] ],
+      [ t(".following_deliveries"), basket_shifts_targets_collection_for(source, (source.delivery.date + 1.day)..) ],
+      [ t(".previous_deliveries"), basket_shifts_targets_collection_for(source, ...source.delivery.date) ]
+    ]
+  end
+
+  def basket_shifts_targets_collection_for(source, range)
+    source.membership.baskets.between(range).includes(:delivery).map { |target|
+      [ target.delivery.display_name, target.id, disabled: !BasketShift.shiftable?(source, target) ]
+    }
+  end
+
+  def basket_shift_targets_member_collection(source)
+    col = [ [ t(".basket_shift_none"), [ [ t(".basket_shift_declined"), :declined ] ] ] ]
+
+    before_targets = basket_shifts_targets_member_collection_for(source, ...source.delivery.date)
+    if before_targets.any?
+      col << [ t(".before_absence"), before_targets ]
+    end
+
+    after_targets = basket_shifts_targets_member_collection_for(source, (source.delivery.date + 1.day)..)
+    if after_targets.any?
+      col << [ t(".after_absence"), after_targets ]
+    end
+
+    col.to_h
+  end
+
+  def basket_shifts_targets_member_collection_for(source, range)
+    source
+      .member_shiftable_basket_targets
+      .select { |target| target.delivery.date.in?(range) }
+      .map { |target|
+        [ l(target.delivery.date, format: :long_no_year).capitalize, target.id ]
+      }
+  end
 end

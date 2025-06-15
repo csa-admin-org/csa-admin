@@ -8,6 +8,7 @@ class Absence < ApplicationRecord
   belongs_to :member
   belongs_to :session, optional: true
   has_many :baskets, dependent: :nullify
+  has_many :basket_shifts, dependent: :destroy
 
   validates :member, :started_on, :ended_on, presence: true
   validates :started_on, :ended_on, date: {

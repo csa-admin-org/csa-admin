@@ -8,17 +8,17 @@ class Members::DeliveriesController < Members::BaseController
     @next_basket = current_member.next_basket
     @future_baskets =
       Basket
-        .where(membership_id: current_member.memberships.current_or_future)
-        .filled
+        .where(membership_id: current_member.memberships)
         .coming
         .includes(:delivery, :basket_size, :depot, baskets_basket_complements: :basket_complement)
     @past_baskets =
       current_member
         .closest_membership
         .baskets
-        .filled
         .past
-        .includes(:delivery, :basket_size, :depot, baskets_basket_complements: :basket_complement)
+        .joins(:delivery)
+        .includes(:basket_size, :depot, baskets_basket_complements: :basket_complement)
+        .reorder(deliveries: { date: :desc })
   end
 
   private
