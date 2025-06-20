@@ -15,15 +15,15 @@ class Members::DeliveriesTest < ApplicationSystemTestCase
     assert_equal "/deliveries", current_path
     assert_includes menu_nav, "Deliveries\n" + "⤷ 4 April 2024"
 
-    assert_text "Information: Bakery"
-    assert_text "Bakery front door code is 1234"
-
-    assert_text "Future"
+    assert_text "Next"
     within "#basket_#{basket.id}" do
       assert_text "Large basket"
       assert_text "Bread"
       assert_text "Bakery"
     end
+
+    assert_text "Information"
+    assert_text "Bakery front door code is 1234"
   end
 
   test "show past deliveries only (current year)" do
