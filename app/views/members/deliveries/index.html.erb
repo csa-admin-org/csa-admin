@@ -5,11 +5,21 @@
   <%= render "members/calendars/subscribe_button" %>
 </div>
 
-<% if @next_basket&.depot&.public_note? %>
+<% if @next_basket %>
+
   <h2 class="mt-8 text-lg font-bold text-gray-900 dark:text-gray-100">
-    <%= t(".depot_note", depot: @next_basket.depot.public_name) %>
+    <%= t(".next_delivery") %>
   </h2>
-  <div class="mt-2"><%= @next_basket.depot.public_note %></div>
+  <ul class="mt-4 flex flex-col gap-4">
+    <li class="w-full"><%= render @next_basket %></li>
+  </ul>
+
+  <% if @next_basket&.depot&.public_note? %>
+    <h3 class="mt-4 text-base font-medium text-gray-900 dark:text-gray-100">
+      <%= t(".depot_note", depot: @next_basket.depot.public_name) %>
+    </h3>
+    <div class="mt-2"><%= @next_basket.depot.public_note %></div>
+  <% end %>
 <% end %>
 
 <h2 class="mt-8 text-lg font-bold text-gray-900 dark:text-gray-100">

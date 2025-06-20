@@ -616,20 +616,20 @@ _:
     deliveries:
       index:
         depot_note:
-          _en: 'Information: %{depot}'
-          _fr: 'Information: %{depot}'
-          _de: 'Informationen: %{depot}'
-          _it: 'Informazione: %{depot}'
+          _en: Information
+          _fr: Information
+          _de: Informationen
+          _it: Informazione
         future_deliveries:
           _en: Future
           _fr: À venir
           _de: Zukünftige
           _it: Futura
         next_delivery:
-          _en: Next delivery
-          _fr: Prochaine livraison
-          _de: Nächste Lieferung
-          _it: Prossime consegne
+          _en: Next
+          _fr: Prochaine
+          _de: Nächste
+          _it: Prossime
         no_future_deliveries:
           _en: No future deliveries
           _fr: Aucune livraison à venir
