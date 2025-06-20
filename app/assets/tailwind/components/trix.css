@@ -9,7 +9,7 @@
 
   trix-editor img,
   .trix-content .attachment {
-    @apply inline;
+    @apply inline-block;
   }
   .trix-content img {
     @apply max-w-1/2! mx-auto;
@@ -17,6 +17,9 @@
 
   trix-editor figure {
     @apply my-4!;
+  }
+  .trix-content figure {
+    @apply my-2!;
   }
 
   trix-toolbar {
