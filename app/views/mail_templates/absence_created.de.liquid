@@ -1,0 +1,12 @@
+<p>Ihre Abwesenheit wurde erfolgreich registriert:</p>
+
+{% highlight_list %}
+  <strong>Zeitraum:</strong> {{ absence.start_date }} bis {{ absence.end_date }}
+  <strong>Betroffene Lieferungen:</strong> {{ absence.baskets_count }}
+{% endhighlight_list %}
+
+<p>Sie können Ihre Abwesenheiten jederzeit über Ihre Mitgliederseite einsehen.</p>
+
+{% button member.absences_url %}
+  Zu meiner Mitgliederseite
+{% endbutton %}

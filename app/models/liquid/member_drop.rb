@@ -31,6 +31,12 @@ class Liquid::MemberDrop < Liquid::Drop
     url(:members_billing)
   end
 
+  def absences_url
+    return unless Current.org.feature?("absence")
+
+    url(:members_absences)
+  end
+
   def activities_url
     return unless Current.org.feature?("activity")
 

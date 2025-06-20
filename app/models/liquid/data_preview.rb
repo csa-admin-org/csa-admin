@@ -71,6 +71,9 @@ class Liquid::DataPreview
   def invokable_methods(drop)
     methods = drop.class.invokable_methods
     methods -= %w[to_liquid]
+    unless Current.org.feature?(:absence)
+      methods -= %w[absences_url]
+    end
     unless Current.org.feature?(:activity)
       methods -= %w[
         activity_phone

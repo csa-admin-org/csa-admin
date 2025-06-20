@@ -18,6 +18,10 @@ class MailTemplate < ApplicationRecord
     membership_renewal
     membership_renewal_reminder
   ].freeze
+  ABSENCE_TITLES = %w[
+    absence_created
+    absence_basket_shifted
+  ].freeze
   ACTIVITY_TITLES = %w[
     activity_participation_reminder
     activity_participation_validated
@@ -28,7 +32,7 @@ class MailTemplate < ApplicationRecord
     invoice_cancelled
     invoice_overdue_notice
   ].freeze
-  TITLES = MEMBER_TITLES + MEMBERSHIP_TITLES + ACTIVITY_TITLES + INVOICE_TITLES
+  TITLES = MEMBER_TITLES + MEMBERSHIP_TITLES + ABSENCE_TITLES + ACTIVITY_TITLES + INVOICE_TITLES
   ALWAYS_ACTIVE_TITLES = %w[
     invoice_created
     activity_participation_reminder
@@ -57,6 +61,7 @@ class MailTemplate < ApplicationRecord
   scope :inactive, -> { where(active: false) }
   scope :member, -> { where(title: MEMBER_TITLES) }
   scope :membership, -> { where(title: MEMBERSHIP_TITLES) }
+  scope :absence, -> { where(title: ABSENCE_TITLES) }
   scope :activity, -> { where(title: ACTIVITY_TITLES) }
   scope :invoice, -> { where(title: INVOICE_TITLES) }
 
