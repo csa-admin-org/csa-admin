@@ -36,6 +36,12 @@ _:
         _fr: validée
         _de: bestätigt
         _it: confermato
+    basket_shift:
+      declined:
+        _en: declined
+        _fr: refusé
+        _de: abgelehnt
+        _it: rifiutato
     invoice:
       canceled:
         _en: canceled

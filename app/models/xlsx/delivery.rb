@@ -71,7 +71,7 @@ module XLSX
         add_empty_line
         add_empty_line
 
-        @worksheet.add_cell(@line, 0, Absence.model_name.human(count: 2))
+        @worksheet.add_cell(@line, 0, ::Absence.model_name.human(count: 2))
         @worksheet.add_cell(@line, 1, @delivery.baskets.absent.sum(:quantity)).set_number_format("0")
       end
 
@@ -135,7 +135,6 @@ module XLSX
         member.basket = baskets.find { |b| b.membership.member_id == member.id }
         member.shop_order = shop_orders.find { |so| so.member_id == member.id }
       end
-      basket_counts = @basket_sizes.map { |bs| baskets.where(basket_size: bs).sum(:quantity) }
 
       add_members_worksheet(depot.name, members, mode: depot.delivery_sheets_mode)
     end
