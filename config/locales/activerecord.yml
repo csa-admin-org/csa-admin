@@ -2094,6 +2094,17 @@ _:
           _fr: Produits
           _de: Produkte
           _it: Prodotti
+      basket_shift:
+        one:
+          _en: Shift
+          _fr: Déplacement
+          _de: Verschiebung
+          _it: Spostamento
+        other:
+          _en: Shifts
+          _fr: Déplacements
+          _de: Verschiebungen
+          _it: Spostamenti
       basket_size:
         none:
           _en: None

@@ -39,7 +39,7 @@ ActiveAdmin.register Absence do
   filter :with_note, as: :boolean
 
   includes :member, :session, :baskets
-  index do
+  index download_links: [ :csv, :xlsx ] do
     column :member, ->(absence) {
       with_note_icon absence.note do
         link_with_session absence.member, absence.session
@@ -55,6 +55,16 @@ ActiveAdmin.register Absence do
       link_to absence.baskets.size, absence
     }, class: "text-right"
     actions
+  end
+
+  csv do
+    column(:id)
+    column(:member_id)
+    column(:name) { |m| m.member.name }
+    column(:started_on)
+    column(:ended_on)
+    column(:note)
+    column(:created_at)
   end
 
   sidebar_handbook_link("absences")
@@ -129,6 +139,24 @@ ActiveAdmin.register Absence do
   controller do
     include TranslatedCSVFilename
     include ApplicationHelper
+
+    def index
+      super do |format|
+        format.xlsx do
+          xlsx = XLSX::Absence.new(collection)
+          send_data xlsx.data,
+            content_type: xlsx.content_type,
+            filename: xlsx.filename
+        end
+      end
+    end
+
+    # Skip pagination when downloading a xlsx file
+    def apply_pagination(chain)
+      return chain if params["format"] == "xlsx"
+
+      super
+    end
 
     def apply_sorting(chain)
       super(chain).joins(:member).merge(Member.order_by_name)
