@@ -39,6 +39,14 @@ This application is currently used by [more than 30 organizations](https://csa-a
 - Asynchronous jobs are handled by SolidQueue/ActiveJob and are backed by SQLite.
 - Transactional emails and newsletters are sent using the Postmark service.
 
+## Getting started
+
+- Clone the repository locally
+- Copy `config/tenant.yml.example` to `config/tenant.yml` and update your domain
+- Install dependencies, prepare and seed the database: `bin/setup`
+- Set up local subdomains (I recommend [puma-dev](https://github.com/puma/puma-dev)) to access [admin.my-domain.test](https://admin.my-domain.test) and [members.my-domain.test](https://members.my-domain.test)
+- Login to [the admin](https://admin.my-domain.test) with your email (e.g. `admin@my-domain.org`)
+
 ## Development and support
 
 - Thibaud Guillaume-Gentil ([info@csa-admin.org](mailto:info@csa-admin.org))
