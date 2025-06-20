@@ -525,6 +525,7 @@ p {
   height: auto;
 }
 .trix-content .attachment {
+  margin: 16px 0;
   display: inline-block;
   position: relative;
   max-width: 100%;
@@ -555,6 +556,7 @@ p {
   border-radius: 5px;
 }
 .trix-content .attachment-gallery {
+  margin: 16px 0;
   position: relative;
 }
 .trix-content .attachment-gallery .attachment {

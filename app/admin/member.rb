@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-2# frozen_string_literal: true
-
 ActiveAdmin.register Member do
   menu priority: 2
 
