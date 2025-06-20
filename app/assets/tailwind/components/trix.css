@@ -7,11 +7,12 @@
     @apply hidden!;
   }
 
-  trix-editor img {
+  trix-editor img,
+  .trix-content .attachment {
     @apply inline;
   }
   .trix-content img {
-    @apply max-w-1/2!;
+    @apply max-w-1/2! mx-auto;
   }
 
   trix-editor figure {
