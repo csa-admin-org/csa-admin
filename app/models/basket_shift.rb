@@ -21,6 +21,7 @@ class BasketShift < ApplicationRecord
     decrement_quantities!(target_basket)
   }
   after_commit -> { source_basket.membership.touch }
+  after_commit -> { MailTemplate.deliver_later(:absence_basket_shifted, basket_shift: self) }
 
   def self.shiftable?(source, target)
     return unless new(absence: source.absence, source_basket: source, target_basket: target).valid?

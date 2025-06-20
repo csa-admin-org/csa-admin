@@ -29,6 +29,7 @@ class Liquid::DataPreviewTest < ActiveSupport::TestCase
         }
       },
       "member" =>  {
+        "absences_url" => "https://members.acme.test/absences",
         "activities_url" => "https://members.acme.test/activity_participations",
         "annual_fee" => "CHF 30.00",
         "balance" => "CHF 0.00",
@@ -103,6 +104,7 @@ class Liquid::DataPreviewTest < ActiveSupport::TestCase
 
     assert_equal({
       "member" =>  {
+        "absences_url" => "https://members.acme.test/absences",
         "activities_url" => "https://members.acme.test/activity_participations",
         "annual_fee" => "CHF 30.00",
         "balance" => "CHF 0.00",

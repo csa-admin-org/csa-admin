@@ -54,4 +54,23 @@ class Members::BasketShiftsTest < ApplicationSystemTestCase
 
     assert_text "It is no longer possible to shift this basket."
   end
+
+  test "notify member when mail template is active" do
+    mail_templates(:absence_basket_shifted).update!(active: true)
+
+    travel_to "2024-05-01"
+    absence = absences(:jane_thursday_5)
+    basket_shift = BasketShift.create!(
+      absence: absence,
+      source_basket: baskets(:jane_5),
+      target_basket: baskets(:jane_6))
+    perform_enqueued_jobs
+
+    assert_equal 1, AbsenceMailer.deliveries.size
+    mail = AbsenceMailer.deliveries.last
+    assert_equal "Basket shifted", mail.subject
+    assert_equal [ absence.member.emails_array.first ], mail.to
+    body = mail.html_part.body
+    assert_includes body, "New delivery date:</strong> 9 May 2024"
+  end
 end

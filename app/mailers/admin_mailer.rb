@@ -106,7 +106,7 @@ class AdminMailer < ApplicationMailer
       content = liquid_template.render(
         "admin" => Liquid::AdminDrop.new(@admin),
         "member" => Liquid::AdminMemberDrop.new(params[:member]),
-        "absence" => Liquid::AbsenceDrop.new(params[:absence]))
+        "absence" => Liquid::AdminAbsenceDrop.new(params[:absence]))
       content_mail(content,
         to: @admin.email,
         subject: t(".subject"),

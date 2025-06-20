@@ -1,6 +1,6 @@
 <p>Ciao {{ admin.name }},</p>
 
-<p>Il socio <strong>{{ member.name }}</strong> sarà assente dal {{ absence.started_on }} al {{ absence.ended_on }}.</p>
+<p>Il socio <strong>{{ member.name }}</strong> sarà assente dal {{ absence.start_date }} al {{ absence.end_date }}.</p>
 
 {% if absence.note %}
 <p>

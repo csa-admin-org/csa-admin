@@ -19,9 +19,11 @@ ActiveAdmin.register MailTemplate do
   scope :all
   scope :member
   scope :membership
+  scope :invoice
+  scope -> { Absence.model_name.human }, :absence,
+    if: -> { Current.org.feature?("absence") }
   scope -> { Activity.model_name.human }, :activity,
     if: -> { Current.org.feature?("activity") }
-  scope :invoice
 
   action_item :view, only: :index, if: -> { authorized?(:update, Organization) } do
     link_to t(".settings"), edit_organization_path(anchor: "mail"), class: "action-item-button"

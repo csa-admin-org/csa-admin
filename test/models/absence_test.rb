@@ -122,4 +122,25 @@ class AbsenceTest < ActiveSupport::TestCase
     assert_includes body, "Member's note:"
     assert_includes body, "A Super Note!"
   end
+
+  test "notify member when mail template is active" do
+    mail_templates(:absence_created).update!(active: true)
+
+    travel_to "2024-05-01"
+    absence = create_absence(
+      admin: admins(:master),
+      member: members(:john),
+      note: "A Super Note!",
+      started_on: 1.week.from_now,
+      ended_on: 2.weeks.from_now)
+    perform_enqueued_jobs
+
+    assert_equal 1, AbsenceMailer.deliveries.size
+    mail = AbsenceMailer.deliveries.last
+    assert_equal "Absence confirmation", mail.subject
+    assert_equal [ absence.member.emails_array.first ], mail.to
+    body = mail.html_part.body
+    assert_includes body, "Period:</strong> 8 May 2024 to 15 May 2024"
+    assert_includes body, "Affected deliveries:</strong> 1"
+  end
 end

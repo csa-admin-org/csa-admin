@@ -1,0 +1,12 @@
+<p>La sua assenza è stata registrata con successo:</p>
+
+{% highlight_list %}
+  <strong>Periodo:</strong> {{ absence.start_date }} al {{ absence.end_date }}
+  <strong>Consegne interessate:</strong> {{ absence.baskets_count }}
+{% endhighlight_list %}
+
+<p>Può consultare le sue assenze in qualsiasi momento dalla sua pagina membro.</p>
+
+{% button member.absences_url %}
+  Accedi alla mia pagina membro
+{% endbutton %}

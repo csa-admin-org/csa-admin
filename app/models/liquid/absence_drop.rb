@@ -5,11 +5,11 @@ class Liquid::AbsenceDrop < Liquid::Drop
     @absence = absence
   end
 
-  def started_on
+  def start_date
     I18n.l(@absence.started_on)
   end
 
-  def ended_on
+  def end_date
     I18n.l(@absence.ended_on)
   end
 
@@ -17,11 +17,7 @@ class Liquid::AbsenceDrop < Liquid::Drop
     @absence.note.presence
   end
 
-  def admin_url
-    Rails
-      .application
-      .routes
-      .url_helpers
-      .absence_url(@absence, {}, host: Current.org.admin_url)
+  def baskets_count
+    @absence.baskets.size
   end
 end

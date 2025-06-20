@@ -19,6 +19,7 @@ class Absence < ApplicationRecord
 
   after_create_commit :notify_admins!
   after_commit :update_memberships!
+  after_commit -> { MailTemplate.deliver_later(:absence_created, absence: self) }
 
   scope :past, -> { where(ended_on: ..Date.yesterday) }
   scope :future, -> { where(started_on: Date.tomorrow..) }

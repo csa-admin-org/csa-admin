@@ -1,6 +1,16 @@
 _:
   mail_template:
     default_subjects:
+      absence_basket_shifted:
+        _en: Basket shifted
+        _fr: Panier déplacé
+        _de: Tasche verschoben
+        _it: Cestino spostato
+      absence_created:
+        _en: Absence confirmation
+        _fr: Confirmation d'absence
+        _de: Abwesenheit bestätigt
+        _it: Assenza confermata
       activity_participation_rejected:
         _en: "Activity rejected \U0001F62C"
         _fr: "Activité refusée \U0001F62C"
@@ -77,6 +87,16 @@ _:
         _de: Ihr Abonnement verlängern (Mahnung)
         _it: Rinnovo del vostro abbonamento (promemoria)
     description:
+      absence_basket_shifted:
+        _en: Sent when a basket is shifted during an absence, by a member or an admin.
+        _fr: Envoyé quand un panier est déplacé durant une absence, par un membre ou un admin.
+        _de: Wird gesendet, wenn eine Tasche während einer Abwesenheit von einem Mitglied oder einem Admin bewegt wird.
+        _it: Inviato quando un cestino viene spostato durante un'assenza, da un socio o da un admin.
+      absence_created:
+        _en: Sent when an absence is created, by a member or an admin.
+        _fr: Envoyé quand une absence est créée, par un membre ou un admin.
+        _de: Wird gesendet, wenn eine Abwesenheit erstellt wird, von einem Mitglied oder einem Admin.
+        _it: Inviato quando una assenza è creata, da un socio o da un admin.
       activity_participation_rejected:
         _en: Sent when participation in an activity is rejected.
         _fr: Envoyé quand une participation à une activité est refusée.
@@ -153,6 +173,16 @@ _:
         _de: Gesendet, um das Mitglied daran zu erinnern, dass es das Abonnementserneuerungsformular noch nicht ausgefüllt hat (siehe <a href='/settings#membership_renewal'>die Einstellungen</a> für die Frist).
         _it: Inviato per ricordare al socio che non ha ancora completato il modulo di rinnovo dell'abbonamento (vedi <a href='/settings#membership_renewal'>parametri</a> per le scadenze).
     title:
+      absence_basket_shifted:
+        _en: Basket Shifted
+        _fr: Panier déplacé
+        _de: Tasche verschoben
+        _it: Cestino spostato
+      absence_created:
+        _en: New absence
+        _fr: Nouvelle absence
+        _de: Neue Abwesenheit
+        _it: Nuova assenza
       activity_participation_rejected:
         _en: Activity Rejected
         _fr: Activité refusée
@@ -182,7 +212,7 @@ _:
         _en: Invoice overdue notice
         _fr: Rappel facture
         _de: Mahnung der Rechnung
-        _it: Promemorai fattura
+        _it: Promemoria fattura
       member_activated:
         _en: Member activated
         _fr: Membre activé
@@ -196,7 +226,7 @@ _:
       membership_final_basket:
         _en: Final Basket
         _fr: Panier final
-        _de: Endgültiger Tasche
+        _de: Endgültige Tasche
         _it: Cestino finale
       membership_first_basket:
         _en: First Basket
