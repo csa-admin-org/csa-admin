@@ -1,0 +1,10 @@
+production: &production
+  demo:
+    domain: my-domain.org
+
+development:
+  <<: *production
+
+test:
+  acme:
+    domain: acme.test
