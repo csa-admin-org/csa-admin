@@ -64,7 +64,7 @@ ActiveAdmin.register Newsletter::Delivery do
         end
       end
       column do
-        panel t(".details"), action: handbook_icon_link("newsletters", anchor: "unsubscribe") do
+        panel t(".details"), action: handbook_icon_link("newsletters", anchor: "subscribe") do
           attributes_table do
             case delivery.state
             when "draft"

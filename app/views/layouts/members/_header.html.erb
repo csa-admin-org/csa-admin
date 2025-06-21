@@ -1,23 +1,28 @@
 <header class="grow flex flex-col flex-nowrap justify-between">
+
   <div class="m-4 flex-none flex justify-between md:justify-center items-center" data-menu-target="body">
     <div class="md:my-8">
       <%= link_to Current.org.url do %>
         <%= image_tag(org_logo_url, alt: "#{Current.org.name} Logo", class: "h-20 w-20 md:h-40 md:w-40") %>
       <% end %>
     </div>
+
     <div class="m-4 text-gray-900 dark:text-gray-100 md:hidden">
       <%= link_to "#menu", data: { action: "click->menu#show" } do %>
         <%= icon "bars-3", title: "Show Menu", class: "h-10 w-10" %>
       <% end %>
     </div>
   </div>
+
   <nav data-menu-target="menu" class="my-4 hidden grow flex-col w-full md:block">
     <div class="h-20 mx-8 mb-4 flex-none flex justify-end items-center text-gray-900 dark:text-gray-100 md:hidden">
       <%= link_to "#nomenu", data: { action: "click->menu#hide" }, class: "inline-block" do %>
         <%= icon "x-mark", title: "Hide Menu", class: "h-10 w-10" %>
       <% end %>
     </div>
+
     <div class="flex grow h-full flex-col justify-between">
+
       <% membership = current_member.closest_membership %>
       <% next_basket = current_member.next_basket %>
       <ul class="grow">
@@ -37,6 +42,7 @@
             <% end %>
           </li>
         <% end %>
+
         <% if show_shop_menu? %>
           <li class="py-2" aria-label="Shop Menu">
             <% if current_shop_delivery %>
@@ -73,6 +79,7 @@
             <% end %>
           </li>
         <% end %>
+
         <% if membership %>
           <li class="<%= nav_class("membership") %>">
             <%= link_to members_memberships_path(anchor: membership.renewal_opened? ? "renewal" : nil), class: "block py-2 px-8" do %>
@@ -105,6 +112,7 @@
             </li>
           <% end %>
         <% end %>
+
         <% if display_activity? %>
           <li class="<%= nav_class("activity_participations") %>">
             <%= link_to members_activity_participations_path, class: "block py-2 px-8" do %>
@@ -121,6 +129,7 @@
             <% end %>
           </li>
         <% end %>
+
         <li class="<%= nav_class("billing") %>">
           <%= link_to members_billing_path, class: "block py-2 px-8" do %>
             <h2 class="font-medium text-gray-700 dark:text-gray-400">
@@ -136,6 +145,7 @@
             <% end %>
           <% end %>
         </li>
+
         <% if display_absence? %>
           <li class="<%= nav_class("absences") %>">
             <%= link_to members_absences_path, class: "block py-2 px-8" do %>
@@ -152,6 +162,24 @@
             <% end %>
           </li>
         <% end %>
+
+        <% if newsletter = Newsletter.for(current_member).first %>
+          <li class="<%= nav_class("newsletter") %>">
+            <%= link_to members_newsletter_deliveries_path, class: "block py-2 px-8" do %>
+              <h2 class="font-medium text-gray-700 dark:text-gray-400">
+                <%= Newsletter.model_name.human(count: 2) %>
+              </h2>
+              <span>
+                <% if newsletter_unsubscribed? %>
+                  <%= t(".newsletter_subscribe") %>
+                <% else %>
+                  <%= t(".delivery", date: l(newsletter.sent_at.to_date)) %>
+                <% end %>
+              </span>
+            <% end %>
+          </li>
+        <% end %>
+
         <li class="mt-12 flex items-center justify-center md:justify-start">
           <%= link_to members_account_path, class: "py-2 px-8 flex items-center" do %>
             <span class="w-8 -ms-1">
@@ -161,7 +189,7 @@
           <% end %>
         </li>
         <li class="mt-2 md:mt-0.5">
-          <%= button_to members_logout_path, method: :delete, class: "px-8 flex items-center text-gray-300 dark:text-gray-700 hover:text-green-500" do %>
+          <%= button_to members_logout_path, method: :delete, class: "px-8 flex items-center text-gray-300 dark:text-gray-700 hover:text-green-500", form_class: "flex justify-center md:justify-start" do %>
             <span class="w-8 -ms-1">
               <%= icon "arrow-right-start-on-rectangle", class: "mx-1 size-6" %>
             </span>

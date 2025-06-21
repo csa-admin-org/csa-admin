@@ -1,6 +1,18 @@
 # frozen_string_literal: true
 
 module NewslettersHelper
+  def display_newsletter?
+    Newsletter.any?
+  end
+
+  def newsletter_unsubscribed?
+    EmailSuppression
+      .unsuppressable
+      .where(email: current_session.email)
+      .broadcast
+      .any?
+  end
+
   def newsletter_audience_collection
     Newsletter::Audience.segments.map { |key, segments|
       [

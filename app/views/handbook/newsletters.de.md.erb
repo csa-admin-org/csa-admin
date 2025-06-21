@@ -35,7 +35,7 @@ Beispiel eines Blocks mit Titel und Standardinhalt:
 
 ## Anhänge
 
-Sie können Ihren Newsletters Anhänge hinzufügen, aber das Gesamtgewicht dieser Anhänge sollte 5 MB nicht überschreiten.
+Sie können Ihren Newsletters Anhänge hinzufügen, aber das Gesamtgewicht dieser Anhänge darf 5 MB nicht überschreiten.
 
 Wenn Sie schwerere Anhänge versenden möchten, können Sie einen externen Dienst wie [SwissTransfer](https://www.swisstransfer.com) verwenden oder sie auf Ihrer Website hosten und einfach einen Link zu diesen Dateien in Ihrem Newsletter hinzufügen.
 
@@ -43,12 +43,12 @@ Wenn Sie schwerere Anhänge versenden möchten, können Sie einen externen Diens
 
 Um den automatischen Versand eines Newsletters zu planen, geben Sie ein zukünftiges Datum im Feld "Versand geplant am" an. Das System wird ihn automatisch in der Nacht des gewählten Datums versenden. Stellen Sie sicher, dass der Inhalt finalisiert ist, bevor Sie einen Versand planen!
 
-## Abmeldungen {#unsubscribe}
+## Abmeldung
 
-Mit CSA Admin versandte Newsletters enthalten einen (obligatorischen) Abmeldelink in ihrer Fußzeile.
+Alle Mitglieder sind standardmäßig für Newsletters angemeldet. Jedes Mitglied kann sich jederzeit abmelden, indem es auf den obligatorischen Abmeldelink klickt, der in der Fußzeile jedes Newsletters vorhanden ist.
 
-Ein Link zur erneuten Anmeldung ist im [Konto des Mitglieds](<%= members_account_url(subdomain: Current.org.members_subdomain) %>) unter seiner E-Mail-Adresse vorhanden.
+## Wiederanmeldung {#subscribe}
 
-![Link zur erneuten Anmeldung](<%= image_url("handbook/newsletters/subscribe-back.de.png") %>){:class="small"}
+Mitglieder, die sich abgemeldet haben, können sich problemlos wieder anmelden über [ihr Konto](<%= members_newsletter_deliveries_url(subdomain: Current.org.members_subdomain) %>) im Bereich "Newsletters".
 
-> Bitte beachten Sie, dass der Abmeldelink nur im Konto des Mitglieds angezeigt wird, wenn die Sitzung direkt vom Mitglied und nicht von einem Admin initiiert wurde.
+> Bitte beachten Sie, dass der Link zur Wiederanmeldung für Newsletter nur im Konto des Mitglieds erscheint, wenn sich dieses selbst angemeldet hat, und nicht wenn ein Administrator sich in sein Konto eingeloggt hat.

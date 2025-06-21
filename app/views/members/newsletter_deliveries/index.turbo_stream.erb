@@ -1,0 +1,11 @@
+<%= turbo_stream.append "newsletters" do %>
+  <%= render @newsletters %>
+<% end %>
+
+<%= turbo_stream.replace "show-more" do %>
+  <% if @next_offset %>
+    <%= render "show_more" %>
+  <% else %>
+    <turbo-frame id="show-more"></turbo-frame>
+  <% end %>
+<% end %>

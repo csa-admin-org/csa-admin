@@ -49,6 +49,7 @@ Rails.application.routes.draw do
       get "/login" => "sessions#new", as: :login
       delete "/logout" => "sessions#destroy", as: :logout
 
+      resources :newsletter_deliveries, only: [ :index, :show ], path: "newsletters"
       get "/newsletters/unsubscribe/:token" => "newsletter_subscriptions#destroy", as: "unsubscribe_newsletter"
       #  List-Unsubscribe-Post
       post "/newsletters/unsubscribe/:token/post" => "newsletter_subscriptions#destroy", as: "unsubscribe_newsletter_post"

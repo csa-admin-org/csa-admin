@@ -43,12 +43,12 @@ Si vous souhaitez envoyer des pièces jointes plus lourdes, vous pouvez utiliser
 
 Pour planifier l'envoi automatique d'une newsletter, indiquez une date future dans le champ "Envoie planifié le". Le système l'enverra automatiquement dans la nuit de la date choisie. Assurez-vous que le contenu soit finalisé avant de planifier un envoi!
 
-## Désinscriptions {#unsubscribe}
+## Désinscription
 
-Les newsletters envoyées avec CSA Admin incluent un lien de désinscription (obligatoire) dans leur bas de page.
+Tous les membres sont inscrits par défaut aux newsletters. Chaque membre peut se désinscrire à tout moment en cliquant sur le lien de désinscription obligatoire présent dans leur bas de page de chaque newsletter.
 
-Un lien de réinscription est présent dans [le compte du membre](<%= members_account_url(subdomain: Current.org.members_subdomain) %>) en dessous de son adresse email.
+## Réinscription {#subscribe}
 
-![lien de réinscription](<%= image_url("handbook/newsletters/subscribe-back.fr.png") %>){:class="small"}
+Les membres qui se sont désinscrits peuvent facilement s'abonner à nouveau depuis [leur compte](<%= members_newsletter_deliveries_url(subdomain: Current.org.members_subdomain) %>) dans la section "Newsletters".
 
-> Merci de noter que le lien de désinscription est uniquement affiché dans le compte du membre quand la session a été initiée directement par le membre et non par un admin.
+> Merci de noter que le lien de réinscription aux newsletters n'apparaît dans le compte du membre que si celui-ci s'est connecté lui-même, et non lorsqu'un admin accède au compte à sa place.

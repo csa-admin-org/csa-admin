@@ -521,7 +521,8 @@ class Members::MembersTest < ApplicationSystemTestCase
       "Contact sharing\n⤷ Our farm",
       "½ Days\n⤷ 2 of 2 requested",
       "Billing\n⤷ View history",
-      "Absences\n⤷ Let us know!"
+      "Absences\n⤷ Let us know!",
+      "Newsletters\n⤷ 1 April 2024"
     ], menu_nav
   end
 

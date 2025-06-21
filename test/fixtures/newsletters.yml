@@ -3,3 +3,10 @@ simple:
   audience: member_state::active
   subjects:
     en: "Subject {{ member.name }}"
+
+sent:
+  template: simple
+  audience: member_state::active
+  subjects:
+    en: "Subject {{ member.name }}"
+  sent_at: <%= Date.new(2024, 4, 1) %>

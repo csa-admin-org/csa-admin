@@ -9,12 +9,15 @@ export default class extends Controller {
     let toggleColorThemeButton = document.querySelector(
       "button.dark-mode-toggle"
     )
-    toggleColorThemeButton.addEventListener("mouseup", () => {
-      this._toggleColorScheme()
-    })
+    if (toggleColorThemeButton) {
+      toggleColorThemeButton.addEventListener("mouseup", () => {
+        this._toggleColorScheme()
+      })
+    }
   }
 
   iframeTargetConnected(element) {
+    console.log("iframeTargetConnected")
     element.onload = () => {
       this._resize()
       this._setColorScheme()
