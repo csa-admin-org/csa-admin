@@ -42,6 +42,13 @@ class Newsletter < ApplicationRecord
 
   after_save_commit :save_draft_deliveries!
 
+  def self.for(member)
+    sent
+      .eager_load(:deliveries)
+      .merge(Newsletter::Delivery.processed.where(member_id: member.id))
+      .order(sent_at: :desc)
+  end
+
   def from=(value)
     self[:from] = value.presence
   end

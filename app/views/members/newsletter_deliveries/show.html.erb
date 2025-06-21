@@ -1,0 +1,10 @@
+<%= turbo_frame_tag @delivery do %>
+  <div data-controller="iframe">
+    <iframe
+      srcdoc="<%= @delivery.mail_preview %>"
+      scrolling="no"
+      class="mail_preview"
+      data-iframe-target="iframe"
+    ></iframe>
+  </div>
+<% end %>

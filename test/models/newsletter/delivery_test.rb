@@ -44,8 +44,6 @@ class NewsletterDeliveryTest < ActiveSupport::TestCase
 
   test "send newsletter" do
     newsletter = newsletters(:simple)
-    # # simulate newsletter sent
-    # newsletter.update!(template_contents: newsletter_templates(:simple).contents)
 
     assert_difference -> { ActionMailer::Base.deliveries.count }, 2 do
       perform_enqueued_jobs do

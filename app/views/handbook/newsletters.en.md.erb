@@ -43,12 +43,12 @@ If you wish to send heavier attachments, you can use an external service such as
 
 To schedule the automatic sending of a newsletter, specify a future date in the "Delivery scheduled on" field. The system will automatically send it during the night of the chosen date. Make sure that the content is finalized before scheduling a send!
 
-## Unsubscriptions {#unsubscribe}
+## Unsubscription
 
-Newsletters sent with CSA Admin include an unsubscribe link (mandatory) in their footer.
+All members are subscribed to newsletters by default. Each member can unsubscribe at any time by clicking on the mandatory unsubscribe link present in the footer of each newsletter.
 
-A resubscribe link is present in [the member's account](<%= members_account_url(subdomain: Current.org.members_subdomain) %>) below their email address.
+## Resubscription {#subscribe}
 
-![resubscribe link](<%= image_url("handbook/newsletters/subscribe-back.en.png") %>){:class="small"}
+Members who have unsubscribed can easily subscribe again from [their account](<%= members_newsletter_deliveries_url(subdomain: Current.org.members_subdomain) %>) in the "Newsletters" section.
 
-> Please note that the unsubscribe link is only displayed in the member's account when the session has been initiated directly by the member and not by an admin.
+> Please note that the newsletter resubscription link only appears in the member's account if they have logged in themselves, and not when an admin has logged into their account on their behalf.

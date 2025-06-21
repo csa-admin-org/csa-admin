@@ -115,11 +115,6 @@ _:
           _fr: Aucun
           _de: Kein
           _it: Nessuno
-        subscribe_back_to_newsletter:
-          _en: I would like to subscribe to the newsletter again
-          _fr: Je souhaite à nouveau m'inscrire aux newsletters
-          _de: Ich möchte mich erneut für Newsletter anmelden
-          _it: Vorrei iscrivermi nuovamente alle newsletter
         title:
           _en: Account
           _fr: Compte
@@ -654,10 +649,10 @@ _:
       destroy:
         flash:
           notice:
-            _en: Thank you for subscribing to our newsletter again!
-            _fr: Merci de vous être à nouveau inscrit à nos newsletters!
-            _de: Vielen Dank, dass Sie sich wieder für unseren Newsletter angemeldet haben!
-            _it: Grazie per esservi nuovamente iscritti alla nostra newsletter!
+            _en: Thank you for subscribing to the newsletter!
+            _fr: Merci de vous être abonné à la newsletter!
+            _de: Vielen Dank, dass Sie sich für den Newsletter angemeldet haben!
+            _it: Grazie per esserti iscritto alla newsletter!
     information:
       default_title:
         _en: Information
@@ -1016,6 +1011,18 @@ _:
             _fr: encore %{count} à l'essai et sans engagement
             _de: "%{count} weitere auf Probe und unverbindlich"
             _it: ancora %{count} di prova e senza impegno
+    newsletter_deliveries:
+      index:
+        subscribe:
+          _en: Subscribe
+          _fr: S'abonner
+          _de: Abonnieren
+          _it: Iscriviti
+        unsubscribed_html:
+          _en: "<em>%{email}</em> is not subscribed"
+          _fr: "<em>%{email}</em> n'est pas abonné"
+          _de: "<em>%{email}</em> ist nicht abonniert"
+          _it: "<em>%{email}</em> non è iscritto"
     newsletter_subscriptions:
       create:
         title:
@@ -1319,3 +1326,8 @@ _:
         _fr: Conditions de vente
         _de: Verkaufsbedingungen
         _it: Condizioni di vendita
+    show_more:
+      _en: Show more
+      _fr: Voir plus
+      _de: Mehr anzeigen
+      _it: Mostra altro

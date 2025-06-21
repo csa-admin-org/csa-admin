@@ -101,6 +101,11 @@ _:
           _fr: "⤷ Période d'essai"
           _de: "⤷ Probezeit"
           _it: "⤷ Periodo di prova"
+        newsletter_subscribe:
+          _en: "⤷ Subscribe!"
+          _fr: "⤷ Abonnez-vous!"
+          _de: "⤷ Abonnieren Sie!"
+          _it: "⤷ Iscriviti!"
         no_activity_participations_demanded:
           _en: "⤷ No commitment"
           _fr: "⤷ Aucun engagement"

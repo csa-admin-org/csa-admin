@@ -25,9 +25,6 @@
       <%= icon "envelope", class: "size-6" %>
       <span class="ml-4">
         <%= display_emails(current_member) %>
-        <% if newsletter_unsubscribed? %>
-          <%= button_to t(".subscribe_back_to_newsletter"), members_email_suppression_path, method: :delete, class: "mt-1 block text-left md:min-w-min min-w-full text-sm hover:text-green-500 underline" %>
-        <% end %>
       </span>
     </li>
     <li class="flex flex-row">

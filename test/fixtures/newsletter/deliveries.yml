@@ -3,3 +3,11 @@ simple_john:
   member: john
   email: john@doe.com
   state: processing
+
+sent_john:
+  newsletter: sent
+  member: john
+  email: john@doe.com
+  state: sent
+  subject: "Subject John Doe"
+  processed_at: <%= Date.new(2024, 4, 1) %>

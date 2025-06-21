@@ -293,14 +293,6 @@ module MembersHelper
     parts.join(", ").html_safe
   end
 
-  def newsletter_unsubscribed?
-    EmailSuppression
-      .unsuppressable
-      .broadcast
-      .where(email: current_session.email)
-      .any?
-  end
-
   def display_shares_number(member)
     parts = []
     if member.existing_shares_number&.positive?
