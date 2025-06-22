@@ -1,16 +1,14 @@
-<h1 class="mt-1 mb-8 text-xl sm:text-2xl font-extrabold text-gray-900 dark:text-gray-100">
-  <%= t(".title", year: @membership.fiscal_year) %>
-</h1>
-<h2 class="mt-8 text-lg font-bold text-gray-900 dark:text-gray-100">
-  <%= t(".subtitle") %>
-</h2>
-<% if Current.org.membership_update_text? %>
-  <div class="trix mt-2 mb-8 justify">
-    <%= Current.org.membership_update_text %>
-  </div>
-<% end %>
-<section class="mt-4 w-full">
-  <%= simple_form_for @membership do |f| %>
+<h1><%= t(".title", year: @membership.fiscal_year) %></h1>
+
+<section>
+  <h2><%= t(".subtitle") %></h2>
+  <% if Current.org.membership_update_text? %>
+    <div class="trix mt-2 mb-8 justify">
+      <%= Current.org.membership_update_text %>
+    </div>
+  <% end %>
+
+  <%= simple_form_for @membership, html: { class: "mt-4" } do |f| %>
     <% member_updatable_baskets = @membership.member_updatable_baskets %>
     <% if Current.org.membership_depot_update_allowed? %>
       <div class="space-y-8">

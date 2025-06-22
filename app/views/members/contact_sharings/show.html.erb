@@ -1,10 +1,7 @@
-<h1 class="mt-1 mb-8 text-xl sm:text-2xl font-extrabold text-gray-900 dark:text-gray-100">
-  <%= Member.human_attribute_name(:contact_sharing) %>
-</h1>
-<h2 class="mt-8 text-lg font-bold text-gray-900 dark:text-gray-100">
-  <%= Depot.model_name.human %>: <%= @depot.public_name %>
-</h2>
+<h1><%= Member.human_attribute_name(:contact_sharing) %></h1>
+
 <section>
+  <h2><%= Depot.model_name.human %>: <%= @depot.public_name %></h2>
   <% if current_member.errors.none? && current_member.contact_sharing? %>
     <p class="mt-2">
       <%= t(".description") %>
@@ -14,7 +11,7 @@
         <%= t(".nobody_sharing_contact") %>
       </p>
     <% else %>
-      <ul id="members" class="my-4 w-full flex flex-col gap-4">
+      <ul id="members" class="mt-8 mb-4 w-full flex flex-col gap-4">
         <% @members.each do |member| %>
           <li class="p-2 -mx-2 md:px-3 md:-mx-3 grow rounded-md hover:bg-gray-100 dark:hover:bg-gray-900">
             <h3 class="mb-2 text-base font-medium text-gray-800 dark:text-gray-200">
@@ -42,10 +39,10 @@
       <%= t(".cancel_sharing_html", email: Current.org.email) %>
     </p>
   <% else %>
-    <p class="mt-2">
+    <p class="my-2">
       <%= t(".explanation") %>
     </p>
-    <%= simple_form_for current_member, url: members_contact_sharing_path, method: :post do |f| %>
+    <%= simple_form_for current_member, url: members_contact_sharing_path, method: :post, html: { class: "mt-8" } do |f| %>
       <div class="mt-4">
         <%= f.input :contact_sharing, as: :hidden, input_html: { value: true } %>
         <%= f.input :terms_of_service, as: :boolean, label: t(".terms_of_service"), input_html: { class: "mr-4 flex-none size-6 rounded-sm  focus:outline-hidden focus:ring-green-500 focus:border-green-500 cursor-pointer" }, label_html: { class: "text-sm font-normal text-gray-700 dark:text-gray-300 flex flex-row flex-nowrap items-center cursor-pointer" }, wrapper_class: "border-gray-200 dark:border-gray-800 border rounded-sm px-4 py-4" %>

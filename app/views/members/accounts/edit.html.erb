@@ -1,7 +1,6 @@
-<h1 class="mt-1 mb-8 text-xl sm:text-2xl font-extrabold text-gray-900 dark:text-gray-100">
-  <%= t(".title") %>
-</h1>
-<section class="w-full">
+<h1><%= t(".title") %></h1>
+
+<section>
   <%= simple_form_for current_member, url: members_account_path do |f| %>
     <div class="space-y-6">
       <%= f.input :name, hint: t(".name_hint"), label: t("members.members.new.name"), label_html: { class: "text-sm font-medium text-gray-700 dark:text-gray-300" }, input_html: { class: "mt-1 dark:bg-black w-full px-3 py-2 border border-gray-300 dark:border-gray-700 placeholder-gray-400 dark:placeholder-gray-600 text-gray-900 dark:text-gray-100 rounded-md focus:outline-hidden focus:ring-green-500 focus:border-green-500 focus:z-10" }, hint_html: { class: "text-sm" } %>
@@ -18,7 +17,7 @@
       <% end %>
     </div>
 
-    <div data-controller="visibility" class="mt-6" aria-label="Billing">
+    <div data-controller="visibility" class="my-6" aria-label="Billing">
       <%= f.input :different_billing_info, as: :boolean, input_html: { data: { action: "visibility#toggle" }, class: "mr-2 flex-none size-5" }, label_html: { class: "text-sm font-normal text-gray-700 dark:text-gray-300 flex flex-row flex-nowrap items-center cursor-pointer" }, wrapper_class: "px-0" %>
       <div class="mt-4 space-y-6 <%= f.object.different_billing_info ? "" : "hidden" %>" data-visibility-target="element">
         <%= f.input :billing_name, required: true, label_html: { class: "text-sm font-medium text-gray-700 dark:text-gray-300" }, input_html: { disabled: !f.object.different_billing_info, class: "mt-1 dark:bg-black w-full px-3 py-2 border border-gray-300 dark:border-gray-700 placeholder-gray-400 dark:placeholder-gray-600 text-gray-900 dark:text-gray-100 rounded-md focus:outline-hidden focus:ring-green-500 focus:border-green-500 focus:z-10" } %>

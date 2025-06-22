@@ -1,10 +1,8 @@
-<h1 class="mt-1 mb-8 text-xl sm:text-2xl font-extrabold text-gray-900 dark:text-gray-100">
-  <%= Absence.model_name.human(count: 2) %>
-</h1>
+<h1><%= Absence.model_name.human(count: 2) %></h1>
 
 <% if basket = next_shiftable_basket %>
   <%= link_to deliveries_path(anchor: dom_id(basket)), data: { turbo: false } do %>
-    <div class="p-2 rounded border-1 border-dashed border-teal-500 bg-teal-100 hover:bg-teal-200 dark:bg-teal-900 hover:dark:bg-teal-800 text-teal-700   dark:text-teal-300 flex items-center gap-2">
+    <div class="mb-4 p-2 rounded border-1 border-dashed border-teal-500 bg-teal-100 hover:bg-teal-200 dark:bg-teal-900 hover:dark:bg-teal-800 text-teal-700   dark:text-teal-300 flex items-center gap-2">
       <%= icon "redo", class: "size-5 w-8 " %>
       <span>
         <%= t(".shift_baskets", count: current_member.current_or_future_membership.basket_shifts_allowance_remaining) %>
@@ -13,26 +11,24 @@
   <% end %>
 <% end %>
 
-<h2 class="mt-8 text-lg font-bold text-gray-900 dark:text-gray-100">
-  <%= t(".form_title") %>
-</h2>
-<% if Current.org.absence_extra_text.present? %>
-  <div class="mt-2 trix">
-    <%= Current.org.absence_extra_text %>
-  </div>
-<% end %>
-<% unless Current.org.absence_extra_text_only? %>
-  <% if Current.org.absences_billed? %>
-    <p class="mt-2">
-      <%= t(".explanation_billed") %>
-    </p>
+<section>
+  <h2><%= t(".form_title") %></h2>
+  <% if Current.org.absence_extra_text.present? %>
+    <div class="mt-2 trix">
+      <%= Current.org.absence_extra_text %>
+    </div>
   <% end %>
-<% end %>
+  <% unless Current.org.absence_extra_text_only? %>
+    <% if Current.org.absences_billed? %>
+      <p class="mt-2">
+        <%= t(".explanation_billed") %>
+      </p>
+    <% end %>
+  <% end %>
 
-<div class="mb-12">
-  <%= simple_form_for [ :members, @absence ] do |f| %>
+  <%= simple_form_for [ :members, @absence ], html: { class: "mt-8" } do |f| %>
     <div class="space-y-6">
-      <div class="mt-8 flex-none flex flex-col md:flex-row w-full md:min-w-min md:mr-0 justify-between space-y-4 md:space-y-0 md:space-x-4 md:justify-start md:w-96">
+      <div class="flex-none flex flex-col md:flex-row w-full md:min-w-min md:mr-0 justify-between space-y-4 md:space-y-0 md:space-x-4 md:justify-start md:w-96">
         <%= f.input :started_on, as: :date, html5: true,
             label_html: { class: "text-sm font-medium text-gray-700 dark:text-gray-300" },
             input_html: {
@@ -57,7 +53,7 @@
             label_html: { class: "text-sm font-medium text-gray-700 dark:text-gray-300" },
             input_html: {
               rows: 3,
-              class: "mt-1 dark:bg-black w-full px-3 py-2 border border-gray-300 dark:border-gray-700 placeholder-gray-400 dark:placeholder-gray-600 text-gray-900 dark:text-gray-100 rounded-md focus:outline-hidden focus:ring-green-500 focus:border-green-500 focus:z-10"
+              class: "mt-1 -mb-2 dark:bg-black w-full px-3 py-2 border border-gray-300 dark:border-gray-700 placeholder-gray-400 dark:placeholder-gray-600 text-gray-900 dark:text-gray-100 rounded-md focus:outline-hidden focus:ring-green-500 focus:border-green-500 focus:z-10"
             } %>
       </div>
     </div>
@@ -71,37 +67,37 @@
       <%= t(".absences_included_explanation_html", count: absences_included) %>
     </p>
   <% end %>
-</div>
+</section>
+
 <% @present_or_future_absences = current_member.absences.present_or_future.includes(:baskets) %>
 <% if @present_or_future_absences.any? %>
-  <h2 class="mt-8 text-lg font-bold text-gray-900 dark:text-gray-100">
-    <%= t(".present_or_future_absences") %>
-  </h2>
-  <ul class="mt-2 space-y-1 w-full">
-    <% @present_or_future_absences.each do |absence| %>
-      <li class="space-x-2 flex-none flex flex-wrap flex-row justify-between items-center hover:bg-gray-100 dark:hover:bg-gray-900 rounded-sm p-1 px-2 -mx-2">
-        <span class="min-w-fit flex flex-row items-center">
-          <%= "#{l(absence.started_on)} – #{l(absence.ended_on)}" %>
-          <%= " (#{t('.deliveries_count', count: absence.baskets.size)})" %>
-        </span>
-        <% if absence.note? %>
-          <%= tooltip("absence-#{absence.id}", absence.note, icon_name: "chat-bubble-bottom-center-text") %>
-        <% end %>
-        <span class="mt-1 md:mt-0 grow flex-none flex flex-row items-center align-center justify-end gap-2">
-          <%= button_to t(".cancel_link"), [ :members, absence ], method: :delete,
+  <section>
+    <h2><%= t(".present_or_future_absences") %></h2>
+    <ul class="mt-2 space-y-1 w-full">
+      <% @present_or_future_absences.each do |absence| %>
+        <li class="space-x-2 flex-none flex flex-wrap flex-row justify-between items-center hover:bg-gray-100 dark:hover:bg-gray-900 rounded-sm p-1 px-2 -mx-2">
+          <span class="min-w-fit flex flex-row items-center">
+            <%= "#{l(absence.started_on)} – #{l(absence.ended_on)}" %>
+            <%= " (#{t('.deliveries_count', count: absence.baskets.size)})" %>
+          </span>
+          <% if absence.note? %>
+            <%= tooltip("absence-#{absence.id}", absence.note, icon_name: "chat-bubble-bottom-center-text") %>
+          <% end %>
+          <span class="mt-1 md:mt-0 grow flex-none flex flex-row items-center align-center justify-end gap-2">
+            <%= button_to t(".cancel_link"), [ :members, absence ], method: :delete,
             class: "btn btn-xs",
             form_class: "flex items-center" %>
-        </span>
-      </li>
-    <% end %>
-  </ul>
+          </span>
+        </li>
+      <% end %>
+    </ul>
+  </section>
 <% end %>
+
 <% @past_absences = current_member.absences.during_year(Current.fiscal_year).past.order("ended_on DESC") %>
 <% if @past_absences.any? %>
   <section>
-    <h2 class="mt-8 text-lg font-bold text-gray-900 dark:text-gray-100">
-      <%= t(".past_absences") %>
-    </h2>
+    <h2><%= t(".past_absences") %></h2>
     <ul class="mt-2 space-y-1 w-full">
       <% @past_absences.each do |absence| %>
         <li class="space-x-2 flex flex-wrap md:flex-nowrap flex-row justify-start items-center align-center hover:bg-gray-100 dark:hover:bg-gray-900 rounded-sm p-1 px-2 -mx-2">

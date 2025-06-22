@@ -1,4 +1,4 @@
-<h1 class="text-center text-xl sm:text-2xl font-extrabold text-gray-900 dark:text-gray-100">
+<h1 class="text-center">
   <%= t(".title") %>
 </h1>
 
@@ -53,7 +53,7 @@
       <% if Current.org.terms_of_service? %>
         <%= f.input :terms_of_service, as: :boolean, label: terms_of_service_label, input_html: { class: "mr-4 flex-none size-6 rounded-sm  focus:outline-hidden focus:ring-green-500 focus:border-green-500 cursor-pointer" }, label_html: { class: "text-sm font-normal text-gray-700 dark:text-gray-300 flex flex-row flex-nowrap items-center cursor-pointer" }, wrapper_class: "border-gray-200 dark:border-gray-800 border rounded-sm px-4 py-4" %>
       <% end %>
-      <div class="actions print:hidden">
+      <div class="actions -mt-4 print:hidden">
         <%= f.button :submit, t(".submit") %>
       </div>
     </div>
