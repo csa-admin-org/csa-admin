@@ -1,5 +1,7 @@
 @layer components {
   body.members {
+    @apply text-base text-gray-600 dark:text-gray-400;
+
     header img {
       @apply dark:hue-rotate-180 dark:invert;
     }
@@ -17,6 +19,36 @@
     b,
     strong {
       @apply font-semibold;
+    }
+
+    h1 {
+      @apply mb-12 text-balance text-4xl font-normal tracking-normal text-gray-950 dark:text-white;
+    }
+
+    h2 {
+      @apply text-xl font-medium text-gray-900 dark:text-gray-100;
+    }
+
+    section {
+      @apply mb-16 mt-8;
+    }
+
+    header {
+      h2 {
+        @apply mt-0 text-base font-medium text-gray-700 dark:text-gray-400;
+      }
+
+      li span {
+        @apply text-gray-500 hover:text-green-500;
+      }
+      li.active span,
+      span.active {
+        @apply cursor-default text-green-500;
+      }
+
+      li a {
+        @apply block px-8 py-2;
+      }
     }
 
     /* Custom CSS */
@@ -46,13 +78,6 @@
       @apply mt-0 hidden w-0 p-0;
     }
 
-    li.active a,
-    li.active a h2,
-    h2.active,
-    span.active {
-      @apply cursor-default text-green-500;
-    }
-
     input.controls-none::-webkit-outer-spin-button,
     input.controls-none::-webkit-inner-spin-button {
       @apply m-0 appearance-none;
@@ -63,7 +88,7 @@
     }
 
     form .actions {
-      @apply mt-8 flex w-full flex-col justify-end gap-4 gap-y-3 md:flex-row;
+      @apply mt-6 flex w-full flex-col justify-end gap-4 gap-y-3 md:flex-row;
 
       input[type="submit"] {
         @apply order-1;

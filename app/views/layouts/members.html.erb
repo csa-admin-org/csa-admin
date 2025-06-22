@@ -9,7 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <%= render "layouts/members/dark_mode_switch" %>
   </head>
-  <body class="members dark:bg-black text-gray-500" data-controller="menu">
+  <body class="members dark:bg-black" data-controller="menu">
     <% if current_member %>
       <div class="flex flex-col md:flex-row md:mx-auto md:max-w-4xl">
         <div class="flex flex-col md:w-80">
@@ -21,14 +21,14 @@
           </div>
         </div>
         <main class="mt-4 md:mt-48 mb-24 mx-auto px-4 md:pl-0 w-full md:max-w-xl" data-menu-target="body">
-          <section class="relative w-full">
+          <div class="relative w-full">
             <div class="md:absolute md:-mt-24 w-full">
               <%= render "layouts/members/flashes" %>
             </div>
             <div>
               <%= yield %>
             </div>
-          </section>
+          </div>
         </main>
       </div>
     <% else %>
@@ -43,10 +43,10 @@
               </div>
             </header>
             <main class="w-full" data-menu-target="body">
-              <section class="w-full">
+              <div class="w-full">
                 <%= render "layouts/members/flashes" %>
                 <%= yield %>
-              </section>
+              </div>
             </main>
           </div>
           <div class="mt-48 flex-none flex print:hidden">

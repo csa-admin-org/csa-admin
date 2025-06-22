@@ -28,10 +28,8 @@
       <ul class="grow">
         <% if current_member.baskets.any? %>
           <li class="<%= nav_class("deliveries") %>">
-            <%= link_to members_deliveries_path, class: "block py-2 px-8" do %>
-              <h2 class="font-medium text-gray-700 dark:text-gray-400">
-                <%= Delivery.model_name.human(count: 2) %>
-              </h2>
+            <%= link_to members_deliveries_path do %>
+              <h2><%= Delivery.model_name.human(count: 2) %></h2>
               <span>
                 <% if next_basket %>
                   <%= t(".delivery", date: l(next_basket.delivery.date)) %>
@@ -46,17 +44,15 @@
         <% if show_shop_menu? %>
           <li class="py-2" aria-label="Shop Menu">
             <% if current_shop_delivery %>
-              <%= link_to members_shop_path, class: "block px-8" do %>
-                <h2 class="font-medium text-gray-700 dark:text-gray-400 <%= nav_class("shop") %>">
-                  <%= t("activerecord.models.shop.one") %>
-                </h2>
+              <%= link_to members_shop_path, class: "py-0" do %>
+                <h2><%= t("activerecord.models.shop.one") %></h2>
                 <span class="<%= nav_class("shop") if @order&.delivery == current_shop_delivery %>">
                   <%= t(".delivery", date: l(current_shop_delivery.date)) %>
                 </span>
               <% end %>
             <% end %>
             <% if !current_shop_delivery&.shop_open? && next_shop_delivery %>
-              <%= link_to members_shop_next_path, class: "block px-8" do %>
+              <%= link_to members_shop_next_path, class: "py-0" do %>
                 <span class="<%= nav_class("shop") if @order&.delivery == next_shop_delivery %>">
                   <%= t(".delivery", date: l(next_shop_delivery.date)) %>
                 </span>
@@ -66,9 +62,9 @@
               <div class="my-2"></div>
             <% end %>
             <% shop_special_deliveries.each do |delivery| %>
-              <%= link_to members_shop_special_delivery_path(delivery.date), class: "block px-8" do %>
+              <%= link_to members_shop_special_delivery_path(delivery.date), class: "py-0" do %>
                 <% unless current_shop_delivery %>
-                  <h2 class="font-medium text-gray-700 dark:text-gray-400 <%= nav_class("shop") %>">
+                  <h2 class="<%= nav_class("shop") %>">
                     <%= t("activerecord.models.shop.one") %>
                   </h2>
                 <% end %>
@@ -82,10 +78,8 @@
 
         <% if membership %>
           <li class="<%= nav_class("membership") %>">
-            <%= link_to members_memberships_path(anchor: membership.renewal_opened? ? "renewal" : nil), class: "block py-2 px-8" do %>
-              <h2 class="font-medium text-gray-700 dark:text-gray-400">
-                <%= Membership.model_name.human %>
-              </h2>
+            <%= link_to members_memberships_path(anchor: membership.renewal_opened? ? "renewal" : nil) do %>
+              <h2><%= Membership.model_name.human %></h2>
               <% if membership.renewal_opened? %>
                 <span class="text-red-500">
                   <%= t(".membership_renewal") %>
@@ -101,12 +95,11 @@
               <% end %>
             <% end %>
           </li>
+
           <% if next_basket && Current.org.feature?("contact_sharing") %>
             <li class="<%= nav_class("contact_sharing") %>">
-              <%= link_to members_contact_sharing_path, class: "block py-2 px-8" do %>
-                <h2 class="font-medium text-gray-700 dark:text-gray-400">
-                  <%= Member.human_attribute_name(:contact_sharing) %>
-                </h2>
+              <%= link_to members_contact_sharing_path do %>
+                <h2><%= Member.human_attribute_name(:contact_sharing) %></h2>
                 <span>⤷ <%= next_basket.depot.public_name %></span>
               <% end %>
             </li>
@@ -115,10 +108,8 @@
 
         <% if display_activity? %>
           <li class="<%= nav_class("activity_participations") %>">
-            <%= link_to members_activity_participations_path, class: "block py-2 px-8" do %>
-              <h2 class="font-medium text-gray-700 dark:text-gray-400">
-                <%= activities_human_name %>
-              </h2>
+            <%= link_to members_activity_participations_path do %>
+              <h2><%= activities_human_name %></h2>
               <span>
                 <% if membership %>
                   <%= t(".activity_participations_accepted", accepted: membership.activity_participations_accepted, count: membership.activity_participations_demanded) %>
@@ -131,10 +122,8 @@
         <% end %>
 
         <li class="<%= nav_class("billing") %>">
-          <%= link_to members_billing_path, class: "block py-2 px-8" do %>
-            <h2 class="font-medium text-gray-700 dark:text-gray-400">
-              <%= t(".billing") %>
-            </h2>
+          <%= link_to members_billing_path do %>
+            <h2><%= t(".billing") %></h2>
             <% open_invoice_count = current_member.invoices.open.count %>
             <% if open_invoice_count.positive? %>
               <span class="text-red-500">
@@ -148,10 +137,8 @@
 
         <% if display_absence? %>
           <li class="<%= nav_class("absences") %>">
-            <%= link_to members_absences_path, class: "block py-2 px-8" do %>
-              <h2 class="font-medium text-gray-700 dark:text-gray-400">
-                <%= Absence.model_name.human(count: 2) %>
-              </h2>
+            <%= link_to members_absences_path do %>
+              <h2><%= Absence.model_name.human(count: 2) %></h2>
               <span>
                 <% if membership.absences_included.positive? %>
                   <%= t(".absences_used", used: membership.baskets.definitely_absent.count, count: membership.absences_included) %>
@@ -165,10 +152,8 @@
 
         <% if newsletter = Newsletter.for(current_member).first %>
           <li class="<%= nav_class("newsletter") %>">
-            <%= link_to members_newsletter_deliveries_path, class: "block py-2 px-8" do %>
-              <h2 class="font-medium text-gray-700 dark:text-gray-400">
-                <%= Newsletter.model_name.human(count: 2) %>
-              </h2>
+            <%= link_to members_newsletter_deliveries_path do %>
+              <h2><%= Newsletter.model_name.human(count: 2) %></h2>
               <span>
                 <% if newsletter_unsubscribed? %>
                   <%= t(".newsletter_subscribe") %>
@@ -189,11 +174,11 @@
           <% end %>
         </li>
         <li class="mt-2 md:mt-0.5">
-          <%= button_to members_logout_path, method: :delete, class: "px-8 flex items-center text-gray-300 dark:text-gray-700 hover:text-green-500", form_class: "flex justify-center md:justify-start" do %>
-            <span class="w-8 -ms-1">
-              <%= icon "arrow-right-start-on-rectangle", class: "mx-1 size-6" %>
+          <%= button_to members_logout_path, method: :delete, class: "cursor-pointer", form_class: "flex justify-center md:justify-start" do %>
+            <span class="px-8 flex items-center text-gray-300 dark:text-gray-700 hover:text-green-500 ">
+              <%= icon "arrow-right-start-on-rectangle", class: "size-6" %>
+              <div class="ml-3"><%= t(".logout") %></div>
             </span>
-            <span class="ml-2"><%= t(".logout") %></span>
           <% end %>
         </li>
       </ul>

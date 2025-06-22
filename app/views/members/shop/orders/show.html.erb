@@ -1,4 +1,5 @@
 <%= render partial: "members/shop/shared/header" %>
+
 <% case @order.state %>
 <% when Shop::Order::CART_STATE %>
   <p class="mt-2">
@@ -6,12 +7,14 @@
     <%= " " %>
     <%= t(".finalize_order") %>
   </p>
-  <h2 class="mt-8 text-lg font-bold text-gray-900 dark:text-gray-100">
-    <%= t(".cart") %>
-  </h2>
-  <%= turbo_frame_tag "order" do %>
-    <%= render partial: "members/shop/orders/order" %>
-  <% end %>
+
+  <section>
+    <h2><%= t(".cart") %></h2>
+    <%= turbo_frame_tag "order" do %>
+      <%= render partial: "members/shop/orders/order" %>
+    <% end %>
+  </section>
+
 <% when Shop::Order::PENDING_STATE %>
   <p class="mt-2">
     <% if @order.can_member_update? %>
@@ -20,19 +23,23 @@
       <%= t(".pending_order_html") %>
     <% end %>
   </p>
-  <h2 class="mt-8 text-lg font-bold text-gray-900 dark:text-gray-100 flex flex-row">
-    <%= Shop::Order.model_name.human %>
-    <% if @order.can_member_update? %>
-      <span class="ml-2 my-1 px-3 flex items-center text-sm font-normal text-green-700 dark:text-green-300 rounded-full bg-green-300 dark:bg-green-700">
-        <%= t(".order_received_state") %>
-      </span>
-    <% else %>
-      <span class="ml-2 my-1 px-3 flex items-center text-sm font-normal text-yellow-700 dark:text-yellow-300 rounded-full bg-yellow-300 dark:bg-yellow-700">
-        <%= t(".order_pending_state") %>
-      </span>
-    <% end %>
-  </h2>
-  <%= render partial: "members/shop/orders/finalized_order" %>
+
+  <section>
+    <h2 class="flex items-center gap-2">
+      <%= Shop::Order.model_name.human %>
+      <% if @order.can_member_update? %>
+        <span class="px-3 flex items-center text-sm font-normal text-green-700 dark:text-green-300 rounded-full bg-green-300 dark:bg-green-700">
+          <%= t(".order_received_state") %>
+        </span>
+      <% else %>
+        <span class="px-3 flex items-center text-sm font-normal text-yellow-700 dark:text-yellow-300 rounded-full bg-yellow-300 dark:bg-yellow-700">
+          <%= t(".order_pending_state") %>
+        </span>
+      <% end %>
+    </h2>
+    <%= render partial: "members/shop/orders/finalized_order" %>
+  </section>
+
 <% when Shop::Order::INVOICED_STATE %>
   <p class="mt-2">
     <%= t(".invoiced_order_html") %>
@@ -45,14 +52,18 @@
       </div>
     <% end %>
   </div>
-  <h2 class="mt-8 text-lg font-bold text-gray-900 dark:text-gray-100 flex flex-row">
-    <%= Shop::Order.model_name.human %>
-    <span class="ml-2 my-1 px-3 flex items-center text-sm font-normal text-green-700 dark:text-green-300 rounded-full bg-green-300 dark:bg-green-700">
-      <%= t(".order_invoiced_state") %>
-    </span>
-  </h2>
-  <%= render partial: "members/shop/orders/finalized_order" %>
+
+  <section>
+    <h2 class="flex items-center gap-2">
+      <%= Shop::Order.model_name.human %>
+      <span class="px-3 flex items-center text-sm font-normal text-green-700 dark:text-green-300 rounded-full bg-green-300 dark:bg-green-700">
+        <%= t(".order_invoiced_state") %>
+      </span>
+    </h2>
+    <%= render partial: "members/shop/orders/finalized_order" %>
+  </section>
 <% end %>
+
 <% if Current.org.shop_terms_of_sale_url %>
   <div class="mt-24 text-sm text-center text-gray-400 dark:text-gray-600">
     <%= link_to t("members.shop.terms_of_sale"), Current.org.shop_terms_of_sale_url, target: "_blank", class: "underline " %>

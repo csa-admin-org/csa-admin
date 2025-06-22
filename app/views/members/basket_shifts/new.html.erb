@@ -1,25 +1,20 @@
-<h1 class="mt-1 mb-8 text-xl sm:text-2xl font-extrabold text-gray-900 dark:text-gray-100">
-  <%= t(".title", date: l(@basket.delivery.date).gsub(" ", "&nbsp;")).html_safe %>
-</h1>
+<h1><%= t(".title", date: l(@basket.delivery.date).gsub(" ", "&nbsp;")).html_safe %></h1>
 
-<h2 class="mt-8 text-lg font-bold text-gray-900 dark:text-gray-100">
-  <%= t(".subtitle") %>
-</h2>
+<section>
+  <h2><%= t(".subtitle") %></h2>
 
-<div class="mt-2 mb-8 space-y-2"
+  <div class="mt-2 mb-8 space-y-2"
   <p><%= t(".text") %> </p>
 
-<% if Current.org.basket_shift_annual_limit? %>
-  <p><%= t(".limit_text_html", count: @basket.membership.basket_shifts_allowance_remaining) %></p>
-<% end %>
+  <% if Current.org.basket_shift_annual_limit? %>
+    <p><%= t(".limit_text_html", count: @basket.membership.basket_shifts_allowance_remaining) %></p>
+  <% end %>
 
-<% if Current.org.basket_shift_deadline_enabled? %>
-  <p><%= t(".deadline_text_html", count: Current.org.basket_shift_deadline_in_weeks) %></p>
-<% end %>
-</div>
+  <% if Current.org.basket_shift_deadline_enabled? %>
+    <p><%= t(".deadline_text_html", count: Current.org.basket_shift_deadline_in_weeks) %></p>
+  <% end %>
 
-<section class="mt-4 w-full">
-  <%= form_for @basket, url: members_basket_basket_shifts_path(@basket), method: :post do |f| %>
+  <%= form_for @basket, url: members_basket_basket_shifts_path(@basket), method: :post, html: { class: "mt-8" } do |f| %>
     <%= f.label :shift_target_basket_id, class: "text-sm font-medium text-gray-700 dark:text-gray-300" %>
     <%= f.select :shift_target_basket_id, basket_shift_targets_member_collection(@basket), { include_blank: false }, { class: "mt-1 dark:bg-black w-full px-2 py-2 border border-gray-300 dark:border-gray-700 placeholder-gray-400 dark:placeholder-gray-600 text-gray-900 dark:text-gray-100 rounded-md focus:outline-hidden focus:ring-green-500 focus:border-green-500 focus:z-10" } %>
 
