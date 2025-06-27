@@ -1,0 +1,18 @@
+<li class="space-x-2 flex-none flex flex-wrap flex-row justify-between items-center hover:bg-gray-100 dark:hover:bg-gray-900 rounded-sm p-1 px-2 -mx-2">
+  <span class="min-w-fit flex flex-row items-center">
+    <%= "#{l(absence.started_on)} – #{l(absence.ended_on)}" %>
+    <%= " (#{t('.deliveries_count', count: absence.baskets.size)})" %>
+  </span>
+
+  <% if absence.note? %>
+    <%= tooltip("absence-#{absence.id}", absence.note, icon_name: "chat-bubble-bottom-center-text") %>
+  <% end %>
+
+  <% if absence.present_or_future? %>
+    <span class="mt-1 md:mt-0 grow flex-none flex flex-row items-center align-center justify-end gap-2">
+      <%= button_to t(".cancel_link"), [ :members, absence ], method: :delete,
+    class: "btn btn-xs",
+    form_class: "flex items-center" %>
+    </span>
+  <% end %>
+</li>

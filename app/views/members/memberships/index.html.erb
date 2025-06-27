@@ -15,7 +15,7 @@
       </div>
       <%= simple_form_for @membership, url: new_members_membership_renewal_path, method: :get, data: { remote: false } do |f| %>
         <div class="mt-6">
-          <%= f.input :renewal_decision, as: :radio_buttons, collection: renewal_decisions_collection, required: false, label: t(".renewal.options_label"), label_html: { class: "text-sm font-medium text-gray-700 dark:text-gray-300" }, input_html: { class: "mr-4 flex-none size-6  focus:outline-hidden focus:ring-green-500 focus:border-green-500 cursor-pointer" }, item_label_class: "border-gray-200 dark:border-gray-800 border rounded-sm px-4 py-2 flex flex-row flex-nowrap items-center cursor-pointer", wrapper_class: "flex flex-col space-y-2" %>
+          <%= f.input :renewal_decision, as: :radio_buttons, collection: renewal_decisions_collection, required: false, label: t(".renewal.options_label") %>
         </div>
         <div class="actions">
           <%= f.submit t(".renewal.submit") %>

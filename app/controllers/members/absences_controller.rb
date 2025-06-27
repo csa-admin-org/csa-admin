@@ -28,7 +28,7 @@ class Members::AbsencesController < Members::BaseController
 
   # DELETE /absences/:id
   def destroy
-    absence = current_member.absences.find(params[:id])
+    absence = current_member.absences.present_or_future.find(params[:id])
     absence.destroy
 
     redirect_to members_absences_path

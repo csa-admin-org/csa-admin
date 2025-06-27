@@ -3,7 +3,7 @@
 <section>
   <h2><%= t(".subtitle") %></h2>
   <% if Current.org.membership_update_text? %>
-    <div class="trix mt-2 mb-8 justify">
+    <div class="trix mt-2 mb-8">
       <%= Current.org.membership_update_text %>
     </div>
   <% end %>
@@ -12,11 +12,11 @@
     <% member_updatable_baskets = @membership.member_updatable_baskets %>
     <% if Current.org.membership_depot_update_allowed? %>
       <div class="space-y-8">
-        <%= f.input :depot_id, as: :radio_buttons, collection: depots_collection(membership: @membership, delivery_cycle: @membership.delivery_cycle, only_price_per_delivery: true), label: Depot.model_name.human, required: true, input_html: { class: "mr-4 flex-none size-6  focus:outline-hidden focus:ring-green-500 focus:border-green-500 cursor-pointer" }, item_label_class: "border-gray-200 dark:border-gray-800 border rounded-sm px-4 py-2 flex flex-row flex-nowrap items-center cursor-pointer", wrapper_class: "flex flex-col space-y-2", label_html: { class: "text-sm font-medium text-gray-700 dark:text-gray-300" } %>
+        <%= f.input :depot_id, as: :radio_buttons, collection: depots_collection(membership: @membership, delivery_cycle: @membership.delivery_cycle, only_price_per_delivery: true), label: Depot.model_name.human, required: true %>
       </div>
     <% end %>
     <div class="mt-16">
-      <p class="mt-8 italic text-justify md:text-right text-sm text-gray-500 dark:text-gray-400">
+      <p class="mt-8 italic md:text-right text-sm text-gray-500 dark:text-gray-400">
         <%= t(".updateable_baskets", count: member_updatable_baskets.size, first_date: l(member_updatable_baskets.first.delivery.date)) %>
       </p>
     </div>

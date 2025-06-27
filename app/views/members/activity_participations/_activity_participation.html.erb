@@ -1,37 +1,40 @@
-<span class="grow flex flex-col flex-nowrap">
-  <span>
-    <%= l(activity_participation.activity.date, format: :medium).capitalize %>,
-    <%= activity_participation.activity.period %>
-  </span>
-  <span class="flex flex-row items-center">
+<li class="flex flex-col md:flex-row md:justify-between md:items-center flex-wrap md:flex-nowrap rounded-sm hover:bg-gray-100 dark:hover:bg-gray-800 py-1 my-2 px-2 -mx-2 <%= "text-gray-300 dark:text-gray-700" if activity_participation.rejected? %>">
+
+  <span class="grow flex flex-col flex-nowrap">
     <span>
-      <%= display_activity(activity_participation.activity, description: true) %>,&nbsp;
-      <%= display_place(activity_participation.activity) %>
+      <%= l(activity_participation.activity.date, format: :medium).capitalize %>,
+      <%= activity_participation.activity.period %>
+    </span>
+    <span class="flex flex-row items-center">
+      <span>
+        <%= display_activity(activity_participation.activity, description: true) %>,&nbsp;
+        <%= display_place(activity_participation.activity) %>
+      </span>
     </span>
   </span>
-</span>
-<span class="flex-none flex flex-row flex-nowrap md:flex-wrap gap-2">
-  <span class="h-8 md:ml-5 space-x-2 flex flex-row justify-start md:justify-end">
-    <span class="ms-1 flex flex-row justify-center items-center" title="<%= t("activities.participant_count", count: activity_participation.participants_count) %>">
-      <span><%= activity_participation.participants_count %></span>
-      <%= icon "users", class: "ms-1 size-5" %>
+  <span class="flex-none flex flex-row flex-nowrap md:flex-wrap gap-2">
+    <span class="h-8 md:ml-5 space-x-2 flex flex-row justify-start md:justify-end">
+      <span class="ms-1 flex flex-row justify-center items-center" title="<%= t("activities.participant_count", count: activity_participation.participants_count) %>">
+        <span><%= activity_participation.participants_count %></span>
+        <%= icon "users", class: "ms-1 size-5" %>
+      </span>
+      <% if activity_participation.carpooling? %>
+        <span class="ms-1 flex justify-center items-center" title="<%= t(".carpooling") %>: <%= activity_participation.carpooling_phone.phony_formatted %>">
+          <%= icon "car", class: "size-6" %>
+        </span>
+      <% end %>
+      <% if activity_participation.note? %>
+        <%= tooltip("activity-participation-#{activity_participation.id}", activity_participation.note, icon_name: "chat-bubble-bottom-center-text") %>
+      <% end %>
     </span>
-    <% if activity_participation.carpooling? %>
-      <span class="ms-1 flex justify-center items-center" title="<%= t(".carpooling") %>: <%= activity_participation.carpooling_phone.phony_formatted %>">
-        <%= icon "car", class: "size-6" %>
-      </span>
-    <% end %>
-    <% if activity_participation.note? %>
-      <%= tooltip("activity-participation-#{activity_participation.id}", activity_participation.note, icon_name: "chat-bubble-bottom-center-text") %>
-    <% end %>
+    <span class="grow flex flex-row justify-end items-center">
+      <% if activity_participation.destroyable? %>
+        <%= button_to t(".cancel_link"), [ :members, activity_participation ], method: :delete, class: "btn btn-xs" %>
+      <% elsif activity_participation.validated? || activity_participation.rejected? %>
+        <span class="status-tag" data-status="<%= activity_participation.state %>">
+          <%= activity_participation.state_i18n_name %>
+        </span>
+      <% end %>
+    </span>
   </span>
-  <span class="grow flex flex-row justify-end items-center">
-    <% if activity_participation.destroyable? %>
-      <%= button_to t(".cancel_link"), [ :members, activity_participation ], method: :delete, class: "btn btn-xs" %>
-    <% elsif activity_participation.validated? || activity_participation.rejected? %>
-      <span class="status-tag" data-status="<%= activity_participation.state %>">
-        <%= activity_participation.state_i18n_name %>
-      </span>
-    <% end %>
-  </span>
-</span>
+</li>

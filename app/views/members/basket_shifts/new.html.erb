@@ -15,8 +15,10 @@
   <% end %>
 
   <%= form_for @basket, url: members_basket_basket_shifts_path(@basket), method: :post, html: { class: "mt-8" } do |f| %>
-    <%= f.label :shift_target_basket_id, class: "text-sm font-medium text-gray-700 dark:text-gray-300" %>
-    <%= f.select :shift_target_basket_id, basket_shift_targets_member_collection(@basket), { include_blank: false }, { class: "mt-1 dark:bg-black w-full px-2 py-2 border border-gray-300 dark:border-gray-700 placeholder-gray-400 dark:placeholder-gray-600 text-gray-900 dark:text-gray-100 rounded-md focus:outline-hidden focus:ring-green-500 focus:border-green-500 focus:z-10" } %>
+    <div class="input">
+      <%= f.label :shift_target_basket_id %>
+      <%= f.select :shift_target_basket_id, basket_shift_targets_member_collection(@basket), { include_blank: false } %>
+    </div>
 
     <div class="actions">
       <%= link_to t(".cancel_link"), members_deliveries_path, class: "cancel-link" %>

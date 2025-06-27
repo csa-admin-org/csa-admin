@@ -44,6 +44,10 @@ class Absence < ApplicationRecord
     started_on..ended_on
   end
 
+  def present_or_future?
+    ended_on >= Date.current
+  end
+
   def self.ransackable_scopes(_auth_object = nil)
     super + %i[including_date during_year]
   end
