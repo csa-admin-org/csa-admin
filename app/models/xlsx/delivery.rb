@@ -147,7 +147,7 @@ module XLSX
         member.basket = baskets.find { |b| b.membership.member_id == member.id }
       end
 
-      add_members_worksheet(Absence.model_name.human(count: 2), members)
+      add_members_worksheet(::Absence.model_name.human(count: 2), members)
     end
 
     def add_members_worksheet(name, members, mode: "signature")
