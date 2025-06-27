@@ -87,7 +87,7 @@ class Members::MembersController < Members::BaseController
     end
   end
 
-   def member_params
+  def member_params
     permitted = params
       .require(:member)
       .permit(
