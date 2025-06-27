@@ -3,8 +3,8 @@
 class Liquid::InvoiceDrop < Liquid::Drop
   include NumbersHelper
 
-  private *NumbersHelper.public_instance_methods
-  private *ActiveSupport::NumberHelper.instance_methods
+  private(*NumbersHelper.public_instance_methods)
+  private(*ActiveSupport::NumberHelper.instance_methods)
 
   def initialize(invoice)
     @invoice = invoice

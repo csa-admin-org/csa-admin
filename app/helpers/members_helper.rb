@@ -264,7 +264,7 @@ module MembersHelper
   end
 
   def display_address(member)
-    parts = [
+    [
       member.address,
       "#{member.zip} #{member.city}"
     ].join("</br>").html_safe

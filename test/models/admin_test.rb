@@ -5,7 +5,7 @@ require "test_helper"
 class AdminTest < ActiveSupport::TestCase
   test "deletes sessions when destroyed" do
     admin = admins(:super)
-    session = create_session(admin)
+    create_session(admin)
 
     assert_difference "Session.count", -1 do
       admin.destroy!

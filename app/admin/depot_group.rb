@@ -40,7 +40,6 @@ ActiveAdmin.register DepotGroup do
     end
 
     f.inputs do
-      other_group_ids = DepotGroup.pluck(:id) - [ f.object.id ]
       f.input :depots,
         as: :check_boxes,
         wrapper_html: { class: "legend-title" },

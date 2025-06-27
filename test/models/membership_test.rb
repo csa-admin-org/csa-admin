@@ -268,7 +268,7 @@ class MembershipTest < ActiveSupport::TestCase
     membership = create_membership(
       baskets_annual_price_change: -11)
 
-    assert_equal -11, membership.baskets_annual_price_change
+    assert_equal(-11, membership.baskets_annual_price_change)
     assert_equal 100 - 11, membership.price
   end
 
@@ -308,7 +308,7 @@ class MembershipTest < ActiveSupport::TestCase
 
     assert_equal 10 * 10, membership.basket_sizes_price
     assert_equal 10 * 4, membership.basket_complements_price
-    assert_equal -10, membership.basket_complements_annual_price_change
+    assert_equal(-10, membership.basket_complements_annual_price_change)
     assert_equal 130, membership.price
   end
 
@@ -317,7 +317,7 @@ class MembershipTest < ActiveSupport::TestCase
     membership = create_membership(
       activity_participations_annual_price_change: -90)
 
-    assert_equal -90, membership.activity_participations_annual_price_change
+    assert_equal(-90, membership.activity_participations_annual_price_change)
     assert_equal 10, membership.price
   end
 
@@ -425,7 +425,7 @@ class MembershipTest < ActiveSupport::TestCase
 
     assert_equal 2, membership.activity_participations_demanded_diff_from_default
     assert_equal 5, membership.activity_participations_demanded
-    assert_equal -(2 * 50), membership.activity_participations_annual_price_change
+    assert_equal(-(2 * 50), membership.activity_participations_annual_price_change)
   end
 
   test "set_activity_participations when doing less than demanded" do
@@ -435,7 +435,7 @@ class MembershipTest < ActiveSupport::TestCase
       activity_participations_demanded_annually: 1,
       activity_participations_annual_price_change: nil)
 
-    assert_equal -2, membership.activity_participations_demanded_diff_from_default
+    assert_equal(-2, membership.activity_participations_demanded_diff_from_default)
     assert_equal 1, membership.activity_participations_demanded
     assert_equal 2 * 50, membership.activity_participations_annual_price_change
   end
@@ -449,7 +449,7 @@ class MembershipTest < ActiveSupport::TestCase
 
     assert_equal 2, membership.activity_participations_demanded_diff_from_default
     assert_equal 5, membership.activity_participations_demanded
-    assert_equal -120, membership.activity_participations_annual_price_change
+    assert_equal(-120, membership.activity_participations_annual_price_change)
   end
 
   test "set_activity_participations when activity feature is disabled" do
@@ -513,7 +513,7 @@ class MembershipTest < ActiveSupport::TestCase
     member = members(:aria)
     member.update!(waiting_basket_complement_ids: [ bread_id ])
 
-    membership = create_membership(member: member)
+    create_membership(member: member)
 
     assert_nil member.reload.waiting_started_at
     assert_nil member.waiting_basket_size_id
@@ -586,7 +586,7 @@ class MembershipTest < ActiveSupport::TestCase
   test "updates absent baskets" do
     travel_to "2024-01-01"
     org(trial_baskets_count: 0, absences_billed: true)
-    absence = create_absence(
+    create_absence(
       member: members(:john),
       started_on: "2024-04-05",
       ended_on: "2024-04-15")
@@ -603,7 +603,7 @@ class MembershipTest < ActiveSupport::TestCase
   test "updates trial and absent baskets" do
     travel_to "2024-01-01"
     org(trial_baskets_count: 2, absences_billed: true)
-    absence = create_absence(
+    create_absence(
       member: members(:jane),
       started_on: "2024-04-05",
       ended_on: "2024-04-15")

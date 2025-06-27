@@ -119,7 +119,7 @@ class Delivery < ApplicationRecord
 
     delay_in_days = Current.org.shop_delivery_open_delay_in_days.to_i.days
     end_time = Current.org.shop_delivery_open_last_day_end_time || Tod::TimeOfDay.parse("23:59:59")
-    limit = end_time.on(date - delay_in_days)
+    end_time.on(date - delay_in_days)
   end
 
   def shop_configured_open?

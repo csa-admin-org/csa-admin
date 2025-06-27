@@ -69,7 +69,7 @@ module Shop
 
       delay_in_days = open_delay_in_days.to_i.days
       end_time = open_last_day_end_time || Tod::TimeOfDay.parse("23:59:59")
-      limit = end_time.on(date - delay_in_days)
+      end_time.on(date - delay_in_days)
     end
 
     def shop_open?(depot_id: nil, ignore_closing_at: false)

@@ -715,7 +715,7 @@ class MemberTest < ActiveSupport::TestCase
       member.deactivate!
     end
     assert_equal 0, member.desired_shares_number
-    assert_equal -2, member.required_shares_number
+    assert_equal(-2, member.required_shares_number)
   end
 
   test "deactivate! support member with only desired shares" do

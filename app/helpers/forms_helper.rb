@@ -70,7 +70,7 @@ module FormsHelper
   end
 
   def member_order_modes_collection(klass)
-    modes = klass::MEMBER_ORDER_MODES.map { |mode|
+    klass::MEMBER_ORDER_MODES.map { |mode|
       [ t("member_order.modes.#{mode}"), mode ]
     }
   end

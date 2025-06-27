@@ -60,7 +60,7 @@ class Members::BasketShiftsTest < ApplicationSystemTestCase
 
     travel_to "2024-05-01"
     absence = absences(:jane_thursday_5)
-    basket_shift = BasketShift.create!(
+    BasketShift.create!(
       absence: absence,
       source_basket: baskets(:jane_5),
       target_basket: baskets(:jane_6))

@@ -42,7 +42,7 @@ class MembershipRenewalTest < ActiveSupport::TestCase
     assert_equal membership.depot_id, renewed_membership.depot_id
     assert_equal 4, renewed_membership.depot_price
     assert_equal 5, renewed_membership.activity_participations_demanded_annually
-    assert_equal -60, renewed_membership.activity_participations_annual_price_change
+    assert_equal(-60, renewed_membership.activity_participations_annual_price_change)
     assert_equal Current.org.next_fiscal_year.beginning_of_year, renewed_membership.started_on
     assert_equal Current.org.next_fiscal_year.end_of_year, renewed_membership.ended_on
   end
@@ -134,7 +134,7 @@ class MembershipRenewalTest < ActiveSupport::TestCase
     renewed_membership = membership.reload.renewed_membership
     assert_equal 3, renewed_membership.activity_participations_demanded_annually_by_default
     assert_equal 6, renewed_membership.activity_participations_demanded_annually
-    assert_equal -150, renewed_membership.activity_participations_annual_price_change
+    assert_equal(-150, renewed_membership.activity_participations_annual_price_change)
   end
 
   test "with activity_participations_demanded_annually not changing" do
@@ -150,7 +150,7 @@ class MembershipRenewalTest < ActiveSupport::TestCase
 
     renewed_membership = membership.reload.renewed_membership
     assert_equal 5, renewed_membership.activity_participations_demanded_annually
-    assert_equal -100, renewed_membership.activity_participations_annual_price_change
+    assert_equal(-100, renewed_membership.activity_participations_annual_price_change)
   end
 
   test "with billing year division change" do

@@ -61,7 +61,7 @@ module Billing
     end
 
     def get_account_numbers
-      res = @session.post("/ebanking/extInterface.file",
+      @session.post("/ebanking/extInterface.file",
         FUNCTION: "KTOUEBERSICHT",
         BANK: "ABS",
         LANGUAGE: "french")

@@ -53,7 +53,7 @@ class MembershipRenewalJobTest < ActiveJob::TestCase
     assert_equal membership.depot_id, new_membership.depot_id
     assert_equal 4, new_membership.depot_price
     assert_equal 5, new_membership.activity_participations_demanded_annually
-    assert_equal -60, new_membership.activity_participations_annual_price_change
+    assert_equal(-60, new_membership.activity_participations_annual_price_change)
     assert_equal next_fy.beginning_of_year, new_membership.started_on
     assert_equal next_fy.end_of_year, new_membership.ended_on
   end
