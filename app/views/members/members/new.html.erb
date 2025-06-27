@@ -24,15 +24,15 @@
           <%= Member.human_attribute_name(:contact) %>
         </legend>
         <div class="mt-2 space-y-6">
-          <%= f.input :name, label: t(".name"), label_html: { class: "text-sm font-medium text-gray-700 dark:text-gray-300" }, input_html: { class: "mt-1 dark:bg-black w-full px-3 py-2 border border-gray-300 dark:border-gray-700 placeholder-gray-400 dark:placeholder-gray-600 text-gray-900 dark:text-gray-100 rounded-md focus:outline-hidden focus:ring-green-500 focus:border-green-500 focus:z-10" } %>
-          <%= f.input :address, required: true, label_html: { class: "text-sm font-medium text-gray-700 dark:text-gray-300" }, input_html: { class: "mt-1 dark:bg-black w-full px-3 py-2 border border-gray-300 dark:border-gray-700 placeholder-gray-400 dark:placeholder-gray-600 text-gray-900 dark:text-gray-100 rounded-md focus:outline-hidden focus:ring-green-500 focus:border-green-500 focus:z-10" } %>
-          <div class="flex flex-row w-full">
-            <%= f.input :zip, required: true, label_html: { class: "text-sm font-medium text-gray-700 dark:text-gray-300" }, input_html: { class: "mt-1 dark:bg-black w-full px-3 py-2 border border-gray-300 dark:border-gray-700 placeholder-gray-400 dark:placeholder-gray-600 text-gray-900 dark:text-gray-100 rounded-md focus:outline-hidden focus:ring-green-500 focus:border-green-500 focus:z-10", size: 6, maxlength: 6 }, wrapper_html: { class: "w-24" } %>
-            <%= f.input :city, required: true, label_html: { class: "text-sm font-medium text-gray-700 dark:text-gray-300" }, input_html: { class: "mt-1 dark:bg-black w-full px-3 py-2 border border-gray-300 dark:border-gray-700 placeholder-gray-400 dark:placeholder-gray-600 text-gray-900 dark:text-gray-100 rounded-md focus:outline-hidden focus:ring-green-500 focus:border-green-500 focus:z-10" }, wrapper_html: { class: "w-full pl-2" } %>
+          <%= f.input :name, label: t(".name") %>
+          <%= f.input :address, required: true %>
+          <div class="flex flex-row w-full gap-2">
+            <%= f.input :zip, required: true, input_html: { size: 6, maxlength: 6 }, wrapper_html: { class: "w-24" } %>
+            <%= f.input :city, required: true, wrapper_html: { class: "grow" } %>
           </div>
-          <%= f.input :country_code, required: true, as: :select, collection: countries_collection, label_html: { class: "text-sm font-medium text-gray-700 dark:text-gray-300" }, input_html: { class: "mt-1 dark:bg-black w-full px-3 py-2 border border-gray-300 dark:border-gray-700 placeholder-gray-400 dark:placeholder-gray-600 text-gray-900 dark:text-gray-100 rounded-md focus:outline-hidden focus:ring-green-500 focus:border-green-500 focus:z-10" } %>
-          <%= f.input :emails, as: :string, required: true, label_html: { class: "text-sm font-medium text-gray-700 dark:text-gray-300" }, input_html: { class: "mt-1 dark:bg-black w-full px-3 py-2 border border-gray-300 dark:border-gray-700 placeholder-gray-400 dark:placeholder-gray-600 text-gray-900 dark:text-gray-100 rounded-md focus:outline-hidden focus:ring-green-500 focus:border-green-500 focus:z-10" }, hint_html: { class: "text-sm" } %>
-          <%= f.input :phones, as: :string, required: true, label_html: { class: "text-sm font-medium text-gray-700 dark:text-gray-300" }, input_html: { class: "mt-1 dark:bg-black w-full px-3 py-2 border border-gray-300 dark:border-gray-700 placeholder-gray-400 dark:placeholder-gray-600 text-gray-900 dark:text-gray-100 rounded-md focus:outline-hidden focus:ring-green-500 focus:border-green-500 focus:z-10" }, hint_html: { class: "text-sm" } %>
+          <%= f.input :country_code, required: true, as: :select, collection: countries_collection %>
+          <%= f.input :emails, as: :string, required: true %>
+          <%= f.input :phones, as: :string, required: true %>
         </div>
       </div>
       <%= render "members/members/form_modes/#{Current.org.member_form_mode}", f: f %>
@@ -42,16 +42,20 @@
         </legend>
         <div class="mt-2 space-y-6">
           <% unless Current.org.member_profession_form_mode == "hidden" %>
-            <%= f.input :profession, hint: true, required: (Current.org.member_profession_form_mode == "required"), label_html: { class: "text-sm font-medium text-gray-700 dark:text-gray-300" }, input_html: { class: "mt-1 dark:bg-black w-full px-3 py-2 border border-gray-300 dark:border-gray-700 placeholder-gray-400 dark:placeholder-gray-600 text-gray-900 dark:text-gray-100 rounded-md focus:outline-hidden focus:ring-green-500 focus:border-green-500 focus:z-10" }, hint_html: { class: "inline-block w-full text-sm" } %>
+            <%= f.input :profession, hint: true, required: (Current.org.member_profession_form_mode == "required") %>
           <% end %>
           <% unless Current.org.member_come_from_form_mode == "hidden" %>
-            <%= f.input :come_from, as: :text, required: (Current.org.member_come_from_form_mode == "required"), label_html: { class: "text-sm font-medium text-gray-700 dark:text-gray-300" }, input_html: { rows: 1, class: "mt-1 dark:bg-black w-full px-3 py-2 border border-gray-300 dark:border-gray-700 placeholder-gray-400 dark:placeholder-gray-600 text-gray-900 dark:text-gray-100 rounded-md focus:outline-hidden focus:ring-green-500 focus:border-green-500 focus:z-10" } %>
+            <%= f.input :come_from, as: :text, required: (Current.org.member_come_from_form_mode == "required"), input_html: { rows: 1 } %>
           <% end %>
-          <%= f.input :note, as: :text, label: t(".note"), label_html: { class: "text-sm font-medium text-gray-700 dark:text-gray-300" }, input_html: { rows: 3, class: "mt-1 dark:bg-black w-full px-3 py-2 border border-gray-300 dark:border-gray-700 placeholder-gray-400 dark:placeholder-gray-600 text-gray-900 dark:text-gray-100 rounded-md focus:outline-hidden focus:ring-green-500 focus:border-green-500 focus:z-10" } %>
+          <%= f.input :note, as: :text, label: t(".note"), input_html: { rows: 2 } %>
         </div>
       </div>
       <% if Current.org.terms_of_service? %>
-        <%= f.input :terms_of_service, as: :boolean, label: terms_of_service_label, input_html: { class: "mr-4 flex-none size-6 rounded-sm  focus:outline-hidden focus:ring-green-500 focus:border-green-500 cursor-pointer" }, label_html: { class: "text-sm font-normal text-gray-700 dark:text-gray-300 flex flex-row flex-nowrap items-center cursor-pointer" }, wrapper_class: "border-gray-200 dark:border-gray-800 border rounded-sm px-4 py-4" %>
+        <div class="check_boxes">
+          <div class="checkbox">
+            <%= f.input :terms_of_service, as: :boolean, label: terms_of_service_label %>
+          </div>
+        </div>
       <% end %>
       <div class="actions -mt-4 print:hidden">
         <%= f.button :submit, t(".submit") %>

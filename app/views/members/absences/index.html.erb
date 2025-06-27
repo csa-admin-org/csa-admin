@@ -28,34 +28,19 @@
 
   <%= simple_form_for [ :members, @absence ], html: { class: "mt-8" } do |f| %>
     <div class="space-y-6">
-      <div class="flex-none flex flex-col md:flex-row w-full md:min-w-min md:mr-0 justify-between space-y-4 md:space-y-0 md:space-x-4 md:justify-start md:w-96">
+      <div class="flex flex-col md:flex-row gap-4">
         <%= f.input :started_on, as: :date, html5: true,
-            label_html: { class: "text-sm font-medium text-gray-700 dark:text-gray-300" },
             input_html: {
               min: Absence.min_started_on,
               max: (Absence.max_ended_on - 1.day),
-              class: "mt-1 dark:bg-black w-full px-3 py-2 border border-gray-300 dark:border-gray-700 placeholder-gray-400 dark:placeholder-gray-600 text-gray-900 dark:text-gray-100 rounded-md focus:outline-hidden focus:ring-green-500 focus:border-green-500 focus:z-10"
-            },
-            wrapper_html: { class: "w-full md:w-42" } %>
+            } %>
         <%= f.input :ended_on, as: :date, html5: true,
-            label_html: {
+            input_html: {
               min: (Absence.min_started_on + 1.day),
               max: Absence.max_ended_on,
-              class: "text-sm font-medium text-gray-700 dark:text-gray-300"
-            },
-            input_html: {
-              class: "mt-1 dark:bg-black w-full px-3 py-2 border border-gray-300 dark:border-gray-700 placeholder-gray-400 dark:placeholder-gray-600 text-gray-900 dark:text-gray-100 rounded-md focus:outline-hidden focus:ring-green-500 focus:border-green-500 focus:z-10"
-            },
-            wrapper_html: { class: "w-full md:w-42" } %>
-      </div>
-      <div class="flex-none w-full">
-        <%= f.input :note,
-            label_html: { class: "text-sm font-medium text-gray-700 dark:text-gray-300" },
-            input_html: {
-              rows: 3,
-              class: "mt-1 -mb-2 dark:bg-black w-full px-3 py-2 border border-gray-300 dark:border-gray-700 placeholder-gray-400 dark:placeholder-gray-600 text-gray-900 dark:text-gray-100 rounded-md focus:outline-hidden focus:ring-green-500 focus:border-green-500 focus:z-10"
             } %>
       </div>
+      <%= f.input :note, input_html: { rows: 2 } %>
     </div>
     <div class="actions">
       <%= f.button :submit, t(".submit") %>
@@ -63,7 +48,7 @@
   <% end %>
   <% absences_included = current_member.current_or_future_membership&.absences_included %>
   <% if absences_included&.positive? %>
-    <p class="mt-8 text-sm text-gray-400 dark:text-gray-600">
+    <p class="explanation">
       <%= t(".absences_included_explanation_html", count: absences_included) %>
     </p>
   <% end %>
@@ -74,22 +59,7 @@
   <section>
     <h2><%= t(".present_or_future_absences") %></h2>
     <ul class="mt-2 space-y-1 w-full">
-      <% @present_or_future_absences.each do |absence| %>
-        <li class="space-x-2 flex-none flex flex-wrap flex-row justify-between items-center hover:bg-gray-100 dark:hover:bg-gray-900 rounded-sm p-1 px-2 -mx-2">
-          <span class="min-w-fit flex flex-row items-center">
-            <%= "#{l(absence.started_on)} – #{l(absence.ended_on)}" %>
-            <%= " (#{t('.deliveries_count', count: absence.baskets.size)})" %>
-          </span>
-          <% if absence.note? %>
-            <%= tooltip("absence-#{absence.id}", absence.note, icon_name: "chat-bubble-bottom-center-text") %>
-          <% end %>
-          <span class="mt-1 md:mt-0 grow flex-none flex flex-row items-center align-center justify-end gap-2">
-            <%= button_to t(".cancel_link"), [ :members, absence ], method: :delete,
-            class: "btn btn-xs",
-            form_class: "flex items-center" %>
-          </span>
-        </li>
-      <% end %>
+      <%= render @present_or_future_absences %>
     </ul>
   </section>
 <% end %>
@@ -99,17 +69,7 @@
   <section>
     <h2><%= t(".past_absences") %></h2>
     <ul class="mt-2 space-y-1 w-full">
-      <% @past_absences.each do |absence| %>
-        <li class="space-x-2 flex flex-wrap md:flex-nowrap flex-row justify-start items-center align-center hover:bg-gray-100 dark:hover:bg-gray-900 rounded-sm p-1 px-2 -mx-2">
-          <span class="min-w-fit flex flex-row items-center">
-            <%= "#{l(absence.started_on)} – #{l(absence.ended_on)}" %>
-            <%= " (#{t('.deliveries_count', count: absence.baskets.size)})" %>
-          </span>
-          <% if absence.note? %>
-            <%= tooltip("absence-#{absence.id}", absence.note, icon_name: "chat-bubble-bottom-center-text") %>
-          <% end %>
-        </li>
-      <% end %>
+      <%= render @past_absences %>
     </ul>
   </section>
 <% end %>

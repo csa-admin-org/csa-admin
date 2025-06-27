@@ -12,17 +12,17 @@
     <% if Current.org.membership_complements_update_allowed? %>
       <% baskets_basket_complements = baskets_basket_complements(@basket) %>
       <% if baskets_basket_complements.any? %>
-        <%= f.input BasketComplement.model_name.human(count: 2), label_html: { class: "inline-block w-full text-sm font-medium text-gray-700 dark:text-gray-300" } do %>
+        <%= f.input BasketComplement.model_name.human(count: 2), wrapper_class: "input quantity_inputs" do %>
           <%= f.simple_fields_for :baskets_basket_complements, baskets_basket_complements do |ff| %>
             <%= ff.input :basket_complement_id, as: :hidden %>
-            <%= ff.input :quantity, as: :numeric, label: basket_complement_label(ff.object.basket_complement, only_price_per_delivery: true), required: false, input_html: { min: 0, class: "order-1 dark:bg-black w-16 px-3 py-2 border border-gray-300 dark:border-gray-700 placeholder-gray-400 dark:placeholder-gray-600 text-gray-900 dark:text-gray-100 rounded-md focus:outline-hidden focus:ring-green-500 focus:border-green-500 focus:z-10" }, label_html: { class: "order-2 ml-4" }, wrapper_class: "mt-2 flex items-center" %>
+            <%= ff.input :quantity, as: :numeric, label: basket_complement_label(ff.object.basket_complement, only_price_per_delivery: true), required: false, input_html: { min: 0 }, wrapper_class: "quantity" %>
           <% end %>
         <% end %>
       <% end %>
     <% end %>
     <% if Current.org.membership_depot_update_allowed? %>
-      <div class="mt-4 1space-y-8">
-        <%= f.input :depot_id, as: :radio_buttons, collection: depots_collection(basket: @basket, delivery_cycle: @basket.membership.delivery_cycle, only_price_per_delivery: true), label: Depot.model_name.human, required: true, input_html: { class: "mr-4 flex-none size-6  focus:outline-hidden focus:ring-green-500 focus:border-green-500 cursor-pointer" }, item_label_class: "border-gray-200 dark:border-gray-800 border rounded-sm px-4 py-2 flex flex-row flex-nowrap items-center cursor-pointer", wrapper_class: "flex flex-col space-y-2", label_html: { class: "text-sm font-medium text-gray-700 dark:text-gray-300" } %>
+      <div class="mt-4 space-y-8">
+        <%= f.input :depot_id, as: :radio_buttons, collection: depots_collection(basket: @basket, delivery_cycle: @basket.membership.delivery_cycle, only_price_per_delivery: true), label: Depot.model_name.human, required: true %>
       </div>
     <% end %>
     <div class="actions">

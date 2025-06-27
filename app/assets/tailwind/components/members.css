@@ -87,6 +87,76 @@
       appearance: textfield;
     }
 
+    p.nocontent {
+      @apply mt-4 pb-4 text-center italic text-gray-400 dark:text-gray-600;
+    }
+
+    p.explanation {
+      @apply mt-8 text-sm text-gray-400 dark:text-gray-600;
+    }
+
+    form {
+      .input > label,
+      legend {
+        @apply block text-sm font-medium text-gray-700 dark:text-gray-300;
+      }
+
+      span.hint {
+        @apply inline-block w-full text-xs text-gray-600 dark:text-gray-400;
+      }
+
+      div.radio_buttons,
+      div.check_boxes {
+        @apply flex flex-col space-y-2;
+
+        & > label {
+          @apply mb-1;
+        }
+
+        .radio,
+        .checkbox {
+          label {
+            @apply w-full px-4 py-2;
+            @apply flex cursor-pointer items-center;
+            @apply rounded-md border border-gray-200 dark:border-gray-700;
+          }
+
+          input {
+            @apply mr-4 size-6;
+            @apply flex-none cursor-pointer;
+          }
+        }
+      }
+
+      div.quantity_inputs {
+        @apply flex flex-col space-y-2;
+
+        .quantity {
+          @apply flex items-center;
+
+          label {
+            @apply order-2 ml-4;
+          }
+
+          input {
+            @apply order-1 w-16 px-3 py-2;
+          }
+        }
+      }
+
+      div.boolean {
+        @apply flex flex-row items-center space-y-2;
+
+        label {
+          @apply flex flex-row items-center text-sm font-normal;
+        }
+
+        input {
+          @apply mr-2;
+        }
+      }
+    }
+
     form .actions {
       @apply mt-6 flex w-full flex-col justify-end gap-4 gap-y-3 md:flex-row;
 
@@ -102,6 +172,7 @@
 }
 
 .disabled label,
+.disabled legend,
 .disabled span,
 .disabled input,
 .disabled a,

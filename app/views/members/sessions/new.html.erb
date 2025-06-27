@@ -10,9 +10,7 @@
 <div class="mt-8">
   <%= simple_form_for [ :members, @session ] do |f| %>
     <div class="flex flex-col mt-8">
-      <div class="flex md:text-sm w-full">
-        <%= f.input :email, as: :email, label_html: { class: "sr-only" }, input_html: { class: "dark:bg-black w-full px-3 py-2 border border-gray-300 dark:border-gray-700 placeholder-gray-400 dark:placeholder-gray-600 text-gray-900 dark:text-gray-100 rounded-md focus:outline-hidden focus:ring-green-500 focus:border-green-500 focus:z-10", required: true, placeholder: t(".email_placeholder") }, wrapper_html: { class: "w-full" } %>
-      </div>
+      <%= f.input :email, as: :email, label_html: { class: "sr-only" }, input_html: {  required: true, placeholder: t(".email_placeholder") }, wrapper_html: { class: "grow" } %>
       <div class="actions mt-4">
         <%= f.button :submit, t(".submit") %>
       </div>

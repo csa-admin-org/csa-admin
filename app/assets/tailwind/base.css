@@ -14,31 +14,13 @@
   [type="week"],
   textarea,
   select {
-    @apply mt-1 w-full appearance-none rounded-md border border-gray-300 bg-gray-50 bg-origin-border p-2 text-base text-gray-900 shadow-none focus:border-green-500 focus:ring-green-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-green-600 dark:focus:ring-green-600;
-  }
+    @apply mt-1 w-full appearance-none p-2 px-3 shadow-none dark:text-white;
+    @apply text-base text-gray-900 dark:text-white;
+    @apply placeholder:text-gray-400 placeholder:opacity-100 placeholder:dark:text-gray-600;
 
-  /* Focus states for input elements */
-  [type="text"]:focus,
-  [type="email"]:focus,
-  [type="url"]:focus,
-  [type="password"]:focus,
-  [type="number"]:focus,
-  [type="date"]:focus,
-  [type="datetime-local"]:focus,
-  [type="month"]:focus,
-  [type="search"]:focus,
-  [type="tel"]:focus,
-  [type="time"]:focus,
-  [type="week"]:focus,
-  textarea:focus,
-  select:focus {
-    @apply outline-hidden border-green-600 shadow-none ring-1 ring-green-600 ring-offset-0;
-  }
-
-  /* Placeholders */
-  input::placeholder,
-  textarea::placeholder {
-    @apply text-gray-500 opacity-100;
+    @apply bg-gray-50 dark:bg-gray-700;
+    @apply rounded-md border border-gray-300 bg-origin-border focus:border-green-500 dark:border-gray-600 focus:dark:border-green-600;
+    @apply focus:outline-hidden focus:z-10 focus:shadow-none focus:ring-1 focus:ring-green-500 focus:ring-offset-0 focus:dark:ring-green-600;
   }
 
   /* Webkit datetime edit fields */
@@ -69,6 +51,10 @@
     print-color-adjust: exact;
     background-position: right calc(var(--spacing) * 3) center;
     background-size: calc(var(--spacing) * 3.5) calc(var(--spacing) * 3.5);
+  }
+
+  .select-sm {
+    @apply py-1 pl-2 pr-8 text-sm;
   }
 
   /* RTL select */
