@@ -298,30 +298,30 @@ module PDF
     end
 
     def summary_baskets_line(depot, title: nil, width:, basket_sizes:, basket_complements:, shop_products:)
-        column_content = title || depot.name
-        baskets = @baskets.active.where(depot: depot)
-        shop_orders = @shop_orders.where(depot: depot)
+      column_content = title || depot.name
+      baskets = @baskets.active.where(depot: depot)
+      shop_orders = @shop_orders.where(depot: depot)
 
-        line = [
-          content: column_content,
-          width: width,
-          align: :right
-        ]
-        basket_sizes.each do |bs|
-          line << display_quantity(baskets.where(basket_size: bs).sum(:quantity))
-        end
-        line << display_quantity(baskets.sum(:quantity))
-        basket_complements.each do |c|
-          line << display_quantity(baskets.complement_count(c) + shop_orders.complement_count(c))
-        end
-        if @shop_orders.any?
-          line << display_quantity(shop_orders.count)
-        end
-        shop_products.each do |p|
-          line << display_quantity(shop_orders.quantity_for(p))
-        end
-        line
+      line = [
+        content: column_content,
+        width: width,
+        align: :right
+      ]
+      basket_sizes.each do |bs|
+        line << display_quantity(baskets.where(basket_size: bs).sum(:quantity))
       end
+      line << display_quantity(baskets.sum(:quantity))
+      basket_complements.each do |c|
+        line << display_quantity(baskets.complement_count(c) + shop_orders.complement_count(c))
+      end
+      if @shop_orders.any?
+        line << display_quantity(shop_orders.count)
+      end
+      shop_products.each do |p|
+        line << display_quantity(shop_orders.quantity_for(p))
+      end
+      line
+    end
 
     def delivery_note
       return unless delivery.note?

@@ -38,7 +38,7 @@ class PaymentTest < ActiveSupport::TestCase
     payment.ignore!
 
     assert_not invoice.reload.closed?
-    assert_equal -30, invoice.member.balance_amount
+    assert_equal(-30, invoice.member.balance_amount)
 
     payment.unignore!
 

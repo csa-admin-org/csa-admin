@@ -152,7 +152,7 @@ class NewsletterTest < ActiveSupport::TestCase
 
   test "persist deliveries draft when saved" do
     members(:john).update!(emails: "john@doe.com, jojo@old.com")
-    suppression = suppress_email("jojo@old.com", stream_id: "broadcast")
+    suppress_email("jojo@old.com", stream_id: "broadcast")
 
     newsletter = build_newsletter(
       audience: "member_state::active",

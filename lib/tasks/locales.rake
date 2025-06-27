@@ -37,7 +37,6 @@ namespace :locales do
 
   desc "List not yet translated keys"
   task missing: :environment do
-    locales = %w[de fr it]
     translations = load_translations_from_config
     all_keys = translations.flat_map { |l, k| list_all_keys(k) }.uniq.compact
     missing_keys = []

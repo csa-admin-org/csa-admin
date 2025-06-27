@@ -3,7 +3,7 @@
 class Liquid::MemberDrop < Liquid::Drop
   include NumbersHelper
 
-  private *NumbersHelper.public_instance_methods
+  private(*NumbersHelper.public_instance_methods)
 
   def initialize(member, email: nil)
     @member = member

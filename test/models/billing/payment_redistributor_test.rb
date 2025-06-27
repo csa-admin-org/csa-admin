@@ -129,6 +129,6 @@ class Billing::PaymentsRedistributorTest < ActiveSupport::TestCase
     assert_equal 0, invoice2.reload.paid_amount
     assert_equal "open", invoice2.state
 
-    assert_equal -66.7, members(:john).reload.balance_amount
+    assert_equal(-66.7, members(:john).reload.balance_amount)
   end
 end

@@ -37,7 +37,7 @@ module BasketsHelper
   end
 
   def basket_shift_targets_collection(source)
-    col = [
+    [
       [ t(".basket_shift_none"), [ [ t(".basket_shift_declined"), :declined ] ] ],
       [ t(".following_deliveries"), basket_shifts_targets_collection_for(source, (source.delivery.date + 1.day)..) ],
       [ t(".previous_deliveries"), basket_shifts_targets_collection_for(source, ...source.delivery.date) ]

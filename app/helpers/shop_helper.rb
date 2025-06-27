@@ -55,7 +55,7 @@ module ShopHelper
   end
 
   def shop_member_percentages_collection
-    options = Current.org[:shop_member_percentages].reverse.map do |percentage|
+    Current.org[:shop_member_percentages].reverse.map do |percentage|
       text =
         if percentage.positive?
           t("shop.percentage.positive", percentage: percentage)

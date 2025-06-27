@@ -179,8 +179,8 @@ class InvoiceTest < ActiveSupport::TestCase
     invoice = Invoice.new(shares_number: -2)
 
     assert_equal "Share", invoice.entity_type
-    assert_equal -2, invoice.shares_number
-    assert_equal -500, invoice.amount
+    assert_equal(-2, invoice.shares_number)
+    assert_equal(-500, invoice.amount)
   end
 
   test "sets items and round to five cents each item" do
@@ -236,7 +236,7 @@ class InvoiceTest < ActiveSupport::TestCase
       })
     invoice.validate
 
-    assert_equal -10.1, invoice.amount_percentage
+    assert_equal(-10.1, invoice.amount_percentage)
     assert_equal 10, invoice.amount_before_percentage
     assert_equal BigDecimal(8.99, 6), invoice.amount
   end

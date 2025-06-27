@@ -297,7 +297,7 @@ class Shop::OrderTest < ActiveSupport::TestCase
       })
 
     assert_equal 10, order.amount_before_percentage
-    assert_equal -15.5, order.amount_percentage
+    assert_equal(-15.5, order.amount_percentage)
     assert_equal 8.45, order.amount
   end
 
@@ -465,6 +465,6 @@ class Shop::OrderTest < ActiveSupport::TestCase
       }
     })
 
-    assert_equal -1, order.amount
+    assert_equal(-1, order.amount)
   end
 end
