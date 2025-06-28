@@ -46,7 +46,7 @@
     </nav>
     <div class="flex order-2 md:order-3 space-x-1 pe-4">
       <% if Update.unread_count(current_active_admin_user).positive? %>
-        <a href="<%= updates_path %>" class="relative flex items-center size-9 justify-center text-white/75 dark:text-black/50 hover:text-white  dark:hover:text-black focus:outline-hidden text-sm">
+        <a href="<%= updates_path %>" class="relative flex items-center size-9 justify-center text-white/75 dark:text-black/50 hover:text-white  dark:hover:text-black focus:outline-hidden text-sm" data-turbo-prefetch="false">
           <%= icon "gift", class: "size-5" %>
           <div class="absolute size-2 text-xs font-semibold bg-red-500 rounded-full top-1 end-1 dark:border-gray-900"></div>
         </a>
