@@ -66,6 +66,8 @@ const getElements = (elementOrSelector) => {
     return document.querySelectorAll(elementOrSelector)
   } else if (elementOrSelector instanceof Array) {
     return elementOrSelector
+  } else if (elementOrSelector === null) {
+    return []
   } else {
     return [elementOrSelector]
   }

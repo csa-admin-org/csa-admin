@@ -20,8 +20,8 @@ ActiveAdmin.register Depot do
 
   includes :memberships, :delivery_cycles
   index do
-    column :id, ->(d) { auto_link d, d.id }
-    column :name, ->(d) { link_to display_name_with_public_name(d), d }, sortable: true
+    column :id
+    column :name, ->(d) { display_name_with_public_name(d) }, sortable: true
     if DepotGroup.any?
       column :group
     end
@@ -153,12 +153,12 @@ ActiveAdmin.register Depot do
           end
           if DeliveryCycle.visible?
             table_for depot.delivery_cycles, class: "table-auto" do
-              column DeliveryCycle.model_name.human, ->(dc) { auto_link dc }
+              column DeliveryCycle.model_name.human, ->(dc) { auto_link dc, aria: { label: "show" } }
               column Current.org.current_fiscal_year, ->(dc) {
-                auto_link dc, dc.current_deliveries_count
+                dc.current_deliveries_count
               }, class: "text-right"
               column Current.org.fiscal_year_for(1.year.from_now), ->(dc) {
-                auto_link dc, dc.future_deliveries_count
+                dc.future_deliveries_count
               }, class: "text-right"
             end
           end

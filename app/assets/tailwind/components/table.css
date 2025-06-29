@@ -135,7 +135,16 @@
     }
 
     .data-table tbody tr:nth-child(odd) {
-      @apply border-dotted bg-gray-50 hover:bg-gray-100 dark:bg-gray-900 dark:hover:bg-gray-800;
+      @apply border-dotted bg-neutral-50 hover:bg-neutral-100 dark:bg-neutral-900 dark:hover:bg-neutral-800;
+    }
+
+    .data-table tbody tr td input[type="checkbox"] {
+      @apply relative size-5;
+
+      &::before {
+        @apply absolute content-[""];
+        @apply -left-4 -top-4 size-12;
+      }
     }
   }
 
@@ -233,5 +242,9 @@
         @apply hidden;
       }
     }
+  }
+
+  tr[data-table-row-target="row"] {
+    @apply hover:bg-neutral-100! hover:dark:bg-neutral-700! focus:bg-neutral-100! focus:dark:bg-neutral-700! focus:outline-none;
   }
 }

@@ -27,19 +27,19 @@ ActiveAdmin.register Delivery do
 
   # Workaround for ActionController::UnknownFormat (xlsx download)
   # https://github.com/activeadmin/activeadmin/issues/4945#issuecomment-302729459
-  index download_links: -> { params[:action] == "show" ? [ :xlsx, :pdf ] : [ :csv ] } do
+  index download_links: -> { params[:action] == "show" ? [ :xlsx, :pdf ] : [ :csv ] }, class: "table-auto" do
     if Current.org.feature?("shop") && (!params[:scope] || params[:scope] == "coming")
-      selectable_column
+      selectable_column(class: "w-px")
     end
-    column "#", ->(delivery) { auto_link delivery, delivery.number }
-    column :date, ->(delivery) { auto_link delivery, l(delivery.date, format: :medium).capitalize }, class: "text-right"
+    column "#", ->(delivery) { delivery.number }, class: "w-px"
+    column :date, ->(delivery) { l(delivery.date, format: :medium).capitalize }, class: "text-right whitespace-nowrap"
     if BasketComplement.kept.any?
       column(:basket_complements) { |d| d.basket_complements.map(&:name).to_sentence }
     end
     if Current.org.feature?("shop")
-      column :shop, ->(delivery) { status_tag(delivery.shop_configured_open?) }, class: "text-right"
+      column :shop, ->(delivery) { status_tag(delivery.shop_configured_open?) }, class: "text-right w-px"
     end
-    actions do |delivery|
+    actions class: "w-px" do |delivery|
       icon_file_link(:csv, baskets_path(q: { delivery_id_eq: delivery.id }, format: :csv), title: Delivery.human_attribute_name(:summary), size: 5) +
       icon_file_link(:xlsx, delivery_path(delivery, format: :xlsx), title: Delivery.human_attribute_name(:summary), size: 5) +
       icon_file_link(:pdf, delivery_path(delivery, format: :pdf), target: "_blank", title: Delivery.human_attribute_name(:sheets), size: 5)

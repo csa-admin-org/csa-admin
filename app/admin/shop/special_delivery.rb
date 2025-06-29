@@ -35,8 +35,8 @@ ActiveAdmin.register Shop::SpecialDelivery do
   # https://github.com/activeadmin/activeadmin/issues/4945#issuecomment-302729459
   includes :shop_orders
   index download_links: -> { params[:action] == "show" ? [ :xlsx ] : false } do
-    column :id, ->(d) { auto_link d, d.id }
-    column :date, ->(d) { auto_link d, l(d.date, format: :medium) }
+    column :id
+    column :date, ->(d) { l(d.date, format: :medium) }
     column :open_until, ->(d) {
       if d.shop_open?
         l(d.shop_closing_at, format: :medium)
@@ -77,7 +77,7 @@ ActiveAdmin.register Shop::SpecialDelivery do
           all.each do |producer, items|
             panel producer.name, action: icon_file_link(:xlsx, shop_special_delivery_path(delivery, format: :xlsx, producer_id: producer.id)) do
               table_for items, i18n: Shop::OrderItem, class: "table-auto data-table-total" do
-                column(:product) { |i| auto_link i.product }
+                column(:product) { |i| auto_link i.product, aria: { label: "show" } }
                 column(:product_variant) { |i| i.product_variant }
                 column(:quantity, class: "text-right")
                 column(:amount, class: "text-right") { |i|

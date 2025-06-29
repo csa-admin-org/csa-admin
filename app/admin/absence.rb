@@ -46,13 +46,13 @@ ActiveAdmin.register Absence do
       end
     }, sortable: "members.name"
     column :started_on, ->(absence) {
-      link_to l(absence.started_on, format: :short), absence
+      l(absence.started_on, format: :short)
     }, class: "text-right"
     column :ended_on, ->(absence) {
-      link_to l(absence.ended_on, format: :short), absence
+      l(absence.ended_on, format: :short)
     }, class: "text-right"
     column :deliveries, ->(absence) {
-      link_to absence.baskets.size, absence
+      absence.baskets.size
     }, class: "text-right"
     actions
   end
@@ -74,8 +74,8 @@ ActiveAdmin.register Absence do
       column do
         panel Basket.model_name.human(count: 2), count: absence.baskets.count do
           table_for absence.baskets.includes(:membership, :delivery), class: "table-auto" do
-            column(:delivery) { |b| auto_link(b.delivery) }
-            column(:membership) { |b| auto_link(b.membership) }
+            column(:delivery) { |b| auto_link b.delivery }
+            column(:membership) { |b| auto_link b.membership, aria: { label: "show" } }
           end
         end
       end

@@ -31,8 +31,8 @@ ActiveAdmin.register MailTemplate do
 
   index download_links: false do
     column :title, ->(mt) {
-      div link_to(mt.display_name, mt)
-      span mt.description, class: "mt-1 description"
+      div mt.display_name
+      span mt.description, class: "block text-sm text-gray-500"
     }
     column :active, sortable: false, class: "text-right"
     actions

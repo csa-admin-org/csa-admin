@@ -60,7 +60,7 @@ ActiveAdmin.register Invoice do
       [ :csv ]
     end
    } do
-    column :id, ->(i) { auto_link i, i.id }
+    column :id
     column :date, ->(i) { l i.date, format: :number }, class: "text-right tabular-nums"
     column :member, sortable: "members.name"
     column :amount, ->(invoice) { cur(invoice.amount) }, class: "text-right tabular-nums"
@@ -191,7 +191,7 @@ ActiveAdmin.register Invoice do
             div(class: "missing-data") { t(".no_payments") }
           else
             table_for(payments, class: "table-auto") do
-              column(:date) { |p| auto_link p, l(p.date, format: :number) }
+              column(:date) { |p| auto_link p, l(p.date, format: :number), aria: { label: "show" } }
               column(:amount, class: "text-right tabular-nums") { |p| cur(p.amount) }
               column(:type, class: "text-right") { |p| status_tag p.type }
             end

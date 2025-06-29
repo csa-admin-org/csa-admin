@@ -19,7 +19,7 @@ ActiveAdmin.register Newsletter::Segment do
   end
 
   index download_links: false do
-    column :title, ->(s) { link_to s.title, [ :edit, s ] }, sortable: true
+    column :title, sortable: true
     column Member.model_name.human(count: 2), ->(s) { s.members.count }, sortable: false, class: "text-right"
     actions
   end

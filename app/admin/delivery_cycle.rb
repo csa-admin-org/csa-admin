@@ -21,7 +21,7 @@ ActiveAdmin.register DeliveryCycle do
 
   includes :depots
   index download_links: false do
-    column :id, ->(dc) { link_to dc.id, dc }
+    column :id
     column :name, ->(dc) { link_to display_name_with_public_name(dc), dc }, sortable: true
     if DeliveryCycle.prices?
       column :price, ->(d) { cur(d.price) }, class: "text-right tabular-nums whitespace-nowrap"
@@ -32,14 +32,14 @@ ActiveAdmin.register DeliveryCycle do
       if dc.current_deliveries_count.positive? && dc.absences_included_annually.positive?
         txt += " (-#{dc.absences_included_annually})"
       end
-      auto_link dc, txt
+      txt
     }, class: "text-right whitespace-nowrap"
     column Current.org.fiscal_year_for(1.year.from_now), ->(dc) {
       txt = dc.future_deliveries_count.to_s
       if dc.future_deliveries_count.positive? && dc.absences_included_annually.positive?
         txt += " (-#{dc.absences_included_annually})"
       end
-      auto_link dc, txt
+      txt
     }, class: "text-right whitespace-nowrap"
     if DeliveryCycle.visible?
       column :visible, ->(dc) { status_tag dc.visible? }, class: "text-right"
@@ -55,8 +55,8 @@ ActiveAdmin.register DeliveryCycle do
         panel deliveries_current_year_title, count: dc.current_deliveries_count do
           if dc.current_deliveries_count.positive?
             table_for dc.current_deliveries, class: "table-auto" do
-              column "#", ->(d) { auto_link d, d.number }
-              column :date, ->(d) { auto_link d, l(d.date, format: :long) }
+              column "#", ->(d) { d.number }
+              column :date, ->(d) { auto_link d, l(d.date, format: :long), aria: { label: "show" } }
             end
           else
             div(class: "missing-data") { t("active_admin.empty") }
@@ -65,8 +65,8 @@ ActiveAdmin.register DeliveryCycle do
         panel deliveries_next_year_title, count: dc.future_deliveries_count do
           if dc.future_deliveries_count.positive?
             table_for dc.future_deliveries, class: "table-auto" do
-              column "#", ->(d) { auto_link d, d.number }
-              column :date, ->(d) { auto_link d, l(d.date, format: :long) }
+              column "#", ->(d) { d.number }
+              column :date, ->(d) { auto_link d, l(d.date, format: :long), aria: { label: "show" } }
             end
           else
             div(class: "missing-data") { t("active_admin.empty") }
@@ -95,7 +95,7 @@ ActiveAdmin.register DeliveryCycle do
             end
             if dc.visible?
                 table_for dc.depots, class: "mt-4" do
-                  column Depot.model_name.human, ->(d) { auto_link d }, class: "text-left"
+                  column Depot.model_name.human, ->(d) { auto_link d, aria: { label: "show" } }, class: "text-left"
                   column :visible, class: "text-right"
                 end
             end
