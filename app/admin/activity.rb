@@ -30,10 +30,10 @@ ActiveAdmin.register Activity do
 
   includes :participations
   index do
-    column resource_selection_toggle_cell, class: "col-selectable", sortable: false do |a|
+    column resource_selection_toggle_cell, class: "col-selectable w-px", sortable: false do |a|
       resource_selection_cell(a) if a.can_destroy?
     end
-    column :date, ->(a) { l a.date, format: :medium }, sortable: :date, class: "text-right"
+    column :date, ->(a) { l a.date, format: :medium }, sortable: :date, class: "text-right whitespace-nowrap"
     column :period, ->(a) { a.period }, class: "text-right tabular-nums"
     column :place, ->(a) { display_place(a) }
     column :title, ->(a) { a.title }

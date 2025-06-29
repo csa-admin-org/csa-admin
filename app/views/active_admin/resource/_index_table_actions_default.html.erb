@@ -1,15 +1,15 @@
 <% if destroy_action_authorized?(resource) && !resource.class.in?([ Member, Membership ]) %>
-  <%= link_to resource_path(resource), method: :delete, data: { confirm: delete_confirmation_text }, title: delete_label do %>
+  <%= link_to resource_path(resource), method: :delete, data: { confirm: delete_confirmation_text }, title: delete_label, aria: { label: "destroy" } do %>
     <%= icon "trash", class: "size-5" %>
   <% end %>
 <% end %>
 <% if edit_action_authorized?(resource) %>
-  <%= link_to edit_resource_path(resource), title: edit_label do %>
+  <%= link_to edit_resource_path(resource), title: edit_label, aria: { label: "edit" } do %>
     <%= icon "pencil-square", class: "size-5" %>
   <% end %>
 <% end %>
 <% if show_action_authorized?(resource) %>
-  <%= link_to resource_path(resource), title: view_label do %>
+  <%= link_to resource_path(resource), title: view_label, aria: { label: "show" }, data: { "table_row" => "hidden" } do %>
     <%= icon "eye", class: "size-5" %>
   <% end %>
 <% end %>

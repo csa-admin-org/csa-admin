@@ -55,8 +55,8 @@ ActiveAdmin.register Shop::Order do
     end
     title
   } do
-    selectable_column if params[:scope].in?([ nil, "pending" ])
-    column :id, ->(order) { auto_link order, order.id }
+    selectable_column(class: "w-px") if params[:scope].in?([ nil, "pending" ])
+    column :id
     column :created_at, ->(order) { l(order.date, format: :number) }, class: "text-right"
     column :member, sortable: "members.name"
     if params.dig(:q, :_delivery_gid_eq).present?
@@ -138,7 +138,7 @@ ActiveAdmin.register Shop::Order do
       column do
         panel Shop::Product.model_name.human(count: 2), count: order.items.size do
           table_for order.items.includes(:product, :product_variant), class: "table-auto" do
-            column(:product) { |i| auto_link i.product, "#{i.product.name}, #{i.product_variant.name}" }
+            column(:product) { |i| auto_link i.product, "#{i.product.name}, #{i.product_variant.name}", aria: { label: "show" } }
             column(:item_price, class: "text-right") { |i| cur(i.item_price) }
             column(:quantity, class: "text-right")
             column(:amount, class: "text-right") { |i| cur(i.amount) }

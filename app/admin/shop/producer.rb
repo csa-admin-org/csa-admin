@@ -24,7 +24,7 @@ ActiveAdmin.register Shop::Producer do
   includes :products
 
   index download_links: false do
-    column :name, ->(producer) { auto_link producer }
+    column :name
     column :products, ->(producer) {
       link_to(
         producer.products.size,

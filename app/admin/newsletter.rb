@@ -24,8 +24,8 @@ ActiveAdmin.register Newsletter do
   end
 
   index download_links: false do
-    column :id, ->(n) { link_to n.id, n }
-    column :subject, ->(n) { link_to n.subject, n }
+    column :id
+    column :subject
     column :audience, ->(n) { n.audience_name }
     column :sent_at, ->(n) {
       span class: "whitespace-nowrap" do

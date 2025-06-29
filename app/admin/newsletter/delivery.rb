@@ -44,7 +44,7 @@ ActiveAdmin.register Newsletter::Delivery do
     column :email, ->(d) { auto_link d, d.email }
     column :date, ->(d) {
       timestamp = d.delivered_at || d.bounced_at || d.processed_at || d.created_at
-      auto_link d, l(timestamp, format: :medium)
+      l(timestamp, format: :medium)
     }, sortable: "date"
     column :state, ->(d) { status_tag(d.state) }, class: "text-right"
     actions

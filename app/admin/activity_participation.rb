@@ -53,7 +53,7 @@ ActiveAdmin.register ActivityParticipation do
 
   includes :member, :activity, :session
   index do
-    selectable_column
+    selectable_column(class: "w-px")
     column :member, ->(ap) {
       with_note_icon ap.note do
         link_with_session ap.member, ap.session
@@ -63,7 +63,7 @@ ActiveAdmin.register ActivityParticipation do
       link_to ap.activity.name(show_place: false), activity_participations_path(q: { activity_id_eq: ap.activity_id }, scope: :all)
     }, sortable: "activities.date", class: "text-right"
     column :participants_short, ->(ap) {
-      link_to ap.participants_count, ap
+      ap.participants_count
     }, sortable: "participants_count", class: "text-right"
     column :state, ->(ap) { status_tag ap.state }, class: "text-right"
     actions

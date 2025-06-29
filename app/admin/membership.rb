@@ -75,10 +75,10 @@ ActiveAdmin.register Membership do
 
   includes :member, :baskets, :delivery_cycle
   index do
-    column :id, ->(m) { auto_link m, m.id }
+    column :id
     column :member, sortable: "members.name"
-    column :started_on, ->(m) { auto_link m, l(m.started_on, format: :number) }, class: "text-right tabular-nums"
-    column :ended_on, ->(m) { auto_link m, l(m.ended_on, format: :number) }, class: "text-right tabular-nums"
+    column :started_on, ->(m) { l(m.started_on, format: :number) }, class: "text-right tabular-nums"
+    column :ended_on, ->(m) { l(m.ended_on, format: :number) }, class: "text-right tabular-nums"
     if Current.org.feature?("activity")
       column activities_human_name, ->(m) {
         link_to(
@@ -90,7 +90,7 @@ ActiveAdmin.register Membership do
       }, sortable: "activity_participations_demanded", class: "text-right"
     end
     column :baskets_count,
-      ->(m) { auto_link m, "#{m.past_baskets_count} / #{m.baskets_count}" },
+      ->(m) { "#{m.past_baskets_count} / #{m.baskets_count}" },
       class: "text-right"
     actions
   end
@@ -397,7 +397,7 @@ ActiveAdmin.register Membership do
             column(nil) { |b|
               if authorized?(:update, b)
                 div class: "data-table-resource-actions" do
-                  link_to edit_basket_path(b), title: t(".edit") do
+                  link_to edit_basket_path(b), title: t(".edit"), aria: { label: "edit" } do
                     icon "pencil-square", class: "size-5"
                   end
                 end

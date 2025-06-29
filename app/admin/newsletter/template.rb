@@ -14,7 +14,7 @@ ActiveAdmin.register Newsletter::Template do
 
   includes :newsletters
   index download_links: false do
-    column :title, ->(t) { link_to t.title, [ :edit, t ] }, sortable: true
+    column :title, sortable: true
     column :newsletters, ->(t) {
       link_to t.newsletters.count, newsletters_path(q: { template_id_eq: t.id })
     }, class: "text-right"

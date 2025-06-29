@@ -42,7 +42,7 @@ ActiveAdmin.register Shop::Product do
 
   includes :variants, :basket_complement, :uninvoiced_orders, :order_items
   index do
-    selectable_column
+    selectable_column(class: "w-px")
     column :name, ->(product) { auto_link product }, sortable: true
     column Shop::ProductVariant.model_name.human(count: 2), ->(product) {
       display_variants(self, product)

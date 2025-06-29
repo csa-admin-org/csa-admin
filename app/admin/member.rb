@@ -41,7 +41,7 @@ ActiveAdmin.register Member do
 
   includes :shop_depot, next_basket: [ :basket_size, :depot, :membership, baskets_basket_complements: :basket_complement ]
   index do
-    column :id, ->(member) { auto_link member, member.id }
+    column :id
     if params[:scope] == "waiting"
       @waiting_started_ats ||= Member.waiting.order(:waiting_started_at).pluck(:waiting_started_at)
       column "#", ->(member) {
@@ -228,14 +228,19 @@ ActiveAdmin.register Member do
             div(class: "missing-data") { t(".no_memberships") }
           else
             table_for(memberships.limit(3), class: "table-memberships") do
-              column(:period) { |m| auto_link m, membership_period(m, format: :number) }
+              column(:period) { |m| auto_link m, membership_period(m, format: :number), aria: { label: "show" } }
               if Current.org.feature?("activity")
                 column(activities_human_name, class: "text-right") { |m|
-                  auto_link m, "#{m.activity_participations_accepted} / #{m.activity_participations_demanded}"
+                  link_to(
+                    [ m.activity_participations_accepted, m.activity_participations_demanded ].join(" / "),
+                    activity_participations_path(q: {
+                      member_id_eq: m.member_id,
+                      during_year: m.fiscal_year
+                    }, scope: "all"))
                 }
               end
               column(:baskets_count, class: "text-right") { |m|
-                auto_link m, "#{m.past_baskets_count} / #{m.baskets_count}"
+                [ m.past_baskets_count, m.baskets_count ].join(" / ")
               }
             end
             if memberships_count > 3
@@ -260,7 +265,7 @@ ActiveAdmin.register Member do
               end
             else
               table_for(orders.limit(3), class: "table-auto") do
-                column(:id) { |o| auto_link o, o.id }
+                column(:id) { |o| auto_link o, o.id, aria: { label: "show" } }
                 column(:date) { |o| l(o.date, format: :number) }
                 column(:delivery) { |o| link_to o.delivery.display_name(format: :number), o.delivery }
                 column(:amount, class: "text-right") { |o| cur(o.amount) }
@@ -286,7 +291,7 @@ ActiveAdmin.register Member do
             else
               table_for(activity_participations.limit(6), class: "table-auto") do
                 column(Activity.model_name.human) { |ap|
-                  auto_link ap, ap.activity.name
+                  auto_link ap, ap.activity.name, aria: { label: "show" }
                 }
                 column(:participants_short, class: "text-right") { |ap| ap.participants_count }
                 column(:state, class: "text-right") { |ap| status_tag(ap.state) }
@@ -306,7 +311,7 @@ ActiveAdmin.register Member do
             div(class: "missing-data") { t(".no_invoices") }
           else
             table_for(invoices.limit(10), class: "table-auto") do
-              column(:id, class: "") { |i| auto_link i, i.id }
+              column(:id, class: "") { |i| auto_link i, i.id, aria: { label: "show" } }
               column(:date, class: "text-right") { |i| l(i.date, format: :number) }
               column(:amount, class: "text-right") { |i|
                 (content_tag(:span, cur(i.paid_amount) + " /", class: "text-sm whitespace-nowrap text-gray-500") + " " +
@@ -328,7 +333,7 @@ ActiveAdmin.register Member do
             div(class: "missing-data") { t(".no_payments") }
           else
             table_for(payments.limit(10), class: "table-auto") do
-              column(:id) { |p| auto_link p, p.id }
+              column(:id) { |p| auto_link p, p.id, aria: { label: "show" } }
               column(:date, class: "text-right") { |p| l(p.date, format: :number) }
               column(:invoice_id, class: "text-right") { |p| p.invoice_id ? auto_link(p.invoice, p.invoice_id) : "–" }
               column(:amount, class: "text-right") { |p| cur(p.amount) }
@@ -349,7 +354,7 @@ ActiveAdmin.register Member do
               div(class: "missing-data") { t(".no_absences") }
             else
               table_for(absences.limit(3), class: "table-absences") do
-                column(:started_on) { |a| auto_link a, l(a.started_on) }
+                column(:started_on) { |a| auto_link a, l(a.started_on), aria: { label: "show" } }
                 column(:ended_on) { |a| auto_link a, l(a.ended_on) }
               end
               if absences_count > 3

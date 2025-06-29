@@ -40,7 +40,7 @@ ActiveAdmin.register Payment do
 
   includes :member, :invoice
   index do
-    column :id, ->(p) { auto_link p, p.id }
+    column :id
     column :member, sortable: "members.name"
     column :date, ->(p) { l p.date, format: :number }, class: "text-right tabular-nums"
     column :invoice_id, ->(p) { p.invoice_id ? auto_link(p.invoice, p.invoice_id) : "–" }, class: "text-right"
