@@ -56,8 +56,8 @@ class NewsletterMailer < ApplicationMailer
 
   def prepared_data
     member = params[:member]
-    membership = member.current_or_future_membership
-    basket = membership&.next_basket
+    basket = member.next_basket
+    membership = basket&.membership
     today = I18n.with_locale(member.language) do
       params[:today] || I18n.l(Date.today)
     end
