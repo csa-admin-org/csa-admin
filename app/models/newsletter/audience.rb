@@ -181,7 +181,7 @@ class Newsletter
 
     def segments
       base = {
-        segment_id: Newsletter::Segment.all,
+        segment_id: Newsletter::Segment.order_by_title,
         member_state: member_state_records.sort_by(&:name),
         membership_state: membership_state_records.sort_by(&:name),
         delivery_id: ::Delivery.between(1.week.ago..).limit(8),

@@ -19,7 +19,9 @@ ActiveAdmin.register BasketContent do
 
   actions :all, except: [ :show ]
 
-  filter :delivery, as: :select
+  filter :delivery,
+    as: :select,
+    collection: -> { grouped_by_date(Delivery) }
   filter :during_year,
     as: :select,
     collection: -> { fiscal_years_collection }
@@ -161,7 +163,7 @@ ActiveAdmin.register BasketContent do
   form data: { controller: "basket-content-products-select" } do |f|
     f.inputs t(".details") do
       f.input :delivery,
-        collection: Delivery.all,
+        collection: grouped_by_date(Delivery),
         required: true,
         prompt: true
     end

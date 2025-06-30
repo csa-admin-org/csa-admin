@@ -65,6 +65,10 @@ class Activity < ApplicationRecord
     participants_limit && participants_limit - participants_count
   end
 
+  def display_name
+    name
+  end
+
   def name(show_place: true)
     parts = [ I18n.l(date, format: :medium), period ]
     parts << place if show_place

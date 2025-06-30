@@ -32,7 +32,7 @@ ActiveAdmin.register Invoice do
   filter :id, as: :numeric
   filter :member,
     as: :select,
-    collection: -> { Member.order(:name) }
+    collection: -> { members_collection(collection) }
   filter :membership,
     as: :select,
     collection: -> { Membership.where(member_id: params.dig(:q, :member_id_eq)).all.map { |m| [ m.id, m.id ] } },

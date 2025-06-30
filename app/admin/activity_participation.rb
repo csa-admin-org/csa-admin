@@ -37,11 +37,14 @@ ActiveAdmin.register ActivityParticipation do
     as: :date_range
   filter :member,
     as: :select,
-    collection: -> { Member.joins(:activity_participations).order_by_name.distinct }
+    collection: -> { members_collection(collection) }
   filter :with_note, as: :boolean
   filter :activity,
     as: :select,
-    collection: -> { Activity.order(date: :desc, start_time: :desc) }
+    collection: -> {
+      activity_ids = ActivityParticipation.distinct.pluck(:activity_id)
+      grouped_by_date(Activity.where(id: activity_ids))
+    }
   filter :activity_wday,
     label: -> { Activity.human_attribute_name(:wday) },
     as: :select,
@@ -193,7 +196,7 @@ ActiveAdmin.register ActivityParticipation do
   form do |f|
     f.inputs t(".details") do
       f.input :activity,
-        collection: Activity.order(date: :desc),
+        collection: grouped_by_date(Activity),
         prompt: true
       f.input :member,
         collection: Member.order_by_name,

@@ -82,7 +82,7 @@ ActiveAdmin.register Basket do
   end
 
   form do |f|
-    delivery_collection = basket_deliveries_collection(f.object)
+    deliveries_collection = basket_deliveries_collection(f.object)
 
     if f.object.shifted?
       panel t(".basket_shift_title"), class: "bg-teal-100 mb-8", action: handbook_icon_link("absences", anchor: "basket-shift") do
@@ -141,9 +141,9 @@ ActiveAdmin.register Basket do
             required: false,
             input_html: { data: { form_reset_target: "input" } }
         end
-        if delivery_collection.many?
+        if deliveries_collection.many?
           f.input :delivery,
-            collection: delivery_collection,
+            collection: deliveries_collection,
             prompt: true
         end
         if DeliveryCycle.prices? || f.object.delivery_cycle_price&.positive?

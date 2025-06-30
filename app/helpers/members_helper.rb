@@ -27,6 +27,11 @@ module MembersHelper
     end
   end
 
+  def members_collection(relation)
+    member_ids = @collection_before_scope.distinct.pluck(:member_id)
+    Member.where(id: member_ids).order_by_name
+  end
+
   def languages_collection
     Current.org.languages.map { |l| [ t("languages.#{l}"), l ] }
   end

@@ -9,7 +9,7 @@ ActiveAdmin.register Newsletter::Delivery do
     collection: -> { Newsletter.order(id: :desc).distinct }
   filter :member,
     as: :select,
-    collection: -> { Member.joins(:newsletter_deliveries).order_by_name.distinct }
+    collection: -> { members_collection(collection) }
   filter :with_email, as: :string
 
   breadcrumb do

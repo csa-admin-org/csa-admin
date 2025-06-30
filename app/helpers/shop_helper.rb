@@ -88,7 +88,7 @@ module ShopHelper
       else
         Delivery.shop_open + Shop::SpecialDelivery.all
       end
-    deliveries.sort_by(&:date).map do |delivery|
+    deliveries.sort_by(&:date).reverse.map do |delivery|
       [ delivery.display_name, delivery.to_global_id ]
     end
   end
