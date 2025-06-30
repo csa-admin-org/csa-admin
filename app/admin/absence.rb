@@ -31,11 +31,17 @@ ActiveAdmin.register Absence do
     collection: -> { fiscal_years_collection }
   filter :including_date,
     as: :select,
-    collection: -> { Delivery.reorder(date: :desc).map { |d| [ d.display_name, d.date ] } },
+    collection: -> {
+      absence_ids = @collection_before_scope.distinct.pluck(:id)
+      delivery_ids = Basket.where(absence_id: absence_ids).distinct.pluck(:delivery_id)
+      Delivery.where(id: delivery_ids).reorder(date: :desc).map { |d|
+        [ d.display_name, d.date ]
+      }
+    },
     label: -> { Delivery.model_name.human }
   filter :member,
     as: :select,
-    collection: -> { Member.joins(:absences).order_by_name.distinct }
+    collection: -> { members_collection(collection) }
   filter :with_note, as: :boolean
 
   includes :member, :session, :baskets

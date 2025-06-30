@@ -35,7 +35,7 @@ ActiveAdmin.register Membership do
   filter :id
   filter :member,
     as: :select,
-    collection: -> { Member.joins(:memberships).order_by_name.distinct }
+    collection: -> { members_collection(collection) }
   filter :basket_size,
     as: :select,
     collection: -> { admin_basket_sizes_collection }

@@ -34,7 +34,12 @@ module AdminHelper
     }
   end
 
-  private
+  def grouped_by_date(relation)
+    [
+      [ t("active_admin.scopes.coming"), option_for_select(relation.coming.order(:date)) ],
+      [ t("active_admin.scopes.past"), option_for_select(relation.past.reorder(date: :desc)) ]
+    ]
+  end
 
   def grouped_by_visibility(relation, options)
     if relation.hidden.none?
@@ -46,6 +51,8 @@ module AdminHelper
       ]
     end
   end
+
+  private
 
   def option_for_select(relation, options = nil)
     relation.map { |a| [ a.display_name, a.id, options&.call(a) ].compact }

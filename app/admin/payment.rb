@@ -34,7 +34,7 @@ ActiveAdmin.register Payment do
   filter :id, as: :numeric
   filter :member,
     as: :select,
-    collection: -> { Member.joins(:payments).order_by_name.distinct }
+    collection: -> { members_collection(collection) }
   filter :invoice_id, as: :numeric
   filter :amount
 

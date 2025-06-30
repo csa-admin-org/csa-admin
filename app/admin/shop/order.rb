@@ -37,12 +37,7 @@ ActiveAdmin.register Shop::Order do
   filter :id, as: :numeric
   filter :member,
     as: :select,
-    collection: -> {
-      Member
-        .joins(:shop_orders).where.not(shop_orders: { state: :cart })
-        .order(:name)
-        .distinct
-    }
+    collection: -> { members_collection(collection) }
   filter :depot, as: :select, collection: -> { admin_depots_collection }
   filter :amount
 

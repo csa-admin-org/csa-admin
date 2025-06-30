@@ -29,7 +29,7 @@ ActiveAdmin.register Shop::Product do
   filter :tags, as: :select, collection: -> { Shop::Tag.kept }
   filter :producer, as: :select, collection: -> { Shop::Producer.kept }
   filter :depot, as: :select, collection: -> { admin_depots_collection }
-  filter :delivery, as: :select, collection: -> { Delivery.coming.shop_open.all }
+  filter :delivery, as: :select, collection: -> { Delivery.coming.shop_open }
   filter :variant_name_cont,
     label: -> { Shop::ProductVariant.model_name.human(count: 1) },
     as: :string

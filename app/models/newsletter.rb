@@ -40,6 +40,7 @@ class Newsletter < ApplicationRecord
     allow_nil: true
   }
 
+  before_save :set_audience_names
   after_save_commit :save_draft_deliveries!
 
   def self.for(member)

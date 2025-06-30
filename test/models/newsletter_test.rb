@@ -188,7 +188,6 @@ class NewsletterTest < ActiveSupport::TestCase
 
     assert newsletter[:template_contents].empty?
     assert newsletter[:liquid_data_preview_yamls].empty?
-    assert newsletter.audience_names.empty?
 
     assert_difference -> { newsletter.reload.deliveries.processing.count }, 2 do
       assert_difference -> { ActionMailer::Base.deliveries.count }, 2 do

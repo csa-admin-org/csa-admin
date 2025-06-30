@@ -25,7 +25,7 @@ ActiveAdmin.register Newsletter do
 
   index download_links: false do
     column :id
-    column :subject
+    column :subject, sortable: true
     column :audience, ->(n) { n.audience_name }
     column :sent_at, ->(n) {
       span class: "whitespace-nowrap" do
@@ -337,12 +337,28 @@ ActiveAdmin.register Newsletter do
     redirect_to resource_path, notice: t("newsletters.send_email.flash.notice")
   end
 
-  order_by(:sent_at) do |order_clause|
+  order_by(:sent_at) do |clause|
     [
-      order_clause.to_sql,
-      "NULLS #{order_clause.order == "desc" ? "FIRST" : "LAST"}",
-      ", scheduled_at #{order_clause.order}"
+      clause.to_sql,
+      "NULLS #{clause.order == "desc" ? "FIRST" : "LAST"}",
+      ", scheduled_at #{clause.order}"
     ].join(" ")
+  end
+
+  order_by(:subject) do |clause|
+    config
+      .resource_class
+      .order_by_subject(clause.order)
+      .order_values
+      .join(" ")
+  end
+
+  order_by(:audience) do |clause|
+    config
+      .resource_class
+      .order_by_audience_name(clause.order)
+      .order_values
+      .join(" ")
   end
 
   controller do
