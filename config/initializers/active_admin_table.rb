@@ -25,6 +25,7 @@ ActiveAdmin.before_load do |app|
                     "table-row-target": "row",
                     action: %w[
                       click->table-row#navigate
+                      mouseover->table-row#focus
                       keydown->table-row#handleKeydown
                     ].join(" ")
                   },
