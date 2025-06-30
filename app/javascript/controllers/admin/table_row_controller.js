@@ -36,15 +36,19 @@ export default class extends Controller {
     }
   }
 
+  focus(event) {
+    const row = event.target.closest("tr")
+    if (!row) return
+
+    row.focus()
+  }
+
   handleKeydown(event) {
     const row = event.target.closest("tr")
     if (!row) return
 
     if (event.key === "Enter") {
-      const url = this.getRowURL(row)
-      if (url) {
-        Turbo.visit(url)
-      }
+      this.navigate(event)
     } else if (event.key === "ArrowUp") {
       event.preventDefault()
       const prevRow = this.getPreviousRow(row)
@@ -76,12 +80,7 @@ export default class extends Controller {
   }
 
   getNextRow(currentRow) {
-    console.log(currentRow)
-    console.log(this.rowTargets)
     const currentIndex = this.rowTargets.indexOf(currentRow)
-    console.log(currentIndex)
-    console.log(this.rowTargets[currentIndex + 1])
-
     return currentIndex < this.rowTargets.length - 1
       ? this.rowTargets[currentIndex + 1]
       : null

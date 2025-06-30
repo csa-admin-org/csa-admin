@@ -95,11 +95,11 @@
     }
 
     tbody tr {
-      @apply border-dotted hover:bg-gray-100 dark:hover:bg-gray-800;
+      @apply border-dotted;
     }
 
     :where(tbody > tr) {
-      @apply border-b border-dotted border-gray-200 hover:bg-gray-100 dark:border-gray-700 dark:hover:bg-gray-800;
+      @apply border-b border-dotted border-gray-200 dark:border-gray-700;
     }
 
     tbody tr:first-child {
@@ -135,7 +135,7 @@
     }
 
     .data-table tbody tr:nth-child(odd) {
-      @apply border-dotted bg-neutral-50 hover:bg-neutral-100 dark:bg-neutral-900 dark:hover:bg-neutral-800;
+      @apply border-dotted bg-neutral-50 dark:bg-neutral-900;
     }
 
     .data-table tbody tr td input[type="checkbox"] {
@@ -245,6 +245,10 @@
   }
 
   tr[data-table-row-target="row"] {
-    @apply hover:bg-neutral-100! hover:dark:bg-neutral-700! focus:bg-neutral-100! focus:dark:bg-neutral-700! focus:outline-none;
+    @apply focus:bg-neutral-100! focus:dark:bg-neutral-700! focus:outline-none;
+  }
+
+  tbody[data-controller="sortable"] tr {
+    @apply hover:bg-neutral-100 hover:dark:bg-neutral-700;
   }
 }
