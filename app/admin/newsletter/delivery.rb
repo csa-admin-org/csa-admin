@@ -41,13 +41,13 @@ ActiveAdmin.register Newsletter::Delivery do
     else
       column :newsletter, sortable: "newsletters.subject"
     end
-    column :email, ->(d) { auto_link d, d.email }
+    column :email, ->(d) { auto_link d, (d.email.presence || tag.em(t("active_admin.status_tag.no_email"), class: "text-gray-500")) }
     column :date, ->(d) {
       timestamp = d.delivered_at || d.bounced_at || d.processed_at || d.created_at
       l(timestamp, format: :medium)
     }, sortable: "date"
     column :state, ->(d) { status_tag(d.state) }, class: "text-right"
-    actions
+    actions class: "hidden"
   end
 
   show do |delivery|
@@ -126,12 +126,14 @@ ActiveAdmin.register Newsletter::Delivery do
   end
 
   order_by("date") do |clause|
-    %i[
-      delivered_at
-      bounced_at
-      processed_at
-      created_at
-    ].map { |attr| "newsletter_deliveries.#{attr} #{clause.order}" }.join(", ")
+    <<-SQL
+      COALESCE(
+        newsletter_deliveries.delivered_at,
+        newsletter_deliveries.bounced_at,
+        newsletter_deliveries.processed_at,
+        newsletter_deliveries.created_at
+      ) #{clause.order}
+    SQL
   end
 
   config.sort_order = "date_desc"
