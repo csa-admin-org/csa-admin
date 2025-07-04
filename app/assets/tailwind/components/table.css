@@ -28,7 +28,7 @@
   }
 
   .data-table :where(thead > tr > th) {
-    @apply whitespace-nowrap border-b bg-gray-50 px-3 py-3.5 text-start text-xs font-semibold uppercase text-gray-700 dark:border-gray-800 dark:bg-gray-950/50 dark:text-white;
+    @apply whitespace-nowrap border-b bg-gray-50 px-3 py-3.5 text-start text-xs font-semibold uppercase text-gray-700 dark:border-gray-800 dark:bg-gray-950/50 dark:text-gray-300;
   }
 
   .data-table :where(thead > tr > th > a) {
@@ -36,11 +36,15 @@
   }
 
   .data-table-sorted-icon {
-    @apply invisible h-[5px] w-[8px];
+    @apply h-[5px] w-[8px] opacity-25;
   }
 
-  :where(th[data-sort-direction]) .data-table-sorted-icon {
-    @apply visible;
+  :where(th[data-sort-direction]) {
+    @apply text-gray-900! dark:text-white!;
+
+    .data-table-sorted-icon {
+      @apply opacity-100;
+    }
   }
 
   :where(th[data-sort-direction="asc"]) .data-table-sorted-icon {
