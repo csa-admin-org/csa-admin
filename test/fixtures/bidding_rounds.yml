@@ -1,0 +1,11 @@
+# frozen_string_literal: true
+
+draft_2024:
+  fy_year: 2024
+  state: draft
+  number: 2
+
+open_2024:
+  fy_year: 2024
+  state: open
+  number: 1
