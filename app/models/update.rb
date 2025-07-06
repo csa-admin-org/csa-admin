@@ -3,17 +3,9 @@
 class Update
   include Comparable
 
-  TRANSLATED_SINCE = Date.new(2024, 6, 1)
-
   def self.all
-    # TODO: Remove this line when all latest updates are translated
-    path = Rails.root.join("app/views/updates", "*.md.erb")
-    all = Dir.glob(path).map { |path| new(path) }
-    all.select! { |update| update.date <= TRANSLATED_SINCE }
-
     path = Rails.root.join("app/views/updates", "*.#{I18n.locale}.md.erb")
-    all += Dir.glob(path).map { |path| new(path) }
-    all.sort.reverse
+    Dir.glob(path).map { |path| new(path) }.sort.reverse
   end
 
   def self.unread_count(admin)
