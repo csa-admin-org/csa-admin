@@ -10,6 +10,7 @@ class Ability
     billing: [ Invoice, Payment ],
     activity: [ Activity, ActivityParticipation, ActivityPreset ],
     basket_content: [ BasketContent, BasketContent::Product ],
+    bidding_round: [ BiddingRound, BiddingRound::Pledge ],
     shop: [
       Shop::Order,
       Shop::OrderItem,
@@ -132,6 +133,15 @@ class Ability
 
     if admin.permission.can_write?(:basket_content)
       writable_models += models_for(:basket_content)
+    end
+
+    if admin.permission.can_write?(:bidding_round)
+      writable_models += models_for(:bidding_round)
+
+      can :create, BiddingRound, can_create?: true
+      can :open, BiddingRound, can_open?: true
+      can :complete, BiddingRound, can_complete?: true
+      can :fail, BiddingRound, can_fail?: true
     end
 
     if admin.permission.can_write?(:shop)

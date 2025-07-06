@@ -333,6 +333,15 @@ ActiveAdmin.register Organization do
 
           handbook_button(self, "absences")
         end
+
+        tab BiddingRound.model_name.human, id: "bidding_round", hidden: !Current.org.feature?("bidding_round"), data: { controller: "form-disabler" } do
+          f.input :bidding_round_basket_size_price_min_percentage, min: 0, max: 100, step: 1
+          f.input :bidding_round_basket_size_price_max_percentage, min: 0, step: 1
+          f.input :open_bidding_round_reminder_sent_after_in_days
+
+          handbook_button(self, "bidding_round")
+        end
+
         tab t(".shop"), id: "shop", hidden: !Current.org.feature?("shop"), selected: (Current.org.feature?("shop") && !Current.org.feature?("absence")) do
           f.input :shop_admin_only
           translated_input(f, :shop_texts,
@@ -466,6 +475,8 @@ ActiveAdmin.register Organization do
     :absences_billed, :absence_extra_text_only,
     :absence_notice_period_in_days,
     :basket_shifts_annually, :basket_shift_deadline_in_weeks,
+    :bidding_round_basket_size_price_min_percentage, :bidding_round_basket_size_price_max_percentage,
+    :open_bidding_round_reminder_sent_after_in_days,
     :delivery_pdf_member_info,
     :shop_admin_only,
     :shop_order_maximum_weight_in_kg, :shop_order_minimal_amount,

@@ -40,6 +40,16 @@ _:
       _fr: Permet de proposer aux membres de payer un montant supplémentaire pour chaque panier.<br/>Merci de <a href="/handbook/basket_price_extra">consulter le manuel</a> pour plus d'informations.
       _de: Bietet ein Werkzeug, um den Inhalt der Taschen einer Lieferung anteilig nach dem Preis der Taschengröße zu berechnen.<br/>Bitte <a href="/handbook/basket_price_extra">konsultieren Sie das Handbuch</a> für weitere Informationen.
       _it: Fornisce uno strumento per calcolare il contenuto del cesto di una consegna in proporzione al prezzo della dimensione del cesto.<br/>Si prega <a href="/handbook/basket_price_extra">di consultare il manuale</a> per ulteriori informazioni.
+    bidding_round:
+      _en: Bidding round
+      _fr: Tour de contributions
+      _de: Bietrunde
+      _it: Turno di contributi
+    bidding_round_hint:
+      _en: Enables members to pledge their basket size price through organized bidding rounds.<br/>Please <a href="/handbook/bidding_round">consult the manual</a> for more information.
+      _fr: Permet aux membres de s'engager sur le prix de leur panier en organisant des tours de contributions.<br/>Merci de <a href="/handbook/bidding_round">consulter le manuel</a> pour plus d'informations.
+      _de: Ermöglicht den Mitgliedern, ihren Taschengrößenpreis durch organisierte Bietrunden zu bieten.<br/>Bitte <a href="/handbook/bidding_round">konsultieren Sie das Handbuch</a> für weitere Informationen.
+      _it: Consente ai membri di impegnarsi sul prezzo del loro cesto organizzando turni di contributi.<br/>Si prega <a href="/handbook/bidding_round">di consultare il manuale</a> per ulteriori informazioni.
     contact_sharing:
       _en: Contact sharing
       _fr: Copaniérage

@@ -1,0 +1,7 @@
+_:
+  bidding_rounds:
+    title:
+      _en: "%{year} Bidding Round #%{number}"
+      _fr: "%{year} Tour de contributions #%{number}"
+      _de: "%{year} Bietrunde #%{number}"
+      _it: "%{year} Turno di contributi #%{number}"
