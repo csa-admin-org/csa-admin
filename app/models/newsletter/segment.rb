@@ -94,14 +94,13 @@ class Newsletter
       members.where(memberships: { billing_year_division: billing_year_division })
     end
 
-    # TODO: Try to use an association here instead of select
     def by_coming_deliveries_in_days(members)
       return members unless coming_deliveries_in_days?
 
       limit = coming_deliveries_in_days.days.from_now
-      members.includes(next_basket: :delivery).select { |m|
-        m.next_basket && m.next_basket.delivery.date <= limit
-      }
+      members
+        .joins(next_basket: :delivery)
+        .where(deliveries: { date: ..limit })
     end
   end
 end

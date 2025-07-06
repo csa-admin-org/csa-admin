@@ -59,7 +59,7 @@ class Newsletter::SegmentTest < ActiveSupport::TestCase
     travel_to "2024-03-30 +2:00"
 
     segment = Newsletter::Segment.create!(coming_deliveries_in_days: 2)
-    assert_equal [ members(:anna), members(:john), members(:bob) ], segment.members
+    assert_equal [ members(:john), members(:bob), members(:anna) ], segment.members
   end
 
   test "segment by renewal state" do
