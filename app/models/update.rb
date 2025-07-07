@@ -11,7 +11,7 @@ class Update
   def self.unread_count(admin)
     return all.size unless admin.latest_update_read?
 
-    all.map(&:name).index(admin.latest_update_read)
+    all.map(&:name).index(admin.latest_update_read) || 1
   end
 
   def self.mark_as_read!(admin)
