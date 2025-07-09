@@ -132,23 +132,23 @@ module MembershipsHelper
     baskets
       .billable
       .pluck(:quantity, :depot_price)
-      .select { |_, p| p.positive? }
+      .select { |q, p| q.positive? && p.positive? }
       .group_by { |_, p| p }
       .sort
-      .map { |price, bbs|
-        "#{bbs.sum { |q, _| q }}x #{precise_cur(price)}"
+      .map { |price, baskets|
+        "#{baskets.sum { |q, _| q }}x #{precise_cur(price)}"
       }.join(" + ").html_safe
   end
 
   def delivery_cycle_price_info(baskets)
     baskets
-      .billable
-      .pluck(:quantity, :delivery_cycle_price)
+      .countable
+      .map { |b| [ b.quantity, b.delivery_cycle_price ] }
       .select { |_, p| p.positive? }
       .group_by { |_, p| p }
       .sort
-      .map { |price, bbs|
-        "#{bbs.sum { |q, _| q }}x #{precise_cur(price)}"
+      .map { |price, baskets|
+        "#{baskets.sum { |q, _| q }}x #{precise_cur(price)}"
       }.join(" + ").html_safe
   end
 
