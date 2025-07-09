@@ -438,11 +438,13 @@ class Membership < ApplicationRecord
         .sum("quantity * depot_price"))
   end
 
+  # Only billable and filled baskets are considered, only one delivery fee
+  # whatever is the quantity
   def deliveries_price
     rounded_price(
       baskets
-        .billable
-        .sum(:delivery_cycle_price))
+        .countable
+        .sum(&:delivery_cycle_price))
   end
 
   def missing_invoices_amount
