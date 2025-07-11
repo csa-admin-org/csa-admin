@@ -34,6 +34,7 @@ class Admin < ApplicationRecord
   def self.notify!(notification, skip: [], **attrs)
     Admin.notification(notification).where.not(id: skip).find_each do |admin|
       next if EmailSuppression.outbound.active.exists?(email: admin.email)
+      next if admin.skip_with_note?(notification)
 
       email = notification.to_s.delete_suffix("_with_note") + "_email"
       attrs[:admin] = admin
@@ -62,6 +63,10 @@ class Admin < ApplicationRecord
       all << "new_activity_participation_with_note" # only with note
     end
     all
+  end
+
+  def skip_with_note?(notification)
+    notification.ends_with?("_with_note") && notifications.include?(notification.to_s.delete_suffix("_with_note"))
   end
 
   def notifications=(notifications)

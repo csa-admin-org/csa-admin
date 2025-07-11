@@ -38,6 +38,18 @@ class AdminTest < ActiveSupport::TestCase
 
     assert_no_difference("ActionMailer::Base.deliveries.count") do
       Admin.notify!(:new_absence)
+      perform_enqueued_jobs
+    end
+  end
+
+  test "notify! only once when _with_note and without _with_note enabled" do
+    admin = admins(:master)
+    admin.update!(notifications: [ "new_absence", "new_absence_with_note" ])
+
+    assert_difference("ActionMailer::Base.deliveries.count", 1) do
+      Admin.notify!(:new_absence)
+      Admin.notify!(:new_absence_with_note)
+      perform_enqueued_jobs
     end
   end
 end
