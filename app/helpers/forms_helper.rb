@@ -9,10 +9,14 @@ module FormsHelper
     locales.each do |locale|
       klass = form.object.class.name.underscore.gsub("/", "_")
       label =
-        label_option&.call(locale) ||
-          label_with_language(
-            form.object.class.human_attribute_name(attr.to_s.singularize),
-            locale)
+        if label_option == false
+          false
+        else
+          label_option&.call(locale) ||
+            label_with_language(
+              form.object.class.human_attribute_name(attr.to_s.singularize),
+              locale)
+        end
       placeholder = if placeholder_option&.respond_to?(:call)
         placeholder_option.call(locale)
       else
