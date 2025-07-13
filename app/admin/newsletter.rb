@@ -257,17 +257,21 @@ ActiveAdmin.register Newsletter do
                 id: "mail_preview_#{locale}",
                 "data-iframe-target" => "iframe")
             end
-            translated_input(f, :liquid_data_preview_yamls,
-              locale: locale,
-              as: :text,
-              hint: t("formtastic.hints.liquid_data_preview"),
-              input_html: {
-                data: {
-                  mode: "yaml",
-                  code_editor_target: "editor"
-                },
-                name: "newsletter[liquid_data_preview_yamls][#{locale}]"
-              })
+            details do
+              summary label_with_language(f.object.class.human_attribute_name(:liquid_data_preview_yaml), locale)
+              translated_input(f, :liquid_data_preview_yamls,
+                locale: locale,
+                label: false,
+                as: :text,
+                hint: t("formtastic.hints.liquid_data_preview"),
+                input_html: {
+                  data: {
+                    mode: "yaml",
+                    code_editor_target: "editor"
+                  },
+                  name: "newsletter[liquid_data_preview_yamls][#{locale}]"
+                })
+            end
           end
         end
       end
