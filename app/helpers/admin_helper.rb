@@ -34,11 +34,21 @@ module AdminHelper
     }
   end
 
-  def grouped_by_date(relation)
-    [
-      [ t("active_admin.scopes.coming"), option_for_select(relation.coming.order(:date)) ],
-      [ t("active_admin.scopes.past"), option_for_select(relation.past.reorder(date: :desc)) ]
-    ]
+  def grouped_by_date(relation, past: :last)
+    if fy_year = params.dig(:q, :during_year)
+      relation = relation.during_year(fy_year)
+    end
+    if past == :last
+      [
+        [ t("active_admin.scopes.coming"), option_for_select(relation.coming.order(:date)) ],
+        [ t("active_admin.scopes.past"), option_for_select(relation.past.reorder(date: :desc)) ]
+      ]
+    else
+      [
+        [ t("active_admin.scopes.past"), option_for_select(relation.past.order(:date)) ],
+        [ t("active_admin.scopes.coming"), option_for_select(relation.coming.order(:date)) ]
+      ]
+    end
   end
 
   def grouped_by_visibility(relation, options)

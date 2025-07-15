@@ -12,19 +12,19 @@ ActiveAdmin.register BasketContent do
     when "new"
       links << link_to(BasketContent.model_name.human(count: 2), smart_basket_contents_path)
     when "edit"
-      links << link_to(BasketContent.model_name.human(count: 2), basket_contents_path(q: { delivery_id_eq: resource.delivery_id }))
+      links << link_to(BasketContent.model_name.human(count: 2), basket_contents_path(q: { delivery_id_eq: resource.delivery_id, during_year: resource.delivery.fy_year }))
     end
     links
   end
 
   actions :all, except: [ :show ]
 
-  filter :delivery,
-    as: :select,
-    collection: -> { grouped_by_date(Delivery) }
   filter :during_year,
     as: :select,
     collection: -> { fiscal_years_collection }
+  filter :delivery,
+    as: :select,
+    collection: -> { grouped_by_date(Delivery, past: :first) }
   filter :product, as: :select, collection: -> { BasketContent::Product.ordered }
   filter :basket_size, as: :select, collection: -> { BasketSize.ordered.paid }
   filter :depots, as: :select, collection: -> { admin_depots_collection }
@@ -163,7 +163,7 @@ ActiveAdmin.register BasketContent do
   form data: { controller: "basket-content-products-select" } do |f|
     f.inputs t(".details") do
       f.input :delivery,
-        collection: grouped_by_date(Delivery),
+        collection: grouped_by_date(Delivery, past: :first),
         required: true,
         prompt: true
     end
@@ -320,7 +320,7 @@ ActiveAdmin.register BasketContent do
     end
     f.actions do
       f.action :submit, as: :input
-      cancel_link basket_contents_path(q: { delivery_id_eq: f.object.delivery_id })
+      cancel_link basket_contents_path(q: { delivery_id_eq: f.object.delivery_id, during_year: f.object.delivery.fy_year })
     end
   end
 
@@ -354,13 +354,13 @@ ActiveAdmin.register BasketContent do
 
     def create
       create! do |success, failure|
-        success.html { redirect_to collection_path(q: { delivery_id_eq: resource.delivery_id }) }
+        success.html { redirect_to collection_path(q: { delivery_id_eq: resource.delivery_id, during_year: resource.delivery.fy_year }) }
       end
     end
 
     def update
       update! do |success, failure|
-        success.html { redirect_to collection_path(q: { delivery_id_eq: resource.delivery_id }) }
+        success.html { redirect_to collection_path(q: { delivery_id_eq: resource.delivery_id, during_year: resource.delivery.fy_year }) }
       end
     end
 
