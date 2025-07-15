@@ -82,12 +82,12 @@ class BasketContent < ApplicationRecord
     Delivery.where.not(id: ids).where(date: after_date..)
   end
 
-  def self.next_delivery
-    all.joins(:delivery).order(:date).first&.delivery
-  end
-
-  def self.last_delivery
-    all.joins(:delivery).order(:date).last&.delivery
+  def self.closest_delivery
+    Delivery
+      .joins(:basket_contents)
+      .distinct
+      .reorder(Arel.sql("ABS(julianday(deliveries.date) - julianday(date('now')))"))
+      .first
   end
 
   def self.ransackable_scopes(_auth_object = nil)

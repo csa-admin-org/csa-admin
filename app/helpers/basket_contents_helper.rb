@@ -5,9 +5,9 @@ module BasketContentsHelper
   include NumbersHelper
 
   def smart_basket_contents_path
-    delivery = BasketContent.last_delivery || Delivery.next || Delivery.last
-    if delivery
-      basket_contents_path(q: { delivery_id_eq: delivery.id })
+    @delivery ||= BasketContent.closest_delivery || Delivery.next || Delivery.last
+    if @delivery
+      basket_contents_path(q: { delivery_id_eq: @delivery.id })
     else
       basket_contents_path
     end
