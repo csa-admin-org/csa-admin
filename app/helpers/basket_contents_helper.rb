@@ -7,7 +7,7 @@ module BasketContentsHelper
   def smart_basket_contents_path
     @delivery ||= BasketContent.closest_delivery || Delivery.next || Delivery.last
     if @delivery
-      basket_contents_path(q: { delivery_id_eq: @delivery.id })
+      basket_contents_path(q: { delivery_id_eq: @delivery.id, during_year: @delivery.fy_year })
     else
       basket_contents_path
     end
