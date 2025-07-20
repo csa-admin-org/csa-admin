@@ -4,7 +4,7 @@ module HasFiscalYear
   extend ActiveSupport::Concern
 
   included do
-    delegate :year, :range, to: :fiscal_year, prefix: :fy
+    delegate :year, :range, to: :fiscal_year, prefix: :fy, allow_nil: true
 
     scope :current_year, -> { where(date: Current.fy_range) }
     scope :during_year, ->(year) { where(date: Current.org.fiscal_year_for(year).range) }
