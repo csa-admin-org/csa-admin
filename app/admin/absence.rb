@@ -105,7 +105,8 @@ ActiveAdmin.register Absence do
     f.inputs t(".details") do
       f.input :member,
         collection: Member.joins(:memberships).distinct.order_by_name.map { |d| [ d.name, d.id ] },
-        prompt: true
+        prompt: true,
+        input_html: { disabled: f.object.persisted? }
       div class: "single-line" do
         f.input :started_on, as: :date_picker
         f.input :ended_on, as: :date_picker
