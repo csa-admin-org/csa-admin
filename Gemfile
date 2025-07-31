@@ -33,7 +33,7 @@ gem "truemail"
 gem "tod"
 gem "discard"
 
-gem "activeadmin", "~> 4.0.0.beta15"
+gem "activeadmin", "~> 4.0.0.beta16"
 gem "cancancan"
 gem "acts_as_list"
 
