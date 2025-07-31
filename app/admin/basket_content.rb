@@ -320,7 +320,7 @@ ActiveAdmin.register BasketContent do
     end
     f.actions do
       f.action :submit, as: :input
-      cancel_link basket_contents_path(q: { delivery_id_eq: f.object.delivery_id, during_year: f.object.delivery.fy_year })
+      cancel_link basket_contents_path(q: { delivery_id_eq: f.object.delivery_id, during_year: f.object.delivery&.fy_year })
     end
   end
 
