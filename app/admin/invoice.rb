@@ -338,6 +338,7 @@ ActiveAdmin.register Invoice do
   action_item :mark_as_sent, only: :show, if: -> { authorized?(:mark_as_sent, resource) } do
     button_to t(".mark_as_sent"), mark_as_sent_invoice_path(resource),
       form: { data: { controller: "disable", disable_with_value: t("formtastic.processing") } },
+      data: { confirm: t(".mark_as_sent_confirm") },
       class: "action-item-button"
   end
 

@@ -2023,6 +2023,11 @@ _:
           _fr: Marquer comme envoyée
           _de: Als gesendet markieren
           _it: Contrassegnare come inviata
+        mark_as_sent_confirm:
+          _en: Are you sure? This action cannot be undone, and you will not be able to send this invoice after marking it as sent.
+          _fr: Êtes-vous sûr de vraiment être sûr? Cette action ne peut pas être annulée et vous ne pourrez plus envoyer cette facture après l'avoir marqué comme envoyée.
+          _de: Sind Sie sicher? Diese Aktion kann nicht rückgängig gemacht werden und Sie können diese Rechnung nicht mehr senden, nachdem Sie sie als gesendet markiert haben.
+          _it: Siete sicuri? Questa azione non può essere annullata e non potrete più inviare questa fattura dopo averla contrassegnata come inviata.
         new_payment:
           _en: New payment
           _fr: Nouveau paiement
