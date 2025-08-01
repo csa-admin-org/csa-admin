@@ -65,6 +65,7 @@ class Organization < ApplicationRecord
 
   has_one_attached :logo
   has_one_attached :invoice_logo
+  has_many_attached :invoice_logos
 
   validates :name, presence: true
   validates :url,

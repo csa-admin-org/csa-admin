@@ -1559,11 +1559,11 @@ _:
           _fr: Texte d'information
           _de: Informationszeile
           _it: Riga d'informazione
-        invoice_logo:
-          _en: Label/Certification
-          _fr: Label/Certification
-          _de: Label/Zertifizierung
-          _it: Etichetta/Certificazione
+        invoice_logos:
+          _en: Labels/Certifications
+          _fr: Labels/Certifications
+          _de: Labels/Zertifikate
+          _it: Etichette/Certificazioni
         invoice_sepa_info:
           _en: Information text (SEPA)
           _fr: Texte d'information (SEPA)
