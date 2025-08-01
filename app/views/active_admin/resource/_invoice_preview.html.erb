@@ -5,5 +5,7 @@
       <circle fill="none" stroke-width="5" class="stroke-current" stroke-dasharray="270" stroke-dashoffset="210" cx="50" cy="50" r="40" />
     </svg>
   </div>
-  <%= image_tag invoice.pdf_file.preview(resize_to_limit: [ 2000, 2000 ]), class: "absolute top-0 z-20" %>
+  <% unless invoice.processing? %>
+    <%= image_tag invoice.pdf_file.preview(resize_to_limit: [ 2000, 2000 ]), class: "absolute top-0 z-20" %>
+  <% end %>
 </div>

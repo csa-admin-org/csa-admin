@@ -205,7 +205,13 @@ ActiveAdmin.register Invoice do
             end
           end
         end
-        unless invoice.processing?
+        if invoice.processing?
+          panel "PDF", data: { controller: "auto-refresh" } do
+            div class: "p-2" do
+              render "invoice_preview", invoice: invoice
+            end
+          end
+        else
           panel "PDF", action: icon_file_link(:pdf, pdf_invoice_path(invoice), target: "_blank") do
             div class: "p-2" do
               link_to_invoice_pdf(invoice) do
