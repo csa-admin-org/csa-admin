@@ -1,5 +1,5 @@
-default: &defaults
-  # Your push api key, it is possible to set this dynamically using ERB:
+default:
+  &defaults # Your push api key, it is possible to set this dynamically using ERB:
   push_api_key: "<%= ENV['APPSIGNAL_PUSH_API_KEY'] %>"
 
   # Your app's name
@@ -15,6 +15,7 @@ default: &defaults
   ignore_errors:
     - ActiveRecord::RecordNotFound
     - ActionController::InvalidAuthenticityToken
+    - ActionController::BadRequest
 
   # See https://docs.appsignal.com/ruby/configuration/options.html for
   # all configuration options.
