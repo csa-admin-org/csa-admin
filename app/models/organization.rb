@@ -64,7 +64,6 @@ class Organization < ApplicationRecord
   normalized_string_attributes :creditor_name, :creditor_address, :creditor_city, :creditor_zip
 
   has_one_attached :logo
-  has_one_attached :invoice_logo
   has_many_attached :invoice_logos
 
   validates :name, presence: true
