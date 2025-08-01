@@ -96,10 +96,18 @@ ActiveAdmin.register Organization do
             translated_input(f, :invoice_sepa_infos,
               hint: t("formtastic.hints.organization.invoice_sepa_info"))
           end
-          f.input :invoice_logo, as: :file, input_html: { accept: "image/jpeg, image/png" }
-          if resource.invoice_logo.attached?
-            div class: "mt-2" do
-              image_tag resource.invoice_logo, class: "h-16"
+          f.input :invoice_logos, as: :file, input_html: { accept: "image/jpeg, image/png", multiple: true, class: "mt-1.5" }
+          ul class: "flex flex-nowrap flex-row gap-x-8"  do
+            resource.invoice_logos.each do |invoice_logo|
+              li class: "relative" do
+                span class: "absolute -top-3 -right-3 text-gray-500 z-50 cursor-pointer", onclick: "this.parentNode.remove()" do
+                  icon("x-circle", class: "size-6")
+                end
+                f.hidden_field :invoice_logos, multiple: true, value: invoice_logo.signed_id
+                 span do
+                   image_tag invoice_logo.variant(resize_to_limit: [ 256, 256 ]), class: "h-16"
+                 end
+              end
             end
           end
           translated_input(f, :invoice_footers,
@@ -453,7 +461,6 @@ ActiveAdmin.register Organization do
     :email_default_from, :email_footer,
     :trial_baskets_count,
     :iban, :sepa_creditor_identifier, :bank_reference, :creditor_name,
-    :invoice_logo,
     :creditor_address, :creditor_city, :creditor_zip,
     :annual_fee, :annual_fee_member_form, :annual_fee_support_member_only,
     :share_price, :shares_number,
@@ -518,6 +525,7 @@ ActiveAdmin.register Organization do
     *I18n.available_locales.map { |l| "member_information_text_#{l}" },
     *I18n.available_locales.map { |l| "new_member_fee_description_#{l}" },
     *I18n.available_locales.map { |l| "activity_participations_form_detail_#{l}" },
+    invoice_logos: [],
     billing_year_divisions: [],
     features: [],
     membership_renewed_attributes: []

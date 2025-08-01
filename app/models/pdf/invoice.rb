@@ -384,10 +384,21 @@ module PDF
     def footer(last_page:)
       y = last_page ? payment_section_y : 40
 
-      if Current.org.invoice_logo.attached?
-        logo = Current.org.invoice_logo.variant(resize_to_limit: [ 165, 165 ]).processed.download
-        logo_io = StringIO.new(logo)
-        image logo_io, at: [ 15, y + 65 ], width: 55
+      x_position = 15
+      Current.org.invoice_logos.each do |invoice_logo|
+        begin
+          logo = invoice_logo.variant(resize_to_limit: [ 135, 135 ]).processed.download
+          image_info = Vips::Image.new_from_buffer(logo, "")
+          logo_io = StringIO.new(logo)
+          aspect_ratio = image_info.width.to_f / image_info.height
+          target_height = 45
+          target_width = target_height * aspect_ratio
+          image logo_io, at: [ x_position, y + 65 ], width: target_width, height: target_height
+          x_position += target_width + 15 # Move to next logo with spacing
+        rescue Vips::Error => e
+          Rails.logger.error "Failed to process logo ID #{invoice_logo.id}: #{e.message}"
+          next
+        end
       end
 
       font_size 10
