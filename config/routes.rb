@@ -7,6 +7,7 @@ Rails.application.routes.draw do
 
   constraints subdomain: "mc" do
     mount MissionControl::Jobs::Engine, at: "/jobs"
+    get "sessions/:tenant" => "mission_control/sessions#show", as: :mc_login
   end
 
   constraints subdomain: "admin" do

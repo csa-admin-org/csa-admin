@@ -18,7 +18,12 @@ class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
   end
 
   setup do |test|
-    subdomain = test.class.name.include?("Members::") ? "members" : "admin"
+    subdomain =
+      case test.class.name
+      when /^Members::/ then "members"
+      when /^MissionControl::/ then "mc"
+      else "admin"
+      end
     Capybara.app_host = "http://#{subdomain}.acme.test"
   end
 end
