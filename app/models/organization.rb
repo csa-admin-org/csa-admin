@@ -273,12 +273,16 @@ class Organization < ApplicationRecord
     }.to_s
   end
 
-  def members_url
-    "https://#{members_subdomain}.#{Tenant.domain}"
+  def members_url(**params)
+    url = "https://#{members_subdomain}.#{Tenant.domain}"
+    url += "?#{params.to_query}" if params.any?
+    url
   end
 
-  def admin_url
-    "https://admin.#{Tenant.domain}"
+  def admin_url(**params)
+    url = "https://admin.#{Tenant.domain}"
+    url += "?#{params.to_query}" if params.any?
+    url
   end
 
   def hostnames

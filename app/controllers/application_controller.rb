@@ -33,13 +33,21 @@ class ApplicationController < ActionController::Base
   def authenticate_admin!
     if !current_admin
       cookies.delete(:session_id)
-      redirect_to login_path, alert: t("sessions.flash.required")
+      redirect_to smart_login_path, alert: t("sessions.flash.required"), allow_other_host: true
     elsif current_session&.expired?
       cookies.delete(:session_id)
-      redirect_to login_path, alert: t("sessions.flash.expired")
+      redirect_to smart_login_path, alert: t("sessions.flash.expired"), allow_other_host: true
     else
       add_appsignal_tags
       update_last_usage(current_session)
+    end
+  end
+
+  def smart_login_path
+    if params[:mc_login]
+      mc_login_url(Tenant.current, domain: ENV["APP_DOMAIN"])
+    else
+      login_path
     end
   end
 

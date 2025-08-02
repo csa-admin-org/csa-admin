@@ -12,7 +12,7 @@ task bookmarks: :environment do
   Tenant.switch_each do
     @organizations << OpenStruct.new(
       name: Current.org.name,
-      production_admin_url: Current.org.admin_url,
+      production_admin_url: Current.org.admin_url(mc_login: true),
       production_members_url: Current.org.members_url,
       development_admin_url: Current.org.admin_url.gsub(/\.[a-z]+\z/, ".test"),
       development_members_url: Current.org.members_url.gsub(/\.[a-z]+\z/, ".test"))
