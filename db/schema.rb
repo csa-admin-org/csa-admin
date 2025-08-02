@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_06_06_112848) do
+ActiveRecord::Schema[8.1].define(version: 2025_08_02_151528) do
   create_table "absences", force: :cascade do |t|
     t.datetime "created_at"
     t.date "ended_on"
@@ -791,12 +791,10 @@ ActiveRecord::Schema[8.1].define(version: 2025_06_06_112848) do
     t.bigint "member_id"
     t.string "remote_addr", null: false
     t.datetime "revoked_at"
-    t.string "token", null: false
     t.datetime "updated_at", null: false
     t.text "user_agent", null: false
     t.index ["admin_id"], name: "index_sessions_on_admin_id"
     t.index ["member_id"], name: "index_sessions_on_member_id"
-    t.index ["token"], name: "index_sessions_on_token", unique: true
   end
 
   create_table "shop_order_items", force: :cascade do |t|
