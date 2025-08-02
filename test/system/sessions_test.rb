@@ -78,24 +78,28 @@ class SessionsTest < ApplicationSystemTestCase
     assert_selector "p.inline-errors", text: "Unknown email"
   end
 
-  test "does not accept old session when not logged in" do
-    old_session =  create_session(admins(:master), created_at: 1.hour.ago)
+  test "cannot redeem old session token" do
+    session = create_session(admins(:master))
+    token = session.generate_token_for(:redeem)
 
-    visit "/sessions/#{old_session.token}"
+    travel 15.minutes + 1.second
+    visit "/sessions/#{token}"
 
     assert_equal "/login", current_path
     assert_equal "Your login link is no longer valid. Please request a new one.", flash_alert
   end
 
-  test "handles old session when already logged in" do
-    admin = admins(:master)
-    login(admin)
-    old_session = create_session(admin, created_at: 1.hour.ago)
+  test "cannot redeem sessions twice" do
+    session = create_session(admins(:master))
+    token = session.generate_token_for(:redeem)
 
-    visit "/sessions/#{old_session.token}"
+    assert_changes -> { session.reload.last_used_at }, from: nil do
+      visit "/sessions/#{token}"
+    end
+    assert_equal "You are now logged in.", flash_notice
 
-    assert_equal "/", current_path
-    assert_equal "You are already logged in.", flash_notice
+    visit "/sessions/#{token}"
+    assert_equal "Your login link is no longer valid. Please request a new one.", flash_alert
   end
 
   test "logout session without email" do

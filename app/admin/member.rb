@@ -748,7 +748,7 @@ ActiveAdmin.register Member do
       member: resource,
       request: request)
     redirect_to members_session_url(
-      session.token,
+      session.generate_token_for(:redeem),
       subdomain: Current.org.members_subdomain,
       locale: I18n.locale),
       allow_other_host: true

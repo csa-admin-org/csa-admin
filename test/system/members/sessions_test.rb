@@ -78,23 +78,29 @@ class Members::SessionsTest < ApplicationSystemTestCase
     assert_selector "span.error", text: "Unknown email"
   end
 
-  test "does not accept old session when not logged in" do
-    old_session = create_session(members(:john), created_at: 1.hour.ago)
+  test "cannot redeem old session token" do
+    session = create_session(members(:john))
+    token = session.generate_token_for(:redeem)
 
-    visit "/sessions/#{old_session.token}"
+    travel 15.minutes + 1.second
+    visit "/sessions/#{token}"
 
     assert_equal "/login", current_path
+
     assert_text "Your login link is no longer valid. Please request a new one."
   end
 
-  test "handles old session when already logged in" do
-    member = members(:john)
-    login(member)
-    old_session = create_session(member, created_at: 1.hour.ago)
+  test "cannot redeem sessions twice" do
+    session = create_session(members(:john))
+    token = session.generate_token_for(:redeem)
 
-    visit "/sessions/#{old_session.token}"
+    assert_changes -> { session.reload.last_used_at }, from: nil do
+      visit "/sessions/#{token}"
+    end
+    assert_text "You are now logged in."
 
-    assert_text "You are already logged in."
+    visit "/sessions/#{token}"
+    assert_text "Your login link is no longer valid. Please request a new one."
   end
 
   test "logout session without email" do

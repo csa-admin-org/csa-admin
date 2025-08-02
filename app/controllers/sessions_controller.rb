@@ -22,7 +22,7 @@ class SessionsController < ApplicationController
     if @session.save
       SessionMailer.with(
         session: @session,
-        session_url: session_url(@session.token)
+        session_url: session_url(@session.generate_token_for(:redeem))
       ).new_admin_session_email.deliver_later(queue: :critical)
       I18n.locale = @session.admin.language
       redirect_to login_path(locale: I18n.locale), notice: t("sessions.flash.initiated")
@@ -33,18 +33,11 @@ class SessionsController < ApplicationController
 
   # GET /sessions/:id
   def show
-    # Make it "slow" on purpose to make brute-force attacks more of a hassle
-    BCrypt::Password.create(params[:id])
-
-    @session = Session.find_by!(token: params[:id])
-
-    if !@session.timeout?
+    if @session = Session.find_by_token_for(:redeem, params[:id])
       cookies.encrypted.permanent[:session_id] = @session.id
       redirect_to root_path, notice: t("sessions.flash.created")
-    elsif current_admin&.id == @session.admin_id
-      redirect_to root_path, notice: t("sessions.flash.already_exists")
     else
-      redirect_to login_path, alert: t("sessions.flash.timeout")
+      redirect_to login_path, alert: t("sessions.flash.invalid")
     end
   end
 
