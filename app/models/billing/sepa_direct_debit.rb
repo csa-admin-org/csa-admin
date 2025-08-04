@@ -4,10 +4,6 @@ module Billing
   class SEPADirectDebit
     SCHEMA = "pain.008.001.02"
 
-    def self.xml(invoices)
-      new(invoices).xml
-    end
-
     def initialize(invoices)
       @invoices = Array(invoices).select { it.sepa? && it.open? }
     end
@@ -22,6 +18,14 @@ module Billing
       sdd = base
       sdd = add_transactions(sdd)
       sdd.to_xml(SCHEMA)
+    end
+
+    def filename
+      [
+        Invoice.model_name.human(count: 2).downcase,
+        Date.today.strftime("%Y%m%d"),
+        "pain.xml"
+      ].join("-")
     end
 
     private
@@ -42,6 +46,7 @@ module Billing
           currency: Current.org.currency_code,
           instruction: [ invoice.member_id, invoice.id ].join("-"),
           reference: invoice.reference,
+          batch_booking: false, # Disable "Sammelbuchung / Einzelbuchung"
           mandate_id: invoice.sepa_metadata["mandate_id"],
           mandate_date_of_signature: Date.parse(invoice.sepa_metadata["mandate_signed_on"]),
           local_instrument: "CORE", # "Basis-Lastschrift"

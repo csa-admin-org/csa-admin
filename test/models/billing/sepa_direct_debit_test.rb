@@ -27,7 +27,7 @@ class Billing::SEPADirectDebitTest < ActiveSupport::TestCase
         "0" => { description: "A cool cheap thing", amount: 12.34 }
       })
 
-    xml = Billing::SEPADirectDebit.xml([ invoice1, invoice2 ])
+    xml = Billing::SEPADirectDebit.new([ invoice1, invoice2 ]).xml
     assert_includes xml, <<-XML
       <CreDtTm>2025-02-01T00:00:00+01:00</CreDtTm>
       <NbOfTxs>2</NbOfTxs>
@@ -45,7 +45,7 @@ class Billing::SEPADirectDebitTest < ActiveSupport::TestCase
     XML
     assert_includes xml, <<-XML
       <PmtMtd>DD</PmtMtd>
-      <BtchBookg>true</BtchBookg>
+      <BtchBookg>false</BtchBookg>
       <NbOfTxs>2</NbOfTxs>
       <CtrlSum>42.34</CtrlSum>
       <PmtTpInf>
@@ -130,14 +130,14 @@ class Billing::SEPADirectDebitTest < ActiveSupport::TestCase
   end
 
   test "return nil when no invoices" do
-    assert_nil Billing::SEPADirectDebit.xml([])
+    assert_nil Billing::SEPADirectDebit.new([]).xml
   end
 
   test "return nil with no sepa invoice" do
     invoice = create_annual_fee_invoice(member: members(:anna))
     assert_not invoice.sepa?
     assert invoice.open?
-    assert_nil Billing::SEPADirectDebit.xml(invoice)
+    assert_nil Billing::SEPADirectDebit.new(invoice).xml
   end
 
   test "return nil with closed sepa invoice" do
@@ -161,6 +161,6 @@ class Billing::SEPADirectDebitTest < ActiveSupport::TestCase
 
     assert invoice.sepa?
     assert invoice.closed?
-    assert_nil Billing::SEPADirectDebit.xml(invoice)
+    assert_nil Billing::SEPADirectDebit.new(invoice).xml
   end
 end
