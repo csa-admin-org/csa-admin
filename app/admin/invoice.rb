@@ -375,20 +375,8 @@ ActiveAdmin.register Invoice do
 
   collection_action :sepa_pain_all, method: :get do
     invoices = collection.offset(nil).limit(nil).open.sepa.to_a
-
-    zip = Tempfile.new
-    Zip::File.open(zip.path, create: true) do |zip|
-      invoices.each do |invoice|
-        xml = Billing::SEPADirectDebit.xml(invoice)
-        next unless xml
-
-        zip.get_output_stream("invoice-#{invoice.id}-pain.xml") { |f| f.write(xml) }
-      end
-    end
-
-    send_file zip.path, type: "application/zip", filename: "invoices-#{Date.today.strftime("%Y%m%d")}-pain.zip"
-  ensure
-    zip&.close
+    sepa = Billing::SEPADirectDebit.new(invoices)
+    send_data sepa.xml, type: "application/xml", filename: sepa.filename
   end
 
   form do |f|
