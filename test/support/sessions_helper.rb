@@ -2,7 +2,7 @@
 
 module SessionsHelper
   def login(owner)
-    session = create_session(owner)
+    session = owner.sessions.active.last || create_session(owner)
     visit "/sessions/#{session.generate_token_for(:redeem)}"
   end
 
