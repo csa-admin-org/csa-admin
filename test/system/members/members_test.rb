@@ -509,8 +509,6 @@ class Members::MembersTest < ApplicationSystemTestCase
   test "redirects to deliveries with next basket" do
     login(members(:john))
 
-    visit "/"
-
     assert_equal "/deliveries", current_path
     assert_selector "h1", text: "Deliveries"
 
@@ -529,8 +527,6 @@ class Members::MembersTest < ApplicationSystemTestCase
   test "redirects to activity_participations with no commitment" do
     login(members(:martha))
 
-    visit "/"
-
     assert_equal "/activity_participations", current_path
     assert_selector "h1", text: "½ Days"
     assert_includes menu_nav,  "½ Days\n⤷ No commitment"
@@ -541,8 +537,6 @@ class Members::MembersTest < ApplicationSystemTestCase
     member.update!(shop_depot_id: farm_id)
     deliveries(:monday_1).update!(shop_open: true)
     login(member)
-
-    visit "/"
 
     assert_equal "/shop", current_path
     assert_selector "h1", text: "Shop"
@@ -557,8 +551,6 @@ class Members::MembersTest < ApplicationSystemTestCase
     org(features: [])
     login(members(:martha))
 
-    visit "/"
-
     assert_equal "/billing", current_path
     assert_selector "h1", text: "Billing"
     assert_equal [ "Billing\n⤷ 1 open invoice" ], menu_nav
@@ -566,8 +558,6 @@ class Members::MembersTest < ApplicationSystemTestCase
 
   test "redirects inactive user to billing" do
     login(members(:mary))
-
-    visit "/"
 
     assert_equal "/billing", current_path
     assert_selector "h1", text: "Billing"
