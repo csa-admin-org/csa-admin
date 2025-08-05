@@ -9,7 +9,6 @@ class Members::AccountsTest < ApplicationSystemTestCase
     member.update!(phones: "+41 79 123 45 67, +33 6 12 34 56 78")
     login(member)
 
-    visit "/"
     click_on "John Doe"
 
     assert_text member.id
@@ -24,7 +23,6 @@ class Members::AccountsTest < ApplicationSystemTestCase
     member = members(:john)
     login(member)
 
-    visit "/"
     click_on "John Doe"
     click_on "Edit account"
 
@@ -51,7 +49,6 @@ class Members::AccountsTest < ApplicationSystemTestCase
     member.update!(shop_depot_id: farm_id)
     login(member)
 
-    visit "/"
     click_on "Mary"
     assert_text "Our farm"
 
@@ -74,7 +71,6 @@ class Members::AccountsTest < ApplicationSystemTestCase
       billing_zip: "1234")
     login(member)
 
-    visit "/"
     click_on "John Doe"
 
     assert_text "Acme Doe"

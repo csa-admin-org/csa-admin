@@ -9,7 +9,6 @@ class Members::ContactSharingTest < ApplicationSystemTestCase
     member = members(:john)
 
     login(member)
-    visit "/"
 
     assert_includes menu_nav, "Contact sharing\n" + "⤷ Our farm"
 

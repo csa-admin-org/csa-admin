@@ -7,8 +7,6 @@ class Members::InfosTest < ApplicationSystemTestCase
     Current.org.update!(member_information_text: "Some confidential infos")
     login(members(:john))
 
-    visit "/"
-
     assert_selector "a", text: "Information"
 
     click_on "Information"
@@ -24,8 +22,6 @@ class Members::InfosTest < ApplicationSystemTestCase
       member_information_text: "Some confidential archive infos")
     login(members(:john))
 
-    visit "/"
-
     assert_selector "a", text: "Archive"
 
     click_on "Archive"
@@ -39,7 +35,6 @@ class Members::InfosTest < ApplicationSystemTestCase
     Current.org.update!(member_information_text: nil)
     login(members(:john))
 
-    visit "/"
     assert_no_selector "a", text: "Information"
 
     visit "/info"

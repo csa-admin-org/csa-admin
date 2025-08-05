@@ -9,7 +9,6 @@ class Members::AbsencesTest < ApplicationSystemTestCase
     member = members(:john)
     login(member)
 
-    visit "/"
     click_on "Absences"
 
     fill_in "Start", with: 2.weeks.from_now
