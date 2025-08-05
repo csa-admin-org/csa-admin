@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/rails/rails.git
-  revision: 9a64857d7002554b0af94158de386def5bfef9d3
+  revision: 81d64b15bf63f9ad7b4cf68f362de882b622ba92
   specs:
     actioncable (8.1.0.alpha)
       actionpack (= 8.1.0.alpha)
@@ -125,7 +125,7 @@ GEM
     arbre (2.2.0)
       activesupport (>= 7.0)
     ast (2.4.3)
-    async (2.27.0)
+    async (2.27.2)
       console (~> 1.29)
       fiber-annotation
       io-event (~> 1.11)
@@ -147,8 +147,8 @@ GEM
       async-http (~> 0.42)
       protocol-http (~> 0.45)
     aws-eventstream (1.4.0)
-    aws-partitions (1.1140.0)
-    aws-sdk-core (3.228.0)
+    aws-partitions (1.1141.0)
+    aws-sdk-core (3.229.0)
       aws-eventstream (~> 1, >= 1.3.0)
       aws-partitions (~> 1, >= 1.992.0)
       aws-sigv4 (~> 1.9)
@@ -156,10 +156,10 @@ GEM
       bigdecimal
       jmespath (~> 1, >= 1.6.1)
       logger
-    aws-sdk-kms (1.109.0)
+    aws-sdk-kms (1.110.0)
       aws-sdk-core (~> 3, >= 3.228.0)
       aws-sigv4 (~> 1.5)
-    aws-sdk-s3 (1.195.0)
+    aws-sdk-s3 (1.196.0)
       aws-sdk-core (~> 3, >= 3.228.0)
       aws-sdk-kms (~> 1)
       aws-sigv4 (~> 1.5)
@@ -295,6 +295,10 @@ GEM
       actionpack (>= 5.2)
       activesupport (>= 5.2)
     hashery (2.1.2)
+    herb (0.4.3-aarch64-linux-gnu)
+    herb (0.4.3-arm64-darwin)
+    herb (0.4.3-x86_64-linux-gnu)
+    herb (0.4.3-x86_64-linux-musl)
     hexapdf (1.4.0)
       cmdparse (~> 3.0, >= 3.0.3)
       geom2d (~> 0.4, >= 0.4.1)
@@ -644,9 +648,9 @@ GEM
     terminal-table (4.0.0)
       unicode-display_width (>= 1.1.1, < 4)
     thor (1.4.0)
-    thruster (0.1.14-aarch64-linux)
-    thruster (0.1.14-arm64-darwin)
-    thruster (0.1.14-x86_64-linux)
+    thruster (0.1.15-aarch64-linux)
+    thruster (0.1.15-arm64-darwin)
+    thruster (0.1.15-x86_64-linux)
     timeout (0.4.3)
     tod (3.1.2)
     traces (0.16.2)
@@ -714,6 +718,7 @@ DEPENDENCIES
   faraday
   faraday-cookie_jar
   girocode
+  herb
   hexapdf
   htmlbeautifier
   i18n-backend-side_by_side
@@ -791,15 +796,15 @@ CHECKSUMS
   appsignal (4.6.0) sha256=22e1c9612423da2de316c67f32aaf3cc4853b01c0c5105e20b59e1e08dcad6e7
   arbre (2.2.0) sha256=d71de0acae2536b96cd795c5ca574ad87bc1bc10a4170d0799509a2cb7a8ba71
   ast (2.4.3) sha256=954615157c1d6a382bc27d690d973195e79db7f55e9765ac7c481c60bdb4d383
-  async (2.27.0) sha256=6369a93f6f286c090f01eeb35e9ac3d4a6d50e53ecf66547ba2a1c3aacb1c451
+  async (2.27.2) sha256=a68efccbc52d910ef83d0dc907d62020f839a600b392f60d93b2686b7c4ccf16
   async-http (0.89.0) sha256=1a40728cf38ec4c3eff121474bd4f218237ffff177e471ca677b57d7aa436682
   async-pool (0.11.0) sha256=2228c4a8d1ca59a259b5f9dab7e0f9f23d57856b195aca1c0aa684a7439ea525
   async-rest (0.19.1) sha256=0f3545f5c43992604c83ffc8273f8e8ace3b055bfec23c5d4cc638b8e974c87f
   aws-eventstream (1.4.0) sha256=116bf85c436200d1060811e6f5d2d40c88f65448f2125bc77ffce5121e6e183b
-  aws-partitions (1.1140.0) sha256=f300149dfeb36d74926447ceaa24f9e04d1ae6708e76932eae396c23ad79dcea
-  aws-sdk-core (3.228.0) sha256=06ddac5e9e3596cba5e3f8994c3ab3bd6a36edabd07ecb9260e0e16631df7564
-  aws-sdk-kms (1.109.0) sha256=5c49284e9e2e6dd6cf86e9478f43cad1c542ce274458fc0a441f10b172497162
-  aws-sdk-s3 (1.195.0) sha256=22b164a97f83ff352f9f323e094a80f0b9703be8149ad7956cb60f7081d0a4b9
+  aws-partitions (1.1141.0) sha256=1bd49e86a56d84dbbb0b3756954304cd58cfaa041e4a2385e4958ec107c88464
+  aws-sdk-core (3.229.0) sha256=792629981ee265a9d126e7c17ca236526b3b5ad4a22ff8fa9cb3c1affd46b087
+  aws-sdk-kms (1.110.0) sha256=b8b4a63fb10422ae737a5279ccc3b27a830ecaa355f1d3afde3784843ebda5e4
+  aws-sdk-s3 (1.196.0) sha256=33e943992431fe8c195942ec0213998af0ba46cdc6df66dfec7fc45677d329d1
   aws-sigv4 (1.12.1) sha256=6973ff95cb0fd0dc58ba26e90e9510a2219525d07620c8babeb70ef831826c00
   base64 (0.3.0) sha256=27337aeabad6ffae05c265c450490628ef3ebd4b67be58257393227588f5a97b
   bcrypt (3.1.20) sha256=8410f8c7b3ed54a3c00cd2456bf13917d695117f033218e2483b2e40b0784099
@@ -864,6 +869,10 @@ CHECKSUMS
   globalid (1.2.1) sha256=70bf76711871f843dbba72beb8613229a49429d1866828476f9c9d6ccc327ce9
   has_scope (0.8.2) sha256=48cd53d684aecd55d3ede060b3c1da37bbbcab58e273d99936e271fe6d125a54
   hashery (2.1.2) sha256=d239cc2310401903f6b79d458c2bbef5bf74c46f3f974ae9c1061fb74a404862
+  herb (0.4.3-aarch64-linux-gnu) sha256=69fa003daea7f01d5263bac43e8658fa71b4f7fecf35bf7764814da98dc90c81
+  herb (0.4.3-arm64-darwin) sha256=864fb582b3640c867e30687b96bc6cf2e7d5794709a95e716284bbb77c1a9ad3
+  herb (0.4.3-x86_64-linux-gnu) sha256=6ac17444a969b64967b777fbe854dc756aaf0c7169137c9d8e44d663919dba0d
+  herb (0.4.3-x86_64-linux-musl) sha256=ef06e1e5fe26c3b47f93354d8866b2a82a4c69c316563859663200e52086a832
   hexapdf (1.4.0) sha256=3ff029d1a891c097a8b86b74a1613e653d80c2e5cee3804925cf8700f5b727e4
   htmlbeautifier (1.4.3) sha256=b43d08f7e2aa6ae1b5a6f0607b4ed8954c8d4a8e85fd2336f975dda1e4db385b
   htmlentities (4.3.4) sha256=125a73c6c9f2d1b62100b7c3c401e3624441b663762afa7fe428476435a673da
@@ -1014,9 +1023,9 @@ CHECKSUMS
   tailwindcss-ruby (4.1.11-x86_64-linux-musl) sha256=6a9845bc086a846c9b1b0d70c0e469d34a3a9b0a820df6ee94b7a81715fb1439
   terminal-table (4.0.0) sha256=f504793203f8251b2ea7c7068333053f0beeea26093ec9962e62ea79f94301d2
   thor (1.4.0) sha256=8763e822ccb0f1d7bee88cde131b19a65606657b847cc7b7b4b82e772bcd8a3d
-  thruster (0.1.14-aarch64-linux) sha256=b9d5d6909953402478b7b0ea143d5293aa98ed7dd1649fb2e57f886b7512d452
-  thruster (0.1.14-arm64-darwin) sha256=ae68bcbb3ba4fdaf078ba95376f7d7ae7b480afa3d9833cfeb1444f4030251d0
-  thruster (0.1.14-x86_64-linux) sha256=05927cf84431fe898031b6eb6abc63e65ffacfce6740b40e9107916cb90e1aa6
+  thruster (0.1.15-aarch64-linux) sha256=bd55cf486e14ce0484c86a10b04a470da0463efc0dea2f495e49c0ac40d085df
+  thruster (0.1.15-arm64-darwin) sha256=d340f3b361054123646912dd1833c8929732e1194d8f4d0305dcfb0e0017b289
+  thruster (0.1.15-x86_64-linux) sha256=a979a3e493c111940723c08c3b7b3b6f95c5d44af26fe65b6edae1f96fc0deda
   timeout (0.4.3) sha256=9509f079b2b55fe4236d79633bd75e34c1c1e7e3fb4b56cb5fda61f80a0fe30e
   tod (3.1.2) sha256=e67bf57dc67c8ec806edf0b61e6e499b27eea4e1eb23da1907ec77d45226fb08
   traces (0.16.2) sha256=903e5872b6d99cb0bc79ffc080972d60d6116e2f59b95c1dbc6df0f3fa82ae8e
