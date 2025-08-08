@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_08_02_151528) do
+ActiveRecord::Schema[8.1].define(version: 2025_08_08_102230) do
   create_table "absences", force: :cascade do |t|
     t.datetime "created_at"
     t.date "ended_on"
@@ -713,7 +713,6 @@ ActiveRecord::Schema[8.1].define(version: 2025_08_02_151528) do
     t.string "member_form_mode", default: "membership", null: false
     t.json "member_information_titles", default: {}, null: false
     t.string "member_profession_form_mode", default: "visible", null: false
-    t.string "members_subdomain", null: false
     t.boolean "membership_complements_update_allowed", default: false, null: false
     t.boolean "membership_depot_update_allowed", default: false, null: false
     t.boolean "membership_renewal_depot_update", default: true, null: false
