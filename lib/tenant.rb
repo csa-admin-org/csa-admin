@@ -24,14 +24,21 @@ module Tenant
   end
 
   def find_by(host:)
-    @domains ||= config.map { |tenant, attrs|
-      [ relevant_domain(attrs["domain"]), tenant.to_s ]
+    @hosts ||= config.flat_map { |tenant, attrs|
+      [
+        [ relevant_host(attrs["admin_host"]), tenant.to_s ],
+        [ relevant_host(attrs["members_host"]), tenant.to_s ]
+      ]
     }.to_h
-    @domains[relevant_domain(host)]
+    @hosts[relevant_host(host)]
   end
 
-  def domain
-    config.dig(current.to_s, "domain")
+  def admin_host
+    config.dig(current.to_s, "admin_host")
+  end
+
+  def members_host
+    config.dig(current.to_s, "members_host")
   end
 
   def state
@@ -120,10 +127,10 @@ module Tenant
     end
   end
 
-  def relevant_domain(domain)
-    domain = PublicSuffix.parse(domain)
+  def relevant_host(host)
+    host = PublicSuffix.parse(host)
     # Ignore tld locally
-    Rails.env.local? ? domain.sld : domain.domain
+    Rails.env.local? ? host.sld : host.to_s
   end
 
   def ensure_test_env_or_rails_console!

@@ -1,10 +1,12 @@
 production: &production
   demo:
-    domain: my-domain.org
+    admin_host: admin.my-domain.org
+    members_host: members.my-domain.org
 
 development:
   <<: *production
 
 test:
   acme:
-    domain: acme.test
+    admin_host: admin.acme.test
+    members_host: members.acme.test

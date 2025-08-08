@@ -12,7 +12,7 @@ class OrganizationTest < ActiveSupport::TestCase
 
   test "validate url" do
     travel_to Time.zone.now
-    assert_equal "acme.test", Tenant.domain
+    assert_equal "acme.test", Current.org.domain
 
     Current.org.url = "https://www.orga.test"
     assert_not Current.org.valid?
@@ -26,7 +26,7 @@ class OrganizationTest < ActiveSupport::TestCase
 
   test "validates email_default_from format" do
     travel_to Time.zone.now
-    assert_equal "acme.test", Tenant.domain
+    assert_equal "acme.test", Current.org.domain
 
     Current.org.email_default_from = "info@acme.test"
     assert Current.org.valid?

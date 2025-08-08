@@ -12,7 +12,7 @@ module Postmark
 
   def webhook_url
     Rails.application.routes.url_helpers.postmark_webhooks_url(
-      host: "admin.#{Tenant.domain}",
+      host: Tenant.admin_host,
       protocol: "https")
   end
 end

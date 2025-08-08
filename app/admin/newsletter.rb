@@ -195,7 +195,7 @@ ActiveAdmin.register Newsletter do
       f.input :from,
         as: :string,
         placeholder: Current.org.email_default_from.html_safe,
-        hint: t("formtastic.hints.newsletter.from_html", domain: Tenant.domain)
+        hint: t("formtastic.hints.newsletter.from_html", domain: Current.org.domain)
 
       f.input :scheduled_at, as: :date_picker, input_html: { min: Date.tomorrow }
     end

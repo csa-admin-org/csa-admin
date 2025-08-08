@@ -5,7 +5,7 @@
 
 Tenant.switch_each do
   name = Tenant.current
-  domain = Tenant.domain
+  domain = Current.org.domain
   email = "info@#{domain}"
   phone = "+41 76 765 43 21"
   address = "Street 123"

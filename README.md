@@ -42,7 +42,7 @@ This application is currently used by [more than 30 organizations](https://csa-a
 ## Getting started
 
 - Clone the repository locally
-- Copy `config/tenant.yml.example` to `config/tenant.yml` and update your domain
+- Copy `config/tenant.yml.example` to `config/tenant.yml` and update your admin and members hostnames
 - Install dependencies, prepare and seed the database: `bin/setup`
 - Set up local subdomains (I recommend [puma-dev](https://github.com/puma/puma-dev)) to access [admin.my-domain.test](https://admin.my-domain.test) and [members.my-domain.test](https://members.my-domain.test)
 - Login to [the admin](https://admin.my-domain.test) with your email (e.g. `admin@my-domain.org`)

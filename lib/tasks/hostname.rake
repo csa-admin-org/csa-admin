@@ -29,7 +29,7 @@ namespace :hostname do
               puts "  - Hostname Status: #{custom_hostname.result[:status]}"
               puts "  - SSL Status:      #{custom_hostname.ssl.status}"
               if custom_hostname.ssl.pending_validation?
-                puts "    TXT NAME:  #{custom_hostname.ssl.to_h[:txt_name].gsub(".#{Tenant.domain}", "")}"
+                puts "    TXT NAME:  #{custom_hostname.ssl.to_h[:txt_name].gsub(".#{Current.org.domain}", "")}"
                 puts "    TXT VALUE: #{custom_hostname.ssl.to_h[:txt_value]}"
               end
               if custom_hostname.ssl.validation_errors
@@ -62,7 +62,7 @@ namespace :hostname do
 
         puts "\n#{tenant}"
 
-        ns = dns.getresources Tenant.domain, Resolv::DNS::Resource::IN::NS
+        ns = dns.getresources Current.org.domain, Resolv::DNS::Resource::IN::NS
         puts "- NS: #{ns.map(&:name).join(", ")}"
 
         Current.org.hostnames.each do |hostname|
