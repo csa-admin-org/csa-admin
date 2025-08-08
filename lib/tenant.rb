@@ -25,10 +25,10 @@ module Tenant
 
   def find_by(host:)
     @hosts ||= config.flat_map { |tenant, attrs|
-      [
-        [ relevant_host(attrs["admin_host"]), tenant.to_s ],
-        [ relevant_host(attrs["members_host"]), tenant.to_s ]
-      ]
+      hosts = []
+      hosts << [ relevant_host(attrs["admin_host"]), tenant.to_s ] if attrs["admin_host"]
+      hosts << [ relevant_host(attrs["members_host"]), tenant.to_s ] if attrs["members_host"]
+      hosts
     }.to_h
     @hosts[relevant_host(host)]
   end
@@ -128,9 +128,9 @@ module Tenant
   end
 
   def relevant_host(host)
-    public_suffix = PublicSuffix.parse(host)
+    host = PublicSuffix.parse(host)
     # Ignore tld locally
-    Rails.env.local? ? public_suffix.sld : public_suffix.to_s
+    Rails.env.local? ? host.sld : host.to_s
   end
 
   def ensure_test_env_or_rails_console!
