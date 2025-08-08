@@ -6,7 +6,6 @@ acme:
   languages: [en]
   email: info@acme.test
   phone: +41 76 449 59 38
-  members_subdomain: members
   email_default_from: info@acme.test
   email_signatures:
     en: "Best regards,\nAcme"

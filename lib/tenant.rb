@@ -25,9 +25,10 @@ module Tenant
 
   def find_by(host:)
     @hosts ||= config.flat_map { |tenant, attrs|
-      hosts = [ relevant_host(attrs["admin_host"]), tenant.to_s ]
-      hosts << [ relevant_host(attrs["members_host"]), tenant.to_s ] if attrs["members_host"]
-      hosts
+      [
+        [ relevant_host(attrs["admin_host"]), tenant.to_s ],
+        [ relevant_host(attrs["members_host"]), tenant.to_s ]
+      ]
     }.to_h
     @hosts[relevant_host(host)]
   end
