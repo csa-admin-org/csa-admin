@@ -107,6 +107,10 @@ production: &production
     admin_host: admin.racine2.ch
     members_host: membres.racine2.ch
     state: onboarding
+  stadsgroenteboer:
+    admin_host: admin.stadsgroenteboer.nl
+    members_host: members.stadsgroenteboer.nl
+    state: onboarding
 
   demo:
     admin_host: admin.acp-admin.ch
