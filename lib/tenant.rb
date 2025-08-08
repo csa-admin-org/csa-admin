@@ -128,9 +128,9 @@ module Tenant
   end
 
   def relevant_host(host)
-    host = PublicSuffix.parse(host)
+    public_suffix = PublicSuffix.parse(host)
     # Ignore tld locally
-    Rails.env.local? ? host.sld : host.to_s
+    Rails.env.local? ? public_suffix.sld : public_suffix.to_s
   end
 
   def ensure_test_env_or_rails_console!
