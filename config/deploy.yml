@@ -22,86 +22,22 @@ proxy:
   forward_headers: true
 
   hosts:
+    # Static hosts
     - cdn.csa-admin.org
     - mc.csa-admin.org
     - connect.csa-admin.org
     - app.csa-admin.org
     - app.acp-admin.ch
 
-    - admin.ragedevert.ch
-    - membres.ragedevert.ch
-    - admin.lumiere-des-champs.ch
-    - membres.lumiere-des-champs.ch
-    - admin.tapatate.ch
-    - membres.tapatate.ch
-    - admin.clef-des-champs.ch
-    - membres.clef-des-champs.ch
-    - admin.croquterre.ch
-    - membres.croquterre.ch
-    - admin.alabellecourgette.ch
-    - membres.alabellecourgette.ch
-    - admin.lesjardinsdouchy.ch
-    - membres.lesjardinsdouchy.ch
-    - admin.lamule.ch
-    - membres.lamule.ch
-    - admin.lafermedugoupil.ch
-    - membres.lafermedugoupil.ch
-    - admin.lafermedessavanes.ch
-    - membres.lafermedessavanes.ch
-    - admin.seminterra.ch
-    - soci.seminterra.ch
-    - admin.p2r.ch
-    - membres.p2r.ch
-    - admin.grundnahrig.ch
-    - mitglieder.grundnahrig.ch
-    - admin.jardindesturricules.ch
-    - membres.jardindesturricules.ch
-    - admin.lepetitsecheron.ch
-    - membres.lepetitsecheron.ch
-    - admin.paniersdesavigny.ch
-    - membres.paniersdesavigny.ch
-    - admin.cocagne.ch
-    - membres.cocagne.ch
-    - admin.potagersdegaia.ch
-    - membres.potagersdegaia.ch
-    - admin.touviere.ch
-    - membres.touviere.ch
-    - admin.alpgrava.ch
-    - membres.alpgrava.ch
-    - admin.panier-locali.ch
-    - membres.panier-locali.ch
-    - admin.wurzelkollektiv.de
-    - mitglieder.wurzelkollektiv.de
-    - admin.ferme-des-verpilleres.ch
-    - membres.ferme-des-verpilleres.ch
-    - admin.hof-narr.ch
-    - mitglieder.hof-narr.ch
-    - admin.lejardindemax.ch
-    - membres.lejardindemax.ch
-    - admin.fairdura.ch
-    - mitglieder.fairdura.ch
-    - admin.ortie-microferme.ch
-    - membres.ortie-microferme.ch
-    - admin.cultureslocales.ch
-    - membres.cultureslocales.ch
-    - admin.lepetrichor.ch
-    - membres.lepetrichor.ch
-    - admin.mamajah.org
-    - membres.mamajah.org
-    - admin.ferme-boisdunant.ch
-    - membres.ferme-boisdunant.ch
-    - admin.wilde-rauke.de
-    - mitglieder.wilde-rauke.de
-    - admin.lamilpadesiles.ch
-    - membres.lamilpadesiles.ch
-    - admin.baie-attitude.ch
-    - membres.baie-attitude.ch
-    - admin.racine2.ch
-    - membres.racine2.ch
-
-    - admin.acp-admin.ch
-    - membres.acp-admin.ch
-    - admin.microfermes.ch
+    # Tenant hosts
+    <%
+      tenant = YAML.load_file("#{Dir.pwd}/config/tenant.yml", aliases: true)
+      tenant["production"].flat_map { |name, config|
+        [ config["admin_host"], config["members_host"] ]
+      }.compact.each do |host|
+    %>
+    - <%= host %>
+    <% end %>
 
 # Credentials for your image host.
 registry:
@@ -120,7 +56,7 @@ env:
     - APPSIGNAL_PUSH_API_KEY
   clear:
     APP_DOMAIN: csa-admin.org
-    ALLOWED_COUNTRY_CODES: CH,FR,DE,IT,LI
+    ALLOWED_COUNTRY_CODES: CH,FR,DE,IT,LI,NL
     ASSET_HOST: https://cdn.csa-admin.org
     MASTER_ADMIN_EMAIL: info@csa-admin.org
     MAINTENANCE_MODE: OFF

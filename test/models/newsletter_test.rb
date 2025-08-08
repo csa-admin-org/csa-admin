@@ -4,7 +4,7 @@ require "test_helper"
 
 class NewsletterTest < ActiveSupport::TestCase
   test "validate from hostname" do
-    assert_equal "acme.test", Tenant.domain
+    assert_equal "acme.test", Current.org.domain
 
     newsletter = build_newsletter(from: "contact@acme.test")
     assert newsletter.valid?

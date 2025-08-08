@@ -69,12 +69,11 @@ class Organization < ApplicationRecord
   validates :name, presence: true
   validates :url,
     presence: true,
-    format: { with: ->(org) { %r{\Ahttps?://.*#{Tenant.domain}\z} } }
+    format: { with: ->(org) { %r{\Ahttps?://.*#{org.domain}\z} } }
   validates :email, presence: true
-  validates :members_subdomain, inclusion: { in: MEMBERS_SUBDOMAINS }
   validates :email_default_from, presence: true
   validates :email_default_from, format: { with: /\A[^@\s]+@[^@\s]+\.[^@\s]+\z/ }
-  validates :email_default_from, format: { with: ->(org) { /.*@#{Tenant.domain}\z/ } }
+  validates :email_default_from, format: { with: ->(org) { /.*@#{org.domain}\z/ } }
   validates_plausible_phone :phone, country_code: ->(org) { org.country_code }
   validates_plausible_phone :activity_phone, country_code: ->(org) { org.country_code }
   validates :creditor_name, :creditor_address, :creditor_city, :creditor_zip, presence: true
@@ -273,14 +272,22 @@ class Organization < ApplicationRecord
     }.to_s
   end
 
+  def domain
+    @domain ||= PublicSuffix.parse(Tenant.admin_host).domain
+  end
+
+  def members_subdomain
+    @members_subdomain ||= PublicSuffix.parse(Tenant.members_host).trd
+  end
+
   def members_url(**params)
-    url = "https://#{members_subdomain}.#{Tenant.domain}"
+    url = "https://#{Tenant.members_host}"
     url += "?#{params.to_query}" if params.any?
     url
   end
 
   def admin_url(**params)
-    url = "https://admin.#{Tenant.domain}"
+    url = "https://#{Tenant.admin_host}"
     url += "?#{params.to_query}" if params.any?
     url
   end

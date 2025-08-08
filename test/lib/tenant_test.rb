@@ -9,9 +9,10 @@ class TenantTest < ActiveSupport::TestCase
     assert_nil Tenant.find_by(host: "admin.unknown.test")
   end
 
-  test "domain" do
+  test "admin and members hosts" do
     assert_equal "acme", Tenant.current
-    assert_equal "acme.test", Tenant.domain
+    assert_equal "admin.acme.test", Tenant.admin_host
+    assert_equal "members.acme.test", Tenant.members_host
   end
 
   test "inside? / outside?" do

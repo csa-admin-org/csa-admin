@@ -1,83 +1,120 @@
 production: &production
   ragedevert:
-    domain: ragedevert.ch
+    admin_host: admin.ragedevert.ch
+    members_host: membres.ragedevert.ch
   lumieredeschamps:
-    domain: lumiere-des-champs.ch
+    admin_host: admin.lumiere-des-champs.ch
+    members_host: membres.lumiere-des-champs.ch
   tapatate:
-    domain: tapatate.ch
+    admin_host: admin.tapatate.ch
+    members_host: membres.tapatate.ch
   clefdeschamps:
-    domain: clef-des-champs.ch
+    admin_host: admin.clef-des-champs.ch
+    members_host: membres.clef-des-champs.ch
   croquterre:
-    domain: croquterre.ch
+    admin_host: admin.croquterre.ch
+    members_host: membres.croquterre.ch
   alabellecourgette:
-    domain: alabellecourgette.ch
+    admin_host: admin.alabellecourgette.ch
+    members_host: membres.alabellecourgette.ch
   lesjardinsdouchy:
-    domain: lesjardinsdouchy.ch
+    admin_host: admin.lesjardinsdouchy.ch
+    members_host: membres.lesjardinsdouchy.ch
   lamule:
-    domain: lamule.ch
+    admin_host: admin.lamule.ch
+    members_host: membres.lamule.ch
   lafermedugoupil:
-    domain: lafermedugoupil.ch
+    admin_host: admin.lafermedugoupil.ch
+    members_host: membres.lafermedugoupil.ch
   lafermedessavanes:
-    domain: lafermedessavanes.ch
+    admin_host: admin.lafermedessavanes.ch
+    members_host: membres.lafermedessavanes.ch
   seminterra:
-    domain: seminterra.ch
+    admin_host: admin.seminterra.ch
+    members_host: soci.seminterra.ch
   p2r:
-    domain: p2r.ch
+    admin_host: admin.p2r.ch
+    members_host: membres.p2r.ch
   grundnahrig:
-    domain: grundnahrig.ch
+    admin_host: admin.grundnahrig.ch
+    members_host: mitglieder.grundnahrig.ch
   jardindesturricules:
-    domain: jardindesturricules.ch
+    admin_host: admin.jardindesturricules.ch
+    members_host: membres.jardindesturricules.ch
   lepetitsecheron:
-    domain: lepetitsecheron.ch
+    admin_host: admin.lepetitsecheron.ch
+    members_host: membres.lepetitsecheron.ch
   paniersdesavigny:
-    domain: paniersdesavigny.ch
+    admin_host: admin.paniersdesavigny.ch
+    members_host: membres.paniersdesavigny.ch
   cocagne:
-    domain: cocagne.ch
+    admin_host: admin.cocagne.ch
+    members_host: membres.cocagne.ch
   potagersdegaia:
-    domain: potagersdegaia.ch
+    admin_host: admin.potagersdegaia.ch
+    members_host: membres.potagersdegaia.ch
   latouviere:
-    domain: touviere.ch
+    admin_host: admin.touviere.ch
+    members_host: membres.touviere.ch
   alpgrava:
-    domain: alpgrava.ch
+    admin_host: admin.alpgrava.ch
+    members_host: membres.alpgrava.ch
   locali:
-    domain: panier-locali.ch
+    admin_host: admin.panier-locali.ch
+    members_host: membres.panier-locali.ch
   wurzelkollektiv:
-    domain: wurzelkollektiv.de
+    admin_host: admin.wurzelkollektiv.de
+    members_host: mitglieder.wurzelkollektiv.de
   fermedesverpilleres:
-    domain: ferme-des-verpilleres.ch
+    admin_host: admin.ferme-des-verpilleres.ch
+    members_host: membres.ferme-des-verpilleres.ch
   hofnarr:
-    domain: hof-narr.ch
+    admin_host: admin.hof-narr.ch
+    members_host: mitglieder.hof-narr.ch
   lejardindemax:
-    domain: lejardindemax.ch
+    admin_host: admin.lejardindemax.ch
+    members_host: membres.lejardindemax.ch
   cultureslocales:
-    domain: cultureslocales.ch
+    admin_host: admin.cultureslocales.ch
+    members_host: membres.cultureslocales.ch
   lepetrichor:
-    domain: lepetrichor.ch
+    admin_host: admin.lepetrichor.ch
+    members_host: membres.lepetrichor.ch
   ortie:
-    domain: ortie-microferme.ch
+    admin_host: admin.ortie-microferme.ch
+    members_host: membres.ortie-microferme.ch
   fairdura:
-    domain: fairdura.ch
+    admin_host: admin.fairdura.ch
+    members_host: mitglieder.fairdura.ch
   wilderauke:
-    domain: wilde-rauke.de
+    admin_host: admin.wilde-rauke.de
+    members_host: mitglieder.wilde-rauke.de
   baieattitude:
-    domain: baie-attitude.ch
+    admin_host: admin.baie-attitude.ch
+    members_host: membres.baie-attitude.ch
   boisdunant:
-    domain: ferme-boisdunant.ch
+    admin_host: admin.ferme-boisdunant.ch
+    members_host: membres.ferme-boisdunant.ch
   lamilpadesiles:
-    domain: lamilpadesiles.ch
+    admin_host: admin.lamilpadesiles.ch
+    members_host: membres.lamilpadesiles.ch
 
   mamajah:
-    domain: mamajah.org
+    admin_host: admin.mamajah.org
+    members_host: membres.mamajah.org
     state: onboarding
   racine2:
-    domain: racine2.ch
+    admin_host: admin.racine2.ch
+    members_host: membres.racine2.ch
     state: onboarding
 
   demo:
-    domain: acp-admin.ch
+    admin_host: admin.acp-admin.ch
+    members_host: membres.acp-admin.ch
     state: custom
   microfermes:
-    domain: microfermes.ch
+    admin_host: admin.microfermes.ch
+    members_host: membres.microfermes.ch
     state: custom
 
 development:
@@ -85,4 +122,5 @@ development:
 
 test:
   acme:
-    domain: acme.test
+    admin_host: admin.acme.test
+    members_host: members.acme.test

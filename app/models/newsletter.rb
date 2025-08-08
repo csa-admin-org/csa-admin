@@ -36,7 +36,7 @@ class Newsletter < ApplicationRecord
     allow_nil: true,
     if: :scheduled_at_changed?
   validates :from, format: {
-    with: ->(n) { /.*@#{Tenant.domain}\z/ },
+    with: ->(n) { /.*@#{Current.org.domain}\z/ },
     allow_nil: true
   }
 
