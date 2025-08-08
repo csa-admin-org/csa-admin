@@ -114,7 +114,6 @@ production: &production
     state: custom
   microfermes:
     admin_host: admin.microfermes.ch
-    members_host: membres.microfermes.ch
     state: custom
 
 development:
