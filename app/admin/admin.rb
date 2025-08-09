@@ -79,8 +79,8 @@ ActiveAdmin.register Admin do
 
   controller do
     def scoped_collection
-      if master_email = ENV["MASTER_ADMIN_EMAIL"]
-        end_of_association_chain.where.not(email: master_email)
+      if ultra_email = ENV["ULTRA_ADMIN_EMAIL"]
+        end_of_association_chain.where.not(email: ultra_email)
       else
         super
       end

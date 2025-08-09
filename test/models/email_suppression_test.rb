@@ -85,7 +85,7 @@ class EmailSuppressionTest < ActiveSupport::TestCase
   end
 
   test "notifies admins when created" do
-    admin = admins(:master)
+    admin = admins(:ultra)
     admin.update!(notifications: [ "new_email_suppression" ])
     suppress!("outbound", "a@b.com", "HardBounce", "Recipient")
     perform_enqueued_jobs
@@ -98,7 +98,7 @@ class EmailSuppressionTest < ActiveSupport::TestCase
   end
 
   test "does not notify manual suppression to admins when created" do
-    admin = admins(:master)
+    admin = admins(:ultra)
     admin.update!(notifications: [ "new_email_suppression" ])
     suppress!("outbound", "a@b.com", "ManualSuppression", "Customer")
 

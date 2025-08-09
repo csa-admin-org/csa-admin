@@ -5,7 +5,7 @@ require "minitest/autorun"
 
 class MailTemplateTest < ActiveSupport::TestCase
   test "audit subject and content changes" do
-    session = sessions(:master)
+    session = sessions(:ultra)
     Current.session = session
     template = mail_templates(:member_activated)
 

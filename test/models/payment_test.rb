@@ -7,9 +7,9 @@ class PaymentTest < ActiveSupport::TestCase
     payment = create_payment
     assert_equal System.instance, payment.created_by
 
-    Current.session = sessions(:master)
+    Current.session = sessions(:ultra)
     payment = create_payment
-    assert_equal admins(:master), payment.created_by
+    assert_equal admins(:ultra), payment.created_by
   end
 
   test "store updated_by" do
@@ -19,9 +19,9 @@ class PaymentTest < ActiveSupport::TestCase
     payment.update(amount: 1)
     assert_equal System.instance, payment.updated_by
 
-    Current.session = sessions(:master)
+    Current.session = sessions(:ultra)
     payment.update(amount: 2)
-    assert_equal admins(:master), payment.updated_by
+    assert_equal admins(:ultra), payment.updated_by
   end
 
   test "#ignore / #unignore" do

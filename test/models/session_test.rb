@@ -50,7 +50,7 @@ class SessionTest < ActiveSupport::TestCase
   test "expires after an hour for member session originated from admin" do
     travel_to "2025-01-01"
     session = Session.new(
-      admin: admins(:master),
+      admin: admins(:ultra),
       member: members(:john),
       created_at: Time.current)
 

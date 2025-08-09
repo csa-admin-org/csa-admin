@@ -58,7 +58,9 @@ env:
     APP_DOMAIN: csa-admin.org
     ALLOWED_COUNTRY_CODES: CH,FR,DE,IT,LI,NL
     ASSET_HOST: https://cdn.csa-admin.org
-    MASTER_ADMIN_EMAIL: info@csa-admin.org
+    ULTRA_ADMIN_EMAIL: info@csa-admin.org
+    ULTRA_ADMIN_NAME: Thibaud
+    ULTRA_ADMIN_LANGUAGE: fr
     MAINTENANCE_MODE: OFF
     WEB_CONCURRENCY: 2
     JOB_CONCURRENCY: 1

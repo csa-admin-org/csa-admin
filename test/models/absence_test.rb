@@ -18,7 +18,7 @@ class AbsenceTest < ActiveSupport::TestCase
   test "does not validate started_on and ended_on dates when submitted by admin" do
     absence = Absence.new(
       member: members(:john),
-      admin: admins(:master),
+      admin: admins(:ultra),
       started_on: Date.today,
       ended_on: 2.years.from_now)
 
@@ -68,7 +68,7 @@ class AbsenceTest < ActiveSupport::TestCase
   end
 
   test "notifies admin with new_absence notifications on when created" do
-    admin1 = admins(:master)
+    admin1 = admins(:ultra)
     admin2 = admins(:super)
     admin3 = admins(:external)
     admin1.update_column(:notifications, %w[new_absence])
@@ -95,7 +95,7 @@ class AbsenceTest < ActiveSupport::TestCase
   end
 
   test "only notifies admin with new_absence_with_note notifications when note is present" do
-    admin1 = admins(:master)
+    admin1 = admins(:ultra)
     admin2 = admins(:super)
     admin3 = admins(:external)
     admin1.update_column(:notifications, %w[new_absence])
@@ -128,7 +128,7 @@ class AbsenceTest < ActiveSupport::TestCase
 
     travel_to "2024-05-01"
     absence = create_absence(
-      admin: admins(:master),
+      admin: admins(:ultra),
       member: members(:john),
       note: "A Super Note!",
       started_on: 1.week.from_now,

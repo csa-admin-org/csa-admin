@@ -9,7 +9,7 @@ class InvoicesTest < ApplicationSystemTestCase
     participation = activity_participations(:john_harvest)
     participation.reject!(admins(:super))
 
-    login admins(:master)
+    login admins(:ultra)
 
     visit activity_participation_path(participation)
     click_link "Invoice"

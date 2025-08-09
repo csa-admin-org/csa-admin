@@ -20,7 +20,7 @@ class TenantContextTest < ActiveJob::TestCase
   end
 
   test "add current attributes and tenant last arguments" do
-    admin = admins(:master)
+    admin = admins(:ultra)
     Current.session = create_session(admin)
     DummyJob.perform_later(admin, name: "Admin!")
 
@@ -41,7 +41,7 @@ class TenantContextTest < ActiveJob::TestCase
   end
 
   test "retry with the same current attributes and tenant last arguments" do
-    Current.session = create_session(admins(:master))
+    Current.session = create_session(admins(:ultra))
     DummyExceptionJob.perform_later("bar")
 
     assert_equal 1, enqueued_jobs.size

@@ -455,6 +455,7 @@ class Organization < ApplicationRecord
 
   def create_default_configurations
     Permission.create_superadmin!
+    Admin.create_ultra!
     DeliveryCycle.create_default!
     MailTemplate.create_all!
     Newsletter::Template.create_defaults!

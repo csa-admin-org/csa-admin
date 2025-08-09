@@ -30,7 +30,7 @@ class MissionControl::SessionsTest < ApplicationSystemTestCase
     end
   end
 
-  test "creates master admin session for tenant" do
+  test "creates ultra admin session for tenant" do
     authenticate!
 
     assert_difference "Session.count" do

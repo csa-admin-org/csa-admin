@@ -4,17 +4,17 @@ require "test_helper"
 
 class AbilityTest < ActiveSupport::TestCase
   test "superadmin permissions" do
-    ability = Ability.new(admins(:master))
+    ability = Ability.new(admins(:ultra))
 
     assert ability.can?(:read, Organization)
     assert ability.can?(:update, Current.org)
     assert ability.can?(:manage, Admin)
-    assert_not ability.can?(:destroy, admins(:master))
+    assert_not ability.can?(:destroy, admins(:ultra))
     assert ability.can?(:manage, ActiveAdmin::Comment)
     assert ability.can?(:create, Absence)
 
     org(features: [])
-    ability = Ability.new(admins(:master))
+    ability = Ability.new(admins(:ultra))
 
     assert_not ability.can?(:create, Absence)
   end

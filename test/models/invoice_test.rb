@@ -595,7 +595,7 @@ class InvoiceTest < ActiveSupport::TestCase
     invoice = invoices(:annual_fee)
     create_payment(invoice: invoice, amount: 30)
 
-    admin = admins(:master)
+    admin = admins(:ultra)
     admin.update!(notifications: %w[invoice_overpaid])
 
     assert_changes -> { invoice.reload.overpaid? }, to: true do
@@ -616,7 +616,7 @@ class InvoiceTest < ActiveSupport::TestCase
   test "does not send notification when not overpaid" do
     invoice = invoices(:annual_fee)
 
-    admin = admins(:master)
+    admin = admins(:ultra)
     admin.update!(notifications: %w[invoice_overpaid])
 
     assert_no_changes -> { invoice.reload.overpaid_notification_sent_at } do
@@ -630,7 +630,7 @@ class InvoiceTest < ActiveSupport::TestCase
     create_payment(invoice: invoice, amount: 30)
     invoice.touch(:overpaid_notification_sent_at)
 
-    admin = admins(:master)
+    admin = admins(:ultra)
     admin.update!(notifications: %w[invoice_overpaid])
 
     assert_no_difference "AdminMailer.deliveries.size" do
@@ -682,7 +682,7 @@ class InvoiceTest < ActiveSupport::TestCase
   end
 
   test "set creator once processed" do
-    admin = admins(:master)
+    admin = admins(:ultra)
     Current.session = create_session(admin)
 
     invoice = create_annual_fee_invoice
@@ -696,7 +696,7 @@ class InvoiceTest < ActiveSupport::TestCase
     assert_not invoice.closed?
     assert_nil invoice.closed_by
 
-    admin = admins(:master)
+    admin = admins(:ultra)
     Current.session = create_session(admin)
 
     create_payment(invoice: invoice, amount: 30)

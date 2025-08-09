@@ -37,7 +37,7 @@ class Members::ShopTest < ApplicationSystemTestCase
     visit "/"
     assert_no_selector 'nav li[aria-label="Shop Menu"]'
 
-    members(:jane).sessions.last.update!(admin: admins(:master))
+    members(:jane).sessions.last.update!(admin: admins(:ultra))
 
     visit "/"
     assert_selector 'nav li[aria-label="Shop Menu"]'

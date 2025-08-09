@@ -4,7 +4,7 @@ require "test_helper"
 
 class Newsletter::TemplateTest < ActiveSupport::TestCase
   test "audit content changes" do
-    session = sessions(:master)
+    session = sessions(:ultra)
     Current.session = session
     template = newsletter_templates(:simple)
 
