@@ -74,7 +74,7 @@ ActiveAdmin.register Organization do
             placeholder: Billing.iban_placeholder(f.object.country_code),
             input_html: { value: f.object.iban_formatted }
           if f.object.sepa?
-            f.input :sepa_creditor_identifier, input_html: { maxlength: 35, placeholder: "DE98ZZZ09999999999" }
+            f.input :sepa_creditor_identifier, input_html: { maxlength: 35, placeholder: sepa_creditor_identifier_placeholder }
           end
           if f.object.swiss_qr?
             f.input :bank_reference, input_html: { maxlength: 16 }
