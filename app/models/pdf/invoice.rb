@@ -6,10 +6,9 @@ module PDF
     include MembershipsHelper
     include NumbersHelper
 
-    attr_reader :country_code, :invoice, :entity
+    attr_reader :invoice, :entity
 
     def initialize(invoice)
-      @country_code = Current.org.country_code
       @invoice = invoice
       @entity = invoice.entity
       # Reload entity to be sure that the balance is up-to-date
@@ -23,7 +22,7 @@ module PDF
 
     def smart_pages(items)
       items_per_full_page = 40.0
-      max_items_on_last_page = country_code == "CH" ? 10 : 15
+      max_items_on_last_page = Current.org.swiss_qr? ? 10 : 15
 
       if items.size > max_items_on_last_page
         first_items = items.first(items.size - max_items_on_last_page)
@@ -414,9 +413,9 @@ module PDF
       border = 13
       font_size 8
       bounding_box [ 0, y ], width: bounds.width - border, height: y do
-        case country_code
-        when "CH"; swiss_qr(border)
-        when "DE"
+        if Current.org.swiss_qr?
+          swiss_qr(border)
+        elsif Current.org.sepa?
           if invoice.sepa_metadata.present?
             payment_info(border)
           else
@@ -428,10 +427,7 @@ module PDF
     end
 
     def payment_section_y
-      case country_code
-      when "CH"; 320
-      else 220
-      end
+      Current.org.swiss_qr? ? 320 : 220
     end
 
     ## Swiss QR

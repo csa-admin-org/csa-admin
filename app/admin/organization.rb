@@ -70,13 +70,13 @@ ActiveAdmin.register Organization do
             h2 t(".invoice")
           end
           f.input :iban,
-            label: f.object.country_code == "CH" ? "QR-IBAN" : "IBAN",
+            label: f.object.swiss_qr? ? "QR-IBAN" : "IBAN",
             placeholder: Billing.iban_placeholder(f.object.country_code),
             input_html: { value: f.object.iban_formatted }
-          if f.object.country_code == "DE"
+          if f.object.sepa?
             f.input :sepa_creditor_identifier, input_html: { maxlength: 35, placeholder: "DE98ZZZ09999999999" }
           end
-          if f.object.country_code == "CH"
+          if f.object.swiss_qr?
             f.input :bank_reference, input_html: { maxlength: 16 }
           end
           f.input :creditor_name, input_html: { maxlength: 70 }
@@ -85,14 +85,14 @@ ActiveAdmin.register Organization do
             f.input :creditor_zip, input_html: { maxlength: 16 }, wrapper_html: { class: "md:w-50" }
             f.input :creditor_city, input_html: { maxlength: 35 }, wrapper_html: { class: "w-full" }
           end
-          if f.object.country_code == "DE"
+          if f.object.sepa?
             translated_input(f, :invoice_document_names,
               hint: t("formtastic.hints.organization.invoice_document_name_html"),
               input_html: { placeholder: Invoice.model_name.human })
           end
           translated_input(f, :invoice_infos,
             hint: t("formtastic.hints.organization.invoice_info"))
-          if f.object.country_code == "DE"
+          if f.object.sepa?
             translated_input(f, :invoice_sepa_infos,
               hint: t("formtastic.hints.organization.invoice_sepa_info"))
           end
@@ -119,7 +119,7 @@ ActiveAdmin.register Organization do
             span t(".if_applicable"), class: "optional"
           end
           f.input :vat_number, input_html: {
-            placeholder: Current.org.country_code == "CH" ? "CHE-123.456.789" : nil
+            placeholder: Current.org.swiss_qr? ? "CHE-123.456.789" : nil
           }
           f.input :vat_membership_rate, as: :number, min: 0, max: 100, step: 0.01,
             label: t(".vat_rate", type: Membership.model_name.human(count: 2))

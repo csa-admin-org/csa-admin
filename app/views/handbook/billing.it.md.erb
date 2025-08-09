@@ -118,7 +118,7 @@ Questa modalità di ridistribuzione è molto comoda e permette così di gestire 
 
 Il modo più efficiente per elaborare i vostri pagamenti è chiedere alla vostra banca di impostare [una connessione EBICS](https://www.six-group.com/it/products-services/banking-services/standardization.html#scrollTo=ebics). Questo permette al sistema di importare automaticamente (ogni notte) i pagamenti delle fatture con numero di riferimento dei vostri soci tramite il formato ISO camt.054.
 
-<% if Current.org.country_code == "CH" %>
+<% if Current.org.swiss_qr? %>
 CSA Admin gestisce anche il recupero automatico dei pagamenti della [Banca Alternativa Svizzera](https://www.bas.ch/it) che non supporta il sistema EBICS.
 <% end %>
 

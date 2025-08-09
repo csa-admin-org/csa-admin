@@ -261,8 +261,12 @@ class Organization < ApplicationRecord
     country.timezones.zone_info.first.identifier
   end
 
+  def swiss_qr?
+    country_code == "CH"
+  end
+
   def sepa?
-    country_code == "DE"
+    country_code.in? %w[ DE NL ]
   end
 
   def email_default_from_address

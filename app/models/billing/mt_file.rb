@@ -43,12 +43,11 @@ module Billing
     private
 
     def extract_ref(string)
-      case Current.org.country_code
-      when "DE"
-        string.gsub(/\W/, "")[/RF\d{18}/i]
-      when "CH"
+      if Current.org.swiss_qr?
         bank_ref = Current.org.bank_reference
         string[/#{bank_ref}\d{#{27 - bank_ref.length}}/i]
+      else
+        string.gsub(/\W/, "")[/RF\d{18}/i]
       end
     end
   end

@@ -118,7 +118,7 @@ This redistribution mode is very convenient and thus allows managing cases where
 
 The most efficient way to process your payments is to ask your bank to set up [an EBICS connection](https://www.six-group.com/en/products-services/banking-services/standardization.html#scrollTo=ebics). This allows the system to automatically import (each night) payments of invoices with reference numbers from your members via the ISO camt.054 format.
 
-<% if Current.org.country_code == "CH" %>
+<% if Current.org.swiss_qr? %>
 CSA Admin also manages automatic retrieval of payments from the [Alternative Bank Switzerland](https://www.bas.ch/en) which doesn't support the EBICS system.
 <% end %>
 
