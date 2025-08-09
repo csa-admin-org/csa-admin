@@ -4,7 +4,7 @@ require "test_helper"
 
 class API::V1::MembersControllerTest < ActionDispatch::IntegrationTest
   def request(params: {}, api_token: nil)
-    api_token ||= Current.org.credentials(:api_token)
+    api_token ||= Current.org.api_token
     authorization = ActionController::HttpAuthentication::Token.encode_credentials(api_token)
     headers = {
       "ACCEPT" => "application/json",
