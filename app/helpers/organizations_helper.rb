@@ -62,4 +62,11 @@ module OrganizationsHelper
       ]
     }
   end
+
+  def sepa_creditor_identifier_placeholder
+    case Current.org.country_code
+    when "DE" then "DE98ZZZ09999999999"
+    when "NL" then "NL00ZZZ123456780000"
+    end
+  end
 end
