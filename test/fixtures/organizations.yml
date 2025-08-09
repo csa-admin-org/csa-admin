@@ -1,6 +1,7 @@
 acme:
   name: Acme
   url: https://www.acme.test
+  api_token: 1234abcd
   country_code: CH
   currency_code: CHF
   languages: [en]
