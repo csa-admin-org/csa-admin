@@ -118,7 +118,7 @@ Ce mode de redistribution est très commode et permet de gérer ainsi les cas ou
 
 La manière la plus efficace de traiter vos paiements est de demander à votre banque de mettre en place [une connexion EBICS](https://www.six-group.com/fr/products-services/banking-services/standardization.html#scrollTo=ebics). Cela permet au système d'importer automatiquement (chaque nuit) les paiements des factures avec numéro de référence de vos membres via le format ISO camt.054.
 
-<% if Current.org.country_code == "CH" %>
+<% if Current.org.swiss_qr? %>
 CSA Admin gère également la récupération automatique des paiements de la [Banque Alternative Suisse](https://www.bas.ch/fr) qui ne supporte pas le système EBICS.
 <% end %>
 

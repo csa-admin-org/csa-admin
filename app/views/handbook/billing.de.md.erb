@@ -118,7 +118,7 @@ Dieser Umverteilungsmodus ist sehr praktisch und ermöglicht es so, Fälle zu ve
 
 Die effizienteste Methode zur Verarbeitung Ihrer Zahlungen besteht darin, Ihre Bank zu bitten, [eine EBICS-Verbindung](https://www.six-group.com/de/products-services/banking-services/standardization.html#scrollTo=ebics) einzurichten. Dies ermöglicht es dem System, Zahlungen von Rechnungen mit Referenznummern Ihrer Mitglieder automatisch (jede Nacht) über das ISO camt.054-Format zu importieren.
 
-<% if Current.org.country_code == "CH" %>
+<% if Current.org.swiss_qr? %>
 CSA Admin verwaltet auch den automatischen Abruf von Zahlungen der [Alternativen Bank Schweiz](https://www.bas.ch/de), die das EBICS-System nicht unterstützt.
 <% end %>
 
