@@ -27,8 +27,16 @@ class Admin < ApplicationRecord
 
   after_create -> { Update.mark_as_read!(self) }
 
-  def self.master
-    find_by(email: ENV["MASTER_ADMIN_EMAIL"])
+  def self.ultra
+    find_by(email: ENV["ULTRA_ADMIN_EMAIL"])
+  end
+
+  def self.create_ultra!
+    create!(
+      email: ENV["ULTRA_ADMIN_EMAIL"],
+      name: ENV["ULTRA_ADMIN_NAME"],
+      language: ENV["ULTRA_ADMIN_LANGUAGE"],
+      permission: Permission.superadmin)
   end
 
   def self.notify!(notification, skip: [], **attrs)
@@ -73,8 +81,8 @@ class Admin < ApplicationRecord
     super(notifications.map(&:presence).compact)
   end
 
-  def master?
-    email == ENV["MASTER_ADMIN_EMAIL"]
+  def ultra?
+    email == ENV["ULTRA_ADMIN_EMAIL"]
   end
 
   def email=(email)

@@ -29,7 +29,7 @@ class AdminTest < ActiveSupport::TestCase
   end
 
   test "notify! with suppressed email" do
-    admin = admins(:master)
+    admin = admins(:ultra)
     admin.update!(notifications: [ "new_absence" ])
     EmailSuppression.suppress!(admin.email,
       stream_id: "outbound",
@@ -43,7 +43,7 @@ class AdminTest < ActiveSupport::TestCase
   end
 
   test "notify! only once when _with_note and without _with_note enabled" do
-    admin = admins(:master)
+    admin = admins(:ultra)
     admin.update!(notifications: [ "new_absence", "new_absence_with_note" ])
 
     assert_difference("ActionMailer::Base.deliveries.count", 1) do

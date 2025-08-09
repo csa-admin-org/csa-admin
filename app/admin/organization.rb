@@ -31,7 +31,7 @@ ActiveAdmin.register Organization do
             wrapper_html: { class: "no-toggle-all single-column" },
             collection: Organization.languages.map { |l| [ t("languages.#{l}"), l ] },
             disabled: Organization.languages
-          if current_admin.master?
+          if current_admin.ultra?
             f.input :logo, as: :file
             if resource.logo.attached?
               div class: "mt-2" do

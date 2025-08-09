@@ -130,7 +130,7 @@ class Shop::OrderTest < ActiveSupport::TestCase
         quantity: 3
       }
     })
-    order.admin = admins(:master)
+    order.admin = admins(:ultra)
 
     assert order.valid?
     assert_equal 15, order.amount

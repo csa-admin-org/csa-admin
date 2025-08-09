@@ -47,7 +47,7 @@ namespace :anonymizer do
             emails_mapping[suppression.email.downcase] || Faker::Internet.unique.email.downcase)
         end
         Admin.find_each do |admin|
-          unless admin.email.in?([ ENV["AUTO_SIGN_IN_ADMIN_EMAIL"], ENV["MASTER_ADMIN_EMAIL"] ])
+          unless admin.email.in?([ ENV["AUTO_SIGN_IN_ADMIN_EMAIL"], ENV["ULTRA_ADMIN_EMAIL"] ])
             admin.update_columns(
               name: Faker::Name.unique.first_name,
               email: Faker::Internet.unique.email)

@@ -22,7 +22,7 @@ class MemberRegistrationTest < ActiveSupport::TestCase
   end
 
   test "persist valid new member" do
-    admin = admins(:master)
+    admin = admins(:ultra)
     admin.update!(notifications: %w[ new_registration ])
 
     member = build_member(name: "Dylan Doe")
@@ -69,7 +69,7 @@ class MemberRegistrationTest < ActiveSupport::TestCase
   end
 
   test "put back in waiting list matching inactive member" do
-    admin = admins(:master)
+    admin = admins(:ultra)
     admin.update!(notifications: %w[ new_registration ])
 
     inactive_member = members(:mary)

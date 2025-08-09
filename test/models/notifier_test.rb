@@ -4,7 +4,7 @@ require "test_helper"
 
 class NotifierTest < ActiveSupport::TestCase
   test "send_admin_memberships_renewal_pending_emails" do
-    admins(:master).update(notifications: [ "memberships_renewal_pending" ])
+    admins(:ultra).update(notifications: [ "memberships_renewal_pending" ])
     end_of_fiscal_year = Current.fiscal_year.end_of_year
     memberships(:john).update!(renew: true, renewal_opened_at: nil, renewed_at: nil)
 
@@ -315,13 +315,13 @@ class NotifierTest < ActiveSupport::TestCase
   end
 
   test "send_admin_new_activity_participation_emails" do
-    admin = admins(:master)
+    admin = admins(:ultra)
     admin.update(notifications: [ "new_activity_participation" ])
 
     member = create_member(emails: "anybody@doe.com")
     p1 = create_participation(member: member, activity: activities(:harvest))
     p2 = create_participation(member: member, activity: activities(:harvest_afternoon))
-    create_participation(session: sessions(:master))
+    create_participation(session: sessions(:ultra))
     create_participation(created_at: 2.days.ago)
     create_participation(admins_notified_at: Date.today)
 
@@ -340,7 +340,7 @@ class NotifierTest < ActiveSupport::TestCase
   end
 
   test "only notify participation with note" do
-    admin = admins(:master)
+    admin = admins(:ultra)
     admin.update(notifications: [ "new_activity_participation_with_note" ])
 
     member = create_member(emails: "anybody@doe.com")

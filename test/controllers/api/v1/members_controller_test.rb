@@ -20,7 +20,7 @@ class API::V1::MembersControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "creates a new member" do
-    admins(:master).update_column(:notifications, %w[ new_registration ])
+    admins(:ultra).update_column(:notifications, %w[ new_registration ])
 
     params = {
       name: "John Woo",
@@ -60,7 +60,7 @@ class API::V1::MembersControllerTest < ActionDispatch::IntegrationTest
     assert_equal 1, AdminMailer.deliveries.size
     mail = AdminMailer.deliveries.last
     assert_equal "New registration", mail.subject
-    assert_equal [ admins(:master).email ], mail.to
+    assert_equal [ admins(:ultra).email ], mail.to
     assert_includes mail.html_part.body.to_s, "John Woo"
   end
 

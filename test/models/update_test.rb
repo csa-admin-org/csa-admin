@@ -20,7 +20,7 @@ class UpdateTest < ActiveSupport::TestCase
 
   test "mark_as_read!" do
     updates = Update.all
-    admin = admins(:master)
+    admin = admins(:ultra)
     admin.update!(latest_update_read: nil)
 
     assert_changes -> { admin.reload.latest_update_read }, from: nil, to: updates.first.name do

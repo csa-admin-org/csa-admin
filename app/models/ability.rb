@@ -150,7 +150,7 @@ class Ability
       can :send_single_email, Newsletter
     end
 
-    if admin.master?
+    if admin.ultra?
       can :manage, Session
     end
 

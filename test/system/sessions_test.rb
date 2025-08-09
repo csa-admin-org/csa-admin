@@ -4,7 +4,7 @@ require "application_system_test_case"
 
 class SessionsTest < ApplicationSystemTestCase
   test "creates a new session from email" do
-    admin = admins(:master)
+    admin = admins(:ultra)
 
     visit "/"
 
@@ -79,7 +79,7 @@ class SessionsTest < ApplicationSystemTestCase
   end
 
   test "cannot redeem old session token" do
-    session = create_session(admins(:master))
+    session = create_session(admins(:ultra))
     token = session.generate_token_for(:redeem)
 
     travel 15.minutes + 1.second
@@ -90,7 +90,7 @@ class SessionsTest < ApplicationSystemTestCase
   end
 
   test "cannot redeem sessions twice" do
-    session = create_session(admins(:master))
+    session = create_session(admins(:ultra))
     token = session.generate_token_for(:redeem)
 
     assert_changes -> { session.reload.last_used_at }, from: nil do
@@ -103,7 +103,7 @@ class SessionsTest < ApplicationSystemTestCase
   end
 
   test "logout session without email" do
-    admin = admins(:master)
+    admin = admins(:ultra)
     login(admin)
     admin.sessions.last.update!(email: nil)
 
@@ -114,7 +114,7 @@ class SessionsTest < ApplicationSystemTestCase
   end
 
   test "logout expired session" do
-    admin = admins(:master)
+    admin = admins(:ultra)
     login(admin)
     admin.sessions.last.update!(created_at: 1.year.ago)
 
@@ -130,7 +130,7 @@ class SessionsTest < ApplicationSystemTestCase
   end
 
   test "update last usage column every hour when using the session" do
-    admin = admins(:master)
+    admin = admins(:ultra)
 
     travel_to Time.new(2018, 7, 6, 1) do
       login(admin)
@@ -153,7 +153,7 @@ class SessionsTest < ApplicationSystemTestCase
   end
 
   test "revoke session on logout" do
-    admin = admins(:master)
+    admin = admins(:ultra)
     login(admin)
     session = admin.sessions.last
 

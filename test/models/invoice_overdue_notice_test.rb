@@ -128,7 +128,7 @@ class InvoiceOverdueNoticeTest < ActiveSupport::TestCase
   end
 
   test "sends invoice_third_overdue_notice admin notification on third notice" do
-    admin = admins(:master)
+    admin = admins(:ultra)
     admin.update!(notifications: [ "invoice_third_overdue_notice" ])
 
     invoice = invoices(:annual_fee)

@@ -79,8 +79,8 @@ class Permission < ApplicationRecord
   end
 
   def admins_count
-    # Do no count master admin
-    if superadmin? && ENV["MASTER_ADMIN_EMAIL"]
+    # Do no count ultra admin
+    if superadmin? && ENV["ULTRA_ADMIN_EMAIL"]
       admins.count - 1
     else
       admins.count
