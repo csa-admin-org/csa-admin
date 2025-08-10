@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_08_09_093728) do
+ActiveRecord::Schema[8.1].define(version: 2025_08_10_090129) do
   create_table "absences", force: :cascade do |t|
     t.datetime "created_at"
     t.date "ended_on"
@@ -723,6 +723,8 @@ ActiveRecord::Schema[8.1].define(version: 2025_08_09_093728) do
     t.json "new_member_fee_descriptions", default: {}, null: false
     t.integer "open_renewal_reminder_sent_after_in_days"
     t.string "phone"
+    t.string "postmark_server_id"
+    t.string "postmark_server_token"
     t.json "privacy_policy_urls", default: {}, null: false
     t.integer "recurring_billing_wday"
     t.boolean "send_closed_invoice", default: false, null: false
