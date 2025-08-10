@@ -27,11 +27,18 @@ class MailTemplateTest < ActiveSupport::TestCase
     template = mail_templates(:member_activated)
 
     assert_equal(
-      { "en" => "Welcome!", "de" => "Herzlich willkommen!" },
+      {
+        "en" => "Welcome!",
+        "fr" => "Bienvenue!",
+        "de" => "Herzlich willkommen!",
+        "it" => "Benvenuto/a!"
+      },
       template.subjects
     )
     assert_includes template.contents["en"], "<p>EDIT ME!</p>"
+    assert_includes template.contents["fr"], "<p>EDITEZ-MOI!</p>"
     assert_includes template.contents["de"], "<p>MICH BEARBEITEN!</p>"
+    assert_includes template.contents["it"], "<p>COMPILAMI!</p>"
   end
 
   test "set always active template" do

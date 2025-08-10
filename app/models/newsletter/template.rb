@@ -28,7 +28,7 @@ class Newsletter
         title = I18n.with_locale(Current.org.default_locale) {
           I18n.t("newsletters.template.#{key}.title")
         }
-        contents = Current.org.languages.reduce({}) { |h, l|
+        contents = Organization.languages.reduce({}) { |h, l|
           path = Rails.root.join("app/views/newsletter_templates/#{key}.#{l}.liquid")
           h[l] = File.read(path)
           h
