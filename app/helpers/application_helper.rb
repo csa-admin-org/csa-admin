@@ -157,11 +157,6 @@ module ApplicationHelper
     Rack::Utils.parse_nested_query(query).dig("q", "#{attr}_eq")
   end
 
-  def postmark_url(path = "streams")
-    server_id = Current.org.credentials(:postmark, :server_id)
-    "https://account.postmarkapp.com/servers/#{server_id}/#{path}"
-  end
-
   def handbook_icon_link(*args)
     link_to handbook_page_path(*args), title: I18n.t("active_admin.site_footer.handbook") do
       icon "book-open", class: "size-6"
