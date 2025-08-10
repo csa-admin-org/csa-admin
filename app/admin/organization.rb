@@ -285,11 +285,11 @@ ActiveAdmin.register Organization do
           translated_input(f, :email_signatures,
             as: :text,
             required: true,
-            input_html: { rows: 3 })
+            input_html: { rows: 2 })
           translated_input(f, :email_footers,
             as: :text,
             required: true,
-            input_html: { rows: 3 })
+            input_html: { rows: 2 })
         end
       end
     end

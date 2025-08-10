@@ -162,6 +162,7 @@ class Organization < ApplicationRecord
   validate :only_one_organization, on: :create
 
   after_save :apply_annual_fee_change
+  before_create :set_defaults
   after_create :create_default_configurations
 
   def self.features
@@ -452,6 +453,42 @@ class Organization < ApplicationRecord
 
     errors.add(:base, "Only one organization is allowed")
   end
+
+  def set_defaults
+    self.url = "https://#{domain}"
+    self.invoice_infos = default_invoice_infos
+    self.invoice_footer = [ phone, email ].map(&:presence).compact.join(" / ")
+    self.email_footers = default_email_footers
+    self.email_footers = default_email_signatures
+  end
+
+  def default_invoice_infos
+    Organization.languages.reduce({}) do |h, locale|
+      h[locale] = I18n.with_locale(locale) { I18n.t("organization.default_invoice_info") }
+      h
+    end
+  end
+
+  def default_email_footers
+    Organization.languages.reduce({}) do |h, locale|
+      h[locale] = I18n.with_locale(locale) {
+        txt = I18n.t("organization.default_email_footer")
+        txt += "\n#{creditor_name}, #{creditor_address}, #{creditor_city} #{creditor_zip}"
+      }
+      h
+    end
+  end
+
+  def default_email_signatures
+    Organization.languages.reduce({}) do |h, locale|
+      h[locale] = I18n.with_locale(locale) {
+        txt = I18n.t("organization.default_email_signature")
+        txt += "\n#{name}"
+      }
+      h
+    end
+  end
+
 
   def create_default_configurations
     Permission.create_superadmin!

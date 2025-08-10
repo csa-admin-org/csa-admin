@@ -206,7 +206,7 @@ class MailTemplate < ApplicationRecord
   end
 
   def default_subjects
-    Current.org.languages.reduce({}) do |h, locale|
+    Organization.languages.reduce({}) do |h, locale|
       h[locale] = subjects[locale] || I18n.with_locale(locale) {
         I18n.t("mail_template.default_subjects.#{title}")
       }
@@ -215,7 +215,7 @@ class MailTemplate < ApplicationRecord
   end
 
   def default_contents
-    Current.org.languages.reduce({}) do |h, locale|
+    Organization.languages.reduce({}) do |h, locale|
       path = Rails.root.join("app/views/mail_templates/#{title}.#{locale}.liquid")
       h[locale] = contents[locale] || File.read(path)
       h
