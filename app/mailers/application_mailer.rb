@@ -7,7 +7,7 @@ class ApplicationMailer < ActionMailer::Base
 
   attr_reader :content
 
-  after_action :set_postmark_api_token
+  after_action :set_postmark_server_token
 
   private
 
@@ -23,9 +23,8 @@ class ApplicationMailer < ActionMailer::Base
     mail(**args)
   end
 
-  def set_postmark_api_token
-    mail.delivery_method.settings[:api_token] =
-      Current.org.credentials(:postmark, :api_token)
+  def set_postmark_server_token
+    mail.delivery_method.settings[:api_token] = Current.org.postmark_server_token
   end
 
   def liquid_template

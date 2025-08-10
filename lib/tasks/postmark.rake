@@ -4,8 +4,8 @@ namespace :postmark do
   desc "Create/update message streams"
   task message_streams: :environment do
     Tenant.switch_each do
-      if api_token = Current.org.credentials(:postmark, :api_token)
-        client = Postmark::ApiClient.new(api_token)
+      if server_token = Current.org.postmark_server_token
+        client = Postmark::ApiClient.new(server_token)
 
         outbound = client.get_message_stream("outbound")
         unless outbound[:name] == "Transactional Stream"
@@ -38,8 +38,8 @@ namespace :postmark do
     raise "Only run this rake task in production env" unless Rails.env.production?
 
     Tenant.switch_each do
-      if api_token = Current.org.credentials(:postmark, :api_token)
-        client = Postmark::ApiClient.new(api_token)
+      if server_token = Current.org.postmark_server_token
+        client = Postmark::ApiClient.new(server_token)
 
         attrs = {
           url: Postmark.webhook_url,
@@ -69,8 +69,8 @@ namespace :postmark do
   desc "Sync newsletter deliveries status"
   task sync_newsletter_deliveries: :environment do
     Tenant.switch_each do
-      if api_token = Current.org.credentials(:postmark, :api_token)
-        client = Postmark::ApiClient.new(api_token)
+      if server_token = Current.org.postmark_server_token
+        client = Postmark::ApiClient.new(server_token)
         pp "Syncing newsletter deliveries for #{Current.org.name}"
 
         Newsletter.where(sent_at: 2.weeks.ago..).each do |newsletter|
