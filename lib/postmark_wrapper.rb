@@ -3,8 +3,7 @@
 class PostmarkWrapper
   def self.client
     if Rails.env.production?
-      server_token = Current.org.credentials(:postmark, :api_token)
-      Postmark::ApiClient.new(server_token)
+      Postmark::ApiClient.new(Current.org.postmark_server_token)
     else
       require Rails.root + "test/support/postmark_mock_client"
       PostmarkMockClient.instance
