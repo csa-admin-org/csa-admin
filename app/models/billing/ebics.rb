@@ -5,7 +5,7 @@ module Billing
     GET_PAYMENTS_FROM = 1.month.ago
 
     def initialize(credentials = {})
-      @credentials = credentials
+      @credentials = credentials.symbolize_keys
     end
 
     def payments_data

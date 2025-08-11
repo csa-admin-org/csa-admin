@@ -20,6 +20,7 @@ class Organization < ApplicationRecord
   LANGUAGES = %w[fr de it en]
   CURRENCIES = %w[CHF EUR]
   BILLING_YEAR_DIVISIONS = [ 1, 2, 3, 4, 12 ]
+  BANK_CONNECTION_TYPES = %w[ebics bas]
   ACTIVITY_I18N_SCOPES = %w[hour_work halfday_work day_work basket_preparation]
   MEMBER_FORM_MODES = %w[membership shop]
   INPUT_FORM_MODES = %w[hidden visible required]
@@ -65,7 +66,7 @@ class Organization < ApplicationRecord
 
   has_secure_token :api_token, length: 36
 
-  encrypts :postmark_server_token
+  encrypts :postmark_server_token, :bank_credentials
 
   has_one_attached :logo
   has_many_attached :invoice_logos
@@ -88,6 +89,8 @@ class Organization < ApplicationRecord
     inclusion: { in: 1..12 }
   validates_with SEPA::CreditorIdentifierValidator, field_name: :sepa_creditor_identifier, if: :sepa_creditor_identifier?
   validates :billing_year_divisions, presence: true
+  validates :bank_connection_type, inclusion: { in: BANK_CONNECTION_TYPES }, allow_nil: true
+  validates :bank_credentials, presence: true, if: :bank_connection_type?
   validates :trial_baskets_count, numericality: { greater_than_or_equal_to: 0 }, presence: true
   validates :annual_fee, numericality: { greater_than_or_equal_to: 0 }, allow_nil: true
   validates :annual_fee_member_form, absence: true, unless: :annual_fee?
@@ -214,12 +217,21 @@ class Organization < ApplicationRecord
     !!recurring_billing_wday
   end
 
-  def send_invoice_overdue_notice?
-    automatic_payments_processing? && MailTemplate.active_template("invoice_overdue_notice")
+  def bank_connection?
+    bank_connection_type?
   end
 
-  def automatic_payments_processing?
-    [ credentials(:ebics), credentials(:bas) ].any?(&:present?)
+  def bank_connection
+    case bank_connection_type
+    when "ebics"
+      Billing::EBICS.new(bank_credentials)
+    when "bas"
+      Billing::BAS.new(bank_credentials)
+    end
+  end
+
+  def send_invoice_overdue_notice?
+    bank_connection? && MailTemplate.active_template("invoice_overdue_notice")
   end
 
   def billing_year_divisions=(divisions)
@@ -401,10 +413,6 @@ class Organization < ApplicationRecord
 
   def share?
     share_price&.positive?
-  end
-
-  def credentials(*keys)
-    Rails.application.credentials.dig(:organizations, Tenant.current.to_sym, *keys)
   end
 
   def deliveries_count(year)

@@ -171,7 +171,7 @@ class MailTemplate < ApplicationRecord
   end
 
   def active
-    if title == "invoice_overdue_notice" && !Current.org.automatic_payments_processing?
+    if title == "invoice_overdue_notice" && !Current.org.bank_connection?
       false
     else
       super
