@@ -51,19 +51,19 @@ class MailTemplateTest < ActiveSupport::TestCase
   end
 
   test "invoice_overdue_notice is not always active" do
-    assert Current.org.automatic_payments_processing?
     template = mail_templates(:invoice_overdue_notice)
-    assert template.active
 
-    template.active = false
-    assert_not template.active
-    assert_equal false, template[:active]
+    Current.org.stub(:bank_connection?, true) {
+      assert template.active
 
-    Current.org.stub(:automatic_payments_processing?, false) {
-      template.active = true
+      template.active = false
       assert_not template.active
-      assert_equal true, template[:active]
+      assert_equal false, template[:active]
     }
+
+    template.active = true
+    assert_not template.active
+    assert_equal true, template[:active]
   end
 
   test "validate liquid syntax" do

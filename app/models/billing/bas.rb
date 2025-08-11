@@ -14,7 +14,7 @@ module Billing
     attr_reader :session
 
     def initialize(credentials)
-      @credentials = credentials
+      @credentials = credentials.symbolize_keys
       @session = init_session
       login
     end
