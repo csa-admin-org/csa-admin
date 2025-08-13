@@ -12,7 +12,7 @@
       <div class="px-2 space-y-4">
         <% comments.each do |comment| %>
           <div class="relative group border-dotted border-b dark:border-gray-600" id="<%= dom_id(comment, :active_admin) %>" data-test-comment-container>
-            <div class="flex justify-between items-center gap-4 items-end mb-2">
+            <div class="flex justify-between gap-4 items-end mb-2">
               <span class="font-semibold">
                 <%= comment.author ? auto_link(comment.author) : I18n.t("active_admin.comments.author_missing") %>
               </span>

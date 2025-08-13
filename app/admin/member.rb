@@ -691,40 +691,32 @@ ActiveAdmin.register Member do
     ]
 
   action_item :audits, only: :show, if: -> { authorized?(:read, Audit) && resource.audits.any? } do
-    link_to Audit.model_name.human(count: 2), member_audits_path(resource),
-      class: "action-item-button"
+    action_link Audit.model_name.human(count: 2), member_audits_path(resource)
   end
 
   action_item :sessions, only: :show, if: -> { authorized?(:read, Session) } do
-    link_to Session.model_name.human(count: 2), m_sessions_path(q: { member_id_eq: resource.id }, scope: :all),
-      class: "action-item-button"
+    action_link Session.model_name.human(count: 2), m_sessions_path(q: { member_id_eq: resource.id }, scope: :all)
   end
 
   action_item :create_membership, only: :show, if: -> { resource.waiting? && authorized?(:create, Membership) && Delivery.next } do
-    link_to t(".create_membership"), new_membership_path(member_id: resource.id),
-      class: "action-item-button"
+    action_link t(".create_membership"), new_membership_path(member_id: resource.id),
+      icon: "plus"
   end
 
   action_item :validate, only: :show, if: -> { authorized?(:validate, resource) } do
-    button_to t(".validate"), validate_member_path(resource),
-      form: { data: { controller: "disable", disable_with_value: t("formtastic.processing") } },
-      class: "action-item-button"
+    action_button t(".validate"), validate_member_path(resource), icon: "check"
   end
   action_item :wait, only: :show, if: -> { authorized?(:wait, resource) } do
-    button_to t(".wait"), wait_member_path(resource),
-      form: { data: { controller: "disable", disable_with_value: t("formtastic.processing") } },
-      class: "action-item-button"
+    action_button t(".wait"), wait_member_path(resource), icon: "list-plus"
   end
   action_item :deactivate, only: :show, if: -> { authorized?(:deactivate, resource) } do
-    button_to t(".deactivate"), deactivate_member_path(resource),
-      form: { data: { controller: "disable", disable_with_value: t("formtastic.processing") } },
-      class: "action-item-button"
+    action_button t(".deactivate"), deactivate_member_path(resource), icon: "circle-off", class: "destructive"
   end
 
   action_item :become, only: :show do
-    link_to become_member_path(resource), class: "action-item-button", data: { turbo: false } do
-      icon("arrow-right-end-on-rectangle", class: "size-4 me-1") + t(".become_member")
-    end
+    action_link t(".become_member"), become_member_path(resource),
+      icon: "arrow-right-end-on-rectangle",
+      data: { turbo: false }
   end
 
   member_action :validate, method: :post do

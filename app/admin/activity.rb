@@ -45,7 +45,7 @@ ActiveAdmin.register Activity do
   end
 
   action_item :activity_presets, only: :index do
-    link_to ActivityPreset.model_name.human(count: 2), activity_presets_path, class: "action-item-button"
+    action_link ActivityPreset.model_name.human(count: 2), activity_presets_path
   end
 
   order_by(:date) do |order_clause|

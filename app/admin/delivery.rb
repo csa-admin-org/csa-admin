@@ -63,7 +63,7 @@ ActiveAdmin.register Delivery do
   end
 
   action_item :delivery_cycle, only: :index do
-    link_to DeliveryCycle.model_name.human(count: 2), delivery_cycles_path, class: "action-item-button"
+    action_link DeliveryCycle.model_name.human(count: 2), delivery_cycles_path
   end
 
   sidebar_handbook_link("deliveries")

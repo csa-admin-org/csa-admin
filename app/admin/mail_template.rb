@@ -26,7 +26,7 @@ ActiveAdmin.register MailTemplate do
     if: -> { Current.org.feature?("activity") }
 
   action_item :view, only: :index, if: -> { authorized?(:update, Organization) } do
-    link_to t(".settings"), edit_organization_path(anchor: "mail"), class: "action-item-button"
+    action_link t(".settings"), edit_organization_path(anchor: "mail"), icon: "adjustments-horizontal"
   end
 
   index download_links: false do

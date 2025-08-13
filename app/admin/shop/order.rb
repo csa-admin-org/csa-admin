@@ -248,10 +248,9 @@ ActiveAdmin.register Shop::Order do
     ])
 
   action_item :cancel, only: :show, if: -> { resource.can_cancel? } do
-    button_to t(".cancel_action"), cancel_shop_order_path(resource),
-      form: { data: { controller: "disable", disable_with_value: t("formtastic.processing") } },
+    action_button t(".cancel_action"), cancel_shop_order_path(resource),
       data: { confirm: t(".cancel_action_confirm") },
-      class: "action-item-button"
+      icon: "pencil-square"
   end
 
   member_action :cancel, method: :post, only: :show, if: -> { resource.can_cancel? } do
@@ -261,25 +260,26 @@ ActiveAdmin.register Shop::Order do
   end
 
   action_item :new_payment, only: :show, if: -> { authorized?(:create, Payment) && resource.invoice } do
-    link_to t(".new_payment"), new_payment_path(
+    action_link t(".new_payment"), new_payment_path(
       invoice_id: resource.invoice.id, amount: [ resource.invoice.amount, resource.invoice.missing_amount ].min),
-      class: "action-item-button"
+      icon: "plus"
   end
 
   action_item :pdf, only: :show, if: -> { resource.invoice&.processed? } do
-    link_to_invoice_pdf(resource.invoice, class: "action-item-button", title: t(".invoice_pdf")) do
-      t(".invoice_pdf")
-    end
+    action_link Invoice.model_name.human, pdf_invoice_path(resource.invoice),
+      target: "_blank",
+      icon: "file-pdf"
   end
 
   action_item :delivery_pdf, only: :show do
-    link_to t(".delivery_order_pdf"), delivery_shop_orders_path(delivery_gid: resource.delivery_gid, shop_order_id: resource.id, format: :pdf), target: "_blank", class: "action-item-button"
+    action_link t(".delivery_order"), delivery_shop_orders_path(delivery_gid: resource.delivery_gid, shop_order_id: resource.id, format: :pdf),
+      target: "_blank",
+      icon: "file-pdf"
   end
 
   action_item :invoice, class: "left-margin", only: :show, if: -> { resource.can_invoice? } do
-    button_to t(".invoice_action"), invoice_shop_order_path(resource),
-      form: { data: { controller: "disable", disable_with_value: t("formtastic.processing") } },
-      class: "action-item-button"
+    action_button t(".invoice_action"), invoice_shop_order_path(resource),
+      icon: "banknotes"
   end
 
   member_action :invoice, method: :post, only: :show, if: -> { resource.can_invoice? } do
@@ -291,12 +291,17 @@ ActiveAdmin.register Shop::Order do
   action_item :delivery_pdf, only: :index, if: -> { params.dig(:q, :_delivery_gid_eq).present? } do
     delivery_gid = params.dig(:q, :_delivery_gid_eq)
     depot_id = params.dig(:q, :depot_id_eq)
-    icon_file_link :pdf, delivery_shop_orders_path(delivery_gid: delivery_gid, depot_id: depot_id, format: :pdf), size: 5, class: "action-item-button", target: "_blank", title: t(".delivery_orders_pdf")
+    action_link nil, delivery_shop_orders_path(delivery_gid: delivery_gid, depot_id: depot_id, format: :pdf),
+      icon: "file-pdf",
+      target: "_blank",
+      title: t(".delivery_orders")
   end
 
   action_item :order_items_xlsx, only: :index do
     permitted_params = params.permit(:scope, q: {}).to_h
-    icon_file_link :xlsx, shop_orders_path(**permitted_params, format: :xlsx), size: 5, class: "action-item-button", target: "_blank"
+    action_link nil, shop_orders_path(**permitted_params, format: :xlsx),
+      icon: "file-xlsx",
+      target: "_blank"
   end
 
   batch_action :invoice, if: ->(attr) { params[:scope].in?([ nil, "pending" ]) }, confirm: true do |selection|

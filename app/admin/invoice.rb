@@ -303,50 +303,47 @@ ActiveAdmin.register Invoice do
     end
   end
 
-  action_item :cancel_and_edit_shop_order, only: :show, if: -> { resource.shop_order_type? && authorized?(:cancel, resource.entity) } do
-    button_to t(".cancel_and_edit_shop_order"), cancel_shop_order_path(resource.entity),
-      form: { data: { controller: "disable", disable_with_value: t("formtastic.processing") } },
-      data: { confirm: t(".cancel_action_confirm") },
-      class: "action-item-button"
-  end
-
-  action_item :pdf, only: :show, if: -> { !resource.processing? } do
-    link_to_invoice_pdf(resource, class: "action-item-button") do
-      icon "file-pdf", class: "size-5"
-    end
-  end
-
   action_item :new_payment, only: :show, if: -> { authorized?(:create, Payment) } do
-    link_to t(".new_payment"), new_payment_path(
+    action_link t(".new_payment"), new_payment_path(
       invoice_id: resource.id, amount: [ resource.amount, resource.missing_amount ].min),
-      class: "action-item-button"
+      icon: "plus"
   end
 
   action_item :refund, only: :show, if: -> { resource.can_refund? } do
     shares_number = [ resource.shares_number, resource.member.shares_number ].min
-    link_to t(".refund"),
+    action_link t(".refund"),
       new_invoice_path(member_id: resource.member_id, shares_number: -shares_number, anchor: "share"),
-      class: "action-item-button"
+      icon: "receipt-refund"
   end
 
   action_item :send_email, only: :show, if: -> { authorized?(:send_email, resource) } do
-    button_to t(".send_email"), send_email_invoice_path(resource),
-      form: { data: { controller: "disable", disable_with_value: t("formtastic.processing") } },
-      class: "action-item-button"
+    action_button t(".send_email"), send_email_invoice_path(resource),
+      icon: "paper-airplane"
   end
 
   action_item :mark_as_sent, only: :show, if: -> { authorized?(:mark_as_sent, resource) } do
-    button_to t(".mark_as_sent"), mark_as_sent_invoice_path(resource),
-      form: { data: { controller: "disable", disable_with_value: t("formtastic.processing") } },
+    action_button t(".mark_as_sent"), mark_as_sent_invoice_path(resource),
       data: { confirm: t(".mark_as_sent_confirm") },
-      class: "action-item-button"
+      icon: "mail-plus"
   end
 
   action_item :cancel, only: :show, if: -> { authorized?(:cancel, resource) && resource.entity_type != "Shop::Order" } do
-    button_to t(".cancel_invoice"), cancel_invoice_path(resource),
-      form: { data: { controller: "disable", disable_with_value: t("formtastic.processing") } },
-      data: { confirm: t(".link_confirm") },
-      class: "action-item-button"
+    action_button t(".cancel_invoice"), cancel_invoice_path(resource),
+      data: { confirm: t(".cancel_invoice_confirm") },
+      class: "destructive",
+      icon: "circle-off"
+  end
+
+  action_item :cancel_and_edit_shop_order, only: :show, if: -> { resource.shop_order_type? && authorized?(:cancel, resource.entity) } do
+    action_button t(".cancel_and_edit_shop_order"), cancel_shop_order_path(resource.entity),
+      data: { confirm: t(".cancel_action_confirm") },
+      icon: "pencil-square"
+  end
+
+  action_item :pdf, only: :show, if: -> { resource.processed? } do
+    action_link nil, pdf_invoice_path(resource),
+      target: "_blank",
+      icon: "file-pdf"
   end
 
   member_action :pdf, method: :get do

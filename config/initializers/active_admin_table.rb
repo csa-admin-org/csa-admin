@@ -13,7 +13,7 @@ ActiveAdmin.before_load do |app|
             @tbody_html.deep_merge!(data: { controller: "table-row" })
           end
 
-          @tbody = tbody **@tbody_html do
+          @tbody = tbody(**@tbody_html) do
             # Build enough rows for our collection
             @collection.each do |elem|
               html_options = @row_html&.call(elem) || {}

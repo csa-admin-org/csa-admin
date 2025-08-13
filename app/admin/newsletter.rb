@@ -17,10 +17,10 @@ ActiveAdmin.register Newsletter do
   scope :sent
 
   action_item :segments, only: :index, if: -> { authorized?(:create, Newsletter::Segment) } do
-    link_to Newsletter.human_attribute_name(:audience), newsletter_segments_path, class: "action-item-button"
+    action_link Newsletter.human_attribute_name(:audience), newsletter_segments_path
   end
   action_item :templates, only: :index do
-    link_to Newsletter::Template.model_name.human(count: 2), newsletter_templates_path, class: "action-item-button"
+    action_link Newsletter::Template.model_name.human(count: 2), newsletter_templates_path
   end
 
   index download_links: false do
@@ -302,28 +302,26 @@ ActiveAdmin.register Newsletter do
   end
 
   action_item :duplicate, only: :show, if: -> { authorized?(:create, resource) } do
-    link_to(t(".duplicate"), new_newsletter_path(newsletter_id: resource.id), class: "action-item-button")
+    action_link t(".duplicate"), new_newsletter_path(newsletter_id: resource.id),
+      icon: "document-duplicate"
   end
 
   action_item :deliveries, only: :show do
-    link_to(
+    action_link \
       Newsletter::Delivery.model_name.human(count: 2),
-      newsletter_deliveries_path(scope: :all, q: { newsletter_id_eq: resource.id }),
-      class: "action-item-button")
+      newsletter_deliveries_path(scope: :all, q: { newsletter_id_eq: resource.id })
   end
 
   action_item :deliveries, only: :index do
-    link_to(
+    action_link \
       Newsletter::Delivery.model_name.human(count: 2),
-      newsletter_deliveries_path(scope: :all),
-      class: "action-item-button")
+      newsletter_deliveries_path(scope: :all)
   end
 
   action_item :send_email, class: "left-margin", only: :show, if: -> { authorized?(:send_email, resource) } do
-    button_to t(".send_email"), send_email_newsletter_path(resource),
-      form: { data: { controller: "disable", disable_with_value: t("formtastic.processing") } },
+    action_button t(".send_email"), send_email_newsletter_path(resource),
       data: { confirm: t(".newsletter.confirm", members_count: resource.audience_segment.members.count) },
-      class: "action-item-button"
+      icon: "paper-airplane"
   end
 
   member_action :unschedule, method: :put do

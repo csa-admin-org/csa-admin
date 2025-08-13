@@ -278,8 +278,8 @@ ActiveAdmin.register ActivityParticipation do
   action_item :invoice, only: :show, if: -> {
     authorized?(:create, Invoice) && resource.rejected? && resource.invoices.none?
   } do
-    link_to t(".invoice_action"), new_invoice_path(activity_participation_id: resource.id, anchor: "activity_participation"),
-      class: "action-item-button"
+    action_link t(".invoice_action"), new_invoice_path(activity_participation_id: resource.id, anchor: "activity_participation"),
+      icon: "banknotes"
   end
 
   before_action only: :index do

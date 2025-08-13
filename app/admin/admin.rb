@@ -26,7 +26,7 @@ ActiveAdmin.register Admin do
   end
 
   action_item :permissions, only: :index do
-    link_to Permission.model_name.human(count: 2), permissions_path, class: "action-item-button"
+    action_link Permission.model_name.human(count: 2), permissions_path
   end
 
   form do |f|

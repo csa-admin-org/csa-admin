@@ -131,13 +131,16 @@ ActiveAdmin.register Shop::SpecialDelivery do
     end
   end
 
-  action_item :xlsx, only: :show do
-    # link_to("XLSX", [ resource, format: :xlsx ], class: "action-item-button")
-    icon_file_link :xlsx, [ resource, format: :xlsx ], size: 5, class: "action-item-button", target: "_blank"
+  action_item :pdf, only: :show do
+    action_link t(".delivery_orders"), delivery_shop_orders_path(delivery_gid: resource.gid, format: :pdf),
+      target: "_blank",
+      icon: "file-pdf"
   end
 
-  action_item :pdf, only: :show do
-    link_to t(".delivery_orders_pdf"), delivery_shop_orders_path(delivery_gid: resource.gid, format: :pdf), target: "_blank", class: "action-item-button"
+  action_item :xlsx, only: :show do
+    action_link nil, [ resource, format: :xlsx ],
+      target: "_blank",
+      icon: "file-xlsx"
   end
 
   form do |f|

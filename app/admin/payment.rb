@@ -144,11 +144,11 @@ ActiveAdmin.register Payment do
 
 
   action_item :ignore, only: :show, if: -> { authorized?(:ignore, resource) } do
-    button_to t(".ignore"), ignore_payment_path(resource), class: "action-item-button"
+    action_button t(".ignore"), ignore_payment_path(resource), icon: "circle-off", class: "destructive"
   end
 
   action_item :unignore, only: :show, if: -> { authorized?(:unignore, resource) } do
-    button_to t(".unignore"), unignore_payment_path(resource), class: "action-item-button"
+    action_button t(".unignore"), unignore_payment_path(resource), icon: "circle-check-big"
   end
 
   member_action :ignore, method: :post do
