@@ -99,7 +99,7 @@ namespace :postmark do
             client.verify_domain_dkim(domain[:id])
             client.verify_domain_return_path(domain[:id])
             puts " done!"
-          rescue => e
+          rescue
             puts " verification pending"
           end
         else

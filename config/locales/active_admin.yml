@@ -1137,16 +1137,16 @@ _:
             _fr: Emails distribués
             _de: Verteilte E-Mails
             _it: Email distribuite
-        delivery_order_pdf:
-          _en: Delivery order (PDF)
-          _fr: Bulletin de livraison (PDF)
-          _de: Lieferschein (PDF)
-          _it: Bolla di consegna (PDF)
-        delivery_orders_pdf:
-          _en: Delivery orders (PDF)
-          _fr: Bulletins de livraison (PDF)
-          _de: Lieferscheine (PDF)
-          _it: Bolle di consegna (PDF)
+        delivery_order:
+          _en: Delivery order
+          _fr: Bulletin de livraison
+          _de: Lieferschein
+          _it: Bolla di consegna
+        delivery_orders:
+          _en: Delivery orders
+          _fr: Bulletins de livraison
+          _de: Lieferscheine
+          _it: Bolle di consegna
         details:
           _en: Details
           _fr: Détails
@@ -1973,6 +1973,11 @@ _:
           _fr: Annuler
           _de: Stornieren
           _it: Annullare
+        cancel_invoice_confirm:
+          _en: Are you sure? Canceling an invoice cannot be undone.
+          _fr: Êtes-vous sûr? Annuler une facture ne peut pas être réversé.
+          _de: Sind Sie sicher? Stornieren einer Rechnung kann nicht rückgängig gemacht werden.
+          _it: Sei sicuro? Annullare una fattura non può essere annullato.
         create_membership:
           _en: Create membership
           _fr: Créer abonnement
@@ -1983,16 +1988,16 @@ _:
           _fr: Rendre inactif
           _de: Deaktivieren
           _it: Disattivare
-        delivery_order_pdf:
-          _en: Delivery note (PDF)
-          _fr: Bulletin de livraison (PDF)
-          _de: Lieferschein (PDF)
-          _it: Bolla di consegna (PDF)
-        delivery_orders_pdf:
-          _en: Delivery notes (PDF)
-          _fr: Bulletins de livraison (PDF)
-          _de: Lieferscheine (PDF)
-          _it: Bolle di consegna (PDF)
+        delivery_order:
+          _en: Delivery note
+          _fr: Bulletin de livraison
+          _de: Lieferschein
+          _it: Bolla di consegna
+        delivery_orders:
+          _en: Delivery notes
+          _fr: Bulletins de livraison
+          _de: Lieferscheine
+          _it: Bolle di consegna
         duplicate:
           _en: Duplicate
           _fr: Dupliquer
@@ -2008,11 +2013,6 @@ _:
           _fr: Facturer
           _de: Rechnung stellen
           _it: Fatturare
-        invoice_pdf:
-          _en: Invoice (PDF)
-          _fr: Facture (PDF)
-          _de: Rechnung (PDF)
-          _it: Fattura (PDF)
         link_confirm:
           _en: Are you absolutely sure?
           _fr: Êtes-vous sûr de sûr?

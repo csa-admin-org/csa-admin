@@ -96,7 +96,7 @@ ActiveAdmin.register BasketContent do
   end
 
   action_item :product, only: :index do
-    link_to BasketContent::Product.model_name.human(count: 2), basket_content_products_path, class: "action-item-button"
+    action_link BasketContent::Product.model_name.human(count: 2), basket_content_products_path
   end
 
   csv do

@@ -78,7 +78,7 @@ ActiveAdmin.register Depot do
   end
 
   action_item :depot_group, only: :index do
-    link_to DepotGroup.model_name.human(count: 2), depot_groups_path, class: "action-item-button"
+    action_link DepotGroup.model_name.human(count: 2), depot_groups_path
   end
 
   show do |depot|
