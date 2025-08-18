@@ -5,6 +5,10 @@ class ApplicationMailer < ActionMailer::Base
   default from: -> { Current.org.email_default_from_address }
   layout "mailer"
 
+  rescue_from Postmark::InactiveRecipientError do
+    Scheduled::PostmarkSyncSuppressionsJob.perform_later
+  end
+
   attr_reader :content
 
   after_action :set_postmark_server_token
