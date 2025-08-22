@@ -73,7 +73,13 @@
           </span>
         <% else %>
           <span class="flex flex-row items-center gap-3">
-            <%= link_to members_billing_path do %>
+            <% if pledge = open_bidding_round_pledge(membership) %>
+              <%= link_to new_members_bidding_round_pledge_path do %>
+                <%= cur(pledge.total_membership_price) %>
+              <% end %>
+            <% elsif membership.current? %>
+              <%= link_to cur(membership.price), members_billing_path %>
+            <% else %>
               <%= cur(membership.price) %>
             <% end %>
             <% if membership.invoices.any? %>
@@ -84,4 +90,27 @@
       </span>
     </li>
   </ul>
+
+  <% if open_bidding_round_for?(membership) %>
+    <%= link_to new_members_bidding_round_pledge_path do %>
+      <%
+        colors = if missing_bidding_round_pledge?
+          "border-orange-500 bg-orange-100 hover:bg-orange-200 dark:bg-orange-900 hover:dark:bg-orange-800 text-orange-700 dark:text-orange-300"
+        else
+          "border-green-500 bg-green-100 hover:bg-green-200 dark:bg-green-900 hover:dark:bg-green-800 text-green-700 dark:text-green-300"
+        end
+      %>
+      <div class="mt-4 mb-4 p-2 rounded border-1 flex items-center gap-2 <%= colors %>">
+        <%= icon (missing_bidding_round_pledge? ? "mail-open" : "mail-check"), class: "size-5 w-8 " %>
+        <span>
+          <% if missing_bidding_round_pledge? %>
+            <%= t("bidding_rounds.pledge_missing_notice", number: open_bidding_round.number) %>
+          <% else %>
+            <% pledge = open_bidding_round_pledge(membership) %>
+            <%= t("bidding_rounds.pledged_notice", number: open_bidding_round.number) %>
+          <% end %>
+        </span>
+      </div>
+    <% end %>
+  <% end %>
 </div>

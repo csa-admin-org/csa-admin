@@ -336,6 +336,12 @@ _:
           _fr: Complément
           _de: Zusatz
           _it: Aggiunte
+      bidding_round/pledge:
+        basket_size_price:
+          _en: Price per basket
+          _fr: Prix par panier
+          _de: Preis pro Tasche
+          _it: Prezzo per cesta
       delivery:
         basket_complements:
           _en: Basket complements
@@ -449,12 +455,6 @@ _:
           _fr: Note interne
           _de: Interne Notiz
           _it: Nota interna
-      depot_group:
-        information_text:
-          _en: Information text
-          _fr: Texte d'information
-          _de: Informationstext
-          _it: Testo informativo
       invoice:
         activity_price:
           _en: Amount
@@ -1444,6 +1444,16 @@ _:
           _fr: Délai de modification avant la livraison (en jours)
           _de: Änderungen vor der Lieferung erlauben (in Tagen)
           _it: Permettere la modifica prima della consegna (in giorni)
+        bidding_round_basket_size_price_max_percentage:
+          _en: Maximum basket size price (0-X%)
+          _fr: Prix maximum de la taille du panier (0-X%)
+          _de: Maximalpreis der Taschengröße (0-X%)
+          _it: Prezzo massimo della dimensione del cestino (0-X%)
+        bidding_round_basket_size_price_min_percentage:
+          _en: Minimum basket size price (0-100%)
+          _fr: Prix minimum de la taille du panier (0-100%)
+          _de: Minimumpreis der Taschengröße (0-100%)
+          _it: Prezzo minimo della dimensione del cestino (0-100%)
         billing_ends_on_last_delivery_fy_month:
           _en: Bill memberships only until their last delivery
           _fr: Facturer les abonnements jusqu'à leur dernière livraison uniquement
@@ -1629,6 +1639,11 @@ _:
           _fr: Explication
           _de: Erläuterung
           _it: Spiegazione
+        open_bidding_round_reminder_sent_after_in_days:
+          _en: Send a reminder after (in days)
+          _fr: Envoyer un rappel après (en jours)
+          _de: Senden Sie eine Mahnung nach (in Tagen)
+          _it: Inviare un promemoria dopo (in giorni)
         open_renewal_reminder_sent_after_in_days:
           _en: Send a reminder after (in days)
           _fr: Envoyer un rappel après (en jours)
@@ -2132,6 +2147,17 @@ _:
           _fr: Compléments
           _de: Zusätze
           _it: Aggiunte
+      bidding_round:
+        one:
+          _en: Bidding round
+          _fr: Tour de contributions
+          _de: Bietrunde
+          _it: Turno di contributi
+        other:
+          _en: Bidding rounds
+          _fr: Tours de contributions
+          _de: Bietrunden
+          _it: Turni di contributi
       contact_sharing:
         one:
           _en: Contact sharing (between members of a depot)

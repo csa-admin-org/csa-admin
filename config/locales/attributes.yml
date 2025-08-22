@@ -300,6 +300,11 @@ _:
       _fr: ID
       _de: ID
       _it: ID
+    information_text:
+      _en: Information text
+      _fr: Texte d'information
+      _de: Informations-Text
+      _it: Testo informativo
     invoice:
       _en: Invoice
       _fr: Facture
@@ -380,6 +385,16 @@ _:
       _fr: Note
       _de: Notiz
       _it: Note
+    opened_at:
+      _en: Opened at
+      _fr: Ouvert le
+      _de: Geöffnet am
+      _it: Aperto il
+    opened_by:
+      _en: Opened by
+      _fr: Ouvert par
+      _de: Geöffnet von
+      _it: Aperto da
     orders:
       _en: Orders
       _fr: Commandes

@@ -3,6 +3,7 @@
 @import "./base.css";
 @import "./dark.css";
 
+@import "./components/animation.css";
 @import "./components/breadcrumb.css";
 @import "./components/counts.css";
 @import "./components/filters.css";

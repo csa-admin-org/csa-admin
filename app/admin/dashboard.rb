@@ -73,6 +73,19 @@ ActiveAdmin.register_page "Dashboard" do
             render "memberships_count"
           end
 
+          if feature?("bidding_round") && open_bidding_round
+            panel link_to(open_bidding_round.title, open_bidding_round) do
+              ul class: "counts" do
+                li do
+                  counter_tag(t("active_admin.resource.show.pledges_percentage").capitalize, open_bidding_round.pledges_percentage, type: :percentage)
+                end
+                li do
+                  counter_tag(t("active_admin.resource.show.total_pledged_percentage").capitalize, open_bidding_round.total_pledged_percentage, type: :percentage)
+                end
+              end
+            end
+          end
+
           if feature?("activity")
             panel activities_human_name do
               render "activity_participations_count"

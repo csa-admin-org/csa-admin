@@ -454,6 +454,20 @@ _:
           _fr: Livraison du %{date}
           _de: Lieferung am %{date}
           _it: Consegna il %{date}
+    bidding_round:
+      pledges:
+        create:
+          success:
+            _en: Your pledge has been submitted successfully!
+            _fr: Votre engagement a été soumis avec succès!
+            _de: Ihre Zusage wurde erfolgreich übermittelt!
+            _it: La tua offerta è stata inviata con successo!
+        new:
+          submit:
+            _en: Submit
+            _fr: Soumettre
+            _de: Senden
+            _it: Invia
     billing:
       index:
         already_invoiced:

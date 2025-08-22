@@ -1,0 +1,17 @@
+_:
+  bidding_rounds:
+    pledge_missing_notice:
+      _en: 'The bidding round #%{number} is open, make a pledge!'
+      _fr: 'Le tour de contributions #%{number} est ouvert, fixez votre montant!'
+      _de: 'Die Bietrunde #%{number} ist offen, versprechen Sie Ihren Betrag!'
+      _it: 'Il turno di contributi #%{number} è aperto, inserisci il tuo importo!'
+    pledged_notice:
+      _en: 'Thank you for your pledge for the bidding round #%{number}'
+      _fr: 'Merci pour votre engagement pour le tour de contributions #%{number}'
+      _de: 'Vielen Dank für Ihre Zusage für die Bietrunde #%{number}'
+      _it: 'Grazie per la tua offerta per il turno di contributi #%{number}'
+    title:
+      _en: 'Bidding Round %{year} #%{number}'
+      _fr: 'Tour de contributions %{year} #%{number}'
+      _de: 'Bietrunde %{year} #%{number}'
+      _it: 'Turno di contributi %{year} #%{number}'

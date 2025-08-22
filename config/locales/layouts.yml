@@ -56,6 +56,11 @@ _:
             _fr: "⤷ %{accepted} sur %{count} demandées"
             _de: "⤷ %{accepted} von %{count} angefordert"
             _it: "⤷ %{accepted} su %{count} richieste"
+        bidding_round_pledge:
+          _en: "⤷ Pledge your amount!"
+          _fr: "⤷ Fixez votre montant!"
+          _de: "⤷ Versprechen Sie Ihren Betrag!"
+          _it: "⤷ Inserisci il tuo importo!"
         billing:
           _en: Billing
           _fr: Facturation

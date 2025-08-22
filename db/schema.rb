@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_08_11_134422) do
+ActiveRecord::Schema[8.1].define(version: 2025_08_14_130215) do
   create_table "absences", force: :cascade do |t|
     t.datetime "created_at"
     t.date "ended_on"
@@ -287,6 +287,29 @@ ActiveRecord::Schema[8.1].define(version: 2025_08_11_134422) do
     t.integer "quantity", default: 1, null: false
     t.datetime "updated_at", null: false
     t.index ["basket_complement_id", "basket_id"], name: "baskets_basket_complements_unique_index", unique: true
+  end
+
+  create_table "bidding_round_pledges", force: :cascade do |t|
+    t.decimal "basket_size_price", precision: 8, scale: 2, null: false
+    t.integer "bidding_round_id", null: false
+    t.datetime "created_at", null: false
+    t.integer "membership_id", null: false
+    t.datetime "updated_at", null: false
+    t.index ["bidding_round_id", "membership_id"], name: "idx_on_bidding_round_id_membership_id_bb51442ce9", unique: true
+    t.index ["bidding_round_id"], name: "index_bidding_round_pledges_on_bidding_round_id"
+    t.index ["membership_id"], name: "index_bidding_round_pledges_on_membership_id"
+  end
+
+  create_table "bidding_rounds", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.integer "fy_year", null: false
+    t.integer "number", null: false
+    t.string "state", default: "draft", null: false
+    t.datetime "updated_at", null: false
+    t.index ["fy_year", "number"], name: "index_bidding_rounds_on_fy_year_and_number", unique: true
+    t.index ["fy_year"], name: "index_bidding_rounds_on_fy_year"
+    t.index ["state"], name: "index_bidding_rounds_on_state_draft", unique: true, where: "state = 'draft'"
+    t.index ["state"], name: "index_bidding_rounds_on_state_open", unique: true, where: "state = 'open'"
   end
 
   create_table "billing_snapshots", force: :cascade do |t|
@@ -681,6 +704,8 @@ ActiveRecord::Schema[8.1].define(version: 2025_08_11_134422) do
     t.integer "basket_shifts_annually", default: 0
     t.string "basket_sizes_member_order_mode", default: "price_desc", null: false
     t.integer "basket_update_limit_in_days", default: 0, null: false
+    t.integer "bidding_round_basket_size_price_max_percentage", default: 100
+    t.integer "bidding_round_basket_size_price_min_percentage", default: 0
     t.boolean "billing_ends_on_last_delivery_fy_month", default: false, null: false
     t.boolean "billing_starts_after_first_delivery", default: true, null: false
     t.json "billing_year_divisions", default: [], null: false
@@ -723,6 +748,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_08_11_134422) do
     t.string "name", null: false
     t.decimal "new_member_fee", precision: 8, scale: 2
     t.json "new_member_fee_descriptions", default: {}, null: false
+    t.integer "open_bidding_round_reminder_sent_after_in_days"
     t.integer "open_renewal_reminder_sent_after_in_days"
     t.string "phone"
     t.string "postmark_server_id"
@@ -919,6 +945,8 @@ ActiveRecord::Schema[8.1].define(version: 2025_08_11_134422) do
   add_foreign_key "baskets", "deliveries"
   add_foreign_key "baskets", "depots"
   add_foreign_key "baskets", "memberships"
+  add_foreign_key "bidding_round_pledges", "bidding_rounds"
+  add_foreign_key "bidding_round_pledges", "memberships"
   add_foreign_key "depots", "depot_groups", column: "group_id"
   add_foreign_key "invoice_items", "invoices"
   add_foreign_key "members", "depots", column: "shop_depot_id"

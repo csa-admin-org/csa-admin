@@ -1,6 +1,17 @@
 _:
   formtastic:
     actions:
+      bidding_round:
+        create:
+          _en: Create draft
+          _fr: Créer Brouillon
+          _de: Entwurf erstellen
+          _it: Crea Bozza
+        update:
+          _en: Update draft
+          _fr: Mettre à jour Brouillon
+          _de: Entwurf aktualisieren
+          _it: Aggiorna bozza
       newsletter:
         create:
           _en: Create draft
@@ -168,6 +179,12 @@ _:
           _fr: Laisser blanc pour le prix par défaut.
           _de: Leer lassen für den Standardpreis.
           _it: Lasciare vuoto per il prezzo standard.
+      bidding_round:
+        information_text:
+          _en: Information text displayed in the member account when pledging for the bidding round. It's also included in the email sent to the member by default.
+          _fr: Texte d'information affiché dans le compte membre lors de la participation à un tour de contributions. Il est également inclus dans l'e-mail envoyé au membre par défaut.
+          _de: Informations-Text, der im Mitgliedskonto angezeigt wird, wenn für eine Bietrunde beitragen wird. Er wird auch in der Standard-E-Mail an den Mitglied gesendet.
+          _it: Testo informativo visualizzato nel conto membro durante la partecipazione a un turno di contributi. Viene anche incluso nell'e-mail inviata al membro per impostazione predefinita.
       delivery:
         basket_complements:
           _en: All memberships that have subscribed to these supplements and include this/these new date(s) will be automatically updated.
@@ -665,6 +682,16 @@ _:
           _fr: Passé ce délai, la modification n'est plus possible. Zéro signifie que la modification est toujours possible le jour même de la livraison.
           _de: Nach Ablauf dieser Frist ist eine Änderung nicht mehr möglich. Null bedeutet, dass die Änderung noch am Tag der Lieferung möglich ist.
           _it: Dopo questo periodo, la modifica non è più possibile. Zero significa che la modifica è ancora possibile il giorno della consegna.
+        bidding_round_basket_size_price_max_percentage:
+          _en: Percentage of the maximum price of the basket size that a member can pledge to pay. 0% = normal price (no extra possible), 100% = twice the normal price, 200% = three times the normal price
+          _fr: Pourcentage du prix maximum de la taille du panier que le membre peut s'engager de payer. 0% = prix normal (aucun supplément possible), 100% = deux fois le prix normal, 200% = trois fois le prix normal
+          _de: Prozentwert des maximalen Preises der Taschengröße, den ein Mitglied versprechen kann, zu bezahlen. 0% = normaler Preis (kein zusätzlicher möglich), 100% = zweimal der normaler Preis, 200% = dreimal der normaler Preis
+          _it: Percentuale del prezzo massimo della dimensione del carrello che un membro può promettere di pagare. 0% = prezzo normale (nessun aggiuntivo possibile), 100% = due volte il prezzo normale, 200% = tre volte il prezzo normale
+        bidding_round_basket_size_price_min_percentage:
+          _en: Percentage of the minimum price of the basket size that a member can pledge to pay. 0% = free, 100% = normal price (no discount possible)
+          _fr: Pourcentage du prix minimum de la taille du panier que le membre peut s'engager à payer. 0% = gratuit, 100% = prix normal (pas de remise possible)
+          _de: Prozentwert des Minimumpreises der Taschengröße, den ein Mitglied sich versprechen kann, zu bezahlen. 0% = kostenlos, 100% = normaler Preis (keine Rabattmöglichkeit)
+          _it: Percentuale del prezzo minimo della dimensione del carrello che un membro può promettere di pagare. 0% = gratuito, 100% = prezzo normale (nessuno sconto possibile)
         billing_ends_on_last_delivery_fy_month:
           _en: If disabled, billing extends until the end of the membership.
           _fr: Si désactivée, la facturation s'étend jusqu'à la date de fin de l'abonnement.
@@ -810,6 +837,11 @@ _:
           _fr: Intitulé de l'article sur la facture envoyée aux nouveaux membres.
           _de: Titel des Artikels auf der Rechnung, die an neue Mitglieder gesendet wird.
           _it: Titolo dell'articolo sulla fattura inviata ai nuovi soci.
+        open_bidding_round_reminder_sent_after_in_days:
+          _en: The reminder is sent only once, X days after the bidding round is opened. Leave blank if no reminder.
+          _fr: Le rappel n'est envoyé qu'une seule fois, X jours après l'ouverture du tour de contribution. Laisser vide si aucun rappel.
+          _de: Die Erinnerung wird nur einmal verschickt, und zwar X Tage, nachdem die Bietrunde eröffnet wurde. Lassen Sie das Feld leer, wenn keine Erinnerung erfolgt.
+          _it: Il promemoria è inviato una sola volta, X giorni dopo l'apertura del turno di contributi. Lasciare vuoto se non c'è alcun promemoria.
         open_renewal_reminder_sent_after_in_days:
           _en: The reminder is sent only once, X days after the renewal request is sent. Leave blank if no reminder.
           _fr: Le rappel n'est envoyé qu'une seule fois, X jours après l'envoi de la demande de renouvellement. Laisser vide si aucun rappel.

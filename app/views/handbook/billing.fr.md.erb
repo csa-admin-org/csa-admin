@@ -104,7 +104,7 @@ CSA Admin offre la possibilité de facturer manuellement des articles ou des ser
 
 > Attention, les factures de type "Autre" ne doivent pas être utilisées pour facturer les abonnements<% if Current.org.share? %>, parts sociales<% end %><% if feature?("activity") %> ou <%= activities_human_name.downcase %><% end %>, car le système ne les prendra pas en compte.
 
-## Paiements
+## Paiements {#payments}
 
 À chaque fois qu'un paiement est créé (automatiquement ou manuellement) ou qu'une facture est créée ou annulée, le système va répartir le montant de tous les paiements aux factures existantes dans l'ordre de priorité suivant:
 
