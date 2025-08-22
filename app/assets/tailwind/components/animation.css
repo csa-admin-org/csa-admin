@@ -1,0 +1,16 @@
+@layer utilities {
+  @keyframes highlight {
+    0% {
+      background-color: #ffffff;
+    }
+    50% {
+      background-color: #ecfcca;
+    } /* Lime-100 */
+    100% {
+      background-color: #ffffff;
+    }
+  }
+  .animate-highlight {
+    animation: highlight 0.75s ease-in-out 1;
+  }
+}

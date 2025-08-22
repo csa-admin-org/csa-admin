@@ -42,6 +42,27 @@ _:
         _fr: refusé
         _de: abgelehnt
         _it: rifiutato
+    bidding_round:
+      completed:
+        _en: Completed
+        _fr: Terminé
+        _de: Beendet
+        _it: Completate
+      draft:
+        _en: Draft
+        _fr: Brouillon
+        _de: Entwurf
+        _it: Bozza
+      failed:
+        _en: Failed
+        _fr: Échoué
+        _de: Fehlgeschlagen
+        _it: Fallite
+      open:
+        _en: Open
+        _fr: Ouvert
+        _de: Offene
+        _it: Aperte
     invoice:
       canceled:
         _en: canceled

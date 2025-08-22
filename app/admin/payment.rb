@@ -87,7 +87,7 @@ ActiveAdmin.register Payment do
     end
   end
 
-  sidebar_handbook_link("billing#paiements")
+  sidebar_handbook_link("billing#payments")
 
   collection_action :import, method: :post do
     authorize!(:import, Payment)

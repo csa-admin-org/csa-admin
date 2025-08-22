@@ -104,7 +104,7 @@ CSA Admin offre la possibilità di fatturare manualmente articoli o servizi vari
 
 > Attenzione, le fatture di tipo "Altro" non devono essere utilizzate per fatturare gli abbonamenti<% if Current.org.share? %>, quote sociali<% end %><% if feature?("activity") %> o <%= activities_human_name.downcase %><% end %>, perché il sistema non le prenderà in considerazione.
 
-## Pagamenti
+## Pagamenti {#payments}
 
 Ogni volta che un pagamento viene creato (automaticamente o manualmente) o una fattura viene creata o annullata, il sistema distribuirà l'importo di tutti i pagamenti alle fatture esistenti nell'ordine di priorità seguente:
 

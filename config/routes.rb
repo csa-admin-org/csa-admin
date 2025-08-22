@@ -71,6 +71,10 @@ Rails.application.routes.draw do
         get ":decision" => "membership_renewals#new"
       end
 
+      namespace :bidding_round do
+        resource :pledge, only: %i[new create], path_names: { new: "" }
+      end
+
       resources :deliveries, only: :index
       resources :activities, only: :index
       resources :activity_participations, only: %i[index create destroy]

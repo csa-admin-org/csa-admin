@@ -80,7 +80,11 @@
           <li class="<%= nav_class("membership") %>">
             <%= link_to members_memberships_path(anchor: membership.renewal_opened? ? "renewal" : nil) do %>
               <h2><%= Membership.model_name.human %></h2>
-              <% if membership.renewal_opened? %>
+              <% if missing_bidding_round_pledge? %>
+                <span class="text-orange-500">
+                  <%= t(".bidding_round_pledge") %>
+                </span>
+              <% elsif membership.renewal_opened? %>
                 <span class="text-red-500">
                   <%= t(".membership_renewal") %>
                 </span>

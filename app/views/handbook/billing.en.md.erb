@@ -104,7 +104,7 @@ CSA Admin offers the possibility to manually bill various items or services (for
 
 > Attention, "Other" type invoices should not be used to bill memberships<% if Current.org.share? %>, share capital<% end %><% if feature?("activity") %> or <%= activities_human_name.downcase %><% end %>, as the system will not take them into account.
 
-## Payments
+## Payments {#payments}
 
 Each time a payment is created (automatically or manually) or an invoice is created or cancelled, the system will distribute the amount of all payments to existing invoices in the following priority order:
 

@@ -23,7 +23,8 @@
 
   a.btn,
   .action-item-button,
-  .actions .cancel-link {
+  .actions .cancel-link,
+  button[type="reset"] {
     @apply font-medium;
     @apply text-gray-700 hover:text-green-600 dark:text-gray-300 dark:hover:text-green-400;
     @apply border border-gray-200 dark:border-gray-600;
@@ -31,8 +32,8 @@
     @apply focus:ring-gray-200 dark:focus:ring-gray-700;
   }
 
-  button.btn,
-  input.btn,
+  button[type="submit"].btn,
+  input[type="submit"].btn,
   button.action-item-button,
   .actions input[type="submit"],
   .actions button {

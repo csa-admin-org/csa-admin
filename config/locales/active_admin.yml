@@ -1162,6 +1162,11 @@ _:
           _fr: Modifier
           _de: Bearbeiten
           _it: Modificare
+        eligible_memberships:
+          _en: Eligible memberships
+          _fr: Abonnements éligibles
+          _de: Berechtigte Abonnements
+          _it: Abbonamenti elegibili
         email:
           _en: Email
           _fr: Email
@@ -1314,6 +1319,16 @@ _:
             _fr: "%{count} annulées"
             _de: "%{count} stornierte"
             _it: "%{count} annullati"
+        pledges_count:
+          _en: Pledges
+          _fr: Engagements
+          _de: Zusagen
+          _it: Promesse
+        pledges_percentage:
+          _en: Participation
+          _fr: Participation
+          _de: Partizipation
+          _it: Partecipazione
         preview:
           _en: Preview
           _fr: Prévisualisation
@@ -1445,6 +1460,21 @@ _:
           _fr: Total %{number}
           _de: Gesamt %{number}
           _it: Totale %{number}
+        total_expected_value:
+          _en: Expected amount
+          _fr: Montant attendu
+          _de: Gesamtwert erwartet
+          _it: Importo previsto
+        total_pledged_percentage:
+          _en: Covered amount
+          _fr: Montant couvert
+          _de: Gedeckter Betrag
+          _it: Importo coperto
+        total_pledged_value:
+          _en: Pledged amount
+          _fr: Montant engagé
+          _de: Gesamtwert engagiert
+          _it: Importo promesso
         totals:
           _en: Totals %{numbers}
           _fr: Totaux %{numbers}
@@ -1578,6 +1608,28 @@ _:
           _fr: Nouvelle %{model}
           _de: Neue %{model}
           _it: Nuova %{model}
+      bidding_round:
+        scopes:
+          completed:
+            _en: Completed
+            _fr: Terminés
+            _de: Beendet
+            _it: Completate
+          draft:
+            _en: Drafts
+            _fr: Brouillons
+            _de: Entwürfe
+            _it: Bozze
+          failed:
+            _en: Failed
+            _fr: Échoués
+            _de: Fehlgeschlagen
+            _it: Fallite
+          open:
+            _en: Open
+            _fr: Ouverts
+            _de: Offene
+            _it: Aperte
       delivery:
         new_model:
           _en: New %{model}
@@ -1953,6 +2005,22 @@ _:
           _fr: Accéder au compte
           _de: Zugang zum Konto
           _it: Accedere al conto
+        bidding_round:
+          complete_confirm:
+            _en: Are you sure you want to complete this bidding round? The memberships basket price will be updated with the pledged amount.
+            _fr: Êtes-vous sûr de vouloir terminer ce tour de contributions? Le prix du panier des adhésions sera mis à jour avec la somme engagée.
+            _de: Sind Sie sicher, dass Sie diesen Bietrunde abschließen möchten? Der Preis des Mitgliedschaftstasches wird mit dem engagierten Betrag aktualisiert.
+            _it: Sei sicuro di voler completare questo turno di contributi? Il prezzo del cestino verrà aggiornato con l'importo promesso.
+          fail_confirm:
+            _en: Are you sure you want to mark this bidding round as failed?
+            _fr: Êtes-vous sûr de vouloir marquer ce tour de contributions comme échoué?
+            _de: Sind Sie sicher, dass Sie diesen Bietrunde als fehlgeschlagen markieren möchten?
+            _it: Sei sicuro di voler segnare questo turno di contributi come fallito?
+          open_confirm:
+            _en: Are you sure you want to open this bidding round? An email will be sent to the %{count} eligible members.
+            _fr: Êtes-vous sûr de vouloir ouvrir ce tour de contributions? Un email sera envoyé aux %{count} membres éligibles.
+            _de: Sind Sie sicher, dass Sie diesen Bietrunde öffnen möchten? Eine E-Mail wird an die %{count} qualifizierten Mitglieder gesendet.
+            _it: Sei sicuro di voler aprire questo turno di contributi? Un'email sarà inviata ai %{count} membri eleggibili.
         cancel_action:
           _en: Edit
           _fr: Modifier
@@ -1978,6 +2046,11 @@ _:
           _fr: Êtes-vous sûr? Annuler une facture ne peut pas être réversé.
           _de: Sind Sie sicher? Stornieren einer Rechnung kann nicht rückgängig gemacht werden.
           _it: Sei sicuro? Annullare una fattura non può essere annullato.
+        complete:
+          _en: Complete
+          _fr: Terminer
+          _de: Vollständig
+          _it: Completare
         create_membership:
           _en: Create membership
           _fr: Créer abonnement
@@ -2003,6 +2076,11 @@ _:
           _fr: Dupliquer
           _de: Duplizieren
           _it: Duplicare
+        fail:
+          _en: Fail
+          _fr: Échec
+          _de: Fehlgeschlagen
+          _it: Fallimento
         ignore:
           _en: Ignore
           _fr: Ignorer
@@ -2039,6 +2117,11 @@ _:
             _fr: Êtes-vous sûr de vouloir envoyer cette newsletter à %{members_count} membres?
             _de: Sind Sie sicher, dass Sie diese Newsletter an %{members_count} Mitglieder senden wollen?
             _it: Siete sicuri di voler inviare questa newsletter a %{members_count} soci?
+        open:
+          _en: Open
+          _fr: Ouvrir
+          _de: Öffnen
+          _it: Aprire
         refund:
           _en: Refund
           _fr: Remboursement
@@ -2207,6 +2290,16 @@ _:
           _fr: Les paiements ne sont actuellement pas traités automatiquement, merci de <a href="mailto:info@csa-admin.org">me contacter</a> afin de mettre cela en place.
           _de: Einzelzahlungen werden aktuell nicht automatisch verarbeitet, bitte <a href="mailto:info@csa-admin.org">kontaktieren Sie mich</a>, um dies zu aktivieren.
           _it: Le pagamenti non sono attualmente elaborati automaticamente, per favore <a href="mailto:info@csa-admin.org">contattami</a> per impostare questo.
+        no_eligible_memberships:
+          _en: No memberships
+          _fr: Aucun abonnement
+          _de: Keine Abonnements
+          _it: Nessun abbonamento
+        no_eligible_memberships_text:
+          _en: No memberships are eligible to start a bidding round in %{year}.
+          _fr: Aucun abonnement n'est éligible pour démarrer un tour de contribution en %{year}.
+          _de: Keine Abonnements sind für den Start eines Bietungsrunden in %{year} geeignet.
+          _it: Nessun abbonamento è eleggibile per un turno di contributi in %{year}.
         no_missing_activity_participations:
           _en: No missing participations
           _fr: Aucune participation manquante
