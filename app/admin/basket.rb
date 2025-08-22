@@ -25,7 +25,7 @@ ActiveAdmin.register Basket do
   csv do
     delivery = Delivery.find(params[:q][:delivery_id_eq])
     shop_orders =
-      if Current.org.feature?("shop")
+      if feature?("shop")
         delivery.shop_orders.includes(:member, items: { product: :basket_complement })
       else
         Shop::Order.none
@@ -60,7 +60,7 @@ ActiveAdmin.register Basket do
         b.complements_description(public_name: true)
       }
     end
-    if Current.org.feature?("shop")
+    if feature?("shop")
       column(I18n.t("shop.title_orders", count: 2)) { |b|
         shop_orders.any? { |o| o.member_id == b.member.id } ? "X" : nil
       }
@@ -162,7 +162,7 @@ ActiveAdmin.register Basket do
           hint: true,
           required: false,
           input_html: { data: { form_reset_target: "input" } }
-        if Current.org.feature?("basket_price_extra")
+        if feature?("basket_price_extra")
           f.input :price_extra, required: true, label: Current.org.basket_price_extra_title
         end
         f.input :quantity

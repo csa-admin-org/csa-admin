@@ -105,7 +105,7 @@
             </span>
           </li>
         <% end %>
-        <% if Current.org.feature?("basket_price_extra") && (membership.basket_price_extra.nonzero? || membership.baskets.any? { |b| b.price_extra.nonzero? }) %>
+        <% if feature?("basket_price_extra") && (membership.basket_price_extra.nonzero? || membership.baskets.any? { |b| b.price_extra.nonzero? }) %>
           <li class="w-full flex flex-row flex-wrap justify-between items-center border-t border-dotted border-gray-200 dark:border-gray-800">
             <span class="font-light me-2">
               <%= Current.org.basket_price_extra_title %>
@@ -136,7 +136,7 @@
             </span>
           </li>
         <% end %>
-        <% if Current.org.feature?("activity") && membership.activity_participations_annual_price_change.nonzero? %>
+        <% if feature?("activity") && membership.activity_participations_annual_price_change.nonzero? %>
           <li class="w-full flex flex-row flex-wrap justify-between items-center border-t border-dotted border-gray-200 dark:border-gray-800">
             <span class="font-light">
               <%= t_activity("active_admin.resource.show.activity_participations_annual_price_change") %>

@@ -2,7 +2,7 @@
 
 module ShopHelper
   def show_shop_menu?
-    return unless Current.org.feature?("shop")
+    return unless feature?("shop")
     return unless current_shop_delivery || shop_special_deliveries.any?
 
     !Current.org.shop_admin_only || current_session.admin_originated?

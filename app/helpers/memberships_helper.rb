@@ -52,13 +52,13 @@ module MembershipsHelper
   end
 
   def show_basket_price_extras?
-    Current.org.feature?("basket_price_extra") &&
+    feature?("basket_price_extra") &&
       Current.org.basket_price_extra_public_title.present? &&
       Current.org.basket_price_extras?
   end
 
   def show_activity_participations?
-    Current.org.feature?("activity") && Current.org.activity_participations_form?
+    feature?("activity") && Current.org.activity_participations_form?
   end
 
   def activity_participations_form_detail(force_default: false)

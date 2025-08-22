@@ -16,6 +16,7 @@ class Organization < ApplicationRecord
     new_member_fee
     shop
   ]
+  RESTRICTED_FEATURES = %i[]
   FEATURE_FLAGS = %i[]
   LANGUAGES = %w[fr de it en]
   CURRENCIES = %w[CHF EUR]
@@ -174,6 +175,7 @@ class Organization < ApplicationRecord
     (FEATURES | Current.org.features)
       .sort_by { |f| I18n.transliterate I18n.t("features.#{f}") }
   end
+  def self.restricted_features; RESTRICTED_FEATURES end
   def self.languages; LANGUAGES end
   def self.feature_flags; FEATURE_FLAGS end
   def self.activity_i18n_scopes; ACTIVITY_I18N_SCOPES end

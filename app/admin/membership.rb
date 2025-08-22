@@ -49,7 +49,7 @@ ActiveAdmin.register Membership do
     as: :select,
     collection: -> { admin_delivery_cycles_collection }
   filter :absences_included,
-    if: proc { Current.org.feature?("absence") }
+    if: proc { feature?("absence") }
   filter :renewal_state,
     as: :select,
     collection: -> { renewal_states_collection }
@@ -61,17 +61,17 @@ ActiveAdmin.register Membership do
     }
   filter :basket_price_extra,
     label: proc { Current.org.basket_price_extra_title },
-    if: proc { Current.org.feature?("basket_price_extra") }
+    if: proc { feature?("basket_price_extra") }
   filter :activity_participations_accepted,
     label: proc { Membership.human_attribute_name(activity_scoped_attribute(:activity_participations_accepted)) },
-    if: proc { Current.org.feature?("activity") }
+    if: proc { feature?("activity") }
   filter :activity_participations_demanded,
     label: proc { Membership.human_attribute_name(activity_scoped_attribute(:activity_participations_demanded)) },
-    if: proc { Current.org.feature?("activity") }
+    if: proc { feature?("activity") }
   filter :activity_participations_missing,
     as: :numeric,
     label: proc { Membership.human_attribute_name(activity_scoped_attribute(:activity_participations_missing)) },
-    if: proc { Current.org.feature?("activity") }
+    if: proc { feature?("activity") }
 
   includes :member, :baskets, :delivery_cycle
   index do
@@ -79,7 +79,7 @@ ActiveAdmin.register Membership do
     column :member, sortable: "members.name"
     column :started_on, ->(m) { l(m.started_on, format: :number) }, class: "text-right tabular-nums"
     column :ended_on, ->(m) { l(m.ended_on, format: :number) }, class: "text-right tabular-nums"
-    if Current.org.feature?("activity")
+    if feature?("activity")
       column activities_human_name, ->(m) {
         link_to(
           "#{m.activity_participations_accepted} / #{m.activity_participations_demanded}",
@@ -96,7 +96,7 @@ ActiveAdmin.register Membership do
   end
 
   sidebar :activity_participations, only: :index, if: -> {
-    Current.org.feature?("activity") && %w[
+    feature?("activity") && %w[
       activity_participations_accepted_eq
       activity_participations_accepted_gt
       activity_participations_accepted_lt
@@ -160,7 +160,7 @@ ActiveAdmin.register Membership do
     redirect_to collection_path, notice: t("active_admin.shared.sidebar_section.invoicing")
   end
 
-  sidebar :basket_price_extra_title, only: :index, if: -> { Current.org.feature?("basket_price_extra") && params.dig(:q, :during_year).present? } do
+  sidebar :basket_price_extra_title, only: :index, if: -> { feature?("basket_price_extra") && params.dig(:q, :during_year).present? } do
     side_panel Current.org.basket_price_extra_title, action: handbook_icon_link("basket_price_extra") do
       coll =
         collection
@@ -301,7 +301,7 @@ ActiveAdmin.register Membership do
     end
     column(:basket_size) { |m| basket_size_description(m, text_only: true, public_name: false) }
     column(:basket_price) { |m| cur(m.basket_price) }
-    if Current.org.feature?("basket_price_extra")
+    if feature?("basket_price_extra")
       column(Current.org.basket_price_extra_title) { |m|
         if Current.org.basket_price_extra_dynamic_pricing?
           m.basket_price_extra
@@ -325,7 +325,7 @@ ActiveAdmin.register Membership do
       column(:depot_price) { |m| cur(m.depot_price) }
     end
     column(:delivery_cycle) { |m| m.delivery_cycle.name }
-    if Current.org.feature?("activity")
+    if feature?("activity")
       column(activity_scoped_attribute(:activity_participations_demanded), &:activity_participations_demanded)
       column(activity_scoped_attribute(:activity_participations_accepted), &:activity_participations_accepted)
       column(activity_scoped_attribute(:activity_participations_missing), &:activity_participations_missing)
@@ -604,7 +604,7 @@ ActiveAdmin.register Membership do
                   cur(m.basket_complements_annual_price_change, unit: false)
                 }
               end
-              if Current.org.feature?("basket_price_extra") && (m.basket_price_extra.nonzero? || m.baskets.any? { |b| b.price_extra.nonzero? })
+              if feature?("basket_price_extra") && (m.basket_price_extra.nonzero? || m.baskets.any? { |b| b.price_extra.nonzero? })
                 row(:basket_price_extra_title, class: "text-right tabular-nums") {
                   description = baskets_price_extra_info(m, m.baskets, highlight: true)
                   display_price_description(m.baskets_price_extra, description)
@@ -620,7 +620,7 @@ ActiveAdmin.register Membership do
                   display_price_description(m.deliveries_price, delivery_cycle_price_info(m.baskets))
                 }
               end
-              if Current.org.feature?("activity") && m.activity_participations_annual_price_change.nonzero?
+              if feature?("activity") && m.activity_participations_annual_price_change.nonzero?
                 row(t_activity(".activity_participations_annual_price_change"), class: "text-right tabular-nums") {
                   cur(m.activity_participations_annual_price_change, unit: false)
                 }
@@ -693,7 +693,7 @@ ActiveAdmin.register Membership do
           end
         end
 
-        if Current.org.feature?("activity")
+        if feature?("activity")
           panel activities_human_name, action: handbook_icon_link("activity") do
             ul class: "counts justify-evenly" do
               li class: "w-1/3" do
@@ -753,7 +753,7 @@ ActiveAdmin.register Membership do
       end
     end
 
-    if Current.org.feature?("activity")
+    if feature?("activity")
       f.inputs activities_human_name, "data-controller" => "form-reset" do
         div class: "panel-actions" do
           handbook_icon_link("activity")
@@ -844,7 +844,7 @@ ActiveAdmin.register Membership do
         hint: true,
         required: false,
         input_html: { data: { form_reset_target: "input" } }
-      if Current.org.feature?("basket_price_extra")
+      if feature?("basket_price_extra")
         f.input :basket_price_extra, required: true, label: Current.org.basket_price_extra_title
       end
       f.input :basket_quantity

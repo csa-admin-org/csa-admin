@@ -33,7 +33,7 @@ class Members::ContactSharingsController < Members::BaseController
   private
 
   def ensure_contact_sharing_feature
-    redirect_to members_member_path unless Current.org.feature?("contact_sharing")
+    redirect_to members_member_path unless feature?("contact_sharing")
   end
 
   def ensure_member_next_basket_presence

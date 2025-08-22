@@ -47,13 +47,13 @@
             <%= t(".remaining_trial_baskets_count", count: membership.remaining_trial_baskets_count) -%>
           <% end %>
         <% end %>
-        <% if Current.org.feature?("absence") && membership.baskets.absent.any? %>
+        <% if feature?("absence") && membership.baskets.absent.any? %>
           <% concat "," %>
           <%= link_to t(".absent_baskets_count", count: membership.baskets.absent.count), members_absences_path %>
         <% end %>
       </span>
     </li>
-    <% if Current.org.feature?("activity") %>
+    <% if feature?("activity") %>
       <li class="mt-1 flex flex-row items-center gap-3">
         <%= icon "hand-raised", class: "flex-none size-6 text-gray-300 dark:text-gray-700" %>
         <span>

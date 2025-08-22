@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class Members::BaseController < ApplicationController
+  include OrganizationsHelper
+
   layout "members"
 
   before_action :authenticate_member!
@@ -53,7 +55,7 @@ class Members::BaseController < ApplicationController
   end
 
   def current_shop_delivery
-    return unless Current.org.feature?("shop")
+    return unless feature?("shop")
 
     @current_shop_delivery ||=
       Delivery
@@ -64,7 +66,7 @@ class Members::BaseController < ApplicationController
   helper_method :current_shop_delivery
 
   def next_shop_delivery
-    return unless Current.org.feature?("shop")
+    return unless feature?("shop")
     return unless current_shop_delivery
 
     @next_shop_delivery ||=
@@ -77,7 +79,7 @@ class Members::BaseController < ApplicationController
   helper_method :next_shop_delivery
 
   def shop_special_deliveries
-    return [] unless Current.org.feature?("shop")
+    return [] unless feature?("shop")
     return [] unless shop_depot = current_member.shop_depot
 
     @shop_special_deliveries ||=
