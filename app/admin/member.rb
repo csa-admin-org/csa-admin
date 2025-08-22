@@ -170,7 +170,7 @@ ActiveAdmin.register Member do
               end
               row(:depot) { link_to next_basket.depot.name, next_basket.depot  }
               row(:delivery) { link_to next_basket.delivery.display_name(format: :long), next_basket.delivery }
-              if Current.org.feature?("shop")
+              if feature?("shop")
                 shop_order = next_basket.delivery.shop_orders.all_without_cart.find_by(member_id: member.id)
                 row(t("shop.title")) { auto_link shop_order }
               end
@@ -229,7 +229,7 @@ ActiveAdmin.register Member do
           else
             table_for(memberships.limit(3), class: "table-memberships") do
               column(:period) { |m| auto_link m, membership_period(m, format: :number), aria: { label: "show" } }
-              if Current.org.feature?("activity")
+              if feature?("activity")
                 column(activities_human_name, class: "text-right") { |m|
                   link_to(
                     [ m.activity_participations_accepted, m.activity_participations_demanded ].join(" / "),
@@ -249,7 +249,7 @@ ActiveAdmin.register Member do
           end
         end
 
-        if Current.org.feature?("shop")
+        if feature?("shop")
           all_orders_path = shop_orders_path(q: { member_id_eq: member.id }, scope: :all_without_cart)
           orders =
             member
@@ -278,7 +278,7 @@ ActiveAdmin.register Member do
           end
         end
 
-        if Current.org.feature?("activity")
+        if feature?("activity")
           all_activity_participations_path =
             activity_participations_path(q: { member_id_eq: member.id }, scope: :all)
           activity_participations =
@@ -345,7 +345,7 @@ ActiveAdmin.register Member do
           end
         end
 
-        if Current.org.feature?("absence")
+        if feature?("absence")
           all_absences_path = absences_path(q: { member_id_eq: member.id }, scope: :all)
           absences = member.absences.order(started_on: :desc)
           absences_count = absences.count
@@ -374,7 +374,7 @@ ActiveAdmin.register Member do
             row :validator
           end
         end
-        if Current.org.feature?("shop") && member.use_shop_depot?
+        if feature?("shop") && member.use_shop_depot?
           panel t("shop.title") do
             attributes_table do
               row(:depot) { member.shop_depot }
@@ -390,7 +390,7 @@ ActiveAdmin.register Member do
             if Current.org.languages.many?
               row(:language) { t("languages.#{member.language}") }
             end
-            if Current.org.feature?("contact_sharing")
+            if feature?("contact_sharing")
               row(:contact_sharing) { status_tag(member.contact_sharing) }
             end
           end
@@ -536,7 +536,7 @@ ActiveAdmin.register Member do
         as: :select,
         collection: countries_collection
       language_input(f)
-      if Current.org.feature?("contact_sharing")
+      if feature?("contact_sharing")
         f.input :contact_sharing
       end
     end
@@ -554,7 +554,7 @@ ActiveAdmin.register Member do
             hint: t("formtastic.hints.membership.activity_participations_demanded_annually_html"),
             required: false
         end
-        if Current.org.feature?("basket_price_extra")
+        if feature?("basket_price_extra")
           f.input :waiting_basket_price_extra,
             label: Current.org.basket_price_extra_title,
             required: false
@@ -598,7 +598,7 @@ ActiveAdmin.register Member do
         end
       end
     end
-    if Current.org.feature?("shop") && !member.current_or_future_membership
+    if feature?("shop") && !member.current_or_future_membership
       f.inputs t("shop.title") do
         f.input :shop_depot,
           label: Depot.model_name.human,

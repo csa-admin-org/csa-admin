@@ -401,7 +401,7 @@ ActiveAdmin.register Invoice do
     f.inputs do
       tabs do
         unless f.object.persisted?
-          if Current.org.feature?("activity")
+          if feature?("activity")
             tab activities_human_name, id: "activity_participation" do
               if f.object.entity.is_a?(ActivityParticipation)
                 li(class: "refused_activity_participation") do

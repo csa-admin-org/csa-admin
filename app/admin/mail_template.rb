@@ -21,9 +21,9 @@ ActiveAdmin.register MailTemplate do
   scope :membership
   scope :invoice
   scope -> { Absence.model_name.human }, :absence,
-    if: -> { Current.org.feature?("absence") }
+    if: -> { feature?("absence") }
   scope -> { Activity.model_name.human }, :activity,
-    if: -> { Current.org.feature?("activity") }
+    if: -> { feature?("activity") }
 
   action_item :view, only: :index, if: -> { authorized?(:update, Organization) } do
     action_link t(".settings"), edit_organization_path(anchor: "mail"), icon: "adjustments-horizontal"
@@ -175,10 +175,11 @@ ActiveAdmin.register MailTemplate do
 
   controller do
     skip_before_action :verify_authenticity_token, only: :preview
+    include OrganizationsHelper
 
     def scoped_collection
       scoped = end_of_association_chain
-      unless Current.org.feature?("activity")
+      unless feature?("activity")
         scoped = scoped.where.not(title: MailTemplate::ACTIVITY_TITLES)
       end
       # Order by title

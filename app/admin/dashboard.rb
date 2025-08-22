@@ -36,7 +36,7 @@ ActiveAdmin.register_page "Dashboard" do
                 if announcements_count.positive?
                   bottom_links << link_to(t(".announcements_count", count: announcements_count), announcements_path(scope: :active, q: { deliveries_eq: next_delivery.id }))
                 end
-                if Current.org.feature?("absence")
+                if feature?("absence")
                   absences_count = next_delivery.baskets.absent.sum(:quantity)
                   if absences_count.positive?
                     bottom_links << link_to(t(".absences_count", count: absences_count), absences_path(q: { including_date: next_delivery.date.to_s }))
@@ -73,7 +73,7 @@ ActiveAdmin.register_page "Dashboard" do
             render "memberships_count"
           end
 
-          if Current.org.feature?("activity")
+          if feature?("activity")
             panel activities_human_name do
               render "activity_participations_count"
             end

@@ -1,7 +1,17 @@
 # frozen_string_literal: true
 
 module OrganizationsHelper
+  def all_features
+    features = Organization.features
+    unless current_admin.ultra?
+      features -= Organization.restricted_features
+    end
+    features
+  end
+
   def feature?(feature)
+    return if feature.to_sym.in?(Organization.restricted_features) && !current_admin.ultra?
+
     Current.org.feature?(feature)
   end
 

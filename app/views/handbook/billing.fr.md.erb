@@ -1,6 +1,6 @@
 # Facturation
 
-CSA Admin vise à automatiser la plupart des tâches relative à la facturation ([abonnements](#memberships), <% if Current.org.share? %>[parts sociales](#parts-sociales), <% end %>[traitements des paiements](#paiements)), mais certains aspects <% if Current.org.feature?("activity") %>comme la facturation des [<%= activities_human_name %> non effectuées](#<%= activities_human_name %>-non-effectuees) <% end %>doivent être effectués manuellement.
+CSA Admin vise à automatiser la plupart des tâches relative à la facturation ([abonnements](#memberships), <% if Current.org.share? %>[parts sociales](#parts-sociales), <% end %>[traitements des paiements](#paiements)), mais certains aspects <% if feature?("activity") %>comme la facturation des [<%= activities_human_name %> non effectuées](#<%= activities_human_name %>-non-effectuees) <% end %>doivent être effectués manuellement.
 
 Pour la Suisse, CSA Admin génère des factures-QR avec numéro de référence (PDF) et les envoie à tous les emails du membre concerné. Afin de pouvoir générer ces factures, il vous faut demander un QR-IBAN à votre banque, attention ce numéro est différent de l'IBAN de votre compte bancaire. Vous pouvez ensuite l'entrer dans [vos paramètres de facturation](/settings#billing).
 
@@ -61,7 +61,7 @@ Si des parts sociales ont déjà été facturées en dehors d'CSA Admin, vous po
 > Depuis la page d'un membre, vous pouvez voir dans la section "Facturation" (colonne de droite) le nombre de parts sociales qui seront ou sont déjà facturées avec un lien sur les factures correspondantes.
 <% end %>
 
-<% if Current.org.feature?("activity") %>
+<% if feature?("activity") %>
 ## <%= activities_human_name %> non effectuées {#activity}
 
 Chaque organisation a une politique de facturation des <%= activities_human_name.downcase %> non effectuées différente, certaines les facturent, d'autres non.
@@ -102,7 +102,7 @@ Il est possible d'ajouter un texte spécifique dans le [template email "Nouvelle
 
 CSA Admin offre la possibilité de facturer manuellement des articles ou des services divers (par exemple, achat de sac en tissus pour les nouveaux abonnés). Pour cela, il suffit de [créer une nouvelle facture](/invoices/new) et de rentrer les articles sous l'onglet "Autre". Après vérification du PDF, vous pouvez manuellement la facture à l'aide du bouton "Envoyer" sur la page de celle-ci.
 
-> Attention, les factures de type "Autre" ne doivent pas être utilisées pour facturer les abonnements<% if Current.org.share? %>, parts sociales<% end %><% if Current.org.feature?("activity") %> ou <%= activities_human_name.downcase %><% end %>, car le système ne les prendra pas en compte.
+> Attention, les factures de type "Autre" ne doivent pas être utilisées pour facturer les abonnements<% if Current.org.share? %>, parts sociales<% end %><% if feature?("activity") %> ou <%= activities_human_name.downcase %><% end %>, car le système ne les prendra pas en compte.
 
 ## Paiements
 

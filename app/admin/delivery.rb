@@ -20,7 +20,7 @@ ActiveAdmin.register Delivery do
   filter :shop_open,
     label: -> { t("shop.title") },
     as: :boolean,
-    if: ->(proc) { Current.org.feature?("shop") }
+    if: ->(proc) { feature?("shop") }
   filter :note, as: :string
 
   includes :basket_complements, :basket_complements_deliveries
@@ -28,7 +28,7 @@ ActiveAdmin.register Delivery do
   # Workaround for ActionController::UnknownFormat (xlsx download)
   # https://github.com/activeadmin/activeadmin/issues/4945#issuecomment-302729459
   index download_links: -> { params[:action] == "show" ? [ :xlsx, :pdf ] : [ :csv ] }, class: "table-auto" do
-    if Current.org.feature?("shop") && (!params[:scope] || params[:scope] == "coming")
+    if feature?("shop") && (!params[:scope] || params[:scope] == "coming")
       selectable_column(class: "w-px")
     end
     column "#", ->(delivery) { delivery.number }, class: "w-px"
@@ -36,7 +36,7 @@ ActiveAdmin.register Delivery do
     if BasketComplement.kept.any?
       column(:basket_complements) { |d| d.basket_complements.map(&:name).to_sentence }
     end
-    if Current.org.feature?("shop")
+    if feature?("shop")
       column :shop, ->(delivery) { status_tag(delivery.shop_configured_open?) }, class: "text-right w-px"
     end
     actions class: "w-px" do |delivery|
@@ -56,7 +56,7 @@ ActiveAdmin.register Delivery do
     if BasketComplement.kept.any?
       column(:basket_complements) { |d| d.basket_complements.map(&:name).to_sentence }
     end
-    if Current.org.feature?("shop")
+    if feature?("shop")
       column("#{t("shop.title")}: #{Delivery.human_attribute_name(:shop_open)}") { |d| d.shop_configured_open? }
     end
     column(:note)
@@ -83,7 +83,7 @@ ActiveAdmin.register Delivery do
           end
         end
 
-        if Current.org.feature?("absence")
+        if feature?("absence")
           absences = Absence.including_date(delivery.date).includes(:member)
           panel link_to("#{Absence.model_name.human(count: 2)} (#{absences.count})", absences_path(q: { including_date: delivery.date }, scope: :all)) do
             absent_counts = delivery.basket_counts(scope: :absent)
@@ -114,7 +114,7 @@ ActiveAdmin.register Delivery do
           end
         end
 
-        if Current.org.feature?("shop")
+        if feature?("shop")
           panel t("shop.title") do
           attributes_table do
               row(t("shop.open")) { status_tag(delivery.shop_open?) }
@@ -133,7 +133,7 @@ ActiveAdmin.register Delivery do
           end
         end
 
-        if Current.org.feature?("basket_content")
+        if feature?("basket_content")
           basket_contents = delivery.basket_contents.includes(:product)
           panel link_to(BasketContent.model_name.human(count: 2), basket_contents_path(q: { delivery_id_eq: delivery.id })) do
             if basket_contents.any?
@@ -167,7 +167,7 @@ ActiveAdmin.register Delivery do
     f.inputs t(".details") do
       f.input :note, as: :text, input_html: { rows: 3 }
     end
-    if Current.org.feature?("shop")
+    if feature?("shop")
       f.inputs t("shop.title"), "data-controller" => "form-checkbox-toggler" do
         f.input :shop_open,
           as: :boolean,
@@ -200,12 +200,12 @@ ActiveAdmin.register Delivery do
 
   batch_action :destroy, false
 
-  batch_action :open_shop, if: proc { Current.org.feature?("shop") && (!params[:scope] || params[:scope] == "coming") } do |selection|
+  batch_action :open_shop, if: proc { feature?("shop") && (!params[:scope] || params[:scope] == "coming") } do |selection|
     Delivery.where(id: selection).update_all(shop_open: true)
     redirect_back fallback_location: collection_path
   end
 
-  batch_action :close_shop, if: proc { Current.org.feature?("shop") && (!params[:scope] || params[:scope] == "coming") } do |selection|
+  batch_action :close_shop, if: proc { feature?("shop") && (!params[:scope] || params[:scope] == "coming") } do |selection|
     Delivery.where(id: selection).update_all(shop_open: false)
     redirect_back fallback_location: collection_path
   end

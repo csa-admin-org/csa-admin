@@ -447,7 +447,7 @@ module MembersHelper
   end
 
   def activities_count(count)
-    return unless Current.org.feature?("activity")
+    return unless feature?("activity")
     return if count.zero?
 
     t_activity("helpers.activities_count_per_year", count: count).gsub(/\s/, "&nbsp;")
@@ -461,8 +461,8 @@ module MembersHelper
 
   def member_features_sentence
     features = []
-    features << t_activity(".features.activity_text") if Current.org.feature?("activity")
-    features << t(".features.absence_text") if Current.org.feature?("absence")
+    features << t_activity(".features.activity_text") if feature?("activity")
+    features << t(".features.absence_text") if feature?("absence")
     features << t(".features.deliveries_text")
     features << t(".features.billing_text")
     features.to_sentence

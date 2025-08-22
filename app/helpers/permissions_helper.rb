@@ -33,7 +33,7 @@ module PermissionsHelper
     when :billing
       t("billing.title")
     else
-      if Current.org.feature?(feature)
+      if feature?(feature)
         t("features.#{feature}")
       else
         feature.to_s.classify.constantize.model_name.human(count: 2)

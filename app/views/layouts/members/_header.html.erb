@@ -96,7 +96,7 @@
             <% end %>
           </li>
 
-          <% if next_basket && Current.org.feature?("contact_sharing") %>
+          <% if next_basket && feature?("contact_sharing") %>
             <li class="<%= nav_class("contact_sharing") %>">
               <%= link_to members_contact_sharing_path do %>
                 <h2><%= Member.human_attribute_name(:contact_sharing) %></h2>

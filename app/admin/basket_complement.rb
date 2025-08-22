@@ -37,7 +37,7 @@ ActiveAdmin.register BasketComplement do
         },
         scope: :all)
     }, class: "text-right tabular-nums"
-    if Current.org.feature?("activity")
+    if feature?("activity")
       column activities_human_name,
         ->(bc) { bc.activity_participations_demanded_annually },
         class: "text-right tabular-nums",
@@ -57,7 +57,7 @@ ActiveAdmin.register BasketComplement do
         min: 0,
         hint: f.object.persisted?,
         label: BasketComplement.human_attribute_name(:price_per_delivery)
-      if Current.org.feature?("activity")
+      if feature?("activity")
         f.input :activity_participations_demanded_annually,
           label: BasketSize.human_attribute_name(activity_scoped_attribute(:activity_participations_demanded_annually)),
           as: :number,
