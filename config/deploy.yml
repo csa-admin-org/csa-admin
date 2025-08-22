@@ -53,7 +53,6 @@ registry:
 env:
   secret:
     - RAILS_MASTER_KEY
-    - APPSIGNAL_PUSH_API_KEY
   clear:
     APP_DOMAIN: csa-admin.org
     ALLOWED_COUNTRY_CODES: CH,FR,DE,IT,LI,NL
