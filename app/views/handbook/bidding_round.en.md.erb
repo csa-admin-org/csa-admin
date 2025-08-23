@@ -1,0 +1,49 @@
+# Bidding round
+
+The bidding round allows members to pledge the price per basket they are willing to pay for their basket size, based on their means, while ensuring the organization’s needs are covered.
+
+Pledged amounts are constrained by configurable min/max bounds.
+
+## Requirements {#requirements}
+
+- Memberships for the new season must be created and the first delivery must be in the future.
+- Only one bidding round can be open at a time.
+
+Before opening a bidding round, check the following in the [settings](/settings#bidding_round):
+
+- Minimum basket size price (0-100%) — defines the minimum allowed percentage.
+- Maximum basket size price (0-X%) — defines the maximum allowed percentage.
+- Send a reminder after (in days).
+
+These settings ensure a consistent frame for member pledges and enable automated reminders during the opening period.
+
+> By default, the price per basket is the one defined in the [basket sizes configuration](/basket_sizes), or the one defined on memberships when a custom amount is set.
+
+## Flow
+
+1. Create memberships for the new season (see [renewal](/handbook/membership_renewal)).
+2. Create and open a new bidding round.
+3. Let members pledge amounts for their basket sizes (the duration of the opening window is up to you).
+4. Review the results of the bidding round and decide:
+   - Are the needs covered? Finish the bidding round to update the price per basket for all memberships that received a pledge.
+   - Needs not covered? Close (failure) the bidding round and create a new one.
+
+## Opening
+
+When the bidding round is opened, an automatic email is sent to members. From their accounts, they can access a form to pledge the price for their basket size.
+
+### Reminder
+
+A reminder can be sent automatically while the bidding round is open. The delay is defined by the “Send a reminder after (in days)” setting.
+
+## Finish (success)
+
+When the bidding round is finished (success), the price per basket is updated for all memberships that received a pledge. Memberships without a pledge are not modified.
+
+An automatic email (optional) can be sent to all affected members.
+
+## Close (failure)
+
+When the bidding round is closed (failure), no membership is modified. You can then open a new bidding round to try to converge on a price acceptable to all members.
+
+An automatic email (optional) can be sent to all affected members.
