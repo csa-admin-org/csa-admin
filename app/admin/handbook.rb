@@ -14,6 +14,8 @@ ActiveAdmin.register_page "Handbook" do
     side_panel t(".pages") do
       ul class: "space-y-2 text-base" do
         Handbook.all(binding).each do |handbook|
+          next if handbook.restricted? && !current_admin.ultra?
+
           li class: (handbook.name == params[:id] ? "" : "") do
             if handbook.name == params[:id]
               div class: "font-bold flex items-center justify-start" do

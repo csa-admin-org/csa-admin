@@ -44,6 +44,10 @@ class Handbook
     @subtitles ||= doc.css("h2").map { |h2| [ h2.text, h2[:id] ] }
   end
 
+  def restricted?
+    name.to_sym.in?(Organization.restricted_features)
+  end
+
   def <=>(other)
     I18n.transliterate(title) <=> I18n.transliterate(other.title)
   end

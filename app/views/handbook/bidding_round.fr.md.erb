@@ -1,0 +1,49 @@
+# Tour de contributions
+
+Le tour de contributions permet aux membres d’indiquer le prix par panier qu’ils sont prêts à payer pour leur taille du panier, en fonction de leurs capacités, tout en veillant à couvrir les besoins de l’organisation.
+
+Les montants proposés sont encadrés par des bornes (min/max) configurables.
+
+## Prérequis {#requirements}
+
+- Les abonnements pour la nouvelle saison doivent être créés et la première livraison doit être dans le futur.
+- Un seul tour de contributions peut être ouvert à la fois.
+
+Avant d’ouvrir un tour de contributions, vérifiez les paramètres suivants dans les [réglages](/settings#bidding_round):
+
+- Prix minimum de la taille du panier (0–100 %) — définit le pourcentage minimal autorisé.
+- Prix maximum de la taille du panier (0–X %) — définit le pourcentage maximal autorisé.
+- Rappel automatique pour un tour de contributions ouvert — « Envoyer un rappel après (en jours) ».
+
+Ces paramètres garantissent un cadre cohérent pour les montants proposés et permettent d’automatiser les relances pendant la période d’ouverture.
+
+> Par défaut, le prix par panier est celui défini dans la [configuration des tailles de panier](/basket_sizes), ou celui défini dans les abonnements en cas de montant personnalisé.
+
+## Déroulement
+
+1. Créer les abonnements pour la nouvelle saison (voir [renouvellement](/handbook/membership_renewal)).
+2. Créer et ouvrir un nouveau tour de contributions.
+3. Laisser les membres proposer des montants pour leurs tailles du panier (la durée de la période d’ouverture est libre).
+4. Analyser les résultats du tour de contributions et décider :
+   - Les besoins sont‑ils couverts ? Terminer le tour de contributions pour mettre à jour le prix par panier de tous les abonnements ayant reçu une proposition.
+   - Les besoins ne sont pas couverts ? Clôturer (échec) le tour de contributions, puis en créer un nouveau.
+
+## Ouverture
+
+À l’ouverture du tour de contributions, un email automatique est envoyé aux membres. Depuis leur compte, ils accèdent à un formulaire leur permettant de fixer le montant pour leur taille du panier.
+
+### Rappel
+
+Un rappel peut être envoyé automatiquement tant que le tour de contributions est ouvert. Le délai est défini par le paramètre « Envoyer un rappel après (en jours) ».
+
+## Terminer (succès)
+
+Lorsque le tour de contributions est terminé (succès), le prix par panier est mis à jour pour tous les abonnements ayant reçu une proposition. Les abonnements sans proposition ne sont pas modifiés.
+
+Un email automatique (optionnel) peut être envoyé à tous les membres concernés.
+
+## Clôturer (échec)
+
+Lorsque le tour de contributions est clôturé (échec), aucune modification n’est apportée aux abonnements. Il est alors possible d’ouvrir un nouveau tour de contributions afin de tenter de converger vers un prix acceptable pour l’ensemble des membres.
+
+Un email automatique (optionnel) peut être envoyé à tous les membres concernés.
