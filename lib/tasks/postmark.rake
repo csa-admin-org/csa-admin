@@ -43,7 +43,7 @@ namespace :postmark do
         puts " done!"
         puts "  Server ID: #{server[:id]}"
         puts "  Server Name: #{server[:name]}"
-        puts "  Server Token: #{server_tokens[:api_tokens].first[0..10]}..."
+        puts "  Server Token: #{server[:api_tokens].first[0..10]}..."
         puts "  ✅ Server created and configured"
       end
     end
@@ -82,8 +82,8 @@ namespace :postmark do
           unless domain_details[:dkim_verified]
             puts "\n  DKIM Record:"
             puts "    Type: TXT"
-            puts "    Host: #{domain_details[:dkim_host]}"
-            puts "    Value: #{domain_details[:dkim_text_value]}"
+            puts "    Host: #{domain_details[:dkim_pending_host]}"
+            puts "    Value: #{domain_details[:dkim_pending_text_value]}"
           end
 
           unless domain_details[:return_path_domain_verified]
