@@ -74,9 +74,6 @@ class Organization < ApplicationRecord
   has_many_attached :invoice_logos
 
   validates :name, presence: true
-  validates :url,
-    presence: true,
-    format: { with: ->(org) { %r{\Ahttps?://.*#{org.domain}\z} } }
   validates :email, presence: true
   validates :email_default_from, presence: true
   validates :email_default_from, format: { with: /\A[^@\s]+@[^@\s]+\.[^@\s]+\z/ }
@@ -480,7 +477,7 @@ class Organization < ApplicationRecord
     self.invoice_infos = default_invoice_infos
     self.invoice_footer = [ phone, email ].map(&:presence).compact.join(" / ")
     self.email_footers = default_email_footers
-    self.email_footers = default_email_signatures
+    self.email_signatures = default_email_signatures
   end
 
   def default_invoice_infos
