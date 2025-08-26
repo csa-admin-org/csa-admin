@@ -193,6 +193,9 @@ ActiveAdmin.register MailTemplate do
       unless feature?("activity")
         scoped = scoped.where.not(title: MailTemplate::ACTIVITY_TITLES)
       end
+      unless feature?("bidding_round")
+        scoped = scoped.where.not(title: MailTemplate::BIDDING_ROUND_TITLES)
+      end
       # Order by title
       order_clause = MailTemplate::TITLES.each_with_index.map do |title, index|
         "WHEN #{ActiveRecord::Base.connection.quote(title)} THEN #{index + 1}"
