@@ -1,0 +1,13 @@
+<p>Die Bietrunde Nr. {{ bidding_round.number }} hat ihr Ziel nicht erreicht.</p>
+
+{% if bidding_round_pledge.basket_size_price %}
+  <p>Ihre Zusage betrug {{ bidding_round_pledge.basket_size_price }} pro Tasche.</p>
+{% else %}
+  <p>Sie haben keinen Betrag zugesagt.</p>
+{% endif %}
+
+<p>Sie können die Details Ihrer Mitgliedschaft jederzeit einsehen.</p>
+
+{% button member.memberships_url %}
+  Mitgliedschaft ansehen
+{% endbutton %}

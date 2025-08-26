@@ -2008,19 +2008,19 @@ _:
         bidding_round:
           complete_confirm:
             _en: Are you sure you want to complete this bidding round? The memberships basket price will be updated with the pledged amount.
-            _fr: Êtes-vous sûr de vouloir terminer ce tour de contributions? Le prix du panier des adhésions sera mis à jour avec la somme engagée.
-            _de: Sind Sie sicher, dass Sie diesen Bietrunde abschließen möchten? Der Preis des Mitgliedschaftstasches wird mit dem engagierten Betrag aktualisiert.
-            _it: Sei sicuro di voler completare questo turno di contributi? Il prezzo del cestino verrà aggiornato con l'importo promesso.
+            _fr: Êtes-vous sûr de vouloir terminer ce tour d'engagement ? Le prix du panier des abonnements sera mis à jour avec la somme engagée.
+            _de: Sind Sie sicher, dass Sie diese Bietrunde abschließen möchten? Die Taschenpreise der Mitgliedschaften werden mit dem zugesagten Betrag aktualisiert.
+            _it: Siete sicuri di voler completare questo turno di impegno? I prezzi dei cestini degli abbonamenti verranno aggiornati con l'importo promesso.
           fail_confirm:
             _en: Are you sure you want to mark this bidding round as failed?
-            _fr: Êtes-vous sûr de vouloir marquer ce tour de contributions comme échoué?
-            _de: Sind Sie sicher, dass Sie diesen Bietrunde als fehlgeschlagen markieren möchten?
-            _it: Sei sicuro di voler segnare questo turno di contributi come fallito?
+            _fr: Êtes-vous sûr de vouloir marquer ce tour d'engagement comme échoué ?
+            _de: Sind Sie sicher, dass Sie diese Bietrunde als fehlgeschlagen markieren möchten?
+            _it: Siete sicuri di voler contrassegnare questo turno di impegno come fallito?
           open_confirm:
             _en: Are you sure you want to open this bidding round? An email will be sent to the %{count} eligible members.
-            _fr: Êtes-vous sûr de vouloir ouvrir ce tour de contributions? Un email sera envoyé aux %{count} membres éligibles.
-            _de: Sind Sie sicher, dass Sie diesen Bietrunde öffnen möchten? Eine E-Mail wird an die %{count} qualifizierten Mitglieder gesendet.
-            _it: Sei sicuro di voler aprire questo turno di contributi? Un'email sarà inviata ai %{count} membri eleggibili.
+            _fr: Êtes-vous sûr de vouloir ouvrir ce tour d'engagement ? Un email sera envoyé aux %{count} membres éligibles.
+            _de: Sind Sie sicher, dass Sie diese Bietrunde öffnen möchten? Eine E-Mail wird an die %{count} berechtigten Mitglieder gesendet.
+            _it: Siete sicuri di voler aprire questo turno di impegno? Un'email sarà inviata ai %{count} soci eleggibili.
         cancel_action:
           _en: Edit
           _fr: Modifier
@@ -2297,9 +2297,9 @@ _:
           _it: Nessun abbonamento
         no_eligible_memberships_text:
           _en: No memberships are eligible to start a bidding round in %{year}.
-          _fr: Aucun abonnement n'est éligible pour démarrer un tour de contribution en %{year}.
+          _fr: Aucun abonnement n'est éligible pour démarrer un tour d'engagement en %{year}.
           _de: Keine Abonnements sind für den Start eines Bietungsrunden in %{year} geeignet.
-          _it: Nessun abbonamento è eleggibile per un turno di contributi in %{year}.
+          _it: Nessun abbonamento è eleggibile per un turno di impegno in %{year}.
         no_missing_activity_participations:
           _en: No missing participations
           _fr: Aucune participation manquante

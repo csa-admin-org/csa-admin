@@ -1,0 +1,13 @@
+<p>Il turno di impegno n°{{ bidding_round.number }} si è concluso con successo.</p>
+
+{% if bidding_round_pledge.basket_size_price %}
+  <p>Grazie per il vostro impegno di {{ bidding_round_pledge.basket_size_price }} per cestino. Questo importo è stato utilizzato per aggiornare il prezzo del vostro cestino.</p>
+{% else %}
+  <p>Non avete fissato un importo, quindi è stato applicato il prezzo predefinito del cestino ({{ membership.basket_size.price }}).</p>
+{% endif %}
+
+<p>Potete consultare i dettagli del vostro abbonamento in qualsiasi momento.</p>
+
+{% button member.memberships_url %}
+  Visualizza il mio abbonamento
+{% endbutton %}

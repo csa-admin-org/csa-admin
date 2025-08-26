@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/rails/rails.git
-  revision: 4e68529a505b5c5b29d11e51f708ab3b66c36d8e
+  revision: 4256e620570bf1dc86a597618065ec18a1efa9df
   specs:
     actioncable (8.1.0.alpha)
       actionpack (= 8.1.0.alpha)
@@ -125,12 +125,12 @@ GEM
     arbre (2.2.0)
       activesupport (>= 7.0)
     ast (2.4.3)
-    async (2.27.4)
+    async (2.28.0)
       console (~> 1.29)
       fiber-annotation
       io-event (~> 1.11)
       metrics (~> 0.12)
-      traces (~> 0.15)
+      traces (~> 0.18)
     async-http (0.91.0)
       async (>= 2.10.2)
       async-pool (~> 0.11)
@@ -147,7 +147,7 @@ GEM
       async-http (~> 0.42)
       protocol-http (~> 0.45)
     aws-eventstream (1.4.0)
-    aws-partitions (1.1150.0)
+    aws-partitions (1.1151.0)
     aws-sdk-core (3.230.0)
       aws-eventstream (~> 1, >= 1.3.0)
       aws-partitions (~> 1, >= 1.992.0)
@@ -295,10 +295,10 @@ GEM
       actionpack (>= 5.2)
       activesupport (>= 5.2)
     hashery (2.1.2)
-    herb (0.5.0-aarch64-linux-gnu)
-    herb (0.5.0-arm64-darwin)
-    herb (0.5.0-x86_64-linux-gnu)
-    herb (0.5.0-x86_64-linux-musl)
+    herb (0.6.0-aarch64-linux-gnu)
+    herb (0.6.0-arm64-darwin)
+    herb (0.6.0-x86_64-linux-gnu)
+    herb (0.6.0-x86_64-linux-musl)
     hexapdf (1.4.0)
       cmdparse (~> 3.0, >= 3.0.3)
       geom2d (~> 0.4, >= 0.4.1)
@@ -397,7 +397,7 @@ GEM
       net-smtp
     marcel (1.0.4)
     matrix (0.4.3)
-    metrics (0.13.0)
+    metrics (0.14.0)
     mini_magick (5.3.1)
       logger
     mini_mime (1.1.5)
@@ -550,7 +550,7 @@ GEM
     responders (3.1.1)
       actionpack (>= 5.2)
       railties (>= 5.2)
-    rexml (3.4.1)
+    rexml (3.4.2)
     rqrcode (3.1.0)
       chunky_png (~> 1.0)
       rqrcode_core (~> 2.0)
@@ -653,7 +653,7 @@ GEM
     thruster (0.1.15-x86_64-linux)
     timeout (0.4.3)
     tod (3.1.2)
-    traces (0.17.0)
+    traces (0.18.1)
     truemail (3.3.1)
       simpleidn (~> 0.2.1)
     tsort (0.2.0)
@@ -796,12 +796,12 @@ CHECKSUMS
   appsignal (4.6.0) sha256=22e1c9612423da2de316c67f32aaf3cc4853b01c0c5105e20b59e1e08dcad6e7
   arbre (2.2.0) sha256=d71de0acae2536b96cd795c5ca574ad87bc1bc10a4170d0799509a2cb7a8ba71
   ast (2.4.3) sha256=954615157c1d6a382bc27d690d973195e79db7f55e9765ac7c481c60bdb4d383
-  async (2.27.4) sha256=2a2ef5384d8523ceca7ec616b8bc1788f862ef785549569813ca420a25ac2b3c
+  async (2.28.0) sha256=966c5d1291e00950e6776b0351ff2180a3e761415badb6f6dc348a648fad156e
   async-http (0.91.0) sha256=6b1326ef328d5c2f21e106b1dfee5146f1cddca9b72b71ba39539bc202dbf55f
   async-pool (0.11.0) sha256=2228c4a8d1ca59a259b5f9dab7e0f9f23d57856b195aca1c0aa684a7439ea525
   async-rest (0.19.1) sha256=0f3545f5c43992604c83ffc8273f8e8ace3b055bfec23c5d4cc638b8e974c87f
   aws-eventstream (1.4.0) sha256=116bf85c436200d1060811e6f5d2d40c88f65448f2125bc77ffce5121e6e183b
-  aws-partitions (1.1150.0) sha256=b9411943748b9ca4e78f83242c746ce183ab6428b3ec039c862d0a22d55b0f66
+  aws-partitions (1.1151.0) sha256=57f704d14aa3d4c8f297458cd0b389b197dbe7118bf2c05cb80370fc9e4a1d33
   aws-sdk-core (3.230.0) sha256=4621204bc1893f6364c4ab61080d30b5906833c428984b7797705c2ab70301aa
   aws-sdk-kms (1.110.0) sha256=b8b4a63fb10422ae737a5279ccc3b27a830ecaa355f1d3afde3784843ebda5e4
   aws-sdk-s3 (1.197.0) sha256=ac9e546acd34e08941235f31040eda6dde585ed4d5bc3ee4c1f07ba8f8fde87f
@@ -869,10 +869,10 @@ CHECKSUMS
   globalid (1.2.1) sha256=70bf76711871f843dbba72beb8613229a49429d1866828476f9c9d6ccc327ce9
   has_scope (0.8.2) sha256=48cd53d684aecd55d3ede060b3c1da37bbbcab58e273d99936e271fe6d125a54
   hashery (2.1.2) sha256=d239cc2310401903f6b79d458c2bbef5bf74c46f3f974ae9c1061fb74a404862
-  herb (0.5.0-aarch64-linux-gnu) sha256=2994ff485a583ee7b84231f87bbac36c58a3bad54d79b90ac9611eea59adbb4d
-  herb (0.5.0-arm64-darwin) sha256=79600071c572cf24b6c6bbaf427221d2fa4e9f26ce0ea7df8acfd5a43d1e7dad
-  herb (0.5.0-x86_64-linux-gnu) sha256=37220d42fd85d1573a7a2207427facc8e3797101bcfe1bd4b647c81671c447c4
-  herb (0.5.0-x86_64-linux-musl) sha256=58fb610cb3b6749e8ca0976cdcc53ea25e370f1c29c21bfb755cc68e4b70fa54
+  herb (0.6.0-aarch64-linux-gnu) sha256=a8bcdeded802638634ffa5738af4ed32d11deb1a34b101346f15b162e72a4d95
+  herb (0.6.0-arm64-darwin) sha256=23e1a1772097586b468b310a62fb801f3e878bc258bf44ec2bab7f9d278dd4d5
+  herb (0.6.0-x86_64-linux-gnu) sha256=8d9fef0fc8eca47626959993ca11243789bc8c112de6a04f08d4f951437e8191
+  herb (0.6.0-x86_64-linux-musl) sha256=e066675cf45fa4b7579c35fd6f218a98f717cdf8438acab456393f27b8b590ec
   hexapdf (1.4.0) sha256=3ff029d1a891c097a8b86b74a1613e653d80c2e5cee3804925cf8700f5b727e4
   htmlbeautifier (1.4.3) sha256=b43d08f7e2aa6ae1b5a6f0607b4ed8954c8d4a8e85fd2336f975dda1e4db385b
   htmlentities (4.3.4) sha256=125a73c6c9f2d1b62100b7c3c401e3624441b663762afa7fe428476435a673da
@@ -910,7 +910,7 @@ CHECKSUMS
   mail (2.8.1) sha256=ec3b9fadcf2b3755c78785cb17bc9a0ca9ee9857108a64b6f5cfc9c0b5bfc9ad
   marcel (1.0.4) sha256=0d5649feb64b8f19f3d3468b96c680bae9746335d02194270287868a661516a4
   matrix (0.4.3) sha256=a0d5ab7ddcc1973ff690ab361b67f359acbb16958d1dc072b8b956a286564c5b
-  metrics (0.13.0) sha256=139f3172d196827881a42b90e0b11f1388a530b7d4560728ad6856205757b313
+  metrics (0.14.0) sha256=a8fc5064633e0a2d9d6a151b22e642809094a38171cb0df5767f5f40578febe9
   mini_magick (5.3.1) sha256=29395dfd76badcabb6403ee5aff6f681e867074f8f28ce08d78661e9e4a351c4
   mini_mime (1.1.5) sha256=8681b7e2e4215f2a159f9400b5816d85e9d8c6c6b491e96a12797e798f8bccef
   minitest (5.25.5) sha256=391b6c6cb43a4802bfb7c93af1ebe2ac66a210293f4a3fb7db36f2fc7dc2c756
@@ -982,7 +982,7 @@ CHECKSUMS
   request_store (1.7.0) sha256=e1b75d5346a315f452242a68c937ef8e48b215b9453a77a6c0acdca2934c88cb
   resolv (0.6.2) sha256=61efe545cedddeb1b14f77e51f85c85ca66af5098fdbf567fadf32c34590fb14
   responders (3.1.1) sha256=92f2a87e09028347368639cfb468f5fefa745cb0dc2377ef060db1cdd79a341a
-  rexml (3.4.1) sha256=c74527a9a0a04b4ec31dbe0dc4ed6004b960af943d8db42e539edde3a871abca
+  rexml (3.4.2) sha256=1384268554a37af5da5279431ca3f2f37d46f09ffdd6c95e17cc84c83ea7c417
   rqrcode (3.1.0) sha256=e2d5996375f6e9a013823c289ed575dbea678b8e0388574302c1fac563f098af
   rqrcode_core (2.0.0) sha256=1e40b823ab57a96482a417fff5dd5c33645a00cea6ef5d9e342fecc5ef91d9ab
   rubocop (1.80.0) sha256=a728e4098feba683f37c6825fe5f611782611ec8c50efbae53bdb3a48bff73a8
@@ -1028,7 +1028,7 @@ CHECKSUMS
   thruster (0.1.15-x86_64-linux) sha256=a979a3e493c111940723c08c3b7b3b6f95c5d44af26fe65b6edae1f96fc0deda
   timeout (0.4.3) sha256=9509f079b2b55fe4236d79633bd75e34c1c1e7e3fb4b56cb5fda61f80a0fe30e
   tod (3.1.2) sha256=e67bf57dc67c8ec806edf0b61e6e499b27eea4e1eb23da1907ec77d45226fb08
-  traces (0.17.0) sha256=f024834c638cd69284d010eb0814837fd0bf1c64522648eb4fa1e75e6347eed2
+  traces (0.18.1) sha256=7e3498fa3fa96e4634c1bbf4d315e09f6e258a3649fd399229fcfacf93c5c44e
   truemail (3.3.1) sha256=26e07453e8a174ac487ec76cbca4904446eadad15fb7b26fb1ffcdc894488913
   tsort (0.2.0) sha256=9650a793f6859a43b6641671278f79cfead60ac714148aabe4e3f0060480089f
   ttfunk (1.7.0) sha256=2370ba484b1891c70bdcafd3448cfd82a32dd794802d81d720a64c15d3ef2a96

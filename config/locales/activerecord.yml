@@ -2150,14 +2150,14 @@ _:
       bidding_round:
         one:
           _en: Bidding round
-          _fr: Tour de contributions
+          _fr: Tour d'engagement
           _de: Bietrunde
-          _it: Turno di contributi
+          _it: Turno di impegno
         other:
           _en: Bidding rounds
-          _fr: Tours de contributions
+          _fr: Tours d'engagement
           _de: Bietrunden
-          _it: Turni di contributi
+          _it: Turni di impegno
       contact_sharing:
         one:
           _en: Contact sharing (between members of a depot)

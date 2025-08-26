@@ -1,0 +1,13 @@
+<p>Bidding round #{{ bidding_round.number }} has been successfully completed.</p>
+
+{% if bidding_round_pledge.basket_size_price %}
+  <p>Thank you for your pledge of {{ bidding_round_pledge.basket_size_price }} per basket. This amount has been used to update your membership price.</p>
+{% else %}
+  <p>You didn't make a pledge, so the default basket price ({{ membership.basket_size.price }}) has been applied.</p>
+{% endif %}
+
+<p>You can review the details of your membership at any time.</p>
+
+{% button member.memberships_url %}
+  Review your membership
+{% endbutton %}

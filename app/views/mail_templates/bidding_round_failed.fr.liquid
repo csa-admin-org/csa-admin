@@ -1,0 +1,13 @@
+<p>Le tour d'engagement n°{{ bidding_round.number }} n'a pas atteint son objectif.</p>
+
+{% if bidding_round_pledge.basket_size_price %}
+  <p>Votre engagement était de {{ bidding_round_pledge.basket_size_price }} par panier.</p>
+{% else %}
+  <p>Vous n'aviez pas fixé de montant.</p>
+{% endif %}
+
+<p>Vous pouvez consulter les détails de votre abonnement à tout moment.</p>
+
+{% button member.memberships_url %}
+  Consulter mon abonnement
+{% endbutton %}

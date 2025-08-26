@@ -8,9 +8,9 @@ class BiddingRound::CompletionJob < ApplicationJob
       membership.update!(basket_price: pledge.basket_size_price)
     end
 
-    # MailTemplate.deliver_later("bidding_round_completed",
-    #   bidding_round: bidding_round,
-    #   membership: membership,
-    #   pledge: pledge)
+    membership.reload # Ensure updated price
+    MailTemplate.deliver_later(:bidding_round_completed,
+      bidding_round: bidding_round,
+      membership: membership)
   end
 end

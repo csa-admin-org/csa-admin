@@ -3,3 +3,8 @@ newsletter_block_main:
   name: content_en
   body: |
     Block {{ member.name }}
+
+bidding_round_information_text:
+  record: open_2024 (BiddingRound)
+  name: information_text_en
+  body: <%= I18n.t("bidding_rounds.preview_information_text") %>

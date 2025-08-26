@@ -1,0 +1,13 @@
+<p>Die Bietrunde Nr. {{ bidding_round.number }} wurde erfolgreich abgeschlossen.</p>
+
+{% if bidding_round_pledge.basket_size_price %}
+  <p>Vielen Dank für Ihre Zusage von {{ bidding_round_pledge.basket_size_price }} pro Tasche. Dieser Betrag wurde verwendet, um den Preis Ihrer Tasche zu aktualisieren.</p>
+{% else %}
+  <p>Sie haben keinen Betrag zugesagt, daher wurde der Standardpreis pro Tasche ({{ membership.basket_size.price }}) angewendet.</p>
+{% endif %}
+
+<p>Sie können die Details Ihrer Mitgliedschaft jederzeit einsehen.</p>
+
+{% button member.memberships_url %}
+  Mitgliedschaft ansehen
+{% endbutton %}

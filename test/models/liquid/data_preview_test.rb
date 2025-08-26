@@ -25,7 +25,8 @@ class Liquid::DataPreviewTest < ActiveSupport::TestCase
         "quantity" => 1,
         "size" => {
           "id" => small_id,
-          "name" => "Small basket"
+          "name" => "Small basket",
+          "price" => "CHF 10.00"
         }
       },
       "member" =>  {
@@ -36,6 +37,7 @@ class Liquid::DataPreviewTest < ActiveSupport::TestCase
         "billing_email" => false,
         "billing_url" => "https://members.acme.test/billing",
         "membership_renewal_url" => "https://members.acme.test/memberships#renewal",
+        "memberships_url" => "https://members.acme.test/memberships",
         "name" => "John Doe",
         "page_url" => "https://members.acme.test",
         "shop_depot" => nil
@@ -64,7 +66,8 @@ class Liquid::DataPreviewTest < ActiveSupport::TestCase
         "basket_quantity" => 1,
         "basket_size" => {
           "id" => medium_id,
-          "name" => "Medium basket"
+          "name" => "Medium basket",
+          "price" => "CHF 20.00"
         },
         "delivery_cycle" => {
           "id" => all_id,
@@ -111,6 +114,7 @@ class Liquid::DataPreviewTest < ActiveSupport::TestCase
         "billing_email" => false,
         "billing_url" => "https://members.acme.test/billing",
         "membership_renewal_url" => "https://members.acme.test/memberships#renewal",
+        "memberships_url" => "https://members.acme.test/memberships",
         "name" => "John Doe",
         "page_url" => "https://members.acme.test",
         "shop_depot" => nil
@@ -124,7 +128,8 @@ class Liquid::DataPreviewTest < ActiveSupport::TestCase
       },
       "waiting_basket_size" => {
         "id" => medium_id,
-        "name" => "Medium basket"
+        "name" => "Medium basket",
+        "price" => "CHF 20.00"
       },
       "waiting_basket_size_id" => medium_id,
       "waiting_delivery_cycle" => {
@@ -165,7 +170,8 @@ class Liquid::DataPreviewTest < ActiveSupport::TestCase
         "quantity" => 1,
         "size" => {
           "id" => small_id,
-          "name" => "Small basket"
+          "name" => "Small basket",
+          "price" => "CHF 10.00"
         }
       },
       "member" =>  {
@@ -174,6 +180,7 @@ class Liquid::DataPreviewTest < ActiveSupport::TestCase
         "billing_email" => false,
         "billing_url" => "https://members.acme.test/billing",
         "membership_renewal_url" => "https://members.acme.test/memberships#renewal",
+        "memberships_url" => "https://members.acme.test/memberships",
         "name" => "John Doe",
         "page_url" => "https://members.acme.test"
       },
@@ -198,7 +205,8 @@ class Liquid::DataPreviewTest < ActiveSupport::TestCase
         "basket_quantity" => 1,
         "basket_size" => {
           "id" => medium_id,
-          "name" => "Medium basket"
+          "name" => "Medium basket",
+          "price" => "CHF 20.00"
         },
         "delivery_cycle" => {
           "id" => all_id,

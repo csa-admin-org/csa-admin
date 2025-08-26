@@ -1,0 +1,9 @@
+<p>Promemoria: il turno di impegno n°{{ bidding_round.number }} è ancora aperto.</p>
+
+{{ bidding_round.information_text }}
+
+<p>Non avete ancora fissato un importo. Ci vuole solo un minuto per impostarlo ora.</p>
+
+{% button member.memberships_url %}
+  Imposta il mio importo
+{% endbutton %}

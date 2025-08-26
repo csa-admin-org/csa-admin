@@ -27,18 +27,28 @@ class MailTemplate < ApplicationRecord
     activity_participation_validated
     activity_participation_rejected
   ].freeze
+  BIDDING_ROUND_TITLES = %w[
+    bidding_round_opened
+    bidding_round_opened_reminder
+    bidding_round_completed
+    bidding_round_failed
+  ].freeze
   INVOICE_TITLES = %w[
     invoice_created
     invoice_cancelled
     invoice_overdue_notice
   ].freeze
-  TITLES = MEMBER_TITLES + MEMBERSHIP_TITLES + ABSENCE_TITLES + ACTIVITY_TITLES + INVOICE_TITLES
+  TITLES = MEMBER_TITLES + MEMBERSHIP_TITLES + ABSENCE_TITLES + ACTIVITY_TITLES + BIDDING_ROUND_TITLES + INVOICE_TITLES
   ALWAYS_ACTIVE_TITLES = %w[
     invoice_created
     activity_participation_reminder
   ]
   ACTIVE_BY_DEFAULT_TITLES = ALWAYS_ACTIVE_TITLES + %w[
     invoice_overdue_notice
+    bidding_round_opened
+    bidding_round_opened_reminder
+    bidding_round_completed
+    bidding_round_failed
   ]
   TITLES_WITH_DELIVERY_CYCLES_SCOPE = MEMBERSHIP_TITLES - %w[
     membership_renewal
@@ -63,6 +73,7 @@ class MailTemplate < ApplicationRecord
   scope :membership, -> { where(title: MEMBERSHIP_TITLES) }
   scope :absence, -> { where(title: ABSENCE_TITLES) }
   scope :activity, -> { where(title: ACTIVITY_TITLES) }
+  scope :bidding_round, -> { where(title: BIDDING_ROUND_TITLES) }
   scope :invoice, -> { where(title: INVOICE_TITLES) }
 
   def self.deliver_now(title, **args)
@@ -91,6 +102,7 @@ class MailTemplate < ApplicationRecord
   end
 
   def mail_preview(locale)
+    ensure_liquid_data_previews
     mailer_preview.call(email_method,
       template: self,
       locale: locale
@@ -138,16 +150,28 @@ class MailTemplate < ApplicationRecord
     title.in?(TITLES_WITH_DELIVERY_CYCLES_SCOPE)
   end
 
+  def scope_name
+    if title.in?(BIDDING_ROUND_TITLES)
+      "bidding_round"
+    else
+      title.split("_").first
+    end
+  end
+
+  def scope_class
+    scope_name.classify.constantize
+  end
+
   def mailer
-    "#{title.split('_').first}_mailer".classify.constantize
+    "#{scope_name}_mailer".classify.constantize
   end
 
   def mailer_preview
-    "#{title.split('_').first}_mailer_preview".classify.constantize
+    "#{scope_name}_mailer_preview".classify.constantize
   end
 
   def email_method
-    "#{title.split('_').drop(1).join('_')}_email"
+    "#{title.gsub(/^#{scope_name}_/, "")}_email"
   end
 
   def contents=(hash)
@@ -170,12 +194,21 @@ class MailTemplate < ApplicationRecord
     end
   end
 
-  def active
-    if title == "invoice_overdue_notice" && !Current.org.bank_connection?
-      false
+  def inactive?
+    case title
+    when "invoice_overdue_notice"
+      !Current.org.bank_connection?
+    when "membership_renewal_reminder"
+      Current.org.open_renewal_reminder_sent_after_in_days.blank?
+    when "bidding_round_opened_reminder"
+      Current.org.open_bidding_round_reminder_sent_after_in_days.blank?
     else
-      super
+      false
     end
+  end
+
+  def active
+    inactive? ? false : super
   end
 
   def delivery_cycle_ids=(ids)
@@ -189,6 +222,12 @@ class MailTemplate < ApplicationRecord
   end
 
   private
+
+  def ensure_liquid_data_previews
+    return if @liquid_data_previews
+
+    self.liquid_data_preview_yamls = liquid_data_preview_yamls
+  end
 
   def subjects_must_be_valid
     validate_liquid(:subjects)
