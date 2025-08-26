@@ -182,9 +182,9 @@ _:
       bidding_round:
         information_text:
           _en: Information text displayed in the member account when pledging for the bidding round. It's also included in the email sent to the member by default.
-          _fr: Texte d'information affiché dans le compte membre lors de la participation à un tour de contributions. Il est également inclus dans l'e-mail envoyé au membre par défaut.
-          _de: Informations-Text, der im Mitgliedskonto angezeigt wird, wenn für eine Bietrunde beitragen wird. Er wird auch in der Standard-E-Mail an den Mitglied gesendet.
-          _it: Testo informativo visualizzato nel conto membro durante la partecipazione a un turno di contributi. Viene anche incluso nell'e-mail inviata al membro per impostazione predefinita.
+          _fr: Texte d'information affiché dans le compte membre lors de la participation à un tour d'engagement. Il est également inclus par défaut dans l'email envoyé au membre.
+          _de: Informationstext, der im Mitgliedskonto angezeigt wird, wenn für eine Bietrunde zugesagt wird. Er ist standardmäßig auch in der an das Mitglied gesendeten E-Mail enthalten.
+          _it: Testo informativo visualizzato nell'account del socio durante la partecipazione a un turno di impegno. Per impostazione predefinita è incluso anche nell'email inviata al socio.
       delivery:
         basket_complements:
           _en: All memberships that have subscribed to these supplements and include this/these new date(s) will be automatically updated.
@@ -346,6 +346,11 @@ _:
           _fr: Uniquement envoyer cet email aux abonnement utilisant les cycles de livraison sélectionnés.
           _de: Diese E-Mail nur an Abonnements senden, die die ausgewählten Lieferzyklen verwenden.
           _it: Invia questa email solo agli abbonamenti che utilizzano i cicli di consegna selezionati.
+        disabled_settings:
+          _en: This email is disabled because of the current settings.
+          _fr: Cette email est désactivée en raison des paramètres actuels.
+          _de: Diese E-Mail ist deaktiviert, da die aktuellen Einstellungen aktiv sind.
+          _it: Questa email è disabilitata a causa delle impostazioni correnti.
         invoice_overdue_notice:
           _en: This email will be sent by default once payments are processed automatically.
           _fr: Cet email sera envoyé par défaut une fois que les paiements seront traités automatiquement.
@@ -839,9 +844,9 @@ _:
           _it: Titolo dell'articolo sulla fattura inviata ai nuovi soci.
         open_bidding_round_reminder_sent_after_in_days:
           _en: The reminder is sent only once, X days after the bidding round is opened. Leave blank if no reminder.
-          _fr: Le rappel n'est envoyé qu'une seule fois, X jours après l'ouverture du tour de contribution. Laisser vide si aucun rappel.
+          _fr: Le rappel n'est envoyé qu'une seule fois, X jours après l'ouverture du tour d'engagement. Laisser vide si aucun rappel.
           _de: Die Erinnerung wird nur einmal verschickt, und zwar X Tage, nachdem die Bietrunde eröffnet wurde. Lassen Sie das Feld leer, wenn keine Erinnerung erfolgt.
-          _it: Il promemoria è inviato una sola volta, X giorni dopo l'apertura del turno di contributi. Lasciare vuoto se non c'è alcun promemoria.
+          _it: Il promemoria è inviato una sola volta, X giorni dopo l'apertura del turno di impegno. Lasciare vuoto se non c'è alcun promemoria.
         open_renewal_reminder_sent_after_in_days:
           _en: The reminder is sent only once, X days after the renewal request is sent. Leave blank if no reminder.
           _fr: Le rappel n'est envoyé qu'une seule fois, X jours après l'envoi de la demande de renouvellement. Laisser vide si aucun rappel.

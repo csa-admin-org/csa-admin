@@ -1,0 +1,9 @@
+<p>Reminder: bidding round #{{ bidding_round.number }} is still open.</p>
+
+{{ bidding_round.information_text }}
+
+<p>You haven't made a pledge yet. It only takes a minute to set yours now.</p>
+
+{% button member.memberships_url %}
+  Make your pledge
+{% endbutton %}

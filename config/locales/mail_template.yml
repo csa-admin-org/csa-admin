@@ -26,6 +26,26 @@ _:
         _fr: "Activité validée \U0001F389"
         _de: "Bestätigte Aktivität \U0001F389"
         _it: "Attività confermata \U0001F389"
+      bidding_round_completed:
+        _en: "Bidding round #{{ bidding_round.number }} completed \U0001F389"
+        _fr: "Tour d'engagement n°{{ bidding_round.number }} terminé \U0001F389"
+        _de: "Bietrunde Nr. {{ bidding_round.number }} abgeschlossen \U0001F389"
+        _it: "Turno di impegno n°{{ bidding_round.number }} completato \U0001F389"
+      bidding_round_failed:
+        _en: "Bidding round #{{ bidding_round.number }} failed \U0001F62C"
+        _fr: "Tour d'engagement n°{{ bidding_round.number }} échoué \U0001F62C"
+        _de: "Bietrunde Nr. {{ bidding_round.number }} fehlgeschlagen \U0001F62C"
+        _it: "Turno di impegno n°{{ bidding_round.number }} è fallito \U0001F62C"
+      bidding_round_opened:
+        _en: 'Bidding round #{{ bidding_round.number }} is open'
+        _fr: Tour d'engagement n°{{ bidding_round.number }} ouvert
+        _de: Bietrunde Nr. {{ bidding_round.number }} ist offen
+        _it: Turno di impegno n°{{ bidding_round.number }} è aperto
+      bidding_round_opened_reminder:
+        _en: 'Bidding round #{{ bidding_round.number }} is open (reminder)'
+        _fr: Tour d'engagement n°{{ bidding_round.number }} ouvert (rappel)
+        _de: Bietrunde Nr. {{ bidding_round.number }} ist offen (Erinnerung)
+        _it: Turno di impegno n°{{ bidding_round.number }} è aperto (promemoria)
       invoice_cancelled:
         _en: 'Cancelled invoice #{{ invoice.number }}'
         _fr: 'Facture annulée #{{ invoice.number }}'
@@ -83,7 +103,7 @@ _:
         _it: Rinnovo del vostro abbonamento
       membership_renewal_reminder:
         _en: Renew your membership (reminder)
-        _fr: Renouvellement de votre abonnement (Rappel)
+        _fr: Renouvellement de votre abonnement (rappel)
         _de: Ihr Abonnement verlängern (Mahnung)
         _it: Rinnovo del vostro abbonamento (promemoria)
     description:
@@ -112,6 +132,26 @@ _:
         _fr: Envoyé quand une participation à une activité est validée.
         _de: Wird gesendet, wenn die Teilnahme an einer Aktivität bestätigt wird.
         _it: Inviato quando viene convalidata una partecipazione a un'attività.
+      bidding_round_completed:
+        _en: Sent to notify the members that the bidding round has been completed with success. Sent to all eligible members, even if they have not pledged.
+        _fr: Envoyé pour informer les membres que le tour d'engagement est terminé avec succès. Envoyé à tous les membres concernés, même s'ils n'ont pas fixé leur montant.
+        _de: Wird gesendet, um die Mitglieder zu informieren, dass die Bietrunde erfolgreich abgeschlossen wurde. An alle berechtigten Mitglieder gesendet, auch wenn sie keinen Betrag zugesagt haben.
+        _it: Inviato per informare i soci che il turno di impegno è stato completato con successo. Inviato a tutti i soci eleggibili, anche se non hanno promesso un importo.
+      bidding_round_failed:
+        _en: Sent to notify the members that the bidding round has failed. Sent to all eligible members, even if they have not pledged.
+        _fr: Envoyé pour informer les membres que le tour d'engagement a échoué. Envoyé à tous les membres concernés, même s'ils n'ont pas fixé leur montant.
+        _de: Wird gesendet, um die Mitglieder zu informieren, dass die Bietrunde fehlgeschlagen ist. An alle berechtigten Mitglieder gesendet, auch wenn sie keinen Betrag zugesagt haben.
+        _it: Inviato per informare i soci che il turno di impegno è fallito. Inviato a tutti i soci eleggibili, anche se non hanno promesso un importo.
+      bidding_round_opened:
+        _en: Sent when a bidding round is opened to all eligible members.
+        _fr: Envoyé quand un tour d'engagement est ouvert à tous les membres concernés.
+        _de: Wird gesendet, wenn eine Bietrunde für alle berechtigten Mitglieder geöffnet wird.
+        _it: Inviato quando un turno di impegno viene aperto a tutti i soci eleggibili.
+      bidding_round_opened_reminder:
+        _en: Sent to remind the members that they have not yet pledged for the open bidding round (see <a href='/settings#bidding_round'>settings</a> for the deadline).
+        _fr: Envoyé pour rappeler aux membres qu'ils n'ont pas encore fixé leur montant au tour d'engagement ouvert (voir <a href='/settings#bidding_round'>paramètres</a> pour la date limite).
+        _de: Gesendet, um die Mitglieder daran zu erinnern, dass sie für die offene Bietrunde noch keinen Betrag zugesagt haben (siehe <a href='/settings#bidding_round'>die Einstellungen</a> für die Frist).
+        _it: Inviato per ricordare al socio che non ha ancora promesso un importo per il turno di impegno aperto (vedi <a href='/settings#bidding_round'>parametri</a> per le scadenze).
       invoice_cancelled:
         _en: Sent when an open invoice is cancelled.
         _fr: Envoyé quand une facture encore ouverte est annulée.
@@ -198,6 +238,26 @@ _:
         _fr: Activité validée
         _de: Bestätigte Aktivität
         _it: Attività confermata
+      bidding_round_completed:
+        _en: Bidding Round Completed
+        _fr: Tour d'engagement terminé
+        _de: Gebotsrunde abgeschlossen
+        _it: Turno di offerta completato
+      bidding_round_failed:
+        _en: Bidding Round Failed
+        _fr: Tour d'engagement échoué
+        _de: Gebotsrunde fehlgeschlagen
+        _it: Turno di offerta fallito
+      bidding_round_opened:
+        _en: Bidding Round Opened
+        _fr: Tour d'engagement ouvert
+        _de: Gebotsrunde geöffnet
+        _it: Turno di offerta aperto
+      bidding_round_opened_reminder:
+        _en: Bidding Round Opened (Reminder)
+        _fr: Tour d'engagement ouvert (Rappel)
+        _de: Gebotsrunde geöffnet (Mahnung)
+        _it: Turno di offerta aperto (Promemoria)
       invoice_cancelled:
         _en: Cancelled Invoice
         _fr: Facture annulée

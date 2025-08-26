@@ -1,0 +1,9 @@
+<p>Rappel: le tour d'engagement n°{{ bidding_round.number }} est toujours ouvert.</p>
+
+{{ bidding_round.information_text }}
+
+<p>Vous n'avez pas encore fixé de montant. Cela ne prend qu'une minute pour le définir maintenant.</p>
+
+{% button member.memberships_url %}
+  Fixer mon montant
+{% endbutton %}

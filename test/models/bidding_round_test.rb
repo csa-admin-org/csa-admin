@@ -157,15 +157,25 @@ class BiddingRoundTest < ActiveSupport::TestCase
   end
 
   test "open!" do
+    mail_templates(:bidding_round_opened)
+
     bidding_rounds(:open_2024).delete
     bidding_round = bidding_rounds(:draft_2024)
 
     assert_changes -> { bidding_round.state }, from: "draft", to: "open" do
       bidding_round.open!
     end
+
+    assert_difference "BiddingRoundMailer.deliveries.size", 4 do
+      perform_enqueued_jobs
+    end
+    mail = BiddingRoundMailer.deliveries.last
+    assert_equal "Bidding round #2 is open", mail.subject
   end
 
   test "complete!" do
+    mail_templates(:bidding_round_completed)
+
     bidding_round = bidding_rounds(:open_2024)
     membership = memberships(:jane)
     BiddingRound::Pledge.create!(
@@ -175,15 +185,21 @@ class BiddingRoundTest < ActiveSupport::TestCase
 
     assert_changes -> { bidding_round.state }, from: "open", to: "completed" do
       assert_changes -> { membership.reload.basket_price }, from: 30, to: 31 do
-        perform_enqueued_jobs do
-          bidding_round.complete!
+        assert_difference "BiddingRoundMailer.deliveries.size", 4 do
+          perform_enqueued_jobs do
+            bidding_round.complete!
+          end
         end
       end
     end
     assert_equal [ 31 ], membership.baskets.pluck(:basket_price).uniq
+    mail = BiddingRoundMailer.deliveries.last
+    assert_equal "Bidding round #1 completed 🎉", mail.subject
   end
 
   test "fail! changes state to failed" do
+    mail_templates(:bidding_round_failed)
+
     bidding_round = bidding_rounds(:open_2024)
     membership = memberships(:jane)
     BiddingRound::Pledge.create!(
@@ -197,5 +213,11 @@ class BiddingRoundTest < ActiveSupport::TestCase
       end
     end
     assert_equal [ 30 ], membership.baskets.pluck(:basket_price).uniq
+
+    assert_difference "BiddingRoundMailer.deliveries.size", 4 do
+      perform_enqueued_jobs
+    end
+    mail = BiddingRoundMailer.deliveries.last
+    assert_equal "Bidding round #1 failed 😬", mail.subject
   end
 end

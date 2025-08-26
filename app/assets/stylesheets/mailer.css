@@ -480,6 +480,7 @@ p {
 
 .trix-content {
   line-height: 1.5;
+  margin: 0.4em 0 1.1875em;
 }
 .trix-content * {
   box-sizing: border-box;

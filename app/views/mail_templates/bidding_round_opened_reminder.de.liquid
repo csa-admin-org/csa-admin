@@ -1,0 +1,9 @@
+<p>Erinnerung: Die Bietrunde Nr. {{ bidding_round.number }} ist noch offen.</p>
+
+{{ bidding_round.information_text }}
+
+<p>Sie haben noch keinen Betrag zugesagt. Es dauert nur eine Minute, Ihren Betrag jetzt festzulegen.</p>
+
+{% button member.memberships_url %}
+  Betrag festlegen
+{% endbutton %}

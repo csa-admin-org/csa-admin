@@ -1,0 +1,13 @@
+<p>Le tour d'engagement n°{{ bidding_round.number }} s'est terminé avec succès.</p>
+
+{% if bidding_round_pledge.basket_size_price %}
+  <p>Merci pour votre engagement de {{ bidding_round_pledge.basket_size_price }} par panier. Ce montant a été utilisé pour mettre à jour le prix de votre panier.</p>
+{% else %}
+  <p>Vous n'aviez pas fixé de montant, le prix par défaut du panier ({{ membership.basket_size.price }}) a été appliqué.</p>
+{% endif %}
+
+<p>Vous pouvez consulter les détails de votre abonnement à tout moment.</p>
+
+{% button member.memberships_url %}
+  Consulter mon abonnement
+{% endbutton %}

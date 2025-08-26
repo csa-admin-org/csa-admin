@@ -47,7 +47,7 @@ _:
         _en: Completed
         _fr: Terminé
         _de: Beendet
-        _it: Completate
+        _it: Completato
       draft:
         _en: Draft
         _fr: Brouillon
@@ -57,12 +57,12 @@ _:
         _en: Failed
         _fr: Échoué
         _de: Fehlgeschlagen
-        _it: Fallite
+        _it: Fallito
       open:
         _en: Open
         _fr: Ouvert
-        _de: Offene
-        _it: Aperte
+        _de: Offen
+        _it: Aperto
     invoice:
       canceled:
         _en: canceled

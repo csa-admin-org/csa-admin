@@ -7,10 +7,14 @@ ActiveAdmin.register MailTemplate do
   breadcrumb do
     case params["action"]
     when "show"
-      [ link_to(MailTemplate.model_name.human(count: 2), mail_templates_path) ]
+      [
+        link_to(MailTemplate.model_name.human(count: 2), mail_templates_path),
+        link_to(resource.scope_class.model_name.human, mail_templates_path(scope: resource.scope_name))
+      ]
     when "edit", "update"
       [
         link_to(MailTemplate.model_name.human(count: 2), mail_templates_path),
+        link_to(resource.scope_class.model_name.human, mail_templates_path(scope: resource.scope_name)),
         link_to(resource.display_name, resource)
       ]
     end
@@ -24,6 +28,8 @@ ActiveAdmin.register MailTemplate do
     if: -> { feature?("absence") }
   scope -> { Activity.model_name.human }, :activity,
     if: -> { feature?("activity") }
+  scope -> { BiddingRound.model_name.human }, :bidding_round,
+    if: -> { feature?("bidding_round") }
 
   action_item :view, only: :index, if: -> { authorized?(:update, Organization) } do
     action_link t(".settings"), edit_organization_path(anchor: "mail"), icon: "adjustments-horizontal"
@@ -94,11 +100,16 @@ ActiveAdmin.register MailTemplate do
             input_html: { disabled: true },
             required: false,
             hint: t("formtastic.hints.mail_template.always_active")
-        elsif mail_template.title == "invoice_overdue_notice" && !Current.org.bank_connection?
+        elsif mail_template.inactive? && mail_template.title == "invoice_overdue_notice"
           f.input :active,
             input_html: { disabled: true },
             required: false,
             hint: t("formtastic.hints.mail_template.invoice_overdue_notice")
+        elsif mail_template.inactive?
+          f.input :active,
+            input_html: { disabled: true },
+            required: false,
+            hint: t("formtastic.hints.mail_template.disabled_settings")
         else
           f.input :active,
             hint: !mail_template.active?,

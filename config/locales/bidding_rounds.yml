@@ -2,16 +2,21 @@ _:
   bidding_rounds:
     pledge_missing_notice:
       _en: 'The bidding round #%{number} is open, make a pledge!'
-      _fr: 'Le tour de contributions #%{number} est ouvert, fixez votre montant!'
-      _de: 'Die Bietrunde #%{number} ist offen, versprechen Sie Ihren Betrag!'
-      _it: 'Il turno di contributi #%{number} è aperto, inserisci il tuo importo!'
+      _fr: Le tour d'engagement n°%{number} est ouvert, fixez votre montant!
+      _de: Die Bietrunde Nr. %{number} ist offen, legen Sie Ihren Betrag fest!
+      _it: Il turno di impegno n°%{number} è aperto, fissate il vostro importo!
     pledged_notice:
       _en: 'Thank you for your pledge for the bidding round #%{number}'
-      _fr: 'Merci pour votre engagement pour le tour de contributions #%{number}'
-      _de: 'Vielen Dank für Ihre Zusage für die Bietrunde #%{number}'
-      _it: 'Grazie per la tua offerta per il turno di contributi #%{number}'
+      _fr: Merci pour votre participation au tour d'engagement n°%{number}
+      _de: Vielen Dank für Ihre Zusage zur Bietrunde Nr. %{number}
+      _it: Grazie per la vostra partecipazione al turno di impegno n°%{number}
+    preview_information_text:
+      _en: "<p>Welcome to the bidding round!</p><p>Here is some information about the bidding round.</p>"
+      _fr: "<p>Bienvenue dans le tour d'engagement!</p><p>Ici se trouve des informations sur le tour d'engagement.</p>"
+      _de: "<p>Willkommen zur Bietrunde!</p><p>Hier ist Informationen über die Bietrunde.</p>"
+      _it: "<p>Benvenuti nel turno di impegno!</p><p>Qui ci sono alcune informazioni sul turno di impegno.</p>"
     title:
       _en: 'Bidding Round %{year} #%{number}'
-      _fr: 'Tour de contributions %{year} #%{number}'
-      _de: 'Bietrunde %{year} #%{number}'
-      _it: 'Turno di contributi %{year} #%{number}'
+      _fr: Tour d'engagement %{year} n°%{number}
+      _de: Bietrunde %{year} Nr. %{number}
+      _it: Turno di impegno %{year} n°%{number}

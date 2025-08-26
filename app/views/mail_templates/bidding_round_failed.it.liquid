@@ -1,0 +1,13 @@
+<p>Il turno di impegno n°{{ bidding_round.number }} non ha raggiunto il suo obiettivo.</p>
+
+{% if bidding_round_pledge.basket_size_price %}
+  <p>Il vostro impegno era di {{ bidding_round_pledge.basket_size_price }} per cestino.</p>
+{% else %}
+  <p>Non avete fissato un importo.</p>
+{% endif %}
+
+<p>Potete consultare in qualsiasi momento i dettagli del vostro abbonamento.</p>
+
+{% button member.memberships_url %}
+  Visualizza il mio abbonamento
+{% endbutton %}
