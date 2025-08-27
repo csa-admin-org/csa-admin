@@ -19,6 +19,8 @@ module Notifier
     send_activity_participation_reminder_emails
     send_activity_participation_validated_emails
     send_activity_participation_rejected_emails
+
+    send_bidding_round_opened_reminder_emails
   end
 
   def send_all_hourly
@@ -190,7 +192,7 @@ module Notifier
     return unless MailTemplate.active_template(:membership_renewal_reminder)
 
     in_days = Current.org.open_renewal_reminder_sent_after_in_days
-    return unless in_days
+    return if in_days.blank?
 
     memberships =
       Membership
@@ -277,6 +279,36 @@ module Notifier
       Admin.notify!(:new_activity_participation, **attrs)
       Admin.notify!(:new_activity_participation_with_note, **attrs) if group.note?
       group.touch(:admins_notified_at)
+    end
+  end
+
+  def send_bidding_round_opened_reminder_emails
+    return unless Current.org.feature?("bidding_round")
+    return unless MailTemplate.active_template(:bidding_round_opened_reminder)
+
+    in_days = Current.org.open_bidding_round_reminder_sent_after_in_days
+    return if in_days.blank?
+
+    bidding_round = BiddingRound.current_open
+    return unless bidding_round
+
+    delay = bidding_round.created_at + in_days.days
+    return if delay.future?
+
+    memberships =
+      bidding_round
+        .eligible_memberships
+        .where.not(id: bidding_round.pledges.select(:membership_id))
+        .merge(
+          Membership.where(bidding_round_opened_reminder_sent_at: ..delay)
+            .or(Membership.where(bidding_round_opened_reminder_sent_at: nil))
+        )
+
+    memberships.find_each do |membership|
+      MailTemplate.deliver_later(:bidding_round_opened_reminder,
+        bidding_round: bidding_round,
+        membership: membership)
+      membership.touch(:bidding_round_opened_reminder_sent_at)
     end
   end
 end
