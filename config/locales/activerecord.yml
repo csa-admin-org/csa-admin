@@ -336,6 +336,32 @@ _:
           _fr: Complément
           _de: Zusatz
           _it: Aggiunte
+      bidding_round:
+        default_basket_size_price:
+          _en: Basket size price (default)
+          _fr: Prix par taille de panier (défaut)
+          _de: Preis pro Taschengrösse (Standard)
+          _it: Prezzo per cesta (predefinito)
+        default_membership_price:
+          _en: Membership price (default)
+          _fr: Prix de l'abonnement (défaut)
+          _de: Abonnementpreis (Standard)
+          _it: Prezzo abbonamento (predefinito)
+        pledged_at:
+          _en: Pledged at
+          _fr: Engagé le
+          _de: Versprochen am
+          _it: Prestato il
+        pledged_basket_size_price:
+          _en: Basket size price (pledged)
+          _fr: Prix par taille de panier (engagé)
+          _de: Preis pro Taschengrösse (versprochen)
+          _it: Prezzo per cesta (prestato)
+        pledged_membership_price:
+          _en: Membership price (pledged)
+          _fr: Prix de l'abonnement (engagé)
+          _de: Abonnementpreis (versprochen)
+          _it: Prezzo abbonamento (prestato)
       bidding_round/pledge:
         basket_size_price:
           _en: Price per basket
