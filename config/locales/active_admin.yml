@@ -19,10 +19,10 @@ _:
           _de: Importieren
           _it: Importare
         text:
-          _en: 'Import all basket contents from the following delivery:'
-          _fr: 'Importer tous les contenus de la livraison suivante:'
-          _de: 'Importieren Sie alle Tascheninhalte von der folgenden Lieferung:'
-          _it: 'Importare tutti i contenuti della consegna seguente:'
+          _en: "Import all basket contents from the following delivery:"
+          _fr: "Importer tous les contenus de la livraison suivante:"
+          _de: "Importieren Sie alle Tascheninhalte von der folgenden Lieferung:"
+          _it: "Importare tutti i contenuti della consegna seguente:"
       duplicate_all_to:
         button:
           _en: Duplicate
@@ -30,10 +30,10 @@ _:
           _de: Duplizieren
           _it: Duplicare
         text:
-          _en: 'Duplicate all basket contents from this delivery to the delivery on:'
-          _fr: 'Dupliquer tous les contenus de cette livraison vers celle du:'
-          _de: 'Duplizieren Sie alle Tascheninhalte von dieser Lieferung auf die Lieferung vom:'
-          _it: 'Duplicare tutti i contenuti di questa consegna in quella di:'
+          _en: "Duplicate all basket contents from this delivery to the delivery on:"
+          _fr: "Dupliquer tous les contenus de cette livraison vers celle du:"
+          _de: "Duplizieren Sie alle Tascheninhalte von dieser Lieferung auf die Lieferung vom:"
+          _it: "Duplicare tutti i contenuti di questa consegna in quella di:"
     batch_actions:
       action_label:
         _en: "%{title} the selected items"
@@ -226,10 +226,10 @@ _:
       _de: Details
       _it: Dettagli
     download:
-      _en: 'Download :'
-      _fr: 'Télécharger :'
-      _de: 'Herunterladen :'
-      _it: 'Scaricare :'
+      _en: "Download :"
+      _fr: "Télécharger :"
+      _de: "Herunterladen :"
+      _it: "Scaricare :"
     dropdown_actions:
       button_label:
         _en: Actions
@@ -660,10 +660,10 @@ _:
           _de: Tasche und Depot
           _it: Cesta e punto di ritiro
         basket_content:
-          _en: 'Content: %{content}'
-          _fr: 'Contenu: %{content}'
-          _de: 'Inhalt: %{content}'
-          _it: 'Contenuto: %{content}'
+          _en: "Content: %{content}"
+          _fr: "Contenu: %{content}"
+          _de: "Inhalt: %{content}"
+          _it: "Contenuto: %{content}"
         basket_shift_declined:
           _en: Member does not want to shift this absence.
           _fr: Le membre ne désire pas déplacer cette absence.
@@ -685,15 +685,15 @@ _:
           _de: Keine Verschiebung
           _it: Nessun spostamento
         basket_shift_target_description:
-          _en: 'Delivery on %{source_date}: %{description}'
-          _fr: 'Livraison du %{source_date}: %{description}'
-          _de: 'Lieferung am %{source_date}: %{description}'
-          _it: 'Consegna del %{source_date}: %{description}'
+          _en: "Delivery on %{source_date}: %{description}"
+          _fr: "Livraison du %{source_date}: %{description}"
+          _de: "Lieferung am %{source_date}: %{description}"
+          _it: "Consegna del %{source_date}: %{description}"
         basket_shift_targets_explanation:
-          _en: 'Part of the content of this basket compensates the following deliveries:'
-          _fr: 'Une partie du contenu de ce panier compense les livraisons suivantes:'
-          _de: 'Ein Teil des Inhalts dieses Tasches kompensiert die folgenden Lieferungen:'
-          _it: 'Parte del contenuto di questo cestino compensa le seguenti consegne:'
+          _en: "Part of the content of this basket compensates the following deliveries:"
+          _fr: "Une partie du contenu de ce panier compense les livraisons suivantes:"
+          _de: "Ein Teil des Inhalts dieses Tasches kompensiert die folgenden Lieferungen:"
+          _it: "Parte del contenuto di questo cestino compensa le seguenti consegne:"
         basket_shift_title:
           _en: Shift (absence)
           _fr: Déplacement (absence)
@@ -1465,6 +1465,16 @@ _:
           _fr: Montant attendu
           _de: Gesamtwert erwartet
           _it: Importo previsto
+        total_final_value:
+          _en: Total amount
+          _fr: Montant total
+          _de: Gesamtbetrag
+          _it: Importo totale
+        total_final_value_explanation:
+          _en: Final amount, assuming the default basket size price is applied to all memberships that have not yet received a pledge.
+          _fr: Montant total, en supposant que le prix par défaut de la taille du panier est appliqué à toutes les abonnements qui n'ont pas encore reçu un engagement.
+          _de: Gesamtbetrag, unter der Annahme, dass der Standardpreis der Taschengröße auf alle Abonnements angewendet wird, die noch keine Zusage erhalten haben.
+          _it: Importo finale, assumendo che il prezzo predefinito della dimensione del cestino venga applicato a tutti gli abbonamenti che non hanno ancora ricevuto una promessa.
         total_pledged_percentage:
           _en: Covered amount
           _fr: Montant couvert
@@ -1974,15 +1984,15 @@ _:
         _it: Promemoria
     search_status:
       current_filters:
-        _en: 'Current filters:'
-        _fr: 'Filtre courant:'
-        _de: 'Aktuelles Filter:'
-        _it: 'Filtri correnti:'
+        _en: "Current filters:"
+        _fr: "Filtre courant:"
+        _de: "Aktuelles Filter:"
+        _it: "Filtri correnti:"
       headline:
-        _en: 'Scope:'
-        _fr: 'Scope:'
-        _de: 'Gültigkeitsbereich:'
-        _it: 'Scopo:'
+        _en: "Scope:"
+        _fr: "Scope:"
+        _de: "Gültigkeitsbereich:"
+        _it: "Scopo:"
       no_current_filters:
         _en: None
         _fr: Aucun
@@ -2352,10 +2362,10 @@ _:
           _de: Die Mahnungen werden nicht automatisch versendet, solange die Zahlungen nicht ebenfalls automatisch verarbeitet werden (EBICS).
           _it: I promemoria non vengono inviati automaticamente finché i pagamenti non vengono elaborati automaticamente (EBICS).
         overpaid:
-          _en: 'Overpaid:'
-          _fr: 'Payé en trop:'
-          _de: 'Überbezahlt:'
-          _it: 'Pagamento in eccesso:'
+          _en: "Overpaid:"
+          _fr: "Payé en trop:"
+          _de: "Überbezahlt:"
+          _it: "Pagamento in eccesso:"
         pages:
           _en: Pages
           _fr: Pages
@@ -2526,11 +2536,11 @@ _:
         _fr: Brouillon
         _de: Entwurf
         _it: Bozza
-      'false':
-        _en: 'no'
+      "false":
+        _en: "no"
         _fr: non
         _de: nein
-        _it: 'no'
+        _it: "no"
       future:
         _en: future
         _fr: à venir
@@ -2626,8 +2636,8 @@ _:
         _fr: essai
         _de: probe
         _it: prova
-      'true':
-        _en: 'yes'
+      "true":
+        _en: "yes"
         _fr: oui
         _de: ja
         _it: si

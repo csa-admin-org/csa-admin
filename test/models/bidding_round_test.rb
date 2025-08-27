@@ -79,7 +79,7 @@ class BiddingRoundTest < ActiveSupport::TestCase
 
   test "total_expected_value calculates from memberships" do
     bidding_round = bidding_rounds(:open_2024)
-    assert_equal 30 + 10 * 20 + 10 + 10 * 30, bidding_round.total_expected_value
+    assert_equal 34 + 10 * 20 + 19 + 10 * 38, bidding_round.total_expected_value
   end
 
   test "total_pledged_value calculates from pledges" do
@@ -89,7 +89,7 @@ class BiddingRoundTest < ActiveSupport::TestCase
       membership: memberships(:jane),
       basket_size_price: 31.0)
 
-    assert_equal 10 * 31, bidding_round.total_pledged_value
+    assert_equal 10 * (31 + 8), bidding_round.total_pledged_value
   end
 
   test "total_pledged_percentage" do
@@ -99,8 +99,7 @@ class BiddingRoundTest < ActiveSupport::TestCase
       membership: memberships(:jane),
       basket_size_price: 31.0)
 
-    # 310 / 540
-    assert_equal 57.41, bidding_round.total_pledged_percentage
+    assert_equal 61.61, bidding_round.total_pledged_percentage
   end
 
   test "missing_pledges_count" do
