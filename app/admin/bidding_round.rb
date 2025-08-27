@@ -81,10 +81,21 @@ ActiveAdmin.register BiddingRound do
             end
           end
         end
+        panel nil do
+          ul class: "grid grid-cols-2 gap-4 m-4" do
+            li do
+              counter_tag(t(".total_final_value").capitalize, bidding_round.total_final_value, type: :currency)
+            end
+            li do
+              counter_tag(t(".total_pledged_percentage").capitalize, bidding_round.total_final_percentage, type: :percentage)
+            end
+          end
+          para t(".total_final_value_explanation"), class: "m-4 text-center italic text-sm text-gray-500"
+        end
       end
 
       column do
-        panel t(".details") do
+        panel t(".details"), action: handbook_icon_link("bidding_round") do
           attributes_table do
             row(:created_at)
             unless bidding_round.draft?

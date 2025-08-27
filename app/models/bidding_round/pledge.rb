@@ -29,6 +29,10 @@ class BiddingRound::Pledge < ApplicationRecord
     membership.price - membership.basket_sizes_price + total_membership_baskets_price
   end
 
+  def total_membership_price_difference
+    total_membership_price - membership.price
+  end
+
   def price_difference_from_default
     basket_size_price - membership.basket_size.price
   end

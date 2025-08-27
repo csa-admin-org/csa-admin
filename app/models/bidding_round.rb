@@ -71,12 +71,21 @@ class BiddingRound < ApplicationRecord
   end
 
   def total_expected_value
-    @total_expected_value ||=
-      eligible_memberships.joins(:basket_size).sum("basket_sizes.price * baskets_count * basket_quantity")
+    @total_expected_value ||= eligible_memberships.sum(:price)
+  end
+
+  def total_final_value
+    @total_final_value ||= total_expected_value + pledges.includes(:membership).sum(&:total_membership_price_difference)
+  end
+
+  def total_final_percentage
+    return 0 if total_expected_value.zero?
+
+    ((total_final_value / total_expected_value) * 100).round(2)
   end
 
   def total_pledged_value
-    @total_pledged_value ||= pledges.includes(:membership).sum(&:total_membership_baskets_price)
+    @total_pledged_value ||= pledges.includes(:membership).sum(&:total_membership_price)
   end
 
   def total_pledged_percentage
