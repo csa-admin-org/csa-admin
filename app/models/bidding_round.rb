@@ -70,6 +70,14 @@ class BiddingRound < ApplicationRecord
     I18n.t("bidding_rounds.title", year: fiscal_year.to_s, number: number)
   end
 
+  def filename
+    [
+      model_name.human.downcase.dasherize.gsub(/'|\s/, "-"),
+      fiscal_year.to_s,
+      number
+    ].join("-")
+  end
+
   def total_expected_value
     @total_expected_value ||= eligible_memberships.sum(:price)
   end

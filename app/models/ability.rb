@@ -141,6 +141,7 @@ class Ability
       can :open, BiddingRound, can_open?: true
       can :complete, BiddingRound, can_complete?: true
       can :fail, BiddingRound, can_fail?: true
+      can :export_csv, BiddingRound
     end
 
     if admin.permission.can_write?(:shop)

@@ -132,6 +132,12 @@ ActiveAdmin.register BiddingRound do
       class: "destructive"
   end
 
+  action_item :export_csv, only: :show, if: -> { authorized?(:export_csv, resource) } do
+    action_link nil, export_csv_bidding_round_path(resource, format: :csv),
+      target: "_blank",
+      icon: "file-csv"
+  end
+
   member_action :open, method: :post do
     resource.open!
     redirect_to resource_path
@@ -145,6 +151,33 @@ ActiveAdmin.register BiddingRound do
   member_action :fail, method: :post do
     resource.fail!
     redirect_to resource_path
+  end
+
+  member_action :export_csv, method: :get do
+    pledges = resource.pledges.to_a
+    data = resource.eligible_memberships.includes(:basket_size).map { |membership|
+      pledge = pledges.find { |p| p.membership_id == membership.id }
+      {
+        member: membership.member_id,
+        membership: membership.id,
+        basket_quantity: membership.basket_quantity,
+        basket_size: membership.basket_size.name,
+        default_basket_size_price: cur(membership.basket_price),
+        default_membership_price: cur(membership.price),
+        pledged_basket_size_price: cur(pledge&.basket_size_price),
+        pledged_membership_price: cur(pledge&.total_membership_price),
+        pledged_at: pledge&.created_at
+      }
+    }
+    csv_data = CSV.generate do |csv|
+      csv << data.first.keys.map { |k| resource_class.human_attribute_name(k) }
+      data.each { |row| csv << row.values }
+    end
+    send_data csv_data, filename: "#{resource.filename}.csv", type: "text/csv"
+  end
+
+  controller do
+    include NumbersHelper
   end
 
   permit_params(*I18n.available_locales.map { |l| "information_text_#{l}" })

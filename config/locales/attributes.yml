@@ -70,6 +70,11 @@ _:
       _fr: Prix panier extra
       _de: Preis Extra-Tasche
       _it: Prezzo extra cesta
+    basket_quantity:
+      _en: Basket quantity
+      _fr: Quantité de paniers
+      _de: Anzahl Taschen
+      _it: Quantità di ceste
     basket_size:
       _en: Basket size
       _fr: Taille panier
