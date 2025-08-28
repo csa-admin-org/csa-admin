@@ -522,7 +522,7 @@ ActiveAdmin.register Membership do
                           data: { controller: "disable", disable_with_value: t("formtastic.processing") }
                         },
                         data: { confirm: t(".confirm") },
-                        class: "btn btn-sm" do
+                        class: "btn btn-sm destructive" do
                           icon("x-circle", class: "size-4 me-1.5") + t(".cancel_renewal")
                         end
                     end
@@ -564,7 +564,7 @@ ActiveAdmin.register Membership do
                           data: { controller: "disable", disable_with_value: t("formtastic.processing") }
                         },
                         data: { confirm: t(".confirm") },
-                        class: "btn btn-sm" do
+                        class: "btn btn-sm destructive" do
                           icon("x-circle", class: "size-4 me-1.5") + t(".cancel_renewal")
                         end
                     end
