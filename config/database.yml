@@ -1,7 +1,10 @@
 default: &default
   adapter: sqlite3
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-  timeout: 10000 # milliseconds
+  timeout: 10_000 # milliseconds
+  pragmas:
+    busy_timeout: 5_000 # wait 5s on locks to avoid deadlocks
+    cache_size: 20_000 # Keeps more pages in memory, improving read performance.
   extensions:
     - SQLean::Text
     - SQLean::Unicode
