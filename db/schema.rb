@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_08_27_085809) do
+ActiveRecord::Schema[8.1].define(version: 2025_08_28_081839) do
   create_table "absences", force: :cascade do |t|
     t.datetime "created_at"
     t.date "ended_on"
@@ -638,6 +638,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_08_27_085809) do
     t.json "delivery_cycle_ids", default: [], null: false
     t.json "depot_ids", default: [], null: false
     t.boolean "first_membership"
+    t.json "membership_ids", default: [], null: false
     t.string "renewal_state"
     t.json "titles", default: {}, null: false
     t.datetime "updated_at", null: false
@@ -645,6 +646,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_08_27_085809) do
     t.check_constraint "JSON_TYPE(basket_size_ids) = 'array'", name: "newsletter_segments_basket_size_ids_is_array"
     t.check_constraint "JSON_TYPE(delivery_cycle_ids) = 'array'", name: "newsletter_segments_delivery_cycle_ids_is_array"
     t.check_constraint "JSON_TYPE(depot_ids) = 'array'", name: "newsletter_segments_basket_complement_ids_is_array"
+    t.check_constraint "JSON_TYPE(membership_ids) = 'array'", name: "newsletter_segments_membership_ids_is_array"
   end
 
   create_table "newsletter_templates", force: :cascade do |t|

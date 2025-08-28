@@ -74,6 +74,10 @@ ActiveAdmin.register Newsletter::Segment do
         collection: billing_year_divisions_collection,
         include_blank: true,
         hint: t("formtastic.hints.newsletter/segment.billing_year_division")
+      f.input :membership_ids,
+        as: :text,
+        input_html: { rows: 2 },
+        hint: t("formtastic.hints.newsletter/segment.membership_ids")
     end
 
     f.actions
@@ -84,6 +88,7 @@ ActiveAdmin.register Newsletter::Segment do
     :first_membership,
     :coming_deliveries_in_days,
     :billing_year_division,
+    :membership_ids,
     *I18n.available_locales.map { |l| "title_#{l}" },
     basket_size_ids: [],
     basket_complement_ids: [],

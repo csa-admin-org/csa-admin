@@ -29,6 +29,14 @@ class Newsletter
       super ids.map(&:presence).compact.map(&:to_i)
     end
 
+    def membership_ids=(ids)
+      super ids.to_s.split(",").map(&:strip).map(&:presence).compact.map(&:to_i).uniq.sort
+    end
+
+    def membership_ids
+      super.join(", ")
+    end
+
     def name; title end
 
     def members
@@ -41,6 +49,7 @@ class Newsletter
       members = by_first_membership(members)
       members = by_billing_year_division(members)
       members = by_coming_deliveries_in_days(members)
+      members = by_membership_ids(members)
       members.uniq
     end
 
@@ -101,6 +110,12 @@ class Newsletter
       members
         .joins(next_basket: :delivery)
         .where(deliveries: { date: ..limit })
+    end
+
+    def by_membership_ids(members)
+      return members unless self[:membership_ids].any?
+
+      members.where(memberships: { id: self[:membership_ids] })
     end
   end
 end
