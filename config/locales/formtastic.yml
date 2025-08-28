@@ -541,6 +541,11 @@ _:
           _fr: Permet de différencier les nouveaux membres actifs des anciens qui étaient déjà abonnés les années précédentes.
           _de: Unterscheidet neue Mitglieder von alten, die bereits mehrere Abonnements haben.
           _it: Permette di distinguere tra nuovi soci attivi e vecchi soci che erano già abbonati negli anni precedenti.
+        membership_ids:
+          _en: List of membership IDs separated by a comma. Useful for precise targeting of members, when the other criteria are not sufficient.
+          _fr: Liste d'IDs d'abonnements séparés par une virgule. Utile pour une ciblage précis des membres, lorsque les autres critères ne sont pas suffisants.
+          _de: Liste von Abonnement-IDs, getrennt durch ein Komma. Nützlich für eine präzise Zielgruppenauswahl von Mitgliedern, wenn die anderen Kriterien nicht ausreichen.
+          _it: Lista di ID di abbonamento separati da una virgola. Utile per una cibazione precisa dei soci, quando gli altri criteri non sono sufficienti.
         renewal_state:
           _en: Differentiates active members by the renewal status of their current or future membership.
           _fr: Permet de différencier les membres actifs par l'état de renouvellement de leur abonnement actuel ou future.

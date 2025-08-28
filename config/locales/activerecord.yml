@@ -1308,6 +1308,11 @@ _:
           _fr: Premier abonnement cette année
           _de: Erstes Abonnement dieses Jahr
           _it: Primo abbonamento quest'anno
+        membership_ids:
+          _en: Membership IDs
+          _fr: IDs d'abonnements
+          _de: Abonnements-IDs
+          _it: ID abbonamento
       newsletter/template:
         content:
           _en: Content

@@ -102,4 +102,17 @@ class Newsletter::SegmentTest < ActiveSupport::TestCase
     segment = Newsletter::Segment.create!(billing_year_division: nil)
     assert_equal [ members(:anna), members(:john), members(:bob), members(:jane) ], segment.members
   end
+
+  test "segment by membership_ids" do
+    travel_to "2024-01-01"
+
+    segment = Newsletter::Segment.create!(membership_ids: "#{memberships(:anna).id}, #{memberships(:john).id}")
+    assert_equal [ members(:anna), members(:john) ], segment.members
+
+    segment = Newsletter::Segment.create!(membership_ids: "#{memberships(:bob).id}, #{memberships(:bob).id}")
+    assert_equal [ members(:bob) ], segment.members
+
+    segment = Newsletter::Segment.create!(membership_ids: "")
+    assert_equal [ members(:anna), members(:john), members(:bob), members(:jane) ], segment.members
+  end
 end
