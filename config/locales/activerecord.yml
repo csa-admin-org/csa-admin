@@ -1310,7 +1310,7 @@ _:
           _it: Primo abbonamento quest'anno
         membership_ids:
           _en: Membership IDs
-          _fr: IDs d'abonnements
+          _fr: IDs d'abonnement
           _de: Abonnements-IDs
           _it: ID abbonamento
       newsletter/template:
