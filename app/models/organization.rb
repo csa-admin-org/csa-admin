@@ -449,7 +449,7 @@ class Organization < ApplicationRecord
   end
 
   def basket_shift_annual_limit?
-    basket_shifts_annually.positive?
+    basket_shifts_annually&.positive?
   end
 
   def basket_shift_deadline_enabled?
