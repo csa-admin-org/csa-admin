@@ -1,0 +1,7 @@
+<p>Hallo {{ admin.name }},</p>
+
+<p>Er is een admin-account voor {{ organization.name }} voor u aangemaakt, gebruik uw e-mailadres (<strong>{{ admin.email }}</strong>) om in te loggen.</p>
+
+{% button action_url %}
+  Toegang tot de admin van {{ organization.name }}
+{% endbutton %}

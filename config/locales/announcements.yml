@@ -6,13 +6,16 @@ _:
         _fr: 1 active
         _de: 1 aktive
         _it: 1 attiva
+        _nl: 1 actief
       other:
         _en: "%{count} active"
         _fr: "%{count} actives"
         _de: "%{count} aktive"
         _it: "%{count} attive"
+        _nl: "%{count} actief"
       zero:
         _en: none active
         _fr: aucune active
         _de: keine aktive
         _it: nessuna attiva
+        _nl: geen actief

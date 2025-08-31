@@ -7,32 +7,38 @@ _:
           _fr: "'"
           _de: "'"
           _it: "'"
+          _nl: "'"
         precision:
           _en: 2
           _fr: 2
           _de: 2
           _it: 2
+          _nl: 2
         separator:
           _en: "."
           _fr: "."
           _de: "."
           _it: "."
+          _nl: "."
     format:
       delimiter:
         _en: "'"
         _fr: "'"
         _de: "'"
         _it: "'"
+        _nl: "'"
       precision:
         _en: 3
         _fr: 3
         _de: 3
         _it: 3
+        _nl: 3
       separator:
         _en: "."
         _fr: "."
         _de: "."
         _it: "."
+        _nl: "."
     human:
       decimal_units:
         format:
@@ -40,39 +46,46 @@ _:
           _fr: "%n %u"
           _de: "%n %u"
           _it: "%n %u"
+          _nl: "%n %u"
         units:
           unit:
             _en: ''
             _fr: ''
             _de: ''
             _it: ''
+            _nl: ''
       format:
         delimiter:
           _en: ''
           _fr: ''
           _de: ''
           _it: ''
+          _nl: ''
         precision:
           _en: 2
           _fr: 2
           _de: 2
           _it: 2
+          _nl: 2
         significant:
           _en: true
           _fr: true
           _de: true
           _it: true
+          _nl: true
         strip_insignificant_zeros:
           _en: true
           _fr: true
           _de: true
           _it: true
+          _nl: true
       storage_units:
         format:
           _en: "%n %u"
           _fr: "%n %u"
           _de: "%n %u"
           _it: "%n %u"
+          _nl: "%n %u"
     percentage:
       format:
         delimiter:
@@ -80,6 +93,7 @@ _:
           _fr: ''
           _de: ''
           _it: ''
+          _nl: ''
     precision:
       format:
         delimiter:
@@ -87,3 +101,4 @@ _:
           _fr: ''
           _de: ''
           _it: ''
+          _nl: ''

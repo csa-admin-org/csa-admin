@@ -1,0 +1,54 @@
+# Nieuwsbrieven
+
+Naast [automatische e-mails](/mail_templates) die worden verzonden tijdens specifieke gebeurtenissen (nieuwe factuur, vernieuwing, ...), biedt CSA Admin ook de mogelijkheid om [nieuwsbrieven (groepse-mails)](/newsletters) te verzenden.
+
+Deze nieuwsbrieven kunnen worden gericht aan al uw leden of aan een specifiek publiek (status, pakketgrootte, depot, ...).
+
+> In tegenstelling tot [automatische e-mails](/mail_templates) bevatten nieuwsbrieven een (verplichte) uitschrijflink in hun voettekst.
+
+## Sjablonen
+
+Om het aanmaken van uw nieuwsbrieven te vergemakkelijken, biedt CSA Admin een geavanceerd systeem van [sjablonen](/newsletter_templates). Deze sjablonen zijn e-mailmodellen met voorgedefinieerde inhoudsblokken die u kunt aanmaken en wijzigen volgens uw behoeften.
+
+Standaard zijn [2 sjablonen](/newsletter_templates) beschikbaar:
+
+- <strong>Vrije tekst</strong>: een eenvoudige sjabloon met een enkel inhoudsblok zonder titel.
+- <strong>Volgende levering</strong>: een meer complexe sjabloon met meerdere inhoudsblokken, evenals dynamische informatie (pakketinhoud, volgende activiteit, ...).
+
+U kunt ze gerust dupliceren en naar wens wijzigen of [nieuwe aanmaken](/newsletter_templates/new).
+
+> Ondanks de "groeps"verzending van een nieuwsbrief wordt de inhoud van elke e-mail individueel gegenereerd op basis van de informatie van elk lid (naam, taal, lidmaatschap, ...).
+
+### Inhoudsblokken
+
+Elke sjabloon moet ten minste één inhoudsblok bevatten. Dit is een vrij tekstblok dat kan worden gewijzigd bij het aanmaken van een nieuwsbrief. Een blok waarvan de inhoud leeg wordt gelaten tijdens het bewerken van de nieuwsbrief wordt eenvoudigweg genegeerd.
+
+Elk blok wordt gedefinieerd met een unieke identifier (`id`) en optioneel een titel (`title`) evenals standaardinhoud.
+
+Voorbeeld van een blok met een titel en standaardinhoud:
+
+~~~ liquid
+{% content id: "identifier", title: "Een optionele titel" %}
+<p>Optionele standaardinhoud</p>
+{% endcontent %}
+~~~
+
+## Bijlagen
+
+U kunt bijlagen toevoegen aan uw nieuwsbrieven, maar het totale gewicht van deze bijlagen mag niet meer dan 5 MB bedragen.
+
+Als u zwaardere bijlagen wilt verzenden, kunt u een externe dienst zoals [SwissTransfer](https://www.swisstransfer.com) gebruiken of ze hosten op uw website en eenvoudig een link naar deze bestanden toevoegen in uw nieuwsbrief.
+
+## Plannen
+
+Om het automatische verzenden van een nieuwsbrief te plannen, specificeert u een toekomstige datum in het veld "Levering gepland op". Het systeem zal deze automatisch verzenden in de nacht van de gekozen datum. Zorg ervoor dat de inhoud is afgerond voordat u een verzending plant!
+
+## Uitschrijving
+
+Alle leden zijn standaard ingeschreven voor nieuwsbrieven. Elk lid kan zich op elk moment uitschrijven door te klikken op de verplichte uitschrijflink die aanwezig is in de voettekst van elke nieuwsbrief.
+
+## Herinschrijving {#subscribe}
+
+Leden die zich hebben uitgeschreven kunnen zich eenvoudig opnieuw inschrijven vanaf [hun account](<%= members_newsletter_deliveries_url(subdomain: Current.org.members_subdomain) %>) in de sectie "Nieuwsbrieven".
+
+> Let op dat de nieuwsbrief herinschrijflink alleen verschijnt in het account van het lid als zij zelf zijn ingelogd, en niet wanneer een admin in hun account is ingelogd namens hen.

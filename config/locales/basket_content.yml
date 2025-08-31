@@ -6,45 +6,54 @@ _:
         _fr: Tous
         _de: Alle
         _it: Tutto
+        _nl: Alle
       all_but:
         _en: All, except %{missing}
         _fr: Tous, sauf %{missing}
         _de: Alle, außer %{missing}
         _it: Tutto, tranne %{missing}
+        _nl: Alle, behalve %{missing}
     distribution:
       _en: Distribution by basket size
       _fr: Distribution par taille de paniers
       _de: Verteilung nach Taschengröße
       _it: Distribuzione per dimensione del cestino
+      _nl: Verdeling per pakketgrootte
     distribution_mode:
       automatic:
         _en: Automatic
         _fr: Automatique
         _de: Automatisch
         _it: Automatico
+        _nl: Automatisch
       manual:
         _en: Manual
         _fr: Manuelle
         _de: Manuell
         _it: Manuale
+        _nl: Handmatig
     percentages_hint:
       _en: The system optimizes the distribution to minimize surplus, so the final distribution may differ from the above percentages.
       _fr: Le système optimise la répartition afin de minimiser le surplus, à cause de cela la distribution finale peut différer des pourcentages ci-dessus.
       _de: Das System optimiert die Verteilung, um den Überschuss zu minimieren, daher kann die endgültige Verteilung von den oben genannten Prozentsätzen abweichen.
       _it: Il sistema ottimizza la distribuzione per minimizzare il surplus, quindi la distribuzione finale può differire dai percentuali sopra.
+      _nl: Het systeem optimaliseert de verdeling om overschotten te minimaliseren, daardoor kan de uiteindelijke verdeling afwijken van de bovenstaande percentages.
     preset:
       basket_content_percentages_even:
         _en: Even distribution
         _fr: Distribution égale
         _de: Gleichmäßige Verteilung
         _it: Equa distribuzione
+        _nl: Gelijke verdeling
       basket_content_percentages_pro_rated:
         _en: Pro rata by price
         _fr: Au prorata du prix
         _de: Pro rata des Preises
         _it: Pro rata al prezzo
+        _nl: Pro rata naar prijs
     quantities_hint:
       _en: The total quantity will be calculated automatically according to the number of baskets and the quantity of each size.
       _fr: La quantité totale sera calculée automatiquement selon le nombre de paniers et la quantité de chaque taille.
       _de: Die Gesamtmenge wird automatisch berechnet, basierend auf der Anzahl der Taschen und der Menge jeder Größe.
       _it: La quantità totale sarà calcolata automaticamente in base al numero di cesti e alla quantità di ciascuna dimensione.
+      _nl: De totale hoeveelheid wordt automatisch berekend op basis van het aantal pakketten en de hoeveelheid van elke grootte.

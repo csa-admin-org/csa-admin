@@ -1,0 +1,11 @@
+<p>Uw factuur #{{ invoice.number }} van {{ invoice.date }} is geannuleerd.</p>
+
+<p>Neem gerust contact met ons op als u vragen heeft.</p>
+
+{% unless member.billing_email %}
+  <p>U kunt uw facturen en betalingen altijd bekijken vanaf uw ledenpagina.</p>
+
+  {% button member.billing_url %}
+    Toegang tot mijn ledenpagina
+  {% endbutton %}
+{% endunless %}

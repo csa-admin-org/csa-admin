@@ -1,0 +1,13 @@
+<p>Biedronde #{{ bidding_round.number }} heeft zijn doel niet bereikt.</p>
+
+{% if bidding_round_pledge.basket_size_price %}
+  <p>U heeft {{ bidding_round_pledge.basket_size_price }} per pakket geboden.</p>
+{% else %}
+  <p>U heeft geen bod uitgebracht.</p>
+{% endif %}
+
+<p>U kunt de details van uw lidmaatschap op elk moment bekijken.</p>
+
+{% button member.memberships_url %}
+  Bekijk uw lidmaatschap
+{% endbutton %}

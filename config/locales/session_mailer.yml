@@ -6,9 +6,11 @@ _:
         _fr: Connexion à votre compte admin
         _de: Anmeldung mit Ihrem Admin-Konto
         _it: Connessione al vostro conto admin
+        _nl: Inloggen op uw admin account
     new_member_session_email:
       subject:
         _en: Login to your account
         _fr: Connexion à votre compte
         _de: Anmeldung mit Ihrem Konto
         _it: Connessione al vostro conto
+        _nl: Inloggen op uw account

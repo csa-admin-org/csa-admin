@@ -46,7 +46,7 @@ namespace :locales do
     missing_keys.each do |locale, keys|
       keys.each do |key|
         puts "#{key}:"
-        puts "  _fr: #{I18n.t(key)}"
+        puts "  _en: #{I18n.t(key)}"
         puts "  _#{locale}: ???"
       end
     end

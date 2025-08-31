@@ -1,0 +1,7 @@
+<p>Hallo {{ admin.name }},</p>
+
+<p>De 3e herinnering is zojuist verzonden voor factuur #{{ invoice.number }} van <strong>{{ member.name }}</strong>.</p>
+
+{% button member.admin_url %}
+  Toegang tot ledenpagina
+{% endbutton %}

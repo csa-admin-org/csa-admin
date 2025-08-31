@@ -6,48 +6,57 @@ _:
         _fr: Demandées
         _de: Zu leisten
         _it: Richieste
+        _nl: Aangevraagd
       missing:
         _en: Missing
         _fr: Manquantes
         _de: Fehlende
         _it: Mancanti
+        _nl: Ontbrekend
     auto_save_recovered:
       _en: Local auto-save recovered, don't forget to save your draft!
       _fr: Sauvegarde automatique locale récupérée, n'oubliez pas de sauver votre brouillon!
       _de: Lokale automatische Sicherung wiederhergestellt, vergessen Sie nicht, Ihren Entwurf zu speichern!
       _it: Backup automatico locale recuperato, non dimenticare di salvare la tua bozza!
+      _nl: Lokale automatische opslag hersteld, vergeet uw concept niet op te slaan!
     member_state:
       all:
         _en: All
         _fr: Tous
         _de: Alle
         _it: Tutti
+        _nl: Alle
       not_inactive:
         _en: All except inactive
         _fr: Tous sauf inactifs
         _de: Alle außer inaktiv
         _it: Tutti tranne inattivi
+        _nl: Alle behalve inactief
     segment:
       criterias:
         _en: Criteria
         _fr: Critères
         _de: Kriterien
         _it: Criteri
+        _nl: Criteria
       info_html:
         _en: Audience segments allow you to target your newsletters based on specific criteria. These criteria always apply <b>only to active members</b> and to the <b>current or future membership configuration</b>.
         _fr: Les segments d'audience vous permettent de cibler vos newsletters en fonction de critères précis. Ces critères s'appliquent toujours <b>uniquement aux membres actifs</b> et à la configuration de leur <b>abonnement actuel ou future</b>.
         _de: Die Audienzsegmente ermöglichen es Ihnen, Ihre Newsletter anhand bestimmter Kriterien zu ciblieren. Diese Kriterien gelten immer <b>nur für aktive Mitglieder</b> und für die <b>aktuelle oder zukünftige Abonnementkonfiguration</b>.
         _it: I segmenti di pubblico ti permettono di indirizzare le tue newsletter in base a criteri precisi. Questi criteri si applicano sempre <b>solo ai soci attivi</b> e alla <b>configurazione dell'abbonamento attuale o futura</b>.
+        _nl: Met segmenten kunt u uw nieuwsbrieven richten op basis van specifieke criteria. Deze criteria gelden altijd <b>alleen voor actieve leden</b> en voor de <b>huidige of toekomstige configuratie van het lidmaatschap</b>.
       title:
         _en: Segment
         _fr: Segment
         _de: Segment
         _it: Segmento
+        _nl: Segment
     segment_unknown:
       _en: Unknown
       _fr: Inconnu
       _de: Unbekannt
       _it: Sconosciuto
+      _nl: Onbekend
     send_email:
       flash:
         notice:
@@ -55,6 +64,7 @@ _:
           _fr: Envoi de la newsletter en cours...
           _de: Versand der Newsletter läuft...
           _it: Invio della newsletter in corso...
+          _nl: Nieuwsbrief wordt verzonden...
     template:
       next_delivery:
         title:
@@ -62,14 +72,17 @@ _:
           _fr: Prochaine livraison
           _de: Nächste Lieferung
           _it: Prossima consegna
+          _nl: Volgende levering
       simple:
         title:
           _en: Simple text
           _fr: Texte simple
           _de: Einfacher Text
           _it: Testo semplice
+          _nl: Eenvoudige tekst
       subject:
         _en: Newsletter title
         _fr: Titre de la Newsletter
         _de: Titel der Newsletter
         _it: Titolo della Newsletter
+        _nl: Titel van de nieuwsbrief

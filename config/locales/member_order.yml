@@ -6,44 +6,53 @@ _:
         _fr: Nombre de livraisons (croissant), ordre alphabétique
         _de: Anzahl Lieferungen (aufsteigend), alphabetisch
         _it: Numero di consegne (crescente), ordine alfabetico
+        _nl: Aantal leveringen (oplopend), alfabetisch
       deliveries_count_desc:
         _en: Number of deliveries (descending), alphabetical
         _fr: Nombre de livraisons (décroissant), ordre alphabétique
         _de: Anzahl Lieferungen (absteigend), alphabetisch
         _it: Numero di consegne (decrescente), ordine alfabetico
+        _nl: Aantal leveringen (aflopend), alfabetisch
       name_asc:
         _en: Alphabetical only
         _fr: Ordre alphabétique uniquement
         _de: Nur alphabetisch
         _it: Solo ordine alfabetico
+        _nl: Alleen alfabetisch
       price_asc:
         _en: Price (ascending), alphabetical
         _fr: Prix (croissant), ordre alphabétique
         _de: Preis (aufsteigend), alphabetisch
         _it: Prezzo (crescente), ordine alfabetico
+        _nl: Prijs (oplopend), alfabetisch
       price_desc:
         _en: Price (descending), alphabetical
         _fr: Prix (décroissant), ordre alphabétique
         _de: Preis (absteigend), alphabetisch
         _it: Prezzo (decrescente), ordine alfabetico
+        _nl: Prijs (aflopend), alfabetisch
       wdays_asc:
         _en: Weekdays, number of deliveries (descending), alphabetical
         _fr: Jours de la semaine, Nombre de livraisons (décroissant), ordre alphabétique
         _de: Wochentage, Anzahl Lieferungen (absteigend), alphabetisch
         _it: Giorni della settimana, Numero di consegne (decrescente), ordine alfabetico
+        _nl: Weekdagen, aantal leveringen (aflopend), alfabetisch
     priorities:
       default:
         _en: None
         _fr: Aucune
         _de: Keine
         _it: Nessuna
+        _nl: Geen
       first:
         _en: First position(s)
         _fr: Première(s) position(s)
         _de: Erste Position(en)
         _it: Prima posizione
+        _nl: Eerste positie(s)
       last:
         _en: Last position(s)
         _fr: Dernière(s) position(s)
         _de: Letzte Position(en)
         _it: Ultima posizione
+        _nl: Laatste positie(s)

@@ -6,233 +6,278 @@ _:
         _fr: acceptées
         _de: akzeptiert
         _it: accettato
+        _nl: geaccepteerd
       demanded:
         _en: requested
         _fr: demandées
         _de: angefordert
         _it: richiesto
+        _nl: aangevraagd
       future:
         _en: upcoming
         _fr: à venir
         _de: kommend
         _it: venendo
+        _nl: aanstaande
       missing:
         _en: missing
         _fr: manquantes
         _de: fehlende
         _it: mancante
+        _nl: ontbrekend
       pending:
         _en: pending
         _fr: à valider
         _de: zu bestätigen
         _it: da confermare
+        _nl: in afwachting
       rejected:
         _en: rejected
         _fr: refusée
         _de: abgelehnt
         _it: rifiutato
+        _nl: afgewezen
       validated:
         _en: validated
         _fr: validée
         _de: bestätigt
         _it: confermato
+        _nl: gevalideerd
     basket_shift:
       declined:
         _en: declined
         _fr: refusé
         _de: abgelehnt
         _it: rifiutato
+        _nl: afgewezen
     bidding_round:
       completed:
         _en: Completed
         _fr: Terminé
         _de: Beendet
         _it: Completato
+        _nl: Voltooid
       draft:
         _en: Draft
         _fr: Brouillon
         _de: Entwurf
         _it: Bozza
+        _nl: Concept
       failed:
         _en: Failed
         _fr: Échoué
         _de: Fehlgeschlagen
         _it: Fallito
+        _nl: Mislukt
       open:
         _en: Open
         _fr: Ouvert
         _de: Offen
         _it: Aperto
+        _nl: Open
     invoice:
       canceled:
         _en: canceled
         _fr: annulée
         _de: storniert
         _it: annullata
+        _nl: geannuleerd
       closed:
         _en: closed
         _fr: fermée
         _de: geschlossen
         _it: chiusa
+        _nl: gesloten
       open:
         _en: open
         _fr: ouverte
         _de: offen
         _it: aperta
+        _nl: open
       open_with_overdue_notice:
         _en: open with overdue notice(s)
         _fr: ouverte avec rappel(s)
         _de: offen mit Mahnung(en)
         _it: aperta con richiamo(i)
+        _nl: open met aanmaning(en)
       processing:
         _en: processing
         _fr: en traitement
         _de: in Bearbeitung
         _it: elaborazione
+        _nl: verwerken
     member:
       active:
         _en: active
         _fr: actif
         _de: aktiv
         _it: attivo
+        _nl: actief
       inactive:
         _en: inactive
         _fr: inactif
         _de: inaktiv
         _it: inattivo
+        _nl: inactief
       memberships:
         future:
           _en: Future memberships
           _fr: Abonnements futurs
           _de: Künftige Abonnements
           _it: Abbonamenti futuri
+          _nl: Toekomstige lidmaatschappen
         ongoing:
           _en: Ongoing memberships
           _fr: Abonnements en cours
           _de: Laufende Abonnements
           _it: Abbonamenti in corso
+          _nl: Lopende lidmaatschappen
         trial:
           _en: Trial memberships
           _fr: Abonnements à l'essai
           _de: Probeabonnements
           _it: Abbonamenti di prova
+          _nl: Proeflidmaatschappen
       pending:
         _en: pending
         _fr: à valider
         _de: zu bestätigen
         _it: da confermare
+        _nl: in afwachting
       support:
         _en: support
         _fr: soutien
         _de: förderung
         _it: sostegno
+        _nl: ondersteuning
       trial:
         _en: trial
         _fr: abonnement à l'essai
         _de: probeabonnement
         _it: abbonamento di prova
+        _nl: proef
       waiting:
         _en: waiting list
         _fr: liste d'attente
         _de: warteliste
         _it: lista d'attesa
+        _nl: wachtlijst
     membership:
       future:
         _en: future
         _fr: futur
         _de: künftig
         _it: futuro
+        _nl: toekomstig
       ongoing:
         _en: ongoing
         _fr: en cours
         _de: laufend
         _it: in corso
+        _nl: lopend
       past:
         _en: past
         _fr: passé
         _de: vergangen
         _it: passato
+        _nl: voorbij
       trial:
         _en: trial
         _fr: essai
         _de: probe
         _it: prova
+        _nl: proef
     newsletter:
       draft:
         _en: draft
         _fr: brouillon
         _de: Entwurf
         _it: bozza
+        _nl: concept
       processing:
         _en: delivery in progress...
         _fr: envoi en cours...
         _de: Lieferung in Bearbeitung...
         _it: spedizione in corso...
+        _nl: levering wordt uitgevoerd...
       scheduled:
         _en: scheduled
         _fr: planifiée
         _de: geplant
         _it: programmata
+        _nl: gepland
       sent:
         _en: sent
         _fr: envoyée
         _de: gesendet
         _it: inviata
+        _nl: verzonden
     newsletter/delivery:
       bounced:
         _en: bounced
         _fr: rejetée
         _de: abgelehnte
         _it: respinto
+        _nl: geweigerd
       delivered:
         _en: delivered
         _fr: distribuée
         _de: verteilte
         _it: distribuito
+        _nl: bezorgd
       draft:
         _en: draft
         _fr: brouillon
         _de: Entwurf
         _it: bozza
+        _nl: concept
       ignored:
         _en: ignored
         _fr: ignorée
         _de: ignorierte
         _it: ignorato
+        _nl: genegeerd
       processing:
         _en: processing
         _fr: en traitement
         _de: in Bearbeitung
         _it: elaborazione
+        _nl: verwerken
     payment:
       auto:
         _en: auto
         _fr: auto
         _de: auto
         _it: auto
+        _nl: auto
       ignored:
         _en: ignored
         _fr: ignoré
         _de: ignorierte
         _it: ignorato
+        _nl: genegeerd
       manual:
         _en: manual
         _fr: manuel
         _de: manuell
         _it: manuale
+        _nl: handmatig
     shop/order:
       cart:
         _en: cart
         _fr: panier
         _de: warenkorb
         _it: carrello
+        _nl: winkelwagen
       invoiced:
         _en: invoiced
         _fr: facturée
         _de: abgerechnet
         _it: fatturato
+        _nl: gefactureerd
       pending:
         _en: to be prepared
         _fr: à préparer
         _de: vorzubereiten
         _it: essere preparati
+        _nl: voor te bereiden

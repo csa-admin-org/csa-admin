@@ -1,0 +1,14 @@
+<p>Hallo {{ admin.name }},</p>
+
+<p>Het lid <strong>{{ member.name }}</strong> zal afwezig zijn van {{ absence.start_date }} tot {{ absence.end_date }}.</p>
+
+{% if absence.note %}
+<p>
+  Opmerking van het lid:<br/>
+  <i>{{ absence.note }}</i>
+</p>
+{% endif %}
+
+{% button absence.admin_url %}
+  Toegang tot de afwezigheidspagina
+{% endbutton %}
