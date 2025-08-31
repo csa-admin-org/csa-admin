@@ -1,0 +1,14 @@
+<p>Hallo {{ admin.name }},</p>
+
+<p>Het e-mailadres <strong>{{ email_suppression.email }}</strong> werd afgewezen tijdens de laatste berichtbezorging vanwege de volgende reden: <strong>{{ email_suppression.reason }}</strong>.</p>
+
+{% highlight %}
+  <p>Dit e-mailadres is gekoppeld aan:</p>
+  <ul>
+    {% for owner in email_suppression.owners %}
+      <li><a href='{{ owner.admin_url }}'>{{ owner.type }}: {{ owner.name }}</a></li>
+    {% endfor %}
+  </ul>
+{% endhighlight %}
+
+<p>Er kunnen geen berichten meer naar dit e-mailadres worden verzonden, controleer dit alstublieft.</p>

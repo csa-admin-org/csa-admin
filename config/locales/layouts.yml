@@ -6,11 +6,13 @@ _:
         _fr: Gérer mes notifications
         _de: Meine Benachrichtigungen verwalten
         _it: Gestire le notifiche
+        _nl: Mijn meldingen beheren
       unsubscribe:
         _en: Unsubscribe
         _fr: Désinscription
         _de: Abmeldung
         _it: Disiscrizione
+        _nl: Uitschrijven
     members:
       footer:
         calendar:
@@ -18,122 +20,146 @@ _:
           _fr: Calendrier
           _de: Kalender
           _it: Calendario
+          _nl: Kalender
         calendar_feed:
           _en: Calendar feed
           _fr: Flux de calendrier
           _de: Kalender-Feed
           _it: Feed del calendario
+          _nl: Kalenderfeed
         contact:
           _en: Contact
           _fr: Contact
           _de: Kontakt
           _it: Contatti
+          _nl: Contact
       header:
         absences_subtitle:
           _en: "⤷ Let us know!"
           _fr: "⤷ Prévenez-nous!"
           _de: "⤷ Informieren Sie uns!"
           _it: "⤷ Facci sapere!"
+          _nl: "⤷ Laat het ons weten!"
         absences_used:
           one:
             _en: "⤷ %{used} of %{count} reported"
             _fr: "⤷ %{used} sur %{count} annoncée"
             _de: "⤷ %{used} von %{count} gemeldet"
             _it: "⤷ %{used} su %{count} annunciata"
+            _nl: "⤷ %{used} van %{count} gemeld"
           other:
             _en: "⤷ %{used} of %{count} reported"
             _fr: "⤷ %{used} sur %{count} annoncées"
             _de: "⤷ %{used} von %{count} gemeldet"
             _it: "⤷ %{used} su %{count} annunciate"
+            _nl: "⤷ %{used} van %{count} gemeld"
         activity_participations_accepted:
           one:
             _en: "⤷ %{accepted} of %{count} requested"
             _fr: "⤷ %{accepted} sur %{count} demandée"
             _de: "⤷ %{accepted} von %{count} angefordert"
             _it: "⤷ %{accepted} su %{count} richiesta"
+            _nl: "⤷ %{accepted} van %{count} aangevraagd"
           other:
             _en: "⤷ %{accepted} of %{count} requested"
             _fr: "⤷ %{accepted} sur %{count} demandées"
             _de: "⤷ %{accepted} von %{count} angefordert"
             _it: "⤷ %{accepted} su %{count} richieste"
+            _nl: "⤷ %{accepted} van %{count} aangevraagd"
         bidding_round_pledge:
           _en: "⤷ Pledge your amount!"
           _fr: "⤷ Fixez votre montant!"
           _de: "⤷ Betrag festlegen!"
           _it: "⤷ Fissate il vostro importo!"
+          _nl: "⤷ Bepaal uw bedrag!"
         billing:
           _en: Billing
           _fr: Facturation
           _de: Rechnungsstellung
           _it: Fatturazione
+          _nl: Facturering
         contact:
           _en: Contact
           _fr: Contact
           _de: Kontakt
           _it: Contatti
+          _nl: Contact
         delivery:
           _en: "⤷ %{date}"
           _fr: "⤷ %{date}"
           _de: "⤷ %{date}"
           _it: "⤷ %{date}"
+          _nl: "⤷ %{date}"
         logout:
           _en: Logout
           _fr: Déconnexion
           _de: Abmeldung
           _it: Disconnessione
+          _nl: Afmelden
         membership_current:
           _en: "⤷ Current"
           _fr: "⤷ En cours"
           _de: "⤷ Aktuelles"
           _it: "⤷ In corso"
+          _nl: "⤷ Huidig"
         membership_future:
           _en: "⤷ Future"
           _fr: "⤷ À venir"
           _de: "⤷ Zukünftiges"
           _it: "⤷ In futuro"
+          _nl: "⤷ Toekomstig"
         membership_past:
           _en: "⤷ Past"
           _fr: "⤷ Terminé"
           _de: "⤷ Abgeschlossenes"
           _it: "⤷ Completato"
+          _nl: "⤷ Afgelopen"
         membership_renewal:
           _en: "⤷ Renewal?"
           _fr: "⤷ Renouvellement ?"
           _de: "⤷ Erneuerung?"
           _it: "⤷ Rinnovo ?"
+          _nl: "⤷ Vernieuwing?"
         membership_trial:
           _en: "⤷ Trial period"
           _fr: "⤷ Période d'essai"
           _de: "⤷ Probezeit"
           _it: "⤷ Periodo di prova"
+          _nl: "⤷ Proefperiode"
         newsletter_subscribe:
           _en: "⤷ Subscribe!"
           _fr: "⤷ Abonnez-vous!"
           _de: "⤷ Abonnieren Sie!"
           _it: "⤷ Iscriviti!"
+          _nl: "⤷ Abonneer u!"
         no_activity_participations_demanded:
           _en: "⤷ No commitment"
           _fr: "⤷ Aucun engagement"
           _de: "⤷ Keine Verpflichtung"
           _it: "⤷ Nessun impegno"
+          _nl: "⤷ Geen verplichting"
         open_invoices:
           one:
             _en: "⤷ 1 open invoice"
             _fr: "⤷ 1 facture ouverte"
             _de: "⤷ 1 offene Rechnung"
             _it: "⤷ 1 fattura aperta"
+            _nl: "⤷ 1 openstaande factuur"
           other:
             _en: "⤷ %{count} open invoices"
             _fr: "⤷ %{count} factures ouvertes"
             _de: "⤷ %{count} offene Rechnungen"
             _it: "⤷ %{count} fatture aperte"
+            _nl: "⤷ %{count} openstaande facturen"
         see_history:
           _en: "⤷ View history"
           _fr: "⤷ Consulter l'historique"
           _de: "⤷ Verlauf anzeigen"
           _it: "⤷ Consulta la cronologia"
+          _nl: "⤷ Geschiedenis bekijken"
       title:
         _en: Member page
         _fr: Page de Membre
         _de: Mitgliederseite
         _it: Pagina dei soci
+        _nl: Ledenpagina

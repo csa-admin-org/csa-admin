@@ -1,0 +1,14 @@
+# Social Media Links
+
+In [uw algemene instellingen](/settings) heeft u nu de mogelijkheid om links (URL's) naar uw social media profielen op te geven.
+
+Deze links worden weergegeven als pictogrammen:
+
+- In de voettekst van de sectie gewijd aan uw leden.
+- In de voettekst van uw e-mails.
+
+Hier is de lijst van momenteel ondersteunde sociale netwerken, met hun bijbehorende pictogram. Als u vindt dat een sociaal netwerk ontbreekt, aarzel niet om [het mij te laten weten](mailto:info@csa-admin.org).
+
+<% SocialNetwork::URLS.keys.each do |network| %>
+  - ![<%= network.to_s %>](<%= image_url("simpleicons/#{network}.png") %>){:class="icon" width="20" height="20"} <%= network.to_s.titleize %>
+<% end %>

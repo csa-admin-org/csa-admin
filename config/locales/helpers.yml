@@ -6,125 +6,149 @@ _:
         _fr: "%{count} absence incluse"
         _de: "%{count} Abwesenheit inklusive"
         _it: "%{count} assenza inclusa"
+        _nl: "%{count} afwezigheid inbegrepen"
       other:
         _en: "%{count} absences included"
         _fr: "%{count} absences incluses"
         _de: "%{count} Abwesenheiten inklusive"
         _it: "%{count} assenze incluse"
+        _nl: "%{count} afwezigheden inbegrepen"
     activities_count_per_year/basket_preparation:
       one:
         _en: "%{count} basket preparation"
         _fr: "%{count} mise en panier"
         _de: "%{count} Taschen befüllung"
         _it: "%{count} preparazione cesta"
+        _nl: "%{count} pakketvoorbereiding"
       other:
         _en: "%{count} basket preparations"
         _fr: "%{count} mises en panier"
         _de: "%{count} Taschen befüllung"
         _it: "%{count} preparazione ceste"
+        _nl: "%{count} pakketvoorbereidingen"
     activities_count_per_year/day_work:
       one:
         _en: "%{count} workday"
         _fr: "%{count} journée de travail"
         _de: "%{count} Arbeitstag"
         _it: "%{count} giorno di lavoro"
+        _nl: "%{count} werkdag"
       other:
         _en: "%{count} workdays"
         _fr: "%{count} journées de travail"
         _de: "%{count} Arbeitstage"
         _it: "%{count} giorni di lavoro"
+        _nl: "%{count} werkdagen"
     activities_count_per_year/halfday_work:
       one:
         _en: "%{count} half-day"
         _fr: "%{count} ½ journée"
         _de: "%{count} Halbtag"
         _it: "%{count} ½ giornata"
+        _nl: "%{count} halve dag"
       other:
         _en: "%{count} half-days"
         _fr: "%{count} ½ journées"
         _de: "%{count} Halbtage"
         _it: "%{count} ½ giornate"
+        _nl: "%{count} halve dagen"
     activities_count_per_year/hour_work:
       one:
         _en: "%{count} hour of work"
         _fr: "%{count} heure de travail"
         _de: "%{count} Arbeitsstunde"
         _it: "%{count} ora di lavoro"
+        _nl: "%{count} werkuur"
       other:
         _en: "%{count} hours of work"
         _fr: "%{count} heures de travail"
         _de: "%{count} Arbeitsstunden"
         _it: "%{count} ore di lavoro"
+        _nl: "%{count} werkuren"
     deliveries_count:
       one:
         _en: 1 delivery
         _fr: 1 livraison
         _de: 1 Lieferung
         _it: 1 consegna
+        _nl: 1 levering
       other:
         _en: "%{count} deliveries"
         _fr: "%{count} livraisons"
         _de: "%{count} Lieferungen"
         _it: "%{count} consegne"
+        _nl: "%{count} leveringen"
       zero:
         _en: No delivery
         _fr: Aucune livraison
         _de: Keine Lieferung
         _it: Nessuna consegna
+        _nl: Geen levering
     deliveries_counts_range:
       _en: "%{range} deliveries"
       _fr: "%{range} livraisons"
       _de: "%{range} Lieferungen"
       _it: "%{range} consegne"
+      _nl: "%{range} leveringen"
     email_suppressions:
       destroy:
         _en: Reactivate
         _fr: Réactiver
         _de: Reaktivieren
         _it: Riattivare
+        _nl: Opnieuw activeren
       destroy_confirm:
         _en: Are you sure? Please check that this email is (still) valid before reactivating it?
         _fr: Êtes-vous sûr? Merci de vérifier que cet email soit bien (encore) valide avant de le réactiver?
         _de: Sind Sie sicher? Bitte überprüfen Sie, ob diese E-Mail (noch) gültig ist, bevor Sie sie reaktivieren?
         _it: Sei sicuro/a? Per favore controllate che questa email sia (ancora) valida prima di riattivarla?
+        _nl: Weet u het zeker? Controleer alstublieft of dit e-mailadres (nog) geldig is voordat u het opnieuw activeert?
     no_basket_size:
       _en: Supporting member
       _fr: Membre de soutien
       _de: Fördermitglied
       _it: Socio sostenitore
+      _nl: Steunlid
     no_basket_size_annual_fee:
       _en: Annual fee only
       _fr: Cotisation annuelle uniquement
       _de: Nur Jahresbeitrag
       _it: Solamente quota annuale
+      _nl: Alleen jaarlijkse bijdrage
     no_basket_size_annual_fee_and_share:
       _en: Annual fee and cooperative share only
       _fr: Cotisation annuelle et part sociale uniquement
       _de: Nur Jahresbeitrag und Anteilschein
       _it: Solo quota annuale e quota sociale cooperativa
+      _nl: Alleen jaarlijkse bijdrage en coöperatief aandeel
     no_basket_size_share:
       _en: Cooperative share only
       _fr: Part sociale uniquement
       _de: Nur Anteilschein
       _it: Solo quota sociale cooperativa
+      _nl: Alleen coöperatief aandeel
     none:
       _en: None
       _fr: Aucun
       _de: Kein
       _it: Nessuno
+      _nl: Geen
     price_per_delivery:
       _en: "%{price}/delivery"
       _fr: "%{price}/livraison"
       _de: "%{price}/Lieferung"
       _it: "%{price}/consegna"
+      _nl: "%{price}/levering"
     shares_number:
       one:
         _en: "%{count} share certificate"
         _fr: "%{count} part sociale"
         _de: "%{count} Anteilschein"
         _it: "%{count} quota sociale cooperativa"
+        _nl: "%{count} aandeelcertificaat"
       other:
         _en: "%{count} share certificates"
         _fr: "%{count} parts sociales"
         _de: "%{count} Anteilscheine"
         _it: "%{count} quote sociali cooperativa"
+        _nl: "%{count} aandeelcertificaten"

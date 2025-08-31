@@ -6,315 +6,378 @@ _:
         _fr: Panier déplacé
         _de: Tasche verschoben
         _it: Cestino spostato
+        _nl: Pakket verschoven
       absence_created:
         _en: Absence confirmation
         _fr: Confirmation d'absence
         _de: Abwesenheit bestätigt
         _it: Assenza confermata
+        _nl: Afwezigheidsbevestiging
       activity_participation_rejected:
         _en: "Activity rejected \U0001F62C"
         _fr: "Activité refusée \U0001F62C"
         _de: "Abgelehnte Aktivität \U0001F62C"
         _it: "Attività rifiutata \U0001F62C"
+        _nl: "Activiteit afgewezen \U0001F62C"
       activity_participation_reminder:
         _en: Upcoming activity ({{ activity.date }})
         _fr: Activité à venir ({{ activity.date }})
         _de: Bevorstehende Aktivität ({{ activity.date }})
         _it: Attività futura ({{ activity.date }})
+        _nl: Komende activiteit ({{ activity.date }})
       activity_participation_validated:
         _en: "Activity confirmed \U0001F389"
         _fr: "Activité validée \U0001F389"
         _de: "Bestätigte Aktivität \U0001F389"
         _it: "Attività confermata \U0001F389"
+        _nl: "Activiteit bevestigd \U0001F389"
       bidding_round_completed:
         _en: "Bidding round #{{ bidding_round.number }} completed \U0001F389"
         _fr: "Tour d'engagement n°{{ bidding_round.number }} terminé \U0001F389"
         _de: "Bietrunde Nr. {{ bidding_round.number }} abgeschlossen \U0001F389"
         _it: "Turno di impegno n°{{ bidding_round.number }} completato \U0001F389"
+        _nl: "Biedronde #{{ bidding_round.number }} afgerond \U0001F389"
       bidding_round_failed:
         _en: "Bidding round #{{ bidding_round.number }} failed \U0001F62C"
         _fr: "Tour d'engagement n°{{ bidding_round.number }} échoué \U0001F62C"
         _de: "Bietrunde Nr. {{ bidding_round.number }} fehlgeschlagen \U0001F62C"
         _it: "Turno di impegno n°{{ bidding_round.number }} è fallito \U0001F62C"
+        _nl: "Biedronde #{{ bidding_round.number }} mislukt \U0001F62C"
       bidding_round_opened:
         _en: 'Bidding round #{{ bidding_round.number }} is open'
         _fr: Tour d'engagement n°{{ bidding_round.number }} ouvert
         _de: Bietrunde Nr. {{ bidding_round.number }} ist offen
         _it: Turno di impegno n°{{ bidding_round.number }} è aperto
+        _nl: 'Biedronde #{{ bidding_round.number }} is open'
       bidding_round_opened_reminder:
         _en: 'Bidding round #{{ bidding_round.number }} is open (reminder)'
         _fr: Tour d'engagement n°{{ bidding_round.number }} ouvert (rappel)
         _de: Bietrunde Nr. {{ bidding_round.number }} ist offen (Erinnerung)
         _it: Turno di impegno n°{{ bidding_round.number }} è aperto (promemoria)
+        _nl: 'Biedronde #{{ bidding_round.number }} is open (herinnering)'
       invoice_cancelled:
         _en: 'Cancelled invoice #{{ invoice.number }}'
         _fr: 'Facture annulée #{{ invoice.number }}'
         _de: 'Stornierte Rechnung #{{ invoice.number }}'
         _it: 'Fattura annullata #{{ invoice.number }}'
+        _nl: 'Geannuleerde factuur #{{ invoice.number }}'
       invoice_created:
         _en: 'New invoice #{{ invoice.number }}'
         _fr: 'Nouvelle facture #{{ invoice.number }}'
         _de: 'Neue Rechnung #{{ invoice.number }}'
         _it: 'Nuova fattura #{{ invoice.number }}'
+        _nl: 'Nieuwe factuur #{{ invoice.number }}'
       invoice_overdue_notice:
         _en: "Overdue notice #{{ invoice.overdue_notices_count }} for invoice #{{ invoice.number }} \U0001F62C"
         _fr: "Rappel #{{ invoice.overdue_notices_count }} de la facture #{{ invoice.number }} \U0001F62C"
         _de: "Mahnung #{{ invoice.overdue_notices_count }} der Rechnung #{{ invoice.number }} \U0001F62C"
         _it: "Promemoria #{{ invoice.overdue_notices_count }} della fattura #{{ invoice.number }} \U0001F62C"
+        _nl: "Betalingsherinnering #{{ invoice.overdue_notices_count }} voor factuur #{{ invoice.number }} \U0001F62C"
       member_activated:
         _en: Welcome!
         _fr: Bienvenue!
         _de: Herzlich willkommen!
         _it: Benvenuto/a!
+        _nl: Welkom!
       member_validated:
         _en: Registration validated!
         _fr: Inscription validée!
         _de: Registrierung validiert!
         _it: Iscrizione confermata!
+        _nl: Registratie gevalideerd!
       membership_final_basket:
         _en: Last basket!
         _fr: Dernier panier!
         _de: Letzte Tasche!
         _it: Ultimo cestino!
+        _nl: Laatste pakket!
       membership_first_basket:
         _en: First basket of the year!
         _fr: Premier panier de l'année!
         _de: Erste Tasche des Jahres!
         _it: Primo cestino dell'anno!
+        _nl: Eerste pakket van het jaar!
       membership_initial_basket:
         _en: First basket!
         _fr: Premier panier!
         _de: Erste Tasche!
         _it: Primo cestino!
+        _nl: Eerste pakket!
       membership_last_basket:
         _en: Last basket of the year!
         _fr: Dernier panier de l'année!
         _de: Letzte Tasche des Jahres!
         _it: Ultimo cestino dell'anno!
+        _nl: Laatste pakket van het jaar!
       membership_last_trial_basket:
         _en: Last trial basket!
         _fr: Dernier panier à l'essai!
         _de: Letzte Probe Tasche!
         _it: Ultimo cestino da provare!
+        _nl: Laatste proefpakket!
       membership_renewal:
         _en: Renew your membership
         _fr: Renouvellement de votre abonnement
         _de: Ihr Abonnement verlängern
         _it: Rinnovo del vostro abbonamento
+        _nl: Vernieuw uw lidmaatschap
       membership_renewal_reminder:
         _en: Renew your membership (reminder)
         _fr: Renouvellement de votre abonnement (rappel)
         _de: Ihr Abonnement verlängern (Mahnung)
         _it: Rinnovo del vostro abbonamento (promemoria)
+        _nl: Vernieuw uw lidmaatschap (herinnering)
     description:
       absence_basket_shifted:
         _en: Sent when a basket is shifted during an absence, by a member or an admin.
         _fr: Envoyé quand un panier est déplacé durant une absence, par un membre ou un admin.
         _de: Wird gesendet, wenn eine Tasche während einer Abwesenheit von einem Mitglied oder einem Admin bewegt wird.
         _it: Inviato quando un cestino viene spostato durante un'assenza, da un socio o da un admin.
+        _nl: Verzonden wanneer een pakket wordt verschoven tijdens een afwezigheid, door een lid of een beheerder.
       absence_created:
         _en: Sent when an absence is created, by a member or an admin.
         _fr: Envoyé quand une absence est créée, par un membre ou un admin.
         _de: Wird gesendet, wenn eine Abwesenheit erstellt wird, von einem Mitglied oder einem Admin.
         _it: Inviato quando una assenza è creata, da un socio o da un admin.
+        _nl: Verzonden wanneer een afwezigheid wordt aangemaakt, door een lid of een beheerder.
       activity_participation_rejected:
         _en: Sent when participation in an activity is rejected.
         _fr: Envoyé quand une participation à une activité est refusée.
         _de: Wird gesendet, wenn die Teilnahme an einer Aktivität abgelehnt wird.
         _it: Inviato quando la partecipazione a un'attività viene rifiutata.
+        _nl: Verzonden wanneer deelname aan een activiteit wordt afgewezen.
       activity_participation_reminder:
         _en: Sent to remind the member of their registration for an activity 3 days before it.
         _fr: Envoyé pour rappeler au membre son inscription à une activité 3 jours avant celle-ci.
         _de: Wird gesendet, um das Mitglied 3 Tage vorher an seine Registrierung für eine Aktivität zu erinnern.
         _it: Inviato per ricordare al socio la sua partecipazione a un'attività 3 giorni prima dell'attività.
+        _nl: Verzonden om het lid te herinneren aan zijn registratie voor een activiteit 3 dagen ervoor.
       activity_participation_validated:
         _en: Sent when participation in an activity is confirmed.
         _fr: Envoyé quand une participation à une activité est validée.
         _de: Wird gesendet, wenn die Teilnahme an einer Aktivität bestätigt wird.
         _it: Inviato quando viene convalidata una partecipazione a un'attività.
+        _nl: Verzonden wanneer deelname aan een activiteit wordt bevestigd.
       bidding_round_completed:
         _en: Sent to notify the members that the bidding round has been completed with success. Sent to all eligible members, even if they have not pledged.
         _fr: Envoyé pour informer les membres que le tour d'engagement est terminé avec succès. Envoyé à tous les membres concernés, même s'ils n'ont pas fixé leur montant.
         _de: Wird gesendet, um die Mitglieder zu informieren, dass die Bietrunde erfolgreich abgeschlossen wurde. An alle berechtigten Mitglieder gesendet, auch wenn sie keinen Betrag zugesagt haben.
         _it: Inviato per informare i soci che il turno di impegno è stato completato con successo. Inviato a tutti i soci eleggibili, anche se non hanno promesso un importo.
+        _nl: Verzonden om de leden te informeren dat de biedronde succesvol is afgerond. Verzonden naar alle berechtigde leden, zelfs als ze geen bedrag hebben toegezegd.
       bidding_round_failed:
         _en: Sent to notify the members that the bidding round has failed. Sent to all eligible members, even if they have not pledged.
         _fr: Envoyé pour informer les membres que le tour d'engagement a échoué. Envoyé à tous les membres concernés, même s'ils n'ont pas fixé leur montant.
         _de: Wird gesendet, um die Mitglieder zu informieren, dass die Bietrunde fehlgeschlagen ist. An alle berechtigten Mitglieder gesendet, auch wenn sie keinen Betrag zugesagt haben.
         _it: Inviato per informare i soci che il turno di impegno è fallito. Inviato a tutti i soci eleggibili, anche se non hanno promesso un importo.
+        _nl: Verzonden om de leden te informeren dat de biedronde is mislukt. Verzonden naar alle berechtigde leden, zelfs als ze geen bedrag hebben toegezegd.
       bidding_round_opened:
         _en: Sent when a bidding round is opened to all eligible members.
         _fr: Envoyé quand un tour d'engagement est ouvert à tous les membres concernés.
         _de: Wird gesendet, wenn eine Bietrunde für alle berechtigten Mitglieder geöffnet wird.
         _it: Inviato quando un turno di impegno viene aperto a tutti i soci eleggibili.
+        _nl: Verzonden wanneer een biedronde wordt geopend voor alle berechtigde leden.
       bidding_round_opened_reminder:
         _en: Sent to remind the members that they have not yet pledged for the open bidding round (see <a href='/settings#bidding_round'>settings</a> for the deadline).
         _fr: Envoyé pour rappeler aux membres qu'ils n'ont pas encore fixé leur montant au tour d'engagement ouvert (voir <a href='/settings#bidding_round'>paramètres</a> pour la date limite).
         _de: Gesendet, um die Mitglieder daran zu erinnern, dass sie für die offene Bietrunde noch keinen Betrag zugesagt haben (siehe <a href='/settings#bidding_round'>die Einstellungen</a> für die Frist).
         _it: Inviato per ricordare al socio che non ha ancora promesso un importo per il turno di impegno aperto (vedi <a href='/settings#bidding_round'>parametri</a> per le scadenze).
+        _nl: Verzonden om de leden eraan te herinneren dat ze nog geen bedrag hebben toegezegd voor de open biedronde (zie <a href='/settings#bidding_round'>instellingen</a> voor de deadline).
       invoice_cancelled:
         _en: Sent when an open invoice is cancelled.
         _fr: Envoyé quand une facture encore ouverte est annulée.
         _de: Wird gesendet, wenn eine noch offene Rechnung storniert wird.
         _it: Inviato quando una fattura ancora aperta viene annullata.
+        _nl: Verzonden wanneer een openstaande factuur wordt geannuleerd.
       invoice_created:
         _en: Sent when an invoice is automatically created or when the "Send" button of a manually created invoice is pressed.
         _fr: Envoyé lors de la création automatique d'une facture ou quand le bouton "Envoyer" d'une facture créée manuellement est pressé.
         _de: Wird gesendet, wenn eine Rechnung automatisch erstellt wird oder wenn die Schaltfläche "Senden" einer manuell erstellten Rechnung gedrückt wird.
         _it: Inviato durante la creazione automatica di una fattura o quando si preme il pulsante "Invia" di una fattura creata manualmente.
+        _nl: Verzonden wanneer een factuur automatisch wordt aangemaakt of wanneer de "Verzenden" knop van een handmatig aangemaakte factuur wordt ingedrukt.
       invoice_overdue_notice:
         _en: Sent automatically when an invoice is still open 35 days after its creation or last reminder.</br><i>Disabled when payments are not processed automatically (EBICS).</i>
         _fr: Envoyé automatiquement quand une facture est toujours ouverte 35 jours après sa création ou son dernier rappel.</br><i>Désactivé quand les paiements ne sont pas traités automatiquement (EBICS).</i>
         _de: Wird automatisch gesendet, wenn eine Rechnung 35 Tage nach ihrer Erstellung oder letzten Mahnung noch offen ist.</br><i>Deaktiviert, wenn die Zahlungen nicht automatisch verarbeitet werden (EBICS).</i>
         _it: Inviato automaticamente quando una fattura è ancora aperta 35 giorni dopo la sua creazione o il suo ultimo promemoria.</br><i>Disattivato quando i pagamenti non vengono elaborati automaticamente (EBICS).</i>
+        _nl: Automatisch verzonden wanneer een factuur nog open staat 35 dagen na aanmaak of laatste herinnering.</br><i>Uitgeschakeld wanneer betalingen niet automatisch worden verwerkt (EBICS).</i>
       member_activated:
         _en: Sent when a member becomes active for the first time as soon as their first (current or future) membership is created.
         _fr: Envoyé quand un membre devient actif, pour la première fois, dès que son premier abonnement (en cours ou futur) est créé.
         _de: Wird gesendet, wenn ein Mitglied zum ersten Mal aktiv wird, sobald sein erster (aktueller oder zukünftiger) Abonnement erstellt wird.
         _it: Inviato quando un socio diventa attivo, per la prima volta, non appena viene creato il suo primo abbonamento (attuale o futuro).
+        _nl: Verzonden wanneer een lid voor de eerste keer actief wordt zodra hun eerste (huidige of toekomstige) lidmaatschap wordt aangemaakt.
       member_validated:
         _en: Sent when the registration of a new member is validated.
         _fr: Envoyé quand l'inscription d'un nouveau membre est validée.
         _de: Wird gesendet, wenn die Registrierung eines neuen Mitglieds validiert wurde.
         _it: Inviato quando la registrazione di un nuovo socio viene convalidata.
+        _nl: Verzonden wanneer de registratie van een nieuw lid wordt gevalideerd.
       membership_final_basket:
         _en: Sent on the delivery day of the member's very last basket, in case the membership is canceled.
         _fr: Envoyé le jour de la livraison du tout dernier panier du membre, dans le cas où l'abonnement est résilié.
         _de: Wird gesendet am Tag der Auslieferung der allerletzten Tasche des Mitglieds, falls das Abonnement gekündigt wird.
         _it: Inviato il giorno della consegna dell'ultimo cestino del socio, nel caso in cui l'abbonamento viene terminato.
+        _nl: Verzonden op de leveringsdag van het allerlaatste pakket van het lid, indien het lidmaatschap wordt opgezegd.
       membership_first_basket:
         _en: Sent on the delivery day of the first basket of each membership, each fiscal year.
         _fr: Envoyé le jour de la livraison du premier panier de chaque abonnement, chaque année fiscale.
         _de: Wird gesendet am Tag der Auslieferung der ersten Tasche jedes Abonnements, jedes Geschäftsjahr.
         _it: Inviato il giorno della consegna del primo cestino di ogni abbonamento, ogni anno fiscale.
+        _nl: Verzonden op de leveringsdag van het eerste pakket van elk lidmaatschap, elk boekjaar.
       membership_initial_basket:
         _en: Sent on the delivery day of the member's very first basket. Sent only once, unless the member resubscribes after an interruption.
         _fr: Envoyé le jour de la livraison du tout premier panier du membre. Envoyé une seule fois, à moins que le membre ne se réabonne après une interruption.
         _de: Wird gesendet am Tag der Auslieferung der allerersten Tasche des Mitglieds. Wird nur einmal gesendet, es sei denn, das Mitglied abonniert sich nach einer Unterbrechung erneut.
         _it: Inviato il giorno della consegna del primo cestino in assoluto del socio. Inviato una sola volta, a meno che il socio non si riabboni dopo un'interruzione.
+        _nl: Verzonden op de leveringsdag van het allereerste pakket van het lid. Slechts één keer verzonden, tenzij het lid opnieuw inschrijft na een onderbreking.
       membership_last_basket:
         _en: Sent on the delivery day of the last basket of each membership, only if the membership is renewed.
         _fr: Envoyé le jour de la livraison du dernier panier de chaque abonnement, uniquement si l'abonnement est renouvelé.
         _de: Wird gesendet am Tag der Auslieferung der letzten Tasche jedes Abonnements, nur wenn das Abonnement verlängert wird.
         _it: Inviato il giorno della consegna dell'ultimo cestino di ogni abbonamento, solo se l'abbonamento viene rinnovato.
+        _nl: Verzonden op de leveringsdag van het laatste pakket van elk lidmaatschap, alleen als het lidmaatschap wordt vernieuwd.
       membership_last_trial_basket:
         _en: Sent on the day of delivery of the last trial basket to ask the member if they wish to continue their membership until the end of the fiscal year.
         _fr: Envoyé le jour de la livraison du dernier panier à l'essai afin de demander au membre si il désire continuer son abonnement jusqu'à la fin de l'année fiscale.
         _de: Wird gesendet am Tag der Auslieferung der letzten Probe-Tasche, um das Mitglied zu fragen, ob es sein Abonnement bis zum Ende des Geschäftsjahres fortsetzen möchte.
         _it: Inviato il giorno della consegna dell'ultimo cestino di prova per chiedere al membro se desidera continuare il suo abbonamento fino alla fine dell'anno fiscale.
+        _nl: Verzonden op de leveringsdag van het laatste proefpakket om het lid te vragen of ze hun lidmaatschap tot het einde van het boekjaar willen voortzetten.
       membership_renewal:
         _en: Sent to ask the member via the form on their member page whether they wish to renew their membership or not.
         _fr: Envoyé afin de demander au membre si il désire ou non renouveler son abonnement via le formulaire sur sa page de membre.
         _de: Wird gesendet, um das Mitglied über das Formular auf seiner Mitgliederseite zu fragen, ob es sein Abonnement erneuern möchte oder nicht.
         _it: Inviato per chiedere al socio se desidera o meno rinnovare il suo abbonamento tramite il modulo nella sua pagina membro.
+        _nl: Verzonden om het lid via het formulier op hun ledenpagina te vragen of ze hun lidmaatschap willen vernieuwen of niet.
       membership_renewal_reminder:
         _en: Sent to remind the member that they have not yet completed the membership renewal form (see <a href='/settings#membership_renewal'>settings</a> for the deadline).
         _fr: Envoyé afin de rappeler au membre qu'il n'a pas encore rempli le formulaire de renouvellement de son abonnement (voir <a href='/settings#membership_renewal'>les paramètres</a> pour le délai).
         _de: Gesendet, um das Mitglied daran zu erinnern, dass es das Abonnementserneuerungsformular noch nicht ausgefüllt hat (siehe <a href='/settings#membership_renewal'>die Einstellungen</a> für die Frist).
         _it: Inviato per ricordare al socio che non ha ancora completato il modulo di rinnovo dell'abbonamento (vedi <a href='/settings#membership_renewal'>parametri</a> per le scadenze).
+        _nl: Verzonden om het lid eraan te herinneren dat ze het formulier voor lidmaatschapsvernieuwing nog niet hebben ingevuld (zie <a href='/settings#membership_renewal'>instellingen</a> voor de deadline).
     title:
       absence_basket_shifted:
         _en: Basket Shifted
         _fr: Panier déplacé
         _de: Tasche verschoben
         _it: Cestino spostato
+        _nl: Pakket verschoven
       absence_created:
         _en: New absence
         _fr: Nouvelle absence
         _de: Neue Abwesenheit
         _it: Nuova assenza
+        _nl: Nieuwe afwezigheid
       activity_participation_rejected:
         _en: Activity Rejected
         _fr: Activité refusée
         _de: Abgelehnte Aktivität
         _it: Attività rifiutata
+        _nl: Activiteit afgewezen
       activity_participation_reminder:
         _en: Upcoming Activity
         _fr: Activité à venir
         _de: Bevorstehende Aktivität
         _it: Attività futura
+        _nl: Komende activiteit
       activity_participation_validated:
         _en: Activity Confirmed
         _fr: Activité validée
         _de: Bestätigte Aktivität
         _it: Attività confermata
+        _nl: Activiteit bevestigd
       bidding_round_completed:
         _en: Bidding Round Completed
         _fr: Tour d'engagement terminé
         _de: Gebotsrunde abgeschlossen
         _it: Turno di offerta completato
+        _nl: Biedronde afgerond
       bidding_round_failed:
         _en: Bidding Round Failed
         _fr: Tour d'engagement échoué
         _de: Gebotsrunde fehlgeschlagen
         _it: Turno di offerta fallito
+        _nl: Biedronde mislukt
       bidding_round_opened:
         _en: Bidding Round Opened
         _fr: Tour d'engagement ouvert
         _de: Gebotsrunde geöffnet
         _it: Turno di offerta aperto
+        _nl: Biedronde geopend
       bidding_round_opened_reminder:
         _en: Bidding Round Opened (Reminder)
         _fr: Tour d'engagement ouvert (Rappel)
         _de: Gebotsrunde geöffnet (Mahnung)
         _it: Turno di offerta aperto (Promemoria)
+        _nl: Biedronde geopend (Herinnering)
       invoice_cancelled:
         _en: Cancelled Invoice
         _fr: Facture annulée
         _de: Stornierte Rechnung
         _it: Fattura annullata
+        _nl: Geannuleerde factuur
       invoice_created:
         _en: New invoice
         _fr: Nouvelle facture
         _de: Neue Rechnung
         _it: Nuova fattura
+        _nl: Nieuwe factuur
       invoice_overdue_notice:
         _en: Invoice overdue notice
         _fr: Rappel facture
         _de: Mahnung der Rechnung
         _it: Promemoria fattura
+        _nl: Betalingsherinnering factuur
       member_activated:
         _en: Member activated
         _fr: Membre activé
         _de: Mitglied aktiviert
         _it: Socio attivato
+        _nl: Lid geactiveerd
       member_validated:
         _en: Member validated
         _fr: Membre validé
         _de: Mitglied validiert
         _it: Socio confermato
+        _nl: Lid gevalideerd
       membership_final_basket:
         _en: Final Basket
         _fr: Panier final
         _de: Endgültige Tasche
         _it: Cestino finale
+        _nl: Laatste pakket
       membership_first_basket:
         _en: First Basket
         _fr: Premier panier
         _de: Erste Tasche
         _it: Primo cestino
+        _nl: Eerste pakket
       membership_initial_basket:
         _en: Initial Basket
         _fr: Panier initial
         _de: Initiale Tasche
         _it: Cestino iniziale
+        _nl: Eerste pakket
       membership_last_basket:
         _en: Last Basket
         _fr: Dernier panier
         _de: Letzte Tasche
         _it: Ultimo cestino
+        _nl: Laatste pakket
       membership_last_trial_basket:
         _en: Last trial basket
         _fr: Dernier panier à l'essai
         _de: Letzte Probe Tasche
         _it: Ultimo cestino da provare
+        _nl: Laatste proefpakket
       membership_renewal:
         _en: Membership renewal
         _fr: Renouvellement abonnement
         _de: Abonnement verlängern
         _it: Rinnovo abbonamento
+        _nl: Lidmaatschapsvernieuwing
       membership_renewal_reminder:
         _en: Membership renewal reminder
         _fr: Renouvellement abonnement (Rappel)
         _de: Abonnement verlängern (Mahnung)
         _it: Rinnovo abbonamento (promemoria)
+        _nl: Lidmaatschapsvernieuwing (Herinnering)

@@ -1,0 +1,23 @@
+<p>Hallo {{ admin.name }},</p>
+
+<p>Er zijn nog:</p>
+<ul>
+  {% if pending_memberships.size > 0 %}
+  <li>
+    <a href={{ pending_action_url }}>{{ pending_memberships.size }} lidmaatschappen</a> die nog niet zijn vernieuwd of geannuleerd.</p>
+  </li>
+  {% endif %}
+
+  {% if opened_memberships.size > 0 %}
+  <li>
+    <a href={{ opened_action_url }}>{{ opened_memberships.size }} open vernieuwingsverzoek(en)</a> die nog niet zijn afgerond.</p>
+  </li>
+  {% endif %}
+</ul>
+
+<br/>
+<p>Controleer dit alstublieft <u>voor</u> het einde van uw boekjaar.</p>
+
+{% button action_url %}
+  Toegang tot lidmaatschappen
+{% endbutton %}

@@ -1,0 +1,13 @@
+<p>Biedronde #{{ bidding_round.number }} is succesvol voltooid.</p>
+
+{% if bidding_round_pledge.basket_size_price %}
+  <p>Bedankt voor uw bod van {{ bidding_round_pledge.basket_size_price }} per pakket. Dit bedrag is gebruikt om uw lidmaatschapsprijs bij te werken.</p>
+{% else %}
+  <p>U heeft geen bod uitgebracht, dus de standaard pakketprijs ({{ membership.basket_size.price }}) is toegepast.</p>
+{% endif %}
+
+<p>U kunt de details van uw lidmaatschap op elk moment bekijken.</p>
+
+{% button member.memberships_url %}
+  Bekijk uw lidmaatschap
+{% endbutton %}

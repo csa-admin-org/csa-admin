@@ -6,98 +6,117 @@ _:
         _fr: Bulletin de livraison
         _de: Lieferschein
         _it: Bolla di consegna
+        _nl: Leveringsbon
     open:
       _en: Open
       _fr: Ouverte
       _de: Offenes
       _it: Aperto
+      _nl: Open
     orders:
       one:
         _en: 1 order
         _fr: 1 commande
         _de: 1 Bestellung
         _it: 1 ordine
+        _nl: 1 bestelling
       other:
         _en: "%{count} orders"
         _fr: "%{count} commandes"
         _de: "%{count} Bestellungen"
         _it: "%{count} ordini"
+        _nl: "%{count} bestellingen"
       zero:
         _en: no order
         _fr: aucune commande
         _de: keine Bestellung
         _it: nessun ordine
+        _nl: geen bestelling
     orders_automatic_invoicing:
       _en: Orders to be prepared will be automatically invoiced during the night starting from %{date}.
       _fr: Les commandes à préparer seront automatiquement facturées, durant la nuit, à partir du %{date}.
       _de: Die zu bereitenden Bestellungen werden in der Nacht vom %{date} automatisch fakturiert.
       _it: Gli ordini da preparare verranno fatturati automaticamente, durante la notte, a partire dal %{date}.
+      _nl: Bestellingen die moeten worden voorbereid, worden vanaf %{date} 's nachts automatisch gefactureerd.
     orders_manual_invoicing:
       _en: Automatic invoicing is not configured, orders must be invoiced manually.
       _fr: La facturation automatique n'est pas paramétrée, les commandes à préparer doivent être facturées manuellement.
       _de: Automatische Rechnungsstellung ist nicht konfiguriert, Bestellungen müssen manuell fakturiert werden.
       _it: La fatturazione automatica non è configurata, gli ordini devono essere fatturati manualmente.
+      _nl: Automatische facturering is niet geconfigureerd, bestellingen moeten handmatig worden gefactureerd.
     percentage:
       negative:
         _en: Discount %{percentage}%
         _fr: Rabais %{percentage}%
         _de: Rabatt %{percentage}%
         _it: Sconto %{percentage}%
+        _nl: Korting %{percentage}%
       none:
         _en: None
         _fr: Aucun
         _de: Kein
         _it: Nessuno
+        _nl: Geen
       positive:
         _en: Support +%{percentage}%
         _fr: Soutien +%{percentage}%
         _de: Unterstützung +%{percentage}%
         _it: Sostegno +%{percentage}%
+        _nl: Ondersteuning +%{percentage}%
     percentages_title:
       mixed:
         _en: Support / Discount
         _fr: Soutien / Rabais
         _de: Unterstützung / Rabatt
         _it: Sostegno / Sconto
+        _nl: Ondersteuning / Korting
       negative:
         _en: Discount
         _fr: Rabais
         _de: Rabatt
         _it: Sconto
+        _nl: Korting
       positive:
         _en: Support us!
         _fr: Soutenez-nous!
         _de: Unterstütze uns!
         _it: Sosteneteci!
+        _nl: Ondersteun ons!
       remove:
         _en: None
         _fr: Aucun
         _de: Kein
         _it: Nessuno
+        _nl: Geen
     producers:
       all:
         _en: All producers
         _fr: Tous les producteurs
         _de: Alle Produzenten
         _it: Tutti i produttori
+        _nl: Alle producenten
       null_producer:
         _en: Producer not defined
         _fr: Producteur non défini
         _de: Produzent nicht definiert
         _it: Produttore non definito
+        _nl: Producent niet gedefinieerd
     title:
       _en: Farm shop
       _fr: Épicerie
       _de: Hofladen
       _it: Bottega
+      _nl: Boerderijwinkel
     title_orders:
       one:
         _en: Farm shop order
         _fr: Commande d'épicerie
         _de: Bestellung des Hofladens
         _it: Ordine di drogheria
+        _nl: Bestelling boerderijwinkel
       other:
         _en: Farm shop orders
         _fr: Commandes d'épicerie
         _de: Bestellungen vom Hofladen
         _it: Ordini di drogheria
+        _nl: Bestellingen boerderijwinkel

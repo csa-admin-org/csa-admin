@@ -5,18 +5,28 @@ _:
       _fr: Allemand
       _de: Deutsch
       _it: Tedesco
+      _nl: Duits
     en:
       _en: English
       _fr: Anglais
       _de: Englisch
       _it: Inglese
+      _nl: Engels
     fr:
       _en: French
       _fr: Français
       _de: Französisch
       _it: Francese
+      _nl: Frans
     it:
       _en: Italian
       _fr: Italien
       _de: Italienisch
       _it: Italiano
+      _nl: Italiaans
+    nl:
+      _en: Dutch
+      _fr: Néerlandais
+      _de: Niederländisch
+      _it: Olandese
+      _nl: Nederlands

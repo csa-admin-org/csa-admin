@@ -1,0 +1,12 @@
+<p>Hallo {{ admin.name }},</p>
+
+{% if member.existing %}
+  <p>Een bestaand lid, <strong>{{ member.name }}</strong>, heeft zich opnieuw geregistreerd!</p>
+  <p>Hun account is bijgewerkt en toegevoegd aan de wachtlijst. U kunt de wijzigingen bekijken in het <a href="{{ member.admin_audits_url }}">audit logboek</a>.</p>
+{% else %}
+  <p>Een nieuw lid, <strong>{{ member.name }}</strong>, heeft zich zojuist aangemeld!</p>
+{% endif %}
+
+{% button member.admin_url %}
+  Toegang tot ledenpagina
+{% endbutton %}

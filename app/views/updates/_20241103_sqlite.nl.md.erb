@@ -1,0 +1,9 @@
+# Database wijziging (SQLite)
+
+Dit weekend heb ik een open-hart operatie uitgevoerd op het platform en de database gemigreerd van PostgreSQL naar SQLite.
+
+In de praktijk zou dit niets voor u moeten veranderen, behalve een lichte verbetering in de prestaties van de applicatie. Sommige verschillen, zoals een andere sorteervolgorde op bepaalde lijsten, kunnen echter aan mijn aandacht zijn ontsnapt. Als u iets ongewoons opmerkt, laat het mij dan gerust weten. Bedankt!
+
+Technisch gezien betekent dit dat elke organisatie nu zijn eigen SQLite database heeft, in plaats van een gemeenschappelijke PostgreSQL database te delen (met afzonderlijke schema's). Dit vereenvoudigt het databeheer en zorgt voor betere gegevensisolatie tussen organisaties. Elke SQLite database wordt ook continu geback-upt via [Litestream](https://litestream.io). Uw gegevens en hun back-ups worden nog steeds gehost bij Infomaniak, in Zwitserland.
+
+SQLite is het meest gebruikte databasesysteem ter wereld, erkend om zijn grote betrouwbaarheid, duurzaamheid en het feit dat het open-source is. Meer informatie over SQLite is beschikbaar op [de officiële website](https://www.sqlite.org/about.html).

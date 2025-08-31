@@ -1,0 +1,32 @@
+<p>Hallo {{ admin.name }},</p>
+
+<p>Het lid <strong>{{ member.name }}</strong> heeft zich ingeschreven voor een activiteit.</p>
+
+{% highlight_list %}
+  <strong>Datum:</strong> {{ activity.date_long }}
+  <strong>Schema:</strong> {{ activity.period }}
+  <strong>Activiteit:</strong> {{ activity.title }}
+  {% if activity.description %}
+  <strong>Beschrijving:</strong> {{ activity.description }}
+  {% endif %}
+  {% if activity.place_url %}
+  <strong>Locatie:</strong> <a href="{{ activity.place_url }}" target="_blank">{{ activity.place }}</a>
+  {% elsif activity.place %}
+  <strong>Locatie:</strong> {{ activity.place }}
+  {% endif %}
+  <strong>Deelnemers:</strong> {{ activity_participation.participants_count }}
+  {% if activity_participation.carpooling %}
+    <strong>Carpooling:</strong> {{ activity_participation.carpooling_phone }} {% if activity_participation.carpooling_city %}({{ activity_participation.carpooling_city }}){% endif %}
+  {% endif %}
+{% endhighlight_list %}
+
+{% if activity_participation.note %}
+<p>
+  Opmerking van het lid:<br/>
+  <i>{{ activity_participation.note }}</i>
+</p>
+{% endif %}
+
+{% button activity_participation.admin_url %}
+  Toegang tot de deelnamepagina van het lid
+{% endbutton %}

@@ -7,164 +7,195 @@ _:
           _fr: environ une heure
           _de: ca. eine Stunde
           _it: circa un'ora
+          _nl: ongeveer een uur
         other:
           _en: about %{count} hours
           _fr: environ %{count} heures
           _de: ca. %{count} Stunden
           _it: circa %{count} ore
+          _nl: ongeveer %{count} uur
       about_x_months:
         one:
           _en: about a month
           _fr: environ un mois
           _de: ca. ein Monat
           _it: circa un mese
+          _nl: ongeveer een maand
         other:
           _en: about %{count} months
           _fr: environ %{count} mois
           _de: ca. %{count} Monate
           _it: circa %{count} mesi
+          _nl: ongeveer %{count} maanden
       about_x_years:
         one:
           _en: about a year
           _fr: environ un an
           _de: ca. ein Jahr
           _it: circa un anno
+          _nl: ongeveer een jaar
         other:
           _en: about %{count} years
           _fr: environ %{count} ans
           _de: ca. %{count} Jahre
           _it: circa %{count} anni
+          _nl: ongeveer %{count} jaar
       almost_x_years:
         one:
           _en: almost a year
           _fr: presqu'un an
           _de: nahezu ein Jahr
           _it: quasi
+          _nl: bijna een jaar
         other:
           _en: almost %{count} years
           _fr: presque %{count} ans
           _de: nahezu %{count} Jahre
           _it: quasi %{count} anni
+          _nl: bijna %{count} jaar
       half_a_minute:
         _en: half a minute
         _fr: une demi-minute
         _de: eine halbe Minute
         _it: mezzo minuto
+        _nl: een halve minuut
       less_than_x_minutes:
         one:
           _en: less than a minute
           _fr: moins d'une minute
           _de: weniger als eine Minute
           _it: meno di un minuto
+          _nl: minder dan een minuut
         other:
           _en: less than %{count} minutes
           _fr: moins de %{count} minutes
           _de: wenige als %{count} Minuten
           _it: meno di %{count} minuti
+          _nl: minder dan %{count} minuten
         zero:
           _en: less than a minute
           _fr: moins d'une minute
           _de: weniger als eine Minute
           _it: meno di un minuto
+          _nl: minder dan een minuut
       less_than_x_seconds:
         one:
           _en: less than a second
           _fr: moins d'une seconde
           _de: weniger als eine Sekunde
           _it: meno di un secondo
+          _nl: minder dan een seconde
         other:
           _en: less than %{count} seconds
           _fr: moins de %{count} secondes
           _de: weniger als %{count} Sekunden
           _it: meno di %{count} secondi
+          _nl: minder dan %{count} seconden
         zero:
           _en: less than a second
           _fr: moins d'une seconde
           _de: weniger als eine Sekunde
           _it: meno di un secondo
+          _nl: minder dan een seconde
       over_x_years:
         one:
           _en: over a year
           _fr: plus d'un an
           _de: länger als ein Jahr
           _it: più di un anno
+          _nl: meer dan een jaar
         other:
           _en: over %{count} years
           _fr: plus de %{count} ans
           _de: länger als %{count} Jahre
           _it: più di %{count} anni
+          _nl: meer dan %{count} jaar
       x_days:
         one:
           _en: 1 day
           _fr: 1 jour
           _de: 1 Tag
           _it: 1 giorno
+          _nl: 1 dag
         other:
           _en: "%{count} days"
           _fr: "%{count} jours"
           _de: "%{count} Tage"
           _it: "%{count} giorni"
+          _nl: "%{count} dagen"
       x_minutes:
         one:
           _en: 1 minute
           _fr: 1 minute
           _de: 1 Minute
           _it: 1 minuto
+          _nl: 1 minuut
         other:
           _en: "%{count} minutes"
           _fr: "%{count} minutes"
           _de: "%{count} Minuten"
           _it: "%{count} minuti"
+          _nl: "%{count} minuten"
       x_months:
         one:
           _en: 1 month
           _fr: 1 mois
           _de: 1 Monat
           _it: 1 mese
+          _nl: 1 maand
         other:
           _en: "%{count} months"
           _fr: "%{count} mois"
           _de: "%{count} Monate"
           _it: "%{count} mesi"
+          _nl: "%{count} maanden"
       x_seconds:
         one:
           _en: 1 second
           _fr: 1 seconde
           _de: 1 Sekunde
           _it: 1 secondo
+          _nl: 1 seconde
         other:
           _en: "%{count} seconds"
           _fr: "%{count} secondes"
           _de: "%{count} Sekunden"
           _it: "%{count} secondi"
+          _nl: "%{count} seconden"
     prompts:
       day:
         _en: Day
         _fr: Jour
         _de: Tag
         _it: Giorno
+        _nl: Dag
       hour:
         _en: Hour
         _fr: Heure
         _de: Stunde
         _it: Ora
+        _nl: Uur
       minute:
         _en: Minute
         _fr: Minute
         _de: Minute
         _it: Minuto
+        _nl: Minuut
       month:
         _en: Month
         _fr: Mois
         _de: Monat
         _it: Mese
+        _nl: Maand
       second:
         _en: Second
         _fr: Seconde
         _de: Sekunde
         _it: Secondo
+        _nl: Seconde
       year:
         _en: Year
         _fr: Année
         _de: Jahr
         _it: Anno
+        _nl: Jaar

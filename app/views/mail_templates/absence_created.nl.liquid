@@ -1,0 +1,12 @@
+<p>Uw afwezigheid is succesvol geregistreerd:</p>
+
+{% highlight_list %}
+  <strong>Periode:</strong> {{ absence.start_date }} tot {{ absence.end_date }}
+  <strong>Getroffen leveringen:</strong> {{ absence.baskets_count }}
+{% endhighlight_list %}
+
+<p>U kunt uw afwezigheden op elk moment bekijken vanaf uw ledenpagina.</p>
+
+{% button member.absences_url %}
+  Toegang tot mijn ledenpagina
+{% endbutton %}

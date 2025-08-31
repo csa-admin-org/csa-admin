@@ -6,19 +6,23 @@ _:
         _fr: Lecture
         _de: Lesen
         _it: Lettura
+        _nl: Lezen
       write:
         _en: Write
         _fr: Écriture
         _de: Schreiben
         _it: Scrittura
+        _nl: Schrijven
     superadmin:
       description:
         _en: All, including settings
         _fr: Tous, y compris les paramètres
         _de: Alle, einschließlich der Einstellungen
         _it: Tutto, comprese le impostazioni
+        _nl: Alles, inclusief instellingen
       name:
         _en: Super Admin
         _fr: Super Admin
         _de: Super Admin
         _it: Super Admin
+        _nl: Super Admin

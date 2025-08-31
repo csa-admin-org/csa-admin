@@ -5,63 +5,75 @@ _:
       _fr: Toutes
       _de: Alle
       _it: Tutto
+      _nl: Alle
     basket_preparation:
       one:
         _en: Basket preparation
         _fr: Mise en panier
         _de: Taschen befüllung
         _it: Preparazione cesta
+        _nl: Pakketvoorbereiding
       other:
         _en: Basket preparations
         _fr: Mises en panier
         _de: Taschen befüllung
         _it: Preparazione ceste
+        _nl: Pakketvoorbereidingen
     day_work:
       one:
         _en: Workday
         _fr: Journée de travail
         _de: Arbeitstag
         _it: Giorno di lavoro
+        _nl: Werkdag
       other:
         _en: Workdays
         _fr: Journées de travail
         _de: Arbeitstage
         _it: Giorni di lavoro
+        _nl: Werkdagen
     halfday_work:
       one:
         _en: "½ Day"
         _fr: "½ Journée"
         _de: "½ Tag"
         _it: "½ Giornata"
+        _nl: "½ dag"
       other:
         _en: "½ Days"
         _fr: "½ Journées"
         _de: "½ Tage"
         _it: "½ Giornate"
+        _nl: "½ dagen"
     hour_work:
       one:
         _en: Work hour
         _fr: Heure de travail
         _de: Arbeitsstunde
         _it: Ora di lavoro
+        _nl: Werkuur
       other:
         _en: Work hours
         _fr: Heures de travail
         _de: Arbeitsstunden
         _it: Ore di lavoro
+        _nl: Werkuren
     participant_count:
       one:
         _en: 1 participant
         _fr: 1 participant
         _de: 1 Teilnehmer
         _it: 1 partecipante
+        _nl: 1 deelnemer
       other:
         _en: "%{count} participants"
         _fr: "%{count} participants"
         _de: "%{count} Teilnehmer"
         _it: "%{count} partecipanti"
+        _nl: "%{count} deelnemers"
       zero:
         _en: no participants
         _fr: aucun participant
         _de: keine Teilnehmer
         _it: nessun partecipante
+        _nl: geen deelnemers

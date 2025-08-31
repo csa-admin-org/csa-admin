@@ -1,0 +1,30 @@
+# Diensten van derden en naleving
+
+Om een goede werking, beveiliging en prestaties te garanderen, gebruikt CSA Admin gespecialiseerde diensten van derden. Deze partners spelen een sleutelrol bij het hosten, opslaan, back-uppen, communiceren en monitoren van de applicatie. Elke dienst is gekozen vanwege zijn betrouwbaarheid en naleving van de vereisten van de **Algemene Verordening Gegevensbescherming (AVG)** van de Europese Unie evenals de toepasselijke Zwitserse wetgeving.
+<br><br>
+Hieronder staat een gedetailleerde lijst van deze diensten, hun rol in de CSA Admin infrastructuur, en links naar hun privacybeleid of AVG-verplichtingen.
+
+### Hetzner
+- **Rol**: Hosting van de hoofdserver van CSA Admin, gelokaliseerd in Duitsland (Neurenberg). Hier draait de applicatie en worden de SQLite databases opgeslagen.
+- **Naleving**: Hetzner voldoet aan AVG-vereisten en biedt op verzoek verwerkersovereenkomsten (DPA's) aan.
+- **Meer info**: [Hetzner Privacybeleid](https://www.hetzner.com/legal/privacy-policy), [Duurzaamheid bij Hetzner](https://www.hetzner.com/unternehmen/nachhaltigkeit)
+
+### Cloudflare R2
+- **Rol**: Opslag van bijlagen geüpload naar CSA Admin (zoals documenten of afbeeldingen) op een objectopslagoplossing gebaseerd in Centraal-Europa. Deze gegevens zijn server-side versleuteld (SSE) en worden dagelijks geback-upt op mijn persoonlijke computer, die ook is versleuteld.
+- **Naleving**: Cloudflare verbindt zich tot AVG-naleving via DPA's en veilige praktijken.
+- **Meer info**: [Cloudflare en AVG](https://www.cloudflare.com/trust-hub/gdpr/)
+
+### Backblaze B2
+- **Rol**: Back-up van CSA Admin databases via de [Litestream](https://litestream.io) tool, met opslag gelokaliseerd in Europa (Amsterdam). Deze gegevens zijn server-side versleuteld (SSE) en worden dagelijks geback-upt op mijn persoonlijke computer, die ook is versleuteld.
+- **Naleving**: Backblaze houdt zich aan het EU-VS Gegevensprivacy Framework en biedt DPA's voor Europese klanten.
+- **Meer info**: [Backblaze AVG-beleid](https://www.backblaze.com/company/policy/gdpr)
+
+### Postmark
+- **Rol**: Verzending van transactionele e-mails ([e-mailsjablonen](/mail_templates)) evenals nieuwsbrieven (broadcast) naar CSA Admin gebruikers.
+- **Naleving**: Beheerd door ActiveCampaign, Postmark voldoet aan AVG en biedt DPA's om gegevensbescherming te waarborgen.
+- **Meer info**: [AVG bij Postmark/ActiveCampaign](https://www.postmarkapp.com/eu-privacy)
+
+### AppSignal
+- **Rol**: Monitoring van CSA Admin applicatieprestaties, verzamelen van metrieken en analyseren van logs om technische problemen snel te detecteren en op te lossen. De verzonden gegevens zijn geanonimiseerd en bevatten geen persoonlijke informatie.
+- **Naleving**: AppSignal voldoet aan AVG en biedt DPA's voor zijn klanten.
+- **Meer info**: [AppSignal Privacybeleid](https://docs.appsignal.com/appsignal/gdpr.html)
