@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/rails/rails.git
-  revision: 1dda631614793802ad99c247c0e06bb4b06a9432
+  revision: 37f65be689752dd6c1c92ae0fa87b406a62bc51a
   specs:
     actioncable (8.1.0.alpha)
       actionpack (= 8.1.0.alpha)
@@ -220,7 +220,7 @@ GEM
       fiber-annotation
       fiber-local (~> 1.1)
       json
-    countries (8.0.3)
+    countries (8.0.4)
       unaccent (~> 0.3)
     crass (1.0.6)
     css_parser (1.21.1)
@@ -494,7 +494,7 @@ GEM
       rack
     protocol-hpack (1.5.1)
     protocol-http (0.53.0)
-    protocol-http1 (0.35.0)
+    protocol-http1 (0.35.1)
       protocol-http (~> 0.22)
     protocol-http2 (0.22.1)
       protocol-hpack (~> 1.4)
@@ -830,7 +830,7 @@ CHECKSUMS
   concurrent-ruby (1.3.5) sha256=813b3e37aca6df2a21a3b9f1d497f8cbab24a2b94cab325bffe65ee0f6cbebc6
   connection_pool (2.5.3) sha256=cfd74a82b9b094d1ce30c4f1a346da23ee19dc8a062a16a85f58eab1ced4305b
   console (1.33.0) sha256=a1cc1910e3b24169b4925e42d72da414d53e5bd6773aee9a811e57dfe0399384
-  countries (8.0.3) sha256=6165078b4050a7c6249c91868b450add5f382bd629c17e77c4a0080410f93316
+  countries (8.0.4) sha256=0b28372dc28e4c40d26b05569f5f5d05048b49c973af3be5c0e511e20d126bcd
   crass (1.0.6) sha256=dc516022a56e7b3b156099abc81b6d2b08ea1ed12676ac7a5657617f012bd45d
   css_parser (1.21.1) sha256=6cfd3ffc0a97333b39d2b1b49c95397b05e0e3b684d68f77ec471ba4ec2ef7c7
   csv (3.3.5) sha256=6e5134ac3383ef728b7f02725d9872934f523cb40b961479f69cf3afa6c8e73f
@@ -953,7 +953,7 @@ CHECKSUMS
   propshaft (1.2.1) sha256=e9b91daf52f21152f851a59f8621af53ffb4dc4401f9b5f8fe16065190b98654
   protocol-hpack (1.5.1) sha256=6feca238b8078da1cd295677d6f306c6001af92d75fe0643d33e6956cbc3ad91
   protocol-http (0.53.0) sha256=5f0259699d8f3fe8b04da385852eea9df16b3e911b83a8c3c655fef20a77abe7
-  protocol-http1 (0.35.0) sha256=26236cb8e8a956d1b78075c6b824f2eed9ecba7faf7f0e1872c70ef8f90412e8
+  protocol-http1 (0.35.1) sha256=24ae3edb220484979a2e90de6b987b6b9c5aab857dbc37b212ece02f51c177ae
   protocol-http2 (0.22.1) sha256=91966e7083e792e9b54fd5a62891a59078dfe8e1cf0162ce58b387db812ca768
   psych (5.2.6) sha256=814328aa5dcb6d604d32126a20bc1cbcf05521a5b49dbb1a8b30a07e580f316e
   public_suffix (6.0.2) sha256=bfa7cd5108066f8c9602e0d6d4114999a5df5839a63149d3e8b0f9c1d3558394
