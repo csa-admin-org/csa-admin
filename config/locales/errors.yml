@@ -7,204 +7,244 @@ _:
           _fr: Les pièces jointes ne doivent pas dépasser 5 Mo
           _de: Die Anhänge dürfen nicht größer als 5 MB sein
           _it: Gli allegati non devono superare i 5 MB
+          _nl: Bijlagen mogen niet groter zijn dan 5 MB
         zero_bytes:
           _en: Attachments must not be zero bytes
           _fr: Les pièces jointes ne doivent pas être de taille nulle
           _de: Die Anhänge dürfen nicht null Bytes haben
           _it: Gli allegati non devono essere di dimensione zero
+          _nl: Bijlagen mogen niet nul bytes zijn
     format:
       _en: "%{attribute} %{message}"
       _fr: "%{attribute} %{message}"
       _de: "%{attribute} %{message}"
       _it: "%{attribute} %{message}"
+      _nl: "%{attribute} %{message}"
     messages:
       accepted:
         _en: must be accepted
         _fr: doit être accepté(e)
         _de: muss angenommen werden
         _it: deve essere accettato/a
+        _nl: moet worden geaccepteerd
       after_start:
         _en: must be after the start
         _fr: doit être après le début
         _de: muss nach dem Anfang sein
         _it: deve essere successivo all'inizio
+        _nl: moet na het begin zijn
       announcement_not_unique:
         _en: There is already an announcement for the delivery of %{delivery} and the depot %{depot} (%{other_text})
         _fr: Il y a déjà une annonce pour la livraison du %{delivery} et le dépôt %{depot} (%{other_text})
         _de: Es gibt bereits eine Ankündigung für die Lieferung von %{delivery} und das Depot %{depot} (%{other_text})
         _it: C'è già un annuncio per la consegna della %{delivery} e il punto di ritiro %{depot} (%{other_text})
+        _nl: Er is al een aankondiging voor de levering van %{delivery} en het depot %{depot} (%{other_text})
       before_end:
         _en: must be before the end
         _fr: doit être avant la fin
         _de: muss vor dem Ende sein
         _it: deve essere prima della fine
+        _nl: moet voor het einde zijn
       blank:
         _en: can't be blank
         _fr: doit être rempli(e)
         _de: muss ausgefüllt werden
         _it: deve essere riempito/a
+        _nl: mag niet leeg zijn
       confirmation:
         _en: doesn't match confirmation
         _fr: ne concorde pas avec la confirmation
         _de: stimmt mit der Bestätigung nicht überein
         _it: non corrisponde alla conferma
+        _nl: komt niet overeen met bevestiging
       content_block_ids_must_be_equal_for_all_languages:
         _en: The IDs of the "content" blocks must be the same for all languages
         _fr: Les ID des blocs "content" doivent être identiques pour toutes les langues
         _de: Die IDs der "content" Blöcke müssen für alle Sprachen gleich sein
         _it: Gli ID dei blocchi "content" devono essere uguali per tutte le lingue
+        _nl: De ID's van de "content" blokken moeten hetzelfde zijn voor alle talen
       content_block_ids_must_be_unique:
         _en: The IDs of the "content" blocks must be unique
         _fr: Les ID des blocs "content" doivent être uniques
         _de: Die IDs der "content" Blöcke müssen einzigartig sein
         _it: Gli ID dei blocchi "content" devono essere unici
+        _nl: De ID's van de "content" blokken moeten uniek zijn
       empty:
         _en: can't be empty
         _fr: doit être rempli(e)
         _de: muss ausgefüllt werden
         _it: deve essere riempito/a
+        _nl: mag niet leeg zijn
       equal_to:
         _en: must be equal to %{count}
         _fr: doit être égal à %{count}
         _de: muss gleich %{count} sein
         _it: deve essere uguale a %{count}
+        _nl: moet gelijk zijn aan %{count}
       even:
         _en: must be even
         _fr: doit être pair
         _de: muss gerade sein
         _it: deve essere pari
+        _nl: moet even zijn
       exclusion:
         _en: is reserved
         _fr: n'est pas disponible
         _de: ist nicht verfügbar
         _it: non è disponibile
+        _nl: is gereserveerd
       greater_than:
         _en: must be greater than %{count}
         _fr: doit être supérieur à %{count}
         _de: muss größer als %{count} sein
         _it: deve essere superiore a %{count}
+        _nl: moet groter zijn dan %{count}
       greater_than_or_equal_to:
         _en: must be greater than or equal to %{count}
         _fr: doit être supérieur ou égal à %{count}
         _de: muss größer oder gleich %{count} sein
         _it: deve essere superiore o uguale a %{count}
+        _nl: moet groter dan of gelijk zijn aan %{count}
       inclusion:
         _en: is not included in the list
         _fr: n'est pas inclus(e) dans la liste
         _de: ist in der Liste nicht enthalten
         _it: non è incluso/a nella lista
+        _nl: staat niet in de lijst
       invalid:
         _en: is invalid
         _fr: n'est pas valide
         _de: ist nicht gültig
         _it: non è valido
+        _nl: is ongeldig
       less_than:
         _en: must be less than %{count}
         _fr: doit être inférieur à %{count}
         _de: muss kleiner als %{count} sein
         _it: deve essere inferiore a %{count}
+        _nl: moet kleiner zijn dan %{count}
       less_than_or_equal_to:
         _en: must be less than or equal to %{count}
         _fr: doit être inférieur ou égal à %{count}
         _de: muss kleiner oder gleich %{count} sein
         _it: deve essere inferiore o uguale a %{count}
+        _nl: moet kleiner dan of gelijk zijn aan %{count}
       missing_iban:
         _en: Your IBAN number is not configured
         _fr: Votre numéro IBAN n'est pas configuré
         _de: Ihre IBAN-Nummer ist nicht konfiguriert
         _it: Il tuo numero IBAN non è configurato
+        _nl: Uw IBAN-nummer is niet geconfigureerd
       must_be_one_hour:
         _en: must be one hour longer than the start
         _fr: doit être une heure de plus que le début
         _de: muss eine Stunde länger als der Anfang sein
         _it: deve essere un'ora più lungo dell'inizio
+        _nl: moet een uur langer zijn dan het begin
       not_a_number:
         _en: is not a number
         _fr: n'est pas un nombre
         _de: ist keine Zahl
         _it: non è un numero
+        _nl: is geen nummer
       not_an_integer:
         _en: must be an integer
         _fr: doit être un nombre entier
         _de: muss eine ganze Zahl sein
         _it: deve essere un numero intero
+        _nl: moet een geheel getal zijn
       odd:
         _en: must be odd
         _fr: doit être impair
         _de: muss ungerade sein
         _it: deve essere dispari
+        _nl: moet oneven zijn
       record_invalid:
         _en: 'Validation failed: %{errors}'
         _fr: 'La validation a échoué : %{errors}'
         _de: 'Die Bestätigung ist fehlgeschlagen: %{errors}'
         _it: 'La conferma è fallita: %{errors}'
+        _nl: 'Validatie mislukt: %{errors}'
       renewed:
         _en: Membership already renewed
         _fr: Abonnement déjà renouvelé
         _de: Abonnement bereits erneuert
         _it: Abbonamento già rinnovato
+        _nl: Lidmaatschap al vernieuwd
       same_fiscal_year:
         _en: must be in the same fiscal year
         _fr: doit être dans la même année fiscale
         _de: muss im gleichen Geschäftsjahr sein
         _it: deve essere nello stesso anno fiscale
+        _nl: moet in hetzelfde boekjaar zijn
       taken:
         _en: has already been taken
         _fr: est déjà utilisé(e)
         _de: ist bereits vergeben
         _it: è già presente
+        _nl: is al in gebruik
       too_long:
         one:
           _en: is too long (no more than one character)
           _fr: est trop long (pas plus d'un caractère)
           _de: ist zu lang (nicht mehr als ein Zeichen)
           _it: è troppo lungo (non più di un carattere)
+          _nl: is te lang (niet meer dan één teken)
         other:
           _en: is too long (no more than %{count} characters)
           _fr: est trop long (pas plus de %{count} caractères)
           _de: ist zu lang (nicht mehr als %{count} Zeichen)
           _it: è troppo lungo (non più di %{count} caratteri)
+          _nl: is te lang (niet meer dan %{count} tekens)
       too_short:
         one:
           _en: is too short (at least one character)
           _fr: est trop court (au moins un caractère)
           _de: ist zu kurz (mindestens ein Zeichen)
           _it: è troppo corto (almeno un carattere)
+          _nl: is te kort (ten minste één teken)
         other:
           _en: is too short (at least %{count} characters)
           _fr: est trop court (au moins %{count} caractères)
           _de: ist zu kurz (mindestens %{count} Zeichen)
           _it: è troppo corto (almeno %{count} caratteri)
+          _nl: is te kort (ten minste %{count} tekens)
       unsupported_social_network_url:
         _en: contains an unsupported social network URL
         _fr: contient une URL de réseau social non supportée
         _de: enthält eine nicht unterstützte URL für ein soziales Netzwerk
         _it: contiene un URL di social network non supportato
+        _nl: bevat een niet-ondersteunde sociale netwerk URL
       wrong_length:
         one:
           _en: is the wrong length (must be one character)
           _fr: ne fait pas la bonne longueur (doit comporter un seul caractère)
           _de: hat nicht die richtige Länge (muss ein einziges Zeichen enthalten)
           _it: non è della lunghezza corretta (deve avere un solo carattere)
+          _nl: heeft de verkeerde lengte (moet één teken zijn)
         other:
           _en: is the wrong length (must be %{count} characters)
           _fr: ne fait pas la bonne longueur (doit comporter %{count} caractères)
           _de: hat nicht die richtige Länge (muss %{count} Zeichen enthalten)
           _it: non è della lunghezza corretta (deve avere %{count} caratteri)
+          _nl: heeft de verkeerde lengte (moet %{count} tekens zijn)
     template:
       body:
         _en: 'Please check the following fields: '
         _fr: 'Veuillez vérifier les champs suivants : '
         _de: 'Bitte folgende Felder überprüfen: '
         _it: 'Vogliate verificare i campi seguenti: '
+        _nl: 'Controleer de volgende velden: '
       header:
         one:
           _en: 'This %{model} cannot be saved: 1 error'
           _fr: 'Impossible d''enregistrer ce %{model} : 1 erreur'
           _de: 'Dieses %{model} kann nicht gespeichert werden: 1 Fehlermeldung'
           _it: 'Impossibile registrare questo %{model}: 1 errore'
+          _nl: 'Dit %{model} kan niet worden opgeslagen: 1 fout'
         other:
           _en: 'This %{model} cannot be saved: %{count} errors'
           _fr: 'Impossible d''enregistrer ce %{model} : %{count} erreurs'
           _de: 'Dieses %{model} kann nicht gespeichert werden: %{count} Fehlermeldungen'
           _it: 'Impossibile registrare questo %{model}: %{count} errori'
+          _nl: 'Dit %{model} kan niet worden opgeslagen: %{count} fouten'

@@ -5,8 +5,10 @@ _:
       _fr: Non
       _de: Nein
       _it: 'No'
+      _nl: Nee
     'yes':
       _en: 'Yes'
       _fr: Oui
       _de: Ja
       _it: Sì
+      _nl: Ja

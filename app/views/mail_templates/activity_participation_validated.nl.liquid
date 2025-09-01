@@ -1,0 +1,26 @@
+<p>Bedankt voor uw deelname aan de volgende activiteit, deze is zojuist gevalideerd!</p>
+
+{% highlight_list %}
+  <strong>Datum:</strong> {{ activity.date_long }}
+  <strong>Schema:</strong> {{ activity.period }}
+  <strong>Activiteit:</strong> {{ activity.title }}
+  {% if activity.description %}
+  <strong>Beschrijving:</strong> {{ activity.description }}
+  {% endif %}
+  {% if activity.place_url %}
+  <strong>Locatie:</strong> <a href="{{ activity.place_url }}" target="_black">{{ activity.place }}</a>
+  {% elsif activity.place %}
+  <strong>Locatie:</strong> {{ activity.place }}
+  {% endif %}
+  <strong>Deelnemers:</strong> {{ activity_participation.participants_count }}
+{% endhighlight_list %}
+
+{% if organization.activity_phone %}
+  <p>Heeft u vragen? U kunt contact met ons opnemen via <strong>{{ organization.activity_phone }}</strong> of gewoon reageren op deze e-mail.</p>
+{% endif %}
+
+<p>Schrijf u in voor andere activiteiten vanaf uw ledenpagina.</p>
+
+{% button member.activities_url %}
+  Ga naar mijn ledenpagina
+{% endbutton %}

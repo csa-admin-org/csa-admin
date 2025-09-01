@@ -19,7 +19,7 @@ class Organization < ApplicationRecord
   ]
   RESTRICTED_FEATURES = %i[bidding_round]
   FEATURE_FLAGS = %i[]
-  LANGUAGES = %w[fr de it en]
+  LANGUAGES = %w[fr de it nl en]
   CURRENCIES = %w[CHF EUR]
   BILLING_YEAR_DIVISIONS = [ 1, 2, 3, 4, 12 ]
   BANK_CONNECTION_TYPES = %w[ebics bas]

@@ -1,0 +1,143 @@
+# Facturering
+
+CSA Admin heeft als doel om de meeste taken gerelateerd aan facturering te automatiseren ([lidmaatschappen](#memberships), <% if Current.org.share? %>[aandelenkapitaal](#share-capital), <% end %>[betalingsverwerking](#payments)), maar sommige aspecten <% if feature?("activity") %>zoals facturering voor [niet voltooide <%= activities_human_name %>](#uncompleted-<%= activities_human_name %>)<% end %> moeten handmatig worden uitgevoerd.
+
+Voor Zwitserland genereert CSA Admin QR-facturen met referentienummers (PDF) en stuurt deze naar alle e-mailadressen van het betreffende lid. Om deze facturen te kunnen genereren, moet u een QR-IBAN aanvragen bij uw bank, let op dat dit nummer verschilt van uw bankrekening IBAN. U kunt het dan invoeren in [uw factureringsinstellingen](/settings#billing).
+
+## Lidmaatschappen {#memberships}
+
+Lidmaatschapsfacturering wordt volledig geautomatiseerd door het systeem. U kunt in [de instellingen (Automatische facturering)](/settings#billing) de dag van de week definiëren waarop het systeem alle lidmaatschappen zal beoordelen en automatisch benodigde facturen zal aanmaken en verzenden. Bijvoorbeeld, als een lid elk kwartaal wordt gefactureerd, dan wordt automatisch een nieuwe factuur aangemaakt en verzonden op de eerste geconfigureerde dag van de week van een nieuw kwartaal.
+
+Het factuurbedrag wordt als volgt berekend: totale lidmaatschapsbedrag / aantal betalingsintervallen. Bijvoorbeeld, voor een lidmaatschap van 1000.- dat per kwartaal wordt betaald, zal elke factuur 250.- zijn.
+
+Het is daarom cruciaal dat elke lidmaatschapsconfiguratie up-to-date is zodat facturen correct zijn.
+
+Standaard wordt de eerste factuur verzonden op de factureringsdag die volgt op de eerste pakketlevering, maar het is mogelijk om dit te wijzigen in [de instellingen](/settings#billing) (Factureer lidmaatschappen alleen na hun eerste levering) om het lidmaatschap vanaf het begin te factureren.
+
+Standaard strekt facturering zich uit tot de einddatum van het lidmaatschap, maar het is mogelijk om dit te wijzigen in [de instellingen](/settings#billing) (Factureer lidmaatschappen alleen tot hun laatste levering) om de factureringsperiode alleen uit te breiden tot de datum van hun laatste levering. Dit is nuttig wanneer bijvoorbeeld de laatste maanden van het boekjaar geen leveringen hebben.
+
+> Vanaf de pagina van een lid of lidmaatschap kunt u in de sectie "Facturering" (rechterkolom) de aanmaakdag van de volgende factuur zien.
+
+### Nu factureren
+
+In sommige gevallen, bijvoorbeeld na een wijziging in lidmaatschapsconfiguratie, is het mogelijk om de aanmaak van een nieuwe factuur af te dwingen in plaats van het systeem dit automatisch te laten doen op de volgende factureringsdag. Hiervoor klikt u op de knop "Nu factureren" in de sectie "Facturering" (rechterkolom). De factuur wordt dan aangemaakt, maar <u>niet verzonden</u>, u kunt dan de PDF raadplegen en deze handmatig verzenden met de knop "Verzenden" op de betreffende pagina. Dit is nuttig als u in contact bent met een lid en snel een factuur wilt corrigeren.
+
+### Alles vooraf factureren {#future_billing}
+
+Het is mogelijk om een komend abonnement vooraf te factureren, met een startdatum in de toekomst, of het nu in het huidige boekjaar of het volgende boekjaar is. Abonnementen die op deze manier worden gefactureerd, worden volledig in één keer gefactureerd, ongeacht het betalingsinterval dat voor het abonnement is geconfigureerd.
+
+Vooraf factureren kan worden gedaan vanaf de pagina van een toekomstig abonnement door te klikken op de knop "Alles vooraf factureren" in de sectie "Facturering" (rechterkolom). Het is ook mogelijk om meerdere toekomstige abonnementen tegelijk te factureren vanaf [de abonnementenpagina](/memberships?scope=future&q[during_year]=<%= Current.fy_year + 1 %>), door gebruik te maken van het veld "Toekomstig" en te filteren op boekjaar. U kunt dan klikken op de knop "Alles vooraf factureren" in de sectie "Facturering" (rechterkolom), onder de filters. U kunt gerust toekomstige abonnementen filteren op betalingsinterval (bijv. alleen "Jaarlijks") om uw selectie te verfijnen.
+
+> De jaarlijkse bijdrage die overeenkomt met het boekjaar van het abonnement wordt automatisch in de factuur opgenomen.
+
+### Prijswijziging {#price-change}
+
+Als een lidmaatschapsconfiguratie (datums, pakketgrootte, ...) wordt gewijzigd, zijn verschillende gevallen mogelijk:
+
+- Een toekomstige factuur moet nog worden verzonden (het is het midden van het jaar en het lid wordt elk kwartaal gefactureerd); in dit geval wordt de prijswijziging (positief of negatief) eenvoudig toegepast op de volgende factuur.
+- De laatste factuur is al verzonden (het is het einde van het jaar of het lid wordt eenmaal gefactureerd), er zijn dan 2 mogelijkheden:
+  - De prijswijziging is positief, een nieuwe factuur (met een hoger bedrag) wordt eenvoudig aangemaakt op de volgende factureringsdag om het ontbrekende bedrag te factureren.
+  - De prijswijziging is negatief, de laatste factuur/facturen van het lidmaatschap worden dan automatisch geannuleerd en een nieuwe factuur (met een lager bedrag) wordt opnieuw aangemaakt op de volgende factureringsdag. Als de oude geannuleerde factuur al was betaald, dan wordt de nieuwe factuur automatisch gesloten en eindigt het lid met een positief saldo. Indien nodig kunt u een terugbetaling van het saldo van het lid weergeven door [een negatieve betaling aan te maken](/payments/new) voor hen.
+
+### Jaarlijkse bijdrage
+
+De jaarlijkse bijdrage wordt automatisch opgenomen in de eerste factuur van het lidmaatschap. Als het lid geen lidmaatschap heeft (ondersteuning) dan wordt automatisch een specifieke factuur aangemaakt aan het begin van het boekjaar.
+
+### Proefpakketten
+
+Als een aantal proefpakketten is gedefinieerd in [de factureringsinstellingen](/settings#billing), dan wordt het lidmaatschap pas gefactureerd nadat alle proefpakketten zijn geleverd, op de volgende factureringsdag na de levering van het eerste niet-proefpakket.
+
+Als het lidmaatschap wordt gestopt tijdens de proefperiode, dan worden alleen de geleverde pakketten gefactureerd, op de volgende factureringsdag. In dit geval wordt de jaarlijkse bijdrage niet gefactureerd.
+
+<% if Current.org.share? %>
+## Aandelenkapitaal
+
+Elke factureringsdag maakt het systeem automatisch facturen aan voor ontbrekend aandelenkapitaal, bijvoorbeeld voor een lid wiens lidmaatschap net is begonnen.
+
+Om reeds gefactureerd aandelenkapitaal terug te betalen, ga naar de factuurpagina en klik op de knop "Terugbetalen" rechtsboven, u kunt dan eenvoudig een negatieve aandelenkapitaalfactuur aanmaken. Zorg ervoor dat het lid geen aandelenkapitaal meer nodig heeft, anders worden ze automatisch opnieuw aangemaakt op de volgende factureringsdag.
+
+Als aandelenkapitaal al is gefactureerd buiten CSA Admin, kunt u deze informatie weergeven door het profiel van het lid te wijzigen, sectie "Facturering" (Aantal bestaand aandelenkapitaal). Deze aandelen worden dan niet gefactureerd.
+
+> Vanaf de pagina van een lid kunt u in de sectie "Facturering" (rechterkolom) het aantal aandelenkapitaal zien dat wordt of al is gefactureerd met een link naar de corresponderende facturen.
+<% end %>
+
+<% if feature?("activity") %>
+## Niet voltooide <%= activities_human_name %> {#activity}
+
+Elke organisatie heeft een ander factureringsbeleid voor niet voltooide <%= activities_human_name.downcase %>, sommige factureren ze, andere niet.
+CSA Admin stelt u in staat om niet voltooide <%= activities_human_name.downcase %> individueel of in groepen te factureren.
+
+### Leden definiëren om te factureren
+
+Het totaal van niet voltooide <%= activities_human_name.downcase %> wordt weergegeven op [het dashboard](/dashboard). Voor meer details kunt u de CSV [van lidmaatschappen](/memberships) exporteren voor het betreffende boekjaar. De kolom "<%= activities_human_name %> ontbrekend" is specifiek hiervoor beschikbaar.
+Door de CSV te openen met Excel is het eenvoudig om de te factureren leden te bepalen door ze te sorteren met deze kolom. Indien nodig kunt u dan het aantal <%= activities_human_name.downcase %> dat voor elk lid wordt gevraagd aanpassen door hun lidmaatschap direct te wijzigen (veld: "<%= activities_human_name %> (volledig jaar)").
+
+### Individuele facturering
+
+Ofwel met de knop "Factureren" vanaf een afgewezen deelnamepagina of vanaf [de nieuwe factuur aanmaakpagina](/invoices/new). Voer eenvoudig het aantal <%= activities_human_name.downcase %> in om te factureren en klik op de knop "Factuur aanmaken".
+
+Vergeet niet om de factuur te verzenden, deze wordt niet automatisch verzonden zodat u deze kunt controleren.
+
+### Groepsfacturering
+
+Vanaf [de deelnamepagina](/activity_participations), onder de filters, stelt een sectie "Facturering" u in staat om alle ontbrekende deelnames voor een specifiek jaar in één klik te factureren. ✨
+
+Facturen worden hier automatisch verzonden.
+
+### Inhoud van [de "Nieuwe factuur" e-mail](/mail_templates/invoice_created) {#activity-email}
+
+Het is mogelijk om specifieke tekst toe te voegen in de ["Nieuwe factuur" e-mailsjabloon](/mail_templates/invoice_created) voor <%= activities_human_name.downcase %> facturen met behulp van [Liquid syntax](https://shopify.github.io/liquid) als volgt:
+
+~~~ liquid
+{% case invoice.entity_type %}
+  {% when 'ActivityParticipation' %}
+    <p>Mijn speciale tekst!</p>
+  {% else %}
+    <p>Mijn standaard tekst.</p>
+{% endcase %}
+~~~
+<% end %>
+
+## Handmatige factuur (Overig)
+
+CSA Admin biedt de mogelijkheid om handmatig verschillende artikelen of diensten te factureren (bijvoorbeeld aankoop van stoffen tassen voor nieuwe abonnees). Hiervoor hoeft u alleen maar [een nieuwe factuur aan te maken](/invoices/new) en de artikelen in te voeren onder het tabblad "Overig". Na controle van de PDF kunt u de factuur handmatig verzenden met de knop "Verzenden" op de betreffende pagina.
+
+> Opgelet, facturen van het type "Overig" mogen niet worden gebruikt om lidmaatschappen<% if Current.org.share? %>, aandelenkapitaal<% end %><% if feature?("activity") %> of <%= activities_human_name.downcase %><% end %> te factureren, omdat het systeem deze niet in aanmerking zal nemen.
+
+## Betalingen {#payments}
+
+Elke keer dat een betaling wordt aangemaakt (automatisch of handmatig) of een factuur wordt aangemaakt of geannuleerd, verdeelt het systeem het bedrag van alle betalingen naar bestaande facturen in de volgende prioriteitsvolgorde:
+
+1. Betaling met referentienummer, herverdeling totdat de gerefereerde factuur is gesloten.
+2. Herverdeling van betalingen zonder referentienummer en overtollige bedragen naar facturen die eerder al als gesloten waren gemarkeerd in chronologische volgorde.
+3. Herverdeling van betalingen zonder referentienummer en overtollige bedragen naar nog openstaande facturen in chronologische volgorde, de oudste facturen worden eerst gesloten.
+
+Deze herverdelingsmodus is zeer handig en maakt het mogelijk om gevallen te beheren waarbij een lid een oud referentienummer zou hergebruiken om een nieuwe factuur te betalen.
+
+### Automatische import {#automatic_payments_processing}
+
+De meest efficiënte manier om uw betalingen te verwerken is om uw bank te vragen een [EBICS-verbinding](https://www.six-group.com/en/products-services/banking-services/standardization.html#scrollTo=ebics) in te stellen. Dit stelt het systeem in staat om automatisch (elke nacht) betalingen van facturen met referentienummers van uw leden te importeren via het ISO camt.054 formaat.
+
+<% if Current.org.swiss_qr? %>
+CSA Admin beheert ook automatische ophaling van betalingen van de [Alternative Bank Switzerland](https://www.bas.ch/en) die het EBICS-systeem niet ondersteunt.
+<% end %>
+
+> Als u vragen heeft over ondersteuning voor een bepaalde bank of het instellen van EBICS, aarzel niet om [mij te vragen](mailto:info@csa-admin.org).
+
+### Handmatige import
+
+Wanneer automatische import via [EBICS](https://www.six-group.com/en/products-services/banking-services/standardization.html#scrollTo=ebics) nog niet is geconfigureerd, kunt u eenvoudig betalingen van facturen met referentienummers van uw leden importeren door een bestand in camt.054 formaat te downloaden van uw e-banking en dit te uploaden naar CSA Admin vanaf [de betalingenpagina](/payments), sectie "Import" in de rechterkolom. Vergeet niet om de bewerking regelmatig te herhalen (elke week) zodat het systeem niet onnodig herinneringen verstuurt.
+
+Voor betalingen zonder referentienummer (contant geld of directe storting) hoeft u alleen maar [handmatig een nieuwe betaling aan te maken](/payments/new). Het bedrag wordt automatisch herverdeeld naar bestaande facturen.
+
+### Terugbetaling
+
+Als u om welke reden dan ook een lid wilt terugbetalen, maakt u eenvoudig een nieuwe betaling aan met een negatief bedrag. Let op dat de terugbetaling door u moet worden gedaan vanuit bijvoorbeeld uw e-banking, aangezien CSA Admin geen overschrijving kan maken.
+
+## Betalingsherinnering {#overdue_notice}
+
+Wanneer betalingen automatisch worden geïmporteerd, zorgt het systeem er automatisch voor dat elke 35 dagen een herinneringse-mail wordt verzonden naar alle leden die een onbetaalde factuur hebben, totdat de factuur is betaald (1e herinnering na 35 dagen, 2e herinnering na 70 dagen, enz.).
+
+U kunt de inhoud van deze herinnering configureren door [de "Factuurherinnering" e-mailsjabloon](/mail_templates/invoice_overdue_notice) te wijzigen.
+
+> U kunt per e-mail worden gewaarschuwd wanneer de 3e herinnering van een factuur wordt verzonden. Beheer uw meldingen vanaf [uw admin-account](/admins/<%= current_admin.id %>/edit).

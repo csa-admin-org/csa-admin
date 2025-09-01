@@ -1,0 +1,49 @@
+# Deelname van leden
+
+Deze functie stelt u in staat om activiteiten en de deelname van leden daaraan te beheren. Deze deelnames kunnen optioneel of verplicht zijn en kunnen wel of niet gefactureerd worden.
+
+## Configuratie
+
+Zodra deze aanvullende functie is geactiveerd in [uw instellingen](/settings#organization_features_input), stellen verschillende instellingen u in staat om te [configureren](/settings#activity) hoe activiteiten en deelnames werken.
+
+### Registratieformulier en vernieuwing
+
+Het standaard aantal gevraagde deelnames hangt af van het aantal dat is geconfigureerd voor de pakketgrootte en de aanvullingen van het lidmaatschap.
+
+Het is echter mogelijk om leden de keuze te laten maken van het aantal deelnames dat zij willen tijdens hun registratie of [vernieuwing](/handbook/membership_renewal). Hiervoor hoeft u alleen maar een minimaal aantal (zodat het lid het gevraagde aantal kan verminderen) en/of een maximaal aantal (zodat het lid het gevraagde aantal kan verhogen) deelnames te configureren.
+
+> Als een deelnameprijs is gedefinieerd, wordt het verschil tussen het standaardaantal en het gekozen aantal automatisch toegevoegd aan of afgetrokken van het totale lidmaatschapsbedrag (velden "Prijsaanpassing lidmaatschap").
+
+### Logica voor het berekenen van gevraagde deelnames
+
+De configuratie van het aantal gevraagde deelnames wordt altijd verstaan voor een volledig boekjaar; standaard wordt het definitieve gevraagde aantal berekend naar rato van het aantal leveringen in het lidmaatschap.
+
+Deze logica kan worden gewijzigd met behulp van [Liquid syntax](https://shopify.github.io/liquid) in het veld "Logica voor het berekenen van gevraagde deelnames" in [de instellingen](/settings#activity).
+
+### Inschrijven voor activiteiten
+
+Leden kunnen zich inschrijven voor activiteiten vanuit hun ledenaccount. Zij kunnen ook de activiteiten zien waarvoor zij zijn ingeschreven, evenals de deelnames die zij hebben voltooid en hun validaties.
+
+Bij inschrijving kan het lid het aantal deelnemers specificeren (elke deelnemer telt als één deelname), een opmerking toevoegen en ervoor kiezen om hun telefoonnummer en vertreklocatie te delen voor carpooling. Hun contactgegevens worden dan gedeeld met andere leden die zijn ingeschreven voor dezelfde activiteit in [de herinneringse-mail die 3 dagen voor de activiteit wordt verstuurd](/mail_templates/activity_participation_reminder).
+
+Een inschrijfdeadline (in dagen) voor de activiteitsdatum kan worden gedefinieerd in [de instellingen](/settings#activity) om last-minute registraties te vermijden.
+
+Een annuleringsdeadline (in dagen) kan ook worden gedefinieerd in [de instellingen](/settings#activity). Na deze deadline kunnen leden hun registratie niet meer annuleren.
+
+## Activiteiten
+
+U kunt activiteiten aanmaken vanaf [de activiteitenlijst](/activities) door te klikken op "Nieuwe activiteit". Net als bij leveringen kunt u eenvoudig activiteiten in bulk aanmaken met behulp van het tabblad "Meerdere datums" in [het aanmaakformulier](/activities/new).
+
+> Als u vaak vergelijkbare activiteiten op dezelfde locatie aanbiedt, overweeg dan om ["activiteitspresets"](/activity_presets) aan te maken om tijd te besparen.
+
+## Deelnames
+
+Activiteitsinschrijvingen door leden zijn zichtbaar vanaf [de deelnamelijst](/activity_participations). Admins kunnen ook handmatig leden inschrijven of bestaande deelnames wijzigen/verwijderen.
+
+Deelnames aan activiteiten (van dezelfde dag of verleden) kunnen door admins worden gevalideerd of afgewezen. Leden ontvangen dan een e-mail [ter bevestiging](/mail_templates/activity_participation_validated) of [van afwijzing](/mail_templates/activity_participation_rejected) van hun deelname.
+
+## Facturering
+
+Als een prijs is gedefinieerd voor een deelname, kunt u eenvoudig alle ontbrekende deelnames factureren vanaf [de deelnamelijst](/activity_participations). Elke gefactureerde deelname wordt automatisch beschouwd als een gevalideerde deelname.
+
+Meer informatie over [het factureren van deelnames](/handbook/billing#activity) is beschikbaar op de handmatige pagina gewijd aan facturering.

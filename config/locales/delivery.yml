@@ -5,59 +5,71 @@ _:
       _fr: Total paniers
       _de: Gesamt Anzahl Taschen
       _it: Totale cesti
+      _nl: Totaal aantal pakketten
     delivered_by:
       _en: Delivered by
       _fr: Livré par
       _de: Liefert von
       _it: Consegnato da
+      _nl: Geleverd door
     delivery:
       _en: delivery
       _fr: livraison
       _de: lieferung
       _it: consegna
+      _nl: levering
     free_depots:
       _en: Free depots
       _fr: Dépôts gratuits
       _de: Gratis Depots
       _it: Punto di ritiro gratuito
+      _nl: Gratis depots
     no_basket_complements:
       _en: No basket complements
       _fr: Aucun complément
       _de: Kein Zusatz
       _it: Nessun supplemento
+      _nl: Geen aanvullingen
     paid_depots:
       _en: Paid depots
       _fr: Dépôts payants
       _de: Bezahlte Depots
       _it: Punto di ritiro a pagamento
+      _nl: Betaalde depots
     sheets_mode:
       home_delivery:
         _en: Home delivery
         _fr: Livraison à domicile
         _de: Heimlieferung
         _it: Consegna a domicilio
+        _nl: Thuislevering
       home_delivery_hint:
         _en: List of depot members sorted in a customizable way (drag & drop) with their delivery address.
         _fr: Liste des membres du dépôt triée de manière personnalisable (glisser-déposer) avec leur adresse de livraison.
         _de: Liste der Depotmitglieder anpassbar sortiert (Drag & Drop) mit ihrer Lieferadresse.
         _it: Elenco dei membri del punto di ritiro ordinati in modo personalizzabile (drag & drop) con il loro indirizzo di consegna.
+        _nl: Lijst van depotleden die op een aanpasbare manier (slepen en neerzetten) wordt gesorteerd, met hun leveringsadres.
       signature:
         _en: Signature
         _fr: Signature
         _de: Unterschrift
         _it: Firma
+        _nl: Handtekening
       signature_hint:
         _en: List of depot members sorted alphabetically with a column for member signatures.
         _fr: Liste des membres du dépôt triée par ordre alphabétique avec une colonne pour la signature des membres.
         _de: Liste der Depotmitglieder alphabetisch sortiert mit einer Spalte für die Unterschrift der Mitglieder.
         _it: Elenco dei membri del punto di ritiro ordinato in ordine alfabetico, con una colonna per le firme dei membri.
+        _nl: Lijst van depotleden, alfabetisch gesorteerd, met een kolom voor handtekeningen van leden.
     summary:
       _en: Summary
       _fr: Récapitulatif
       _de: Zusammenfassung
       _it: Sommario
+      _nl: Samenvatting
     total:
       _en: Total
       _fr: Total
       _de: Gesamt
       _it: Totale
+      _nl: Totaal

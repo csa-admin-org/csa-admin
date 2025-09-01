@@ -28,7 +28,7 @@ module CSAAdmin
 
     config.time_zone = "Europe/Zurich"
 
-    config.i18n.available_locales = %w[en fr de it]
+    config.i18n.available_locales = %w[en fr de it nl]
     config.i18n.default_locale = :en
     config.i18n.fallbacks = true
 

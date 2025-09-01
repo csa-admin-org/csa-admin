@@ -7,1926 +7,2303 @@ _:
           _fr: Fin
           _de: Ende
           _it: Fine
+          _nl: Einde
         note:
           _en: Note
           _fr: Remarque
           _de: Bemerkung
           _it: Nota
+          _nl: Opmerking
         started_on:
           _en: Start
           _fr: Début
           _de: Anfang
           _it: Inizio
+          _nl: Start
         with_note:
           _en: With note
           _fr: Avec remarque
           _de: Mit Bemerkung
           _it: Con nota
+          _nl: Met opmerking
       activity_participation:
         activity:
           _en: Activity
           _fr: Activité
           _de: Aktivität
           _it: Attività
+          _nl: Activiteit
         activity_date:
           _en: Activity date
           _fr: Date de l'activité
           _de: Datum der Aktivität
           _it: Data dell'attività
+          _nl: Activiteitsdatum
         activity_id:
           _en: Activity ID
           _fr: Activité ID
           _de: Aktivität ID
           _it: Attività ID
+          _nl: Activiteit ID
         activity_period:
           _en: Activity period
           _fr: Période de l'activité
           _de: Zeitraum der Aktivität
           _it: Periodo dell'attività
+          _nl: Activiteitsperiode
         activity_place:
           _en: Activity place
           _fr: Lieu de l'activité
           _de: Ort der Aktivität
           _it: Luogo dell'attività
+          _nl: Activiteitslocatie
         activity_title:
           _en: Activity
           _fr: Activité
           _de: Aktivität
           _it: Attività
+          _nl: Activiteit
         carpooling_city:
           _en: Departure city
           _fr: Ville de départ
           _de: Abfahrt Stadt
           _it: Luogo di partenza
+          _nl: Vertrekstad
         carpooling_phone:
           _en: Carpooling phone
           _fr: Téléphone covoiturage
           _de: Telefon Fahrgemeinschaften
           _it: Telefono per condivisione auto
+          _nl: Telefoon carpooling
         created_at:
           _en: Created at
           _fr: Enregistrée le
           _de: Erstellt am
           _it: Registrato a
+          _nl: Aangemaakt op
         invoiced_at:
           _en: Invoiced on
           _fr: Facturée le
           _de: In Rechnung gestellt am
           _it: Fatturato il
+          _nl: Gefactureerd op
         latest_reminder_sent_at:
           _en: Latest reminder sent at
           _fr: Dernière rappel envoyé le
           _de: Letzte Erinnerung gesendet am
           _it: Ultimo promemoria inviato il
+          _nl: Laatste herinnering verzonden op
         member_emails:
           _en: Email(s)
           _fr: Email(s)
           _de: E-Mail(s)
           _it: E-mail
+          _nl: E-mail(s)
         member_id:
           _en: Member ID
           _fr: Membre ID
           _de: Mitglied ID
           _it: Socio ID
+          _nl: Lid ID
         member_name:
           _en: Member
           _fr: Membre
           _de: Mitglied
           _it: Socio
+          _nl: Lid
         member_phones:
           _en: Phone(s)
           _fr: Téléphone(s)
           _de: Telefon(e)
           _it: Telefono(i)
+          _nl: Telefoon(s)
         note:
           _en: Note
           _fr: Remarque
           _de: Bemerkung
           _it: Nota
+          _nl: Opmerking
         participants_count:
           _en: Participants
           _fr: Participants
           _de: Teilnehmer
           _it: Partecipanti
+          _nl: Deelnemers
         rejected_at:
           _en: Rejected at
           _fr: Refusée le
           _de: Abgelehnt am
           _it: Rifiutato in data
+          _nl: Afgewezen op
         updated_at:
           _en: Updated at
           _fr: Mise à jour le
           _de: Aktualisiert am
           _it: Aggiornato il
+          _nl: Bijgewerkt op
         validated_at:
           _en: Validated at
           _fr: Validée le
           _de: Bestätigt am
           _it: Confermato il
+          _nl: Gevalideerd op
         validator:
           _en: Validated by
           _fr: Validateur
           _de: Bestätigt durch
           _it: Confermato da
+          _nl: Gevalideerd door
         with_note:
           _en: With note
           _fr: Avec remarque
           _de: Mit Bemerkung
           _it: Con nota
+          _nl: Met opmerking
       admin:
         last_session_used_at:
           _en: Last login
           _fr: Dernière connexion
           _de: Letzte Anmeldung
           _it: Ultima connessione
+          _nl: Laatste inlog
         notifications:
           _en: Notifications
           _fr: Notifications
           _de: Benachrichtigungen
           _it: Notifiche
+          _nl: Notificaties
       attachment:
         file:
           _en: File
           _fr: Fichier
           _de: Datei
           _it: File
+          _nl: Bestand
       audit:
         actor:
           _en: Author
           _fr: Auteur
           _de: Autor
           _it: Autore
+          _nl: Auteur
         changes:
           _en: Changes
           _fr: Modifications
           _de: Änderungen
           _it: Modifiche
+          _nl: Wijzigingen
         updated_at:
           _en: Changed on
           _fr: Modifié le
           _de: Geändert am
           _it: Modificato il
+          _nl: Gewijzigd op
       basket:
         absent:
           _en: absent
           _fr: absent·e
           _de: abwesend
           _it: assente
+          _nl: afwezig
         basket_price:
           _en: Basket price
           _fr: Prix panier
           _de: Preis Tasche
           _it: Prezzo della cesta
+          _nl: Pakketprijs
         basket_size:
           _en: Size
           _fr: Taille
           _de: Grösse
           _it: Dimensione
+          _nl: Pakketgrootte
         basket_size_id:
           _en: Basket size ID
           _fr: Taille panier ID
           _de: Taschengrösse ID
           _it: Dimensione cesta ID
+          _nl: Pakketgrootte ID
         complement_ids:
           _en: Complements
           _fr: Compléments
           _de: Zusätze
           _it: Complementi
+          _nl: Aanvullingen
         delivery_cycle_price:
           _en: Delivery price
           _fr: Prix livraison
           _de: Preis Lieferung
           _it: Prezzo di consegna
+          _nl: Leveringsprijs
         depot_id:
           _en: Depot ID
           _fr: Dépôt ID
           _de: Depot ID
           _it: Punto di ritiro ID
+          _nl: Depot ID
         depot_price:
           _en: Depot price
           _fr: Prix dépôt
           _de: Preis Depot
           _it: Prezzo del punto di ritiro
+          _nl: Depotprijs
         description:
           _en: Basket
           _fr: Panier
           _de: Tasche
           _it: Cesta
+          _nl: Pakket
         member_id:
           _en: Member ID
           _fr: Membre ID
           _de: Mitglied ID
           _it: Socio ID
+          _nl: Lid ID
         membership_id:
           _en: Membership ID
           _fr: Abonnement ID
           _de: Abonnement ID
           _it: Abbonamento ID
+          _nl: Lidmaatschap ID
         shift_target_basket_id:
           _en: Shift to the delivery of
           _fr: Déplacer à la livraison du
           _de: Verschieben in die Lieferung von
           _it: Sposta nella consegna di
+          _nl: Verschuif naar de levering van
         trial:
           _en: trial
           _fr: essai
           _de: probe
           _it: prova
+          _nl: proef
       basket_content:
         basket_percentages:
           _en: Percentage distribution
           _fr: La somme des pourcentages
           _de: Prozentuale Verteilung
           _it: Distribuzione percentuale
+          _nl: Percentageverdeling
         basket_quantities:
           _en: Quantities
           _fr: Quantités
           _de: Mengen
           _it: Quantità
+          _nl: Hoeveelheden
         basket_size:
           _en: Basket
           _fr: Panier
           _de: Tasche
           _it: Cesta
+          _nl: Pakket
         content:
           _en: Content
           _fr: Contenu
           _de: Inhalt
           _it: Contenuto
+          _nl: Inhoud
         product:
           _en: Product
           _fr: Produit
           _de: Produkt
           _it: Prodotto
+          _nl: Product
         quantity:
           _en: Total quantity
           _fr: Quantité totale
           _de: Gesamtmenge
           _it: Quantità totale
+          _nl: Totale hoeveelheid
         surplus:
           _en: Surplus
           _fr: Surplus
           _de: Überschuss
           _it: Surplus
+          _nl: Overschot
         unit:
           _en: Unit
           _fr: Unité
           _de: Einheit
           _it: Unità
+          _nl: Eenheid
         unit_price:
           _en: Unit price
           _fr: Prix unitaire
           _de: Preis pro Einheit
           _it: Prezzo per unità
+          _nl: Eenheidsprijs
       basket_content/product:
         latest_delivery:
           _en: Latest delivery
           _fr: Dernière livraison
           _de: Letzte Lieferung
           _it: Ultima consegna
+          _nl: Laatste levering
         latest_quantity:
           _en: Latest quantity
           _fr: Dernière quantité
           _de: Letzte Menge
           _it: Ultima quantità
+          _nl: Laatste hoeveelheid
         latest_unit:
           _en: Latest unit
           _fr: Dernière unité
           _de: Letzte Einheit
           _it: Ultima unità
+          _nl: Laatste eenheid
         latest_unit_price:
           _en: Latest unit price
           _fr: Dernier prix unitaire
           _de: Letzter Preis pro Einheit
           _it: Ultimo prezzo per unità
+          _nl: Laatste eenheidsprijs
         latest_use:
           _en: Latest use
           _fr: Dernière utilisation
           _de: Letzte Nutzung
           _it: Ultima utilizzazione
+          _nl: Laatste gebruik
         url:
           _en: External link
           _fr: Lien externe
           _de: Externer Link
           _it: Link esterno
+          _nl: Externe link
       basket_size:
         activity_participations_demanded_annually/basket_preparation:
           _en: Basket preparations per year
           _fr: Mises en panier par année
           _de: Taschen befüllung pro Jahr
           _it: Ceste riempite all'anno
+          _nl: Pakketvoorbereidingen per jaar
         activity_participations_demanded_annually/day_work:
           _en: Work days per year
           _fr: Journées de travail par année
           _de: Arbeitstage pro Jahr
           _it: Giorni di lavoro all'anno
+          _nl: Werkdagen per jaar
         activity_participations_demanded_annually/halfday_work:
           _en: "½ work days per year"
           _fr: "½ journées de travail par année"
           _de: "½ Arbeitstage pro Jahr"
           _it: "½ giornate di lavoro all'anno"
+          _nl: "½ werkdagen per jaar"
         activity_participations_demanded_annually/hour_work:
           _en: Work hours per year
           _fr: Heures de travail par année
           _de: Arbeitsstunden pro Jahr
           _it: Ore di lavoro all'anno
+          _nl: Werkuren per jaar
       baskets_basket_complement:
         basket_complement:
           _en: Complement
           _fr: Complément
           _de: Zusatz
           _it: Aggiunte
+          _nl: Aanvulling
       bidding_round:
         default_basket_size_price:
           _en: Basket size price (default)
           _fr: Prix par taille de panier (défaut)
           _de: Preis pro Taschengrösse (Standard)
           _it: Prezzo per cesta (predefinito)
+          _nl: Pakketgrootte prijs (standaard)
         default_membership_price:
           _en: Membership price (default)
           _fr: Prix de l'abonnement (défaut)
           _de: Abonnementpreis (Standard)
           _it: Prezzo abbonamento (predefinito)
+          _nl: Lidmaatschapsprijs (standaard)
         pledged_at:
           _en: Pledged at
           _fr: Engagé le
           _de: Versprochen am
           _it: Prestato il
+          _nl: Toegezegd op
         pledged_basket_size_price:
           _en: Basket size price (pledged)
           _fr: Prix par taille de panier (engagé)
           _de: Preis pro Taschengrösse (versprochen)
           _it: Prezzo per cesta (prestato)
+          _nl: Pakketgrootte prijs (toegezegd)
         pledged_membership_price:
           _en: Membership price (pledged)
           _fr: Prix de l'abonnement (engagé)
           _de: Abonnementpreis (versprochen)
           _it: Prezzo abbonamento (prestato)
+          _nl: Lidmaatschapsprijs (toegezegd)
       bidding_round/pledge:
         basket_size_price:
           _en: Price per basket
           _fr: Prix par panier
           _de: Preis pro Tasche
           _it: Prezzo per cesta
+          _nl: Prijs per pakket
       delivery:
         basket_complements:
           _en: Basket complements
           _fr: Compléments paniers
           _de: Taschenzusätze
           _it: Aggiunte nella cesta
+          _nl: Pakketaanvullingen
         note:
           _en: Internal memo
           _fr: Note interne
           _de: Interne Notiz
           _it: Nota interna
+          _nl: Interne memo
         number:
           _en: Number
           _fr: Numéro
           _de: Nummer
           _it: Numero
+          _nl: Nummer
         sheets:
           _en: Sheets
           _fr: Fiches
           _de: Blätter
           _it: Fogli
+          _nl: Bladen
         sheets_pdf:
           _en: Sheets (PDF)
           _fr: Fiches (PDF)
           _de: Blätter (PDF)
           _it: Fogli (PDF)
+          _nl: Bladen (PDF)
         shop_open:
           _en: Open
           _fr: Ouverte
           _de: Offenes
           _it: Aperto
+          _nl: Open
         signature:
           _en: Signature
           _fr: Signature
           _de: Unterschrift
           _it: Firma
+          _nl: Handtekening
       delivery_cycle:
         invoice_name:
           _en: Name (invoice)
           _fr: Nom (facture)
           _de: Name (Rechnung)
           _it: Nome (fattura)
+          _nl: Naam (factuur)
         minimum_gap_in_days:
           _en: Minimum gap (in days)
           _fr: Écart minimum (en jours)
           _de: Minimale Lücke (in Tagen)
           _it: Intervallo minimo (in giorni)
+          _nl: Minimale tussentijd (in dagen)
         months:
           _en: Months
           _fr: Mois
           _de: Monate
           _it: Mesi
+          _nl: Maanden
         next_delivery:
           _en: Next delivery
           _fr: Prochaine livraison
           _de: Nächste Lieferung
           _it: Prossime consegne
+          _nl: Volgende levering
         results:
           _en: Final delivery filtering
           _fr: Filtrage final des livraisons
           _de: Endliche Lieferungen filtern
           _it: Filtraggio finale della consegna
+          _nl: Definitieve leveringsfiltering
         wdays:
           _en: Days
           _fr: Jours
           _de: Tage
           _it: Giorni
+          _nl: Dagen
         week_numbers:
           _en: Week numbers
           _fr: Numéros de semaine
           _de: Wochennummern
           _it: Numeri di settimana
+          _nl: Weeknummers
       depot:
         address_name:
           _en: Name
           _fr: Nom
           _de: Name
           _it: Nome
+          _nl: Naam
         contact_name:
           _en: Name
           _fr: Nom
           _de: Name
           _it: Nome
+          _nl: Naam
         current_deliveries:
           _en: Deliveries (current year)
           _fr: Livraisons (année courante)
           _de: Lieferungen (laufendes Jahr)
           _it: Consegne (anno in corso)
+          _nl: Leveringen (huidig jaar)
         deliveries:
           _en: Deliveries
           _fr: Livraisons
           _de: Lieferungen
           _it: Consegne
+          _nl: Leveringen
         delivery_sheets_mode:
           _en: Mode
           _fr: Mode
           _de: Modus
           _it: Modalità
+          _nl: Modus
         future_deliveries:
           _en: Deliveries (future)
           _fr: Livraisons (future)
           _de: Lieferungen (zukünftige)
           _it: Consegne (future)
+          _nl: Leveringen (toekomstige)
         group:
           _en: Group
           _fr: Groupe
           _de: Gruppe
           _it: Gruppo
+          _nl: Groep
         note:
           _en: Internal memo
           _fr: Note interne
           _de: Interne Notiz
           _it: Nota interna
+          _nl: Interne memo
       invoice:
         activity_price:
           _en: Amount
           _fr: Montant
           _de: Betrag
           _it: Quantità
+          _nl: Bedrag
         amount_with_vat:
           _en: Amount incl. VAT
           _fr: Montant TTC
           _de: Betrag inkl. MwSt.
           _it: Importo IVA inclusa
+          _nl: Bedrag incl. btw
         amount_without_vat:
           _en: Amount excl. VAT
           _fr: Montant HT
           _de: Betrag exkl. MwSt.
           _it: Importo IVA esclusa
+          _nl: Bedrag excl. btw
         balance:
           _en: Balance
           _fr: Balance
           _de: Saldo
           _it: Saldo
+          _nl: Saldo
         entity:
           _en: Object
           _fr: Objet
           _de: Objekt
           _it: Oggetto
+          _nl: Object
         entity_type:
           _en: Object
           _fr: Objet
           _de: Objekt
           _it: Oggetto
+          _nl: Object
         items:
           _en: Items
           _fr: Articles
           _de: Artikel
           _it: Articoli
+          _nl: Items
         memberships_amount:
           _en: Membership amount
           _fr: Montant abonnement
           _de: Betrag Abonnement
           _it: Importo abbonamento
+          _nl: Lidmaatschapsbedrag
         missing_activity_participations_count:
           _en: Number / Participants
           _fr: Nombre / Participants
           _de: Anzahl / Teilnehmer
           _it: Numero / Partecipanti
+          _nl: Aantal / Deelnemers
         missing_activity_participations_fiscal_year:
           _en: Fiscal year
           _fr: Année fiscale
           _de: Geschäftsjahr
           _it: Anno fiscale
+          _nl: Boekjaar
         missing_participations_fiscal_year/basket_preparation:
           _en: Fiscal year (basket preparation)
           _fr: Année fiscale (mises en panier)
           _de: Geschäftsjahr (Taschen befüllung)
           _it: Anno fiscale (riempimento della cesta)
+          _nl: Boekjaar (pakketvoorbereiding)
         missing_participations_fiscal_year/day_work:
           _en: Fiscal year (work days)
           _fr: Année fiscale (journées de travail)
           _de: Geschäftsjahr (Arbeitstage)
           _it: Anno fiscale (giorni di lavoro)
+          _nl: Boekjaar (werkdagen)
         missing_participations_fiscal_year/halfday_work:
           _en: Fiscal year (½ days)
           _fr: Année fiscale (½ journées)
           _de: Geschäftsjahr (½ Tage)
           _it: Anno fiscale (½ giornate)
+          _nl: Boekjaar (½ dagen)
         missing_participations_fiscal_year/hour_work:
           _en: Fiscal year (work hours)
           _fr: Année fiscale (heures de travail)
           _de: Geschäftsjahr (Arbeitsstunden)
           _it: Anno fiscale (ore di lavoro)
+          _nl: Boekjaar (werkuren)
         overdue_notice_sent_at:
           _en: Last reminder sent at
           _fr: Dernier rappel envoyé le
           _de: Letzte Mahnung gesendet am
           _it: Ultimo promemoria inviato il
+          _nl: Laatste herinnering verzonden op
         overdue_notices_count:
           _en: Reminders
           _fr: Rappels
           _de: Mahnungen
           _it: Promemoria
+          _nl: Herinneringen
         sent:
           _en: Sent
           _fr: Envoyée
           _de: Gesendete
           _it: Inviato
+          _nl: Verzonden
         vat_amount:
           _en: VAT amount
           _fr: Montant TVA
           _de: MwSt. Betrag
           _it: Importo IVA
+          _nl: Btw-bedrag
         vat_rate:
           _en: VAT rate
           _fr: Taux TVA
           _de: MwSt. Satz
           _it: Tasso IVA
+          _nl: Btw-tarief
       mail_template:
         active:
           _en: Send
           _fr: Envoi
           _de: Versenden
           _it: Invio
+          _nl: Verzenden
         content:
           _en: Content
           _fr: Contenu
           _de: Inhalt
           _it: Contenuto
+          _nl: Inhoud
         subject:
           _en: Subject
           _fr: Sujet
           _de: Betreff
           _it: Soggeto
+          _nl: Onderwerp
         title:
           _en: Template
           _fr: Modèle
           _de: Vorlage
           _it: Modello
+          _nl: Sjabloon
       member:
         basket_complements:
           _en: Basket complements
           _fr: Compléments panier
           _de: Taschenzusätze
           _it: Aggiunte nella cesta
+          _nl: Pakketaanvullingen
         basket_size:
           _en: Basket size
           _fr: Taille panier
           _de: Taschengrösse
           _it: Dimensione della cesta
+          _nl: Pakketgrootte
         billing_address:
           _en: Address (billing)
           _fr: Adresse (facturation)
           _de: Adresse (Rechnung)
           _it: Indirizzo (fatturazione)
+          _nl: Adres (facturering)
         billing_city:
           _en: City (billing)
           _fr: Ville (facturation)
           _de: Stadt (Rechnung)
           _it: Città (fatturazione)
+          _nl: Stad (facturering)
         billing_email:
           _en: Email (billing)
           _fr: Email (facturation)
           _de: E-Mail (Rechnung)
           _it: E-mail (fatturazione)
+          _nl: E-mail (facturering)
         billing_name:
           _en: Name (billing)
           _fr: Nom (facturation)
           _de: Name (Rechnung)
           _it: Nome (fatturazione)
+          _nl: Naam (facturering)
         billing_zip:
           _en: ZIP code (billing)
           _fr: NPA (facturation)
           _de: PLZ (Rechnung)
           _it: CAP (fatturazione)
+          _nl: Postcode (facturering)
         come_from:
           _en: How did you hear about us?
           _fr: Comment avez-vous entendu parler de nous?
           _de: Wie haben Sie von uns gehört?
           _it: Dove avete sentito parlare di noi?
+          _nl: Hoe heeft u van ons gehoord?
         contact_sharing:
           _en: Contact sharing
           _fr: Copaniérage
           _de: Kontakt Teilen
           _it: Condivisione ritiro cesta
+          _nl: Contactdeling
         current_membership:
           _en: Membership (ongoing)
           _fr: Abonnement (en cours)
           _de: Abonnement (laufend)
           _it: Abbonamento (in corso)
+          _nl: Lidmaatschap (lopend)
         deliveries_received_count_since_first_membership:
           _en: Baskets received
           _fr: Paniers reçus
           _de: Erhaltene Taschen
           _it: Ceste ricevute
+          _nl: Ontvangen pakketten
         depot:
           _en: Depot
           _fr: Dépôt
           _de: Depot
           _it: Punto di ritiro
+          _nl: Depot
         desired_shares_number:
           _en: Share certificates
           _fr: Parts sociales
           _de: Anteilscheine
           _it: Quote sociali della cooperativa
+          _nl: Coöperatieaandelen
         different_billing_info:
           _en: Use another name and address for billing
           _fr: Utiliser un autre nom et une autre adresse pour la facturation
           _de: Eine andere Name und Adresse für die Rechnungstellung verwenden
           _it: Utilizzare un altro nome e indirizzo per la fatturazione
+          _nl: Gebruik een andere naam en adres voor facturering
         existing_shares_number:
           _en: Number of existing share certificates
           _fr: Nombre de parts sociales existantes
           _de: Anzahl der bestehenden Anteilscheine
           _it: Numero di quote sociali cooperative esistenti
+          _nl: Aantal bestaande coöperatieaandelen
         iban:
           _en: IBAN
           _fr: IBAN
           _de: IBAN
           _it: IBAN
+          _nl: IBAN
         invoices_amount:
           _en: Invoices
           _fr: Factures
           _de: Rechnungen
           _it: Fatture
+          _nl: Facturen
         next_basket:
           _en: Next basket
           _fr: Prochain panier
           _de: Nächste Tasche
           _it: Prossimo cestino
+          _nl: Volgend pakket
         payments_amount:
           _en: Payments
           _fr: Paiements
           _de: Einzahlungen
           _it: Pagamenti
+          _nl: Betalingen
         profession:
           _en: Profession / Skills
           _fr: Profession / Compétences
           _de: Beruf / Kompetenzen
           _it: Professione / Competenze
+          _nl: Beroep / Vaardigheden
         required_shares_number:
           _en: Number of required share certificates
           _fr: Nombre de parts sociales requises
           _de: Anzahl der benötigten Anteilscheine
           _it: Numero di quote sociali cooperative richieste
+          _nl: Aantal vereiste coöperatieaandelen
         salary_basket:
           _en: Salary basket(s)
           _fr: Panier(s) salaire
           _de: Lohntasche(n)
           _it: Ceste-compenso
+          _nl: Salarispakket(ten)
         sepa_mandate_id:
           _en: Mandate reference number
           _fr: Numéro de référence du mandat
           _de: Mandatsreferenz
           _it: Numero di riferimento del mandato
+          _nl: Mandaat referentienummer
         sepa_mandate_signed_on:
           _en: Mandate signed on
           _fr: Mandat signé le
           _de: Mandat unterschrieben am
           _it: Mandato firmato il
+          _nl: Mandaat ondertekend op
         shares_info:
           _en: Share certificate No.
           _fr: N° part sociale
           _de: Anteilscheinnummer
           _it: N° quote sociali cooperative
+          _nl: Coöperatieaandeel nr.
         shop_depot:
           _en: Depot (shop)
           _fr: Dépôt (épicerie)
           _de: Depot (Hofladen)
           _it: Punto di ritiro (drogheria)
+          _nl: Depot (winkel)
         shop_depot_id:
           _en: Depot (shop)
           _fr: Dépôt (épicerie)
           _de: Depot (Hofladen)
           _it: Punto di ritiro (drogheria)
+          _nl: Depot (winkel)
         validated_at:
           _en: Validated on
           _fr: Validé le
           _de: Bestätigt am
           _it: Confermato il
+          _nl: Gevalideerd op
         validator:
           _en: Validated by
           _fr: Validé par
           _de: Bestätigt durch
           _it: Confermato da
+          _nl: Gevalideerd door
         waiting:
           _en: On waiting list
           _fr: Sur liste d'attente
           _de: Auf Warteliste
           _it: Sulla lista d'attesa
+          _nl: Op wachtlijst
         waiting_alternative_depot_ids:
+          _en: Alternative depot(s)
+          _fr: Dépôt(s) alternatif(s)
+          _de: Alternative Depot(s)
+          _it: Punto(i) di ritiro alternativo(i)
+          _nl: Alternatief depot(s)
+        waiting_alternative_depots:
           _en: Alternative depot(s)
           _fr: Dépôt(s) alternatifs(s)
           _de: Alternative Depot(s)
           _it: Punto/ di ritiro alternativo
+          _nl: Alternatief depot(s)
         waiting_basket_complements:
           _en: Basket complements (waiting list)
           _fr: Compléments panier (en attente)
           _de: Taschenzusätze (Warteliste)
           _it: Aggiunta alla cesta (in lista d'attesa)
+          _nl: Pakketaanvullingen (wachtlijst)
         waiting_basket_size:
           _en: Basket size (waiting list)
           _fr: Taille panier (en attente)
           _de: Taschengrösse (Warteliste)
           _it: Dimensione cesta (in lista d'attesa)
+          _nl: Pakketgrootte (wachtlijst)
         waiting_delivery_cycle:
           _en: Delivery cycle (waiting list)
           _fr: Cycle de livraisons (en attente)
           _de: Zyklus von Lieferungen (Warteliste)
           _it: Ciclo di consegne (in lista d'attesa)
+          _nl: Leveringscyclus (wachtlijst)
         waiting_depot:
           _en: Depot (waiting list)
           _fr: Dépôt (en attente)
           _de: Depot (Warteliste)
           _it: Punto di ritiro (in lista d'attesa)
+          _nl: Depot (wachtlijst)
         waiting_started_at:
           _en: On waiting list since
           _fr: Sur liste d'attente depuis
           _de: Auf Warteliste seit
           _it: In lista d'attesa da
+          _nl: Op wachtlijst sinds
         with_address:
           _en: Address
           _fr: Adresse
           _de: Adresse
           _it: Indirizzo
+          _nl: Adres
         with_name:
           _en: Name
           _fr: Nom
           _de: Name
           _it: Nome
+          _nl: Naam
         with_phone:
           _en: Phone
           _fr: Téléphone
           _de: Telefon
           _it: Telefono
+          _nl: Telefoon
       members_basket_complement:
         basket_complement:
           _en: Complement
           _fr: Complément
           _de: Zusatz
           _it: Aggiunte
+          _nl: Aanvulling
       membership:
         absences_count:
           _en: Absent baskets
           _fr: Paniers absents
           _de: Abwesende Taschen
           _it: Cestini assenti
+          _nl: Afwezige pakketten
         absences_included:
           _en: Included
           _fr: Incluses
           _de: Inklusive
           _it: Inclusi
+          _nl: Inbegrepen
         activity_participations_accepted/basket_preparation:
           _en: Basket preparations accepted
           _fr: Mises en panier acceptées
           _de: Verlangte Taschen akzeptiert
           _it: Preparazioni ceste accettate
+          _nl: Pakketvoorbereidingen geaccepteerd
         activity_participations_accepted/day_work:
           _en: Work days accepted
           _fr: Journées de travail acceptées
           _de: Arbeitstage akzeptiert
           _it: Giorni di lavoro accettati
+          _nl: Werkdagen geaccepteerd
         activity_participations_accepted/halfday_work:
           _en: "½ days accepted"
           _fr: "½ journées acceptées"
           _de: "½ Tage akzeptiert"
           _it: "½ giornate accettate"
+          _nl: "½ dagen geaccepteerd"
         activity_participations_accepted/hour_work:
           _en: Work hours accepted
           _fr: Heures de travail acceptées
           _de: Arbeitsstunden akzeptiert
           _it: Ore di lavoro accettate
+          _nl: Werkuren geaccepteerd
         activity_participations_annual_price_change/basket_preparation:
           _en: Membership price adjustment (basket preparation)
           _fr: Ajustement du prix de l'abonnement (mises en panier)
           _de: Anpassung Preis Abonnement (Taschen befüllung)
           _it: Adeguamento del prezzo dell'abbonamento (riempimento della cesta)
+          _nl: Lidmaatschapprijs aanpassing (pakketvoorbereiding)
         activity_participations_annual_price_change/day_work:
           _en: Membership price adjustment (Work days)
           _fr: Ajustement du prix de l'abonnement (Journées de travail)
           _de: Anpassung Preis Abonnement (Arbeitstage)
           _it: Adeguamento del prezzo dell'abbonamento (Giorni di lavoro)
+          _nl: Lidmaatschapprijs aanpassing (werkdagen)
         activity_participations_annual_price_change/halfday_work:
           _en: Membership price adjustment (½ days)
           _fr: Ajustement du prix de l'abonnement (½ journées)
           _de: Anpassung Preis Abonnement (½ Tage)
           _it: Adeguamento del prezzo dell'abbonamento (½ giornate)
+          _nl: Lidmaatschapprijs aanpassing (½ dagen)
         activity_participations_annual_price_change/hour_work:
           _en: Membership price adjustment (Work hours)
           _fr: Ajustement du prix de l'abonnement (heures de travail)
           _de: Anpassung Preis Abonnement (Arbeitsstunden)
           _it: Adeguamento del prezzo dell'abbonamento (ore di lavoro)
+          _nl: Lidmaatschapprijs aanpassing (werkuren)
         activity_participations_annual_price_change_default/basket_preparation:
           _en: Basket preparation
           _fr: Mises en panier
           _de: Taschen befüllung
           _it: Riempimento della cesta
+          _nl: Pakketvoorbereiding
         activity_participations_annual_price_change_default/day_work:
           _en: Work day
           _fr: Journée de travail
           _de: Arbeitstag
           _it: Giorno di lavoro
+          _nl: Werkdag
         activity_participations_annual_price_change_default/halfday_work:
           _en: "½ days"
           _fr: "½ journées"
           _de: "½ Tage"
           _it: "½ giornate"
+          _nl: "½ dagen"
         activity_participations_annual_price_change_default/hour_work:
           _en: Work hours
           _fr: Heures de travail
           _de: Arbeitsstunden
           _it: Ore di lavoro
+          _nl: Werkuren
         activity_participations_annual_price_change_negative/basket_preparation:
           one:
             _en: One basket preparation not completed
             _fr: Une mise en panier non effectuée
             _de: Eine nicht geleiste Taschen befüllung
             _it: Riempimento della cesta non effetuato
+            _nl: Een pakketvoorbereiding niet voltooid
           other:
             _en: "%{count} basket preparations not completed"
             _fr: "%{count} mises en panier non effectuées"
             _de: "%{count} nicht geleistete Taschen befüllung"
             _it: "%{count} riempimento della cesta non effettuato"
+            _nl: "%{count} pakketvoorbereidingen niet voltooid"
         activity_participations_annual_price_change_negative/day_work:
           one:
             _en: One work day not completed
             _fr: Une journée de travail non effectuée
             _de: Ein nicht geleisteter Arbeitstag
             _it: Un giorno di lavoro non effettuato
+            _nl: Een werkdag niet voltooid
           other:
             _en: "%{count} work days not completed"
             _fr: "%{count} journées de travail non effectuées"
             _de: "%{count} nicht geleistete Arbeitstage"
             _it: "%{count} giorni di lavoro non effettuati"
+            _nl: "%{count} werkdagen niet voltooid"
         activity_participations_annual_price_change_negative/halfday_work:
           one:
             _en: One ½ day not completed
             _fr: Une ½ journée non effectuée
             _de: Ein nicht geleisteter Halbtag
             _it: Una ½ giornata non effettuata
+            _nl: Een ½ dag niet voltooid
           other:
             _en: "%{count} ½ days not completed"
             _fr: "%{count} ½ journées non effectuées"
             _de: "%{count} nicht geleistete Halbtage"
             _it: "%{count} ½ giornate non effettuate"
+            _nl: "%{count} ½ dagen niet voltooid"
         activity_participations_annual_price_change_negative/hour_work:
           one:
             _en: One work hour not completed
             _fr: Une heure de travail non effectuée
-            _de: Ein nicht geleistete Arbeitsstunde
+            _de: Eine nicht geleistete Arbeitsstunde
             _it: Un'ora di lavoro non effetuata
+            _nl: Een werkuur niet voltooid
           other:
             _en: "%{count} work hours not completed"
             _fr: "%{count} heures de travail non effectuées"
             _de: "%{count} nicht geleistete Arbeitsstunden"
             _it: "%{count} ore di lavoro non effettuate"
+            _nl: "%{count} werkuur niet voltooid"
         activity_participations_annual_price_change_positive/basket_preparation:
           _en: Basket preparations not completed
           _fr: Mises en panier non effectuées
           _de: Nicht geleistete Taschen befüllung
           _it: Riempimento delle ceste non effetuate
+          _nl: Pakketvoorbereidingen niet voltooid
         activity_participations_annual_price_change_positive/day_work:
           _en: Work days not completed
           _fr: Journées de travail non effectuées
           _de: Nicht geleistete Arbeitstage
           _it: Giorni di lavoro non effettuati
-        activity_participations_annual_price_change_positive/halfday_work:
-          _en: "½ days not completed"
-          _fr: "½ journées de travail non effectuées"
-          _de: Nicht geleistete Halbtage
-          _it: "½ jgiornate di lavoro non effetuate"
+          _nl: Werkdagen niet voltooid
         activity_participations_annual_price_change_positive/hour_work:
           _en: Work hours not completed
           _fr: Heures de travail non effectuées
           _de: Nicht geleistete Arbeitsstunden
           _it: Ore di lavoro non effettuate
+          _nl: Werkuren niet voltooid
         activity_participations_annual_price_change_reduction/basket_preparation:
           one:
-            _en: Discount for one additional basket preparation
+            _en: Reduction for one additional basket preparation
             _fr: Réduction pour une mise en panier supplémentaire
-            _de: Rabatt für eine zusätzliche Taschen befüllung
+            _de: Reduktion für eine zusätzliche Taschen befüllung
             _it: Riduzione per una preparazione cesta supplementare
+            _nl: Korting voor één extra pakketvoorbereiding
           other:
-            _en: Discount for %{count} additional basket preparations
+            _en: Reduction for %{count} additional basket preparations
             _fr: Réduction pour %{count} mises en panier supplémentaires
-            _de: Rabatt für %{count} zusätzliche Taschen befüllung
-            _it: Riduzione per %{count} preparazioni ceste supplementari
+            _de: Reduktion für %{count} zusätzliche Taschen befüllung
+            _it: Riduzione per %{count} preparazioni ceste supplementar
+            _nl: Korting voor %{count} extra pakketvoorbereidingen
         activity_participations_annual_price_change_reduction/day_work:
           one:
-            _en: Discount for one additional work day
+            _en: Reduction for one additional work day
             _fr: Réduction pour une journée de travail supplémentaire
-            _de: Rabatt für einen zusätzlichen Arbeitstag
+            _de: Reduktion für einen zusätzlichen Arbeitstag
             _it: Riduzione per un giorno di lavoro supplementare
+            _nl: Korting voor één extra werkdag
           other:
-            _en: Discount for %{count} additional work days
+            _en: Reduction for %{count} additional work days
             _fr: Réduction pour %{count} journées de travail supplémentaires
-            _de: Rabatt für %{count} zusätzliche Arbeitstage
+            _de: Reduktion für %{count} zusätzliche Arbeitstage
             _it: Riduzione per %{count} giorni di lavoro supplementari
+            _nl: Korting voor %{count} extra werkdagen
         activity_participations_annual_price_change_reduction/halfday_work:
           one:
-            _en: Discount for one additional ½ day
+            _en: Reduction for one additional ½ day
             _fr: Réduction pour une ½ journée supplémentaire
-            _de: Rabatt für einen zusätzlichen Halbtag
+            _de: Reduktion für einen zusätzlichen Halbtag
             _it: Riduzione per una ½ giornata supplementare
+            _nl: Korting voor één extra ½ dag
           other:
-            _en: Discount for %{count} additional ½ days
+            _en: Reduction for %{count} additional ½ days
             _fr: Réduction pour %{count} ½ journées supplémentaires
-            _de: Rabatt für %{count} zusätzliche Halbtage
+            _de: Reduktion für %{count} zusätzliche Halbtage
             _it: Riduzione per %{count} ½ giornate supplementari
+            _nl: Korting voor %{count} extra ½ dagen
         activity_participations_annual_price_change_reduction/hour_work:
           one:
-            _en: Discount for one additional work hour
+            _en: Reduction for one additional work hour
             _fr: Réduction pour une heure de travail supplémentaire
-            _de: Rabatt für einen zusätzlichen Arbeitsstunde
+            _de: Reduktion für eine zusätzliche Arbeitsstunde
             _it: Riduzione per un'ora di lavoro supplementare
+            _nl: Korting voor één extra werkuur
           other:
-            _en: Discount for %{count} additional work hours
+            _en: Reduction for %{count} additional work hours
             _fr: Réduction pour %{count} heures de travail supplémentaires
-            _de: Rabatt für %{count} zusätzliche Arbeitsstunden
+            _de: Reduktion für %{count} zusätzliche Arbeitsstunden
             _it: Riduzione per %{count} ore di lavoro supplementari
+            _nl: Korting voor %{count} extra werkuren
         activity_participations_demanded:
           _en: Requested
           _fr: Demandées
           _de: Verlangte
           _it: Richieste
+          _nl: Gevraagd
         activity_participations_demanded/basket_preparation:
           _en: Requested basket preparations
           _fr: Mises en panier demandées
           _de: Verlangte Taschen befüllung
           _it: Preparazioni ceste richieste
+          _nl: Gevraagde pakketvoorbereidingen
         activity_participations_demanded/day_work:
           _en: Requested work days
           _fr: Journées de travail demandées
           _de: Arbeitstage verlangt
           _it: Giorni di lavoro richiesti
+          _nl: Gevraagde werkdagen
         activity_participations_demanded/halfday_work:
           _en: Requested ½ days
           _fr: "½ journées demandées"
           _de: "½ Tage verlangt"
           _it: "½ giornate richieste"
+          _nl: Gevraagde ½ dagen
         activity_participations_demanded/hour_work:
           _en: Requested work hours
           _fr: Heures de travail demandées
           _de: Arbeitsstunden verlangt
           _it: Ore di lavoro richieste
+          _nl: Gevraagde werkuren
         activity_participations_future:
           _en: Upcoming
           _fr: À venir
           _de: Kommende
           _it: Venendo
+          _nl: Aankomend
         activity_participations_missing/basket_preparation:
           _en: Missing basket preparations
           _fr: Mises en panier manquantes
           _de: Fehlende Taschen befüllung
           _it: Preparazioni ceste mancanti
+          _nl: Ontbrekende pakketvoorbereidingen
         activity_participations_missing/day_work:
           _en: Missing work days
           _fr: Journées de travail manquantes
           _de: Fehlende Arbeitstage
           _it: Giorni di lavoro mancanti
+          _nl: Ontbrekende werkdagen
         activity_participations_missing/halfday_work:
           _en: Missing ½ days
           _fr: "½ journées manquantes"
           _de: Fehlende ½ Tage
           _it: "½ giornate mancanti"
+          _nl: Ontbrekende ½ dagen
         activity_participations_missing/hour_work:
           _en: Missing work hours
           _fr: Heures de travail manquantes
           _de: Fehlende Arbeitsstunden
           _it: Ore di lavoro mancanti
+          _nl: Ontbrekende werkuren
         activity_participations_paid:
           _en: Billed
           _fr: Facturées
           _de: Abgerechnete
           _it: Fatturate
+          _nl: Gefactureerd
         activity_participations_pending:
           _en: To be confirmed
           _fr: À valider
           _de: Zu bestätigen
           _it: Da confermare
+          _nl: Te bevestigen
         activity_participations_rejected:
           _en: Rejected
           _fr: Refusées
           _de: Abgelehnte
           _it: Rifiutato
+          _nl: Afgewezen
         activity_participations_validated:
           _en: Validated
           _fr: Validées
           _de: Bestätigte
           _it: Confermato
+          _nl: Gevalideerd
         basket_complements:
           _en: Basket complements
           _fr: Compléments panier
           _de: Taschenzusätze
           _it: Aggiunta ceste
+          _nl: Pakketaanvullingen
         basket_complements_annual_price_change:
           _en: Membership price adjustment (complements)
           _fr: Ajustement du prix de l'abonnement (compléments)
           _de: Anpassung Preis Abonnement (Zusätze)
           _it: Correzione del prezzo dell'abbonamento (aggiunte)
+          _nl: Lidmaatschapprijs aanpassing (aanvullingen)
         basket_complements_price:
           _en: Complement prices
           _fr: Prix compléments
           _de: Preis Zusätze
           _it: Prezzo aggiunte
+          _nl: Aanvullingsprijzen
         basket_price:
           _en: Basket price
           _fr: Prix panier
           _de: Preis Tasche
           _it: Prezzo cesta
+          _nl: Pakketprijs
         basket_quantity:
           _en: Quantity
           _fr: Quantité
           _de: Menge
           _it: Quantità
+          _nl: Hoeveelheid
         basket_shifts:
           _en: Basket shifts
           _fr: Déplacements
           _de: Taschenverschiebungen
           _it: Scambi di cestini
+          _nl: Pakketverschuivingen
         basket_sizes_price:
           _en: Basket prices
           _fr: Prix paniers
           _de: Preis Taschen
           _it: Prezzo ceste
+          _nl: Pakketprijzen
         baskets:
           _en: Baskets
           _fr: Paniers
           _de: Taschen
           _it: Ceste
+          _nl: Pakketten
         baskets_absent_count:
           _en: Absences
           _fr: Absences
           _de: Abwesenheiten
           _it: Assenze
+          _nl: Afwezigheden
         baskets_annual_price_change:
           _en: Membership price adjustment (baskets)
           _fr: Ajustement du prix de l'abonnement (paniers)
           _de: Anpassung Preis Abonnement (Taschen)
           _it: Correzione del prezzo dell'abbonamento (ceste)
+          _nl: Lidmaatschapprijs aanpassing (pakketten)
         baskets_count:
           _en: Baskets
           _fr: Paniers
           _de: Taschen
           _it: Paniers
+          _nl: Pakketten
         baskets_trial_count:
           _en: Trial baskets
           _fr: Paniers à l'essai
           _de: Probetaschen
           _it: Ceste di prova
+          _nl: Proefpakketten
         deliveries_count:
           _en: Baskets
           _fr: Paniers
           _de: Taschen
           _it: Ceste
+          _nl: Pakketten
         deliveries_received_count:
           _en: Delivered baskets
           _fr: Paniers livrés
           _de: Gelieferte Taschen
           _it: Ceste consegnate
+          _nl: Geleverde pakketten
         delivery_cycle_price:
           _en: Delivery cycle price
           _fr: Prix cycle de livraison
           _de: Preis Lieferzyklus
           _it: Prezzo ciclo di consegna
+          _nl: Leveringscyclusprijs
         depot:
           _en: Depot
           _fr: Dépôt
           _de: Depot
           _it: Punto di ritiro
+          _nl: Depot
         depot_id:
           _en: Depot
           _fr: Dépôt
           _de: Depot
           _it: Punto di ritiro
+          _nl: Depot
         depot_price:
           _en: Depot price
           _fr: Prix dépôt
           _de: Preis Depot
           _it: Prezzo del punto di ritiro
+          _nl: Depotprijs
         depots_price:
           _en: Depot prices
           _fr: Prix dépôts
           _de: Preis Depots
           _it: Prezzo punti di ritiro
+          _nl: Depotprijzen
         ended_on:
           _en: End
           _fr: Fin
           _de: Ende
           _it: Fine
+          _nl: Einde
         invoices_amount:
           _en: Invoiced
           _fr: Facturé
           _de: Rechnung
           _it: Fattura
+          _nl: Gefactureerd
         member_id:
           _en: Member ID
           _fr: Membre ID
           _de: Mitglied ID
           _it: Socio ID
+          _nl: Lid ID
         members_basket_complements:
           _en: Complements
           _fr: Compléments
           _de: Zusätze
           _it: Aggiunte
+          _nl: Aanvullingen
         memberships_basket_complements:
           _en: Complements
           _fr: Compléments
           _de: Zusätze
           _it: Aggiunte
+          _nl: Aanvullingen
         missing_invoices_amount:
           _en: Remaining to be invoiced
           _fr: Restant à facturer
           _de: Noch zu verrechnen
           _it: Fatturazione mancante
+          _nl: Nog te factureren
         new_config_from:
           _en: Change from
           _fr: Modification à partir du
           _de: Änderung seit dem
           _it: Modifica dal
+          _nl: Wijziging vanaf
         period:
           _en: Period
           _fr: Période
           _de: Periode
           _it: Periodo
+          _nl: Periode
         price:
           _en: Total
           _fr: Total
           _de: Gesamt
           _it: Totale
+          _nl: Totaal
         renew:
           _en: Renewal
           _fr: Renouvellement
           _de: Verlängerung
           _it: Rinnovo
+          _nl: Vernieuwing
         renewal_annual_fee:
           _en: Continues to pay the annual fee
           _fr: Continue à payer la cotisation annuelle
           _de: Zahlt weiterhin den Jahresbeitrag
           _it: Continua a pagare la quota annuale
+          _nl: Blijft de jaarlijkse bijdrage betalen
         renewal_note:
           _en: Renewal Note(s)
           _fr: Note(s) de renouvellement
           _de: Erneuerungsanmerkung(en)
           _it: Note di rinnovo
+          _nl: Vernieuwingsnotitie(s)
         renewal_opened_at:
           _en: Request sent on
           _fr: Demande envoyée le
           _de: Anfrage gesendet am
           _it: Richiesta inviata il
+          _nl: Verzoek verzonden op
         renewal_reminder_sent_at:
           _en: Reminder sent on
           _fr: Rappel envoyé le
           _de: Mahnung gesendet am
           _it: Promemoria inviato il
+          _nl: Herinnering verzonden op
         renewed:
           _en: Renewed
           _fr: Renouvelé
           _de: Erneuert
           _it: Rinnovato
+          _nl: Vernieuwd
         renewed_at:
           _en: Renewed on
           _fr: Renouvelé le
           _de: Erneuert am
           _it: Rinnovato il
+          _nl: Vernieuwd op
         renewed_membership:
           _en: New membership
           _fr: Nouvel abonnement
           _de: Neues Abonnement
           _it: Nuovo abbonamento
+          _nl: Nieuw lidmaatschap
         started_on:
           _en: Start
           _fr: Début
           _de: Anfang
           _it: Inizio
+          _nl: Start
         subscribed_basket_complement_ids:
           _en: Basket complements
           _fr: Compléments paniers
           _de: Taschenzusätze
           _it: Aggiunte cesta
+          _nl: Pakketaanvullingen
         will_be_changed_at:
           _en: Change effective from
           _fr: Changement effectif depuis le
           _de: Änderung gültig ab
           _it: Cambiamento effettuato il
+          _nl: Wijziging van kracht vanaf
       memberships_basket_complement:
         basket_complement:
           _en: Complement
           _fr: Complément
           _de: Zusatz
           _it: Aggiunte
+          _nl: Aanvulling
       newsletter:
         scheduled_at:
           _en: Delivery scheduled on
           _fr: Envoi planifié le
           _de: Versand geplant am
           _it: Invio programmato il
+          _nl: Levering gepland op
         signature:
           _en: Signature
           _fr: Signature
           _de: Signatur
           _it: Firma
+          _nl: Handtekening
         subject:
           _en: Subject
           _fr: Sujet
           _de: Betreff
           _it: Soggeto
+          _nl: Onderwerp
       newsletter/delivery:
         bounce_description:
           _en: Bounce description
           _fr: Description du rejet
           _de: Beschreibung der Ablehnung
           _it: Descrizione del respinta
+          _nl: Bounce beschrijving
         bounce_type:
           _en: Bounce type
           _fr: Type de rejet
           _de: Art der Ablehnung
           _it: Tipo di respinta
+          _nl: Bounce type
         bounced_at:
           _en: Bounced on
           _fr: Rejeté le
           _de: Abgelehnt am
           _it: Respinto il
+          _nl: Bounce op
         delivered_at:
           _en: Delivered on
           _fr: Distribué le
           _de: Verteiltet am
           _it: Distribuito il
+          _nl: Geleverd op
         email_suppression_reasons:
           _en: Reasons
           _fr: Raisons
           _de: Gründe
           _it: Motivi
+          _nl: Redenen
         processed_at:
           _en: Processed on
           _fr: Traitée le
           _de: Verarbeitet am
           _it: Elaborato il
+          _nl: Verwerkt op
       newsletter/segment:
         coming_deliveries_in_days:
           _en: Next basket in at least (in days)
           _fr: Prochain panier dans au moins (en jours)
           _de: Nächste Tasche in mindestens (in Tagen)
           _it: Il prossimo cestino tra almeno (in giorni)
+          _nl: Volgend pakket over minstens (in dagen)
         first_membership:
           _en: First membership this year
           _fr: Premier abonnement cette année
           _de: Erstes Abonnement dieses Jahr
           _it: Primo abbonamento quest'anno
+          _nl: Eerste lidmaatschap dit jaar
         membership_ids:
           _en: Membership IDs
           _fr: IDs d'abonnement
           _de: Abonnements-IDs
           _it: ID abbonamento
+          _nl: Lidmaatschap IDs
       newsletter/template:
         content:
           _en: Content
           _fr: Contenu
           _de: Inhalt
           _it: Contenuto
+          _nl: Inhoud
       organization:
         absence_extra_text:
           _en: Additional explanation
           _fr: Explication supplémentaire
           _de: Zusätzliche Erklärung
           _it: Spiegazione di consegne
+          _nl: Aanvullende uitleg
         absence_extra_text_only:
           _en: Show only additional explanations
           _fr: Afficher uniquement les explications supplémentaires
           _de: Nur zusätzliche Erklärungen anzeigen
           _it: Mostra solo spiegazioni supplementari
+          _nl: Toon alleen aanvullende uitleg
         absence_notice_period_in_days:
           _en: Notice period (in days)
           _fr: Délai de préavis (en jours)
           _de: Kündigungsfrist (in Tagen)
           _it: Periodo di preavviso (in giorni)
+          _nl: Opzegtermijn (in dagen)
         absences_billed:
           _en: Billing of baskets during absences
           _fr: Facturation des paniers durant les absences
           _de: Fakturierung von Taschen bei Abwesenheiten
           _it: Fatturazione delle ceste durante le assenze
+          _nl: Facturering van pakketten tijdens afwezigheid
         activity_availability_limit_in_days:
           _en: Registration deadline (in days)
           _fr: Limite d'inscription à l'avance (en jours)
           _de: Anmeldefrist (in Tagen)
           _it: Limite d'iscrizione in anticipo (in giorni)
+          _nl: Registratietermijn (in dagen)
         activity_i18n_scope:
           _en: Designation
           _fr: Appellation
           _de: Bezeichnung
           _it: Designazione
+          _nl: Aanduiding
         activity_participation_deletion_deadline_in_days:
           _en: Cancellation deadline (in days)
           _fr: Délai de désinscription (en jours)
           _de: Abmeldungsfrist (in Tagen)
           _it: Scdenza della disiscrizione (in giorni)
+          _nl: Annuleringstermijn (in dagen)
         activity_participations_demanded_logic:
           _en: Logic for calculating requested participations
           _fr: Logique de calcul des participations demandées
           _de: Logik zur Berechnung der verlangten Beteiligungen
           _it: Logica di calcolo delle partecipazioni richieste
+          _nl: Logica voor berekening gevraagde deelnames
         activity_participations_form_detail:
           _en: Description
           _fr: Description
           _de: Beschreibung
           _it: Descrizione
+          _nl: Beschrijving
         activity_participations_form_max:
           _en: Maximum participations
           _fr: Participations maximales
           _de: Maximale Beteiligung
           _it: Partecipazioni massime
+          _nl: Maximale deelnames
         activity_participations_form_min:
           _en: Minimum participations
           _fr: Participations minimales
           _de: Minimale Beteiligung
           _it: Partecipazioni minime
+          _nl: Minimale deelnames
         activity_participations_form_step:
           _en: Step of the increment/decrement
           _fr: Pas de l'incrémentation/décrémentation
           _de: Schritt der Erhöhung/Verminderung
           _it: Passo dell'incremento/decremento
+          _nl: Stap van de verhoging/verlaging
         activity_phone:
           _en: Phone
           _fr: Téléphone
           _de: Telefon
           _it: Telefono
+          _nl: Telefoon
         activity_price:
           _en: Participation price
           _fr: Prix de la participation
           _de: Preis der Beteiligung
           _it: Prezzo della partecipazione
+          _nl: Deelnameprijs
         allow_alternative_depots:
           _en: Choice of alternative depots
           _fr: Choix de dépôts alternatifs
           _de: Auswahl an alternativen Depots
           _it: Scelta di un punto di ritiro alternativo
+          _nl: Keuze van alternatieve depots
         annual_fee:
           _en: Amount
           _fr: Montant
           _de: Betrag
           _it: Importo
+          _nl: Bedrag
         annual_fee_member_form:
           _en: Free amount
           _fr: Montant libre
           _de: Freier Betrag
           _it: Importo libero
+          _nl: Vrij bedrag
         annual_fee_support_member_only:
           _en: Only for supporting members
           _fr: Uniquement pour les membres de soutien
           _de: Nur für Fördermitglieder
           _it: Solo per i soci sostenitori
+          _nl: Alleen voor ondersteunende leden
         bank_reference:
           _en: Bank reference
           _fr: Référence bancaire
           _de: Bankreferenz
           _it: Riferimento bancario
+          _nl: Bankreferentie
         basket_complements_member_order_mode:
           _en: Order of complements
           _fr: Ordre des compléments
           _de: Reihenfolge der Zusätze
           _it: Ordine dei aggiunta
+          _nl: Volgorde van aanvullingen
         basket_price_extra_dynamic_pricing:
           _en: Dynamic price
           _fr: Prix dynamique
           _de: Dynamischer Preis
           _it: Prezzo dinamico
+          _nl: Dynamische prijs
         basket_price_extra_label:
           _en: Label
           _fr: Label
           _de: Label
           _it: Etichetta
+          _nl: Label
         basket_price_extra_label_detail:
           _en: Description
           _fr: Description
           _de: Beschreibung
           _it: Descrizione
+          _nl: Beschrijving
         basket_price_extra_public_title:
           _en: Title (Member)
           _fr: Titre (Membre)
           _de: Titel (Mitglied)
           _it: Titolo (Socio)
+          _nl: Titel (Lid)
         basket_price_extra_text:
           _en: Explanation
           _fr: Explication
           _de: Erläuterung
           _it: Spiegazione
+          _nl: Uitleg
         basket_price_extra_title:
           _en: Title
           _fr: Titre
           _de: Titel
           _it: Titolo
+          _nl: Titel
         basket_price_extras:
           _en: Basket price (extras)
           _fr: Prix panier (extras)
           _de: Preisen Taschen (zusätzlich)
           _it: Prezzo della cesta (extras)
+          _nl: Pakketprijs (extra's)
         basket_shift_deadline_in_weeks:
           _en: Deadline for shifts (in weeks)
           _fr: Délai pour les déplacements (en semaines)
           _de: Frist für Taschenverschiebungen (in Wochen)
           _it: Scadenza per i spostamenti di cesta (in settimane)
+          _nl: Deadline voor verschuivingen (in weken)
         basket_shifts_annually:
           _en: Number of allowed shifts (per year)
           _fr: Nombre de déplacements permis (par an)
           _de: Anzahl der zulässigen Verschiebungen (pro Jahr)
           _it: Numero di spostamenti consentiti (all'anno)
+          _nl: Aantal toegestane verschuivingen (per jaar)
         basket_sizes_member_order_mode:
           _en: Order of basket sizes
           _fr: Ordre des tailles de panier
           _de: Reihenfolge der Taschengrößen
           _it: Ordine delle dimensioni del cesto
+          _nl: Volgorde van pakketgrootttes
         basket_update_limit_in_days:
           _en: Allow changes before delivery (in days)
           _fr: Délai de modification avant la livraison (en jours)
           _de: Änderungen vor der Lieferung erlauben (in Tagen)
           _it: Permettere la modifica prima della consegna (in giorni)
+          _nl: Wijzigingen toestaan voor levering (in dagen)
         bidding_round_basket_size_price_max_percentage:
           _en: Maximum basket size price (0-X%)
           _fr: Prix maximum de la taille du panier (0-X%)
           _de: Maximalpreis der Taschengröße (0-X%)
           _it: Prezzo massimo della dimensione del cestino (0-X%)
+          _nl: Maximum pakketgrootte prijs (0-X%)
         bidding_round_basket_size_price_min_percentage:
           _en: Minimum basket size price (0-100%)
           _fr: Prix minimum de la taille du panier (0-100%)
           _de: Minimumpreis der Taschengröße (0-100%)
           _it: Prezzo minimo della dimensione del cestino (0-100%)
+          _nl: Minimum pakketgrootte prijs (0-100%)
         billing_ends_on_last_delivery_fy_month:
           _en: Bill memberships only until their last delivery
           _fr: Facturer les abonnements jusqu'à leur dernière livraison uniquement
           _de: Abonnements nur bis zu ihrer letzten Lieferung in Rechnung stellen
           _it: Fatturare gli abbonamenti solo fino all'ultima consegna
+          _nl: Lidmaatschappen alleen factureren tot hun laatste levering
         billing_starts_after_first_delivery:
           _en: Bill memberships only after their first delivery
           _fr: Facturer les abonnements seulement après leur première livraison
           _de: Abonnements erst nach ihrer ersten Lieferung in Rechnung stellen
           _it: Fatturare gli abbonamenti solo dopo la loro prima consegna
+          _nl: Lidmaatschappen alleen factureren na hun eerste levering
         billing_year_divisions:
           _en: Payment interval
           _fr: Intervalle de paiement
           _de: Zahlungsintervall
           _it: Intervallo di pagamento
+          _nl: Betalingsinterval
         charter_url:
           _en: Charter (URL)
           _fr: Charte (URL)
           _de: Satzung (URL)
           _it: Carta (URL)
+          _nl: Handvest (URL)
         creditor_address:
           _en: Address
           _fr: Adresse
           _de: Adresse
           _it: Indirizzo
+          _nl: Adres
         creditor_city:
           _en: City
           _fr: Ville
           _de: Stadt
           _it: Citta
+          _nl: Stad
         creditor_name:
           _en: Name
           _fr: Nom
           _de: Name
           _it: Nome
+          _nl: Naam
         creditor_zip:
           _en: ZIP code
           _fr: NPA
           _de: PLZ
           _it: CAP
+          _nl: Postcode
         currency_code:
           _en: Currency
           _fr: Monnaie
           _de: Währung
           _it: Valuta
+          _nl: Valuta
         delivery_cycles_member_order_mode:
           _en: Order of delivery cycles
           _fr: Ordre des cycles de livraisons
           _de: Reihenfolge der Lieferzyklen
           _it: Ordine dei cicli di consegna
+          _nl: Volgorde van leveringscycli
         delivery_pdf_footer:
           _en: Footer
           _fr: Bas de page
           _de: Fußzeile
           _it: Piè di pagina
+          _nl: Voettekst
         delivery_pdf_member_info:
           _en: Additional information
           _fr: Information supplémentaire
           _de: Zusätzliche Informationen
           _it: Informazioni aggiuntive
+          _nl: Aanvullende informatie
         depots_member_order_mode:
           _en: Order of depots
           _fr: Ordre des dépôts
           _de: Reihenfolge der Depots
           _it: Ordine dei punti di ritiro
+          _nl: Volgorde van depots
         email:
           _en: Email
           _fr: Email
           _de: E-Mail
           _it: E-mail
+          _nl: E-mail
         email_default_from:
           _en: Sender address
           _fr: Adresse d'envoi
           _de: Absender-Adresse
           _it: Indirizzo di spedizione
+          _nl: Afzenderadres
         email_footer:
           _en: Footer
           _fr: Bas de page
           _de: Fußzeile
           _it: Piè di pagina
+          _nl: Voettekst
         email_signature:
           _en: Signature
           _fr: Signature
           _de: Signatur
           _it: Firma
+          _nl: Handtekening
         features:
           _en: Additional features
           _fr: Fonctionnalités supplémentaires
           _de: Zusätzliche Funktionen
           _it: Funzionalità aggiuntive
+          _nl: Aanvullende functies
         fiscal_year_start_month:
           _en: 1st month of the fiscal year
           _fr: 1er mois de l'année fiscale
           _de: 1. Monat vom Geschäftsjahr
           _it: 1° mese dell'anno fiscale
+          _nl: 1e maand van het boekjaar
         iban:
           _en: IBAN
           _fr: IBAN
           _de: IBAN
           _it: IBAN
+          _nl: IBAN
         invoice_document_name:
           _en: Invoice document name
           _fr: Nom du document de facture
           _de: Name des Rechnungsdokuments
           _it: Nome del documento di fattura
+          _nl: Factuurdocumentnaam
         invoice_footer:
           _en: Footer
           _fr: Bas de page
           _de: Fußzeile
           _it: Piè di pagina
+          _nl: Voettekst
         invoice_info:
           _en: Information text
           _fr: Texte d'information
           _de: Informationszeile
           _it: Riga d'informazione
+          _nl: Informatietekst
         invoice_logos:
           _en: Labels/Certifications
           _fr: Labels/Certifications
           _de: Labels/Zertifikate
           _it: Etichette/Certificazioni
+          _nl: Labels/Certificeringen
         invoice_sepa_info:
           _en: Information text (SEPA)
           _fr: Texte d'information (SEPA)
           _de: Informationszeile (SEPA)
           _it: Riga d'informazione (SEPA)
+          _nl: Informatietekst (SEPA)
         languages:
           _en: Languages
           _fr: Languages
           _de: Sprachen
           _it: Lingue
+          _nl: Talen
         member_form_complements_text:
           _en: Explanation of complements
           _fr: Explication compléments
           _de: Erläuterung Zusätze
           _it: Spiegazione aggiunte
+          _nl: Uitleg van aanvullingen
         member_form_extra_text:
           _en: Additional explanation
           _fr: Explication supplémentaire
           _de: Zusätzliche Erklärung
           _it: Spiegazioni supplementari
+          _nl: Aanvullende uitleg
         member_form_extra_text_only:
           _en: Show only additional explanations
           _fr: Afficher uniquement les explications supplémentaires
           _de: Nur zusätzliche Erklärungen anzeigen
           _it: Mostra solo spiegazioni supplementari
+          _nl: Toon alleen aanvullende uitleg
         member_form_subtitle:
           _en: Introduction text
           _fr: Texte d'introduction
           _de: Einführungstext
           _it: Testo introduttivo
+          _nl: Introductietekst
         member_information_text:
           _en: Information page
           _fr: Page d'information
           _de: Informationsseite
           _it: Pagina d'informazione
+          _nl: Informatiepagina
         member_information_title:
           _en: Title of the information page
           _fr: Intitulé de la page d'information
           _de: Titel der Informationsseite
           _it: Titolo della pagina d'informazione
+          _nl: Titel van de informatiepagina
         membership_complements_update_allowed:
           _en: Allow modification of complements
           _fr: Permettre la modification des compléments
           _de: Änderung der Zusätze erlauben
           _it: Permettere la modifica dei aggiunte
+          _nl: Wijziging van aanvullingen toestaan
         membership_depot_update_allowed:
           _en: Allow modification of depot
           _fr: Permettre la modification du dépôt
           _de: Änderung des Depots erlauben
           _it: Permettere la modifica del punto di ritiro
+          _nl: Wijziging van depot toestaan
         membership_renewal_depot_update:
           _en: Allow changing the depot
           _fr: Permettre le changement du dépôt
           _de: Erlauben Sie die Änderung das Depot
           _it: Permettere il cambiamento del punto di ritiro
+          _nl: Depot wijzigen toestaan
         membership_renewed_attributes:
           _en: Configurations carried over
           _fr: Configurations reprises
           _de: Übernommene Konfigurationen
           _it: Configurazioni riprese
+          _nl: Overgenomen configuraties
         membership_update_text:
           _en: Explanation
           _fr: Explication
           _de: Erläuterung
           _it: Spiegazione
+          _nl: Uitleg
         open_bidding_round_reminder_sent_after_in_days:
           _en: Send a reminder after (in days)
           _fr: Envoyer un rappel après (en jours)
           _de: Senden Sie eine Mahnung nach (in Tagen)
           _it: Inviare un promemoria dopo (in giorni)
+          _nl: Herinnering verzenden na (in dagen)
         open_renewal_reminder_sent_after_in_days:
           _en: Send a reminder after (in days)
           _fr: Envoyer un rappel après (en jours)
           _de: Senden Sie eine Mahnung nach (in Tagen)
           _it: Inviare un promemoria dopo (in giorni)
+          _nl: Herinnering verzenden na (in dagen)
         open_renewal_text:
           _en: Explanation
           _fr: Explication
           _de: Erläuterung
           _it: Spiegazione
+          _nl: Uitleg
         phone:
           _en: Phone
           _fr: Téléphone
           _de: Telefon
           _it: Telefono
+          _nl: Telefoon
         privacy_policy_url:
           _en: Privacy policy (URL)
           _fr: Politique de confidentialité (URL)
           _de: Datenschutzerklärung (URL)
           _it: Politica sulla privacy (URL)
+          _nl: Privacybeleid (URL)
         send_closed_invoice:
           _en: Send new invoices considered as already paid
           _fr: Envoyer les nouvelles factures considérées comme déjà payées
           _de: Versenden neuer Rechnungen, die als bereits bezahlt gelten
           _it: Inviare nuove fatture considerate già pagate
+          _nl: Nieuwe facturen verzenden die als reeds betaald worden beschouwd
         sepa_creditor_identifier:
           _en: Creditor ID (SEPA)
           _fr: ID du créancier (SEPA)
           _de: Gläubiger-ID (SEPA)
           _it: ID del creditore (SEPA)
+          _nl: Crediteur ID (SEPA)
         share_price:
           _en: Price
           _fr: Prix
           _de: Betrag
           _it: Importo
+          _nl: Prijs
         shares_number:
           _en: Number
           _fr: Nombre
           _de: Anzahl
           _it: Numero
+          _nl: Aantal
         shop_admin_only:
           _en: Restrict access to admins only
           _fr: Limiter l'accès uniquement aux admins
           _de: Den Zugriff nur auf Admins beschränken
           _it: Limitare l'accesso solo agli amministratori
+          _nl: Toegang beperken tot alleen admins
         shop_delivery_open_delay_in_days:
           _en: Order to delivery delay (in days)
           _fr: Délai de commande avant la livraison (en jours)
           _de: Dauer der Bestellung bis zur Lieferung (in Tagen)
           _it: Tempo di consegna dell'ordine (in giorni)
+          _nl: Bestelling tot levering vertraging (in dagen)
         shop_delivery_open_last_day_end_time:
           _en: Closing time on the last day of ordering
           _fr: Heure de fermeture le dernier jour de commande
           _de: Annahmeschluss am letzten Tag der Bestellung
           _it: Orario di chiusura dell'ultimo giorno d'ordine
+          _nl: Sluitingstijd op de laatste dag van bestellen
         shop_delivery_pdf_footer:
           _en: Footer of the delivery note (PDF)
           _fr: Bas de page du bulletin de livraison (PDF)
           _de: Fußzeile des Lieferscheins (PDF)
           _it: Piè di pagina della bolla di consegna (PDF)
+          _nl: Voettekst van de leveringsbon (PDF)
         shop_invoice_info:
           _en: Invoice information line
           _fr: Facture ligne info
           _de: Informationszeile Rechnung
           _it: Riga d'informazione della fattura
+          _nl: Factuur informatielijn
         shop_member_percentages:
           _en: Available percentages for members
           _fr: Pourcentages disponibles pour les membres
           _de: Verfügbare Prozentsätze für Mitglieder
           _it: Percentuali disponibili per i soci
+          _nl: Beschikbare percentages voor leden
         shop_order_automatic_invoicing_delay_in_days:
           _en: Automatic invoicing before/after delivery (in days)
           _fr: Facturation automatique avant/après la livraison (en jours)
           _de: Automatische Rechnungsstellung vor/nach der Lieferung (in Tagen)
           _it: Fatturazione automatica prima/dopo la consegna (in giorni)
+          _nl: Automatische facturering voor/na levering (in dagen)
         shop_order_maximum_weight_in_kg:
           _en: Maximum weight of an order (in kg)
           _fr: Poids maximal d'une commande (en kg)
           _de: Maximales Gewicht einer Bestellung (in kg)
           _it: Peso massimo di un ordine (in kg)
+          _nl: Maximaal gewicht van een bestelling (in kg)
         shop_order_minimal_amount:
           _en: Minimum order amount
           _fr: Montant minimal d'une commande
           _de: Mindestbestellwert
           _it: Valore minimo dell'ordine
+          _nl: Minimum bestellingsbedrag
         shop_terms_of_sale_url:
           _en: Terms of sale (URL)
           _fr: Conditions de vente (URL)
           _de: Verkaufsbedingungen (URL)
           _it: Condizioni di vendita (URL)
+          _nl: Verkoopvoorwaarden (URL)
         shop_text:
           _en: Explanation
           _fr: Explication
           _de: Erläuterung
           _it: Spiegazione
+          _nl: Uitleg
         statutes_url:
           _en: Statutes (URL)
           _fr: Statuts (URL)
           _de: Statuten (URL)
           _it: Statuto (URL)
+          _nl: Statuten (URL)
         terms_of_service_url:
           _en: Rules (URL)
           _fr: Règlement (URL)
           _de: Regeln (URL)
           _it: Regolamento (URL)
+          _nl: Regels (URL)
         url:
           _en: Website URL
           _fr: Site URL
           _de: Webseite URL
           _it: URL del sito
+          _nl: Website URL
         vat_number:
           _en: Number
           _fr: Numéro
           _de: Nummer
           _it: Numero
+          _nl: Nummer
       payment:
         comment:
           _en: Comment
           _fr: Commentaire
           _de: Kommentar
           _it: Commenti
+          _nl: Commentaar
         ignored_at:
           _en: Ignored at
           _fr: Ignoré le
           _de: Ignoriert am
           _it: Ignorato il
+          _nl: Genegeerd op
         ignored_by:
           _en: Ignored by
           _fr: Ignoré par
           _de: Ignoriert von
           _it: Ignorato da
+          _nl: Genegeerd door
       permission:
         rights:
           _en: Access rights
           _fr: Droits d'accès
           _de: Zugriffsrechte
           _it: Diritti di accesso
+          _nl: Toegangsrechten
         superadmin_rights:
           _en: Super Admin access rights
           _fr: Droits d'accès réservés aux Super Admins
           _de: Zugriffsrechte
           _it: Diritti di accesso
+          _nl: Super Admin toegangsrechten
       session:
         last_used_at:
           _en: Logged in on
           _fr: Connexion le
           _de: Anmeldung am
           _it: Connessione il
+          _nl: Ingelogd op
         last_user_agent:
           _en: User Agent
           _fr: User Agent
           _de: User Agent
           _it: User Agent
+          _nl: User Agent
         owner:
           _en: Owner
           _fr: Propriétaire
           _de: Besitzer
           _it: Proprietario
+          _nl: Eigenaar
         owner_type:
           _en: Type
           _fr: Type
           _de: Typ
           _it: Tipo
+          _nl: Type
       shop/order:
         items:
           _en: Products
           _fr: Produits
           _de: Produkte
           _it: Prodotti
+          _nl: Producten
       shop/order_item:
         delivery:
           _en: Delivery on
           _fr: Livraison du
           _de: Lieferung vom
           _it: Consegna del
+          _nl: Levering op
         item_price:
           _en: Unit price
           _fr: Prix unitaire
           _de: Stückpreis
           _it: Prezzo unitario
+          _nl: Eenheidsprijs
         member_id:
           _en: Member ID
           _fr: Membre ID
           _de: Mitglied ID
           _it: Socio ID
+          _nl: Lid ID
         order_date:
           _en: Ordered on
           _fr: Commandé le
           _de: Bestellt am
           _it: Ordinato il
+          _nl: Besteld op
         order_id:
           _en: Order ID
           _fr: Commande ID
           _de: Bestellung ID
           _it: Ordine ID
+          _nl: Bestelling ID
         order_state:
           _en: Order status
           _fr: État de la commande
           _de: Status der Bestellung
           _it: Stato dell'ordine
+          _nl: Bestelling status
       shop/product:
         basket_complement:
           _en: Basket complement
           _fr: Complément panier
           _de: Taschenzusatz
           _it: Aggiunta cesta
+          _nl: Pakketaanvulling
         display_in_delivery_sheets:
           _en: Display in delivery sheets (PDF) and summary (XLSX)
           _fr: Afficher dans les fiches (PDF) et le récapitulatif (XLSX) de livraison
           _de: In den Blättern (PDF) und der Zusammenfassung (XLSX) der Lieferung anzeigen
           _it: Mostra nei fogli (PDF) e nel riepilogo (XLSX) di consegna
+          _nl: Tonen in leveringsbladen (PDF) en samenvatting (XLSX)
         variants:
           _en: Variants
           _fr: Variantes
           _de: Varianten
           _it: Varianti
+          _nl: Varianten
       shop/special_delivery:
         open:
           _en: Open
           _fr: Ouverte
           _de: Offene
           _it: Aperta
+          _nl: Open
         open_delay_in_days:
           _en: Order duration until delivery (in days)
           _fr: Délai de commande avant la livraison (en jours)
           _de: Dauer der Bestellung bis zur Lieferung (in Tagen)
           _it: Tempo di consegna dell'ordine (in giorni)
+          _nl: Bestelduur tot levering (in dagen)
         open_last_day_end_time:
           _en: Closing time on the last day of order
           _fr: Heure de fermeture le dernier jour de commande
           _de: Annahmeschluss am letzten Tag der Bestellung
           _it: Orario di chiusura dell'ultimo giorno d'ordine
+          _nl: Sluitingstijd op de laatste bestelddag
         open_until:
           _en: Open until
           _fr: Ouverte jusqu'au
           _de: Offen bis zum
           _it: Aperta fino al
+          _nl: Open tot
         products:
           _en: Available products
           _fr: Produits disponibles
           _de: Produkte verfügbar
           _it: Prodotti disponibili
+          _nl: Beschikbare producten
         shop_text:
           _en: Explanation
           _fr: Explication
           _de: Erläuterung
           _it: Spiegazione
+          _nl: Uitleg
         special:
           _en: special
           _fr: spéciale
           _de: sonder
           _it: speciale
+          _nl: speciaal
     errors:
       models:
         basket_content:
@@ -1937,6 +2314,7 @@ _:
                 _fr: Insuffisante
                 _de: Ungenügende
                 _it: Insufficiente
+                _nl: Onvoldoende
         session:
           attributes:
             email:
@@ -1945,11 +2323,13 @@ _:
                 _fr: Email bloqué, veuillez nous contacter.
                 _de: E-Mail gesperrt, bitte kontaktieren Sie uns.
                 _it: E-mail bloccata, contattateci per favore.
+                _nl: E-mail geblokkeerd, neem contact met ons op.
               unknown:
                 _en: Unknown email
                 _fr: Email inconnu
                 _de: E-Mail unbekannt
                 _it: E-mail sconosciuta
+                _nl: Onbekende e-mail
         shop/order:
           attributes:
             base:
@@ -1958,11 +2338,13 @@ _:
                 _fr: Le poids total de la commande ne peut pas dépasser %{max}
                 _de: Das Gesamtgewicht der Bestellung darf %{max} nicht überschreiten
                 _it: Il peso totale dell'ordine non può superare i  %{max}
+                _nl: Het totaalgewicht van de bestelling kan niet meer zijn dan %{max}
               minimal_amount:
                 _en: The minimum order amount is %{min}
                 _fr: Le montant minimal d'une commande est de %{min}
                 _de: Der Mindestbestellwert beträgt %{min}
                 _it: Il valore minimo dell'ordine è di %{min}
+                _nl: Het minimum bestellingsbedrag is %{min}
         shop/order_item:
           attributes:
             product:
@@ -1971,6 +2353,7 @@ _:
                 _fr: N'est pas disponible pour cette livraison
                 _de: Für diese Lieferung nicht verfügbar
                 _it: Non disponibile per questa consegna
+                _nl: Niet beschikbaar voor deze levering
         shop/product:
           attributes:
             base:
@@ -1979,18 +2362,21 @@ _:
                 _fr: Au moins une variante doit être disponible
                 _de: Mindestens eine Variante muss verfügbar sein
                 _it: Almeno una variante deve essere disponibile
+                _nl: Ten minste één variant moet beschikbaar zijn
             display_in_delivery_sheets:
               only_one_variant:
                 _en: Cannot be activated if the product has multiple variants
                 _fr: Ne peut pas être activé si le produit a plusieurs variantes
                 _de: Kann nicht aktiviert werden, wenn das Produkt mehrere Varianten hat
                 _it: Non può essere attivato se il prodotto ha più varianti
+                _nl: Kan niet worden geactiveerd als het product meerdere varianten heeft
             variants:
               single_variant:
                 _en: ": only one variant is allowed when the product is linked to a basket complement"
                 _fr: ": une seule variante est autorisée quand le produit est lié à un complément panier"
                 _de: ": nur eine Variante ist erlaubt, wenn das Produkt mit einem Taschenzusatz verbunden ist"
                 _it: ": solo una variante è consentita quando il prodotto è collegato a una aggiunta cesta"
+                _nl: ": slechts één variant is toegestaan wanneer het product is gekoppeld aan een pakketaanvulling"
     models:
       absence:
         one:
@@ -1998,481 +2384,569 @@ _:
           _fr: Absence
           _de: Abwesenheit
           _it: Assenza
+          _nl: Afwezigheid
         other:
           _en: Absences
           _fr: Absences
           _de: Abwesenheiten
           _it: Assenze
+          _nl: Afwezigheden
       active_admin/comment:
         one:
           _en: Comment
           _fr: Commentaire
           _de: Kommentar
           _it: Commento
+          _nl: Commentaar
         other:
           _en: Comments
           _fr: Commentaires
           _de: Kommentare
           _it: Commenti
+          _nl: Commentaren
       activity:
         one:
           _en: Activity
           _fr: Activité
           _de: Aktivität
           _it: Attività
+          _nl: Activiteit
         other:
           _en: Activities
           _fr: Activités
           _de: Aktivitäten
           _it: Attività
+          _nl: Activiteiten
       activity_participation:
         one:
           _en: Participation
           _fr: Participation
           _de: Teilnahme
           _it: Partecipazione
+          _nl: Deelname
         other:
           _en: Participations
           _fr: Participations
           _de: Teilnahmen
           _it: Partecipazioni
+          _nl: Deelnames
       activity_preset:
         one:
           _en: Preset
           _fr: Preset
           _de: Voreinstellung
           _it: Preset
+          _nl: Voorinstelling
         other:
           _en: Presets
           _fr: Presets
           _de: Voreinstellungen
           _it: Presets
+          _nl: Voorinstellingen
       admin:
         one:
           _en: Admin
           _fr: Admin
           _de: Admin
           _it: Admin
+          _nl: Admin
         other:
           _en: Admins
           _fr: Admins
           _de: Admins
           _it: Admins
+          _nl: Admins
       announcement:
         one:
           _en: Announcement
           _fr: Annonce
           _de: Ankündigung
           _it: Annuncio
+          _nl: Aankondiging
         other:
           _en: Announcements
           _fr: Annonces
           _de: Ankündigungen
           _it: Annunci
+          _nl: Aankondigingen
       attachment:
         one:
           _en: File
           _fr: fichier
           _de: Datei
           _it: file
+          _nl: bestand
         other:
           _en: Attachments
           _fr: Pièces jointes
           _de: Anhänge
           _it: Allegati
+          _nl: Bijlagen
       audit:
         one:
           _en: Audit
           _fr: Audit
           _de: Audit
           _it: Audit
+          _nl: Audit
         other:
           _en: Audits
           _fr: Audits
           _de: Audits
           _it: Audits
+          _nl: Audits
       basket:
         one:
           _en: Basket
           _fr: Panier
           _de: Tasche
           _it: Cesta
+          _nl: Pakket
         other:
           _en: Baskets
           _fr: Paniers
           _de: Taschen
           _it: Ceste
+          _nl: Pakketten
       basket_complement:
         none:
           _en: None
           _fr: Aucun
           _de: Kein
           _it: Nessuna
+          _nl: Geen
         one:
           _en: Basket complement
           _fr: Complément panier
           _de: Taschenzusatz
           _it: Aggiunta cesta
+          _nl: Pakketaanvulling
         other:
           _en: Basket complements
           _fr: Compléments panier
           _de: Taschenzusätze
           _it: Aggiunte ceste
+          _nl: Pakketaanvullingen
       basket_content:
         one:
           _en: Basket content
           _fr: Contenu Panier
           _de: Tascheninhalt
           _it: Contenuto cesta
+          _nl: Pakketinhoud
         other:
           _en: Basket contents
           _fr: Contenu Paniers
           _de: Tascheninhalte
           _it: Contenuto ceste
+          _nl: Pakketinhouden
       basket_content/product:
         one:
           _en: Product
           _fr: Produit
           _de: Produkt
           _it: Prodotto
+          _nl: Product
         other:
           _en: Products
           _fr: Produits
           _de: Produkte
           _it: Prodotti
+          _nl: Producten
       basket_shift:
         one:
           _en: Shift
           _fr: Déplacement
           _de: Verschiebung
           _it: Spostamento
+          _nl: Verschuiving
         other:
           _en: Shifts
           _fr: Déplacements
           _de: Verschiebungen
           _it: Spostamenti
+          _nl: Verschuivingen
       basket_size:
         none:
           _en: None
           _fr: Aucun
           _de: Kein
           _it: Nessuna
+          _nl: Geen
         one:
           _en: Basket size
           _fr: Taille panier
           _de: Taschengrösse
           _it: Dimensione cesta
+          _nl: Pakketgrootte
         other:
           _en: Basket sizes
           _fr: Tailles panier
           _de: Taschengrössen
           _it: Dimensioni ceste
+          _nl: Pakketgroottes
       baskets_basket_complement:
         one:
           _en: Complement
           _fr: Complément
           _de: Zusatz
           _it: Aggiunta
+          _nl: Aanvulling
         other:
           _en: Complements
           _fr: Compléments
           _de: Zusätze
           _it: Aggiunte
+          _nl: Aanvullingen
       bidding_round:
         one:
           _en: Bidding round
           _fr: Tour d'engagement
           _de: Bietrunde
           _it: Turno di impegno
+          _nl: Biedingronde
         other:
           _en: Bidding rounds
           _fr: Tours d'engagement
           _de: Bietrunden
           _it: Turni di impegno
+          _nl: Biedingrondes
       contact_sharing:
         one:
           _en: Contact sharing (between members of a depot)
           _fr: Copaniérage (Rends possible le partage des coordonnées entre membres d'un dépôt)
           _de: Freigeben von Kontaktinformationen (zwischen Mitgliedern eine Depot)
           _it: Condivisione dei contatti (tra soci di un punto di ritiro)
+          _nl: Contactdeling (tussen leden van een depot)
       delivery:
         one:
           _en: Delivery
           _fr: Livraison
           _de: Lieferung
           _it: Consegna
+          _nl: Levering
         other:
           _en: Deliveries
           _fr: Livraisons
           _de: Lieferungen
           _it: Consegne
+          _nl: Leveringen
       delivery_cycle:
         one:
           _en: Delivery cycle
           _fr: Cycle de livraisons
           _de: Zyklus von Lieferungen
           _it: Ciclo di consegne
+          _nl: Leveringscyclus
         other:
           _en: Delivery cycles
           _fr: Cycles de livraisons
           _de: Zyklen von Lieferungen
           _it: Cicli di consegne
+          _nl: Leveringscycli
       depot:
         one:
           _en: Depot
           _fr: Dépôt
           _de: Depot
           _it: Punto di ritiro
+          _nl: Depot
         other:
           _en: Depots
           _fr: Dépôts
           _de: Depots
           _it: Punti di ritiro
+          _nl: Depots
       depot_group:
         one:
           _en: Depot group
           _fr: Groupe de dépôts
           _de: Depot-Gruppe
           _it: Gruppo di punti di ritiro
+          _nl: Depotgroep
         other:
           _en: Depot groups
           _fr: Groupes de dépôts
           _de: Depot-Gruppen
           _it: Gruppi di punti di ritiro
+          _nl: Depotgroepen
       invoice:
         one:
           _en: Invoice
           _fr: Facture
           _de: Rechnung
           _it: Fattura
+          _nl: Factuur
         other:
           _en: Invoices
           _fr: Factures
           _de: Rechnungen
           _it: Fatture
+          _nl: Facturen
       invoice_item:
         one:
           _en: Item
           _fr: Article
           _de: Artikel
           _it: Articolo
+          _nl: Item
         other:
           _en: Items
           _fr: Articles
           _de: Artikel
           _it: Articoli
+          _nl: Items
       mail_template:
         one:
           _en: Automatic email
           _fr: Email automatique
           _de: Automatische E-Mail
           _it: E-mail automatica
+          _nl: Automatische e-mail
         other:
           _en: Automatic emails
           _fr: Emails automatiques
           _de: Automatische E-Mails
           _it: Email automatiche
+          _nl: Automatische e-mails
       member:
         one:
           _en: Member
           _fr: Membre
           _de: Mitglied
           _it: Socio
+          _nl: Lid
         other:
           _en: Members
           _fr: Membres
           _de: Mitglieder
           _it: Soci
+          _nl: Leden
       members_basket_complement:
         one:
           _en: Complement
           _fr: Complément
           _de: Zusatz
           _it: Aggiunta
+          _nl: Aanvulling
         other:
           _en: Complements
           _fr: Compléments
           _de: Zusätze
           _it: Aggiunte
+          _nl: Aanvullingen
       membership:
         one:
           _en: Membership
           _fr: Abonnement
           _de: Abonnement
           _it: Abbonamento
+          _nl: Lidmaatschap
         other:
           _en: Memberships
           _fr: Abonnements
           _de: Abonnements
           _it: Abbonamenti
+          _nl: Lidmaatschappen
       memberships_basket_complement:
         one:
           _en: Complement
           _fr: Complément
           _de: Zusatz
           _it: Aggiunta
+          _nl: Aanvulling
         other:
           _en: Complements
           _fr: Compléments
           _de: Zusätze
           _it: Aggiunte
+          _nl: Aanvullingen
       newsletter:
         one:
           _en: Newsletter
           _fr: Newsletter
           _de: Newsletter
           _it: Newsletter
+          _nl: Nieuwsbrief
         other:
           _en: Newsletters
           _fr: Newsletters
           _de: Newsletters
           _it: Newsletters
+          _nl: Nieuwsbrieven
       newsletter/delivery:
         one:
           _en: Delivery
           _fr: Distribution
           _de: Verteilung
           _it: Distribuzione
+          _nl: Levering
         other:
           _en: Deliveries
           _fr: Distributions
           _de: Verteilungen
           _it: Distribuzioni
+          _nl: Leveringen
       newsletter/segment:
         one:
           _en: Audience segment
           _fr: Segment d'audience
           _de: Audienzsegment
           _it: Segmento di pubblico
+          _nl: Doelgroepsegment
         other:
           _en: Audience segments
           _fr: Segments d'audience
           _de: Audienzsegmente
           _it: Segmenti di pubblico
+          _nl: Doelgroepsegmenten
       newsletter/template:
         one:
           _en: Template
           _fr: Template
           _de: Vorlage
           _it: Template
+          _nl: Sjabloon
         other:
           _en: Templates
           _fr: Templates
           _de: Vorlagen
           _it: Templates
+          _nl: Sjablonen
       payment:
         one:
           _en: Payment
           _fr: Paiement
           _de: Einzahlung
           _it: Pagamento
+          _nl: Betaling
         other:
           _en: Payments
           _fr: Paiements
           _de: Einzahlungen
           _it: Pagamenti
+          _nl: Betalingen
       permission:
         one:
           _en: Permission
           _fr: Permission
           _de: Erlaubnis
           _it: Permesso
+          _nl: Toestemming
         other:
           _en: Permissions
           _fr: Permissions
           _de: Erlaubnisse
           _it: Permessi
+          _nl: Toestemmingen
       session:
         one:
           _en: Session
           _fr: Session
           _de: Sitzung
           _it: Sessione
+          _nl: Sessie
         other:
           _en: Sessions
           _fr: Sessions
           _de: Sitzungen
           _it: Sessioni
+          _nl: Sessies
       shop:
         one:
           _en: Shop
           _fr: Épicerie
           _de: Hofladen
           _it: Bottega
+          _nl: Winkel
       shop/order:
         one:
           _en: Order
           _fr: Commande
           _de: Bestellung
           _it: Ordine
+          _nl: Bestelling
         other:
           _en: Orders
           _fr: Commandes
           _de: Bestellungen
           _it: Ordini
+          _nl: Bestellingen
       shop/order_item:
         one:
           _en: Product
           _fr: Produit
           _de: Produkt
           _it: Prodotto
+          _nl: Product
         other:
           _en: Products
           _fr: Produits
           _de: Produkte
           _it: Prodotti
+          _nl: Producten
       shop/producer:
         one:
           _en: Producer
           _fr: Producteur
           _de: Produzent
           _it: Produttore
+          _nl: Producent
         other:
           _en: Producers
           _fr: Producteurs
           _de: Produzenten
           _it: Produttori
+          _nl: Producenten
       shop/product:
         one:
           _en: Product
           _fr: Produit
           _de: Produkt
           _it: Prodotto
+          _nl: Product
         other:
           _en: Products
           _fr: Produits
           _de: Produkte
           _it: Prodotti
+          _nl: Producten
       shop/product_variant:
         one:
           _en: Variant
           _fr: Variante
           _de: Variante
           _it: Variante
+          _nl: Variant
         other:
           _en: Variants
           _fr: Variantes
           _de: Varianten
           _it: Varianti
+          _nl: Varianten
       shop/special_delivery:
         one:
           _en: Special delivery
           _fr: Livraison spéciale
           _de: Sonderlieferung
           _it: Consegna speciale
+          _nl: Speciale levering
         other:
           _en: Special deliveries
           _fr: Livraisons spéciales
           _de: Sonderlieferungen
           _it: Consegne speciali
+          _nl: Speciale leveringen
       shop/tag:
         one:
           _en: Tag
           _fr: Tag
           _de: Tag
           _it: Tag
+          _nl: Tag
         other:
           _en: Tags
           _fr: Tags
           _de: Tags
           _it: Tags
+          _nl: Tags
