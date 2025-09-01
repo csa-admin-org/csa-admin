@@ -38,7 +38,7 @@ ActiveAdmin.register Admin do
       f.input :email
       f.input :language,
         as: :select,
-        collection: Organization.languages.map { |l| [ t("languages.#{l}"), l ] },
+        collection: org_languages_collection,
         prompt: true
       if authorized?(:manage, Admin) && f.object != current_admin
         f.input :permission, collection: Permission.all, prompt: true, include_blank: false

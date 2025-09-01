@@ -29,7 +29,7 @@ ActiveAdmin.register Organization do
           f.input :languages,
             as: :check_boxes,
             wrapper_html: { class: "no-toggle-all single-column" },
-            collection: Organization.languages.map { |l| [ t("languages.#{l}"), l ] },
+            collection: org_languages_collection,
             disabled: Organization.languages
           if current_admin.ultra?
             f.input :logo, as: :file
