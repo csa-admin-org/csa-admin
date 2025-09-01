@@ -5,192 +5,230 @@ _:
       _fr: Ajustements
       _de: Anpassungen
       _it: Correzione
+      _nl: Aanpassingen
     amount_with_vat:
       _en: Amount with VAT
       _fr: Montant TTC
       _de: Betrag inkl. MwSt.
       _it: Importo IVA inclusa
+      _nl: Bedrag incl. btw
     amount_without_vat:
       _en: Amount without VAT
       _fr: Montant HT
       _de: Betrag exkl. MwSt.
       _it: Importo IVA esclusa
+      _nl: Bedrag excl. btw
     annual_fees:
       _en: Annual fees
       _fr: Cotisations annuelles
       _de: Jahresbeiträge
       _it: Contributi annuali
+      _nl: Jaarlijkse bijdragen
     auto:
       _en: Automatically imported
       _fr: Importés automatiquement
       _de: Automatisch importiert
       _it: Importati automaticamente
+      _nl: Automatisch geïmporteerd
     manual:
       _en: Manual
       _fr: Manuel
       _de: Manuell
       _it: Manuale
+      _nl: Handmatig
     membership_amount_description:
       x1:
         _en: Annual amount
         _fr: Montant annuel
         _de: Jahresbetrag
         _it: Importo annuale
+        _nl: Jaarbedrag
       x12:
         _en: 'Monthly amount #%{number}'
         _fr: 'Montant mensuel #%{number}'
         _de: 'Monatlicher Betrag #%{number}'
         _it: 'Importo mensile #%{number}'
+        _nl: 'Maandbedrag #%{number}'
       x2:
         _en: 'Semi-annual amount #%{number}'
         _fr: 'Montant semestriel #%{number}'
         _de: 'Halbjährlicher Betrag #%{number}'
         _it: 'Importo semestrale #%{number}'
+        _nl: 'Halfjaarlijks bedrag #%{number}'
       x3:
         _en: 'Four-monthly amount #%{number}'
         _fr: 'Montant quadrimestriel #%{number}'
         _de: 'Vierteljährlicher Betrag #%{number}'
         _it: 'Importo quadrimestrale #%{number}'
+        _nl: 'Viermaandelijks bedrag #%{number}'
       x4:
         _en: 'Quarterly amount #%{number}'
         _fr: 'Montant trimestriel #%{number}'
         _de: 'Vierteljährlicher Betrag #%{number}'
         _it: 'Importo trimestrale #%{number}'
+        _nl: 'Driemaandelijks bedrag #%{number}'
     memberships_total:
       _en: Total memberships
       _fr: Abonnements Total
       _de: Abonnements gesamt
       _it: Abbonamenti totali
+      _nl: Totaal lidmaatschappen
     missing_amounts:
       _en: Missing payments
       _fr: Paiements manquants
       _de: Fehlende Zahlungen
       _it: Pagamenti mancanti
+      _nl: Ontbrekende betalingen
     other:
       _en: Other
       _fr: Autre
       _de: Weiteres
       _it: Altro
+      _nl: Overig
     refund:
       _en: Refund
       _fr: Remboursement
       _de: Erstattung
       _it: Rimborsi
+      _nl: Terugbetaling
     remaining_memberships:
       _en: Remaining memberships to be billed
       _fr: Abonnements restant à facturer
       _de: Noch zu fakturierende Abonnements
       _it: Abbonamenti restanti da fatturare
+      _nl: Resterende lidmaatschappen te factureren
     scope:
       activity/basket_preparation:
         _en: Basket preparation adjustment
         _fr: Ajustement mises en panier
         _de: Anpassung Taschen befüllung
         _it: Correzioni preparazioni cesta
+        _nl: Aanpassing pakketvoorbereiding
       activity/day_work:
         _en: Day work adjustment
         _fr: Ajustement journées de travail
         _de: Anpassung Arbeitstage
         _it: Correzione dei giorni di lavoro
+        _nl: Aanpassing werkdag
       activity/halfday_work:
         _en: Half-day work adjustment
         _fr: Ajustement ½ journées
         _de: Anpassung ½ Tage
         _it: Correzioni ½ giornate
+        _nl: Aanpassing halve dag
       activity/hour_work:
         _en: Hour work adjustment
         _fr: Ajustement heures de travail
         _de: Anpassung Arbeitsstunden
         _it: Correzioni ore di lavoro
+        _nl: Aanpassing werkuur
       annual_fee:
         _en: Annual fee
         _fr: Cotisation annuelle
         _de: Jahresbeitrag
         _it: Contributo annuale
+        _nl: Jaarlijkse bijdrage
       basket_complement:
         _en: Complement
         _fr: Complément
         _de: Zusatz
         _it: Complément
+        _nl: Aanvulling
       basket_size:
         _en: Basket %{name}
         _fr: Panier %{name}
         _de: Tasche %{name}
         _it: Cesta %{name}
+        _nl: Pakket %{name}
       depot:
         _en: Depot
         _fr: Dépôt
         _de: Depot
         _it: Punto di ritiro
+        _nl: Depot
       missing:
         _en: Missing
         _fr: Manquant
         _de: Fehlende
         _it: Mancante
+        _nl: Ontbrekend
       overdue_notices:
         one:
           _en: 1 reminder
           _fr: 1 rappel
           _de: 1 Mahnung
           _it: 1 richiamo
+          _nl: 1 herinnering
         other:
           _en: "%{count} reminders"
           _fr: "%{count} rappels"
           _de: "%{count} Mahnungen"
           _it: "%{count} richiami"
+          _nl: "%{count} herinneringen"
       overpaid_amount:
         _en: "%{amount} surplus"
         _fr: "%{amount} en trop"
         _de: "%{amount} Überschuss"
         _it: "%{amount} in eccesso"
+        _nl: "%{amount} overschot"
       paid:
         _en: Paid
         _fr: Payé
         _de: Geleistete
         _it: Pagato
+        _nl: Betaald
       share:
         _en: Share
         _fr: Part Sociale
         _de: Anteilschein
         _it: Quota sociale cooperativa
+        _nl: Aandeel
     shares:
       _en: Cooperative shares
       _fr: Part Sociales
       _de: Anteilscheine
       _it: Quota sociale cooperativa
+      _nl: Coöperatieve aandelen
     title:
       _en: Billing
       _fr: Facturation
       _de: Rechnungsstellung
       _it: Fatturazione
+      _nl: Facturering
     vat_amount:
       _en: VAT amount
       _fr: Montant TVA
       _de: MwSt. Betrag
       _it: Importo IVA
+      _nl: Btw-bedrag
     year_division:
       x1:
         _en: Annual
         _fr: Annuel
         _de: Jährlich
         _it: Annuale
+        _nl: Jaarlijks
       x12:
         _en: Monthly
         _fr: Mensuel
         _de: Monatlich
         _it: Mensile
+        _nl: Maandelijks
       x2:
         _en: Semi-annual
         _fr: Semestriel
         _de: Halbjährlich
         _it: Semestrale
+        _nl: Halfjaarlijks
       x3:
         _en: Four-monthly
         _fr: Quadrimestriel
         _de: Dritteljährlich
         _it: Quadrimestrale
+        _nl: Viermaandelijks
       x4:
         _en: Quarterly
         _fr: Trimestriel
         _de: Quartalweise
         _it: Trimestrale
+        _nl: Driemaandelijks

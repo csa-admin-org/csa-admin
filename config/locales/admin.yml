@@ -6,98 +6,118 @@ _:
         _fr: Liste de livraison (XLSX et PDF)
         _de: Lieferungsliste (XLSX und PDF)
         _it: Lista di consegna (XLSX e PDF)
+        _nl: Leveringslijst (XLSX en PDF)
       delivery_list_hint:
         _en: Receive the XLSX and PDF lists the day before each delivery.
         _fr: Recevoir les listes XLSX et PDF le jour précédent chaque livraison.
         _de: Erhalte die XLSX- und PDF-Listen am Tag vor jeder Lieferung.
         _it: Ricevi le liste XLSX e PDF il giorno prima di ogni consegna.
+        _nl: Ontvang de XLSX- en PDF-lijsten de dag vóór elke levering.
       invoice_overpaid:
         _en: Overpaid invoice
         _fr: Facture payée en trop
         _de: Überzahlte Rechnung
         _it: Fattura pagata in eccesso
+        _nl: Te veel betaalde factuur
       invoice_overpaid_hint:
         _en: Receive a notification if an invoice is overpaid, for example, if a member has paid twice.
         _fr: Recevoir une notification si une facture est payée en trop, par exemple si un membre a payé deux fois.
         _de: Erhalte eine Benachrichtigung, wenn eine Rechnung überbezahlt wurde, z.B. wenn ein Mitglied zweimal bezahlt hat.
         _it: Ricevi una notifica se una fattura è stata pagata in eccesso, ad esempio se un membro ha pagato due volte.
+        _nl: Ontvang een melding wanneer een factuur te veel is betaald, bijvoorbeeld als een lid tweemaal heeft betaald.
       invoice_third_overdue_notice:
         _en: Invoice, 3rd reminder sent
         _fr: Facture, 3ᵉ rappel envoyé
         _de: Rechnung, 3. Mahnung gesendet
         _it: Fattura, 3° richiamo inviato
+        _nl: Factuur, 3e herinnering verzonden
       invoice_third_overdue_notice_hint:
         _en: Receive a notification when the 3rd reminder of an invoice is sent to a member.
         _fr: Recevoir une notification lorsque le 3ᵉ rappel d'une facture est envoyée à un membre.
         _de: Erhalte eine Benachrichtigung, wenn die 3. Mahnung einer Rechnung an ein Mitglied gesendet wird.
         _it: Ricevi una notifica quando il 3° richiamo di una fattura viene inviato ad un membro.
+        _nl: Ontvang een melding wanneer de 3e herinnering van een factuur naar un lid is verzonden.
       memberships_renewal_pending:
         _en: Membership, pending renewals
         _fr: Abonnement, renouvellements en attente
         _de: Mitgliedschaft, wartende Erneuerungen
         _it: Abbonamento, rinnovi in attesa
+        _nl: Lidmaatschap, openstaande vernieuwingen
       memberships_renewal_pending_hint:
         _en: Receive a notification when a membership renewal is still pending at the end of the fiscal year.
         _fr: Recevoir une notification lorsque des renouvellements d'abonnement sont toujours en attente à la fin de l'année fiscale.
         _de: Erhalte eine Benachrichtigung, wenn die Verlängerung eines Abonnements am Ende des Geschäftsjahres noch aussteht.
         _it: Ricevi una notifica quando il rinnovo di un abbonamento è ancora in attesa alla fine dell'anno fiscale.
+        _nl: Ontvang een melding wanneer een vernieuwing van een lidmaatschap aan het einde van het boekjaar nog in afwachting is.
       new_absence:
         _en: New absence
         _fr: Nouvelle absence
         _de: Neue Abwesenheit
         _it: Nuova assenza
+        _nl: Nieuwe afwezigheid
       new_absence_hint:
         _en: Receive a notification when an absence is created (by a member or another admin).
         _fr: Recevoir une notification lorsqu'une absence est créée (par un membre ou un autre admin).
         _de: Erhalte eine Benachrichtigung, wenn eine Abwesenheit erstellt wird (durch ein Mitglied oder einen anderen Admin).
         _it: Ricevi una notifica quando viene creata un'assenza (da un membro o da un altro admin).
+        _nl: Ontvang een melding wanneer een afwezigheid wordt aangemaakt (door een lid of een andere beheerder).
       new_absence_with_note:
         _en: New absence (with note only)
         _fr: Nouvelle absence‏‏‎ ‎(avec remarque uniquement)
         _de: Neue Abwesenheit‏‏‎ ‎(nur mit Bemerkung)
         _it: Nuova assenza‏‏‎ ‎(solo con nota)
+        _nl: Nieuwe afwezigheid (alleen met opmerking)
       new_absence_with_note_hint:
         _en: Receive a notification when an absence is created, but only if a note is present.
         _fr: Recevoir une notification lorsqu'une absence est créée, mais uniquement si une remarque est présente.
         _de: Erhalte eine Benachrichtigung, wenn eine Abwesenheit erstellt wird, aber nur, wenn eine Bemerkung vorhanden ist.
         _it: Ricevi una notifica quando viene creata un'assenza, ma solo se è presente una nota.
+        _nl: Ontvang een melding wanneer een afwezigheid wordt aangemaakt, maar alleen als er een opmerking is toegevoegd.
       new_activity_participation:
         _en: New activity participation
         _fr: Nouvelle participation à une activité
         _de: Neue Aktivitätsteilnahme
         _it: Nuova partecipazione ad un'attività
+        _nl: Nieuwe deelname aan activiteit
       new_activity_participation_hint:
         _en: Receive a notification when an activity participation is created (by a member or another admin).
         _fr: Recevoir une notification lorsqu'une participation à une activité est créée (par un membre ou un autre admin).
         _de: Erhalte eine Benachrichtigung, wenn eine Aktivitätsteilnahme erstellt wird (durch ein Mitglied oder einen anderen Admin).
         _it: Ricevi una notifica quando viene creata una partecipazione ad un'attività (da un membro o da un altro admin).
+        _nl: Ontvang een melding wanneer een deelname aan een activiteit wordt aangemaakt (door een lid of een andere beheerder).
       new_activity_participation_with_note:
         _en: New activity participation (with note only)
         _fr: Nouvelle participation à une activité‏‏‎ ‎‎‎(avec remarque uniquement)
         _de: Neue Aktivitätsteilnahme‏‏‎ ‎(nur mit Bemerkung)
         _it: Nuova partecipazione ad un'attività‏‏‎ ‎(solo con nota)
+        _nl: Nieuwe deelname aan activiteit (alleen met opmerking)
       new_activity_participation_with_note_hint:
         _en: Receive a notification when an activity participation is created, but only if a note is present.
         _fr: Recevoir une notification lorsqu'une participation à une activité est créée, mais uniquement si une remarque est présente.
         _de: Erhalte eine Benachrichtigung, wenn eine Aktivitätsteilnahme erstellt wird, aber nur, wenn eine Bemerkung vorhanden ist.
         _it: Ricevi una notifica quando viene creata una partecipazione ad un'attività, ma solo se è presente una nota.
+        _nl: Ontvang een melding wanneer een deelname aan een activiteit wordt aangemaakt, maar alleen als er een opmerking is toegevoegd.
       new_email_suppression:
         _en: Email rejected
         _fr: Email rejeté
         _de: E-Mail abgelehnt
         _it: E-mail rifiutata
+        _nl: E-mail geweigerd
       new_email_suppression_hint:
         _en: Receive a notification when an email is rejected by Postmark and could not be delivered.
         _fr: Recevoir une notification lorsqu'un email est rejeté par Postmark et n'a pas pu être délivré.
         _de: Erhalte eine Benachrichtigung, wenn eine E-Mail von Postmark abgelehnt und nicht zugestellt wurde.
         _it: Ricevi una notifica quando un'e-mail viene rifiutata da Postmark e non può essere consegnata.
+        _nl: Ontvang een melding wanneer een e-mail door Postmark is geweigerd en niet kon worden bezorgd.
       new_registration:
         _en: New registration
         _fr: Nouvelle inscription
         _de: Neue Anmeldung
         _it: Nuova iscrizione
+        _nl: Nieuwe registratie
       new_registration_hint:
         _en: Receive a notification when a member's registration is created and needs to be validated.
         _fr: Recevoir une notification lorsqu'une inscription d'un membre est créée et doit être validée.
         _de: Erhalte eine Benachrichtigung, wenn eine Anmeldung eines Mitglieds erstellt und validiert werden muss.
         _it: Ricevi una notifica quando viene creata un'iscrizione di un membro e deve essere validata.
+        _nl: Ontvang een melding wanneer een registratie van een lid is aangemaakt en moet worden gevalideerd.

@@ -5,75 +5,90 @@ _:
       _fr: Toutes
       _de: Alle
       _it: Tutte
+      _nl: Alle
     results:
       all:
         _en: All
         _fr: Toutes
         _de: Alle
         _it: Tutte
+        _nl: Alle
       all_but_first:
         _en: All except the 1st
         _fr: Toutes sauf la 1ère
         _de: Alle außer der ersten
         _it: Tutte tranne la prima
+        _nl: Alle behalve de 1e
       even:
         _en: Even
         _fr: Paires
         _de: Gerade
         _it: Pari
+        _nl: Even
       first_of_each_month:
         _en: First of each month
         _fr: Première de chaque mois
         _de: Erster jedes Monats
         _it: Primo di ogni mese
+        _nl: Eerste van elke maand
       last_of_each_month:
         _en: Last of each month
         _fr: Dernière de chaque mois
         _de: Letzter jedes Monats
         _it: Ultimo di ogni mese
+        _nl: Laatste van elke maand
       odd:
         _en: Odd
         _fr: Impaires
         _de: Ungerade
         _it: Dispari
+        _nl: Oneven
       quarter_1:
         _en: 1st quarter
         _fr: 1er quart
         _de: 1. Viertel
         _it: 1° quarto
+        _nl: 1e kwartaal
       quarter_2:
         _en: 2nd quarter
         _fr: 2ème quart
         _de: 2. Viertel
         _it: 2° quarto
+        _nl: 2e kwartaal
       quarter_3:
         _en: 3rd quarter
         _fr: 3ème quart
         _de: 3. Viertel
         _it: 3° quarto
+        _nl: 3e kwartaal
       quarter_4:
         _en: 4th quarter
         _fr: 4ème quart
         _de: 4. Viertel
         _it: 4° quarto
+        _nl: 4e kwartaal
     settings:
       _en: Configuration
       _fr: Configuration
       _de: Konfiguration
       _it: Configurazione
+      _nl: Configuratie
     week_numbers:
       all:
         _en: All
         _fr: Tous
         _de: Alle
         _it: Tutte
+        _nl: Alle
       even:
         _en: Even
         _fr: Pairs
         _de: Gerade
         _it: Pari
+        _nl: Even
       odd:
         _en: Odd
         _fr: Impairs
         _de: Ungerade
         _it: Dispari
+        _nl: Oneven

@@ -1,0 +1,17 @@
+<p>Tenzij er een fout of verzuim van onze kant is, hebben wij geen volledige betaling ontvangen voor factuur #{{ invoice.number }} gedateerd {{ invoice.date }}.</p>
+
+{% highlight %}
+  <strong>Het resterende te betalen bedrag is: {{ invoice.missing_amount }}</strong>
+{% endhighlight %}
+
+<p>Gelieve zo spoedig mogelijk over te gaan tot betaling. Bijgevoegd is een duplicaat van deze factuur ter referentie.</p>
+<p>Als uw betaling reeds is verricht, gelieve deze kennisgeving te negeren.</p>
+<p>Dank u bij voorbaat voor uw snelle betaling. Indien u vragen heeft, aarzel niet om contact met ons op te nemen.</p>
+
+{% unless member.billing_email %}
+  <p>U kunt uw facturen en betalingen op elk moment bekijken vanaf uw ledenpagina.</p>
+
+  {% button member.billing_url %}
+    Toegang tot mijn ledenpagina
+  {% endbutton %}
+{% endunless %}

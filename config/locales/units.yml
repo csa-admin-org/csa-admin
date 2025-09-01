@@ -5,33 +5,40 @@ _:
       _fr: "%{count}x %{quantity}g"
       _de: "%{count}x %{quantity}g"
       _it: "%{count}x %{quantity}g"
+      _nl: "%{count}x %{quantity}g"
     g_quantity:
       _en: "%{quantity}g"
       _fr: "%{quantity}g"
       _de: "%{quantity}g"
       _it: "%{quantity}g"
+      _nl: "%{quantity}g"
     kg:
       _en: Kilogram
       _fr: Kilogramme
       _de: Kilogramm
       _it: Chilogrammi
+      _nl: Kilogram
     kg_quantity:
       _en: "%{quantity}kg"
       _fr: "%{quantity}kg"
       _de: "%{quantity}kg"
       _it: "%{quantity}kg"
+      _nl: "%{quantity}kg"
     pc:
       _en: Piece
       _fr: Pièce
       _de: Stück
       _it: Pezzo
+      _nl: Stuk
     pc_count_quantity:
       _en: "%{count}x %{quantity}pc"
       _fr: "%{count}x %{quantity}p"
       _de: "%{count}x %{quantity}st"
       _it: "%{count}x %{quantity}p"
+      _nl: "%{count}x %{quantity}st"
     pc_quantity:
       _en: "%{quantity}pc"
       _fr: "%{quantity}p"
       _de: "%{quantity}st"
       _it: "%{quantity}p"
+      _nl: "%{quantity}st"

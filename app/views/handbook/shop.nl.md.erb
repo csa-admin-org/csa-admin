@@ -1,0 +1,78 @@
+# Winkel
+
+De online winkel stelt uw leden in staat om aanvullende producten te bestellen vanaf hun account enkele dagen voor de levering van hun volgende pakketten.
+
+Om u de mogelijkheid te geven om de inhoud van uw winkel rustig voor te bereiden, verschijnt de winkel **standaard niet** in het menu van het ledenaccount. Alleen admins die toegang hebben tot het account van een lid (via de knop "Toegang tot account" op de adminpagina van een lid) kunnen de winkel zien. Op deze manier kunt u ervoor zorgen dat alle producten goed gepresenteerd zijn. Zodra alles op zijn plaats staat, kan deze beperking worden uitgeschakeld vanuit [de instellingen](/settings#shop).
+
+> Indien nodig is het mogelijk om de winkel per levering te sluiten vanaf de adminpagina van de betreffende levering.
+
+## Producenten
+
+Elk product kan worden gekoppeld aan [een producent](/shop_producers). Voor elk van hen kan een beschrijving evenals een link naar een website of document worden gedefinieerd. Alle producten kunnen worden gefilterd op producent in de ledeninterface van de winkel.
+
+## Producten
+
+Veel opties worden aangeboden om de producten van uw winkel optimaal te beheren.
+
+### Tags
+
+[Tags](/shop_tags) zijn trefwoorden waarmee producten kunnen worden gefilterd in de ledeninterface van de winkel. Elk product kan worden gekoppeld aan een of meer tags.
+
+### Varianten
+
+Elk product bestaat uit een of meer varianten. Varianten maken het mogelijk om verschillende kenmerken (gewicht, grootte, type) van dit product te definiëren.
+
+Elke variant heeft zijn eigen naam, prijs, gewicht (optioneel) en voorraad (optioneel).
+
+### Beschikbaarheid
+
+De beschikbaarheid van een product kan worden gedefinieerd voor zichzelf of voor elk van zijn varianten afzonderlijk. Indien nodig kan een product ook niet beschikbaar worden gemaakt per depot of voor een toekomstige levering.
+
+> Als de voorraad van een variant is gedefinieerd en valt naar nul, zal deze nog steeds verschijnen maar het zal eenvoudigweg niet meer mogelijk zijn om deze aan het winkelwagentje toe te voegen.
+
+### Aanvullingen
+
+Het is mogelijk om een product te koppelen aan een bestaande pakketaanvulling; bestellingen voor dit product worden dan automatisch toegevoegd aan het aantal van deze aanvulling in de samenvatting (XLSX) en bladen (PDF) van de pakketlevering.
+
+Dit product zal ook alleen beschikbaar zijn op de leveringsdagen van de aanvulling.
+
+## Bestellingen
+
+Om u tijd te geven om bestellingen die voor de levering zijn geplaatst te verwerken en te factureren, kan een deadline (dagen en uren) tot wanneer bestellingen mogelijk zijn worden gedefinieerd vanuit [de winkelinstellingen](/settings#shop). Na deze deadline kunnen leden geen bestelling meer aanmaken of wijzigen voor de komende levering.
+
+Het is ook mogelijk om een minimaal bestelbedrag evenals een maximaal gewicht in te stellen, als deze informatie correct is ingevoerd voor elke productvariant.
+
+Zodra een bestelling is geplaatst, verschijnt deze met de status "voor te bereiden" in [de bestellingenlijst](/shop_orders?scope=pending). Deze bestellingen kunnen altijd door leden worden gewijzigd tot de geconfigureerde deadline. Een admin kan ze ook op elk moment wijzigen.
+
+Een leveringsbon (PDF), exclusief de prijs van producten, is beschikbaar voor elke bestelling als u deze wilt afdrukken en aan de pakketten wilt bevestigen.
+
+### Facturering
+
+Standaard moeten bestellingen, zodra ze zijn voorbereid, **handmatig** worden gefactureerd (mogelijkheid om ze allemaal in één keer te factureren via een groepsactie). De factuur wordt vervolgens automatisch per e-mail naar het lid verzonden.
+
+Het is ook mogelijk om **automatische facturering** van bestellingen te configureren, vanuit [de winkelinstellingen](/settings#shop), na of voor een bepaald aantal dagen volgend op of voorafgaand aan de leveringsdatum.
+
+> Als een reeds gefactureerde bestelling wordt gewijzigd, wordt de bestaande factuur automatisch geannuleerd en moet een nieuwe factuur worden gegenereerd en verzonden.
+
+Het is mogelijk om specifieke tekst toe te voegen in de ["Nieuwe factuur" e-mailsjabloon](/mail_templates/invoice_created) met behulp van [Liquid syntax](https://shopify.github.io/liquid) als volgt:
+
+~~~ liquid
+{% case invoice.entity_type %}
+{% when 'Shop::Order' %}
+  <p>Hier is uw nieuwe factuur, voor uw bestelling N° {{ invoice.entity_number }}; alle details zijn te vinden in de bijgevoegde PDF.</p>
+{% else %}
+  <p>Hier is uw nieuwe factuur; alle details zijn te vinden in de bijgevoegde PDF.</p>
+{% endcase %}
+~~~
+
+## Toegang voor leden zonder lidmaatschap
+
+Standaard, en buiten [speciale leveringen](#speciale-leveringen), is de toegang tot de winkel beperkt tot actieve leden met een lidmaatschap. Het is echter mogelijk om een depot te definiëren, door het profiel van een inactief lid te wijzigen, als een "winkeldepot" om hen toegang te geven tot de winkel. Bestellingen van deze leden verschijnen dan in de bladen (PDF) van de corresponderende depots.
+
+## Speciale leveringen
+
+Speciale leveringen stellen u in staat om aanvullende producten aan uw leden aan te bieden buiten de reguliere pakketleveringen via de online winkel.
+
+Beschikbare producten kunnen afzonderlijk worden gedefinieerd voor elke speciale levering, de individuele instelling van de beschikbaarheid van elk product wordt genegeerd. De beschikbaarheid van varianten evenals de staat van hun voorraad worden echter altijd gerespecteerd.
+
+> Omdat speciale leveringen worden geleverd buiten pakketleveringen om, staan ze open voor al uw leden, actief of niet.

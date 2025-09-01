@@ -31,7 +31,8 @@ class MailTemplateTest < ActiveSupport::TestCase
         "en" => "Welcome!",
         "fr" => "Bienvenue!",
         "de" => "Herzlich willkommen!",
-        "it" => "Benvenuto/a!"
+        "it" => "Benvenuto/a!",
+        "nl" => "Welkom!"
       },
       template.subjects
     )

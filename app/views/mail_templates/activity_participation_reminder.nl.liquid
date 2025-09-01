@@ -1,0 +1,38 @@
+<p>Een korte e-mail om u te herinneren aan uw registratie voor een activiteit:</p>
+
+{% highlight_list %}
+  <strong>Datum:</strong> {{ activity.date_long }}
+  <strong>Schema:</strong> {{ activity.period }}
+  <strong>Activiteit:</strong> {{ activity.title }}
+  {% if activity.description %}
+  <strong>Beschrijving:</strong> {{ activity.description }}
+  {% endif %}
+  {% if activity.place_url %}
+  <strong>Locatie:</strong> <a href="{{ activity.place_url }}" target="_black">{{ activity.place }}</a>
+  {% elsif activity.place %}
+  <strong>Locatie:</strong> {{ activity.place }}
+  {% endif %}
+  <strong>Deelnemers:</strong> {{ activity_participation.participants_count }}
+{% endhighlight_list %}
+
+{% if organization.activity_phone %}
+  <p>Heeft u vragen? U kunt contact met ons opnemen via <strong>{{ organization.activity_phone }}</strong> of gewoon reageren op deze e-mail.</p>
+{% endif %}
+
+
+{% if activity_participation.carpooling.size > 0 %}
+  <p>Carpooling, de volgende leden reizen per auto, neem gerust contact met hen op:</p>
+  {% highlight %}
+    <ul>
+      {% for carpooling in activity_participation.carpooling %}
+        <li><strong>{{ carpooling.member_name }}</strong>: {{ carpooling.member_phone }} {% if carpooling.leaving_from_city %}({{ carpooling.leaving_from_city }}){% endif %}</li>
+      {% endfor %}
+    </ul>
+  {% endhighlight %}
+{% endif %}
+
+<p>U kunt uw registraties op elk moment wijzigen vanaf uw ledenpagina.</p>
+
+{% button member.activities_url %}
+  Toegang tot mijn ledenpagina
+{% endbutton %}

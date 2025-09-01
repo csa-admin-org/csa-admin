@@ -1,0 +1,7 @@
+<p>Hallo {{ admin.name }},</p>
+
+<p>De factuur #{{ invoice.number }} van <strong>{{ member.name }}</strong> is te veel betaald, controleer dit alstublieft.</p>
+
+{% button member.admin_url %}
+  Toegang tot ledenpagina
+{% endbutton %}

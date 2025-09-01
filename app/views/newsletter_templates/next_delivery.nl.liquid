@@ -1,0 +1,57 @@
+{% content id: "intro" %}{% endcontent %}
+
+{% if basket.contents.size > 0 and basket.quantity > 0 %}
+  <h2>Pakketinhoud</h2>
+
+  <span>{{ basket.description }}:</span>
+  <ul>
+    {% for content in basket.contents %}
+      <li>{{ content.product }} ({{ content.quantity }})</li>
+    {% endfor %}
+  </ul>
+
+  {% if basket.complements.size > 0 %}
+    <p>Aanvulling(en): {{ basket.complements_description }}</p>
+  {% endif %}
+{% endif %}
+
+{% content id: "events", title: "Komende Evenementen" %}{% endcontent %}
+
+{% content id: "recipe", title: "Recept" %}{% endcontent %}
+
+{% if member.activities_url %}
+  {% lowlight %}
+    {% if future_activities.size > 0 %}
+      <span>Hier zijn de komende activiteiten waar we nog mensen voor nodig hebben:</span>
+      <ul>
+        {% assign activities = future_activities | slice: 0, 7 %}
+        {% for activity in activities %}
+          <li>{{ activity.date_long }}, {{ activity.period }}, {{ activity.title }}, {{ activity.place }}</li>
+        {% endfor %}
+      </ul>
+      <br/>
+    {% endif %}
+
+    {% if coming_activity_participations.size > 0 %}
+      <span>Uw komende registraties:</span>
+      <ul>
+        {% for participation in coming_activity_participations %}
+          <li>{{ participation.activity.date_long }}, {{ participation.activity.period }}, {{ participation.activity.title }}, {{ participation.activity.place }}</li>
+        {% endfor %}
+      </ul>
+      <br/>
+    {% endif %}
+
+    {% if membership.activity_participations_missing_count > 0 %}
+      <p>Gezien uw huidige registraties, heeft u nog
+        <strong>{{ membership.activity_participations_missing_count }}
+          activiteit(en)</strong>
+        te voltooien.</p>
+    {% endif %}
+
+    <p>
+      Beheer uw registraties vanaf
+      <a href="{{ member.activities_url }}">uw account</a>.
+    </p>
+  {% endlowlight %}
+{% endif %}

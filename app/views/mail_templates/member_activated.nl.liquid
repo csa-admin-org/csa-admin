@@ -1,0 +1,19 @@
+<p>BEWERK MIJ!</p>
+
+<p>Uw lidmaatschap is gestart of zal binnenkort starten, hier is meer informatie...</p>
+
+{% highlight_list %}
+  <strong>Start:</strong> {{ membership.start_date }}
+  <strong>Einde:</strong> {{ membership.end_date }}
+  <strong>Pakketgrootte:</strong> {{ membership.basket_size.name }}
+  {% if membership.basket_complement_names %}
+  <strong>Aanvullingen:</strong> {{ membership.basket_complement_names }}
+  {% endif %}
+  <strong>Depot:</strong> {{ membership.depot.name }}
+  <strong>Aantal proefpakketten:</strong> {{ membership.trial_baskets_count }}
+  <strong>Gevraagde activiteitsdeelnames:</strong> {{ membership.activity_participations_demanded_count }}
+{% endhighlight_list %}
+
+{% button member.page_url %}
+  Toegang tot mijn ledenpagina
+{% endbutton %}

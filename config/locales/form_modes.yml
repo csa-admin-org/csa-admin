@@ -5,13 +5,16 @@ _:
       _fr: Caché
       _de: Versteckt
       _it: Nascosto
+      _nl: Verborgen
     required:
       _en: Required
       _fr: Obligatoire
       _de: Pflichtfeld
       _it: Obbligatorio
+      _nl: Verplicht
     visible:
       _en: Visible
       _fr: Affiché
       _de: Angezeigt
       _it: Visualizzato
+      _nl: Zichtbaar

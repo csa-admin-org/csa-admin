@@ -1,0 +1,29 @@
+{% case invoice.entity_type %}
+{% when 'Shop::Order' %}
+  <p>Hier is uw nieuwe factuur voor uw bestelling nummer {{ invoice.entity_number }}, alle details staan in de bijgevoegde PDF.</p>
+{% else %}
+  <p>Hier is uw nieuwe factuur, alle details staan in de bijgevoegde PDF.</p>
+{% endcase %}
+
+{% case invoice.state %}
+{% when 'closed' %}
+  {% highlight %}
+    <strong>Gezien eerdere betalingen wordt deze factuur als betaald beschouwd en wordt alleen ter informatie verzonden.</strong>
+  {% endhighlight %}
+{% when 'open' %}
+  {% if invoice.only_partially_paid %}
+    {% highlight %}
+      <strong>Gezien eerdere betalingen is het resterende te betalen bedrag: {{ invoice.missing_amount }}</strong>
+    {% endhighlight %}
+  {% endif %}
+{% endcase %}
+
+<p>Bedankt!</p>
+
+{% unless member.billing_email %}
+  <p>U kunt uw facturen en betalingen op elk moment bekijken vanaf uw ledenpagina.</p>
+
+  {% button member.billing_url %}
+    Toegang tot mijn ledenpagina
+  {% endbutton %}
+{% endunless %}

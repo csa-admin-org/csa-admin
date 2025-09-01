@@ -5,653 +5,784 @@ _:
       _fr: Absences incluses (année complète)
       _de: Abwesenheiten inklusive (ganzes Jahr)
       _it: Assenze incluse (anno completo)
+      _nl: Afwezigheden inbegrepen (volledig jaar)
     absent_baskets:
       _en: Baskets (absent)
       _fr: Paniers (absents)
       _de: Taschen (Abwesend)
       _it: Ceste (assenti)
+      _nl: Pakketten (afwezig)
     address:
       _en: Address
       _fr: Adresse
       _de: Adresse
       _it: Indirizzo
+      _nl: Adres
     admin_name:
       _en: Internal name
       _fr: Nom interne
       _de: Interner Name
       _it: Nome interno
+      _nl: Interne naam
     amount:
       _en: Amount
       _fr: Montant
       _de: Betrag
       _it: Quantità
+      _nl: Bedrag
     amount_before_percentage:
       _en: Amount before percentage
       _fr: Montant avant pourcentage
       _de: Betrag vor Prozentsatz
       _it: Importo prima della percentuale
+      _nl: Bedrag voor percentage
     amount_percentage:
       _en: Percentage
       _fr: Pourcentage
       _de: Prozentsatz
       _it: Percentuale
+      _nl: Percentage
     annual_fee:
       _en: Annual fee
       _fr: Cotisation annuelle
       _de: Jahresbeitrag
       _it: Quota annuale
+      _nl: Jaarlijkse bijdrage
     annual_price:
       _en: Annual price
       _fr: Prix annuel
       _de: Jährlicher Preis
       _it: Prezzo annuale
+      _nl: Jaarprijs
     attachments:
       _en: Attachments
       _fr: Pièces jointes
       _de: Anhänge
       _it: Allegati
+      _nl: Bijlagen
     audience:
       _en: Audience
       _fr: Audience
       _de: Audienz
       _it: Pubblico
+      _nl: Doelgroep
     available:
       _en: Available
       _fr: Disponible
       _de: Verfügbar
       _it: Disponibile
+      _nl: Beschikbaar
     balance_amount:
       _en: Balance amount
       _fr: Balance
       _de: Kontostand
       _it: Bilancio
+      _nl: Saldo
     basket_price_extra:
       _en: Extra basket price
       _fr: Prix panier extra
       _de: Preis Extra-Tasche
       _it: Prezzo extra cesta
+      _nl: Extra pakketprijs
     basket_quantity:
       _en: Basket quantity
       _fr: Quantité de paniers
       _de: Anzahl Taschen
       _it: Quantità di ceste
+      _nl: Pakket hoeveelheid
     basket_size:
       _en: Basket size
       _fr: Taille panier
       _de: Taschengrösse
       _it: Dimensione cesta
+      _nl: Pakketgrootte
     basket_size_id:
       _en: Basket size
       _fr: Taille panier
       _de: Taschengrösse
       _it: Dimensione cesta
+      _nl: Pakketgrootte
     basket_sizes:
       _en: Basket sizes
       _fr: Tailles de panier
       _de: Taschengrössen
       _it: Dimensioni ceste
+      _nl: Pakketgroottes
     baskets:
       _en: Baskets
       _fr: Paniers
       _de: Taschen
       _it: Ceste
+      _nl: Pakketten
     billing_year_division:
       _en: Payment interval
       _fr: Intervalle de paiement
       _de: Einzahlungsintervall
       _it: Intervallo di pagamento
+      _nl: Betalingsinterval
     bulk_dates_ends_on:
       _en: Ends on
       _fr: Fin
       _de: Ende
       _it: Fine
+      _nl: Eindigt op
     bulk_dates_starts_on:
       _en: Starts on
       _fr: Début
       _de: Anfang
       _it: Inizio
+      _nl: Begint op
     bulk_dates_wdays:
       _en: Weekdays
       _fr: Jours de la semaine
       _de: Wochentage
       _it: Giorni della settimana
+      _nl: Weekdagen
     bulk_dates_weeks_frequency:
       _en: Frequency
       _fr: Fréquence
       _de: Häufigkeit
       _it: Frequenza
+      _nl: Frequentie
     canceled_at:
       _en: Canceled at
       _fr: Annulé le
       _de: Storniert am
       _it: Annullato il
+      _nl: Geannuleerd op
     canceled_by:
       _en: Canceled by
       _fr: Annulé par
       _de: Storniert von
       _it: Annullato da
+      _nl: Geannuleerd door
     city:
       _en: City
       _fr: Ville
       _de: Stadt
       _it: Città
+      _nl: Stad
     closed_at:
       _en: Closed at
       _fr: Fermé le
       _de: Geschlossen am
       _it: Chiuso il
+      _nl: Gesloten op
     closed_by:
       _en: Closed by
       _fr: Fermé par
       _de: Geschlossen von
       _it: Chiuso da
+      _nl: Gesloten door
     comment:
       _en: Comment
       _fr: Commentaire
       _de: Kommentar
       _it: Commento
+      _nl: Opmerking
     contact:
       _en: Contact
       _fr: Contact
       _de: Kontakt
       _it: Contatto
+      _nl: Contact
     count:
       _en: Count
       _fr: Nombre
       _de: Anzahl
       _it: Numero
+      _nl: Aantal
     country_code:
       _en: Country code
       _fr: Pays
       _de: Land
       _it: Paese
+      _nl: Landcode
     created_at:
       _en: Created at
       _fr: Créé le
       _de: Erstellt am
       _it: Creato il
+      _nl: Aangemaakt op
     created_by:
       _en: Created by
       _fr: Créé par
       _de: Erstellt von
       _it: Creato da
+      _nl: Aangemaakt door
     current_deliveries:
       _en: Current deliveries (current year)
       _fr: Livraisons (année courante)
       _de: Lieferungen (laufendes Jahr)
       _it: Consegne (anno corrente)
+      _nl: Huidige leveringen (huidig jaar)
     date:
       _en: Date
       _fr: Date
       _de: Datum
       _it: Data
+      _nl: Datum
     dates:
       _en: Dates
       _fr: Dates
       _de: Daten
       _it: Date
+      _nl: Data
     deliveries:
       _en: Deliveries
       _fr: Livraisons
       _de: Lieferungen
       _it: Consegne
+      _nl: Leveringen
     deliveries_count:
       _en: Deliveries count
       _fr: Livraisons
       _de: Lieferungen
       _it: Consegne
+      _nl: Aantal leveringen
     delivery:
       _en: Delivery
       _fr: Livraison
       _de: Lieferung
       _it: Consegna
+      _nl: Levering
     delivery_cycle:
       _en: Delivery cycle
       _fr: Cycle de livraisons
       _de: Zyklus von Lieferungen
       _it: Ciclo di consegne
+      _nl: Leveringscyclus
     delivery_cycles:
       _en: Delivery cycles
       _fr: Cycles de livraisons
       _de: Zyklen von Lieferungen
       _it: Cicli di consegne
+      _nl: Leveringscycli
     delivery_date:
       _en: Delivery date
       _fr: Date de livraison
       _de: Lieferdatum
       _it: Data di consegna
+      _nl: Leveringsdatum
     delivery_id:
       _en: Delivery
       _fr: Livraison
       _de: Lieferung
       _it: Consegna
+      _nl: Levering
     delivery_note:
       _en: Delivery note
       _fr: Note livraison
       _de: Notiz Lieferung
       _it: Note consegna
+      _nl: Leveringsbon
     depot:
       _en: Depot
       _fr: Dépôt
       _de: Depot
       _it: Punto di ritiro
+      _nl: Depot
     depot_id:
       _en: Depot
       _fr: Dépôt
       _de: Depot
       _it: Punto di ritiro
+      _nl: Depot
     depots:
       _en: Depots
       _fr: Dépôts
       _de: Depots
       _it: Punto di ritiro
+      _nl: Depots
     description:
       _en: Description
       _fr: Description
       _de: Beschreibung
       _it: Descrizione
+      _nl: Beschrijving
     during_year:
       _en: Fiscal year
       _fr: Année fiscale
       _de: Geschäftsjahr
       _it: Anno fiscale
+      _nl: Boekjaar
     email:
       _en: Email
       _fr: Email
       _de: E-Mail
       _it: E-mail
+      _nl: E-mail
     email_session:
       _en: Email (session)
       _fr: Email (session)
       _de: E-Mail (Session)
       _it: E-mail (sessione)
+      _nl: E-mail (sessie)
     emails:
       _en: Email(s)
       _fr: Email(s)
       _de: E-Mail(s)
       _it: E-mail
+      _nl: E-mail(s)
     end_time:
       _en: End time
       _fr: Heure de fin
       _de: Endzeit
       _it: Ora di fine
+      _nl: Eindtijd
     fiscal_year:
       _en: Fiscal year
       _fr: Année fiscale
       _de: Geschäftsjahr
       _it: Anno fiscale
+      _nl: Boekjaar
     food_note:
       _en: Food note
       _fr: Note alimentaire
       _de: Lebensmittelhinweis
       _it: Nota alimentare
+      _nl: Voedselnotitie
     form_detail:
       _en: Description
       _fr: Description
       _de: Beschreibung
       _it: Descrizione
+      _nl: Beschrijving
     from:
       _en: From
       _fr: Adresse d'envoi
       _de: Absender-Adresse
       _it: Indirizzo di spedizione
+      _nl: Van
     future_deliveries:
       _en: Future deliveries
       _fr: Livraisons (future)
       _de: Lieferungen (zukünftige)
       _it: Consegne (futuro)
+      _nl: Toekomstige leveringen
     id:
       _en: ID
       _fr: ID
       _de: ID
       _it: ID
+      _nl: ID
     information_text:
       _en: Information text
       _fr: Texte d'information
       _de: Informations-Text
       _it: Testo informativo
+      _nl: Informatietekst
     invoice:
       _en: Invoice
       _fr: Facture
       _de: Rechnung
       _it: Fattura
+      _nl: Factuur
     invoice_date:
       _en: Invoice date
       _fr: Facture Date
       _de: Rechnung Datum
       _it: Data della fattura
+      _nl: Factuurdatum
     invoice_entity:
       _en: Invoice entity
       _fr: Facture Objet
       _de: Rechnung Objekt
       _it: Oggetto Fattura
+      _nl: Factuurentiteit
     invoice_id:
       _en: Invoice
       _fr: Facture
       _de: Rechnung
       _it: Fattura
+      _nl: Factuur
     language:
       _en: Language
       _fr: Langue
       _de: Sprache
       _it: Lingua
+      _nl: Taal
     last_membership_ended_on:
       _en: End date of the last membership
       _fr: Date de fin du dernier abonnement
       _de: Enddatum des letzten Abonnements
       _it: Date di fine dell'ultimo abbonamento
+      _nl: Einddatum van het laatste lidmaatschap
     liquid_data_preview_yaml:
       _en: Data preview
       _fr: Données de prévisualisation
       _de: Vorschau der Daten
       _it: Anteprima dei dati
+      _nl: Gegevensvoorbeeld
     member:
       _en: Member
       _fr: Membre
       _de: Mitglied
       _it: Socio
+      _nl: Lid
     member_id:
       _en: Member
       _fr: Membre
       _de: Mitglied
       _it: Socio
+      _nl: Lid
     member_order_priority:
       _en: Priority
       _fr: Priorité
       _de: Priorität
       _it: Priorità
+      _nl: Prioriteit
     membership:
       _en: Membership
       _fr: Abonnement
       _de: Abonnement
       _it: Abbonamento
+      _nl: Lidmaatschap
     missing_amount:
       _en: Missing amount
       _fr: Montant manquant
       _de: Fehlender Betrag
       _it: Quantità mancante
+      _nl: Ontbrekend bedrag
     month:
       _en: Month
       _fr: Mois
       _de: Monat
       _it: Mese
+      _nl: Maand
     name:
       _en: Name
       _fr: Nom
       _de: Name
       _it: Nome
+      _nl: Naam
     next_invoice_on:
       _en: Next invoice on
       _fr: Prochaine facture le
       _de: Nächste Rechnung am
       _it: Prossima fattura il
+      _nl: Volgende factuur op
     note:
       _en: Note
       _fr: Note
       _de: Notiz
       _it: Note
+      _nl: Opmerking
     opened_at:
       _en: Opened at
       _fr: Ouvert le
       _de: Geöffnet am
       _it: Aperto il
+      _nl: Geopend op
     opened_by:
       _en: Opened by
       _fr: Ouvert par
       _de: Geöffnet von
       _it: Aperto da
+      _nl: Geopend door
     orders:
       _en: Orders
       _fr: Commandes
       _de: Bestellungen
       _it: Ordine
+      _nl: Bestellingen
     other:
       _en: Other
       _fr: Autre
       _de: Weiteres
       _it: Altro
+      _nl: Andere
     paid_amount:
       _en: Paid amount
       _fr: Payé
       _de: Eingezahlt
       _it: Pagato
+      _nl: Betaald bedrag
     participants:
       _en: Participants
       _fr: Participants
       _de: Teilnehmer
       _it: Partecipanti
+      _nl: Deelnemers
     participants_count:
       _en: Participants
       _fr: Participants
       _de: Teilnehmer
       _it: Partecipanti
+      _nl: Deelnemers
     participants_limit:
       _en: Participant limit
       _fr: Limite de participants
       _de: Begrenzung Anzahl Teilnehmer
       _it: Limite di partecipanti
+      _nl: Deelnemerslimiet
     participants_short:
       _en: Part.
       _fr: Part.
       _de: Teiln.
       _it: Part.
+      _nl: Deeln.
     participations:
       _en: Participations
       _fr: Participations
       _de: Teilnahmen
       _it: Partecipazioni
+      _nl: Deelnames
     period:
       _en: Period
       _fr: Horaire
       _de: Zeiten
       _it: Orario
+      _nl: Periode
     phones:
       _en: Phone(s)
       _fr: Téléphone(s)
       _de: Telefon(e)
       _it: Telefono
+      _nl: Telefoon(s)
     place:
       _en: Place
       _fr: Lieu
       _de: Standort
       _it: Luogo
+      _nl: Plaats
     place_url:
       _en: Place URL
       _fr: Lieu URL
       _de: Standort URL
       _it: URL Luogo
+      _nl: Plaats URL
     presets:
       _en: Presets
       _fr: Presets
       _de: Voreinstellungen
       _it: Impostazioni
+      _nl: Voorinstellingen
     price:
       _en: Price
       _fr: Prix
       _de: Preis
       _it: Prezzo
+      _nl: Prijs
     price_per_delivery:
       _en: Price per delivery
       _fr: Prix par livraison
       _de: Preis pro Lieferung
       _it: Prezzo per consegna
+      _nl: Prijs per levering
     producer:
       _en: Producer
       _fr: Producteur
       _de: Produzent
       _it: Produttore
+      _nl: Producent
     product:
       _en: Product
       _fr: Produit
       _de: Produkt
       _it: Prodotto
+      _nl: Product
     product_variant:
       _en: Variant
       _fr: Variante
       _de: Variante
       _it: Variante
+      _nl: Variant
     products:
       _en: Products
       _fr: Produits
       _de: Produkte
       _it: Prodotti
+      _nl: Producten
     public_name:
       _en: Name (Member)
       _fr: Nom (Membre)
       _de: Name (Mitglied)
       _it: Nome (Socio)
+      _nl: Naam (Lid)
     public_note:
       _en: Information (Member)
       _fr: Information (Membre)
       _de: Information (Mitglied)
       _it: Informazioni (Socio)
+      _nl: Informatie (Lid)
     qt:
       _en: Qty.
       _fr: Qté.
       _de: Mg.
       _it: Qta.
+      _nl: Hoev.
     quantity:
       _en: Quantity
       _fr: Quantité
       _de: Menge
       _it: Quantità
+      _nl: Hoeveelheid
     recurring_billing_wday:
       _en: Automatic billing
       _fr: Facturation automatique
       _de: Automatische Rechnungsstellung
       _it: Fatturazione automatica
+      _nl: Automatische facturering
     renewal_state:
       _en: Renewal
       _fr: Renouvellement
       _de: Verlängerung
       _it: Rinnovo
+      _nl: Vernieuwing
     sent_at:
       _en: Sent at
       _fr: Envoyé le
       _de: Gesendet am
       _it: Inviato il
+      _nl: Verzonden op
     sent_by:
       _en: Sent by
       _fr: Envoyé par
       _de: Gesendet von
       _it: Inviato da
+      _nl: Verzonden door
     shares_number:
       _en: Number of shares
       _fr: Nombre de parts sociales
       _de: Anzahl Anteilscheine
       _it: Numero di quote sociali della cooperativa
+      _nl: Aantal aandelen
     shop:
       _en: Shop
       _fr: Épicerie
       _de: Hofladen
       _it: Bottega
+      _nl: Winkel
     social_network_urls:
       _en: Social networks (URLs)
       _fr: Réseaux sociaux (URLs)
       _de: Soziale Netzwerke (URLs)
       _it: Reti sociali (URL)
+      _nl: Sociale netwerken (URL's)
     start_time:
       _en: Start time
       _fr: Heure de début
       _de: Anfangszeit
       _it: Ora di inizio
+      _nl: Starttijd
     state:
       _en: State
       _fr: Statut
       _de: Status
       _it: Status
+      _nl: Status
     status:
       _en: Status
       _fr: Statut
       _de: Status
       _it: Status
+      _nl: Status
     stock:
       _en: Stock
       _fr: Pièces en stock
       _de: Teile auf Lager
       _it: Parti in stock
+      _nl: Voorraad
     summary:
       _en: Summary
       _fr: Récapitulatif
       _de: Zusammenfassung
       _it: Riassunto
+      _nl: Samenvatting
     summary_xlsx:
       _en: Summary (XLSX)
       _fr: Récapitulatif (XLSX)
       _de: Zusammenfassung (XLSX)
       _it: Riassunto (XLSX)
+      _nl: Samenvatting (XLSX)
     text:
       _en: Text
       _fr: Texte
       _de: Text
       _it: Testo
+      _nl: Tekst
     title:
       _en: Title
       _fr: Intitulé
       _de: Titel
       _it: Titolo
+      _nl: Titel
     total:
       _en: Total
       _fr: Total
       _de: Gesamt
       _it: Totale
+      _nl: Totaal
     trial_baskets_count:
       _en: Trial baskets
       _fr: Paniers à l'essai
       _de: Probetaschen
       _it: Ceste di prova
+      _nl: Proefpakketten
     unit_price:
       _en: Unit price
       _fr: Prix unité
       _de: Einheitspreis
       _it: Prezzo unitario
+      _nl: Eenheidsprijs
     updated_at:
       _en: Updated at
       _fr: Mis à jour le
       _de: Aktualisiert am
       _it: Aggiornato il
+      _nl: Bijgewerkt op
     updated_by:
       _en: Updated by
       _fr: Mis à jour par
       _de: Aktualisiert von
       _it: Aggiornato da
+      _nl: Bijgewerkt door
     visible:
       _en: Visible
       _fr: Visible
       _de: Sichtbar
       _it: Visibile
+      _nl: Zichtbaar
     wday:
       _en: Weekday
       _fr: Jour de la semaine
       _de: Wochentag
       _it: Giorno della settimana
+      _nl: Weekdag
     website_url:
       _en: Website
       _fr: Site Web
       _de: Website
       _it: Sito Web
+      _nl: Website
     weight:
       _en: Weight
       _fr: Poids
       _de: Gewicht
       _it: Peso
+      _nl: Gewicht
     weight_in_kg:
       _en: Weight (in kg)
       _fr: Poids (en kg)
       _de: Gewicht (in kg)
       _it: Peso (in kg)
+      _nl: Gewicht (in kg)
     with_email:
       _en: Email
       _fr: Email
       _de: E-Mail
       _it: E-mail
+      _nl: E-mail
     with_note:
       _en: Note
       _fr: Note
       _de: Notiz
       _it: Note
+      _nl: Opmerking
     zip:
       _en: ZIP code
       _fr: NPA
       _de: PLZ
       _it: CAP
+      _nl: Postcode

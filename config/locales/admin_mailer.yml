@@ -6,69 +6,81 @@ _:
         _fr: Liste livraison du %{date}
         _de: Lieferungsliste vom %{date}
         _it: Lista di consegna del %{date}
+        _nl: Leveringslijst van %{date}
     depot_delivery_list_email:
       subject:
         _en: Delivery list of %{date} (%{depot})
         _fr: Liste livraison du %{date} (%{depot})
         _de: Lieferungsliste vom %{date} (%{depot})
         _it: Lista di consegna del %{date} (%{depot})
+        _nl: Leveringslijst van %{date} (%{depot})
     invitation_email:
       subject:
         _en: Invitation to the %{org} admin
         _fr: Invitation à l'admin de %{org}
         _de: Einladung an den %{org} Admin
         _it: Invito all'admin di %{org}
+        _nl: Uitnodiging voor de admin van %{org}
     invoice_overpaid_email:
       subject:
         _en: 'Overpaid invoice #%{number}'
         _fr: 'Facture #%{number} payée en trop'
         _de: 'Überzahlte Rechnung #%{number}'
         _it: 'Fattura #%{number} pagata in eccesso'
+        _nl: 'Te veel betaalde factuur #%{number}'
     invoice_third_overdue_notice_email:
       subject:
         _en: 'Invoice #%{number}, 3rd reminder sent'
         _fr: 'Facture #%{number}, 3ᵉ rappel envoyé'
         _de: 'Rechnung #%{number}, 3. Mahnung gesendet'
         _it: 'Fattura #%{number}, 3° richiamo inviato'
+        _nl: 'Factuur #%{number}, 3e herinnering verzonden'
     memberships_renewal_pending_email:
       subject:
         _en: "⚠️ Membership(s) pending renewal!"
         _fr: "⚠️ Abonnement(s) en attente de renouvellement!"
         _de: "⚠️ Mitgliedschaft(en) wartet auf Verlängerung!"
         _it: "⚠️ Abbonamento(i) in attesa di rinnovo!"
+        _nl: "⚠️ Lidmaatschap(pen) in afwachting van vernieuwing!"
     new_absence_email:
       subject:
         _en: New absence
         _fr: Nouvelle absence
         _de: Neue Abwesenheit
         _it: Nuova assenza
+        _nl: Nieuwe afwezigheid
     new_activity_participation_email:
       subject/basket_preparation:
         _en: New participation in basket preparation
         _fr: Nouvelle participation à une mise en panier
         _de: Neue Teilnahme an einer Befüllung der Taschen
         _it: Nuova partecipazione alla preparazione dei cesti
+        _nl: Nieuwe deelname aan pakketvoorbereiding
       subject/day_work:
         _en: New participation in a workday
         _fr: Nouvelle participation à une journée de travail
         _de: Neue Teilnahme an einem Arbeitstag
         _it: Nuova partecipazione ad una giornata di lavoro
+        _nl: Nieuwe deelname aan een werkdag
       subject/halfday_work:
         _en: New participation in a ½ day
         _fr: Nouvelle participation à une ½ journée
         _de: Neue Teilnahme an einem ½ Tag
         _it: Nuova partecipazione ad una ½ giornata
+        _nl: Nieuwe deelname aan een ½ dag
       subject/hour_work:
         _en: New participation in a work hour
         _fr: Nouvelle participation à une heure de travail
         _de: Neue Teilnahme an einer Arbeitsstunde
         _it: Nuova partecipazione ad un'ora di lavoro
+        _nl: Nieuwe deelname aan een werkuur
     new_email_suppression_email:
       subject:
         _en: Email rejected (%{reason})
         _fr: Email rejeté (%{reason})
         _de: E-Mail abgelehnt (%{reason})
         _it: E-mail rifiutatata (%{reason})
+        _nl: E-mail geweigerd (%{reason})
     new_registration_email:
       subject:
         existing:
@@ -76,8 +88,10 @@ _:
           _fr: Nouvelle réinscription
           _de: Neue Wiederanmeldung
           _it: Nuova ri-iscrizione
+          _nl: Nieuwe herinschrijving
         new:
           _en: New registration
           _fr: Nouvelle inscription
           _de: Neue Einschreibung
           _it: Nuova iscrizione
+          _nl: Nieuwe registratie

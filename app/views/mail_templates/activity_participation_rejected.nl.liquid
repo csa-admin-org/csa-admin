@@ -1,0 +1,26 @@
+<p>Helaas kon uw deelname aan de volgende activiteit niet worden gevalideerd. Misschien bent u het vergeten!?!</p>
+
+{% highlight_list %}
+  <strong>Datum:</strong> {{ activity.date_long }}
+  <strong>Schema:</strong> {{ activity.period }}
+  <strong>Activiteit:</strong> {{ activity.title }}
+  {% if activity.description %}
+  <strong>Beschrijving:</strong> {{ activity.description }}
+  {% endif %}
+  {% if activity.place_url %}
+  <strong>Locatie:</strong> <a href="{{ activity.place_url }}" target="_black">{{ activity.place }}</a>
+  {% elsif activity.place %}
+  <strong>Locatie:</strong> {{ activity.place }}
+  {% endif %}
+  <strong>Deelnemers:</strong> {{ activity_participation.participants_count }}
+{% endhighlight_list %}
+
+{% if organization.activity_phone %}
+  <p>In geval van een last-minute verhindering, neem alstublieft contact met ons op via <strong>{{ organization.activity_phone }}</strong> om onnodig wachten te voorkomen.</p>
+{% endif %}
+
+<p>Schrijf u in voor andere activiteiten vanaf uw ledenpagina.</p>
+
+{% button member.activities_url %}
+Toegang tot mijn ledenpagina
+{% endbutton %}

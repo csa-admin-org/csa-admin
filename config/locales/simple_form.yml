@@ -7,24 +7,29 @@ _:
           _fr: Séparés par une virgule.
           _de: Durch Komma getrennt.
           _it: Separate da una virgola.
+          _nl: Gescheiden door een komma.
         phones:
           _en: Separated by a comma.
           _fr: Séparés par une virgule.
           _de: Durch Komma getrennt.
           _it: Separate da una virgola.
+          _nl: Gescheiden door een komma.
         profession:
           _en: Which could potentially be useful for our activities.
           _fr: Qui pourraient éventuellement s'avérer utiles à nos activités.
           _de: Welche sich möglicherweise als nützlich für unsere Aktivitäten erweisen könnten.
           _it: Che potrebbe essere potenzialmente utile per le nostre attività.
+          _nl: Die mogelijk nuttig kunnen zijn voor onze activiteiten.
     required:
       mark:
         _en: "*"
         _fr: "*"
         _de: "*"
         _it: "*"
+        _nl: "*"
       text:
         _en: required
         _fr: requis
         _de: Pflichtfeld
         _it: requisito
+        _nl: verplicht

@@ -1,0 +1,52 @@
+# Extra pakketprijs
+
+Deze functie stelt u in staat om uw leden de mogelijkheid te bieden om een extra bedrag voor elk pakket te betalen.
+
+Deze aanvullende inkomsten kunnen verschillende behoeften dienen, bijvoorbeeld:
+
+- Een solidariteitsbijdrage om de prijs van andere lidmaatschappen te verlagen
+- Het verhogen van de salarissen van boeren
+
+## Configuratie
+
+Zodra deze aanvullende functie is geactiveerd in [uw instellingen](/settings#organization_features_input), stellen [verschillende instellingen](/settings#basket_price_extra) u in staat om te configureren hoe deze extra's aan uw leden worden gepresenteerd tijdens hun registratie of [lidmaatschapsvernieuwing](/handbook/membership_renewal).
+
+Na het kiezen van de titel van de extra en een uitleg tekst (optioneel), kunt u vervolgens een lijst van extra's definiëren gescheiden door komma's, bijvoorbeeld:
+
+~~~
+0.0, 1.0, 1.5, 3.0, 5.0
+~~~
+
+Vervolgens moet u definiëren hoe uw extra's worden weergegeven, bijvoorbeeld met behulp van [Liquid syntax](https://shopify.github.io/liquid) als volgt:
+
+~~~ liquid
+{% if extra == 0 %}
+Basisprijs
+{% elsif extra == 1.5 %}
++ {{ extra }}/pakket
+{% else %}
++ {{ extra | ceil }}.-/pakket
+{% endif %}
+~~~
+
+Dit geeft de volgende presentatie (met 40 leveringen):
+![Label weergave](<%= image_url("handbook/basket_price_extra/label.en.png") %>)
+
+U kunt er ook voor kiezen om meer details aan het label toe te voegen, bijvoorbeeld met behulp van [Liquid syntax](https://shopify.github.io/liquid) als volgt:
+
+~~~ liquid
+{% if extra == 1.5 %}
+salaris ~{{ extra | plus: 20 }} netto/uur, ~{{ extra | plus: 20 | times: 100 | ceil }}.- netto/maand bij 50%
+{% else %}
+salaris ~{{ extra | plus: 20 | ceil }}.- netto/uur, ~{{ extra | plus: 20 | times: 100 | ceil }}.- netto/maand bij 50%
+{% endif %}
+~~~
+
+Dit geeft deze meer gedetailleerde presentatie (met 40 leveringen):
+![Gedetailleerde label weergave](<%= image_url("handbook/basket_price_extra/label_with_details.en.png") %>)
+
+## Rapport
+
+Het totale bedrag van alle extra's wordt rechtsonder in [de lidmaatschappenlijst](https://admin.tapatate.test/memberships?q%5Bduring_year%5D=<%= Current.fy_year %>&scope=all&subdomain=admin&order=started_on_desc) weergegeven, onder de filters. Vergeet niet de lidmaatschappen te filteren op boekjaar om het juiste bedrag te krijgen.
+
+U kunt eenvoudig [de lidmaatschappenlijst](/memberships?q%5Bbasket_price_extra_gt%5D=0&subdomain=admin&order=started_on_desc) filteren met een extra door gebruik te maken van het filter rechts dat daarvoor is bedoeld. Deze informatie is ook te vinden in [de CSV-export van lidmaatschappen](/memberships.csv).

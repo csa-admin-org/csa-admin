@@ -5,29 +5,35 @@ _:
       _fr: En cas de questions ou remarques, répondez simplement à cet email.
       _de: Falls Sie Fragen oder Anmerkungen haben, antworten Sie einfach auf diese E-Mail.
       _it: Se hai domande o commenti, rispondi semplicemente a questo email.
+      _nl: Als u vragen of opmerkingen heeft, antwoord dan op deze e-mail.
     default_email_signature:
       _en: Best regards,
       _fr: Au plaisir
       _de: Bis bald,
       _it: Saluti,
+      _nl: Met vriendelijke groet,
     default_invoice_info:
       _en: Payable within 30 days, with our thanks.
       _fr: Payable dans les 30 jours, avec nos remerciements.
       _de: Zahlbar innerhalb von 30 Tagen, mit unseren Dank.
       _it: Pagabile entro 30 giorni, con le nostre ringraziamenti.
+      _nl: Betaalbaar binnen 30 dagen, met dank.
     delivery_pdf_member_info:
       food_note:
         _en: Food note
         _fr: Note alimentaire
         _de: Lebensmittelhinweis
         _it: Nota alimentare
+        _nl: Voedingsopmerking
       none:
         _en: None
         _fr: Aucune
         _de: Keine
         _it: Nessuna
+        _nl: Geen
       phones:
         _en: Phone numbers
         _fr: Numéros de téléphone
         _de: Telefonnummern
         _it: Numeri di telefono
+        _nl: Telefoonnummers
