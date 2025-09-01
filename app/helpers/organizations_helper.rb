@@ -64,6 +64,10 @@ module OrganizationsHelper
     col
   end
 
+  def org_languages_collection
+    Organization.languages.map { |l| [ t("languages.#{l}"), l ] }.sort_by(&:first)
+  end
+
   def billing_year_divisions_collection
     Organization.billing_year_divisions.map { |i|
       [
