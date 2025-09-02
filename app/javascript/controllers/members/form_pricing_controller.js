@@ -5,6 +5,10 @@ export default class extends Controller {
     return { url: String }
   }
 
+  connect() {
+    this.refresh()
+  }
+
   refresh() {
     const form = this.element
     const data = new FormData(form)

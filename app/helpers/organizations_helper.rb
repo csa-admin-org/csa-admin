@@ -58,7 +58,7 @@ module OrganizationsHelper
       ]
       col <<  [
         "#{activities_human_name} (#{t('active_admin.resource.form.full_year')})",
-        "activity_participations_demanded_annualy"
+        "activity_participations_demanded_annually"
       ]
     end
     col

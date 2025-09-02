@@ -19,11 +19,6 @@ class Members::MembersController < Members::BaseController
       @member.different_billing_info = true
     end
     set_basket_complements
-
-    respond_to do |format|
-      format.html
-      format.turbo_stream
-    end
   end
 
   # GET /

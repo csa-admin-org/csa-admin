@@ -17,8 +17,6 @@ class Members::MembershipRenewalsTest < ApplicationSystemTestCase
     choose "Renew my membership"
     click_on "Next"
 
-    assert_selector "turbo-frame#pricing", text: "CHF 390.00 /year"
-
     choose "Home"
     choose "Medium"
     fill_in "Bread", with: "2"
@@ -80,8 +78,6 @@ class Members::MembershipRenewalsTest < ApplicationSystemTestCase
 
     choose "Renew my membership"
     click_on "Next"
-
-    assert_selector "turbo-frame#pricing", text: "CHF 390.00 /year"
 
     click_on "Confirm"
 
