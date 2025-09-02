@@ -2,6 +2,7 @@
 
 class Members::MembershipRenewalsController < Members::BaseController
   before_action :load_membership
+  before_action :ensure_renewal_opened!, only: :new
   before_action :redirect_renewal_decision_params!, only: :new
 
   # GET /membership/renewal/new
@@ -10,15 +11,6 @@ class Members::MembershipRenewalsController < Members::BaseController
     @membership = @membership.dup
     @membership.renewal_decision = params[:decision]
     set_basket_complements
-
-    if @membership&.renewal_opened?
-      respond_to do |format|
-        format.html
-        format.turbo_stream
-      end
-    else
-      redirect_to members_member_path
-    end
   end
 
   # POST /membership/renewal
@@ -65,6 +57,12 @@ class Members::MembershipRenewalsController < Members::BaseController
         quantity: quantity || 0,
         basket_complement_id: id)
     end
+  end
+
+  def ensure_renewal_opened!
+    return if @membership.renewal_opened?
+
+    redirect_to members_member_path
   end
 
   def redirect_renewal_decision_params!

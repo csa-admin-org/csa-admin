@@ -104,7 +104,9 @@
     <% end %>
     <% if params[:decision] == "renew" %>
       <%= turbo_frame_tag "pricing" do %>
-        <%= render partial: "members/members/pricing", locals: { params: (params[:membership].present? ? renewal_params.to_unsafe_h : @membership.attributes) } %>
+        <% if params.key?(:membership) %>
+          <%= render partial: "members/members/pricing", locals: { params: renewal_params.to_unsafe_h } %>
+        <% end %>
       <% end %>
     <% end %>
   </div>

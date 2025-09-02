@@ -63,7 +63,7 @@
     </div>
   <% end %>
   <%= turbo_frame_tag "pricing" do %>
-    <% if params[:member].present? %>
+    <% if params.key?(:member) %>
       <%= render partial: "members/members/pricing", locals: { params: member_params.to_unsafe_h } %>
     <% end %>
   <% end %>
