@@ -665,6 +665,18 @@ ActiveAdmin.register Member do
       f.input :food_note, input_html: { rows: 4 }
       f.input :note, input_html: { rows: 4 }, placeholder: false
     end
+
+    if f.object.new_record? && MailTemplate.active_template(:member_validated).present?
+      f.inputs "Notifications" do
+        f.input :send_validation_email,
+          as: :boolean,
+          label: t(".send_validation_email"),
+          hint: t("formtastic.hints.member.send_validation_email_html",
+            url: mail_template_path(:member_validated),
+            new_members_url: new_members_member_url(subdomain: Current.org.members_subdomain))
+      end
+    end
+
     f.actions
   end
 
@@ -685,6 +697,7 @@ ActiveAdmin.register Member do
     :shop_depot_id,
     :profession, :come_from, :delivery_note, :food_note, :note,
     :contact_sharing,
+    :send_validation_email,
     waiting_alternative_depot_ids: [],
     members_basket_complements_attributes: [
       :id, :basket_complement_id, :quantity, :_destroy
@@ -785,7 +798,9 @@ ActiveAdmin.register Member do
     def create_resource(object)
       run_create_callbacks object do
         save_resource(object)
-        object.validate!(current_admin, skip_email: true) if object.valid?
+        if object.valid?
+          object.validate!(current_admin, send_email: object.send_validation_email)
+        end
       end
     end
   end

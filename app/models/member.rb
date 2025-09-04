@@ -23,6 +23,7 @@ class Member < ApplicationRecord
   attribute :country_code, :string, default: -> { Current.org.country_code }
   attribute :trial_baskets_count, :integer, default: -> { Current.org.trial_baskets_count }
   attribute :different_billing_info, :boolean, default: -> { false }
+  attribute :send_validation_email, :boolean, default: -> { false }
 
   audited_attributes \
     :state, :name, :emails, :billing_email, :newsletter, :phones, :contact_sharing, \
@@ -258,7 +259,7 @@ class Member < ApplicationRecord
     end
   end
 
-  def validate!(validator, skip_email: false)
+  def validate!(validator, send_email: true)
     invalid_transition(:validate!) unless pending?
 
     if waiting_basket_size_id? || waiting_depot_id?
@@ -273,7 +274,7 @@ class Member < ApplicationRecord
     self.validator = validator
     save!
 
-    if !skip_email && emails?
+    if send_email && emails?
       MailTemplate.deliver_later(:member_validated, member: self)
     end
   end
