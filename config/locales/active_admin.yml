@@ -1037,6 +1037,12 @@ _:
           _de: Registrierungsformular
           _it: Formulario d'iscrizione
           _nl: Registratieformulier
+        send_validation_email:
+          _en: Send the "Member validated" automatic email.
+          _fr: Envoyer l'email automatique "Membre validé".
+          _de: Senden Sie die automatische E-Mail "Mitglied validiert".
+          _it: Invia l'email automatica "Socio confermato".
+          _nl: Verstuur de automatische email "Lid gevalideerd".
         settings:
           _en: Settings
           _fr: Paramètres
