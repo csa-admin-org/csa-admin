@@ -2,7 +2,7 @@
 
 source "https://rubygems.org"
 
-gem "rails", github: "rails/rails"
+gem "rails", "~> 8.1.0.beta1"
 
 gem "bootsnap", require: false
 gem "thruster", require: false
@@ -103,6 +103,8 @@ end
 group :development do
   # Use console on exceptions pages [https://github.com/rails/web-console]
   gem "web-console"
+
+  gem "bundle-audit"
 
   gem "letter_opener"
   gem "terminal-table", require: false

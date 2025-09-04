@@ -32,6 +32,8 @@ class Admin < ApplicationRecord
   end
 
   def self.create_ultra!
+    return unless ENV["ULTRA_ADMIN_EMAIL"]
+
     create!(
       email: ENV["ULTRA_ADMIN_EMAIL"],
       name: ENV["ULTRA_ADMIN_NAME"],

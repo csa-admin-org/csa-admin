@@ -5,7 +5,7 @@
 
 Tenant.switch_each do
   name = Tenant.current
-  domain = Current.org.domain
+  domain = "#{name}.test"
   email = "info@#{domain}"
   phone = "+41 76 765 43 21"
   address = "Street 123"
@@ -17,7 +17,6 @@ Tenant.switch_each do
     url: "https://#{domain}",
     country_code: "CH",
     languages: [ "en" ],
-    members_subdomain: "members",
     email: email,
     fiscal_year_start_month: 1,
     phone: phone,
