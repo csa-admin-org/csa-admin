@@ -313,6 +313,9 @@ ActiveAdmin.register Organization do
 
     f.inputs do
       tabs id: "features" do
+        tab "", selected: true, hidden: true, id: "none" do
+          para t(".no_features_selected"), class: "text-gray-500 italic text-center"
+        end
         tab Absence.model_name.human, id: "absence", hidden: !feature?("absence"), selected: feature?("absence"), data: { controller: "form-disabler" } do
           translated_input(f, :absence_extra_texts,
             hint: t("formtastic.hints.organization.absence_extra_text"),

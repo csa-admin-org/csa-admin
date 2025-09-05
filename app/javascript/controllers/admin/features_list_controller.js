@@ -20,7 +20,9 @@ export default class extends Controller {
   showTab(hash) {
     var tab = document.querySelector('[aria-controls="' + hash + '"]')
     if (tab) {
-      removeClass(tab, "hidden")
+      if (hash !== "none") {
+        removeClass(tab, "hidden")
+      }
       prop(this.allTabRequiredInputs(hash), "required", true)
       tab.click()
     }
@@ -48,6 +50,8 @@ export default class extends Controller {
     })
     if (firstActiveFeature) {
       this.showTab(firstActiveFeature)
+    } else {
+      this.showTab("none")
     }
   }
 
