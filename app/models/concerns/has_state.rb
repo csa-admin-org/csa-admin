@@ -14,6 +14,10 @@ module HasState
 
       const_set("STATES", states.map(&:to_s).freeze)
     end
+
+    def state_i18n_name(state)
+      I18n.t("states.#{model_name.name.underscore}.#{state}")
+    end
   end
 
   def state_i18n_name

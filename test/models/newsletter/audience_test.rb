@@ -132,4 +132,23 @@ class Newsletter::AudienceTest < ActiveSupport::TestCase
     segment = segment_for("delivery_id::#{delivery.gid}")
     assert_equal [ members(:anna) ], segment.members
   end
+
+  test "bidding_round_pledge_presence" do
+    travel_to "2024-01-01"
+    BiddingRound::Pledge.create!(
+      bidding_round: bidding_rounds(:open_2024),
+      membership: memberships(:jane),
+      basket_size_price: 31)
+
+    segment = segment_for("bidding_round_pledge_presence::true")
+    assert_equal [ members(:jane) ], segment.members
+    segment = segment_for("bidding_round_pledge_presence::false")
+    assert_equal [ members(:anna), members(:john), members(:bob) ], segment.members
+
+    bidding_rounds(:open_2024).fail!
+    segment = segment_for("bidding_round_pledge_presence::true")
+    assert_empty segment.members
+    segment = segment_for("bidding_round_pledge_presence::false")
+    assert_empty segment.members
+  end
 end
