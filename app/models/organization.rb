@@ -17,7 +17,7 @@ class Organization < ApplicationRecord
     new_member_fee
     shop
   ]
-  RESTRICTED_FEATURES = %i[bidding_round]
+  RESTRICTED_FEATURES = %i[]
   FEATURE_FLAGS = %i[]
   LANGUAGES = %w[fr de it nl en]
   CURRENCIES = %w[CHF EUR]
