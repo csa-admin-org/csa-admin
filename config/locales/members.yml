@@ -550,6 +550,12 @@ _:
             _it: La tua offerta è stata inviata con successo!
             _nl: Uw toezegging is succesvol ingediend!
         new:
+          recommended_price:
+            _en: Recommended (%{price})
+            _fr: Recommandé (%{price})
+            _de: Empfohlener (%{price})
+            _it: Raccomandato (%{price})
+            _nl: Aanbevolen (%{price})
           submit:
             _en: Submit
             _fr: Soumettre
