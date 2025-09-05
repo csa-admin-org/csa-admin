@@ -2000,13 +2000,13 @@ _:
         open_bidding_round_reminder_sent_after_in_days:
           _en: Send a reminder after (in days)
           _fr: Envoyer un rappel après (en jours)
-          _de: Senden Sie eine Mahnung nach (in Tagen)
+          _de: Senden Sie eine Erinnerung nach (in Tagen)
           _it: Inviare un promemoria dopo (in giorni)
           _nl: Herinnering verzenden na (in dagen)
         open_renewal_reminder_sent_after_in_days:
           _en: Send a reminder after (in days)
           _fr: Envoyer un rappel après (en jours)
-          _de: Senden Sie eine Mahnung nach (in Tagen)
+          _de: Senden Sie eine Erinnerung nach (in Tagen)
           _it: Inviare un promemoria dopo (in giorni)
           _nl: Herinnering verzenden na (in dagen)
         open_renewal_text:
