@@ -122,11 +122,30 @@ class BiddingRoundTest < ActiveSupport::TestCase
     assert_not BiddingRound.can_create?
   end
 
+  test "can_update?" do
+    assert bidding_rounds(:draft_2024).can_update?
+
+    bidding_round = bidding_rounds(:open_2024)
+    assert bidding_round.can_update?
+
+    bidding_round.update!(state: "completed")
+    assert_not bidding_round.can_update?
+
+    bidding_round.update!(state: "failed")
+    assert_not bidding_round.can_update?
+  end
+
   test "can_open?" do
     BiddingRound.delete_all
 
     bidding_round = BiddingRound.new(fy_year: 2025)
     assert bidding_round.can_open?
+
+    bidding_round.update!(state: "completed")
+    assert_not bidding_round.can_open?
+
+    bidding_round.update!(state: "failed")
+    assert_not bidding_round.can_open?
 
     BiddingRound.create!(fy_year: 2025, state: "open")
     assert_not bidding_round.can_open?
