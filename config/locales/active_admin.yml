@@ -1001,6 +1001,12 @@ _:
           _de: Ermöglichen Sie Ihren Mitgliedern, die Konfiguration ihrer Mitgliedschaft oder Taschenfutures individuell von ihrem Konto aus zu ändern.
           _it: Consentite ai vostri soci di modificare le impostazioni di abbonamento o i cestini futuri individualmente dal loro account.
           _nl: Sta uw leden toe om individueel de configuratie van hun lidmaatschap of toekomstige pakketten te wijzigen vanaf hun account.
+        no_features_selected:
+          _en: No features selected yet for your organization.
+          _fr: Aucune fonctionnalité sélectionnée pour votre organisation.
+          _de: Keine Funktionen für Ihre Organisation ausgewählt.
+          _it: Nessuna funzionalità selezionata per l'organizzazione.
+          _nl: Geen functies geselecteerd voor uw organisatie.
         opening:
           _en: Opening
           _fr: Ouverture
