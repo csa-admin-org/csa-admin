@@ -41,6 +41,8 @@ class Newsletter
       when :activity_id; Activity.model_name.human
       when :shop_delivery_gid
         Shop::Order.model_name.human(count: 2) + " (#{I18n.t('shop.title')})"
+      when :bidding_round_pledge_presence
+        BiddingRound.model_name.human + " (#{BiddingRound.state_i18n_name(:open)})"
       end
     end
 
@@ -139,6 +141,18 @@ class Newsletter
             .joins(:shop_orders)
             .merge(Shop::Order.all_without_cart._delivery_gid_eq(value))
             .distinct
+        when :bidding_round_pledge_presence
+          bidding_round = BiddingRound.current_open
+          return Member.none unless bidding_round
+
+          member_ids_with_pledge = bidding_round.pledges.joins(:membership).select(:member_id)
+          case value
+          when "true"
+            Member.where(id: member_ids_with_pledge)
+          when "false"
+            member_ids = bidding_round.eligible_memberships.select(:member_id)
+            Member.where(id: member_ids).where.not(id: member_ids_with_pledge)
+          end
         end
       end
 
@@ -176,6 +190,10 @@ class Newsletter
       when :activity_id; Activity.find_by(id: value)
       when :shop_delivery_gid, :delivery_id
         GlobalID::Locator.locate(value)
+      when :bidding_round_pledge_presence
+        OpenStruct.new(
+          id: value,
+          name: I18n.t("bidding_rounds.pledge_presence.#{value}"))
       end
     end
 
@@ -212,6 +230,12 @@ class Newsletter
         base[:activity_state] = activity_state_records
         base[:activity_id] =
           Activity.joins(:participations).coming.limit(12).distinct.order(:date)
+      end
+      if Current.org.feature?("bidding_round")
+        base[:bidding_round_pledge_presence] = [
+          record_for(:bidding_round_pledge_presence, true),
+          record_for(:bidding_round_pledge_presence, false)
+        ]
       end
       base.map { |key, records|
         [
