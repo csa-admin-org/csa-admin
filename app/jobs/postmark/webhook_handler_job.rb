@@ -13,10 +13,10 @@ module Postmark
           event = payload[:record_type].downcase
           send("handle_#{event}", delivery, payload)
         else
-          SLog.log(:irrelevant_postmark_webhook, **payload)
+          Rails.event.notify(:irrelevant_postmark_webhook, **payload)
         end
       else
-        SLog.log(:unmatched_postmark_webhook, **payload)
+        Rails.event.notify(:unmatched_postmark_webhook, **payload)
       end
     end
 

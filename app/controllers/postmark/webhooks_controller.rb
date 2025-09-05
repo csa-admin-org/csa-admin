@@ -13,7 +13,7 @@ module Postmark
       if supported_payload?
         WebhookHandlerJob.perform_later(**payload)
       else
-        SLog.log(:unsupported_postmark_webhook, **payload)
+        Rails.event.notify(:unsupported_postmark_webhook, **payload)
       end
       head :ok
     end

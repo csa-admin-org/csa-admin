@@ -20,7 +20,7 @@ module Checker
       after = @delivery.basket_content_avg_prices
 
       if diffs(before, after).any? { |d| d >= MIN_DIFF }
-        SLog.log(:delivery_basket_content_avg_prices_mismatch,
+        Rails.event.notify(:delivery_basket_content_avg_prices_mismatch,
           delivery_id: @delivery.id,
           before: before,
           after: after)

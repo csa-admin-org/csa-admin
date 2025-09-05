@@ -280,10 +280,7 @@ class BasketContent < ApplicationRecord
   end
 
   def set_basket_quantities_automatically
-    Rails.logger.info "set_basket_quantities_automatically"
     self[:basket_quantities] = []
-    Rails.logger.info self[:basket_quantities]
-
 
     non_zero_pcts = @percentages.compact.reject { |_, p| p.to_i.zero? }
     self[:basket_size_ids] = non_zero_pcts.keys.map(&:to_i)
@@ -303,10 +300,8 @@ class BasketContent < ApplicationRecord
       total_quantities(p) > quantity
     }
     if best_possibility = possibilities.sort.max_by { |p| total_quantities(p) }
-      Rails.logger.info "best_possibility: #{best_possibility}"
       self[:basket_quantities] = best_possibility
     end
-    Rails.logger.info self[:basket_quantities]
   end
 
   def set_basket_quantities_manually
