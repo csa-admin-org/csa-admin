@@ -119,7 +119,7 @@ GEM
       async-http (~> 0.42)
       protocol-http (~> 0.45)
     aws-eventstream (1.4.0)
-    aws-partitions (1.1154.0)
+    aws-partitions (1.1155.0)
     aws-sdk-core (3.232.0)
       aws-eventstream (~> 1, >= 1.3.0)
       aws-partitions (~> 1, >= 1.992.0)
@@ -193,7 +193,7 @@ GEM
       rchardet
     concurrent-ruby (1.3.5)
     connection_pool (2.5.4)
-    console (1.33.0)
+    console (1.34.0)
       fiber-annotation
       fiber-local (~> 1.1)
       json
@@ -272,10 +272,10 @@ GEM
       actionpack (>= 5.2)
       activesupport (>= 5.2)
     hashery (2.1.2)
-    herb (0.6.1-aarch64-linux-gnu)
-    herb (0.6.1-arm64-darwin)
-    herb (0.6.1-x86_64-linux-gnu)
-    herb (0.6.1-x86_64-linux-musl)
+    herb (0.7.0-aarch64-linux-gnu)
+    herb (0.7.0-arm64-darwin)
+    herb (0.7.0-x86_64-linux-gnu)
+    herb (0.7.0-x86_64-linux-musl)
     hexapdf (1.4.0)
       cmdparse (~> 3.0, >= 3.0.3)
       geom2d (~> 0.4, >= 0.4.1)
@@ -802,7 +802,7 @@ CHECKSUMS
   async-pool (0.11.0) sha256=2228c4a8d1ca59a259b5f9dab7e0f9f23d57856b195aca1c0aa684a7439ea525
   async-rest (0.19.1) sha256=0f3545f5c43992604c83ffc8273f8e8ace3b055bfec23c5d4cc638b8e974c87f
   aws-eventstream (1.4.0) sha256=116bf85c436200d1060811e6f5d2d40c88f65448f2125bc77ffce5121e6e183b
-  aws-partitions (1.1154.0) sha256=be80a8e07b87ce6c936eb251a8f371a887e07ed21ca7f45e5e1b66949eb77294
+  aws-partitions (1.1155.0) sha256=cb40eba09118492c81277e7c11bffb06e2c97cd6cac7b1af3300e7e03f57754e
   aws-sdk-core (3.232.0) sha256=05291ae0da4fb69e9b6494fcc2d839584e8345714a93cd01f0f1bf11475619f2
   aws-sdk-kms (1.112.0) sha256=aa68feb901545a7fc14be327735740b89f90cfee825a46ddea601c7c80c922d4
   aws-sdk-s3 (1.198.0) sha256=ce50466b5ee1daaa5740c455d9bac6ffd1e9ec7edef34733941a39ec12107d86
@@ -832,7 +832,7 @@ CHECKSUMS
   cmxl (2.2) sha256=2f502f7dd8e9b64db40a75c7c18023e6b554a10f26a6f34c55ee61c412b10bda
   concurrent-ruby (1.3.5) sha256=813b3e37aca6df2a21a3b9f1d497f8cbab24a2b94cab325bffe65ee0f6cbebc6
   connection_pool (2.5.4) sha256=e9e1922327416091f3f6542f5f4446c2a20745276b9aa796dd0bb2fd0ea1e70a
-  console (1.33.0) sha256=a1cc1910e3b24169b4925e42d72da414d53e5bd6773aee9a811e57dfe0399384
+  console (1.34.0) sha256=63779906ee8c0818d111e891fd8e2d82759a161558ba1d2cb599ca77b7049901
   countries (8.0.4) sha256=0b28372dc28e4c40d26b05569f5f5d05048b49c973af3be5c0e511e20d126bcd
   crass (1.0.6) sha256=dc516022a56e7b3b156099abc81b6d2b08ea1ed12676ac7a5657617f012bd45d
   css_parser (1.21.1) sha256=6cfd3ffc0a97333b39d2b1b49c95397b05e0e3b684d68f77ec471ba4ec2ef7c7
@@ -872,10 +872,10 @@ CHECKSUMS
   globalid (1.2.1) sha256=70bf76711871f843dbba72beb8613229a49429d1866828476f9c9d6ccc327ce9
   has_scope (0.8.2) sha256=48cd53d684aecd55d3ede060b3c1da37bbbcab58e273d99936e271fe6d125a54
   hashery (2.1.2) sha256=d239cc2310401903f6b79d458c2bbef5bf74c46f3f974ae9c1061fb74a404862
-  herb (0.6.1-aarch64-linux-gnu) sha256=f56c687b24713f6a07e93eaf17a57e5c077fa72e3ad55872cbdd16129328dc2b
-  herb (0.6.1-arm64-darwin) sha256=989194d3ba60a49e1ef4857aca3f90b5170c8bc994777ec9b7973b1cce301fe0
-  herb (0.6.1-x86_64-linux-gnu) sha256=0506aa772e5e1fbf430304bafca73ffadb1588e9d192d07ad5196fde140901f9
-  herb (0.6.1-x86_64-linux-musl) sha256=3a4c3a27865c473abd08822d5f8f7bf70a352a01bd3cc44f2bc3056b9188aa1b
+  herb (0.7.0-aarch64-linux-gnu) sha256=9cf4075c7e4c0d93a4c058cf1ea2388c4a517e846a9b9a7ef656bb38b42efdaf
+  herb (0.7.0-arm64-darwin) sha256=8cb1c8525a6b913144379e9a6120b53787132657ba8e97c0b047dc89535f4f49
+  herb (0.7.0-x86_64-linux-gnu) sha256=11049ea57b3b57cfbef4130eb482e5d49487a9dfedea2d5e8889e3b36c57bdfa
+  herb (0.7.0-x86_64-linux-musl) sha256=18758fc667e047e3534b8482934e6d2e24a8dbad29bc48dd6825e0948f1a69ae
   hexapdf (1.4.0) sha256=3ff029d1a891c097a8b86b74a1613e653d80c2e5cee3804925cf8700f5b727e4
   htmlbeautifier (1.4.3) sha256=b43d08f7e2aa6ae1b5a6f0607b4ed8954c8d4a8e85fd2336f975dda1e4db385b
   htmlentities (4.3.4) sha256=125a73c6c9f2d1b62100b7c3c401e3624441b663762afa7fe428476435a673da
