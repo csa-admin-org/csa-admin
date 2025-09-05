@@ -313,7 +313,7 @@ ActiveAdmin.register Organization do
 
     f.inputs do
       tabs id: "features" do
-        tab Absence.model_name.human, id: "absence", hidden: !feature?("absence"), data: { controller: "form-disabler" } do
+        tab Absence.model_name.human, id: "absence", hidden: !feature?("absence"), selected: feature?("absence"), data: { controller: "form-disabler" } do
           translated_input(f, :absence_extra_texts,
             hint: t("formtastic.hints.organization.absence_extra_text"),
             required: false,
@@ -342,7 +342,7 @@ ActiveAdmin.register Organization do
           handbook_button(self, "absences")
         end
 
-        tab BiddingRound.model_name.human, id: "bidding_round", hidden: !feature?("bidding_round"), data: { controller: "form-disabler" } do
+        tab BiddingRound.model_name.human, id: "bidding_round", hidden: !feature?("bidding_round"), selected: feature?("bidding_round"), data: { controller: "form-disabler" } do
           f.input :bidding_round_basket_size_price_min_percentage, min: 0, max: 100, step: 1
           f.input :bidding_round_basket_size_price_max_percentage, min: 0, step: 1
           f.input :open_bidding_round_reminder_sent_after_in_days
@@ -350,7 +350,7 @@ ActiveAdmin.register Organization do
           handbook_button(self, "bidding_round")
         end
 
-        tab t(".shop"), id: "shop", hidden: !feature?("shop"), selected: (feature?("shop") && !feature?("absence")) do
+        tab t(".shop"), id: "shop", hidden: !feature?("shop"), selected: feature?("shop") do
           f.input :shop_admin_only
           translated_input(f, :shop_texts,
             as: :action_text,
@@ -376,7 +376,7 @@ ActiveAdmin.register Organization do
 
           handbook_button(self, "shop")
         end
-        tab t(".members_participation"), id: "activity", hidden: !feature?("activity"), selected: (feature?("activity") && !feature?("absence") && !feature?("shop")) do
+        tab t(".members_participation"), id: "activity", hidden: !feature?("activity"), selected: feature?("activity") do
           f.input :activity_i18n_scope,
             as: :select,
             collection: Organization.activity_i18n_scopes.map { |s| [ t("activities.#{s}", count: 2), s ] },
@@ -407,7 +407,7 @@ ActiveAdmin.register Organization do
 
           handbook_button(self, "activity")
         end
-        tab t("features.new_member_fee"), id: "new_member_fee", hidden: !feature?("new_member_fee"), selected: (feature?("new_member_fee") && !feature?("activity") && !feature?("absence") && !feature?("shop")) do
+        tab t("features.new_member_fee"), id: "new_member_fee", hidden: !feature?("new_member_fee"), selected: feature?("new_member_fee") do
           translated_input(f, :new_member_fee_descriptions,
             required: true,
             label: ->(_) { InvoiceItem.human_attribute_name(:description) },
@@ -420,7 +420,7 @@ ActiveAdmin.register Organization do
 
           handbook_button(self, "new_member_fee")
         end
-        tab Organization.human_attribute_name(:basket_price_extra), id: "basket_price_extra", hidden: !feature?("basket_price_extra"), selected: (feature?("basket_price_extra") && !feature?("new_member_fee") && !feature?("activity") && !feature?("absence") && !feature?("shop")) do
+        tab Organization.human_attribute_name(:basket_price_extra), id: "basket_price_extra", hidden: !feature?("basket_price_extra"), selected: feature?("basket_price_extra") do
           translated_input(f, :basket_price_extra_titles, required: false)
           translated_input(f, :basket_price_extra_public_titles,
             hint: t("formtastic.hints.organization.basket_price_extra_public_title"),
