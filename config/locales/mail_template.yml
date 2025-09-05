@@ -44,29 +44,29 @@ _:
         _it: "Turno di impegno n°{{ bidding_round.number }} è fallito \U0001F62C"
         _nl: "Biedronde #{{ bidding_round.number }} mislukt \U0001F62C"
       bidding_round_opened:
-        _en: 'Bidding round #{{ bidding_round.number }} is open'
+        _en: "Bidding round #{{ bidding_round.number }} is open"
         _fr: Tour d'engagement n°{{ bidding_round.number }} ouvert
         _de: Bietrunde Nr. {{ bidding_round.number }} ist offen
         _it: Turno di impegno n°{{ bidding_round.number }} è aperto
-        _nl: 'Biedronde #{{ bidding_round.number }} is open'
+        _nl: "Biedronde #{{ bidding_round.number }} is open"
       bidding_round_opened_reminder:
-        _en: 'Bidding round #{{ bidding_round.number }} is open (reminder)'
+        _en: "Bidding round #{{ bidding_round.number }} is open (reminder)"
         _fr: Tour d'engagement n°{{ bidding_round.number }} ouvert (rappel)
         _de: Bietrunde Nr. {{ bidding_round.number }} ist offen (Erinnerung)
         _it: Turno di impegno n°{{ bidding_round.number }} è aperto (promemoria)
-        _nl: 'Biedronde #{{ bidding_round.number }} is open (herinnering)'
+        _nl: "Biedronde #{{ bidding_round.number }} is open (herinnering)"
       invoice_cancelled:
-        _en: 'Cancelled invoice #{{ invoice.number }}'
-        _fr: 'Facture annulée #{{ invoice.number }}'
-        _de: 'Stornierte Rechnung #{{ invoice.number }}'
-        _it: 'Fattura annullata #{{ invoice.number }}'
-        _nl: 'Geannuleerde factuur #{{ invoice.number }}'
+        _en: "Cancelled invoice #{{ invoice.number }}"
+        _fr: "Facture annulée #{{ invoice.number }}"
+        _de: "Stornierte Rechnung #{{ invoice.number }}"
+        _it: "Fattura annullata #{{ invoice.number }}"
+        _nl: "Geannuleerde factuur #{{ invoice.number }}"
       invoice_created:
-        _en: 'New invoice #{{ invoice.number }}'
-        _fr: 'Nouvelle facture #{{ invoice.number }}'
-        _de: 'Neue Rechnung #{{ invoice.number }}'
-        _it: 'Nuova fattura #{{ invoice.number }}'
-        _nl: 'Nieuwe factuur #{{ invoice.number }}'
+        _en: "New invoice #{{ invoice.number }}"
+        _fr: "Nouvelle facture #{{ invoice.number }}"
+        _de: "Neue Rechnung #{{ invoice.number }}"
+        _it: "Nuova fattura #{{ invoice.number }}"
+        _nl: "Nieuwe factuur #{{ invoice.number }}"
       invoice_overdue_notice:
         _en: "Overdue notice #{{ invoice.overdue_notices_count }} for invoice #{{ invoice.number }} \U0001F62C"
         _fr: "Rappel #{{ invoice.overdue_notices_count }} de la facture #{{ invoice.number }} \U0001F62C"
@@ -124,7 +124,7 @@ _:
       membership_renewal_reminder:
         _en: Renew your membership (reminder)
         _fr: Renouvellement de votre abonnement (rappel)
-        _de: Ihr Abonnement verlängern (Mahnung)
+        _de: Ihr Abonnement verlängern (Erinnerung)
         _it: Rinnovo del vostro abbonamento (promemoria)
         _nl: Vernieuw uw lidmaatschap (herinnering)
     description:
@@ -304,11 +304,11 @@ _:
         _it: Turno di offerta aperto
         _nl: Biedronde geopend
       bidding_round_opened_reminder:
-        _en: Bidding Round Opened (Reminder)
-        _fr: Tour d'engagement ouvert (Rappel)
-        _de: Gebotsrunde geöffnet (Mahnung)
-        _it: Turno di offerta aperto (Promemoria)
-        _nl: Biedronde geopend (Herinnering)
+        _en: Bidding Round Opened (reminder)
+        _fr: Tour d'engagement ouvert (rappel)
+        _de: Gebotsrunde geöffnet (Erinnerung)
+        _it: Turno di offerta aperto (promemoria)
+        _nl: Biedronde geopend (herinnering)
       invoice_cancelled:
         _en: Cancelled Invoice
         _fr: Facture annulée
@@ -376,8 +376,8 @@ _:
         _it: Rinnovo abbonamento
         _nl: Lidmaatschapsvernieuwing
       membership_renewal_reminder:
-        _en: Membership renewal reminder
-        _fr: Renouvellement abonnement (Rappel)
-        _de: Abonnement verlängern (Mahnung)
+        _en: Membership renewal (reminder)
+        _fr: Renouvellement abonnement (rappel)
+        _de: Abonnement verlängern (Erinnerung)
         _it: Rinnovo abbonamento (promemoria)
-        _nl: Lidmaatschapsvernieuwing (Herinnering)
+        _nl: Lidmaatschapsvernieuwing (herinnering)
