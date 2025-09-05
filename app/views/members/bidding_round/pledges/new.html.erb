@@ -96,6 +96,15 @@
             <%= cur(@pledge.total_membership_price, format: "%u %n") %>
           </span>
         </li>
+
+        <% unless membership.billing_year_division == 1 %>
+          <li class="text-right pt-1.5">
+            <span class="w-full tabular-nums text-sm text-gray-500">
+              <span class="mr-1"><%= t("billing.year_division.x#{membership.billing_year_division}") %>:</span>
+              <%= cur(@pledge.total_membership_price / membership.billing_year_division.to_f, format: "%u %n") %>
+            </span>
+          </li>
+        <% end %>
       </ul>
     </div>
   <% end %>
@@ -136,7 +145,7 @@
     </div>
 
     <div class="flex flex-wrap items-start justify-between gap-2">
-      <%= button_tag "Recommandé (#{cur(@pledge.default_price)})",
+      <%= button_tag t(".recommended_price", price: cur(@pledge.default_price)),
         type: "reset",
         disabled: @pledge.default_price == @pledge.basket_size_price,
         class: "btn btn-sm",

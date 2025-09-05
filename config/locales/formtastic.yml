@@ -42,11 +42,11 @@ _:
     hints:
       activity:
         description:
-          _en: "Bad example: Come weeding! You will see, it feels good."
-          _fr: "Mauvais exemple: Arrachage de mauvaises herbes, vous verrez ça fait du bien."
-          _de: "Schlechtes Beispiel: Kommt jäten! Ihr werdet sehen, das tut gut."
-          _it: "Cattivo exemple: vedrete che lavorare sul campo vi farà bene."
-          _nl: "Slecht voorbeeld: Kom wieden! U zult zien, het voelt goed."
+          _en: 'Bad example: Come weeding! You will see, it feels good.'
+          _fr: 'Mauvais exemple: Arrachage de mauvaises herbes, vous verrez ça fait du bien.'
+          _de: 'Schlechtes Beispiel: Kommt jäten! Ihr werdet sehen, das tut gut.'
+          _it: 'Cattivo exemple: vedrete che lavorare sul campo vi farà bene.'
+          _nl: 'Slecht voorbeeld: Kom wieden! U zult zien, het voelt goed.'
         participants_limit:
           _en: Leave blank if no limit.
           _fr: Laisser vide si aucune limite.
@@ -700,11 +700,11 @@ _:
           _it: Testo visualizzato nel modulo di registrazione/rinnovo se il numero min/max di partecipazioni può essere modificato dal socio. Lasciare vuoto per il testo predefinito.
           _nl: Tekst weergegeven in het registratie-/vernieuwingsformulier als het min/max aantal deelnames door het lid kan worden gewijzigd. Laat leeg voor de standaardtekst.
         activity_participations_demanded_logic_html:
-          _en: "Logic using <a href='https://shopify.github.io/liquid/' target='_blank'>the Liquid syntax</a> to calculate the number of participations required for a membership.</br>The following variables are available:</br>– <b>member.salary_basket</b>: Member with salary basket</br>– <b>full_year_max_deliveries</b>: Maximum number of deliveries for a whole year, regardless of the cycle</br>– <b>membership.full_year_deliveries</b>: Number of deliveries for a whole year (membership)</br>– <b>membership.baskets</b>: Number of baskets of the membership</br>– <b>member.full_year_activity_participations</b>: Number of participations required for the membership for a whole year"
-          _fr: "Logique utilisant <a href='https://shopify.github.io/liquid/' target='_blank'>la syntaxe Liquid</a> qui permet de calculer le nombre de participations demandées pour un abonnement.</br>Les variables suivantes sont disponibles:</br>– <b>member.salary_basket</b>: Membre avec panier-salaire</br>– <b>full_year_max_deliveries</b>: Nombre maximum de livraisons pour une année complète tout cycles confondus</br>– <b>membership.full_year_deliveries</b>: Nombre de livraisons pour une année complète (abonnement)</br>– <b>membership.baskets</b>: Nombre de paniers de l'abonnement</br>– <b>member.full_year_activity_participations</b>: Nombre de participations demandées de l'abonnement pour une année complète"
-          _de: "Logik, die <a href='https://shopify.github.io/liquid/' target='_blank'>die Liquid-Syntax</a> verwendet, um die Anzahl der Teilnahmen für ein Abonnement zu berechnen.</br>Die folgenden Variablen stehen zur Verfügung:</br>– <b>member.salary_basket</b>: Mitglied mit Lohntasche</br>– <b>full_year_max_deliveries</b>: Maximale Anzahl von Lieferungen für ein ganzes Jahr, unabhängig vom Zyklus</br>– <b>membership.full_year_deliveries</b>: Anzahl der Lieferungen für ein ganzes Jahr (Abonnement)</br>– <b>membership.baskets</b>: Anzahl der Taschen des Abonnements</br>– <b>member.full_year_activity_participations</b>: Anzahl der Teilnahmen des Abonnements für ein ganzes Jahr"
-          _it: "Logica che utilizza <a href='https://shopify.github.io/liquid/' target='_blank'>la sintassi Liquid</a> per calcolare il numero di partecipazioni richieste per un abbonamento.</br>Le seguenti variabili sono disponibili:</br>– <b>member.salary_basket</b>: Socio con cesto salariale</br>– <b>full_year_max_deliveries</b>: Numero massimo di consegne per un anno completo, indipendentemente dal ciclo</br>– <b>membership.full_year_deliveries</b>: Numero di consegne per un anno completo (abbonamento)</br>– <b>membership.baskets</b>: Numero di cesti dell'abbonamento</br>– <b>member.full_year_activity_participations</b>: Numero di partecipazioni richieste dell'abbonamento per un anno completo"
-          _nl: "Logica die <a href='https://shopify.github.io/liquid/' target='_blank'>de Liquid-syntaxis</a> gebruikt om het aantal vereiste deelnames voor een lidmaatschap te berekenen.</br>De volgende variabelen zijn beschikbaar:</br>– <b>member.salary_basket</b>: Lid met salarispakket</br>– <b>full_year_max_deliveries</b>: Maximum aantal leveringen voor een heel jaar, ongeacht de cyclus</br>– <b>membership.full_year_deliveries</b>: Aantal leveringen voor een heel jaar (lidmaatschap)</br>– <b>membership.baskets</b>: Aantal pakketten van het lidmaatschap</br>– <b>member.full_year_activity_participations</b>: Aantal vereiste deelnames van het lidmaatschap voor een heel jaar"
+          _en: 'Logic using <a href=''https://shopify.github.io/liquid/'' target=''_blank''>the Liquid syntax</a> to calculate the number of participations required for a membership.</br>The following variables are available:</br>– <b>member.salary_basket</b>: Member with salary basket</br>– <b>full_year_max_deliveries</b>: Maximum number of deliveries for a whole year, regardless of the cycle</br>– <b>membership.full_year_deliveries</b>: Number of deliveries for a whole year (membership)</br>– <b>membership.baskets</b>: Number of baskets of the membership</br>– <b>member.full_year_activity_participations</b>: Number of participations required for the membership for a whole year'
+          _fr: 'Logique utilisant <a href=''https://shopify.github.io/liquid/'' target=''_blank''>la syntaxe Liquid</a> qui permet de calculer le nombre de participations demandées pour un abonnement.</br>Les variables suivantes sont disponibles:</br>– <b>member.salary_basket</b>: Membre avec panier-salaire</br>– <b>full_year_max_deliveries</b>: Nombre maximum de livraisons pour une année complète tout cycles confondus</br>– <b>membership.full_year_deliveries</b>: Nombre de livraisons pour une année complète (abonnement)</br>– <b>membership.baskets</b>: Nombre de paniers de l''abonnement</br>– <b>member.full_year_activity_participations</b>: Nombre de participations demandées de l''abonnement pour une année complète'
+          _de: 'Logik, die <a href=''https://shopify.github.io/liquid/'' target=''_blank''>die Liquid-Syntax</a> verwendet, um die Anzahl der Teilnahmen für ein Abonnement zu berechnen.</br>Die folgenden Variablen stehen zur Verfügung:</br>– <b>member.salary_basket</b>: Mitglied mit Lohntasche</br>– <b>full_year_max_deliveries</b>: Maximale Anzahl von Lieferungen für ein ganzes Jahr, unabhängig vom Zyklus</br>– <b>membership.full_year_deliveries</b>: Anzahl der Lieferungen für ein ganzes Jahr (Abonnement)</br>– <b>membership.baskets</b>: Anzahl der Taschen des Abonnements</br>– <b>member.full_year_activity_participations</b>: Anzahl der Teilnahmen des Abonnements für ein ganzes Jahr'
+          _it: 'Logica che utilizza <a href=''https://shopify.github.io/liquid/'' target=''_blank''>la sintassi Liquid</a> per calcolare il numero di partecipazioni richieste per un abbonamento.</br>Le seguenti variabili sono disponibili:</br>– <b>member.salary_basket</b>: Socio con cesto salariale</br>– <b>full_year_max_deliveries</b>: Numero massimo di consegne per un anno completo, indipendentemente dal ciclo</br>– <b>membership.full_year_deliveries</b>: Numero di consegne per un anno completo (abbonamento)</br>– <b>membership.baskets</b>: Numero di cesti dell''abbonamento</br>– <b>member.full_year_activity_participations</b>: Numero di partecipazioni richieste dell''abbonamento per un anno completo'
+          _nl: 'Logica die <a href=''https://shopify.github.io/liquid/'' target=''_blank''>de Liquid-syntaxis</a> gebruikt om het aantal vereiste deelnames voor een lidmaatschap te berekenen.</br>De volgende variabelen zijn beschikbaar:</br>– <b>member.salary_basket</b>: Lid met salarispakket</br>– <b>full_year_max_deliveries</b>: Maximum aantal leveringen voor een heel jaar, ongeacht de cyclus</br>– <b>membership.full_year_deliveries</b>: Aantal leveringen voor een heel jaar (lidmaatschap)</br>– <b>membership.baskets</b>: Aantal pakketten van het lidmaatschap</br>– <b>member.full_year_activity_participations</b>: Aantal vereiste deelnames van het lidmaatschap voor een heel jaar'
         activity_participations_form_max:
           _en: Leave blank if the member cannot increase the number of participations via the registration/renewal form.
           _fr: Laissez blanc si le membre ne peux pas augmenter le nombre de participation via le formulaire d'inscription/renouvellement.
@@ -1236,11 +1236,11 @@ _:
           _de: Anpassung Preis Abonnement
           _it: Adeguamento del prezzo dell'abbonamento
           _nl: Prijsaanpassing lidmaatschap
-    "no":
-      _en: "No"
+    'no':
+      _en: 'No'
       _fr: Non
       _de: Nein
-      _it: "No"
+      _it: 'No'
       _nl: Nee
     processing:
       _en: Processing...
@@ -1272,7 +1272,7 @@ _:
       _de: "%{model} aktualisieren"
       _it: Aggiorna %{model}
       _nl: "%{model} bijwerken"
-    "yes":
+    'yes':
       _en: true
       _fr: Oui
       _de: Ja

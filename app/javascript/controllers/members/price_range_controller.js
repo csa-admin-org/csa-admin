@@ -9,41 +9,36 @@ export default class extends Controller {
 
   initialize() {
     this.syncFromRange = debounce(100, this.syncFromRange)
-    this.syncFromInput = debounce(100, this.syncFromInput)
+    this.syncFromInput = debounce(600, this.syncFromInput)
   }
 
   syncFromRange() {
-    let value = parseFloat(this.rangeTarget.value).toFixed(2)
+    let value = parseFloat(this.rangeTarget.value)
 
-    this.inputTarget.value = value
+    this.inputTarget.value = value.toFixed(2)
     this.refresh()
   }
 
   syncFromInput() {
-    if (this.inputTarget.value === "") {
-      this.rangeTarget.value = 0
-      return
-    }
-
-    let value = parseFloat(this.inputTarget.value).toFixed(2)
-    let min = parseFloat(this.inputTarget.min).toFixed(2)
-    let max = parseFloat(this.inputTarget.max).toFixed(2)
+    let value = parseFloat(this.inputTarget.value) || 0
+    let min = parseFloat(this.inputTarget.min)
+    let max = parseFloat(this.inputTarget.max)
 
     if (min > value) {
-      this.inputTarget.value = min
+      value = min
     }
     if (max < value) {
-      this.inputTarget.value = max
+      value = max
     }
-    this.inputTarget.value = value
-    this.rangeTarget.value = value
+    this.inputTarget.value = value.toFixed(2)
+    this.rangeTarget.value = this.inputTarget.value
     this.refresh()
   }
 
   setDefaultPrice(event) {
-    let defaultPrice = parseFloat(this.defaultPriceValue).toFixed(2)
-    this.rangeTarget.value = defaultPrice
-    this.inputTarget.value = defaultPrice
+    let defaultPrice = parseFloat(this.defaultPriceValue)
+    this.rangeTarget.value = defaultPrice.toFixed(2)
+    this.inputTarget.value = defaultPrice.toFixed(2)
     this.refresh()
   }
 
