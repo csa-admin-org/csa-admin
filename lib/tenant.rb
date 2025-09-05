@@ -109,10 +109,13 @@ module Tenant
 
     self.current = tenant
     Appsignal.add_tags(tenant: tenant)
+    Rails.event.set_context(tenant: tenant)
   end
 
   def leave
     self.current = nil
+    Appsignal.add_tags(tenant: nil)
+    Rails.event.clear_context
   end
 
   def current=(tenant)

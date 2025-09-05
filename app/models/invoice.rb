@@ -245,7 +245,7 @@ class Invoice < ApplicationRecord
         content_type: "application/pdf")
     end
     touch(:stamped_at)
-    SLog.log(:invoice_cancellation_stamped, invoice_id: id)
+    Rails.event.notify(:invoice_cancellation_stamped, invoice_id: id)
   end
 
   def destroy_or_cancel!
