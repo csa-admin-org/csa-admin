@@ -38,6 +38,7 @@
 
     /* Lime statuses - in process */
     &[data-status="renewal_opened"],
+    &[data-status="open"].bidding_round,
     &[data-status="pending"] {
       @apply bg-lime-400 dark:bg-lime-600;
     }

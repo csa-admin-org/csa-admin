@@ -24,7 +24,7 @@
       <% end %>
       <% if params[:action] == "show" && params[:id] && resource&.respond_to?(:state) %>
         <div class="flex grow items-center md:grow-0 text-right">
-          <span class="status-tag large" data-status="<%= resource.state %>">
+          <span class="status-tag large <%= resource.model_name.to_s.underscore %>" data-status="<%= resource.state %>">
             <%= t("states.#{resource.model_name.to_s.underscore}.#{resource.state}") %>
           </span>
         </div>
