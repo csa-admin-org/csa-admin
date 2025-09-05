@@ -145,7 +145,7 @@ class BiddingRound < ApplicationRecord
   end
 
   def can_open?
-    self.class.open.none? && eligible_memberships_count.positive?
+    draft? && self.class.open.none? && eligible_memberships_count.positive?
   end
 
   def can_complete?
@@ -154,6 +154,10 @@ class BiddingRound < ApplicationRecord
 
   def can_fail?
     open?
+  end
+
+  def can_update?
+    draft? || open?
   end
 
   def can_destroy?

@@ -18,6 +18,7 @@
     &[data-status="ongoing"],
     &[data-status="validated"],
     &[data-status="sent"],
+    &[data-status="completed"],
     &[data-status="yes"] {
       @apply bg-green-400 dark:bg-green-600;
     }
@@ -56,6 +57,7 @@
     &[data-status="bounced"],
     &[data-status="spam_complaint"],
     &[data-status="no"],
+    &[data-status="failed"],
     &[data-status="open"],
     &[data-status="rejected"] {
       @apply bg-red-400 dark:bg-red-600;
