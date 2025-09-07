@@ -19,6 +19,11 @@ module Billing
     end
 
     def process!
+      unless @payments_data.present?
+        Rails.event.notify(:payment_processing_no_payments_data)
+        return
+      end
+
       @payments_data.each do |payment_data|
         create_payment!(payment_data)
       end
@@ -47,7 +52,8 @@ module Billing
 
     def find_invoice(data)
       if data.member_id && !Member.exists?(data.member_id)
-        log(:unknown_member, data)
+        Rails.event.notify(:payment_processing_unknown_member,
+          fingerprint: data.fingerprint)
         return
       end
 
@@ -59,7 +65,8 @@ module Billing
         end
 
       unless invoice = invoices.find_by(id: data.invoice_id)
-        log(:unknown_invoice, data)
+        Rails.event.notify(:payment_processing_unknown_invoice,
+          fingerprint: data.fingerprint)
         return
       end
 
@@ -76,10 +83,6 @@ module Billing
             last_payment_created_at: last_payment.created_at)
         end
       end
-    end
-
-    def log(event, data)
-      Rails.logger.info { "payment_processing #{event} #{data.fingerprint}" }
     end
   end
 end
