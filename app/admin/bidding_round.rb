@@ -61,11 +61,13 @@ ActiveAdmin.register BiddingRound do
       column do
         panel nil do
           ul class: "grid grid-cols-2 gap-4 m-4 " do
-            li do
-              counter_tag(t(".eligible_memberships").capitalize, bidding_round.eligible_memberships_count)
-            end
-            li do
-              counter_tag(t(".total_expected_value").capitalize, bidding_round.total_expected_value, type: :currency)
+            unless bidding_round.closed?
+              li do
+                counter_tag(t(".eligible_memberships").capitalize, bidding_round.eligible_memberships_count)
+              end
+              li do
+                counter_tag(t(".total_expected_value").capitalize, bidding_round.total_expected_value, type: :currency)
+              end
             end
             li do
               counter_tag(t(".pledges_count").capitalize, bidding_round.pledges_count)
@@ -73,24 +75,28 @@ ActiveAdmin.register BiddingRound do
             li do
               counter_tag(t(".total_pledged_value").capitalize, bidding_round.total_pledged_value, type: :currency)
             end
-            li do
-              counter_tag(t(".pledges_percentage").capitalize, bidding_round.pledges_percentage, type: :percentage)
-            end
-            li do
-              counter_tag(t(".total_pledged_percentage").capitalize, bidding_round.total_pledged_percentage, type: :percentage)
+            unless bidding_round.closed?
+              li do
+                counter_tag(t(".pledges_percentage").capitalize, bidding_round.pledges_percentage, type: :percentage)
+              end
+              li do
+                counter_tag(t(".total_pledged_percentage").capitalize, bidding_round.total_pledged_percentage, type: :percentage)
+              end
             end
           end
         end
-        panel nil do
-          ul class: "grid grid-cols-2 gap-4 m-4" do
-            li do
-              counter_tag(t(".total_final_value").capitalize, bidding_round.total_final_value, type: :currency)
+        unless bidding_round.closed?
+          panel nil do
+            ul class: "grid grid-cols-2 gap-4 m-4" do
+              li do
+                counter_tag(t(".total_final_value").capitalize, bidding_round.total_final_value, type: :currency)
+              end
+              li do
+                counter_tag(t(".total_pledged_percentage").capitalize, bidding_round.total_final_percentage, type: :percentage)
+              end
             end
-            li do
-              counter_tag(t(".total_pledged_percentage").capitalize, bidding_round.total_final_percentage, type: :percentage)
-            end
+            para t(".total_final_value_explanation"), class: "m-4 text-center italic text-sm text-gray-500"
           end
-          para t(".total_final_value_explanation"), class: "m-4 text-center italic text-sm text-gray-500"
         end
       end
 
@@ -133,9 +139,14 @@ ActiveAdmin.register BiddingRound do
   end
 
   action_item :export_csv, only: :show, if: -> { authorized?(:export_csv, resource) } do
-    action_link nil, export_csv_bidding_round_path(resource, format: :csv),
-      target: "_blank",
-      icon: "file-csv"
+    url =
+      if resource.closed?
+        bidding_round_pledges_path(q: { bidding_round_id_eq: resource.id }, format: :csv)
+      else
+        export_csv_bidding_round_path(resource, format: :csv)
+      end
+
+    action_link nil, url, target: "_blank", icon: "file-csv"
   end
 
   member_action :open, method: :post do
