@@ -838,6 +838,21 @@ class MembershipTest < ActiveSupport::TestCase
     end
   end
 
+  test "delete_bidding_round_pledge_on_basket_size_change!" do
+    travel_to("2024-01-01")
+
+    pledge = BiddingRound::Pledge.create!(
+      bidding_round: bidding_rounds(:open_2024),
+      membership: memberships(:jane),
+      basket_size_price: 31)
+
+    memberships(:jane).update!(basket_size: basket_sizes(:small))
+
+    assert_raise ActiveRecord::RecordNotFound do
+      pledge.reload
+    end
+  end
+
   test "#cancel_overcharged_invoice! membership period is reduced" do
     member = members(:jane)
     member.update!(annual_fee: 0)
