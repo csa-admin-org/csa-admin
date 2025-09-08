@@ -156,8 +156,12 @@ class BiddingRound < ApplicationRecord
     open?
   end
 
+  def closed?
+    completed? || failed?
+  end
+
   def can_update?
-    draft? || open?
+    !closed?
   end
 
   def can_destroy?
