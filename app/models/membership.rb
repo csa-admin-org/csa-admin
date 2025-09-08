@@ -31,6 +31,9 @@ class Membership < ApplicationRecord
     source: :basket_complement,
     through: :memberships_basket_complements
   has_many :invoices, as: :entity
+  has_many :bidding_round_pledges,
+    class_name: "BiddingRound::Pledge",
+    dependent: :destroy
 
   accepts_nested_attributes_for :memberships_basket_complements, allow_destroy: true
 
