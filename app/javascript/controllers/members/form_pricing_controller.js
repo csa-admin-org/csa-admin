@@ -10,6 +10,10 @@ export default class extends Controller {
   }
 
   refresh() {
+    if (!document.querySelector('turbo-frame[id="pricing"]')) {
+      return
+    }
+
     const form = this.element
     const data = new FormData(form)
     data.delete("authenticity_token")
