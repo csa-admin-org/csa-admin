@@ -2,7 +2,7 @@
   <div class="flex grow flex-col gap-1 pt-1">
     <% breadcrumb_links = build_breadcrumb_links(request.path, class: " no-underline") %>
     <% if breadcrumb_links.present? %>
-      <nav aria-label="breadcrumb">
+      <nav aria-label="Breadcrumb">
         <ol class="flex flex-wrap gap-1 text-sm">
           <% breadcrumb_links.each_with_index do |link, index| %>
             <li class="inline-flex items-center h-5 gap-1">
@@ -37,7 +37,7 @@
     </div>
   </div>
   <% if action_items_for_action.present? %>
-    <div data-test-action-items class="flex gap-2 flex-wrap lg:justify-end">
+    <div class="flex gap-2 flex-wrap lg:justify-end">
       <%= render "active_admin/shared/action_items" %>
     </div>
   <% end %>
