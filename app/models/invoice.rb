@@ -211,7 +211,8 @@ class Invoice < ApplicationRecord
   def uncancel!
     transaction do
       update!(
-        canceled_at: Time.current,
+        canceled_at: nil,
+        stamped_at: nil,
         state: OPEN_STATE)
       Billing::PaymentsRedistributor.redistribute!(member_id)
       handle_shares_change!
