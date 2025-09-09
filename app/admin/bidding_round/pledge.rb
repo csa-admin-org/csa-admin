@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class BiddingRound
   ActiveAdmin.register Pledge do
     menu false
