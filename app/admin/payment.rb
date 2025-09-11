@@ -73,17 +73,25 @@ ActiveAdmin.register Payment do
     end
   end
 
-  sidebar :import, only: :index, if: -> { authorized?(:import, Payment) } do
-    side_panel t(".import") do
-      render("active_admin/payments/import")
-    end
-  end
-
   sidebar :no_automatic_payments_processing_warning, only: :index, if: -> { !Current.org.bank_connection? } do
-    side_panel t(".no_automatic_payments_processing_warning"), action: handbook_icon_link("billing", anchor: "automatic_payments_processing"), class: "warning" do
+    side_panel t(".automatic_payments_processing"), action: handbook_icon_link("billing", anchor: "automatic_payments_processing"), class: "warning" do
       para do
         t(".no_automatic_payments_processing_warning_text_html")
       end
+    end
+  end
+
+  sidebar :automatic_payments_processing, only: :index, if: -> { Current.org.bank_connection? } do
+    side_panel t(".automatic_payments_processing") do
+      para do
+        t(".automatic_payments_processing_text")
+      end
+    end
+  end
+
+  sidebar :import, only: :index, if: -> { authorized?(:import, Payment) && !Current.org.bank_connection? } do
+    side_panel t(".import") do
+      render("active_admin/payments/import")
     end
   end
 

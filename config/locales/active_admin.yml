@@ -2613,6 +2613,18 @@ _:
           _de: Ankündigungen ermöglichen es, eine kurze Information auf den Lieferblättern anzuzeigen, oben rechts auf diesen.
           _it: Gli annunci consentono di visualizzare un'informazione sintetica sulle schede di consegna, in alto a destra di queste ultime.
           _nl: Aankondigingen maken het mogelijk om beknopte informatie weer te geven op leveringsbladen, rechtsboven.
+        automatic_payments_processing:
+          _en: Automatic import
+          _fr: Importation automatique
+          _de: Automatische Import
+          _it: Importazione automatica
+          _nl: Automatische import
+        automatic_payments_processing_text:
+          _en: New payments are imported and processed automatically every night.
+          _fr: Les paiements sont importés et traités automatiquement chaque nuit.
+          _de: Neue Zahlungen werden automatisch jeden Abend importiert und verarbeitet.
+          _it: I pagamenti nuovi vengono importati e elaborati automaticamente ogni notte.
+          _nl: Nieuwe betalingen worden automatisch elke nacht geïmporteerd en verwerkt.
         billing:
           _en: Billing
           _fr: Facturation
@@ -2741,12 +2753,6 @@ _:
           _de: Fehlende
           _it: Mancante
           _nl: Ontbrekend
-        no_automatic_payments_processing_warning:
-          _en: Automatic import
-          _fr: Importation automatique
-          _de: Automatische Import
-          _it: Importazione automatica
-          _nl: Automatische import
         no_automatic_payments_processing_warning_text_html:
           _en: Payments are currently not processed automatically, please <a href="mailto:info@csa-admin.org">contact me</a> to set this up.
           _fr: Les paiements ne sont actuellement pas traités automatiquement, merci de <a href="mailto:info@csa-admin.org">me contacter</a> afin de mettre cela en place.
