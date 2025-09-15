@@ -1237,6 +1237,13 @@ _:
           _de: "<em>%{email}</em> ist nicht abonniert"
           _it: "<em>%{email}</em> non è iscritto"
           _nl: "<em>%{email}</em> is niet geabonneerd"
+      show_more:
+        link:
+          _en: Show more
+          _fr: Afficher plus
+          _de: Mehr anzeigen
+          _it: Mostra altro
+          _nl: Meer tonen
     newsletter_subscriptions:
       create:
         title:
