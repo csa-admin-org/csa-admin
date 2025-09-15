@@ -1,6 +1,6 @@
 <turbo-frame id="show-more">
   <div class="mt-6 text-center w-full md:w-none">
-    <%= link_to t("members.show_more"), members_newsletter_deliveries_path(offset: @next_offset, format: :turbo_stream),
+    <%= link_to t(".link"), members_newsletter_deliveries_path(offset: @next_offset, format: :turbo_stream),
       class: "btn btn-sm",
       data: { turbo_prefetch: false } %>
   </div>
