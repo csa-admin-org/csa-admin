@@ -23,4 +23,5 @@ Rails.application.config.filter_parameters += %i[
   ssn
   cvv
   cvc
+  liquid_data
 ]
