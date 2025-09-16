@@ -119,7 +119,7 @@ GEM
       async-http (~> 0.42)
       protocol-http (~> 0.45)
     aws-eventstream (1.4.0)
-    aws-partitions (1.1159.0)
+    aws-partitions (1.1160.0)
     aws-sdk-core (3.232.0)
       aws-eventstream (~> 1, >= 1.3.0)
       aws-partitions (~> 1, >= 1.992.0)
@@ -141,13 +141,6 @@ GEM
     bcrypt (3.1.20)
     bcrypt_pbkdf (1.1.1)
     benchmark (0.4.1)
-    better_html (2.1.1)
-      actionview (>= 6.0)
-      activesupport (>= 6.0)
-      ast (~> 2.0)
-      erubi (~> 1.4)
-      parser (>= 2.4)
-      smart_properties
     bigdecimal (3.2.3)
     bindex (0.8.1)
     bootsnap (1.18.6)
@@ -569,8 +562,8 @@ GEM
     rubocop-ast (1.46.0)
       parser (>= 3.3.7.2)
       prism (~> 1.4)
-    rubocop-erb (0.6.0)
-      better_html
+    rubocop-erb (0.7.0)
+      herb (~> 0.7)
       lint_roller (~> 1.1)
       rubocop (~> 1.72, >= 1.72.1)
     rubocop-performance (1.26.0)
@@ -611,7 +604,6 @@ GEM
       actionpack (>= 5.2)
       activemodel (>= 5.2)
     simpleidn (0.2.3)
-    smart_properties (1.17.0)
     solid_queue (1.2.1)
       activejob (>= 7.1)
       activerecord (>= 7.1)
@@ -802,7 +794,7 @@ CHECKSUMS
   async-pool (0.11.0) sha256=2228c4a8d1ca59a259b5f9dab7e0f9f23d57856b195aca1c0aa684a7439ea525
   async-rest (0.19.1) sha256=0f3545f5c43992604c83ffc8273f8e8ace3b055bfec23c5d4cc638b8e974c87f
   aws-eventstream (1.4.0) sha256=116bf85c436200d1060811e6f5d2d40c88f65448f2125bc77ffce5121e6e183b
-  aws-partitions (1.1159.0) sha256=33cc75b39a3e39963067c3e6292f85e74047452b764806c07d578b44241d2a2b
+  aws-partitions (1.1160.0) sha256=b6cb85f412e753b944fa8a414224c8792481fdb6ac057f9a638d5ae0d7125c3a
   aws-sdk-core (3.232.0) sha256=05291ae0da4fb69e9b6494fcc2d839584e8345714a93cd01f0f1bf11475619f2
   aws-sdk-kms (1.112.0) sha256=aa68feb901545a7fc14be327735740b89f90cfee825a46ddea601c7c80c922d4
   aws-sdk-s3 (1.199.0) sha256=0d36a53d068257d0de2cf17d935224a73d540fae71016f7bb6d3ae5fee2c3fa8
@@ -811,7 +803,6 @@ CHECKSUMS
   bcrypt (3.1.20) sha256=8410f8c7b3ed54a3c00cd2456bf13917d695117f033218e2483b2e40b0784099
   bcrypt_pbkdf (1.1.1) sha256=2f9077dde837d1f0dd2eb0f9e5327c6871c68ebc8eba88870fb6b7956e1e2b13
   benchmark (0.4.1) sha256=d4ef40037bba27f03b28013e219b950b82bace296549ec15a78016552f8d2cce
-  better_html (2.1.1) sha256=046c3551d1488a3f2939a7cac6fabf2bde08c32e135c91fcd683380118e5af55
   bigdecimal (3.2.3) sha256=ffd11d1ac67a0d3b2f44aec0a6487210b3f813f363dd11f1fcccf5ba00da4e1b
   bindex (0.8.1) sha256=7b1ecc9dc539ed8bccfc8cb4d2732046227b09d6f37582ff12e50a5047ceb17e
   bootsnap (1.18.6) sha256=0ae2393c1e911e38be0f24e9173e7be570c3650128251bf06240046f84a07d00
@@ -990,7 +981,7 @@ CHECKSUMS
   rqrcode_core (2.0.0) sha256=1e40b823ab57a96482a417fff5dd5c33645a00cea6ef5d9e342fecc5ef91d9ab
   rubocop (1.80.2) sha256=6485f30fefcf5c199db3b91e5e253b1ef43f7e564784e2315255809a3dd9abf4
   rubocop-ast (1.46.0) sha256=0da7f6ad5b98614f89b74f11873c191059c823eae07d6ffd40a42a3338f2232b
-  rubocop-erb (0.6.0) sha256=c8c3de9209f1087f5058513086a37a85ba282b4c7054085339de9b2ab4fe95dd
+  rubocop-erb (0.7.0) sha256=61258573723a31e57c1b5d2178660a25e230a73795cf4af2a53e1fd7d17e1b80
   rubocop-performance (1.26.0) sha256=7bb0d9d9fb2ea122bf6f9a596dd7cf9dc93ab4950923d26c4ae4f328cef71ca9
   rubocop-rails (2.33.3) sha256=848c011b58c1292f3066246c9eb18abf6ffcfbce28bc57c4ab888bbec79af74b
   rubocop-rails-omakase (1.1.0) sha256=2af73ac8ee5852de2919abbd2618af9c15c19b512c4cfc1f9a5d3b6ef009109d
@@ -1005,7 +996,6 @@ CHECKSUMS
   sepa_king (0.14.0) sha256=56a97ced91fef18138dce2c6e8f0c19c184a61d1ec24e45b00dce7c438e8239c
   simple_form (5.3.1) sha256=3891a36a89a7f8c69f1361624c5357591578a9e9c318257cd7b9cc7b6ce47460
   simpleidn (0.2.3) sha256=08ce96f03fa1605286be22651ba0fc9c0b2d6272c9b27a260bc88be05b0d2c29
-  smart_properties (1.17.0) sha256=f9323f8122e932341756ddec8e0ac9ec6e238408a7661508be99439ca6d6384b
   solid_queue (1.2.1) sha256=7976b3690a08080ef63d1b11281f0b77398f7697dbeda0e2c5532682639d4b15
   sqlean (0.3.0-aarch64-linux-gnu) sha256=2b88dcefd7c9a92a9287c1bf8d650f286275d2645c95d5836c2efe8a0255a078
   sqlean (0.3.0-arm64-darwin) sha256=32ffa1e5a908a52c028fb06fa2dbe61f600a865c95960d7ec4f3fbc82f28bf78
