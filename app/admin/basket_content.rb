@@ -269,13 +269,13 @@ ActiveAdmin.register BasketContent do
               a class: "btn btn-sm",
                   "data-basket-content-distribution-target" => "preset",
                   "data-action" => "basket-content-distribution#applyPreset",
-                  "data-preset" => f.object.basket_size_ids_percentages_pro_rated.to_json do
+                  "data-preset" => f.object.basket_size_ids_percentages_pro_rated.to_json(stringify: true) do
                 t("basket_content.preset.basket_content_percentages_pro_rated")
               end
               a class: "btn btn-sm",
                   "data-basket-content-distribution-target" => "preset",
                   "data-action" => "basket-content-distribution#applyPreset",
-                  "data-preset" => f.object.basket_size_ids_percentages_even.to_json do
+                  "data-preset" => f.object.basket_size_ids_percentages_even.to_json(stringify: true) do
                 t("basket_content.preset.basket_content_percentages_even")
               end
             end
