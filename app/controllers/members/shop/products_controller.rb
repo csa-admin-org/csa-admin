@@ -13,11 +13,13 @@ class Members::Shop::ProductsController < Members::Shop::BaseController
   private
 
   def find_or_create_order!
-    @order =
-      delivery
-        .shop_orders
-        .includes(items: [ :product, :product_variant ])
-        .find_or_create_by!(member_id: current_member.id)
+    current_member.with_lock do
+      @order =
+        delivery
+          .shop_orders
+          .includes(items: [ :product, :product_variant ])
+          .find_or_create_by!(member_id: current_member.id)
+    end
   end
 
   def delivery
