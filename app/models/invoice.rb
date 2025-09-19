@@ -8,6 +8,7 @@ class Invoice < ApplicationRecord
   include HasState
   include Auditable
   include HasAttachments
+  include HasCurrency
   include ActionView::Helpers::NumberHelper
   UnprocessedError = Class.new(StandardError)
 

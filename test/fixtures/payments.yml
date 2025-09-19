@@ -1,5 +1,6 @@
 other_closed:
   invoice: other_closed
   member: john
+  currency_code: CHF
   amount: 10
   date: 2024-04-02
