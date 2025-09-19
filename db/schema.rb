@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_09_19_085103) do
+ActiveRecord::Schema[8.1].define(version: 2025_09_19_085104) do
   create_table "absences", force: :cascade do |t|
     t.datetime "created_at"
     t.date "ended_on"
@@ -422,7 +422,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_09_19_085103) do
     t.decimal "annual_fee", precision: 8, scale: 2
     t.datetime "canceled_at"
     t.datetime "created_at"
-    t.string "currency_code", limit: 3
+    t.string "currency_code", limit: 3, null: false
     t.date "date", null: false
     t.bigint "entity_id"
     t.string "entity_type", null: false
@@ -797,7 +797,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_09_19_085103) do
   create_table "payments", force: :cascade do |t|
     t.decimal "amount", precision: 8, scale: 2, null: false
     t.datetime "created_at", null: false
-    t.string "currency_code", limit: 3
+    t.string "currency_code", limit: 3, null: false
     t.date "date", null: false
     t.string "fingerprint"
     t.datetime "ignored_at"
