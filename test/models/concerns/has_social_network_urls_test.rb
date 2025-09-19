@@ -6,7 +6,7 @@ class HasSocialNetworkUrlsTest < ActiveSupport::TestCase
   class DummyClass
     include ActiveModel::Model
     include ActiveModel::Attributes
-    include ActiveModel::Validations
+
     include HasSocialNetworkUrls
 
     attribute :social_network_urls

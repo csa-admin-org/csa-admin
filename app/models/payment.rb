@@ -3,6 +3,7 @@
 class Payment < ApplicationRecord
   include HasFiscalYear
   include Auditable
+  include HasCurrency
 
   attr_accessor :comment
 

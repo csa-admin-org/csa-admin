@@ -3,6 +3,7 @@ annual_fee:
   member: martha
   entity_type: AnnualFee
   annual_fee: 30
+  currency_code: CHF
   amount: 30
   date: 2024-04-01
 
@@ -10,6 +11,7 @@ other_closed:
   state: closed
   member: john
   entity_type: Other
+  currency_code: CHF
   amount: 10
   vat_rate: 0.0
   vat_amount: 0.0
@@ -19,6 +21,7 @@ bob_membership:
   state: open
   member: bob
   entity: bob (Membership)
+  currency_code: CHF
   amount: 19
   memberships_amount_description: Annual invoicing
   memberships_amount: 19
