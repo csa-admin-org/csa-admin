@@ -91,7 +91,7 @@ GEM
     addressable (2.8.7)
       public_suffix (>= 2.0.2, < 7.0)
     afm (1.0.0)
-    appsignal (4.7.0)
+    appsignal (4.7.1)
       logger
       rack (>= 2.0.0)
     arbre (2.2.0)
@@ -119,7 +119,7 @@ GEM
       async-http (~> 0.42)
       protocol-http (~> 0.45)
     aws-eventstream (1.4.0)
-    aws-partitions (1.1161.0)
+    aws-partitions (1.1162.0)
     aws-sdk-core (3.232.0)
       aws-eventstream (~> 1, >= 1.3.0)
       aws-partitions (~> 1, >= 1.992.0)
@@ -315,7 +315,7 @@ GEM
       rdoc (>= 4.0.0)
       reline (>= 0.4.2)
     jmespath (1.6.2)
-    json (2.14.0)
+    json (2.14.1)
     kamal (2.7.0)
       activesupport (>= 7.0)
       base64 (~> 0.2)
@@ -464,10 +464,10 @@ GEM
       activesupport (>= 7.0.0)
       rack
     protocol-hpack (1.5.1)
-    protocol-http (0.53.0)
+    protocol-http (0.54.0)
     protocol-http1 (0.35.1)
       protocol-http (~> 0.22)
-    protocol-http2 (0.22.1)
+    protocol-http2 (0.23.0)
       protocol-hpack (~> 1.4)
       protocol-http (~> 0.47)
     psych (5.2.6)
@@ -560,7 +560,7 @@ GEM
       rubocop-ast (>= 1.46.0, < 2.0)
       ruby-progressbar (~> 1.7)
       unicode-display_width (>= 2.4.0, < 4.0)
-    rubocop-ast (1.46.0)
+    rubocop-ast (1.47.0)
       parser (>= 3.3.7.2)
       prism (~> 1.4)
     rubocop-erb (0.7.0)
@@ -616,10 +616,10 @@ GEM
     sqlean (0.3.0-arm64-darwin)
     sqlean (0.3.0-x86_64-linux-gnu)
     sqlean (0.3.0-x86_64-linux-musl)
-    sqlite3 (2.7.3-aarch64-linux-gnu)
-    sqlite3 (2.7.3-arm64-darwin)
-    sqlite3 (2.7.3-x86_64-linux-gnu)
-    sqlite3 (2.7.3-x86_64-linux-musl)
+    sqlite3 (2.7.4-aarch64-linux-gnu)
+    sqlite3 (2.7.4-arm64-darwin)
+    sqlite3 (2.7.4-x86_64-linux-gnu)
+    sqlite3 (2.7.4-x86_64-linux-musl)
     sshkit (1.24.0)
       base64
       logger
@@ -787,7 +787,7 @@ CHECKSUMS
   acts_as_list (1.2.4) sha256=5e6ed695f1879d66ae7d8eb1625a72db215a26a9c8ec0047b866a80883ea5651
   addressable (2.8.7) sha256=462986537cf3735ab5f3c0f557f14155d778f4b43ea4f485a9deb9c8f7c58232
   afm (1.0.0) sha256=5bd4d6f6241e7014ef090985ec6f4c3e9745f6de0828ddd58bc1efdd138f4545
-  appsignal (4.7.0) sha256=9037199709e91aa0315c9c3d7f6ad5a6417922c0d60cdd3b587bce98612500af
+  appsignal (4.7.1) sha256=6b9f786729a9bf3db3a91836ff5d192f483ed87bc93d704b1d1af9b074fc70d8
   arbre (2.2.0) sha256=d71de0acae2536b96cd795c5ca574ad87bc1bc10a4170d0799509a2cb7a8ba71
   ast (2.4.3) sha256=954615157c1d6a382bc27d690d973195e79db7f55e9765ac7c481c60bdb4d383
   async (2.32.0) sha256=79ffbc8a5a99a8e7e5e65c7622ecf1e38e2193f0b920c5fec2316f09ff184787
@@ -795,7 +795,7 @@ CHECKSUMS
   async-pool (0.11.0) sha256=2228c4a8d1ca59a259b5f9dab7e0f9f23d57856b195aca1c0aa684a7439ea525
   async-rest (0.19.1) sha256=0f3545f5c43992604c83ffc8273f8e8ace3b055bfec23c5d4cc638b8e974c87f
   aws-eventstream (1.4.0) sha256=116bf85c436200d1060811e6f5d2d40c88f65448f2125bc77ffce5121e6e183b
-  aws-partitions (1.1161.0) sha256=093dca8d30e1c16c96c027d3fd54f53aab0e80f8150d57ce3be5e24034788fae
+  aws-partitions (1.1162.0) sha256=73050b50a186fc3b9c9c4a1eebfab214f0a3af77bf39b5cd5cc7a3e33403365a
   aws-sdk-core (3.232.0) sha256=05291ae0da4fb69e9b6494fcc2d839584e8345714a93cd01f0f1bf11475619f2
   aws-sdk-kms (1.112.0) sha256=aa68feb901545a7fc14be327735740b89f90cfee825a46ddea601c7c80c922d4
   aws-sdk-s3 (1.199.0) sha256=0d36a53d068257d0de2cf17d935224a73d540fae71016f7bb6d3ae5fee2c3fa8
@@ -803,7 +803,7 @@ CHECKSUMS
   base64 (0.3.0) sha256=27337aeabad6ffae05c265c450490628ef3ebd4b67be58257393227588f5a97b
   bcrypt (3.1.20) sha256=8410f8c7b3ed54a3c00cd2456bf13917d695117f033218e2483b2e40b0784099
   bcrypt_pbkdf (1.1.1) sha256=2f9077dde837d1f0dd2eb0f9e5327c6871c68ebc8eba88870fb6b7956e1e2b13
-  bcrypt_pbkdf (1.1.1-arm64-darwin)
+  bcrypt_pbkdf (1.1.1-arm64-darwin) sha256=f35a468372a182b363086d810f6f7ee62d6ea55efbf04eb2374290c30ee4c7ef
   benchmark (0.4.1) sha256=d4ef40037bba27f03b28013e219b950b82bace296549ec15a78016552f8d2cce
   bigdecimal (3.2.3) sha256=ffd11d1ac67a0d3b2f44aec0a6487210b3f813f363dd11f1fcccf5ba00da4e1b
   bindex (0.8.1) sha256=7b1ecc9dc539ed8bccfc8cb4d2732046227b09d6f37582ff12e50a5047ceb17e
@@ -888,7 +888,7 @@ CHECKSUMS
   io-stream (0.10.0) sha256=55d2cf28f925de4d7bdfa33b4308916b0ac3fbd3ca1af8e2c4ab067dac4f3d65
   irb (1.15.2) sha256=222f32952e278da34b58ffe45e8634bf4afc2dc7aa9da23fed67e581aa50fdba
   jmespath (1.6.2) sha256=238d774a58723d6c090494c8879b5e9918c19485f7e840f2c1c7532cf84ebcb1
-  json (2.14.0) sha256=f2fe1759fa907b68744a5215ae81e0e9e85d257a85d3e55af58486b9411fff09
+  json (2.14.1) sha256=b08994d751e9f0697cc089243a3cfabf998da1d25e81e7dd0d0f84136ff74642
   kamal (2.7.0) sha256=66b863d967a740886a1817f7e181849c100dfcd4bdf1d8695d9c20828313b4f8
   kaminari (1.2.2) sha256=c4076ff9adccc6109408333f87b5c4abbda5e39dc464bd4c66d06d9f73442a3e
   kaminari-actionview (1.2.2) sha256=1330f6fc8b59a4a4ef6a549ff8a224797289ebf7a3a503e8c1652535287cc909
@@ -948,9 +948,9 @@ CHECKSUMS
   prism (1.5.1) sha256=b40c1b76ccb9fcccc3d1553967cda6e79fa7274d8bfea0d98b15d27a6d187134
   propshaft (1.2.1) sha256=e9b91daf52f21152f851a59f8621af53ffb4dc4401f9b5f8fe16065190b98654
   protocol-hpack (1.5.1) sha256=6feca238b8078da1cd295677d6f306c6001af92d75fe0643d33e6956cbc3ad91
-  protocol-http (0.53.0) sha256=5f0259699d8f3fe8b04da385852eea9df16b3e911b83a8c3c655fef20a77abe7
+  protocol-http (0.54.0) sha256=e4813c973397b7f5a21797ddc1d5ad054475b414e941f52a3ba9cf7944d12d33
   protocol-http1 (0.35.1) sha256=24ae3edb220484979a2e90de6b987b6b9c5aab857dbc37b212ece02f51c177ae
-  protocol-http2 (0.22.1) sha256=91966e7083e792e9b54fd5a62891a59078dfe8e1cf0162ce58b387db812ca768
+  protocol-http2 (0.23.0) sha256=bb7a782bb24a386cf475bc8cd6190bd28b392fcef943e06c8d8fce06cc3b2ba8
   psych (5.2.6) sha256=814328aa5dcb6d604d32126a20bc1cbcf05521a5b49dbb1a8b30a07e580f316e
   public_suffix (6.0.2) sha256=bfa7cd5108066f8c9602e0d6d4114999a5df5839a63149d3e8b0f9c1d3558394
   puma (7.0.3) sha256=131b5fd02c89c2445114cdce906114e75ea4cf22842fcf5bbee4500f1c868ba5
@@ -982,7 +982,7 @@ CHECKSUMS
   rqrcode (3.1.0) sha256=e2d5996375f6e9a013823c289ed575dbea678b8e0388574302c1fac563f098af
   rqrcode_core (2.0.0) sha256=1e40b823ab57a96482a417fff5dd5c33645a00cea6ef5d9e342fecc5ef91d9ab
   rubocop (1.80.2) sha256=6485f30fefcf5c199db3b91e5e253b1ef43f7e564784e2315255809a3dd9abf4
-  rubocop-ast (1.46.0) sha256=0da7f6ad5b98614f89b74f11873c191059c823eae07d6ffd40a42a3338f2232b
+  rubocop-ast (1.47.0) sha256=cab915fe0d1b3573addee5a669b03565b612ce2e68745d62bcdc7b1a1b5b2246
   rubocop-erb (0.7.0) sha256=61258573723a31e57c1b5d2178660a25e230a73795cf4af2a53e1fd7d17e1b80
   rubocop-performance (1.26.0) sha256=7bb0d9d9fb2ea122bf6f9a596dd7cf9dc93ab4950923d26c4ae4f328cef71ca9
   rubocop-rails (2.33.3) sha256=848c011b58c1292f3066246c9eb18abf6ffcfbce28bc57c4ab888bbec79af74b
@@ -1003,10 +1003,10 @@ CHECKSUMS
   sqlean (0.3.0-arm64-darwin) sha256=32ffa1e5a908a52c028fb06fa2dbe61f600a865c95960d7ec4f3fbc82f28bf78
   sqlean (0.3.0-x86_64-linux-gnu) sha256=51e7e0a66ceebf26c4a4509001412bea2214fb748752fde96a228db9cb2e85ce
   sqlean (0.3.0-x86_64-linux-musl) sha256=93eb4f18679539b64c478dd2d57e393404c036e0057a0a93b2a8089ea6caa94a
-  sqlite3 (2.7.3-aarch64-linux-gnu) sha256=00bab7e2ceb7e911b0a2c516bcb9ec0aa7ee57b9b231419e1788515319ac4317
-  sqlite3 (2.7.3-arm64-darwin) sha256=133772f4312a9d0fa0c16aab7c2abdda2ee93f47dded0f353a2981f7b9d2b9b4
-  sqlite3 (2.7.3-x86_64-linux-gnu) sha256=11b2612fddf56602d238be7a984fa0633e591edd034f7520747bc0927b7fa865
-  sqlite3 (2.7.3-x86_64-linux-musl) sha256=4307278661bbe0a619da7a5da25f4417f6826246ee7b4a56a5c10c3731d5256a
+  sqlite3 (2.7.4-aarch64-linux-gnu) sha256=071da898ef968c83f62b26ed644a4e7f3544034fb2518f99f88a354d9ab6381c
+  sqlite3 (2.7.4-arm64-darwin) sha256=d5b09cd4e9542aa05f0db0eb7dd868102cc23072ae378e0453e59e0efaed89b8
+  sqlite3 (2.7.4-x86_64-linux-gnu) sha256=0755b458f5501e89c0d5a0003afc4fdd6fd059eb1fb1424221532917096da4be
+  sqlite3 (2.7.4-x86_64-linux-musl) sha256=494b4ce35524f3bf8ef6741737d0c197086ed8ac4804220fa71d653b39d82a54
   sshkit (1.24.0) sha256=9597c1f984778ae9742f2dc839778d57a6a2efb868107046575c52ac7c628e6c
   stimulus-rails (1.3.4) sha256=765676ffa1f33af64ce026d26b48e8ffb2e0b94e0f50e9119e11d6107d67cb06
   stringio (3.1.7) sha256=5b78b7cb242a315fb4fca61a8255d62ec438f58da2b90be66048546ade4507fa
@@ -1042,4 +1042,4 @@ CHECKSUMS
   zeitwerk (2.7.3) sha256=b2e86b4a9b57d26ba68a15230dcc7fe6f040f06831ce64417b0621ad96ba3e85
 
 BUNDLED WITH
-   2.7.1
+   2.7.2
