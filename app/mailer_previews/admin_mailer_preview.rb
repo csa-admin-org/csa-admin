@@ -83,6 +83,22 @@ class AdminMailerPreview < ActionMailer::Preview
     ).invoice_third_overdue_notice_email
   end
 
+  def payment_reversal_email
+    admin = Admin.new(
+      id: 1,
+      name: "John",
+      language: I18n.locale,
+      email: "admin@csa-admin.org")
+    member = Member.new(name: "Martha")
+    invoice = Invoice.new(id: 42)
+    payment = Payment.new(id: 42, invoice: invoice)
+    AdminMailer.with(
+      admin: admin,
+      member: member,
+      payment: payment
+    ).payment_reversal_email
+  end
+
   def new_absence_email
     admin = Admin.new(
       id: 1,

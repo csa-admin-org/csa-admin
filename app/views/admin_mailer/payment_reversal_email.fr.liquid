@@ -1,0 +1,7 @@
+<p>Bonjour {{ admin.name }},</p>
+
+<p>Un remboursement d'un paiement pour la facture n°{{ invoice.number }} de <strong>{{ member.name }}</strong> a été importé, veuillez vérifier.</p>
+
+{% button payment.admin_url %}
+  Accéder à la page du remboursement du paiement
+{% endbutton %}

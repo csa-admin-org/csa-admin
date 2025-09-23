@@ -121,3 +121,15 @@ _:
         _de: Erhalte eine Benachrichtigung, wenn eine Anmeldung eines Mitglieds erstellt und validiert werden muss.
         _it: Ricevi una notifica quando viene creata un'iscrizione di un membro e deve essere validata.
         _nl: Ontvang een melding wanneer een registratie van een lid is aangemaakt en moet worden gevalideerd.
+      payment_reversal:
+        _en: Payment reversal
+        _fr: Remboursement d'un paiement
+        _de: Zahlungsrückgabebenachrichtigung
+        _it: Rimborsamento del pagamento
+        _nl: Betalingsterugdraaiing
+      payment_reversal_hint:
+        _en: Receive a notification when a payment reversal is imported and automatically created.
+        _fr: Recevoir une notification lorsqu'un remboursement d'un paiement est importé et créé automatiquement.
+        _de: Erhalte eine Benachrichtigung, wenn eine Zahlungsrückgabebenachrichtigung importiert und automatisch erstellt wird.
+        _it: Ricevi una notifica quando un rimborsamento di un pagamento viene importato e creato automaticamente.
+        _nl: Ontvang een melding wanneer een betalingsterugdraaiing wordt geïmporteerd en automatisch gemaakt.

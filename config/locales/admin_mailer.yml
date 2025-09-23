@@ -95,3 +95,10 @@ _:
           _de: Neue Einschreibung
           _it: Nuova iscrizione
           _nl: Nieuwe registratie
+    payment_reversal_email:
+      subject:
+        _en: 'Payment reversal for invoice #%{number}'
+        _fr: 'Remboursement d''un paiement pour la facture #%{number}'
+        _de: 'Rückzahlung des Zahlungsbetrags für die Rechnung #%{number}'
+        _it: 'Rimborso del pagamento per la fattura #%{number}'
+        _nl: 'Terugbetaling van betaling voor factuur #%{number}'

@@ -1,0 +1,7 @@
+<p>Hallo {{ admin.name }},</p>
+
+<p>Der Zahlungsbetrag für die Rechnung #{{ invoice.number }} von <strong>{{ member.name }}</strong> wurde rückgezahlt, bitte überprüfen.</p>
+
+{% button payment.admin_url %}
+  Zur Rückzahlungsseite der Zahlung zugreifen
+{% endbutton %}

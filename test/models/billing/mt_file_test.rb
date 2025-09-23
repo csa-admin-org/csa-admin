@@ -13,7 +13,7 @@ class Billing::MtFileTest < ActiveSupport::TestCase
       Billing::CamtFile::PaymentData.new(
         invoice_id: 1,
         member_id: 1,
-        amount: 285.0,
+        amount: 285.00,
         date: Date.new(2024, 4, 3),
         fingerprint: "2024-04-03-afe4bf1b6077d100c590715c722231a81ea521d7ab70039f7a3c657a2a5f5c9d-RF210000000100000001"
       )
@@ -30,6 +30,19 @@ class Billing::MtFileTest < ActiveSupport::TestCase
         amount: 50.0,
         date: Date.new(2025, 1, 3),
         fingerprint: "2025-01-03-fd774b71e31db3d18ac12639f7d3c898544a41fd7b1f26f2b7cdea55193dbd4a-398834000000000290000000293"
+      )
+    ], file.payments_data
+  end
+
+  test "handle reversal credit with negative payment" do
+    file = Billing::MtFile.new(file_fixture("mt940-reversal.mta"))
+    assert_equal [
+      Billing::CamtFile::PaymentData.new(
+        invoice_id: 1,
+        member_id: 1,
+        amount: -285.00,
+        date: Date.new(2024, 4, 3),
+        fingerprint: "2024-04-03-ff58dc96045f69b5063320cd3bd249c1d460bec862d904ca7ea24f79c32cbb55-RF210000000100000001"
       )
     ], file.payments_data
   end

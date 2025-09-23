@@ -62,6 +62,7 @@ class Admin < ApplicationRecord
       new_registration
       invoice_overpaid
       invoice_third_overdue_notice
+      payment_reversal
       memberships_renewal_pending
     ]
     if Current.org.feature?("absence")

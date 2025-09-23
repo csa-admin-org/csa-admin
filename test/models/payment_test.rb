@@ -45,4 +45,27 @@ class PaymentTest < ActiveSupport::TestCase
     assert invoice.reload.closed?
     assert_equal 0, invoice.member.balance_amount
   end
+
+  test "send reversal notification to admins" do
+    invoice = invoices(:annual_fee)
+
+    admin = admins(:ultra)
+    admin.update!(notifications: %w[payment_reversal])
+
+    payment = create_payment(
+      invoice: invoice,
+      member: invoice.member,
+      amount: -1 * invoice.amount,
+      fingerprint: "foo")
+
+    assert_difference "AdminMailer.deliveries.size" do
+      perform_enqueued_jobs { payment.send_reversal_notification_to_admins! }
+    end
+
+    mail = AdminMailer.deliveries.last
+    assert_equal "Payment reversal for invoice ##{invoice.id}", mail.subject
+    assert_equal [ admin.email ], mail.to
+    assert_includes mail.body.encoded, "Hello Thibaud,"
+    assert_includes mail.body.encoded, "Martha"
+  end
 end

@@ -1,0 +1,7 @@
+<p>Ciao {{ admin.name }},</p>
+
+<p>Un pagamento per la fattura #{{ invoice.number }} da <strong>{{ member.name }}</strong> è stato rimborsato, si prega di verificare.</p>
+
+{% button payment.admin_url %}
+  Accedi alla pagina del rimborso del pagamento
+{% endbutton %}
