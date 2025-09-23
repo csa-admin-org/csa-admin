@@ -100,6 +100,23 @@ class AdminMailer < ApplicationMailer
     end
   end
 
+  def payment_reversal_email
+    @admin = params[:admin]
+    @payment = params[:payment]
+    I18n.with_locale(@admin.language) do
+      payment = Liquid::PaymentDrop.new(@payment)
+      content = liquid_template.render(
+        "admin" => Liquid::AdminDrop.new(@admin),
+        "member" => Liquid::AdminMemberDrop.new(params[:member]),
+        "payment" => payment,
+        "invoice" => payment.invoice)
+      content_mail(content,
+        to: @admin.email,
+        subject: t(".subject", number: payment.invoice.number),
+        tag: "admin-payment-reversal")
+    end
+  end
+
   def new_absence_email
     @admin = params[:admin]
     I18n.with_locale(@admin.language) do

@@ -132,6 +132,29 @@ class AdminMailerTest < ActionMailer::TestCase
     assert_includes body, "Manage my notifications"
   end
 
+  test "payment_reversal_email" do
+    payment = payments(:other_closed)
+
+    mail = AdminMailer.with(
+      admin: admins(:ultra),
+      payment: payment,
+      member: payment.member
+    ).payment_reversal_email
+
+    assert_equal "Payment reversal for invoice ##{payment.invoice_id}", mail.subject
+    assert_equal [ "info@csa-admin.org" ], mail.to
+    assert_equal "admin-payment-reversal", mail.tag
+    assert_equal "Acme <info@acme.test>", mail[:from].decoded
+
+    body = mail.body.to_s
+    assert_includes body, "Hello Thibaud,"
+    assert_includes body, "A payment for the invoice ##{payment.invoice_id} from <strong>#{payment.member.name}</strong> has been reversed, please verify."
+    assert_includes body, "Access reversal payment page"
+    assert_includes body, "https://admin.acme.test/payments/#{payment.id}"
+    assert_includes body, "https://admin.acme.test/admins/#{admins(:ultra).id}/edit#notifications"
+    assert_includes body, "Manage my notifications"
+  end
+
   test "new_absence_email" do
     absence = absences(:jane_thursday_5)
 

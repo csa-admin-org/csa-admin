@@ -24,10 +24,11 @@ module Billing
               ref = extract_ref(transaction.information)
               if ref && Billing.reference.valid?(ref)
                 payload = Billing.reference.payload(ref)
+                sign = transaction.reversal? ? -1 : 1
                 PaymentData.new(
                   member_id: payload[:member_id],
                   invoice_id: payload[:invoice_id],
-                  amount: transaction.amount,
+                  amount: sign * transaction.amount,
                   date: date,
                   fingerprint: "#{date}-#{transaction.sha}-#{ref}")
               end

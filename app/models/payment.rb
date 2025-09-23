@@ -53,6 +53,20 @@ class Payment < ApplicationRecord
     type == "auto"
   end
 
+  def reversal?
+    amount.negative?
+  end
+
+  def send_reversal_notification_to_admins!
+    return if reversal_notification_sent_at?
+    return unless reversal?
+
+    Admin.notify!(:payment_reversal,
+      member: member,
+      payment: self)
+    touch(:reversal_notification_sent_at)
+  end
+
   def ignore!
     return unless can_ignore?
 

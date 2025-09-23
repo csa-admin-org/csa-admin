@@ -46,6 +46,9 @@ module Billing
       if invoice.reload.overpaid?
         invoice.send_overpaid_notification_to_admins!
       end
+      if payment.reversal?
+        payment.send_reversal_notification_to_admins!
+      end
     rescue => e
       Error.report(e, data: data)
     end

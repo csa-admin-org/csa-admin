@@ -1,0 +1,7 @@
+<p>Hello {{ admin.name }},</p>
+
+<p>A payment for the invoice #{{ invoice.number }} from <strong>{{ member.name }}</strong> has been reversed, please verify.</p>
+
+{% button payment.admin_url %}
+  Access reversal payment page
+{% endbutton %}

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_09_19_085104) do
+ActiveRecord::Schema[8.1].define(version: 2025_09_23_122354) do
   create_table "absences", force: :cascade do |t|
     t.datetime "created_at"
     t.date "ended_on"
@@ -803,6 +803,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_09_19_085104) do
     t.datetime "ignored_at"
     t.bigint "invoice_id"
     t.bigint "member_id", null: false
+    t.datetime "reversal_notification_sent_at"
     t.datetime "updated_at", null: false
     t.index ["fingerprint"], name: "index_payments_on_fingerprint", unique: true
     t.index ["invoice_id"], name: "index_payments_on_invoice_id"
