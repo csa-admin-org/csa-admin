@@ -366,7 +366,7 @@ ActiveAdmin.register Invoice do
   end
 
   member_action :sepa_pain, method: :get do
-    xml = Billing::SEPADirectDebit.xml(resource)
+    xml = Billing::SEPADirectDebit.new(resource).xml
     send_data xml, type: "application/xml", filename: "invoice-#{resource.id}-pain.xml"
   end
 
