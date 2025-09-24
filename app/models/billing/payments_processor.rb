@@ -37,7 +37,7 @@ module Billing
       return if Payment.where(fingerprint: data.fingerprint).exists?
       return unless invoice = find_invoice(data)
 
-      Payment.create!(
+      payment = Payment.create!(
         invoice: invoice,
         amount: data.amount,
         date: data.date,
