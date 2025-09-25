@@ -115,7 +115,8 @@ group :development do
   gem "rubocop-rails-omakase", require: false
   gem "rubocop-erb", require: false
 
-  gem "herb", require: false
+  # https://github.com/marcoroth/herb/issues/484
+  gem "herb", require: false, force_ruby_platform: RUBY_PLATFORM.include?("darwin")
   gem "htmlbeautifier", require: false
 
   gem "brakeman", require: false
