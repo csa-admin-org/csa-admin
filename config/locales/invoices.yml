@@ -255,6 +255,12 @@ _:
           _de: Zahlteil
           _it: Parte di pagamento
           _nl: Betalingsdeel
+        payment_part_with_currency:
+          _en: Payment in %{currency}
+          _fr: Paiement en %{currency}
+          _de: Zahlteil in %{currency}
+          _it: Parte di pagamento in %{currency}
+          _nl: Betalingsdeel in %{currency}
         receipt:
           _en: Receipt
           _fr: Récépissé
@@ -273,6 +279,12 @@ _:
           _de: Referenznummer / Verwendungszweck
           _it: Numero di riferimento / Motivo del pagamento
           _nl: Referentienummer / Betalingskenmerk
+        scan_to_pay:
+          _en: Scan to pay
+          _fr: Scannez pour payer
+          _de: Scannen zum Bezahlen
+          _it: Scansionare per pagare
+          _nl: Scan om te betalen
         sepa_creditor_identifier:
           _en: Creditor ID
           _fr: ID créancier
