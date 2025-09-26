@@ -42,6 +42,10 @@ Rails.application.routes.draw do
     namespace :postmark do
       resources :webhooks, only: :create
     end
+
+    namespace :comchain do
+      resources :webhooks, only: :create
+    end
   end
 
   scope module: "members", as: "members" do
@@ -55,6 +59,8 @@ Rails.application.routes.draw do
       #  List-Unsubscribe-Post
       post "/newsletters/unsubscribe/:token/post" => "newsletter_subscriptions#destroy", as: "unsubscribe_newsletter_post"
       post "/newsletters/subscribe/:token" => "newsletter_subscriptions#create", as: "subscribe_newsletter"
+
+      resource :payment_confirmation, only: [ :show ], path: "payments/confirmation"
 
       get "/membership", to: redirect("/memberships")
       resources :memberships, only: %i[index edit update]
