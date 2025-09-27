@@ -8,7 +8,7 @@ module Billing
     PREFIX = "RF"
     MAPPING = ("A".."Z").to_a.zip((10..35).to_a).to_h.freeze
     REF_PART_SIZE = 8
-    REGEXP = /\A.*?(RF\d{2}\s?\d{4}\s?\d{4}\s?\d{4}\s?\d{4}).*\z/
+    REGEXP = /\A.*?(RF\d{18}).*\z/
 
     attr_accessor :invoice
 
@@ -51,7 +51,7 @@ module Billing
     def self.extract_ref(ref)
       return unless ref.present?
 
-      ref[REGEXP, 1]&.upcase&.gsub(/\W/, "")
+      ref.gsub(/\W/, "").upcase[REGEXP, 1]
     end
 
     private
