@@ -5,6 +5,8 @@ module Billing
     UnsupportedFileError = Class.new(StandardError)
     PaymentData = Class.new(OpenStruct)
 
+    REVERSAL_TEXTS = [ "Retourenbelastung" ]
+
     def self.process!(file)
       data = new(file).payments_data
       PaymentsProcessor.new(data).process!
@@ -76,11 +78,11 @@ module Billing
 
           entry.transactions.map { |transaction|
             ref = transaction.remittance_information
+            bank_ref =
+              transaction.bank_reference.presence ||
+              transaction.transaction_id.presence ||
+              "NOBANKREF"
             if transaction.credit?
-              bank_ref =
-                transaction.bank_reference.presence ||
-                transaction.transaction_id.presence ||
-                "NOBANKREF"
               if Billing.reference.valid?(ref)
                 payload = Billing.reference.payload(ref)
                 PaymentData.new(
@@ -91,6 +93,25 @@ module Billing
                   fingerprint: "#{date}-#{bank_ref}-#{ref}")
               elsif Billing.reference.unknown?(ref)
                 Rails.event.notify(:unknown_payment_reference,
+                  type: "camt53",
+                  ref: ref,
+                  transaction_id: bank_ref,
+                  amount: transaction.amount,
+                  date: date)
+                nil
+              end
+            elsif transaction.debit? && entry.additional_information.in?(REVERSAL_TEXTS)
+              if Billing.reference.valid?(ref)
+                payload = Billing.reference.payload(ref)
+                ref = Billing.reference.extract_ref(ref)
+                PaymentData.new(
+                  member_id: payload[:member_id],
+                  invoice_id: payload[:invoice_id],
+                  amount: -1 * transaction.amount,
+                  date: date,
+                  fingerprint: "#{date}-#{bank_ref}-#{ref}")
+              elsif Billing.reference.unknown?(ref)
+                Rails.event.notify(:unknown_reversal_payment_reference,
                   type: "camt53",
                   ref: ref,
                   transaction_id: bank_ref,
