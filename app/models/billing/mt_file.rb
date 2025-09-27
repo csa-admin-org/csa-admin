@@ -21,7 +21,7 @@ module Billing
           statement.transactions.map { |transaction|
             if transaction.credit?
               date = transaction.date
-              ref = extract_ref(transaction.information)
+              ref = Billing.reference.extract_ref(transaction.information)
               if ref && Billing.reference.valid?(ref)
                 payload = Billing.reference.payload(ref)
                 sign = transaction.reversal? ? -1 : 1
@@ -39,17 +39,6 @@ module Billing
     rescue Cmxl::Field::LineFormatError, ArgumentError => e
       Error.report(e, file: @files.first)
       raise UnsupportedFileError, e.message
-    end
-
-    private
-
-    def extract_ref(string)
-      if Current.org.swiss_qr?
-        bank_ref = Current.org.bank_reference
-        string[/#{bank_ref}\d{#{27 - bank_ref.length}}/i]
-      else
-        string.gsub(/\W/, "")[/RF\d{18}/i]
-      end
     end
   end
 end
