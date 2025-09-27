@@ -885,6 +885,12 @@ _:
           _de: Adresse, die im Footer der Mitgliederseite angezeigt wird.
           _it: Indirizzo visualizzato nel piè di pagina della pagina dei soci.
           _nl: Adres weergegeven in de voettekst van de ledenpagina.
+        email_default_from_html:
+          _en: Must end with <i>@%{domain}</i>.
+          _fr: Doit finir par <i>@%{domain}</i>.
+          _de: Muss mit <i>@%{domain}</i> enden.
+          _it: Deve terminare con <i>@%{domain}</i>.
+          _nl: Moet eindigen met <i>@%{domain}</i>.
         fiscal_year_start_month:
           _en: Please contact me for changes.
           _fr: Merci de me contacter pour tout changement.
