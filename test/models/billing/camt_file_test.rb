@@ -30,6 +30,19 @@ class Billing::CamtFileTest < ActiveSupport::TestCase
     ], file.payments_data
   end
 
+  test "returns reversal payment data from CAMT.053 file" do
+    org(country_code: "DE")
+    file = Billing::CamtFile.new(file_fixture("camt053_reversal.xml"))
+    assert_equal [
+      Billing::CamtFile::PaymentData.new(
+        invoice_id: 612,
+        member_id: 41,
+        amount: -106.35,
+        date: Date.new(2025, 9, 16),
+        fingerprint: "2025-09-16-2025091502696816090100000010000030-RF280000004100000612")
+    ], file.payments_data
+  end
+
   test "returns no payment data when REF has letter" do
     file = Billing::CamtFile.new(file_fixture("camt054_ref_with_letters.xml"))
     assert_empty file.payments_data
