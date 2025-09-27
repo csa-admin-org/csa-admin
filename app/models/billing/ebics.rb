@@ -9,7 +9,7 @@ module Billing
     end
 
     def payments_data
-      files = get_camt54_files
+      files = get_camt_files
       CamtFile.new(files).payments_data
     end
 
@@ -25,8 +25,8 @@ module Billing
 
     private
 
-    def get_camt54_files
-      client.Z54(
+    def get_camt_files
+      client.public_send(statements_type,
         GET_PAYMENTS_FROM.to_date.to_s,
         Date.current.to_s)
     rescue Epics::Error::BusinessError => e
@@ -35,6 +35,10 @@ module Billing
       else
         raise e
       end
+    end
+
+    def statements_type
+      Current.org.country_code == "CH" ? :Z54 : :C53
     end
   end
 end

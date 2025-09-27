@@ -16,35 +16,10 @@ module Billing
 
     def payments_data
       @files.flat_map { |file|
-        camt54 = CamtParser::String.parse(file)
-        if CamtParser::Format054::Base === camt54
-          camt54.notifications.flat_map { |notification|
-            notification.entries.flat_map { |entry|
-              date = entry.value_date
-              entry.transactions.map { |transaction|
-                ref = transaction.creditor_reference
-                if transaction.credit?
-                  bank_ref = transaction.bank_reference
-                  if Billing.reference.valid?(ref)
-                    payload = Billing.reference.payload(ref)
-                    PaymentData.new(
-                      member_id: payload[:member_id],
-                      invoice_id: payload[:invoice_id],
-                      amount: transaction.amount,
-                      date: date,
-                      fingerprint: "#{date}-#{bank_ref}-#{ref}")
-                  elsif Billing.reference.unknown?(ref)
-                    Rails.event.notify(:unknown_payment_reference,
-                      ref: ref,
-                      bank_ref: bank_ref,
-                      amount: transaction.amount,
-                      date: date)
-                    nil
-                  end
-                end
-              }.compact
-            }
-          }
+        camt = CamtParser::String.parse(file)
+        case camt
+        when CamtParser::Format054::Base; parse_camt54(camt)
+        when CamtParser::Format053::Base; parse_camt53(camt)
         else
           raise UnsupportedFileError, "Invalid format: #{camt54.class.name}"
         end
@@ -59,6 +34,74 @@ module Billing
     rescue CamtParser::Errors::UnsupportedNamespaceError, ArgumentError => e
       Error.report(e, file: @files.first.read)
       raise UnsupportedFileError, e.message
+    end
+
+    private
+
+    def parse_camt54(camt)
+      camt.notifications.flat_map { |notification|
+        notification.entries.flat_map { |entry|
+          date = entry.value_date
+          entry.transactions.map { |transaction|
+            ref = transaction.creditor_reference
+            if transaction.credit?
+              bank_ref = transaction.bank_reference
+              if Billing.reference.valid?(ref)
+                payload = Billing.reference.payload(ref)
+                PaymentData.new(
+                  member_id: payload[:member_id],
+                  invoice_id: payload[:invoice_id],
+                  amount: transaction.amount,
+                  date: date,
+                  fingerprint: "#{date}-#{bank_ref}-#{ref}")
+              elsif Billing.reference.unknown?(ref)
+                Rails.event.notify(:unknown_payment_reference,
+                  type: "camt54",
+                  ref: ref,
+                  bank_ref: bank_ref,
+                  amount: transaction.amount,
+                  date: date)
+                nil
+              end
+            end
+          }.compact
+        }
+      }
+    end
+
+    def parse_camt53(camt)
+      camt.statements.flat_map { |statement|
+        statement.entries.flat_map { |entry|
+          date = entry.value_date
+
+          entry.transactions.map { |transaction|
+            ref = transaction.remittance_information
+            if transaction.credit?
+              bank_ref =
+                transaction.bank_reference.presence ||
+                transaction.transaction_id.presence ||
+                "NOBANKREF"
+              if Billing.reference.valid?(ref)
+                payload = Billing.reference.payload(ref)
+                PaymentData.new(
+                  member_id: payload[:member_id],
+                  invoice_id: payload[:invoice_id],
+                  amount: transaction.amount,
+                  date: date,
+                  fingerprint: "#{date}-#{bank_ref}-#{ref}")
+              elsif Billing.reference.unknown?(ref)
+                Rails.event.notify(:unknown_payment_reference,
+                  type: "camt53",
+                  ref: ref,
+                  transaction_id: bank_ref,
+                  amount: transaction.amount,
+                  date: date)
+                nil
+              end
+            end
+          }.compact
+        }
+      }
     end
   end
 end

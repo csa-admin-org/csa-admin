@@ -8,7 +8,7 @@ module Billing
     PREFIX = "RF"
     MAPPING = ("A".."Z").to_a.zip((10..35).to_a).to_h.freeze
     REF_PART_SIZE = 8
-    REGEXP = /\ARF\d{2}\s?\d{4}\s?\d{4}\s?\d{4}\s?\d{4}\z/
+    REGEXP = /\A.*?(RF\d{2}\s?\d{4}\s?\d{4}\s?\d{4}\s?\d{4}).*\z/
 
     attr_accessor :invoice
 
@@ -26,13 +26,14 @@ module Billing
     end
 
     def self.valid?(ref)
-      return unless ref.present? && ref.match?(REGEXP)
+      ref = extract_ref(ref)
+      return unless ref.present?
 
       payload = payload(ref)
       invoice = OpenStruct.new(
         id: payload[:invoice_id],
         member_id: payload[:member_id])
-      new(invoice).to_s.upcase == ref.upcase.gsub(/\W/, "")
+      new(invoice).to_s == ref
     end
 
     def self.unknown?(ref)
@@ -40,11 +41,17 @@ module Billing
     end
 
     def self.payload(ref)
-      ref = ref.delete(" ")
+      ref = extract_ref(ref)
       {
         member_id: ref.last(16).first(8).to_i,
         invoice_id: ref.last(8).to_i
       }
+    end
+
+    def self.extract_ref(ref)
+      return unless ref.present?
+
+      ref[REGEXP, 1]&.upcase&.gsub(/\W/, "")
     end
 
     private

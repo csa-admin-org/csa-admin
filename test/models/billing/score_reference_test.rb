@@ -41,8 +41,32 @@ class Billing::ScorReferenceTest < ActiveSupport::TestCase
     assert_equal({ member_id: 99_999_999, invoice_id: 99_999_999 }, Billing::ScorReference.payload(ref.formatted))
   end
 
+  test "with random text after" do
+    ref = "RF86 0000 0042 0000 0069 von John Doe"
+
+    assert Billing::ScorReference.valid?(ref)
+    assert_equal({ member_id: 42, invoice_id: 69 }, Billing::ScorReference.payload(ref))
+  end
+
+  test "with random text before" do
+    ref = "EREF:  RF860000004200000069"
+
+    assert Billing::ScorReference.valid?(ref)
+    assert_equal({ member_id: 42, invoice_id: 69 }, Billing::ScorReference.payload(ref))
+  end
+
+  test "with multiple ref (takes first)" do
+    ref = "RF86 0000 0042 0000 0069/RF86 0000 0042 0000 0071"
+
+    assert Billing::ScorReference.valid?(ref)
+    assert_equal({ member_id: 42, invoice_id: 69 }, Billing::ScorReference.payload(ref))
+  end
+
   test "valid? with checksum invalid" do
     assert Billing::ScorReference.valid?("RF19 0000 0109 0000 0116")
     assert_not Billing::ScorReference.valid?("RF14 0000 0109 0000 0116")
+    assert_not Billing::ScorReference.valid?("RF19 0000 0109 0000 011")
+    assert_not Billing::ScorReference.valid?("FOO")
+    assert_not Billing::ScorReference.valid?("TAN1: SecureGo plus")
   end
 end

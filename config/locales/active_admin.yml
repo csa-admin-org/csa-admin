@@ -22,11 +22,11 @@ _:
           _it: Importare
           _nl: Importeren
         text:
-          _en: 'Import all basket contents from the following delivery:'
-          _fr: 'Importer tous les contenus de la livraison suivante:'
-          _de: 'Importieren Sie alle Tascheninhalte von der folgenden Lieferung:'
-          _it: 'Importare tutti i contenuti della consegna seguente:'
-          _nl: 'Importeer alle pakketinhoud van de volgende levering:'
+          _en: "Import all basket contents from the following delivery:"
+          _fr: "Importer tous les contenus de la livraison suivante:"
+          _de: "Importieren Sie alle Tascheninhalte von der folgenden Lieferung:"
+          _it: "Importare tutti i contenuti della consegna seguente:"
+          _nl: "Importeer alle pakketinhoud van de volgende levering:"
       duplicate_all_to:
         button:
           _en: Duplicate
@@ -35,11 +35,11 @@ _:
           _it: Duplicare
           _nl: Dupliceren
         text:
-          _en: 'Duplicate all basket contents from this delivery to the delivery on:'
-          _fr: 'Dupliquer tous les contenus de cette livraison vers celle du:'
-          _de: 'Duplizieren Sie alle Tascheninhalte von dieser Lieferung auf die Lieferung vom:'
-          _it: 'Duplicare tutti i contenuti di questa consegna in quella di:'
-          _nl: 'Dupliceer alle pakketinhoud van deze levering naar de levering op:'
+          _en: "Duplicate all basket contents from this delivery to the delivery on:"
+          _fr: "Dupliquer tous les contenus de cette livraison vers celle du:"
+          _de: "Duplizieren Sie alle Tascheninhalte von dieser Lieferung auf die Lieferung vom:"
+          _it: "Duplicare tutti i contenuti di questa consegna in quella di:"
+          _nl: "Dupliceer alle pakketinhoud van deze levering naar de levering op:"
     batch_actions:
       action_label:
         _en: "%{title} the selected items"
@@ -269,11 +269,11 @@ _:
       _it: Dettagli
       _nl: Details
     download:
-      _en: 'Download :'
-      _fr: 'Télécharger :'
-      _de: 'Herunterladen :'
-      _it: 'Scaricare :'
-      _nl: 'Downloaden :'
+      _en: "Download :"
+      _fr: "Télécharger :"
+      _de: "Herunterladen :"
+      _it: "Scaricare :"
+      _nl: "Downloaden :"
     dropdown_actions:
       button_label:
         _en: Actions
@@ -699,11 +699,11 @@ _:
     payments:
       import:
         file_label:
-          _en: camt.054 XML file or MT940
-          _fr: Fichier XML camt.054 ou MT940
-          _de: camt.054 XML-Datei oder MT940
-          _it: File XML camt.054 o MT940
-          _nl: camt.054 XML-bestand of MT940
+          _en: camt.053/054 XML file or MT940
+          _fr: Fichier XML camt.053/054 ou MT940
+          _de: camt.053/054 XML-Datei oder MT940
+          _it: File XML camt.053/054 o MT940
+          _nl: camt.053/054 XML-bestand of MT940
         submit:
           _en: Import
           _fr: Importer
@@ -786,11 +786,11 @@ _:
           _it: Cesta e punto di ritiro
           _nl: Pakket en depot
         basket_content:
-          _en: 'Content: %{content}'
-          _fr: 'Contenu: %{content}'
-          _de: 'Inhalt: %{content}'
-          _it: 'Contenuto: %{content}'
-          _nl: 'Inhoud: %{content}'
+          _en: "Content: %{content}"
+          _fr: "Contenu: %{content}"
+          _de: "Inhalt: %{content}"
+          _it: "Contenuto: %{content}"
+          _nl: "Inhoud: %{content}"
         basket_shift_declined:
           _en: Member does not want to shift this absence.
           _fr: Le membre ne désire pas déplacer cette absence.
@@ -816,17 +816,17 @@ _:
           _it: Nessun spostamento
           _nl: Geen verplaatsing
         basket_shift_target_description:
-          _en: 'Delivery on %{source_date}: %{description}'
-          _fr: 'Livraison du %{source_date}: %{description}'
-          _de: 'Lieferung am %{source_date}: %{description}'
-          _it: 'Consegna del %{source_date}: %{description}'
-          _nl: 'Levering op %{source_date}: %{description}'
+          _en: "Delivery on %{source_date}: %{description}"
+          _fr: "Livraison du %{source_date}: %{description}"
+          _de: "Lieferung am %{source_date}: %{description}"
+          _it: "Consegna del %{source_date}: %{description}"
+          _nl: "Levering op %{source_date}: %{description}"
         basket_shift_targets_explanation:
-          _en: 'Part of the content of this basket compensates the following deliveries:'
-          _fr: 'Une partie du contenu de ce panier compense les livraisons suivantes:'
-          _de: 'Ein Teil des Inhalts dieses Tasches kompensiert die folgenden Lieferungen:'
-          _it: 'Parte del contenuto di questo cestino compensa le seguenti consegne:'
-          _nl: 'Een deel van de inhoud van dit pakket compenseert de volgende leveringen:'
+          _en: "Part of the content of this basket compensates the following deliveries:"
+          _fr: "Une partie du contenu de ce panier compense les livraisons suivantes:"
+          _de: "Ein Teil des Inhalts dieses Tasches kompensiert die folgenden Lieferungen:"
+          _it: "Parte del contenuto di questo cestino compensa le seguenti consegne:"
+          _nl: "Een deel van de inhoud van dit pakket compenseert de volgende leveringen:"
         basket_shift_title:
           _en: Shift (absence)
           _fr: Déplacement (absence)
@@ -2375,17 +2375,17 @@ _:
         _nl: Met betalingsherinnering
     search_status:
       current_filters:
-        _en: 'Current filters:'
-        _fr: 'Filtre courant:'
-        _de: 'Aktuelles Filter:'
-        _it: 'Filtri correnti:'
-        _nl: 'Huidige filters:'
+        _en: "Current filters:"
+        _fr: "Filtre courant:"
+        _de: "Aktuelles Filter:"
+        _it: "Filtri correnti:"
+        _nl: "Huidige filters:"
       headline:
-        _en: 'Scope:'
-        _fr: 'Scope:'
-        _de: 'Gültigkeitsbereich:'
-        _it: 'Scopo:'
-        _nl: 'Bereik:'
+        _en: "Scope:"
+        _fr: "Scope:"
+        _de: "Gültigkeitsbereich:"
+        _it: "Scopo:"
+        _nl: "Bereik:"
       no_current_filters:
         _en: None
         _fr: Aucun
@@ -2833,11 +2833,11 @@ _:
           _it: I promemoria non vengono inviati automaticamente finché i pagamenti non vengono elaborati automaticamente (EBICS).
           _nl: Betalingsherinneringen worden niet automatisch verzonden zolang betalingen ook niet automatisch worden verwerkt (EBICS).
         overpaid:
-          _en: 'Overpaid:'
-          _fr: 'Payé en trop:'
-          _de: 'Überbezahlt:'
-          _it: 'Pagamento in eccesso:'
-          _nl: 'Te veel betaald:'
+          _en: "Overpaid:"
+          _fr: "Payé en trop:"
+          _de: "Überbezahlt:"
+          _it: "Pagamento in eccesso:"
+          _nl: "Te veel betaald:"
         pages:
           _en: Pages
           _fr: Pages
@@ -3041,11 +3041,11 @@ _:
         _de: Entwurf
         _it: Bozza
         _nl: concept
-      'false':
-        _en: 'no'
+      "false":
+        _en: "no"
         _fr: non
         _de: nein
-        _it: 'no'
+        _it: "no"
         _nl: nee
       future:
         _en: future
@@ -3161,8 +3161,8 @@ _:
         _de: probe
         _it: prova
         _nl: proef
-      'true':
-        _en: 'yes'
+      "true":
+        _en: "yes"
         _fr: oui
         _de: ja
         _it: si

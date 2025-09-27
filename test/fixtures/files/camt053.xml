@@ -148,7 +148,7 @@
               </CdtrAgt>
             </RltdAgts>
           <RmtInf>
-            <Ustrd>TEST BERWEISUNG MITTELS BLZUND KONTONUMMER - DTA</Ustrd>
+            <Ustrd>RF790000004200000001</Ustrd>
           </RmtInf>
         </TxDtls>
       </NtryDtls>
@@ -251,7 +251,7 @@
             </DbtrAcct>
           </RltdPties>
           <RmtInf>
-            <Ustrd>R CKBUCHUNG</Ustrd>
+            <Ustrd>RF790000004200000001</Ustrd>
           </RmtInf>
         </TxDtls>
       </NtryDtls>
