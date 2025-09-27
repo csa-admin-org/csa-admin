@@ -281,7 +281,9 @@ ActiveAdmin.register Organization do
         end
         tab t(".mailer"), id: "mail"  do
           para t(".mailer_text_html"), class: "description"
-          f.input :email_default_from, as: :string
+          f.input :email_default_from,
+            as: :string,
+            hint: t("formtastic.hints.organization.email_default_from_html", domain: Current.org.domain)
           translated_input(f, :email_signatures,
             as: :text,
             required: true,
@@ -289,7 +291,7 @@ ActiveAdmin.register Organization do
           translated_input(f, :email_footers,
             as: :text,
             required: true,
-            input_html: { rows: 2 })
+            input_html: { rows: 3 })
         end
       end
     end
