@@ -126,9 +126,11 @@ CSA Admin also manages automatic retrieval of payments from the [Alternative Ban
 
 ### Manual import
 
-When automatic import via [EBICS](https://www.six-group.com/en/products-services/banking-services/standardization.html#scrollTo=ebics) is not yet configured, you can easily import payments of invoices with reference numbers from your members by downloading a file in camt.054 format from your e-banking and uploading it to CSA Admin from [the payments page](/payments), "Import" section in the right column. Don't forget to repeat the operation regularly (every week) so that the system doesn't send reminders unnecessarily.
+When automatic import via [EBICS](https://www.six-group.com/en/products-services/banking-services/standardization.html#scrollTo=ebics) is not yet configured, you can easily import payments of invoices with reference numbers from your members by downloading a file in camt.053, camt.054, or mt940 format from your e-banking and uploading it to CSA Admin from [the payments page](/payments), "Import" section in the right column. Don't forget to repeat the operation regularly (every week) until the automatic import is in place.
 
-For payments without a reference number (cash or direct deposit), you simply need to [create a new payment manually](/payments/new). Its amount will be automatically redistributed to existing invoices.
+For payments without a reference number (cash or direct deposit), you simply need to [create a new payment manually](/payments/new). Its amount will be automatically redistributed to existing open invoices.
+
+> Please try to only stick to a single format when importing payments, doing otherwise may lead to double payments creation.
 
 ### Refund
 

@@ -25,14 +25,7 @@ module Billing
         else
           raise UnsupportedFileError, "Invalid format: #{camt54.class.name}"
         end
-        # Handle identical payment (same date, same ref, same amount)
-      }.group_by(&:fingerprint).flat_map { |_, dd|
-        amounts_count = dd.map(&:amount).uniq.size
-        dd.each_with_index.map { |d, i|
-          d.fingerprint += "-#{i}" if i > 0 and amounts_count > 1
-          d
-        }
-      }.compact.uniq(&:fingerprint)
+      }
     rescue CamtParser::Errors::UnsupportedNamespaceError, ArgumentError => e
       Error.report(e, file: @files.first.read)
       raise UnsupportedFileError, e.message

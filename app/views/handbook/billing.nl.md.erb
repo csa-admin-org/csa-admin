@@ -126,9 +126,11 @@ CSA Admin beheert ook automatische ophaling van betalingen van de [Alternative B
 
 ### Handmatige import
 
-Wanneer automatische import via [EBICS](https://www.six-group.com/en/products-services/banking-services/standardization.html#scrollTo=ebics) nog niet is geconfigureerd, kunt u eenvoudig betalingen van facturen met referentienummers van uw leden importeren door een bestand in camt.054 formaat te downloaden van uw e-banking en dit te uploaden naar CSA Admin vanaf [de betalingenpagina](/payments), sectie "Import" in de rechterkolom. Vergeet niet om de bewerking regelmatig te herhalen (elke week) zodat het systeem niet onnodig herinneringen verstuurt.
+Wanneer automatische import via [EBICS](https://www.six-group.com/en/products-services/banking-services/standardization.html#scrollTo=ebics) nog niet is geconfigureerd, kunt u eenvoudig betalingen van facturen met referentienummers van uw leden importeren door een bestand in camt.053, camt.054 of mt940 formaat te downloaden van uw e-banking en dit te uploaden naar CSA Admin vanaf [de betalingenpagina](/payments), sectie "Import" in de rechterkolom. Vergeet niet om de bewerking regelmatig te herhalen (elke week) totdat de automatische import is ingevoerd.
 
-Voor betalingen zonder referentienummer (contant geld of directe storting) hoeft u alleen maar [handmatig een nieuwe betaling aan te maken](/payments/new). Het bedrag wordt automatisch herverdeeld naar bestaande facturen.
+Voor betalingen zonder referentienummer (contant geld of directe storting) hoeft u alleen maar [handmatig een nieuwe betaling aan te maken](/payments/new). Het bedrag wordt automatisch herverdeeld naar bestaande openstaande facturen.
+
+> Probeer bij het importeren van betalingen alleen één formaat te gebruiken, anders kan dit leiden tot dubbele betalingen.
 
 ### Terugbetaling
 
