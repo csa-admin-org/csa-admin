@@ -126,9 +126,11 @@ CSA Admin verwaltet auch den automatischen Abruf von Zahlungen der [Alternativen
 
 ### Manueller Import
 
-Wenn der automatische Import über [EBICS](https://www.six-group.com/de/products-services/banking-services/standardization.html#scrollTo=ebics) noch nicht konfiguriert ist, können Sie Zahlungen von Rechnungen mit Referenznummern Ihrer Mitglieder einfach importieren, indem Sie eine Datei im camt.054-Format von Ihrem E-Banking herunterladen und in CSA Admin von [der Zahlungsseite](/payments) aus hochladen, Abschnitt "Import" in der rechten Spalte. Vergessen Sie nicht, den Vorgang regelmäßig (jede Woche) zu wiederholen, damit das System nicht unnötig Erinnerungen sendet.
+Wenn der automatische Import über [EBICS](https://www.six-group.com/de/products-services/banking-services/standardization.html#scrollTo=ebics) noch nicht konfiguriert ist, können Sie Zahlungen von Rechnungen mit Referenznummern Ihrer Mitglieder einfach importieren, indem Sie eine Datei im camt.053-, camt.054- oder mt940-Format von Ihrem E-Banking herunterladen und in CSA Admin von [der Zahlungsseite](/payments) aus hochladen, Abschnitt "Import" in der rechten Spalte. Vergessen Sie nicht, den Vorgang regelmäßig (jede Woche) zu wiederholen, bis der automatische Import eingerichtet ist.
 
-Für Zahlungen ohne Referenznummer (Bargeld oder direkte Einzahlung) müssen Sie einfach [eine neue Zahlung manuell erstellen](/payments/new). Der Betrag wird automatisch auf bestehende Rechnungen umverteilt.
+Für Zahlungen ohne Referenznummer (Bargeld oder direkte Einzahlung) müssen Sie einfach [eine neue Zahlung manuell erstellen](/payments/new). Der Betrag wird automatisch auf bestehende offene Rechnungen umverteilt.
+
+> Bitte versuchen Sie, bei der Importierung von Zahlungen nur ein einziges Format zu verwenden, da sonst doppelte Zahlungen entstehen können.
 
 ### Rückerstattung
 
