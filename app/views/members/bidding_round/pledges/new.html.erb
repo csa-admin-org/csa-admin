@@ -148,7 +148,7 @@
       <%= button_tag t(".recommended_price", price: cur(@pledge.default_price)),
         type: "reset",
         disabled: @pledge.default_price == @pledge.basket_size_price,
-        class: "btn btn-sm",
+        class: "btn btn-light btn-sm",
         data: {
           action: "price-range#setDefaultPrice",
           price_range_target: "reset"

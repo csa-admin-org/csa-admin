@@ -82,13 +82,9 @@ export default class extends Controller {
         const input = document.getElementById(
           "basket_size_ids_percentages_" + inputID
         )
-        return input && input.value == value
+        return input && parseInt(input.value) == value
       })
-      if (matchCurrentPercentages) {
-        addClass(p, "disabled")
-      } else {
-        removeClass(p, "disabled")
-      }
+      p.disabled = matchCurrentPercentages
     })
   }
 

@@ -266,13 +266,15 @@ ActiveAdmin.register BasketContent do
               style: "display: none;",
               "data-basket-content-distribution-target" => "sum"
             div class: "flex mt-6 mb-2 gap-2" do
-              a class: "btn btn-sm",
+              button class: "btn btn-light btn-sm",
+                  type: "reset",
                   "data-basket-content-distribution-target" => "preset",
                   "data-action" => "basket-content-distribution#applyPreset",
                   "data-preset" => f.object.basket_size_ids_percentages_pro_rated.to_json(stringify: true) do
                 t("basket_content.preset.basket_content_percentages_pro_rated")
               end
-              a class: "btn btn-sm",
+              button class: "btn btn-light btn-sm",
+                  type: "reset",
                   "data-basket-content-distribution-target" => "preset",
                   "data-action" => "basket-content-distribution#applyPreset",
                   "data-preset" => f.object.basket_size_ids_percentages_even.to_json(stringify: true) do
