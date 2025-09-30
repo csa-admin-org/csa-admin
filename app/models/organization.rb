@@ -6,6 +6,7 @@ class Organization < ApplicationRecord
   include TranslatedRichTexts
   include NormalizedString
   include HasIBAN
+  include LocalCurrencyFeature
 
   FEATURES = %i[
     absence
@@ -14,6 +15,7 @@ class Organization < ApplicationRecord
     basket_price_extra
     bidding_round
     contact_sharing
+    local_currency
     new_member_fee
     shop
   ]
@@ -183,6 +185,7 @@ class Organization < ApplicationRecord
   end
   def self.restricted_features; RESTRICTED_FEATURES end
   def self.languages; LANGUAGES end
+  def self.currency_codes; CURRENCIES end
   def self.feature_flags; FEATURE_FLAGS end
   def self.activity_i18n_scopes; ACTIVITY_I18N_SCOPES end
   def self.billing_year_divisions; BILLING_YEAR_DIVISIONS end
@@ -212,6 +215,7 @@ class Organization < ApplicationRecord
   def feature_flag?(feature)
     feature_flags.include?(feature.to_sym)
   end
+
 
   def terms_of_service?
     charter_url || statutes_url || terms_of_service_url || privacy_policy_url

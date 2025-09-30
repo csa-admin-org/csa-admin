@@ -72,6 +72,18 @@ _:
       _de: Ermöglicht das Teilen von Kontaktdaten zwischen Mitgliedern desselben Depots.
       _it: Rende possibile la condivisione dei dati di contatto tra i soci dello stesso punto di ritiro.
       _nl: Maakt het delen van contactgegevens mogelijk tussen leden van hetzelfde depot.
+    local_currency:
+      _en: Local currency
+      _fr: Monnaie locale
+      _de: Regionalwährung
+      _it: Valuta locale
+      _nl: Lokale valuta
+    local_currency_hint:
+      _en: Allows to create invoices in a local currency in addition to the national currency. <br/>Please <a href="/handbook/local_currency">consult the manual</a> for more information.
+      _fr: Permet de créer des factures en monnaie locale en plus de la monnaie nationale. <br/>Veuillez <a href="/handbook/local_currency">consulter le manuel</a> pour plus d'informations.
+      _de: Ermöglicht das Erstellen von Rechnungen in einer regionalen Währung zusätzlich zur nationalen Währung. <br/>Bitte <a href="/handbook/local_currency">konsultieren Sie das Handbuch</a> für weitere Informationen.
+      _it: Consente di creare fatture in valuta locale oltre alla valuta nazionale. <br/>Si prega <a href="/handbook/local_currency">di consultare il manuale</a> per ulteriori informazioni.
+      _nl: Stelt in staat om facturen in lokale valuta te creëren, naast de nationale valuta. <br/>Raadpleeg <a href="/handbook/local_currency">de handleiding</a> voor meer informatie.
     new_member_fee:
       _en: New member fee
       _fr: Frais d'adhésion
