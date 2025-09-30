@@ -45,11 +45,11 @@ class Liquid::InvoiceDrop < Liquid::Drop
   end
 
   def amount
-    cur(@invoice.amount)
+    ccur(@invoice, :amount)
   end
 
   def missing_amount
-    cur(@invoice.missing_amount)
+    ccur(@invoice, :missing_amount)
   end
 
   def overdue_notices_count

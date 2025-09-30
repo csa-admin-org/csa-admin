@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_09_23_122354) do
+ActiveRecord::Schema[8.1].define(version: 2025_09_23_153415) do
   create_table "absences", force: :cascade do |t|
     t.datetime "created_at"
     t.date "ended_on"
@@ -499,6 +499,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_09_23_122354) do
     t.string "state", default: "pending", null: false
     t.integer "trial_baskets_count", null: false
     t.datetime "updated_at"
+    t.boolean "use_local_currency", default: false
     t.datetime "validated_at"
     t.bigint "validator_id"
     t.integer "waiting_activity_participations_demanded_annually"
@@ -512,6 +513,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_09_23_122354) do
     t.index ["sepa_mandate_id"], name: "index_members_on_sepa_mandate_id", unique: true
     t.index ["shop_depot_id"], name: "index_members_on_shop_depot_id"
     t.index ["state"], name: "index_members_on_state"
+    t.index ["use_local_currency"], name: "index_members_on_use_local_currency"
     t.index ["validator_id"], name: "index_members_on_validator_id"
     t.index ["waiting_basket_size_id"], name: "index_members_on_waiting_basket_size_id"
     t.index ["waiting_delivery_cycle_id"], name: "index_members_on_waiting_delivery_cycle_id"
@@ -740,6 +742,9 @@ ActiveRecord::Schema[8.1].define(version: 2025_09_23_122354) do
     t.json "invoice_infos", default: {}, null: false
     t.json "invoice_sepa_infos", default: {}, null: false
     t.json "languages", default: ["fr"], null: false
+    t.string "local_currency_code", limit: 3
+    t.string "local_currency_identifier"
+    t.string "local_currency_wallet"
     t.string "member_come_from_form_mode", default: "visible", null: false
     t.boolean "member_form_extra_text_only", default: false, null: false
     t.string "member_form_mode", default: "membership", null: false
