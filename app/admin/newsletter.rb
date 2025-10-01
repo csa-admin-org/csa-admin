@@ -190,7 +190,7 @@ ActiveAdmin.register Newsletter do
         input_html: {
           data: { action: "code-editor#updatePreview" }
         })
-      f.input :audience, collection: newsletter_audience_collection, prompt: true
+      f.input :audience, collection: newsletter_audience_collection(f.object), prompt: true
 
       f.input :from,
         as: :string,
