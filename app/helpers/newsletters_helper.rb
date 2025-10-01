@@ -13,11 +13,15 @@ module NewslettersHelper
       .any?
   end
 
-  def newsletter_audience_collection
+  def newsletter_audience_collection(newsletter)
     Newsletter::Audience.segments.map { |key, segments|
+      name = Newsletter::Audience.segment_name(key)
+      if newsletter.audience? && newsletter.audience_segment.key == key
+        segments << newsletter.audience_segment
+      end
       [
-        Newsletter::Audience.segment_name(key),
-        segments.map { |s| [ s.name, s.id ] }
+        name,
+        segments.map { |s| [ s.name, s.id ] }.uniq
       ]
     }.to_h
   end
