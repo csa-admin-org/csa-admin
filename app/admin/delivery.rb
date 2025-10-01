@@ -59,6 +59,7 @@ ActiveAdmin.register Delivery do
     if feature?("shop")
       column("#{t("shop.title")}: #{Delivery.human_attribute_name(:shop_open)}") { |d| d.shop_configured_open? }
     end
+    column(:basket_size_price_percentage)
     column(:note)
   end
 
@@ -113,6 +114,14 @@ ActiveAdmin.register Delivery do
           end
         end
 
+        if delivery.basket_size_price_percentage?
+          panel t(".billing") do
+            attributes_table do
+              row(:basket_size_price) { number_to_percentage(delivery.basket_size_price_percentage || 100, precision: 0) }
+            end
+          end
+        end
+
         if feature?("shop")
           panel t("shop.title") do
           attributes_table do
@@ -152,6 +161,7 @@ ActiveAdmin.register Delivery do
 
   form do |f|
     render partial: "bulk_dates", locals: { f: f, resource: resource, context: self }
+
     if f.object.new_record? && BasketComplement.kept.any?
       f.inputs do
         f.input :basket_complements,
@@ -163,9 +173,14 @@ ActiveAdmin.register Delivery do
         handbook_button(self, "deliveries", anchor: "complments-de-panier")
       end
     end
-    f.inputs t(".details") do
-      f.input :note, as: :text, input_html: { rows: 3 }
+
+    f.inputs t(".billing") do
+      f.input :basket_size_price_percentage,
+        as: :number,
+        step: 1,
+        input_html: { min: 0 }
     end
+
     if feature?("shop")
       f.inputs t("shop.title"), "data-controller" => "form-checkbox-toggler" do
         f.input :shop_open,
@@ -184,6 +199,11 @@ ActiveAdmin.register Delivery do
           }
       end
     end
+
+    f.inputs t(".details") do
+      f.input :note, as: :text, input_html: { rows: 3 }
+    end
+
     f.actions
   end
 
@@ -193,6 +213,7 @@ ActiveAdmin.register Delivery do
     :bulk_dates_starts_on, :bulk_dates_ends_on,
     :bulk_dates_weeks_frequency,
     :shop_open,
+    :basket_size_price_percentage,
     bulk_dates_wdays: [],
     shop_open_for_depot_ids: [],
     basket_complement_ids: []

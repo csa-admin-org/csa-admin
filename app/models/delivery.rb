@@ -37,6 +37,8 @@ class Delivery < ApplicationRecord
     date: { after_or_equal_to: proc { Date.today } },
     unless: :date?,
     on: :create
+  validates :basket_size_price_percentage,
+    numericality: { greater_than_or_equal_to: 0, allow_nil: true }
 
   after_commit :reset_delivery_cycle_cache!
   after_commit :update_baskets_async

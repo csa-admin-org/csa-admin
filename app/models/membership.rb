@@ -45,6 +45,7 @@ class Membership < ApplicationRecord
   before_validation do
     # Keep new_config_from within the membership period range
     self.new_config_from = [ [ new_config_from || Date.today, started_on ].max, ended_on ].min
+    @default_basket_size_price_used = basket_price.blank?
     self.basket_price ||= basket_size&.price
     self.depot_price ||= depot&.price
     self.delivery_cycle_price ||= delivery_cycle&.price
@@ -521,7 +522,7 @@ class Membership < ApplicationRecord
       delivery_id: delivery.id,
       delivery_cycle_price: delivery_cycle_price,
       basket_size_id: basket_size_id,
-      basket_price: basket_price,
+      basket_price: @default_basket_size_price_used ? nil : basket_price,
       price_extra: basket_price_extra,
       quantity: basket_quantity,
       depot_id: depot_id,
@@ -623,7 +624,9 @@ class Membership < ApplicationRecord
       basket_size_id basket_price basket_price_extra basket_quantity
       depot_id depot_price delivery_cycle_id delivery_cycle_price
     ]
-    (saved_changes.keys & tracked_attributes).any? || !new_config_from.today?
+    (saved_changes.keys & tracked_attributes).any? ||
+      @default_basket_size_price_used ||
+      !new_config_from.today?
   end
 
   def memberships_basket_complements_config_changed?
