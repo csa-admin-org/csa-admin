@@ -1060,6 +1060,19 @@ class MembershipTest < ActiveSupport::TestCase
     end
   end
 
+  test "creates baskets with default basket_price and applies delivery percentage" do
+    travel_to "2024-01-01"
+    membership = memberships(:john)
+
+    delivery = deliveries(:monday_1)
+    delivery.update!(basket_size_price_percentage: 50)
+
+    membership.update!(new_config_from: Date.today, basket_price: nil)
+
+    basket = membership.baskets.find_by(delivery: delivery)
+    assert_equal 10, basket.basket_price # 20 * 0.5
+  end
+
   test "can be destroyed" do
     membership = memberships(:jane)
 

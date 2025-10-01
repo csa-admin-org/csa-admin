@@ -324,4 +324,27 @@ class BasketTest < ActiveSupport::TestCase
 
     assert_equal 4 / 20.0, basket.send(:calculate_price_extra)
   end
+
+  test "calculate_basket_size_price" do
+    travel_to "2024-01-01"
+
+    basket = build_basket(basket_size: basket_sizes(:medium))
+    basket.validate
+    assert_equal 20, basket.basket_price
+
+    delivery = deliveries(:monday_1)
+    delivery.update!(basket_size_price_percentage: 110)
+    basket = build_basket(basket_size: basket_sizes(:medium), delivery: delivery)
+    basket.validate
+    assert_equal 22, basket.basket_price
+
+    delivery.update!(basket_size_price_percentage: 50)
+    basket = build_basket(basket_size: basket_sizes(:medium), delivery: delivery)
+    basket.validate
+    assert_equal 10, basket.basket_price
+
+    basket = build_basket(basket_size: basket_sizes(:medium), delivery: delivery, basket_price: 42)
+    basket.validate
+    assert_equal 42, basket.basket_price
+  end
 end

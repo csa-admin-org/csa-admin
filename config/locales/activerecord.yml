@@ -446,6 +446,18 @@ _:
           _de: Taschenzusätze
           _it: Aggiunte nella cesta
           _nl: Pakketaanvullingen
+        basket_size_price:
+          _en: Basket size price
+          _fr: Prix taille de panier
+          _de: Preis pro Taschengröße
+          _it: Prezzo per cesta
+          _nl: Prijs per pakket
+        basket_size_price_percentage:
+          _en: Basket size price change (in %)
+          _fr: Modification du prix de la taille de panier (en %)
+          _de: Taschengrössepreisänderung (in %)
+          _it: Modifica prezzo cesta (in %)
+          _nl: Pakketgrootteprijsverandering (in %)
         note:
           _en: Internal memo
           _fr: Note interne

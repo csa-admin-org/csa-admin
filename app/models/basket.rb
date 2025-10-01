@@ -185,7 +185,7 @@ class Basket < ApplicationRecord
   end
 
   def set_prices
-    self.basket_price ||= basket_size&.price
+    self.basket_price ||= calculate_default_basket_size_price
     self.depot_price ||= depot&.price
     self.delivery_cycle_price ||= membership.delivery_cycle&.price
   end
@@ -205,6 +205,16 @@ class Basket < ApplicationRecord
     if delivery && membership && !delivery.date.in?(membership.period)
       errors.add(:delivery, :exclusion)
     end
+  end
+
+  def calculate_default_basket_size_price
+    price = basket_size&.price
+
+    if delivery&.basket_size_price_percentage?
+      price *= delivery.basket_size_price_percentage / 100.0
+    end
+
+    price&.round_to_one_cent
   end
 
   def set_calculated_price_extra
