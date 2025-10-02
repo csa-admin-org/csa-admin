@@ -2265,12 +2265,6 @@ _:
         _de: Alle
         _it: Tutto
         _nl: Alle
-      auto:
-        _en: Auto
-        _fr: Auto
-        _de: Auto
-        _it: Auto
-        _nl: Auto
       coming:
         _en: Coming
         _fr: Futures
@@ -2307,6 +2301,12 @@ _:
         _de: Versteckt
         _it: Nascosto
         _nl: Verborgen
+      import:
+        _en: Import
+        _fr: Importés
+        _de: Import
+        _it: Importazione
+        _nl: Importeren
       inactive:
         _en: Inactive
         _fr: Inactifs
@@ -2999,12 +2999,6 @@ _:
         _de: aktiv
         _it: attivo
         _nl: actief
-      auto:
-        _en: Auto
-        _fr: Auto
-        _de: Auto
-        _it: Auto
-        _nl: Auto
       bounced:
         _en: bounced
         _fr: rejetée
@@ -3065,6 +3059,12 @@ _:
         _de: ignorierte
         _it: ignorato
         _nl: genegeerd
+      import:
+        _en: Import
+        _fr: Import
+        _de: Import
+        _it: Import
+        _nl: Import
       inactive:
         _en: inactive
         _fr: inactif

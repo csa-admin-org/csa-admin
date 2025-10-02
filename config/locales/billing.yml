@@ -24,7 +24,7 @@ _:
       _de: Jahresbeiträge
       _it: Contributi annuali
       _nl: Jaarlijkse bijdragen
-    auto:
+    import:
       _en: Automatically imported
       _fr: Importés automatiquement
       _de: Automatisch importiert

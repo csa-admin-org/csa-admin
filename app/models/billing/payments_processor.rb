@@ -34,14 +34,20 @@ module Billing
     private
 
     def create_payment!(data)
-      return if Payment.where(fingerprint: data.fingerprint).exists?
       return unless invoice = find_invoice(data)
 
-      payment = Payment.create!(
-        invoice: invoice,
-        amount: data.amount,
-        date: data.date,
-        fingerprint: data.fingerprint)
+      attrs = data.to_h.slice(:member_id, :invoice_id, :amount, :date)
+      payment = Payment.find_or_initialize_by(attrs)
+
+      if payment.origin? && payment.origin != data.origin
+        Rails.event.notify(:payment_origin_override,
+          payment_id: payment.id,
+          previous_origin: payment.origin,
+          **data.to_h)
+      end
+
+      payment.origin = data.origin
+      payment.save!
 
       if invoice.reload.overpaid?
         invoice.send_overpaid_notification_to_admins!
@@ -55,8 +61,7 @@ module Billing
 
     def find_invoice(data)
       if data.member_id && !Member.exists?(data.member_id)
-        Rails.event.notify(:payment_processing_unknown_member,
-          fingerprint: data.fingerprint)
+        Rails.event.notify(:payment_processing_unknown_member, **data)
         return
       end
 
@@ -68,8 +73,7 @@ module Billing
         end
 
       unless invoice = invoices.find_by(id: data.invoice_id)
-        Rails.event.notify(:payment_processing_unknown_invoice,
-          fingerprint: data.fingerprint)
+        Rails.event.notify(:payment_processing_unknown_invoice, **data)
         return
       end
 
@@ -78,7 +82,7 @@ module Billing
 
     def ensure_recent_payments!
       if Invoice.not_canceled.sent.where("created_at > ?", NO_RECENT_PAYMENTS_SINCE.ago).any? &&
-          Payment.auto.where("created_at > ?", NO_RECENT_PAYMENTS_SINCE.ago).none?
+          Payment.import.where("created_at > ?", NO_RECENT_PAYMENTS_SINCE.ago).none?
         if last_payment = Payment.auto.reorder(:created_at).last
           Error.notify("No recent payment error",
             last_payment_id: last_payment.id,

@@ -14,7 +14,7 @@
     &[data-status="invoiced"],
     &[data-status="active"],
     &[data-status="closed"],
-    &[data-status="auto"],
+    &[data-status="import"],
     &[data-status="ongoing"],
     &[data-status="validated"],
     &[data-status="sent"],

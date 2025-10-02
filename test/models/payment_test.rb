@@ -28,9 +28,9 @@ class PaymentTest < ActiveSupport::TestCase
     invoice = invoices(:annual_fee)
 
     payment = create_payment(
+      origin: "camt.054",
       member: invoice.member,
-      amount: invoice.amount,
-      fingerprint: "foo")
+      amount: invoice.amount)
 
     assert invoice.reload.closed?
     assert_equal 0, invoice.member.balance_amount
@@ -55,8 +55,7 @@ class PaymentTest < ActiveSupport::TestCase
     payment = create_payment(
       invoice: invoice,
       member: invoice.member,
-      amount: -1 * invoice.amount,
-      fingerprint: "foo")
+      amount: -1 * invoice.amount)
 
     assert_difference "AdminMailer.deliveries.size" do
       perform_enqueued_jobs { payment.send_reversal_notification_to_admins! }
