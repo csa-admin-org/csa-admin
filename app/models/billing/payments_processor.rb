@@ -39,7 +39,7 @@ module Billing
       attrs = data.to_h.slice(:member_id, :invoice_id, :amount, :date)
       payment = Payment.find_or_initialize_by(attrs)
 
-      if payment.origin? && payment.origin != data.origin
+      if payment.persisted? && payment.origin != data.origin
         Rails.event.notify(:payment_origin_override,
           payment_id: payment.id,
           previous_origin: payment.origin,
@@ -61,7 +61,7 @@ module Billing
 
     def find_invoice(data)
       if data.member_id && !Member.exists?(data.member_id)
-        Rails.event.notify(:payment_processing_unknown_member, **data)
+        Rails.event.notify(:payment_processing_unknown_member, **data.to_h)
         return
       end
 
@@ -73,7 +73,7 @@ module Billing
         end
 
       unless invoice = invoices.find_by(id: data.invoice_id)
-        Rails.event.notify(:payment_processing_unknown_invoice, **data)
+        Rails.event.notify(:payment_processing_unknown_invoice, **data.to_h)
         return
       end
 
