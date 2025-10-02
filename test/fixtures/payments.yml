@@ -1,4 +1,5 @@
 other_closed:
+  origin: camt.054
   invoice: other_closed
   member: john
   currency_code: CHF

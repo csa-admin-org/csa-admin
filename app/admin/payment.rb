@@ -23,7 +23,7 @@ ActiveAdmin.register Payment do
   end
 
   scope :all, default: true
-  scope :auto
+  scope :import
   scope :manual
   scope :ignored
 

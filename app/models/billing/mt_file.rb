@@ -15,6 +15,7 @@ module Billing
     end
 
     def payments_data
+      origin = "mt940"
       @files.flat_map { |file|
         statements = Cmxl.parse(File.read(file), encoding: "ISO-8859-1")
         statements.flat_map { |statement|
@@ -26,11 +27,11 @@ module Billing
                 payload = Billing.reference.payload(ref)
                 sign = transaction.reversal? ? -1 : 1
                 PaymentData.new(
+                  origin: origin,
                   member_id: payload[:member_id],
                   invoice_id: payload[:invoice_id],
                   amount: sign * transaction.amount,
-                  date: date,
-                  fingerprint: "#{date}-#{transaction.sha}-#{ref}")
+                  date: date)
               end
             end
           }

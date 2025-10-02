@@ -11,7 +11,7 @@ class Billing::CamtFileTest < ActiveSupport::TestCase
         member_id: 42,
         amount: 1,
         date: Date.new(2020, 11, 13, 11),
-        fingerprint: "2020-11-13-ZV20201113/371247/2-000000000000000420000000011"
+        origin: "camt.054"
       )
     ], file.payments_data
   end
@@ -25,7 +25,7 @@ class Billing::CamtFileTest < ActiveSupport::TestCase
         member_id: 42,
         amount: 1,
         date: Date.new(2013, 12, 27),
-        fingerprint: "2013-12-27-NOBANKREF-RF790000004200000001"
+        origin: "camt.053"
       )
     ], file.payments_data
   end
@@ -39,7 +39,7 @@ class Billing::CamtFileTest < ActiveSupport::TestCase
         member_id: 41,
         amount: -106.35,
         date: Date.new(2025, 9, 16),
-        fingerprint: "2025-09-16-2025091502696816090100000010000030-RF280000004100000612")
+        origin: "camt.053")
     ], file.payments_data
   end
 

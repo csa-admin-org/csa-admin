@@ -34,28 +34,27 @@ module Billing
     private
 
     def parse_camt54(camt)
+      origin = "camt.054"
       camt.notifications.flat_map { |notification|
         notification.entries.flat_map { |entry|
           date = entry.value_date
           entry.transactions.map { |transaction|
             ref = transaction.creditor_reference
             if transaction.credit?
-              bank_ref = transaction.bank_reference
               if Billing.reference.valid?(ref)
                 payload = Billing.reference.payload(ref)
                 PaymentData.new(
+                  origin: origin,
                   member_id: payload[:member_id],
                   invoice_id: payload[:invoice_id],
                   amount: transaction.amount,
-                  date: date,
-                  fingerprint: "#{date}-#{bank_ref}-#{ref}")
+                  date: date)
               elsif Billing.reference.unknown?(ref)
                 Rails.event.notify(:unknown_payment_reference,
-                  type: "camt54",
-                  ref: ref,
-                  bank_ref: bank_ref,
+                  origin: origin,
                   amount: transaction.amount,
-                  date: date)
+                  date: date,
+                  ref: ref)
                 nil
               end
             end
@@ -65,32 +64,28 @@ module Billing
     end
 
     def parse_camt53(camt)
+      origin = "camt.053"
       camt.statements.flat_map { |statement|
         statement.entries.flat_map { |entry|
           date = entry.value_date
 
           entry.transactions.map { |transaction|
             ref = transaction.remittance_information
-            bank_ref =
-              transaction.bank_reference.presence ||
-              transaction.transaction_id.presence ||
-              "NOBANKREF"
             if transaction.credit?
               if Billing.reference.valid?(ref)
                 payload = Billing.reference.payload(ref)
                 PaymentData.new(
+                  origin: origin,
                   member_id: payload[:member_id],
                   invoice_id: payload[:invoice_id],
                   amount: transaction.amount,
-                  date: date,
-                  fingerprint: "#{date}-#{bank_ref}-#{ref}")
+                  date: date)
               elsif Billing.reference.unknown?(ref)
                 Rails.event.notify(:unknown_payment_reference,
-                  type: "camt53",
-                  ref: ref,
-                  transaction_id: bank_ref,
+                  origin: origin,
                   amount: transaction.amount,
-                  date: date)
+                  date: date,
+                  ref: ref)
                 nil
               end
             elsif transaction.debit? && entry.additional_information.in?(REVERSAL_TEXTS)
@@ -98,18 +93,17 @@ module Billing
                 payload = Billing.reference.payload(ref)
                 ref = Billing.reference.extract_ref(ref)
                 PaymentData.new(
+                  origin: origin,
                   member_id: payload[:member_id],
                   invoice_id: payload[:invoice_id],
                   amount: -1 * transaction.amount,
-                  date: date,
-                  fingerprint: "#{date}-#{bank_ref}-#{ref}")
+                  date: date)
               elsif Billing.reference.unknown?(ref)
                 Rails.event.notify(:unknown_reversal_payment_reference,
-                  type: "camt53",
-                  ref: ref,
-                  transaction_id: bank_ref,
+                  origin: origin,
                   amount: transaction.amount,
-                  date: date)
+                  date: date,
+                  ref: ref)
                 nil
               end
             end

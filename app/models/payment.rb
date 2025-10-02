@@ -7,7 +7,7 @@ class Payment < ApplicationRecord
 
   attr_accessor :comment
 
-  audited_attributes :member_id, :invoice_id, :date, :amount, :ignored_at
+  audited_attributes :member_id, :invoice_id, :date, :amount, :origin, :ignored_at
 
   default_scope { order(:date) }
 
@@ -16,14 +16,13 @@ class Payment < ApplicationRecord
 
   scope :ignored, -> { where.not(ignored_at: nil) }
   scope :not_ignored, -> { where(ignored_at: nil) }
-  scope :auto, -> { not_ignored.where.not(fingerprint: nil) }
-  scope :manual, -> { not_ignored.where(fingerprint: nil) }
+  scope :import, -> { not_ignored.where.not(origin: "manual") }
+  scope :manual, -> { not_ignored.where(origin: "manual") }
   scope :refund, -> { not_ignored.where("amount < 0") }
   scope :invoice_id_eq, ->(id) { where(invoice_id: id) }
 
   validates :date, presence: true
   validates :amount, numericality: { other_than: 0 }, presence: true
-  validates :fingerprint, uniqueness: true, allow_nil: true
 
   after_commit :redistribute!
 
@@ -38,7 +37,7 @@ class Payment < ApplicationRecord
   end
 
   def type
-    fingerprint? ? "auto" : "manual"
+    manual? ? "manual" : "import"
   end
 
   def state
@@ -46,11 +45,11 @@ class Payment < ApplicationRecord
   end
 
   def manual?
-    type == "manual"
+    origin == "manual"
   end
 
-  def auto?
-    type == "auto"
+  def import?
+    !manual?
   end
 
   def reversal?
@@ -74,7 +73,7 @@ class Payment < ApplicationRecord
   end
 
   def can_ignore?
-    auto? && !ignored?
+    import? && !ignored?
   end
 
   def unignore!
@@ -84,7 +83,7 @@ class Payment < ApplicationRecord
   end
 
   def can_unignore?
-    auto? && ignored?
+    import? && ignored?
   end
 
   def ignored?
