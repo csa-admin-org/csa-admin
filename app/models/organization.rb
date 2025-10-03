@@ -22,7 +22,7 @@ class Organization < ApplicationRecord
   LANGUAGES = %w[fr de it nl en]
   CURRENCIES = %w[CHF EUR]
   BILLING_YEAR_DIVISIONS = [ 1, 2, 3, 4, 12 ]
-  BANK_CONNECTION_TYPES = %w[ebics bas]
+  BANK_CONNECTION_TYPES = %w[ebics bas mock]
   ACTIVITY_I18N_SCOPES = %w[hour_work halfday_work day_work basket_preparation]
   MEMBER_FORM_MODES = %w[membership shop]
   INPUT_FORM_MODES = %w[hidden visible required]
@@ -235,6 +235,8 @@ class Organization < ApplicationRecord
       Billing::EBICS.new(bank_credentials)
     when "bas"
       Billing::BAS.new(bank_credentials)
+    when "mock"
+      Billing::EBICSMock.new(bank_credentials)
     end
   end
 

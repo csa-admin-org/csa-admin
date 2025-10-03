@@ -746,4 +746,75 @@ class InvoiceTest < ActiveSupport::TestCase
     assert_equal [ i2.id ], i3.previously_canceled_entity_invoice_ids
     assert_equal [ i4.id, i5.id ], i6.previously_canceled_entity_invoice_ids
   end
+
+  test "sepa_direct_debit_order_upload! does nothing if order_id already present" do
+    german_org(sepa_creditor_identifier: "DE98ZZZ09999999999")
+    member = members(:anna)
+    member.update!(
+      language: "de",
+      iban: "DE21500500009876543210",
+      sepa_mandate_id: "123456",
+      sepa_mandate_signed_on: "2023-12-24")
+    invoice = create_annual_fee_invoice(member: member)
+    invoice.update!(sepa_direct_debit_order_id: "N001")
+
+    assert_no_changes -> { invoice.reload.sepa_direct_debit_order_uploaded_at } do
+      invoice.sepa_direct_debit_order_upload!
+    end
+
+    assert_equal "N001", invoice.sepa_direct_debit_order_id
+    assert_nil invoice.sepa_direct_debit_order_uploaded_at
+  end
+
+  test "sepa_direct_debit_order_upload! does nothing if not sepa" do
+    invoice = create_annual_fee_invoice
+
+    assert_no_changes -> { invoice.reload.sepa_direct_debit_order_uploaded_at } do
+      invoice.sepa_direct_debit_order_upload!
+    end
+
+    assert_nil invoice.sepa_direct_debit_order_id
+    assert_nil invoice.sepa_direct_debit_order_uploaded_at
+  end
+
+  test "sepa_direct_debit_order_upload! does nothing if no bank_connection" do
+    german_org(sepa_creditor_identifier: "DE98ZZZ09999999999")
+    member = members(:anna)
+    member.update!(
+      language: "de",
+      iban: "DE21500500009876543210",
+      sepa_mandate_id: "123456",
+      sepa_mandate_signed_on: "2023-12-24")
+    invoice = create_annual_fee_invoice(member: member)
+
+    assert_no_changes -> { invoice.reload.sepa_direct_debit_order_uploaded_at } do
+      invoice.sepa_direct_debit_order_upload!
+    end
+
+    assert_nil invoice.sepa_direct_debit_order_id
+    assert_nil invoice.sepa_direct_debit_order_uploaded_at
+  end
+
+  require "minitest/mock"
+  test "sepa_direct_debit_order_upload! uploads and updates invoice" do
+    german_org(
+      sepa_creditor_identifier: "DE98ZZZ09999999999",
+      bank_connection_type: "mock",
+      bank_credentials: { password: "secret" })
+    member = members(:anna)
+    member.update!(
+      language: "de",
+      iban: "DE21500500009876543210",
+      sepa_mandate_id: "123456",
+      sepa_mandate_signed_on: "2023-12-24")
+    invoice = create_annual_fee_invoice(member: member)
+    invoice.touch(:sent_at)
+
+    assert_changes -> { invoice.reload.sepa_direct_debit_order_uploaded_at } do
+      invoice.sepa_direct_debit_order_upload!
+    end
+
+    assert_equal "N042", invoice.sepa_direct_debit_order_id
+    assert invoice.sepa_direct_debit_order_uploaded_at?
+  end
 end

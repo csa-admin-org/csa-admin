@@ -30,6 +30,10 @@ module Billing
       }
     end
 
+    def sepa_direct_debit_upload(*args)
+      raise NotImplementedError, "Sepa direct debit upload with BAS is not supported"
+    end
+
     def version
       @version ||= begin
         res = @session.post("/authen/autologin.eval",

@@ -5,6 +5,10 @@
     &.warning {
       @apply border-red-500 bg-red-100 dark:bg-red-900;
     }
+
+    p.hint {
+      @apply m-2 text-center italic leading-5 text-gray-500;
+    }
   }
 
   .panel-title {

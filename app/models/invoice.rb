@@ -18,7 +18,7 @@ class Invoice < ApplicationRecord
 
   has_states :processing, :open, :closed, :canceled
 
-  audited_attributes :state, :sent_at
+  audited_attributes :state, :sent_at, :sepa_direct_debit_order_uploaded_at
 
   belongs_to :member
   belongs_to :entity, polymorphic: true, optional: true, touch: true
@@ -416,6 +416,41 @@ class Invoice < ApplicationRecord
 
   def sepa?
     Current.org.sepa_creditor_identifier? && sepa_metadata.present?
+  end
+
+  def sepa_direct_debit_pain_xml
+    Billing::SEPADirectDebit.new(self).xml
+  end
+
+  def sepa_direct_debit_order_uploaded?
+    sepa_direct_debit_order_uploaded_at?
+  end
+
+  def sepa_direct_debit_order_uploadable?
+    open? &&
+      sepa? &&
+      sent? &&
+      !sepa_direct_debit_order_uploaded? &&
+      Current.org.bank_connection?
+  end
+
+  def sepa_direct_debit_order_automatic_upload_plan_on
+    return unless sepa_direct_debit_order_uploadable?
+
+    (sent_at + Billing::SEPADirectDebit::AUTOMATIC_ORDER_UPLOAD_DELAY).to_date
+  end
+
+  def sepa_direct_debit_order_upload!
+    return if Rails.env.development?
+    return unless sepa_direct_debit_order_uploadable?
+
+    pain_xml = sepa_direct_debit_pain_xml
+    bank_connection = Current.org.bank_connection
+    _transaction_id, order_id = bank_connection.sepa_direct_debit_upload(pain_xml)
+
+    update!(
+      sepa_direct_debit_order_id: order_id,
+      sepa_direct_debit_order_uploaded_at: Time.current)
   end
 
   def can_refund?

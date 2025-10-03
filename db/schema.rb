@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_10_02_094515) do
+ActiveRecord::Schema[8.1].define(version: 2025_10_02_141841) do
   create_table "absences", force: :cascade do |t|
     t.datetime "created_at"
     t.date "ended_on"
@@ -439,6 +439,8 @@ ActiveRecord::Schema[8.1].define(version: 2025_10_02_094515) do
     t.decimal "paid_memberships_amount", precision: 8, scale: 2
     t.decimal "remaining_memberships_amount", precision: 8, scale: 2
     t.datetime "sent_at"
+    t.string "sepa_direct_debit_order_id"
+    t.datetime "sepa_direct_debit_order_uploaded_at"
     t.json "sepa_metadata", default: {}, null: false
     t.integer "shares_number"
     t.datetime "stamped_at"

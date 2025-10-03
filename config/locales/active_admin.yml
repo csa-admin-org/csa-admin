@@ -1442,6 +1442,12 @@ _:
           _de: Sind Sie sicher? Das Abonnement wird in voller Höhe abgerechnet, einschließlich des Jahresbeitrags. Vergessen Sie nicht, die Rechnung nach der Überprüfung abzusenden.
           _it: Siete sicuri? L'abbonamento verrà fatturato per intero, compresa la quota annuale. Non dimenticate di inviare la fattura dopo la verifica.
           _nl: Weet u het zeker? Het lidmaatschap wordt volledig gefactureerd, inclusief de jaarlijkse bijdrage. Vergeet niet de factuur te verzenden na controle.
+        invoice_must_be_sent_before_sepa_direct_debit_order_upload:
+          _en: The invoice must be sent to the member before uploading the direct debit order to the bank.
+          _fr: La facture doit être envoyée au membre avant l'envoi de l'ordre de paiement à la banque.
+          _de: Die Rechnung muss dem Mitglied vor dem Hochladen des Lastschriftauftrags an die Bank gesendet werden.
+          _it: La fattura deve essere inviata al membro prima dell'invio dell'ordine di pagamento al banco.
+          _nl: De factuur moet worden verzonden naar de lid voordat de direct debit order naar de bank wordt verzonden.
         mark_renewal_as_pending:
           _en: Cancel termination
           _fr: Annuler résiliation
@@ -1647,6 +1653,31 @@ _:
           _de: Senden
           _it: Inviare
           _nl: Verzenden
+        send_sepa_direct_debit_order_to_the_bank:
+          _en: Send order to the bank
+          _fr: Envoyer l'ordre à la banque
+          _de: Auftrag an die Bank senden
+          _it: Invia ordine al banco
+          _nl: Verzend bestelling naar bank
+        sepa_direct_debit_order_will_be_automatically_uploaded_in:
+          one:
+            _en: The direct debit order will be automatically uploaded to the bank tomorrow during the night.
+            _fr: L'ordre de paiement sera automatiquement envoyé à la banque demain durant la nuit.
+            _de: Der Lastschriftauftrag wird automatisch am nächsten Tag nachts an die Bank hochgeladen.
+            _it: L'ordine di pagamento verrà automaticamente inviato al banco domani durante la notte.
+            _nl: De direct debit order wordt automatisch morgen nachts naar de bank geüpload.
+          other:
+            _en: The direct debit order will be automatically uploaded to the bank in %{count} days.
+            _fr: L'ordre de paiement sera automatiquement envoyé à la banque dans %{count} jours.
+            _de: Der Lastschriftauftrag wird automatisch in %{count} Tagen nachts an die Bank hochgeladen.
+            _it: L'ordine di pagamento verrà automaticamente inviato al banco in %{count} giorni.
+            _nl: De direct debit order wordt automatisch in %{count} dagen naar de bank geüpload.
+          zero:
+            _en: The direct debit order will be automatically uploaded to the bank during the night.
+            _fr: L'ordre de paiement sera automatiquement envoyé à la banque durant la nuit.
+            _de: Der Lastschriftauftrag wird automatisch nachts an die Bank hochgeladen.
+            _it: L'ordine di pagamento verrà automaticamente inviato al banco durante la notte.
+            _nl: De direct debit order wordt automatisch naar de bank geüpload.
         sepa_pain:
           _en: SEPA Direct Debit (XML)
           _fr: Prélèvement SEPA (XML)
@@ -1791,6 +1822,12 @@ _:
           _de: Gesamtsummen %{numbers}
           _it: Totali %{numbers}
           _nl: Totalen %{numbers}
+        uploading:
+          _en: Uploading...
+          _fr: Envoi en cours...
+          _de: Hochladen...
+          _it: Caricamento in corso...
+          _nl: Uploaden...
         waiting_membership:
           _en: Membership (waiting list)
           _fr: Abonnement (en attente)
