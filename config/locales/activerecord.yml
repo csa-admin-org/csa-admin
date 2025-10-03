@@ -689,6 +689,24 @@ _:
           _de: Gesendete
           _it: Inviato
           _nl: Verzonden
+        sepa_direct_debit:
+          _en: Direct Debit
+          _fr: Paiement direct
+          _de: Lastschrift
+          _it: Addebito diretto
+          _nl: Direct Debit
+        sepa_direct_debit_order_id:
+          _en: Order ID
+          _fr: ID de l'ordre
+          _de: Auftrag-ID
+          _it: ID dell'ordine
+          _nl: Bestelnummer
+        sepa_direct_debit_order_uploaded_at:
+          _en: Order uploaded at
+          _fr: Date d'envoi de l'ordre
+          _de: Auftrag hochgeladen am
+          _it: Ordine inviato il
+          _nl: Bestelling geplaatst op
         vat_amount:
           _en: VAT amount
           _fr: Montant TVA

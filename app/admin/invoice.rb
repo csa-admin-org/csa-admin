@@ -140,7 +140,7 @@ ActiveAdmin.register Invoice do
     end
   end
 
-  sidebar :sepa_pain, only: :index, if: -> { params[:scope].in?([ nil, "all", "open" ]) && collection.offset(nil).limit(nil).open.sepa.any? } do
+  sidebar :sepa_pain, only: :index, if: -> { params[:scope].in?([ nil, "all", "open" ]) && collection.offset(nil).limit(nil).open.sepa.any? && !Current.org.bank_connection? } do
     side_panel "SEPA" do
       para t(".sepa_pain_text_html",
         count: collection.offset(nil).limit(nil).open.sepa.count,
@@ -278,17 +278,38 @@ ActiveAdmin.register Invoice do
                 "#{invoice.sepa_metadata["mandate_id"]} (#{l Date.parse(invoice.sepa_metadata["mandate_signed_on"]), format: :short})"
               }
             end
-            if invoice.open?
-              div class: "mt-2 flex items-center justify-center gap-4" do
+
+            if Current.org.bank_connection?
+              h4(Invoice.human_attribute_name(:sepa_direct_debit), class: "m-2 mt-4")
+              attributes_table do
+                row(:sepa_direct_debit_order_id) { invoice.sepa_direct_debit_order_id }
+                row(:sepa_direct_debit_order_uploaded_at) { l(invoice.sepa_direct_debit_order_uploaded_at, format: :short) if invoice.sepa_direct_debit_order_uploaded_at? }
+              end
+              if invoice.sepa_direct_debit_order_uploadable?
+                unless invoice.sepa_direct_debit_order_uploaded?
+                  div class: "my-4" do
+                    button_to sepa_direct_debit_order_upload_invoice_path(invoice),
+                      form: { class: "flex justify-center", data: { controller: "disable", disable_with_value: t(".uploading") } },
+                      class: "btn btn-sm", data: { confirm: t("active_admin.batch_actions.default_confirmation") } do
+                        icon("file-up", class: "size-4 mr-2") + t(".send_sepa_direct_debit_order_to_the_bank")
+                      end
+                  end
+
+                  days = (invoice.sepa_direct_debit_order_automatic_upload_plan_on - Date.today).to_i
+                  para t(".sepa_direct_debit_order_will_be_automatically_uploaded_in", count: days), class: "hint"
+                end
+              elsif !invoice.sent? && invoice.open?
+                para t(".invoice_must_be_sent_before_sepa_direct_debit_order_upload"), class: "hint"
+              end
+            elsif invoice.open?
+              div class: "mt-4 mb-2 flex items-center justify-center" do
                 link_to sepa_pain_invoice_path(invoice), class: "btn btn-sm", title: Billing::SEPADirectDebit::SCHEMA, data: { turbo: false } do
                   icon("document-arrow-down", class: "size-4 me-1.5") + t(".sepa_pain")
                 end
               end
             end
           end
-        end
-
-        unless invoice.sepa?
+        else
           panel Invoice.human_attribute_name(:overdue_notices_count), count: invoice.overdue_notices_count do
             attributes_table do
               row(:overdue_notice_sent_at) { l invoice.overdue_notice_sent_at if invoice.overdue_notice_sent_at }
@@ -366,8 +387,13 @@ ActiveAdmin.register Invoice do
   end
 
   member_action :sepa_pain, method: :get do
-    xml = Billing::SEPADirectDebit.new(resource).xml
+    xml = resource.sepa_direct_debit_pain_xml
     send_data xml, type: "application/xml", filename: "invoice-#{resource.id}-pain.xml"
+  end
+
+  member_action :sepa_direct_debit_order_upload, method: :post do
+    resource.sepa_direct_debit_order_upload!
+    redirect_to resource_path, notice: t(".flash.notice")
   end
 
   collection_action :sepa_pain_all, method: :get do

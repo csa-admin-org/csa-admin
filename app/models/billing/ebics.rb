@@ -13,6 +13,10 @@ module Billing
       CamtFile.new(files).payments_data
     end
 
+    def sepa_direct_debit_upload(document)
+      client.CDD(document)
+    end
+
     def client
       @client ||= Epics::Client.new(
         @credentials.fetch(:keys),

@@ -3,6 +3,7 @@
 module Billing
   class SEPADirectDebit
     SCHEMA = "pain.008.001.02"
+    AUTOMATIC_ORDER_UPLOAD_DELAY = 3.days
 
     def initialize(invoices)
       @invoices = Array(invoices).select { it.sepa? && it.open? }
