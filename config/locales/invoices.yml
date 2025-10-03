@@ -367,3 +367,11 @@ _:
           _de: E-Mail gesendet
           _it: E-mail inviata
           _nl: E-mail verzonden
+    sepa_direct_debit_order_upload:
+      flash:
+        notice:
+          _en: SEPA direct debit order uploaded successfully
+          _fr: Ordre de paiement SEPA envoyé avec succès
+          _de: SEPA Lastschriftauftrag erfolgreich hochgeladen
+          _it: Ordine di pagamento SEPA caricato correttamente
+          _nl: SEPA-direct-debet-order succesvol geüpload
