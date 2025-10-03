@@ -17,6 +17,12 @@ production:
     queue: low
     schedule: at 4am every day
 
+  billing_sepa_direct_debit_orders_upload:
+    class: TenantSwitchEachJob
+    args: [Scheduled::BillingSEPADirectDebitOrdersUploaderJob]
+    queue: low
+    schedule: at 4:15am every day
+
   billing_snapshot:
     class: TenantSwitchEachJob
     args: [Scheduled::BillingSnapshotJob]

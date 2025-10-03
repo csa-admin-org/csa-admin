@@ -284,18 +284,19 @@ ActiveAdmin.register Invoice do
               attributes_table do
                 row(:sepa_direct_debit_order_id) { invoice.sepa_direct_debit_order_id }
                 row(:sepa_direct_debit_order_uploaded_at) { l(invoice.sepa_direct_debit_order_uploaded_at, format: :short) if invoice.sepa_direct_debit_order_uploaded_at? }
+                row(:sepa_direct_debit_order_uploaded_by)
               end
               if invoice.sepa_direct_debit_order_uploadable?
                 unless invoice.sepa_direct_debit_order_uploaded?
                   div class: "my-4" do
-                    button_to sepa_direct_debit_order_upload_invoice_path(invoice),
+                    button_to upload_sepa_direct_debit_order_invoice_path(invoice),
                       form: { class: "flex justify-center", data: { controller: "disable", disable_with_value: t(".uploading") } },
                       class: "btn btn-sm", data: { confirm: t("active_admin.batch_actions.default_confirmation") } do
                         icon("file-up", class: "size-4 mr-2") + t(".send_sepa_direct_debit_order_to_the_bank")
                       end
                   end
 
-                  days = (invoice.sepa_direct_debit_order_automatic_upload_plan_on - Date.today).to_i
+                  days = (invoice.sepa_direct_debit_order_automatic_upload_scheduled_on - Date.today).to_i
                   para t(".sepa_direct_debit_order_will_be_automatically_uploaded_in", count: days), class: "hint"
                 end
               elsif !invoice.sent? && invoice.open?
@@ -391,9 +392,12 @@ ActiveAdmin.register Invoice do
     send_data xml, type: "application/xml", filename: "invoice-#{resource.id}-pain.xml"
   end
 
-  member_action :sepa_direct_debit_order_upload, method: :post do
-    resource.sepa_direct_debit_order_upload!
-    redirect_to resource_path, notice: t(".flash.notice")
+  member_action :upload_sepa_direct_debit_order, method: :post do
+    if resource.upload_sepa_direct_debit_order
+      redirect_to resource_path, flash: { notice: t(".flash.notice") }
+    else
+      redirect_to resource_path, flash: { error: t(".flash.error") }
+    end
   end
 
   collection_action :sepa_pain_all, method: :get do
