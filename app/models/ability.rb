@@ -103,7 +103,7 @@ class Ability
       can :force_share_billing, Member
       can :send_email, Invoice, can_send_email?: true
       can :mark_as_sent, Invoice, can_be_mark_as_sent?: true
-      can :sepa_direct_debit_order_upload, Invoice, sepa_direct_debit_order_uploadable?: true
+      can :upload_sepa_direct_debit_order, Invoice, sepa_direct_debit_order_uploadable?: true
       can :cancel, Invoice, can_cancel?: true
       can :import, Payment
       can :invoice_all, ActivityParticipation

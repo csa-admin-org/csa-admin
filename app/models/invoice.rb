@@ -426,6 +426,12 @@ class Invoice < ApplicationRecord
     sepa_direct_debit_order_uploaded_at?
   end
 
+  def sepa_direct_debit_order_uploaded_by
+    return unless sepa_direct_debit_order_uploaded_at?
+
+    audits.reversed.find_change_of(:sepa_direct_debit_order_uploaded_at, from: nil)&.actor
+  end
+
   def sepa_direct_debit_order_uploadable?
     open? &&
       sepa? &&
@@ -434,13 +440,19 @@ class Invoice < ApplicationRecord
       Current.org.bank_connection?
   end
 
-  def sepa_direct_debit_order_automatic_upload_plan_on
+  def sepa_direct_debit_order_automatic_upload_due?
+    return unless sepa_direct_debit_order_uploadable?
+
+    sepa_direct_debit_order_automatic_upload_scheduled_on <= Date.today
+  end
+
+  def sepa_direct_debit_order_automatic_upload_scheduled_on
     return unless sepa_direct_debit_order_uploadable?
 
     (sent_at + Billing::SEPADirectDebit::AUTOMATIC_ORDER_UPLOAD_DELAY).to_date
   end
 
-  def sepa_direct_debit_order_upload!
+  def upload_sepa_direct_debit_order
     return if Rails.env.development?
     return unless sepa_direct_debit_order_uploadable?
 
@@ -451,6 +463,17 @@ class Invoice < ApplicationRecord
     update!(
       sepa_direct_debit_order_id: order_id,
       sepa_direct_debit_order_uploaded_at: Time.current)
+    Rails.event.notify(:sepa_direct_debit_order_uploaded,
+      invoice_id: id,
+      order_id: order_id)
+    true
+  rescue => e
+    Error.report(e, invoice_id: id)
+    Rails.event.notify(:sepa_direct_debit_order_upload_failed,
+      invoice_id: id,
+      error: e.class.name,
+      error_message: e.message)
+    false
   end
 
   def can_refund?

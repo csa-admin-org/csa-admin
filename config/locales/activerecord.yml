@@ -707,6 +707,12 @@ _:
           _de: Auftrag hochgeladen am
           _it: Ordine inviato il
           _nl: Bestelling geplaatst op
+        sepa_direct_debit_order_uploaded_by:
+          _en: Order uploaded by
+          _fr: Envoyé par
+          _de: Auftrag hochgeladen von
+          _it: Ordine inviato da
+          _nl: Bestelling geplaatst door
         vat_amount:
           _en: VAT amount
           _fr: Montant TVA

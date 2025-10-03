@@ -367,8 +367,14 @@ _:
           _de: E-Mail gesendet
           _it: E-mail inviata
           _nl: E-mail verzonden
-    sepa_direct_debit_order_upload:
+    upload_sepa_direct_debit_order:
       flash:
+        error:
+          _en: Failed to upload SEPA direct debit order
+          _fr: Échec de l'envoi de l'ordre de paiement SEPA
+          _de: SEPA Lastschriftauftrag konnte nicht hochgeladen werden
+          _it: Impossibile caricare l'ordine di pagamento SEPA
+          _nl: SEPA-direct-debet-order kon niet geüpload worden
         notice:
           _en: SEPA direct debit order uploaded successfully
           _fr: Ordre de paiement SEPA envoyé avec succès
