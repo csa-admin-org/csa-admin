@@ -300,7 +300,7 @@ ActiveAdmin.register Membership do
       column(:baskets_absent_count) { |m| m.baskets.count(&:absent?) }
     end
     column(:basket_size) { |m| basket_size_description(m, text_only: true, public_name: false) }
-    column(:basket_price) { |m| cur(m.basket_price) }
+    column(:basket_size_price) { |m| cur(m.basket_size_price) }
     if feature?("basket_price_extra")
       column(Current.org.basket_price_extra_title) { |m|
         if Current.org.basket_price_extra_dynamic_pricing?
@@ -840,7 +840,7 @@ ActiveAdmin.register Membership do
         collection: admin_basket_sizes_collection,
         prompt: true,
         input_html: { data: { action: "form-reset#reset" } }
-      f.input :basket_price,
+      f.input :basket_size_price,
         hint: true,
         required: false,
         input_html: { data: { form_reset_target: "input" } }
@@ -873,7 +873,7 @@ ActiveAdmin.register Membership do
 
   permit_params \
     :member_id,
-    :basket_size_id, :basket_price, :basket_price_extra, :basket_quantity, :baskets_annual_price_change,
+    :basket_size_id, :basket_size_price, :basket_price_extra, :basket_quantity, :baskets_annual_price_change,
     :depot_id, :depot_price, :delivery_cycle_id, :delivery_cycle_price,
     :billing_year_division,
     :started_on, :ended_on, :renew, :renewal_annual_fee,

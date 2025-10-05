@@ -20,7 +20,7 @@ class MembershipRenewalTest < ActiveSupport::TestCase
     membership.update!(
       billing_year_division: 4,
       basket_quantity: 2,
-      basket_price: 32,
+      basket_size_price: 32,
       basket_price_extra: 1,
       baskets_annual_price_change: 130,
       depot_price: 5,
@@ -36,7 +36,7 @@ class MembershipRenewalTest < ActiveSupport::TestCase
     assert_equal membership.member_id, renewed_membership.member_id
     assert_equal membership.basket_size_id, renewed_membership.basket_size_id
     assert_equal 2, renewed_membership.basket_quantity
-    assert_equal 30, renewed_membership.basket_price
+    assert_equal 30, renewed_membership.basket_size_price
     assert_equal 1, renewed_membership.basket_price_extra
     assert_equal 130, renewed_membership.baskets_annual_price_change
     assert_equal membership.depot_id, renewed_membership.depot_id
@@ -56,7 +56,7 @@ class MembershipRenewalTest < ActiveSupport::TestCase
 
     renewed_membership = membership.reload.renewed_membership
     assert_equal medium_id, renewed_membership.basket_size_id
-    assert_equal 20, renewed_membership.basket_price
+    assert_equal 20, renewed_membership.basket_size_price
   end
 
   test "renews a membership with basket_price_extra" do

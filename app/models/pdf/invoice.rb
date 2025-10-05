@@ -115,7 +115,7 @@ module PDF
           entity.basket_sizes.uniq.each do |basket_size|
             data << [
               membership_basket_size_description(basket_size),
-              cur(entity.basket_size_price(basket_size))
+              cur(entity.basket_size_total_price(basket_size))
             ]
           end
         end

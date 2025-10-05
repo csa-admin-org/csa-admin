@@ -156,7 +156,7 @@ class Billing::InvoicerTest < ActiveSupport::TestCase
     overcharged_invoice = force_invoice(member, send_email: true)
     perform_enqueued_jobs
 
-    member.current_membership.update!(basket_price: 19)
+    member.current_membership.update!(basket_size_price: 19)
 
     travel_to "2024-01-02"
     invoice = force_invoice(member)

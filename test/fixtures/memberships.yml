@@ -5,7 +5,7 @@ john: &john
   invoices_amount: 0
   baskets_count: 10
   basket_size: medium
-  basket_price: 20
+  basket_size_price: 20
   depot: farm
   depot_price: 0
   delivery_cycle: mondays
@@ -40,7 +40,7 @@ jane:
   invoices_amount: 0
   baskets_count: 10
   basket_size: large
-  basket_price: 30
+  basket_size_price: 30
   depot: bakery
   depot_price: 4
   delivery_cycle: thursdays
@@ -61,7 +61,7 @@ bob:
   invoices_amount: 0
   baskets_count: 1
   basket_size: small
-  basket_price: 10
+  basket_size_price: 10
   depot: home
   depot_price: 9
   delivery_cycle: mondays
@@ -83,7 +83,7 @@ anna:
   invoices_amount: 0
   baskets_count: 1
   basket_size: large
-  basket_price: 30
+  basket_size_price: 30
   depot: bakery
   depot_price: 4
   delivery_cycle: mondays

@@ -41,7 +41,7 @@ module XLSX
         Invoice.human_attribute_name(:unit_price),
         Invoice.human_attribute_name(:total))
       @basket_sizes.each do |basket_size|
-        total = @baskets.where(baskets: { basket_size_id: basket_size.id }).sum("baskets.quantity * baskets.basket_price")
+        total = @baskets.where(baskets: { basket_size_id: basket_size.id }).sum("baskets.quantity * baskets.basket_size_price")
         add_line("#{Basket.model_name.human}: #{basket_size.name}", total, basket_size.price)
       end
       if Current.org.feature?("basket_price_extra")

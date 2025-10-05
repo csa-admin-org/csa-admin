@@ -5,7 +5,7 @@ class BiddingRound::CompletionJob < ApplicationJob
 
   def perform(bidding_round, membership)
     if pledge = bidding_round.pledges.find_by(membership: membership)
-      membership.update!(basket_price: pledge.basket_size_price)
+      membership.update!(basket_size_price: pledge.basket_size_price)
     end
 
     membership.reload # Ensure updated price

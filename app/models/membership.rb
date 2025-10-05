@@ -45,8 +45,8 @@ class Membership < ApplicationRecord
   before_validation do
     # Keep new_config_from within the membership period range
     self.new_config_from = [ [ new_config_from || Date.today, started_on ].max, ended_on ].min
-    @default_basket_size_price_used = basket_price.blank?
-    self.basket_price ||= basket_size&.price
+    @default_basket_size_price_used = basket_size_price.blank?
+    self.basket_size_price ||= basket_size&.price
     self.depot_price ||= depot&.price
     self.delivery_cycle_price ||= delivery_cycle&.price
     self.activity_participations_demanded_annually ||= activity_participations_demanded_annually_by_default
@@ -59,7 +59,7 @@ class Membership < ApplicationRecord
   validates :activity_participations_annual_price_change, numericality: true, allow_nil: true
   validates :started_on, :ended_on, presence: true
   validates :basket_quantity, numericality: { greater_than_or_equal_to: 0 }, presence: true
-  validates :basket_price, numericality: { greater_than_or_equal_to: 0 }, presence: true
+  validates :basket_size_price, numericality: { greater_than_or_equal_to: 0 }, presence: true
   validates :depot_price, numericality: { greater_than_or_equal_to: 0 }, presence: true
   validates :delivery_cycle_price, numericality: { greater_than_or_equal_to: 0 }, presence: true
   validates :basket_price_extra, numericality: true, presence: true
@@ -399,15 +399,15 @@ class Membership < ApplicationRecord
     rounded_price(
       baskets
         .billable
-        .sum("quantity * basket_price"))
+        .sum("quantity * basket_size_price"))
   end
 
-  def basket_size_price(basket_size_id)
+  def basket_size_total_price(basket_size_id)
     rounded_price(
       baskets
         .billable
         .where(basket_size_id: basket_size_id)
-        .sum("quantity * basket_price"))
+        .sum("quantity * basket_size_price"))
   end
 
   def baskets_price_extra
@@ -522,7 +522,7 @@ class Membership < ApplicationRecord
       delivery_id: delivery.id,
       delivery_cycle_price: delivery_cycle_price,
       basket_size_id: basket_size_id,
-      basket_price: @default_basket_size_price_used ? nil : basket_price,
+      basket_size_price: @default_basket_size_price_used ? nil : basket_size_price,
       price_extra: basket_price_extra,
       quantity: basket_quantity,
       depot_id: depot_id,
@@ -621,7 +621,7 @@ class Membership < ApplicationRecord
 
   def attributes_config_changed?
     tracked_attributes = %w[
-      basket_size_id basket_price basket_price_extra basket_quantity
+      basket_size_id basket_size_price basket_price_extra basket_quantity
       depot_id depot_price delivery_cycle_id delivery_cycle_price
     ]
     (saved_changes.keys & tracked_attributes).any? ||

@@ -66,7 +66,7 @@ class BasketSize < ApplicationRecord
     Basket
       .during_year(year)
       .where(basket_size: self)
-      .pluck(:basket_price)
+      .pluck(:basket_size_price)
       .group_by(&:itself)
       .max_by(&:size)
       &.first || 0

@@ -42,7 +42,7 @@ module MembershipsHelper
   def basket_sizes_price_info(membership, baskets)
     baskets
       .billable
-      .pluck(:quantity, :basket_price)
+      .pluck(:quantity, :basket_size_price)
       .select { |_, p| p.positive? }
       .group_by { |_, p| p }
       .sort

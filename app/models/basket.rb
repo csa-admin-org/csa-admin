@@ -53,7 +53,7 @@ class Basket < ApplicationRecord
   }
   scope :countable, -> { billable.filled.distinct }
 
-  validates :basket_price, numericality: { greater_than_or_equal_to: 0 }, presence: true
+  validates :basket_size_price, numericality: { greater_than_or_equal_to: 0 }, presence: true
   validates :price_extra, numericality: true, presence: true
   validates :delivery_cycle_price, numericality: { greater_than_or_equal_to: 0 }, presence: true
   validates :quantity, numericality: { greater_than_or_equal_to: 0 }, presence: true
@@ -185,7 +185,7 @@ class Basket < ApplicationRecord
   end
 
   def set_prices
-    self.basket_price ||= calculate_default_basket_size_price
+    self.basket_size_price ||= calculate_default_basket_size_price
     self.depot_price ||= depot&.price
     self.delivery_cycle_price ||= membership.delivery_cycle&.price
   end
@@ -224,11 +224,11 @@ class Basket < ApplicationRecord
   def calculate_price_extra
     return 0 unless Current.org.feature?("basket_price_extra")
     return 0 unless billable?
-    return 0 if basket_price.zero? && complements_price.zero?
+    return 0 if basket_size_price.zero? && complements_price.zero?
 
     Current.org.calculate_basket_price_extra(
       price_extra,
-      basket_price,
+      basket_size_price,
       basket_size_id,
       complements_price,
       Current.org.deliveries_count(membership.fy_year))

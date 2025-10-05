@@ -125,7 +125,7 @@ class BiddingRound < ApplicationRecord
   def average_pledge_amount
     return 0 if pledges_count.zero?
 
-    pledges.average(:basket_price).to_f
+    pledges.average(:basket_size_price).to_f
   end
 
   def eligible?(member)
