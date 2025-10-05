@@ -5,7 +5,7 @@ john_<%= i + 1 %>:
   delivery: monday_<%= i + 1 %>
   delivery_cycle_price: 0
   basket_size: medium
-  basket_price: 20
+  basket_size_price: 20
   depot: farm
   depot_price: 0
 
@@ -15,7 +15,7 @@ john_past_<%= i + 1 %>:
   state: <%= i.in?([0, 1]) ? "trial" : "normal" %>
   delivery_cycle_price: 0
   basket_size: medium
-  basket_price: 20
+  basket_size_price: 20
   depot: farm
   depot_price: 0
 
@@ -24,7 +24,7 @@ john_future_<%= i + 1 %>:
   delivery: monday_future_<%= i + 1 %>
   delivery_cycle_price: 0
   basket_size: medium
-  basket_price: 20
+  basket_size_price: 20
   depot: farm
   depot_price: 0
 
@@ -41,7 +41,7 @@ jane_<%= i + 1 %>:
   absence: <%= i + 1 == 5 && :jane_thursday_5 %>
   delivery_cycle_price: 0
   basket_size: large
-  basket_price: 30
+  basket_size_price: 30
   depot: bakery
   depot_price: 4
 <% end %>
@@ -51,7 +51,7 @@ bob_1:
   delivery: monday_1
   delivery_cycle_price: 0
   basket_size: small
-  basket_price: 10
+  basket_size_price: 10
   depot: home
   depot_price: 9
   state: trial
@@ -61,7 +61,7 @@ anna_1:
   delivery: monday_1
   delivery_cycle_price: 0
   basket_size: large
-  basket_price: 30
+  basket_size_price: 30
   depot: bakery
   depot_price: 4
   state: trial

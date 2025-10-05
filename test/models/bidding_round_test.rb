@@ -202,7 +202,7 @@ class BiddingRoundTest < ActiveSupport::TestCase
       basket_size_price: 31.0)
 
     assert_changes -> { bidding_round.state }, from: "open", to: "completed" do
-      assert_changes -> { membership.reload.basket_price }, from: 30, to: 31 do
+      assert_changes -> { membership.reload.basket_size_price }, from: 30, to: 31 do
         assert_difference "BiddingRoundMailer.deliveries.size", 4 do
           perform_enqueued_jobs do
             bidding_round.complete!
@@ -210,7 +210,7 @@ class BiddingRoundTest < ActiveSupport::TestCase
         end
       end
     end
-    assert_equal [ 31 ], membership.baskets.pluck(:basket_price).uniq
+    assert_equal [ 31 ], membership.baskets.pluck(:basket_size_price).uniq
     mail = BiddingRoundMailer.deliveries.last
     assert_equal "Bidding round #1 completed 🎉", mail.subject
   end
@@ -226,11 +226,11 @@ class BiddingRoundTest < ActiveSupport::TestCase
       basket_size_price: 31.0)
 
     assert_changes -> { bidding_round.state }, from: "open", to: "failed" do
-      assert_no_changes -> { membership.reload.basket_price }, from: 30 do
+      assert_no_changes -> { membership.reload.basket_size_price }, from: 30 do
         bidding_round.fail!
       end
     end
-    assert_equal [ 30 ], membership.baskets.pluck(:basket_price).uniq
+    assert_equal [ 30 ], membership.baskets.pluck(:basket_size_price).uniq
 
     assert_difference "BiddingRoundMailer.deliveries.size", 4 do
       perform_enqueued_jobs

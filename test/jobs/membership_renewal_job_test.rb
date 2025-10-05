@@ -31,7 +31,7 @@ class MembershipRenewalJobTest < ActiveJob::TestCase
     membership = memberships(:jane)
     membership.update!(
       basket_quantity: 2,
-      basket_price: 42,
+      basket_size_price: 42,
       baskets_annual_price_change: 130,
       depot_price: 3,
       activity_participations_demanded_annually: 5,
@@ -47,7 +47,7 @@ class MembershipRenewalJobTest < ActiveJob::TestCase
     new_membership = Membership.last
     assert_equal membership.member_id, new_membership.member_id
     assert_equal membership.basket_size_id, new_membership.basket_size_id
-    assert_equal 41, new_membership.basket_price
+    assert_equal 41, new_membership.basket_size_price
     assert_equal 2, new_membership.basket_quantity
     assert_equal 130, new_membership.baskets_annual_price_change
     assert_equal membership.depot_id, new_membership.depot_id

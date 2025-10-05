@@ -16,7 +16,7 @@ class BasketTest < ActiveSupport::TestCase
       depot: depots(:home))
     basket.validate
 
-    assert_equal 20, basket.basket_price
+    assert_equal 20, basket.basket_size_price
     assert_equal 9, basket.depot_price
     assert_equal 3, basket.delivery_cycle_price
   end
@@ -205,7 +205,7 @@ class BasketTest < ActiveSupport::TestCase
     org(features: [])
     basket = build_basket(
       quantity: 2,
-      basket_price: 19,
+      basket_size_price: 19,
       price_extra: 2.42)
 
     assert_equal 0, basket.send(:calculate_price_extra)
@@ -217,7 +217,7 @@ class BasketTest < ActiveSupport::TestCase
       state: "absent",
       absence: create_absence(started_on: Date.today, ended_on: 1.week.from_now),
       quantity: 2,
-      basket_price: 19,
+      basket_size_price: 19,
       price_extra: 2.42,
       billable: true)
 
@@ -230,18 +230,18 @@ class BasketTest < ActiveSupport::TestCase
       membership: memberships(:john),
       billable: false,
       quantity: 2,
-      basket_price: 19,
+      basket_size_price: 19,
       price_extra: 2.42,
       state: "absent")
 
     assert_equal 0, basket.send(:calculate_price_extra)
   end
 
-  test "calculate_price_extra when basket_price is zero" do
+  test "calculate_price_extra when basket_size_price is zero" do
     org(features: [ :basket_price_extra ])
     basket = build_basket(
       quantity: 2,
-      basket_price: 0,
+      basket_size_price: 0,
       price_extra: 2.42)
 
     assert_equal 0, basket.send(:calculate_price_extra)
@@ -251,7 +251,7 @@ class BasketTest < ActiveSupport::TestCase
     org(features: [ :basket_price_extra ])
     basket = build_basket(
       quantity: 0,
-      basket_price: 19,
+      basket_size_price: 19,
       price_extra: 2.42)
 
     assert_equal 2.42, basket.send(:calculate_price_extra)
@@ -261,7 +261,7 @@ class BasketTest < ActiveSupport::TestCase
     org(features: [ :basket_price_extra ])
     basket = build_basket(
       quantity: 2,
-      basket_price: 19,
+      basket_size_price: 19,
       price_extra: 0)
 
     assert_equal 0, basket.send(:calculate_price_extra)
@@ -272,7 +272,7 @@ class BasketTest < ActiveSupport::TestCase
     basket = build_basket(
       membership: memberships(:john),
       quantity: 2,
-      basket_price: 19,
+      basket_size_price: 19,
       price_extra: 2.42)
 
     assert_equal 2.42, basket.send(:calculate_price_extra)
@@ -289,12 +289,12 @@ class BasketTest < ActiveSupport::TestCase
     LIQUID
     basket_1 = build_basket(
       basket_size: basket_sizes(:small),
-      basket_price: 19,
+      basket_size_price: 19,
       price_extra: 2,
       quantity: 2)
     basket_2 = build_basket(
       basket_size: basket_sizes(:large),
-      basket_price: 33,
+      basket_size_price: 33,
       price_extra: 2,
       quantity: 2)
 
@@ -305,7 +305,7 @@ class BasketTest < ActiveSupport::TestCase
   test "calculate_price_extra with dynamic pricing based on basket_size and complements prices" do
     org(features: [ :basket_price_extra ])
     org(basket_price_extra_dynamic_pricing: <<-LIQUID)
-      {% assign price = basket_price | plus: complements_price %}
+      {% assign price = basket_size_price | plus: complements_price %}
       {{ price | divided_by: 10.0 | times: extra }}
     LIQUID
     basket = baskets(:jane_1)
@@ -330,21 +330,21 @@ class BasketTest < ActiveSupport::TestCase
 
     basket = build_basket(basket_size: basket_sizes(:medium))
     basket.validate
-    assert_equal 20, basket.basket_price
+    assert_equal 20, basket.basket_size_price
 
     delivery = deliveries(:monday_1)
     delivery.update!(basket_size_price_percentage: 110)
     basket = build_basket(basket_size: basket_sizes(:medium), delivery: delivery)
     basket.validate
-    assert_equal 22, basket.basket_price
+    assert_equal 22, basket.basket_size_price
 
     delivery.update!(basket_size_price_percentage: 50)
     basket = build_basket(basket_size: basket_sizes(:medium), delivery: delivery)
     basket.validate
-    assert_equal 10, basket.basket_price
+    assert_equal 10, basket.basket_size_price
 
-    basket = build_basket(basket_size: basket_sizes(:medium), delivery: delivery, basket_price: 42)
+    basket = build_basket(basket_size: basket_sizes(:medium), delivery: delivery, basket_size_price: 42)
     basket.validate
-    assert_equal 42, basket.basket_price
+    assert_equal 42, basket.basket_size_price
   end
 end

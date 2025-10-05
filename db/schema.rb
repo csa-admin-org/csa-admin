@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_10_02_141841) do
+ActiveRecord::Schema[8.1].define(version: 2025_10_05_094111) do
   create_table "absences", force: :cascade do |t|
     t.datetime "created_at"
     t.date "ended_on"
@@ -256,8 +256,8 @@ ActiveRecord::Schema[8.1].define(version: 2025_10_02_141841) do
 
   create_table "baskets", force: :cascade do |t|
     t.bigint "absence_id"
-    t.decimal "basket_price", precision: 8, scale: 3, null: false
     t.bigint "basket_size_id", null: false
+    t.decimal "basket_size_price", precision: 8, scale: 3, null: false
     t.boolean "billable", default: true, null: false
     t.decimal "calculated_price_extra", precision: 8, scale: 3, default: "0.0", null: false
     t.datetime "created_at", null: false
@@ -546,10 +546,10 @@ ActiveRecord::Schema[8.1].define(version: 2025_10_02_141841) do
     t.integer "activity_participations_demanded", default: 0, null: false
     t.integer "activity_participations_demanded_annually", null: false
     t.decimal "basket_complements_annual_price_change", precision: 8, scale: 2, default: "0.0", null: false
-    t.decimal "basket_price", precision: 8, scale: 3, null: false
     t.decimal "basket_price_extra", precision: 8, scale: 2, default: "0.0", null: false
     t.integer "basket_quantity", default: 1, null: false
     t.bigint "basket_size_id", null: false
+    t.decimal "basket_size_price", precision: 8, scale: 3, null: false
     t.decimal "baskets_annual_price_change", precision: 8, scale: 2, default: "0.0", null: false
     t.integer "baskets_count", default: 0, null: false
     t.datetime "bidding_round_opened_reminder_sent_at"

@@ -205,12 +205,6 @@ _:
           _de: abwesend
           _it: assente
           _nl: afwezig
-        basket_price:
-          _en: Basket price
-          _fr: Prix panier
-          _de: Preis Tasche
-          _it: Prezzo della cesta
-          _nl: Pakketprijs
         basket_size:
           _en: Size
           _fr: Taille
@@ -223,6 +217,12 @@ _:
           _de: Taschengrösse ID
           _it: Dimensione cesta ID
           _nl: Pakketgrootte ID
+        basket_size_price:
+          _en: Basket price
+          _fr: Prix panier
+          _de: Preis Tasche
+          _it: Prezzo della cesta
+          _nl: Pakketprijs
         complement_ids:
           _en: Complements
           _fr: Compléments
@@ -1307,12 +1307,6 @@ _:
           _de: Preis Zusätze
           _it: Prezzo aggiunte
           _nl: Aanvullingsprijzen
-        basket_price:
-          _en: Basket price
-          _fr: Prix panier
-          _de: Preis Tasche
-          _it: Prezzo cesta
-          _nl: Pakketprijs
         basket_quantity:
           _en: Quantity
           _fr: Quantité
@@ -1325,6 +1319,12 @@ _:
           _de: Taschenverschiebungen
           _it: Scambi di cestini
           _nl: Pakketverschuivingen
+        basket_size_price:
+          _en: Basket price
+          _fr: Prix panier
+          _de: Preis Tasche
+          _it: Prezzo cesta
+          _nl: Pakketprijs
         basket_sizes_price:
           _en: Basket prices
           _fr: Prix paniers

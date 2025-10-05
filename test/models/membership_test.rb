@@ -244,7 +244,7 @@ class MembershipTest < ActiveSupport::TestCase
     travel_to "2024-01-01"
     membership = create_membership(
       basket_size: basket_sizes(:medium),
-      basket_price: 21,
+      basket_size_price: 21,
       basket_quantity: 2,
       depot: depots(:bakery),
       depot_price: 3,
@@ -526,8 +526,8 @@ class MembershipTest < ActiveSupport::TestCase
     travel_to "2024-01-01"
     membership = memberships(:john)
 
-    assert_changes -> { membership.baskets.pluck(:basket_price) }, from:  [ 20 ] * 10, to: [ 21 ] * 10 do
-      membership.update!(basket_price: 21)
+    assert_changes -> { membership.baskets.pluck(:basket_size_price) }, from:  [ 20 ] * 10, to: [ 21 ] * 10 do
+      membership.update!(basket_size_price: 21)
     end
   end
 
@@ -897,7 +897,7 @@ class MembershipTest < ActiveSupport::TestCase
     assert_equal "open", invoice_1.reload.state
   end
 
-  test "#cancel_overcharged_invoice! membership basket price is reduced" do
+  test "#cancel_overcharged_invoice! membership basket size price is reduced" do
     travel_to "2024-01-01"
     member = members(:jane)
     member.update!(annual_fee: 0)
@@ -906,7 +906,7 @@ class MembershipTest < ActiveSupport::TestCase
     membership.update!(billing_year_division: 1)
     invoice = force_invoice(member, send_email: true)
     perform_enqueued_jobs
-    membership.baskets.first.update!(basket_price: 29)
+    membership.baskets.first.update!(basket_size_price: 29)
 
     assert_difference -> { membership.reload.invoices_amount }, -invoice.amount do
       membership.cancel_overcharged_invoice!
@@ -951,7 +951,7 @@ class MembershipTest < ActiveSupport::TestCase
     perform_enqueued_jobs
 
     travel_to "2025-01-01"
-    membership.baskets.first.update!(basket_price: 29)
+    membership.baskets.first.update!(basket_size_price: 29)
 
     assert_no_difference -> { membership.reload.invoices_amount } do
       membership.cancel_overcharged_invoice!
@@ -1060,17 +1060,17 @@ class MembershipTest < ActiveSupport::TestCase
     end
   end
 
-  test "creates baskets with default basket_price and applies delivery percentage" do
+  test "creates baskets with default basket_size_price and applies delivery percentage" do
     travel_to "2024-01-01"
     membership = memberships(:john)
 
     delivery = deliveries(:monday_1)
     delivery.update!(basket_size_price_percentage: 50)
 
-    membership.update!(new_config_from: Date.today, basket_price: nil)
+    membership.update!(new_config_from: Date.today, basket_size_price: nil)
 
     basket = membership.baskets.find_by(delivery: delivery)
-    assert_equal 10, basket.basket_price # 20 * 0.5
+    assert_equal 10, basket.basket_size_price # 20 * 0.5
   end
 
   test "can be destroyed" do

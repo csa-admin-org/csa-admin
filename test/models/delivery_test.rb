@@ -101,7 +101,7 @@ class DeliveryTest < ActiveSupport::TestCase
     basket = baskets(:john_1)
 
     assert_difference -> { membership.baskets.count } do
-      assert_difference -> { membership.reload.price }, basket.basket_price do
+      assert_difference -> { membership.reload.price }, basket.basket_size_price do
         Delivery.create!(date: "2024-06-10")
         perform_enqueued_jobs
       end
@@ -115,7 +115,7 @@ class DeliveryTest < ActiveSupport::TestCase
     delivery = deliveries(:monday_2)
 
     assert_difference -> { membership.baskets.count }, -1 do
-      assert_difference -> { membership.reload.price }, -basket.basket_price do
+      assert_difference -> { membership.reload.price }, -basket.basket_size_price do
         delivery.update!(date: delivery.date + 1.day)
         perform_enqueued_jobs
       end
@@ -128,7 +128,7 @@ class DeliveryTest < ActiveSupport::TestCase
     basket = baskets(:john_1)
 
     assert_difference -> { membership.baskets.count }, -1 do
-      assert_difference -> { membership.reload.price }, -basket.basket_price do
+      assert_difference -> { membership.reload.price }, -basket.basket_size_price do
         membership.deliveries.second.destroy!
         perform_enqueued_jobs
       end

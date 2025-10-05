@@ -173,7 +173,7 @@ ActiveAdmin.register BiddingRound do
         membership: membership.id,
         basket_quantity: membership.basket_quantity,
         basket_size: membership.basket_size.name,
-        default_basket_size_price: cur(membership.basket_price),
+        default_basket_size_price: cur(membership.basket_size_price),
         default_membership_price: cur(membership.price),
         pledged_basket_size_price: cur(pledge&.basket_size_price),
         pledged_membership_price: cur(pledge&.total_membership_price),

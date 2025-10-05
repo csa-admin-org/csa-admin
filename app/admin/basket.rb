@@ -158,7 +158,7 @@ ActiveAdmin.register Basket do
           prompt: true,
           collection: admin_basket_sizes_collection,
           input_html: { data: { action: "form-reset#reset" } }
-        f.input :basket_price,
+        f.input :basket_size_price,
           hint: true,
           required: false,
           input_html: { data: { form_reset_target: "input" } }
@@ -194,7 +194,7 @@ ActiveAdmin.register Basket do
 
   permit_params \
     :shift_target_basket_id,
-    :basket_size_id, :basket_price, :price_extra, :quantity,
+    :basket_size_id, :basket_size_price, :price_extra, :quantity,
     :delivery_id,
     :depot_id, :depot_price, :delivery_cycle_price,
     baskets_basket_complements_attributes: %i[
