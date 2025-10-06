@@ -57,6 +57,7 @@ Rails.application.configure do
   logger = Appsignal::Logger.new("rails", format: Appsignal::Logger::LOGFMT)
   logger.broadcast_to(Logger.new(STDOUT))
   config.lograge.logger = logger
+  config.solid_queue.logger = logger
 
   # Prevent health checks from clogging up the logs.
   config.silence_healthcheck_path = "/up"
