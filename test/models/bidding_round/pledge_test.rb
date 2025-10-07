@@ -73,6 +73,28 @@ class BiddingRound::PledgeTest < ActiveSupport::TestCase
     assert_includes pledge.errors[:membership], "has already been taken"
   end
 
+  test "default_price uses basket_size_price from previous pledge in same fiscal year" do
+    previous_round = bidding_rounds(:open_2024)
+    BiddingRound::Pledge.create!(
+      bidding_round: previous_round,
+      membership: memberships(:jane),
+      basket_size_price: 42)
+    previous_round.fail!
+
+    round = bidding_rounds(:draft_2024)
+    pledge = BiddingRound::Pledge.new(bidding_round: round, membership: memberships(:jane))
+
+    assert_equal 42, pledge.basket_size_price
+  end
+
+  test "default_price falls back to membership basket_size price when no previous pledge" do
+    pledge = BiddingRound::Pledge.new(
+      bidding_round: bidding_rounds(:open_2024),
+      membership: memberships(:jane))
+
+    assert_equal memberships(:jane).basket_size.price, pledge.basket_size_price
+  end
+
   test "total_membership_baskets_price calculates correctly" do
     membership = memberships(:jane)
     membership.update!(basket_quantity: 2)

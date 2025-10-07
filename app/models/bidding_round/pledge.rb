@@ -54,7 +54,10 @@ class BiddingRound::Pledge < ApplicationRecord
   end
 
   def default_price
-    membership&.basket_size&.price || 0
+    previous_round = BiddingRound.previous(bidding_round)
+    previous_pledge = previous_round&.pledges&.find_by(membership: membership)
+
+    previous_pledge&.basket_size_price || membership&.basket_size&.price || 0
   end
 
   private
