@@ -3018,11 +3018,11 @@ _:
         _it: Manuale
         _nl: Handleiding
       updates:
-        _en: Latest updates
-        _fr: Dernières nouveautés
-        _de: Letzte Neuigkeiten
-        _it: Ultime notizie
-        _nl: Laatste updates
+        _en: Updates
+        _fr: Mises à jour
+        _de: Aktualisierungen
+        _it: Aggiornamenti
+        _nl: Updates
     status_tag:
       absent:
         _en: absent
