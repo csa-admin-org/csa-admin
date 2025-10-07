@@ -38,6 +38,16 @@ class BiddingRound < ApplicationRecord
     open.first
   end
 
+  def self.previous(round)
+    return unless round
+
+    self
+      .where(fy_year: round.fy_year)
+      .where("number < ?", round.number)
+      .order(number: :desc)
+      .first
+  end
+
   def self.can_create?
     new.valid?
   end
