@@ -7,6 +7,8 @@ class EmailSuppression < ApplicationRecord
   REASONS = %w[HardBounce SpamComplaint ManualSuppression Forgotten]
   ORIGINS = %w[Recipient Customer Admin Sync Mailchimp]
 
+  normalizes :email, with: ->(email) { email.downcase.strip }
+
   scope :active, -> { where(unsuppressed_at: nil) }
   scope :outbound, -> { where(stream_id: "outbound") }
   scope :broadcast, -> { where(stream_id: "broadcast") }
@@ -40,7 +42,7 @@ class EmailSuppression < ApplicationRecord
   def self.suppress!(email, stream_id:, **attrs)
     conditions = { email: email, stream_id: stream_id }
     unless active.exists?(conditions)
-      PostmarkWrapper.create_suppressions(stream_id, email)
+      PostmarkWrapper.create_suppressions(stream_id, email.downcase)
       create!(conditions.merge(attrs))
     end
   end
@@ -48,7 +50,7 @@ class EmailSuppression < ApplicationRecord
   def unsuppress!
     return unless unsuppressable?
 
-    PostmarkWrapper.delete_suppressions(stream_id, email)
+    PostmarkWrapper.delete_suppressions(stream_id, email.downcase)
     touch(:unsuppressed_at)
   end
 

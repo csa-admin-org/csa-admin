@@ -23,7 +23,7 @@ class EmailSuppressionTest < ActiveSupport::TestCase
         origin: "Recipient",
         created_at: Time.current.to_s
       }, {
-        email_address: "d@f.com",
+        email_address: "D@f.com",
         suppression_reason: "SpamComplaint",
         origin: "Customer",
         created_at: 1.hour.ago
@@ -46,7 +46,7 @@ class EmailSuppressionTest < ActiveSupport::TestCase
     suppress!("broadcast", "a@b.com", "HardBounce", "Recipient")
 
     assert_difference -> { EmailSuppression.active.count }, -1 do
-      EmailSuppression.unsuppress!("a@b.com", stream_id: "outbound", origin: "Recipient")
+      EmailSuppression.unsuppress!("A@b.com", stream_id: "outbound", origin: "Recipient")
     end
     assert EmailSuppression.active.outbound.where(email: "a@b.com").empty?
     assert_equal [ [ :delete_suppressions, "outbound", "a@b.com" ] ], postmark_client.calls
@@ -62,7 +62,7 @@ class EmailSuppressionTest < ActiveSupport::TestCase
   end
 
   test "suppress! creates new suppression" do
-    suppress!("outbound", "a@b.com", "HardBounce", "Recipient")
+    suppress!("outbound", "A@b.com", "HardBounce", "Recipient")
     suppress!("broadcast", "a@b.com", "HardBounce", "Recipient")
 
     assert_difference -> { EmailSuppression.active.count }, 1 do
@@ -76,10 +76,10 @@ class EmailSuppressionTest < ActiveSupport::TestCase
   end
 
   test "suppress! skips already suppressed email" do
-    suppress!("outbound", "a@b.com", "HardBounce", "Recipient")
+    suppress!("outbound", "A@b.com", "HardBounce", "Recipient")
 
     assert_no_difference -> { EmailSuppression.active.count } do
-      EmailSuppression.suppress!("a@b.com", stream_id: "outbound", origin: "Customer", reason: "ManualSuppression")
+      EmailSuppression.suppress!("a@B.com", stream_id: "outbound", origin: "Customer", reason: "ManualSuppression")
     end
     assert postmark_client.calls.empty?
   end
@@ -87,7 +87,8 @@ class EmailSuppressionTest < ActiveSupport::TestCase
   test "notifies admins when created" do
     admin = admins(:ultra)
     admin.update!(notifications: [ "new_email_suppression" ])
-    suppress!("outbound", "a@b.com", "HardBounce", "Recipient")
+    suppress!("outbound", "A@b.com", "HardBounce", "Recipient")
+
     perform_enqueued_jobs
 
     assert_equal 1, AdminMailer.deliveries.size
@@ -100,7 +101,7 @@ class EmailSuppressionTest < ActiveSupport::TestCase
   test "does not notify manual suppression to admins when created" do
     admin = admins(:ultra)
     admin.update!(notifications: [ "new_email_suppression" ])
-    suppress!("outbound", "a@b.com", "ManualSuppression", "Customer")
+    suppress!("outbound", "a@B.com", "ManualSuppression", "Customer")
 
     assert_equal 0, AdminMailer.deliveries.size
   end

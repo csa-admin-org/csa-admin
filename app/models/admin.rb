@@ -5,6 +5,7 @@ class Admin < ApplicationRecord
   include HasSessions
 
   attribute :language, :string, default: -> { Current.org.languages.first }
+  normalizes :email, with: ->(email) { email.downcase.strip }
 
   belongs_to :permission
   has_many :validated_member,
@@ -86,10 +87,6 @@ class Admin < ApplicationRecord
 
   def ultra?
     email == ENV["ULTRA_ADMIN_EMAIL"]
-  end
-
-  def email=(email)
-    super(email.downcase.strip)
   end
 
   private
