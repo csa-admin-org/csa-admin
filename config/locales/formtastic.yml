@@ -528,11 +528,11 @@ _:
           _it: Lasciare vuoto il campo per il numero predefinito del ciclo di consegna.<br/>Il numero finale sarà calcolato automaticamente in proporzione al numero di cesti.
           _nl: Laat leeg voor het standaardaantal van de leveringscyclus.<br/>Het uiteindelijke aantal wordt automatisch berekend op basis van de logica gedefinieerd in <a href='/settings#delivery_cycle'>de instellingen</a>, standaard evenredig aan het aantal pakketten.
         activity_participations_annual_price_change_html:
-          _en: Increase or decrease in the membership price, depending on the services rendered.
-          _fr: Laisser blanc pour que le système calcule le montant automatiquement.<br/>Augmentation ou réduction du prix de l'abonnement contre service rendu ou non.
-          _de: Erhöhung oder Reduktion des Abonnement-Preises, je nach erbrachten Leistungen.
-          _it: Aumento o riduzione del prezzo dell'abbonamento a seconda del servizio reso o meno.
-          _nl: Verhoging of verlaging van de lidmaatschapsprijs, afhankelijk van de geleverde diensten.
+          _en: <span class="text-red-500">Leave blank for the system to calculate the amount automatically.</span><br/>Increase or decrease in the membership price, depending on the services rendered..
+          _fr: <span class="text-red-500">Laisser blanc pour que le système calcule le montant automatiquement.</span><br/>Augmentation ou réduction du prix de l'abonnement contre service rendu ou non.
+          _de: <span class="text-red-500">Lassen Sie das Feld leer, um den Betrag automatisch zu berechnen.</span><br/>Erhöhung oder Verringerung des Abonnementpreises basierend auf den angebotenen oder nicht angebotenen Dienstleistungen.
+          _it: <span class="text-red-500">Lasciare vuoto il campo per il numero predefinito del ciclo di consegna.</span><br/>Il numero finale sarà calcolato automaticamente in proporzione al numero di cesti.
+          _nl: <span class="text-red-500">Laat leeg voor het standaardaantal van de leveringscyclus.</span><br/>Het uiteindelijke aantal wordt automatisch berekend op basis van de logica gedefinieerd in <a href='/settings#delivery_cycle'>de instellingen</a>, standaard evenredig aan het aantal pakketten.
         activity_participations_demanded_annually_html:
           _en: Leave blank for the default number.<br/>The final number will be calculated automatically based on the logic defined in <a href='/settings#activity'>the settings</a>, by default proportional to the number of baskets.
           _fr: Laisser blanc pour le nombre par défaut.<br/>Le nombre final sera calculé automatiquement en fonction de <a href='/settings#activity'>la logique définie dans les paramètres</a>, par défaut au prorata du nombre de paniers.
