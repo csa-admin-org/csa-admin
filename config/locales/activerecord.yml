@@ -2340,6 +2340,31 @@ _:
           _de: sonder
           _it: speciale
           _nl: speciaal
+      support/ticket:
+        content:
+          _en: Request
+          _fr: Demande
+          _de: Anfrage
+          _it: Richiesta
+          _nl: Verzoek
+        context:
+          _en: Context
+          _fr: Contexte
+          _de: Kontext
+          _it: Contesto
+          _nl: Context
+        priority:
+          _en: Priority
+          _fr: Priorité
+          _de: Priorität
+          _it: Priorità
+          _nl: Prioriteit
+        subject:
+          _en: Subject
+          _fr: Sujet
+          _de: Betreff
+          _it: Oggetto
+          _nl: Onderwerp
     errors:
       models:
         basket_content:

@@ -1220,6 +1220,13 @@ _:
           _de: Die individuelle Verfügbarkeit der ausgewählten Produkte wird hier ignoriert.
           _it: La disponibilità individuale dei prodotti selezionati è ignorata qui.
           _nl: De individuele beschikbaarheid van de geselecteerde producten wordt hier genegeerd.
+      support_ticket:
+        context:
+          _en: For a quick resolution of your request, please provide direct links, IDs (member, subscription, invoice, etc.) or screenshots (below).
+          _fr: Pour une résolution rapide de votre demande, merci de fournir des liens directs, IDs (membre, abonnement, facture, etc.) ou captures d'écran (ci-dessous).
+          _de: Für eine schnelle Lösung Ihrer Anfrage geben Sie bitte direkte Links, IDs (Mitglied, Abonnement, Rechnung usw.) oder Screenshots (unterhalb) an.
+          _it: Per una risoluzione rapida della richiesta, fornisci link diretti, ID (membro, abbonamento, fattura, ecc.) o screenshot (sotto).
+          _nl: Voor een snel oplossen van uw aanvraag, geef aub directe links, IDs (lid, abonnement, factuur, etc.) of schermafdrukken (onder).
     inputs:
       period:
         _en: Schedule
