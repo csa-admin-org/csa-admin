@@ -795,7 +795,7 @@ _:
           _en: Member does not want to shift this absence.
           _fr: Le membre ne désire pas déplacer cette absence.
           _de: Mitglied möchte diese Abwesenheit nicht verschieben.
-          _it: Il membro non desidera spostare questa assenza.
+          _it: Il socio non desidera spostare questa assenza.
           _nl: Het lid wil deze afwezigheid niet verschuiven.
         basket_shift_destroy:
           _en: Delete shift
@@ -891,7 +891,7 @@ _:
           _en: New members will have to confirm that they have read these documents when signing up.
           _fr: Les nouveaux membres devront confirmer avoir pris connaissance de ces documents en s'inscrivant.
           _de: Neue Mitglieder müssen bestätigen, dass sie diese Dokumente gelesen haben, wenn sie sich anmelden.
-          _it: I nuovi membri dovranno confermare di aver letto questi documenti al momento dell'iscrizione.
+          _it: I nuovi soci dovranno confermare di aver letto questi documenti al momento dell'iscrizione.
           _nl: Nieuwe leden moeten bevestigen dat ze deze documenten hebben gelezen bij inschrijving.
         email:
           _en: Email
@@ -963,7 +963,7 @@ _:
           _en: Member account
           _fr: Compte membre
           _de: Mitgliederkonto
-          _it: Account membro
+          _it: Account socio
           _nl: Ledenaccount
         members_participation:
           _en: Members' participation
@@ -1446,7 +1446,7 @@ _:
           _en: The invoice must be sent to the member before uploading the direct debit order to the bank.
           _fr: La facture doit être envoyée au membre avant l'envoi de l'ordre de paiement à la banque.
           _de: Die Rechnung muss dem Mitglied vor dem Hochladen des Lastschriftauftrags an die Bank gesendet werden.
-          _it: La fattura deve essere inviata al membro prima dell'invio dell'ordine di pagamento al banco.
+          _it: La fattura deve essere inviata al socio prima dell'invio dell'ordine di pagamento al banco.
           _nl: De factuur moet worden verzonden naar de lid voordat de direct debit order naar de bank wordt verzonden.
         mark_renewal_as_pending:
           _en: Cancel termination
@@ -1615,7 +1615,7 @@ _:
           _en: The last baskets are temporarily marked as absent until the member has reported all their absences.
           _fr: Les derniers paniers sont marqués provisoirement comme absents tant que le membre n'a pas annoncé toutes ses absences.
           _de: Die letzten Körbe werden vorübergehend als abwesend markiert, bis das Mitglied alle seine Abwesenheiten gemeldet hat.
-          _it: Gli ultimi cesti sono marcati provvisoriamente come assenti finché il membro non ha annunciato tutte le sue assenze.
+          _it: Gli ultimi cesti sono marcati provvisoriamente come assenti finché il socio non ha annunciato tutte le sue assenze.
           _nl: De laatste pakketten worden tijdelijk gemarkeerd als afwezig totdat het lid alle afwezigheden heeft gemeld.
         recurring_billing:
           _en: Invoice now

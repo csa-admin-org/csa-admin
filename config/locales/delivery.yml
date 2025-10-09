@@ -47,7 +47,7 @@ _:
         _en: List of depot members sorted in a customizable way (drag & drop) with their delivery address.
         _fr: Liste des membres du dépôt triée de manière personnalisable (glisser-déposer) avec leur adresse de livraison.
         _de: Liste der Depotmitglieder anpassbar sortiert (Drag & Drop) mit ihrer Lieferadresse.
-        _it: Elenco dei membri del punto di ritiro ordinati in modo personalizzabile (drag & drop) con il loro indirizzo di consegna.
+        _it: Elenco dei soci del punto di ritiro ordinati in modo personalizzabile (drag & drop) con il loro indirizzo di consegna.
         _nl: Lijst van depotleden die op een aanpasbare manier (slepen en neerzetten) wordt gesorteerd, met hun leveringsadres.
       signature:
         _en: Signature
@@ -59,7 +59,7 @@ _:
         _en: List of depot members sorted alphabetically with a column for member signatures.
         _fr: Liste des membres du dépôt triée par ordre alphabétique avec une colonne pour la signature des membres.
         _de: Liste der Depotmitglieder alphabetisch sortiert mit einer Spalte für die Unterschrift der Mitglieder.
-        _it: Elenco dei membri del punto di ritiro ordinato in ordine alfabetico, con una colonna per le firme dei membri.
+        _it: Elenco dei soci del punto di ritiro ordinato in ordine alfabetico, con una colonna per le firme dei soci.
         _nl: Lijst van depotleden, alfabetisch gesorteerd, met een kolom voor handtekeningen van leden.
     summary:
       _en: Summary

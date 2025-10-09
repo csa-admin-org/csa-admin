@@ -84,7 +84,7 @@ _:
           _en: If present, replaces the name displayed in the administration interface. The name for members remains unchanged.
           _fr: Si présent, remplace le nom affiché dans l'interface d'administration. Le nom pour les membres reste inchangé.
           _de: Wenn vorhanden, ersetzt den Namen in der Administrationsoberfläche. Der Name für die Mitglieder bleibt unverändert.
-          _it: Se presente, sostituisce il nome visualizzato nell'interfaccia di amministrazione. Il nome per i membri rimane inalterato.
+          _it: Se presente, sostituisce il nome visualizzato nell'interfaccia di amministrazione. Il nome per i soci rimane inalterato.
           _nl: Indien aanwezig, vervangt de naam die wordt weergegeven in de beheerinterface. De naam voor leden blijft ongewijzigd.
       basket:
         basket_size_price:
@@ -500,7 +500,7 @@ _:
           _en: Unique reference number among your members (reusing the member's ID is recommended).
           _fr: Numéro de référence unique parmi vos membres (réutiliser l'ID du membre est recommandé).
           _de: Eindeutige Referenznummer unter Ihren Mitgliedern (die Verwendung der Mitglieds-ID wird empfohlen).
-          _it: Numero di riferimento univoco tra i membri (riutilizzare l'ID del membro è consigliato).
+          _it: Numero di riferimento univoco tra i soci (riutilizzare l'ID del socio è consigliato).
           _nl: Uniek referentienummer onder uw leden (hergebruik van het lid-ID wordt aanbevolen).
         shop_depot:
           _en: Allows a member without a membership to place grocery orders.
@@ -591,7 +591,7 @@ _:
           _en: Leave blank if the member does not wish to continue as a supporting member.
           _fr: Laisser blanc si le membre ne désire pas continuer en tant que membre de soutien.
           _de: Leer lassen, wenn das Mitglied nicht als unterstützendes Mitglied fortfahren möchte.
-          _it: Lasciare vuoto se il membro non desidera continuare come membro sostenitore.
+          _it: Lasciare vuoto se il socio non desidera continuare come socio sostenitore.
           _nl: Laat leeg als het lid niet wil doorgaan als ondersteunend lid.
       memberships_basket_complement:
         delivery_cycle:
@@ -636,7 +636,7 @@ _:
           _en: Differentiates active members based on the date of their next basket delivery.
           _fr: Permet de différencier les membres actifs par la date de leur prochaine livraison de panier.
           _de: Unterscheidet aktive Mitglieder anhand des Datums ihrer nächsten Taschenlieferung.
-          _it: Permette di differenziare i membri attivi in base alla data di consegna del prossimo carrello.
+          _it: Permette di differenziare i soci attivi in base alla data di consegna del prossimo carrello.
           _nl: Onderscheidt actieve leden op basis van de datum van hun volgende pakketlevering.
         delivery_cycle_ids:
           _en: All delivery cycles are included if none are selected.
@@ -751,19 +751,19 @@ _:
           _en: Leave blank at zero if no annual fee. Any change will be automatically applied to all existing members, but only to those who have exactly the previous amount.
           _fr: Laisser vide si aucune cotisation annuelle. Tout changement sera automatiquement appliqué aux membres existants, mais uniquement à ceux qui ont exactement le montant précédent.
           _de: Leer lassen, wenn kein Jahresbeitrag anfällt. Änderungen werden automatisch auf alle bestehenden Mitglieder angewendet, jedoch nur auf diejenigen, die genau den vorherigen Betrag haben.
-          _it: Lasciare vuoto se non c'è nessuna quota annuale. Eventuali modifiche saranno applicate automaticamente a tutti i membri esistenti, ma solo a quelli che hanno esattamente l'importo precedente.
+          _it: Lasciare vuoto se non c'è nessuna quota annuale. Eventuali modifiche saranno applicate automaticamente a tutti i soci esistenti, ma solo a quelli che hanno esattamente l'importo precedente.
           _nl: Laat leeg op nul als er geen jaarlijkse bijdrage is. Elke wijziging wordt automatisch toegepast op alle bestaande leden, maar alleen op degenen die precies het vorige bedrag hebben.
         annual_fee_member_form:
           _en: Allow supporting members to choose the amount of their annual fee at registration. Active members (choosing a basket size) cannot modify this amount.
           _fr: Permet aux membres de soutien de choisir le montant de leur cotisation annuelle lors de l'inscription. Les membres actifs (choisissant une taille de panier) ne peuvent pas modifier ce montant.
           _de: Ermöglicht Fördermitgliedern, den Betrag ihres Jahresbeitrags bei der Anmeldung selbst festzulegen. Aktive Mitglieder (die eine Korbgröße wählen) können diesen Betrag nicht ändern.
-          _it: Consente ai membri sostenitori di scegliere l'importo della loro quota annuale all'iscrizione. I membri attivi (che scelgono una dimensione del cesto) non possono modificare questo importo.
+          _it: Consente ai soci sostenitori di scegliere l'importo della loro quota annuale all'iscrizione. I soci attivi (che scelgono una dimensione del cesto) non possono modificare questo importo.
           _nl: Stelt ondersteunende leden in staat het bedrag van hun jaarlijkse bijdrage bij registratie te kiezen. Actieve leden (die een pakketgrootte kiezen) kunnen dit bedrag niet wijzigen.
         annual_fee_support_member_only:
           _en: If enabled, only supporting members will have the annual fee applied by default at registration. Active members (choosing a basket size) will not have it.
           _fr: Si activé, seuls les membres de soutien auront la cotisation annuelle appliquée par défaut lors de leur l'inscription. Les membres actifs (choisissant une taille de panier) n'en auront pas.
           _de: Wenn aktiviert, wird der Jahresbeitrag standardmäßig nur für Fördermitglieder bei der Anmeldung angewendet. Aktive Mitglieder (die eine Korbgröße wählen) erhalten ihn nicht.
-          _it: Se attivato, solo i membri sostenitori avranno la quota annuale applicata per impostazione predefinita all'iscrizione. I membri attivi (che scelgono una dimensione del cesto) non lo avranno.
+          _it: Se attivato, solo i soci sostenitori avranno la quota annuale applicata per impostazione predefinita all'iscrizione. I soci attivi (che scelgono una dimensione del cesto) non lo avranno.
           _nl: Indien ingeschakeld, zullen alleen ondersteunende leden de jaarlijkse bijdrage standaard toegepast krijgen bij registratie. Actieve leden (die een pakketgrootte kiezen) zullen deze niet hebben.
         bank_reference:
           _en: Leave blank if your bank does not provide one, it will be included in the invoice reference number.
@@ -841,13 +841,13 @@ _:
           _en: Percentage of the maximum price of the basket size that a member can pledge to pay. 0% = normal price (no extra possible), 100% = twice the normal price, 200% = three times the normal price
           _fr: Pourcentage du prix maximum de la taille du panier que le membre peut s'engager de payer. 0% = prix normal (aucun supplément possible), 100% = deux fois le prix normal, 200% = trois fois le prix normal
           _de: Prozentwert des maximalen Preises der Taschengröße, den ein Mitglied versprechen kann, zu bezahlen. 0% = normaler Preis (kein zusätzlicher möglich), 100% = zweimal der normaler Preis, 200% = dreimal der normaler Preis
-          _it: Percentuale del prezzo massimo della dimensione del carrello che un membro può promettere di pagare. 0% = prezzo normale (nessun aggiuntivo possibile), 100% = due volte il prezzo normale, 200% = tre volte il prezzo normale
+          _it: Percentuale del prezzo massimo della dimensione del carrello che un socio può promettere di pagare. 0% = prezzo normale (nessun aggiuntivo possibile), 100% = due volte il prezzo normale, 200% = tre volte il prezzo normale
           _nl: Percentage van de maximumprijs van de pakketgrootte die een lid kan beloven te betalen. 0% = normale prijs (geen extra mogelijk), 100% = twee keer de normale prijs, 200% = drie keer de normale prijs
         bidding_round_basket_size_price_min_percentage:
           _en: Percentage of the minimum price of the basket size that a member can pledge to pay. 0% = free, 100% = normal price (no discount possible)
           _fr: Pourcentage du prix minimum de la taille du panier que le membre peut s'engager à payer. 0% = gratuit, 100% = prix normal (pas de remise possible)
           _de: Prozentwert des Minimumpreises der Taschengröße, den ein Mitglied sich versprechen kann, zu bezahlen. 0% = kostenlos, 100% = normaler Preis (keine Rabattmöglichkeit)
-          _it: Percentuale del prezzo minimo della dimensione del carrello che un membro può promettere di pagare. 0% = gratuito, 100% = prezzo normale (nessuno sconto possibile)
+          _it: Percentuale del prezzo minimo della dimensione del carrello che un socio può promettere di pagare. 0% = gratuito, 100% = prezzo normale (nessuno sconto possibile)
           _nl: Percentage van de minimumprijs van de pakketgrootte die een lid kan beloven te betalen. 0% = gratis, 100% = normale prijs (geen korting mogelijk)
         billing_ends_on_last_delivery_fy_month:
           _en: If disabled, billing extends until the end of the membership.
@@ -1225,7 +1225,7 @@ _:
           _en: For a quick resolution of your request, please provide direct links, IDs (member, subscription, invoice, etc.) or screenshots (below).
           _fr: Pour une résolution rapide de votre demande, merci de fournir des liens directs, IDs (membre, abonnement, facture, etc.) ou captures d'écran (ci-dessous).
           _de: Für eine schnelle Lösung Ihrer Anfrage geben Sie bitte direkte Links, IDs (Mitglied, Abonnement, Rechnung usw.) oder Screenshots (unterhalb) an.
-          _it: Per una risoluzione rapida della richiesta, fornisci link diretti, ID (membro, abbonamento, fattura, ecc.) o screenshot (sotto).
+          _it: Per una risoluzione rapida della richiesta, fornisci link diretti, ID (socio, abbonamento, fattura, ecc.) o screenshot (sotto).
           _nl: Voor een snel oplossen van uw aanvraag, geef aub directe links, IDs (lid, abonnement, factuur, etc.) of schermafdrukken (onder).
     inputs:
       period:

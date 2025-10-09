@@ -1,6 +1,6 @@
 <p>Ciao {{ admin.name }},</p>
 
-<p>Il membro <strong>{{member.name }}</strong> si è iscritto a un'attività.</p>
+<p>Il socio <strong>{{member.name }}</strong> si è iscritto a un'attività.</p>
 
 {% highlight_list %}
   <strong>Data:</strong> {{ activity.date_long }}
@@ -22,11 +22,11 @@
 
 {% if activity_participation.note %}
 <p>
-  Nota del membro:<br/>
+  Nota del socio:<br/>
   <i>{{ activity_participation.note }}</i>
 </p>
 {% endif %}
 
 {% button activity_participation.admin_url %}
-  Accedere alla pagina delle iscrizioni di questo membro
+  Accedere alla pagina delle iscrizioni di questo socio
 {% endbutton %}
