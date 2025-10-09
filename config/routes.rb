@@ -29,6 +29,8 @@ Rails.application.routes.draw do
     get "deliveries/next" => "next_delivery#next"
     get "handbook/:id" => "handbook#index", as: :handbook_page
 
+    get "support" => "support_tickets#new", as: :support
+
     ActiveAdmin.routes(self)
 
     namespace :api do

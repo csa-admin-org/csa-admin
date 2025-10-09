@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_10_05_094111) do
+ActiveRecord::Schema[8.1].define(version: 2025_10_09_060711) do
   create_table "absences", force: :cascade do |t|
     t.datetime "created_at"
     t.date "ended_on"
@@ -936,6 +936,17 @@ ActiveRecord::Schema[8.1].define(version: 2025_10_05_094111) do
     t.index ["discarded_at"], name: "index_shop_tags_on_discarded_at"
   end
 
+  create_table "support_tickets", force: :cascade do |t|
+    t.integer "admin_id", null: false
+    t.text "content", null: false
+    t.text "context"
+    t.datetime "created_at", null: false
+    t.integer "priority", null: false
+    t.string "subject", null: false
+    t.datetime "updated_at", null: false
+    t.index ["admin_id"], name: "index_support_tickets_on_admin_id"
+  end
+
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "activity_participations", "activities"
@@ -984,4 +995,5 @@ ActiveRecord::Schema[8.1].define(version: 2025_10_05_094111) do
   add_foreign_key "shop_products_special_deliveries", "shop_special_deliveries", column: "special_delivery_id"
   add_foreign_key "shop_products_tags", "shop_products", column: "product_id"
   add_foreign_key "shop_products_tags", "shop_tags", column: "tag_id"
+  add_foreign_key "support_tickets", "admins"
 end

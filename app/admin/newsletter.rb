@@ -200,7 +200,9 @@ ActiveAdmin.register Newsletter do
       f.input :scheduled_at, as: :date_picker, input_html: { min: Date.tomorrow }
     end
 
-    render partial: "active_admin/attachments/form", locals: { f: f }
+    f.inputs Attachment.model_name.human(count: 2) do
+      render partial: "active_admin/attachments/form", locals: { f: f }
+    end
 
     f.inputs t(".content") do
       f.input :template,

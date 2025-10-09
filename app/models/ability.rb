@@ -33,6 +33,7 @@ class Ability
     can :pdf, Invoice
     can :sepa_pain, Invoice
     can :sepa_pain_all, Invoice
+    can :create, Support::Ticket
 
     writable_models = []
 

@@ -1,0 +1,22 @@
+_:
+  support:
+    ticket:
+      priority:
+        high:
+          _en: Urgent, response in the shortest possible time ‼️
+          _fr: Urgence, réponse dans les plus brefs délais ‼️
+          _de: Dringend, Antwort in kürzester Zeit ‼️
+          _it: Urgente, risposta nei tempi più brevi ‼️
+          _nl: Urgent, antwoord in de kortst mogelijke tijd ‼️
+        medium:
+          _en: Important, response expected within 24 hours ❗️
+          _fr: Importante, réponse attendue dans les 24h ❗️
+          _de: Wichtig, Antwort erwartet innerhalb 24 Stunden ❗️
+          _it: Importante, risposta attesa entro 24 ore ❗️
+          _nl: Belangrijk, antwoord verwacht binnen 24 uur ❗️
+        normal:
+          _en: Normal, response expected within the week
+          _fr: Normale, réponse attendue dans la semaine
+          _de: Normal, Antwort erwartet innerhalb der Woche
+          _it: Normale, risposta attesa entro la settimana
+          _nl: Normaal, antwoord verwacht binnen de week

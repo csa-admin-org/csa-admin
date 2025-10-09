@@ -55,6 +55,9 @@
         <%= icon "moon", class: "size-5 hidden dark:block" %>
         <%= icon "sun", class: "size-5 dark:hidden" %>
       </button>
+      <a href="<%= support_path %>" class="relative flex items-center size-9 justify-center text-white/75 dark:text-black/50 hover:text-white  dark:hover:text-black focus:outline-hidden text-sm" data-turbo-prefetch="false" title="<%= t(".support") %>">
+        <%= icon "message-circle-question-mark", class: "size-5" %>
+      </a>
       <% if can?(:update, Organization) %>
         <a href="<%= edit_organization_path %>" class="relative flex items-center size-9 justify-center text-white/75! dark:text-black/50! hover:text-white! dark:hover:text-black! focus:outline-hidden text-sm">
           <%= icon "adjustments-horizontal", class: "size-6" %>

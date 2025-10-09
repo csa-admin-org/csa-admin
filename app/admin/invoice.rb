@@ -478,10 +478,10 @@ ActiveAdmin.register Invoice do
       end
     end
 
-    render partial: "active_admin/attachments/form", locals: {
-      f: f,
-      text: t(".invoice_attachments_html")
-    }
+    f.inputs Attachment.model_name.human(count: 2) do
+      f.para t(".invoice_attachments_html")
+      render partial: "active_admin/attachments/form", locals: { f: f }
+    end
 
     f.actions
   end

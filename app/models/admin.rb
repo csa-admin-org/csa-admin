@@ -16,6 +16,10 @@ class Admin < ApplicationRecord
     class_name: "ActivityParticipation",
     foreign_key: :validator_id,
     dependent: :nullify
+  has_many :tickets,
+    class_name: "Support::Ticket",
+    foreign_key: :admin_id,
+    dependent: :nullify
 
   scope :notification, ->(notification) {
     where("EXISTS (SELECT 1 FROM json_each(notifications) WHERE json_each.value = ?)", notification)

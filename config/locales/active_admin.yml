@@ -2289,6 +2289,26 @@ _:
             _de: Vergangene
             _it: Passato
             _nl: Verleden
+      support/ticket:
+        flash:
+          notice:
+            _en: Your support request has been sent successfully, thank you!
+            _fr: Votre demande de support a été envoyée avec succès, merci!
+            _de: Ihre Supportanfrage wurde erfolgreich gesendet, danke!
+            _it: La tua richiesta di supporto è stata inviata con successo, grazie!
+            _nl: Je ondersteuningsverzoek is succesvol verzonden, bedankt!
+        new_model:
+          _en: Support request
+          _fr: Demande de support
+          _de: Supportanfrage
+          _it: Richiesta di supporto
+          _nl: Ondersteuningsverzoek
+        submit:
+          _en: Send
+          _fr: Envoyer
+          _de: Senden
+          _it: Invia
+          _nl: Verzenden
     scopes:
       active:
         _en: Active
@@ -3017,12 +3037,25 @@ _:
         _de: Handbuch
         _it: Manuale
         _nl: Handleiding
+      support:
+        _en: Support
+        _fr: Support
+        _de: Support
+        _it: Supporto
+        _nl: Ondersteuning
       updates:
         _en: Updates
         _fr: Mises à jour
         _de: Aktualisierungen
         _it: Aggiornamenti
         _nl: Updates
+    site_header:
+      support:
+        _en: Support request
+        _fr: Demande de support
+        _de: Supportanfrage
+        _it: Richiesta di supporto
+        _nl: Ondersteuningsverzoek
     status_tag:
       absent:
         _en: absent
