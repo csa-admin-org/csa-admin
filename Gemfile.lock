@@ -97,7 +97,7 @@ GEM
     arbre (2.2.0)
       activesupport (>= 7.0)
     ast (2.4.3)
-    async (2.33.0)
+    async (2.34.0)
       console (~> 1.29)
       fiber-annotation
       io-event (~> 1.11)
@@ -119,7 +119,7 @@ GEM
       async-http (~> 0.42)
       protocol-http (~> 0.45)
     aws-eventstream (1.4.0)
-    aws-partitions (1.1169.0)
+    aws-partitions (1.1170.0)
     aws-sdk-core (3.233.0)
       aws-eventstream (~> 1, >= 1.3.0)
       aws-partitions (~> 1, >= 1.992.0)
@@ -791,12 +791,12 @@ CHECKSUMS
   appsignal (4.7.4) sha256=86cc15a7a64bf6bff899c3910597414b22c702057406ffcb97c20a1d8f9c8979
   arbre (2.2.0) sha256=d71de0acae2536b96cd795c5ca574ad87bc1bc10a4170d0799509a2cb7a8ba71
   ast (2.4.3) sha256=954615157c1d6a382bc27d690d973195e79db7f55e9765ac7c481c60bdb4d383
-  async (2.33.0) sha256=08406fe63cc96206ba7f1407792b7badcf66b89b82b3083694f99ef2ec9bcd5b
+  async (2.34.0) sha256=65ab207d4575c05bb6c5bac430f9f8d372d8288686e68e89f44eba094c77e1c1
   async-http (0.91.0) sha256=6b1326ef328d5c2f21e106b1dfee5146f1cddca9b72b71ba39539bc202dbf55f
   async-pool (0.11.0) sha256=2228c4a8d1ca59a259b5f9dab7e0f9f23d57856b195aca1c0aa684a7439ea525
   async-rest (0.19.1) sha256=0f3545f5c43992604c83ffc8273f8e8ace3b055bfec23c5d4cc638b8e974c87f
   aws-eventstream (1.4.0) sha256=116bf85c436200d1060811e6f5d2d40c88f65448f2125bc77ffce5121e6e183b
-  aws-partitions (1.1169.0) sha256=923c56db33ba5fa634839ccbd1cf89e098c2e933a288e308d7ee0a24cf19f222
+  aws-partitions (1.1170.0) sha256=9a69764d924376502593e321edf717e0f378f4eac64f9bb1b0fdeb7fe8bfda68
   aws-sdk-core (3.233.0) sha256=798db4e867d15dceb6504317867fc8013042984988199600c78e310d0058018a
   aws-sdk-kms (1.113.0) sha256=deb1d129c3cc9785c7ad2e625926c6286334fce65a0813f6d61dc24c9dda6929
   aws-sdk-s3 (1.199.1) sha256=a36aba0e3a408e5c0822fff3be76676ec7e91e2c78cfb92db33c96596ecbcac6
