@@ -108,7 +108,7 @@ _:
         _en: 'Member No.: %{id}'
         _fr: 'N° membre: %{id}'
         _de: 'Mitgliedsnummer: %{id}'
-        _it: 'N° membro: %{id}'
+        _it: 'N° socio: %{id}'
         _nl: 'Lidnummer: %{id}'
       missed_activity_participation/basket_preparation:
         _en: Missed basket preparation (%{year})

@@ -23,7 +23,7 @@ _:
         _en: Receive a notification if an invoice is overpaid, for example, if a member has paid twice.
         _fr: Recevoir une notification si une facture est payée en trop, par exemple si un membre a payé deux fois.
         _de: Erhalte eine Benachrichtigung, wenn eine Rechnung überbezahlt wurde, z.B. wenn ein Mitglied zweimal bezahlt hat.
-        _it: Ricevi una notifica se una fattura è stata pagata in eccesso, ad esempio se un membro ha pagato due volte.
+        _it: Ricevi una notifica se una fattura è stata pagata in eccesso, ad esempio se un socio ha pagato due volte.
         _nl: Ontvang een melding wanneer een factuur te veel is betaald, bijvoorbeeld als een lid tweemaal heeft betaald.
       invoice_third_overdue_notice:
         _en: Invoice, 3rd reminder sent
@@ -35,7 +35,7 @@ _:
         _en: Receive a notification when the 3rd reminder of an invoice is sent to a member.
         _fr: Recevoir une notification lorsque le 3ᵉ rappel d'une facture est envoyée à un membre.
         _de: Erhalte eine Benachrichtigung, wenn die 3. Mahnung einer Rechnung an ein Mitglied gesendet wird.
-        _it: Ricevi una notifica quando il 3° richiamo di una fattura viene inviato ad un membro.
+        _it: Ricevi una notifica quando il 3° richiamo di una fattura viene inviato ad un socio.
         _nl: Ontvang een melding wanneer de 3e herinnering van een factuur naar un lid is verzonden.
       memberships_renewal_pending:
         _en: Membership, pending renewals
@@ -59,7 +59,7 @@ _:
         _en: Receive a notification when an absence is created (by a member or another admin).
         _fr: Recevoir une notification lorsqu'une absence est créée (par un membre ou un autre admin).
         _de: Erhalte eine Benachrichtigung, wenn eine Abwesenheit erstellt wird (durch ein Mitglied oder einen anderen Admin).
-        _it: Ricevi una notifica quando viene creata un'assenza (da un membro o da un altro admin).
+        _it: Ricevi una notifica quando viene creata un'assenza (da un socio o da un altro admin).
         _nl: Ontvang een melding wanneer een afwezigheid wordt aangemaakt (door een lid of een andere beheerder).
       new_absence_with_note:
         _en: New absence (with note only)
@@ -83,7 +83,7 @@ _:
         _en: Receive a notification when an activity participation is created (by a member or another admin).
         _fr: Recevoir une notification lorsqu'une participation à une activité est créée (par un membre ou un autre admin).
         _de: Erhalte eine Benachrichtigung, wenn eine Aktivitätsteilnahme erstellt wird (durch ein Mitglied oder einen anderen Admin).
-        _it: Ricevi una notifica quando viene creata una partecipazione ad un'attività (da un membro o da un altro admin).
+        _it: Ricevi una notifica quando viene creata una partecipazione ad un'attività (da un socio o da un altro admin).
         _nl: Ontvang een melding wanneer een deelname aan een activiteit wordt aangemaakt (door een lid of een andere beheerder).
       new_activity_participation_with_note:
         _en: New activity participation (with note only)
@@ -119,7 +119,7 @@ _:
         _en: Receive a notification when a member's registration is created and needs to be validated.
         _fr: Recevoir une notification lorsqu'une inscription d'un membre est créée et doit être validée.
         _de: Erhalte eine Benachrichtigung, wenn eine Anmeldung eines Mitglieds erstellt und validiert werden muss.
-        _it: Ricevi una notifica quando viene creata un'iscrizione di un membro e deve essere validata.
+        _it: Ricevi una notifica quando viene creata un'iscrizione di un socio e deve essere validata.
         _nl: Ontvang een melding wanneer een registratie van een lid is aangemaakt en moet worden gevalideerd.
       payment_reversal:
         _en: Payment reversal

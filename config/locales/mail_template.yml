@@ -240,13 +240,13 @@ _:
         _en: Sent on the day of delivery of the last trial basket to ask the member if they wish to continue their membership until the end of the fiscal year.
         _fr: Envoyé le jour de la livraison du dernier panier à l'essai afin de demander au membre si il désire continuer son abonnement jusqu'à la fin de l'année fiscale.
         _de: Wird gesendet am Tag der Auslieferung der letzten Probe-Tasche, um das Mitglied zu fragen, ob es sein Abonnement bis zum Ende des Geschäftsjahres fortsetzen möchte.
-        _it: Inviato il giorno della consegna dell'ultimo cestino di prova per chiedere al membro se desidera continuare il suo abbonamento fino alla fine dell'anno fiscale.
+        _it: Inviato il giorno della consegna dell'ultimo cestino di prova per chiedere al socio se desidera continuare il suo abbonamento fino alla fine dell'anno fiscale.
         _nl: Verzonden op de leveringsdag van het laatste proefpakket om het lid te vragen of ze hun lidmaatschap tot het einde van het boekjaar willen voortzetten.
       membership_renewal:
         _en: Sent to ask the member via the form on their member page whether they wish to renew their membership or not.
         _fr: Envoyé afin de demander au membre si il désire ou non renouveler son abonnement via le formulaire sur sa page de membre.
         _de: Wird gesendet, um das Mitglied über das Formular auf seiner Mitgliederseite zu fragen, ob es sein Abonnement erneuern möchte oder nicht.
-        _it: Inviato per chiedere al socio se desidera o meno rinnovare il suo abbonamento tramite il modulo nella sua pagina membro.
+        _it: Inviato per chiedere al socio se desidera o meno rinnovare il suo abbonamento tramite il modulo nella sua pagina socio.
         _nl: Verzonden om het lid via het formulier op hun ledenpagina te vragen of ze hun lidmaatschap willen vernieuwen of niet.
       membership_renewal_reminder:
         _en: Sent to remind the member that they have not yet completed the membership renewal form (see <a href='/settings#membership_renewal'>settings</a> for the deadline).
