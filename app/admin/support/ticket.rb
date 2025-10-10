@@ -28,7 +28,7 @@ ActiveAdmin.register Support::Ticket do
     before_build do |ticket|
       if request&.referer
         referrer_url = URI.decode_uri_component(request&.referer)
-        unless referrer_url == dashboard_url
+        unless referrer_url.in? [ dashboard_url, root_url, support_url ]
           ticket.context ||= referrer_url
         end
       end
