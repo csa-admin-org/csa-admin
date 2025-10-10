@@ -115,6 +115,10 @@ production: &production
     admin_host: admin.chevreetchou.ch
     members_host: membres.chevreetchou.ch
     state: onboarding
+  radisnoir:
+    admin_host: admin.radis-noir.ch
+    members_host: membres.radis-noir.ch
+    state: onboarding
 
   demo:
     admin_host: admin.acp-admin.ch
