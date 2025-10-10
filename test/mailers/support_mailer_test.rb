@@ -17,7 +17,7 @@ class SupportMailerTest < ActionMailer::TestCase
     assert_equal [ Admin.ultra.email ], mail.to
     assert_equal "🛟‼️ Test Subject", mail.subject
     assert_equal [ admin.email ], mail.reply_to
-    assert_match /Test content/, mail.body.encoded
-    assert_match /Member 42/, mail.body.encoded
+    assert_includes mail.body.encoded, "Test content"
+    assert_includes mail.body.encoded, "Member 42"
   end
 end
