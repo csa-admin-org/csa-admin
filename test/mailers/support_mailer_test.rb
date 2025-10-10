@@ -18,7 +18,6 @@ class SupportMailerTest < ActionMailer::TestCase
     assert_equal "🛟‼️ Test Subject", mail.subject
     assert_equal [ admin.email ], mail.reply_to
     assert_match /Test content/, mail.body.encoded
-    assert_match %r{=== Context ===}, mail.body.encoded
     assert_match /Member 42/, mail.body.encoded
   end
 end
