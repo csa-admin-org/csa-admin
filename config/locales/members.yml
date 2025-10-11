@@ -1278,6 +1278,20 @@ _:
           _de: Dieser Link ist abgelaufen oder ungültig.
           _it: Questo link è scaduto o non è valido.
           _nl: Deze link is verlopen of ongeldig.
+    payment_confirmations:
+      show:
+        text:
+          _en: Thank you for your payment, it's currently being processed.
+          _fr: Merci pour votre paiement, il est en cours de traitement.
+          _de: Danke für Ihre Zahlung, die wird momentan verarbeitet.
+          _it: Grazie per il tuo pagamento! È in corso di elaborazione.
+          _nl: Bedankt voor je betaling! Het wordt momenteel verwerkt.
+        title:
+          _en: Payment accepted
+          _fr: Paiement accepté
+          _de: Zahlung akzeptiert
+          _it: Pagamento accettato
+          _nl: Betaling geaccepteerd
     sessions:
       new:
         email_input:

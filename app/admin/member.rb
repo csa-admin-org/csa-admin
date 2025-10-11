@@ -35,6 +35,10 @@ ActiveAdmin.register Member do
   filter :salary_basket,
     as: :boolean,
     if: proc { params[:scope].in? [ "active", nil ] }
+  filter :use_local_currency,
+    as: :boolean,
+    if: proc { feature?("local_currency") },
+    label: -> { t("features.local_currency") }
   filter :annual_fee,
     if: proc { Current.org.annual_fee? }
   filter :sepa, as: :boolean, if: ->(a) { Current.org.sepa? }
@@ -107,6 +111,9 @@ ActiveAdmin.register Member do
       column(:shares_info)
     end
     column(:salary_basket, &:salary_basket?)
+    if feature?("local_currency")
+      column(I18n.t("features.local_currency"), &:use_local_currency?)
+    end
     column(:waiting_started_at)
     column(:waiting_basket_size) { |m| m.waiting_basket_size&.name }
     if BasketComplement.kept.any?
@@ -316,8 +323,8 @@ ActiveAdmin.register Member do
               column(:amount, class: "text-right") { |i|
                 content_tag(:span, class: "flex justify-end items-center gap-1") do
                 [
-                    i.canceled? ? content_tag(:span, "– /", class: "text-sm whitespace-nowrap") : content_tag(:span, "#{cur(i.paid_amount)} /", class: "text-sm whitespace-nowrap text-gray-500"),
-                    content_tag(:span, cur(i.amount), class: "whitespace-nowrap")
+                    i.canceled? ? content_tag(:span, "– /", class: "text-sm whitespace-nowrap") : content_tag(:span, "#{ccur(i, :paid_amount)} /", class: "text-sm whitespace-nowrap text-gray-500"),
+                    content_tag(:span, ccur(i, :amount), class: "whitespace-nowrap")
                   ].join.html_safe
                 end
               }
@@ -340,7 +347,7 @@ ActiveAdmin.register Member do
               column(:id) { |p| auto_link p, p.id, aria: { label: "show" } }
               column(:date, class: "text-right") { |p| l(p.date, format: :number) }
               column(:invoice_id, class: "text-right") { |p| p.invoice_id ? auto_link(p.invoice, p.invoice_id) : "–" }
-              column(:amount, class: "text-right") { |p| cur(p.amount) }
+              column(:amount, class: "text-right") { |p| ccur(p, :amount) }
               column(:type, class: "text-right") { |p| status_tag p.state }
             end
             if payments_count > 10
@@ -403,6 +410,9 @@ ActiveAdmin.register Member do
           attributes_table do
             if member.salary_basket?
               row(:salary_basket, class: "text-right") { status_tag(member.salary_basket) }
+            end
+            if feature?("local_currency")
+              row(t("features.local_currency"), class: "text-right") { status_tag(member.use_local_currency) }
             end
             if member.billing_email?
               row(t(".email"), class: "text-right") { display_email_with_link(self, member.billing_email) }
@@ -627,6 +637,7 @@ ActiveAdmin.register Member do
         f.input :trial_baskets_count
       end
       f.input :salary_basket
+      f.input :use_local_currency
     end
 
     if Current.org.sepa?
@@ -702,6 +713,7 @@ ActiveAdmin.register Member do
     :profession, :come_from, :delivery_note, :food_note, :note,
     :contact_sharing,
     :send_validation_email,
+    :use_local_currency,
     waiting_alternative_depot_ids: [],
     members_basket_complements_attributes: [
       :id, :basket_complement_id, :quantity, :_destroy
