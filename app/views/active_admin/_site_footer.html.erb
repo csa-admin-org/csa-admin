@@ -2,14 +2,14 @@
   <ul class="flex justify-center flex-wrap" role="group">
     <li>
       <%= link_to updates_path, class: "action-item-button px-2.5 py-1 rounded-e-none text-gray-400 dark:text-gray-500", data: { turbo_prefetch: false } do %>
-        <%= icon "gift", class: "size-5 me-2" %>
-        <%= t(".updates") %>
+        <%= icon "message-circle-question-mark", class: "size-[1.175rem] me-1.5" %>
+        <%= t(".support") %>
       <% end %>
     </li>
     <li>
       <%= link_to support_path, class: "action-item-button px-2.5 py-1 rounded-none border-x-0 text-gray-400 dark:text-gray-500" do %>
-        <%= icon "message-circle-question-mark", class: "size-[1.175rem] me-1.5" %>
-        <%= t(".support") %>
+        <%= icon "gift", class: "size-5 me-2" %>
+        <%= t(".updates") %>
       <% end %>
     </li>
     <li>
