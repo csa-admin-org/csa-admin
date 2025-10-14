@@ -64,7 +64,7 @@ ActiveAdmin.register Invoice do
     column :date, ->(i) { l i.date, format: :number }, class: "text-right tabular-nums"
     column :member, sortable: "members.name"
     column :amount, ->(invoice) { cur(invoice.amount) }, class: "text-right tabular-nums"
-    column :paid_amount, ->(invoice) { cur(invoice.paid_amount) }, class: "text-right tabular-nums"
+    column :paid_amount, ->(invoice) { invoice.canceled? ? "–" : cur(invoice.paid_amount) }, class: "text-right tabular-nums"
     column :overdue_notices_count, ->(invoice) { invoice.sepa? ? "–" : invoice.overdue_notices_count }, class: "text-right"
     column :state, ->(invoice) { status_tag invoice.state }, class: "text-right"
     actions do |invoice|
