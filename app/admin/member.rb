@@ -310,12 +310,16 @@ ActiveAdmin.register Member do
           if invoices_count.zero?
             div(class: "missing-data") { t(".no_invoices") }
           else
-            table_for(invoices.limit(10), class: "table-auto") do
+            table_for(invoices.limit(10), class: "table-auto", row_html: ->(invoice) { { class: invoice.canceled? ? "text-gray-400 dark:text-gray-600" : "" } }) do
               column(:id, class: "") { |i| auto_link i, i.id, aria: { label: "show" } }
               column(:date, class: "text-right") { |i| l(i.date, format: :number) }
               column(:amount, class: "text-right") { |i|
-                (content_tag(:span, cur(i.paid_amount) + " /", class: "text-sm whitespace-nowrap text-gray-500") + " " +
-                  content_tag(:span, cur(i.amount), class: "whitespace-nowrap")).html_safe
+                content_tag(:span, class: "flex justify-end items-center gap-1") do
+                [
+                    i.canceled? ? content_tag(:span, "– /", class: "text-sm whitespace-nowrap") : content_tag(:span, "#{cur(i.paid_amount)} /", class: "text-sm whitespace-nowrap text-gray-500"),
+                    content_tag(:span, cur(i.amount), class: "whitespace-nowrap")
+                  ].join.html_safe
+                end
               }
               column(:status, class: "text-right") { |i| status_tag i.state }
             end
