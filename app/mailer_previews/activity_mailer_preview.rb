@@ -53,7 +53,7 @@ class ActivityMailerPreview < ActionMailer::Preview
 
     OpenStruct.new(
       title: activity_preset&.title || "Aide aux champs",
-      date: Date.today,
+      date: Date.current,
       period: activity&.period || "8:00-12:00",
       description: nil,
       place: activity_preset&.title || "Neuchâtel",

@@ -50,7 +50,7 @@ class InvoiceMailerPreview < ActionMailer::Preview
     OpenStruct.new({
       member: member,
       id: 42,
-      date: Date.today,
+      date: Date.current,
       state: "open",
       entity_type: Invoice.used_entity_types.sample(random: random),
       entity_number: 33,

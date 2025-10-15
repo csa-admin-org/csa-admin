@@ -173,7 +173,7 @@ module Shop
       return unless delay
       return unless can_invoice?
 
-      if (Date.today - delivery.date).to_i >= delay
+      if (Date.current - delivery.date).to_i >= delay
         invoice!
       end
     end
@@ -270,7 +270,7 @@ module Shop
       self.invoices.create!(
         send_email: true,
         member: member,
-        date: Date.today,
+        date: Date.current,
         amount_percentage: amount_percentage,
         items_attributes: items.map.with_index { |item, index|
           [ index.to_s, {

@@ -157,7 +157,7 @@ class MembershipTest < ActiveSupport::TestCase
     travel_to "2024-06-01"
     membership = memberships(:john)
 
-    assert_equal Date.today, membership.new_config_from
+    assert_equal Date.current, membership.new_config_from
     assert_no_difference -> { membership.reload.baskets_count } do
       membership.update!(basket_size_id: small_id, depot_id: bakery_id)
     end
@@ -1067,7 +1067,7 @@ class MembershipTest < ActiveSupport::TestCase
     delivery = deliveries(:monday_1)
     delivery.update!(basket_size_price_percentage: 50)
 
-    membership.update!(new_config_from: Date.today, basket_size_price: nil)
+    membership.update!(new_config_from: Date.current, basket_size_price: nil)
 
     basket = membership.baskets.find_by(delivery: delivery)
     assert_equal 10, basket.basket_size_price # 20 * 0.5

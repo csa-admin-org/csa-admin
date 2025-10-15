@@ -24,7 +24,7 @@ module Billing
     def filename
       [
         Invoice.model_name.human(count: 2).downcase,
-        Date.today.strftime("%Y%m%d"),
+        Date.current.strftime("%Y%m%d"),
         "pain.xml"
       ].join("-")
     end

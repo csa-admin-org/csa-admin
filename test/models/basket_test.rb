@@ -215,7 +215,7 @@ class BasketTest < ActiveSupport::TestCase
     org(features: [ :basket_price_extra, :absence ], absences_billed: true)
     basket = build_basket(
       state: "absent",
-      absence: create_absence(started_on: Date.today, ended_on: 1.week.from_now),
+      absence: create_absence(started_on: Date.current, ended_on: 1.week.from_now),
       quantity: 2,
       basket_size_price: 19,
       price_extra: 2.42,

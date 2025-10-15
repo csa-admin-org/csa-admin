@@ -384,8 +384,8 @@ class Organization < ApplicationRecord
   end
 
   def fiscal_years
-    min_year = Delivery.minimum(:date)&.year || Date.today.year
-    max_year = Delivery.maximum(:date)&.year || Date.today.year
+    min_year = Delivery.minimum(:date)&.year || Date.current.year
+    max_year = Delivery.maximum(:date)&.year || Date.current.year
     (min_year..max_year).map { |year|
       Current.org.fiscal_year_for(year)
     }

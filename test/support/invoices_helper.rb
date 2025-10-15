@@ -19,7 +19,7 @@ module InvoicesHelper
   def create_invoice(attrs = {})
     invoice = Invoice.create!({
       member: members(:john),
-      date: Date.today
+      date: Date.current
     }.merge(attrs))
     perform_enqueued_jobs
     invoice.reload

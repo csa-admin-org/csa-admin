@@ -12,7 +12,7 @@ module Billing
       Invoice.create!(
         send_email: true,
         member: membership.member,
-        date: Date.today,
+        date: Date.current,
         entity_type: "ActivityParticipation",
         missing_activity_participations_fiscal_year: membership.fiscal_year,
         missing_activity_participations_count: missing_count)

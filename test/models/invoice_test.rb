@@ -79,7 +79,7 @@ class InvoiceTest < ActiveSupport::TestCase
   test "updates membership activity_participations_accepted" do
     membership = memberships(:john)
     invoice = Invoice.new(
-      date: Date.today,
+      date: Date.current,
       member: members(:john),
       missing_activity_participations_count: 2,
       missing_activity_participations_fiscal_year: membership.fiscal_year,
@@ -518,8 +518,8 @@ class InvoiceTest < ActiveSupport::TestCase
 
   test "can cancel with entity id, only latest" do
     part = activity_participations(:john_harvest)
-    first = Invoice.create!(entity: part, date: Date.today)
-    latest = Invoice.create!(entity: part, date: Date.today)
+    first = Invoice.create!(entity: part, date: Date.current)
+    latest = Invoice.create!(entity: part, date: Date.current)
     create_annual_fee_invoice
     perform_enqueued_jobs
 
@@ -537,7 +537,7 @@ class InvoiceTest < ActiveSupport::TestCase
     travel_to "2024-01-01"
     invoice = Invoice.create!(
       entity: activity_participations(:john_harvest),
-      date: Date.today)
+      date: Date.current)
     perform_enqueued_jobs
     invoice.update!(state: "closed")
     create_annual_fee_invoice # no more last invoice
@@ -573,21 +573,21 @@ class InvoiceTest < ActiveSupport::TestCase
 
   test "can not cancel when already canceled" do
     invoice = invoices(:annual_fee)
-    invoice.update!(state: "canceled", sent_at: Date.today)
+    invoice.update!(state: "canceled", sent_at: Date.current)
     assert_not invoice.can_cancel?
   end
 
   test "can not cancel when shares type and closed" do
     org(share_price: 250, shares_number: 1)
     invoice = create_invoice(shares_number: 1)
-    invoice.update!(state: "closed", sent_at: Date.today)
+    invoice.update!(state: "closed", sent_at: Date.current)
     assert_not invoice.can_cancel?
   end
 
   test "can cancel when shares type and open" do
     org(share_price: 250, shares_number: 1)
     invoice = create_invoice(shares_number: 1)
-    invoice.update!(state: "open", sent_at: Date.today)
+    invoice.update!(state: "open", sent_at: Date.current)
     assert invoice.can_cancel?
   end
 

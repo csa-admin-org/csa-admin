@@ -13,7 +13,7 @@ class NewsletterMailerPreview < ActionMailer::Preview
 
   def newsletter_email_params
     data = {
-      today: I18n.l(Date.today),
+      today: I18n.l(Date.current),
       member: member,
       membership: membership,
       basket: basket

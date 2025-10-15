@@ -12,42 +12,42 @@ module Shared
       end
 
       test "bulk_dates is nil with a date set" do
-        @model.date = Date.today
+        @model.date = Date.current
         assert_nil @model.bulk_dates
       end
 
       test "bulk_dates includes all the days between starts and ends dates" do
-        @model.bulk_dates_starts_on = Date.today
+        @model.bulk_dates_starts_on = Date.current
         @model.bulk_dates_ends_on = Date.tomorrow
         @model.bulk_dates_weeks_frequency = 1
         @model.bulk_dates_wdays = Array(0..6)
 
-        assert_equal [ Date.today, Date.tomorrow ], @model.bulk_dates
+        assert_equal [ Date.current, Date.tomorrow ], @model.bulk_dates
       end
 
       test "bulk_dates includes all the days between starts and ends dates following wdays" do
-        @model.bulk_dates_starts_on = Date.today.monday
-        @model.bulk_dates_ends_on = Date.today.sunday
+        @model.bulk_dates_starts_on = Date.current.monday
+        @model.bulk_dates_ends_on = Date.current.sunday
         @model.bulk_dates_weeks_frequency = 1
         @model.bulk_dates_wdays = [ 0, 1, 2 ]
 
         assert_equal [
-          Date.today.monday,
-          Date.today.monday + 1.day,
-          Date.today.sunday
+          Date.current.monday,
+          Date.current.monday + 1.day,
+          Date.current.sunday
         ], @model.bulk_dates
       end
 
       test "bulk_dates includes all the days between starts and ends dates with frequency" do
-        @model.bulk_dates_starts_on = Date.today.monday
-        @model.bulk_dates_ends_on = Date.today.sunday + 1.month
+        @model.bulk_dates_starts_on = Date.current.monday
+        @model.bulk_dates_ends_on = Date.current.sunday + 1.month
         @model.bulk_dates_weeks_frequency = 2
         @model.bulk_dates_wdays = [ 1 ]
 
         assert_equal [
-          Date.today.monday,
-          Date.today.monday + 2.weeks,
-          Date.today.monday + 4.weeks
+          Date.current.monday,
+          Date.current.monday + 2.weeks,
+          Date.current.monday + 4.weeks
         ], @model.bulk_dates
       end
 

@@ -59,7 +59,7 @@ class NewsletterMailer < ApplicationMailer
     basket = member.next_basket
     membership = basket&.membership
     today = I18n.with_locale(member.language) do
-      params[:today] || I18n.l(Date.today)
+      params[:today] || I18n.l(Date.current)
     end
     if contents = params.delete(:template_contents)
       params[:template] = Newsletter::Template.new(contents: contents, no_preview: true)
