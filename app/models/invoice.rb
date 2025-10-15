@@ -443,7 +443,7 @@ class Invoice < ApplicationRecord
   def sepa_direct_debit_order_automatic_upload_due?
     return unless sepa_direct_debit_order_uploadable?
 
-    sepa_direct_debit_order_automatic_upload_scheduled_on <= Date.today
+    sepa_direct_debit_order_automatic_upload_scheduled_on <= Date.current
   end
 
   def sepa_direct_debit_order_automatic_upload_scheduled_on

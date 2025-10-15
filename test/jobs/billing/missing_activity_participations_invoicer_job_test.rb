@@ -40,7 +40,7 @@ class Billing::MissingActivityParticipationsInvoicerJobTest < ActiveJob::TestCas
     end
 
     invoice = membership.member.invoices.last
-    assert_equal Date.today, invoice.date
+    assert_equal Date.current, invoice.date
     assert_equal 2, invoice.missing_activity_participations_count
     assert_equal membership.fiscal_year, invoice.missing_activity_participations_fiscal_year
     assert_equal "ActivityParticipation", invoice.entity_type
@@ -60,7 +60,7 @@ class Billing::MissingActivityParticipationsInvoicerJobTest < ActiveJob::TestCas
     end
 
     invoice = membership.member.invoices.last
-    assert_equal Date.today, invoice.date
+    assert_equal Date.current, invoice.date
     assert_equal FiscalYear.for(2024), invoice.missing_activity_participations_fiscal_year
     assert_equal "ActivityParticipation", invoice.entity_type
     assert_nil invoice.entity_id

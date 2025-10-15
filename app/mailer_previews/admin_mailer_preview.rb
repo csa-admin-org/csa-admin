@@ -129,7 +129,7 @@ class AdminMailerPreview < ActionMailer::Preview
     act = Activity.last(10).sample(random: random)
     activity = OpenStruct.new(
       title: act_preset&.title || "Aide aux champs",
-      date: Date.today,
+      date: Date.current,
       period: act&.period || "8:00-12:00",
       description: nil,
       place: act_preset&.title || "Neuchâtel",

@@ -39,12 +39,12 @@ class Membership < ApplicationRecord
 
   after_initialize do
     unless new_record?
-      self.new_config_from ||= [ [ Date.today, started_on ].max, ended_on ].min
+      self.new_config_from ||= [ [ Date.current, started_on ].max, ended_on ].min
     end
   end
   before_validation do
     # Keep new_config_from within the membership period range
-    self.new_config_from = [ [ new_config_from || Date.today, started_on ].max, ended_on ].min
+    self.new_config_from = [ [ new_config_from || Date.current, started_on ].max, ended_on ].min
     @default_basket_size_price_used = basket_size_price.blank?
     self.basket_size_price ||= basket_size&.price
     self.depot_price ||= depot&.price

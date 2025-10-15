@@ -323,7 +323,7 @@ class NotifierTest < ActiveSupport::TestCase
     p2 = create_participation(member: member, activity: activities(:harvest_afternoon))
     create_participation(session: sessions(:ultra))
     create_participation(created_at: 2.days.ago)
-    create_participation(admins_notified_at: Date.today)
+    create_participation(admins_notified_at: Date.current)
 
     assert_difference -> { ActivityMailer.deliveries.size }, 1 do
       Notifier.send_admin_new_activity_participation_emails

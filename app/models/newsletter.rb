@@ -32,7 +32,7 @@ class Newsletter < ApplicationRecord
   validate :subjects_must_be_valid
   validate :at_least_one_block_must_be_present
   validates :scheduled_at,
-    date: { after: proc { Date.today } },
+    date: { after: proc { Date.current } },
     allow_nil: true,
     if: :scheduled_at_changed?
   validates :from, format: {

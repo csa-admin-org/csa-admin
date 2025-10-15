@@ -8,9 +8,9 @@ class DeliveryTest < ActiveSupport::TestCase
 
   test "validates bulk inserts" do
     delivery = Delivery.create(
-      bulk_dates_starts_on: Date.today,
+      bulk_dates_starts_on: Date.current,
       bulk_dates_wdays: [ 1 ],
-      date: Date.today)
+      date: Date.current)
 
     assert_not delivery.valid?(:bulk_dates_starts_on)
     assert_not delivery.valid?(:bulk_dates_wdays)

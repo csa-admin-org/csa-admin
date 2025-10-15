@@ -19,7 +19,7 @@ class AbsenceTest < ActiveSupport::TestCase
     absence = Absence.new(
       member: members(:john),
       admin: admins(:ultra),
-      started_on: Date.today,
+      started_on: Date.current,
       ended_on: 2.years.from_now)
 
     assert absence.valid?

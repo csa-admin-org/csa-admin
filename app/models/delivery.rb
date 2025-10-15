@@ -24,7 +24,7 @@ class Delivery < ApplicationRecord
 
   validates :date, uniqueness: true
   validates :date,
-    date: { after_or_equal_to: proc { Date.today } },
+    date: { after_or_equal_to: proc { Date.current } },
     if: :date?
   validates :date,
     date: {
@@ -34,7 +34,7 @@ class Delivery < ApplicationRecord
     },
     if: :date_was
   validates :bulk_dates_starts_on,
-    date: { after_or_equal_to: proc { Date.today } },
+    date: { after_or_equal_to: proc { Date.current } },
     unless: :date?,
     on: :create
   validates :basket_size_price_percentage,

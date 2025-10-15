@@ -68,7 +68,7 @@ class BiddingRoundMailerPreview < ActionMailer::Preview
       BiddingRound.current_open ||
       BiddingRound.new(
         number: 1,
-        fy_year: Date.today.year,
+        fy_year: Date.current.year,
         information_text: I18n.t("bidding_rounds.preview_information_text"))
   end
 

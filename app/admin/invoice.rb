@@ -296,7 +296,7 @@ ActiveAdmin.register Invoice do
                       end
                   end
 
-                  days = (invoice.sepa_direct_debit_order_automatic_upload_scheduled_on - Date.today).to_i
+                  days = (invoice.sepa_direct_debit_order_automatic_upload_scheduled_on - Date.current).to_i
                   para t(".sepa_direct_debit_order_will_be_automatically_uploaded_in", count: days), class: "hint"
                 end
               elsif !invoice.sent? && invoice.open?

@@ -21,7 +21,7 @@ class NewsletterTest < ActiveSupport::TestCase
   end
 
   test "validate scheduled_at date" do
-    newsletter = build_newsletter(scheduled_at: Date.today)
+    newsletter = build_newsletter(scheduled_at: Date.current)
     assert_not newsletter.valid?
 
     newsletter = build_newsletter(scheduled_at: Date.tomorrow)
