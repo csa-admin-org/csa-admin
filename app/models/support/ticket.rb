@@ -8,6 +8,7 @@ module Support
     PRIORITY_ICONS = { medium: "❗️", high: "‼️" }
 
     include HasAttachments
+    include HasEmails
 
     enum :priority, %i[normal medium high]
 

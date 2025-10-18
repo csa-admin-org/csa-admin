@@ -7,6 +7,7 @@ class SupportMailer < ApplicationMailer
     mail(
       to: Admin.ultra.email,
       reply_to: email_address_with_name(@ticket.admin.email, @ticket.admin.name),
+      cc: @ticket.emails_array,
       subject: @ticket.subject_decorated)
   end
 

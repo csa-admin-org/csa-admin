@@ -2353,6 +2353,12 @@ _:
           _de: Kontext
           _it: Contesto
           _nl: Context
+        emails:
+          _en: CC
+          _fr: CC
+          _de: CC
+          _it: CC
+          _nl: CC
         priority:
           _en: Priority
           _fr: Priorité

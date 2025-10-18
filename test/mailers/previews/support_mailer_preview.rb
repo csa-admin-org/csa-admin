@@ -6,6 +6,7 @@ class SupportMailerPreview < ActionMailer::Preview
     admin = Admin.first || Admin.new(email: "admin@example.com", name: "Admin")
     ticket = Support::Ticket.new(
       priority: :high,
+      emails: "bob@hey.com, alice@gmail.com",
       subject: "Sample Support Ticket",
       content: "This is a sample content for the support ticket.",
       admin: admin,
