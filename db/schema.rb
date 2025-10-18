@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_10_09_060711) do
+ActiveRecord::Schema[8.1].define(version: 2025_10_18_071130) do
   create_table "absences", force: :cascade do |t|
     t.datetime "created_at"
     t.date "ended_on"
@@ -941,6 +941,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_10_09_060711) do
     t.text "content", null: false
     t.text "context"
     t.datetime "created_at", null: false
+    t.string "emails"
     t.integer "priority", null: false
     t.string "subject", null: false
     t.datetime "updated_at", null: false

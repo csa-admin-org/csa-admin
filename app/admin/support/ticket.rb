@@ -9,9 +9,10 @@ ActiveAdmin.register Support::Ticket do
       f.input :priority,
         collection: ticket_priorities_collection,
         include_blank: false
+      f.input :emails, as: :string, hint: I18n.t("formtastic.hints.support_ticket.emails", to: current_admin.email)
       f.input :subject
       f.input :content, input_html: { rows: 6 }
-      f.input :context, input_html: { rows: 2 }# , hint: I18n.t("formtastic.hints.support_ticket.context")
+      f.input :context, input_html: { rows: 2 }
       render partial: "active_admin/attachments/form", locals: { f: f }
     end
 
@@ -21,7 +22,7 @@ ActiveAdmin.register Support::Ticket do
   end
 
   permit_params \
-    :priority, :subject, :context, :content,
+    :priority, :emails, :subject, :context, :content,
     attachments_attributes: [ :id, :file, :_destroy ]
 
   controller do
