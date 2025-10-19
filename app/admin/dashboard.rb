@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 ActiveAdmin.register_page "Dashboard" do
-  DEPOTS_LIMIT = 12
-
   menu priority: 1, label: -> {
     [
       icon("home", title: t("active_admin.dashboard"), class: "size-5.5 -my-[0.125rem] min-w-6 hidden md:inline"),
