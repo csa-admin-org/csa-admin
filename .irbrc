@@ -1,29 +1,48 @@
 # frozen_string_literal: true
 
-# Skip non-interactive terminal
-return unless $stdout.tty?
+require "readline"
 
-# Helper available in IRB, which helps choosing an Organization to enter.
 def enter
   Tenant.disconnect
-  tenants = Tenant.numbered
 
-  puts "Select Organization context: (empty for none)"
-  tenants.map { |i, tenant|
-    puts "–––" if i%100 == 0
-    puts "#{i.to_s.rjust(3)}: #{tenant}"
-  }
+  Readline.completion_proc = proc { |s| Tenant.all_with_aliases.grep(/^#{Regexp.escape(s)}/) }
+  tenant = Readline.readline("Enter tenant name (empty for none): ", true).strip.presence
+  tenant = Tenant.find_with_aliases(tenant)
 
-  @selection = gets.strip.presence
-  tenant_name = tenants[@selection.to_i] if @selection
-
-  if tenant_name
-    Tenant.connect(tenant_name.to_s)
-    puts "Connected to \"#{tenant_name}\" context."
+  if tenant && Tenant.exists?(tenant)
+    Tenant.connect(tenant)
+    tenant
+  elsif tenant
+    puts "Invalid tenant name: \"#{tenant}\"."
   else
     puts "No Organization selected."
   end
 end
 
-# Avoid asking again if no tenant was selected.
-enter unless defined?(@selection)
+env = Rails::Console::IRBConsole.new(Rails.application).colorized_env
+prompt_prefix = "%N(#{env}, %TENANT)"
+IRB.conf[:PROMPT][:TENANT_PROMPT] = {
+  PROMPT_I: "#{prompt_prefix}> ",
+  PROMPT_S: "#{prompt_prefix}%l ",
+  PROMPT_C: "#{prompt_prefix}* ",
+  RETURN: "=> %s\n"
+}
+IRB.conf[:PROMPT_MODE] = :TENANT_PROMPT
+
+# Monkey-patch IRB prompt formating to have live tenant name injected
+module IrbTenantPrompt
+  def format_prompt(format, ltype, indent, line_no)
+    color = Rails.env.local? ? :BLUE : :RED
+    tenant = IRB::Color.colorize(Tenant.current || "NONE", [ color ])
+    format = format.dup.gsub(/%TENANT/, tenant)
+    super
+  end
+end
+
+module IRB
+  class Irb
+    prepend IrbTenantPrompt
+  end
+end
+
+enter

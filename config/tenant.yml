@@ -20,15 +20,26 @@ production: &production
   lesjardinsdouchy:
     admin_host: admin.lesjardinsdouchy.ch
     members_host: membres.lesjardinsdouchy.ch
+    aliases:
+      - jardinsdouchy
+      - ouchy
   lamule:
     admin_host: admin.lamule.ch
     members_host: membres.lamule.ch
+    aliases:
+      - mule
   lafermedugoupil:
     admin_host: admin.lafermedugoupil.ch
     members_host: membres.lafermedugoupil.ch
+    aliases:
+      - fermedugoupil
+      - goupil
   lafermedessavanes:
     admin_host: admin.lafermedessavanes.ch
     members_host: membres.lafermedessavanes.ch
+    aliases:
+      - fermedessavanes
+      - savanes
   seminterra:
     admin_host: admin.seminterra.ch
     members_host: soci.seminterra.ch
@@ -41,21 +52,32 @@ production: &production
   jardindesturricules:
     admin_host: admin.jardindesturricules.ch
     members_host: membres.jardindesturricules.ch
+    aliases:
+      - turricules
   lepetitsecheron:
     admin_host: admin.lepetitsecheron.ch
     members_host: membres.lepetitsecheron.ch
+    aliases:
+      - petitsecheron
+      - secheron
   paniersdesavigny:
     admin_host: admin.paniersdesavigny.ch
     members_host: membres.paniersdesavigny.ch
+    aliases:
+      - savigny
   cocagne:
     admin_host: admin.cocagne.ch
     members_host: membres.cocagne.ch
   potagersdegaia:
     admin_host: admin.potagersdegaia.ch
     members_host: membres.potagersdegaia.ch
+    aliases:
+      - gaia
   latouviere:
     admin_host: admin.touviere.ch
     members_host: membres.touviere.ch
+    aliases:
+      - touviere
   alpgrava:
     admin_host: admin.alpgrava.ch
     members_host: membres.alpgrava.ch
@@ -68,21 +90,31 @@ production: &production
   fermedesverpilleres:
     admin_host: admin.ferme-des-verpilleres.ch
     members_host: membres.ferme-des-verpilleres.ch
+    aliases:
+      - verpilleres
+      - aresetvous
   hofnarr:
     admin_host: admin.hof-narr.ch
     members_host: mitglieder.hof-narr.ch
   lejardindemax:
     admin_host: admin.lejardindemax.ch
     members_host: membres.lejardindemax.ch
+    aliases:
+      - jardindemax
+      - max
   cultureslocales:
     admin_host: admin.cultureslocales.ch
     members_host: membres.cultureslocales.ch
   lepetrichor:
     admin_host: admin.lepetrichor.ch
     members_host: membres.lepetrichor.ch
+    aliases:
+      - petrichor
   ortie:
     admin_host: admin.ortie-microferme.ch
     members_host: membres.ortie-microferme.ch
+    aliases:
+      - microferme-ortie
   fairdura:
     admin_host: admin.fairdura.ch
     members_host: mitglieder.fairdura.ch
@@ -98,6 +130,8 @@ production: &production
   lamilpadesiles:
     admin_host: admin.lamilpadesiles.ch
     members_host: membres.lamilpadesiles.ch
+    aliases:
+      - milpadesiles
 
   mamajah:
     admin_host: admin.mamajah.org
@@ -136,3 +170,5 @@ test:
   acme:
     admin_host: admin.acme.test
     members_host: members.acme.test
+    aliases:
+      - ac
