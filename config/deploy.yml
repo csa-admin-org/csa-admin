@@ -2,7 +2,7 @@
 service: csa-admin
 
 # Name of the container image.
-image: thibaudgg/csa-admin
+image: csa-admin
 
 # Deploy to these servers.
 servers:
