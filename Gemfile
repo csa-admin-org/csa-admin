@@ -119,7 +119,6 @@ group :development do
   gem "htmlbeautifier", require: false
 
   gem "brakeman", require: false
-  gem "resolv", require: false
 end
 
 group :test do
