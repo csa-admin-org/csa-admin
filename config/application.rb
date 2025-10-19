@@ -36,12 +36,6 @@ module CSAAdmin
     # https://github.com/JackC/tod#activemodel-serializable-attribute-support
     config.active_record.time_zone_aware_types = [ :datetime ]
 
-    # The project specific .irbrc is automatically loaded on Heroku,
-    # we want to load it locally as well.
-    console do
-      load File.expand_path("../.irbrc", __dir__)
-    end
-
     config.action_mailer.preview_paths = [ "#{Rails.root}/app/mailer_previews" ]
 
     # https://github.com/heartcombo/responders?tab=readme-ov-file#configuring-error-and-redirect-statuses

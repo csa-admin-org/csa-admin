@@ -11,16 +11,8 @@ module Tenant
     end
   end
 
-  def numbered
-    config.group_by { |tenant, attrs| attrs["state"] }.flat_map { |state, tenants|
-      offset =
-        case state
-        when "onboarding" then 99
-        when "custom" then 199
-        else 0
-        end
-      tenants.map.with_index { |(tenant, attrs), i| [ i + 1 + offset, tenant ] }
-    }.to_h
+  def all_with_aliases
+    config.keys.map(&:to_s) + config.flat_map { |k, v| v["aliases"] }.compact
   end
 
   def find_by(host:)
@@ -49,8 +41,17 @@ module Tenant
     state == "custom"
   end
 
+  def find_with_aliases(tenant)
+    mapping = {}
+    config.each { |k, v|
+      mapping[k.to_s] = k
+      Array(v["aliases"]).each { |a| mapping[a] = k }
+    }
+    mapping[tenant.to_s]
+  end
+
   def exists?(tenant)
-    all.include?(tenant.to_s)
+    all.include?(tenant)
   end
 
   def current

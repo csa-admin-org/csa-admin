@@ -26,6 +26,10 @@ class TenantTest < ActiveSupport::TestCase
     assert_not Tenant.exists?("unknown")
   end
 
+  test "find_with_aliases" do
+    assert "acme", Tenant.find_with_aliases("ac")
+  end
+
   test "connect to unknown tenant" do
     assert_equal "acme", Tenant.current
     assert_raises RuntimeError, match: /Unknown tenant 'unknown'/ do

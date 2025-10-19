@@ -191,12 +191,6 @@ class Organization < ApplicationRecord
     first!
   end
 
-  def number
-    Tenant.numbered.find { |i, tenant|
-      tenant == Tenant.current
-    }.first
-  end
-
   def features
     self[:features].map(&:to_sym) & FEATURES
   end
