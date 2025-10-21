@@ -36,7 +36,7 @@ module Billing
     def create_payment!(data)
       return unless invoice = find_invoice(data)
 
-      attrs = data.to_h.slice(:member_id, :invoice_id, :amount, :date)
+      attrs = data.to_h.slice(:invoice_id, :amount, :date)
       payment = Payment.find_or_initialize_by(attrs)
 
       if payment.persisted? && payment.origin != data.origin
