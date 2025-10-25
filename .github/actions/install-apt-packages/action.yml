@@ -9,5 +9,7 @@ inputs:
 runs:
   using: 'composite'
   steps:
-    - run: sudo apt-get update -qq -o Acquire::Retries=3 && sudo apt-get install -y --no-install-recommends --fix-missing -qq -o Acquire::Retries=3 ${{ inputs.packages }}
+    - run: sudo apt-get update -qq -o Acquire::Retries=3
+      shell: bash
+    - run: sudo apt-get install -y --no-install-recommends --fix-missing -qq -o Acquire::Retries=3 ${{ inputs.packages }}
       shell: bash
