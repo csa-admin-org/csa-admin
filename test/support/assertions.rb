@@ -6,6 +6,6 @@ module Assertions
   def assert_contains(full_array, *partial_sequence)
     partial_sequence.flatten!
     msg = -> { diff(full_array, partial_sequence) }
-    assert full_array.each_cons(partial_sequence.size).include?(partial_sequence), msg
+    assert_includes full_array.each_cons(partial_sequence.size), partial_sequence, msg
   end
 end

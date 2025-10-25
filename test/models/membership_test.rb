@@ -519,7 +519,7 @@ class MembershipTest < ActiveSupport::TestCase
     assert_nil member.waiting_basket_size_id
     assert_nil member.waiting_depot_id
     assert_nil member.waiting_delivery_cycle_id
-    assert_equal [], member.waiting_basket_complement_ids
+    assert_empty member.waiting_basket_complement_ids
   end
 
   test "updates futures basket when configuration change" do

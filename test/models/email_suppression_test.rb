@@ -48,7 +48,7 @@ class EmailSuppressionTest < ActiveSupport::TestCase
     assert_difference -> { EmailSuppression.active.count }, -1 do
       EmailSuppression.unsuppress!("A@b.com", stream_id: "outbound", origin: "Recipient")
     end
-    assert EmailSuppression.active.outbound.where(email: "a@b.com").empty?
+    assert_empty EmailSuppression.active.outbound.where(email: "a@b.com")
     assert_equal [ [ :delete_suppressions, "outbound", "a@b.com" ] ], postmark_client.calls
   end
 
@@ -58,7 +58,7 @@ class EmailSuppressionTest < ActiveSupport::TestCase
     assert_no_difference -> { EmailSuppression.active.count } do
       EmailSuppression.unsuppress!("z@y.com", stream_id: "outbound", origin: "Recipient")
     end
-    assert postmark_client.calls.empty?
+    assert_empty postmark_client.calls
   end
 
   test "suppress! creates new suppression" do
@@ -81,7 +81,7 @@ class EmailSuppressionTest < ActiveSupport::TestCase
     assert_no_difference -> { EmailSuppression.active.count } do
       EmailSuppression.suppress!("a@B.com", stream_id: "outbound", origin: "Customer", reason: "ManualSuppression")
     end
-    assert postmark_client.calls.empty?
+    assert_empty postmark_client.calls
   end
 
   test "notifies admins when created" do

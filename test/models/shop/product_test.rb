@@ -100,15 +100,15 @@ class Shop::ProductTest < ActiveSupport::TestCase
     product = Shop::Product.new(
       basket_complement: basket_complements(:bread),
       display_in_delivery_sheets: false)
-    assert_equal true, product.display_in_delivery_sheets
+    assert product.display_in_delivery_sheets
     assert product.display_in_delivery_sheets
 
     product = Shop::Product.new(display_in_delivery_sheets: false)
-    assert_equal false, product.display_in_delivery_sheets
+    refute product.display_in_delivery_sheets
     assert_not product.display_in_delivery_sheets
 
     product.display_in_delivery_sheets = true
-    assert_equal true, product.display_in_delivery_sheets
+    assert product.display_in_delivery_sheets
     assert product.display_in_delivery_sheets
   end
 

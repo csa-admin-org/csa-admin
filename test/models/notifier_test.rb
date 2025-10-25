@@ -374,7 +374,7 @@ class NotifierTest < ActiveSupport::TestCase
     travel_to "2024-01-01"
     bidding_round = bidding_rounds(:open_2024)
     bidding_round.update!(created_at: "2024-01-01")
-    assert bidding_round.eligible_memberships_count, 4
+    assert_equal 4, bidding_round.eligible_memberships_count
 
     memberships(:john).touch(:bidding_round_opened_reminder_sent_at)
 
@@ -392,7 +392,7 @@ class NotifierTest < ActiveSupport::TestCase
       end
     end
 
-    assert !memberships(:bob).bidding_round_opened_reminder_sent_at?
+    refute memberships(:bob).bidding_round_opened_reminder_sent_at?
 
     mail = BiddingRoundMailer.deliveries.first
     assert_equal "Bidding round #1 is open (reminder)", mail.subject

@@ -13,7 +13,7 @@ class PermissionTest < ActiveSupport::TestCase
 
   test "superadmin" do
     permission = permissions(:super_admin)
-    assert permission.rights.empty?
+    assert_empty permission.rights
     assert permission.superadmin?
     assert permission.can_write?(:organization)
     assert permission.can_write?(:comment)
