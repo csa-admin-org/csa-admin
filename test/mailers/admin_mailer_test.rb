@@ -201,7 +201,7 @@ class AdminMailerTest < ActionMailer::TestCase
     assert_includes body, "<strong>Location:</strong> <a href=\"https://farm.example.com\" target=\"_blank\">Farm</a>"
     assert_includes body, "<strong>Participants:</strong> 1"
     assert_includes body, "<strong>Carpooling:</strong> +41 79 123 45 67 (La Chaux-de-Fonds)"
-    assert_includes body, "Member's note:<br/>\r\n  <i>I will bring my own gloves</i>"
+    assert_includes body, "Member's note:<br/>\n  <i>I will bring my own gloves</i>"
     assert_includes body, "Access the member's participation page"
     assert_includes body, "https://admin.acme.test/activity_participations?q%5Bmember_id_eq%5D=#{members(:jane).id}&scope=future"
     assert_includes body, "https://admin.acme.test/admins/#{admins(:ultra).id}/edit#notifications"

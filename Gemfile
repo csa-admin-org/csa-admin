@@ -2,7 +2,7 @@
 
 source "https://rubygems.org"
 
-gem "rails", "~> 8.1.0.rc1"
+gem "rails", "~> 8.1.0"
 
 gem "bootsnap", require: false
 gem "thruster", require: false
@@ -33,7 +33,7 @@ gem "truemail"
 gem "tod"
 gem "discard"
 
-gem "activeadmin", "~> 4.0.0.beta16"
+gem "activeadmin", "~> 4.0.0.beta17"
 gem "cancancan"
 gem "acts_as_list"
 
@@ -90,7 +90,8 @@ gem "nokogiri"
 gem "cloudflare", require: false
 
 group :production do
-  gem "cloudflare-rails"
+  # Waiting for versoin 7.0
+  gem "cloudflare-rails", github: "modosc/cloudflare-rails"
 end
 
 group :development, :test do
