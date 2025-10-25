@@ -46,14 +46,14 @@ class Billing::MtFileTest < ActiveSupport::TestCase
 
   test "raises for CAMT file" do
     file = Billing::MtFile.new(file_fixture("camt053.xml"))
-    assert_raises(Billing::MtFile::UnsupportedFileError, /Wrong line format:.*/) do
+    assert_raises(Billing::MtFile::UnsupportedFileError) do
       file.payments_data
     end
   end
 
   test "raises for other file format" do
     file = Billing::MtFile.new(file_fixture("logo.png"))
-    assert_raises(Billing::MtFile::UnsupportedFileError, /Wrong line format:.*/) do
+    assert_raises(Billing::MtFile::UnsupportedFileError) do
       file.payments_data
     end
   end

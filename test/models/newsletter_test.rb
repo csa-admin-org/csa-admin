@@ -186,8 +186,8 @@ class NewsletterTest < ActiveSupport::TestCase
     assert_equal %w[john@doe.com jane@doe.com], newsletter.audience_segment.emails
     assert_equal %w[jojo@old.com], newsletter.audience_segment.suppressed_emails
 
-    assert newsletter[:template_contents].empty?
-    assert newsletter[:liquid_data_preview_yamls].empty?
+    assert_empty newsletter[:template_contents]
+    assert_empty newsletter[:liquid_data_preview_yamls]
 
     assert_difference -> { newsletter.reload.deliveries.processing.count }, 2 do
       assert_difference -> { ActionMailer::Base.deliveries.count }, 2 do

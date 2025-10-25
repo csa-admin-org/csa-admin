@@ -48,7 +48,7 @@ class MailTemplateTest < ActiveSupport::TestCase
 
     template.active = false
     assert template.active
-    assert_equal true, template[:active]
+    assert template[:active]
   end
 
   test "invoice_overdue_notice is not always active" do
@@ -59,12 +59,12 @@ class MailTemplateTest < ActiveSupport::TestCase
 
       template.active = false
       assert_not template.active
-      assert_equal false, template[:active]
+      refute template[:active]
     }
 
     template.active = true
     assert_not template.active
-    assert_equal true, template[:active]
+    assert template[:active]
   end
 
   test "validate liquid syntax" do

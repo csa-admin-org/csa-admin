@@ -17,7 +17,7 @@ class NewsletterDeliveryTest < ActiveSupport::TestCase
     processing = Newsletter::Delivery.processing.last
     assert_equal members(:john), processing.member
     assert_equal "john@bob.com", processing.email
-    assert_equal [], processing.email_suppression_ids
+    assert_empty processing.email_suppression_ids
 
     ignored = Newsletter::Delivery.ignored.last
     assert_equal members(:john), ignored.member
@@ -39,7 +39,7 @@ class NewsletterDeliveryTest < ActiveSupport::TestCase
     delivery = Newsletter::Delivery.last
     assert_equal members(:john), delivery.member
     assert_nil delivery.email
-    assert_equal [], delivery.email_suppression_ids
+    assert_empty delivery.email_suppression_ids
   end
 
   test "send newsletter" do

@@ -15,7 +15,7 @@ class HasPublicNameTest < ActiveSupport::TestCase
     assert_equal({ "en" => "Small" }, object[:names])
     assert_equal({ "en" => nil }, object[:public_names])
     assert_equal({ "en" => nil }, object.admin_names)
-    assert_equal({}, object[:admin_names])
+    assert_empty object[:admin_names]
   end
 
   test "with admin name" do
@@ -29,6 +29,6 @@ class HasPublicNameTest < ActiveSupport::TestCase
     assert_equal({ "en" => "SM" }, object[:names])
     assert_equal({ "en" => "Small" }, object[:public_names])
     assert_equal({ "en" => "SM" }, object.admin_names)
-    assert_equal({}, object[:admin_names])
+    assert_empty object[:admin_names]
   end
 end

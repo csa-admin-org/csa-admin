@@ -27,7 +27,7 @@ class TenantTest < ActiveSupport::TestCase
   end
 
   test "find_with_aliases" do
-    assert "acme", Tenant.find_with_aliases("ac")
+    assert_equal "acme", Tenant.find_with_aliases("ac")
   end
 
   test "connect to unknown tenant" do

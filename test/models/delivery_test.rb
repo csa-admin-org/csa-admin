@@ -73,7 +73,7 @@ class DeliveryTest < ActiveSupport::TestCase
     end
 
     basket = membership.baskets.first
-    assert_equal [], basket.complements
+    assert_empty basket.complements
     assert_equal 0, basket.complements_price
   end
 

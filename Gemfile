@@ -115,6 +115,7 @@ group :development do
 
   gem "rubocop-rails-omakase", require: false
   gem "rubocop-erb", require: false
+  gem "rubocop-minitest", require: false
 
   gem "herb", require: false
   gem "htmlbeautifier", require: false

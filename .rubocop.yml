@@ -1,5 +1,6 @@
 plugins:
   - rubocop-erb
+  - rubocop-minitest
 
 inherit_gem:
   rubocop-rails-omakase: rubocop.yml
@@ -15,5 +16,21 @@ Style/StringLiterals:
     - "Gemfile"
     - "Rakefile"
 
+AllCops:
+  NewCops: enable
+
 Style/FrozenStringLiteralComment:
   Enabled: true
+
+Minitest/AssertInDelta: # new in 0.10
+  Enabled: false
+Minitest/AssertOperator: # new in 0.32
+  Enabled: false
+Minitest/EmptyLineBeforeAssertionMethods: # new in 0.23
+  Enabled: false
+Minitest/MultipleAssertions: # new in 0.10
+  Enabled: false
+Minitest/RefutePredicate: # new in 0.18
+  Enabled: false
+Minitest/AssertPredicate: # new in 0.18
+  Enabled: false

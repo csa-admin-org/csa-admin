@@ -28,7 +28,7 @@ class BasketShiftTest < ActiveSupport::TestCase
   test "validates source basket must not be empty" do
     @source_basket.decrement!(:quantity)
     @source_basket.baskets_basket_complements.first.decrement!(:quantity)
-    assert @source_basket.empty?
+    assert_empty @source_basket
 
     makeup = build_basket_shift
 

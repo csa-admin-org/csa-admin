@@ -26,7 +26,7 @@ class ActivityTest < ActiveSupport::TestCase
 
     activity = Activity.new(participants_limit: nil)
     activity.validate
-    assert activity.errors[:participants_limit].empty?
+    assert_empty activity.errors[:participants_limit]
   end
 
   test "validates that end_time is greater than start_time" do

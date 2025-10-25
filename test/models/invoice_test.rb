@@ -305,7 +305,7 @@ class InvoiceTest < ActiveSupport::TestCase
     invoice = invoices(:annual_fee)
     invoice.member.active_emails.each { |email| suppress_email(email) }
 
-    assert_equal [], invoice.member.reload.billing_emails
+    assert_empty invoice.member.reload.billing_emails
     assert_no_difference "InvoiceMailer.deliveries.size" do
       invoice.send!
       perform_enqueued_jobs
@@ -320,7 +320,7 @@ class InvoiceTest < ActiveSupport::TestCase
     invoice.member.update!(billing_email: "john@doe.com")
     suppress_email("john@doe.com")
 
-    assert_equal [], invoice.member.reload.billing_emails
+    assert_empty invoice.member.reload.billing_emails
     assert_no_difference "InvoiceMailer.deliveries.size" do
       invoice.send!
       perform_enqueued_jobs
@@ -726,7 +726,7 @@ class InvoiceTest < ActiveSupport::TestCase
 
   test "previously_canceled_entity_invoice_ids when no entity" do
     invoice = invoices(:annual_fee)
-    assert_equal [], invoice.previously_canceled_entity_invoice_ids
+    assert_empty invoice.previously_canceled_entity_invoice_ids
   end
 
   test "previously_canceled_entity_invoice_ids with one previous cancel invoiced" do
@@ -742,7 +742,7 @@ class InvoiceTest < ActiveSupport::TestCase
     i4.update_columns(state: "canceled")
     i5.update_columns(state: "canceled")
 
-    assert_equal [], i1.previously_canceled_entity_invoice_ids
+    assert_empty i1.previously_canceled_entity_invoice_ids
     assert_equal [ i2.id ], i3.previously_canceled_entity_invoice_ids
     assert_equal [ i4.id, i5.id ], i6.previously_canceled_entity_invoice_ids
   end
