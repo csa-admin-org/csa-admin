@@ -13,7 +13,7 @@ jobs:
       - name: Install APT Packages
         uses: ./.github/actions/install-apt-packages
         with:
-          packages: libvips poppler-utils
+          packages: libvips
 
       - name: Install Ruby and run Bundler install with cache
         uses: ruby/setup-ruby@v1
