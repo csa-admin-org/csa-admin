@@ -9,15 +9,5 @@ inputs:
 runs:
   using: 'composite'
   steps:
-    - name: Restore APT lists cache
-      uses: actions/cache@v4
-      with:
-        path: /var/lib/apt/lists
-        key: ${{ runner.os }}-apt-lists-v1
-    - name: Restore APT archives cache
-      uses: actions/cache@v4
-      with:
-        path: /var/cache/apt/archives
-        key: ${{ runner.os }}-apt-archives-${{ inputs.packages }}
     - run: sudo apt-get update -qq -o Acquire::Retries=3 && sudo apt-get install -y --no-install-recommends --fix-missing -qq -o Acquire::Retries=3 ${{ inputs.packages }}
       shell: bash
