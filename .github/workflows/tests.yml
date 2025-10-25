@@ -10,10 +10,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Install libvips and pdftoppm
-        run: |
-          sudo apt-get update -qq -o Acquire::Retries=3
-          sudo apt-get install -y --fix-missing -qq -o Acquire::Retries=3 libvips poppler-utils
+      - name: Install APT Packages
+        uses: ./.github/actions/install-apt-packages
+        with:
+          packages: libvips poppler-utils
 
       - name: Install Ruby and run Bundler install with cache
         uses: ruby/setup-ruby@v1

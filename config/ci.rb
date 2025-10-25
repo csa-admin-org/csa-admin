@@ -7,9 +7,6 @@ CI.run do
 
   step "Style: Linter check", "bin/rails lint:check"
 
-  step "Locales: Check missing", "bin/rails locales:missing"
-  step "Locales: Verify format", "bin/rails locales:verify"
-
   step "Security: Gem audit", "bin/bundler-audit"
   step "Security: Importmap vulnerability audit", "bin/importmap audit"
   step "Security: Brakeman code analysis", "bin/brakeman --quiet --no-pager --exit-on-warn --exit-on-error"

@@ -1,0 +1,15 @@
+name: 'Install APT Packages'
+description: 'Install specified APT packages with optimizations for speed and reliability'
+
+inputs:
+  packages:
+    description: 'Space-separated list of packages to install'
+    required: true
+
+runs:
+  using: 'composite'
+  steps:
+    - run: sudo apt-get update -qq -o Acquire::Retries=3
+      shell: bash
+    - run: sudo apt-get install -y --no-install-recommends --fix-missing -qq -o Acquire::Retries=3 ${{ inputs.packages }}
+      shell: bash
