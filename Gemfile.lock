@@ -320,7 +320,7 @@ GEM
       rdoc (>= 4.0.0)
       reline (>= 0.4.2)
     jmespath (1.6.2)
-    json (2.15.1)
+    json (2.15.2)
     kamal (2.8.1)
       activesupport (>= 7.0)
       base64 (~> 0.2)
@@ -893,7 +893,7 @@ CHECKSUMS
   io-stream (0.11.0) sha256=d75b0baa991865097fbe3f101c40d3fd1ab301f9b9d7dc22586f60c524727788
   irb (1.15.2) sha256=222f32952e278da34b58ffe45e8634bf4afc2dc7aa9da23fed67e581aa50fdba
   jmespath (1.6.2) sha256=238d774a58723d6c090494c8879b5e9918c19485f7e840f2c1c7532cf84ebcb1
-  json (2.15.1) sha256=b1c1b2e7c116eb1903e0ce0c374783e6ead8747a0f9eca132d274018ebb80b89
+  json (2.15.2) sha256=1068e1d966d2d0dcaf953eaed09c2d30e4104c64c1e3140c435d17be08d1fa27
   kamal (2.8.1) sha256=abf03b048b2e89a5e379a4b86eaa12567e4f06333be981ce5d8ba9a926c15f5b
   kaminari (1.2.2) sha256=c4076ff9adccc6109408333f87b5c4abbda5e39dc464bd4c66d06d9f73442a3e
   kaminari-actionview (1.2.2) sha256=1330f6fc8b59a4a4ef6a549ff8a224797289ebf7a3a503e8c1652535287cc909
