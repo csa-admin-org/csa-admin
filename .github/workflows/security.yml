@@ -25,7 +25,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v5
 
-      - name: Install Ruby and run Bundler install with cache
+      - name: Install Ruby and run Bundler
         uses: ruby/setup-ruby@v1
         with:
           bundler-cache: true

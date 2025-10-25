@@ -15,12 +15,12 @@ jobs:
         with:
           packages: libvips
 
-      - name: Install Ruby and run Bundler install with cache
+      - name: Install Ruby and run Bundler
         uses: ruby/setup-ruby@v1
         with:
           bundler-cache: true
 
-      - name: Install Node.js and run npm install
+      - name: Install Node and run npm
         uses: actions/setup-node@v4
       - run: npm ci
 
