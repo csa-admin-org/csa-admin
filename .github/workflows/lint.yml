@@ -10,10 +10,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Install libvips and pdftoppm
-        run: |
-          sudo apt-get update -qq -o Acquire::Retries=3
-          sudo apt-get install -y --fix-missing -qq -o Acquire::Retries=3 libvips poppler-utils
+      - name: Install APT Packages
+        uses: ./.github/actions/install-apt-packages
+        with:
+          packages: libvips poppler-utils
 
       - name: Install Ruby and run Bundler install with cache
         uses: ruby/setup-ruby@v1
@@ -22,28 +22,10 @@ jobs:
 
       - name: Install Node.js and run npm install
         uses: actions/setup-node@v4
-      - run: npm install
+      - run: npm ci
 
       - name: Run lint:check
         run: bin/rails lint:check
-
-      - name: Run locales:missing
-        run: |
-          output=$(bin/rails locales:missing)
-          if [ -n "$output" ]; then
-            echo "Missing locales found:"
-            echo "$output"
-            exit 1
-          fi
-
-      - name: Run locales:verify
-        run: |
-          expected_output="Locales passed format verification."
-          output=$(bin/rails locales:verify)
-          if [ "$output" != "$expected_output" ]; then
-            echo "Locales format is invalid."
-            exit 1
-          fi
 
       - name: Check Migration Indexes
         uses: speedshop/ids_must_be_indexed@v1.2.1

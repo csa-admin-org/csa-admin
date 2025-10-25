@@ -9,11 +9,15 @@ namespace :locales do
     convert_and_write_to_config(load_translations_from_config)
   end
 
+  desc "Check that locales format is correct and that no keys are missing"
+  task check: :environment do
+    Rake::Task["locales:missing"].invoke
+    Rake::Task["locales:verify"].invoke
+  end
+
   desc "Verify that locale files adhere to the automatic format"
   task verify: :format do
-    if `git status --short --porcelain -- config/locales`.empty?
-      puts "Locales passed format verification."
-    else
+    unless `git status --short --porcelain -- config/locales`.empty?
       puts "Locales did not pass format verification."
       puts "Run `rails locales:format` and inspect the diff."
       exit 1
@@ -35,7 +39,7 @@ namespace :locales do
     end
   end
 
-  desc "List not yet translated keys"
+  desc "List all keys missing a translation"
   task missing: :environment do
     translations = load_translations_from_config
     all_keys = translations.flat_map { |l, k| list_all_keys(k) }.uniq.compact
@@ -50,6 +54,7 @@ namespace :locales do
         puts "  _#{locale}: ???"
       end
     end
+    exit 1 if missing_keys.any? { |_, keys| keys.any? }
   end
 
   def list_all_keys(value, key = nil)
