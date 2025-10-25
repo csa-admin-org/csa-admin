@@ -9,6 +9,16 @@ inputs:
 runs:
   using: 'composite'
   steps:
+    - name: Compute cache key
+      run: echo "CACHE_KEY=apt-${{ runner.os }}-$(date +%U)-$(echo '${{ inputs.packages }}' | sha256sum | cut -d' ' -f1)" >> $GITHUB_ENV
+      shell: bash
+    - name: Cache APT packages
+      uses: actions/cache@v3
+      with:
+        path: |
+          /var/cache/apt/archives
+          /var/lib/apt/lists
+        key: ${{ env.CACHE_KEY }}
     - run: sudo apt-get update -qq -o Acquire::Retries=3
       shell: bash
     - run: sudo apt-get install -y --no-install-recommends --fix-missing -qq -o Acquire::Retries=3 ${{ inputs.packages }}
