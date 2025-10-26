@@ -15,7 +15,7 @@ jobs:
         with:
           packages: libvips poppler-utils
 
-      - name: Install Ruby and run Bundler
+      - name: Ruby Setup
         uses: ruby/setup-ruby@v1
         with:
           bundler-cache: true
