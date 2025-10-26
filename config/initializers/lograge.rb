@@ -10,6 +10,7 @@ Rails.application.configure do
     payload = {
       host: controller.request.host
     }
+    payload[:org] = Tenant.current if Tenant.inside?
     if controller.respond_to?(:current_admin, true) && controller.send(:current_admin)
       payload[:admin_id] = controller.send(:current_admin)&.id
     end
