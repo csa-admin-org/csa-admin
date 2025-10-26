@@ -37,7 +37,7 @@ module HasPublicName
       }.to_h
     end
 
-    Organization::LANGUAGES.each do |locale|
+    Organization.languages.each do |locale|
       define_method("admin_name_#{locale}=") do |str|
         self[:admin_names][locale] = str&.strip
       end

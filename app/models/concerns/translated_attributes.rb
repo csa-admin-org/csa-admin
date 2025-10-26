@@ -25,11 +25,11 @@ module TranslatedAttributes
           send(attr, locale).present?
         end
         define_method("#{attr}=") do |str|
-          Organization::LANGUAGES.each do |locale|
+          Organization.languages.each do |locale|
             send("#{attr}_#{locale}=", str.presence&.strip)
           end
         end
-        Organization::LANGUAGES.each do |locale|
+        Organization.languages.each do |locale|
           define_method("#{attr}_#{locale}") { self[column][locale].presence }
           define_method("#{attr}_#{locale}=") do |str|
             self[column][locale] = str.presence&.strip
@@ -52,7 +52,7 @@ module TranslatedAttributes
         self.ransackable_translated_scopes << "#{attr}_cont"
 
         if required
-          Organization::LANGUAGES.each do |locale|
+          Organization.languages.each do |locale|
             validates "#{attr}_#{locale}".to_sym, presence: true, if: -> {
               locale.in?(Current.org.languages)
             }
