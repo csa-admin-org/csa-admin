@@ -14,7 +14,7 @@
     </span>
   </span>
   <span class="order-3 flex-none text-right w-28 tabular-nums">
-    <%= cur(object.amount) %>
+    <%= ccur(object, :amount) %>
   </span>
 <% when Payment %>
   <span class="order-1 w-full grow">
@@ -29,6 +29,6 @@
     <% end %>
   </span>
   <span class="order-3 flex-none text-right w-28">
-    <%= cur(-object.amount) %>
+    <%= cur(-object.amount, currency_code: object.currency_code) %>
   </span>
 <% end %>
