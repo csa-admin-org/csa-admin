@@ -1,6 +1,12 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 
+# Parse custom flags
+if ARGV.include?('--skip-tailwindcss-build')
+  ENV['SKIP_TAILWINDCSS_BUILD'] = '1'
+  ARGV.delete('--skip-tailwindcss-build')
+end
+
 APP_PATH = File.expand_path("../config/application", __dir__)
 require_relative "../config/boot"
 require "rails/commands"

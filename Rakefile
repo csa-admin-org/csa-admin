@@ -6,3 +6,9 @@
 require File.expand_path("../config/application", __FILE__)
 
 Rails.application.load_tasks
+
+# Conditionally skip Tailwind build in test:prepare if SKIP_TAILWINDCSS_BUILD is set
+if ENV["SKIP_TAILWINDCSS_BUILD"]
+  task = Rake::Task["test:prepare"]
+  task.prerequisites.delete("tailwindcss:build") if task.prerequisites.include?("tailwindcss:build")
+end
