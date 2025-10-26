@@ -1,0 +1,15 @@
+_:
+  local_currency:
+    rad:
+      default:
+        _en: Radis
+        _fr: Radis
+        _de: Radis
+        _it: Radis
+        _nl: Radis
+      long:
+        _en: Radis (GE, Switzerland)
+        _fr: Radis (GE, Suisse)
+        _de: Radis (GE, Schweiz)
+        _it: Radis (GE, Svizzera)
+        _nl: Radis (GE, Zwitserland)

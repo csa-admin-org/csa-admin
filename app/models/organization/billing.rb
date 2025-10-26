@@ -32,7 +32,7 @@ module Organization::Billing
       vat_membership_rate&.positive? || vat_activity_rate&.positive? || vat_shop_rate&.positive?
     }
     validates :recurring_billing_wday, inclusion: { in: 0..6 }, allow_nil: true
-    validates :currency_code, presence: true, inclusion: { in: CURRENCIES }
+    validates :currency_code, presence: true, inclusion: { in: currency_codes }
 
     after_save :apply_annual_fee_change
 
@@ -123,7 +123,7 @@ module Organization::Billing
   end
 
   class_methods do
-    def currencies = CURRENCIES
+    def currency_codes = CURRENCIES
     def billing_year_divisions = BILLING_YEAR_DIVISIONS
   end
 

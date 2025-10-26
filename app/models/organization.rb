@@ -8,6 +8,7 @@ class Organization < ApplicationRecord
     basket_price_extra
     bidding_round
     contact_sharing
+    local_currency
     new_member_fee
     shop
   ]
@@ -32,7 +33,14 @@ class Organization < ApplicationRecord
   include TranslatedRichTexts
   include NormalizedString
   include Billing
-  include AbsenceFeature, ActivityFeature, BasketPriceExtraFeature, BiddingRoundFeature, NewMemberFeeFeature, ShopFeature
+  include \
+    AbsenceFeature,
+    ActivityFeature,
+    BasketPriceExtraFeature,
+    BiddingRoundFeature,
+    LocalCurrencyFeature,
+    NewMemberFeeFeature,
+    ShopFeature
 
   attribute :icalendar_auth_token, :string, default: -> { SecureRandom.hex(16) }
 
