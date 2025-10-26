@@ -44,7 +44,7 @@ acme:
   feature_flags: []
   shop_admin_only: false
   activity_price: 50
-  activity_participations_demanded_logic: "<%= Organization::ACTIVITY_PARTICIPATIONS_DEMANDED_LOGIC_DEFAULT %>"
+  activity_participations_demanded_logic: "<%= Organization.activity_participations_demanded_logic_default %>"
   icalendar_auth_token: 1234abcd
   new_member_fee: 33
   new_member_fee_descriptions:
