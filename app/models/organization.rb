@@ -31,9 +31,8 @@ class Organization < ApplicationRecord
   include TranslatedAttributes
   include TranslatedRichTexts
   include NormalizedString
-  include HasIBAN
-  include AbsenceFeature, ActivityFeature, BasketPriceExtraFeature, NewMemberFeeFeature, ShopFeature
-  include Organization::Billing
+  include Billing
+  include AbsenceFeature, ActivityFeature, BasketPriceExtraFeature, BiddingRoundFeature, NewMemberFeeFeature, ShopFeature
 
   attribute :icalendar_auth_token, :string, default: -> { SecureRandom.hex(16) }
 
@@ -68,14 +67,6 @@ class Organization < ApplicationRecord
   validates_plausible_phone :activity_phone, country_code: ->(org) { org.country_code }
   validates :trial_baskets_count, numericality: { greater_than_or_equal_to: 0 }, presence: true
   validates :open_renewal_reminder_sent_after_in_days,
-    numericality: { greater_than_or_equal_to: 1, allow_nil: true }
-  validates :bidding_round_basket_size_price_min_percentage,
-    numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 100 },
-    presence: true
-  validates :bidding_round_basket_size_price_max_percentage,
-    numericality: { greater_than_or_equal_to: 1 },
-    presence: true
-  validates :open_bidding_round_reminder_sent_after_in_days,
     numericality: { greater_than_or_equal_to: 1, allow_nil: true }
   validates :country_code,
     presence: true,

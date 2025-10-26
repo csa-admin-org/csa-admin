@@ -8,6 +8,8 @@ module Organization::Billing
   BANK_CONNECTION_TYPES = %w[ebics bas mock]
 
   included do
+    include HasIBAN
+
     validates :creditor_name, :creditor_address, :creditor_city, :creditor_zip, presence: true
     validates :bank_reference, format: { with: /\A\d+\z/, allow_blank: true }
     validates :iban, format: ->(org) { Billing.iban_format(org.country_code) }, allow_nil: true, if: :country_code?
