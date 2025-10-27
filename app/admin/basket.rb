@@ -20,18 +20,30 @@ ActiveAdmin.register Basket do
   end
 
   filter :delivery, as: :select
+  filter :during_year,
+    as: :select,
+    collection: -> { fiscal_years_collection }
 
   includes :delivery, :basket_size, :depot, baskets_basket_complements: :basket_complement, membership: :member
   csv do
-    delivery = Delivery.find(params[:q][:delivery_id_eq])
+    deliveries = []
+    deliveries << Delivery.find(params[:q][:delivery_id_eq]) if params[:q][:delivery_id_eq].present?
+    deliveries += Delivery.during_year(params[:q][:during_year]) if params[:q][:during_year].present?
+    deliveries.compact!
     shop_orders =
       if feature?("shop")
-        delivery.shop_orders.includes(:member, items: { product: :basket_complement })
+        Shop::Order.where(delivery: deliveries).includes(:member, items: { product: :basket_complement })
       else
         Shop::Order.none
       end
     shop_products = shop_orders.products_displayed_in_delivery_sheets
 
+    if deliveries.many?
+      column(:delivery_id) { |b| b.delivery.display_number }
+      column(:delivery_date) { |b| b.delivery.date }
+    end
+
+    column(:basket_id) { |b| b.id }
     column(:membership_id) { |b| b.membership_id }
     column(:member_id) { |b| b.member.id }
     column(:name) { |b| b.member.name }
@@ -219,12 +231,20 @@ ActiveAdmin.register Basket do
     end
 
     def csv_filename
-      delivery = Delivery.find(params[:q][:delivery_id_eq])
-      [
-        t("delivery.delivery"),
-        delivery.display_number,
-        delivery.date.strftime("%Y%m%d")
-      ].join("-") + ".csv"
+      if params[:q][:delivery_id_eq].present?
+        delivery = Delivery.find(params[:q][:delivery_id_eq])
+        [
+          Delivery.model_name.human.downcase,
+          delivery.display_number,
+          delivery.date.strftime("%Y%m%d")
+        ].join("-") + ".csv"
+      elsif params[:q][:during_year].present?
+        fiscal_year = Current.org.fiscal_year_for(params[:q][:during_year])
+        [
+          Delivery.model_name.human(count: 2).downcase,
+          fiscal_year.to_s
+        ].join("-") + ".csv"
+      end
     end
   end
 end
