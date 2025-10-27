@@ -78,6 +78,12 @@ _:
       _de: Kontostand
       _it: Bilancio
       _nl: Saldo
+    basket_id:
+      _en: Basket ID
+      _fr: Panier ID
+      _de: Taschen-ID
+      _it: Cesta ID
+      _nl: Pakket-ID
     basket_price_extra:
       _en: Extra basket price
       _fr: Prix panier extra

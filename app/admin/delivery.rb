@@ -67,6 +67,12 @@ ActiveAdmin.register Delivery do
     action_link DeliveryCycle.model_name.human(count: 2), delivery_cycles_path
   end
 
+  action_item :baskets_csv, only: :index, if: -> { params.dig(:q, :during_year).present? } do
+    action_link Basket.model_name.human(count: 2), baskets_path(q: { during_year: params.dig(:q, :during_year) }, format: :csv),
+      target: "_blank",
+      icon: "file-csv"
+  end
+
   sidebar_handbook_link("deliveries")
 
   show title: ->(d) { d.display_name(format: :long).capitalize } do |delivery|
