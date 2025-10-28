@@ -8,16 +8,16 @@ module Organization::BasketPriceExtraFeature
     translated_attributes :basket_price_extra_label, :basket_price_extra_label_detail
 
     validate :basket_price_extra_dynamic_pricing_logic_must_be_valid
-  end
 
-  def basket_price_extra_title
-    self[:basket_price_extra_titles][I18n.locale.to_s].presence ||
-      self.class.human_attribute_name(:basket_price_extra)
-  end
+    def basket_price_extra_title
+      self[:basket_price_extra_titles][I18n.locale.to_s].presence ||
+        self.class.human_attribute_name(:basket_price_extra)
+    end
 
-  def basket_price_extra_public_title
-    self[:basket_price_extra_public_titles][I18n.locale.to_s].presence ||
-      basket_price_extra_title
+    def basket_price_extra_public_title
+      self[:basket_price_extra_public_titles][I18n.locale.to_s].presence ||
+        basket_price_extra_title
+    end
   end
 
   def basket_price_extra_label_detail_default
