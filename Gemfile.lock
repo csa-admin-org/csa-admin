@@ -1,13 +1,3 @@
-GIT
-  remote: https://github.com/modosc/cloudflare-rails.git
-  revision: de969fe7e9fe6a4205934393b461383ca7634513
-  specs:
-    cloudflare-rails (7.0.0)
-      actionpack (>= 7.2.0, < 8.2.0)
-      activesupport (>= 7.2.0, < 8.2.0)
-      railties (>= 7.2.0, < 8.2.0)
-      zeitwerk (>= 2.5.0)
-
 GEM
   remote: https://rubygems.org/
   specs:
@@ -187,6 +177,11 @@ GEM
       ffi
     cloudflare (4.4.0)
       async-rest (~> 0.18)
+    cloudflare-rails (7.0.0)
+      actionpack (>= 7.2.0, < 8.2.0)
+      activesupport (>= 7.2.0, < 8.2.0)
+      railties (>= 7.2.0, < 8.2.0)
+      zeitwerk (>= 2.5.0)
     cmdparse (3.0.7)
     cmxl (2.2)
       rchardet
@@ -354,7 +349,7 @@ GEM
     letter_opener (1.10.0)
       launchy (>= 2.2, < 4)
     lint_roller (1.1.0)
-    liquid (5.9.0)
+    liquid (5.10.0)
       bigdecimal
       strscan (>= 3.1.1)
     logger (1.7.0)
@@ -616,7 +611,7 @@ GEM
       actionpack (>= 7.0)
       activemodel (>= 7.0)
     simpleidn (0.2.3)
-    solid_queue (1.2.3)
+    solid_queue (1.2.4)
       activejob (>= 7.1)
       activerecord (>= 7.1)
       concurrent-ruby (>= 1.3.1)
@@ -711,7 +706,7 @@ DEPENDENCIES
   capybara-email
   cld
   cloudflare
-  cloudflare-rails!
+  cloudflare-rails
   cmxl
   countries
   date_validator
@@ -830,7 +825,7 @@ CHECKSUMS
   chunky_png (1.4.0) sha256=89d5b31b55c0cf4da3cf89a2b4ebc3178d8abe8cbaf116a1dba95668502fdcfe
   cld (0.13.0) sha256=4269b5741756989e7ebcc5ff78c8c30d53cedfe408eb091d610113d82f3e490c
   cloudflare (4.4.0) sha256=7e0a4a0fb7c301a1fec977dfc303f4b5f2edeafd3f0f25950698b03de118ed81
-  cloudflare-rails (7.0.0)
+  cloudflare-rails (7.0.0) sha256=9049b8305eab120e2d4ed9d04b42ce7030da5297fb62b0fa718b0a9e2d9af56c
   cmdparse (3.0.7) sha256=f7c5cace10bec6abf853370ae095e4b97a84ed9d847b3fb38f41cc4fbc950739
   cmxl (2.2) sha256=2f502f7dd8e9b64db40a75c7c18023e6b554a10f26a6f34c55ee61c412b10bda
   concurrent-ruby (1.3.5) sha256=813b3e37aca6df2a21a3b9f1d497f8cbab24a2b94cab325bffe65ee0f6cbebc6
@@ -909,7 +904,7 @@ CHECKSUMS
   launchy (3.1.1) sha256=72b847b5cc961589dde2c395af0108c86ff0119f42d4648d25b5440ebb10059e
   letter_opener (1.10.0) sha256=2ff33f2e3b5c3c26d1959be54b395c086ca6d44826e8bf41a14ff96fdf1bdbb2
   lint_roller (1.1.0) sha256=2c0c845b632a7d172cb849cc90c1bce937a28c5c8ccccb50dfd46a485003cc87
-  liquid (5.9.0) sha256=069973accd11a97ad77992bb77dab599f4497ece4f394886455a39fe2afef92b
+  liquid (5.10.0) sha256=0d719186676d8be9d15d2bea7fd76388faf24a2aa7ad803c3de161322f74adc6
   logger (1.7.0) sha256=196edec7cc44b66cfb40f9755ce11b392f21f7967696af15d274dde7edff0203
   lograge (0.14.0) sha256=42371a75823775f166f727639f5ddce73dd149452a55fc94b90c303213dc9ae1
   loofah (2.24.1) sha256=655a30842b70ec476410b347ab1cd2a5b92da46a19044357bbd9f401b009a337
@@ -1009,7 +1004,7 @@ CHECKSUMS
   sepa_king (0.14.0) sha256=56a97ced91fef18138dce2c6e8f0c19c184a61d1ec24e45b00dce7c438e8239c
   simple_form (5.4.0) sha256=eb1ce5b0ec36ae171f2e2a07ec479ad3eaeb53fa750aa3f775a7cb7b684810ee
   simpleidn (0.2.3) sha256=08ce96f03fa1605286be22651ba0fc9c0b2d6272c9b27a260bc88be05b0d2c29
-  solid_queue (1.2.3) sha256=37e50a0972773de2bb48cbd62db058fd10b0e5f64c0f0caa7bf32bca0dcf6a33
+  solid_queue (1.2.4) sha256=bb60f9552a969ac377d87601b0ff6a088f5e6f20b0cbbe3844a59d022cac0e4b
   sqlean (0.3.0-aarch64-linux-gnu) sha256=2b88dcefd7c9a92a9287c1bf8d650f286275d2645c95d5836c2efe8a0255a078
   sqlean (0.3.0-arm64-darwin) sha256=32ffa1e5a908a52c028fb06fa2dbe61f600a865c95960d7ec4f3fbc82f28bf78
   sqlean (0.3.0-x86_64-linux-gnu) sha256=51e7e0a66ceebf26c4a4509001412bea2214fb748752fde96a228db9cb2e85ce
