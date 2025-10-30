@@ -90,8 +90,7 @@ gem "nokogiri"
 gem "cloudflare", require: false
 
 group :production do
-  # Waiting for versoin 7.0
-  gem "cloudflare-rails", github: "modosc/cloudflare-rails"
+  gem "cloudflare-rails"
 end
 
 group :development, :test do
