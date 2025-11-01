@@ -4,11 +4,11 @@ require "test_helper"
 
 class PDF::InvoiceTest < ActiveSupport::TestCase
   def save_pdf_and_return_strings(invoice)
-    pdf = I18n.with_locale(invoice.member.language) do
-      PDF::Invoice.new(invoice)
+    I18n.with_locale(invoice.member.language) do
+      pdf = PDF::Invoice.new(invoice)
+      # pdf.render_file(Rails.root.join("tmp/invoice.pdf"))
+      PDF::Inspector::Text.analyze(pdf.render).strings
     end
-    pdf.render_file(Rails.root.join("tmp/invoice.pdf"))
-    PDF::Inspector::Text.analyze(pdf.render).strings
   end
 
   test "simple invoice full layout" do
@@ -400,6 +400,7 @@ class PDF::InvoiceTest < ActiveSupport::TestCase
   end
 
   test "shop order" do
+    travel_to "2024-01-01"
     Current.org.update!(
       shop_invoice_info: "Invoice of you shop order of %{date}.")
     order = create_shop_order(
@@ -447,9 +448,11 @@ class PDF::InvoiceTest < ActiveSupport::TestCase
   end
 
   test "France invoice" do
+    travel_to "2024-01-01"
     france_org
-    members(:martha).update!(language: "fr")
     invoice = invoices(:annual_fee)
+    invoice.member.update!(language: "fr")
+
     pdf_strings = save_pdf_and_return_strings(invoice)
 
     assert_equal [
@@ -473,15 +476,15 @@ class PDF::InvoiceTest < ActiveSupport::TestCase
   end
 
   test "Germany invoice (Girocode QR)" do
+    travel_to "2024-01-01"
     german_org
-    members(:martha).update!(
+    invoice = invoices(:annual_fee)
+    invoice.member.update!(
       language: "de",
       address: "Grosse Marktgasse 28",
       zip: "30952",
       city: "Ronnenberg",
       country_code: "DE")
-
-    invoice = invoices(:annual_fee)
     invoice.update!(id: 12345678)
     pdf_strings = save_pdf_and_return_strings(invoice)
 
@@ -524,6 +527,7 @@ class PDF::InvoiceTest < ActiveSupport::TestCase
       country_code: "DE")
 
     invoice = create_annual_fee_invoice(id: 412351, member: member)
+
     assert_equal({
       "name" => "Anna Doe",
       "iban" => "DE21500500009876543210",
