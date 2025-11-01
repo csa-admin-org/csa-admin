@@ -45,13 +45,13 @@ module ActiveSupport
 
     setup do
       Tenant.connect("acme")
-      I18n.locale = :en
       skip_invoice_pdf
     end
 
     teardown do
       Tenant.disconnect
       clear_emails
+      I18n.locale = I18n.default_locale
     end
   end
 end
