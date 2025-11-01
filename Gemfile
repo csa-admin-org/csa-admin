@@ -86,12 +86,13 @@ gem "user_agent_parser", require: false
 gem "kramdown", require: false
 gem "nokogiri", require: false
 
+gem "faker", require: false
+
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem "debug", platforms: %i[ mri windows ], require: "debug/prelude"
 
   gem "dotenv"
-  gem "faker", require: false
 end
 
 group :development do
