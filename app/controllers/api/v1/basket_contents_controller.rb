@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require "ostruct"
+
 module API
   module V1
     class BasketContentsController < BaseController

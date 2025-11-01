@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require "sepa_king"
+
 module Billing
   class SEPADirectDebit
     SCHEMA = "pain.008.001.02"

@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require "parallel"
 require "faraday"
 require "json"
 

@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require "test_helper"
+require "ostruct"
 
 class AdminMailerTest < ActionMailer::TestCase
   test "depot_delivery_list_email" do

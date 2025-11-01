@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require "ostruct"
+
 module SharedDataPreview
   extend ActiveSupport::Concern
 

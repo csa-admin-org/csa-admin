@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require "sepa_king"
+
 class Member < ApplicationRecord
   include HasState
   include HasName

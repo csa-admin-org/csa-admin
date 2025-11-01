@@ -1,5 +1,8 @@
 # frozen_string_literal: true
 
+require "ostruct"
+require "cmxl"
+
 module Billing
   class MtFile
     UnsupportedFileError = Class.new(StandardError)

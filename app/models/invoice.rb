@@ -2,6 +2,7 @@
 
 require "rounding"
 require "bigdecimal"
+require "stringio"
 
 class Invoice < ApplicationRecord
   include HasFiscalYear

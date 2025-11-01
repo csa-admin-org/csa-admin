@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require "ostruct"
+
 module Billing
   class SwissQRReference
     LENGTH = 27

@@ -1,5 +1,8 @@
 # frozen_string_literal: true
 
+#
+require "hexapdf"
+
 module PDF
   class InvoiceCancellationStamp
     def self.stamp!(path)

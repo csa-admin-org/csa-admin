@@ -3,6 +3,8 @@
 # Structured Creditor Reference (référence type SCOR) ISO-11649
 # https://www.mobilefish.com/services/creditor_reference/creditor_reference.php
 
+require "ostruct"
+
 module Billing
   class ScorReference
     PREFIX = "RF"

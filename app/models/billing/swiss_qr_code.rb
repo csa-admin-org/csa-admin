@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require "image_processing/vips"
+require "rqrcode"
 
 # QR Payload specification: https://www.paymentstandards.ch/dam/downloads/ig-qr-bill-en.pdf
 # QR Validator: https://www.swiss-qr-invoice.org/validator/?lang=fr

@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require "kramdown"
+require "nokogiri"
 class Handbook
   include Comparable
 

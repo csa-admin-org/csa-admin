@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require "ostruct"
+
 class Newsletter
   module Audience
     include ActivitiesHelper

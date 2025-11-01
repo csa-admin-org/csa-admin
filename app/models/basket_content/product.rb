@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require "public_suffix"
+
 class BasketContent
   class Product < ApplicationRecord
     include TranslatedAttributes

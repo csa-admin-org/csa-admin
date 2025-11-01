@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require "rubyXL"
 require "rubyXL/convenience_methods"
 
 module XLSX
