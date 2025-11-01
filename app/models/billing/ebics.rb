@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require "epics"
+
 module Billing
   class EBICS
     MaintenanceError = Class.new(StandardError)

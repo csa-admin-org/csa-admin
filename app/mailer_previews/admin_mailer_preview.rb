@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require "ostruct"
+
 class AdminMailerPreview < ActionMailer::Preview
   include SharedDataPreview
 

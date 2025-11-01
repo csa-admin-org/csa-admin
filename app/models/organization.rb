@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require "public_suffix"
+
 class Organization < ApplicationRecord
   FEATURES = %i[
     absence

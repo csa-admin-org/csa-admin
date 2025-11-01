@@ -6,6 +6,7 @@ require "sshkit/dsl"
 require "yaml"
 require "parallel"
 require "fileutils"
+require "stringio"
 
 include SSHKit::DSL
 

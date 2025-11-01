@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require "public_suffix"
+
 module Tenant
   extend self
 

@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require "sepa_king"
+
 module Organization::Billing
   extend ActiveSupport::Concern
 

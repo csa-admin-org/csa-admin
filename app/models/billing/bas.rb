@@ -1,6 +1,9 @@
 # frozen_string_literal: true
 
+require "ostruct"
 require "tempfile"
+require "faraday"
+require "faraday-cookie_jar"
 
 module Billing
   class BAS

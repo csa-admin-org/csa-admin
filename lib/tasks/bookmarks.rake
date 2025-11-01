@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require "erb"
+require "ostruct"
 
 desc "Generate HTML bookmarks file for all tenants using ERB template"
 task bookmarks: :environment do

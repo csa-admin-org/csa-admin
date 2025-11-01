@@ -2,6 +2,8 @@
 
 # European Payments Council: Quick Response Code
 # https://github.com/mtgrosser/girocode
+require "girocode"
+
 
 module Billing
   class EPCQRCode

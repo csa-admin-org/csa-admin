@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require "user_agent_parser"
+
 class Session < ApplicationRecord
   EXPIRATION = 1.year
 

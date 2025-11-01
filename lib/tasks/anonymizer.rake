@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require "parallel"
+require "faker"
 
 namespace :anonymizer do
   desc "Anonymize all private data in the development databases"

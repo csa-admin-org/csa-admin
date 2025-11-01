@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require "ostruct"
+
 class InvoiceTotal
   include ActivitiesHelper
   include ActionView::Helpers::UrlHelper

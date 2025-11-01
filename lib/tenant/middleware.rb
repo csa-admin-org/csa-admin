@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require "public_suffix"
 module Tenant
   class Middleware
     def initialize(app)

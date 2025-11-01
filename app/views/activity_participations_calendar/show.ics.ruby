@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require "tod/core_extensions"
+require "icalendar"
 require "icalendar/tzinfo"
 
 cal = Icalendar::Calendar.new

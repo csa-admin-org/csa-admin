@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require "ostruct"
+
 class AbsenceMailerPreview < ActionMailer::Preview
   include SharedDataPreview
 
