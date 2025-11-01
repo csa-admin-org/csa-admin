@@ -379,7 +379,7 @@ class PDF::InvoiceTest < ActiveSupport::TestCase
   end
 
   test "over 2 pages" do
-    invoice = create_invoice(items_attributes: 50.times.map { |i|
+    invoice = create_invoice(items_attributes: 48.times.map { |i|
       [ i, { description: "A thing", amount: 10 } ]
     }.to_h)
     pdf_strings = save_pdf_and_return_strings(invoice)
@@ -389,7 +389,7 @@ class PDF::InvoiceTest < ActiveSupport::TestCase
   end
 
   test "over 3 pages" do
-    invoice = create_invoice(items_attributes: 51.times.map { |i|
+    invoice = create_invoice(items_attributes: 49.times.map { |i|
       [ i, { description: "A thing", amount: 10 } ]
     }.to_h)
     pdf_strings = save_pdf_and_return_strings(invoice)

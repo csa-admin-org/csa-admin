@@ -57,9 +57,8 @@ gem "faraday-cookie_jar", require: false
 gem "icalendar", require: false
 gem "image_processing"
 # https://github.com/prawnpdf/ttfunk/issues/102
-gem "prawn", "2.4.0", require: false
+gem "prawn", "2.4.0"
 gem "ttfunk", "1.7.0", require: false
-gem "pdf-core", "0.9.0", require: false
 gem "prawn-table", require: false
 gem "prawn-svg", require: false
 gem "hexapdf", require: false

@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require "stringio"
-require "prawn"
 require "prawn/table"
 require "prawn-svg"
 require "prawn/measurement_extensions"
