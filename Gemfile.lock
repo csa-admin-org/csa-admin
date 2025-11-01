@@ -735,7 +735,6 @@ DEPENDENCIES
   mission_control-jobs
   nokogiri
   parallel
-  pdf-core (= 0.9.0)
   pdf-inspector
   phony_rails
   postmark-rails

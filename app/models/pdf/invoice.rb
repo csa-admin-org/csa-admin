@@ -17,29 +17,30 @@ module PDF
       @missing_amount = ::Invoice.find(invoice.id).missing_amount
       super
 
-      smart_pages(invoice.items.to_a)
+      max_per_page = 39
+      max_last_page = Current.org.swiss_qr? ? 9 : 14
+      pages = paginate(invoice.items.to_a, max_per_page, max_last_page)
+      pages.each_with_index do |items, index|
+        page(items, page: index + 1, total_pages: pages.size)
+      end
     end
 
     private
 
-    def smart_pages(items)
-      items_per_full_page = 40.0
-      max_items_on_last_page = Current.org.swiss_qr? ? 10 : 15
+    def paginate(items, max_per_page, max_last_page)
+      pages = []
+      remaining = items.dup
 
-      if items.size > max_items_on_last_page
-        first_items = items.first(items.size - max_items_on_last_page)
-        first_total_pages = (first_items.size / items_per_full_page.to_f).ceil
-        items_per_page = (first_items.size / (first_total_pages).to_f).ceil
-        first_items.each_slice(items_per_page).with_index do |items_slice, i|
-          page(items_slice, page: i + 1, total_pages: first_total_pages + 1)
-        end
-
-        total_pages = first_total_pages + 1
-        last_items = items.last(max_items_on_last_page)
-        page(last_items, page: total_pages, total_pages: total_pages)
-      else
-        page(items, page: 1, total_pages: 1)
+      while remaining.size > max_last_page
+        page_size = [
+          max_per_page,
+          [ remaining.size - max_last_page, max_last_page ].max
+        ].min
+        pages << remaining.shift(page_size)
       end
+
+      pages << remaining
+      pages
     end
 
     def page(items, page:, total_pages:)
@@ -74,8 +75,8 @@ module PDF
       member_address_and_id
 
       if total_pages > 1
-        bounding_box [ bounds.width - 65, bounds.height - 30 ], width: 50, height: 50 do
-          text "#{page} / #{total_pages}", align: :center, style: :bold, size: 16
+        bounding_box [ bounds.width - 75, bounds.height - 20 ], width: 50, height: 50 do
+          text "#{page} / #{total_pages}", align: :right, style: :bold, size: 16
         end
         move_down 40
       end
@@ -89,7 +90,7 @@ module PDF
         "#{member.billing_info(:zip)} #{member.billing_info(:city)}"
       ]
 
-      bounding_box [ 12.15.cm, bounds.height - 1.5.cm ], width: 7.8.cm, height: 3.cm do
+      bounding_box [ bounds.width - 7.8.cm - 25, bounds.height - 1.5.cm ], width: 7.8.cm, height: 3.cm do
         parts.each do |part|
           text part, valign: :top, leading: 2, align: :right
           move_down 2
@@ -247,7 +248,7 @@ module PDF
         end
       end
 
-      move_down 30
+      move_down 20
       table data, column_widths: [ bounds.width - 120, 70 ], position: :center do |t|
         t.cells.borders = []
         t.cells.valign = :bottom
@@ -328,7 +329,7 @@ module PDF
         end
       end
 
-      yy = 25
+      yy = 20
       reset_appendice_star
 
       if invoice.vat_amount&.positive?
@@ -337,13 +338,13 @@ module PDF
           "#{cur(invoice.amount_without_vat, unit: true)} #{t("without_taxes")}",
           "#{cur(invoice.vat_amount, unit: true)} #{t("vat")} (#{invoice.vat_rate}%)"
         ].join(", ")
-        bounding_box [ 0, y - 25 ], width: bounds.width - 24 do
+        bounding_box [ 0, y - 15 ], width: bounds.width - 24 do
           text membership_vat_text, width: 200, align: :right, style: :italic, size: 9
         end
         bounding_box [ 0, y - 5 ], width: bounds.width - 24 do
           text "N° #{t("vat")} #{Current.org.vat_number}", width: 200, align: :right, style: :italic, size: 9
         end
-        yy = 10
+        yy = 8
       end
 
       if invoice.amount.positive? && @missing_amount != invoice.amount
@@ -351,7 +352,7 @@ module PDF
         bounding_box [ 0, y - yy ], width: bounds.width - 24 do
           text credit_amount_text, width: 200, align: :right, style: :italic, size: 9, leading: 1.5
         end
-        yy = 10
+        yy = 8
       end
 
       replacing_ids = invoice.previously_canceled_entity_invoice_ids
@@ -374,7 +375,7 @@ module PDF
             date: I18n.l(invoice.entity.delivery.date)
           }
           text shop_invoice_info, width: 200, align: :right, style: :italic, size: 9
-          move_down 10
+          move_down 8
         end
 
         invoice_info = invoice.sepa? ? Current.org.invoice_sepa_info : Current.org.invoice_info
