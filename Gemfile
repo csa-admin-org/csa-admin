@@ -87,6 +87,8 @@ gem "kramdown", require: false
 gem "nokogiri", require: false
 
 gem "faker", require: false
+gem "cloudflare", require: false
+gem "cloudflare-rails", require: false
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
@@ -114,9 +116,6 @@ group :development do
   gem "htmlbeautifier", require: false
 
   gem "brakeman", require: false
-
-  gem "cloudflare", require: false
-  gem "cloudflare-rails", require: false
 end
 
 group :test do
