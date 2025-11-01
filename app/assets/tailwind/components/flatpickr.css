@@ -890,7 +890,7 @@ span.flatpickr-weekday {
   }
 
   & .flatpickr-innerContainer {
-    @apply rounded-b border border-green-500;
+    @apply rounded-b-sm border border-green-500;
   }
 }
 
@@ -960,7 +960,7 @@ span.flatpickr-weekday {
   @apply bg-transparent;
 
   .flatpickr-calendar & {
-    @apply rounded-b border border-green-500;
+    @apply rounded-b-sm border border-green-500;
   }
 }
 
