@@ -763,8 +763,7 @@ class Membership < ApplicationRecord
 
   def at_least_one_basket
     if period && period.min && delivery_cycle&.deliveries_in(period)&.none?
-      errors.add(:started_on, :invalid)
-      errors.add(:ended_on, :invalid)
+      errors.add(:base, :no_deliveries)
     end
   end
 

@@ -141,6 +141,12 @@ _:
         _de: muss eine Stunde länger als der Anfang sein
         _it: deve essere un'ora più lungo dell'inizio
         _nl: moet een uur langer zijn dan het begin
+      no_deliveries:
+        _en: The start/end period must include at least one delivery.
+        _fr: La période de début/fin doit inclure au moins une livraison.
+        _de: Der Start-/Endzeitraum muss mindestens eine Lieferung einschließen.
+        _it: La data di inizio/deinizio deve includere almeno una consegna.
+        _nl: De start/eindperiode moet minstens één levering bevatten.
       not_a_number:
         _en: is not a number
         _fr: n'est pas un nombre

@@ -737,6 +737,7 @@ ActiveAdmin.register Membership do
   end
 
   form do |f|
+    f.semantic_errors :base
     f.inputs t(".details") do
       f.input :member,
         collection: Member.order_by_name.map { |d| [ d.name, d.id ] },
