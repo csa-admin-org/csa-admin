@@ -101,8 +101,8 @@ ActiveAdmin.register BasketContent do
 
   csv do
     column(:date) { |bc| bc.delivery.date.to_s }
-    column(:month) { |bc| I18n.t("date.month_names")[bc.delivery.date.month] }
-    column(:wday) { |bc| I18n.t("date.day_names")[bc.delivery.date.wday] }
+    column(:month) { |bc| t("date.month_names")[bc.delivery.date.month] }
+    column(:wday) { |bc| t("date.day_names")[bc.delivery.date.wday] }
     column(:product) { |bc| bc.product.name }
     column(:unit) { |bc| t("units.#{bc.unit}") }
     column(:unit_price) { |bc| cur(bc.unit_price) }
@@ -111,7 +111,7 @@ ActiveAdmin.register BasketContent do
       column("#{basket_size.name} - #{Basket.model_name.human(count: 2)}") { |bc|
         bc.baskets_count(basket_size)
       }
-      column("#{basket_size.name} - #{BasketContent.human_attribute_name(:quantity)}") { |bc|
+      column("#{basket_size.name} - #{t("attributes.quantity")}") { |bc|
         bc.basket_quantity(basket_size)
       }
       column("#{basket_size.name} - #{BasketContent.human_attribute_name(:price)}") { |bc|
