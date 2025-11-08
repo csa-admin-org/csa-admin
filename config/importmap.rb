@@ -14,8 +14,7 @@ pin_all_from "app/javascript/components", under: "components"
 pin "throttle-debounce" # @5.0.2
 
 # AppSignal
-pin "@appsignal/javascript", to: "@appsignal--javascript.js" # @1.5.0
-pin "@appsignal/core", to: "@appsignal--core.js" # @1.1.24
+pin "@appsignal/javascript", to: "@appsignal--javascript.js" # @1.6.1
 pin "https", preload: false # @2.1.0
 pin "tslib", preload: false # @2.8.1
 
