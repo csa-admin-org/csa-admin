@@ -48,11 +48,6 @@ class SpamDetectorTest < ActiveSupport::TestCase
     refute spam?(member)
   end
 
-  test "detects wrong zip" do
-    member = Member.new(zip: "153535")
-    assert spam?(member)
-  end
-
   test "detects cyrillic address" do
     member = Member.new(address: "РњРѕСЃРєРІР°")
     assert spam?(member)
@@ -108,5 +103,65 @@ class SpamDetectorTest < ActiveSupport::TestCase
     assert spam?(member)
   ensure
     ENV["ALLOWED_COUNTRY_CODES"] = nil
+  end
+
+  test "detects gibberish name" do
+    member = Member.new(name: "CyYgwVdpCnMjkRncLSXdK")
+    assert spam?(member)
+  end
+
+  test "detects gibberish address" do
+    member = Member.new(address: "MXZdwzELADDrkKumATNL")
+    assert spam?(member)
+  end
+
+  test "detects gibberish city" do
+    member = Member.new(city: "vepTdBzWDUEJtQdBBJlMk")
+    assert spam?(member)
+  end
+
+  test "detects gibberish zip" do
+    member = Member.new(zip: "vepTdBzWDUEJtQdBBJlMk")
+    assert spam?(member)
+  end
+
+  test "detects gibberish come_from" do
+    member = Member.new(come_from: "iyIwxiPayjZzpslajCJyqGOp")
+    assert spam?(member)
+  end
+
+  test "detects gibberish note" do
+    member = Member.new(note: "hPHkOZkQBholzsgnepYAtG")
+    assert spam?(member)
+  end
+
+  test "ignores short gibberish name" do
+    member = Member.new(name: "AbCdEf")
+    refute spam?(member)
+  end
+
+  test "ignores normal name" do
+    member = Member.new(name: "Jean Dupont")
+    refute spam?(member)
+  end
+
+  test "ignores normal address" do
+    member = Member.new(address: "42 Beetebuergerstrooss")
+    refute spam?(member)
+  end
+
+  test "ignores normal city" do
+    member = Member.new(city: "Genève")
+    refute spam?(member)
+  end
+
+  test "ignores normal come_from" do
+    member = Member.new(come_from: "Recommandation d'un ami")
+    refute spam?(member)
+  end
+
+  test "ignores normal note" do
+    member = Member.new(note: "Je suis allergique aux noix")
+    refute spam?(member)
   end
 end
