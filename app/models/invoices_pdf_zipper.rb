@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require "zip"
+require "parallel"
 
 class InvoicesPDFZipper
   def self.zip(invoices)
