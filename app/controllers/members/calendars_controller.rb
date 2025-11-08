@@ -15,6 +15,12 @@ class Members::CalendarsController < Members::BaseController
         .between(period_range)
         .includes(:activity)
     @activity_participations = ActivityParticipationGroup.group(participations)
+
+    last_changed = [
+      @baskets.maximum(:updated_at),
+      participations.maximum(:updated_at)
+    ].compact.max
+    fresh_when last_modified: last_changed
   end
 
   private
