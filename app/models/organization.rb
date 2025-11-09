@@ -246,4 +246,4 @@ class Organization < ApplicationRecord
 end
 
 # Alias
-Org = Organization
+Org = Organization unless defined?(Org)
