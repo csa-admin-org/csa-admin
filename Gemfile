@@ -46,8 +46,6 @@ gem "tailwindcss-rails"
 gem "action_text-trix"
 gem "inline_svg"
 
-gem "cld", require: false
-
 gem "solid_queue"
 gem "mission_control-jobs"
 

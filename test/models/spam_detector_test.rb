@@ -63,11 +63,6 @@ class SpamDetectorTest < ActiveSupport::TestCase
     assert spam?(member)
   end
 
-  test "detects non native language text" do
-    member = Member.new(note: "¿Está buscando una interfaz de contabilidad en la nube que haga que el funcionamiento de su empresa sea fácil, rápido y seguro?")
-    assert spam?(member)
-  end
-
   test "ignores blank text" do
     member = Member.new(food_note: "")
     refute spam?(member)
