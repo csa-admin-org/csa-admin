@@ -1,14 +1,7 @@
 # frozen_string_literal: true
 
-require "cld"
-
 class SpamDetector < SimpleDelegator
-  MAX_LENGTH = 5000
-  CYRILLIC_CHECK = /\p{Cyrillic}+/ui
-  TEXTS_ATTRS = %i[note food_note come_from].freeze
-  GIBBERISH_ATTRS = %i[name address city zip come_from note].freeze
-  GIBBERISH_MIN_LENGTH = 20
-  GIBBERISH_RATIO = 0.74
+  TEXT_ATTRS = %i[note food_note come_from]
 
   def self.spam?(member)
     new(member).spam?
@@ -16,21 +9,17 @@ class SpamDetector < SimpleDelegator
 
   def self.notify!(member)
     return if new(member).non_allowed_country?
-    return if new(member).gibberish_text?(:zip)
+    return if new(member).gibberish?(:zip)
 
     Error.notify("Spam detected", **member.attributes)
   end
 
   def spam?
-    note.to_s.length > MAX_LENGTH ||
-      food_note.to_s.length > MAX_LENGTH ||
-      address&.match?(CYRILLIC_CHECK) ||
-      city&.match?(CYRILLIC_CHECK) ||
-      come_from&.match?(CYRILLIC_CHECK) ||
-      non_native_language? ||
-      long_duplicated_texts? ||
-      non_allowed_country? ||
-      gibberish?
+    non_allowed_country? ||
+      TEXT_ATTRS.any? { too_long_text?(it) } ||
+      %i[address city zip come_from].any? { cyrillic?(it) } ||
+      (%i[name address city zip] + TEXT_ATTRS).any? { gibberish?(it) } ||
+      long_duplicated_texts?(TEXT_ATTRS)
   end
 
   def non_allowed_country?
@@ -40,33 +29,21 @@ class SpamDetector < SimpleDelegator
     allowed_country_codes.exclude?(country_code)
   end
 
-  def non_native_language?
-    languages = I18n.available_locales.map(&:to_s)
-    languages << "un" # Unknown CLD language
-    TEXTS_ATTRS.any? { |attr|
-      text = send(attr)
-      if text && text.size > 100
-        cld = CLD.detect_language(text)
-        cld[:reliable] && languages.exclude?(cld[:code])
-      end
-    }
+  def too_long_text?(attr, max_length: 5000)
+    text = send(attr)
+    return if text.blank?
+
+    text.length >= max_length
   end
 
-  def long_duplicated_texts?
-    texts = TEXTS_ATTRS.map { |attr|
-      text = send(attr)
-      if text.present? && text.size > 40
-        text.gsub(/\s/, "")
-      end
-    }.compact
-    texts.any? { |t| texts.count(t) > 1 }
+  def cyrillic?(attr)
+    text = send(attr)
+    return if text.blank?
+
+    text.match?(/\p{Cyrillic}+/ui)
   end
 
-  def gibberish?
-    GIBBERISH_ATTRS.any? { |attr| gibberish_text?(attr) }
-  end
-
-  def gibberish_text?(attr, min_length: GIBBERISH_MIN_LENGTH, max_ratio: GIBBERISH_RATIO)
+  def gibberish?(attr, min_length: 20, max_ratio: 0.74)
     text = send(attr)
     return if text.blank? || text.length < min_length || text =~ /[^\p{L}]/
 
@@ -77,5 +54,15 @@ class SpamDetector < SimpleDelegator
 
     ratio = consonants.to_f / total_letters
     ratio > max_ratio
+  end
+
+  def long_duplicated_texts?(attrs)
+    texts = attrs.map { |attr|
+      text = send(attr)
+      if text.present? && text.size > 40
+        text.gsub(/\s/, "")
+      end
+    }.compact
+    texts.any? { |t| texts.count(t) > 1 }
   end
 end

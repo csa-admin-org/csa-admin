@@ -173,8 +173,6 @@ GEM
     childprocess (5.1.0)
       logger (~> 1.5)
     chunky_png (1.4.0)
-    cld (0.13.0)
-      ffi
     cloudflare (4.4.0)
       async-rest (~> 0.18)
     cloudflare-rails (7.0.0)
@@ -373,7 +371,7 @@ GEM
     mini_magick (5.3.1)
       logger
     mini_mime (1.1.5)
-    minitest (5.26.0)
+    minitest (5.26.1)
     minitest-difftastic (0.2.1)
       difftastic (~> 0.6)
     mission_control-jobs (1.1.0)
@@ -704,7 +702,6 @@ DEPENDENCIES
   cancancan
   capybara
   capybara-email
-  cld
   cloudflare
   cloudflare-rails
   cmxl
@@ -821,7 +818,6 @@ CHECKSUMS
   capybara-email (3.0.2) sha256=ab65dd9b15c096b1ebe24308d18d790eb08814f916883ebccbc1cf46f760696f
   childprocess (5.1.0) sha256=9a8d484be2fd4096a0e90a0cd3e449a05bc3aa33f8ac9e4d6dcef6ac1455b6ec
   chunky_png (1.4.0) sha256=89d5b31b55c0cf4da3cf89a2b4ebc3178d8abe8cbaf116a1dba95668502fdcfe
-  cld (0.13.0) sha256=4269b5741756989e7ebcc5ff78c8c30d53cedfe408eb091d610113d82f3e490c
   cloudflare (4.4.0) sha256=7e0a4a0fb7c301a1fec977dfc303f4b5f2edeafd3f0f25950698b03de118ed81
   cloudflare-rails (7.0.0) sha256=9049b8305eab120e2d4ed9d04b42ce7030da5297fb62b0fa718b0a9e2d9af56c
   cmdparse (3.0.7) sha256=f7c5cace10bec6abf853370ae095e4b97a84ed9d847b3fb38f41cc4fbc950739
@@ -912,7 +908,7 @@ CHECKSUMS
   metrics (0.15.0) sha256=61ded5bac95118e995b1bc9ed4a5f19bc9814928a312a85b200abbdac9039072
   mini_magick (5.3.1) sha256=29395dfd76badcabb6403ee5aff6f681e867074f8f28ce08d78661e9e4a351c4
   mini_mime (1.1.5) sha256=8681b7e2e4215f2a159f9400b5816d85e9d8c6c6b491e96a12797e798f8bccef
-  minitest (5.26.0) sha256=f5817ad09f863a4f7eac917707c1ca5c09cdc4a35e17d91171760178324d2c30
+  minitest (5.26.1) sha256=f16a63d4278e230bba342c3bda3006a69c5216d46461b77dd57f7c7c529b5a96
   minitest-difftastic (0.2.1) sha256=fc2c6e01cd839371772ed08604c9ce7b1567ee262e9dd4fef7d78665d1a99c45
   mission_control-jobs (1.1.0) sha256=b13da9cde3344fec7c744b79d2a34c3ecd454f45d4d593d4c968ba762315e84c
   msgpack (1.8.0) sha256=e64ce0212000d016809f5048b48eb3a65ffb169db22238fb4b72472fecb2d732
