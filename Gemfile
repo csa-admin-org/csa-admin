@@ -49,9 +49,6 @@ gem "inline_svg"
 gem "solid_queue"
 gem "mission_control-jobs"
 
-gem "faraday", require: false
-gem "faraday-cookie_jar", require: false
-
 gem "icalendar", require: false
 gem "image_processing"
 # https://github.com/prawnpdf/ttfunk/issues/102
