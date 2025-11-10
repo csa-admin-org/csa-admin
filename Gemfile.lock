@@ -149,6 +149,9 @@ GEM
     brakeman (7.1.1)
       racc
     builder (3.3.0)
+    bundler-audit (0.9.2)
+      bundler (>= 1.2.0, < 3)
+      thor (~> 1.0)
     camt_parser (2.18.0)
       bigdecimal
       nokogiri
@@ -526,7 +529,7 @@ GEM
       psych (>= 4.0.0)
       tsort
     regexp_parser (2.11.3)
-    reline (0.6.2)
+    reline (0.6.3)
       io-console (~> 0.5)
     request_store (1.7.0)
       rack (>= 1.4)
@@ -686,6 +689,7 @@ DEPENDENCIES
   bcrypt
   bootsnap
   brakeman
+  bundler-audit
   camt_parser
   cancancan
   capybara
@@ -796,6 +800,7 @@ CHECKSUMS
   bootsnap (1.18.6) sha256=0ae2393c1e911e38be0f24e9173e7be570c3650128251bf06240046f84a07d00
   brakeman (7.1.1) sha256=629426b5d6496c75e3ffa2299e1ab1bb3ba721fea03d8808414c083660439498
   builder (3.3.0) sha256=497918d2f9dca528fdca4b88d84e4ef4387256d984b8154e9d5d3fe5a9c8835f
+  bundler-audit (0.9.2) sha256=73051daa09865c436450a35c4d87ceef15f3f9777f4aad4fd015cc6f1f2b1048
   camt_parser (2.18.0) sha256=0834c4b5511636254ecb86c61620bb97d288318ba20335269b1a5830b0052317
   cancancan (3.6.1) sha256=975c1d5cbf58d5df48a9452a7f61ae3d254608cd87570402f5925a8864c56b62
   capybara (3.40.0) sha256=42dba720578ea1ca65fd7a41d163dd368502c191804558f6e0f71b391054aeef
@@ -955,7 +960,7 @@ CHECKSUMS
   rchardet (1.10.0) sha256=d5ea2ed61a720a220f1914778208e718a0c7ed2a484b6d357ba695aa7001390f
   rdoc (6.15.1) sha256=28bfac73cd8b226a8079f53a564ceaccdb5b4480e34335100001570ddb1a481a
   regexp_parser (2.11.3) sha256=ca13f381a173b7a93450e53459075c9b76a10433caadcb2f1180f2c741fc55a4
-  reline (0.6.2) sha256=1dad26a6008872d59c8e05244b119347c9f2ddaf4a53dce97856cd5f30a02846
+  reline (0.6.3) sha256=1198b04973565b36ec0f11542ab3f5cfeeec34823f4e54cebde90968092b1835
   request_store (1.7.0) sha256=e1b75d5346a315f452242a68c937ef8e48b215b9453a77a6c0acdca2934c88cb
   responders (3.2.0) sha256=89c2d6ac0ae16f6458a11524cae4a8efdceba1a3baea164d28ee9046bd3df55a
   rexml (3.4.4) sha256=19e0a2c3425dfbf2d4fc1189747bdb2f849b6c5e74180401b15734bc97b5d142
