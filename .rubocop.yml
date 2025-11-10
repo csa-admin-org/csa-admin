@@ -18,6 +18,8 @@ Style/StringLiterals:
 
 AllCops:
   NewCops: enable
+  Exclude:
+    - "**/*.tmp"
 
 Style/FrozenStringLiteralComment:
   Enabled: true

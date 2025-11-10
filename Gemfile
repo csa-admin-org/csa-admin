@@ -112,6 +112,7 @@ group :development do
 
   # Security
   gem "brakeman", require: false
+  gem "bundler-audit", require: false
 end
 
 group :test do

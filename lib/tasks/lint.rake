@@ -1,28 +1,50 @@
 # frozen_string_literal: true
 
+require "parallel"
+
 namespace :lint do
+  LINT_TYPES = %i[locales rubocop htmlbeautifier prettier]
+
+  def parallel_lint(&block)
+    results = {}
+    Parallel.map(LINT_TYPES) do |type|
+      cmd = block.call(type)
+      if cmd.present?
+        puts "Running #{type}..."
+        results[type] = system(cmd)
+      end
+    end
+    abort("Linting failed") unless results.compact.all?
+  end
+
   desc "Run Rubocop and Prettier to check code (no autocorrect)"
   task :check do
-    puts "Checking Locales..."
-    locales_success = system("bin/rails locales:check")
-    puts "Checking Rubocop..."
-    rubocop_success = system("bin/rubocop --parallel --format simple")
-    puts "Checking Prettier..."
-    prettier_success = system("npx prettier app --check --cache")
-
-    abort("Linting failed") unless locales_success && rubocop_success && prettier_success
+    parallel_lint do |type|
+      case type
+      when :locales
+        "bin/rails locales:check"
+      when :rubocop
+        "bin/rubocop --parallel --format simple"
+      when :prettier
+        "npx prettier app --check --cache --log-level warn"
+      end
+    end
   end
 
   desc "Run Rubocop and Prettier with autocorrect"
   task :autocorrect do
-    puts "Formatting locales..."
-    system("bin/rails locales:format")
-    puts "Running Rubocop..."
-    system("bin/rubocop --parallel --autocorrect-all --format quiet") || abort("Rubocop autocorrect failed")
-    puts "Running htmlbeautifier..."
-    system("bin/htmlbeautifier app/views/**/*.html.erb --keep-blank-lines 1")
-    puts "Running Prettier..."
-    system("npx prettier app --check --write --cache --log-level warn")
+    parallel_lint do |type|
+      case type
+      when :locales
+        "bin/rails locales:format"
+      when :rubocop
+        "bin/rubocop --parallel --autocorrect-all --format quiet"
+      when :htmlbeautifier
+        "bin/htmlbeautifier app/views/**/*.html.erb --keep-blank-lines 1"
+      when :prettier
+        "npx prettier app --write --cache --log-level warn"
+      end
+    end
   end
 end
 
