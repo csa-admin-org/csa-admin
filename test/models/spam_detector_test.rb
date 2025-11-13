@@ -116,7 +116,7 @@ class SpamDetectorTest < ActiveSupport::TestCase
   end
 
   test "detects gibberish zip" do
-    member = Member.new(zip: "vepTdBzWDUEJtQdBBJlMk")
+    member = Member.new(zip: "iiZVyREuUmUbKjlefjxYjPj")
     assert spam?(member)
   end
 
