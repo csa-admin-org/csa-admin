@@ -43,7 +43,7 @@ class SpamDetector < SimpleDelegator
     text.match?(/\p{Cyrillic}+/ui)
   end
 
-  def gibberish?(attr, min_length: 20, max_ratio: 0.74)
+  def gibberish?(attr, min_length: 20, max_ratio: 0.69)
     text = send(attr)
     return if text.blank? || text.length < min_length || text =~ /[^\p{L}]/
 
