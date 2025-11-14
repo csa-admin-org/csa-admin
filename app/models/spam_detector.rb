@@ -10,6 +10,7 @@ class SpamDetector < SimpleDelegator
   def self.notify!(member)
     return if new(member).non_allowed_country?
     return if new(member).gibberish?(:zip)
+    return if new(member).gibberish?(:city)
 
     Error.notify("Spam detected", **member.attributes)
   end
