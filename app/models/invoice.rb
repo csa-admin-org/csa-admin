@@ -115,6 +115,7 @@ class Invoice < ApplicationRecord
     if: :membership_type?
   validate :organization_iban_must_be_present
 
+  before_create :set_local_currency_code
   before_destroy :ensure_latest_invoice!
   after_destroy -> { self.class.reset_pk_sequence! }
   after_destroy -> { Billing::PaymentsRedistributor.redistribute!(member_id) }
@@ -562,6 +563,13 @@ class Invoice < ApplicationRecord
   end
 
   private
+
+  def set_local_currency_code
+    return unless Current.org.feature?(:local_currency)
+    return unless member&.use_local_currency?
+
+    self.currency_code = Current.org.local_currency_code
+  end
 
   def closed_audit
     return unless closed?

@@ -61,11 +61,12 @@ class Billing::SwissQRCodeTest < ActiveSupport::TestCase
       member: member,
       date: "2024-01-01")
 
-    qr_image = Billing::SwissQRCode.new(invoice).generate(rails_env: "not_test")
-    # FileUtils.cp(qr_image.path, file_fixture("qrcode-check.png"))
-    result = Vips::Image.new_from_file(qr_image.path)
-    diff = (result - expected).abs.max
+    skip_qr_code_placeholder do
+      qr_image = Billing::SwissQRCode.new(invoice).generate
+      result = Vips::Image.new_from_file(qr_image.path)
+      diff = (result - expected).abs.max
 
-    assert_equal 0, diff
+      assert_equal 0, diff
+    end
   end
 end

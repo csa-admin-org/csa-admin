@@ -36,6 +36,10 @@ ActiveAdmin.register Payment do
     as: :select,
     collection: -> { members_collection(collection) }
   filter :invoice_id, as: :numeric
+  filter :currency_code,
+    as: :select,
+    collection: -> { currency_codes_collection },
+    if: proc { feature?("local_currency") }
   filter :amount
 
   includes :member, :invoice
@@ -44,7 +48,7 @@ ActiveAdmin.register Payment do
     column :member, sortable: "members.name"
     column :date, ->(p) { l p.date, format: :number }, class: "text-right tabular-nums"
     column :invoice_id, ->(p) { p.invoice_id ? auto_link(p.invoice, p.invoice_id) : "–" }, class: "text-right"
-    column :amount, ->(p) { cur(p.amount) }, class: "text-right tabular-nums"
+    column :amount, ->(p) { ccur(p, :amount) }, class: "text-right tabular-nums"
     column :type, ->(p) { status_tag p.state }, class: "text-right"
     actions do |payment|
       link_to_invoice_pdf(payment.invoice) if payment.invoice_id?
@@ -54,6 +58,7 @@ ActiveAdmin.register Payment do
   csv do
     column :id
     column :date
+    column :currency_code
     column :amount
     column :member_id
     column :invoice_id
@@ -131,7 +136,7 @@ ActiveAdmin.register Payment do
             row :id
             row :member
             row(:date) { l payment.date }
-            row(:amount) { cur(payment.amount) }
+            row(:amount) { ccur(payment, :amount) }
             row(:created_at) { l(payment.created_at, format: :medium) }
             row(:created_by)
             if payment.manual? && payment.updated?
@@ -179,9 +184,18 @@ ActiveAdmin.register Payment do
         prompt: true,
         input_html: { disabled: f.object.invoice_id? }
       if f.object.invoice_id?
-        f.input :invoice, collection: f.object.member.invoices, include_blank: true
+        f.input :invoice,
+          collection: [ f.object.invoice ],
+          include_blank: false,
+          input_html: { disabled: true }
       end
       f.input :date, as: :date_picker, prompt: true
+      if feature?("local_currency")
+        f.input :currency_code, collection: currency_codes_collection,
+          include_blank: false,
+          required: false,
+          input_html: { disabled: f.object.invoice_id? }
+      end
       f.input :amount, as: :number, step: 0.01, min: -99999.99, max: 99999.99
       unless f.object.persisted?
         f.input :comment, as: :text, input_html: { rows: 4 }
@@ -190,7 +204,7 @@ ActiveAdmin.register Payment do
     f.actions
   end
 
-  permit_params(*%i[member_id invoice_id date amount comment])
+  permit_params(*%i[member_id invoice_id date currency_code amount comment])
 
   before_build do |payment|
     if params[:invoice_id]

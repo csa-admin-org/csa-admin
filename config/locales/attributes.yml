@@ -216,6 +216,12 @@ _:
       _de: Erstellt von
       _it: Creato da
       _nl: Aangemaakt door
+    currency_code:
+      _en: Currency
+      _fr: Monnaie
+      _de: Währung
+      _it: Valuta
+      _nl: Munt
     current_deliveries:
       _en: Current deliveries (current year)
       _fr: Livraisons (année courante)

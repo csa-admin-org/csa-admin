@@ -59,7 +59,7 @@ ActiveAdmin.register Organization do
             input_html: { disabled: true }
           f.input :currency_code,
             as: :select,
-            collection: Organization::CURRENCIES,
+            collection: Organization.currency_codes,
             input_html: { disabled: true }
           f.input :trial_baskets_count
           f.input :send_closed_invoice, as: :boolean
@@ -461,6 +461,18 @@ ActiveAdmin.register Organization do
 
           handbook_button(self, "basket_price_extra")
         end
+        tab t("features.local_currency"), id: "local_currency", hidden: !feature?("local_currency"), selected: feature?("local_currency") do
+          f.input :local_currency_code,
+            collection: locale_currencies_collection,
+            include_blank: false,
+            required: false
+          f.input :local_currency_identifier
+          f.input :local_currency_wallet
+          f.input :local_currency_secret,
+            as: :password,
+            input_html: { value: "*" * resource.local_currency_secret&.length&.to_i }
+          handbook_button(self, "local_currency")
+        end
       end
     end
 
@@ -511,6 +523,7 @@ ActiveAdmin.register Organization do
     :basket_price_extra_dynamic_pricing,
     :new_member_fee,
     :social_network_urls,
+    :local_currency_code, :local_currency_identifier, :local_currency_wallet, :local_currency_secret,
     *I18n.available_locales.map { |l| "invoice_document_name_#{l}" },
     *I18n.available_locales.map { |l| "invoice_info_#{l}" },
     *I18n.available_locales.map { |l| "invoice_sepa_info_#{l}" },

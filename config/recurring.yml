@@ -17,6 +17,12 @@ production:
     queue: low
     schedule: at 4am every day
 
+  billing_local_currency_payments:
+    class: TenantSwitchEachJob
+    args: [Scheduled::BillingLocalCurrencyPaymentsProcessorJob]
+    queue: low
+    schedule: at 4am every day
+
   billing_sepa_direct_debit_orders_upload:
     class: TenantSwitchEachJob
     args: [Scheduled::BillingSEPADirectDebitOrdersUploaderJob]

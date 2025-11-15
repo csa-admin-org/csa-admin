@@ -12,6 +12,8 @@ module Organization::Billing
   included do
     include HasIBAN
 
+    encrypts :bank_credentials
+
     validates :creditor_name, :creditor_address, :creditor_city, :creditor_zip, presence: true
     validates :bank_reference, format: { with: /\A\d+\z/, allow_blank: true }
     validates :iban, format: ->(org) { Billing.iban_format(org.country_code) }, allow_nil: true, if: :country_code?
@@ -34,7 +36,7 @@ module Organization::Billing
       vat_membership_rate&.positive? || vat_activity_rate&.positive? || vat_shop_rate&.positive?
     }
     validates :recurring_billing_wday, inclusion: { in: 0..6 }, allow_nil: true
-    validates :currency_code, presence: true, inclusion: { in: CURRENCIES }
+    validates :currency_code, presence: true, inclusion: { in: currency_codes }
 
     after_save :apply_annual_fee_change
 
@@ -125,7 +127,7 @@ module Organization::Billing
   end
 
   class_methods do
-    def currencies = CURRENCIES
+    def currency_codes = CURRENCIES
     def billing_year_divisions = BILLING_YEAR_DIVISIONS
   end
 

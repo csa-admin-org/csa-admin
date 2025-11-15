@@ -3,20 +3,27 @@
 module NumbersHelper
   include ActiveSupport::NumberHelper
 
-  def currency_symbol
-    case Current.org.currency_code
+  def currency_symbol(currency_code = nil)
+    currency_code ||= Current.org.currency_code
+    case currency_code
     when "EUR"; "€"
     else
-      Current.org.currency_code
+      currency_code
     end
   end
 
-  def cur(amount, unit: true, **options)
-    options[:unit] = unit ? currency_symbol : ""
+  def ccur(object, attr, **options)
+    cur(object.public_send(attr), currency_code: object.currency_code, **options)
+  end
+
+  def cur(amount, unit: true, currency_code: nil, **options)
+    options[:unit] = unit ? currency_symbol(currency_code) : ""
     options[:format] ||=
       case Current.org.currency_code
       when "EUR"; "%n %u"
       when "CHF"; "%u %n"
+      else
+       "%u %n"
       end
     unless unit
       options[:negative_format] ||= "-%n"
