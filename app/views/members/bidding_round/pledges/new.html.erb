@@ -1,105 +1,134 @@
 <h1><%= @bidding_round.title %></h1>
 
 <section>
-  <p class="mt-2">
-    <%= @bidding_round.information_text %>
-  </p>
+  <p class="mt-2"><%= @bidding_round.information_text %></p>
 
   <%= turbo_frame_tag "membership-pricing", type: "morph" do %>
     <% membership = @pledge.membership %>
-    <div class="mt-8 p-2 px-4 flex-col rounded-sm border border-gray-200 dark:border-gray-700" data-controller="hover" data-action="mouseenter->hover#show mouseleave->hover#hide" data-hover-id-value="<%= dom_id(membership) %>">
-      <div class="text-center text-xl whitespace-nowrap">
+    <div
+      class="
+        mt-8 flex-col rounded-sm border border-gray-200 p-2 px-4
+        dark:border-gray-700
+      "
+      data-controller="hover"
+      data-action="mouseenter->hover#show mouseleave->hover#hide"
+      data-hover-id-value="<%= dom_id(membership) %>"
+    >
+      <div class="whitespace-nowrap text-center text-xl">
         <%= "#{Membership.model_name.human} #{membership.fiscal_year}" %>
       </div>
-      <ul class="w-full mt-4 space-y-1">
-        <li class="w-full flex flex-row flex-wrap justify-between items-center">
-          <span class="font-light">
-            <%= Basket.model_name.human(count: membership.baskets_count) %>
-          </span>
+      <ul class="mt-4 w-full space-y-1">
+        <li class="flex w-full flex-row flex-wrap items-center justify-between">
+          <span class="font-light"><%= Basket.model_name.human(count: membership.baskets_count) %></span>
           <span class="grow text-right tabular-nums">
             <%= display_price_description(@pledge.total_membership_baskets_price, "#{membership.baskets_count}x <span class=\"animate-highlight px-0.5 -mx-0.5 rounded\">#{precise_cur(@pledge.basket_size_price)}</span>".html_safe) %>
           </span>
         </li>
         <% if membership.baskets_annual_price_change.nonzero? %>
-          <li class="w-full flex flex-row flex-wrap justify-between items-center border-t border-dotted border-gray-200 dark:border-gray-800">
-            <span class="font-light">
-              <%= t("invoices.pdf.baskets_annual_price_change") %>
-            </span>
-            <span class="grow text-right tabular-nums whitespace-nowrap">
+          <li
+            class="
+              flex w-full flex-row flex-wrap items-center justify-between
+              border-t border-dotted border-gray-200 dark:border-gray-800
+            "
+          >
+            <span class="font-light"><%= t("invoices.pdf.baskets_annual_price_change") %></span>
+            <span class="grow whitespace-nowrap text-right tabular-nums">
               <%= cur(membership.baskets_annual_price_change, unit: false) %>
             </span>
           </li>
         <% end %>
         <% if membership.basket_complements.any? && membership.basket_complements_price.nonzero? %>
-          <li class="w-full flex flex-row flex-wrap justify-between items-center border-t border-dotted border-gray-200 dark:border-gray-800">
-            <span class="font-light ">
+          <li
+            class="
+              flex w-full flex-row flex-wrap items-center justify-between
+              border-t border-dotted border-gray-200 dark:border-gray-800
+            "
+          >
+            <span class="font-light">
               <%= MembershipsBasketComplement.model_name.human(count: membership.basket_complements.count) %>
             </span>
-            <span class="grow text-right tabular-nums whitespace-nowrap">
+            <span class="grow whitespace-nowrap text-right tabular-nums">
               <%= display_price_description(membership.basket_complements_price, membership_basket_complements_price_info(membership)) %>
             </span>
           </li>
         <% end %>
         <% if membership.basket_complements_annual_price_change.nonzero? %>
-          <li class="w-full flex flex-row flex-wrap justify-between items-center border-t border-dotted border-gray-200 dark:border-gray-800">
-            <span class="font-light">
-              <%= t("invoices.pdf.basket_complements_annual_price_change") %>
-            </span>
-            <span class="grow text-right tabular-nums whitespace-nowrap">
+          <li
+            class="
+              flex w-full flex-row flex-wrap items-center justify-between
+              border-t border-dotted border-gray-200 dark:border-gray-800
+            "
+          >
+            <span class="font-light"><%= t("invoices.pdf.basket_complements_annual_price_change") %></span>
+            <span class="grow whitespace-nowrap text-right tabular-nums">
               <%= cur(membership.baskets_annual_price_change, unit: false) %>
             </span>
           </li>
         <% end %>
         <% if feature?("basket_price_extra") && (membership.basket_price_extra.nonzero? || membership.baskets.any? { |b| b.price_extra.nonzero? }) %>
-          <li class="w-full flex flex-row flex-wrap justify-between items-center border-t border-dotted border-gray-200 dark:border-gray-800">
-            <span class="font-light me-2">
-              <%= Current.org.basket_price_extra_title %>
-            </span>
-            <span class="grow text-right tabular-nums whitespace-nowrap">
+          <li
+            class="
+              flex w-full flex-row flex-wrap items-center justify-between
+              border-t border-dotted border-gray-200 dark:border-gray-800
+            "
+          >
+            <span class="me-2 font-light"><%= Current.org.basket_price_extra_title %></span>
+            <span class="grow whitespace-nowrap text-right tabular-nums">
               <% description = baskets_price_extra_info(membership, membership.baskets) %>
               <%= display_price_description(membership.baskets_price_extra, description) %>
             </span>
           </li>
         <% end %>
         <% if membership.depots_price.nonzero? %>
-          <li class="w-full flex flex-row flex-wrap justify-between items-center border-t border-dotted border-gray-200 dark:border-gray-800">
-            <span class="font-light">
-              <%= Depot.model_name.human(count: membership.baskets_count) %>
-            </span>
+          <li
+            class="
+              flex w-full flex-row flex-wrap items-center justify-between
+              border-t border-dotted border-gray-200 dark:border-gray-800
+            "
+          >
+            <span class="font-light"><%= Depot.model_name.human(count: membership.baskets_count) %></span>
             <span class="grow text-right tabular-nums">
               <%= display_price_description(membership.depots_price, depots_price_info(membership.baskets)) %>
             </span>
           </li>
         <% end %>
         <% if membership.deliveries_price.nonzero? %>
-          <li class="w-full flex flex-row flex-wrap justify-between items-center border-t border-dotted border-gray-200 dark:border-gray-800">
-            <span class="font-light">
-              <%= Delivery.model_name.human(count: membership.baskets_count) %>
-            </span>
+          <li
+            class="
+              flex w-full flex-row flex-wrap items-center justify-between
+              border-t border-dotted border-gray-200 dark:border-gray-800
+            "
+          >
+            <span class="font-light"><%= Delivery.model_name.human(count: membership.baskets_count) %></span>
             <span class="grow text-right tabular-nums">
               <%= display_price_description(membership.deliveries_price, delivery_cycle_price_info(membership.baskets)) %>
             </span>
           </li>
         <% end %>
         <% if feature?("activity") && membership.activity_participations_annual_price_change.nonzero? %>
-          <li class="w-full flex flex-row flex-wrap justify-between items-center border-t border-dotted border-gray-200 dark:border-gray-800">
+          <li
+            class="
+              flex w-full flex-row flex-wrap items-center justify-between
+              border-t border-dotted border-gray-200 dark:border-gray-800
+            "
+          >
             <span class="font-light">
               <%= t_activity("active_admin.resource.show.activity_participations_annual_price_change") %>
             </span>
-            <span class="grow text-right tabular-nums whitespace-nowrap">
+            <span class="grow whitespace-nowrap text-right tabular-nums">
               <%= cur(membership.activity_participations_annual_price_change, unit: false) %>
             </span>
           </li>
         <% end %>
-        <li class="text-right pt-1">
-          <span class="w-full  tabular-nums border-t border-gray-500 pt-1">
+        <li class="pt-1 text-right">
+          <span class="w-full border-t border-gray-500 pt-1 tabular-nums">
             <%= cur(@pledge.total_membership_price, format: "%u %n") %>
           </span>
         </li>
 
         <% unless membership.billing_year_division == 1 %>
-          <li class="text-right pt-1.5">
-            <span class="w-full tabular-nums text-sm text-gray-500">
+          <li class="pt-1.5 text-right">
+            <span class="w-full text-sm tabular-nums text-gray-500">
               <span class="mr-1"><%= t("billing.year_division.x#{membership.billing_year_division}") %>:</span>
               <%= cur(@pledge.total_membership_price / membership.billing_year_division.to_f, format: "%u %n") %>
             </span>
@@ -119,13 +148,11 @@
         price_range_default_price_value: @pledge.default_price
       }
     } do |f| %>
-    <div class="input mb-2">
-      <%= f.label :basket_size_price %>
-    </div>
+    <div class="input mb-2"><%= f.label :basket_size_price %></div>
 
     <div class="mb-4">
       <!-- Price range display (only over slider) -->
-      <div class="flex justify-between items-center mb-2 text-sm text-gray-600">
+      <div class="mb-2 flex items-center justify-between text-sm text-gray-600">
         <span><%= cur(@pledge.min_allowed_price) %></span>
         <span><%= cur(@pledge.max_allowed_price) %></span>
       </div>
@@ -139,8 +166,7 @@
           data: {
             action: "price-range#syncFromRange",
             price_range_target: "range"
-          }
-        %>
+          } %>
       </div>
     </div>
 
@@ -152,9 +178,8 @@
         data: {
           action: "price-range#setDefaultPrice",
           price_range_target: "reset"
-        }
-      %>
-      <div class="flex items-center gap-2 ml-auto">
+        } %>
+      <div class="ml-auto flex items-center gap-2">
         <span><%= currency_symbol %></span>
         <%= f.number_field :basket_size_price,
           value: precise_cur(@pledge.basket_size_price),
@@ -166,13 +191,10 @@
           data: {
             action: "price-range#syncFromInput",
             price_range_target: "input"
-          }
-        %>
+          } %>
       </div>
     </div>
 
-    <div class="actions">
-      <%= f.submit t(".submit") %>
-    </div>
+    <div class="actions"><%= f.submit t(".submit") %></div>
   <% end %>
 </section>

@@ -1,26 +1,30 @@
 <div class="panel">
   <div class="panel-title">
-    <h3>
-      <%= I18n.t "active_admin.comments.title_content" %>
-    </h3>
-    <span class="panel-title-count">
-      <%= comments.total_count %>
-    </span>
+    <h3><%= I18n.t "active_admin.comments.title_content" %></h3>
+    <span class="panel-title-count"><%= comments.total_count %></span>
   </div>
   <div class="panel-body">
     <% if comments.any? %>
-      <div class="px-2 space-y-4">
+      <div class="space-y-4 px-2">
         <% comments.each do |comment| %>
-          <div class="relative group border-dotted border-b dark:border-gray-600" id="<%= dom_id(comment, :active_admin) %>" data-test-comment-container>
-            <div class="flex justify-between gap-4 items-end mb-2">
+          <div
+            class="group relative border-b border-dotted dark:border-gray-600"
+            id="<%= dom_id(comment, :active_admin) %>"
+            data-test-comment-container
+          >
+            <div class="mb-2 flex items-end justify-between gap-4">
               <span class="font-semibold">
                 <%= comment.author ? auto_link(comment.author) : I18n.t("active_admin.comments.author_missing") %>
               </span>
-              <span class="text-xs text-gray-400 group-hover:hidden">
-                <%= pretty_format comment.created_at %>
-              </span>
+              <span class="text-xs text-gray-400 group-hover:hidden"><%= pretty_format comment.created_at %></span>
+
               <% if authorized?(ActiveAdmin::Auth::DESTROY, comment) %>
-                <div class="absolute top-0 right-0 hidden group-hover:flex justify-center items-center mb-2">
+                <div
+                  class="
+                    absolute right-0 top-0 mb-2 hidden items-center
+                    justify-center group-hover:flex
+                  "
+                >
                   <%= link_to I18n.t("active_admin.comments.delete"), url_for_comments(comment.id), method: :delete, data: { confirm: I18n.t("active_admin.comments.delete_confirmation") }, class: "btn btn-sm" %>
                 </div>
               <% end %>

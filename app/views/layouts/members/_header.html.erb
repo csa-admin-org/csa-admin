@@ -1,28 +1,37 @@
-<header class="grow flex flex-col flex-nowrap justify-between">
-
-  <div class="m-4 flex-none flex justify-between md:justify-center items-center" data-menu-target="body">
+<header class="flex grow flex-col flex-nowrap justify-between">
+  <div
+    class="m-4 flex flex-none items-center justify-between md:justify-center"
+    data-menu-target="body"
+  >
     <div class="md:my-8">
       <%= link_to Current.org.url do %>
         <%= image_tag(org_logo_url, alt: "#{Current.org.name} Logo", class: "h-20 w-20 md:h-40 md:w-40") %>
       <% end %>
     </div>
 
-    <div class="m-4 text-gray-900 dark:text-gray-100 md:hidden">
+    <div class="m-4 text-gray-900 md:hidden dark:text-gray-100">
       <%= link_to "#menu", data: { action: "click->menu#show" } do %>
         <%= icon "bars-3", title: "Show Menu", class: "h-10 w-10" %>
       <% end %>
     </div>
   </div>
 
-  <nav data-menu-target="menu" class="my-4 hidden grow flex-col w-full md:block">
-    <div class="h-20 mx-8 mb-4 flex-none flex justify-end items-center text-gray-900 dark:text-gray-100 md:hidden">
+  <nav
+    data-menu-target="menu"
+    class="my-4 hidden w-full grow flex-col md:block"
+  >
+    <div
+      class="
+        mx-8 mb-4 flex h-20 flex-none items-center justify-end text-gray-900
+        md:hidden dark:text-gray-100
+      "
+    >
       <%= link_to "#nomenu", data: { action: "click->menu#hide" }, class: "inline-block" do %>
         <%= icon "x-mark", title: "Hide Menu", class: "h-10 w-10" %>
       <% end %>
     </div>
 
-    <div class="flex grow h-full flex-col justify-between">
-
+    <div class="flex h-full grow flex-col justify-between">
       <% membership = current_member.closest_membership %>
       <% next_basket = current_member.next_basket %>
       <ul class="grow">
@@ -81,13 +90,9 @@
             <%= link_to members_memberships_path(anchor: membership.renewal_opened? ? "renewal" : nil) do %>
               <h2><%= Membership.model_name.human %></h2>
               <% if missing_bidding_round_pledge? %>
-                <span class="text-orange-500">
-                  <%= t(".bidding_round_pledge") %>
-                </span>
+                <span class="text-orange-500"><%= t(".bidding_round_pledge") %></span>
               <% elsif membership.renewal_opened? %>
-                <span class="text-red-500">
-                  <%= t(".membership_renewal") %>
-                </span>
+                <span class="text-red-500"><%= t(".membership_renewal") %></span>
               <% elsif membership.trial? %>
                 <span><%= t(".membership_trial") %></span>
               <% elsif membership.current? %>
@@ -99,7 +104,6 @@
               <% end %>
             <% end %>
           </li>
-
           <% if next_basket && feature?("contact_sharing") %>
             <li class="<%= nav_class("contact_sharing") %>">
               <%= link_to members_contact_sharing_path do %>
@@ -128,11 +132,10 @@
         <li class="<%= nav_class("billing") %>">
           <%= link_to members_billing_path do %>
             <h2><%= t(".billing") %></h2>
+
             <% open_invoice_count = current_member.invoices.open.count %>
             <% if open_invoice_count.positive? %>
-              <span class="text-red-500">
-                <%= t(".open_invoices", count: open_invoice_count) %>
-              </span>
+              <span class="text-red-500"><%= t(".open_invoices", count: open_invoice_count) %></span>
             <% else %>
               <span><%= t(".see_history") %></span>
             <% end %>
@@ -171,15 +174,18 @@
 
         <li class="mt-12 flex items-center justify-center md:justify-start">
           <%= link_to members_account_path, class: "py-2 px-8 flex items-center" do %>
-            <span class="w-8 -ms-1">
-              <%= icon "user-circle", class: "size-8" %>
-            </span>
+            <span class="-ms-1 w-8"><%= icon "user-circle", class: "size-8" %></span>
             <span class="ml-2"><%= current_member.name_was %></span>
           <% end %>
         </li>
         <li class="mt-2 md:mt-0.5">
           <%= button_to members_logout_path, method: :delete, class: "cursor-pointer", form_class: "flex justify-center md:justify-start" do %>
-            <span class="px-8 flex items-center text-gray-300 dark:text-gray-700 hover:text-green-500 ">
+            <span
+              class="
+                flex items-center px-8 text-gray-300 hover:text-green-500
+                dark:text-gray-700
+              "
+            >
               <%= icon "arrow-right-start-on-rectangle", class: "size-6" %>
               <div class="ml-3"><%= t(".logout") %></div>
             </span>

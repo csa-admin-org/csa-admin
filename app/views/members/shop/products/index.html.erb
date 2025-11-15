@@ -5,9 +5,22 @@
     <%= t(".closing_at_html", date: l(@order.delivery.shop_closing_at, format: :long)) %>
   </p>
   <div class="mt-6 h-12 w-full">
-    <div data-controller="sticky" data-sticky-target="container" data-sticky-offset-value="114" data-sticky-desktop-offset-value="178" data-sticky-sticky-class="fixed top-4 md:-ml-10 inset-x-4 md:inset-x-1/2" data-action="scroll@window->sticky#update resize@window->sticky#update">
-      <div class="-mx-4 md:-mx-0 px-4 md:px-0 bg-white dark:bg-black md:bg-transparent">
-        <div class="shadow-md mx-0 md:mx-auto w-full md:w-96 flex flex-col border border-gray-200 dark:border-gray-700 rounded-sm bg-gray-100 dark:bg-gray-900 text-gray-400 dark:text-gray-600">
+    <div
+      data-controller="sticky"
+      data-sticky-target="container"
+      data-sticky-offset-value="114"
+      data-sticky-desktop-offset-value="178"
+      data-sticky-sticky-class="fixed top-4 md:-ml-10 inset-x-4 md:inset-x-1/2"
+      data-action="scroll@window->sticky#update resize@window->sticky#update"
+    >
+      <div class="-mx-4 bg-white px-4 md:-mx-0 md:bg-transparent md:px-0 dark:bg-black">
+        <div
+          class="
+            mx-0 flex w-full flex-col rounded-sm border border-gray-200
+            bg-gray-100 text-gray-400 shadow-md md:mx-auto md:w-96
+            dark:border-gray-700 dark:bg-gray-900 dark:text-gray-600
+          "
+        >
           <%= turbo_frame_tag "cart" do %>
             <%= render partial: "members/shop/orders/cart" %>
           <% end %>
@@ -15,10 +28,9 @@
       </div>
     </div>
   </div>
-
   <section>
-
     <h2><%= t(".available_product") %></h2>
+
     <% if available_producers.any? %>
       <div class="mt-2" data-controller="form-submitter">
         <%= form_tag shop_path, method: :get, data: { form_submitter_target: "form" } do %>
@@ -29,17 +41,26 @@
         <% end %>
       </div>
     <% end %>
+
     <% if available_tags.any? %>
       <ul class="mt-2 flex items-center space-x-2">
         <% available_tags.each do |tag| %>
-          <li><%= render partial: "members/shop/products/tag", object: tag %></li>
+          <li>
+            <%= render partial: "members/shop/products/tag", object: tag %>
+          </li>
         <% end %>
       </ul>
     <% end %>
+
     <% if params[:producer_id].present? %>
       <% producer = Shop::Producer.find(params[:producer_id]) %>
       <% if producer.description? || producer.website_url? %>
-        <div class="mt-2 text-sm border border-gray-200 dark:border-gray-700 rounded-sm p-4 space-y-2">
+        <div
+          class="
+            mt-2 space-y-2 rounded-sm border border-gray-200 p-4 text-sm
+            dark:border-gray-700
+          "
+        >
           <% if producer.description? %>
             <div><%= producer.description %></div>
           <% end %>
@@ -49,11 +70,11 @@
         </div>
       <% end %>
     <% end %>
+
     <div class="mt-8 space-y-8">
       <%= render partial: "members/shop/products/product", collection: available_products %>
     </div>
   </section>
-
 <% else %>
   <p class="mt-2">
     <%= t(".closed_at_html", date: l(@order.delivery.shop_closing_at, format: :long)) %>
@@ -63,7 +84,9 @@
       <%= link_to members_shop_next_path, class: "cursor-pointer underline" do %>
         <div class="flex flex-row items-center">
           <%= icon "shopping-basket", class: "size-5" %>
-          <span class="ml-1 text-base font-normal"><%= t(".next_shop_delivery_link", date: l(next_shop_delivery.date, format: :long)) %></span>
+          <span class="ml-1 text-base font-normal">
+            <%= t(".next_shop_delivery_link", date: l(next_shop_delivery.date, format: :long)) %>
+          </span>
         </div>
       <% end %>
     </div>
@@ -71,7 +94,7 @@
 <% end %>
 
 <% if Current.org.shop_terms_of_sale_url %>
-  <div class="mt-24 text-sm text-center text-gray-400 dark:text-gray-600">
+  <div class="mt-24 text-center text-sm text-gray-400 dark:text-gray-600">
     <%= link_to t("members.shop.terms_of_sale"), Current.org.shop_terms_of_sale_url, target: "_blank", class: "underline " %>
   </div>
 <% end %>

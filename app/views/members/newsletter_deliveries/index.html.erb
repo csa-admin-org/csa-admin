@@ -1,7 +1,13 @@
 <h1><%= Newsletter.model_name.human(count: 2) %></h1>
 
 <% if newsletter_unsubscribed? %>
-  <div class="mb-8 p-2 rounded-lg border-1 border-dashed border-orange-500 text-orange-600 dark:text-orange-400 flex flex-wrap items-center justify-center gap-1">
+  <div
+    class="
+      border-1 mb-8 flex flex-wrap items-center justify-center gap-1
+      rounded-lg border-dashed border-orange-500 p-2 text-orange-600
+      dark:text-orange-400
+    "
+  >
     <p class="ml-1 grow">
       <%= t(".unsubscribed_html", email: current_session.email) %>
     </p>

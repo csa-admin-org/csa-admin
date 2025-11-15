@@ -1,6 +1,5 @@
-<span class="order-2 md:order-1 flex-none mr-6 tabular-nums">
-  <%= l(object.date, format: :number) %>
-</span>
+<span class="order-2 mr-6 flex-none tabular-nums md:order-1"><%= l(object.date, format: :number) %></span>
+
 <% case object %>
 <% when Invoice %>
   <span class="order-1 md:order-2 w-full flex grow justify-between items-center">
@@ -13,9 +12,7 @@
       <% end %>
     </span>
   </span>
-  <span class="order-3 flex-none text-right w-28 tabular-nums">
-    <%= cur(object.amount) %>
-  </span>
+  <span class="order-3 flex-none text-right w-28 tabular-nums"><%= cur(object.amount) %></span>
 <% when Payment %>
   <span class="order-1 w-full grow">
     <% if object.amount.positive? %>
@@ -28,7 +25,5 @@
       <%= t(".refund_info") %>
     <% end %>
   </span>
-  <span class="order-3 flex-none text-right w-28">
-    <%= cur(-object.amount) %>
-  </span>
+  <span class="order-3 flex-none text-right w-28"><%= cur(-object.amount) %></span>
 <% end %>

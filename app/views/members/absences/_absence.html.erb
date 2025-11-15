@@ -1,5 +1,10 @@
-<li class="space-x-2 flex-none flex flex-wrap flex-row justify-between items-center hover:bg-gray-100 dark:hover:bg-gray-900 rounded-sm p-1 px-2 -mx-2">
-  <span class="min-w-fit flex flex-row items-center">
+<li
+  class="
+    -mx-2 flex flex-none flex-row flex-wrap items-center justify-between
+    space-x-2 rounded-sm p-1 px-2 hover:bg-gray-100 dark:hover:bg-gray-900
+  "
+>
+  <span class="flex min-w-fit flex-row items-center">
     <%= "#{l(absence.started_on)} – #{l(absence.ended_on)}" %>
     <%= " (#{t('.deliveries_count', count: absence.baskets.size)})" %>
   </span>
@@ -9,7 +14,12 @@
   <% end %>
 
   <% if absence.present_or_future? %>
-    <span class="mt-1 md:mt-0 grow flex-none flex flex-row items-center align-center justify-end gap-2">
+    <span
+      class="
+        align-center mt-1 flex flex-none grow flex-row items-center
+        justify-end gap-2 md:mt-0
+      "
+    >
       <%= button_to t(".cancel_link"), [ :members, absence ], method: :delete,
     class: "btn btn-xs",
     form_class: "flex items-center" %>

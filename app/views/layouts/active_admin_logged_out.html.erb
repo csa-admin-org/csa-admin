@@ -1,32 +1,47 @@
 <!DOCTYPE html>
+
 <html lang="<%= I18n.locale %>">
   <head>
     <title><%= strip_tags(html_head_site_title) %></title>
     <%= render "active_admin/html_head" %>
   </head>
-  <body class="h-screen flex flex-col dark:bg-black text-gray-950 dark:text-gray-100 antialiased">
-    <div class="grow flex flex-col items-center align-middle justify-center md:max-w-2xl mx-auto px-2 ">
-      <div class="mt-12 md:mt-24 mb-12 w-auto">
+  <body
+    class="
+      flex h-screen flex-col text-gray-950 antialiased dark:bg-black
+      dark:text-gray-100
+    "
+  >
+    <div
+      class="
+        mx-auto flex grow flex-col items-center justify-center px-2
+        align-middle md:max-w-2xl
+      "
+    >
+      <div class="mb-12 mt-12 w-auto md:mt-24">
         <%= image_tag(org_logo_url, size: "500", alt: "#{Current.org.name} Logo", class: "logo h-40 w-40 md:h-52 md:w-52") %>
       </div>
+
       <%= render "active_admin/flash_messages" %>
-      <div class="w-full px-2 md:px-5">
-        <%= yield %>
-      </div>
+      <div class="w-full px-2 md:px-5"><%= yield %></div>
     </div>
-    <footer class="mt-24 mx-8 pt-9 pb-8 flex flex-col items-center">
+    <footer class="mx-8 mt-24 flex flex-col items-center pb-8 pt-9">
       <% if Current.org.languages.many? %>
         <div class="pt-8">
-          <ul class="flex flex-row w-full items-center justify-center">
+          <ul class="flex w-full flex-row items-center justify-center">
             <% Current.org.languages.each do |locale| %>
-              <li class="[&:not(:first-child)]:before:content-['/'] uppercase text-gray-300 dark:text-gray-700">
+              <li
+                class="
+                  uppercase text-gray-300 dark:text-gray-700
+                  [&:not(:first-child)]:before:content-['/']
+                "
+              >
                 <%= link_to locale, url_for(locale: locale), title: t("languages.#{locale}"), onclick: "Turbolinks.clearCache()", class: "px-2 text-gray-400 dark:text-gray-600" %>
               </li>
             <% end %>
           </ul>
         </div>
       <% end %>
-      <div class="pt-8 flex justify-center gap-2">
+      <div class="flex justify-center gap-2 pt-8">
         <%= link_to csa_admin_website_url, class: "inline-flex items-center text-sm py-1 px-2 text-gray-300 dark:text-gray-700 hover:text-green-600 dark:hover:text-green-500 hover:bg-gray-100 dark:hover:bg-gray-700 font-medium focus:outline-hidden rounded-md no-underline" do %>
           <%= icon "logo", class: "size-4 me-2 fill-current", variant: "solid" %>
           CSA Admin

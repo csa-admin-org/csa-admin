@@ -1,13 +1,18 @@
-<div class="p-5 py-3 mt-14 mb-4 flex flex-col gap-4 md:flex-row md:items-center justify-between dark:border-gray-800/50">
+<div
+  class="
+    mb-4 mt-14 flex flex-col justify-between gap-4 p-5 py-3 md:flex-row
+    md:items-center dark:border-gray-800/50
+  "
+>
   <div class="flex grow flex-col gap-1 pt-1">
     <% breadcrumb_links = build_breadcrumb_links(request.path, class: " no-underline") %>
     <% if breadcrumb_links.present? %>
       <nav aria-label="Breadcrumb">
         <ol class="flex flex-wrap gap-1 text-sm">
           <% breadcrumb_links.each_with_index do |link, index| %>
-            <li class="inline-flex items-center h-5 gap-1">
+            <li class="inline-flex h-5 items-center gap-1">
               <% if index > 0 %>
-                <span class="font-thin mx-1">/</span>
+                <span class="mx-1 font-thin">/</span>
               <% end %>
               <%= link %>
             </li>
@@ -15,29 +20,43 @@
         </ol>
       </nav>
     <% end %>
+
     <div class="flex flex-wrap items-center gap-2 md:gap-4">
-      <h2 class="text-4xl text-left font-thin" aria-label="Page Title"><%= sanitize(title) %></h2>
+      <h2 class="text-left text-4xl font-thin" aria-label="Page Title">
+        <%= sanitize(title) %>
+      </h2>
+
       <% if params[:action] == "index" && year = params.dig(:q, :during_year).presence %>
         <span class="inline text-4xl font-thin text-gray-300 dark:text-gray-600">
           <%= Current.org.fiscal_year_for(year) %>
         </span>
       <% end %>
+
       <% if params[:action] == "show" && params[:id] && resource&.respond_to?(:state) %>
-        <div class="flex grow items-center md:grow-0 text-right">
-          <span class="status-tag large <%= resource.model_name.to_s.underscore %>" data-status="<%= resource.state %>">
+        <div class="flex grow items-center text-right md:grow-0">
+          <span
+            class="status-tag large <%= resource.model_name.to_s.underscore %>"
+            data-status="<%= resource.state %>"
+          >
             <%= t("states.#{resource.model_name.to_s.underscore}.#{resource.state}") %>
           </span>
         </div>
       <% end %>
+
       <% if params[:controller] == "dashboard" %>
-        <span class="grow text-4xl font-thin text-right text-gray-300 dark:text-gray-600">
+        <span
+          class="
+            grow text-right text-4xl font-thin text-gray-300
+            dark:text-gray-600
+          "
+        >
           <%= Current.fiscal_year %>
         </span>
       <% end %>
     </div>
   </div>
   <% if action_items_for_action.present? %>
-    <div class="flex gap-2 flex-wrap lg:justify-end">
+    <div class="flex flex-wrap gap-2 lg:justify-end">
       <%= render "active_admin/shared/action_items" %>
     </div>
   <% end %>

@@ -1,4 +1,4 @@
-<h1 class="flex justify-between items-center">
+<h1 class="flex items-center justify-between">
   <%= Delivery.model_name.human(count: 2) %>
   <%= render "members/calendars/subscribe_button" %>
 </h1>
@@ -6,6 +6,7 @@
 <% if @next_basket %>
   <section>
     <h2><%= t(".next_delivery") %></h2>
+
     <ul class="mt-4 flex flex-col gap-4">
       <li class="w-full"><%= render @next_basket %></li>
     </ul>
@@ -21,8 +22,11 @@
 
 <section>
   <h2><%= t(".future_deliveries") %></h2>
+
   <% if @future_baskets.empty? %>
-    <p class="empty text-center italic mt-4"><%= t(".no_future_deliveries") %></p>
+    <p class="empty mt-4 text-center italic">
+      <%= t(".no_future_deliveries") %>
+    </p>
   <% else %>
     <ul class="mt-4 flex flex-col gap-4">
       <% @future_baskets.each do |basket| %>
@@ -30,8 +34,9 @@
       <% end %>
     </ul>
   <% end %>
+
   <% if @future_baskets.provisionally_absent.any? %>
-    <div class="flex mt-4 mb-4 text-sm text-gray-400 dark:text-gray-600">
+    <div class="mb-4 mt-4 flex text-sm text-gray-400 dark:text-gray-600">
       <span class="left mr-2">*</span>
       <p><%= t(".provisionally_absent_explanation_html") %></p>
     </div>
@@ -41,7 +46,7 @@
 <section>
   <h2><%= t(".past_deliveries") %></h2>
   <% if @past_baskets.empty? %>
-    <p class="empty text-center italic mt-4"><%= t(".no_past_deliveries") %></p>
+    <p class="empty mt-4 text-center italic"><%= t(".no_past_deliveries") %></p>
   <% else %>
     <ul class="mt-4 flex flex-col gap-4">
       <% @past_baskets.each do |basket| %>
