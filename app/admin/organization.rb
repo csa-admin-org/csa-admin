@@ -470,7 +470,7 @@ ActiveAdmin.register Organization do
           f.input :local_currency_wallet
           f.input :local_currency_secret,
             as: :password,
-            input_html: { value: "*" * resource.local_currency_secret&.length&.to_i }
+            input_html: { value: "*" * resource.local_currency_secret&.length.to_i }
           handbook_button(self, "local_currency")
         end
       end
