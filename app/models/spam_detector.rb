@@ -2,6 +2,7 @@
 
 class SpamDetector < SimpleDelegator
   TEXT_ATTRS = %i[note food_note come_from]
+  ADDRESS_ATTRS = %i[address city zip]
 
   def self.spam?(member)
     new(member).spam?
@@ -9,17 +10,18 @@ class SpamDetector < SimpleDelegator
 
   def self.notify!(member)
     return if new(member).non_allowed_country?
-    return if new(member).gibberish?(:zip)
-    return if new(member).gibberish?(:city)
+
+    text = ADDRESS_ATTRS.map { member.send(it) }.join
+    return if new(member).gibberish?(text)
 
     Error.notify("Spam detected", **member.attributes)
   end
 
   def spam?
     non_allowed_country? ||
-      TEXT_ATTRS.any? { too_long_text?(it) } ||
-      %i[address city zip come_from].any? { cyrillic?(it) } ||
-      (%i[name address city zip] + TEXT_ATTRS).any? { gibberish?(it) } ||
+      TEXT_ATTRS.any? { too_long_text?(send(it)) } ||
+      (%i[come_from] + ADDRESS_ATTRS).any? { cyrillic?(send(it)) } ||
+      (%i[name] + ADDRESS_ATTRS + TEXT_ATTRS).any? { gibberish?(send(it)) } ||
       long_duplicated_texts?(TEXT_ATTRS)
   end
 
@@ -30,22 +32,19 @@ class SpamDetector < SimpleDelegator
     allowed_country_codes.exclude?(country_code)
   end
 
-  def too_long_text?(attr, max_length: 5000)
-    text = send(attr)
+  def too_long_text?(text, max_length: 5000)
     return if text.blank?
 
     text.length >= max_length
   end
 
-  def cyrillic?(attr)
-    text = send(attr)
+  def cyrillic?(text)
     return if text.blank?
 
     text.match?(/\p{Cyrillic}+/ui)
   end
 
-  def gibberish?(attr, min_length: 20, max_ratio: 0.69)
-    text = send(attr)
+  def gibberish?(text, min_length: 20, max_ratio: 0.69)
     return if text.blank? || text.length < min_length || text =~ /[^\p{L}]/
 
     letters = text.scan(/\p{L}/)
