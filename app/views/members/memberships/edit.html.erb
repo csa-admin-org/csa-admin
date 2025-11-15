@@ -2,10 +2,9 @@
 
 <section>
   <h2><%= t(".subtitle") %></h2>
+
   <% if Current.org.membership_update_text? %>
-    <div class="trix mt-2 mb-8">
-      <%= Current.org.membership_update_text %>
-    </div>
+    <div class="trix mb-8 mt-2"><%= Current.org.membership_update_text %></div>
   <% end %>
 
   <%= simple_form_for @membership, html: { class: "mt-4" } do |f| %>
@@ -15,8 +14,9 @@
         <%= f.input :depot_id, as: :radio_buttons, collection: depots_collection(membership: @membership, delivery_cycle: @membership.delivery_cycle, only_price_per_delivery: true), label: Depot.model_name.human, required: true %>
       </div>
     <% end %>
+
     <div class="mt-16">
-      <p class="mt-8 italic md:text-right text-sm text-gray-500 dark:text-gray-400">
+      <p class="mt-8 text-sm italic text-gray-500 md:text-right dark:text-gray-400">
         <%= t(".updateable_baskets", count: member_updatable_baskets.size, first_date: l(member_updatable_baskets.first.delivery.date)) %>
       </p>
     </div>

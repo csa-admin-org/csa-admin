@@ -1,21 +1,31 @@
 <!doctype html>
+
 <html lang="<%= I18n.locale %>">
   <head>
     <title><%= strip_tags(html_head_site_title) %></title>
     <%= render "active_admin/html_head" %>
   </head>
-  <body class="max-w-screen-xl mx-auto h-screen flex flex-col admin bg-green-50/25 dark:bg-gray-950/90 text-gray-950 dark:text-gray-100 antialiased" >
+  <body
+    class="
+      admin mx-auto flex h-screen max-w-screen-xl flex-col bg-green-50/25
+      text-gray-950 antialiased dark:bg-gray-950/90 dark:text-gray-100
+    "
+  >
     <%= render "active_admin/site_header", title: site_title %>
     <%= render "active_admin/page_header", title: @page_title || page_title %>
     <%= render "active_admin/flash_messages" %>
     <div
-      class="grow px-2.5 lg:px-5 grid grid-cols-1 gap-4 lg:gap-6 lg:grid-flow-col lg:auto-cols-[minmax(0,250px)]"
+      class="
+        grid grow grid-cols-1 gap-4 px-2.5 lg:auto-cols-[minmax(0,250px)]
+        lg:grid-flow-col lg:gap-6 lg:px-5
+      "
       data-controller="form-scroll-to-error"
       data-action="turbo:submit-start->form-scroll-to-error#observeForms"
-      >
+    >
       <%= yield %>
       <%= render "active_admin/sidebar" %>
     </div>
+
     <%= render "active_admin/site_footer" %>
   </body>
 </html>

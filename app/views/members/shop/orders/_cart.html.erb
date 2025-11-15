@@ -1,5 +1,10 @@
 <% if @order.items.none? %>
-  <div class="p-2 w-full flex flex-row items-center justify-center text-gray-400 dark:text-gray-600">
+  <div
+    class="
+      flex w-full flex-row items-center justify-center p-2 text-gray-400
+      dark:text-gray-600
+    "
+  >
     <div class="flex flex-row items-center">
       <%= icon "shopping-basket", class: "h-7 w-7 text-gray-400 dark:text-gray-600" %>
       <div class="ml-4"><%= t(".no_order_items") %></div>
@@ -13,9 +18,20 @@
         <% count = @order.items.sum(:quantity) %>
         <%= "#{count} #{Shop::Product.model_name.human(count: count)}" %>
       </div>
-      <div class="ml-2 flex-none text-gray-400"><%= cur @order.items.sum(&:amount) %></div>
+
+      <div class="ml-2 flex-none text-gray-400">
+        <%= cur @order.items.sum(&:amount) %>
+      </div>
+
       <div class="ml-4 flex-none">
-        <div class="text-gray-500 bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 font-medium rounded-md focus:outline-hidden focus:ring-green-500 focus:z-10 text-sm cursor-pointer flex items-center">
+        <div
+          class="
+            focus:outline-hidden flex cursor-pointer items-center rounded-md
+            bg-gray-200 text-sm font-medium text-gray-500 hover:bg-gray-300
+            focus:z-10 focus:ring-green-500 dark:bg-gray-700
+            dark:hover:bg-gray-600
+          "
+        >
           <%= icon "chevron-right", class: "py-1 h-8 w-10 fill-stroke hover:text-white" %>
         </div>
       </div>

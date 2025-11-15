@@ -1,18 +1,39 @@
 <% if flash_messages.present? %>
-  <div class="mb-4 px-2 md:px-5 w-full">
+  <div class="mb-4 w-full px-2 md:px-5">
     <% flash_messages.each do |type, message| %>
       <% if type == "error" %>
-        <div class="flex items-center gap-2 p-3 mb-2 border border-dashed rounded-lg bg-red-50 text-red-800 border-red-800 dark:bg-red-800 dark:text-red-300 dark:border-red-300" aria-label="Flash error">
+        <div
+          class="
+            mb-2 flex items-center gap-2 rounded-lg border border-dashed
+            border-red-800 bg-red-50 p-3 text-red-800 dark:border-red-300
+            dark:bg-red-800 dark:text-red-300
+          "
+          aria-label="Flash error"
+        >
           <%= icon "exclamation-circle", class: "size-5 shrink-0 rtl:-scale-x-100" %>
           <%= message %>
         </div>
       <% elsif type == "alert" %>
-        <div class="flex items-center gap-2 p-3 mb-2 border border-dashed rounded-lg bg-yellow-50 text-yellow-800 border-yellow-800 dark:bg-yellow-800 dark:text-yellow-300 dark:border-yellow-300" aria-label="Flash alert">
+        <div
+          class="
+            mb-2 flex items-center gap-2 rounded-lg border border-dashed
+            border-yellow-800 bg-yellow-50 p-3 text-yellow-800
+            dark:border-yellow-300 dark:bg-yellow-800 dark:text-yellow-300
+          "
+          aria-label="Flash alert"
+        >
           <%= icon "information-circle", class: "size-5 shrink-0 rtl:-scale-x-100" %>
           <%= message %>
         </div>
       <% elsif type == "notice" %>
-        <div class="flex items-center gap-2 p-3 mb-2 border border-dashed rounded-lg bg-green-50 text-green-800 border-green-800 dark:bg-green-800 dark:text-green-400 dark:border-green-300" aria-label="Flash notice">
+        <div
+          class="
+            mb-2 flex items-center gap-2 rounded-lg border border-dashed
+            border-green-800 bg-green-50 p-3 text-green-800
+            dark:border-green-300 dark:bg-green-800 dark:text-green-400
+          "
+          aria-label="Flash notice"
+        >
           <%= icon "information-circle", class: "size-5 shrink-0 rtl:-scale-x-100" %>
           <%= message %>
         </div>

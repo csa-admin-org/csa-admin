@@ -1,12 +1,15 @@
-<%# The container tag
+<%#
+  The container tag
   - available local variables
     current_page:  a page object for the currently displayed page
     total_pages:   total number of pages
     per_page:      number of items to fetch per page
     remote:        data-remote
-    paginator:     the paginator that renders the pagination tags inside -%>
+    paginator:     the paginator that renders the pagination tags inside
+-%>
+
 <%= paginator.render do -%>
-  <nav data-test-pagination class="inline-flex flex-wrap h-7 gap-0.5 text-sm">
+  <nav data-test-pagination class="inline-flex h-7 flex-wrap gap-0.5 text-sm">
     <%= prev_page_tag unless current_page.first? %>
     <% each_page do |page| -%>
       <% if page.display_tag? -%>

@@ -1,8 +1,6 @@
 <h1><%= Membership.model_name.human %></h1>
 
-<section>
-  <%= render @membership %>
-</section>
+<section><%= render @membership %></section>
 
 <section>
   <% if @membership.renewal_opened? %>
@@ -10,22 +8,20 @@
       <h2 class="mt-8 text-lg font-bold text-gray-900 dark:text-gray-100">
         <%= t(".renewal.title") %>
       </h2>
-      <div class="trix mt-2 justify">
-        <%= Current.org.open_renewal_text %>
-      </div>
+
+      <div class="trix justify mt-2"><%= Current.org.open_renewal_text %></div>
+
       <%= simple_form_for @membership, url: new_members_membership_renewal_path, method: :get, data: { remote: false } do |f| %>
         <div class="mt-6">
           <%= f.input :renewal_decision, as: :radio_buttons, collection: renewal_decisions_collection, required: false, label: t(".renewal.options_label") %>
         </div>
-        <div class="actions">
-          <%= f.submit t(".renewal.submit") %>
-        </div>
+        <div class="actions"><%= f.submit t(".renewal.submit") %></div>
       <% end %>
     </div>
   <% elsif @membership.renewed? %>
     <%= render @membership.renewed_membership %>
   <% elsif @membership.canceled? && @membership.current? %>
-    <p class="mt-8 justify italic">
+    <p class="justify mt-8 italic">
       <%= t(".renewal.canceled_html", last_delivery_date: l(@membership.deliveries.last.date)) %>
     </p>
   <% end %>

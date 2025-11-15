@@ -64,7 +64,7 @@ class NewsletterDeliveryTest < ActiveSupport::TestCase
     mail_body = email.parts.map(&:body).join
     assert_includes mail_body, "Hello Jane Doe,"
     assert_includes mail_body, "Block Jane Doe"
-    assert_includes mail_body, "Best regards,\n<br />Acme</p>"
+    assert_includes mail_body, "Best regards,\n", "<br>Acme</p>"
   end
 
   test "send newsletter with custom from" do

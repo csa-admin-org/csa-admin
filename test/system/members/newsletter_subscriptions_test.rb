@@ -54,7 +54,7 @@ class Members::NewsletterSubscriptionsTest < ApplicationSystemTestCase
     end
 
     assert_equal 404, page.status_code
-    assert_text "😬 This link has expired or is invalid."
+    assert_text "😬This link has expired or is invalid."
   end
 
   test "unsubscribe with email no more link to a member" do
@@ -66,6 +66,6 @@ class Members::NewsletterSubscriptionsTest < ApplicationSystemTestCase
     end
 
     assert_equal 404, page.status_code
-    assert_text "😬 This link has expired or is invalid."
+    assert_text "😬This link has expired or is invalid."
   end
 end

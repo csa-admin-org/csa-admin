@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html>
   <head>
     <meta charset="UTF-8">
@@ -11,10 +12,18 @@
         <dt><%= org.name %></dt>
         <dd>
           <ul>
-            <li><a href="<%= org.production_admin_url %>"><%= org.name %> - Admin - Prod </a></li>
-            <li><a href="<%= org.development_admin_url %>"><%= org.name %> - Admin - Dev</a></li>
-            <li><a href="<%= org.production_members_url %>"><%= org.name %> - Members - Prod</a></li>
-            <li><a href="<%= org.development_members_url %>"><%= org.name %> - Members - Dev</a></li>
+            <li>
+              <a href="<%= org.production_admin_url %>"><%= org.name %> - Admin - Prod</a>
+            </li>
+            <li>
+              <a href="<%= org.development_admin_url %>"><%= org.name %> - Admin - Dev</a>
+            </li>
+            <li>
+              <a href="<%= org.production_members_url %>"><%= org.name %> - Members - Prod</a>
+            </li>
+            <li>
+              <a href="<%= org.development_members_url %>"><%= org.name %> - Members - Dev</a>
+            </li>
           </ul>
         </dd>
       <% end %>

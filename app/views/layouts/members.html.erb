@@ -1,38 +1,41 @@
 <!DOCTYPE html>
+
 <html lang="<%= I18n.locale %>">
   <head>
     <title><%= [ Current.org.name, t(".title") ].join(" – ") %></title>
+
     <%= javascript_importmap_tags "members" %>
     <%= stylesheet_link_tag "tailwind", data: { turbo_track: "reload" } %>
     <%= csrf_meta_tags %>
     <meta charset="UTF-8">
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <%= render "layouts/members/dark_mode_switch" %>
   </head>
   <body class="members dark:bg-black" data-controller="menu">
     <% if current_member %>
-      <div class="flex flex-col md:flex-row md:mx-auto md:max-w-4xl">
+      <div class="flex flex-col md:mx-auto md:max-w-4xl md:flex-row">
         <div class="flex flex-col md:w-80">
-          <div>
-            <%= render "layouts/members/header" %>
-          </div>
-          <div class="md:mx-8 hidden md:block" data-menu-target="menu">
+          <div><%= render "layouts/members/header" %></div>
+          <div class="hidden md:mx-8 md:block" data-menu-target="menu">
             <%= render "layouts/members/footer" %>
           </div>
         </div>
-        <main class="mt-4 md:mt-48 mb-24 mx-auto px-4 md:pl-0 w-full md:max-w-xl" data-menu-target="body">
+        <main
+          class="mx-auto mb-24 mt-4 w-full px-4 md:mt-48 md:max-w-xl md:pl-0"
+          data-menu-target="body"
+        >
           <div class="relative w-full">
-            <div class="md:absolute md:-mt-24 w-full">
+            <div class="w-full md:absolute md:-mt-24">
               <%= render "layouts/members/flashes" %>
             </div>
-            <div>
-              <%= yield %>
-            </div>
+            <div><%= yield %></div>
           </div>
         </main>
       </div>
     <% else %>
-      <div class="flex flex-col mx-4 h-screen md:max-w-xl md:mx-auto">
+      <div class="mx-4 flex h-screen flex-col md:mx-auto md:max-w-xl">
         <div class="flex grow flex-col">
           <div class="my-auto">
             <header class="flex">
@@ -49,7 +52,7 @@
               </div>
             </main>
           </div>
-          <div class="mt-48 flex-none flex print:hidden">
+          <div class="mt-48 flex flex-none print:hidden">
             <%= render "layouts/members/footer" %>
           </div>
         </div>

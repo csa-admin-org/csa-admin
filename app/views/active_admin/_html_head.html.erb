@@ -1,8 +1,13 @@
 <%= stylesheet_link_tag "trix", "tailwind", "tom-select", data: { turbo_track: "reload" } %>
-<meta name="viewport" content="width=device-width,initial-scale=1" />
+
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
 <%= csrf_meta_tags %>
+
 <%= csp_meta_tag %>
+
 <%# On page load or when changing themes, best to add inline in `head` to avoid FOUC %>
+
 <script nonce="true">
   if (
     localStorage.theme === "dark" ||
@@ -14,6 +19,9 @@
     document.documentElement.classList.remove("dark");
   }
 </script>
+
 <%= javascript_importmap_tags "admin" %>
-<meta name="turbo-refresh-method" content="morph" />
-<meta name="turbo-refresh-scroll" content="preserve" />
+
+<meta name="turbo-refresh-method" content="morph">
+
+<meta name="turbo-refresh-scroll" content="preserve">

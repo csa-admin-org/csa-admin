@@ -5,10 +5,11 @@
     <div class="space-y-6">
       <%= f.input :name, hint: t(".name_hint"), label: t("members.members.new.name") %>
       <%= f.input :address, required: true %>
-      <div class="flex flex-row w-full gap-2">
+      <div class="flex w-full flex-row gap-2">
         <%= f.input :zip, required: true, input_html: { size: 6, maxlength: 6 }, wrapper_html: { class: "w-24" } %>
         <%= f.input :city, required: true, wrapper_html: { class: "grow" } %>
       </div>
+
       <%= f.input :country_code, as: :select, required: true, collection: countries_collection %>
       <%= f.input :emails, as: :string, hint: t(".emails_hint", session_email: current_session.email), required: true %>
       <%= f.input :phones, as: :string, required: true %>
@@ -19,10 +20,13 @@
 
     <div data-controller="visibility" class="my-6" aria-label="Billing">
       <%= f.input :different_billing_info, as: :boolean, input_html: { data: { action: "visibility#toggle" } } %>
-      <div class="mt-4 space-y-4 <%= f.object.different_billing_info ? "" : "hidden" %>" data-visibility-target="element">
+      <div
+        class="mt-4 space-y-4 <%= f.object.different_billing_info ? "" : "hidden" %>"
+        data-visibility-target="element"
+      >
         <%= f.input :billing_name, required: true, input_html: { disabled: !f.object.different_billing_info } %>
         <%= f.input :billing_address, required: true, input_html: { disabled: !f.object.different_billing_info } %>
-        <div class="flex flex-row w-full gap-2">
+        <div class="flex w-full flex-row gap-2">
           <%= f.input :billing_zip, required: true, label: Member.human_attribute_name(:zip), input_html: { disabled: !f.object.different_billing_info, size: 6, maxlength: 6 }, wrapper_html: { class: "w-24" } %>
           <%= f.input :billing_city, required: true, label: Member.human_attribute_name(:city), input_html: { disabled: !f.object.different_billing_info }, wrapper_html: { class: "grow" } %>
         </div>

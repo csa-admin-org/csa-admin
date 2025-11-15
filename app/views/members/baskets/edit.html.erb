@@ -1,11 +1,12 @@
-<h1><%= t(".title", date: l(@basket.delivery.date).gsub(" ", "&nbsp;")).html_safe %></h1>
+<h1>
+  <%= t(".title", date: l(@basket.delivery.date).gsub(" ", "&nbsp;")).html_safe %>
+</h1>
 
 <section>
   <h2><%= t(".subtitle") %></h2>
+
   <% if Current.org.membership_update_text? %>
-    <div class="trix mt-2 mb-8">
-      <%= Current.org.membership_update_text %>
-    </div>
+    <div class="trix mb-8 mt-2"><%= Current.org.membership_update_text %></div>
   <% end %>
 
   <%= simple_form_for @basket, html: { class: "mt-4" } do |f| %>
@@ -20,11 +21,13 @@
         <% end %>
       <% end %>
     <% end %>
+
     <% if Current.org.membership_depot_update_allowed? %>
       <div class="mt-4 space-y-8">
         <%= f.input :depot_id, as: :radio_buttons, collection: depots_collection(basket: @basket, delivery_cycle: @basket.membership.delivery_cycle, only_price_per_delivery: true), label: Depot.model_name.human, required: true %>
       </div>
     <% end %>
+
     <div class="actions">
       <%= link_to t(".cancel_link"), members_deliveries_path, class: "cancel-link" %>
       <%= f.submit t(".submit") %>
