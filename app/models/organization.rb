@@ -10,6 +10,7 @@ class Organization < ApplicationRecord
     basket_price_extra
     bidding_round
     contact_sharing
+    local_currency
     new_member_fee
     shop
   ]
@@ -34,7 +35,14 @@ class Organization < ApplicationRecord
   include TranslatedRichTexts
   include NormalizedString
   include Billing
-  include AbsenceFeature, ActivityFeature, BasketPriceExtraFeature, BiddingRoundFeature, NewMemberFeeFeature, ShopFeature
+  include \
+    AbsenceFeature,
+    ActivityFeature,
+    BasketPriceExtraFeature,
+    BiddingRoundFeature,
+    LocalCurrencyFeature,
+    NewMemberFeeFeature,
+    ShopFeature
 
   attribute :icalendar_auth_token, :string, default: -> { SecureRandom.hex(16) }
 
@@ -55,7 +63,7 @@ class Organization < ApplicationRecord
 
   has_secure_token :api_token, length: 36
 
-  encrypts :postmark_server_token, :bank_credentials
+  encrypts :postmark_server_token
 
   has_one_attached :logo
   has_many_attached :invoice_logos

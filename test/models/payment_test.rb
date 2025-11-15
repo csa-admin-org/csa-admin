@@ -3,6 +3,29 @@
 require "test_helper"
 
 class PaymentTest < ActiveSupport::TestCase
+  test "ensure invoice currency matches" do
+    org(
+      features: [ "local_currency" ],
+      local_currency_code: "RAD",
+      local_currency_identifier: "test_shop",
+      local_currency_wallet: "0x1234567890abcdef")
+
+    invoice = invoices(:annual_fee)
+
+    payment = Payment.new(
+      invoice: invoice,
+      amount: 42,
+      date: Date.today)
+
+    assert_equal invoice.currency_code, payment.currency_code
+    assert payment.valid?
+
+    payment.currency_code = "RAD"
+
+    assert_not payment.valid?
+    assert_includes payment.errors[:currency_code], "is invalid"
+  end
+
   test "store created_by via audit" do
     payment = create_payment
     assert_equal System.instance, payment.created_by
