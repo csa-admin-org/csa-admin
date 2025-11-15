@@ -33,6 +33,7 @@ module ActiveSupport
     include OrganizationsHelper
     include PaymentsHelper
     include PostmarkHelper
+    include QRCodeHelper
     include ResponsesHelper
     include SessionsHelper
     include ShopHelper

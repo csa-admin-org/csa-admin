@@ -1,0 +1,25 @@
+# Local Currency
+
+CSA Admin allows supporting a local currency in addition to the national currency. Once configured in [your settings](/settings#local_currency), you can activate its use for each member individually. This activation, reserved for administrators, requires that members contact you.
+
+Once activated for a member, all their new invoices will be automatically issued in this local currency.
+
+> Currently, only local currencies with a 1:1 equivalence to the national currency are supported.
+
+## Supported Currencies
+
+- [Radis (Geneva, Switzerland)](#radis), more info on [calim-ge.ch](https://calim-ge.ch)
+
+## Radis
+
+Radis is a local currency used in the city of Geneva, Switzerland. It is equivalent to the national currency (1 Radis = 1 CHF). Radis is issued by Calim — The Geneva Food Bank ([calim-ge.ch](https://calim-ge.ch)).
+
+To support Radis, contact Calim ([caisse@calim-ge.ch](mailto:caisse@calim-ge.ch)) to obtain the necessary parameters.
+
+### Required Parameters
+
+- **Unique account identifier**: identifier of your Radis.Calim account (integer)
+- **Wallet address**: address of your wallet on the blockchain (string)
+- **Secret key**: Decryption key, allowing to read the transaction reference number (string). Keep this key confidential.
+
+> Payments in local currency are automatically imported by the system every night, securely.

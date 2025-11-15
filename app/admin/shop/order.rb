@@ -163,8 +163,8 @@ ActiveAdmin.register Shop::Order do
             if order.invoice
               row(:invoice) { auto_link order.invoice, order.invoice.id }
               row(:state) { status_tag order.invoice.state, label: order.invoice.state_i18n_name }
-              row(:paid_amount) { cur(order.invoice.paid_amount) }
-              row(:balance) { cur(order.invoice.balance) }
+              row(:paid_amount) { ccur(order.invoice, :paid_amount) }
+              row(:balance) { ccur(order.invoice, :balance) }
             end
           end
         end

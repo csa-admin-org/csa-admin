@@ -109,7 +109,7 @@ module PDF
       font_size 10
       data = [ [
         ::Invoice.human_attribute_name(:description),
-        "#{::Invoice.human_attribute_name(:amount)} (#{currency_symbol})"
+        "#{::Invoice.human_attribute_name(:amount)} (#{currency_symbol(invoice.currency_code)})"
       ] ]
 
       case invoice.entity_type
@@ -416,7 +416,9 @@ module PDF
       border = 13
       font_size 8
       bounding_box [ 0, y ], width: bounds.width - border, height: y do
-        if Current.org.swiss_qr?
+        if local_currency?
+          local_currency_qr(border)
+        elsif Current.org.swiss_qr?
           swiss_qr(border)
         elsif Current.org.sepa?
           if invoice.sepa_metadata.present?
@@ -424,13 +426,14 @@ module PDF
           else
             epc_qr(border)
           end
-        else payment_info(border)
+        else
+          payment_info(border)
         end
       end
     end
 
     def payment_section_y
-      Current.org.swiss_qr? ? 320 : 220
+      Current.org.swiss_qr? && !local_currency? ? 320 : 220
     end
 
     ## Swiss QR
@@ -605,6 +608,42 @@ module PDF
       end
     end
 
+    ## Local Currency QR
+    def local_currency_qr(border)
+      payment_info_border(2 * border)
+      bounding_box [ 2 * border, payment_section_y - 35 ], width: 570, height: payment_section_y do
+        qr_text_main_title t("payment.payment_part_with_currency", currency: I18n.t("local_currency.#{invoice.currency_code.downcase}.default"))
+        y_start = bounds.height - 25
+
+        qr_code_width = 110
+        image LocalCurrency::Radis.qr_code(invoice),
+          at: [ 0, y_start ],
+          width: qr_code_width
+
+        bounding_box [ 0, y_start - qr_code_width - 12 ], width: qr_code_width do
+          text t("payment.scan_to_pay"), size: 10, align: :center
+        end
+
+        spacing = 9
+        bounding_box [ qr_code_width + 16, y_start ], width: 300 do
+          qr_text_title Organization.human_attribute_name(:local_currency_wallet)
+          qr_text Current.org.local_currency_wallet
+          move_down spacing
+
+          qr_text_title t("payment.payable_to")
+          qr_text Current.org.creditor_name
+          move_down spacing
+
+          qr_text_title t("payment.reference")
+          qr_text invoice.reference.formatted
+          move_down spacing
+
+          qr_text_title t("payment.amount")
+          qr_text [ invoice.currency_code, cur(@missing_amount, delimiter: " ") ].join(" ")
+        end
+      end
+    end
+
     ## Other countries
 
     def payment_info(border)
@@ -740,8 +779,13 @@ module PDF
       end
     end
 
+    def local_currency?
+      Current.org.feature?("local_currency") &&
+        invoice.currency_code == Current.org.local_currency_code
+    end
+
     def cur(amount, unit: false, **options)
-      super(amount, unit: unit, **options)
+      super(amount, unit: unit, currency_code: invoice.currency_code, **options)
     end
 
     def cur_with_vat_appendice(invoice, amount, unit: false, **options)

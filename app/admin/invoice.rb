@@ -42,6 +42,10 @@ ActiveAdmin.register Invoice do
     collection: -> { entity_type_collection }
   filter :sent, as: :boolean
   filter :sepa, as: :boolean, if: ->(a) { Current.org.sepa? }
+  filter :currency_code,
+    as: :select,
+    collection: -> { currency_codes_collection },
+    if: proc { feature?("local_currency") }
   filter :amount
   filter :balance, as: :numeric
   filter :overdue_notices_count
@@ -63,8 +67,9 @@ ActiveAdmin.register Invoice do
     column :id
     column :date, ->(i) { l i.date, format: :number }, class: "text-right tabular-nums"
     column :member, sortable: "members.name"
-    column :amount, ->(invoice) { cur(invoice.amount) }, class: "text-right tabular-nums"
-    column :paid_amount, ->(invoice) { invoice.canceled? ? "–" : cur(invoice.paid_amount) }, class: "text-right tabular-nums"
+    column :currency_code
+    column :amount, ->(invoice) { ccur(invoice, :amount) }, class: "text-right tabular-nums"
+    column :paid_amount, ->(invoice) { invoice.canceled? ? "–" : ccur(invoice, :paid_amount) }, class: "text-right tabular-nums"
     column :overdue_notices_count, ->(invoice) { invoice.sepa? ? "–" : invoice.overdue_notices_count }, class: "text-right"
     column :state, ->(invoice) { status_tag invoice.state }, class: "text-right"
     actions do |invoice|
@@ -192,7 +197,7 @@ ActiveAdmin.register Invoice do
           else
             table_for(payments, class: "table-auto") do
               column(:date) { |p| auto_link p, l(p.date, format: :number), aria: { label: "show" } }
-              column(:amount, class: "text-right tabular-nums") { |p| cur(p.amount) }
+              column(:amount, class: "text-right tabular-nums") { |p| ccur(p, :amount) }
               column(:type, class: "text-right") { |p| status_tag p.type }
             end
           end
@@ -201,7 +206,7 @@ ActiveAdmin.register Invoice do
           panel InvoiceItem.model_name.human(count: 2), count: invoice.items.count do
             table_for(invoice.items, class: "table-auto") do
               column(:description) { |ii| ii.description }
-              column(:amount, class: "text-right tabular-nums") { |ii| cur(ii.amount) }
+              column(:amount, class: "text-right tabular-nums") { |ii| ccur(ii, :amount) }
             end
           end
         end
@@ -261,12 +266,12 @@ ActiveAdmin.register Invoice do
         panel Invoice.human_attribute_name(:amount) do
           attributes_table do
             if invoice.amount_percentage?
-              row(:amount_before_percentage, class: "tabular-nums text-right") { cur(invoice.amount_before_percentage) }
+              row(:amount_before_percentage, class: "tabular-nums text-right") { ccur(invoice, :amount_before_percentage) }
               row(:amount_percentage, class: "tabular-nums text-right") { number_to_percentage(invoice.amount_percentage, precision: 1) }
             end
-            row(:amount, class: "tabular-nums text-right") { cur(invoice.amount) }
-            row(:paid_amount, class: "tabular-nums text-right") { cur(invoice.paid_amount) }
-            row(:balance, class: "tabular-nums text-right font-bold") { cur(invoice.balance) }
+            row(:amount, class: "tabular-nums text-right") { ccur(invoice, :amount) }
+            row(:paid_amount, class: "tabular-nums text-right") { ccur(invoice, :paid_amount) }
+            row(:balance, class: "tabular-nums text-right font-bold") { ccur(invoice, :balance) }
           end
         end
 
