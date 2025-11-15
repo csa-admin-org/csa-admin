@@ -466,9 +466,10 @@ ActiveAdmin.register Organization do
             collection: locale_currencies_collection,
             include_blank: false,
             required: false
-          f.input :local_currency_identifier
-          f.input :local_currency_wallet
+          f.input :local_currency_identifier, required: true
+          f.input :local_currency_wallet, required: true
           f.input :local_currency_secret,
+            required: true,
             as: :password,
             input_html: { value: "*" * resource.local_currency_secret&.length.to_i }
           handbook_button(self, "local_currency")
