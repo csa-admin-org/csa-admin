@@ -6,6 +6,8 @@ module HasCurrency
   included do
     attribute :currency_code, :string, default: -> { Current.org.currency_code }
 
-    validates :currency_code, presence: true, inclusion: { in: Organization::CURRENCIES }
+    validates :currency_code,
+      presence: true,
+      inclusion: { in: -> { Current.org.currency_codes } }
   end
 end

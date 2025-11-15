@@ -913,6 +913,12 @@ _:
           _de: Depot (Hofladen)
           _it: Punto di ritiro (drogheria)
           _nl: Depot (winkel)
+        use_local_currency:
+          _en: Invoice in local currency
+          _fr: Facturer en monnaie locale
+          _de: Rechnung in regionaler Währung
+          _it: Fattura in valuta locale
+          _nl: Factuur in lokale valuta
         validated_at:
           _en: Validated on
           _fr: Validé le
@@ -1967,6 +1973,30 @@ _:
           _de: Sprachen
           _it: Lingue
           _nl: Talen
+        local_currency_code:
+          _en: Currency
+          _fr: Monnaie
+          _de: Währung
+          _it: Valuta
+          _nl: Valuta
+        local_currency_identifier:
+          _en: Unique account identifier
+          _fr: Identifiant unique du compte
+          _de: Eindeutige Kennung des Kontos
+          _it: Identificativo univoco dell'account
+          _nl: Unieke identificatie van het account
+        local_currency_secret:
+          _en: Secret key
+          _fr: Clé secrète
+          _de: Geheime Schlüssel
+          _it: Chiave segreta
+          _nl: Geheime sleutel
+        local_currency_wallet:
+          _en: Wallet address
+          _fr: Adresse du portefeuille
+          _de: Wallet-Adresse
+          _it: Indirizzo del portafoglio
+          _nl: Wallet-adres
         member_form_complements_text:
           _en: Explanation of complements
           _fr: Explication compléments

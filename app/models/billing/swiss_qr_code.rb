@@ -55,14 +55,8 @@ module Billing
       @org = Current.org
     end
 
-    def generate(rails_env: Rails.env)
-      # Generating the QR code image is slow so we skip it for performance reasons
-      # in the test env.
-      if rails_env == "test"
-        File.new(Rails.root.join("test", "fixtures", "files", "qrcode-test.png"))
-      else
-        qrcode_image.composite(logo_image, gravity: :centre).convert(:png).call
-      end
+    def generate
+      QRCode.new(payload, logo: :swiss_cross).image
     end
 
     def payload
@@ -104,26 +98,6 @@ module Billing
     end
 
     private
-
-    def qrcode_image
-      vips_image = Vips::Image.new_from_buffer(qrcode_png_blob, "")
-      ImageProcessing::Vips.source(vips_image)
-    end
-
-    def qrcode_png_blob
-      qrcode = RQRCode::QRCode.new(payload, level: :m)
-      qrcode.as_png(
-        border_modules: 0,
-        module_px_size: 6,
-        size: 1024
-      ).to_blob
-    end
-
-    def logo_image
-      path = "#{Rails.root}/lib/assets/images/swiss_cross.png"
-      ImageProcessing::Vips.source(path)
-        .resize_to_limit!(166, 166)
-    end
 
     def transliterate(string)
       string.chars.map { |char|

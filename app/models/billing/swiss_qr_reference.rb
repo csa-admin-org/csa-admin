@@ -46,6 +46,8 @@ module Billing
 
     def self.payload(ref)
       ref = extract_ref(ref)
+      return unless ref.present?
+
       member_id = ref.last(20).first(10).to_i
       {
         member_id: member_id.zero? ? nil : member_id,

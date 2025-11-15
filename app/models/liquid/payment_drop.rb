@@ -33,7 +33,7 @@ class Liquid::PaymentDrop < Liquid::Drop
   end
 
   def amount
-    cur(@payment.amount)
+    ccur(@payment, :amount)
   end
 
   def admin_url

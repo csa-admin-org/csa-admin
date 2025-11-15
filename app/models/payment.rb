@@ -23,6 +23,7 @@ class Payment < ApplicationRecord
 
   validates :date, presence: true
   validates :amount, numericality: { other_than: 0 }, presence: true
+  validate :ensure_same_invoice_currency
 
   after_commit :redistribute!
 
@@ -33,6 +34,7 @@ class Payment < ApplicationRecord
 
   def invoice=(invoice)
     self.member = invoice.member
+    self.currency_code = invoice.currency_code
     super
   end
 
@@ -123,6 +125,15 @@ class Payment < ApplicationRecord
   end
 
   private
+
+  def ensure_same_invoice_currency
+    return unless Current.org.feature?("local_currency")
+    return unless invoice_id?
+
+    unless invoice.currency_code == currency_code
+      errors.add(:currency_code, :invalid)
+    end
+  end
 
   def redistribute!
     Billing::PaymentsRedistributor.redistribute!(member_id)

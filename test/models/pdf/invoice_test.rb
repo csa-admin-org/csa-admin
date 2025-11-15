@@ -447,12 +447,41 @@ class PDF::InvoiceTest < ActiveSupport::TestCase
     ]
   end
 
+  test "Local currency invoice" do
+    org(
+      features: [ "local_currency" ],
+      local_currency_code: "RAD",
+      local_currency_wallet: "0xYourWalletAddress")
+
+    invoice = invoices(:annual_fee)
+    invoice.update!(currency_code: "RAD")
+    pdf_strings = save_pdf_and_return_strings(invoice)
+
+    assert_equal [
+      "Invoice N°\u00A0#{invoice.id}",
+      "1 April 2024",
+      "Martha", "Nowhere 46", "1234 City",
+      "Member No.: #{invoice.member_id}",
+      "Description", "Amount (RAD)",
+      "Annual fee", "30.00",
+      "Total", "30.00",
+      "Payable within 30 days, with our thanks.",
+      "Acme", ", Nowhere 42, 1234 City // info@acme.test",
+      "Payment in Radis",
+      "Scan to pay",
+      "Wallet address",  "0xYourWalletAddress",
+      "Payable to", "Acme",
+      "Reference", swiss_qr_ref(invoice).formatted,
+      "Amount", "RAD  30.00"
+    ], pdf_strings
+  end
+
   test "France invoice" do
     travel_to "2024-01-01"
     france_org
     invoice = invoices(:annual_fee)
+    invoice.update!(currency_code: "EUR")
     invoice.member.update!(language: "fr")
-
     pdf_strings = save_pdf_and_return_strings(invoice)
 
     assert_equal [
@@ -479,13 +508,14 @@ class PDF::InvoiceTest < ActiveSupport::TestCase
     travel_to "2024-01-01"
     german_org
     invoice = invoices(:annual_fee)
+    invoice.update!(id: 12345678, currency_code: "EUR")
     invoice.member.update!(
       language: "de",
       address: "Grosse Marktgasse 28",
       zip: "30952",
       city: "Ronnenberg",
       country_code: "DE")
-    invoice.update!(id: 12345678)
+
     pdf_strings = save_pdf_and_return_strings(invoice)
 
     assert_equal [
