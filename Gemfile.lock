@@ -120,7 +120,7 @@ GEM
       async-http (~> 0.42)
       protocol-url (~> 0.2)
     aws-eventstream (1.4.0)
-    aws-partitions (1.1182.0)
+    aws-partitions (1.1184.0)
     aws-sdk-core (3.237.0)
       aws-eventstream (~> 1, >= 1.3.0)
       aws-partitions (~> 1, >= 1.992.0)
@@ -258,15 +258,16 @@ GEM
       actionpack (>= 7.0)
       activesupport (>= 7.0)
     hashery (2.1.2)
-    herb (0.8.0)
-    herb (0.8.0-aarch64-linux-gnu)
-    herb (0.8.0-x86_64-linux-musl)
+    herb (0.8.2-aarch64-linux-gnu)
+    herb (0.8.2-arm64-darwin)
+    herb (0.8.2-x86_64-linux-gnu)
+    herb (0.8.2-x86_64-linux-musl)
     hexapdf (1.4.1)
       cmdparse (~> 3.0, >= 3.0.3)
       geom2d (~> 0.4, >= 0.4.1)
       openssl (>= 2.2.1)
       strscan (>= 3.1.2)
-    htmlentities (4.3.4)
+    htmlentities (4.4.0)
     i18n (1.14.7)
       concurrent-ruby (~> 1.0)
     i18n-backend-side_by_side (1.3.0)
@@ -296,7 +297,7 @@ GEM
       nokogiri (>= 1.6)
     io-console (0.8.1)
     io-endpoint (0.15.2)
-    io-event (1.14.1)
+    io-event (1.14.2)
     io-stream (0.11.0)
     irb (1.15.3)
       pp (>= 0.6.0)
@@ -361,7 +362,7 @@ GEM
     mini_magick (5.3.1)
       logger
     mini_mime (1.1.5)
-    minitest (5.26.1)
+    minitest (5.26.2)
     minitest-difftastic (0.2.1)
       difftastic (~> 0.6)
     mission_control-jobs (1.1.0)
@@ -786,7 +787,7 @@ CHECKSUMS
   async-pool (0.11.0) sha256=2228c4a8d1ca59a259b5f9dab7e0f9f23d57856b195aca1c0aa684a7439ea525
   async-rest (0.20.0) sha256=72b0d467f65269a53a64fc12b828f3d81b4afa201b4eea0b98cddb990e7e95eb
   aws-eventstream (1.4.0) sha256=116bf85c436200d1060811e6f5d2d40c88f65448f2125bc77ffce5121e6e183b
-  aws-partitions (1.1182.0) sha256=b16cd182cd278929b6fa8774197f938ece5fca168de9e524da8f5a67004881ae
+  aws-partitions (1.1184.0) sha256=9b994b2df49d31b756523fd66119d8f3947a908e71174f4554b9dce1c728fa69
   aws-sdk-core (3.237.0) sha256=9a8b14167a75be07ba7cfd9d27075aa12f1ed897d6eaed808a1c6a20963af32b
   aws-sdk-kms (1.117.0) sha256=d3d655ae825ca0d6715555e2543e062fe14ccacf30bace04f3aefd6005b76c14
   aws-sdk-s3 (1.203.1) sha256=edaa6ecc641ffa8564f38df237876876ac679b937ca8cd7873f6f9857d8f99b9
@@ -851,11 +852,12 @@ CHECKSUMS
   globalid (1.3.0) sha256=05c639ad6eb4594522a0b07983022f04aa7254626ab69445a0e493aa3786ff11
   has_scope (0.9.0) sha256=783a93006cf898525bb4899696f1d088c0f6ff897d6df2bf03fdbbe0d0b5124c
   hashery (2.1.2) sha256=d239cc2310401903f6b79d458c2bbef5bf74c46f3f974ae9c1061fb74a404862
-  herb (0.8.0) sha256=0ef005bcb19a98ec2dbe259f512b13fdd59a35bffb8ce216632906004567269c
-  herb (0.8.0-aarch64-linux-gnu) sha256=e3537a92cf0419c2ec0f48971ef6eacd125c99ae390e8e96c7b0ebbd1bbe8533
-  herb (0.8.0-x86_64-linux-musl) sha256=6b9748feed80553b047abd5b90b68eb8c19c9ce12d41ca2d289f7a4d46f4746b
+  herb (0.8.2-aarch64-linux-gnu) sha256=afce5105f8588cffe110dc23eb6000cabea18c01e3019515dd9985c2ac7c0362
+  herb (0.8.2-arm64-darwin) sha256=38dde2cf5797b45280542c7e8f499ee046429d8e60bd9c5571b7e715c1289660
+  herb (0.8.2-x86_64-linux-gnu) sha256=63149701a4d3b271ef13359dc2c40e1708b62ed2f696e79e49f50a6af3378fa3
+  herb (0.8.2-x86_64-linux-musl) sha256=e5cd1a5c6541a4b913d51156ad5afc75d232858afb49ee1ed7108d7cd644ac86
   hexapdf (1.4.1) sha256=8db11f731807cefeb0cada949555b2e460214c4e3024e82adb19f8096c3e0549
-  htmlentities (4.3.4) sha256=125a73c6c9f2d1b62100b7c3c401e3624441b663762afa7fe428476435a673da
+  htmlentities (4.4.0) sha256=77820153ba1e7db2b7dfbd8c8c28571316ece7d6fc79ffff398973cb060422f1
   i18n (1.14.7) sha256=ceba573f8138ff2c0915427f1fc5bdf4aa3ab8ae88c8ce255eb3ecf0a11a5d0f
   i18n-backend-side_by_side (1.3.0) sha256=9a48d06549d4d5e4e6640ab66c560ffa4a73883f29a881818810bd30e49f95d8
   iban-tools (1.2.1) sha256=099962fc60fc8eff0674e1ce3d387a29cfa89d578cf5f08554ec7c6020ac631c
@@ -867,7 +869,7 @@ CHECKSUMS
   inline_svg (1.10.0) sha256=5b652934236fd9f8adc61f3fd6e208b7ca3282698b19f28659971da84bf9a10f
   io-console (0.8.1) sha256=1e15440a6b2f67b6ea496df7c474ed62c860ad11237f29b3bd187f054b925fcb
   io-endpoint (0.15.2) sha256=1e7e90bb683945288075b43ac505aba11460a281600236b5f8fbc210cf878f25
-  io-event (1.14.1) sha256=986ff6757412e7dd727bb65f42764cc4fea4b044b8cac4e70d95813de95384ca
+  io-event (1.14.2) sha256=b0a069190eafe86005c22f7464f744971b5bd82f153740d34e6ab49548d4f613
   io-stream (0.11.0) sha256=d75b0baa991865097fbe3f101c40d3fd1ab301f9b9d7dc22586f60c524727788
   irb (1.15.3) sha256=4349edff1efa7ff7bfd34cb9df74a133a588ba88c2718098b3b4468b81184aaa
   jmespath (1.6.2) sha256=238d774a58723d6c090494c8879b5e9918c19485f7e840f2c1c7532cf84ebcb1
@@ -892,7 +894,7 @@ CHECKSUMS
   metrics (0.15.0) sha256=61ded5bac95118e995b1bc9ed4a5f19bc9814928a312a85b200abbdac9039072
   mini_magick (5.3.1) sha256=29395dfd76badcabb6403ee5aff6f681e867074f8f28ce08d78661e9e4a351c4
   mini_mime (1.1.5) sha256=8681b7e2e4215f2a159f9400b5816d85e9d8c6c6b491e96a12797e798f8bccef
-  minitest (5.26.1) sha256=f16a63d4278e230bba342c3bda3006a69c5216d46461b77dd57f7c7c529b5a96
+  minitest (5.26.2) sha256=f021118a6185b9ba9f5af71f2ba103ad770c75afde9f2ab8da512677c550cde3
   minitest-difftastic (0.2.1) sha256=fc2c6e01cd839371772ed08604c9ce7b1567ee262e9dd4fef7d78665d1a99c45
   mission_control-jobs (1.1.0) sha256=b13da9cde3344fec7c744b79d2a34c3ecd454f45d4d593d4c968ba762315e84c
   msgpack (1.8.0) sha256=e64ce0212000d016809f5048b48eb3a65ffb169db22238fb4b72472fecb2d732

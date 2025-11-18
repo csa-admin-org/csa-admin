@@ -24,14 +24,21 @@
               text-left
             "
           >
-            <span class="mr-2"><%= ff.object.product.name %>, <%= ff.object.product_variant.name %></span>
-            <span class="mr-2 whitespace-nowrap text-left text-xs text-gray-400"><%= cur(ff.object.item_price) %></span>
+            <span class="mr-2">
+              <%= ff.object.product.name %>,
+              <%= ff.object.product_variant.name %>
+            </span>
+
+            <span class="mr-2 text-left text-xs whitespace-nowrap text-gray-400">
+              <%= cur(ff.object.item_price) %>
+            </span>
 
             <% if available_products.exclude?(ff.object.product) || ff.object.product_variant.unavailable? %>
               <span
                 class="
-                  my-1 whitespace-nowrap rounded-full bg-red-100 px-2
-                  text-xs text-red-500 dark:bg-red-800 dark:text-red-400
+                  my-1 rounded-full bg-red-100 px-2 text-xs
+                  whitespace-nowrap text-red-500 dark:bg-red-800
+                  dark:text-red-400
                 "
               >
                 <%= t(".unavailable") %>
@@ -39,14 +46,16 @@
             <% elsif !ff.object.product_variant.available_stock?(ff.object.quantity + 5) %>
               <span
                 class="
-                  my-1 whitespace-nowrap rounded-full bg-red-100 px-2
-                  text-xs text-red-500 dark:bg-red-800 dark:text-red-400
+                  my-1 rounded-full bg-red-100 px-2 text-xs
+                  whitespace-nowrap text-red-500 dark:bg-red-800
+                  dark:text-red-400
                 "
               >
                 <%= t(".stock", count: ff.object.product_variant.stock) %>
               </span>
             <% end %>
           </div>
+
           <div class="mt-1 flex flex-none flex-row items-center justify-end md:mt-0">
             <span
               class="ml-2"
@@ -54,12 +63,13 @@
             >
               <%= cur(ff.object.amount) %>
             </span>
+
             <%= ff.input :quantity, as: :numeric, label: false, wrapper_html: { class: "ml-2 flex-none flex flex-row h-8 items-center rounded-lg relative bg-gray-200 dark:bg-gray-800", data: { controller: "form-number-controls" } } do %>
               <button
                 aria-label="Minus"
                 class="
-                  outline-hidden z-0 cursor-pointer rounded-l bg-gray-200
-                  text-gray-400 hover:bg-transparent hover:text-gray-600
+                  z-0 cursor-pointer rounded-l bg-gray-200 text-gray-400
+                  outline-hidden hover:bg-transparent hover:text-gray-600
                   dark:bg-gray-800 dark:text-gray-600
                   dark:hover:text-gray-400
                 "
@@ -77,6 +87,7 @@
               <%= ff.input_field :quantity, class: "m-0 h-6 w-10 controls-none outline-hidden focus:outline-hidden border-none text-center dark:text-gray-400 bg-gray-200 dark:bg-gray-800 font-semibold hover:text-black dark:hover:text-gray-200 focus:text-black dark:focus:text-white md:text-base cursor-default focus:ring-green-500 focus:border-green-500 focus:z-10 text-gray-700 z-10", min: 0, max: ff.object.product_variant.stock || 99, data: { form_number_controls_target: "input", action: "change->form-submitter#submit" } %>
               <% disabled = available_products.exclude?(ff.object.product) || ff.object.product_variant.unavailable? || (ff.object.product_variant.stock && ff.object.quantity >= ff.object.product_variant.stock.to_i) %>
               <% hover_class = (!ff.object.product_variant.stock || ff.object.quantity < ff.object.product_variant.stock.to_i) ? "hover:text-gray-600 dark:hover:text-gray-400 hover:bg-transparent" : "" %>
+
               <%= tag.button(
                 "aria-label": "Plus",
                 class: "outline-hidden cursor-pointer rounded-r bg-gray-200 text-gray-400 disabled:cursor-not-allowed disabled:text-gray-300 dark:bg-gray-800 dark:text-gray-600 disabled:dark:text-gray-700 #{hover_class}",
@@ -107,17 +118,27 @@
           <div class="flex flex-row items-center justify-end">
             <span class="mr-2 border-t border-gray-500 pl-1 text-right">
               <span><%= t(".total") %></span>
-              <span class="inline-block w-28"><%= cur(f.object.amount_before_percentage) %></span>
+
+              <span class="inline-block w-28">
+                <%= cur(f.object.amount_before_percentage) %>
+              </span>
             </span>
           </div>
+
           <div class="mr-2 flex flex-row items-center justify-end">
             <span class="text-right">
-              <span><%= _number_to_percentage(f.object.amount_percentage, precision: 1) %></span>
-              <span class="inline-block w-28"><%= cur(f.object.amount - f.object.amount_before_percentage) %></span>
+              <span>
+                <%= _number_to_percentage(f.object.amount_percentage, precision: 1) %>
+              </span>
+
+              <span class="inline-block w-28">
+                <%= cur(f.object.amount - f.object.amount_before_percentage) %>
+              </span>
             </span>
           </div>
         </div>
       <% end %>
+
       <span class="mr-2 border-t border-gray-500 pl-1 font-medium">
         <span><%= t(".total") %></span>
         <span class="inline-block w-28"><%= cur(f.object.amount) %></span>
@@ -126,7 +147,7 @@
 
     <div
       class="
-        ml-2 mt-2.5 flex w-24 flex-row items-center justify-end text-sm
+        mt-2.5 ml-2 flex w-24 flex-row items-center justify-end text-sm
         text-gray-400 dark:text-gray-600
       "
       title="<%= t(".order_total_weight") %>"
@@ -141,7 +162,7 @@
 
 <% if @order.errors[:base].any? %>
   <div class="flex flex-row items-center justify-end">
-    <span class="-mb-2 mt-2 rounded bg-red-100 px-2 py-1 text-red-500 dark:bg-red-900">
+    <span class="mt-2 -mb-2 rounded bg-red-100 px-2 py-1 text-red-500 dark:bg-red-900">
       <%= @order.errors[:base].join(", ") %>
     </span>
   </div>
@@ -151,6 +172,7 @@
   <div class="order-2 mt-2 flex items-center md:order-1 md:mt-0">
     <%= link_to t(".continue_shopping"), shop_path, class: "cancel-link", target: "_top" %>
   </div>
+
   <div class="order-1 flex w-full items-center md:order-2 md:ml-2 md:w-auto">
     <%= button_to t(".submit_order"), confirm_members_shop_order_path(@order), disabled: submit_disabled, form: { data: { turbo: false }, class: "w-full" }, aria: { label: "confirm_order" } %>
   </div>

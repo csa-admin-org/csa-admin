@@ -6,37 +6,48 @@
       <%= icon "hashtag", class: "flex-none size-5 mx-0.5" %>
       <span><%= current_member.id %></span>
     </li>
+
     <li class="flex flex-row gap-4">
       <%= icon "identification", class: "flex-none size-6" %>
       <span><%= current_member.name %></span>
     </li>
+
     <li class="flex flex-row gap-4">
       <%= icon "map", class: "flex-none size-6" %>
       <span><%= display_address(current_member) %></span>
     </li>
+
     <li class="flex flex-row gap-4">
       <%= icon "envelope", class: "flex-none size-6" %>
       <span><%= display_emails(current_member) %></span>
     </li>
+
     <li class="flex flex-row gap-4">
       <%= icon "phone", class: "flex-none size-6" %>
+
       <% if current_member.phones_array.any? %>
         <span><%= display_phones(current_member) %></span>
       <% else %>
-        <span class="italic text-gray-300 dark:text-gray-700"><%= t(".no_phones") %></span>
+        <span class="text-gray-300 italic dark:text-gray-700">
+          <%= t(".no_phones") %>
+        </span>
       <% end %>
     </li>
+
     <% if Current.org.languages.many? %>
       <li class="flex flex-row gap-4">
         <%= icon "language", class: "flex-none size-6" %>
         <span><%= t("languages.#{current_member.language}") %></span>
       </li>
     <% end %>
+
     <% if current_member.use_shop_depot? %>
       <li class="flex flex-row gap-4 pt-6">
         <%= icon "shopping-basket", class: "flex-none size-6" %>
+
         <span>
           <% depot = current_member.shop_depot %>
+
           <% if depot.full_address %>
             <%= link_to "https://www.google.com/maps?q=#{depot.full_address}", title: depot.full_address, target: :blank, class: "hover:text-green-500" do %>
               <%= h depot.public_name %>
@@ -47,9 +58,11 @@
         </span>
       </li>
     <% end %>
+
     <% if current_member.different_billing_info %>
       <li class="flex flex-row gap-4">
         <%= icon "banknotes", class: "flex-none size-6" %>
+
         <span>
           <%= current_member.billing_name %>
           <br>
@@ -58,6 +71,7 @@
       </li>
     <% end %>
   </ul>
+
   <div class="mt-8 flex w-full md:max-w-max">
     <%= link_to t(".edit_link"), edit_members_account_path, class: "btn" %>
   </div>

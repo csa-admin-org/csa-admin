@@ -7,9 +7,16 @@
       "
     >
       <div class="w-full flex-1 text-left">
-        <span><b><%= item.quantity %></b> x <%= item.product.name %>, <%= item.product_variant.name %></span>
-        <span class="ml-2 whitespace-nowrap text-left text-xs text-gray-400"><%= cur(item.item_price) %></span>
+        <span>
+          <b><%= item.quantity %></b> x <%= item.product.name %>,
+          <%= item.product_variant.name %>
+        </span>
+
+        <span class="ml-2 text-left text-xs whitespace-nowrap text-gray-400">
+          <%= cur(item.item_price) %>
+        </span>
       </div>
+
       <div
         class="
           mt-1 flex w-full flex-none flex-row items-center justify-end
@@ -31,13 +38,21 @@
   <div class="mt-6 flex flex-row items-center justify-end md:mt-4">
     <span class="border-t border-gray-500 pl-1 text-right">
       <span><%= t(".total") %></span>
-      <span class="inline-block w-28"><%= cur(@order.amount_before_percentage) %></span>
+
+      <span class="inline-block w-28">
+        <%= cur(@order.amount_before_percentage) %>
+      </span>
     </span>
   </div>
   <div class="flex flex-row items-center justify-end">
     <span class="text-right">
-      <span><%= _number_to_percentage(@order.amount_percentage, precision: 1) %></span>
-      <span class="inline-block w-28"><%= cur(@order.amount - @order.amount_before_percentage) %></span>
+      <span>
+        <%= _number_to_percentage(@order.amount_percentage, precision: 1) %>
+      </span>
+
+      <span class="inline-block w-28">
+        <%= cur(@order.amount - @order.amount_before_percentage) %>
+      </span>
     </span>
   </div>
 <% end %>
@@ -53,6 +68,7 @@
     <%= icon "scale", class: "size-4" %>
     <span class="ml-1"><%= kg(@order.weight_in_kg) %></span>
   </div>
+
   <div class="ml-6 text-right">
     <span class="border-t border-gray-500 pl-1 font-medium">
       <span><%= t(".total") %></span>
@@ -76,7 +92,7 @@
     <% end %>
   </div>
 <% else %>
-  <p class="mt-12 text-center italic text-gray-400 dark:text-gray-600">
+  <p class="mt-12 text-center text-gray-400 italic dark:text-gray-600">
     <%= t(".contact_us_html", email: Current.org.email) %>
   </p>
 <% end %>

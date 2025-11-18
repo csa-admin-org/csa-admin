@@ -2,6 +2,7 @@
 
 <%= form_with url: duplicate_all_basket_contents_path, method: :post, class: "sidebar_form" do |f| %>
   <%= f.hidden_field :to_delivery_id, value: to_delivery.id %>
+
   <p><%= t(".text") %></p>
 
   <div class="mt-3">

@@ -5,8 +5,9 @@
 
 <section>
   <h2><%= t(".activity_participation_form_title") %></h2>
+
   <% if @activities.empty? %>
-    <p class="mt-2 text-center italic text-gray-400 dark:text-gray-600">
+    <p class="mt-2 text-center text-gray-400 italic dark:text-gray-600">
       <%= t_activity(".no_activities") %>
     </p>
   <% else %>
@@ -24,7 +25,7 @@
           </div>
         <% end %>
 
-        <div class="mb-6 mt-2">
+        <div class="mt-2 mb-6">
           <div class="calendar-wrapper">
             <div id="calendar" class="calendar" data-calendar-target="calendar"></div>
           </div>
@@ -34,6 +35,7 @@
           <%= f.input :activity_ids, as: :check_boxes, collection: activities_collection(@activities, data: { calendar_target: "input" }), disabled: @activities.select(&:full?).map(&:id), required: true, label: t(".activity_label"), wrapper_html: { data: { form_disabler_target: "label" } } %>
           <%= f.input :participants_count, as: :numeric, required: true, label: t(".participants_count_label"), input_html: { step: 1, min: 1, class: "w-16" } %>
           <%= f.input :note, label_html: { class: "text-sm font-medium text-gray-700 dark:text-gray-300" }, input_html: { rows: 2 } %>
+
           <div data-controller="form-checkbox-toggler" class="space-y-2">
             <legend>
               <div class="flex flex-row flex-nowrap gap-2">
@@ -43,6 +45,7 @@
             </legend>
 
             <%= f.input :carpooling, as: :boolean, label: t(".carpooling_checkbox"), input_html: { data: { form_checkbox_toggler_target: "checkbox", action: "form-checkbox-toggler#toggleInput" } } %>
+
             <div>
               <%= f.input :carpooling_phone, label: false, input_html: { placeholder: t(".carpooling_phone"), data: { form_checkbox_toggler_target: "input" } } %>
               <%= f.input :carpooling_city, label: false, input_html: { placeholder: t(".carpooling_city"), data: { form_checkbox_toggler_target: "input" } } %>
@@ -82,6 +85,7 @@
   <h2><%= t_activity(".past_activity_participations") %></h2>
 
   <% @past_participations = current_member.activity_participations.past_current_year.includes(:activity).merge(Activity.ordered(:desc)) %>
+
   <% if @past_participations.empty? %>
     <p class="nocontent"><%= t(".no_past_activity_participations") %></p>
   <% else %>

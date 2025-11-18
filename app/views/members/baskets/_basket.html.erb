@@ -6,12 +6,13 @@
     <h3 class="text-base font-medium <%= basket.absent? ? "text-neutral-400 dark:text-neutral-600" : "text-gray-800 dark:text-gray-200" %>">
       <%= l(basket.delivery.date, format: :long_no_year).titleize %>
     </h3>
+
     <div class="flex flex-row items-center gap-3">
       <% if basket.trial? %>
         <span
           class="
             rounded-full bg-blue-500 px-2 py-0.5 text-xs font-medium
-            uppercase text-white
+            text-white uppercase
           "
         >
           <%= Basket.human_attribute_name(:trial) %>
@@ -22,10 +23,11 @@
         <span
           class="
             rounded-full bg-neutral-400 px-2 py-0.5 text-xs font-medium
-            uppercase text-white dark:bg-neutral-600
+            text-white uppercase dark:bg-neutral-600
           "
         >
           <%= Absence.model_name.human %>
+
           <% unless basket.absence_id? %>
             <%= " *" %>
           <% end %>
@@ -43,6 +45,7 @@
   <ul class="-ms-0.5 space-y-1.5 <%= "[&_a]:decoration-inherit line-through" if basket.absent? && (!basket.billable? || basket.empty?) %>">
     <li class="flex flex-row items-center gap-2">
       <%= icon "shopping-bag", class: "flex-none size-5 text-gray-300 dark:text-gray-700" %>
+
       <span>
         <% if basket.shifted? %>
           <%= h basket.shift_as_source.description(public_name: true).strip %>
@@ -51,10 +54,13 @@
         <% end %>
       </span>
     </li>
+
     <li class="flex flex-row items-center gap-2">
       <%= icon "map", class: "flex-none size-5  text-gray-300 dark:text-gray-700" %>
+
       <span>
         <% depot = basket.depot %>
+
         <% if depot.full_address %>
           <%= link_to "https://www.google.com/maps?q=#{depot.full_address}", title: depot.full_address, target: :blank, class: "hover:text-green-500" do %>
             <%= h depot.public_name %>
@@ -81,8 +87,8 @@
   <% elsif basket.shift_declined? %>
     <div
       class="
-        mt-3 flex flex-row items-center justify-center gap-2 text-sm italic
-        text-neutral-400 dark:text-neutral-600
+        mt-3 flex flex-row items-center justify-center gap-2 text-sm
+        text-neutral-400 italic dark:text-neutral-600
       "
     >
       <%= icon "redo-off", class: "size-5 w-5" %>
@@ -104,8 +110,8 @@
     <% elsif basket.absent? %>
       <div
         class="
-          mt-3 flex flex-row items-center justify-center text-sm italic
-          text-neutral-400 dark:text-neutral-600
+          mt-3 flex flex-row items-center justify-center text-sm
+          text-neutral-400 italic dark:text-neutral-600
         "
       >
         <%= t(".shift_not_possible") %>

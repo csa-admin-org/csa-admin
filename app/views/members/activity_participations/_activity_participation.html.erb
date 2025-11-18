@@ -4,6 +4,7 @@
       <%= l(activity_participation.activity.date, format: :medium).capitalize %>,
       <%= activity_participation.activity.period %>
     </span>
+
     <span class="flex flex-row items-center">
       <span>
         <%= display_activity(activity_participation.activity, description: true) %>
@@ -11,6 +12,7 @@
       </span>
     </span>
   </span>
+
   <span class="flex flex-none flex-row flex-nowrap gap-2 md:flex-wrap">
     <span class="flex h-8 flex-row justify-start space-x-2 md:ml-5 md:justify-end">
       <span
@@ -20,6 +22,7 @@
         <span><%= activity_participation.participants_count %></span>
         <%= icon "users", class: "ms-1 size-5" %>
       </span>
+
       <% if activity_participation.carpooling? %>
         <span
           class="ms-1 flex items-center justify-center"
@@ -28,10 +31,12 @@
           <%= icon "car", class: "size-6" %>
         </span>
       <% end %>
+
       <% if activity_participation.note? %>
         <%= tooltip("activity-participation-#{activity_participation.id}", activity_participation.note, icon_name: "chat-bubble-bottom-center-text") %>
       <% end %>
     </span>
+
     <span class="flex grow flex-row items-center justify-end">
       <% if activity_participation.destroyable? %>
         <%= button_to t(".cancel_link"), [ :members, activity_participation ], method: :delete, class: "btn btn-xs" %>

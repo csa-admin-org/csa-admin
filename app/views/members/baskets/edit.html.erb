@@ -6,7 +6,7 @@
   <h2><%= t(".subtitle") %></h2>
 
   <% if Current.org.membership_update_text? %>
-    <div class="trix mb-8 mt-2"><%= Current.org.membership_update_text %></div>
+    <div class="trix mt-2 mb-8"><%= Current.org.membership_update_text %></div>
   <% end %>
 
   <%= simple_form_for @basket, html: { class: "mt-4" } do |f| %>
