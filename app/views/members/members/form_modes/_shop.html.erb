@@ -2,15 +2,18 @@
   <legend class="text-lg font-medium text-gray-700 dark:text-gray-300">
     <%= t("shop.title") %>
   </legend>
+
   <div class="space-y-6">
     <div class="mt-2 space-y-2 text-justify font-normal text-gray-500">
       <% unless Current.org.member_form_extra_text_only? %>
         <p><%= t(".text") %></p>
       <% end %>
+
       <% if Current.org.member_form_extra_text? %>
         <%= Current.org.member_form_extra_text %>
       <% end %>
     </div>
+
     <div>
       <div class="space-y-6">
         <%= f.input :shop_depot_id, as: :radio_buttons, collection: depots_collection(show_price: false), label: Depot.model_name.human, label_html: { class: "text-base" }, required: true %>

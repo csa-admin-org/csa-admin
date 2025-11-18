@@ -2,14 +2,15 @@
 
 <section>
   <h2><%= Depot.model_name.human %>: <%= @depot.public_name %></h2>
+
   <% if current_member.errors.none? && current_member.contact_sharing? %>
     <p class="mt-2"><%= t(".description") %></p>
     <% if @members.empty? %>
-      <p class="my-12 text-center italic text-gray-400 dark:text-gray-600">
+      <p class="my-12 text-center text-gray-400 italic dark:text-gray-600">
         <%= t(".nobody_sharing_contact") %>
       </p>
     <% else %>
-      <ul id="members" class="mb-4 mt-8 flex w-full flex-col gap-4">
+      <ul id="members" class="mt-8 mb-4 flex w-full flex-col gap-4">
         <% @members.each do |member| %>
           <li
             class="
@@ -20,11 +21,13 @@
             <h3 class="mb-2 text-base font-medium text-gray-800 dark:text-gray-200">
               <%= member.name %>
             </h3>
+
             <ul class="space-y-1.5">
               <li class="flex flex-row items-center gap-2">
                 <%= icon "phone", class: "size-5 w-6 text-gray-300 dark:text-gray-700" %>
                 <span><%= display_phones(member) %></span>
               </li>
+
               <li class="flex flex-row items-center gap-2">
                 <%= icon "map", class: "size-5 w-6 text-gray-300 dark:text-gray-700" %>
                 <span><%= display_address(member) %></span>
@@ -46,6 +49,7 @@
           <%= f.input :terms_of_service, as: :boolean, label: t(".terms_of_service") %>
         </div>
       </div>
+
       <div class="actions"><%= f.submit t(".submit") %></div>
     <% end %>
   <% end %>

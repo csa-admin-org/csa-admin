@@ -9,6 +9,7 @@
           <% end %>
         </li>
       <% end %>
+
       <% if current_member %>
         <li class="mx-auto mb-4 px-4 md:mx-0 md:px-0">
           <%= link_to calendar_webcal_url, class: "flex items-center hover:text-green-500 py-1 px-4 md:px-0", title: t(".calendar_feed") do %>
@@ -17,12 +18,14 @@
           <% end %>
         </li>
       <% end %>
+
       <li class="mx-auto px-4 <%= "md:mx-0 md:px-0" if current_member %>">
         <%= mail_to Current.org.email, class: "flex items-center hover:text-green-500 py-1 px-4 md:px-0" do %>
           <%= icon "envelope", class: "size-6" %>
           <span class="ml-2"><%= t(".contact") %></span>
         <% end %>
       </li>
+
       <% if Current.org.phone? %>
         <li class="mx-auto px-4 <%= "md:mx-0 md:px-0" if current_member %>">
           <%= link_to "tel:#{Current.org.phone.phony_formatted(spaces: '', format: :international)}", class: "flex items-center hover:text-green-500 py-1 px-4 md:px-0" do %>
@@ -66,7 +69,7 @@
     </div>
   <% end %>
 
-  <div class="mx-auto mb-4 mt-12 text-gray-300 dark:text-gray-700 <%= "md:mx-0.5" if current_member %>">
+  <div class="mx-auto mt-12 mb-4 text-gray-300 dark:text-gray-700 <%= "md:mx-0.5" if current_member %>">
     <%= link_to csa_admin_website_url, class: "flex items-center text-sm hover:text-green-500" do %>
       <%= icon "logo", class: "size-4 me-2 md:ms-0.5 md:me-3 fill-current", variant: "solid" %>
       <%= "CSA Admin" %>

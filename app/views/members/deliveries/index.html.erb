@@ -36,7 +36,7 @@
   <% end %>
 
   <% if @future_baskets.provisionally_absent.any? %>
-    <div class="mb-4 mt-4 flex text-sm text-gray-400 dark:text-gray-600">
+    <div class="mt-4 mb-4 flex text-sm text-gray-400 dark:text-gray-600">
       <span class="left mr-2">*</span>
       <p><%= t(".provisionally_absent_explanation_html") %></p>
     </div>
@@ -45,6 +45,7 @@
 
 <section>
   <h2><%= t(".past_deliveries") %></h2>
+
   <% if @past_baskets.empty? %>
     <p class="empty mt-4 text-center italic"><%= t(".no_past_deliveries") %></p>
   <% else %>

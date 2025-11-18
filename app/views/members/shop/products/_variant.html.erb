@@ -3,6 +3,7 @@
 <div class="flex flex-row items-center <%= "text-gray-300 dark:text-gray-700" if live_stock&.zero? %>">
   <div class="mr-2 flex grow items-center">
     <span><%= variant.name %></span>
+
     <% case live_stock %>
     <% when 1..5 %>
       <span

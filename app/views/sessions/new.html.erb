@@ -2,8 +2,10 @@
   <div class="panel-title pb-1 text-2xl">
     <h1><%= set_page_title t(".title") %></h1>
   </div>
+
   <div class="panel-body">
     <p class="px-2 text-sm text-gray-500"><%= t(".form_text") %></p>
+
     <%= semantic_form_for @session, as: :session do |f| %>
       <ol class="list-none p-2">
         <%= f.input :email, label: t(".email_input"), required: true %>

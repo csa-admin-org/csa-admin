@@ -1,13 +1,13 @@
-<div class="shadow-xs fixed start-0 top-0 z-50 w-full bg-green-600">
+<div class="fixed start-0 top-0 z-50 w-full bg-green-600 shadow-xs">
   <div class="mx-auto flex max-w-screen-xl flex-wrap items-center justify-between py-2">
     <div class="order-1 flex grow pl-4 md:hidden">
       <button
         data-collapse-toggle="navbar-dropdown"
         type="button"
         class="
-          focus:outline-hidden inline-flex items-center justify-center
-          rounded-lg text-sm text-white/80 hover:text-white focus:ring-2
-          focus:ring-gray-200 md:hidden dark:text-black/50
+          inline-flex items-center justify-center rounded-lg text-sm
+          text-white/80 hover:text-white focus:ring-2 focus:ring-gray-200
+          focus:outline-hidden md:hidden dark:text-black/50
           dark:hover:text-black dark:focus:ring-gray-600
         "
         aria-controls="navbar-dropdown"
@@ -28,11 +28,12 @@
       <ul
         class="
           mt-4 flex flex-col space-y-1 pb-32 text-sm font-medium md:mt-0
-          md:flex-row md:items-center md:space-x-2 md:space-y-0 md:pb-0
+          md:flex-row md:items-center md:space-y-0 md:space-x-2 md:pb-0
         "
       >
         <% current_menu.items(self).each do |item| %>
           <% children = item.items(self).presence %>
+
           <li class="group text-base md:text-sm" data-item-id="<%= item.id %>">
             <% if children %>
               <%# Desktop, with hover menu %>
@@ -98,13 +99,14 @@
         <a
           href="<%= updates_path %>"
           class="
-            focus:outline-hidden relative flex size-9 items-center
-            justify-center text-sm text-white/75 hover:text-white
+            relative flex size-9 items-center justify-center text-sm
+            text-white/75 hover:text-white focus:outline-hidden
             dark:text-black/50 dark:hover:text-black
           "
           data-turbo-prefetch="false"
         >
           <%= icon "gift", class: "size-5" %>
+
           <div
             class="
               absolute end-1 top-1 size-2 rounded-full bg-red-500 text-xs
@@ -117,19 +119,20 @@
       <button
         type="button"
         class="
-          dark-mode-toggle focus:outline-hidden flex size-9 items-center
-          justify-center text-sm text-white/75 hover:text-white
+          dark-mode-toggle flex size-9 items-center justify-center text-sm
+          text-white/75 hover:text-white focus:outline-hidden
           dark:text-black/50 dark:hover:text-black
         "
       >
         <%= icon "moon", class: "size-5 hidden dark:block" %>
         <%= icon "sun", class: "size-5 dark:hidden" %>
       </button>
+
       <a
         href="<%= support_path %>"
         class="
-          focus:outline-hidden relative flex size-9 items-center
-          justify-center text-sm text-white/75 hover:text-white
+          relative flex size-9 items-center justify-center text-sm
+          text-white/75 hover:text-white focus:outline-hidden
           dark:text-black/50 dark:hover:text-black
         "
         data-turbo-prefetch="false"
@@ -142,9 +145,9 @@
         <a
           href="<%= edit_organization_path %>"
           class="
-            text-white/75! dark:text-black/50! hover:text-white!
-            dark:hover:text-black! focus:outline-hidden relative flex size-9
-            items-center justify-center text-sm
+            relative flex size-9 items-center justify-center text-sm
+            text-white/75! hover:text-white! focus:outline-hidden
+            dark:text-black/50! dark:hover:text-black!
           "
         >
           <%= icon "adjustments-horizontal", class: "size-6" %>
@@ -154,8 +157,8 @@
       <button
         id="user-menu-button"
         class="
-          focus:outline-hidden ms-1 flex items-center justify-center text-sm
-          text-white/50 hover:text-white dark:text-black/50
+          ms-1 flex items-center justify-center text-sm text-white/50
+          hover:text-white focus:outline-hidden dark:text-black/50
           dark:hover:text-black
         "
         data-dropdown-toggle="user-menu"
@@ -168,10 +171,9 @@
       <div
         id="user-menu"
         class="
-          focus:outline-hidden z-50 hidden min-w-max divide-y
-          divide-gray-100 rounded-sm bg-white text-right text-sm
-          text-gray-700 shadow-lg ring-1 ring-black/5 dark:bg-gray-700
-          dark:text-gray-200
+          z-50 hidden min-w-max divide-y divide-gray-100 rounded-sm bg-white
+          text-right text-sm text-gray-700 shadow-lg ring-1 ring-black/5
+          focus:outline-hidden dark:bg-gray-700 dark:text-gray-200
         "
         aria-labelledby="user-menu-button"
       >
@@ -182,6 +184,7 @@
             </li>
           <% end %>
         </ul>
+
         <div class="p-1">
           <%= link_to auto_logout_link_path, class: "inline-flex items-center rounded-sm px-2.5 py-1.5 no-underline text-xs text-gray-500 dark:text-gray-300 hover:bg-gray-100 hover:text-gray-900 dark:hover:bg-gray-600 dark:hover:text-white", data: { method: :delete } do %>
             <%= t("active_admin.logout") %>

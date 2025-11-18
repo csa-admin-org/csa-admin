@@ -9,6 +9,7 @@
   <%= simple_form_for [ :members, @session ] do |f| %>
     <div class="mt-8 flex flex-col">
       <%= f.input :email, as: :email, label_html: { class: "sr-only" }, input_html: {  required: true, placeholder: t(".email_placeholder") }, wrapper_html: { class: "grow" } %>
+
       <div class="actions mt-4"><%= f.button :submit, t(".submit") %></div>
     </div>
   <% end %>

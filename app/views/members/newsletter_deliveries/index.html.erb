@@ -3,14 +3,15 @@
 <% if newsletter_unsubscribed? %>
   <div
     class="
-      border-1 mb-8 flex flex-wrap items-center justify-center gap-1
-      rounded-lg border-dashed border-orange-500 p-2 text-orange-600
+      mb-8 flex flex-wrap items-center justify-center gap-1 rounded-lg
+      border-1 border-dashed border-orange-500 p-2 text-orange-600
       dark:text-orange-400
     "
   >
     <p class="ml-1 grow">
       <%= t(".unsubscribed_html", email: current_session.email) %>
     </p>
+
     <%= button_to t(".subscribe"), members_email_suppression_path, method: :delete, class: "btn btn-sm", data: { turbo: false } %>
   </div>
 <% end %>

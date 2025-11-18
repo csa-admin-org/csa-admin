@@ -6,12 +6,14 @@
         <%= t(".support") %>
       <% end %>
     </li>
+
     <li>
       <%= link_to updates_path, class: "action-item-button px-2.5 py-1 rounded-none border-x-0 text-gray-400 dark:text-gray-500" do %>
         <%= icon "gift", class: "size-5 me-2" %>
         <%= t(".updates") %>
       <% end %>
     </li>
+
     <li>
       <%= link_to handbook_path, class: "action-item-button px-2.5 py-1 rounded-s-none text-gray-400 dark:text-gray-500" do %>
         <%= icon "book-open", class: "size-5 me-2" %>
@@ -19,6 +21,7 @@
       <% end %>
     </li>
   </ul>
+
   <div class="mt-4 flex justify-center py-8">
     <%= link_to csa_admin_website_url, class: "inline-flex items-center text-sm py-1 px-2 text-gray-300 dark:text-gray-700 hover:text-green-600 dark:hover:text-green-500 hover:bg-gray-100 dark:hover:bg-gray-700 font-medium focus:outline-hidden rounded-md no-underline" do %>
       <%= icon "logo", class: "size-4 me-2 fill-current", variant: "solid" %>

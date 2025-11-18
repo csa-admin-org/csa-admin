@@ -4,19 +4,22 @@
   <details>
     <summary class="cursor-pointer list-none">
       <div>
-        <h3 class="text-pretty text-base font-medium text-gray-800 dark:text-gray-200">
+        <h3 class="text-base font-medium text-pretty text-gray-800 dark:text-gray-200">
           <%= delivery.subject %>
         </h3>
-        <span class="text-sm font-normal"><%= l newsletter.sent_at.to_date %></span>
+
+        <span class="text-sm font-normal">
+          <%= l newsletter.sent_at.to_date %>
+        </span>
       </div>
     </summary>
 
-    <div class="mb-8 mt-2">
+    <div class="mt-2 mb-8">
       <%= turbo_frame_tag delivery,
         src: members_newsletter_delivery_path(delivery),
         loading: "lazy", target: "_top" do %>
         <div class="mail_preview">
-          <div class="h-42 flex items-center justify-center">
+          <div class="flex h-42 items-center justify-center">
             <svg
               class="h-20 w-20 animate-spin text-gray-400 dark:text-gray-600"
               viewBox="0 0 100 100"
@@ -29,6 +32,7 @@
                 cy="50"
                 r="40"
               />
+
               <circle
                 fill="none"
                 stroke-width="5"

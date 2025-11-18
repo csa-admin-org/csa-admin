@@ -1,4 +1,6 @@
-<span class="order-2 mr-6 flex-none tabular-nums md:order-1"><%= l(object.date, format: :number) %></span>
+<span class="order-2 mr-6 flex-none tabular-nums md:order-1">
+  <%= l(object.date, format: :number) %>
+</span>
 
 <% case object %>
 <% when Invoice %>
@@ -6,13 +8,16 @@
     <span>
       <%= t(".invoice_info_html", document_name: object.document_name, id: object.id, type: display_entity(object, link: false)) %>
     </span>
+
     <span>
       <%= link_to rails_blob_path(object.pdf_file, disposition: "attachment") do %>
         <%= icon "document-arrow-down", class: "size-5" %>
       <% end %>
     </span>
   </span>
-  <span class="order-3 flex-none text-right w-28 tabular-nums"><%= ccur(object, :amount) %></span>
+  <span class="order-3 flex-none text-right w-28 tabular-nums">
+    <%= ccur(object, :amount) %>
+  </span>
 <% when Payment %>
   <span class="order-1 w-full grow">
     <% if object.amount.positive? %>
@@ -25,5 +30,7 @@
       <%= t(".refund_info") %>
     <% end %>
   </span>
-  <span class="order-3 flex-none text-right w-28"><%= cur(-object.amount, currency_code: object.currency_code) %></span>
+  <span class="order-3 flex-none text-right w-28">
+    <%= cur(-object.amount, currency_code: object.currency_code) %>
+  </span>
 <% end %>

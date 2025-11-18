@@ -8,6 +8,7 @@
     <legend class="text-lg font-medium text-gray-700 dark:text-gray-300">
       <%= t(".title") %>
     </legend>
+
     <div class="mt-2 space-y-10">
       <div
         class="
@@ -18,6 +19,7 @@
         <% unless Current.org.member_form_extra_text_only? %>
           <p>
             <%= t(".text", fiscal_year_months_range: fiscal_year_months_range) %>
+
             <% if Current.org.trial_baskets? %>
               <%= " " %>
               <%= t(".trial_text", count: Current.org.trial_baskets_count) %>
@@ -67,6 +69,7 @@
                 <%= Current.org.member_form_complements_text %>
               </div>
             <% end %>
+
             <%= f.simple_fields_for :members_basket_complements, data: { form_disabler_target: "label" } do |ff| %>
               <%= ff.input :basket_complement_id, as: :hidden %>
               <%= ff.input :quantity, as: :numeric, label: basket_complement_label(ff.object.basket_complement), required: false, disabled: support_checked, wrapper_html: { class: ("disabled" if support_checked), data: { form_disabler_target: "label" } }, input_html: { min: 0, data: { form_disabler_target: "input", default_value: "0", action: "blur->form-minmax-enforcer#enforce form-activity#updateInput form-pricing#refresh", activity: ff.object.basket_complement.activity_participations_demanded_annually } }, wrapper_class: "quantity" %>
@@ -87,11 +90,14 @@
           <legend class="text-base">
             <%= Current.org.basket_price_extra_public_title %>
             <%= " " %>
-            <abbr title="<%= t("simple_form.required.text") %>"><%= t("simple_form.required.mark") %></abbr>
+
+            <abbr title="<%= t("simple_form.required.text") %>">
+              <%= t("simple_form.required.mark") %>
+            </abbr>
           </legend>
 
           <% if Current.org.basket_price_extra_text? %>
-            <div class="mb-3 mt-1 text-justify text-sm">
+            <div class="mt-1 mb-3 text-justify text-sm">
               <%= Current.org.basket_price_extra_text %>
             </div>
           <% end %>
@@ -105,23 +111,30 @@
         data-form-disabler-target="label"
       >
         <% grouped_depots = visible_depots.group_by(&:group) %>
+
         <% if grouped_depots.keys.compact.any? %>
           <div>
             <legend class="text-base">
               <%= Depot.model_name.human(count: 2) %>
               <%= " " %>
-              <abbr title="<%= t("simple_form.required.text") %>"><%= t("simple_form.required.mark") %></abbr>
+
+              <abbr title="<%= t("simple_form.required.text") %>">
+                <%= t("simple_form.required.mark") %>
+              </abbr>
             </legend>
+
             <div class="mt-2 space-y-6">
               <% grouped_depots = grouped_depots.sort_by { |g, _d| g&.member_order_priority.to_s + g&.public_name.to_s } %>
+
               <% grouped_depots.each do |group, depots| %>
                 <div>
                   <% if group %>
                     <legend><%= group.public_name %></legend>
-                    <div class="mb-3 mt-1 text-justify text-sm">
+                    <div class="mt-1 mb-3 text-justify text-sm">
                       <%= group.information_text %>
                     </div>
                   <% end %>
+
                   <%= f.input :waiting_depot_id, hidden_fields: false, as: :radio_buttons, collection: depots_collection(depots: depots, data: { form_disabler_target: "input", action: "form-choice-excluder#excludeChoice form-choices-limiter#limitChoices form-pricing#refresh" }), label: false, wrapper_html: { class: ("disabled" if support_checked), data: { form_disabler_target: "label" } }, input_html: { disabled: support_checked }, include_hidden: false %>
                 </div>
               <% end %>
@@ -142,11 +155,12 @@
             <%= Member.human_attribute_name(:waiting_alternative_depot_ids) %>
           </legend>
 
-          <p class="mb-3 mt-1 text-justify text-sm">
+          <p class="mt-1 mb-3 text-justify text-sm">
             <%= t(".alternative_depots_subtitle") %>
           </p>
 
           <% selected = f.object.waiting_alternative_depot_ids.any? %>
+
           <% unless selected %>
             <div class="flex flex-row justify-center">
               <%= link_to t(".alternative_depots_show_all"), "#", class: "btn btn-sm", onclick: "document.querySelector('.member_waiting_alternative_depot_ids').classList.toggle('hidden'); this.classList.toggle('hidden'); return false;" %>
@@ -158,22 +172,27 @@
       <% end %>
     </div>
   </div>
+
   <div aria-label="Billing">
     <legend class="text-lg font-medium text-gray-700 dark:text-gray-300">
       <%= t("active_admin.resource.show.billing") %>
     </legend>
+
     <div class="mt-2 space-y-8">
       <% if Current.org.billing_year_divisions.many? %>
         <%= f.input :waiting_billing_year_division, as: :radio_buttons, collection: organization_billing_year_divisions_collection(data: { form_disabler_target: "input", disabled_value: 1 }), wrapper_html: { class: ("disabled" if support_checked), data: { form_disabler_target: "label" } }, input_html: { disabled: support_checked }, label: Organization.human_attribute_name(:billing_year_divisions) %>
       <% end %>
+
       <div data-controller="visibility">
         <%= f.input :different_billing_info, as: :boolean, input_html: { data: { action: "visibility#toggle" } } %>
+
         <div
           class="mt-4 space-y-4 <%= f.object.different_billing_info ? "" : "hidden" %>"
           data-visibility-target="element"
         >
           <%= f.input :billing_name, required: true, input_html: { disabled: !f.object.different_billing_info } %>
           <%= f.input :billing_address, required: true, input_html: { disabled: !f.object.different_billing_info } %>
+
           <div class="flex w-full flex-row gap-2">
             <%= f.input :billing_zip, required: true, label: Member.human_attribute_name(:zip), input_html: { disabled: !f.object.different_billing_info, size: 6, maxlength: 6 }, wrapper_html: { class: "w-24" } %>
             <%= f.input :billing_city, required: true, label: Member.human_attribute_name(:city), input_html: { disabled: !f.object.different_billing_info }, wrapper_html: { class: "grow" } %>

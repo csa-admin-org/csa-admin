@@ -4,12 +4,13 @@
   <%= link_to deliveries_path(anchor: dom_id(basket)), data: { turbo: false } do %>
     <div
       class="
-        border-1 mb-4 flex items-center gap-2 rounded border-dashed
+        mb-4 flex items-center gap-2 rounded border-1 border-dashed
         border-teal-500 bg-teal-100 p-2 text-teal-700 hover:bg-teal-200
         dark:bg-teal-900 dark:text-teal-300 hover:dark:bg-teal-800
       "
     >
       <%= icon "redo", class: "size-5 w-8 " %>
+
       <span>
         <%= t(".shift_baskets", count: current_member.current_or_future_membership.basket_shifts_allowance_remaining) %>
       </span>
@@ -38,18 +39,22 @@
               min: Absence.min_started_on,
               max: (Absence.max_ended_on - 1.day),
             } %>
+
         <%= f.input :ended_on, as: :date, html5: true,
             input_html: {
               min: (Absence.min_started_on + 1.day),
               max: Absence.max_ended_on,
             } %>
       </div>
+
       <%= f.input :note, input_html: { rows: 2 } %>
     </div>
+
     <div class="actions"><%= f.button :submit, t(".submit") %></div>
   <% end %>
 
   <% absences_included = current_member.current_or_future_membership&.absences_included %>
+
   <% if absences_included&.positive? %>
     <p class="explanation">
       <%= t(".absences_included_explanation_html", count: absences_included) %>
@@ -62,6 +67,7 @@
 <% if @present_or_future_absences.any? %>
   <section>
     <h2><%= t(".present_or_future_absences") %></h2>
+
     <ul class="mt-2 w-full space-y-1">
       <%= render @present_or_future_absences %>
     </ul>

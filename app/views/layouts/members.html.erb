@@ -7,29 +7,34 @@
     <%= javascript_importmap_tags "members" %>
     <%= stylesheet_link_tag "tailwind", data: { turbo_track: "reload" } %>
     <%= csrf_meta_tags %>
+
     <meta charset="UTF-8">
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <%= render "layouts/members/dark_mode_switch" %>
   </head>
+
   <body class="members dark:bg-black" data-controller="menu">
     <% if current_member %>
       <div class="flex flex-col md:mx-auto md:max-w-4xl md:flex-row">
         <div class="flex flex-col md:w-80">
           <div><%= render "layouts/members/header" %></div>
+
           <div class="hidden md:mx-8 md:block" data-menu-target="menu">
             <%= render "layouts/members/footer" %>
           </div>
         </div>
+
         <main
-          class="mx-auto mb-24 mt-4 w-full px-4 md:mt-48 md:max-w-xl md:pl-0"
+          class="mx-auto mt-4 mb-24 w-full px-4 md:mt-48 md:max-w-xl md:pl-0"
           data-menu-target="body"
         >
           <div class="relative w-full">
             <div class="w-full md:absolute md:-mt-24">
               <%= render "layouts/members/flashes" %>
             </div>
+
             <div><%= yield %></div>
           </div>
         </main>
@@ -45,6 +50,7 @@
                 <% end %>
               </div>
             </header>
+
             <main class="w-full" data-menu-target="body">
               <div class="w-full">
                 <%= render "layouts/members/flashes" %>
@@ -52,6 +58,7 @@
               </div>
             </main>
           </div>
+
           <div class="mt-48 flex flex-none print:hidden">
             <%= render "layouts/members/footer" %>
           </div>

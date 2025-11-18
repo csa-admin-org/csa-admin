@@ -3,13 +3,14 @@
 <section>
   <h2><%= t(".title.#{params[:decision]}") %></h2>
 
-  <p class="justify mb-8 mt-2">
+  <p class="justify mt-2 mb-8">
     <%= t(".text.#{params[:decision]}_html", last_delivery_date: l(Delivery.during_year(@membership.fy_year).last.date), first_delivery_date: l(Delivery.during_year(@membership.fy_year + 1).first.date)) %>
   </p>
 
   <div class="mt-4">
     <%= simple_form_for @membership, url: members_membership_renewal_path, data: { turbo: false, controller: "form-pricing", "form-pricing-url-value" => members_renew_membership_url }, method: :post do |f| %>
       <%= f.hidden_field :renewal_decision %>
+
       <div class="space-y-6">
         <% case params[:decision] %>
         <% when "cancel" %>
@@ -28,6 +29,7 @@
             data-controller="form-choices-limiter form-activity"
           >
             <%= f.input :basket_size_id, as: :radio_buttons, collection: basket_sizes_collection(membership: @membership, no_basket_option: false, data: { action: "form-choices-limiter#limitChoices form-activity#updateInput form-pricing#refresh" }), required: true, label: BasketSize.model_name.human, label_html: { class: "text-base" } %>
+
             <% if @membership.memberships_basket_complements.any? %>
               <%= f.input BasketComplement.model_name.human(count: 2), wrapper_class: "input quantity_inputs", label_html: { class: "text-base" } do %>
                 <% if Current.org.member_form_complements_text? %>
@@ -35,6 +37,7 @@
                     <%= Current.org.member_form_complements_text %>
                   </div>
                 <% end %>
+
                 <%= f.simple_fields_for :memberships_basket_complements, data: { form_disabler_target: "label" } do |ff| %>
                   <%= ff.input :basket_complement_id, as: :hidden %>
                   <%= ff.input :quantity, as: :numeric, label: basket_complement_label(ff.object.basket_complement), required: false, input_html: { min: 0, data: { action: "form-activity#updateInput form-pricing#refresh", activity: ff.object.basket_complement.activity_participations_demanded_annually } }, wrapper_class: "quantity" %>
@@ -63,14 +66,20 @@
             <% if Current.org.membership_renewal_depot_update? %>
               <div class="space-y-8">
                 <% grouped_depots = visible_depots(object: @membership, only_with_future_deliveries: true).group_by(&:group) %>
+
                 <% if grouped_depots.keys.compact.any? %>
                   <div>
                     <legend class="text-base">
                       <%= Depot.model_name.human(count: 2) %>
-                      <abbr title="<%= t("simple_form.required.text") %>"><%= t("simple_form.required.mark") %></abbr>
+
+                      <abbr title="<%= t("simple_form.required.text") %>">
+                        <%= t("simple_form.required.mark") %>
+                      </abbr>
                     </legend>
+
                     <div class="mt-2 space-y-6">
                       <% grouped_depots = grouped_depots.sort_by { |g, _d| g&.member_order_priority.to_s + g&.public_name.to_s } %>
+
                       <% grouped_depots.each do |group, depots| %>
                         <div>
                           <% if group %>
@@ -79,6 +88,7 @@
                               <%= group.information_text %>
                             </div>
                           <% end %>
+
                           <%= f.input :depot_id, hidden_fields: false, as: :radio_buttons, collection: depots_collection(depots: depots, data: { action: " form-choices-limiter#limitChoices form-pricing#refresh" }), label: false, wrapper_html: { data: { form_disabler_target: "label" } }, include_hidden: false %>
                         </div>
                       <% end %>
@@ -98,8 +108,12 @@
               <div class="input">
                 <label class="text-base mb-1">
                   <%= t("active_admin.resource.show.billing") %>
-                  <abbr title="<%= t("simple_form.required.text") %>"><%= t("simple_form.required.mark") %></abbr>
+
+                  <abbr title="<%= t("simple_form.required.text") %>">
+                    <%= t("simple_form.required.mark") %>
+                  </abbr>
                 </label>
+
                 <%= f.input :billing_year_division, as: :radio_buttons, collection: organization_billing_year_divisions_collection(membership: @membership), label: false %>
               </div>
             <% end %>
@@ -113,6 +127,7 @@
         <%= f.button :submit, t(".submit") %>
       </div>
     <% end %>
+
     <% if params[:decision] == "renew" %>
       <%= turbo_frame_tag "pricing" do %>
         <% if params[:membership].present? %>

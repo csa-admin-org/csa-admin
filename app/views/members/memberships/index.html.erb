@@ -15,6 +15,7 @@
         <div class="mt-6">
           <%= f.input :renewal_decision, as: :radio_buttons, collection: renewal_decisions_collection, required: false, label: t(".renewal.options_label") %>
         </div>
+
         <div class="actions"><%= f.submit t(".renewal.submit") %></div>
       <% end %>
     </div>

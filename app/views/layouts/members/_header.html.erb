@@ -34,11 +34,13 @@
     <div class="flex h-full grow flex-col justify-between">
       <% membership = current_member.closest_membership %>
       <% next_basket = current_member.next_basket %>
+
       <ul class="grow">
         <% if current_member.baskets.any? %>
           <li class="<%= nav_class("deliveries") %>">
             <%= link_to members_deliveries_path do %>
               <h2><%= Delivery.model_name.human(count: 2) %></h2>
+
               <span>
                 <% if next_basket %>
                   <%= t(".delivery", date: l(next_basket.delivery.date)) %>
@@ -55,11 +57,13 @@
             <% if current_shop_delivery %>
               <%= link_to members_shop_path, class: "py-0" do %>
                 <h2><%= t("activerecord.models.shop.one") %></h2>
+
                 <span class="<%= nav_class("shop") if @order&.delivery == current_shop_delivery %>">
                   <%= t(".delivery", date: l(current_shop_delivery.date)) %>
                 </span>
               <% end %>
             <% end %>
+
             <% if !current_shop_delivery&.shop_open? && next_shop_delivery %>
               <%= link_to members_shop_next_path, class: "py-0" do %>
                 <span class="<%= nav_class("shop") if @order&.delivery == next_shop_delivery %>">
@@ -67,9 +71,11 @@
                 </span>
               <% end %>
             <% end %>
+
             <% if current_shop_delivery && shop_special_deliveries.any? %>
               <div class="my-2"></div>
             <% end %>
+
             <% shop_special_deliveries.each do |delivery| %>
               <%= link_to members_shop_special_delivery_path(delivery.date), class: "py-0" do %>
                 <% unless current_shop_delivery %>
@@ -77,6 +83,7 @@
                     <%= t("activerecord.models.shop.one") %>
                   </h2>
                 <% end %>
+
                 <span class="<%= nav_class("shop") if @order&.delivery == delivery %>">
                   <%= t(".delivery", date: l(delivery.date)) %>
                 </span>
@@ -89,10 +96,15 @@
           <li class="<%= nav_class("membership") %>">
             <%= link_to members_memberships_path(anchor: membership.renewal_opened? ? "renewal" : nil) do %>
               <h2><%= Membership.model_name.human %></h2>
+
               <% if missing_bidding_round_pledge? %>
-                <span class="text-orange-500"><%= t(".bidding_round_pledge") %></span>
+                <span class="text-orange-500">
+                  <%= t(".bidding_round_pledge") %>
+                </span>
               <% elsif membership.renewal_opened? %>
-                <span class="text-red-500"><%= t(".membership_renewal") %></span>
+                <span class="text-red-500">
+                  <%= t(".membership_renewal") %>
+                </span>
               <% elsif membership.trial? %>
                 <span><%= t(".membership_trial") %></span>
               <% elsif membership.current? %>
@@ -118,6 +130,7 @@
           <li class="<%= nav_class("activity_participations") %>">
             <%= link_to members_activity_participations_path do %>
               <h2><%= activities_human_name %></h2>
+
               <span>
                 <% if membership %>
                   <%= t(".activity_participations_accepted", accepted: membership.activity_participations_accepted, count: membership.activity_participations_demanded) %>
@@ -134,8 +147,11 @@
             <h2><%= t(".billing") %></h2>
 
             <% open_invoice_count = current_member.invoices.open.count %>
+
             <% if open_invoice_count.positive? %>
-              <span class="text-red-500"><%= t(".open_invoices", count: open_invoice_count) %></span>
+              <span class="text-red-500">
+                <%= t(".open_invoices", count: open_invoice_count) %>
+              </span>
             <% else %>
               <span><%= t(".see_history") %></span>
             <% end %>
@@ -146,6 +162,7 @@
           <li class="<%= nav_class("absences") %>">
             <%= link_to members_absences_path do %>
               <h2><%= Absence.model_name.human(count: 2) %></h2>
+
               <span>
                 <% if membership.absences_included.positive? %>
                   <%= t(".absences_used", used: membership.baskets.definitely_absent.count, count: membership.absences_included) %>
@@ -161,6 +178,7 @@
           <li class="<%= nav_class("newsletter") %>">
             <%= link_to members_newsletter_deliveries_path do %>
               <h2><%= Newsletter.model_name.human(count: 2) %></h2>
+
               <span>
                 <% if newsletter_unsubscribed? %>
                   <%= t(".newsletter_subscribe") %>
@@ -174,10 +192,14 @@
 
         <li class="mt-12 flex items-center justify-center md:justify-start">
           <%= link_to members_account_path, class: "py-2 px-8 flex items-center" do %>
-            <span class="-ms-1 w-8"><%= icon "user-circle", class: "size-8" %></span>
+            <span class="-ms-1 w-8">
+              <%= icon "user-circle", class: "size-8" %>
+            </span>
+
             <span class="ml-2"><%= current_member.name_was %></span>
           <% end %>
         </li>
+
         <li class="mt-2 md:mt-0.5">
           <%= button_to members_logout_path, method: :delete, class: "cursor-pointer", form_class: "flex justify-center md:justify-start" do %>
             <span

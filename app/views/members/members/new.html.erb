@@ -15,7 +15,10 @@
       "
       role="alert"
     >
-      <strong class="font-bold"><%= @member.emails_array.many? ? t(".emails_taken") : t(".email_taken") %></strong>
+      <strong class="font-bold">
+        <%= @member.emails_array.many? ? t(".emails_taken") : t(".email_taken") %>
+      </strong>
+
       <span class="mt-1 block"><%= t(".email_taken_hint") %></span>
     </div>
   <% end %>
@@ -26,9 +29,11 @@
         <legend class="text-lg font-medium text-gray-700 dark:text-gray-300">
           <%= Member.human_attribute_name(:contact) %>
         </legend>
+
         <div class="mt-2 space-y-6">
           <%= f.input :name, label: t(".name") %>
           <%= f.input :address, required: true %>
+
           <div class="flex w-full flex-row gap-2">
             <%= f.input :zip, required: true, input_html: { size: 6, maxlength: 6 }, wrapper_html: { class: "w-24" } %>
             <%= f.input :city, required: true, wrapper_html: { class: "grow" } %>
@@ -41,10 +46,12 @@
       </div>
 
       <%= render "members/members/form_modes/#{Current.org.member_form_mode}", f: f %>
+
       <div>
         <legend class="text-lg font-medium text-gray-700 dark:text-gray-300">
           <%= t(".more_info") %>
         </legend>
+
         <div class="mt-2 space-y-6">
           <% unless Current.org.member_profession_form_mode == "hidden" %>
             <%= f.input :profession, hint: true, required: (Current.org.member_profession_form_mode == "required") %>

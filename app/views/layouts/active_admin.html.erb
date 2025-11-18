@@ -5,6 +5,7 @@
     <title><%= strip_tags(html_head_site_title) %></title>
     <%= render "active_admin/html_head" %>
   </head>
+
   <body
     class="
       admin mx-auto flex h-screen max-w-screen-xl flex-col bg-green-50/25
@@ -14,6 +15,7 @@
     <%= render "active_admin/site_header", title: site_title %>
     <%= render "active_admin/page_header", title: @page_title || page_title %>
     <%= render "active_admin/flash_messages" %>
+
     <div
       class="
         grid grow grid-cols-1 gap-4 px-2.5 lg:auto-cols-[minmax(0,250px)]

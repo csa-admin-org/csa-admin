@@ -16,7 +16,7 @@ class Members::MembershipsTest < ApplicationSystemTestCase
 
     within "#2024 ul" do
       assert_text "1 April 2024 – 3 June 202"
-      assert_text " Medium basket"
+      assert_text "Medium basket"
       assert_text "Our farm"
       assert_text "10 Deliveries, one absence"
       assert_text "½ Days: 2 requested"

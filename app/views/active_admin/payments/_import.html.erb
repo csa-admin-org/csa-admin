@@ -1,6 +1,7 @@
 <%= form_tag import_payments_path, multipart: true, class: "sidebar_form" do %>
   <%= label_tag :file, t(".file_label") %>
   <%= file_field_tag :file, accept: "text/xml, .mta, .mt9", required: true, class: "mt-1" %>
+
   <div class="mt-1 flex justify-end py-1">
     <%= submit_tag t(".submit"), class: "btn btn-sm" %>
   </div>

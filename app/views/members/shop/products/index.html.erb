@@ -37,6 +37,7 @@
           <% if params[:tag_id].present? %>
             <%= hidden_field_tag :tag_id, params[:tag_id] %>
           <% end %>
+
           <%= select_tag :producer_id, options_from_collection_for_select(available_producers, :id, :name, params[:producer_id]), include_blank: t(".all_producers"), class: "mt-1 dark:bg-black w-full md:w-auto text-sm px-3 md:pl-3 md:pr-16 py-1 border rounded-full focus:outline-hidden focus:ring-green-500 focus:border-green-500 focus:z-10 #{params[:producer_id].present? ? 'text-gray-600 bg-green-400 dark:bg-green-600 dark:text-gray-300 border-green-400 dark:border-green-600' : 'text-gray-600 dark:text-gray-400 bg-gray-100 dark:bg-gray-800 border-gray-200 dark:border-gray-700'}", data: { action: "form-submitter#submit" } %>
         <% end %>
       </div>
@@ -64,6 +65,7 @@
           <% if producer.description? %>
             <div><%= producer.description %></div>
           <% end %>
+
           <% if producer.website_url? %>
             <%= link_to producer.website_url, producer.website_url, target: :blank, class: "text-sm flex flex-row items-center" %>
           <% end %>
@@ -84,6 +86,7 @@
       <%= link_to members_shop_next_path, class: "cursor-pointer underline" do %>
         <div class="flex flex-row items-center">
           <%= icon "shopping-basket", class: "size-5" %>
+
           <span class="ml-1 text-base font-normal">
             <%= t(".next_shop_delivery_link", date: l(next_shop_delivery.date, format: :long)) %>
           </span>

@@ -1,6 +1,7 @@
 <div id="<%= membership.fiscal_year.year %>">
   <h2>
     <%= membership.fiscal_year %>
+
     <% if membership.can_member_update? %>
       <%= link_to edit_members_membership_path(membership), title: t(".edit"), class: "ml-1 p-3" do %>
         <%= icon "pencil-square", class: "mb-1 inline size-5 text-gray-400 dark:text-gray-600 hover:text-green-500 dark:hover:text-green-500" %>
@@ -11,22 +12,31 @@
   <ul class="relative -mx-2 my-2 space-y-2 p-2 md:mr-4">
     <li class="flex flex-row items-center gap-3">
       <%= icon "calendar-days", class: "flex-none size-6 text-gray-300 dark:text-gray-700" %>
-      <span><%= [ membership.first_delivery.date, membership.last_delivery.date ].map { |d| l(d) }.join(" – ") %></span>
+
+      <span>
+        <%= [ membership.first_delivery.date, membership.last_delivery.date ].map { |d| l(d) }.join(" – ") %>
+      </span>
     </li>
+
     <li class="mt-1 flex flex-row items-center gap-3">
       <%= icon "shopping-bag", class: "flex-none size-6 text-gray-300 dark:text-gray-700" %>
+
       <span class="flex flex-col">
         <span><%= basket_size_description(membership) %></span>
         <% complements = membership.memberships_basket_complements.includes(:basket_complement) %>
+
         <% if complements.any? %>
           <span><%= basket_complements_description(complements) %></span>
         <% end %>
       </span>
     </li>
+
     <li class="mt-1 flex flex-row items-center gap-3">
       <%= icon "map", class: "flex-nonesize-6 text-gray-300 dark:text-gray-700" %>
+
       <span>
         <% depot = membership.depot %>
+
         <% if depot.full_address %>
           <%= link_to "https://www.google.com/maps?q=#{depot.full_address}", title: depot.full_address, target: :blank, class: "hover:text-green-500" do %>
             <%= h depot.public_name %>
@@ -36,38 +46,45 @@
         <% end %>
       </span>
     </li>
+
     <li class="mt-1 flex flex-row items-center gap-3">
       <%= icon "truck", class: "flex-none size-6 text-gray-300 dark:text-gray-700" %>
+
       <span>
-        <%= link_to members_deliveries_path do %>
-          <%= "#{membership.baskets_count} #{Delivery.model_name.human(count: membership.baskets_count)}" -%>
-          <% if membership.trial? %>
-            <% concat "," %>
-            <%= t(".remaining_trial_baskets_count", count: membership.remaining_trial_baskets_count) -%>
-          <% end %>
-        <% end %>
-        <% if feature?("absence") && membership.baskets.absent.any? %>
-          <% concat "," %>
-          <%= link_to t(".absent_baskets_count", count: membership.baskets.absent.count), members_absences_path %>
-        <% end %>
+        <% parts = [ link_to("#{membership.baskets_count} #{Delivery.model_name.human(count: membership.baskets_count)}", members_deliveries_path) ]
+          if membership.trial?
+            parts << t(".remaining_trial_baskets_count", count: membership.remaining_trial_baskets_count)
+          end
+          if feature?("absence") && membership.baskets.absent.any?
+            parts << link_to(t(".absent_baskets_count", count: membership.baskets.absent.count), members_absences_path)
+          end %>
+
+        <%= parts.join(", ").html_safe %>
       </span>
     </li>
+
     <% if feature?("activity") %>
       <li class="mt-1 flex flex-row items-center gap-3">
         <%= icon "hand-raised", class: "flex-none size-6 text-gray-300 dark:text-gray-700" %>
+
         <span>
           <%= "#{activities_human_name}: " %>
+
           <%= link_to members_activity_participations_path do %>
             <%= t(".activity_participations_demanded", count: membership.activity_participations_demanded) %>
           <% end %>
         </span>
       </li>
     <% end %>
+
     <li class="mt-1 flex flex-row items-center gap-3">
       <%= icon "banknotes", class: "flex-none size-6 text-gray-300 dark:text-gray-700" %>
+
       <span>
         <% if current_member.salary_basket? %>
-          <span class="italic text-gray-400 dark:text-gray-600"><%= t(".price_salary_basket") %></span>
+          <span class="text-gray-400 italic dark:text-gray-600">
+            <%= t(".price_salary_basket") %>
+          </span>
         <% else %>
           <span class="flex flex-row items-center gap-3">
             <% if pledge = open_bidding_round_pledge(membership) %>
@@ -79,6 +96,7 @@
             <% else %>
               <%= cur(membership.price) %>
             <% end %>
+
             <% if membership.invoices.any? %>
               <%= tooltip "membership-price-#{membership.id}", t(".price_tooltip") %>
             <% end %>
@@ -91,8 +109,10 @@
   <% if open_bidding_round_for?(membership) %>
     <%= link_to new_members_bidding_round_pledge_path do %>
       <% colors = missing_bidding_round_pledge? ? "border-orange-500 bg-orange-100 hover:bg-orange-200 dark:bg-orange-900 hover:dark:bg-orange-800 text-orange-700 dark:text-orange-300" : "border-green-500 bg-green-100 hover:bg-green-200 dark:bg-green-900 hover:dark:bg-green-800 text-green-700 dark:text-green-300" %>
-      <div class="border-1 mb-4 mt-4 flex items-center gap-2 rounded p-2 <%= colors %>">
+
+      <div class="mt-4 mb-4 flex items-center gap-2 rounded border-1 p-2 <%= colors %>">
         <%= icon (missing_bidding_round_pledge? ? "mail-open" : "mail-check"), class: "size-5 w-8 " %>
+
         <span>
           <% if missing_bidding_round_pledge? %>
             <%= t("bidding_rounds.pledge_missing_notice", number: open_bidding_round.number) %>

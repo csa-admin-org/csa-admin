@@ -7,6 +7,7 @@
   >
     <div class="flex flex-row items-center">
       <%= icon "shopping-basket", class: "h-7 w-7 text-gray-400 dark:text-gray-600" %>
+
       <div class="ml-4"><%= t(".no_order_items") %></div>
     </div>
   </div>
@@ -14,6 +15,7 @@
   <div class="w-full">
     <%= link_to members_shop_order_path(@order), target: "_top", title: t(".show_basket"), class: "flex flex-row items-center justify-between p-2" do %>
       <%= icon "shopping-basket", class: "flex-none size-8 text-gray-400" %>
+
       <div class="ml-4 grow text-gray-400">
         <% count = @order.items.sum(:quantity) %>
         <%= "#{count} #{Shop::Product.model_name.human(count: count)}" %>
@@ -26,9 +28,9 @@
       <div class="ml-4 flex-none">
         <div
           class="
-            focus:outline-hidden flex cursor-pointer items-center rounded-md
-            bg-gray-200 text-sm font-medium text-gray-500 hover:bg-gray-300
-            focus:z-10 focus:ring-green-500 dark:bg-gray-700
+            flex cursor-pointer items-center rounded-md bg-gray-200 text-sm
+            font-medium text-gray-500 hover:bg-gray-300 focus:z-10
+            focus:ring-green-500 focus:outline-hidden dark:bg-gray-700
             dark:hover:bg-gray-600
           "
         >

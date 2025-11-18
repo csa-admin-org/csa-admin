@@ -1,6 +1,7 @@
 <div>
   <h3 class="flex flex-row items-center font-medium text-gray-800 dark:text-gray-200">
     <span><%= product.name %></span>
+
     <% if product.tags.any? %>
       <ul class="ml-2 flex items-center space-x-2">
         <% product.tags.each do |tag| %>
@@ -18,6 +19,7 @@
         <%= link_to params.merge(producer_id: product.producer_id) do %>
           <%= product.producer.name %>
         <% end %>
+
         <% if product.producer.website_url? %>
           <%= link_to product.producer.website_url, target: :blank, class: "ml-1 flex flex-row items-center" do %>
             <%= icon "link", class: "size-4" %>

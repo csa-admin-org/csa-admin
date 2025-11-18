@@ -1,11 +1,12 @@
 <div
   class="
-    mb-4 mt-14 flex flex-col justify-between gap-4 p-5 py-3 md:flex-row
+    mt-14 mb-4 flex flex-col justify-between gap-4 p-5 py-3 md:flex-row
     md:items-center dark:border-gray-800/50
   "
 >
   <div class="flex grow flex-col gap-1 pt-1">
     <% breadcrumb_links = build_breadcrumb_links(request.path, class: " no-underline") %>
+
     <% if breadcrumb_links.present? %>
       <nav aria-label="Breadcrumb">
         <ol class="flex flex-wrap gap-1 text-sm">
@@ -14,6 +15,7 @@
               <% if index > 0 %>
                 <span class="mx-1 font-thin">/</span>
               <% end %>
+
               <%= link %>
             </li>
           <% end %>
@@ -55,6 +57,7 @@
       <% end %>
     </div>
   </div>
+
   <% if action_items_for_action.present? %>
     <div class="flex flex-wrap gap-2 lg:justify-end">
       <%= render "active_admin/shared/action_items" %>
