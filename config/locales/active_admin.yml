@@ -3171,6 +3171,12 @@ _:
         _de: zu bestätigen
         _it: da confermare
         _nl: in behandeling
+      primary:
+        _en: primary
+        _fr: principal
+        _de: primär
+        _it: primario
+        _nl: prima
       processing:
         _en: processing
         _fr: en traitement

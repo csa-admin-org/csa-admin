@@ -138,6 +138,10 @@ class DeliveryCycle < ApplicationRecord
     update_column(:deliveries_counts, counts)
   end
 
+  def primary?
+    self == self.class.primary
+  end
+
   def visible?
     depots.visible.any?
   end

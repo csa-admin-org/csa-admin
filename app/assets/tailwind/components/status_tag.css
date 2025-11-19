@@ -1,6 +1,6 @@
 @layer components {
   .status-tag {
-    @apply mb-1 inline-flex items-center whitespace-nowrap rounded-full bg-gray-200 px-2 py-0.5 text-[0.7rem] font-bold uppercase leading-4 text-white dark:text-black;
+    @apply mb-1 inline-flex items-center rounded-full bg-gray-200 px-2 py-0.5 text-[0.7rem] leading-4 font-bold whitespace-nowrap text-white uppercase dark:text-black;
 
     &.large {
       @apply m-0 px-3 py-1.5 text-lg;
@@ -19,6 +19,7 @@
     &[data-status="validated"],
     &[data-status="sent"],
     &[data-status="completed"],
+    &[data-status="primary"],
     &[data-status="yes"] {
       @apply bg-green-400 dark:bg-green-600;
     }

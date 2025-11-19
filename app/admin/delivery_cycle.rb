@@ -43,6 +43,8 @@ ActiveAdmin.register DeliveryCycle do
     }, class: "text-right whitespace-nowrap"
     if DeliveryCycle.visible?
       column :visible, ->(dc) { status_tag dc.visible? }, class: "text-right"
+    else
+      column "", ->(dc) { status_tag(:primary) if dc.primary? }, class: "text-right"
     end
     actions
   end
