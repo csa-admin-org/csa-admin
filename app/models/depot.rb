@@ -150,6 +150,6 @@ class Depot < ApplicationRecord
   private
 
   def set_default_delivery_cycle
-    self.delivery_cycles << DeliveryCycle.greatest if delivery_cycles.empty?
+    self.delivery_cycles << DeliveryCycle.primary if delivery_cycles.empty?
   end
 end
