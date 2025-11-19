@@ -74,7 +74,7 @@ class DeliveryCycle < ApplicationRecord
     if visible?
       visible.map(&:billable_deliveries_count).uniq.sort
     else
-      [ greatest.billable_deliveries_count ]
+      [ primary.billable_deliveries_count ]
     end
   end
 
@@ -82,7 +82,7 @@ class DeliveryCycle < ApplicationRecord
     if visible?
       visible.map { |dc| dc.billable_deliveries_count_for(basket_complement) }.uniq.sort
     else
-      [ greatest.billable_deliveries_count_for(basket_complement) ]
+      [ primary.billable_deliveries_count_for(basket_complement) ]
     end
   end
 
@@ -90,7 +90,7 @@ class DeliveryCycle < ApplicationRecord
     if visible?
       visible.map(&:future_deliveries_count).uniq.sort
     else
-      [ greatest.future_deliveries_count ]
+      [ primary.future_deliveries_count ]
     end
   end
 
@@ -106,8 +106,10 @@ class DeliveryCycle < ApplicationRecord
     kept.pluck(:price).any?(&:positive?)
   end
 
-  def self.greatest
-    kept.max_by(&:billable_deliveries_count)
+  # Prioritize visible delivery cycles over non-visible ones, even if a
+  # non-visible cycle has more billable deliveries.
+  def self.primary
+    visible.max_by(&:billable_deliveries_count) || kept.max_by(&:billable_deliveries_count)
   end
 
   def self.member_ordered

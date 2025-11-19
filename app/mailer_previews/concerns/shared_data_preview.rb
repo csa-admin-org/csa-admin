@@ -91,7 +91,7 @@ module SharedDataPreview
      if delivery
        DeliveryCycle.for(delivery).max_by(&:billable_deliveries_count)
      else
-       DeliveryCycle.greatest
+       DeliveryCycle.primary
      end
   end
 
