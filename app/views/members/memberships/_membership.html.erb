@@ -110,7 +110,7 @@
     <%= link_to new_members_bidding_round_pledge_path do %>
       <% colors = missing_bidding_round_pledge? ? "border-orange-500 bg-orange-100 hover:bg-orange-200 dark:bg-orange-900 hover:dark:bg-orange-800 text-orange-700 dark:text-orange-300" : "border-green-500 bg-green-100 hover:bg-green-200 dark:bg-green-900 hover:dark:bg-green-800 text-green-700 dark:text-green-300" %>
 
-      <div class="mt-4 mb-4 flex items-center gap-2 rounded border-1 p-2 <%= colors %>">
+      <div class="mt-4 mb-4 flex items-center gap-2 rounded border p-2 <%= colors %>">
         <%= icon (missing_bidding_round_pledge? ? "mail-open" : "mail-check"), class: "size-5 w-8 " %>
 
         <span>

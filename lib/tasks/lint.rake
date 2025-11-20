@@ -3,7 +3,7 @@
 require "parallel"
 
 namespace :lint do
-  LINT_TYPES = %i[locales rubocop herb prettier]
+  LINT_TYPES = %i[locales rubocop herb_lint herb_format prettier]
 
   def parallel_lint(&block)
     results = {}
@@ -25,8 +25,10 @@ namespace :lint do
         "bin/rails locales:check"
       when :rubocop
         "bin/rubocop --parallel --format simple"
-      when :herb
-        "npm run herb:format:check **/*.html"
+      when :herb_lint
+        "npm run herb:lint"
+      when :herb_format
+        "npm run herb:format:check"
       when :prettier
         "npx prettier app --check --cache --log-level warn"
       end
@@ -41,7 +43,7 @@ namespace :lint do
         "bin/rails locales:format"
       when :rubocop
         "bin/rubocop --parallel --autocorrect-all --format quiet"
-      when :herb
+      when :herb_format
         "npm run herb:format"
       when :prettier
         "npx prettier app --write --cache --log-level warn"

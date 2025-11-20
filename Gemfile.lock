@@ -684,7 +684,7 @@ PLATFORMS
 
 DEPENDENCIES
   action_text-trix
-  activeadmin (~> 4.0.0.beta17)
+  activeadmin (~> 4.0.0.beta19)
   acts_as_list
   appsignal
   aws-sdk-s3
