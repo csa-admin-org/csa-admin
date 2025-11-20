@@ -48,7 +48,7 @@ GEM
       erubi (~> 1.11)
       rails-dom-testing (~> 2.2)
       rails-html-sanitizer (~> 1.6)
-    activeadmin (4.0.0.beta18)
+    activeadmin (4.0.0.beta19)
       arbre (~> 2.0)
       csv
       formtastic (>= 5.0)
@@ -120,8 +120,8 @@ GEM
       async-http (~> 0.42)
       protocol-url (~> 0.2)
     aws-eventstream (1.4.0)
-    aws-partitions (1.1184.0)
-    aws-sdk-core (3.237.0)
+    aws-partitions (1.1185.0)
+    aws-sdk-core (3.238.0)
       aws-eventstream (~> 1, >= 1.3.0)
       aws-partitions (~> 1, >= 1.992.0)
       aws-sigv4 (~> 1.9)
@@ -132,7 +132,7 @@ GEM
     aws-sdk-kms (1.117.0)
       aws-sdk-core (~> 3, >= 3.234.0)
       aws-sigv4 (~> 1.5)
-    aws-sdk-s3 (1.203.1)
+    aws-sdk-s3 (1.204.0)
       aws-sdk-core (~> 3, >= 3.234.0)
       aws-sdk-kms (~> 1)
       aws-sigv4 (~> 1.5)
@@ -267,7 +267,7 @@ GEM
       geom2d (~> 0.4, >= 0.4.1)
       openssl (>= 2.2.1)
       strscan (>= 3.1.2)
-    htmlentities (4.4.0)
+    htmlentities (4.4.2)
     i18n (1.14.7)
       concurrent-ruby (~> 1.0)
     i18n-backend-side_by_side (1.3.0)
@@ -338,7 +338,7 @@ GEM
     letter_opener (1.10.0)
       launchy (>= 2.2, < 4)
     lint_roller (1.1.0)
-    liquid (5.10.0)
+    liquid (5.11.0)
       bigdecimal
       strscan (>= 3.1.1)
     logger (1.7.0)
@@ -579,7 +579,7 @@ GEM
       rubocop (>= 1.72)
       rubocop-performance (>= 1.24)
       rubocop-rails (>= 2.30)
-    ruby-lsp (0.26.3)
+    ruby-lsp (0.26.4)
       language_server-protocol (~> 3.17.0)
       prism (>= 1.2, < 2.0)
       rbs (>= 3, < 5)
@@ -770,7 +770,7 @@ CHECKSUMS
   actionpack (8.1.1) sha256=192e27c39a63c7d801ac7b6d50505f265e389516985eed9b2ee364896a6a06d7
   actiontext (8.1.1) sha256=fd8d8da1e6bc0b04ff72fccfd127e78431238a99a82e736c7b52727c576a7640
   actionview (8.1.1) sha256=ca480c8b099dea0862b0934f24182b84c2d29092e7dbf464fb3e6d4eb9b468dc
-  activeadmin (4.0.0.beta18) sha256=f7f0d62b47fd1ca7f6f0fa9c7d20606631d836ea4d361348fe45a3571e3f9e1e
+  activeadmin (4.0.0.beta19) sha256=b0a01eeb217b51d72e68929beb6a654ef98dda38c6ddfa1b956f8b13e15f3164
   activejob (8.1.1) sha256=94f438a9f3b5a6b130fef53d8313f869dbd379309e7d639891bda36b12509383
   activemodel (8.1.1) sha256=8b7e2496b9e333ced06248c16a43217b950192c98e0fe3aa117eee21501c6fbd
   activerecord (8.1.1) sha256=e32c3a03e364fd803498eb4150c21bedc995aa83bc27122a94d480ab1dcb3d17
@@ -787,10 +787,10 @@ CHECKSUMS
   async-pool (0.11.0) sha256=2228c4a8d1ca59a259b5f9dab7e0f9f23d57856b195aca1c0aa684a7439ea525
   async-rest (0.20.0) sha256=72b0d467f65269a53a64fc12b828f3d81b4afa201b4eea0b98cddb990e7e95eb
   aws-eventstream (1.4.0) sha256=116bf85c436200d1060811e6f5d2d40c88f65448f2125bc77ffce5121e6e183b
-  aws-partitions (1.1184.0) sha256=9b994b2df49d31b756523fd66119d8f3947a908e71174f4554b9dce1c728fa69
-  aws-sdk-core (3.237.0) sha256=9a8b14167a75be07ba7cfd9d27075aa12f1ed897d6eaed808a1c6a20963af32b
+  aws-partitions (1.1185.0) sha256=cc711b7c3381e83abfd9e3a84b8a50e37f23c82fd0386ef6b91c15b6e4981b1b
+  aws-sdk-core (3.238.0) sha256=379ab70effc304ba2ca361d2a7140cb5ea6be23abbc948c75bd405282604cb92
   aws-sdk-kms (1.117.0) sha256=d3d655ae825ca0d6715555e2543e062fe14ccacf30bace04f3aefd6005b76c14
-  aws-sdk-s3 (1.203.1) sha256=edaa6ecc641ffa8564f38df237876876ac679b937ca8cd7873f6f9857d8f99b9
+  aws-sdk-s3 (1.204.0) sha256=b680a2552ee8225a24d4df115caacb140aa3adc35cb9d975e20e53549b607e63
   aws-sigv4 (1.12.1) sha256=6973ff95cb0fd0dc58ba26e90e9510a2219525d07620c8babeb70ef831826c00
   base64 (0.3.0) sha256=27337aeabad6ffae05c265c450490628ef3ebd4b67be58257393227588f5a97b
   bcrypt (3.1.20) sha256=8410f8c7b3ed54a3c00cd2456bf13917d695117f033218e2483b2e40b0784099
@@ -857,7 +857,7 @@ CHECKSUMS
   herb (0.8.2-x86_64-linux-gnu) sha256=63149701a4d3b271ef13359dc2c40e1708b62ed2f696e79e49f50a6af3378fa3
   herb (0.8.2-x86_64-linux-musl) sha256=e5cd1a5c6541a4b913d51156ad5afc75d232858afb49ee1ed7108d7cd644ac86
   hexapdf (1.4.1) sha256=8db11f731807cefeb0cada949555b2e460214c4e3024e82adb19f8096c3e0549
-  htmlentities (4.4.0) sha256=77820153ba1e7db2b7dfbd8c8c28571316ece7d6fc79ffff398973cb060422f1
+  htmlentities (4.4.2) sha256=bbafbdf69f2eca9262be4efef7e43e6a1de54c95eb600f26984f71d2fe96c5c3
   i18n (1.14.7) sha256=ceba573f8138ff2c0915427f1fc5bdf4aa3ab8ae88c8ce255eb3ecf0a11a5d0f
   i18n-backend-side_by_side (1.3.0) sha256=9a48d06549d4d5e4e6640ab66c560ffa4a73883f29a881818810bd30e49f95d8
   iban-tools (1.2.1) sha256=099962fc60fc8eff0674e1ce3d387a29cfa89d578cf5f08554ec7c6020ac631c
@@ -884,7 +884,7 @@ CHECKSUMS
   launchy (3.1.1) sha256=72b847b5cc961589dde2c395af0108c86ff0119f42d4648d25b5440ebb10059e
   letter_opener (1.10.0) sha256=2ff33f2e3b5c3c26d1959be54b395c086ca6d44826e8bf41a14ff96fdf1bdbb2
   lint_roller (1.1.0) sha256=2c0c845b632a7d172cb849cc90c1bce937a28c5c8ccccb50dfd46a485003cc87
-  liquid (5.10.0) sha256=0d719186676d8be9d15d2bea7fd76388faf24a2aa7ad803c3de161322f74adc6
+  liquid (5.11.0) sha256=c338b641f9ee9e03e1377a13d880a0c636fadd944fae0c8a4af9bf4349264800
   logger (1.7.0) sha256=196edec7cc44b66cfb40f9755ce11b392f21f7967696af15d274dde7edff0203
   lograge (0.14.0) sha256=42371a75823775f166f727639f5ddce73dd149452a55fc94b90c303213dc9ae1
   loofah (2.24.1) sha256=655a30842b70ec476410b347ab1cd2a5b92da46a19044357bbd9f401b009a337
@@ -974,7 +974,7 @@ CHECKSUMS
   rubocop-performance (1.26.1) sha256=cd19b936ff196df85829d264b522fd4f98b6c89ad271fa52744a8c11b8f71834
   rubocop-rails (2.34.0) sha256=d90eb95655bdb3a2276eff8daa8972b35d9b0fd0c0a71e812c714213a056d71e
   rubocop-rails-omakase (1.1.0) sha256=2af73ac8ee5852de2919abbd2618af9c15c19b512c4cfc1f9a5d3b6ef009109d
-  ruby-lsp (0.26.3) sha256=80d28b6c80ce3003997ebebe9bab5599e21fa6888cb5bdb4cee7d24b461d6981
+  ruby-lsp (0.26.4) sha256=1cb3046a066c8f1983dfe5f0cd3baa76034d6ba156e8ab460b15ab129d37a9f7
   ruby-lsp-rails (0.4.8) sha256=f09d1f926d4063deeb2f3049311925c20dfe6c912371e3bcd04a265a865c44ae
   ruby-progressbar (1.13.0) sha256=80fc9c47a9b640d6834e0dc7b3c94c9df37f08cb072b7761e4a71e22cff29b33
   ruby-rc4 (0.1.5) sha256=00cc40a39d20b53f5459e7ea006a92cf584e9bc275e2a6f7aa1515510e896c03
