@@ -1,5 +1,5 @@
 <div class="fixed start-0 top-0 z-50 w-full bg-green-600 shadow-xs">
-  <div class="mx-auto flex max-w-screen-xl flex-wrap items-center justify-between py-2">
+  <div class="mx-auto flex max-w-7xl flex-wrap items-center justify-between py-2">
     <div class="order-1 flex grow pl-4 md:hidden">
       <button
         data-collapse-toggle="navbar-dropdown"
@@ -53,7 +53,7 @@
               <%= tag.ul(
                 id: item.id,
                 role: "list",
-                class: "hidden min-w-36 space-y-1 rounded-md bg-green-600 p-4 font-semibold shadow-xl group-data-[open]:block md:p-2",
+                class: "hidden min-w-36 space-y-1 rounded-md bg-green-600 p-4 font-semibold shadow-xl group-data-open:block md:p-2",
                 "aria-labelledby": "dropdownHoverButton-#{item.id}",
                 data: item.html_options[:data].to_h
               ) do %>
