@@ -5,7 +5,7 @@
     <title><%= [ Current.org.name, t(".title") ].join(" – ") %></title>
 
     <%= javascript_importmap_tags "members" %>
-    <%= stylesheet_link_tag "tailwind", data: { turbo_track: "reload" } %>
+    <%= stylesheet_link_tag "trix", "tailwind", data: { turbo_track: "reload" } %>
     <%= csrf_meta_tags %>
 
     <meta charset="UTF-8">
