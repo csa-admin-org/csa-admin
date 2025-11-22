@@ -28,8 +28,8 @@ class Members::MembersTest < ApplicationSystemTestCase
     assert_text "Basket complements"
     assert_text "BreadCHF 40.00 (4.- x 0-10 deliveries)"
     assert_text "EggsCHF 60.00 (6.- x 0-10 deliveries)"
-    fill_in "Bread", with: "1"
-    fill_in "Eggs", with: "2"
+    check "Bread"
+    check "Eggs"
 
     assert_text "Support"
     assert_text "Base price"
@@ -88,7 +88,7 @@ class Members::MembersTest < ApplicationSystemTestCase
     assert_equal bakery_id, member.waiting_depot_id
     assert_equal [ home_id ], member.waiting_alternative_depot_ids
     assert_equal [ eggs_id, bread_id ], member.waiting_basket_complement_ids
-    assert_equal [ 1, 2 ], member.members_basket_complements.map(&:quantity)
+    assert_equal [ 1, 1 ], member.members_basket_complements.map(&:quantity)
     assert_equal thursdays_id, member.waiting_delivery_cycle_id
     assert_equal 4, member.waiting_billing_year_division
     assert_equal 30, member.annual_fee
@@ -169,6 +169,38 @@ class Members::MembersTest < ApplicationSystemTestCase
     assert_text "An active account already exists for this email address!"
   end
 
+  test "creates a new member with custom complement quantities" do
+    org(member_form_complement_quantities: true)
+
+    visit "/new"
+
+    fill_in "Name and surname", with: "Ryan Doe"
+    fill_in "Address", with: "Nowhere street 2"
+    fill_in "ZIP", with: "2042"
+    fill_in "City", with: "Moon City"
+    fill_in "Email(s)", with: "ryan@doe.com"
+    fill_in "Phone(s)", with: "077 142 42 42"
+
+    choose "Large basket"
+
+    fill_in "Bread", with: "3"
+    fill_in "Eggs", with: "2"
+
+    choose "Base price"
+    choose "Our farm"
+    choose "Mondays"
+    choose "Annual"
+    check "I have read and agree to the rules."
+
+    click_button "Submit"
+
+    assert_text "Thank you for your registration!"
+
+    member = Member.last
+    assert_equal "Ryan Doe", member.name
+    assert_equal [ 3, 2 ], member.members_basket_complements.map(&:quantity)
+  end
+
   test "creates a new member with custom activity participations" do
     org(activity_participations_form_min: 0)
     basket_complements(:eggs).update!(activity_participations_demanded_annually: 1)
@@ -183,7 +215,7 @@ class Members::MembersTest < ApplicationSystemTestCase
     fill_in "Phone(s)", with: "077 142 42 42"
 
     choose "Large basket"
-    fill_in "Eggs", with: "1"
+    check "Eggs"
     fill_in "½ Days", with: 1
     choose "Base price"
     choose "Our farm"
@@ -497,6 +529,7 @@ class Members::MembersTest < ApplicationSystemTestCase
   end
 
   test "pre-populate basket size and complements" do
+    org(member_form_complement_quantities: true)
     visit "/new?basket_size_id=#{small_id}&basket_complements[#{eggs_id}]=1&basket_complements[#{bread_id}]=2"
 
     assert find_field("Small basket").checked?

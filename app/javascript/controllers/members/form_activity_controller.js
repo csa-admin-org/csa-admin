@@ -18,7 +18,10 @@ export default class extends Controller {
     )
     let count = 0
     inputsArray.forEach((input) => {
-      if (input.type == "radio" && input.checked) {
+      if (
+        (input.type == "radio" || input.type == "checkbox") &&
+        input.checked
+      ) {
         count += parseInt(input.dataset.activity)
       }
       if (input.type == "number") {

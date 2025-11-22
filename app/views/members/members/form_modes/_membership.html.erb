@@ -51,11 +51,11 @@
       </div>
 
       <% if Current.org.annual_fee? && Current.org.annual_fee_member_form? %>
-        <%= f.input :annual_fee, as: :numeric, required: true, input_html: { min: 0, value: prefer_integer(f.object.annual_fee), data: { default_value: prefer_integer(Current.org.annual_fee), disabled_value: prefer_integer(!Current.org.annual_fee_support_member_only? && Current.org.annual_fee) }, class: "w-20" }, hint: t(".annual_fee_hint", currency: currency_symbol) %>
+        <%= f.input :annual_fee, as: :numeric, required: true, label_html: { class: "text-base" }, input_html: { min: 0, value: prefer_integer(f.object.annual_fee), data: { default_value: prefer_integer(Current.org.annual_fee), disabled_value: prefer_integer(!Current.org.annual_fee_support_member_only? && Current.org.annual_fee) }, class: "w-20" }, hint: t(".annual_fee_hint", currency: currency_symbol) %>
       <% end %>
 
       <% if Current.org.share? %>
-        <%= f.input :desired_shares_number, as: :numeric, required: true, input_html: { min: Current.org.shares_number, data: { form_min_value_target: "input", action: "blur->form-minmax-enforcer#enforce" }, class: "w-20" }, hint: t(".desired_shares_number_hint") %>
+        <%= f.input :desired_shares_number, as: :numeric, required: true, label_html: { class: "text-base" }, input_html: { min: Current.org.shares_number, data: { form_min_value_target: "input", action: "blur->form-minmax-enforcer#enforce" }, class: "w-20" }, hint: t(".desired_shares_number_hint") %>
       <% end %>
 
       <% if @member.members_basket_complements.any? %>
@@ -72,14 +72,19 @@
 
             <%= f.simple_fields_for :members_basket_complements, data: { form_disabler_target: "label" } do |ff| %>
               <%= ff.input :basket_complement_id, as: :hidden %>
-              <%= ff.input :quantity, as: :numeric, label: basket_complement_label(ff.object.basket_complement), required: false, disabled: support_checked, wrapper_html: { class: ("disabled" if support_checked), data: { form_disabler_target: "label" } }, input_html: { min: 0, data: { form_disabler_target: "input", default_value: "0", action: "blur->form-minmax-enforcer#enforce form-activity#updateInput form-pricing#refresh", activity: ff.object.basket_complement.activity_participations_demanded_annually } }, wrapper_class: "quantity" %>
+
+              <% if Current.org.member_form_complement_quantities? %>
+                <%= ff.input :quantity, as: :numeric, label: basket_complement_label(ff.object.basket_complement), required: false, disabled: support_checked, wrapper_html: { class: ("disabled" if support_checked), data: { form_disabler_target: "label" } }, input_html: { min: 0, data: { form_disabler_target: "input", default_value: "0", action: "blur->form-minmax-enforcer#enforce form-activity#updateInput form-pricing#refresh", activity: ff.object.basket_complement.activity_participations_demanded_annually } }, wrapper_class: "quantity" %>
+              <% else %>
+                <%= ff.input :quantity, as: :boolean, label: basket_complement_label(ff.object.basket_complement), required: false, disabled: support_checked, wrapper_html: { class: ("disabled" if support_checked), data: { form_disabler_target: "label" } }, input_html: { data: { form_disabler_target: "input", action: "form-activity#updateInput form-pricing#refresh", activity: ff.object.basket_complement.activity_participations_demanded_annually } }, wrapper_class: "check_boxes" %>
+              <% end %>
             <% end %>
           <% end %>
         </div>
       <% end %>
 
       <% if show_activity_participations? %>
-        <%= f.input :waiting_activity_participations_demanded_annually, as: :numeric, label: activities_human_name, required: true, input_html: { min: Current.org.activity_participations_form_min || 0, max: Current.org.activity_participations_form_max, step: Current.org.activity_participations_form_step, data: { min: Current.org.activity_participations_form_min, max: Current.org.activity_participations_form_max, form_activity_target: "input", action: "blur->form-minmax-enforcer#enforce form-pricing#refresh" }, class: "w-20" }, hint: activity_participations_form_detail %>
+        <%= f.input :waiting_activity_participations_demanded_annually, as: :numeric, label: activities_human_name, required: true, label_html: { class: "text-base" }, input_html: { min: Current.org.activity_participations_form_min || 0, max: Current.org.activity_participations_form_max, step: Current.org.activity_participations_form_step, data: { min: Current.org.activity_participations_form_min, max: Current.org.activity_participations_form_max, form_activity_target: "input", action: "blur->form-minmax-enforcer#enforce form-pricing#refresh" }, class: "w-20" }, hint: activity_participations_form_detail %>
       <% end %>
 
       <% if show_basket_price_extras? %>

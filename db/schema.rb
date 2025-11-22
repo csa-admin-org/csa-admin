@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_10_18_093415) do
+ActiveRecord::Schema[8.1].define(version: 2025_11_22_094052) do
   create_table "absences", force: :cascade do |t|
     t.datetime "created_at"
     t.date "ended_on"
@@ -750,6 +750,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_10_18_093415) do
     t.string "local_currency_secret"
     t.string "local_currency_wallet"
     t.string "member_come_from_form_mode", default: "visible", null: false
+    t.boolean "member_form_complement_quantities", default: false, null: false
     t.boolean "member_form_extra_text_only", default: false, null: false
     t.string "member_form_mode", default: "membership", null: false
     t.json "member_information_titles", default: {}, null: false
