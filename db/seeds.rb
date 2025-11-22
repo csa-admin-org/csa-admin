@@ -8,7 +8,7 @@ Tenant.switch_each do
   domain = "#{name}.test"
   email = "info@#{domain}"
   phone = "+41 76 765 43 21"
-  address = "Street 123"
+  street = "Street 123"
   zip = "1234"
   city = "Metropolis"
 
@@ -21,14 +21,14 @@ Tenant.switch_each do
     fiscal_year_start_month: 1,
     phone: phone,
     creditor_name: name,
-    creditor_address: address,
+    creditor_street: street,
     creditor_city: city,
     creditor_zip: zip,
     billing_year_divisions: [ 1 ],
     invoice_info: "Payable within 30 days. Thank you!",
     invoice_footer: "#{phone} / #{email}",
     email_default_from: email,
-    email_footer: "If you have any questions or comments, simply reply to this email.\n#{name}, #{address}, #{zip} #{city}",
+    email_footer: "If you have any questions or comments, simply reply to this email.\n#{name}, #{street}, #{zip} #{city}",
     email_signature: "Greetings,\n#{name}")
 
   Admin.create!(

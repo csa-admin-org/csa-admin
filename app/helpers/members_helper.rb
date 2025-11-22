@@ -191,8 +191,8 @@ module MembersHelper
     end
     if address = d.full_address
       details << address
-    elsif d.address.present?
-      details << d.address
+    elsif d.street.present?
+      details << d.street
     end
     details.compact.join(", ").html_safe
   end
@@ -270,14 +270,14 @@ module MembersHelper
 
   def display_address(member)
     [
-      member.address,
+      member.street,
       "#{member.zip} #{member.city}"
     ].join("</br>").html_safe
   end
 
   def display_billing_address(member)
     parts = [
-      member.billing_info(:address),
+      member.billing_info(:street),
       "#{member.billing_info(:zip)} #{member.billing_info(:city)}"
     ]
     parts.join("</br>").html_safe

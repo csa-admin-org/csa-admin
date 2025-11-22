@@ -59,7 +59,7 @@ class Organization < ApplicationRecord
   translated_rich_texts :member_form_extra_text
   translated_rich_texts :member_form_complements_text
 
-  normalized_string_attributes :creditor_name, :creditor_address, :creditor_city, :creditor_zip
+  normalized_string_attributes :creditor_name, :creditor_street, :creditor_city, :creditor_zip
 
   has_secure_token :api_token, length: 36
 
@@ -228,7 +228,7 @@ class Organization < ApplicationRecord
     Organization.languages.reduce({}) do |h, locale|
       h[locale] = I18n.with_locale(locale) {
         txt = I18n.t("organization.default_email_footer")
-        txt += "\n#{creditor_name}, #{creditor_address}, #{creditor_city} #{creditor_zip}"
+        txt += "\n#{creditor_name}, #{creditor_street}, #{creditor_city} #{creditor_zip}"
       }
       h
     end

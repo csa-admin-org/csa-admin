@@ -763,12 +763,6 @@ _:
           _de: Taschengrösse
           _it: Dimensione della cesta
           _nl: Pakketgrootte
-        billing_address:
-          _en: Address (billing)
-          _fr: Adresse (facturation)
-          _de: Adresse (Rechnung)
-          _it: Indirizzo (fatturazione)
-          _nl: Adres (facturering)
         billing_city:
           _en: City (billing)
           _fr: Ville (facturation)
@@ -787,6 +781,12 @@ _:
           _de: Name (Rechnung)
           _it: Nome (fatturazione)
           _nl: Naam (facturering)
+        billing_street:
+          _en: Address (billing)
+          _fr: Adresse (facturation)
+          _de: Adresse (Rechnung)
+          _it: Indirizzo (fatturazione)
+          _nl: Adres (facturering)
         billing_zip:
           _en: ZIP code (billing)
           _fr: NPA (facturation)
@@ -979,12 +979,6 @@ _:
           _de: Auf Warteliste seit
           _it: In lista d'attesa da
           _nl: Op wachtlijst sinds
-        with_address:
-          _en: Address
-          _fr: Adresse
-          _de: Adresse
-          _it: Indirizzo
-          _nl: Adres
         with_name:
           _en: Name
           _fr: Nom
@@ -997,6 +991,12 @@ _:
           _de: Telefon
           _it: Telefono
           _nl: Telefoon
+        with_street:
+          _en: Address
+          _fr: Adresse
+          _de: Adresse
+          _it: Indirizzo
+          _nl: Adres
       members_basket_complement:
         basket_complement:
           _en: Complement
@@ -1841,12 +1841,6 @@ _:
           _de: Satzung (URL)
           _it: Carta (URL)
           _nl: Handvest (URL)
-        creditor_address:
-          _en: Address
-          _fr: Adresse
-          _de: Adresse
-          _it: Indirizzo
-          _nl: Adres
         creditor_city:
           _en: City
           _fr: Ville
@@ -1859,6 +1853,12 @@ _:
           _de: Name
           _it: Nome
           _nl: Naam
+        creditor_street:
+          _en: Address
+          _fr: Adresse
+          _de: Adresse
+          _it: Indirizzo
+          _nl: Adres
         creditor_zip:
           _en: ZIP code
           _fr: NPA

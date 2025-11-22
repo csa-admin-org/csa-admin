@@ -2,7 +2,7 @@
 
 class SpamDetector < SimpleDelegator
   TEXT_ATTRS = %i[note food_note come_from]
-  ADDRESS_ATTRS = %i[address city zip]
+  ADDRESS_ATTRS = %i[street city zip]
 
   def self.spam?(member)
     new(member).spam?

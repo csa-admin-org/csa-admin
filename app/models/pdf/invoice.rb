@@ -86,7 +86,7 @@ module PDF
       member = invoice.member
       parts = [
         member.billing_info(:name).truncate(70),
-        member.billing_info(:address).truncate(70),
+        member.billing_info(:street).truncate(70),
         "#{member.billing_info(:zip)} #{member.billing_info(:city)}"
       ]
 
@@ -476,7 +476,7 @@ module PDF
         qr_text_title t("payment.payable_to_account"), size: 6
         qr_text Current.org.iban_formatted, size: 8
         qr_text Current.org.creditor_name, size: 8
-        qr_text Current.org.creditor_address, size: 8
+        qr_text Current.org.creditor_street, size: 8
         qr_text Current.org.creditor_zip + " " + Current.org.creditor_city, size: 8
         move_down border
 
@@ -486,7 +486,7 @@ module PDF
 
         qr_text_title t("payment.payable_by"), size: 6
         qr_text invoice.member.billing_info(:name).truncate(70), size: 8
-        qr_text invoice.member.billing_info(:address).truncate(70), size: 8
+        qr_text invoice.member.billing_info(:street).truncate(70), size: 8
         qr_text invoice.member.billing_info(:zip) + " " + invoice.member.billing_info(:city), size: 8
 
         bounding_box [ 0, 98 ], width: 200 do
@@ -525,7 +525,7 @@ module PDF
           qr_text_title t("payment.payable_to_account")
           qr_text Current.org.iban_formatted
           qr_text Current.org.creditor_name
-          qr_text Current.org.creditor_address
+          qr_text Current.org.creditor_street
           qr_text Current.org.creditor_zip + " " + Current.org.creditor_city
           move_down border
 
@@ -539,7 +539,7 @@ module PDF
 
           qr_text_title t("payment.payable_by")
           qr_text invoice.member.billing_info(:name).truncate(70)
-          qr_text invoice.member.billing_info(:address).truncate(70)
+          qr_text invoice.member.billing_info(:street).truncate(70)
           qr_text invoice.member.billing_info(:zip) + " " + invoice.member.billing_info(:city)
         end
       end
@@ -662,7 +662,7 @@ module PDF
 
           payment_info_title t("payment.payable_to")
           payment_info_text Current.org.creditor_name
-          payment_info_text Current.org.creditor_address
+          payment_info_text Current.org.creditor_street
           payment_info_text Current.org.creditor_zip + " " + Current.org.creditor_city
           move_down 5
           payment_info_text "IBAN: <b>#{Current.org.iban_formatted}</b>"
@@ -678,7 +678,7 @@ module PDF
           payment_info_title t("payment.payable_by")
           if invoice.sepa?
             payment_info_text invoice.sepa_metadata["name"].truncate(70)
-            payment_info_text invoice.member.billing_info(:address).truncate(70)
+            payment_info_text invoice.member.billing_info(:street).truncate(70)
             payment_info_text invoice.member.billing_info(:zip) + " " + invoice.member.billing_info(:city)
 
             move_down 5
@@ -687,7 +687,7 @@ module PDF
             payment_info_text "#{t("payment.sepa_mandate_id")}: <b>#{invoice.sepa_metadata["mandate_id"]}</b> (#{I18n.l(mandate_signed_on, format: :short)})"
           else
             payment_info_text invoice.member.billing_info(:name).truncate(70)
-            payment_info_text invoice.member.billing_info(:address).truncate(70)
+            payment_info_text invoice.member.billing_info(:street).truncate(70)
             payment_info_text invoice.member.billing_info(:zip) + " " + invoice.member.billing_info(:city)
           end
         end

@@ -22,7 +22,7 @@ namespace :anonymizer do
             name: Faker::Name.unique.name,
             emails: fake_emails.join(", "),
             phones: Faker::Base.unique.numerify("+41 ## ### ## ##"),
-            address: Faker::Address.street_address,
+            street: Faker::Address.street_address,
             city: Faker::Address.city,
             zip: Faker::Address.zip,
             note: nil,
@@ -32,7 +32,7 @@ namespace :anonymizer do
           if member.different_billing_info
             member.update_columns(
               billing_name: Faker::Name.unique.name,
-              billing_address: Faker::Address.street_address,
+              billing_street: Faker::Address.street_address,
               billing_city: Faker::Address.city,
               billing_zip: Faker::Address.zip)
           end

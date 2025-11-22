@@ -21,7 +21,7 @@ module API
 
       def member_params
         permitted = params.permit(
-          :name, :address, :zip, :city, :country_code,
+          :name, :street, :zip, :city, :country_code,
           :emails, :phones,
           :waiting_basket_size_id, :waiting_basket_price_extra,
           :waiting_activity_participations_demanded_annually,

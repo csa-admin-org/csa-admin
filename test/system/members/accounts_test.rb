@@ -66,7 +66,7 @@ class Members::AccountsTest < ApplicationSystemTestCase
     member = members(:john)
     member.update!(
       billing_name: "Acme Doe",
-      billing_address: "Acme Street 42",
+      billing_street: "Acme Street 42",
       billing_city: "Acme City",
       billing_zip: "1234")
     login(member)
@@ -82,7 +82,7 @@ class Members::AccountsTest < ApplicationSystemTestCase
 
     within "[aria-label='Billing']" do
       assert find("#member_different_billing_info").checked?
-      fill_in "Name (billing)", with: "Acme Corp."
+      fill_in "Name", with: "Acme Corp."
     end
 
     click_button "Submit"

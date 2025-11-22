@@ -50,7 +50,7 @@ class PDF::InvoiceTest < ActiveSupport::TestCase
     invoice = invoices(:annual_fee)
     invoice.member.update!(
       billing_name: "Martha Office",
-      billing_address: "Nowhere 42",
+      billing_street: "Nowhere 42",
       billing_city: "Office City",
       billing_zip: "4321")
 
@@ -511,7 +511,7 @@ class PDF::InvoiceTest < ActiveSupport::TestCase
     invoice.update!(id: 12345678, currency_code: "EUR")
     invoice.member.update!(
       language: "de",
-      address: "Grosse Marktgasse 28",
+      street: "Grosse Marktgasse 28",
       zip: "30952",
       city: "Ronnenberg",
       country_code: "DE")
@@ -551,7 +551,7 @@ class PDF::InvoiceTest < ActiveSupport::TestCase
       iban: "DE21500500009876543210",
       sepa_mandate_id: "123456",
       sepa_mandate_signed_on: "2023-12-24",
-      address: "Grosse Marktgasse 28",
+      street: "Grosse Marktgasse 28",
       zip: "30952",
       city: "Ronnenberg",
       country_code: "DE")

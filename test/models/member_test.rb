@@ -3,33 +3,33 @@
 require "test_helper"
 
 class MemberTest < ActiveSupport::TestCase
-  test "requires address, city, zip, country_code on creation" do
+  test "requires street, city, zip, country_code on creation" do
     member = Member.new(
-      address: nil,
+      street: nil,
       city: nil,
       zip: nil)
     member.country_code = nil
 
     assert_not member.valid?
-    assert_includes member.errors[:address], "can't be blank"
+    assert_includes member.errors[:street], "can't be blank"
     assert_includes member.errors[:city], "can't be blank"
     assert_includes member.errors[:zip], "can't be blank"
     assert_includes member.errors[:country_code], "can't be blank"
   end
 
-  test "does not require address, city, zip when inactive" do
+  test "does not require street, city, zip when inactive" do
     member = members(:mary)
-    member.update(address: nil, city: nil, zip: nil, country_code: nil)
+    member.update(street: nil, city: nil, zip: nil, country_code: nil)
 
     assert member.valid?
   end
 
-  test "does require address, city, zip on update" do
+  test "does require street, city, zip on update" do
     member = members(:john)
-    member.update(address: nil, city: nil, zip: nil, country_code: nil)
+    member.update(street: nil, city: nil, zip: nil, country_code: nil)
 
     assert_not member.valid?
-    assert_includes member.errors[:address], "can't be blank"
+    assert_includes member.errors[:street], "can't be blank"
     assert_includes member.errors[:city], "can't be blank"
     assert_includes member.errors[:zip], "can't be blank"
     assert_includes member.errors[:country_code], "can't be blank"
@@ -586,26 +586,26 @@ class MemberTest < ActiveSupport::TestCase
     member.different_billing_info = true
     assert_not member.valid?
     assert_includes member.errors[:billing_name], "can't be blank"
-    assert_includes member.errors[:billing_address], "can't be blank"
+    assert_includes member.errors[:billing_street], "can't be blank"
     assert_includes member.errors[:billing_city], "can't be blank"
     assert_includes member.errors[:billing_zip], "can't be blank"
 
     member.update!(
       different_billing_info: true,
       billing_name: "Acme Doe",
-      billing_address: "Acme Street 42",
+      billing_street: "Acme Street 42",
       billing_city: "Acme City",
       billing_zip: "1234")
     assert member.different_billing_info
     assert_equal "Acme Doe", member.billing_info(:name)
-    assert_equal "Acme Street 42", member.billing_info(:address)
+    assert_equal "Acme Street 42", member.billing_info(:street)
     assert_equal "Acme City", member.billing_info(:city)
     assert_equal "1234", member.billing_info(:zip)
 
     member.update!(different_billing_info: "0")
     assert_not member.different_billing_info
     assert_nil member.billing_name
-    assert_nil member.billing_address
+    assert_nil member.billing_street
     assert_nil member.billing_city
     assert_nil member.billing_zip
   end

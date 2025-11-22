@@ -86,7 +86,7 @@ class Members::MembersController < Members::BaseController
     permitted = params
       .require(:member)
       .permit(
-        :name, :address, :zip, :city, :country_code,
+        :name, :street, :zip, :city, :country_code,
         :emails, :phones,
         :waiting_basket_size_id, :waiting_basket_price_extra,
         :waiting_activity_participations_demanded_annually,
@@ -95,7 +95,7 @@ class Members::MembersController < Members::BaseController
         :annual_fee, :desired_shares_number,
         :shop_depot_id,
         :different_billing_info,
-        :billing_name, :billing_address, :billing_zip, :billing_city,
+        :billing_name, :billing_street, :billing_zip, :billing_city,
         :profession, :come_from, :note,
         :terms_of_service,
         waiting_alternative_depot_ids: [],

@@ -15,7 +15,7 @@ module OrganizationsHelper
       new_member_fee_description: "Skipped",
       invoice_sepa_info: "Skipped",
       creditor_name: "Gläubiger GmbH",
-      creditor_address: "Sonnenallee 1",
+      creditor_street: "Sonnenallee 1",
       creditor_city: "Hannover",
       creditor_zip: "30159"
     }.merge(columns))
@@ -28,7 +28,7 @@ module OrganizationsHelper
       currency_code: "EUR",
       iban: "FR1420041010050500013M02606",
       creditor_name: "Jardin Réunis",
-      creditor_address: "1 rue de la Paix",
+      creditor_street: "1 rue de la Paix",
       creditor_city: "Paris",
       creditor_zip: "75000"
     }.merge(columns))

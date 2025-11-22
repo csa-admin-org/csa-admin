@@ -29,14 +29,14 @@ class Member < ApplicationRecord
 
   audited_attributes \
     :state, :name, :emails, :billing_email, :newsletter, :phones, :contact_sharing, \
-    :address, :zip, :city, :country_code, \
-    :billing_name, :billing_address, :billing_city, :billing_zip, \
+    :street, :zip, :city, :country_code, \
+    :billing_name, :billing_street, :billing_city, :billing_zip, \
     :profession, :come_from, :note, :delivery_note, :food_note, \
     :annual_fee, :shares_info, :existing_shares_number, :required_shares_number, :desired_shares_number, \
     :shop_depot_id, \
     :iban, :sepa_mandate_id, :sepa_mandate_signed_on
-  normalized_string_attributes :name, :address, :city, :zip
-  normalized_string_attributes :billing_name, :billing_address, :billing_city, :billing_zip
+  normalized_string_attributes :name, :street, :city, :zip
+  normalized_string_attributes :billing_name, :billing_street, :billing_city, :billing_zip
   normalizes :sepa_mandate_id, :iban, with: ->(value) { value.to_s.strip.presence }
 
   has_states :pending, :waiting, :active, :support, :inactive
@@ -107,8 +107,8 @@ class Member < ApplicationRecord
     if: -> { public_create && Current.org.member_profession_form_mode == "required" }
   validates :come_from, presence: true,
     if: -> { public_create && Current.org.member_come_from_form_mode == "required" }
-  validates :address, :city, :zip, :country_code, presence: true, unless: :inactive?
-  validates :billing_name, :billing_address, :billing_city, :billing_zip,
+  validates :street, :city, :zip, :country_code, presence: true, unless: :inactive?
+  validates :billing_name, :billing_street, :billing_city, :billing_zip,
      presence: true, if: :different_billing_info
   validates :waiting_basket_size, inclusion: { in: proc { BasketSize.all }, allow_nil: true }, on: :create
   validates :waiting_basket_size_id, presence: true, if: :waiting_depot, on: :create
@@ -212,7 +212,7 @@ class Member < ApplicationRecord
 
     @different_billing_info = [
       self[:billing_name],
-      self[:billing_address],
+      self[:billing_street],
       self[:billing_city],
       self[:billing_zip]
     ].all?(&:present?)
@@ -222,7 +222,7 @@ class Member < ApplicationRecord
     @different_billing_info = ActiveRecord::Type::Boolean.new.cast(bool)
     unless different_billing_info
       self.billing_name = nil
-      self.billing_address = nil
+      self.billing_street = nil
       self.billing_city = nil
       self.billing_zip = nil
     end

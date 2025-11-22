@@ -196,7 +196,7 @@
           data-visibility-target="element"
         >
           <%= f.input :billing_name, required: true, input_html: { disabled: !f.object.different_billing_info } %>
-          <%= f.input :billing_address, required: true, input_html: { disabled: !f.object.different_billing_info } %>
+          <%= f.input :billing_street, required: true, input_html: { disabled: !f.object.different_billing_info } %>
 
           <div class="flex w-full flex-row gap-2">
             <%= f.input :billing_zip, required: true, label: Member.human_attribute_name(:zip), input_html: { disabled: !f.object.different_billing_info, size: 6, maxlength: 6 }, wrapper_html: { class: "w-24" } %>

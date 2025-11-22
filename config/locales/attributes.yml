@@ -696,6 +696,12 @@ _:
       _de: Teile auf Lager
       _it: Parti in stock
       _nl: Voorraad
+    street:
+      _en: Address
+      _fr: Adresse
+      _de: Adresse
+      _it: Indirizzo
+      _nl: Adres
     summary:
       _en: Summary
       _fr: Récapitulatif

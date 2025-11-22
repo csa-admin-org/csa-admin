@@ -18,7 +18,7 @@ export default class extends Controller {
     const data = new FormData(form)
     data.delete("authenticity_token")
     data.delete("member[name]")
-    data.delete("member[address]")
+    data.delete("member[street]")
     data.delete("member[zip]")
     data.delete("member[city]")
     data.delete("member[country_code]")
