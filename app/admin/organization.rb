@@ -80,7 +80,7 @@ ActiveAdmin.register Organization do
             f.input :bank_reference, input_html: { maxlength: 16 }
           end
           f.input :creditor_name, input_html: { maxlength: 70 }
-          f.input :creditor_address, input_html: { maxlength: 70 }
+          f.input :creditor_street, input_html: { maxlength: 70 }
           div class: "single-line" do
             f.input :creditor_zip, input_html: { maxlength: 16 }, wrapper_html: { class: "md:w-50" }
             f.input :creditor_city, input_html: { maxlength: 35 }, wrapper_html: { class: "w-full" }
@@ -489,7 +489,7 @@ ActiveAdmin.register Organization do
     :email_default_from, :email_footer,
     :trial_baskets_count,
     :iban, :sepa_creditor_identifier, :bank_reference, :creditor_name,
-    :creditor_address, :creditor_city, :creditor_zip,
+    :creditor_street, :creditor_city, :creditor_zip,
     :annual_fee, :annual_fee_member_form, :annual_fee_support_member_only,
     :share_price, :shares_number,
     :activity_i18n_scope, :activity_participation_deletion_deadline_in_days,

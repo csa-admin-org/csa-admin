@@ -17,7 +17,7 @@ acme:
   billing_starts_after_first_delivery: false
   iban: CH4431999123000889012
   creditor_name: Acme
-  creditor_address: Nowhere 42
+  creditor_street: Nowhere 42
   creditor_city: City
   creditor_zip: 1234
   invoice_infos:

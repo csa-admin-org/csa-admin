@@ -5,7 +5,7 @@ farm:
     en: Our farm
   price: 0
   language: en
-  address: 42 Nowhere
+  street: 42 Nowhere
   zip: 1234
   city: Unknown
   position: 1

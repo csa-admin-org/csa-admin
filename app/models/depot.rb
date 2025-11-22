@@ -110,9 +110,9 @@ class Depot < ApplicationRecord
   end
 
   def full_address
-    return unless [ address, zip, city ].all?(&:present?)
+    return unless [ street, zip, city ].all?(&:present?)
 
-    [ address, "#{zip} #{city}" ].compact.join(", ")
+    [ street, "#{zip} #{city}" ].compact.join(", ")
   end
 
   def can_delete?

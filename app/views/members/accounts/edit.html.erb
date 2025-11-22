@@ -4,7 +4,7 @@
   <%= simple_form_for current_member, url: members_account_path do |f| %>
     <div class="space-y-6">
       <%= f.input :name, hint: t(".name_hint"), label: t("members.members.new.name") %>
-      <%= f.input :address, required: true %>
+      <%= f.input :street, required: true %>
 
       <div class="flex w-full flex-row gap-2">
         <%= f.input :zip, required: true, input_html: { size: 6, maxlength: 6 }, wrapper_html: { class: "w-24" } %>
@@ -27,8 +27,8 @@
         class="mt-4 space-y-4 <%= f.object.different_billing_info ? "" : "hidden" %>"
         data-visibility-target="element"
       >
-        <%= f.input :billing_name, required: true, input_html: { disabled: !f.object.different_billing_info } %>
-        <%= f.input :billing_address, required: true, input_html: { disabled: !f.object.different_billing_info } %>
+        <%= f.input :billing_name, label: Member.human_attribute_name(:name), required: true, input_html: { disabled: !f.object.different_billing_info } %>
+        <%= f.input :billing_street, label: Member.human_attribute_name(:address), required: true, input_html: { disabled: !f.object.different_billing_info } %>
 
         <div class="flex w-full flex-row gap-2">
           <%= f.input :billing_zip, required: true, label: Member.human_attribute_name(:zip), input_html: { disabled: !f.object.different_billing_info, size: 6, maxlength: 6 }, wrapper_html: { class: "w-24" } %>

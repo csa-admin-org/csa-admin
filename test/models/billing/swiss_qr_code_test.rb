@@ -8,7 +8,7 @@ class Billing::SwissQRCodeTest < ActiveSupport::TestCase
     invoice = invoices(:annual_fee)
     invoice.member.update_columns(
       name: "VIŠČEK João Münster",
-      address: "Saarstraße 7")
+      street: "Saarstraße 7")
     payload = Billing::SwissQRCode.new(invoice).payload
 
     assert_equal(
@@ -52,7 +52,7 @@ class Billing::SwissQRCodeTest < ActiveSupport::TestCase
     member = create_member(
       id: 1234,
       name: "Martha",
-      address: "Nowhere 46",
+      street: "Nowhere 46",
       zip: "1234",
       city: "City",
       country_code: "CH")

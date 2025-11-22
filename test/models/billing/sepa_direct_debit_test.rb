@@ -14,7 +14,7 @@ class Billing::SEPADirectDebitTest < ActiveSupport::TestCase
       iban: "DE21500500009876543210",
       sepa_mandate_id: "123456",
       sepa_mandate_signed_on: "2023-12-24",
-      address: "Grosse Marktgasse 28",
+      street: "Grosse Marktgasse 28",
       zip: "30952",
       city: "Ronnenberg",
       country_code: "DE")
@@ -150,7 +150,7 @@ class Billing::SEPADirectDebitTest < ActiveSupport::TestCase
       iban: "DE21500500009876543210",
       sepa_mandate_id: "123456",
       sepa_mandate_signed_on: "2023-12-24",
-      address: "Grosse Marktgasse 28",
+      street: "Grosse Marktgasse 28",
       zip: "30952",
       city: "Ronnenberg",
       country_code: "DE")

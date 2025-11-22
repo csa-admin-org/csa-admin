@@ -171,8 +171,8 @@ module XLSX
           border: border)
       end
       add_column(
-        Member.human_attribute_name(:address),
-        members.map { |m| m.address },
+        Member.human_attribute_name(:street),
+        members.map { |m| m.street },
         border: border)
       unless mode == "home_delivery"
         add_column(

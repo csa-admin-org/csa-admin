@@ -14,7 +14,7 @@ module Organization::Billing
 
     encrypts :bank_credentials
 
-    validates :creditor_name, :creditor_address, :creditor_city, :creditor_zip, presence: true
+    validates :creditor_name, :creditor_street, :creditor_city, :creditor_zip, presence: true
     validates :bank_reference, format: { with: /\A\d+\z/, allow_blank: true }
     validates :iban, format: ->(org) { Billing.iban_format(org.country_code) }, allow_nil: true, if: :country_code?
     validates :fiscal_year_start_month,

@@ -24,7 +24,7 @@ class API::V1::MembersControllerTest < ActionDispatch::IntegrationTest
 
     params = {
       name: "John Woo",
-      address: "123 Main St",
+      street: "123 Main St",
       zip: "12345",
       city: "Anytown",
       country_code: "CH",
@@ -47,7 +47,7 @@ class API::V1::MembersControllerTest < ActionDispatch::IntegrationTest
 
     member = Member.last
     assert_equal "John Woo", member.name
-    assert_equal "123 Main St", member.address
+    assert_equal "123 Main St", member.street
     assert_equal "12345", member.zip
     assert_equal "Anytown", member.city
     assert_equal "CH", member.country_code

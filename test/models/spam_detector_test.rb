@@ -49,7 +49,7 @@ class SpamDetectorTest < ActiveSupport::TestCase
   end
 
   test "detects cyrillic address" do
-    member = Member.new(address: "РњРѕСЃРєРІР°")
+    member = Member.new(street: "РњРѕСЃРєРІР°")
     assert spam?(member)
   end
 
@@ -106,7 +106,7 @@ class SpamDetectorTest < ActiveSupport::TestCase
   end
 
   test "detects gibberish address" do
-    member = Member.new(address: "MXZdwzELADDrkKumATNL")
+    member = Member.new(street: "MXZdwzELADDrkKumATNL")
     assert spam?(member)
   end
 
@@ -141,7 +141,7 @@ class SpamDetectorTest < ActiveSupport::TestCase
   end
 
   test "ignores normal address" do
-    member = Member.new(address: "42 Beetebuergerstrooss")
+    member = Member.new(street: "42 Beetebuergerstrooss")
     refute spam?(member)
   end
 

@@ -74,7 +74,7 @@ class Members::MembersTest < ApplicationSystemTestCase
     member = Member.last
     assert_equal "pending", member.state
     assert_equal "Ryan and Sophie Doe", member.name
-    assert_equal "Nowhere street 2", member.address
+    assert_equal "Nowhere street 2", member.street
     assert_equal "2042", member.zip
     assert_equal "CH", member.country_code
     assert_equal [ "ryan@doe.com", "sophie@doe.com" ], member.emails_array
@@ -132,7 +132,7 @@ class Members::MembersTest < ApplicationSystemTestCase
     assert_text "Thank you for your registration!"
 
     assert_equal "Mary Doe", member.name
-    assert_equal "Nowhere Street 47", member.address
+    assert_equal "Nowhere Street 47", member.street
     assert_equal small_id, member.waiting_basket_size_id
     assert_equal 0, member.waiting_basket_price_extra
     assert_equal farm_id, member.waiting_depot_id
@@ -482,7 +482,7 @@ class Members::MembersTest < ApplicationSystemTestCase
     assert_equal "pending", member.state
     assert_equal "Ryan Doe", member.name
     assert_equal "Ryan Corp.", member.billing_name
-    assert_equal "Corp street 2", member.billing_address
+    assert_equal "Corp street 2", member.billing_street
     assert_equal "4200", member.billing_zip
     assert_equal "Corp City", member.billing_city
     assert member.different_billing_info

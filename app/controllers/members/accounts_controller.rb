@@ -25,10 +25,10 @@ class Members::AccountsController < Members::BaseController
       .require(:member)
       .permit(
         :name,
-        :address, :zip, :city, :country_code,
+        :street, :zip, :city, :country_code,
         :emails, :phones, :language,
         :different_billing_info,
-        :billing_name, :billing_address, :billing_zip, :billing_city,
+        :billing_name, :billing_street, :billing_zip, :billing_city,
         :shop_depot_id)
   end
 end

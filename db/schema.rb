@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_11_22_094052) do
+ActiveRecord::Schema[8.1].define(version: 2025_11_22_110430) do
   create_table "absences", force: :cascade do |t|
     t.datetime "created_at"
     t.date "ended_on"
@@ -369,7 +369,6 @@ ActiveRecord::Schema[8.1].define(version: 2025_11_22_094052) do
   end
 
   create_table "depots", force: :cascade do |t|
-    t.string "address", limit: 255
     t.string "address_name"
     t.string "city", limit: 255
     t.string "contact_name"
@@ -388,6 +387,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_11_22_094052) do
     t.integer "position"
     t.decimal "price", precision: 8, scale: 2, null: false
     t.json "public_names", default: {}, null: false
+    t.string "street", limit: 255
     t.datetime "updated_at"
     t.boolean "visible", default: true, null: false
     t.string "zip", limit: 255
@@ -467,12 +467,11 @@ ActiveRecord::Schema[8.1].define(version: 2025_11_22_094052) do
 
   create_table "members", force: :cascade do |t|
     t.datetime "activated_at"
-    t.string "address", limit: 255
     t.decimal "annual_fee", precision: 8, scale: 2
-    t.string "billing_address"
     t.string "billing_city"
     t.string "billing_email"
     t.string "billing_name"
+    t.string "billing_street"
     t.string "billing_zip"
     t.string "city", limit: 255
     t.text "come_from"
@@ -500,6 +499,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_11_22_094052) do
     t.string "shares_info"
     t.bigint "shop_depot_id"
     t.string "state", default: "pending", null: false
+    t.string "street", limit: 255
     t.integer "trial_baskets_count", null: false
     t.datetime "updated_at"
     t.boolean "use_local_currency", default: false
@@ -721,9 +721,9 @@ ActiveRecord::Schema[8.1].define(version: 2025_11_22_094052) do
     t.json "charter_urls", default: {}, null: false
     t.string "country_code", limit: 2, default: "CH", null: false
     t.datetime "created_at", null: false
-    t.string "creditor_address", limit: 70
     t.string "creditor_city", limit: 35
     t.string "creditor_name", limit: 70
+    t.string "creditor_street", limit: 70
     t.string "creditor_zip", limit: 16
     t.string "currency_code", limit: 3, default: "CHF"
     t.string "delivery_cycles_member_order_mode", default: "deliveries_count_desc", null: false

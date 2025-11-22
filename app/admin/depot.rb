@@ -69,7 +69,7 @@ ActiveAdmin.register Depot do
     column(:price) { |d| cur(d.price) }
     column(:note)
     column(:address_name)
-    column(:address)
+    column(:street)
     column(:zip)
     column(:visible)
     column(:contact_name)
@@ -164,10 +164,10 @@ ActiveAdmin.register Depot do
           end
         end
 
-        panel Depot.human_attribute_name(:address) do
+        panel Depot.human_attribute_name(:street) do
           attributes_table do
             row :address_name
-            row :address
+            row :street
             row :zip
             row :city
           end
@@ -244,9 +244,9 @@ ActiveAdmin.register Depot do
       end
     end
 
-    f.inputs Depot.human_attribute_name(:address) do
+    f.inputs Depot.human_attribute_name(:street) do
       f.input :address_name
-      f.input :address
+      f.input :street
       div class: "single-line" do
         f.input :zip, wrapper_html: { class: "md:w-50" }
         f.input :city, wrapper_html: { class: "w-full" }
@@ -267,7 +267,7 @@ ActiveAdmin.register Depot do
       language
       group_id
       price visible note
-      address_name address zip city
+      address_name street zip city
       contact_name emails phones
       member_order_priority
       delivery_sheets_mode

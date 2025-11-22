@@ -6,7 +6,7 @@ john:
   annual_fee: 30
   language: en
   country_code: CH
-  address: Nowhere 42
+  street: Nowhere 42
   zip: 1234
   city: City
   memberships_count: 3
@@ -19,7 +19,7 @@ jane:
   annual_fee: 30
   language: en
   country_code: CH
-  address: Nowhere 43
+  street: Nowhere 43
   zip: 1234
   city: City
   memberships_count: 1
@@ -31,7 +31,7 @@ bob:
   annual_fee: 30
   language: en
   country_code: CH
-  address: Nowhere 44
+  street: Nowhere 44
   zip: 1234
   city: City
   memberships_count: 1
@@ -43,7 +43,7 @@ anna:
   annual_fee: 30
   language: en
   country_code: CH
-  address: Nowhere 45
+  street: Nowhere 45
   zip: 1234
   city: City
   memberships_count: 1
@@ -56,7 +56,7 @@ martha:
   state: support
   language: en
   country_code: CH
-  address: Nowhere 46
+  street: Nowhere 46
   zip: 1234
   city: City
   memberships_count: 0
@@ -68,7 +68,7 @@ mary:
   state: inactive
   language: en
   country_code: CH
-  address: Nowhere 47
+  street: Nowhere 47
   zip: 1234
   city: City
   memberships_count: 0
@@ -81,7 +81,7 @@ aria:
   annual_fee: 30
   language: en
   country_code: CH
-  address: Nowhere 48
+  street: Nowhere 48
   zip: 1234
   city: City
   waiting_started_at: 2024-04-01
