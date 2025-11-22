@@ -945,6 +945,12 @@ _:
           _de: Definiert den Anzeigemodus dieses Feldes im Anmeldeformular.
           _it: Definisce la modalità di visualizzazione di questo campo nel modulo di registrazione.
           _nl: Definieert de weergavemodus van dit veld in het registratieformulier.
+        member_form_complement_quantities:
+          _en: If disabled, only checkboxes are displayed (quantity 0 or 1).
+          _fr: Si désactivé, seules des cases à cocher sont affichées (quantité 0 ou 1).
+          _de: Wenn deaktiviert, werden nur Kontrollkästchen angezeigt (Menge 0 oder 1).
+          _it: Se disattivato, vengono visualizzate solo caselle di controllo (quantità 0 o 1).
+          _nl: Indien uitgeschakeld, worden alleen selectievakjes weergegeven (hoeveelheid 0 of 1).
         member_form_complements_text:
           _en: This optional text is inserted before the list of basket complements.
           _fr: Ce texte optionnel est inséré avant la liste des compléments panier.

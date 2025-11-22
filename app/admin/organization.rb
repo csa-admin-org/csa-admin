@@ -177,6 +177,7 @@ ActiveAdmin.register Organization do
             required: false,
             as: :action_text,
             input_html: { rows: 5 })
+          f.input :member_form_complement_quantities, as: :boolean
           f.input :basket_sizes_member_order_mode,
             as: :select,
             collection: member_order_modes_collection(BasketSize),
@@ -514,7 +515,7 @@ ActiveAdmin.register Organization do
     :membership_renewal_depot_update,
     :billing_starts_after_first_delivery, :billing_ends_on_last_delivery_fy_month,
     :allow_alternative_depots,
-    :member_form_extra_text_only,
+    :member_form_extra_text_only, :member_form_complement_quantities,
     :basket_sizes_member_order_mode, :basket_complements_member_order_mode,
     :depots_member_order_mode, :delivery_cycles_member_order_mode,
     :basket_price_extras,

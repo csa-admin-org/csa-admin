@@ -1997,6 +1997,12 @@ _:
           _de: Wallet-Adresse
           _it: Indirizzo del portafoglio
           _nl: Wallet-adres
+        member_form_complement_quantities:
+          _en: Allow entering a quantity for each complement
+          _fr: Autoriser la saisie d'une quantité pour chaque complément
+          _de: Eingabe einer Menge für jedes Komplement erlauben
+          _it: Consenti l'inserimento di una quantità per ogni complemento
+          _nl: Het invoeren van een hoeveelheid voor elk complement toestaan
         member_form_complements_text:
           _en: Explanation of complements
           _fr: Explication compléments
