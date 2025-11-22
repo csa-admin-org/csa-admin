@@ -1012,11 +1012,11 @@ _:
           _it: Cestini assenti
           _nl: Afwezige pakketten
         absences_included:
-          _en: Included
-          _fr: Incluses
-          _de: Inklusive
-          _it: Inclusi
-          _nl: Inbegrepen
+          _en: Absences included
+          _fr: Absences incluses
+          _de: Abwesenheiten inklusive
+          _it: Assenze incluse
+          _nl: Afwezige inclusief
         activity_participations_accepted/basket_preparation:
           _en: Basket preparations accepted
           _fr: Mises en panier acceptées
