@@ -1,6 +1,6 @@
 @layer utilities {
   trix-editor {
-    @apply border-gray-300! bg-gray-50! p-2! px-3! text-gray-900! focus:border-green-500! focus:ring-green-500! dark:placeholder-gray-400! dark:focus:border-green-600! dark:focus:ring-green-600! text-base! focus:ring-1! dark:border-gray-600! dark:bg-gray-700! dark:text-white! rounded-md! border! w-full!;
+    @apply w-full! rounded-md! border! border-gray-300! bg-gray-50! p-2! px-3! text-base! text-gray-900! focus:border-green-500! focus:ring-1! focus:ring-green-500! dark:border-gray-600! dark:bg-gray-700! dark:text-white! dark:placeholder-gray-400! dark:focus:border-green-600! dark:focus:ring-green-600!;
   }
 
   trix-editor figcaption {
@@ -12,7 +12,7 @@
     @apply inline-block;
   }
   .trix-content img {
-    @apply max-w-1/2! mx-auto;
+    @apply mx-auto max-w-1/2!;
   }
 
   trix-editor figure {
@@ -20,6 +20,24 @@
   }
   .trix-content figure {
     @apply my-2!;
+  }
+  .trix-content {
+    a {
+      @apply text-green-500! underline! dark:text-green-500!;
+    }
+    ol,
+    ul {
+      @apply my-2!;
+    }
+    li {
+      @apply ml-6!;
+    }
+    ol {
+      @apply list-decimal;
+    }
+    ul {
+      @apply list-disc;
+    }
   }
 
   trix-toolbar {
