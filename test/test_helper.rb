@@ -15,6 +15,7 @@ module ActiveSupport
     include ActiveJob::TestHelper
     include Capybara::Email::DSL
     include Assertions
+    include PrawnImageStub
 
     include AbsencesHelper
     include ActivitiesHelper
