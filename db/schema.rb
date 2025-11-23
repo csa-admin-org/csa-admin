@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_11_22_110430) do
+ActiveRecord::Schema[8.1].define(version: 2025_11_23_130904) do
   create_table "absences", force: :cascade do |t|
     t.datetime "created_at"
     t.date "ended_on"
@@ -108,9 +108,11 @@ ActiveRecord::Schema[8.1].define(version: 2025_11_22_110430) do
     t.datetime "validated_at"
     t.bigint "validator_id"
     t.index ["activity_id"], name: "index_activity_participations_on_activity_id"
+    t.index ["member_id", "updated_at"], name: "index_activity_participations_on_member_id_and_updated_at"
     t.index ["member_id"], name: "index_activity_participations_on_member_id"
     t.index ["session_id"], name: "index_activity_participations_on_session_id"
     t.index ["state"], name: "index_activity_participations_on_state"
+    t.index ["updated_at"], name: "index_activity_participations_on_updated_at"
     t.index ["validator_id"], name: "index_activity_participations_on_validator_id"
   end
 
@@ -276,7 +278,9 @@ ActiveRecord::Schema[8.1].define(version: 2025_11_22_110430) do
     t.index ["delivery_id", "membership_id"], name: "index_baskets_on_delivery_id_and_membership_id", unique: true
     t.index ["delivery_id"], name: "index_baskets_on_delivery_id"
     t.index ["depot_id"], name: "index_baskets_on_depot_id"
+    t.index ["membership_id", "updated_at"], name: "index_baskets_on_membership_id_and_updated_at"
     t.index ["membership_id"], name: "index_baskets_on_membership_id"
+    t.index ["updated_at"], name: "index_baskets_on_updated_at"
   end
 
   create_table "baskets_basket_complements", force: :cascade do |t|
