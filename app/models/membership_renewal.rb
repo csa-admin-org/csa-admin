@@ -30,6 +30,10 @@ class MembershipRenewal
     if new_membership.basket_size&.delivery_cycle_id?
       new_membership.delivery_cycle_id = new_membership.basket_size.delivery_cycle_id
     end
+    if new_membership.delivery_cycle.deliveries_count_for(@fiscal_year) == 0
+      new_membership.delivery_cycle = DeliveryCycle.primary
+    end
+
     if membership.basket_size_id != new_membership.basket_size_id
       new_membership.baskets_annual_price_change = nil
     end
