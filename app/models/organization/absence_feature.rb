@@ -30,6 +30,8 @@ module Organization::AbsenceFeature
     return unless basket_shift_deadline_enabled?
 
     absence = basket.absence
+    return unless absence
+
     deadline = basket_shift_deadline_in_weeks.weeks
     ([ absence.started_on - deadline, Date.tomorrow ].max)..(absence.ended_on + deadline)
   end
