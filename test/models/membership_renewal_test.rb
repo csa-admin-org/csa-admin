@@ -183,4 +183,23 @@ class MembershipRenewalTest < ActiveSupport::TestCase
     assert_equal 0, renewed_membership.activity_participations_annual_price_change
     assert_equal 0, renewed_membership.basket_complements_annual_price_change
   end
+
+  test "switches to primary delivery cycle when selected cycle has no deliveries in next year" do
+    empty_cycle = DeliveryCycle.create!(
+      names: { en: "Empty Cycle" },
+      wdays: [ 1 ],
+      depots: [ depots(:home) ]
+    )
+    empty_cycle.update_column(:deliveries_counts, { "2025" => 0 })
+
+    membership = memberships(:jane)
+    membership.update!(delivery_cycle: empty_cycle)
+
+    assert_difference "Membership.count", 1 do
+      MembershipRenewal.new(membership).renew!
+    end
+
+    renewed_membership = membership.reload.renewed_membership
+    assert_equal delivery_cycles(:all), renewed_membership.delivery_cycle
+  end
 end
