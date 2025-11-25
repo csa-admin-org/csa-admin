@@ -98,7 +98,7 @@ ActiveAdmin.register Organization do
           end
           f.input :invoice_logos, as: :file, input_html: { accept: "image/jpeg, image/png", multiple: true, class: "mt-1.5" }
           ul class: "flex flex-nowrap flex-row gap-x-8"  do
-            resource.invoice_logos.each do |invoice_logo|
+            resource.invoice_logos.select(&:persisted?).each do |invoice_logo|
               li class: "relative" do
                 span class: "absolute -top-3 -right-3 text-gray-500 z-50 cursor-pointer", onclick: "this.parentNode.remove()" do
                   icon("x-circle", class: "size-6")
