@@ -40,7 +40,7 @@
   }
 
   .filters-form-submit {
-    @apply focus:outline-hidden min-w-[6rem] cursor-pointer rounded-md bg-green-600 px-3 py-2 text-center font-bold text-white hover:bg-green-700 focus:ring-4 focus:ring-green-300 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800;
+    @apply min-w-[6rem] cursor-pointer rounded-md bg-green-600 px-3 py-2 text-center font-bold text-white hover:bg-green-700 focus:ring-4 focus:ring-green-300 focus:outline-hidden dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800;
   }
 
   .filters-form-clear {

@@ -12,10 +12,10 @@
   }
 
   .batch-actions-dropdown-menu {
-    @apply focus:outline-hidden z-10 hidden min-w-52 rounded-md bg-white p-2 text-sm text-gray-700 shadow-lg ring-1 ring-black/5 dark:bg-gray-700 dark:text-gray-200;
+    @apply z-10 hidden min-w-52 rounded-md bg-white p-2 text-sm text-gray-700 shadow-lg ring-1 ring-black/5 focus:outline-hidden dark:bg-gray-700 dark:text-gray-200;
   }
 
   .batch-actions-dropdown-menu li > a {
-    @apply rounded-xs block px-2.5 py-2 text-gray-700 no-underline hover:bg-gray-100 hover:text-gray-900 dark:text-white dark:hover:bg-gray-600 dark:hover:text-white;
+    @apply block rounded-xs px-2.5 py-2 text-gray-700 no-underline hover:bg-gray-100 hover:text-gray-900 dark:text-white dark:hover:bg-gray-600 dark:hover:text-white;
   }
 }

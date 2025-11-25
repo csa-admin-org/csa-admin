@@ -13,14 +13,14 @@
 
   .tabs-nav {
     a {
-      @apply text-gray-950! dark:text-white! m-0 flex flex-wrap gap-6 border-b-0 border-gray-200 p-0 text-center text-xl font-extralight dark:border-gray-700;
+      @apply m-0 flex flex-wrap gap-6 border-b-0 border-gray-200 p-0 text-center text-xl font-extralight text-gray-950! dark:border-gray-700 dark:text-white!;
 
       &[aria-selected="true"] {
-        @apply text-gray-950! dark:text-white! border-b-2! border-green-500! dark:border-green-500!;
+        @apply border-b-2! border-green-500! text-gray-950! dark:border-green-500! dark:text-white!;
       }
 
       &:hover {
-        @apply text-gray-950! dark:text-white! border-b-2! border-green-500! dark:border-green-500!;
+        @apply border-b-2! border-green-500! text-gray-950! dark:border-green-500! dark:text-white!;
       }
     }
 

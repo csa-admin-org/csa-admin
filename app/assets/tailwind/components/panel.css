@@ -7,12 +7,12 @@
     }
 
     p.hint {
-      @apply m-2 text-center italic leading-5 text-gray-500;
+      @apply m-2 text-center leading-5 text-gray-500 italic;
     }
   }
 
   .panel-title {
-    @apply mb-2 mt-3 flex flex-wrap items-center gap-2 overflow-x-auto whitespace-nowrap bg-transparent px-4 text-xl font-extralight;
+    @apply mt-3 mb-2 flex flex-wrap items-center gap-2 overflow-x-auto bg-transparent px-4 text-xl font-extralight whitespace-nowrap;
   }
 
   .panel-title-count {
@@ -29,7 +29,7 @@
     }
 
     .formtastic & {
-      @apply absolute right-4 top-4 m-0 p-0;
+      @apply absolute top-4 right-4 m-0 p-0;
     }
 
     .formtastic & + li {

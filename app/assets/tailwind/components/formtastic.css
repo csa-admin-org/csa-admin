@@ -31,11 +31,11 @@
 
     /* Navigation */
     .tabs-nav {
-      @apply m-0 mb-6 mt-2 flex flex-wrap gap-6 border-b-0 border-gray-200 text-center text-xl font-extralight text-gray-950 dark:border-gray-700 dark:text-white;
+      @apply m-0 mt-2 mb-6 flex flex-wrap gap-6 border-b-0 border-gray-200 text-center text-xl font-extralight text-gray-950 dark:border-gray-700 dark:text-white;
     }
 
     .panel-actions {
-      @apply absolute right-4 top-4 m-0 p-0;
+      @apply absolute top-4 right-4 m-0 p-0;
     }
 
     .panel-actions + li {
@@ -44,7 +44,7 @@
 
     /* Titles and Labels */
     & > h3 {
-      @apply mb-2 mt-12 text-3xl font-extralight;
+      @apply mt-12 mb-2 text-3xl font-extralight;
     }
 
     & > h3 + p {
@@ -65,7 +65,7 @@
     }
 
     li.subtitle h2 {
-      @apply mb-0 mt-5 text-2xl font-light;
+      @apply mt-5 mb-0 text-2xl font-light;
     }
 
     li.subtitle span {
@@ -221,7 +221,7 @@
     }
 
     a.has-many-add {
-      @apply focus:outline-hidden rounded-md border border-gray-200 bg-white px-2 py-1 text-sm font-medium text-gray-900 no-underline hover:bg-gray-100 hover:text-green-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white dark:focus:ring-gray-700;
+      @apply rounded-md border border-gray-200 bg-white px-2 py-1 text-sm font-medium text-gray-900 no-underline hover:bg-gray-100 hover:text-green-700 focus:z-10 focus:ring-4 focus:ring-gray-200 focus:outline-hidden dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white dark:focus:ring-gray-700;
     }
 
     /* Buttons and Actions */

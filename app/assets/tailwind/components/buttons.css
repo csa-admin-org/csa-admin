@@ -6,8 +6,8 @@
   .actions button {
     @apply inline-flex cursor-pointer items-center justify-center px-3 py-2 no-underline;
     @apply rounded-md text-sm;
-    @apply focus:outline-hidden focus:z-10 focus:ring-4;
-    @apply disabled:text-gray-500! hover:disabled:text-gray-500! disabled:cursor-not-allowed disabled:border-gray-100 disabled:bg-gray-100 hover:disabled:border-gray-100 hover:disabled:bg-gray-100 dark:disabled:border-gray-800 dark:disabled:bg-gray-800 hover:dark:disabled:border-gray-800 hover:dark:disabled:bg-gray-800;
+    @apply focus:z-10 focus:ring-4 focus:outline-hidden;
+    @apply disabled:cursor-not-allowed disabled:border-gray-100 disabled:bg-gray-100 disabled:text-gray-500! hover:disabled:border-gray-100 hover:disabled:bg-gray-100 hover:disabled:text-gray-500! dark:disabled:border-gray-800 dark:disabled:bg-gray-800 hover:dark:disabled:border-gray-800 hover:dark:disabled:bg-gray-800;
 
     &.btn-sm {
       @apply px-2 py-0.5 text-sm font-medium;
