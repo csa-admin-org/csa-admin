@@ -1,3 +1,0 @@
-web: bin/rails server -p 3000
-# Processed by the :tailwindcss puma plugin in development
-# css: bin/rails tailwindcss:watch
