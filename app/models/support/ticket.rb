@@ -26,7 +26,7 @@ module Support
     private
 
     def notify
-      SupportMailer.with(ticket: self).ticket_email.deliver_later
+      SupportMailer.with(ticket: self).ticket_email.deliver_later(wait: 10.seconds)
       Error.report(HighPriorityTicket.new("High priority support ticket")) if high?
     end
   end
