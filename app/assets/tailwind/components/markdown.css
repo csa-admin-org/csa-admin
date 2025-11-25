@@ -6,11 +6,11 @@
     }
 
     h2 {
-      @apply mb-4 mt-12 scroll-mt-20 text-2xl font-light text-gray-900 dark:text-gray-100;
+      @apply mt-12 mb-4 scroll-mt-20 text-2xl font-light text-gray-900 dark:text-gray-100;
     }
 
     h3 {
-      @apply mb-4 mt-8 scroll-mt-20 text-lg font-semibold text-gray-900 dark:text-gray-100;
+      @apply mt-8 mb-4 scroll-mt-20 text-lg font-semibold text-gray-900 dark:text-gray-100;
     }
 
     p {
@@ -58,7 +58,7 @@
       @apply mx-auto my-2 w-2/3 md:w-1/4;
     }
     img.icon {
-      @apply my-0 -mt-1 me-2 inline w-5;
+      @apply my-0 me-2 -mt-1 inline w-5;
     }
   }
 }

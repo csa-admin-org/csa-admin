@@ -28,7 +28,7 @@
   }
 
   .data-table :where(thead > tr > th) {
-    @apply whitespace-nowrap border-b bg-gray-50 px-3 py-3.5 text-start text-xs font-semibold uppercase text-gray-700 dark:border-gray-800 dark:bg-gray-950/50 dark:text-gray-300;
+    @apply border-b bg-gray-50 px-3 py-3.5 text-start text-xs font-semibold whitespace-nowrap text-gray-700 uppercase dark:border-gray-800 dark:bg-gray-950/50 dark:text-gray-300;
   }
 
   .data-table :where(thead > tr > th > a) {
@@ -64,7 +64,7 @@
   }
 
   .attributes-table {
-    @apply shadow-xs mb-6 overflow-hidden rounded-md border border-gray-200 dark:border-gray-800;
+    @apply mb-6 overflow-hidden rounded-md border border-gray-200 shadow-xs dark:border-gray-800;
   }
 
   .attributes-table > :where(table) {
@@ -76,7 +76,7 @@
   }
 
   .attributes-table :where(tbody > tr > th) {
-    @apply w-32 bg-gray-50 text-start text-xs uppercase text-gray-700 sm:w-40 dark:bg-gray-800/60 dark:text-gray-300;
+    @apply w-32 bg-gray-50 text-start text-xs text-gray-700 uppercase sm:w-40 dark:bg-gray-800/60 dark:text-gray-300;
   }
 
   .attributes-table :where(tbody > tr > th, tbody > tr > td) {
@@ -84,14 +84,14 @@
   }
 
   .attributes-table-empty-value {
-    @apply text-xs font-semibold uppercase text-gray-400/50 dark:text-gray-700/60;
+    @apply text-xs font-semibold text-gray-400/50 uppercase dark:text-gray-700/60;
   }
 
   .data-table {
     @apply table-fixed;
 
     :where(thead > tr > th) {
-      @apply whitespace-normal border-0 bg-transparent px-2 py-2 text-base font-bold normal-case;
+      @apply border-0 bg-transparent px-2 py-2 text-base font-bold whitespace-normal normal-case;
     }
 
     :where(td) {
@@ -131,7 +131,7 @@
     }
 
     .data-table :where(thead > tr > th) {
-      @apply whitespace-nowrap bg-transparent px-3 text-lg font-medium;
+      @apply bg-transparent px-3 text-lg font-medium whitespace-nowrap;
     }
 
     .data-table :where(tbody > tr > td) {
@@ -147,7 +147,7 @@
 
       &::before {
         @apply absolute content-[""];
-        @apply -left-4 -top-4 size-12;
+        @apply -top-4 -left-4 size-12;
       }
     }
   }
@@ -224,7 +224,7 @@
     }
 
     & :where(tbody > tr > th) {
-      @apply w-32 bg-transparent text-start text-base font-semibold normal-case leading-5 text-gray-700 md:w-48 dark:bg-transparent dark:text-gray-300;
+      @apply w-32 bg-transparent text-start text-base leading-5 font-semibold text-gray-700 normal-case md:w-48 dark:bg-transparent dark:text-gray-300;
     }
 
     & :where(tbody > tr > td) {
@@ -249,7 +249,7 @@
   }
 
   tr[data-table-row-target="row"] {
-    @apply focus:bg-neutral-100! focus:dark:bg-neutral-700! focus:outline-none;
+    @apply focus:bg-neutral-100! focus:outline-none focus:dark:bg-neutral-700!;
   }
 
   tbody[data-controller="sortable"] tr {
