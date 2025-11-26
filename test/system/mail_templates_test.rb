@@ -29,6 +29,6 @@ class MailTemplatesTest < ApplicationSystemTestCase
     assert_text "Send Yes"
 
     assert iframe.has_selector?("h1", text: "Welcome Jane Doe!!")
-    assert iframe.has_selector?("p", text: "Basket: Large basket")
+    assert iframe.has_selector?("p", text: "Basket: Medium basket")
   end
 end
