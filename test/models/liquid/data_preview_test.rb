@@ -17,16 +17,16 @@ class Liquid::DataPreviewTest < ActiveSupport::TestCase
           "date" => "1 April 2024"
         },
         "depot" => {
-          "id" => home_id,
+          "id" => farm_id,
           "member_note" => nil,
-          "name" => "Home"
+          "name" => "Our farm"
         },
-        "description" => "Small basket",
+        "description" => "Medium basket",
         "quantity" => 1,
         "size" => {
-          "id" => small_id,
-          "name" => "Small basket",
-          "price" => "CHF 10.00"
+          "id" => medium_id,
+          "name" => "Medium basket",
+          "price" => "CHF 20.00"
         }
       },
       "member" =>  {
@@ -44,9 +44,9 @@ class Liquid::DataPreviewTest < ActiveSupport::TestCase
       },
       "membership" => {
         "absences_included" => 0,
-        "activity_participations_accepted_count" => 2,
+        "activity_participations_accepted_count" => 0,
         "activity_participations_demanded_count" => 2,
-        "activity_participations_missing_count" => 0,
+        "activity_participations_missing_count" => 2,
         "basket_complement_names" => "Bread and Eggs",
         "basket_complements" => [
           {
@@ -70,14 +70,14 @@ class Liquid::DataPreviewTest < ActiveSupport::TestCase
           "price" => "CHF 20.00"
         },
         "delivery_cycle" => {
+          "absences_included_annually" => 0,
           "id" => all_id,
-          "name" => "All",
-          "absences_included_annually" => 0
+          "name" => "All"
         },
         "depot" => {
-          "id" => home_id,
+          "id" => farm_id,
           "member_note" => nil,
-          "name" => "Home"
+          "name" => "Our farm"
         },
         "end_date" => "31 December 2024",
         "first_delivery" => {
@@ -162,16 +162,16 @@ class Liquid::DataPreviewTest < ActiveSupport::TestCase
           "date" => "1 April 2024"
         },
         "depot" => {
-          "id" => home_id,
+          "id" => farm_id,
           "member_note" => nil,
-          "name" => "Home"
+          "name" => "Our farm"
         },
-        "description" => "Small basket",
+        "description" => "Medium basket",
         "quantity" => 1,
         "size" => {
-          "id" => small_id,
-          "name" => "Small basket",
-          "price" => "CHF 10.00"
+          "id" => medium_id,
+          "name" => "Medium basket",
+          "price" => "CHF 20.00"
         }
       },
       "member" =>  {
@@ -214,9 +214,9 @@ class Liquid::DataPreviewTest < ActiveSupport::TestCase
           "absences_included_annually" => 0
         },
         "depot" => {
-          "id" => home_id,
+          "id" => farm_id,
           "member_note" => nil,
-          "name" => "Home"
+          "name" => "Our farm"
         },
         "end_date" => "31 December 2024",
         "first_delivery" => {
