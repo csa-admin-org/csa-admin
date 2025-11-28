@@ -50,28 +50,29 @@ class BasketComplementTest < ActiveSupport::TestCase
 
   test "adds/removes basket_complement on subscribed baskets" do
     travel_to "2024-01-01"
-    c1 = basket_complements(:eggs)
-    c2 = basket_complements(:cheese)
+    eggs = basket_complements(:eggs)
+    cheese = basket_complements(:cheese)
 
-    memberships(:john).update!(subscribed_basket_complement_ids: [ c1.id, c2.id ])
+    memberships(:john).update!(subscribed_basket_complement_ids: [ eggs.id, cheese.id ])
 
-    assert_changes -> { baskets(:john_1).reload.complement_ids }, from: [], to: [ c1.id ] do
+    assert_changes -> { baskets(:john_1).reload.complement_ids }, from: [], to: [ eggs.id ] do
       perform_enqueued_jobs do
-        c1.update!(current_delivery_ids: [ deliveries(:monday_1).id ])
+        eggs.update!(current_delivery_ids: [ deliveries(:monday_1).id ])
       end
     end
     assert_equal 6, baskets(:john_1).complements_price
 
-    assert_changes -> { baskets(:john_1).reload.complement_ids }, from: [ c1.id ], to: [ c1.id, c2.id ] do
+    # Cheese comes before Eggs alphabetically
+    assert_changes -> { baskets(:john_1).reload.complement_ids }, from: [ eggs.id ], to: [ cheese.id, eggs.id ] do
       perform_enqueued_jobs do
-        c2.update!(current_delivery_ids: [ deliveries(:monday_1).id ])
+        cheese.update!(current_delivery_ids: [ deliveries(:monday_1).id ])
       end
     end
     assert_equal 6 + 5, baskets(:john_1).complements_price
 
-    assert_changes -> { baskets(:john_1).reload.complement_ids }, from: [ c1.id, c2.id ], to: [ c2.id ] do
+    assert_changes -> { baskets(:john_1).reload.complement_ids }, from: [ cheese.id, eggs.id ], to: [ cheese.id ] do
       perform_enqueued_jobs do
-        c1.update!(current_delivery_ids: [])
+        eggs.update!(current_delivery_ids: [])
       end
     end
     assert_equal 5, baskets(:john_1).complements_price

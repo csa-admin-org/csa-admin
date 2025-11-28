@@ -29,7 +29,7 @@ class Members::BasketsTest < ApplicationSystemTestCase
     assert_no_text "Cheese"
 
     assert_changes -> { basket.reload.depot_id }, to: home_id do
-      assert_changes -> { basket.reload.complement_ids }, to: [ eggs_id, bread_id ] do
+      assert_changes -> { basket.reload.complement_ids }, to: [ bread_id, eggs_id ] do
         click_on "Confirm"
       end
     end

@@ -14,7 +14,7 @@ class Basket < ApplicationRecord
   belongs_to :depot
   belongs_to :absence, optional: true
   has_one :member, through: :membership
-  has_many :baskets_basket_complements, dependent: :destroy
+  has_many :baskets_basket_complements, -> { ordered }, dependent: :destroy
   has_many :complements,
     source: :basket_complement,
     through: :baskets_basket_complements
@@ -80,8 +80,6 @@ class Basket < ApplicationRecord
 
   def complements_description(public_name: false)
     baskets_basket_complements
-      .joins(:basket_complement)
-      .merge(BasketComplement.ordered)
       .map { |bc| bc.description(public_name: public_name) }
       .compact.to_sentence.presence
   end
