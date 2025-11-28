@@ -54,7 +54,8 @@ class DeliveryTest < ActiveSupport::TestCase
     end
 
     basket = membership.baskets.first
-    assert_equal [ eggs, bread ], basket.complements
+    # Bread comes before Eggs alphabetically
+    assert_equal [ bread, eggs ], basket.complements
     assert_equal bread.price + eggs.price, basket.complements_price
   end
 

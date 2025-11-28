@@ -123,7 +123,8 @@ class MembershipTest < ActiveSupport::TestCase
     end
 
     basket = membership.baskets.first
-    assert_equal [ eggs_id, bread_id ], basket.complement_ids
+    # Bread comes before Eggs alphabetically
+    assert_equal [ bread_id, eggs_id ], basket.complement_ids
     assert_equal 4 + 2 * 4.5, basket.complements_price
   end
 
@@ -477,10 +478,11 @@ class MembershipTest < ActiveSupport::TestCase
         "1" => { basket_complement_id: eggs_id, price: "6.4", quantity: 1 }
       })
 
+    # Bread comes before Eggs alphabetically
     assert_equal [
       [],
       [ bread_id ],
-      [ eggs_id, bread_id ],
+      [ bread_id, eggs_id ],
       [ eggs_id ]
     ], membership.baskets.last(4).map(&:complement_ids)
 
