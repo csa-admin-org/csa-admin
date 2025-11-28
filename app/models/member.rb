@@ -33,7 +33,7 @@ class Member < ApplicationRecord
     :billing_name, :billing_street, :billing_city, :billing_zip, \
     :profession, :come_from, :note, :delivery_note, :food_note, \
     :annual_fee, :shares_info, :existing_shares_number, :required_shares_number, :desired_shares_number, \
-    :shop_depot_id, \
+    :shop_depot_id, :salary_basket, \
     :iban, :sepa_mandate_id, :sepa_mandate_signed_on
   normalized_string_attributes :name, :street, :city, :zip
   normalized_string_attributes :billing_name, :billing_street, :billing_city, :billing_zip
