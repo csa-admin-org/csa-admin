@@ -13,7 +13,7 @@ class Members::CalendarsController < Members::BaseController
     fresh_when last_modified: last_changed
 
     @baskets =
-      @baskets.includes(:basket_size, :depot,
+      @baskets.includes(:delivery, :basket_size, :depot,
         baskets_basket_complements: :basket_complement)
     @activity_participations =
       ActivityParticipationGroup.group(@participations.includes(:activity))

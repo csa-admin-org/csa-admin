@@ -10,7 +10,7 @@ module CalendarsHelper
   def basket_calendar_description(basket)
     lines = []
     lines << "#{Basket.model_name.human}: #{basket.basket_description(public_name: true)}"
-    if basket.complements.any?
+    if basket.baskets_basket_complements.any?
       lines << "#{MembersBasketComplement.model_name.human(count: 2)}: #{basket.complements_description(public_name: true)}"
     end
     lines << "#{Depot.model_name.human}: #{basket.depot.name}"
