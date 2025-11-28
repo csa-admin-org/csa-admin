@@ -212,7 +212,7 @@ class Basket < ApplicationRecord
       price *= delivery.basket_size_price_percentage / 100.0
     end
 
-    price&.round_to_one_cent
+    price
   end
 
   def set_calculated_price_extra
