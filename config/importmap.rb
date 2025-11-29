@@ -19,7 +19,7 @@ pin "https", preload: false # @2.1.0
 pin "tslib", preload: false # @2.8.1
 
 # ActiveAdmin (used also by members)
-pin "flowbite", to: "flowbite.turbo.min.js" # @3.1.2
+pin "flowbite", to: "flowbite.turbo.min.js" # @4.0.1
 
 # Members
 pin "members", preload: false
