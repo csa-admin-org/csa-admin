@@ -25,9 +25,9 @@ pin "flowbite", to: "flowbite.turbo.min.js" # @3.1.2
 pin "members", preload: false
 pin_all_from "app/javascript/controllers/members", under: "controllers/members", preload: false
 pin "flatpickr", preload: false # @4.6.13
-pin "flatpickr/dist/l10n/fr", to: "flatpickr--dist--l10n--fr.js", preload: false # @4.6.13
-pin "flatpickr/dist/l10n/de", to: "flatpickr--dist--l10n--de.js", preload: false # @4.6.13
-pin "flatpickr/dist/l10n/it", to: "flatpickr--dist--l10n--it.js", preload: false # @4.6.13
+pin "flatpickr/dist/l10n/fr", to: "flatpickr--dist--l10n--fr.js", preload: false
+pin "flatpickr/dist/l10n/de", to: "flatpickr--dist--l10n--de.js", preload: false
+pin "flatpickr/dist/l10n/it", to: "flatpickr--dist--l10n--it.js", preload: false
 
 # Admin
 pin "admin", preload: false
@@ -36,9 +36,9 @@ pin_all_from "app/javascript/controllers/admin", under: "controllers/admin", pre
 pin "trix", to: "trix.js", preload: false
 pin "@rails/actiontext", to: "actiontext.js", preload: false
 pin "@joeattardi/emoji-button", to: "@joeattardi--emoji-button.js", preload: false # @4.6.4
-pin "@roderickhsiao/emoji-button-locale-data/dist/de", to: "@roderickhsiao--emoji-button-locale-data--dist--de.js", preload: false # @0.1.2
-pin "@roderickhsiao/emoji-button-locale-data/dist/fr", to: "@roderickhsiao--emoji-button-locale-data--dist--fr.js", preload: false # @0.1.2
-pin "@roderickhsiao/emoji-button-locale-data/dist/it", to: "@roderickhsiao--emoji-button-locale-data--dist--it.js", preload: false # @0.1.2
+pin "@roderickhsiao/emoji-button-locale-data/dist/de", to: "@roderickhsiao--emoji-button-locale-data--dist--de.js", preload: false
+pin "@roderickhsiao/emoji-button-locale-data/dist/fr", to: "@roderickhsiao--emoji-button-locale-data--dist--fr.js", preload: false
+pin "@roderickhsiao/emoji-button-locale-data/dist/it", to: "@roderickhsiao--emoji-button-locale-data--dist--it.js", preload: false
 # Don't forget to update app/assets/stylesheets/tom-select.css too
 pin "tom-select", preload: false # @2.3.1
 pin "@stimulus-components/sortable", to: "@stimulus-components--sortable.js", preload: false # @5.0.1
