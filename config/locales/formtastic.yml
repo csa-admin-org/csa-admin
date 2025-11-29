@@ -269,6 +269,19 @@ _:
           _de: Depots, für die dieser Lieferzyklus bei der Anmeldung für Mitglieder verfügbar ist. In jedem Fall wird die Auswahl des Lieferzyklus den Mitgliedern nur angeboten, wenn mindestens zwei verschiedene Lieferzyklen für ein Depot verfügbar sind.
           _it: Punti di ritiro per i quali questo ciclo di consegna è disponibile per i soci al momento della registrazione. In ogni caso, la scelta del ciclo di consegna viene proposta ai soci solo se sono disponibili almeno due cicli di consegna diversi per un punto di ritiro.
           _nl: Depots waarvoor deze leveringscyclus beschikbaar is voor leden bij registratie. In elk geval wordt de keuze van leveringscyclus alleen aan leden aangeboden als er minstens twee verschillende leveringscycli beschikbaar zijn voor een depot.
+        first_cweek:
+          cross_year:
+            _en: Week number based on the year at the start of the fiscal year.
+            _fr: Numéro de semaine basé sur l'année du début de l'année fiscale.
+            _de: Wochennummer basierend auf dem Jahr zu Beginn des Geschäftsjahres.
+            _it: Numero di settimana basato sull'anno all'inizio dell'anno fiscale.
+            _nl: Weeknummer gebaseerd op het jaar aan het begin van het boekjaar.
+          standard:
+            _en: Week number of the first delivery.
+            _fr: Numéro de semaine de la première livraison.
+            _de: Wochennummer der ersten Lieferung.
+            _it: Numero di settimana della prima consegna.
+            _nl: Weeknummer van de eerste levering.
         form_detail:
           _en: Leave blank for the default text.
           _fr: Laisser blanc pour le texte par défaut.
@@ -281,6 +294,19 @@ _:
           _de: Wenn vorhanden, ersetzt den Namen auf der Rechnung.
           _it: Se presente, sostituisce il nome visualizzato nella fattura.
           _nl: Indien aanwezig, vervangt de naam die wordt weergegeven op de factuur.
+        last_cweek:
+          cross_year:
+            _en: Week number based on the year at the end of the fiscal year.
+            _fr: Numéro de semaine basé sur l'année de la fin de l'année fiscale.
+            _de: Wochennummer basierend auf dem Jahr am Ende des Geschäftsjahres.
+            _it: Numero di settimana basato sull'anno alla fine dell'anno fiscale.
+            _nl: Weeknummer gebaseerd op het jaar aan het einde van het boekjaar.
+          standard:
+            _en: Week number of the last delivery.
+            _fr: Numéro de semaine de la dernière livraison.
+            _de: Wochennummer der letzten Lieferung.
+            _it: Numero di settimana dell'ultima consegna.
+            _nl: Weeknummer van de laatste levering.
         minimum_gap_in_days:
           _en: Allows you to set the minimum number of days between two deliveries. For example, 13 for a delivery every 2 weeks.
           _fr: Permet de définir le nombre minimum de jours entre deux livraisons. Par exemple 13 pour une livraison tous les 2 semaines.
@@ -306,11 +332,11 @@ _:
           _it: Sarà comunque visibile se è selezionato un solo punto di ritiro.
           _nl: Zal in elk geval zichtbaar zijn als slechts één depot is geselecteerd.
         week_numbers:
-          _en: ⚠️ Warning, use this filter only if you want to exclude deliveries that do not match specifically to an even or odd week number. In most cases, using the "Final Filtering" field is more appropriate.
-          _fr: ⚠️ Attention, n'utilisez ce filtre que si vous souhaitez exclure les livraisons qui ne correspondent pas spécifiquement à un numéro de semaines pair ou impair. Dans la plupart des cas, l'utilisation du champ "Filtrage final" est plus appropriée.
-          _de: ⚠️ Warnung, verwenden Sie diesen Filter nur, wenn Sie Lieferungen ausschließen möchten, die nicht spezifisch zu einer geraden oder ungeraden Wochennummer passen. In den meisten Fällen ist die Verwendung des Felds "Endgültige Filterung" geeigneter.
-          _it: ⚠️ Avvertenza, utilizzare questo filtro solo se si desidera escludere le consegne che non corrispondono specificamente a un numero di settimane pari o dispari. In quasi tutti i casi, l'utilizzo del campo "Filtraggio finale" è più appropriato.
-          _nl: ⚠️ Waarschuwing, gebruik dit filter alleen als u leveringen wilt uitsluiten die niet specifiek overeenkomen met een even of oneven weeknummer. In bijna alle gevallen is het gebruik van het veld "Definitieve filtering" meer geschikt.
+          _en: ⚠️ Filters by even/odd week number. Prefer "Final Filtering" in most cases.
+          _fr: ⚠️ Filtre par numéro de semaine pair/impair. Préférez "Filtrage final" dans la plupart des cas.
+          _de: ⚠️ Filtert nach gerader/ungerader Wochennummer. In den meisten Fällen "Endgültige Filterung" bevorzugen.
+          _it: ⚠️ Filtra per numero di settimana pari/dispari. Preferire "Filtraggio finale" nella maggior parte dei casi.
+          _nl: ⚠️ Filtert op even/oneven weeknummer. Gebruik bij voorkeur "Definitieve filtering" in de meeste gevallen.
       depot:
         delivery_cycles:
           _en: Delivery cycles available to members at registration for this depot. In any case, the choice of delivery cycle is only offered to members if at least two delivery cycles are available for a depot.

@@ -107,6 +107,7 @@ ActiveAdmin.register Delivery do
         panel t(".details") do
           attributes_table do
             row("#") { delivery.number }
+            row(:cweek) { delivery.date.cweek }
             row(:note) { text_format(delivery.note) }
           end
         end

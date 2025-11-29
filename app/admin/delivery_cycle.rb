@@ -54,26 +54,26 @@ ActiveAdmin.register DeliveryCycle do
   show do |dc|
     columns do
       column do
-        panel deliveries_current_year_title, count: dc.current_deliveries_count do
-          if dc.current_deliveries_count.positive?
-            table_for dc.current_deliveries, class: "table-auto" do
-              column "#", ->(d) { d.number }
-              column :date, ->(d) { auto_link d, l(d.date, format: :long), aria: { label: "show" } }
+        deliveries_panel = ->(title, deliveries) {
+          panel title, count: deliveries.count do
+            if deliveries.any?
+              table_for deliveries, class: "table-auto" do
+                column "#", ->(d) { d.number }
+                column :day, ->(d) { I18n.t("date.day_names")[d.date.wday] }, class: "text-right"
+                column :date, ->(d) { auto_link d, l(d.date, format: :day_month), aria: { label: "show" } }, class: "text-right"
+                column :cweek, ->(d) { d.date.cweek }, class: "text-right"
+                unless Current.fiscal_year.standard?
+                  column :year, ->(d) { d.date.year }, class: "text-right"
+                end
+              end
+            else
+              div(class: "missing-data") { t("active_admin.empty") }
             end
-          else
-            div(class: "missing-data") { t("active_admin.empty") }
           end
-        end
-        panel deliveries_next_year_title, count: dc.future_deliveries_count do
-          if dc.future_deliveries_count.positive?
-            table_for dc.future_deliveries, class: "table-auto" do
-              column "#", ->(d) { d.number }
-              column :date, ->(d) { auto_link d, l(d.date, format: :long), aria: { label: "show" } }
-            end
-          else
-            div(class: "missing-data") { t("active_admin.empty") }
-          end
-        end
+        }
+
+        deliveries_panel.call(deliveries_current_year_title, dc.current_deliveries)
+        deliveries_panel.call(deliveries_next_year_title, dc.future_deliveries)
       end
 
       column do
@@ -123,6 +123,8 @@ ActiveAdmin.register DeliveryCycle do
                 dc.wdays.map { |d| t("date.day_names")[d].capitalize }.to_sentence
               end
             }
+            row(:first_cweek) { dc.first_cweek }
+            row(:last_cweek) { dc.last_cweek }
             row(:week_numbers) { t("delivery_cycle.week_numbers.#{dc.week_numbers}") }
             row(:months) {
               if dc.months.size == 12
@@ -188,15 +190,28 @@ ActiveAdmin.register DeliveryCycle do
         as: :check_boxes,
         collection: wdays_collection,
         required: true
-      f.input :months,
-        as: :check_boxes,
-        collection: months_collection(fiscal_year_order: true),
-        required: true
+      div class: "single-line" do
+        f.input :first_cweek,
+          as: :select,
+          collection: (1..53).to_a,
+          include_blank: true,
+          hint: t("formtastic.hints.delivery_cycle.first_cweek.#{Current.fiscal_year.standard? ? 'standard' : 'cross_year'}")
+        f.input :last_cweek,
+          as: :select,
+          collection: (1..53).to_a,
+          include_blank: true,
+          hint: t("formtastic.hints.delivery_cycle.last_cweek.#{Current.fiscal_year.standard? ? 'standard' : 'cross_year'}")
+      end
       f.input :week_numbers,
         as: :select,
         collection: week_numbers_collection,
         include_blank: false,
-        wrapper_html: { class: "[&>p]:text-red-500" }
+        wrapper_html: { class: "[&>p]:text-red-500" },
+        input_html: { class: "w-40" }
+      f.input :months,
+        as: :check_boxes,
+        collection: months_collection(fiscal_year_order: true),
+        required: true
       f.input :results,
         as: :select,
         collection: results_collection,
@@ -214,6 +229,8 @@ ActiveAdmin.register DeliveryCycle do
     :week_numbers,
     :results,
     :minimum_gap_in_days,
+    :first_cweek,
+    :last_cweek,
     *I18n.available_locales.map { |l| "public_name_#{l}" },
     *I18n.available_locales.map { |l| "admin_name_#{l}" },
     *I18n.available_locales.map { |l| "invoice_name_#{l}" },
