@@ -1,20 +1,9 @@
-plugins:
-  - rubocop-erb
-  - rubocop-minitest
-
 inherit_gem:
   rubocop-rails-omakase: rubocop.yml
 
-Style/StringLiterals:
-  Enabled: true
-  EnforcedStyle: double_quotes
-  Include:
-    - "app/**/*"
-    - "config/**/*"
-    - "lib/**/*"
-    - "test/**/*"
-    - "Gemfile"
-    - "Rakefile"
+plugins:
+  - rubocop-erb
+  - rubocop-minitest
 
 AllCops:
   NewCops: enable
