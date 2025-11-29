@@ -614,10 +614,10 @@ GEM
     sqlean (0.3.0-arm64-darwin)
     sqlean (0.3.0-x86_64-linux-gnu)
     sqlean (0.3.0-x86_64-linux-musl)
-    sqlite3 (2.8.0-aarch64-linux-gnu)
-    sqlite3 (2.8.0-arm64-darwin)
-    sqlite3 (2.8.0-x86_64-linux-gnu)
-    sqlite3 (2.8.0-x86_64-linux-musl)
+    sqlite3 (2.8.1-aarch64-linux-gnu)
+    sqlite3 (2.8.1-arm64-darwin)
+    sqlite3 (2.8.1-x86_64-linux-gnu)
+    sqlite3 (2.8.1-x86_64-linux-musl)
     sshkit (1.24.0)
       base64
       logger
@@ -990,10 +990,10 @@ CHECKSUMS
   sqlean (0.3.0-arm64-darwin) sha256=32ffa1e5a908a52c028fb06fa2dbe61f600a865c95960d7ec4f3fbc82f28bf78
   sqlean (0.3.0-x86_64-linux-gnu) sha256=51e7e0a66ceebf26c4a4509001412bea2214fb748752fde96a228db9cb2e85ce
   sqlean (0.3.0-x86_64-linux-musl) sha256=93eb4f18679539b64c478dd2d57e393404c036e0057a0a93b2a8089ea6caa94a
-  sqlite3 (2.8.0-aarch64-linux-gnu) sha256=3e8b5ed47fed37518eeea54ea9a96542dff0d82ea247490d3bdc6a02d4402503
-  sqlite3 (2.8.0-arm64-darwin) sha256=841b4e37f7cb993d9bcb3dc58c8827b5df1e29d2030231155eba0ab89766efaf
-  sqlite3 (2.8.0-x86_64-linux-gnu) sha256=b754409b06e447712198d59e37da0dab6fce326115657db034a94b77f67802a3
-  sqlite3 (2.8.0-x86_64-linux-musl) sha256=9ea480326f09abfeb2001cf8d08077feaac2253baaf5ac06aa530377f4a87ddc
+  sqlite3 (2.8.1-aarch64-linux-gnu) sha256=9bce166d3e3595a42fc92c28d986ea11d499b55be8bd1cd491be04af30029543
+  sqlite3 (2.8.1-arm64-darwin) sha256=3cb617640577ec9c1b7c09744d1e368ad3d3851c2494540f5f007387da943477
+  sqlite3 (2.8.1-x86_64-linux-gnu) sha256=878f4a0c5c2c4d9d4345afe2a142a87805f388a24aa8a3c2dfe2f964d7686b7a
+  sqlite3 (2.8.1-x86_64-linux-musl) sha256=0c191ddfd71437b439e107a0d148630bef29a1eebd7b28bcc931470c328f657d
   sshkit (1.24.0) sha256=9597c1f984778ae9742f2dc839778d57a6a2efb868107046575c52ac7c628e6c
   stimulus-rails (1.3.4) sha256=765676ffa1f33af64ce026d26b48e8ffb2e0b94e0f50e9119e11d6107d67cb06
   stringio (3.1.8) sha256=99c43c3a9302843cca223fd985bfc503dd50a4b1723d3e4a9eb1d9c37d99e4ec
