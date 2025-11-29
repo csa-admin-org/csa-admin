@@ -5,7 +5,7 @@
 
 # Use npm packages from a JavaScript CDN by running ./bin/importmap
 
-pin "@hotwired/stimulus", to: "stimulus.min.js"
+pin "@hotwired/stimulus", to: "@hotwired--stimulus.js" # @3.2.2
 pin "@hotwired/stimulus-loading", to: "stimulus-loading.js"
 pin "@hotwired/turbo-rails", to: "turbo.min.js"
 pin "trix"
@@ -41,9 +41,9 @@ pin "@roderickhsiao/emoji-button-locale-data/dist/fr", to: "@roderickhsiao--emoj
 pin "@roderickhsiao/emoji-button-locale-data/dist/it", to: "@roderickhsiao--emoji-button-locale-data--dist--it.js", preload: false
 # Don't forget to update app/assets/stylesheets/tom-select.css too
 pin "tom-select", preload: false # @2.3.1
-pin "@stimulus-components/sortable", to: "@stimulus-components--sortable.js", preload: false # @5.0.1
-pin "@rails/request.js", to: "@rails--request.js.js", preload: false # @0.0.11
-pin "sortablejs", preload: false # @1.15.6
+pin "@stimulus-components/sortable", to: "@stimulus-components--sortable.js" # @5.0.3
+pin "@rails/request.js", to: "@rails--request.js.js" # @0.0.12
+pin "sortablejs" # @1.15.6
 # Codemirror
 pin "codemirror", preload: false # @6.0.1
 pin "@codemirror/autocomplete", to: "@codemirror--autocomplete.js", preload: false # @6.18.3
