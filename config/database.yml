@@ -11,11 +11,12 @@ default: &default
 
 tenants: &tenants
   <% tenants = YAML.load_file(Rails.root.join("config", "tenant.yml"), aliases: true)[Rails.env].keys %>
-  <% tenants.each do |tenant| %>
+  <% tenants.each_with_index do |tenant, index| %>
   <%= tenant %>:
     <<: *default
     database: storage/<%= "#{Rails.env}_#{tenant}" %>.sqlite3
     migrations_paths: db/migrate
+    schema_dump: <%= index == 0 ? "schema.rb" : false %>
   <% end %>
 
 development:
