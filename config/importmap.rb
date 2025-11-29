@@ -35,12 +35,14 @@ pin_all_from "app/javascript/admin", under: "admin", preload: false
 pin_all_from "app/javascript/controllers/admin", under: "controllers/admin", preload: false
 pin "trix", to: "trix.js", preload: false
 pin "@rails/actiontext", to: "actiontext.js", preload: false
+# Emoji-Button
 pin "@joeattardi/emoji-button", to: "@joeattardi--emoji-button.js", preload: false # @4.6.4
 pin "@roderickhsiao/emoji-button-locale-data/dist/de", to: "@roderickhsiao--emoji-button-locale-data--dist--de.js", preload: false
 pin "@roderickhsiao/emoji-button-locale-data/dist/fr", to: "@roderickhsiao--emoji-button-locale-data--dist--fr.js", preload: false
 pin "@roderickhsiao/emoji-button-locale-data/dist/it", to: "@roderickhsiao--emoji-button-locale-data--dist--it.js", preload: false
-# Don't forget to update app/assets/stylesheets/tom-select.css too
-pin "tom-select", preload: false # @2.3.1
+# Don't forget to update vendor/assets/stylesheets/tom-select.css too
+pin "tom-select", preload: false # @2.4.3
+# Sortable
 pin "@stimulus-components/sortable", to: "@stimulus-components--sortable.js" # @5.0.3
 pin "@rails/request.js", to: "@rails--request.js.js" # @0.0.12
 pin "sortablejs" # @1.15.6
