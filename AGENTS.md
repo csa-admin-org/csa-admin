@@ -1,107 +1,72 @@
 # Agent Instructions
 
-This document provides guidance for AI agents working with this codebase.
-
-## Project Overview
-
 CSA Admin is a multi-tenant Rails application for managing Community Supported Agriculture organizations. Each tenant has its own SQLite database.
 
 ## Multi-Tenant Architecture
 
-This project uses a **custom multi-tenant setup** with separate SQLite databases per tenant.
+Separate SQLite databases per tenant (sharding). Tenant is resolved from request subdomain.
 
 ### Key Files
 
-- `lib/tenant.rb` - Main tenant module with switching logic
-- `lib/tenant/middleware.rb` - Request tenant resolution
-- `config/tenant.yml` - Tenant configuration (hosts, aliases, state)
+- `lib/tenant.rb` - Tenant switching logic
+- `config/tenant.yml` - Tenant hosts configuration
 - `app/jobs/concerns/tenant_context.rb` - Job tenant serialization
+
+### Tenant Configuration
+
+```yaml
+# config/tenant.yml.example
+test:
+  acme:
+    admin_host: admin.acme.test
+    members_host: members.acme.test
+```
 
 ### Tenant Commands
 
 ```ruby
-# In Rails console
-Tenant.connect("acme")      # Connect to a tenant
-Tenant.disconnect           # Disconnect from tenant
+Tenant.connect("acme")      # Connect (console only)
+Tenant.disconnect           # Disconnect (console only)
 Tenant.switch("acme") { }   # Execute block in tenant context
 Tenant.current              # Get current tenant name
-Tenant.all                  # List all tenants
 ```
 
-## Database Migrations
+### Current Context
 
-### After Creating a New Migration
+```ruby
+Current.org       # Organization singleton (tenant settings/features)
+Current.session   # Current user session
+```
 
-Simply run:
+## Database
 
 ```bash
-bin/rails db:migrate
+bin/rails db:migrate                             # Migrate all tenants
+bin/rails db:rollback:all VERSION=20240101120000 # Rollback all tenants
+bin/rails db:reset RAILS_ENV=test                # Reset test database
 ```
 
-This will:
-1. Run the migration on all tenant databases
-2. Automatically update `db/schema.rb`
-
-### Resetting the Test Database
+## Tests
 
 ```bash
-bin/rails db:reset RAILS_ENV=test
+bin/rails test:all  # Run all tests (uses "acme" tenant)
 ```
 
-### Rolling Back All Tenants
+## Background Jobs
 
-```bash
-bin/rails db:rollback:all VERSION=20240101120000
+Jobs inherit from `ApplicationJob` which includes `TenantContext` for automatic tenant serialization.
+
+```ruby
+# Run job across all tenants
+TenantSwitchEachJob.perform_later("MyJobClassName")
 ```
-
-## Running Tests
-
-```bash
-# Run all tests
-bin/rails test:all
-
-# Run a specific test file
-bin/rails test test/models/member_test.rb
-
-# Run a specific test
-bin/rails test test/models/member_test.rb:42
-```
-
-Tests automatically connect to the `acme` tenant (defined in `config/tenant.yml` under `test:`).
 
 ## Code Style
 
-- Use `frozen_string_literal: true` pragma in all Ruby files
-- Follow Rails conventions
-- Use `Current.org` to access current organization settings within a tenant context
+- `frozen_string_literal: true` pragma required in all Ruby files
 
-## Common Patterns
+## Commit Messages
 
-### Accessing Tenant-Specific Data
-
-Always ensure code runs within a tenant context:
-
-```ruby
-# In controllers/views - automatic via middleware
-Current.org.name
-
-# In jobs - automatic via TenantContext concern
-class MyJob < ApplicationJob
-  def perform
-    # Tenant context is automatically restored
-    Current.org.some_setting
-  end
-end
-
-# In console or scripts
-Tenant.switch("tenant_name") do
-  # Your code here
-end
-```
-
-### Creating Jobs That Run Across All Tenants
-
-```ruby
-# Enqueue a job to run for each tenant
-TenantSwitchEachJob.perform_later("MyJob")
-```
+- Review all staged changes before writing
+- Keep it short (a few sentences max)
+- Explain why the change is needed, not just what changed
