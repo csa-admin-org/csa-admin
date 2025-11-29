@@ -41,9 +41,9 @@ Current.session   # Current user session
 ## Database
 
 ```bash
-bin/rails db:migrate                             # Migrate all tenants
-bin/rails db:rollback:all VERSION=20240101120000 # Rollback all tenants
-bin/rails db:reset RAILS_ENV=test                # Reset test database
+bin/rails db:migrate              # Migrate all tenants
+bin/rails db:rollback             # Rollback all tenants (specify steps w/ STEP=n)
+bin/rails db:reset RAILS_ENV=test # Reset test database
 ```
 
 ## Tests
