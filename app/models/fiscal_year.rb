@@ -44,6 +44,10 @@ class FiscalYear
     end_of_year.past?
   end
 
+  def standard?
+    months_diff.zero?
+  end
+
   def to_s
     if range.min.year == range.max.year
       range.min.year.to_s

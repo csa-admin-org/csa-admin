@@ -1,6 +1,12 @@
 _:
   date:
     formats:
+      day_month:
+        _en: "%-d %B"
+        _fr: "%-d %B"
+        _de: "%-d %B"
+        _it: "%-d %B"
+        _nl: "%-d %B"
       default:
         _en: "%-d %B %Y"
         _fr: "%-d %B %Y"

@@ -495,12 +495,24 @@ _:
           _it: Firma
           _nl: Handtekening
       delivery_cycle:
+        first_cweek:
+          _en: First week
+          _fr: Première semaine
+          _de: Erste Woche
+          _it: Prima settimana
+          _nl: Eerste week
         invoice_name:
           _en: Name (invoice)
           _fr: Nom (facture)
           _de: Name (Rechnung)
           _it: Nome (fattura)
           _nl: Naam (factuur)
+        last_cweek:
+          _en: Last week
+          _fr: Dernière semaine
+          _de: Letzte Woche
+          _it: Ultima settimana
+          _nl: Laatste week
         minimum_gap_in_days:
           _en: Minimum gap (in days)
           _fr: Écart minimum (en jours)
@@ -532,11 +544,11 @@ _:
           _it: Giorni
           _nl: Dagen
         week_numbers:
-          _en: Week numbers
-          _fr: Numéros de semaine
-          _de: Wochennummern
-          _it: Numeri di settimana
-          _nl: Weeknummers
+          _en: Weeks
+          _fr: Semaines
+          _de: Wochen
+          _it: Settimane
+          _nl: Weken
       depot:
         address_name:
           _en: Name

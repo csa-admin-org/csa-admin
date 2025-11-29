@@ -9,6 +9,8 @@ class DeliveryCycle < ApplicationRecord
   ]
   CONFIGURATION_ATTRIBUTES = %w[
     wdays
+    first_cweek
+    last_cweek
     months
     week_numbers
     results
@@ -55,6 +57,13 @@ class DeliveryCycle < ApplicationRecord
     numericality: {
       greater_than_or_equal_to: 0,
       only_integer: true
+    }
+  validates :first_cweek, :last_cweek,
+    numericality: {
+      greater_than_or_equal_to: 1,
+      less_than_or_equal_to: 53,
+      only_integer: true,
+      allow_nil: true
     }
 
   after_save :reset_cache!
@@ -239,15 +248,32 @@ class DeliveryCycle < ApplicationRecord
   end
 
   def deliveries(year)
+    fiscal_year = Current.org.fiscal_year_for(year)
     scoped =
       Delivery
-        .where("strftime('%w', date) IN (?)", wdays.map(&:to_s))
-        .where("strftime('%m', date) IN (?)", months.map { |m| m.to_s.rjust(2, "0") })
+        .where("time_get_weekday(time_parse(date)) IN (?)", wdays)
+        .where("time_get_month(time_parse(date)) IN (?)", months)
         .during_year(year)
+    if first_cweek.present?
+      first_cweek_year = fiscal_year.beginning_of_year.year
+      scoped = scoped.where(
+        "time_get_isoyear(time_parse(date)) > :year OR time_get_isoweek(time_parse(date)) >= :cweek",
+        year: first_cweek_year,
+        cweek: first_cweek
+      )
+    end
+    if last_cweek.present?
+      last_cweek_year = fiscal_year.end_of_year.year
+      scoped = scoped.where(
+        "time_get_isoyear(time_parse(date)) < :year OR time_get_isoweek(time_parse(date)) <= :cweek",
+        year: last_cweek_year,
+        cweek: last_cweek
+      )
+    end
     if odd_week_numbers?
-      scoped = scoped.where("CAST(strftime('%W', date) AS integer) % 2 = ?", 1)
+      scoped = scoped.where("time_get_isoweek(time_parse(date)) % 2 = ?", 1)
     elsif even_week_numbers?
-      scoped = scoped.where("CAST(strftime('%W', date) AS integer) % 2 = ?", 0)
+      scoped = scoped.where("time_get_isoweek(time_parse(date)) % 2 = ?", 0)
     end
     if all_but_first_results?
       scoped = scoped.to_a[1..-1] || []

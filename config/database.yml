@@ -6,6 +6,7 @@ default: &default
     cache_size: 20_000 # Keeps more pages in memory, improving read performance.
   extensions:
     - SQLean::Text
+    - SQLean::Time
     - SQLean::Unicode
 
 tenants: &tenants

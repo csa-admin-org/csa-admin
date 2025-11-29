@@ -228,6 +228,12 @@ _:
       _de: Lieferungen (laufendes Jahr)
       _it: Consegne (anno corrente)
       _nl: Huidige leveringen (huidig jaar)
+    cweek:
+      _en: Week number
+      _fr: Numéro de semaine
+      _de: Kalenderwoche
+      _it: Numero della settimana
+      _nl: Weeknummer
     date:
       _en: Date
       _fr: Date
@@ -240,6 +246,12 @@ _:
       _de: Daten
       _it: Date
       _nl: Data
+    day:
+      _en: Day
+      _fr: Jour
+      _de: Tag
+      _it: Giorno
+      _nl: Dag
     deliveries:
       _en: Deliveries
       _fr: Livraisons
@@ -798,6 +810,12 @@ _:
       _de: Notiz
       _it: Note
       _nl: Opmerking
+    year:
+      _en: Year
+      _fr: Année
+      _de: Jahr
+      _it: Anno
+      _nl: Jaar
     zip:
       _en: ZIP code
       _fr: NPA
