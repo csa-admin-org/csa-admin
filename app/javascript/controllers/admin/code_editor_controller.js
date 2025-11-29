@@ -1,8 +1,14 @@
 import { Controller } from "@hotwired/stimulus"
 import { hide } from "components/utils"
 import { debounce } from "throttle-debounce"
-import { EditorView, basicSetup } from "codemirror"
+import {
+  EditorView,
+  keymap,
+  drawSelection,
+  highlightSpecialChars
+} from "@codemirror/view"
 import { EditorState } from "@codemirror/state"
+import { history, defaultKeymap, historyKeymap } from "@codemirror/commands"
 import { yaml } from "@codemirror/lang-yaml"
 import { liquid } from "@codemirror/lang-liquid"
 import { githubDark } from "@fsegurai/codemirror-theme-github-dark"
@@ -30,8 +36,16 @@ export default class extends Controller {
     const hasDarkClass = document.documentElement.classList.contains("dark")
     const useDarkTheme = prefersDarkScheme || hasDarkClass
     const theme = useDarkTheme ? githubDark : githubLight
-    // Initialize CodeMirror editor
-    const extensions = [basicSetup, EditorView.lineWrapping, ...theme]
+    // Initialize CodeMirror editor with minimal extensions
+    const extensions = [
+      highlightSpecialChars(),
+      history(),
+      drawSelection(),
+      keymap.of([...defaultKeymap, ...historyKeymap]),
+      EditorView.lineWrapping,
+      EditorView.contentAttributes.of({ style: "padding: 12px 8px" }),
+      ...theme
+    ]
     if (element.dataset.mode === "yaml") {
       extensions.push(yaml())
     } else if (element.dataset.mode === "liquid") {
