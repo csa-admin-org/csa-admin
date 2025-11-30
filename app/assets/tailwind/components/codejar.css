@@ -1,0 +1,250 @@
+@layer components {
+  /* CodeJar Editor Container */
+  .codejar-wrap {
+    @apply relative mt-1 w-full;
+  }
+
+  .codejar-editor {
+    @apply mt-1 w-full rounded-md border border-gray-300 bg-gray-50 text-sm leading-relaxed text-gray-900;
+    @apply focus:border-green-500 focus:ring-1 focus:ring-green-500 focus:outline-hidden;
+    @apply dark:border-gray-600 dark:bg-gray-700 dark:text-white;
+    @apply dark:focus:border-green-600 dark:focus:ring-green-600;
+    font-family:
+      ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas,
+      "Liberation Mono", monospace;
+    padding: 12px;
+    tab-size: 2;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    min-height: 120px;
+  }
+
+  /* ============================================
+     GitHub Light Theme - Prism.js Token Colors
+     ============================================ */
+
+  /* Comments */
+  .codejar-editor .token.comment,
+  .codejar-editor .token.prolog,
+  .codejar-editor .token.doctype,
+  .codejar-editor .token.cdata {
+    color: #6a737d;
+    font-style: italic;
+  }
+
+  /* Punctuation */
+  .codejar-editor .token.punctuation {
+    color: #24292e;
+  }
+
+  /* Namespace */
+  .codejar-editor .token.namespace {
+    opacity: 0.7;
+  }
+
+  /* Strings */
+  .codejar-editor .token.string,
+  .codejar-editor .token.attr-value {
+    color: #032f62;
+  }
+
+  /* Keywords */
+  .codejar-editor .token.keyword,
+  .codejar-editor .token.atrule {
+    color: #d73a49;
+    font-weight: 600;
+  }
+
+  /* Functions */
+  .codejar-editor .token.function,
+  .codejar-editor .token.builtin {
+    color: #6f42c1;
+  }
+
+  /* Properties, Tags */
+  .codejar-editor .token.property,
+  .codejar-editor .token.tag,
+  .codejar-editor .token.selector {
+    color: #22863a;
+  }
+
+  /* Attributes */
+  .codejar-editor .token.attr-name {
+    color: #6f42c1;
+  }
+
+  /* Variables, Constants */
+  .codejar-editor .token.variable,
+  .codejar-editor .token.constant,
+  .codejar-editor .token.symbol {
+    color: #005cc5;
+  }
+
+  /* Numbers, Booleans */
+  .codejar-editor .token.number,
+  .codejar-editor .token.boolean {
+    color: #005cc5;
+  }
+
+  /* Operators */
+  .codejar-editor .token.operator,
+  .codejar-editor .token.entity,
+  .codejar-editor .token.url {
+    color: #d73a49;
+  }
+
+  /* Regex */
+  .codejar-editor .token.regex {
+    color: #032f62;
+  }
+
+  /* Important, Bold */
+  .codejar-editor .token.important,
+  .codejar-editor .token.bold {
+    font-weight: bold;
+  }
+
+  /* Italic */
+  .codejar-editor .token.italic {
+    font-style: italic;
+  }
+
+  /* Inserted */
+  .codejar-editor .token.inserted {
+    color: #22863a;
+  }
+
+  /* Deleted */
+  .codejar-editor .token.deleted {
+    color: #d73a49;
+  }
+
+  /* ============================================
+     GitHub Dark Theme - Dark Mode Override
+     ============================================ */
+
+  /* Comments */
+  .dark .codejar-editor .token.comment,
+  .dark .codejar-editor .token.prolog,
+  .dark .codejar-editor .token.doctype,
+  .dark .codejar-editor .token.cdata {
+    color: #8b949e;
+  }
+
+  /* Punctuation */
+  .dark .codejar-editor .token.punctuation {
+    color: #c9d1d9;
+  }
+
+  /* Strings */
+  .dark .codejar-editor .token.string,
+  .dark .codejar-editor .token.attr-value {
+    color: #a5d6ff;
+  }
+
+  /* Keywords */
+  .dark .codejar-editor .token.keyword,
+  .dark .codejar-editor .token.atrule {
+    color: #ff7b72;
+  }
+
+  /* Functions */
+  .dark .codejar-editor .token.function,
+  .dark .codejar-editor .token.builtin {
+    color: #d2a8ff;
+  }
+
+  /* Properties, Tags */
+  .dark .codejar-editor .token.property,
+  .dark .codejar-editor .token.tag,
+  .dark .codejar-editor .token.selector {
+    color: #7ee787;
+  }
+
+  /* Attributes */
+  .dark .codejar-editor .token.attr-name {
+    color: #d2a8ff;
+  }
+
+  /* Variables, Constants */
+  .dark .codejar-editor .token.variable,
+  .dark .codejar-editor .token.constant,
+  .dark .codejar-editor .token.symbol {
+    color: #79c0ff;
+  }
+
+  /* Numbers, Booleans */
+  .dark .codejar-editor .token.number,
+  .dark .codejar-editor .token.boolean {
+    color: #79c0ff;
+  }
+
+  /* Operators */
+  .dark .codejar-editor .token.operator,
+  .dark .codejar-editor .token.entity,
+  .dark .codejar-editor .token.url {
+    color: #ff7b72;
+  }
+
+  /* Regex */
+  .dark .codejar-editor .token.regex {
+    color: #a5d6ff;
+  }
+
+  /* Inserted */
+  .dark .codejar-editor .token.inserted {
+    color: #7ee787;
+  }
+
+  /* Deleted */
+  .dark .codejar-editor .token.deleted {
+    color: #ff7b72;
+  }
+
+  /* ============================================
+     YAML-specific tokens
+     ============================================ */
+
+  .codejar-editor .token.key,
+  .codejar-editor .token.atrule {
+    color: #22863a;
+  }
+
+  .dark .codejar-editor .token.key,
+  .dark .codejar-editor .token.atrule {
+    color: #7ee787;
+  }
+
+  /* ============================================
+     Liquid-specific tokens
+     ============================================ */
+
+  .codejar-editor .token.liquid,
+  .codejar-editor .token.delimiter {
+    color: #6f42c1;
+  }
+
+  .dark .codejar-editor .token.liquid,
+  .dark .codejar-editor .token.delimiter {
+    color: #d2a8ff;
+  }
+
+  /* Liquid objects/variables */
+  .codejar-editor .token.object {
+    color: #005cc5;
+  }
+
+  .dark .codejar-editor .token.object {
+    color: #79c0ff;
+  }
+
+  /* Liquid filters */
+  .codejar-editor .token.filter {
+    color: #6f42c1;
+  }
+
+  .dark .codejar-editor .token.filter {
+    color: #d2a8ff;
+  }
+}
