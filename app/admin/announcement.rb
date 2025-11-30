@@ -46,17 +46,20 @@ ActiveAdmin.register Announcement do
       f.input :depot_ids,
         collection: admin_depots,
         as: :check_boxes,
+        for: Depot,
         required: true,
         label: Depot.model_name.human(count: 2)
       if Delivery.current_year.any?
         f.input :delivery_ids,
           as: :check_boxes,
+          for: Delivery,
           collection: Delivery.current_year.coming,
           label: Announcement.human_attribute_name(:current_deliveries)
       end
       if Delivery.future_year.any?
         f.input :delivery_ids,
           as: :check_boxes,
+          for: Delivery,
           collection: Delivery.future_year,
           label: Announcement.human_attribute_name(:future_deliveries)
       end

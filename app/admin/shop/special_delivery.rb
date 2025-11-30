@@ -174,6 +174,7 @@ ActiveAdmin.register Shop::SpecialDelivery do
       f.input :available_for_depot_ids,
         label: Depot.model_name.human(count: 2),
         as: :check_boxes,
+        for: Depot,
         collection: admin_depots,
         input_html: {
           data: { form_checkbox_toggler_target: "input" }

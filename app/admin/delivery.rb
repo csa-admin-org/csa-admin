@@ -199,6 +199,7 @@ ActiveAdmin.register Delivery do
         f.input :shop_open_for_depot_ids,
           label: Depot.model_name.human(count: 2),
           as: :check_boxes,
+          for: Depot,
           required: false,
           collection: admin_depots,
           input_html: {
