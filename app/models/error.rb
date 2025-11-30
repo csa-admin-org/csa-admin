@@ -10,6 +10,7 @@ module Error
   end
 
   def report(error, **extra)
+    extra[:tenant] = Tenant.current if Tenant.inside?
     Appsignal.report_error(error) do
       Appsignal.add_tags(extra)
     end

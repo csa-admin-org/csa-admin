@@ -102,7 +102,8 @@ class ApplicationController < ActionController::Base
   def add_appsignal_tags
     Appsignal.add_tags(
       admin_id: current_admin.id,
-      session_id: current_session.id)
+      session_id: current_session.id,
+      tenant: Tenant.current)
   end
 
   def create_session_from_devise_remember_token!
