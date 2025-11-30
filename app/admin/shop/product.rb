@@ -79,10 +79,9 @@ ActiveAdmin.register Shop::Product do
           translated_input(f, :names)
           translated_input(f, :descriptions, as: :action_text)
           f.input :tags,
-            as: :select,
-            collection: Shop::Tag.kept.map { |t| [ t.display_name, t.id ] },
-            wrapper_html: { class: "select-tags" },
-            input_html: { multiple: true, data: { controller: "select-tags" } }
+            as: :check_boxes,
+            collection: Shop::Tag.kept.order_by_name,
+            toggle_all: false
           f.input :producer, collection: Shop::Producer.kept
           f.input :basket_complement,
             collection: BasketComplement.includes(:shop_product).ordered.map { |bc|

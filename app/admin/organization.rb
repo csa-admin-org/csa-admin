@@ -28,7 +28,8 @@ ActiveAdmin.register Organization do
             input_html: { disabled: true }
           f.input :languages,
             as: :check_boxes,
-            wrapper_html: { class: "no-toggle-all single-column" },
+            wrapper_html: { class: "single-column" },
+            toggle_all: false,
             collection: org_languages_collection,
             disabled: Organization.languages
           if current_admin.ultra?
@@ -50,7 +51,8 @@ ActiveAdmin.register Organization do
             hint: t("formtastic.hints.organization.recurring_billing_wday_html")
           f.input :billing_year_divisions,
             as: :check_boxes,
-            wrapper_html: { class: "no-toggle-all single-column" },
+            wrapper_html: { class: "single-column" },
+            toggle_all: false,
             collection: billing_year_divisions_collection,
             required: true
           f.input :fiscal_year_start_month,
@@ -260,7 +262,8 @@ ActiveAdmin.register Organization do
           f.input :open_renewal_reminder_sent_after_in_days
           f.input :membership_renewed_attributes,
             as: :check_boxes,
-            wrapper_html: { class: "no-toggle-all single-column" },
+            wrapper_html: { class: "single-column" },
+            toggle_all: false,
             collection: membership_renewed_attributes_collection
           f.input :membership_renewal_depot_update
 
@@ -300,9 +303,10 @@ ActiveAdmin.register Organization do
     f.input :features,
       as: :check_boxes,
       wrapper_html: {
-        class: "features-list no-toggle-all single-column",
+        class: "features-list single-column",
         data: { controller: "features-list" }
         },
+      toggle_all: false,
       collection: all_features.map { |ff|
         [
           content_tag(:span, class: "ms-4") {
