@@ -600,6 +600,7 @@ ActiveAdmin.register Member do
           f.input :waiting_alternative_depot_ids,
             collection: admin_depots,
             as: :check_boxes,
+            for: Depot,
             hint: false
         end
         if BasketComplement.kept.any?

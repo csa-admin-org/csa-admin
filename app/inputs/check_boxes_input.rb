@@ -57,7 +57,7 @@ class CheckBoxesInput < Formtastic::Inputs::CheckBoxesInput
   end
 
   def placeholder?
-    options.fetch(:placeholder, true) && reflection.present?
+    options.fetch(:placeholder, true) && target_class.present?
   end
 
   def legend_content
@@ -93,22 +93,26 @@ class CheckBoxesInput < Formtastic::Inputs::CheckBoxesInput
   end
 
   def resource_name
-    reflection&.klass&.model_name&.human(count: 2)&.downcase
+    target_class&.model_name&.human(count: 2)&.downcase
+  end
+
+  def target_class
+    options[:for] || reflection&.klass
   end
 
   def index_path
-    return unless reflection
+    return unless target_class
 
-    route_name = "#{reflection.klass.model_name.route_key}_path"
+    route_name = "#{target_class.model_name.route_key}_path"
     template.send(route_name) if template.respond_to?(route_name)
   rescue ActionController::UrlGenerationError
     nil
   end
 
   def new_path
-    return unless reflection
+    return unless target_class
 
-    route_name = "new_#{reflection.klass.model_name.singular_route_key}_path"
+    route_name = "new_#{target_class.model_name.singular_route_key}_path"
     template.send(route_name) if template.respond_to?(route_name)
   rescue ActionController::UrlGenerationError
     nil

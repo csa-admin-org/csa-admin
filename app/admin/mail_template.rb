@@ -121,6 +121,7 @@ ActiveAdmin.register MailTemplate do
         if mail_template.with_delivery_cycles_scope? && DeliveryCycle.kept.many?
           f.input :delivery_cycle_ids,
             as: :check_boxes,
+            for: DeliveryCycle,
             collection: admin_delivery_cycles_collection,
             input_html: {
               data: { form_checkbox_toggler_target: "input" }

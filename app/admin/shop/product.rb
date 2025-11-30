@@ -105,6 +105,7 @@ ActiveAdmin.register Shop::Product do
             f.input :available_for_depot_ids,
               label: Depot.model_name.human(count: 2),
               as: :check_boxes,
+              for: Depot,
               collection: admin_depots,
               input_html: {
                 data: { form_checkbox_toggler_target: "input" }
@@ -114,6 +115,7 @@ ActiveAdmin.register Shop::Product do
               f.input :available_for_delivery_ids,
                 label: Delivery.model_name.human(count: 2),
                 as: :check_boxes,
+                for: Delivery,
                 collection: coming_deliveries,
                 input_html: {
                   data: { form_checkbox_toggler_target: "input" }

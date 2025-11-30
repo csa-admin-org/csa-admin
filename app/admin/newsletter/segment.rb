@@ -34,6 +34,7 @@ ActiveAdmin.register Newsletter::Segment do
     f.inputs t("newsletters.segment.criterias") do
       f.input :basket_size_ids,
         as: :check_boxes,
+        for: BasketSize,
         wrapper_html: { class: "single-column" },
         collection: admin_basket_sizes,
         label: BasketSize.model_name.human(count: 2),
@@ -42,18 +43,21 @@ ActiveAdmin.register Newsletter::Segment do
         f.input :basket_complement_ids,
           collection: admin_basket_complements,
           as: :check_boxes,
+          for: BasketComplement,
           label: BasketComplement.model_name.human(count: 2),
           hint: t("formtastic.hints.newsletter/segment.basket_complement_ids")
       end
       f.input :depot_ids,
         collection: admin_depots,
         as: :check_boxes,
+        for: Depot,
         label: Depot.model_name.human(count: 2),
         hint: t("formtastic.hints.newsletter/segment.depot_ids")
       if DeliveryCycle.kept.many?
         f.input :delivery_cycle_ids,
           collection: admin_delivery_cycles_collection,
           as: :check_boxes,
+          for: DeliveryCycle,
           label: DeliveryCycle.model_name.human(count: 2),
           hint: t("formtastic.hints.newsletter/segment.delivery_cycle_ids")
       end
