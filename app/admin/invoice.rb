@@ -38,7 +38,7 @@ ActiveAdmin.register Invoice do
     collection: -> { Membership.where(member_id: params.dig(:q, :member_id_eq)).all.map { |m| [ m.id, m.id ] } },
     if: ->(a) { params.dig(:q, :member_id_eq).present? && params.dig(:q, :entity_type_eq) == "Membership" }
   filter :entity_type,
-    as: :check_boxes,
+    as: :select,
     collection: -> { entity_type_collection }
   filter :sent, as: :boolean
   filter :sepa, as: :boolean, if: ->(a) { Current.org.sepa? }
