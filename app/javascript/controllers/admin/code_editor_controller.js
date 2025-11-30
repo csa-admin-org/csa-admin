@@ -1,18 +1,16 @@
 import { Controller } from "@hotwired/stimulus"
 import { hide } from "components/utils"
 import { debounce } from "throttle-debounce"
-import {
-  EditorView,
-  keymap,
-  drawSelection,
-  highlightSpecialChars
-} from "@codemirror/view"
-import { EditorState } from "@codemirror/state"
-import { history, defaultKeymap, historyKeymap } from "@codemirror/commands"
-import { yaml } from "@codemirror/lang-yaml"
-import { liquid } from "@codemirror/lang-liquid"
-import { githubDark } from "@fsegurai/codemirror-theme-github-dark"
-import { githubLight } from "@fsegurai/codemirror-theme-github-light"
+import { CodeJar } from "codejar"
+import Prism from "prismjs"
+
+// Make Prism available globally for component scripts
+window.Prism = Prism
+
+// Import language components (they register themselves on window.Prism)
+import "prismjs/components/prism-yaml"
+import "prismjs/components/prism-markup-templating"
+import "prismjs/components/prism-liquid"
 
 export default class extends Controller {
   static get targets() {
@@ -28,48 +26,47 @@ export default class extends Controller {
 
   editorTargetConnected(element) {
     hide(element)
+
+    // Create editor container
     const editDiv = document.createElement("div")
+    editDiv.className = "codejar-editor"
+
+    // Set language class for Prism
+    const mode = element.dataset.mode || "markup"
+    const languageClass = `language-${mode}`
+    editDiv.classList.add(languageClass)
+
     element.parentNode.insertBefore(editDiv, element)
-    const prefersDarkScheme = window.matchMedia(
-      "(prefers-color-scheme: dark)"
-    ).matches
-    const hasDarkClass = document.documentElement.classList.contains("dark")
-    const useDarkTheme = prefersDarkScheme || hasDarkClass
-    const theme = useDarkTheme ? githubDark : githubLight
-    // Initialize CodeMirror editor with minimal extensions
-    const extensions = [
-      highlightSpecialChars(),
-      history(),
-      drawSelection(),
-      keymap.of([...defaultKeymap, ...historyKeymap]),
-      EditorView.lineWrapping,
-      EditorView.contentAttributes.of({ style: "padding: 12px 8px" }),
-      ...theme
-    ]
-    if (element.dataset.mode === "yaml") {
-      extensions.push(yaml())
-    } else if (element.dataset.mode === "liquid") {
-      extensions.push(liquid())
+
+    // Highlight function using Prism
+    const highlight = (editor) => {
+      const code = editor.textContent
+      const grammar = Prism.languages[mode] || Prism.languages.markup
+      editor.innerHTML = Prism.highlight(code, grammar, mode)
     }
-    extensions.push(
-      EditorView.updateListener.of((update) => {
-        if (update.docChanged) {
-          element.value = update.state.doc.toString()
-          this.updatePreview()
-        }
-      })
-    )
-    this.editor = new EditorView({
-      state: EditorState.create({
-        doc: element.value,
-        extensions: extensions
-      }),
-      parent: editDiv
+
+    // Initialize CodeJar
+    this.jar = CodeJar(editDiv, highlight, {
+      tab: "  ",
+      indentOn: /[{(\[]$/,
+      addClosing: true,
+      history: true,
+      catchTab: true,
+      preserveIdent: true
+    })
+
+    // Set initial content
+    this.jar.updateCode(element.value)
+
+    // Sync changes back to textarea
+    this.jar.onUpdate((code) => {
+      element.value = code
+      this.updatePreview()
     })
   }
 
   disconnect() {
-    this.editor?.destroy()
+    this.jar?.destroy()
   }
 
   updatePreview() {
