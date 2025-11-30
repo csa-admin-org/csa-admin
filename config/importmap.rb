@@ -40,8 +40,6 @@ pin "@joeattardi/emoji-button", to: "@joeattardi--emoji-button.js", preload: fal
 pin "@roderickhsiao/emoji-button-locale-data/dist/de", to: "@roderickhsiao--emoji-button-locale-data--dist--de.js", preload: false
 pin "@roderickhsiao/emoji-button-locale-data/dist/fr", to: "@roderickhsiao--emoji-button-locale-data--dist--fr.js", preload: false
 pin "@roderickhsiao/emoji-button-locale-data/dist/it", to: "@roderickhsiao--emoji-button-locale-data--dist--it.js", preload: false
-# Don't forget to update vendor/assets/stylesheets/tom-select.css too
-pin "tom-select", preload: false # @2.4.3
 # Sortable
 pin "@stimulus-components/sortable", to: "@stimulus-components--sortable.js" # @5.0.3
 pin "@rails/request.js", to: "@rails--request.js.js" # @0.0.12
