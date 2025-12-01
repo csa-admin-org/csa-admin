@@ -735,18 +735,12 @@ class Membership < ApplicationRecord
   end
 
   def update_renewal_of_previous_membership_after_deletion
-    case started_on
-    when Current.fiscal_year.end_of_year + 1.day
-      previous_membership&.update_columns(
-        renewal_opened_at: nil,
-        renewed_at: nil,
-        renew: true)
-    when Current.fiscal_year.beginning_of_year
-      previous_membership&.update_columns(
-        renewal_opened_at: nil,
-        renewed_at: nil,
-        renew: false)
-    end
+    return unless previous_membership&.renewed_at?
+
+    previous_membership.update_columns(
+      renewal_opened_at: nil,
+      renewed_at: nil,
+      renew: fy_year > Current.fy_year)
   end
 
   def destroy_or_cancel_invoices!
