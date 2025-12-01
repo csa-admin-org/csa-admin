@@ -830,6 +830,46 @@ class MembershipTest < ActiveSupport::TestCase
     end
   end
 
+  test "update_renewal_of_previous_membership_after_deletion clears renewed_at even when deleted much later in the year" do
+    travel_to "2024-01-01"
+    membership = memberships(:john)
+    renewed_membership = memberships(:john_future)
+
+    # Simulate deleting the renewed membership mid-year (the bug scenario)
+    travel_to "2025-06-15" do
+      assert_changes -> { membership.reload.renewed_at }, to: nil do
+        assert_changes -> { membership.reload.renew }, to: false do
+          renewed_membership.destroy!
+        end
+      end
+    end
+  end
+
+  test "update_renewal_of_previous_membership_after_deletion keeps renew true when deleting future membership" do
+    travel_to "2024-06-01"
+    membership = memberships(:john)
+    renewed_membership = memberships(:john_future)
+
+    # Deleting a future year membership should keep renew: true
+    assert_changes -> { membership.reload.renewed_at }, to: nil do
+      assert_no_changes -> { membership.reload.renew } do
+        renewed_membership.destroy!
+      end
+    end
+    assert membership.reload.renew
+  end
+
+  test "update_renewal_of_previous_membership_after_deletion does nothing when previous membership is not renewed" do
+    travel_to "2024-01-01"
+    membership = memberships(:john)
+    membership.update_columns(renewed_at: nil)
+    renewed_membership = memberships(:john_future)
+
+    assert_no_changes -> { membership.reload.renew } do
+      renewed_membership.destroy!
+    end
+  end
+
   test "keep_renewed_membership_up_to_date! updates renewed membership" do
     travel_to "2024-01-01"
     membership = memberships(:john)
