@@ -52,19 +52,23 @@ module AdminHelper
   end
 
   def grouped_by_visibility(relation, options)
-    if relation.hidden.none?
-      option_for_select(relation, options)
+    # Load all records once and partition in Ruby to avoid N+1 queries
+    all_records = relation.to_a
+    visible_records, hidden_records = all_records.partition(&:visible?)
+
+    if hidden_records.empty?
+      option_for_select(all_records, options)
     else
       [
-        [ t("active_admin.scopes.visible"), option_for_select(relation.visible) ],
-        [ t("active_admin.scopes.hidden"), option_for_select(relation.hidden) ]
+        [ t("active_admin.scopes.visible"), option_for_select(visible_records) ],
+        [ t("active_admin.scopes.hidden"), option_for_select(hidden_records) ]
       ]
     end
   end
 
   private
 
-  def option_for_select(relation, options = nil)
-    relation.map { |a| [ a.display_name, a.id, options&.call(a) ].compact }
+  def option_for_select(records, options = nil)
+    records.map { |a| [ a.display_name, a.id, options&.call(a) ].compact }
   end
 end
