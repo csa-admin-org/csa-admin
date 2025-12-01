@@ -12,6 +12,10 @@ module PDF
       @shop_orders = @delivery.shop_orders.all_without_cart
       @depots = Depot.where(id: (@baskets.pluck(:depot_id) + @shop_orders.pluck(:depot_id)).uniq)
 
+      # Precompute basket sums to avoid N+1 queries
+      precompute_basket_sums
+      precompute_complement_counts
+
       unless depot
         summary_page
         start_new_page
@@ -54,6 +58,72 @@ module PDF
     end
 
     private
+
+    def precompute_basket_sums
+      @basket_sums_by_depot_and_size =
+        @baskets
+          .active
+          .group(:depot_id, :basket_size_id)
+          .sum(:quantity)
+      @basket_sums_by_depot =
+        @baskets
+          .active
+          .group(:depot_id)
+          .sum(:quantity)
+      @basket_sums_by_size =
+        @baskets
+          .active
+          .group(:basket_size_id)
+          .sum(:quantity)
+      @total_basket_sum = @baskets.active.sum(:quantity)
+    end
+
+    def precompute_complement_counts
+      @basket_complement_counts_by_depot =
+        @baskets
+          .active
+          .joins(:baskets_basket_complements)
+          .group(:depot_id, "baskets_basket_complements.basket_complement_id")
+          .sum("baskets_basket_complements.quantity")
+      @shop_complement_counts_by_depot =
+        @shop_orders
+          .joins(items: :product)
+          .where.not(shop_products: { basket_complement_id: nil })
+          .group(:depot_id, "shop_products.basket_complement_id")
+          .sum("shop_order_items.quantity")
+      @total_basket_complement_counts =
+        @baskets
+          .active
+          .joins(:baskets_basket_complements)
+          .group("baskets_basket_complements.basket_complement_id")
+          .sum("baskets_basket_complements.quantity")
+      @total_shop_complement_counts =
+        @shop_orders
+          .joins(items: :product)
+          .where.not(shop_products: { basket_complement_id: nil })
+          .group("shop_products.basket_complement_id")
+          .sum("shop_order_items.quantity")
+    end
+
+    def cached_basket_sum(depot_id, basket_size_id)
+      @basket_sums_by_depot_and_size[[ depot_id, basket_size_id ]] || 0
+    end
+
+    def cached_depot_basket_sum(depot_id)
+      @basket_sums_by_depot[depot_id] || 0
+    end
+
+    def cached_complement_count(depot_id, complement_id)
+      basket_count = @basket_complement_counts_by_depot[[ depot_id, complement_id ]] || 0
+      shop_count = @shop_complement_counts_by_depot[[ depot_id, complement_id ]] || 0
+      basket_count + shop_count
+    end
+
+    def cached_total_complement_count(complement_id)
+      basket_count = @total_basket_complement_counts[complement_id] || 0
+      shop_count = @total_shop_complement_counts[complement_id] || 0
+      basket_count + shop_count
+    end
 
     def summary_page
       summary_header
@@ -155,22 +225,21 @@ module PDF
         width: depot_name_width,
         align: :right
       ]
-      all_baskets = @baskets.active
       basket_sizes.each do |bs|
         total_line << {
-          content: all_baskets.where(basket_size: bs).sum(:quantity).to_s,
+          content: (@basket_sums_by_size[bs.id] || 0).to_s,
           width: number_width,
           align: :center
         }
       end
       total_line << {
-        content: all_baskets.sum(:quantity).to_s,
+        content: @total_basket_sum.to_s,
         width: number_width,
         align: :center
       }
       basket_complements.each do |c|
         total_line << {
-          content: (all_baskets.complement_count(c) + @shop_orders.complement_count(c)).to_s,
+          content: cached_total_complement_count(c.id).to_s,
           width: number_width,
           align: :center
         }
@@ -299,8 +368,8 @@ module PDF
 
     def summary_baskets_line(depot, title: nil, width:, basket_sizes:, basket_complements:, shop_products:)
       column_content = title || depot.name
-      baskets = @baskets.active.where(depot: depot)
-      shop_orders = @shop_orders.where(depot: depot)
+      depot_ids = depot.respond_to?(:ids) ? depot.ids : [ depot.id ]
+      shop_orders = @shop_orders.where(depot_id: depot_ids)
 
       line = [
         content: column_content,
@@ -308,11 +377,14 @@ module PDF
         align: :right
       ]
       basket_sizes.each do |bs|
-        line << display_quantity(baskets.where(basket_size: bs).sum(:quantity))
+        sum = depot_ids.sum { |depot_id| cached_basket_sum(depot_id, bs.id) }
+        line << display_quantity(sum)
       end
-      line << display_quantity(baskets.sum(:quantity))
+      total = depot_ids.sum { |depot_id| cached_depot_basket_sum(depot_id) }
+      line << display_quantity(total)
       basket_complements.each do |c|
-        line << display_quantity(baskets.complement_count(c) + shop_orders.complement_count(c))
+        count = depot_ids.sum { |depot_id| cached_complement_count(depot_id, c.id) }
+        line << display_quantity(count)
       end
       if @shop_orders.any?
         line << display_quantity(shop_orders.count)
@@ -485,17 +557,16 @@ module PDF
           align: :left
         }
       end
-      all_baskets = baskets.active
       basket_sizes.each do |bs|
         total_line << {
-          content: all_baskets.where(basket_size: bs).sum(:quantity).to_s,
+          content: cached_basket_sum(depot.id, bs.id).to_s,
           width: number_width,
           align: :center
         }
       end
       basket_complements.each do |c|
         total_line << {
-          content: (all_baskets.complement_count(c) + shop_orders.complement_count(c)).to_s,
+          content: cached_complement_count(depot.id, c.id).to_s,
           width: number_width,
           align: :center
         }
