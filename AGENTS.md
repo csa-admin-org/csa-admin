@@ -28,6 +28,7 @@ test:
 Tenant.connect("acme")      # Connect (console only)
 Tenant.disconnect           # Disconnect (console only)
 Tenant.switch("acme") { }   # Execute block in tenant context
+Tenant.switch_each { }      # Execute block for each tenant
 Tenant.current              # Get current tenant name
 ```
 
