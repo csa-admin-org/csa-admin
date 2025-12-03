@@ -11,10 +11,12 @@ module PDF
       @baskets = delivery.baskets
       @shop_orders = @delivery.shop_orders.all_without_cart
       @depots = Depot.where(id: (@baskets.pluck(:depot_id) + @shop_orders.pluck(:depot_id)).uniq)
+      @org_logo_io = org_logo_io(size: 110)
 
-      # Precompute basket sums to avoid N+1 queries
       precompute_basket_sums
       precompute_complement_counts
+      preload_announcements
+      preload_basket_sizes_and_complements
 
       unless depot
         summary_page
@@ -27,7 +29,7 @@ module PDF
       depots.each do |depot|
         baskets = @baskets.where(depot: depot)
         shop_orders = @shop_orders.where(depot: depot)
-        basket_sizes = BasketSize.for(baskets)
+        basket_sizes = basket_sizes_for(baskets)
         member_ids = (baskets.filled.pluck(:member_id) + shop_orders.pluck(:member_id)).uniq
         members_per_page =
           if Current.org.delivery_pdf_member_info == "phones" || depot.delivery_sheets_mode == "home_delivery"
@@ -125,6 +127,63 @@ module PDF
       basket_count + shop_count
     end
 
+    def preload_announcements
+      @announcements_by_depot = {}
+      Announcement.deliveries_eq(@delivery.id).each do |announcement|
+        announcement.depot_ids.each do |depot_id|
+          @announcements_by_depot[depot_id] = announcement
+        end
+      end
+    end
+
+    def announcement_for(depot)
+      @announcements_by_depot[depot.id]
+    end
+
+    def preload_basket_sizes_and_complements
+      basket_size_ids = @baskets.where(quantity: 1..).pluck(:basket_size_id).uniq
+      @all_basket_sizes = BasketSize.where(id: basket_size_ids).ordered.to_a
+
+      complement_ids =
+        @baskets
+          .joins(:baskets_basket_complements)
+          .where(baskets_basket_complements: { quantity: 1.. })
+          .pluck(:basket_complement_id)
+      complement_ids +=
+        @shop_orders
+          .joins(:products)
+          .pluck(shop_products: :basket_complement_id)
+      @all_basket_complements = BasketComplement.where(id: complement_ids.uniq).ordered.to_a
+
+      @all_shop_products = @shop_orders.products_displayed_in_delivery_sheets.to_a
+    end
+
+    def basket_sizes_for(baskets)
+      basket_size_ids = baskets.where(quantity: 1..).pluck(:basket_size_id).uniq
+      @all_basket_sizes.select { |bs| basket_size_ids.include?(bs.id) }
+    end
+
+    def basket_complements_for(baskets, shop_orders)
+      complement_ids = baskets
+        .joins(:baskets_basket_complements)
+        .where(baskets_basket_complements: { quantity: 1.. })
+        .pluck(:basket_complement_id)
+      complement_ids += shop_orders
+        .joins(:products)
+        .pluck(shop_products: :basket_complement_id)
+      complement_ids = complement_ids.uniq
+      @all_basket_complements.select { |bc| complement_ids.include?(bc.id) }
+    end
+
+    def shop_products_for(shop_orders)
+      product_ids = shop_orders.joins(:items).pluck(:product_id).uniq
+      @all_shop_products.select { |p| product_ids.include?(p.id) }
+    end
+
+    def org_logo
+      StringIO.new(@org_logo_io.string)
+    end
+
     def summary_page
       summary_header
       summary_content
@@ -132,7 +191,7 @@ module PDF
     end
 
     def summary_header
-      image org_logo_io(size: 110), at: [ 15, bounds.height - 20 ], width: 110
+      image org_logo, at: [ 15, bounds.height - 20 ], width: 110
       bounding_box [ bounds.width - 370, bounds.height - 20 ], width: 350, height: 120 do
         text I18n.t("delivery.summary"), size: 24, align: :right
         move_down 5
@@ -442,8 +501,8 @@ module PDF
     end
 
     def header(depot, page:, total_pages:)
-      image org_logo_io(size: 110), at: [ 15, bounds.height - 20 ], width: 110
-      if announcement = Announcement.for(delivery, depot)
+      image org_logo, at: [ 15, bounds.height - 20 ], width: 110
+      if announcement = announcement_for(depot)
         bounding_box [ 20, bounds.height - 130 ], width: 290, height: 70 do
           text announcement.text,
             size: 13,
@@ -464,8 +523,8 @@ module PDF
     end
 
     def content(depot, members, baskets, basket_sizes, shop_orders)
-      basket_complements = BasketComplement.for(baskets, shop_orders)
-      shop_products = shop_orders.products_displayed_in_delivery_sheets
+      basket_complements = basket_complements_for(baskets, shop_orders)
+      shop_products = shop_products_for(shop_orders)
 
       font_size 11
       move_down 2.cm
