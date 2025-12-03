@@ -266,11 +266,8 @@ class Invoice < ApplicationRecord
     return if processing?
     invalid_transition(:update_state!) if canceled?
 
-    if missing_amount.zero?
-      update!(state: CLOSED_STATE)
-    else
-      update!(state: OPEN_STATE)
-    end
+    self.state = missing_amount.zero? ? CLOSED_STATE : OPEN_STATE
+    save!(validate: false)
   end
 
   def overpaid?
@@ -297,6 +294,10 @@ class Invoice < ApplicationRecord
 
   def missing_amount
     balance.negative? ? (amount - paid_amount) : 0
+  end
+
+  def payback?
+    amount.negative?
   end
 
   def membership_amount_fraction
