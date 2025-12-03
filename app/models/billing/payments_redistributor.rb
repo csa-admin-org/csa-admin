@@ -31,24 +31,22 @@ module Billing
     end
 
     def close_or_open_invoices!
-      invoices.find_each(&:close_or_open!)
+      invoices.each(&:close_or_open!)
     end
 
     def remove_payback_invoices_to_remaining_amount!
-      @remaining_amount -= invoices.where(amount: ...0).sum(:amount)
+      @remaining_amount -= invoices.select(&:payback?).sum(&:amount)
     end
 
     # Use payment amount to targeted invoice.
     def pay_targeted_invoices!
+      invoices_by_id = invoices.index_by(&:id)
+
       payments.each do |pm|
-        if pm.invoice
-          if pm.invoice.canceled?
-            @remaining_amount += pm.amount
-          else
-            paid_amount = [ [ pm.amount, pm.invoice.missing_amount ].min, 0 ].max
-            pm.invoice.increment!(:paid_amount, paid_amount)
-            @remaining_amount += pm.amount - paid_amount
-          end
+        if invoice = invoices_by_id[pm.invoice_id]
+          paid_amount = [ [ pm.amount, invoice.missing_amount ].min, 0 ].max
+          invoice.increment!(:paid_amount, paid_amount)
+          @remaining_amount += pm.amount - paid_amount
         else
           @remaining_amount += pm.amount
         end
@@ -59,7 +57,8 @@ module Billing
     def pay_remaining_amount_chronogically!(scope: :all)
       return if @remaining_amount.zero?
 
-      invoices.send(scope).each do |invoice|
+      target_invoices = scope == :closed ? invoices.select(&:closed?) : invoices
+      target_invoices.each do |invoice|
         paid_amount = [ @remaining_amount, invoice.missing_amount ].min
         invoice.increment!(:paid_amount, paid_amount)
         @remaining_amount -= paid_amount
@@ -73,11 +72,11 @@ module Billing
     end
 
     def payments
-      @member.payments.not_ignored
+      @payments ||= @member.payments.not_ignored.to_a
     end
 
     def invoices
-      @member.invoices.not_canceled.order(:date, :id)
+      @invoices ||= @member.invoices.not_canceled.order(:date, :id).to_a
     end
   end
 end
