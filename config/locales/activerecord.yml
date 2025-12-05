@@ -229,6 +229,12 @@ _:
           _de: Zusätze
           _it: Complementi
           _nl: Aanvullingen
+        complements_price:
+          _en: Complement prices
+          _fr: Prix compléments
+          _de: Preis Zusätze
+          _it: Prezzo aggiunte
+          _nl: Aanvullingsprijzen
         delivery_cycle_price:
           _en: Delivery price
           _fr: Prix livraison
