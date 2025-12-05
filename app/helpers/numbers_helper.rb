@@ -25,9 +25,17 @@ module NumbersHelper
       else
        "%u %n"
       end
-    unless unit
-      options[:negative_format] ||= "-%n"
-    end
+    options[:negative_format] ||=
+      if unit
+        case Current.org.currency_code
+        when "EUR"; "-%n %u"
+        when "CHF"; "%u -%n"
+        else
+          "%u -%n"
+        end
+      else
+        "-%n"
+      end
     number_to_currency(amount, **options)
   end
 
