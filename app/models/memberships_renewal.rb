@@ -18,7 +18,7 @@ class MembershipsRenewal
   end
 
   def actionable?
-    future_deliveries? && renewable.count.positive? && fy_year >= (Current.fy_year - 1)
+    future_deliveries? && renewable_count.positive? && fy_year >= (Current.fy_year - 1)
   end
 
   def to_renew
@@ -39,6 +39,30 @@ class MembershipsRenewal
 
   def openable
     renewable.where(renewal_opened_at: nil)
+  end
+
+  def canceled
+    @memberships.where(renew: false).where(ended_on: fy.end_of_year)
+  end
+
+  def renewed_count
+    @renewed_count ||= renewed.count
+  end
+
+  def renewable_count
+    @renewable_count ||= renewable.count
+  end
+
+  def opened_count
+    @opened_count ||= opened.count
+  end
+
+  def openable_count
+    @openable_count ||= openable.count
+  end
+
+  def canceled_count
+    @canceled_count ||= canceled.count
   end
 
   def renewing?
