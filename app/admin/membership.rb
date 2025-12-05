@@ -199,26 +199,25 @@ ActiveAdmin.register Membership do
           ul do
             li do
               link_to collection_path(scope: :all, q: { renewal_state_eq: :renewal_pending, during_year: renewal.fy_year }) do
-                number_line t(".openable_renewals"), renewal.openable.count
+                number_line t(".openable_renewals"), renewal.openable_count
               end
             end
             if MailTemplate.active_template(:membership_renewal)
               li do
                 link_to collection_path(scope: :all, q: { renewal_state_eq: :renewal_opened, during_year: renewal.fy_year }) do
-                  number_line t(".opened_renewals"), renewal.opened.count
+                  number_line t(".opened_renewals"), renewal.opened_count
                 end
               end
             end
             li do
               link_to collection_path(scope: :all, q: { renewal_state_eq: :renewed, during_year: renewal.fy_year }) do
-                number_line t(".renewed_renewals"), renewal.renewed.count
+                number_line t(".renewed_renewals"), renewal.renewed_count
               end
             end
             li do
               end_of_year = renewal.fy.end_of_year
-              renewal_canceled_count = Membership.where(renew: false).where(ended_on: end_of_year).count
               link_to collection_path(scope: :all, q: { renewal_state_eq: :renewal_canceled, during_year: renewal.fy_year, ended_on_gteq: end_of_year, ended_on_lteq: end_of_year }) do
-                number_line t(".canceled_renewals"), renewal_canceled_count
+                number_line t(".canceled_renewals"), renewal.canceled_count
               end
             end
           end
@@ -234,14 +233,13 @@ ActiveAdmin.register Membership do
             else
               div class: "space-y-2" do
                 if renewal.fy == Current.fiscal_year && authorized?(:open_renewal_all, Membership) && MailTemplate.active_template(:membership_renewal)
-                  openable_count = renewal.openable.count
-                  if openable_count.positive?
+                  if renewal.openable_count.positive?
                     div do
                       button_to open_renewal_all_memberships_path,
                         params: { year: renewal.fy_year },
                         form: { class: "flex justify-center", data: { controller: "disable", disable_with_value: t(".opening") } },
                         class: "btn btn-sm", data: { confirm: t("active_admin.batch_actions.default_confirmation") } do
-                          icon("paper-airplane", class: "size-4 mr-2") + t(".open_renewal_all_action", count: openable_count)
+                          icon("paper-airplane", class: "size-4 mr-2") + t(".open_renewal_all_action", count: renewal.openable_count)
                         end
                     end
                   end
@@ -252,7 +250,7 @@ ActiveAdmin.register Membership do
                       params: { year: renewal.fy_year },
                       form: { class: "flex justify-center", data: { controller: "disable", disable_with_value: t(".renewing") } },
                       class: "btn btn-sm", data: { confirm: t("active_admin.batch_actions.default_confirmation") } do
-                        icon("arrow-path", class: "size-4 mr-2") + t(".renew_all_action", count: renewal.renewable.count)
+                        icon("arrow-path", class: "size-4 mr-2") + t(".renew_all_action", count: renewal.renewable_count)
                       end
                   end
                 end
