@@ -24,7 +24,7 @@ ActiveAdmin.register Basket do
     as: :select,
     collection: -> { fiscal_years_collection }
 
-  includes :delivery, :basket_size, :depot, baskets_basket_complements: :basket_complement, membership: :member
+  includes :delivery, :basket_size, :depot, :member, baskets_basket_complements: :basket_complement, membership: :member
   csv do
     deliveries = []
     deliveries << Delivery.find(params[:q][:delivery_id_eq]) if params[:q][:delivery_id_eq].present?
@@ -56,9 +56,14 @@ ActiveAdmin.register Basket do
     column(:delivery_note) { |b| b.member.delivery_note }
     column(:depot_id)
     column(:depot) { |b| b.depot&.public_name }
+    column(:depot_price) { |b| cur(b.depot_price) }
     column(:basket_size_id)
     column(I18n.t("attributes.basket_size")) { |b| b.basket_size.name }
     column(:quantity) { |b| b.quantity }
+    column(:basket_size_price) { |b| cur(b.basket_size_price) }
+    if feature?("basket_price_extra")
+      column(:price_extra) { |b| cur(b.calculated_price_extra) }
+    end
     column(:description) { |b| b.basket_description(public_name: true) }
     if BasketComplement.kept.any?
       shop_orders ||= Shop::Order.none
@@ -71,6 +76,7 @@ ActiveAdmin.register Basket do
       column("#{Basket.human_attribute_name(:complement_ids)} (#{Basket.human_attribute_name(:description)})") { |b|
         b.complements_description(public_name: true)
       }
+      column(:complements_price) { |b| cur(b.complements_price) }
     end
     if feature?("shop")
       column(I18n.t("shop.title_orders", count: 2)) { |b|
