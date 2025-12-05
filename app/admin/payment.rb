@@ -184,6 +184,7 @@ ActiveAdmin.register Payment do
         prompt: true,
         input_html: { disabled: f.object.invoice_id? }
       if f.object.invoice_id?
+        f.input :invoice_id, as: :hidden
         f.input :invoice,
           collection: [ f.object.invoice ],
           include_blank: false,
