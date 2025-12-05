@@ -47,8 +47,8 @@ class Members::BillingTest < ApplicationSystemTestCase
     assert_text "Remaining to invoice CHF 200.00"
 
     assert_text "History"
-    assert_text "01.05.24 Payment without reference -CHF 42.00"
-    assert_text "02.04.24 Payment of #901871612 (Other) -CHF 10.00"
+    assert_text "01.05.24 Payment without reference CHF -42.00"
+    assert_text "02.04.24 Payment of #901871612 (Other) CHF -10.00"
     assert_text "01.04.24 Invoice ##{invoice.id} (Other) CHF 10.00"
     assert_text "Payments with reference numbers are processed automatically overnight. Please contact us if one of your payments does not appear."
 
