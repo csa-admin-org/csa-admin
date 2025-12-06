@@ -181,7 +181,7 @@ GEM
     cmxl (2.2)
       rchardet
     concurrent-ruby (1.3.5)
-    connection_pool (3.0.1)
+    connection_pool (3.0.2)
     console (1.34.2)
       fiber-annotation
       fiber-local (~> 1.1)
@@ -811,7 +811,7 @@ CHECKSUMS
   cmdparse (3.0.7) sha256=f7c5cace10bec6abf853370ae095e4b97a84ed9d847b3fb38f41cc4fbc950739
   cmxl (2.2) sha256=2f502f7dd8e9b64db40a75c7c18023e6b554a10f26a6f34c55ee61c412b10bda
   concurrent-ruby (1.3.5) sha256=813b3e37aca6df2a21a3b9f1d497f8cbab24a2b94cab325bffe65ee0f6cbebc6
-  connection_pool (3.0.1) sha256=819ea60fcbee0b557fec6dce41925ec7d24a137a6602587785a9e5a3aaaa6b6c
+  connection_pool (3.0.2) sha256=33fff5ba71a12d2aa26cb72b1db8bba2a1a01823559fb01d29eb74c286e62e0a
   console (1.34.2) sha256=1c036abf606ccec83f9dc28f0c31710fe5936ffe7ba5d235ae2865590a482d58
   countries (8.0.4) sha256=0b28372dc28e4c40d26b05569f5f5d05048b49c973af3be5c0e511e20d126bcd
   crass (1.0.6) sha256=dc516022a56e7b3b156099abc81b6d2b08ea1ed12676ac7a5657617f012bd45d
