@@ -2,10 +2,9 @@
 
 class Payment < ApplicationRecord
   include HasFiscalYear
+  include HasComment
   include Auditable
   include HasCurrency
-
-  attr_accessor :comment
 
   audited_attributes :member_id, :invoice_id, :date, :amount, :origin, :ignored_at
 
