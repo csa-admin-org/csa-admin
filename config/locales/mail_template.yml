@@ -127,6 +127,12 @@ _:
         _de: Ihr Abonnement verlängern (Erinnerung)
         _it: Rinnovo del vostro abbonamento (promemoria)
         _nl: Vernieuw uw lidmaatschap (herinnering)
+      membership_second_last_trial_basket:
+        _en: Second to last trial basket!
+        _fr: Avant-dernier panier à l'essai!
+        _de: Vorletzte Probe Tasche!
+        _it: Penultimo cestino da provare!
+        _nl: Voorlaatste proefpakket!
     description:
       absence_basket_shifted:
         _en: Sent when a basket is shifted during an absence, by a member or an admin.
@@ -254,6 +260,12 @@ _:
         _de: Gesendet, um das Mitglied daran zu erinnern, dass es das Abonnementserneuerungsformular noch nicht ausgefüllt hat (siehe <a href='/settings#membership_renewal'>die Einstellungen</a> für die Frist).
         _it: Inviato per ricordare al socio che non ha ancora completato il modulo di rinnovo dell'abbonamento (vedi <a href='/settings#membership_renewal'>parametri</a> per le scadenze).
         _nl: Verzonden om het lid eraan te herinneren dat ze het formulier voor lidmaatschapsvernieuwing nog niet hebben ingevuld (zie <a href='/settings#membership_renewal'>instellingen</a> voor de deadline).
+      membership_second_last_trial_basket:
+        _en: Sent on the day of delivery of the second to last trial basket, one basket earlier than the last trial basket email.
+        _fr: Envoyé le jour de la livraison de l'avant-dernier panier à l'essai, un panier avant l'email du dernier panier à l'essai.
+        _de: Wird gesendet am Tag der Auslieferung der vorletzten Probe-Tasche, eine Tasche früher als die E-Mail der letzten Probe-Tasche.
+        _it: Inviato il giorno della consegna del penultimo cestino di prova, un cestino prima dell'email dell'ultimo cestino di prova.
+        _nl: Verzonden op de leveringsdag van het voorlaatste proefpakket, één pakket eerder dan de e-mail van het laatste proefpakket.
     title:
       absence_basket_shifted:
         _en: Basket Shifted
@@ -381,3 +393,9 @@ _:
         _de: Abonnement verlängern (Erinnerung)
         _it: Rinnovo abbonamento (promemoria)
         _nl: Lidmaatschapsvernieuwing (herinnering)
+      membership_second_last_trial_basket:
+        _en: Second to last trial basket
+        _fr: Avant-dernier panier à l'essai
+        _de: Vorletzte Probe Tasche
+        _it: Penultimo cestino da provare
+        _nl: Voorlaatste proefpakket

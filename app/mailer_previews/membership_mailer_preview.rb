@@ -27,6 +27,12 @@ class MembershipMailerPreview < ActionMailer::Preview
     MembershipMailer.with(params).last_basket_email
   end
 
+  def second_last_trial_basket_email
+    params.merge!(second_last_trial_basket_email_params)
+    params[:template] ||= MailTemplate.find_by!(title: :membership_second_last_trial_basket)
+    MembershipMailer.with(params).second_last_trial_basket_email
+  end
+
   def last_trial_basket_email
     params.merge!(last_trial_basket_email_params)
     params[:template] ||= MailTemplate.find_by!(title: :membership_last_trial_basket)
@@ -51,6 +57,7 @@ class MembershipMailerPreview < ActionMailer::Preview
   def final_basket_email_params; basket_params; end
   def first_basket_email_params; basket_params; end
   def last_basket_email_params; basket_params; end
+  def second_last_trial_basket_email_params; basket_params; end
   def last_trial_basket_email_params; basket_params; end
 
   def basket_params
