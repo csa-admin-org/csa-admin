@@ -84,9 +84,6 @@ production: &production
   locali:
     admin_host: admin.panier-locali.ch
     members_host: membres.panier-locali.ch
-  wurzelkollektiv:
-    admin_host: admin.wurzelkollektiv.de
-    members_host: mitglieder.wurzelkollektiv.de
   fermedesverpilleres:
     admin_host: admin.ferme-des-verpilleres.ch
     members_host: membres.ferme-des-verpilleres.ch
