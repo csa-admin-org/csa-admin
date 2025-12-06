@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_11_29_111012) do
+ActiveRecord::Schema[8.1].define(version: 2025_12_06_113505) do
   create_table "absences", force: :cascade do |t|
     t.datetime "created_at"
     t.date "ended_on"
@@ -582,6 +582,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_11_29_111012) do
     t.datetime "renewal_opened_at"
     t.datetime "renewal_reminder_sent_at"
     t.datetime "renewed_at"
+    t.datetime "second_last_trial_basket_sent_at"
     t.date "started_on", null: false
     t.integer "trial_baskets_count", default: 0
     t.datetime "updated_at"

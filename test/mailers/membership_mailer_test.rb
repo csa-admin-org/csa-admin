@@ -99,6 +99,26 @@ class MembershipMailerTest < ActionMailer::TestCase
     assert_equal "outbound", mail[:message_stream].to_s
   end
 
+  test "second_last_trial_basket_email" do
+    travel_to "2024-01-01"
+    template = mail_templates(:membership_second_last_trial_basket)
+    membership = memberships(:john)
+    basket = membership.baskets.first
+
+    mail = MembershipMailer.with(
+      template: template,
+      basket: basket,
+    ).second_last_trial_basket_email
+
+    assert_equal "Second to last trial basket!", mail.subject
+    assert_equal [ "john@doe.com" ], mail.to
+    assert_equal "membership-second-last-trial-basket", mail.tag
+    assert_includes mail.body.to_s, "It's the day of your second to last trial basket..."
+    assert_includes mail.body.to_s, "https://members.acme.test"
+    assert_equal "Acme <info@acme.test>", mail[:from].decoded
+    assert_equal "outbound", mail[:message_stream].to_s
+  end
+
   test "renewal_email" do
     travel_to "2024-01-01"
     template = mail_templates(:membership_renewal)

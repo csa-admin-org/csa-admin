@@ -47,6 +47,17 @@ class MembershipMailer < ApplicationMailer
       "membership" => Liquid::MembershipDrop.new(membership))
   end
 
+  def second_last_trial_basket_email
+    basket = params[:basket]
+    membership = params[:membership] || basket.membership
+    member = params[:member] || membership.member
+    template_mail(member,
+      tag: "membership-second-last-trial-basket",
+      "basket" => Liquid::BasketDrop.new(basket),
+      "member" => Liquid::MemberDrop.new(member),
+      "membership" => Liquid::MembershipDrop.new(membership))
+  end
+
   def last_trial_basket_email
     basket = params[:basket]
     membership = params[:membership] || basket.membership

@@ -13,6 +13,7 @@ module Notifier
     send_membership_final_basket_emails
     send_membership_first_basket_emails
     send_membership_last_basket_emails
+    send_membership_second_last_trial_basket_emails
     send_membership_last_trial_basket_emails
     send_membership_renewal_reminder_emails
 
@@ -185,6 +186,29 @@ module Notifier
     baskets.each do |b|
       MailTemplate.deliver_later(:membership_last_trial_basket, basket: b)
       b.membership.touch(:last_trial_basket_sent_at)
+    end
+  end
+
+  def send_membership_second_last_trial_basket_emails
+    template = MailTemplate.active_template(:membership_second_last_trial_basket)
+    return unless template
+
+    baskets =
+      Membership
+        .trial
+        .where(delivery_cycle_id: template.delivery_cycle_ids)
+        .where(second_last_trial_basket_sent_at: nil)
+        .includes(:member, baskets: :delivery)
+        .select(&:can_send_email?)
+        .reject(&:trial_only?)
+        .select { |m| m.baskets.trial.count >= 2 }
+        .map { |m| m.baskets.trial[-2] }
+        .compact
+        .select { |b| b.delivery.date.today? }
+
+    baskets.each do |b|
+      MailTemplate.deliver_later(:membership_second_last_trial_basket, basket: b)
+      b.membership.touch(:second_last_trial_basket_sent_at)
     end
   end
 

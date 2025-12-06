@@ -14,6 +14,7 @@ class MailTemplate < ApplicationRecord
     membership_final_basket
     membership_first_basket
     membership_last_basket
+    membership_second_last_trial_basket
     membership_last_trial_basket
     membership_renewal
     membership_renewal_reminder
@@ -202,6 +203,8 @@ class MailTemplate < ApplicationRecord
       Current.org.open_renewal_reminder_sent_after_in_days.blank?
     when "bidding_round_opened_reminder"
       Current.org.open_bidding_round_reminder_sent_after_in_days.blank?
+    when "membership_second_last_trial_basket"
+      Current.org.trial_baskets_count < 2
     else
       false
     end
