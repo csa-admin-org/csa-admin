@@ -7,6 +7,7 @@ require "stringio"
 class Invoice < ApplicationRecord
   include HasFiscalYear
   include HasState
+  include HasComment
   include Auditable
   include HasAttachments
   include HasCurrency
@@ -15,7 +16,6 @@ class Invoice < ApplicationRecord
 
   attribute :activity_price, :decimal, default: -> { Current.org.activity_price }
   attr_writer :membership_amount_fraction, :send_email
-  attr_accessor :comment
 
   has_states :processing, :open, :closed, :canceled
 
