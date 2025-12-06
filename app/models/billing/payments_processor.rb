@@ -20,7 +20,7 @@ module Billing
 
     def process!
       unless @payments_data.present?
-        Rails.event.notify(:payment_processing_no_payments_data)
+        Rails.event.notify(:payment_processing_no_payments_data, {})
         return
       end
 
