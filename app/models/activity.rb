@@ -2,11 +2,10 @@
 
 class Activity < ApplicationRecord
   include HasDate
-  include TranslatedAttributes
   include HasFiscalYear
+  include TranslatedAttributes
   include BulkDatesInsert
-
-  attr_reader :preset_id, :preset
+  include Availability, Presetable
 
   attribute :start_time, :time_only
   attribute :end_time, :time_only
@@ -16,54 +15,15 @@ class Activity < ApplicationRecord
 
   has_many :participations, class_name: "ActivityParticipation"
 
-  scope :future, -> { where(date: Date.tomorrow..) }
-  scope :ordered, ->(order) { order(date: order, start_time: :asc) }
-  scope :past_current_year, -> { between(Current.fy_range.min...Date.current) }
-  scope :without_participations, -> {
-    includes(:participations).where(participations: { id: nil })
-  }
-
   validates :start_time, :end_time, presence: true
   validates :participants_limit,
     numericality: { greater_than_or_equal_to: 1, allow_nil: true }
   validate :end_time_must_be_greather_than_start_time
   validate :period_duration_must_one_hour
 
-  def self.available_for(member)
-    limit = Current.org.activity_availability_limit_in_days.days.from_now
-    where(date: limit..)
-      .ordered(:asc)
-      .includes(:participations)
-      .reject { |hd| hd.participant?(member) }
-  end
-
-  def self.available
-    limit = Current.org.activity_availability_limit_in_days.days.from_now
-    where(date: limit..)
-      .ordered(:asc)
-      .includes(:participations)
-      .reject(&:full?)
-  end
-
-  def full?
-    participants_limit && missing_participants_count.zero?
-  end
-
-  def missing_participants?
-    !participants_limit || missing_participants_count.positive?
-  end
-
-  def participant?(member)
-    participations.map(&:member_id).include?(member.id)
-  end
-
-  def participants_count
-    participations.map(&:participants_count).sum
-  end
-
-  def missing_participants_count
-    participants_limit && participants_limit - participants_count
-  end
+  scope :future, -> { where(date: Date.tomorrow..) }
+  scope :ordered, ->(order) { order(date: order, start_time: :asc) }
+  scope :past_current_year, -> { between(Current.fy_range.min...Date.current) }
 
   def display_name
     name
@@ -77,21 +37,6 @@ class Activity < ApplicationRecord
 
   def period
     [ start_time, end_time ].map { |t| t.strftime("%-k:%M") }.join("-")
-  end
-
-  %i[places place_urls titles].each do |attr|
-    define_method attr do
-      @preset ? Hash.new("preset") : self[attr]
-    end
-  end
-
-  def preset_id=(preset_id)
-    @preset_id = preset_id
-    if @preset = ActivityPreset.find_by(id: preset_id)
-      self.places = @preset.places
-      self.place_urls = @preset.place_urls
-      self.titles = @preset.titles
-    end
   end
 
   def can_destroy?
