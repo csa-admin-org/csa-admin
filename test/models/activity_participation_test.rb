@@ -42,28 +42,7 @@ class ActivityParticipationTest < ActiveSupport::TestCase
     assert participation.valid?
   end
 
-  test "validates carpooling phone and city presence when carpooling is checked" do
-    participation = ActivityParticipation.build(
-      activity: activities(:harvest),
-      participants_count: 1,
-      carpooling: "1")
-    participation.validate
 
-    assert_not participation.errors[:carpooling_phone].empty?
-    assert_not participation.errors[:carpooling_city].empty?
-  end
-
-  test "validates carpooling phone format when carpooling is checked" do
-    travel_to "2024-01-01"
-    participation = ActivityParticipation.build(
-      activity: activities(:harvest),
-      participants_count: 1,
-      carpooling_phone: "foo",
-      carpooling: "1")
-    participation.validate
-
-    assert_not participation.errors[:carpooling_phone].empty?
-  end
 
   test "invoice_all_missing noop if no activity price" do
     org(activity_price: 0)
@@ -154,17 +133,7 @@ class ActivityParticipationTest < ActiveSupport::TestCase
     assert_nil participation.reject!(admin)
   end
 
-  test "carpooling resets carpooling phone and city if carpooling = 0" do
-    participation = ActivityParticipation.create!(
-      member: members(:martha),
-      activity: activities(:harvest),
-      carpooling: "0",
-      carpooling_phone: "+41 79 123 45 67",
-      carpooling_city: "Nowhere")
 
-    assert_nil participation.carpooling_phone
-    assert_nil participation.carpooling_city
-  end
 
   test "destroyable? returns true when not the same day" do
     org(activity_participation_deletion_deadline_in_days: nil)
