@@ -95,6 +95,7 @@ class Ability
       can :future_billing, Membership
       can :renew, Membership
       can :cancel, Membership
+      can :cancel_keep_support, Membership
     end
 
     if admin.permission.can_write?(:billing)

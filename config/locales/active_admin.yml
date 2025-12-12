@@ -1291,11 +1291,17 @@ _:
           _it: Annullare
           _nl: Annuleren
         cancel_renewal:
-          _en: Cancel renewal
+          _en: Cancel
           _fr: Résilier
           _de: Kündigen
           _it: Terminare
-          _nl: Vernieuwing annuleren
+          _nl: Opzeggen
+        cancel_renewal_keep_support:
+          _en: Cancel (support)
+          _fr: Résilier (soutien)
+          _de: Kündigen (Förderung)
+          _it: Terminare (sostegno)
+          _nl: Opzeggen (ondersteuning)
         clear_activity_participations_demanded/basket_preparation:
           _en: Clear demanded basket preparations
           _fr: Annuler les préparations de paniers demandées
