@@ -525,6 +525,18 @@ ActiveAdmin.register Membership do
                         end
                     end
                   end
+                  if Current.org.annual_fee? && authorized?(:cancel_keep_support, m)
+                    div do
+                      button_to cancel_keep_support_membership_path(m),
+                        form: {
+                          data: { controller: "disable", disable_with_value: t("formtastic.processing") }
+                        },
+                        data: { confirm: t(".confirm") },
+                        class: "btn btn-sm destructive" do
+                          icon("x-circle", class: "size-4 me-1.5") + t(".cancel_renewal_keep_support")
+                        end
+                    end
+                  end
                 end
               else
                 div class: "mt-2 flex items-center justify-center gap-4" do
@@ -564,6 +576,18 @@ ActiveAdmin.register Membership do
                         data: { confirm: t(".confirm") },
                         class: "btn btn-sm destructive" do
                           icon("x-circle", class: "size-4 me-1.5") + t(".cancel_renewal")
+                        end
+                    end
+                  end
+                  if Current.org.annual_fee? && authorized?(:cancel_keep_support, m)
+                    div do
+                      button_to cancel_keep_support_membership_path(m),
+                        form: {
+                          data: { controller: "disable", disable_with_value: t("formtastic.processing") }
+                        },
+                        data: { confirm: t(".confirm") },
+                        class: "btn btn-sm destructive" do
+                          icon("x-circle", class: "size-4 me-1.5") + t(".cancel_renewal_keep_support")
                         end
                     end
                   end
@@ -925,6 +949,11 @@ ActiveAdmin.register Membership do
 
   member_action :cancel, method: :post do
     resource.cancel!
+    redirect_to resource
+  end
+
+  member_action :cancel_keep_support, method: :post do
+    resource.cancel!(renewal_annual_fee: true)
     redirect_to resource
   end
 

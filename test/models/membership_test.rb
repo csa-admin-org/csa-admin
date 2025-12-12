@@ -704,13 +704,14 @@ class MembershipTest < ActiveSupport::TestCase
   test "mark_renewal_as_pending! sets renew to true when previously canceled" do
     travel_to "2024-01-01"
     membership = memberships(:jane)
-    membership.cancel!
+    membership.cancel!(renewal_annual_fee: true)
 
     assert_changes -> { membership.reload.renew }, from: false, to: true do
       membership.mark_renewal_as_pending!
     end
 
     assert membership.renewal_pending?
+    assert_nil membership.reload.renewal_annual_fee
   end
 
   test "open_renewal! requires future deliveries to be present" do

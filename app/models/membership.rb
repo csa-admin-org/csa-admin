@@ -278,6 +278,7 @@ class Membership < ApplicationRecord
     raise "renewal already pending" if renew?
 
     self[:renew] = true
+    self[:renewal_annual_fee] = nil
     save!
   end
 
