@@ -18,13 +18,25 @@ Some organizations offer different delivery choices, for example:
 
 ### Settings
 
-Delivery cycles offer several configuration options to filter deliveries:
+Settings define the initial selection of deliveries for this cycle. These filters are applied first:
 
 - **Days**: Select which days of the week are included (e.g., Mondays only).
 - **First week / Last week**: Limit deliveries to a specific range of week numbers. Useful for seasonal cycles (e.g., week 18 to week 42 for a summer season).
-- **Months**: Select which months are included.
-- **Final Filtering**: After other filters are applied, keep only certain deliveries (e.g., even, odd, first of each month, etc.).
-- **Minimum gap (in days)**: Set a minimum number of days between two deliveries (e.g., 13 for a delivery every 2 weeks).
+- **Week numbers**: Filter by even or odd week numbers.
+
+### Periods
+
+Periods then apply additional filtering to the deliveries selected by the settings above. They divide the fiscal year into segments, each with its own rules. This two-step approach (settings → periods) gives you fine-grained control over which deliveries are included.
+
+Each delivery cycle must have at least one period. Periods cannot overlap within the same cycle.
+
+Each period has the following options:
+
+- **From month / To month**: Define the fiscal year month range this period applies to (e.g., January to June for a first semester).
+- **Delivery selection**: Within the period's month range, determines which deliveries are kept (e.g., all, every other, first of each month, etc.).
+- **Minimum gap (in days)**: Set a minimum number of days between two deliveries within this period (e.g., 13 for a delivery every 2 weeks).
+
+This allows for flexible configurations, such as weekly deliveries during summer months and bi-weekly deliveries during winter, all within the same delivery cycle.
 
 ### Depot availability
 

@@ -73,17 +73,17 @@ class FiscalYearTest < ActiveSupport::TestCase
     assert_equal Date.new(2019, 3, 31), fy.end_of_year
   end
 
-  test "month returns same month number with start_month 1" do
+  test "fy_month returns same month number with start_month 1" do
     today = Date.current
     fy = FiscalYear.current
-    assert_equal today.month, fy.month(today)
+    assert_equal today.month, fy.fy_month(today)
   end
 
-  test "month returns month number since beginning_of_year" do
+  test "fy_month returns fiscal year month number since beginning_of_year" do
     fy = FiscalYear.for(2017, start_month: 4)
-    assert_equal 1, fy.month(Date.new(2017, 4, 1))
-    assert_equal 9, fy.month(Date.new(2017, 12, 1))
-    assert_equal 12, fy.month(Date.new(2018, 3, 1))
+    assert_equal 1, fy.fy_month(Date.new(2017, 4, 1))
+    assert_equal 9, fy.fy_month(Date.new(2017, 12, 1))
+    assert_equal 12, fy.fy_month(Date.new(2018, 3, 1))
   end
 
   test "current_quarter_range returns Q3 range" do

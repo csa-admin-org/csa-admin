@@ -519,30 +519,12 @@ _:
           _de: Letzte Woche
           _it: Ultima settimana
           _nl: Laatste week
-        minimum_gap_in_days:
-          _en: Minimum gap (in days)
-          _fr: Écart minimum (en jours)
-          _de: Minimale Lücke (in Tagen)
-          _it: Intervallo minimo (in giorni)
-          _nl: Minimale tussentijd (in dagen)
-        months:
-          _en: Months
-          _fr: Mois
-          _de: Monate
-          _it: Mesi
-          _nl: Maanden
         next_delivery:
           _en: Next delivery
           _fr: Prochaine livraison
           _de: Nächste Lieferung
           _it: Prossime consegne
           _nl: Volgende levering
-        results:
-          _en: Final delivery filtering
-          _fr: Filtrage final des livraisons
-          _de: Endliche Lieferungen filtern
-          _it: Filtraggio finale della consegna
-          _nl: Definitieve leveringsfiltering
         wdays:
           _en: Days
           _fr: Jours
@@ -555,6 +537,31 @@ _:
           _de: Wochen
           _it: Settimane
           _nl: Weken
+      delivery_cycle/period:
+        from_fy_month:
+          _en: From
+          _fr: De
+          _de: Von
+          _it: Dal
+          _nl: Vanaf
+        minimum_gap_in_days:
+          _en: Minimum gap (in days)
+          _fr: Écart minimum (en jours)
+          _de: Minimale Lücke (in Tagen)
+          _it: Intervallo minimo (in giorni)
+          _nl: Minimale tussentijd (in dagen)
+        results:
+          _en: Delivery selection
+          _fr: Sélection des livraisons
+          _de: Lieferungsauswahl
+          _it: Selezione delle consegne
+          _nl: Leveringsselectie
+        to_fy_month:
+          _en: To
+          _fr: À
+          _de: Bis
+          _it: Al
+          _nl: Tot
       depot:
         address_name:
           _en: Name
@@ -2765,6 +2772,19 @@ _:
           _de: Zyklen von Lieferungen
           _it: Cicli di consegne
           _nl: Leveringscycli
+      delivery_cycle/period:
+        one:
+          _en: Period
+          _fr: Période
+          _de: Zeitraum
+          _it: Periodo
+          _nl: Periode
+        other:
+          _en: Periods
+          _fr: Périodes
+          _de: Zeiträume
+          _it: Periodi
+          _nl: Periodes
       depot:
         one:
           _en: Depot

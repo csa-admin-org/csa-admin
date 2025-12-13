@@ -69,6 +69,12 @@ _:
         _de: Die IDs der "content" Blöcke müssen einzigartig sein
         _it: Gli ID dei blocchi "content" devono essere unici
         _nl: De ID's van de "content" blokken moeten uniek zijn
+      delivery_cycle_periods_overlap:
+        _en: periods cannot overlap
+        _fr: les périodes ne peuvent pas se chevaucher
+        _de: Zeiträume dürfen sich nicht überschneiden
+        _it: i periodi non possono sovrapporsi
+        _nl: periodes mogen niet overlappen
       empty:
         _en: can't be empty
         _fr: doit être rempli(e)

@@ -29,6 +29,21 @@
       @apply gap-6 space-y-2 md:inline-flex md:space-y-0;
     }
 
+    /* Inline inputs within has-many containers */
+    .has-many-fields .period-months {
+      @apply inline-block py-3 pe-6;
+      vertical-align: top;
+    }
+
+    .has-many-fields .period-months label,
+    .has-many-fields .period-months select {
+      vertical-align: top;
+    }
+
+    .has-many-fields .period-months + :not(.period-months) {
+      @apply block;
+    }
+
     /* Navigation */
     .tabs-nav {
       @apply m-0 mt-2 mb-6 flex flex-wrap gap-6 border-b-0 border-gray-200 text-center text-xl font-extralight text-gray-950 dark:border-gray-700 dark:text-white;

@@ -123,18 +123,33 @@ ActiveAdmin.register DeliveryCycle do
                 dc.wdays.map { |d| t("date.day_names")[d].capitalize }.to_sentence
               end
             }
-            row(:first_cweek) { dc.first_cweek }
-            row(:last_cweek) { dc.last_cweek }
+            if dc.first_cweek?
+              row(:first_cweek) { dc.first_cweek }
+            end
+            if dc.last_cweek?
+              row(:last_cweek) { dc.last_cweek }
+            end
             row(:week_numbers) { t("delivery_cycle.week_numbers.#{dc.week_numbers}") }
-            row(:months) {
-              if dc.months.size == 12
-                t("active_admin.scopes.all")
+          end
+        end
+
+        panel DeliveryCycle::Period.model_name.human(count: 2) do
+          table_for dc.periods.order(:from_fy_month) do
+            column t("delivery_cycle.period.fy_months"), ->(p) {
+              from_month = fy_month_name(p.from_fy_month)
+              to_month = fy_month_name(p.to_fy_month)
+              if p.from_fy_month == p.to_fy_month
+                from_month
               else
-                dc.months.map { |m| t("date.month_names")[m].capitalize }.to_sentence
+                [ from_month, to_month ].join(" – ")
               end
-            }
-            row(:results) { t("delivery_cycle.results.#{dc.results}") }
-            row(:minimum_gap_in_days) { dc.minimum_gap_in_days }
+            }, class: "whitespace-nowrap"
+            column Delivery.model_name.human(count: 2), ->(p) {
+              t("delivery_cycle.results.#{p.results}")
+            }, class: "text-right"
+            column t("delivery_cycle.period.minimum_gap"), ->(p) {
+              p.minimum_gap_in_days || "–"
+            }, class: "text-right"
           end
         end
 
@@ -186,6 +201,7 @@ ActiveAdmin.register DeliveryCycle do
     end
 
     f.inputs t("delivery_cycle.settings") do
+      para t("formtastic.hints.delivery_cycle.settings_intro"), class: "description -mt-2 mb-6"
       f.input :wdays,
         as: :check_boxes,
         collection: wdays_collection,
@@ -208,15 +224,33 @@ ActiveAdmin.register DeliveryCycle do
         include_blank: false,
         wrapper_html: { class: "[&>p]:text-red-500" },
         input_html: { class: "w-40" }
-      f.input :months,
-        as: :check_boxes,
-        collection: months_collection(fiscal_year_order: true),
-        required: true
-      f.input :results,
-        as: :select,
-        collection: results_collection,
-        include_blank: false
-      f.input :minimum_gap_in_days
+    end
+
+    f.inputs DeliveryCycle::Period.model_name.human(count: 2) do
+      para t("formtastic.hints.delivery_cycle.periods_intro"), class: "description -mt-2 mb-6"
+      f.semantic_errors :periods
+      f.has_many :periods, allow_destroy: true, new_record: t("delivery_cycle.add_period"), heading: nil do |ff|
+        ff.input :from_fy_month,
+          as: :select,
+          required: false,
+          include_blank: false,
+          collection: fy_months_collection,
+          wrapper_html: { class: "period-months" },
+          hint: fy_months_next_year_hint
+        ff.input :to_fy_month,
+          as: :select,
+          required: false,
+          include_blank: false,
+          collection: fy_months_collection,
+          wrapper_html: { class: "period-months" },
+          hint: fy_months_next_year_hint
+        ff.input :results,
+          as: :select,
+          collection: results_collection,
+          required: false,
+          include_blank: false
+        ff.input :minimum_gap_in_days
+      end
     end
 
     f.actions
@@ -227,8 +261,6 @@ ActiveAdmin.register DeliveryCycle do
     :member_order_priority,
     :price, :absences_included_annually,
     :week_numbers,
-    :results,
-    :minimum_gap_in_days,
     :first_cweek,
     :last_cweek,
     *I18n.available_locales.map { |l| "public_name_#{l}" },
@@ -236,8 +268,12 @@ ActiveAdmin.register DeliveryCycle do
     *I18n.available_locales.map { |l| "invoice_name_#{l}" },
     *I18n.available_locales.map { |l| "form_detail_#{l}" },
     wdays: [],
-    months: [],
-    depot_ids: [])
+    depot_ids: [],
+    periods_attributes: [ :id, :from_fy_month, :to_fy_month, :results, :minimum_gap_in_days, :_destroy ])
+
+  before_build do |cycle|
+    cycle.periods.build if cycle.periods.empty?
+  end
 
   controller do
     include DeliveryCyclesHelper

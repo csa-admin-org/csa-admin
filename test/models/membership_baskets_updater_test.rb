@@ -14,7 +14,11 @@ class MembershipBasketsUpdaterTest < ActiveSupport::TestCase
 
     assert_difference -> { membership.reload.baskets.count }, -7 do
       assert_difference -> { membership.reload.price }, -140 do
-        cycle.update!(results: "first_of_each_month")
+        cycle.update!(
+          periods_attributes: cycle.periods.map { |p| { id: p.id, _destroy: true } } + [
+            { from_fy_month: 1, to_fy_month: 12, results: :first_of_each_month }
+          ]
+        )
         perform_enqueued_jobs
       end
     end
@@ -39,7 +43,11 @@ class MembershipBasketsUpdaterTest < ActiveSupport::TestCase
     membership = memberships(:john)
 
     assert_difference -> { membership.reload.baskets.count }, -3 do
-      cycle.update!(results: "first_of_each_month")
+      cycle.update!(
+        periods_attributes: cycle.periods.map { |p| { id: p.id, _destroy: true } } + [
+          { from_fy_month: 1, to_fy_month: 12, results: :first_of_each_month }
+        ]
+      )
       perform_enqueued_jobs
     end
 

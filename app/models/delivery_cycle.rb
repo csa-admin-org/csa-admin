@@ -11,10 +11,7 @@ class DeliveryCycle < ApplicationRecord
     wdays
     first_cweek
     last_cweek
-    months
     week_numbers
-    results
-    minimum_gap_in_days
   ]
 
   include TranslatedAttributes
@@ -23,16 +20,12 @@ class DeliveryCycle < ApplicationRecord
   include HasPrice
 
   enum :week_numbers, %i[all odd even], suffix: true
-  enum :results, %i[
-    all
-    odd even
-    quarter_1 quarter_2 quarter_3 quarter_4
-    all_but_first
-    first_of_each_month
-    last_of_each_month
-  ], suffix: true
 
   has_many :memberships
+  has_many :periods,
+    -> { order(:from_fy_month, :to_fy_month) },
+    class_name: "DeliveryCycle::Period",
+    dependent: :destroy
   has_many :memberships_basket_complements
   has_many :basket_sizes, -> { kept }
 
@@ -41,17 +34,13 @@ class DeliveryCycle < ApplicationRecord
   translated_attributes :invoice_name
   translated_attributes :form_detail
 
+  accepts_nested_attributes_for :periods, allow_destroy: true
+
   scope :ordered, -> { order_by_name }
   scope :visible, -> {
     unscoped.kept.joins(:depots).merge(Depot.unscoped.visible).distinct
   }
 
-  validates :minimum_gap_in_days,
-    numericality: {
-      greater_than_or_equal_to: 1,
-      only_integer: true,
-      allow_nil: true
-    }
   validates :absences_included_annually,
     presence: true,
     numericality: {
@@ -65,14 +54,18 @@ class DeliveryCycle < ApplicationRecord
       only_integer: true,
       allow_nil: true
     }
+  validate :must_have_at_least_one_period
 
-  after_save :reset_cache!
-  after_commit :update_baskets_async, on: :update
+  before_save :track_periods_changes
+  after_save :reset_cache!, if: :configuration_or_periods_changed?
+  after_commit :update_baskets_async, on: :update, if: :configuration_or_periods_changed?
 
   def self.create_default!
-    create!(names: Organization.languages.map { |l|
-      [ l, I18n.t("delivery_cycle.default_name", locale: l) ]
-    }.to_h)
+    create!(
+      names: Organization.languages.map { |l|
+        [ l, I18n.t("delivery_cycle.default_name", locale: l) ]
+      }.to_h,
+      periods_attributes: [ { from_fy_month: 1, to_fy_month: 12 } ])
   end
 
   def self.for(delivery)
@@ -229,10 +222,6 @@ class DeliveryCycle < ApplicationRecord
     super wdays.map(&:presence).compact.map(&:to_i) & Array(0..6).map(&:to_i)
   end
 
-  def months=(months)
-    super months.map(&:presence).compact.map(&:to_i) & Array(1..12).map(&:to_i)
-  end
-
   def can_delete?
     memberships.none? &&
       memberships_basket_complements.none? &&
@@ -252,8 +241,8 @@ class DeliveryCycle < ApplicationRecord
     scoped =
       Delivery
         .where("time_get_weekday(time_parse(date)) IN (?)", wdays)
-        .where("time_get_month(time_parse(date)) IN (?)", months)
         .during_year(year)
+
     if first_cweek.present?
       first_cweek_year = fiscal_year.beginning_of_year.year
       scoped = scoped.where(
@@ -275,46 +264,34 @@ class DeliveryCycle < ApplicationRecord
     elsif even_week_numbers?
       scoped = scoped.where("time_get_isoweek(time_parse(date)) % 2 = ?", 0)
     end
-    if all_but_first_results?
-      scoped = scoped.to_a[1..-1] || []
-    elsif odd_results?
-      scoped = scoped.to_a.select.with_index { |_, i| (i + 1).odd? }
-    elsif even_results?
-      scoped = scoped.to_a.select.with_index { |_, i| (i + 1).even? }
-    elsif quarter_1_results?
-      scoped = scoped.to_a.select.with_index { |_, i| i % 4 == 0 }
-    elsif quarter_2_results?
-      scoped = scoped.to_a.select.with_index { |_, i| i % 4 == 1 }
-    elsif quarter_3_results?
-      scoped = scoped.to_a.select.with_index { |_, i| i % 4 == 2 }
-    elsif quarter_4_results?
-      scoped = scoped.to_a.select.with_index { |_, i| i % 4 == 3 }
-    elsif first_of_each_month_results?
-      scoped = scoped.to_a.group_by { |d| d.date.mon }.map { |_, ds| ds.first }
-    elsif last_of_each_month_results?
-      scoped = scoped.to_a.group_by { |d| d.date.mon }.map { |_, ds| ds.last }
-    end
-    if minimum_gap_in_days.present?
-      scoped = enforce_minimum_gap_in_days(scoped.to_a)
-    end
-    scoped
+
+    base_deliveries = scoped.to_a
+
+    deliveries = periods.flat_map { |p| p.filter(base_deliveries) }
+    deliveries.uniq.sort_by(&:date)
   end
 
   private
 
-  def update_baskets_async
-    if (CONFIGURATION_ATTRIBUTES & saved_changes.keys).any?
-      DeliveryCycleBasketsUpdaterJob.perform_later(self)
-    end
+  def must_have_at_least_one_period
+    return if periods.reject(&:marked_for_destruction?).any?
+
+    errors.add(:periods, :blank)
   end
 
-  def enforce_minimum_gap_in_days(deliveries)
-    past_date = nil
-    deliveries.select { |d|
-      if past_date.nil? || (d.date - past_date) >= minimum_gap_in_days
-        past_date = d.date
-        true
-      end
-    }
+  def update_baskets_async
+    DeliveryCycleBasketsUpdaterJob.perform_later(self)
+  end
+
+  def track_periods_changes
+    @periods_changed =
+      periods.any? { |p|
+        p.new_record? || p.marked_for_destruction? || p.has_changes_to_save?
+      }
+  end
+
+  def configuration_or_periods_changed?
+    config_changed = (CONFIGURATION_ATTRIBUTES & saved_changes.keys).any?
+    config_changed || @periods_changed
   end
 end

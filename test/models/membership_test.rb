@@ -284,7 +284,12 @@ class MembershipTest < ActiveSupport::TestCase
 
   test "with basket complement with deliveries cycle" do
     travel_to "2024-01-01"
-    delivery_cycles(:thursdays).update!(results: :odd)
+    cycle = delivery_cycles(:thursdays)
+    cycle.update!(
+      periods_attributes: cycle.periods.map { |p| { id: p.id, _destroy: true } } + [
+        { from_fy_month: 1, to_fy_month: 12, results: :odd }
+      ]
+    )
     membership = create_membership(
       delivery_cycle: delivery_cycles(:all),
       memberships_basket_complements_attributes: {
