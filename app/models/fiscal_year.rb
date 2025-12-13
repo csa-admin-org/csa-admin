@@ -64,13 +64,14 @@ class FiscalYear
     year <=> other.year
   end
 
-  def month(date)
-    raise ArgumentError, "date outside fiscal year" unless range.cover?(date)
-    (date.year * 12 + date.month) - (beginning_of_year.year * 12 + beginning_of_year.month) + 1
+  # Returns the fiscal year month (1-12) for a given date.
+  # FY month 1 is the first month of the fiscal year, not necessarily January.
+  def fy_month(date)
+    ((date.month - @start_month) % 12) + 1
   end
 
   def current_quarter_range
-    quarter = ((month(Date.current) - 1) / 3) + 1
+    quarter = ((fy_month(Date.current) - 1) / 3) + 1
     min = (beginning_of_year + ((quarter - 1) * 3).months).beginning_of_day
     max = (min + 2.months).end_of_month
     min..max

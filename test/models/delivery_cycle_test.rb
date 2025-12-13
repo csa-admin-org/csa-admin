@@ -3,6 +3,85 @@
 require "test_helper"
 
 class DeliveryCycleTest < ActiveSupport::TestCase
+  test "delivery cycle periods validation: no overlaps" do
+    cycle = delivery_cycles(:mondays)
+
+    cycle.update!(
+      periods_attributes: cycle.periods.map { |p| { id: p.id, _destroy: true } } + [
+        { from_fy_month: 1, to_fy_month: 3, results: :all }
+      ]
+    )
+
+    period2 = cycle.periods.build(from_fy_month: 3, to_fy_month: 6, results: :all)
+
+    assert_not period2.valid?
+    assert_includes period2.errors[:from_fy_month], I18n.t("errors.messages.delivery_cycle_periods_overlap")
+  end
+
+  test "delivery cycle periods validation: from_fy_month must be <= to_fy_month" do
+    cycle = delivery_cycles(:mondays)
+
+    cycle.update!(
+      periods_attributes: cycle.periods.map { |p| { id: p.id, _destroy: true } } + [
+        { from_fy_month: 1, to_fy_month: 12, results: :all }
+      ]
+    )
+
+    period = cycle.periods.build(from_fy_month: 5, to_fy_month: 4, results: :all)
+
+    assert_not period.valid?
+    assert period.errors[:to_fy_month].any?
+  end
+
+  test "periods filter by FY month window" do
+    cycle = delivery_cycles(:mondays)
+
+    # In tests, the fiscal year starts in January by default, so FY-month 4 == April.
+    cycle.update!(
+      periods_attributes: cycle.periods.map { |p| { id: p.id, _destroy: true } } + [
+        { from_fy_month: 4, to_fy_month: 4, results: :all }
+      ]
+    )
+
+    assert_equal 5, cycle.current_deliveries_count
+    assert_equal 4, cycle.current_deliveries.first.date.month
+  end
+
+  test "multiple periods with different filtering rules" do
+    cycle = delivery_cycles(:mondays)
+
+    # April: all deliveries (5), May: odd only (2 of 4), June: first of month (1)
+    cycle.update!(
+      periods_attributes: cycle.periods.map { |p| { id: p.id, _destroy: true } } + [
+        { from_fy_month: 4, to_fy_month: 4, results: :all },
+        { from_fy_month: 5, to_fy_month: 5, results: :odd },
+        { from_fy_month: 6, to_fy_month: 6, results: :first_of_each_month }
+      ]
+    )
+
+    deliveries = cycle.current_deliveries
+    april_deliveries = deliveries.select { |d| d.date.month == 4 }
+    may_deliveries = deliveries.select { |d| d.date.month == 5 }
+    june_deliveries = deliveries.select { |d| d.date.month == 6 }
+
+    assert_equal 5, april_deliveries.count
+    assert_equal 2, may_deliveries.count # 4 Mondays in May, odd = 1st and 3rd
+    assert_equal 1, june_deliveries.count
+    assert_equal 8, deliveries.count
+  end
+
+  test "must have at least one period" do
+    cycle = delivery_cycles(:mondays)
+
+    # Attempting to destroy all periods via nested attributes should fail validation
+    result = cycle.update(
+      periods_attributes: cycle.periods.map { |p| { id: p.id, _destroy: true } }
+    )
+
+    assert_not result
+    assert cycle.errors[:periods].any?
+  end
+
   setup do
     travel_to "2024-01-01"
   end
@@ -12,7 +91,13 @@ class DeliveryCycleTest < ActiveSupport::TestCase
   end
 
   test "member_ordered" do
-    create_delivery_cycle(name: "MondaysOdd", results: :odd, wdays: [ 1 ])
+    create_delivery_cycle(
+      name: "MondaysOdd",
+      wdays: [ 1 ],
+      periods_attributes: [
+        { from_fy_month: 1, to_fy_month: 12, results: :odd }
+      ]
+    )
 
     assert_equal %w[All Mondays Thursdays MondaysOdd], member_ordered_names
 
@@ -31,13 +116,25 @@ class DeliveryCycleTest < ActiveSupport::TestCase
 
   test "only mondays" do
     cycle = delivery_cycles(:mondays)
+
+    cycle.update!(
+      periods_attributes: cycle.periods.map { |p| { id: p.id, _destroy: true } } + [
+        { from_fy_month: 1, to_fy_month: 12, results: :all }
+      ]
+    )
+
     assert_equal 10, cycle.current_deliveries_count
     assert_equal 1, cycle.current_deliveries.first.date.wday
   end
 
   test "only April" do
     cycle = delivery_cycles(:mondays)
-    cycle.update!(months: [ 4 ])
+
+    cycle.update!(
+      periods_attributes: cycle.periods.map { |p| { id: p.id, _destroy: true } } + [
+        { from_fy_month: 4, to_fy_month: 4, results: :all }
+      ]
+    )
 
     assert_equal 5, cycle.current_deliveries_count
     assert_equal 4, cycle.current_deliveries.first.date.month
@@ -45,6 +142,12 @@ class DeliveryCycleTest < ActiveSupport::TestCase
 
   test "only odd weeks" do
     cycle = delivery_cycles(:mondays)
+
+    cycle.update!(
+      periods_attributes: cycle.periods.map { |p| { id: p.id, _destroy: true } } + [
+        { from_fy_month: 1, to_fy_month: 12, results: :all }
+      ]
+    )
     cycle.update!(week_numbers: :odd)
 
     assert_equal 5, cycle.current_deliveries_count
@@ -53,6 +156,12 @@ class DeliveryCycleTest < ActiveSupport::TestCase
 
   test "only even weeks" do
     cycle = delivery_cycles(:mondays)
+
+    cycle.update!(
+      periods_attributes: cycle.periods.map { |p| { id: p.id, _destroy: true } } + [
+        { from_fy_month: 1, to_fy_month: 12, results: :all }
+      ]
+    )
     cycle.update!(week_numbers: :even)
 
     assert_equal 5, cycle.current_deliveries_count
@@ -61,7 +170,12 @@ class DeliveryCycleTest < ActiveSupport::TestCase
 
   test "all but first results" do
     cycle = delivery_cycles(:mondays)
-    cycle.update!(results: :all_but_first)
+
+    cycle.update!(
+      periods_attributes: cycle.periods.map { |p| { id: p.id, _destroy: true } } + [
+        { from_fy_month: 1, to_fy_month: 12, results: :all_but_first }
+      ]
+    )
 
     assert_equal 9, cycle.current_deliveries_count
     assert_equal [ 3, 5, 7, 9, 11, 13, 15, 17, 19 ], cycle.current_deliveries.pluck(:number)
@@ -69,7 +183,12 @@ class DeliveryCycleTest < ActiveSupport::TestCase
 
   test "only odd results" do
     cycle = delivery_cycles(:mondays)
-    cycle.update!(results: :odd)
+
+    cycle.update!(
+      periods_attributes: cycle.periods.map { |p| { id: p.id, _destroy: true } } + [
+        { from_fy_month: 1, to_fy_month: 12, results: :odd }
+      ]
+    )
 
     assert_equal 5, cycle.current_deliveries_count
     assert_equal [ 1, 5, 9, 13, 17 ], cycle.current_deliveries.pluck(:number)
@@ -77,7 +196,12 @@ class DeliveryCycleTest < ActiveSupport::TestCase
 
   test "only even results" do
     cycle = delivery_cycles(:mondays)
-    cycle.update!(results: :even)
+
+    cycle.update!(
+      periods_attributes: cycle.periods.map { |p| { id: p.id, _destroy: true } } + [
+        { from_fy_month: 1, to_fy_month: 12, results: :even }
+      ]
+    )
 
     assert_equal 5, cycle.current_deliveries_count
     assert_equal [ 3, 7, 11, 15, 19 ], cycle.current_deliveries.pluck(:number)
@@ -85,7 +209,12 @@ class DeliveryCycleTest < ActiveSupport::TestCase
 
   test "only first quarter results" do
     cycle = delivery_cycles(:mondays)
-    cycle.update!(results: :quarter_1)
+
+    cycle.update!(
+      periods_attributes: cycle.periods.map { |p| { id: p.id, _destroy: true } } + [
+        { from_fy_month: 1, to_fy_month: 12, results: :quarter_1 }
+      ]
+    )
 
     assert_equal 3, cycle.current_deliveries_count
     assert_equal [ 1, 9, 17 ], cycle.current_deliveries.pluck(:number)
@@ -93,7 +222,12 @@ class DeliveryCycleTest < ActiveSupport::TestCase
 
   test "only second quarter results" do
     cycle = delivery_cycles(:mondays)
-    cycle.update!(results: :quarter_2)
+
+    cycle.update!(
+      periods_attributes: cycle.periods.map { |p| { id: p.id, _destroy: true } } + [
+        { from_fy_month: 1, to_fy_month: 12, results: :quarter_2 }
+      ]
+    )
 
     assert_equal 3, cycle.current_deliveries_count
     assert_equal [ 3, 11, 19 ], cycle.current_deliveries.pluck(:number)
@@ -101,7 +235,12 @@ class DeliveryCycleTest < ActiveSupport::TestCase
 
   test "only third quarter results" do
     cycle = delivery_cycles(:mondays)
-    cycle.update!(results: :quarter_3)
+
+    cycle.update!(
+      periods_attributes: cycle.periods.map { |p| { id: p.id, _destroy: true } } + [
+        { from_fy_month: 1, to_fy_month: 12, results: :quarter_3 }
+      ]
+    )
 
     assert_equal 2, cycle.current_deliveries_count
     assert_equal [ 5, 13 ], cycle.current_deliveries.pluck(:number)
@@ -109,7 +248,12 @@ class DeliveryCycleTest < ActiveSupport::TestCase
 
   test "only fourth quarter results" do
     cycle = delivery_cycles(:mondays)
-    cycle.update!(results: :quarter_4)
+
+    cycle.update!(
+      periods_attributes: cycle.periods.map { |p| { id: p.id, _destroy: true } } + [
+        { from_fy_month: 1, to_fy_month: 12, results: :quarter_4 }
+      ]
+    )
 
     assert_equal 2, cycle.current_deliveries_count
     assert_equal [ 7, 15 ], cycle.current_deliveries.pluck(:number)
@@ -117,7 +261,12 @@ class DeliveryCycleTest < ActiveSupport::TestCase
 
   test "only first of each month results" do
     cycle = delivery_cycles(:mondays)
-    cycle.update!(results: :first_of_each_month)
+
+    cycle.update!(
+      periods_attributes: cycle.periods.map { |p| { id: p.id, _destroy: true } } + [
+        { from_fy_month: 1, to_fy_month: 12, results: :first_of_each_month }
+      ]
+    )
 
     assert_equal 3, cycle.current_deliveries_count
     assert_equal [ 1, 11, 19 ], cycle.current_deliveries.pluck(:number)
@@ -125,7 +274,12 @@ class DeliveryCycleTest < ActiveSupport::TestCase
 
   test "only last of each month results" do
     cycle = delivery_cycles(:mondays)
-    cycle.update!(results: :last_of_each_month)
+
+    cycle.update!(
+      periods_attributes: cycle.periods.map { |p| { id: p.id, _destroy: true } } + [
+        { from_fy_month: 1, to_fy_month: 12, results: :last_of_each_month }
+      ]
+    )
 
     assert_equal 3, cycle.current_deliveries_count
     assert_equal [ 9, 17, 19 ], cycle.current_deliveries.pluck(:number)
@@ -133,7 +287,12 @@ class DeliveryCycleTest < ActiveSupport::TestCase
 
   test "minimum days gap" do
     cycle = delivery_cycles(:mondays)
-    cycle.update!(minimum_gap_in_days: 8)
+
+    cycle.update!(
+      periods_attributes: cycle.periods.map { |p| { id: p.id, _destroy: true } } + [
+        { from_fy_month: 1, to_fy_month: 12, results: :all, minimum_gap_in_days: 8 }
+      ]
+    )
 
     assert_equal 5, cycle.current_deliveries_count
     assert_equal [ 1, 5, 9, 13, 17 ], cycle.current_deliveries.pluck(:number)
@@ -141,7 +300,12 @@ class DeliveryCycleTest < ActiveSupport::TestCase
 
   test "minimum days gap and all but first results" do
     cycle = delivery_cycles(:mondays)
-    cycle.update!(minimum_gap_in_days: 8, results: :all_but_first)
+
+    cycle.update!(
+      periods_attributes: cycle.periods.map { |p| { id: p.id, _destroy: true } } + [
+        { from_fy_month: 1, to_fy_month: 12, results: :all_but_first, minimum_gap_in_days: 8 }
+      ]
+    )
 
     assert_equal 5, cycle.current_deliveries_count
     assert_equal [ 3, 7, 11, 15, 19 ], cycle.current_deliveries.pluck(:number)
@@ -149,6 +313,12 @@ class DeliveryCycleTest < ActiveSupport::TestCase
 
   test "only deliveries from first_cweek" do
     cycle = delivery_cycles(:mondays)
+
+    cycle.update!(
+      periods_attributes: cycle.periods.map { |p| { id: p.id, _destroy: true } } + [
+        { from_fy_month: 1, to_fy_month: 12, results: :all }
+      ]
+    )
     # Deliveries are on weeks 14, 15, 16, 17, 18, 19, 20, 21, 22, 23
     cycle.update!(first_cweek: 17)
 
@@ -158,6 +328,12 @@ class DeliveryCycleTest < ActiveSupport::TestCase
 
   test "only deliveries until last_cweek" do
     cycle = delivery_cycles(:mondays)
+
+    cycle.update!(
+      periods_attributes: cycle.periods.map { |p| { id: p.id, _destroy: true } } + [
+        { from_fy_month: 1, to_fy_month: 12, results: :all }
+      ]
+    )
     # Deliveries are on weeks 14, 15, 16, 17, 18, 19, 20, 21, 22, 23
     cycle.update!(last_cweek: 19)
 
@@ -167,6 +343,12 @@ class DeliveryCycleTest < ActiveSupport::TestCase
 
   test "deliveries between first_cweek and last_cweek" do
     cycle = delivery_cycles(:mondays)
+
+    cycle.update!(
+      periods_attributes: cycle.periods.map { |p| { id: p.id, _destroy: true } } + [
+        { from_fy_month: 1, to_fy_month: 12, results: :all }
+      ]
+    )
     # Deliveries are on weeks 14, 15, 16, 17, 18, 19, 20, 21, 22, 23
     cycle.update!(first_cweek: 16, last_cweek: 20)
 
@@ -176,7 +358,13 @@ class DeliveryCycleTest < ActiveSupport::TestCase
 
   test "first_cweek combined with other filters" do
     cycle = delivery_cycles(:mondays)
-    cycle.update!(first_cweek: 17, results: :odd)
+
+    cycle.update!(
+      periods_attributes: cycle.periods.map { |p| { id: p.id, _destroy: true } } + [
+        { from_fy_month: 1, to_fy_month: 12, results: :odd }
+      ]
+    )
+    cycle.update!(first_cweek: 17)
 
     # weeks 17, 18, 19, 20, 21, 22, 23 -> odd results: 1st, 3rd, 5th, 7th = weeks 17, 19, 21, 23
     assert_equal 4, cycle.current_deliveries_count
@@ -185,7 +373,13 @@ class DeliveryCycleTest < ActiveSupport::TestCase
 
   test "last_cweek combined with other filters" do
     cycle = delivery_cycles(:mondays)
-    cycle.update!(last_cweek: 19, results: :even)
+
+    cycle.update!(
+      periods_attributes: cycle.periods.map { |p| { id: p.id, _destroy: true } } + [
+        { from_fy_month: 1, to_fy_month: 12, results: :even }
+      ]
+    )
+    cycle.update!(last_cweek: 19)
 
     # weeks 14, 15, 16, 17, 18, 19 -> even results: 2nd, 4th, 6th = weeks 15, 17, 19
     assert_equal 3, cycle.current_deliveries_count
@@ -236,10 +430,21 @@ class DeliveryCycleTest < ActiveSupport::TestCase
 
     cycle = delivery_cycles(:mondays)
 
+    cycle.update!(
+      periods_attributes: [
+        { id: cycle.periods.first.id, _destroy: true },
+        { from_fy_month: 8, to_fy_month: 8, results: :all },
+        { from_fy_month: 10, to_fy_month: 10, results: :all }
+      ]
+    )
+
     # first_cweek: 47 should filter based on 2024 (beginning of fiscal year)
     # So it should include: week 47, 48 (2024) and weeks 2, 3, 4, 5 (2025)
-    # Filter by months 11 and 1 to exclude fixture deliveries (April-June)
-    cycle.update!(first_cweek: 47, months: [ 11, 1 ])
+    # Restrict to FY-months that correspond to calendar months 11 (November) and 1 (January) when FY starts in April:
+    # FY-month 8  => November (within 2024)
+    # FY-month 10 => January (within 2025)
+
+    cycle.update!(first_cweek: 47)
 
     assert_equal 6, cycle.deliveries(2024).count
     assert_equal [ 47, 48, 2, 3, 4, 5 ], cycle.deliveries(2024).pluck(:date).map(&:cweek)
@@ -263,10 +468,21 @@ class DeliveryCycleTest < ActiveSupport::TestCase
 
     cycle = delivery_cycles(:mondays)
 
+    cycle.update!(
+      periods_attributes: [
+        { id: cycle.periods.first.id, _destroy: true },
+        { from_fy_month: 8, to_fy_month: 8, results: :all },
+        { from_fy_month: 10, to_fy_month: 10, results: :all }
+      ]
+    )
+
     # last_cweek: 3 should filter based on 2025 (end of fiscal year)
     # So it should include: weeks 45, 46, 47, 48 (2024) and weeks 2, 3 (2025)
-    # Filter by months 11 and 1 to exclude fixture deliveries (April-June)
-    cycle.update!(last_cweek: 3, months: [ 11, 1 ])
+    # Restrict to FY-months that correspond to calendar months 11 (November) and 1 (January) when FY starts in April:
+    # FY-month 8  => November (within 2024)
+    # FY-month 10 => January (within 2025)
+
+    cycle.update!(last_cweek: 3)
 
     assert_equal 6, cycle.deliveries(2024).count
     assert_equal [ 45, 46, 47, 48, 2, 3 ], cycle.deliveries(2024).pluck(:date).map(&:cweek)
@@ -290,10 +506,21 @@ class DeliveryCycleTest < ActiveSupport::TestCase
 
     cycle = delivery_cycles(:mondays)
 
+    cycle.update!(
+      periods_attributes: [
+        { id: cycle.periods.first.id, _destroy: true },
+        { from_fy_month: 8, to_fy_month: 8, results: :all },
+        { from_fy_month: 10, to_fy_month: 10, results: :all }
+      ]
+    )
+
     # first_cweek: 46 (based on 2024) and last_cweek: 3 (based on 2025)
     # Should include: weeks 46, 47, 48 (2024) and weeks 2, 3 (2025)
-    # Filter by months 11 and 1 to exclude fixture deliveries (April-June)
-    cycle.update!(first_cweek: 46, last_cweek: 3, months: [ 11, 1 ])
+    # Restrict to FY-months that correspond to calendar months 11 (November) and 1 (January) when FY starts in April:
+    # FY-month 8  => November (within 2024)
+    # FY-month 10 => January (within 2025)
+
+    cycle.update!(first_cweek: 46, last_cweek: 3)
 
     assert_equal 5, cycle.deliveries(2024).count
     assert_equal [ 46, 47, 48, 2, 3 ], cycle.deliveries(2024).pluck(:date).map(&:cweek)
@@ -301,11 +528,16 @@ class DeliveryCycleTest < ActiveSupport::TestCase
 
   test "only Monday, in April, odd weeks, and even results" do
     cycle = delivery_cycles(:mondays)
+
+    cycle.update!(
+      periods_attributes: cycle.periods.map { |p| { id: p.id, _destroy: true } } + [
+        { from_fy_month: 4, to_fy_month: 4, results: :even }
+      ]
+    )
+
     cycle.update!(
       wdays: [ 1 ],
-      months: [ 4 ],
-      week_numbers: :odd,
-      results: :even)
+      week_numbers: :odd)
 
     assert_equal 1, cycle.current_deliveries_count
     delivery = cycle.current_deliveries.first
@@ -317,10 +549,20 @@ class DeliveryCycleTest < ActiveSupport::TestCase
   test "reset caches after update" do
     cycle = delivery_cycles(:mondays)
 
+    cycle.update!(
+      periods_attributes: cycle.periods.map { |p| { id: p.id, _destroy: true } } + [
+        { from_fy_month: 1, to_fy_month: 12, results: :all }
+      ]
+    )
+
     assert_equal({ "2023" => 10, "2024" => 10, "2025" => 10 }, cycle.deliveries_counts)
 
     assert_changes -> { cycle.reload.deliveries_counts } do
-      cycle.update!(months: [ 4 ])
+      cycle.update!(
+        periods_attributes: cycle.periods.map { |p| { id: p.id, _destroy: true } } + [
+          { from_fy_month: 4, to_fy_month: 4, results: :all }
+        ]
+      )
     end
 
     assert_equal({ "2023" => 4, "2024" => 5, "2025" => 4 }, cycle.deliveries_counts)
@@ -328,10 +570,20 @@ class DeliveryCycleTest < ActiveSupport::TestCase
 
   test "async membership baskets update after config change" do
     cycle = delivery_cycles(:mondays)
+
+    cycle.update!(
+      periods_attributes: cycle.periods.map { |p| { id: p.id, _destroy: true } } + [
+        { from_fy_month: 1, to_fy_month: 12, results: :all }
+      ]
+    )
     membership = memberships(:john)
 
     assert_changes -> { membership.baskets.count } do
-      cycle.update!(months: [ 4 ])
+      cycle.update!(
+        periods_attributes: cycle.periods.map { |p| { id: p.id, _destroy: true } } + [
+          { from_fy_month: 4, to_fy_month: 4, results: :all }
+        ]
+      )
       perform_enqueued_jobs
     end
   end

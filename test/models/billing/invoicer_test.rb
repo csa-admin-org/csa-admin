@@ -829,7 +829,12 @@ class Billing::InvoicerTest < ActiveSupport::TestCase
     member.update!(trial_baskets_count: 0)
     membership = memberships(:jane)
     membership.update!(billing_year_division: 12)
-    delivery_cycles(:thursdays).update!(months: [ 5 ])
+    cycle = delivery_cycles(:thursdays)
+    cycle.update!(
+      periods_attributes: cycle.periods.map { |p| { id: p.id, _destroy: true } } + [
+        { from_fy_month: 5, to_fy_month: 5, results: :all }
+      ]
+    )
     perform_enqueued_jobs
 
     assert_equal 5, membership.deliveries.count

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_12_06_113505) do
+ActiveRecord::Schema[8.1].define(version: 2025_12_12_103000) do
   create_table "absences", force: :cascade do |t|
     t.datetime "created_at"
     t.date "ended_on"
@@ -334,6 +334,21 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_06_113505) do
     t.index ["date"], name: "index_deliveries_on_date", unique: true
     t.index ["shop_open"], name: "index_deliveries_on_shop_open"
     t.check_constraint "JSON_TYPE(shop_closed_for_depot_ids) = 'array'", name: "deliveries_shop_closed_for_depot_ids_is_array"
+  end
+
+  create_table "delivery_cycle_periods", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.integer "delivery_cycle_id", null: false
+    t.integer "from_fy_month", default: 1, null: false
+    t.integer "minimum_gap_in_days"
+    t.integer "results", default: 0, null: false
+    t.integer "to_fy_month", default: 12, null: false
+    t.datetime "updated_at", null: false
+    t.index ["delivery_cycle_id", "from_fy_month", "to_fy_month"], name: "index_delivery_cycle_periods_on_cycle_and_month_range"
+    t.index ["delivery_cycle_id"], name: "index_delivery_cycle_periods_on_delivery_cycle_id"
+    t.check_constraint "from_fy_month <= to_fy_month", name: "delivery_cycle_periods_from_fy_month_lte_to_fy_month"
+    t.check_constraint "from_fy_month BETWEEN 1 AND 12", name: "delivery_cycle_periods_from_fy_month_between_1_12"
+    t.check_constraint "to_fy_month BETWEEN 1 AND 12", name: "delivery_cycle_periods_to_fy_month_between_1_12"
   end
 
   create_table "delivery_cycles", force: :cascade do |t|
@@ -983,6 +998,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_06_113505) do
   add_foreign_key "baskets", "memberships"
   add_foreign_key "bidding_round_pledges", "bidding_rounds"
   add_foreign_key "bidding_round_pledges", "memberships"
+  add_foreign_key "delivery_cycle_periods", "delivery_cycles"
   add_foreign_key "depots", "depot_groups", column: "group_id"
   add_foreign_key "invoice_items", "invoices"
   add_foreign_key "members", "depots", column: "shop_depot_id"

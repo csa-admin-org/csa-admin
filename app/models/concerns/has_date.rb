@@ -30,4 +30,8 @@ module HasDate
   def past?
     date.past?
   end
+
+  def fy_month
+    Current.fiscal_year.fy_month(date)
+  end
 end

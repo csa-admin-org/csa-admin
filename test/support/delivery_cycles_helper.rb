@@ -7,7 +7,8 @@ module DeliveryCyclesHelper
 
   def create_delivery_cycle(attributes = {})
     DeliveryCycle.create!({
-      name: "Cycle"
+      name: "Cycle",
+      periods_attributes: [ { from_fy_month: 1, to_fy_month: 12 } ]
     }.merge(attributes))
   end
 end

@@ -19,7 +19,7 @@ module HasFiscalYear
   end
 
   def fy_month
-    fiscal_year.month(date)
+    fiscal_year.fy_month(date)
   end
 
   def current_year?

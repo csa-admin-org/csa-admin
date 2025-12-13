@@ -18,13 +18,25 @@ Einige Organisationen bieten verschiedene Lieferoptionen an, zum Beispiel:
 
 ### Einstellungen
 
-Lieferzyklen bieten mehrere Konfigurationsoptionen zum Filtern von Lieferungen:
+Einstellungen definieren die erste Auswahl der Lieferungen für diesen Zyklus. Diese Filter werden zuerst angewendet:
 
 - **Tage**: Wählen Sie, welche Wochentage eingeschlossen sind (z.B. nur Montage).
 - **Erste Woche / Letzte Woche**: Beschränken Sie Lieferungen auf einen bestimmten Bereich von Wochennummern. Nützlich für saisonale Zyklen (z.B. Woche 18 bis Woche 42 für eine Sommersaison).
-- **Monate**: Wählen Sie, welche Monate eingeschlossen sind.
-- **Endgültige Filterung**: Nach Anwendung anderer Filter nur bestimmte Lieferungen behalten (z.B. gerade, ungerade, erste jedes Monats, usw.).
-- **Mindestabstand (in Tagen)**: Legen Sie eine Mindestanzahl von Tagen zwischen zwei Lieferungen fest (z.B. 13 für eine Lieferung alle 2 Wochen).
+- **Wochennummern**: Filtern nach geraden oder ungeraden Wochennummern.
+
+### Zeiträume
+
+Zeiträume wenden dann zusätzliche Filterung auf die durch die obigen Einstellungen ausgewählten Lieferungen an. Sie unterteilen das Geschäftsjahr in Segmente, jedes mit eigenen Regeln. Dieser zweistufige Ansatz (Einstellungen → Zeiträume) gibt Ihnen präzise Kontrolle darüber, welche Lieferungen eingeschlossen werden.
+
+Jeder Lieferzyklus muss mindestens einen Zeitraum haben. Zeiträume können sich innerhalb desselben Zyklus nicht überschneiden.
+
+Jeder Zeitraum hat folgende Optionen:
+
+- **Von Monat / Bis Monat**: Definieren Sie den Geschäftsjahres-Monatsbereich, für den dieser Zeitraum gilt (z.B. Januar bis Juni für ein erstes Semester).
+- **Lieferungsauswahl**: Innerhalb des Monatsbereichs des Zeitraums wird festgelegt, welche Lieferungen behalten werden (z.B. alle, jede zweite, erste jedes Monats, usw.).
+- **Mindestabstand (in Tagen)**: Legen Sie eine Mindestanzahl von Tagen zwischen zwei Lieferungen innerhalb dieses Zeitraums fest (z.B. 13 für eine Lieferung alle 2 Wochen).
+
+Dies ermöglicht flexible Konfigurationen, wie wöchentliche Lieferungen in den Sommermonaten und zweiwöchentliche Lieferungen im Winter, alles innerhalb desselben Lieferzyklus.
 
 ### Depotverfügbarkeit
 

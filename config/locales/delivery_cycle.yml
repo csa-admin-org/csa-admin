@@ -1,11 +1,42 @@
 _:
   delivery_cycle:
+    add_period:
+      _en: Add a period
+      _fr: Ajouter une période
+      _de: Zeitraum hinzufügen
+      _it: Aggiungi un periodo
+      _nl: Periode toevoegen
     default_name:
       _en: All
       _fr: Toutes
       _de: Alle
       _it: Tutte
       _nl: Alle
+    period:
+      from_fy_month:
+        _en: From month
+        _fr: Du mois
+        _de: Von Monat
+        _it: Dal mese
+        _nl: Vanaf maand
+      fy_months:
+        _en: Months
+        _fr: Mois
+        _de: Monate
+        _it: Mesi
+        _nl: Maanden
+      minimum_gap:
+        _en: Gap
+        _fr: Écart
+        _de: Abstand
+        _it: Intervallo
+        _nl: Tussenruimte
+      to_fy_month:
+        _en: To month
+        _fr: Au mois
+        _de: Bis Monat
+        _it: Al mese
+        _nl: Tot maand
     results:
       all:
         _en: All

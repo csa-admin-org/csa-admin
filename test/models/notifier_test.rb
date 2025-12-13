@@ -40,7 +40,11 @@ class NotifierTest < ActiveSupport::TestCase
   end
 
   test "send_membership_initial_basket_emails" do
-    cycle = DeliveryCycle.create!(delivery_cycles(:mondays).attributes.except("id", "created_at", "updated_at"))
+    cycle = DeliveryCycle.create!(
+      delivery_cycles(:mondays).attributes.except("id", "created_at", "updated_at").merge(
+        periods_attributes: [ { from_fy_month: 1, to_fy_month: 12 } ]
+      )
+    )
     cycle_ids = DeliveryCycle.pluck(:id) - [ cycle.id ]
 
     mail_templates(:membership_initial_basket).update!(active: true, delivery_cycle_ids: cycle_ids)
@@ -89,7 +93,11 @@ class NotifierTest < ActiveSupport::TestCase
   end
 
   test "send_membership_final_basket_emails" do
-    cycle = DeliveryCycle.create!(delivery_cycles(:mondays).attributes.except("id", "created_at", "updated_at"))
+    cycle = DeliveryCycle.create!(
+      delivery_cycles(:mondays).attributes.except("id", "created_at", "updated_at").merge(
+        periods_attributes: [ { from_fy_month: 1, to_fy_month: 12 } ]
+      )
+    )
     cycle_ids = DeliveryCycle.pluck(:id) - [ cycle.id ]
 
     mail_templates(:membership_final_basket).update!(active: true, delivery_cycle_ids: cycle_ids)
@@ -132,7 +140,11 @@ class NotifierTest < ActiveSupport::TestCase
   end
 
   test "send_membership_first_basket_emails" do
-    cycle = DeliveryCycle.create!(delivery_cycles(:mondays).attributes.except("id", "created_at", "updated_at"))
+    cycle = DeliveryCycle.create!(
+      delivery_cycles(:mondays).attributes.except("id", "created_at", "updated_at").merge(
+        periods_attributes: [ { from_fy_month: 1, to_fy_month: 12 } ]
+      )
+    )
     cycle_ids = DeliveryCycle.pluck(:id) - [ cycle.id ]
 
     mail_templates(:membership_first_basket).update!(active: true, delivery_cycle_ids: cycle_ids)
@@ -164,7 +176,11 @@ class NotifierTest < ActiveSupport::TestCase
   end
 
   test "send_membership_last_basket_emails" do
-    cycle = DeliveryCycle.create!(delivery_cycles(:mondays).attributes.except("id", "created_at", "updated_at"))
+    cycle = DeliveryCycle.create!(
+      delivery_cycles(:mondays).attributes.except("id", "created_at", "updated_at").merge(
+        periods_attributes: [ { from_fy_month: 1, to_fy_month: 12 } ]
+      )
+    )
     cycle_ids = DeliveryCycle.pluck(:id) - [ cycle.id ]
 
     mail_templates(:membership_last_basket).update!(active: true, delivery_cycle_ids: cycle_ids)
@@ -197,7 +213,11 @@ class NotifierTest < ActiveSupport::TestCase
   end
 
   test "send_membership_last_trial_basket_emails" do
-    cycle = DeliveryCycle.create!(delivery_cycles(:mondays).attributes.except("id", "created_at", "updated_at"))
+    cycle = DeliveryCycle.create!(
+      delivery_cycles(:mondays).attributes.except("id", "created_at", "updated_at").merge(
+        periods_attributes: [ { from_fy_month: 1, to_fy_month: 12 } ]
+      )
+    )
     cycle_ids = DeliveryCycle.pluck(:id) - [ cycle.id ]
 
     mail_templates(:membership_last_trial_basket).update!(active: true, delivery_cycle_ids: cycle_ids)
@@ -225,7 +245,11 @@ class NotifierTest < ActiveSupport::TestCase
   end
 
   test "send_membership_second_last_trial_basket_emails" do
-    cycle = DeliveryCycle.create!(delivery_cycles(:mondays).attributes.except("id", "created_at", "updated_at"))
+    cycle = DeliveryCycle.create!(
+      delivery_cycles(:mondays).attributes.except("id", "created_at", "updated_at").merge(
+        periods_attributes: [ { from_fy_month: 1, to_fy_month: 12 } ]
+      )
+    )
     cycle_ids = DeliveryCycle.pluck(:id) - [ cycle.id ]
 
     mail_templates(:membership_second_last_trial_basket).update!(active: true, delivery_cycle_ids: cycle_ids)

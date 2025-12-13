@@ -18,13 +18,25 @@ Certaines organisations proposent différents choix de livraisons, par exemple :
 
 ### Paramètres
 
-Les cycles de livraisons offrent plusieurs options de configuration pour filtrer les livraisons :
+Les paramètres définissent la sélection initiale des livraisons pour ce cycle. Ces filtres sont appliqués en premier :
 
 - **Jours** : Sélectionnez les jours de la semaine inclus (par ex., uniquement les lundis).
 - **Première semaine / Dernière semaine** : Limitez les livraisons à une plage de numéros de semaine. Utile pour les cycles saisonniers (par ex., semaine 18 à semaine 42 pour une saison d'été).
-- **Mois** : Sélectionnez les mois inclus.
-- **Filtrage final** : Après l'application des autres filtres, ne garder que certaines livraisons (par ex., paires, impaires, première de chaque mois, etc.).
-- **Écart minimum (en jours)** : Définissez un nombre minimum de jours entre deux livraisons (par ex., 13 pour une livraison toutes les 2 semaines).
+- **Numéros de semaine** : Filtrer par numéro de semaine pair ou impair.
+
+### Périodes
+
+Les périodes appliquent ensuite un filtrage supplémentaire aux livraisons sélectionnées par les paramètres ci-dessus. Elles divisent l'année fiscale en segments, chacun avec ses propres règles. Cette approche en deux étapes (paramètres → périodes) vous donne un contrôle précis sur les livraisons incluses.
+
+Chaque cycle de livraisons doit avoir au moins une période. Les périodes ne peuvent pas se chevaucher au sein d'un même cycle.
+
+Chaque période dispose des options suivantes :
+
+- **Du mois / Au mois** : Définissez la plage de mois de l'année fiscale à laquelle cette période s'applique (par ex., janvier à juin pour un premier semestre).
+- **Sélection des livraisons** : Dans la plage de mois de la période, détermine quelles livraisons sont conservées (par ex., toutes, une sur deux, première de chaque mois, etc.).
+- **Écart minimum (en jours)** : Définissez un nombre minimum de jours entre deux livraisons au sein de cette période (par ex., 13 pour une livraison toutes les 2 semaines).
+
+Cela permet des configurations flexibles, comme des livraisons hebdomadaires pendant les mois d'été et bimensuelles pendant l'hiver, le tout au sein du même cycle de livraisons.
 
 ### Disponibilité par dépôt
 

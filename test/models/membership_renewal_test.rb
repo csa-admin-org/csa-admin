@@ -188,7 +188,8 @@ class MembershipRenewalTest < ActiveSupport::TestCase
     empty_cycle = DeliveryCycle.create!(
       names: { en: "Empty Cycle" },
       wdays: [ 1 ],
-      depots: [ depots(:home) ]
+      depots: [ depots(:home) ],
+      periods_attributes: [ { from_fy_month: 1, to_fy_month: 12 } ]
     )
     empty_cycle.update_column(:deliveries_counts, { "2025" => 0 })
 

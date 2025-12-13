@@ -49,7 +49,13 @@ class ActivityParticipationDemandedTest < ActiveSupport::TestCase
   test "half of the baskets with different cycle" do
     travel_to "2024-01-01"
     membership = memberships(:jane)
-    cycle = DeliveryCycle.create!(name: "Odd", wdays: [ 4 ], results: :odd)
+    cycle = DeliveryCycle.create!(
+      name: "Odd",
+      wdays: [ 4 ],
+      periods_attributes: [
+        { from_fy_month: 1, to_fy_month: 12, results: :odd }
+      ]
+    )
 
     assert_no_changes -> { demanded_for(membership) }, from: 2 do
       membership.update!(

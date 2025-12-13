@@ -94,7 +94,7 @@ module Organization::Billing
     end
 
     def fy_month_for(date)
-      fiscal_year_for(date).month(date)
+      fiscal_year_for(date).fy_month(date)
     end
 
     def member_support?

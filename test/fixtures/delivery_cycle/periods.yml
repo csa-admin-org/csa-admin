@@ -1,0 +1,16 @@
+# frozen_string_literal: true
+
+mondays_full_year:
+  delivery_cycle: mondays
+  from_fy_month: 1
+  to_fy_month: 12
+
+thursdays_full_year:
+  delivery_cycle: thursdays
+  from_fy_month: 1
+  to_fy_month: 12
+
+all_full_year:
+  delivery_cycle: all
+  from_fy_month: 1
+  to_fy_month: 12
