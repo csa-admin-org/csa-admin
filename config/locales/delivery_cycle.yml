@@ -107,9 +107,9 @@ _:
     week_numbers:
       all:
         _en: All
-        _fr: Toutes
+        _fr: Tous
         _de: Alle
-        _it: Tutte
+        _it: Tutti
         _nl: Alle
       even:
         _en: Even
