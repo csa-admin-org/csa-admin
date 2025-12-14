@@ -224,6 +224,8 @@ ActiveAdmin.register DeliveryCycle do
         include_blank: false,
         wrapper_html: { class: "[&>p]:text-red-500" },
         input_html: { class: "w-40" }
+
+      handbook_button(self, "deliveries", anchor: "settings")
     end
 
     f.inputs DeliveryCycle::Period.model_name.human(count: 2) do
@@ -251,6 +253,8 @@ ActiveAdmin.register DeliveryCycle do
           include_blank: false
         ff.input :minimum_gap_in_days
       end
+
+      handbook_button(self, "deliveries", anchor: "periods")
     end
 
     f.actions
