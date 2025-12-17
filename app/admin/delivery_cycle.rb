@@ -129,6 +129,9 @@ ActiveAdmin.register DeliveryCycle do
             if dc.last_cweek?
               row(:last_cweek) { dc.last_cweek }
             end
+            if dc.first_cweek? && dc.last_cweek?
+              row(:exclude_cweek_range) { status_tag dc.exclude_cweek_range? }
+            end
             row(:week_numbers) { t("delivery_cycle.week_numbers.#{dc.week_numbers}") }
           end
         end
@@ -206,17 +209,24 @@ ActiveAdmin.register DeliveryCycle do
         as: :check_boxes,
         collection: wdays_collection,
         required: true
-      div class: "single-line" do
-        f.input :first_cweek,
-          as: :select,
-          collection: (1..53).to_a,
-          include_blank: true,
-          hint: t("formtastic.hints.delivery_cycle.first_cweek.#{Current.fiscal_year.standard? ? 'standard' : 'cross_year'}")
-        f.input :last_cweek,
-          as: :select,
-          collection: (1..53).to_a,
-          include_blank: true,
-          hint: t("formtastic.hints.delivery_cycle.last_cweek.#{Current.fiscal_year.standard? ? 'standard' : 'cross_year'}")
+      div data: { controller: "cweek-range" } do
+        div class: "single-line" do
+          f.input :first_cweek,
+            as: :select,
+            collection: (1..53).to_a,
+            include_blank: true,
+            hint: t("formtastic.hints.delivery_cycle.first_cweek.#{Current.fiscal_year.standard? ? 'standard' : 'cross_year'}"),
+            input_html: { data: { cweek_range_target: "firstCweek", action: "change->cweek-range#updateCheckboxState" } }
+          f.input :last_cweek,
+            as: :select,
+            collection: (1..53).to_a,
+            include_blank: true,
+            hint: t("formtastic.hints.delivery_cycle.last_cweek.#{Current.fiscal_year.standard? ? 'standard' : 'cross_year'}"),
+            input_html: { data: { cweek_range_target: "lastCweek", action: "change->cweek-range#updateCheckboxState" } }
+        end
+        f.input :exclude_cweek_range,
+          input_html: { data: { cweek_range_target: "excludeCheckbox" }, disabled: f.object.first_cweek.blank? || f.object.last_cweek.blank? },
+          hint: true
       end
       f.input :week_numbers,
         as: :select,
@@ -267,6 +277,7 @@ ActiveAdmin.register DeliveryCycle do
     :week_numbers,
     :first_cweek,
     :last_cweek,
+    :exclude_cweek_range,
     *I18n.available_locales.map { |l| "public_name_#{l}" },
     *I18n.available_locales.map { |l| "admin_name_#{l}" },
     *I18n.available_locales.map { |l| "invoice_name_#{l}" },

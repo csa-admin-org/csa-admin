@@ -11,6 +11,7 @@ class DeliveryCycle < ApplicationRecord
     wdays
     first_cweek
     last_cweek
+    exclude_cweek_range
     week_numbers
   ]
 
@@ -238,21 +239,45 @@ class DeliveryCycle < ApplicationRecord
 
   def deliveries(year)
     fiscal_year = Current.org.fiscal_year_for(year)
+    first_cweek_year = fiscal_year.beginning_of_year.year
+    last_cweek_year = fiscal_year.end_of_year.year
+
     scoped =
       Delivery
         .where("time_get_weekday(time_parse(date)) IN (?)", wdays)
         .during_year(year)
 
-    if first_cweek.present?
-      first_cweek_year = fiscal_year.beginning_of_year.year
+    if first_cweek.present? && last_cweek.present?
+      if exclude_cweek_range?
+        # Exclude deliveries inside the range (keep deliveries outside)
+        scoped = scoped.where(
+          "(time_get_isoyear(time_parse(date)) < :first_year OR time_get_isoweek(time_parse(date)) < :first_cweek) OR " \
+          "(time_get_isoyear(time_parse(date)) > :last_year OR time_get_isoweek(time_parse(date)) > :last_cweek)",
+          first_year: first_cweek_year,
+          first_cweek: first_cweek,
+          last_year: last_cweek_year,
+          last_cweek: last_cweek
+        )
+      else
+        # Include deliveries inside the range (exclude deliveries outside)
+        scoped = scoped.where(
+          "time_get_isoyear(time_parse(date)) > :year OR time_get_isoweek(time_parse(date)) >= :cweek",
+          year: first_cweek_year,
+          cweek: first_cweek
+        )
+        scoped = scoped.where(
+          "time_get_isoyear(time_parse(date)) < :year OR time_get_isoweek(time_parse(date)) <= :cweek",
+          year: last_cweek_year,
+          cweek: last_cweek
+        )
+      end
+    elsif first_cweek.present?
       scoped = scoped.where(
         "time_get_isoyear(time_parse(date)) > :year OR time_get_isoweek(time_parse(date)) >= :cweek",
         year: first_cweek_year,
         cweek: first_cweek
       )
-    end
-    if last_cweek.present?
-      last_cweek_year = fiscal_year.end_of_year.year
+    elsif last_cweek.present?
       scoped = scoped.where(
         "time_get_isoyear(time_parse(date)) < :year OR time_get_isoweek(time_parse(date)) <= :cweek",
         year: last_cweek_year,

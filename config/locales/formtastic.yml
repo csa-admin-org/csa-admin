@@ -269,6 +269,12 @@ _:
           _de: Depots, für die dieser Lieferzyklus bei der Anmeldung für Mitglieder verfügbar ist. In jedem Fall wird die Auswahl des Lieferzyklus den Mitgliedern nur angeboten, wenn mindestens zwei verschiedene Lieferzyklen für ein Depot verfügbar sind.
           _it: Punti di ritiro per i quali questo ciclo di consegna è disponibile per i soci al momento della registrazione. In ogni caso, la scelta del ciclo di consegna viene proposta ai soci solo se sono disponibili almeno due cicli di consegna diversi per un punto di ritiro.
           _nl: Depots waarvoor deze leveringscyclus beschikbaar is voor leden bij registratie. In elk geval wordt de keuze van leveringscyclus alleen aan leden aangeboden als er minstens twee verschillende leveringscycli beschikbaar zijn voor een depot.
+        exclude_cweek_range:
+          _en: Exclude deliveries within the week range instead of outside.
+          _fr: Exclure les livraisons à l'intérieur de la plage de semaines plutôt qu'à l'extérieur.
+          _de: Lieferungen innerhalb des Wochenbereichs ausschließen statt außerhalb.
+          _it: Escludere le consegne all'interno dell'intervallo di settimane anziché all'esterno.
+          _nl: Leveringen binnen het weekbereik uitsluiten in plaats van erbuiten.
         first_cweek:
           cross_year:
             _en: Week number based on the year at the start of the fiscal year.
