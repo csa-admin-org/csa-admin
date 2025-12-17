@@ -23,7 +23,8 @@ namespace :litestream do
         "type" => "s3",
         "bucket" => "csa-admin-litestream",
         "endpoint" => s3_credentials.endpoint,
-        "sync-interval" => "1h"
+        "sync-interval" => "1h",
+        "snapshot-interval" => "24h"
       }
       db_names = Tenant.all + [ "queue" ]
       config = {
@@ -101,10 +102,14 @@ namespace :litestream do
   task restore: :environment do
     raise "Only run this task in dev!" unless Rails.env.development?
 
-    `rm #{Rails.root.join("storage", "development_*")}`
+    FileUtils.rm_f(Dir.glob(Rails.root.join("storage", "development_*")))
     Parallel.each(Tenant.all) do |tenant|
       `litestream restore --config "#{ENV["BACKUP_PATH"]}/litestream.yml" -o "#{Rails.root.join("storage", "development_#{tenant}.sqlite3")}" #{tenant}`
     end
+
+    # Remove WAL-mode journal files created during restore
+    FileUtils.rm_f(Dir.glob(Rails.root.join("storage", "development_*.sqlite3.tmp-shm")))
+    FileUtils.rm_f(Dir.glob(Rails.root.join("storage", "development_*.sqlite3.tmp-wal")))
 
     puts "Litestream backups restored successfully."
   end
