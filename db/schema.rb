@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_12_12_103000) do
+ActiveRecord::Schema[8.1].define(version: 2025_12_17_144627) do
   create_table "absences", force: :cascade do |t|
     t.datetime "created_at"
     t.date "ended_on"
@@ -356,6 +356,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_12_103000) do
     t.datetime "created_at", null: false
     t.json "deliveries_counts", default: {}, null: false
     t.datetime "discarded_at"
+    t.boolean "exclude_cweek_range", default: false, null: false
     t.integer "first_cweek"
     t.json "form_details", default: {}, null: false
     t.json "invoice_names", default: {}, null: false

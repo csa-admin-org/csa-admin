@@ -501,6 +501,12 @@ _:
           _it: Firma
           _nl: Handtekening
       delivery_cycle:
+        exclude_cweek_range:
+          _en: Exclude week range
+          _fr: Exclure la plage de semaines
+          _de: Wochenbereich ausschließen
+          _it: Escludi intervallo settimane
+          _nl: Weekbereik uitsluiten
         first_cweek:
           _en: From week
           _fr: À partir de la semaine

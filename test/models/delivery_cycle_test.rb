@@ -117,12 +117,6 @@ class DeliveryCycleTest < ActiveSupport::TestCase
   test "only mondays" do
     cycle = delivery_cycles(:mondays)
 
-    cycle.update!(
-      periods_attributes: cycle.periods.map { |p| { id: p.id, _destroy: true } } + [
-        { from_fy_month: 1, to_fy_month: 12, results: :all }
-      ]
-    )
-
     assert_equal 10, cycle.current_deliveries_count
     assert_equal 1, cycle.current_deliveries.first.date.wday
   end
@@ -143,11 +137,6 @@ class DeliveryCycleTest < ActiveSupport::TestCase
   test "only odd weeks" do
     cycle = delivery_cycles(:mondays)
 
-    cycle.update!(
-      periods_attributes: cycle.periods.map { |p| { id: p.id, _destroy: true } } + [
-        { from_fy_month: 1, to_fy_month: 12, results: :all }
-      ]
-    )
     cycle.update!(week_numbers: :odd)
 
     assert_equal 5, cycle.current_deliveries_count
@@ -157,11 +146,6 @@ class DeliveryCycleTest < ActiveSupport::TestCase
   test "only even weeks" do
     cycle = delivery_cycles(:mondays)
 
-    cycle.update!(
-      periods_attributes: cycle.periods.map { |p| { id: p.id, _destroy: true } } + [
-        { from_fy_month: 1, to_fy_month: 12, results: :all }
-      ]
-    )
     cycle.update!(week_numbers: :even)
 
     assert_equal 5, cycle.current_deliveries_count
@@ -314,11 +298,6 @@ class DeliveryCycleTest < ActiveSupport::TestCase
   test "only deliveries from first_cweek" do
     cycle = delivery_cycles(:mondays)
 
-    cycle.update!(
-      periods_attributes: cycle.periods.map { |p| { id: p.id, _destroy: true } } + [
-        { from_fy_month: 1, to_fy_month: 12, results: :all }
-      ]
-    )
     # Deliveries are on weeks 14, 15, 16, 17, 18, 19, 20, 21, 22, 23
     cycle.update!(first_cweek: 17)
 
@@ -329,11 +308,6 @@ class DeliveryCycleTest < ActiveSupport::TestCase
   test "only deliveries until last_cweek" do
     cycle = delivery_cycles(:mondays)
 
-    cycle.update!(
-      periods_attributes: cycle.periods.map { |p| { id: p.id, _destroy: true } } + [
-        { from_fy_month: 1, to_fy_month: 12, results: :all }
-      ]
-    )
     # Deliveries are on weeks 14, 15, 16, 17, 18, 19, 20, 21, 22, 23
     cycle.update!(last_cweek: 19)
 
@@ -344,11 +318,6 @@ class DeliveryCycleTest < ActiveSupport::TestCase
   test "deliveries between first_cweek and last_cweek" do
     cycle = delivery_cycles(:mondays)
 
-    cycle.update!(
-      periods_attributes: cycle.periods.map { |p| { id: p.id, _destroy: true } } + [
-        { from_fy_month: 1, to_fy_month: 12, results: :all }
-      ]
-    )
     # Deliveries are on weeks 14, 15, 16, 17, 18, 19, 20, 21, 22, 23
     cycle.update!(first_cweek: 16, last_cweek: 20)
 
@@ -526,6 +495,83 @@ class DeliveryCycleTest < ActiveSupport::TestCase
     assert_equal [ 46, 47, 48, 2, 3 ], cycle.deliveries(2024).pluck(:date).map(&:cweek)
   end
 
+  test "exclude_cweek_range excludes deliveries inside the range" do
+    cycle = delivery_cycles(:mondays)
+
+    # Deliveries are on weeks 14, 15, 16, 17, 18, 19, 20, 21, 22, 23
+    # Exclude weeks 17-19, keep weeks 14, 15, 16, 20, 21, 22, 23
+    cycle.update!(first_cweek: 17, last_cweek: 19, exclude_cweek_range: true)
+
+    assert_equal 7, cycle.current_deliveries_count
+    assert_equal [ 14, 15, 16, 20, 21, 22, 23 ], cycle.current_deliveries.pluck(:date).map(&:cweek)
+  end
+
+  test "exclude_cweek_range false includes deliveries inside the range" do
+    cycle = delivery_cycles(:mondays)
+
+    # Deliveries are on weeks 14, 15, 16, 17, 18, 19, 20, 21, 22, 23
+    # Include only weeks 17-19
+    cycle.update!(first_cweek: 17, last_cweek: 19, exclude_cweek_range: false)
+
+    assert_equal 3, cycle.current_deliveries_count
+    assert_equal [ 17, 18, 19 ], cycle.current_deliveries.pluck(:date).map(&:cweek)
+  end
+
+  test "exclude_cweek_range is ignored when only first_cweek is set" do
+    cycle = delivery_cycles(:mondays)
+
+    # Deliveries are on weeks 14, 15, 16, 17, 18, 19, 20, 21, 22, 23
+    # With only first_cweek, exclude_cweek_range should be ignored
+    cycle.update!(first_cweek: 17, last_cweek: nil, exclude_cweek_range: true)
+
+    assert_equal 7, cycle.current_deliveries_count
+    assert_equal [ 17, 18, 19, 20, 21, 22, 23 ], cycle.current_deliveries.pluck(:date).map(&:cweek)
+  end
+
+  test "exclude_cweek_range is ignored when only last_cweek is set" do
+    cycle = delivery_cycles(:mondays)
+
+    # Deliveries are on weeks 14, 15, 16, 17, 18, 19, 20, 21, 22, 23
+    # With only last_cweek, exclude_cweek_range should be ignored
+    cycle.update!(first_cweek: nil, last_cweek: 19, exclude_cweek_range: true)
+
+    assert_equal 6, cycle.current_deliveries_count
+    assert_equal [ 14, 15, 16, 17, 18, 19 ], cycle.current_deliveries.pluck(:date).map(&:cweek)
+  end
+
+  test "exclude_cweek_range with cross-year fiscal year" do
+    # Fiscal year from April 2024 to March 2025
+    org(fiscal_year_start_month: 4)
+
+    # Create deliveries spanning two calendar years (Mondays only)
+    [
+      Date.new(2024, 11, 4),  # week 45
+      Date.new(2024, 11, 11), # week 46
+      Date.new(2024, 11, 18), # week 47
+      Date.new(2024, 11, 25), # week 48
+      Date.new(2025, 1, 6),   # week 2
+      Date.new(2025, 1, 13),  # week 3
+      Date.new(2025, 1, 20),  # week 4
+      Date.new(2025, 1, 27)   # week 5
+    ].each { |date| Delivery.create!(date: date) }
+
+    cycle = delivery_cycles(:mondays)
+
+    cycle.update!(
+      periods_attributes: [
+        { id: cycle.periods.first.id, _destroy: true },
+        { from_fy_month: 8, to_fy_month: 8, results: :all },
+        { from_fy_month: 10, to_fy_month: 10, results: :all }
+      ]
+    )
+
+    # Exclude weeks 46-48, keep weeks 45, 2, 3, 4, 5
+    cycle.update!(first_cweek: 46, last_cweek: 48, exclude_cweek_range: true)
+
+    assert_equal 5, cycle.deliveries(2024).count
+    assert_equal [ 45, 2, 3, 4, 5 ], cycle.deliveries(2024).pluck(:date).map(&:cweek)
+  end
+
   test "only Monday, in April, odd weeks, and even results" do
     cycle = delivery_cycles(:mondays)
 
@@ -549,12 +595,6 @@ class DeliveryCycleTest < ActiveSupport::TestCase
   test "reset caches after update" do
     cycle = delivery_cycles(:mondays)
 
-    cycle.update!(
-      periods_attributes: cycle.periods.map { |p| { id: p.id, _destroy: true } } + [
-        { from_fy_month: 1, to_fy_month: 12, results: :all }
-      ]
-    )
-
     assert_equal({ "2023" => 10, "2024" => 10, "2025" => 10 }, cycle.deliveries_counts)
 
     assert_changes -> { cycle.reload.deliveries_counts } do
@@ -570,12 +610,6 @@ class DeliveryCycleTest < ActiveSupport::TestCase
 
   test "async membership baskets update after config change" do
     cycle = delivery_cycles(:mondays)
-
-    cycle.update!(
-      periods_attributes: cycle.periods.map { |p| { id: p.id, _destroy: true } } + [
-        { from_fy_month: 1, to_fy_month: 12, results: :all }
-      ]
-    )
     membership = memberships(:john)
 
     assert_changes -> { membership.baskets.count } do
