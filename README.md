@@ -59,4 +59,4 @@ I'm encouraging you to contribute to this project. Please [contact me](mailto:in
 
 ## License
 
-CSA/ACP/Solawi Admin is released under the [MIT License](https://opensource.org/licenses/MIT).
+CSA/ACP/Solawi Admin is released under the [O’Saasy License](https://osaasy.dev).
