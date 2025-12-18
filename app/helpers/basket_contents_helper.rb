@@ -130,28 +130,38 @@ module BasketContentsHelper
         .ordered
     products.map do |product|
       data = { latest_basket_content: {} }
-      bc_kg = product.latest_basket_content_in_kg
-      bc_pc = product.latest_basket_content_in_pc
-      if bc_kg
-        if !bc_pc || bc_kg.updated_at >= bc_pc.updated_at
-          data[:latest_basket_content_unit] = "kg"
-        end
-        data[:latest_basket_content][:kg] = {
-          quantity: bc_kg.quantity,
-          unit_price: bc_kg.unit_price,
-          used_at: bc_kg.updated_at.to_datetime.strftime("%Q")
+
+      # Use product defaults if set, otherwise fall back to latest basket content
+      if product.default_unit.present?
+        data[:latest_basket_content_unit] = product.default_unit
+        data[:latest_basket_content][product.default_unit.to_sym] = {
+          unit_price: product.default_unit_price
         }
-      end
-      if bc_pc
-        if !bc_kg || bc_pc.updated_at >= bc_kg.updated_at
-          data[:latest_basket_content_unit] = "pc"
+      else
+        bc_kg = product.latest_basket_content_in_kg
+        bc_pc = product.latest_basket_content_in_pc
+        if bc_kg
+          if !bc_pc || bc_kg.updated_at >= bc_pc.updated_at
+            data[:latest_basket_content_unit] = "kg"
+          end
+          data[:latest_basket_content][:kg] = {
+            quantity: bc_kg.quantity,
+            unit_price: bc_kg.unit_price,
+            used_at: bc_kg.updated_at.to_datetime.strftime("%Q")
+          }
         end
-        data[:latest_basket_content][:pc] = {
-          quantity: bc_pc.quantity,
-          unit_price: bc_pc.unit_price,
-          used_at: bc_pc.updated_at.to_datetime.strftime("%Q")
-        }
+        if bc_pc
+          if !bc_kg || bc_pc.updated_at >= bc_kg.updated_at
+            data[:latest_basket_content_unit] = "pc"
+          end
+          data[:latest_basket_content][:pc] = {
+            quantity: bc_pc.quantity,
+            unit_price: bc_pc.unit_price,
+            used_at: bc_pc.updated_at.to_datetime.strftime("%Q")
+          }
+        end
       end
+
       if product.url?
         data[:form_hint_url] = {
           text: product.url_domain,

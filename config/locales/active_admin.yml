@@ -863,6 +863,12 @@ _:
           _de: Inhalt
           _it: Contenuto
           _nl: Inhoud
+        defaults:
+          _en: Defaults
+          _fr: Valeurs par défaut
+          _de: Standardwerte
+          _it: Valori predefiniti
+          _nl: Standaardwaarden
         delivery_sheets_text_html:
           _en: The sheets (PDF) are generated on-the-fly for each depot and delivery.
           _fr: Les fiches (PDF) sont générées à la volée pour chaque dépôt et livraison.
