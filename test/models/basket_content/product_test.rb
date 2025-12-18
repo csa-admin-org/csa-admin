@@ -57,6 +57,16 @@ class BasketContent::ProductTest < ActiveSupport::TestCase
     assert product.valid?
   end
 
+  test "allows both default_unit and default_unit_price to be blank strings" do
+    product = BasketContent::Product.new(
+      names: { en: "Test Product" },
+      default_unit: "",
+      default_unit_price: ""
+    )
+
+    assert product.valid?
+  end
+
   test "allows both default_unit and default_unit_price to be set" do
     product = BasketContent::Product.new(
       names: { en: "Test Product" },
