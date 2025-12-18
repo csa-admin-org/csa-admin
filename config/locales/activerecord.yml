@@ -339,6 +339,24 @@ _:
           _it: Prezzo per unità
           _nl: Eenheidsprijs
       basket_content/product:
+        default_price:
+          _en: Default price
+          _fr: Prix par défaut
+          _de: Standardpreis
+          _it: Prezzo predefinito
+          _nl: Standaardprijs
+        default_unit:
+          _en: Unit
+          _fr: Unité
+          _de: Einheit
+          _it: Unità
+          _nl: Eenheid
+        default_unit_price:
+          _en: Price
+          _fr: Prix
+          _de: Preis
+          _it: Prezzo
+          _nl: Prijs
         latest_delivery:
           _en: Latest delivery
           _fr: Dernière livraison

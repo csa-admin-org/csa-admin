@@ -11,6 +11,10 @@ class BasketContent
     has_many :basket_contents
     has_many :deliveries, through: :basket_contents
 
+    validates :default_unit, inclusion: { in: BasketContent::UNITS }, allow_nil: true
+    validates :default_unit_price, numericality: { greater_than_or_equal_to: 0 }, allow_nil: true
+    validate :default_unit_and_price_presence
+
     with_options class_name: "BasketContent" do
       has_one :latest_basket_content, -> {
         joins(:delivery).merge(Delivery.unscoped.order(date: :desc))
@@ -36,6 +40,16 @@ class BasketContent
 
     def can_destroy?
       basket_contents.none?
+    end
+
+    private
+
+    def default_unit_and_price_presence
+      if default_unit.present? && default_unit_price.blank?
+        errors.add(:default_unit_price, :blank)
+      elsif default_unit.blank? && default_unit_price.present?
+        errors.add(:default_unit, :blank)
+      end
     end
   end
 end

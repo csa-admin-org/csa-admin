@@ -24,6 +24,11 @@ class BasketContent
     index do
       column :name, sortable: true
       column :url, ->(p) { link_to(p.url_domain, p.url) if p.url? }
+      column(:default_price) { |p|
+        if p.default_unit.present?
+          t("units.#{p.default_unit}_quantity", quantity: "#{cur(p.default_unit_price)}/")
+        end
+      }
       column(:latest_use) { |p|
         if p.latest_basket_content
           display_with_unit_price(p.latest_basket_content.unit_price, p.latest_basket_content.unit) {
@@ -66,10 +71,21 @@ class BasketContent
         translated_input(f, :names)
         f.input :url, hint: t("formtastic.hints.basket_content/product.url")
       end
+      f.inputs t(".defaults") do
+        para t("formtastic.hints.basket_content/product.defaults_intro"), class: "description -mt-2 mb-6"
+        div class: "single-line" do
+          f.input :default_unit,
+            as: :select,
+            collection: units_collection,
+            include_blank: true
+          f.input :default_unit_price,
+            hint: t("formtastic.hints.basket_content.unit_price")
+        end
+      end
       f.actions
     end
 
-    permit_params(:url, *I18n.available_locales.map { |l| "name_#{l}" })
+    permit_params(:url, :default_unit, :default_unit_price, *I18n.available_locales.map { |l| "name_#{l}" })
 
     controller do
       include TranslatedCSVFilename

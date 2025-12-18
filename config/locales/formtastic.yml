@@ -174,6 +174,12 @@ _:
           _it: Per kg o per pezzo.
           _nl: Per kg of per stuk.
       basket_content/product:
+        defaults_intro:
+          _en: When not set, the unit and price from the last basket content using this product will be used.
+          _fr: Si non définis, l'unité et le prix du dernier contenu de panier utilisant ce produit seront utilisés.
+          _de: Wenn nicht gesetzt, werden die Einheit und der Preis des letzten Paketinhalts mit diesem Produkt verwendet.
+          _it: Se non impostati, verranno utilizzati l'unità e il prezzo dell'ultimo contenuto cesta che utilizza questo prodotto.
+          _nl: Indien niet ingesteld, worden de eenheid en prijs van de laatste pakketinhoud met dit product gebruikt.
         url:
           _en: For example, a page referencing the sale price.
           _fr: Par exemple, une page référençant le prix de vente.
