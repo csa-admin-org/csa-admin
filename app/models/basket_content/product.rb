@@ -11,8 +11,8 @@ class BasketContent
     has_many :basket_contents
     has_many :deliveries, through: :basket_contents
 
-    validates :default_unit, inclusion: { in: BasketContent::UNITS }, allow_nil: true
-    validates :default_unit_price, numericality: { greater_than_or_equal_to: 0 }, allow_nil: true
+    validates :default_unit, inclusion: { in: BasketContent::UNITS, allow_blank: true }
+    validates :default_unit_price, numericality: { greater_than_or_equal_to: 0, allow_blank: true }
     validate :default_unit_and_price_presence
 
     with_options class_name: "BasketContent" do
