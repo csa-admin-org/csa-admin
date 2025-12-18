@@ -120,7 +120,7 @@ GEM
       async-http (~> 0.42)
       protocol-url (~> 0.2)
     aws-eventstream (1.4.0)
-    aws-partitions (1.1195.0)
+    aws-partitions (1.1196.0)
     aws-sdk-core (3.240.0)
       aws-eventstream (~> 1, >= 1.3.0)
       aws-partitions (~> 1, >= 1.992.0)
@@ -257,10 +257,10 @@ GEM
       actionpack (>= 7.0)
       activesupport (>= 7.0)
     hashery (2.1.2)
-    herb (0.8.4-aarch64-linux-gnu)
-    herb (0.8.4-arm64-darwin)
-    herb (0.8.4-x86_64-linux-gnu)
-    herb (0.8.4-x86_64-linux-musl)
+    herb (0.8.5-aarch64-linux-gnu)
+    herb (0.8.5-arm64-darwin)
+    herb (0.8.5-x86_64-linux-gnu)
+    herb (0.8.5-x86_64-linux-musl)
     hexapdf (1.5.0)
       cmdparse (~> 3.0, >= 3.0.3)
       geom2d (~> 0.4, >= 0.4.1)
@@ -447,7 +447,7 @@ GEM
     pretty_please (0.2.0)
       dispersion (~> 0.2)
     prettyprint (0.2.0)
-    prism (1.6.0)
+    prism (1.7.0)
     propshaft (1.3.1)
       actionpack (>= 7.0.0)
       activesupport (>= 7.0.0)
@@ -522,7 +522,7 @@ GEM
     rbs (3.9.5)
       logger
     rchardet (1.10.0)
-    rdoc (6.17.0)
+    rdoc (7.0.1)
       erb
       psych (>= 4.0.0)
       tsort
@@ -631,10 +631,10 @@ GEM
     tailwindcss-rails (4.4.0)
       railties (>= 7.0.0)
       tailwindcss-ruby (~> 4.0)
-    tailwindcss-ruby (4.1.16-aarch64-linux-gnu)
-    tailwindcss-ruby (4.1.16-arm64-darwin)
-    tailwindcss-ruby (4.1.16-x86_64-linux-gnu)
-    tailwindcss-ruby (4.1.16-x86_64-linux-musl)
+    tailwindcss-ruby (4.1.18-aarch64-linux-gnu)
+    tailwindcss-ruby (4.1.18-arm64-darwin)
+    tailwindcss-ruby (4.1.18-x86_64-linux-gnu)
+    tailwindcss-ruby (4.1.18-x86_64-linux-musl)
     terminal-table (4.0.0)
       unicode-display_width (>= 1.1.1, < 4)
     thor (1.4.0)
@@ -656,7 +656,7 @@ GEM
     unaccent (0.4.0)
     unicode-display_width (3.2.0)
       unicode-emoji (~> 4.1)
-    unicode-emoji (4.1.0)
+    unicode-emoji (4.2.0)
     uri (1.1.1)
     user_agent_parser (2.20.0)
     useragent (0.16.11)
@@ -717,6 +717,7 @@ DEPENDENCIES
   letter_opener
   liquid
   lograge
+  minitest (~> 5.27)
   minitest-difftastic
   mission_control-jobs
   nokogiri
@@ -786,7 +787,7 @@ CHECKSUMS
   async-pool (0.11.1) sha256=98e1583e199a75f7dc70f8e65fc8d0d3b28636c3f256595d43e206642ad8fbda
   async-rest (0.20.0) sha256=72b0d467f65269a53a64fc12b828f3d81b4afa201b4eea0b98cddb990e7e95eb
   aws-eventstream (1.4.0) sha256=116bf85c436200d1060811e6f5d2d40c88f65448f2125bc77ffce5121e6e183b
-  aws-partitions (1.1195.0) sha256=4ad0c8f4dd34021b1e1a95c32f3c9782131e2e15a0ea0ab83efdea302857a305
+  aws-partitions (1.1196.0) sha256=1a62cf7f1298f785bf9fca59ab77f3ceb49dd73bcc547c877236905887c35564
   aws-sdk-core (3.240.0) sha256=86b63890525caaf56702972e2669b30ec89230c2b45f12c88290ee678d8d189e
   aws-sdk-kms (1.118.0) sha256=c9c751596d4f1502adac857c90010f00a9a52370b78e170acb198af7fa716fbd
   aws-sdk-s3 (1.208.0) sha256=3fce13500171bae425ffb0fd30f4caef081c5e9780714ac3484b48e0a1797d6d
@@ -850,10 +851,10 @@ CHECKSUMS
   globalid (1.3.0) sha256=05c639ad6eb4594522a0b07983022f04aa7254626ab69445a0e493aa3786ff11
   has_scope (0.9.0) sha256=783a93006cf898525bb4899696f1d088c0f6ff897d6df2bf03fdbbe0d0b5124c
   hashery (2.1.2) sha256=d239cc2310401903f6b79d458c2bbef5bf74c46f3f974ae9c1061fb74a404862
-  herb (0.8.4-aarch64-linux-gnu) sha256=94aa93e7508511b035caa30ceb87c21becae7773b163e4364b1ff1e37552f506
-  herb (0.8.4-arm64-darwin) sha256=7ce65c3350492fb92a69b76eb51adb5cdc8e13feaf1b1c70986f1979f6039230
-  herb (0.8.4-x86_64-linux-gnu) sha256=c4b39d7fedb96ca81379a6f52ca125253b88097f8fdd71164cda413e0f31e1af
-  herb (0.8.4-x86_64-linux-musl) sha256=625a9759dae5bc12165003e0b0903e5e084be9286f5ea9de0f7701db684dc09c
+  herb (0.8.5-aarch64-linux-gnu) sha256=65967ce143cbd43f0ba340d9b03628a0de7222bb42a45b09c82d46e6f4a4a29c
+  herb (0.8.5-arm64-darwin) sha256=8f3aa8e4d282ef4a20625c0be4a80c3adebc1881e8f442f2cdc0aa91a433e83f
+  herb (0.8.5-x86_64-linux-gnu) sha256=4b19471c72eee67acc85a2e1484b653caec3271446756b60238179ca8fc830a7
+  herb (0.8.5-x86_64-linux-musl) sha256=21695130a4bf09721556c096038e8fca128f97f550eab4ebde85fb1de2e425cf
   hexapdf (1.5.0) sha256=05ab16c894ef59a8b65fdc5f5eeca941d7c0fc85a02c81728c3db9321d8e2438
   htmlentities (4.4.2) sha256=bbafbdf69f2eca9262be4efef7e43e6a1de54c95eb600f26984f71d2fe96c5c3
   i18n (1.14.7) sha256=ceba573f8138ff2c0915427f1fc5bdf4aa3ab8ae88c8ce255eb3ecf0a11a5d0f
@@ -928,7 +929,7 @@ CHECKSUMS
   premailer-rails (1.12.0) sha256=c13815d161b9bc7f7d3d81396b0bb0a61a90fa9bd89931548bf4e537c7710400
   pretty_please (0.2.0) sha256=1f00296f946ae8ffd53db25803ed3998d615b9cc07526517dc75fcca6af3a0d3
   prettyprint (0.2.0) sha256=2bc9e15581a94742064a3cc8b0fb9d45aae3d03a1baa6ef80922627a0766f193
-  prism (1.6.0) sha256=bfc0281a81718c4872346bc858dc84abd3a60cae78336c65ad35c8fbff641c6b
+  prism (1.7.0) sha256=10062f734bf7985c8424c44fac382ac04a58124ea3d220ec3ba9fe4f2da65103
   propshaft (1.3.1) sha256=9acc664ef67e819ffa3d95bd7ad4c3623ea799110c5f4dee67fa7e583e74c392
   protocol-hpack (1.5.1) sha256=6feca238b8078da1cd295677d6f306c6001af92d75fe0643d33e6956cbc3ad91
   protocol-http (0.56.1) sha256=a2cf738967f417048c27f0beb37a976c54fedc6a2532d8d13e7454597dd294d1
@@ -956,7 +957,7 @@ CHECKSUMS
   ransack (4.4.1) sha256=6aeaac36fc19088570e10da1044e6cfd88c740e20f871b84566fd30e32b7a63d
   rbs (3.9.5) sha256=eabaaf60aee84e38cbf94839c6e1b9cd145c7295fc3cc0e88c92e4069b1119b0
   rchardet (1.10.0) sha256=d5ea2ed61a720a220f1914778208e718a0c7ed2a484b6d357ba695aa7001390f
-  rdoc (6.17.0) sha256=0f50d4e568fc98195f9bb155a9e8dff6c7feabfb515fb22ef6df1d12ad5a02b7
+  rdoc (7.0.1) sha256=7ae1540c54eb8174f6549440dd2299276eac51deaa7d80ea7db9ea5b96559f53
   reactionview (0.2.0) sha256=adddab493f1e9e6fa2b58d46e5fbcef4a9090ebb2dc4f2b2efd018cfdc6247bd
   regexp_parser (2.11.3) sha256=ca13f381a173b7a93450e53459075c9b76a10433caadcb2f1180f2c741fc55a4
   reline (0.6.3) sha256=1198b04973565b36ec0f11542ab3f5cfeeec34823f4e54cebde90968092b1835
@@ -997,10 +998,10 @@ CHECKSUMS
   stringio (3.2.0) sha256=c37cb2e58b4ffbd33fe5cd948c05934af997b36e0b6ca6fdf43afa234cf222e1
   strscan (3.1.6) sha256=ebd56df0b0468b00a1f2004b4078c34df58c3506b2bba939e7531892aece81f3
   tailwindcss-rails (4.4.0) sha256=efa2961351a52acebe616e645a81a30bb4f27fde46cc06ce7688d1cd1131e916
-  tailwindcss-ruby (4.1.16-aarch64-linux-gnu) sha256=916554206b47b4218ba9130ee369687a6546fba0224b7168f118e4f955b2f97e
-  tailwindcss-ruby (4.1.16-arm64-darwin) sha256=fc26566f31ef5b8a891ec3e52405b008d83ab950a84a46b52c8438e3ad2d6507
-  tailwindcss-ruby (4.1.16-x86_64-linux-gnu) sha256=4d7948dbab71afd9d51ed1be77cf99cd47768ab3ddc4701623e8c6b861363941
-  tailwindcss-ruby (4.1.16-x86_64-linux-musl) sha256=1f00ac1da0077473a3790e1359709406a9b2b3740e7571a86c64312e9d85b42e
+  tailwindcss-ruby (4.1.18-aarch64-linux-gnu) sha256=e10f9560bccddbb4955fd535b3bcc8c7071a7df07404dd473a23fa791ec4e46b
+  tailwindcss-ruby (4.1.18-arm64-darwin) sha256=f940531d5a030c566d3d616004235bcd4c361abdd328f7d6c7e3a953a32e0155
+  tailwindcss-ruby (4.1.18-x86_64-linux-gnu) sha256=e0a2220163246fe0126c5c5bafb95bc6206e7d21fce2a2878fd9c9a359137534
+  tailwindcss-ruby (4.1.18-x86_64-linux-musl) sha256=d957cf545b09d2db7eb6267450cc1fc589e126524066537a0c4d5b99d701f4b2
   terminal-table (4.0.0) sha256=f504793203f8251b2ea7c7068333053f0beeea26093ec9962e62ea79f94301d2
   thor (1.4.0) sha256=8763e822ccb0f1d7bee88cde131b19a65606657b847cc7b7b4b82e772bcd8a3d
   thruster (0.1.17-aarch64-linux) sha256=1b3a34b2814185c2aeaf835b5ecff5348cdcf8e77809f7a092d46e4b962a16ba
@@ -1016,7 +1017,7 @@ CHECKSUMS
   tzinfo (2.0.6) sha256=8daf828cc77bcf7d63b0e3bdb6caa47e2272dcfaf4fbfe46f8c3a9df087a829b
   unaccent (0.4.0) sha256=d9278230016edc5317c053f8e84c1e1dea6827dec028e5481e2294a4e11e7333
   unicode-display_width (3.2.0) sha256=0cdd96b5681a5949cdbc2c55e7b420facae74c4aaf9a9815eee1087cb1853c42
-  unicode-emoji (4.1.0) sha256=4997d2d5df1ed4252f4830a9b6e86f932e2013fbff2182a9ce9ccabda4f325a5
+  unicode-emoji (4.2.0) sha256=519e69150f75652e40bf736106cfbc8f0f73aa3fb6a65afe62fefa7f80b0f80f
   uri (1.1.1) sha256=379fa58d27ffb1387eaada68c749d1426738bd0f654d812fcc07e7568f5c57c6
   user_agent_parser (2.20.0) sha256=4bd9b667923ee4c7ca0abbe07135e49d9acd6534200b156b89c5e082acbe6ca6
   useragent (0.16.11) sha256=700e6413ad4bb954bb63547fa098dddf7b0ebe75b40cc6f93b8d54255b173844
