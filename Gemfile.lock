@@ -120,7 +120,7 @@ GEM
       async-http (~> 0.42)
       protocol-url (~> 0.2)
     aws-eventstream (1.4.0)
-    aws-partitions (1.1196.0)
+    aws-partitions (1.1197.0)
     aws-sdk-core (3.240.0)
       aws-eventstream (~> 1, >= 1.3.0)
       aws-partitions (~> 1, >= 1.992.0)
@@ -196,14 +196,14 @@ GEM
     date_validator (0.12.0)
       activemodel (>= 3)
       activesupport (>= 3)
-    debug (1.11.0)
+    debug (1.11.1)
       irb (~> 1.10)
       reline (>= 0.3.8)
-    difftastic (0.7.0)
+    difftastic (0.8.0-aarch64-linux)
       pretty_please
-    difftastic (0.7.0-arm64-darwin)
+    difftastic (0.8.0-arm64-darwin)
       pretty_please
-    difftastic (0.7.0-x86_64-linux)
+    difftastic (0.8.0-x86_64-linux)
       pretty_please
     discard (1.4.0)
       activerecord (>= 4.2, < 9.0)
@@ -787,7 +787,7 @@ CHECKSUMS
   async-pool (0.11.1) sha256=98e1583e199a75f7dc70f8e65fc8d0d3b28636c3f256595d43e206642ad8fbda
   async-rest (0.20.0) sha256=72b0d467f65269a53a64fc12b828f3d81b4afa201b4eea0b98cddb990e7e95eb
   aws-eventstream (1.4.0) sha256=116bf85c436200d1060811e6f5d2d40c88f65448f2125bc77ffce5121e6e183b
-  aws-partitions (1.1196.0) sha256=1a62cf7f1298f785bf9fca59ab77f3ceb49dd73bcc547c877236905887c35564
+  aws-partitions (1.1197.0) sha256=6a366745eb10f63e6a32a4fd2383af909d8def1ec400f7e0ed9ae5e934ba4891
   aws-sdk-core (3.240.0) sha256=86b63890525caaf56702972e2669b30ec89230c2b45f12c88290ee678d8d189e
   aws-sdk-kms (1.118.0) sha256=c9c751596d4f1502adac857c90010f00a9a52370b78e170acb198af7fa716fbd
   aws-sdk-s3 (1.208.0) sha256=3fce13500171bae425ffb0fd30f4caef081c5e9780714ac3484b48e0a1797d6d
@@ -820,10 +820,10 @@ CHECKSUMS
   csv (3.3.5) sha256=6e5134ac3383ef728b7f02725d9872934f523cb40b961479f69cf3afa6c8e73f
   date (3.5.1) sha256=750d06384d7b9c15d562c76291407d89e368dda4d4fff957eb94962d325a0dc0
   date_validator (0.12.0) sha256=68c9834da240347b9c17441c553a183572508617ebfbe8c020020f3192ce3058
-  debug (1.11.0) sha256=1425db64cfa0130c952684e3dc974985be201dd62899bf4bbe3f8b5d6cf1aef2
-  difftastic (0.7.0) sha256=522daa8ba9a96e08abb1d2cc22e047f153d0ad4bae1b0d2f2c7198fe0dbd532b
-  difftastic (0.7.0-arm64-darwin) sha256=1a0c41f94f6f000ea561af1304359cda6d0fd3268b90c08e90f55bbd0d6123f1
-  difftastic (0.7.0-x86_64-linux) sha256=fb1970afe56f084cff934621678fd108f1cac57cae1e323c8108909bda39a317
+  debug (1.11.1) sha256=2e0b0ac6119f2207a6f8ac7d4a73ca8eb4e440f64da0a3136c30343146e952b6
+  difftastic (0.8.0-aarch64-linux) sha256=e79f439de7b68dccee4ea9865c0acc342ac5961bf218b7aa3c75b1362e9b46b4
+  difftastic (0.8.0-arm64-darwin) sha256=49dc3ef5cba13457d7dcd267356bb89c9612116702fffa860f4365c1b07df578
+  difftastic (0.8.0-x86_64-linux) sha256=9c384dd9d2395b2b1b388922e1745f1472d19c4b3af9f83c0d22b30f6619208f
   discard (1.4.0) sha256=6efcd2a53ddf96781f81b825d398f1c88ab88c0faa84e131bea6e16ef95d65d0
   dispersion (0.2.0) sha256=64a375f82197b50633b55250d5eac976c412b7c28a7f8cbf8b5f74ced1aaf362
   dotenv (3.2.0) sha256=e375b83121ea7ca4ce20f214740076129ab8514cd81378161f11c03853fe619d
