@@ -6,6 +6,7 @@ class Newsletter < ApplicationRecord
   include Liquidable
   include HasAttachments
 
+  MAXIMUM_HTML_BODY_SIZE = 100.kilobytes
   MISSING_DELIVERY_EMAILS_ALLOWED_PERIOD = 1.week
 
   translated_attributes :audience_name
@@ -39,6 +40,7 @@ class Newsletter < ApplicationRecord
     with: ->(n) { /.*@#{Current.org.domain}\z/ },
     allow_nil: true
   }
+  validate :html_body_must_not_exceed_maximum_size
 
   before_save :set_audience_names
   after_save_commit :save_draft_deliveries!
@@ -251,6 +253,16 @@ class Newsletter < ApplicationRecord
   def at_least_one_block_must_be_present
     if relevant_blocks.none?(&:any_contents?)
       errors.add(:blocks, :empty)
+    end
+  end
+
+  def html_body_must_not_exceed_maximum_size
+    Current.org.languages.each do |locale|
+      html_body = mail_preview(locale)
+      if html_body.bytesize > MAXIMUM_HTML_BODY_SIZE
+        errors.add(:base, :html_body_too_large)
+        break
+      end
     end
   end
 

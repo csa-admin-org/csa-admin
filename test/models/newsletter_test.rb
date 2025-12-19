@@ -60,6 +60,20 @@ class NewsletterTest < ActiveSupport::TestCase
       "Liquid syntax error: Variable '{{' was not properly terminated with regexp: /\\}\\}/"
   end
 
+  test "validate html body size" do
+    newsletter = build_newsletter(blocks_attributes: {
+      "0" => { block_id: "first", content_en: "Hello" }
+    })
+    assert newsletter.valid?
+
+    # Test the validation method directly with a mock
+    max_size = Newsletter::MAXIMUM_HTML_BODY_SIZE
+    newsletter.define_singleton_method(:mail_preview) { |_locale| "x" * (max_size + 1) }
+
+    assert_not newsletter.valid?
+    assert_includes newsletter.errors[:base], "Newsletter has too much content"
+  end
+
   test "schedulable scope" do
     travel_to "2025-04-01"
     create_newsletter

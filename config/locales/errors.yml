@@ -14,6 +14,13 @@ _:
           _de: Die Anhänge dürfen nicht null Bytes haben
           _it: Gli allegati non devono essere di dimensione zero
           _nl: Bijlagen mogen niet nul bytes zijn
+      base:
+        html_body_too_large:
+          _en: Newsletter has too much content
+          _fr: La newsletter a trop de contenu
+          _de: Der Newsletter hat zu viel Inhalt
+          _it: La newsletter ha troppo contenuto
+          _nl: Nieuwsbrief heeft te veel inhoud
     format:
       _en: "%{attribute} %{message}"
       _fr: "%{attribute} %{message}"
