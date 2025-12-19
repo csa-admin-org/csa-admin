@@ -183,6 +183,7 @@ ActiveAdmin.register Newsletter do
     div class: "hidden text-base text-center mb-2 text-orange-700 dark:text-orange-400", data: { "auto-save-target" => "warningMessage" } do
       t("newsletters.auto_save_recovered")
     end
+    f.semantic_errors :base
     f.inputs t(".details") do
       f.input :id, as: :hidden
       translated_input(f, :subjects,
