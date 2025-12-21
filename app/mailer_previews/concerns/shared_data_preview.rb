@@ -80,8 +80,8 @@ module SharedDataPreview
           delivery: delivery)
   end
 
-  def basket_size = basket.basket_size
-  def depot = basket.depot
+  def basket_size = basket&.basket_size
+  def depot = basket&.depot
 
   def delivery
     @delivery ||= Delivery.next || Delivery.last
