@@ -102,7 +102,11 @@ class DeliveryCycle < ApplicationRecord
   end
 
   def self.visible?
-    !basket_size_config? && visible.many?
+    !basket_size_config? && visible.many? && shared_depots?
+  end
+
+  def self.shared_depots?
+    visible.flat_map(&:depot_ids).tally.values.any? { |count| count > 1 }
   end
 
   def self.prices?
@@ -112,7 +116,8 @@ class DeliveryCycle < ApplicationRecord
   # Prioritize visible delivery cycles over non-visible ones, even if a
   # non-visible cycle has more billable deliveries.
   def self.primary
-    visible.max_by(&:billable_deliveries_count) || kept.max_by(&:billable_deliveries_count)
+    visible.max_by { |dc| [ dc.billable_deliveries_count, dc.depot_ids.size ] } ||
+      kept.max_by { |dc| [ dc.billable_deliveries_count, dc.depot_ids.size ] }
   end
 
   def self.member_ordered

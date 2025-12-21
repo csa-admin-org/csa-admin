@@ -621,4 +621,74 @@ class DeliveryCycleTest < ActiveSupport::TestCase
       perform_enqueued_jobs
     end
   end
+
+  test "visible? returns false when depots have only one cycle each" do
+    mondays = delivery_cycles(:mondays)
+    thursdays = delivery_cycles(:thursdays)
+    all = delivery_cycles(:all)
+
+    home = depots(:home)
+    farm = depots(:farm)
+    bakery = depots(:bakery)
+
+    # Each depot has only one cycle - no shared depots
+    mondays.depots = [ home ]
+    thursdays.depots = [ farm ]
+    all.depots = [ bakery ]
+    bakery.update!(visible: false)
+
+    assert_not DeliveryCycle.visible?
+  end
+
+  test "visible? returns true when at least one depot has multiple cycles" do
+    mondays = delivery_cycles(:mondays)
+    thursdays = delivery_cycles(:thursdays)
+    all = delivery_cycles(:all)
+
+    home = depots(:home)
+    farm = depots(:farm)
+    bakery = depots(:bakery)
+
+    # Home depot has both cycles - shared depot
+    mondays.depots = [ home, farm ]
+    thursdays.depots = [ home ]
+    all.depots = [ bakery ]
+    bakery.update!(visible: false)
+
+    assert DeliveryCycle.visible?
+  end
+
+  test "primary returns cycle with most depots when billable_deliveries_count is equal" do
+    mondays = delivery_cycles(:mondays)
+    thursdays = delivery_cycles(:thursdays)
+    all = delivery_cycles(:all)
+
+    home = depots(:home)
+    farm = depots(:farm)
+    bakery = depots(:bakery)
+
+    # Both cycles have same deliveries count, but mondays has more depots
+    mondays.depots = [ home, farm, bakery ]
+    thursdays.depots = [ home ]
+    all.discard
+
+    assert_equal mondays, DeliveryCycle.primary
+  end
+
+  test "primary returns cycle with highest billable_deliveries_count regardless of depot count" do
+    mondays = delivery_cycles(:mondays)
+    thursdays = delivery_cycles(:thursdays)
+    all = delivery_cycles(:all)
+
+    home = depots(:home)
+    farm = depots(:farm)
+    bakery = depots(:bakery)
+
+    # Mondays has more depots but fewer deliveries
+    mondays.depots = [ home, farm, bakery ]
+    all.depots = [ home ]
+    thursdays.discard
+
+    assert_equal all, DeliveryCycle.primary
+  end
 end
