@@ -10,7 +10,7 @@
         </li>
       <% end %>
 
-      <% if current_member %>
+      <% if current_member&.active? %>
         <li class="mx-auto mb-4 px-4 md:mx-0 md:px-0">
           <%= link_to calendar_webcal_url, class: "flex items-center hover:text-green-500 py-1 px-4 md:px-0", title: t(".calendar_feed") do %>
             <%= icon "calendar-days", class: "size-6" %>
