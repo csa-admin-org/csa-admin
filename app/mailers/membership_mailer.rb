@@ -5,8 +5,8 @@ class MembershipMailer < ApplicationMailer
 
   def initial_basket_email
     basket = params[:basket]
-    membership = params[:membership] || basket.membership
-    member = params[:member] || membership.member
+    membership = params[:membership] || basket&.membership
+    member = params[:member] || membership&.member
     template_mail(member,
       tag: "membership-initial-basket",
       "basket" => Liquid::BasketDrop.new(basket),
@@ -16,8 +16,8 @@ class MembershipMailer < ApplicationMailer
 
   def final_basket_email
     basket = params[:basket]
-    membership = params[:membership] || basket.membership
-    member = params[:member] || membership.member
+    membership = params[:membership] || basket&.membership
+    member = params[:member] || membership&.member
     template_mail(member,
       tag: "membership-final-basket",
       "basket" => Liquid::BasketDrop.new(basket),
@@ -27,8 +27,8 @@ class MembershipMailer < ApplicationMailer
 
   def first_basket_email
     basket = params[:basket]
-    membership = params[:membership] || basket.membership
-    member = params[:member] || membership.member
+    membership = params[:membership] || basket&.membership
+    member = params[:member] || membership&.member
     template_mail(member,
       tag: "membership-first-basket",
       "basket" => Liquid::BasketDrop.new(basket),
@@ -38,8 +38,8 @@ class MembershipMailer < ApplicationMailer
 
   def last_basket_email
     basket = params[:basket]
-    membership = params[:membership] || basket.membership
-    member = params[:member] || membership.member
+    membership = params[:membership] || basket&.membership
+    member = params[:member] || membership&.member
     template_mail(member,
       tag: "membership-last-basket",
       "basket" => Liquid::BasketDrop.new(basket),
@@ -49,8 +49,8 @@ class MembershipMailer < ApplicationMailer
 
   def second_last_trial_basket_email
     basket = params[:basket]
-    membership = params[:membership] || basket.membership
-    member = params[:member] || membership.member
+    membership = params[:membership] || basket&.membership
+    member = params[:member] || membership&.member
     template_mail(member,
       tag: "membership-second-last-trial-basket",
       "basket" => Liquid::BasketDrop.new(basket),
@@ -60,8 +60,8 @@ class MembershipMailer < ApplicationMailer
 
   def last_trial_basket_email
     basket = params[:basket]
-    membership = params[:membership] || basket.membership
-    member = params[:member] || membership.member
+    membership = params[:membership] || basket&.membership
+    member = params[:member] || membership&.member
     template_mail(member,
       tag: "membership-last-trial-basket",
       "basket" => Liquid::BasketDrop.new(basket),
@@ -71,7 +71,7 @@ class MembershipMailer < ApplicationMailer
 
   def renewal_email
     membership = params[:membership]
-    member = params[:member] || membership.member
+    member = params[:member] || membership&.member
     template_mail(member,
       tag: "membership-renewal",
       "member" => Liquid::MemberDrop.new(member),
@@ -80,7 +80,7 @@ class MembershipMailer < ApplicationMailer
 
   def renewal_reminder_email
     membership = params[:membership]
-    member = params[:member] || membership.member
+    member = params[:member] || membership&.member
     template_mail(member,
       tag: "membership-renewal-reminder",
       "member" => Liquid::MemberDrop.new(member),
