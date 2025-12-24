@@ -40,9 +40,12 @@ ActiveAdmin.register BasketSize do
     end
 
     f.inputs t(".billing") do
+      price_hint = []
+      price_hint << t("formtastic.hints.basket_size.price") if f.object.persisted?
+      price_hint << t("formtastic.hints.basket_size.price_zero")
       f.input :price,
         min: 0,
-        hint: f.object.persisted?,
+        hint: price_hint.join("<br/>").html_safe,
         label: BasketSize.human_attribute_name(:price_per_delivery)
       if feature?("activity")
         f.input :activity_participations_demanded_annually,

@@ -1012,4 +1012,21 @@ class MembershipTest < ActiveSupport::TestCase
       membership.destroy
     end
   end
+
+  test "creates baskets with quantity 0 when basket size is complements only" do
+    travel_to "2024-01-01"
+    basket_size = basket_sizes(:small)
+    basket_size.update!(price: 0)
+
+    membership = build_membership(basket_size: basket_size)
+
+    assert_difference -> { membership.baskets.count }, 10 do
+      membership.save!
+    end
+
+    membership.baskets.each do |basket|
+      assert_equal 0, basket.quantity, "Basket should have quantity 0 for complements only basket size"
+      assert_equal 0, basket.basket_size_price
+    end
+  end
 end
