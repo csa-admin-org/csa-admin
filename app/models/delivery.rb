@@ -56,6 +56,10 @@ class Delivery < ApplicationRecord
     during_year(year).any?
   end
 
+  def self.current_year_ongoing?
+    current_year.past.exists?
+  end
+
   def self.any_next_year?
     any_in_year?(Current.fy_year + 1)
   end

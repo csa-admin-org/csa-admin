@@ -167,6 +167,12 @@ ActiveAdmin.register Delivery do
   end
 
   form do |f|
+    if f.object.new_record? && Delivery.current_year_ongoing?
+      warning_pane do
+        t("active_admin.resources.delivery.ongoing_fiscal_year_warning_html", year: Current.fiscal_year).html_safe
+      end
+    end
+
     render partial: "bulk_dates", locals: { f: f, resource: resource, context: self }
 
     if f.object.new_record? && BasketComplement.kept.any?
