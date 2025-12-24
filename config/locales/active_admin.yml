@@ -2096,6 +2096,12 @@ _:
           _de: Neue %{model}
           _it: Nuova %{model}
           _nl: Nieuwe %{model}
+        ongoing_fiscal_year_warning_html:
+          _en: <strong>Warning:</strong> The current fiscal year (%{year}) has already started. Creating deliveries within this fiscal year may add baskets to existing memberships, affecting their billing. <a href="/handbook/billing#price-change">Learn more</a> – If in doubt, don't hesitate to <a href="/support">contact me</a>.
+          _fr: <strong>Attention:</strong> L'année fiscale en cours (%{year}) a déjà commencé. La création de livraisons au sein de cette année fiscale peut ajouter des paniers aux abonnements existants, affectant leur facturation. <a href="/handbook/billing#price-change">En savoir plus</a> – En cas de doute, n'hésitez pas à <a href="/support">me contacter</a>.
+          _de: <strong>Achtung:</strong> Das laufende Geschäftsjahr (%{year}) hat bereits begonnen. Das Erstellen von Lieferungen innerhalb dieses Geschäftsjahres kann bestehenden Abonnements Taschen hinzufügen und deren Abrechnung beeinflussen. <a href="/handbook/billing#price-change">Mehr erfahren</a> – Im Zweifelsfall <a href="/support">kontaktieren Sie mich</a> gerne.
+          _it: <strong>Attenzione:</strong> L'anno fiscale corrente (%{year}) è già iniziato. La creazione di consegne all'interno di questo anno fiscale potrebbe aggiungere ceste agli abbonamenti esistenti, influenzando la loro fatturazione. <a href="/handbook/billing#price-change">Scopri di più</a> – In caso di dubbio, non esitare a <a href="/support">contattarmi</a>.
+          _nl: <strong>Waarschuwing:</strong> Het huidige boekjaar (%{year}) is al begonnen. Het aanmaken van leveringen binnen dit boekjaar kan pakketten toevoegen aan bestaande lidmaatschappen, wat hun facturering beïnvloedt. <a href="/handbook/billing#price-change">Meer informatie</a> – Bij twijfel, aarzel niet om <a href="/support">contact met mij op te nemen</a>.
         scopes:
           all:
             _en: All
@@ -2109,6 +2115,13 @@ _:
             _de: Vergangene
             _it: Passato
             _nl: Verleden
+      delivery_cycle:
+        ongoing_fiscal_year_warning_html:
+          _en: <strong>Warning:</strong> The current fiscal year (%{year}) has already started and this delivery cycle is used by %{count} membership(s). Modifying its configuration may affect their baskets and billing. <a href="/handbook/billing#price-change">Learn more</a> – If in doubt, don't hesitate to <a href="/support">contact me</a>.
+          _fr: <strong>Attention:</strong> L'année fiscale en cours (%{year}) a déjà commencé et ce cycle de livraisons est utilisé par %{count} abonnement(s). La modification de sa configuration peut affecter leurs paniers et leur facturation. <a href="/handbook/billing#price-change">En savoir plus</a> – En cas de doute, n'hésitez pas à <a href="/support">me contacter</a>.
+          _de: <strong>Achtung:</strong> Das laufende Geschäftsjahr (%{year}) hat bereits begonnen und dieser Lieferzyklus wird von %{count} Abonnement(en) genutzt. Änderungen an der Konfiguration können deren Taschen und Abrechnung beeinflussen. <a href="/handbook/billing#price-change">Mehr erfahren</a> – Im Zweifelsfall <a href="/support">kontaktieren Sie mich</a> gerne.
+          _it: <strong>Attenzione:</strong> L'anno fiscale corrente (%{year}) è già iniziato e questo ciclo di consegna è utilizzato da %{count} abbonamento/i. La modifica della sua configurazione potrebbe influenzare i loro cesti e la fatturazione. <a href="/handbook/billing#price-change">Scopri di più</a> – In caso di dubbio, non esitare a <a href="/support">contattarmi</a>.
+          _nl: <strong>Waarschuwing:</strong> Het huidige boekjaar (%{year}) is al begonnen en deze leveringscyclus wordt gebruikt door %{count} lidmaatschap(pen). Het wijzigen van de configuratie kan hun pakketten en facturering beïnvloeden. <a href="/handbook/billing#price-change">Meer informatie</a> – Bij twijfel, aarzel niet om <a href="/support">contact met mij op te nemen</a>.
       depot:
         new_model:
           _en: New %{model}

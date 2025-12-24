@@ -162,6 +162,13 @@ ActiveAdmin.register DeliveryCycle do
   end
 
   form do |f|
+    if f.object.persisted? && Delivery.current_year_ongoing? && f.object.current_year_memberships?
+      current_memberships_count = f.object.memberships.current_year.count
+      warning_pane do
+        t("active_admin.resources.delivery_cycle.ongoing_fiscal_year_warning_html", year: Current.fiscal_year, count: current_memberships_count).html_safe
+      end
+    end
+
     f.inputs t(".details") do
       render partial: "public_name", locals: { f: f, resource: resource, context: self }
     end

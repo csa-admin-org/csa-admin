@@ -218,4 +218,16 @@ class DeliveryTest < ActiveSupport::TestCase
       assert_not delivery.shop_open?
     end
   end
+
+  test "current_year_ongoing? returns false when no deliveries have passed" do
+    travel_to "2024-01-01"
+
+    assert_not Delivery.current_year_ongoing?
+  end
+
+  test "current_year_ongoing? returns true when at least one delivery has passed" do
+    travel_to "2024-06-01"
+
+    assert Delivery.current_year_ongoing?
+  end
 end

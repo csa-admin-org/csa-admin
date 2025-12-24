@@ -154,6 +154,10 @@ class DeliveryCycle < ApplicationRecord
     depots.visible.any?
   end
 
+  def current_year_memberships?
+    memberships.current_year.exists?
+  end
+
   def next_delivery
     (current_deliveries + future_deliveries).select { |d| d.date >= Date.current }.min_by(&:date)
   end

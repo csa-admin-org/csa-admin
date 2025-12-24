@@ -691,4 +691,19 @@ class DeliveryCycleTest < ActiveSupport::TestCase
 
     assert_equal all, DeliveryCycle.primary
   end
+
+  test "current_year_memberships? returns true when memberships exist for current year" do
+    travel_to "2024-06-01"
+    cycle = delivery_cycles(:mondays)
+
+    assert cycle.current_year_memberships?
+  end
+
+  test "current_year_memberships? returns false when no memberships exist for current year" do
+    travel_to "2024-06-01"
+    cycle = delivery_cycles(:mondays)
+    cycle.memberships.current_year.update_all(delivery_cycle_id: delivery_cycles(:all).id)
+
+    assert_not cycle.current_year_memberships?
+  end
 end
