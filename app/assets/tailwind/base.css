@@ -98,7 +98,7 @@
   }
 
   [type="checkbox"]:checked {
-    @apply bg-[length:0.65rem_0.65rem];
+    @apply bg-size-[0.65rem_0.65rem];
     background-image: url("data:image/svg+xml,<svg aria-hidden='true' xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 16 12'><path stroke='white' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='M1 5.917 5.724 10.5 15 1.5'/></svg>");
     print-color-adjust: exact;
   }
@@ -216,22 +216,22 @@
 
   [data-popover][role="tooltip"][data-popper-placement^="top"]
     > [data-popper-arrow] {
-    @apply -bottom-[5px];
+    @apply -bottom-1.25;
   }
 
   [data-popover][role="tooltip"][data-popper-placement^="bottom"]
     > [data-popper-arrow] {
-    @apply -top-[5px];
+    @apply -top-1.25;
   }
 
   [data-popover][role="tooltip"][data-popper-placement^="left"]
     > [data-popper-arrow] {
-    @apply -right-[5px];
+    @apply -right-1.25;
   }
 
   [data-popover][role="tooltip"][data-popper-placement^="right"]
     > [data-popper-arrow] {
-    @apply -left-[5px];
+    @apply -left-1.25;
   }
 
   [role="tooltip"].invisible > [data-popper-arrow]:before {

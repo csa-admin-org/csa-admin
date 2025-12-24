@@ -2,7 +2,7 @@
 
 module MembersHelper
   def notice_pane(icon_name = nil, &block)
-    content_tag :div, class: "mb-4 flex items-center gap-2 rounded border-1 border-dashed border-teal-500 bg-teal-100 p-2 text-teal-700 hover:bg-teal-200 dark:bg-teal-900 dark:text-teal-300 hover:dark:bg-teal-800" do
+    content_tag :div, class: "mb-4 flex items-center gap-2 rounded border border-dashed border-teal-500 bg-teal-100 p-2 text-teal-700 hover:bg-teal-200 dark:bg-teal-900 dark:text-teal-300 hover:dark:bg-teal-800" do
       concat icon(icon_name, class: "size-5 w-8 shrink-0") if icon_name
       concat content_tag(:span, capture(&block))
     end
