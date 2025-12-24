@@ -456,4 +456,63 @@ class BasketTest < ActiveSupport::TestCase
     basket.validate
     assert_equal 42, basket.basket_size_price
   end
+
+  test "sets quantity to 0 on creation when basket size default price is 0" do
+    travel_to "2024-01-01"
+    basket_size = basket_sizes(:small)
+    basket_size.update!(price: 0)
+
+    basket = Basket.create!(
+      membership: memberships(:jane),
+      delivery: deliveries(:monday_1), # Jane is on Thursdays, so Monday is free
+      basket_size: basket_size,
+      depot: depots(:farm),
+      quantity: 1)
+
+    assert_equal 0, basket.quantity
+    assert_equal 0, basket.basket_size_price
+  end
+
+  test "keeps quantity on creation when basket size is not complements only" do
+    travel_to "2024-01-01"
+    basket_size = basket_sizes(:small)
+
+    assert_not basket_size.complements_only?
+
+    basket = Basket.create!(
+      membership: memberships(:jane),
+      delivery: deliveries(:monday_1), # Jane is on Thursdays, so Monday is free
+      basket_size: basket_size,
+      depot: depots(:farm),
+      quantity: 1)
+
+    assert_equal 1, basket.quantity
+  end
+
+  test "sets quantity to 0 on update when basket size is complements only" do
+    travel_to "2024-01-01"
+    basket = baskets(:john_1)
+    basket_size = basket.basket_size
+
+    assert_equal 1, basket.quantity
+
+    basket_size.update!(price: 0)
+    basket.update!(basket_size_price: nil) # Reset to use default
+
+    assert_equal 0, basket.quantity
+    assert basket_size.complements_only?
+  end
+
+  test "keeps quantity on update when basket size price is explicitly set" do
+    travel_to "2024-01-01"
+    basket = baskets(:john_1)
+    basket_size = basket.basket_size
+
+    assert_equal 1, basket.quantity
+
+    basket_size.update!(price: 0)
+    basket.update!(basket_size_price: 5) # explicitly set non-zero price
+
+    assert_equal 1, basket.quantity
+  end
 end

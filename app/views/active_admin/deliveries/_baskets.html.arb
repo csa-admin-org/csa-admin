@@ -3,7 +3,7 @@
 require "ostruct"
 
 counts = delivery.basket_counts(scope: scope)
-bs_names = delivery.basket_sizes.map(&:name).map { |name| content_tag :span, name, class: "whitespace-nowrap" }
+bs_names = counts.basket_sizes.map(&:name).map { |name| content_tag :span, name, class: "whitespace-nowrap" }
 show_shop_orders = feature?("shop") && delivery.shop_open && scope != :absent
 
 attrs = { class: "" }

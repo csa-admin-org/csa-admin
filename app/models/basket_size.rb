@@ -54,6 +54,10 @@ class BasketSize < ApplicationRecord
 
   def display_name; name end
 
+  def complements_only?
+    price.zero?
+  end
+
   def can_delete?
     memberships.none? && baskets.none?
   end

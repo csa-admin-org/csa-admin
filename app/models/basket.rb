@@ -30,6 +30,7 @@ class Basket < ApplicationRecord
   accepts_nested_attributes_for :baskets_basket_complements, allow_destroy: true
 
   before_validation :set_prices
+  before_save :set_quantity_for_complements_only_basket_size
   before_create :add_complements
   before_create :set_calculated_price_extra
   before_update :set_calculated_price_extra
@@ -209,6 +210,15 @@ class Basket < ApplicationRecord
     self.basket_size_price ||= calculate_default_basket_size_price
     self.depot_price ||= depot&.price
     self.delivery_cycle_price ||= membership.delivery_cycle&.price
+  end
+
+  # When using a complements-only basket size (price 0), set quantity to 0.
+  # This allows basket sizes where members only receive complements
+  # without an actual basket being counted in deliveries.
+  def set_quantity_for_complements_only_basket_size
+    if basket_size&.complements_only? && basket_size_price.zero?
+      self.quantity = 0
+    end
   end
 
   def unique_basket_complement_id

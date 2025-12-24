@@ -1,12 +1,13 @@
 # frozen_string_literal: true
 
 class BasketCounts
-  attr_reader :depots
+  attr_reader :depots, :basket_sizes
 
   def initialize(delivery, depot_ids, scope: nil)
     @delivery = delivery
-    @basket_size_ids = @delivery.basket_sizes.map(&:id)
     @baskets = @delivery.baskets.send(scope || :active).to_a
+    @basket_sizes = BasketSize.for(@delivery.baskets.send(scope || :active))
+    @basket_size_ids = @basket_sizes.pluck(:id)
     @shop_orders = @delivery.shop_orders.all_without_cart.to_a
     used_depot_ids = (@baskets.map(&:depot_id) + @shop_orders.map(&:depot_id)).uniq
     @depots = Depot.where(id: (Array(depot_ids) & used_depot_ids))

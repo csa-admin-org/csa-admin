@@ -205,6 +205,12 @@ _:
           _de: Alle Preisänderungen gelten nur für neue Abonnements und werden nicht rückwirkend angewendet.
           _it: Tutte le modifiche al prezzo sono valide solo per i nuovi abbonamenti e non sono applicate retroattivamente.
           _nl: Alle prijswijzigingen zijn alleen geldig voor nieuwe lidmaatschappen en worden niet met terugwerkende kracht toegepast.
+        price_zero:
+          _en: A price of 0.00 means "complements only"; the basket quantity will be automatically set to 0.
+          _fr: Un prix à 0.00 signifie "compléments uniquement"; la quantité de panier sera automatiquement mise à 0.
+          _de: Ein Preis von 0.00 bedeutet "nur Zusätze"; die Korbmenge wird automatisch auf 0 gesetzt.
+          _it: Un prezzo di 0.00 significa "solo aggiunte"; la quantità del cestino sarà automaticamente impostata a 0.
+          _nl: Een prijs van 0.00 betekent "alleen aanvullingen"; de pakketaantal wordt automatisch op 0 gezet.
         visible:
           _en: Select "No" if the basket size is not available during registration.
           _fr: Sélectionner "Non" si la taille de panier n'est pas disponible lors de l'inscription.
