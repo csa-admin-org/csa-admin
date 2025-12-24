@@ -1,0 +1,38 @@
+<p>Ihr Abonnement umfasst {{ membership.absences_included }} Abwesenheiten, und Sie haben noch {{ membership.absences_remaining }} ungenutzt.</p>
+
+{% case organization.absences_included_mode %}
+{% when "provisional_absence" %}
+
+<p>Da Sie nicht alle Ihre Abwesenheiten genutzt haben, werden die folgenden Lieferungen übersprungen:</p>
+{% highlight %}
+  <ul>
+  {% for basket in membership.provisional_baskets %}
+    <li>{{ basket.delivery.date }}</li>
+  {% endfor %}
+  </ul>
+{% endhighlight %}
+
+<p>Diese Körbe werden <strong>nicht geliefert</strong>, es sei denn, Sie fordern sie an. Wenn Sie eine dieser Lieferungen erhalten möchten, können Sie dies über Ihr Konto tun.</p>
+
+{% button member.deliveries_url %}
+  Meine Lieferungen anzeigen
+{% endbutton %}
+
+{% when "provisional_delivery" %}
+
+<p>Da Sie nicht alle Ihre Abwesenheiten genutzt haben, werden die folgenden Lieferungen nun <strong>geliefert und berechnet</strong>:</p>
+{% highlight %}
+  <ul>
+  {% for basket in membership.forced_baskets %}
+    <li>{{ basket.delivery.date }}</li>
+  {% endfor %}
+  </ul>
+{% endhighlight %}
+
+<p>Wenn Sie einige dieser Lieferungen nicht erhalten möchten, können Sie über Ihr Konto noch eine Abwesenheit melden.</p>
+
+{% button member.absences_url %}
+  Meine Abwesenheiten verwalten
+{% endbutton %}
+
+{% endcase %}

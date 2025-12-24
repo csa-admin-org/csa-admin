@@ -96,6 +96,8 @@ class Ability
       can :renew, Membership
       can :cancel, Membership
       can :cancel_keep_support, Membership
+      can :force, Basket, can_force?: true
+      can :unforce, Basket, can_unforce?: true
     end
 
     if admin.permission.can_write?(:billing)

@@ -1,0 +1,7 @@
+<% if basket = next_shiftable_basket %>
+  <%= link_to deliveries_path(anchor: dom_id(basket)), data: { turbo: false } do %>
+    <%= notice_pane("redo") do %>
+      <%= t(".notice", count: current_member.current_or_future_membership.basket_shifts_allowance_remaining) %>
+    <% end %>
+  <% end %>
+<% end %>

@@ -4,6 +4,8 @@ module BasketsHelper
   def display_basket_state(basket)
     if basket.trial?
       content_tag(:span, t("active_admin.status_tag.trial"), class: "status-tag", data: { status: "trial" })
+    elsif basket.forced?
+      content_tag(:span, t("active_admin.status_tag.forced"), class: "status-tag", data: { status: "forced" })
     elsif basket.absent?
       if basket.absence
         link_to basket.absence do

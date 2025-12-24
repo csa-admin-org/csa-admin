@@ -4,6 +4,7 @@ require "rounding"
 
 class Membership < ApplicationRecord
   include HasDescription
+  include Absence, AbsencesIncludedRemindable
 
   attr_accessor :renewal_decision
 
@@ -31,6 +32,7 @@ class Membership < ApplicationRecord
     source: :basket_complement,
     through: :memberships_basket_complements
   has_many :invoices, as: :entity
+  has_many :forced_deliveries, dependent: :destroy
   has_many :bidding_round_pledges,
     class_name: "BiddingRound::Pledge",
     dependent: :destroy
@@ -50,7 +52,6 @@ class Membership < ApplicationRecord
     self.depot_price ||= depot&.price
     self.delivery_cycle_price ||= delivery_cycle&.price
     self.activity_participations_demanded_annually ||= activity_participations_demanded_annually_by_default
-    self.absences_included_annually ||= delivery_cycle&.absences_included_annually
   end
 
   validates :member, presence: true
@@ -65,7 +66,6 @@ class Membership < ApplicationRecord
   validates :basket_price_extra, numericality: true, presence: true
   validates :baskets_annual_price_change, numericality: true
   validates :basket_complements_annual_price_change, numericality: true
-  validates :absences_included_annually, numericality: true
   validates :billing_year_division, presence: true, inclusion: { in: Organization.billing_year_divisions }
   validate :good_period_range
   validate :cannot_update_dates_when_renewed
@@ -83,7 +83,6 @@ class Membership < ApplicationRecord
   after_update :delete_bidding_round_pledge_on_basket_size_change!
   after_destroy :update_renewal_of_previous_membership_after_deletion, :destroy_or_cancel_invoices!
   after_commit :update_renewal_of_previous_membership_after_creation, on: :create
-  after_commit :update_absences_included!, on: %i[create update]
   after_commit :update_member_and_baskets!
   after_commit :update_price_and_invoices_amount!, on: %i[create update]
   after_touch :update_member_and_baskets!
@@ -655,16 +654,6 @@ class Membership < ApplicationRecord
       waiting_basket_complement_ids: nil)
   end
 
-  def update_absences_included!
-    return unless Current.org.feature?("absence")
-
-    full_year = delivery_cycle.deliveries_in(fiscal_year.range).size.to_f
-    total = (baskets.count / full_year * absences_included_annually).round
-    unless total == absences_included
-      update_column(:absences_included, total)
-    end
-  end
-
   def update_member_and_baskets!
     update_absent_baskets!
     update_not_billable_baskets!
@@ -672,45 +661,6 @@ class Membership < ApplicationRecord
     member.update_trial_baskets!
     update_baskets_counts!
     member.review_active_state!
-  end
-
-  def update_absent_baskets!
-    return unless Current.org.feature?("absence")
-    return if destroyed?
-
-    transaction do
-      # Real absences
-      baskets.absent.update_all(state: "normal", absence_id: nil)
-      member.absences.overlaps(period).each do |absence|
-        baskets
-          .between(absence.period)
-          .update_all(state: "absent", absence_id: absence.id)
-      end
-      # Provisional absences (included)
-      remaining = absences_included - baskets.absent.count
-      if remaining.positive?
-        baskets
-          .not_absent
-          .reorder("deliveries.date DESC")
-          .limit(remaining)
-          .update_all(state: "absent")
-      end
-    end
-  end
-
-  def update_not_billable_baskets!
-    return unless Current.org.feature?("absence")
-    return if destroyed?
-
-    transaction do
-      baskets.not_billable.update_all(billable: true)
-      absent_baskets = baskets.absent
-      if Current.org.absences_billed?
-        absent_baskets = absent_baskets.limit(absences_included)
-      end
-      absent_baskets.update_all(billable: false)
-      baskets.find_each(&:update_calculated_price_extra!)
-    end
   end
 
   def update_price_and_invoices_amount!

@@ -271,6 +271,12 @@ _:
           _de: Abonnement ID
           _it: Abbonamento ID
           _nl: Lidmaatschap ID
+        provisionally_absent:
+          _en: Provisionally absent
+          _fr: Provisoirement absent
+          _de: Vorläufig abwesend
+          _it: Provvisoriamente assente
+          _nl: Voorlopig afwezig
         shift_target_basket_id:
           _en: Shift to the delivery of
           _fr: Déplacer à la livraison du
@@ -1066,6 +1072,12 @@ _:
           _de: Abwesenheiten inklusive
           _it: Assenze incluse
           _nl: Afwezige inclusief
+        absences_included_reminder_sent_at:
+          _en: Reminder sent on
+          _fr: Rappel envoyé le
+          _de: Erinnerung gesendet am
+          _it: Promemoria inviato il
+          _nl: Herinnering verzonden op
         activity_participations_accepted/basket_preparation:
           _en: Basket preparations accepted
           _fr: Mises en panier acceptées
@@ -1464,6 +1476,12 @@ _:
           _de: Ende
           _it: Fine
           _nl: Einde
+        forced_deliveries:
+          _en: Forced deliveries
+          _fr: Livraisons forcées
+          _de: Erzwungene Lieferungen
+          _it: Consegne forzate
+          _nl: Geforceerde leveringen
         invoices_amount:
           _en: Invoiced
           _fr: Facturé
@@ -1692,6 +1710,18 @@ _:
           _de: Fakturierung von Taschen bei Abwesenheiten
           _it: Fatturazione delle ceste durante le assenze
           _nl: Facturering van pakketten tijdens afwezigheid
+        absences_included_mode:
+          _en: Absences included mode
+          _fr: Mode des absences incluses
+          _de: Modus der inkludierten Abwesenheiten
+          _it: Modalità assenze incluse
+          _nl: Modus inbegrepen afwezigheden
+        absences_included_reminder_weeks_before:
+          _en: Unused included absences reminder deadline (in weeks)
+          _fr: Délai du rappel d'absences incluses non utilisées (en semaines)
+          _de: Erinnerungsfrist für ungenutzte enthaltene Abwesenheiten (in Wochen)
+          _it: Scadenza promemoria assenze incluse non utilizzate (in settimane)
+          _nl: Herinneringstermijn voor ongebruikte inbegrepen afwezigheden (in weken)
         activity_availability_limit_in_days:
           _en: Registration deadline (in days)
           _fr: Limite d'inscription à l'avance (en jours)

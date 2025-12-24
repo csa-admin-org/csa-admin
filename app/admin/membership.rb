@@ -296,6 +296,7 @@ ActiveAdmin.register Membership do
     if feature?("absence")
       column(:absences_included)
       column(:baskets_absent_count) { |m| m.baskets.count(&:absent?) }
+      column(:absences_included_reminder_sent_at)
     end
     column(:basket_size) { |m| basket_size_description(m, text_only: true, public_name: false) }
     column(:basket_size_price) { |m| cur(m.basket_size_price) }
@@ -393,10 +394,31 @@ ActiveAdmin.register Membership do
               end
             end
             column(nil) { |b|
-              if authorized?(:update, b)
-                div class: "data-table-resource-actions" do
-                  link_to edit_basket_path(b), title: t(".edit"), aria: { label: "edit" } do
-                    icon "pencil-square", class: "size-5"
+              div class: "data-table-resource-actions" do
+                if authorized?(:force, b)
+                  link_to force_basket_path(b),
+                    method: :post,
+                    data: { confirm: t(".force_confirm") },
+                    title: t(".force"),
+                    aria: { label: "force" } do
+                      icon "circle-check-big", class: "size-5"
+                    end
+                elsif authorized?(:update, b)
+                  if authorized?(:unforce, b)
+                    span do
+                      link_to unforce_basket_path(b),
+                        method: :delete,
+                        data: { confirm: t(".unforce_confirm") },
+                        title: t(".unforce"),
+                        aria: { label: "unforce" } do
+                          icon "circle-off", class: "size-5"
+                        end
+                    end
+                  end
+                  span do
+                    link_to edit_basket_path(b), title: t(".edit"), aria: { label: "edit" } do
+                      icon "pencil-square", class: "size-5"
+                    end
                   end
                 end
               end
@@ -404,8 +426,8 @@ ActiveAdmin.register Membership do
           end
         end
         if feature?("absence") && m.baskets.provisionally_absent.any?
-          div class: "footnote" do
-            content_tag(:span, "*") + t(".provisional_absences")
+          div class: "footnote italic text-sm flex gap-1.5 pl-1" do
+            content_tag(:span, "* ") + content_tag(:span, t(".provisional_absences"))
           end
         end
       end
@@ -447,6 +469,7 @@ ActiveAdmin.register Membership do
                     t(".absences_used", count: used, limit: m.absences_included)
                   end
                 }
+                row(:absences_included_reminder_sent_at, class: "text-right") { l m.absences_included_reminder_sent_at, format: :medium if m.absences_included_reminder_sent_at }
               end
               if Current.org.basket_shift_enabled? || m.basket_shifts_count.positive?
                 row(:basket_shifts, class: "text-right") {
@@ -455,6 +478,11 @@ ActiveAdmin.register Membership do
                   else
                     m.basket_shifts_count
                   end
+                }
+              end
+              if m.forced_deliveries.any?
+                row(:forced_deliveries, class: "text-right") {
+                  m.forced_deliveries.count
                 }
               end
             end

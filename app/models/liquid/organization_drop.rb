@@ -24,4 +24,10 @@ class Liquid::OrganizationDrop < Liquid::Drop
   def activity_phone
     @org.activity_phone
   end
+
+  def absences_included_mode
+    return unless @org.feature?("absence")
+
+    @org.absences_included_mode
+  end
 end

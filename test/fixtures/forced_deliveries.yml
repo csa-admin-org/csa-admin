@@ -1,0 +1,4 @@
+# frozen_string_literal: true
+
+# ForcedDelivery fixtures are created dynamically in tests
+# to ensure proper membership/delivery associations

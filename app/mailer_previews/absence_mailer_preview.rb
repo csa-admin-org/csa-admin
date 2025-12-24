@@ -17,6 +17,12 @@ class AbsenceMailerPreview < ActionMailer::Preview
     AbsenceMailer.with(params).basket_shifted_email
   end
 
+  def included_reminder_email
+    params.merge!(included_reminder_email_params)
+    params[:template] ||= MailTemplate.find_by!(title: :absence_included_reminder)
+    AbsenceMailer.with(params).included_reminder_email
+  end
+
   private
 
   def created_email_params
@@ -54,6 +60,13 @@ class AbsenceMailerPreview < ActionMailer::Preview
       source_basket.basket_size.public_name
     end
     shift
+  end
+
+  def included_reminder_email_params
+    {
+      member: member,
+      membership: membership
+    }
   end
 
   def absence_date

@@ -1,0 +1,18 @@
+_:
+  baskets:
+    force:
+      flash:
+        notice:
+          _en: Delivery has been forced and the membership invoicing updated.
+          _fr: La livraison a été forcée et la facturation de l'abonnement a été mise à jour.
+          _de: Die Lieferung wurde erzwungen und die Abonnementabrechnung aktualisiert.
+          _it: La consegna è stata forzata e la fatturazione dell'abbonamento è stata aggiornata.
+          _nl: De levering is geforceerd en de facturering van het lidmaatschap is bijgewerkt.
+    unforce:
+      flash:
+        notice:
+          _en: Forced delivery has been canceled.
+          _fr: La livraison forcée a été annulée.
+          _de: Die erzwungene Lieferung wurde storniert.
+          _it: La consegna forzata è stata annullata.
+          _nl: De geforceerde levering is geannuleerd.

@@ -4,17 +4,11 @@ Questa funzione permette di gestire le assenze dei vostri soci e di detrarre aut
 
 ## Configurazione
 
-Una volta attivata questa funzione aggiuntiva nelle [vostre impostazioni](/settings#organization_features_input), [diverse impostazioni](/settings#absence) vi permettono di configurare il testo esplicativo e il periodo di preavviso.
+Una volta attivata questa funzione aggiuntiva nelle [vostre impostazioni](/settings#organization_features_input), [diverse impostazioni](/settings#absence) sono disponibili.
 
 ## Fatturazione
 
 Per impostazione predefinita, le ceste segnate come assenti e non consegnate vengono fatturate e si consiglia ai soci di trovare un conoscente per ritirare la loro cesta al loro posto. Nelle [impostazioni](/settings#absence), potete anche scegliere di non fatturarle. Il sistema si occuperà quindi automaticamente di [adeguare la fatturazione](/handbook/billing#price-change) dell'abbonamento.
-
-## Assenze incluse {#absence-included}
-
-È possibile configurare un numero di assenze incluse nell'abbonamento. Queste assenze vengono quindi automaticamente detratte e non fatturate fin dall'inizio dell'abbonamento. Il sistema segnerà provvisoriamente le ultime consegne dell'abbonamento come assenti, fino a quando il numero di assenze incluse non sarà annunciato dal socio. Le assenze aggiuntive saranno fatturate o meno secondo le [vostre impostazioni](/settings#absence).
-
-> Il numero di assenze incluse può essere impostato anche a livello di [ciclo di consegna](/handbook/deliveries#cicli-di-consegna), per offrire abbonamenti con un numero di assenze incluse (e quindi di consegne) sul [vostro modulo di iscrizione](<%= new_members_member_url(subdomain: Current.org.members_subdomain) %>).
 
 ## Spostamenti di cestini {#basket-shift}
 
@@ -30,3 +24,32 @@ Dal lato del socio, lo spostamento di cestini non è possibile per impostazione 
 Se l'assenza viene annullata, il contenuto del cestino sarà automaticamente restituito alla sua consegna originale.
 
 > Lo spostamento di cestini è possibile solo se le assenze vengono fatturate.
+
+## Assenze incluse {#absence-included}
+
+È possibile configurare un numero di assenze incluse nell'abbonamento. Queste assenze vengono quindi automaticamente detratte e non fatturate fin dall'inizio dell'abbonamento. Il sistema segnerà provvisoriamente le ultime consegne dell'abbonamento come assenti, in attesa che il socio fissi queste assenze su date specifiche. Le assenze aggiuntive saranno fatturate o meno secondo la modalità scelta nelle [vostre impostazioni](/settings#absence).
+
+> Il numero di assenze incluse è impostato a livello di [ciclo di consegna](/handbook/deliveries#cicli-di-consegna), per offrire abbonamenti con un numero di assenze incluse (e quindi di consegne) sul [vostro modulo di iscrizione](<%= new_members_member_url(subdomain: Current.org.members_subdomain) %>).
+
+### Modalità di fine anno {#absence-included-mode}
+
+Quando i soci non utilizzano tutte le loro assenze incluse entro la fine del loro abbonamento, le assenze rimanenti restano provvisoriamente segnate sulle ultime consegne. Per gestire questa situazione, potete configurare una **modalità di fine anno** nelle [impostazioni](/settings#absence):
+
+**Assenza provvisoria rispettata**
+
+Questa è la modalità predefinita. Le assenze provvisorie non verranno consegnate. I soci riceveranno un'email di promemoria e potranno quindi scegliere di forzare una consegna dal loro account se desiderano ricevere cestini che erano segnati come provvisoriamente assenti.
+
+Questa modalità è utile quando preferite che le assenze non utilizzate rimangano come assenze per impostazione predefinita, dando ai soci la possibilità di richiedere una consegna se necessario.
+
+**Consegna delle assenze rimanenti**
+
+In questa modalità, le assenze incluse non utilizzate vedranno la loro consegna forzata e fatturata al momento del promemoria. I soci ricevono un'email di promemoria e possono segnalare un'assenza per rifiutare prima che la consegna avvenga e venga fatturata.
+
+Questa modalità è utile quando preferite che i soci ricevano i loro cestini per impostazione predefinita, evitando la confusione dei soci che si presentano aspettandosi un cestino che non è stato preparato.
+
+### Email di promemoria {#absence-included-reminder}
+
+Un'email di promemoria viene inviata ai soci con assenze incluse non utilizzate un numero configurabile di settimane prima della prima assenza provvisoria (predefinito: 4 settimane). Questo dà ai soci il tempo di agire secondo la modalità scelta:
+
+- **In modalità "Assenza provvisoria rispettata"**: Forzare una consegna se desiderano ricevere cestini che erano segnati come provvisoriamente assenti.
+- **In modalità "Consegna delle assenze rimanenti"**: Segnalare un'assenza per rifiutare le consegne che non desiderano.

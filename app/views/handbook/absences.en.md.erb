@@ -4,17 +4,11 @@ This feature allows you to manage your members' absences and automatically deduc
 
 ## Configuration
 
-Once this additional feature is activated in [your settings](/settings#organization_features_input), [several settings](/settings#absence) allow you to configure the explanation text as well as the notice period.
+Once this additional feature is activated in [your settings](/settings#organization_features_input), [multiple settings](/settings#absence) are available.
 
 ## Billing
 
 By default, baskets marked as absent and not delivered are billed, and members are advised to find an acquaintance to collect their basket in their place. In [the settings](/settings#absence), you can also choose not to bill them. The system will then automatically [adjust the billing](/handbook/billing#price-change) of the membership.
-
-## Included Absences {#absence-included}
-
-It is possible to configure a number of absences included in the membership. These absences are then automatically deducted and not billed from the start of the membership. The system will provisionally mark the last deliveries of the membership as absent, until the number of included absences is announced by the member. Additional absences will be billed or not according to [your settings](/settings#absence).
-
-> The number of included absences can also be set at the level of a [delivery cycle](/handbook/deliveries#delivery-cycles), in order to offer memberships with a number of included absences (and therefore deliveries) on [your registration form](<%= new_members_member_url(subdomain: Current.org.members_subdomain) %>).
 
 ## Basket Shifts {#basket-shift}
 
@@ -30,3 +24,32 @@ On the member side, basket shifting is not possible by default. To activate this
 If the absence is cancelled, the basket content will be automatically restored to its original delivery.
 
 > Basket shifting is only possible if absences are billed.
+
+## Included Absences {#absence-included}
+
+It is possible to configure a number of absences included in the membership. These absences are then automatically deducted and not billed from the start of the membership. The system will provisionally mark the last deliveries of the membership as absent, while waiting for the member to fix these absences on specific dates. Additional absences will be billed or not according to the mode chosen in [your settings](/settings#absence).
+
+> The number of included absences is set at the level of a [delivery cycle](/handbook/deliveries#delivery-cycles), in order to offer memberships with a number of included absences (and therefore deliveries) on [your registration form](<%= new_members_member_url(subdomain: Current.org.members_subdomain) %>).
+
+### End-of-Year Mode {#absence-included-mode}
+
+When members don't use all their included absences by the end of their membership, the remaining absences stay provisionally marked on the last deliveries. To handle this situation, you can configure an **end-of-year mode** in [the settings](/settings#absence):
+
+**Provisional Absence Respected**
+
+This is the default mode. Provisional absences will not be delivered. Members will receive a reminder email and can then choose to force a delivery from their account if they want to receive baskets that were marked as provisionally absent.
+
+This mode is useful when you prefer that unused absences remain as absences by default, giving members the option to request delivery if needed.
+
+**Delivery of Remaining Absences**
+
+In this mode, unused included absences will have their delivery forced and billed at reminder time. Members receive a reminder email and can report an absence to opt out before the delivery happens and is billed.
+
+This mode is useful when you prefer that members receive their baskets by default, avoiding the confusion of members showing up expecting a basket that wasn't prepared.
+
+### Reminder Email {#absence-included-reminder}
+
+A reminder email is sent to members with unused included absences a configurable number of weeks before the first provisional absence (default: 4 weeks). This gives members time to take action according to the chosen mode:
+
+- **In "Provisional Absence Respected" mode**: Force a delivery if they want to receive baskets that were marked as provisionally absent.
+- **In "Delivery of Remaining Absences" mode**: Report an absence to opt out of deliveries they don't want.

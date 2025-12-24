@@ -2,6 +2,6 @@
 
 module MailTemplatesHelper
   def mail_templates(title)
-    MailTemplate.create!(title: title)
+    MailTemplate.find_or_create_by!(title: title)
   end
 end

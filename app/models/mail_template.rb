@@ -22,6 +22,7 @@ class MailTemplate < ApplicationRecord
   ABSENCE_TITLES = %w[
     absence_created
     absence_basket_shifted
+    absence_included_reminder
   ].freeze
   ACTIVITY_TITLES = %w[
     activity_participation_reminder
@@ -42,6 +43,7 @@ class MailTemplate < ApplicationRecord
   TITLES = MEMBER_TITLES + MEMBERSHIP_TITLES + ABSENCE_TITLES + ACTIVITY_TITLES + BIDDING_ROUND_TITLES + INVOICE_TITLES
   ALWAYS_ACTIVE_TITLES = %w[
     invoice_created
+    absence_included_reminder
     activity_participation_reminder
   ]
   ACTIVE_BY_DEFAULT_TITLES = ALWAYS_ACTIVE_TITLES + %w[
@@ -205,6 +207,8 @@ class MailTemplate < ApplicationRecord
       Current.org.open_bidding_round_reminder_sent_after_in_days.blank?
     when "membership_second_last_trial_basket"
       Current.org.trial_baskets_count < 2
+    when "absence_included_reminder"
+      !Current.org.absences_included_reminder_enabled?
     else
       false
     end

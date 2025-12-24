@@ -137,7 +137,7 @@ ActiveAdmin.register Organization do
           li class: "subtitle" do
             h2 t(".annual_fee")
             span t(".if_applicable"), class: "optional"
-            para t(".annual_fee_hint"), class: "pt-2"
+            para t(".annual_fee_hint"), class: "description"
           end
           f.input :annual_fee, as: :number
           f.input :annual_fee_support_member_only, as: :boolean
@@ -273,9 +273,9 @@ ActiveAdmin.register Organization do
           para t(".delivery_sheets_text_html"), class: "description"
           translated_input(f, :delivery_pdf_footers, required: false)
 
-
           f.input :delivery_pdf_member_info,
             as: :radio,
+            required: false,
             collection: Organization::DELIVERY_PDF_MEMBER_INFOS.map { |info|
               [
                 content_tag(:span, t("organization.delivery_pdf_member_info.#{info}")),
@@ -324,6 +324,16 @@ ActiveAdmin.register Organization do
           para t(".no_features_selected"), class: "text-gray-500 italic text-center"
         end
         tab Absence.model_name.human, id: "absence", hidden: !feature?("absence"), selected: feature?("absence"), data: { controller: "form-disabler" } do
+          f.input :absences_billed,
+            hint: t("formtastic.hints.organization.absences_billed"),
+            input_html: { data: { action: "form-disabler#toggleInputs" } }
+          f.input :absence_notice_period_in_days, min: 1, required: true
+
+          # Registration section
+          li class: "subtitle " do
+            h2 t(".member_account")
+            para t(".member_account_hint"), class: "description"
+          end
           translated_input(f, :absence_extra_texts,
             hint: t("formtastic.hints.organization.absence_extra_text"),
             required: false,
@@ -331,23 +341,46 @@ ActiveAdmin.register Organization do
             input_html: { rows: 5 })
           f.input :absence_extra_text_only, as: :boolean
 
-          f.input :absences_billed,
-            input_html: { data: { action: "form-disabler#toggleInputs" } }
-          f.input :absence_notice_period_in_days, min: 1, required: true
-
+          # Basket shifts section
+          li class: "subtitle" do
+            h2 t(".absence_basket_shifts")
+            para t(".absence_basket_shifts_hint"), class: "description"
+          end
           f.input :basket_shifts_annually,
             hint: t("formtastic.hints.organization.basket_shifts_annually_html"),
             input_html: {
               data: { form_disabler_target: "input", default_value: f.object.basket_shifts_annually },
               disabled: !f.object.absences_billed?
             }
-
           f.input :basket_shift_deadline_in_weeks,
             hint: t("formtastic.hints.organization.basket_shift_deadline_in_weeks_html"),
             input_html: {
               data: { form_disabler_target: "input", default_value: f.object.basket_shift_deadline_in_weeks },
               disabled: !f.object.absences_billed?
             }
+
+          # Absences included section
+          li class: "subtitle" do
+            h2 t(".absence_included")
+            para t(".absence_included_hint"), class: "description"
+          end
+
+          f.input :absences_included_mode,
+            as: :radio,
+            label: t(".absence_included_mode"),
+            required: false,
+            collection: Organization::AbsenceFeature::ABSENCES_INCLUDED_MODES.map { |mode|
+              [
+                content_tag(:span, class: "ms-2 py-0.5 leading-5") {
+                  content_tag(:span, t("organization.absences_included_mode.#{mode}"), class: "block font-medium") +
+                  content_tag(:span, t("organization.absences_included_mode.#{mode}_hint").html_safe, class: "inline-hints")
+                },
+                mode
+              ]
+            }
+
+          f.input :absences_included_reminder_weeks_before,
+            hint: t("formtastic.hints.organization.absences_included_reminder_weeks_before_html")
 
           handbook_button(self, "absences")
         end
@@ -504,6 +537,7 @@ ActiveAdmin.register Organization do
     :vat_number, :vat_membership_rate, :vat_activity_rate, :vat_shop_rate,
     :absences_billed, :absence_extra_text_only,
     :absence_notice_period_in_days,
+    :absences_included_mode, :absences_included_reminder_weeks_before,
     :basket_shifts_annually, :basket_shift_deadline_in_weeks,
     :bidding_round_basket_size_price_min_percentage, :bidding_round_basket_size_price_max_percentage,
     :open_bidding_round_reminder_sent_after_in_days,

@@ -9,6 +9,7 @@ class Absence < ApplicationRecord
   has_many :baskets, dependent: :nullify
   has_many :basket_shifts, dependent: :destroy
 
+  after_save :clear_conflicting_forced_deliveries!
   after_commit :update_memberships!
   after_commit -> { MailTemplate.deliver_later(:absence_created, absence: self) }
 
@@ -17,6 +18,14 @@ class Absence < ApplicationRecord
   end
 
   private
+
+  def clear_conflicting_forced_deliveries!
+    ForcedDelivery
+      .joins(:member)
+      .where(member: { id: member_id })
+      .where(delivery_id: Delivery.between(period))
+      .delete_all
+  end
 
   def update_memberships!
     min = [ started_on_previously_was, started_on ].compact.min

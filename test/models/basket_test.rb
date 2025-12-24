@@ -325,6 +325,115 @@ class BasketTest < ActiveSupport::TestCase
     assert_equal 4 / 20.0, basket.send(:calculate_price_extra)
   end
 
+  test "can_force? returns true when provisionally absent and not billable" do
+    org(features: [ :absence ])
+    basket = baskets(:jane_5) # This is an absent basket
+
+    basket.state = "absent"
+    basket.absence_id = nil
+    basket.billable = false
+
+    assert basket.can_force?
+  end
+
+  test "can_force? returns false when not absent" do
+    org(features: [ :absence ])
+    basket = baskets(:john_1)
+
+    basket.state = "normal"
+    basket.billable = false
+
+    assert_not basket.can_force?
+  end
+
+  test "can_force? returns false when billable" do
+    org(features: [ :absence ])
+    basket = baskets(:jane_5)
+
+    basket.state = "absent"
+    basket.absence_id = nil
+    basket.billable = true
+
+    assert_not basket.can_force?
+  end
+
+  test "can_force? returns false when definitively absent (has absence_id)" do
+    org(features: [ :absence ])
+    basket = baskets(:jane_5)
+
+    basket.state = "absent"
+    basket.absence_id = 1 # Has an absence_id, so not provisional
+    basket.billable = false
+
+    assert_not basket.can_force?
+  end
+
+  test "can_unforce? returns true when forced" do
+    basket = baskets(:john_1)
+    basket.state = "forced"
+
+    assert basket.can_unforce?
+  end
+
+  test "can_unforce? returns false when not forced" do
+    basket = baskets(:john_1)
+    basket.state = "normal"
+
+    assert_not basket.can_unforce?
+  end
+
+  test "can_member_force? returns true when all conditions are met" do
+    org(features: [ :absence ], absence_notice_period_in_days: 7)
+    membership = memberships(:jane)
+    membership.update_column(:absences_included_reminder_sent_at, Time.current)
+
+    basket = baskets(:jane_10) # Future basket
+    basket.state = "absent"
+    basket.absence_id = nil
+
+    travel_to basket.delivery.date - 14.days
+    assert basket.can_member_force?
+  end
+
+  test "can_member_force? returns false when not provisionally absent" do
+    org(features: [ :absence ], absence_notice_period_in_days: 7)
+    membership = memberships(:jane)
+    membership.update_column(:absences_included_reminder_sent_at, Time.current)
+
+    basket = baskets(:jane_10)
+    basket.state = "normal"
+
+    travel_to basket.delivery.date - 14.days
+    assert_not basket.can_member_force?
+  end
+
+  test "can_member_force? returns false when reminder not sent" do
+    org(features: [ :absence ], absence_notice_period_in_days: 7)
+    membership = memberships(:jane)
+    membership.update_column(:absences_included_reminder_sent_at, nil)
+
+    basket = baskets(:jane_10)
+    basket.state = "absent"
+    basket.absence_id = nil
+
+    travel_to basket.delivery.date - 14.days
+    assert_not basket.can_member_force?
+  end
+
+  test "can_member_force? returns false when outside notice period" do
+    org(features: [ :absence ], absence_notice_period_in_days: 7)
+    membership = memberships(:jane)
+    membership.update_column(:absences_included_reminder_sent_at, Time.current)
+
+    basket = baskets(:jane_10)
+    basket.state = "absent"
+    basket.absence_id = nil
+
+    # Travel to a date where the delivery is within the notice period
+    travel_to basket.delivery.date - 5.days
+    assert_not basket.can_member_force?
+  end
+
   test "calculate_basket_size_price" do
     travel_to "2024-01-01"
 

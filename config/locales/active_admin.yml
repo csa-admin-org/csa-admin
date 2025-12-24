@@ -755,6 +755,48 @@ _:
           _it: Ogni quattro settimane
           _nl: Elke vier weken
       form:
+        absence_basket_shifts:
+          _en: Basket shifts
+          _fr: Déplacements de paniers
+          _de: Taschenschiebung
+          _it: Spostamenti dei cestini
+          _nl: Pakketverschuivingen
+        absence_basket_shifts_hint:
+          _en: Allow members to shift the content of their basket during an absence to another delivery.
+          _fr: Permet aux membres de déplacer le contenu de leur panier durant une absence vers une autre livraison.
+          _de: Ermöglicht Mitgliedern, den Inhalt ihrer Tasche während einer Abwesenheit auf eine andere Lieferung zu verschieben.
+          _it: Consente ai soci di spostare il contenuto del loro cestino durante un'assenza a un'altra consegna.
+          _nl: Sta leden toe de inhoud van hun pakket tijdens een afwezigheid te verschuiven naar een andere levering.
+        absence_billing:
+          _en: Billing
+          _fr: Facturation
+          _de: Rechnungsstellung
+          _it: Fatturazione
+          _nl: Facturering
+        absence_billing_hint:
+          _en: Configure how absences affect billing and the notice period for reporting absences.
+          _fr: Configurez comment les absences affectent la facturation et le délai de préavis pour annoncer les absences.
+          _de: Konfigurieren Sie, wie Abwesenheiten die Rechnungsstellung und die Kündigungsfrist für die Meldung von Abwesenheiten beeinflussen.
+          _it: Configura come le assenze influenzano la fatturazione e il periodo di preavviso per annunciare le assenze.
+          _nl: Configureer hoe afwezigheden de facturering en de opzegtermijn voor het melden van afwezigheden beïnvloeden.
+        absence_included:
+          _en: Absences included
+          _fr: Absences incluses
+          _de: Inkludierte Abwesenheiten
+          _it: Assenze incluse
+          _nl: Inbegrepen afwezigheden
+        absence_included_hint:
+          _en: When a delivery cycle includes absences, the last baskets are provisionally marked as absent while waiting for the member to fix these absences.
+          _fr: Lorsqu'un cycle de livraison inclut des absences, les derniers paniers sont provisoirement marqués comme absents en attendant que le membre fixe ces absences.
+          _de: Wenn ein Lieferzyklus Abwesenheiten enthält, werden die letzten Taschen vorläufig als abwesend markiert, während darauf gewartet wird, dass das Mitglied diese Abwesenheiten festlegt.
+          _it: Quando un ciclo di consegna include assenze, gli ultimi cestini sono provvisoriamente contrassegnati come assenti in attesa che il socio fissi queste assenze.
+          _nl: Wanneer een leveringscyclus afwezigheden bevat, worden de laatste pakketten voorlopig als afwezig gemarkeerd in afwachting dat het lid deze afwezigheden vastlegt.
+        absence_included_mode:
+          _en: End-of-year mode
+          _fr: Mode de fin d'année
+          _de: Jahresendmodus
+          _it: Modalità di fine anno
+          _nl: Eindejaarmodus
         admin_invitation:
           _en: A welcome email will be sent to the admin to invite them to log in.
           _fr: Un email de bienvenue sera envoyé à l'admin pour l'inviter à se connecter.
@@ -971,6 +1013,12 @@ _:
           _de: Mitgliederkonto
           _it: Account socio
           _nl: Ledenaccount
+        member_account_hint:
+          _en: Customize the text displayed to members when they report an absence from their account.
+          _fr: Personnalisez le texte affiché aux membres lorsqu'ils annoncent une absence depuis leur compte.
+          _de: Passen Sie den Text an, der Mitgliedern angezeigt wird, wenn sie eine Abwesenheit von ihrem Konto melden.
+          _it: Personalizza il testo visualizzato ai soci quando annunciano un'assenza dal loro account.
+          _nl: Pas de tekst aan die aan leden wordt getoond wanneer ze een afwezigheid melden vanuit hun account.
         members_participation:
           _en: Members' participation
           _fr: Participation des membres
@@ -1436,6 +1484,18 @@ _:
             _de: E-Mails
             _it: Email
             _nl: E-mails
+        force:
+          _en: Force delivery
+          _fr: Forcer la livraison
+          _de: Lieferung erzwingen
+          _it: Forzare la consegna
+          _nl: Levering forceren
+        force_confirm:
+          _en: Are you sure you want to force this delivery? The member will be billed for this basket.
+          _fr: Êtes-vous sûr de vouloir forcer cette livraison? Le membre sera facturé pour ce panier.
+          _de: Sind Sie sicher, dass Sie diese Lieferung erzwingen möchten? Das Mitglied wird für diesen Korb in Rechnung gestellt.
+          _it: Sei sicuro di voler forzare questa consegna? Il membro sarà fatturato per questo cesto.
+          _nl: Weet u zeker dat u deze levering wilt forceren? Het lid wordt gefactureerd voor dit pakket.
         future_billing:
           _en: Invoice all in advance
           _fr: Tout facturer à l'avance
@@ -1624,11 +1684,11 @@ _:
           _it: Anteprima
           _nl: Voorbeeld
         provisional_absences:
-          _en: The last baskets are temporarily marked as absent until the member has reported all their absences.
-          _fr: Les derniers paniers sont marqués provisoirement comme absents tant que le membre n'a pas annoncé toutes ses absences.
-          _de: Die letzten Körbe werden vorübergehend als abwesend markiert, bis das Mitglied alle seine Abwesenheiten gemeldet hat.
-          _it: Gli ultimi cesti sono marcati provvisoriamente come assenti finché il socio non ha annunciato tutte le sue assenze.
-          _nl: De laatste pakketten worden tijdelijk gemarkeerd als afwezig totdat het lid alle afwezigheden heeft gemeld.
+          _en: The last baskets are temporarily marked as absent until the member has reported all their absences. Their delivery can be forced if the member decides not to use an included absence.
+          _fr: Les derniers paniers sont marqués provisoirement comme absents tant que le membre n'a pas annoncé toutes ses absences. Leur livraison peut être forcée si le membre décide de ne pas utiliser une absence incluse.
+          _de: Die letzten Körbe werden vorübergehend als abwesend markiert, bis das Mitglied alle seine Abwesenheiten gemeldet hat. Die Lieferung kann erzwungen werden, wenn das Mitglied beschließt, eine enthaltene Abwesenheit nicht zu nutzen.
+          _it: Gli ultimi cesti sono marcati provvisoriamente come assenti finché il socio non ha annunciato tutte le sue assenze. La loro consegna può essere forzata se il socio decide di non utilizzare un'assenza inclusa.
+          _nl: De laatste pakketten worden tijdelijk gemarkeerd als afwezig totdat het lid alle afwezigheden heeft gemeld. Hun levering kan worden geforceerd als het lid besluit een inbegrepen afwezigheid niet te gebruiken.
         recurring_billing:
           _en: Invoice now
           _fr: Facturer
@@ -1834,6 +1894,18 @@ _:
           _de: Gesamtsummen %{numbers}
           _it: Totali %{numbers}
           _nl: Totalen %{numbers}
+        unforce:
+          _en: Cancel forced delivery
+          _fr: Annuler la livraison forcée
+          _de: Erzwungene Lieferung stornieren
+          _it: Annullare la consegna forzata
+          _nl: Geforceerde levering annuleren
+        unforce_confirm:
+          _en: Are you sure you want to cancel this forced delivery? The basket will return to its provisional absent state.
+          _fr: Êtes-vous sûr de vouloir annuler cette livraison forcée? Le panier reviendra à son état d'absence provisoire.
+          _de: Sind Sie sicher, dass Sie diese erzwungene Lieferung stornieren möchten? Der Korb wird in seinen vorläufigen Abwesenheitszustand zurückkehren.
+          _it: Sei sicuro di voler annullare questa consegna forzata? Il cesto tornerà al suo stato di assenza provvisorio.
+          _nl: Weet u zeker dat u deze geforceerde levering wilt annuleren? Het pakket keert terug naar de voorlopige afwezigheidsstatus.
         uploading:
           _en: Uploading...
           _fr: Envoi en cours...
@@ -3123,6 +3195,12 @@ _:
         _de: nein
         _it: 'no'
         _nl: nee
+      forced:
+        _en: forced
+        _fr: forcé
+        _de: erzwungen
+        _it: forzato
+        _nl: geforceerd
       future:
         _en: future
         _fr: à venir

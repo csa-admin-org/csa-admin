@@ -1,5 +1,30 @@
 _:
   organization:
+    absences_included_mode:
+      provisional_absence:
+        _en: Provisional absence respected
+        _fr: Absence provisoire respectée
+        _de: Vorläufige Abwesenheit respektiert
+        _it: Assenza provvisoria rispettata
+        _nl: Voorlopige afwezigheid gerespecteerd
+      provisional_absence_hint:
+        _en: Provisional absences will not be delivered. After the reminder, members can force their delivery from their account.
+        _fr: Les absences provisoires ne seront pas livrées. Passé le rappel, les membres peuvent forcer leur livraison depuis leur compte.
+        _de: Vorläufige Abwesenheiten werden nicht geliefert. Nach der Erinnerung können Mitglieder ihre Lieferung über ihr Konto erzwingen.
+        _it: Le assenze provvisorie non verranno consegnate. Dopo il promemoria, i soci possono forzare la consegna dal loro account.
+        _nl: Voorlopige afwezigheden worden niet geleverd. Na de herinnering kunnen leden hun levering forceren vanuit hun account.
+      provisional_delivery:
+        _en: Delivery of remaining absences
+        _fr: Livraison des absences restantes
+        _de: Lieferung der verbleibenden Abwesenheiten
+        _it: Consegna delle assenze rimanenti
+        _nl: Levering van resterende afwezigheden
+      provisional_delivery_hint:
+        _en: Unused included absences will have their delivery forced and billed at reminder time. Members can report an absence to opt out.
+        _fr: Les absences incluses non utilisées verront leur livraison forcée et facturée lors du rappel. Les membres peuvent annoncer une absence pour les refuser.
+        _de: Bei ungenutzten enthaltenen Abwesenheiten wird die Lieferung bei der Erinnerung erzwungen und berechnet. Mitglieder können eine Abwesenheit melden, um abzulehnen.
+        _it: Le assenze incluse non utilizzate vedranno la loro consegna forzata e fatturata al momento del promemoria. I soci possono segnalare un'assenza per rifiutare.
+        _nl: Ongebruikte inbegrepen afwezigheden zullen hun levering geforceerd en gefactureerd zien bij de herinnering. Leden kunnen een afwezigheid melden om te weigeren.
     default_email_footer:
       _en: If you have any questions or comments, please reply to this email.
       _fr: En cas de questions ou remarques, répondez simplement à cet email.
