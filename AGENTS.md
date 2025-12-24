@@ -308,7 +308,7 @@ When creating non-trivial classes, add a comment block at the top explaining:
 ## Commit Messages
 
 - Review all staged changes before writing
-- Keep it short (a few sentences max)
+- Keep it short, prefer a few sentences over long bullet points
 - Explain **why** the change is needed, not just what changed
 
 ## Quick Reference
