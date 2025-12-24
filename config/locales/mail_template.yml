@@ -13,6 +13,12 @@ _:
         _de: Abwesenheit bestätigt
         _it: Assenza confermata
         _nl: Afwezigheidsbevestiging
+      absence_included_reminder:
+        _en: Included absences reminder
+        _fr: Absences incluses inutilisées
+        _de: Erinnerung an inkludierte Abwesenheiten
+        _it: Promemoria assenze incluse
+        _nl: Herinnering inbegrepen afwezigheden
       activity_participation_rejected:
         _en: "Activity rejected \U0001F62C"
         _fr: "Activité refusée \U0001F62C"
@@ -146,6 +152,12 @@ _:
         _de: Wird gesendet, wenn eine Abwesenheit erstellt wird, von einem Mitglied oder einem Admin.
         _it: Inviato quando una assenza è creata, da un socio o da un admin.
         _nl: Verzonden wanneer een afwezigheid wordt aangemaakt, door een lid of een beheerder.
+      absence_included_reminder:
+        _en: Sent automatically when the reminder date for unused included absences is reached (see <a href='/settings#absence'>settings</a> for configuration).
+        _fr: Envoyé automatiquement lorsque la date de rappel pour les absences incluses non utilisées est atteinte (voir <a href='/settings#absence'>les paramètres</a> pour la configuration).
+        _de: Wird automatisch gesendet, wenn das Erinnerungsdatum für ungenutzte inkludierte Abwesenheiten erreicht ist (siehe <a href='/settings#absence'>Einstellungen</a> für die Konfiguration).
+        _it: Inviato automaticamente quando viene raggiunta la data di promemoria per le assenze incluse non utilizzate (vedi <a href='/settings#absence'>impostazioni</a> per la configurazione).
+        _nl: Automatisch verzonden wanneer de herinneringsdatum voor ongebruikte inbegrepen afwezigheden is bereikt (zie <a href='/settings#absence'>instellingen</a> voor configuratie).
       activity_participation_rejected:
         _en: Sent when participation in an activity is rejected.
         _fr: Envoyé quand une participation à une activité est refusée.
@@ -279,6 +291,12 @@ _:
         _de: Neue Abwesenheit
         _it: Nuova assenza
         _nl: Nieuwe afwezigheid
+      absence_included_reminder:
+        _en: Included absences reminder
+        _fr: Rappel absences incluses
+        _de: Erinnerung inkludierte Abwesenheiten
+        _it: Promemoria assenze incluse
+        _nl: Herinnering inbegrepen afwezigheden
       activity_participation_rejected:
         _en: Activity Rejected
         _fr: Activité refusée

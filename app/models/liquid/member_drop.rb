@@ -51,6 +51,10 @@ class Liquid::MemberDrop < Liquid::Drop
     url(:members_memberships)
   end
 
+  def deliveries_url
+    url(:members_deliveries)
+  end
+
   def billing_email
     !!@member.billing_email?
   end

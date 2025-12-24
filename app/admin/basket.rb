@@ -61,6 +61,9 @@ ActiveAdmin.register Basket do
     column(I18n.t("attributes.basket_size")) { |b| b.basket_size.name }
     column(:quantity) { |b| b.quantity }
     column(:basket_size_price) { |b| cur(b.basket_size_price) }
+    column(:state) { |b| b.state }
+    column(:absence_id)
+    column(:provisionally_absent) { |b| b.provisionally_absent? }
     if feature?("basket_price_extra")
       column(:price_extra) { |b| cur(b.calculated_price_extra) }
     end
@@ -252,5 +255,15 @@ ActiveAdmin.register Basket do
         ].join("-") + ".csv"
       end
     end
+  end
+
+  member_action :force, method: :post do
+    ForcedDelivery.create!(basket: resource)
+    redirect_to resource.membership, notice: t(".flash.notice")
+  end
+
+  member_action :unforce, method: :delete do
+    resource.membership.forced_deliveries.find_by!(delivery: resource.delivery).destroy!
+    redirect_to resource.membership, notice: t(".flash.notice")
   end
 end

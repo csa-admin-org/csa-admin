@@ -27,6 +27,20 @@ _:
             _de: keine Lieferung
             _it: nessuna consegna
             _nl: geen levering
+      basket_shifts_notice:
+        notice:
+          one:
+            _en: Shift your basket delivery during your absence.
+            _fr: Déplacer la livraison d'un panier durant votre absence.
+            _de: Verschieben Sie die Lieferung Ihres Tasches während Ihrer Abwesenheit.
+            _it: Sposta la consegna del tuo cesto durante la tua assenza.
+            _nl: Verschuif uw pakketlevering tijdens uw afwezigheid.
+          other:
+            _en: Shift your basket deliveries during your absence.
+            _fr: Déplacer la livraison de vos paniers durant votre absence.
+            _de: Verschieben Sie die Lieferungen Ihrer Tasche während Ihrer Abwesenheit.
+            _it: Sposta la consegna dei tuoi cestini durante la tua assenza.
+            _nl: Verschuif uw pakketleveringen tijdens uw afwezigheid.
       create:
         flash:
           notice:
@@ -73,19 +87,6 @@ _:
           _de: Zukünftige oder aktuelle
           _it: Futuri o attuali
           _nl: Komende of huidige
-        shift_baskets:
-          one:
-            _en: Shift your basket delivery during your absence.
-            _fr: Déplacer la livraison d'un panier durant votre absence.
-            _de: Verschieben Sie die Lieferung Ihres Tasches während Ihrer Abwesenheit.
-            _it: Sposta la consegna del tuo cesto durante la tua assenza.
-            _nl: Verschuif uw pakketlevering tijdens uw afwezigheid.
-          other:
-            _en: Shift your basket deliveries during your absence.
-            _fr: Déplacer la livraison de vos paniers durant votre absence.
-            _de: Verschieben Sie die Lieferungen Ihrer Tasche während Ihrer Abwesenheit.
-            _it: Sposta la consegna dei tuoi cestini durante la tua assenza.
-            _nl: Verschuif uw pakketleveringen tijdens uw afwezigheid.
         submit:
           _en: Submit
           _fr: Envoyer
@@ -491,6 +492,12 @@ _:
           _de: Bearbeiten
           _it: Modifica
           _nl: Bewerken
+        force:
+          _en: Receive this delivery
+          _fr: Recevoir cette livraison
+          _de: Diese Lieferung erhalten
+          _it: Ricevere questa consegna
+          _nl: Deze levering ontvangen
         shift:
           _en: Shift the delivery
           _fr: Déplacer la livraison
@@ -747,6 +754,31 @@ _:
           _it: Accetto di condividere le mie informazioni di contatto con altri soci del mio punto di ritiro.
           _nl: Ik ga akkoord met het delen van mijn contactgegevens met andere leden van mijn depot.
     deliveries:
+      absences_included_notice:
+        provisional_absence_html:
+          _en: "<b>%{announced} of %{count}</b> included absences used. Still <b>%{remaining}</b> to announce!"
+          _fr: "<b>%{announced} sur %{count}</b> absences incluses utilisées. Encore <b>%{remaining}</b> à annoncer!"
+          _de: "<b>%{announced} von %{count}</b> enthaltene Abwesenheiten genutzt. Noch <b>%{remaining}</b> anzukündigen!"
+          _it: "<b>%{announced} su %{count}</b> assenze incluse utilizzate. Ancora <b>%{remaining}</b> da annunciare!"
+          _nl: "<b>%{announced} van %{count}</b> inbegrepen afwezigheden gebruikt. Nog <b>%{remaining}</b> te melden!"
+        provisional_delivery_html:
+          _en: "<b>%{announced} of %{count}</b> included absences used. Still <b>%{remaining}</b> to announce or they'll be delivered at year end!"
+          _fr: "<b>%{announced} sur %{count}</b> absences incluses utilisées. Encore <b>%{remaining}</b> à annoncer ou elles seront livrées en fin d'année!"
+          _de: "<b>%{announced} von %{count}</b> enthaltene Abwesenheiten genutzt. Noch <b>%{remaining}</b> anzukündigen oder sie werden am Jahresende geliefert!"
+          _it: "<b>%{announced} su %{count}</b> assenze incluse utilizzate. Ancora <b>%{remaining}</b> da annunciare o saranno consegnate a fine anno!"
+          _nl: "<b>%{announced} van %{count}</b> inbegrepen afwezigheden gebruikt. Nog <b>%{remaining}</b> te melden of ze worden aan het einde van het jaar geleverd!"
+        reminded_provisional_absence_html:
+          _en: "<b>%{announced} of %{count}</b> absences used. Request delivery for the remaining below or confirm your absence!"
+          _fr: "<b>%{announced} sur %{count}</b> absences utilisées. Demandez la livraison des restantes ci-dessous ou confirmez votre absence!"
+          _de: "<b>%{announced} von %{count}</b> Abwesenheiten genutzt. Fordern Sie die Lieferung der verbleibenden unten an oder bestätigen Sie Ihre Abwesenheit!"
+          _it: "<b>%{announced} su %{count}</b> assenze utilizzate. Richiedi la consegna delle rimanenti qui sotto o conferma la tua assenza!"
+          _nl: "<b>%{announced} van %{count}</b> afwezigheden gebruikt. Vraag levering van de resterende hieronder aan of bevestig uw afwezig!"
+        reminded_provisional_delivery_html:
+          _en: "<b>%{remaining}</b> unused absences will be delivered and billed."
+          _fr: "<b>%{remaining}</b> absences non utilisées seront livrées et facturées."
+          _de: "<b>%{remaining}</b> ungenutzte Abwesenheiten werden geliefert und berechnet."
+          _it: "<b>%{remaining}</b> assenze non utilizzate saranno consegnate e fatturate."
+          _nl: "<b>%{remaining}</b> ongebruikte afwezigheden worden geleverd en gefactureerd."
       index:
         depot_note:
           _en: Information
@@ -799,6 +831,21 @@ _:
             _de: Vielen Dank, dass Sie sich für den Newsletter angemeldet haben!
             _it: Grazie per esserti iscritto alla newsletter!
             _nl: Bedankt voor het abonneren op de nieuwsbrief!
+    forced_deliveries:
+      create:
+        flash:
+          alert:
+            _en: This delivery cannot be confirmed.
+            _fr: Cette livraison ne peut pas être confirmée.
+            _de: Diese Lieferung kann nicht bestätigt werden.
+            _it: Questa consegna non può essere confermata.
+            _nl: Deze levering kan niet worden bevestigd.
+          notice:
+            _en: Delivery confirmed successfully.
+            _fr: Livraison confirmée avec succès.
+            _de: Lieferung erfolgreich bestätigt.
+            _it: Consegna confermata con successo.
+            _nl: Levering succesvol bevestigd.
     information:
       default_title:
         _en: Information

@@ -36,6 +36,7 @@ class Liquid::DataPreviewTest < ActiveSupport::TestCase
         "balance" => "CHF 0.00",
         "billing_email" => false,
         "billing_url" => "https://members.acme.test/billing",
+        "deliveries_url" => "https://members.acme.test/deliveries",
         "membership_renewal_url" => "https://members.acme.test/memberships#renewal",
         "memberships_url" => "https://members.acme.test/memberships",
         "name" => "John Doe",
@@ -43,7 +44,9 @@ class Liquid::DataPreviewTest < ActiveSupport::TestCase
         "shop_depot" => nil
       },
       "membership" => {
-        "absences_included" => 0,
+        "absences_included" => 3,
+        "absences_remaining" => 2,
+        "absences_used" => 1,
         "activity_participations_accepted_count" => 0,
         "activity_participations_demanded_count" => 2,
         "activity_participations_missing_count" => 2,
@@ -74,6 +77,28 @@ class Liquid::DataPreviewTest < ActiveSupport::TestCase
           "id" => all_id,
           "name" => "All"
         },
+        "forced_baskets" => [
+          {
+            "complements" => [],
+            "complements_description" => nil,
+            "contents" => [],
+            "delivery" => { "date" => "1 April 2024" },
+            "depot" => { "id" => farm_id, "member_note" => nil, "name" => "Our farm" },
+            "description" => "Medium basket",
+            "quantity" => 1,
+            "size" => { "id" => medium_id, "name" => "Medium basket", "price" => "CHF 20.00" }
+          },
+          {
+            "complements" => [],
+            "complements_description" => nil,
+            "contents" => [],
+            "delivery" => { "date" => "4 April 2024" },
+            "depot" => { "id" => farm_id, "member_note" => nil, "name" => "Our farm" },
+            "description" => "Medium basket",
+            "quantity" => 1,
+            "size" => { "id" => medium_id, "name" => "Medium basket", "price" => "CHF 20.00" }
+          }
+        ],
         "depot" => {
           "id" => farm_id,
           "member_note" => nil,
@@ -86,12 +111,35 @@ class Liquid::DataPreviewTest < ActiveSupport::TestCase
         "last_delivery" => {
           "date" => "6 June 2024"
         },
+        "provisional_baskets" => [
+          {
+            "complements" => [],
+            "complements_description" => nil,
+            "contents" => [],
+            "delivery" => { "date" => "1 April 2024" },
+            "depot" => { "id" => farm_id, "member_note" => nil, "name" => "Our farm" },
+            "description" => "Medium basket",
+            "quantity" => 1,
+            "size" => { "id" => medium_id, "name" => "Medium basket", "price" => "CHF 20.00" }
+          },
+          {
+            "complements" => [],
+            "complements_description" => nil,
+            "contents" => [],
+            "delivery" => { "date" => "4 April 2024" },
+            "depot" => { "id" => farm_id, "member_note" => nil, "name" => "Our farm" },
+            "description" => "Medium basket",
+            "quantity" => 1,
+            "size" => { "id" => medium_id, "name" => "Medium basket", "price" => "CHF 20.00" }
+          }
+        ],
         "renewal_state" => "renewal_pending",
         "start_date" => "1 January 2024",
         "state" => "ongoing",
         "trial_baskets_count" => 2
       },
       "organization" => {
+        "absences_included_mode" => "provisional_absence",
         "activity_phone" => nil,
         "email" => "info@acme.test",
         "name"=> "Acme",
@@ -113,6 +161,7 @@ class Liquid::DataPreviewTest < ActiveSupport::TestCase
         "balance" => "CHF 0.00",
         "billing_email" => false,
         "billing_url" => "https://members.acme.test/billing",
+        "deliveries_url" => "https://members.acme.test/deliveries",
         "membership_renewal_url" => "https://members.acme.test/memberships#renewal",
         "memberships_url" => "https://members.acme.test/memberships",
         "name" => "John Doe",
@@ -120,6 +169,7 @@ class Liquid::DataPreviewTest < ActiveSupport::TestCase
         "shop_depot" => nil
       },
       "organization" => {
+        "absences_included_mode" => "provisional_absence",
         "activity_phone" => nil,
         "email" => "info@acme.test",
         "name"=> "Acme",
@@ -179,13 +229,16 @@ class Liquid::DataPreviewTest < ActiveSupport::TestCase
         "balance" => "CHF 0.00",
         "billing_email" => false,
         "billing_url" => "https://members.acme.test/billing",
+        "deliveries_url" => "https://members.acme.test/deliveries",
         "membership_renewal_url" => "https://members.acme.test/memberships#renewal",
         "memberships_url" => "https://members.acme.test/memberships",
         "name" => "John Doe",
         "page_url" => "https://members.acme.test"
       },
       "membership" => {
-        "absences_included" => 0,
+        "absences_included" => nil,
+        "absences_remaining" => nil,
+        "absences_used" => nil,
         "basket_complement_names" => "Bread and Eggs",
         "basket_complements" => [
           {
@@ -209,10 +262,11 @@ class Liquid::DataPreviewTest < ActiveSupport::TestCase
           "price" => "CHF 20.00"
         },
         "delivery_cycle" => {
+          "absences_included_annually" => 0,
           "id" => all_id,
-          "name" => "All",
-          "absences_included_annually" => 0
+          "name" => "All"
         },
+        "forced_baskets" => nil,
         "depot" => {
           "id" => farm_id,
           "member_note" => nil,
@@ -225,12 +279,14 @@ class Liquid::DataPreviewTest < ActiveSupport::TestCase
         "last_delivery" => {
           "date" => "6 June 2024"
         },
+        "provisional_baskets" => nil,
         "renewal_state" => "renewal_pending",
         "start_date" => "1 January 2024",
         "state" => "ongoing",
         "trial_baskets_count" => 2
       },
       "organization" => {
+        "absences_included_mode" => nil,
         "email" => "info@acme.test",
         "name"=> "Acme",
         "phone"=> "+41 76 449 59 38",

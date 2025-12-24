@@ -4,17 +4,11 @@ Cette fonctionnalité permet de gérer les absences de vos membres et d'automati
 
 ## Configuration
 
-Une fois cette fonctionnalité supplémentaire activée dans [vos paramètres](/settings#organization_features_input), [plusieurs réglages](/settings#absence) vous permettent de configurer le texte d'explication ainsi que le délai de préavis.
+Une fois cette fonctionnalité supplémentaire activée dans [vos paramètres](/settings#organization_features_input), [de multiples réglages](/settings#absence) sont disponibles.
 
 ## Facturation
 
 Par défaut, les paniers marqués comme absents et non délivrés sont facturés. Il est conseillé aux membres de trouver une connaissance pour récupérer leur panier à leur place. Dans [les paramètres](/settings#absence), vous pouvez également choisir de ne pas les facturer. Le système s'occupera alors automatiquement d'[ajuster la facturation](/handbook/billing#price-change) de l'abonnement.
-
-## Absences incluses {#absence-included}
-
-Il est possible de configurer un nombre d'absences incluses dans l'abonnement. Ces absences sont alors automatiquement déduites et non-facturées dès le début de l'abonnement. Le système marquera provisoirement les dernières livraisons de l'abonnement comme absentes, jusqu'à ce que le nombre d'absences incluses soit annoncé par le membre. Les absences supplémentaires seront facturées ou non selon [vos paramètres](/settings#absence).
-
-> Le nombre d'absences incluses peut être également paramétré au niveau d'un [cycle de livraison](/handbook/deliveries#cycles-de-livraisons), afin de proposer des abonnements avec un nombre d'absences incluses (et donc de livraisons) sur [votre formulaire d'inscription](<%= new_members_member_url(subdomain: Current.org.members_subdomain) %>).
 
 ## Déplacement de paniers {#basket-shift}
 
@@ -30,3 +24,32 @@ Côté membre, le déplacement de paniers n'est pas possible par défaut. Pour a
 Si l'absence est annulée, le contenu du panier sera automatiquement restitué à sa livraison d'origine.
 
 > Le déplacement de paniers est possible uniquement si les absences sont facturées.
+
+## Absences incluses {#absence-included}
+
+Il est possible de configurer un nombre d'absences incluses dans l'abonnement. Ces absences sont alors automatiquement déduites et non-facturées dès le début de l'abonnement. Le système marquera provisoirement les dernières livraisons de l'abonnement comme absentes, en attendant que le membre fixe ces absences sur des dates précises. Les absences supplémentaires seront facturées ou non selon le mode choisi dans [vos paramètres](/settings#absence).
+
+> Le nombre d'absences incluses est paramétré au niveau d'un [cycle de livraison](/handbook/deliveries#cycles-de-livraisons), afin de proposer des abonnements avec un nombre d'absences incluses (et donc de livraisons) sur [votre formulaire d'inscription](<%= new_members_member_url(subdomain: Current.org.members_subdomain) %>).
+
+### Mode de fin d'année {#absence-included-mode}
+
+Lorsque les membres n'utilisent pas toutes leurs absences incluses à la fin de leur abonnement, les absences restantes restent provisoirement marquées sur les dernières livraisons. Pour gérer cette situation, vous pouvez configurer un **mode de fin d'année** dans [les paramètres](/settings#absence) :
+
+**Absence provisoire respectée**
+
+C'est le mode par défaut. Les absences provisoires ne seront pas livrées. Les membres recevront un email de rappel et pourront ensuite choisir de forcer une livraison depuis leur compte s'ils souhaitent recevoir des paniers qui étaient marqués comme provisoirement absents.
+
+Ce mode est utile lorsque vous préférez que les absences non utilisées restent des absences par défaut, en donnant aux membres la possibilité de demander une livraison si nécessaire.
+
+**Livraison des absences restantes**
+
+Dans ce mode, les absences incluses non utilisées verront leur livraison forcée et facturée lors du rappel. Les membres reçoivent un email de rappel et peuvent annoncer une absence pour les refuser avant que la livraison n'ait pas lieu et ne soit pas facturée.
+
+Ce mode est utile lorsque vous préférez que les membres reçoivent leurs paniers par défaut, évitant ainsi la confusion des membres qui se présentent en attendant un panier qui n'a pas été préparé.
+
+### Email de rappel {#absence-included-reminder}
+
+Un email de rappel est envoyé aux membres ayant des absences incluses non utilisées un nombre configurable de semaines avant la première absence provisoire (par défaut : 4 semaines). Cela donne aux membres le temps d'agir selon le mode choisi :
+
+- **En mode "Absence provisoire respectée"** : Forcer une livraison s'ils souhaitent recevoir des paniers qui étaient marqués comme provisoirement absents.
+- **En mode "Livraison des absences restantes"** : Annoncer une absence pour refuser les livraisons qu'ils ne souhaitent pas.

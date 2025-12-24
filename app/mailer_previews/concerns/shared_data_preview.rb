@@ -32,6 +32,7 @@ module SharedDataPreview
 
     participations_demanded = basket_size&.activity_participations_demanded_annually || 0
     participations_accepted = [ participations_demanded, 0 ].sample(random: random)
+    # absences_included = delivery_cycle.absences_included_annually
     OpenStruct.new(
       started_on: started_on,
       ended_on: ended_on,
@@ -41,7 +42,10 @@ module SharedDataPreview
       deliveries: deliveries,
       depot: depot,
       delivery_cycle: delivery_cycle,
-      absences_included: delivery_cycle.absences_included_annually,
+      absences_included: 3,
+      absences_included_used: 1,
+      absences_included_remaining: 2,
+      baskets: sample_baskets_scope,
       next_basket: basket,
       basket_quantity: 1,
       remaining_trial_baskets_count: Current.org.trial_baskets_count,
@@ -109,5 +113,28 @@ module SharedDataPreview
 
   def fiscal_year
     @fiscal_year ||= delivery&.fiscal_year || Current.fiscal_year
+  end
+
+  # Returns sample baskets for Liquid drop previews (provisional_baskets, forced_baskets)
+  def sample_baskets_scope
+    sample_baskets = sample_deliveries_for_baskets.map do |d|
+      Basket.new(
+        quantity: 1,
+        depot: depot,
+        basket_size: basket_size,
+        delivery: d)
+    end
+    coming_scope = OpenStruct.new(provisionally_absent: sample_baskets)
+    OpenStruct.new(
+      coming: coming_scope,
+      forced: sample_baskets)
+  end
+
+  def sample_deliveries_for_baskets
+    future = Delivery.coming.limit(2).to_a
+    return future if future.size >= 2
+
+    # Fall back to last deliveries if not enough future ones
+    Delivery.reorder(date: :desc).limit(2).to_a
   end
 end

@@ -25,7 +25,7 @@ module Absence::Period
 
   class_methods do
     def min_started_on
-      Current.org.absence_notice_period_in_days.days.from_now.beginning_of_day.to_date
+      Current.org.absence_notice_period_limit_on
     end
 
     def max_ended_on

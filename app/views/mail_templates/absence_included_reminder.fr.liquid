@@ -1,0 +1,38 @@
+<p>Votre abonnement inclut {{ membership.absences_included }} absences, et il vous en reste {{ membership.absences_remaining }} non utilisée(s).</p>
+
+{% case organization.absences_included_mode %}
+{% when "provisional_absence" %}
+
+<p>Comme vous n'avez pas utilisé toutes vos absences, les livraisons suivantes seront ignorées :</p>
+{% highlight %}
+  <ul>
+  {% for basket in membership.provisional_baskets %}
+    <li>{{ basket.delivery.date }}</li>
+  {% endfor %}
+  </ul>
+{% endhighlight %}
+
+<p>Ces paniers <strong>ne seront pas livrés</strong> sauf si vous en faites la demande. Si vous souhaitez recevoir certaines de ces livraisons, vous pouvez le faire depuis votre compte.</p>
+
+{% button member.deliveries_url %}
+  Voir mes livraisons
+{% endbutton %}
+
+{% when "provisional_delivery" %}
+
+<p>Comme vous n'avez pas utilisé toutes vos absences, les livraisons suivantes seront désormais <strong>livrées et facturées</strong> :</p>
+{% highlight %}
+  <ul>
+  {% for basket in membership.forced_baskets %}
+    <li>{{ basket.delivery.date }}</li>
+  {% endfor %}
+  </ul>
+{% endhighlight %}
+
+<p>Si vous ne souhaitez pas recevoir certaines de ces livraisons, vous pouvez encore signaler une absence depuis votre compte.</p>
+
+{% button member.absences_url %}
+  Gérer mes absences
+{% endbutton %}
+
+{% endcase %}

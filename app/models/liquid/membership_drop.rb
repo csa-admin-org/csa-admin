@@ -92,7 +92,39 @@ class Liquid::MembershipDrop < Liquid::Drop
   end
 
   def absences_included
+    return unless Current.org.feature?("absence")
+
     @membership.absences_included
+  end
+
+  def absences_used
+    return unless Current.org.feature?("absence")
+
+    @membership.absences_included_used
+  end
+
+  def absences_remaining
+    return unless Current.org.feature?("absence")
+
+    @membership.absences_included_remaining
+  end
+
+  # Collection of coming provisionally absent baskets (unused absences that can still be acted on)
+  def provisional_baskets
+    return unless Current.org.feature?("absence")
+
+    @membership.baskets.coming.provisionally_absent.map do |basket|
+      Liquid::BasketDrop.new(basket)
+    end
+  end
+
+  # Collection of forced baskets (member chose to receive delivery)
+  def forced_baskets
+    return unless Current.org.feature?("absence")
+
+    @membership.baskets.forced.map do |basket|
+      Liquid::BasketDrop.new(basket)
+    end
   end
 
   private

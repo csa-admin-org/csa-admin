@@ -1,0 +1,38 @@
+<p>Your membership includes {{ membership.absences_included }} absences, and you still have {{ membership.absences_remaining }} unused.</p>
+
+{% case organization.absences_included_mode %}
+{% when "provisional_absence" %}
+
+<p>Since you haven't used all your absences, the following deliveries will be skipped:</p>
+{% highlight %}
+  <ul>
+  {% for basket in membership.provisional_baskets %}
+    <li>{{ basket.delivery.date }}</li>
+  {% endfor %}
+  </ul>
+{% endhighlight %}
+
+<p>These baskets will <strong>not be delivered</strong> unless you request them. If you would like to receive any of these deliveries, you can do so from your account.</p>
+
+{% button member.deliveries_url %}
+  View my deliveries
+{% endbutton %}
+
+{% when "provisional_delivery" %}
+
+<p>Since you haven't used all your absences, the following deliveries will now <strong>be delivered and billed</strong>:</p>
+{% highlight %}
+  <ul>
+  {% for basket in membership.forced_baskets %}
+    <li>{{ basket.delivery.date }}</li>
+  {% endfor %}
+  </ul>
+{% endhighlight %}
+
+<p>If you do not wish to receive some of these deliveries, you can still report an absence from your account.</p>
+
+{% button member.absences_url %}
+  Manage my absences
+{% endbutton %}
+
+{% endcase %}

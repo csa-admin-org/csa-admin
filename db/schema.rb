@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_12_18_132400) do
+ActiveRecord::Schema[8.1].define(version: 2025_12_22_100000) do
   create_table "absences", force: :cascade do |t|
     t.datetime "created_at"
     t.date "ended_on"
@@ -431,6 +431,16 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_18_132400) do
     t.index ["stream_id", "email", "reason", "origin", "created_at"], name: "email_suppressions_unique_index", unique: true
   end
 
+  create_table "forced_deliveries", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.integer "delivery_id", null: false
+    t.integer "membership_id", null: false
+    t.datetime "updated_at", null: false
+    t.index ["delivery_id"], name: "index_forced_deliveries_on_delivery_id"
+    t.index ["membership_id", "delivery_id"], name: "index_forced_deliveries_on_membership_id_and_delivery_id", unique: true
+    t.index ["membership_id"], name: "index_forced_deliveries_on_membership_id"
+  end
+
   create_table "invoice_items", force: :cascade do |t|
     t.decimal "amount", precision: 8, scale: 2, null: false
     t.datetime "created_at", null: false
@@ -567,6 +577,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_18_132400) do
   create_table "memberships", force: :cascade do |t|
     t.integer "absences_included", default: 0, null: false
     t.integer "absences_included_annually", null: false
+    t.datetime "absences_included_reminder_sent_at"
     t.integer "activity_participations_accepted", default: 0, null: false
     t.decimal "activity_participations_annual_price_change", precision: 8, scale: 2, default: "0.0", null: false
     t.integer "activity_participations_demanded", default: 0, null: false
@@ -708,6 +719,8 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_18_132400) do
     t.boolean "absence_extra_text_only", default: false, null: false
     t.integer "absence_notice_period_in_days", default: 7, null: false
     t.boolean "absences_billed", default: true, null: false
+    t.string "absences_included_mode", default: "provisional_absence", null: false
+    t.integer "absences_included_reminder_weeks_before", default: 4, null: false
     t.integer "activity_availability_limit_in_days", default: 3, null: false
     t.string "activity_i18n_scope", default: "halfday_work", null: false
     t.integer "activity_participation_deletion_deadline_in_days"
@@ -1003,6 +1016,8 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_18_132400) do
   add_foreign_key "bidding_round_pledges", "memberships"
   add_foreign_key "delivery_cycle_periods", "delivery_cycles"
   add_foreign_key "depots", "depot_groups", column: "group_id"
+  add_foreign_key "forced_deliveries", "deliveries"
+  add_foreign_key "forced_deliveries", "memberships"
   add_foreign_key "invoice_items", "invoices"
   add_foreign_key "members", "depots", column: "shop_depot_id"
   add_foreign_key "members", "depots", column: "waiting_depot_id"

@@ -210,6 +210,7 @@ ActiveAdmin.register Depot do
     f.inputs Delivery.human_attribute_name(:sheets_pdf) do
       f.input :delivery_sheets_mode,
         as: :radio,
+        required: false,
         collection: Depot::DELIVERY_SHEETS_MODES.map { |mode|
           [
             content_tag(:span, class: "ms-2 py-0.5 leading-5") {

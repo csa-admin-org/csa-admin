@@ -1,22 +1,6 @@
 <h1><%= Absence.model_name.human(count: 2) %></h1>
 
-<% if basket = next_shiftable_basket %>
-  <%= link_to deliveries_path(anchor: dom_id(basket)), data: { turbo: false } do %>
-    <div
-      class="
-        mb-4 flex items-center gap-2 rounded border-1 border-dashed
-        border-teal-500 bg-teal-100 p-2 text-teal-700 hover:bg-teal-200
-        dark:bg-teal-900 dark:text-teal-300 hover:dark:bg-teal-800
-      "
-    >
-      <%= icon "redo", class: "size-5 w-8 " %>
-
-      <span>
-        <%= t(".shift_baskets", count: current_member.current_or_future_membership.basket_shifts_allowance_remaining) %>
-      </span>
-    </div>
-  <% end %>
-<% end %>
+<%= render "basket_shifts_notice" %>
 
 <section>
   <h2><%= t(".form_title") %></h2>

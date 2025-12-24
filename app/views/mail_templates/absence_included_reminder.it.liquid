@@ -1,0 +1,38 @@
+<p>Il vostro abbonamento include {{ membership.absences_included }} assenze, e ve ne restano ancora {{ membership.absences_remaining }} non utilizzate.</p>
+
+{% case organization.absences_included_mode %}
+{% when "provisional_absence" %}
+
+<p>Poiché non avete utilizzato tutte le vostre assenze, le seguenti consegne saranno saltate:</p>
+{% highlight %}
+  <ul>
+  {% for basket in membership.provisional_baskets %}
+    <li>{{ basket.delivery.date }}</li>
+  {% endfor %}
+  </ul>
+{% endhighlight %}
+
+<p>Questi cestini <strong>non saranno consegnati</strong> a meno che non li richiediate. Se desiderate ricevere alcune di queste consegne, potete farlo dal vostro account.</p>
+
+{% button member.deliveries_url %}
+  Visualizza le mie consegne
+{% endbutton %}
+
+{% when "provisional_delivery" %}
+
+<p>Poiché non avete utilizzato tutte le vostre assenze, le seguenti consegne saranno ora <strong>consegnate e fatturate</strong>:</p>
+{% highlight %}
+  <ul>
+  {% for basket in membership.forced_baskets %}
+    <li>{{ basket.delivery.date }}</li>
+  {% endfor %}
+  </ul>
+{% endhighlight %}
+
+<p>Se non desiderate ricevere alcune di queste consegne, potete ancora segnalare un'assenza dal vostro account.</p>
+
+{% button member.absences_url %}
+  Gestisci le mie assenze
+{% endbutton %}
+
+{% endcase %}

@@ -4,7 +4,7 @@ class Basket < ApplicationRecord
   include HasDescription
   include HasState
 
-  has_states :normal, :absent, :trial
+  has_states :normal, :absent, :trial, :forced
 
   default_scope { joins(:delivery).order(deliveries: { date: :asc }) }
 
@@ -43,10 +43,12 @@ class Basket < ApplicationRecord
   scope :billable, -> { where(billable: true) }
   scope :not_billable, -> { where(billable: false) }
   scope :deliverable, -> { active.filled }
-  scope :active, -> { where(state: %i[normal trial]) }
+  scope :active, -> { where(state: %i[normal trial forced]) }
   scope :definitely_absent, -> { absent.where.not(absence_id: nil) }
   scope :provisionally_absent, -> { absent.where(absence_id: nil) }
+  scope :absent_or_forced, -> { where(state: %i[absent forced]) }
   scope :not_absent, -> { where.not(state: :absent) }
+  scope :not_forced, -> { where.not(state: :forced) }
   scope :filled, -> {
     left_outer_joins(:baskets_basket_complements)
       .where("baskets.quantity > 0 OR baskets_basket_complements.quantity > 0")
@@ -92,6 +94,10 @@ class Basket < ApplicationRecord
     (quantity + baskets_basket_complements.sum(:quantity)).zero?
   end
 
+  def provisionally_absent?
+    absent? && absence_id.nil?
+  end
+
   def can_update?
     membership.can_update? && billable?
   end
@@ -116,6 +122,23 @@ class Basket < ApplicationRecord
 
   def can_be_shifted?
     absent? && !empty? && !shifted?
+  end
+
+  # A basket can be forced when it's provisionally absent (no absence_id)
+  # and not billable (within absences_included quota)
+  def can_force?
+    provisionally_absent? && !billable?
+  end
+
+  # A basket can be unforced when it's in forced state
+  def can_unforce?
+    forced?
+  end
+
+  def can_member_force?
+    provisionally_absent? &&
+      Current.org.within_absence_notice_period?(delivery.date) &&
+      membership.absences_included_reminded?
   end
 
   def can_be_member_shifted?

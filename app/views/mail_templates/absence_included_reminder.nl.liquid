@@ -1,0 +1,38 @@
+<p>Uw lidmaatschap omvat {{ membership.absences_included }} afwezigheden, en u heeft er nog {{ membership.absences_remaining }} ongebruikt.</p>
+
+{% case organization.absences_included_mode %}
+{% when "provisional_absence" %}
+
+<p>Aangezien u niet al uw afwezigheden heeft gebruikt, worden de volgende leveringen overgeslagen:</p>
+{% highlight %}
+  <ul>
+  {% for basket in membership.provisional_baskets %}
+    <li>{{ basket.delivery.date }}</li>
+  {% endfor %}
+  </ul>
+{% endhighlight %}
+
+<p>Deze pakketten worden <strong>niet geleverd</strong> tenzij u ze aanvraagt. Als u een van deze leveringen wilt ontvangen, kunt u dit doen via uw account.</p>
+
+{% button member.deliveries_url %}
+  Mijn leveringen bekijken
+{% endbutton %}
+
+{% when "provisional_delivery" %}
+
+<p>Aangezien u niet al uw afwezigheden heeft gebruikt, zullen de volgende leveringen nu <strong>geleverd en gefactureerd</strong> worden:</p>
+{% highlight %}
+  <ul>
+  {% for basket in membership.forced_baskets %}
+    <li>{{ basket.delivery.date }}</li>
+  {% endfor %}
+  </ul>
+{% endhighlight %}
+
+<p>Als u sommige van deze leveringen niet wilt ontvangen, kunt u nog steeds een afwezigheid melden via uw account.</p>
+
+{% button member.absences_url %}
+  Mijn afwezigheden beheren
+{% endbutton %}
+
+{% endcase %}

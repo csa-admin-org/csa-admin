@@ -20,6 +20,7 @@
     &[data-status="sent"],
     &[data-status="completed"],
     &[data-status="primary"],
+    &[data-status="forced"],
     &[data-status="yes"] {
       @apply bg-green-400 dark:bg-green-600;
     }

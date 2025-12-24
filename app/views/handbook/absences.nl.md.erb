@@ -4,17 +4,11 @@ Deze functie stelt u in staat om de afwezigheid van uw leden te beheren en autom
 
 ## Configuratie
 
-Zodra deze aanvullende functie is geactiveerd in [uw instellingen](/settings#organization_features_input), kunt u met [verschillende instellingen](/settings#absence) de uitleg tekst evenals de opzegtermijn configureren.
+Zodra deze aanvullende functie is geactiveerd in [uw instellingen](/settings#organization_features_input), zijn [meerdere instellingen](/settings#absence) beschikbaar.
 
 ## Facturering
 
 Standaard worden pakketten die als afwezig zijn gemarkeerd en niet geleverd, gefactureerd, en leden wordt geadviseerd om een kennis te vinden die hun pakket in hun plaats ophaalt. In [de instellingen](/settings#absence) kunt u er ook voor kiezen om ze niet te factureren. Het systeem zal dan automatisch [de facturering aanpassen](/handbook/billing#price-change) van het lidmaatschap.
-
-## Inbegrepen afwezigheid {#absence-included}
-
-Het is mogelijk om een aantal afwezigheid in te configureren die in het lidmaatschap zijn inbegrepen. Deze afwezigheid wordt dan automatisch afgetrokken en niet gefactureerd vanaf het begin van het lidmaatschap. Het systeem zal voorlopig de laatste leveringen van het lidmaatschap als afwezig markeren, totdat het aantal inbegrepen afwezigheid door het lid wordt aangekondigd. Aanvullende afwezigheid wordt wel of niet gefactureerd volgens [uw instellingen](/settings#absence).
-
-> Het aantal inbegrepen afwezigheid kan ook worden ingesteld op het niveau van een [leveringscyclus](/handbook/deliveries#delivery-cycles), om lidmaatschappen aan te bieden met een aantal inbegrepen afwezigheid (en dus leveringen) op [uw registratieformulier](<%= new_members_member_url(subdomain: Current.org.members_subdomain) %>).
 
 ## Pakketverschuiving {#basket-shift}
 
@@ -30,3 +24,32 @@ Aan de ledenkant is pakketverschuiving standaard niet mogelijk. Om deze functie 
 Als de afwezigheid wordt geannuleerd, wordt de pakketinhoud automatisch hersteld naar zijn oorspronkelijke levering.
 
 > Pakketverschuiving is alleen mogelijk als afwezigheid wordt gefactureerd.
+
+## Inbegrepen afwezigheid {#absence-included}
+
+Het is mogelijk om een aantal afwezigheid in te configureren die in het lidmaatschap zijn inbegrepen. Deze afwezigheid wordt dan automatisch afgetrokken en niet gefactureerd vanaf het begin van het lidmaatschap. Het systeem zal voorlopig de laatste leveringen van het lidmaatschap als afwezig markeren, in afwachting dat het lid deze afwezigheid op specifieke data vastlegt. Aanvullende afwezigheid wordt wel of niet gefactureerd volgens de gekozen modus in [uw instellingen](/settings#absence).
+
+> Het aantal inbegrepen afwezigheid wordt ingesteld op het niveau van een [leveringscyclus](/handbook/deliveries#delivery-cycles), om lidmaatschappen aan te bieden met een aantal inbegrepen afwezigheid (en dus leveringen) op [uw registratieformulier](<%= new_members_member_url(subdomain: Current.org.members_subdomain) %>).
+
+### Eindejaarmodus {#absence-included-mode}
+
+Wanneer leden niet al hun inbegrepen afwezigheid gebruiken tegen het einde van hun lidmaatschap, blijven de resterende afwezigheid voorlopig gemarkeerd op de laatste leveringen. Om deze situatie te beheren, kunt u een **eindejaarmodus** configureren in [de instellingen](/settings#absence):
+
+**Voorlopige afwezigheid gerespecteerd**
+
+Dit is de standaardmodus. Voorlopige afwezigheid wordt niet geleverd. Leden ontvangen een herinneringsmail en kunnen dan kiezen om een levering te forceren vanuit hun account als ze pakketten willen ontvangen die als voorlopig afwezig waren gemarkeerd.
+
+Deze modus is nuttig wanneer u de voorkeur geeft dat ongebruikte afwezigheid standaard als afwezigheid blijft, waardoor leden de mogelijkheid hebben om indien nodig een levering aan te vragen.
+
+**Levering van resterende afwezigheid**
+
+In deze modus zullen ongebruikte inbegrepen afwezigheid hun levering geforceerd en gefactureerd zien bij de herinnering. Leden ontvangen een herinneringsmail en kunnen een afwezigheid melden om te weigeren voordat de levering plaatsvindt en wordt gefactureerd.
+
+Deze modus is nuttig wanneer u de voorkeur geeft dat leden hun pakketten standaard ontvangen, om verwarring te vermijden van leden die verschijnen en een pakket verwachten dat niet was voorbereid.
+
+### Herinneringsmail {#absence-included-reminder}
+
+Een herinneringsmail wordt naar leden met ongebruikte inbegrepen afwezigheid gestuurd een configureerbaar aantal weken voor de eerste voorlopige afwezigheid (standaard: 4 weken). Dit geeft leden de tijd om actie te ondernemen volgens de gekozen modus:
+
+- **In modus "Voorlopige afwezigheid gerespecteerd"**: Een levering te forceren als ze pakketten willen ontvangen die als voorlopig afwezig waren gemarkeerd.
+- **In modus "Levering van resterende afwezigheid"**: Een afwezigheid te melden om leveringen te weigeren die ze niet willen.

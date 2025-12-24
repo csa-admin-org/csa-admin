@@ -76,11 +76,15 @@
     }
 
     li.subtitle {
-      @apply border-t-2 border-dotted border-gray-200 dark:border-gray-700;
+      @apply mt-8 mb-4 border-t-2 border-dotted border-gray-200 dark:border-gray-700;
+
+      &.no-border {
+        @apply border-none;
+      }
     }
 
     li.subtitle h2 {
-      @apply mt-5 mb-0 text-2xl font-light;
+      @apply mt-4 text-2xl font-light;
     }
 
     li.subtitle span {
@@ -89,6 +93,10 @@
 
     li.subtitle .optional {
       @apply italic;
+    }
+
+    li.subtitle p.description {
+      @apply mt-2;
     }
 
     .inputs legend,
@@ -166,7 +174,7 @@
     }
 
     li.radio {
-      @apply m-0 p-0;
+      @apply m-0 py-3;
     }
 
     li.radio ol.choices-group {

@@ -61,6 +61,7 @@ Rails.application.routes.draw do
       get "/membership", to: redirect("/memberships")
       resources :memberships, only: %i[index edit update]
       resources :baskets, only: %i[edit update] do
+        resource :forced_delivery, only: :create
         resource :basket_shifts, only: %i[new create], path: "shift", path_names: { new: "" }
       end
 
