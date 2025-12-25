@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_12_25_125913) do
+ActiveRecord::Schema[8.1].define(version: 2025_12_25_224300) do
   create_table "absences", force: :cascade do |t|
     t.datetime "created_at"
     t.date "ended_on"
@@ -243,7 +243,6 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_25_125913) do
   create_table "basket_sizes", force: :cascade do |t|
     t.integer "activity_participations_demanded_annually", default: 0, null: false
     t.datetime "created_at"
-    t.bigint "delivery_cycle_id"
     t.datetime "discarded_at"
     t.json "form_details", default: {}, null: false
     t.integer "member_order_priority", default: 1, null: false
@@ -253,7 +252,6 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_25_125913) do
     t.integer "shares_number"
     t.datetime "updated_at"
     t.boolean "visible", default: true, null: false
-    t.index ["delivery_cycle_id"], name: "index_basket_sizes_on_delivery_cycle_id"
     t.index ["discarded_at"], name: "index_basket_sizes_on_discarded_at"
     t.index ["visible"], name: "index_basket_sizes_on_visible"
   end
@@ -1006,7 +1004,6 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_25_125913) do
   add_foreign_key "basket_shifts", "absences"
   add_foreign_key "basket_shifts", "baskets", column: "source_basket_id"
   add_foreign_key "basket_shifts", "baskets", column: "target_basket_id"
-  add_foreign_key "basket_sizes", "delivery_cycles"
   add_foreign_key "baskets", "absences"
   add_foreign_key "baskets", "basket_sizes"
   add_foreign_key "baskets", "deliveries"

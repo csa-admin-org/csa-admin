@@ -155,7 +155,6 @@ class MembershipPricing
 
   def delivery_cycles
     return [ delivery_cycle ] if delivery_cycle
-    return [ basket_size.delivery_cycle ] if basket_size&.delivery_cycle
 
     @delivery_cycle_ids ||= depots.map(&:delivery_cycle_ids).flatten.uniq
     @delivery_cycles ||= DeliveryCycle.find(@delivery_cycle_ids).to_a

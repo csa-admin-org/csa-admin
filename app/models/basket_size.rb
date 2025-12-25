@@ -15,7 +15,6 @@ class BasketSize < ApplicationRecord
 
   translated_attributes :form_detail
 
-  belongs_to :delivery_cycle, optional: true
   has_many :memberships
   has_many :members, through: :memberships
   has_many :baskets, through: :memberships
@@ -77,10 +76,6 @@ class BasketSize < ApplicationRecord
   end
 
   def billable_deliveries_counts
-    if delivery_cycle
-      [ delivery_cycle.billable_deliveries_count ]
-    else
-      DeliveryCycle.billable_deliveries_counts
-    end
+    DeliveryCycle.billable_deliveries_counts
   end
 end

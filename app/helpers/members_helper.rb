@@ -222,8 +222,7 @@ module MembersHelper
   end
 
   def visible_delivery_cycles_collection(membership: nil, only_with_future_deliveries: false, data: {})
-    ids = visible_basket_sizes(object: membership).map(&:delivery_cycle_id).compact
-    ids += visible_depots(object: membership).flat_map(&:delivery_cycle_ids)
+    ids = visible_depots(object: membership).flat_map(&:delivery_cycle_ids)
     ids << membership.delivery_cycle_id if membership
     cycles = DeliveryCycle
       .where(id: ids.uniq)
@@ -367,7 +366,6 @@ module MembersHelper
     ids << object.basket_size_id if object
     BasketSize
       .where(id: ids.uniq)
-      .includes(:delivery_cycle)
       .member_ordered
       .to_a
   end

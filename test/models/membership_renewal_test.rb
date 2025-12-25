@@ -88,19 +88,6 @@ class MembershipRenewalTest < ActiveSupport::TestCase
     assert_equal 2, renewed_membership.delivery_cycle_price
   end
 
-  test "renew a membership with a basket size delivery cycle" do
-    membership = memberships(:jane)
-    basket_sizes(:large).update!(delivery_cycle: delivery_cycles(:mondays))
-
-    assert_difference "Membership.count", 1 do
-      MembershipRenewal.new(membership).renew!(basket_size_id: large_id)
-    end
-
-    renewed_membership = membership.reload.renewed_membership
-    assert_equal large_id, renewed_membership.basket_size_id
-    assert_equal mondays_id, renewed_membership.delivery_cycle_id
-  end
-
   test "with complements changes" do
     membership = memberships(:jane)
     membership.update!(basket_complements_annual_price_change: 10)

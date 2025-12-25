@@ -825,16 +825,7 @@ class MemberTest < ActiveSupport::TestCase
     assert_nil member.annual_fee
   end
 
-  test "set_default_waiting_delivery_cycle when basket_size has a delivery_cycle" do
-    delivery_cycle = delivery_cycles(:thursdays)
-    basket_size = basket_sizes(:small)
-    basket_size.update(delivery_cycle: delivery_cycle)
-    member = members(:aria)
-    member.update!(waiting_basket_size: basket_size, waiting_delivery_cycle_id: nil)
-    assert_equal delivery_cycle, member.waiting_delivery_cycle
-  end
-
-  test "set_default_waiting_delivery_cycle when basket_size has no delivery_cycle" do
+  test "set_default_waiting_delivery_cycle" do
     member = members(:aria)
     member.update!(waiting_delivery_cycle_id: nil)
     assert_equal delivery_cycles(:all), member.waiting_delivery_cycle
