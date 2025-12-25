@@ -55,6 +55,8 @@ module Billing
             else
               next_billing_day(membership.started_on)
             end
+          return unless n_date
+
           n_date >= membership.fiscal_year.end_of_year ? date : n_date
         elsif member.support?
           if annual_fee_billable?
@@ -151,6 +153,8 @@ module Billing
     end
 
     def next_billing_day_after_first_billable_delivery
+      return unless membership.first_billable_delivery
+
       next_billing_day(membership.first_billable_delivery.date)
     end
 
