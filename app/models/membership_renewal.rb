@@ -27,9 +27,6 @@ class MembershipRenewal
 
     new_membership = Membership.new(renewed_attrs(attrs))
 
-    if new_membership.basket_size&.delivery_cycle_id?
-      new_membership.delivery_cycle_id = new_membership.basket_size.delivery_cycle_id
-    end
     if new_membership.delivery_cycle.deliveries_count_for(@fiscal_year) == 0
       new_membership.delivery_cycle = DeliveryCycle.primary
     end

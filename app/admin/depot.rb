@@ -236,13 +236,11 @@ ActiveAdmin.register Depot do
             I18n.with_locale(locale) { depot_details(f.object) }
           end
         })
-      unless DeliveryCycle.basket_size_config?
-        f.input :delivery_cycles,
-          collection: admin_delivery_cycles_collection,
-          input_html: f.object.persisted? ? {} : { checked: true },
-          as: :check_boxes,
-          required: true
-      end
+      f.input :delivery_cycles,
+        collection: admin_delivery_cycles_collection,
+        input_html: f.object.persisted? ? {} : { checked: true },
+        as: :check_boxes,
+        required: true
     end
 
     f.inputs Depot.human_attribute_name(:street) do

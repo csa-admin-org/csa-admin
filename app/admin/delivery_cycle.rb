@@ -173,26 +173,24 @@ ActiveAdmin.register DeliveryCycle do
       render partial: "public_name", locals: { f: f, resource: resource, context: self }
     end
 
-    unless DeliveryCycle.basket_size_config?
-      f.inputs t("active_admin.resource.show.member_new_form") do
-        f.input :member_order_priority,
-          collection: member_order_priorities_collection,
-          as: :select,
-          prompt: true,
-          hint: t("formtastic.hints.organization.member_order_priority_html")
-        translated_input(f, :form_details,
-          hint: t("formtastic.hints.delivery_cycle.form_detail"),
-          placeholder: ->(locale) {
-            if f.object.persisted? && !f.object.form_detail?(locale)
-              I18n.with_locale(locale) {
-                delivery_cycle_details(f.object, force_default: true)
-              }
-            end
-          })
-        f.input :depots,
-          as: :check_boxes,
-          disabled: depot_ids_with_only(f.object)
-      end
+    f.inputs t("active_admin.resource.show.member_new_form") do
+      f.input :member_order_priority,
+        collection: member_order_priorities_collection,
+        as: :select,
+        prompt: true,
+        hint: t("formtastic.hints.organization.member_order_priority_html")
+      translated_input(f, :form_details,
+        hint: t("formtastic.hints.delivery_cycle.form_detail"),
+        placeholder: ->(locale) {
+          if f.object.persisted? && !f.object.form_detail?(locale)
+            I18n.with_locale(locale) {
+              delivery_cycle_details(f.object, force_default: true)
+            }
+          end
+        })
+      f.input :depots,
+        as: :check_boxes,
+        disabled: depot_ids_with_only(f.object)
     end
 
     if feature?("absence")

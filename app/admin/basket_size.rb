@@ -75,9 +75,6 @@ ActiveAdmin.register BasketSize do
             }
           end
         })
-      if !DeliveryCycle.visible? && DeliveryCycle.kept.many?
-        f.input :delivery_cycle, collection: admin_delivery_cycles_collection
-      end
     end
 
     f.actions
@@ -89,7 +86,6 @@ ActiveAdmin.register BasketSize do
     :activity_participations_demanded_annually,
     :visible,
     :member_order_priority,
-    :delivery_cycle_id,
     *I18n.available_locales.map { |l| "public_name_#{l}" },
     *I18n.available_locales.map { |l| "admin_name_#{l}" },
     *I18n.available_locales.map { |l| "form_detail_#{l}" })

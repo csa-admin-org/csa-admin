@@ -97,12 +97,8 @@ class DeliveryCycle < ApplicationRecord
     end
   end
 
-  def self.basket_size_config?
-    BasketSize.visible.where.not(delivery_cycle_id: nil).any?
-  end
-
   def self.visible?
-    !basket_size_config? && visible.many? && shared_depots?
+    visible.many? && shared_depots?
   end
 
   def self.shared_depots?

@@ -454,8 +454,7 @@ class Member < ApplicationRecord
     return unless waiting_basket_size
     return unless waiting_depot
 
-    self.waiting_delivery_cycle ||=
-      waiting_basket_size.delivery_cycle || waiting_depot.delivery_cycles.primary
+    self.waiting_delivery_cycle ||= waiting_depot.delivery_cycles.primary
   end
 
   def email_must_be_unique
