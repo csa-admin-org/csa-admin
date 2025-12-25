@@ -848,4 +848,17 @@ class Billing::InvoicerTest < ActiveSupport::TestCase
     travel_to "2024-07-01"
     assert_equal "2024-07-01", Billing::Invoicer.new(member.reload).next_date.to_s
   end
+
+  test "next_date returns nil when billing_starts_after_first_delivery and no billable delivery exists" do
+    org(billing_starts_after_first_delivery: true)
+    travel_to "2024-01-01"
+    member = members(:john)
+    membership = member.current_membership
+
+    # Set all basket quantities to 0 so there's no filled billable delivery
+    membership.baskets.update_all(quantity: 0)
+
+    assert_nil membership.first_billable_delivery
+    assert_nil Billing::Invoicer.new(member.reload).next_date
+  end
 end
