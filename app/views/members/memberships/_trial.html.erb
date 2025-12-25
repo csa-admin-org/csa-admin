@@ -14,7 +14,7 @@
       <%= link_to t(".cancel_link"), new_members_trial_cancelation_path, class: "btn btn-primary" %>
     </div>
   </div>
-<% elsif membership.trial? && membership.canceled? %>
+<% elsif membership.trial_only? && membership.canceled? %>
   <p class="justify mt-8 italic">
     <% last_trial_basket = membership.baskets.trial.order("deliveries.date").last %>
     <%= t(".canceled_html", last_trial_date: l(last_trial_basket.delivery.date)) %>

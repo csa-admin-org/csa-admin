@@ -89,4 +89,26 @@ class Members::TrialCancelationsTest < ApplicationSystemTestCase
     assert_no_text "Cancel my trial membership"
     assert_text "Your trial membership has been canceled and will end after the delivery on"
   end
+
+  test "canceled trial message shown after trial period ends" do
+    member = members(:jane)
+    member.update!(trial_baskets_count: 4)
+    membership = memberships(:jane)
+    membership.update_baskets_counts!
+    membership.cancel_trial!(renewal_note: "Canceled during trial")
+
+    # Travel to after all trial baskets have been delivered
+    travel_to "2024-05-01"
+
+    # Simulate basket counts being updated after deliveries happened
+    # At this point, remaining_trial_baskets_count becomes 0, so trial? is false
+    # but trial_only? remains true since baskets_count == trial_baskets_count
+    membership.update_baskets_counts!
+
+    login(member)
+
+    click_on "Membership"
+
+    assert_text "Your trial membership has been canceled and will end after the delivery on"
+  end
 end
