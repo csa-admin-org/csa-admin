@@ -43,11 +43,13 @@ If a membership configuration (dates, basket size, ...) is modified, several cas
 
 The annual fee is automatically included in the first invoice of the membership. If the member doesn't have a membership (support) then a specific invoice is automatically created at the beginning of the fiscal year.
 
-### Trial baskets
+### Trial baskets {#trial-baskets}
 
 If a number of trial baskets is defined in [the billing settings](/settings#billing), then the membership will only be billed once all trial baskets are delivered, on the next billing day following the delivery of the first non-trial basket.
 
-If the membership is stopped during the trial period, then only the delivered baskets will be billed, on the next billing day. In this case, the annual fee is not billed.
+Members can cancel their membership themselves during the trial period from their member account. The membership will then end on the last trial basket delivery date. To cancel a membership immediately, the admin must do so manually.
+
+If the membership is canceled during the trial period, only the delivered baskets will be billed, on the next billing day. In this case, the annual fee is not billed (unless the member chooses to pay it).
 
 <% if Current.org.share? %>
 ## Share capital

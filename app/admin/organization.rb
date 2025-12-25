@@ -63,7 +63,8 @@ ActiveAdmin.register Organization do
             as: :select,
             collection: Organization.currency_codes,
             input_html: { disabled: true }
-          f.input :trial_baskets_count
+          f.input :trial_baskets_count,
+            hint: t("formtastic.hints.organization.trial_baskets_count_html")
           f.input :send_closed_invoice, as: :boolean
           f.input :billing_starts_after_first_delivery, as: :boolean
           f.input :billing_ends_on_last_delivery_fy_month, as: :boolean

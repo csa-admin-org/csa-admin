@@ -37,6 +37,18 @@ _:
         _de: Erhalte eine Benachrichtigung, wenn die 3. Mahnung einer Rechnung an ein Mitglied gesendet wird.
         _it: Ricevi una notifica quando il 3° richiamo di una fattura viene inviato ad un socio.
         _nl: Ontvang een melding wanneer de 3e herinnering van een factuur naar un lid is verzonden.
+      membership_trial_cancelation:
+        _en: Trial membership canceled
+        _fr: Abonnement d'essai annulé
+        _de: Probemitgliedschaft gekündigt
+        _it: Abbonamento di prova annullato
+        _nl: Proeflidmaatschap geannuleerd
+      membership_trial_cancelation_hint:
+        _en: Receive a notification when a member cancels their trial membership.
+        _fr: Recevoir une notification lorsqu'un membre annule son abonnement d'essai.
+        _de: Erhalte eine Benachrichtigung, wenn ein Mitglied seine Probemitgliedschaft kündigt.
+        _it: Ricevi una notifica quando un socio annulla il proprio abbonamento di prova.
+        _nl: Ontvang een melding wanneer een lid zijn proeflidmaatschap annuleert.
       memberships_renewal_pending:
         _en: Membership, pending renewals
         _fr: Abonnement, renouvellements en attente

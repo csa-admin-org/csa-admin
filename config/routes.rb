@@ -72,6 +72,7 @@ Rails.application.routes.draw do
           controller: "membership_renewals"
         get "renew(:format)" => "membership_renewals#new", as: "renew_membership", decision: "renew"
         get ":decision" => "membership_renewals#new"
+        resource :trial_cancelation, only: %i[new create], path: "trial/cancelation"
       end
 
       namespace :bidding_round do

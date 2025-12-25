@@ -181,6 +181,20 @@ class AdminMailer < ApplicationMailer
     end
   end
 
+  def membership_trial_cancelation_email
+    @admin = params[:admin]
+    I18n.with_locale(@admin.language) do
+      content = liquid_template.render(
+        "admin" => Liquid::AdminDrop.new(@admin),
+        "member" => Liquid::AdminMemberDrop.new(params[:member]),
+        "membership" => Liquid::AdminMembershipDrop.new(params[:membership]))
+      content_mail(content,
+        to: @admin.email,
+        subject: t(".subject"),
+        tag: "admin-membership-trial-cancelation")
+    end
+  end
+
   def memberships_renewal_pending_email
     @admin = params[:admin]
     @subject_class = "alert"

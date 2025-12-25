@@ -52,7 +52,7 @@
 
       <span>
         <% parts = [ link_to("#{membership.baskets_count} #{Delivery.model_name.human(count: membership.baskets_count)}", members_deliveries_path) ]
-          if membership.trial?
+          if membership.trial? && !membership.canceled?
             parts << t(".remaining_trial_baskets_count", count: membership.remaining_trial_baskets_count)
           end
           if feature?("absence") && membership.baskets.absent.any?

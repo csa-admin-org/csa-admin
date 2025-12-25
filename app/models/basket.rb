@@ -49,6 +49,7 @@ class Basket < ApplicationRecord
   scope :provisionally_absent, -> { absent.where(absence_id: nil) }
   scope :absent_or_forced, -> { where(state: %i[absent forced]) }
   scope :not_absent, -> { where.not(state: :absent) }
+  scope :not_trial, -> { where.not(state: :trial) }
   scope :not_forced, -> { where.not(state: :forced) }
   scope :filled, -> {
     left_outer_joins(:baskets_basket_complements)

@@ -43,11 +43,13 @@ Si la configuration d'un abonnement (dates, de taille de panier, ...) est modifi
 
 La cotisation annuelle est automatiquement incluse dans la première facture de l'abonnement. Si le membre n'a pas d'abonnement (soutien) alors une facture spécifique est créée automatiquement au début de l'année fiscale.
 
-### Paniers à l'essai
+### Paniers à l'essai {#trial-baskets}
 
 Si un nombre de paniers à l'essai est défini dans [les paramètres de facturation](/settings#billing), alors l'abonnement sera uniquement facturé une fois que tous les paniers à l'essai seront livrés, le prochain jour de facturation suivant la livraison du premier panier non à l'essai.
 
-Si l'abonnement est arrêté durant la période d'essai, alors seulement les paniers livrés seront facturés, le prochain jour de facturation. Dans ce cas, la cotisation annuelle n'est pas facturée.
+Les membres peuvent annuler leur abonnement eux-mêmes durant la période d'essai depuis leur compte membre. L'abonnement se terminera alors à la date de livraison du dernier panier à l'essai. Pour annuler un abonnement immédiatement, l'admin doit le faire manuellement.
+
+Si l'abonnement est annulé durant la période d'essai, alors seulement les paniers livrés seront facturés, le prochain jour de facturation. Dans ce cas, la cotisation annuelle n'est pas facturée (sauf si le membre choisit de la payer).
 
 <% if Current.org.share? %>
 ## Parts sociales

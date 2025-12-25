@@ -1,0 +1,9 @@
+# Trial Membership Cancellation by Members
+
+Members can now cancel their trial membership themselves directly from their member account. The membership will end on the last trial basket delivery date.
+
+This gives members more autonomy during their trial period while keeping admins informed through a [new notification](<%= edit_admin_path(current_admin) %>) that can be enabled to receive an email when a member cancels their trial.
+
+The [trial basket email templates](/mail_templates?scope=membership) have also been updated to link directly to the membership page where members can take action. If you have already customized these templates, you may want to update them manually to include a link to the membership page (`{{ member.memberships_url }}`).
+
+For more details about how trial baskets and cancellation work, please see [the billing handbook](/handbook/billing#trial-baskets).

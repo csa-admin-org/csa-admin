@@ -1,0 +1,20 @@
+<p>Ciao {{ admin.name }},</p>
+
+<p>Il socio <strong>{{ member.name }}</strong> ha annullato il proprio abbonamento di prova.</p>
+
+<p>L'abbonamento terminerà il <strong>{{ membership.ended_on }}</strong> (ultima consegna del cesto di prova).</p>
+
+{% if membership.renewal_note %}
+<p><strong>Nota del socio:</strong><br/>
+<i>{{ membership.renewal_note }}</i></p>
+{% else %}
+<p><i>Il socio non ha compilato la nota.</i></p>
+{% endif %}
+
+{% if membership.renewal_annual_fee %}
+<p>Il socio ha scelto di continuare a pagare la quota annuale.</p>
+{% endif %}
+
+{% button membership.admin_url %}
+  Accedere alla pagina dell'abbonamento
+{% endbutton %}

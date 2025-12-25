@@ -65,6 +65,7 @@ class Admin < ApplicationRecord
       delivery_list
       new_email_suppression
       new_registration
+      membership_trial_cancelation
       invoice_overpaid
       invoice_third_overdue_notice
       payment_reversal

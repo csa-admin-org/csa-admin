@@ -1,0 +1,26 @@
+<%# Skip if this is a trial-canceled membership (handled by _trial.html.erb) %>
+<% return if membership.trial? && membership.canceled? %>
+
+<% if membership.renewal_opened? %>
+  <div id="renewal" class="focus:outline-hidden">
+    <h2 class="mt-8 text-lg font-bold text-gray-900 dark:text-gray-100">
+      <%= t(".title") %>
+    </h2>
+
+    <div class="trix justify mt-2"><%= Current.org.open_renewal_text %></div>
+
+    <%= simple_form_for membership, url: new_members_membership_renewal_path, method: :get, data: { remote: false } do |f| %>
+      <div class="mt-6">
+        <%= f.input :renewal_decision, as: :radio_buttons, collection: renewal_decisions_collection, required: false, label: t(".options_label") %>
+      </div>
+
+      <div class="actions"><%= f.submit t(".submit") %></div>
+    <% end %>
+  </div>
+<% elsif membership.renewed? %>
+  <%= render membership.renewed_membership %>
+<% elsif membership.canceled? && membership.current? %>
+  <p class="justify mt-8 italic">
+    <%= t(".canceled_html", last_delivery_date: l(membership.deliveries.last.date)) %>
+  </p>
+<% end %>

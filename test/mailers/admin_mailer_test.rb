@@ -315,4 +315,58 @@ class AdminMailerTest < ActionMailer::TestCase
     assert_includes mail.body.to_s, "2 open renewal request(s)</a>"
     assert_includes mail.body.to_s, "https://admin.example.com/memberships/opened"
   end
+
+  test "membership_trial_cancelation_email" do
+    travel_to "2024-01-01"
+    org(trial_baskets_count: 2)
+    membership = memberships(:jane)
+    membership.update_baskets_counts!
+    membership.cancel_trial!(renewal_note: "Not the right fit for us", renewal_annual_fee: true)
+
+    mail = AdminMailer.with(
+      admin: admins(:ultra),
+      member: membership.member,
+      membership: membership
+    ).membership_trial_cancelation_email
+
+    assert_equal "Trial membership canceled", mail.subject
+    assert_equal [ "info@csa-admin.org" ], mail.to
+    assert_equal "admin-membership-trial-cancelation", mail.tag
+    assert_equal "Acme <info@acme.test>", mail[:from].decoded
+
+    body = mail.body.to_s
+    assert_includes body, "Hello Thibaud,"
+    assert_includes body, "Jane Doe"
+    assert_includes body, "canceled their trial membership"
+    assert_includes body, "11 April 2024"
+    assert_includes body, "Member's note:"
+    assert_includes body, "Not the right fit for us"
+    assert_includes body, "continue paying the annual fee"
+    assert_includes body, "Access membership page"
+    assert_includes body, "https://admin.acme.test/memberships/#{membership.id}"
+    assert_includes body, "https://admin.acme.test/admins/#{admins(:ultra).id}/edit#notifications"
+    assert_includes body, "Manage my notifications"
+  end
+
+  test "membership_trial_cancelation_email without note and annual fee" do
+    travel_to "2024-01-01"
+    org(trial_baskets_count: 2)
+    membership = memberships(:jane)
+    membership.update_baskets_counts!
+    membership.cancel_trial!
+
+    mail = AdminMailer.with(
+      admin: admins(:ultra),
+      member: membership.member,
+      membership: membership
+    ).membership_trial_cancelation_email
+
+    assert_equal "Trial membership canceled", mail.subject
+
+    body = mail.body.to_s
+    assert_includes body, "Jane Doe"
+    assert_includes body, "The member did not provide a note."
+    assert_not_includes body, "Member's note:"
+    assert_not_includes body, "continue paying the annual fee"
+  end
 end

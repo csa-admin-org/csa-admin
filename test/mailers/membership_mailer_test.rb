@@ -93,7 +93,7 @@ class MembershipMailerTest < ActionMailer::TestCase
     assert_equal "Last trial basket!", mail.subject
     assert_equal [ "john@doe.com" ], mail.to
     assert_equal "membership-last-trial-basket", mail.tag
-    assert_includes mail.body.to_s, "It's the day of your last trial basket.."
+    assert_includes mail.body.to_s, "It's the day of your last trial basket."
     assert_includes mail.body.to_s, "https://members.acme.test"
     assert_equal "Acme <info@acme.test>", mail[:from].decoded
     assert_equal "outbound", mail[:message_stream].to_s

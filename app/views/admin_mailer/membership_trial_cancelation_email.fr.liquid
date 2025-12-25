@@ -1,0 +1,20 @@
+<p>Salut {{ admin.name }},</p>
+
+<p>Le membre <strong>{{ member.name }}</strong> a annulé son abonnement d'essai.</p>
+
+<p>L'abonnement se terminera le <strong>{{ membership.ended_on }}</strong> (dernière livraison de panier d'essai).</p>
+
+{% if membership.renewal_note %}
+<p><strong>Note du membre:</strong><br/>
+<i>{{ membership.renewal_note }}</i></p>
+{% else %}
+<p><i>Le membre n'a pas laissé de note.</i></p>
+{% endif %}
+
+{% if membership.renewal_annual_fee %}
+<p>Le membre a choisi de continuer à payer la cotisation annuelle.</p>
+{% endif %}
+
+{% button membership.admin_url %}
+  Accéder à la page de l'abonnement
+{% endbutton %}

@@ -1,0 +1,20 @@
+<p>Hallo {{ admin.name }},</p>
+
+<p>Het lid <strong>{{ member.name }}</strong> heeft hun proeflidmaatschap geannuleerd.</p>
+
+<p>Het lidmaatschap eindigt op <strong>{{ membership.ended_on }}</strong> (laatste proefpakket levering).</p>
+
+{% if membership.renewal_note %}
+<p><strong>Opmerking van het lid:</strong><br/>
+<i>{{ membership.renewal_note }}</i></p>
+{% else %}
+<p><i>Het lid heeft geen opmerking achtergelaten.</i></p>
+{% endif %}
+
+{% if membership.renewal_annual_fee %}
+<p>Het lid heeft ervoor gekozen om het jaarlijkse lidmaatschapsbijdrage te blijven betalen.</p>
+{% endif %}
+
+{% button membership.admin_url %}
+  Toegang tot lidmaatschapspagina
+{% endbutton %}

@@ -1,0 +1,9 @@
+# Annulation de l'abonnement d'essai par les membres
+
+Les membres peuvent désormais annuler eux-mêmes leur abonnement d'essai directement depuis leur compte membre. L'abonnement se terminera à la date de livraison du dernier panier à l'essai.
+
+Cela donne plus d'autonomie aux membres pendant leur période d'essai tout en tenant les admins informés grâce à une [nouvelle notification](<%= edit_admin_path(current_admin) %>) qui peut être activée pour recevoir un email lorsqu'un membre annule son essai.
+
+Les [templates d'email pour les paniers à l'essai](/mail_templates?scope=membership) ont également été mis à jour pour rediriger directement vers la page d'abonnement où les membres peuvent agir. Si vous avez déjà personnalisé ces templates, vous pouvez les mettre à jour manuellement pour inclure un lien vers la page d'abonnement (`{{ member.memberships_url }}`).
+
+Pour plus de détails sur le fonctionnement des paniers à l'essai et de l'annulation, veuillez consulter [le manuel de facturation](/handbook/billing#trial-baskets).
