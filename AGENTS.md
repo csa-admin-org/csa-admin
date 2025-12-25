@@ -305,6 +305,52 @@ When creating non-trivial classes, add a comment block at the top explaining:
 - **What** problem it solves
 - **How** it's intended to be used
 
+## Translations Workflow
+
+This application supports multiple languages: English (`en`), French (`fr`), German (`de`), Italian (`it`), and Dutch (`nl`).
+
+### Translation File Structure
+
+**YAML locale files** in `config/locales/` use language-prefixed keys:
+
+```yaml
+members:
+  title:
+    _en: Members
+    _fr: Membres
+    _de: Mitglieder
+    _it: Membri
+    _nl: Leden
+```
+
+**Template files** use language suffixes in filenames:
+
+```
+app/views/mail_templates/invoice_created.en.liquid
+app/views/mail_templates/invoice_created.fr.liquid
+app/views/handbook/getting_started.en.md.erb
+app/views/handbook/getting_started.fr.md.erb
+```
+
+### Two-Phase Translation Process
+
+When working on features that require translation changes:
+
+**Phase 1 - Development (English & French only):**
+- Only add/update `_en` and `_fr` keys in YAML locale files
+- Only create/modify `.en.*` and `.fr.*` template files
+- Focus on getting the feature working correctly
+- Iterate and refine translations as the solution evolves
+- Run tests and verify the implementation
+
+**Phase 2 - Finalization (all languages):**
+- Once the solution is complete and validated
+- Add the remaining language keys (`_de`, `_it`, `_nl`) in YAML files
+- Create the remaining template files (`.de.*`, `.it.*`, `.nl.*`)
+- Use the English and French translations as the reference for consistency
+
+This approach avoids wasted effort translating strings that may change during development.
+
 ## Commit Messages
 
 - Review all staged changes before writing
