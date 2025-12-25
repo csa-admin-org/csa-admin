@@ -1,0 +1,20 @@
+<p>Hello {{ admin.name }},</p>
+
+<p>The member <strong>{{ member.name }}</strong> has canceled their trial membership.</p>
+
+<p>The membership will end on <strong>{{ membership.ended_on }}</strong> (last trial basket delivery).</p>
+
+{% if membership.renewal_note %}
+<p><strong>Member's note:</strong><br/>
+<i>{{ membership.renewal_note }}</i></p>
+{% else %}
+<p><i>The member did not provide a note.</i></p>
+{% endif %}
+
+{% if membership.renewal_annual_fee %}
+<p>The member has chosen to continue paying the annual fee.</p>
+{% endif %}
+
+{% button membership.admin_url %}
+  Access membership page
+{% endbutton %}

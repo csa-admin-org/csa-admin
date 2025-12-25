@@ -34,7 +34,7 @@ class Organization < ApplicationRecord
   include TranslatedAttributes
   include TranslatedRichTexts
   include NormalizedString
-  include Billing
+  include Billing, Trial
   include \
     AbsenceFeature,
     ActivityFeature,
@@ -75,7 +75,7 @@ class Organization < ApplicationRecord
   validates :email_default_from, format: { with: ->(org) { /.*@#{org.domain}\z/ } }
   validates_plausible_phone :phone, country_code: ->(org) { org.country_code }
   validates_plausible_phone :activity_phone, country_code: ->(org) { org.country_code }
-  validates :trial_baskets_count, numericality: { greater_than_or_equal_to: 0 }, presence: true
+
   validates :open_renewal_reminder_sent_after_in_days,
     numericality: { greater_than_or_equal_to: 1, allow_nil: true }
   validates :country_code,
@@ -129,10 +129,6 @@ class Organization < ApplicationRecord
 
   def terms_of_service?
     charter_url || statutes_url || terms_of_service_url || privacy_policy_url
-  end
-
-  def trial_baskets?
-    trial_baskets_count.positive?
   end
 
   def phone=(phone)

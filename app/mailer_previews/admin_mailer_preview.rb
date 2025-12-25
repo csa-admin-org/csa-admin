@@ -186,6 +186,27 @@ class AdminMailerPreview < ActionMailer::Preview
     ).new_registration_email
   end
 
+  def membership_trial_cancelation_email
+    admin = Admin.new(
+      id: 1,
+      name: "John",
+      language: I18n.locale,
+      email: "admin@csa-admin.org")
+    member = Member.new(
+      id: 2,
+      name: "Martha")
+    membership = OpenStruct.new(
+      id: 1,
+      ended_on: Date.new(2024, 4, 15),
+      renewal_note: "The delivery schedule doesn't work for our family.",
+      renewal_annual_fee: 30)
+    AdminMailer.with(
+      admin: admin,
+      member: member,
+      membership: membership
+    ).membership_trial_cancelation_email
+  end
+
   def memberships_renewal_pending_email
     admin = Admin.new(
       id: 1,

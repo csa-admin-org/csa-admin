@@ -4,7 +4,7 @@ require "rounding"
 
 class Membership < ApplicationRecord
   include HasDescription
-  include Absence, AbsencesIncludedRemindable
+  include Absence, AbsencesIncludedRemindable, Trial
 
   attr_accessor :renewal_decision
 
@@ -90,8 +90,6 @@ class Membership < ApplicationRecord
   scope :started, -> { where(started_on: ..Date.yesterday) }
   scope :past, -> { where(ended_on: ..Date.yesterday) }
   scope :future, -> { where(started_on: Date.tomorrow..) }
-  scope :trial, -> { current.where(remaining_trial_baskets_count: 1..) }
-  scope :ongoing, -> { current.where(remaining_trial_baskets_count: 0) }
   scope :current, -> { including_date(Date.current) }
   scope :current_or_future, -> { current.or(future).order(:started_on) }
   scope :including_date, ->(date) { where(started_on: ..date, ended_on: date..) }
@@ -166,14 +164,6 @@ class Membership < ApplicationRecord
   def first_billable_delivery
     rel = baskets.filled.billable
     (rel.trial.last || rel.first)&.delivery
-  end
-
-  def trial?
-    remaining_trial_baskets_count.positive?
-  end
-
-  def trial_only?
-    baskets_count == trial_baskets_count
   end
 
   def fiscal_year
@@ -561,6 +551,8 @@ class Membership < ApplicationRecord
   private
 
   def set_renew
+    return if renew_changed? && !renew? # Explicit cancellation, don't override
+
     if ended_on_changed?
       self.renew = (ended_on >= Current.fy_range.max)
     end

@@ -35,6 +35,13 @@ _:
         _de: 'Rechnung #%{number}, 3. Mahnung gesendet'
         _it: 'Fattura #%{number}, 3° richiamo inviato'
         _nl: 'Factuur #%{number}, 3e herinnering verzonden'
+    membership_trial_cancelation_email:
+      subject:
+        _en: Trial membership canceled
+        _fr: Abonnement d'essai annulé
+        _de: Probemitgliedschaft gekündigt
+        _it: Abbonamento di prova annullato
+        _nl: Proeflidmaatschap geannuleerd
     memberships_renewal_pending_email:
       subject:
         _en: "⚠️ Membership(s) pending renewal!"

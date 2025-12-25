@@ -136,7 +136,7 @@ class Members::MembershipRenewalsTest < ApplicationSystemTestCase
     click_on "Next"
 
     fill_in "Note", with: "Not enough spinach!"
-    check "To support us, I will continue to pay the annual membership fee from next year. CHF 30"
+    check "I support you and will continue paying the annual membership fee. CHF 30"
     click_on "Confirm"
 
     assert_selector ".flash", text: "Your membership has been canceled."

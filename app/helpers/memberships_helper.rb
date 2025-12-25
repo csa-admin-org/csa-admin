@@ -156,14 +156,14 @@ module MembershipsHelper
     [
       [
         content_tag(:span, class: "flex flex-col") {
-          content_tag(:span, t(".renewal.options.renew"),
+          content_tag(:span, t("members.memberships.renewal.options.renew"),
             class: "") +
-          content_tag(:span, t(".renewal.options.renew_hint"),
+          content_tag(:span, t("members.memberships.renewal.options.renew_hint"),
             class: "hint text-sm italic text-gray-400 dark:text-gray-600")
         }.html_safe,
         :renew
       ],
-      [ t(".renewal.options.cancel"), :cancel ]
+      [ t("members.memberships.renewal.options.cancel"), :cancel ]
     ]
   end
 

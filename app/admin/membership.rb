@@ -489,7 +489,7 @@ ActiveAdmin.register Membership do
           end
         end
 
-        if Current.fiscal_year >= m.fiscal_year
+        if Current.fiscal_year >= m.fiscal_year || m.canceled?
           panel Membership.human_attribute_name(:renew), state: m.renewal_state, action: handbook_icon_link("membership_renewal") do
             attributes_table do
               if m.renewed?

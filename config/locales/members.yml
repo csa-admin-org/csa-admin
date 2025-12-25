@@ -1071,11 +1071,11 @@ _:
           _it: Annullare
           _nl: Annuleren
         renewal_annual_fee_label_html:
-          _en: To support us, I will continue to pay the annual membership fee from next year. %{price_tag}
-          _fr: Pour nous soutenir, je continue à payer la cotisation annuelle dès l'an prochain. %{price_tag}
-          _de: Um uns zu unterstützen, werde ich die Jahresgebühr ab dem nächsten Jahr weiterhin bezahlen. %{price_tag}
-          _it: Per sostenerci, continuerò a pagare la quota annuale di iscrizione dall'anno prossimo. %{price_tag}
-          _nl: Om ons te steunen, zal ik de jaarlijkse lidmaatschapsbijdrage vanaf volgend jaar blijven betalen. %{price_tag}
+          _en: I support you and will continue paying the annual membership fee. %{price_tag}
+          _fr: Je vous soutiens et continue à payer la cotisation annuelle. %{price_tag}
+          _de: Ich unterstütze Sie und zahle weiterhin den Jahresbeitrag. %{price_tag}
+          _it: Vi sostengo e continuo a pagare la quota annuale. %{price_tag}
+          _nl: Ik steun jullie en blijf de jaarlijkse bijdrage betalen. %{price_tag}
         renewal_note:
           placeholder:
             cancel:
@@ -1161,51 +1161,6 @@ _:
             _de: "%{count} Lieferungen ab dem %{first_date} werden geändert."
             _it: "%{count} consegne a partire dal %{first_date} verranno modificate."
             _nl: "%{count} leveringen vanaf %{first_date} worden gewijzigd."
-      index:
-        renewal:
-          canceled_html:
-            _en: Your membership has been canceled and will end after the delivery on <u>%{last_delivery_date}</u>.
-            _fr: Votre abonnement a été résilié et se terminera après la livraison du <u>%{last_delivery_date}</u>.
-            _de: Ihr Abonnement wurde gekündigt und endet nach der Lieferung des <u>%{last_delivery_date}</u>.
-            _it: Il tuo abbonamento è stato annullato e terminerà dopo la consegna del <u>%{last_delivery_date}</u>.
-            _nl: Uw lidmaatschap is geannuleerd en eindigt na de levering op <u>%{last_delivery_date}</u>.
-          options:
-            cancel:
-              _en: Cancel my membership
-              _fr: Résilier mon abonnement
-              _de: Mein Abonnement kündigen
-              _it: Annullare il mio abbonamento
-              _nl: Mijn lidmaatschap annuleren
-            renew:
-              _en: Renew my membership
-              _fr: Renouveler mon abonnement
-              _de: Mein Abonnement erneuern
-              _it: Rinnovare il mio abbonamento
-              _nl: Mijn lidmaatschap vernieuwen
-            renew_hint:
-              _en: Option to change its composition
-              _fr: Possibilité de modifier sa composition
-              _de: Möglichkeit, seine Zusammensetzung zu ändern
-              _it: Possibilità di modificare la composizione
-              _nl: Mogelijkheid om de samenstelling te wijzigen
-          options_label:
-            _en: 'I wish:'
-            _fr: 'Je désire:'
-            _de: 'Ich wünsche:'
-            _it: 'Desidero:'
-            _nl: 'Ik wens:'
-          submit:
-            _en: Next
-            _fr: Suivant
-            _de: Nächster
-            _it: Prossimo
-            _nl: Volgende
-          title:
-            _en: Renewal
-            _fr: Renouvellement
-            _de: Erneuerung
-            _it: Rinnovo
-            _nl: Vernieuwing
       membership:
         absent_baskets_count:
           one:
@@ -1270,6 +1225,75 @@ _:
             _de: "%{count} weitere auf Probe und unverbindlich"
             _it: ancora %{count} di prova e senza impegno
             _nl: nog %{count} op proef en zonder verplichting
+      renewal:
+        canceled_html:
+          _en: Your membership has been canceled and will end after the delivery on <u>%{last_delivery_date}</u>.
+          _fr: Votre abonnement a été résilié et se terminera après la livraison du <u>%{last_delivery_date}</u>.
+          _de: Ihr Abonnement wurde gekündigt und endet nach der Lieferung des <u>%{last_delivery_date}</u>.
+          _it: Il tuo abbonamento è stato annullato e terminerà dopo la consegna del <u>%{last_delivery_date}</u>.
+          _nl: Uw lidmaatschap is geannuleerd en eindigt na de levering op <u>%{last_delivery_date}</u>.
+        options:
+          cancel:
+            _en: Cancel my membership
+            _fr: Résilier mon abonnement
+            _de: Mein Abonnement kündigen
+            _it: Annullare il mio abbonamento
+            _nl: Mijn lidmaatschap annuleren
+          renew:
+            _en: Renew my membership
+            _fr: Renouveler mon abonnement
+            _de: Mein Abonnement erneuern
+            _it: Rinnovare il mio abbonamento
+            _nl: Mijn lidmaatschap vernieuwen
+          renew_hint:
+            _en: Option to change its composition
+            _fr: Possibilité de modifier sa composition
+            _de: Möglichkeit, seine Zusammensetzung zu ändern
+            _it: Possibilità di modificare la composizione
+            _nl: Mogelijkheid om de samenstelling te wijzigen
+        options_label:
+          _en: 'I wish:'
+          _fr: 'Je désire:'
+          _de: 'Ich wünsche:'
+          _it: 'Desidero:'
+          _nl: 'Ik wens:'
+        submit:
+          _en: Next
+          _fr: Suivant
+          _de: Nächster
+          _it: Prossimo
+          _nl: Volgende
+        title:
+          _en: Renewal
+          _fr: Renouvellement
+          _de: Erneuerung
+          _it: Rinnovo
+          _nl: Vernieuwing
+      trial:
+        cancel_link:
+          _en: Cancel my trial membership
+          _fr: Résilier mon abonnement à l'essai
+          _de: Mein Probe-Abonnement kündigen
+          _it: Annullare il mio abbonamento di prova
+          _nl: Mijn proeflidmaatschap annuleren
+        canceled_html:
+          _en: Your trial membership has been canceled and will end after the delivery on <u>%{last_trial_date}</u>.
+          _fr: Votre abonnement à l'essai a été résilié et se terminera après la livraison du <u>%{last_trial_date}</u>.
+          _de: Ihr Probe-Abonnement wurde gekündigt und endet nach der Lieferung am <u>%{last_trial_date}</u>.
+          _it: Il tuo abbonamento di prova è stato annullato e terminerà dopo la consegna del <u>%{last_trial_date}</u>.
+          _nl: Uw proeflidmaatschap is geannuleerd en eindigt na de levering op <u>%{last_trial_date}</u>.
+        text_html:
+          _en: You are currently in your trial period. If you wish to cancel, your membership will end after the delivery on <u>%{last_trial_date}</u>.
+          _fr: Vous êtes actuellement en période d'essai. Si vous souhaitez résilier, votre abonnement se terminera après la livraison du <u>%{last_trial_date}</u>.
+          _de: Sie befinden sich derzeit in Ihrer Probezeit. Wenn Sie kündigen möchten, endet Ihr Abonnement nach der Lieferung am <u>%{last_trial_date}</u>.
+          _it: Sei attualmente nel periodo di prova. Se desideri annullare, il tuo abbonamento terminerà dopo la consegna del <u>%{last_trial_date}</u>.
+          _nl: U bevindt zich momenteel in uw proefperiode. Als u wilt annuleren, eindigt uw lidmaatschap na de levering op <u>%{last_trial_date}</u>.
+        title:
+          _en: Trial period
+          _fr: Période d'essai
+          _de: Probezeit
+          _it: Periodo di prova
+          _nl: Proefperiode
     newsletter_deliveries:
       index:
         subscribe:
@@ -1651,3 +1675,73 @@ _:
         _de: Verkaufsbedingungen
         _it: Condizioni di vendita
         _nl: Verkoopvoorwaarden
+    trial_cancelations:
+      create:
+        flash:
+          alert:
+            _en: An error occurred. Please try again or contact us.
+            _fr: Une erreur est survenue. Merci de réessayer ou de nous contacter.
+            _de: Es ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut oder kontaktieren Sie uns.
+            _it: Si è verificato un errore. Riprova o contattaci.
+            _nl: Er is een fout opgetreden. Probeer opnieuw of contacteer ons.
+          notice:
+            _en: Your trial membership has been canceled.
+            _fr: Votre abonnement à l'essai a été résilié.
+            _de: Ihr Probe-Abonnement wurde gekündigt.
+            _it: Il tuo abbonamento di prova è stato annullato.
+            _nl: Uw proeflidmaatschap is geannuleerd.
+      new:
+        cancel:
+          _en: Cancel
+          _fr: Annuler
+          _de: Abbrechen
+          _it: Annullare
+          _nl: Annuleren
+        cancelation_note_label:
+          _en: Cancelation note(s)
+          _fr: Note(s) de résiliation
+          _de: Kündigungsnotiz(en)
+          _it: Nota/e di annullamento
+          _nl: Annuleringsnotitie(s)
+        contact_for_immediate_cancelation_html:
+          _en: If you wish to cancel immediately, please %{contact_link}.
+          _fr: Si vous souhaitez annuler immédiatement, merci de %{contact_link}.
+          _de: Wenn Sie sofort kündigen möchten, %{contact_link}.
+          _it: Se desideri annullare immediatamente, ti preghiamo di %{contact_link}.
+          _nl: Als u onmiddellijk wilt annuleren, gelieve %{contact_link}.
+        contact_link:
+          _en: contact us
+          _fr: nous contacter
+          _de: kontaktieren Sie uns bitte
+          _it: contattarci
+          _nl: contact met ons op te nemen
+        renewal_annual_fee_label_html:
+          _en: I support you and will pay the annual membership fee. %{price_tag}
+          _fr: Je vous soutiens et paye la cotisation annuelle. %{price_tag}
+          _de: Ich unterstütze Sie und zahle den Jahresbeitrag. %{price_tag}
+          _it: Vi sostengo e pago la quota annuale. %{price_tag}
+          _nl: Ik steun jullie en betaal de jaarlijkse bijdrage. %{price_tag}
+        renewal_note_placeholder:
+          _en: Thank you for sharing your reason for canceling!
+          _fr: Merci de partager avec nous ce qui motive votre décision...
+          _de: Danke, dass Sie uns Ihren Kündigungsgrund mitteilen!
+          _it: Grazie per condividere con noi i motivi della tua scelta...
+          _nl: Dank u voor het delen van uw reden voor annulering!
+        submit:
+          _en: Confirm cancelation
+          _fr: Confirmer la résiliation
+          _de: Kündigung bestätigen
+          _it: Confermare l'annullamento
+          _nl: Annulering bevestigen
+        text_html:
+          _en: Your trial membership will end after the last trial delivery on <u>%{last_trial_date}</u>. These trial baskets will be billed.
+          _fr: Votre abonnement à l'essai se terminera après la dernière livraison d'essai du <u>%{last_trial_date}</u>. Ces paniers à l'essai seront facturés.
+          _de: Ihr Probe-Abonnement endet nach der letzten Probelieferung am <u>%{last_trial_date}</u>. Diese Probetaschen werden in Rechnung gestellt.
+          _it: Il tuo abbonamento di prova terminerà dopo l'ultima consegna di prova del <u>%{last_trial_date}</u>. Queste ceste di prova saranno fatturate.
+          _nl: Uw proeflidmaatschap eindigt na de laatste proeflevering op <u>%{last_trial_date}</u>. Deze proefpakketten worden gefactureerd.
+        title:
+          _en: Trial cancelation
+          _fr: Résiliation de l'essai
+          _de: Probe-Kündigung
+          _it: Annullamento della prova
+          _nl: Proef annulering

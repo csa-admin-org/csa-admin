@@ -1,0 +1,20 @@
+<p>Hallo {{ admin.name }},</p>
+
+<p>Das Mitglied <strong>{{ member.name }}</strong> hat seine Probemitgliedschaft gekündigt.</p>
+
+<p>Die Mitgliedschaft endet am <strong>{{ membership.ended_on }}</strong> (letzte Probekorb-Lieferung).</p>
+
+{% if membership.renewal_note %}
+<p><strong>Anmerkung des Mitglieds:</strong><br/>
+<i>{{ membership.renewal_note }}</i></p>
+{% else %}
+<p><i>Das Mitglied hat keine Anmerkung hinterlassen.</i></p>
+{% endif %}
+
+{% if membership.renewal_annual_fee %}
+<p>Das Mitglied hat sich entschieden, den Jahresbeitrag weiterhin zu zahlen.</p>
+{% endif %}
+
+{% button membership.admin_url %}
+  Zur Mitgliedschaftsseite gehen
+{% endbutton %}
