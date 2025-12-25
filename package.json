@@ -8,6 +8,6 @@
   "scripts": {
     "herb:lint": "herb-lint",
     "herb:format": "herb-format",
-    "herb:format:check": "herb-format --check"
+    "herb:format:check": "herb-format --check ."
   }
 }
