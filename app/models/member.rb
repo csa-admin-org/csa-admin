@@ -12,6 +12,10 @@ class Member < ApplicationRecord
   include HasIBAN
   include Auditable
   include NormalizedString
+  # Sub-model concerns (order matters for callbacks!)
+  include Billing
+  include Shares
+  include StateTransitions
 
   BILLING_INTERVALS = %w[annual quarterly].freeze
 
@@ -108,8 +112,6 @@ class Member < ApplicationRecord
   validates :come_from, presence: true,
     if: -> { public_create && Current.org.member_come_from_form_mode == "required" }
   validates :street, :city, :zip, :country_code, presence: true, unless: :inactive?
-  validates :billing_name, :billing_street, :billing_city, :billing_zip,
-     presence: true, if: :different_billing_info
   validates :waiting_basket_size, inclusion: { in: proc { BasketSize.all }, allow_nil: true }, on: :create
   validates :waiting_basket_size_id, presence: true, if: :waiting_depot, on: :create
   validates :waiting_activity_participations_demanded_annually, numericality: true, allow_nil: true
@@ -132,54 +134,21 @@ class Member < ApplicationRecord
     if: -> { public_create && Current.org.annual_fee? && Current.org.annual_fee_member_form? && !waiting_basket_size_id? }
   validate :email_must_be_unique
   validate :unique_waiting_basket_complement_id
-  validates :existing_shares_number, presence: true, numericality: { greater_than_or_equal_to: 0 }
-  validates :required_shares_number, numericality: { allow_nil: true }
-  validates :desired_shares_number, presence: true, numericality: { greater_than_or_equal_to: 0 }
-  validates :desired_shares_number,
-    numericality: {
-      greater_than_or_equal_to: ->(m) { m.waiting_basket_size&.shares_number || Current.org.shares_number || 0 }
-    },
-    if: -> { public_create && Current.org.share? }
   validates :trial_baskets_count, numericality: { greater_than_or_equal_to: 0 }, presence: true
-  validate :billing_truemail
   validates :iban, presence: true, if: :sepa_mandate_id?
-  validates :iban, format: -> { Billing.iban_format }, allow_nil: :true
+  validates :iban, format: -> { ::Billing.iban_format }, allow_nil: :true
   validates_with SEPA::IBANValidator, if: :sepa_mandate_id?
   validates :sepa_mandate_id, uniqueness: true, presence: true, if: :sepa_mandate_signed_on?
   validates_with SEPA::MandateIdentifierValidator, field_name: :sepa_mandate_id, if: :sepa_mandate_id?
   validates :sepa_mandate_signed_on, presence: true, if: :sepa_mandate_id?
 
   after_initialize :set_default_annual_fee
-  before_save :handle_annual_fee_change, :handle_required_shares_number_change
+  before_save :handle_annual_fee_change
   after_save :update_membership_if_salary_basket_changed
-  after_update :review_active_state!
   after_update :update_trial_baskets!, if: :trial_baskets_count_previously_changed?
-
-  def billable?
-    support? ||
-      missing_shares_number.positive? ||
-      current_year_membership&.billable? ||
-      future_membership&.billable?
-  end
 
   def name=(name)
     super name&.strip
-  end
-
-  def billing_email=(email)
-    super email&.strip.presence
-  end
-
-  def billing_emails
-    if billing_email
-      EmailSuppression.outbound.active.exists?(email: billing_email) ? [] : [ billing_email ]
-    else
-      active_emails
-    end
-  end
-
-  def billing_emails?
-    billing_emails.any?
   end
 
   def country
@@ -190,46 +159,6 @@ class Member < ApplicationRecord
     Current.org.time_zone unless country_code?
 
     country.timezones.zone_info.first.identifier
-  end
-
-  def sepa?
-    iban? && sepa_mandate_id? && sepa_mandate_signed_on?
-  end
-
-  def sepa_metadata
-    return {} unless sepa?
-
-    {
-      name: name,
-      iban: iban,
-      mandate_id: sepa_mandate_id,
-      mandate_signed_on: sepa_mandate_signed_on
-    }
-  end
-
-  def different_billing_info
-    return @different_billing_info if defined?(@different_billing_info)
-
-    @different_billing_info = [
-      self[:billing_name],
-      self[:billing_street],
-      self[:billing_city],
-      self[:billing_zip]
-    ].all?(&:present?)
-  end
-
-  def different_billing_info=(bool)
-    @different_billing_info = ActiveRecord::Type::Boolean.new.cast(bool)
-    unless different_billing_info
-      self.billing_name = nil
-      self.billing_street = nil
-      self.billing_city = nil
-      self.billing_zip = nil
-    end
-  end
-
-  def billing_info(attribute)
-    send("billing_#{attribute}").presence || send(attribute)
   end
 
   def shop_depot
@@ -261,110 +190,6 @@ class Member < ApplicationRecord
     end
   end
 
-  def validate!(validator, send_email: true)
-    invalid_transition(:validate!) unless pending?
-
-    if waiting_basket_size_id? || waiting_depot_id?
-      self.waiting_started_at ||= Time.current
-      self.state = WAITING_STATE
-    elsif annual_fee&.positive? || desired_shares_number.positive?
-      self.state = SUPPORT_STATE
-    else
-      self.state = INACTIVE_STATE
-    end
-    self.validated_at = Time.current
-    self.validator = validator
-    save!
-
-    if send_email && emails?
-      MailTemplate.deliver_later(:member_validated, member: self)
-    end
-  end
-
-  def wait!
-    invalid_transition(:wait!) unless can_wait?
-
-    self.state = WAITING_STATE
-    self.waiting_started_at = Time.current
-    if Current.org.annual_fee_support_member_only?
-      self.annual_fee = nil
-    else
-      self.annual_fee ||= Current.org.annual_fee
-    end
-    save!
-  end
-
-  def review_active_state!
-    return if pending?
-
-    if current_or_future_membership || shop_depot
-      activate! unless active?
-    elsif active?
-      if last_membership&.renewal_annual_fee&.positive?
-        support!(annual_fee: last_membership.renewal_annual_fee)
-      elsif shares_number.positive?
-        support!
-      else
-        deactivate!
-      end
-    end
-  end
-
-  def activate!
-    invalid_transition(:activate!) unless current_or_future_membership || shop_depot
-    return if active?
-
-    self.state = ACTIVE_STATE
-    unless Current.org.annual_fee_support_member_only?
-      self.annual_fee ||= Current.org.annual_fee
-    end
-    self.activated_at = Time.current
-    save!
-
-    if emails? && (activated_at_previously_was.nil? || activated_at_previously_was < 1.week.ago)
-      MailTemplate.deliver_later(:member_activated, member: self)
-    end
-  end
-
-  def support!(annual_fee: nil)
-    invalid_transition(:support!) if support?
-
-    update!(
-      state: SUPPORT_STATE,
-      annual_fee: annual_fee || Current.org.annual_fee,
-      waiting_basket_size_id: nil,
-      waiting_started_at: nil)
-  end
-
-  def deactivate!
-    invalid_transition(:deactivate!) unless can_deactivate?
-
-    attrs = {
-      state: INACTIVE_STATE,
-      shop_depot: nil,
-      annual_fee: nil,
-      desired_shares_number: 0,
-      waiting_started_at: nil
-    }
-    if shares_number.positive?
-      attrs[:required_shares_number] = -1 * shares_number
-    end
-
-    update!(**attrs)
-  end
-
-  def can_wait?
-    support? || inactive?
-  end
-
-  def can_deactivate?
-    !inactive? && (
-      waiting? ||
-      support? ||
-      (!support? && !current_or_future_membership)
-    )
-  end
-
   def absent?(date)
     absences.any? { |absence| absence.date_range.include?(date.to_date) }
   end
@@ -384,51 +209,6 @@ class Member < ApplicationRecord
       invoices.none? &&
       payments.none? &&
       shop_orders.none?)
-  end
-
-  def invoices_amount
-    @invoices_amount ||= invoices.not_canceled.sum(:amount)
-  end
-
-  def payments_amount
-    @payments_amount ||= payments.not_ignored.sum(:amount)
-  end
-
-  def balance_amount
-    payments_amount - invoices_amount
-  end
-
-  def credit_amount
-    [ balance_amount, 0 ].max
-  end
-
-  def shares_number
-    existing_shares_number.to_i + invoices.not_canceled.share.sum(:shares_number)
-  end
-
-  def required_shares_number=(value)
-    self[:required_shares_number] = value.presence
-  end
-
-  def required_shares_number
-    (self[:required_shares_number] ||
-      default_required_shares_number).to_i
-  end
-
-  def default_required_shares_number
-    current_or_future_membership&.basket_size&.shares_number.to_i
-  end
-
-  def missing_shares_number
-    [ [ required_shares_number, desired_shares_number ].max - shares_number, 0 ].max
-  end
-
-  def handle_shares_change!
-    if shares_number.positive?
-      update_column(:state, SUPPORT_STATE) if inactive?
-    elsif support?
-      update_column(:state, INACTIVE_STATE)
-    end
   end
 
   private
@@ -466,12 +246,6 @@ class Member < ApplicationRecord
     end
   end
 
-  def billing_truemail
-    if billing_email && billing_email_changed? && !Truemail.valid?(billing_email)
-      errors.add(:billing_email, :invalid)
-    end
-  end
-
   def unique_waiting_basket_complement_id
     used_basket_complement_ids = []
     members_basket_complements.each do |mbc|
@@ -500,18 +274,6 @@ class Member < ApplicationRecord
       self.state = SUPPORT_STATE if inactive?
     elsif support?
       self.annual_fee = nil
-      self.state = INACTIVE_STATE
-    end
-  end
-
-  def handle_required_shares_number_change
-    return unless Current.org.share?
-
-    final_shares_number = [ shares_number, desired_shares_number ].max
-    if (final_shares_number + required_shares_number).positive?
-      self.state = SUPPORT_STATE if inactive?
-    elsif support?
-      self.desired_shares_number = 0
       self.state = INACTIVE_STATE
     end
   end

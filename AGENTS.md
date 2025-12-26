@@ -234,6 +234,19 @@ A good concern:
 - Can be understood in isolation
 - Has a clear, descriptive name
 
+**Cohesion over size** — a 10-line concern is valid if cohesive; don't extract just because a model is large.
+
+**Callback order matters** — when including multiple concerns, document order dependencies:
+
+```ruby
+class Invoice < ApplicationRecord
+  # Sub-model concerns (order matters for callbacks!)
+  include EntityType      # Must come before Processing
+  include Processing      # Depends on entity_type being set
+  include Amounts         # Must come last (calculates final amounts)
+end
+```
+
 ### Model & Class Structure
 
 Order elements within a model class consistently:
