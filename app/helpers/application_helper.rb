@@ -118,7 +118,7 @@ module ApplicationHelper
   end
 
   def renewal_states_collection
-    Membership::RENEWAL_STATES.map { |state|
+    Membership::Renewal::STATES.map { |state|
       [ I18n.t("active_admin.status_tag.#{state}").capitalize, state ]
     }
   end

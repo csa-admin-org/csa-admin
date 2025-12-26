@@ -366,7 +366,7 @@ class Member < ApplicationRecord
   end
 
   def absent?(date)
-    absences.any? { |absence| absence.period.include?(date.to_date) }
+    absences.any? { |absence| absence.date_range.include?(date.to_date) }
   end
 
   def closest_membership

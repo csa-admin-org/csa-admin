@@ -21,9 +21,7 @@ class Activity < ApplicationRecord
   validate :end_time_must_be_greather_than_start_time
   validate :period_duration_must_one_hour
 
-  scope :future, -> { where(date: Date.tomorrow..) }
   scope :ordered, ->(order) { order(date: order, start_time: :asc) }
-  scope :past_current_year, -> { between(Current.fy_range.min...Date.current) }
 
   def display_name
     name

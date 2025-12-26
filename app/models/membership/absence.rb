@@ -62,7 +62,7 @@ module Membership::Absence
       member.absences.overlaps(period).each do |absence|
         baskets
           .not_forced
-          .between(absence.period)
+          .between(absence.date_range)
           .update_all(state: "absent", absence_id: absence.id)
       end
 
