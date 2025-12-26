@@ -51,8 +51,7 @@ class Members::BaseController < ApplicationController
   def add_appsignal_tags
     Appsignal.add_tags(
       member_id: current_member.id,
-      session_id: current_session.id,
-      tenant: Tenant.current)
+      session_id: current_session.id)
   end
 
   def current_shop_delivery
