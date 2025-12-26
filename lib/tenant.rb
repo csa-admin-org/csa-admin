@@ -117,7 +117,6 @@ module Tenant
 
   def leave
     self.current = nil
-    Appsignal.add_tags(tenant: nil)
     Rails.event.clear_context
   end
 
