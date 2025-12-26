@@ -88,6 +88,14 @@ class DeliveryCycle < ApplicationRecord
     end
   end
 
+  def self.billable_deliveries_counts_for(basket_size)
+    if visible?
+      visible.map { |dc| dc.billable_deliveries_count_for_basket_size(basket_size) }.uniq.sort
+    else
+      [ primary.billable_deliveries_count_for_basket_size(basket_size) ]
+    end
+  end
+
   def self.future_deliveries_counts
     if visible?
       visible.map(&:future_deliveries_count).uniq.sort
@@ -175,6 +183,22 @@ class DeliveryCycle < ApplicationRecord
       end
     end
     count
+  end
+
+  def billable_deliveries_count_for_basket_size(basket_size)
+    # Use cached count when basket_size has no availability restrictions
+    return billable_deliveries_count if basket_size.always_deliverable?
+
+    # Use same logic as deliveries_count: prefer future, fallback to current
+    source_deliveries = future_deliveries.any? ? future_deliveries : current_deliveries
+    count = basket_size.filter_deliveries(source_deliveries).size
+    if absences_included_annually.positive?
+      full_year = deliveries_count.to_f
+      if full_year.positive?
+        count -= (count / full_year * absences_included_annually).round
+      end
+    end
+    [ count, 0 ].max
   end
 
   def invoice_description

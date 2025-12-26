@@ -424,6 +424,18 @@ _:
           _de: Arbeitsstunden pro Jahr
           _it: Ore di lavoro all'anno
           _nl: Werkuren per jaar
+        first_cweek:
+          _en: From week
+          _fr: À partir de la semaine
+          _de: Ab Woche
+          _it: Dalla settimana
+          _nl: Vanaf week
+        last_cweek:
+          _en: Until week
+          _fr: Jusqu'à la semaine
+          _de: Bis Woche
+          _it: Fino alla settimana
+          _nl: Tot week
       baskets_basket_complement:
         basket_complement:
           _en: Complement

@@ -2057,6 +2057,19 @@ _:
           _it: Nuovo %{model}
           _nl: Nieuw %{model}
       basket_size:
+        edit:
+          availability:
+            _en: Availability
+            _fr: Disponibilité
+            _de: Verfügbarkeit
+            _it: Disponibilità
+            _nl: Beschikbaarheid
+          availability_hint:
+            _en: Baskets created outside this week range will have their quantity set to 0 (complements only).
+            _fr: Les paniers créés en dehors de cette plage de semaines auront leur quantité définie à 0 (compléments uniquement).
+            _de: Körbe, die außerhalb dieses Wochenbereichs erstellt werden, haben ihre Menge auf 0 gesetzt (nur Zusätze).
+            _it: I cestini creati al di fuori di questo intervallo di settimane avranno la loro quantità impostata a 0 (solo aggiunte).
+            _nl: Pakketten die buiten dit weekbereik worden aangemaakt, krijgen hun aantal op 0 gezet (alleen aanvullingen).
         new_model:
           _en: New %{model}
           _fr: Nouvelle %{model}

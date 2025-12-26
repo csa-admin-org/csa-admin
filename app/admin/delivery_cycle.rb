@@ -209,7 +209,7 @@ ActiveAdmin.register DeliveryCycle do
     end
 
     f.inputs t("delivery_cycle.settings") do
-      para t("formtastic.hints.delivery_cycle.settings_intro"), class: "description -mt-2 mb-6"
+      para t("formtastic.hints.delivery_cycle.settings_intro"), class: "description -mt-2 mb-4"
       f.input :wdays,
         as: :check_boxes,
         collection: wdays_collection,
@@ -244,7 +244,7 @@ ActiveAdmin.register DeliveryCycle do
     end
 
     f.inputs DeliveryCycle::Period.model_name.human(count: 2) do
-      para t("formtastic.hints.delivery_cycle.periods_intro"), class: "description -mt-2 mb-6"
+      para t("formtastic.hints.delivery_cycle.periods_intro"), class: "description -mt-2 mb-4"
       f.semantic_errors :periods
       f.has_many :periods, allow_destroy: true, new_record: t("delivery_cycle.add_period"), heading: nil do |ff|
         ff.input :from_fy_month,

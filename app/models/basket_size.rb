@@ -12,6 +12,7 @@ class BasketSize < ApplicationRecord
   include HasPrice
   include HasVisibility
   include Discardable
+  include Deliverability
 
   translated_attributes :form_detail
 
@@ -76,6 +77,6 @@ class BasketSize < ApplicationRecord
   end
 
   def billable_deliveries_counts
-    DeliveryCycle.billable_deliveries_counts
+    DeliveryCycle.billable_deliveries_counts_for(self)
   end
 end
