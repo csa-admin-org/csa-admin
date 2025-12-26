@@ -356,4 +356,46 @@ class MembershipPricingTest < ActiveSupport::TestCase
       activity_participations_demanded_annually: 0)
     assert_equal [ 140 + (2 + 1) * 50 ], pricing.prices
   end
+
+  test "basket size with availability restrictions reduces deliveries count" do
+    # Small basket is 10 price, mondays has 10 deliveries = 100
+    pricing = pricing(
+      basket_size_id: small_id,
+      delivery_cycle_id: mondays_id)
+    assert_equal [ 100 ], pricing.prices
+
+    # Restrict basket size to only part of the year
+    # Monday deliveries are from week 14 onwards (April 1 = week 14)
+    # Setting first_cweek to 20 should exclude some deliveries
+    basket_sizes(:small).update!(first_cweek: 20)
+
+    pricing = pricing(
+      basket_size_id: small_id,
+      delivery_cycle_id: mondays_id)
+
+    # Should be less than 100 since some deliveries are excluded
+    assert pricing.prices.first < 100
+  end
+
+  test "basket size with availability restrictions affects depot and cycle pricing too" do
+    depots(:bakery).update!(price: 4)
+
+    # Without restrictions: 10 deliveries * (10 basket + 4 depot) = 140
+    pricing = pricing(
+      basket_size_id: small_id,
+      depot_id: bakery_id,
+      delivery_cycle_id: mondays_id)
+    assert_equal [ 140 ], pricing.prices
+
+    # With restrictions, both basket and depot should use reduced delivery count
+    basket_sizes(:small).update!(first_cweek: 20)
+
+    pricing = pricing(
+      basket_size_id: small_id,
+      depot_id: bakery_id,
+      delivery_cycle_id: mondays_id)
+
+    # Should be less than 140
+    assert pricing.prices.first < 140
+  end
 end

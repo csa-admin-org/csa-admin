@@ -150,7 +150,15 @@ class MembershipPricing
   def deliveries_counts
     return [ 0 ] unless delivery_cycles.any?
 
-    @deliveries_counts ||= delivery_cycles.map(&:billable_deliveries_count).flatten.uniq.sort
+    @deliveries_counts ||= begin
+      if basket_size
+        delivery_cycles.map { |dc|
+          dc.billable_deliveries_count_for_basket_size(basket_size)
+        }.flatten.uniq.sort
+      else
+        delivery_cycles.map(&:billable_deliveries_count).flatten.uniq.sort
+      end
+    end
   end
 
   def delivery_cycles

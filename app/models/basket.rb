@@ -30,7 +30,7 @@ class Basket < ApplicationRecord
   accepts_nested_attributes_for :baskets_basket_complements, allow_destroy: true
 
   before_validation :set_prices
-  before_save :set_quantity_for_complements_only_basket_size
+  before_save :set_quantity_to_zero_when_basket_size_not_delivered
   before_create :add_complements
   before_create :set_calculated_price_extra
   before_update :set_calculated_price_extra
@@ -213,13 +213,24 @@ class Basket < ApplicationRecord
     self.delivery_cycle_price ||= membership.delivery_cycle&.price
   end
 
-  # When using a complements-only basket size (price 0), set quantity to 0.
-  # This allows basket sizes where members only receive complements
-  # without an actual basket being counted in deliveries.
-  def set_quantity_for_complements_only_basket_size
-    if basket_size&.complements_only? && basket_size_price.zero?
+  # Set quantity to 0 when the basket size is not delivered on this date.
+  # This happens when:
+  # - The basket size is complements-only (price = 0) and basket price is also 0
+  # - The delivery date is outside the basket size's cweek range (on create only)
+  #
+  # In both cases, the member receives only complements without an actual basket.
+  def set_quantity_to_zero_when_basket_size_not_delivered
+    return unless basket_size
+
+    if complements_only_basket?
+      self.quantity = 0
+    elsif new_record? && !basket_size.delivered_on?(delivery)
       self.quantity = 0
     end
+  end
+
+  def complements_only_basket?
+    basket_size.complements_only? && basket_size_price.zero?
   end
 
   def unique_basket_complement_id

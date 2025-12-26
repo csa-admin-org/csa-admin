@@ -515,4 +515,85 @@ class BasketTest < ActiveSupport::TestCase
 
     assert_equal 1, basket.quantity
   end
+
+  test "sets quantity to 0 on creation when delivery date is before basket size first_cweek" do
+    travel_to "2024-01-01"
+    basket_size = basket_sizes(:small)
+    # monday_1 is 2024-04-01 which is week 14
+    # Set first_cweek to 20 so delivery is before the allowed range
+    basket_size.update!(first_cweek: 20)
+
+    basket = Basket.create!(
+      membership: memberships(:jane),
+      delivery: deliveries(:monday_1), # 2024-04-01, week 14 - before first_cweek 20
+      basket_size: basket_size,
+      depot: depots(:farm),
+      quantity: 1)
+
+    assert_equal 0, basket.quantity
+  end
+
+  test "sets quantity to 0 on creation when delivery date is after basket size last_cweek" do
+    travel_to "2024-01-01"
+    basket_size = basket_sizes(:small)
+    # monday_1 is 2024-04-01 which is week 14
+    # Set last_cweek to 10 so delivery is after the allowed range
+    basket_size.update!(last_cweek: 10)
+
+    basket = Basket.create!(
+      membership: memberships(:jane),
+      delivery: deliveries(:monday_1), # 2024-04-01, week 14 - after last_cweek 10
+      basket_size: basket_size,
+      depot: depots(:farm),
+      quantity: 1)
+
+    assert_equal 0, basket.quantity
+  end
+
+  test "keeps quantity on creation when delivery date is within basket size cweek range" do
+    travel_to "2024-01-01"
+    basket_size = basket_sizes(:small)
+    # monday_1 is 2024-04-01 which is week 14
+    basket_size.update!(first_cweek: 10, last_cweek: 20)
+
+    basket = Basket.create!(
+      membership: memberships(:jane),
+      delivery: deliveries(:monday_1), # 2024-04-01, week 14 - within range [10, 20]
+      basket_size: basket_size,
+      depot: depots(:farm),
+      quantity: 1)
+
+    assert_equal 1, basket.quantity
+  end
+
+  test "keeps quantity on creation when basket size has no cweek limits" do
+    travel_to "2024-01-01"
+    basket_size = basket_sizes(:small)
+
+    assert basket_size.always_deliverable?
+
+    basket = Basket.create!(
+      membership: memberships(:jane),
+      delivery: deliveries(:monday_1),
+      basket_size: basket_size,
+      depot: depots(:farm),
+      quantity: 1)
+
+    assert_equal 1, basket.quantity
+  end
+
+  test "does not change quantity on update when outside basket size cweek range" do
+    travel_to "2024-01-01"
+    basket_size = basket_sizes(:small)
+    basket = baskets(:john_1) # Already created basket
+    original_quantity = basket.quantity
+
+    # Update basket size to have a cweek range that excludes this basket's delivery
+    basket_size.update!(first_cweek: 50)
+
+    # Update basket - quantity should not change (deliverability is only checked on create)
+    basket.update!(depot: depots(:bakery))
+
+    assert_equal original_quantity, basket.quantity
+  end
 end

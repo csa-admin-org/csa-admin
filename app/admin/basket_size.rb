@@ -59,6 +59,22 @@ ActiveAdmin.register BasketSize do
       end
     end
 
+    f.inputs t("active_admin.resources.basket_size.edit.availability") do
+      para t("active_admin.resources.basket_size.edit.availability_hint"), class: "description -mt-2 mb-4"
+      div class: "single-line" do
+        f.input :first_cweek,
+          as: :select,
+          collection: (1..53).to_a,
+          include_blank: true,
+          hint: t("formtastic.hints.basket_size.first_cweek.#{Current.fiscal_year.standard? ? 'standard' : 'cross_year'}")
+        f.input :last_cweek,
+          as: :select,
+          collection: (1..53).to_a,
+          include_blank: true,
+          hint: t("formtastic.hints.basket_size.last_cweek.#{Current.fiscal_year.standard? ? 'standard' : 'cross_year'}")
+      end
+    end
+
     f.inputs t("active_admin.resource.show.member_new_form") do
       f.input :visible, as: :select, include_blank: false
       f.input :member_order_priority,
@@ -86,6 +102,8 @@ ActiveAdmin.register BasketSize do
     :activity_participations_demanded_annually,
     :visible,
     :member_order_priority,
+    :first_cweek,
+    :last_cweek,
     *I18n.available_locales.map { |l| "public_name_#{l}" },
     *I18n.available_locales.map { |l| "admin_name_#{l}" },
     *I18n.available_locales.map { |l| "form_detail_#{l}" })

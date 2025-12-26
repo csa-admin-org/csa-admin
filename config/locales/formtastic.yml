@@ -193,12 +193,38 @@ _:
           _de: Ermöglicht es Ihnen, einen bestimmten Lieferzyklus für diese Taschengröße zu erzwingen. Die Auswahl wird den Mitgliedern bei der Registrierung nicht angezeigt.
           _it: Permette di forzare un ciclo di consegna specifico per questa dimensione del cestino. La scelta non verrà proposta ai soci durante la registrazione.
           _nl: Hiermee kunt u een specifieke leveringscyclus forceren voor deze pakketgrootte. De keuze wordt niet aangeboden aan leden tijdens registratie.
+        first_cweek:
+          cross_year:
+            _en: Week number based on the year at the start of the fiscal year.
+            _fr: Numéro de semaine basé sur l'année du début de l'année fiscale.
+            _de: Wochennummer basierend auf dem Jahr zu Beginn des Geschäftsjahres.
+            _it: Numero di settimana basato sull'anno all'inizio dell'anno fiscale.
+            _nl: Weeknummer gebaseerd op het jaar aan het begin van het boekjaar.
+          standard:
+            _en: Week number of the first delivery.
+            _fr: Numéro de semaine de la première livraison.
+            _de: Wochennummer der ersten Lieferung.
+            _it: Numero di settimana della prima consegna.
+            _nl: Weeknummer van de eerste levering.
         form_detail:
           _en: Leave blank for the default text.
           _fr: Laisser blanc pour le texte par défaut.
           _de: Leer lassen für den Standardtext.
           _it: Lasciare vuoto per il testo predefinito.
           _nl: Laat leeg voor de standaardtekst.
+        last_cweek:
+          cross_year:
+            _en: Week number based on the year at the end of the fiscal year.
+            _fr: Numéro de semaine basé sur l'année de la fin de l'année fiscale.
+            _de: Wochennummer basierend auf dem Jahr am Ende des Geschäftsjahres.
+            _it: Numero di settimana basato sull'anno alla fine dell'anno fiscale.
+            _nl: Weeknummer gebaseerd op het jaar aan het einde van het boekjaar.
+          standard:
+            _en: Week number of the last delivery.
+            _fr: Numéro de semaine de la dernière livraison.
+            _de: Wochennummer der letzten Lieferung.
+            _it: Numero di settimana dell'ultima consegna.
+            _nl: Weeknummer van de laatste levering.
         price:
           _en: All price changes are only valid for new memberships and are not applied retroactively.
           _fr: Tout changement de prix est uniquement valable pour les nouveaux abonnements et n'est pas rétroactivement appliqué.

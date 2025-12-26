@@ -72,7 +72,7 @@ class BasketContent
         f.input :url, hint: t("formtastic.hints.basket_content/product.url")
       end
       f.inputs t(".defaults") do
-        para t("formtastic.hints.basket_content/product.defaults_intro"), class: "description -mt-2 mb-6"
+        para t("formtastic.hints.basket_content/product.defaults_intro"), class: "description -mt-2 mb-4"
         div class: "single-line" do
           f.input :default_unit,
             as: :select,
