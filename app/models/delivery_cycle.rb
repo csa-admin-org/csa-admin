@@ -28,7 +28,6 @@ class DeliveryCycle < ApplicationRecord
     class_name: "DeliveryCycle::Period",
     dependent: :destroy
   has_many :memberships_basket_complements
-  has_many :basket_sizes, -> { kept }
 
   has_and_belongs_to_many :depots, -> { kept } # Visibility
 
@@ -231,14 +230,12 @@ class DeliveryCycle < ApplicationRecord
   def can_delete?
     memberships.none? &&
       memberships_basket_complements.none? &&
-      basket_sizes.none? &&
       DeliveryCycle.where.not(id: id).exists?
   end
 
   def can_discard?
     memberships.current_and_future_year.none? &&
       memberships_basket_complements.current_and_future_year.none? &&
-      basket_sizes.none? &&
       DeliveryCycle.where.not(id: id).exists?
   end
 
