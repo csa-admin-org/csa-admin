@@ -1,17 +1,30 @@
 # frozen_string_literal: true
 
 class Absence < ApplicationRecord
-  include Period, AdminNotifications
-  include HasNote, HasComment
+  include HasDateRange, HasNote, HasComment
+  include AdminNotifications
 
   belongs_to :member
   belongs_to :session, optional: true
   has_many :baskets, dependent: :nullify
   has_many :basket_shifts, dependent: :destroy
 
+  validates :started_on, :ended_on, date: {
+    after_or_equal_to: proc { Absence.min_started_on },
+    before: proc { Absence.max_ended_on }
+  }, unless: :admin
+
   after_save :clear_conflicting_forced_deliveries!
   after_commit :update_memberships!
   after_commit -> { MailTemplate.deliver_later(:absence_created, absence: self) }
+
+  def self.min_started_on
+    Current.org.absence_notice_period_limit_on
+  end
+
+  def self.max_ended_on
+    1.year.from_now.end_of_week.to_date
+  end
 
   def self.ransackable_scopes(_auth_object = nil)
     super + %i[including_date during_year]
@@ -23,7 +36,7 @@ class Absence < ApplicationRecord
     ForcedDelivery
       .joins(:member)
       .where(member: { id: member_id })
-      .where(delivery_id: Delivery.between(period))
+      .where(delivery_id: Delivery.between(date_range))
       .delete_all
   end
 

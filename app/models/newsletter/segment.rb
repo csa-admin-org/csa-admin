@@ -9,7 +9,7 @@ class Newsletter
     translated_attributes :title
 
     validates :renewal_state,
-      inclusion: { in: Membership::RENEWAL_STATES, allow_blank: true }
+      inclusion: { in: Membership::Renewal::STATES, allow_blank: true }
     validates :coming_deliveries_in_days,
       numericality: { only_integer: true, greater_than_or_equal_to: 0, allow_blank: true }
 
