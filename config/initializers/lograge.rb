@@ -1,6 +1,15 @@
 # frozen_string_literal: true
 
 Rails.application.configure do
+  config.lograge.enabled = true
+
+  if Rails.env.production?
+    config.lograge.logger = Appsignal::Logger.new(
+      "rails",
+      format: Appsignal::Logger::LOGFMT
+    )
+  end
+
   config.lograge.base_controller_class = [
     "ActionController::Base",
     "ActiveAdmin::BaseController"
@@ -10,7 +19,7 @@ Rails.application.configure do
     payload = {
       host: controller.request.host
     }
-    payload[:org] = Tenant.current if Tenant.inside?
+    payload[:tenant] = Tenant.current if Tenant.inside?
     if controller.respond_to?(:current_admin, true) && controller.send(:current_admin)
       payload[:admin_id] = controller.send(:current_admin)&.id
     end
@@ -22,7 +31,7 @@ Rails.application.configure do
 
   config.lograge.custom_options = lambda do |event|
     options = {}
-    options[:org] = Tenant.current if Tenant.inside?
+    options[:tenant] = Tenant.current if Tenant.inside?
     options[:params] = event.payload[:params].except(:controller, :action, :format, :id)
     options
   end
