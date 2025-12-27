@@ -1,12 +1,12 @@
 # frozen_string_literal: true
 
-require "readline"
+require "reline"
 
 def enter
   Tenant.disconnect
 
-  Readline.completion_proc = proc { |s| Tenant.all_with_aliases.grep(/^#{Regexp.escape(s)}/) }
-  tenant = Readline.readline("Enter tenant name (empty for none): ", true).strip.presence
+  Reline.completion_proc = proc { |s| Tenant.all_with_aliases.grep(/^#{Regexp.escape(s)}/) }
+  tenant = Reline.readline("Enter tenant name (empty for none): ").strip.presence
   tenant = Tenant.find_with_aliases(tenant)
 
   if tenant && Tenant.exists?(tenant)
