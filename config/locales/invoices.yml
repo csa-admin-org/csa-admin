@@ -110,6 +110,12 @@ _:
         _de: 'Mitgliedsnummer: %{id}'
         _it: 'N° socio: %{id}'
         _nl: 'Lidnummer: %{id}'
+      membership_summary:
+        _en: Annual overview
+        _fr: Récapitulatif annuel
+        _de: Jahresübersicht
+        _it: Riepilogo annuale
+        _nl: Jaaroverzicht
       missed_activity_participation/basket_preparation:
         _en: Missed basket preparation (%{year})
         _fr: Mise en panier non-effectuée (%{year})
