@@ -146,7 +146,7 @@ ActiveAdmin.register Organization do
 
           li class: "subtitle" do
             h2 t(".shares")
-            span t(".if_applicable"), class: "optional"
+            span t(".if_applicable"), class: "description"
           end
           f.input :share_price, as: :number, required: false
           f.input :shares_number, as: :number, required: false
@@ -217,7 +217,7 @@ ActiveAdmin.register Organization do
 
           li class: "subtitle" do
             h2 t(".documents_to_validate")
-            span t(".documents_to_validate_hint")
+            para t(".documents_to_validate_hint_html"), class: "description"
           end
           translated_input(f, :charter_urls, required: false)
           translated_input(f, :statutes_urls, required: false)

@@ -935,12 +935,12 @@ _:
           _de: Dokumente zur Validierung
           _it: Documenti da validare
           _nl: Te valideren documenten
-        documents_to_validate_hint:
-          _en: New members will have to confirm that they have read these documents when signing up.
-          _fr: Les nouveaux membres devront confirmer avoir pris connaissance de ces documents en s'inscrivant.
-          _de: Neue Mitglieder müssen bestätigen, dass sie diese Dokumente gelesen haben, wenn sie sich anmelden.
-          _it: I nuovi soci dovranno confermare di aver letto questi documenti al momento dell'iscrizione.
-          _nl: Nieuwe leden moeten bevestigen dat ze deze documenten hebben gelezen bij inschrijving.
+        documents_to_validate_hint_html:
+          _en: New members will have to confirm that they have read these documents when signing up.<br/>URLs must point to documents hosted on your website or a third-party service.
+          _fr: Les nouveaux membres devront confirmer avoir pris connaissance de ces documents en s'inscrivant.<br/>Les URLs doivent pointer vers des documents hébergés sur votre site web ou un service tiers.
+          _de: Neue Mitglieder müssen bestätigen, dass sie diese Dokumente gelesen haben, wenn sie sich anmelden.<br/>Die URLs müssen auf Dokumente verweisen, die auf Ihrer Website oder bei einem Drittanbieter gehostet werden.
+          _it: I nuovi soci dovranno confermare di aver letto questi documenti al momento dell'iscrizione.<br/>Gli URL devono puntare a documenti ospitati sul vostro sito web o su un servizio di terze parti.
+          _nl: Nieuwe leden moeten bevestigen dat ze deze documenten hebben gelezen bij inschrijving.<br/>URLs moeten verwijzen naar documenten op uw website of bij een externe dienst.
         email:
           _en: Email
           _fr: Email
