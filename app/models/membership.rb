@@ -283,14 +283,14 @@ class Membership < ApplicationRecord
       basket_size_id basket_size_price basket_price_extra basket_quantity
       depot_id depot_price delivery_cycle_id delivery_cycle_price
     ]
-    (saved_changes.keys & tracked_attributes).any? ||
-      @default_basket_size_price_used ||
-      !new_config_from.today?
+    (saved_changes.keys & tracked_attributes).any?
+      || @default_basket_size_price_used
+      || !new_config_from.today?
   end
 
   def memberships_basket_complements_config_changed?
-    @tracked_memberships_basket_complements_attributes &&
-      @tracked_memberships_basket_complements_attributes !=
+    @tracked_memberships_basket_complements_attributes
+      && @tracked_memberships_basket_complements_attributes !=
         memberships_basket_complements.map(&:attributes)
   end
 

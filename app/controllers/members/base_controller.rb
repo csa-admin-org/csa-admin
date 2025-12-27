@@ -43,9 +43,9 @@ class Members::BaseController < ApplicationController
       cookies.delete(:locale)
     end
     I18n.locale =
-      current_member&.language ||
-      cookies[:locale] ||
-      Current.org.languages.first
+      current_member&.language
+      || cookies[:locale]
+      || Current.org.languages.first
   end
 
   def add_appsignal_tags
@@ -95,8 +95,8 @@ class Members::BaseController < ApplicationController
       Delivery
         .coming
         .select { |delivery|
-          delivery.shop_open?(depot_id: depot.id, ignore_closing_at: true) &&
-            depot.include_delivery?(delivery)
+          delivery.shop_open?(depot_id: depot.id, ignore_closing_at: true)
+            && depot.include_delivery?(delivery)
         }
         .map(&:id)
     else

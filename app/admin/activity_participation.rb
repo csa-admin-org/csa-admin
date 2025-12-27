@@ -73,8 +73,8 @@ ActiveAdmin.register ActivityParticipation do
   end
 
   batch_action :validate, if: proc {
-    authorized?(:update, ActivityParticipation) &&
-      params[:scope].in?([ nil, "pending", "rejected" ])
+    authorized?(:update, ActivityParticipation)
+      && params[:scope].in?([ nil, "pending", "rejected" ])
   } do |selection|
     participations = ActivityParticipation.includes(:activity).where(id: selection)
     participations.find_each do |participation|
@@ -87,8 +87,8 @@ ActiveAdmin.register ActivityParticipation do
   end
 
   batch_action :reject, if: proc {
-    authorized?(:update, ActivityParticipation) &&
-      params[:scope].in?([ nil, "pending", "validated" ])
+    authorized?(:update, ActivityParticipation)
+      && params[:scope].in?([ nil, "pending", "validated" ])
   } do |selection|
     participations = ActivityParticipation.includes(:activity).where(id: selection)
     participations.find_each do |participation|

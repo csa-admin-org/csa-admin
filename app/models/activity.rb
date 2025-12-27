@@ -50,8 +50,8 @@ class Activity < ApplicationRecord
   end
 
   def period_duration_must_one_hour
-    if Current.org.activity_i18n_scope == "hour_work" &&
-        (end_time - start_time).to_i != 1.hour
+    if Current.org.activity_i18n_scope == "hour_work"
+        && (end_time - start_time).to_i != 1.hour
       errors.add(:end_time, :must_be_one_hour)
     end
   end

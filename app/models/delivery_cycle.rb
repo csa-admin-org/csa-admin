@@ -91,15 +91,15 @@ class DeliveryCycle < ApplicationRecord
   end
 
   def can_delete?
-    memberships.none? &&
-      memberships_basket_complements.none? &&
-      DeliveryCycle.where.not(id: id).exists?
+    memberships.none?
+      && memberships_basket_complements.none?
+      && DeliveryCycle.where.not(id: id).exists?
   end
 
   def can_discard?
-    memberships.current_and_future_year.none? &&
-      memberships_basket_complements.current_and_future_year.none? &&
-      DeliveryCycle.where.not(id: id).exists?
+    memberships.current_and_future_year.none?
+      && memberships_basket_complements.current_and_future_year.none?
+      && DeliveryCycle.where.not(id: id).exists?
   end
 
   private

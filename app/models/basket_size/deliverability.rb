@@ -32,13 +32,13 @@ module BasketSize::Deliverability
     first_cweek_year = delivery.fiscal_year.beginning_of_year.year
     last_cweek_year = delivery.fiscal_year.end_of_year.year
 
-    in_range_after_first = first_cweek.nil? ||
-      date_cwyear > first_cweek_year ||
-      (date_cwyear == first_cweek_year && date_cweek >= first_cweek)
+    in_range_after_first = first_cweek.nil?
+      || date_cwyear > first_cweek_year
+      || (date_cwyear == first_cweek_year && date_cweek >= first_cweek)
 
-    in_range_before_last = last_cweek.nil? ||
-      date_cwyear < last_cweek_year ||
-      (date_cwyear == last_cweek_year && date_cweek <= last_cweek)
+    in_range_before_last = last_cweek.nil?
+      || date_cwyear < last_cweek_year
+      || (date_cwyear == last_cweek_year && date_cweek <= last_cweek)
 
     in_range_after_first && in_range_before_last
   end

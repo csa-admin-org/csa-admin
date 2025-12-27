@@ -96,9 +96,9 @@ module Billing
     end
 
     def annual_fee_billable?
-      member.annual_fee&.positive? &&
-        (member.support? || (membership.billable? && !membership.trial_only?)) &&
-        invoices.annual_fee.none?
+      member.annual_fee&.positive?
+        && (member.support? || (membership.billable? && !membership.trial_only?))
+        && invoices.annual_fee.none?
     end
 
     def membership_amount_fraction

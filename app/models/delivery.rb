@@ -136,8 +136,8 @@ class Delivery < ApplicationRecord
     return false unless Current.org.feature?("shop")
     return false unless shop_configured_open?
 
-    (ignore_closing_at || !shop_closing_at.past?) &&
-      (!depot_id || shop_closed_for_depot_ids.exclude?(depot_id))
+    (ignore_closing_at || !shop_closing_at.past?)
+      && (!depot_id || shop_closed_for_depot_ids.exclude?(depot_id))
   end
 
   def shop_text

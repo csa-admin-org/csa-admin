@@ -22,8 +22,8 @@ module DeliveryCycle::Visibility
     # Prioritize visible delivery cycles over non-visible ones, even if a
     # non-visible cycle has more billable deliveries.
     def primary
-      visible.max_by { |dc| [ dc.billable_deliveries_count, dc.depot_ids.size ] } ||
-        kept.max_by { |dc| [ dc.billable_deliveries_count, dc.depot_ids.size ] }
+      visible.max_by { |dc| [ dc.billable_deliveries_count, dc.depot_ids.size ] }
+        || kept.max_by { |dc| [ dc.billable_deliveries_count, dc.depot_ids.size ] }
     end
 
     def member_ordered

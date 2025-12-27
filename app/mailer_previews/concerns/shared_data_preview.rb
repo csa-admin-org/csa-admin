@@ -76,8 +76,8 @@ module SharedDataPreview
     return unless delivery
 
     @basket ||=
-      delivery.baskets.where(quantity: 1..).sample(random: random) ||
-        Basket.new(
+      delivery.baskets.where(quantity: 1..).sample(random: random)
+        || Basket.new(
           quantity: 1,
           depot: Depot.visible.sample(random: random),
           basket_size: BasketSize.visible.sample(random: random),

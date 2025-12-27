@@ -26,11 +26,11 @@ module Membership::Trial
   end
 
   def can_member_cancel_trial?
-    Current.org.trial_baskets? &&
-      (current? || future?) &&
-      !canceled? &&
-      contains_last_trial_basket? &&
-      before_first_non_trial_basket?
+    Current.org.trial_baskets?
+      && (current? || future?)
+      && !canceled?
+      && contains_last_trial_basket?
+      && before_first_non_trial_basket?
   end
 
   def cancel_trial!(attrs = {})

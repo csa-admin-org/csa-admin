@@ -10,10 +10,10 @@ module ShopHelper
 
   def smart_shop_orders_path
     delivery =
-      Delivery.shop_open.next ||
-        Shop::SpecialDelivery.next ||
-        Delivery.shop_open.last ||
-        Shop::SpecialDelivery.last
+      Delivery.shop_open.next
+        || Shop::SpecialDelivery.next
+        || Delivery.shop_open.last
+        || Shop::SpecialDelivery.last
     if delivery
       shop_orders_path(q: { _delivery_gid_eq: delivery.gid })
     else

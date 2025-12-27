@@ -24,9 +24,9 @@ module Invoice::SharesBilling
   end
 
   def can_refund?
-    closed? &&
-      shares_number.to_i.positive? &&
-      member.shares_number.to_i.positive?
+    closed?
+      && shares_number.to_i.positive?
+      && member.shares_number.to_i.positive?
   end
 
   private

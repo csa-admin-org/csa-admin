@@ -147,12 +147,12 @@ module Invoice::Processing
   end
 
   def can_cancel?
-    !can_destroy? &&
-      !processing? &&
-      !canceled? &&
-      (current_year? || open? || (activity_participation_type? && last_year?) || (membership_type? && entity.current_year?)) &&
-      (!share_type? || open?) &&
-      (!entity_id? || entity_latest?)
+    !can_destroy?
+      && !processing?
+      && !canceled?
+      && (current_year? || open? || (activity_participation_type? && last_year?) || (membership_type? && entity.current_year?))
+      && (!share_type? || open?)
+      && (!entity_id? || entity_latest?)
   end
 
   def attach_pdf

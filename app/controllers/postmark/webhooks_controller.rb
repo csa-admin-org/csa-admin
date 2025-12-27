@@ -27,8 +27,8 @@ module Postmark
     end
 
     def supported_payload?
-      payload[:record_type].in?(RECORD_TYPES) &&
-        payload[:message_stream].in?(MESSAGE_STREAMS)
+      payload[:record_type].in?(RECORD_TYPES)
+        && payload[:message_stream].in?(MESSAGE_STREAMS)
     end
 
     def payload

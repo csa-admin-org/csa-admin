@@ -114,7 +114,7 @@ class MembershipRenewal
   end
 
   def activity_participations_demanded_annually_changed?(new_membership)
-    membership.activity_participations_demanded_annually != new_membership.activity_participations_demanded_annually ||
-      membership.activity_participations_demanded_annually_by_default != new_membership.activity_participations_demanded_annually_by_default
+    membership.activity_participations_demanded_annually != new_membership.activity_participations_demanded_annually
+      || membership.activity_participations_demanded_annually_by_default != new_membership.activity_participations_demanded_annually_by_default
   end
 end

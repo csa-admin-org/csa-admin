@@ -12,8 +12,8 @@ module FormsHelper
         if label_option == false
           false
         else
-          label_option&.call(locale) ||
-            label_with_language(
+          label_option&.call(locale)
+            || label_with_language(
               form.object.class.human_attribute_name(attr.to_s.singularize),
               locale)
         end

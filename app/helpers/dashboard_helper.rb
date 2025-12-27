@@ -4,8 +4,9 @@ module DashboardHelper
   def onboarding?
     return false if Tenant.custom?
 
-    Delivery.none? || Depot.kept.none? ||
-      (Current.org.member_form_mode == "membership" && BasketSize.kept.none?)
+    Delivery.none?
+      || Depot.kept.none?
+      || (Current.org.member_form_mode == "membership" && BasketSize.kept.none?)
   end
 
   def next_delivery_panel_action(delivery)

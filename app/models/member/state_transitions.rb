@@ -108,9 +108,9 @@ module Member::StateTransitions
 
   def can_deactivate?
     !inactive? && (
-      waiting? ||
-      support? ||
-      (!support? && !current_or_future_membership)
+      waiting?
+      || support?
+      || (!support? && !current_or_future_membership)
     )
   end
 end

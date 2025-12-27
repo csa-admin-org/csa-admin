@@ -21,9 +21,9 @@ module Billing
     end
 
     def billable?
-      (ongoing_membership || member.support? || member.shop_depot_id?) &&
-        member.billable? &&
-        member.missing_shares_number.positive?
+      (ongoing_membership || member.support? || member.shop_depot_id?)
+        && member.billable?
+        && member.missing_shares_number.positive?
     end
 
     def next_date

@@ -52,9 +52,9 @@ module MembershipsHelper
   end
 
   def show_basket_price_extras?
-    feature?("basket_price_extra") &&
-      Current.org.basket_price_extra_public_title.present? &&
-      Current.org.basket_price_extras?
+    feature?("basket_price_extra")
+      && Current.org.basket_price_extra_public_title.present?
+      && Current.org.basket_price_extras?
   end
 
   def show_activity_participations?

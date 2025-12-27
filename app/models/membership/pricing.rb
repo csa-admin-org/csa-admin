@@ -20,8 +20,8 @@ module Membership::Pricing
   extend ActiveSupport::Concern
 
   def billable?
-    fy_year >= Current.fy_year &&
-      (missing_invoices_amount.positive? || overcharged_invoices_amount?)
+    fy_year >= Current.fy_year
+      && (missing_invoices_amount.positive? || overcharged_invoices_amount?)
   end
 
   def first_billable_delivery

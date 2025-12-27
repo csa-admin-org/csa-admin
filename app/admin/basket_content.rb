@@ -126,11 +126,11 @@ ActiveAdmin.register BasketContent do
   end
 
   sidebar :duplicate_all_to, only: :index, if: -> {
-    authorized?(:create, BasketContent) &&
-      params.dig(:q, :delivery_id_eq).present? &&
-      collection.present? &&
-      (delivery = Delivery.find(params.dig(:q, :delivery_id_eq))) &&
-      BasketContent.coming_unfilled_deliveries(after_date: delivery.date).any?
+    authorized?(:create, BasketContent)
+      && params.dig(:q, :delivery_id_eq).present?
+      && collection.present?
+      && (delivery = Delivery.find(params.dig(:q, :delivery_id_eq)))
+      && BasketContent.coming_unfilled_deliveries(after_date: delivery.date).any?
   } do
     side_panel t(".duplicate_all_to") do
       delivery = Delivery.find(params.dig(:q, :delivery_id_eq))
@@ -140,10 +140,10 @@ ActiveAdmin.register BasketContent do
   end
 
   sidebar :duplicate_all_from, only: :index, if: -> {
-    authorized?(:create, BasketContent) &&
-      params.dig(:q, :delivery_id_eq).present? &&
-      collection.empty? &&
-      BasketContent.any?
+    authorized?(:create, BasketContent)
+      && params.dig(:q, :delivery_id_eq).present?
+      && collection.empty?
+      && BasketContent.any?
   } do
     side_panel t(".duplicate_all_from") do
       delivery = Delivery.find(params.dig(:q, :delivery_id_eq))

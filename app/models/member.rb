@@ -204,11 +204,11 @@ class Member < ApplicationRecord
   end
 
   def can_destroy?
-    pending? || (inactive? &&
-      memberships.none? &&
-      invoices.none? &&
-      payments.none? &&
-      shop_orders.none?)
+    pending? || (inactive?
+      && memberships.none?
+      && invoices.none?
+      && payments.none?
+      && shop_orders.none?)
   end
 
   private
@@ -224,8 +224,8 @@ class Member < ApplicationRecord
   end
 
   def set_default_waiting_billing_year_division
-    if (waiting_basket_size_id? && !waiting_billing_year_division?) ||
-        (waiting_billing_year_division? && !waiting_billing_year_division.in?(Current.org.billing_year_divisions))
+    if (waiting_basket_size_id? && !waiting_billing_year_division?)
+        || (waiting_billing_year_division? && !waiting_billing_year_division.in?(Current.org.billing_year_divisions))
       self[:waiting_billing_year_division] = Current.org.billing_year_divisions.last
     end
   end
