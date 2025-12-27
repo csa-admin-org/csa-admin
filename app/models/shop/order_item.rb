@@ -113,15 +113,15 @@ module Shop
     end
 
     def order_just_confirmed?
-      order.state_previously_changed? &&
-        order.state_previously_was == Order::CART_STATE &&
-        order.state == Order::PENDING_STATE
+      order.state_previously_changed?
+        && order.state_previously_was == Order::CART_STATE
+        && order.state == Order::PENDING_STATE
     end
 
     def order_just_unconfirmed?
-      order.state_previously_changed? &&
-        order.state_previously_was == Order::PENDING_STATE &&
-        order.state == Order::CART_STATE
+      order.state_previously_changed?
+        && order.state_previously_was == Order::PENDING_STATE
+        && order.state == Order::CART_STATE
     end
   end
 end

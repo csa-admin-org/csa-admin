@@ -33,11 +33,11 @@ module Invoice::SEPA
   end
 
   def sepa_direct_debit_order_uploadable?
-    open? &&
-      sepa? &&
-      sent? &&
-      !sepa_direct_debit_order_uploaded? &&
-      Current.org.bank_connection?
+    open?
+      && sepa?
+      && sent?
+      && !sepa_direct_debit_order_uploaded?
+      && Current.org.bank_connection?
   end
 
   def sepa_direct_debit_order_automatic_upload_due?

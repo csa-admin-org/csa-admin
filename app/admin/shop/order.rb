@@ -44,8 +44,8 @@ ActiveAdmin.register Shop::Order do
   includes :member, :depot, invoice: { pdf_file_attachment: :blob }
   index download_links: [ :csv, :xlsx ], title: -> {
     title = Shop::Order.model_name.human(count: 2)
-    if params.dig(:q, :_delivery_gid_eq).present? &&
-        delivery = GlobalID::Locator.locate(params.dig(:q, :_delivery_gid_eq))
+    if params.dig(:q, :_delivery_gid_eq).present?
+        && delivery = GlobalID::Locator.locate(params.dig(:q, :_delivery_gid_eq))
       title += " – #{delivery.display_name}"
     end
     title

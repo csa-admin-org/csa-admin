@@ -81,9 +81,9 @@ class ApplicationController < ActionController::Base
   def set_locale
     params_locale = params[:locale]&.first(2)
     I18n.locale =
-      (params_locale.in?(I18n.available_locales.map(&:to_s)) && params_locale) ||
-      current_admin&.language ||
-      Current.org.languages.first
+      (params_locale.in?(I18n.available_locales.map(&:to_s)) && params_locale)
+      || current_admin&.language
+      || Current.org.languages.first
   end
 
   def set_time_zone

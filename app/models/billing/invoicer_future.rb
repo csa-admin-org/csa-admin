@@ -15,9 +15,9 @@ module Billing
     end
 
     def billable?
-      @membership.future? &&
-        @membership.billable? &&
-        @invoicer.billable?
+      @membership.future?
+        && @membership.billable?
+        && @invoicer.billable?
     end
 
     def invoice(**attrs)

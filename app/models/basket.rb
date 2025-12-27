@@ -99,8 +99,8 @@ class Basket < ApplicationRecord
 
   def can_member_update?
     return false if absent?
-    return false unless Current.org.membership_depot_update_allowed? ||
-                        Current.org.membership_complements_update_allowed?
+    return false unless Current.org.membership_depot_update_allowed?
+                        || Current.org.membership_complements_update_allowed?
     return false unless Current.org.basket_update_limit_in_days
 
     delivery.date >= Current.org.basket_update_limit_in_days.days.from_now
@@ -127,9 +127,9 @@ class Basket < ApplicationRecord
   end
 
   def can_member_force?
-    provisionally_absent? &&
-      Current.org.within_absence_notice_period?(delivery.date) &&
-      membership.absences_included_reminded?
+    provisionally_absent?
+      && Current.org.within_absence_notice_period?(delivery.date)
+      && membership.absences_included_reminded?
   end
 
   def update_calculated_price_extra!

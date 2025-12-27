@@ -298,9 +298,10 @@ module PDF
 
           row = -1
           t.row(row).font_style = :bold
-          if (@missing_amount != invoice.amount) || (invoice.memberships_amount? &&
-              (invoice.annual_fee? || !invoice.memberships_amount_description?)) ||
-              invoice.entity_type != "Membership"
+          if (@missing_amount != invoice.amount)
+              || (invoice.memberships_amount?
+              && (invoice.annual_fee? || !invoice.memberships_amount_description?))
+              || invoice.entity_type != "Membership"
             t.columns(1).rows(row).borders = [ :top ]
             t.row(row).padding_top = 0
             t.row(row - 1).padding_bottom = 10
@@ -787,8 +788,8 @@ module PDF
     end
 
     def local_currency?
-      Current.org.feature?("local_currency") &&
-        invoice.currency_code == Current.org.local_currency_code
+      Current.org.feature?("local_currency")
+        && invoice.currency_code == Current.org.local_currency_code
     end
 
     def cur(amount, unit: false, **options)

@@ -15,8 +15,8 @@ module TranslatedAttributes
           send("#{attr}_with_fallback", locale)
         end
         define_method("#{attr}_with_fallback") do |locale = I18n.locale|
-          self[column][locale.to_s].presence&.html_safe ||
-            self[column][Current.org.default_locale.to_s].presence&.html_safe
+          self[column][locale.to_s].presence&.html_safe
+            || self[column][Current.org.default_locale.to_s].presence&.html_safe
         end
         define_method("#{attr}_without_fallback") do |locale = I18n.locale|
           self[column][locale.to_s].presence&.html_safe

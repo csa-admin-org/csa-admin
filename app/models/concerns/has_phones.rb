@@ -24,8 +24,8 @@ module HasPhones
   end
 
   def phone_country_code
-    (respond_to?(:country_code) && country_code) ||
-      Current.org.country_code
+    (respond_to?(:country_code) && country_code)
+      || Current.org.country_code
   end
 
   def string_to_a(str)

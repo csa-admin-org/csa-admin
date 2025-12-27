@@ -18,11 +18,11 @@ class SpamDetector < SimpleDelegator
   end
 
   def spam?
-    non_allowed_country? ||
-      TEXT_ATTRS.any? { too_long_text?(send(it)) } ||
-      (%i[come_from] + ADDRESS_ATTRS).any? { cyrillic?(send(it)) } ||
-      (%i[name] + ADDRESS_ATTRS + TEXT_ATTRS).any? { gibberish?(send(it)) } ||
-      long_duplicated_texts?(TEXT_ATTRS)
+    non_allowed_country?
+      || TEXT_ATTRS.any? { too_long_text?(send(it)) }
+      || (%i[come_from] + ADDRESS_ATTRS).any? { cyrillic?(send(it)) }
+      || (%i[name] + ADDRESS_ATTRS + TEXT_ATTRS).any? { gibberish?(send(it)) }
+      || long_duplicated_texts?(TEXT_ATTRS)
   end
 
   def non_allowed_country?

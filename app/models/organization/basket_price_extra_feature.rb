@@ -10,13 +10,13 @@ module Organization::BasketPriceExtraFeature
     validate :basket_price_extra_dynamic_pricing_logic_must_be_valid
 
     def basket_price_extra_title
-      self[:basket_price_extra_titles][I18n.locale.to_s].presence ||
-        self.class.human_attribute_name(:basket_price_extra)
+      self[:basket_price_extra_titles][I18n.locale.to_s].presence
+        || self.class.human_attribute_name(:basket_price_extra)
     end
 
     def basket_price_extra_public_title
-      self[:basket_price_extra_public_titles][I18n.locale.to_s].presence ||
-        basket_price_extra_title
+      self[:basket_price_extra_public_titles][I18n.locale.to_s].presence
+        || basket_price_extra_title
     end
   end
 

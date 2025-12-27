@@ -13,10 +13,10 @@ module Member::Billing
   end
 
   def billable?
-    support? ||
-      missing_shares_number.positive? ||
-      current_year_membership&.billable? ||
-      future_membership&.billable?
+    support?
+      || missing_shares_number.positive?
+      || current_year_membership&.billable?
+      || future_membership&.billable?
   end
 
   def billing_email=(email)

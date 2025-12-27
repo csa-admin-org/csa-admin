@@ -1,11 +1,11 @@
 <% membership = current_member.current_or_future_membership %>
 
-<% show_notice = membership&.absences_included&.positive? &&
-    membership.absences_included_remaining.positive? &&
+<% show_notice = membership&.absences_included&.positive?
+    && membership.absences_included_remaining.positive?
     # In provisional_absence mode after reminder, hide if all baskets have been forced
-    !(membership.absences_included_reminded? &&
-      Current.org.absences_included_mode == "provisional_absence" &&
-      membership.baskets.provisionally_absent.none?) %>
+    && !(membership.absences_included_reminded?
+      && Current.org.absences_included_mode == "provisional_absence"
+      && membership.baskets.provisionally_absent.none?) %>
 
 <% if show_notice %>
   <%= link_to members_absences_path do %>

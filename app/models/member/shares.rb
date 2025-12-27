@@ -28,8 +28,8 @@ module Member::Shares
   end
 
   def required_shares_number
-    (self[:required_shares_number] ||
-      default_required_shares_number).to_i
+    (self[:required_shares_number]
+      || default_required_shares_number).to_i
   end
 
   def default_required_shares_number

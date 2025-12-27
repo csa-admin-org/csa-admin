@@ -40,10 +40,11 @@ class InvoiceOverdueNotice
   private
 
   def deliverable?
-    invoice.open? && !invoice.sepa? &&
-      last_sent_at &&
-      last_sent_at < DAYS_DELAY.ago &&
-      invoice.member.billing_emails?
+    invoice.open?
+      && !invoice.sepa?
+      && last_sent_at
+      && last_sent_at < DAYS_DELAY.ago
+      && invoice.member.billing_emails?
   end
 
   def last_sent_at
