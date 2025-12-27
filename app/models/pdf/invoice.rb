@@ -114,60 +114,67 @@ module PDF
 
       case invoice.entity_type
       when "Membership"
-        if entity.basket_sizes_price.positive?
-          entity.basket_sizes.uniq.each do |basket_size|
+        if Current.org.invoice_membership_summary_only?
+          data << [
+            t("membership_summary"),
+            cur_with_vat_appendice(invoice, entity.price)
+          ]
+        else
+          if entity.basket_sizes_price.positive?
+            entity.basket_sizes.uniq.each do |basket_size|
+              data << [
+                membership_basket_size_description(basket_size),
+                cur(entity.basket_size_total_price(basket_size))
+              ]
+            end
+          end
+          unless entity.baskets_annual_price_change.zero?
             data << [
-              membership_basket_size_description(basket_size),
-              cur(entity.basket_size_total_price(basket_size))
+              t("baskets_annual_price_change"),
+              cur(entity.baskets_annual_price_change)
             ]
           end
-        end
-        unless entity.baskets_annual_price_change.zero?
-          data << [
-            t("baskets_annual_price_change"),
-            cur(entity.baskets_annual_price_change)
-          ]
-        end
-        if entity.basket_complements_price.positive?
-          basket_complements = (
-            entity.basket_complements + entity.subscribed_basket_complements
-          ).uniq
-          basket_complements.each do |basket_complement|
+          if entity.basket_complements_price.positive?
+            basket_complements = (
+              entity.basket_complements + entity.subscribed_basket_complements
+            ).uniq
+            basket_complements.each do |basket_complement|
+              data << [
+                membership_basket_complement_description(basket_complement),
+                cur(entity.basket_complement_total_price(basket_complement))
+              ]
+            end
+          end
+          unless entity.basket_complements_annual_price_change.zero?
             data << [
-              membership_basket_complement_description(basket_complement),
-              cur(entity.basket_complement_total_price(basket_complement))
+              t("basket_complements_annual_price_change"),
+              cur(entity.basket_complements_annual_price_change)
             ]
           end
-        end
-        unless entity.basket_complements_annual_price_change.zero?
-          data << [
-            t("basket_complements_annual_price_change"),
-            cur(entity.basket_complements_annual_price_change)
-          ]
-        end
-        if Current.org.feature?("basket_price_extra") && !entity.baskets_price_extra.zero?
-          data << [
-            membership_baskets_price_extra_description,
-            cur(entity.baskets_price_extra)
-          ]
-        end
-        entity.depots.uniq.each do |depot|
-          price = entity.depot_total_price(depot)
-          if price.positive?
+          if Current.org.feature?("basket_price_extra") && !entity.baskets_price_extra.zero?
             data << [
-              membership_depot_description(depot),
-              cur(price)
+              membership_baskets_price_extra_description,
+              cur(entity.baskets_price_extra)
             ]
           end
-        end
-        if entity.deliveries_price.positive?
-          data << [
-            membership_deliveries_description,
-            cur(entity.deliveries_price)
-          ]
-        end
-        unless entity.activity_participations_annual_price_change.zero?
-          data << [ activity_participations_annual_price_change_description, cur(entity.activity_participations_annual_price_change) ]
+          entity.depots.uniq.each do |depot|
+            price = entity.depot_total_price(depot)
+            if price.positive?
+              data << [
+                membership_depot_description(depot),
+                cur(price)
+              ]
+            end
+          end
+          if entity.deliveries_price.positive?
+            data << [
+              membership_deliveries_description,
+              cur(entity.deliveries_price)
+            ]
+          end
+          unless entity.activity_participations_annual_price_change.zero?
+            data << [ activity_participations_annual_price_change_description, cur(entity.activity_participations_annual_price_change) ]
+          end
         end
       when "ActivityParticipation"
         if entity

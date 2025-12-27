@@ -92,6 +92,8 @@ ActiveAdmin.register Organization do
             translated_input(f, :invoice_document_names,
               hint: t("formtastic.hints.organization.invoice_document_name_html"),
               input_html: { placeholder: Invoice.model_name.human })
+            f.input :invoice_membership_summary_only,
+              hint: t("formtastic.hints.organization.invoice_membership_summary_only")
           end
           translated_input(f, :invoice_infos,
             hint: t("formtastic.hints.organization.invoice_info"))
@@ -563,6 +565,7 @@ ActiveAdmin.register Organization do
     :basket_update_limit_in_days,
     :basket_price_extra_dynamic_pricing,
     :new_member_fee,
+    :invoice_membership_summary_only,
     :social_network_urls,
     :local_currency_code, :local_currency_identifier, :local_currency_wallet, :local_currency_secret,
     *I18n.available_locales.map { |l| "invoice_document_name_#{l}" },

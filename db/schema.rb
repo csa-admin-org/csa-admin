@@ -781,6 +781,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_25_224300) do
     t.json "invoice_document_names", default: {}, null: false
     t.json "invoice_footers", default: {}, null: false
     t.json "invoice_infos", default: {}, null: false
+    t.boolean "invoice_membership_summary_only", default: false, null: false
     t.json "invoice_sepa_infos", default: {}, null: false
     t.json "languages", default: ["fr"], null: false
     t.string "local_currency_code", limit: 3

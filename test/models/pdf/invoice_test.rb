@@ -590,6 +590,41 @@ class PDF::InvoiceTest < ActiveSupport::TestCase
     ], pdf_strings
   end
 
+  test "Germany membership invoice with summary only (SEPA)" do
+    travel_to "2024-01-01"
+    german_org(
+      iban: "DE87200500001234567890",
+      sepa_creditor_identifier: "DE98ZZZ09999999999",
+      invoice_membership_summary_only: true)
+    membership = memberships(:jane)
+    membership.member.update!(
+      language: "de",
+      iban: "DE21500500009876543210",
+      sepa_mandate_id: "123456",
+      sepa_mandate_signed_on: "2023-12-24",
+      street: "Grosse Marktgasse 28",
+      zip: "30952",
+      city: "Ronnenberg",
+      country_code: "DE")
+
+    invoice = create_invoice(
+      member: membership.member,
+      entity: membership,
+      annual_fee: 30,
+      memberships_amount_description: "Jahresbetrag")
+
+    pdf_strings = save_pdf_and_return_strings(invoice)
+
+    # Should NOT show detailed basket/complement breakdown
+    assert_not_includes pdf_strings, "Korb:"
+    assert_not_includes pdf_strings, "Brot:"
+    assert_not_includes pdf_strings, "Abholstelle:"
+
+    # Should show yearly overview line
+    assert_includes pdf_strings, "Jahresübersicht"
+    assert_includes pdf_strings, "380.00"
+  end
+
   test "includes previous cancelled invoices references" do
     part = activity_participations(:john_harvest)
     i1 = create_invoice(entity: part)

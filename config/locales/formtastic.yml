@@ -1028,6 +1028,12 @@ _:
           _de: Optionales Etikett oder Zertifikat Logo(s), das unten rechts auf der Rechnung angezeigt wird, über dem Fußzeile. Nützlich, zum Beispiel, für ein "Organisch" oder "Demeter" Etikett.
           _it: Opzionale logo di etichetta o di certificazione che viene visualizzato in basso a destra della fattura, sopra il piè di pagina. Utile, ad esempio, per un "Bio" o un "Demeter".
           _nl: Optioneel label/certificering logo('s) dat/die wordt/worden weergegeven rechtsonder op de factuur, boven de voettekst. Handig, bijvoorbeeld, voor een "Biologisch" of "Demeter" label.
+        invoice_membership_summary_only:
+          _en: When enabled, membership invoices will display a single "Annual overview" line instead of showing a detailed breakdown of baskets, complements, and other items.
+          _fr: Lorsque cette option est activée, les factures d'abonnement n'afficheront qu'une seule ligne «Récapitulatif annuel» au lieu de détailler les paniers, les compléments et les autres éléments.
+          _de: Wenn aktiviert, zeigen Mitgliedschaftsrechnungen nur eine einzelne Zeile «Jahresübersicht» an, anstatt eine detaillierte Aufschlüsselung der Körbe, Ergänzungen und anderer Posten darzustellen.
+          _it: Quando abilitato, le fatture di abbonamento mostreranno solo una riga «Riepilogo annuale» invece di visualizzare un dettaglio di ceste, complementi e altri articoli.
+          _nl: Indien ingeschakeld, tonen abonnementsfacturen alleen een regel «Jaaroverzicht» in plaats van een gedetailleerde uitsplitsing van manden, aanvullingen en andere items.
         invoice_sepa_info:
           _en: Text displayed in italics after the invoice amount. When set, used in place of the "Information text", but only for SEPA invoices.
           _fr: Texte affiché en italique après le montant de la facture. Lorsqu'il est défini, il est utilisé à la place du "Texte d'information", mais uniquement pour les factures SEPA.

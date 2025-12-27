@@ -2052,6 +2052,12 @@ _:
           _de: Labels/Zertifikate
           _it: Etichette/Certificazioni
           _nl: Labels/Certificeringen
+        invoice_membership_summary_only:
+          _en: Membership summary only
+          _fr: Résumé de l'abonnement uniquement
+          _de: Nur Abonnementzusammenfassung
+          _it: Solo riepilogo dell'abbonamento
+          _nl: Alleen abonnementssamenvatting
         invoice_sepa_info:
           _en: Information text (SEPA)
           _fr: Texte d'information (SEPA)
