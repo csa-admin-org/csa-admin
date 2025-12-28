@@ -24,18 +24,20 @@ ActiveAdmin.register Basket do
     as: :select,
     collection: -> { fiscal_years_collection }
 
-  includes :delivery, :basket_size, :depot, :member, baskets_basket_complements: :basket_complement, membership: :member
+  includes :membership, :delivery, :basket_size, :depot, baskets_basket_complements: :basket_complement
   csv do
+    basket_complements_exist = BasketComplement.kept.any?
     deliveries = []
     deliveries << Delivery.find(params[:q][:delivery_id_eq]) if params[:q][:delivery_id_eq].present?
     deliveries += Delivery.during_year(params[:q][:during_year]) if params[:q][:during_year].present?
     deliveries.compact!
     shop_orders =
       if feature?("shop")
-        Shop::Order.where(delivery: deliveries).includes(:member, items: { product: :basket_complement })
+        Shop::Order.where(delivery: deliveries).includes(items: { product: :basket_complement })
       else
         Shop::Order.none
       end
+    shop_orders_index = shop_orders.index_by { |o| [ o.member_id, o.delivery_id ] }
     shop_products = shop_orders.products_displayed_in_delivery_sheets
 
     if deliveries.many?
@@ -45,15 +47,7 @@ ActiveAdmin.register Basket do
 
     column(:basket_id) { |b| b.id }
     column(:membership_id) { |b| b.membership_id }
-    column(:member_id) { |b| b.member.id }
-    column(:name) { |b| b.member.name }
-    column(:emails) { |b| b.member.emails_array.join(", ") }
-    column(:phones) { |b| b.member.phones_array.map(&:phony_formatted).join(", ") }
-    column(:street) { |b| b.member.street }
-    column(:zip) { |b| b.member.zip }
-    column(:city) { |b| b.member.city }
-    column(:food_note) { |b| b.member.food_note }
-    column(:delivery_note) { |b| b.member.delivery_note }
+    column(:member_id) { |b| b.membership.member_id }
     column(:depot_id)
     column(:depot) { |b| b.depot&.public_name }
     column(:depot_price) { |b| cur(b.depot_price) }
@@ -68,12 +62,14 @@ ActiveAdmin.register Basket do
       column(:price_extra) { |b| cur(b.calculated_price_extra) }
     end
     column(:description) { |b| b.basket_description(public_name: true) }
-    if BasketComplement.kept.any?
+    if basket_complements_exist
       shop_orders ||= Shop::Order.none
       BasketComplement.for(collection, shop_orders).each do |c|
         column(c.name) { |b|
-          b.baskets_basket_complements.select { |bc| bc.basket_complement_id == c.id }.sum(&:quantity) +
-            shop_orders.select { |o| o.member_id == b.member.id }.sum { |o| o.items.select { |i| i.product.basket_complement_id == c.id }.sum(&:quantity) }
+          basket_qty = b.baskets_basket_complements.select { |bc| bc.basket_complement_id == c.id }.sum(&:quantity)
+          shop_order = shop_orders_index[[ b.membership.member_id, b.delivery_id ]]
+          shop_qty = shop_order&.items&.select { |i| i.product.basket_complement_id == c.id }&.sum(&:quantity) || 0
+          basket_qty + shop_qty
         }
       end
       column("#{Basket.human_attribute_name(:complement_ids)} (#{Basket.human_attribute_name(:description)})") { |b|
@@ -83,20 +79,20 @@ ActiveAdmin.register Basket do
     end
     if feature?("shop")
       column(I18n.t("shop.title_orders", count: 2)) { |b|
-        shop_orders.any? { |o| o.member_id == b.member.id } ? "X" : nil
+        shop_orders_index[[ b.membership.member_id, b.delivery_id ]] ? "X" : nil
       }
-      if BasketComplement.kept.any?
+      if basket_complements_exist
         column("#{Basket.human_attribute_name(:complement_ids)} (#{Shop::Order.model_name.human(count: 1)})") { |b|
-          shop_orders.find { |o| o.member_id == b.member.id }&.complements_description
+          shop_orders_index[[ b.membership.member_id, b.delivery_id ]]&.complements_description
         }
       end
       if shop_products.any?
         column("#{::Shop::Product.model_name.human(count: 2)} (#{I18n.t('shop.title')})") { |b|
-          order = shop_orders.find { |o| o.member_id == b.member.id }
-          shop_products.map { |p|
-            quantity = order&.items&.find { |i| i.product_id == p.id }&.quantity
-            quantity ? "#{quantity}x #{p.name_with_single_variant}" : nil
-          }.compact.join(", ")
+          shop_order = shop_orders_index[[ b.membership.member_id, b.delivery_id ]]
+          shop_products.filter_map { |p|
+            quantity = shop_order&.items&.find { |i| i.product_id == p.id }&.quantity
+            "#{quantity}x #{p.name_with_single_variant}" if quantity
+          }.join(", ").presence
         }
       end
     end
