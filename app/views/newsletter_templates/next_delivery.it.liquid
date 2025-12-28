@@ -1,3 +1,16 @@
+{% if basket.shifted %}
+  {% highlight %}
+    <p><strong>📣 Promemoria importante!</strong></p>
+    <p>Avete <strong>{{ basket.quantity }} cestini</strong> da ritirare questa settimana:</p>
+    <ul>
+      <li>Il vostro cestino abituale</li>
+      {% for shift in basket.shifts %}
+        <li>Cestino spostato dal {{ shift.old_delivery_date }}</li>
+      {% endfor %}
+    </ul>
+  {% endhighlight %}
+{% endif %}
+
 {% content id: "intro" %}{% endcontent %}
 
 {% if basket.contents.size > 0 and basket.quantity > 0 %}

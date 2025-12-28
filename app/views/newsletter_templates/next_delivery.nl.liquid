@@ -1,3 +1,16 @@
+{% if basket.shifted %}
+  {% highlight %}
+    <p><strong>📣 Belangrijke herinnering!</strong></p>
+    <p>U heeft <strong>{{ basket.quantity }} pakketten</strong> op te halen deze week:</p>
+    <ul>
+      <li>Uw gewone pakket</li>
+      {% for shift in basket.shifts %}
+        <li>Pakket verschoven van {{ shift.old_delivery_date }}</li>
+      {% endfor %}
+    </ul>
+  {% endhighlight %}
+{% endif %}
+
 {% content id: "intro" %}{% endcontent %}
 
 {% if basket.contents.size > 0 and basket.quantity > 0 %}

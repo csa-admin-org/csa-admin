@@ -25,6 +25,25 @@ Si l'absence est annulée, le contenu du panier sera automatiquement restitué �
 
 > Le déplacement de paniers est possible uniquement si les absences sont facturées.
 
+### Template de newsletter
+
+Lorsqu'un panier a reçu des déplacements, vous pouvez afficher un rappel dans [vos templates de newsletter](/newsletter_templates) en utilisant les variables `basket.shifted` et `basket.shifts`:
+
+~~~ liquid
+{% if basket.shifted %}
+  {% highlight %}
+    <p><strong>📣 Rappel important!</strong></p>
+    <p>Vous avez <strong>{{ basket.quantity }} paniers</strong> à récupérer cette semaine:</p>
+    <ul>
+      <li>Votre panier habituel</li>
+      {% for shift in basket.shifts %}
+        <li>Panier reporté du {{ shift.old_delivery_date }}</li>
+      {% endfor %}
+    </ul>
+  {% endhighlight %}
+{% endif %}
+~~~
+
 ## Absences incluses {#absence-included}
 
 Il est possible de configurer un nombre d'absences incluses dans l'abonnement. Ces absences sont alors automatiquement déduites et non-facturées dès le début de l'abonnement. Le système marquera provisoirement les dernières livraisons de l'abonnement comme absentes, en attendant que le membre fixe ces absences sur des dates précises. Les absences supplémentaires seront facturées ou non selon le mode choisi dans [vos paramètres](/settings#absence).

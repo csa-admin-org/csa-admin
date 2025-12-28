@@ -29,6 +29,20 @@ class Liquid::BasketDrop < Liquid::Drop
     @basket.quantity
   end
 
+  def shifted
+    return false unless Current.org.basket_shift_enabled?
+
+    @basket.shifts_as_target.any?
+  end
+
+  def shifts
+    return [] unless Current.org.basket_shift_enabled?
+
+    @basket.shifts_as_target.includes(source_basket: :delivery, target_basket: :delivery).map { |shift|
+      Liquid::BasketShiftDrop.new(shift)
+    }
+  end
+
   def contents
     @basket.delivery.basket_contents.includes(:product).select { |bc|
       bc.depot_ids.include?(@basket.depot_id)

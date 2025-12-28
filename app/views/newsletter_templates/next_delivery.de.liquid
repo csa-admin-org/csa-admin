@@ -1,3 +1,16 @@
+{% if basket.shifted %}
+  {% highlight %}
+    <p><strong>📣 Wichtige Erinnerung!</strong></p>
+    <p>Sie haben diese Woche <strong>{{ basket.quantity }} Taschen</strong> abzuholen:</p>
+    <ul>
+      <li>Ihre reguläre Tasche</li>
+      {% for shift in basket.shifts %}
+        <li>Tasche verschoben vom {{ shift.old_delivery_date }}</li>
+      {% endfor %}
+    </ul>
+  {% endhighlight %}
+{% endif %}
+
 {% content id: "intro" %}{% endcontent %}
 
 {% if basket.contents.size > 0 and basket.quantity > 0 %}

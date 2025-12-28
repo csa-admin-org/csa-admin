@@ -1,3 +1,16 @@
+{% if basket.shifted %}
+  {% highlight %}
+    <p><strong>📣 Rappel important!</strong></p>
+    <p>Vous avez <strong>{{ basket.quantity }} paniers</strong> à récupérer cette semaine:</p>
+    <ul>
+      <li>Votre panier habituel</li>
+      {% for shift in basket.shifts %}
+        <li>Panier reporté du {{ shift.old_delivery_date }}</li>
+      {% endfor %}
+    </ul>
+  {% endhighlight %}
+{% endif %}
+
 {% content id: "intro" %}{% endcontent %}
 
 {% if basket.contents.size > 0 and basket.quantity > 0 %}
