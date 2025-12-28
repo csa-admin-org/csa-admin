@@ -25,6 +25,25 @@ Wenn die Abwesenheit storniert wird, wird der Tascheninhalt automatisch zu seine
 
 > Taschenverschiebungen sind nur möglich, wenn Abwesenheiten in Rechnung gestellt werden.
 
+### Newsletter-Vorlage
+
+Wenn eine Tasche Verschiebungen erhalten hat, können Sie eine Erinnerung in Ihren [Newsletter-Vorlagen](/newsletter_templates) anzeigen, indem Sie die Variablen `basket.shifted` und `basket.shifts` verwenden:
+
+~~~ liquid
+{% if basket.shifted %}
+  {% highlight %}
+    <p><strong>📣 Wichtige Erinnerung!</strong></p>
+    <p>Sie haben diese Woche <strong>{{ basket.quantity }} Taschen</strong> abzuholen:</p>
+    <ul>
+      <li>Ihre reguläre Tasche</li>
+      {% for shift in basket.shifts %}
+        <li>Tasche verschoben vom {{ shift.old_delivery_date }}</li>
+      {% endfor %}
+    </ul>
+  {% endhighlight %}
+{% endif %}
+~~~
+
 ## Inbegriffene Abwesenheiten {#absence-included}
 
 Es ist möglich, eine Anzahl von Abwesenheiten zu konfigurieren, die im Abonnement enthalten sind. Diese Abwesenheiten werden dann automatisch abgezogen und nicht in Rechnung gestellt, sobald das Abonnement beginnt. Das System wird vorübergehend die letzten Lieferungen des Abonnements als abwesend markieren, während darauf gewartet wird, dass das Mitglied diese Abwesenheiten auf bestimmte Daten festlegt. Zusätzliche Abwesenheiten werden gemäß dem in [Ihren Einstellungen](/settings#absence) gewählten Modus in Rechnung gestellt oder nicht.

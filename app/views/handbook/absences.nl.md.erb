@@ -25,6 +25,25 @@ Als de afwezigheid wordt geannuleerd, wordt de pakketinhoud automatisch hersteld
 
 > Pakketverschuiving is alleen mogelijk als afwezigheid wordt gefactureerd.
 
+### Nieuwsbrief Template
+
+Wanneer een pakket verschuivingen heeft ontvangen, kunt u een herinnering weergeven in uw [nieuwsbrief templates](/newsletter_templates) met behulp van de variabelen `basket.shifted` en `basket.shifts`:
+
+~~~ liquid
+{% if basket.shifted %}
+  {% highlight %}
+    <p><strong>📣 Belangrijke herinnering!</strong></p>
+    <p>U heeft <strong>{{ basket.quantity }} pakketten</strong> op te halen deze week:</p>
+    <ul>
+      <li>Uw gewone pakket</li>
+      {% for shift in basket.shifts %}
+        <li>Pakket verschoven van {{ shift.old_delivery_date }}</li>
+      {% endfor %}
+    </ul>
+  {% endhighlight %}
+{% endif %}
+~~~
+
 ## Inbegrepen afwezigheid {#absence-included}
 
 Het is mogelijk om een aantal afwezigheid in te configureren die in het lidmaatschap zijn inbegrepen. Deze afwezigheid wordt dan automatisch afgetrokken en niet gefactureerd vanaf het begin van het lidmaatschap. Het systeem zal voorlopig de laatste leveringen van het lidmaatschap als afwezig markeren, in afwachting dat het lid deze afwezigheid op specifieke data vastlegt. Aanvullende afwezigheid wordt wel of niet gefactureerd volgens de gekozen modus in [uw instellingen](/settings#absence).

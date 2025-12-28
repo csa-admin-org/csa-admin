@@ -23,6 +23,8 @@ class Liquid::DataPreviewTest < ActiveSupport::TestCase
         },
         "description" => "Medium basket",
         "quantity" => 1,
+        "shifted" => false,
+        "shifts" => [],
         "size" => {
           "id" => medium_id,
           "name" => "Medium basket",
@@ -86,6 +88,8 @@ class Liquid::DataPreviewTest < ActiveSupport::TestCase
             "depot" => { "id" => farm_id, "member_note" => nil, "name" => "Our farm" },
             "description" => "Medium basket",
             "quantity" => 1,
+            "shifted" => false,
+            "shifts" => [],
             "size" => { "id" => medium_id, "name" => "Medium basket", "price" => "CHF 20.00" }
           },
           {
@@ -96,6 +100,8 @@ class Liquid::DataPreviewTest < ActiveSupport::TestCase
             "depot" => { "id" => farm_id, "member_note" => nil, "name" => "Our farm" },
             "description" => "Medium basket",
             "quantity" => 1,
+            "shifted" => false,
+            "shifts" => [],
             "size" => { "id" => medium_id, "name" => "Medium basket", "price" => "CHF 20.00" }
           }
         ],
@@ -120,6 +126,8 @@ class Liquid::DataPreviewTest < ActiveSupport::TestCase
             "depot" => { "id" => farm_id, "member_note" => nil, "name" => "Our farm" },
             "description" => "Medium basket",
             "quantity" => 1,
+            "shifted" => false,
+            "shifts" => [],
             "size" => { "id" => medium_id, "name" => "Medium basket", "price" => "CHF 20.00" }
           },
           {
@@ -130,6 +138,8 @@ class Liquid::DataPreviewTest < ActiveSupport::TestCase
             "depot" => { "id" => farm_id, "member_note" => nil, "name" => "Our farm" },
             "description" => "Medium basket",
             "quantity" => 1,
+            "shifted" => false,
+            "shifts" => [],
             "size" => { "id" => medium_id, "name" => "Medium basket", "price" => "CHF 20.00" }
           }
         ],
@@ -218,6 +228,8 @@ class Liquid::DataPreviewTest < ActiveSupport::TestCase
         },
         "description" => "Medium basket",
         "quantity" => 1,
+        "shifted" => false,
+        "shifts" => [],
         "size" => {
           "id" => medium_id,
           "name" => "Medium basket",

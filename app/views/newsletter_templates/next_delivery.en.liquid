@@ -1,3 +1,16 @@
+{% if basket.shifted %}
+  {% highlight %}
+    <p><strong>📣 Important reminder!</strong></p>
+    <p>You have <strong>{{ basket.quantity }} baskets</strong> to pick up this week:</p>
+    <ul>
+      <li>Your regular basket</li>
+      {% for shift in basket.shifts %}
+        <li>Basket shifted from {{ shift.old_delivery_date }}</li>
+      {% endfor %}
+    </ul>
+  {% endhighlight %}
+{% endif %}
+
 {% content id: "intro" %}{% endcontent %}
 
 {% if basket.contents.size > 0 and basket.quantity > 0 %}
