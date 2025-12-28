@@ -20,6 +20,7 @@ servers:
 proxy:
   ssl: true
   forward_headers: true
+  response_timeout: 100
 
   hosts:
     # Static hosts
