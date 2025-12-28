@@ -30,6 +30,10 @@
 threads_count = ENV.fetch("RAILS_MAX_THREADS", 3)
 threads threads_count, threads_count
 
+# Set worker timeout to match Cloudflare's 100-second limit.
+# Only applies in cluster mode (WEB_CONCURRENCY > 1).
+worker_timeout 100
+
 # Specifies the `port` that Puma will listen on to receive requests; default is 3000.
 port ENV.fetch("PORT", 3000)
 
