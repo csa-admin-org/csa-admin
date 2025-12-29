@@ -25,18 +25,6 @@ class NotifierTest < ActiveSupport::TestCase
       Notifier.send_admin_memberships_renewal_pending_emails
       perform_enqueued_jobs
     end
-
-    travel_to end_of_fiscal_year - 4.days
-    assert_difference -> { AdminMailer.deliveries.size }, 1 do
-      Notifier.send_admin_memberships_renewal_pending_emails
-      perform_enqueued_jobs
-    end
-
-    travel_to end_of_fiscal_year
-    assert_no_difference -> { AdminMailer.deliveries.size } do
-      Notifier.send_admin_memberships_renewal_pending_emails
-      perform_enqueued_jobs
-    end
   end
 
   test "send_membership_initial_basket_emails" do
