@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_12_25_224300) do
+ActiveRecord::Schema[8.1].define(version: 2025_12_26_100000) do
   create_table "absences", force: :cascade do |t|
     t.datetime "created_at"
     t.date "ended_on"
@@ -694,9 +694,8 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_25_224300) do
   create_table "newsletter_templates", force: :cascade do |t|
     t.json "contents", default: {}, null: false
     t.datetime "created_at", null: false
-    t.string "title", null: false
+    t.json "titles", default: {}, null: false
     t.datetime "updated_at", null: false
-    t.index ["title"], name: "index_newsletter_templates_on_title", unique: true
   end
 
   create_table "newsletters", force: :cascade do |t|

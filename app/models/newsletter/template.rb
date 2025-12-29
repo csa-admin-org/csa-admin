@@ -16,24 +16,23 @@ class Newsletter
 
     audited_attributes :contents
 
+    translated_attributes :title, required: true
     translated_attributes :content, required: true
 
-    validates :title, presence: true, uniqueness: true
     validate :contents_must_be_valid
     validate :content_block_ids_must_be_unique
     validate :content_block_ids_must_be_equal_for_all_languages
 
     def self.create_defaults!
       DEFAULTS.each do |key|
-        title = I18n.with_locale(Current.org.default_locale) {
-          I18n.t("newsletters.template.#{key}.title")
+        titles = Organization.languages.index_with { |l|
+          I18n.with_locale(l) { I18n.t("newsletters.template.#{key}.title") }
         }
-        contents = Organization.languages.reduce({}) { |h, l|
+        contents = Organization.languages.index_with { |l|
           path = Rails.root.join("app/views/newsletter_templates/#{key}.#{l}.liquid")
-          h[l] = File.read(path)
-          h
+          File.read(path)
         }
-        create!(title: title, contents: contents)
+        create!(titles: titles, contents: contents)
       end
     end
 

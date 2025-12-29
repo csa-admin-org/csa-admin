@@ -141,7 +141,7 @@ class Newsletter::TemplateTest < ActiveSupport::TestCase
 
   test "send default simple template" do
     Newsletter::Template.create_defaults!
-    template = Newsletter::Template.find_by!(title: "Simple text")
+    template = Newsletter::Template.title_eq("Simple text").first!
     newsletter = Newsletter.create!(
       template: template,
       audience: "member_state::active",
@@ -163,7 +163,7 @@ class Newsletter::TemplateTest < ActiveSupport::TestCase
   test "send default next delivery template" do
     travel_to "2024-01-01"
     Newsletter::Template.create_defaults!
-    template = Newsletter::Template.find_by!(title: "Next delivery")
+    template = Newsletter::Template.title_eq("Next delivery").first!
     newsletter = Newsletter.create!(
       template: template,
       audience: "member_state::active",
@@ -195,7 +195,7 @@ class Newsletter::TemplateTest < ActiveSupport::TestCase
   test "send default next delivery template (without activities)" do
     org(features: [])
     Newsletter::Template.create_defaults!
-    template = Newsletter::Template.find_by!(title: "Next delivery")
+    template = Newsletter::Template.title_eq("Next delivery").first!
     newsletter = Newsletter.create!(
       template: template,
       audience: "member_state::active",
@@ -219,7 +219,7 @@ class Newsletter::TemplateTest < ActiveSupport::TestCase
     travel_to "2024-04-04"
     org(features: [])
     Newsletter::Template.create_defaults!
-    template = Newsletter::Template.find_by!(title: "Next delivery")
+    template = Newsletter::Template.title_eq("Next delivery").first!
     newsletter = Newsletter.create!(
       template: template,
       audience: "delivery_id::#{deliveries(:thursday_1).gid}",

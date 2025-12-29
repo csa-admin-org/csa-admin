@@ -66,6 +66,12 @@ _:
           _it: Invio della newsletter in corso...
           _nl: Nieuwsbrief wordt verzonden...
     template:
+      copy:
+        _en: copy
+        _fr: copie
+        _de: Kopie
+        _it: copia
+        _nl: kopie
       next_delivery:
         title:
           _en: Next delivery
