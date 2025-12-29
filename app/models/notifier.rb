@@ -49,9 +49,7 @@ module Notifier
   end
 
   def send_admin_memberships_renewal_pending_emails
-    delays = [ 10, 4 ].map { |d| d.days.from_now.to_date }
-    end_of_fiscal_year = Current.fiscal_year.end_of_year
-    return unless end_of_fiscal_year.in?(delays)
+    return unless Current.fiscal_year.end_of_year == 10.days.from_now.to_date
 
     pending_memberships = Membership.current_year.renewal_state_eq(:renewal_pending)
     opened_memberships = Membership.current_year.renewal_state_eq(:renewal_opened)
