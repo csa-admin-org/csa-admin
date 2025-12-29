@@ -97,13 +97,17 @@ class Newsletter
 
     def mail_preview
       mailer = NewsletterMailer.new
-      mailer.send(:content_mail,
+      html = mailer.send(:content_mail,
         # Fix image URLs, not sure why they are not resolved by ActionMailer with example.org
         content
           .gsub(%r{<img src=\"https?://example.org}, "<img src=\"#{Current.org.members_url}")
           .gsub(/<a\s/, '<a target="_blank" rel="noopener noreferrer" '),
         subject: subject
-      ).body
+      ).body.encoded
+      # Strip Rails view annotation comments that break srcdoc rendering
+      html.gsub(/<!--\s*BEGIN.*?-->/m, "").gsub(/<!--\s*END.*?-->/m, "")
+    rescue => e
+      e.message
     end
 
     def subject
