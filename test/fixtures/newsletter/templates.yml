@@ -1,5 +1,6 @@
 simple:
-  title: Simple
+  titles:
+    en: Simple
   contents:
     en: |
       Hello {{ member.name }},
@@ -9,7 +10,8 @@ simple:
       {% endcontent %}
 
 dual:
-  title: Dual
+  titles:
+    en: Dual
   contents:
     en: |
       {% content id: 'first', title: 'First EN' %}

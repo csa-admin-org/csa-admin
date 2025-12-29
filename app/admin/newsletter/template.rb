@@ -32,7 +32,7 @@ ActiveAdmin.register Newsletter::Template do
   } do |f|
     newsletter_template = f.object
     f.inputs t(".details") do
-      f.input :title
+      translated_input(f, :titles)
       translated_input(f, :contents,
         as: :text,
         hint: t("formtastic.hints.liquid_html"),
@@ -72,7 +72,7 @@ ActiveAdmin.register Newsletter::Template do
   end
 
   permit_params(
-    :title,
+    *I18n.available_locales.map { |l| "title_#{l}" },
     *I18n.available_locales.map { |l| "content_#{l}" },
     liquid_data_preview_yamls: I18n.available_locales)
 
@@ -84,13 +84,24 @@ ActiveAdmin.register Newsletter::Template do
 
   before_build do |resource|
     if template = Newsletter::Template.find_by(id: params[:template_id])
-      resource.title = template.title + " (copy)"
+      resource.titles = template.titles.transform_keys(&:to_sym).map { |locale, title|
+        copy_word = I18n.t("newsletters.template.copy", locale: locale)
+        [ locale, "#{title} (#{copy_word})" ]
+      }.to_h
       resource.contents = template.contents
     end
   end
 
   controller do
     skip_before_action :verify_authenticity_token, only: :preview
+  end
+
+  order_by(:title) do |clause|
+    config
+      .resource_class
+      .order_by_title(clause.order)
+      .order_values
+      .join(" ")
   end
 
   config.filters = false
