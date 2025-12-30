@@ -84,7 +84,7 @@
     }
 
     li.subtitle h2 {
-      @apply mt-4 text-2xl font-light;
+      @apply mt-4 text-xl font-normal;
     }
 
     li.subtitle span {
@@ -153,7 +153,11 @@
     }
 
     .checkbox-legend {
-      @apply m-0 flex flex-row-reverse items-center gap-2 p-0 pb-1;
+      @apply m-0 p-0 pb-1;
+    }
+
+    .checkbox-legend > label {
+      @apply flex items-center gap-2;
     }
 
     .boolean label,
