@@ -302,11 +302,11 @@ _:
           _it: Consente di escludere automaticamente un certo numero di consegne, consentendo ai soci di pianificare un numero limitato di assenze non fatturate.
           _nl: Stelt u in staat om automatisch een bepaald aantal leveringen uit te sluiten, waardoor leden een beperkt aantal niet-gefactureerde afwezigheden kunnen plannen.
         depots:
-          _en: Depots for which this delivery cycle is available to members at registration. In any case, the choice of delivery cycle is only offered to members if at least two different delivery cycles are available for a depot.
-          _fr: Dépôts pour lesquels ce cycle de livraisons est disponible pour les membres lors de l'inscription. Dans tous les cas, le choix du cycle de livraisons est proposé aux membres uniquement si au moins deux cycles de livraisons différents sont disponibles pour un dépôt.
-          _de: Depots, für die dieser Lieferzyklus bei der Anmeldung für Mitglieder verfügbar ist. In jedem Fall wird die Auswahl des Lieferzyklus den Mitgliedern nur angeboten, wenn mindestens zwei verschiedene Lieferzyklen für ein Depot verfügbar sind.
-          _it: Punti di ritiro per i quali questo ciclo di consegna è disponibile per i soci al momento della registrazione. In ogni caso, la scelta del ciclo di consegna viene proposta ai soci solo se sono disponibili almeno due cicli di consegna diversi per un punto di ritiro.
-          _nl: Depots waarvoor deze leveringscyclus beschikbaar is voor leden bij registratie. In elk geval wordt de keuze van leveringscyclus alleen aan leden aangeboden als er minstens twee verschillende leveringscycli beschikbaar zijn voor een depot.
+          _en: Select the depots where this delivery cycle is available at registration.
+          _fr: Sélectionnez les dépôts pour lesquels ce cycle de livraisons est disponible à l'inscription.
+          _de: Wählen Sie die Depots aus, für die dieser Lieferzyklus bei der Anmeldung verfügbar ist.
+          _it: Seleziona i punti di ritiro per i quali questo ciclo di consegna è disponibile al momento della registrazione.
+          _nl: Selecteer de depots waarvoor deze leveringscyclus beschikbaar is bij registratie.
         exclude_cweek_range:
           _en: Exclude deliveries within the week range instead of outside.
           _fr: Exclure les livraisons à l'intérieur de la plage de semaines plutôt qu'à l'extérieur.

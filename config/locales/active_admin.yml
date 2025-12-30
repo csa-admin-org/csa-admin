@@ -1152,6 +1152,18 @@ _:
           _de: "%{type} (in %)"
           _it: "%{type} (en %)"
           _nl: "%{type} (in %)"
+        visibility:
+          _en: Visibility
+          _fr: Visibilité
+          _de: Sichtbarkeit
+          _it: Visibilità
+          _nl: Zichtbaarheid
+        visibility_hint:
+          _en: The choice of delivery cycle is only offered to members if at least two different delivery cycles are available for a depot.
+          _fr: Le choix du cycle de livraisons est proposé aux membres uniquement si au moins deux cycles de livraisons différents sont disponibles pour un dépôt.
+          _de: Die Auswahl des Lieferzyklus wird den Mitgliedern nur angeboten, wenn mindestens zwei verschiedene Lieferzyklen für ein Depot verfügbar sind.
+          _it: La scelta del ciclo di consegna viene proposta ai soci solo se sono disponibili almeno due cicli di consegna diversi per un punto di ritiro.
+          _nl: De keuze van leveringscyclus wordt alleen aan leden aangeboden als er minstens twee verschillende leveringscycli beschikbaar zijn voor een depot.
       index:
         basket_prices:
           _en: Basket value (%{currency})

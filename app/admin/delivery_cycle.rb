@@ -188,8 +188,13 @@ ActiveAdmin.register DeliveryCycle do
             }
           end
         })
+      li class: "subtitle" do
+        h2 t(".visibility")
+        para t(".visibility_hint"), class: "description"
+      end
       f.input :depots,
         as: :check_boxes,
+        hint: true,
         disabled: depot_ids_with_only(f.object)
     end
 
