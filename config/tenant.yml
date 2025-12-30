@@ -81,9 +81,13 @@ production: &production
   alpgrava:
     admin_host: admin.alpgrava.ch
     members_host: membres.alpgrava.ch
-  locali:
-    admin_host: admin.panier-locali.ch
-    members_host: membres.panier-locali.ch
+  filierealimentaire:
+    admin_host: admin.filierealimentaire.ch
+    members_host: membres.filierealimentaire.ch
+    aliases:
+      - locali
+      - paniers-cap
+      - cap
   fermedesverpilleres:
     admin_host: admin.ferme-des-verpilleres.ch
     members_host: membres.ferme-des-verpilleres.ch
