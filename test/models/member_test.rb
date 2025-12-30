@@ -273,6 +273,26 @@ class MemberTest < ActiveSupport::TestCase
     ], members(:jane).baskets.between(range).map { |b| [ b.delivery.date.to_s, b.trial? ] }
   end
 
+  test "update_trial_baskets! ignores empty baskets (quantity = 0)" do
+    travel_to "2024-01-01"
+    org(trial_baskets_count: 2)
+    member = members(:jane)
+    range = Date.new(2024, 1, 1)..Date.new(2024, 5, 1)
+
+    # Set first basket quantity to 0 (complement-only basket)
+    first_basket = member.baskets.between(range).first
+    first_basket.update_column(:quantity, 0)
+
+    member.update_trial_baskets!
+
+    assert_equal [
+     [ "2024-04-04", false ],  # Empty basket, not counted as trial
+     [ "2024-04-11", true ],
+     [ "2024-04-18", true ],
+     [ "2024-04-25", false ]
+    ], member.baskets.between(range).map { |b| [ b.delivery.date.to_s, b.trial? ] }
+  end
+
   test "emails= / emails" do
     member = Member.new(emails: "john@doe.com, foo@bar.com")
     assert_equal "john@doe.com, foo@bar.com", member.emails
