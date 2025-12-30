@@ -38,5 +38,6 @@ export default class extends Controller {
         i.checked = this.toggleTarget.checked
       }
     })
+    this.updateToggle()
   }
 }
