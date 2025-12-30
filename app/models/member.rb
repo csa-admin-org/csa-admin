@@ -185,7 +185,7 @@ class Member < ApplicationRecord
     recent_baskets = self.baskets.where(deliveries: { date: min_date.. }).includes(:membership)
     transaction do
       recent_baskets.trial.update_all(state: "normal")
-      recent_baskets.normal.limit(trial_baskets_count).update_all(state: "trial")
+      recent_baskets.normal.where("baskets.quantity > 0").limit(trial_baskets_count).update_all(state: "trial")
       recent_baskets.map(&:membership).uniq.each(&:update_baskets_counts!)
     end
   end
