@@ -52,30 +52,19 @@ class CheckBoxesInput < Formtastic::Inputs::CheckBoxesInput
     options.fetch(:toggle_all, true)
   end
 
-  def label_link?
-    options.fetch(:label_link, true) && index_path.present?
-  end
-
   def placeholder?
     options.fetch(:placeholder, true) && target_class.present?
   end
 
   def legend_content
-    legend = template.content_tag(:label, label_with_link)
-    legend += toggle_checkbox
-    legend
-  end
-
-  def label_with_link
-    if label_link?
-      template.link_to(label_text, index_path, class: "flex items-center gap-1.5")
-    else
-      label_text
+    template.content_tag(:label) do
+      template.concat(toggle_checkbox)
+      template.concat(template.content_tag(:span, label_text))
     end
   end
 
   def toggle_checkbox
-    template.content_tag(:input, nil, type: "checkbox", class: "size-4.5",
+    template.tag(:input, type: "checkbox", class: "size-4",
       data: {
         check_boxes_toggle_all_target: "toggle",
         form_checkbox_toggler_target: "input",
@@ -98,15 +87,6 @@ class CheckBoxesInput < Formtastic::Inputs::CheckBoxesInput
 
   def target_class
     options[:for] || reflection&.klass
-  end
-
-  def index_path
-    return unless target_class
-
-    route_name = "#{target_class.model_name.route_key}_path"
-    template.send(route_name) if template.respond_to?(route_name)
-  rescue ActionController::UrlGenerationError
-    nil
   end
 
   def new_path
