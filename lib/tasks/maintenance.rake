@@ -42,7 +42,8 @@ namespace :maintenance do
 end
 
 def hostnames(&block)
-  Parallel.each(Tenant.all) do |tenant|
+  tenants = ENV["TENANT"] ? [ ENV["TENANT"] ] : Tenant.all
+  Parallel.each(tenants) do |tenant|
     Tenant.switch(tenant) do
       Current.org.hostnames.each do |hostname|
         block.call(hostname)
