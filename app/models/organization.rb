@@ -163,13 +163,6 @@ class Organization < ApplicationRecord
     country.timezones.zone_info.first.identifier
   end
 
-  def email_default_from_address
-    Mail::Address.new.tap { |builder|
-      builder.address = email_default_from
-      builder.display_name = name
-    }.to_s
-  end
-
   def domain
     @domain ||= PublicSuffix.parse(Tenant.admin_host).domain
   end

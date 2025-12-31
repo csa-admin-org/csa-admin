@@ -79,25 +79,24 @@ class SpamDetectorTest < ActiveSupport::TestCase
   end
 
   test "allowed country" do
-    ENV["ALLOWED_COUNTRY_CODES"] = "CH,FR"
-    member = Member.new(country_code: "CH")
-    refute spam?(member)
-  ensure
-    ENV["ALLOWED_COUNTRY_CODES"] = nil
+    with_env("ALLOWED_COUNTRY_CODES" => "CH,FR") do
+      member = Member.new(country_code: "CH")
+      refute spam?(member)
+    end
   end
 
   test "allowed countries not enabled" do
-    ENV["ALLOWED_COUNTRY_CODES"] = nil
-    member = Member.new(country_code: "VG")
-    refute spam?(member)
+    with_env("ALLOWED_COUNTRY_CODES" => nil) do
+      member = Member.new(country_code: "VG")
+      refute spam?(member)
+    end
   end
 
   test "non allowed country" do
-    ENV["ALLOWED_COUNTRY_CODES"] = "CH,FR"
-    member = Member.new(country_code: "VG")
-    assert spam?(member)
-  ensure
-    ENV["ALLOWED_COUNTRY_CODES"] = nil
+    with_env("ALLOWED_COUNTRY_CODES" => "CH,FR") do
+      member = Member.new(country_code: "VG")
+      assert spam?(member)
+    end
   end
 
   test "detects gibberish name" do

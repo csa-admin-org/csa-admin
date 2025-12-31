@@ -43,6 +43,20 @@ module Tenant
     state == "custom"
   end
 
+  DEMO_TENANT_PATTERN = /\Ademo-([a-z]{2})\z/
+
+  def demo?
+    DEMO_TENANT_PATTERN.match?(current)
+  end
+
+  def demo_tenants
+    all.grep(DEMO_TENANT_PATTERN)
+  end
+
+  def demo_language
+    current&.match(DEMO_TENANT_PATTERN)&.[](1)
+  end
+
   def find_with_aliases(tenant)
     mapping = {}
     config.each { |k, v|

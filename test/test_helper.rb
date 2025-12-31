@@ -35,6 +35,8 @@ module ActiveSupport
     include PaymentsHelper
     include PostmarkHelper
     include QRCodeHelper
+    include EnvHelper
+    include TenantHelper
     include ResponsesHelper
     include SessionsHelper
     include ShopHelper
