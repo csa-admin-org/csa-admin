@@ -224,7 +224,7 @@ class Organization < ApplicationRecord
     Organization.languages.reduce({}) do |h, locale|
       h[locale] = I18n.with_locale(locale) {
         txt = I18n.t("organization.default_email_footer")
-        txt += "\n#{creditor_name}, #{creditor_street}, #{creditor_city} #{creditor_zip}"
+        txt += "\n#{creditor_name}, #{creditor_street}, #{creditor_zip} #{creditor_city}"
       }
       h
     end
