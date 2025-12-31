@@ -505,13 +505,13 @@ ActiveAdmin.register Membership do
                 end
                 row :renewal_note
                 if m.ended_on == Current.fiscal_year.end_of_year && authorized?(:mark_renewal_as_pending, m)
-                  div class: "mt-2 flex items-center justify-center gap-4" do
+                  div class: "mt-2 flex items-center justify-center gap-4 gap-y-2 flex-wrap" do
                     div do
                       button_to mark_renewal_as_pending_membership_path(m),
                         form: {
                           data: { controller: "disable", disable_with_value: t("formtastic.processing") }
                         },
-                        class: "btn btn-sm",
+                        class: "btn btn-sm destructive",
                         data: { confirm: t(".confirm") } do
                           icon("arrow-uturn-left", class: "size-4 me-1.5") + t(".mark_renewal_as_pending")
                         end
@@ -527,7 +527,7 @@ ActiveAdmin.register Membership do
                     end
                   }
                 end
-                div class: "mt-2 flex items-center justify-center gap-4" do
+                div class: "mt-2 flex items-center justify-center gap-4 gap-y-2 flex-wrap" do
                   if authorized?(:renew, m)
                     div do
                       button_to renew_membership_path(m),
@@ -567,7 +567,7 @@ ActiveAdmin.register Membership do
                   end
                 end
               else
-                div class: "mt-2 flex items-center justify-center gap-4" do
+                div class: "mt-2 flex items-center justify-center gap-4 gap-y-2 flex-wrap" do
                   if Delivery.any_in_year?(m.fy_year + 1)
                     if authorized?(:open_renewal, m) && MailTemplate.active_template(:membership_renewal)
                       div do
