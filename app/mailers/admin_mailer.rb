@@ -63,9 +63,10 @@ class AdminMailer < ApplicationMailer
         "admin" => Liquid::AdminDrop.new(admin),
         "action_url" => params[:action_url],
         "demo" => Tenant.demo?)
+      subject_key = Tenant.demo? ? ".subject_demo" : ".subject"
       content_mail(content,
         to: admin.email,
-        subject: t(".subject", org: Current.org.name),
+        subject: t(subject_key, org: Current.org.name),
         tag: "admin-invitation")
     end
   end
