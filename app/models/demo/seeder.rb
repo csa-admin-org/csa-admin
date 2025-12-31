@@ -193,7 +193,6 @@ class Demo::Seeder
     excluded_features = %i[local_currency bidding_round new_member_fee]
     enabled_features = (Organization::FEATURES - excluded_features).map(&:to_s)
 
-    org.send(:set_defaults)
     org.update!(
       name: "CSA Admin Demo",
 
@@ -357,6 +356,9 @@ class Demo::Seeder
       shop_delivery_pdf_footers: {},
       shop_terms_of_sale_urls: {},
     )
+
+    org.send(:set_defaults)
+    org.save!
 
     # Clear rich text fields (ActionText)
     clear_organization_rich_texts!(org)
