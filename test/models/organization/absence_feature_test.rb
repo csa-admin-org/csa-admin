@@ -62,10 +62,4 @@ class AbsenceFeatureTest < ActiveSupport::TestCase
     assert org.absences_included_provisional_delivery_mode?
     assert_not org.absences_included_provisional_absence_mode?
   end
-
-  test "absences_included_reminder_enabled? always returns true" do
-    org = organizations(:acme)
-
-    assert org.absences_included_reminder_enabled?
-  end
 end

@@ -52,8 +52,6 @@ module Organization::AbsenceFeature
     absences_included_mode == "provisional_delivery"
   end
 
-  def absences_included_reminder_enabled? = true
-
   def absences_included_reminder_period
     absences_included_reminder_weeks_before.weeks
   end
