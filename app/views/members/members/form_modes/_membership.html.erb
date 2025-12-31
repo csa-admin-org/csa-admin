@@ -63,7 +63,7 @@
           class="print:break-inside-avoid print:break-after-auto"
           data-form-disabler-target="label"
         >
-          <%= f.input BasketComplement.model_name.human(count: 2), wrapper_class: "input quantity_inputs", label_html: { class: "text-base" }, disabled: support_checked do %>
+          <%= f.input BasketComplement.model_name.human(count: 2), wrapper_class: "input quantity_inputs", label_html: { class: "mb-1 text-base" }, disabled: support_checked do %>
             <% if Current.org.member_form_complements_text? %>
               <div class="mb-4 text-justify text-sm">
                 <%= Current.org.member_form_complements_text %>
@@ -92,7 +92,7 @@
           class="print:break-inside-avoid print:break-after-page"
           data-form-disabler-target="label"
         >
-          <legend class="text-base">
+          <legend class="mb-1 text-base">
             <%= Current.org.basket_price_extra_public_title %>
             <%= " " %>
 
@@ -102,7 +102,7 @@
           </legend>
 
           <% if Current.org.basket_price_extra_text? %>
-            <div class="mt-1 mb-3 text-justify text-sm">
+            <div class="mb-3 text-justify text-sm">
               <%= Current.org.basket_price_extra_text %>
             </div>
           <% end %>
