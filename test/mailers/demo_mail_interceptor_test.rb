@@ -76,19 +76,4 @@ class DemoMailInterceptorIntegrationTest < ActionMailer::TestCase
       end
     end
   end
-
-  test "allows session emails in demo mode" do
-    session = Session.new(
-      member: Member.new(language: "en"),
-      email: "test@example.com")
-
-    Tenant.stub(:demo?, true) do
-      assert_emails 1 do
-        SessionMailer.with(
-          session: session,
-          session_url: "https://example.com/session/token"
-        ).new_member_session_email.deliver_now
-      end
-    end
-  end
 end

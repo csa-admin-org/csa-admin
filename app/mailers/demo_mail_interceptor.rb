@@ -3,9 +3,8 @@
 # Intercepts outgoing emails in demo mode to prevent demo admins from
 # spamming real email addresses. Only allows essential authentication
 # emails through based on their mail tag:
-# - session-member (member login links)
-# - session-admin (admin login links)
 # - admin-invitation (admin account setup)
+# - session-admin (admin login links)
 #
 # All other emails are silently blocked by setting perform_deliveries to false.
 #
@@ -14,9 +13,8 @@
 #
 class DemoMailInterceptor
   ALLOWED_TAGS = %w[
-    session-member
-    session-admin
     admin-invitation
+    session-admin
   ].freeze
 
   def self.delivering_email(message)
