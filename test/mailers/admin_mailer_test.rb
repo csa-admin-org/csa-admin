@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require "test_helper"
+require "minitest/mock"
 require "ostruct"
 
 class AdminMailerTest < ActionMailer::TestCase
@@ -84,6 +85,22 @@ class AdminMailerTest < ActionMailer::TestCase
     assert_includes body, "Access the admin of Acme"
     assert_includes body, "https://admin.acme.test"
     assert_not_includes body, "Manage my notifications"
+  end
+
+  test "invitation_email with demo tenant" do
+    admin = Admin.new(
+      name: "Bob",
+      language: "en",
+      email: "bob@csa-admin.org")
+
+    Tenant.stub(:demo?, true) do
+      mail = AdminMailer.with(
+        admin: admin,
+        action_url: "https://admin.acme.test"
+      ).invitation_email
+
+      assert_equal "Invitation to the Acme", mail.subject
+    end
   end
 
   test "invoice_overpaid_email" do

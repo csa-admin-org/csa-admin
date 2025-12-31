@@ -21,6 +21,12 @@ _:
         _de: Einladung an den %{org} Admin
         _it: Invito all'admin di %{org}
         _nl: Uitnodiging voor de admin van %{org}
+      subject_demo:
+        _en: Invitation to the %{org}
+        _fr: Invitation à %{org}
+        _de: Einladung zu %{org}
+        _it: Invito a %{org}
+        _nl: Uitnodiging voor %{org}
     invoice_overpaid_email:
       subject:
         _en: 'Overpaid invoice #%{number}'
