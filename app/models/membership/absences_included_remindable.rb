@@ -23,7 +23,6 @@ module Membership::AbsencesIncludedRemindable
   class_methods do
     def send_absences_included_reminders
       return unless Current.org.feature?("absence")
-      return unless Current.org.absences_included_reminder_enabled?
 
       absences_included_remindable.includes(:baskets, :member).find_each do |membership|
         membership.send_absences_included_reminder!
