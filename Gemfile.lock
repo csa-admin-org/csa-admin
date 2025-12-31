@@ -2,7 +2,7 @@ GEM
   remote: https://rubygems.org/
   specs:
     Ascii85 (2.0.1)
-    action_text-trix (2.1.15)
+    action_text-trix (2.1.16)
       railties
     actioncable (8.1.1)
       actionpack (= 8.1.1)
@@ -120,7 +120,7 @@ GEM
       async-http (~> 0.42)
       protocol-url (~> 0.2)
     aws-eventstream (1.4.0)
-    aws-partitions (1.1199.0)
+    aws-partitions (1.1200.0)
     aws-sdk-core (3.240.0)
       aws-eventstream (~> 1, >= 1.3.0)
       aws-partitions (~> 1, >= 1.992.0)
@@ -763,7 +763,7 @@ DEPENDENCIES
 
 CHECKSUMS
   Ascii85 (2.0.1) sha256=15cb5d941808543cbb9e7e6aea3c8ec3877f154c3461e8b3673e97f7ecedbe5a
-  action_text-trix (2.1.15) sha256=4bf9bbd8fa95954de3f0022dae0d927bce22c1bb31d5dc9c3766f8c145c109c1
+  action_text-trix (2.1.16) sha256=f645a2c21821b8449fd1d6770708f4031c91a2eedf9ef476e9be93c64e703a8a
   actioncable (8.1.1) sha256=7262307e9693f09b299e281590110ce4b6ba7e4e4cee6da4b9d987eaf56f9139
   actionmailbox (8.1.1) sha256=aa99703a9b2fa32c5a4a93bb21fef79e2935d8db4d1fd5ef0772847be5d43205
   actionmailer (8.1.1) sha256=45755d7d4561363490ae82b17a5919bdef4dfe3bb400831819947c3a1d82afdf
@@ -787,7 +787,7 @@ CHECKSUMS
   async-pool (0.11.1) sha256=98e1583e199a75f7dc70f8e65fc8d0d3b28636c3f256595d43e206642ad8fbda
   async-rest (0.20.0) sha256=72b0d467f65269a53a64fc12b828f3d81b4afa201b4eea0b98cddb990e7e95eb
   aws-eventstream (1.4.0) sha256=116bf85c436200d1060811e6f5d2d40c88f65448f2125bc77ffce5121e6e183b
-  aws-partitions (1.1199.0) sha256=b39032bbd83a21c503d113306216994d1494c2591d5ed3ba346ee08b85640d1c
+  aws-partitions (1.1200.0) sha256=8f356d9a4c05377b8ae5f6c8a7b0bd7b1b3562fd12f700eb9c4a0cb2115a049a
   aws-sdk-core (3.240.0) sha256=86b63890525caaf56702972e2669b30ec89230c2b45f12c88290ee678d8d189e
   aws-sdk-kms (1.118.0) sha256=c9c751596d4f1502adac857c90010f00a9a52370b78e170acb198af7fa716fbd
   aws-sdk-s3 (1.209.0) sha256=3a94259f2e319776fdeb7cacb3c995005f4960cdc113bd668eb0ab6deaa26a79
