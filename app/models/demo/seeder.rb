@@ -430,8 +430,14 @@ class Demo::Seeder
     ActiveRecord::Base.connection.execute("PRAGMA foreign_keys = OFF")
 
     begin
-      # ActiveStorage (purge to also delete files from storage service)
-      ActiveStorage::Attachment.find_each(&:purge)
+      # ActiveStorage (purge to also delete files from storage service, but keep org logo and its variants)
+      org_logo_blob_id = Organization.instance.logo.blob&.id
+      org_logo_variant_record_ids = org_logo_blob_id ? ActiveStorage::VariantRecord.where(blob_id: org_logo_blob_id).pluck(:id) : []
+
+      ActiveStorage::Attachment
+        .where.not(record_type: "Organization", name: "logo")
+        .where.not(record_type: "ActiveStorage::VariantRecord", record_id: org_logo_variant_record_ids)
+        .find_each(&:purge)
 
       # Shop orders
       Shop::OrderItem.delete_all
