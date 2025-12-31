@@ -156,7 +156,7 @@ class Demo::Seeder
   end
 
   def seed!
-    Rails.logger.info "[Demo::Seeder] Starting demo reset..."
+    log "Starting demo reset..."
 
     # Clearing must happen outside transaction for PRAGMA to work
     reset_organization_settings!
@@ -179,13 +179,13 @@ class Demo::Seeder
     end
     mark_newsletter_delivered!
 
-    Rails.logger.info "[Demo::Seeder] Demo reset completed successfully"
+    log "Demo reset completed successfully"
   end
 
   private
 
   def reset_organization_settings!
-    Rails.logger.info "[Demo::Seeder] Resetting organization settings..."
+    log "Resetting organization settings..."
 
     org = Organization.instance
 
@@ -393,7 +393,7 @@ class Demo::Seeder
   end
 
   def cleanup_inactive_admins!
-    Rails.logger.info "[Demo::Seeder] Cleaning up inactive admins..."
+    log "Cleaning up inactive admins..."
 
     # Keep ultra admin and recently active admins
     ultra_email = ENV["ULTRA_ADMIN_EMAIL"]
@@ -405,14 +405,14 @@ class Demo::Seeder
       last_activity = admin.sessions.used.maximum(:last_used_at)
 
       if last_activity && last_activity < ADMIN_INACTIVE_THRESHOLD.ago
-        Rails.logger.info "[Demo::Seeder] Removing inactive admin: #{admin.email}"
+        log "Removing inactive admin: #{admin.email}"
         admin.destroy
       end
     end
   end
 
   def cleanup_custom_permissions!
-    Rails.logger.info "[Demo::Seeder] Cleaning up custom permissions..."
+    log "Cleaning up custom permissions..."
 
     superadmin = Permission.superadmin
 
@@ -424,7 +424,7 @@ class Demo::Seeder
   end
 
   def clear_transactional_data!
-    Rails.logger.info "[Demo::Seeder] Clearing transactional data..."
+    log "Clearing transactional data..."
 
     # Disable foreign key checks for SQLite to avoid constraint issues
     ActiveRecord::Base.connection.execute("PRAGMA foreign_keys = OFF")
@@ -487,7 +487,7 @@ class Demo::Seeder
   end
 
   def clear_reference_data!
-    Rails.logger.info "[Demo::Seeder] Clearing reference data..."
+    log "Clearing reference data..."
 
     # Disable foreign key checks for SQLite to avoid constraint issues
     ActiveRecord::Base.connection.execute("PRAGMA foreign_keys = OFF")
@@ -526,7 +526,7 @@ class Demo::Seeder
   end
 
   def reset_primary_key_sequences!
-    Rails.logger.info "[Demo::Seeder] Resetting primary key sequences..."
+    log "Resetting primary key sequences..."
 
     # In SQLite, auto-increment sequences are stored in sqlite_sequence table.
     # Deleting entries resets sequences so new records start from 1.
@@ -534,7 +534,7 @@ class Demo::Seeder
   end
 
   def seed_reference_data!
-    Rails.logger.info "[Demo::Seeder] Seeding reference data..."
+    log "Seeding reference data..."
 
     create_delivery_cycles!
     create_basket_sizes!
@@ -549,7 +549,7 @@ class Demo::Seeder
   end
 
   def create_default_configurations!
-    Rails.logger.info "[Demo::Seeder] Creating default configurations..."
+    log "Creating default configurations..."
 
     MailTemplate.create_all!
     Newsletter::Template.create_defaults!
@@ -772,7 +772,7 @@ class Demo::Seeder
   end
 
   def seed_members!
-    Rails.logger.info "[Demo::Seeder] Seeding members..."
+    log "Seeding members..."
 
     @active_members = []
     ACTIVE_MEMBERS_COUNT.times { @active_members << create_active_member! }
@@ -880,7 +880,7 @@ class Demo::Seeder
   end
 
   def seed_absences!
-    Rails.logger.info "[Demo::Seeder] Seeding absences..."
+    log "Seeding absences..."
 
     return if @active_members.blank?
 
@@ -908,7 +908,7 @@ class Demo::Seeder
   end
 
   def seed_newsletter!
-    Rails.logger.info "[Demo::Seeder] Seeding newsletter..."
+    log "Seeding newsletter..."
 
     return if @active_members.blank?
 
@@ -944,7 +944,7 @@ class Demo::Seeder
   end
 
   def seed_invoices_and_payments!
-    Rails.logger.info "[Demo::Seeder] Seeding invoices and payments..."
+    log "Seeding invoices and payments..."
 
     return if @active_members.blank?
 
@@ -1011,7 +1011,7 @@ class Demo::Seeder
   end
 
   def seed_basket_contents!
-    Rails.logger.info "[Demo::Seeder] Seeding basket contents..."
+    log "Seeding basket contents..."
 
     return if @products.blank? || @current_year_deliveries.blank?
 
@@ -1062,7 +1062,7 @@ class Demo::Seeder
   end
 
   def seed_activities!
-    Rails.logger.info "[Demo::Seeder] Seeding activities..."
+    log "Seeding activities..."
 
     @activities = []
 
@@ -1138,7 +1138,7 @@ class Demo::Seeder
   end
 
   def seed_activity_participations!
-    Rails.logger.info "[Demo::Seeder] Seeding activity participations..."
+    log "Seeding activity participations..."
 
     return if @activities.blank? || @active_members.blank?
 
@@ -1185,7 +1185,7 @@ class Demo::Seeder
   end
 
   def seed_shop!
-    Rails.logger.info "[Demo::Seeder] Seeding shop orders..."
+    log "Seeding shop..."
 
     return if @shop_products.blank? || @active_members.blank?
 
@@ -1260,5 +1260,14 @@ class Demo::Seeder
   # Returns a simple hash with the same value for all languages
   def simple_localized_text(text)
     Current.org.languages.index_with { |_| text }
+  end
+
+  # Logs a message, using puts in console to avoid duplicate output
+  def log(message)
+    if defined?(Rails::Console)
+      puts "[Demo::Seeder] #{message}"
+    else
+      Rails.logger.info "[Demo::Seeder] #{message}"
+    end
   end
 end
