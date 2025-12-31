@@ -10,9 +10,10 @@ task bookmarks: :environment do
   template = File.read(template_path)
 
   @organizations = []
-  Tenant.switch_each do
+  Tenant.switch_each do |tenant|
     @organizations << OpenStruct.new(
       name: Current.org.name,
+      tenant: tenant,
       production_admin_url: Current.org.admin_url(mc_login: true),
       production_members_url: Current.org.members_url,
       development_admin_url: Current.org.admin_url.gsub(/\.[a-z]+\z/, ".test"),

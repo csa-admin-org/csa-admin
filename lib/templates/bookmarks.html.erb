@@ -17,25 +17,25 @@
           <ul>
             <li>
               <a href="<%= org.production_admin_url %>">
-                <%= org.name %> - Admin - Prod
+                <%= org.name %> (<%= org.tenant %>) - Admin - Prod
               </a>
             </li>
 
             <li>
               <a href="<%= org.development_admin_url %>">
-                <%= org.name %> - Admin - Dev
+                <%= org.name %> (<%= org.tenant %>) - Admin - Dev
               </a>
             </li>
 
             <li>
               <a href="<%= org.production_members_url %>">
-                <%= org.name %> - Members - Prod
+                <%= org.name %> (<%= org.tenant %>)- Members - Prod
               </a>
             </li>
 
             <li>
               <a href="<%= org.development_members_url %>">
-                <%= org.name %> - Members - Dev
+                <%= org.name %> (<%= org.tenant %>) - Members - Dev
               </a>
             </li>
           </ul>
