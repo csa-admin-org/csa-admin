@@ -61,7 +61,8 @@ class AdminMailer < ApplicationMailer
       content = liquid_template.render(
         "organization" => Liquid::OrganizationDrop.new(Current.org),
         "admin" => Liquid::AdminDrop.new(admin),
-        "action_url" => params[:action_url])
+        "action_url" => params[:action_url],
+        "demo" => Tenant.demo?)
       content_mail(content,
         to: admin.email,
         subject: t(".subject", org: Current.org.name),

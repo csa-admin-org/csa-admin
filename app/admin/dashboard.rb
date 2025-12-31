@@ -9,6 +9,12 @@ ActiveAdmin.register_page "Dashboard" do
   }
 
   content title: proc { onboarding? ? "" : t("active_admin.dashboard") } do
+    if Tenant.demo?
+      info_pane do
+        t("active_admin.demo.welcome_html").html_safe
+      end
+    end
+
     if onboarding?
       render "onboarding"
     else

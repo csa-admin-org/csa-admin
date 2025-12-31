@@ -42,11 +42,12 @@ class Ability
       can :update, Organization, id: Current.org.id
     end
 
-    if admin.permission.can_write?(:admin)
+    if admin.permission.can_write?(:admin) && !Tenant.demo?
       can :manage, Admin
-      cannot :destroy, Admin, id: admin.id
     end
+    can :read, Admin, id: admin.id
     can :update, Admin, id: admin.id
+    cannot :destroy, Admin, id: admin.id
 
     if admin.permission.can_write?(:basket_complement)
       writable_models += models_for(:basket_complement)
@@ -166,6 +167,7 @@ class Ability
     end
 
     if admin.ultra?
+      can :manage, Admin
       can :manage, Session
     end
 

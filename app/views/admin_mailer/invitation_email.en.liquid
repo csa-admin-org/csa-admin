@@ -1,7 +1,21 @@
 <p>Hello {{ admin.name }},</p>
 
+{% if demo %}
+<p>Welcome to the CSA Admin demo! Your account has been created and you're ready to explore.</p>
+
+<p>Feel free to click around, create members, send invoices. Everything resets weekly, so you can't break anything.</p>
+
+<p>Use your email (<strong>{{ admin.email }}</strong>) to log in.</p>
+
+{% button action_url %}
+  Access the demo
+{% endbutton %}
+
+<p>If you have any questions or feedback, just reply to this email. I'd love to hear from you!</p>
+{% else %}
 <p>An admin account for {{ organization.name }} has been created for you, please use your email (<strong>{{ admin.email }}</strong>) to log in.</p>
 
 {% button action_url %}
   Access the admin of {{ organization.name }}
 {% endbutton %}
+{% endif %}

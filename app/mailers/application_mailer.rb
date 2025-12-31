@@ -2,7 +2,8 @@
 
 class ApplicationMailer < ActionMailer::Base
   helper :application, :organizations
-  default from: -> { Current.org.email_default_from_address }
+  default from: -> { default_from }
+
   layout "mailer"
 
   rescue_from Postmark::InactiveRecipientError do
@@ -14,6 +15,16 @@ class ApplicationMailer < ActionMailer::Base
   after_action :set_postmark_server_token
 
   private
+
+  def default_from
+    if Tenant.demo?
+      email_address_with_name(ENV["ULTRA_ADMIN_EMAIL"], "CSA Admin Demo")
+    else
+      email_address_with_name(
+        Current.org.email_default_from,
+        Current.org.name)
+    end
+  end
 
   def default_url_options
     { host: Current.org.members_url }

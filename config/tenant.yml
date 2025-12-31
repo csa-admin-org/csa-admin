@@ -159,10 +159,19 @@ production: &production
     members_host: mitglieder.querbeetgrosswangen.com
     state: onboarding
 
-  demo:
+  demo-fr:
     admin_host: admin.acp-admin.ch
     members_host: membres.acp-admin.ch
     state: custom
+  # demo-en:
+  #   admin_host: admin.csa-admin.org
+  #   members_host: members.csa-admin.org
+  #   state: custom
+  # demo-de:
+  #   admin_host: admin.solawi-admin.org
+  #   members_host: mitglieder.solawi-admin.org
+  #   state: custom
+
   microfermes:
     admin_host: admin.microfermes.ch
     members_host: membres.microfermes.ch

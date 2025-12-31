@@ -9,7 +9,6 @@ class AbilityTest < ActiveSupport::TestCase
     assert ability.can?(:read, Organization)
     assert ability.can?(:update, Current.org)
     assert ability.can?(:manage, Admin)
-    assert_not ability.can?(:destroy, admins(:ultra))
     assert ability.can?(:manage, ActiveAdmin::Comment)
     assert ability.can?(:create, Absence)
 
@@ -114,5 +113,23 @@ class AbilityTest < ActiveSupport::TestCase
     assert ability.can?(:update, Shop::Tag)
     assert ability.can?(:invoice, Shop::Order)
     assert ability.can?(:cancel, Shop::Order)
+  end
+
+  test "demo tenant restricts admin management" do
+    with_tenant("demo-fr") do
+      admin = admins(:super)
+      other_admin = admins(:external)
+      ability = Ability.new(admin)
+
+      # Cannot manage other admins in demo mode
+      assert_not ability.can?(:create, Admin)
+      assert_not ability.can?(:update, other_admin)
+      assert_not ability.can?(:destroy, admin)
+      assert_not ability.can?(:destroy, other_admin)
+
+      # Can still read and update own account
+      assert ability.can?(:read, admin)
+      assert ability.can?(:update, admin)
+    end
   end
 end

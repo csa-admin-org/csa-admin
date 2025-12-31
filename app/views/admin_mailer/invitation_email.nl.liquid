@@ -1,7 +1,21 @@
 <p>Hallo {{ admin.name }},</p>
 
+{% if demo %}
+<p>Welkom bij de CSA Admin demo! Je account is aangemaakt en je kunt beginnen met verkennen.</p>
+
+<p>Klik gerust rond, maak leden aan, verstuur facturen. Alles wordt wekelijks gereset, dus je kunt niets kapot maken.</p>
+
+<p>Gebruik je e-mail (<strong>{{ admin.email }}</strong>) om in te loggen.</p>
+
+{% button action_url %}
+  Naar de demo
+{% endbutton %}
+
+<p>Als je vragen of feedback hebt, beantwoord dan gewoon deze e-mail. Ik hoor graag van je!</p>
+{% else %}
 <p>Er is een admin-account voor {{ organization.name }} voor u aangemaakt, gebruik uw e-mailadres (<strong>{{ admin.email }}</strong>) om in te loggen.</p>
 
 {% button action_url %}
   Toegang tot de admin van {{ organization.name }}
 {% endbutton %}
+{% endif %}

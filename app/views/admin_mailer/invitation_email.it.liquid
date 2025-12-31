@@ -1,7 +1,21 @@
 <p>Ciao {{ admin.name }},</p>
 
+{% if demo %}
+<p>Benvenuto nella demo di CSA Admin! Il tuo account è stato creato e puoi iniziare a esplorare.</p>
+
+<p>Sentiti libero di cliccare ovunque, creare membri, inviare fatture. Tutto viene reimpostato ogni settimana, quindi non puoi rompere nulla.</p>
+
+<p>Usa la tua e-mail (<strong>{{ admin.email }}</strong>) per accedere.</p>
+
+{% button action_url %}
+  Accedi alla demo
+{% endbutton %}
+
+<p>Se hai domande o feedback, rispondi semplicemente a questa e-mail. Mi farebbe piacere sentirti!</p>
+{% else %}
 <p>Un conto admin per {{ organization.name }} è appena stato creato, per connetterti accedi con la tua e-mail (<strong>{{ admin.email }}</strong>).</p>
 
 {% button action_url %}
   Accedere all'admin di {{ organization.name }}
 {% endbutton %}
+{% endif %}

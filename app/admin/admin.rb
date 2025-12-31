@@ -79,11 +79,19 @@ ActiveAdmin.register Admin do
 
   controller do
     def scoped_collection
-      if ultra_email = ENV["ULTRA_ADMIN_EMAIL"]
-        end_of_association_chain.where.not(email: ultra_email)
-      else
-        super
+      collection = end_of_association_chain
+
+      # Hide ultra admin from non-ultra admins
+      if (ultra_email = ENV["ULTRA_ADMIN_EMAIL"])
+        collection = collection.where.not(email: ultra_email)
       end
+
+      # In demo mode, non-ultra admins only see themselves
+      if Tenant.demo? && !current_admin.ultra?
+        collection = collection.where(id: current_admin.id)
+      end
+
+      collection
     end
 
     def find_resource
