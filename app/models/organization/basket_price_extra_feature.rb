@@ -9,6 +9,8 @@ module Organization::BasketPriceExtraFeature
 
     validate :basket_price_extra_dynamic_pricing_logic_must_be_valid
 
+    before_create :set_basket_price_extra_defaults
+
     def basket_price_extra_title
       self[:basket_price_extra_titles][I18n.locale.to_s].presence
         || self.class.human_attribute_name(:basket_price_extra)
@@ -53,7 +55,29 @@ module Organization::BasketPriceExtraFeature
     ).to_f
   end
 
+  def default_basket_price_extra_labels
+    Organization.languages.index_with do |locale|
+      I18n.with_locale(locale) {
+        base_price = I18n.t("organization.basket_price_extra_label.base_price")
+        basket = I18n.t("organization.basket_price_extra_label.basket")
+        <<~LIQUID.strip
+          {% if extra == 0 %}
+          #{base_price}
+          {% elsif extra == 1.5 %}
+          + {{ extra }}/#{basket}
+          {% else %}
+          + {{ extra | ceil }}.-/#{basket}
+          {% endif %}
+        LIQUID
+      }
+    end
+  end
+
   private
+
+  def set_basket_price_extra_defaults
+    self.basket_price_extra_labels = default_basket_price_extra_labels
+  end
 
   def basket_price_extra_dynamic_pricing_logic_must_be_valid
     Liquid::Template.parse(basket_price_extra_dynamic_pricing)

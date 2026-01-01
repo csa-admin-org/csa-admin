@@ -25,6 +25,19 @@ _:
         _de: Bei ungenutzten enthaltenen Abwesenheiten wird die Lieferung bei der Erinnerung erzwungen und berechnet. Mitglieder können eine Abwesenheit melden, um abzulehnen.
         _it: Le assenze incluse non utilizzate vedranno la loro consegna forzata e fatturata al momento del promemoria. I soci possono segnalare un'assenza per rifiutare.
         _nl: Ongebruikte inbegrepen afwezigheden zullen hun levering geforceerd en gefactureerd zien bij de herinnering. Leden kunnen een afwezigheid melden om te weigeren.
+    basket_price_extra_label:
+      base_price:
+        _en: Base price
+        _fr: Tarif de base
+        _de: Basispreis
+        _it: Tariffa di base
+        _nl: Basisprijs
+      basket:
+        _en: basket
+        _fr: panier
+        _de: Tasche
+        _it: cesta
+        _nl: pakket
     default_email_footer:
       _en: If you have any questions or comments, please reply to this email.
       _fr: En cas de questions ou remarques, répondez simplement à cet email.
