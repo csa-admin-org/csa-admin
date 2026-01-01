@@ -100,7 +100,7 @@ class Demo::Seeder
 
   # Member counts for seeding
   ACTIVE_MEMBERS_COUNT = 20
-  TRIAL_MEMBERS_COUNT = 2
+  TRIAL_MEMBERS_COUNT = 3
   WAITING_MEMBERS_COUNT = 3
   SUPPORT_MEMBERS_COUNT = 2
   PENDING_MEMBERS_COUNT = 2
@@ -783,14 +783,14 @@ class Demo::Seeder
   end
 
   def create_active_member!
-    member = create_member!(state: "active")
-    create_membership!(member, trial: false)
+    member = create_member!(state: "active", trial_baskets_count: 0)
+    create_membership!(member)
     member
   end
 
   def create_trial_member!
     member = create_member!(state: "active")
-    create_membership!(member, trial: true)
+    create_membership!(member)
     member
   end
 
@@ -832,7 +832,6 @@ class Demo::Seeder
       language: Current.org.languages.sample,
       state: state,
       annual_fee: Current.org.annual_fee,
-      trial_baskets_count: Current.org.trial_baskets_count,
       **attrs
     )
   rescue ActiveRecord::RecordInvalid => e
@@ -840,18 +839,14 @@ class Demo::Seeder
     retry
   end
 
-  def create_membership!(member, trial: false)
+  def create_membership!(member)
     current_fy = Current.fiscal_year
     basket_size = [ @small, @medium, @large ].sample
     depot = @all_depots.sample
     delivery_cycle = depot.delivery_cycles.sample
 
-    # Find first delivery in the current fiscal year
-    first_delivery = Delivery.where(date: current_fy.range).order(:date).first
-    return unless first_delivery
-
-    # Membership starts at beginning of fiscal year (or first delivery for trials)
-    started_on = trial ? first_delivery.date : current_fy.beginning_of_year
+    # Membership starts at beginning of fiscal year (or random delivery date)
+    started_on = rand < 0.15 ? delivery_cycle.deliveries(current_fy).sample.date : current_fy.beginning_of_year
 
     membership = Membership.create!(
       member: member,
