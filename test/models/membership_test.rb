@@ -339,6 +339,7 @@ class MembershipTest < ActiveSupport::TestCase
   end
 
   test "activates pending member on creation" do
+    travel_to "2024-01-01"
     member = members(:aria)
     assert_changes -> { member.reload.state }, from: "waiting", to: "active" do
       create_membership(member: member)

@@ -375,6 +375,7 @@ class MemberTest < ActiveSupport::TestCase
   end
 
   test "set_default_waiting_delivery_cycle" do
+    travel_to "2024-01-01"
     member = members(:aria)
     member.update!(waiting_delivery_cycle_id: nil)
     assert_equal delivery_cycles(:all), member.waiting_delivery_cycle

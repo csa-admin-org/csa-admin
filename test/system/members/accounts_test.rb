@@ -20,6 +20,7 @@ class Members::AccountsTest < ApplicationSystemTestCase
   end
 
   test "edits current member data" do
+    travel_to "2024-01-01"
     member = members(:john)
     login(member)
 

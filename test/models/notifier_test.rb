@@ -4,6 +4,7 @@ require "test_helper"
 
 class NotifierTest < ActiveSupport::TestCase
   test "send_admin_memberships_renewal_pending_emails" do
+    travel_to "2024-01-01"
     admins(:ultra).update(notifications: [ "memberships_renewal_pending" ])
     end_of_fiscal_year = Current.fiscal_year.end_of_year
     memberships(:john).update!(renew: true, renewal_opened_at: nil, renewed_at: nil)

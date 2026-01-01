@@ -18,6 +18,7 @@ class AuditableTest < ActiveSupport::TestCase
   end
 
   test "save changes on audited attributes with current session" do
+    travel_to "2024-01-01"
     member = members(:john)
     session = create_session(member)
     Current.session = session
