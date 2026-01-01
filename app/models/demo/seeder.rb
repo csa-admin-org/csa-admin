@@ -92,10 +92,11 @@ class Demo::Seeder
   }.freeze
 
   # Creditor info per language (static fake addresses)
+  # Note: demo-de uses a German address, demo-fr and demo-en use Swiss addresses
   CREDITOR_INFO = {
     "en" => { name: "Demo Farm", street: "42 Farm Street", zip: "2300", city: "La Chaux-de-Fonds" },
     "fr" => { name: "Ferme Démo", street: "Rue de la Ferme 42", zip: "2300", city: "La Chaux-de-Fonds" },
-    "de" => { name: "Demo Bauernhof", street: "Hofstrasse 42", zip: "2300", city: "La Chaux-de-Fonds" }
+    "de" => { name: "Demo Bauernhof", street: "Hofstrasse 42", zip: "30159", city: "Hannover" }
   }.freeze
 
   # Member counts for seeding
@@ -210,7 +211,8 @@ class Demo::Seeder
       creditor_street: creditor_info[:street],
       creditor_zip: creditor_info[:zip],
       creditor_city: creditor_info[:city],
-      currency_code: "CHF",
+      country_code: germany? ? "DE" : "CH",
+      currency_code: germany? ? "EUR" : "CHF",
 
       # ============================================
       # Billing settings (billing tab)
@@ -221,13 +223,13 @@ class Demo::Seeder
       send_closed_invoice: false,
       billing_starts_after_first_delivery: true,
       billing_ends_on_last_delivery_fy_month: false,
-      sepa_creditor_identifier: nil,
+      sepa_creditor_identifier: germany? ? "DE98ZZZ09999999999" : nil,
       bank_reference: nil,
 
       # Invoice settings
-      iban: "CH5530024123456789012",
+      iban: germany? ? "DE87200500001234567890" : "CH5530024123456789012",
       # invoice_infos: {},
-      invoice_sepa_infos: {},
+      invoice_sepa_info: germany? ? "Der Betrag wird per SEPA-Lastschrift eingezogen." : nil,
       # invoice_footers: {},
       invoice_document_names: {},
       invoice_membership_summary_only: false,
@@ -366,6 +368,10 @@ class Demo::Seeder
 
   def creditor_info
     CREDITOR_INFO.fetch(@org_language)
+  end
+
+  def germany?
+    @org_language == "de"
   end
 
   def clear_organization_rich_texts!(org)
@@ -820,11 +826,23 @@ class Demo::Seeder
   def create_member!(state:, **attrs)
     name = "#{Faker::Name.unique.first_name} #{Faker::Name.unique.last_name}"
     email = Faker::Internet.unique.email(name: name, domain: EMAIL_DOMAINS.sample)
+    phone_prefix = germany? ? "+49" : "+41"
+
+    # For demo-de, half of the members have SEPA direct debit info
+    sepa_attrs = if germany? && rand < 0.5
+      {
+        iban: Faker::Bank.iban(country_code: "de"),
+        sepa_mandate_id: SecureRandom.alphanumeric(12).upcase,
+        sepa_mandate_signed_on: Date.current - rand(30..365).days
+      }
+    else
+      {}
+    end
 
     Member.create!(
       name: name,
       emails: email,
-      phones: "+41 #{rand(70..79)} #{rand(100..999)} #{rand(10..99)} #{rand(10..99)}",
+      phones: "#{phone_prefix} #{rand(70..79)} #{rand(100..999)} #{rand(10..99)} #{rand(10..99)}",
       street: Faker::Address.unique.street_address,
       zip: Faker::Address.unique.zip,
       city: Faker::Address.unique.city,
@@ -832,6 +850,7 @@ class Demo::Seeder
       language: Current.org.languages.sample,
       state: state,
       annual_fee: Current.org.annual_fee,
+      **sepa_attrs,
       **attrs
     )
   rescue ActiveRecord::RecordInvalid => e
@@ -949,16 +968,24 @@ class Demo::Seeder
 
   def create_other_invoices!
     invoice_items = [
-      { description: { "en" => "Workshop materials", "fr" => "Matériel d'atelier" }, amount: 25 },
-      { description: { "en" => "Extra vegetables", "fr" => "Légumes supplémentaires" }, amount: 15 },
-      { description: { "en" => "Preserving jars", "fr" => "Bocaux de conserve" }, amount: 30 },
-      { description: { "en" => "Recipe book", "fr" => "Livre de recettes" }, amount: 20 },
-      { description: { "en" => "Farm visit donation", "fr" => "Don visite de la ferme" }, amount: 50 }
+      { description: { "en" => "Workshop materials", "fr" => "Matériel d'atelier", "de" => "Workshop-Material" }, amount: 25 },
+      { description: { "en" => "Extra vegetables", "fr" => "Légumes supplémentaires", "de" => "Extra Gemüse" }, amount: 15 },
+      { description: { "en" => "Preserving jars", "fr" => "Bocaux de conserve", "de" => "Einmachgläser" }, amount: 30 },
+      { description: { "en" => "Recipe book", "fr" => "Livre de recettes", "de" => "Rezeptbuch" }, amount: 20 },
+      { description: { "en" => "Farm visit donation", "fr" => "Don visite de la ferme", "de" => "Spende Hofbesuch" }, amount: 50 }
     ]
+
+    # For demo-de, ensure we have members with SEPA info for invoices
+    sepa_members = germany? ? @active_members.select(&:sepa?) : []
 
     # Create 5 "Other" invoices spread across active members
     invoice_items.each_with_index do |item_data, i|
-      member = @active_members[i % @active_members.size]
+      # For the first invoice in Germany, use a SEPA member if available
+      member = if i == 0 && sepa_members.any?
+        sepa_members.first
+      else
+        @active_members[i % @active_members.size]
+      end
       next unless member
 
       description = item_data[:description][Current.org.default_locale] || item_data[:description]["en"]
