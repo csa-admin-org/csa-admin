@@ -445,6 +445,9 @@ class Demo::Seeder
         .where.not(record_type: "ActiveStorage::VariantRecord", record_id: org_logo_variant_record_ids)
         .find_each(&:purge)
 
+      # Ensure logo variant is present
+      Current.org.logo.variant(resize_to_limit: [ 330, 330 ]).processed.download
+
       # Shop orders
       Shop::OrderItem.delete_all
       Shop::Order.delete_all
