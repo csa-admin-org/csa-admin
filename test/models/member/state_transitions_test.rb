@@ -182,6 +182,7 @@ class Member::StateTransitionsTest < ActiveSupport::TestCase
   end
 
   test "activate! activates new active member and sent member-activated email" do
+    travel_to "2024-01-01"
     mail_templates(:member_activated).update!(active: true)
     member = members(:john)
     member.update_columns(state: "inactive", activated_at: nil, annual_fee: nil)
@@ -197,6 +198,7 @@ class Member::StateTransitionsTest < ActiveSupport::TestCase
   end
 
   test "activate! when annual_fee_support_member_only is true" do
+    travel_to "2024-01-01"
     org(annual_fee_support_member_only: true)
     member = members(:john)
     member.update_columns(state: "inactive", activated_at: nil, annual_fee: nil)
@@ -209,6 +211,7 @@ class Member::StateTransitionsTest < ActiveSupport::TestCase
   end
 
   test "activate! activates previously active member" do
+    travel_to "2024-01-01"
     mail_templates(:member_activated).update!(active: true)
     member = members(:john)
     member.update_columns(state: "inactive", activated_at: 1.year.ago)
@@ -223,6 +226,7 @@ class Member::StateTransitionsTest < ActiveSupport::TestCase
   end
 
   test "activate! previously active member (recent)" do
+    travel_to "2024-01-01"
     mail_templates(:member_activated).update!(active: true)
     member = members(:john)
     member.update_columns(state: "inactive", activated_at: 1.day.ago)
@@ -265,6 +269,7 @@ class Member::StateTransitionsTest < ActiveSupport::TestCase
   end
 
   test "deactivate! raises if current membership" do
+    travel_to "2024-01-01"
     member = members(:john)
     assert_raises(InvalidTransitionError) { member.deactivate! }
   end

@@ -165,6 +165,7 @@ class NewsletterTest < ActiveSupport::TestCase
   end
 
   test "persist deliveries draft when saved" do
+    travel_to "2024-01-01"
     members(:john).update!(emails: "john@doe.com, jojo@old.com")
     suppress_email("jojo@old.com", stream_id: "broadcast")
 
@@ -185,6 +186,7 @@ class NewsletterTest < ActiveSupport::TestCase
   end
 
   test "send newsletter" do
+    travel_to "2024-01-01"
     newsletter = build_newsletter(
       audience: "member_state::active",
       template: newsletter_templates(:simple),
@@ -225,6 +227,7 @@ class NewsletterTest < ActiveSupport::TestCase
   end
 
   test "send single email" do
+    travel_to "2024-01-01"
     newsletter = build_newsletter(
       audience: "member_state::active",
       template: newsletter_templates(:simple),

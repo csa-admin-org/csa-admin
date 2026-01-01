@@ -4,6 +4,7 @@ require "test_helper"
 
 class Membership::ActivityTest < ActiveSupport::TestCase
   test "set activity_participations_demanded_annually by default" do
+    travel_to "2024-01-01"
     basket_sizes(:medium).update!(activity_participations_demanded_annually: 5)
     membership = create_membership(basket_size: basket_sizes(:medium))
 
@@ -11,6 +12,7 @@ class Membership::ActivityTest < ActiveSupport::TestCase
   end
 
   test "set activity_participations_demanded_annually using basket quantity" do
+    travel_to "2024-01-01"
     basket_sizes(:medium).update!(activity_participations_demanded_annually: 5)
     membership = create_membership(basket_size: basket_sizes(:medium), basket_quantity: 2)
 
@@ -18,6 +20,7 @@ class Membership::ActivityTest < ActiveSupport::TestCase
   end
 
   test "set activity_participations_demanded_annually using basket_size and complements" do
+    travel_to "2024-01-01"
     basket_sizes(:medium).update!(activity_participations_demanded_annually: 5)
     basket_complements(:bread).update!(activity_participations_demanded_annually: 2)
     basket_complements(:eggs).update!(activity_participations_demanded_annually: 3)
@@ -33,6 +36,7 @@ class Membership::ActivityTest < ActiveSupport::TestCase
   end
 
   test "set activity_participations_demanded_annually when overridden" do
+    travel_to "2024-01-01"
     membership = create_membership(activity_participations_demanded_annually: 12)
 
     assert_equal 12, membership.activity_participations_demanded_annually

@@ -160,6 +160,7 @@ class Liquid::DataPreviewTest < ActiveSupport::TestCase
   end
 
   test "render non-drop data" do
+    travel_to "2024-01-01"
     mail_template = mail_templates(:member_validated)
     data = Liquid::DataPreview.for(mail_template, random: 1)
 
