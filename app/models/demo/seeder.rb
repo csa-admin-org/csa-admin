@@ -336,11 +336,6 @@ class Demo::Seeder
       basket_price_extra_titles: translated_text("Solidarity price"),
       basket_price_extra_public_titles: translated_text("Solidarity"),
       basket_price_extra_texts: {},
-      basket_price_extra_labels: {
-        "en" => "{% if extra == 0 %}\nBase price\n{% elsif extra == 1.5 %}\n+ {{ extra }}/basket\n{% else %}\n+ {{ extra | ceil }}.-/basket\n{% endif %}",
-        "fr" => "{% if extra == 0 %}\nTarif de base\n{% elsif extra == 1.5 %}\n+ {{ extra }}/panier\n{% else %}\n+ {{ extra | ceil }}.-/panier\n{% endif %}",
-        "de" => "{% if extra == 0 %}\nBasispreis\n{% elsif extra == 1.5 %}\n+ {{ extra }}/Tasche\n{% else %}\n+ {{ extra | ceil }}.-/Tasche\n{% endif %}"
-      },
       basket_price_extra_label_details: {},
       basket_price_extra_dynamic_pricing: nil,
 
@@ -360,6 +355,7 @@ class Demo::Seeder
     )
 
     org.send(:set_defaults)
+    org.send(:set_basket_price_extra_defaults)
     org.save!
 
     # Clear rich text fields (ActionText)
