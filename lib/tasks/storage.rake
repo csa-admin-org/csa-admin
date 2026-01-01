@@ -11,6 +11,9 @@ namespace :storage do
     backup_folder = ENV.fetch("BACKUP_PATH") + "/storage"
     storage_folder = Rails.root.join("storage")
 
+    # Build a set of expected storage paths from backup and track tenants
+    expected_paths = Set.new
+    backup_tenants = Set.new
     Parallel.each(Dir.glob("#{backup_folder}/**/*")) do |file|
       next if File.directory?(file)
 
@@ -20,9 +23,31 @@ namespace :storage do
       next_two = key[2..3]
 
       target_path = File.join(storage_folder, tenant, first_two, next_two, key)
+      expected_paths << target_path
+      backup_tenants << tenant
       unless File.exist?(target_path)
         FileUtils.mkdir_p(File.dirname(target_path))
         FileUtils.cp(file, target_path)
+      end
+    end
+
+    # Remove files in storage that don't exist in backup (only within tenant folders)
+    backup_tenants.each do |tenant|
+      tenant_storage = File.join(storage_folder, tenant)
+      next unless File.directory?(tenant_storage)
+
+      Dir.glob("#{tenant_storage}/**/*").each do |file|
+        next if File.directory?(file)
+        next if expected_paths.include?(file)
+
+        FileUtils.rm(file)
+      end
+
+      # Clean up empty directories within tenant folder
+      Dir.glob("#{tenant_storage}/**/*/").sort_by { |d| -d.length }.each do |dir|
+        FileUtils.rmdir(dir) if Dir.empty?(dir)
+      rescue Errno::ENOTEMPTY
+        # Directory not empty, skip
       end
     end
 
