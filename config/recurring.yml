@@ -70,3 +70,8 @@ production:
     args: [Scheduled::AbsencesIncludedReminderJob]
     queue: low
     schedule: at 6am every day
+
+  demo_reset:
+    class: Demo::ResetJob
+    queue: low
+    schedule: at 2am on Monday
