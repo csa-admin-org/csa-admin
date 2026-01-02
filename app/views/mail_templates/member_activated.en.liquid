@@ -1,6 +1,6 @@
-<p>EDIT ME!</p>
+<p>Your membership is now active.</p>
 
-<p>Your membership has started or will start soon, here is more information...</p>
+<p>Here are your membership details:</p>
 
 {% highlight_list %}
   <strong>Start:</strong> {{ membership.start_date }}
@@ -13,6 +13,8 @@
   <strong>Number of trial baskets:</strong> {{ membership.trial_baskets_count }}
   <strong>Requested activity participations:</strong> {{ membership.activity_participations_demanded_count }}
 {% endhighlight_list %}
+
+<p>You can access your member page at any time to view your deliveries, manage absences, or update your information.</p>
 
 {% button member.page_url %}
   Access my member page

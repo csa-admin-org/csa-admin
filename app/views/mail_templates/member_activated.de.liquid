@@ -1,6 +1,6 @@
-<p>MICH BEARBEITEN!</p>
+<p>Ihr Abonnement ist jetzt aktiv.</p>
 
-<p>Ihr Abonnement hat oder wird bald beginnen, hier finden Sie weitere Informationen...</p>
+<p>Hier sind die Details Ihres Abonnements:</p>
 
 {% highlight_list %}
   <strong>Anfang:</strong> {{ membership.start_date }}
@@ -10,9 +10,11 @@
   <strong>Zusätze:</strong> {{ membership.basket_complement_names }}
   {% endif %}
   <strong>Depot:</strong> {{ membership.depot.name }}
-  <strong>Anzahl der Probenkörbe:</strong> {{ membership.trial_baskets_count }}
-  <strong>Teilnahmen an beantragten Aktivitäten:</strong> {{ membership.activity_participations_demanded_count }}
+  <strong>Anzahl der Probetaschen:</strong> {{ membership.trial_baskets_count }}
+  <strong>Geforderte Aktivitätsteilnahmen:</strong> {{ membership.activity_participations_demanded_count }}
 {% endhighlight_list %}
+
+<p>Sie können jederzeit auf Ihre Mitgliederseite zugreifen, um Ihre Lieferungen einzusehen, Abwesenheiten zu verwalten oder Ihre Informationen zu aktualisieren.</p>
 
 {% button member.page_url %}
   Zugang zu meiner Mitgliederseite

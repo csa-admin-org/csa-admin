@@ -1,6 +1,6 @@
-<p>COMPILAMI!</p>
+<p>Il vostro abbonamento è ora attivo.</p>
 
-<p>Il vostro abbonamento è incomiciato o presto incomincerà, eccco alcune informazioni in più...</p>
+<p>Ecco i dettagli del vostro abbonamento:</p>
 
 {% highlight_list %}
   <strong>Inizio:</strong> {{ membership.start_date }}
@@ -11,8 +11,10 @@
   {% endif %}
   <strong>Punto di ritiro:</strong> {{ membership.depot.name }}
   <strong>Numero di ceste in prova:</strong> {{ membership.trial_baskets_count }}
-  <strong>Partecipazione alle attività domandate:</strong> {{ membership.activity_participations_demanded_count }}
+  <strong>Partecipazioni alle attività richieste:</strong> {{ membership.activity_participations_demanded_count }}
 {% endhighlight_list %}
+
+<p>Potete accedere alla vostra pagina di socio in qualsiasi momento per consultare le consegne, gestire le assenze o aggiornare le vostre informazioni.</p>
 
 {% button member.page_url %}
   Accedere alla mia pagina di socio
