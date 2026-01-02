@@ -1,4 +1,4 @@
-<p>Unfortunately, your participation in the following activity could not be validated. Maybe you forgot!?!</p>
+<p>Your participation in the following activity could not be validated:</p>
 
 {% highlight_list %}
   <strong>Date:</strong> {{ activity.date_long }}
@@ -16,11 +16,11 @@
 {% endhighlight_list %}
 
 {% if organization.activity_phone %}
-  <p>In case of a last-minute impediment, please contact us at <strong>{{ organization.activity_phone }}</strong> to avoid unnecessary waiting.</p>
+  <p>If you have any questions, please contact us at <strong>{{ organization.activity_phone }}</strong> or reply to this email.</p>
 {% endif %}
 
-<p>Sign up for other activities from your member page.</p>
+<p>You can sign up for other activities from your member page.</p>
 
 {% button member.activities_url %}
-Access my member page
+  Access my member page
 {% endbutton %}

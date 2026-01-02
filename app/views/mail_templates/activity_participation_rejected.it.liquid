@@ -1,4 +1,4 @@
-<p>Sfortunatamente non è stato possibile convalidare la vostra partecipazione alla seguente attività. Si tratta forse di una svista!?!</p>
+<p>La vostra partecipazione alla seguente attività non ha potuto essere convalidata:</p>
 
 {% highlight_list %}
   <strong>Data:</strong> {{ activity.date_long }}
@@ -16,10 +16,10 @@
 {% endhighlight_list %}
 
 {% if organization.activity_phone %}
-  <p>In caso di rinuncia all'ultimo minuto, si prega di contattateci al <strong>{{ organization.activity_phone }}</strong>, questo ci evita attese inutili.</p>
+  <p>Per qualsiasi domanda, potete contattarci al <strong>{{ organization.activity_phone }}</strong> o rispondere a questa email.</p>
 {% endif %}
 
-<p>Iscrivetevi ad altre attività dalla vostra pagina di socio.</p>
+<p>Potete iscrivervi ad altre attività dalla vostra pagina di socio.</p>
 
 {% button member.activities_url %}
   Accedere alla mia pagina di socio

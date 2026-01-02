@@ -1,6 +1,6 @@
-<p>BEWERK MIJ!</p>
+<p>Uw lidmaatschap is nu actief.</p>
 
-<p>Uw lidmaatschap is gestart of zal binnenkort starten, hier is meer informatie...</p>
+<p>Hier zijn de details van uw lidmaatschap:</p>
 
 {% highlight_list %}
   <strong>Start:</strong> {{ membership.start_date }}
@@ -13,6 +13,8 @@
   <strong>Aantal proefpakketten:</strong> {{ membership.trial_baskets_count }}
   <strong>Gevraagde activiteitsdeelnames:</strong> {{ membership.activity_participations_demanded_count }}
 {% endhighlight_list %}
+
+<p>U kunt op elk moment uw ledenpagina bezoeken om uw leveringen te bekijken, afwezigheden te beheren of uw gegevens bij te werken.</p>
 
 {% button member.page_url %}
   Toegang tot mijn ledenpagina

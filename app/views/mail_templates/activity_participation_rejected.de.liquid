@@ -1,4 +1,4 @@
-<p>Leider konnte Ihre Teilnahme an der folgenden Aktivität nicht bestätigt werden. Ein Versäumnis vielleicht!?!</p>
+<p>Ihre Teilnahme an der folgenden Aktivität konnte nicht bestätigt werden:</p>
 
 {% highlight_list %}
   <strong>Datum:</strong> {{ activity.date_long }}
@@ -16,10 +16,10 @@
 {% endhighlight_list %}
 
 {% if organization.activity_phone %}
-  <p>Sollten Sie in letzter Minute verhindert sein, dann rufen Sie uns bitte kurz an <strong>{{ organization.activity_phone }}</strong>. So warten wir nicht unnötig auf Sie.</p>
+  <p>Bei Fragen können Sie uns unter <strong>{{ organization.activity_phone }}</strong> erreichen oder einfach auf diese E-Mail antworten.</p>
 {% endif %}
 
-<p>Melden Sie sich auf Ihrer Mitgliederseite für andere Aktivitäten an.</p>
+<p>Sie können sich auf Ihrer Mitgliederseite für andere Aktivitäten anmelden.</p>
 
 {% button member.activities_url %}
   Zugang zu meiner Mitgliederseite

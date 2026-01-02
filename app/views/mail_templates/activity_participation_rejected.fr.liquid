@@ -1,4 +1,4 @@
-<p>Malheureusement votre participation à l'activité suivante n'a pas pu être validée. Un oubli peut-être!?!</p>
+<p>Votre participation à l'activité suivante n'a pas pu être validée:</p>
 
 {% highlight_list %}
   <strong>Date:</strong> {{ activity.date_long }}
@@ -16,10 +16,10 @@
 {% endhighlight_list %}
 
 {% if organization.activity_phone %}
-  <p>En cas d'empêchement de dernière minute, merci de nous contacter au <strong>{{ organization.activity_phone }}</strong>, cela évite de vous faire attendre inutilement.</p>
+  <p>Si vous avez des questions, vous pouvez nous contacter au <strong>{{ organization.activity_phone }}</strong> ou répondre à cet email.</p>
 {% endif %}
 
-<p>Inscrivez-vous à d'autres activités depuis votre page de membre.</p>
+<p>Vous pouvez vous inscrire à d'autres activités depuis votre page de membre.</p>
 
 {% button member.activities_url %}
   Accéder à ma page de membre
