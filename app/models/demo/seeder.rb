@@ -221,7 +221,7 @@ class Demo::Seeder
       billing_year_divisions: [ 1, 4, 12 ],
       trial_baskets_count: 2,
       send_closed_invoice: false,
-      billing_starts_after_first_delivery: true,
+      billing_starts_after_first_delivery: false,
       billing_ends_on_last_delivery_fy_month: false,
       sepa_creditor_identifier: germany? ? "DE98ZZZ09999999999" : nil,
       bank_reference: nil,
@@ -963,6 +963,10 @@ class Demo::Seeder
 
     # Create some "Other" type invoices for variety
     create_other_invoices!
+
+    # Create extra payments for some members so they have credit balances
+    # This simulates members who paid in advance before their membership invoices are created
+    create_advance_payments!
   end
 
   def create_other_invoices!
@@ -988,7 +992,17 @@ class Demo::Seeder
       next unless member
 
       description = item_data[:description][Current.org.default_locale] || item_data[:description]["en"]
-      invoice_date = Date.current - rand(10..60).days
+
+      # Ensure invoice date falls within the current fiscal year
+      fiscal_year = Current.fiscal_year
+      earliest_date = [ fiscal_year.beginning_of_year, Date.current - 60.days ].max
+      latest_date = Date.current - 10.days
+      # If the range is invalid (e.g., too early in fiscal year), use today
+      invoice_date = if earliest_date <= latest_date
+        rand(earliest_date..latest_date)
+      else
+        Date.current
+      end
 
       invoice = Invoice.new(
         member: member,
@@ -1012,22 +1026,51 @@ class Demo::Seeder
 
         # Create payment for some invoices with explicit invoice reference
         if i < 3 # First 3 invoices are fully paid
+          payment_date = [ invoice_date + rand(5..20).days, Date.current ].min
           Payment.create!(
             member: member,
             invoice: invoice,
             amount: item_data[:amount],
-            date: invoice_date + rand(5..20).days
+            date: payment_date,
+            origin: "camt"
           )
         elsif i == 3 # Fourth invoice is partially paid
+          payment_date = [ invoice_date + rand(5..15).days, Date.current ].min
           Payment.create!(
             member: member,
             invoice: invoice,
             amount: (item_data[:amount] * 0.5).round,
-            date: invoice_date + rand(5..15).days
+            date: payment_date,
+            origin: "camt"
           )
         end
         # Fifth invoice remains unpaid
       end
+    end
+  end
+
+  def create_advance_payments!
+    # Ensure payment date falls within the current fiscal year
+    fiscal_year = Current.fiscal_year
+    earliest_date = fiscal_year.beginning_of_year
+    latest_date = [ Date.current - 5.days, earliest_date ].max
+    # Use a range within the fiscal year, even if it means using today
+    payment_range = earliest_date..[ latest_date, Date.current ].min
+
+    # Select a few members to have advance payments (credit balance)
+    members_with_credit = @active_members.sample(3)
+
+    members_with_credit.each_with_index do |member, i|
+      payment_date = rand(payment_range)
+      # Varying amounts to show different credit balances
+      amount = [ 200, 350, 500 ][i]
+
+      Payment.create!(
+        member: member,
+        amount: amount,
+        date: payment_date,
+        origin: "manual"
+      )
     end
   end
 
