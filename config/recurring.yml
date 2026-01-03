@@ -74,4 +74,4 @@ production:
   demo_reset:
     class: Demo::ResetJob
     queue: low
-    schedule: at 2am on Monday
+    schedule: every monday at 2am
