@@ -2,8 +2,25 @@
 
 module Scheduled
   class NotifierDailyJob < BaseJob
+    NOTIFICATIONS = [
+      Notification::InvoiceOverdueNotice,
+      Notification::AdminDeliveryList,
+      Notification::AdminMembershipsRenewalPending,
+      Notification::MembershipInitialBasket,
+      Notification::MembershipFinalBasket,
+      Notification::MembershipFirstBasket,
+      Notification::MembershipLastBasket,
+      Notification::MembershipSecondLastTrialBasket,
+      Notification::MembershipLastTrialBasket,
+      Notification::MembershipRenewalReminder,
+      Notification::ActivityParticipationReminder,
+      Notification::ActivityParticipationValidated,
+      Notification::ActivityParticipationRejected,
+      Notification::BiddingRoundOpenedReminder
+    ].freeze
+
     def perform
-      Notifier.send_all_daily
+      NOTIFICATIONS.each(&:notify_later)
     end
   end
 end

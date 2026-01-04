@@ -2,8 +2,12 @@
 
 module Scheduled
   class NotifierHourlyJob < BaseJob
+    NOTIFICATIONS = [
+      Notification::AdminNewActivityParticipation
+    ].freeze
+
     def perform
-      Notifier.send_all_hourly
+      NOTIFICATIONS.each(&:notify_later)
     end
   end
 end

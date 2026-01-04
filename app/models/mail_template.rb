@@ -93,6 +93,10 @@ class MailTemplate < ApplicationRecord
     active.find_by(title: title)
   end
 
+  def self.active_template?(title)
+    active.exists?(title: title)
+  end
+
   def self.create_all!
     TITLES.each do |title|
       find_or_create_by!(title: title)
