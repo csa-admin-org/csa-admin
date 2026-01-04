@@ -56,7 +56,7 @@ env:
     ULTRA_ADMIN_NAME: Thibaud
     ULTRA_ADMIN_LANGUAGE: fr
     MAINTENANCE_MODE: OFF
-    WEB_CONCURRENCY: 2
+    WEB_CONCURRENCY: 3
     JOB_CONCURRENCY: 1
 
 # Aliases are triggered with "bin/kamal <alias>". You can overwrite arguments on invocation:
