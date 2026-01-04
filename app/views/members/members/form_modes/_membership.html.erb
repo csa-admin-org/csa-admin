@@ -151,7 +151,7 @@
       </div>
 
       <% if DeliveryCycle.visible? %>
-        <%= f.input :waiting_delivery_cycle_id, as: :radio_buttons, collection: visible_delivery_cycles_collection(data: { form_disabler_target: "input", form_choices_limiter_target: "input", action: "form-pricing#refresh" }), disabled: (f.object.waiting_depot ? (DeliveryCycle.pluck(:id) - (f.object.waiting_depot&.delivery_cycle_ids || [])) : []), label: Delivery.model_name.human(count: 2), label_html: { class: "text-base" }, required: true, wrapper_html: { class: ("disabled" if support_checked), data: { form_disabler_target: "label" } }, input_html: { disabled: support_checked, class: "#{"disabled" if support_checked || !f.object.waiting_depot}" } %>
+        <%= f.input :waiting_delivery_cycle_id, as: :radio_buttons, collection: visible_delivery_cycles_collection(data: { form_disabler_target: "input", form_choices_limiter_target: "input", action: "form-pricing#refresh" }), disabled: (f.object.waiting_depot ? (DeliveryCycle.pluck(:id) - (f.object.waiting_depot&.delivery_cycle_ids || [])) : []), label: Current.org.member_form_delivery_cycle_label, label_html: { class: "text-base" }, required: true, wrapper_html: { class: ("disabled" if support_checked), data: { form_disabler_target: "label" } }, input_html: { disabled: support_checked, class: "#{"disabled" if support_checked || !f.object.waiting_depot}" } %>
       <% end %>
 
       <% if Current.org.allow_alternative_depots? %>

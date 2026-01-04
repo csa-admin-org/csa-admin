@@ -2106,6 +2106,12 @@ _:
           _de: Erläuterung Zusätze
           _it: Spiegazione aggiunte
           _nl: Uitleg van aanvullingen
+        member_form_delivery_cycle_label:
+          _en: Delivery cycles label
+          _fr: Libellé cycles de livraisons
+          _de: Bezeichnung Lieferzyklen
+          _it: Etichetta cicli di consegna
+          _nl: Label leveringscycli
         member_form_extra_text:
           _en: Additional explanation
           _fr: Explication supplémentaire

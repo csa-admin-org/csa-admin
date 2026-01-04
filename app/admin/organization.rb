@@ -195,6 +195,9 @@ ActiveAdmin.register Organization do
             as: :select,
             collection: member_order_modes_collection(Depot),
             prompt: true
+          translated_input(f, :member_form_delivery_cycle_labels,
+            hint: t("formtastic.hints.organization.member_form_delivery_cycle_label"),
+            input_html: { placeholder: Delivery.model_name.human(count: 2) })
           f.input :delivery_cycles_member_order_mode,
             as: :select,
             collection: member_order_modes_collection(DeliveryCycle),
@@ -582,6 +585,7 @@ ActiveAdmin.register Organization do
     *I18n.available_locales.map { |l| "member_form_subtitle_#{l}" },
     *I18n.available_locales.map { |l| "member_form_extra_text_#{l}" },
     *I18n.available_locales.map { |l| "member_form_complements_text_#{l}" },
+    *I18n.available_locales.map { |l| "member_form_delivery_cycle_label_#{l}" },
     *I18n.available_locales.map { |l| "shop_invoice_info_#{l}" },
     *I18n.available_locales.map { |l| "shop_delivery_pdf_footer_#{l}" },
     *I18n.available_locales.map { |l| "shop_terms_of_sale_url_#{l}" },

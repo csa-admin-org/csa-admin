@@ -1064,6 +1064,12 @@ _:
           _de: Dieser optionale Text wird vor der Liste der Taschenzusätze eingefügt.
           _it: Questo testo opzionale è inserito prima dell'elenco degli extra cestino.
           _nl: Deze optionele tekst wordt ingevoegd voor de lijst van pakketaanvullingen.
+        member_form_delivery_cycle_label:
+          _en: Label displayed above delivery cycles on the registration form.
+          _fr: Libellé affiché au-dessus des cycles de livraisons sur le formulaire d'inscription.
+          _de: Bezeichnung, die über den Lieferzyklen im Anmeldeformular angezeigt wird.
+          _it: Etichetta visualizzata sopra i cicli di consegna nel modulo di registrazione.
+          _nl: Label weergegeven boven leveringscycli op het registratieformulier.
         member_form_extra_text:
           _en: This optional text is inserted after the default generated explanation text.
           _fr: Ce texte optionnel est inséré après le texte d'explication généré par défaut.

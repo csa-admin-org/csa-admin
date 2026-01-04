@@ -58,6 +58,12 @@ class Organization < ApplicationRecord
   translated_rich_texts :member_form_subtitle
   translated_rich_texts :member_form_extra_text
   translated_rich_texts :member_form_complements_text
+  translated_attributes :member_form_delivery_cycle_label
+
+  def member_form_delivery_cycle_label
+    self[:member_form_delivery_cycle_labels][I18n.locale.to_s].presence ||
+      Delivery.model_name.human(count: 2)
+  end
 
   normalized_string_attributes :creditor_name, :creditor_street, :creditor_city, :creditor_zip
 
