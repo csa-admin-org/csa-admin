@@ -429,7 +429,8 @@ ActiveAdmin.register Organization do
           f.input :activity_i18n_scope,
             as: :select,
             collection: Organization.activity_i18n_scopes.map { |s| [ t("activities.#{s}", count: 2), s ] },
-            prompt: true
+            prompt: true,
+            hint: t("formtastic.hints.organization.activity_i18n_scope_html")
           f.input :activity_price
           f.input :activity_participations_form_min
           f.input :activity_participations_form_max

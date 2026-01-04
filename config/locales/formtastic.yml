@@ -794,6 +794,12 @@ _:
           _de: Nach dieser Grenze ist eine Registrierung nicht mehr möglich. Auf 0 belassen, wenn kein Grenzwert.
           _it: Superato questo limite non sara più possibile iscriversi. Lasciare a zero se non ci sono limiti.
           _nl: Na deze limiet is registratie niet meer mogelijk. Laat op nul staan als er geen limiet is.
+        activity_i18n_scope_html:
+          _en: Please <a href="/handbook/activity">consult the manual</a> for more information about each designation.
+          _fr: Merci de <a href="/handbook/activity">consulter le manuel</a> pour plus d'informations sur chaque appellation.
+          _de: Bitte <a href="/handbook/activity">konsultieren Sie das Handbuch</a> für weitere Informationen zu jeder Bezeichnung.
+          _it: Si prega di <a href="/handbook/activity">consultare il manuale</a> per ulteriori informazioni su ciascuna denominazione.
+          _nl: Raadpleeg <a href="/handbook/activity">de handleiding</a> voor meer informatie over elke benaming.
         activity_participation_deletion_deadline_in_days:
           _en: Leave blank if no deadline is desired, in any case, deregistration is possible within the first 24 hours.
           _fr: Laisser vide si aucun délai, dans tous les cas la désinscription est possible pendant les premières 24h.
