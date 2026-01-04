@@ -6,6 +6,18 @@ Cette fonctionnalité permet de gérer des activités ainsi que leurs participat
 
 Une fois cette fonctionnalité supplémentaire activée dans [vos paramètres](/settings#organization_features_input), plusieurs réglages vous permettent de [configurer](/settings#activity) le fonctionnement des activités et participations.
 
+### Appellation des activités
+
+L'appellation choisie dans [les paramètres](/settings#activity) détermine la terminologie utilisée et influence le fonctionnement des activités :
+
+- **Heures de travail** : Chaque activité doit durer exactement 1 heure. Le nombre de participations correspond au nombre d'heures travaillées.
+
+  > ⚠️ Cette appellation augmente significativement le travail administratif. Une journée de 8 heures nécessite la création de 8 activités distinctes, chacune devant être inscrite individuellement par le membre et validée séparément par un admin. Pour cette raison, l'appellation "½ journées de travail" est généralement recommandée.
+
+- **½ journées de travail** : Recommandé pour la plupart des organisations. Permet de regrouper le travail en sessions de demi-journées (matin/après-midi), réduisant ainsi le nombre d'activités à gérer.
+- **Journées de travail** : Pour les organisations comptant les participations en journées complètes.
+- **Mises en panier** : Pour les organisations où les membres participent à la préparation des paniers.
+
 ### Formulaire d'inscription et renouvellement
 
 Le nombre de participations demandées par défaut dépendra du nombre configuré pour la taille de panier ainsi que des compléments de l'abonnement.
@@ -26,7 +38,9 @@ Cette logique peut être modifiée en utilisant [la syntaxe Liquid](https://shop
 
 Les membres peuvent s'inscrire à des activités depuis leur compte membre. Ils peuvent également voir les activités auxquelles ils/elles sont inscrit(e)s, ainsi que les participations qu'ils/elles ont effectuées et ainsi que leurs validations.
 
-Lors de l'inscription, le membre peut spécifier le nombre de participants (chaque participant comptant pour une participation), une remarque et choisir de partager leur numéro de téléphone ainsi que son lieu de départ pour le covoiturage. Leur contact sera alors partagé avec les autres membres inscrits à la même activité dans [l'email de rappel envoyé 3 jours avant l'activité](/mail_templates/activity_participation_reminder).
+Lors de l'inscription, le membre peut spécifier le nombre de participants (par exemple, s'il vient accompagné de membres de sa famille), une remarque et choisir de partager leur numéro de téléphone ainsi que son lieu de départ pour le covoiturage. Chaque participant compte pour une participation validée.
+
+Leur contact sera alors partagé avec les autres membres inscrits à la même activité dans [l'email de rappel envoyé 3 jours avant l'activité](/mail_templates/activity_participation_reminder). Ce délai de 3 jours est fixe et ne peut pas être modifié.
 
 Une limite (en jours) d'inscription avant la date de l'activité peut être définie depuis [les paramètres](/settings#activity) pour éviter les inscriptions de dernière minute.
 
@@ -43,6 +57,9 @@ Vous pouvez créer des activités depuis [la liste des activités](/activities) 
 Les inscriptions aux activités faites par les membres sont visibles depuis [la liste des participations](/activity_participations). Les admins peuvent également y inscrire des membres manuellement ou modifier/supprimer des participations existantes.
 
 Les participations aux activités (du même jour ou passées) peuvent être validées ou refusées par les admins. Les membres recevront alors un email [de confirmation](/mail_templates/activity_participation_validated) ou [de refus](/mail_templates/activity_participation_rejected) de leur participation.
+
+- **Validation** : Confirme que le membre a bien effectué l'activité. La participation est comptabilisée.
+- **Refus** : À utiliser si le membre ne s'est pas présenté ou n'a pas effectué l'activité. La participation n'est pas comptabilisée et la place redevient disponible pour d'autres membres (si l'activité n'est pas encore passée).
 
 
 ## Facturation

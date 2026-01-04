@@ -6,6 +6,18 @@ Diese Funktion ermöglicht es Ihnen, Aktivitäten sowie deren Teilnahme durch di
 
 Sobald diese zusätzliche Funktion in [Ihren Einstellungen](/settings#organization_features_input) aktiviert ist, können Sie mit mehreren Einstellungen [die Funktionsweise der Aktivitäten und Teilnahmen konfigurieren](/settings#activity).
 
+### Bezeichnung der Aktivitäten
+
+Die in [den Einstellungen](/settings#activity) gewählte Bezeichnung bestimmt die verwendete Terminologie und beeinflusst die Funktionsweise der Aktivitäten:
+
+- **Arbeitsstunden**: Jede Aktivität muss genau 1 Stunde dauern. Die Anzahl der Teilnahmen entspricht der Anzahl der geleisteten Arbeitsstunden.
+
+  > ⚠️ Diese Bezeichnung erhöht den administrativen Aufwand erheblich. Ein 8-Stunden-Tag erfordert die Erstellung von 8 separaten Aktivitäten, für die sich das Mitglied jeweils einzeln anmelden muss und die vom Administrator separat bestätigt werden müssen. Aus diesem Grund wird die Bezeichnung "½ Arbeitstage" generell empfohlen.
+
+- **½ Arbeitstage**: Empfohlen für die meisten Organisationen. Ermöglicht die Gruppierung der Arbeit in Halbtags-Sitzungen (Vormittag/Nachmittag) und reduziert so die Anzahl der zu verwaltenden Aktivitäten.
+- **Arbeitstage**: Für Organisationen, die Teilnahmen in ganzen Tagen zählen.
+- **Taschenbefüllung**: Für Organisationen, bei denen die Mitglieder an der Taschenbefüllung teilnehmen.
+
 ### Anmeldeformular und Erneuerung
 
 Die standardmäßig angeforderte Anzahl von Teilnahmen hängt von der für die Taschengröße konfigurierten Anzahl sowie den Ergänzungen der Mitgliedschaft ab.
@@ -24,7 +36,9 @@ Diese Logik kann mithilfe der [Liquid-Syntax](https://shopify.github.io/liquid) 
 
 Mitglieder können sich über ihr Mitgliedskonto für Aktivitäten anmelden. Sie können auch die Aktivitäten sehen, für die sie angemeldet sind, sowie die Teilnahmen, die sie absolviert haben, und deren Bestätigungen.
 
-Bei der Anmeldung kann das Mitglied die Anzahl der Teilnehmer angeben (jeder Teilnehmer zählt als eine Teilnahme), eine Bemerkung hinterlassen und wählen, ob es seine Telefonnummer sowie seinen Abfahrtsort für Fahrgemeinschaften teilen möchte. Ihre Kontaktdaten werden dann mit den anderen Mitgliedern geteilt, die für dieselbe Aktivität angemeldet sind, in [der Erinnerungs-E-Mail, die 3 Tage vor der Aktivität gesendet wird](/mail_templates/activity_participation_reminder).
+Bei der Anmeldung kann das Mitglied die Anzahl der Teilnehmer angeben (z.B. wenn Familienmitglieder oder Freunde mitkommen), eine Bemerkung hinterlassen und wählen, ob es seine Telefonnummer sowie seinen Abfahrtsort für Fahrgemeinschaften teilen möchte. Jeder Teilnehmer zählt als eine bestätigte Teilnahme.
+
+Ihre Kontaktdaten werden dann mit den anderen Mitgliedern geteilt, die für dieselbe Aktivität angemeldet sind, in [der Erinnerungs-E-Mail, die 3 Tage vor der Aktivität gesendet wird](/mail_templates/activity_participation_reminder). Diese 3-Tage-Frist ist fest und kann nicht geändert werden.
 
 Eine Anmeldefrist (in Tagen) vor dem Datum der Aktivität kann in [den Einstellungen](/settings#activity) festgelegt werden, um Anmeldungen in letzter Minute zu vermeiden.
 
@@ -41,6 +55,9 @@ Sie können Aktivitäten über [die Aktivitätenliste](/activities) erstellen, i
 Die von den Mitgliedern vorgenommenen Anmeldungen zu Aktivitäten sind in [der Teilnahmeliste](/activity_participations) sichtbar. Administratoren können dort auch manuell Mitglieder anmelden oder bestehende Teilnahmen ändern/löschen.
 
 Teilnahmen an Aktivitäten (am selben Tag oder vergangene) können von Administratoren bestätigt oder abgelehnt werden. Die Mitglieder erhalten dann eine E-Mail [zur Bestätigung](/mail_templates/activity_participation_validated) oder [zur Ablehnung](/mail_templates/activity_participation_rejected) ihrer Teilnahme.
+
+- **Bestätigung**: Das Mitglied ist erschienen und hat die Aktivität abgeschlossen. Die Teilnahme wird auf die erforderliche Gesamtzahl angerechnet.
+- **Ablehnung**: Das Mitglied ist nicht erschienen oder hat die Aktivität nicht abgeschlossen. Die Teilnahme wird nicht gezählt und der Platz wird wieder für andere Mitglieder verfügbar (sofern die Aktivität noch nicht vorbei ist).
 
 ## Abrechnung
 

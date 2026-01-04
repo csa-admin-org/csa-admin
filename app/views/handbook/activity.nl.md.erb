@@ -6,6 +6,18 @@ Deze functie stelt u in staat om activiteiten en de deelname van leden daaraan t
 
 Zodra deze aanvullende functie is geactiveerd in [uw instellingen](/settings#organization_features_input), stellen verschillende instellingen u in staat om te [configureren](/settings#activity) hoe activiteiten en deelnames werken.
 
+### Activiteitsbenaming
+
+De gekozen benaming in [de instellingen](/settings#activity) bepaalt de gebruikte terminologie en beïnvloedt hoe activiteiten werken:
+
+- **Werkuren**: Elke activiteit moet precies 1 uur duren. Het aantal deelnames komt overeen met het aantal gewerkte uren.
+
+  > ⚠️ Deze benaming verhoogt het administratieve werk aanzienlijk. Een werkdag van 8 uur vereist het aanmaken van 8 afzonderlijke activiteiten, die elk individueel door het lid moeten worden ingeschreven en apart door een admin moeten worden gevalideerd. Om deze reden wordt de benaming "½ werkdagen" over het algemeen aanbevolen.
+
+- **½ werkdagen**: Aanbevolen voor de meeste organisaties. Maakt het mogelijk om werk te groeperen in halve dagsessies (ochtend/middag), waardoor het aantal te beheren activiteiten wordt verminderd.
+- **Werkdagen**: Voor organisaties die deelnames in volledige dagen tellen.
+- **Pakketvoorbereidingen**: Voor organisaties waar leden deelnemen aan de voorbereiding van pakketten.
+
 ### Registratieformulier en vernieuwing
 
 Het standaard aantal gevraagde deelnames hangt af van het aantal dat is geconfigureerd voor de pakketgrootte en de aanvullingen van het lidmaatschap.
@@ -24,7 +36,9 @@ Deze logica kan worden gewijzigd met behulp van [Liquid syntax](https://shopify.
 
 Leden kunnen zich inschrijven voor activiteiten vanuit hun ledenaccount. Zij kunnen ook de activiteiten zien waarvoor zij zijn ingeschreven, evenals de deelnames die zij hebben voltooid en hun validaties.
 
-Bij inschrijving kan het lid het aantal deelnemers specificeren (elke deelnemer telt als één deelname), een opmerking toevoegen en ervoor kiezen om hun telefoonnummer en vertreklocatie te delen voor carpooling. Hun contactgegevens worden dan gedeeld met andere leden die zijn ingeschreven voor dezelfde activiteit in [de herinneringse-mail die 3 dagen voor de activiteit wordt verstuurd](/mail_templates/activity_participation_reminder).
+Bij inschrijving kan het lid het aantal deelnemers specificeren (bijvoorbeeld als ze vergezeld worden door familieleden), een opmerking toevoegen en ervoor kiezen om hun telefoonnummer en vertreklocatie te delen voor carpooling. Elke deelnemer telt als één gevalideerde deelname.
+
+Hun contactgegevens worden dan gedeeld met andere leden die zijn ingeschreven voor dezelfde activiteit in [de herinneringse-mail die 3 dagen voor de activiteit wordt verstuurd](/mail_templates/activity_participation_reminder). Deze termijn van 3 dagen is vast en kan niet worden geconfigureerd.
 
 Een inschrijfdeadline (in dagen) voor de activiteitsdatum kan worden gedefinieerd in [de instellingen](/settings#activity) om last-minute registraties te vermijden.
 
@@ -41,6 +55,9 @@ U kunt activiteiten aanmaken vanaf [de activiteitenlijst](/activities) door te k
 Activiteitsinschrijvingen door leden zijn zichtbaar vanaf [de deelnamelijst](/activity_participations). Admins kunnen ook handmatig leden inschrijven of bestaande deelnames wijzigen/verwijderen.
 
 Deelnames aan activiteiten (van dezelfde dag of verleden) kunnen door admins worden gevalideerd of afgewezen. Leden ontvangen dan een e-mail [ter bevestiging](/mail_templates/activity_participation_validated) of [van afwijzing](/mail_templates/activity_participation_rejected) van hun deelname.
+
+- **Valideren**: Het lid is verschenen en heeft de activiteit voltooid. De deelname telt mee voor hun vereiste totaal.
+- **Afwijzen**: Het lid is niet verschenen of is vroegtijdig vertrokken. De deelname telt niet mee en de activiteitsplek wordt weer beschikbaar voor andere leden om zich in te schrijven.
 
 ## Facturering
 

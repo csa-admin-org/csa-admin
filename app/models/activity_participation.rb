@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class ActivityParticipation < ApplicationRecord
+  REMINDER_DELAY = 3.days
+
   include HasState # only partially
   include HasNote
   include HasComment
@@ -127,7 +129,7 @@ class ActivityParticipation < ApplicationRecord
   def reminderable?
     return if latest_reminder_sent_at?
 
-    future? && activity.date <= 3.days.from_now
+    future? && activity.date <= REMINDER_DELAY.from_now
   end
 
   private

@@ -6,6 +6,18 @@ This feature allows you to manage activities and member participation in them. T
 
 Once this additional feature is activated in [your settings](/settings#organization_features_input), several settings allow you to [configure](/settings#activity) how activities and participations work.
 
+### Activity Designation
+
+The designation chosen in [the settings](/settings#activity) determines the terminology used and influences how activities work:
+
+- **Work hours**: Each activity must be exactly 1 hour long. The number of participations corresponds to the number of hours worked.
+
+  > ⚠️ This designation significantly increases administrative work. An 8-hour day requires creating 8 separate activities, each needing to be individually signed up for by the member and validated separately by an admin. For this reason, the "½ work days" designation is generally recommended.
+
+- **½ work days**: Recommended for most organizations. Allows grouping work into half-day sessions (morning/afternoon), thus reducing the number of activities to manage.
+- **Work days**: For organizations counting participations in full days.
+- **Basket preparations**: For organizations where members participate in basket preparation.
+
 ### Registration Form and Renewal
 
 The default number of participations requested will depend on the number configured for the basket size and the membership complements.
@@ -24,7 +36,7 @@ This logic can be modified using [Liquid syntax](https://shopify.github.io/liqui
 
 Members can sign up for activities from their member account. They can also see the activities they are signed up for, as well as the participations they have completed and their validations.
 
-When signing up, the member can specify the number of participants (each participant counting as one participation), add a note, and choose to share their phone number and departure location for carpooling. Their contact information will then be shared with other members signed up for the same activity in [the reminder email sent 3 days before the activity](/mail_templates/activity_participation_reminder).
+When signing up, the member can specify the number of participants (each participant counting as one participation), add a note, and choose to share their phone number and departure location for carpooling. This allows a member to register multiple people at once (e.g., family members or friends coming to help). Their contact information will then be shared with other members signed up for the same activity in [the reminder email sent 3 days before the activity](/mail_templates/activity_participation_reminder). This 3-day delay is fixed and cannot be configured.
 
 A sign-up deadline (in days) before the activity date can be defined in [the settings](/settings#activity) to avoid last-minute registrations.
 
@@ -41,6 +53,9 @@ You can create activities from [the activities list](/activities) by clicking on
 Activity sign-ups made by members are visible from [the participations list](/activity_participations). Admins can also manually sign up members or modify/delete existing participations.
 
 Participations in activities (of the same day or past) can be validated or rejected by admins. Members will then receive an email [of confirmation](/mail_templates/activity_participation_validated) or [of rejection](/mail_templates/activity_participation_rejected) of their participation.
+
+- **Validate**: The member showed up and completed the activity. The participation counts towards their required total.
+- **Reject**: The member did not show up or left early. The participation does not count, and the activity slot becomes available again for other members to sign up.
 
 ## Billing
 
