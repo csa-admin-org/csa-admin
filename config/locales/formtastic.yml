@@ -721,6 +721,12 @@ _:
           _de: Unterscheidet aktive Mitglieder anhand des Zeitraums, in dem sie ihre Rechnungen erhalten.
           _it: Permette di differenziare i soci attivi in base all'intervallo di pagamento del loro abbonamento.
           _nl: Onderscheidt actieve leden op basis van de periode waarin zij hun rekeningen ontvangen.
+        city:
+          _en: Filters active members by their city (exact match).
+          _fr: Permet de filtrer les membres actifs par leur ville (correspondance exacte).
+          _de: Filtert aktive Mitglieder nach ihrer Stadt (exakte Übereinstimmung).
+          _it: Filtra i soci attivi per la loro città (corrispondenza esatta).
+          _nl: Filtert actieve leden op hun stad (exacte overeenkomst).
         coming_deliveries_in_days:
           _en: Differentiates active members based on the date of their next basket delivery.
           _fr: Permet de différencier les membres actifs par la date de leur prochaine livraison de panier.

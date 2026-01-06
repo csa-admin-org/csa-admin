@@ -53,6 +53,11 @@ ActiveAdmin.register Newsletter::Segment do
         for: Depot,
         label: Depot.model_name.human(count: 2),
         hint: t("formtastic.hints.newsletter/segment.depot_ids")
+      f.input :city,
+        as: :select,
+        collection: member_cities_collection,
+        include_blank: true,
+        hint: t("formtastic.hints.newsletter/segment.city")
       if DeliveryCycle.kept.many?
         f.input :delivery_cycle_ids,
           collection: admin_delivery_cycles_collection,
@@ -93,6 +98,7 @@ ActiveAdmin.register Newsletter::Segment do
     :coming_deliveries_in_days,
     :billing_year_division,
     :membership_ids,
+    :city,
     *I18n.available_locales.map { |l| "title_#{l}" },
     basket_size_ids: [],
     basket_complement_ids: [],

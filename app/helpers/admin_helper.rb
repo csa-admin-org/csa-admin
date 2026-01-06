@@ -46,6 +46,10 @@ module AdminHelper
     }
   end
 
+  def member_cities_collection
+    Member.pluck(:city).uniq.map(&:presence).compact.sort
+  end
+
   def grouped_by_date(relation, past: :last)
     if fy_year = params.dig(:q, :during_year)
       relation = relation.during_year(fy_year)

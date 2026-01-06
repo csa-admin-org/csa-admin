@@ -50,6 +50,7 @@ class Newsletter
       members = by_billing_year_division(members)
       members = by_coming_deliveries_in_days(members)
       members = by_membership_ids(members)
+      members = by_city(members)
       members.uniq
     end
 
@@ -116,6 +117,12 @@ class Newsletter
       return members unless self[:membership_ids].any?
 
       members.where(memberships: { id: self[:membership_ids] })
+    end
+
+    def by_city(members)
+      return members unless city?
+
+      members.where(city: city)
     end
   end
 end

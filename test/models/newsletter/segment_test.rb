@@ -115,4 +115,20 @@ class Newsletter::SegmentTest < ActiveSupport::TestCase
     segment = Newsletter::Segment.create!(membership_ids: "")
     assert_equal [ members(:anna), members(:john), members(:bob), members(:jane) ], segment.members
   end
+
+  test "segment by city" do
+    travel_to "2024-01-01"
+
+    members(:john).update!(city: "Zurich")
+    members(:anna).update!(city: "Zurich")
+
+    segment = Newsletter::Segment.create!(city: "Zurich")
+    assert_equal [ members(:anna), members(:john) ], segment.members
+
+    segment = Newsletter::Segment.create!(city: "City")
+    assert_equal [ members(:bob), members(:jane) ], segment.members
+
+    segment = Newsletter::Segment.create!(city: nil)
+    assert_equal [ members(:anna), members(:john), members(:bob), members(:jane) ], segment.members
+  end
 end

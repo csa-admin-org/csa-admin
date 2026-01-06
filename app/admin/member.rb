@@ -25,9 +25,7 @@ ActiveAdmin.register Member do
     as: :select,
     collection: -> { admin_depots_collection },
     if: proc { params[:scope] != "inactive" && feature?("shop") }
-  filter :city, as: :select, collection: -> {
-    Member.pluck(:city).uniq.map(&:presence).compact.sort
-  }
+  filter :city, as: :select, collection: -> { member_cities_collection }
   filter :country_code, as: :select, collection: -> {
     country_codes = Member.pluck(:country_code).uniq.map(&:presence).compact.sort
     countries_collection(country_codes)
