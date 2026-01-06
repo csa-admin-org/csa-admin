@@ -26,7 +26,19 @@ module AdminHelper
   end
 
   def admin_delivery_cycles_collection
-    DeliveryCycle.kept.ordered.map { |cycle|
+    cycles = DeliveryCycle.kept.ordered
+    if DeliveryCycle.visible?
+      [
+        [ t("active_admin.scopes.visible"), cycles_option_for_select(cycles.visible) ],
+        [ t("active_admin.scopes.hidden"), cycles_option_for_select(cycles.where.not(id: cycles.visible)) ]
+      ]
+    else
+      cycles_option_for_select(cycles)
+    end
+  end
+
+  def cycles_option_for_select(cycles)
+    cycles.map { |cycle|
       [
         "#{cycle.name} (#{t('helpers.deliveries_count', count: cycle.deliveries_count)})",
         cycle.id

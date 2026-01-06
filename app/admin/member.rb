@@ -589,8 +589,7 @@ ActiveAdmin.register Member do
         f.input :waiting_delivery_cycle,
           label: DeliveryCycle.model_name.human,
           as: :select,
-          collection: admin_delivery_cycles_collection,
-          disabled: f.object.waiting_depot && DeliveryCycle.visible? ? (DeliveryCycle.pluck(:id) - f.object.waiting_depot.delivery_cycle_ids) : []
+          collection: admin_delivery_cycles_collection
         f.input :waiting_billing_year_division,
           label: Membership.human_attribute_name(:billing_year_division),
           as: :select,
