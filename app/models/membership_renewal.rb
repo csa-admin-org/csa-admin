@@ -27,7 +27,7 @@ class MembershipRenewal
 
     new_membership = Membership.new(renewed_attrs(attrs))
 
-    if new_membership.delivery_cycle.deliveries_count_for(@fiscal_year) == 0
+    if new_membership.delivery_cycle.deliveries_count_for(@fiscal_year.year) == 0
       new_membership.delivery_cycle = DeliveryCycle.primary
     end
 

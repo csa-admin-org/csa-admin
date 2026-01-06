@@ -190,4 +190,34 @@ class MembershipRenewalTest < ActiveSupport::TestCase
     renewed_membership = membership.reload.renewed_membership
     assert_equal delivery_cycles(:all), renewed_membership.delivery_cycle
   end
+
+  test "keeps delivery cycle with non-standard fiscal year when it has deliveries" do
+    org(fiscal_year_start_month: 4)
+
+    cycle_with_deliveries = DeliveryCycle.create!(
+      names: { en: "Has Deliveries" },
+      wdays: [ 1 ],
+      depots: [ depots(:home) ],
+      periods_attributes: [ { from_fy_month: 1, to_fy_month: 12 } ]
+    )
+    cycle_with_deliveries.update_column(:deliveries_counts, { "2025" => 10 })
+
+    # Create a membership that fits the non-standard fiscal year (April 2024 - March 2025)
+    member = members(:jane)
+    membership = Membership.create!(
+      member: member,
+      basket_size: basket_sizes(:large),
+      depot: depots(:bakery),
+      delivery_cycle: cycle_with_deliveries,
+      started_on: "2024-04-01",
+      ended_on: "2025-03-31"
+    )
+
+    assert_difference "Membership.count", 1 do
+      MembershipRenewal.new(membership).renew!
+    end
+
+    renewed_membership = membership.reload.renewed_membership
+    assert_equal cycle_with_deliveries, renewed_membership.delivery_cycle
+  end
 end
