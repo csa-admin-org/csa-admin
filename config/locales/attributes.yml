@@ -231,8 +231,8 @@ _:
     cweek:
       _en: Week number
       _fr: Numéro de semaine
-      _de: Kalenderwoche
-      _it: Numero della settimana
+      _de: Wochennummer
+      _it: Numero settimana
       _nl: Weeknummer
     date:
       _en: Date

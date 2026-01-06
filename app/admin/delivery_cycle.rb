@@ -59,11 +59,11 @@ ActiveAdmin.register DeliveryCycle do
             if deliveries.any?
               table_for deliveries, class: "table-auto" do
                 column "#", ->(d) { d.number }
-                column :day, ->(d) { I18n.t("date.day_names")[d.date.wday] }, class: "text-right"
-                column :date, ->(d) { auto_link d, l(d.date, format: :day_month), aria: { label: "show" } }, class: "text-right"
-                column :cweek, ->(d) { d.date.cweek }, class: "text-right"
+                column t("attributes.day"), ->(d) { I18n.t("date.day_names")[d.date.wday] }, class: "text-right"
+                column t("attributes.date"), ->(d) { auto_link d, l(d.date, format: :day_month), aria: { label: "show" } }, class: "text-right"
+                column t("attributes.cweek"), ->(d) { d.date.cweek }, class: "text-right"
                 unless Current.fiscal_year.standard?
-                  column :year, ->(d) { d.date.year }, class: "text-right"
+                  column t("attributes.year"), ->(d) { d.date.year }, class: "text-right"
                 end
               end
             else
