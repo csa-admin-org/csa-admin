@@ -11,7 +11,7 @@
 # GitHub Repo: https://github.com/marcoroth/herb
 #
 
-version: 0.8.6
+version: 0.8.7
 
 files:
   # Patterns to exclude (can exclude defaults too)
