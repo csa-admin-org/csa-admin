@@ -35,16 +35,16 @@ module OrganizationsHelper
   end
 
   def membership_renewed_attributes_collection
-    col = [ [
-      Membership.human_attribute_name(:baskets_annual_price_change),
-      "baskets_annual_price_change"
-    ] ]
-    if BasketComplement.kept.any?
-      col << [
+    col = [
+      [
+        Membership.human_attribute_name(:baskets_annual_price_change),
+        "baskets_annual_price_change"
+      ],
+      [
         Membership.human_attribute_name(:basket_complements_annual_price_change),
         "basket_complements_annual_price_change"
       ]
-    end
+    ]
     if feature?("absence")
       col << [
         Membership.human_attribute_name(:absences_included_annually),
