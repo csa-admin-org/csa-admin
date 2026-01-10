@@ -2808,13 +2808,13 @@ _:
         one:
           _en: Bidding round
           _fr: Tour d'engagement
-          _de: Bietrunde
+          _de: Bieterunde
           _it: Turno di impegno
           _nl: Biedingronde
         other:
           _en: Bidding rounds
           _fr: Tours d'engagement
-          _de: Bietrunden
+          _de: Bieterunden
           _it: Turni di impegno
           _nl: Biedingrondes
       contact_sharing:

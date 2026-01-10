@@ -254,7 +254,7 @@ _:
         information_text:
           _en: Information text displayed in the member account when pledging for the bidding round. It's also included in the email sent to the member by default.
           _fr: Texte d'information affiché dans le compte membre lors de la participation à un tour d'engagement. Il est également inclus par défaut dans l'email envoyé au membre.
-          _de: Informationstext, der im Mitgliedskonto angezeigt wird, wenn für eine Bietrunde zugesagt wird. Er ist standardmäßig auch in der an das Mitglied gesendeten E-Mail enthalten.
+          _de: Informationstext, der im Mitgliedskonto angezeigt wird, wenn für eine Bieterunde zugesagt wird. Er ist standardmäßig auch in der an das Mitglied gesendeten E-Mail enthalten.
           _it: Testo informativo visualizzato nell'account del socio durante la partecipazione a un turno di impegno. Per impostazione predefinita è incluso anche nell'email inviata al socio.
           _nl: Informatietekst die wordt weergegeven in het ledenaccount bij het doen van een bod voor de biedronde. Het wordt ook standaard opgenomen in de e-mail die naar het lid wordt gestuurd.
       delivery:
@@ -1163,7 +1163,7 @@ _:
         open_bidding_round_reminder_sent_after_in_days:
           _en: The reminder is sent only once, X days after the bidding round is opened. Leave blank if no reminder.
           _fr: Le rappel n'est envoyé qu'une seule fois, X jours après l'ouverture du tour d'engagement. Laisser vide si aucun rappel.
-          _de: Die Erinnerung wird nur einmal verschickt, und zwar X Tage, nachdem die Bietrunde eröffnet wurde. Lassen Sie das Feld leer, wenn keine Erinnerung erfolgt.
+          _de: Die Erinnerung wird nur einmal verschickt, und zwar X Tage, nachdem die Bieterunde eröffnet wurde. Lassen Sie das Feld leer, wenn keine Erinnerung erfolgt.
           _it: Il promemoria è inviato una sola volta, X giorni dopo l'apertura del turno di impegno. Lasciare vuoto se non c'è alcun promemoria.
           _nl: De herinnering wordt slechts één keer verzonden, X dagen nadat de biedronde is geopend. Laat leeg als er geen herinnering is.
         open_renewal_reminder_sent_after_in_days:

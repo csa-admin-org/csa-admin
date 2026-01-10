@@ -40,25 +40,25 @@ _:
       bidding_round_completed:
         _en: "Bidding round #{{ bidding_round.number }} completed \U0001F389"
         _fr: "Tour d'engagement n°{{ bidding_round.number }} terminé \U0001F389"
-        _de: "Bietrunde Nr. {{ bidding_round.number }} abgeschlossen \U0001F389"
+        _de: "Bieterunde Nr. {{ bidding_round.number }} abgeschlossen \U0001F389"
         _it: "Turno di impegno n°{{ bidding_round.number }} completato \U0001F389"
         _nl: "Biedronde #{{ bidding_round.number }} afgerond \U0001F389"
       bidding_round_failed:
         _en: "Bidding round #{{ bidding_round.number }} failed \U0001F62C"
         _fr: "Tour d'engagement n°{{ bidding_round.number }} échoué \U0001F62C"
-        _de: "Bietrunde Nr. {{ bidding_round.number }} fehlgeschlagen \U0001F62C"
+        _de: "Bieterunde Nr. {{ bidding_round.number }} fehlgeschlagen \U0001F62C"
         _it: "Turno di impegno n°{{ bidding_round.number }} è fallito \U0001F62C"
         _nl: "Biedronde #{{ bidding_round.number }} mislukt \U0001F62C"
       bidding_round_opened:
         _en: 'Bidding round #{{ bidding_round.number }} is open'
         _fr: Tour d'engagement n°{{ bidding_round.number }} ouvert
-        _de: Bietrunde Nr. {{ bidding_round.number }} ist offen
+        _de: Bieterunde Nr. {{ bidding_round.number }} ist offen
         _it: Turno di impegno n°{{ bidding_round.number }} è aperto
         _nl: 'Biedronde #{{ bidding_round.number }} is open'
       bidding_round_opened_reminder:
         _en: 'Bidding round #{{ bidding_round.number }} is open (reminder)'
         _fr: Tour d'engagement n°{{ bidding_round.number }} ouvert (rappel)
-        _de: Bietrunde Nr. {{ bidding_round.number }} ist offen (Erinnerung)
+        _de: Bieterunde Nr. {{ bidding_round.number }} ist offen (Erinnerung)
         _it: Turno di impegno n°{{ bidding_round.number }} è aperto (promemoria)
         _nl: 'Biedronde #{{ bidding_round.number }} is open (herinnering)'
       invoice_cancelled:
@@ -179,25 +179,25 @@ _:
       bidding_round_completed:
         _en: Sent to notify the members that the bidding round has been completed with success. Sent to all eligible members, even if they have not pledged.
         _fr: Envoyé pour informer les membres que le tour d'engagement est terminé avec succès. Envoyé à tous les membres concernés, même s'ils n'ont pas fixé leur montant.
-        _de: Wird gesendet, um die Mitglieder zu informieren, dass die Bietrunde erfolgreich abgeschlossen wurde. An alle berechtigten Mitglieder gesendet, auch wenn sie keinen Betrag zugesagt haben.
+        _de: Wird gesendet, um die Mitglieder zu informieren, dass die Bieterunde erfolgreich abgeschlossen wurde. An alle berechtigten Mitglieder gesendet, auch wenn sie keinen Betrag zugesagt haben.
         _it: Inviato per informare i soci che il turno di impegno è stato completato con successo. Inviato a tutti i soci eleggibili, anche se non hanno promesso un importo.
         _nl: Verzonden om de leden te informeren dat de biedronde succesvol is afgerond. Verzonden naar alle berechtigde leden, zelfs als ze geen bedrag hebben toegezegd.
       bidding_round_failed:
         _en: Sent to notify the members that the bidding round has failed. Sent to all eligible members, even if they have not pledged.
         _fr: Envoyé pour informer les membres que le tour d'engagement a échoué. Envoyé à tous les membres concernés, même s'ils n'ont pas fixé leur montant.
-        _de: Wird gesendet, um die Mitglieder zu informieren, dass die Bietrunde fehlgeschlagen ist. An alle berechtigten Mitglieder gesendet, auch wenn sie keinen Betrag zugesagt haben.
+        _de: Wird gesendet, um die Mitglieder zu informieren, dass die Bieterunde fehlgeschlagen ist. An alle berechtigten Mitglieder gesendet, auch wenn sie keinen Betrag zugesagt haben.
         _it: Inviato per informare i soci che il turno di impegno è fallito. Inviato a tutti i soci eleggibili, anche se non hanno promesso un importo.
         _nl: Verzonden om de leden te informeren dat de biedronde is mislukt. Verzonden naar alle berechtigde leden, zelfs als ze geen bedrag hebben toegezegd.
       bidding_round_opened:
         _en: Sent when a bidding round is opened to all eligible members.
         _fr: Envoyé quand un tour d'engagement est ouvert à tous les membres concernés.
-        _de: Wird gesendet, wenn eine Bietrunde für alle berechtigten Mitglieder geöffnet wird.
+        _de: Wird gesendet, wenn eine Bieterunde für alle berechtigten Mitglieder geöffnet wird.
         _it: Inviato quando un turno di impegno viene aperto a tutti i soci eleggibili.
         _nl: Verzonden wanneer een biedronde wordt geopend voor alle berechtigde leden.
       bidding_round_opened_reminder:
         _en: Sent to remind the members that they have not yet pledged for the open bidding round (see <a href='/settings#bidding_round'>settings</a> for the deadline).
         _fr: Envoyé pour rappeler aux membres qu'ils n'ont pas encore fixé leur montant au tour d'engagement ouvert (voir <a href='/settings#bidding_round'>paramètres</a> pour la date limite).
-        _de: Gesendet, um die Mitglieder daran zu erinnern, dass sie für die offene Bietrunde noch keinen Betrag zugesagt haben (siehe <a href='/settings#bidding_round'>die Einstellungen</a> für die Frist).
+        _de: Gesendet, um die Mitglieder daran zu erinnern, dass sie für die offene Bieterunde noch keinen Betrag zugesagt haben (siehe <a href='/settings#bidding_round'>die Einstellungen</a> für die Frist).
         _it: Inviato per ricordare al socio che non ha ancora promesso un importo per il turno di impegno aperto (vedi <a href='/settings#bidding_round'>parametri</a> per le scadenze).
         _nl: Verzonden om de leden eraan te herinneren dat ze nog geen bedrag hebben toegezegd voor de open biedronde (zie <a href='/settings#bidding_round'>instellingen</a> voor de deadline).
       invoice_cancelled:

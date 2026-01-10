@@ -51,13 +51,13 @@ _:
     bidding_round:
       _en: Bidding round
       _fr: Tour d'engagement
-      _de: Bietrunde
+      _de: Bieterunde
       _it: Turno di impegno
       _nl: Toezeggingsronde
     bidding_round_hint:
       _en: Enables members to pledge their basket size price through organized bidding rounds.<br/>Please <a href="/handbook/bidding_round">consult the manual</a> for more information.
       _fr: Permet aux membres de s'engager sur le prix de leur panier en organisant des tours d'engagement.<br/>Merci de <a href="/handbook/bidding_round">consulter le manuel</a> pour plus d'informations.
-      _de: Ermöglicht Mitgliedern, den Preis ihrer Taschengröße über organisierte Bietrunden selbst festzulegen.<br/>Bitte <a href="/handbook/bidding_round">konsultieren Sie das Handbuch</a> für weitere Informationen.
+      _de: Ermöglicht Mitgliedern, den Preis ihrer Taschengröße über organisierte Bieterunden selbst festzulegen.<br/>Bitte <a href="/handbook/bidding_round">konsultieren Sie das Handbuch</a> für weitere Informationen.
       _it: Consente ai soci di fissare il prezzo della dimensione del loro cestino tramite turni di impegno organizzati.<br/>Si prega <a href="/handbook/bidding_round">di consultare il manuale</a> per ulteriori informazioni.
       _nl: Stelt leden in staat om via georganiseerde toezeggingsrondes hun pakketgrootteprijs toe te zeggen.<br/>Raadpleeg <a href="/handbook/bidding_round">de handleiding</a> voor meer informatie.
     contact_sharing:
