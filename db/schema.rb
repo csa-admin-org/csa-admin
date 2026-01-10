@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_01_06_203500) do
+ActiveRecord::Schema[8.1].define(version: 2026_01_10_112211) do
   create_table "absences", force: :cascade do |t|
     t.datetime "created_at"
     t.date "ended_on"
@@ -798,7 +798,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_06_203500) do
     t.boolean "membership_complements_update_allowed", default: false, null: false
     t.boolean "membership_depot_update_allowed", default: false, null: false
     t.boolean "membership_renewal_depot_update", default: true, null: false
-    t.json "membership_renewed_attributes", default: ["baskets_annual_price_change", "basket_complements_annual_price_change", "activity_participations_demanded_annually", "activity_participations_annual_price_change", "absences_included_annually"]
+    t.json "membership_renewed_attributes", default: ["baskets_annual_price_change", "basket_complements_annual_price_change", "activity_participations", "absences_included_annually"]
     t.string "name", null: false
     t.decimal "new_member_fee", precision: 8, scale: 2
     t.json "new_member_fee_descriptions", default: {}, null: false

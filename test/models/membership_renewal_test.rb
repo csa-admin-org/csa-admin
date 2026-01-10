@@ -158,7 +158,7 @@ class MembershipRenewalTest < ActiveSupport::TestCase
       activity_participations_demanded_annually: 5,
       activity_participations_annual_price_change: -60,
       basket_complements_annual_price_change: -32)
-    org(membership_renewed_attributes: %w[activity_participations_demanded_annually])
+    org(membership_renewed_attributes: %w[activity_participations])
 
     assert_difference "Membership.count", 1 do
       MembershipRenewal.new(membership).renew!
@@ -167,8 +167,35 @@ class MembershipRenewalTest < ActiveSupport::TestCase
     renewed_membership = membership.reload.renewed_membership
     assert_equal 0, renewed_membership.baskets_annual_price_change
     assert_equal 5, renewed_membership.activity_participations_demanded_annually
-    assert_equal 0, renewed_membership.activity_participations_annual_price_change
+    assert_equal(-60, renewed_membership.activity_participations_annual_price_change)
     assert_equal 0, renewed_membership.basket_complements_annual_price_change
+  end
+
+  test "carries over absences_included_annually when enabled" do
+    org(membership_renewed_attributes: %w[absences_included_annually])
+    membership = memberships(:jane)
+    membership.update!(absences_included_annually: 5)
+
+    assert_difference "Membership.count", 1 do
+      MembershipRenewal.new(membership).renew!
+    end
+
+    renewed_membership = membership.reload.renewed_membership
+    assert_equal 5, renewed_membership.absences_included_annually
+  end
+
+  test "resets absences_included_annually to delivery cycle default when disabled" do
+    org(membership_renewed_attributes: %w[])
+    membership = memberships(:jane)
+    membership.update!(absences_included_annually: 5)
+    membership.delivery_cycle.update!(absences_included_annually: 2)
+
+    assert_difference "Membership.count", 1 do
+      MembershipRenewal.new(membership).renew!
+    end
+
+    renewed_membership = membership.reload.renewed_membership
+    assert_equal 2, renewed_membership.absences_included_annually
   end
 
   test "switches to primary delivery cycle when selected cycle has no deliveries in next year" do

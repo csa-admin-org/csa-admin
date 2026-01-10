@@ -3043,6 +3043,12 @@ _:
             _de: Erneuern (%{count})
             _it: Rinnovare (%{count})
             _nl: Vernieuwen (%{count})
+        renew_all_confirm:
+          _en: Are you sure? Make sure to review "Configurations carried over" in the Renewal settings beforehand.
+          _fr: Êtes-vous sûr ? Veuillez vérifier les "Configurations reprises" dans les paramètres de Renouvellement au préalable.
+          _de: Sind Sie sicher? Bitte überprüfen Sie vorher die "Übernommene Konfigurationen" in den Erneuerungseinstellungen.
+          _it: Sei sicuro? Assicurati di verificare prima le "Configurazioni riprese" nelle impostazioni di Rinnovo.
+          _nl: Weet u het zeker? Controleer vooraf de "Overgenomen configuraties" in de Vernieuwingsinstellingen.
         renewal:
           _en: Renewals
           _fr: Renouvellements

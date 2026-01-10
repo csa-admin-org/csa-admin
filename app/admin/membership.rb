@@ -249,7 +249,7 @@ ActiveAdmin.register Membership do
                     button_to renew_all_memberships_path,
                       params: { year: renewal.fy_year },
                       form: { class: "flex justify-center", data: { controller: "disable", disable_with_value: t(".renewing") } },
-                      class: "btn btn-sm", data: { confirm: t("active_admin.batch_actions.default_confirmation") } do
+                      class: "btn btn-sm", data: { confirm: t(".renew_all_confirm") } do
                         icon("arrow-path", class: "size-4 mr-2") + t(".renew_all_action", count: renewal.renewable_count)
                       end
                   end

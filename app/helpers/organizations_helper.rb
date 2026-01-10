@@ -36,30 +36,15 @@ module OrganizationsHelper
 
   def membership_renewed_attributes_collection
     col = [
-      [
-        Membership.human_attribute_name(:baskets_annual_price_change),
-        "baskets_annual_price_change"
-      ],
-      [
-        Membership.human_attribute_name(:basket_complements_annual_price_change),
-        "basket_complements_annual_price_change"
-      ]
+      membership_renewed_attribute_item(:baskets_annual_price_change),
+      membership_renewed_attribute_item(:basket_complements_annual_price_change)
     ]
     if feature?("absence")
-      col << [
-        Membership.human_attribute_name(:absences_included_annually),
-        "absences_included_annually"
-      ]
+      col << membership_renewed_attribute_item(:absences_included_annually)
     end
     if feature?("activity")
-      col <<  [
-        "#{t('formtastic.labels.membership.activity_participations_annual_price_change')} (#{activities_human_name})",
-        "activity_participations_annual_price_change"
-      ]
-      col <<  [
-        "#{activities_human_name} (#{t('active_admin.resource.form.full_year')})",
-        "activity_participations_demanded_annually"
-      ]
+      label = "#{activities_human_name} (#{t('active_admin.resource.form.full_year')})"
+      col << membership_renewed_attribute_item(:activity_participations, label: label)
     end
     col
   end
@@ -82,5 +67,23 @@ module OrganizationsHelper
     when "DE" then "DE98ZZZ09999999999"
     when "NL" then "NL00ZZZ123456780000"
     end
+  end
+
+  private
+
+  def membership_renewed_attribute_item(attribute, label: nil)
+    label ||= Membership.human_attribute_name(attribute)
+    hint = t("formtastic.hints.membership_renewed_attributes.#{attribute}", default: nil)
+
+    label_content = if hint
+      content_tag(:span) do
+        content_tag(:span, label) +
+        content_tag(:span, hint, class: "block text-gray-500 dark:text-gray-400 text-sm font-normal")
+      end
+    else
+      label
+    end
+
+    [ label_content, attribute.to_s ]
   end
 end

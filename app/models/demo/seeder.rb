@@ -286,8 +286,7 @@ class Demo::Seeder
       membership_renewed_attributes: %w[
         baskets_annual_price_change
         basket_complements_annual_price_change
-        activity_participations_demanded_annually
-        activity_participations_annual_price_change
+        activity_participations
         absences_included_annually
       ],
       membership_renewal_depot_update: true,

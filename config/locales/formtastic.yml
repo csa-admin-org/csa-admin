@@ -682,6 +682,31 @@ _:
           _de: Leer lassen, wenn das Mitglied nicht als unterstützendes Mitglied fortfahren möchte.
           _it: Lasciare vuoto se il socio non desidera continuare come socio sostenitore.
           _nl: Laat leeg als het lid niet wil doorgaan als ondersteunend lid.
+      membership_renewed_attributes:
+        absences_included_annually:
+          _en: Keeps the custom number of included absences. If unchecked, the default value from the delivery cycle will be used.
+          _fr: Conserve le nombre personnalisé d'absences incluses. Si décochée, la valeur par défaut du cycle de livraison sera utilisée.
+          _de: Behält die benutzerdefinierte Anzahl enthaltener Abwesenheiten bei. Wenn nicht aktiviert, wird der Standardwert des Lieferzyklus verwendet.
+          _it: Mantiene il numero personalizzato di assenze incluse. Se non selezionato, verrà utilizzato il valore predefinito del ciclo di consegna.
+          _nl: Behoudt het aangepaste aantal inbegrepen afwezigheden. Indien niet aangevinkt, wordt de standaardwaarde van de leveringscyclus gebruikt.
+        activity_participations:
+          _en: Keeps the custom number of demanded participations and its price adjustment. If unchecked, the default value will be calculated based on the basket size and complements.
+          _fr: Conserve le nombre personnalisé de participations demandées et son ajustement de prix. Si décochée, la valeur par défaut sera calculée selon la taille du panier et les compléments.
+          _de: Behält die benutzerdefinierte Anzahl geforderter Teilnahmen und die Preisanpassung bei. Wenn nicht aktiviert, wird der Standardwert basierend auf Taschengröße und Zusätzen berechnet.
+          _it: Mantiene il numero personalizzato di partecipazioni richieste e il relativo aggiustamento di prezzo. Se non selezionato, il valore predefinito sarà calcolato in base alla dimensione del cesto e agli extra.
+          _nl: Behoudt het aangepaste aantal gevraagde deelnames en de bijbehorende prijsaanpassing. Indien niet aangevinkt, wordt de standaardwaarde berekend op basis van pakketgrootte en aanvullingen.
+        basket_complements_annual_price_change:
+          _en: Keeps any price adjustment applied to complements. This adjustment appears as a separate line on the invoice.
+          _fr: Conserve l'ajustement de prix appliqué aux compléments. Cet ajustement apparaît comme une ligne distincte sur la facture.
+          _de: Behält Preisanpassungen für Zusätze bei. Diese Anpassung erscheint als separate Zeile auf der Rechnung.
+          _it: Mantiene l'aggiustamento di prezzo applicato agli extra. Questo aggiustamento appare come una riga separata sulla fattura.
+          _nl: Behoudt prijsaanpassingen toegepast op aanvullingen. Deze aanpassing verschijnt als een aparte regel op de factuur.
+        baskets_annual_price_change:
+          _en: Keeps any price adjustment applied to baskets. This adjustment appears as a separate line on the invoice.
+          _fr: Conserve l'ajustement de prix appliqué aux paniers. Cet ajustement apparaît comme une ligne distincte sur la facture.
+          _de: Behält Preisanpassungen für Taschen bei. Diese Anpassung erscheint als separate Zeile auf der Rechnung.
+          _it: Mantiene l'aggiustamento di prezzo applicato ai cesti. Questo aggiustamento appare come una riga separata sulla fattura.
+          _nl: Behoudt prijsaanpassingen toegepast op pakketten. Deze aanpassing verschijnt als een aparte regel op de factuur.
       memberships_basket_complement:
         delivery_cycle:
           _en: If a delivery cycle is selected, only the intersections of the deliveries of the membership, the supplement, and the cycle will be considered.

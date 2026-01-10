@@ -3,13 +3,15 @@
 class MembershipRenewal
   MissingDeliveriesError = Class.new(StandardError)
 
-  OPTIONAL_ATTRIBUTES = %w[
-    baskets_annual_price_change
-    basket_complements_annual_price_change
-    activity_participations_demanded_annually
-    activity_participations_annual_price_change
-    absences_included_annually
-  ]
+  # Maps the consolidated option names (used in org settings) to actual model attributes.
+  # The "activity_participations" option copies both demanded_annually and price_change
+  # together to maintain consistency (price_change depends on demanded_annually).
+  OPTIONAL_ATTRIBUTES_MAP = {
+    "baskets_annual_price_change" => %w[baskets_annual_price_change],
+    "basket_complements_annual_price_change" => %w[basket_complements_annual_price_change],
+    "activity_participations" => %w[activity_participations_demanded_annually activity_participations_annual_price_change],
+    "absences_included_annually" => %w[absences_included_annually]
+  }
 
   attr_reader :membership, :fiscal_year
 
@@ -62,7 +64,7 @@ class MembershipRenewal
         depot_id
         delivery_cycle_id
         billing_year_division
-      ] + (OPTIONAL_ATTRIBUTES & Current.org.membership_renewed_attributes)))
+      ] + optional_attributes_to_copy))
       .symbolize_keys
       .merge(
         started_on: fiscal_year.beginning_of_year,
@@ -116,5 +118,11 @@ class MembershipRenewal
   def activity_participations_demanded_annually_changed?(new_membership)
     membership.activity_participations_demanded_annually != new_membership.activity_participations_demanded_annually
       || membership.activity_participations_demanded_annually_by_default != new_membership.activity_participations_demanded_annually_by_default
+  end
+
+  def optional_attributes_to_copy
+    Current.org.membership_renewed_attributes.flat_map do |option|
+      OPTIONAL_ATTRIBUTES_MAP[option] || []
+    end
   end
 end
