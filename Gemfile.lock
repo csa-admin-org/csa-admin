@@ -97,13 +97,13 @@ GEM
     arbre (2.2.1)
       activesupport (>= 7.0)
     ast (2.4.3)
-    async (2.35.1)
+    async (2.35.2)
       console (~> 1.29)
       fiber-annotation
       io-event (~> 1.11)
       metrics (~> 0.12)
       traces (~> 0.18)
-    async-http (0.93.0)
+    async-http (0.94.0)
       async (>= 2.10.2)
       async-pool (~> 0.11)
       io-endpoint (~> 0.14)
@@ -782,8 +782,8 @@ CHECKSUMS
   appsignal (4.8.1) sha256=69e1db8019ce216aff36a716a0dc9317d4ccebfe5be27db11dbd85de1273cb1e
   arbre (2.2.1) sha256=3048ba04c063e603fa9a47cd8ea8fe5ce79a0dbd7306840816ab37bb496c79d6
   ast (2.4.3) sha256=954615157c1d6a382bc27d690d973195e79db7f55e9765ac7c481c60bdb4d383
-  async (2.35.1) sha256=5232b76ed07db1b071eab1dc9e61a7db617034f37c42a5f4b59b3c5068b14145
-  async-http (0.93.0) sha256=04ff9aee39d981ebccf33b70dc6c69e39f60ea4a9199d1e6378afa09eacd53ec
+  async (2.35.2) sha256=2193907844f0ab086d4491c4d05c2a16dc2e2466b12468270e57daba5d21f962
+  async-http (0.94.0) sha256=479dc4a11c078aff7e054a729fc79fef7d0c28ca26bfe81a4d125672b28759ea
   async-pool (0.11.1) sha256=98e1583e199a75f7dc70f8e65fc8d0d3b28636c3f256595d43e206642ad8fbda
   async-rest (0.20.0) sha256=72b0d467f65269a53a64fc12b828f3d81b4afa201b4eea0b98cddb990e7e95eb
   aws-eventstream (1.4.0) sha256=116bf85c436200d1060811e6f5d2d40c88f65448f2125bc77ffce5121e6e183b
