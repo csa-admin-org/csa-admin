@@ -456,7 +456,7 @@ GEM
     protocol-http (0.58.0)
     protocol-http1 (0.36.0)
       protocol-http (~> 0.58)
-    protocol-http2 (0.23.0)
+    protocol-http2 (0.24.0)
       protocol-hpack (~> 1.4)
       protocol-http (~> 0.47)
     protocol-url (0.4.0)
@@ -934,7 +934,7 @@ CHECKSUMS
   protocol-hpack (1.5.1) sha256=6feca238b8078da1cd295677d6f306c6001af92d75fe0643d33e6956cbc3ad91
   protocol-http (0.58.0) sha256=b77c5799e7a7acd31afaa9fed5c3714fe91ab7746925d66e9e4d92a5c74555fa
   protocol-http1 (0.36.0) sha256=057344d2509a59338d0b4bc8f092a52126bb9ed51b76adbb4365f132bbd4ef09
-  protocol-http2 (0.23.0) sha256=bb7a782bb24a386cf475bc8cd6190bd28b392fcef943e06c8d8fce06cc3b2ba8
+  protocol-http2 (0.24.0) sha256=65327a019b7e36d2774e94050bf57a43bb60212775d2fcf02ae1d2ed4f01ef28
   protocol-url (0.4.0) sha256=64d4c03b6b51ad815ac6fdaf77a1d91e5baf9220d26becb846c5459dacdea9e1
   psych (5.3.1) sha256=eb7a57cef10c9d70173ff74e739d843ac3b2c019a003de48447b2963d81b1974
   public_suffix (7.0.2) sha256=9114090c8e4e7135c1fd0e7acfea33afaab38101884320c65aaa0ffb8e26a857
