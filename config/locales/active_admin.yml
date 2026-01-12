@@ -2612,11 +2612,11 @@ _:
             _it: Siete sicuri di voler contrassegnare questo turno di impegno come fallito?
             _nl: Weet u zeker dat u deze biedronde als mislukt wilt markeren?
           open_confirm:
-            _en: Are you sure you want to open this bidding round? An email will be sent to the %{count} eligible members.
-            _fr: Êtes-vous sûr de vouloir ouvrir ce tour d'engagement ? Un email sera envoyé aux %{count} membres éligibles.
-            _de: Sind Sie sicher, dass Sie diese Bieterunde öffnen möchten? Eine E-Mail wird an die %{count} berechtigten Mitglieder gesendet.
-            _it: Siete sicuri di voler aprire questo turno di impegno? Un'email sarà inviata ai %{count} soci eleggibili.
-            _nl: Weet u zeker dat u deze biedronde wilt openen? Een e-mail wordt verzonden naar de %{count} geschikte leden.
+            _en: Are you sure you want to open this bidding round? An email will be sent to the %{count} eligible members (if enabled).
+            _fr: Êtes-vous sûr de vouloir ouvrir ce tour d'engagement ? Un email sera envoyé aux %{count} membres éligibles (si activé).
+            _de: Sind Sie sicher, dass Sie diese Bieterunde öffnen möchten? Eine E-Mail wird an die %{count} berechtigten Mitglieder gesendet (falls aktiviert).
+            _it: Siete sicuri di voler aprire questo turno di impegno? Un'email sarà inviata ai %{count} soci eleggibili (se attivato).
+            _nl: Weet u zeker dat u deze biedronde wilt openen? Een e-mail wordt verzonden naar de %{count} geschikte leden (indien ingeschakeld).
         cancel_action:
           _en: Edit
           _fr: Modifier
