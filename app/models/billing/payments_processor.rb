@@ -60,17 +60,12 @@ module Billing
     end
 
     def find_invoice(data)
-      if data.member_id && !Member.exists?(data.member_id)
+      unless data.member_id && Member.exists?(data.member_id)
         Rails.event.notify(:payment_processing_unknown_member, **data.to_h)
         return
       end
 
-      invoices =
-        if data.member_id
-          Member.find(data.member_id).invoices
-        else
-          Invoice.all
-        end
+      invoices = Member.find(data.member_id).invoices
 
       unless invoice = invoices.find_by(id: data.invoice_id)
         Rails.event.notify(:payment_processing_unknown_invoice, **data.to_h)
