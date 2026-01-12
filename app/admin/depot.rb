@@ -16,7 +16,7 @@ ActiveAdmin.register Depot do
     as: :string
   filter :delivery_cycles,
     as: :select,
-    collection: -> { admin_delivery_cycles_collection }
+    collection: -> { admin_delivery_cycles_collection_by_visibility }
 
   includes :memberships, :delivery_cycles
   index do

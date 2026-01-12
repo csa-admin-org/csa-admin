@@ -25,25 +25,27 @@ module AdminHelper
     grouped_by_visibility(admin_basket_complements, options)
   end
 
-  def admin_delivery_cycles_collection
-    cycles = DeliveryCycle.kept.ordered
-    if DeliveryCycle.visible?
-      [
-        [ t("active_admin.scopes.visible"), cycles_option_for_select(cycles.visible) ],
-        [ t("active_admin.scopes.hidden"), cycles_option_for_select(cycles.where.not(id: cycles.visible)) ]
-      ]
-    else
-      cycles_option_for_select(cycles)
-    end
+  def admin_delivery_cycles
+    DeliveryCycle.kept.ordered
   end
 
-  def cycles_option_for_select(cycles)
-    cycles.map { |cycle|
+  def admin_delivery_cycles_collection
+    delivery_cycles_option_for_select(admin_delivery_cycles)
+  end
+
+  def admin_delivery_cycles_collection_by_visibility
+    cycles = admin_delivery_cycles
+    visible_cycles = cycles.visible.to_a
+    hidden_cycles = cycles.to_a - visible_cycles
+
+    if hidden_cycles.empty?
+      delivery_cycles_option_for_select(cycles)
+    else
       [
-        "#{cycle.name} (#{t('helpers.deliveries_count', count: cycle.deliveries_count)})",
-        cycle.id
+        [ t("active_admin.scopes.visible"), delivery_cycles_option_for_select(visible_cycles) ],
+        [ t("active_admin.scopes.hidden"), delivery_cycles_option_for_select(hidden_cycles) ]
       ]
-    }
+    end
   end
 
   def member_cities_collection
@@ -83,6 +85,15 @@ module AdminHelper
   end
 
   private
+
+  def delivery_cycles_option_for_select(cycles)
+    cycles.map { |cycle|
+      [
+        "#{cycle.name} (#{t('helpers.deliveries_count', count: cycle.deliveries_count)})",
+        cycle.id
+      ]
+    }
+  end
 
   def option_for_select(records, options = nil)
     records.map { |a| [ a.display_name, a.id, options&.call(a) ].compact }

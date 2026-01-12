@@ -47,7 +47,7 @@ ActiveAdmin.register Membership do
   filter :depot, as: :select, collection: -> { admin_depots_collection }
   filter :delivery_cycle,
     as: :select,
-    collection: -> { admin_delivery_cycles_collection }
+    collection: -> { admin_delivery_cycles_collection_by_visibility }
   filter :absences_included,
     if: proc { feature?("absence") }
   filter :renewal_state,
@@ -859,7 +859,7 @@ ActiveAdmin.register Membership do
       end
       ol "data-controller" => "form-reset", class: "mt-6" do
         f.input :delivery_cycle,
-          collection: admin_delivery_cycles_collection,
+          collection: admin_delivery_cycles_collection_by_visibility,
           as: :select,
           prompt: true,
           input_html: {
@@ -913,7 +913,7 @@ ActiveAdmin.register Membership do
           ff.input :quantity
           ff.input :delivery_cycle,
             as: :select,
-            collection: admin_delivery_cycles_collection,
+            collection: admin_delivery_cycles_collection_by_visibility,
             include_blank: true,
             hint: true
         end
