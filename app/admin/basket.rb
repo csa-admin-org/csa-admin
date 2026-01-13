@@ -25,89 +25,6 @@ ActiveAdmin.register Basket do
     collection: -> { fiscal_years_collection }
 
   includes :delivery, :basket_size, :depot, baskets_basket_complements: :basket_complement, membership: :member
-  csv do
-    basket_complements_exist = BasketComplement.kept.any?
-    single_delivery = params[:q][:delivery_id_eq].present?
-    deliveries = []
-    deliveries << Delivery.find(params[:q][:delivery_id_eq]) if single_delivery
-    deliveries += Delivery.during_year(params[:q][:during_year]) if params[:q][:during_year].present?
-    deliveries.compact!
-    shop_orders =
-      if feature?("shop")
-        Shop::Order.where(delivery: deliveries).includes(items: { product: :basket_complement })
-      else
-        Shop::Order.none
-      end
-    shop_orders_index = shop_orders.index_by { |o| [ o.member_id, o.delivery_id ] }
-    shop_products = shop_orders.products_displayed_in_delivery_sheets
-
-    if deliveries.many?
-      column(:delivery_id) { |b| b.delivery.display_number }
-      column(:delivery_date) { |b| b.delivery.date }
-    end
-
-    column(:basket_id) { |b| b.id }
-    column(:membership_id) { |b| b.membership_id }
-    column(:member_id) { |b| b.membership.member_id }
-    if single_delivery
-      column(:name) { |b| b.membership.member.name }
-      column(:emails) { |b| b.membership.member.emails_array.join(", ") }
-      column(:phones) { |b| b.membership.member.phones_array.map(&:phony_formatted).join(", ") }
-      column(:street) { |b| b.membership.member.street }
-      column(:zip) { |b| b.membership.member.zip }
-      column(:city) { |b| b.membership.member.city }
-      column(:food_note) { |b| b.membership.member.food_note }
-      column(:delivery_note) { |b| b.membership.member.delivery_note }
-    end
-    column(:depot_id)
-    column(:depot) { |b| b.depot&.public_name }
-    column(:depot_price) { |b| cur(b.depot_price) }
-    column(:basket_size_id)
-    column(I18n.t("attributes.basket_size")) { |b| b.basket_size.name }
-    column(:quantity) { |b| b.quantity }
-    column(:basket_size_price) { |b| cur(b.basket_size_price) }
-    column(:state) { |b| b.state }
-    column(:absence_id)
-    column(:provisionally_absent) { |b| b.provisionally_absent? }
-    if feature?("basket_price_extra")
-      column(:price_extra) { |b| cur(b.calculated_price_extra) }
-    end
-    column(:description) { |b| b.basket_description(public_name: true) }
-    if basket_complements_exist
-      shop_orders ||= Shop::Order.none
-      BasketComplement.for(collection, shop_orders).each do |c|
-        column(c.name) { |b|
-          basket_qty = b.baskets_basket_complements.select { |bc| bc.basket_complement_id == c.id }.sum(&:quantity)
-          shop_order = shop_orders_index[[ b.membership.member_id, b.delivery_id ]]
-          shop_qty = shop_order&.items&.select { |i| i.product.basket_complement_id == c.id }&.sum(&:quantity) || 0
-          basket_qty + shop_qty
-        }
-      end
-      column("#{Basket.human_attribute_name(:complement_ids)} (#{Basket.human_attribute_name(:description)})") { |b|
-        b.complements_description(public_name: true)
-      }
-      column(:complements_price) { |b| cur(b.complements_price) }
-    end
-    if feature?("shop")
-      column(I18n.t("shop.title_orders", count: 2)) { |b|
-        shop_orders_index[[ b.membership.member_id, b.delivery_id ]] ? "X" : nil
-      }
-      if basket_complements_exist
-        column("#{Basket.human_attribute_name(:complement_ids)} (#{Shop::Order.model_name.human(count: 1)})") { |b|
-          shop_orders_index[[ b.membership.member_id, b.delivery_id ]]&.complements_description
-        }
-      end
-      if shop_products.any?
-        column("#{::Shop::Product.model_name.human(count: 2)} (#{I18n.t('shop.title')})") { |b|
-          shop_order = shop_orders_index[[ b.membership.member_id, b.delivery_id ]]
-          shop_products.filter_map { |p|
-            quantity = shop_order&.items&.find { |i| i.product_id == p.id }&.quantity
-            "#{quantity}x #{p.name_with_single_variant}" if quantity
-          }.join(", ").presence
-        }
-      end
-    end
-  end
 
   form do |f|
     deliveries_collection = basket_deliveries_collection(f.object)
@@ -232,6 +149,16 @@ ActiveAdmin.register Basket do
     ]
 
   controller do
+    def index
+      if request.format.csv?
+        exporter = build_csv_exporter
+        return send_data exporter.generate,
+          filename: exporter.filename,
+          type: "text/csv; charset=utf-8"
+      end
+      super
+    end
+
     def update
       update! do |success, failure|
         success.html { redirect_to resource.membership }
@@ -246,20 +173,15 @@ ActiveAdmin.register Basket do
       end
     end
 
-    def csv_filename
+    private
+
+    def build_csv_exporter
       if params[:q][:delivery_id_eq].present?
         delivery = Delivery.find(params[:q][:delivery_id_eq])
-        [
-          Delivery.model_name.human.downcase,
-          delivery.display_number,
-          delivery.date.strftime("%Y%m%d")
-        ].join("-") + ".csv"
+        Basket::CSVExporter.new(delivery: delivery)
       elsif params[:q][:during_year].present?
         fiscal_year = Current.org.fiscal_year_for(params[:q][:during_year])
-        [
-          Delivery.model_name.human(count: 2).downcase,
-          fiscal_year.to_s
-        ].join("-") + ".csv"
+        Basket::CSVExporter.new(fiscal_year: fiscal_year)
       end
     end
   end

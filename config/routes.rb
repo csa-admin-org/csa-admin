@@ -38,6 +38,9 @@ Rails.application.routes.draw do
         resources :members, only: :create
         resource :configuration, only: :show
         get "basket_contents/current" => "basket_contents#index"
+        resources :deliveries, only: [] do
+          resources :baskets, only: :index
+        end
       end
     end
 
