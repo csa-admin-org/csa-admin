@@ -24,11 +24,12 @@ ActiveAdmin.register Basket do
     as: :select,
     collection: -> { fiscal_years_collection }
 
-  includes :membership, :delivery, :basket_size, :depot, baskets_basket_complements: :basket_complement
+  includes :delivery, :basket_size, :depot, baskets_basket_complements: :basket_complement, membership: :member
   csv do
     basket_complements_exist = BasketComplement.kept.any?
+    single_delivery = params[:q][:delivery_id_eq].present?
     deliveries = []
-    deliveries << Delivery.find(params[:q][:delivery_id_eq]) if params[:q][:delivery_id_eq].present?
+    deliveries << Delivery.find(params[:q][:delivery_id_eq]) if single_delivery
     deliveries += Delivery.during_year(params[:q][:during_year]) if params[:q][:during_year].present?
     deliveries.compact!
     shop_orders =
@@ -48,6 +49,16 @@ ActiveAdmin.register Basket do
     column(:basket_id) { |b| b.id }
     column(:membership_id) { |b| b.membership_id }
     column(:member_id) { |b| b.membership.member_id }
+    if single_delivery
+      column(:name) { |b| b.membership.member.name }
+      column(:emails) { |b| b.membership.member.emails_array.join(", ") }
+      column(:phones) { |b| b.membership.member.phones_array.map(&:phony_formatted).join(", ") }
+      column(:street) { |b| b.membership.member.street }
+      column(:zip) { |b| b.membership.member.zip }
+      column(:city) { |b| b.membership.member.city }
+      column(:food_note) { |b| b.membership.member.food_note }
+      column(:delivery_note) { |b| b.membership.member.delivery_note }
+    end
     column(:depot_id)
     column(:depot) { |b| b.depot&.public_name }
     column(:depot_price) { |b| cur(b.depot_price) }
