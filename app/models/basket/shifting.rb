@@ -19,7 +19,15 @@ module Basket::Shifting
   end
 
   def can_be_shifted?
-    absent? && !empty? && !shifted?
+    absent? && !empty? && !shifted? && billable?
+  end
+
+  # Returns true when an absent basket's content is forfeited (won't be received).
+  # This happens when the basket is not billable (from absences_included quota)
+  # or empty. Shifted baskets are also forfeited on the source date (content
+  # moves to target date, so nothing delivered here).
+  def content_forfeited?
+    absent? && (!billable? || empty?)
   end
 
   def shifted?

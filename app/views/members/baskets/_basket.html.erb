@@ -42,7 +42,7 @@
     </div>
   </div>
 
-  <ul class="-ms-0.5 space-y-1.5 <%= "[&_a]:decoration-inherit line-through" if basket.absent? && (!basket.billable? || basket.empty?) %>">
+  <ul class="-ms-0.5 space-y-1.5 <%= "[&_a]:decoration-inherit line-through" if basket.content_forfeited? %>">
     <li class="flex flex-row items-center gap-2">
       <%= icon "shopping-bag", class: "flex-none size-5 text-gray-300 dark:text-gray-700" %>
 
