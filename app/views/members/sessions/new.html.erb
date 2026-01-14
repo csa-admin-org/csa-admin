@@ -1,4 +1,4 @@
-<h1 class="mb-4"><%= t(".title") %></h1>
+<h1 class="mb-4 text-center"><%= t(".title") %></h1>
 
 <div class="mt-2 text-justify">
   <p><%= t(".text", features: member_features_sentence) %></p>
@@ -14,3 +14,7 @@
     </div>
   <% end %>
 </div>
+
+<p class="mt-12 text-center text-sm text-gray-600 dark:text-gray-400">
+  <%= t(".no_account_html", link: link_to(t(".register_link"), new_members_member_path)) %>
+</p>

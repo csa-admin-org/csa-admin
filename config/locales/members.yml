@@ -1412,6 +1412,18 @@ _:
           _de: Der Zugang zu Ihrem Konto erfolgt ohne Passwort über einem Anmeldelink. Dieser Link wird Ihnen über das untenstehende Formular per E-Mail zugestellt.
           _it: La connessione non richiede una password. Puoi connetterti richiedendo il link di connessione con il modulo sottostante (che verrà inviato al tuo indirizzo email).
           _nl: Toegang tot uw account is wachtwoordvrij via een inloglink. Deze link wordt naar u gestuurd via e-mail met behulp van onderstaand formulier.
+        no_account_html:
+          _en: Don't have an account yet? %{link}
+          _fr: Pas encore de compte? %{link}
+          _de: Noch kein Konto? %{link}
+          _it: Non hai ancora un account? %{link}
+          _nl: Nog geen account? %{link}
+        register_link:
+          _en: Register here
+          _fr: Inscrivez-vous ici
+          _de: Hier registrieren
+          _it: Registrati qui
+          _nl: Registreer hier
         submit:
           _en: Send
           _fr: Envoyer
