@@ -120,7 +120,7 @@ GEM
       async-http (~> 0.42)
       protocol-url (~> 0.2)
     aws-eventstream (1.4.0)
-    aws-partitions (1.1204.0)
+    aws-partitions (1.1205.0)
     aws-sdk-core (3.241.3)
       aws-eventstream (~> 1, >= 1.3.0)
       aws-partitions (~> 1, >= 1.992.0)
@@ -648,7 +648,7 @@ GEM
       simpleidn (~> 0.2.1)
     tsort (0.2.0)
     ttfunk (1.7.0)
-    turbo-rails (2.0.20)
+    turbo-rails (2.0.21)
       actionpack (>= 7.1.0)
       railties (>= 7.1.0)
     tzinfo (2.0.6)
@@ -787,7 +787,7 @@ CHECKSUMS
   async-pool (0.11.1) sha256=98e1583e199a75f7dc70f8e65fc8d0d3b28636c3f256595d43e206642ad8fbda
   async-rest (0.20.0) sha256=72b0d467f65269a53a64fc12b828f3d81b4afa201b4eea0b98cddb990e7e95eb
   aws-eventstream (1.4.0) sha256=116bf85c436200d1060811e6f5d2d40c88f65448f2125bc77ffce5121e6e183b
-  aws-partitions (1.1204.0) sha256=533ed16969cd37f381995eedc41ece6bbfe6a6eb35fb3ead66221e3bdab0e42a
+  aws-partitions (1.1205.0) sha256=5000d3235bc86c98fad0b1613414f0d0b884cd3e27e34933982885efeefd13df
   aws-sdk-core (3.241.3) sha256=c7c445ecf1c601c860fd537458b2eb8df0c5df01e63c371849e6594e6b1d4f47
   aws-sdk-kms (1.120.0) sha256=a206ac6f62efbe971f802e8399d2702496a5c5bc800abcf94ead87bdddfdfd80
   aws-sdk-s3 (1.211.0) sha256=2ae5feb09ff4862462824f267b76601ed16922a15de56cf51e4fa99bc5b3f519
@@ -1013,7 +1013,7 @@ CHECKSUMS
   truemail (3.3.1) sha256=26e07453e8a174ac487ec76cbca4904446eadad15fb7b26fb1ffcdc894488913
   tsort (0.2.0) sha256=9650a793f6859a43b6641671278f79cfead60ac714148aabe4e3f0060480089f
   ttfunk (1.7.0) sha256=2370ba484b1891c70bdcafd3448cfd82a32dd794802d81d720a64c15d3ef2a96
-  turbo-rails (2.0.20) sha256=cbcbb4dd3ce59f6471c9f911b1655b2c721998cc8303959d982da347f374ea95
+  turbo-rails (2.0.21) sha256=02070ea29fd11d8c1a07d9d7be980729a20e94e39b8c6c819f690f7959216bc7
   tzinfo (2.0.6) sha256=8daf828cc77bcf7d63b0e3bdb6caa47e2272dcfaf4fbfe46f8c3a9df087a829b
   unaccent (0.4.0) sha256=d9278230016edc5317c053f8e84c1e1dea6827dec028e5481e2294a4e11e7333
   unicode-display_width (3.2.0) sha256=0cdd96b5681a5949cdbc2c55e7b420facae74c4aaf9a9815eee1087cb1853c42
