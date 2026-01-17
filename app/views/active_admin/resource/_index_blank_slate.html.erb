@@ -11,7 +11,11 @@
       dark:text-gray-200
     "
   >
-    <%= I18n.t("active_admin.blank_slate.content", resource_name: active_admin_config.plural_resource_label) %>
+    <% if page_presenter.options.has_key?(:blank_slate_content) %>
+      <%= instance_exec(&page_presenter.options[:blank_slate_content]) %>
+    <% else %>
+      <%= I18n.t("active_admin.blank_slate.content", resource_name: active_admin_config.plural_resource_label) %>
+    <% end %>
   </h2>
 
   <% if new_action_authorized?(active_admin_config.resource_class) %>

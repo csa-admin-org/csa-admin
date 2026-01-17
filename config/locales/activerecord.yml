@@ -530,6 +530,12 @@ _:
           _de: Offenes
           _it: Aperto
           _nl: Open
+        shop_open_for_depot_ids:
+          _en: Open for depots
+          _fr: Ouverte pour les dépôts
+          _de: Offen für Depots
+          _it: Aperto per i punti di ritiro
+          _nl: Open voor depots
         signature:
           _en: Signature
           _fr: Signature
@@ -537,6 +543,12 @@ _:
           _it: Firma
           _nl: Handtekening
       delivery_cycle:
+        absences_included_annually:
+          _en: Absences included per year
+          _fr: Absences incluses par année
+          _de: Abwesenheiten pro Jahr inklusive
+          _it: Assenze incluse all'anno
+          _nl: Afwezigheden inbegrepen per jaar
         exclude_cweek_range:
           _en: Exclude week range
           _fr: Exclure la plage de semaines
@@ -549,24 +561,66 @@ _:
           _de: Ab Woche
           _it: Dalla settimana
           _nl: Vanaf week
+        form_details:
+          _en: Form details
+          _fr: Détails du formulaire
+          _de: Formulardetails
+          _it: Dettagli del modulo
+          _nl: Formulierdetails
         invoice_name:
           _en: Name (invoice)
           _fr: Nom (facture)
           _de: Name (Rechnung)
           _it: Nome (fattura)
           _nl: Naam (factuur)
+        invoice_names:
+          _en: Names (invoice)
+          _fr: Noms (facture)
+          _de: Namen (Rechnung)
+          _it: Nomi (fattura)
+          _nl: Namen (factuur)
         last_cweek:
           _en: Until week
           _fr: Jusqu'à la semaine
           _de: Bis Woche
           _it: Fino alla settimana
           _nl: Tot week
+        member_order_priority:
+          _en: Member order priority
+          _fr: Priorité d'ordre des membres
+          _de: Mitglieder-Reihenfolge-Priorität
+          _it: Priorità ordine membri
+          _nl: Ledenvolgorde prioriteit
+        names:
+          _en: Name
+          _fr: Nom
+          _de: Name
+          _it: Nome
+          _nl: Naam
         next_delivery:
           _en: Next delivery
           _fr: Prochaine livraison
           _de: Nächste Lieferung
           _it: Prossime consegne
           _nl: Volgende levering
+        periods:
+          _en: Periods
+          _fr: Périodes
+          _de: Perioden
+          _it: Periodi
+          _nl: Periodes
+        price:
+          _en: Price
+          _fr: Prix
+          _de: Preis
+          _it: Prezzo
+          _nl: Prijs
+        public_names:
+          _en: Public name
+          _fr: Nom public
+          _de: Öffentlicher Name
+          _it: Nome pubblico
+          _nl: Openbare naam
         wdays:
           _en: Days
           _fr: Jours
@@ -1314,6 +1368,30 @@ _:
           _de: Arbeitsstunden verlangt
           _it: Ore di lavoro richieste
           _nl: Gevraagde werkuren
+        activity_participations_demanded_annually/basket_preparation:
+          _en: Basket preparations per year
+          _fr: Mises en panier par année
+          _de: Taschen befüllung pro Jahr
+          _it: Ceste riempite all'anno
+          _nl: Pakketvoorbereidingen per jaar
+        activity_participations_demanded_annually/day_work:
+          _en: Work days per year
+          _fr: Journées de travail par année
+          _de: Arbeitstage pro Jahr
+          _it: Giorni di lavoro all'anno
+          _nl: Werkdagen per jaar
+        activity_participations_demanded_annually/halfday_work:
+          _en: "½ work days per year"
+          _fr: "½ journées de travail par année"
+          _de: "½ Arbeitstage pro Jahr"
+          _it: "½ giornate di lavoro all'anno"
+          _nl: "½ werkdagen per jaar"
+        activity_participations_demanded_annually/hour_work:
+          _en: Work hours per year
+          _fr: Heures de travail par année
+          _de: Arbeitsstunden pro Jahr
+          _it: Ore di lavoro all'anno
+          _nl: Werkuren per jaar
         activity_participations_future:
           _en: Upcoming
           _fr: À venir
@@ -1452,6 +1530,12 @@ _:
           _de: Gelieferte Taschen
           _it: Ceste consegnate
           _nl: Geleverde pakketten
+        delivery_cycle_id:
+          _en: Delivery cycle
+          _fr: Cycle de livraisons
+          _de: Zyklus von Lieferungen
+          _it: Ciclo di consegne
+          _nl: Leveringscyclus
         delivery_cycle_price:
           _en: Delivery cycle price
           _fr: Prix cycle de livraison
@@ -2690,17 +2774,17 @@ _:
           _nl: Bijlagen
       audit:
         one:
-          _en: Audit
-          _fr: Audit
-          _de: Audit
-          _it: Audit
-          _nl: Audit
+          _en: History
+          _fr: Historique
+          _de: Verlauf
+          _it: Cronologia
+          _nl: Geschiedenis
         other:
-          _en: Audits
-          _fr: Audits
-          _de: Audits
-          _it: Audits
-          _nl: Audits
+          _en: History
+          _fr: Historique
+          _de: Verlauf
+          _it: Cronologia
+          _nl: Geschiedenis
       basket:
         one:
           _en: Basket

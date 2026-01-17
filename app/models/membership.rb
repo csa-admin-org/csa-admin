@@ -3,9 +3,11 @@
 require "rounding"
 
 class Membership < ApplicationRecord
+  include Auditable
   include HasDescription
   include Timeframe, Absence, AbsencesIncludedRemindable,
           Trial, Renewal, Pricing, Activity
+  include Auditing # Must come after Auditable and all other concerns
 
   attribute :new_config_from, :date
 
@@ -88,9 +90,17 @@ class Membership < ApplicationRecord
     ]
   end
 
+  ACTIVITY_SCOPED_ATTRIBUTES = %w[
+    activity_participations_demanded_annually
+    activity_participations_annual_price_change
+  ].freeze
+
   def self.human_attribute_name(attr, *args)
-    if attr == :basket_price_extra_title
+    attr = attr.to_s
+    if attr == "basket_price_extra_title"
       Current.org.basket_price_extra_title
+    elsif attr.in?(ACTIVITY_SCOPED_ATTRIBUTES)
+      super("#{attr}/#{Current.org.activity_i18n_scope}", *args)
     else
       super
     end
@@ -214,7 +224,6 @@ class Membership < ApplicationRecord
   end
 
   private
-
 
   def setup_new_membership!
     create_baskets!

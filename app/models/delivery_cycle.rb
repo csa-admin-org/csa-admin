@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class DeliveryCycle < ApplicationRecord
+  include Auditable
   MEMBER_ORDER_MODES = %w[
     name_asc
     deliveries_count_asc
@@ -24,6 +25,7 @@ class DeliveryCycle < ApplicationRecord
   include Deliveries         # Core delivery querying and counting
   include BillableDeliveries # Billing calculations (depends on Deliveries)
   include Visibility         # Visibility and ordering (depends on BillableDeliveries)
+  include Auditing           # Must come after Auditable and all other concerns
 
   enum :week_numbers, %i[all odd even], suffix: true
 

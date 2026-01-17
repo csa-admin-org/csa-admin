@@ -31,6 +31,19 @@ _:
         _de: Abstand
         _it: Intervallo
         _nl: Tussenruimte
+      minimum_gap_days:
+        one:
+          _en: "%{count} day gap"
+          _fr: "%{count} jour d'écart"
+          _de: "%{count} Tag Abstand"
+          _it: "%{count} giorno di intervallo"
+          _nl: "%{count} dag tussenruimte"
+        other:
+          _en: "%{count} days gap"
+          _fr: "%{count} jours d'écart"
+          _de: "%{count} Tage Abstand"
+          _it: "%{count} giorni di intervallo"
+          _nl: "%{count} dagen tussenruimte"
       to_fy_month:
         _en: To month
         _fr: Au mois
