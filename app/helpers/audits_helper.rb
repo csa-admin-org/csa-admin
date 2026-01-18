@@ -415,9 +415,6 @@ module AuditsHelper
     end
 
     results = t("delivery_cycle.results.#{period["results"]}")
-    parts = [ months_range, results ]
-    parts << t("delivery_cycle.period.minimum_gap_days", count: period["minimum_gap_in_days"]) if period["minimum_gap_in_days"]
-
-    parts.join(", ")
+    [ months_range, results ].join(", ")
   end
 end

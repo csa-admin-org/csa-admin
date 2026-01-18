@@ -646,12 +646,6 @@ _:
           _de: Von
           _it: Dal
           _nl: Vanaf
-        minimum_gap_in_days:
-          _en: Minimum gap (in days)
-          _fr: Écart minimum (en jours)
-          _de: Minimale Lücke (in Tagen)
-          _it: Intervallo minimo (in giorni)
-          _nl: Minimale tussentijd (in dagen)
         results:
           _en: Delivery selection
           _fr: Sélection des livraisons

@@ -352,13 +352,13 @@ class AuditsHelperTest < ActionView::TestCase
   test "render_audit_diff omits unchanged periods" do
     unchanged = { "from_fy_month" => 1, "to_fy_month" => 4, "results" => "all" }
     before_periods = [ unchanged, { "from_fy_month" => 10, "to_fy_month" => 12, "results" => "all_but_first" } ]
-    after_periods = [ unchanged, { "from_fy_month" => 10, "to_fy_month" => 12, "results" => "all", "minimum_gap_in_days" => 1 } ]
+    after_periods = [ unchanged, { "from_fy_month" => 10, "to_fy_month" => 12, "results" => "even" } ]
 
     result = render_audit_diff("periods", before_periods, after_periods)
 
     # Should only show the changed period (Oct-Dec), not the unchanged one (Jan-Apr)
     assert_includes result, t("delivery_cycle.results.all_but_first")
-    assert_includes result, t("delivery_cycle.period.minimum_gap_days", count: 1)
+    assert_includes result, t("delivery_cycle.results.even")
     # The unchanged period text should appear only once if at all - check it's not duplicated
     # Actually, it shouldn't appear at all since it's unchanged
     assert_equal 1, result.scan("→").count  # Only one change shown

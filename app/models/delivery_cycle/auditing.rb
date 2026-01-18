@@ -122,8 +122,7 @@ module DeliveryCycle::Auditing
           "id" => attrs["id"],
           "from_fy_month" => attrs["from_fy_month"],
           "to_fy_month" => attrs["to_fy_month"],
-          "results" => attrs["results"],
-          "minimum_gap_in_days" => attrs["minimum_gap_in_days"]
+          "results" => attrs["results"]
         }.compact
       }
   end

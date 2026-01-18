@@ -388,12 +388,6 @@ _:
           _de: "* nächstes Kalenderjahr"
           _it: "* anno civile successivo"
           _nl: "* volgend kalenderjaar"
-        minimum_gap_in_days:
-          _en: Allows you to set the minimum number of days between two deliveries. For example, 13 for a delivery every 2 weeks.
-          _fr: Permet de définir le nombre minimum de jours entre deux livraisons. Par exemple 13 pour une livraison tous les 2 semaines.
-          _de: Ermöglicht es Ihnen, die Mindestanzahl von Tagen zwischen zwei Lieferungen festzulegen. Zum Beispiel 13 für eine Lieferung alle 2 Wochen.
-          _it: Permette di definire il numero minimo di giorni tra due consegne. Ad esempio 13 per una consegna ogni 2 settimane.
-          _nl: Stelt u in staat om het minimum aantal dagen tussen twee leveringen in te stellen. Bijvoorbeeld 13 voor een levering elke 2 weken.
         results:
           _en: Within this period's month range, determines which deliveries are kept (e.g., all, every other, first of each month).
           _fr: 'Dans la plage de mois de cette période, détermine quelles livraisons sont gardées (ex: toutes, une sur deux, première de chaque mois).'

@@ -136,31 +136,6 @@ class DeliveryCyclePeriodTest < ActiveSupport::TestCase
     assert_includes overlapping.errors[:from_fy_month], I18n.t("errors.messages.delivery_cycle_periods_overlap")
   end
 
-  test "minimum_gap_in_days must be a positive integer or nil" do
-    cycle = delivery_cycles(:mondays)
-    cycle.periods.delete_all
-
-    period = DeliveryCycle::Period.new(
-      delivery_cycle: cycle,
-      from_fy_month: 1,
-      to_fy_month: 12,
-      results: :all,
-      minimum_gap_in_days: nil
-    )
-    assert period.valid?
-
-    period.minimum_gap_in_days = 7
-    assert period.valid?
-
-    period.minimum_gap_in_days = 0
-    assert_not period.valid?
-    assert period.errors[:minimum_gap_in_days].any?
-
-    period.minimum_gap_in_days = -1
-    assert_not period.valid?
-    assert period.errors[:minimum_gap_in_days].any?
-  end
-
   test "filter selects deliveries within FY month range" do
     cycle = delivery_cycles(:mondays)
     cycle.periods.delete_all
@@ -203,29 +178,6 @@ class DeliveryCyclePeriodTest < ActiveSupport::TestCase
 
     # Odd results: 1st, 3rd, 5th, 7th, 9th = 5 deliveries
     assert_equal 5, filtered.count
-  end
-
-  test "filter applies minimum_gap_in_days" do
-    cycle = delivery_cycles(:mondays)
-    cycle.periods.delete_all
-
-    period = DeliveryCycle::Period.create!(
-      delivery_cycle: cycle,
-      from_fy_month: 1,
-      to_fy_month: 12,
-      results: :all,
-      minimum_gap_in_days: 8
-    )
-
-    # Mondays deliveries are 7 days apart, so every other one should be kept
-    mondays_deliveries = cycle.deliveries(2024)
-    filtered = period.filter(mondays_deliveries)
-
-    assert_equal 5, filtered.count
-    # Verify gap between consecutive deliveries
-    filtered.each_cons(2) do |d1, d2|
-      assert (d2.date - d1.date) >= 8
-    end
   end
 
   test "apply_results with all_but_first" do

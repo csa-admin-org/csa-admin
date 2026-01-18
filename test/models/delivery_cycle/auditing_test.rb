@@ -99,7 +99,7 @@ class DeliveryCycle::AuditingTest < ActiveSupport::TestCase
     assert_difference(-> { Audit.where(auditable: cycle).count }, 1) do
       cycle.update!(
         periods_attributes: [
-          { id: period.id, from_fy_month: 1, to_fy_month: 12, results: :even, minimum_gap_in_days: 14 }
+          { id: period.id, from_fy_month: 1, to_fy_month: 12, results: :even }
         ]
       )
     end
@@ -107,12 +107,10 @@ class DeliveryCycle::AuditingTest < ActiveSupport::TestCase
     audit = cycle.audits.last
     assert audit.audited_changes.key?("periods")
     changes = audit.audited_changes["periods"]
-    # Before: all results, no gap
+    # Before: all results
     assert_equal "all", changes.first.first["results"]
-    assert_nil changes.first.first["minimum_gap_in_days"]
-    # After: even results, 14 day gap
+    # After: even results
     assert_equal "even", changes.last.first["results"]
-    assert_equal 14, changes.last.first["minimum_gap_in_days"]
   end
 
   test "does not audit when no attribute changes" do

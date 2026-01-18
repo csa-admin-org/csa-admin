@@ -150,9 +150,6 @@ ActiveAdmin.register DeliveryCycle do
             column Delivery.model_name.human(count: 2), ->(p) {
               t("delivery_cycle.results.#{p.results}")
             }, class: "text-right"
-            column t("delivery_cycle.period.minimum_gap"), ->(p) {
-              p.minimum_gap_in_days || "–"
-            }, class: "text-right"
           end
         end
 
@@ -271,7 +268,6 @@ ActiveAdmin.register DeliveryCycle do
           collection: results_collection,
           required: false,
           include_blank: false
-        ff.input :minimum_gap_in_days
       end
 
       handbook_button(self, "deliveries", anchor: "periods")
@@ -294,7 +290,7 @@ ActiveAdmin.register DeliveryCycle do
     *I18n.available_locales.map { |l| "form_detail_#{l}" },
     wdays: [],
     depot_ids: [],
-    periods_attributes: [ :id, :from_fy_month, :to_fy_month, :results, :minimum_gap_in_days, :_destroy ])
+    periods_attributes: [ :id, :from_fy_month, :to_fy_month, :results, :_destroy ])
 
   before_build do |cycle|
     cycle.periods.build if cycle.periods.empty?

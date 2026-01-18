@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_01_16_180624) do
+ActiveRecord::Schema[8.1].define(version: 2026_01_18_102833) do
   create_table "absences", force: :cascade do |t|
     t.datetime "created_at"
     t.date "ended_on"
@@ -343,7 +343,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_16_180624) do
     t.datetime "created_at", null: false
     t.integer "delivery_cycle_id", null: false
     t.integer "from_fy_month", default: 1, null: false
-    t.integer "minimum_gap_in_days"
     t.integer "results", default: 0, null: false
     t.integer "to_fy_month", default: 12, null: false
     t.datetime "updated_at", null: false
@@ -365,7 +364,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_16_180624) do
     t.json "invoice_names", default: {}, null: false
     t.integer "last_cweek"
     t.integer "member_order_priority", default: 1, null: false
-    t.integer "minimum_gap_in_days"
     t.json "months", default: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12], null: false
     t.json "names", default: {}, null: false
     t.decimal "price", precision: 8, scale: 2, default: "0.0", null: false

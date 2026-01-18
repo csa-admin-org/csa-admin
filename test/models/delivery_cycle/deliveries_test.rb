@@ -162,32 +162,6 @@ class DeliveryCycle::DeliveriesTest < ActiveSupport::TestCase
     assert_equal [ 9, 17, 19 ], cycle.current_deliveries.pluck(:number)
   end
 
-  test "minimum days gap" do
-    cycle = delivery_cycles(:mondays)
-
-    cycle.update!(
-      periods_attributes: cycle.periods.map { |p| { id: p.id, _destroy: true } } + [
-        { from_fy_month: 1, to_fy_month: 12, results: :all, minimum_gap_in_days: 8 }
-      ]
-    )
-
-    assert_equal 5, cycle.current_deliveries_count
-    assert_equal [ 1, 5, 9, 13, 17 ], cycle.current_deliveries.pluck(:number)
-  end
-
-  test "minimum days gap and all but first results" do
-    cycle = delivery_cycles(:mondays)
-
-    cycle.update!(
-      periods_attributes: cycle.periods.map { |p| { id: p.id, _destroy: true } } + [
-        { from_fy_month: 1, to_fy_month: 12, results: :all_but_first, minimum_gap_in_days: 8 }
-      ]
-    )
-
-    assert_equal 5, cycle.current_deliveries_count
-    assert_equal [ 3, 7, 11, 15, 19 ], cycle.current_deliveries.pluck(:number)
-  end
-
   test "only deliveries from first_cweek" do
     cycle = delivery_cycles(:mondays)
 

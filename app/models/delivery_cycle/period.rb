@@ -34,10 +34,6 @@ class DeliveryCycle::Period < ApplicationRecord
     },
     allow_blank: true
 
-  validates :minimum_gap_in_days,
-    numericality: { only_integer: true, greater_than: 0 },
-    allow_nil: true
-
   validate :no_overlap_with_other_periods
 
   def fy_month_range
@@ -48,9 +44,7 @@ class DeliveryCycle::Period < ApplicationRecord
     deliveries = Array(deliveries).select { |d|
       fy_month_range.cover?(d.fy_month)
     }
-    deliveries = apply_results(deliveries)
-    deliveries = enforce_minimum_gap(deliveries) if minimum_gap_in_days.present?
-    deliveries
+    apply_results(deliveries)
   end
 
   def apply_results(deliveries)
@@ -81,16 +75,6 @@ class DeliveryCycle::Period < ApplicationRecord
   end
 
   private
-
-  def enforce_minimum_gap(deliveries)
-    past_date = nil
-    deliveries.select { |d|
-      if past_date.nil? || (d.date - past_date) >= minimum_gap_in_days
-        past_date = d.date
-        true
-      end
-    }
-  end
 
   def no_overlap_with_other_periods
     return unless fy_month_range
