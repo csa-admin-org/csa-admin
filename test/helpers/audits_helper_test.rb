@@ -139,44 +139,6 @@ class AuditsHelperTest < ActionView::TestCase
     assert_includes result, t("active_admin.empty")
   end
 
-  # render_periods_diff tests
-
-  test "render_periods_diff shows added period in green" do
-    before = []
-    after = [ { "from_fy_month" => 1, "to_fy_month" => 6, "results" => "all" } ]
-
-    result = render_periods_diff(before, after)
-    assert_includes result, "text-green-600"
-    assert_includes result, "+"
-  end
-
-  test "render_periods_diff shows removed period in red" do
-    before = [ { "from_fy_month" => 1, "to_fy_month" => 6, "results" => "all" } ]
-    after = []
-
-    result = render_periods_diff(before, after)
-    assert_includes result, "text-red-600"
-    assert_includes result, "−"
-  end
-
-  test "render_periods_diff shows modified period with arrow" do
-    before = [ { "from_fy_month" => 1, "to_fy_month" => 12, "results" => "all" } ]
-    after = [ { "from_fy_month" => 1, "to_fy_month" => 12, "results" => "odd" } ]
-
-    result = render_periods_diff(before, after)
-    assert_includes result, "→"
-  end
-
-  test "render_periods_diff omits unchanged periods" do
-    period = { "from_fy_month" => 1, "to_fy_month" => 12, "results" => "all" }
-    before = [ period ]
-    after = [ period ]
-
-    result = render_periods_diff(before, after)
-    # Should be empty since nothing changed
-    assert_not_includes result, t("delivery_cycle.results.all")
-  end
-
   # display_country_change tests
 
   test "display_audit_change handles country_code with translated name" do

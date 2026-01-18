@@ -141,45 +141,6 @@ module AuditsHelper
     end
   end
 
-  # Renders a diff-style view of period changes, showing only what changed
-  def render_periods_diff(before_periods, after_periods)
-    before_periods ||= []
-    after_periods ||= []
-
-    # Create lookup by month range for comparison
-    before_by_range = before_periods.index_by { |p| period_range_key(p) }
-    after_by_range = after_periods.index_by { |p| period_range_key(p) }
-
-    all_ranges = (before_by_range.keys + after_by_range.keys).uniq.sort
-
-    content_tag(:ul, class: "space-y-1 text-sm") do
-      safe_join(all_ranges.filter_map { |range|
-        before_period = before_by_range[range]
-        after_period = after_by_range[range]
-
-        if before_period.nil?
-          # Added
-          content_tag(:li, class: "text-green-600") do
-            "+ #{format_period(after_period)}"
-          end
-        elsif after_period.nil?
-          # Removed
-          content_tag(:li, class: "text-red-600 line-through") do
-            "− #{format_period(before_period)}"
-          end
-        elsif before_period != after_period
-          # Modified
-          content_tag(:li, class: "flex items-start gap-2") do
-            concat(content_tag(:span, format_period(before_period), class: "text-gray-500 dark:text-gray-400"))
-            concat(content_tag(:span, "→", class: "text-gray-400 dark:text-gray-500 shrink-0"))
-            concat(content_tag(:span, format_period(after_period)))
-          end
-        end
-        # If equal, don't show (return nil, filtered by filter_map)
-      })
-    end
-  end
-
   private
 
   def display_empty_value
@@ -316,10 +277,6 @@ module AuditsHelper
     content_tag(:ul, class: "list-disc list-inside text-sm") do
       safe_join(periods.map { |period| content_tag(:li, format_period(period)) })
     end
-  end
-
-  def period_range_key(period)
-    [ period["from_fy_month"].to_i, period["to_fy_month"].to_i ]
   end
 
   def format_period(period)
