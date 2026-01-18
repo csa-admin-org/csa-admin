@@ -132,7 +132,9 @@ ActiveAdmin.register DeliveryCycle do
             if dc.first_cweek? && dc.last_cweek?
               row(:exclude_cweek_range) { status_tag dc.exclude_cweek_range? }
             end
-            row(:week_numbers) { t("delivery_cycle.week_numbers.#{dc.week_numbers}") }
+            unless dc.all_week_numbers?
+              row(:week_numbers) { t("delivery_cycle.week_numbers.#{dc.week_numbers}") }
+            end
           end
         end
 
@@ -235,12 +237,14 @@ ActiveAdmin.register DeliveryCycle do
           input_html: { data: { cweek_range_target: "excludeCheckbox" }, disabled: f.object.first_cweek.blank? || f.object.last_cweek.blank? },
           hint: true
       end
-      f.input :week_numbers,
-        as: :select,
-        collection: week_numbers_collection,
-        include_blank: false,
-        wrapper_html: { class: "[&>p]:text-red-500" },
-        input_html: { class: "w-40" }
+      if f.object.persisted? && !f.object.all_week_numbers?
+        f.input :week_numbers,
+          as: :select,
+          collection: week_numbers_collection,
+          include_blank: false,
+          wrapper_html: { class: "[&>p]:text-red-500" },
+          input_html: { class: "w-40" }
+      end
 
       handbook_button(self, "deliveries", anchor: "settings")
     end
