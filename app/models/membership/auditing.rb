@@ -11,6 +11,11 @@
 # a future date from which the configuration changes should apply, and this
 # context is essential for understanding the audit trail.
 #
+# Note: This concern uses `prepend` to capture the basket complements state before
+# the original setter method processes the attributes. This ensures we track
+# the before/after state correctly even though accepts_nested_attributes_for
+# defines the setter method directly on the class.
+#
 module Membership::Auditing
   extend ActiveSupport::Concern
 
@@ -23,7 +28,40 @@ module Membership::Auditing
     absences_included_annually
   ].freeze
 
+  # Prepended module to capture basket complements state before the original
+  # method processes the nested attributes. Also overrides audited_nested_changes
+  # to ensure it takes precedence over Auditable's default implementation.
+  module BasketComplementsTracking
+    def memberships_basket_complements_attributes=(*args)
+      @tracked_memberships_basket_complements_attributes =
+        memberships_basket_complements.map(&:attributes)
+      super
+    end
+
+    private
+
+    def audited_nested_changes
+      change = compute_basket_complements_change
+      change ? { "memberships_basket_complements" => change } : {}
+    end
+
+    def audit_metadata
+      return {} if new_record?
+      return {} unless config_attributes_changing?
+
+      { "new_config_from" => new_config_from&.to_s }
+    end
+
+    def config_attributes_changing?
+      # Check if any config attributes are changing, or if basket complements are changing
+      (changes.keys & CONFIG_ATTRIBUTES).any? || compute_basket_complements_change.present?
+    end
+  end
+
   included do
+    include Auditable
+    prepend BasketComplementsTracking
+
     audited_attributes \
       :member_id,
       :started_on, :ended_on,
@@ -37,18 +75,7 @@ module Membership::Auditing
       :renew, :renewal_annual_fee, :renewed_at, :renewal_opened_at, :renewal_note
   end
 
-  def memberships_basket_complements_attributes=(*args)
-    @tracked_memberships_basket_complements_attributes =
-      memberships_basket_complements.map(&:attributes)
-    super
-  end
-
   private
-
-  def audited_nested_changes
-    change = compute_basket_complements_change
-    change ? { "memberships_basket_complements" => change } : {}
-  end
 
   def compute_basket_complements_change
     return unless @tracked_memberships_basket_complements_attributes
@@ -73,17 +100,5 @@ module Membership::Auditing
           "delivery_cycle_id" => attrs["delivery_cycle_id"]
         }.compact
       }
-  end
-
-  def audit_metadata
-    return {} if new_record?
-    return {} unless config_attributes_changing?
-
-    { "new_config_from" => new_config_from&.to_s }
-  end
-
-  def config_attributes_changing?
-    # Check if any config attributes are changing, or if basket complements are changing
-    (changes.keys & CONFIG_ATTRIBUTES).any? || compute_basket_complements_change.present?
   end
 end

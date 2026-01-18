@@ -10,10 +10,35 @@
 # changes, ensuring all modifications from a single update are captured in
 # one atomic audit entry.
 #
+# Note: This concern uses `prepend` to capture the periods state before the
+# original setter method processes the attributes. This ensures we track
+# the before/after state correctly even though accepts_nested_attributes_for
+# defines the setter method directly on the class.
+#
 module DeliveryCycle::Auditing
   extend ActiveSupport::Concern
 
+  # Prepended module to capture periods state before the original method
+  # processes the nested attributes. Also overrides audited_nested_changes
+  # to ensure it takes precedence over Auditable's default implementation.
+  module PeriodsTracking
+    def periods_attributes=(*args)
+      @tracked_periods_attributes = periods.map(&:attributes)
+      super
+    end
+
+    private
+
+    def audited_nested_changes
+      change = compute_periods_change
+      change ? { "periods" => change } : {}
+    end
+  end
+
   included do
+    include Auditable
+    prepend PeriodsTracking
+
     audited_attributes \
       :member_order_priority,
       :price,
@@ -29,17 +54,7 @@ module DeliveryCycle::Auditing
       :form_details
   end
 
-  def periods_attributes=(*args)
-    @tracked_periods_attributes = periods.map(&:attributes)
-    super
-  end
-
   private
-
-  def audited_nested_changes
-    change = compute_periods_change
-    change ? { "periods" => change } : {}
-  end
 
   def compute_periods_change
     return unless @tracked_periods_attributes

@@ -3,11 +3,10 @@
 require "rounding"
 
 class Membership < ApplicationRecord
-  include Auditable
   include HasDescription
   include Timeframe, Absence, AbsencesIncludedRemindable,
           Trial, Renewal, Pricing, Activity
-  include Auditing # Must come after Auditable and all other concerns
+  include Auditing # Must come after all other concerns
 
   attribute :new_config_from, :date
 

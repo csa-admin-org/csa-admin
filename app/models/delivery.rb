@@ -1,12 +1,11 @@
 # frozen_string_literal: true
 
 class Delivery < ApplicationRecord
-  include Auditable
   include HasDate
   include HasFiscalYear
   include BulkDatesInsert
   include ActionView::Helpers::TagHelper
-  include Auditing # Must come after Auditable
+  include Auditing
 
   default_scope { order(:date) }
 

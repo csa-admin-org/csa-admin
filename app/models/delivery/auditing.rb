@@ -10,20 +10,32 @@
 # rather than shop_closed_for_depot_ids (the internal storage format), ensuring the
 # audit trail matches the admin interface.
 #
+# Note: This concern uses `prepend` to capture the depot IDs state before the
+# original setter method clears the memoized value. This ensures we track
+# the before/after state correctly.
+#
 module Delivery::Auditing
   extend ActiveSupport::Concern
 
-  # Prepended module to override shop_open_for_depot_ids= and capture state
-  # before the original method clears the memoized value.
+  # Prepended module to capture shop_open_for_depot_ids state before the original
+  # method clears the memoized value. Also overrides audited_nested_changes
+  # to ensure it takes precedence over Auditable's default implementation.
   module DepotIdsTracking
     def shop_open_for_depot_ids=(ids)
-      # Capture current state before super clears the memoized value
-      @tracked_shop_open_for_depot_ids ||= shop_open_for_depot_ids.dup
+      @tracked_shop_open_for_depot_ids = shop_open_for_depot_ids.dup
       super
+    end
+
+    private
+
+    def audited_nested_changes
+      change = compute_shop_open_for_depot_ids_change
+      change ? { "shop_open_for_depot_ids" => change } : {}
     end
   end
 
   included do
+    include Auditable
     prepend DepotIdsTracking
 
     audited_attributes \
@@ -34,11 +46,6 @@ module Delivery::Auditing
   end
 
   private
-
-  def audited_nested_changes
-    change = compute_shop_open_for_depot_ids_change
-    change ? { "shop_open_for_depot_ids" => change } : {}
-  end
 
   def compute_shop_open_for_depot_ids_change
     return unless @tracked_shop_open_for_depot_ids

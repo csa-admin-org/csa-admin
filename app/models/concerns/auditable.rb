@@ -27,12 +27,11 @@ module Auditable
 
   def audit_changes!
     audited_changes = changes.slice(*self.class.auditable_attributes)
-    audited_changes.transform_values! { |changes|
-      changes
-        .map { |v| normalize_audited_value(v) }
+    audited_changes.transform_values! { |change_pair|
+      change_pair.map { |v| normalize_audited_value(v) }
     }
-    audited_changes.reject! { |_, changes|
-      changes.all?(&:blank?) || changes.uniq.size == 1
+    audited_changes.reject! { |_, change_pair|
+      change_pair.all?(&:blank?) || change_pair.uniq.size == 1
     }
 
     # Merge nested association changes from model-specific concerns
@@ -48,6 +47,11 @@ module Auditable
 
   # Override in model-specific concerns to track nested association changes.
   # Should return a hash like { "association_name" => [before, after] }
+  #
+  # IMPORTANT: When Auditable is included inside an Auditing concern's `included`
+  # block, this method must be defined in a prepended module to ensure it takes
+  # precedence over this default implementation. See existing Auditing concerns
+  # (e.g., Membership::Auditing) for the correct pattern.
   def audited_nested_changes
     {}
   end
