@@ -59,25 +59,50 @@ module DeliveryCycle::Auditing
   def compute_periods_change
     return unless @tracked_periods_attributes
 
-    before = serialize_periods(@tracked_periods_attributes)
-    after = serialize_periods(periods.reject(&:marked_for_destruction?).map(&:attributes))
+    before_all = serialize_periods(@tracked_periods_attributes)
+    after_all = serialize_periods(periods.reject(&:marked_for_destruction?).map(&:attributes))
 
-    return if before == after
+    return if before_all == after_all
 
-    [ before, after ]
+    # Only include periods that actually changed (added, removed, or modified)
+    before_by_id = before_all.index_by { |p| period_key(p) }
+    after_by_id = after_all.index_by { |p| period_key(p) }
+
+    all_ids = (before_by_id.keys | after_by_id.keys).sort_by(&:to_i)
+
+    before_changed = []
+    after_changed = []
+
+    all_ids.each do |id|
+      before_period = before_by_id[id]
+      after_period = after_by_id[id]
+
+      # Skip unchanged periods
+      next if before_period == after_period
+
+      before_changed << before_period if before_period
+      after_changed << after_period if after_period
+    end
+
+    [ before_changed, after_changed ]
   end
 
   def serialize_periods(periods_attributes)
     periods_attributes
       .reject { |attrs| attrs["_destroy"] == "1" || attrs["_destroy"] == true }
-      .sort_by { |attrs| [ attrs["from_fy_month"].to_i, attrs["to_fy_month"].to_i ] }
+      .sort_by { |attrs| attrs["id"].to_i }
       .map { |attrs|
         {
+          "id" => attrs["id"],
           "from_fy_month" => attrs["from_fy_month"],
           "to_fy_month" => attrs["to_fy_month"],
           "results" => attrs["results"],
           "minimum_gap_in_days" => attrs["minimum_gap_in_days"]
         }.compact
       }
+  end
+
+  def period_key(period)
+    period["id"]
   end
 end

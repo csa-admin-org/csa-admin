@@ -165,4 +165,69 @@ class Membership::AuditingTest < ActiveSupport::TestCase
     assert audit.audited_changes.key?("depot_id"), "Expected depot_id in audited changes"
     assert audit.audited_changes.key?("memberships_basket_complements"), "Expected memberships_basket_complements in audited changes"
   end
+
+  test "only stores changed basket complements, not unchanged ones" do
+    membership = memberships(:jane)
+    eggs = basket_complements(:eggs)
+    bread = basket_complements(:bread)
+
+    # Jane already has bread complement, add eggs
+    existing_mbc = membership.memberships_basket_complements.first
+    membership.memberships_basket_complements.create!(
+      basket_complement: eggs,
+      quantity: 1,
+      price: eggs.price
+    )
+
+    assert_difference(-> { Audit.where(auditable: membership).count }, 1) do
+      membership.update!(
+        memberships_basket_complements_attributes: [
+          { id: existing_mbc.id, basket_complement_id: bread.id, quantity: existing_mbc.quantity, price: existing_mbc.price }, # unchanged
+          { id: membership.memberships_basket_complements.last.id, basket_complement_id: eggs.id, quantity: 3, price: eggs.price } # changed quantity
+        ]
+      )
+    end
+
+    audit = membership.audits.last
+    assert audit.audited_changes.key?("memberships_basket_complements")
+    changes = audit.audited_changes["memberships_basket_complements"]
+
+    # Only the changed complement (eggs) should be in the audit, not the unchanged one (bread)
+    assert_equal 1, changes.first.size, "Before should only contain the changed complement"
+    assert_equal 1, changes.last.size, "After should only contain the changed complement"
+    assert_equal eggs.id, changes.first.first["basket_complement_id"]
+    assert_equal 1, changes.first.first["quantity"]
+    assert_equal 3, changes.last.first["quantity"]
+  end
+
+  test "properly tracks complement modification when basket_complement_id changes" do
+    membership = memberships(:jane)
+    cheese = basket_complements(:cheese)
+
+    # Jane has bread, change it to cheese (modifying the same record)
+    existing_mbc = membership.memberships_basket_complements.first
+    original_id = existing_mbc.id
+
+    assert_difference(-> { Audit.where(auditable: membership).count }, 1) do
+      membership.update!(
+        memberships_basket_complements_attributes: [
+          { id: existing_mbc.id, basket_complement_id: cheese.id, quantity: 2, price: cheese.price }
+        ]
+      )
+    end
+
+    audit = membership.audits.last
+    assert audit.audited_changes.key?("memberships_basket_complements")
+    changes = audit.audited_changes["memberships_basket_complements"]
+
+    # Should show as one modification, not as remove + add
+    assert_equal 1, changes.first.size, "Before should contain one complement"
+    assert_equal 1, changes.last.size, "After should contain one complement"
+    # Both should have the same record ID
+    assert_equal original_id, changes.first.first["id"]
+    assert_equal original_id, changes.last.first["id"]
+    # But different basket_complement_id
+    assert_equal basket_complements(:bread).id, changes.first.first["basket_complement_id"]
+    assert_equal cheese.id, changes.last.first["basket_complement_id"]
+  end
 end

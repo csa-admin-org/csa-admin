@@ -228,4 +228,97 @@ class AuditsHelperTest < ActionView::TestCase
     assert_includes result, "status-tag"
     assert_includes result, t("states.member.active")
   end
+
+  # render_audit_diff tests
+
+  test "render_audit_diff returns nil for non-diff attributes" do
+    result = render_audit_diff("basket_quantity", 1, 2)
+    assert_nil result
+  end
+
+  test "render_audit_diff handles shop_open_for_depot_ids with added depot" do
+    depot1 = depots(:farm)
+    depot2 = depots(:bakery)
+
+    before_ids = [ depot1.id ]
+    after_ids = [ depot1.id, depot2.id ]
+
+    result = render_audit_diff("shop_open_for_depot_ids", before_ids, after_ids)
+
+    # Should show the added depot with + prefix
+    assert_includes result, "+ #{depot2.name}"
+  end
+
+  test "render_audit_diff handles shop_open_for_depot_ids with removed depot" do
+    depot1 = depots(:farm)
+    depot2 = depots(:bakery)
+
+    before_ids = [ depot1.id, depot2.id ]
+    after_ids = [ depot1.id ]
+
+    result = render_audit_diff("shop_open_for_depot_ids", before_ids, after_ids)
+
+    # Should show the removed depot with − prefix, grayed out
+    assert_includes result, "− #{depot2.name}"
+    assert_includes result, "text-gray-500"
+  end
+
+  test "render_audit_diff handles wdays with changes" do
+    before_wdays = [ 1, 3 ]  # Monday, Wednesday
+    after_wdays = [ 1, 5 ]   # Monday, Friday
+
+    result = render_audit_diff("wdays", before_wdays, after_wdays)
+
+    # Should show Wednesday removed with −, Friday added with + (full day names)
+    assert_includes result, "− #{t('date.day_names')[3].capitalize}"  # Wednesday removed
+    assert_includes result, "+ #{t('date.day_names')[5].capitalize}"  # Friday added
+  end
+
+  test "render_audit_diff handles periods with added period" do
+    before_periods = []
+    after_periods = [ { "from_fy_month" => 1, "to_fy_month" => 6, "results" => "all" } ]
+
+    result = render_audit_diff("periods", before_periods, after_periods)
+
+    assert_includes result, t("active_admin.empty")
+    assert_includes result, "→"
+    assert_includes result, t("delivery_cycle.results.all")
+  end
+
+  test "render_audit_diff handles periods with removed period" do
+    before_periods = [ { "from_fy_month" => 1, "to_fy_month" => 6, "results" => "all" } ]
+    after_periods = []
+
+    result = render_audit_diff("periods", before_periods, after_periods)
+
+    assert_includes result, t("delivery_cycle.results.all")
+    assert_includes result, "→"
+    assert_includes result, t("active_admin.empty")
+  end
+
+  test "render_audit_diff handles periods with modified period" do
+    before_periods = [ { "from_fy_month" => 1, "to_fy_month" => 12, "results" => "all" } ]
+    after_periods = [ { "from_fy_month" => 1, "to_fy_month" => 12, "results" => "odd" } ]
+
+    result = render_audit_diff("periods", before_periods, after_periods)
+
+    assert_includes result, t("delivery_cycle.results.all")
+    assert_includes result, "→"
+    assert_includes result, t("delivery_cycle.results.odd")
+  end
+
+  test "render_audit_diff omits unchanged periods" do
+    unchanged = { "from_fy_month" => 1, "to_fy_month" => 4, "results" => "all" }
+    before_periods = [ unchanged, { "from_fy_month" => 10, "to_fy_month" => 12, "results" => "all_but_first" } ]
+    after_periods = [ unchanged, { "from_fy_month" => 10, "to_fy_month" => 12, "results" => "all", "minimum_gap_in_days" => 1 } ]
+
+    result = render_audit_diff("periods", before_periods, after_periods)
+
+    # Should only show the changed period (Oct-Dec), not the unchanged one (Jan-Apr)
+    assert_includes result, t("delivery_cycle.results.all_but_first")
+    assert_includes result, t("delivery_cycle.period.minimum_gap_days", count: 1)
+    # The unchanged period text should appear only once if at all - check it's not duplicated
+    # Actually, it shouldn't appear at all since it's unchanged
+    assert_equal 1, result.scan("→").count  # Only one change shown
+  end
 end

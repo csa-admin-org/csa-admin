@@ -200,4 +200,61 @@ class DeliveryCycle::AuditingTest < ActiveSupport::TestCase
     assert_equal original_names, audit.audited_changes["names"].first
     assert_equal "Updated Monday Deliveries", audit.audited_changes["names"].last["en"]
   end
+
+  test "only stores changed periods, not unchanged ones" do
+    cycle = delivery_cycles(:mondays)
+    # Set up two periods: Jan-Apr and Oct-Dec
+    first_period = cycle.periods.first
+    first_period.update_columns(from_fy_month: 1, to_fy_month: 4)
+    second_period = cycle.periods.create!(from_fy_month: 10, to_fy_month: 12, results: :all)
+
+    assert_difference(-> { Audit.where(auditable: cycle).count }, 1) do
+      cycle.update!(
+        periods_attributes: [
+          { id: first_period.id, from_fy_month: 1, to_fy_month: 4, results: :all }, # unchanged
+          { id: second_period.id, from_fy_month: 10, to_fy_month: 12, results: :odd } # changed
+        ]
+      )
+    end
+
+    audit = cycle.audits.last
+    assert audit.audited_changes.key?("periods")
+    changes = audit.audited_changes["periods"]
+
+    # Only the changed period (Oct-Dec) should be in the audit, not the unchanged one (Jan-Apr)
+    assert_equal 1, changes.first.size, "Before should only contain the changed period"
+    assert_equal 1, changes.last.size, "After should only contain the changed period"
+    assert_equal 10, changes.first.first["from_fy_month"]
+    assert_equal "all", changes.first.first["results"]
+    assert_equal "odd", changes.last.first["results"]
+  end
+
+  test "properly tracks period modification when month range changes" do
+    cycle = delivery_cycles(:mondays)
+    period = cycle.periods.first
+    original_id = period.id
+
+    # Change the period's month range (from full year to first half)
+    assert_difference(-> { Audit.where(auditable: cycle).count }, 1) do
+      cycle.update!(
+        periods_attributes: [
+          { id: period.id, from_fy_month: 1, to_fy_month: 6, results: :odd }
+        ]
+      )
+    end
+
+    audit = cycle.audits.last
+    assert audit.audited_changes.key?("periods")
+    changes = audit.audited_changes["periods"]
+
+    # Should show as one modification, not as remove + add
+    assert_equal 1, changes.first.size, "Before should contain one period"
+    assert_equal 1, changes.last.size, "After should contain one period"
+    # Both should have the same record ID
+    assert_equal original_id, changes.first.first["id"]
+    assert_equal original_id, changes.last.first["id"]
+    # But different month ranges
+    assert_equal 12, changes.first.first["to_fy_month"]
+    assert_equal 6, changes.last.first["to_fy_month"]
+  end
 end

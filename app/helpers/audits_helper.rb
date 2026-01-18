@@ -70,6 +70,14 @@ module AuditsHelper
     form_details
   ].freeze
 
+  # Attributes that should use compact diff rendering (showing only changes).
+  # These are list-type attributes where showing full before/after is repetitive.
+  DIFF_ATTRIBUTES = %w[
+    shop_open_for_depot_ids
+    wdays
+    periods
+  ].freeze
+
   # Determines if an audit change should be displayed.
   # Returns false if both before and after values are effectively empty.
   def should_display_audit_change?(attr, before_value, after_value)
@@ -88,6 +96,30 @@ module AuditsHelper
     end
 
     true
+  end
+
+  # Renders a compact diff for list-type attributes, showing only what changed.
+  # Returns nil if this attribute doesn't use diff rendering.
+  #
+  # @param attr [String] The attribute name
+  # @param before_value [Array] The value before the change
+  # @param after_value [Array] The value after the change
+  # @return [String, nil] HTML-safe diff output, or nil if not a diff attribute
+  def render_audit_diff(attr, before_value, after_value)
+    attr = attr.to_s
+    return nil unless attr.in?(DIFF_ATTRIBUTES)
+
+    before_value ||= []
+    after_value ||= []
+
+    case attr
+    when "shop_open_for_depot_ids"
+      render_depot_ids_diff(before_value, after_value)
+    when "wdays"
+      render_wdays_diff(before_value, after_value)
+    when "periods"
+      render_periods_diff(before_value, after_value)
+    end
   end
 
   # Unified method for displaying audit changes for any model.
@@ -276,6 +308,98 @@ module AuditsHelper
 
     content_tag(:ul, class: "list-disc list-inside text-sm") do
       safe_join(periods.map { |period| content_tag(:li, format_period(period)) })
+    end
+  end
+
+  # Renders a compact diff for depot IDs, showing only added/removed depots
+  def render_depot_ids_diff(before_ids, after_ids)
+    removed_ids = before_ids - after_ids
+    added_ids = after_ids - before_ids
+
+    removed_depots = Depot.where(id: removed_ids).order(:position)
+    added_depots = Depot.where(id: added_ids).order(:position)
+
+    render_list_diff(
+      removed: removed_depots.map(&:name),
+      added: added_depots.map(&:name)
+    )
+  end
+
+  # Renders a compact diff for weekdays, showing only added/removed days
+  def render_wdays_diff(before_wdays, after_wdays)
+    removed = (before_wdays - after_wdays).map { |d| t("date.day_names")[d].capitalize }
+    added = (after_wdays - before_wdays).map { |d| t("date.day_names")[d].capitalize }
+
+    render_list_diff(removed: removed, added: added)
+  end
+
+  # Renders a compact diff for periods, showing only changed periods with left → right pattern
+  # Uses period ID for matching (new audits) or falls back to range matching (old audits)
+  def render_periods_diff(before_periods, after_periods)
+    # Use ID if available (new audits), otherwise fall back to range key (old audits)
+    key_method = before_periods.any? { |p| p["id"] } ? :period_id_key : :period_range_key
+
+    before_by_key = before_periods.index_by { |p| send(key_method, p) }
+    after_by_key = after_periods.index_by { |p| send(key_method, p) }
+
+    all_keys = (before_by_key.keys | after_by_key.keys).sort_by(&:to_s)
+
+    changes = all_keys.filter_map do |key|
+      before_period = before_by_key[key]
+      after_period = after_by_key[key]
+
+      # Skip unchanged periods
+      next if before_period == after_period
+
+      {
+        before: before_period ? format_period(before_period) : nil,
+        after: after_period ? format_period(after_period) : nil
+      }
+    end
+
+    return nil if changes.empty?
+
+    content_tag(:ul, class: "space-y-1 text-sm") do
+      safe_join(changes.map do |change|
+        content_tag(:li, class: "flex items-center gap-2") do
+          before_content = change[:before] || t("active_admin.empty")
+          after_content = change[:after] || t("active_admin.empty")
+
+          concat(content_tag(:span, before_content, class: "text-gray-500 dark:text-gray-400"))
+          concat(content_tag(:span, "→", class: "text-gray-400 dark:text-gray-500"))
+          concat(content_tag(:span, after_content))
+        end
+      end)
+    end
+  end
+
+  def period_id_key(period)
+    period["id"]
+  end
+
+  def period_range_key(period)
+    [ period["from_fy_month"].to_i, period["to_fy_month"].to_i ]
+  end
+
+  # Generic helper to render a compact list diff with consistent styling
+  # Shows + for added items and − for removed items
+  def render_list_diff(removed: [], added: [])
+    content_tag(:ul, class: "space-y-1 text-sm") do
+      items = []
+
+      # Removed items (grayed, with minus)
+      removed.each do |item|
+        items << content_tag(:li, class: "text-gray-500 dark:text-gray-400") do
+          "− #{item}"
+        end
+      end
+
+      # Added items (with plus)
+      added.each do |item|
+        items << content_tag(:li) { "+ #{item}" }
+      end
+
+      safe_join(items)
     end
   end
 
