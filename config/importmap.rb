@@ -42,7 +42,7 @@ pin "@roderickhsiao/emoji-button-locale-data/dist/fr", to: "@roderickhsiao--emoj
 pin "@roderickhsiao/emoji-button-locale-data/dist/it", to: "@roderickhsiao--emoji-button-locale-data--dist--it.js", preload: false
 # Sortable
 pin "@stimulus-components/sortable", to: "@stimulus-components--sortable.js" # @5.0.3
-pin "@rails/request.js", to: "@rails--request.js.js" # @0.0.12
+pin "@rails/request.js", to: "@rails--request.js.js" # @0.0.13
 pin "sortablejs" # @1.15.6
 # CodeJar + Prism.js
 pin "codejar", preload: false # @4.3.0
