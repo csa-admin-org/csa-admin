@@ -570,9 +570,8 @@ class Demo::Seeder
     @biweekly_cycle = DeliveryCycle.create!(
       names: translated_text("Bi-weekly"),
       wdays: [ 2 ], # Tuesdays
-      week_numbers: :even,
       absences_included_annually: 1,
-      periods_attributes: [ { from_fy_month: 4, to_fy_month: 11 } ]
+      periods_attributes: [ { from_fy_month: 4, to_fy_month: 11, results: :even } ]
     )
   end
 
