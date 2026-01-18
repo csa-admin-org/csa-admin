@@ -73,6 +73,7 @@ module AuditsHelper
   # Attributes that should use compact diff rendering (showing only changes).
   # These are list-type attributes where showing full before/after is repetitive.
   DIFF_ATTRIBUTES = %w[
+    depot_ids
     shop_open_for_depot_ids
     wdays
     periods
@@ -113,7 +114,7 @@ module AuditsHelper
     after_value ||= []
 
     case attr
-    when "shop_open_for_depot_ids"
+    when "depot_ids", "shop_open_for_depot_ids"
       render_depot_ids_diff(before_value, after_value)
     when "wdays"
       render_wdays_diff(before_value, after_value)
@@ -134,7 +135,7 @@ module AuditsHelper
 
     # Handle nil/blank values first for most types
     # Translated hashes, periods, complements, depot_ids, and booleans need special handling
-    unless attr.in?(TRANSLATED_HASH_ATTRIBUTES) || attr.in?(%w[periods memberships_basket_complements shop_open_for_depot_ids])
+    unless attr.in?(TRANSLATED_HASH_ATTRIBUTES) || attr.in?(%w[periods memberships_basket_complements depot_ids shop_open_for_depot_ids])
       # Use nil? check for booleans since false.blank? returns true
       return display_empty_value if change.nil? || (change.respond_to?(:blank?) && change != false && change.blank?)
     end
@@ -148,7 +149,7 @@ module AuditsHelper
       display_country_change(change)
     when "memberships_basket_complements"
       display_basket_complements_change(change)
-    when "shop_open_for_depot_ids"
+    when "depot_ids", "shop_open_for_depot_ids"
       display_depot_ids_change(change)
     when "periods"
       display_periods_list(change)

@@ -5,39 +5,54 @@
 # This concern extends the base Auditable functionality to:
 # - Track changes to delivery cycle configuration attributes
 # - Audit nested periods changes (similar to membership basket complements)
+# - Audit depot_ids changes (the depots associated with this delivery cycle)
 #
 # Periods are tracked as a snapshot of the association state before and after
 # changes, ensuring all modifications from a single update are captured in
 # one atomic audit entry.
 #
-# Note: This concern uses `prepend` to capture the periods state before the
-# original setter method processes the attributes. This ensures we track
-# the before/after state correctly even though accepts_nested_attributes_for
-# defines the setter method directly on the class.
+# Note: This concern uses `prepend` to capture state before the original setter
+# methods process the attributes. This ensures we track the before/after state
+# correctly even though accepts_nested_attributes_for defines the setter method
+# directly on the class.
 #
 module DeliveryCycle::Auditing
   extend ActiveSupport::Concern
 
-  # Prepended module to capture periods state before the original method
-  # processes the nested attributes. Also overrides audited_nested_changes
-  # to ensure it takes precedence over Auditable's default implementation.
-  module PeriodsTracking
+  # Prepended module to capture state before the original methods process
+  # the attributes. Also overrides audited_nested_changes to ensure it takes
+  # precedence over Auditable's default implementation.
+  module NestedChangesTracking
     def periods_attributes=(*args)
       @tracked_periods_attributes = periods.map(&:attributes)
+      super
+    end
+
+    def depot_ids=(ids)
+      @tracked_depot_ids = depot_ids.dup
       super
     end
 
     private
 
     def audited_nested_changes
-      change = compute_periods_change
-      change ? { "periods" => change } : {}
+      changes = {}
+
+      if (periods_change = compute_periods_change)
+        changes["periods"] = periods_change
+      end
+
+      if (depot_ids_change = compute_depot_ids_change)
+        changes["depot_ids"] = depot_ids_change
+      end
+
+      changes
     end
   end
 
   included do
     include Auditable
-    prepend PeriodsTracking
+    prepend NestedChangesTracking
 
     audited_attributes \
       :member_order_priority,
@@ -55,6 +70,17 @@ module DeliveryCycle::Auditing
   end
 
   private
+
+  def compute_depot_ids_change
+    return unless @tracked_depot_ids
+
+    before = @tracked_depot_ids.sort
+    after = depot_ids.sort
+
+    return if before == after
+
+    [ before, after ]
+  end
 
   def compute_periods_change
     return unless @tracked_periods_attributes

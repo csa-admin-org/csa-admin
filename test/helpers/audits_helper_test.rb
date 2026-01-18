@@ -184,6 +184,21 @@ class AuditsHelperTest < ActionView::TestCase
     assert_includes result, t("active_admin.unknown")
   end
 
+  # depot_ids tests
+
+  test "display_audit_change handles depot_ids" do
+    depot1 = depots(:farm)
+    depot2 = depots(:bakery)
+    result = display_audit_change(DeliveryCycle, "depot_ids", [ depot1.id, depot2.id ])
+    assert_includes result, depot1.name
+    assert_includes result, depot2.name
+  end
+
+  test "display_audit_change handles empty depot_ids" do
+    result = display_audit_change(DeliveryCycle, "depot_ids", [])
+    assert_includes result, t("active_admin.empty")
+  end
+
   # memberships_basket_complements tests
 
   test "display_audit_change handles memberships_basket_complements" do
@@ -234,6 +249,33 @@ class AuditsHelperTest < ActionView::TestCase
   test "render_audit_diff returns nil for non-diff attributes" do
     result = render_audit_diff("basket_quantity", 1, 2)
     assert_nil result
+  end
+
+  test "render_audit_diff handles depot_ids with added depot" do
+    depot1 = depots(:farm)
+    depot2 = depots(:bakery)
+
+    before_ids = [ depot1.id ]
+    after_ids = [ depot1.id, depot2.id ]
+
+    result = render_audit_diff("depot_ids", before_ids, after_ids)
+
+    # Should show the added depot with + prefix
+    assert_includes result, "+ #{depot2.name}"
+  end
+
+  test "render_audit_diff handles depot_ids with removed depot" do
+    depot1 = depots(:farm)
+    depot2 = depots(:bakery)
+
+    before_ids = [ depot1.id, depot2.id ]
+    after_ids = [ depot1.id ]
+
+    result = render_audit_diff("depot_ids", before_ids, after_ids)
+
+    # Should show the removed depot with − prefix, grayed out
+    assert_includes result, "− #{depot2.name}"
+    assert_includes result, "text-gray-500"
   end
 
   test "render_audit_diff handles shop_open_for_depot_ids with added depot" do

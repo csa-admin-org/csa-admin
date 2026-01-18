@@ -549,6 +549,12 @@ _:
           _de: Abwesenheiten pro Jahr inklusive
           _it: Assenze incluse all'anno
           _nl: Afwezigheden inbegrepen per jaar
+        depot_ids:
+          _en: Depots
+          _fr: Dépôts
+          _de: Depots
+          _it: Depositi
+          _nl: Depots
         exclude_cweek_range:
           _en: Exclude week range
           _fr: Exclure la plage de semaines

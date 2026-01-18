@@ -257,4 +257,75 @@ class DeliveryCycle::AuditingTest < ActiveSupport::TestCase
     assert_equal 12, changes.first.first["to_fy_month"]
     assert_equal 6, changes.last.first["to_fy_month"]
   end
+
+  test "audits depot_ids changes when adding depots" do
+    cycle = delivery_cycles(:mondays)
+    new_depot = depots(:farm)
+
+    # Ensure new_depot is not already associated
+    cycle.depots.delete(new_depot)
+    depot_ids_before_add = cycle.depot_ids.sort
+
+    assert_difference(-> { Audit.where(auditable: cycle).count }, 1) do
+      cycle.update!(depot_ids: depot_ids_before_add + [ new_depot.id ])
+    end
+
+    audit = cycle.audits.last
+    assert audit.audited_changes.key?("depot_ids")
+    changes = audit.audited_changes["depot_ids"]
+    assert_not_includes changes.first, new_depot.id
+    assert_includes changes.last, new_depot.id
+  end
+
+  test "audits depot_ids changes when removing depots" do
+    cycle = delivery_cycles(:mondays)
+    depot_to_remove = cycle.depots.first
+    original_depot_ids = cycle.depot_ids.sort
+
+    assert_difference(-> { Audit.where(auditable: cycle).count }, 1) do
+      cycle.update!(depot_ids: original_depot_ids - [ depot_to_remove.id ])
+    end
+
+    audit = cycle.audits.last
+    assert audit.audited_changes.key?("depot_ids")
+    changes = audit.audited_changes["depot_ids"]
+    assert_includes changes.first, depot_to_remove.id
+    assert_not_includes changes.last, depot_to_remove.id
+  end
+
+  test "does not audit depot_ids when unchanged" do
+    cycle = delivery_cycles(:mondays)
+    original_depot_ids = cycle.depot_ids.sort
+
+    assert_no_difference(-> { Audit.where(auditable: cycle).count }) do
+      cycle.update!(depot_ids: original_depot_ids)
+    end
+  end
+
+  test "combines attribute, periods, and depot_ids changes into a single audit" do
+    cycle = delivery_cycles(:mondays)
+    period = cycle.periods.first
+    new_depot = depots(:farm)
+
+    # Ensure new_depot is not already associated
+    cycle.depots.delete(new_depot)
+    depot_ids_before_add = cycle.depot_ids.sort
+
+    assert_difference(-> { Audit.where(auditable: cycle).count }, 1) do
+      cycle.update!(
+        absences_included_annually: 2,
+        depot_ids: depot_ids_before_add + [ new_depot.id ],
+        periods_attributes: [
+          { id: period.id, from_fy_month: 1, to_fy_month: 6 },
+          { from_fy_month: 7, to_fy_month: 12 }
+        ]
+      )
+    end
+
+    audit = cycle.audits.last
+    # All changes in the same audit
+    assert audit.audited_changes.key?("absences_included_annually"), "Expected absences_included_annually in audited changes"
+    assert audit.audited_changes.key?("depot_ids"), "Expected depot_ids in audited changes"
+    assert audit.audited_changes.key?("periods"), "Expected periods in audited changes"
+  end
 end
