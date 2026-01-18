@@ -56,7 +56,7 @@ module AuditsIndex
                     div class: "text-gray-500 dark:text-gray-400" do
                       text_node helpers.display_audit_change(model_class, attr, change.first)
                     end
-                    div "→", class: "text-gray-400 dark:text-gray-500 flex-shrink-0 text-xl"
+                    div "→", class: "text-gray-400 dark:text-gray-500 shrink-0 text-xl"
                     div do
                       text_node helpers.display_audit_change(model_class, attr, change.last)
                     end

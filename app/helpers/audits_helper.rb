@@ -171,7 +171,7 @@ module AuditsHelper
           # Modified
           content_tag(:li, class: "flex items-start gap-2") do
             concat(content_tag(:span, format_period(before_period), class: "text-gray-500 dark:text-gray-400"))
-            concat(content_tag(:span, "→", class: "text-gray-400 dark:text-gray-500 flex-shrink-0"))
+            concat(content_tag(:span, "→", class: "text-gray-400 dark:text-gray-500 shrink-0"))
             concat(content_tag(:span, format_period(after_period)))
           end
         end
@@ -183,7 +183,7 @@ module AuditsHelper
   private
 
   def display_empty_value
-    content_tag(:span, t("active_admin.empty"), class: "attributes-table-empty-value !text-sm")
+    content_tag(:span, t("active_admin.empty"), class: "attributes-table-empty-value text-sm!")
   end
 
   def display_state_change(model_class, change)
@@ -195,7 +195,7 @@ module AuditsHelper
     if record = klass.find_by(id: id)
       auto_link record
     else
-      content_tag(:span, t("active_admin.unknown"), class: "attributes-table-empty-value !text-sm")
+      content_tag(:span, t("active_admin.unknown"), class: "attributes-table-empty-value text-sm!")
     end
   end
 
