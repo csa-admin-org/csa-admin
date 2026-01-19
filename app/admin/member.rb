@@ -635,7 +635,9 @@ ActiveAdmin.register Member do
         f.input :trial_baskets_count
       end
       f.input :salary_basket
-      f.input :use_local_currency
+      if feature?("local_currency")
+        f.input :use_local_currency
+      end
     end
 
     if Current.org.sepa?
