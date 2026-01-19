@@ -9,7 +9,7 @@ module ActivityParticipation::Carpooling
     scope :carpooling, -> { where.not(carpooling_phone: nil) }
 
     with_options on: :create, if: :carpooling do
-      validates_plausible_phone :carpooling_phone, country_code: "CH"
+      validates_plausible_phone :carpooling_phone
       validates :carpooling_phone, presence: true
       validates :carpooling_city, presence: true
     end

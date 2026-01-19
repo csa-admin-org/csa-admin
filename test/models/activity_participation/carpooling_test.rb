@@ -26,6 +26,20 @@ class ActivityParticipation::CarpoolingTest < ActiveSupport::TestCase
     assert_not participation.errors[:carpooling_phone].empty?
   end
 
+  test "validates carpooling phone accepts any valid international number" do
+    travel_to "2024-01-01"
+
+    participation = ActivityParticipation.build(
+      activity: activities(:harvest),
+      participants_count: 1,
+      carpooling_phone: "+49 30 123456",
+      carpooling_city: "Berlin",
+      carpooling: "1")
+    participation.validate
+
+    assert_empty participation.errors[:carpooling_phone]
+  end
+
   test "resets carpooling phone and city if carpooling = 0" do
     participation = ActivityParticipation.create!(
       member: members(:martha),
