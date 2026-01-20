@@ -37,7 +37,7 @@ ActiveAdmin.before_load do |app|
           } do
             resource_name = resource.class.model_name.singular
             path_method = "#{resource_name}_#{resource_name}_audits_path"
-            css_class = resource.audits.none? ? "opacity-40 hover:opacity-100" : nil
+            css_class = Audit.relevant_for(resource).none? ? "opacity-40 hover:opacity-100" : nil
             action_link nil, send(path_method, resource), icon: "history", title: Audit.model_name.human(count: 2), class: css_class
           end
         end

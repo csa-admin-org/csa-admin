@@ -72,9 +72,7 @@ module AuditsIndex
 
       controller do
         def scoped_collection
-          Audit
-            .where(auditable: parent)
-            .where(created_at: (parent.created_at + 1.second)..)
+          Audit.relevant_for(parent)
         end
 
         def auditable_model_class
