@@ -86,4 +86,60 @@ class BasketContent::ProductTest < ActiveSupport::TestCase
 
     assert product.valid?
   end
+
+  test "validates url format requires http or https" do
+    product = BasketContent::Product.new(
+      names: { en: "Test Product" },
+      url: "not-a-valid-url"
+    )
+
+    assert_not product.valid?
+    assert_includes product.errors[:url], "is invalid"
+  end
+
+  test "validates url format rejects ftp protocol" do
+    product = BasketContent::Product.new(
+      names: { en: "Test Product" },
+      url: "ftp://example.com/file.pdf"
+    )
+
+    assert_not product.valid?
+    assert_includes product.errors[:url], "is invalid"
+  end
+
+  test "allows valid http url" do
+    product = BasketContent::Product.new(
+      names: { en: "Test Product" },
+      url: "http://example.com/page"
+    )
+
+    assert product.valid?
+  end
+
+  test "allows valid https url" do
+    product = BasketContent::Product.new(
+      names: { en: "Test Product" },
+      url: "https://www.example.com/path/to/page"
+    )
+
+    assert product.valid?
+  end
+
+  test "allows blank url" do
+    product = BasketContent::Product.new(
+      names: { en: "Test Product" },
+      url: ""
+    )
+
+    assert product.valid?
+  end
+
+  test "allows nil url" do
+    product = BasketContent::Product.new(
+      names: { en: "Test Product" },
+      url: nil
+    )
+
+    assert product.valid?
+  end
 end

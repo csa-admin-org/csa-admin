@@ -11,6 +11,10 @@ class Liquid::BasketContentDrop < Liquid::Drop
     @basket_content.product.name
   end
 
+  def product_url
+    @basket_content.product.url
+  end
+
   def quantity
     helpers.display_quantity(@quantity, @basket_content.unit)
   end
