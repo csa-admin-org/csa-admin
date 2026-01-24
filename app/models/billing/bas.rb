@@ -97,7 +97,7 @@ module Billing
         Rails.event.notify(:bas_no_data_available, status: res.code, body: res.body)
         nil
       else
-        Error.notify("BAS CAMT054 GET issue", version: version, body: res.body)
+        Rails.error.unexpected("BAS CAMT054 GET issue", context: { version: version, body: res.body })
         nil
       end
     end

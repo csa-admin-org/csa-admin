@@ -59,7 +59,7 @@ module LocalCurrency
       end
       JSON.parse(res.body)
     rescue StandardError => e
-      Error.report(e, body: res&.body)
+      Rails.error.report(e, context: { body: res&.body })
       []
     end
   end

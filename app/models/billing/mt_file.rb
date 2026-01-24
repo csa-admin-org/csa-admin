@@ -41,7 +41,7 @@ module Billing
         }
       }.compact
     rescue Cmxl::Field::LineFormatError, ArgumentError => e
-      Error.report(e, file: @files.first)
+      Rails.error.report(e, context: { file: @files.first })
       raise UnsupportedFileError, e.message
     end
   end

@@ -44,10 +44,11 @@ module Invoice::Processing
     MailTemplate.deliver_later(:invoice_created, invoice: self)
     update!(sent_at: Time.current)
   rescue => e
-    Error.report(e,
+    Rails.error.report(e, context: {
       invoice_id: id,
       emails: member.emails,
-      member_id: member_id)
+      member_id: member_id
+    })
   end
 
   def mark_as_sent!

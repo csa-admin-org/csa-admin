@@ -68,9 +68,9 @@ class API::V1::MembersControllerTest < ActionDispatch::IntegrationTest
     params = { name: "" }
 
     assert_no_difference("Member.count") do
-      request(params: params)
+      assert_raises(ActiveSupport::ErrorReporter::UnexpectedError) do
+        request(params: params)
+      end
     end
-
-    assert_response :unprocessable_entity
   end
 end

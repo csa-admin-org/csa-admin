@@ -23,7 +23,7 @@ module Checker
         deliveries_price +
         activity_participations_annual_price_change
       if price != expected_price
-        Error.notify("Membership price cache error",
+        Rails.error.unexpected("Membership price cache error", context: {
           membership_id: id,
           price: price,
           expected_price: expected_price,
@@ -34,7 +34,8 @@ module Checker
           basket_complements_annual_price_change: basket_complements_annual_price_change,
           depots_price: depots_price,
           deliveries_price: deliveries_price,
-          activity_participations_annual_price_change: activity_participations_annual_price_change)
+          activity_participations_annual_price_change: activity_participations_annual_price_change
+        })
         __getobj__.send(:update_price_and_invoices_amount!)
       end
     end

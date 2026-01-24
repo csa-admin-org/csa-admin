@@ -126,6 +126,7 @@ module Tenant
 
     self.current = tenant
     Appsignal.add_tags(tenant: tenant)
+    Rails.error.set_context(tenant: tenant)
     Rails.event.set_context(tenant: tenant)
   end
 

@@ -1,6 +1,9 @@
 # frozen_string_literal: true
 
 class ApplicationController < ActionController::Base
+  include SessionTracking
+  include Observability
+
   # Prevent CSRF attacks by raising an exception.
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
@@ -8,7 +11,7 @@ class ApplicationController < ActionController::Base
   before_action :set_locale
   around_action :set_time_zone
 
-  helper_method :current_admin, :current_session
+  helper_method :current_admin
 
   # Allow only browsers natively supporting webp images, web push, badges, import maps, CSS nesting, and CSS :has
   # See also: https://tailwindcss.com/docs/compatibility
@@ -38,7 +41,9 @@ class ApplicationController < ActionController::Base
       cookies.delete(:session_id)
       redirect_to smart_login_path, alert: t("sessions.flash.expired"), allow_other_host: true
     else
-      add_appsignal_tags
+      set_observability_context(
+        admin_id: current_admin.id,
+        session_id: current_session.id)
       update_last_usage(current_session)
     end
   end
@@ -70,14 +75,6 @@ class ApplicationController < ActionController::Base
     session.admin
   end
 
-  def current_session
-    Current.session ||= session_id && Session.usable.find_by(id: session_id)
-  end
-
-  def session_id
-    cookies.encrypted[:session_id]
-  end
-
   def set_locale
     params_locale = params[:locale]&.first(2)
     I18n.locale =
@@ -88,21 +85,6 @@ class ApplicationController < ActionController::Base
 
   def set_time_zone
     Time.use_zone(Current.org.time_zone) { yield }
-  end
-
-  def update_last_usage(session)
-    return if session.last_used_at && session.last_used_at > 1.hour.ago
-
-    session.update_columns(
-      last_used_at: Time.current,
-      last_remote_addr: request.remote_addr,
-      last_user_agent: request.env.fetch("HTTP_USER_AGENT", "-"))
-  end
-
-  def add_appsignal_tags
-    Appsignal.add_tags(
-      admin_id: current_admin.id,
-      session_id: current_session.id)
   end
 
   def create_session_from_devise_remember_token!

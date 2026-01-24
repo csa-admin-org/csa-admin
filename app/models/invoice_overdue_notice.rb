@@ -31,10 +31,11 @@ class InvoiceOverdueNotice
       Admin.notify!(:invoice_third_overdue_notice, invoice: invoice)
     end
   rescue => e
-    Error.report(e,
+    Rails.error.report(e, context: {
       invoice_id: invoice.id,
       emails: invoice.member.emails,
-      member_id: invoice.member_id)
+      member_id: invoice.member_id
+    })
   end
 
   private

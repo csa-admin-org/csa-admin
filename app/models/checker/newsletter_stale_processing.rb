@@ -14,9 +14,10 @@ module Checker
     end
 
     def check!
-      Error.notify("Newsletter stale delivery proccesing",
+      Rails.error.unexpected("Newsletter stale delivery proccesing", context: {
         newsletter_id: id,
-        pending_deliveries: deliveries.processing.count)
+        pending_deliveries: deliveries.processing.count
+      })
     end
   end
 end

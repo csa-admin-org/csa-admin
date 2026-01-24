@@ -501,10 +501,10 @@ class Members::MembersTest < ApplicationSystemTestCase
     choose "Supporting member"
 
     assert_no_difference -> { Member.count } do
-      click_button "Submit"
+      assert_raises(ActiveSupport::ErrorReporter::UnexpectedError) do
+        click_button "Submit"
+      end
     end
-
-    assert_text "Thank you for your registration!"
   end
 
   test "without annual fee or organization shares" do

@@ -26,9 +26,10 @@ class Members::MembershipRenewalsController < Members::BaseController
 
     redirect_to members_memberships_path
   rescue => e
-    Error.report(e,
+    Rails.error.report(e, context: {
       member_id: current_member.id,
-      membership_id: @membership&.id)
+      membership_id: @membership&.id
+    })
     redirect_back fallback_location: members_memberships_path, alert: t(".flash.error")
   end
 

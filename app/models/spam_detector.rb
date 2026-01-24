@@ -14,7 +14,7 @@ class SpamDetector < SimpleDelegator
     text = ADDRESS_ATTRS.map { member.send(it) }.join
     return if new(member).gibberish?(text)
 
-    Error.notify("Spam detected", **member.attributes)
+    Rails.error.unexpected("Spam detected", context: member.attributes)
   end
 
   def spam?

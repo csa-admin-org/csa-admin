@@ -33,7 +33,7 @@ module Billing
         end
       }
     rescue CamtParser::Errors::UnsupportedNamespaceError, ArgumentError => e
-      Error.report(e, file: @files.first.read)
+      Rails.error.report(e, context: { file: @files.first.read })
       raise UnsupportedFileError, e.message
     end
 

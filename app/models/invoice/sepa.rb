@@ -68,7 +68,7 @@ module Invoice::SEPA
       order_id: order_id)
     true
   rescue => e
-    Error.report(e, invoice_id: id)
+    Rails.error.report(e, context: { invoice_id: id })
     Rails.event.notify(:sepa_direct_debit_order_upload_failed,
       invoice_id: id,
       error: e.class.name,
