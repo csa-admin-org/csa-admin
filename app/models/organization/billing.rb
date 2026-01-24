@@ -7,7 +7,7 @@ module Organization::Billing
 
   CURRENCIES = %w[CHF EUR]
   BILLING_YEAR_DIVISIONS = [ 1, 2, 3, 4, 12 ]
-  BANK_CONNECTION_TYPES = %w[ebics bas mock]
+  BANK_CONNECTION_TYPES = %w[ebics bas bunq mock]
 
   included do
     include HasIBAN
@@ -58,6 +58,8 @@ module Organization::Billing
         Billing::EBICS.new(bank_credentials)
       when "bas"
         Billing::BAS.new(bank_credentials)
+      when "bunq"
+        Billing::Bunq.new(bank_credentials)
       when "mock"
         Billing::EBICSMock.new(bank_credentials)
       end

@@ -122,6 +122,9 @@ group :test do
   gem "capybara"
   gem "capybara-email"
 
+  # HTTP Mocking
+  gem "webmock"
+
   # PDF Testing
   gem "pdf-inspector", require: "pdf/inspector"
 

@@ -33,4 +33,17 @@ module OrganizationsHelper
       creditor_zip: "75000"
     }.merge(columns))
   end
+
+  def dutch_org(columns = {})
+    org({
+      languages: [ "nl" ],
+      country_code: "NL",
+      currency_code: "EUR",
+      iban: "NL91ABNA0417164300",
+      creditor_name: "Boerderij Mooi",
+      creditor_street: "Kerkstraat 1",
+      creditor_city: "Amsterdam",
+      creditor_zip: "1012 AB"
+    }.merge(columns))
+  end
 end

@@ -5,6 +5,10 @@ require_relative "../config/environment"
 require "rails/test_help"
 
 require "capybara/email"
+require "webmock/minitest"
+
+# Disable all real HTTP connections in tests (WebMock will raise on any attempt)
+WebMock.disable_net_connect!
 
 Dir[Rails.root.join("test/support/**/*.rb")].each { |f| require f }
 
