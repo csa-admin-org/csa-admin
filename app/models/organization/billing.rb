@@ -70,8 +70,8 @@ module Organization::Billing
     end
 
     def fiscal_years
-      min_year = [ Delivery.minimum(:date)&.year, Current.fy_year, Date.current.year ].min
-      max_year = [ Delivery.maximum(:date)&.year, Current.fy_year, Date.current.year ].max
+      min_year = [ Delivery.minimum(:date)&.year, Current.fy_year, Date.current.year ].compact.min
+      max_year = [ Delivery.maximum(:date)&.year, Current.fy_year, Date.current.year ].compact.max
       (min_year..max_year).map { |year|
         Current.org.fiscal_year_for(year)
       }
