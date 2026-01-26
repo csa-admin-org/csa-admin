@@ -158,6 +158,13 @@ production: &production
     admin_host: admin.querbeetgrosswangen.com
     members_host: mitglieder.querbeetgrosswangen.com
     state: onboarding
+  monniati:
+    admin_host: admin.lafermedumonniati.ch
+    members_host: membres.lafermedumonniati.ch
+    state: onboarding
+    aliases:
+      - fermedumonniati
+      - lafermedumonniati
 
   demo-fr:
     admin_host: admin.acp-admin.ch
