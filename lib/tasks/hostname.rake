@@ -6,6 +6,9 @@ require "cloudflare-rails"
 namespace :hostname do
   desc "Create/check CloudFlare SSL Custom Hostnames"
   task cloudflare: :environment do
+    # Suppress Ruby 4.0's experimental IO::Buffer warning from resolv.rb
+    Warning[:experimental] = false
+
     email = ENV["CLOUDFLARE_EMAIL"]
     key = ENV["CLOUDFLARE_API_KEY"]
 
