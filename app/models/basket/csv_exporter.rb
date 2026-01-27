@@ -222,6 +222,6 @@ class Basket::CSVExporter
   def cur(number)
     return if number.nil? || number.zero?
 
-    number_to_currency(number, unit: Current.org.currency_code, format: "%n %u")
+    number_to_currency(number, unit: Current.org.currency_code, format: "%n %u", precision: 3)
   end
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_01_18_102833) do
+ActiveRecord::Schema[8.1].define(version: 2026_01_27_174145) do
   create_table "absences", force: :cascade do |t|
     t.datetime "created_at"
     t.date "ended_on"
@@ -269,7 +269,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_18_102833) do
     t.decimal "delivery_cycle_price", precision: 8, scale: 2, null: false
     t.bigint "delivery_id", null: false
     t.bigint "depot_id", null: false
-    t.decimal "depot_price", precision: 8, scale: 2, null: false
+    t.decimal "depot_price", precision: 8, scale: 3, null: false
     t.bigint "membership_id", null: false
     t.decimal "price_extra", precision: 8, scale: 2, default: "0.0", null: false
     t.integer "quantity", default: 1, null: false
@@ -408,7 +408,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_18_102833) do
     t.text "note"
     t.string "phones"
     t.integer "position"
-    t.decimal "price", precision: 8, scale: 2, null: false
+    t.decimal "price", precision: 8, scale: 3, null: false
     t.json "public_names", default: {}, null: false
     t.string "street", limit: 255
     t.datetime "updated_at"

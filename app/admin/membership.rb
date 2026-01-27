@@ -299,7 +299,7 @@ ActiveAdmin.register Membership do
       column(:absences_included_reminder_sent_at)
     end
     column(:basket_size) { |m| basket_size_description(m, text_only: true, public_name: false) }
-    column(:basket_size_price) { |m| cur(m.basket_size_price) }
+    column(:basket_size_price) { |m| cur(m.basket_size_price, precision: 3) }
     if feature?("basket_price_extra")
       column(Current.org.basket_price_extra_title) { |m|
         if Current.org.basket_price_extra_dynamic_pricing?
@@ -321,7 +321,7 @@ ActiveAdmin.register Membership do
     end
     column(:depot) { |m| m.depot.name }
     if Depot.prices?
-      column(:depot_price) { |m| cur(m.depot_price) }
+      column(:depot_price) { |m| cur(m.depot_price, precision: 3) }
     end
     column(:delivery_cycle) { |m| m.delivery_cycle.name }
     if feature?("activity")

@@ -26,7 +26,7 @@ ActiveAdmin.register Depot do
       column :group
     end
     if Depot.prices?
-      column :price, ->(d) { cur(d.price) }, class: "text-right tabular-nums whitespace-nowrap"
+      column :price, ->(d) { cur(d.price, precision: 3) }, class: "text-right tabular-nums whitespace-nowrap"
     end
     if DeliveryCycle.visible?
       column :delivery_cycles, ->(d) {
@@ -66,7 +66,7 @@ ActiveAdmin.register Depot do
       column(:language) { |d| t("languages.#{d.language}") }
     end
     column(:group) { |d| d.group&.name }
-    column(:price) { |d| cur(d.price) }
+    column(:price) { |d| cur(d.price, precision: 3) }
     column(:note)
     column(:address_name)
     column(:street)
@@ -130,7 +130,7 @@ ActiveAdmin.register Depot do
 
         panel t(".billing") do
           attributes_table do
-            row(:price) { cur(depot.price) }
+            row(:price) { cur(depot.price, precision: 3) }
           end
         end
 

@@ -12,7 +12,7 @@ ActiveAdmin.register BasketComplement do
   index download_links: false do
     column :id
     column :name, ->(bc) { display_name_with_public_name(bc) }, sortable: true
-    column :price, ->(bc) { cur(bc.price) }, class: "text-right tabular-nums whitespace-nowrap"
+    column :price, ->(bc) { cur(bc.price, precision: 3) }, class: "text-right tabular-nums whitespace-nowrap"
     column :annual_price, ->(bc) {
       if bc.deliveries_count.positive?
         deliveries_based_price_info(bc.price, bc.billable_deliveries_counts)

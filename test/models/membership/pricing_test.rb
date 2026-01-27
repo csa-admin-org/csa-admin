@@ -68,6 +68,19 @@ class Membership::PricingTest < ActiveSupport::TestCase
     assert_equal 707, membership.price
   end
 
+  test "price with 3-digit precision depot price" do
+    travel_to "2024-01-01"
+    depots(:bakery).update!(price: 1.125)
+    membership = create_membership(
+      basket_size: basket_sizes(:small),
+      depot: depots(:bakery),
+      delivery_cycle: delivery_cycles(:thursdays))
+
+    assert_equal 10 * 10, membership.basket_sizes_price
+    assert_equal 10 * 1.125, membership.depots_price
+    assert_equal 111.25, membership.price
+  end
+
   test "with baskets_annual_price_change price" do
     travel_to "2024-01-01"
     membership = create_membership(

@@ -13,7 +13,7 @@ class BiddingRound
       column(:membership) { |p| p.membership_id }
       column(:basket_size) { |p| p.membership.basket_size.name }
       column(BiddingRound.human_attribute_name(:default_basket_size_price)) { |p|
-        cur(p.membership.basket_size.price)
+        cur(p.membership.basket_size.price, precision: 3)
       }
       column(BiddingRound.human_attribute_name(:pledged_basket_size_price)) { |p|
         cur(p.basket_size_price)
