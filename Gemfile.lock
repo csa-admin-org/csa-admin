@@ -261,10 +261,10 @@ GEM
       activesupport (>= 7.0)
     hashdiff (1.2.1)
     hashery (2.1.2)
-    herb (0.8.8-aarch64-linux-gnu)
-    herb (0.8.8-arm64-darwin)
-    herb (0.8.8-x86_64-linux-gnu)
-    herb (0.8.8-x86_64-linux-musl)
+    herb (0.8.9-aarch64-linux-gnu)
+    herb (0.8.9-arm64-darwin)
+    herb (0.8.9-x86_64-linux-gnu)
+    herb (0.8.9-x86_64-linux-musl)
     hexapdf (1.5.0)
       cmdparse (~> 3.0, >= 3.0.3)
       geom2d (~> 0.4, >= 0.4.1)
@@ -546,7 +546,7 @@ GEM
       chunky_png (~> 1.0)
       rqrcode_core (~> 2.0)
     rqrcode_core (2.1.0)
-    rubocop (1.82.1)
+    rubocop (1.84.0)
       json (~> 2.3)
       language_server-protocol (~> 3.17.0.2)
       lint_roller (~> 1.1.0)
@@ -554,7 +554,7 @@ GEM
       parser (>= 3.3.0.2)
       rainbow (>= 2.2.2, < 4.0)
       regexp_parser (>= 2.9.3, < 3.0)
-      rubocop-ast (>= 1.48.0, < 2.0)
+      rubocop-ast (>= 1.49.0, < 2.0)
       ruby-progressbar (~> 1.7)
       unicode-display_width (>= 2.4.0, < 4.0)
     rubocop-ast (1.49.0)
@@ -862,10 +862,10 @@ CHECKSUMS
   has_scope (0.9.0) sha256=783a93006cf898525bb4899696f1d088c0f6ff897d6df2bf03fdbbe0d0b5124c
   hashdiff (1.2.1) sha256=9c079dbc513dfc8833ab59c0c2d8f230fa28499cc5efb4b8dd276cf931457cd1
   hashery (2.1.2) sha256=d239cc2310401903f6b79d458c2bbef5bf74c46f3f974ae9c1061fb74a404862
-  herb (0.8.8-aarch64-linux-gnu) sha256=c452e12859628e0a98cd08d0941829e068300317afb82d0d37a96fc0af4ca416
-  herb (0.8.8-arm64-darwin) sha256=8043f5a439143f38366632221f6f5d25877cec3ab2f14ccfdb8093b58c76fd88
-  herb (0.8.8-x86_64-linux-gnu) sha256=2919ee304c2b43b4c9b0bb587d2bd3b53a125e88cff160f5291343c5a9b295fe
-  herb (0.8.8-x86_64-linux-musl) sha256=ed79ded1cf4cd6166aec79002b3c1f50d8e5236b06483c8767b27d6421e54248
+  herb (0.8.9-aarch64-linux-gnu) sha256=9214cc24953c355f9ae785a95bb9362cdfc9fcd2ae4db2a32bc26c0b88f98c7f
+  herb (0.8.9-arm64-darwin) sha256=d045cce47bbec4d27a413fc4758e75bdd748a40430293b20bbb59789c02cad81
+  herb (0.8.9-x86_64-linux-gnu) sha256=0315fef432649bb1aa139d01e7acad66f78b0abd5aa6d1e03ca5fe1bde224b14
+  herb (0.8.9-x86_64-linux-musl) sha256=caae9c6058ada130f070342c568c6efcb1c44295cdc9e505fe58cb4ee870a207
   hexapdf (1.5.0) sha256=05ab16c894ef59a8b65fdc5f5eeca941d7c0fc85a02c81728c3db9321d8e2438
   htmlentities (4.4.2) sha256=bbafbdf69f2eca9262be4efef7e43e6a1de54c95eb600f26984f71d2fe96c5c3
   i18n (1.14.8) sha256=285778639134865c5e0f6269e0b818256017e8cde89993fdfcbfb64d088824a5
@@ -977,7 +977,7 @@ CHECKSUMS
   rexml (3.4.4) sha256=19e0a2c3425dfbf2d4fc1189747bdb2f849b6c5e74180401b15734bc97b5d142
   rqrcode (3.2.0) sha256=64c1494ca6bb67d731330f38b50e3fd09eeab4f5dcd04b608e21218d1d0b9542
   rqrcode_core (2.1.0) sha256=f303b85df89c1b8fc5ee8dc19808c9dc4330e6329b660d99d4a8cbb36ca13051
-  rubocop (1.82.1) sha256=09f1a6a654a960eda767aebea33e47603080f8e9c9a3f019bf9b94c9cab5e273
+  rubocop (1.84.0) sha256=88dec310153bb685a879f5a7cdb601f6287b8f0ee675d9dc63a17c7204c4190a
   rubocop-ast (1.49.0) sha256=49c3676d3123a0923d333e20c6c2dbaaae2d2287b475273fddee0c61da9f71fd
   rubocop-erb (0.7.0) sha256=61258573723a31e57c1b5d2178660a25e230a73795cf4af2a53e1fd7d17e1b80
   rubocop-minitest (0.38.2) sha256=5a9dfb5a538973d0601aa51e59637d3998bb8df81233edf1ff421504c6280068
