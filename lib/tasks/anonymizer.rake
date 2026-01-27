@@ -26,6 +26,7 @@ namespace :anonymizer do
             emails_mapping[email.downcase] = fake_email
             fake_email
           end
+          fake_iban = member.iban? ? Faker::Bank.iban(country_code: member.country_code) : nil
           member.update_columns(
             name: name,
             emails: fake_emails.join(", "),
@@ -33,18 +34,31 @@ namespace :anonymizer do
             street: Faker::Address.street_address,
             city: Faker::Address.city,
             zip: Faker::Address.zip,
+            iban: fake_iban,
             note: nil,
             food_note: nil,
             come_from: nil,
             profession: nil)
+          billing_name = name
           if member.different_billing_info
+            billing_name = Faker::Name.unique.name
             member.update_columns(
-              billing_name: Faker::Name.unique.name,
+              billing_name: billing_name,
               billing_street: Faker::Address.street_address,
               billing_city: Faker::Address.city,
               billing_zip: Faker::Address.zip)
           end
           member.sessions.update_all(email: member.emails_array.first)
+          # Update invoices sepa_metadata with anonymized data
+          if fake_iban
+            member.invoices.where.not(sepa_metadata: {}).find_each do |invoice|
+              invoice.update_columns(
+                sepa_metadata: invoice.sepa_metadata.merge(
+                  "name" => billing_name,
+                  "iban" => fake_iban
+                ))
+            end
+          end
         end
         Newsletter::Delivery.where.not(email: nil).find_each do |delivery|
           name = "#{Faker::Name.first_name} #{Faker::Name.last_name}"
