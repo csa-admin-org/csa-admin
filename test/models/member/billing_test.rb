@@ -208,4 +208,23 @@ class Member::BillingTest < ActiveSupport::TestCase
       mandate_signed_on: Date.parse("2024-01-01")
     }, member.sepa_metadata)
   end
+
+  test "sepa_metadata uses billing_info name when different billing info is set" do
+    member = build_member(
+      name: "John Doe",
+      iban: "DE89370400440532013000",
+      sepa_mandate_id: "123",
+      sepa_mandate_signed_on: "2024-01-01",
+      billing_name: "Acme Corp",
+      billing_street: "Billing Street 1",
+      billing_city: "Billing City",
+      billing_zip: "9999")
+
+    assert_equal({
+      name: "Acme Corp",
+      iban: "DE89370400440532013000",
+      mandate_id: "123",
+      mandate_signed_on: Date.parse("2024-01-01")
+    }, member.sepa_metadata)
+  end
 end

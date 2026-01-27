@@ -24,6 +24,33 @@ class Invoice::SEPATest < ActiveSupport::TestCase
     assert invoice.sepa?
   end
 
+  test "persisted sepa_metadata uses billing_info name when different billing info is set" do
+    org(
+      country_code: "DE",
+      sepa_creditor_identifier: "DE98ZZZ09999999999")
+    member = create_member(
+      name: "John Doe",
+      country_code: "DE",
+      iban: "DE89370400440532013000",
+      sepa_mandate_id: "123",
+      sepa_mandate_signed_on: Date.parse("2024-01-01"))
+    member.update!(
+      different_billing_info: true,
+      billing_name: "Acme Corp",
+      billing_street: "Billing Street 1",
+      billing_city: "Billing City",
+      billing_zip: "9999")
+
+    invoice = create_annual_fee_invoice(member: member)
+    assert_equal({
+      "name" => "Acme Corp",
+      "iban" => "DE89370400440532013000",
+      "mandate_id" => "123",
+      "mandate_signed_on" => "2024-01-01"
+    }, invoice.sepa_metadata)
+    assert invoice.sepa?
+  end
+
   test "upload_sepa_direct_debit_order does nothing if order_id already present" do
     german_org(sepa_creditor_identifier: "DE98ZZZ09999999999")
     member = members(:anna)

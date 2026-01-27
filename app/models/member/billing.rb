@@ -84,7 +84,7 @@ module Member::Billing
     return {} unless sepa?
 
     {
-      name: name,
+      name: billing_info(:name),
       iban: iban,
       mandate_id: sepa_mandate_id,
       mandate_signed_on: sepa_mandate_signed_on
