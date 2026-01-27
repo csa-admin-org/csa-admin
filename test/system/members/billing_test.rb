@@ -76,4 +76,49 @@ class Members::BillingTest < ApplicationSystemTestCase
     assert_text "Offene Rechnungen"
     assert_text "01.05.24 Mitgliedsbestätigung ##{invoice.id} (Abo. 2024)"
   end
+
+  test "display SEPA Direct Debit section" do
+    travel_to "2024-05-01"
+    german_org(sepa_creditor_identifier: "DE98ZZZ09999999999")
+    member = create_member(
+      language: "de",
+      name: "John Doe",
+      country_code: "DE",
+      iban: "DE89370400440532013000",
+      sepa_mandate_id: "MANDATE-123",
+      sepa_mandate_signed_on: Date.parse("2024-01-15"))
+
+    login(member)
+    visit "/billing"
+
+    assert_text "SEPA-Lastschriftverfahren"
+    assert_text "Name John Doe"
+    assert_text "IBAN DE89 3704 0044 0532 0130 00"
+    assert_text "Mandatsreferenz MANDATE-123 (15. Januar 2024)"
+  end
+
+  test "display SEPA Direct Debit section with billing name" do
+    travel_to "2024-05-01"
+    german_org(sepa_creditor_identifier: "DE98ZZZ09999999999")
+    member = create_member(
+      language: "de",
+      name: "John Doe",
+      country_code: "DE",
+      iban: "DE89370400440532013000",
+      sepa_mandate_id: "MANDATE-456",
+      sepa_mandate_signed_on: Date.parse("2024-02-20"))
+    member.update!(
+      billing_name: "Acme GmbH",
+      billing_street: "Billing Street 1",
+      billing_city: "Berlin",
+      billing_zip: "10115")
+
+    login(member)
+    visit "/billing"
+
+    assert_text "SEPA-Lastschriftverfahren"
+    assert_text "Name Acme GmbH"
+    assert_text "IBAN DE89 3704 0044 0532 0130 00"
+    assert_text "Mandatsreferenz MANDATE-456 (20. Februar 2024)"
+  end
 end

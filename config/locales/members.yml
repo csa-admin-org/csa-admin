@@ -631,6 +631,12 @@ _:
           _de: Noch zu verrechnen
           _it: Rimasto da fatturare
           _nl: Nog te factureren
+        sepa_direct_debit:
+          _en: SEPA Direct Debit
+          _fr: Prélèvement SEPA
+          _de: SEPA-Lastschriftverfahren
+          _it: Addebito diretto SEPA
+          _nl: SEPA automatische incasso
         shares:
           _en: Cooperative shares
           _fr: Parts sociales

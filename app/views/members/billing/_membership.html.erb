@@ -1,0 +1,182 @@
+<% if membership = current_member.current_year_membership || current_member.future_membership %>
+  <div
+    class="
+      mt-4 flex-col rounded-sm border border-gray-200 p-2 px-4
+      dark:border-gray-700
+    "
+    data-controller="hover"
+    data-action="mouseenter->hover#show mouseleave->hover#hide"
+    data-hover-id-value="<%= dom_id(membership) %>"
+  >
+    <div class="text-center text-xl whitespace-nowrap">
+      <%= "#{Membership.model_name.human} #{membership.fiscal_year}" %>
+    </div>
+
+    <ul class="mt-4 w-full space-y-1">
+      <li class="flex w-full flex-row flex-wrap items-center justify-between">
+        <span class="font-light">
+          <%= Basket.model_name.human(count: membership.baskets_count) %>
+        </span>
+
+        <span class="grow text-right tabular-nums">
+          <%= display_price_description(membership.basket_sizes_price, basket_sizes_price_info(membership, membership.baskets)) %>
+        </span>
+      </li>
+
+      <% if membership.baskets_annual_price_change.nonzero? %>
+        <li
+          class="
+            flex w-full flex-row flex-wrap items-center justify-between
+            border-t border-dotted border-gray-200 dark:border-gray-800
+          "
+        >
+          <span class="font-light">
+            <%= t("invoices.pdf.baskets_annual_price_change") %>
+          </span>
+
+          <span class="grow text-right whitespace-nowrap tabular-nums">
+            <%= cur(membership.baskets_annual_price_change, unit: false) %>
+          </span>
+        </li>
+      <% end %>
+
+      <% if membership.basket_complements.any? && membership.basket_complements_price.nonzero? %>
+        <li
+          class="
+            flex w-full flex-row flex-wrap items-center justify-between
+            border-t border-dotted border-gray-200 dark:border-gray-800
+          "
+        >
+          <span class="font-light">
+            <%= MembershipsBasketComplement.model_name.human(count: membership.basket_complements.count) %>
+          </span>
+
+          <span class="grow text-right whitespace-nowrap tabular-nums">
+            <%= display_price_description(membership.basket_complements_price, membership_basket_complements_price_info(membership)) %>
+          </span>
+        </li>
+      <% end %>
+
+      <% if membership.basket_complements_annual_price_change.nonzero? %>
+        <li
+          class="
+            flex w-full flex-row flex-wrap items-center justify-between
+            border-t border-dotted border-gray-200 dark:border-gray-800
+          "
+        >
+          <span class="font-light">
+            <%= t("invoices.pdf.basket_complements_annual_price_change") %>
+          </span>
+
+          <span class="grow text-right whitespace-nowrap tabular-nums">
+            <%= cur(membership.baskets_annual_price_change, unit: false) %>
+          </span>
+        </li>
+      <% end %>
+
+      <% if feature?("basket_price_extra") && (membership.basket_price_extra.nonzero? || membership.baskets.any? { |b| b.price_extra.nonzero? }) %>
+        <li
+          class="
+            flex w-full flex-row flex-wrap items-center justify-between
+            border-t border-dotted border-gray-200 dark:border-gray-800
+          "
+        >
+          <span class="me-2 font-light">
+            <%= Current.org.basket_price_extra_title %>
+          </span>
+
+          <span class="grow text-right whitespace-nowrap tabular-nums">
+            <% description = baskets_price_extra_info(membership, membership.baskets) %>
+            <%= display_price_description(membership.baskets_price_extra, description) %>
+          </span>
+        </li>
+      <% end %>
+
+      <% if membership.depots_price.nonzero? %>
+        <li
+          class="
+            flex w-full flex-row flex-wrap items-center justify-between
+            border-t border-dotted border-gray-200 dark:border-gray-800
+          "
+        >
+          <span class="font-light">
+            <%= Depot.model_name.human(count: membership.baskets_count) %>
+          </span>
+
+          <span class="grow text-right tabular-nums">
+            <%= display_price_description(membership.depots_price, depots_price_info(membership.baskets)) %>
+          </span>
+        </li>
+      <% end %>
+
+      <% if membership.deliveries_price.nonzero? %>
+        <li
+          class="
+            flex w-full flex-row flex-wrap items-center justify-between
+            border-t border-dotted border-gray-200 dark:border-gray-800
+          "
+        >
+          <span class="font-light">
+            <%= Delivery.model_name.human(count: membership.baskets_count) %>
+          </span>
+
+          <span class="grow text-right tabular-nums">
+            <%= display_price_description(membership.deliveries_price, delivery_cycle_price_info(membership.baskets)) %>
+          </span>
+        </li>
+      <% end %>
+
+      <% if feature?("activity") && membership.activity_participations_annual_price_change.nonzero? %>
+        <li
+          class="
+            flex w-full flex-row flex-wrap items-center justify-between
+            border-t border-dotted border-gray-200 dark:border-gray-800
+          "
+        >
+          <span class="font-light">
+            <%= t_activity("active_admin.resource.show.activity_participations_annual_price_change") %>
+          </span>
+
+          <span class="grow text-right whitespace-nowrap tabular-nums">
+            <%= cur(membership.activity_participations_annual_price_change, unit: false) %>
+          </span>
+        </li>
+      <% end %>
+
+      <li class="pt-1 text-right">
+        <span class="w-full border-t border-gray-500 pt-1 tabular-nums">
+          <%= cur(membership.price, format: "%u %n") %>
+        </span>
+      </li>
+
+      <li class="pt-1 text-right">
+        <span class="text-right font-light">
+          <%= t("members.billing.index.already_invoiced") %>
+        </span>
+
+        <span class="inline-block w-32">
+          <span class="text-right tabular-nums">
+            <%= cur(membership.invoices_amount, format: "- %n") %>
+          </span>
+        </span>
+      </li>
+
+      <li class="text-right">
+        <span class="text-right font-light">
+          <%= t("members.billing.index.remaining_to_invoice") %>
+        </span>
+
+        <span class="inline-block w-32">
+          <span
+            class="
+              border-t border-gray-500 pt-1 text-right font-medium
+              tabular-nums
+            "
+          >
+            <%= cur(membership.missing_invoices_amount, format: "%u %n") %>
+          </span>
+        </span>
+      </li>
+    </ul>
+  </div>
+<% end %>

@@ -1,0 +1,41 @@
+<% if current_member.sepa? %>
+  <div class="mt-12 rounded-sm border border-gray-200 p-4 dark:border-gray-700">
+    <h3 class="mb-3 text-center text-sm font-medium text-gray-500 dark:text-gray-400">
+      <%= t("members.billing.index.sepa_direct_debit") %>
+    </h3>
+
+    <dl class="space-y-2 text-sm">
+      <div class="flex justify-between">
+        <dt class="text-gray-500 dark:text-gray-400">
+          <%= Member.human_attribute_name(:name) %>
+        </dt>
+
+        <dd class="font-medium"><%= current_member.billing_info(:name) %></dd>
+      </div>
+
+      <div class="flex justify-between">
+        <dt class="text-gray-500 dark:text-gray-400">
+          <%= Member.human_attribute_name(:iban) %>
+        </dt>
+
+        <dd class="font-mono font-medium">
+          <%= current_member.iban_formatted %>
+        </dd>
+      </div>
+
+      <div class="flex justify-between">
+        <dt class="text-gray-500 dark:text-gray-400">
+          <%= Member.human_attribute_name(:sepa_mandate_id) %>
+        </dt>
+
+        <dd class="font-medium">
+          <%= current_member.sepa_mandate_id %>
+
+          <span class="text-gray-400">
+            (<%= l(current_member.sepa_mandate_signed_on) %>)
+          </span>
+        </dd>
+      </div>
+    </dl>
+  </div>
+<% end %>
