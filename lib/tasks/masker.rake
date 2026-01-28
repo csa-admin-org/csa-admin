@@ -3,14 +3,14 @@
 require "parallel"
 require "faker"
 
-namespace :anonymizer do
+namespace :masker do
   # Disposable email domains that are MX-valid but obviously for demo/testing
   EMAIL_DOMAINS = %w[
     mailinator.com yopmail.com guerrillamail.com
     tempmail.net dispostable.com fakeinbox.com
   ].freeze
 
-  desc "Anonymize all private data in the development databases"
+  desc "Mask all private data in the development databases"
   task run: :environment do
     raise "Only run this task in dev!" unless Rails.env.development?
 
@@ -92,6 +92,6 @@ namespace :anonymizer do
       end
     end
 
-    puts "Data anonymization completed successfully."
+    puts "Data masking completed successfully."
   end
 end

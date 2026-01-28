@@ -12,9 +12,9 @@ namespace :development do
   end
 
   namespace :restore do
-    task :anonymized do
+    task :masked do
       Rake::Task["development:restore"].invoke
-      Rake::Task["anonymizer:run"].invoke
+      Rake::Task["masker:run"].invoke
     end
   end
 end
