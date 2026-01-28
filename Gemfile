@@ -36,7 +36,7 @@ gem "rack-status"
 gem "rack-cors"
 
 # Admin and UI
-gem "activeadmin", "~> 4.0.0.beta19"
+gem "activeadmin", "~> 4.0.0.beta20"
 gem "cancancan"
 gem "acts_as_list"
 gem "simple_form"
