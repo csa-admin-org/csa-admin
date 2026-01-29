@@ -89,4 +89,16 @@ class DepotTest < ActiveSupport::TestCase
 
     assert_equal %w[ John Jane ], depot_member_names(depot, deliveries(:monday_2))
   end
+
+  test "member_sorting sorts names case and accent insensitively" do
+    travel_to "2024-01-01"
+    depot = depots(:home)
+    members(:john).update!(name: "Élodie")
+    members(:jane).update!(name: "alice")
+    members(:bob).update!(name: "Bob")
+    memberships(:john).update!(depot: depot)
+    memberships(:jane).update!(depot: depot, delivery_cycle: delivery_cycles(:mondays))
+
+    assert_equal %w[ alice Bob Élodie ], depot_member_names(depot, deliveries(:monday_1))
+  end
 end

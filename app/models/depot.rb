@@ -98,7 +98,7 @@ class Depot < ApplicationRecord
     if delivery_sheets_mode == "home_delivery"
       position << (member_ids_position.index(member.id) || 1000)
     end
-    position << member.name
+    position << I18n.transliterate(member.name).downcase
     position
   end
 
