@@ -32,7 +32,7 @@ class Member < ApplicationRecord
   attribute :send_validation_email, :boolean, default: -> { false }
 
   audited_attributes \
-    :state, :name, :emails, :billing_email, :newsletter, :phones, :contact_sharing, \
+    :state, :name, :emails, :billing_email, :phones, :contact_sharing, \
     :street, :zip, :city, :country_code, \
     :billing_name, :billing_street, :billing_city, :billing_zip, \
     :profession, :come_from, :note, :delivery_note, :food_note, \
