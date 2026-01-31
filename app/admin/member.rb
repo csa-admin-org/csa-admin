@@ -738,6 +738,46 @@ ActiveAdmin.register Member do
     action_button t(".deactivate"), deactivate_member_path(resource), icon: "circle-off", class: "destructive"
   end
 
+  # Remove default "destroy" action item
+  config.remove_action_item :destroy
+
+  action_item :destroy, only: :show, if: -> { authorized?(:destroy, resource) } do
+    delete_label = I18n.t("active_admin.delete_model")
+    if resource.can_delete?
+      action_button delete_label, member_path(resource),
+        method: :delete,
+        icon: "trash",
+        class: "destructive",
+        data: { confirm: t(".delete_confirm") }
+    elsif resource.can_discard?
+      action_button delete_label, member_path(resource),
+        method: :delete,
+        icon: "trash",
+        class: "destructive",
+        data: { confirm: t(".discard_confirm", delay: Member::Anonymization::DELAY_IN_DAYS) }
+    end
+  end
+
+  action_item :delete_disabled, only: :show, if: -> { resource.inactive? && !resource.can_destroy? } do
+    delete_label = I18n.t("active_admin.delete_model")
+    tooltip_id = "tooltip-member-delete-disabled"
+    content_tag(:button,
+      class: "h-9 action-item-button",
+      disabled: true,
+      data: { "tooltip-target" => tooltip_id, "tooltip-placement" => "bottom" }
+    ) do
+      icon("trash", class: "size-5 -ms-2 me-2") + delete_label
+    end +
+    content_tag(:div,
+      id: tooltip_id,
+      role: "tooltip",
+      class: "absolute z-10 invisible inline-block max-w-96 px-3 py-2 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-xs opacity-0 tooltip dark:bg-gray-700"
+    ) do
+      content_tag(:p, t(".delete_disabled_reason")) +
+        content_tag(:div, nil, class: "tooltip-arrow text-left", data: { "popper-arrow" => true })
+    end
+  end
+
   action_item :become, only: :show do
     action_link t(".become_member"), become_member_path(resource),
       icon: "arrow-right-end-on-rectangle",

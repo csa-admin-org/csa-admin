@@ -2665,6 +2665,18 @@ _:
           _de: Deaktivieren
           _it: Disattivare
           _nl: Deactiveren
+        delete_confirm:
+          _en: Are you sure you want to permanently delete this member? This action cannot be undone.
+          _fr: Êtes-vous sûr de vouloir supprimer définitivement ce membre ? Cette action est irréversible.
+          _de: Sind Sie sicher, dass Sie dieses Mitglied dauerhaft löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden.
+          _it: Sei sicuro di voler eliminare definitivamente questo membro? Questa azione non può essere annullata.
+          _nl: Weet u zeker dat u dit lid permanent wilt verwijderen? Deze actie kan niet ongedaan worden gemaakt.
+        delete_disabled_reason:
+          _en: This member cannot be deleted because they have open invoices, billable memberships, or pending shop orders.
+          _fr: Ce membre ne peut pas être supprimé car il a des factures ouvertes, des abonnements facturables ou des commandes en attente.
+          _de: Dieses Mitglied kann nicht gelöscht werden, da es offene Rechnungen, abrechenbare Mitgliedschaften oder ausstehende Bestellungen hat.
+          _it: Questo membro non può essere eliminato perché ha fatture aperte, abbonamenti fatturabili o ordini in sospeso.
+          _nl: Dit lid kan niet worden verwijderd omdat er openstaande facturen, factureerbare lidmaatschappen of lopende bestellingen zijn.
         delivery_order:
           _en: Delivery note
           _fr: Bulletin de livraison
@@ -2677,6 +2689,12 @@ _:
           _de: Lieferscheine
           _it: Bolle di consegna
           _nl: Leveringsbonnen
+        discard_confirm:
+          _en: 'This member will be marked for deletion: their page will no longer be accessible and their personal data will be anonymized after %{delay} days. See the documentation for more details. Continue?'
+          _fr: 'Ce membre sera marqué pour suppression : sa page ne sera plus accessible et ses données personnelles seront anonymisées après %{delay} jours. Consultez la documentation pour plus de détails. Continuer ?'
+          _de: 'Dieses Mitglied wird zur Löschung markiert: Seine Seite ist nicht mehr zugänglich und seine Daten werden nach %{delay} Tagen anonymisiert. Weitere Details in der Dokumentation. Fortfahren?'
+          _it: 'Questo membro sarà contrassegnato per l''eliminazione: la sua pagina non sarà più accessibile e i suoi dati saranno anonimizzati dopo %{delay} giorni. Consultare la documentazione per maggiori dettagli. Continuare?'
+          _nl: 'Dit lid wordt gemarkeerd voor verwijdering: hun pagina is niet meer toegankelijk en hun gegevens worden na %{delay} dagen geanonimiseerd. Raadpleeg de documentatie voor meer informatie. Doorgaan?'
         duplicate:
           _en: Duplicate
           _fr: Dupliquer
