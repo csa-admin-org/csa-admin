@@ -456,6 +456,16 @@ class MemberTest < ActiveSupport::TestCase
     assert member.anonymized?
   end
 
+  test "discard revokes all member sessions" do
+    member = discardable_member
+    session = member.sessions.first
+    assert_not session.revoked?
+
+    member.discard
+
+    assert session.reload.revoked?
+  end
+
   test "set default annual_fee when support member" do
     org(annual_fee_support_member_only: false)
     member = build_member(annual_fee: nil)

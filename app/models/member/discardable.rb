@@ -5,6 +5,9 @@
 #
 # A member can be discarded if inactive with no financial obligations.
 # A member can be fully deleted only if no historical data exists.
+#
+# On discard:
+# - All sessions are revoked (prevents login)
 module Member::Discardable
   extend ActiveSupport::Concern
 
@@ -13,6 +16,7 @@ module Member::Discardable
 
     scope :kept, -> { undiscarded }
 
+    after_discard :revoke_sessions
     before_undiscard do
       raise "Cannot undiscard anonymized member ##{id}" if anonymized?
     end
@@ -54,5 +58,11 @@ module Member::Discardable
 
   def anonymized?
     anonymized_at?
+  end
+
+  private
+
+  def revoke_sessions
+    sessions.find_each(&:revoke!)
   end
 end

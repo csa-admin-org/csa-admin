@@ -18,4 +18,16 @@ module MembersHelper
   def create_member(attributes = {})
     build_member(attributes).tap(&:save!)
   end
+
+  # Creates an inactive member with a session, ready to be discarded.
+  # Useful for testing discard and anonymization flows.
+  def discardable_member
+    member = create_member
+    member.update_columns(state: "inactive")
+    member.sessions.create!(
+      email: member.emails_array.first,
+      remote_addr: "127.0.0.1",
+      user_agent: "Test Agent")
+    member
+  end
 end
