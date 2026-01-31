@@ -17,6 +17,7 @@ class Member < ApplicationRecord
   include Shares
   include StateTransitions
   include Discardable
+  include Anonymization
 
   BILLING_INTERVALS = %w[annual quarterly].freeze
 

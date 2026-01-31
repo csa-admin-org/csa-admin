@@ -56,10 +56,6 @@ module Member::Discardable
     end
   end
 
-  def anonymized?
-    anonymized_at?
-  end
-
   private
 
   def revoke_sessions
