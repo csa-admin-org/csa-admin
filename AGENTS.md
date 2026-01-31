@@ -1,381 +1,71 @@
 # Agent Instructions
 
-This file provides guidance to AI coding agents working with this repository.
-
 ## What is CSA Admin?
 
-CSA Admin is a multi-tenant Rails application for managing Community Supported Agriculture organizations. It handles member management, deliveries, baskets, billing, and communication for CSA farms. Each tenant (organization) has its own isolated SQLite database.
+CSA Admin is a multi-tenant Rails application for managing Community Supported Agriculture organizations. Each tenant has its own isolated SQLite database.
 
 ## Development Commands
 
-### Setup and Server
 ```bash
-bin/setup              # Initial setup (installs gems, creates DB, loads schema)
-bin/dev                # Start development server
-```
-
-### Testing
-```bash
-bin/rails test:all                        # Run all tests (uses "acme" tenant)
-bin/rails test test/path/to/file_test.rb  # Run single test file
-bin/rails test test/path/to/file_test.rb:42  # Run single test at line
-```
-
-### Linting
-```bash
-bin/rails lint:check       # Check for style issues
-bin/rails lint:autocorrect # Auto-fix style issues
-```
-
-### Database
-```bash
-bin/rails db:migrate              # Migrate all tenants
-bin/rails db:rollback             # Rollback all tenants (specify steps w/ STEP=n)
-bin/rails db:reset RAILS_ENV=test # Reset test database
-```
-
-## Architecture Overview
-
-### Technology Stack
-
-- **Ruby/Rails**: See `.ruby-version` and `Gemfile`
-- **Database**: SQLite (one database per tenant)
-- **Testing**: Minitest and fixtures
-- **Frontend**: Turbo, Stimulus, Tailwind CSS, importmap
-- **Background Jobs**: Solid Queue (ActiveJob)
-- **Authorization**: CanCanCan
-- **Admin UI**: ActiveAdmin
-- **Monitoring**: AppSignal
-
-### Project Structure
-
-```
-app/
-├── admin/          # ActiveAdmin resources
-├── controllers/    # Standard Rails controllers
-├── helpers/        # View helpers
-├── inputs/         # Custom form inputs
-├── javascript/     # Stimulus controllers
-├── jobs/           # Background jobs
-├── mailers/        # ActionMailer classes
-├── models/         # ActiveRecord models and concerns
-└── views/          # ERB templates
+bin/rails test:all                # Run all tests (uses "acme" tenant)
+bin/rails lint:check              # Check for style issues
+bin/rails lint:autocorrect        # Auto-fix style issues
 ```
 
 ## Multi-Tenant Architecture
 
-Separate SQLite databases per tenant (sharding). Tenant is resolved from request subdomain.
-
-### Key Files
-
-- `lib/tenant.rb` - Tenant switching logic
-- `config/tenant.yml` - Tenant hosts configuration
-- `app/jobs/concerns/tenant_context.rb` - Job tenant serialization
-
-### Tenant Configuration
-
-```yaml
-# config/tenant.yml.example
-test:
-  acme:
-    admin_host: admin.acme.test
-    members_host: members.acme.test
-```
-
-### Tenant Commands
+Tenant is resolved from request subdomain. Each tenant has a separate SQLite database.
 
 ```ruby
-Tenant.connect("acme")      # Connect (console only)
-Tenant.disconnect           # Disconnect (console only)
 Tenant.switch("acme") { }   # Execute block in tenant context
 Tenant.switch_each { }      # Execute block for each tenant
 Tenant.current              # Get current tenant name
+Current.org                 # Organization singleton (tenant settings/features)
 ```
 
-### Current Context
+Key files: `lib/tenant.rb`, `config/tenant.yml`
 
-```ruby
-Current.org       # Organization singleton (tenant settings/features)
-Current.session   # Current user session
-```
-
-## Background Jobs
-
-Jobs inherit from `ApplicationJob` which includes `TenantContext` for automatic tenant serialization.
-
-```ruby
-# Run job across all tenants
-TenantSwitchEachJob.perform_later("MyJobClassName")
-```
+Jobs inherit from `ApplicationJob` which includes `TenantContext` for automatic tenant serialization. Use `TenantSwitchEachJob.perform_later("MyJobClassName")` to run a job across all tenants.
 
 ## Code Style
 
 ### Vanilla Rails is Plenty
 
-Prefer Rails conventions over custom abstractions. Before adding new patterns, architectural layers, or dependencies, ask: "Can Rails handle this out of the box?"
+Prefer Rails conventions over custom abstractions. Use models, concerns, and built-in Rails patterns first. Avoid unnecessary service objects, query objects, or form objects. Complexity should be earned, not assumed.
 
-- Use models, concerns, and built-in Rails patterns first
-- Avoid unnecessary service objects, query objects, or form objects
-- Keep it simple - complexity should be earned, not assumed
+### Rich Models
 
-**Essential reading:** [Vanilla Rails is Plenty](https://dev.37signals.com/vanilla-rails-is-plenty/)
+Put business logic in models. When a model grows:
+1. Extract cohesive functionality into sub-model concerns (e.g., `app/models/member/billing.rb`)
+2. Delegate complex operations to POROs in `app/models/` (e.g., `app/models/billing//invoicer.rb`)
 
-### General Guidelines
+Shared concerns go in `app/models/concerns/`. When including multiple concerns, document callback order dependencies.
 
-- `frozen_string_literal: true` pragma required in all Ruby files
-- Uses `rubocop-rails-omakase` as base configuration
-- Keep controllers thin, push logic to models
-- Use concerns to organize related model behavior
+### Documenting Complex Classes
 
-### Models Should Be Rich
-
-Put business logic in models, but "rich" doesn't mean "fat". Aim for natural, expressive APIs - not god objects with spaghetti code.
-
-When a model grows, avoid the "fat model" problem:
-
-1. **Use concerns** - Extract cohesive functionality into sub-model concerns (e.g., `Member::Billable`)
-2. **Delegate to POROs** - For complex operations, create plain Ruby objects in `app/models/`
-
-```ruby
-# Controller stays simple
-class Baskets::DeliveriesController < ApplicationController
-  def create
-    @basket.deliver  # Natural API - complexity hidden in model/concerns/POROs
-  end
-end
-
-# Model orchestrates, delegates complex operations
-class Basket < ApplicationRecord
-  include Deliverable
-
-  def duplicate_to(member)
-    Basket::Duplicator.new(self, member:).duplicate
-  end
-end
-
-# app/models/basket/duplicator.rb - PORO for complex operation
-class Basket::Duplicator
-  def initialize(basket, member:)
-    @basket = basket
-    @member = member
-  end
-
-  def duplicate
-    # Complex duplication logic lives here, not in the model
-  end
-end
-```
-
-This is just good object-oriented design - no special framework needed.
-
-### Organizing Concerns
-
-Use **sub-model concerns** for domain logic specific to one model:
-
-```
-app/models/
-├── member.rb
-└── member/
-    ├── billable.rb       # Member-specific billing logic
-    └── deliverable.rb    # Member-specific delivery logic
-```
-
-```ruby
-# app/models/member/billable.rb
-module Member::Billable
-  extend ActiveSupport::Concern
-
-  included do
-    scope :billable, -> { where(billing_enabled: true) }
-  end
-
-  def bill!
-    # Billing logic here
-  end
-end
-
-# In the model, no need to namespace the include:
-class Member < ApplicationRecord
-  include Billable  # Not Member::Billable
-end
-```
-
-Tests for sub-model concerns should also be in separate files mirroring the structure:
-
-```
-test/models/
-├── member_test.rb
-└── member/
-    ├── billable_test.rb
-    └── deliverable_test.rb
-```
-
-Use **shared concerns** in `app/models/concerns/` for behavior used across multiple models:
-
-```ruby
-# app/models/concerns/archivable.rb
-module Archivable
-  extend ActiveSupport::Concern
-
-  included do
-    scope :archived, -> { where.not(archived_at: nil) }
-    scope :active, -> { where(archived_at: nil) }
-  end
-
-  def archive
-    update!(archived_at: Time.current)
-  end
-end
-```
-
-A good concern:
-- Groups related methods, scopes, and callbacks together
-- Is cohesive - everything relates to one concept
-- Can be understood in isolation
-- Has a clear, descriptive name
-
-**Cohesion over size** — a 10-line concern is valid if cohesive; don't extract just because a model is large.
-
-**Callback order matters** — when including multiple concerns, document order dependencies:
-
-```ruby
-class Invoice < ApplicationRecord
-  # Sub-model concerns (order matters for callbacks!)
-  include EntityType      # Must come before Processing
-  include Processing      # Depends on entity_type being set
-  include Amounts         # Must come last (calculates final amounts)
-end
-```
-
-### Model & Class Structure
-
-Order elements within a model class consistently:
-
-```ruby
-class Member < ApplicationRecord
-  # 1. Includes and extends
-  include Billable, Deliverable
-
-  # 2. Constants
-  STATUSES = %w[pending active inactive].freeze
-
-  # 3. Attribute macros
-  enum :status, STATUSES.index_by(&:itself), default: :pending
-
-  # 4. Associations (belongs_to first, then has_*)
-  belongs_to :organization
-  has_many :baskets, dependent: :destroy
-  has_one :subscription
-
-  # 5. Validations
-  validates :email, presence: true
-
-  # 6. Callbacks (in lifecycle order)
-  before_create :set_defaults
-  after_create :send_welcome_email
-
-  # 7. Scopes
-  scope :active, -> { where(status: :active) }
-
-  # 8. Class methods
-  def self.search(query)
-    where("name LIKE ?", "%#{query}%")
-  end
-
-  # 9. Public instance methods
-  def display_name
-    "#{first_name} #{last_name}"
-  end
-
-  # 10. Private methods
-  private
-
-  def set_defaults
-    self.language ||= Current.org.default_language
-  end
-end
-```
-
-For POROs, follow a similar structure: class methods, `initialize`, public methods, then private methods.
-
-## Testing Guidelines
-
-- Run only the specific tests relevant to your changes
-- Test files mirror the `app/` directory structure in `test/`
-- Use fixtures for test data
-- System tests use Capybara (with Rack::Test)
-
-## Security
-
-- Never hardcode API keys, secrets, or credentials
-- Use environment variables via `dotenv` for local development
-- Brakeman runs for security scanning
-
-## Documenting Complex Classes
-
-When creating non-trivial classes, add a comment block at the top explaining:
-- **Why** the class exists
-- **What** problem it solves
-- **How** it's intended to be used
+When creating non-trivial classes, add a comment block explaining why it exists, what problem it solves, and how it's used.
 
 ## Translations Workflow
 
-This application supports multiple languages: English (`en`), French (`fr`), German (`de`), Italian (`it`), and Dutch (`nl`).
+Supported languages: English (`en`), French (`fr`), German (`de`), Italian (`it`), Dutch (`nl`).
 
-### Translation File Structure
-
-**YAML locale files** in `config/locales/` use language-prefixed keys:
-
+YAML locale files use language-prefixed keys:
 ```yaml
 members:
   title:
     _en: Members
     _fr: Membres
-    _de: Mitglieder
-    _it: Membri
-    _nl: Leden
 ```
 
-**Template files** use language suffixes in filenames:
+Template files use language suffixes: `invoice_created.en.liquid`, `invoice_created.fr.liquid`
 
-```
-app/views/mail_templates/invoice_created.en.liquid
-app/views/mail_templates/invoice_created.fr.liquid
-app/views/handbook/getting_started.en.md.erb
-app/views/handbook/getting_started.fr.md.erb
-```
+**Two-phase process:**
+1. During development, only add `_en` and `_fr` translations
+2. Once finalized, add `_de`, `_it`, `_nl` translations
 
-### Two-Phase Translation Process
+## Commits
 
-When working on features that require translation changes:
-
-**Phase 1 - Development (English & French only):**
-- Only add/update `_en` and `_fr` keys in YAML locale files
-- Only create/modify `.en.*` and `.fr.*` template files
-- Focus on getting the feature working correctly
-- Iterate and refine translations as the solution evolves
-- Run tests and verify the implementation
-
-**Phase 2 - Finalization (all languages):**
-- Once the solution is complete and validated
-- Add the remaining language keys (`_de`, `_it`, `_nl`) in YAML files
-- Create the remaining template files (`.de.*`, `.it.*`, `.nl.*`)
-- Use the English and French translations as the reference for consistency
-
-This approach avoids wasted effort translating strings that may change during development.
-
-## Commit Messages
-
-- Review all staged changes before writing
-- Keep it short, prefer a few sentences over long bullet points
-- Explain **why** the change is needed, not just what changed
-
-## Quick Reference
-
-| Topic | Tool/Approach |
-|-------|---------------|
-| Authorization | CanCanCan abilities |
-| Admin UI | ActiveAdmin |
-| Background Jobs | Solid Queue |
-| Monitoring | AppSignal |
-| Email | Postmark |
+- **Never auto-commit** — always propose the commit message and wait for confirmation
+- **Always run `bin/rails test:all`** before proposing a commit
+- **One logical change per commit** — discuss splitting if needed
+- Keep messages short, explain **why** the change is needed
