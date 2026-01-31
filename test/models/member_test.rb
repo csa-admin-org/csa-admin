@@ -333,29 +333,127 @@ class MemberTest < ActiveSupport::TestCase
     assert absence.member.absent?(3.weeks.from_now)
   end
 
-  test "can_destroy? can destroy pending user" do
+  test "can_delete? can delete pending member" do
     member = Member.new(state: "pending")
-    assert member.can_destroy?
+    assert member.can_delete?
   end
 
-  test "can_destroy? can destroy inactive member with no memberships and no invoices" do
+  test "can_delete? can delete inactive member with no memberships and no invoices" do
     member = members(:mary)
-    assert member.can_destroy?
+    assert member.can_delete?
   end
 
-  test "can_destroy? cannot destroy inactive member with membership" do
+  test "can_delete? cannot delete inactive member with membership" do
     travel_to "2026-01-01"
     member = members(:john)
     member.update_columns(state: "inactive")
     assert member.memberships.many?
-    assert_not member.can_destroy?
+    assert_not member.can_delete?
   end
 
-  test "can_destroy? cannot destroy inactive member with invoices" do
+  test "can_delete? cannot delete inactive member with invoices" do
     member = members(:martha)
     member.update_columns(state: "inactive")
     assert member.invoices.one?
+    assert_not member.can_delete?
+  end
+
+  test "can_discard? can discard inactive member with no financial obligations" do
+    member = members(:mary)
+    assert member.inactive?
+    assert member.invoices.where(state: %w[processing open]).none?
+    assert member.memberships.none?(&:billable?)
+    assert member.shop_orders.pending.none?
+    assert member.can_discard?
+  end
+
+  test "can_discard? cannot discard inactive member with open invoice" do
+    member = members(:martha)
+    member.update_columns(state: "inactive")
+    member.invoices.update_all(state: "open")
+    assert member.invoices.where(state: "open").any?
+    assert_not member.can_discard?
+  end
+
+  test "can_discard? cannot discard inactive member with processing invoice" do
+    member = members(:martha)
+    member.update_columns(state: "inactive")
+    member.invoices.update_all(state: "processing")
+    assert member.invoices.where(state: "processing").any?
+    assert_not member.can_discard?
+  end
+
+  test "can_discard? cannot discard inactive member with billable membership" do
+    travel_to "2024-06-01"
+    member = members(:john)
+    member.update_columns(state: "inactive")
+    assert member.memberships.any?(&:billable?)
+    assert_not member.can_discard?
+  end
+
+  test "can_discard? cannot discard inactive member with pending shop order" do
+    member = members(:john)
+    member.update_columns(state: "inactive")
+    assert member.shop_orders.pending.any?
+    assert_not member.can_discard?
+  end
+
+  test "can_discard? can discard inactive member with past memberships" do
+    travel_to "2026-01-01"
+    member = members(:john)
+    member.update_columns(state: "inactive")
+    member.shop_orders.destroy_all
+    assert member.inactive?
+    assert member.memberships.many?
+    assert member.memberships.none?(&:billable?)
+    assert member.can_discard?
+  end
+
+  test "can_discard? cannot discard active member" do
+    member = members(:john)
+    assert member.active?
+    assert_not member.can_discard?
+  end
+
+  test "can_destroy? can destroy pending member" do
+    member = Member.new(state: "pending")
+    assert member.can_destroy?
+  end
+
+  test "can_destroy? can destroy inactive member via discard" do
+    member = members(:mary)
+    assert member.inactive?
+    assert member.memberships.none?
+    assert member.can_destroy?
+  end
+
+  test "can_destroy? cannot destroy discarded member" do
+    member = members(:mary)
+    member.update_columns(discarded_at: Time.current)
     assert_not member.can_destroy?
+  end
+
+  test "undiscard restores a discarded member" do
+    member = members(:mary)
+    member.update_columns(discarded_at: Time.current)
+    assert member.discarded?
+    member.undiscard
+    assert_not member.discarded?
+  end
+
+  test "undiscard raises for anonymized member" do
+    member = members(:mary)
+    member.update_columns(discarded_at: Time.current, anonymized_at: Time.current)
+    assert member.anonymized?
+    error = assert_raises(RuntimeError) { member.undiscard }
+    assert_equal "Cannot undiscard anonymized member ##{member.id}", error.message
+  end
+
+  test "anonymized? returns true when anonymized_at is set" do
+    member = members(:mary)
+    assert_not member.anonymized?
+    member.anonymized_at = Time.current
+    assert member.anonymized?
   end
 
   test "set default annual_fee when support member" do

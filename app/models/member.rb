@@ -16,6 +16,7 @@ class Member < ApplicationRecord
   include Billing
   include Shares
   include StateTransitions
+  include Discardable
 
   BILLING_INTERVALS = %w[annual quarterly].freeze
 
@@ -201,14 +202,6 @@ class Member < ApplicationRecord
   def membership(year = nil)
     year ||= Current.fiscal_year
     memberships.during_year(year).first
-  end
-
-  def can_destroy?
-    pending? || (inactive?
-      && memberships.none?
-      && invoices.none?
-      && payments.none?
-      && shop_orders.none?)
   end
 
   private
