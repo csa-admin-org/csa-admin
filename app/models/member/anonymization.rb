@@ -10,6 +10,16 @@
 module Member::Anonymization
   extend ActiveSupport::Concern
 
+  DELAY_IN_DAYS = 30
+
+  included do
+    scope :anonymizable, -> {
+      discarded
+        .where(anonymized_at: nil)
+        .where(discarded_at: ..DELAY_IN_DAYS.days.ago)
+    }
+  end
+
   def anonymize!
     raise "Cannot anonymize non-discarded member ##{id}" unless discarded?
     raise "Member ##{id} is already anonymized" if anonymized?

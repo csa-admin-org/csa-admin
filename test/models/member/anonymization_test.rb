@@ -3,6 +3,39 @@
 require "test_helper"
 
 class Member::AnonymizationTest < ActiveSupport::TestCase
+  # === anonymizable scope ===
+
+  test "anonymizable scope includes discarded members past delay window" do
+    member = discardable_member
+    member.discard
+    member.update_columns(discarded_at: 31.days.ago)
+
+    assert_includes Member.anonymizable, member
+  end
+
+  test "anonymizable scope excludes discarded members within delay window" do
+    member = discardable_member
+    member.discard
+    member.update_columns(discarded_at: 29.days.ago)
+
+    assert_not_includes Member.anonymizable, member
+  end
+
+  test "anonymizable scope excludes already anonymized members" do
+    member = discardable_member
+    member.discard
+    member.update_columns(discarded_at: 31.days.ago)
+    member.anonymize!
+
+    assert_not_includes Member.anonymizable, member
+  end
+
+  test "anonymizable scope excludes non-discarded members" do
+    member = discardable_member
+
+    assert_not_includes Member.anonymizable, member
+  end
+
   # === Guard conditions ===
 
   test "anonymize! raises error if member is not discarded" do

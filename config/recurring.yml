@@ -71,6 +71,12 @@ production:
     queue: low
     schedule: at 6am every day
 
+  members_anonymizer:
+    class: TenantSwitchEachJob
+    args: [Scheduled::MembersAnonymizerJob]
+    queue: low
+    schedule: at 3:30am every day
+
   demo_reset:
     class: Demo::ResetJob
     queue: low
