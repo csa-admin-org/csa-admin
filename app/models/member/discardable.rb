@@ -56,6 +56,13 @@ module Member::Discardable
     end
   end
 
+  # Override to block transactional emails for discarded members
+  def active_emails
+    return [] if discarded?
+
+    super
+  end
+
   private
 
   def revoke_sessions

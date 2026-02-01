@@ -24,6 +24,8 @@ module Member::Billing
   end
 
   def billing_emails
+    return [] if discarded?
+
     if billing_email
       EmailSuppression.outbound.active.exists?(email: billing_email) ? [] : [ billing_email ]
     else

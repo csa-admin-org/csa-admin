@@ -20,6 +20,11 @@ class MemberRegistration
       return
     end
 
+    # existing_member is nil when the email belongs to a discarded member
+    # (kept out of the kept scope). In this case, the email is still "taken"
+    # until anonymization clears it.
+    return unless existing_member
+
     existing_member.assign_attributes(@permitted_params)
     if support_only? && existing_member.inactive?
       existing_member.support!
@@ -45,8 +50,10 @@ class MemberRegistration
 
   def existing_member
     @existing_member ||= begin
+      # Only match kept (non-discarded) members for reuse.
+      # Discarded members keep their emails "taken" until anonymization clears them.
       members = @member.emails_array.map { |email|
-        Member.including_email(email).first
+        Member.kept.including_email(email).first
       }.compact.uniq
       raise MultipleMatchingMembersError if members.many?
 

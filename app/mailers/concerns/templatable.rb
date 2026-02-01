@@ -9,7 +9,7 @@ module Templatable
     render_template(member, **data) do |subject, content|
       content_mail(content, **{
         from: from,
-        to: to || member.emails_array,
+        to: to || member.active_emails,
         subject: sanitize_html(subject),
         message_stream: stream,
         tag: tag

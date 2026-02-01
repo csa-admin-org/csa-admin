@@ -145,7 +145,7 @@ class Newsletter < ApplicationRecord
     return unless sent?
     return unless missing_delivery_emails.include?(email)
 
-    member = Member.find_by_email(email)
+    member = Member.kept.find_by_email(email)
     Delivery.create_for!(self, member, draft: false, email: email)
   end
 

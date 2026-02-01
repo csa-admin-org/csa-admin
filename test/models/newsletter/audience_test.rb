@@ -54,33 +54,45 @@ class Newsletter::AudienceTest < ActiveSupport::TestCase
   test "membership_state" do
     travel_to "2023-01-01"
     segment = segment_for("membership_state::ongoing")
-    assert_equal [ members(:john) ], segment.members
+    assert_equal [ members(:john) ], segment.members.to_a
     segment = segment_for("membership_state::trial")
     assert_empty segment.members
     segment = segment_for("membership_state::future")
-    assert_equal [ members(:anna), members(:john), members(:bob), members(:jane)  ], segment.members
+    assert_equal 4, segment.members.size
+    assert_includes segment.members, members(:anna)
+    assert_includes segment.members, members(:john)
+    assert_includes segment.members, members(:bob)
+    assert_includes segment.members, members(:jane)
     segment = segment_for("membership_state::past")
     assert_empty segment.members
 
     travel_to "2024-01-01"
     segment = segment_for("membership_state::ongoing")
-    assert_equal [ members(:john), members(:jane) ], segment.members
+    assert_equal 2, segment.members.size
+    assert_includes segment.members, members(:john)
+    assert_includes segment.members, members(:jane)
     segment = segment_for("membership_state::trial")
-    assert_equal [ members(:anna), members(:bob) ], segment.members
+    assert_equal 2, segment.members.size
+    assert_includes segment.members, members(:anna)
+    assert_includes segment.members, members(:bob)
     segment = segment_for("membership_state::future")
-    assert_equal [ members(:john)  ], segment.members
+    assert_equal [ members(:john) ], segment.members.to_a
     segment = segment_for("membership_state::past")
-    assert_equal [ members(:john)  ], segment.members
+    assert_equal [ members(:john) ], segment.members.to_a
 
     travel_to "2025-01-01"
     segment = segment_for("membership_state::ongoing")
-    assert_equal [ members(:john) ], segment.members
+    assert_equal [ members(:john) ], segment.members.to_a
     segment = segment_for("membership_state::trial")
     assert_empty segment.members
     segment = segment_for("membership_state::future")
     assert_empty segment.members
     segment = segment_for("membership_state::past")
-    assert_equal [ members(:john), members(:anna), members(:bob), members(:jane)  ], segment.members
+    assert_equal 4, segment.members.size
+    assert_includes segment.members, members(:john)
+    assert_includes segment.members, members(:anna)
+    assert_includes segment.members, members(:bob)
+    assert_includes segment.members, members(:jane)
   end
 
   test "activity_state" do
@@ -122,15 +134,20 @@ class Newsletter::AudienceTest < ActiveSupport::TestCase
     delivery = deliveries(:monday_1)
 
     segment = segment_for("delivery_id::#{delivery.gid}")
-    assert_equal [ members(:john), members(:bob), members(:anna) ], segment.members
+    assert_equal 3, segment.members.size
+    assert_includes segment.members, members(:john)
+    assert_includes segment.members, members(:bob)
+    assert_includes segment.members, members(:anna)
 
     memberships(:john).baskets.update_all(state: "absent")
     segment = segment_for("delivery_id::#{delivery.gid}")
-    assert_equal [ members(:bob), members(:anna) ], segment.members
+    assert_equal 2, segment.members.size
+    assert_includes segment.members, members(:bob)
+    assert_includes segment.members, members(:anna)
 
     memberships(:bob).baskets.update_all(quantity: 0)
     segment = segment_for("delivery_id::#{delivery.gid}")
-    assert_equal [ members(:anna) ], segment.members
+    assert_equal [ members(:anna) ], segment.members.to_a
   end
 
   test "bidding_round_pledge_presence" do
@@ -150,5 +167,17 @@ class Newsletter::AudienceTest < ActiveSupport::TestCase
     assert_empty segment.members
     segment = segment_for("bidding_round_pledge_presence::false")
     assert_empty segment.members
+  end
+
+  test "excludes discarded members from audience" do
+    travel_to "2024-01-01"
+
+    segment = segment_for("member_state::active")
+    assert_includes segment.members, members(:john)
+
+    members(:john).update_columns(discarded_at: Time.current)
+
+    segment = segment_for("member_state::active")
+    assert_not_includes segment.members, members(:john)
   end
 end

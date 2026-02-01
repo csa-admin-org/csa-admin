@@ -116,4 +116,32 @@ class MemberRegistrationTest < ActiveSupport::TestCase
     assert_nil member.waiting_basket_size_id
     assert_equal 30, member.annual_fee
   end
+
+  test "cannot reuse discarded member" do
+    member = discardable_member
+    email = member.emails_array.first
+    member.discard
+
+    new_member = build_member(emails: email)
+    registration = MemberRegistration.new(new_member, {})
+
+    # Should not find the discarded member for reuse
+    assert_not registration.save
+    # The email is still "taken" by the discarded member
+    assert new_member.errors.of_kind?(:emails, :taken)
+  end
+
+  test "can use email after member is anonymized" do
+    member = discardable_member
+    email = member.emails_array.first
+    member.discard
+    member.anonymize!
+
+    new_member = build_member(emails: email, phones: "+41 79 999 99 99")
+    new_member.public_create = true
+
+    # Email should now be available after anonymization cleared it
+    assert_empty Member.including_email(email)
+    assert_predicate new_member, :valid?, new_member.errors.full_messages.join(", ")
+  end
 end

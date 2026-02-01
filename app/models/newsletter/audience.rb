@@ -76,7 +76,7 @@ class Newsletter
       end
 
       def members
-        case key
+        base_members = case key
         when :segment_id
           segment = Newsletter::Segment.find_by(id: value)
           segment&.members || []
@@ -145,7 +145,7 @@ class Newsletter
             .distinct
         when :bidding_round_pledge_presence
           bidding_round = BiddingRound.current_open
-          return Member.none unless bidding_round
+          return [] unless bidding_round
 
           member_ids_with_pledge = bidding_round.pledges.joins(:membership).select(:member_id)
           case value
@@ -156,6 +156,9 @@ class Newsletter
             Member.where(id: member_ids).where.not(id: member_ids_with_pledge)
           end
         end
+
+        # Exclude discarded members from newsletter audience
+        base_members.to_a.select(&:kept?)
       end
 
       private

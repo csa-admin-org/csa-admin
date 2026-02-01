@@ -71,6 +71,32 @@ class Member::BillingTest < ActiveSupport::TestCase
     assert_not member.billing_emails?
   end
 
+  test "billing_emails returns empty for discarded member" do
+    member = discardable_member
+    member.discard
+
+    assert member.discarded?
+    assert_empty member.billing_emails
+  end
+
+  test "billing_emails returns empty for discarded member with billing_email set" do
+    member = discardable_member
+    member.update!(billing_email: "billing@example.com")
+    member.discard
+
+    assert_equal "billing@example.com", member.billing_email
+    assert_empty member.billing_emails
+  end
+
+  test "billing_emails? returns false for discarded member" do
+    member = discardable_member
+    member.update!(billing_email: "billing@example.com")
+    assert member.billing_emails?
+
+    member.discard
+    assert_not member.billing_emails?
+  end
+
   test "use different billing info" do
     member = members(:john)
     assert_not member.different_billing_info

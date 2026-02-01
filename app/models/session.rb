@@ -47,7 +47,8 @@ class Session < ApplicationRecord
   def member_email=(email)
     email = email.downcase.strip
     self[:email] = email
-    self.member = Member.find_by_email(email)
+    # Only allow login for kept (non-discarded) members
+    self.member = Member.kept.find_by_email(email)
   end
 
   def admin_email=(email)

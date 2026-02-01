@@ -70,4 +70,16 @@ class SessionTest < ActiveSupport::TestCase
 
     assert session.revoked?
   end
+
+  test "cannot find discarded member by email" do
+    member = discardable_member
+    email = member.emails_array.first
+    member.discard
+
+    session = Session.new(remote_addr: "127.0.0.1", user_agent: "Test Browser")
+    session.member_email = email
+
+    assert_nil session.member
+    assert_not session.valid?
+  end
 end

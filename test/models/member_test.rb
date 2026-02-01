@@ -466,6 +466,29 @@ class MemberTest < ActiveSupport::TestCase
     assert session.reload.revoked?
   end
 
+  test "active_emails returns emails for kept member" do
+    member = members(:john)
+    assert_not member.discarded?
+    assert_equal member.emails_array, member.active_emails
+  end
+
+  test "active_emails returns empty for discarded member" do
+    member = discardable_member
+    member.update!(emails: "test@example.com")
+    member.discard
+
+    assert_equal [ "test@example.com" ], member.emails_array
+    assert_empty member.active_emails
+  end
+
+  test "emails? returns false for discarded member" do
+    member = discardable_member
+    assert member.emails?
+
+    member.discard
+    assert_not member.emails?
+  end
+
   test "set default annual_fee when support member" do
     org(annual_fee_support_member_only: false)
     member = build_member(annual_fee: nil)
