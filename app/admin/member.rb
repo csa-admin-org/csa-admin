@@ -836,7 +836,7 @@ ActiveAdmin.register Member do
     end
 
     def scoped_collection
-      collection = Member.all
+      collection = Member.kept
       if request.format.csv?
         collection = collection.includes(
           :waiting_basket_size,

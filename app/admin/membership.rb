@@ -790,7 +790,7 @@ ActiveAdmin.register Membership do
     f.semantic_errors :base
     f.inputs t(".details") do
       f.input :member,
-        collection: Member.order_by_name.map { |d| [ d.name, d.id ] },
+        collection: members_collection,
         prompt: true
       div class: "single-line" do
         f.input :started_on, as: :date_picker

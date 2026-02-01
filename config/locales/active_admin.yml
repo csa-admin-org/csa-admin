@@ -262,6 +262,12 @@ _:
       _de: Löschen
       _it: Cancellare
       _nl: Verwijderen
+    deleted:
+      _en: Deleted
+      _fr: Supprimé
+      _de: Gelöscht
+      _it: Eliminato
+      _nl: Verwijderd
     demo:
       welcome_html:
         _en: <strong>Welcome to the demo!</strong><br>Explore freely, data is reset every weekend. Questions? <a href="/support">Get in touch!</a>

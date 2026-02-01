@@ -115,6 +115,40 @@ class AbilityTest < ActiveSupport::TestCase
     assert ability.can?(:cancel, Shop::Order)
   end
 
+  test "discarded resources cannot be managed" do
+    admin = admins(:super)
+    ability = Ability.new(admin)
+
+    # Discarded member cannot be managed
+    member = members(:john)
+    assert ability.can?(:read, member)
+    assert ability.can?(:update, member)
+
+    member.discard
+    ability = Ability.new(admin)
+
+    assert_not ability.can?(:read, member)
+    assert_not ability.can?(:update, member)
+    assert_not ability.can?(:destroy, member)
+  end
+
+  test "discarded shop products cannot be managed" do
+    org(features: [ :shop ])
+    admin = admins(:super)
+
+    product = shop_products(:oil)
+    ability = Ability.new(admin)
+    assert ability.can?(:read, product)
+    assert ability.can?(:update, product)
+
+    product.discard
+    ability = Ability.new(admin)
+
+    assert_not ability.can?(:read, product)
+    assert_not ability.can?(:update, product)
+    assert_not ability.can?(:destroy, product)
+  end
+
   test "demo tenant restricts admin management" do
     with_tenant("demo-fr") do
       admin = admins(:super)

@@ -199,7 +199,7 @@ ActiveAdmin.register ActivityParticipation do
         collection: grouped_by_date(Activity),
         prompt: true
       f.input :member,
-        collection: Member.order_by_name,
+        collection: members_collection,
         prompt: true
       f.input :participants_count
       if f.object.persisted?

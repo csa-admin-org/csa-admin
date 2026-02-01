@@ -36,7 +36,7 @@
   }
 
   .data-table-sorted-icon {
-    @apply h-[5px] w-[8px] opacity-25;
+    @apply h-1.25 w-2 opacity-25;
   }
 
   :where(th[data-sort-direction]) {
@@ -84,7 +84,7 @@
   }
 
   .attributes-table-empty-value {
-    @apply text-xs font-semibold text-gray-400/50 uppercase dark:text-gray-700/60;
+    @apply text-sm font-semibold text-gray-400/75 uppercase dark:text-gray-500;
   }
 
   .data-table {

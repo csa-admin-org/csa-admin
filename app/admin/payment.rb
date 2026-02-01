@@ -180,7 +180,7 @@ ActiveAdmin.register Payment do
         f.input :member_id, as: :hidden
       end
       f.input :member,
-        collection: Member.order_by_name,
+        collection: members_collection,
         prompt: true,
         input_html: { disabled: f.object.invoice_id? }
       if f.object.invoice_id?

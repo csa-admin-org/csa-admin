@@ -34,9 +34,13 @@ module MembersHelper
     end
   end
 
-  def members_collection(relation)
-    member_ids = @collection_before_scope.distinct.pluck(:member_id)
-    Member.where(id: member_ids).order_by_name
+  def members_collection(relation = nil)
+    collection = Member.kept
+    if relation
+      member_ids = @collection_before_scope.distinct.pluck(:member_id)
+      collection = collection.where(id: member_ids)
+    end
+    collection.order_by_name
   end
 
   def languages_collection

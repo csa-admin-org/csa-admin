@@ -29,7 +29,8 @@ class Ability
 
   def initialize(admin)
     can :read, [ ActiveAdmin::Page, ActiveAdmin::Comment, Audit ]
-    can :read, available_models
+    can :read, non_discardable_models
+    can :read, discardable_models, discarded_at: nil
     can :pdf, Invoice
     can :sepa_pain, Invoice
     can :sepa_pain_all, Invoice
@@ -179,12 +180,28 @@ class Ability
     if admin.permission.can_write?(:bidding_round) && !BiddingRound.can_create?
       cannot :create, BiddingRound
     end
+
+    # Block write actions on discarded resources
+    # For discardable models, only allow update/destroy on kept records
+    writable_discardable = writable_models & discardable_models
+    cannot :update, writable_discardable
+    cannot :destroy, writable_discardable
+    can :update, writable_discardable, can_update?: true, discarded_at: nil
+    can :destroy, writable_discardable, can_destroy?: true, discarded_at: nil
   end
 
   private
 
   def available_models
     @available_models ||= Permission.features.map { |f| models_mapping(f) }.flatten
+  end
+
+  def discardable_models
+    @discardable_models ||= available_models.select { |m| m.include?(Discard::Model) }
+  end
+
+  def non_discardable_models
+    @non_discardable_models ||= available_models - discardable_models
   end
 
   def models_for(feature)

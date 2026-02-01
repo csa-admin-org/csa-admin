@@ -418,7 +418,7 @@ ActiveAdmin.register Invoice do
 
     f.inputs t(".details") do
       f.input :member,
-        collection: Member.order_by_name,
+        collection: members_collection,
         prompt: true,
         input_html: {
           disabled: f.object.entity.is_a?(ActivityParticipation)

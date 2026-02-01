@@ -182,7 +182,7 @@ ActiveAdmin.register Shop::Order do
     f.semantic_errors :amount
 
     f.inputs t(".details") do
-      f.input :member, collection: Member.order_by_name, prompt: true
+      f.input :member, collection: members_collection, prompt: true
       f.input :delivery_gid,
         label: Delivery.model_name.human,
         prompt: true,
