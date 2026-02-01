@@ -65,7 +65,7 @@ ActiveAdmin.register Absence do
 
   csv do
     column(:id)
-    column(:member_id)
+    column(:member_id) { |a| a.member&.display_id }
     column(:name) { |m| m.member.name }
     column(:started_on)
     column(:ended_on)

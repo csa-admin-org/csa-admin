@@ -107,7 +107,7 @@ ActiveAdmin.register ActivityParticipation do
     column(:activity_date) { |ap| ap.activity.date }
     column(:activity_period) { |ap| ap.activity.period }
     column(:activity_place) { |ap| ap.activity.place }
-    column(:member_id, &:member_id)
+    column(:member_id) { |ap| ap.member&.display_id }
     column(:member_name) { |ap| ap.member.name }
     column(:member_phones) { |ap|
       ap.member.phones_array.map { |p| display_phone(p) }.join(", ")

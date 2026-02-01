@@ -49,7 +49,7 @@ module Member::Anonymization
   # Member PII fields to clear (per GDPR data map)
   def anonymize_member_pii!
     update_columns(
-      name: "Anonymized ##{id}",
+      name: "DELETED",
       emails: nil,
       phones: nil,
       street: nil,

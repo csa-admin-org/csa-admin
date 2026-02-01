@@ -164,10 +164,10 @@ ActiveAdmin.register BiddingRound do
 
   member_action :export_csv, method: :get do
     pledges = resource.pledges.to_a
-    data = resource.eligible_memberships.includes(:basket_size).map { |membership|
+    data = resource.eligible_memberships.includes(:basket_size, :member).map { |membership|
       pledge = pledges.find { |p| p.membership_id == membership.id }
       {
-        member: membership.member_id,
+        member: membership.member&.display_id,
         membership: membership.id,
         basket_quantity: membership.basket_quantity,
         basket_size: membership.basket_size.name,

@@ -60,7 +60,7 @@ ActiveAdmin.register Payment do
     column :date
     column :currency_code
     column :amount
-    column :member_id
+    column(:member_id) { |p| p.member&.display_id }
     column :invoice_id
     column(:invoice_date) { |p| p.invoice&.date }
     column(:invoice_entity) { |p|

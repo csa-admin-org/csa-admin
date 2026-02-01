@@ -7,9 +7,9 @@ class BiddingRound
 
     filter :bidding_round, as: :select
 
-    includes membership: :basket_size
+    includes membership: [ :basket_size, :member ]
     csv do
-      column(:member) { |p| p.membership.member_id }
+      column(:member) { |p| p.membership.member&.display_id }
       column(:membership) { |p| p.membership_id }
       column(:basket_size) { |p| p.membership.basket_size.name }
       column(BiddingRound.human_attribute_name(:default_basket_size_price)) { |p|

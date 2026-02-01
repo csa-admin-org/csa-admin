@@ -91,4 +91,43 @@ class Basket::CSVExporterTest < ActiveSupport::TestCase
     assert_includes csv.headers, Basket.human_attribute_name(:state)
     assert_includes csv.headers, Basket.human_attribute_name(:description)
   end
+
+  test "discarded member still has member_id in export" do
+    travel_to "2024-04-01"
+    delivery = deliveries(:monday_1)
+    basket = baskets(:john_1)
+    member = basket.member
+
+    # Make member discardable and discard
+    member.update_columns(state: "inactive")
+    member.discard
+
+    # After discard (but not anonymized), member_id should still be present
+    exporter = Basket::CSVExporter.new(delivery: delivery)
+    csv = CSV.parse(exporter.generate, headers: true)
+    row = csv.find { |r| r[Basket.human_attribute_name(:basket_id)] == basket.id.to_s }
+    assert_equal member.id.to_s, row[Basket.human_attribute_name(:member_id)]
+  end
+
+  test "anonymized member has nil member_id in export" do
+    travel_to "2024-04-01"
+    delivery = deliveries(:monday_1)
+    basket = baskets(:john_1)
+    member = basket.member
+
+    # Before anonymization, member_id should be present
+    exporter = Basket::CSVExporter.new(delivery: delivery)
+    csv = CSV.parse(exporter.generate, headers: true)
+    row = csv.find { |r| r[Basket.human_attribute_name(:basket_id)] == basket.id.to_s }
+    assert_equal member.id.to_s, row[Basket.human_attribute_name(:member_id)]
+
+    # Anonymize member
+    member.update_columns(state: "inactive", discarded_at: Time.current, anonymized_at: Time.current)
+
+    # After anonymization, member_id should be nil
+    exporter = Basket::CSVExporter.new(delivery: delivery)
+    csv = CSV.parse(exporter.generate, headers: true)
+    row = csv.find { |r| r[Basket.human_attribute_name(:basket_id)] == basket.id.to_s }
+    assert_nil row[Basket.human_attribute_name(:member_id)]
+  end
 end

@@ -68,7 +68,7 @@ ActiveAdmin.register Shop::Order do
 
   csv do
     column :id
-    column :member_id
+    column(:member_id) { |o| o.member&.display_id }
     column(:name) { |o| o.member.name }
     column(:emails) { |o| o.member.emails_array.join(", ") }
     column(:delivery) { |o| strip_tags(o.delivery.display_name) }

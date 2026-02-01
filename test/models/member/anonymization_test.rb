@@ -92,12 +92,12 @@ class Member::AnonymizationTest < ActiveSupport::TestCase
 
   # === Member PII anonymization ===
 
-  test "anonymize! sets name to Anonymized #ID" do
+  test "anonymize! sets name to DELETED" do
     member = discardable_member
     member.discard
     member.anonymize!
 
-    assert_equal "Anonymized ##{member.id}", member.reload.name
+    assert_equal "DELETED", member.reload.name
   end
 
   test "anonymize! clears contact information" do

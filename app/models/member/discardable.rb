@@ -63,6 +63,12 @@ module Member::Discardable
     super
   end
 
+  # Returns id for exports/display, nil for anonymized members
+  # to prevent linking historical documents back to member identifiers.
+  def display_id
+    anonymized? ? nil : id
+  end
+
   private
 
   def revoke_sessions

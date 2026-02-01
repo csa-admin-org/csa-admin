@@ -27,7 +27,7 @@ module XLSX
         @absences.map(&:id))
       add_column(
         ::Absence.human_attribute_name(:member_id),
-        @absences.map(&:member_id))
+        @absences.map { |absence| absence.member&.display_id })
       add_column(
         ::Absence.human_attribute_name(:name),
         @absences.map { |absence| absence.member.name })
@@ -62,7 +62,7 @@ module XLSX
         @baskets.map(&:membership_id))
       add_column(
         ::Absence.human_attribute_name(:member_id),
-        @baskets.map { |basket| basket.member.id })
+        @baskets.map { |basket| basket.member&.display_id })
       add_column(
         ::Absence.human_attribute_name(:name),
         @baskets.map { |basket| basket.member.name })

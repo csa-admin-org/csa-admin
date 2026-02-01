@@ -70,8 +70,7 @@ class Basket::CSVExporter
       scope = Basket.deliverable.where(delivery: @deliveries)
 
       includes = [ :delivery, :basket_size, :depot, baskets_basket_complements: :basket_complement ]
-      includes << { membership: :member } if @single_delivery
-      includes << :membership unless @single_delivery
+      includes << { membership: :member }
 
       scope.includes(*includes)
     end
@@ -153,7 +152,7 @@ class Basket::CSVExporter
 
     cols << basket.id
     cols << basket.membership_id
-    cols << basket.membership.member_id
+    cols << basket.membership.member&.display_id
 
     # Member columns (single delivery only)
     if @single_delivery

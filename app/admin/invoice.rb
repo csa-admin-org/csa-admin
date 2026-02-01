@@ -79,7 +79,7 @@ ActiveAdmin.register Invoice do
 
   csv do
     column :id
-    column :member_id
+    column(:member_id) { |i| i.member&.display_id }
     column(:name) { |i| i.member.name }
     column(:emails) { |i| i.member.emails_array.join(", ") }
     column(:last_membership_ended_on) { |i| i.member.last_membership&.ended_on }

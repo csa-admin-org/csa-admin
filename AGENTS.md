@@ -63,6 +63,25 @@ Template files use language suffixes: `invoice_created.en.liquid`, `invoice_crea
 1. During development, only add `_en` and `_fr` translations
 2. Once finalized, add `_de`, `_it`, `_nl` translations
 
+## GDPR & Member Privacy
+
+Anonymized members must not have their `member_id` exposed in CSV/XLSX exports.
+
+**Convention:** Use `member&.display_id` instead of `member_id` or `member.id` in all export code:
+
+```ruby
+# ❌ Bad - leaks member_id for anonymized members
+column(:member_id)
+column(:member_id, &:member_id)
+
+# ✅ Good - returns nil for anonymized members
+column(:member_id) { |record| record.member&.display_id }
+```
+
+A test in `test/models/member/discardable_test.rb` automatically scans export files for dangerous patterns.
+
+Key files: `app/models/member/discardable.rb`, `app/models/member/anonymization.rb`
+
 ## Commits
 
 - **Never auto-commit** — always propose the commit message and wait for confirmation
