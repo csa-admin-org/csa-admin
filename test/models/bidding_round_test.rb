@@ -215,6 +215,29 @@ class BiddingRoundTest < ActiveSupport::TestCase
     assert_equal "Bidding round #1 completed 🎉", mail.subject
   end
 
+  test "complete! persists snapshot values" do
+    bidding_round = bidding_rounds(:open_2024)
+    BiddingRound::Pledge.create!(
+      bidding_round: bidding_round,
+      membership: memberships(:jane),
+      basket_size_price: 31.0)
+
+    expected_eligible_count = bidding_round.eligible_memberships_count
+    expected_total_expected = bidding_round.total_expected_value
+    expected_total_final = bidding_round.total_final_value
+
+    perform_enqueued_jobs { bidding_round.complete! }
+
+    assert_equal expected_eligible_count, bidding_round[:eligible_memberships_count]
+    assert_equal expected_total_expected, bidding_round[:total_expected_value]
+    assert_equal expected_total_final, bidding_round[:total_final_value]
+
+    # Values should be returned from persisted attributes after completion
+    assert_equal expected_eligible_count, bidding_round.eligible_memberships_count
+    assert_equal expected_total_expected, bidding_round.total_expected_value
+    assert_equal expected_total_final, bidding_round.total_final_value
+  end
+
   test "fail! changes state to failed" do
     mail_templates(:bidding_round_failed)
 
@@ -237,5 +260,28 @@ class BiddingRoundTest < ActiveSupport::TestCase
     end
     mail = BiddingRoundMailer.deliveries.last
     assert_equal "Bidding round #1 failed 😬", mail.subject
+  end
+
+  test "fail! persists snapshot values" do
+    bidding_round = bidding_rounds(:open_2024)
+    BiddingRound::Pledge.create!(
+      bidding_round: bidding_round,
+      membership: memberships(:jane),
+      basket_size_price: 31.0)
+
+    expected_eligible_count = bidding_round.eligible_memberships_count
+    expected_total_expected = bidding_round.total_expected_value
+    expected_total_final = bidding_round.total_final_value
+
+    bidding_round.fail!
+
+    assert_equal expected_eligible_count, bidding_round[:eligible_memberships_count]
+    assert_equal expected_total_expected, bidding_round[:total_expected_value]
+    assert_equal expected_total_final, bidding_round[:total_final_value]
+
+    # Values should be returned from persisted attributes after failure
+    assert_equal expected_eligible_count, bidding_round.eligible_memberships_count
+    assert_equal expected_total_expected, bidding_round.total_expected_value
+    assert_equal expected_total_final, bidding_round.total_final_value
   end
 end

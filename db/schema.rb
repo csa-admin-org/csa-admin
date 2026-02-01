@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_01_27_174145) do
+ActiveRecord::Schema[8.1].define(version: 2026_02_01_195319) do
   create_table "absences", force: :cascade do |t|
     t.datetime "created_at"
     t.date "ended_on"
@@ -309,9 +309,12 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_27_174145) do
 
   create_table "bidding_rounds", force: :cascade do |t|
     t.datetime "created_at", null: false
+    t.integer "eligible_memberships_count"
     t.integer "fy_year", null: false
     t.integer "number", null: false
     t.string "state", default: "draft", null: false
+    t.decimal "total_expected_value", precision: 8, scale: 2
+    t.decimal "total_final_value", precision: 8, scale: 2
     t.datetime "updated_at", null: false
     t.index ["fy_year", "number"], name: "index_bidding_rounds_on_fy_year_and_number", unique: true
     t.index ["fy_year"], name: "index_bidding_rounds_on_fy_year"
@@ -501,6 +504,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_27_174145) do
   create_table "members", force: :cascade do |t|
     t.datetime "activated_at"
     t.decimal "annual_fee", precision: 8, scale: 2
+    t.datetime "anonymized_at"
     t.string "billing_city"
     t.string "billing_email"
     t.string "billing_name"
@@ -513,6 +517,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_27_174145) do
     t.datetime "created_at"
     t.string "delivery_note"
     t.integer "desired_shares_number", default: 0, null: false
+    t.datetime "discarded_at"
     t.string "emails"
     t.integer "existing_shares_number", default: 0, null: false
     t.datetime "final_basket_sent_at"
@@ -546,6 +551,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_27_174145) do
     t.bigint "waiting_depot_id"
     t.datetime "waiting_started_at"
     t.string "zip", limit: 255
+    t.index ["anonymized_at"], name: "index_members_on_anonymized_at"
+    t.index ["discarded_at"], name: "index_members_on_discarded_at"
     t.index ["sepa_mandate_id"], name: "index_members_on_sepa_mandate_id", unique: true
     t.index ["shop_depot_id"], name: "index_members_on_shop_depot_id"
     t.index ["state"], name: "index_members_on_state"

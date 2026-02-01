@@ -89,10 +89,14 @@ class BiddingRound < ApplicationRecord
   end
 
   def total_expected_value
+    return self[:total_expected_value] if closed? && self[:total_expected_value]
+
     @total_expected_value ||= eligible_memberships.sum(:price)
   end
 
   def total_final_value
+    return self[:total_final_value] if closed? && self[:total_final_value]
+
     @total_final_value ||= total_expected_value + pledges.includes(:membership).sum(&:total_membership_price_difference)
   end
 
@@ -151,6 +155,8 @@ class BiddingRound < ApplicationRecord
   end
 
   def eligible_memberships_count
+    return self[:eligible_memberships_count] if closed? && self[:eligible_memberships_count]
+
     @eligible_memberships_count ||= eligible_memberships.count
   end
 
@@ -200,7 +206,11 @@ class BiddingRound < ApplicationRecord
   def complete!
     return unless can_complete?
 
-    update!(state: "completed")
+    update!(
+      state: "completed",
+      eligible_memberships_count: eligible_memberships_count,
+      total_expected_value: total_expected_value,
+      total_final_value: total_final_value)
 
     jobs = eligible_memberships.map { |m| CompletionJob.new(self, m) }
     ActiveJob.perform_all_later(jobs)
@@ -209,7 +219,12 @@ class BiddingRound < ApplicationRecord
   def fail!
     return unless can_fail?
 
-    update!(state: "failed")
+    update!(
+      state: "failed",
+      eligible_memberships_count: eligible_memberships_count,
+      total_expected_value: total_expected_value,
+      total_final_value: total_final_value)
+
     eligible_memberships.find_each do |membership|
       MailTemplate.deliver_later(:bidding_round_failed,
         bidding_round: self,

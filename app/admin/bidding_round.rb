@@ -61,13 +61,11 @@ ActiveAdmin.register BiddingRound do
       column do
         panel nil do
           ul class: "grid grid-cols-2 gap-4 m-4 " do
-            unless bidding_round.closed?
-              li do
-                counter_tag(t(".eligible_memberships").capitalize, bidding_round.eligible_memberships_count)
-              end
-              li do
-                counter_tag(t(".total_expected_value").capitalize, bidding_round.total_expected_value, type: :currency)
-              end
+            li do
+              counter_tag(t(".eligible_memberships").capitalize, bidding_round.eligible_memberships_count)
+            end
+            li do
+              counter_tag(t(".total_expected_value").capitalize, bidding_round.total_expected_value, type: :currency)
             end
             li do
               counter_tag(t(".pledges_count").capitalize, bidding_round.pledges_count)
@@ -75,27 +73,27 @@ ActiveAdmin.register BiddingRound do
             li do
               counter_tag(t(".total_pledged_value").capitalize, bidding_round.total_pledged_value, type: :currency)
             end
-            unless bidding_round.closed?
-              li do
-                counter_tag(t(".pledges_percentage").capitalize, bidding_round.pledges_percentage, type: :percentage)
-              end
-              li do
-                counter_tag(t(".total_pledged_percentage").capitalize, bidding_round.total_pledged_percentage, type: :percentage)
-              end
+            li do
+              counter_tag(t(".pledges_percentage").capitalize, bidding_round.pledges_percentage, type: :percentage)
+            end
+            li do
+              counter_tag(t(".total_pledged_percentage").capitalize, bidding_round.total_pledged_percentage, type: :percentage)
             end
           end
         end
-        unless bidding_round.closed?
+        unless bidding_round.draft?
           panel nil do
             ul class: "grid grid-cols-2 gap-4 m-4" do
               li do
-                counter_tag(t(".total_final_value").capitalize, bidding_round.total_final_value, type: :currency)
-              end
-              li do
                 counter_tag(t(".total_pledged_percentage").capitalize, bidding_round.total_final_percentage, type: :percentage)
               end
+              li do
+                counter_tag(t(".total_final_value").capitalize, bidding_round.total_final_value, type: :currency)
+              end
             end
-            para t(".total_final_value_explanation"), class: "m-4 text-center italic text-sm text-gray-500"
+            if bidding_round.open?
+              para t(".total_final_value_explanation"), class: "m-4 text-center italic text-sm text-gray-500"
+            end
           end
         end
       end
