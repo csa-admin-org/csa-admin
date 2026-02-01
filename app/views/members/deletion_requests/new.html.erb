@@ -1,0 +1,35 @@
+<h1><%= t(".title") %></h1>
+
+<section>
+  <% if current_member.can_discard? %>
+    <h2><%= t(".what_happens_title") %></h2>
+    <div class="mt-2 mb-8 space-y-2">
+      <p><%= t(".explanation") %></p>
+
+      <ul class="list-inside list-disc space-y-1">
+        <li><%= t(".what_happens.immediate_logout") %></li>
+        <li><%= t(".what_happens.anonymization_delay") %></li>
+        <li><%= t(".what_happens.invoices_retained") %></li>
+      </ul>
+    </div>
+    <div class="actions">
+      <%= link_to t(".cancel"), members_account_path, class: "cancel-link" %>
+      <%= button_to t(".request_code"), members_account_deletion_request_path, method: :post, class: "destructive" %>
+    </div>
+  <% else %>
+    <div class="mt-2 mb-8 space-y-4">
+      <p class="font-medium"><%= t(".not_eligible") %></p>
+
+      <%= warning_pane do %>
+        <ul class="list-inside list-disc space-y-1">
+          <% current_member.discardability_reasons.each do |reason| %>
+            <li><%= t(".reasons.#{reason}") %></li>
+          <% end %>
+        </ul>
+      <% end %>
+    </div>
+    <div class="actions">
+      <%= link_to t(".back"), members_account_path, class: "cancel-link" %>
+    </div>
+  <% end %>
+</section>

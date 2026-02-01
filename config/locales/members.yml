@@ -126,6 +126,12 @@ _:
           _it: Modifica il conto
           _nl: Account bewerken
       show:
+        delete_account_link:
+          _en: Delete my account
+          _fr: Supprimer mon compte
+          _de: Mein Konto löschen
+          _it: Elimina il mio account
+          _nl: Mijn account verwijderen
         edit_link:
           _en: Edit account information
           _fr: Modifier les données du compte
@@ -759,6 +765,165 @@ _:
           _de: Ich bin damit einverstanden, dass meine Kontaktinformationen an andere Mitglieder meines Depots weitergegeben werden.
           _it: Accetto di condividere le mie informazioni di contatto con altri soci del mio punto di ritiro.
           _nl: Ik ga akkoord met het delen van mijn contactgegevens met andere leden van mijn depot.
+    deletion_confirmations:
+      create:
+        flash:
+          invalid_code:
+            _en: The code is invalid or expired. Please request a new one.
+            _fr: Le code est invalide ou expiré. Veuillez en demander un nouveau.
+            _de: Der Code ist ungültig oder abgelaufen. Bitte fordern Sie einen neuen an.
+            _it: Il codice non è valido o è scaduto. Richiedine uno nuovo.
+            _nl: De code is ongeldig of verlopen. Vraag een nieuwe aan.
+      new:
+        cancel:
+          _en: Cancel
+          _fr: Annuler
+          _de: Abbrechen
+          _it: Annullare
+          _nl: Annuleren
+        code_label:
+          _en: Confirmation code
+          _fr: Code de confirmation
+          _de: Bestätigungscode
+          _it: Codice di conferma
+          _nl: Bevestigingscode
+        code_sent_html:
+          _en: A confirmation code has been sent to %{email}.
+          _fr: Un code de confirmation a été envoyé à %{email}.
+          _de: Ein Bestätigungscode wurde an %{email} gesendet.
+          _it: Un codice di conferma è stato inviato a %{email}.
+          _nl: Een bevestigingscode is verzonden naar %{email}.
+        confirm:
+          _en: Delete my account
+          _fr: Supprimer mon compte
+          _de: Mein Konto löschen
+          _it: Elimina il mio account
+          _nl: Mijn account verwijderen
+        title:
+          _en: Confirm deletion
+          _fr: Confirmer la suppression
+          _de: Löschung bestätigen
+          _it: Conferma eliminazione
+          _nl: Verwijdering bevestigen
+        what_happens:
+          anonymization_delay:
+            _en: Your personal data will be anonymized after 30 days.
+            _fr: Vos données personnelles seront anonymisées après 30 jours.
+            _de: Ihre persönlichen Daten werden nach 30 Tagen anonymisiert.
+            _it: I tuoi dati personali saranno anonimizzati dopo 30 giorni.
+            _nl: Uw persoonlijke gegevens worden na 30 dagen geanonimiseerd.
+          immediate_logout:
+            _en: You will be logged out immediately and lose access to your account.
+            _fr: Vous serez déconnecté immédiatement et perdrez l'accès à votre compte.
+            _de: Sie werden sofort abgemeldet und verlieren den Zugang zu Ihrem Konto.
+            _it: Sarai disconnesso immediatamente e perderai l'accesso al tuo account.
+            _nl: U wordt onmiddellijk uitgelogd en verliest de toegang tot uw account.
+          invoices_retained:
+            _en: Your invoices are retained for tax purposes.
+            _fr: Vos factures sont conservées pour des raisons fiscales.
+            _de: Ihre Rechnungen werden aus steuerlichen Gründen aufbewahrt.
+            _it: Le tue fatture vengono conservate per motivi fiscali.
+            _nl: Uw facturen worden om fiscale redenen bewaard.
+        what_happens_title:
+          _en: What happens when you delete your account?
+          _fr: Que se passe-t-il lorsque vous supprimez votre compte?
+          _de: Was passiert, wenn Sie Ihr Konto löschen?
+          _it: Cosa succede quando elimini il tuo account?
+          _nl: Wat gebeurt er als u uw account verwijdert?
+    deletion_requests:
+      new:
+        back:
+          _en: Back
+          _fr: Retour
+          _de: Zurück
+          _it: Indietro
+          _nl: Terug
+        cancel:
+          _en: Cancel
+          _fr: Annuler
+          _de: Abbrechen
+          _it: Annullare
+          _nl: Annuleren
+        explanation:
+          _en: You are about to request the deletion of your account. This action is irreversible.
+          _fr: Vous êtes sur le point de demander la suppression de votre compte. Cette action est irréversible.
+          _de: Sie sind dabei, die Löschung Ihres Kontos zu beantragen. Diese Aktion ist unwiderruflich.
+          _it: Stai per richiedere l'eliminazione del tuo account. Questa azione è irreversibile.
+          _nl: U staat op het punt om de verwijdering van uw account aan te vragen. Deze actie is onomkeerbaar.
+        not_eligible:
+          _en: Your account cannot be deleted at this time for the following reasons.
+          _fr: Votre compte ne peut pas être supprimé pour le moment pour les raisons suivantes.
+          _de: Ihr Konto kann derzeit aus folgenden Gründen nicht gelöscht werden.
+          _it: Il tuo account non può essere eliminato in questo momento per i seguenti motivi.
+          _nl: Uw account kan op dit moment niet worden verwijderd om de volgende redenen.
+        reasons:
+          billable_memberships:
+            _en: You have an active or upcoming membership.
+            _fr: Vous avez un abonnement actif ou à venir.
+            _de: Sie haben eine aktive oder bevorstehende Mitgliedschaft.
+            _it: Hai un abbonamento attivo o in arrivo.
+            _nl: U heeft een actief of aankomend lidmaatschap.
+          not_inactive:
+            _en: Your account is not inactive.
+            _fr: Votre compte n'est pas inactif.
+            _de: Ihr Konto ist nicht inaktiv.
+            _it: Il tuo account non è inattivo.
+            _nl: Uw account is niet inactief.
+          open_invoices:
+            _en: You have open or processing invoices.
+            _fr: Vous avez des factures ouvertes ou en cours de traitement.
+            _de: Sie haben offene oder in Bearbeitung befindliche Rechnungen.
+            _it: Hai fatture aperte o in elaborazione.
+            _nl: U heeft openstaande of in behandeling zijnde facturen.
+          pending_shop_orders:
+            _en: You have pending shop orders.
+            _fr: Vous avez des commandes en attente.
+            _de: Sie haben ausstehende Shop-Bestellungen.
+            _it: Hai ordini in sospeso.
+            _nl: U heeft lopende winkelbestellingen.
+        reasons_title:
+          _en: Reasons
+          _fr: Raisons
+          _de: Gründe
+          _it: Motivi
+          _nl: Redenen
+        request_code:
+          _en: Request confirmation code
+          _fr: Demander le code de confirmation
+          _de: Bestätigungscode anfordern
+          _it: Richiedi codice di conferma
+          _nl: Vraag bevestigingscode aan
+        title:
+          _en: Delete my account
+          _fr: Supprimer mon compte
+          _de: Mein Konto löschen
+          _it: Elimina il mio account
+          _nl: Mijn account verwijderen
+        what_happens:
+          anonymization_delay:
+            _en: Your personal data will be anonymized after 30 days.
+            _fr: Vos données personnelles seront anonymisées après 30 jours.
+            _de: Ihre persönlichen Daten werden nach 30 Tagen anonymisiert.
+            _it: I tuoi dati personali saranno anonimizzati dopo 30 giorni.
+            _nl: Uw persoonlijke gegevens worden na 30 dagen geanonimiseerd.
+          immediate_logout:
+            _en: You will be logged out immediately and lose access to your account.
+            _fr: Vous serez déconnecté immédiatement et perdrez l'accès à votre compte.
+            _de: Sie werden sofort abgemeldet und verlieren den Zugang zu Ihrem Konto.
+            _it: Sarai disconnesso immediatamente e perderai l'accesso al tuo account.
+            _nl: U wordt onmiddellijk uitgelogd en verliest de toegang tot uw account.
+          invoices_retained:
+            _en: Your invoices are retained for tax purposes.
+            _fr: Vos factures sont conservées pour des raisons fiscales.
+            _de: Ihre Rechnungen werden aus steuerlichen Gründen aufbewahrt.
+            _it: Le tue fatture vengono conservate per motivi fiscali.
+            _nl: Uw facturen worden om fiscale redenen bewaard.
+        what_happens_title:
+          _en: What happens when you delete your account?
+          _fr: Que se passe-t-il lorsque vous supprimez votre compte?
+          _de: Was passiert, wenn Sie Ihr Konto löschen?
+          _it: Cosa succede quando elimini il tuo account?
+          _nl: Wat gebeurt er als u uw account verwijdert?
     deliveries:
       absences_included_notice:
         provisional_absence_html:
@@ -1355,6 +1520,33 @@ _:
           _de: Dieser Link ist abgelaufen oder ungültig.
           _it: Questo link è scaduto o non è valido.
           _nl: Deze link is verlopen of ongeldig.
+    public_pages:
+      goodbye:
+        text_html:
+          _en: Your account has been deleted.<br>Feel free to join us again.
+          _fr: Votre compte a été supprimé.<br>N'hésitez pas à nous rejoindre à nouveau.
+          _de: Ihr Konto wurde gelöscht.<br>Sie können uns jederzeit wieder beitreten.
+          _it: Il tuo account è stato eliminato.<br>Non esitare a unirti di nuovo a noi.
+          _nl: Uw account is verwijderd.<br>Aarzel niet om opnieuw lid te worden.
+        title:
+          _en: Goodbye!
+          _fr: Au revoir!
+          _de: Auf Wiedersehen!
+          _it: Arrivederci!
+          _nl: Tot ziens!
+      welcome:
+        text_html:
+          _en: Your registration will be confirmed in the coming days.<br>We are at your disposal for any questions.
+          _fr: Votre inscription sera validée dans les jours à venir.<br>Nous restons à votre disposition en cas de questions.
+          _de: Ihre Anmeldung wird in den nächsten Tagen bestätigt.<br>Bei Fragen stehen wir gerne zur Verfügung.
+          _it: L'iscrizione sarà confermata nei prossimi giorni.<br>Restiamo a disposizione per qualsiasi necessità.
+          _nl: Uw inschrijving wordt de komende dagen bevestigd.<br>Wij staan tot uw beschikking voor eventuele vragen.
+        title:
+          _en: Thank you for your registration!
+          _fr: Merci pour votre inscription!
+          _de: Vielen Dank für Ihre Anmeldung!
+          _it: Grazie per l'iscrizione!
+          _nl: Dank u voor uw inschrijving!
     sessions:
       new:
         email_input:

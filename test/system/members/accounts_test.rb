@@ -89,4 +89,25 @@ class Members::AccountsTest < ApplicationSystemTestCase
     click_button "Submit"
     assert_text "Acme Corp."
   end
+
+  test "shows delete account link" do
+    member = members(:john)
+    login(member)
+
+    click_on "John Doe"
+
+    assert_link "Delete my account"
+    assert_selector "a[href='#{new_members_account_deletion_request_path}']"
+  end
+
+  test "delete account link navigates to deletion request page" do
+    member = members(:john)
+    login(member)
+
+    click_on "John Doe"
+    click_on "Delete my account"
+
+    assert_equal "/account/delete", current_path
+    assert_text "Delete my account"
+  end
 end

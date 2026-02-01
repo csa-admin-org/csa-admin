@@ -1,0 +1,52 @@
+<h1><%= t(".title") %></h1>
+
+<section>
+  <%= notice_pane("envelope") do %>
+    <%= t(".code_sent_html", email: content_tag(:strong, current_session.email)) %>
+  <% end %>
+
+  <h2 class="mt-12"><%= t(".what_happens_title") %></h2>
+
+  <div class="mt-2 mb-8 space-y-2">
+    <ul class="list-inside list-disc space-y-2">
+      <li><%= t(".what_happens.immediate_logout") %></li>
+      <li><%= t(".what_happens.anonymization_delay") %></li>
+      <li><%= t(".what_happens.invoices_retained") %></li>
+    </ul>
+  </div>
+
+  <%= form_with url: members_account_deletion_confirmation_path, method: :post do |f| %>
+    <div class="flex flex-col items-center gap-6">
+      <div class="text-center">
+        <label
+          for="code"
+          class="block text-sm font-medium text-gray-700 dark:text-gray-300"
+        >
+          <%= t(".code_label") %>
+        </label>
+
+        <input
+          type="text"
+          name="code"
+          id="code"
+          autocomplete="one-time-code"
+          inputmode="numeric"
+          pattern="[0-9]*"
+          maxlength="6"
+          required
+          class="
+            mt-2 block w-40 rounded-md border-gray-300 text-center text-2xl
+            tracking-widest shadow-sm focus:border-green-500
+            focus:ring-green-500 dark:border-gray-700 dark:bg-gray-800
+          "
+          placeholder="000000"
+        >
+      </div>
+
+      <div class="actions">
+        <%= link_to t(".cancel"), members_account_path, class: "cancel-link" %>
+        <%= f.submit t(".confirm"), class: "destructive" %>
+      </div>
+    </div>
+  <% end %>
+</section>

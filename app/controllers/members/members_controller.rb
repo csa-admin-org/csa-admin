@@ -4,8 +4,8 @@ class Members::MembersController < Members::BaseController
   include ActivitiesHelper
   include ShopHelper
 
-  skip_before_action :authenticate_member!, only: %i[new create welcome]
-  before_action :redirect_current_member!, only: %i[new create welcome]
+  skip_before_action :authenticate_member!, only: %i[new create]
+  before_action :redirect_current_member!, only: %i[new create]
 
   # GET /new
   def new
@@ -42,11 +42,11 @@ class Members::MembersController < Members::BaseController
 
     if SpamDetector.spam?(member)
       SpamDetector.notify!(member)
-      redirect_to welcome_members_member_path
+      redirect_to members_public_page_path("welcome")
     else
       registration = MemberRegistration.new(member, member_params)
       if registration.save
-        redirect_to welcome_members_member_path
+        redirect_to members_public_page_path("welcome")
       else
         @member = registration.member
         set_basket_complements
@@ -54,9 +54,6 @@ class Members::MembersController < Members::BaseController
       end
     end
   end
-
-  # GET /welcome
-  def welcome; end
 
   private
 

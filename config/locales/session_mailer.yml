@@ -1,5 +1,12 @@
 _:
   session_mailer:
+    deletion_confirmation_email:
+      subject:
+        _en: Confirm your account deletion
+        _fr: Confirmez la suppression de votre compte
+        _de: Bestätigen Sie die Löschung Ihres Kontos
+        _it: Conferma l'eliminazione del tuo account
+        _nl: Bevestig de verwijdering van uw account
     new_admin_session_email:
       subject:
         _en: Login to your admin account

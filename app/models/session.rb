@@ -3,6 +3,7 @@
 require "user_agent_parser"
 
 class Session < ApplicationRecord
+  include Session::DeletionCode
   EXPIRATION = 1.year
 
   generates_token_for :redeem, expires_in: 15.minutes do

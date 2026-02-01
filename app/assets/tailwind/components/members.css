@@ -167,8 +167,13 @@
     .actions {
       @apply mt-6 flex w-full flex-col justify-end gap-4 gap-y-3 md:flex-row;
 
-      input[type="submit"] {
+      input[type="submit"],
+      form.button_to {
         @apply order-1;
+      }
+
+      form.button_to button {
+        @apply w-full;
       }
 
       a {

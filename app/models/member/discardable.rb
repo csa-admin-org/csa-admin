@@ -30,6 +30,17 @@ module Member::Discardable
       shop_orders.pending.none?
   end
 
+  # Returns array of i18n keys explaining why member cannot be discarded.
+  # Used to display clear feedback when deletion is not possible.
+  def discardability_reasons
+    reasons = []
+    reasons << :not_inactive unless inactive?
+    reasons << :open_invoices if invoices.where(state: %w[processing open]).any?
+    reasons << :billable_memberships if memberships.any?(&:billable?)
+    reasons << :pending_shop_orders if shop_orders.pending.any?
+    reasons
+  end
+
   # Can fully delete only if no historical data exists
   def can_delete?
     pending? || (inactive? &&

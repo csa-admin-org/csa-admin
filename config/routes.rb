@@ -97,10 +97,12 @@ Rails.application.routes.draw do
       end
       resources :absences, only: %i[index create destroy]
       get "billing" => "billing#index"
-      resource :member, only: %i[new show create], path: "" do
-        get "welcome", on: :collection
+      resource :member, only: %i[new show create], path: ""
+      get ":page" => "public_pages#show", as: :public_page, constraints: { page: /welcome|goodbye/ }
+      resource :account, only: %i[show edit update] do
+        resource :deletion_request, only: %i[new create], path: "delete", path_names: { new: "" }
+        resource :deletion_confirmation, only: %i[new create], path: "delete/confirm", path_names: { new: "" }
       end
-      resource :account, only: %i[show edit update]
       resource :info, only: :show
       resource :contact_sharing, only: %i[show create]
       resource :email_suppression, only: :destroy

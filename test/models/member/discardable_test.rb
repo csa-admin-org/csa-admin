@@ -64,4 +64,106 @@ class Member::DiscardableTest < ActiveSupport::TestCase
     assert_empty violations,
       "Found raw member_id usage in exports (use member&.display_id instead):\n  #{violations.join("\n  ")}"
   end
+
+  # discardability_reasons tests
+
+  test "discardability_reasons returns empty array for eligible member" do
+    member = members(:mary) # inactive member
+    assert member.inactive?
+    assert_empty member.discardability_reasons
+  end
+
+  test "discardability_reasons includes :not_inactive for active member" do
+    member = members(:john) # active member
+    assert member.active?
+    assert_includes member.discardability_reasons, :not_inactive
+  end
+
+  test "discardability_reasons includes :not_inactive for waiting member" do
+    member = members(:aria) # waiting member
+    assert member.waiting?
+    assert_includes member.discardability_reasons, :not_inactive
+  end
+
+  test "discardability_reasons includes :not_inactive for support member" do
+    member = members(:martha) # support member
+    assert member.support?
+    assert_includes member.discardability_reasons, :not_inactive
+  end
+
+  test "discardability_reasons includes :open_invoices when processing invoices exist" do
+    member = members(:mary)
+    Invoice.create!(member: member, date: Date.current, entity_type: "AnnualFee", annual_fee: 30)
+    perform_enqueued_jobs
+    invoice = member.invoices.last
+    invoice.update_column(:state, "processing")
+
+    assert_includes member.discardability_reasons, :open_invoices
+  end
+
+  test "discardability_reasons includes :open_invoices when open invoices exist" do
+    member = members(:mary)
+    Invoice.create!(member: member, date: Date.current, entity_type: "AnnualFee", annual_fee: 30)
+    perform_enqueued_jobs
+
+    assert_includes member.discardability_reasons, :open_invoices
+  end
+
+  test "discardability_reasons excludes :open_invoices when only closed invoices exist" do
+    member = members(:mary)
+    Invoice.create!(member: member, date: Date.current, entity_type: "AnnualFee", annual_fee: 30)
+    perform_enqueued_jobs
+    member.invoices.last.update_column(:state, "closed")
+
+    assert_not_includes member.discardability_reasons, :open_invoices
+  end
+
+  test "discardability_reasons includes :billable_memberships when billable membership exists" do
+    travel_to "2024-01-01"
+    member = members(:jane)
+    member.update_column(:state, "inactive")
+    # Jane has a current membership from fixtures that is billable
+
+    assert_includes member.discardability_reasons, :billable_memberships
+  end
+
+  test "discardability_reasons includes :pending_shop_orders when pending orders exist" do
+    travel_to "2024-04-01"
+    org(features: %w[shop])
+    member = members(:mary)
+    member.update!(shop_depot_id: depots(:farm).id)
+
+    delivery = deliveries(:thursday_1)
+    delivery.update!(shop_open: true)
+
+    order = Shop::Order.create!(member: member, delivery: delivery)
+    order.update_column(:state, "pending")
+
+    assert_includes member.discardability_reasons, :pending_shop_orders
+  end
+
+  test "discardability_reasons can return multiple reasons" do
+    travel_to "2024-01-01"
+    member = members(:jane) # active member with memberships
+    Invoice.create!(member: member, date: Date.current, entity_type: "AnnualFee", annual_fee: 30)
+    perform_enqueued_jobs
+
+    reasons = member.discardability_reasons
+
+    assert_includes reasons, :not_inactive
+    assert_includes reasons, :open_invoices
+    assert_includes reasons, :billable_memberships
+  end
+
+  test "can_discard? returns true when discardability_reasons is empty" do
+    member = members(:mary)
+    assert_empty member.discardability_reasons
+    assert member.can_discard?
+  end
+
+  test "can_discard? returns false when discardability_reasons is not empty" do
+    member = members(:john)
+    assert_not_empty member.discardability_reasons
+    assert_not member.can_discard?
+  end
 end

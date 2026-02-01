@@ -69,7 +69,8 @@ class Members::MembersTest < ApplicationSystemTestCase
     click_on "Submit"
 
     assert_text "Thank you for your registration!"
-    assert_text "Your registration will be confirmed in the coming days. We are at your disposal for any questions."
+    assert_text "Your registration will be confirmed in the coming days."
+    assert_text "We are at your disposal for any questions."
 
     member = Member.last
     assert_equal "pending", member.state

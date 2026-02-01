@@ -72,7 +72,17 @@
     <% end %>
   </ul>
 
-  <div class="mt-8 flex w-full md:max-w-max">
+  <div class="mt-8 flex w-full flex-col gap-4 md:max-w-max">
     <%= link_to t(".edit_link"), edit_members_account_path, class: "btn" %>
+  </div>
+
+  <div class="mt-12 flex flex-row justify-center md:justify-end">
+    <%= link_to new_members_account_deletion_request_path, class: "flex items-center" do %>
+      <%= icon "trash", class: "size-4" %>
+
+      <span class="ml-1 text-sm font-normal">
+        <%= t(".delete_account_link") %>
+      </span>
+    <% end %>
   </div>
 </section>
