@@ -2696,11 +2696,11 @@ _:
           _it: Bolle di consegna
           _nl: Leveringsbonnen
         discard_confirm:
-          _en: 'This member will be marked for deletion: their page will no longer be accessible and their personal data will be anonymized after %{delay} days. See the documentation for more details. Continue?'
-          _fr: 'Ce membre sera marqué pour suppression : sa page ne sera plus accessible et ses données personnelles seront anonymisées après %{delay} jours. Consultez la documentation pour plus de détails. Continuer ?'
-          _de: 'Dieses Mitglied wird zur Löschung markiert: Seine Seite ist nicht mehr zugänglich und seine Daten werden nach %{delay} Tagen anonymisiert. Weitere Details in der Dokumentation. Fortfahren?'
-          _it: 'Questo membro sarà contrassegnato per l''eliminazione: la sua pagina non sarà più accessibile e i suoi dati saranno anonimizzati dopo %{delay} giorni. Consultare la documentazione per maggiori dettagli. Continuare?'
-          _nl: 'Dit lid wordt gemarkeerd voor verwijdering: hun pagina is niet meer toegankelijk en hun gegevens worden na %{delay} dagen geanonimiseerd. Raadpleeg de documentatie voor meer informatie. Doorgaan?'
+          _en: 'This member will be marked for deletion: their page will no longer be accessible and their personal data will be anonymized after %{delay} days. See the "Right to be Forgotten" handbook page for more details. Continue?'
+          _fr: 'Ce membre sera marqué pour suppression : sa page ne sera plus accessible et ses données personnelles seront anonymisées après %{delay} jours. Consultez la page « Droit à l''oubli » du manuel pour plus de détails. Continuer ?'
+          _de: 'Dieses Mitglied wird zur Löschung markiert: Seine Seite ist nicht mehr zugänglich und seine Daten werden nach %{delay} Tagen anonymisiert. Weitere Details auf der Handbuchseite „Recht auf Vergessenwerden". Fortfahren?'
+          _it: 'Questo membro sarà contrassegnato per l''eliminazione: la sua pagina non sarà più accessibile e i suoi dati saranno anonimizzati dopo %{delay} giorni. Consultare la pagina "Diritto all''oblio" del manuale per maggiori dettagli. Continuare?'
+          _nl: 'Dit lid wordt gemarkeerd voor verwijdering: hun pagina is niet meer toegankelijk en hun gegevens worden na %{delay} dagen geanonimiseerd. Raadpleeg de handleidingpagina "Recht om vergeten te worden" voor meer informatie. Doorgaan?'
         duplicate:
           _en: Duplicate
           _fr: Dupliquer

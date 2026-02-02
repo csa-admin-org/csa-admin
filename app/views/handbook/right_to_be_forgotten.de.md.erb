@@ -1,0 +1,83 @@
+# Recht auf Vergessenwerden
+
+CSA Admin bietet einen zweiphasigen Löschprozess für Mitglieder, der sowohl der [DSGVO](https://commission.europa.eu/law/law-topic/data-protection_de) (EU) als auch dem [nDSG](https://www.kmu.admin.ch/kmu/de/home/fakten-trends/digitalisierung/datenschutz/neues-datenschutzgesetz-ndsg.html) (Schweiz) entspricht. Dies ermöglicht es den Mitgliedern, ihr Recht auf Vergessenwerden auszuüben, während gesetzlich vorgeschriebene Finanzdokumente erhalten bleiben.
+
+## Funktionsweise
+
+Der Löschprozess besteht aus zwei unterschiedlichen Phasen:
+
+### Phase 1: Deaktivierung (Sofort)
+
+Wenn ein Mitglied deaktiviert wird (Soft-Delete):
+
+- **Der Zugang wird sofort gesperrt** – das Mitglied kann sich nicht mehr anmelden
+- **E-Mails werden blockiert** – keine Transaktions-E-Mails werden an das Mitglied gesendet
+- **Das Mitglied verschwindet aus den Listen** – es erscheint nicht mehr in den Admin-Mitgliederlisten
+- **Die Daten bleiben erhalten** – alle Daten bleiben während einer 30-tägigen Sicherheitsfrist intakt
+
+Während dieser 30-tägigen Frist kann ein Mitglied bei Bedarf wiederhergestellt werden, indem Sie mich [über das Support-Formular kontaktieren](/support).
+
+### Phase 2: Anonymisierung (Nach 30 Tagen)
+
+Nach 30 Tagen werden die personenbezogenen Daten automatisch und unwiderruflich anonymisiert:
+
+**Daten, die entfernt werden:**
+
+- Name (ersetzt durch „DELETED")
+- Kontakt- und Adressdetails
+- Abrechnungs- und Zahlungsdetails
+- Notizen und interne Anmerkungen
+- Profil- und Marketingdetails
+- Newsletter-Versandverlauf
+- Admin-Kommentare zu Mitgliederdatensätzen
+- Audit-Protokolle
+
+**Daten, die erhalten bleiben:**
+
+- Rechnungen und ihre PDF-Anhänge (erforderlich für Buchhaltung/Steuerzwecke)
+- Zahlungsaufzeichnungen
+- Abonnementverlauf (für statistische Zwecke)
+- Aktivitätsteilnahmen (mit entfernten persönlichen Notizen)
+- Abwesenheiten (mit entfernten Notizen)
+
+## Voraussetzungen
+
+Ein Mitglied kann nur gelöscht werden, wenn es:
+
+- **Inaktiv** ist – kein aktuelles oder zukünftiges Abonnement
+- **Keine offenen Rechnungen** hat – alle Rechnungen müssen geschlossen oder storniert sein
+- **Keine abrechenbaren Abonnements** hat – keine ausstehenden Abonnementgebühren
+- **Keine ausstehenden Shop-Bestellungen** hat – alle Bestellungen müssen abgeschlossen oder storniert sein
+
+Wenn diese Bedingungen nicht erfüllt sind, wird die Löschen-Schaltfläche in der Admin-Oberfläche deaktiviert. Auf der Mitgliederseite werden die spezifischen Gründe angezeigt, die eine Löschung verhindern.
+
+## Löschung durch Admin
+
+Um ein Mitglied als Administrator zu löschen:
+
+1. Navigieren Sie zur Seite des inaktiven Mitglieds
+2. Klicken Sie auf die Schaltfläche „Löschen" in der oberen rechten Ecke
+3. Lesen Sie den Bestätigungsdialog, der erklärt, was passieren wird
+4. Bestätigen Sie die Löschung
+
+Das Mitglied wird sofort deaktiviert und nach 30 Tagen automatisch anonymisiert.
+
+> Wenn Sie ein deaktiviertes Mitglied vor der 30-tägigen Anonymisierung wiederherstellen müssen, [kontaktieren Sie mich über das Support-Formular](/support). Eine Wiederherstellung ist nur vor der Anonymisierung möglich.
+
+## Selbstlöschung durch das Mitglied
+
+Mitglieder können die Löschung ihres eigenen Kontos von ihrer Kontoseite aus beantragen:
+
+1. Das Mitglied navigiert zu Konto → Konto löschen
+2. Das Mitglied fordert einen Bestätigungscode an (per E-Mail gesendet)
+3. Das Mitglied gibt den 6-stelligen Code ein, um die Löschung zu bestätigen
+4. Das Mitglied wird abgemeldet und sieht eine Abschiedsnachricht
+
+Der gleiche zweiphasige Prozess gilt: sofortige Zugriffssperrung, dann Anonymisierung nach 30 Tagen.
+
+## Wichtige Hinweise
+
+- **Anonymisierung ist unwiderruflich** – nach Ablauf der 30-Tage-Frist können personenbezogene Daten nicht wiederhergestellt werden
+- **Rechnungen werden aufbewahrt** – Schweizer und europäisches Recht verlangen die Aufbewahrung von Rechnungen für bis zu 10 Jahre für Steuerzwecke
+- **Historische Statistiken bleiben gültig** – anonymisierte Mitglieder werden weiterhin in Abonnement- und Lieferstatistiken gezählt
+- **Exportsicherheit** – Exporte (CSV, XLSX, PDF) zeigen keine Mitglieder-IDs für anonymisierte Mitglieder an

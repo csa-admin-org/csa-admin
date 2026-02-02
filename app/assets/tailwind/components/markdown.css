@@ -2,19 +2,19 @@
   .markdown {
     /* Updates, Handook */
     h1 {
-      @apply mb-2 scroll-mt-20 text-3xl font-light text-gray-900 dark:text-gray-100;
+      @apply mb-4 scroll-mt-20 text-3xl font-light text-gray-900 dark:text-gray-100;
     }
 
     h2 {
-      @apply mt-12 mb-4 scroll-mt-20 text-2xl font-light text-gray-900 dark:text-gray-100;
+      @apply mt-10 mb-3 scroll-mt-20 text-2xl font-light text-gray-900 dark:text-gray-100;
     }
 
     h3 {
-      @apply mt-8 mb-4 scroll-mt-20 text-lg font-semibold text-gray-900 dark:text-gray-100;
+      @apply mt-6 mb-2 scroll-mt-20 text-lg font-semibold text-gray-900 dark:text-gray-100;
     }
 
     p {
-      @apply my-3 leading-5 text-gray-900 dark:text-gray-100;
+      @apply my-4 leading-6 text-gray-900 dark:text-gray-100;
     }
 
     blockquote {
@@ -34,15 +34,15 @@
 
     ul,
     ol {
-      @apply my-4 mb-8 list-outside px-4;
+      @apply my-3 mb-6 list-outside ps-6;
     }
 
     ol li {
-      @apply my-3 ms-4 list-decimal leading-5;
+      @apply my-2 ms-2 list-decimal leading-6;
     }
 
     ul li {
-      @apply my-3 ms-4 list-disc leading-5;
+      @apply my-2 ms-2 list-disc leading-6;
     }
 
     img {

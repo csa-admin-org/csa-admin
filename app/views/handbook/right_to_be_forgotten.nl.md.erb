@@ -1,0 +1,83 @@
+# Recht om vergeten te worden
+
+CSA Admin biedt een tweefasig verwijderingsproces voor leden, conform de [AVG](https://commission.europa.eu/law/law-topic/data-protection_nl) (Algemene Verordening Gegevensbescherming). Dit stelt leden in staat om hun recht om vergeten te worden uit te oefenen, terwijl wettelijk vereiste financiële documenten behouden blijven.
+
+## Hoe het werkt
+
+Het verwijderingsproces bestaat uit twee afzonderlijke fasen:
+
+### Fase 1: Deactivering (Onmiddellijk)
+
+Wanneer een lid wordt gedeactiveerd (soft-delete):
+
+- **Toegang wordt onmiddellijk ingetrokken** – het lid kan niet meer inloggen
+- **E-mails worden geblokkeerd** – er worden geen transactionele e-mails naar het lid gestuurd
+- **Het lid verdwijnt uit lijsten** – het verschijnt niet meer in admin-ledenlijsten
+- **Gegevens blijven behouden** – alle gegevens blijven intact gedurende een veiligheidsperiode van 30 dagen
+
+Gedurende deze 30-daagse periode kan een lid indien nodig worden hersteld door [contact met mij op te nemen via het supportformulier](/support).
+
+### Fase 2: Anonimisering (Na 30 dagen)
+
+Na 30 dagen worden persoonsgegevens automatisch en onomkeerbaar geanonimiseerd:
+
+**Gegevens die worden verwijderd:**
+
+- Naam (vervangen door "DELETED")
+- Contact- en adresgegevens
+- Facturatie- en betalingsgegevens
+- Notities en interne opmerkingen
+- Profiel- en marketinggegevens
+- Nieuwsbriefverzendgeschiedenis
+- Admin-opmerkingen over lidrecords
+- Auditlogs
+
+**Gegevens die behouden blijven:**
+
+- Facturen en hun PDF-bijlagen (vereist voor boekhouding/belastingdoeleinden)
+- Betalingsgegevens
+- Abonnementsgeschiedenis (voor statistische doeleinden)
+- Activiteitsdeelnames (met persoonlijke notities verwijderd)
+- Afwezigheden (met notities verwijderd)
+
+## Geschiktheidsvereisten
+
+Een lid kan alleen worden verwijderd als het:
+
+- **Inactief** is – geen huidig of toekomstig abonnement
+- **Geen openstaande facturen** heeft – alle facturen moeten gesloten of geannuleerd zijn
+- **Geen factureerbare abonnementen** heeft – geen openstaande abonnementskosten
+- **Geen lopende winkelbestellingen** heeft – alle bestellingen moeten voltooid of geannuleerd zijn
+
+Als niet aan deze voorwaarden wordt voldaan, wordt de verwijderknop uitgeschakeld in de admin-interface. Aan de ledenzijde worden de specifieke redenen weergegeven die verwijdering verhinderen.
+
+## Verwijdering door admin
+
+Om een lid als administrator te verwijderen:
+
+1. Navigeer naar de pagina van het inactieve lid
+2. Klik op de knop "Verwijderen" rechtsboven
+3. Lees het bevestigingsvenster dat uitlegt wat er zal gebeuren
+4. Bevestig de verwijdering
+
+Het lid wordt onmiddellijk gedeactiveerd en na 30 dagen automatisch geanonimiseerd.
+
+> Als u een gedeactiveerd lid moet herstellen vóór de 30-daagse anonimisering, [neem contact met mij op via het supportformulier](/support). Herstel is alleen mogelijk voordat anonimisering plaatsvindt.
+
+## Zelfverwijdering door het lid
+
+Leden kunnen hun eigen accountverwijdering aanvragen vanaf hun accountpagina:
+
+1. Het lid navigeert naar Account → Account verwijderen
+2. Het lid vraagt een bevestigingscode aan (verzonden per e-mail)
+3. Het lid voert de 6-cijferige code in om de verwijdering te bevestigen
+4. Het lid wordt uitgelogd en ziet een afscheidsbericht
+
+Hetzelfde tweefasige proces is van toepassing: onmiddellijke toegangsintrekking, daarna anonimisering na 30 dagen.
+
+## Belangrijke opmerkingen
+
+- **Anonimisering is onomkeerbaar** – zodra de 30-dagenperiode is verstreken, kunnen persoonsgegevens niet worden hersteld
+- **Facturen worden bewaard** – Zwitserse en Europese wetgeving vereist het bewaren van facturen tot 10 jaar voor belastingdoeleinden
+- **Historische statistieken blijven geldig** – geanonimiseerde leden worden nog steeds meegeteld in abonnements- en leveringsstatistieken
+- **Exportveiligheid** – exports (CSV, XLSX, PDF) onthullen geen lid-ID's voor geanonimiseerde leden

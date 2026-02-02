@@ -1,0 +1,83 @@
+# Right to be Forgotten
+
+CSA Admin provides a two-phase deletion process for members, compliant with the [GDPR](https://commission.europa.eu/law/law-topic/data-protection_en) (EU) and the [nFADP](https://www.kmu.admin.ch/kmu/en/home/facts-and-trends/digitization/data-protection/new-federal-act-on-data-protection-nfadp.html) (Switzerland). This ensures that members can exercise their right to be forgotten while preserving legally required financial records.
+
+## How It Works
+
+The deletion process has two distinct phases:
+
+### Phase 1: Discard (Immediate)
+
+When a member is discarded (soft-deleted):
+
+- **Access is revoked immediately** – the member can no longer log in
+- **Emails are blocked** – no transactional emails are sent to the member
+- **The member disappears from lists** – they no longer appear in admin member lists
+- **Data is preserved** – all data remains intact during a 30-day safety window
+
+During this 30-day window, a member can be restored if needed by [contacting me via the support form](/support).
+
+### Phase 2: Anonymization (After 30 Days)
+
+After 30 days, personal data is automatically and irreversibly anonymized:
+
+**Data that is removed:**
+
+- Name (replaced with "DELETED")
+- Contact and address details
+- Billing and payment details
+- Notes and internal remarks
+- Profile and marketing details
+- Newsletter delivery history
+- Admin comments on member records
+- Audit logs
+
+**Data that is preserved:**
+
+- Invoices and their PDF attachments (required for tax/accounting purposes)
+- Payment records
+- Membership history (for statistical purposes)
+- Activity participations (with personal notes removed)
+- Absences (with notes removed)
+
+## Eligibility Requirements
+
+A member can only be deleted if they are:
+
+- **Inactive** – no current or future subscription
+- **No open invoices** – all invoices must be closed or canceled
+- **No billable memberships** – no outstanding membership fees
+- **No pending shop orders** – all orders must be completed or canceled
+
+If these conditions are not met, the delete button will be disabled in the admin interface. On the member side, specific reasons preventing deletion are displayed.
+
+## Admin Deletion
+
+To delete a member as an administrator:
+
+1. Navigate to the inactive member's page
+2. Click the "Delete" button in the top-right corner
+3. Review the confirmation dialog explaining what will happen
+4. Confirm the deletion
+
+The member will be immediately discarded and automatically anonymized after 30 days.
+
+> If you need to restore a discarded member before the 30-day anonymization, [contact me via the support form](/support). Restoration is only possible before anonymization occurs.
+
+## Member Self-Deletion
+
+Members can request their own account deletion from their account page:
+
+1. Member navigates to Account → Delete Account
+2. Member requests a confirmation code (sent by email)
+3. Member enters the 6-digit code to confirm deletion
+4. Member is logged out and sees a goodbye message
+
+The same two-phase process applies: immediate access revocation, then anonymization after 30 days.
+
+## Important Notes
+
+- **Anonymization is irreversible** – once the 30-day period has passed, personal data cannot be recovered
+- **Invoices are retained** – Swiss and European law require keeping invoices for up to 10 years for tax purposes
+- **Historical statistics remain valid** – anonymized members are still counted in membership and delivery statistics
+- **Export safety** – exports (CSV, XLSX, PDF) do not reveal member IDs for anonymized members
