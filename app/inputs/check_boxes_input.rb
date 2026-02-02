@@ -15,27 +15,25 @@ class CheckBoxesInput < Formtastic::Inputs::CheckBoxesInput
     end
   end
 
-  def wrapper_html_options
-    opts = super
-    opts[:class] = [ opts[:class], "no-toggle-all" ].compact.join(" ") unless toggle_all?
-    opts
-  end
-
   def choices_wrapping_html_options
-    {
-      class: "choices",
-      data: { controller: "check-boxes-toggle-all" }
-    }
+    opts = { class: "choices" }
+    opts[:data] = { controller: "check-boxes-toggle-all" } if toggle_all?
+    opts
   end
 
   def extra_html_options(choice)
     choice_html_options = custom_choice_html_options(choice)
+    choice_action = choice_html_options.dig(:data, :action)
+    data = (input_html_options[:data] || {}).merge(action: choice_action)
+    if toggle_all?
+      data = data.merge(
+        check_boxes_toggle_all_target: "input",
+        action: "#{choice_action} check-boxes-toggle-all#updateToggle"
+      )
+    end
     input_html_options
       .merge(choice_html_options)
-      .merge(data: {
-        check_boxes_toggle_all_target: "input",
-        action: "#{choice_html_options.dig(:data, :action)} check-boxes-toggle-all#updateToggle"
-      }.merge(input_html_options[:data] || {}))
+      .merge(data: data.compact)
   end
 
   def legend_html
@@ -58,7 +56,7 @@ class CheckBoxesInput < Formtastic::Inputs::CheckBoxesInput
 
   def legend_content
     template.content_tag(:label) do
-      template.concat(toggle_checkbox)
+      template.concat(toggle_checkbox) if toggle_all?
       template.concat(template.content_tag(:span, label_text))
     end
   end

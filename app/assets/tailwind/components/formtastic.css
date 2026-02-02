@@ -313,9 +313,5 @@
     .hidden .tabs-nav > a {
       display: none;
     }
-
-    .no-toggle-all .checkbox-legend input {
-      @apply hidden!;
-    }
   }
 }
