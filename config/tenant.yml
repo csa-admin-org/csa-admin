@@ -155,8 +155,8 @@ production: &production
     members_host: membres.radis-noir.ch
     state: onboarding
   querbeet:
-    admin_host: admin.querbeetgrosswangen.com
-    members_host: mitglieder.querbeetgrosswangen.com
+    admin_host: admin.querbeetgrosswangen.ch
+    members_host: mitglieder.querbeetgrosswangen.ch
     state: onboarding
   monniati:
     admin_host: admin.lafermedumonniati.ch
