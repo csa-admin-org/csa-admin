@@ -138,7 +138,7 @@ module MembersHelper
     return unless Current.org.basket_price_extras?
 
     label_template = Liquid::Template.parse(Current.org.basket_price_extra_label)
-    details_template = Liquid::Template.parse(Current.org.basket_price_extra_label_detail_or_default)
+    details_template = Liquid::Template.parse(Current.org.basket_price_extra_label_detail)
     extras = Current.org[:basket_price_extras]
     extras << current_price_extra if current_price_extra
     extras.map(&:to_f).uniq.compact.sort.map do |extra|

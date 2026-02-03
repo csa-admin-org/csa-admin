@@ -53,26 +53,27 @@ class BasketPriceExtraFeatureTest < ActiveSupport::TestCase
     assert_includes result_integer, "+ 3.-/basket"
   end
 
-  test "basket_price_extra_label_detail_default returns expected Liquid template" do
+  test "default_basket_price_extra_label_details returns details for all languages" do
     org = organizations(:acme)
+    details = org.default_basket_price_extra_label_details
 
-    assert_equal "{% if extra != 0 %}{{ full_year_price }}{% endif %}", org.basket_price_extra_label_detail_default
+    assert_equal Organization::LANGUAGES, details.keys
   end
 
-  test "basket_price_extra_label_detail_or_default returns default when blank" do
+  test "default_basket_price_extra_label_details returns expected Liquid template" do
     org = organizations(:acme)
-    org.basket_price_extra_label_details = {}
+    details = org.default_basket_price_extra_label_details
 
-    assert_equal org.basket_price_extra_label_detail_default, org.basket_price_extra_label_detail_or_default
-  end
-
-  test "basket_price_extra_label_detail_or_default returns custom value when present" do
-    org = organizations(:acme)
-    org.basket_price_extra_label_details = { "en" => "Custom label" }
-
-    I18n.with_locale(:en) do
-      assert_equal "Custom label", org.basket_price_extra_label_detail_or_default
+    details.each_value do |detail|
+      assert_equal "{% if extra != 0 %}{{ full_year_price }}{% endif %}", detail
     end
+  end
+
+  test "set_basket_price_extra_defaults sets label_details on create" do
+    org = Organization.new
+    org.send(:set_basket_price_extra_defaults)
+
+    assert_equal org.default_basket_price_extra_label_details, org.basket_price_extra_label_details
   end
 
   test "basket_price_extras? returns true when extras are configured" do

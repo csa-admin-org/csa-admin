@@ -491,7 +491,6 @@ ActiveAdmin.register Organization do
             })
           translated_input(f, :basket_price_extra_label_details,
             as: :text,
-            placeholder: Current.org.basket_price_extra_label_detail_default,
             hint: t("formtastic.hints.organization.basket_price_extra_label_details_html"),
             input_html: {
               data: { mode: "liquid", code_editor_target: "editor" }

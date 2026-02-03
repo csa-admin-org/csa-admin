@@ -22,14 +22,6 @@ module Organization::BasketPriceExtraFeature
     end
   end
 
-  def basket_price_extra_label_detail_default
-    "{% if extra != 0 %}{{ full_year_price }}{% endif %}"
-  end
-
-  def basket_price_extra_label_detail_or_default
-    basket_price_extra_label_detail.presence || basket_price_extra_label_detail_default
-  end
-
   def basket_price_extras?
     self[:basket_price_extras].any?
   end
@@ -73,10 +65,17 @@ module Organization::BasketPriceExtraFeature
     end
   end
 
+  def default_basket_price_extra_label_details
+    Organization.languages.index_with do |locale|
+      "{% if extra != 0 %}{{ full_year_price }}{% endif %}"
+    end
+  end
+
   private
 
   def set_basket_price_extra_defaults
     self.basket_price_extra_labels = default_basket_price_extra_labels
+    self.basket_price_extra_label_details = default_basket_price_extra_label_details
   end
 
   def basket_price_extra_dynamic_pricing_logic_must_be_valid

@@ -59,6 +59,8 @@ acme:
       {% else %}
       + {{ extra | ceil }}.-/basket
       {% endif %}
+  basket_price_extra_label_details:
+    en: "{% if extra != 0 %}{{ full_year_price }}{% endif %}"
   bidding_round_basket_size_price_min_percentage: 20
   bidding_round_basket_size_price_max_percentage: 50
   open_bidding_round_reminder_sent_after_in_days: 7
