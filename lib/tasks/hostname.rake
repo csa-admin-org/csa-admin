@@ -4,54 +4,105 @@ require "cloudflare"
 require "cloudflare-rails"
 
 namespace :hostname do
-  desc "Create/check CloudFlare SSL Custom Hostnames"
-  task cloudflare: :environment do
-    # Suppress Ruby 4.0's experimental IO::Buffer warning from resolv.rb
-    Warning[:experimental] = false
+  namespace :cloudflare do
+    desc "Create/check CloudFlare SSL Custom Hostnames"
+    task check: :environment do
+      # Suppress Ruby 4.0's experimental IO::Buffer warning from resolv.rb
+      Warning[:experimental] = false
 
-    email = ENV["CLOUDFLARE_EMAIL"]
-    key = ENV["CLOUDFLARE_API_KEY"]
+      email = ENV["CLOUDFLARE_EMAIL"]
+      key = ENV["CLOUDFLARE_API_KEY"]
 
-    Cloudflare.connect(email: email, key: key) do |cf|
-      zone = cf.zones.find_by_name("csa-admin.org")
+      Cloudflare.connect(email: email, key: key) do |cf|
+        zone = cf.zones.find_by_name("csa-admin.org")
 
-      Tenant.switch_each do |tenant|
-        next if Tenant.custom? && !ENV["TENANT"]
+        Tenant.switch_each do |tenant|
+          next if Tenant.custom? && !ENV["TENANT"]
 
-        puts "\n#{tenant}"
-        Current.org.hostnames.each do |hostname|
-          print "- #{hostname} "
-          custom_hostname = zone.custom_hostnames.find { |ch| ch.hostname == hostname }
+          puts "\n#{tenant}"
+          Current.org.hostnames.each do |hostname|
+            print "- #{hostname} "
+            custom_hostname = zone.custom_hostnames.find { |ch| ch.hostname == hostname }
 
-          if custom_hostname
-            status = custom_hostname.result[:status]
-            if status == "active" && custom_hostname.ssl.active?
-              print " ✅\n"
-            else
-              print " ❌\n"
-              puts "  - Hostname Status: #{custom_hostname.result[:status]}"
-              puts "  - SSL Status:      #{custom_hostname.ssl.status}"
-              if custom_hostname.ssl.pending_validation?
-                puts "    TXT NAME:  #{custom_hostname.ssl.to_h[:txt_name].gsub(".#{Current.org.domain}", "")}"
-                puts "    TXT VALUE: #{custom_hostname.ssl.to_h[:txt_value]}"
-              end
-              if custom_hostname.ssl.validation_errors
-                puts "  Validation Errors:"
-                custom_hostname.ssl.validation_errors.each do |error|
-                  puts "    - #{error[:message]}"
+            if custom_hostname
+              status = custom_hostname.result[:status]
+              if status == "active" && custom_hostname.ssl.active?
+                print " ✅\n"
+              else
+                print " ❌\n"
+                puts "  - Hostname Status: #{custom_hostname.result[:status]}"
+                puts "  - SSL Status:      #{custom_hostname.ssl.status}"
+                if custom_hostname.ssl.pending_validation?
+                  puts "    TXT NAME:  #{custom_hostname.ssl.to_h[:txt_name].gsub(".#{Current.org.domain}", "")}"
+                  puts "    TXT VALUE: #{custom_hostname.ssl.to_h[:txt_value]}"
+                end
+                if custom_hostname.ssl.validation_errors
+                  puts "  Validation Errors:"
+                  custom_hostname.ssl.validation_errors.each do |error|
+                    puts "    - #{error[:message]}"
+                  end
                 end
               end
+            else
+              print "...creating new custom hostname\n"
+              zone.custom_hostnames.create(hostname,
+                ssl: { method: "txt" },
+                settings: { min_tls_version: "1.2" })
             end
-          else
-            print "...creating new custom hostname\n"
-            zone.custom_hostnames.create(hostname,
-              ssl: { method: "txt" },
-              settings: { min_tls_version: "1.2" })
           end
         end
       end
     end
+
+    desc "Clear CloudFlare SSL Custom Hostnames for a tenant"
+    task clear: :environment do
+      # Suppress Ruby 4.0's experimental IO::Buffer warning from resolv.rb
+      Warning[:experimental] = false
+
+      tenant_name = ENV["TENANT_NAME"]
+      raise "TENANT_NAME environment variable is required" if tenant_name.blank?
+      raise "Tenant '#{tenant_name}' does not exist" unless Tenant.exists?(tenant_name)
+
+      email = ENV["CLOUDFLARE_EMAIL"]
+      key = ENV["CLOUDFLARE_API_KEY"]
+
+      Tenant.switch(tenant_name) do
+        hostnames = Current.org.hostnames
+
+        puts "WARNING: This will permanently delete #{hostnames.size} custom hostname(s) from Cloudflare:"
+        hostnames.each { |h| puts "  - #{h}" }
+        puts "\nType the tenant name '#{tenant_name}' to confirm:"
+        confirmation = $stdin.gets.chomp
+
+        unless confirmation == tenant_name
+          puts "Confirmation failed. Aborting."
+          exit 1
+        end
+
+        Cloudflare.connect(email: email, key: key) do |cf|
+          zone = cf.zones.find_by_name("csa-admin.org")
+
+          hostnames.each do |hostname|
+            print "- #{hostname} "
+            custom_hostname = zone.custom_hostnames.find { |ch| ch.hostname == hostname }
+
+            if custom_hostname
+              custom_hostname.delete
+              puts "🗑️  deleted"
+            else
+              puts "⏭️  not found (skipped)"
+            end
+          end
+        end
+
+        puts "\nDone."
+      end
+    end
   end
+
+  # Backward compatibility alias: hostname:cloudflare → hostname:cloudflare:check
+  desc "Create/check CloudFlare SSL Custom Hostnames (alias for hostname:cloudflare:check)"
+  task cloudflare: "hostname:cloudflare:check"
 
   desc "Check DNS records for all tenants"
   task dns: :environment do
