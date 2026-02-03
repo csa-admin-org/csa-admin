@@ -17,12 +17,6 @@ production: &production
   alabellecourgette:
     admin_host: admin.alabellecourgette.ch
     members_host: membres.alabellecourgette.ch
-  lesjardinsdouchy:
-    admin_host: admin.lesjardinsdouchy.ch
-    members_host: membres.lesjardinsdouchy.ch
-    aliases:
-      - jardinsdouchy
-      - ouchy
   lamule:
     admin_host: admin.lamule.ch
     members_host: membres.lamule.ch
