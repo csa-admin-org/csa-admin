@@ -1035,6 +1035,12 @@ _:
           _de: Bitte kontaktieren Sie mich für Änderungen.
           _it: Grazie di contattarmi per qualsiasi modifica.
           _nl: Neem contact met mij op voor wijzigingen.
+        iban_html:
+          _en: A QR-IBAN is required to generate Swiss QR invoices with reference numbers. This number is different from your regular bank account IBAN and must be requested from your bank. <a href="/handbook/billing">Learn more</a>
+          _fr: Un QR-IBAN est nécessaire pour générer des factures-QR suisses avec numéro de référence. Ce numéro est différent de l'IBAN de votre compte bancaire et doit être demandé à votre banque. <a href="/handbook/billing">En savoir plus</a>
+          _de: Ein QR-IBAN ist erforderlich, um Schweizer QR-Rechnungen mit Referenznummern zu erstellen. Diese Nummer unterscheidet sich von Ihrer regulären Bankkontonummer (IBAN) und muss bei Ihrer Bank angefordert werden. <a href="/handbook/billing">Mehr erfahren</a>
+          _it: Un QR-IBAN è necessario per generare fatture-QR svizzere con numero di riferimento. Questo numero è diverso dall'IBAN del vostro conto bancario e deve essere richiesto alla vostra banca. <a href="/handbook/billing">Scopri di più</a>
+          _nl: Een QR-IBAN is vereist om Zwitserse QR-facturen met referentienummers te genereren. Dit nummer verschilt van uw reguliere bankrekeningnummer (IBAN) en moet bij uw bank worden aangevraagd. <a href="/handbook/billing">Meer informatie</a>
         invoice_document_name_html:
           _en: For tax purposes (especially VAT), changing the name of the PDF documents generated for invoices can be beneficial. Be sure to also update the content of the <a href="mail_templates?scope=invoice">automated billing emails</a> to keep them consistent with this change.
           _fr: Pour des raisons fiscales (notamment la TVA), il peut être bénéfique de modifier le nom des documents PDF générés pour les factures. Pensez également à mettre à jour le contenu des <a href="mail_templates?scope=invoice">e-mails automatiques de facturation</a> afin qu'ils restent cohérents avec ce changement.
