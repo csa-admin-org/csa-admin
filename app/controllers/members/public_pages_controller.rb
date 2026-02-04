@@ -4,9 +4,12 @@ class Members::PublicPagesController < Members::BaseController
   skip_before_action :authenticate_member!
   before_action :redirect_current_member!
 
+  ALLOWED_PAGES = %w[welcome goodbye].freeze
+
   # GET /:page (welcome, goodbye)
   def show
-    render params[:page]
+    page = params[:page]
+    render page if ALLOWED_PAGES.include?(page)
   end
 
   private

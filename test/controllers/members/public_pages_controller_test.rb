@@ -66,4 +66,10 @@ class Members::PublicPagesControllerTest < ActionDispatch::IntegrationTest
 
     assert_redirected_to members_member_path
   end
+
+  test "invalid page returns 404" do
+    get "/invalid"
+
+    assert_response :not_found
+  end
 end

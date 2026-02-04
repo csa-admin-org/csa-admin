@@ -98,7 +98,11 @@ Rails.application.routes.draw do
       resources :absences, only: %i[index create destroy]
       get "billing" => "billing#index"
       resource :member, only: %i[new show create], path: ""
-      get ":page" => "public_pages#show", as: :public_page, constraints: { page: /welcome|goodbye/ }
+      get ":page" => "public_pages#show",
+        as: :public_page,
+        constraints: lambda { |req|
+          Members::PublicPagesController::ALLOWED_PAGES.include?(req.params[:page])
+        }
       resource :account, only: %i[show edit update] do
         resource :deletion_request, only: %i[new create], path: "delete", path_names: { new: "" }
         resource :deletion_confirmation, only: %i[new create], path: "delete/confirm", path_names: { new: "" }
