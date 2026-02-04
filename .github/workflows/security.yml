@@ -9,8 +9,16 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
+permissions:
+  contents: read
+
 jobs:
   brakeman-scan:
+    permissions:
+      contents: read
+      security-events: write
+      actions: read
+
     runs-on: ubuntu-latest
     timeout-minutes: 10
 
@@ -24,7 +32,13 @@ jobs:
           bundler-cache: true
 
       - name: Brakeman Scan
-        run: bin/brakeman
+        run: bin/brakeman -f sarif -o results.sarif
+
+      - name: Upload SARIF file
+        if: always()
+        uses: github/codeql-action/upload-sarif@v4
+        with:
+          sarif_file: results.sarif
 
   dependency-audit:
     runs-on: ubuntu-latest
