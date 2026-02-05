@@ -7,7 +7,7 @@
     @apply inline-flex cursor-pointer items-center justify-center px-3 py-2 no-underline;
     @apply rounded-md text-sm;
     @apply focus:z-10 focus:ring-4 focus:outline-hidden;
-    @apply disabled:cursor-not-allowed disabled:border-gray-100 disabled:bg-gray-100 disabled:text-gray-500! hover:disabled:border-gray-100 hover:disabled:bg-gray-100 hover:disabled:text-gray-500! dark:disabled:border-gray-700 dark:disabled:bg-gray-700 dark:disabled:text-gray-400! hover:dark:disabled:border-gray-700 hover:dark:disabled:bg-gray-700 hover:dark:disabled:text-gray-400!;
+    @apply disabled:cursor-not-allowed disabled:border-gray-200 disabled:bg-gray-200 disabled:text-gray-500! hover:disabled:border-gray-200 hover:disabled:bg-gray-200 hover:disabled:text-gray-500! dark:disabled:border-gray-700 dark:disabled:bg-gray-700 dark:disabled:text-gray-400! hover:dark:disabled:border-gray-700 hover:dark:disabled:bg-gray-700 hover:dark:disabled:text-gray-400!;
 
     &.btn-sm {
       @apply px-2 py-0.5 text-sm font-medium;

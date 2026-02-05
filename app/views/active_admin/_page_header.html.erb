@@ -64,3 +64,13 @@
     </div>
   <% end %>
 </div>
+
+<% if params[:controller] == "invoices" && !Current.org.iban? %>
+  <div class="mx-5">
+    <%= warning_pane("exclamation-triangle") do %>
+      <%= t("active_admin.resource.form.iban_missing_warning_html",
+            iban_type: Current.org.iban_type_name,
+            url: edit_organization_path(anchor: "billing")).html_safe %>
+    <% end %>
+  </div>
+<% end %>

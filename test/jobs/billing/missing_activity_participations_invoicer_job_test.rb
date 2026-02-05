@@ -9,6 +9,16 @@ class Billing::MissingActivityParticipationsInvoicerJobTest < ActiveJob::TestCas
     end
   end
 
+  test "noop if IBAN is not configured" do
+    org(iban: nil)
+    membership = memberships(:jane)
+    membership.update!(activity_participations_demanded_annually: 2)
+
+    assert_no_difference "Invoice.count" do
+      perform(membership)
+    end
+  end
+
   test "noop if no activity price" do
     org(activity_price: 0)
     membership = memberships(:jane)

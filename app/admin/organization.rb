@@ -48,7 +48,8 @@ ActiveAdmin.register Organization do
             include_blank: false,
             prompt: false,
             required: false,
-            hint: t("formtastic.hints.organization.recurring_billing_wday_html")
+            hint: f.object.iban? ? t("formtastic.hints.organization.recurring_billing_wday_html") : t(".recurring_billing_wday_iban_required_hint_html", iban_type: f.object.iban_type_name),
+            input_html: { disabled: !f.object.iban? }
           f.input :billing_year_divisions,
             as: :check_boxes,
             wrapper_html: { class: "single-column" },
@@ -73,7 +74,7 @@ ActiveAdmin.register Organization do
             h2 t(".invoice")
           end
           f.input :iban,
-            label: f.object.swiss_qr? ? "QR-IBAN" : "IBAN",
+            label: f.object.iban_type_name,
             placeholder: Billing.iban_placeholder(f.object.country_code),
             hint: (t("formtastic.hints.organization.iban_html") if f.object.swiss_qr?),
             input_html: { value: f.object.iban_formatted }

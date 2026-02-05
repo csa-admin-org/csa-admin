@@ -320,6 +320,17 @@ class Shop::OrderTest < ActiveSupport::TestCase
     assert_equal 12.15, order.amount
   end
 
+  test "auto invoice does nothing when IBAN is not configured" do
+    travel_to "2024-05-01"
+    org(shop_order_automatic_invoicing_delay_in_days: 0, iban: nil)
+    delivery = deliveries(:monday_1)
+    order = create_shop_order(delivery_gid: delivery.gid)
+
+    assert_no_changes -> { order.reload.state } do
+      order.auto_invoice!
+    end
+  end
+
   test "auto invoice after delivery date" do
     travel_to "2024-01-01"
     delivery = deliveries(:monday_1)

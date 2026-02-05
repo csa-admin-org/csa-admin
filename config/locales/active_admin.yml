@@ -990,6 +990,12 @@ _:
           _de: Einen Artikel hinzufügen
           _it: Aggiungere un articolo
           _nl: Een artikel toevoegen
+        iban_missing_warning_html:
+          _en: Your <a href="%{url}">%{iban_type}</a> is not yet configured. Invoices cannot be created until it is set.
+          _fr: Votre <a href="%{url}">%{iban_type}</a> n'est pas encore configuré. Les factures ne peuvent pas être créées avant qu'il ne soit défini.
+          _de: Ihre <a href="%{url}">%{iban_type}</a> ist noch nicht konfiguriert. Rechnungen können erst erstellt werden, wenn sie festgelegt ist.
+          _it: Il tuo <a href="%{url}">%{iban_type}</a> non è ancora configurato. Le fatture non possono essere create finché non viene impostato.
+          _nl: Uw <a href="%{url}">%{iban_type}</a> is nog niet geconfigureerd. Facturen kunnen pas worden aangemaakt als deze is ingesteld.
         if_applicable:
           _en: If applicable
           _fr: Si applicable
@@ -1098,6 +1104,12 @@ _:
           _de: deaktiviert
           _it: disabilitato
           _nl: uitgeschakeld
+        recurring_billing_wday_iban_required_hint_html:
+          _en: To enable automatic recurring billing, you must first configure your <a href="#billing">%{iban_type}</a> below.
+          _fr: Pour activer la facturation automatique récurrente, vous devez d'abord configurer votre <a href="#billing">%{iban_type}</a> ci-dessous.
+          _de: Um die automatische wiederkehrende Rechnungsstellung zu aktivieren, müssen Sie zunächst Ihre <a href="#billing">%{iban_type}</a> unten konfigurieren.
+          _it: Per attivare la fatturazione automatica ricorrente, è necessario prima configurare il tuo <a href="#billing">%{iban_type}</a> qui sotto.
+          _nl: Om automatische terugkerende facturering in te schakelen, moet u eerst uw <a href="#billing">%{iban_type}</a> hieronder configureren.
         registration:
           _en: Registration
           _fr: Inscription
@@ -1533,6 +1545,12 @@ _:
           _de: Sind Sie sicher? Das Abonnement wird in voller Höhe abgerechnet. Vergessen Sie nicht, die Rechnung nach der Überprüfung abzusenden.
           _it: Siete sicuri? L'abbonamento verrà fatturato per intero. Non dimenticate di inviare la fattura dopo la verifica.
           _nl: Weet u het zeker? Het lidmaatschap wordt volledig gefactureerd. Vergeet niet de factuur te verzenden na controle.
+        future_billing_iban_missing:
+          _en: Your %{iban_type} is not configured. Invoices cannot be created until it is set.
+          _fr: Votre %{iban_type} n'est pas configuré. Les factures ne peuvent pas être créées avant qu'il ne soit défini.
+          _de: Ihre %{iban_type} ist nicht konfiguriert. Rechnungen können erst erstellt werden, wenn sie festgelegt ist.
+          _it: Il tuo %{iban_type} non è configurato. Le fatture non possono essere create finché non viene impostato.
+          _nl: Uw %{iban_type} is niet geconfigureerd. Facturen kunnen pas worden aangemaakt als deze is ingesteld.
         future_billing_with_annual_fee_confirm:
           _en: Are you sure? The membership will be billed in full, including the annual fee. Don't forget to send the invoice after reviewing it.
           _fr: Êtes-vous sûr? L'abonnement sera facturé dans son intégralité, y compris la cotisation annuelle. N'oubliez pas d'envoyer la facture, après l'avoir vérifiée.
@@ -1732,6 +1750,12 @@ _:
           _de: Automatische Rechnungsstellung Deaktiviert
           _it: Fatturazione automatica disattivata
           _nl: Terugkerende facturering uitgeschakeld
+        recurring_billing_iban_missing:
+          _en: Your %{iban_type} is not configured. Invoices cannot be created until it is set.
+          _fr: Votre %{iban_type} n'est pas configuré. Les factures ne peuvent pas être créées avant qu'il ne soit défini.
+          _de: Ihre %{iban_type} ist nicht konfiguriert. Rechnungen können erst erstellt werden, wenn sie festgelegt ist.
+          _it: Il tuo %{iban_type} non è configurato. Le fatture non possono essere create finché non viene impostato.
+          _nl: Uw %{iban_type} is niet geconfigureerd. Facturen kunnen pas worden aangemaakt als deze is ingesteld.
         renew:
           _en: Renew
           _fr: Renouveler
@@ -2725,6 +2749,12 @@ _:
           _de: Rechnung stellen
           _it: Fatturare
           _nl: Factureren
+        invoice_disabled_reason:
+          _en: Your %{iban_type} is not configured. Invoices cannot be created until it is set.
+          _fr: Votre %{iban_type} n'est pas configuré. Les factures ne peuvent pas être créées avant qu'il ne soit défini.
+          _de: Ihre %{iban_type} ist nicht konfiguriert. Rechnungen können erst erstellt werden, wenn sie festgelegt ist.
+          _it: Il tuo %{iban_type} non è configurato. Le fatture non possono essere create finché non viene impostato.
+          _nl: Uw %{iban_type} is niet geconfigureerd. Facturen kunnen pas worden aangemaakt als deze is ingesteld.
         link_confirm:
           _en: Are you absolutely sure?
           _fr: Êtes-vous sûr de sûr?
@@ -2895,6 +2925,12 @@ _:
           _de: Hilfe
           _it: Aiuto
           _nl: Help
+        iban_missing_warning_html:
+          _en: Your <a href="%{url}">%{iban_type}</a> is not yet configured. Invoices cannot be created until it is set.
+          _fr: Votre <a href="%{url}">%{iban_type}</a> n'est pas encore configuré. Les factures ne peuvent pas être créées avant qu'il ne soit défini.
+          _de: Ihre <a href="%{url}">%{iban_type}</a> ist noch nicht konfiguriert. Rechnungen können erst erstellt werden, wenn sie festgelegt ist.
+          _it: Il tuo <a href="%{url}">%{iban_type}</a> non è ancora configurato. Le fatture non possono essere create finché non viene impostato.
+          _nl: Uw <a href="%{url}">%{iban_type}</a> is nog niet geconfigureerd. Facturen kunnen pas worden aangemaakt als deze is ingesteld.
         import:
           _en: Manual Import
           _fr: Importation manuelle
@@ -2926,6 +2962,12 @@ _:
             _de: Sind Sie sicher, dass Sie %{count} fehlende Teilnahmen (%{activity_price}/Teiln.) für das Jahr %{year} in Rechnung stellen möchten?
             _it: Siete sicuri di voler addebitare %{count} partecipazioni mancanti ({activity_price}/part.) per l'anno %{year}?
             _nl: Weet u zeker dat u %{count} ontbrekende deelnames (%{activity_price}/deel.) wilt factureren voor het jaar %{year}?
+        invoice_all_iban_missing:
+          _en: Your %{iban_type} is not configured. Invoices cannot be created until it is set.
+          _fr: Votre %{iban_type} n'est pas configuré. Les factures ne peuvent pas être créées avant qu'il ne soit défini.
+          _de: Ihre %{iban_type} ist nicht konfiguriert. Rechnungen können erst erstellt werden, wenn sie festgelegt ist.
+          _it: Il tuo %{iban_type} non è configurato. Le fatture non possono essere create finché non viene impostato.
+          _nl: Uw %{iban_type} is niet geconfigureerd. Facturen kunnen pas worden aangemaakt als deze is ingesteld.
         invoice_open_not_sent_text_html:
           one:
             _en: Attention, <a href="%{url}">an open invoice</a> has not been sent or marked as sent.

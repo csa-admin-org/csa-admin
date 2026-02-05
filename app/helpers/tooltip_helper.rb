@@ -11,13 +11,17 @@ module TooltipHelper
     ) {
       icon icon_name, class: "size-5"
     } +
+    tooltip_element(tooltip_id, text)
+  end
+
+  def tooltip_element(id, content)
     content_tag(:div,
-      id: tooltip_id,
+      id: id,
       role: "tooltip",
       class: "absolute z-10 invisible inline-block max-w-96 px-3 py-2 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-xs opacity-0 tooltip dark:bg-gray-700"
-    ) {
-      content_tag(:p, text) +
+    ) do
+      content_tag(:p, content) +
         content_tag(:div, nil, class: "tooltip-arrow text-left", data: { "popper-arrow" => true })
-    }
+    end
   end
 end

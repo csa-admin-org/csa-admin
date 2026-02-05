@@ -277,9 +277,15 @@ ActiveAdmin.register Shop::Order do
       icon: "file-pdf"
   end
 
-  action_item :invoice, class: "left-margin", only: :show, if: -> { resource.can_invoice? } do
+  action_item :invoice, class: "left-margin", only: :show, if: -> { resource.can_invoice? && Current.org.iban? } do
     action_button t(".invoice_action"), invoice_shop_order_path(resource),
       icon: "banknotes"
+  end
+
+  action_item :invoice_disabled, class: "left-margin", only: :show, if: -> { resource.can_invoice? && !Current.org.iban? } do
+    disabled_action_button(t(".invoice_action"),
+      tooltip: t(".invoice_disabled_reason", iban_type: Current.org.iban_type_name),
+      icon_name: "banknotes")
   end
 
   member_action :invoice, method: :post, only: :show, if: -> { resource.can_invoice? } do
@@ -304,7 +310,7 @@ ActiveAdmin.register Shop::Order do
       target: "_blank"
   end
 
-  batch_action :invoice, if: ->(attr) { params[:scope].in?([ nil, "pending" ]) }, confirm: true do |selection|
+  batch_action :invoice, if: ->(attr) { Current.org.iban? && params[:scope].in?([ nil, "pending" ]) }, confirm: true do |selection|
     Shop::Order.where(id: selection).find_each do |order|
       order.admin = current_admin
       order.invoice! if order.can_invoice?

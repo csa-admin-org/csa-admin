@@ -123,6 +123,10 @@ module Organization::Billing
       country_code == "CH"
     end
 
+    def iban_type_name
+      swiss_qr? ? "QR-IBAN" : "IBAN"
+    end
+
     def sepa?
       country_code.in? %w[DE NL]
     end

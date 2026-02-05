@@ -146,13 +146,13 @@ ActiveAdmin.register ActivityParticipation do
           if authorized?(:invoice_all, ActivityParticipation)
             div class: "flex items-center justify-center gap-2" do
               div do
-                button_to invoice_all_activity_participations_path,
-                  params: { year: fy.year },
+                panel_button t(".invoice_all"), invoice_all_activity_participations_path,
+                  icon: "banknotes",
+                  disabled: !Current.org.iban?,
+                  disabled_tooltip: t(".invoice_all_iban_missing", iban_type: Current.org.iban_type_name),
                   form: { class: "flex justify-center", data: { controller: "disable", disable_with_value: t(".invoicing") } },
-                  data: {  confirm: t(".invoice_all_confirm", year: fy.to_s, count: missing_count, activity_price: cur(Current.org.activity_price)) },
-                  class: "btn btn-sm" do
-                    icon("banknotes", class: "size-4 mr-2") + t(".invoice_all")
-                  end
+                  data: { confirm: t(".invoice_all_confirm", year: fy.to_s, count: missing_count, activity_price: cur(Current.org.activity_price)) },
+                  params: { year: fy.year }
               end
               if authorized?(:update, Membership) && fy.past?
                 div do

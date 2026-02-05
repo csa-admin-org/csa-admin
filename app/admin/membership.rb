@@ -706,13 +706,11 @@ ActiveAdmin.register Membership do
                       end
                       if authorized?(:recurring_billing, resource.member) && Billing::Invoicer.new(resource.member, membership: resource).billable?
                         div do
-                          button_to t(".recurring_billing"), recurring_billing_member_path(resource.member),
-                            form: {
-                              data: { controller: "disable", disable_with_value: t("formtastic.processing") },
-                              class: "inline"
-                            },
-                            data: { confirm: t(".recurring_billing_confirm") },
-                            class: "btn btn-sm"
+                          panel_button t(".recurring_billing"), recurring_billing_member_path(resource.member),
+                            disabled: !Current.org.iban?,
+                            disabled_tooltip: t(".recurring_billing_iban_missing", iban_type: Current.org.iban_type_name),
+                            form: { class: "inline" },
+                            data: { confirm: t(".recurring_billing_confirm") }
                         end
                       end
                     end
@@ -729,15 +727,12 @@ ActiveAdmin.register Membership do
             invoicer = Billing::InvoicerFuture.new(resource)
             if invoicer.billable?
               div class: "mt-2 flex items-center justify-center gap-4" do
-                button_to future_billing_membership_path(resource),
-                  form: {
-                    data: { controller: "disable", disable_with_value: t("formtastic.processing") },
-                    class: "inline"
-                  },
-                  data: { confirm:  t(".future_billing#{"_with_annual_fee" if resource.member.annual_fee&.positive?}_confirm") },
-                  class: "btn btn-sm" do
-                    icon("banknotes", class: "size-4 me-1.5") + t(".future_billing")
-                  end
+                panel_button t(".future_billing"), future_billing_membership_path(resource),
+                  icon: "banknotes",
+                  disabled: !Current.org.iban?,
+                  disabled_tooltip: t(".future_billing_iban_missing", iban_type: Current.org.iban_type_name),
+                  form: { class: "inline" },
+                  data: { confirm: t(".future_billing#{"_with_annual_fee" if resource.member.annual_fee&.positive?}_confirm") }
               end
             end
           end

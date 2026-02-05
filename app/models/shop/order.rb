@@ -169,6 +169,8 @@ module Shop
     end
 
     def auto_invoice!
+      return unless Current.org.iban?
+
       delay = Current.org.shop_order_automatic_invoicing_delay_in_days
       return unless delay
       return unless can_invoice?

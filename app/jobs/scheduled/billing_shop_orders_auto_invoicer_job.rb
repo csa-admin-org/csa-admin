@@ -3,6 +3,7 @@
 module Scheduled
   class BillingShopOrdersAutoInvoicerJob < BaseJob
     def perform
+      return unless Current.org.iban?
       return unless Current.org.feature?("shop")
       return unless Current.org.shop_order_automatic_invoicing_delay_in_days
 

@@ -3,6 +3,7 @@
 module Scheduled
   class BillingMembersInvoicerJob < BaseJob
     def perform
+      return unless Current.org.iban?
       return unless Current.org.recurring_billing_wday == Date.current.wday
 
       Member.find_each do |member|

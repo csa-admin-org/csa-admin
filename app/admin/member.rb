@@ -452,13 +452,11 @@ ActiveAdmin.register Member do
                       end
                       if authorized?(:recurring_billing, member) && Billing::Invoicer.new(member).billable?
                         div do
-                          button_to t(".recurring_billing"), recurring_billing_member_path(member),
-                            form: {
-                              data: { controller: "disable", disable_with_value: t("formtastic.processing") },
-                              class: "inline"
-                            },
-                            data: { confirm: t(".recurring_billing_confirm") },
-                            class: "btn btn-sm"
+                          panel_button t(".recurring_billing"), recurring_billing_member_path(member),
+                            disabled: !Current.org.iban?,
+                            disabled_tooltip: t(".recurring_billing_iban_missing", iban_type: Current.org.iban_type_name),
+                            form: { class: "inline" },
+                            data: { confirm: t(".recurring_billing_confirm") }
                         end
                       end
                     end
@@ -500,11 +498,10 @@ ActiveAdmin.register Member do
                         l(invoicer.next_date, format: :medium)
                       end
                       if authorized?(:force_share_billing, member)
-                        button_to t(".recurring_billing"), force_share_billing_member_path(member),
-                          form: {
-                            data: { controller: "disable", disable_with_value: t("formtastic.processing") },
-                            class: "inline"
-                          },
+                        panel_button t(".recurring_billing"), force_share_billing_member_path(member),
+                          disabled: !Current.org.iban?,
+                          disabled_tooltip: t(".recurring_billing_iban_missing", iban_type: Current.org.iban_type_name),
+                          form: { class: "inline" },
                           data: { confirm: t(".recurring_billing_confirm") }
                       end
                     end
@@ -759,23 +756,9 @@ ActiveAdmin.register Member do
   end
 
   action_item :delete_disabled, only: :show, if: -> { resource.inactive? && !resource.can_destroy? } do
-    delete_label = I18n.t("active_admin.delete_model")
-    tooltip_id = "tooltip-member-delete-disabled"
-    content_tag(:button,
-      class: "h-9 action-item-button",
-      disabled: true,
-      data: { "tooltip-target" => tooltip_id, "tooltip-placement" => "bottom" }
-    ) do
-      icon("trash", class: "size-5 -ms-2 me-2") + delete_label
-    end +
-    content_tag(:div,
-      id: tooltip_id,
-      role: "tooltip",
-      class: "absolute z-10 invisible inline-block max-w-96 px-3 py-2 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-xs opacity-0 tooltip dark:bg-gray-700"
-    ) do
-      content_tag(:p, t(".delete_disabled_reason")) +
-        content_tag(:div, nil, class: "tooltip-arrow text-left", data: { "popper-arrow" => true })
-    end
+    disabled_action_button(I18n.t("active_admin.delete_model"),
+      tooltip: t(".delete_disabled_reason"),
+      icon_name: "trash")
   end
 
   action_item :become, only: :show do
