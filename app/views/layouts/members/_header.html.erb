@@ -132,7 +132,7 @@
               <h2><%= activities_human_name %></h2>
 
               <span>
-                <% if membership %>
+                <% if membership&.current_or_future_year? %>
                   <%= t(".activity_participations_accepted", accepted: membership.activity_participations_accepted, count: membership.activity_participations_demanded) %>
                 <% else %>
                   <%= t(".no_activity_participations_demanded") %>

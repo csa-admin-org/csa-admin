@@ -2,7 +2,7 @@
 
 module ActivitiesHelper
   def display_activity?
-    feature?("activity") && !current_member.inactive?
+    feature?("activity")
   end
 
   def activity_human_name

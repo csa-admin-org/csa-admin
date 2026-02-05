@@ -76,9 +76,10 @@ class Members::MembershipsTest < ApplicationSystemTestCase
   test "inactive member" do
     login(members(:mary))
 
+    assert_includes menu_nav, "½ Days\n⤷ No commitment"
     assert_includes menu_nav, "Billing\n⤷ View history"
 
     visit "/memberships"
-    assert_equal "/billing", current_path
+    assert_equal "/activity_participations", current_path
   end
 end

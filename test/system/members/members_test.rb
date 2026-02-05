@@ -590,11 +590,11 @@ class Members::MembersTest < ApplicationSystemTestCase
     assert_equal [ "Billing\n⤷ 1 open invoice" ], menu_nav
   end
 
-  test "redirects inactive user to billing" do
+  test "redirects inactive user to activity participations" do
     login(members(:mary))
 
-    assert_equal "/billing", current_path
-    assert_selector "h1", text: "Billing"
-    assert_equal [ "Billing\n⤷ View history" ], menu_nav
+    assert_equal "/activity_participations", current_path
+    assert_selector "h1", text: "½ Days"
+    assert_equal [ "½ Days\n⤷ No commitment", "Billing\n⤷ View history" ], menu_nav
   end
 end
