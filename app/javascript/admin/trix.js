@@ -8,12 +8,12 @@ const allowedTypes = [
   "image/gif",
   "image/webp"
 ]
-const maxImageSize = 512000
+const maxImageSize = 5 * 1024 * 1024 // 5MB (variants will compress images)
 
 document.addEventListener("trix-file-accept", (e) => {
   if (e.file.size > maxImageSize) {
     e.preventDefault()
-    alert("Only images smaller than 512KB are allowed!")
+    alert("Only images smaller than 5MB are allowed!")
   }
   if (!allowedTypes.includes(e.file.type)) {
     e.preventDefault()

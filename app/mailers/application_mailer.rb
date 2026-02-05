@@ -27,7 +27,18 @@ class ApplicationMailer < ActionMailer::Base
   end
 
   def default_url_options
-    { host: Current.org.members_url }
+    { host: mailer_host }
+  end
+
+  def mailer_host
+    host = Tenant.members_host
+    if Rails.env.local?
+      # Transform production TLD to .test for local development
+      # e.g., "membres.ragedevert.ch" -> "membres.ragedevert.test"
+      parsed = PublicSuffix.parse(host)
+      host = "#{parsed.trd}.#{parsed.sld}.test"
+    end
+    "https://#{host}"
   end
 
   def content_mail(content, **args)
