@@ -59,6 +59,12 @@ _:
           _de: Google Maps oder anderes.
           _it: Google Maps o altro.
           _nl: Google Maps of andere.
+        visible:
+          _en: Select "No" if this activity should only be visible to admins.
+          _fr: Sélectionner "Non" si cette activité ne doit être visible que pour les admins.
+          _de: Wählen Sie "Nein", wenn diese Aktivität nur für Administratoren sichtbar sein soll.
+          _it: Selezionare "No" se questa attività deve essere visibile solo agli amministratori.
+          _nl: Selecteer "Nee" als deze activiteit alleen zichtbaar moet zijn voor beheerders.
       activity_preset:
         place_url:
           _en: Google Maps or other.

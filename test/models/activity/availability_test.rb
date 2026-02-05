@@ -92,4 +92,99 @@ class Activity::AvailabilityTest < ActiveSupport::TestCase
     assert_includes Activity.without_participations, activity
     assert_not_includes Activity.without_participations, activities(:harvest)
   end
+
+  test "visible scope returns only visible activities" do
+    visible_activity = Activity.create!(
+      date: 1.week.from_now,
+      start_time: "8:00",
+      end_time: "12:00",
+      title: "Visible activity",
+      place: "Here",
+      visible: true)
+    hidden_activity = Activity.create!(
+      date: 1.week.from_now,
+      start_time: "8:00",
+      end_time: "12:00",
+      title: "Hidden activity",
+      place: "There",
+      visible: false)
+
+    assert_includes Activity.visible, visible_activity
+    assert_not_includes Activity.visible, hidden_activity
+  end
+
+  test "hidden scope returns only hidden activities" do
+    visible_activity = Activity.create!(
+      date: 1.week.from_now,
+      start_time: "8:00",
+      end_time: "12:00",
+      title: "Visible activity",
+      place: "Here",
+      visible: true)
+    hidden_activity = Activity.create!(
+      date: 1.week.from_now,
+      start_time: "8:00",
+      end_time: "12:00",
+      title: "Hidden activity",
+      place: "There",
+      visible: false)
+
+    assert_includes Activity.hidden, hidden_activity
+    assert_not_includes Activity.hidden, visible_activity
+  end
+
+  test "available_for excludes hidden activities" do
+    member = members(:martha)
+    limit = Current.org.activity_availability_limit_in_days.days.from_now
+
+    visible_activity = Activity.create!(
+      date: limit + 1.day,
+      start_time: "8:00",
+      end_time: "12:00",
+      title: "Visible activity",
+      place: "Here",
+      visible: true)
+    hidden_activity = Activity.create!(
+      date: limit + 1.day,
+      start_time: "8:00",
+      end_time: "12:00",
+      title: "Hidden activity",
+      place: "There",
+      visible: false)
+
+    available = Activity.available_for(member)
+
+    assert_includes available, visible_activity
+    assert_not_includes available, hidden_activity
+  end
+
+  test "available excludes hidden activities" do
+    limit = Current.org.activity_availability_limit_in_days.days.from_now
+
+    visible_activity = Activity.create!(
+      date: limit + 1.day,
+      start_time: "8:00",
+      end_time: "12:00",
+      title: "Visible activity",
+      place: "Here",
+      visible: true)
+    hidden_activity = Activity.create!(
+      date: limit + 1.day,
+      start_time: "8:00",
+      end_time: "12:00",
+      title: "Hidden activity",
+      place: "There",
+      visible: false)
+
+    available = Activity.available
+
+    assert_includes available, visible_activity
+    assert_not_includes available, hidden_activity
+  end
+
+  test "activity is visible by default" do
+    activity = Activity.new
+
+    assert activity.visible
+  end
 end

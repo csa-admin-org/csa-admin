@@ -27,6 +27,7 @@ ActiveAdmin.register Activity do
   filter :date
   filter :wday, as: :select, collection: -> { wdays_collection }
   filter :month, as: :select, collection: -> { months_collection }
+  filter :visible, as: :boolean
 
   includes :participations
   index do
@@ -41,6 +42,7 @@ ActiveAdmin.register Activity do
       text = [ a.participations.sum(&:participants_count), a.participants_limit || "∞" ].join("&nbsp;/&nbsp;").html_safe
       link_to text, activity_participations_path(q: { activity_id_eq: a.id }, scope: :all)
     }, class: "text-right"
+    column :visible, class: "text-right"
     actions
   end
 
@@ -61,6 +63,7 @@ ActiveAdmin.register Activity do
     column(:description)
     column(:participants) { |a| a.participations.sum(&:participants_count) }
     column(:participants_limit)
+    column(:visible)
   end
 
   sidebar_handbook_link("activity#activits")
@@ -91,15 +94,16 @@ ActiveAdmin.register Activity do
       translated_input(f, :titles, input_html: { disabled: preset_present, data: { preset_target: "input" } })
     end
     f.inputs t(".details") do
-      translated_input(f, :descriptions, as: :text, required: false, input_html: { rows: 4 })
       f.input :participants_limit, as: :number
+      f.input :visible, as: :select, include_blank: false
+      translated_input(f, :descriptions, as: :text, required: false, input_html: { rows: 4 })
     end
     f.actions
   end
 
   permit_params(
     :date, :start_time, :end_time,
-    :preset_id, :participants_limit,
+    :preset_id, :participants_limit, :visible,
     :bulk_dates_starts_on, :bulk_dates_ends_on,
     :bulk_dates_weeks_frequency,
     *I18n.available_locales.map { |l| "place_#{l}" },

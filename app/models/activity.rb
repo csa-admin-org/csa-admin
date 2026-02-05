@@ -3,6 +3,7 @@
 class Activity < ApplicationRecord
   include HasDate
   include HasFiscalYear
+  include HasVisibility
   include TranslatedAttributes
   include BulkDatesInsert
   include Availability, Presetable

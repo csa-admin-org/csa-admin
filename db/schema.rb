@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_02_01_195319) do
+ActiveRecord::Schema[8.1].define(version: 2026_02_05_090630) do
   create_table "absences", force: :cascade do |t|
     t.datetime "created_at"
     t.date "ended_on"
@@ -86,6 +86,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_01_195319) do
     t.string "start_time", null: false
     t.json "titles", default: {}, null: false
     t.datetime "updated_at", null: false
+    t.boolean "visible", default: true, null: false
     t.index ["date"], name: "index_activities_on_date"
     t.index ["start_time"], name: "index_activities_on_start_time"
   end

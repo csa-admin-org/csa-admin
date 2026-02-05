@@ -12,7 +12,8 @@ module Activity::Availability
   class_methods do
     def available_for(member)
       limit = Current.org.activity_availability_limit_in_days.days.from_now
-      where(date: limit..)
+      visible
+        .where(date: limit..)
         .ordered(:asc)
         .includes(:participations)
         .reject { |hd| hd.participant?(member) }
@@ -20,7 +21,8 @@ module Activity::Availability
 
     def available
       limit = Current.org.activity_availability_limit_in_days.days.from_now
-      where(date: limit..)
+      visible
+        .where(date: limit..)
         .ordered(:asc)
         .includes(:participations)
         .reject(&:full?)

@@ -4,7 +4,8 @@ module HasVisibility
   extend ActiveSupport::Concern
 
   included do
-    scope :visible, -> { kept.where(visible: true) }
-    scope :hidden, -> { kept.where(visible: false) }
+    base_scope = respond_to?(:kept) ? :kept : :all
+    scope :visible, -> { send(base_scope).where(visible: true) }
+    scope :hidden, -> { send(base_scope).where(visible: false) }
   end
 end
