@@ -34,7 +34,7 @@ This logic can be modified using [Liquid syntax](https://shopify.github.io/liqui
 
 ### Signing Up for Activities
 
-Members can sign up for activities from their member account. They can also see the activities they are signed up for, as well as the participations they have completed and their validations.
+Members can sign up for activities from their member account, even if they don't have an active membership. This allows inactive members to participate in activities on a voluntary basis without commitment. They can also see the activities they are signed up for, as well as the participations they have completed and their validations.
 
 When signing up, the member can specify the number of participants (each participant counting as one participation), add a note, and choose to share their phone number and departure location for carpooling. This allows a member to register multiple people at once (e.g., family members or friends coming to help). Their contact information will then be shared with other members signed up for the same activity in [the reminder email sent 3 days before the activity](/mail_templates/activity_participation_reminder). This 3-day delay is fixed and cannot be configured.
 
@@ -47,6 +47,12 @@ A cancellation deadline (in days) can also be defined in [the settings](/setting
 You can create activities from [the activities list](/activities) by clicking on "New activity". As with deliveries, you can easily create activities in bulk using the "Multiple dates" tab in [the creation form](/activities/new).
 
 > If you often offer similar activities at the same location, consider creating ["activity presets"](/activity_presets) to save time.
+
+### Hidden Activities
+
+Activities can be marked as "not visible" in the activity form. Hidden activities will not appear in the member's sign-up calendar, but admins can still manually assign members to them. When a member is assigned to a hidden activity, it will appear normally in their list of coming and past participations.
+
+This is useful for activities that are invitation-only or reserved for specific members.
 
 ## Participations
 
