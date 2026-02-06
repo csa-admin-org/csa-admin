@@ -169,11 +169,9 @@ ActiveAdmin.register Invoice do
       end
       if authorized?(:create, Invoice)
         div class: "mt-3 " do
-          button_to send_overdue_notices_invoices_path,
-            form: { class: "flex justify-center", data: { controller: "disable", disable_with_value: t(".sending") } },
-            class: "btn btn-sm" do
-              icon("paper-airplane", class: "size-4 mr-2") + t(".send_overdue_notices")
-            end
+          panel_button t(".send_overdue_notices"), send_overdue_notices_invoices_path,
+            icon: "paper-airplane",
+            form: { class: "flex justify-center", data: { disable_with_value: t(".sending") } }
         end
       end
     end
@@ -294,11 +292,10 @@ ActiveAdmin.register Invoice do
               if invoice.sepa_direct_debit_order_uploadable?
                 unless invoice.sepa_direct_debit_order_uploaded?
                   div class: "my-4" do
-                    button_to upload_sepa_direct_debit_order_invoice_path(invoice),
-                      form: { class: "flex justify-center", data: { controller: "disable", disable_with_value: t(".uploading") } },
-                      class: "btn btn-sm", data: { confirm: t("active_admin.batch_actions.default_confirmation") } do
-                        icon("file-up", class: "size-4 mr-2") + t(".send_sepa_direct_debit_order_to_the_bank")
-                      end
+                    panel_button t(".send_sepa_direct_debit_order_to_the_bank"), upload_sepa_direct_debit_order_invoice_path(invoice),
+                      icon: "file-up",
+                      form: { class: "flex justify-center", data: { disable_with_value: t(".uploading") } },
+                      data: { confirm: t("active_admin.batch_actions.default_confirmation") }
                   end
 
                   days = (invoice.sepa_direct_debit_order_automatic_upload_scheduled_on - Date.current).to_i

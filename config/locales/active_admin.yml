@@ -1762,6 +1762,12 @@ _:
           _de: Erneuern
           _it: Rinnovare
           _nl: Vernieuwen
+        renew_no_future_deliveries:
+          _en: The delivery cycle has no future deliveries. The membership cannot be renewed.
+          _fr: Le cycle de livraisons n'a aucune livraison à venir. L'abonnement ne peut pas être renouvelé.
+          _de: Der Lieferzyklus hat keine zukünftigen Lieferungen. Das Abonnement kann nicht erneuert werden.
+          _it: Il ciclo di consegne non ha consegne future. L'abbonamento non può essere rinnovato.
+          _nl: De leveringscyclus heeft geen toekomstige leveringen. Het lidmaatschap kan niet worden vernieuwd.
         salary_basket:
           _en: Free, salary basket
           _fr: Gratuit, panier salaire

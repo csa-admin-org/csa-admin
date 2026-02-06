@@ -146,10 +146,9 @@ ActiveAdmin.register Newsletter do
                       span { "(#{auto_link(member)})".html_safe }
                       if authorized?(:send_single_email, resource)
                         span {
-                          button_to t(".send_email"), send_single_email_newsletter_path(resource),
+                          panel_button t(".send_email"), send_single_email_newsletter_path(resource),
                             params: { email: email },
-                            class: "btn btn-sm",
-                            form: { class: "inline ms-2", data: { controller: "disable", disable_with_value: t("formtastic.processing") } },
+                            form: { class: "inline ms-2" },
                             data: { confirm: t(".confirm") }
                         }
                       end

@@ -802,11 +802,11 @@ _:
           _it: Rimuove il testo di spiegazione generato di default sull'account del socio e visualizza solo le spiegazioni supplementari.
           _nl: Verwijdert de uitlegtekst die standaard wordt gegenereerd op het ledenaccount en toont alleen de aanvullende uitleg.
         absence_notice_period_in_days:
-          _en: "Members can report an absence until midnight, X days before the delivery date (e.g., 3 days = Sunday midnight for a Wednesday delivery)."
-          _fr: "Les membres peuvent annoncer une absence jusqu'à minuit, X jours avant la date de livraison (ex: 3 jours = dimanche minuit pour une livraison mercredi)."
-          _de: "Mitglieder können eine Abwesenheit bis Mitternacht melden, X Tage vor dem Lieferdatum (z.B. 3 Tage = Sonntag Mitternacht für eine Mittwochslieferung)."
-          _it: "I soci possono annunciare un'assenza fino a mezzanotte, X giorni prima della data di consegna (es: 3 giorni = domenica mezzanotte per una consegna di mercoledì)."
-          _nl: "Leden kunnen een afwezigheid melden tot middernacht, X dagen voor de leveringsdatum (bijv. 3 dagen = zondag middernacht voor een levering op woensdag)."
+          _en: Members can report an absence until midnight, X days before the delivery date (e.g., 3 days = Sunday midnight for a Wednesday delivery).
+          _fr: 'Les membres peuvent annoncer une absence jusqu''à minuit, X jours avant la date de livraison (ex: 3 jours = dimanche minuit pour une livraison mercredi).'
+          _de: Mitglieder können eine Abwesenheit bis Mitternacht melden, X Tage vor dem Lieferdatum (z.B. 3 Tage = Sonntag Mitternacht für eine Mittwochslieferung).
+          _it: 'I soci possono annunciare un''assenza fino a mezzanotte, X giorni prima della data di consegna (es: 3 giorni = domenica mezzanotte per una consegna di mercoledì).'
+          _nl: Leden kunnen een afwezigheid melden tot middernacht, X dagen voor de leveringsdatum (bijv. 3 dagen = zondag middernacht voor een levering op woensdag).
         absences_billed:
           _en: If enabled, baskets are billed even when the member is absent. If disabled, absences are deducted from the membership price.
           _fr: Si activé, les paniers sont facturés même lorsque le membre est absent. Si désactivé, les absences sont déduites du prix de l'abonnement.
@@ -820,11 +820,11 @@ _:
           _it: Numero di settimane prima della prima assenza provvisoria non utilizzata quando <a href='/mail_templates/absence_included_reminder'>l'email di promemoria</a> viene inviata al socio.
           _nl: Aantal weken voor de eerste ongebruikte voorlopige afwezigheid wanneer de <a href='/mail_templates/absence_included_reminder'>herinneringsmail</a> naar het lid wordt gestuurd.
         activity_availability_limit_in_days:
-          _en: "Members can register until midnight, X days before the activity date (e.g., 3 days = Sunday midnight for a Wednesday activity). Leave at zero if there is no limit."
-          _fr: "Les membres peuvent s'inscrire jusqu'à minuit, X jours avant la date de l'activité (ex: 3 jours = dimanche minuit pour une activité mercredi). Laisser à zéro si aucune limite."
-          _de: "Mitglieder können sich bis Mitternacht anmelden, X Tage vor dem Aktivitätsdatum (z.B. 3 Tage = Sonntag Mitternacht für eine Mittwochsaktivität). Auf 0 belassen, wenn kein Grenzwert."
-          _it: "I soci possono iscriversi fino a mezzanotte, X giorni prima della data dell'attività (es: 3 giorni = domenica mezzanotte per un'attività di mercoledì). Lasciare a zero se non ci sono limiti."
-          _nl: "Leden kunnen zich registreren tot middernacht, X dagen voor de activiteitsdatum (bijv. 3 dagen = zondag middernacht voor een activiteit op woensdag). Laat op nul staan als er geen limiet is."
+          _en: Members can register until midnight, X days before the activity date (e.g., 3 days = Sunday midnight for a Wednesday activity). Leave at zero if there is no limit.
+          _fr: 'Les membres peuvent s''inscrire jusqu''à minuit, X jours avant la date de l''activité (ex: 3 jours = dimanche minuit pour une activité mercredi). Laisser à zéro si aucune limite.'
+          _de: Mitglieder können sich bis Mitternacht anmelden, X Tage vor dem Aktivitätsdatum (z.B. 3 Tage = Sonntag Mitternacht für eine Mittwochsaktivität). Auf 0 belassen, wenn kein Grenzwert.
+          _it: 'I soci possono iscriversi fino a mezzanotte, X giorni prima della data dell''attività (es: 3 giorni = domenica mezzanotte per un''attività di mercoledì). Lasciare a zero se non ci sono limiti.'
+          _nl: Leden kunnen zich registreren tot middernacht, X dagen voor de activiteitsdatum (bijv. 3 dagen = zondag middernacht voor een activiteit op woensdag). Laat op nul staan als er geen limiet is.
         activity_i18n_scope_html:
           _en: Please <a href="/handbook/activity">consult the manual</a> for more information about each designation.
           _fr: Merci de <a href="/handbook/activity">consulter le manuel</a> pour plus d'informations sur chaque appellation.
@@ -970,11 +970,11 @@ _:
           _it: Permette di definire l'ordine di visualizzazione delle dimensioni dei cestini nel modulo di iscrizione, dopo aver preso in considerazione la loro priorità individuale.
           _nl: Stelt de volgorde van pakketgroottes in het registratieformulier in na het in overweging nemen van hun individuele prioriteit.
         basket_update_limit_in_days:
-          _en: "Members can modify their basket until midnight, X days before the delivery date (e.g., 3 days = Sunday midnight for a Wednesday delivery). Zero means changes are possible on the day of delivery."
-          _fr: "Les membres peuvent modifier leur panier jusqu'à minuit, X jours avant la date de livraison (ex: 3 jours = dimanche minuit pour une livraison mercredi). Zéro signifie que la modification est possible le jour même de la livraison."
-          _de: "Mitglieder können ihren Korb bis Mitternacht ändern, X Tage vor dem Lieferdatum (z.B. 3 Tage = Sonntag Mitternacht für eine Mittwochslieferung). Null bedeutet, dass Änderungen am Liefertag möglich sind."
-          _it: "I soci possono modificare il loro cestino fino a mezzanotte, X giorni prima della data di consegna (es: 3 giorni = domenica mezzanotte per una consegna di mercoledì). Zero significa che la modifica è possibile il giorno della consegna."
-          _nl: "Leden kunnen hun pakket wijzigen tot middernacht, X dagen voor de leveringsdatum (bijv. 3 dagen = zondag middernacht voor een levering op woensdag). Nul betekent dat wijzigingen mogelijk zijn op de dag van levering."
+          _en: Members can modify their basket until midnight, X days before the delivery date (e.g., 3 days = Sunday midnight for a Wednesday delivery). Zero means changes are possible on the day of delivery.
+          _fr: 'Les membres peuvent modifier leur panier jusqu''à minuit, X jours avant la date de livraison (ex: 3 jours = dimanche minuit pour une livraison mercredi). Zéro signifie que la modification est possible le jour même de la livraison.'
+          _de: Mitglieder können ihren Korb bis Mitternacht ändern, X Tage vor dem Lieferdatum (z.B. 3 Tage = Sonntag Mitternacht für eine Mittwochslieferung). Null bedeutet, dass Änderungen am Liefertag möglich sind.
+          _it: 'I soci possono modificare il loro cestino fino a mezzanotte, X giorni prima della data di consegna (es: 3 giorni = domenica mezzanotte per una consegna di mercoledì). Zero significa che la modifica è possibile il giorno della consegna.'
+          _nl: Leden kunnen hun pakket wijzigen tot middernacht, X dagen voor de leveringsdatum (bijv. 3 dagen = zondag middernacht voor een levering op woensdag). Nul betekent dat wijzigingen mogelijk zijn op de dag van levering.
         bidding_round_basket_size_price_max_percentage:
           _en: Percentage of the maximum price of the basket size that a member can pledge to pay. 0% = normal price (no extra possible), 100% = twice the normal price, 200% = three times the normal price
           _fr: Pourcentage du prix maximum de la taille du panier que le membre peut s'engager de payer. 0% = prix normal (aucun supplément possible), 100% = deux fois le prix normal, 200% = trois fois le prix normal

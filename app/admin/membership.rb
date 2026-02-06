@@ -134,13 +134,11 @@ ActiveAdmin.register Membership do
           latest_created_at = Invoice.membership.maximum(:created_at)
           if !latest_created_at || latest_created_at < 5.seconds.ago
             div do
-              button_to future_billing_all_memberships_path,
+              panel_button t("active_admin.resource.show.future_billing"), future_billing_all_memberships_path,
+                icon: "banknotes",
                 params: { ids: ids },
-                form: { class: "flex justify-center", data: { controller: "disable", disable_with_value: t(".invoicing") } },
-                data: { confirm:  t(".future_billing#{"_with_annual_fee" if Current.org.annual_fee?}_confirm") },
-                class: "btn btn-sm" do
-                  icon("banknotes", class: "size-4 me-1.5") + t("active_admin.resource.show.future_billing")
-                end
+                form: { class: "flex justify-center", data: { disable_with_value: t(".invoicing") } },
+                data: { confirm: t(".future_billing#{"_with_annual_fee" if Current.org.annual_fee?}_confirm") }
             end
           end
         end
@@ -235,23 +233,21 @@ ActiveAdmin.register Membership do
                 if renewal.fy == Current.fiscal_year && authorized?(:open_renewal_all, Membership) && MailTemplate.active_template(:membership_renewal)
                   if renewal.openable_count.positive?
                     div do
-                      button_to open_renewal_all_memberships_path,
+                      panel_button t(".open_renewal_all_action", count: renewal.openable_count), open_renewal_all_memberships_path,
+                        icon: "paper-airplane",
                         params: { year: renewal.fy_year },
-                        form: { class: "flex justify-center", data: { controller: "disable", disable_with_value: t(".opening") } },
-                        class: "btn btn-sm", data: { confirm: t("active_admin.batch_actions.default_confirmation") } do
-                          icon("paper-airplane", class: "size-4 mr-2") + t(".open_renewal_all_action", count: renewal.openable_count)
-                        end
+                        form: { class: "flex justify-center", data: { disable_with_value: t(".opening") } },
+                        data: { confirm: t("active_admin.batch_actions.default_confirmation") }
                     end
                   end
                 end
                 if authorized?(:renew_all, Membership)
                   div do
-                    button_to renew_all_memberships_path,
+                    panel_button t(".renew_all_action", count: renewal.renewable_count), renew_all_memberships_path,
+                      icon: "arrow-path",
                       params: { year: renewal.fy_year },
-                      form: { class: "flex justify-center", data: { controller: "disable", disable_with_value: t(".renewing") } },
-                      class: "btn btn-sm", data: { confirm: t(".renew_all_confirm") } do
-                        icon("arrow-path", class: "size-4 mr-2") + t(".renew_all_action", count: renewal.renewable_count)
-                      end
+                      form: { class: "flex justify-center", data: { disable_with_value: t(".renewing") } },
+                      data: { confirm: t(".renew_all_confirm") }
                   end
                 end
               end
@@ -507,14 +503,10 @@ ActiveAdmin.register Membership do
                 if m.ended_on == Current.fiscal_year.end_of_year && authorized?(:mark_renewal_as_pending, m)
                   div class: "mt-2 flex items-center justify-center gap-4 gap-y-2 flex-wrap" do
                     div do
-                      button_to mark_renewal_as_pending_membership_path(m),
-                        form: {
-                          data: { controller: "disable", disable_with_value: t("formtastic.processing") }
-                        },
+                      panel_button t(".mark_renewal_as_pending"), mark_renewal_as_pending_membership_path(m),
+                        icon: "arrow-uturn-left",
                         class: "btn btn-sm destructive",
-                        data: { confirm: t(".confirm") } do
-                          icon("arrow-uturn-left", class: "size-4 me-1.5") + t(".mark_renewal_as_pending")
-                        end
+                        data: { confirm: t(".confirm") }
                     end
                   end
                 end
@@ -530,39 +522,27 @@ ActiveAdmin.register Membership do
                 div class: "mt-2 flex items-center justify-center gap-4 gap-y-2 flex-wrap" do
                   if authorized?(:renew, m)
                     div do
-                      button_to renew_membership_path(m),
-                        form: {
-                          data: { controller: "disable", disable_with_value: t("formtastic.processing") }
-                        },
-                        data: { confirm: t(".confirm") },
-                        class: "btn btn-sm",
-                        disabled: !m.can_renew? do
-                          icon("arrow-path", class: "size-4 me-1.5") + t(".renew")
-                        end
+                      panel_button t(".renew"), renew_membership_path(m),
+                        icon: "arrow-path",
+                        disabled: !m.can_renew?,
+                        disabled_tooltip: t(".renew_no_future_deliveries"),
+                        data: { confirm: t(".confirm") }
                     end
                   end
                   if authorized?(:cancel, m)
                     div do
-                      button_to cancel_membership_path(m),
-                        form: {
-                          data: { controller: "disable", disable_with_value: t("formtastic.processing") }
-                        },
-                        data: { confirm: t(".confirm") },
-                        class: "btn btn-sm destructive" do
-                          icon("x-circle", class: "size-4 me-1.5") + t(".cancel_renewal")
-                        end
+                      panel_button t(".cancel_renewal"), cancel_membership_path(m),
+                        icon: "x-circle",
+                        class: "btn btn-sm destructive",
+                        data: { confirm: t(".confirm") }
                     end
                   end
                   if Current.org.annual_fee? && authorized?(:cancel_keep_support, m)
                     div do
-                      button_to cancel_keep_support_membership_path(m),
-                        form: {
-                          data: { controller: "disable", disable_with_value: t("formtastic.processing") }
-                        },
-                        data: { confirm: t(".confirm") },
-                        class: "btn btn-sm destructive" do
-                          icon("x-circle", class: "size-4 me-1.5") + t(".cancel_renewal_keep_support")
-                        end
+                      panel_button t(".cancel_renewal_keep_support"), cancel_keep_support_membership_path(m),
+                        icon: "x-circle",
+                        class: "btn btn-sm destructive",
+                        data: { confirm: t(".confirm") }
                     end
                   end
                 end
@@ -571,52 +551,35 @@ ActiveAdmin.register Membership do
                   if Delivery.any_in_year?(m.fy_year + 1)
                     if authorized?(:open_renewal, m) && MailTemplate.active_template(:membership_renewal)
                       div do
-                        button_to open_renewal_membership_path(m),
-                          form: {
-                            data: { controller: "disable", disable_with_value: t("formtastic.processing") }
-                          },
-                          data: { confirm: t(".confirm") },
-                          class: "btn btn-sm" do
-                            icon("paper-airplane", class: "size-4 me-1.5") + t(".open_renewal")
-                          end
+                        panel_button t(".open_renewal"), open_renewal_membership_path(m),
+                          icon: "paper-airplane",
+                          data: { confirm: t(".confirm") }
                       end
                     end
                     if authorized?(:renew, m)
                       div do
-                        button_to renew_membership_path(m),
-                          form: {
-                            data: { controller: "disable", disable_with_value: t("formtastic.processing") }
-                          },
-                          data: { confirm: t(".confirm") },
-                          class: "btn btn-sm",
-                          disabled: !m.can_renew? do
-                            icon("arrow-path", class: "size-4 me-1.5") + t(".renew")
-                          end
+                        panel_button t(".renew"), renew_membership_path(m),
+                          icon: "arrow-path",
+                          disabled: !m.can_renew?,
+                          disabled_tooltip: t(".renew_no_future_deliveries"),
+                          data: { confirm: t(".confirm") }
                       end
                     end
                   end
                   if authorized?(:cancel, m)
                     div do
-                      button_to cancel_membership_path(m),
-                        form: {
-                          data: { controller: "disable", disable_with_value: t("formtastic.processing") }
-                        },
-                        data: { confirm: t(".confirm") },
-                        class: "btn btn-sm destructive" do
-                          icon("x-circle", class: "size-4 me-1.5") + t(".cancel_renewal")
-                        end
+                      panel_button t(".cancel_renewal"), cancel_membership_path(m),
+                        icon: "x-circle",
+                        class: "btn btn-sm destructive",
+                        data: { confirm: t(".confirm") }
                     end
                   end
                   if Current.org.annual_fee? && authorized?(:cancel_keep_support, m)
                     div do
-                      button_to cancel_keep_support_membership_path(m),
-                        form: {
-                          data: { controller: "disable", disable_with_value: t("formtastic.processing") }
-                        },
-                        data: { confirm: t(".confirm") },
-                        class: "btn btn-sm destructive" do
-                          icon("x-circle", class: "size-4 me-1.5") + t(".cancel_renewal_keep_support")
-                        end
+                      panel_button t(".cancel_renewal_keep_support"), cancel_keep_support_membership_path(m),
+                        icon: "x-circle",
+                        class: "btn btn-sm destructive",
+                        data: { confirm: t(".confirm") }
                     end
                   end
                 end
@@ -765,12 +728,10 @@ ActiveAdmin.register Membership do
             end
             if authorized?(:clear_activity_participations_demanded, m)
               div class: "mt-3 flex items-center justify-center gap-4" do
-                button_to clear_activity_participations_demanded_membership_path(m),
+                panel_button t_activity(".clear_activity_participations_demanded"), clear_activity_participations_demanded_membership_path(m),
+                  icon: "x-circle",
                   form: { class: "inline" },
-                  data: { confirm: t_activity(".clear_activity_participations_demanded_confirm") },
-                  class: "btn btn-sm" do
-                    icon("x-circle", class: "size-4 me-1.5") + t_activity(".clear_activity_participations_demanded")
-                  end
+                  data: { confirm: t_activity(".clear_activity_participations_demanded_confirm") }
               end
             end
           end

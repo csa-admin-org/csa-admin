@@ -283,9 +283,10 @@ ActiveAdmin.register Shop::Order do
   end
 
   action_item :invoice_disabled, class: "left-margin", only: :show, if: -> { resource.can_invoice? && !Current.org.iban? } do
-    disabled_action_button(t(".invoice_action"),
-      tooltip: t(".invoice_disabled_reason", iban_type: Current.org.iban_type_name),
-      icon_name: "banknotes")
+    action_button t(".invoice_action"),
+      disabled: true,
+      disabled_tooltip: t(".invoice_disabled_reason", iban_type: Current.org.iban_type_name),
+      icon: "banknotes"
   end
 
   member_action :invoice, method: :post, only: :show, if: -> { resource.can_invoice? } do

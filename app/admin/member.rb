@@ -756,9 +756,10 @@ ActiveAdmin.register Member do
   end
 
   action_item :delete_disabled, only: :show, if: -> { resource.inactive? && !resource.can_destroy? } do
-    disabled_action_button(I18n.t("active_admin.delete_model"),
-      tooltip: t(".delete_disabled_reason"),
-      icon_name: "trash")
+    action_button I18n.t("active_admin.delete_model"),
+      disabled: true,
+      disabled_tooltip: t(".delete_disabled_reason"),
+      icon: "trash"
   end
 
   action_item :become, only: :show do
