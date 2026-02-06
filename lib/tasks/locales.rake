@@ -16,10 +16,17 @@ namespace :locales do
   end
 
   desc "Verify that locale files adhere to the automatic format"
-  task verify: :format do
-    unless `git status --short --porcelain -- config/locales`.empty?
+  task verify: :environment do
+    locale_files = Dir["config/locales/**/*.yml"].sort
+    before = locale_files.to_h { |f| [ f, File.read(f) ] }
+    convert_and_write_to_config(load_translations_from_config)
+    changed = locale_files.select { |f| File.read(f) != before[f] }
+    if changed.any?
       puts "Locales did not pass format verification."
       puts "Run `rails locales:format` and inspect the diff."
+      changed.each { |f| puts "  #{f}" }
+      # Restore original content so the task is side-effect free
+      before.each { |f, content| File.write(f, content) }
       exit 1
     end
   end
