@@ -66,7 +66,7 @@ ActiveAdmin.register Activity do
     column(:visible)
   end
 
-  sidebar_handbook_link("activity#activits")
+  sidebar_handbook_link("activity#activities")
 
   form do |f|
     render partial: "bulk_dates", locals: { f: f, resource: resource, context: self }

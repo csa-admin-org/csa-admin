@@ -43,6 +43,8 @@ class BasketContent
       end
     end
 
+    sidebar_handbook_link("basket_content#products")
+
     csv do
       column(:id)
       column(:name)

@@ -126,7 +126,7 @@ ActiveAdmin.register Shop::Order do
     end
   end
 
-  sidebar_handbook_link("shop#commandes")
+  sidebar_handbook_link("shop#orders")
 
   show do |order|
     columns do

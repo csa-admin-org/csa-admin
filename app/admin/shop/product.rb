@@ -67,7 +67,7 @@ ActiveAdmin.register Shop::Product do
   end
 
   sidebar_shop_admin_only_warning
-  sidebar_handbook_link("shop#produits")
+  sidebar_handbook_link("shop#products")
 
   form do |f|
     f.semantic_errors :base

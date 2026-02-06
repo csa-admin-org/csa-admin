@@ -35,7 +35,7 @@ ActiveAdmin.register Shop::Producer do
   end
 
   sidebar_shop_admin_only_warning
-  sidebar_handbook_link("shop#producteurs")
+  sidebar_handbook_link("shop#producers")
 
   form do |f|
     f.inputs t(".details") do

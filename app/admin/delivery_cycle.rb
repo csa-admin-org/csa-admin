@@ -49,7 +49,7 @@ ActiveAdmin.register DeliveryCycle do
     actions
   end
 
-  sidebar_handbook_link("deliveries#cycles-de-livraisons")
+  sidebar_handbook_link("deliveries#delivery-cycles")
 
   show do |dc|
     columns do

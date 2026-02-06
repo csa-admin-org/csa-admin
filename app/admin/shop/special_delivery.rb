@@ -63,7 +63,7 @@ ActiveAdmin.register Shop::SpecialDelivery do
 
   sidebar_shop_admin_only_warning
 
-  sidebar_handbook_link("shop#livraisons-spciales")
+  sidebar_handbook_link("shop#special-deliveries")
 
   show title: ->(d) { d.display_name(format: :long).capitalize } do |delivery|
     columns do
