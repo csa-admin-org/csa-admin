@@ -649,12 +649,6 @@ _:
           _de: Anteilscheine
           _it: Quote sociali della cooperativa
           _nl: Coöperatieaandelen
-        show_all:
-          _en: Show all
-          _fr: Tout afficher
-          _de: Alle anzeigen
-          _it: Mostra tutto
-          _nl: Alles tonen
       line:
         invoice_info_html:
           _en: "%{document_name} <em>#%{id}</em> (%{type})"
@@ -1640,6 +1634,14 @@ _:
           _de: Anmeldung mit Ihrem Konto
           _it: Connesione al vostro account
           _nl: Inloggen op uw account
+    shared:
+      show_all_button:
+        show_all:
+          _en: Show all
+          _fr: Tout afficher
+          _de: Alle anzeigen
+          _it: Mostra tutto
+          _nl: Alles tonen
     shop:
       orders:
         cart:

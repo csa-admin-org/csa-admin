@@ -21,7 +21,7 @@
   </section>
 <% end %>
 
-<section>
+<section id="billing_history">
   <h2><%= t(".history") %></h2>
 
   <% if @billing_history.empty? %>
@@ -30,9 +30,9 @@
     </p>
   <% else %>
     <ul class="mt-4">
-      <% history_limit = params[:all] ? 10_000 : 15 %>
+      <% limit = params[:all_billing_history] ? 10_000 : 15 %>
 
-      <% @billing_history.first(history_limit).each do |object| %>
+      <% @billing_history.first(limit).each do |object| %>
         <li
           class="-mx-2 flex flex-row flex-wrap items-center justify-between rounded-sm px-2 py-1 hover:bg-gray-100 md:flex-nowrap dark:hover:bg-gray-800 <%= "line-through text-gray-300 dark:text-gray-700" if object.respond_to?(:canceled?) && object.canceled? %>"
           data-hover-id="<%= (object.is_a?(Invoice) && object.entity ? dom_id(object.entity) : nil) %>"
@@ -41,11 +41,7 @@
         </li>
       <% end %>
     </ul>
-    <% if @billing_history.size > history_limit %>
-      <div class="md:w-none mt-6 w-full text-center">
-        <%= link_to t(".show_all"), url_for(all: true, anchor: "billing_history"), class: "btn btn-sm" %>
-      </div>
-    <% end %>
+    <%= render "members/shared/show_all_button", collection: @billing_history, limit: limit, anchor: "billing_history" %>
   <% end %>
 
   <p class="mt-12 text-sm text-gray-400 dark:text-gray-600">

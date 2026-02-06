@@ -22,20 +22,10 @@
   </section>
 <% end %>
 
-<section>
+<section id="future_deliveries">
   <h2><%= t(".future_deliveries") %></h2>
 
-  <% if @future_baskets.empty? %>
-    <p class="empty mt-4 text-center italic">
-      <%= t(".no_future_deliveries") %>
-    </p>
-  <% else %>
-    <ul class="mt-4 flex flex-col gap-4">
-      <% @future_baskets.each do |basket| %>
-        <li class="w-full"><%= render basket %></li>
-      <% end %>
-    </ul>
-  <% end %>
+  <%= render "baskets_list", baskets: @future_baskets, empty_text: t(".no_future_deliveries"), anchor: "future_deliveries" %>
 
   <% if @future_baskets.provisionally_absent.any? %>
     <div class="mt-4 mb-4 flex text-sm text-gray-400 dark:text-gray-600">
@@ -45,16 +35,8 @@
   <% end %>
 </section>
 
-<section>
+<section id="past_deliveries">
   <h2><%= t(".past_deliveries") %></h2>
 
-  <% if @past_baskets.empty? %>
-    <p class="empty mt-4 text-center italic"><%= t(".no_past_deliveries") %></p>
-  <% else %>
-    <ul class="mt-4 flex flex-col gap-4">
-      <% @past_baskets.each do |basket| %>
-        <li class="w-full"><%= render basket %></li>
-      <% end %>
-    </ul>
-  <% end %>
+  <%= render "baskets_list", baskets: @past_baskets, empty_text: t(".no_past_deliveries"), anchor: "past_deliveries" %>
 </section>

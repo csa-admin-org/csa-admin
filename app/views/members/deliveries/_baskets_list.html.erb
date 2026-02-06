@@ -1,0 +1,12 @@
+<%# locals: (baskets:, empty_text:, anchor:) %>
+<% if baskets.empty? %>
+  <p class="empty mt-4 text-center italic"><%= empty_text %></p>
+<% else %>
+  <% limit = params[:"all_#{anchor}"] ? 10_000 : 4 %>
+  <ul class="mt-4 flex flex-col gap-4">
+    <% baskets.first(limit).each do |basket| %>
+      <li class="w-full"><%= render basket %></li>
+    <% end %>
+  </ul>
+  <%= render "members/shared/show_all_button", collection: baskets, limit: limit, anchor: anchor %>
+<% end %>
