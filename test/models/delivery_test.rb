@@ -16,6 +16,79 @@ class DeliveryTest < ActiveSupport::TestCase
     assert_not delivery.valid?(:bulk_dates_wdays)
   end
 
+  test "validates date not in a fiscal year too far in the future" do
+    travel_to "2025-05-01"
+
+    # Current fiscal year (2025) is always allowed
+    delivery = Delivery.new(date: "2025-12-31")
+    assert delivery.valid?
+    assert_empty delivery.errors[:date]
+
+    # Next fiscal year (2026) starts Jan 1, 2026, exactly 8 months away → allowed
+    delivery = Delivery.new(date: "2026-01-01")
+    assert delivery.valid?
+    assert_empty delivery.errors[:date]
+
+    delivery = Delivery.new(date: "2026-12-31")
+    assert delivery.valid?
+    assert_empty delivery.errors[:date]
+
+    # FY 2027 starts Jan 1, 2027, more than 8 months away → blocked
+    delivery = Delivery.new(date: "2027-01-01")
+    assert_not delivery.valid?
+    assert_includes delivery.errors[:date], I18n.t("errors.messages.fiscal_year_too_far_in_future")
+  end
+
+  test "validates date one day before 8 months boundary blocks next fiscal year" do
+    travel_to "2025-04-30"
+
+    # FY 2026 starts Jan 1, 2026, which is more than 8 months away → blocked
+    delivery = Delivery.new(date: "2026-01-01")
+    assert_not delivery.valid?
+    assert_includes delivery.errors[:date], I18n.t("errors.messages.fiscal_year_too_far_in_future")
+  end
+
+  test "validates date not in a fiscal year too far in the future with April fiscal year" do
+    org(fiscal_year_start_month: 4)
+    travel_to "2025-08-01"
+
+    # Current FY (Apr 2025 - Mar 2026) → allowed
+    delivery = Delivery.new(date: "2026-03-31")
+    assert delivery.valid?
+    assert_empty delivery.errors[:date]
+
+    # Next FY starts Apr 1, 2026, exactly 8 months away → allowed
+    delivery = Delivery.new(date: "2026-04-01")
+    assert delivery.valid?
+    assert_empty delivery.errors[:date]
+
+    # FY after next starts Apr 1, 2027, more than 8 months away → blocked
+    delivery = Delivery.new(date: "2027-04-01")
+    assert_not delivery.valid?
+    assert_includes delivery.errors[:date], I18n.t("errors.messages.fiscal_year_too_far_in_future")
+  end
+
+  test "validates date exactly 8 months before fiscal year start is allowed" do
+    travel_to "2026-05-01"
+
+    delivery = Delivery.new(date: "2027-01-01")
+    assert delivery.valid?
+    assert_empty delivery.errors[:date]
+  end
+
+  test "validates bulk_dates_starts_on not in a fiscal year too far in the future" do
+    travel_to "2025-04-30"
+
+    delivery = Delivery.new(
+      bulk_dates_starts_on: "2027-01-01",
+      bulk_dates_ends_on: "2027-02-01",
+      bulk_dates_weeks_frequency: 1,
+      bulk_dates_wdays: [ 1 ])
+
+    assert_not delivery.valid?
+    assert_includes delivery.errors[:bulk_dates_starts_on], I18n.t("errors.messages.fiscal_year_too_far_in_future")
+  end
+
   test "bulk inserts with basket_complements" do
     travel_to "2020-01-01"
     bread = basket_complements(:bread)

@@ -755,7 +755,7 @@ class Billing::InvoicerTest < ActiveSupport::TestCase
   end
 
   test "next_date for future membership, next year" do
-    travel_to "2023-01-01"
+    travel_to "2023-07-01"
     org(trial_baskets_count: 0)
     member = members(:jane)
     membership = memberships(:jane)

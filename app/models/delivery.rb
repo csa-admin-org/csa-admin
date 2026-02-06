@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class Delivery < ApplicationRecord
+  MAX_FUTURE_FISCAL_YEAR_MONTHS = 8.months
+
   include HasDate
   include HasFiscalYear
   include BulkDatesInsert
@@ -40,6 +42,7 @@ class Delivery < ApplicationRecord
     on: :create
   validates :basket_size_price_percentage,
     numericality: { greater_than_or_equal_to: 0, allow_nil: true }
+  validate :date_not_in_far_future_fiscal_year, if: -> { date? && date_changed? }
 
   after_commit :reset_delivery_cycle_cache!
   after_commit :update_baskets_async
@@ -216,6 +219,13 @@ class Delivery < ApplicationRecord
       h[:basket_complement_ids] = basket_complement_ids
       h
     }
+  end
+
+  def date_not_in_far_future_fiscal_year
+    fy = Current.org.fiscal_year_for(date)
+    if fy.beginning_of_year > MAX_FUTURE_FISCAL_YEAR_MONTHS.from_now.to_date
+      errors.add(:date, :fiscal_year_too_far_in_future)
+    end
   end
 
   def add_subscribed_baskets_complement!(complement)

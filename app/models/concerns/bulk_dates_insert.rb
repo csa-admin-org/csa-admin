@@ -26,6 +26,7 @@ module BulkDatesInsert
       validates :bulk_dates_weeks_frequency, inclusion: { in: 1..4, allow_nil: true }, presence: true
       validates :bulk_dates_wdays, presence: true
       validate :bulk_dates_must_be_present
+      validate :bulk_dates_starts_on_not_in_far_future_fiscal_year
     end
   end
 
@@ -70,6 +71,16 @@ module BulkDatesInsert
 
   def bulk_dates_must_be_present
     errors.add(:bulk_dates_wdays, :invalid) unless bulk_dates.present?
+  end
+
+  def bulk_dates_starts_on_not_in_far_future_fiscal_year
+    return unless bulk_dates_starts_on
+    return unless self.class.const_defined?(:MAX_FUTURE_FISCAL_YEAR_MONTHS)
+
+    fy = Current.org.fiscal_year_for(bulk_dates_starts_on)
+    if fy.beginning_of_year > self.class::MAX_FUTURE_FISCAL_YEAR_MONTHS.from_now.to_date
+      errors.add(:bulk_dates_starts_on, :fiscal_year_too_far_in_future)
+    end
   end
 
   def bulk_attributes

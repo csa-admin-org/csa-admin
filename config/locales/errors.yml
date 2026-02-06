@@ -106,6 +106,12 @@ _:
         _de: ist nicht verfügbar
         _it: non è disponibile
         _nl: is gereserveerd
+      fiscal_year_too_far_in_future:
+        _en: is too far in the future
+        _fr: est trop loin dans le futur
+        _de: liegt zu weit in der Zukunft
+        _it: è troppo lontano nel futuro
+        _nl: ligt te ver in de toekomst
       greater_than:
         _en: must be greater than %{count}
         _fr: doit être supérieur à %{count}

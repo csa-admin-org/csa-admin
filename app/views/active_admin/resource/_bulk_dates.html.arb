@@ -2,8 +2,9 @@
 
 if resource.new_record?
   f.inputs do
+    unique_date_selected = resource.errors.include?(:date)
     context.tabs do
-      context.tab t(".multiple_dates") do
+      context.tab t(".multiple_dates"), selected: !unique_date_selected do
         context.div class: "single-line" do
           f.input :bulk_dates_starts_on, as: :date_picker, required: false
           f.input :bulk_dates_ends_on, as: :date_picker, required: false
@@ -17,7 +18,7 @@ if resource.new_record?
           collection: wdays_collection,
           required: false
       end
-      context.tab t(".unique_date") do
+      context.tab t(".unique_date"), selected: unique_date_selected do
         f.input :date, as: :date_picker, hint: t(".date_hint")
       end
     end
