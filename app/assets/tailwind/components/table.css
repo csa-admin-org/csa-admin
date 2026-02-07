@@ -264,7 +264,7 @@
 
     &::before {
       content: "";
-      @apply mr-1.5 size-3 flex-shrink-0 text-gray-400 transition-transform duration-200 dark:text-gray-500;
+      @apply mr-1.5 size-3 shrink-0 text-gray-400 transition-transform duration-200 dark:text-gray-500;
       background-color: currentColor;
       clip-path: polygon(25% 10%, 85% 50%, 25% 90%);
     }
