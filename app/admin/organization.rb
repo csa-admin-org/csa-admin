@@ -472,6 +472,41 @@ ActiveAdmin.register Organization do
 
           handbook_button(self, "new_member_fee")
         end
+        tab t("features.basket_content"), id: "basket_content", hidden: !feature?("basket_content"), selected: feature?("basket_content") do
+          div "data-controller" => "form-checkbox-toggler" do
+            f.input :basket_content_member_visible,
+              as: :boolean,
+              input_html: { data: {
+                form_checkbox_toggler_target: "checkbox",
+                action: "form-checkbox-toggler#toggleInput"
+              } }
+            translated_input(f, :basket_content_member_titles,
+              required: true,
+              input_html: { data: { form_checkbox_toggler_target: "input" } })
+            translated_input(f, :basket_content_member_notes,
+              hint: t("formtastic.hints.organization.basket_content_member_note"),
+              required: false,
+              placeholder: ->(locale) {
+                I18n.with_locale(locale) {
+                  I18n.t("organization.default_basket_content_member_note")
+                }
+              },
+              input_html: { data: { form_checkbox_toggler_target: "input" } })
+            f.input :basket_content_member_visible_hours_before,
+              as: :number,
+              min: 0,
+              max: 7 * 24,
+              step: 1,
+              hint: t("formtastic.hints.organization.basket_content_member_visible_hours_before"),
+              input_html: { data: { form_checkbox_toggler_target: "input" } }
+            f.input :basket_content_member_display_quantity,
+              as: :boolean,
+              hint: t("formtastic.hints.organization.basket_content_member_display_quantity"),
+              input_html: { data: { form_checkbox_toggler_target: "input" } }
+          end
+
+          handbook_button(self, "basket_content")
+        end
         tab Organization.human_attribute_name(:basket_price_extra), id: "basket_price_extra", hidden: !feature?("basket_price_extra"), selected: feature?("basket_price_extra") do
           translated_input(f, :basket_price_extra_titles, required: false)
           translated_input(f, :basket_price_extra_public_titles,
@@ -564,6 +599,9 @@ ActiveAdmin.register Organization do
     :member_form_extra_text_only, :member_form_complement_quantities,
     :basket_sizes_member_order_mode, :basket_complements_member_order_mode,
     :depots_member_order_mode, :delivery_cycles_member_order_mode,
+    :basket_content_member_visible,
+    :basket_content_member_visible_hours_before,
+    :basket_content_member_display_quantity,
     :basket_price_extras,
     :member_profession_form_mode, :member_come_from_form_mode,
     :membership_depot_update_allowed, :membership_complements_update_allowed,
@@ -602,6 +640,8 @@ ActiveAdmin.register Organization do
     *I18n.available_locales.map { |l| "membership_update_text_#{l}" },
     *I18n.available_locales.map { |l| "member_information_title_#{l}" },
     *I18n.available_locales.map { |l| "member_information_text_#{l}" },
+    *I18n.available_locales.map { |l| "basket_content_member_title_#{l}" },
+    *I18n.available_locales.map { |l| "basket_content_member_note_#{l}" },
     *I18n.available_locales.map { |l| "new_member_fee_description_#{l}" },
     *I18n.available_locales.map { |l| "activity_participations_form_detail_#{l}" },
     invoice_logos: [],

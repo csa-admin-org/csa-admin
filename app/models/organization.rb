@@ -38,6 +38,7 @@ class Organization < ApplicationRecord
   include \
     AbsenceFeature,
     ActivityFeature,
+    BasketContentFeature,
     BasketPriceExtraFeature,
     BiddingRoundFeature,
     LocalCurrencyFeature,

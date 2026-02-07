@@ -1,0 +1,72 @@
+# Contenuto cesta
+
+Questa funzionalità fornisce uno strumento per calcolare il contenuto e il valore delle ceste per ogni consegna. Permette di definire quali prodotti compongono ogni dimensione di cesta, con una distribuzione automatica o manuale delle quantità.
+
+## Prodotti {#products}
+
+Prima di configurare il contenuto delle ceste, dovete creare i vostri [prodotti](/basket_content_products). Ogni prodotto ha un nome, e opzionalmente un'unità predefinita (kg o pezzi), un prezzo unitario predefinito e un URL verso il sito web del produttore.
+
+I prodotti sono riutilizzabili da una consegna all'altra — una volta creati, possono essere selezionati quando si aggiunge contenuto a qualsiasi consegna.
+
+## Configurare il contenuto delle ceste
+
+Dalla [pagina del contenuto delle ceste](/basket_contents), selezionate una consegna per visualizzare e gestire il suo contenuto. Per ogni consegna, potete aggiungere prodotti e configurare come vengono distribuiti tra le dimensioni delle ceste.
+
+### Modalità di distribuzione
+
+Per ogni prodotto sono disponibili due modalità di distribuzione:
+
+- **Automatica**: Definite la quantità totale e una suddivisione percentuale tra le dimensioni delle ceste. Il sistema calcola le quantità individuali per cesta, ottimizzando per ridurre al minimo il surplus.
+- **Manuale**: Specificate direttamente la quantità per cesta per ogni dimensione di cesta.
+
+### Depositi
+
+Ogni voce di contenuto può essere limitata a depositi specifici. Questo è utile quando la quantità di un prodotto non è sufficiente per tutti i depositi.
+
+### Duplicare il contenuto
+
+Per risparmiare tempo, potete duplicare tutto il contenuto di una consegna verso un'altra utilizzando l'azione nella barra laterale della pagina del contenuto delle ceste. Questo è particolarmente pratico quando la composizione delle vostre ceste è simile da una settimana all'altra.
+
+## Visualizzazione del contenuto ai soci
+
+Il contenuto delle ceste può opzionalmente essere visualizzato ai vostri soci sulla pagina delle consegne del loro account. Ogni socio vede solo i prodotti pertinenti alla sua dimensione di cesta e al suo deposito. Questo deve essere attivato dalle [vostre impostazioni](/settings#basket_content).
+
+### Finestra di visibilità
+
+Per lasciarvi il tempo di finalizzare il contenuto delle ceste prima che diventi visibile, potete configurare un numero di ore prima della mezzanotte del giorno di consegna a partire dal quale il contenuto diventa visibile. Ad esempio, con il valore predefinito di 12 ore, il contenuto di una consegna del giovedì diventerà visibile il mercoledì a mezzogiorno.
+
+### Opzioni di visualizzazione
+
+Diverse opzioni sono disponibili per personalizzare la visualizzazione:
+
+- **Titolo**: L'intestazione visualizzata sopra la lista dei prodotti (un valore predefinito è fornito).
+- **Nota**: Una nota opzionale visualizzata sotto la lista dei prodotti, ad esempio per indicare che cambiamenti dell'ultimo minuto sono possibili (un valore predefinito è fornito, lasciare vuoto per nascondere).
+- **Visualizzare la quantità**: Quando attivato, la quantità è mostrata accanto al nome di ogni prodotto, ad es. "Carote (250g)".
+
+Lo stato attuale di visibilità per ogni consegna è mostrato nella barra laterale della [pagina del contenuto delle ceste](/basket_contents) quando si consulta una consegna a venire.
+
+## Integrazione newsletter
+
+Il contenuto delle ceste è anche disponibile nei template delle newsletter utilizzando [la sintassi Liquid](https://shopify.github.io/liquid). Il [template di newsletter "Prossima consegna"](/newsletter_templates) predefinito include già una sezione contenuto delle ceste. Se il vostro template non la include, o se desiderate personalizzarla, potete utilizzare il seguente codice:
+
+~~~ liquid
+{% if basket.contents.size > 0 and basket.quantity > 0 %}
+  <h2>Contenuto cesta</h2>
+
+  <span>{{ basket.description }}:</span>
+  <ul>
+    {% for content in basket.contents %}
+      <li>{{ content.product }} ({{ content.quantity }})</li>
+    {% endfor %}
+  </ul>
+{% endif %}
+~~~
+
+Ogni contenuto di cesta nel ciclo fornisce i seguenti attributi:
+
+- `content.product`: Il nome del prodotto
+- `content.quantity`: La quantità formattata (ad es. "250g", "3pz")
+- `content.unit`: L'unità grezza ("kg" o "pc")
+- `content.price`: Il prezzo formattato per questo prodotto (se un prezzo unitario è definito)
+- `content.unit_price`: Il prezzo unitario formattato (se definito)
+- `content.product_url`: L'URL del prodotto (se definito)

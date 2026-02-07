@@ -1,0 +1,72 @@
+# Contenu Panier
+
+Cette fonctionnalité fournit un outil pour calculer le contenu et la valeur des paniers pour chaque livraison. Elle permet de définir quels produits composent chaque taille de panier, avec une répartition automatique ou manuelle des quantités.
+
+## Produits {#products}
+
+Avant de configurer le contenu des paniers, vous devez créer vos [produits](/basket_content_products). Chaque produit a un nom, et optionnellement une unité par défaut (kg ou pièces), un prix unitaire par défaut, et un URL vers le site web du producteur.
+
+Les produits sont réutilisables d'une livraison à l'autre — une fois créés, ils peuvent être sélectionnés lors de l'ajout de contenu à n'importe quelle livraison.
+
+## Configurer le contenu des paniers
+
+Depuis [la page du contenu des paniers](/basket_contents), sélectionnez une livraison pour voir et gérer son contenu. Pour chaque livraison, vous pouvez ajouter des produits et configurer comment ils sont répartis entre les tailles de paniers.
+
+### Modes de distribution
+
+Deux modes de distribution sont disponibles pour chaque produit:
+
+- **Automatique**: Vous définissez la quantité totale et un pourcentage de répartition entre les tailles de paniers. Le système calcule les quantités individuelles par panier, en optimisant pour minimiser le surplus.
+- **Manuel**: Vous spécifiez directement la quantité par panier pour chaque taille de panier.
+
+### Dépôts
+
+Chaque entrée de contenu peut être limitée à des dépôts spécifiques. C'est utile lorsque la quantité d'un produit n'est pas suffisante pour tous les dépôts.
+
+### Dupliquer le contenu
+
+Pour gagner du temps, vous pouvez dupliquer tout le contenu d'une livraison vers une autre en utilisant l'action dans la barre latérale de la page du contenu des paniers. C'est particulièrement pratique lorsque la composition de vos paniers est similaire d'une semaine à l'autre.
+
+## Affichage du contenu aux membres
+
+Le contenu des paniers peut optionnellement être affiché à vos membres sur la page des livraisons de leur compte. Chaque membre ne voit que les produits correspondant à sa taille de panier et son dépôt. Cela doit être activé depuis [vos paramètres](/settings#basket_content).
+
+### Fenêtre de visibilité
+
+Pour vous laisser le temps de finaliser le contenu des paniers avant qu'il ne devienne visible, vous pouvez configurer un nombre d'heures avant minuit le jour de la livraison à partir duquel le contenu devient visible. Par exemple, avec la valeur par défaut de 12 heures, le contenu d'une livraison du jeudi deviendra visible le mercredi à midi.
+
+### Options d'affichage
+
+Plusieurs options sont disponibles pour personnaliser l'affichage:
+
+- **Titre**: L'en-tête affiché au-dessus de la liste de produits (un titre par défaut est fourni).
+- **Note**: Une note optionnelle affichée sous la liste de produits, par exemple pour indiquer que des changements de dernière minute sont possibles (une valeur par défaut est fournie, laisser vide pour masquer).
+- **Afficher la quantité**: Lorsque activé, la quantité est affichée à côté du nom de chaque produit, par ex. "Carottes (250g)".
+
+Le statut actuel de visibilité pour chaque livraison est affiché dans la barre latérale de [la page du contenu des paniers](/basket_contents) lorsque vous consultez une livraison à venir.
+
+## Intégration newsletter
+
+Le contenu des paniers est également disponible dans les templates de newsletters à l'aide de [la syntaxe Liquid](https://shopify.github.io/liquid). Le [template de newsletter "Prochaine livraison"](/newsletter_templates) par défaut inclut déjà une section contenu des paniers. Si votre template ne l'inclut pas, ou si vous souhaitez le personnaliser, vous pouvez utiliser le code suivant:
+
+~~~ liquid
+{% if basket.contents.size > 0 and basket.quantity > 0 %}
+  <h2>Contenu panier</h2>
+
+  <span>{{ basket.description }}:</span>
+  <ul>
+    {% for content in basket.contents %}
+      <li>{{ content.product }} ({{ content.quantity }})</li>
+    {% endfor %}
+  </ul>
+{% endif %}
+~~~
+
+Chaque contenu de panier dans la boucle fournit les attributs suivants:
+
+- `content.product`: Le nom du produit
+- `content.quantity`: La quantité formatée (par ex. "250g", "3pc")
+- `content.unit`: L'unité brute ("kg" ou "pc")
+- `content.price`: Le prix formaté pour ce produit (si un prix unitaire est défini)
+- `content.unit_price`: Le prix unitaire formaté (si défini)
+- `content.product_url`: L'URL du produit (si défini)

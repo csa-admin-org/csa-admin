@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_02_05_090630) do
+ActiveRecord::Schema[8.1].define(version: 2026_02_06_150000) do
   create_table "absences", force: :cascade do |t|
     t.datetime "created_at"
     t.date "ended_on"
@@ -747,6 +747,11 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_05_090630) do
     t.json "bank_credentials", default: {}
     t.string "bank_reference"
     t.string "basket_complements_member_order_mode", default: "deliveries_count_desc", null: false
+    t.boolean "basket_content_member_display_quantity", default: true, null: false
+    t.json "basket_content_member_notes", default: {}, null: false
+    t.json "basket_content_member_titles", default: {}, null: false
+    t.boolean "basket_content_member_visible", default: false, null: false
+    t.integer "basket_content_member_visible_hours_before", default: 12, null: false
     t.text "basket_price_extra_dynamic_pricing"
     t.json "basket_price_extra_label_details", default: {}, null: false
     t.json "basket_price_extra_labels", default: {}, null: false

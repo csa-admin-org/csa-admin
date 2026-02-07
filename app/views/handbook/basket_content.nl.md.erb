@@ -1,0 +1,72 @@
+# Pakketinhoud
+
+Deze functie biedt een hulpmiddel om de inhoud en waarde van pakketten voor elke levering te berekenen. Het stelt u in staat om te bepalen welke producten in elke pakketgrootte gaan, met automatische of handmatige verdeling van hoeveelheden.
+
+## Producten {#products}
+
+Voordat u de pakketinhoud configureert, moet u uw [producten](/basket_content_products) instellen. Elk product heeft een naam, en optioneel een standaardeenheid (kg of stuks), een standaard eenheidsprijs en een URL naar de website van de producent.
+
+Producten zijn herbruikbaar over leveringen heen — eenmaal aangemaakt, kunnen ze worden geselecteerd bij het toevoegen van inhoud aan elke levering.
+
+## Pakketinhoud configureren
+
+Selecteer op [de pakketinhoudpagina](/basket_contents) een levering om de inhoud ervan te bekijken en te beheren. Voor elke levering kunt u producten toevoegen en configureren hoe ze over de pakketgroottes worden verdeeld.
+
+### Verdelingsmodi
+
+Voor elk product zijn twee verdelingsmodi beschikbaar:
+
+- **Automatisch**: U definieert de totale hoeveelheid en een procentuele verdeling tussen pakketgroottes. Het systeem berekent de individuele pakkethoeveelheden, waarbij het overschot wordt geminimaliseerd.
+- **Handmatig**: U specificeert direct de hoeveelheid per pakket voor elke pakketgrootte.
+
+### Depots
+
+Elke pakketinhoud-invoer kan worden beperkt tot specifieke depots. Dit is handig wanneer de hoeveelheid van een product niet voldoende is voor alle depots.
+
+### Inhoud dupliceren
+
+Om tijd te besparen kunt u alle pakketinhoud van de ene levering naar de andere dupliceren met behulp van de actie in de zijbalk van de pakketinhoudpagina. Dit is bijzonder handig wanneer de samenstelling van uw pakketten van week tot week vergelijkbaar is.
+
+## Inhoud weergeven aan leden
+
+De pakketinhoud kan optioneel worden weergegeven aan uw leden op de leveringspagina van hun account. Elk lid ziet alleen de producten die relevant zijn voor hun specifieke pakketgrootte en depot. Dit moet worden ingeschakeld vanuit [uw instellingen](/settings#basket_content).
+
+### Zichtbaarheidsvenster
+
+Om u de tijd te geven de pakketinhoud af te ronden voordat deze zichtbaar wordt, kunt u een aantal uren vóór middernacht op de leveringsdag configureren wanneer de inhoud zichtbaar wordt. Bijvoorbeeld, met de standaardwaarde van 12 uur, wordt de inhoud van een donderdaglevering zichtbaar op woensdag om 12:00 uur.
+
+### Weergaveopties
+
+Verschillende opties zijn beschikbaar om de weergave aan te passen:
+
+- **Titel**: De kop die boven de productlijst wordt weergegeven (een standaard wordt aangeboden).
+- **Notitie**: Een optionele notitie die onder de productlijst wordt weergegeven, bijvoorbeeld om aan te geven dat last-minute wijzigingen mogelijk zijn (een standaard wordt aangeboden, laat leeg om te verbergen).
+- **Hoeveelheid weergeven**: Wanneer ingeschakeld, wordt de hoeveelheid naast elke productnaam weergegeven, bijv. "Wortelen (250g)".
+
+De huidige zichtbaarheidsstatus voor elke levering wordt weergegeven in de zijbalk van [de pakketinhoudpagina](/basket_contents) wanneer u een komende levering bekijkt.
+
+## Nieuwsbriefintegratie
+
+De pakketinhoud is ook beschikbaar in nieuwsbriefsjablonen met behulp van [Liquid syntax](https://shopify.github.io/liquid). Het standaard ["Volgende levering" nieuwsbriefsjabloon](/newsletter_templates) bevat al een pakketinhoud-sectie. Als uw sjabloon dit niet bevat, of als u het wilt aanpassen, kunt u de volgende code gebruiken:
+
+~~~ liquid
+{% if basket.contents.size > 0 and basket.quantity > 0 %}
+  <h2>Pakketinhoud</h2>
+
+  <span>{{ basket.description }}:</span>
+  <ul>
+    {% for content in basket.contents %}
+      <li>{{ content.product }} ({{ content.quantity }})</li>
+    {% endfor %}
+  </ul>
+{% endif %}
+~~~
+
+Elke pakketinhoud in de lus biedt de volgende attributen:
+
+- `content.product`: De productnaam
+- `content.quantity`: De geformatteerde hoeveelheid (bijv. "250g", "3st")
+- `content.unit`: De ruwe eenheid ("kg" of "pc")
+- `content.price`: De geformatteerde prijs voor dit product (indien een eenheidsprijs is ingesteld)
+- `content.unit_price`: De geformatteerde eenheidsprijs (indien ingesteld)
+- `content.product_url`: De product-URL (indien ingesteld)

@@ -1914,6 +1914,36 @@ _:
           _de: Reihenfolge der Zusätze
           _it: Ordine dei aggiunta
           _nl: Volgorde van aanvullingen
+        basket_content_member_display_quantity:
+          _en: Display quantity
+          _fr: Afficher la quantité
+          _de: Menge anzeigen
+          _it: Visualizzare la quantità
+          _nl: Hoeveelheid weergeven
+        basket_content_member_note:
+          _en: Note
+          _fr: Note
+          _de: Notiz
+          _it: Nota
+          _nl: Notitie
+        basket_content_member_title:
+          _en: Title
+          _fr: Titre
+          _de: Titel
+          _it: Titolo
+          _nl: Titel
+        basket_content_member_visible:
+          _en: Display the basket content on the member area
+          _fr: Afficher le contenu du panier sur l'espace membre
+          _de: Tascheninhalt im Mitgliederbereich anzeigen
+          _it: Visualizzare il contenuto della cesta nell'area soci
+          _nl: Pakketinhoud weergeven op de ledenpagina
+        basket_content_member_visible_hours_before:
+          _en: Visible (hours before delivery day)
+          _fr: Visible (heures avant le jour de la livraison)
+          _de: Sichtbar (Stunden vor dem Liefertag)
+          _it: Visibile (ore prima del giorno di consegna)
+          _nl: Zichtbaar (uren vóór de leveringsdag)
         basket_price_extra_dynamic_pricing:
           _en: Dynamic price
           _fr: Prix dynamique

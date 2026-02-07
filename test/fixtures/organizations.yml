@@ -49,6 +49,8 @@ acme:
   new_member_fee: 33
   new_member_fee_descriptions:
     en: Empty baskets
+  basket_content_member_titles:
+    en: Your basket contents
   basket_price_extras: ["0", "1", "2", "3"]
   basket_price_extra_public_titles:
     en: "Support"

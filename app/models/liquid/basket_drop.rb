@@ -44,12 +44,7 @@ class Liquid::BasketDrop < Liquid::Drop
   end
 
   def contents
-    @basket.delivery.basket_contents.includes(:product).select { |bc|
-      bc.depot_ids.include?(@basket.depot_id)
-        && bc.basket_quantity(@basket.basket_size)&.positive?
-    }.sort_by { |bc|
-      bc.product.name
-    }.map { |bc|
+    @basket.contents.map { |bc|
       Liquid::BasketContentDrop.new(@basket, bc)
     }
   end

@@ -38,6 +38,18 @@ _:
         _de: Tasche
         _it: cesta
         _nl: pakket
+    default_basket_content_member_note:
+      _en: No guarantee, last-minute changes are possible
+      _fr: Sans garantie, des changements de dernière minute sont possibles
+      _de: Keine Garantie, Last-Minute-Änderungen sind möglich
+      _it: Nessuna garanzia, sono possibili cambiamenti dell'ultimo minuto
+      _nl: Geen garantie, last-minute wijzigingen zijn mogelijk
+    default_basket_content_member_title:
+      _en: Your basket contents
+      _fr: Contenu de votre panier
+      _de: Ihr Tascheninhalt
+      _it: Contenuto della vostra cesta
+      _nl: Inhoud van uw pakket
     default_email_footer:
       _en: If you have any questions or comments, please reply to this email.
       _fr: En cas de questions ou remarques, répondez simplement à cet email.

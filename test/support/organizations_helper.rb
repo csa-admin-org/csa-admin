@@ -17,7 +17,8 @@ module OrganizationsHelper
       creditor_name: "Gläubiger GmbH",
       creditor_street: "Sonnenallee 1",
       creditor_city: "Hannover",
-      creditor_zip: "30159"
+      creditor_zip: "30159",
+      basket_content_member_title_de: "Ihr Tascheninhalt"
     }.merge(columns))
   end
 

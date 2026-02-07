@@ -1,0 +1,72 @@
+# Tascheninhalt
+
+Diese Funktion bietet ein Werkzeug zur Berechnung des Inhalts und des Werts der Taschen für jede Lieferung. Sie ermöglicht es, festzulegen, welche Produkte in jede Taschengrösse kommen, mit automatischer oder manueller Verteilung der Mengen.
+
+## Produkte {#products}
+
+Bevor Sie den Tascheninhalt konfigurieren, müssen Sie Ihre [Produkte](/basket_content_products) einrichten. Jedes Produkt hat einen Namen und optional eine Standardeinheit (kg oder Stück), einen Standard-Stückpreis und eine URL zur Website des Produzenten.
+
+Produkte sind über Lieferungen hinweg wiederverwendbar — einmal erstellt, können sie beim Hinzufügen von Inhalten zu jeder Lieferung ausgewählt werden.
+
+## Tascheninhalt konfigurieren
+
+Wählen Sie auf [der Tascheninhalt-Seite](/basket_contents) eine Lieferung aus, um deren Inhalt anzuzeigen und zu verwalten. Für jede Lieferung können Sie Produkte hinzufügen und konfigurieren, wie sie auf die Taschengrössen verteilt werden.
+
+### Verteilungsmodi
+
+Für jedes Produkt stehen zwei Verteilungsmodi zur Verfügung:
+
+- **Automatisch**: Sie definieren die Gesamtmenge und eine prozentuale Aufteilung zwischen den Taschengrössen. Das System berechnet die einzelnen Taschenmengen und optimiert dabei den Überschuss.
+- **Manuell**: Sie geben die Menge pro Tasche für jede Taschengrösse direkt an.
+
+### Depots
+
+Jeder Tascheninhalt-Eintrag kann auf bestimmte Depots beschränkt werden. Dies ist nützlich, wenn die Menge eines Produkts nicht für alle Depots ausreicht.
+
+### Inhalte duplizieren
+
+Um Zeit zu sparen, können Sie den gesamten Tascheninhalt von einer Lieferung auf eine andere duplizieren, indem Sie die Aktion in der Seitenleiste der Tascheninhalt-Seite verwenden. Dies ist besonders praktisch, wenn die Zusammensetzung Ihrer Taschen von Woche zu Woche ähnlich ist.
+
+## Inhalt für Mitglieder anzeigen
+
+Der Tascheninhalt kann optional auf der Lieferungsseite im Konto Ihrer Mitglieder angezeigt werden. Jedes Mitglied sieht nur die Produkte, die für seine spezifische Taschengrösse und sein Depot relevant sind. Dies muss in [Ihren Einstellungen](/settings#basket_content) aktiviert werden.
+
+### Sichtbarkeitsfenster
+
+Um Ihnen Zeit zu geben, den Tascheninhalt vor der Sichtbarkeit fertigzustellen, können Sie eine Anzahl von Stunden vor Mitternacht am Liefertag konfigurieren, ab der der Inhalt sichtbar wird. Zum Beispiel wird bei dem Standardwert von 12 Stunden der Inhalt einer Donnerstagslieferung ab Mittwoch um 12 Uhr sichtbar.
+
+### Anzeigeoptionen
+
+Mehrere Optionen stehen zur Verfügung, um die Anzeige anzupassen:
+
+- **Titel**: Die Überschrift, die über der Produktliste angezeigt wird (ein Standard wird bereitgestellt).
+- **Hinweis**: Ein optionaler Hinweis, der unter der Produktliste angezeigt wird, zum Beispiel um darauf hinzuweisen, dass kurzfristige Änderungen möglich sind (ein Standard wird bereitgestellt, leer lassen zum Ausblenden).
+- **Menge anzeigen**: Wenn aktiviert, wird die Menge neben jedem Produktnamen angezeigt, z.B. «Karotten (250g)».
+
+Der aktuelle Sichtbarkeitsstatus für jede Lieferung wird in der Seitenleiste von [der Tascheninhalt-Seite](/basket_contents) angezeigt, wenn Sie eine kommende Lieferung betrachten.
+
+## Newsletter-Integration
+
+Der Tascheninhalt ist auch in Newsletter-Vorlagen mit [Liquid-Syntax](https://shopify.github.io/liquid) verfügbar. Die Standard-Newsletter-Vorlage [«Nächste Lieferung»](/newsletter_templates) enthält bereits einen Abschnitt zum Tascheninhalt. Falls Ihre Vorlage diesen nicht enthält oder Sie ihn anpassen möchten, können Sie folgenden Code verwenden:
+
+~~~ liquid
+{% if basket.contents.size > 0 and basket.quantity > 0 %}
+  <h2>Tascheninhalt</h2>
+
+  <span>{{ basket.description }}:</span>
+  <ul>
+    {% for content in basket.contents %}
+      <li>{{ content.product }} ({{ content.quantity }})</li>
+    {% endfor %}
+  </ul>
+{% endif %}
+~~~
+
+Jeder Tascheninhalt in der Schleife bietet folgende Attribute:
+
+- `content.product`: Der Produktname
+- `content.quantity`: Die formatierte Menge (z.B. «250g», «3Stk»)
+- `content.unit`: Die Roheinheit («kg» oder «pc»)
+- `content.price`: Der formatierte Preis für dieses Produkt (falls ein Stückpreis gesetzt ist)
+- `content.unit_price`: Der formatierte Stückpreis (falls gesetzt)
+- `content.product_url`: Die Produkt-URL (falls gesetzt)

@@ -15,6 +15,15 @@ class BasketContent < ApplicationRecord
   scope :basket_size_eq, ->(id) {
     where("EXISTS (SELECT 1 FROM json_each(basket_size_ids) WHERE json_each.value = ?)", id.to_i)
   }
+  scope :with_positive_quantity_for, ->(basket_size_id) {
+    where(<<~SQL, basket_size_id.to_i)
+      EXISTS (
+        SELECT 1 FROM json_each(basket_size_ids) AS bs
+        WHERE bs.value = ?
+        AND CAST(json_extract(basket_quantities, '$[' || bs.key || ']') AS REAL) > 0
+      )
+    SQL
+  }
   scope :for_depot, ->(depot) {
     joins(:depots).where(basket_contents_depots: { depot_id: depot })
   }

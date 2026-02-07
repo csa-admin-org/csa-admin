@@ -40,6 +40,31 @@ _:
           _de: 'Duplizieren Sie alle Tascheninhalte von dieser Lieferung auf die Lieferung vom:'
           _it: 'Duplicare tutti i contenuti di questa consegna in quella di:'
           _nl: 'Dupliceer alle pakketinhoud van deze levering naar de levering op:'
+      member_visibility:
+        currently_visible:
+          _en: Basket contents is currently visible on the member page!
+          _fr: Le contenu des paniers est actuellement visible sur l'espace membre!
+          _de: Der Tascheninhalt ist derzeit auf der Mitgliederseite sichtbar!
+          _it: Il contenuto delle ceste è attualmente visibile sulla pagina dei soci!
+          _nl: De pakketinhoud is momenteel zichtbaar op de ledenpagina!
+        disabled:
+          _en: Basket contents is currently not configured to be displayed on the member page.
+          _fr: Le contenu des paniers n'est actuellement pas configuré pour être affiché sur la page membre.
+          _de: Der Tascheninhalt ist derzeit nicht für die Anzeige auf der Mitgliederseite konfiguriert.
+          _it: Il contenuto delle ceste non è attualmente configurato per essere visualizzato sulla pagina dei soci.
+          _nl: De pakketinhoud is momenteel niet geconfigureerd om op de ledenpagina te worden weergegeven.
+        settings:
+          _en: Settings
+          _fr: Paramètres
+          _de: Einstellungen
+          _it: Impostazioni
+          _nl: Instellingen
+        visible_on_html:
+          _en: The content of the baskets will be visible on the member page on:<br><strong>%{datetime}</strong>
+          _fr: Le contenu des paniers sera visible sur l'espace membre le:<br><strong>%{datetime}</strong>
+          _de: Der Tascheninhalt wird auf der Mitgliederseite sichtbar am:<br><strong>%{datetime}</strong>
+          _it: Il contenuto delle ceste sarà visibile sulla pagina dei soci il:<br><strong>%{datetime}</strong>
+          _nl: De pakketinhoud wordt zichtbaar op de ledenpagina op:<br><strong>%{datetime}</strong>
     batch_actions:
       action_label:
         _en: "%{title} the selected items"
@@ -3005,6 +3030,12 @@ _:
           _de: Rechnungen werden erstellt ...
           _it: Creazione delle fatture in corso...
           _nl: Facturering bezig...
+        member_visibility:
+          _en: Members display
+          _fr: Affichage membres
+          _de: Mitgliederanzeige
+          _it: Visualizzazione soci
+          _nl: Ledenweergave
         missing_activity_participations:
           _en: Missing
           _fr: Manquantes

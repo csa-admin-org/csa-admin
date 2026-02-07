@@ -1,0 +1,72 @@
+# Basket Content
+
+This feature provides a tool to calculate the content and value of baskets for each delivery. It allows you to define which products go into each basket size, with automatic or manual distribution of quantities.
+
+## Products {#products}
+
+Before configuring basket contents, you need to set up your [products](/basket_content_products). Each product has a name, and optionally a default unit (kg or pieces), a default unit price, and a URL linking to the producer's website.
+
+Products are reusable across deliveries — once created, they can be selected when adding content to any delivery.
+
+## Configuring Basket Contents
+
+From [the basket contents page](/basket_contents), select a delivery to view and manage its contents. For each delivery, you can add products and configure how they are distributed across basket sizes.
+
+### Distribution Modes
+
+Two distribution modes are available for each product:
+
+- **Automatic**: You define the total quantity and a percentage split between basket sizes. The system calculates individual basket quantities, optimizing for minimal surplus.
+- **Manual**: You directly specify the quantity per basket for each basket size.
+
+### Depots
+
+Each basket content entry can be limited to specific depots. This is useful when there isn't enough of a product to supply all depots.
+
+### Duplicating Contents
+
+To save time, you can duplicate all basket contents from one delivery to another using the sidebar action on the basket contents page. This is particularly handy when your basket composition is similar from week to week.
+
+## Displaying Contents to Members
+
+Basket contents can optionally be displayed to your members on the deliveries page of their account. Each member sees only the products relevant to their specific basket size and depot. This must be enabled from [your settings](/settings#basket_content).
+
+### Visibility Window
+
+To give you time to finalize the basket contents before they become visible, you can configure a number of hours before midnight on the delivery day when the contents become visible. For example, with the default value of 12 hours, contents for a Thursday delivery will become visible on Wednesday at noon.
+
+### Display Options
+
+Several options are available to customize the display:
+
+- **Title**: The heading shown above the product list (a default is provided).
+- **Note**: An optional note displayed below the product list, for example to indicate that last-minute changes are possible (a default is provided, leave blank to hide).
+- **Display quantity**: When enabled, the quantity is shown next to each product name, e.g. "Carrots (250g)".
+
+The current visibility status for each delivery is shown in the sidebar of [the basket contents page](/basket_contents) when viewing a specific coming delivery.
+
+## Newsletter Integration
+
+Basket contents are also available in newsletter templates using [Liquid syntax](https://shopify.github.io/liquid). The default ["Next delivery" newsletter template](/newsletter_templates) already includes a basket contents section. If your template doesn't include it, or if you'd like to customize it, you can use the following code:
+
+~~~ liquid
+{% if basket.contents.size > 0 and basket.quantity > 0 %}
+  <h2>Basket Contents</h2>
+
+  <span>{{ basket.description }}:</span>
+  <ul>
+    {% for content in basket.contents %}
+      <li>{{ content.product }} ({{ content.quantity }})</li>
+    {% endfor %}
+  </ul>
+{% endif %}
+~~~
+
+Each basket content in the loop provides the following attributes:
+
+- `content.product`: The product name
+- `content.quantity`: The formatted quantity (e.g. "250g", "3pc")
+- `content.unit`: The raw unit ("kg" or "pc")
+- `content.price`: The formatted price for this product (if a unit price is set)
+- `content.unit_price`: The formatted unit price (if set)
+- `content.product_url`: The product URL (if set)

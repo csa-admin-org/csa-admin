@@ -125,6 +125,35 @@ ActiveAdmin.register BasketContent do
     column(:depots) { |bc| display_depots(bc.depots) }
   end
 
+  sidebar :member_visibility, only: :index, if: -> {
+    params.dig(:q, :delivery_id_eq).present? &&
+      Delivery.find(params.dig(:q, :delivery_id_eq)).coming?
+  } do
+    t_scope = "active_admin.basket_contents.member_visibility"
+    delivery = Delivery.find(params.dig(:q, :delivery_id_eq))
+
+    settings_action = if authorized?(:update, Organization)
+      link_to edit_organization_path(anchor: "basket_content"), title: t("#{t_scope}.settings") do
+        icon "adjustments-horizontal", class: "size-6 mt-0.5"
+      end
+    end
+
+    if Current.org.basket_content_member_visible?
+      side_panel t(".member_visibility"), action: settings_action do
+        if Current.org.basket_content_visible_for_delivery?(delivery)
+          para t("#{t_scope}.currently_visible")
+        else
+          visible_at = Current.org.basket_content_member_visible_at(delivery)
+          para t("#{t_scope}.visible_on_html", datetime: I18n.l(visible_at, format: :short))
+        end
+      end
+    else
+      side_panel t(".member_visibility"), action: settings_action do
+        para t("#{t_scope}.disabled"), class: "text-sm text-gray-500"
+      end
+    end
+  end
+
   sidebar :duplicate_all_to, only: :index, if: -> {
     authorized?(:create, BasketContent)
       && params.dig(:q, :delivery_id_eq).present?
@@ -151,6 +180,8 @@ ActiveAdmin.register BasketContent do
         locals: { to_delivery: delivery }
     end
   end
+
+  sidebar_handbook_link("basket_content")
 
   collection_action :duplicate_all, method: :post do
     authorize!(:create, BasketContent)

@@ -915,6 +915,30 @@ _:
           _de: Legt die Reihenfolge der Taschenzusätze im Anmeldeformular fest, nachdem ihre individuelle Priorität berücksichtigt wurde.
           _it: Permette di definire l'ordine di visualizzazione dei aggiunte di cestini nel modulo di iscrizione, dopo aver preso in considerazione la loro priorità individuale.
           _nl: Stelt de volgorde van pakketaanvullingen in het registratieformulier in na het in overweging nemen van hun individuele prioriteit.
+        basket_content_member_display_quantity:
+          _en: Show quantity next to product name, e.g. "Carrots (250g)".
+          _fr: Afficher la quantité à côté du nom du produit, p.ex. "Carottes (250g)".
+          _de: Menge neben dem Produktnamen anzeigen, z.B. "Karotten (250g)".
+          _it: Mostrare la quantità accanto al nome del prodotto, ad es. "Carote (250g)".
+          _nl: Toon de hoeveelheid naast de productnaam, bijv. "Wortelen (250g)".
+        basket_content_member_note:
+          _en: Shown below the basket contents list. Leave blank to not display any note.
+          _fr: Affiché sous la liste du contenu du panier. Laisser vide pour ne pas afficher de note.
+          _de: Wird unter der Liste des Tascheninhalts angezeigt. Leer lassen, um keine Notiz anzuzeigen.
+          _it: Visualizzato sotto la lista del contenuto della cesta. Lasciare vuoto per non visualizzare alcuna nota.
+          _nl: Wordt weergegeven onder de lijst met pakketinhoud. Laat leeg om geen notitie weer te geven.
+        basket_content_member_visible:
+          _en: If enabled, members will be able to see the content of their next basket, from the deliveries page of their account.
+          _fr: Si activé, les membres pourront voir le contenu de leur prochain panier, depuis la page des livraisons de leur compte.
+          _de: Wenn aktiviert, können Mitglieder den Inhalt ihres nächsten Korbs von der Lieferseite ihres Kontos aus sehen.
+          _it: Se attivato, i soci potranno vedere il contenuto del loro prossimo cesto, dalla pagina delle consegne del loro account.
+          _nl: Indien ingeschakeld, kunnen leden de inhoud van hun volgende pakket zien vanaf de leveringspagina van hun account.
+        basket_content_member_visible_hours_before:
+          _en: Number of hours before midnight on the delivery day when the basket contents become visible to members. For example, 12 hours means noon the day before. If set to 0, the basket content will only be visible on the delivery day itself.
+          _fr: Nombre d'heures avant minuit le jour de la livraison à partir duquel le contenu du panier devient visible pour les membres. Par exemple, 12 heures signifie midi la veille. Si réglé sur 0, le contenu du panier ne sera visible que le jour même de la livraison.
+          _de: Anzahl der Stunden vor Mitternacht am Liefertag, ab wann der Tascheninhalt für die Mitglieder sichtbar wird. Zum Beispiel bedeuten 12 Stunden Mittag am Vortag. Bei 0 wird der Tascheninhalt erst am Liefertag selbst sichtbar.
+          _it: Numero di ore prima della mezzanotte del giorno di consegna in cui il contenuto della cesta diventa visibile ai soci. Ad esempio, 12 ore significa mezzogiorno del giorno prima. Se impostato su 0, il contenuto della cesta sarà visibile solo il giorno stesso della consegna.
+          _nl: Aantal uren vóór middernacht op de leveringsdag waarop de pakketinhoud zichtbaar wordt voor leden. Bijvoorbeeld, 12 uur betekent 's middags de dag ervoor. Indien ingesteld op 0, wordt de pakketinhoud pas op de leveringsdag zelf zichtbaar.
         basket_price_extra_dynamic_pricing_html:
           _en: Allows changing the price dynamically based on various criteria such as the size of the basket.<br/> Supports <a href='https://shopify.github.io/liquid/' target='_blank'>the Liquid syntax</a> with the objects "{{ extra }}", "{{ basket_size_id }}", "{{ basket_size_price }}", "{{ complements_price }}", and "{{ deliveries_count }}".
           _fr: Permet de changer dynamiquement le prix en fonction de différents critères tels que la taille du panier.<br/> Supporte <a href='https://shopify.github.io/liquid/' target='_blank'>la syntaxe Liquid</a> avec les objets "{{ extra }}", "{{ basket_size_id }}", "{{ basket_size_price }}", "{{ complements_price }} et "{{ deliveries_count }}".

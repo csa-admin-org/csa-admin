@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class Basket < ApplicationRecord
+  include Content
   include HasDescription
   include HasState
   include Shifting

@@ -6,6 +6,9 @@ class Members::DeliveriesController < Members::BaseController
   # GET /deliveries
   def index
     @next_basket = current_member.next_basket
+    if @next_basket && Current.org.basket_content_visible_for_delivery?(@next_basket.delivery)
+      @basket_contents = @next_basket.contents
+    end
     @future_baskets =
       Basket
         .where(membership_id: current_member.memberships)
