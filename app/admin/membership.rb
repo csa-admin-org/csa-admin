@@ -657,7 +657,9 @@ ActiveAdmin.register Membership do
                   entity_type_in: "Membership"
                 }))
             }
-            row(:missing_invoices_amount, class: "text-right tabular-nums") { cur(m.missing_invoices_amount) }
+            row(:missing_invoices_amount, class: "text-right tabular-nums") {
+              previsional_details(self, m.missing_invoices_amount, m.previsional_invoicing_amounts)
+            }
             if resource.billable?
               row(:next_invoice_on) {
                 if Current.org.recurring_billing?

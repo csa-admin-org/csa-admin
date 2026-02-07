@@ -165,6 +165,20 @@
   }
 
   .data-table-invoice-total {
+    @apply table-fixed;
+
+    td {
+      @apply align-baseline leading-10;
+    }
+
+    td details > summary {
+      @apply leading-10;
+    }
+
+    td details {
+      @apply mb-1.5 -ml-24;
+    }
+
     tr:last-child,
     tr:nth-last-child(2),
     tr:nth-last-child(4) {
@@ -233,6 +247,64 @@
 
     & td .status-tag {
       @apply mb-0;
+    }
+  }
+
+  :is(.attributes-table, .data-table-invoice-total) td details {
+    interpolate-size: allow-keywords;
+  }
+
+  :is(.attributes-table, .data-table-invoice-total) td details > summary {
+    @apply flex cursor-pointer list-none items-center justify-end leading-[1.4rem];
+
+    &::marker,
+    &::-webkit-details-marker {
+      display: none;
+    }
+
+    &::before {
+      content: "";
+      @apply mr-1.5 size-3 flex-shrink-0 text-gray-400 transition-transform duration-200 dark:text-gray-500;
+      background-color: currentColor;
+      clip-path: polygon(25% 10%, 85% 50%, 25% 90%);
+    }
+  }
+
+  :is(.attributes-table, .data-table-invoice-total)
+    td
+    details[open]
+    > summary::before {
+    @apply rotate-90;
+  }
+
+  :is(.attributes-table, .data-table-invoice-total)
+    td
+    details::details-content {
+    block-size: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition:
+      block-size 200ms ease,
+      opacity 200ms ease,
+      content-visibility 200ms allow-discrete;
+  }
+
+  :is(.attributes-table, .data-table-invoice-total)
+    td
+    details[open]::details-content {
+    block-size: auto;
+    opacity: 1;
+  }
+
+  :is(.attributes-table, .data-table-invoice-total) td details > .details-grid {
+    @apply mt-1 grid min-w-0 grid-cols-[1fr_auto] items-baseline gap-x-4 leading-6;
+
+    .details-month {
+      @apply text-right text-xs whitespace-nowrap text-gray-500 dark:text-gray-400;
+    }
+
+    .details-amount {
+      @apply text-right whitespace-nowrap text-gray-500 tabular-nums dark:text-gray-400;
     }
   }
 

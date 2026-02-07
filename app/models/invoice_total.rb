@@ -65,6 +65,15 @@ class InvoiceTotal
       end
   end
 
+  # Returns a sorted Hash of { "YYYY-MM" => aggregated_amount } for the
+  # "RemainingMembership" scope, nil for all other scopes.
+  def previsional_amounts_by_month
+    return unless scope == "RemainingMembership"
+
+    @previsional_amounts_by_month ||=
+      Billing::PrevisionalInvoicing.aggregate(@memberships)
+  end
+
   private
 
   def link_to_invoices(title, entity_types = scope)

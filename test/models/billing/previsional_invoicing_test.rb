@@ -480,6 +480,34 @@ class Billing::PrevisionalInvoicingTest < ActiveSupport::TestCase
     assert_sum_equals_missing membership, result
   end
 
+  test ".month_label returns localized month and year" do
+    assert_equal "January 2024", Billing::PrevisionalInvoicing.month_label("2024-01")
+    assert_equal "December 2026", Billing::PrevisionalInvoicing.month_label("2026-12")
+  end
+
+  test ".aggregate sums amounts by month across memberships sorted by key" do
+    travel_to "2024-01-01"
+    m1 = memberships(:john)
+    m2 = memberships(:jane)
+
+    m1.update_column(:previsional_invoicing_amounts, { "2024-04" => 100.0, "2024-07" => 50.0 })
+    m2.update_column(:previsional_invoicing_amounts, { "2024-01" => 30.0, "2024-04" => 70.0 })
+
+    result = Billing::PrevisionalInvoicing.aggregate([ m1, m2 ])
+
+    assert_equal({ "2024-01" => 30.0, "2024-04" => 170.0, "2024-07" => 50.0 }, result)
+  end
+
+  test ".aggregate returns empty hash when no memberships have amounts" do
+    travel_to "2024-01-01"
+    m1 = memberships(:john)
+    m1.update_column(:previsional_invoicing_amounts, {})
+
+    result = Billing::PrevisionalInvoicing.aggregate([ m1 ])
+
+    assert_empty(result)
+  end
+
   private
 
   def assert_sum_equals_missing(membership, result)

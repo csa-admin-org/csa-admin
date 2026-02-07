@@ -31,6 +31,12 @@ _:
         _de: "%a. %-d. %b %y"
         _it: "%a. %-d %b %y"
         _nl: "%a %-d %b %y"
+      month_year:
+        _en: "%B %Y"
+        _fr: "%B %Y"
+        _de: "%B %Y"
+        _it: "%B %Y"
+        _nl: "%B %Y"
       number:
         _en: "%d.%m.%y"
         _fr: "%d.%m.%y"

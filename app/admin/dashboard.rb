@@ -104,7 +104,7 @@ ActiveAdmin.register_page "Dashboard" do
                     tr class: "px-2 h-10 border-dotted border-b border-gray-200 dark:border-gray-700" do
                       td total.title
                       td class: "text-right tabular-nums w-36" do
-                        cur(total.price)
+                        previsional_details(self, total.price, total.try(:previsional_amounts_by_month))
                       end
                     end
                   end

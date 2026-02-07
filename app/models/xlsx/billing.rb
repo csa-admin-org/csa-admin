@@ -127,6 +127,18 @@ module XLSX
         add_line(t("amount_with_vat"), invoices_total(:amount_with_vat))
       end
 
+      previsional = ::Billing::PrevisionalInvoicing.aggregate(@memberships)
+      if previsional.present?
+        add_empty_line
+        add_empty_line
+
+        t_previsional = I18n.t("billing.remaining_memberships")
+        previsional.each do |month_key, amount|
+          add_line("#{t_previsional}: #{::Billing::PrevisionalInvoicing.month_label(month_key)}", amount)
+        end
+        add_line(t_previsional, previsional.values.sum)
+      end
+
       add_empty_line
       add_empty_line
 

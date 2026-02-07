@@ -13,6 +13,12 @@
 #   Billing::PrevisionalInvoicing.new(membership).compute
 #   # => { "2024-04" => 95.0, "2024-07" => 95.0, "2024-10" => 95.0 }
 #
+#   Billing::PrevisionalInvoicing.aggregate(memberships)
+#   # => { "2024-04" => 1234.0, "2024-07" => 1234.0 }
+#
+#   Billing::PrevisionalInvoicing.month_label("2024-04")
+#   # => "avril 2024"
+#
 # The result is cached as a JSON column on the membership and updated
 # inside Membership::Pricing#update_price_and_invoices_amount!.
 # The caller writes fresh price/invoices_amount to the membership's
@@ -21,6 +27,21 @@
 #
 module Billing
   class PrevisionalInvoicing
+    # Returns the localized month label for a "YYYY-MM" key.
+    def self.month_label(month_key)
+      I18n.l(Date.parse("#{month_key}-01"), format: :month_year)
+    end
+
+    # Aggregates previsional amounts across memberships into a sorted
+    # Hash of { "YYYY-MM" => total_amount }.
+    def self.aggregate(memberships)
+      memberships.each_with_object(Hash.new(0)) do |m, totals|
+        m.previsional_invoicing_amounts.each do |month_key, amount|
+          totals[month_key] += amount
+        end
+      end.sort.to_h
+    end
+
     attr_reader :membership
 
     def initialize(membership)
