@@ -159,6 +159,12 @@ production: &production
     aliases:
       - fermedumonniati
       - lafermedumonniati
+  rocambole:
+    admin_host: admin.larocambole.ch
+    members_host: membres.larocambole.ch
+    state: onboarding
+    aliases:
+      - larocambole
 
   demo-fr:
     admin_host: admin.acp-admin.ch
