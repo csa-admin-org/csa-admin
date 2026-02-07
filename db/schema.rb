@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_02_06_150000) do
+ActiveRecord::Schema[8.1].define(version: 2026_02_07_100000) do
   create_table "absences", force: :cascade do |t|
     t.datetime "created_at"
     t.date "ended_on"
@@ -610,6 +610,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_06_150000) do
     t.datetime "last_trial_basket_sent_at"
     t.bigint "member_id", null: false
     t.integer "past_baskets_count", default: 0, null: false
+    t.json "previsional_invoicing_amounts", default: {}, null: false
     t.decimal "price", precision: 8, scale: 2
     t.integer "remaining_trial_baskets_count", default: 0, null: false
     t.boolean "renew", default: false, null: false

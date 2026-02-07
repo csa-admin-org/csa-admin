@@ -115,16 +115,25 @@ module Membership::Pricing
   private
 
   def update_price_and_invoices_amount!
+    computed_price = basket_sizes_price +
+      baskets_price_extra +
+      baskets_annual_price_change +
+      basket_complements_price +
+      basket_complements_annual_price_change +
+      depots_price +
+      deliveries_price +
+      activity_participations_annual_price_change
+    computed_invoices_amount = invoices.not_canceled.sum(:memberships_amount)
+
+    # Write to in-memory attributes first so PrevisionalInvoicing
+    # and Billing::Invoicer read the fresh values directly.
+    self[:price] = computed_price
+    self[:invoices_amount] = computed_invoices_amount
+
     update_columns(
-      price: (basket_sizes_price +
-        baskets_price_extra +
-        baskets_annual_price_change +
-        basket_complements_price +
-        basket_complements_annual_price_change +
-        depots_price +
-        deliveries_price +
-        activity_participations_annual_price_change),
-      invoices_amount: invoices.not_canceled.sum(:memberships_amount))
+      price: computed_price,
+      invoices_amount: computed_invoices_amount,
+      previsional_invoicing_amounts: Billing::PrevisionalInvoicing.new(self).compute)
   end
 
   def destroy_or_cancel_invoices!

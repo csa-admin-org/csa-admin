@@ -107,11 +107,7 @@ module Billing
     end
 
     def last_fy_month
-      end_dates = [ membership.ended_on ]
-      if Current.org.billing_ends_on_last_delivery_fy_month?
-        end_dates << membership.deliveries.last.date
-      end
-      Current.org.fy_month_for(end_dates.min)
+      Billing::Periods.last_fy_month(membership)
     end
 
     def membership_amount_description
@@ -141,15 +137,9 @@ module Billing
     end
 
     def periods
-      @periods ||= begin
-        min = Current.org.fiscal_year_for(period_date).beginning_of_year
-        billing_year_division.times.map do |i|
-          old_min = min
-          max = min + period_length_in_months.months
-          min = max
-          old_min...max
-        end
-      end
+      @periods ||= Billing::Periods.build(
+        fiscal_year: Current.org.fiscal_year_for(period_date),
+        billing_year_division: billing_year_division)
     end
 
     def next_billing_day_after_first_billable_delivery

@@ -616,6 +616,7 @@ class Billing::InvoicerTest < ActiveSupport::TestCase
 
   test "next_date for pending member" do
     member = members(:aria)
+    member.update_column(:state, "pending")
     assert_nil Billing::Invoicer.new(member).next_date
   end
 
