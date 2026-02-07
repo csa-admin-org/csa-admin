@@ -8,7 +8,7 @@ module Organization::BasketContentFeature
   extend ActiveSupport::Concern
 
   included do
-    translated_attributes :basket_content_member_title, required: true
+    translated_attributes :basket_content_member_title, required: { on: :update }
     translated_attributes :basket_content_member_note
 
     validates :basket_content_member_visible_hours_before,

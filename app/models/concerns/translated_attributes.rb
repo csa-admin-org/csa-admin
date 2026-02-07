@@ -52,8 +52,9 @@ module TranslatedAttributes
         self.ransackable_translated_scopes << "#{attr}_cont"
 
         if required
+          validate_options = required.is_a?(Hash) ? required : {}
           Organization.languages.each do |locale|
-            validates "#{attr}_#{locale}".to_sym, presence: true, if: -> {
+            validates "#{attr}_#{locale}".to_sym, presence: true, **validate_options, if: -> {
               locale.in?(Current.org.languages)
             }
           end
