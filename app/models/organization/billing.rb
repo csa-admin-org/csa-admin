@@ -39,6 +39,7 @@ module Organization::Billing
     validates :currency_code, presence: true, inclusion: { in: currency_codes }
 
     after_save :apply_annual_fee_change
+    after_save :refresh_previsional_invoicing
 
     def billing_year_divisions=(divisions)
       super divisions.map(&:presence).compact.map(&:to_i) & BILLING_YEAR_DIVISIONS
@@ -145,5 +146,16 @@ module Organization::Billing
     Member
       .where(annual_fee: annual_fee_previously_was)
       .update_all(annual_fee: annual_fee)
+  end
+
+  def refresh_previsional_invoicing
+    attrs = %w[
+      billing_starts_after_first_delivery
+      billing_ends_on_last_delivery_fy_month
+      recurring_billing_wday
+    ]
+    return unless attrs.any? { |attr| previous_changes.key?(attr) }
+
+    Billing::PrevisionalInvoicingRefreshJob.perform_later
   end
 end
