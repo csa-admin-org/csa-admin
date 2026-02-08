@@ -163,6 +163,7 @@ class Membership::PricingTest < ActiveSupport::TestCase
     membership.update!(billing_year_division: 1)
 
     travel_to "2024-05-01"
+    Current.reset # clear memoized fiscal_year after travel_to
     invoice = force_invoice(member, send_email: true)
     perform_enqueued_jobs
     membership.reload.update!(ended_on: "2024-05-15")
@@ -254,6 +255,7 @@ class Membership::PricingTest < ActiveSupport::TestCase
     perform_enqueued_jobs
 
     travel_to "2025-01-01"
+    Current.reset # clear memoized fiscal_year after travel_to
     membership.baskets.first.update!(basket_size_price: 29)
 
     assert_no_difference -> { membership.reload.invoices_amount } do

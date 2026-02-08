@@ -116,7 +116,7 @@ ActiveAdmin.register_page "Dashboard" do
               h4 Payment.model_name.human(count: 2), class: "text-base font-semibold mt-4"
               table class: "p-2 w-full text-base data-table-total" do
                 tbody do
-                  PaymentTotal.all.each do |total|
+                  PaymentTotal.all(Current.fiscal_year).each do |total|
                     tr class: "h-10 border-dotted border-b border-gray-200 dark:border-gray-700" do
                       td total.title
                       td class: "text-right tabular-nums w-36" do

@@ -782,8 +782,10 @@ class Billing::InvoicerTest < ActiveSupport::TestCase
     assert_equal "2024-04-04", membership.deliveries.first.date.to_s
 
     travel_to "2024-12-31"
+    Current.reset # clear memoized fiscal_year after travel_to
     assert_equal "2024-12-31", Billing::Invoicer.new(member.reload).next_date.to_s
     travel_to "2025-01-01"
+    Current.reset # clear memoized fiscal_year after travel_to
     assert_nil Billing::Invoicer.new(member.reload).next_date
   end
 

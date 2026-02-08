@@ -6,16 +6,16 @@ class InvoiceTotal
   include ActivitiesHelper
   include ActionView::Helpers::UrlHelper
 
-  def self.all(year)
+  def self.all(fiscal_year)
     scopes = %w[Membership]
     scopes << "AnnualFee" if Current.org.annual_fee?
     scopes << "Share" if Current.org.share?
     scopes << "Shop::Order" if Current.org.feature?("shop")
     scopes << "ActivityParticipation" if Current.org.feature?("activity")
     scopes << "Other" if Invoice.current_year.not_canceled.other_type.any?
-    all = scopes.flatten.map { |scope| new(scope, year) }
+    all = scopes.flatten.map { |scope| new(scope, fiscal_year) }
     sum = all.sum(&:price)
-    remaining = new("RemainingMembership", year)
+    remaining = new("RemainingMembership", fiscal_year)
 
     all << OpenStruct.new(price: sum)
     all << remaining
@@ -24,9 +24,10 @@ class InvoiceTotal
 
   attr_reader :scope
 
-  def initialize(scope, year)
-    @memberships = Membership.joins(:member).where(members: { salary_basket: false }).during_year(year)
-    @invoices = Invoice.during_year(year).not_canceled
+  def initialize(scope, fiscal_year)
+    @fiscal_year = fiscal_year
+    @memberships = Membership.joins(:member).where(members: { salary_basket: false }).during_year(fiscal_year)
+    @invoices = Invoice.during_year(fiscal_year).not_canceled
     @scope = scope
   end
 
@@ -77,13 +78,12 @@ class InvoiceTotal
   private
 
   def link_to_invoices(title, entity_types = scope)
-    fy = Current.fiscal_year
     url_helpers = Rails.application.routes.url_helpers
     link_to title, url_helpers.invoices_path(
       scope: :all,
       q: {
         entity_type_in: entity_types,
-        during_year: fy.year
+        during_year: @fiscal_year.year
       })
   end
 end

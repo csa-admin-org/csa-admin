@@ -6,17 +6,18 @@ class PaymentTotal
   include ActivitiesHelper
   include ActionView::Helpers::UrlHelper
 
-  def self.all
+  def self.all(fiscal_year)
     scopes = %i[paid missing]
-    all = scopes.flatten.map { |scope| new(scope) }
+    all = scopes.flatten.map { |scope| new(scope, fiscal_year) }
     all << OpenStruct.new(price: all.sum(&:price))
   end
 
   attr_reader :scope
 
-  def initialize(scope)
-    @payments = Payment.current_year
-    @invoices = Invoice.current_year.not_canceled
+  def initialize(scope, fiscal_year)
+    @fiscal_year = fiscal_year
+    @payments = Payment.during_year(fiscal_year)
+    @invoices = Invoice.during_year(fiscal_year).not_canceled
     @scope = scope
   end
 
@@ -62,18 +63,16 @@ class PaymentTotal
   private
 
   def link_to_invoices(title, scope:, q: {})
-    fy = Current.fiscal_year
     url_helpers = Rails.application.routes.url_helpers
     link_to title, url_helpers.invoices_path(
       scope: scope,
-      q: q.merge(during_year: fy.year))
+      q: q.merge(during_year: @fiscal_year.year))
   end
 
   def link_to_payments(title)
-    fy = Current.fiscal_year
     url_helpers = Rails.application.routes.url_helpers
     link_to title, url_helpers.payments_path(
       scope: :all,
-      q: { during_year: fy.year })
+      q: { during_year: @fiscal_year.year })
   end
 end

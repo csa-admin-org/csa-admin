@@ -87,6 +87,7 @@ class BasketComplementTest < ActiveSupport::TestCase
     end
 
     travel_to "2025-01-01"
+    Current.reset # clear memoized fiscal_year after travel_to
     c.reload
     assert_no_changes -> { baskets(:john_1).reload.complement_ids }, from: [ c.id ] do
       perform_enqueued_jobs do
