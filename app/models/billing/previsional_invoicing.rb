@@ -81,12 +81,11 @@ module Billing
     def projectable?
       membership.price.present? &&
         membership.missing_invoices_amount.positive? &&
-        !membership.member.salary_basket? &&
-        Current.org.recurring_billing?
+        !membership.member.salary_basket?
     end
 
     def invoicer_next_date
-      Billing::Invoicer.new(membership.member, membership: membership).next_date
+      Billing::Invoicer.new(membership.member, membership: membership).next_date(previsional: true)
     end
 
     def membership_invoice_dates

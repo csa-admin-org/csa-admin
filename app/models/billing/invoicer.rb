@@ -38,8 +38,8 @@ module Billing
       @member.billable? && next_date && current_period.cover?(next_date)
     end
 
-    def next_date
-      return unless Current.org.recurring_billing?
+    def next_date(previsional: false)
+      return unless previsional || Current.org.recurring_billing?
 
       @next_date ||=
         if membership&.billable?
@@ -150,7 +150,11 @@ module Billing
 
     def next_billing_day(day = date)
       day = [ day, date ].compact.max.to_date
-      day + ((Current.org.recurring_billing_wday - day.wday) % 7).days
+      if Current.org.recurring_billing_wday
+        day + ((Current.org.recurring_billing_wday - day.wday) % 7).days
+      else
+        day
+      end
     end
   end
 end

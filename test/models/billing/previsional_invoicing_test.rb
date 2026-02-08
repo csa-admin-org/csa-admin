@@ -142,14 +142,15 @@ class Billing::PrevisionalInvoicingTest < ActiveSupport::TestCase
     assert_empty(result)
   end
 
-  test "no recurring billing configured returns empty hash" do
+  test "no recurring billing configured still computes previsional amounts" do
     org(recurring_billing_wday: nil)
     travel_to "2024-01-01"
     membership = memberships(:john)
 
     result = Billing::PrevisionalInvoicing.new(membership).compute
 
-    assert_empty(result)
+    assert_equal({ "2024-01" => 200.0 }, result)
+    assert_sum_equals_missing membership, result
   end
 
   test "partial year membership ending mid-year" do
