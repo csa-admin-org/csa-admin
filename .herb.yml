@@ -17,6 +17,7 @@ files:
   # Patterns to exclude (can exclude defaults too)
   exclude:
     - 'tmp/**/*'
+    - 'vendor/**/*'
 
 linter:
   enabled: true
