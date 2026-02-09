@@ -210,7 +210,7 @@ class Member < ApplicationRecord
   def set_default_annual_fee
     return unless new_record?
     return if annual_fee
-    return unless Current.org.annual_fee?
+    return unless Current.org.annual_fee&.positive?
 
     unless Current.org.annual_fee_support_member_only? && waiting_basket_size_id?
       self[:annual_fee] ||= Current.org.annual_fee
@@ -264,10 +264,9 @@ class Member < ApplicationRecord
   def handle_annual_fee_change
     return unless Current.org.annual_fee?
 
-    if annual_fee&.positive?
+    if !annual_fee.nil?
       self.state = SUPPORT_STATE if inactive?
     elsif support?
-      self.annual_fee = nil
       self.state = INACTIVE_STATE
     end
   end

@@ -16,7 +16,7 @@ module Member::StateTransitions
     if waiting_basket_size_id? || waiting_depot_id?
       self.waiting_started_at ||= Time.current
       self.state = Member::WAITING_STATE
-    elsif annual_fee&.positive? || desired_shares_number.positive?
+    elsif !annual_fee.nil? || desired_shares_number.positive?
       self.state = Member::SUPPORT_STATE
     else
       self.state = Member::INACTIVE_STATE

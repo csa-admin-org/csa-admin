@@ -46,6 +46,22 @@ class Member::StateTransitionsTest < ActiveSupport::TestCase
     assert_equal admin, member.validator
   end
 
+  test "validate! sets state to support if annual_fee is zero" do
+    admin = admins(:super)
+    member = members(:aria)
+    member.update!(
+      state: "pending",
+      validated_at: nil,
+      waiting_basket_size: nil,
+      waiting_depot: nil,
+      annual_fee: 0)
+    assert_changes -> { member.state }, from: "pending", to: "support" do
+      member.validate!(admin)
+    end
+    assert member.validated_at.present?
+    assert_equal admin, member.validator
+  end
+
   test "validate! sets state to inactive if annual_fee is not present" do
     admin = admins(:super)
     member = members(:aria)
@@ -294,6 +310,42 @@ class Member::StateTransitionsTest < ActiveSupport::TestCase
     end
     assert_equal 0, member.desired_shares_number
     assert_equal 0, member.required_shares_number
+  end
+
+  test "setting annual_fee to zero on inactive member moves to support" do
+    member = members(:mary)
+    assert member.inactive?
+    member.update!(annual_fee: 0)
+    assert member.support?
+    assert_equal 0, member.annual_fee
+  end
+
+  test "support member with zero annual_fee stays support when editing other fields" do
+    member = members(:mary)
+    member.update!(annual_fee: 0)
+    assert member.support?
+    member.update!(note: "updated note")
+    assert member.support?
+    assert_equal 0, member.annual_fee
+  end
+
+  test "deactivate! support member with zero annual_fee" do
+    member = members(:mary)
+    member.update!(annual_fee: 0)
+    assert member.support?
+    assert_changes -> { member.state }, from: "support", to: "inactive" do
+      member.deactivate!
+    end
+    assert_nil member.annual_fee
+  end
+
+  test "clearing annual_fee on support member with zero fee moves to inactive" do
+    member = members(:mary)
+    member.update!(annual_fee: 0)
+    assert member.support?
+    member.update!(annual_fee: nil)
+    assert member.inactive?
+    assert_nil member.annual_fee
   end
 
   test "can_wait? returns true for support member" do

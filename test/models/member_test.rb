@@ -105,7 +105,7 @@ class MemberTest < ActiveSupport::TestCase
     org(annual_fee: 0, annual_fee_member_form: true)
     member = build_member(annual_fee: nil, public_create: true)
     assert_not member.valid?
-    assert_includes member.errors[:annual_fee], "must be greater than or equal to 1"
+    assert_includes member.errors[:annual_fee], "can't be blank"
 
     member.update(annual_fee: 0, waiting_basket_size_id: 0)
     assert_not member.valid?
@@ -502,6 +502,12 @@ class MemberTest < ActiveSupport::TestCase
     assert_equal 30, member.annual_fee
 
     member = build_member(annual_fee: nil, waiting_basket_size_id: small_id)
+    assert_nil member.annual_fee
+  end
+
+  test "does not default annual_fee when org annual_fee is zero" do
+    org(annual_fee: 0)
+    member = build_member(annual_fee: nil)
     assert_nil member.annual_fee
   end
 

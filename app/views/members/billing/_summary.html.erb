@@ -37,7 +37,7 @@
     </li>
   <% end %>
 
-  <% if Current.org.annual_fee? || current_member.annual_fee&.positive? %>
+  <% if Current.org.annual_fee? || !current_member.annual_fee.nil? %>
     <li
       class="
         flex flex-1 flex-col rounded-sm border border-gray-200 p-2
