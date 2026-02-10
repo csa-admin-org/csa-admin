@@ -2196,6 +2196,12 @@ _:
           _de: Eindeutige Kennung des Kontos
           _it: Identificativo univoco dell'account
           _nl: Unieke identificatie van het account
+        local_currency_membership_annual_fee_only:
+          _en: Limit to membership and annual fee invoices
+          _fr: Limiter aux factures d'abonnement et de cotisation annuelle
+          _de: Auf Abonnement- und Jahresbeitragsrechnungen beschränken
+          _it: Limitare alle fatture di abbonamento e quota annuale
+          _nl: Beperken tot lidmaatschaps- en jaarlijkse bijdragefacturen
         local_currency_secret:
           _en: Secret key
           _fr: Clé secrète

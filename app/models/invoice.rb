@@ -113,6 +113,9 @@ class Invoice < ApplicationRecord
   def set_local_currency_code
     return unless Current.org.feature?(:local_currency)
     return unless member&.use_local_currency?
+    if Current.org.local_currency_membership_annual_fee_only?
+      return unless entity_type.in?(%w[Membership AnnualFee])
+    end
 
     self.currency_code = Current.org.local_currency_code
   end

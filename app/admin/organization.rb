@@ -547,6 +547,7 @@ ActiveAdmin.register Organization do
             collection: locale_currencies_collection,
             include_blank: false,
             required: false
+          f.input :local_currency_membership_annual_fee_only
           f.input :local_currency_identifier, required: true
           f.input :local_currency_wallet, required: true
           f.input :local_currency_secret,
@@ -610,7 +611,7 @@ ActiveAdmin.register Organization do
     :new_member_fee,
     :invoice_membership_summary_only,
     :social_network_urls,
-    :local_currency_code, :local_currency_identifier, :local_currency_wallet, :local_currency_secret,
+    :local_currency_code, :local_currency_membership_annual_fee_only, :local_currency_identifier, :local_currency_wallet, :local_currency_secret,
     *I18n.available_locales.map { |l| "invoice_document_name_#{l}" },
     *I18n.available_locales.map { |l| "invoice_info_#{l}" },
     *I18n.available_locales.map { |l| "invoice_sepa_info_#{l}" },

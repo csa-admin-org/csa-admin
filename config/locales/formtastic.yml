@@ -1113,6 +1113,12 @@ _:
           _de: Bitte kontaktieren Sie mich für Änderungen.
           _it: Grazie di contattarmi per qualsiasi modifica.
           _nl: Neem contact met mij op voor wijzigingen.
+        local_currency_membership_annual_fee_only:
+          _en: When enabled, only membership and annual fee invoices are issued in local currency. Other invoice types (shop orders, shares, etc.) will use the national currency. When disabled, all invoices are issued in local currency.
+          _fr: Lorsque cette option est activée, seules les factures d'abonnement et de cotisation annuelle sont émises en monnaie locale. Les autres types de factures (commandes d'épicerie, parts sociales, etc.) utilisent la monnaie nationale. Lorsque désactivée, toutes les factures sont émises en monnaie locale.
+          _de: Wenn aktiviert, werden nur Abonnement- und Jahresbeitragsrechnungen in lokaler Währung ausgestellt. Andere Rechnungsarten (Hofladen-Bestellungen, Anteilscheine usw.) verwenden die nationale Währung. Wenn deaktiviert, werden alle Rechnungen in lokaler Währung ausgestellt.
+          _it: Quando abilitato, solo le fatture di abbonamento e quota annuale vengono emesse in valuta locale. Gli altri tipi di fattura (ordini drogheria, quote sociali, ecc.) utilizzeranno la valuta nazionale. Quando disabilitato, tutte le fatture vengono emesse in valuta locale.
+          _nl: Indien ingeschakeld, worden alleen lidmaatschaps- en jaarlijkse bijdragefacturen uitgegeven in lokale valuta. Andere factuurtypen (winkelbestellingen, aandelen, enz.) gebruiken de nationale valuta. Indien uitgeschakeld, worden alle facturen uitgegeven in lokale valuta.
         member_come_from_form_mode:
           _en: Defines the display mode of this field in the registration form.
           _fr: Définis le mode d'affichage de ce champ dans le formulaire d'inscription.
