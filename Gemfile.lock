@@ -261,11 +261,11 @@ GEM
       activesupport (>= 7.0)
     hashdiff (1.2.1)
     hashery (2.1.2)
-    herb (0.8.9-aarch64-linux-gnu)
-    herb (0.8.9-arm64-darwin)
-    herb (0.8.9-x86_64-linux-gnu)
-    herb (0.8.9-x86_64-linux-musl)
-    hexapdf (1.5.0)
+    herb (0.8.10-aarch64-linux-gnu)
+    herb (0.8.10-arm64-darwin)
+    herb (0.8.10-x86_64-linux-gnu)
+    herb (0.8.10-x86_64-linux-musl)
+    hexapdf (1.6.0)
       cmdparse (~> 3.0, >= 3.0.3)
       geom2d (~> 0.4, >= 0.4.1)
       openssl (>= 2.2.1)
@@ -864,11 +864,11 @@ CHECKSUMS
   has_scope (0.9.0) sha256=783a93006cf898525bb4899696f1d088c0f6ff897d6df2bf03fdbbe0d0b5124c
   hashdiff (1.2.1) sha256=9c079dbc513dfc8833ab59c0c2d8f230fa28499cc5efb4b8dd276cf931457cd1
   hashery (2.1.2) sha256=d239cc2310401903f6b79d458c2bbef5bf74c46f3f974ae9c1061fb74a404862
-  herb (0.8.9-aarch64-linux-gnu) sha256=9214cc24953c355f9ae785a95bb9362cdfc9fcd2ae4db2a32bc26c0b88f98c7f
-  herb (0.8.9-arm64-darwin) sha256=d045cce47bbec4d27a413fc4758e75bdd748a40430293b20bbb59789c02cad81
-  herb (0.8.9-x86_64-linux-gnu) sha256=0315fef432649bb1aa139d01e7acad66f78b0abd5aa6d1e03ca5fe1bde224b14
-  herb (0.8.9-x86_64-linux-musl) sha256=caae9c6058ada130f070342c568c6efcb1c44295cdc9e505fe58cb4ee870a207
-  hexapdf (1.5.0) sha256=05ab16c894ef59a8b65fdc5f5eeca941d7c0fc85a02c81728c3db9321d8e2438
+  herb (0.8.10-aarch64-linux-gnu) sha256=da47ed456350077e73c6d94336dda8a3ac141922c867cf552bf17cb0840388de
+  herb (0.8.10-arm64-darwin) sha256=bba77f7f64ffd144f36af5d4573ca5ee863f7258acd71c8536384d63d60e3d72
+  herb (0.8.10-x86_64-linux-gnu) sha256=268b059f66a1f3191c8d7c15cfcb293a91be5c3811704856acd49b6f2e5dc1b1
+  herb (0.8.10-x86_64-linux-musl) sha256=bd1b2bf9f0ab9ceecdd874cdf03424176b83fa3c937188568c011cecf40b5d7f
+  hexapdf (1.6.0) sha256=78e32fc5a088a347bcb2cad4ab327cbdd0a0c5e1e77963b52460eef78d402582
   htmlentities (4.4.2) sha256=bbafbdf69f2eca9262be4efef7e43e6a1de54c95eb600f26984f71d2fe96c5c3
   i18n (1.14.8) sha256=285778639134865c5e0f6269e0b818256017e8cde89993fdfcbfb64d088824a5
   i18n-backend-side_by_side (1.3.0) sha256=9a48d06549d4d5e4e6640ab66c560ffa4a73883f29a881818810bd30e49f95d8
