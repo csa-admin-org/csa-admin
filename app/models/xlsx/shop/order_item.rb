@@ -24,7 +24,7 @@ module XLSX
 
       def filename
         dates = @order_items.map { |i| i.order.delivery.date }
-        dates = [ dates.min, dates.max ].uniq
+        dates = [ dates.min, dates.max ].compact.uniq
         [
           I18n.t("shop.title").parameterize,
           ::Shop::OrderItem.model_name.human(count: 2).parameterize,
