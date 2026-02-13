@@ -42,6 +42,7 @@ class ApplicationController < ActionController::Base
       redirect_to smart_login_path, alert: t("sessions.flash.expired"), allow_other_host: true
     else
       set_observability_context(
+        subdomain: "admin",
         admin_id: current_admin.id,
         session_id: current_session.id)
       update_last_usage(current_session)

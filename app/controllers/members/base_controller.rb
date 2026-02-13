@@ -21,6 +21,7 @@ class Members::BaseController < ApplicationController
       redirect_to members_login_path, alert: t("sessions.flash.expired")
     else
       set_observability_context(
+        subdomain: Current.org.members_subdomain,
         member_id: current_member.id,
         session_id: current_session.id)
       update_last_usage(current_session)
