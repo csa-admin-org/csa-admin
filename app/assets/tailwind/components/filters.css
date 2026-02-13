@@ -32,13 +32,13 @@
   }
 
   .filters-form-submit {
-    @apply min-w-[6rem] cursor-pointer rounded-md bg-green-600 px-3 py-2 text-center font-bold text-white hover:bg-green-700 focus:ring-4 focus:ring-green-300 focus:outline-hidden dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800;
+    @apply min-w-24 cursor-pointer rounded-md bg-green-600 px-3 py-2 text-center font-bold text-white hover:bg-green-700 focus:ring-4 focus:ring-green-300 focus:outline-hidden dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800;
   }
 
   .filters-form-clear {
-    @apply rounded-md border border-gray-200 px-3 py-1 font-semibold !text-gray-600 no-underline hover:bg-gray-100 dark:border-gray-600 dark:!text-gray-400 dark:hover:bg-gray-800 dark:hover:text-gray-100 dark:focus:ring-green-800;
+    @apply rounded-md border border-gray-200 px-3 py-1 font-semibold text-gray-600! no-underline hover:bg-gray-100 dark:border-gray-600 dark:text-gray-400! dark:hover:bg-gray-800 dark:hover:text-gray-100 dark:focus:ring-green-800;
     &.disabled {
-      @apply border-gray-50 !text-gray-300 dark:border-gray-800 dark:!text-gray-600;
+      @apply border-gray-50 text-gray-300! dark:border-gray-800 dark:text-gray-600!;
     }
   }
 
