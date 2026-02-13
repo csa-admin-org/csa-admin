@@ -90,7 +90,7 @@ class Members::SessionsTest < ApplicationSystemTestCase
     assert_text "Your login link is no longer valid. Please request a new one."
   end
 
-  test "cannot redeem sessions twice" do
+  test "can redeem session multiple times within expiration window" do
     session = create_session(members(:john))
     token = session.generate_token_for(:redeem)
 
@@ -100,7 +100,7 @@ class Members::SessionsTest < ApplicationSystemTestCase
     assert_text "You are now logged in."
 
     visit "/sessions/#{token}"
-    assert_text "Your login link is no longer valid. Please request a new one."
+    assert_text "You are now logged in."
   end
 
   test "logout session without email" do

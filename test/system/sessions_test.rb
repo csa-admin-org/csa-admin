@@ -89,7 +89,7 @@ class SessionsTest < ApplicationSystemTestCase
     assert_equal "Your login link is no longer valid. Please request a new one.", flash_alert
   end
 
-  test "cannot redeem sessions twice" do
+  test "can redeem session multiple times within expiration window" do
     session = create_session(admins(:ultra))
     token = session.generate_token_for(:redeem)
 
@@ -99,7 +99,7 @@ class SessionsTest < ApplicationSystemTestCase
     assert_equal "You are now logged in.", flash_notice
 
     visit "/sessions/#{token}"
-    assert_equal "Your login link is no longer valid. Please request a new one.", flash_alert
+    assert_equal "You are now logged in.", flash_notice
   end
 
   test "logout session without email" do

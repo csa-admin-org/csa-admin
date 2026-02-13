@@ -19,7 +19,7 @@ class Liquid::ButtonBlock < Liquid::Block
                 <table border="0" cellspacing="0" cellpadding="0">
                   <tr>
                     <td>
-                      <a href="#{ url }" class="button button--green" target="_blank">
+                      <a href="#{ url }" class="button button--green" target="_blank" rel="noreferrer noopener">
                         #{ super }
                       </a>
                     </td>

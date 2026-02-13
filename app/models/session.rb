@@ -6,9 +6,7 @@ class Session < ApplicationRecord
   include Session::DeletionCode
   EXPIRATION = 1.year
 
-  generates_token_for :redeem, expires_in: 15.minutes do
-    last_used_at # Invalidate token once used
-  end
+  generates_token_for :redeem, expires_in: 15.minutes
 
   belongs_to :member, optional: true
   belongs_to :admin, optional: true
