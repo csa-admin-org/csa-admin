@@ -1,4 +1,4 @@
-<% if @query.length < 2 %>
+<% if @query.length < 2 || (@query.length < 3 && !@query.match?(/\A\d+\z/)) %>
   <%# No content for short queries %>
 <% elsif @results.empty? %>
   <div class="px-4 py-8 text-center text-sm text-gray-500 dark:text-gray-400">

@@ -97,7 +97,7 @@ export default class extends Controller {
 
   search() {
     const query = this.inputTarget.value.trim()
-    if (query.length < 2) {
+    if (query.length < 2 || (query.length < 3 && !/^\d+$/.test(query))) {
       this.resultsTarget.innerHTML = ""
       this.selectedIndex = -1
       this.setKeyboardMode(false, this.resultItems)
