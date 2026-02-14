@@ -120,7 +120,7 @@ class SearchEntry < ApplicationRecord
   def self.normalize_text(text)
     return "" if text.blank?
 
-    ActiveSupport::Inflector.transliterate(text.to_s)
+    ActiveSupport::Inflector.transliterate(text.to_s, locale: :en)
       .downcase
       .gsub(/[^a-z0-9 .@,_'-]/, " ")
       .squish

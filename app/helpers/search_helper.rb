@@ -32,7 +32,7 @@ module SearchHelper
     compact_to_orig = []
 
     text.each_char.with_index do |char, orig_idx|
-      ActiveSupport::Inflector.transliterate(char).downcase.each_char do |nc|
+      ActiveSupport::Inflector.transliterate(char, locale: :en).downcase.each_char do |nc|
         if nc.match?(/[a-z0-9 ]/)
           compact << nc
           compact_to_orig << orig_idx

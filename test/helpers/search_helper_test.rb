@@ -164,4 +164,28 @@ class SearchHelperTest < ActiveSupport::TestCase
     result = highlight_search("2300 La Chaux-de-Fonds", "chaux-de-fonds")
     assert_equal "2300 La <mark>Chaux-de-Fonds</mark>", result
   end
+
+  # --- Locale-independent highlighting ---
+
+  test "highlight_search highlights German umlauts regardless of locale" do
+    I18n.with_locale(:de) do
+      assert_equal "<mark>Bätt</mark>ig", highlight_search("Bättig", "batt")
+      assert_equal "<mark>Blät</mark>tler", highlight_search("Blättler", "blat")
+      assert_equal "<mark>Müll</mark>er", highlight_search("Müller", "mull")
+      assert_equal "8000 <mark>Zür</mark>ich", highlight_search("8000 Zürich", "zur")
+    end
+  end
+
+  test "highlight_search produces same results across all locales" do
+    text = "Bättig Romina und Elmar"
+    query = "batt"
+
+    results = %i[en fr de it nl].map { |locale|
+      I18n.with_locale(locale) { highlight_search(text, query) }
+    }
+
+    assert results.all? { |r| r == results.first },
+      "Expected same highlight across locales, got: #{results.inspect}"
+    assert_includes results.first, "<mark>"
+  end
 end
