@@ -14,6 +14,9 @@ module Shop
 
     has_many :products, class_name: "Shop::Product"
 
+    after_commit :reindex_product_search_entries,
+      if: -> { saved_change_to_name? }
+
     validates :website_url, format: {
       with: %r{\Ahttps?://.*\z},
       allow_blank: true
@@ -33,6 +36,12 @@ module Shop
 
     def can_delete?
       products.none?
+    end
+
+    private
+
+    def reindex_product_search_entries
+      SearchReindexDependentsJob.perform_later(self)
     end
   end
 end

@@ -13,6 +13,8 @@ class Invoice < ApplicationRecord
   include HasCurrency
   include ActionView::Helpers::NumberHelper
 
+  include Searchable
+
   # Sub-model concerns (order matters for callbacks!)
   include EntityType
   include SEPA
@@ -28,6 +30,21 @@ class Invoice < ApplicationRecord
   attr_writer :membership_amount_fraction, :send_email
 
   has_states :processing, :open, :closed, :canceled
+
+  searchable :id, :amount, :date, priority: 3, date: :date
+
+  # Include all open invoices in the search index regardless of date,
+  # so unpaid invoices from older fiscal years remain findable.
+  # Old open invoices that get closed/canceled are automatically pruned
+  # by the nightly prune_stale_entries! job.
+  def self.search_reindex_scope
+    scope = where(date: search_min_date..)
+    scope.or(open)
+  end
+
+  def search_indexable?
+    open? || (date.present? && date >= self.class.search_min_date)
+  end
 
   audited_attributes :state, :sent_at, :sepa_direct_debit_order_uploaded_at
 

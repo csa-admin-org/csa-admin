@@ -82,10 +82,12 @@ class Delivery < ApplicationRecord
     past?
   end
 
-  def display_name(format: :medium)
+  def display_name(format: :medium, capitalize: false)
     content_tag(:span, class: "whitespace-nowrap") {
       content_tag(:span, class: "tabular-nums") {
-        I18n.l(date, format: format)
+        txt = I18n.l(date, format: format)
+        txt = txt.capitalize if capitalize
+        txt
       } + " #{display_number}"
     }.html_safe
   end

@@ -75,7 +75,7 @@ ActiveAdmin.register Delivery do
 
   sidebar_handbook_link("deliveries")
 
-  show title: ->(d) { d.display_name(format: :long).capitalize } do |delivery|
+  show title: ->(d) { d.display_name(format: :long, capitalize: true) } do |delivery|
     columns do
       column do
         panel Basket.model_name.human(count: 2), action: (

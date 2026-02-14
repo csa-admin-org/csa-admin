@@ -179,6 +179,7 @@ class Demo::Seeder
       seed_shop!
     end
     mark_newsletter_delivered!
+    SearchEntry.rebuild!
 
     log "Demo reset completed successfully"
   end

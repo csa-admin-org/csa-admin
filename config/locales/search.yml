@@ -1,0 +1,38 @@
+_:
+  search:
+    no_results:
+      _en: No results found.
+      _fr: Aucun résultat trouvé.
+      _de: Keine Ergebnisse gefunden.
+      _it: Nessun risultato trovato.
+      _nl: Geen resultaten gevonden.
+    no_results_hint:
+      _en: Search includes records since %{date}.
+      _fr: La recherche inclut les entrées depuis le %{date}.
+      _de: Die Suche enthält Datensätze ab dem %{date}.
+      _it: La ricerca include voci dal %{date}.
+      _nl: De zoekfunctie bevat records sinds %{date}.
+    placeholder:
+      _en: Type to search…
+      _fr: Rechercher…
+      _de: Suchen…
+      _it: Cerca…
+      _nl: Zoeken…
+    shortcut_hint_mac_html:
+      _en: Use <kbd class="kbd">⌘K</kbd> to open search quickly
+      _fr: Utilisez <kbd class="kbd">⌘K</kbd> pour ouvrir la recherche rapidement
+      _de: Verwenden Sie <kbd class="kbd">⌘K</kbd>, um die Suche schnell zu öffnen
+      _it: Usa <kbd class="kbd">⌘K</kbd> per aprire rapidamente la ricerca
+      _nl: Gebruik <kbd class="kbd">⌘K</kbd> om snel te zoeken
+    shortcut_hint_other_html:
+      _en: Use <kbd class="kbd">Ctrl+K</kbd> to open search quickly
+      _fr: Utilisez <kbd class="kbd">Ctrl+K</kbd> pour ouvrir la recherche rapidement
+      _de: Verwenden Sie <kbd class="kbd">Strg+K</kbd>, um die Suche schnell zu öffnen
+      _it: Usa <kbd class="kbd">Ctrl+K</kbd> per aprire rapidamente la ricerca
+      _nl: Gebruik <kbd class="kbd">Ctrl+K</kbd> om snel te zoeken
+    title:
+      _en: Search
+      _fr: Rechercher
+      _de: Suchen
+      _it: Cerca
+      _nl: Zoeken

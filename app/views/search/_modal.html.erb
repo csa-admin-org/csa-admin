@@ -1,0 +1,107 @@
+<% initial_query = params[:search].to_s.strip.presence %>
+
+<div
+  data-controller="search-modal"
+  data-search-modal-initial-query-value="<%= initial_query %>"
+  data-action="
+    keydown.meta+k@document->search-modal#openViaShortcut:prevent
+    keydown.ctrl+k@document->search-modal#openViaShortcut:prevent
+    keydown.esc@document->search-modal#close
+    keydown.down@document->search-modal#navigateDown
+    keydown.up@document->search-modal#navigateUp
+    keydown.enter@document->search-modal#selectCurrent
+  "
+>
+  <button
+    type="button"
+    class="
+      flex size-9 items-center justify-center text-sm text-white/75
+      hover:text-white focus:outline-hidden dark:text-black/50
+      dark:hover:text-black
+    "
+    data-action="search-modal#openViaClick"
+    title="<%= t("search.title") %> (Ctrl+K)"
+  >
+    <%= icon "magnifying-glass", class: "size-5" %>
+  </button>
+
+  <div
+    data-search-modal-target="dialog"
+    data-action="click->search-modal#close:self"
+    class="
+      fixed inset-0 z-[100] flex hidden items-start justify-center
+      bg-black/40 pt-24 opacity-0 transition-opacity duration-150
+      dark:bg-black/60 [&.open]:opacity-100
+    "
+  >
+    <div
+      class="
+        mx-1.5 w-full max-w-xl scale-95 transform overflow-hidden rounded-xl
+        bg-white shadow-2xl transition-transform duration-150
+        dark:bg-gray-800 dark:ring-1 dark:ring-gray-700 [.open_&]:scale-100
+      "
+    >
+      <%# Search input %>
+      <form
+        action="<%= search_path %>"
+        method="get"
+        data-turbo-frame="search-results"
+        data-search-modal-target="form"
+      >
+        <div
+          class="
+            flex h-12 items-center border-b border-gray-200 px-4
+            dark:border-gray-700
+          "
+        >
+          <%= icon "magnifying-glass", class: "size-5 shrink-0 text-gray-400 dark:text-gray-500" %>
+
+          <input
+            type="text"
+            name="q"
+            data-search-modal-target="input"
+            data-action="input->search-modal#search"
+            placeholder="<%= t("search.placeholder") %>"
+            autocomplete="off"
+            spellcheck="false"
+            class="
+              my-auto w-full border-0 bg-transparent py-0 pr-4 pl-3 text-sm
+              text-gray-900 placeholder-gray-400 focus:ring-0
+              focus:outline-hidden dark:text-gray-100
+              dark:placeholder-gray-500
+            "
+          >
+
+          <kbd class="kbd hidden shrink-0 tracking-tighter sm:inline-block">
+            Esc
+          </kbd>
+        </div>
+      </form>
+
+      <%# Keyboard shortcut hint (shown only when opened via click) %>
+      <div
+        data-search-modal-target="hint"
+        class="
+          hidden px-4 py-2 text-center text-xs text-gray-400
+          dark:text-gray-500
+        "
+      >
+        <span data-platform="mac" class="hidden">
+          <%= t("search.shortcut_hint_mac_html") %>
+        </span>
+
+        <span data-platform="other" class="hidden">
+          <%= t("search.shortcut_hint_other_html") %>
+        </span>
+      </div>
+
+      <%# Results container %>
+      <turbo-frame
+        id="search-results"
+        data-search-modal-target="results"
+        data-action="turbo:frame-load->search-modal#resetSelection"
+        class="block max-h-[60vh] overflow-y-auto overscroll-contain"
+      ></turbo-frame>
+    </div>
+  </div>
+</div>

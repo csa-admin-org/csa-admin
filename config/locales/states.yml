@@ -281,3 +281,16 @@ _:
         _de: vorzubereiten
         _it: essere preparati
         _nl: voor te bereiden
+    shop/product:
+      available:
+        _en: available
+        _fr: disponible
+        _de: verfügbar
+        _it: disponibile
+        _nl: beschikbaar
+      unavailable:
+        _en: unavailable
+        _fr: indisponible
+        _de: nicht verfügbar
+        _it: indisponibile
+        _nl: niet beschikbaar

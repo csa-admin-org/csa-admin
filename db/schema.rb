@@ -1060,4 +1060,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_10_165540) do
   add_foreign_key "shop_products_tags", "shop_products", column: "product_id"
   add_foreign_key "shop_products_tags", "shop_tags", column: "tag_id"
   add_foreign_key "support_tickets", "admins"
+
+  # Virtual tables defined in this database.
+  # Note that virtual tables may not work with other database engines. Be careful if changing database.
+  create_virtual_table "search_entries", "fts5", ["searchable_type UNINDEXED", "searchable_id UNINDEXED", "content_primary", "content_secondary", "priority UNINDEXED", "updated_at UNINDEXED", "tokenize='trigram'"]
 end

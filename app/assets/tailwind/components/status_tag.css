@@ -9,6 +9,7 @@
 
   .status-tag {
     /* Green statuses - success/completed actions */
+    &[data-status="available"],
     &[data-status="renewed"],
     &[data-status="delivered"],
     &[data-status="invoiced"],
@@ -74,6 +75,7 @@
     &[data-status="no_email"],
     &[data-status="manual_suppression"],
     &[data-status="past"],
+    &[data-status="unavailable"],
     &[data-status="inactive"] {
       @apply bg-neutral-400 dark:bg-neutral-600;
     }

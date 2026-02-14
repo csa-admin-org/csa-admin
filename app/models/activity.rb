@@ -16,6 +16,9 @@ class Activity < ApplicationRecord
 
   has_many :participations, class_name: "ActivityParticipation"
 
+  after_commit :reindex_participation_search_entries,
+    if: -> { saved_change_to_date? || saved_change_to_titles? }
+
   validates :start_time, :end_time, presence: true
   validates :participants_limit,
     numericality: { greater_than_or_equal_to: 1, allow_nil: true }
@@ -43,6 +46,10 @@ class Activity < ApplicationRecord
   end
 
   private
+
+  def reindex_participation_search_entries
+    SearchReindexDependentsJob.perform_later(self)
+  end
 
   def end_time_must_be_greather_than_start_time
     if end_time && start_time && end_time <= start_time

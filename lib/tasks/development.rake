@@ -15,6 +15,7 @@ namespace :development do
     task :masked do
       Rake::Task["development:restore"].invoke
       Rake::Task["masker:run"].invoke
+      Rake::Task["search:reindex"].invoke
     end
   end
 end

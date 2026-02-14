@@ -77,6 +77,18 @@ production:
     queue: low
     schedule: at 3:30am every day
 
+  search_prune:
+    class: TenantSwitchEachJob
+    args: [Scheduled::SearchPruneJob]
+    queue: low
+    schedule: at 0:30am every day
+
+  search_rebuild:
+    class: TenantSwitchEachJob
+    args: [Scheduled::SearchRebuildJob]
+    queue: low
+    schedule: every sunday at 2am
+
   demo_reset:
     class: Demo::ResetJob
     queue: low

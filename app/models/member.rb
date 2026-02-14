@@ -12,12 +12,15 @@ class Member < ApplicationRecord
   include HasIBAN
   include Auditable
   include NormalizedString
+  include Searchable
   # Sub-model concerns (order matters for callbacks!)
   include Billing
   include Shares
   include StateTransitions
   include Discardable
   include Anonymization
+
+  searchable :name, :emails, :city, :zip, :id, priority: 1
 
   BILLING_INTERVALS = %w[annual quarterly].freeze
 
@@ -148,6 +151,8 @@ class Member < ApplicationRecord
   before_save :handle_annual_fee_change
   after_save :update_membership_if_salary_basket_changed
   after_update :update_trial_baskets!, if: :trial_baskets_count_previously_changed?
+  after_commit :enqueue_dependent_search_reindex,
+    if: -> { saved_change_to_name? || saved_change_to_emails? || saved_change_to_city? || saved_change_to_zip? }
 
   def name=(name)
     super name&.strip
@@ -206,6 +211,10 @@ class Member < ApplicationRecord
   end
 
   private
+
+  def enqueue_dependent_search_reindex
+    SearchReindexDependentsJob.perform_later(self)
+  end
 
   def set_default_annual_fee
     return unless new_record?

@@ -7,6 +7,9 @@ module Shop
     include TranslatedAttributes
     include TranslatedRichTexts
     include Discardable
+    include Searchable
+
+    searchable :names, :producer_name, priority: 4
 
     translated_attributes :name, required: true
     translated_rich_texts :description
@@ -78,6 +81,10 @@ module Shop
       products.order_by_name
     end
 
+    def state
+      available? ? "available" : "unavailable"
+    end
+
     def available_for_depot_ids
       Depot.where.not(id: unavailable_for_depot_ids).pluck(:id)
     end
@@ -135,7 +142,15 @@ module Shop
       super || NullProducer.instance
     end
 
+    def producer_name
+      producer.name if producer_id?
+    end
+
     private
+
+    def search_relevant_changes?
+      super || saved_change_to_producer_id?
+    end
 
     def ensure_at_least_one_available_depot
       if available? && available_for_depot_ids.none?

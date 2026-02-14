@@ -7,6 +7,9 @@ class Membership < ApplicationRecord
   include Timeframe, Absence, AbsencesIncludedRemindable,
           Trial, Renewal, Pricing, Activity
   include Auditing # Must come after all other concerns
+  include Searchable
+
+  searchable :id, :started_on, :ended_on, :price, priority: 2, date: :ended_on
 
   attribute :new_config_from, :date
 

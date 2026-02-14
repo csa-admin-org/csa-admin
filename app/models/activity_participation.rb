@@ -8,6 +8,15 @@ class ActivityParticipation < ApplicationRecord
   include HasComment
   include BulkActivityIdsInsert
   include Carpooling
+  include Searchable
+
+  searchable :activity_title, :activity_date, priority: 5, date: :activity_date
+
+  # Override search_reindex_scope to use an efficient SQL join
+  # since activity_date is a method delegating to the activity association.
+  def self.search_reindex_scope
+    joins(:activity).where(activities: { date: search_min_date.. })
+  end
 
   attr_reader :activity_ids
 
@@ -16,6 +25,14 @@ class ActivityParticipation < ApplicationRecord
   belongs_to :session, optional: true
   belongs_to :validator, class_name: "Admin", optional: true
   has_many :invoices, as: :entity
+
+  def activity_title
+    activity&.titles || {}
+  end
+
+  def activity_date
+    activity&.date
+  end
 
   validates :activity, presence: true, uniqueness: { scope: :member_id }
   validates :participants_count,

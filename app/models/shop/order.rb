@@ -6,6 +6,15 @@ module Shop
     include HasState
     include HasDescription
     include HasAttachments
+    include Searchable
+
+    searchable :id, :amount, :delivery_date, priority: 5, date: :delivery_date
+
+    def self.search_reindex_scope
+      min = search_min_date
+      deliveries = Delivery.where(date: min..) + Shop::SpecialDelivery.where(date: min..)
+      all_without_cart.where(delivery: deliveries)
+    end
 
     self.table_name = "shop_orders"
 
@@ -99,6 +108,10 @@ module Shop
 
     def date
       created_at.to_date
+    end
+
+    def delivery_date
+      delivery&.date
     end
 
     def delivery_gid=(gid)

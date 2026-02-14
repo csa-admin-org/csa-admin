@@ -184,23 +184,33 @@ ActiveAdmin.setup do |config|
   #
   config.namespace false do |admin|
     admin.build_menu do |menu|
-      menu.add label: -> { I18n.t("active_admin.menu.shop") }, priority: 6, id: :navshop
-      menu.add label: :activities_human_name, priority: 7
       menu.add label: -> {
         [
-          icon("banknotes", class: "size-5 mx-0.5 hidden md:inline", title: t("active_admin.menu.billing")),
+          icon("shopping-basket", class: "size-5 mx-0.5 mr-2.5 md:mr-0.5 inline"),
+          content_tag(:span, t("active_admin.menu.shop"), class: "inline md:hidden")
+        ].join.html_safe
+      }, priority: 6, id: :navshop
+      menu.add label: -> {
+        [
+          icon("handshake", class: "size-5 mt-0.5 mx-0.5 mr-2.5 md:mr-0.5 inline"),
+          content_tag(:span, activities_human_name, class: "inline md:hidden")
+        ].join.html_safe
+      }, priority: 7, id: :activities_human_name
+      menu.add label: -> {
+        [
+          icon("banknotes", class: "size-5 mx-0.5 mr-2.5 md:mr-0.5 inline", title: t("active_admin.menu.billing")),
           content_tag(:span, t("active_admin.menu.billing"), class: "inline md:hidden")
         ].join.html_safe
       }, priority: 9, id: :navbilling
       menu.add label: -> {
         [
-          icon("envelope", class: "size-5 mx-0.5 hidden md:inline", title: t("active_admin.menu.email")),
+          icon("envelope", class: "size-5 mx-0.5 mr-2.5 md:mr-0.5 inline", title: t("active_admin.menu.email")),
           content_tag(:span, t("active_admin.menu.email"), class: "inline md:hidden")
         ].join.html_safe
       }, priority: 19, id: :email
       menu.add label: -> {
         [
-          icon("ellipsis-horizontal", class: "size-6 -my-0.5 hidden md:inline", title: t("active_admin.settings")),
+          icon("ellipsis-horizontal", class: "size-6 -my-0.5 mr-2.5 md:mr-0.5 inline", title: t("active_admin.settings")),
           content_tag(:span, t("active_admin.menu.other"), class: "inline md:hidden")
         ].join.html_safe
       }, priority: 20, id: :other, html_options: { data: { controller: "menu-sorting" } }

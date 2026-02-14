@@ -20,7 +20,7 @@
 
     <nav
       class="
-        order-3 hidden h-screen w-full grow overflow-y-scroll px-4
+        z-10 order-3 hidden h-screen w-full grow overflow-y-scroll px-4
         md:order-2 md:block md:h-auto md:w-auto
       "
       id="navbar-dropdown"
@@ -29,6 +29,8 @@
         class="
           mt-4 flex flex-col space-y-1 pb-32 text-sm font-medium md:mt-0
           md:flex-row md:items-center md:space-y-0 md:space-x-2 md:pb-0
+          [&>li:first-child]:mr-0 [&>li:first-child]:mb-3
+          md:[&>li:first-child]:mr-3 md:[&>li:first-child]:mb-0
         "
       >
         <% current_menu.items(self).each do |item| %>
@@ -94,7 +96,9 @@
       </ul>
     </nav>
 
-    <div class="order-2 flex space-x-1 pe-4 md:order-3">
+    <div class="order-2 ms-auto flex space-x-1 pe-4 md:order-3">
+      <%= render "search/modal" %>
+
       <% if Update.unread_count(current_active_admin_user).positive? %>
         <a
           href="<%= updates_path %>"

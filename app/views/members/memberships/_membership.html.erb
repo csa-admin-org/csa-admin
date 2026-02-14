@@ -11,7 +11,7 @@
 
   <ul class="relative -mx-2 my-2 space-y-2 p-2 md:mr-4">
     <li class="flex flex-row items-center gap-3">
-      <%= icon "calendar-days", class: "flex-none size-6 text-gray-300 dark:text-gray-700" %>
+      <%= icon "calendar-range", class: "flex-none size-6 -mt-0.5 text-gray-300 dark:text-gray-700" %>
 
       <span>
         <%= [ membership.first_delivery.date, membership.last_delivery.date ].map { |d| l(d) }.join(" – ") %>
@@ -65,7 +65,7 @@
 
     <% if feature?("activity") %>
       <li class="mt-1 flex flex-row items-center gap-3">
-        <%= icon "hand-raised", class: "flex-none size-6 text-gray-300 dark:text-gray-700" %>
+        <%= icon "handshake", class: "flex-none size-6 -mb-0.5 text-gray-300 dark:text-gray-700" %>
 
         <span>
           <%= "#{activities_human_name}: " %>

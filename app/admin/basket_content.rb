@@ -3,7 +3,12 @@
 ActiveAdmin.register BasketContent do
   menu \
     priority: 5,
-    label: -> { Basket.model_name.human(count: 2) },
+    label: -> {
+      [
+        icon("shopping-bag", class: "size-5 -mt-0.5 mr-2.5 md:mr-2 inline"),
+        Basket.model_name.human(count: 2)
+      ].join.html_safe
+    },
     url: -> { smart_basket_contents_path }
 
   breadcrumb do

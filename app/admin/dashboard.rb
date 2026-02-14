@@ -3,7 +3,7 @@
 ActiveAdmin.register_page "Dashboard" do
   menu priority: 1, label: -> {
     [
-      icon("home", title: t("active_admin.dashboard"), class: "size-5.5 -my-0.5 min-w-6 hidden md:inline"),
+      icon("home", title: t("active_admin.dashboard"), class: "size-5 md:size-5.5 -mt-1 md:-my-0.5 min-w-5 md:min-w-6 mr-2.5 md:mr-0 inline"),
       content_tag(:span, t("active_admin.dashboard"), class: "inline md:hidden")
     ].join.html_safe
   }

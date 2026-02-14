@@ -5,6 +5,9 @@ class Payment < ApplicationRecord
   include HasComment
   include Auditable
   include HasCurrency
+  include Searchable
+
+  searchable :id, :amount, :date, priority: 4, date: :date
 
   audited_attributes :member_id, :invoice_id, :date, :amount, :origin, :ignored_at
 

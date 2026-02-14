@@ -1,0 +1,17 @@
+<% if @query.length < 2 %>
+  <%# No content for short queries %>
+<% elsif @results.empty? %>
+  <div class="px-4 py-8 text-center text-sm text-gray-500 dark:text-gray-400">
+    <%= t("search.no_results") %>
+
+    <div class="mt-2 text-xs text-gray-400 dark:text-gray-500">
+      <%= t("search.no_results_hint", date: l(Current.org.last_fiscal_year.beginning_of_year, format: :number)) %>
+    </div>
+  </div>
+<% else %>
+  <div class="py-1">
+    <% @results.each do |record| %>
+      <%= render "search/result", **search_result_locals(record, @query), query: @query %>
+    <% end %>
+  </div>
+<% end %>

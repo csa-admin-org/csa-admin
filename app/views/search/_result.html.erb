@@ -1,0 +1,35 @@
+<%#
+  Unified search result row.
+  Locals:
+    icon_name   – icon name (e.g. "users-round", "banknotes")
+    url         – link path
+    title       – raw text (will be highlighted against query)
+    subtitle_parts – array of HTML-safe parts (joined with " · " in the template)
+    query       – search query string for highlighting
+    state       – raw state string for data-status attribute (nil to hide badge)
+    state_label – translated badge text (nil to hide badge)
+%>
+
+<%= link_to url,
+  class: "flex items-center gap-3 px-4 py-2.5 no-underline hover:bg-gray-100 dark:hover:bg-gray-700/50 text-gray-900 dark:text-gray-100",
+  data: { turbo_frame: "_top", search_result: "", action: "click->search-modal#selectItem" } do %>
+  <%= icon icon_name, class: "size-5 shrink-0 text-gray-400 dark:text-gray-500" %>
+
+  <div class="min-w-0 flex-1">
+    <div class="truncate text-sm font-medium">
+      <%= highlight_search(title, query) %>
+    </div>
+
+    <% if subtitle_parts.any?(&:present?) %>
+      <div class="text-xs text-gray-500 dark:text-gray-400">
+        <%= safe_join(subtitle_parts.compact_blank, " · ") %>
+      </div>
+    <% end %>
+  </div>
+
+  <% if local_assigns[:state] %>
+    <span class="status-tag" data-status="<%= state %>">
+      <%= state_label %>
+    </span>
+  <% end %>
+<% end %>

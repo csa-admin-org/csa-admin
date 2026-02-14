@@ -17,6 +17,8 @@ Rails.application.routes.draw do
 
     resources :email_suppressions, only: :destroy
 
+    get "search" => "search#index", as: :search
+
     get "activity_participations/calendar" => "activity_participations_calendar#show",
       defaults: { format: :ics }
     get "billing/:year" => "billings#show", as: :billing
