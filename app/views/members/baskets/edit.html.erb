@@ -10,19 +10,17 @@
   <% end %>
 
   <%= simple_form_for @basket, html: { class: "mt-4" } do |f| %>
-    <% if Current.org.membership_complements_update_allowed? %>
+    <% if @basket.can_member_update_complements? %>
       <% baskets_basket_complements = baskets_basket_complements(@basket) %>
-      <% if baskets_basket_complements.any? %>
-        <%= f.input BasketComplement.model_name.human(count: 2), wrapper_class: "input quantity_inputs" do %>
-          <%= f.simple_fields_for :baskets_basket_complements, baskets_basket_complements do |ff| %>
-            <%= ff.input :basket_complement_id, as: :hidden %>
-            <%= ff.input :quantity, as: :numeric, label: basket_complement_label(ff.object.basket_complement, only_price_per_delivery: true), required: false, input_html: { min: 0 }, wrapper_class: "quantity" %>
-          <% end %>
+      <%= f.input BasketComplement.model_name.human(count: 2), wrapper_class: "input quantity_inputs" do %>
+        <%= f.simple_fields_for :baskets_basket_complements, baskets_basket_complements do |ff| %>
+          <%= ff.input :basket_complement_id, as: :hidden %>
+          <%= ff.input :quantity, as: :numeric, label: basket_complement_label(ff.object.basket_complement, only_price_per_delivery: true), required: false, input_html: { min: 0 }, wrapper_class: "quantity" %>
         <% end %>
       <% end %>
     <% end %>
 
-    <% if Current.org.membership_depot_update_allowed? %>
+    <% if @basket.can_member_update_depot? %>
       <div class="mt-4 space-y-8">
         <%= f.input :depot_id, as: :radio_buttons, collection: depots_collection(basket: @basket, delivery_cycle: @basket.membership.delivery_cycle, only_price_per_delivery: true), label: Depot.model_name.human, required: true %>
       </div>

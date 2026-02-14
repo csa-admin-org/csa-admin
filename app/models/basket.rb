@@ -100,11 +100,24 @@ class Basket < ApplicationRecord
 
   def can_member_update?
     return false if absent?
-    return false unless Current.org.membership_depot_update_allowed?
-                        || Current.org.membership_complements_update_allowed?
     return false unless Current.org.basket_update_limit_in_days
+    return false unless delivery.date >= Current.org.basket_update_limit_in_days.days.from_now
 
-    delivery.date >= Current.org.basket_update_limit_in_days.days.from_now
+    can_member_update_depot? || can_member_update_complements?
+  end
+
+  def can_member_update_depot?
+    membership.can_member_update_depot?
+  end
+
+  def can_member_update_complements?
+    return false unless Current.org.membership_complements_update_allowed?
+
+    if delivery.basket_complements.loaded?
+      delivery.basket_complements.any?(&:visible?)
+    else
+      delivery.basket_complements.visible.exists?
+    end
   end
 
   def member_update!(params)

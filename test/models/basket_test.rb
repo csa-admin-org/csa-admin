@@ -79,33 +79,63 @@ class BasketTest < ActiveSupport::TestCase
   end
 
   test "can_member_update?" do
-    org(membership_depot_update_allowed: false)
+    org(
+      membership_depot_update_allowed: false,
+      membership_complements_update_allowed: false)
+    basket = baskets(:john_1) # monday delivery, 3 visible depots
 
-    delivery = deliveries(:monday_1) # 2024-01-01
-    basket = Basket.new(delivery: delivery)
-
-    travel_to delivery.date
-    assert_not basket.can_member_update?
+    travel_to basket.delivery.date
+    assert_not basket.can_member_update?, "no updatable section"
 
     org(membership_depot_update_allowed: true)
-    org(basket_update_limit_in_days: 5)
 
-    travel_to delivery.date - 5.days
+    travel_to basket.delivery.date - 5.days
+    org(basket_update_limit_in_days: 5)
     assert basket.can_member_update?
 
-    travel_to delivery.date - 4.days
-    assert_not basket.can_member_update?
+    travel_to basket.delivery.date - 4.days
+    assert_not basket.can_member_update?, "outside update limit"
 
     org(basket_update_limit_in_days: 0)
 
-    travel_to delivery.date
+    travel_to basket.delivery.date
     assert basket.can_member_update?
-    travel_to delivery.date + 1.day
-    assert_not basket.can_member_update?
+    travel_to basket.delivery.date + 1.day
+    assert_not basket.can_member_update?, "delivery date passed"
 
-    travel_to delivery.date
+    travel_to basket.delivery.date
     basket.state = "absent"
-    assert_not basket.can_member_update?
+    assert_not basket.can_member_update?, "absent basket"
+  end
+
+  test "can_member_update_depot?" do
+    org(membership_depot_update_allowed: false)
+    basket = baskets(:john_1) # mondays cycle, 3 visible depots
+
+    assert_not basket.can_member_update_depot?, "depot update not allowed"
+
+    org(membership_depot_update_allowed: true)
+    assert basket.can_member_update_depot?, "3 visible depots"
+
+    # Hide all depots except the current one — use a fresh basket
+    # to avoid memoized result on the membership
+    Depot.where.not(id: basket.depot_id).update_all(visible: false)
+    basket = Basket.find(basket.id)
+    assert_not basket.can_member_update_depot?, "single visible depot"
+  end
+
+  test "can_member_update_complements?" do
+    org(membership_complements_update_allowed: false)
+    basket = baskets(:jane_1) # thursday delivery with bread & eggs
+
+    assert_not basket.can_member_update_complements?, "complements update not allowed"
+
+    org(membership_complements_update_allowed: true)
+    assert basket.can_member_update_complements?, "delivery has visible complements"
+
+    basket_no_complements = baskets(:john_1) # monday delivery, no complements
+    assert_not basket_no_complements.can_member_update_complements?,
+      "delivery has no complements"
   end
 
   test "member_update!" do

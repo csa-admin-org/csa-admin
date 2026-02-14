@@ -129,9 +129,20 @@ class Membership < ApplicationRecord
   end
 
   def can_member_update?
-    return false unless Current.org.membership_depot_update_allowed?
+    return false unless can_member_update_depot? ||
+                        Current.org.membership_complements_update_allowed?
 
     member_updatable_baskets.any?
+  end
+
+  def can_member_update_depot?
+    return false unless Current.org.membership_depot_update_allowed?
+
+    @can_member_update_depot ||=
+      Depot.visible
+        .joins(:delivery_cycles)
+        .where(delivery_cycles: { id: delivery_cycle_id })
+        .count > 1
   end
 
   def member_updatable_baskets

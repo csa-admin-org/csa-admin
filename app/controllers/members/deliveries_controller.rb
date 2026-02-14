@@ -14,14 +14,14 @@ class Members::DeliveriesController < Members::BaseController
         .where(membership_id: current_member.memberships)
         .where.not(id: @next_basket)
         .coming
-        .includes(:delivery, :absence, :basket_size, :depot, baskets_basket_complements: :basket_complement)
+        .includes(:membership, :absence, :basket_size, :depot, delivery: :basket_complements, baskets_basket_complements: :basket_complement)
     @past_baskets =
       current_member
         .closest_membership
         .baskets
         .past
         .joins(:delivery)
-        .includes(:basket_size, :absence, :depot, baskets_basket_complements: :basket_complement)
+        .includes(:basket_size, :absence, :depot, delivery: :basket_complements, baskets_basket_complements: :basket_complement)
         .reorder(deliveries: { date: :desc })
   end
 
