@@ -28,12 +28,6 @@ production: &production
     aliases:
       - fermedugoupil
       - goupil
-  lafermedessavanes:
-    admin_host: admin.lafermedessavanes.ch
-    members_host: membres.lafermedessavanes.ch
-    aliases:
-      - fermedessavanes
-      - savanes
   seminterra:
     admin_host: admin.seminterra.ch
     members_host: soci.seminterra.ch
@@ -116,9 +110,6 @@ production: &production
   wilderauke:
     admin_host: admin.wilde-rauke.de
     members_host: mitglieder.wilde-rauke.de
-  baieattitude:
-    admin_host: admin.baie-attitude.ch
-    members_host: membres.baie-attitude.ch
   boisdunant:
     admin_host: admin.ferme-boisdunant.ch
     members_host: membres.ferme-boisdunant.ch
