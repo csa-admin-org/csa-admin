@@ -197,7 +197,7 @@ class Delivery < ApplicationRecord
         ]
       end.to_h.select { |_, price| price.positive? } # ignore depot with zero price
       [ basket_size, depot_prices ]
-    end.to_h
+    end.to_h.reject { |_, depot_prices| depot_prices.empty? }
   end
 
   def update_basket_content_avg_prices!

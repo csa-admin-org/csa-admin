@@ -238,8 +238,7 @@ class BasketContentTest < ActiveSupport::TestCase
         depots(:farm) => 122,
         depots(:home) => 122,
         depots(:bakery) => 122
-      },
-      basket_sizes(:large) => {}
+      }
     }, delivery.basket_content_prices)
   end
 
@@ -264,9 +263,7 @@ class BasketContentTest < ActiveSupport::TestCase
     assert_equal({
       basket_sizes(:small) => {
         depots(:home) => 200
-      },
-      basket_sizes(:medium) => {},
-      basket_sizes(:large) => {}
+      }
     }, delivery.basket_content_prices)
   end
 
@@ -288,13 +285,11 @@ class BasketContentTest < ActiveSupport::TestCase
       medium_id.to_s => "200.0"
     }, delivery.basket_content_avg_prices)
     assert_equal({
-      basket_sizes(:small) => {},
       basket_sizes(:medium) => {
         depots(:farm) => 200,
         depots(:home) => 200,
         depots(:bakery) => 200
-      },
-      basket_sizes(:large) => {}
+      }
     }, delivery.basket_content_prices)
   end
 

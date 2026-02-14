@@ -40,15 +40,19 @@ ActiveAdmin.register BasketContent do
     def build(_page_presenter, collection)
       if params.dig(:q, :delivery_id_eq).present? && collection.with_unit_price.any?
         delivery = Delivery.find(params.dig(:q, :delivery_id_eq))
-        panel t(".basket_prices", currency: currency_symbol) do
-          render partial: "active_admin/basket_contents/prices", locals: { delivery: delivery, context: self }
+        basket_content_prices = delivery.basket_content_prices
+        if basket_content_prices.any?
+          panel t(".basket_prices", currency: currency_symbol) do
+            render partial: "active_admin/basket_contents/prices", locals: { delivery: delivery, basket_content_prices: basket_content_prices, context: self }
+          end
+          return div class: "table-wrapper" do
+            div class: "table-wrapper-content" do
+              super
+            end
+          end
         end
       end
-      div class: "table-wrapper" do
-        div class: "table-wrapper-content" do
-          super
-        end
-      end
+      super
     end
   end
 
