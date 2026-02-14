@@ -29,16 +29,16 @@
     data-search-modal-target="dialog"
     data-action="click->search-modal#close:self"
     class="
-      fixed inset-0 z-[100] flex hidden items-start justify-center
-      bg-black/40 pt-24 opacity-0 transition-opacity duration-150
-      dark:bg-black/60 [&.open]:opacity-100
+      fixed inset-0 z-100 hidden items-start justify-center bg-black/40
+      pt-24 opacity-0 transition-opacity duration-150 dark:bg-black/60
+      [&.open]:flex [&.open]:opacity-100
     "
   >
     <div
       class="
         mx-1.5 w-full max-w-xl scale-95 transform overflow-hidden rounded-xl
         bg-white shadow-2xl transition-transform duration-150
-        dark:bg-gray-800 dark:ring-1 dark:ring-gray-700 [.open_&]:scale-100
+        in-[.open]:scale-100 dark:bg-gray-800 dark:ring-1 dark:ring-gray-700
       "
     >
       <%# Search input %>

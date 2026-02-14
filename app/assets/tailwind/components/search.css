@@ -1,5 +1,5 @@
 @layer components {
   [data-search-result].search-selected {
-    @apply bg-gray-100 dark:bg-white/[0.08];
+    @apply bg-gray-100 dark:bg-white/8;
   }
 }
