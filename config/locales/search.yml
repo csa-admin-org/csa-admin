@@ -21,13 +21,13 @@ _:
     shortcut_hint_mac_html:
       _en: Use <kbd class="kbd">⌘K</kbd> to open search quickly
       _fr: Utilisez <kbd class="kbd">⌘K</kbd> pour ouvrir la recherche rapidement
-      _de: Verwenden Sie <kbd class="kbd">⌘K</kbd>, um die Suche schnell zu öffnen
+      _de: Mit <kbd class="kbd">⌘K</kbd> öffnen Sie die Suche schnell
       _it: Usa <kbd class="kbd">⌘K</kbd> per aprire rapidamente la ricerca
       _nl: Gebruik <kbd class="kbd">⌘K</kbd> om snel te zoeken
     shortcut_hint_other_html:
       _en: Use <kbd class="kbd">Ctrl+K</kbd> to open search quickly
       _fr: Utilisez <kbd class="kbd">Ctrl+K</kbd> pour ouvrir la recherche rapidement
-      _de: Verwenden Sie <kbd class="kbd">Strg+K</kbd>, um die Suche schnell zu öffnen
+      _de: Mit <kbd class="kbd">Strg+K</kbd> öffnen Sie die Suche schnell
       _it: Usa <kbd class="kbd">Ctrl+K</kbd> per aprire rapidamente la ricerca
       _nl: Gebruik <kbd class="kbd">Ctrl+K</kbd> om snel te zoeken
     title:
