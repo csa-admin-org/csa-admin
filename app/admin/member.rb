@@ -722,7 +722,7 @@ ActiveAdmin.register Member do
     ]
 
   action_item :sessions, only: :show, if: -> { authorized?(:read, Session) } do
-    action_link Session.model_name.human(count: 2), m_sessions_path(q: { member_id_eq: resource.id }, scope: :all)
+    action_link nil, m_sessions_path(q: { member_id_eq: resource.id }, scope: :all), icon: "book-key"
   end
 
   action_item :create_membership, only: :show, if: -> { resource.waiting? && authorized?(:create, Membership) && Delivery.next } do
