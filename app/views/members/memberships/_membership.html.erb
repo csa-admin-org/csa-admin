@@ -4,14 +4,14 @@
 
     <% if membership.can_member_update? %>
       <%= link_to edit_members_membership_path(membership), title: t(".edit"), class: "ml-1 p-3" do %>
-        <%= icon "pencil-square", class: "mb-1 inline size-5 text-gray-400 dark:text-gray-600 hover:text-green-500 dark:hover:text-green-500" %>
+        <%= icon "pencil-square", class: "mb-1 inline size-5 text-gray-400 dark:text-gray-500 hover:text-green-500 dark:hover:text-green-500" %>
       <% end %>
     <% end %>
   </h2>
 
   <ul class="relative -mx-2 my-2 space-y-2 p-2 md:mr-4">
     <li class="flex flex-row items-center gap-3">
-      <%= icon "calendar-range", class: "flex-none size-6 -mt-0.5 text-gray-300 dark:text-gray-700" %>
+      <%= icon "calendar-range", class: "flex-none size-6 -mt-0.5 text-gray-300 dark:text-gray-600" %>
 
       <span>
         <%= [ membership.first_delivery.date, membership.last_delivery.date ].map { |d| l(d) }.join(" – ") %>
@@ -19,7 +19,7 @@
     </li>
 
     <li class="mt-1 flex flex-row items-center gap-3">
-      <%= icon "shopping-bag", class: "flex-none size-6 text-gray-300 dark:text-gray-700" %>
+      <%= icon "shopping-bag", class: "flex-none size-6 text-gray-300 dark:text-gray-600" %>
 
       <span class="flex flex-col">
         <span><%= basket_size_description(membership) %></span>
@@ -32,7 +32,7 @@
     </li>
 
     <li class="mt-1 flex flex-row items-center gap-3">
-      <%= icon "map", class: "flex-nonesize-6 text-gray-300 dark:text-gray-700" %>
+      <%= icon "map", class: "flex-none size-6 text-gray-300 dark:text-gray-600" %>
 
       <span>
         <% depot = membership.depot %>
@@ -48,7 +48,7 @@
     </li>
 
     <li class="mt-1 flex flex-row items-center gap-3">
-      <%= icon "truck", class: "flex-none size-6 text-gray-300 dark:text-gray-700" %>
+      <%= icon "truck", class: "flex-none size-6 text-gray-300 dark:text-gray-600" %>
 
       <span>
         <% parts = [ link_to("#{membership.baskets_count} #{Delivery.model_name.human(count: membership.baskets_count)}", members_deliveries_path) ]
@@ -65,7 +65,7 @@
 
     <% if feature?("activity") %>
       <li class="mt-1 flex flex-row items-center gap-3">
-        <%= icon "handshake", class: "flex-none size-6 -mb-0.5 text-gray-300 dark:text-gray-700" %>
+        <%= icon "handshake", class: "flex-none size-6 -mb-0.5 text-gray-300 dark:text-gray-600" %>
 
         <span>
           <%= "#{activities_human_name}: " %>
@@ -78,11 +78,11 @@
     <% end %>
 
     <li class="mt-1 flex flex-row items-center gap-3">
-      <%= icon "banknotes", class: "flex-none size-6 text-gray-300 dark:text-gray-700" %>
+      <%= icon "banknotes", class: "flex-none size-6 text-gray-300 dark:text-gray-600" %>
 
       <span>
         <% if current_member.salary_basket? %>
-          <span class="text-gray-400 italic dark:text-gray-600">
+          <span class="text-gray-400 italic dark:text-gray-500">
             <%= t(".price_salary_basket") %>
           </span>
         <% else %>

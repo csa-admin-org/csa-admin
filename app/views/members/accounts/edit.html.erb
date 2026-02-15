@@ -14,10 +14,6 @@
       <%= f.input :country_code, as: :select, required: true, collection: countries_collection %>
       <%= f.input :emails, as: :string, hint: t(".emails_hint", session_email: current_session.email), required: true %>
       <%= f.input :phones, as: :string, required: true %>
-
-      <% if Current.org.languages.many? %>
-        <%= f.input :language, as: :select, collection: Current.org.languages.map { |l| [ t("languages.#{l}"), l ] }, required: true, prompt: true %>
-      <% end %>
     </div>
 
     <div data-controller="visibility" class="my-6" aria-label="Billing">
@@ -42,6 +38,16 @@
         <%= render "members/members/form_modes/shop", f: f %>
       </div>
     <% end %>
+
+    <hr class="my-6 border-gray-200 dark:border-gray-700">
+
+    <% if Current.org.languages.many? %>
+      <%= f.input :language, as: :select, collection: Current.org.languages.map { |l| [ t("languages.#{l}"), l ] }, required: true, prompt: true %>
+    <% end %>
+
+    <div class="mt-6 mb-12">
+      <%= f.input :theme, as: :select, collection: HasTheme::THEMES.map { |theme| [ t("themes.#{theme}"), theme ] }, required: true, prompt: true %>
+    </div>
 
     <div class="actions">
       <%= link_to t(".cancel_link"), members_account_path, class: "cancel-link" %>

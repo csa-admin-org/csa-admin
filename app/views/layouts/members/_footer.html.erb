@@ -1,4 +1,4 @@
-<footer class="mt-16 flex w-full flex-col text-base text-gray-400 dark:text-gray-600">
+<footer class="mt-16 flex w-full flex-col text-base text-gray-400 dark:text-gray-500">
   <div class="mx-auto <%= "md:mx-0" if current_member %>">
     <ul class="flex flex-wrap <%= "flex-col" if current_member %>">
       <% if current_member && Current.org.member_information_text? %>
@@ -42,7 +42,7 @@
       <ul class="flex flex-wrap justify-center space-x-3 text-center md:ml-0.5 <%= current_member ? "md:justify-start" : "md:justify-center" %>">
         <% Current.org.social_networks.each do |network| %>
           <li>
-            <%= link_to network.url, class: "flex items-center py-1 fill-gray-400 dark:fill-gray-600 hover:fill-green-500 hover:dark:fill-green-500" do %>
+            <%= link_to network.url, class: "flex items-center py-1 fill-gray-400 dark:fill-gray-500 hover:fill-green-500 hover:dark:fill-green-500" do %>
               <%= icon network.icon, class: "size-5", variant: "simpleicons" %>
             <% end %>
           </li>
@@ -69,7 +69,7 @@
     </div>
   <% end %>
 
-  <div class="mx-auto mt-12 mb-4 text-gray-300 dark:text-gray-700 <%= "md:mx-0.5" if current_member %>">
+  <div class="mx-auto mt-12 mb-4 text-gray-300 dark:text-gray-600 <%= "md:mx-0.5" if current_member %>">
     <%= link_to csa_admin_website_url, class: "flex items-center text-sm hover:text-green-500" do %>
       <%= icon "logo", class: "size-4 me-2 md:ms-0.5 md:me-3 fill-current", variant: "solid" %>
       <%= "CSA Admin" %>

@@ -7,7 +7,7 @@
   <h2><%= t(".activity_participation_form_title") %></h2>
 
   <% if @activities.empty? %>
-    <p class="mt-2 text-center text-gray-400 italic dark:text-gray-600">
+    <p class="mt-2 text-center text-gray-400 italic dark:text-gray-500">
       <%= t_activity(".no_activities") %>
     </p>
   <% else %>
@@ -65,7 +65,7 @@
 
 <% condition = @coming_participations.any? { |p| !p.destroyable? } %>
 
-<% message_class = condition ? "mt-4 pb-4 text-center text-sm italic text-gray-400 dark:text-gray-600" : "nocontent" %>
+<% message_class = condition ? "mt-4 pb-4 text-center text-sm italic text-gray-400 dark:text-gray-500" : "nocontent" %>
 
 <% message_text = condition ? t_activity(".coming_activity_participation_cannot_be_cancel_explanation_html", days_count: Current.org.activity_participation_deletion_deadline_in_days, contact_link: mail_to(Current.org.email, t(".contact_link"))) : t(".edit_activity_participation_explanation") %>
 

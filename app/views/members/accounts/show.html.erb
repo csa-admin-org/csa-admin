@@ -28,16 +28,21 @@
       <% if current_member.phones_array.any? %>
         <span><%= display_phones(current_member) %></span>
       <% else %>
-        <span class="text-gray-300 italic dark:text-gray-700">
+        <span class="text-gray-300 italic dark:text-gray-600">
           <%= t(".no_phones") %>
         </span>
       <% end %>
     </li>
 
-    <% if Current.org.languages.many? %>
+    <% if current_member.different_billing_info %>
       <li class="flex flex-row gap-4">
-        <%= icon "language", class: "flex-none size-6" %>
-        <span><%= t("languages.#{current_member.language}") %></span>
+        <%= icon "banknotes", class: "flex-none size-6" %>
+
+        <span>
+          <%= current_member.billing_name %>
+          <br>
+          <%= display_billing_address(current_member) %>
+        </span>
       </li>
     <% end %>
 
@@ -59,17 +64,22 @@
       </li>
     <% end %>
 
-    <% if current_member.different_billing_info %>
-      <li class="flex flex-row gap-4">
-        <%= icon "banknotes", class: "flex-none size-6" %>
+    <hr class="my-6 border-gray-200 dark:border-gray-700">
 
-        <span>
-          <%= current_member.billing_name %>
-          <br>
-          <%= display_billing_address(current_member) %>
-        </span>
+    <% if Current.org.languages.many? %>
+      <li class="flex flex-row gap-4">
+        <%= icon "language", class: "flex-none size-6" %>
+        <span><%= t("languages.#{current_member.language}") %></span>
       </li>
     <% end %>
+
+    <% theme = current_member.theme %>
+    <% theme_icon = { "light" => "sun", "dark" => "moon" }.fetch(theme, "sun-moon") %>
+
+    <li class="flex flex-row gap-4">
+      <%= icon theme_icon, class: "flex-none size-6" %>
+      <span><%= t("themes.#{theme}") %></span>
+    </li>
   </ul>
 
   <div class="mt-8 flex w-full flex-col gap-4 md:max-w-max">

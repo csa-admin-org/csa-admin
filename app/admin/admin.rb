@@ -39,7 +39,15 @@ ActiveAdmin.register Admin do
       f.input :language,
         as: :select,
         collection: org_languages_collection,
-        prompt: true
+        prompt: true,
+        wrapper_html: { id: "language", class: "scroll-mt-24" }
+      unless f.object.new_record?
+        f.input :theme,
+          as: :select,
+          collection: HasTheme::THEMES.map { |theme| [ t("themes.#{theme}"), theme ] },
+          prompt: true,
+          wrapper_html: { id: "theme", class: "scroll-mt-24" }
+      end
       if authorized?(:manage, Admin) && f.object != current_admin
         f.input :permission, collection: Permission.all, prompt: true, include_blank: false
       end
@@ -62,7 +70,7 @@ ActiveAdmin.register Admin do
   end
 
   permit_params do
-    pp = %i[name email language]
+    pp = %i[name email language theme]
     pp << :permission_id if authorized?(:manage, Admin)
     pp << { notifications: [] }
     pp

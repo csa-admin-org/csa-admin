@@ -1,6 +1,6 @@
 @layer utilities {
   trix-editor {
-    @apply w-full! rounded-md! border! border-gray-300! bg-gray-50! p-2! px-3! text-base! text-gray-900! focus:border-green-500! focus:ring-1! focus:ring-green-500! dark:border-gray-600! dark:bg-gray-700! dark:text-white! dark:placeholder-gray-400! dark:focus:border-green-600! dark:focus:ring-green-600!;
+    @apply w-full! rounded-md! border! border-gray-300! bg-gray-50! p-2! px-3! text-base! text-gray-900! focus:border-green-500! focus:ring-1! focus:ring-green-500! dark:border-gray-600! dark:bg-gray-800! dark:text-white! dark:placeholder-gray-400! dark:focus:border-green-600! dark:focus:ring-green-600!;
   }
 
   trix-editor figcaption {

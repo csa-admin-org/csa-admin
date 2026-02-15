@@ -1,6 +1,6 @@
 <% live_stock = live_stock(variant, @order) %>
 
-<div class="flex flex-row items-center <%= "text-gray-300 dark:text-gray-700" if live_stock&.zero? %>">
+<div class="flex flex-row items-center <%= "text-gray-300 dark:text-gray-600" if live_stock&.zero? %>">
   <div class="mr-2 flex grow items-center">
     <span><%= variant.name %></span>
 
@@ -17,7 +17,7 @@
     <% when ..0 %>
       <span
         class="
-          ml-2 px-2 text-xs text-gray-400 dark:text-gray-600 rounded-full
+          ml-2 px-2 text-xs text-gray-400 dark:text-gray-500 rounded-full
           bg-gray-200 dark:bg-gray-800 whitespace-nowrap
         "
       >
@@ -37,7 +37,7 @@
       <span
         class="
           flex cursor-not-allowed items-center rounded-md bg-gray-200
-          text-gray-300 dark:bg-gray-800 dark:text-gray-700
+          text-gray-300 dark:bg-gray-800 dark:text-gray-600
         "
       >
         <%= icon "shopping-basket", class: "p-0.5 h-6 w-10" %>

@@ -26,7 +26,7 @@ class Members::AccountsController < Members::BaseController
       .permit(
         :name,
         :street, :zip, :city, :country_code,
-        :emails, :phones, :language,
+        :emails, :phones, :language, :theme,
         :different_billing_info,
         :billing_name, :billing_street, :billing_zip, :billing_city,
         :shop_depot_id)

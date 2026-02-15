@@ -25,7 +25,7 @@
   <h2><%= t(".history") %></h2>
 
   <% if @billing_history.empty? %>
-    <p class="mt-4 text-center text-gray-400 italic dark:text-gray-600">
+    <p class="mt-4 text-center text-gray-400 italic dark:text-gray-500">
       <%= t(".no_billing_history") %>
     </p>
   <% else %>
@@ -34,7 +34,7 @@
 
       <% @billing_history.first(limit).each do |object| %>
         <li
-          class="-mx-2 flex flex-row flex-wrap items-center justify-between rounded-sm px-2 py-1 hover:bg-gray-100 md:flex-nowrap dark:hover:bg-gray-800 <%= "line-through text-gray-300 dark:text-gray-700" if object.respond_to?(:canceled?) && object.canceled? %>"
+          class="-mx-2 flex flex-row flex-wrap items-center justify-between rounded-sm px-2 py-1 hover:bg-gray-100 md:flex-nowrap dark:hover:bg-gray-800 <%= "line-through text-gray-300 dark:text-gray-600" if object.respond_to?(:canceled?) && object.canceled? %>"
           data-hover-id="<%= (object.is_a?(Invoice) && object.entity ? dom_id(object.entity) : nil) %>"
         >
           <%= render "line", object: object %>
@@ -44,7 +44,7 @@
     <%= render "members/shared/show_all_button", collection: @billing_history, limit: limit, anchor: "billing_history" %>
   <% end %>
 
-  <p class="mt-12 text-sm text-gray-400 dark:text-gray-600">
+  <p class="mt-12 text-sm text-gray-400 dark:text-gray-500">
     <%= t(".explanation") %>
   </p>
 

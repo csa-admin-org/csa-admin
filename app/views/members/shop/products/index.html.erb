@@ -18,7 +18,7 @@
           class="
             mx-0 flex w-full flex-col rounded-sm border border-gray-200
             bg-gray-100 text-gray-400 shadow-md md:mx-auto md:w-96
-            dark:border-gray-700 dark:bg-gray-900 dark:text-gray-600
+            dark:border-gray-700 dark:bg-gray-900 dark:text-gray-500
           "
         >
           <%= turbo_frame_tag "cart" do %>
@@ -97,7 +97,7 @@
 <% end %>
 
 <% if Current.org.shop_terms_of_sale_url %>
-  <div class="mt-24 text-center text-sm text-gray-400 dark:text-gray-600">
+  <div class="mt-24 text-center text-sm text-gray-400 dark:text-gray-500">
     <%= link_to t("members.shop.terms_of_sale"), Current.org.shop_terms_of_sale_url, target: "_blank", class: "underline " %>
   </div>
 <% end %>

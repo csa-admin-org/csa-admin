@@ -70,8 +70,8 @@
                 class="
                   z-0 cursor-pointer rounded-l bg-gray-200 text-gray-400
                   outline-hidden hover:bg-transparent hover:text-gray-600
-                  dark:bg-gray-800 dark:text-gray-600
-                  dark:hover:text-gray-400
+                  dark:bg-gray-800 dark:text-gray-500
+                  dark:hover:text-gray-300
                 "
                 data-action="form-number-controls#decrement"
               >
@@ -90,7 +90,7 @@
 
               <%= tag.button(
                 "aria-label": "Plus",
-                class: "outline-hidden cursor-pointer rounded-r bg-gray-200 text-gray-400 disabled:cursor-not-allowed disabled:text-gray-300 dark:bg-gray-800 dark:text-gray-600 disabled:dark:text-gray-700 #{hover_class}",
+                class: "outline-hidden cursor-pointer rounded-r bg-gray-200 text-gray-400 disabled:cursor-not-allowed disabled:text-gray-300 dark:bg-gray-800 dark:text-gray-500 disabled:dark:text-gray-600 #{hover_class}",
                 "data-action": "form-number-controls#increment",
                 disabled: disabled
               ) do %>
@@ -148,7 +148,7 @@
     <div
       class="
         mt-2.5 ml-2 flex w-24 flex-row items-center justify-end text-sm
-        text-gray-400 dark:text-gray-600
+        text-gray-400 dark:text-gray-500
       "
       title="<%= t(".order_total_weight") %>"
     >

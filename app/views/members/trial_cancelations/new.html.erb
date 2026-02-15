@@ -20,7 +20,7 @@
       <%= f.input :renewal_note, as: :text, label: t(".cancelation_note_label"), placeholder: t(".renewal_note_placeholder"), input_html: { rows: 3 } %>
 
       <% if Current.org.annual_fee? %>
-        <% price_tag = content_tag(:span, cur(Current.org.annual_fee, precision: 0), class: "ml-auto text-lg whitespace-nowrap text-gray-400 dark:text-gray-600")
+        <% price_tag = content_tag(:span, cur(Current.org.annual_fee, precision: 0), class: "ml-auto text-lg whitespace-nowrap text-gray-400 dark:text-gray-500")
           label = t(".renewal_annual_fee_label_html", price_tag: price_tag) %>
         <div class="check_boxes">
           <div class="checkbox">

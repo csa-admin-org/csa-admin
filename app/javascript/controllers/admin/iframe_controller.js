@@ -5,24 +5,25 @@ export default class extends Controller {
     return ["iframe"]
   }
 
-  connect() {
-    let toggleColorThemeButton = document.querySelector(
-      "button.dark-mode-toggle"
-    )
-    if (toggleColorThemeButton) {
-      toggleColorThemeButton.addEventListener("mouseup", () => {
-        this._toggleColorScheme()
-      })
-    }
-  }
-
   iframeTargetConnected(element) {
+    // srcdoc iframes often load before Stimulus connects the target,
+    // especially during Turbo visits. Try immediately, and also set
+    // onload as a fallback for slower loads.
     element.onload = () => {
       this._resize()
       this._setColorScheme()
     }
-    this._resize()
-    this._setColorScheme()
+    this._applyWhenReady(element)
+  }
+
+  _applyWhenReady(element, attempts = 0) {
+    const body = this._iframeBody(element)
+    if (body) {
+      this._resize()
+      this._setColorScheme()
+    } else if (attempts < 10) {
+      setTimeout(() => this._applyWhenReady(element, attempts + 1), 50)
+    }
   }
 
   _resize() {
@@ -33,34 +34,21 @@ export default class extends Controller {
   }
 
   _setColorScheme() {
-    if (localStorage.getItem("theme")) {
-      if (localStorage.getItem("theme") === "light") {
-        this._iframeBodies().forEach((body) => body.classList.remove("dark"))
-      } else {
-        this._iframeBodies().forEach((body) => body.classList.add("dark"))
-      }
-    }
-  }
-
-  _toggleColorScheme() {
+    const dark = document.documentElement.classList.contains("dark")
     this._iframeBodies().forEach((body) => {
-      if (body.classList.contains("dark")) {
-        body.classList.remove("dark")
-      } else {
-        body.classList.add("dark")
-      }
+      body.classList.toggle("dark", dark)
     })
   }
 
+  _iframeBody(element) {
+    try {
+      return element.contentWindow.document.body
+    } catch (e) {
+      return null
+    }
+  }
+
   _iframeBodies() {
-    return this.iframeTargets
-      .map((i) => {
-        try {
-          return i.contentWindow.document.body
-        } catch (e) {
-          return null // Handle the error gracefully
-        }
-      })
-      .filter(Boolean)
+    return this.iframeTargets.map((i) => this._iframeBody(i)).filter(Boolean)
   }
 }

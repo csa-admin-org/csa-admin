@@ -9,6 +9,7 @@ class Member < ApplicationRecord
   include HasPhones
   include HasLanguage
   include HasSessions
+  include HasTheme
   include HasIBAN
   include Auditable
   include NormalizedString
@@ -23,7 +24,6 @@ class Member < ApplicationRecord
   searchable :name, :emails, :city, :zip, :id, priority: 1
 
   BILLING_INTERVALS = %w[annual quarterly].freeze
-
   generates_token_for :calendar
 
   # Temporary attributes for Delivery XLSX worksheet
@@ -139,6 +139,7 @@ class Member < ApplicationRecord
     if: -> { public_create && Current.org.annual_fee? && Current.org.annual_fee_member_form? && !waiting_basket_size_id? }
   validate :email_must_be_unique
   validate :unique_waiting_basket_complement_id
+
   validates :trial_baskets_count, numericality: { greater_than_or_equal_to: 0 }, presence: true
   validates :iban, presence: true, if: :sepa_mandate_id?
   validates :iban, format: -> { ::Billing.iban_format }, allow_nil: :true

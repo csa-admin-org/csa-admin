@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_02_10_165540) do
+ActiveRecord::Schema[8.1].define(version: 2026_02_15_110000) do
   create_table "absences", force: :cascade do |t|
     t.datetime "created_at"
     t.date "ended_on"
@@ -132,6 +132,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_10_165540) do
     t.string "name", null: false
     t.json "notifications", default: [], null: false
     t.bigint "permission_id", null: false
+    t.string "theme", default: "system", null: false
     t.datetime "updated_at"
     t.index ["email"], name: "index_admins_on_email", unique: true
     t.index ["permission_id"], name: "index_admins_on_permission_id"
@@ -539,6 +540,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_10_165540) do
     t.bigint "shop_depot_id"
     t.string "state", default: "pending", null: false
     t.string "street", limit: 255
+    t.string "theme", default: "system", null: false
     t.integer "trial_baskets_count", null: false
     t.datetime "updated_at"
     t.boolean "use_local_currency", default: false

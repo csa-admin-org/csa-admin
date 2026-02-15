@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 
-<html lang="<%= I18n.locale %>">
+<html
+  lang="<%= I18n.locale %>"
+  data-theme="<%= current_member&.theme || "system" %>"
+>
   <head>
     <title><%= [ Current.org.name, t(".title") ].join(" – ") %></title>
 
@@ -12,10 +15,14 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <%= render "layouts/members/dark_mode_switch" %>
+    <%= render "shared/theme_script" %>
   </head>
 
-  <body class="members dark:bg-black" data-controller="menu">
+  <body
+    class="members dark:bg-black"
+    data-controller="menu theme"
+    data-theme-preference-value="<%= current_member&.theme || "system" %>"
+  >
     <% if current_member %>
       <div class="flex flex-col md:mx-auto md:max-w-4xl md:flex-row">
         <div class="flex flex-col md:w-80">

@@ -20,6 +20,12 @@ _:
           _de: Welche sich möglicherweise als nützlich für unsere Aktivitäten erweisen könnten.
           _it: Che potrebbe essere potenzialmente utile per le nostre attività.
           _nl: Die mogelijk nuttig kunnen zijn voor onze activiteiten.
+        theme:
+          _en: '"System" follows your operating system''s light/dark setting.'
+          _fr: '"Système" suit le réglage clair/sombre de votre système d''exploitation.'
+          _de: '"System" folgt der Hell/Dunkel-Einstellung Ihres Betriebssystems.'
+          _it: '"Sistema" segue l''impostazione chiaro/scuro del sistema operativo.'
+          _nl: '"Systeem" volgt de licht/donker-instelling van uw besturingssysteem.'
     required:
       mark:
         _en: "*"

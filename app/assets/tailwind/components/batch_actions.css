@@ -4,7 +4,7 @@
   }
 
   .batch-actions-dropdown-toggle {
-    @apply inline-flex items-center justify-center gap-2 rounded-md border border-gray-200 bg-white px-3 py-2 text-sm font-medium text-gray-900 transition-opacity hover:bg-gray-100 hover:text-green-700 focus:z-10 focus:text-green-700 focus:ring-2 focus:ring-green-700 disabled:pointer-events-none disabled:border-gray-200/70 disabled:text-gray-400 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:hover:bg-gray-600 dark:hover:text-white dark:focus:text-white dark:focus:ring-green-500 dark:disabled:border-gray-800 dark:disabled:bg-gray-900 dark:disabled:text-gray-700;
+    @apply inline-flex items-center justify-center gap-2 rounded-md border border-gray-200 bg-white px-3 py-2 text-sm font-medium text-gray-900 transition-opacity hover:bg-gray-100 hover:text-green-700 focus:z-10 focus:text-green-700 focus:ring-2 focus:ring-green-700 disabled:pointer-events-none disabled:border-gray-200/70 disabled:text-gray-400 dark:border-gray-600 dark:bg-gray-800 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white dark:focus:text-white dark:focus:ring-green-500 dark:disabled:border-gray-800 dark:disabled:bg-gray-900 dark:disabled:text-gray-500;
   }
 
   .batch-actions-dropdown-arrow {
@@ -12,10 +12,10 @@
   }
 
   .batch-actions-dropdown-menu {
-    @apply z-10 hidden min-w-52 rounded-md bg-white p-2 text-sm text-gray-700 shadow-lg ring-1 ring-black/5 focus:outline-hidden dark:bg-gray-700 dark:text-gray-200;
+    @apply z-10 hidden min-w-52 rounded-md bg-white p-2 text-sm text-gray-700 shadow-lg ring-1 ring-black/5 focus:outline-hidden dark:bg-gray-800 dark:text-gray-200;
   }
 
   .batch-actions-dropdown-menu li > a {
-    @apply block rounded-xs px-2.5 py-2 text-gray-700 no-underline hover:bg-gray-100 hover:text-gray-900 dark:text-white dark:hover:bg-gray-600 dark:hover:text-white;
+    @apply block rounded-xs px-2.5 py-2 text-gray-700 no-underline hover:bg-gray-100 hover:text-gray-900 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white;
   }
 }

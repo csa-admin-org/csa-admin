@@ -7,7 +7,7 @@
   .codejar-editor {
     @apply mt-1 w-full rounded-md border border-gray-300 bg-gray-50 text-sm leading-relaxed text-gray-900;
     @apply focus:border-green-500 focus:ring-1 focus:ring-green-500 focus:outline-hidden;
-    @apply dark:border-gray-600 dark:bg-gray-700 dark:text-white;
+    @apply dark:border-gray-600 dark:bg-gray-800 dark:text-white;
     @apply dark:focus:border-green-600 dark:focus:ring-green-600;
     font-family:
       ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas,

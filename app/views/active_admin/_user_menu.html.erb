@@ -1,0 +1,54 @@
+<button
+  id="user-menu-button"
+  class="
+    ms-1 flex items-center justify-center text-sm text-white/50
+    hover:text-white focus:outline-hidden dark:text-black/50
+    dark:hover:text-black
+  "
+  data-dropdown-toggle="user-menu"
+  data-dropdown-offset-distance="3"
+  data-dropdown-placement="bottom-end"
+>
+  <%= icon "user-circle", class: "size-8", variant: "solid" %>
+</button>
+
+<div
+  id="user-menu"
+  class="
+    z-50 hidden min-w-max divide-y divide-gray-100 rounded-sm bg-white
+    text-right text-sm text-gray-700 shadow-lg ring-1 ring-black/5
+    focus:outline-hidden dark:divide-gray-700 dark:bg-gray-800
+    dark:text-gray-200
+  "
+  aria-labelledby="user-menu-button"
+>
+  <ul class="space-y-1 p-1">
+    <% if current_active_admin_user? %>
+      <li>
+        <%= auto_link current_active_admin_user, class: "block rounded-sm px-2.5 py-1.5 no-underline text-gray-700 hover:bg-gray-100 hover:text-gray-900 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white" %>
+      </li>
+      <% language = current_active_admin_user.language %>
+      <li>
+        <%= link_to edit_admin_path(current_active_admin_user, anchor: "language"), class: "flex items-center justify-end gap-2 rounded-sm px-2.5 py-1.5 no-underline text-gray-500 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white" do %>
+          <%= icon "language", class: "size-4" %>
+          <span class="text-xs"><%= t("languages.#{language}") %></span>
+        <% end %>
+      </li>
+      <% theme = current_active_admin_user.theme %>
+      <% theme_icon = { "light" => "sun", "dark" => "moon" }.fetch(theme, "sun-moon") %>
+      <li>
+        <%= link_to edit_admin_path(current_active_admin_user, anchor: "theme"), class: "flex items-center justify-end gap-2 rounded-sm px-2.5 py-1.5 no-underline text-gray-500 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white" do %>
+          <%= icon theme_icon, class: "size-4" %>
+          <span class="text-xs"><%= t("themes.#{theme}") %></span>
+        <% end %>
+      </li>
+    <% end %>
+  </ul>
+
+  <div class="p-1">
+    <%= link_to auto_logout_link_path, class: "inline-flex items-center rounded-sm px-2.5 py-1.5 no-underline text-xs text-gray-500 dark:text-gray-300 hover:bg-gray-100 hover:text-gray-900 dark:hover:bg-gray-700 dark:hover:text-white", data: { method: :delete } do %>
+      <%= t("active_admin.logout") %>
+      <%= icon "arrow-right-start-on-rectangle", class: "size-4 ms-1" %>
+    <% end %>
+  </div>
+</div>

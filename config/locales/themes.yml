@@ -1,0 +1,20 @@
+_:
+  themes:
+    dark:
+      _en: Dark
+      _fr: Sombre
+      _de: Dunkel
+      _it: Scuro
+      _nl: Donker
+    light:
+      _en: Light
+      _fr: Clair
+      _de: Hell
+      _it: Chiaro
+      _nl: Licht
+    system:
+      _en: System
+      _fr: Système
+      _de: System
+      _it: Sistema
+      _nl: Systeem

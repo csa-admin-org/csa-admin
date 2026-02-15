@@ -4,18 +4,7 @@
 <%= csrf_meta_tags %>
 <%= csp_meta_tag %>
 
-<%# On page load or when changing themes, best to add inline in `head` to avoid FOUC %>
-<script nonce="true">
-  if (
-    localStorage.theme === "dark" ||
-    (!("theme" in localStorage) &&
-      window.matchMedia("(prefers-color-scheme: dark)").matches)
-  ) {
-    document.documentElement.classList.add("dark");
-  } else {
-    document.documentElement.classList.remove("dark");
-  }
-</script>
+<%= render "shared/theme_script" %>
 
 <%= javascript_importmap_tags "admin" %>
 

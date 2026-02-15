@@ -3,6 +3,7 @@
 class Admin < ApplicationRecord
   include HasName
   include HasSessions
+  include HasTheme
 
   attribute :language, :string, default: -> { Current.org.languages.first }
   normalizes :email, with: ->(email) { email.downcase.strip }

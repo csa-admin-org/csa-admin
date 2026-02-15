@@ -16,9 +16,9 @@
   select {
     @apply mt-1 w-full appearance-none p-2 px-3 shadow-none dark:text-white;
     @apply text-base text-gray-900 dark:text-white;
-    @apply placeholder:text-gray-400 placeholder:opacity-100 placeholder:dark:text-gray-600;
+    @apply placeholder:text-gray-400 placeholder:opacity-100 placeholder:dark:text-gray-500;
 
-    @apply bg-gray-50 dark:bg-gray-700;
+    @apply bg-gray-50 dark:bg-gray-800;
     @apply rounded-md border border-gray-300 bg-origin-border focus:border-green-500 dark:border-gray-600 focus:dark:border-green-600;
     @apply focus:z-10 focus:shadow-none focus:ring-1 focus:ring-green-500 focus:ring-offset-0 focus:outline-hidden focus:dark:ring-green-600;
   }
@@ -71,7 +71,7 @@
   /* Checkbox and radio base styles */
   [type="checkbox"],
   [type="radio"] {
-    @apply inline-block size-5 shrink-0 appearance-none border border-gray-300 bg-gray-100 bg-origin-border p-0 align-middle text-green-600 shadow-none select-none focus:ring-2 focus:ring-green-500 dark:border-gray-600 dark:bg-gray-700 dark:focus:ring-green-600;
+    @apply inline-block size-5 shrink-0 appearance-none border border-gray-300 bg-gray-100 bg-origin-border p-0 align-middle text-green-600 shadow-none select-none focus:ring-2 focus:ring-green-500 dark:border-gray-600 dark:bg-gray-800 dark:focus:ring-green-600;
   }
 
   [type="checkbox"] {
@@ -85,7 +85,7 @@
   /* Focus states for checkbox and radio */
   [type="checkbox"]:focus,
   [type="radio"]:focus {
-    @apply ring-2 ring-green-600 ring-offset-2 ring-offset-white outline-hidden;
+    @apply ring-2 ring-green-600 ring-offset-2 ring-offset-white outline-hidden dark:ring-offset-gray-900;
   }
 
   /* Checked states */
@@ -120,7 +120,7 @@
 
   /* Range input */
   [type="range"] {
-    @apply h-2 appearance-none rounded-full bg-gray-200 dark:bg-gray-700;
+    @apply h-2 appearance-none rounded-full bg-gray-200 dark:bg-gray-800;
 
     &::-webkit-slider-thumb {
       @apply size-5 appearance-none rounded-full bg-green-600;
@@ -240,7 +240,7 @@
 
   /* Links */
   a {
-    @apply underline decoration-green-400 underline-offset-2 hover:text-green-600 dark:decoration-green-600 dark:hover:text-green-600;
+    @apply underline decoration-green-400 underline-offset-2 hover:text-green-600 dark:decoration-green-500 dark:hover:text-green-400;
   }
 }
 
@@ -249,5 +249,5 @@
 }
 
 @utility missing-data {
-  @apply block w-full py-2 text-center text-gray-400 italic dark:text-gray-600;
+  @apply block w-full py-2 text-center text-gray-400 italic dark:text-gray-500;
 }

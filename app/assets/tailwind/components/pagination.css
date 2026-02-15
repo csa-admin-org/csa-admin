@@ -5,7 +5,7 @@
   }
 
   .paginated-collection-contents {
-    @apply w-full overflow-x-auto rounded-lg border border-gray-200 shadow-md dark:border-gray-700;
+    @apply w-full overflow-x-auto rounded-lg border border-gray-200 bg-white shadow-md dark:border-gray-700 dark:bg-gray-900;
 
     &:has(.table-wrapper) {
       @apply overflow-visible border-none shadow-none;
@@ -16,7 +16,7 @@
     }
 
     .table-wrapper {
-      @apply mt-5 rounded-lg border border-gray-200 bg-white shadow-md dark:border-gray-700 dark:bg-gray-950/95;
+      @apply mt-5 rounded-lg border border-gray-200 bg-white shadow-md dark:border-gray-700 dark:bg-gray-900;
     }
 
     .table-wrapper-content {

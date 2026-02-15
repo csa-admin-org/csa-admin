@@ -88,11 +88,11 @@
     }
 
     p.nocontent {
-      @apply mt-4 pb-4 text-center text-gray-400 italic dark:text-gray-600;
+      @apply mt-4 pb-4 text-center text-gray-400 italic dark:text-gray-500;
     }
 
     p.explanation {
-      @apply mt-8 text-sm text-gray-400 dark:text-gray-600;
+      @apply mt-8 text-sm text-gray-400 dark:text-gray-500;
     }
 
     form {
@@ -190,10 +190,10 @@
 .disabled a,
 .disabled .text-sm,
 input.string:disabled {
-  @apply pointer-events-auto cursor-not-allowed border-gray-200 text-gray-300 dark:border-gray-900 dark:text-gray-700;
+  @apply pointer-events-auto cursor-not-allowed border-gray-200 text-gray-300 dark:border-gray-900 dark:text-gray-600;
 }
 .disabled a {
-  @apply pointer-events-none decoration-gray-300 hover:bg-transparent dark:decoration-gray-700;
+  @apply pointer-events-none decoration-gray-300 hover:bg-transparent dark:decoration-gray-600;
 }
 .disabled label {
   @apply border-gray-100 dark:border-gray-900;

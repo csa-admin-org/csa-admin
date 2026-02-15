@@ -61,7 +61,7 @@
   <div
     class="
       flex flex-row items-center justify-end text-sm text-gray-400
-      dark:text-gray-600
+      dark:text-gray-500
     "
     title="<%= t(".order_total_weight") %>"
   >
@@ -92,7 +92,7 @@
     <% end %>
   </div>
 <% else %>
-  <p class="mt-12 text-center text-gray-400 italic dark:text-gray-600">
+  <p class="mt-12 text-center text-gray-400 italic dark:text-gray-500">
     <%= t(".contact_us_html", email: Current.org.email) %>
   </p>
 <% end %>
@@ -102,7 +102,7 @@
 <% end %>
 
 <% if next_shop_delivery && @order.delivery == current_shop_delivery && @order.shop_open? %>
-  <p class="mt-16 text-gray-400 dark:text-gray-600">
+  <p class="mt-16 text-gray-400 dark:text-gray-500">
     <%= t("members.shop.products.index.next_delivery_html",
       date: l(next_shop_delivery.date, format: :long),
       start_date: l(@order.delivery.shop_closing_at, format: :long),

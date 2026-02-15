@@ -30,7 +30,7 @@
   <%= render "baskets_list", baskets: @future_baskets, empty_text: t(".no_future_deliveries"), anchor: "future_deliveries" %>
 
   <% if @future_baskets.provisionally_absent.any? %>
-    <div class="mt-4 mb-4 flex text-sm text-gray-400 dark:text-gray-600">
+    <div class="mt-4 mb-4 flex text-sm text-gray-400 dark:text-gray-500">
       <span class="left mr-2">*</span>
       <p><%= t(".provisionally_absent_explanation_html") %></p>
     </div>

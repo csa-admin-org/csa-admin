@@ -34,11 +34,11 @@
             <% Current.org.languages.each do |locale| %>
               <li
                 class="
-                  text-gray-300 uppercase dark:text-gray-700
-                  [&:not(:first-child)]:before:content-['/']
+                  text-gray-300 uppercase not-first:before:content-['/']
+                  dark:text-gray-600
                 "
               >
-                <%= link_to locale, url_for(locale: locale), title: t("languages.#{locale}"), onclick: "Turbolinks.clearCache()", class: "px-2 text-gray-400 dark:text-gray-600" %>
+                <%= link_to locale, url_for(locale: locale), title: t("languages.#{locale}"), onclick: "Turbolinks.clearCache()", class: "px-2 text-gray-400 dark:text-gray-500" %>
               </li>
             <% end %>
           </ul>
@@ -46,7 +46,7 @@
       <% end %>
 
       <div class="flex justify-center gap-2 pt-8">
-        <%= link_to csa_admin_website_url, class: "inline-flex items-center text-sm py-1 px-2 text-gray-300 dark:text-gray-700 hover:text-green-600 dark:hover:text-green-500 hover:bg-gray-100 dark:hover:bg-gray-700 font-medium focus:outline-hidden rounded-md no-underline" do %>
+        <%= link_to csa_admin_website_url, class: "inline-flex items-center text-sm py-1 px-2 text-gray-300 dark:text-gray-600 hover:text-green-600 dark:hover:text-green-500 hover:bg-gray-100 dark:hover:bg-gray-800 font-medium focus:outline-hidden rounded-md no-underline" do %>
           <%= icon "logo", class: "size-4 me-2 fill-current", variant: "solid" %>
           CSA Admin
         <% end %>

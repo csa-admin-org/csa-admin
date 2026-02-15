@@ -6,7 +6,7 @@
   <% if current_member.errors.none? && current_member.contact_sharing? %>
     <p class="mt-2"><%= t(".description") %></p>
     <% if @members.empty? %>
-      <p class="my-12 text-center text-gray-400 italic dark:text-gray-600">
+      <p class="my-12 text-center text-gray-400 italic dark:text-gray-500">
         <%= t(".nobody_sharing_contact") %>
       </p>
     <% else %>
@@ -24,12 +24,12 @@
 
             <ul class="space-y-1.5">
               <li class="flex flex-row items-center gap-2">
-                <%= icon "phone", class: "size-5 w-6 text-gray-300 dark:text-gray-700" %>
+                <%= icon "phone", class: "size-5 w-6 text-gray-300 dark:text-gray-600" %>
                 <span><%= display_phones(member) %></span>
               </li>
 
               <li class="flex flex-row items-center gap-2">
-                <%= icon "map", class: "size-5 w-6 text-gray-300 dark:text-gray-700" %>
+                <%= icon "map", class: "size-5 w-6 text-gray-300 dark:text-gray-600" %>
                 <span><%= display_address(member) %></span>
               </li>
             </ul>

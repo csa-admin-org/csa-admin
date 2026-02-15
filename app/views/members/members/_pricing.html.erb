@@ -10,11 +10,11 @@
         "
       >
         <div class="flex flex-row items-center justify-center p-2 px-4 text-gray-500">
-          <%= icon "banknotes", class: "size-6 text-gray-400 dark:text-gray-600" %>
+          <%= icon "banknotes", class: "size-6 text-gray-400 dark:text-gray-500" %>
 
           <span class="ml-3">
             <% if current_member&.salary_basket? %>
-              <span class="text-gray-400 italic dark:text-gray-600">
+              <span class="text-gray-400 italic dark:text-gray-500">
                 <%= t(".salary_basket") %>
               </span>
             <% else %>
@@ -23,7 +23,7 @@
               <% else %>
                 <%= [ cur(pricing.prices.min), cur(pricing.prices.max, format: "%n") ].join("-") %>
               <% end %>
-              <span class="ml-1 text-gray-400 dark:text-gray-600">
+              <span class="ml-1 text-gray-400 dark:text-gray-500">
                 /<%= t(".year") %>
               </span>
             <% end %>

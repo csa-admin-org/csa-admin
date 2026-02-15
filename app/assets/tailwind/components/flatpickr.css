@@ -839,7 +839,7 @@ span.flatpickr-weekday {
   }
 
   &.inline select {
-    @apply w-auto appearance-none bg-green-500 py-1 pr-10 text-white;
+    @apply w-auto appearance-none bg-green-500 py-1 pr-10 text-white dark:bg-green-700;
   }
 
   &.inline select:hover {
@@ -870,7 +870,7 @@ span.flatpickr-weekday {
   }
 
   &.inline .flatpickr-day.flatpickr-disabled {
-    @apply border-gray-100 text-gray-300 dark:border-gray-900 dark:text-gray-700;
+    @apply border-gray-100 text-gray-300 dark:border-gray-900 dark:text-gray-600;
   }
 
   &.inline .flatpickr-day:hover {
@@ -878,7 +878,7 @@ span.flatpickr-weekday {
   }
 
   &.inline .flatpickr-day:not(.flatpickr-disabled) {
-    @apply border border-gray-400 font-bold text-gray-400 dark:border-gray-600 dark:text-gray-600;
+    @apply border border-gray-400 font-bold text-gray-400 dark:border-gray-600 dark:text-gray-500;
   }
 
   &.inline .flatpickr-day.not-full {
@@ -886,11 +886,11 @@ span.flatpickr-weekday {
   }
 
   &.inline .flatpickr-day.selected {
-    @apply border-green-500 bg-green-500 text-white;
+    @apply border-green-500 bg-green-500 text-white dark:border-green-600 dark:bg-green-600;
   }
 
   & .flatpickr-innerContainer {
-    @apply rounded-b-sm border border-green-500;
+    @apply rounded-b-sm border border-green-500 dark:border-green-700;
   }
 }
 
@@ -909,7 +909,7 @@ span.flatpickr-weekday {
   }
 
   &.flatpickr-calendar select {
-    @apply w-auto appearance-none bg-green-500 py-1 pr-10 text-white;
+    @apply w-auto appearance-none bg-green-500 py-1 pr-10 text-white dark:bg-green-700;
   }
 
   &.flatpickr-calendar select:hover {
@@ -936,7 +936,7 @@ span.flatpickr-weekday {
   }
 
   &.flatpickr-calendar .flatpickr-day.flatpickr-disabled {
-    @apply border-gray-100 text-gray-300 dark:border-gray-900 dark:text-gray-700;
+    @apply border-gray-100 text-gray-300 dark:border-gray-900 dark:text-gray-600;
   }
 
   &.flatpickr-calendar .flatpickr-day:hover {
@@ -944,7 +944,7 @@ span.flatpickr-weekday {
   }
 
   &.flatpickr-calendar .flatpickr-day:not(.flatpickr-disabled) {
-    @apply border border-gray-400 font-bold text-gray-400 dark:border-gray-600 dark:text-gray-600;
+    @apply border border-gray-400 font-bold text-gray-400 dark:border-gray-600 dark:text-gray-500;
   }
 
   &.flatpickr-calendar .flatpickr-day.not-full {
@@ -952,7 +952,7 @@ span.flatpickr-weekday {
   }
 
   &.flatpickr-calendar .flatpickr-day.selected {
-    @apply border-green-500 bg-green-500 text-white;
+    @apply border-green-500 bg-green-500 text-white dark:border-green-600 dark:bg-green-600;
   }
 }
 
@@ -960,7 +960,7 @@ span.flatpickr-weekday {
   @apply bg-transparent;
 
   .flatpickr-calendar & {
-    @apply rounded-b-sm border border-green-500;
+    @apply rounded-b-sm border border-green-500 dark:border-green-700;
   }
 }
 
@@ -993,7 +993,7 @@ span.flatpickr-weekday {
   }
 
   .flatpickr-calendar.inline &.flatpickr-disabled {
-    @apply border-gray-100 text-gray-300 dark:border-gray-900 dark:text-gray-700;
+    @apply border-gray-100 text-gray-300 dark:border-gray-900 dark:text-gray-600;
   }
 
   .flatpickr-calendar.inline &:hover {
@@ -1001,7 +1001,7 @@ span.flatpickr-weekday {
   }
 
   .flatpickr-calendar.inline &:not(.flatpickr-disabled) {
-    @apply border border-gray-400 font-bold text-gray-400 dark:border-gray-600 dark:text-gray-600;
+    @apply border border-gray-400 font-bold text-gray-400 dark:border-gray-600 dark:text-gray-500;
   }
 
   .flatpickr-calendar.inline &.not-full {
@@ -1009,11 +1009,11 @@ span.flatpickr-weekday {
   }
 
   .flatpickr-calendar.inline &.selected {
-    @apply border-green-500 bg-green-500 text-white;
+    @apply border-green-500 bg-green-500 text-white dark:border-green-600 dark:bg-green-600;
   }
 
   &.selected {
-    @apply border-green-500! bg-green-500! hover:bg-green-500!;
+    @apply border-green-500! bg-green-500! hover:bg-green-500! dark:border-green-600! dark:bg-green-600! dark:hover:bg-green-600!;
   }
 
   &.nextMonthDay {
@@ -1023,7 +1023,7 @@ span.flatpickr-weekday {
 
 .flatpickr-disabled {
   .flatpickr-calendar.inline &.flatpickr-day {
-    @apply border-gray-100 text-gray-300 dark:border-gray-900 dark:text-gray-700;
+    @apply border-gray-100 text-gray-300 dark:border-gray-900 dark:text-gray-600;
   }
 }
 
@@ -1035,39 +1035,39 @@ span.flatpickr-weekday {
 
 .selected {
   .flatpickr-calendar.inline &.flatpickr-day {
-    @apply border-green-500 bg-green-500 text-white;
+    @apply border-green-500 bg-green-500 text-white dark:border-green-600 dark:bg-green-600;
   }
 
   &.flatpickr-day {
-    @apply border-green-500 bg-green-500;
+    @apply border-green-500 bg-green-500 dark:border-green-600 dark:bg-green-600;
   }
 }
 
 .flatpickr-months {
   & .flatpickr-month {
-    @apply bg-green-500;
+    @apply bg-green-500 dark:bg-green-700;
   }
 }
 
 .flatpickr-month {
   .flatpickr-months & {
-    @apply bg-green-500;
+    @apply bg-green-500 dark:bg-green-700;
   }
-  @apply border-green-500 bg-green-500;
+  @apply border-green-500 bg-green-500 dark:border-green-700 dark:bg-green-700;
 }
 
 .flatpickr-weekdaycontainer {
   & span {
-    @apply bg-green-500 font-normal text-white;
+    @apply bg-green-500 font-normal text-white dark:bg-green-700;
   }
 }
 
 .flatpickr-weekday {
-  @apply border-green-500 bg-green-500;
+  @apply border-green-500 bg-green-500 dark:border-green-700 dark:bg-green-700;
 }
 
 .flatpickr-weekdays {
-  @apply border-green-500 bg-green-500;
+  @apply border-green-500 bg-green-500 dark:border-green-700 dark:bg-green-700;
 }
 
 .nextMonthDay {

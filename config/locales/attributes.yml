@@ -732,6 +732,12 @@ _:
       _de: Text
       _it: Testo
       _nl: Tekst
+    theme:
+      _en: Theme
+      _fr: Thème
+      _de: Thema
+      _it: Tema
+      _nl: Thema
     title:
       _en: Title
       _fr: Intitulé

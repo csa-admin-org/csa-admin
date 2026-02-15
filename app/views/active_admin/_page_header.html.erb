@@ -29,7 +29,7 @@
       </h2>
 
       <% if params[:action] == "index" && year = params.dig(:q, :during_year).presence %>
-        <span class="inline text-4xl font-thin text-gray-300 dark:text-gray-600">
+        <span class="inline text-4xl font-thin text-gray-300 dark:text-gray-500">
           <%= Current.org.fiscal_year_for(year) %>
         </span>
       <% end %>
@@ -49,7 +49,7 @@
         <span
           class="
             grow text-right text-4xl font-thin text-gray-300
-            dark:text-gray-600
+            dark:text-gray-500
           "
         >
           <%= Current.fiscal_year %>

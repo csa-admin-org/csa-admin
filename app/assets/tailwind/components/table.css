@@ -24,11 +24,11 @@
   }
 
   .data-table {
-    @apply w-full text-sm text-gray-800 dark:text-gray-300;
+    @apply w-full text-sm text-gray-800 dark:text-gray-200;
   }
 
   .data-table :where(thead > tr > th) {
-    @apply border-b bg-gray-50 px-3 py-3.5 text-start text-xs font-semibold whitespace-nowrap text-gray-700 uppercase dark:border-gray-800 dark:bg-gray-950/50 dark:text-gray-300;
+    @apply border-b bg-gray-50 px-3 py-3.5 text-start text-xs font-semibold whitespace-nowrap text-gray-700 uppercase dark:border-gray-800 dark:bg-gray-800/30 dark:text-gray-300;
   }
 
   .data-table :where(thead > tr > th > a) {
@@ -68,7 +68,7 @@
   }
 
   .attributes-table > :where(table) {
-    @apply w-full text-sm text-gray-800 dark:text-gray-300;
+    @apply w-full text-sm text-gray-800 dark:text-gray-200;
   }
 
   .attributes-table :where(tbody > tr) {
@@ -139,7 +139,7 @@
     }
 
     .data-table tbody tr:nth-child(odd) {
-      @apply border-dotted bg-neutral-50 dark:bg-neutral-900;
+      @apply border-dotted bg-neutral-50 dark:bg-gray-800/30;
     }
 
     .data-table tbody tr td input[type="checkbox"] {
@@ -214,7 +214,7 @@
     @apply flex items-center justify-end gap-2;
 
     a {
-      @apply text-gray-400 hover:text-green-600 dark:text-gray-600 dark:hover:text-green-600;
+      @apply text-gray-400 hover:text-green-600 dark:text-gray-500 dark:hover:text-green-400;
     }
   }
 

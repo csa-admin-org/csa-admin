@@ -1,0 +1,20 @@
+<%# Inline theme script to prevent FOUC on initial load and Turbo visits %>
+<script nonce="true">
+  ;(function() {
+    function applyTheme(preference) {
+      var isDark =
+        preference === "dark" ||
+        (preference !== "light" &&
+          window.matchMedia("(prefers-color-scheme: dark)").matches);
+      document.documentElement.classList.toggle("dark", isDark);
+    }
+
+    applyTheme(document.documentElement.dataset.theme || "system");
+
+    document.addEventListener("turbo:before-render", function(event) {
+      var newPreference =
+        event.detail.newBody.dataset.themePreferenceValue || "system";
+      applyTheme(newPreference);
+    });
+  })();
+</script>

@@ -1,4 +1,4 @@
-<li class="-mx-2 my-2 flex flex-col flex-wrap rounded-sm px-2 py-1 hover:bg-gray-100 md:flex-row md:flex-nowrap md:items-center md:justify-between dark:hover:bg-gray-800 <%= "text-gray-300 dark:text-gray-700" if activity_participation.rejected? %>">
+<li class="-mx-2 my-2 flex flex-col flex-wrap rounded-sm px-2 py-1 hover:bg-gray-100 md:flex-row md:flex-nowrap md:items-center md:justify-between dark:hover:bg-gray-800 <%= "text-gray-300 dark:text-gray-600" if activity_participation.rejected? %>">
   <span class="flex grow flex-col flex-nowrap">
     <span>
       <%= l(activity_participation.activity.date, format: :medium).capitalize %>,
