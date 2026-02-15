@@ -21,15 +21,15 @@ ActiveAdmin.register MailTemplate do
   end
 
   scope :all
-  scope :member
-  scope :membership
-  scope :invoice
+  scope :member, group: :type
+  scope :membership, group: :type
+  scope :invoice, group: :type
   scope -> { Absence.model_name.human }, :absence,
-    if: -> { feature?("absence") }
+    group: :type, if: -> { feature?("absence") }
   scope -> { Activity.model_name.human }, :activity,
-    if: -> { feature?("activity") }
+    group: :type, if: -> { feature?("activity") }
   scope -> { BiddingRound.model_name.human }, :bidding_round,
-    if: -> { feature?("bidding_round") }
+    group: :type, if: -> { feature?("bidding_round") }
 
   action_item :view, only: :index, if: -> { authorized?(:update, Organization) } do
     action_link t(".settings"), edit_organization_path(anchor: "mail"), icon: "adjustments-horizontal"

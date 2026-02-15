@@ -12,9 +12,9 @@ ActiveAdmin.register Newsletter do
   filter :sent_at
 
   scope :all, default: true
-  scope :draft
-  scope :scheduled
-  scope :sent
+  scope :draft, group: :state
+  scope :scheduled, group: :state
+  scope :sent, group: :state
 
   action_item :segments, only: :index, if: -> { authorized?(:create, Newsletter::Segment) } do
     action_link Newsletter.human_attribute_name(:audience), newsletter_segments_path

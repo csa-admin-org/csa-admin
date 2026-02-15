@@ -24,10 +24,10 @@ ActiveAdmin.register ActivityParticipation do
   end
 
   scope :all
-  scope :future
-  scope :pending, default: true
-  scope :validated
-  scope :rejected
+  scope :future, group: :state
+  scope :pending, group: :state, default: true
+  scope :validated, group: :state
+  scope :rejected, group: :state
 
   filter :during_year,
     as: :select,

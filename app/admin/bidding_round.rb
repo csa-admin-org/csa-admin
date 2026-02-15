@@ -5,10 +5,10 @@ ActiveAdmin.register BiddingRound do
   actions :all
 
   scope :all, default: true
-  scope :draft
-  scope :open
-  scope :completed
-  scope :failed
+  scope :draft, group: :state
+  scope :open, group: :state
+  scope :completed, group: :state
+  scope :failed, group: :state
 
   filter :during_year,
     as: :select,

@@ -21,9 +21,9 @@ ActiveAdmin.register Invoice do
   scope :all do |scope|
     scope.not_processing
   end
-  scope :open, default: true
-  scope :closed
-  scope :canceled
+  scope :open, group: :state, default: true
+  scope :closed, group: :state
+  scope :canceled, group: :state
 
   filter :during_year,
     as: :select,

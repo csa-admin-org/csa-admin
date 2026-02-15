@@ -22,9 +22,9 @@ ActiveAdmin.register Absence do
   end
 
   scope :all, default: true
-  scope :past
-  scope :current
-  scope :future
+  scope :past, group: :period
+  scope :current, group: :period
+  scope :future, group: :period
 
   filter :during_year,
     as: :select,

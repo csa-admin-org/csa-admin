@@ -5,8 +5,8 @@ ActiveAdmin.register BasketSize do
   actions :all, except: [ :show ]
 
   scope :all
-  scope :visible, default: true
-  scope :hidden
+  scope :visible, group: :visibility, default: true
+  scope :hidden, group: :visibility
 
   includes :memberships
   index download_links: false do

@@ -16,8 +16,8 @@ ActiveAdmin.register Activity do
   end
 
   scope :all
-  scope :coming, default: true
-  scope :past
+  scope :coming, group: :period, default: true
+  scope :past, group: :period
 
   filter :during_year,
     as: :select,

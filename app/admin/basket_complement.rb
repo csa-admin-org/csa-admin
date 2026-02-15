@@ -5,8 +5,8 @@ ActiveAdmin.register BasketComplement do
   actions :all, except: [ :show ]
 
   scope :all
-  scope :visible, default: true
-  scope :hidden
+  scope :visible, group: :visibility, default: true
+  scope :hidden, group: :visibility
 
   includes :memberships_basket_complements, :baskets_basket_complement, :shop_product
   index download_links: false do

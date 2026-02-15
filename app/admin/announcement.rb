@@ -6,8 +6,8 @@ ActiveAdmin.register Announcement do
 
 
   scope :all
-  scope :active, default: true
-  scope :past
+  scope :active, group: :state, default: true
+  scope :past, group: :state
 
   filter :depots, as: :select, collection: -> { admin_depots_collection }
   filter :deliveries, as: :select, collection: -> { Delivery.all }

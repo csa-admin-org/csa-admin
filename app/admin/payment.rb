@@ -23,9 +23,9 @@ ActiveAdmin.register Payment do
   end
 
   scope :all, default: true
-  scope :import
-  scope :manual
-  scope :ignored
+  scope :import, group: :type
+  scope :manual, group: :type
+  scope :ignored, group: :type
 
   filter :during_year,
     as: :select,

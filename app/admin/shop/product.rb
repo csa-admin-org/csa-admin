@@ -20,8 +20,8 @@ ActiveAdmin.register Shop::Product do
   end
 
   scope :all
-  scope :available, default: true
-  scope :unavailable
+  scope :available, group: :availability, default: true
+  scope :unavailable, group: :availability
 
   filter :name_cont,
     label: -> { Shop::Product.human_attribute_name(:name) },

@@ -4,8 +4,8 @@ ActiveAdmin.register Depot do
   menu parent: :other, priority: 5
 
   scope :all
-  scope :visible, default: true
-  scope :hidden
+  scope :visible, group: :visibility, default: true
+  scope :hidden, group: :visibility
 
   filter :name_cont,
     label: -> { Depot.human_attribute_name(:name) },

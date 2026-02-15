@@ -9,11 +9,11 @@ ActiveAdmin.register Member do
   }
 
   scope :all
-  scope :pending
-  scope :waiting
-  scope :active, default: true
-  scope :support, if: -> { Current.org.member_support? }
-  scope :inactive
+  scope :pending, group: :state
+  scope :waiting, group: :state
+  scope :active, group: :state, default: true
+  scope :support, group: :state, if: -> { Current.org.member_support? }
+  scope :inactive, group: :state
 
   filter :id
   filter :name_cont, label: -> { Member.human_attribute_name(:name) }

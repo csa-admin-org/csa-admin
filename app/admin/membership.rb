@@ -27,10 +27,10 @@ ActiveAdmin.register Membership do
   end
 
   scope :all
-  scope :trial, if: -> { Current.org.trial_baskets? }
-  scope :ongoing, default: true
-  scope :future
-  scope :past
+  scope :trial, group: :state, if: -> { Current.org.trial_baskets? }
+  scope :ongoing, group: :state, default: true
+  scope :future, group: :state
+  scope :past, group: :state
 
   filter :during_year,
     as: :select,

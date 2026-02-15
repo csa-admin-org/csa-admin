@@ -5,9 +5,9 @@ ActiveAdmin.register Session, as: "MSession" do
   actions :index
 
   scope :all
-  scope :recent, default: true
-  scope :active
-  scope :expired
+  scope :recent, group: :state, default: true
+  scope :active, group: :state
+  scope :expired, group: :state
 
   filter :owner_type, as: :select, collection: %w[Admin Member]
   filter :admin

@@ -23,8 +23,8 @@ ActiveAdmin.register Shop::Order do
   end
 
   scope :all_without_cart, default: true
-  scope :pending
-  scope :invoiced
+  scope :pending, group: :state
+  scope :invoiced, group: :state
 
   filter :_delivery_gid,
     as: :select,
