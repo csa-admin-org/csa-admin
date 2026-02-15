@@ -31,6 +31,14 @@ class ActivityParticipationDemanded
       @baskets ||= deliveries_count(@membership.period)
     end
 
+    def depot_id
+      @membership.depot_id
+    end
+
+    def depot_group_id
+      @membership.depot&.group_id
+    end
+
     private
 
     def deliveries_count(range)

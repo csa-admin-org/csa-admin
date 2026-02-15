@@ -17,6 +17,7 @@ ActiveAdmin.register DepotGroup do
 
   includes :depots
   index download_links: false do
+    column :id
     column :name, ->(dg) { display_name_with_public_name(dg) }, class: "whitespace-nowrap", sortable: true
     column :depots, ->(dg) { dg.depots.reorder_by_name.map { |d| auto_link d }.to_sentence.html_safe }
     actions

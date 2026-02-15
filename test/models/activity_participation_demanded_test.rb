@@ -119,4 +119,59 @@ class ActivityParticipationDemandedTest < ActiveSupport::TestCase
 
     assert_equal 10, demanded_for(membership)
   end
+
+  def apply_depot_logic
+    org(activity_participations_demanded_logic: <<-LIQUID)
+      {% if membership.depot_id == #{depots(:farm).id} %}
+        5
+      {% else %}
+        {{ membership.full_year_activity_participations }}
+      {% endif %}
+    LIQUID
+  end
+
+  test "custom logic with depot_id" do
+    travel_to "2024-01-01"
+    apply_depot_logic
+    membership = memberships(:jane)
+
+    assert_equal 2, demanded_for(membership)
+
+    membership.update!(depot: depots(:farm))
+
+    assert_equal 5, demanded_for(membership)
+  end
+
+  def apply_depot_group_logic(group)
+    org(activity_participations_demanded_logic: <<-LIQUID)
+      {% if membership.depot_group_id == #{group.id} %}
+        3
+      {% else %}
+        {{ membership.full_year_activity_participations }}
+      {% endif %}
+    LIQUID
+  end
+
+  test "custom logic with depot_group_id" do
+    travel_to "2024-01-01"
+    group = DepotGroup.create!(names: { en: "Local" })
+    depots(:bakery).update!(group: group)
+    apply_depot_group_logic(group)
+    membership = memberships(:jane)
+
+    assert_equal 3, demanded_for(membership)
+
+    membership.update!(depot: depots(:farm))
+
+    assert_equal 2, demanded_for(Membership.find(membership.id))
+  end
+
+  test "custom logic with depot_group_id when depot has no group" do
+    travel_to "2024-01-01"
+    group = DepotGroup.create!(names: { en: "Local" })
+    apply_depot_group_logic(group)
+    membership = memberships(:jane)
+
+    assert_equal 2, demanded_for(membership)
+  end
 end
