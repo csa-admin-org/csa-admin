@@ -74,7 +74,7 @@
     <% end %>
 
     <% theme = current_member.theme %>
-    <% theme_icon = { "light" => "sun", "dark" => "moon" }.fetch(theme, "sun-moon") %>
+    <% theme_icon = HasTheme::THEME_ICONS.fetch(theme) %>
 
     <li class="flex flex-row gap-4">
       <%= icon theme_icon, class: "flex-none size-6" %>

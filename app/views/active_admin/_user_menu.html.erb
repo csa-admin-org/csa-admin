@@ -35,7 +35,7 @@
         <% end %>
       </li>
       <% theme = current_active_admin_user.theme %>
-      <% theme_icon = { "light" => "sun", "dark" => "moon" }.fetch(theme, "sun-moon") %>
+      <% theme_icon = HasTheme::THEME_ICONS.fetch(theme) %>
       <li>
         <%= link_to edit_admin_path(current_active_admin_user, anchor: "theme"), class: "flex items-center justify-end gap-2 rounded-sm px-2.5 py-1.5 no-underline text-gray-500 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white" do %>
           <%= icon theme_icon, class: "size-4" %>

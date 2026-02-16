@@ -72,13 +72,6 @@ _:
           _de: Google Maps oder anderes.
           _it: Google Maps o altro.
           _nl: Google Maps of andere.
-      admin:
-        theme:
-          _en: '"System" follows your operating system''s light/dark setting.'
-          _fr: '"Système" suit le réglage clair/sombre de votre système d''exploitation.'
-          _de: '"System" folgt der Hell/Dunkel-Einstellung Ihres Betriebssystems.'
-          _it: '"Sistema" segue l''impostazione chiaro/scuro del sistema operativo.'
-          _nl: '"Systeem" volgt de licht/donker-instelling van uw besturingssysteem.'
       announcement:
         text_html:
           _en: Please check that the display on the sheets does not overflow.<br/>The announcement will be displayed on the sheets (PDF) of the depot/delivery pairs listed below.

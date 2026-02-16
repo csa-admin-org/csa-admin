@@ -46,7 +46,7 @@
     <% end %>
 
     <div class="mt-6 mb-12">
-      <%= f.input :theme, as: :select, collection: HasTheme::THEMES.map { |theme| [ t("themes.#{theme}"), theme ] }, required: true, prompt: true %>
+      <%= f.input :theme, as: :radio_buttons, collection: themes_collection, required: true %>
     </div>
 
     <div class="actions">

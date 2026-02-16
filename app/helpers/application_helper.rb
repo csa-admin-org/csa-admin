@@ -150,6 +150,21 @@ module ApplicationHelper
     }
   end
 
+  def themes_collection
+    HasTheme::THEMES.map { |theme|
+      icon_name = HasTheme::THEME_ICONS.fetch(theme)
+      translation_key = theme == "system" ? "system_auto" : theme
+      label = t("themes.#{translation_key}")
+      [
+        content_tag(:span, class: "inline-flex items-center gap-2") {
+          icon(icon_name, class: "size-4") +
+          content_tag(:span, label)
+        },
+        theme
+      ]
+    }
+  end
+
   def referer_filter(attr)
     return unless request&.referer
 

@@ -41,11 +41,10 @@ ActiveAdmin.register Admin do
         collection: org_languages_collection,
         prompt: true,
         wrapper_html: { id: "language", class: "scroll-mt-24" }
-      unless f.object.new_record?
+      if f.object.persisted? && f.object == current_admin
         f.input :theme,
-          as: :select,
-          collection: HasTheme::THEMES.map { |theme| [ t("themes.#{theme}"), theme ] },
-          prompt: true,
+          as: :radio,
+          collection: themes_collection,
           wrapper_html: { id: "theme", class: "scroll-mt-24" }
       end
       if authorized?(:manage, Admin) && f.object != current_admin
