@@ -83,7 +83,7 @@ class Delivery < ApplicationRecord
   end
 
   def display_name(format: :medium, capitalize: false)
-    content_tag(:span, class: "whitespace-nowrap") {
+    content_tag(:span) {
       content_tag(:span, class: "tabular-nums") {
         txt = I18n.l(date, format: format)
         txt = txt.capitalize if capitalize
