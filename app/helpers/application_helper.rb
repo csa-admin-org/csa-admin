@@ -153,8 +153,7 @@ module ApplicationHelper
   def themes_collection
     HasTheme::THEMES.map { |theme|
       icon_name = HasTheme::THEME_ICONS.fetch(theme)
-      translation_key = theme == "system" ? "system_auto" : theme
-      label = t("themes.#{translation_key}")
+      label = t("themes.#{theme}")
       [
         content_tag(:span, class: "inline-flex items-center gap-2") {
           icon(icon_name, class: "size-4") +

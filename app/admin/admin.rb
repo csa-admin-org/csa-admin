@@ -45,7 +45,7 @@ ActiveAdmin.register Admin do
         f.input :theme,
           as: :radio,
           collection: themes_collection,
-          wrapper_html: { id: "theme", class: "scroll-mt-24" }
+          wrapper_html: { id: "theme", class: "scroll-mt-24 segmented-control" }
       end
       if authorized?(:manage, Admin) && f.object != current_admin
         f.input :permission, collection: Permission.all, prompt: true, include_blank: false

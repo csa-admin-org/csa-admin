@@ -1,0 +1,79 @@
+@layer components {
+  /* Segmented pill control — renders radio buttons as a pill-shaped toggle.
+   * Works in both admin (Formtastic) and members (SimpleForm) forms.
+   * Apply the `segmented-control` class to the input wrapper. */
+
+  /* Pill container */
+  .segmented-control ol.choices-group,
+  .segmented-control .segmented-pill {
+    @apply inline-flex w-auto items-stretch gap-0 self-start rounded-full border border-gray-300 p-0.5;
+    @apply dark:border-gray-600;
+  }
+
+  /* Override formtastic default w-full + spacing (needs to match li.radio specificity) */
+  .formtastic li.segmented-control ol.choices-group {
+    @apply m-0 w-auto space-y-0;
+  }
+
+  /* Reset segment wrapper margins */
+  .segmented-control .choice,
+  .segmented-control span.radio {
+    @apply m-0 flex;
+  }
+
+  /* Hide radio inputs (admin) */
+  .formtastic .segmented-control .choice input[type="radio"] {
+    @apply sr-only;
+  }
+
+  /* Hide radio inputs (members — needs high specificity) */
+  body.members
+    form
+    .segmented-control
+    .segmented-pill
+    span.radio
+    input[type="radio"] {
+    @apply sr-only;
+  }
+
+  /* Segment label styling (admin) */
+  .formtastic .segmented-control .choice label {
+    @apply m-0 flex w-auto cursor-pointer items-center justify-center gap-2;
+    @apply rounded-full border-0 px-5 py-1.5 text-sm font-medium whitespace-nowrap;
+    @apply text-gray-700 transition-all duration-150;
+    @apply dark:text-gray-300;
+  }
+
+  /* Segment label styling (members — high specificity to override defaults) */
+  body.members form .segmented-control .segmented-pill span.radio label {
+    @apply m-0 flex w-auto cursor-pointer items-center justify-center gap-2;
+    @apply rounded-full border-0 px-5 py-1.5 text-sm font-medium whitespace-nowrap;
+    @apply text-gray-700 transition-all duration-150;
+    @apply dark:text-gray-300;
+  }
+
+  /* Checked/active segment */
+  .segmented-control .choice:has(input:checked) label,
+  .segmented-control span.radio:has(input:checked) label {
+    @apply bg-green-600 text-white shadow-sm;
+    @apply dark:bg-green-600 dark:text-white;
+  }
+
+  /* Members checked state (high specificity to override label color) */
+  body.members
+    form
+    .segmented-control
+    .segmented-pill
+    span.radio:has(input:checked)
+    label {
+    @apply bg-green-600 text-white shadow-sm;
+    @apply dark:bg-green-600 dark:text-white;
+  }
+
+  /* Hover state for unchecked segments */
+  .segmented-control .choice:not(:has(input:checked)) label:hover,
+  .segmented-control span.radio:not(:has(input:checked)) label:hover {
+    @apply bg-gray-100;
+    @apply dark:bg-gray-800;
+  }
+}
