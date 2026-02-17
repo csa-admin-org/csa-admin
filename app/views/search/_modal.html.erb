@@ -29,16 +29,19 @@
     data-search-modal-target="dialog"
     data-action="click->search-modal#close:self"
     class="
-      fixed inset-0 z-100 hidden items-start justify-center bg-black/40
+      fixed inset-0 z-100 hidden items-start justify-center bg-black/10
       pt-15 opacity-0 transition-opacity duration-150 md:pt-18
-      dark:bg-black/50 [&.open]:flex [&.open]:opacity-100
+      dark:bg-transparent dark:backdrop-blur-[1px] [&.open]:flex
+      [&.open]:opacity-100
     "
   >
     <div
       class="
-        mx-1.5 w-full max-w-xl scale-95 transform overflow-hidden rounded-xl
-        bg-white shadow-2xl transition-transform duration-150
-        in-[.open]:scale-100 dark:bg-gray-800 dark:ring-1 dark:ring-gray-600
+        dark:ring-0.5 mx-1.5 w-full max-w-xl scale-95 transform
+        overflow-hidden rounded-xl border border-gray-200 bg-white
+        shadow-2xl transition-transform duration-150 in-[.open]:scale-100
+        dark:border-gray-700 dark:bg-slate-800 dark:shadow-2xl
+        dark:ring-gray-600
       "
     >
       <%# Search input %>

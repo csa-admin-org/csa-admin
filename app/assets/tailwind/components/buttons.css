@@ -38,7 +38,7 @@
   .actions input[type="submit"],
   .actions button {
     @apply px-4 font-bold;
-    @apply text-white! hover:text-white!;
+    @apply text-white! hover:text-white! dark:text-white! dark:hover:text-white!;
     @apply bg-green-500 hover:bg-green-600 dark:bg-green-600 dark:hover:bg-green-700;
     @apply border border-green-500 hover:border-green-600 dark:border-green-600 dark:hover:border-green-700;
     @apply focus:ring-green-300 dark:focus:ring-green-800;
