@@ -43,7 +43,6 @@ class Membership < ApplicationRecord
   before_validation do
     # Keep new_config_from within the membership period range
     self.new_config_from = [ [ new_config_from || Date.current, started_on ].max, ended_on ].min
-    @default_basket_size_price_used = basket_size_price.blank?
     self.basket_size_price ||= basket_size&.price
     self.depot_price ||= depot&.price
     self.delivery_cycle_price ||= delivery_cycle&.price
@@ -214,11 +213,15 @@ class Membership < ApplicationRecord
       delivery_id: delivery.id,
       delivery_cycle_price: delivery_cycle_price,
       basket_size_id: basket_size_id,
-      basket_size_price: @default_basket_size_price_used ? nil : basket_size_price,
+      basket_size_price: basket_price_for(delivery),
       price_extra: basket_price_extra,
       quantity: basket_quantity,
       depot_id: depot_id,
       depot_price: depot_price)
+  end
+
+  def fiscal_year_has_basket_size_price_percentage?
+    Delivery.during_year(fy_year).where.not(basket_size_price_percentage: nil).exists?
   end
 
   def basket_shift_allowed?
@@ -304,16 +307,31 @@ class Membership < ApplicationRecord
     tracked_attributes = %w[
       basket_size_id basket_size_price basket_price_extra basket_quantity
       depot_id depot_price delivery_cycle_id delivery_cycle_price
+      apply_basket_size_price_percentage
     ]
-    (saved_changes.keys & tracked_attributes).any?
-      || @default_basket_size_price_used
-      || !new_config_from.today?
+    (saved_changes.keys & tracked_attributes).any? || !new_config_from.today?
   end
 
   def memberships_basket_complements_config_changed?
     @tracked_memberships_basket_complements_attributes
       && @tracked_memberships_basket_complements_attributes !=
         memberships_basket_complements.map(&:attributes)
+  end
+
+  # Returns the basket_size_price to pass when creating a basket for a given delivery.
+  #
+  # At this point basket_size_price is always resolved (via ||= in before_validation),
+  # either to the admin's explicit value or to basket_size.price.
+  #
+  # When apply_basket_size_price_percentage is enabled (default) and the delivery
+  # has a percentage, the percentage is applied to the resolved price.
+  # Otherwise the resolved price is passed as-is.
+  def basket_price_for(delivery)
+    if apply_basket_size_price_percentage && delivery.basket_size_price_percentage?
+      (basket_size_price * delivery.basket_size_price_percentage / 100.0).round_to_one_cent
+    else
+      basket_size_price
+    end
   end
 
   def create_baskets!(range = period)

@@ -23,6 +23,7 @@ module Membership::Auditing
   # When these change, we record the new_config_from metadata in the audit.
   CONFIG_ATTRIBUTES = %w[
     basket_size_id basket_size_price basket_price_extra basket_quantity
+    apply_basket_size_price_percentage
     depot_id depot_price
     delivery_cycle_id delivery_cycle_price
     absences_included_annually
@@ -66,6 +67,7 @@ module Membership::Auditing
       :member_id,
       :started_on, :ended_on,
       :basket_size_id, :basket_size_price, :basket_price_extra, :basket_quantity,
+      :apply_basket_size_price_percentage,
       :depot_id, :depot_price,
       :delivery_cycle_id, :delivery_cycle_price,
       :baskets_annual_price_change, :basket_complements_annual_price_change,

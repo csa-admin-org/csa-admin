@@ -1446,6 +1446,12 @@ _:
           _de: Bestätigte
           _it: Confermato
           _nl: Gevalideerd
+        apply_basket_size_price_percentage:
+          _en: Apply delivery basket size price change (in %)
+          _fr: Appliquer la modification du prix de la taille de panier par livraison (en %)
+          _de: Lieferungsbedingte Taschengrössepreisänderung anwenden (in %)
+          _it: Applicare la modifica del prezzo della dimensione del cestino per consegna (in %)
+          _nl: Leveringsgerelateerde pakketgrootteprijsverandering toepassen (in %)
         basket_complements:
           _en: Basket complements
           _fr: Compléments panier

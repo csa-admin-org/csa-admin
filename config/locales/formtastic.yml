@@ -265,11 +265,11 @@ _:
           _it: Tutti gli abbonamenti che hanno sottoscritto questi supplementi e che includono questa/data nuova saranno automaticamente aggiornati.
           _nl: Alle lidmaatschappen die deze aanvullingen hebben geabonneerd en deze nieuwe datum(s) bevatten, worden automatisch bijgewerkt.
         basket_size_price_percentage:
-          _en: Allow to adjust the basket size price when creating or modifying a basket. Only affects baskets using the default price (value left empty). E.g., set 50% to halve the price (useful for smaller baskets in winter).
-          _fr: Permet de modifier le prix de la taille du panier lors de la création ou de la modification d'un panier. N'affecte que les paniers utilisant le prix par défaut (valeur laissée vide). Par exemple, définissez 50% pour réduire le prix de moitié (utile pour des paniers plus petits en hiver).
-          _de: Ermöglicht es, den Preis der Taschengröße beim Erstellen oder Ändern einer Tasche anzupassen. Betrifft nur Taschen, die den Standardpreis verwenden (Wert leer lassen). Z.B. 50% setzen, um den Preis zu halbieren (nützlich für kleinere Taschen im Winter).
-          _it: Consente di regolare il prezzo della dimensione del cestino durante la creazione o modifica di un cestino. Influenza solo i cestini che utilizzano il prezzo predefinito (valore lasciato vuoto). Ad esempio, imposta 50% per dimezzare il prezzo (utile per cestini più piccoli in inverno).
-          _nl: Stelt u in staat om de prijs van de pakketgrootte aan te passen bij het maken of wijzigen van een pakket. Beïnvloedt alleen pakketten die de standaardprijs gebruiken (waarde leeg laten). Bijv. stel 50% in om de prijs te halveren (handig voor kleinere pakketten in de winter).
+          _en: Adjusts the basket size price for baskets on this delivery. E.g., set 50% to halve the price (useful for smaller baskets in winter).
+          _fr: Ajuste le prix de la taille du panier pour les paniers de cette livraison. Par exemple, définissez 50% pour réduire le prix de moitié (utile pour des paniers plus petits en hiver).
+          _de: Passt den Preis der Taschengröße für die Taschen dieser Lieferung an. Z.B. 50% setzen, um den Preis zu halbieren (nützlich für kleinere Taschen im Winter).
+          _it: Regola il prezzo della dimensione del cestino per i cestini di questa consegna. Ad esempio, imposta 50% per dimezzare il prezzo (utile per cestini più piccoli in inverno).
+          _nl: Past de prijs van de pakketgrootte aan voor de pakketten van deze levering. Bijv. stel 50% in om de prijs te halveren (handig voor kleinere pakketten in de winter).
         date_html:
           _en: In case of change, all affected memberships, based on their start and end dates as well as their delivery cycle, will be automatically updated. <b>Attention, <a href='/handbook/billing#price-change'>the billing of these memberships may be affected.</a></b>
           _fr: En cas de changement, tous les abonnements concernés, en fonction de leurs dates de début et de fin ainsi que leur cycle de livraisons, seront automatiquement mis à jour. <b>Attention, <a href='/handbook/billing#price-change'>la facturation de ces abonnements peut-être affectée.</a></b>
@@ -622,6 +622,12 @@ _:
           _de: Leer lassen für die Standaranzahl.<br/>Die endgültige Anzahl wird automatisch anhand der in <a href='/settings#activity'>den Einstellungen festgelegten Logik</a> berechnet, standardmäßig anteilig an der Anzahl der Taschen.
           _it: Lasciare vuoto il campo per il numero predefinito.<br/>Il numero finale sarà calcolato automaticamente secondo <a href='/settings#activity'>la logica definita nei parametri</a>, di default in proporzione al numero di cesti.
           _nl: Laat leeg voor het standaardaantal.<br/>Het uiteindelijke aantal wordt automatisch berekend op basis van de logica gedefinieerd in <a href='/settings#activity'>de instellingen</a>, standaard evenredig aan het aantal pakketten.
+        apply_basket_size_price_percentage:
+          _en: When checked, the delivery-level basket size price percentage adjustments will also be applied to this membership's baskets.
+          _fr: Lorsque coché, les ajustements en pourcentage du prix de la taille de panier définis par livraison seront également appliqués aux paniers de cet abonnement.
+          _de: Wenn aktiviert, werden die lieferungsbedingten prozentualen Anpassungen des Taschengrößepreises auch auf die Taschen dieses Abonnements angewendet.
+          _it: Se selezionato, le modifiche percentuali del prezzo della dimensione del cestino definite per consegna verranno applicate anche ai cestini di questo abbonamento.
+          _nl: Indien aangevinkt, worden de leveringsgerelateerde procentuele aanpassingen van de pakketgrootteprijs ook toegepast op de pakketten van dit lidmaatschap.
         basket_complements_annual_price_change:
           _en: Changes the final amount, regardless of the number of baskets/complements.
           _fr: Modifie le montant final, peu importe le nombre de paniers/compléments.

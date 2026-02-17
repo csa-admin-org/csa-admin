@@ -348,15 +348,106 @@ class MembershipTest < ActiveSupport::TestCase
 
   test "creates baskets with default basket_size_price and applies delivery percentage" do
     travel_to "2024-01-01"
+
+    delivery = deliveries(:monday_1)
+    delivery.update!(basket_size_price_percentage: 50)
+
+    membership = create_membership(basket_size: basket_sizes(:medium))
+
+    basket = membership.baskets.find_by(delivery: delivery)
+    assert_equal 10, basket.basket_size_price # basket_size.price (20) * 0.5
+
+    # Other baskets without percentage keep the default price
+    other_basket = membership.baskets.where.not(delivery: delivery).first
+    assert_equal 20, other_basket.basket_size_price
+  end
+
+  test "applies delivery percentage to explicit basket_size_price when apply_basket_size_price_percentage is true" do
+    travel_to "2024-01-01"
     membership = memberships(:john)
 
     delivery = deliveries(:monday_1)
     delivery.update!(basket_size_price_percentage: 50)
 
-    membership.update!(new_config_from: Date.current, basket_size_price: nil)
+    membership.update!(
+      new_config_from: Date.current,
+      basket_size_price: 25,
+      apply_basket_size_price_percentage: true)
 
     basket = membership.baskets.find_by(delivery: delivery)
-    assert_equal 10, basket.basket_size_price # 20 * 0.5
+    assert_equal 12.5, basket.basket_size_price # 25 * 0.5
+
+    # Other baskets without percentage keep the explicit price
+    other_basket = membership.baskets.where.not(delivery: delivery).first
+    assert_equal 25, other_basket.basket_size_price
+  end
+
+  test "does not apply delivery percentage to explicit basket_size_price when apply_basket_size_price_percentage is false" do
+    travel_to "2024-01-01"
+    membership = memberships(:john)
+
+    delivery = deliveries(:monday_1)
+    delivery.update!(basket_size_price_percentage: 50)
+
+    membership.update!(
+      new_config_from: Date.current,
+      basket_size_price: 25,
+      apply_basket_size_price_percentage: false)
+
+    basket = membership.baskets.find_by(delivery: delivery)
+    assert_equal 25, basket.basket_size_price # No percentage applied
+  end
+
+  test "does not apply delivery percentage to default price when apply_basket_size_price_percentage is false" do
+    travel_to "2024-01-01"
+    membership = memberships(:john)
+
+    delivery = deliveries(:monday_1)
+    delivery.update!(basket_size_price_percentage: 50)
+
+    membership.update!(
+      new_config_from: Date.current,
+      basket_size_price: nil,
+      apply_basket_size_price_percentage: false)
+
+    # basket_size_price is blank, but apply is false, so basket gets the
+    # membership's resolved basket_size_price (basket_size.price = 20) as-is
+    basket = membership.baskets.find_by(delivery: delivery)
+    assert_equal 20, basket.basket_size_price
+  end
+
+  test "toggling apply_basket_size_price_percentage triggers basket regeneration" do
+    travel_to "2024-01-01"
+    membership = memberships(:john)
+
+    delivery = deliveries(:monday_1)
+    delivery.update!(basket_size_price_percentage: 50)
+
+    membership.update!(
+      new_config_from: Date.current,
+      basket_size_price: 25,
+      apply_basket_size_price_percentage: true)
+
+    basket = membership.baskets.find_by(delivery: delivery)
+    assert_equal 12.5, basket.basket_size_price
+
+    membership.update!(
+      new_config_from: Date.current,
+      apply_basket_size_price_percentage: false)
+
+    basket = membership.baskets.find_by(delivery: delivery)
+    assert_equal 25, basket.basket_size_price
+  end
+
+  test "fiscal_year_has_basket_size_price_percentage? returns true when deliveries have percentage" do
+    travel_to "2024-01-01"
+    membership = memberships(:john)
+
+    assert_not membership.fiscal_year_has_basket_size_price_percentage?
+
+    deliveries(:monday_1).update!(basket_size_price_percentage: 50)
+
+    assert membership.fiscal_year_has_basket_size_price_percentage?
   end
 
   test "can be destroyed" do

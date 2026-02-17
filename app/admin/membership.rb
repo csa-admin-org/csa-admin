@@ -858,6 +858,9 @@ ActiveAdmin.register Membership do
         hint: true,
         required: false,
         input_html: { data: { form_reset_target: "input" } }
+      if f.object.fiscal_year_has_basket_size_price_percentage?
+        f.input :apply_basket_size_price_percentage, hint: true
+      end
       if feature?("basket_price_extra")
         f.input :basket_price_extra, required: true, label: Current.org.basket_price_extra_title
       end
@@ -887,7 +890,7 @@ ActiveAdmin.register Membership do
 
   permit_params \
     :member_id,
-    :basket_size_id, :basket_size_price, :basket_price_extra, :basket_quantity, :baskets_annual_price_change,
+    :basket_size_id, :basket_size_price, :apply_basket_size_price_percentage, :basket_price_extra, :basket_quantity, :baskets_annual_price_change,
     :depot_id, :depot_price, :delivery_cycle_id, :delivery_cycle_price,
     :billing_year_division,
     :started_on, :ended_on, :renew, :renewal_annual_fee,

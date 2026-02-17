@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_02_15_110000) do
+ActiveRecord::Schema[8.1].define(version: 2026_02_17_163659) do
   create_table "absences", force: :cascade do |t|
     t.datetime "created_at"
     t.date "ended_on"
@@ -591,6 +591,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_15_110000) do
     t.decimal "activity_participations_annual_price_change", precision: 8, scale: 2, default: "0.0", null: false
     t.integer "activity_participations_demanded", default: 0, null: false
     t.integer "activity_participations_demanded_annually", null: false
+    t.boolean "apply_basket_size_price_percentage", default: true, null: false
     t.decimal "basket_complements_annual_price_change", precision: 8, scale: 2, default: "0.0", null: false
     t.decimal "basket_price_extra", precision: 8, scale: 2, default: "0.0", null: false
     t.integer "basket_quantity", default: 1, null: false
