@@ -102,6 +102,7 @@ module ApplicationHelper
     txt = ""
     unless price.zero?
       txt += content_tag(:span, description, class: "text-sm text-gray-500")
+      txt += " "
     end
     txt += content_tag(:span, cur(price, unit: false), class: "inline-block w-20")
     txt.html_safe

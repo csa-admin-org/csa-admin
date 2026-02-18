@@ -65,7 +65,7 @@ class BiddingRoundMailerTest < ActionMailer::TestCase
     assert_equal "Bidding round #1 completed 🎉", mail.subject
     assert_equal [ "john@doe.com" ], mail.to
     assert_equal "bidding-round-completed", mail.tag
-    assert_includes mail.body.to_s, "<p>Thank you for your pledge of CHF 21.00 per basket."
+    assert_includes mail.body.to_s, "<p>Thank you for your pledge of CHF\u00A021.00 per basket."
     assert_includes mail.body.to_s, "<p>You can review the details of your membership at any time.</p>"
     assert_includes mail.body.to_s, "https://members.acme.test/memberships"
     assert_equal "Acme <info@acme.test>", mail[:from].decoded
@@ -90,7 +90,7 @@ class BiddingRoundMailerTest < ActionMailer::TestCase
     assert_equal "Bidding round #1 failed 😬", mail.subject
     assert_equal [ "john@doe.com" ], mail.to
     assert_equal "bidding-round-failed", mail.tag
-    assert_includes mail.body.to_s, "<p>You pledged CHF 21.00 per basket.</p>"
+    assert_includes mail.body.to_s, "<p>You pledged CHF\u00A021.00 per basket.</p>"
     assert_includes mail.body.to_s, "<p>You can review the details of your membership at any time.</p>"
     assert_includes mail.body.to_s, "https://members.acme.test/memberships"
     assert_equal "Acme <info@acme.test>", mail[:from].decoded

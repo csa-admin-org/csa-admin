@@ -326,8 +326,8 @@ ActiveAdmin.register Member do
               column(:amount, class: "text-right") { |i|
                 content_tag(:span, class: "flex justify-end items-center gap-1") do
                 [
-                    i.canceled? ? content_tag(:span, "– /", class: "text-sm whitespace-nowrap") : content_tag(:span, "#{ccur(i, :paid_amount)} /", class: "text-sm whitespace-nowrap text-gray-500"),
-                    content_tag(:span, ccur(i, :amount), class: "whitespace-nowrap")
+                    i.canceled? ? content_tag(:span, "– /", class: "text-sm whitespace-nowrap") : content_tag(:span, "#{ccur(i, :paid_amount, unit: false)} /", class: "text-sm whitespace-nowrap text-gray-500"),
+                    content_tag(:span, ccur(i, :amount, unit: false), class: "whitespace-nowrap")
                   ].join.html_safe
                 end
               }
@@ -350,7 +350,7 @@ ActiveAdmin.register Member do
               column(:id) { |p| auto_link p, p.id, aria: { label: "show" } }
               column(:date, class: "text-right") { |p| l(p.date, format: :number) }
               column(:invoice_id, class: "text-right") { |p| p.invoice_id ? auto_link(p.invoice, p.invoice_id) : "–" }
-              column(:amount, class: "text-right") { |p| ccur(p, :amount) }
+              column(:amount, class: "text-right") { |p| ccur(p, :amount, unit: false) }
               column(:type, class: "text-right") { |p| status_tag p.state }
             end
             if payments_count > 10

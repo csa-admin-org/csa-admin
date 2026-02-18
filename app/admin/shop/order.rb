@@ -59,7 +59,7 @@ ActiveAdmin.register Shop::Order do
     else
       column :delivery, ->(order) { auto_link order.delivery, order.delivery.display_name  }, sortable: "delivery_id"
     end
-    column :amount, ->(order) { cur(order.amount) }, class: "text-right"
+    column :amount, ->(order) { cur(order.amount, unit: false) }, class: "text-right"
     column :state, ->(order) { status_tag order.state, label: order.state_i18n_name }, class: "text-right"
     actions do |order|
       link_to_invoice_pdf(order.invoice)
@@ -88,8 +88,8 @@ ActiveAdmin.register Shop::Order do
     side_panel t(".total") do
       all = collection.unscope(:includes).eager_load(:invoice).offset(nil).limit(nil)
       if params[:scope].in? [ "invoiced", nil ]
-        div number_line(t("billing.scope.paid"), cur(all.sum("invoices.paid_amount")), bold: false)
-        div number_line(t("billing.scope.missing"), cur(all.sum("invoices.amount - invoices.paid_amount")), bold: false)
+        div number_line(t("billing.scope.paid"), cur(all.sum("invoices.paid_amount"), unit: false), bold: false)
+        div number_line(t("billing.scope.missing"), cur(all.sum("invoices.amount - invoices.paid_amount"), unit: false), bold: false)
         div number_line(t(".amount"), cur(all.sum(:amount)), border_top: true)
       else
         div number_line(t(".amount"), cur(all.sum(:amount)))

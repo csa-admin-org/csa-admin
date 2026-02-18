@@ -60,7 +60,7 @@ class InvoiceMailerTest < ActionMailer::TestCase
 
     assert_equal "New invoice ##{invoice.id}", mail.subject
     body = mail.html_part.body.to_s
-    assert_includes body, "Considering previous payments, the remaining amount to be paid is: CHF 19.00"
+    assert_includes body, "Considering previous payments, the remaining amount to be paid is: CHF\u00A019.00"
   end
 
   test "created_email (with invoice attachments)" do
@@ -222,7 +222,7 @@ class InvoiceMailerTest < ActionMailer::TestCase
     assert_equal "Acme <info@acme.test>", mail[:from].decoded
 
     body = mail.html_part.body.to_s
-    assert_includes body, "The remaining amount to be paid is: CHF 30.00"
+    assert_includes body, "The remaining amount to be paid is: CHF\u00A030.00"
     assert_includes body, "Access my member page"
     assert_includes body, "https://members.acme.test/billing"
 
@@ -251,7 +251,7 @@ class InvoiceMailerTest < ActionMailer::TestCase
     assert_equal "outbound", mail[:message_stream].to_s
 
     body = mail.html_part.body.to_s
-    assert_includes body, "The remaining amount to be paid is: CHF 30.00"
+    assert_includes body, "The remaining amount to be paid is: CHF\u00A030.00"
     assert_not_includes body, "Access my member page"
     assert_not_includes body, "https://members.acme.test/billing"
 

@@ -67,9 +67,11 @@ ActiveAdmin.register Invoice do
     column :id
     column :date, ->(i) { l i.date, format: :number }, class: "text-right tabular-nums"
     column :member, sortable: "members.name"
-    column :currency_code
-    column :amount, ->(invoice) { ccur(invoice, :amount) }, class: "text-right tabular-nums"
-    column :paid_amount, ->(invoice) { invoice.canceled? ? "–" : ccur(invoice, :paid_amount) }, class: "text-right tabular-nums"
+    if feature?("local_currency")
+      column :currency_code
+    end
+    column :amount, ->(invoice) { ccur(invoice, :amount, unit: false) }, class: "text-right tabular-nums"
+    column :paid_amount, ->(invoice) { invoice.canceled? ? "–" : ccur(invoice, :paid_amount, unit: false) }, class: "text-right tabular-nums"
     column :overdue_notices_count, ->(invoice) { invoice.sepa? ? "–" : invoice.overdue_notices_count }, class: "text-right"
     column :state, ->(invoice) { status_tag invoice.state }, class: "text-right"
     actions do |invoice|
@@ -85,6 +87,9 @@ ActiveAdmin.register Invoice do
     column(:last_membership_ended_on) { |i| i.member.last_membership&.ended_on }
     column :date
     column(:entity) { |i| t_invoice_entity_type(i.entity_type) }
+    if feature?("local_currency")
+      column :currency_code
+    end
     column :amount_before_percentage
     column :amount_percentage
     column :amount
@@ -130,14 +135,14 @@ ActiveAdmin.register Invoice do
       all = collection.unscope(:includes).offset(nil).limit(nil)
 
       if Array(params.dig(:q, :entity_type_in)).include?("Membership") && Current.org.annual_fee?
-        div number_line(Membership.model_name.human(count: 2), cur(all.sum(:memberships_amount)), bold: false)
-        div number_line(t("billing.annual_fees"), cur(all.sum(:annual_fee)), bold: false)
+        div number_line(Membership.model_name.human(count: 2), cur(all.sum(:memberships_amount), unit: false), bold: false)
+        div number_line(t("billing.annual_fees"), cur(all.sum(:annual_fee), unit: false), bold: false)
         div number_line(t(".amount"), cur(all.sum(:amount)), border_top: true)
       elsif params[:scope].in? [ "open", "all", "closed", nil ]
-        div number_line(t("billing.scope.paid"), cur(all.not_canceled.sum(:paid_amount)), bold: false)
+        div number_line(t("billing.scope.paid"), cur(all.not_canceled.sum(:paid_amount), unit: false), bold: false)
         amount = all.not_canceled.sum("amount - paid_amount")
         title = amount >= 0 ? t("billing.scope.missing") : t(".overpaid")
-        div number_line(title, cur(amount), bold: false)
+        div number_line(title, cur(amount, unit: false), bold: false)
         div number_line(t(".amount"), cur(all.not_canceled.sum(:amount)), border_top: true)
       else
         div number_line(t(".amount"), cur(all.sum(:amount)))

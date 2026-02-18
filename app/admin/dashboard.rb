@@ -100,11 +100,13 @@ ActiveAdmin.register_page "Dashboard" do
             div class: "px-2" do
               table class: "w-full text-base data-table-invoice-total" do
                 tbody do
-                  InvoiceTotal.all(Current.fiscal_year).each do |total|
+                  invoice_totals = InvoiceTotal.all(Current.fiscal_year)
+                  invoice_totals.each_with_index do |total, i|
+                    is_total = i == invoice_totals.size - 1
                     tr class: "px-2 h-10 border-dotted border-b border-gray-200 dark:border-gray-700" do
                       td total.title
                       td class: "text-right tabular-nums w-36" do
-                        previsional_details(self, total.price, total.try(:previsional_amounts_by_month))
+                        previsional_details(self, total.price, total.try(:previsional_amounts_by_month), unit: is_total)
                       end
                     end
                   end
@@ -116,11 +118,13 @@ ActiveAdmin.register_page "Dashboard" do
               h4 Payment.model_name.human(count: 2), class: "text-base font-semibold mt-4"
               table class: "p-2 w-full text-base data-table-total" do
                 tbody do
-                  PaymentTotal.all(Current.fiscal_year).each do |total|
+                  payment_totals = PaymentTotal.all(Current.fiscal_year)
+                  payment_totals.each_with_index do |total, i|
+                    is_total = i == payment_totals.size - 1
                     tr class: "h-10 border-dotted border-b border-gray-200 dark:border-gray-700" do
                       td total.title
                       td class: "text-right tabular-nums w-36" do
-                       cur(total.price)
+                       cur(total.price, unit: is_total)
                       end
                     end
                   end

@@ -28,14 +28,14 @@ class Liquid::DataPreviewTest < ActiveSupport::TestCase
         "size" => {
           "id" => medium_id,
           "name" => "Medium basket",
-          "price" => "CHF 20.00"
+          "price" => "CHF\u00A020.00"
         }
       },
       "member" =>  {
         "absences_url" => "https://members.acme.test/absences",
         "activities_url" => "https://members.acme.test/activity_participations",
-        "annual_fee" => "CHF 30.00",
-        "balance" => "CHF 0.00",
+        "annual_fee" => "CHF\u00A030.00",
+        "balance" => "CHF\u00A00.00",
         "billing_email" => false,
         "billing_url" => "https://members.acme.test/billing",
         "deliveries_url" => "https://members.acme.test/deliveries",
@@ -72,7 +72,7 @@ class Liquid::DataPreviewTest < ActiveSupport::TestCase
         "basket_size" => {
           "id" => medium_id,
           "name" => "Medium basket",
-          "price" => "CHF 20.00"
+          "price" => "CHF\u00A020.00"
         },
         "delivery_cycle" => {
           "absences_included_annually" => 0,
@@ -90,7 +90,7 @@ class Liquid::DataPreviewTest < ActiveSupport::TestCase
             "quantity" => 1,
             "shifted" => false,
             "shifts" => [],
-            "size" => { "id" => medium_id, "name" => "Medium basket", "price" => "CHF 20.00" }
+            "size" => { "id" => medium_id, "name" => "Medium basket", "price" => "CHF\u00A020.00" }
           },
           {
             "complements" => [],
@@ -102,7 +102,7 @@ class Liquid::DataPreviewTest < ActiveSupport::TestCase
             "quantity" => 1,
             "shifted" => false,
             "shifts" => [],
-            "size" => { "id" => medium_id, "name" => "Medium basket", "price" => "CHF 20.00" }
+            "size" => { "id" => medium_id, "name" => "Medium basket", "price" => "CHF\u00A020.00" }
           }
         ],
         "depot" => {
@@ -128,7 +128,7 @@ class Liquid::DataPreviewTest < ActiveSupport::TestCase
             "quantity" => 1,
             "shifted" => false,
             "shifts" => [],
-            "size" => { "id" => medium_id, "name" => "Medium basket", "price" => "CHF 20.00" }
+            "size" => { "id" => medium_id, "name" => "Medium basket", "price" => "CHF\u00A020.00" }
           },
           {
             "complements" => [],
@@ -140,7 +140,7 @@ class Liquid::DataPreviewTest < ActiveSupport::TestCase
             "quantity" => 1,
             "shifted" => false,
             "shifts" => [],
-            "size" => { "id" => medium_id, "name" => "Medium basket", "price" => "CHF 20.00" }
+            "size" => { "id" => medium_id, "name" => "Medium basket", "price" => "CHF\u00A020.00" }
           }
         ],
         "renewal_state" => "renewal_pending",
@@ -168,8 +168,8 @@ class Liquid::DataPreviewTest < ActiveSupport::TestCase
       "member" =>  {
         "absences_url" => "https://members.acme.test/absences",
         "activities_url" => "https://members.acme.test/activity_participations",
-        "annual_fee" => "CHF 30.00",
-        "balance" => "CHF 0.00",
+        "annual_fee" => "CHF\u00A030.00",
+        "balance" => "CHF\u00A00.00",
         "billing_email" => false,
         "billing_url" => "https://members.acme.test/billing",
         "deliveries_url" => "https://members.acme.test/deliveries",
@@ -190,7 +190,7 @@ class Liquid::DataPreviewTest < ActiveSupport::TestCase
       "waiting_basket_size" => {
         "id" => medium_id,
         "name" => "Medium basket",
-        "price" => "CHF 20.00"
+        "price" => "CHF\u00A020.00"
       },
       "waiting_basket_size_id" => medium_id,
       "waiting_delivery_cycle" => {
@@ -234,12 +234,12 @@ class Liquid::DataPreviewTest < ActiveSupport::TestCase
         "size" => {
           "id" => medium_id,
           "name" => "Medium basket",
-          "price" => "CHF 20.00"
+          "price" => "CHF\u00A020.00"
         }
       },
       "member" =>  {
-        "annual_fee" => "CHF 30.00",
-        "balance" => "CHF 0.00",
+        "annual_fee" => "CHF\u00A030.00",
+        "balance" => "CHF\u00A00.00",
         "billing_email" => false,
         "billing_url" => "https://members.acme.test/billing",
         "deliveries_url" => "https://members.acme.test/deliveries",
@@ -272,7 +272,7 @@ class Liquid::DataPreviewTest < ActiveSupport::TestCase
         "basket_size" => {
           "id" => medium_id,
           "name" => "Medium basket",
-          "price" => "CHF 20.00"
+          "price" => "CHF\u00A020.00"
         },
         "delivery_cycle" => {
           "absences_included_annually" => 0,

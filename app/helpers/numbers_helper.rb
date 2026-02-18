@@ -3,6 +3,8 @@
 module NumbersHelper
   include ActiveSupport::NumberHelper
 
+  NBSP = "\u00A0"
+
   def currency_symbol(currency_code = nil)
     currency_code ||= Current.org.currency_code
     case currency_code
@@ -19,19 +21,23 @@ module NumbersHelper
   def cur(amount, unit: true, currency_code: nil, **options)
     options[:unit] = unit ? currency_symbol(currency_code) : ""
     options[:format] ||=
-      case Current.org.currency_code
-      when "EUR"; "%n %u"
-      when "CHF"; "%u %n"
+      if unit
+        case Current.org.currency_code
+        when "EUR"; "%n#{NBSP}%u"
+        when "CHF"; "%u#{NBSP}%n"
+        else
+          "%u#{NBSP}%n"
+        end
       else
-       "%u %n"
+        "%n"
       end
     options[:negative_format] ||=
       if unit
         case Current.org.currency_code
-        when "EUR"; "-%n %u"
-        when "CHF"; "%u -%n"
+        when "EUR"; "-%n#{NBSP}%u"
+        when "CHF"; "%u#{NBSP}-%n"
         else
-          "%u -%n"
+          "%u#{NBSP}-%n"
         end
       else
         "-%n"
@@ -43,7 +49,7 @@ module NumbersHelper
     number = number_to_rounded(amount,
       precision: 2,
       strip_insignificant_zeros: true)
-    "#{sprintf("%.1f", number)} kg"
+    "#{sprintf("%.1f", number)}#{NBSP}kg"
   end
 
   def _number_to_percentage(number, **options)

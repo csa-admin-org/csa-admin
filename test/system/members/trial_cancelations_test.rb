@@ -26,7 +26,7 @@ class Members::TrialCancelationsTest < ApplicationSystemTestCase
 
     assert_text "Trial cancelation"
     fill_in "Cancelation note(s)", with: "Not the right fit for our family"
-    check "I support you and will pay the annual membership fee. CHF 30"
+    check "I support you and will pay the annual membership fee. CHF\u00A030"
     click_on "Confirm cancelation"
 
     assert_selector ".flash", text: "Your trial membership has been canceled."

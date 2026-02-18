@@ -312,7 +312,7 @@ class PDF::InvoiceTest < ActiveSupport::TestCase
       "Description", "Amount (CHF)",
       "Missed half-day on 1 July 2024 (2 participants)", "100.00",
       "Total", "* 100.00",
-      "* All taxes included, CHF 92.51 Without taxes, CHF 7.49 VAT (8.1%)",
+      "* All taxes included, CHF\u00A092.51 Without taxes, CHF\u00A07.49 VAT (8.1%)",
       "N° VAT CHE-123.456.789"
     ]
   end
@@ -371,7 +371,7 @@ class PDF::InvoiceTest < ActiveSupport::TestCase
       "Total", "* 43.76",
       "Balance", "** -21.00",
       "To be paid", "22.76",
-      "* All taxes included, CHF 42.69 Without taxes, CHF 1.07 VAT (2.5%)",
+      "* All taxes included, CHF\u00A042.69 Without taxes, CHF\u00A01.07 VAT (2.5%)",
       "N° VAT CHE-123.456.789",
       "** Difference between all existing invoices and all payments made at the time of issuing this invoice.",
       "The history of your invoices can be viewed at any time on your member page."
@@ -472,7 +472,7 @@ class PDF::InvoiceTest < ActiveSupport::TestCase
       "Wallet address",  "0xYourWalletAddress",
       "Payable to", "Acme",
       "Reference", swiss_qr_ref(invoice).formatted,
-      "Amount", "RAD  30.00"
+      "Amount", "RAD 30.00"
     ], pdf_strings
   end
 

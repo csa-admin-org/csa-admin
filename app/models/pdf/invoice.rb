@@ -799,7 +799,7 @@ module PDF
     def cur_with_vat_appendice(invoice, amount, unit: false, **options)
       amount = cur(amount).to_s
       if invoice.vat_amount&.positive?
-        "#{appendice_star}#{amount}"
+        "#{appendice_star} #{amount}"
       else
         amount
       end

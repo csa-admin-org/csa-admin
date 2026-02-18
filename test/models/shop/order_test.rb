@@ -21,7 +21,7 @@ class Shop::OrderTest < ActiveSupport::TestCase
     assert_not order.valid?
     assert_equal 51.5, order.weight_in_kg
     assert_includes order.errors.messages[:base],
-      "The total weight of the order cannot exceed 10.0 kg"
+      "The total weight of the order cannot exceed 10.0\u00A0kg"
   end
 
   test "is valid when equal to the maximum weight limit" do
@@ -89,7 +89,7 @@ class Shop::OrderTest < ActiveSupport::TestCase
 
     assert_not order.valid?
     assert_equal 11, order.amount
-    assert_includes order.errors.messages[:base], "The minimum order amount is CHF 20.00"
+    assert_includes order.errors.messages[:base], "The minimum order amount is CHF\u00A020.00"
   end
 
   test "is valid when equal to the minimal amount" do

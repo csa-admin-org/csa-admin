@@ -131,8 +131,8 @@ ActiveAdmin.register Membership do
       missing = [ total - invoiced, 0 ].max
       div class: "space-y-4" do
         div do
-          div number_line(t(".invoices_done"), cur(invoiced), bold: false)
-          div number_line(t(".invoices_remaining"), cur(missing), bold: false)
+          div number_line(t(".invoices_done"), cur(invoiced, unit: false), bold: false)
+          div number_line(t(".invoices_remaining"), cur(missing, unit: false), bold: false)
           div number_line(t(".total"), cur(total), border_top: true)
         end
         if authorized?(:future_billing, Membership) && missing.positive? && all.minimum(:started_on).future?
@@ -176,11 +176,11 @@ ActiveAdmin.register Membership do
       if coll.where("basket_price_extra < 0").any?
         div class: "flex justify-end" do
           sum = baskets.where("price_extra > 0").sum("quantity * price_extra")
-          span cur(sum), class: "tabular-nums"
+          span cur(sum, unit: false), class: "tabular-nums"
         end
         div class: "flex justify-end" do
           sum = baskets.where("price_extra < 0").sum("quantity * price_extra")
-          span cur(sum), class: "tabular-nums"
+          span cur(sum, unit: false), class: "tabular-nums"
         end
         div number_line(t(".amount"), cur(total), border_top: true)
       else
