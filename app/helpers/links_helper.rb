@@ -6,7 +6,7 @@ module LinksHelper
     content_tag :span do
       link_to(url, title: title, class: "inline-flex flex-col items-center no-underline", **options) do
         icon("file-down", class: "h-#{size} w-#{size}") +
-          content_tag(:span, type.upcase, class: "text-[0.5rem] font-bold leading-none")
+          content_tag(:span, type.upcase, class: "text-[0.575rem] mt-px font-bold leading-none")
       end
     end
   end
