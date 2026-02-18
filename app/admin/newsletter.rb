@@ -17,10 +17,10 @@ ActiveAdmin.register Newsletter do
   scope :sent, group: :state
 
   action_item :segments, only: :index, if: -> { authorized?(:create, Newsletter::Segment) } do
-    action_link Newsletter.human_attribute_name(:audience), newsletter_segments_path
+    action_link Newsletter.human_attribute_name(:audience), newsletter_segments_path, icon: "users"
   end
   action_item :templates, only: :index do
-    action_link Newsletter::Template.model_name.human(count: 2), newsletter_templates_path
+    action_link Newsletter::Template.model_name.human(count: 2), newsletter_templates_path, icon: "notepad-text"
   end
 
   index download_links: false do
@@ -311,13 +311,15 @@ ActiveAdmin.register Newsletter do
   action_item :deliveries, only: :show do
     action_link \
       Newsletter::Delivery.model_name.human(count: 2),
-      newsletter_deliveries_path(scope: :all, q: { newsletter_id_eq: resource.id })
+      newsletter_deliveries_path(scope: :all, q: { newsletter_id_eq: resource.id }),
+      icon: "mails"
   end
 
   action_item :deliveries, only: :index do
     action_link \
       Newsletter::Delivery.model_name.human(count: 2),
-      newsletter_deliveries_path(scope: :all)
+      newsletter_deliveries_path(scope: :all),
+      icon: "mails"
   end
 
   action_item :send_email, class: "left-margin", only: :show, if: -> { authorized?(:send_email, resource) } do

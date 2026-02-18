@@ -56,8 +56,9 @@ ActiveAdmin.register Shop::SpecialDelivery do
           q: { _delivery_gid_eq: d.gid }, scope: :all_without_cart))
     }, sortable: false, class: "text-right"
     actions do |delivery|
-      icon_file_link(:xlsx, shop_special_delivery_path(delivery, format: :xlsx), size: 5) +
-      icon_file_link(:pdf, delivery_shop_orders_path(delivery_gid: delivery.gid, format: :pdf), target: "_blank", size: 5)
+      icon_file_links(
+        icon_file_link(:xlsx, shop_special_delivery_path(delivery, format: :xlsx), size: 5),
+        icon_file_link(:pdf, delivery_shop_orders_path(delivery_gid: delivery.gid, format: :pdf), size: 5, target: "_blank"))
     end
   end
 
@@ -134,13 +135,13 @@ ActiveAdmin.register Shop::SpecialDelivery do
   action_item :pdf, only: :show do
     action_link t(".delivery_orders"), delivery_shop_orders_path(delivery_gid: resource.gid, format: :pdf),
       target: "_blank",
-      icon: "file-pdf"
+      icon: "file-down"
   end
 
   action_item :xlsx, only: :show do
-    action_link nil, [ resource, format: :xlsx ],
+    action_link "XLSX", [ resource, format: :xlsx ],
       target: "_blank",
-      icon: "file-xlsx"
+      icon: "file-down"
   end
 
   form do |f|

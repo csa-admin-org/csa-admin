@@ -40,9 +40,10 @@ ActiveAdmin.register Delivery do
       column :shop, ->(delivery) { status_tag(delivery.shop_configured_open?) }, class: "text-right w-px"
     end
     actions class: "w-px" do |delivery|
-      icon_file_link(:csv, baskets_path(q: { delivery_id_eq: delivery.id }, format: :csv), title: Delivery.human_attribute_name(:summary), size: 5) +
-      icon_file_link(:xlsx, delivery_path(delivery, format: :xlsx), title: Delivery.human_attribute_name(:summary), size: 5) +
-      icon_file_link(:pdf, delivery_path(delivery, format: :pdf), target: "_blank", title: Delivery.human_attribute_name(:sheets), size: 5)
+      icon_file_links(
+        icon_file_link(:csv, baskets_path(q: { delivery_id_eq: delivery.id }, format: :csv), size: 5, title: Delivery.human_attribute_name(:summary)),
+        icon_file_link(:xlsx, delivery_path(delivery, format: :xlsx), size: 5, title: Delivery.human_attribute_name(:summary)),
+        icon_file_link(:pdf, delivery_path(delivery, format: :pdf), size: 5, title: Delivery.human_attribute_name(:sheets), target: "_blank"))
     end
   end
 
@@ -64,13 +65,13 @@ ActiveAdmin.register Delivery do
   end
 
   action_item :delivery_cycle, only: :index do
-    action_link DeliveryCycle.model_name.human(count: 2), delivery_cycles_path
+    action_link DeliveryCycle.model_name.human(count: 2), delivery_cycles_path, icon: "calendar-cog"
   end
 
   action_item :baskets_csv, only: :index, if: -> { params.dig(:q, :during_year).present? } do
     action_link Basket.model_name.human(count: 2), baskets_path(q: { during_year: params.dig(:q, :during_year) }, format: :csv),
       target: "_blank",
-      icon: "file-csv"
+      icon: "file-down"
   end
 
   sidebar_handbook_link("deliveries")
@@ -78,11 +79,10 @@ ActiveAdmin.register Delivery do
   show title: ->(d) { d.display_name(format: :long, capitalize: true) } do |delivery|
     columns do
       column do
-        panel Basket.model_name.human(count: 2), action: (
-          icon_file_link(:csv, baskets_path(q: { delivery_id_eq: delivery.id }, format: :csv), title: Delivery.human_attribute_name(:summary)) +
-          icon_file_link(:xlsx, delivery_path(delivery, format: :xlsx), title: Delivery.human_attribute_name(:summary)) +
-          icon_file_link(:pdf, delivery_path(delivery, format: :pdf), target: "_blank", title: Delivery.human_attribute_name(:sheets))
-        ) do
+        panel Basket.model_name.human(count: 2), action: icon_file_links(
+          icon_file_link(:csv, baskets_path(q: { delivery_id_eq: delivery.id }, format: :csv), title: Delivery.human_attribute_name(:summary)),
+          icon_file_link(:xlsx, delivery_path(delivery, format: :xlsx), title: Delivery.human_attribute_name(:summary)),
+          icon_file_link(:pdf, delivery_path(delivery, format: :pdf), title: Delivery.human_attribute_name(:sheets), target: "_blank")) do
           counts = delivery.basket_counts
           if counts.present?
             render partial: "active_admin/deliveries/baskets",

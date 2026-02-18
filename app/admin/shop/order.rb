@@ -268,13 +268,13 @@ ActiveAdmin.register Shop::Order do
   action_item :pdf, only: :show, if: -> { resource.invoice&.processed? } do
     action_link Invoice.model_name.human, pdf_invoice_path(resource.invoice),
       target: "_blank",
-      icon: "file-pdf"
+      icon: "file-down"
   end
 
   action_item :delivery_pdf, only: :show do
     action_link t(".delivery_order"), delivery_shop_orders_path(delivery_gid: resource.delivery_gid, shop_order_id: resource.id, format: :pdf),
       target: "_blank",
-      icon: "file-pdf"
+      icon: "file-down"
   end
 
   action_item :invoice, class: "left-margin", only: :show, if: -> { resource.can_invoice? && Current.org.iban? } do
@@ -298,16 +298,15 @@ ActiveAdmin.register Shop::Order do
   action_item :delivery_pdf, only: :index, if: -> { params.dig(:q, :_delivery_gid_eq).present? } do
     delivery_gid = params.dig(:q, :_delivery_gid_eq)
     depot_id = params.dig(:q, :depot_id_eq)
-    action_link nil, delivery_shop_orders_path(delivery_gid: delivery_gid, depot_id: depot_id, format: :pdf),
-      icon: "file-pdf",
-      target: "_blank",
-      title: t(".delivery_orders")
+    action_link t(".delivery_orders"), delivery_shop_orders_path(delivery_gid: delivery_gid, depot_id: depot_id, format: :pdf),
+      icon: "file-down",
+      target: "_blank"
   end
 
   action_item :order_items_xlsx, only: :index do
     permitted_params = params.permit(:scope, q: {}).to_h
-    action_link nil, shop_orders_path(**permitted_params, format: :xlsx),
-      icon: "file-xlsx",
+    action_link "XLSX", shop_orders_path(**permitted_params, format: :xlsx),
+      icon: "file-down",
       target: "_blank"
   end
 

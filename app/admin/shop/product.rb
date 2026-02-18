@@ -51,7 +51,7 @@ ActiveAdmin.register Shop::Product do
   end
 
   action_item :tags, only: :index do
-    action_link Shop::Tag.model_name.human(count: 2), shop_tags_path
+    action_link Shop::Tag.model_name.human(count: 2), shop_tags_path, icon: "tag"
   end
 
   csv do

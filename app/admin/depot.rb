@@ -78,17 +78,16 @@ ActiveAdmin.register Depot do
   end
 
   action_item :depot_group, only: :index do
-    action_link DepotGroup.model_name.human(count: 2), depot_groups_path
+    action_link DepotGroup.model_name.human(count: 2), depot_groups_path, icon: "group"
   end
 
   show do |depot|
     columns do
       column do
         if delivery = params[:delivery_id] ? Delivery.find(params[:delivery_id]) : depot.next_delivery
-          panel t("active_admin.page.index.next_delivery", delivery: link_to(delivery.display_name(format: :long), delivery)).html_safe, action: (
-            icon_file_link(:xlsx, delivery_path(delivery, format: :xlsx, depot_id: depot.id), title: Delivery.human_attribute_name(:summary)) +
-            icon_file_link(:pdf, delivery_path(delivery, format: :pdf, depot_id: depot.id), target: "_blank", title: Delivery.human_attribute_name(:sheets))
-          ) do
+          panel t("active_admin.page.index.next_delivery", delivery: link_to(delivery.display_name(format: :long), delivery)).html_safe, action: icon_file_links(
+            icon_file_link(:xlsx, delivery_path(delivery, format: :xlsx, depot_id: depot.id), title: Delivery.human_attribute_name(:summary)),
+            icon_file_link(:pdf, delivery_path(delivery, format: :pdf, depot_id: depot.id), title: Delivery.human_attribute_name(:sheets), target: "_blank")) do
             attrs = {}
             if authorized?(:update, depot) && depot.delivery_sheets_mode == "home_delivery"
               attrs[:class] = "cursor-move table-auto"

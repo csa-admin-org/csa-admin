@@ -365,9 +365,9 @@ ActiveAdmin.register Invoice do
   end
 
   action_item :pdf, only: :show, if: -> { resource.processed? } do
-    action_link nil, pdf_invoice_path(resource),
+    action_link "PDF", pdf_invoice_path(resource),
       target: "_blank",
-      icon: "file-pdf"
+      icon: "file-down"
   end
 
   member_action :pdf, method: :get do

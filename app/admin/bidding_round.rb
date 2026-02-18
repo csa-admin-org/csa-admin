@@ -144,7 +144,7 @@ ActiveAdmin.register BiddingRound do
         export_csv_bidding_round_path(resource, format: :csv)
       end
 
-    action_link nil, url, target: "_blank", icon: "file-csv"
+    action_link "CSV", url, target: "_blank", icon: "file-down"
   end
 
   member_action :open, method: :post do

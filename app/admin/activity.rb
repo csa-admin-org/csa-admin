@@ -47,7 +47,7 @@ ActiveAdmin.register Activity do
   end
 
   action_item :activity_presets, only: :index do
-    action_link ActivityPreset.model_name.human(count: 2), activity_presets_path
+    action_link ActivityPreset.model_name.human(count: 2), activity_presets_path, icon: "notepad-text"
   end
 
   order_by(:date) do |order_clause|

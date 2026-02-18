@@ -4,9 +4,16 @@ module LinksHelper
   def icon_file_link(type, url, size: 6, title: nil, **options)
     title ||= type.upcase
     content_tag :span do
-      link_to(url, title: title, **options) do
-        icon "file-#{type}", class: "h-#{size} w-#{size}"
+      link_to(url, title: title, class: "inline-flex flex-col items-center no-underline", **options) do
+        icon("file-down", class: "h-#{size} w-#{size}") +
+          content_tag(:span, type.upcase, class: "text-[0.5rem] font-bold leading-none")
       end
+    end
+  end
+
+  def icon_file_links(*links)
+    content_tag(:div, class: "flex items-center gap-2") do
+      safe_join(links)
     end
   end
 

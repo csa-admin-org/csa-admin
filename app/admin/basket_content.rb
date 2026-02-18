@@ -105,7 +105,7 @@ ActiveAdmin.register BasketContent do
   end
 
   action_item :product, only: :index do
-    action_link BasketContent::Product.model_name.human(count: 2), basket_content_products_path
+    action_link BasketContent::Product.model_name.human(count: 2), basket_content_products_path, icon: "sprout"
   end
 
   csv do
