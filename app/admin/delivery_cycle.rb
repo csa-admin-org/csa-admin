@@ -49,7 +49,11 @@ ActiveAdmin.register DeliveryCycle do
     actions
   end
 
-  sidebar_handbook_link("deliveries#delivery-cycles")
+  sidebar :info, only: :index do
+    side_panel t(".info"), action: handbook_icon_link("deliveries", anchor: "delivery-cycles") do
+      para t(".delivery_cycle_info")
+    end
+  end
 
   show do |dc|
     columns do

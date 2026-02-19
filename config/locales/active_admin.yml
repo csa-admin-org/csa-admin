@@ -2920,6 +2920,18 @@ _:
           _de: Sind Sie mehr als sicher?
           _it: Siete davvero sicuri?
           _nl: Weet u het absoluut zeker?
+        delivery_cycle_info:
+          _en: Delivery cycles dynamically group deliveries to offer different patterns to your members, such as weekly or bi-weekly, specific days, or seasonal deliveries. Each membership is associated with a delivery cycle.
+          _fr: Les cycles de livraison regroupent dynamiquement les livraisons afin d'offrir différents rythmes à vos membres, comme hebdomadaire ou bimensuel, certains jours, ou des livraisons saisonnières. Chaque abonnement est associé à un cycle de livraison.
+          _de: Lieferzyklen gruppieren Lieferungen dynamisch, um Ihren Mitgliedern verschiedene Rhythmen anzubieten, wie wöchentlich oder zweiwöchentlich, bestimmte Tage oder saisonale Lieferungen. Jedes Abonnement ist einem Lieferzyklus zugeordnet.
+          _it: I cicli di consegna raggruppano dinamicamente le consegne per offrire ritmi diversi ai vostri soci, come settimanale o quindicinale, giorni specifici o consegne stagionali. Ogni abbonamento è associato a un ciclo di consegna.
+          _nl: Leveringscycli groeperen leveringen dynamisch om verschillende patronen aan te bieden aan uw leden, zoals wekelijks of tweewekelijks, specifieke dagen of seizoensleveringen. Elk lidmaatschap is gekoppeld aan een leveringscyclus.
+        depot_group_info:
+          _en: Depot groups allow you to organize your depots into named groups on the registration form. Members will see depots categorized under group headings, making it easier to find their preferred pickup location.
+          _fr: Les groupes de dépôts permettent d'organiser vos dépôts en groupes nommés sur le formulaire d'inscription. Les membres verront les dépôts classés sous des intitulés de groupe, facilitant la recherche de leur lieu de retrait préféré.
+          _de: Depotgruppen ermöglichen es Ihnen, Ihre Depots im Anmeldeformular in benannte Gruppen zu organisieren. Die Mitglieder sehen die Depots unter Gruppenüberschriften kategorisiert, was die Suche nach ihrem bevorzugten Abholort erleichtert.
+          _it: I gruppi di punti di ritiro permettono di organizzare i vostri punti di ritiro in gruppi con nome sul modulo di registrazione. I soci vedranno i punti di ritiro classificati sotto intestazioni di gruppo, facilitando la ricerca del luogo di ritiro preferito.
+          _nl: Depotgroepen stellen u in staat uw depots te organiseren in benoemde groepen op het registratieformulier. Leden zien depots gecategoriseerd onder groepskoppen, waardoor het makkelijker wordt hun gewenste afhaallocatie te vinden.
         duplicate_all_from:
           _en: Import
           _fr: Importation
@@ -3133,6 +3145,18 @@ _:
           _de: Seiten
           _it: Pagine
           _nl: Pagina's
+        permission_info:
+          _en: Permissions allow you to define specific access rights for your admins. Each permission profile controls which sections (members, billing, deliveries, etc.) an admin can read or write.
+          _fr: Les permissions permettent de définir des droits d'accès spécifiques pour vos admins. Chaque profil de permission contrôle les sections (membres, facturation, livraisons, etc.) qu'un admin peut consulter ou modifier.
+          _de: Berechtigungen ermöglichen es Ihnen, spezifische Zugriffsrechte für Ihre Admins zu definieren. Jedes Berechtigungsprofil steuert, welche Bereiche (Mitglieder, Rechnungsstellung, Lieferungen usw.) ein Admin lesen oder bearbeiten kann.
+          _it: I permessi permettono di definire diritti di accesso specifici per i vostri admin. Ogni profilo di permesso controlla quali sezioni (soci, fatturazione, consegne, ecc.) un admin può consultare o modificare.
+          _nl: Machtigingen stellen u in staat specifieke toegangsrechten te definiëren voor uw beheerders. Elk machtigingsprofiel bepaalt welke secties (leden, facturering, leveringen, enz.) een beheerder kan lezen of bewerken.
+        product_info:
+          _en: Products represent the items that can go into baskets. Once created, they can be reused across deliveries when configuring basket contents.
+          _fr: Les produits représentent les articles qui peuvent être mis dans les paniers. Une fois créés, ils peuvent être réutilisés pour chaque livraison lors de la configuration du contenu des paniers.
+          _de: Produkte stellen die Artikel dar, die in die Taschen gelegt werden können. Einmal erstellt, können sie bei der Konfiguration des Tascheninhalts für jede Lieferung wiederverwendet werden.
+          _it: I prodotti rappresentano gli articoli che possono essere messi nei cesti. Una volta creati, possono essere riutilizzati per ogni consegna durante la configurazione del contenuto dei cesti.
+          _nl: Producten vertegenwoordigen de artikelen die in de pakketten kunnen worden gedaan. Eenmaal aangemaakt, kunnen ze bij het configureren van de pakketinhoud voor elke levering worden hergebruikt.
         renew_all_action:
           one:
             _en: Renew (%{count})
@@ -3243,6 +3267,12 @@ _:
           _de: Status Hofladen
           _it: Stato della drogheria
           _nl: Winkelstatus
+        shop_tag_info:
+          _en: Tags are keywords that allow members to filter products in the shop interface. Each product can be associated with one or more tags.
+          _fr: Les tags sont des mots-clés qui permettent aux membres de filtrer les produits dans l'interface de l'épicerie. Chaque produit peut être associé à un ou plusieurs tags.
+          _de: Tags sind Schlüsselwörter, mit denen Mitglieder Produkte in der Hofladen-Oberfläche filtern können. Jedes Produkt kann einem oder mehreren Tags zugeordnet werden.
+          _it: I tag sono parole chiave che permettono ai soci di filtrare i prodotti nell'interfaccia della bottega. Ogni prodotto può essere associato a uno o più tag.
+          _nl: Tags zijn trefwoorden waarmee leden producten kunnen filteren in de winkelinterface. Elk product kan worden gekoppeld aan een of meer tags.
         subscribe_ical_link:
           _en: Subscribe to feed
           _fr: S'abonner au flux

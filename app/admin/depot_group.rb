@@ -15,6 +15,12 @@ ActiveAdmin.register DepotGroup do
     links
   end
 
+  sidebar :info, only: :index do
+    side_panel t(".info") do
+      para t(".depot_group_info")
+    end
+  end
+
   includes :depots
   index download_links: false do
     column :id

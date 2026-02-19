@@ -15,6 +15,12 @@ ActiveAdmin.register Shop::Tag do
     links
   end
 
+  sidebar :info, only: :index do
+    side_panel t(".info"), action: handbook_icon_link("shop", anchor: "tags") do
+      para t(".shop_tag_info")
+    end
+  end
+
   includes :products
 
   index download_links: false do

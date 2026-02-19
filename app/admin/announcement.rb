@@ -24,8 +24,8 @@ ActiveAdmin.register Announcement do
   end
 
   sidebar :info, only: :index do
-    div class: "panel text-sm p-4 rounded-sm b text-gray-800 dark:bg-gray-800 dark:text-gray-200" do
-      t(".announcement_info")
+    side_panel t(".info") do
+      para t(".announcement_info")
     end
   end
 

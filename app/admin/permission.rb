@@ -12,6 +12,12 @@ ActiveAdmin.register Permission do
     links
   end
 
+  sidebar :info, only: :index do
+    side_panel t(".info") do
+      para t(".permission_info")
+    end
+  end
+
   includes :admins
   index download_links: false do
     column :name, sortable: true

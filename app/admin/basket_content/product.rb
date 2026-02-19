@@ -43,7 +43,11 @@ class BasketContent
       end
     end
 
-    sidebar_handbook_link("basket_content#products")
+    sidebar :info, only: :index do
+      side_panel t(".info"), action: handbook_icon_link("basket_content", anchor: "products") do
+        para t(".product_info")
+      end
+    end
 
     csv do
       column(:id)
