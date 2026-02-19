@@ -42,10 +42,15 @@ ActiveAdmin.register Admin do
         prompt: true,
         wrapper_html: { id: "language", class: "scroll-mt-24" }
       if f.object.persisted? && f.object == current_admin
-        f.input :theme,
-          as: :radio,
-          collection: themes_collection,
-          wrapper_html: { id: "theme", class: "scroll-mt-24 segmented-control" }
+        li id: "theme", class: "input scroll-mt-24" do
+          render partial: "shared/icon_select", locals: {
+            name: "admin[theme]",
+            value: f.object.theme,
+            options: theme_icon_select_options,
+            label_text: Admin.human_attribute_name(:theme),
+            required: true
+          }
+        end
       end
       if authorized?(:manage, Admin) && f.object != current_admin
         f.input :permission, collection: Permission.all, prompt: true, include_blank: false

@@ -46,7 +46,13 @@
     <% end %>
 
     <div class="mt-6 mb-12">
-      <%= f.input :theme, as: :radio_buttons, collection: themes_collection, required: true, wrapper_html: { class: "segmented-control" }, collection_wrapper_tag: :div, collection_wrapper_class: "segmented-pill" %>
+      <%= render "shared/icon_select",
+        name: "member[theme]",
+        value: f.object.theme,
+        options: theme_icon_select_options,
+        label_text: Member.human_attribute_name(:theme),
+        required: true,
+        wrapper_class: "input" %>
     </div>
 
     <div class="actions">

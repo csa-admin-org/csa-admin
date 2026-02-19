@@ -151,17 +151,13 @@ module ApplicationHelper
     }
   end
 
-  def themes_collection
+  def theme_icon_select_options
     HasTheme::THEMES.map { |theme|
-      icon_name = HasTheme::THEME_ICONS.fetch(theme)
-      label = t("themes.#{theme}")
-      [
-        content_tag(:span, class: "inline-flex items-center gap-2") {
-          icon(icon_name, class: "size-4") +
-          content_tag(:span, label)
-        },
-        theme
-      ]
+      {
+        value: theme,
+        label: t("themes.#{theme}"),
+        icon_name: HasTheme::THEME_ICONS.fetch(theme)
+      }
     }
   end
 
