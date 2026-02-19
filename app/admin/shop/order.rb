@@ -265,14 +265,14 @@ ActiveAdmin.register Shop::Order do
       icon: "plus"
   end
 
-  action_item :pdf, only: :show, if: -> { resource.invoice&.processed? } do
-    action_link Invoice.model_name.human, pdf_invoice_path(resource.invoice),
+  action_item :delivery_pdf, only: :show do
+    action_link t(".delivery_order"), delivery_shop_orders_path(delivery_gid: resource.delivery_gid, shop_order_id: resource.id, format: :pdf),
       target: "_blank",
       icon: "file-down"
   end
 
-  action_item :delivery_pdf, only: :show do
-    action_link t(".delivery_order"), delivery_shop_orders_path(delivery_gid: resource.delivery_gid, shop_order_id: resource.id, format: :pdf),
+  action_item :pdf, only: :show, if: -> { resource.invoice&.processed? } do
+    action_link Invoice.model_name.human, pdf_invoice_path(resource.invoice),
       target: "_blank",
       icon: "file-down"
   end
