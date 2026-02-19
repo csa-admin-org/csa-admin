@@ -42,8 +42,7 @@ module InvoicesHelper
       if block
         block.call
       else
-        icon("file-down", class: "size-5") +
-          content_tag(:span, "PDF", class: "text-[0.55rem] font-bold leading-none")
+        icon("file-down", class: "size-5")
       end
     end
   end
