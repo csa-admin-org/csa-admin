@@ -21,7 +21,7 @@
 
   /* Panel Actions */
   .panel-actions {
-    @apply flex space-x-3;
+    @apply ml-auto flex space-x-3;
 
     a,
     button {
