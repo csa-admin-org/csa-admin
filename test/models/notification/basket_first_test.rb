@@ -2,7 +2,7 @@
 
 require "test_helper"
 
-class Notification::MembershipFirstBasketTest < ActiveSupport::TestCase
+class Notification::BasketFirstTest < ActiveSupport::TestCase
   test "notify sends emails for first baskets" do
     cycle = DeliveryCycle.create!(
       delivery_cycles(:mondays).attributes.except("id", "created_at", "updated_at").merge(
@@ -11,7 +11,7 @@ class Notification::MembershipFirstBasketTest < ActiveSupport::TestCase
     )
     cycle_ids = DeliveryCycle.pluck(:id) - [ cycle.id ]
 
-    mail_templates(:membership_first_basket).update!(active: true, delivery_cycle_ids: cycle_ids)
+    mail_templates(:basket_first).update!(active: true, delivery_cycle_ids: cycle_ids)
     member1 = create_member
     member2 = create_member
     member3 = create_member
@@ -28,14 +28,14 @@ class Notification::MembershipFirstBasketTest < ActiveSupport::TestCase
     create_absence(member: member3, started_on: "2024-03-31", ended_on: "2024-04-01")
 
     travel_to "2024-04-08"
-    assert_difference -> { MembershipMailer.deliveries.size }, 2 do
-      Notification::MembershipFirstBasket.notify
+    assert_difference -> { BasketMailer.deliveries.size }, 2 do
+      Notification::BasketFirst.notify
       perform_enqueued_jobs
     end
 
     assert_equal Time.current, member1.membership.first_basket_sent_at
 
-    mail = MembershipMailer.deliveries.last
+    mail = BasketMailer.deliveries.last
     assert_equal "First basket of the year!", mail.subject
   end
 end

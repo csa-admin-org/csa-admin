@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-class Notification::MembershipInitialBasket < Notification::Base
-  mail_template :membership_initial_basket
+class Notification::BasketInitial < Notification::Base
+  mail_template :basket_initial
 
   def notify
     return unless mail_template_active?

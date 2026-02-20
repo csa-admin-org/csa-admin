@@ -1,16 +1,14 @@
 # frozen_string_literal: true
 
-class Notification::MembershipFinalBasket < Notification::Base
-  mail_template :membership_final_basket
+class Notification::BasketFirst < Notification::Base
+  mail_template :basket_first
 
   def notify
     return unless mail_template_active?
 
     eligible_baskets.each do |basket|
-      next if already_sent?(basket.member)
-
       deliver_later(basket: basket)
-      basket.member.touch(:final_basket_sent_at)
+      basket.membership.touch(:first_basket_sent_at)
     end
   end
 
@@ -20,14 +18,10 @@ class Notification::MembershipFinalBasket < Notification::Base
     Membership
       .current
       .where(delivery_cycle_id: mail_template.delivery_cycle_ids)
-      .renewal_state_eq(:renewal_canceled)
+      .where(first_basket_sent_at: nil)
       .includes(:member, baskets: :delivery)
       .select(&:can_send_email?)
-      .filter_map { |m| m.baskets.deliverable.last }
+      .filter_map { |m| m.baskets.deliverable.first }
       .select { |b| b.delivery.date.today? }
-  end
-
-  def already_sent?(member)
-    member.final_basket_sent_at? && member.final_basket_sent_at >= member.activated_at
   end
 end

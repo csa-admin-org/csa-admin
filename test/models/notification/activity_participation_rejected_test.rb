@@ -18,12 +18,12 @@ class Notification::ActivityParticipationRejectedTest < ActiveSupport::TestCase
     create_participation(review_sent_at: Time.current, rejected_at: 1.day.ago)
     create_participation(review_sent_at: nil, rejected_at: 4.days.ago)
 
-    assert_difference -> { ActivityMailer.deliveries.size }, 1 do
+    assert_difference -> { ActivityParticipationMailer.deliveries.size }, 1 do
       Notification::ActivityParticipationRejected.notify
       perform_enqueued_jobs
     end
 
-    mail = ActivityMailer.deliveries.last
+    mail = ActivityParticipationMailer.deliveries.last
     assert_equal "Activity rejected 😬", mail.subject
     assert_equal [ "anybody@doe.com" ], mail.to
   end
@@ -33,7 +33,7 @@ class Notification::ActivityParticipationRejectedTest < ActiveSupport::TestCase
 
     create_participation(review_sent_at: nil, rejected_at: 1.day.ago)
 
-    assert_no_difference -> { ActivityMailer.deliveries.size } do
+    assert_no_difference -> { ActivityParticipationMailer.deliveries.size } do
       Notification::ActivityParticipationRejected.notify
       perform_enqueued_jobs
     end

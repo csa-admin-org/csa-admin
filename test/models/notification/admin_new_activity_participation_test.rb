@@ -20,12 +20,12 @@ class Notification::AdminNewActivityParticipationTest < ActiveSupport::TestCase
     create_participation(created_at: 2.days.ago)
     create_participation(admins_notified_at: Date.current)
 
-    assert_difference -> { ActivityMailer.deliveries.size }, 1 do
+    assert_difference -> { AdminMailer.deliveries.size }, 1 do
       Notification::AdminNewActivityParticipation.notify
       perform_enqueued_jobs
     end
 
-    mail = ActivityMailer.deliveries.last
+    mail = AdminMailer.deliveries.last
     assert_equal "New participation in a ½ day", mail.subject
     assert_includes mail.html_part.body, "Schedule:</strong> 8:30-12:00, 13:30-17:00"
     assert_equal [ admin.email ], mail.to
@@ -48,12 +48,12 @@ class Notification::AdminNewActivityParticipationTest < ActiveSupport::TestCase
       carpooling_city: "Somwhere",
       note: "A great note!")
 
-    assert_difference -> { ActivityMailer.deliveries.size }, 1 do
+    assert_difference -> { AdminMailer.deliveries.size }, 1 do
       Notification::AdminNewActivityParticipation.notify
       perform_enqueued_jobs
     end
 
-    mail = ActivityMailer.deliveries.last
+    mail = AdminMailer.deliveries.last
     assert_equal "New participation in a ½ day", mail.subject
     assert_includes mail.html_part.body, "Carpooling"
     assert_includes mail.html_part.body, "A great note!"

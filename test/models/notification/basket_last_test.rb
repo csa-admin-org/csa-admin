@@ -2,7 +2,7 @@
 
 require "test_helper"
 
-class Notification::MembershipLastBasketTest < ActiveSupport::TestCase
+class Notification::BasketLastTest < ActiveSupport::TestCase
   test "notify sends emails for last baskets" do
     cycle = DeliveryCycle.create!(
       delivery_cycles(:mondays).attributes.except("id", "created_at", "updated_at").merge(
@@ -11,7 +11,7 @@ class Notification::MembershipLastBasketTest < ActiveSupport::TestCase
     )
     cycle_ids = DeliveryCycle.pluck(:id) - [ cycle.id ]
 
-    mail_templates(:membership_last_basket).update!(active: true, delivery_cycle_ids: cycle_ids)
+    mail_templates(:basket_last).update!(active: true, delivery_cycle_ids: cycle_ids)
     member1 = create_member
     member2 = create_member
     member3 = create_member
@@ -29,14 +29,14 @@ class Notification::MembershipLastBasketTest < ActiveSupport::TestCase
     create_absence(member: member3, started_on: "2024-04-15", ended_on: "2024-04-30")
 
     travel_to "2024-04-08"
-    assert_difference -> { MembershipMailer.deliveries.size }, 2 do
-      Notification::MembershipLastBasket.notify
+    assert_difference -> { BasketMailer.deliveries.size }, 2 do
+      Notification::BasketLast.notify
       perform_enqueued_jobs
     end
 
     assert_equal Time.current, member1.membership.last_basket_sent_at
 
-    mail = MembershipMailer.deliveries.last
+    mail = BasketMailer.deliveries.last
     assert_equal "Last basket of the year!", mail.subject
   end
 end

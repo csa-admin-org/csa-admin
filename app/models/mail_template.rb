@@ -10,21 +10,23 @@ class MailTemplate < ApplicationRecord
     member_activated
   ].freeze
   MEMBERSHIP_TITLES = %w[
-    membership_initial_basket
-    membership_final_basket
-    membership_first_basket
-    membership_last_basket
-    membership_second_last_trial_basket
-    membership_last_trial_basket
     membership_renewal
     membership_renewal_reminder
+  ].freeze
+  BASKET_TITLES = %w[
+    basket_initial
+    basket_final
+    basket_first
+    basket_last
+    basket_second_last_trial
+    basket_last_trial
   ].freeze
   ABSENCE_TITLES = %w[
     absence_created
     absence_basket_shifted
     absence_included_reminder
   ].freeze
-  ACTIVITY_TITLES = %w[
+  ACTIVITY_PARTICIPATION_TITLES = %w[
     activity_participation_reminder
     activity_participation_validated
     activity_participation_rejected
@@ -40,12 +42,12 @@ class MailTemplate < ApplicationRecord
     invoice_cancelled
     invoice_overdue_notice
   ].freeze
-  TITLES = MEMBER_TITLES + MEMBERSHIP_TITLES + ABSENCE_TITLES + ACTIVITY_TITLES + BIDDING_ROUND_TITLES + INVOICE_TITLES
+  TITLES = MEMBER_TITLES + MEMBERSHIP_TITLES + BASKET_TITLES + ABSENCE_TITLES + ACTIVITY_PARTICIPATION_TITLES + BIDDING_ROUND_TITLES + INVOICE_TITLES
   ALWAYS_ACTIVE_TITLES = %w[
     invoice_created
     absence_included_reminder
     activity_participation_reminder
-  ]
+  ].freeze
   ACTIVE_BY_DEFAULT_TITLES = ALWAYS_ACTIVE_TITLES + %w[
     invoice_overdue_notice
     bidding_round_opened
@@ -53,10 +55,7 @@ class MailTemplate < ApplicationRecord
     bidding_round_completed
     bidding_round_failed
   ]
-  TITLES_WITH_DELIVERY_CYCLES_SCOPE = MEMBERSHIP_TITLES - %w[
-    membership_renewal
-    membership_renewal_reminder
-  ].freeze
+  TITLES_WITH_DELIVERY_CYCLES_SCOPE = BASKET_TITLES.freeze
 
   audited_attributes :subjects, :contents
 
@@ -74,8 +73,9 @@ class MailTemplate < ApplicationRecord
   scope :inactive, -> { where(active: false) }
   scope :member, -> { where(title: MEMBER_TITLES) }
   scope :membership, -> { where(title: MEMBERSHIP_TITLES) }
+  scope :basket, -> { where(title: BASKET_TITLES) }
   scope :absence, -> { where(title: ABSENCE_TITLES) }
-  scope :activity, -> { where(title: ACTIVITY_TITLES) }
+  scope :activity_participation, -> { where(title: ACTIVITY_PARTICIPATION_TITLES) }
   scope :bidding_round, -> { where(title: BIDDING_ROUND_TITLES) }
   scope :invoice, -> { where(title: INVOICE_TITLES) }
 
@@ -160,6 +160,10 @@ class MailTemplate < ApplicationRecord
   def scope_name
     if title.in?(BIDDING_ROUND_TITLES)
       "bidding_round"
+    elsif title.in?(ACTIVITY_PARTICIPATION_TITLES)
+      "activity_participation"
+    elsif title.in?(BASKET_TITLES)
+      "basket"
     else
       title.split("_").first
     end
@@ -167,6 +171,15 @@ class MailTemplate < ApplicationRecord
 
   def scope_class
     scope_name.classify.constantize
+  end
+
+  def scope_label
+    case scope_name
+    when "activity_participation"
+      I18n.t("activities.#{Current.org.activity_i18n_scope}.one")
+    else
+      scope_class.model_name.human
+    end
   end
 
   def mailer
@@ -209,7 +222,7 @@ class MailTemplate < ApplicationRecord
       Current.org.open_renewal_reminder_sent_after_in_days.blank?
     when "bidding_round_opened_reminder"
       Current.org.open_bidding_round_reminder_sent_after_in_days.blank?
-    when "membership_second_last_trial_basket"
+    when "basket_second_last_trial"
       Current.org.trial_baskets_count < 2
     else
       false

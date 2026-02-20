@@ -2,16 +2,16 @@
 
 require "test_helper"
 
-class ActivityMailerTest < ActionMailer::TestCase
-  test "participation_reminder_email" do
+class ActivityParticipationMailerTest < ActionMailer::TestCase
+  test "reminder_email" do
     template = mail_templates(:activity_participation_reminder)
     participation = activity_participations(:john_harvest)
     group = ActivityParticipationGroup.group([ participation ]).first
 
-    mail = ActivityMailer.with(
+    mail = ActivityParticipationMailer.with(
       template: template,
       activity_participation_ids: group.ids,
-    ).participation_reminder_email
+    ).reminder_email
 
     assert_equal "Upcoming activity (1 July 2024)", mail.subject
     assert_equal [ "john@doe.com" ], mail.to
@@ -28,14 +28,14 @@ class ActivityMailerTest < ActionMailer::TestCase
     assert_equal "outbound", mail[:message_stream].to_s
   end
 
-  test "participation_validated_email" do
+  test "validated_email" do
     template = mail_templates(:activity_participation_validated)
     participation = activity_participations(:john_harvest)
 
-    mail = ActivityMailer.with(
+    mail = ActivityParticipationMailer.with(
       template: template,
       activity_participation_ids: participation.id
-    ).participation_validated_email
+    ).validated_email
 
     assert_equal "Activity confirmed 🎉", mail.subject
     assert_equal [ "john@doe.com" ], mail.to
@@ -51,14 +51,14 @@ class ActivityMailerTest < ActionMailer::TestCase
     assert_equal "outbound", mail[:message_stream].to_s
   end
 
-  test "participation_rejected_email" do
+  test "rejected_email" do
     template = mail_templates(:activity_participation_rejected)
     participation = activity_participations(:john_harvest)
 
-    mail = ActivityMailer.with(
+    mail = ActivityParticipationMailer.with(
       template: template,
       activity_participation_ids: participation.id
-    ).participation_rejected_email
+    ).rejected_email
 
     assert_equal "Activity rejected 😬", mail.subject
     assert_equal [ "john@doe.com" ], mail.to

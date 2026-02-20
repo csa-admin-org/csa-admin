@@ -2,8 +2,8 @@
 
 require "test_helper"
 
-class Notification::MembershipLastTrialBasketTest < ActiveSupport::TestCase
-  test "notify sends emails for last trial baskets" do
+class Notification::BasketSecondLastTrialTest < ActiveSupport::TestCase
+  test "notify sends emails for second to last trial baskets" do
     cycle = DeliveryCycle.create!(
       delivery_cycles(:mondays).attributes.except("id", "created_at", "updated_at").merge(
         periods_attributes: [ { from_fy_month: 1, to_fy_month: 12 } ]
@@ -11,7 +11,7 @@ class Notification::MembershipLastTrialBasketTest < ActiveSupport::TestCase
     )
     cycle_ids = DeliveryCycle.pluck(:id) - [ cycle.id ]
 
-    mail_templates(:membership_last_trial_basket).update!(active: true, delivery_cycle_ids: cycle_ids)
+    mail_templates(:basket_second_last_trial).update!(active: true, delivery_cycle_ids: cycle_ids)
     member = create_member(emails: "anybody@doe.com")
 
     travel_to "2024-04-01"
@@ -20,18 +20,18 @@ class Notification::MembershipLastTrialBasketTest < ActiveSupport::TestCase
     create_membership(started_on: "2024-04-08", member: member)
     create_membership(started_on: "2024-04-08", member: create_member, delivery_cycle: cycle)
     create_membership(started_on: "2024-04-08", member: create_member, ended_on: "2024-04-15")
-    create_membership(started_on: "2024-04-08", member: create_member, last_trial_basket_sent_at: 1.minute.ago)
+    create_membership(started_on: "2024-04-08", member: create_member, second_last_trial_basket_sent_at: 1.minute.ago)
 
-    travel_to "2024-04-15"
-    assert_difference -> { MembershipMailer.deliveries.size }, 1 do
-      Notification::MembershipLastTrialBasket.notify
+    travel_to "2024-04-08"
+    assert_difference -> { BasketMailer.deliveries.size }, 1 do
+      Notification::BasketSecondLastTrial.notify
       perform_enqueued_jobs
     end
 
-    assert_equal Time.current, member.membership.last_trial_basket_sent_at
+    assert_equal Time.current, member.membership.second_last_trial_basket_sent_at
 
-    mail = MembershipMailer.deliveries.last
-    assert_equal "Last trial basket!", mail.subject
+    mail = BasketMailer.deliveries.last
+    assert_equal "Second to last trial basket!", mail.subject
     assert_equal [ "anybody@doe.com" ], mail.to
   end
 end

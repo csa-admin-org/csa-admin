@@ -2,7 +2,7 @@
 
 require "test_helper"
 
-class Notification::MembershipFinalBasketTest < ActiveSupport::TestCase
+class Notification::BasketFinalTest < ActiveSupport::TestCase
   test "notify sends emails for final baskets" do
     cycle = DeliveryCycle.create!(
       delivery_cycles(:mondays).attributes.except("id", "created_at", "updated_at").merge(
@@ -11,7 +11,7 @@ class Notification::MembershipFinalBasketTest < ActiveSupport::TestCase
     )
     cycle_ids = DeliveryCycle.pluck(:id) - [ cycle.id ]
 
-    mail_templates(:membership_final_basket).update!(active: true, delivery_cycle_ids: cycle_ids)
+    mail_templates(:basket_final).update!(active: true, delivery_cycle_ids: cycle_ids)
 
     member1 = create_member
     member2 = create_member
@@ -35,8 +35,8 @@ class Notification::MembershipFinalBasketTest < ActiveSupport::TestCase
     create_absence(member: member7, started_on: "2024-06-03", ended_on: "2024-06-30")
 
     travel_to "2024-05-27"
-    assert_difference -> { MembershipMailer.deliveries.size }, 3 do
-      Notification::MembershipFinalBasket.notify
+    assert_difference -> { BasketMailer.deliveries.size }, 3 do
+      Notification::BasketFinal.notify
       perform_enqueued_jobs
     end
 

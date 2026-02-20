@@ -51,8 +51,8 @@ class MailTemplateTest < ActiveSupport::TestCase
     assert template[:active]
   end
 
-  test "membership_second_last_trial_basket is inactive when trial_baskets_count < 2" do
-    template = mail_templates(:membership_second_last_trial_basket)
+  test "basket_second_last_trial is inactive when trial_baskets_count < 2" do
+    template = mail_templates(:basket_second_last_trial)
 
     org(trial_baskets_count: 1)
     assert template.inactive?

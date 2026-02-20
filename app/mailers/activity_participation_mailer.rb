@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
-class ActivityMailer < ApplicationMailer
+class ActivityParticipationMailer < ApplicationMailer
   include Templatable
 
   before_action :set_participation
 
-  def participation_reminder_email
+  def reminder_email
     template_mail(@participation.member,
       tag: "activity-participation-reminder",
       "member" => Liquid::MemberDrop.new(@participation.member),
@@ -13,7 +13,7 @@ class ActivityMailer < ApplicationMailer
       "activity_participation" => Liquid::ActivityParticipationDrop.new(@participation))
   end
 
-  def participation_validated_email
+  def validated_email
     @subject_class = "notice"
     template_mail(@participation.member,
       tag: "activity-participation-validated",
@@ -22,7 +22,7 @@ class ActivityMailer < ApplicationMailer
       "activity_participation" => Liquid::ActivityParticipationDrop.new(@participation))
   end
 
-  def participation_rejected_email
+  def rejected_email
     @subject_class = "alert"
     template_mail(@participation.member,
       tag: "activity-participation-rejected",

@@ -2,30 +2,30 @@
 
 require "ostruct"
 
-class ActivityMailerPreview < ActionMailer::Preview
+class ActivityParticipationMailerPreview < ActionMailer::Preview
   include SharedDataPreview
 
-  def participation_reminder_email
-    params.merge!(participation_reminder_email_params)
+  def reminder_email
+    params.merge!(reminder_email_params)
     params[:template] ||= MailTemplate.find_by!(title: :activity_participation_reminder)
-    ActivityMailer.with(params).participation_reminder_email
+    ActivityParticipationMailer.with(params).reminder_email
   end
 
-  def participation_validated_email
-    params.merge!(participation_reminder_email_params)
+  def validated_email
+    params.merge!(validated_email_params)
     params[:template] ||= MailTemplate.find_by!(title: :activity_participation_validated)
-    ActivityMailer.with(params).participation_validated_email
+    ActivityParticipationMailer.with(params).validated_email
   end
 
-  def participation_rejected_email
-    params.merge!(participation_reminder_email_params)
+  def rejected_email
+    params.merge!(rejected_email_params)
     params[:template] ||= MailTemplate.find_by!(title: :activity_participation_rejected)
-    ActivityMailer.with(params).participation_rejected_email
+    ActivityParticipationMailer.with(params).rejected_email
   end
 
   private
 
-  def participation_reminder_email_params
+  def reminder_email_params
     {
       member: member,
       activity: activity,
@@ -33,7 +33,7 @@ class ActivityMailerPreview < ActionMailer::Preview
     }
   end
 
-  def participation_validated_email_params
+  def validated_email_params
     {
       member: member,
       activity: activity,
@@ -41,7 +41,7 @@ class ActivityMailerPreview < ActionMailer::Preview
     }
   end
 
-  def participation_rejected_email_params
+  def rejected_email_params
     {
       member: member,
       activity: activity,

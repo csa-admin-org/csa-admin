@@ -37,6 +37,42 @@ _:
         _de: "Bestätigte Aktivität \U0001F389"
         _it: "Attività confermata \U0001F389"
         _nl: "Activiteit bevestigd \U0001F389"
+      basket_final:
+        _en: Last basket!
+        _fr: Dernier panier!
+        _de: Letzte Tasche!
+        _it: Ultimo cestino!
+        _nl: Laatste pakket!
+      basket_first:
+        _en: First basket of the year!
+        _fr: Premier panier de l'année!
+        _de: Erste Tasche des Jahres!
+        _it: Primo cestino dell'anno!
+        _nl: Eerste pakket van het jaar!
+      basket_initial:
+        _en: First basket!
+        _fr: Premier panier!
+        _de: Erste Tasche!
+        _it: Primo cestino!
+        _nl: Eerste pakket!
+      basket_last:
+        _en: Last basket of the year!
+        _fr: Dernier panier de l'année!
+        _de: Letzte Tasche des Jahres!
+        _it: Ultimo cestino dell'anno!
+        _nl: Laatste pakket van het jaar!
+      basket_last_trial:
+        _en: Last trial basket!
+        _fr: Dernier panier à l'essai!
+        _de: Letzte Probe Tasche!
+        _it: Ultimo cestino da provare!
+        _nl: Laatste proefpakket!
+      basket_second_last_trial:
+        _en: Second to last trial basket!
+        _fr: Avant-dernier panier à l'essai!
+        _de: Vorletzte Probe Tasche!
+        _it: Penultimo cestino da provare!
+        _nl: Voorlaatste proefpakket!
       bidding_round_completed:
         _en: "Bidding round #{{ bidding_round.number }} completed \U0001F389"
         _fr: "Tour d'engagement n°{{ bidding_round.number }} terminé \U0001F389"
@@ -91,36 +127,6 @@ _:
         _de: Registrierung validiert!
         _it: Iscrizione confermata!
         _nl: Registratie gevalideerd!
-      membership_final_basket:
-        _en: Last basket!
-        _fr: Dernier panier!
-        _de: Letzte Tasche!
-        _it: Ultimo cestino!
-        _nl: Laatste pakket!
-      membership_first_basket:
-        _en: First basket of the year!
-        _fr: Premier panier de l'année!
-        _de: Erste Tasche des Jahres!
-        _it: Primo cestino dell'anno!
-        _nl: Eerste pakket van het jaar!
-      membership_initial_basket:
-        _en: First basket!
-        _fr: Premier panier!
-        _de: Erste Tasche!
-        _it: Primo cestino!
-        _nl: Eerste pakket!
-      membership_last_basket:
-        _en: Last basket of the year!
-        _fr: Dernier panier de l'année!
-        _de: Letzte Tasche des Jahres!
-        _it: Ultimo cestino dell'anno!
-        _nl: Laatste pakket van het jaar!
-      membership_last_trial_basket:
-        _en: Last trial basket!
-        _fr: Dernier panier à l'essai!
-        _de: Letzte Probe Tasche!
-        _it: Ultimo cestino da provare!
-        _nl: Laatste proefpakket!
       membership_renewal:
         _en: Renew your membership
         _fr: Renouvellement de votre abonnement
@@ -133,12 +139,6 @@ _:
         _de: Ihr Abonnement verlängern (Erinnerung)
         _it: Rinnovo del vostro abbonamento (promemoria)
         _nl: Vernieuw uw lidmaatschap (herinnering)
-      membership_second_last_trial_basket:
-        _en: Second to last trial basket!
-        _fr: Avant-dernier panier à l'essai!
-        _de: Vorletzte Probe Tasche!
-        _it: Penultimo cestino da provare!
-        _nl: Voorlaatste proefpakket!
     description:
       absence_basket_shifted:
         _en: Sent when a basket is shifted during an absence, by a member or an admin.
@@ -176,6 +176,42 @@ _:
         _de: Wird gesendet, wenn die Teilnahme an einer Aktivität bestätigt wird.
         _it: Inviato quando viene convalidata una partecipazione a un'attività.
         _nl: Verzonden wanneer deelname aan een activiteit wordt bevestigd.
+      basket_final:
+        _en: Sent on the delivery day of the member's very last basket, in case the membership is canceled.
+        _fr: Envoyé le jour de la livraison du tout dernier panier du membre, dans le cas où l'abonnement est résilié.
+        _de: Wird gesendet am Tag der Auslieferung der allerletzten Tasche des Mitglieds, falls das Abonnement gekündigt wird.
+        _it: Inviato il giorno della consegna dell'ultimo cestino del socio, nel caso in cui l'abbonamento viene terminato.
+        _nl: Verzonden op de leveringsdag van het allerlaatste pakket van het lid, indien het lidmaatschap wordt opgezegd.
+      basket_first:
+        _en: Sent on the delivery day of the first basket of each membership, each fiscal year.
+        _fr: Envoyé le jour de la livraison du premier panier de chaque abonnement, chaque année fiscale.
+        _de: Wird gesendet am Tag der Auslieferung der ersten Tasche jedes Abonnements, jedes Geschäftsjahr.
+        _it: Inviato il giorno della consegna del primo cestino di ogni abbonamento, ogni anno fiscale.
+        _nl: Verzonden op de leveringsdag van het eerste pakket van elk lidmaatschap, elk boekjaar.
+      basket_initial:
+        _en: Sent on the delivery day of the member's very first basket. Sent only once, unless the member resubscribes after an interruption.
+        _fr: Envoyé le jour de la livraison du tout premier panier du membre. Envoyé une seule fois, à moins que le membre ne se réabonne après une interruption.
+        _de: Wird gesendet am Tag der Auslieferung der allerersten Tasche des Mitglieds. Wird nur einmal gesendet, es sei denn, das Mitglied abonniert sich nach einer Unterbrechung erneut.
+        _it: Inviato il giorno della consegna del primo cestino in assoluto del socio. Inviato una sola volta, a meno che il socio non si riabboni dopo un'interruzione.
+        _nl: Verzonden op de leveringsdag van het allereerste pakket van het lid. Slechts één keer verzonden, tenzij het lid opnieuw inschrijft na een onderbreking.
+      basket_last:
+        _en: Sent on the delivery day of the last basket of each membership, only if the membership is renewed.
+        _fr: Envoyé le jour de la livraison du dernier panier de chaque abonnement, uniquement si l'abonnement est renouvelé.
+        _de: Wird gesendet am Tag der Auslieferung der letzten Tasche jedes Abonnements, nur wenn das Abonnement verlängert wird.
+        _it: Inviato il giorno della consegna dell'ultimo cestino di ogni abbonamento, solo se l'abbonamento viene rinnovato.
+        _nl: Verzonden op de leveringsdag van het laatste pakket van elk lidmaatschap, alleen als het lidmaatschap wordt vernieuwd.
+      basket_last_trial:
+        _en: Sent on the day of delivery of the last trial basket to ask the member if they wish to continue their membership until the end of the fiscal year.
+        _fr: Envoyé le jour de la livraison du dernier panier à l'essai afin de demander au membre si il désire continuer son abonnement jusqu'à la fin de l'année fiscale.
+        _de: Wird gesendet am Tag der Auslieferung der letzten Probe-Tasche, um das Mitglied zu fragen, ob es sein Abonnement bis zum Ende des Geschäftsjahres fortsetzen möchte.
+        _it: Inviato il giorno della consegna dell'ultimo cestino di prova per chiedere al socio se desidera continuare il suo abbonamento fino alla fine dell'anno fiscale.
+        _nl: Verzonden op de leveringsdag van het laatste proefpakket om het lid te vragen of ze hun lidmaatschap tot het einde van het boekjaar willen voortzetten.
+      basket_second_last_trial:
+        _en: Sent on the day of delivery of the second to last trial basket, one basket earlier than the last trial basket email.
+        _fr: Envoyé le jour de la livraison de l'avant-dernier panier à l'essai, un panier avant l'email du dernier panier à l'essai.
+        _de: Wird gesendet am Tag der Auslieferung der vorletzten Probe-Tasche, eine Tasche früher als die E-Mail der letzten Probe-Tasche.
+        _it: Inviato il giorno della consegna del penultimo cestino di prova, un cestino prima dell'email dell'ultimo cestino di prova.
+        _nl: Verzonden op de leveringsdag van het voorlaatste proefpakket, één pakket eerder dan de e-mail van het laatste proefpakket.
       bidding_round_completed:
         _en: Sent to notify the members that the bidding round has been completed with success. Sent to all eligible members, even if they have not pledged.
         _fr: Envoyé pour informer les membres que le tour d'engagement est terminé avec succès. Envoyé à tous les membres concernés, même s'ils n'ont pas fixé leur montant.
@@ -230,36 +266,6 @@ _:
         _de: Wird gesendet, wenn die Registrierung eines neuen Mitglieds validiert wurde.
         _it: Inviato quando la registrazione di un nuovo socio viene convalidata.
         _nl: Verzonden wanneer de registratie van een nieuw lid wordt gevalideerd.
-      membership_final_basket:
-        _en: Sent on the delivery day of the member's very last basket, in case the membership is canceled.
-        _fr: Envoyé le jour de la livraison du tout dernier panier du membre, dans le cas où l'abonnement est résilié.
-        _de: Wird gesendet am Tag der Auslieferung der allerletzten Tasche des Mitglieds, falls das Abonnement gekündigt wird.
-        _it: Inviato il giorno della consegna dell'ultimo cestino del socio, nel caso in cui l'abbonamento viene terminato.
-        _nl: Verzonden op de leveringsdag van het allerlaatste pakket van het lid, indien het lidmaatschap wordt opgezegd.
-      membership_first_basket:
-        _en: Sent on the delivery day of the first basket of each membership, each fiscal year.
-        _fr: Envoyé le jour de la livraison du premier panier de chaque abonnement, chaque année fiscale.
-        _de: Wird gesendet am Tag der Auslieferung der ersten Tasche jedes Abonnements, jedes Geschäftsjahr.
-        _it: Inviato il giorno della consegna del primo cestino di ogni abbonamento, ogni anno fiscale.
-        _nl: Verzonden op de leveringsdag van het eerste pakket van elk lidmaatschap, elk boekjaar.
-      membership_initial_basket:
-        _en: Sent on the delivery day of the member's very first basket. Sent only once, unless the member resubscribes after an interruption.
-        _fr: Envoyé le jour de la livraison du tout premier panier du membre. Envoyé une seule fois, à moins que le membre ne se réabonne après une interruption.
-        _de: Wird gesendet am Tag der Auslieferung der allerersten Tasche des Mitglieds. Wird nur einmal gesendet, es sei denn, das Mitglied abonniert sich nach einer Unterbrechung erneut.
-        _it: Inviato il giorno della consegna del primo cestino in assoluto del socio. Inviato una sola volta, a meno che il socio non si riabboni dopo un'interruzione.
-        _nl: Verzonden op de leveringsdag van het allereerste pakket van het lid. Slechts één keer verzonden, tenzij het lid opnieuw inschrijft na een onderbreking.
-      membership_last_basket:
-        _en: Sent on the delivery day of the last basket of each membership, only if the membership is renewed.
-        _fr: Envoyé le jour de la livraison du dernier panier de chaque abonnement, uniquement si l'abonnement est renouvelé.
-        _de: Wird gesendet am Tag der Auslieferung der letzten Tasche jedes Abonnements, nur wenn das Abonnement verlängert wird.
-        _it: Inviato il giorno della consegna dell'ultimo cestino di ogni abbonamento, solo se l'abbonamento viene rinnovato.
-        _nl: Verzonden op de leveringsdag van het laatste pakket van elk lidmaatschap, alleen als het lidmaatschap wordt vernieuwd.
-      membership_last_trial_basket:
-        _en: Sent on the day of delivery of the last trial basket to ask the member if they wish to continue their membership until the end of the fiscal year.
-        _fr: Envoyé le jour de la livraison du dernier panier à l'essai afin de demander au membre si il désire continuer son abonnement jusqu'à la fin de l'année fiscale.
-        _de: Wird gesendet am Tag der Auslieferung der letzten Probe-Tasche, um das Mitglied zu fragen, ob es sein Abonnement bis zum Ende des Geschäftsjahres fortsetzen möchte.
-        _it: Inviato il giorno della consegna dell'ultimo cestino di prova per chiedere al socio se desidera continuare il suo abbonamento fino alla fine dell'anno fiscale.
-        _nl: Verzonden op de leveringsdag van het laatste proefpakket om het lid te vragen of ze hun lidmaatschap tot het einde van het boekjaar willen voortzetten.
       membership_renewal:
         _en: Sent to ask the member via the form on their member page whether they wish to renew their membership or not.
         _fr: Envoyé afin de demander au membre si il désire ou non renouveler son abonnement via le formulaire sur sa page de membre.
@@ -272,12 +278,6 @@ _:
         _de: Gesendet, um das Mitglied daran zu erinnern, dass es das Abonnementserneuerungsformular noch nicht ausgefüllt hat (siehe <a href='/settings#membership_renewal'>die Einstellungen</a> für die Frist).
         _it: Inviato per ricordare al socio che non ha ancora completato il modulo di rinnovo dell'abbonamento (vedi <a href='/settings#membership_renewal'>parametri</a> per le scadenze).
         _nl: Verzonden om het lid eraan te herinneren dat ze het formulier voor lidmaatschapsvernieuwing nog niet hebben ingevuld (zie <a href='/settings#membership_renewal'>instellingen</a> voor de deadline).
-      membership_second_last_trial_basket:
-        _en: Sent on the day of delivery of the second to last trial basket, one basket earlier than the last trial basket email.
-        _fr: Envoyé le jour de la livraison de l'avant-dernier panier à l'essai, un panier avant l'email du dernier panier à l'essai.
-        _de: Wird gesendet am Tag der Auslieferung der vorletzten Probe-Tasche, eine Tasche früher als die E-Mail der letzten Probe-Tasche.
-        _it: Inviato il giorno della consegna del penultimo cestino di prova, un cestino prima dell'email dell'ultimo cestino di prova.
-        _nl: Verzonden op de leveringsdag van het voorlaatste proefpakket, één pakket eerder dan de e-mail van het laatste proefpakket.
     title:
       absence_basket_shifted:
         _en: Basket Shifted
@@ -315,6 +315,42 @@ _:
         _de: Bestätigte Aktivität
         _it: Attività confermata
         _nl: Activiteit bevestigd
+      basket_final:
+        _en: Final Basket
+        _fr: Panier final
+        _de: Endgültige Tasche
+        _it: Cestino finale
+        _nl: Laatste pakket
+      basket_first:
+        _en: First Basket
+        _fr: Premier panier
+        _de: Erste Tasche
+        _it: Primo cestino
+        _nl: Eerste pakket
+      basket_initial:
+        _en: Initial Basket
+        _fr: Panier initial
+        _de: Initiale Tasche
+        _it: Cestino iniziale
+        _nl: Eerste pakket
+      basket_last:
+        _en: Last Basket
+        _fr: Dernier panier
+        _de: Letzte Tasche
+        _it: Ultimo cestino
+        _nl: Laatste pakket
+      basket_last_trial:
+        _en: Last trial basket
+        _fr: Dernier panier à l'essai
+        _de: Letzte Probe Tasche
+        _it: Ultimo cestino da provare
+        _nl: Laatste proefpakket
+      basket_second_last_trial:
+        _en: Second to last trial basket
+        _fr: Avant-dernier panier à l'essai
+        _de: Vorletzte Probe Tasche
+        _it: Penultimo cestino da provare
+        _nl: Voorlaatste proefpakket
       bidding_round_completed:
         _en: Bidding Round Completed
         _fr: Tour d'engagement terminé
@@ -369,36 +405,6 @@ _:
         _de: Mitglied validiert
         _it: Socio confermato
         _nl: Lid gevalideerd
-      membership_final_basket:
-        _en: Final Basket
-        _fr: Panier final
-        _de: Endgültige Tasche
-        _it: Cestino finale
-        _nl: Laatste pakket
-      membership_first_basket:
-        _en: First Basket
-        _fr: Premier panier
-        _de: Erste Tasche
-        _it: Primo cestino
-        _nl: Eerste pakket
-      membership_initial_basket:
-        _en: Initial Basket
-        _fr: Panier initial
-        _de: Initiale Tasche
-        _it: Cestino iniziale
-        _nl: Eerste pakket
-      membership_last_basket:
-        _en: Last Basket
-        _fr: Dernier panier
-        _de: Letzte Tasche
-        _it: Ultimo cestino
-        _nl: Laatste pakket
-      membership_last_trial_basket:
-        _en: Last trial basket
-        _fr: Dernier panier à l'essai
-        _de: Letzte Probe Tasche
-        _it: Ultimo cestino da provare
-        _nl: Laatste proefpakket
       membership_renewal:
         _en: Membership renewal
         _fr: Renouvellement abonnement
@@ -411,9 +417,3 @@ _:
         _de: Abonnement verlängern (Erinnerung)
         _it: Rinnovo abbonamento (promemoria)
         _nl: Lidmaatschapsvernieuwing (herinnering)
-      membership_second_last_trial_basket:
-        _en: Second to last trial basket
-        _fr: Avant-dernier panier à l'essai
-        _de: Vorletzte Probe Tasche
-        _it: Penultimo cestino da provare
-        _nl: Voorlaatste proefpakket
