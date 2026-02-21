@@ -75,5 +75,22 @@ class MailTemplate
     def mail_deliveries
       MailDelivery.where(mailable_type: scope_name.classify, action: action)
     end
+
+    # Returns recent MailDelivery records where the member now has
+    # email addresses that were not included in the original delivery.
+    # Used by the admin UI to link to individual deliveries.
+    def deliveries_with_missing_emails
+      recent = mail_deliveries
+        .where.not(state: :draft)
+        .where("created_at > ?", MailDelivery::MISSING_EMAILS_ALLOWED_PERIOD.ago)
+        .includes(:member, :emails)
+        .to_a
+      recent.each { |d| d.preload_source!(self) }
+      recent.select { |d| d.missing_emails.any? }
+    end
+
+    def show_missing_delivery_emails?
+      deliveries_with_missing_emails.any?
+    end
   end
 end

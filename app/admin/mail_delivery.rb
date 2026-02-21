@@ -134,7 +134,7 @@ ActiveAdmin.register MailDelivery do
                   suppressions = EmailSuppression.active.where(email: email_address)
                   suppressed = suppressions.any?
                   div do
-                    div(class: "flex flex-wrap items-center justify-start mx-2  gap-2") do
+                    div(class: "flex flex-wrap items-center justify-start mx-2 gap-2") do
                       h4 email_address, class: "m-0 text-lg font-extralight"
                       status_tag(suppressed ? :suppressed : :active, class: "m-0")
                     end
@@ -157,7 +157,7 @@ ActiveAdmin.register MailDelivery do
             div(class: "grid gap-y-6") do
               delivery.emails.order(:created_at).each do |email|
                 div do
-                  div(class: "flex flex-wrap items-center justify-start mx-2 mb-2 gap-2") do
+                  div(class: "flex flex-wrap items-center justify-start mx-2 mb-1 gap-2") do
                     h4 email.email, class: "m-0 text-lg font-extralight"
                     status_tag(email.state, class: "m-0")
                   end
@@ -185,8 +185,36 @@ ActiveAdmin.register MailDelivery do
             end
           end
         end
+
+        if delivery.show_missing_emails?
+          panel t(".missing_deliveries") do
+            div(class: "grid gap-y-2") do
+              delivery.missing_emails.each do |email|
+                div(class: "flex flex-wrap items-center justify-start mx-2 gap-2") do
+                  h4(class: "m-0 text-lg font-extralight") { email }
+                  if authorized?(:deliver_missing_email, resource)
+                    div do
+                      panel_button t(".send_email"), deliver_missing_email_mail_delivery_path(resource),
+                        params: { email: email },
+                        form: { class: "inline" },
+                        data: { confirm: t(".confirm") }
+                    end
+                  end
+                end
+              end
+            end
+            div class: "mt-6 px-2" do
+              para t(".missing_deliveries_description"), class: "italic text-sm text-gray-400 dark:text-gray-600"
+            end
+          end
+        end
       end
     end
+  end
+
+  member_action :deliver_missing_email, method: :post do
+    resource.deliver_missing_email!(params.require(:email))
+    redirect_to resource_path, notice: t("active_admin.resources.mail_delivery.flash.notice")
   end
 
   controller do

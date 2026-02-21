@@ -485,4 +485,156 @@ class MailDeliveryTest < ActiveSupport::TestCase
       delivery.destroy!
     end
   end
+
+  # --- Missing emails ---
+
+  test "missing_emails returns new member emails not in delivery" do
+    mail_templates(:invoice_created)
+    member = members(:john)
+    invoice = invoices(:annual_fee)
+
+    delivery = MailDelivery.deliver!(
+      member: member, mailable: invoice, action: "created")
+
+    assert_equal %w[john@doe.com], delivery.emails.pluck(:email)
+    assert_empty delivery.missing_emails
+
+    member.update!(emails: "john@doe.com, john@new.com")
+
+    assert_equal %w[john@new.com], delivery.missing_emails
+  end
+
+  test "missing_emails returns empty for draft deliveries" do
+    member = members(:john)
+    newsletter = newsletters(:simple)
+
+    delivery = MailDelivery.deliver!(
+      member: member, mailable: newsletter, action: "newsletter", draft: true)
+
+    member.update!(emails: "john@doe.com, john@new.com")
+
+    assert_empty delivery.missing_emails
+  end
+
+  test "missing_emails_allowed? is true within allowed period" do
+    member = members(:john)
+    invoice = invoices(:annual_fee)
+
+    delivery = MailDelivery.deliver!(
+      member: member, mailable: invoice, action: "created")
+
+    assert delivery.missing_emails_allowed?
+  end
+
+  test "missing_emails_allowed? is false after allowed period" do
+    member = members(:john)
+    invoice = invoices(:annual_fee)
+
+    travel_to 2.weeks.ago do
+      MailDelivery.deliver!(
+        member: member, mailable: invoice, action: "created")
+    end
+
+    delivery = MailDelivery.last
+    assert_not delivery.missing_emails_allowed?
+  end
+
+  test "missing_emails_allowed? is false for drafts" do
+    member = members(:john)
+    newsletter = newsletters(:simple)
+
+    delivery = MailDelivery.deliver!(
+      member: member, mailable: newsletter, action: "newsletter", draft: true)
+
+    assert_not delivery.missing_emails_allowed?
+  end
+
+  test "show_missing_emails? is true when allowed and has missing emails" do
+    mail_templates(:invoice_created)
+    member = members(:john)
+    invoice = invoices(:annual_fee)
+
+    delivery = MailDelivery.deliver!(
+      member: member, mailable: invoice, action: "created")
+
+    assert_not delivery.show_missing_emails?
+
+    member.update!(emails: "john@doe.com, john@new.com")
+
+    assert delivery.show_missing_emails?
+  end
+
+  test "show_missing_emails? is false when period expired" do
+    mail_templates(:invoice_created)
+    member = members(:john)
+    invoice = invoices(:annual_fee)
+
+    travel_to 2.weeks.ago do
+      MailDelivery.deliver!(
+        member: member, mailable: invoice, action: "created")
+    end
+
+    member.update!(emails: "john@doe.com, john@new.com")
+
+    delivery = MailDelivery.last
+    assert_not delivery.show_missing_emails?
+  end
+
+  test "deliver_missing_email! creates new email child" do
+    mail_templates(:invoice_created)
+    member = members(:john)
+    invoice = invoices(:annual_fee)
+
+    delivery = MailDelivery.deliver!(
+      member: member, mailable: invoice, action: "created")
+
+    member.update!(emails: "john@doe.com, john@new.com")
+
+    assert_difference -> { delivery.emails.count }, 1 do
+      delivery.deliver_missing_email!("john@new.com")
+    end
+
+    new_email = delivery.emails.find_by(email: "john@new.com")
+    assert_equal "processing", new_email.state
+  end
+
+  test "deliver_missing_email! raises for non-missing email" do
+    mail_templates(:invoice_created)
+    member = members(:john)
+    invoice = invoices(:annual_fee)
+
+    delivery = MailDelivery.deliver!(
+      member: member, mailable: invoice, action: "created")
+
+    assert_raises(RuntimeError, "Email not missing") do
+      delivery.deliver_missing_email!("john@doe.com")
+    end
+  end
+
+  test "missing_emails works for newsletter deliveries" do
+    member = members(:john)
+    newsletter = newsletters(:simple)
+
+    delivery = MailDelivery.deliver!(
+      member: member, mailable: newsletter, action: "newsletter")
+
+    assert_empty delivery.missing_emails
+
+    member.update!(emails: "john@doe.com, john@new.com")
+
+    assert_equal %w[john@new.com], delivery.missing_emails
+  end
+
+  test "expected_member_emails uses billing_emails for invoice templates" do
+    mail_templates(:invoice_created)
+    member = members(:john)
+    member.update!(billing_email: "billing@doe.com")
+    invoice = invoices(:annual_fee)
+
+    delivery = MailDelivery.deliver!(
+      member: member, mailable: invoice, action: "created",
+      recipients: member.billing_emails)
+
+    assert_equal %w[billing@doe.com], delivery.expected_member_emails
+  end
 end

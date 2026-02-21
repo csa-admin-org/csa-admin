@@ -59,25 +59,11 @@ class Newsletter
       mail_deliveries.processing.exists?
     end
 
-    # Allow already-sent newsletter to be delivered to a new email address.
-    # The member may already have a MailDelivery (from the original send),
-    # so we find-or-create the parent and add a new Email child.
-    def deliver!(email)
-      return unless sent?
-      return unless missing_delivery_emails.include?(email)
-
-      member = Member.kept.find_by_email(email)
-      delivery = mail_deliveries.find_by(member: member)
-
-      if delivery
-        delivery.emails.create!(email: email, state: :processing)
-      else
-        MailDelivery.deliver!(
-          member: member,
-          mailable: self,
-          action: "newsletter",
-          recipients: [ email ])
-      end
+    # Returns the recipient email addresses for the given member.
+    # Newsletters always use active_emails.
+    # Shares the same interface as MailTemplate::Delivery#recipients_for.
+    def recipients_for(member)
+      member.active_emails
     end
 
     def save_draft_deliveries!
@@ -86,12 +72,17 @@ class Newsletter
       create_deliveries!(draft: true)
     end
 
-    def missing_delivery_emails
-      audience_segment.emails - mail_delivery_emails.pluck(:email)
-    end
-
-    def missing_delivery_emails?
-      missing_delivery_emails.any?
+    # Returns recent MailDelivery records where the member now has
+    # email addresses that were not included in the original delivery.
+    # Used by the admin UI to link to individual deliveries.
+    def deliveries_with_missing_emails
+      recent = mail_deliveries
+        .where.not(state: :draft)
+        .where("created_at > ?", MailDelivery::MISSING_EMAILS_ALLOWED_PERIOD.ago)
+        .includes(:member, :emails)
+        .to_a
+      recent.each { |d| d.preload_source!(self) }
+      recent.select { |d| d.missing_emails.any? }
     end
 
     private

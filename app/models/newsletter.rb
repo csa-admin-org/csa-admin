@@ -8,7 +8,6 @@ class Newsletter < ApplicationRecord
   include Delivery
 
   MAXIMUM_HTML_BODY_SIZE = 100.kilobytes
-  MISSING_DELIVERY_EMAILS_ALLOWED_PERIOD = 1.week
 
   translated_attributes :audience_name
   translated_attributes :signature
@@ -206,11 +205,11 @@ class Newsletter < ApplicationRecord
   end
 
   def missing_delivery_emails_allowed?
-    sent? && sent_at > MISSING_DELIVERY_EMAILS_ALLOWED_PERIOD.ago
+    sent? && sent_at > MailDelivery::MISSING_EMAILS_ALLOWED_PERIOD.ago
   end
 
   def show_missing_delivery_emails?
-    missing_delivery_emails_allowed? && missing_delivery_emails?
+    missing_delivery_emails_allowed? && deliveries_with_missing_emails.any?
   end
 
   private

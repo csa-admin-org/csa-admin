@@ -33,6 +33,8 @@ class MailDelivery < ApplicationRecord
   include HasState
   include Preview
 
+  MISSING_EMAILS_ALLOWED_PERIOD = 1.week
+
   has_states :draft, :processing, :delivered, :partially_delivered, :not_delivered
 
   belongs_to :member
@@ -187,6 +189,37 @@ class MailDelivery < ApplicationRecord
 
   def newsletter
     source if newsletter?
+  end
+
+  # Returns the email addresses the member should currently receive,
+  # as determined by the source (Newsletter or MailTemplate).
+  # Both sources implement recipients_for(member).
+  def expected_member_emails
+    source.recipients_for(member) || []
+  end
+
+  # Email addresses the member now has that were not included in this delivery.
+  # Only meaningful for processed deliveries within the allowed period.
+  def missing_emails
+    return [] if draft?
+
+    expected_member_emails - emails.pluck(:email)
+  end
+
+  def missing_emails_allowed?
+    !draft? && created_at > MISSING_EMAILS_ALLOWED_PERIOD.ago
+  end
+
+  def show_missing_emails?
+    missing_emails_allowed? && missing_emails.any?
+  end
+
+  # Delivers to a missing email address by adding a new Email child.
+  # The Email's after_create_commit enqueues ProcessJob automatically.
+  def deliver_missing_email!(email)
+    raise "Email not missing" unless missing_emails.include?(email)
+
+    emails.create!(email: email, state: :processing)
   end
 
   private

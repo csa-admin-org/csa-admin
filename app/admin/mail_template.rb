@@ -104,6 +104,21 @@ ActiveAdmin.register MailTemplate do
               end
             end
           end
+
+          if mail_template.show_missing_delivery_emails?
+            panel t(".missing_deliveries") do
+              div(class: "grid gap-y-2 mb-2") do
+                mail_template.deliveries_with_missing_emails.each do |delivery|
+                  delivery.missing_emails.each do |email|
+                    div(class: "flex flex-wrap items-center justify-start mx-2 gap-2") do
+                      h4(class: "m-0 text-lg font-extralight") { auto_link delivery, email }
+                      span(class: "text-sm text-gray-500") { "(#{auto_link(delivery.member)})".html_safe }
+                    end
+                  end
+                end
+              end
+            end
+          end
         end
       end
     end
