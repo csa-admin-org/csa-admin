@@ -96,6 +96,7 @@ ActiveAdmin.register Absence do
             row(:ended_on) { l absence.ended_on }
           end
         end
+        render "active_admin/mail_deliveries/panel", mailable: absence
         active_admin_comments_for(absence)
       end
     end

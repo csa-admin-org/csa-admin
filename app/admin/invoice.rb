@@ -324,9 +324,8 @@ ActiveAdmin.register Invoice do
             end
           end
         end
-
         render "active_admin/attachments/panel", attachments: invoice.attachments
-
+        render "active_admin/mail_deliveries/panel", mailable: invoice
         active_admin_comments_for(invoice)
       end
     end

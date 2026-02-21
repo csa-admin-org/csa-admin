@@ -19,6 +19,37 @@ ActiveAdmin.register MailDelivery do
     when Member
       links << link_to(Member.model_name.human(count: 2), members_path(scope: :all))
       links << auto_link(source)
+    when Invoice
+      links << link_to(Member.model_name.human(count: 2), members_path)
+      links << auto_link(source.member)
+      links << link_to(
+        Invoice.model_name.human(count: 2),
+        invoices_path(q: { member_id_eq: source.member_id }, scope: :all))
+      links << auto_link(source)
+    when Absence
+      links << link_to(Member.model_name.human(count: 2), members_path)
+      links << auto_link(source.member)
+      links << link_to(
+        Absence.model_name.human(count: 2),
+        absences_path(q: { member_id_eq: source.member_id }, scope: :all))
+      links << auto_link(source)
+    when ActivityParticipation
+      links << link_to(Activity.model_name.human(count: 2), activities_path)
+      links << auto_link(source.activity, source.activity.name(show_place: false))
+      links << link_to(
+        ActivityParticipation.model_name.human(count: 2),
+        activity_participations_path(q: { activity_id_eq: source.activity_id }, scope: :all))
+      links << auto_link(source)
+    when Membership
+      links << link_to(Member.model_name.human(count: 2), members_path)
+      links << auto_link(source.member)
+      links << link_to(
+        Membership.model_name.human(count: 2),
+        memberships_path(q: { member_id_eq: source.member_id }, scope: :all))
+      links << auto_link(source)
+    when BiddingRound
+      links << link_to(BiddingRound.model_name.human(count: 2), bidding_rounds_path(scope: :all))
+      links << auto_link(source)
     end
 
     if params[:action] == "show"
@@ -32,7 +63,7 @@ ActiveAdmin.register MailDelivery do
   filter :with_subject,
     as: :string,
     label: -> { MailDelivery.human_attribute_name(:subject) },
-    if: proc { source_type == :member }
+    if: proc { source_type.in?(%i[member mailable]) }
   filter :member,
     as: :select,
     if: proc { source_type != :member },
@@ -54,7 +85,7 @@ ActiveAdmin.register MailDelivery do
     scope email_state.to_sym,
       group: :email,
       if: proc {
-        source_type.in?(%i[newsletter mail_template]) &&
+        source_type.in?(%i[newsletter mail_template mailable]) &&
           (source_type != :newsletter || !source_record.draft?)
       }
   end
@@ -73,8 +104,8 @@ ActiveAdmin.register MailDelivery do
   includes :member, :emails
   index as: MailDeliveryIndex, download_links: false do
     column :id
-    if source_type == :member
-      column :subject, ->(d) { auto_link d, d.subject || d.source.display_name }, sortable: false
+    if source_type.in?(%i[member mailable])
+      column :subject, ->(d) { auto_link d, d.subject || d.source&.display_name }, sortable: false
     end
     column :member, sortable: "members.name" if source_type != :member
     column :created_at, ->(d) { l(d.created_at, format: :short) }, sortable: true, class: "text-right"
@@ -113,6 +144,12 @@ ActiveAdmin.register MailDelivery do
           attributes_table do
             row(:id)
             row(:member) { auto_link(delivery.member) }
+            unless delivery.newsletter?
+              mailable = delivery.mailables.first
+              if mailable
+                row(mailable.class.model_name.human) { auto_link(mailable) }
+              end
+            end
             row(:created_at) { l(delivery.created_at, format: :short) }
           end
         end
@@ -234,6 +271,7 @@ ActiveAdmin.register MailDelivery do
       @source_type ||= if params[:newsletter_id] then :newsletter
       elsif params[:mail_template_id] then :mail_template
       elsif params[:member_id] then :member
+      elsif params[:mailable_type].in?(MailDelivery::MAILABLE_TYPES) && params[:mailable_id] then :mailable
       end
     end
 
@@ -242,6 +280,7 @@ ActiveAdmin.register MailDelivery do
       when :newsletter then Newsletter.find(params[:newsletter_id])
       when :mail_template then MailTemplate.find(params[:mail_template_id])
       when :member then Member.find(params[:member_id])
+      when :mailable then params[:mailable_type].constantize.find(params[:mailable_id])
       end
     end
 
@@ -251,6 +290,7 @@ ActiveAdmin.register MailDelivery do
       when :newsletter then scope.newsletter_id_eq(source_record.id)
       when :mail_template then scope.mail_template_id_eq(source_record.id)
       when :member then scope.where(member: source_record)
+      when :mailable then scope.for_mailable(source_record)
       else scope
       end
     end

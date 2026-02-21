@@ -743,7 +743,7 @@ ActiveAdmin.register Membership do
             end
           end
         end
-
+        render "active_admin/mail_deliveries/panel", mailable: m
         active_admin_comments_for(m)
       end
     end

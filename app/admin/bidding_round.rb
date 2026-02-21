@@ -113,6 +113,8 @@ ActiveAdmin.register BiddingRound do
             para bidding_round.information_text
           end
         end
+        render "active_admin/mail_deliveries/panel", mailable: bidding_round
+        active_admin_comments_for(bidding_round)
       end
     end
   end

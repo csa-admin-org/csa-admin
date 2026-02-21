@@ -269,7 +269,7 @@ ActiveAdmin.register ActivityParticipation do
             end
           end
         end
-
+        render "active_admin/mail_deliveries/panel", mailable: ap
         active_admin_comments_for(ap)
       end
     end

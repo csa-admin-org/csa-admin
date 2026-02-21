@@ -34,6 +34,7 @@ class MailDelivery < ApplicationRecord
   include Preview
   include Retention
 
+  MAILABLE_TYPES = %w[Invoice Absence ActivityParticipation Membership BiddingRound Basket].freeze
   MISSING_EMAILS_ALLOWED_PERIOD = 1.week
 
   has_states :draft, :processing, :delivered, :partially_delivered, :not_delivered
