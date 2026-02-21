@@ -128,6 +128,7 @@ class Newsletter < ApplicationRecord
       self[:liquid_data_preview_yamls] = liquid_data_preview_yamls
       set_audience_names
       self.template_contents = template.contents
+      self.scheduled_at = nil
       self.sent_at = Time.current
       save!
       create_deliveries!(draft: false)

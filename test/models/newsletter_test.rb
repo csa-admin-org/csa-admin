@@ -74,6 +74,19 @@ class NewsletterTest < ActiveSupport::TestCase
     assert_includes newsletter.errors[:base], "Newsletter has too much content"
   end
 
+  test "send scheduled newsletter clears scheduled_at" do
+    travel_to "2025-04-01"
+    newsletter = create_newsletter(scheduled_at: "2025-04-02")
+    assert newsletter.scheduled?
+    assert_not_nil newsletter.scheduled_at
+
+    travel_to "2025-04-02"
+    newsletter.send!
+
+    assert newsletter.sent?
+    assert_nil newsletter.scheduled_at
+  end
+
   test "schedulable scope" do
     travel_to "2025-04-01"
     create_newsletter
