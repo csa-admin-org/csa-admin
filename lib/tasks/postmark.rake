@@ -211,66 +211,13 @@ namespace :postmark do
     end
   end
 
-  desc "Sync mail delivery status from Postmark API"
+  desc "Sync stale mail delivery statuses from Postmark API"
   task sync_deliveries: :environment do
     Tenant.switch_each do
       next if Tenant.custom? && !ENV["TENANT"]
 
-      if server_token = Current.org.postmark_server_token
-        client = Postmark::ApiClient.new(server_token)
-        puts "Syncing mail deliveries for #{Current.org.name}"
-
-        Newsletter.where(sent_at: 2.weeks.ago..).each do |newsletter|
-          messages = client.get_messages(
-            count: 500,
-            tag: newsletter.tag,
-            messagestream: "broadcast")
-          puts "#{newsletter.tag} - #{messages.size} messages found"
-
-          messages.each do |message|
-            email_address = message[:recipients].first
-            delivery_email = MailDelivery::Email
-              .joins(:mail_delivery)
-              .merge(MailDelivery.for_mailable(newsletter))
-              .find_by(email: email_address)
-
-            if delivery_email
-              if delivery_email.postmark_message_id.nil?
-                details = client.get_message(message[:message_id])
-
-                if details[:status] == "Sent"
-                  if event = details[:message_events].find { |e| e["Type"] == "Delivered" && e["Recipient"] == email_address }
-                    delivery_email.transaction do
-                      delivery_email.delivered!(
-                        at: event["ReceivedAt"],
-                        postmark_message_id: message[:message_id],
-                        postmark_details: details.dig("Details", "DeliveryMessage")
-                      )
-                    end
-                    puts "#{newsletter.tag} - delivered - #{delivery_email.id}"
-                  elsif event = details[:message_events].find { |e| e["Type"] == "Bounced" && e["Recipient"] == email_address }
-                    bounce_id = event.dig("Details", "BounceID")
-                    bounce = client.get_bounce(bounce_id)
-
-                    delivery_email.transaction do
-                      delivery_email.bounced!(
-                        at: bounce[:bounced_at],
-                        postmark_message_id: bounce[:message_id],
-                        postmark_details: bounce[:details],
-                        bounce_type: bounce[:type],
-                        bounce_type_code: bounce[:type_code],
-                        bounce_description: bounce[:description])
-                    end
-                    puts "#{newsletter.tag} - bounced - #{delivery_email.id}"
-                  end
-                end
-              end
-            else
-              puts "#{newsletter.tag} - delivery not found for #{email_address}"
-            end
-          end
-        end
-      end
+      puts "Syncing stale mail deliveries for #{Current.org.name}"
+      MailDelivery::Email.sync_stale_from_postmark!
     end
   end
 end

@@ -20,8 +20,7 @@
 class MailDelivery
   class Email < ApplicationRecord
     include HasState
-
-    CONSIDER_STALE_AFTER = 12.hours
+    include PostmarkSync
 
     has_states :processing, :delivered, :suppressed, :bounced
 
@@ -29,7 +28,6 @@ class MailDelivery
 
     validates :email, presence: true
 
-    scope :stale, -> { processing.where(created_at: ...CONSIDER_STALE_AFTER.ago) }
     scope :with_email, ->(email) { where("email LIKE ?", "%#{email}%") }
 
     before_create :check_email_suppressions

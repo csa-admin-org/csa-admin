@@ -65,6 +65,12 @@ production:
     queue: low
     schedule: every hour
 
+  postmark_sync_deliveries:
+    class: TenantSwitchEachJob
+    args: [Scheduled::PostmarkSyncDeliveriesJob]
+    queue: low
+    schedule: every hour
+
   absences_included_reminder:
     class: TenantSwitchEachJob
     args: [Scheduled::AbsencesIncludedReminderJob]
