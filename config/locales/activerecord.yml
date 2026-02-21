@@ -899,6 +899,9 @@ _:
         bounce_type_code:
           _en: Bounce type code
           _fr: Code du type de rejet
+          _de: Bounce-Typ-Code
+          _it: Codice tipo di respinta
+          _nl: Bounce type code
         bounced_at:
           _en: Bounced on
           _fr: Rejeté le
@@ -908,6 +911,9 @@ _:
         created_at:
           _en: Created on
           _fr: Créé le
+          _de: Erstellt am
+          _it: Creato il
+          _nl: Aangemaakt op
         delivered_at:
           _en: Delivered on
           _fr: Distribué le
@@ -935,6 +941,9 @@ _:
         suppressed_at:
           _en: Suppressed on
           _fr: Supprimé le
+          _de: Unterdrückt am
+          _it: Soppresso il
+          _nl: Onderdrukt op
       mail_template:
         active:
           _en: Send
