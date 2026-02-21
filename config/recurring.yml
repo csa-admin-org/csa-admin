@@ -83,6 +83,12 @@ production:
     queue: low
     schedule: at 3:30am every day
 
+  mail_deliveries_purge:
+    class: TenantSwitchEachJob
+    args: [Scheduled::MailDeliveriesPurgeJob]
+    queue: low
+    schedule: at 1am every day
+
   search_prune:
     class: TenantSwitchEachJob
     args: [Scheduled::SearchPruneJob]

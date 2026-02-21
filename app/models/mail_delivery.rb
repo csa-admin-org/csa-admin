@@ -32,6 +32,7 @@
 class MailDelivery < ApplicationRecord
   include HasState
   include Preview
+  include Retention
 
   MISSING_EMAILS_ALLOWED_PERIOD = 1.week
 

@@ -103,6 +103,7 @@ ActiveAdmin.register MailTemplate do
                 end
               end
             end
+            para t("active_admin.resources.mail_delivery.retention_notice"), class: "mt-6 italic text-sm text-gray-400 dark:text-gray-600"
           end
 
           if mail_template.show_missing_delivery_emails?

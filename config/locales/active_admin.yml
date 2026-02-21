@@ -2294,6 +2294,12 @@ _:
             _de: E-Mail wird gesendet...
             _it: Invio dell'email in corso...
             _nl: E-mail wordt verzonden...
+        retention_notice:
+          _en: Delivery records older than one year are automatically removed.
+          _fr: Les enregistrements de distribution de plus d'un an sont automatiquement supprimés.
+          _de: Zustellungsdatensätze, die älter als ein Jahr sind, werden automatisch gelöscht.
+          _it: I registri di consegna più vecchi di un anno vengono rimossi automaticamente.
+          _nl: Afleveringsgegevens ouder dan één jaar worden automatisch verwijderd.
         scopes:
           all:
             _en: All

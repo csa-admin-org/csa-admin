@@ -44,4 +44,8 @@
       @apply font-bold;
     }
   }
+
+  .retention-notice {
+    @apply mt-1 grow text-right text-sm text-gray-400 italic dark:text-gray-600;
+  }
 }

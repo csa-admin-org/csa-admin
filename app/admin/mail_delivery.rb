@@ -59,9 +59,19 @@ ActiveAdmin.register MailDelivery do
       }
   end
 
-  includes :member, :emails
 
-  index download_links: false do
+  class MailDeliveryIndex < ActiveAdmin::Views::IndexAsTable
+    def build(page_presenter, collection)
+      super
+      notice = para(I18n.t("active_admin.resources.mail_delivery.retention_notice"), class: "retention-notice")
+      paginated = ancestors.find { |a| a.class == ActiveAdmin::Views::PaginatedCollection }
+      # Bypass PaginatedCollection#add_child which redirects to @contents
+      Arbre::Element.instance_method(:add_child).bind_call(paginated, notice) if paginated
+    end
+  end
+
+  includes :member, :emails
+  index as: MailDeliveryIndex, download_links: false do
     column :id
     if source_type == :member
       column :subject, ->(d) { auto_link d, d.subject || d.source.display_name }, sortable: false

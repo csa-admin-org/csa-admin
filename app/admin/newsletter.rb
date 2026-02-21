@@ -97,12 +97,21 @@ ActiveAdmin.register Newsletter do
           end
         end
 
-        panel link_to(MailDelivery.model_name.human(count: 2), mail_deliveries_path(newsletter_id: newsletter.id)), count: newsletter.mail_deliveries.count  do
+        deliveries_count = newsletter.mail_deliveries.count
+        deliveries_purged = newsletter.sent? && deliveries_count == 0
+        deliveries_count = nil if deliveries_purged
+
+        panel_title = MailDelivery.model_name.human(count: 2)
+        panel_title = deliveries_purged ? panel_title : link_to(panel_title, mail_deliveries_path(newsletter_id: newsletter.id))
+
+        panel panel_title, count: deliveries_count do
           attributes_table do
             row(:audience) { newsletter.audience_name }
             row(:from) { newsletter.from || Current.org.email_default_from }
           end
-          if newsletter.sent?
+          if deliveries_purged
+            para t("active_admin.resources.mail_delivery.retention_notice"), class: "mt-2 missing-data"
+          elsif newsletter.sent?
             ul class: "mt-6 counts" do
               MailDelivery::Email::STATES.each do |email_state|
                 li do
@@ -284,7 +293,7 @@ ActiveAdmin.register Newsletter do
       icon: "document-duplicate"
   end
 
-  action_item :deliveries, only: :show do
+  action_item :deliveries, only: :show, if: -> { resource.mail_deliveries.exists? } do
     action_link nil, mail_deliveries_path(newsletter_id: resource.id),
       title: MailDelivery.model_name.human(count: 2),
       icon: "mails"
