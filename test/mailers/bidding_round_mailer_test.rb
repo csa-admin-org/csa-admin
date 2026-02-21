@@ -11,7 +11,7 @@ class BiddingRoundMailerTest < ActionMailer::TestCase
 
     mail = BiddingRoundMailer.with(
       template: template,
-      membership: membership,
+      member: membership.member,
       bidding_round: bidding_round,
     ).opened_email
 
@@ -33,7 +33,7 @@ class BiddingRoundMailerTest < ActionMailer::TestCase
 
     mail = BiddingRoundMailer.with(
       template: template,
-      membership: membership,
+      member: membership.member,
       bidding_round: bidding_round,
     ).opened_reminder_email
 
@@ -58,7 +58,7 @@ class BiddingRoundMailerTest < ActionMailer::TestCase
 
     mail = BiddingRoundMailer.with(
       template: template,
-      membership: membership,
+      member: membership.member,
       bidding_round: bidding_round,
     ).completed_email
 
@@ -83,7 +83,7 @@ class BiddingRoundMailerTest < ActionMailer::TestCase
 
     mail = BiddingRoundMailer.with(
       template: template,
-      membership: membership,
+      member: membership.member,
       bidding_round: bidding_round,
     ).failed_email
 

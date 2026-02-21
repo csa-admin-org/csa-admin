@@ -11,7 +11,7 @@ class Notification::BiddingRoundOpenedReminder < Notification::Base
     return if reminder_delay.future?
 
     eligible_memberships.find_each do |membership|
-      deliver_later(bidding_round: bidding_round, membership: membership)
+      deliver_later(bidding_round: bidding_round, member: membership.member)
       membership.touch(:bidding_round_opened_reminder_sent_at)
     end
   end

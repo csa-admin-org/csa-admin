@@ -23,27 +23,15 @@ class InvoiceMailerPreview < ActionMailer::Preview
 
   private
 
-  def created_email_params
-    {
-      member: member,
-      invoice: invoice
-    }
-  end
-
-  def cancelled_email_params
-    {
-      member: member,
-      invoice: invoice
-    }
-  end
+  def created_email_params = invoice_params
+  def cancelled_email_params = invoice_params
 
   def overdue_notice_email_params
-    {
-      member: member,
-      invoice: invoice(
-        overdue_notices_count: 1,
-        missing_amount: 512)
-    }
+    { invoice: invoice(overdue_notices_count: 1, missing_amount: 512) }
+  end
+
+  def invoice_params
+    { invoice: invoice, member: member }
   end
 
   def invoice(**extra)

@@ -23,14 +23,14 @@ class MembershipMailerPreview < ActionMailer::Preview
 
   private
 
-  def renewal_email_params; membership_params; end
-  def renewal_reminder_email_params; membership_params; end
-  def absence_included_reminder_email_params; membership_params; end
+  def renewal_email_params = membership_params
+  def renewal_reminder_email_params = membership_params
+  def absence_included_reminder_email_params = membership_params
 
   def membership_params
     {
-      member: member,
-      membership: membership
+      membership: membership,
+      member: member
     }
   end
 end

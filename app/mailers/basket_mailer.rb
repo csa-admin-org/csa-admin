@@ -3,63 +3,27 @@
 class BasketMailer < ApplicationMailer
   include Templatable
 
-  def initial_email
-    basket = params[:basket]
-    membership = params[:membership] || basket&.membership
-    member = params[:member] || membership&.member
-    template_mail(member,
-      "basket" => Liquid::BasketDrop.new(basket),
-      "member" => Liquid::MemberDrop.new(member),
-      "membership" => Liquid::MembershipDrop.new(membership))
+  before_action :set_context
+
+  def initial_email = basket_email
+  def final_email = basket_email
+  def first_email = basket_email
+  def last_email = basket_email
+  def second_last_trial_email = basket_email
+  def last_trial_email = basket_email
+
+  private
+
+  def set_context
+    @basket = params[:basket]
+    @membership = @basket.membership
+    @member = @membership.member
   end
 
-  def final_email
-    basket = params[:basket]
-    membership = params[:membership] || basket&.membership
-    member = params[:member] || membership&.member
-    template_mail(member,
-      "basket" => Liquid::BasketDrop.new(basket),
-      "member" => Liquid::MemberDrop.new(member),
-      "membership" => Liquid::MembershipDrop.new(membership))
-  end
-
-  def first_email
-    basket = params[:basket]
-    membership = params[:membership] || basket&.membership
-    member = params[:member] || membership&.member
-    template_mail(member,
-      "basket" => Liquid::BasketDrop.new(basket),
-      "member" => Liquid::MemberDrop.new(member),
-      "membership" => Liquid::MembershipDrop.new(membership))
-  end
-
-  def last_email
-    basket = params[:basket]
-    membership = params[:membership] || basket&.membership
-    member = params[:member] || membership&.member
-    template_mail(member,
-      "basket" => Liquid::BasketDrop.new(basket),
-      "member" => Liquid::MemberDrop.new(member),
-      "membership" => Liquid::MembershipDrop.new(membership))
-  end
-
-  def second_last_trial_email
-    basket = params[:basket]
-    membership = params[:membership] || basket&.membership
-    member = params[:member] || membership&.member
-    template_mail(member,
-      "basket" => Liquid::BasketDrop.new(basket),
-      "member" => Liquid::MemberDrop.new(member),
-      "membership" => Liquid::MembershipDrop.new(membership))
-  end
-
-  def last_trial_email
-    basket = params[:basket]
-    membership = params[:membership] || basket&.membership
-    member = params[:member] || membership&.member
-    template_mail(member,
-      "basket" => Liquid::BasketDrop.new(basket),
-      "member" => Liquid::MemberDrop.new(member),
-      "membership" => Liquid::MembershipDrop.new(membership))
+  def basket_email
+    template_mail(@member,
+      "basket" => Liquid::BasketDrop.new(@basket),
+      "member" => Liquid::MemberDrop.new(@member),
+      "membership" => Liquid::MembershipDrop.new(@membership))
   end
 end

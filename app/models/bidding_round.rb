@@ -199,7 +199,7 @@ class BiddingRound < ApplicationRecord
     eligible_memberships.find_each do |membership|
       MailTemplate.deliver_later(:bidding_round_opened,
         bidding_round: self,
-        membership: membership)
+        member: membership.member)
     end
   end
 
@@ -228,7 +228,7 @@ class BiddingRound < ApplicationRecord
     eligible_memberships.find_each do |membership|
       MailTemplate.deliver_later(:bidding_round_failed,
         bidding_round: self,
-        membership: membership)
+        member: membership.member)
     end
   end
 

@@ -3,8 +3,7 @@
 class BiddingRoundMailer < ApplicationMailer
   include Templatable
 
-  before_action :set_membership_and_member
-  before_action :set_bidding_round_and_pledge
+  before_action :set_context
 
   def opened_email
     template_mail(@member,
@@ -40,13 +39,10 @@ class BiddingRoundMailer < ApplicationMailer
 
   private
 
-  def set_membership_and_member
-    @membership = params[:membership]
-    @member = params[:member] || @membership.member
-  end
-
-  def set_bidding_round_and_pledge
+  def set_context
     @bidding_round = params[:bidding_round]
+    @member = params[:member]
+    @membership = @member.memberships.during_year(@bidding_round.fiscal_year).first
     @pledge = params[:bidding_round_pledge] || @bidding_round.pledges.find_by(membership: @membership)
   end
 end

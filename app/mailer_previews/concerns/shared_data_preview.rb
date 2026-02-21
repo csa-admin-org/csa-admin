@@ -12,12 +12,11 @@ module SharedDataPreview
   end
 
   def member
-    OpenStruct.new(
+    @_member ||= OpenStruct.new(
       id: 1,
       name: [ "Jane Doe", "John Doe" ].sample(random: random),
       language: params[:locale] || I18n.locale,
       annual_fee: Current.org.annual_fee,
-      current_or_future_membership: membership,
       waiting_basket_size_id: basket_size&.id,
       waiting_basket_size: basket_size,
       waiting_depot_id: depot&.id,
@@ -30,29 +29,31 @@ module SharedDataPreview
   def membership
     return unless basket
 
-    participations_demanded = basket_size&.activity_participations_demanded_annually || 0
-    participations_accepted = [ participations_demanded, 0 ].sample(random: random)
-    # absences_included = delivery_cycle.absences_included_annually
-    OpenStruct.new(
-      started_on: started_on,
-      ended_on: ended_on,
-      state: "ongoing",
-      renewal_state: "renewal_pending",
-      basket_size: basket_size,
-      deliveries: deliveries,
-      depot: depot,
-      delivery_cycle: delivery_cycle,
-      absences_included: 3,
-      absences_included_used: 1,
-      absences_included_remaining: 2,
-      baskets: sample_baskets_scope,
-      next_basket: basket,
-      basket_quantity: 1,
-      remaining_trial_baskets_count: Current.org.trial_baskets_count,
-      activity_participations_demanded: participations_demanded,
-      activity_participations_accepted: participations_accepted,
-      activity_participations_missing: [ participations_demanded - participations_accepted, 0 ].max,
-      memberships_basket_complements: memberships_basket_complements)
+    @_membership ||= begin
+      participations_demanded = basket_size&.activity_participations_demanded_annually || 0
+      participations_accepted = [ participations_demanded, 0 ].sample(random: random)
+      OpenStruct.new(
+        member: member,
+        started_on: started_on,
+        ended_on: ended_on,
+        state: "ongoing",
+        renewal_state: "renewal_pending",
+        basket_size: basket_size,
+        deliveries: deliveries,
+        depot: depot,
+        delivery_cycle: delivery_cycle,
+        absences_included: 3,
+        absences_included_used: 1,
+        absences_included_remaining: 2,
+        baskets: sample_baskets_scope,
+        next_basket: basket,
+        basket_quantity: 1,
+        remaining_trial_baskets_count: Current.org.trial_baskets_count,
+        activity_participations_demanded: participations_demanded,
+        activity_participations_accepted: participations_accepted,
+        activity_participations_missing: [ participations_demanded - participations_accepted, 0 ].max,
+        memberships_basket_complements: memberships_basket_complements)
+    end
   end
 
   def started_on

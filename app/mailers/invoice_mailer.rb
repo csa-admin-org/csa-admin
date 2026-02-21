@@ -3,53 +3,51 @@
 class InvoiceMailer < ApplicationMailer
   include Templatable
 
+  before_action :set_context
+
   def created_email
-    invoice = params[:invoice]
-    member = invoice.member
     attach_invoice_pdf!
     attach_attachments!
-    template_mail(member,
-      to: member.billing_emails,
-      "member" => Liquid::MemberDrop.new(member),
-      "invoice" => Liquid::InvoiceDrop.new(invoice))
+    invoice_email
   end
 
   def cancelled_email
-    invoice = params[:invoice]
-    member = invoice.member
-    template_mail(member,
-      to: member.billing_emails,
-      "member" => Liquid::MemberDrop.new(member),
-      "invoice" => Liquid::InvoiceDrop.new(invoice))
+    invoice_email
   end
 
   def overdue_notice_email
-    invoice = params[:invoice]
-    member = invoice.member
     attach_invoice_pdf!
     @subject_class = "warning"
-    template_mail(member,
-      to: member.billing_emails,
-      "member" => Liquid::MemberDrop.new(member),
-      "invoice" => Liquid::InvoiceDrop.new(invoice))
+    invoice_email
   end
 
   private
 
-  def attach_invoice_pdf!
-    invoice = params[:invoice]
-    return unless invoice.is_a?(Invoice)
+  def set_context
+    @invoice = params[:invoice]
+    @member = @invoice.member
+  end
 
-    attachments[invoice.pdf_filename] = {
+  def invoice_email
+    template_mail(@member,
+      to: @member.billing_emails,
+      "member" => Liquid::MemberDrop.new(@member),
+      "invoice" => Liquid::InvoiceDrop.new(@invoice))
+  end
+
+  def attach_invoice_pdf!
+    return unless @invoice.is_a?(Invoice)
+
+    attachments[@invoice.pdf_filename] = {
       mime_type: "application/pdf",
-      content: invoice.pdf_file.download
+      content: @invoice.pdf_file.download
     }
   end
 
   def attach_attachments!
-    return unless params[:invoice].attachments.present?
+    return unless @invoice.attachments.present?
 
-    params[:invoice].attachments.map(&:file).each { |file|
+    @invoice.attachments.map(&:file).each { |file|
       filename =
         ActiveSupport::Inflector.transliterate(file.filename.to_s.gsub(/"/, "'"))
       attachments[filename] = {

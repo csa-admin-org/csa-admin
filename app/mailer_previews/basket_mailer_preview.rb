@@ -41,12 +41,12 @@ class BasketMailerPreview < ActionMailer::Preview
 
   private
 
-  def initial_email_params; basket_params; end
-  def final_email_params; basket_params; end
-  def first_email_params; basket_params; end
-  def last_email_params; basket_params; end
-  def second_last_trial_email_params; basket_params; end
-  def last_trial_email_params; basket_params; end
+  def initial_email_params = basket_params
+  def final_email_params = basket_params
+  def first_email_params = basket_params
+  def last_email_params = basket_params
+  def second_last_trial_email_params = basket_params
+  def last_trial_email_params = basket_params
 
   def basket_params
     {

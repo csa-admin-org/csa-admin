@@ -18,6 +18,7 @@ class MemberMailerPreview < ActionMailer::Preview
   private
 
   def activated_email_params
+    member.current_or_future_membership = membership
     {
       member: member,
       membership: membership,

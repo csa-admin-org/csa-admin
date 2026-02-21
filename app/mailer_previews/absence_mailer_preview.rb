@@ -20,18 +20,11 @@ class AbsenceMailerPreview < ActionMailer::Preview
   private
 
   def created_email_params
-    {
-      member: member,
-      absence: absence
-    }
+    { absence: absence, member: member }
   end
 
   def baskets_shifted_email_params
-    {
-      member: member,
-      absence: absence_with_shifts,
-      basket_shifts: [ basket_shift ]
-    }
+    { absence: absence_with_shifts, member: member }
   end
 
   def absence_with_shifts

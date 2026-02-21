@@ -49,25 +49,25 @@ class Liquid::DataPreviewTest < ActiveSupport::TestCase
         "absences_included" => 3,
         "absences_remaining" => 2,
         "absences_used" => 1,
-        "activity_participations_accepted_count" => 0,
+        "activity_participations_accepted_count" => 2,
         "activity_participations_demanded_count" => 2,
-        "activity_participations_missing_count" => 2,
-        "basket_complement_names" => "Bread and Eggs",
+        "activity_participations_missing_count" => 0,
+        "basket_complement_names" => "Bread and Cheese",
         "basket_complements" => [
-          {
-            "description" => "Eggs",
-            "id" => eggs_id,
-            "name" => "Eggs",
-            "quantity" => 1
-          },
           {
             "description" => "Bread",
             "id" => bread_id,
             "name" => "Bread",
             "quantity" => 1
+          },
+          {
+            "description" => "Cheese",
+            "id" => cheese_id,
+            "name" => "Cheese",
+            "quantity" => 1
           }
         ],
-        "basket_complements_description" => "Bread and Eggs",
+        "basket_complements_description" => "Bread and Cheese",
         "basket_quantity" => 1,
         "basket_size" => {
           "id" => medium_id,
@@ -252,22 +252,22 @@ class Liquid::DataPreviewTest < ActiveSupport::TestCase
         "absences_included" => nil,
         "absences_remaining" => nil,
         "absences_used" => nil,
-        "basket_complement_names" => "Bread and Eggs",
+        "basket_complement_names" => "Bread and Cheese",
         "basket_complements" => [
-          {
-            "description" => "Eggs",
-            "id" => eggs_id,
-            "name" => "Eggs",
-            "quantity" => 1
-          },
           {
             "description" => "Bread",
             "id" => bread_id,
             "name" => "Bread",
             "quantity" => 1
+          },
+          {
+            "description" => "Cheese",
+            "id" => cheese_id,
+            "name" => "Cheese",
+            "quantity" => 1
           }
         ],
-        "basket_complements_description" => "Bread and Eggs",
+        "basket_complements_description" => "Bread and Cheese",
         "basket_quantity" => 1,
         "basket_size" => {
           "id" => medium_id,

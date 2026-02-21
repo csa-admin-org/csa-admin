@@ -29,37 +29,24 @@ class BiddingRoundMailerPreview < ActionMailer::Preview
 
   private
 
-  def opened_email_params
-    {
-      member: member,
-      membership: member.current_or_future_membership,
-      bidding_round: bidding_round
-    }
-  end
-
-  def opened_reminder_email_params
-    {
-      member: member,
-      membership: member.current_or_future_membership,
-      bidding_round: bidding_round
-    }
-  end
+  def opened_email_params = bidding_round_params
+  def opened_reminder_email_params = bidding_round_params
 
   def completed_email_params
-    {
-      member: member,
-      membership: member.current_or_future_membership,
-      bidding_round: bidding_round,
-      bidding_round_pledge: pledge(member.current_or_future_membership.basket_size)
-    }
+    bidding_round_params.merge(
+      bidding_round_pledge: pledge(membership.basket_size))
   end
 
   def failed_email_params
+    bidding_round_params.merge(
+      bidding_round_pledge: pledge(membership.basket_size))
+  end
+
+  def bidding_round_params
     {
       member: member,
-      membership: member.current_or_future_membership,
-      bidding_round: bidding_round,
-      bidding_round_pledge: pledge(member.current_or_future_membership.basket_size)
+      membership: membership,
+      bidding_round: bidding_round
     }
   end
 

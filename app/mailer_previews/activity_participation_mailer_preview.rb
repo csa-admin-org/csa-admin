@@ -25,27 +25,15 @@ class ActivityParticipationMailerPreview < ActionMailer::Preview
 
   private
 
-  def reminder_email_params
-    {
-      member: member,
-      activity: activity,
-      activity_participation: activity_participation
-    }
-  end
+  def reminder_email_params = participation_params
+  def validated_email_params = participation_params
+  def rejected_email_params = participation_params
 
-  def validated_email_params
+  def participation_params
     {
+      activity_participation: activity_participation,
       member: member,
-      activity: activity,
-      activity_participation: activity_participation
-    }
-  end
-
-  def rejected_email_params
-    {
-      member: member,
-      activity: activity,
-      activity_participation: activity_participation
+      activity: activity
     }
   end
 
