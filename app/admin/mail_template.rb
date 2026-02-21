@@ -76,7 +76,7 @@ ActiveAdmin.register MailTemplate do
           end
           if !mail_template.active? || !mail_template.with_delivery_cycles_scope?
             attributes_table do
-              row(:active, class: "text-right") { status_tag(mail_template.active?) }
+              row(:active) { status_tag(mail_template.active?) }
             end
           else
             table_for DeliveryCycle.kept.ordered, class: "table-auto" do

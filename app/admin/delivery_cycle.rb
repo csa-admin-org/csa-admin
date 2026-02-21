@@ -94,9 +94,9 @@ ActiveAdmin.register DeliveryCycle do
         if DeliveryCycle.visible?
           panel t(".member_new_form") do
             attributes_table do
-              row(:visible, class: "text-right") { status_tag(dc.visible?) }
+              row(:visible) { status_tag(dc.visible?) }
               if dc.visible?
-                row(:form_detail, class: "text-right") { delivery_cycle_details(dc) }
+                row(:form_detail) { delivery_cycle_details(dc) }
               end
             end
             if dc.visible?
@@ -110,17 +110,17 @@ ActiveAdmin.register DeliveryCycle do
 
         panel t(".billing") do
           attributes_table do
-            row(:price, class: "text-right") { cur(dc.price) }
-            row(:invoice_name, class: "text-right") { dc.invoice_name }
+            row(:price) { cur(dc.price) }
+            row(:invoice_name) { dc.invoice_name }
             if feature?("absence")
-              row(:absences_included_annually, class: "text-right") { dc.absences_included_annually }
+              row(:absences_included_annually) { dc.absences_included_annually }
             end
           end
         end
 
         panel t("delivery_cycle.settings") do
           attributes_table do
-            row(:wdays, class: "text-right") {
+            row(:wdays) {
               if dc.wdays.size == 7
                 t("active_admin.scopes.all")
               else
@@ -128,16 +128,16 @@ ActiveAdmin.register DeliveryCycle do
               end
             }
             if dc.first_cweek?
-              row(:first_cweek, class: "text-right") { dc.first_cweek }
+              row(:first_cweek) { dc.first_cweek }
             end
             if dc.last_cweek?
-              row(:last_cweek, class: "text-right") { dc.last_cweek }
+              row(:last_cweek) { dc.last_cweek }
             end
             if dc.first_cweek? && dc.last_cweek?
-              row(:exclude_cweek_range, class: "text-right") { status_tag dc.exclude_cweek_range? }
+              row(:exclude_cweek_range) { status_tag dc.exclude_cweek_range? }
             end
             unless dc.all_week_numbers?
-              row(:week_numbers, class: "text-right") { t("delivery_cycle.week_numbers.#{dc.week_numbers}") }
+              row(:week_numbers) { t("delivery_cycle.week_numbers.#{dc.week_numbers}") }
             end
           end
         end

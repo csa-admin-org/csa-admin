@@ -145,9 +145,9 @@ ActiveAdmin.register Depot do
 
         panel t(".member_new_form") do
           attributes_table do
-            row(:visible, class: "text-right") { status_tag(depot.visible?) }
+            row(:visible) { status_tag(depot.visible?) }
             if depot.visible?
-              row(:form_detail, class: "text-right") { depot_details(depot) }
+              row(:form_detail) { depot_details(depot) }
             end
           end
           if DeliveryCycle.visible?

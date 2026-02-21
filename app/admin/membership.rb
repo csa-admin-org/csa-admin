@@ -464,16 +464,16 @@ ActiveAdmin.register Membership do
           panel link_to(Absence.model_name.human(count: 2), absences_path(q: { member_id_eq: m.member_id, during_year: m.fy_year }, scope: :all)), count: m.baskets.absent.count, class: "absence-panel" do
             attributes_table do
               if m.absences_included_annually.positive?
-                row(:absences_included, class: "text-right") {
+                row(:absences_included) {
                   used = m.baskets.definitely_absent.count
                   link_to absences_path(q: { member_id_eq: m.member_id, during_year: m.fy_year }, scope: :all) do
                     t(".absences_used", count: used, limit: m.absences_included)
                   end
                 }
-                row(:absences_included_reminder_sent_at, class: "text-right") { l m.absences_included_reminder_sent_at, format: :medium if m.absences_included_reminder_sent_at }
+                row(:absences_included_reminder_sent_at) { l m.absences_included_reminder_sent_at, format: :medium if m.absences_included_reminder_sent_at }
               end
               if Current.org.basket_shift_enabled? || m.basket_shifts_count.positive?
-                row(:basket_shifts, class: "text-right") {
+                row(:basket_shifts) {
                   if Current.org.basket_shifts_annually&.positive?
                     t(".basket_shifts_used", count: m.basket_shifts_count, limit: Current.org.basket_shifts_annually)
                   else
@@ -482,7 +482,7 @@ ActiveAdmin.register Membership do
                 }
               end
               if m.forced_deliveries.any?
-                row(:forced_deliveries, class: "text-right") {
+                row(:forced_deliveries) {
                   m.forced_deliveries.count
                 }
               end
@@ -601,49 +601,49 @@ ActiveAdmin.register Membership do
           else
             attributes_table do
               if m.basket_sizes_price.nonzero?
-                row(Basket.model_name.human(count: m.baskets_count), class: "text-right tabular-nums") {
+                row(Basket.model_name.human(count: m.baskets_count), class: "tabular-nums") {
                   display_price_description(m.basket_sizes_price, basket_sizes_price_info(m, m.baskets))
                 }
               end
               if m.baskets_annual_price_change.nonzero?
-                row(t(".baskets_annual_price_change"), class: "text-right tabular-nums") {
+                row(t(".baskets_annual_price_change"), class: "tabular-nums") {
                   cur(m.baskets_annual_price_change, unit: false)
                 }
               end
               if m.basket_complements.any? && m.basket_complements_price.nonzero?
-                row(MembershipsBasketComplement.model_name.human(count: m.basket_complements.count), class: "text-right tabular-nums") {
+                row(MembershipsBasketComplement.model_name.human(count: m.basket_complements.count), class: "tabular-nums") {
                   display_price_description(
                     m.basket_complements_price,
                     membership_basket_complements_price_info(m))
                 }
               end
               if m.basket_complements_annual_price_change.nonzero?
-                row(t(".basket_complements_annual_price_change"), class: "text-right tabular-nums") {
+                row(t(".basket_complements_annual_price_change"), class: "tabular-nums") {
                   cur(m.basket_complements_annual_price_change, unit: false)
                 }
               end
               if feature?("basket_price_extra") && (m.basket_price_extra.nonzero? || m.baskets.any? { |b| b.price_extra.nonzero? })
-                row(:basket_price_extra_title, class: "text-right tabular-nums") {
+                row(:basket_price_extra_title, class: "tabular-nums") {
                   description = baskets_price_extra_info(m, m.baskets, highlight: true)
                   display_price_description(m.baskets_price_extra, description)
                 }
               end
               if m.depots_price.nonzero?
-                row(Depot.model_name.human(count: m.baskets_count), class: "text-right tabular-nums") {
+                row(Depot.model_name.human(count: m.baskets_count), class: "tabular-nums") {
                   display_price_description(m.depots_price, depots_price_info(m.baskets))
                 }
               end
               if m.deliveries_price.nonzero?
-                row(Delivery.model_name.human(count: 2), class: "text-right tabular-nums") {
+                row(Delivery.model_name.human(count: 2), class: "tabular-nums") {
                   display_price_description(m.deliveries_price, delivery_cycle_price_info(m.baskets))
                 }
               end
               if feature?("activity") && m.activity_participations_annual_price_change.nonzero?
-                row(t_activity(".activity_participations_annual_price_change"), class: "text-right tabular-nums") {
+                row(t_activity(".activity_participations_annual_price_change"), class: "tabular-nums") {
                   cur(m.activity_participations_annual_price_change, unit: false)
                 }
               end
-              row(:price, class: "border-solid border-0 border-t border-gray-800 dark:border-gray-200 text-right font-bold tabular-nums") {
+              row(:price, class: "border-solid border-0 border-t border-gray-800 dark:border-gray-200 font-bold tabular-nums") {
                 cur(m.price, format: "%u %n")
               }
             end
@@ -652,8 +652,8 @@ ActiveAdmin.register Membership do
 
         panel t(".billing"), action: handbook_icon_link("billing", anchor: "memberships") do
           attributes_table do
-            row(:billing_year_division, class: "text-right") { t("billing.year_division.x#{m.billing_year_division}") }
-            row(:invoices_amount, class: "text-right tabular-nums") {
+            row(:billing_year_division) { t("billing.year_division.x#{m.billing_year_division}") }
+            row(:invoices_amount, class: "tabular-nums") {
               link_to(
                 cur(m.invoices_amount),
                 invoices_path(scope: :all, q: {
@@ -662,7 +662,7 @@ ActiveAdmin.register Membership do
                   entity_type_in: "Membership"
                 }))
             }
-            row(:missing_invoices_amount, class: "text-right tabular-nums") {
+            row(:missing_invoices_amount, class: "tabular-nums") {
               previsional_details(self, m.missing_invoices_amount, m.previsional_invoicing_amounts)
             }
             if resource.billable?

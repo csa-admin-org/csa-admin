@@ -430,32 +430,32 @@ ActiveAdmin.register Member do
         panel t(".billing"), action: handbook_icon_link("billing") do
           attributes_table do
             if member.salary_basket?
-              row(:salary_basket, class: "text-right") { status_tag(member.salary_basket) }
+              row(:salary_basket) { status_tag(member.salary_basket) }
             end
             if feature?("local_currency")
-              row(t("features.local_currency"), class: "text-right") { status_tag(member.use_local_currency) }
+              row(t("features.local_currency")) { status_tag(member.use_local_currency) }
             end
             if member.billing_email?
-              row(t(".email"), class: "text-right") { display_email_with_link(self, member.billing_email) }
+              row(t(".email")) { display_email_with_link(self, member.billing_email) }
             end
             if member.different_billing_info
-              row(:name, class: "text-right") { member.billing_name }
-              row(Member.human_attribute_name(:address), class: "text-right") { display_billing_address(member) }
+              row(:name) { member.billing_name }
+              row(Member.human_attribute_name(:address)) { display_billing_address(member) }
             end
             if Current.org.annual_fee? || member.annual_fee
-              row(:annual_fee, class: "text-right tabular-nums") { cur member.annual_fee }
+              row(:annual_fee, class: "tabular-nums") { cur member.annual_fee }
             end
-            row(:invoices_amount, class: "text-right tabular-nums") {
+            row(:invoices_amount, class: "tabular-nums") {
               link_to(
                 cur(member.invoices_amount),
                 invoices_path(q: { member_id_eq: member.id }, scope: :all))
             }
-            row(:payments_amount, class: "text-right tabular-nums") {
+            row(:payments_amount, class: "tabular-nums") {
               link_to(
                 cur(member.payments_amount),
                 payments_path(q: { member_id_eq: member.id }, scope: :all))
             }
-            row(:balance_amount, class: "text-right tabular-nums") {
+            row(:balance_amount, class: "tabular-nums") {
               if member.balance_amount.zero?
                 cur member.balance_amount
               else
@@ -466,7 +466,7 @@ ActiveAdmin.register Member do
             }
             invoicer = Billing::Invoicer.new(member, date: Date.tomorrow)
             if invoicer.next_date
-              row(:next_invoice_on, class: "text-right") {
+              row(:next_invoice_on) {
                 if Current.org.recurring_billing?
                   div class: "flex items-center justify-end gap-2" do
                     if invoicer.next_date

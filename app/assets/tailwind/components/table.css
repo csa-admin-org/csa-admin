@@ -225,8 +225,16 @@
   .attributes-table {
     @apply mb-0 border-none px-2 shadow-none;
 
+    & > :where(table) {
+      @apply block;
+    }
+
+    & :where(tbody) {
+      @apply block;
+    }
+
     & :where(tbody > tr) {
-      @apply border-dotted border-gray-200 dark:border-gray-700;
+      @apply flex border-dotted border-gray-200 dark:border-gray-700;
     }
 
     & :where(tbody > tr:last-child) {
@@ -242,11 +250,15 @@
     }
 
     & :where(tbody > tr > th) {
-      @apply w-32 bg-transparent text-start text-base leading-5 font-semibold text-gray-700 normal-case md:w-48 dark:bg-transparent dark:text-gray-300;
+      @apply w-auto max-w-[50%] min-w-24 shrink-0 bg-transparent text-start text-base leading-5 font-semibold text-gray-700 normal-case dark:bg-transparent dark:text-gray-300;
     }
 
     & :where(tbody > tr > td) {
-      @apply pl-4 leading-5;
+      @apply min-w-0 flex-1 pl-4 text-right leading-5;
+
+      & :where(.flex) {
+        @apply justify-end;
+      }
     }
 
     & td .status-tag {

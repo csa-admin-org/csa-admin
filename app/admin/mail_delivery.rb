@@ -140,7 +140,7 @@ ActiveAdmin.register MailDelivery do
                     end
                     if suppressed
                       attributes_table do
-                        row(MailDelivery::Email.human_attribute_name(:email_suppression_reasons), class: "text-right") {
+                        row(MailDelivery::Email.human_attribute_name(:email_suppression_reasons)) {
                           suppressions.map(&:reason).uniq.map { |r|
                             capture { status_tag(r.underscore) }
                           }.join(" ").html_safe
@@ -164,20 +164,20 @@ ActiveAdmin.register MailDelivery do
                   attributes_table_for email do
                     case email.state
                     when "bounced"
-                      row(:bounced_at, class: "text-right") { l(email.bounced_at, format: :short) }
-                      row(:bounce_type, class: "text-right") { status_tag(email.bounce_type.underscore) }
-                      row(:bounce_description, class: "text-right") { email.bounce_description }
+                      row(:bounced_at) { l(email.bounced_at, format: :short) }
+                      row(:bounce_type) { status_tag(email.bounce_type.underscore) }
+                      row(:bounce_description) { email.bounce_description }
                     when "delivered"
-                      row(:delivered_at, class: "text-right") { l(email.delivered_at, format: :short) }
+                      row(:delivered_at) { l(email.delivered_at, format: :short) }
                     when "suppressed"
-                      row(:suppressed_at, class: "text-right") { l(email.created_at, format: :short) }
-                      row(:email_suppression_reasons, class: "text-right") {
+                      row(:suppressed_at) { l(email.created_at, format: :short) }
+                      row(:email_suppression_reasons) {
                         email.email_suppression_reasons.map { |r|
                           capture { status_tag(r.underscore) }
                         }.join(" ").html_safe
                       }
                     else
-                      row(:created_at, class: "text-right") { l(email.created_at, format: :short) }
+                      row(:created_at) { l(email.created_at, format: :short) }
                     end
                   end
                 end
