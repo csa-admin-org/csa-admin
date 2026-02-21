@@ -67,7 +67,7 @@ ActiveAdmin.register MailDelivery do
       column :subject, ->(d) { auto_link d, d.subject || d.source.display_name }, sortable: false
     end
     column :member, sortable: "members.name" if source_type != :member
-    column :created_at, ->(d) { l(d.created_at, format: :short) }, sortable: true
+    column :created_at, ->(d) { l(d.created_at, format: :short) }, sortable: true, class: "text-right"
     column :state, ->(d) { status_tag(d.state) }, class: "text-right"
     actions class: "hidden"
   end
