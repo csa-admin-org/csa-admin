@@ -41,7 +41,7 @@ module Invoice::Processing
     raise Invoice::UnprocessedError if processing?
 
     # Leave some time for the invoice PDF to be uploaded
-    MailTemplate.deliver_later(:invoice_created, invoice: self)
+    MailTemplate.deliver(:invoice_created, invoice: self)
     update!(sent_at: Time.current)
   rescue => e
     Rails.error.report(e, context: {

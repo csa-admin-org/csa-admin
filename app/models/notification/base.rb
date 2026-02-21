@@ -13,7 +13,7 @@
 #     def notify
 #       return unless mail_template_active?
 #       # ...
-#       deliver_later(membership: membership)
+#       deliver(membership: membership)
 #     end
 #   end
 #
@@ -58,7 +58,7 @@ class Notification::Base
     @mail_template ||= MailTemplate.active_template(mail_template_title)
   end
 
-  def deliver_later(**args)
-    MailTemplate.deliver_later(mail_template_title, **args)
+  def deliver(**args)
+    MailTemplate.deliver(mail_template_title, **args)
   end
 end

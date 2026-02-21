@@ -9,7 +9,7 @@ class BiddingRound::CompletionJob < ApplicationJob
     end
 
     membership.reload # Ensure updated price
-    MailTemplate.deliver_later(:bidding_round_completed,
+    MailTemplate.deliver(:bidding_round_completed,
       bidding_round: bidding_round,
       member: membership.member)
   end

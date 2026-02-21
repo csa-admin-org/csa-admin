@@ -1533,6 +1533,12 @@ _:
           _de: E-Mail
           _it: E-mail
           _nl: E-mail
+        email_deliveries:
+          _en: Email deliveries
+          _fr: Distribution d'emails
+          _de: E-Mail-Verteilungen
+          _it: Distribuzioni email
+          _nl: E-mailleveringen
         emails:
           one:
             _en: Email
@@ -1757,6 +1763,12 @@ _:
           _de: Die letzten Körbe werden vorübergehend als abwesend markiert, bis das Mitglied alle seine Abwesenheiten gemeldet hat. Die Lieferung kann erzwungen werden, wenn das Mitglied beschließt, eine enthaltene Abwesenheit nicht zu nutzen.
           _it: Gli ultimi cesti sono marcati provvisoriamente come assenti finché il socio non ha annunciato tutte le sue assenze. La loro consegna può essere forzata se il socio decide di non utilizzare un'assenza inclusa.
           _nl: De laatste pakketten worden tijdelijk gemarkeerd als afwezig totdat het lid alle afwezigheden heeft gemeld. Hun levering kan worden geforceerd als het lid besluit een inbegrepen afwezigheid niet te gebruiken.
+        recipients:
+          _en: Recipients
+          _fr: Destinataires
+          _de: Empfänger
+          _it: Destinatari
+          _nl: Ontvangers
         recurring_billing:
           _en: Invoice now
           _fr: Facturer
@@ -1915,23 +1927,23 @@ _:
           _nl: actieve e-mails
         suppressed_emails:
           one:
-            _en: Ignored email
-            _fr: Email ignoré
-            _de: Ignorierte E-Mail
-            _it: Email ignorata
-            _nl: Genegeerd e-mail
+            _en: Suppressed email
+            _fr: Email supprimé
+            _de: Unterdrückte E-Mail
+            _it: Email soppressa
+            _nl: Onderdrukt e-mail
           other:
-            _en: Ignored emails
-            _fr: Emails ignorés
-            _de: Ignorierte E-Mails
-            _it: Email ignorate
-            _nl: Genegeerde e-mails
+            _en: Suppressed emails
+            _fr: Emails supprimés
+            _de: Unterdrückte E-Mails
+            _it: Email soppresse
+            _nl: Onderdrukte e-mails
         suppressed_emails_description:
-          _en: The following emails will be ignored when sending the newsletter.
-          _fr: Les emails suivants seront ignorés lors de l'envoi de la newsletter.
-          _de: Die folgenden E-Mails werden beim Versand der Newsletter ignoriert.
-          _it: Le seguenti email saranno ignorate durante l'invio della newsletter.
-          _nl: De volgende e-mails worden genegeerd bij het verzenden van de nieuwsbrief.
+          _en: The following emails will be suppressed when sending the newsletter.
+          _fr: Les emails suivants seront supprimés lors de l'envoi de la newsletter.
+          _de: Die folgenden E-Mails werden beim Versand des Newsletters unterdrückt.
+          _it: Le seguenti email saranno soppresse durante l'invio della newsletter.
+          _nl: De volgende e-mails worden onderdrukt bij het verzenden van de nieuwsbrief.
         total:
           _en: Total %{number}
           _fr: Total %{number}
@@ -2274,6 +2286,50 @@ _:
             _de: Letzte
             _it: Recente
             _nl: Recent
+      mail_delivery:
+        scopes:
+          all:
+            _en: All
+            _fr: Toutes
+            _de: Alle
+            _it: Tutto
+            _nl: Alle
+          bounced:
+            _en: Bounced
+            _fr: Rejetées
+            _de: Abgelehnt
+            _it: Respinte
+            _nl: Afgewezen
+          delivered:
+            _en: Delivered
+            _fr: Distribuées
+            _de: Zugestellt
+            _it: Distribuite
+            _nl: Afgeleverd
+          mail_templates:
+            _en: Automatic emails
+            _fr: Emails automatiques
+            _de: Automatische E-Mails
+            _it: Email automatiche
+            _nl: Automatische e-mails
+          newsletters:
+            _en: Newsletters
+            _fr: Newsletters
+            _de: Newsletters
+            _it: Newsletter
+            _nl: Nieuwsbrieven
+          processing:
+            _en: Processing
+            _fr: En traitement
+            _de: In Bearbeitung
+            _it: In elaborazione
+            _nl: In verwerking
+          suppressed:
+            _en: Suppressed
+            _fr: Supprimées
+            _de: Unterdrückt
+            _it: Soppresse
+            _nl: Onderdrukt
       mail_template:
         scopes:
           invoice:
@@ -2353,38 +2409,6 @@ _:
             _de: Gesendete
             _it: Inviato
             _nl: Verzonden
-      newsletter/delivery:
-        scopes:
-          all:
-            _en: All
-            _fr: Toutes
-            _de: Alle
-            _it: Tutto
-            _nl: Alle
-          bounced:
-            _en: Bounced
-            _fr: Rejetées
-            _de: Abgelehnte
-            _it: Respinto
-            _nl: Afgewezen
-          delivered:
-            _en: Delivered
-            _fr: Distribuées
-            _de: Verteilte
-            _it: Distribuito
-            _nl: Afgeleverd
-          draft:
-            _en: Drafts
-            _fr: Brouillons
-            _de: Entwürfe
-            _it: Bozze
-            _nl: Concepten
-          ignored:
-            _en: Ignored
-            _fr: Ignorées
-            _de: Ignorierte
-            _it: Ignorato
-            _nl: Genegeerd
       organization:
         edit_model:
           _en: Settings
@@ -3385,6 +3409,12 @@ _:
         _de: erzwungen
         _it: forzato
         _nl: geforceerd
+      forgotten:
+        _en: forgotten (GDPR)
+        _fr: oublié (RGPD)
+        _de: vergessen (DSGVO)
+        _it: dimenticato (GDPR)
+        _nl: vergeten (AVG)
       future:
         _en: future
         _fr: à venir
@@ -3433,12 +3463,24 @@ _:
         _de: keine E-Mail
         _it: nessuna email
         _nl: geen e-mail
+      not_delivered:
+        _en: not delivered
+        _fr: non distribuée
+        _de: nicht zugestellt
+        _it: non consegnato
+        _nl: niet bezorgd
       open:
         _en: open
         _fr: ouverte
         _de: offen
         _it: aperta
         _nl: open
+      partially_delivered:
+        _en: partially delivered
+        _fr: partiellement distribuée
+        _de: teilweise zugestellt
+        _it: parzialmente consegnato
+        _nl: gedeeltelijk bezorgd
       pending:
         _en: pending
         _fr: à valider
@@ -3487,12 +3529,24 @@ _:
         _de: erneuert
         _it: rinnovato
         _nl: vernieuwd
+      scheduled:
+        _en: scheduled
+        _fr: planifiée
+        _de: geplant
+        _it: programmata
+        _nl: gepland
       sent:
         _en: sent
         _fr: Envoyée
         _de: Gesendet
         _it: Inviato
         _nl: verzonden
+      soft_bounce:
+        _en: soft bounce
+        _fr: rejet temporaire (soft bounce)
+        _de: vorübergehend abgelehnt (soft bounce)
+        _it: rifiuto temporaneo (soft bounce)
+        _nl: tijdelijke bounce
       spam_complaint:
         _en: spam complaint
         _fr: plainte (spam complaint)
@@ -3505,6 +3559,12 @@ _:
         _de: Förderung
         _it: sostegno
         _nl: ondersteuning
+      suppressed:
+        _en: suppressed
+        _fr: supprimée
+        _de: unterdrückte
+        _it: soppressa
+        _nl: onderdrukt
       trial:
         _en: trial
         _fr: essai

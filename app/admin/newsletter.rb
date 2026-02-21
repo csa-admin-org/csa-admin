@@ -84,45 +84,9 @@ ActiveAdmin.register Newsletter do
             end
           end
         end
-        panel "#{Newsletter.human_attribute_name(:audience)} – #{newsletter.audience_name}".html_safe do
-          ul class: "counts" do
-            li do
-              count = newsletter.members.count
-              link_to newsletter_deliveries_path(scope: :all, q: { newsletter_id_eq: newsletter.id }) do
-                counter_tag(Member.model_name.human(count: count), count)
-              end
-            end
-            if newsletter.sent?
-              li do
-                count = newsletter.deliveries.delivered.count
-                link_to newsletter_deliveries_path(scope: :delivered, q: { newsletter_id_eq: newsletter.id }) do
-                  counter_tag(t(".delivered_emails", count: count), count)
-                end
-              end
-              li do
-                count = newsletter.deliveries.bounced.count
-                link_to newsletter_deliveries_path(scope: :bounced, q: { newsletter_id_eq: newsletter.id }) do
-                  counter_tag(t(".bounced_emails", count: count), count)
-                end
-              end
-            else
-              li do
-                count = newsletter.deliveries.draft.count
-                link_to newsletter_deliveries_path(scope: :draft, q: { newsletter_id_eq: newsletter.id }) do
-                  counter_tag(t(".emails", count: count), count)
-                end
-              end
-            end
-            li do
-              count = newsletter.deliveries.ignored.count
-              link_to newsletter_deliveries_path(scope: :ignored, q: { newsletter_id_eq: newsletter.id }) do
-                counter_tag(t(".suppressed_emails", count: count), count)
-              end
-            end
-          end
-        end
         panel t(".details") do
           attributes_table do
+            row(:id)
             case newsletter.state
             when "sent", "processing"
               row(:sent_at) { I18n.l(newsletter.sent_at, format: :medium) }
@@ -132,7 +96,26 @@ ActiveAdmin.register Newsletter do
             end
           end
         end
-        render "active_admin/attachments/panel", attachments: newsletter.attachments
+
+        panel link_to(MailDelivery.model_name.human(count: 2), mail_deliveries_path(newsletter_id: newsletter.id)), count: newsletter.mail_deliveries.count  do
+          attributes_table do
+            row(:audience) { newsletter.audience_name }
+            row(:from) { newsletter.from || Current.org.email_default_from }
+          end
+          if newsletter.sent?
+            ul class: "mt-6 counts" do
+              MailDelivery::Email::STATES.each do |email_state|
+                li do
+                  count = newsletter.mail_deliveries.public_send(email_state).count
+                  label = t("active_admin.resources.mail_delivery.scopes.#{email_state}")
+                  link_to mail_deliveries_path(newsletter_id: newsletter.id, scope: email_state) do
+                    counter_tag(label, count)
+                  end
+                end
+              end
+            end
+          end
+        end
 
         if newsletter.sent?
           panel t(".missing_deliveries") do
@@ -166,6 +149,8 @@ ActiveAdmin.register Newsletter do
             end
           end
         end
+
+        render "active_admin/attachments/panel", attachments: newsletter.attachments
       end
     end
   end
@@ -190,6 +175,9 @@ ActiveAdmin.register Newsletter do
         input_html: {
           data: { action: "code-editor#updatePreview" }
         })
+    end
+
+    f.inputs MailDelivery.model_name.human(count: 2) do
       f.input :audience, collection: newsletter_audience_collection(f.object), prompt: true
 
       f.input :from,
@@ -309,16 +297,8 @@ ActiveAdmin.register Newsletter do
   end
 
   action_item :deliveries, only: :show do
-    action_link \
-      Newsletter::Delivery.model_name.human(count: 2),
-      newsletter_deliveries_path(scope: :all, q: { newsletter_id_eq: resource.id }),
-      icon: "mails"
-  end
-
-  action_item :deliveries, only: :index do
-    action_link \
-      Newsletter::Delivery.model_name.human(count: 2),
-      newsletter_deliveries_path(scope: :all),
+    action_link nil, mail_deliveries_path(newsletter_id: resource.id),
+      title: MailDelivery.model_name.human(count: 2),
       icon: "mails"
   end
 

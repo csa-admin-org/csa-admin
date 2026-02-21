@@ -8,7 +8,7 @@ class Notification::MembershipRenewalReminder < Notification::Base
     return unless reminder_delay_in_days
 
     eligible_memberships.each do |membership|
-      deliver_later(membership: membership)
+      deliver(membership: membership)
       membership.touch(:renewal_reminder_sent_at)
     end
   end

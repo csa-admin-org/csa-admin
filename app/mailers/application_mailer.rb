@@ -6,10 +6,6 @@ class ApplicationMailer < ActionMailer::Base
 
   layout "mailer"
 
-  rescue_from Postmark::InactiveRecipientError do
-    Scheduled::PostmarkSyncSuppressionsJob.perform_later
-  end
-
   attr_reader :content
 
   after_action :set_postmark_server_token

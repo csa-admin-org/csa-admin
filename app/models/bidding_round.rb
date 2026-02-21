@@ -197,7 +197,7 @@ class BiddingRound < ApplicationRecord
 
     update!(state: "open")
     eligible_memberships.find_each do |membership|
-      MailTemplate.deliver_later(:bidding_round_opened,
+      MailTemplate.deliver(:bidding_round_opened,
         bidding_round: self,
         member: membership.member)
     end
@@ -226,7 +226,7 @@ class BiddingRound < ApplicationRecord
       total_final_value: total_final_value)
 
     eligible_memberships.find_each do |membership|
-      MailTemplate.deliver_later(:bidding_round_failed,
+      MailTemplate.deliver(:bidding_round_failed,
         bidding_round: self,
         member: membership.member)
     end

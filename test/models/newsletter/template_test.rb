@@ -150,7 +150,7 @@ class Newsletter::TemplateTest < ActiveSupport::TestCase
         "0" => { block_id: "text", content_en: "Hello {{ member.name }}" }
       })
 
-    assert_difference -> { newsletter.deliveries.processing.count }, 2 do
+    assert_difference -> { newsletter.mail_delivery_emails.processing.count }, 2 do
       perform_enqueued_jobs { newsletter.send! }
     end
 
@@ -174,7 +174,7 @@ class Newsletter::TemplateTest < ActiveSupport::TestCase
         "3" => { block_id: "recipe", content_en: "" }
       })
 
-    assert_difference -> { newsletter.deliveries.processing.count }, 2 do
+    assert_difference -> { newsletter.mail_delivery_emails.processing.count }, 2 do
       perform_enqueued_jobs { newsletter.send! }
     end
 
@@ -206,7 +206,7 @@ class Newsletter::TemplateTest < ActiveSupport::TestCase
         "3" => { block_id: "recipe", content_en: "" }
       })
 
-    assert_difference -> { newsletter.deliveries.processing.count }, 2 do
+    assert_difference -> { newsletter.mail_delivery_emails.processing.count }, 2 do
       perform_enqueued_jobs { newsletter.send! }
     end
 
@@ -250,7 +250,7 @@ class Newsletter::TemplateTest < ActiveSupport::TestCase
       quantity: 3,
       unit: "kg")
 
-    assert_difference -> { newsletter.deliveries.processing.count } do
+    assert_difference -> { newsletter.mail_delivery_emails.processing.count } do
       perform_enqueued_jobs { newsletter.send! }
     end
 

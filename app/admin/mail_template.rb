@@ -20,7 +20,7 @@ ActiveAdmin.register MailTemplate do
     end
   end
 
-  scope :all
+  scope :all, default: true
   scope :member, group: :type
   scope :membership, group: :type
   scope -> { Basket.model_name.human }, :basket, group: :type
@@ -34,6 +34,12 @@ ActiveAdmin.register MailTemplate do
 
   action_item :view, only: :index, if: -> { authorized?(:update, Organization) } do
     action_link t(".settings"), edit_organization_path(anchor: "mail"), icon: "adjustments-horizontal"
+  end
+
+  action_item :deliveries, only: :show do
+    action_link nil, mail_deliveries_path(mail_template_id: resource.id),
+      title: MailDelivery.model_name.human(count: 2),
+      icon: "mails"
   end
 
   index download_links: false do
@@ -78,6 +84,24 @@ ActiveAdmin.register MailTemplate do
               column MailTemplate.human_attribute_name(:active), ->(dc) {
                 status_tag(dc.id.in?(mail_template.delivery_cycle_ids))
               }, class: "text-right"
+            end
+          end
+        end
+
+        deliveries = mail_template.mail_deliveries
+        deliveries_count = deliveries.count
+        if deliveries_count > 0
+          panel link_to(MailDelivery.model_name.human(count: 2), mail_deliveries_path(mail_template_id: mail_template.id)), count: deliveries_count do
+            ul class: "counts" do
+              MailDelivery::Email::STATES.each do |email_state|
+                li do
+                  count = deliveries.public_send(email_state).count
+                  label = t("active_admin.resources.mail_delivery.scopes.#{email_state}")
+                  link_to mail_deliveries_path(mail_template_id: mail_template.id, scope: email_state) do
+                    counter_tag(label, count)
+                  end
+                end
+              end
             end
           end
         end

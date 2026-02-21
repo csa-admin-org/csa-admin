@@ -1,5 +1,5 @@
 <%= turbo_stream.append "newsletters" do %>
-  <%= render @newsletters %>
+  <%= render partial: "members/newsletters/newsletter", collection: @deliveries, as: :delivery, locals: { member: current_member } %>
 <% end %>
 
 <%= turbo_stream.replace "show-more" do %>

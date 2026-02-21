@@ -8,7 +8,7 @@ class Notification::ActivityParticipationValidated < Notification::Base
     return unless mail_template_active?
 
     ActivityParticipationGroup.group(eligible_participations).each do |group|
-      deliver_later(activity_participation_ids: group.ids)
+      deliver(activity_participation_ids: group.ids)
       group.touch(:review_sent_at)
     end
   end

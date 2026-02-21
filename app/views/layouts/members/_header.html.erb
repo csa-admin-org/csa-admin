@@ -174,7 +174,7 @@
           </li>
         <% end %>
 
-        <% if newsletter = Newsletter.for(current_member).first %>
+        <% if newsletter = MailDelivery.newsletters.processed.where(member: current_member).order(:created_at).last&.source %>
           <li class="<%= nav_class("newsletter") %>">
             <%= link_to members_newsletter_deliveries_path do %>
               <h2><%= Newsletter.model_name.human(count: 2) %></h2>

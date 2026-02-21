@@ -7,7 +7,7 @@ class Notification::BasketFirst < Notification::Base
     return unless mail_template_active?
 
     eligible_baskets.each do |basket|
-      deliver_later(basket: basket)
+      deliver(basket: basket)
       basket.membership.touch(:first_basket_sent_at)
     end
   end

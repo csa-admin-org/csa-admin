@@ -1,0 +1,7 @@
+sent_john:
+  mailable_type: Newsletter
+  mailable_ids: <%= [ActiveRecord::FixtureSet.identify(:sent)].to_json %>
+  action: newsletter
+  member: john
+  subject: "Subject John Doe"
+  state: delivered

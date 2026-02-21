@@ -61,7 +61,7 @@ module Membership::AbsencesIncludedRemindable
       create_forced_deliveries_for_provisional_baskets!
     end
 
-    MailTemplate.deliver_later(:absence_included_reminder, membership: self)
+    MailTemplate.deliver(:absence_included_reminder, membership: self)
     update_column(:absences_included_reminder_sent_at, Time.current)
   end
 

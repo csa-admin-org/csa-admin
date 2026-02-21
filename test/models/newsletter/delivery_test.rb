@@ -9,37 +9,37 @@ class NewsletterDeliveryTest < ActiveSupport::TestCase
     members(:john).update!(emails: "john@bob.com, jojo@old.com")
     suppression = suppress_email("jojo@old.com", stream_id: "broadcast")
 
-    assert_difference -> { Newsletter::Delivery.count }, 2 do
-      Newsletter::Delivery.create_for!(newsletter, members(:john))
+    assert_difference -> { MailDelivery::Email.count }, 2 do
+      MailDelivery.deliver!(member: members(:john), mailable: newsletter, action: "newsletter")
       perform_enqueued_jobs
     end
 
-    processing = Newsletter::Delivery.processing.last
-    assert_equal members(:john), processing.member
-    assert_equal "john@bob.com", processing.email
-    assert_empty processing.email_suppression_ids
+    delivery = MailDelivery.last
+    processing_email = delivery.emails.find_by(state: "processing")
+    assert_equal members(:john), delivery.member
+    assert_equal "john@bob.com", processing_email.email
+    assert_empty processing_email.email_suppression_ids
 
-    ignored = Newsletter::Delivery.ignored.last
-    assert_equal members(:john), ignored.member
-    assert_equal "jojo@old.com", ignored.email
-    assert_equal [ suppression.id ], ignored.email_suppression_ids
-    assert_equal %w[ HardBounce ], ignored.email_suppression_reasons
+    suppressed_email = delivery.emails.find_by(state: "suppressed")
+    assert_equal "jojo@old.com", suppressed_email.email
+    assert_equal [ suppression.id ], suppressed_email.email_suppression_ids
+    assert_equal %w[ HardBounce ], suppressed_email.email_suppression_reasons
   end
 
   test "store delivery even for members without email" do
     members(:john).update!(emails: "")
     newsletter = newsletters(:simple)
 
-    assert_difference -> { Newsletter::Delivery.count } do
-      perform_enqueued_jobs do
-        Newsletter::Delivery.create_for!(newsletter, members(:john))
+    assert_difference -> { MailDelivery.count }, 1 do
+      assert_no_difference -> { MailDelivery::Email.count } do
+        MailDelivery.deliver!(member: members(:john), mailable: newsletter, action: "newsletter")
       end
     end
 
-    delivery = Newsletter::Delivery.last
+    delivery = MailDelivery.last
     assert_equal members(:john), delivery.member
-    assert_nil delivery.email
-    assert_empty delivery.email_suppression_ids
+    assert_equal "not_delivered", delivery.state
+    assert_empty delivery.emails
   end
 
   test "send newsletter" do
@@ -51,7 +51,7 @@ class NewsletterDeliveryTest < ActiveSupport::TestCase
       end
     end
 
-    delivery = Newsletter::Delivery.last
+    delivery = MailDelivery.for_mailable(newsletter).order(:id).last
     assert_equal "Subject Jane Doe", delivery.subject
     assert_includes delivery.content, "Hello Jane Doe,"
     assert_includes delivery.content, "Block Jane Doe"

@@ -3,10 +3,16 @@
 module Checker
   class NewsletterStaleProcessing < SimpleDelegator
     def self.check_all!
-      Newsletter::Delivery.stale.pluck(:newsletter_id).uniq.each do |newsletter_id|
-        newsletter = Newsletter.find(newsletter_id)
-        new(newsletter).check!
-      end
+      MailDelivery::Email.stale
+        .joins(:mail_delivery)
+        .merge(MailDelivery.newsletters)
+        .select(Arel.sql("json_extract(mail_deliveries.mailable_ids, '$[0]') AS newsletter_id"))
+        .distinct
+        .pluck(Arel.sql("json_extract(mail_deliveries.mailable_ids, '$[0]')"))
+        .each do |newsletter_id|
+          newsletter = Newsletter.find(newsletter_id)
+          new(newsletter).check!
+        end
     end
 
     def initialize(newsletter)
@@ -14,9 +20,11 @@ module Checker
     end
 
     def check!
-      Rails.error.unexpected("Newsletter stale delivery proccesing", context: {
+      stale_count = mail_delivery_emails.merge(MailDelivery::Email.stale).count
+
+      Rails.error.unexpected("Newsletter stale delivery processing", context: {
         newsletter_id: id,
-        pending_deliveries: deliveries.processing.count
+        pending_deliveries: stale_count
       })
     end
   end

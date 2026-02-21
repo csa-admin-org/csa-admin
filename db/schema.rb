@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_02_21_064200) do
+ActiveRecord::Schema[8.1].define(version: 2026_02_21_170000) do
   create_table "absences", force: :cascade do |t|
     t.datetime "created_at"
     t.date "ended_on"
@@ -491,6 +491,49 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_21_064200) do
     t.index ["state"], name: "index_invoices_on_state"
   end
 
+  create_table "mail_deliveries", force: :cascade do |t|
+    t.string "action", null: false
+    t.text "content"
+    t.datetime "created_at", null: false
+    t.json "mailable_ids", default: [], null: false
+    t.string "mailable_type", null: false
+    t.integer "member_id", null: false
+    t.string "state", default: "processing", null: false
+    t.string "subject"
+    t.datetime "updated_at", null: false
+    t.index ["mailable_type", "created_at"], name: "idx_mail_deliveries_on_mailable_type_created_at"
+    t.index ["mailable_type", "mailable_ids", "member_id"], name: "idx_mail_deliveries_on_mailable_member"
+    t.index ["member_id", "created_at"], name: "idx_mail_deliveries_on_member_created"
+    t.index ["member_id"], name: "index_mail_deliveries_on_member_id"
+    t.index ["state"], name: "index_mail_deliveries_on_state"
+    t.check_constraint "JSON_TYPE(mailable_ids) = 'array'", name: "mail_deliveries_mailable_ids_is_array"
+  end
+
+  create_table "mail_delivery_emails", force: :cascade do |t|
+    t.string "bounce_description"
+    t.string "bounce_type"
+    t.integer "bounce_type_code"
+    t.datetime "bounced_at"
+    t.datetime "created_at", null: false
+    t.datetime "delivered_at"
+    t.string "email", null: false
+    t.json "email_suppression_ids", default: [], null: false
+    t.json "email_suppression_reasons", default: [], null: false
+    t.integer "mail_delivery_id", null: false
+    t.text "postmark_details"
+    t.string "postmark_message_id"
+    t.datetime "processed_at"
+    t.string "state", default: "processing", null: false
+    t.datetime "updated_at", null: false
+    t.index ["mail_delivery_id", "email"], name: "idx_mail_delivery_emails_on_delivery_id_email", unique: true
+    t.index ["mail_delivery_id", "state"], name: "idx_mail_delivery_emails_on_delivery_id_state"
+    t.index ["mail_delivery_id"], name: "index_mail_delivery_emails_on_mail_delivery_id"
+    t.index ["postmark_message_id"], name: "idx_mail_delivery_emails_on_postmark_message_id", unique: true, where: "postmark_message_id IS NOT NULL"
+    t.index ["state"], name: "index_mail_delivery_emails_on_state"
+    t.check_constraint "JSON_TYPE(email_suppression_ids) = 'array'", name: "mail_delivery_emails_email_suppression_ids_is_array"
+    t.check_constraint "JSON_TYPE(email_suppression_reasons) = 'array'", name: "mail_delivery_emails_email_suppression_reasons_is_array"
+  end
+
   create_table "mail_templates", force: :cascade do |t|
     t.boolean "active", default: false, null: false
     t.json "contents", default: {}, null: false
@@ -653,33 +696,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_21_064200) do
     t.datetime "updated_at", null: false
     t.index ["newsletter_id", "block_id"], name: "index_newsletter_blocks_on_newsletter_id_and_block_id", unique: true
     t.index ["newsletter_id"], name: "index_newsletter_blocks_on_newsletter_id"
-  end
-
-  create_table "newsletter_deliveries", force: :cascade do |t|
-    t.string "bounce_description"
-    t.string "bounce_type"
-    t.integer "bounce_type_code"
-    t.datetime "bounced_at"
-    t.text "content"
-    t.datetime "created_at", null: false
-    t.datetime "delivered_at"
-    t.string "email"
-    t.json "email_suppression_ids", default: [], null: false
-    t.json "email_suppression_reasons", default: [], null: false
-    t.bigint "member_id", null: false
-    t.bigint "newsletter_id", null: false
-    t.text "postmark_details"
-    t.string "postmark_message_id"
-    t.datetime "processed_at"
-    t.string "state", default: "processing", null: false
-    t.string "subject"
-    t.datetime "updated_at", null: false
-    t.index ["member_id"], name: "index_newsletter_deliveries_on_member_id"
-    t.index ["newsletter_id", "member_id", "email"], name: "idx_on_newsletter_id_member_id_email_00311dbc8c", unique: true
-    t.index ["newsletter_id"], name: "index_newsletter_deliveries_on_newsletter_id"
-    t.index ["state"], name: "index_newsletter_deliveries_on_state"
-    t.check_constraint "JSON_TYPE(email_suppression_ids) = 'array'", name: "newsletter_deliveries_email_suppression_ids_is_array"
-    t.check_constraint "JSON_TYPE(email_suppression_reasons) = 'array'", name: "newsletter_deliveries_email_suppression_reasons_is_array"
   end
 
   create_table "newsletter_segments", force: :cascade do |t|
@@ -1037,14 +1053,14 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_21_064200) do
   add_foreign_key "forced_deliveries", "deliveries"
   add_foreign_key "forced_deliveries", "memberships"
   add_foreign_key "invoice_items", "invoices"
+  add_foreign_key "mail_deliveries", "members"
+  add_foreign_key "mail_delivery_emails", "mail_deliveries"
   add_foreign_key "members", "depots", column: "shop_depot_id"
   add_foreign_key "members", "depots", column: "waiting_depot_id"
   add_foreign_key "memberships", "delivery_cycles"
   add_foreign_key "memberships", "depots"
   add_foreign_key "memberships_basket_complements", "delivery_cycles"
   add_foreign_key "newsletter_blocks", "newsletters"
-  add_foreign_key "newsletter_deliveries", "members"
-  add_foreign_key "newsletter_deliveries", "newsletters"
   add_foreign_key "newsletters", "newsletter_templates"
   add_foreign_key "payments", "invoices"
   add_foreign_key "payments", "members"

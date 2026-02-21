@@ -11,7 +11,7 @@ class Notification::BasketInitial < Notification::Base
       next if already_sent?(member)
       next if basket.membership.previous_membership&.renewed?
 
-      deliver_later(basket: basket)
+      deliver(basket: basket)
       member.touch(:initial_basket_sent_at)
     end
   end

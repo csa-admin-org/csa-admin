@@ -1,6 +1,10 @@
 @layer components {
   .index-data-table-toolbar {
     @apply mb-4 flex flex-col gap-4 lg:flex-row;
+
+    &:not(:has(.index-button-group > *)) {
+      @apply mb-0;
+    }
   }
 
   .index-button-group {

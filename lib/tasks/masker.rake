@@ -60,11 +60,11 @@ namespace :masker do
             end
           end
         end
-        Newsletter::Delivery.where.not(email: nil).find_each do |delivery|
+        MailDelivery::Email.where.not(email: nil).find_each do |delivery_email|
           name = "#{Faker::Name.first_name} #{Faker::Name.last_name}"
           fallback = Faker::Internet.unique.email(name: name, domain: EMAIL_DOMAINS.sample)
-          delivery.update_columns(
-            email: emails_mapping[delivery.email.downcase] || fallback)
+          delivery_email.update_columns(
+            email: emails_mapping[delivery_email.email.downcase] || fallback)
         end
         EmailSuppression.find_each do |suppression|
           name = "#{Faker::Name.first_name} #{Faker::Name.last_name}"

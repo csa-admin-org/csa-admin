@@ -78,7 +78,7 @@ module Membership::Renewal
     end
     return unless can_send_email?
 
-    MailTemplate.deliver_later(:membership_renewal,
+    MailTemplate.deliver(:membership_renewal,
       membership: self)
     touch(:renewal_opened_at)
   end

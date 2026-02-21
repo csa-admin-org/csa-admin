@@ -106,6 +106,74 @@ _:
         _de: in Bearbeitung
         _it: elaborazione
         _nl: verwerken
+    mail_delivery:
+      delivered:
+        _en: delivered
+        _fr: distribuée
+        _de: verteilte
+        _it: distribuito
+        _nl: bezorgd
+      draft:
+        _en: draft
+        _fr: brouillon
+        _de: Entwurf
+        _it: bozza
+        _nl: concept
+      not_delivered:
+        _en: not delivered
+        _fr: non distribuée
+        _de: nicht zugestellt
+        _it: non consegnato
+        _nl: niet bezorgd
+      partially_delivered:
+        _en: partially delivered
+        _fr: partiellement distribuée
+        _de: teilweise zugestellt
+        _it: parzialmente consegnato
+        _nl: gedeeltelijk bezorgd
+      processing:
+        _en: processing
+        _fr: en traitement
+        _de: in Bearbeitung
+        _it: elaborazione
+        _nl: verwerken
+      scheduled:
+        _en: scheduled
+        _fr: planifiée
+        _de: geplant
+        _it: programmata
+        _nl: gepland
+    mail_delivery/email:
+      bounced:
+        _en: bounced
+        _fr: rejetée
+        _de: abgelehnte
+        _it: respinto
+        _nl: geweigerd
+      delivered:
+        _en: delivered
+        _fr: distribuée
+        _de: verteilte
+        _it: distribuito
+        _nl: bezorgd
+      processing:
+        _en: processing
+        _fr: en traitement
+        _de: in Bearbeitung
+        _it: elaborazione
+        _nl: verwerken
+      scheduled:
+        _en: scheduled
+        _fr: planifiée
+        _de: geplant
+        _it: programmata
+        _nl: gepland
+      suppressed:
+        _en: suppressed
+        _fr: supprimée
+        _de: unterdrückte
+        _it: soppressa
+        _nl: onderdrukt
     member:
       active:
         _en: active
@@ -212,37 +280,6 @@ _:
         _de: gesendet
         _it: inviata
         _nl: verzonden
-    newsletter/delivery:
-      bounced:
-        _en: bounced
-        _fr: rejetée
-        _de: abgelehnte
-        _it: respinto
-        _nl: geweigerd
-      delivered:
-        _en: delivered
-        _fr: distribuée
-        _de: verteilte
-        _it: distribuito
-        _nl: bezorgd
-      draft:
-        _en: draft
-        _fr: brouillon
-        _de: Entwurf
-        _it: bozza
-        _nl: concept
-      ignored:
-        _en: ignored
-        _fr: ignorée
-        _de: ignorierte
-        _it: ignorato
-        _nl: genegeerd
-      processing:
-        _en: processing
-        _fr: en traitement
-        _de: in Bearbeitung
-        _it: elaborazione
-        _nl: verwerken
     payment:
       ignored:
         _en: ignored

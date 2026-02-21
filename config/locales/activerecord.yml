@@ -846,6 +846,95 @@ _:
           _de: MwSt. Satz
           _it: Tasso IVA
           _nl: Btw-tarief
+      mail_delivery:
+        action:
+          _en: Action
+          _fr: Action
+          _de: Aktion
+          _it: Azione
+          _nl: Actie
+        content:
+          _en: Content
+          _fr: Contenu
+          _de: Inhalt
+          _it: Contenuto
+          _nl: Inhoud
+        mailable_type:
+          _en: Type
+          _fr: Type
+          _de: Typ
+          _it: Tipo
+          _nl: Type
+        member:
+          _en: Member
+          _fr: Membre
+          _de: Mitglied
+          _it: Socio
+          _nl: Lid
+        processed_at:
+          _en: Processed on
+          _fr: Traitée le
+          _de: Verarbeitet am
+          _it: Elaborato il
+          _nl: Verwerkt op
+        subject:
+          _en: Subject
+          _fr: Sujet
+          _de: Betreff
+          _it: Soggeto
+          _nl: Onderwerp
+      mail_delivery/email:
+        bounce_description:
+          _en: Bounce description
+          _fr: Description du rejet
+          _de: Beschreibung der Ablehnung
+          _it: Descrizione del respinta
+          _nl: Bounce beschrijving
+        bounce_type:
+          _en: Bounce type
+          _fr: Type de rejet
+          _de: Art der Ablehnung
+          _it: Tipo di respinta
+          _nl: Bounce type
+        bounce_type_code:
+          _en: Bounce type code
+          _fr: Code du type de rejet
+        bounced_at:
+          _en: Bounced on
+          _fr: Rejeté le
+          _de: Abgelehnt am
+          _it: Respinto il
+          _nl: Bounce op
+        created_at:
+          _en: Created on
+          _fr: Créé le
+        delivered_at:
+          _en: Delivered on
+          _fr: Distribué le
+          _de: Verteiltet am
+          _it: Distribuito il
+          _nl: Geleverd op
+        email:
+          _en: Email
+          _fr: Email
+          _de: E-Mail
+          _it: Email
+          _nl: E-mail
+        email_suppression_reasons:
+          _en: Reasons
+          _fr: Raisons
+          _de: Gründe
+          _it: Motivi
+          _nl: Redenen
+        state:
+          _en: State
+          _fr: État
+          _de: Status
+          _it: Stato
+          _nl: Status
+        suppressed_at:
+          _en: Suppressed on
+          _fr: Supprimé le
       mail_template:
         active:
           _en: Send
@@ -1724,43 +1813,6 @@ _:
           _de: Betreff
           _it: Soggeto
           _nl: Onderwerp
-      newsletter/delivery:
-        bounce_description:
-          _en: Bounce description
-          _fr: Description du rejet
-          _de: Beschreibung der Ablehnung
-          _it: Descrizione del respinta
-          _nl: Bounce beschrijving
-        bounce_type:
-          _en: Bounce type
-          _fr: Type de rejet
-          _de: Art der Ablehnung
-          _it: Tipo di respinta
-          _nl: Bounce type
-        bounced_at:
-          _en: Bounced on
-          _fr: Rejeté le
-          _de: Abgelehnt am
-          _it: Respinto il
-          _nl: Bounce op
-        delivered_at:
-          _en: Delivered on
-          _fr: Distribué le
-          _de: Verteiltet am
-          _it: Distribuito il
-          _nl: Geleverd op
-        email_suppression_reasons:
-          _en: Reasons
-          _fr: Raisons
-          _de: Gründe
-          _it: Motivi
-          _nl: Redenen
-        processed_at:
-          _en: Processed on
-          _fr: Traitée le
-          _de: Verarbeitet am
-          _it: Elaborato il
-          _nl: Verwerkt op
       newsletter/segment:
         coming_deliveries_in_days:
           _en: Next basket in at least (in days)
@@ -3041,6 +3093,32 @@ _:
           _de: Artikel
           _it: Articoli
           _nl: Items
+      mail_delivery:
+        one:
+          _en: Delivery
+          _fr: Distribution
+          _de: Verteilung
+          _it: Distribuzione
+          _nl: Levering
+        other:
+          _en: Deliveries
+          _fr: Distributions
+          _de: Verteilungen
+          _it: Distribuzioni
+          _nl: Leveringen
+      mail_delivery/email:
+        one:
+          _en: Email
+          _fr: Email
+          _de: E-Mail
+          _it: Email
+          _nl: E-mail
+        other:
+          _en: Emails
+          _fr: Emails
+          _de: E-Mails
+          _it: Email
+          _nl: E-mails
       mail_template:
         one:
           _en: Automatic email
@@ -3119,19 +3197,6 @@ _:
           _de: Newsletters
           _it: Newsletters
           _nl: Nieuwsbrieven
-      newsletter/delivery:
-        one:
-          _en: Delivery
-          _fr: Distribution
-          _de: Verteilung
-          _it: Distribuzione
-          _nl: Levering
-        other:
-          _en: Deliveries
-          _fr: Distributions
-          _de: Verteilungen
-          _it: Distribuzioni
-          _nl: Leveringen
       newsletter/segment:
         one:
           _en: Audience segment

@@ -18,7 +18,7 @@
 
 <section>
   <ul id="newsletters" class="mt-4 flex flex-col gap-6">
-    <%= render @newsletters %>
+    <%= render partial: "members/newsletters/newsletter", collection: @deliveries, as: :delivery, locals: { member: current_member } %>
   </ul>
 
   <% if @next_offset %>

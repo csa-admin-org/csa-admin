@@ -264,24 +264,22 @@ class Member::AnonymizationTest < ActiveSupport::TestCase
     assert_nil participation.reload.session_id
   end
 
-  # === Related records: Newsletter::Delivery ===
+  # === Related records: MailDelivery ===
 
-  test "anonymize! deletes newsletter deliveries" do
+  test "anonymize! deletes mail deliveries and their emails" do
     member = discardable_member
-    newsletter = newsletters(:simple)
-    Newsletter::Delivery.create!(
-      newsletter: newsletter,
+    MailDelivery.deliver!(
       member: member,
-      email: "test@example.com",
-      state: "delivered",
-      processed_at: Time.current
-    )
-    assert member.newsletter_deliveries.any?
+      mailable_type: "Invoice",
+      action: "created")
+    assert member.mail_deliveries.any?
+    assert MailDelivery::Email.where(mail_delivery_id: member.mail_deliveries.select(:id)).any?
 
     member.discard
     member.anonymize!
 
-    assert_empty member.newsletter_deliveries.reload
+    assert_empty member.mail_deliveries.reload
+    assert_empty MailDelivery::Email.where(mail_delivery_id: member.mail_deliveries.select(:id))
   end
 
   # === Related records: ActiveAdmin::Comment ===

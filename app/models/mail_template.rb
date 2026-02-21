@@ -4,6 +4,7 @@ class MailTemplate < ApplicationRecord
   include TranslatedAttributes
   include Auditable
   include Liquidable
+  include Delivery
 
   MEMBER_TITLES = %w[
     member_validated
@@ -87,16 +88,6 @@ class MailTemplate < ApplicationRecord
     scope name, -> { where(title: titles) }
   end
 
-  def self.deliver_now(title, **args)
-    active_template(title)&.mail(**args)&.deliver_now
-  end
-
-  def self.deliver_later(title, wait: 5.seconds, **args)
-    later_args = {}
-    later_args[:wait] = wait if wait && Rails.env.production?
-    active_template(title)&.mail(**args)&.deliver_later(**later_args)
-  end
-
   def self.active_template(title)
     active.find_by(title: title)
   end
@@ -157,6 +148,10 @@ class MailTemplate < ApplicationRecord
     I18n.t("mail_template.title.#{title}")
   end
 
+  def tag
+    title.dasherize
+  end
+
   def description
     I18n.t("mail_template.description.#{title}").html_safe
   end
@@ -182,40 +177,22 @@ class MailTemplate < ApplicationRecord
     end
   end
 
-  def mailer
-    "#{scope_name}_mailer".classify.constantize
-  end
-
   def mailer_preview
     "#{scope_name}_mailer_preview".classify.constantize
   end
 
-  def tag
-    title.tr("_", "-")
+  # Extracts the action from the title by stripping the scope prefix.
+  # "invoice_created" → "created", "activity_participation_reminder" → "reminder"
+  def action
+    title.delete_prefix("#{scope_name}_")
   end
 
   def email_method
-    "#{title.delete_prefix("#{scope_name}_")}_email"
-  end
-
-  def contents=(hash)
-    super hash.transform_values { |v| v.strip + "\n" }
+    "#{action}_email"
   end
 
   def always_active?
     title.in?(ALWAYS_ACTIVE_TITLES)
-  end
-
-  def active_by_default?
-    title.in?(ACTIVE_BY_DEFAULT_TITLES)
-  end
-
-  def active=(value)
-    if always_active?
-      super(true)
-    else
-      super
-    end
   end
 
   def inactive?
@@ -230,6 +207,16 @@ class MailTemplate < ApplicationRecord
       Current.org.trial_baskets_count < 2
     else
       false
+    end
+  end
+
+  # AR attribute overrides — must stay public.
+
+  def active=(value)
+    if always_active?
+      super(true)
+    else
+      super
     end
   end
 
@@ -248,6 +235,18 @@ class MailTemplate < ApplicationRecord
   end
 
   private
+
+  def mailer
+    "#{scope_name}_mailer".classify.constantize
+  end
+
+  def contents=(hash)
+    super hash.transform_values { |v| v.strip + "\n" }
+  end
+
+  def active_by_default?
+    title.in?(ACTIVE_BY_DEFAULT_TITLES)
+  end
 
   def ensure_liquid_data_previews
     return if @liquid_data_previews

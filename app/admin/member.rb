@@ -377,6 +377,24 @@ ActiveAdmin.register Member do
             end
           end
         end
+
+        all_mail_deliveries_path = mail_deliveries_path(member_id: member.id)
+        mail_deliveries = member.mail_deliveries.order(created_at: :desc)
+        mail_deliveries_count = mail_deliveries.count
+        if mail_deliveries_count > 0
+          panel link_to(t(".email_deliveries"), all_mail_deliveries_path), count: mail_deliveries_count do
+            table_for(mail_deliveries.limit(6), class: "table-auto table-mail-deliveries") do
+              column(:subject, sortable: false) { |d|
+                auto_link d, (d.subject || d.source&.display_name)
+              }
+              column(:created_at, class: "text-right whitespace-nowrap") { |d| l(d.created_at, format: :short) }
+              column(:state, class: "text-right") { |d| status_tag(d.state) }
+            end
+            if mail_deliveries_count > 6
+              div show_more_link(all_mail_deliveries_path)
+            end
+          end
+        end
       end
 
       column do
@@ -720,6 +738,12 @@ ActiveAdmin.register Member do
     members_basket_complements_attributes: [
       :id, :basket_complement_id, :quantity, :_destroy
     ]
+
+  action_item :mail_deliveries, only: :show do
+    action_link nil, mail_deliveries_path(member_id: resource.id),
+      title: MailDelivery.model_name.human(count: 2),
+      icon: "mails"
+  end
 
   action_item :sessions, only: :show, if: -> { authorized?(:read, Session) } do
     action_link nil, m_sessions_path(q: { member_id_eq: resource.id }, scope: :all), icon: "book-key"

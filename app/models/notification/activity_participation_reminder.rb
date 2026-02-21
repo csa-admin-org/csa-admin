@@ -7,7 +7,7 @@ class Notification::ActivityParticipationReminder < Notification::Base
     return unless Current.org.feature?("activity")
 
     ActivityParticipationGroup.group(eligible_participations).each do |group|
-      deliver_later(activity_participation_ids: group.ids)
+      deliver(activity_participation_ids: group.ids)
       group.touch(:latest_reminder_sent_at)
     end
   end

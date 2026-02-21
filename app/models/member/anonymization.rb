@@ -6,7 +6,7 @@
 # On anonymize:
 # - Member PII cleared (name, emails, phones, address, notes, SEPA, etc.)
 # - Related records scrubbed (absences, activity participations)
-# - Deleted: sessions, newsletter deliveries, audits, admin comments
+# - Deleted: sessions, mail deliveries, audits, admin comments
 module Member::Anonymization
   extend ActiveSupport::Concern
 
@@ -29,7 +29,7 @@ module Member::Anonymization
       anonymize_member_pii!
       anonymize_absences!
       anonymize_activity_participations!
-      delete_newsletter_deliveries!
+      delete_mail_deliveries!
       delete_comments!
       delete_audits!
       delete_sessions!
@@ -95,9 +95,10 @@ module Member::Anonymization
     )
   end
 
-  # Delete newsletter deliveries (contain personalized content, no value keeping empty records)
-  def delete_newsletter_deliveries!
-    newsletter_deliveries.delete_all
+  # Delete mail deliveries and their email children (contain personalized content)
+  def delete_mail_deliveries!
+    MailDelivery::Email.where(mail_delivery_id: mail_deliveries.select(:id)).delete_all
+    mail_deliveries.delete_all
   end
 
   # Delete all admin comments on member and related records

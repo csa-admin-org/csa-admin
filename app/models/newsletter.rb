@@ -5,6 +5,7 @@ class Newsletter < ApplicationRecord
   include Auditable
   include Liquidable
   include HasAttachments
+  include Delivery
 
   MAXIMUM_HTML_BODY_SIZE = 100.kilobytes
   MISSING_DELIVERY_EMAILS_ALLOWED_PERIOD = 1.week
@@ -19,8 +20,6 @@ class Newsletter < ApplicationRecord
     class_name: "Newsletter::Template",
     foreign_key: "newsletter_template_id"
   has_many :blocks, class_name: "Newsletter::Block", dependent: :destroy
-  has_many :deliveries, class_name: "Newsletter::Delivery", dependent: :delete_all
-  has_many :members, -> { distinct }, through: :deliveries
 
   accepts_nested_attributes_for :blocks, allow_destroy: true
 
@@ -45,19 +44,12 @@ class Newsletter < ApplicationRecord
   before_save :set_audience_names
   after_save_commit :save_draft_deliveries!
 
-  def self.for(member)
-    sent
-      .eager_load(:deliveries)
-      .merge(Newsletter::Delivery.processed.where(member_id: member.id))
-      .order(sent_at: :desc)
-  end
-
   def from=(value)
     self[:from] = value.presence
   end
 
   def display_name
-    "##{id} #{subject}"
+    subject
   end
 
   def tag
@@ -74,6 +66,10 @@ class Newsletter < ApplicationRecord
     else
       "draft"
     end
+  end
+
+  def draft?
+    state == "draft"
   end
 
   def scheduled?
@@ -108,10 +104,6 @@ class Newsletter < ApplicationRecord
     audits.find_change_of(:sent_at, from: nil)&.actor
   end
 
-  def processing_delivery?
-    deliveries.processing.any?
-  end
-
   def template_contents
     if sent?
       super
@@ -133,21 +125,6 @@ class Newsletter < ApplicationRecord
       save!
       create_deliveries!(draft: false)
     end
-  end
-
-  def save_draft_deliveries!
-    return if sent?
-
-    create_deliveries!(draft: true)
-  end
-
-  # Allow to already sent newsletter to a new email address
-  def deliver!(email)
-    return unless sent?
-    return unless missing_delivery_emails.include?(email)
-
-    member = Member.kept.find_by_email(email)
-    Delivery.create_for!(self, member, draft: false, email: email)
   end
 
   def mail_preview(locale)
@@ -228,20 +205,12 @@ class Newsletter < ApplicationRecord
     !sent? && audience_segment.emails.size.positive?
   end
 
-  def show_missing_delivery_emails?
-    missing_delivery_emails_allowed? && missing_delivery_emails?
-  end
-
   def missing_delivery_emails_allowed?
     sent? && sent_at > MISSING_DELIVERY_EMAILS_ALLOWED_PERIOD.ago
   end
 
-  def missing_delivery_emails?
-    missing_delivery_emails.any?
-  end
-
-  def missing_delivery_emails
-    audience_segment.emails - deliveries.pluck(:email)
+  def show_missing_delivery_emails?
+    missing_delivery_emails_allowed? && missing_delivery_emails?
   end
 
   private
@@ -271,15 +240,6 @@ class Newsletter < ApplicationRecord
     Current.org.languages.each do |locale|
       I18n.with_locale(locale) do
         self.send "audience_name_#{locale}=", Audience.name(audience_segment)
-      end
-    end
-  end
-
-  def create_deliveries!(draft:)
-    transaction do
-      deliveries.delete_all
-      audience_segment.members.each do |member|
-        Delivery.create_for!(self, member, draft: draft)
       end
     end
   end

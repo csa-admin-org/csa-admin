@@ -1,159 +1,113 @@
 # frozen_string_literal: true
 
+# Encapsulates delivery logic for Newsletter.
+#
+# Extracts the MailDelivery integration: querying deliveries, creating
+# tracking records, and building the mailer message for ProcessJob.
+#
+# Shares the `build_mail_for(member, email:)` interface with
+# MailTemplate::Delivery so MailDelivery can delegate uniformly.
 class Newsletter
-  class Delivery < ApplicationRecord
-    self.table_name = "newsletter_deliveries"
+  module Delivery
+    extend ActiveSupport::Concern
 
-    CONSIDER_STALE_AFTER = 12.hour
-
-    include HasState
-
-    has_states :draft, :processing, :ignored, :delivered, :bounced
-
-    belongs_to :newsletter
-    belongs_to :member
-
-    scope :with_email, ->(email) { where("lower(email) LIKE ?", "%#{email.downcase}%") }
-    scope :stale, -> { processing.where(created_at: ...CONSIDER_STALE_AFTER.ago) }
-    scope :processed, -> { where.not(processed_at: nil) }
-
-    before_create :check_email_suppressions
-    after_create_commit :enqueue_delivery_process_job
-
-    def self.create_for!(newsletter, member, draft: false, email: nil)
-      state = draft ? :draft : :processing
-      emails = email ? [ email ] : member.emails_array
-      # keep trace of the "delivery" even for members without email
-      emails << nil if emails.empty?
-      transaction do
-        emails.each do |email|
-          create!(
-            newsletter: newsletter,
-            member: member,
-            email: email,
-            state: state)
-        end
+    class_methods do
+      def deliveries_for(member)
+        deliveries =
+          MailDelivery
+            .newsletters
+            .processed
+            .where(member: member)
+            .order(created_at: :desc)
+        newsletter_ids = deliveries.flat_map(&:mailable_ids).uniq
+        newsletters = Newsletter.where(id: newsletter_ids).index_by(&:id)
+        deliveries.each { |d| d.preload_source!(newsletters[d.mailable_ids.first]) }
+        deliveries
       end
     end
 
-    def self.find_by_email_and_tag(email, tag)
-      newsletter_id = tag.to_s.split("-").last
-      find_by(email: email, newsletter_id: newsletter_id)
+    # Extra **kwargs match the shared build_mail_for interface.
+    def build_mail_for(member, email:, **)
+      NewsletterMailer.with(
+        tag: tag,
+        from: from.presence,
+        member: member,
+        subject: subject(member.language).to_s,
+        template_contents: template_contents,
+        blocks: relevant_blocks,
+        signature: signature_without_fallback(member.language),
+        attachments: attachments.to_a,
+        to: email
+      ).newsletter_email
     end
 
-    def self.ransackable_scopes(_auth_object = nil)
-      %i[with_email]
+    def mail_deliveries
+      MailDelivery.for_mailable(self)
     end
 
-    def tag
-      "newsletter-#{newsletter_id}"
+    def members
+      Member.where(id: mail_deliveries.select(:member_id)).distinct
     end
 
-    def deliverable?
-      email? && email_suppression_ids.empty?
+    def mail_delivery_emails
+      MailDelivery::Email
+        .joins(:mail_delivery)
+        .merge(MailDelivery.for_mailable(self))
     end
 
-    def processed?
-      processed_at?
+    def processing_delivery?
+      mail_deliveries.processing.exists?
     end
 
-    def process!
-      return if processed?
+    # Allow already-sent newsletter to be delivered to a new email address.
+    # The member may already have a MailDelivery (from the original send),
+    # so we find-or-create the parent and add a new Email child.
+    def deliver!(email)
+      return unless sent?
+      return unless missing_delivery_emails.include?(email)
 
-      attrs = {
-        subject: email_render.subject,
-        content: email_render.content,
-        processed_at: Time.current
-      }
+      member = Member.kept.find_by_email(email)
+      delivery = mail_deliveries.find_by(member: member)
 
-      if deliverable?
-        mailer.newsletter_email.deliver_later(queue: :low)
+      if delivery
+        delivery.emails.create!(email: email, state: :processing)
+      else
+        MailDelivery.deliver!(
+          member: member,
+          mailable: self,
+          action: "newsletter",
+          recipients: [ email ])
       end
-
-      update!(attrs)
     end
 
-    def ignored!
-      update_columns(state: IGNORED_STATE)
+    def save_draft_deliveries!
+      return if sent?
+
+      create_deliveries!(draft: true)
     end
 
-    def delivered!(at:, **attrs)
-      raise invalid_transition(:delivered) unless processing?
-
-      update!({
-        state: DELIVERED_STATE,
-        delivered_at: at
-      }.merge(attrs))
+    def missing_delivery_emails
+      audience_segment.emails - mail_delivery_emails.pluck(:email)
     end
 
-    def bounced!(at:, **attrs)
-      raise invalid_transition(:bounced) unless processing?
-
-      update!({
-        state: BOUNCED_STATE,
-        bounced_at: at
-      }.merge(attrs))
-    end
-
-    def mail_preview
-      mailer = NewsletterMailer.new
-      html = mailer.send(:content_mail,
-        # Fix image URLs, not sure why they are not resolved by ActionMailer with example.org
-        content
-          .gsub(%r{<img src=\"https?://example.org}, "<img src=\"#{Current.org.members_url}")
-          .gsub(/<a\s/, '<a target="_blank" rel="noopener noreferrer" '),
-        subject: subject
-      ).body.encoded
-      # Strip Rails view annotation comments that break srcdoc rendering
-      html.gsub(/<!--\s*BEGIN.*?-->/m, "").gsub(/<!--\s*END.*?-->/m, "")
-    rescue => e
-      e.message
-    end
-
-    def subject
-      processed? ? super : email_render.subject
-    end
-
-    def content
-      processed? ? super : email_render.content
+    def missing_delivery_emails?
+      missing_delivery_emails.any?
     end
 
     private
 
-    def check_email_suppressions
-      suppressions = EmailSuppression.active.where(email: email).select(:id, :reason)
-
-      self.email_suppression_ids = suppressions.map(&:id)
-      self.email_suppression_reasons = suppressions.map(&:reason).uniq
-    end
-
-    def enqueue_delivery_process_job
-      DeliveryProcessJob.perform_later(self) unless draft?
-      ignored! unless deliverable?
-    end
-
-    def mailer
-      NewsletterMailer.with(mailer_params.merge(to: email))
-    end
-
-    def mailer_params
-      {
-        tag: tag,
-        from: newsletter.from.presence,
-        member: member,
-        subject: newsletter.subject(member.language).to_s,
-        template_contents: newsletter.template_contents,
-        blocks: newsletter.relevant_blocks,
-        signature: newsletter.signature_without_fallback(member.language),
-        attachments: newsletter.attachments.to_a
-      }
-    end
-
-    def email_render
-      @email_render ||= begin
-        mailer = NewsletterMailer.new
-        mailer.params = mailer_params
-        mailer.render_newsletter_email
+    def create_deliveries!(draft:)
+      transaction do
+        existing_ids = mail_deliveries.pluck(:id)
+        MailDelivery::Email.where(mail_delivery_id: existing_ids).delete_all
+        MailDelivery.where(id: existing_ids).delete_all
+        audience_segment.members.each do |member|
+          MailDelivery.deliver!(
+            member: member,
+            mailable: self,
+            action: "newsletter",
+            draft: draft)
+        end
       end
     end
   end

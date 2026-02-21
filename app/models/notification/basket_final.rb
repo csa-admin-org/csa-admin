@@ -9,7 +9,7 @@ class Notification::BasketFinal < Notification::Base
     eligible_baskets.each do |basket|
       next if already_sent?(basket.member)
 
-      deliver_later(basket: basket)
+      deliver(basket: basket)
       basket.member.touch(:final_basket_sent_at)
     end
   end

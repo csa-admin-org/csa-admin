@@ -26,7 +26,7 @@ module Member::StateTransitions
     save!
 
     if send_email && emails?
-      MailTemplate.deliver_later(:member_validated, member: self)
+      MailTemplate.deliver(:member_validated, member: self)
     end
   end
 
@@ -71,7 +71,7 @@ module Member::StateTransitions
     save!
 
     if emails? && (activated_at_previously_was.nil? || activated_at_previously_was < 1.week.ago)
-      MailTemplate.deliver_later(:member_activated, member: self)
+      MailTemplate.deliver(:member_activated, member: self)
     end
   end
 

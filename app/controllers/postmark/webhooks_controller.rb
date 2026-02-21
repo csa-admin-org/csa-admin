@@ -7,7 +7,7 @@ module Postmark
     before_action :authenticate!
 
     RECORD_TYPES = %w[Delivery Bounce]
-    MESSAGE_STREAMS = %w[broadcast]
+    MESSAGE_STREAMS = %w[broadcast outbound]
 
     def create
       if supported_payload?

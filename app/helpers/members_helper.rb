@@ -44,7 +44,7 @@ module MembersHelper
   def members_collection(relation = nil)
     collection = Member.kept
     if relation
-      member_ids = @collection_before_scope.distinct.pluck(:member_id)
+      member_ids = relation.unscope(where: :member_id).unscope(:limit, :offset).distinct.pluck(:member_id)
       collection = collection.where(id: member_ids)
     end
     collection.order_by_name

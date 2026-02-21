@@ -171,14 +171,16 @@ class Demo::Seeder
     ActiveRecord::Base.transaction do
       seed_reference_data!
       seed_members!
+      seed_email_suppressions!
       seed_absences!
       seed_newsletter!
       seed_invoices_and_payments!
+      seed_mail_deliveries!
       seed_basket_contents!
       seed_activities!
       seed_shop!
     end
-    mark_newsletter_delivered!
+    mark_deliveries_delivered!
     SearchEntry.rebuild!
 
     log "Demo reset completed successfully"
@@ -449,7 +451,8 @@ class Demo::Seeder
       Shop::Order.delete_all
 
       # Newsletters
-      Newsletter::Delivery.delete_all
+      MailDelivery::Email.delete_all
+      MailDelivery.delete_all
       ActionText::RichText.where(record_type: "Newsletter::Block").delete_all
       Newsletter::Block.delete_all
       Newsletter.delete_all
@@ -948,10 +951,90 @@ class Demo::Seeder
     newsletter.send!
   end
 
-  # Must run outside of transaction
-  def mark_newsletter_delivered!
-    Newsletter::Delivery.find_each do |delivery|
-      delivery.delivered!(at: 1.week.ago)
+  # Creates a few email suppressions so newsletters and template deliveries
+  # have realistic suppressed/excluded emails in the demo.
+  # Must run before seed_newsletter! and seed_mail_deliveries!.
+  def seed_email_suppressions!
+    log "Seeding email suppressions..."
+
+    return if @active_members.size < 2
+
+    # Pick two members from the end of the list (not used in seed_mail_deliveries!)
+    members = @active_members.last(2)
+
+    # Broadcast ManualSuppression — member unsubscribed from newsletters.
+    # Newsletter deliveries to this email will be marked as suppressed.
+    EmailSuppression.create!(
+      email: members[0].emails_array.first,
+      stream_id: "broadcast",
+      reason: "ManualSuppression",
+      origin: "Recipient")
+
+    # Outbound HardBounce — transactional email bounced.
+    # This email is excluded from active_emails, so template
+    # deliveries won't create an Email child for this address.
+    EmailSuppression.create!(
+      email: members[1].emails_array.first,
+      stream_id: "outbound",
+      reason: "HardBounce",
+      origin: "Recipient")
+  end
+
+  # Creates template MailDelivery records for demo variety.
+  # Uses deliver! directly on templates (bypasses active check) so we
+  # don't need to activate templates that have automatic after_commit
+  # callbacks (e.g. absence_created) which would cause duplicates.
+  def seed_mail_deliveries!
+    log "Seeding mail deliveries..."
+
+    return if @active_members.blank?
+
+    # Activate a few templates so they appear active in the admin UI
+    %w[member_validated membership_renewal].each do |title|
+      MailTemplate.find_by(title: title)&.update!(active: true)
+    end
+
+    members = @active_members.first(5)
+
+    # invoice_created (always active) — use seeded invoices
+    template = MailTemplate.find_by!(title: "invoice_created")
+    Invoice.where.not(sent_at: nil).limit(3).each do |invoice|
+      template.deliver!(invoice: invoice)
+    end
+
+    # member_validated — a few active members
+    template = MailTemplate.find_by!(title: "member_validated")
+    members.first(3).each do |member|
+      template.deliver!(member: member)
+    end
+
+    # absence_created (not activated — avoids duplicate from Absence after_commit)
+    template = MailTemplate.find_by!(title: "absence_created")
+    Absence.limit(2).each do |absence|
+      template.deliver!(absence: absence)
+    end
+
+    # membership_renewal
+    template = MailTemplate.find_by!(title: "membership_renewal")
+    members.first(2).each do |member|
+      next unless (membership = member.current_membership)
+
+      template.deliver!(membership: membership)
+    end
+  end
+
+  # Must run outside of transaction so after_create_commit on
+  # MailDelivery::Email fires and ProcessJobs are enqueued.
+  # Processes each email first (renders message, stores preview on
+  # parent MailDelivery), then marks as delivered for demo display.
+  # DemoMailInterceptor blocks actual email sending.
+  def mark_deliveries_delivered!
+    MailDelivery::Email.find_each do |email|
+      next unless email.processing?
+
+      email.process!
+      email.reload
+      email.delivered!(at: 1.week.ago) if email.processing?
     end
   end
 

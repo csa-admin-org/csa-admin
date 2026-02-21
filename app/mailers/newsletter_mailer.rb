@@ -19,7 +19,7 @@ class NewsletterMailer < ApplicationMailer
       **prepared_data)
   end
 
-  # Only used by Newsletter::Delivery to persist the rendered email
+  # Only used by MailDelivery to persist the rendered email
   def render_newsletter_email
     render_template(params[:member], **prepared_data) do |subject, content|
       EmailRender.new(subject, content)

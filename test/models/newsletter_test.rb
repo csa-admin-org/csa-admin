@@ -189,13 +189,14 @@ class NewsletterTest < ActiveSupport::TestCase
         "0" => { block_id: "main", content_en: "Hello {{ member.name }}" }
       })
 
-    assert_difference -> { newsletter.deliveries.count }, 3 do
-      newsletter.save!
+    assert_difference -> { MailDelivery.count }, 2 do
+      assert_no_difference -> { MailDelivery::Email.count } do
+        newsletter.save!
+      end
     end
 
-    assert_equal "jojo@old.com", newsletter.deliveries.ignored.first.email
-    assert_equal %w[john@doe.com jane@doe.com], newsletter.deliveries.draft.pluck(:email)
-    assert_empty newsletter.deliveries.processed
+    assert_equal 2, newsletter.mail_deliveries.draft.count
+    assert_empty newsletter.mail_delivery_emails
   end
 
   test "send newsletter" do
@@ -218,22 +219,28 @@ class NewsletterTest < ActiveSupport::TestCase
     assert_empty newsletter[:template_contents]
     assert_empty newsletter[:liquid_data_preview_yamls]
 
-    assert_difference -> { newsletter.reload.deliveries.processing.count }, 2 do
+    processing_emails = -> {
+      newsletter.reload.mail_delivery_emails.processing.pluck(:email)
+    }
+
+    assert_difference -> { processing_emails.call.count }, 2 do
       assert_difference -> { ActionMailer::Base.deliveries.count }, 2 do
         perform_enqueued_jobs { newsletter.send! }
       end
     end
 
-    assert_equal 1, newsletter.deliveries.ignored.count
-    assert_equal "jojo@old.com", newsletter.deliveries.ignored.first.email
-    assert_equal [ suppression.id ], newsletter.deliveries.ignored.first.email_suppression_ids
-    assert_equal [ "HardBounce" ], newsletter.deliveries.ignored.first.email_suppression_reasons
+    suppressed_emails = newsletter.mail_delivery_emails.suppressed
+    assert_equal 1, suppressed_emails.count
+    suppressed_email = suppressed_emails.first
+    assert_equal "jojo@old.com", suppressed_email.email
+    assert_equal [ suppression.id ], suppressed_email.email_suppression_ids
+    assert_equal [ "HardBounce" ], suppressed_email.email_suppression_reasons
 
     newsletter = Newsletter.find(newsletter.id) # hard reload
     assert newsletter.sent?
     assert_equal 2, newsletter.members.count
-    assert_equal %w[john@doe.com jane@doe.com], newsletter.deliveries.processing.pluck(:email)
-    assert_equal %w[jojo@old.com], newsletter.deliveries.ignored.pluck(:email)
+    assert_equal %w[jane@doe.com john@doe.com], processing_emails.call.sort
+    assert_equal %w[jojo@old.com], newsletter.mail_delivery_emails.suppressed.pluck(:email)
     assert_equal newsletter.template.contents, newsletter.template_contents
     assert_not newsletter[:liquid_data_preview_yamls].empty?
     assert_equal({ "en" => "Members: Active" }, newsletter.audience_names)
@@ -254,7 +261,11 @@ class NewsletterTest < ActiveSupport::TestCase
 
     assert_equal %w[john@new.com], newsletter.reload.missing_delivery_emails
 
-    assert_difference -> { newsletter.reload.deliveries.processing.count }, 1 do
+    processing_count = -> {
+      newsletter.reload.mail_delivery_emails.processing.count
+    }
+
+    assert_difference -> { processing_count.call }, 1 do
       assert_difference -> { ActionMailer::Base.deliveries.count }, 1 do
         perform_enqueued_jobs { newsletter.deliver!("john@new.com") }
       end

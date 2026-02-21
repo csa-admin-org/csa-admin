@@ -21,7 +21,7 @@ class Ability
     ],
     newsletter: [
       Newsletter,
-      Newsletter::Delivery,
+      MailDelivery,
       Newsletter::Segment,
       Newsletter::Template
     ]

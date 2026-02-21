@@ -33,6 +33,9 @@
     }
 
     /* Orange statuses - pending attention */
+    &[data-status="partially_delivered"],
+    &[data-status="soft_bounce"],
+    &[data-status="manual_suppression"],
     &[data-status="renewal_pending"],
     &[data-status="scheduled"],
     &[data-status="waiting"] {
@@ -56,6 +59,8 @@
     }
 
     /* Red statuses - error/negative */
+    &[data-status="not_delivered"],
+    &[data-status="suppressed"],
     &[data-status="renewal_canceled"],
     &[data-status="hard_bounce"],
     &[data-status="bounced"],
@@ -70,10 +75,10 @@
     /* Grey/Neutral statuses - inactive/disabled */
     &[data-status="canceled"],
     &[data-status="absent"],
+    &[data-status="forgotten"],
     &[data-status="ignored"],
     &[data-status="processing"],
     &[data-status="no_email"],
-    &[data-status="manual_suppression"],
     &[data-status="past"],
     &[data-status="unavailable"],
     &[data-status="inactive"] {

@@ -1,0 +1,6 @@
+sent_john:
+  mail_delivery: sent_john
+  email: john@doe.com
+  state: delivered
+  processed_at: <%= Date.new(2024, 4, 1) %>
+  delivered_at: <%= Date.new(2024, 4, 1) %>

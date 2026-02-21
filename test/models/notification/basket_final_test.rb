@@ -35,7 +35,7 @@ class Notification::BasketFinalTest < ActiveSupport::TestCase
     create_absence(member: member7, started_on: "2024-06-03", ended_on: "2024-06-30")
 
     travel_to "2024-05-27"
-    assert_difference -> { BasketMailer.deliveries.size }, 3 do
+    assert_difference -> { BasketMailer.deliveries.size }, 6 do
       Notification::BasketFinal.notify
       perform_enqueued_jobs
     end
