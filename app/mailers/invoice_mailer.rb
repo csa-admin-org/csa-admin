@@ -10,7 +10,6 @@ class InvoiceMailer < ApplicationMailer
     attach_attachments!
     template_mail(member,
       to: member.billing_emails,
-      tag: "invoice-created",
       "member" => Liquid::MemberDrop.new(member),
       "invoice" => Liquid::InvoiceDrop.new(invoice))
   end
@@ -20,7 +19,6 @@ class InvoiceMailer < ApplicationMailer
     member = invoice.member
     template_mail(member,
       to: member.billing_emails,
-      tag: "invoice-cancelled",
       "member" => Liquid::MemberDrop.new(member),
       "invoice" => Liquid::InvoiceDrop.new(invoice))
   end
@@ -32,7 +30,6 @@ class InvoiceMailer < ApplicationMailer
     @subject_class = "warning"
     template_mail(member,
       to: member.billing_emails,
-      tag: "invoice-overdue-notice",
       "member" => Liquid::MemberDrop.new(member),
       "invoice" => Liquid::InvoiceDrop.new(invoice))
   end

@@ -8,7 +8,6 @@ class BasketMailer < ApplicationMailer
     membership = params[:membership] || basket&.membership
     member = params[:member] || membership&.member
     template_mail(member,
-      tag: "basket-initial",
       "basket" => Liquid::BasketDrop.new(basket),
       "member" => Liquid::MemberDrop.new(member),
       "membership" => Liquid::MembershipDrop.new(membership))
@@ -19,7 +18,6 @@ class BasketMailer < ApplicationMailer
     membership = params[:membership] || basket&.membership
     member = params[:member] || membership&.member
     template_mail(member,
-      tag: "basket-final",
       "basket" => Liquid::BasketDrop.new(basket),
       "member" => Liquid::MemberDrop.new(member),
       "membership" => Liquid::MembershipDrop.new(membership))
@@ -30,7 +28,6 @@ class BasketMailer < ApplicationMailer
     membership = params[:membership] || basket&.membership
     member = params[:member] || membership&.member
     template_mail(member,
-      tag: "basket-first",
       "basket" => Liquid::BasketDrop.new(basket),
       "member" => Liquid::MemberDrop.new(member),
       "membership" => Liquid::MembershipDrop.new(membership))
@@ -41,7 +38,6 @@ class BasketMailer < ApplicationMailer
     membership = params[:membership] || basket&.membership
     member = params[:member] || membership&.member
     template_mail(member,
-      tag: "basket-last",
       "basket" => Liquid::BasketDrop.new(basket),
       "member" => Liquid::MemberDrop.new(member),
       "membership" => Liquid::MembershipDrop.new(membership))
@@ -52,7 +48,6 @@ class BasketMailer < ApplicationMailer
     membership = params[:membership] || basket&.membership
     member = params[:member] || membership&.member
     template_mail(member,
-      tag: "basket-second-last-trial",
       "basket" => Liquid::BasketDrop.new(basket),
       "member" => Liquid::MemberDrop.new(member),
       "membership" => Liquid::MembershipDrop.new(membership))
@@ -63,7 +58,6 @@ class BasketMailer < ApplicationMailer
     membership = params[:membership] || basket&.membership
     member = params[:member] || membership&.member
     template_mail(member,
-      tag: "basket-last-trial",
       "basket" => Liquid::BasketDrop.new(basket),
       "member" => Liquid::MemberDrop.new(member),
       "membership" => Liquid::MembershipDrop.new(membership))

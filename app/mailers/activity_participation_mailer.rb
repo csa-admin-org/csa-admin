@@ -7,7 +7,6 @@ class ActivityParticipationMailer < ApplicationMailer
 
   def reminder_email
     template_mail(@participation.member,
-      tag: "activity-participation-reminder",
       "member" => Liquid::MemberDrop.new(@participation.member),
       "activity" => Liquid::ActivityDrop.new(@participation.activity),
       "activity_participation" => Liquid::ActivityParticipationDrop.new(@participation))
@@ -16,7 +15,6 @@ class ActivityParticipationMailer < ApplicationMailer
   def validated_email
     @subject_class = "notice"
     template_mail(@participation.member,
-      tag: "activity-participation-validated",
       "member" => Liquid::MemberDrop.new(@participation.member),
       "activity" => Liquid::ActivityDrop.new(@participation.activity),
       "activity_participation" => Liquid::ActivityParticipationDrop.new(@participation))
@@ -25,7 +23,6 @@ class ActivityParticipationMailer < ApplicationMailer
   def rejected_email
     @subject_class = "alert"
     template_mail(@participation.member,
-      tag: "activity-participation-rejected",
       "member" => Liquid::MemberDrop.new(@participation.member),
       "activity" => Liquid::ActivityDrop.new(@participation.activity),
       "activity_participation" => Liquid::ActivityParticipationDrop.new(@participation))

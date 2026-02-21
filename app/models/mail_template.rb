@@ -42,7 +42,19 @@ class MailTemplate < ApplicationRecord
     invoice_cancelled
     invoice_overdue_notice
   ].freeze
-  TITLES = MEMBER_TITLES + MEMBERSHIP_TITLES + BASKET_TITLES + ABSENCE_TITLES + ACTIVITY_PARTICIPATION_TITLES + BIDDING_ROUND_TITLES + INVOICE_TITLES
+  SCOPE_TITLES = {
+    "member" => MEMBER_TITLES,
+    "membership" => MEMBERSHIP_TITLES,
+    "basket" => BASKET_TITLES,
+    "absence" => ABSENCE_TITLES,
+    "activity_participation" => ACTIVITY_PARTICIPATION_TITLES,
+    "bidding_round" => BIDDING_ROUND_TITLES,
+    "invoice" => INVOICE_TITLES
+  }.freeze
+  TITLE_SCOPE_MAP = SCOPE_TITLES.each_with_object({}) { |(scope, titles), map|
+    titles.each { |t| map[t] = scope }
+  }.freeze
+  TITLES = SCOPE_TITLES.values.flatten.freeze
   ALWAYS_ACTIVE_TITLES = %w[
     invoice_created
     absence_included_reminder
@@ -71,13 +83,9 @@ class MailTemplate < ApplicationRecord
 
   scope :active, -> { where(active: true) }
   scope :inactive, -> { where(active: false) }
-  scope :member, -> { where(title: MEMBER_TITLES) }
-  scope :membership, -> { where(title: MEMBERSHIP_TITLES) }
-  scope :basket, -> { where(title: BASKET_TITLES) }
-  scope :absence, -> { where(title: ABSENCE_TITLES) }
-  scope :activity_participation, -> { where(title: ACTIVITY_PARTICIPATION_TITLES) }
-  scope :bidding_round, -> { where(title: BIDDING_ROUND_TITLES) }
-  scope :invoice, -> { where(title: INVOICE_TITLES) }
+  SCOPE_TITLES.each do |name, titles|
+    scope name, -> { where(title: titles) }
+  end
 
   def self.deliver_now(title, **args)
     active_template(title)&.mail(**args)&.deliver_now
@@ -158,17 +166,7 @@ class MailTemplate < ApplicationRecord
   end
 
   def scope_name
-    if title.in?(BIDDING_ROUND_TITLES)
-      "bidding_round"
-    elsif title.in?(ACTIVITY_PARTICIPATION_TITLES)
-      "activity_participation"
-    elsif title.in?(BASKET_TITLES)
-      "basket"
-    elsif title.in?(MEMBERSHIP_TITLES)
-      "membership"
-    else
-      title.split("_").first
-    end
+    TITLE_SCOPE_MAP.fetch(title)
   end
 
   def scope_class
@@ -192,8 +190,12 @@ class MailTemplate < ApplicationRecord
     "#{scope_name}_mailer_preview".classify.constantize
   end
 
+  def tag
+    title.tr("_", "-")
+  end
+
   def email_method
-    "#{title.gsub(/^#{scope_name}_/, "")}_email"
+    "#{title.delete_prefix("#{scope_name}_")}_email"
   end
 
   def contents=(hash)

@@ -8,7 +8,6 @@ class BiddingRoundMailer < ApplicationMailer
 
   def opened_email
     template_mail(@member,
-      tag: "bidding-round-opened",
       "member" => Liquid::MemberDrop.new(@member),
       "membership" => Liquid::MembershipDrop.new(@membership),
       "bidding_round" => Liquid::BiddingRoundDrop.new(@bidding_round))
@@ -16,7 +15,6 @@ class BiddingRoundMailer < ApplicationMailer
 
   def opened_reminder_email
     template_mail(@member,
-      tag: "bidding-round-opened-reminder",
       "member" => Liquid::MemberDrop.new(@member),
       "membership" => Liquid::MembershipDrop.new(@membership),
       "bidding_round" => Liquid::BiddingRoundDrop.new(@bidding_round))
@@ -25,7 +23,6 @@ class BiddingRoundMailer < ApplicationMailer
   def completed_email
     @subject_class = "notice"
     template_mail(@member,
-      tag: "bidding-round-completed",
       "member" => Liquid::MemberDrop.new(@member),
       "membership" => Liquid::MembershipDrop.new(@membership),
       "bidding_round" => Liquid::BiddingRoundDrop.new(@bidding_round),
@@ -35,7 +32,6 @@ class BiddingRoundMailer < ApplicationMailer
   def failed_email
     @subject_class = "alert"
     template_mail(@member,
-      tag: "bidding-round-failed",
       "member" => Liquid::MemberDrop.new(@member),
       "membership" => Liquid::MembershipDrop.new(@membership),
       "bidding_round" => Liquid::BiddingRoundDrop.new(@bidding_round),

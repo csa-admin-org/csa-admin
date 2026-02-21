@@ -111,6 +111,7 @@ class Newsletter
 
     def mailer_preview; NewsletterMailerPreview end
     def email_method; :newsletter_email end
+    def tag; nil end
 
     def can_update?; true end
     def can_destroy?

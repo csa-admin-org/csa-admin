@@ -6,6 +6,7 @@ module Templatable
   private
 
   def template_mail(member, from: nil, to: nil, stream: "outbound", tag: nil, headers: {}, **data)
+    tag ||= params[:template]&.tag
     render_template(member, **data) do |subject, content|
       content_mail(content, **{
         from: from,
