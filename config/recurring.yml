@@ -101,6 +101,12 @@ production:
     queue: low
     schedule: every sunday at 2am
 
+  database_vacuum:
+    class: TenantSwitchEachJob
+    args: [Scheduled::DatabaseVacuumJob]
+    queue: low
+    schedule: every sunday at 3:45am
+
   demo_reset:
     class: Demo::ResetJob
     queue: low
