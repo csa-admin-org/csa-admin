@@ -34,6 +34,8 @@
 
     /* Orange statuses - pending attention */
     &[data-status="partially_delivered"],
+    &[data-status="transient"],
+    &[data-status="blocked"],
     &[data-status="soft_bounce"],
     &[data-status="manual_suppression"],
     &[data-status="renewal_pending"],
