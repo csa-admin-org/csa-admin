@@ -1,0 +1,29 @@
+# Einheitliche E-Mail-Zustellungsverfolgung
+
+Alle von CSA Admin versendeten E-Mails, sowohl [Newsletters](/newsletters) als auch [automatische E-Mails](/mail_templates), werden nun über ein einheitliches Zustellungssystem verfolgt.
+
+## Neuheiten
+
+### Zustellungsverfolgung für automatische E-Mails
+
+Bisher wurden nur Newsletter-Zustellungen verfolgt. Jetzt wird jede automatische E-Mail (neue Rechnung, Verlängerungserinnerung, Taschenbenachrichtigung, ...) ebenfalls mit einem Zustellstatus pro E-Mail-Adresse verfolgt:
+
+- **Zugestellt**: Die E-Mail wurde dem Mailserver des Empfängers zugestellt.
+- **Abgelehnt**: Die E-Mail wurde abgelehnt (ungültige Adresse, volles Postfach, etc.) mit detaillierten Ablehnungsinformationen.
+- **Unterdrückt**: Die E-Mail-Adresse steht auf der Unterdrückungsliste und die E-Mail wurde nicht gesendet.
+
+### Zustellungen auf Detailseiten
+
+Ein neues Panel "E-Mail-Zustellungen" ist nun auf den Detailseiten von Rechnungen, Abonnements, Abwesenheiten und anderen Elementen sichtbar. So können Sie schnell sehen, ob die zugehörige automatische E-Mail zugestellt, abgelehnt oder unterdrückt wurde, ohne die Seite zu verlassen. Dieses Panel erscheint nur für E-Mails, die ab jetzt versendet werden; zuvor versendete automatische E-Mails wurden nicht verfolgt.
+
+### Erneuter E-Mail-Versand
+
+Wenn ein Mitglied eine neue E-Mail-Adresse hinzufügt innerhalb einer Woche nach dem Versand einer automatischen E-Mail, erkennt das System dies als "fehlende Zustellung". Sie können die E-Mail dann direkt von der Zustellungsseite aus an diese Adresse erneut senden.
+
+Wenn darüber hinaus eine E-Mail-Unterdrückung von der Mitgliedsseite aufgehoben wird (z.B. nach einer vorübergehenden Ablehnung), werden kürzlich versandte automatische E-Mails (weniger als eine Woche alt), die durch diese Unterdrückung blockiert waren, automatisch erneut gesendet.
+
+## Aufbewahrung von einem Jahr
+
+Zustellungsdaten (einschließlich des gerenderten E-Mail-Inhalts) werden nun nach 1 Jahr automatisch gelöscht. Dies hält die Datenbank schlank und bewahrt gleichzeitig genügend Verlauf für betriebliche Anforderungen. Inhalt und Zielgruppe der Newsletters sind von dieser Bereinigung nicht betroffen.
+
+Weitere Informationen zur Newsletter-Zustellungsverfolgung finden Sie im [Handbuch](/handbook/newsletters).

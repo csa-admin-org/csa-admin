@@ -1,0 +1,29 @@
+# Unified Email Delivery Tracking
+
+All emails sent by CSA Admin — both [newsletters](/newsletters) and [automatic emails](/mail_templates) — are now tracked through a unified delivery system.
+
+## What's New
+
+### Delivery Tracking for Automatic Emails
+
+Previously, only newsletter deliveries were tracked. Now, every automatic email (new invoice, renewal reminder, basket notification, ...) is also tracked with per-email delivery status:
+
+- **Delivered**: The email reached the recipient's mail server.
+- **Bounced**: The email was rejected (invalid address, full mailbox, etc.) with detailed bounce information.
+- **Suppressed**: The email address is on the suppression list and the email was not sent.
+
+### Email Deliveries on Record Pages
+
+A new "Email Deliveries" panel is now visible on the detail pages of invoices, memberships, absences, and other records. This lets you quickly see whether the associated automatic email was delivered, bounced, or suppressed — without leaving the page. This panel only appears for emails sent from now on; previously sent automatic emails were not tracked.
+
+### Resend Emails
+
+If a member adds a new email address within a week after an automatic email was sent, the system detects it as a "missing delivery". You can then resend the email to that address directly from the delivery page.
+
+Additionally, when an email suppression is lifted from the member page (e.g. after a temporary bounce), any recent automatic emails (less than a week old) that were blocked by that suppression are automatically resent.
+
+## 1-Year Retention
+
+Delivery records (including the rendered email content) are now automatically purged after 1 year. This keeps the database lean while preserving enough history for operational needs. Newsletter content and audience information are not affected by this cleanup.
+
+Find more information about newsletter delivery tracking in [the handbook](/handbook/newsletters).

@@ -1,0 +1,29 @@
+# Uniform e-mailleveringstracking
+
+Alle e-mails verzonden door CSA Admin, zowel [nieuwsbrieven](/newsletters) als [automatische e-mails](/mail_templates), worden nu gevolgd via een uniform leveringssysteem.
+
+## Nieuwigheden
+
+### Leveringstracking voor automatische e-mails
+
+Voorheen werden alleen nieuwsbriefleveringen gevolgd. Nu wordt elke automatische e-mail (nieuwe factuur, verlengingsherinnering, pakketmelding, ...) ook gevolgd met een leveringsstatus per e-mailadres:
+
+- **Afgeleverd**: De e-mail is afgeleverd bij de mailserver van de ontvanger.
+- **Geweigerd**: De e-mail is geweigerd (ongeldig adres, volle mailbox, etc.) met gedetailleerde weigeringsinformatie.
+- **Onderdrukt**: Het e-mailadres staat op de onderdrukkingslijst en de e-mail is niet verzonden.
+
+### Leveringen op detailpagina's
+
+Een nieuw paneel "E-mailleveringen" is nu zichtbaar op de detailpagina's van facturen, lidmaatschappen, afwezigheden en andere elementen. Hiermee kunt u snel zien of de bijbehorende automatische e-mail is afgeleverd, geweigerd of onderdrukt, zonder de pagina te verlaten. Dit paneel verschijnt alleen voor e-mails die vanaf nu worden verzonden; eerder verzonden automatische e-mails werden niet gevolgd.
+
+### Opnieuw verzenden van e-mails
+
+Als een lid een nieuw e-mailadres toevoegt binnen een week na het verzenden van een automatische e-mail, detecteert het systeem dit als een "ontbrekende levering". U kunt de e-mail dan rechtstreeks vanaf de leveringspagina opnieuw naar dat adres verzenden.
+
+Bovendien, wanneer een e-mailonderdrukking wordt opgeheven vanaf de ledenpagina (bijv. na een tijdelijke weigering), worden recente automatische e-mails (minder dan een week oud) die door die onderdrukking waren geblokkeerd automatisch opnieuw verzonden.
+
+## Bewaring van één jaar
+
+Leveringsgegevens (inclusief de gerenderde e-mailinhoud) worden nu na 1 jaar automatisch verwijderd. Dit houdt de database licht en bewaart tegelijkertijd voldoende geschiedenis voor operationele behoeften. De inhoud en het publiek van de nieuwsbrieven worden niet beïnvloed door deze opschoning.
+
+Meer informatie over het volgen van nieuwsbriefleveringen vindt u in [het handboek](/handbook/newsletters).

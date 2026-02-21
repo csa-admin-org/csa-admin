@@ -39,6 +39,24 @@ You can add attachments to your newsletters, but the total weight of these attac
 
 If you wish to send heavier attachments, you can use an external service such as [SwissTransfer](https://www.swisstransfer.com) or host them on your website and simply add a link to these files in your newsletter.
 
+## Delivery Tracking
+
+Once a newsletter is sent, the delivery status of each email is tracked individually. You can see the number of emails delivered, bounced, or suppressed directly on the [newsletter's detail page](/newsletters).
+
+Each delivery record shows:
+
+- **Delivered**: The email was successfully delivered to the recipient's mail server.
+- **Bounced**: The email was rejected (invalid address, full mailbox, etc.). Details about the bounce reason are available on the delivery page.
+- **Suppressed**: The email address is on the suppression list (previous bounce or spam complaint) and the email was not sent.
+
+> Members who have [unsubscribed](#unsubscription) from newsletters appear as "suppressed" in the delivery tracking.
+
+### Missing Emails
+
+If a member adds a new email address (or an existing one is corrected) within a week after a newsletter is sent, the system detects it as a "missing delivery". An admin can then send the newsletter to that new address directly from the delivery page.
+
+> Delivery records are automatically purged after 1 year. Newsletter content and audience information are preserved independently on the newsletter itself.
+
 ## Scheduling
 
 To schedule the automatic sending of a newsletter, specify a future date in the "Delivery scheduled on" field. The system will automatically send it during the night of the chosen date. Make sure that the content is finalized before scheduling a send!

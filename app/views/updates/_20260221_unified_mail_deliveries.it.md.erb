@@ -1,0 +1,29 @@
+# Tracciamento unificato delle consegne email
+
+Tutte le email inviate da CSA Admin, sia le [newsletters](/newsletters) che le [email automatiche](/mail_templates), sono ora tracciate tramite un sistema di distribuzione unificato.
+
+## Novità
+
+### Tracciamento delle consegne per le email automatiche
+
+In precedenza, solo le consegne delle newsletters erano tracciate. Ora, ogni email automatica (nuova fattura, promemoria di rinnovo, notifica del cesto, ...) è anche tracciata con uno stato di consegna per indirizzo email:
+
+- **Consegnato**: L'email è stata consegnata al server di posta del destinatario.
+- **Rifiutato**: L'email è stata rifiutata (indirizzo non valido, casella piena, ecc.) con informazioni dettagliate sul rifiuto.
+- **Soppresso**: L'indirizzo email è nella lista di soppressione e l'email non è stata inviata.
+
+### Consegne sulle pagine di dettaglio
+
+Un nuovo pannello "Consegne email" è ora visibile sulle pagine di dettaglio delle fatture, abbonamenti, assenze e altri elementi. Questo permette di vedere rapidamente se l'email automatica associata è stata consegnata, rifiutata o soppressa, senza lasciare la pagina. Questo pannello appare solo per le email inviate da ora in poi; le email automatiche inviate in precedenza non erano tracciate.
+
+### Reinvio di email
+
+Se un socio aggiunge un nuovo indirizzo email entro una settimana dall'invio di un'email automatica, il sistema lo rileva come una "consegna mancante". Potete quindi reinviare l'email a quell'indirizzo direttamente dalla pagina di consegna.
+
+Inoltre, quando una soppressione email viene rimossa dalla pagina del socio (ad esempio dopo un rifiuto temporaneo), le email automatiche recenti (meno di una settimana) che erano state bloccate da quella soppressione vengono automaticamente reinviate.
+
+## Conservazione di un anno
+
+I dati di consegna (incluso il contenuto reso delle email) vengono ora automaticamente eliminati dopo 1 anno. Questo mantiene il database leggero conservando al contempo abbastanza storico per le esigenze operative. Il contenuto e il pubblico delle newsletters non sono interessati da questa pulizia.
+
+Per maggiori informazioni sul tracciamento delle consegne delle newsletters, consultate [il manuale](/handbook/newsletters).
