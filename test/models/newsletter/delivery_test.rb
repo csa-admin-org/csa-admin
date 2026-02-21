@@ -118,4 +118,63 @@ class NewsletterDeliveryTest < ActiveSupport::TestCase
     assert_equal "qrcode-test.png", attachment.filename
     assert_equal "image/png", attachment.content_type
   end
+
+  test "persist deliveries draft when saved" do
+    travel_to "2024-01-01"
+    members(:john).update!(emails: "john@doe.com, jojo@old.com")
+    suppress_email("jojo@old.com", stream_id: "broadcast")
+
+    newsletter = build_newsletter(
+      audience: "member_state::active",
+      template: newsletter_templates(:simple),
+      blocks_attributes: {
+        "0" => { block_id: "main", content_en: "Hello {{ member.name }}" }
+      })
+
+    assert_difference -> { MailDelivery.count }, 2 do
+      assert_no_difference -> { MailDelivery::Email.count } do
+        newsletter.save!
+      end
+    end
+
+    assert_equal 2, newsletter.mail_deliveries.draft.count
+    assert_empty newsletter.mail_delivery_emails
+  end
+
+  test "deliveries_with_missing_emails" do
+    travel_to "2024-01-01"
+    newsletter = build_newsletter(
+      audience: "member_state::active",
+      template: newsletter_templates(:simple),
+      blocks_attributes: {
+        "0" => { block_id: "main", content_en: "Hello {{ member.name }}" }
+      })
+    newsletter.save!
+    perform_enqueued_jobs { newsletter.send! }
+
+    members(:john).update!(emails: "john@new.com")
+
+    deliveries = newsletter.reload.deliveries_with_missing_emails
+    assert_equal 1, deliveries.size
+
+    delivery = deliveries.first
+    assert_equal members(:john), delivery.member
+    assert_equal %w[john@new.com], delivery.missing_emails
+
+    processing_count = -> {
+      newsletter.reload.mail_delivery_emails.processing.count
+    }
+
+    assert_difference -> { processing_count.call }, 1 do
+      assert_difference -> { ActionMailer::Base.deliveries.count }, 1 do
+        perform_enqueued_jobs { delivery.deliver_missing_email!("john@new.com") }
+      end
+    end
+
+    mail = ActionMailer::Base.deliveries.last
+    assert_equal %w[john@new.com], mail.to
+    assert_includes mail.html_part.body.to_s, "Hello John Doe"
+
+    assert_empty newsletter.reload.deliveries_with_missing_emails
+  end
 end
