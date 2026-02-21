@@ -88,11 +88,11 @@ _:
           _it: Fatturato il
           _nl: Gefactureerd op
         latest_reminder_sent_at:
-          _en: Latest reminder sent at
-          _fr: Dernière rappel envoyé le
-          _de: Letzte Erinnerung gesendet am
-          _it: Ultimo promemoria inviato il
-          _nl: Laatste herinnering verzonden op
+          _en: Reminder sent at
+          _fr: Rappel envoyé le
+          _de: Erinnerung gesendet am
+          _it: Promemoria inviato il
+          _nl: Herinnering verzonden op
         member_emails:
           _en: Email(s)
           _fr: Email(s)
