@@ -52,6 +52,7 @@ class EmailSuppression < ApplicationRecord
 
     PostmarkWrapper.delete_suppressions(stream_id, email.downcase)
     touch(:unsuppressed_at)
+    retry_suppressed_deliveries!
   end
 
   def active?
@@ -83,6 +84,14 @@ class EmailSuppression < ApplicationRecord
   end
 
   private
+
+  # After unsuppression, retries recent suppressed MailDelivery::Email records
+  # that were blocked by this suppression. Each retry re-checks all active
+  # suppressions, so emails blocked by multiple suppressions won't be sent
+  # until all are lifted.
+  def retry_suppressed_deliveries!
+    MailDelivery::Email.retriable_for(self).find_each(&:retry!)
+  end
 
   def notify_admins!
     return if manual_suppression?

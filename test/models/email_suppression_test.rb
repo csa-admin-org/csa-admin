@@ -98,6 +98,50 @@ class EmailSuppressionTest < ActiveSupport::TestCase
     assert_includes mail.html_part.body.to_s, admin.name
   end
 
+  test "unsuppress! retries recent suppressed email deliveries" do
+    member = members(:john)
+    member.update!(emails: "jojo@old.com")
+    suppression = suppress_email("jojo@old.com", stream_id: "broadcast")
+
+    perform_enqueued_jobs do
+      MailDelivery.deliver!(member: member, mailable: newsletters(:simple), action: "newsletter")
+    end
+
+    email = MailDelivery::Email.last
+    assert email.suppressed?
+    assert_equal "not_delivered", email.mail_delivery.reload.state
+
+    assert_enqueued_with(job: MailDelivery::ProcessJob) do
+      suppression.unsuppress!
+    end
+
+    email.reload
+    assert email.processing?
+    assert_empty email.email_suppression_ids
+    assert_empty email.email_suppression_reasons
+    assert_equal "processing", email.mail_delivery.reload.state
+  end
+
+  test "unsuppress! does not retry old suppressed email deliveries" do
+    member = members(:john)
+    member.update!(emails: "jojo@old.com")
+    suppression = suppress_email("jojo@old.com", stream_id: "broadcast")
+
+    perform_enqueued_jobs do
+      MailDelivery.deliver!(member: member, mailable: newsletters(:simple), action: "newsletter")
+    end
+
+    email = MailDelivery::Email.last
+    assert email.suppressed?
+
+    travel MailDelivery::MISSING_EMAILS_ALLOWED_PERIOD + 1.day do
+      suppression.unsuppress!
+    end
+
+    email.reload
+    assert email.suppressed?, "old delivery should not be retried"
+  end
+
   test "does not notify manual suppression to admins when created" do
     admin = admins(:ultra)
     admin.update!(notifications: [ "new_email_suppression" ])

@@ -14,6 +14,7 @@
 #   processing → delivered    (confirmed by Postmark webhook)
 #   processing → bounced      (bounce notification from Postmark webhook)
 #   processing → suppressed   (email on suppression list or Postmark rejection)
+#   suppressed → processing   (retry after email unsuppression, via retry!)
 #
 # No `draft` state — draft tracking lives on MailDelivery only.
 # Draft MailDeliveries have no Email children.
@@ -21,6 +22,7 @@ class MailDelivery
   class Email < ApplicationRecord
     include HasState
     include PostmarkSync
+    include Retriable
 
     has_states :processing, :delivered, :suppressed, :bounced
 
