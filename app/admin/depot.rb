@@ -99,7 +99,7 @@ ActiveAdmin.register Depot do
 
             table_for(depot.baskets_for(delivery), **attrs) do
               column Member.model_name.human, ->(b) { auto_link b.member }
-              column Basket.model_name.human, ->(b) { link_to(b.description, b.membership) }
+              column Basket.model_name.human, ->(b) { link_to(b.description, b.membership) }, class: "text-right"
             end
           end
         else
