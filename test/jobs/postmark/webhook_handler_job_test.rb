@@ -3,7 +3,7 @@
 require "test_helper"
 
 class Postmark::WebhookHandlerJobTest < ActiveJob::TestCase
-  # --- Primary lookup: MailDelivery::Email by postmark_message_id ---
+  # --- Lookup: MailDelivery::Email by postmark_message_id ---
 
   test "delivery webhook matched by postmark_message_id transitions to delivered" do
     member = members(:john)
@@ -65,116 +65,6 @@ class Postmark::WebhookHandlerJobTest < ActiveJob::TestCase
     assert_equal "HardBounce", email_record.bounce_type
     assert_equal 1, email_record.bounce_type_code
     assert_equal "Unknown user", email_record.bounce_description
-  end
-
-  # --- Fallback lookup: MailDelivery::Email by tag + email ---
-
-  test "delivery webhook falls back to tag + email lookup for newsletter" do
-    newsletter = newsletters(:simple)
-    member = members(:john)
-    mail_delivery = MailDelivery.create!(
-      mailable_type: "Newsletter", mailable_ids: [ newsletter.id ], action: "newsletter",
-      member: member, state: :processing)
-    email_record = mail_delivery.emails.create!(
-      email: "john@doe.com", state: :processing)
-
-    payload = {
-      record_type: "Delivery",
-      message_stream: "broadcast",
-      message_id: "pm-newsletter-001",
-      recipient: "john@doe.com",
-      delivered_at: "2024-05-05T16:33:54Z",
-      details: "Newsletter delivered",
-      tag: "newsletter-#{newsletter.id}"
-    }
-
-    perform_enqueued_jobs do
-      Postmark::WebhookHandlerJob.perform_later(**payload)
-    end
-
-    email_record.reload
-    assert email_record.delivered?
-    assert_equal Time.parse("2024-05-05T16:33:54Z"), email_record.delivered_at
-    assert_equal "pm-newsletter-001", email_record.postmark_message_id
-    assert_equal "Newsletter delivered", email_record.postmark_details
-  end
-
-  test "bounce webhook falls back to tag + email lookup for newsletter" do
-    newsletter = newsletters(:simple)
-    member = members(:john)
-    mail_delivery = MailDelivery.create!(
-      mailable_type: "Newsletter", mailable_ids: [ newsletter.id ], action: "newsletter",
-      member: member, state: :processing)
-    email_record = mail_delivery.emails.create!(
-      email: "john@doe.com", state: :processing)
-
-    payload = {
-      record_type: "Bounce",
-      message_stream: "broadcast",
-      message_id: "pm-newsletter-002",
-      email: "john@doe.com",
-      bounced_at: "2024-05-05T17:00:00Z",
-      details: "Newsletter bounce",
-      tag: "newsletter-#{newsletter.id}",
-      type: "SoftBounce",
-      type_code: 4002,
-      description: "Mailbox full"
-    }
-
-    perform_enqueued_jobs do
-      Postmark::WebhookHandlerJob.perform_later(**payload)
-    end
-
-    email_record.reload
-    assert email_record.bounced?
-    assert_equal Time.parse("2024-05-05T17:00:00Z"), email_record.bounced_at
-    assert_equal "pm-newsletter-002", email_record.postmark_message_id
-    assert_equal "SoftBounce", email_record.bounce_type
-    assert_equal 4002, email_record.bounce_type_code
-    assert_equal "Mailbox full", email_record.bounce_description
-  end
-
-  # --- Primary lookup takes precedence over fallback ---
-
-  test "primary lookup by postmark_message_id takes precedence over tag fallback" do
-    newsletter = newsletters(:simple)
-    member = members(:john)
-
-    # Create a MailDelivery::Email with a known postmark_message_id (template email)
-    template_delivery = MailDelivery.deliver!(
-      member: member, mailable: invoices(:annual_fee), action: "created")
-    template_email = template_delivery.emails.first
-    template_email.update_column(:postmark_message_id, "pm-priority-001")
-
-    # Also create a newsletter MailDelivery::Email that could match by tag+email
-    newsletter_delivery = MailDelivery.create!(
-      mailable_type: "Newsletter", mailable_ids: [ newsletter.id ], action: "newsletter",
-      member: member, state: :processing)
-    newsletter_email = newsletter_delivery.emails.create!(
-      email: "john@doe.com", state: :processing)
-
-    payload = {
-      record_type: "Delivery",
-      message_stream: "outbound",
-      message_id: "pm-priority-001",
-      recipient: "john@doe.com",
-      delivered_at: "2024-06-10T12:00:00Z",
-      details: "Primary match",
-      tag: "newsletter-#{newsletter.id}"
-    }
-
-    perform_enqueued_jobs do
-      Postmark::WebhookHandlerJob.perform_later(**payload)
-    end
-
-    # Template MailDelivery::Email should be updated (primary match by postmark_message_id)
-    template_email.reload
-    assert template_email.delivered?
-    assert_equal "Primary match", template_email.postmark_details
-
-    # Newsletter MailDelivery::Email should remain unchanged (not matched)
-    newsletter_email.reload
-    assert newsletter_email.processing?
   end
 
   # --- Idempotency: duplicate webhooks are no-ops ---
@@ -317,38 +207,6 @@ class Postmark::WebhookHandlerJobTest < ActiveJob::TestCase
         Postmark::WebhookHandlerJob.perform_later(**payload)
       end
     end
-  end
-
-  # --- Recipient field fallback (recipient vs email) ---
-
-  test "uses email field when recipient is absent in bounce payload" do
-    newsletter = newsletters(:simple)
-    member = members(:john)
-    mail_delivery = MailDelivery.create!(
-      mailable_type: "Newsletter", mailable_ids: [ newsletter.id ], action: "newsletter",
-      member: member, state: :processing)
-    email_record = mail_delivery.emails.create!(
-      email: "john@doe.com", state: :processing)
-
-    payload = {
-      record_type: "Bounce",
-      message_stream: "broadcast",
-      message_id: "pm-email-field-001",
-      email: "john@doe.com",
-      bounced_at: "2024-05-05T17:00:00Z",
-      details: "Bounce via email field",
-      tag: "newsletter-#{newsletter.id}",
-      type: "HardBounce",
-      type_code: 1,
-      description: "Bad address"
-    }
-
-    perform_enqueued_jobs do
-      Postmark::WebhookHandlerJob.perform_later(**payload)
-    end
-
-    email_record.reload
-    assert email_record.bounced?
   end
 
   # --- recompute_state! is called after webhook transitions ---

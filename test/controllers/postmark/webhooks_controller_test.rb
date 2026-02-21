@@ -50,7 +50,7 @@ class Postmark::WebhooksControllerControllerTest < ActionDispatch::IntegrationTe
 
     assert_changes -> { email_record.reload.state }, from: "processing", to: "delivered" do
       request(params: json)
-      perform_enqueued_jobs
+      perform_enqueued_jobs(only: Postmark::WebhookHandlerJob)
       assert_response :success
     end
 
@@ -100,7 +100,7 @@ class Postmark::WebhooksControllerControllerTest < ActionDispatch::IntegrationTe
 
     assert_changes -> { email_record.reload.state }, from: "processing", to: "bounced" do
       request(params: json)
-      perform_enqueued_jobs
+      perform_enqueued_jobs(only: Postmark::WebhookHandlerJob)
       assert_response :success
     end
 
