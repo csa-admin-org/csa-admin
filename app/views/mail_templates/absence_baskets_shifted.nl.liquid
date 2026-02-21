@@ -1,0 +1,15 @@
+<p>De verschuivingen van uw pakketten tijdens uw afwezigheid zijn succesvol geregistreerd:</p>
+
+{% highlight %}
+  <ul>
+  {% for shift in basket_shifts %}
+    <li><strong>{{ shift.old_delivery_date }}</strong> → <strong>{{ shift.new_delivery_date }}</strong></li>
+  {% endfor %}
+  </ul>
+{% endhighlight %}
+
+<p>U kunt uw leveringen op elk moment bekijken vanaf uw ledenpagina.</p>
+
+{% button member.page_url %}
+  Toegang tot mijn ledenpagina
+{% endbutton %}

@@ -11,16 +11,10 @@ class AbsenceMailerPreview < ActionMailer::Preview
     AbsenceMailer.with(params).created_email
   end
 
-  def basket_shifted_email
-    params.merge!(basket_shifted_email_params)
-    params[:template] ||= MailTemplate.find_by!(title: :absence_basket_shifted)
-    AbsenceMailer.with(params).basket_shifted_email
-  end
-
-  def included_reminder_email
-    params.merge!(included_reminder_email_params)
-    params[:template] ||= MailTemplate.find_by!(title: :absence_included_reminder)
-    AbsenceMailer.with(params).included_reminder_email
+  def baskets_shifted_email
+    params.merge!(baskets_shifted_email_params)
+    params[:template] ||= MailTemplate.find_by!(title: :absence_baskets_shifted)
+    AbsenceMailer.with(params).baskets_shifted_email
   end
 
   private
@@ -32,12 +26,23 @@ class AbsenceMailerPreview < ActionMailer::Preview
     }
   end
 
-  def basket_shifted_email_params
+  def baskets_shifted_email_params
     {
       member: member,
-      absence: absence,
-      basket_shift: basket_shift
+      absence: absence_with_shifts,
+      basket_shifts: [ basket_shift ]
     }
+  end
+
+  def absence_with_shifts
+    a = absence
+    shifts = [ basket_shift ]
+    a.define_singleton_method(:basket_shifts) do
+      relation = shifts
+      relation.define_singleton_method(:includes) { |*_args| self }
+      relation
+    end
+    a
   end
 
   def absence
@@ -60,13 +65,6 @@ class AbsenceMailerPreview < ActionMailer::Preview
       source_basket.basket_size.public_name
     end
     shift
-  end
-
-  def included_reminder_email_params
-    {
-      member: member,
-      membership: membership
-    }
   end
 
   def absence_date

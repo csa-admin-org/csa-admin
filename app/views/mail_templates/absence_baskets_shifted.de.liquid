@@ -1,0 +1,15 @@
+<p>Die Verschiebungen Ihrer Taschen während Ihrer Abwesenheit wurden erfolgreich registriert:</p>
+
+{% highlight %}
+  <ul>
+  {% for shift in basket_shifts %}
+    <li><strong>{{ shift.old_delivery_date }}</strong> → <strong>{{ shift.new_delivery_date }}</strong></li>
+  {% endfor %}
+  </ul>
+{% endhighlight %}
+
+<p>Sie können Ihre Lieferungen jederzeit über Ihre Mitgliederseite einsehen.</p>
+
+{% button member.page_url %}
+  Zu meiner Mitgliederseite
+{% endbutton %}

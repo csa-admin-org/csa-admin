@@ -12,23 +12,14 @@ class AbsenceMailer < ApplicationMailer
       "absence" => Liquid::AbsenceDrop.new(absence))
   end
 
-  def basket_shifted_email
-    basket_shift = params[:basket_shift]
-    absence = basket_shift.absence
+  def baskets_shifted_email
+    absence = params[:absence]
     member = absence.member
+    basket_shifts = absence.basket_shifts.includes(source_basket: :delivery, target_basket: :delivery)
     template_mail(member,
-      tag: "absence-basket-shifted",
+      tag: "absence-baskets-shifted",
       "member" => Liquid::MemberDrop.new(member),
       "absence" => Liquid::AbsenceDrop.new(absence),
-      "basket_shift" => Liquid::BasketShiftDrop.new(basket_shift))
-  end
-
-  def included_reminder_email
-    membership = params[:membership]
-    member = params[:member] || membership&.member
-    template_mail(member,
-      tag: "absence-included-reminder",
-      "member" => Liquid::MemberDrop.new(member),
-      "membership" => Liquid::MembershipDrop.new(membership))
+      "basket_shifts" => basket_shifts.map { |bs| Liquid::BasketShiftDrop.new(bs) })
   end
 end

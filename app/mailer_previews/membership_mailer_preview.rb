@@ -15,10 +15,17 @@ class MembershipMailerPreview < ActionMailer::Preview
     MembershipMailer.with(params).renewal_reminder_email
   end
 
+  def absence_included_reminder_email
+    params.merge!(absence_included_reminder_email_params)
+    params[:template] ||= MailTemplate.find_by!(title: :absence_included_reminder)
+    MembershipMailer.with(params).absence_included_reminder_email
+  end
+
   private
 
   def renewal_email_params; membership_params; end
   def renewal_reminder_email_params; membership_params; end
+  def absence_included_reminder_email_params; membership_params; end
 
   def membership_params
     {

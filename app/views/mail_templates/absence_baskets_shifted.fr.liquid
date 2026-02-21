@@ -1,0 +1,15 @@
+<p>Les déplacements de vos paniers durant votre absence ont bien été enregistrés :</p>
+
+{% highlight %}
+  <ul>
+  {% for shift in basket_shifts %}
+    <li><strong>{{ shift.old_delivery_date }}</strong> → <strong>{{ shift.new_delivery_date }}</strong></li>
+  {% endfor %}
+  </ul>
+{% endhighlight %}
+
+<p>Vous pouvez consulter à tout moment vos livraisons depuis votre page de membre.</p>
+
+{% button member.page_url %}
+  Accéder à ma page de membre
+{% endbutton %}

@@ -1,0 +1,15 @@
+<p>Gli spostamenti dei vostri cestini durante la vostra assenza sono stati registrati con successo:</p>
+
+{% highlight %}
+  <ul>
+  {% for shift in basket_shifts %}
+    <li><strong>{{ shift.old_delivery_date }}</strong> → <strong>{{ shift.new_delivery_date }}</strong></li>
+  {% endfor %}
+  </ul>
+{% endhighlight %}
+
+<p>Può consultare le sue consegne in qualsiasi momento dalla sua pagina socio.</p>
+
+{% button member.page_url %}
+  Accedi alla mia pagina socio
+{% endbutton %}

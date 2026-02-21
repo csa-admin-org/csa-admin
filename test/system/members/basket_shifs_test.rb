@@ -56,7 +56,7 @@ class Members::BasketShiftsTest < ApplicationSystemTestCase
   end
 
   test "notify member when mail template is active" do
-    mail_templates(:absence_basket_shifted).update!(active: true)
+    mail_templates(:absence_baskets_shifted).update!(active: true)
 
     travel_to "2024-05-01"
     absence = absences(:jane_thursday_5)
@@ -68,9 +68,9 @@ class Members::BasketShiftsTest < ApplicationSystemTestCase
 
     assert_equal 1, AbsenceMailer.deliveries.size
     mail = AbsenceMailer.deliveries.last
-    assert_equal "Basket shifted", mail.subject
+    assert_equal "Basket(s) shifted", mail.subject
     assert_equal [ absence.member.emails_array.first ], mail.to
     body = mail.html_part.body
-    assert_includes body, "New delivery date:</strong> 9 May 2024"
+    assert_includes body, "Your basket shifts during your absence have been successfully registered"
   end
 end

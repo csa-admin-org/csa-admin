@@ -1,0 +1,15 @@
+<p>Your basket shifts during your absence have been successfully registered:</p>
+
+{% highlight %}
+  <ul>
+  {% for shift in basket_shifts %}
+    <li><strong>{{ shift.old_delivery_date }}</strong> → <strong>{{ shift.new_delivery_date }}</strong></li>
+  {% endfor %}
+  </ul>
+{% endhighlight %}
+
+<p>You can view your deliveries at any time from your member page.</p>
+
+{% button member.page_url %}
+  Access my member page
+{% endbutton %}

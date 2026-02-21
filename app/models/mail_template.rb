@@ -12,6 +12,7 @@ class MailTemplate < ApplicationRecord
   MEMBERSHIP_TITLES = %w[
     membership_renewal
     membership_renewal_reminder
+    absence_included_reminder
   ].freeze
   BASKET_TITLES = %w[
     basket_initial
@@ -23,8 +24,7 @@ class MailTemplate < ApplicationRecord
   ].freeze
   ABSENCE_TITLES = %w[
     absence_created
-    absence_basket_shifted
-    absence_included_reminder
+    absence_baskets_shifted
   ].freeze
   ACTIVITY_PARTICIPATION_TITLES = %w[
     activity_participation_reminder
@@ -164,6 +164,8 @@ class MailTemplate < ApplicationRecord
       "activity_participation"
     elsif title.in?(BASKET_TITLES)
       "basket"
+    elsif title.in?(MEMBERSHIP_TITLES)
+      "membership"
     else
       title.split("_").first
     end

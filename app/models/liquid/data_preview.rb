@@ -54,6 +54,8 @@ class Liquid::DataPreview
         Liquid::ActivityDrop
       when /.*_activity_participations\z/
         Liquid::ActivityParticipationDrop
+      when /basket_shifts\z/
+        Liquid::BasketShiftDrop
       end
     end
   end

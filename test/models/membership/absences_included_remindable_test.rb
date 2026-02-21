@@ -44,7 +44,7 @@ class Membership::AbsencesIncludedRemindableTest < ActiveSupport::TestCase
     # Stay before the remindable_on date
     travel_to remindable_on - 1.day
 
-    assert_no_difference "AbsenceMailer.deliveries.size" do
+    assert_no_difference "MembershipMailer.deliveries.size" do
       Membership.send_absences_included_reminders
       perform_enqueued_jobs
     end
@@ -61,7 +61,7 @@ class Membership::AbsencesIncludedRemindableTest < ActiveSupport::TestCase
     remindable_on = first_provisional.delivery.date - Current.org.absences_included_reminder_period
 
     travel_to remindable_on
-    assert_difference "AbsenceMailer.deliveries.size", 1 do
+    assert_difference "MembershipMailer.deliveries.size", 1 do
       Membership.send_absences_included_reminders
       perform_enqueued_jobs
     end
@@ -78,7 +78,7 @@ class Membership::AbsencesIncludedRemindableTest < ActiveSupport::TestCase
     remindable_on = first_provisional.delivery.date - Current.org.absences_included_reminder_period
 
     travel_to remindable_on
-    assert_no_difference "AbsenceMailer.deliveries.size" do
+    assert_no_difference "MembershipMailer.deliveries.size" do
       Membership.send_absences_included_reminders
       perform_enqueued_jobs
     end
@@ -133,7 +133,7 @@ class Membership::AbsencesIncludedRemindableTest < ActiveSupport::TestCase
     remindable_on = first_provisional.delivery.date - Current.org.absences_included_reminder_period
 
     travel_to remindable_on
-    assert_difference "AbsenceMailer.deliveries.size", 1 do
+    assert_difference "MembershipMailer.deliveries.size", 1 do
       membership.send_absences_included_reminder!
       perform_enqueued_jobs
     end
@@ -150,7 +150,7 @@ class Membership::AbsencesIncludedRemindableTest < ActiveSupport::TestCase
 
     # Stay well before the remindable_on date
     travel_to remindable_on - 1.day
-    assert_no_difference "AbsenceMailer.deliveries.size" do
+    assert_no_difference "MembershipMailer.deliveries.size" do
       membership.send_absences_included_reminder!
       perform_enqueued_jobs
     end
@@ -219,7 +219,7 @@ class Membership::AbsencesIncludedRemindableTest < ActiveSupport::TestCase
 
     # Travel past the membership end date
     travel_to "2025-02-01"
-    assert_no_difference "AbsenceMailer.deliveries.size" do
+    assert_no_difference "MembershipMailer.deliveries.size" do
       Membership.send_absences_included_reminders
       perform_enqueued_jobs
     end
