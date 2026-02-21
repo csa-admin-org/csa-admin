@@ -9,14 +9,14 @@
 
     <% if breadcrumb_links.present? %>
       <nav aria-label="Breadcrumb">
-        <ol class="flex flex-wrap gap-1 text-sm opacity-60">
+        <ol class="mb-1 flex flex-wrap gap-x-2 gap-y-2.5 text-sm opacity-60">
           <% breadcrumb_links.each_with_index do |link, index| %>
-            <li class="inline-flex h-5 items-center gap-1">
-              <% if index > 0 %>
-                <span class="mx-1 font-thin">/</span>
-              <% end %>
-
+            <li class="inline-flex h-5 items-center">
               <%= link %>
+
+              <% if index < breadcrumb_links.size - 1 %>
+                <span class="ml-2 font-thin">/</span>
+              <% end %>
             </li>
           <% end %>
         </ol>
@@ -59,7 +59,7 @@
   </div>
 
   <% if action_items_for_action.present? %>
-    <div class="flex flex-wrap gap-2 lg:justify-end">
+    <div class="flex flex-wrap justify-end gap-2">
       <%= render "active_admin/shared/action_items" %>
     </div>
   <% end %>

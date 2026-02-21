@@ -6,6 +6,7 @@
 
     a {
       @apply text-gray-500! no-underline hover:text-green-600! hover:underline! dark:text-gray-400! dark:hover:text-green-600!;
+      @apply max-w-48 truncate md:max-w-none;
     }
   }
 }
