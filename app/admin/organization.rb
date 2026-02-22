@@ -311,7 +311,7 @@ ActiveAdmin.register Organization do
     f.input :features,
       as: :check_boxes,
       wrapper_html: {
-        class: "features-list single-column",
+        class: "features-list single-column scroll-mt-16",
         data: { controller: "features-list" }
         },
       toggle_all: false,

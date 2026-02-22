@@ -581,6 +581,18 @@ _:
           _de: Rechnungsstellung %{fiscal_year}
           _it: Fatturazione %{fiscal_year}
           _nl: Facturering %{fiscal_year}
+        handbook_feature_inactive_html:
+          _en: The <strong>%{feature}</strong> feature is not enabled for your organization.
+          _fr: La fonctionnalité <strong>%{feature}</strong> n'est pas activée pour votre organisation.
+          _de: Die Funktion <strong>%{feature}</strong> ist für Ihre Organisation nicht aktiviert.
+          _it: La funzionalità <strong>%{feature}</strong> non è attivata per la vostra organizzazione.
+          _nl: De functie <strong>%{feature}</strong> is niet ingeschakeld voor uw organisatie.
+        handbook_feature_inactive_link_html:
+          _en: The <strong>%{feature}</strong> feature is not enabled. You can activate it in <a href="%{url}">your settings</a>.
+          _fr: La fonctionnalité <strong>%{feature}</strong> n'est pas activée. Vous pouvez l'activer dans <a href="%{url}">vos paramètres</a>.
+          _de: Die Funktion <strong>%{feature}</strong> ist nicht aktiviert. Sie können sie in <a href="%{url}">Ihren Einstellungen</a> aktivieren.
+          _it: La funzionalità <strong>%{feature}</strong> non è attivata. Puoi attivarla nelle <a href="%{url}">tue impostazioni</a>.
+          _nl: De functie <strong>%{feature}</strong> is niet ingeschakeld. U kunt deze activeren in <a href="%{url}">uw instellingen</a>.
         handbook_questions_html:
           _en: Feel free to <a href="/support">contact me</a> if you have any questions or comments about this page.
           _fr: N'hésitez pas à <a href="/support">me contacter</a> si vous avez des questions ou remarques à propos de cette page.

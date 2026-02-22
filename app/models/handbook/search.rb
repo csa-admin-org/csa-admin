@@ -41,8 +41,8 @@ module Handbook::Search
       results = []
 
       headings_for(locale).each do |page|
-        next if page[:name].to_sym.in?(Organization.restricted_features)
-        next if page[:name].to_sym.in?(Organization::FEATURES) && !Current.org.feature?(page[:name])
+        next if Organization.restricted_features.include?(page[:name].to_sym)
+        next if Current.org.inactive_feature?(page[:name])
 
         if terms.all? { |term| page[:normalized_title].include?(term) }
           results << {

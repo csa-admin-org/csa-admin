@@ -130,6 +130,11 @@ class Organization < ApplicationRecord
     features.include?(feature.to_sym)
   end
 
+  def inactive_feature?(feature)
+    feature = feature.to_sym
+    feature.in?(FEATURES) && !features.include?(feature)
+  end
+
   def feature_flag?(feature)
     feature_flags.include?(feature.to_sym)
   end

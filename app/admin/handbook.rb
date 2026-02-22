@@ -4,8 +4,21 @@ ActiveAdmin.register_page "Handbook" do
   menu false
 
   content title: proc { t("active_admin.site_footer.handbook") } do
+    handbook = Handbook.new(params[:id], binding)
+    feature = params[:id].to_sym
+    if Current.org.inactive_feature?(feature)
+      info_pane do
+          if authorized?(:update, Organization)
+            text_node t("active_admin.page.index.handbook_feature_inactive_link_html",
+              feature: t("features.#{feature}"),
+              url: edit_organization_path(anchor: "organization_features_input"))
+          else
+            text_node t("active_admin.page.index.handbook_feature_inactive_html",
+              feature: t("features.#{feature}"))
+          end
+      end
+    end
     div class: "markdown md:pr-4 content-page", data: { turbo: false } do
-      handbook = Handbook.new(params[:id], binding)
       handbook.body
     end
   end
