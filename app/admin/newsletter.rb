@@ -112,33 +112,16 @@ ActiveAdmin.register Newsletter do
           if deliveries_purged
             para t("active_admin.resources.mail_delivery.retention_notice"), class: "mt-2 missing-data"
           elsif newsletter.sent?
-            ul class: "mt-6 counts" do
-              MailDelivery::Email::STATES.each do |email_state|
-                li do
-                  count = newsletter.mail_deliveries.public_send(email_state).count
-                  label = t("active_admin.resources.mail_delivery.scopes.#{email_state}")
-                  link_to mail_deliveries_path(newsletter_id: newsletter.id, scope: email_state) do
-                    counter_tag(label, count)
-                  end
-                end
-              end
-            end
+            mail_delivery_email_stats(self, newsletter.mail_deliveries,
+              path_params: { newsletter_id: newsletter.id },
+              list_class: "mt-6 counts")
           end
         end
 
         if newsletter.sent?
           panel t(".missing_deliveries") do
             if newsletter.show_missing_delivery_emails?
-              div(class: "grid gap-y-2 mb-2") do
-                newsletter.deliveries_with_missing_emails.each do |delivery|
-                  delivery.missing_emails.each do |email|
-                    div(class: "flex flex-wrap items-center justify-start mx-2 gap-2") do
-                      h4(class: "m-0 text-lg font-extralight") { auto_link delivery, email }
-                      span(class: "text-sm text-gray-500") { "(#{auto_link(delivery.member)})".html_safe }
-                    end
-                  end
-                end
-              end
+              missing_delivery_emails_grid(self, newsletter)
             elsif newsletter.missing_delivery_emails_allowed?
               para t(".missing_deliveries_no_emails"), class: "missing-data"
             else

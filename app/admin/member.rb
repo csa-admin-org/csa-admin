@@ -172,12 +172,7 @@ ActiveAdmin.register Member do
               if next_basket.trial?
                 row(:state) { status_tag(:trial) }
               end
-              row(:basket_size) { basket_size_description(member.next_basket, text_only: true, public_name: false) }
-              if BasketComplement.kept.any?
-                row(Membership.human_attribute_name(:memberships_basket_complements)) {
-                  basket_complements_description(member.next_basket.baskets_basket_complements, text_only: true, public_name: false)
-                }
-              end
+              basket_config_rows(self, member.next_basket, member.next_basket.baskets_basket_complements)
               row(:depot) { link_to next_basket.depot.name, next_basket.depot  }
               row(:delivery) { link_to next_basket.delivery.display_name(format: :long), next_basket.delivery }
               if feature?("shop")
@@ -467,28 +462,10 @@ ActiveAdmin.register Member do
             invoicer = Billing::Invoicer.new(member, date: Date.tomorrow)
             if invoicer.next_date
               row(:next_invoice_on) {
-                if Current.org.recurring_billing?
-                  div class: "flex items-center justify-end gap-2" do
-                    if invoicer.next_date
-                      span do
-                        l(invoicer.next_date, format: :medium)
-                      end
-                      if authorized?(:recurring_billing, member) && Billing::Invoicer.new(member).billable?
-                        div do
-                          panel_button t(".recurring_billing"), recurring_billing_member_path(member),
-                            disabled: !Current.org.iban?,
-                            disabled_tooltip: t(".recurring_billing_iban_missing", iban_type: Current.org.iban_type_name),
-                            form: { class: "inline" },
-                            data: { confirm: t(".recurring_billing_confirm") }
-                        end
-                      end
-                    end
-                  end
-                else
-                  span class: "italic text-gray-400 dark:text-gray-600" do
-                    t(".recurring_billing_disabled")
-                  end
-                end
+                recurring_billing_row_content(self,
+                  next_date: invoicer.next_date,
+                  path: recurring_billing_member_path(member),
+                  authorized: authorized?(:recurring_billing, member) && Billing::Invoicer.new(member).billable?)
               }
             end
           end
@@ -515,24 +492,10 @@ ActiveAdmin.register Member do
               invoicer = Billing::InvoicerShare.new(member)
               if invoicer.billable?
                 row(:next_invoice_on) {
-                  if Current.org.recurring_billing?
-                    if invoicer.next_date
-                      span class: "next_date" do
-                        l(invoicer.next_date, format: :medium)
-                      end
-                      if authorized?(:force_share_billing, member)
-                        panel_button t(".recurring_billing"), force_share_billing_member_path(member),
-                          disabled: !Current.org.iban?,
-                          disabled_tooltip: t(".recurring_billing_iban_missing", iban_type: Current.org.iban_type_name),
-                          form: { class: "inline" },
-                          data: { confirm: t(".recurring_billing_confirm") }
-                      end
-                    end
-                  else
-                    span class: "italic text-gray-400 dark:text-gray-600" do
-                      t(".recurring_billing_disabled")
-                    end
-                  end
+                  recurring_billing_row_content(self,
+                    next_date: invoicer.next_date,
+                    path: force_share_billing_member_path(member),
+                    authorized: authorized?(:force_share_billing, member))
                 }
               end
             end

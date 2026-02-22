@@ -41,9 +41,9 @@ Put business logic in models. When a model grows:
 
 Shared concerns go in `app/models/concerns/`. When including multiple concerns, document callback order dependencies.
 
-### Documenting Complex Classes
+### Minimal Comments
 
-When creating non-trivial classes, add a comment block explaining why it exists, what problem it solves, and how it's used.
+Code should speak for itself. Use clear naming and small methods instead of comments. Only add comments to explain **why** something non-obvious is done, never **what** the code does. No `@param`/`@return` yard-style docs — this is an app, not a public API gem.
 
 ## Translations Workflow
 

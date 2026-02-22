@@ -92,32 +92,14 @@ ActiveAdmin.register MailTemplate do
         deliveries_count = deliveries.count
         if deliveries_count > 0
           panel link_to(MailDelivery.model_name.human(count: 2), mail_deliveries_path(mail_template_id: mail_template.id)), count: deliveries_count do
-            ul class: "counts" do
-              MailDelivery::Email::STATES.each do |email_state|
-                li do
-                  count = deliveries.public_send(email_state).count
-                  label = t("active_admin.resources.mail_delivery.scopes.#{email_state}")
-                  link_to mail_deliveries_path(mail_template_id: mail_template.id, scope: email_state) do
-                    counter_tag(label, count)
-                  end
-                end
-              end
-            end
+            mail_delivery_email_stats(self, deliveries,
+              path_params: { mail_template_id: mail_template.id })
             para t("active_admin.resources.mail_delivery.retention_notice"), class: "mt-6 italic text-sm text-gray-400 dark:text-gray-600"
           end
 
           if mail_template.show_missing_delivery_emails?
             panel t(".missing_deliveries") do
-              div(class: "grid gap-y-2 mb-2") do
-                mail_template.deliveries_with_missing_emails.each do |delivery|
-                  delivery.missing_emails.each do |email|
-                    div(class: "flex flex-wrap items-center justify-start mx-2 gap-2") do
-                      h4(class: "m-0 text-lg font-extralight") { auto_link delivery, email }
-                      span(class: "text-sm text-gray-500") { "(#{auto_link(delivery.member)})".html_safe }
-                    end
-                  end
-                end
-              end
+              missing_delivery_emails_grid(self, mail_template)
             end
           end
         end

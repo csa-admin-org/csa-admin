@@ -16,4 +16,27 @@ module ActiveAdmin::BillingHelper
       cur(total_amount, unit: unit)
     end
   end
+
+  def recurring_billing_row_content(arbre, next_date:, path:, authorized:)
+    if Current.org.recurring_billing?
+      if next_date
+        arbre.div class: "flex items-center justify-end gap-2" do
+          arbre.span { l(next_date, format: :medium) }
+          if authorized
+            arbre.div do
+              panel_button t("active_admin.resource.show.recurring_billing"), path,
+                disabled: !Current.org.iban?,
+                disabled_tooltip: t("active_admin.resource.show.recurring_billing_iban_missing", iban_type: Current.org.iban_type_name),
+                form: { class: "inline" },
+                data: { confirm: t("active_admin.resource.show.recurring_billing_confirm") }
+            end
+          end
+        end
+      end
+    else
+      arbre.span class: "italic text-gray-400 dark:text-gray-600" do
+        t("active_admin.resource.show.recurring_billing_disabled")
+      end
+    end
+  end
 end

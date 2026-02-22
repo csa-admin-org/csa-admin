@@ -446,13 +446,7 @@ ActiveAdmin.register Membership do
 
         panel t(".config") do
           attributes_table do
-            row(:basket_size) { basket_size_description(m, text_only: true, public_name: false) }
-            if BasketComplement.kept.any?
-              row(:memberships_basket_complements) {
-                basket_complements_description(
-                  m.memberships_basket_complements.includes(:basket_complement), text_only: true, public_name: false)
-                }
-            end
+            basket_config_rows(self, m, m.memberships_basket_complements.includes(:basket_complement))
             row :depot
             row(:delivery_cycle) {
               delivery_cycle_link(m.delivery_cycle, fy_year: m.fy_year)
@@ -525,31 +519,8 @@ ActiveAdmin.register Membership do
                   }
                 end
                 div class: "mt-2 flex items-center justify-center gap-4 gap-y-2 flex-wrap" do
-                  if authorized?(:renew, m)
-                    div do
-                      panel_button t(".renew"), renew_membership_path(m),
-                        icon: "arrow-path",
-                        disabled: !m.can_renew?,
-                        disabled_tooltip: t(".renew_no_future_deliveries"),
-                        data: { confirm: t(".confirm") }
-                    end
-                  end
-                  if authorized?(:cancel, m)
-                    div do
-                      panel_button t(".cancel_renewal"), cancel_membership_path(m),
-                        icon: "x-circle",
-                        class: "btn btn-sm destructive",
-                        data: { confirm: t(".confirm") }
-                    end
-                  end
-                  if Current.org.annual_fee? && authorized?(:cancel_keep_support, m)
-                    div do
-                      panel_button t(".cancel_renewal_keep_support"), cancel_keep_support_membership_path(m),
-                        icon: "x-circle",
-                        class: "btn btn-sm destructive",
-                        data: { confirm: t(".confirm") }
-                    end
-                  end
+                  renew_button(self, m)
+                  cancel_renewal_buttons(self, m)
                 end
               else
                 div class: "mt-2 flex items-center justify-center gap-4 gap-y-2 flex-wrap" do
@@ -561,32 +532,9 @@ ActiveAdmin.register Membership do
                           data: { confirm: t(".confirm") }
                       end
                     end
-                    if authorized?(:renew, m)
-                      div do
-                        panel_button t(".renew"), renew_membership_path(m),
-                          icon: "arrow-path",
-                          disabled: !m.can_renew?,
-                          disabled_tooltip: t(".renew_no_future_deliveries"),
-                          data: { confirm: t(".confirm") }
-                      end
-                    end
+                    renew_button(self, m)
                   end
-                  if authorized?(:cancel, m)
-                    div do
-                      panel_button t(".cancel_renewal"), cancel_membership_path(m),
-                        icon: "x-circle",
-                        class: "btn btn-sm destructive",
-                        data: { confirm: t(".confirm") }
-                    end
-                  end
-                  if Current.org.annual_fee? && authorized?(:cancel_keep_support, m)
-                    div do
-                      panel_button t(".cancel_renewal_keep_support"), cancel_keep_support_membership_path(m),
-                        icon: "x-circle",
-                        class: "btn btn-sm destructive",
-                        data: { confirm: t(".confirm") }
-                    end
-                  end
+                  cancel_renewal_buttons(self, m)
                 end
               end
             end
@@ -667,29 +615,11 @@ ActiveAdmin.register Membership do
             }
             if resource.billable?
               row(:next_invoice_on) {
-                if Current.org.recurring_billing?
-                  invoicer = Billing::Invoicer.new(resource.member, membership: resource, date: Date.tomorrow)
-                  if invoicer.next_date
-                    div class: "flex items-center justify-end gap-2" do
-                      span do
-                        l(invoicer.next_date, format: :medium)
-                      end
-                      if authorized?(:recurring_billing, resource.member) && Billing::Invoicer.new(resource.member, membership: resource).billable?
-                        div do
-                          panel_button t(".recurring_billing"), recurring_billing_member_path(resource.member),
-                            disabled: !Current.org.iban?,
-                            disabled_tooltip: t(".recurring_billing_iban_missing", iban_type: Current.org.iban_type_name),
-                            form: { class: "inline" },
-                            data: { confirm: t(".recurring_billing_confirm") }
-                        end
-                      end
-                    end
-                  end
-                else
-                  span class: "italic text-gray-400 dark:text-gray-600" do
-                    t(".recurring_billing_disabled")
-                  end
-                end
+                invoicer = Billing::Invoicer.new(resource.member, membership: resource, date: Date.tomorrow)
+                recurring_billing_row_content(self,
+                  next_date: invoicer.next_date,
+                  path: recurring_billing_member_path(resource.member),
+                  authorized: authorized?(:recurring_billing, resource.member) && Billing::Invoicer.new(resource.member, membership: resource).billable?)
               }
             end
           end
