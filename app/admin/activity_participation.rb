@@ -58,7 +58,7 @@ ActiveAdmin.register ActivityParticipation do
   index do
     selectable_column(class: "w-px")
     column :member, ->(ap) {
-      with_note_icon ap.note do
+      with_note_icon ap.note, reply: ap.note_reply_args do
         link_with_session ap.member, ap.session
       end
     }, sortable: "members.name"
@@ -219,12 +219,23 @@ ActiveAdmin.register ActivityParticipation do
         panel ActivityParticipation.human_attribute_name(:contact) do
           attributes_table do
             row :member
-            row(:email) { display_emails_with_link(self, ap.emails) }
+            row(:email) { display_emails_with_link(self, ap.session&.email) }
             row(:phones) { display_phones_with_link(self, ap.member.phones_array) }
-            if ap.carpooling?
-              row(:carpooling_phone) { display_phones_with_link(self, ap.carpooling_phone) }
+          end
+        end
+
+        if ap.carpooling?
+          panel t(".carpooling") do
+            attributes_table do
+              row(:phone) { display_phones_with_link(self, ap.carpooling_phone) }
               row(:carpooling_city) { ap.carpooling_city }
             end
+          end
+        end
+
+        if ap.note?
+          panel ActivityParticipation.human_attribute_name(:note) do
+            note_panel ap.note, reply: ap.note_reply_args
           end
         end
 
@@ -246,9 +257,7 @@ ActiveAdmin.register ActivityParticipation do
               end
             }
             row(:participants_count)
-            if ap.note?
-              row(:note) { ap.note }
-            end
+
             row(:latest_reminder_sent_at) { l(ap.latest_reminder_sent_at, format: :medium) if ap.latest_reminder_sent_at }
             row(:created_at) { l(ap.created_at, format: :medium) }
             row(:updated_at) { l(ap.updated_at, format: :medium) }

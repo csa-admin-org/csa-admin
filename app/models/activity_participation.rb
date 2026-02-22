@@ -131,6 +131,14 @@ class ActivityParticipation < ApplicationRecord
     !future? && !rejected?
   end
 
+  def note_reply_args
+    {
+      to: session&.email,
+      subject: "#{I18n.t("activities.#{Current.org.activity_i18n_scope}.one")}, #{activity.name}",
+      cc: member.emails_array - [ session&.email ].compact
+    }
+  end
+
   def can_send_email?
     member.emails?
   end

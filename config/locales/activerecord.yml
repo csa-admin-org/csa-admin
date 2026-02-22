@@ -2377,12 +2377,6 @@ _:
           _de: Erläuterung
           _it: Spiegazione
           _nl: Uitleg
-        phone:
-          _en: Phone
-          _fr: Téléphone
-          _de: Telefon
-          _it: Telefono
-          _nl: Telefoon
         privacy_policy_url:
           _en: Privacy policy (URL)
           _fr: Politique de confidentialité (URL)

@@ -6,6 +6,7 @@ class Absence < ApplicationRecord
 
   belongs_to :member
   belongs_to :session, optional: true
+
   has_many :baskets, dependent: :nullify
   has_many :basket_shifts, dependent: :destroy
 
@@ -28,6 +29,14 @@ class Absence < ApplicationRecord
 
   def self.ransackable_scopes(_auth_object = nil)
     super + %i[including_date during_year]
+  end
+
+  def note_reply_args
+    {
+      to: session&.email,
+      subject: "#{self.class.model_name.human} #{I18n.l(started_on, format: :medium)} – #{I18n.l(ended_on, format: :medium)}",
+      cc: member.emails_array - [ session&.email ].compact
+    }
   end
 
   private

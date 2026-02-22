@@ -47,7 +47,7 @@ ActiveAdmin.register Absence do
   includes :member, :session, :baskets
   index download_links: [ :csv, :xlsx ] do
     column :member, ->(absence) {
-      with_note_icon absence.note do
+      with_note_icon absence.note, reply: absence.note_reply_args do
         link_with_session absence.member, absence.session
       end
     }, sortable: "members.name"
@@ -84,6 +84,11 @@ ActiveAdmin.register Absence do
             column(:membership) { |b| auto_link b.membership, aria: { label: "show" } }
           end
         end
+        if absence.note?
+          panel Absence.human_attribute_name(:note) do
+            note_panel absence.note, reply: absence.note_reply_args
+          end
+        end
       end
       column do
         panel t(".details") do
@@ -91,7 +96,6 @@ ActiveAdmin.register Absence do
             row :id
             row :member
             row(:email_session) { absence.session&.email }
-            row :note
             row(:started_on) { l absence.started_on }
             row(:ended_on) { l absence.ended_on }
           end

@@ -128,6 +128,7 @@ class AdminMailer < ApplicationMailer
         "absence" => Liquid::AdminAbsenceDrop.new(params[:absence]))
       content_mail(content,
         to: @admin.email,
+        reply_to: params[:reply_to],
         subject: t(".subject"),
         tag: "admin-absence-created")
     end
@@ -150,6 +151,7 @@ class AdminMailer < ApplicationMailer
         "activity_participation" => Liquid::AdminActivityParticipationDrop.new(@participation))
       content_mail(content,
         to: @admin.email,
+        reply_to: params[:reply_to],
         subject: t_activity(".subject"),
         tag: "admin-activity-participation-created")
     end

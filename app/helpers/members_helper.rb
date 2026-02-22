@@ -27,18 +27,44 @@ module MembersHelper
     }
   end
 
-  def with_note_icon(note)
+  def with_note_icon(note, reply: nil)
     if note.present?
       id = SecureRandom.hex(6)
       Arbre::Context.new({}, self) do
         div class: "flex items-center justify-between" do
           div yield
-          div helpers.tooltip(id, note, icon_name: "chat-bubble-bottom-center-text")
+          div(if reply&.dig(:to).present?
+            helpers.note_popover(id, note, reply: reply)
+          else
+            helpers.tooltip(id, note, icon_name: "chat-bubble-bottom-center-text")
+          end)
         end
       end.html_safe
     else
       yield
     end
+  end
+
+  def note_popover(id, note, reply:)
+    popover(id, icon_name: "chat-bubble-bottom-center-text") do
+      content_tag(:span, note) +
+        content_tag(:div, class: "mt-2 text-right") do
+          note_mail_to(note, reply: reply,
+            class: "inline-flex items-center text-white underline hover:text-green-300")
+        end
+    end
+  end
+
+  def note_panel(note, reply: nil)
+    content = tag.blockquote(class: "italic font-normal tracking-tight text-heading border-s-2 rounded-r-md border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-800 p-2") {
+      tag.p(note, class: "ml-1 whitespace-pre-wrap")
+    }
+    if reply&.dig(:to).present?
+      content += tag.div(class: "flex justify-end mt-2") {
+        note_mail_to(note, reply: reply, class: "btn btn-sm")
+      }
+    end
+    tag.div content, class: "mx-2 mb-2"
   end
 
   def members_collection(relation = nil)
@@ -358,6 +384,19 @@ module MembersHelper
   end
 
   private
+
+  def note_mail_to(note, reply:, **options)
+    quoted = note.lines.map { |line| "> #{line}" }.join
+    body = "#{quoted}\n\n"
+    mail_options = { subject: "Re: #{reply[:subject]}", body: body }
+    mail_options[:cc] = reply[:cc] if reply[:cc].present?
+    mail_to(reply[:to],
+      **mail_options,
+      **options) do
+      icon("message-square-reply", class: "inline size-4 me-1") +
+        I18n.t("active_admin.resource.show.reply")
+    end
+  end
 
   def deliveries_count(counts = billable_deliveries_counts)
     case counts

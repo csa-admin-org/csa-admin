@@ -1418,6 +1418,12 @@ _:
           _de: Kündigen (Förderung)
           _it: Terminare (sostegno)
           _nl: Opzeggen (ondersteuning)
+        carpooling:
+          _en: Carpooling
+          _fr: Covoiturage
+          _de: Fahrgemeinschaft
+          _it: Carpooling
+          _nl: Carpooling
         clear_activity_participations_demanded/basket_preparation:
           _en: Clear demanded basket preparations
           _fr: Annuler les préparations de paniers demandées
@@ -1805,6 +1811,12 @@ _:
           _de: Der Lieferzyklus hat keine zukünftigen Lieferungen. Das Abonnement kann nicht erneuert werden.
           _it: Il ciclo di consegne non ha consegne future. L'abbonamento non può essere rinnovato.
           _nl: De leveringscyclus heeft geen toekomstige leveringen. Het lidmaatschap kan niet worden vernieuwd.
+        reply:
+          _en: Reply
+          _fr: Répondre
+          _de: Antworten
+          _it: Rispondi
+          _nl: Beantwoorden
         salary_basket:
           _en: Free, salary basket
           _fr: Gratuit, panier salaire

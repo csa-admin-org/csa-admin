@@ -22,6 +22,7 @@ class Absence::AdminNotificationsTest < ActiveSupport::TestCase
     mail = AdminMailer.deliveries.last
     assert_equal "New absence", mail.subject
     assert_equal [ admin1.email ], mail.to
+    assert_nil mail.reply_to
     body = mail.html_part.body
     assert_includes body, admin1.name
     assert_includes body, absence.member.name
@@ -50,6 +51,7 @@ class Absence::AdminNotificationsTest < ActiveSupport::TestCase
     mail = AdminMailer.deliveries.last
     assert_equal "New absence", mail.subject
     assert_equal [ admin2.email ], mail.to
+    assert_equal [ "john@doe.com" ], mail.reply_to
     body = mail.html_part.body
     assert_includes body, admin2.name
     assert_includes body, absence.member.name
@@ -57,5 +59,24 @@ class Absence::AdminNotificationsTest < ActiveSupport::TestCase
     assert_includes body, I18n.l(absence.ended_on)
     assert_includes body, "Member's note:"
     assert_includes body, "A Super Note!"
+  end
+
+  test "sets reply_to with session email and member emails when note is present" do
+    admin = admins(:ultra)
+    admin.update_column(:notifications, %w[new_absence])
+
+    member = members(:john)
+    session = sessions(:john)
+
+    absence = create_absence(
+      member: member,
+      session: session,
+      note: "Please call me back",
+      started_on: 1.week.from_now,
+      ended_on: 2.weeks.from_now)
+    perform_enqueued_jobs
+
+    mail = AdminMailer.deliveries.last
+    assert_equal [ session.email, *member.emails_array ].compact.uniq, mail.reply_to
   end
 end

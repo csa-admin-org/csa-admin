@@ -558,6 +558,12 @@ _:
       _de: Zeiten
       _it: Orario
       _nl: Periode
+    phone:
+      _en: Phone
+      _fr: Téléphone
+      _de: Telefon
+      _it: Telefono
+      _nl: Telefoon
     phones:
       _en: Phone(s)
       _fr: Téléphone(s)

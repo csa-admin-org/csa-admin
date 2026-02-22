@@ -23,6 +23,9 @@ class Notification::AdminNewActivityParticipation < Notification::Base
       activity_participation_ids: group.ids,
       skip: group.session&.admin
     }
+    if group.note?
+      attrs[:reply_to] = [ group.session&.email, *group.member.emails_array ].compact.uniq
+    end
     Admin.notify!(:new_activity_participation, **attrs)
     Admin.notify!(:new_activity_participation_with_note, **attrs) if group.note?
   end

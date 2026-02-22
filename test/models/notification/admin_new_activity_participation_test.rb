@@ -29,6 +29,7 @@ class Notification::AdminNewActivityParticipationTest < ActiveSupport::TestCase
     assert_equal "New participation in a ½ day", mail.subject
     assert_includes mail.html_part.body, "Schedule:</strong> 8:30-12:00, 13:30-17:00"
     assert_equal [ admin.email ], mail.to
+    assert_nil mail.reply_to
 
     assert p1.reload.admins_notified_at?
     assert p2.reload.admins_notified_at?
@@ -58,7 +59,33 @@ class Notification::AdminNewActivityParticipationTest < ActiveSupport::TestCase
     assert_includes mail.html_part.body, "Carpooling"
     assert_includes mail.html_part.body, "A great note!"
     assert_equal [ admin.email ], mail.to
+    assert_equal [ "anybody@doe.com" ], mail.reply_to
 
     assert p.reload.admins_notified_at.present?
+  end
+
+  test "notify sets reply_to with session email and member emails when note is present" do
+    admin = admins(:ultra)
+    admin.update(notifications: [ "new_activity_participation" ])
+
+    member = create_member(emails: "member@doe.com")
+    session = Session.create!(
+      member: member,
+      email: "session@doe.com",
+      user_agent: "Test",
+      remote_addr: "127.0.0.1")
+    create_participation(
+      member: member,
+      session: session,
+      activity: activities(:harvest),
+      note: "A note with session!")
+
+    assert_difference -> { AdminMailer.deliveries.size }, 1 do
+      Notification::AdminNewActivityParticipation.notify
+      perform_enqueued_jobs
+    end
+
+    mail = AdminMailer.deliveries.last
+    assert_equal [ "session@doe.com", "member@doe.com" ], mail.reply_to
   end
 end
