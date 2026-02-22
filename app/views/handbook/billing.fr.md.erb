@@ -52,7 +52,7 @@ Les membres peuvent annuler leur abonnement eux-mêmes durant la période d'essa
 Si l'abonnement est annulé durant la période d'essai, alors seulement les paniers livrés seront facturés, le prochain jour de facturation. Dans ce cas, la cotisation annuelle n'est pas facturée (sauf si le membre choisit de la payer).
 
 <% if Current.org.share? %>
-## Parts sociales
+## Parts sociales {#share-capital}
 
 Chaque jour de facturation, le système crée automatiquement les factures pour les parts sociales manquantes, par exemple pour un membre dont l'abonnement vient de commencer.
 
@@ -100,7 +100,7 @@ Il est possible d'ajouter un texte spécifique dans le [template email "Nouvelle
 ~~~
 <% end %>
 
-## Facture manuelle (Autre)
+## Facture manuelle (Autre) {#manual-invoice}
 
 CSA Admin offre la possibilité de facturer manuellement des articles ou des services divers (par exemple, achat de sac en tissus pour les nouveaux abonnés). Pour cela, il suffit de [créer une nouvelle facture](/invoices/new) et de rentrer les articles sous l'onglet "Autre". Après vérification du PDF, vous pouvez envoyer manuellement la facture à l'aide du bouton "Envoyer" sur la page de celle-ci.
 

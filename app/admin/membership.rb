@@ -842,7 +842,7 @@ ActiveAdmin.register Membership do
             },
             hint: t("formtastic.hints.membership.absences_included_annually_html")
 
-          handbook_button(self, "absences", anchor: "absences-incluses")
+          handbook_button(self, "absences", anchor: "absence-included")
         end
       end
     end

@@ -7,7 +7,7 @@ This additional income can serve different needs, for example:
 - A solidarity contribution to reduce the price of other memberships
 - Increase farmers' salaries
 
-## Configuration
+## Configuration {#configuration}
 
 Once this additional feature is activated in [your settings](/settings#organization_features_input), [several settings](/settings#basket_price_extra) allow you to configure how these extras will be presented to your members during their registration or [membership renewal](/handbook/membership_renewal).
 
@@ -45,7 +45,7 @@ salary ~{{ extra | plus: 20 | ceil }}.- net/hour, ~{{ extra | plus: 20 | times: 
 This will give this more detailed presentation (with 40 deliveries):
 ![Detailed label display](<%= image_url("handbook/basket_price_extra/label_with_details.en.png") %>)
 
-## Report
+## Report {#report}
 
 The total amount of all extras is displayed at the bottom right of [the memberships list](https://admin.tapatate.test/memberships?q%5Bduring_year%5D=<%= Current.fy_year %>&scope=all&subdomain=admin&order=started_on_desc), below the filters. Don't forget to filter the memberships by fiscal year to get the correct amount.
 

@@ -100,7 +100,7 @@ ActiveAdmin.register BasketComplement do
           hint: f.object.persisted?
       end
 
-      handbook_button(self, "deliveries", anchor: "complments-de-panier")
+      handbook_button(self, "deliveries", anchor: "basket-complements")
     end
 
     f.actions

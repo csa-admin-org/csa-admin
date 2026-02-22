@@ -183,7 +183,7 @@ ActiveAdmin.register Delivery do
           collection: admin_basket_complements,
           hint: true
 
-        handbook_button(self, "deliveries", anchor: "complments-de-panier")
+        handbook_button(self, "deliveries", anchor: "basket-complements")
       end
     end
 

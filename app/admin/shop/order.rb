@@ -115,7 +115,7 @@ ActiveAdmin.register Shop::Order do
   end
 
   sidebar :billing, if: -> { params.dig(:q, :_delivery_gid_eq).present? }, only: :index do
-    side_panel t(".billing"), action: handbook_icon_link("shop", anchor: "facturation") do
+    side_panel t(".billing"), action: handbook_icon_link("shop", anchor: "billing") do
       if delay = Current.org.shop_order_automatic_invoicing_delay_in_days
         delivery = GlobalID::Locator.locate(params[:q][:_delivery_gid_eq])
         date = delivery.date + delay.days
