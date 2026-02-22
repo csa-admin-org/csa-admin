@@ -8,8 +8,10 @@ import { Controller } from "@hotwired/stimulus"
 // approach as the server-side SearchEntry.normalize_text) so that
 // accent-insensitive matching works (e.g. "eligible" highlights "éligible").
 //
-// After highlighting, scrolls the first <mark> into view and cleans up
-// the URL param so that a page refresh doesn't re-highlight.
+// After highlighting, scrolls to the URL hash anchor if present (explicit
+// navigation intent takes priority), otherwise falls back to the first
+// <mark>. Cleans up the highlight URL param so that a page refresh doesn't
+// re-highlight.
 //
 // Targets:
 //   content – the container element whose text nodes will be searched
@@ -29,11 +31,20 @@ export default class extends Controller {
 
     this.highlightTerms(this.contentTarget, terms)
 
-    // Scroll the first highlighted match into view (below any sticky header)
-    const firstMark = this.contentTarget.querySelector("mark")
-    if (firstMark) {
+    // If a URL hash anchor is present, scroll to it (explicit navigation
+    // intent takes priority over highlight position). Otherwise fall back
+    // to the first highlighted match.
+    const hash = url.hash?.slice(1)
+    const anchorTarget = hash && document.getElementById(hash)
+    const scrollTarget =
+      anchorTarget || this.contentTarget.querySelector("mark")
+
+    if (scrollTarget) {
       requestAnimationFrame(() => {
-        firstMark.scrollIntoView({ behavior: "smooth", block: "center" })
+        scrollTarget.scrollIntoView({
+          behavior: "smooth",
+          block: anchorTarget ? "start" : "center"
+        })
       })
     }
 
