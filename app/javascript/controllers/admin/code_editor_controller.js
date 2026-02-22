@@ -4,10 +4,8 @@ import { debounce } from "throttle-debounce"
 import { CodeJar } from "codejar"
 import Prism from "prismjs"
 
-// Make Prism available globally for component scripts
 window.Prism = Prism
 
-// Import language components (they register themselves on window.Prism)
 import "prismjs/components/prism-yaml"
 import "prismjs/components/prism-markup-templating"
 import "prismjs/components/prism-liquid"
@@ -27,25 +25,21 @@ export default class extends Controller {
   editorTargetConnected(element) {
     hide(element)
 
-    // Create editor container
     const editDiv = document.createElement("div")
     editDiv.className = "codejar-editor"
 
-    // Set language class for Prism
     const mode = element.dataset.mode || "markup"
     const languageClass = `language-${mode}`
     editDiv.classList.add(languageClass)
 
     element.parentNode.insertBefore(editDiv, element)
 
-    // Highlight function using Prism
     const highlight = (editor) => {
       const code = editor.textContent
       const grammar = Prism.languages[mode] || Prism.languages.markup
       editor.innerHTML = Prism.highlight(code, grammar, mode)
     }
 
-    // Initialize CodeJar
     this.jar = CodeJar(editDiv, highlight, {
       tab: "  ",
       indentOn: /[{(\[]$/,
@@ -55,10 +49,8 @@ export default class extends Controller {
       preserveIdent: true
     })
 
-    // Set initial content
     this.jar.updateCode(element.value)
 
-    // Sync changes back to textarea
     this.jar.onUpdate((code) => {
       element.value = code
       this.updatePreview()

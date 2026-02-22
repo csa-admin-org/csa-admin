@@ -12,7 +12,7 @@ export default class extends Controller {
           ) {
             if (!form.hasAttribute("aria-busy")) {
               this.observeFormChanges(form)
-              observer.disconnect() // Stop observing the aria-busy attribute
+              observer.disconnect()
             }
           }
         })
@@ -28,7 +28,7 @@ export default class extends Controller {
       mutations.forEach((mutation) => {
         if (mutation.type === "childList" && mutation.addedNodes.length > 0) {
           this.scroll(form)
-          observer.disconnect() // Stop observing once the content is updated
+          observer.disconnect()
         }
       })
     })

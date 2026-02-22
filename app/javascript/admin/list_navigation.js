@@ -1,29 +1,3 @@
-// Shared keyboard-navigation logic for lists of [data-search-result] items.
-//
-// Both the global search modal and the handbook sidebar search need
-// identical up/down/enter navigation over result lists. This mixin
-// extracts that behaviour so neither controller duplicates it.
-//
-// Usage — mix into any Stimulus controller:
-//
-//   import { listNavigation } from "admin/list_navigation"
-//
-//   export default class extends Controller {
-//     static targets = ["frame"]   // or "results" — the container
-//
-//     connect() {
-//       Object.assign(this, listNavigation())
-//     }
-//   }
-//
-// The controller must provide a `resultItems` getter that returns the
-// list of navigable DOM elements. Call `resetListSelection()` after new
-// results load, and wire `navigateDown` / `navigateUp` / `selectCurrent`
-// to keydown events.
-//
-// The mixin expects the host controller to have an `inputTarget` for
-// returning focus on up-arrow from the first item.
-
 export function listNavigation() {
   return {
     selectedIndex: -1,

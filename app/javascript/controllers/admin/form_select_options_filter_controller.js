@@ -25,7 +25,6 @@ export default class extends Controller {
           option.hidden = true
         }
         option.selected = false
-        // Keep the current selected value selected
         if (option.value === selectedValue && !option.disabled) {
           option.selected = true
         }

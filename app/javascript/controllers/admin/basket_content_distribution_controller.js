@@ -21,8 +21,6 @@ export default class extends Controller {
 
   connect() {
     this.updateAll()
-
-    // Ensure correct mode is selected on page load
     const anchor = window.location.hash
     if (anchor == "#manual" && this.modeTarget.value == "automatic") {
       document.querySelector('a[aria-controls="manual"]').click()

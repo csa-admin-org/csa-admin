@@ -1,20 +1,5 @@
 import { Controller } from "@hotwired/stimulus"
 
-// Applies the admin's theme preference set via a Stimulus value on <body>
-// (server-rendered from the admin's persisted setting).
-//
-// Supported values: "light", "dark", "system" (default).
-//
-// In "system" mode the controller listens for OS-level theme changes and
-// toggles the `dark` class on <html> accordingly.
-//
-// The preference is passed as a Stimulus value on <body> so that it is
-// automatically picked up on Turbo visits (body replacement) and morph
-// refreshes (value change callback).
-//
-// Some browsers (notably Safari) don't reliably fire the matchMedia `change`
-// event when toggling the appearance from the Web Inspector. A lightweight
-// polling fallback detects those missed changes.
 export default class extends Controller {
   static values = { preference: { type: String, default: "system" } }
 

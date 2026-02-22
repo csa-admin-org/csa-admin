@@ -22,7 +22,6 @@ export default class extends Controller {
     this.showHint = false
     this.keyboardMode = false
 
-    // Reveal the platform-appropriate hint text (skip on touch devices)
     if (window.matchMedia("(pointer: fine)").matches) {
       const platform = this.isMac ? "mac" : "other"
       this.hintTarget
@@ -35,7 +34,6 @@ export default class extends Controller {
       this.handleResultsMouseMove
     )
 
-    // Auto-open with prefilled query (e.g. from ?search= URL param)
     if (this.initialQueryValue) {
       requestAnimationFrame(() => {
         this.inputTarget.value = this.initialQueryValue
@@ -71,15 +69,13 @@ export default class extends Controller {
 
   open({ viaShortcut = false } = {}) {
     this.dialogTarget.classList.remove("hidden")
-    // Force reflow before adding opacity for transition
-    this.dialogTarget.offsetHeight
+    this.dialogTarget.offsetHeight // force reflow before adding opacity for transition
     this.dialogTarget.classList.add("open")
     this.inputTarget.focus()
     this.inputTarget.select()
     this.isOpen = true
     document.body.classList.add("overflow-hidden")
 
-    // Show/hide keyboard shortcut hint
     this.showHint = !viaShortcut
     if (this.showHint) {
       this.hintTarget.classList.remove("hidden")
@@ -107,14 +103,12 @@ export default class extends Controller {
       this.resultsTarget.innerHTML = ""
       this.selectedIndex = -1
       this.setKeyboardMode(false, this.resultItems)
-      // Show hint again when query is cleared
       if (this.showHint) {
         this.hintTarget.classList.remove("hidden")
       }
       return
     }
 
-    // Hide hint once the user starts searching
     this.hintTarget.classList.add("hidden")
 
     this.submitForm()
@@ -148,7 +142,6 @@ export default class extends Controller {
     if (items.length === 0) return
 
     if (this.selectedIndex <= 0) {
-      // Move focus back to input when pressing up from first item
       this.selectedIndex = -1
       this._clearHighlight(items)
       this.setKeyboardMode(true, items)

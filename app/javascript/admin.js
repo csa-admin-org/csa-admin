@@ -3,7 +3,6 @@ import "@hotwired/turbo-rails"
 import "admin/trix"
 import "controllers/admin"
 
-// Active Admin
 import "flowbite"
 // https://github.com/themesberg/flowbite/issues/88#issuecomment-1962238351
 window.document.addEventListener("turbo:submit-end", (_event) => {

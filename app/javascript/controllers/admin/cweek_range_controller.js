@@ -1,7 +1,5 @@
 import { Controller } from "@hotwired/stimulus"
 
-// Enables/disables the exclude_cweek_range checkbox based on whether
-// both first_cweek and last_cweek selects have values.
 export default class extends Controller {
   static targets = ["firstCweek", "lastCweek", "excludeCheckbox"]
 

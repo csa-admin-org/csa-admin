@@ -2,21 +2,6 @@ import { Controller } from "@hotwired/stimulus"
 import { debounce } from "throttle-debounce"
 import { listNavigation } from "admin/list_navigation"
 
-// Manages the handbook sidebar search: submits a form to a Turbo Frame
-// endpoint (debounced) when the query is long enough, and restores the
-// original page list from a cached snapshot when the input is cleared.
-//
-// Supports keyboard navigation (up/down arrows + enter) over search
-// results via the shared listNavigation mixin.
-//
-// Targets:
-//   input – the text input field
-//   frame – the <turbo-frame> wrapping the page list / results
-//   form  – the search <form>
-//
-// Values:
-//   currentPage – the handbook page currently being viewed (for context)
-//
 export default class extends Controller {
   static targets = ["input", "frame", "form"]
   static values = { currentPage: String }
@@ -45,7 +30,6 @@ export default class extends Controller {
     if (query.length >= 3) {
       this.submitForm()
     } else {
-      // Restore cached page list immediately
       this.selectedIndex = -1
       this.frameTarget.innerHTML = this.originalHTML
     }
@@ -55,8 +39,6 @@ export default class extends Controller {
     this.formTarget.requestSubmit()
   }
 
-  // Called via turbo:frame-load on the frame target when new results arrive.
-  // Auto-selects the first result so the user can immediately press enter.
   resetSelection() {
     this.resetListSelection()
   }
