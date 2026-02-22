@@ -133,10 +133,9 @@ class SearchHelperTest < ActiveSupport::TestCase
     assert_equal "Jean <mark>Dupont</mark> #<mark>42</mark>", result
   end
 
-  test "highlight_search skips non-numeric short terms" do
+  test "highlight_search highlights 2-char alphabetic terms" do
     result = highlight_search("Jean Dupont de Lausanne", "dupont de laus")
-    # "de" is a non-numeric short term, so it should be skipped
-    assert_equal "Jean <mark>Dupont</mark> de <mark>Laus</mark>anne", result
+    assert_equal "Jean <mark>Dupont</mark> <mark>de</mark> <mark>Laus</mark>anne", result
   end
 
   test "highlight_search skips terms shorter than 2 chars" do

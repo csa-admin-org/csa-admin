@@ -1,0 +1,33 @@
+<turbo-frame id="handbook-sidebar-results">
+  <% if @query.length >= 3 && @results.any? %>
+    <ul class="space-y-3 text-sm">
+      <% @results.each do |result| %>
+        <li>
+          <%= link_to handbook_page_path(result[:name], anchor: result[:anchor], highlight: @query),
+                class: "block rounded-sm px-2 py-1.5 hover:bg-gray-100 dark:hover:bg-gray-700/50 no-underline text-gray-900 dark:text-gray-100",
+                data: { turbo_frame: "_top", search_result: "" } do %>
+            <div class="truncate text-sm font-medium">
+              <%= highlight_search(result[:heading] || result[:title], @query) %>
+            </div>
+
+            <% if result[:heading] %>
+              <div class="truncate text-xs text-gray-500 dark:text-gray-400">
+                <%= result[:title] %>
+              </div>
+            <% end %>
+
+            <% if result[:snippet].present? %>
+              <div class="mt-0.5 line-clamp-2 text-xs text-gray-500 dark:text-gray-400">
+                <%= highlight_search(result[:snippet], @query) %>
+              </div>
+            <% end %>
+          <% end %>
+        </li>
+      <% end %>
+    </ul>
+  <% elsif @query.length >= 3 %>
+    <div class="px-2 py-4 text-center text-sm text-gray-500 dark:text-gray-400">
+      <%= t("active_admin.shared.sidebar_section.no_handbook_results") %>
+    </div>
+  <% end %>
+</turbo-frame>

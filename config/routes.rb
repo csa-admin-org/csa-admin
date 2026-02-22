@@ -29,6 +29,7 @@ Rails.application.routes.draw do
     resource :organization, path: "settings", only: :update
 
     get "deliveries/next" => "next_delivery#next"
+    get "handbook/search" => "handbook_search#show", as: :handbook_search
     get "handbook/:id" => "handbook#index", as: :handbook_page
 
     get "support" => "support_tickets#new", as: :support

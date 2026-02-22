@@ -2,4 +2,12 @@
   [data-search-result].search-selected {
     @apply bg-gray-100 dark:bg-white/8;
   }
+
+  mark {
+    @apply rounded-sm bg-yellow-200 dark:bg-yellow-700/50;
+  }
+
+  .grid:has([data-controller="handbook-search"]) {
+    @apply lg:auto-cols-[minmax(0,21rem)]!;
+  }
 }

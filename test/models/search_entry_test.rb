@@ -25,6 +25,8 @@ class SearchEntryTest < ActiveSupport::TestCase
     assert_empty SearchEntry.search_terms("")
     assert_empty SearchEntry.search_terms(nil)
     assert_equal %w[foo], SearchEntry.search_terms("Foo B")
+    assert_equal %w[factur ab], SearchEntry.search_terms("factur ab")
+    assert_equal %w[absen in], SearchEntry.search_terms("absen in")
   end
 
   test "reindex_record inserts a new entry with primary and secondary" do
@@ -202,13 +204,18 @@ class SearchEntryTest < ActiveSupport::TestCase
     assert_equal 1, SearchEntry.search("dupont").count
   end
 
-  test "search drops alphabetic short terms in multi-word queries" do
+  test "search keeps 2-char alphabetic terms as post-filters" do
     member = members(:john)
-    SearchEntry.reindex_record(member, primary_text: "Jean Dupont", secondary_text: "lausanne", priority: 10)
+    SearchEntry.reindex_record(member, primary_text: "Jean Dupont de Lausanne", secondary_text: "", priority: 10)
 
-    # "de" is dropped (non-numeric short term), only "dupont" is matched
+    # "de" is kept and used as a Ruby post-filter on FTS candidates
     results = SearchEntry.search("dupont de")
     assert_equal 1, results.count
+
+    # When the short term doesn't appear, the entry is filtered out
+    SearchEntry.reindex_record(member, primary_text: "Jean Dupont", secondary_text: "lausanne", priority: 10)
+    results = SearchEntry.search("dupont de")
+    assert_equal 0, results.count
   end
 
   # --- Search: ranking ---

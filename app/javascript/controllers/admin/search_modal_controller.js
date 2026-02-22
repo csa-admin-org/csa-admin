@@ -1,5 +1,6 @@
 import { Controller } from "@hotwired/stimulus"
 import { debounce } from "throttle-debounce"
+import { listNavigation } from "admin/list_navigation"
 
 export default class extends Controller {
   static targets = ["dialog", "input", "results", "hint", "form"]
@@ -11,6 +12,11 @@ export default class extends Controller {
   }
 
   connect() {
+    const nav = listNavigation()
+    this._highlightItem = nav._highlightItem
+    this._clearHighlight = nav._clearHighlight
+    this.resetListSelection = nav.resetListSelection
+
     this.selectedIndex = -1
     this.isOpen = false
     this.showHint = false
@@ -119,13 +125,7 @@ export default class extends Controller {
   }
 
   resetSelection() {
-    const items = this.resultItems
-    if (items.length > 0) {
-      this.selectedIndex = 0
-      this.highlightItem(items)
-    } else {
-      this.selectedIndex = -1
-    }
+    this.resetListSelection()
   }
 
   navigateDown(event) {
@@ -136,7 +136,7 @@ export default class extends Controller {
     if (items.length === 0) return
 
     this.selectedIndex = Math.min(this.selectedIndex + 1, items.length - 1)
-    this.highlightItem(items)
+    this._highlightItem(items)
     this.setKeyboardMode(true, items)
   }
 
@@ -150,14 +150,14 @@ export default class extends Controller {
     if (this.selectedIndex <= 0) {
       // Move focus back to input when pressing up from first item
       this.selectedIndex = -1
-      this.clearHighlight(items)
+      this._clearHighlight(items)
       this.setKeyboardMode(true, items)
       this.inputTarget.focus()
       return
     }
 
     this.selectedIndex = this.selectedIndex - 1
-    this.highlightItem(items)
+    this._highlightItem(items)
     this.setKeyboardMode(true, items)
   }
 
@@ -176,23 +176,6 @@ export default class extends Controller {
   selectItem() {
     // Let the link navigate naturally, just close the modal
     this.close()
-  }
-
-  highlightItem(items) {
-    items.forEach((item, index) => {
-      if (index === this.selectedIndex) {
-        item.classList.add("search-selected")
-        item.scrollIntoView({ block: "nearest" })
-      } else {
-        item.classList.remove("search-selected")
-      }
-    })
-  }
-
-  clearHighlight(items) {
-    items.forEach((item) => {
-      item.classList.remove("search-selected")
-    })
   }
 
   setKeyboardMode(active, items = this.resultItems) {
@@ -218,7 +201,7 @@ export default class extends Controller {
     const hoveredIndex = hoveredItem ? items.indexOf(hoveredItem) : -1
 
     this.selectedIndex = hoveredIndex
-    this.clearHighlight(items)
+    this._clearHighlight(items)
     if (this.keyboardMode) {
       this.setKeyboardMode(false, items)
     }

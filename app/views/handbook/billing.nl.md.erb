@@ -1,6 +1,6 @@
 # Facturering
 
-CSA Admin heeft als doel om de meeste taken gerelateerd aan facturering te automatiseren ([lidmaatschappen](#memberships), <% if Current.org.share? %>[aandelenkapitaal](#share-capital), <% end %>[betalingsverwerking](#payments)), maar sommige aspecten <% if feature?("activity") %>zoals facturering voor [niet voltooide <%= activities_human_name %>](#uncompleted-<%= activities_human_name %>)<% end %> moeten handmatig worden uitgevoerd.
+CSA Admin heeft als doel om de meeste taken gerelateerd aan facturering te automatiseren ([lidmaatschappen](#memberships), [aandelenkapitaal](#share-capital), [betalingsverwerking](#payments)), maar sommige aspecten zoals facturering voor [niet voltooide <%= activities_human_name %>](#uncompleted-<%= activities_human_name %>) moeten handmatig worden uitgevoerd.
 
 Voor Zwitserland genereert CSA Admin QR-facturen met referentienummers (PDF) en stuurt deze naar alle e-mailadressen van het betreffende lid. Om deze facturen te kunnen genereren, moet u een QR-IBAN aanvragen bij uw bank, let op dat dit nummer verschilt van uw bankrekening IBAN. U kunt het dan invoeren in [uw factureringsinstellingen](/settings#billing).
 
@@ -51,7 +51,6 @@ Leden kunnen hun lidmaatschap zelf annuleren tijdens de proefperiode via hun led
 
 Als het lidmaatschap wordt geannuleerd tijdens de proefperiode, worden alleen de geleverde pakketten gefactureerd, op de volgende factureringsdag. In dit geval wordt de jaarlijkse bijdrage niet gefactureerd (tenzij het lid ervoor kiest deze te betalen).
 
-<% if Current.org.share? %>
 ## Aandelenkapitaal {#share-capital}
 
 Elke factureringsdag maakt het systeem automatisch facturen aan voor ontbrekend aandelenkapitaal, bijvoorbeeld voor een lid wiens lidmaatschap net is begonnen.
@@ -61,9 +60,7 @@ Om reeds gefactureerd aandelenkapitaal terug te betalen, ga naar de factuurpagin
 Als aandelenkapitaal al is gefactureerd buiten CSA Admin, kunt u deze informatie weergeven door het profiel van het lid te wijzigen, sectie "Facturering" (Aantal bestaand aandelenkapitaal). Deze aandelen worden dan niet gefactureerd.
 
 > Vanaf de pagina van een lid kunt u in de sectie "Facturering" (rechterkolom) het aantal aandelenkapitaal zien dat wordt of al is gefactureerd met een link naar de corresponderende facturen.
-<% end %>
 
-<% if feature?("activity") %>
 ## Niet voltooide <%= activities_human_name %> {#activity}
 
 Elke organisatie heeft een ander factureringsbeleid voor niet voltooide <%= activities_human_name.downcase %>, sommige factureren ze, andere niet.
@@ -98,13 +95,12 @@ Het is mogelijk om specifieke tekst toe te voegen in de ["Nieuwe factuur" e-mail
     <p>Mijn standaard tekst.</p>
 {% endcase %}
 ~~~
-<% end %>
 
 ## Handmatige factuur (Overig) {#manual-invoice}
 
 CSA Admin biedt de mogelijkheid om handmatig verschillende artikelen of diensten te factureren (bijvoorbeeld aankoop van stoffen tassen voor nieuwe abonnees). Hiervoor hoeft u alleen maar [een nieuwe factuur aan te maken](/invoices/new) en de artikelen in te voeren onder het tabblad "Overig". Na controle van de PDF kunt u de factuur handmatig verzenden met de knop "Verzenden" op de betreffende pagina.
 
-> Opgelet, facturen van het type "Overig" mogen niet worden gebruikt om lidmaatschappen<% if Current.org.share? %>, aandelenkapitaal<% end %><% if feature?("activity") %> of <%= activities_human_name.downcase %><% end %> te factureren, omdat het systeem deze niet in aanmerking zal nemen.
+> Opgelet, facturen van het type "Overig" mogen niet worden gebruikt om lidmaatschappen, aandelenkapitaal of <%= activities_human_name.downcase %> te factureren, omdat het systeem deze niet in aanmerking zal nemen.
 
 ## Betalingen {#payments}
 
@@ -120,9 +116,7 @@ Deze herverdelingsmodus is zeer handig en maakt het mogelijk om gevallen te behe
 
 De meest efficiënte manier om uw betalingen te verwerken is om uw bank te vragen een [EBICS-verbinding](https://www.six-group.com/en/products-services/banking-services/standardization.html#scrollTo=ebics) in te stellen. Dit stelt het systeem in staat om automatisch (elke nacht) betalingen van facturen met referentienummers van uw leden te importeren via het ISO camt.054 formaat.
 
-<% if Current.org.swiss_qr? %>
 CSA Admin beheert ook automatische ophaling van betalingen van de [Alternative Bank Switzerland](https://www.bas.ch/en) die het EBICS-systeem niet ondersteunt.
-<% end %>
 
 > Als u vragen heeft over ondersteuning voor een bepaalde bank of het instellen van EBICS, aarzel niet om [mij te vragen](/support).
 

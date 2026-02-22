@@ -44,9 +44,9 @@ class SearchEntry < ApplicationRecord
     return [] if all_terms.empty?
 
     long_terms = all_terms.select { |t| t.length >= 3 }
-    # Only keep short terms when numeric (e.g. "42" for IDs) —
-    # alphabetic short terms like "ab" are too vague to be useful.
-    short_terms = all_terms.select { |t| t.length < 3 && t.match?(/\A\d+\z/) }
+    # Short terms (2 chars) can't use FTS5 trigram matching, so they're
+    # applied as Ruby post-filters on candidates found by long terms.
+    short_terms = all_terms.select { |t| t.length == 2 }
 
     terms = long_terms + short_terms
     return [] if terms.empty?
@@ -131,7 +131,7 @@ class SearchEntry < ApplicationRecord
     return [] if normalized.blank?
 
     normalized.split(/\s+/).reject(&:blank?).select { |t|
-      t.length >= 3 || (t.length >= 2 && t.match?(/\A\d+\z/))
+      t.length >= 2
     }
   end
 

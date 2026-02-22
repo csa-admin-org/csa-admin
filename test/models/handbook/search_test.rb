@@ -64,6 +64,16 @@ class HandbookSearchTest < ActiveSupport::TestCase
     assert_equal "membership_renewal", match[:name]
   end
 
+  test "search matches when terms span title and subtitle" do
+    # "bill member" → "bill" in title "Billing", "member" in subtitle "Memberships"
+    results = Handbook.search("bill member", locale: :en)
+
+    match = results.find { |r| r[:name] == "billing" && r[:subtitle] == "Memberships" }
+    assert match, "Expected a subtitle match when terms span title + subtitle"
+    assert_equal "memberships", match[:anchor]
+    assert_equal "Billing", match[:page_title]
+  end
+
   # -- Ranking --
 
   test "title matches rank above subtitle matches" do

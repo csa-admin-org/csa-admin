@@ -1,6 +1,6 @@
 # Abrechnung
 
-CSA Admin zielt darauf ab, die meisten Aufgaben im Zusammenhang mit der Abrechnung ([Abonnements](#memberships), <% if Current.org.share? %>[Anteilskapital](#anteilskapital), <% end %>[Zahlungsverarbeitung](#zahlungen)) zu automatisieren, aber einige Aspekte <% if feature?("activity") %>wie die Abrechnung von [nicht durchgeführten <%= activities_human_name %>](#nicht-durchgefhrte-<%= activities_human_name %>)<% end %> müssen manuell durchgeführt werden.
+CSA Admin zielt darauf ab, die meisten Aufgaben im Zusammenhang mit der Abrechnung ([Abonnements](#memberships), [Anteilskapital](#anteilskapital), [Zahlungsverarbeitung](#zahlungen)) zu automatisieren, aber einige Aspekte wie die Abrechnung von [nicht durchgeführten <%= activities_human_name %>](#nicht-durchgefhrte-<%= activities_human_name %>) müssen manuell durchgeführt werden.
 
 Für die Schweiz generiert CSA Admin QR-Rechnungen mit Referenznummern (PDF) und sendet sie an alle E-Mail-Adressen des betreffenden Mitglieds. Um diese Rechnungen generieren zu können, müssen Sie eine QR-IBAN von Ihrer Bank anfordern. Beachten Sie, dass diese Nummer sich von der IBAN Ihres Bankkontos unterscheidet. Sie können sie dann in [Ihren Abrechnungseinstellungen](/settings#billing) eingeben.
 
@@ -51,7 +51,6 @@ Mitglieder können ihr Abonnement während der Probezeit selbst über ihr Mitgli
 
 Wenn das Abonnement während der Probezeit gekündigt wird, werden nur die gelieferten Taschen am nächsten Abrechnungstag in Rechnung gestellt. In diesem Fall wird der Jahresbeitrag nicht berechnet (es sei denn, das Mitglied entscheidet sich, ihn zu zahlen).
 
-<% if Current.org.share? %>
 ## Anteilskapital {#share-capital}
 
 An jedem Abrechnungstag erstellt das System automatisch Rechnungen für fehlendes Anteilskapital, beispielsweise für ein Mitglied, dessen Abonnement gerade begonnen hat.
@@ -61,9 +60,7 @@ Um bereits in Rechnung gestelltes Anteilskapital zurückzuerstatten, gehen Sie z
 Wenn Anteilskapital bereits außerhalb von CSA Admin in Rechnung gestellt wurde, können Sie diese Information widerspiegeln, indem Sie das Profil des Mitglieds bearbeiten, Abschnitt "Abrechnung" (Anzahl bestehender Anteile). Diese Anteile werden dann nicht in Rechnung gestellt.
 
 > Von der Seite eines Mitglieds aus können Sie im Abschnitt "Abrechnung" (rechte Spalte) die Anzahl der Anteile sehen, die in Rechnung gestellt werden oder bereits in Rechnung gestellt wurden, mit einem Link zu den entsprechenden Rechnungen.
-<% end %>
 
-<% if feature?("activity") %>
 ## Nicht durchgeführte <%= activities_human_name %> {#activity}
 
 Jede Organisation hat eine andere Abrechnungspolitik für nicht durchgeführte <%= activities_human_name.downcase %>; einige stellen sie in Rechnung, andere nicht.
@@ -98,13 +95,12 @@ Es ist möglich, spezifischen Text in der [E-Mail-Vorlage "Neue Rechnung"](/mail
     <p>Mein Standardtext.</p>
 {% endcase %}
 ~~~
-<% end %>
 
 ## Manuelle Rechnung (Sonstiges) {#manual-invoice}
 
 CSA Admin bietet die Möglichkeit, verschiedene Artikel oder Dienstleistungen manuell in Rechnung zu stellen (zum Beispiel den Kauf von Stofftaschen für neue Abonnenten). Dazu müssen Sie einfach [eine neue Rechnung erstellen](/invoices/new) und die Artikel unter der Registerkarte "Sonstiges" eingeben. Nach Überprüfung des PDFs können Sie die Rechnung manuell mit der Schaltfläche "Senden" auf der Seite der Rechnung versenden.
 
-> Achtung, Rechnungen vom Typ "Sonstiges" sollten nicht verwendet werden, um Abonnements<% if Current.org.share? %>, Anteilskapital<% end %><% if feature?("activity") %> oder <%= activities_human_name.downcase %><% end %> in Rechnung zu stellen, da das System diese nicht berücksichtigt.
+> Achtung, Rechnungen vom Typ "Sonstiges" sollten nicht verwendet werden, um Abonnements, Anteilskapital oder <%= activities_human_name.downcase %> in Rechnung zu stellen, da das System diese nicht berücksichtigt.
 
 ## Zahlungen {#payments}
 
@@ -120,9 +116,7 @@ Dieser Umverteilungsmodus ist sehr praktisch und ermöglicht es so, Fälle zu ve
 
 Die effizienteste Methode zur Verarbeitung Ihrer Zahlungen besteht darin, Ihre Bank zu bitten, [eine EBICS-Verbindung](https://www.six-group.com/de/products-services/banking-services/standardization.html#scrollTo=ebics) einzurichten. Dies ermöglicht es dem System, Zahlungen von Rechnungen mit Referenznummern Ihrer Mitglieder automatisch (jede Nacht) über das ISO camt.054-Format zu importieren.
 
-<% if Current.org.swiss_qr? %>
 CSA Admin verwaltet auch den automatischen Abruf von Zahlungen der [Alternativen Bank Schweiz](https://www.bas.ch/de), die das EBICS-System nicht unterstützt.
-<% end %>
 
 > Wenn Sie Fragen zur Förderung einer bestimmten Bank oder zur Einrichtung von EBICS haben, zögern Sie nicht, [mich zu fragen](/support).
 

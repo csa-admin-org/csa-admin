@@ -1,6 +1,6 @@
 # Facturation
 
-CSA Admin vise à automatiser la plupart des tâches relative à la facturation ([abonnements](#memberships), <% if Current.org.share? %>[parts sociales](#parts-sociales), <% end %>[traitements des paiements](#paiements)), mais certains aspects <% if feature?("activity") %>comme la facturation des [<%= activities_human_name %> non effectuées](#<%= activities_human_name %>-non-effectuees) <% end %>doivent être effectués manuellement.
+CSA Admin vise à automatiser la plupart des tâches relative à la facturation ([abonnements](#memberships), [parts sociales](#parts-sociales), [traitements des paiements](#paiements)), mais certains aspects comme la facturation des [<%= activities_human_name %> non effectuées](#<%= activities_human_name %>-non-effectuees) doivent être effectués manuellement.
 
 Pour la Suisse, CSA Admin génère des factures-QR avec numéro de référence (PDF) et les envoie à tous les emails du membre concerné. Afin de pouvoir générer ces factures, il vous faut demander un QR-IBAN à votre banque, attention ce numéro est différent de l'IBAN de votre compte bancaire. Vous pouvez ensuite l'entrer dans [vos paramètres de facturation](/settings#billing).
 
@@ -51,7 +51,6 @@ Les membres peuvent annuler leur abonnement eux-mêmes durant la période d'essa
 
 Si l'abonnement est annulé durant la période d'essai, alors seulement les paniers livrés seront facturés, le prochain jour de facturation. Dans ce cas, la cotisation annuelle n'est pas facturée (sauf si le membre choisit de la payer).
 
-<% if Current.org.share? %>
 ## Parts sociales {#share-capital}
 
 Chaque jour de facturation, le système crée automatiquement les factures pour les parts sociales manquantes, par exemple pour un membre dont l'abonnement vient de commencer.
@@ -61,9 +60,6 @@ Pour rembourser une part sociale déjà facturée, rendez vous sur la page de la
 Si des parts sociales ont déjà été facturées en dehors d'CSA Admin, vous pouvez refléter cette information en modifiant le profile du membre, section "Facturation" (Nombre de parts sociales existantes). Ces parts ne seront alors pas facturées.
 
 > Depuis la page d'un membre, vous pouvez voir dans la section "Facturation" (colonne de droite) le nombre de parts sociales qui seront ou sont déjà facturées avec un lien sur les factures correspondantes.
-<% end %>
-
-<% if feature?("activity") %>
 ## <%= activities_human_name %> non effectuées {#activity}
 
 Chaque organisation a une politique de facturation des <%= activities_human_name.downcase %> non effectuées différente, certaines les facturent, d'autres non.
@@ -98,13 +94,11 @@ Il est possible d'ajouter un texte spécifique dans le [template email "Nouvelle
     <p>Mon texte standard.</p>
 {% endcase %}
 ~~~
-<% end %>
-
 ## Facture manuelle (Autre) {#manual-invoice}
 
 CSA Admin offre la possibilité de facturer manuellement des articles ou des services divers (par exemple, achat de sac en tissus pour les nouveaux abonnés). Pour cela, il suffit de [créer une nouvelle facture](/invoices/new) et de rentrer les articles sous l'onglet "Autre". Après vérification du PDF, vous pouvez envoyer manuellement la facture à l'aide du bouton "Envoyer" sur la page de celle-ci.
 
-> Attention, les factures de type "Autre" ne doivent pas être utilisées pour facturer les abonnements<% if Current.org.share? %>, parts sociales<% end %><% if feature?("activity") %> ou <%= activities_human_name.downcase %><% end %>, car le système ne les prendra pas en compte.
+> Attention, les factures de type "Autre" ne doivent pas être utilisées pour facturer les abonnements, parts sociales ou <%= activities_human_name.downcase %>, car le système ne les prendra pas en compte.
 
 ## Paiements {#payments}
 
@@ -120,9 +114,7 @@ Ce mode de redistribution est très commode et permet de gérer ainsi les cas ou
 
 La manière la plus efficace de traiter vos paiements est de demander à votre banque de mettre en place [une connexion EBICS](https://www.six-group.com/fr/products-services/banking-services/standardization.html#scrollTo=ebics). Cela permet au système d'importer automatiquement (chaque nuit) les paiements des factures avec numéro de référence de vos membres via le format ISO camt.054.
 
-<% if Current.org.swiss_qr? %>
 CSA Admin gère également la récupération automatique des paiements de la [Banque Alternative Suisse](https://www.bas.ch/fr) qui ne supporte pas le système EBICS.
-<% end %>
 
 > Si vous avez des questions concernant le support d'une banque en particulier ou la mise en place d'EBICS, n'hésitez pas à [me demander](/support).
 
