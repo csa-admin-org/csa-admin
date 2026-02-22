@@ -51,7 +51,7 @@ ActiveAdmin.register_page "Handbook" do
                 "handbook-search-target" => "input",
                 action: "input->handbook-search#search"
               },
-              class: "mt-0 w-full rounded-md border border-gray-300 py-1.5 pl-8 pr-3 text-sm " \
+              class: "mt-0 w-full rounded-md border border-gray-300 py-1.5 pl-8 pr-3 text-base sm:text-sm " \
                      "placeholder-gray-400 focus:border-blue-400 focus:ring-1 focus:ring-blue-400 " \
                      "dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 dark:placeholder-gray-500 " \
                      "dark:focus:border-blue-500 dark:focus:ring-blue-500"
