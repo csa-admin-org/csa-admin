@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require "faraday"
+
 module Scheduled
   class BillingPaymentsProcessorJob < BaseJob
     retry_on Faraday::ConnectionFailed, wait: :polynomially_longer, attempts: 5 do |_job, _error|
