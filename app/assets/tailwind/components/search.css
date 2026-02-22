@@ -4,7 +4,7 @@
   }
 
   mark {
-    @apply rounded-sm bg-yellow-200 dark:bg-yellow-700/50;
+    @apply rounded-sm bg-yellow-200 dark:bg-yellow-400/30;
   }
 
   .grid:has([data-controller="handbook-search"]) {
