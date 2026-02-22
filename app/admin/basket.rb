@@ -30,7 +30,7 @@ ActiveAdmin.register Basket do
     deliveries_collection = basket_deliveries_collection(f.object)
 
     if f.object.shifted?
-      panel t(".basket_shift_title"), class: "bg-teal-100 mb-8", action: handbook_icon_link("absences", anchor: "basket-shift") do
+      panel t(".basket_shift_title"), class: "bg-teal-100 mb-8", action: handbook_icon_link("absence", anchor: "basket-shift") do
         div class: "px-2 mb-2" do
           para t(".basket_shifted_description_html",
             target_date: l(f.object.shift_as_source.target_basket.delivery.date, format: :short),
@@ -45,7 +45,7 @@ ActiveAdmin.register Basket do
       end
     else
       if f.object.can_be_shifted?
-        panel t(".basket_shift_title"), class: "bg-teal-100 list-none mb-8 ", action: handbook_icon_link("absences", anchor: "basket-shift") do
+        panel t(".basket_shift_title"), class: "bg-teal-100 list-none mb-8 ", action: handbook_icon_link("absence", anchor: "basket-shift") do
           div class: "px-2 -mb-2" do
             para t(".basket_shift_explanation"), class: "description"
             f.input :shift_target_basket_id, as: :select, collection: basket_shift_targets_collection(f.object), include_blank: true
@@ -54,7 +54,7 @@ ActiveAdmin.register Basket do
       end
 
       if f.object.shifts_as_target.any?
-        panel t(".basket_shift_title"), class: "bg-teal-100 mb-8", action: handbook_icon_link("absences", anchor: "basket-shift") do
+        panel t(".basket_shift_title"), class: "bg-teal-100 mb-8", action: handbook_icon_link("absence", anchor: "basket-shift") do
           div class: "px-2 mb-2" do
             para t(".basket_shift_targets_explanation"), class: "description"
             ul class: "list-disc list-outside mt-4 ml-6 space-y-2 text-base" do

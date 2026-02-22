@@ -7,11 +7,11 @@ _:
       _it: Assenza
       _nl: Afwezigheid
     absence_hint:
-      _en: Allows managing member absences. Members can also announce their absences from their account.<br/>Please <a href="/handbook/absences">consult the manual</a> for more information.
-      _fr: Permet de gérer les absences des membres. Les membres peuvent également annoncer leurs absences depuis leur compte.<br/>Merci de <a href="/handbook/absences">consulter le manuel</a> pour plus d'informations.
-      _de: Ermöglicht es, die Abwesenheiten von Mitgliedern zu verwalten. Mitglieder können ihre Abwesenheiten auch von ihrem Konto aus ankündigen.<br/>Bitte <a href="/handbook/absences">konsultieren Sie das Handbuch</a> für weitere Informationen.
-      _it: Permette di gestire le assenze dei soci. I soci possono anche annunciare le loro assenze dal loro account.<br/>Si prega <a href="/handbook/absences">di consultare il manuale</a> per ulteriori informazioni.
-      _nl: Maakt het mogelijk om afwezigheden van leden te beheren. Leden kunnen hun afwezigheden ook vanuit hun account melden.<br/>Raadpleeg <a href="/handbook/absences">de handleiding</a> voor meer informatie.
+      _en: Allows managing member absences. Members can also announce their absences from their account.<br/>Please <a href="/handbook/absence">consult the manual</a> for more information.
+      _fr: Permet de gérer les absences des membres. Les membres peuvent également annoncer leurs absences depuis leur compte.<br/>Merci de <a href="/handbook/absence">consulter le manuel</a> pour plus d'informations.
+      _de: Ermöglicht es, die Abwesenheiten von Mitgliedern zu verwalten. Mitglieder können ihre Abwesenheiten auch von ihrem Konto aus ankündigen.<br/>Bitte <a href="/handbook/absence">konsultieren Sie das Handbuch</a> für weitere Informationen.
+      _it: Permette di gestire le assenze dei soci. I soci possono anche annunciare le loro assenze dal loro account.<br/>Si prega <a href="/handbook/absence">di consultare il manuale</a> per ulteriori informazioni.
+      _nl: Maakt het mogelijk om afwezigheden van leden te beheren. Leden kunnen hun afwezigheden ook vanuit hun account melden.<br/>Raadpleeg <a href="/handbook/absence">de handleiding</a> voor meer informatie.
     activity:
       _en: Member participation
       _fr: Participation des membres

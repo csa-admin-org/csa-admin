@@ -73,7 +73,7 @@ ActiveAdmin.register Absence do
     column(:created_at)
   end
 
-  sidebar_handbook_link("absences")
+  sidebar_handbook_link("absence")
 
   show do |absence|
     columns do

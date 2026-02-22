@@ -390,7 +390,7 @@ ActiveAdmin.register Organization do
           f.input :absences_included_reminder_weeks_before,
             hint: t("formtastic.hints.organization.absences_included_reminder_weeks_before_html")
 
-          handbook_button(self, "absences")
+          handbook_button(self, "absence")
         end
 
         tab BiddingRound.model_name.human, id: "bidding_round", hidden: !feature?("bidding_round"), selected: feature?("bidding_round"), data: { controller: "form-disabler" } do

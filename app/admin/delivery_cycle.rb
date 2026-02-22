@@ -212,7 +212,7 @@ ActiveAdmin.register DeliveryCycle do
           hint: t("formtastic.hints.delivery_cycle.invoice_name"),
           input_html: { placeholder: f.object.invoice_description })
         f.input :absences_included_annually
-        handbook_button(self, "absences", anchor: "absence-included")
+        handbook_button(self, "absence", anchor: "absence-included")
       end
     end
 
