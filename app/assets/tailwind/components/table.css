@@ -337,10 +337,10 @@
   }
 
   tr[data-table-row-target="row"] {
-    @apply focus:bg-neutral-100! focus:outline-none focus:dark:bg-neutral-700!;
+    @apply focus:bg-neutral-100! focus:outline-none focus:dark:bg-gray-800!;
   }
 
   tbody[data-controller="sortable"] tr {
-    @apply hover:bg-neutral-100 hover:dark:bg-neutral-700;
+    @apply hover:bg-neutral-100 dark:hover:bg-gray-800;
   }
 }
