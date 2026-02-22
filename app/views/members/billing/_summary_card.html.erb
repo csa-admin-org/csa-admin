@@ -1,0 +1,15 @@
+<%# locals: (label:, value:, value_class: nil) %>
+<li
+  class="
+    flex flex-1 flex-col rounded-sm border border-gray-200 p-2 text-center
+    dark:border-gray-700
+  "
+>
+  <span class="my-auto flex flex-col">
+    <span class="text-sm text-gray-400"><%= label %></span>
+
+    <span class="text-xl font-medium whitespace-nowrap <%= value_class %>">
+      <%= value %>
+    </span>
+  </span>
+</li>

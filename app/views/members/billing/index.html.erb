@@ -25,9 +25,7 @@
   <h2><%= t(".history") %></h2>
 
   <% if @billing_history.empty? %>
-    <p class="mt-4 text-center text-gray-400 italic dark:text-gray-500">
-      <%= t(".no_billing_history") %>
-    </p>
+    <p class="nocontent"><%= t(".no_billing_history") %></p>
   <% else %>
     <ul class="mt-4">
       <% limit = params[:all_billing_history] ? 10_000 : 15 %>

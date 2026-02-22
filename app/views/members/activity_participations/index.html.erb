@@ -7,9 +7,7 @@
   <h2><%= t(".activity_participation_form_title") %></h2>
 
   <% if @activities.empty? %>
-    <p class="mt-2 text-center text-gray-400 italic dark:text-gray-500">
-      <%= t_activity(".no_activities") %>
-    </p>
+    <p class="nocontent mt-2"><%= t_activity(".no_activities") %></p>
   <% else %>
     <div
       class="activities-form"

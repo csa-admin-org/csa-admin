@@ -6,9 +6,7 @@
   <% if current_member.errors.none? && current_member.contact_sharing? %>
     <p class="mt-2"><%= t(".description") %></p>
     <% if @members.empty? %>
-      <p class="my-12 text-center text-gray-400 italic dark:text-gray-500">
-        <%= t(".nobody_sharing_contact") %>
-      </p>
+      <p class="nocontent my-12"><%= t(".nobody_sharing_contact") %></p>
     <% else %>
       <ul id="members" class="mt-8 mb-4 flex w-full flex-col gap-4">
         <% @members.each do |member| %>

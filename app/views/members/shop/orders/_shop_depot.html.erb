@@ -4,15 +4,7 @@
   <h2 class="font-medium text-gray-700 dark:text-gray-300">
     <span><%= "#{Depot.model_name.human}:" %></span>
 
-    <span class="ml-2">
-      <% if depot.full_address %>
-        <%= link_to "https://www.google.com/maps?q=#{depot.full_address}", title: depot.full_address, target: :blank, class: "hover:text-green-500" do %>
-          <%= h depot.public_name %>
-        <% end %>
-      <% else %>
-        <%= h depot.public_name %>
-      <% end %>
-    </span>
+    <span class="ml-2"><%= depot_map_link(depot) %></span>
   </h2>
 
   <% if depot&.public_note? %>

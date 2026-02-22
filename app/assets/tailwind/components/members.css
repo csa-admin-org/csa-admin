@@ -91,6 +91,10 @@
       @apply mt-4 pb-4 text-center text-gray-400 italic dark:text-gray-500;
     }
 
+    li.price-line {
+      @apply flex w-full flex-row flex-wrap items-center justify-between border-t border-dotted border-gray-200 dark:border-gray-800;
+    }
+
     p.explanation {
       @apply mt-8 text-sm text-gray-400 dark:text-gray-500;
     }

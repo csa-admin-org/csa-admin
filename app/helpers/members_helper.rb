@@ -501,6 +501,16 @@ module MembersHelper
     end
   end
 
+  def depot_map_link(depot)
+    if depot.full_address
+      link_to "https://www.google.com/maps?q=#{depot.full_address}", title: depot.full_address, target: :blank, class: "hover:text-green-500" do
+        h depot.public_name
+      end
+    else
+      h depot.public_name
+    end
+  end
+
   def activities_count(count)
     return unless feature?("activity")
     return if count.zero?

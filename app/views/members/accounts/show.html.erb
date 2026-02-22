@@ -50,17 +50,7 @@
       <li class="flex flex-row gap-4 pt-6">
         <%= icon "shopping-basket", class: "flex-none size-6" %>
 
-        <span>
-          <% depot = current_member.shop_depot %>
-
-          <% if depot.full_address %>
-            <%= link_to "https://www.google.com/maps?q=#{depot.full_address}", title: depot.full_address, target: :blank, class: "hover:text-green-500" do %>
-              <%= h depot.public_name %>
-            <% end %>
-          <% else %>
-            <%= h depot.public_name %>
-          <% end %>
-        </span>
+        <span><%= depot_map_link(current_member.shop_depot) %></span>
       </li>
     <% end %>
 

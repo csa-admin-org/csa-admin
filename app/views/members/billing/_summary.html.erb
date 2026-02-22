@@ -2,93 +2,29 @@
   <% balance = current_member.balance_amount %>
 
   <% if balance >= 0 %>
-    <li
-      class="
-        flex flex-1 flex-col items-center rounded-sm border border-gray-200
-        p-2 text-center dark:border-gray-700
-      "
-    >
-      <span class="my-auto flex flex-col">
-        <span class="text-sm text-gray-400">
-          <%= t("members.billing.index.credit_amount") %>
-        </span>
-
-        <span class="text-xl font-medium whitespace-nowrap">
-          <%= cur(balance) %>
-        </span>
-      </span>
-    </li>
+    <%= render "summary_card",
+      label: t("members.billing.index.credit_amount"),
+      value: cur(balance) %>
   <% else %>
-    <li
-      class="
-        align-center flex flex-1 flex-col rounded-sm border border-gray-200
-        p-2 text-center dark:border-gray-700
-      "
-    >
-      <span class="my-auto flex flex-col">
-        <span class="text-sm text-gray-400">
-          <%= t("members.billing.index.missing_amount") %>
-        </span>
-
-        <span class="text-xl font-medium whitespace-nowrap text-red-500">
-          <%= cur(-balance) %>
-        </span>
-      </span>
-    </li>
+    <%= render "summary_card",
+      label: t("members.billing.index.missing_amount"),
+      value: cur(-balance),
+      value_class: "text-red-500" %>
   <% end %>
 
   <% if Current.org.annual_fee? || !current_member.annual_fee.nil? %>
-    <li
-      class="
-        flex flex-1 flex-col rounded-sm border border-gray-200 p-2
-        text-center dark:border-gray-700
-      "
-    >
-      <span class="my-auto flex flex-col">
-        <span class="text-sm text-gray-400">
-          <%= t("members.billing.index.annual_fee") %>
-        </span>
-
-        <span class="text-xl font-medium">
-          <%= cur(current_member.annual_fee) %>
-        </span>
-      </span>
-    </li>
+    <%= render "summary_card",
+      label: t("members.billing.index.annual_fee"),
+      value: cur(current_member.annual_fee) %>
   <% end %>
 
   <% if Current.org.share? %>
-    <li
-      class="
-        flex flex-1 flex-col rounded-sm border border-gray-200 p-2
-        text-center dark:border-gray-700
-      "
-    >
-      <span class="my-auto flex flex-col">
-        <span class="text-sm text-gray-400">
-          <%= t("members.billing.index.shares") %>
-        </span>
-
-        <span class="text-xl font-medium">
-          <%= current_member.shares_number %>
-        </span>
-      </span>
-    </li>
+    <%= render "summary_card",
+      label: t("members.billing.index.shares"),
+      value: current_member.shares_number %>
   <% end %>
 
-  <li
-    class="
-      flex flex-1 flex-col rounded-sm border border-gray-200 p-2 text-center
-      dark:border-gray-700
-    "
-  >
-    <span class="my-auto flex flex-col">
-      <span class="text-sm text-gray-400">
-        <%= Membership.human_attribute_name(:billing_year_division) %>
-      </span>
-
-      <span class="text-xl font-medium whitespace-nowrap">
-        <%= t("billing.year_division.x#{@membership&.billing_year_division || 1}") %>
-      </span>
-    </span>
-  </li>
+  <%= render "summary_card",
+    label: Membership.human_attribute_name(:billing_year_division),
+    value: t("billing.year_division.x#{@membership&.billing_year_division || 1}") %>
 </ul>

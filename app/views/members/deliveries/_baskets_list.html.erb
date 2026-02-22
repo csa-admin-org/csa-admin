@@ -1,6 +1,6 @@
 <%# locals: (baskets:, empty_text:, anchor:) %>
 <% if baskets.empty? %>
-  <p class="empty mt-4 text-center italic"><%= empty_text %></p>
+  <p class="nocontent"><%= empty_text %></p>
 <% else %>
   <% limit = params[:"all_#{anchor}"] ? 10_000 : 4 %>
   <ul class="mt-4 flex flex-col gap-4">
