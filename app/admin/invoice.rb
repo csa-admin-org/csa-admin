@@ -562,7 +562,6 @@ ActiveAdmin.register Invoice do
 
     private
 
-    # Skip pagination when downloading a zip file
     def apply_pagination(chain)
       return chain if params["format"] == "zip"
 

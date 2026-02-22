@@ -1,15 +1,12 @@
 # frozen_string_literal: true
 
 class Members::AccountsController < Members::BaseController
-  # GET /account
   def show
   end
 
-  # GET /account/edit
   def edit
   end
 
-  # PATCH /account
   def update
     if current_member.update(member_params)
       redirect_to members_account_path

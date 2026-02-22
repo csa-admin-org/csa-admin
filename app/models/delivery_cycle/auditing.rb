@@ -1,27 +1,10 @@
 # frozen_string_literal: true
 
-# Handles auditing of delivery cycle changes.
-#
-# This concern extends the base Auditable functionality to:
-# - Track changes to delivery cycle configuration attributes
-# - Audit nested periods changes (similar to membership basket complements)
-# - Audit depot_ids changes (the depots associated with this delivery cycle)
-#
-# Periods are tracked as a snapshot of the association state before and after
-# changes, ensuring all modifications from a single update are captured in
-# one atomic audit entry.
-#
-# Note: This concern uses `prepend` to capture state before the original setter
-# methods process the attributes. This ensures we track the before/after state
-# correctly even though accepts_nested_attributes_for defines the setter method
-# directly on the class.
-#
+# Uses `prepend` to capture state before accepts_nested_attributes_for
+# setter methods process the attributes.
 module DeliveryCycle::Auditing
   extend ActiveSupport::Concern
 
-  # Prepended module to capture state before the original methods process
-  # the attributes. Also overrides audited_nested_changes to ensure it takes
-  # precedence over Auditable's default implementation.
   module NestedChangesTracking
     def periods_attributes=(*args)
       @tracked_periods_attributes = periods.map(&:attributes)
@@ -90,7 +73,6 @@ module DeliveryCycle::Auditing
 
     return if before_all == after_all
 
-    # Only include periods that actually changed (added, removed, or modified)
     before_by_id = before_all.index_by { |p| period_key(p) }
     after_by_id = after_all.index_by { |p| period_key(p) }
 
@@ -103,7 +85,6 @@ module DeliveryCycle::Auditing
       before_period = before_by_id[id]
       after_period = after_by_id[id]
 
-      # Skip unchanged periods
       next if before_period == after_period
 
       before_changed << before_period if before_period

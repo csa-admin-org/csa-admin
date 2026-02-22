@@ -5,7 +5,6 @@ class Members::AbsencesController < Members::BaseController
 
   before_action :ensure_absence_access
 
-  # GET /absences
   def index
     min = Absence.min_started_on
     @absence = Absence.new(
@@ -13,7 +12,6 @@ class Members::AbsencesController < Members::BaseController
       ended_on: (min + 1.day).end_of_week)
   end
 
-  # POST /absences
   def create
     @absence = current_member.absences.new(protected_params)
     @absence.session_id = session_id
@@ -26,7 +24,6 @@ class Members::AbsencesController < Members::BaseController
     end
   end
 
-  # DELETE /absences/:id
   def destroy
     absence = current_member.absences.present_or_future.find(params[:id])
     absence.destroy

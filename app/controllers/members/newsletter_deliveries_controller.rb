@@ -5,7 +5,6 @@ class Members::NewsletterDeliveriesController < Members::BaseController
 
   before_action :ensure_deliveries
 
-  # GET /newsletters
   def index
     offset = params[:offset].to_i
     @deliveries = Newsletter.deliveries_for(current_member)
@@ -14,7 +13,6 @@ class Members::NewsletterDeliveriesController < Members::BaseController
     @deliveries = @deliveries.offset(offset).first(PER_PAGE)
   end
 
-  # GET /newsletters
   def show
     @delivery = current_member.mail_deliveries.newsletters.find(params[:id])
     render layout: false

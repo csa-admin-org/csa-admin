@@ -1,13 +1,5 @@
 # frozen_string_literal: true
 
-# Handles basket size availability based on calendar week (cweek) ranges.
-#
-# This allows basket sizes to have a defined delivery period within a fiscal year.
-# For example, a basket size might only be delivered from cweek 11 to cweek 45,
-# while basket complements continue to be delivered outside this range.
-#
-# When a basket is created for a delivery date outside the basket size's cweek range,
-# the basket's quantity is set to 0 (the member receives only complements).
 module BasketSize::Deliverability
   extend ActiveSupport::Concern
 

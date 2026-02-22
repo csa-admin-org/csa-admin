@@ -5,7 +5,6 @@ class Members::ActivityParticipationsController < Members::BaseController
 
   before_action :ensure_activity_access
 
-  # GET /activity_participations
   def index
     @activities = Activity.available_for(current_member)
     @activity_participation = ActivityParticipation.new(
@@ -14,7 +13,6 @@ class Members::ActivityParticipationsController < Members::BaseController
     @activity_participation.carpooling_city ||= current_member.city
   end
 
-  # POST /activity_participations
   def create
     @activity_participation = current_member.activity_participations.new(protected_params)
     @activity_participation.session_id = session_id
@@ -32,7 +30,6 @@ class Members::ActivityParticipationsController < Members::BaseController
     end
   end
 
-  # DELETE /activity_participations/:id
   def destroy
     participation = current_member.activity_participations.find(params[:id])
     participation.destroy if participation.destroyable?

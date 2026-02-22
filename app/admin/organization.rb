@@ -337,7 +337,6 @@ ActiveAdmin.register Organization do
             input_html: { data: { action: "form-disabler#toggleInputs" } }
           f.input :absence_notice_period_in_days, min: 1, required: true
 
-          # Registration section
           li class: "subtitle " do
             h2 t(".member_account")
             para t(".member_account_hint"), class: "description"
@@ -349,7 +348,6 @@ ActiveAdmin.register Organization do
             input_html: { rows: 5 })
           f.input :absence_extra_text_only, as: :boolean
 
-          # Basket shifts section
           li class: "subtitle" do
             h2 t(".absence_basket_shifts")
             para t(".absence_basket_shifts_hint"), class: "description"
@@ -367,7 +365,6 @@ ActiveAdmin.register Organization do
               disabled: !f.object.absences_billed?
             }
 
-          # Absences included section
           li class: "subtitle" do
             h2 t(".absence_included")
             para t(".absence_included_hint"), class: "description"

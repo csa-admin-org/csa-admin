@@ -3,7 +3,6 @@
 class Members::ForcedDeliveriesController < Members::BaseController
   before_action :load_basket
 
-  # POST /baskets/:basket_id/forced_delivery
   def create
     if @basket.can_member_force?
       ForcedDelivery.create!(basket: @basket)

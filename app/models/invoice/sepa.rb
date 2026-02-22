@@ -1,8 +1,5 @@
 # frozen_string_literal: true
 
-# Handles SEPA Direct Debit functionality for invoices.
-# This includes generating PAIN XML files, tracking upload status,
-# and managing automatic upload scheduling.
 module Invoice::SEPA
   extend ActiveSupport::Concern
 

@@ -1,26 +1,10 @@
 # frozen_string_literal: true
 
-# Full-text search index backed by SQLite FTS5 with trigram tokenizer.
-#
-# Each tenant DB has a `search_entries` FTS5 virtual table with two indexed
-# columns — `content_primary` and `content_secondary` — so that matches in
-# the primary field (name, number) rank higher than secondary (city, email).
-# UNINDEXED columns hold metadata for sorting and polymorphic lookup.
-#
-# Search supports multi-word queries with AND semantics. Terms with 3+ chars
-# use FTS5 trigram MATCH; shorter terms are filtered in Ruby.
-#
-# Usage:
-#   SearchEntry.search("dupont laus", limit: 10)
-#   SearchEntry.reindex_record(member, primary_text: "...", secondary_text: "...", priority: 10)
-#   SearchEntry.remove_record(member)
-#   SearchEntry.rebuild!
 class SearchEntry < ApplicationRecord
   self.table_name = "search_entries"
   self.primary_key = "rowid"
 
-  # FTS5 creates phantom columns named after the table and `rank`;
-  # AR must ignore them to avoid schema introspection errors.
+  # FTS5 creates phantom columns; AR must ignore them to avoid schema errors.
   self.ignored_columns += %w[search_entries rank]
 
   attribute :rowid, :integer
@@ -28,11 +12,6 @@ class SearchEntry < ApplicationRecord
 
   belongs_to :searchable, polymorphic: true
 
-  # Scoring is done in Ruby (bm25 is too noisy with trigram tokenizer).
-  # Results are ordered by:
-  #   1. Primary hits — how many query terms matched in content_primary
-  #   2. Priority — lower number = higher importance
-  #   3. Recency — most recently updated first
   def self.search(query, limit: 25)
     query = query.to_s.strip
     return [] if query.length < 2
@@ -44,16 +23,12 @@ class SearchEntry < ApplicationRecord
     return [] if all_terms.empty?
 
     long_terms = all_terms.select { |t| t.length >= 3 }
-    # Short terms (2 chars) can't use FTS5 trigram matching, so they're
-    # applied as Ruby post-filters on candidates found by long terms.
+    # FTS5 trigram requires 3+ chars; short terms are post-filtered in Ruby
     short_terms = all_terms.select { |t| t.length == 2 }
 
     terms = long_terms + short_terms
     return [] if terms.empty?
 
-    # When only short terms are present (e.g. "42"), we load all entries and
-    # filter in Ruby because FTS5 trigram indexes require 3+ char tokens.
-    # Acceptable because the index is pruned per-tenant and fiscal year.
     if long_terms.any?
       match_expr = long_terms
         .map { |t| "\"#{t.gsub('"', '""')}\"" }
@@ -81,7 +56,6 @@ class SearchEntry < ApplicationRecord
     candidates.first(limit)
   end
 
-  # Search the index and return the actual AR records, eager-loaded and ranked.
   def self.lookup(query, limit: 25)
     entries = search(query, limit: limit)
     return [] if entries.empty?
@@ -89,7 +63,7 @@ class SearchEntry < ApplicationRecord
     load_records(entries)
   end
 
-  # FTS5 doesn't support UPDATE or UPSERT, so we delete + insert in a transaction.
+  # FTS5 doesn't support UPDATE/UPSERT — delete + insert instead.
   def self.reindex_record(record, primary_text:, secondary_text: "", priority: 0)
     normalized_primary = normalize_text(primary_text)
     normalized_secondary = normalize_text(secondary_text)
@@ -135,13 +109,10 @@ class SearchEntry < ApplicationRecord
     }
   end
 
-  # Full reindex of the current tenant. Use the `search:reindex` rake task
-  # to run this manually; the nightly job uses `prune_stale_entries!` instead.
   def self.rebuild!
     count = 0
 
-    # Required in development where models are autoloaded lazily —
-    # without this, searchable_models would be incomplete.
+    # Eager-load in dev so searchable_models is complete
     Rails.application.eager_load! unless Rails.application.config.eager_load
 
     searchable_models.each do |model|
@@ -158,9 +129,6 @@ class SearchEntry < ApplicationRecord
     count
   end
 
-  # Remove entries for records that aged out of the indexable time window.
-  # Only affects dated models — dateless ones (Member, Depot, Product) are
-  # kept current by save/destroy callbacks.
   def self.prune_stale_entries!
     searchable_models.each do |model|
       next unless model._search_date_attribute
@@ -182,9 +150,6 @@ class SearchEntry < ApplicationRecord
     end
   end
 
-  # Reindex search entries for records that depend on a parent record's
-  # searchable text (e.g. member name appears in invoice secondary text).
-  # Called from SearchReindexDependentsJob to avoid blocking HTTP responses.
   def self.reindex_dependents!(record)
     case record
     when Member

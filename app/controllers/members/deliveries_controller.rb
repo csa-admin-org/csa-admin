@@ -3,7 +3,6 @@
 class Members::DeliveriesController < Members::BaseController
   before_action :ensure_baskets
 
-  # GET /deliveries
   def index
     @next_basket = current_member.next_basket
     if @next_basket && Current.org.basket_content_visible_for_delivery?(@next_basket.delivery)

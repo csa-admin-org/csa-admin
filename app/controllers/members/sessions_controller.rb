@@ -6,13 +6,11 @@ class Members::SessionsController < Members::BaseController
   layout "members"
   skip_before_action :authenticate_member!
 
-  # GET /login
   def new
     redirect_to members_member_path if current_member
     @session = Session.new
   end
 
-  # POST /sessions
   def create
     @session = Session.new(
       member_email: params.require(:session)[:email],
@@ -30,7 +28,6 @@ class Members::SessionsController < Members::BaseController
     end
   end
 
-  # GET /sessions/:id
   def show
     if @session = Session.find_by_token_for(:redeem, params[:id])
       cookies.encrypted.permanent[:session_id] = @session.id
@@ -40,7 +37,6 @@ class Members::SessionsController < Members::BaseController
     end
   end
 
-  # DELETE /logout
   def destroy
     current_session&.revoke!
     cookies.delete(:session_id)

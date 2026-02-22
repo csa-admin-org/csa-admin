@@ -3,7 +3,6 @@
 class Members::EmailSuppressionsController < Members::BaseController
   before_action :ensure_non_admin_originated_session!
 
-  # DELETE /email_suppression
   def destroy
     email = current_session.email
     EmailSuppression.unsuppress!(email, stream_id: "broadcast")

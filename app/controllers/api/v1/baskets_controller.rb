@@ -5,10 +5,6 @@ module API
     class BasketsController < BaseController
       include DeliveryScoped
 
-      # GET /api/v1/deliveries/:delivery_id/baskets.csv
-      #
-      # Returns basket CSV for the specified delivery.
-      # Supports "current", "next", or a numeric delivery ID.
       def index
         exporter = Basket::CSVExporter.new(delivery: @delivery)
 

@@ -3,7 +3,6 @@
 class Members::InfosController < Members::BaseController
   before_action :ensure_info_presence
 
-  # GET /info
   def show
   end
 

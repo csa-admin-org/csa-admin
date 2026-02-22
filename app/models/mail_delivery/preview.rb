@@ -1,15 +1,8 @@
 # frozen_string_literal: true
 
-# Handles preview storage and rendering for MailDelivery.
-#
-# After ProcessJob delivers the first email for a MailDelivery, it calls
-# `store_preview_from!` to extract and cache the rendered subject + HTML
-# content. This cached content is then used by `mail_preview` to render
-# previews in admin and member-facing views.
 module MailDelivery::Preview
   extend ActiveSupport::Concern
 
-  # Idempotent: only stores once per email delivery (first email wins).
   def store_preview_from!(message)
     return if self.subject.present?
 
@@ -18,7 +11,6 @@ module MailDelivery::Preview
       content: extract_html_content(message))
   end
 
-  # Handles both new format (full HTML) and legacy format (Liquid body).
   def mail_preview
     html = content.to_s
 

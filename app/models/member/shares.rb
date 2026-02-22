@@ -1,8 +1,5 @@
 # frozen_string_literal: true
 
-# Handles share-related logic for members.
-# This includes tracking existing, required, and desired shares,
-# calculating missing shares, and handling share changes.
 module Member::Shares
   extend ActiveSupport::Concern
 

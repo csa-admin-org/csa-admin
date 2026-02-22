@@ -1,32 +1,9 @@
 # frozen_string_literal: true
 
-# Helper methods for rendering audit trail changes in the admin interface.
-#
-# This helper provides formatting for various attribute types when displaying
-# audit changes. It automatically handles common patterns like belongs_to
-# associations, prices, dates, booleans, and translated hashes.
-#
-# == Adding Support for New Attributes
-#
-# When auditing new attributes, you may need to register them here for proper
-# display formatting:
-#
-# 1. **Price attributes**: Add to PRICE_ATTRIBUTES to display with currency formatting
-# 2. **Belongs-to associations**: Add to BELONGS_TO_ATTRIBUTES with the attribute name
-#    and model class to render as links
-# 3. **Date attributes**: Add to DATE_ATTRIBUTES for localized date formatting
-# 4. **Translated hashes**: Add attribute name to TRANSLATED_HASH_ATTRIBUTES
-# 5. **Special cases**: Add a new when clause in display_audit_change
-#
-# Unregistered attributes fall through to display_default_change which handles
-# booleans and renders other values as-is.
-#
 module AuditsHelper
   include NumbersHelper
   include DeliveryCyclesHelper
 
-  # Attributes that should be displayed with currency formatting.
-  # Add new price/money attributes here.
   PRICE_ATTRIBUTES = %w[
     price
     basket_size_price
@@ -40,9 +17,6 @@ module AuditsHelper
     renewal_annual_fee
   ].freeze
 
-  # Belongs-to association attributes mapped to their model classes.
-  # These will be rendered as links to the associated record.
-  # Add new belongs_to attributes here: "attribute_name" => ModelClass
   BELONGS_TO_ATTRIBUTES = {
     "member_id" => Member,
     "basket_size_id" => BasketSize,
@@ -51,8 +25,6 @@ module AuditsHelper
     "delivery_cycle_id" => DeliveryCycle
   }.freeze
 
-  # Attributes that should be displayed as formatted dates.
-  # Add new date attributes here.
   DATE_ATTRIBUTES = %w[
     date
     started_on
@@ -62,7 +34,6 @@ module AuditsHelper
     sepa_mandate_signed_on
   ].freeze
 
-  # Attributes that contain translated hashes (locale => value).
   TRANSLATED_HASH_ATTRIBUTES = %w[
     names
     public_names
@@ -70,8 +41,6 @@ module AuditsHelper
     form_details
   ].freeze
 
-  # Attributes that should use compact diff rendering (showing only changes).
-  # These are list-type attributes where showing full before/after is repetitive.
   DIFF_ATTRIBUTES = %w[
     depot_ids
     shop_open_for_depot_ids
@@ -79,19 +48,15 @@ module AuditsHelper
     periods
   ].freeze
 
-  # Determines if an audit change should be displayed.
-  # Returns false if both before and after values are effectively empty.
   def should_display_audit_change?(attr, before_value, after_value)
     attr = attr.to_s
 
-    # For translated hashes, check if both are empty
     if attr.in?(TRANSLATED_HASH_ATTRIBUTES)
       before_empty = before_value.blank? || before_value.values.none?(&:present?)
       after_empty = after_value.blank? || after_value.values.none?(&:present?)
       return false if before_empty && after_empty
     end
 
-    # For arrays (like wdays, memberships_basket_complements), check if both are empty
     if before_value.is_a?(Array) && after_value.is_a?(Array)
       return false if before_value.blank? && after_value.blank?
     end
@@ -99,13 +64,6 @@ module AuditsHelper
     true
   end
 
-  # Renders a compact diff for list-type attributes, showing only what changed.
-  # Returns nil if this attribute doesn't use diff rendering.
-  #
-  # @param attr [String] The attribute name
-  # @param before_value [Array] The value before the change
-  # @param after_value [Array] The value after the change
-  # @return [String, nil] HTML-safe diff output, or nil if not a diff attribute
   def render_audit_diff(attr, before_value, after_value)
     attr = attr.to_s
     return nil unless attr.in?(DIFF_ATTRIBUTES)
@@ -123,20 +81,12 @@ module AuditsHelper
     end
   end
 
-  # Unified method for displaying audit changes for any model.
-  #
-  # @param model_class [Class] The model class for i18n lookups (e.g., Member, Membership)
-  # @param attr [String, Symbol] The attribute name being displayed
-  # @param change [Object] The before or after value of the change
-  # @param opts [Hash] Additional options passed to content_tag
-  # @return [String] HTML-safe string representing the change value
   def display_audit_change(model_class, attr, change, **opts)
     attr = attr.to_s
 
-    # Handle nil/blank values first for most types
-    # Translated hashes, periods, complements, depot_ids, and booleans need special handling
+    # Translated hashes, periods, complements, depot_ids, and booleans need special nil handling
     unless attr.in?(TRANSLATED_HASH_ATTRIBUTES) || attr.in?(%w[periods memberships_basket_complements depot_ids shop_open_for_depot_ids])
-      # Use nil? check for booleans since false.blank? returns true
+      # false.blank? returns true, so use nil? for booleans
       return display_empty_value if change.nil? || (change.respond_to?(:blank?) && change != false && change.blank?)
     end
 
@@ -268,26 +218,16 @@ module AuditsHelper
     end
   end
 
-  # Displays a translated hash (locale => value).
-  # - If only one locale has a value, show just the value (no locale prefix)
-  # - If multiple locales have values, show as a list with locale prefixes
-  # - If no locales have values, show EMPTY
   def display_translated_hash_change(hash)
-    # Handle nil or completely empty hash
     return display_empty_value if hash.blank?
 
-    # Filter to only locales with non-blank values
     present_values = hash.select { |_, value| value.present? }
-
-    # If no locales have values, show empty
     return display_empty_value if present_values.empty?
 
-    # If only one locale has a value, show it simply without locale prefix
     if present_values.size == 1
       return content_tag(:span, present_values.values.first)
     end
 
-    # Multiple locales: show as list with locale prefixes
     content_tag(:ul, class: "list-disc list-inside text-sm") do
       safe_join(present_values.map { |locale, value|
         content_tag(:li, "#{locale.upcase}: #{value}")
@@ -295,7 +235,6 @@ module AuditsHelper
     end
   end
 
-  # Displays weekdays as localized abbreviated day names
   def display_wdays_change(wdays)
     return display_empty_value if wdays.blank?
 
@@ -303,7 +242,6 @@ module AuditsHelper
     content_tag(:span, day_names.join(", "))
   end
 
-  # Renders a simple list of periods (used for before or after display)
   def display_periods_list(periods)
     return display_empty_value if periods.blank?
 
@@ -312,7 +250,6 @@ module AuditsHelper
     end
   end
 
-  # Renders a compact diff for depot IDs, showing only added/removed depots
   def render_depot_ids_diff(before_ids, after_ids)
     removed_ids = before_ids - after_ids
     added_ids = after_ids - before_ids
@@ -326,7 +263,6 @@ module AuditsHelper
     )
   end
 
-  # Renders a compact diff for weekdays, showing only added/removed days
   def render_wdays_diff(before_wdays, after_wdays)
     removed = (before_wdays - after_wdays).map { |d| t("date.day_names")[d].capitalize }
     added = (after_wdays - before_wdays).map { |d| t("date.day_names")[d].capitalize }
@@ -334,10 +270,8 @@ module AuditsHelper
     render_list_diff(removed: removed, added: added)
   end
 
-  # Renders a compact diff for periods, showing only changed periods with left → right pattern
-  # Uses period ID for matching (new audits) or falls back to range matching (old audits)
   def render_periods_diff(before_periods, after_periods)
-    # Use ID if available (new audits), otherwise fall back to range key (old audits)
+    # ID available in new audits, fall back to range key for old audits
     key_method = before_periods.any? { |p| p["id"] } ? :period_id_key : :period_range_key
 
     before_by_key = before_periods.index_by { |p| send(key_method, p) }
@@ -349,7 +283,6 @@ module AuditsHelper
       before_period = before_by_key[key]
       after_period = after_by_key[key]
 
-      # Skip unchanged periods
       next if before_period == after_period
 
       {
@@ -382,20 +315,16 @@ module AuditsHelper
     [ period["from_fy_month"].to_i, period["to_fy_month"].to_i ]
   end
 
-  # Generic helper to render a compact list diff with consistent styling
-  # Shows + for added items and − for removed items
   def render_list_diff(removed: [], added: [])
     content_tag(:ul, class: "space-y-1 text-sm") do
       items = []
 
-      # Removed items (grayed, with minus)
       removed.each do |item|
         items << content_tag(:li, class: "text-gray-500 dark:text-gray-400") do
           "− #{item}"
         end
       end
 
-      # Added items (with plus)
       added.each do |item|
         items << content_tag(:li) { "+ #{item}" }
       end

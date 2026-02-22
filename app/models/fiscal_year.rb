@@ -64,8 +64,6 @@ class FiscalYear
     year <=> other.year
   end
 
-  # Returns the fiscal year month (1-12) for a given date.
-  # FY month 1 is the first month of the fiscal year, not necessarily January.
   def fy_month(date)
     ((date.month - @start_month) % 12) + 1
   end

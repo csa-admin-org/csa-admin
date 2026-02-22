@@ -1,8 +1,5 @@
 # frozen_string_literal: true
 
-# Handles delivery querying, filtering, and counting for a delivery cycle.
-# This includes the core `deliveries(year)` method that filters deliveries
-# based on weekdays, calendar weeks, and periods configuration.
 module DeliveryCycle::Deliveries
   extend ActiveSupport::Concern
 

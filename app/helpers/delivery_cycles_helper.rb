@@ -47,15 +47,12 @@ module DeliveryCyclesHelper
     }.map(&:id)
   end
 
-  # Returns a collection of fiscal-year months (1-12) with their names
-  # ordered by the fiscal year start month. Months falling in the next
-  # calendar year are marked with *.
   def fy_months_collection
     fy_start_month = Current.fiscal_year.range.min.month
     (1..12).map { |fy_month|
       calendar_month = ((fy_start_month - 1 + fy_month - 1) % 12) + 1
       name = I18n.t("date.month_names")[calendar_month].capitalize
-      # Mark months that fall in the next calendar year
+      # Next calendar year months are marked with *
       if fy_start_month > 1 && calendar_month < fy_start_month
         name = "#{name} *"
       end
@@ -63,16 +60,12 @@ module DeliveryCyclesHelper
     }
   end
 
-  # Returns the calendar month name for a given fiscal-year month (1-12).
-  # FY month 1 corresponds to the first month of the fiscal year.
   def fy_month_name(fy_month)
     fy_start_month = Current.fiscal_year.range.min.month
     calendar_month = ((fy_start_month - 1 + fy_month - 1) % 12) + 1
     I18n.t("date.month_names")[calendar_month].capitalize
   end
 
-  # Returns a hint explaining the "*" marker for months in the next calendar year.
-  # Returns nil if the fiscal year starts in January (no marker needed).
   def fy_months_next_year_hint
     return nil if Current.fiscal_year.range.min.month == 1
 

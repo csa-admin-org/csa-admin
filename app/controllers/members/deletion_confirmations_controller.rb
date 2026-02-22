@@ -3,11 +3,9 @@
 class Members::DeletionConfirmationsController < Members::BaseController
   before_action :ensure_discardable!, only: :create
 
-  # GET /account/delete/confirm
   def new
   end
 
-  # POST /account/delete/confirm
   def create
     if DeletionCode.verify(current_session, params[:code])
       current_member.discard!

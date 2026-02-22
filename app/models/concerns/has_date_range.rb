@@ -1,16 +1,5 @@
 # frozen_string_literal: true
 
-# Provides date-range scopes and helpers for models with started_on/ended_on columns.
-# Similar to HasDate but for ranges instead of single dates.
-#
-# Models using this concern must have:
-# - started_on (date column)
-# - ended_on (date column)
-#
-# Example:
-#   class Absence < ApplicationRecord
-#     include HasDateRange
-#   end
 module HasDateRange
   extend ActiveSupport::Concern
 

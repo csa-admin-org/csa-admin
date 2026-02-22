@@ -1,12 +1,5 @@
 # frozen_string_literal: true
 
-# Handles GDPR-compliant anonymization of member PII data.
-# Called after a configurable delay following discard.
-#
-# On anonymize:
-# - Member PII cleared (name, emails, phones, address, notes, SEPA, etc.)
-# - Related records scrubbed (absences, activity participations)
-# - Deleted: sessions, mail deliveries, audits, admin comments
 module Member::Anonymization
   extend ActiveSupport::Concern
 
@@ -46,7 +39,6 @@ module Member::Anonymization
 
   private
 
-  # Member PII fields to clear (per GDPR data map)
   def anonymize_member_pii!
     update_columns(
       name: "DELETED",
@@ -74,19 +66,16 @@ module Member::Anonymization
     )
   end
 
-  # Nullify session_id references before sessions are deleted
-  # to avoid FK issues (sessions already deleted on discard)
+  # Sessions already deleted on discard; nullify to avoid FK issues.
   def nullify_related_session_ids!
     absences.update_all(session_id: nil)
     activity_participations.update_all(session_id: nil)
   end
 
-  # Clear note field from absences
   def anonymize_absences!
     absences.update_all(note: nil)
   end
 
-  # Clear PII fields from activity participations
   def anonymize_activity_participations!
     activity_participations.update_all(
       note: nil,
@@ -95,14 +84,12 @@ module Member::Anonymization
     )
   end
 
-  # Delete mail deliveries and their email children (contain personalized content)
   def delete_mail_deliveries!
     MailDelivery::Email.where(mail_delivery_id: mail_deliveries.select(:id)).delete_all
     mail_deliveries.delete_all
   end
 
-  # Delete all admin comments on member and related records
-  # Comments may contain PII even on non-PII resources (e.g., notes about the member)
+  # Comments may contain PII even on non-PII resources.
   def delete_comments!
     ActiveAdmin::Comment.where(resource: self).delete_all
     ActiveAdmin::Comment.where(resource_type: "Absence", resource_id: absences.select(:id)).delete_all
@@ -113,13 +100,10 @@ module Member::Anonymization
     ActiveAdmin::Comment.where(resource_type: "Shop::Order", resource_id: shop_orders.select(:id)).delete_all
   end
 
-  # Delete all audit records for member
-  # Member audits contain PII values (name, emails, phones, etc.) in audited_changes
   def delete_audits!
     audits.delete_all
   end
 
-  # Delete all sessions (already revoked on discard, now permanently removed)
   def delete_sessions!
     sessions.delete_all
   end

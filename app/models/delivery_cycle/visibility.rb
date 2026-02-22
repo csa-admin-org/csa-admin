@@ -1,8 +1,5 @@
 # frozen_string_literal: true
 
-# Handles visibility and ordering logic for delivery cycles.
-# This includes determining which cycles are visible to members,
-# finding the primary cycle, and ordering cycles for member display.
 module DeliveryCycle::Visibility
   extend ActiveSupport::Concern
 

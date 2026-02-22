@@ -5,9 +5,6 @@ class HandbookSearchController < ApplicationController
 
   layout false
 
-  # GET /handbook/search?q=...&page=...
-  # Returns a Turbo Frame with content search results for the handbook sidebar.
-  # Non-Turbo-Frame requests are redirected to the handbook.
   def show
     unless turbo_frame_request?
       return redirect_to handbook_page_path(params[:page] || :getting_started)

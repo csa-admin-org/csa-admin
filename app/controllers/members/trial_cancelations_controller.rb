@@ -4,11 +4,9 @@ class Members::TrialCancelationsController < Members::BaseController
   before_action :load_membership
   before_action :ensure_can_cancel_trial!
 
-  # GET /membership/trial/cancelation
   def new
   end
 
-  # POST /membership/trial/cancelation
   def create
     if @membership.cancel_trial!(cancelation_params)
       redirect_to members_memberships_path, notice: t(".flash.notice")

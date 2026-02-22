@@ -4,7 +4,6 @@ class Members::ContactSharingsController < Members::BaseController
   before_action :ensure_contact_sharing_feature
   before_action :ensure_member_next_basket_presence
 
-  # GET /contact_sharing
   def show
     next_basket = current_member.next_basket
     @depot = next_basket.depot
@@ -20,7 +19,6 @@ class Members::ContactSharingsController < Members::BaseController
         .order(:name)
   end
 
-  # POST /contact_sharing
   def create
     if current_member.update(member_params)
       redirect_to members_contact_sharing_path, notice: t("members.contact_sharings.flash.joined")

@@ -1,12 +1,6 @@
 # frozen_string_literal: true
 
-# Syncs delivery status from Postmark API for emails stuck in processing.
-# Used as a safety net when webhooks are missed or fail to be processed.
-#
-# Called hourly by Scheduled::PostmarkSyncDeliveriesJob via the
-# class method sync_stale_from_postmark!, which finds emails still
-# in processing state after CONSIDER_STALE_AFTER and checks their
-# actual status via the Postmark API.
+# Safety net for missed/failed Postmark webhooks.
 module MailDelivery::Email::PostmarkSync
   extend ActiveSupport::Concern
 
@@ -17,8 +11,6 @@ module MailDelivery::Email::PostmarkSync
   end
 
   class_methods do
-    # Syncs stale processing emails from Postmark API.
-    # Safety net for missed or failed webhooks.
     def sync_stale_from_postmark!
       stale.where.not(postmark_message_id: nil).find_each do |email|
         email.sync_from_postmark!
@@ -28,8 +20,6 @@ module MailDelivery::Email::PostmarkSync
     end
   end
 
-  # Fetches message details from Postmark API and transitions to
-  # delivered or bounced based on the message events.
   def sync_from_postmark!
     return unless processing?
 

@@ -3,9 +3,7 @@
 class MembershipRenewal
   MissingDeliveriesError = Class.new(StandardError)
 
-  # Maps the consolidated option names (used in org settings) to actual model attributes.
-  # The "activity_participations" option copies both demanded_annually and price_change
-  # together to maintain consistency (price_change depends on demanded_annually).
+  # "activity_participations" copies both attributes together because price_change depends on demanded_annually.
   OPTIONAL_ATTRIBUTES_MAP = {
     "baskets_annual_price_change" => %w[baskets_annual_price_change],
     "basket_complements_annual_price_change" => %w[basket_complements_annual_price_change],
@@ -20,8 +18,6 @@ class MembershipRenewal
     @fiscal_year = Current.org.fiscal_year_for(membership.fy_year + 1)
   end
 
-  # This method only takes care of creating the new membership,
-  # please use Membership#renew! directly.
   def renew!(attrs = {})
     unless Delivery.any_in_year?(@fiscal_year)
       raise MissingDeliveriesError, "Deliveries for the renewed fiscal year are missing."

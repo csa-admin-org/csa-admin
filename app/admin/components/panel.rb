@@ -31,9 +31,6 @@ class Panel < ActiveAdmin::Component
     end
   end
 
-  # Override children? to only report children when the panel's
-  # contents have been added to. This ensures that the panel
-  # correctly appends string values, etc.
   def children?
     @contents.children?
   end

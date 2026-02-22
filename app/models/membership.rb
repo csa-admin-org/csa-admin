@@ -63,15 +63,11 @@ class Membership < ApplicationRecord
   validate :unique_subscribed_basket_complement_id
   validate :at_least_one_basket
 
-  # Lifecycle callbacks - grouped by purpose
   after_create :setup_new_membership!
   after_update :sync_baskets_after_update!
   after_destroy :cleanup_on_destroy!
 
-  # after_commit runs after transaction commits - order matters:
-  # 1. Link to previous membership's renewal state (on create only)
-  # 2. Sync member and basket states (absences, trial, counts)
-  # 3. Recalculate price based on final basket state
+  # Order matters: link renewal → sync states → recalculate price
   after_commit :finalize_after_create!, on: :create
   after_commit :finalize_after_save!, on: %i[create update]
   after_touch :update_member_and_baskets!
@@ -318,14 +314,6 @@ class Membership < ApplicationRecord
         memberships_basket_complements.map(&:attributes)
   end
 
-  # Returns the basket_size_price to pass when creating a basket for a given delivery.
-  #
-  # At this point basket_size_price is always resolved (via ||= in before_validation),
-  # either to the admin's explicit value or to basket_size.price.
-  #
-  # When apply_basket_size_price_percentage is enabled (default) and the delivery
-  # has a percentage, the percentage is applied to the resolved price.
-  # Otherwise the resolved price is passed as-is.
   def basket_price_for(delivery)
     if apply_basket_size_price_percentage && delivery.basket_size_price_percentage?
       (basket_size_price * delivery.basket_size_price_percentage / 100.0).round_to_one_cent

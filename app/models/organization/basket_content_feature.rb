@@ -1,9 +1,5 @@
 # frozen_string_literal: true
 
-# Provides configuration for displaying basket contents on the member-facing
-# deliveries page. When enabled, members can see the list of products (and
-# optionally quantities) for their next delivery, subject to a configurable
-# time window before the delivery date.
 module Organization::BasketContentFeature
   extend ActiveSupport::Concern
 
@@ -21,16 +17,11 @@ module Organization::BasketContentFeature
     before_create :set_basket_content_member_defaults
   end
 
-  # Returns the Time at which basket contents become visible to members
-  # for the given delivery. This is calculated as X hours before midnight
-  # (00:00:00) on the delivery day in the organization's timezone.
   def basket_content_member_visible_at(delivery)
     delivery.date.in_time_zone(time_zone).beginning_of_day -
       basket_content_member_visible_hours_before.hours
   end
 
-  # Returns true if the basket contents for the given delivery should
-  # currently be shown to members, based on the configured time window.
   def basket_content_visible_for_delivery?(delivery)
     basket_content_member_visible?
       && basket_content_member_visible_at(delivery).past?

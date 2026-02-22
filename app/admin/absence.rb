@@ -163,7 +163,6 @@ ActiveAdmin.register Absence do
       end
     end
 
-    # Skip pagination when downloading a xlsx file
     def apply_pagination(chain)
       return chain if params["format"] == "xlsx"
 

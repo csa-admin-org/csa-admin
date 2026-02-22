@@ -1,15 +1,5 @@
 # frozen_string_literal: true
 
-# Handles retrying suppressed email deliveries after an email address
-# is unsuppressed (e.g., admin removes a hard bounce suppression).
-#
-# When an EmailSuppression is lifted, recent MailDelivery::Email records
-# that were blocked by that suppression can be retried. The retry
-# re-checks all active suppressions, so emails blocked by multiple
-# suppressions won't be sent until all are lifted.
-#
-# Only emails within MISSING_EMAILS_ALLOWED_PERIOD (1 week) are
-# eligible — older deliveries likely have stale content.
 module MailDelivery::Email::Retriable
   extend ActiveSupport::Concern
 
@@ -22,10 +12,6 @@ module MailDelivery::Email::Retriable
     }
   end
 
-  # Retries a suppressed email after its suppression has been lifted.
-  # Re-checks current suppressions — if still suppressed by other active
-  # suppressions, updates stored data and stays suppressed.
-  # Returns true if the email was retried, false if still suppressed.
   def retry!
     invalid_transition(:retry) unless suppressed?
 

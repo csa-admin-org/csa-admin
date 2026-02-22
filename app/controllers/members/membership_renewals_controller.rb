@@ -5,15 +5,12 @@ class Members::MembershipRenewalsController < Members::BaseController
   before_action :ensure_renewal_opened!, only: :new
   before_action :redirect_renewal_decision_params!, only: :new
 
-  # GET /membership/renewal/new
-  # GET /membership/:decision
   def new
     @membership = @membership.dup
     @membership.renewal_decision = params[:decision]
     set_basket_complements
   end
 
-  # POST /membership/renewal
   def create
     case params.require(:membership).require(:renewal_decision)
     when "cancel"
@@ -67,8 +64,7 @@ class Members::MembershipRenewalsController < Members::BaseController
   end
 
   def redirect_renewal_decision_params!
-    # Avoid redirect for pricing frame update
-    return if params.dig(:membership, :renewal_note)
+    return if params.dig(:membership, :renewal_note) # pricing frame update
 
     if decision = params.dig(:membership, :renewal_decision)
       redirect_to url_for(decision: decision)

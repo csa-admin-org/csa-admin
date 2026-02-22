@@ -35,7 +35,6 @@ ActiveAdmin.register_page "Handbook" do
         "handbook-search-current-page-value": params[:id],
         action: "keydown.down->handbook-search#navigateDown keydown.up->handbook-search#navigateUp keydown.enter->handbook-search#selectCurrent"
       } do
-        # Search form targeting the Turbo Frame below
         form action: handbook_search_path, method: :get,
           data: { "turbo-frame" => "handbook-sidebar-results", "handbook-search-target" => "form" } do |f|
           input type: :hidden, name: :page, value: params[:id]
@@ -58,7 +57,6 @@ ActiveAdmin.register_page "Handbook" do
           end
         end
 
-        # Turbo Frame wrapping the page list — replaced by search results when active
         turbo_frame id: "handbook-sidebar-results", target: "_top",
           data: { "handbook-search-target": "frame", action: "turbo:frame-load->handbook-search#resetSelection" } do
           ul class: "space-y-2 text-base" do

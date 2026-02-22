@@ -4,8 +4,6 @@ class ApplicationController < ActionController::Base
   include SessionTracking
   include Observability
 
-  # Prevent CSRF attacks by raising an exception.
-  # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
 
   before_action :set_locale
@@ -13,8 +11,6 @@ class ApplicationController < ActionController::Base
 
   helper_method :current_admin
 
-  # Allow only browsers natively supporting webp images, web push, badges, import maps, CSS nesting, and CSS :has
-  # See also: https://tailwindcss.com/docs/compatibility
   allow_browser versions: { safari: 16.4, chrome: 116, firefox: 128, opera: 106, ie: false }, block: :handle_outdated_browser
 
   rescue_from ActiveRecord::InvalidForeignKey do

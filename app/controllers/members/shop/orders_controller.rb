@@ -5,7 +5,6 @@ class Members::Shop::OrdersController < Members::Shop::BaseController
   before_action :ensure_order_not_empty
   before_action :ensure_order_state
 
-  # GET /shop/orders/:id
   def show
     respond_to do |format|
       format.html { render :show }
@@ -31,7 +30,6 @@ class Members::Shop::OrdersController < Members::Shop::BaseController
     end
   end
 
-  # POST /shop/orders/:id/confirm
   def confirm
     @order.confirm!
     redirect_to members_shop_order_path(@order), notice: t(".notice")
@@ -39,7 +37,6 @@ class Members::Shop::OrdersController < Members::Shop::BaseController
     render :show, status: :unprocessable_entity
   end
 
-  # POST /shop/orders/:id/unconfirm
   def unconfirm
     @order.unconfirm!
     redirect_to members_shop_order_path(@order)
@@ -47,7 +44,6 @@ class Members::Shop::OrdersController < Members::Shop::BaseController
     render :show, status: :unprocessable_entity
   end
 
-  # DELETE /shop/orders/:id
   def destroy
     @order.destroy
     redirect_to shop_path

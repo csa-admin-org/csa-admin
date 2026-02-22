@@ -1,14 +1,5 @@
 # frozen_string_literal: true
 
-# Handles Postmark webhook payloads for both broadcast (newsletter) and
-# outbound (transactional) message streams.
-#
-# Looks up the MailDelivery::Email by postmark_message_id (captured at
-# send time via the X-PM-Message-Id header).
-#
-# Idempotency: webhooks are no-ops when the record is already in a
-# terminal state (delivered/bounced). Postmark may retry webhooks, so
-# duplicate payloads must not cause errors.
 module Postmark
   class WebhookHandlerJob < ApplicationJob
     queue_as :low

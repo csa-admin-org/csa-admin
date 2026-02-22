@@ -1,13 +1,5 @@
 # frozen_string_literal: true
 
-# Handles soft-deletion (discard) for GDPR-compliant member removal.
-# Preserves historical data while marking members as "gone".
-#
-# A member can be discarded if inactive with no financial obligations.
-# A member can be fully deleted only if no historical data exists.
-#
-# On discard:
-# - All sessions are revoked (prevents login)
 module Member::Discardable
   extend ActiveSupport::Concern
 
@@ -22,7 +14,6 @@ module Member::Discardable
     end
   end
 
-  # Can discard if inactive with no pending financial obligations
   def can_discard?
     inactive? &&
       invoices.where(state: %w[processing open]).none? &&
@@ -30,8 +21,6 @@ module Member::Discardable
       shop_orders.pending.none?
   end
 
-  # Returns array of i18n keys explaining why member cannot be discarded.
-  # Used to display clear feedback when deletion is not possible.
   def discardability_reasons
     reasons = []
     reasons << :not_inactive unless inactive?
@@ -41,7 +30,6 @@ module Member::Discardable
     reasons
   end
 
-  # Can fully delete only if no historical data exists
   def can_delete?
     pending? || (inactive? &&
       memberships.none? &&
@@ -50,7 +38,6 @@ module Member::Discardable
       shop_orders.none?)
   end
 
-  # Override to use discard pattern
   def can_destroy?
     return false if discarded?
 
@@ -67,15 +54,13 @@ module Member::Discardable
     end
   end
 
-  # Override to block transactional emails for discarded members
   def active_emails
     return [] if discarded?
 
     super
   end
 
-  # Returns id for exports/display, nil for anonymized members
-  # to prevent linking historical documents back to member identifiers.
+  # Nil for anonymized members to prevent linking documents back to identifiers.
   def display_id
     anonymized? ? nil : id
   end

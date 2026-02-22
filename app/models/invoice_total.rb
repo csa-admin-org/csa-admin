@@ -66,8 +66,6 @@ class InvoiceTotal
       end
   end
 
-  # Returns a sorted Hash of { "YYYY-MM" => aggregated_amount } for the
-  # "RemainingMembership" scope, nil for all other scopes.
   def previsional_amounts_by_month
     return unless scope == "RemainingMembership"
 

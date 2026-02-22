@@ -1,8 +1,5 @@
 # frozen_string_literal: true
 
-# Handles invoice processing, state transitions, and lifecycle operations.
-# This includes processing new invoices, sending emails, cancellation,
-# and PDF generation.
 module Invoice::Processing
   extend ActiveSupport::Concern
 

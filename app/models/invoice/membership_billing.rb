@@ -1,8 +1,5 @@
 # frozen_string_literal: true
 
-# Handles membership-specific billing logic for invoices.
-# This includes calculating membership amounts, tracking paid and remaining
-# amounts, and validating that billing doesn't exceed membership price.
 module Invoice::MembershipBilling
   extend ActiveSupport::Concern
 

@@ -129,13 +129,10 @@ class Basket < ApplicationRecord
     update!(params)
   end
 
-  # A basket can be forced when it's provisionally absent (no absence_id)
-  # and not billable (within absences_included quota)
   def can_force?
     provisionally_absent? && !billable?
   end
 
-  # A basket can be unforced when it's in forced state
   def can_unforce?
     forced?
   end
@@ -176,12 +173,7 @@ class Basket < ApplicationRecord
     self.delivery_cycle_price ||= membership.delivery_cycle&.price
   end
 
-  # Set quantity to 0 when the basket size is not delivered on this date.
-  # This happens when:
-  # - The basket size is complements-only (price = 0) and basket price is also 0
-  # - The delivery date is outside the basket size's cweek range (on create only)
-  #
-  # In both cases, the member receives only complements without an actual basket.
+  # Quantity 0 means the member receives only complements without an actual basket.
   def set_quantity_to_zero_when_basket_size_not_delivered
     return unless basket_size
 

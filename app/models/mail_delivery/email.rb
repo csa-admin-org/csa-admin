@@ -1,23 +1,5 @@
 # frozen_string_literal: true
 
-# Per-email-address delivery tracking for a MailDelivery.
-#
-# Each record represents one actual email sent to one address.
-# A single MailDelivery (per member) may have multiple Email children
-# when the member has several email addresses.
-#
-# Tracks delivery state via Postmark webhooks using `postmark_message_id`
-# as the primary lookup key. Suppressed emails are detected at creation
-# time via `check_email_suppressions` and handled during processing.
-#
-# State machine:
-#   processing → delivered    (confirmed by Postmark webhook)
-#   processing → bounced      (bounce notification from Postmark webhook)
-#   processing → suppressed   (email on suppression list or Postmark rejection)
-#   suppressed → processing   (retry after email unsuppression, via retry!)
-#
-# No `draft` state — draft tracking lives on MailDelivery only.
-# Draft MailDeliveries have no Email children.
 class MailDelivery
   class Email < ApplicationRecord
     include HasState
@@ -39,9 +21,6 @@ class MailDelivery
       email_suppression_ids.empty?
     end
 
-    # Full processing lifecycle — builds message, delivers (or suppresses),
-    # stores preview, and recomputes parent state.
-    # Called by ProcessJob to keep the job as thin orchestration.
     def process!
       message = mail_delivery.build_message(email: email)
 

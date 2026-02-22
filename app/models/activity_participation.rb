@@ -12,8 +12,7 @@ class ActivityParticipation < ApplicationRecord
 
   searchable :activity_title, :activity_date, priority: 5, date: :activity_date
 
-  # Override search_reindex_scope to use an efficient SQL join
-  # since activity_date is a method delegating to the activity association.
+  # activity_date delegates to the activity association, so use a SQL join.
   def self.search_reindex_scope
     joins(:activity).where(activities: { date: search_min_date.. })
   end

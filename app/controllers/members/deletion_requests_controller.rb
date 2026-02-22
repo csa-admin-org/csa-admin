@@ -3,11 +3,9 @@
 class Members::DeletionRequestsController < Members::BaseController
   before_action :ensure_discardable!, only: :create
 
-  # GET /account/delete
   def new
   end
 
-  # POST /account/delete
   def create
     current_session.rotate_deletion_code!
     SessionMailer.with(

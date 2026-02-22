@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 class Members::BillingController < Members::BaseController
-  # GET /billing
   def index
     invoices = current_member.invoices.includes(pdf_file_attachment: :blob)
     @membership = current_member.current_or_future_membership

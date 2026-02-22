@@ -1,20 +1,5 @@
 # frozen_string_literal: true
 
-# Generates CSV export for baskets.
-#
-# Supports two modes:
-# - Single delivery: includes member details (for printing labels)
-# - Multiple deliveries (fiscal year): omits member details, adds delivery columns
-#
-# Usage:
-#   # Single delivery (API, label printing)
-#   exporter = Basket::CSVExporter.new(delivery: delivery)
-#   csv_data = exporter.generate
-#
-#   # Fiscal year export (ActiveAdmin)
-#   exporter = Basket::CSVExporter.new(fiscal_year: fiscal_year)
-#   csv_data = exporter.generate
-#
 class Basket::CSVExporter
   include ActionView::Helpers::NumberHelper
 
@@ -87,7 +72,6 @@ class Basket::CSVExporter
   def build_headers
     cols = []
 
-    # Delivery columns (multi-delivery only)
     unless @single_delivery
       cols << :delivery_id
       cols << :delivery_date
@@ -97,7 +81,6 @@ class Basket::CSVExporter
     cols << :membership_id
     cols << :member_id
 
-    # Member columns (single delivery only)
     if @single_delivery
       cols << :name
       cols << :emails
@@ -144,7 +127,6 @@ class Basket::CSVExporter
 
     cols = []
 
-    # Delivery columns (multi-delivery only)
     unless @single_delivery
       cols << basket.delivery.display_number
       cols << basket.delivery.date
@@ -154,7 +136,6 @@ class Basket::CSVExporter
     cols << basket.membership_id
     cols << basket.membership.member&.display_id
 
-    # Member columns (single delivery only)
     if @single_delivery
       member = basket.membership.member
       cols << member.name

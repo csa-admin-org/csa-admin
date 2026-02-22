@@ -5,7 +5,6 @@ class Members::Shop::ProductsController < Members::Shop::BaseController
   before_action :find_or_create_order!
   before_action :ensure_order_cart_state!
 
-  # GET /shop
   def index
     params.permit!
   end

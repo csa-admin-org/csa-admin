@@ -4,11 +4,9 @@ class Members::BasketShiftsController < Members::BaseController
   before_action :load_basket
   before_action :ensure_member_can_shift_basket!
 
-  # GET /baskets/:id/shift
   def new
   end
 
-  # CREATE /baskets/:id/shift
   def create
     @basket.update!(basket_params)
 

@@ -181,8 +181,6 @@ class MailTemplate < ApplicationRecord
     "#{scope_name}_mailer_preview".classify.constantize
   end
 
-  # Extracts the action from the title by stripping the scope prefix.
-  # "invoice_created" → "created", "activity_participation_reminder" → "reminder"
   def action
     title.delete_prefix("#{scope_name}_")
   end
@@ -209,8 +207,6 @@ class MailTemplate < ApplicationRecord
       false
     end
   end
-
-  # AR attribute overrides — must stay public.
 
   def active=(value)
     if always_active?

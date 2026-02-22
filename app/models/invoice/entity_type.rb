@@ -1,8 +1,5 @@
 # frozen_string_literal: true
 
-# Handles entity type classification for invoices.
-# Invoices can be linked to different entity types (Membership, Share, Shop::Order, etc.)
-# and this concern provides predicates and scopes for working with these types.
 module Invoice::EntityType
   extend ActiveSupport::Concern
 

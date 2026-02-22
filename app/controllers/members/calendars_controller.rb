@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 class Members::CalendarsController < Members::BaseController
-  # GET /deliveries/calendar.ics
   def show
     @baskets = @member.baskets.filled.between(period_range)
     @participations = @member.activity_participations.between(period_range)

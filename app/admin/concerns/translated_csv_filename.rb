@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-# To be included inside the controller block
 module TranslatedCSVFilename
   extend ActiveSupport::Concern
 

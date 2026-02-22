@@ -3,17 +3,14 @@
 require "bcrypt"
 
 class SessionsController < ApplicationController
-  # helper ActiveAdmin::ViewHelpers
   helper ActiveAdmin::LayoutHelper
   layout "active_admin_logged_out"
 
-  # GET /login
   def new
     redirect_to root_path if current_admin
     @session = Session.new
   end
 
-  # POST /sessions
   def create
     @session = Session.new(
       admin_email: params.require(:session)[:email],
@@ -31,7 +28,6 @@ class SessionsController < ApplicationController
     end
   end
 
-  # GET /sessions/:id
   def show
     if @session = Session.find_by_token_for(:redeem, params[:id])
       cookies.encrypted.permanent[:session_id] = @session.id
@@ -41,7 +37,6 @@ class SessionsController < ApplicationController
     end
   end
 
-  # DELETE /logout
   def destroy
     current_session&.revoke!
     cookies.delete(:session_id)

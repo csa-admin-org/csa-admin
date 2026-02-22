@@ -1,8 +1,5 @@
 # frozen_string_literal: true
 
-# Handles share-specific billing logic for invoices.
-# This includes setting the amount based on share price,
-# validating shares_number, and handling member shares changes.
 module Invoice::SharesBilling
   extend ActiveSupport::Concern
 

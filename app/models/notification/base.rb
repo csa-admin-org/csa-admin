@@ -1,22 +1,5 @@
 # frozen_string_literal: true
 
-# Base class for all notification types.
-#
-# Each notification class implements `notify` to handle its specific logic.
-# Use `notify_later` to enqueue the notification as a background job.
-#
-# For notifications that depend on a MailTemplate, use the `mail_template` DSL:
-#
-#   class Notification::MembershipRenewalReminder < Notification::Base
-#     mail_template :membership_renewal_reminder
-#
-#     def notify
-#       return unless mail_template_active?
-#       # ...
-#       deliver(membership: membership)
-#     end
-#   end
-#
 class Notification::Base
   class << self
     def notify

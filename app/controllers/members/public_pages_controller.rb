@@ -6,7 +6,6 @@ class Members::PublicPagesController < Members::BaseController
 
   ALLOWED_PAGES = %w[welcome goodbye].freeze
 
-  # GET /:page (welcome, goodbye)
   def show
     page = params[:page]
     render page if ALLOWED_PAGES.include?(page)

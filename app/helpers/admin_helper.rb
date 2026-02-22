@@ -70,7 +70,6 @@ module AdminHelper
   end
 
   def grouped_by_visibility(relation, options)
-    # Load all records once and partition in Ruby to avoid N+1 queries
     all_records = relation.to_a
     visible_records, hidden_records = all_records.partition(&:visible?)
 

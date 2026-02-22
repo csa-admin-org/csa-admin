@@ -1,8 +1,5 @@
 # frozen_string_literal: true
 
-# Handles activity participation-specific billing logic for invoices.
-# This includes setting member, fiscal year, and participation count
-# when invoicing for missed activity participations.
 module Invoice::ActivityParticipationBilling
   extend ActiveSupport::Concern
 

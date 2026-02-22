@@ -1,14 +1,5 @@
 # frozen_string_literal: true
 
-# Handles the absences included reminder functionality for memberships.
-#
-# In provisional_delivery mode, creates forced deliveries for all provisional baskets.
-# In both modes, sends a reminder email to the member.
-#
-# Usage:
-#   Membership.send_absences_included_reminders  # Called by scheduled job
-#   membership.send_absences_included_reminder!  # Process single membership
-#
 module Membership::AbsencesIncludedRemindable
   extend ActiveSupport::Concern
 
@@ -30,9 +21,6 @@ module Membership::AbsencesIncludedRemindable
     end
   end
 
-  # Calculates the date when the absences included reminder should be sent.
-  # This is the date of the first coming provisional basket minus the configured weeks.
-  # Returns nil if there are no coming provisional baskets.
   def absences_included_remindable_on
     first_provisional = baskets.coming.provisionally_absent.first
     return unless first_provisional
@@ -44,12 +32,10 @@ module Membership::AbsencesIncludedRemindable
     absences_included_reminder_sent_at?
   end
 
-  # Count of baskets with definitive absences (created by member or admin)
   def absences_included_used
     baskets.definitely_absent.count
   end
 
-  # Remaining absences that can still be used (never negative)
   def absences_included_remaining
     [ absences_included - absences_included_used, 0 ].max
   end

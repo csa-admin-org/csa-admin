@@ -1,9 +1,5 @@
 # frozen_string_literal: true
 
-# Handles basket shifting functionality.
-# When a member is absent, they can shift their basket to another delivery
-# instead of losing it. This concern manages the shift relationships,
-# eligibility checks, and member-facing shift options.
 module Basket::Shifting
   extend ActiveSupport::Concern
 
@@ -22,10 +18,7 @@ module Basket::Shifting
     absent? && !empty? && !shifted? && billable?
   end
 
-  # Returns true when an absent basket's content is forfeited (won't be received).
-  # This happens when the basket is not billable (from absences_included quota)
-  # or empty. Shifted baskets are also forfeited on the source date (content
-  # moves to target date, so nothing delivered here).
+  # Not billable (absences_included quota) or empty means content won't be received.
   def content_forfeited?
     absent? && (!billable? || empty?)
   end

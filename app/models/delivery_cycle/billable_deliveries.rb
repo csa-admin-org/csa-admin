@@ -1,8 +1,5 @@
 # frozen_string_literal: true
 
-# Handles billable delivery calculations for a delivery cycle.
-# This includes counting deliveries adjusted for included absences,
-# and providing billing-related descriptions.
 module DeliveryCycle::BillableDeliveries
   extend ActiveSupport::Concern
 

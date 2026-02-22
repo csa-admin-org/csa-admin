@@ -1,10 +1,5 @@
 # frozen_string_literal: true
 
-# A DeliveryCycle is split into one or more periods. Each period:
-# - targets a fiscal-year-month window (from_fy_month..to_fy_month)
-# - applies a selection strategy (:results) to the deliveries that fall in that window
-#
-# Periods are intended to be non-overlapping within a cycle.
 class DeliveryCycle::Period < ApplicationRecord
   FY_MONTHS = (1..12).to_a.freeze
 

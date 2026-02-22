@@ -353,7 +353,6 @@ ActiveAdmin.register Shop::Order do
     include ShopHelper
 
     before_create do |order|
-      # Clear stale cart order
       cart_order = Shop::Order.cart.find_by(member_id: order.member_id, delivery_id: order.delivery_id)
       if cart_order && (!cart_order.can_member_update? || cart_order.empty?)
         cart_order.destroy
@@ -375,7 +374,6 @@ ActiveAdmin.register Shop::Order do
       super(chain).joins(:member).merge(Member.order_by_name)
     end
 
-    # Skip pagination when downloading a xlsx file
     def apply_pagination(chain)
       return chain if params["format"] == "xlsx"
 

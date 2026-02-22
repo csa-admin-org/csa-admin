@@ -8,9 +8,7 @@ module Templatable
   def template_mail(member, from: nil, to: nil, stream: "outbound", tag: nil, headers: {}, **data)
     tag ||= params[:template]&.tag
     render_template(member, **data) do |subject, content|
-      # Per-recipient dispatch: params[:to] is the single address set by
-      # ProcessJob via template.mail(to: email). It takes precedence over
-      # the action-level `to:` (which may be an array for backward compat).
+      # params[:to] from ProcessJob takes precedence (per-recipient dispatch)
       recipient = params[:to] || Array(to).first || member.try(:active_emails)&.first
 
       content_mail(content, **{

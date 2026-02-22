@@ -3,7 +3,6 @@
 class ActivityParticipationsCalendarController < ApplicationController
   before_action :verify_icalendar_auth_token
 
-  # GET activity_participations/calendar.ics
   def show
     @activity_participations =
       ActivityParticipation

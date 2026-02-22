@@ -1,8 +1,5 @@
 # frozen_string_literal: true
 
-# Handles billing-related logic for members.
-# This includes billing emails, billing info, balance calculations,
-# and SEPA direct debit configuration.
 module Member::Billing
   extend ActiveSupport::Concern
 

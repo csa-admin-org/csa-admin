@@ -310,7 +310,6 @@ ActiveAdmin.register MailDelivery do
     def preload_sources(collection)
       records = collection.to_a
 
-      # Preload newsletters (batch query from mailable_ids)
       if source_type != :mail_template
         nl_deliveries = records.select(&:newsletter?)
         if nl_deliveries.any?
@@ -320,7 +319,6 @@ ActiveAdmin.register MailDelivery do
         end
       end
 
-      # Preload mail templates (tiny table, one query loads all)
       if source_type != :newsletter
         tpl_deliveries = records.reject(&:newsletter?)
         if tpl_deliveries.any?

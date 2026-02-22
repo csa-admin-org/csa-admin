@@ -7,12 +7,10 @@ class Members::BiddingRound::PledgesController < Members::BaseController
   before_action :load_bidding_round
   before_action :find_or_initialize_pledge
 
-  # GET /bidding_round/pledge
   def new
     @pledge.basket_size_price = params[:price] if params[:price].present?
   end
 
-  # POST /bidding_round/pledge
   def create
     @pledge.assign_attributes(pledge_params)
 

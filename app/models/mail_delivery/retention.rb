@@ -1,9 +1,5 @@
 # frozen_string_literal: true
 
-# Handles automatic cleanup of old MailDelivery records.
-#
-# Delivery records are kept for RETENTION_PERIOD (1 year) and then
-# automatically purged by Scheduled::MailDeliveriesPurgeJob.
 module MailDelivery::Retention
   extend ActiveSupport::Concern
 

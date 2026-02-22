@@ -1,28 +1,5 @@
 # frozen_string_literal: true
 
-# Makes a model searchable via the FTS5-backed SearchEntry index.
-#
-# Usage:
-#   class Member < ApplicationRecord
-#     include Searchable
-#     searchable :name, :emails, :phones, :city, :id, priority: 1
-#   end
-#
-# The first attribute is the **primary** field (higher relevance in ranking),
-# the rest are **secondary**. Attributes can be columns, Hash/JSON translated
-# columns (all locale values joined), or any method the model responds to.
-#
-# Date-based filtering:
-#   Pass `date:` to limit indexing to the current + previous fiscal year.
-#   When `date:` names a real DB column, `search_reindex_scope` generates a
-#   SQL WHERE clause. For association-based dates, override `search_reindex_scope`.
-#
-#   searchable :id, :amount, :date, priority: 3, date: :date
-#
-# Automatic behaviors:
-# - Hooks into Discard lifecycle (after_discard/after_undiscard)
-# - Appends member.name to secondary text for belongs_to :member
-# - Excludes anonymized records from the index
 module Searchable
   extend ActiveSupport::Concern
 
@@ -48,17 +25,14 @@ module Searchable
       self._search_priority = priority
       self._search_date_attribute = date&.to_sym
 
-      # Must check here rather than in `included` because Discard::Model
-      # may be included after Searchable in the class body.
+      # Discard::Model may be included after Searchable in the class body.
       _setup_discard_hooks if _discard_model?
     end
 
-    # Start of the previous fiscal year — records before this are excluded.
     def search_min_date
       Current.org.last_fiscal_year.beginning_of_year
     end
 
-    # Override in models with association-based dates to use joins instead.
     def search_reindex_scope
       scope = respond_to?(:kept) ? kept : all
 
@@ -86,8 +60,7 @@ module Searchable
 
     parts = resolve_searchable_value(_search_primary_attribute)
 
-    # When primary attribute is :id, prepend translated model names so users
-    # can search "Invoice 42" or "Facture 42" to find specific record types.
+    # Prepend translated model names so "Invoice 42" or "Facture 42" works.
     if _search_primary_attribute == :id
       model_names = Current.org.languages.map { |lang|
         I18n.with_locale(lang) { self.class.model_name.human }
@@ -101,7 +74,6 @@ module Searchable
   def searchable_secondary_text
     parts = _search_secondary_attributes.flat_map { |attr| resolve_searchable_value(attr) }
 
-    # Auto-append member name for belongs_to :member associations
     if self.class.reflect_on_association(:member)
       parts << member&.name
     end
@@ -177,7 +149,6 @@ module Searchable
   def search_relevant_changes?
     tracked = [ _search_primary_attribute, *_search_secondary_attributes ].compact.map(&:to_s)
 
-    # Include pluralized JSON columns for translated attributes (e.g. :name → :names)
     tracked_columns = tracked.flat_map { |attr|
       col = attr.pluralize
       self.class.column_names.include?(col) ? [ attr, col ] : [ attr ]

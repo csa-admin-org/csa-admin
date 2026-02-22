@@ -131,7 +131,6 @@ module BasketContentsHelper
     products.map do |product|
       data = { latest_basket_content: {} }
 
-      # Use product defaults if set, otherwise fall back to latest basket content
       if product.default_unit.present?
         data[:latest_basket_content_unit] = product.default_unit
         data[:latest_basket_content][product.default_unit.to_sym] = {

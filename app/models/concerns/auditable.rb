@@ -34,7 +34,6 @@ module Auditable
       change_pair.all?(&:blank?) || change_pair.uniq.size == 1
     }
 
-    # Merge nested association changes from model-specific concerns
     audited_changes.merge!(audited_nested_changes)
 
     return if audited_changes.none?
@@ -45,9 +44,6 @@ module Auditable
       metadata: audit_metadata)
   end
 
-  # Override in model-specific concerns to track nested association changes.
-  # Should return a hash like { "association_name" => [before, after] }
-  #
   # IMPORTANT: When Auditable is included inside an Auditing concern's `included`
   # block, this method must be defined in a prepended module to ensure it takes
   # precedence over this default implementation. See existing Auditing concerns
@@ -60,16 +56,11 @@ module Auditable
     {}
   end
 
-  # Normalizes a value for auditing comparison.
-  # - Strings are stripped and converted to nil if blank
-  # - Hashes with all blank values are converted to nil
-  # - Other values are passed through
   def normalize_audited_value(value)
     case value
     when String
       value.strip.presence
     when Hash
-      # For translated hashes, treat as blank if all values are blank
       value.values.any?(&:present?) ? value : nil
     else
       value

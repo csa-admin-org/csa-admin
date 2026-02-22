@@ -1,12 +1,6 @@
 # frozen_string_literal: true
 
-# Handles trial period functionality for memberships.
-#
-# Trial baskets allow new members to test the CSA before committing fully.
-# Members can cancel during trial, ending their membership on the last trial
-# basket delivery date.
-#
-# Note: Trial baskets can span two memberships (e.g., member joins in December
+# Trial baskets can span two memberships (e.g., member joins in December
 # with 4 trial baskets: 2 in December's membership + 2 in January's renewed
 # membership). Only the membership where the trial ends should allow cancellation.
 module Membership::Trial
@@ -51,16 +45,11 @@ module Membership::Trial
 
   private
 
-  # Returns true if this membership contains the member's last trial basket.
-  # This handles cross-membership trials where the trial may have started
-  # in a previous membership but ends in this one.
   def contains_last_trial_basket?
     last_member_trial_basket = member.baskets.trial.last
     last_member_trial_basket&.membership_id == id
   end
 
-  # Returns true if we're before the first non-trial basket delivery date.
-  # This allows members to cancel until the day before their first non-trial basket.
   def before_first_non_trial_basket?
     first_non_trial_basket = baskets.not_trial.first
     return true unless first_non_trial_basket # Only trial baskets, can cancel

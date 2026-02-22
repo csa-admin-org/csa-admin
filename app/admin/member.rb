@@ -727,7 +727,6 @@ ActiveAdmin.register Member do
     action_button t(".deactivate"), deactivate_member_path(resource), icon: "circle-off", class: "destructive"
   end
 
-  # Remove default "destroy" action item
   config.remove_action_item :destroy
 
   action_item :destroy, only: :show, if: -> { authorized?(:destroy, resource) } do

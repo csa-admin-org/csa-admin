@@ -7,14 +7,12 @@ class Members::NewsletterSubscriptionsController < Members::BaseController
   skip_before_action :authenticate_member!
   before_action :ensure_valid_token
 
-  # POST /newsletters/subscribe/:token
   def create
     EmailSuppression.unsuppress!(email,
       stream_id: "broadcast",
       origin: "Customer")
   end
 
-  # GET /newsletters/unsubscribe/:token
   def destroy
     EmailSuppression.suppress!(email,
       stream_id: "broadcast",

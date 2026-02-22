@@ -1,25 +1,8 @@
 # frozen_string_literal: true
 
-# Shared configuration for audit index pages.
-#
-# This module extracts common behavior from the model-specific audit admin
-# resources (MemberAudit, MembershipAudit, DeliveryCycleAudit) to reduce
-# duplication while still allowing each resource to customize its breadcrumbs.
-#
-# Usage:
-#   ActiveAdmin.register Audit, as: "ModelAudit" do
-#     extend AuditsIndex
-#     audits_for Model
-#
-#     breadcrumb do
-#       # Custom breadcrumb for this model
-#     end
-#   end
-#
-# Note: We use `extend` instead of `include` because ActiveAdmin's register
-# block runs in the context of a DSL object, not a class definition.
-# See: https://tmichel.github.io/2015/02/22/sharing-code-between-activeadmin-resources/
-#
+# `extend` instead of `include` because ActiveAdmin's register block
+# runs in a DSL context, not a class definition.
+# https://tmichel.github.io/2015/02/22/sharing-code-between-activeadmin-resources/
 module AuditsIndex
   def self.extended(base)
     base.instance_eval do
@@ -49,7 +32,6 @@ module AuditsIndex
 
               li do
                 h4 model_class.human_attribute_name(attr), class: "font-normal"
-                # Use compact diff rendering for list-type attributes
                 if (diff_html = helpers.render_audit_diff(attr, change.first, change.last))
                   text_node diff_html
                 else
@@ -90,9 +72,6 @@ module AuditsIndex
     end
   end
 
-  # DSL method to configure which model this audit resource is for.
-  # This sets up the belongs_to relationship and stores the model class
-  # for use in rendering audit changes.
   def audits_for(model_class)
     parent_name = model_class.model_name.singular.to_sym
 

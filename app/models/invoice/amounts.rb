@@ -1,8 +1,5 @@
 # frozen_string_literal: true
 
-# Handles amount calculations for invoices.
-# This includes setting amounts, applying percentages, VAT calculations,
-# and balance tracking (paid, overpaid, missing amounts).
 module Invoice::Amounts
   extend ActiveSupport::Concern
 

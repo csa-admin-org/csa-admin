@@ -1,8 +1,5 @@
 # frozen_string_literal: true
 
-# Handles member state lifecycle transitions.
-# Members can be in one of five states: pending, waiting, active, support, inactive.
-# This concern provides the methods to transition between these states.
 module Member::StateTransitions
   extend ActiveSupport::Concern
 

@@ -7,7 +7,6 @@ class Members::MembersController < Members::BaseController
   skip_before_action :authenticate_member!, only: %i[new create]
   before_action :redirect_current_member!, only: %i[new create]
 
-  # GET /new
   def new
     @member = Member.new(public_create: true)
     @member.desired_shares_number = Current.org.shares_number
@@ -21,7 +20,6 @@ class Members::MembersController < Members::BaseController
     set_basket_complements
   end
 
-  # GET /
   def show
     if current_member.next_basket
       redirect_to members_deliveries_path
@@ -34,7 +32,6 @@ class Members::MembersController < Members::BaseController
     end
   end
 
-  # POST /
   def create
     member = Member.new(member_params)
     member.language = I18n.locale
