@@ -1,6 +1,6 @@
 <% if @query.length < 2 || (@query.length < 3 && !@query.match?(/\A\d+\z/)) %>
   <%# No content for short queries %>
-<% elsif @results.empty? %>
+<% elsif @handbook_results.blank? && @results.empty? %>
   <div class="px-4 py-8 text-center text-sm text-gray-500 dark:text-gray-400">
     <%= t("search.no_results") %>
 
@@ -10,6 +10,10 @@
   </div>
 <% else %>
   <div class="py-1">
+    <% @handbook_results&.each do |entry| %>
+      <%= render "search/result", **search_result_for_handbook(entry, @query), query: @query %>
+    <% end %>
+
     <% @results.each do |record| %>
       <%= render "search/result", **search_result_locals(record, @query), query: @query %>
     <% end %>

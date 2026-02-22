@@ -105,6 +105,18 @@ module SearchHelper
     end
   end
 
+  # Builds display locals for a handbook search result hash returned by
+  # Handbook.search. Title matches show the page title; subtitle matches
+  # show the subtitle text with the page title as context.
+  def search_result_for_handbook(entry, query)
+    {
+      icon_name: "book-open",
+      url: handbook_page_path(entry[:name], anchor: entry[:anchor]),
+      title: entry[:subtitle] || entry[:title],
+      subtitle_parts: entry[:page_title] ? [ highlight_search(entry[:page_title], query) ] : []
+    }
+  end
+
   private
 
   def search_result_for_member(member, query)

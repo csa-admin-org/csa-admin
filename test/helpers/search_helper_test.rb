@@ -4,6 +4,7 @@ require "test_helper"
 
 class SearchHelperTest < ActiveSupport::TestCase
   include SearchHelper
+  include Rails.application.routes.url_helpers
 
   test "highlight_search wraps matching substring in mark tags" do
     result = highlight_search("Jean Dupont", "dupont")
@@ -153,6 +154,61 @@ class SearchHelperTest < ActiveSupport::TestCase
   test "highlight_search with adjacent highlights merges them" do
     result = highlight_search("abcdef", "abc def")
     assert_equal "<mark>abcdef</mark>", result
+  end
+
+  # --- Handbook search result rendering ---
+
+  test "search_result_for_handbook title match has book-open icon" do
+    entry = { name: "billing", title: "Billing", subtitle: nil, anchor: nil, page_title: nil }
+    result = search_result_for_handbook(entry, "billing")
+
+    assert_equal "book-open", result[:icon_name]
+  end
+
+  test "search_result_for_handbook title match uses page title as title" do
+    entry = { name: "billing", title: "Billing", subtitle: nil, anchor: nil, page_title: nil }
+    result = search_result_for_handbook(entry, "billing")
+
+    assert_equal "Billing", result[:title]
+    assert_empty result[:subtitle_parts]
+  end
+
+  test "search_result_for_handbook title match links to page without anchor" do
+    entry = { name: "billing", title: "Billing", subtitle: nil, anchor: nil, page_title: nil }
+    result = search_result_for_handbook(entry, "billing")
+
+    assert_equal handbook_page_path("billing"), result[:url]
+  end
+
+  test "search_result_for_handbook subtitle match uses subtitle text as title" do
+    entry = { name: "deliveries", title: "Deliveries", subtitle: "Delivery cycles", anchor: "delivery-cycles", page_title: "Deliveries" }
+    result = search_result_for_handbook(entry, "delivery cycles")
+
+    assert_equal "Delivery cycles", result[:title]
+  end
+
+  test "search_result_for_handbook subtitle match shows highlighted page title in subtitle_parts" do
+    entry = { name: "deliveries", title: "Deliveries", subtitle: "Delivery cycles", anchor: "delivery-cycles", page_title: "Deliveries" }
+    result = search_result_for_handbook(entry, "deliver")
+
+    assert_equal 1, result[:subtitle_parts].size
+    assert_includes result[:subtitle_parts].first, "<mark>"
+    assert_includes result[:subtitle_parts].first, "Deliver"
+  end
+
+  test "search_result_for_handbook subtitle match links to page with anchor" do
+    entry = { name: "billing", title: "Billing", subtitle: "Share capital", anchor: "share-capital", page_title: "Billing" }
+    result = search_result_for_handbook(entry, "share capital")
+
+    assert_equal handbook_page_path("billing", anchor: "share-capital"), result[:url]
+  end
+
+  test "search_result_for_handbook does not include state keys" do
+    entry = { name: "billing", title: "Billing", subtitle: nil, anchor: nil, page_title: nil }
+    result = search_result_for_handbook(entry, "billing")
+
+    assert_not result.key?(:state)
+    assert_not result.key?(:state_label)
   end
 
   test "highlight_search matches through hyphens in city names" do

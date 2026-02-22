@@ -6,6 +6,7 @@ class SearchController < ApplicationController
   layout false
 
   MAX_RESULTS = 12
+  MAX_HANDBOOK_RESULTS = 3
 
   # GET /search?q=...
   # Returns HTML fragments for the search modal results container.
@@ -17,6 +18,7 @@ class SearchController < ApplicationController
     end
 
     @query = params[:q].to_s.strip
-    @results = SearchEntry.lookup(@query, limit: MAX_RESULTS)
+    @handbook_results = Handbook.search(@query, locale: I18n.locale).first(MAX_HANDBOOK_RESULTS)
+    @results = SearchEntry.lookup(@query, limit: MAX_RESULTS - @handbook_results.size)
   end
 end
