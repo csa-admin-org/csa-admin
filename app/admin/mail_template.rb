@@ -94,7 +94,7 @@ ActiveAdmin.register MailTemplate do
           panel link_to(MailDelivery.model_name.human(count: 2), mail_deliveries_path(mail_template_id: mail_template.id)), count: deliveries_count do
             mail_delivery_email_stats(self, deliveries,
               path_params: { mail_template_id: mail_template.id })
-            para t("active_admin.resources.mail_delivery.retention_notice"), class: "mt-6 italic text-sm text-gray-400 dark:text-gray-600"
+            para t("active_admin.resources.mail_delivery.retention_notice"), class: "mt-4 text-sm missing-data"
           end
 
           if mail_template.show_missing_delivery_emails?
