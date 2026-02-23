@@ -141,6 +141,27 @@ class NewsletterDeliveryTest < ActiveSupport::TestCase
     assert_empty newsletter.mail_delivery_emails
   end
 
+  test "destroy newsletter cleans up mail deliveries and emails" do
+    travel_to "2024-01-01"
+    newsletter = build_newsletter(
+      audience: "member_state::active",
+      template: newsletter_templates(:simple),
+      blocks_attributes: {
+        "0" => { block_id: "main", content_en: "Hello {{ member.name }}" }
+      })
+    newsletter.save!
+    perform_enqueued_jobs { newsletter.send! }
+
+    assert newsletter.mail_deliveries.any?
+    assert newsletter.mail_delivery_emails.any?
+
+    assert_difference -> { MailDelivery.count }, -newsletter.mail_deliveries.count do
+      assert_difference -> { MailDelivery::Email.count }, -newsletter.mail_delivery_emails.count do
+        newsletter.destroy!
+      end
+    end
+  end
+
   test "deliveries_with_missing_emails" do
     travel_to "2024-01-01"
     newsletter = build_newsletter(

@@ -11,6 +11,10 @@ class Newsletter
   module Delivery
     extend ActiveSupport::Concern
 
+    included do
+      before_destroy :destroy_mail_deliveries!
+    end
+
     class_methods do
       def deliveries_for(member)
         deliveries =
@@ -86,6 +90,12 @@ class Newsletter
     end
 
     private
+
+    def destroy_mail_deliveries!
+      ids = mail_deliveries.pluck(:id)
+      MailDelivery::Email.where(mail_delivery_id: ids).delete_all
+      MailDelivery.where(id: ids).delete_all
+    end
 
     def create_deliveries!(draft:)
       transaction do

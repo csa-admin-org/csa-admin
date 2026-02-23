@@ -94,7 +94,7 @@ class MailDelivery < ApplicationRecord
   end
 
   def state
-    newsletter? && source.scheduled? ? "scheduled" : super
+    newsletter? && source&.scheduled? ? "scheduled" : super
   end
 
   def draft?
