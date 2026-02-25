@@ -131,4 +131,62 @@ class Newsletter::SegmentTest < ActiveSupport::TestCase
     segment = Newsletter::Segment.create!(city: nil)
     assert_equal [ members(:anna), members(:john), members(:bob), members(:jane) ], segment.members
   end
+
+  test "segment by membership_scope defaults to current_or_future" do
+    travel_to "2024-01-01"
+
+    segment = Newsletter::Segment.create!
+    assert_equal "current_or_future", segment.membership_scope
+    assert_equal [ members(:anna), members(:john), members(:bob), members(:jane) ], segment.members
+  end
+
+  test "segment by membership_scope current only" do
+    travel_to "2024-01-01"
+
+    # Make john's current membership past so he only has a future one (john_future)
+    memberships(:john).update_columns(started_on: "2023-07-01", ended_on: "2023-12-30")
+
+    segment = Newsletter::Segment.create!(membership_scope: "current")
+    assert_equal [ members(:anna), members(:bob), members(:jane) ], segment.members
+  end
+
+  test "segment by membership_scope future only" do
+    travel_to "2024-01-01"
+
+    # Make john's current membership past so he only has a future one (john_future)
+    memberships(:john).update_columns(started_on: "2023-07-01", ended_on: "2023-12-30")
+
+    segment = Newsletter::Segment.create!(membership_scope: "future")
+    assert_equal [ members(:john) ], segment.members
+  end
+
+  test "segment by membership_scope current_or_future includes both" do
+    travel_to "2024-01-01"
+
+    # Make john's current membership past so he only has a future one (john_future)
+    memberships(:john).update_columns(started_on: "2023-07-01", ended_on: "2023-12-30")
+
+    segment = Newsletter::Segment.create!(membership_scope: "current_or_future")
+    assert_equal [ members(:anna), members(:bob), members(:jane), members(:john) ], segment.members
+  end
+
+  test "segment by basket_complement with membership_scope current" do
+    travel_to "2024-01-01"
+
+    segment = Newsletter::Segment.create!(membership_scope: "current", basket_complement_ids: [ bread_id ])
+    assert_equal [ members(:jane) ], segment.members
+  end
+
+  test "segment by basket_complement with membership_scope future" do
+    travel_to "2024-01-01"
+
+    segment = Newsletter::Segment.create!(membership_scope: "future", basket_complement_ids: [ bread_id ])
+    assert_empty segment.members
+  end
+
+  test "segment validates membership_scope inclusion" do
+    segment = Newsletter::Segment.new(membership_scope: "invalid")
+    assert_not segment.valid?
+    assert_includes segment.errors[:membership_scope], I18n.t("errors.messages.inclusion")
+  end
 end

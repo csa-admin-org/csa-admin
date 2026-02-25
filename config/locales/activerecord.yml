@@ -1841,6 +1841,12 @@ _:
           _de: Abonnements-IDs
           _it: ID abbonamento
           _nl: Lidmaatschap IDs
+        membership_scope:
+          _en: Membership scope
+          _fr: Portée de l'abonnement
+          _de: Abonnementumfang
+          _it: Ambito dell'abbonamento
+          _nl: Lidmaatschapsbereik
       newsletter/template:
         content:
           _en: Content

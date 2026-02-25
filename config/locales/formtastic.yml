@@ -782,6 +782,12 @@ _:
           _de: Liste von Abonnement-IDs, getrennt durch ein Komma. Nützlich für eine präzise Zielgruppenauswahl von Mitgliedern, wenn die anderen Kriterien nicht ausreichen.
           _it: Lista di ID di abbonamento separati da una virgola. Utile per una cibazione precisa dei soci, quando gli altri criteri non sono sufficienti.
           _nl: Lijst van lidmaatschap-ID's gescheiden door een komma. Handig voor nauwkeurig targeten van leden, wanneer de andere criteria niet voldoende zijn.
+        membership_scope:
+          _en: Determines which membership to consider when filtering members.
+          _fr: Détermine quel abonnement considérer lors du filtrage des membres.
+          _de: Bestimmt, welches Abonnement beim Filtern der Mitglieder berücksichtigt wird.
+          _it: Determina quale abbonamento considerare durante il filtraggio dei soci.
+          _nl: Bepaalt welk lidmaatschap in aanmerking wordt genomen bij het filteren van leden.
         renewal_state:
           _en: Differentiates active members by the renewal status of their current or future membership.
           _fr: Permet de différencier les membres actifs par l'état de renouvellement de leur abonnement actuel ou future.

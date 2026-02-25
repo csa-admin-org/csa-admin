@@ -40,11 +40,30 @@ _:
         _it: Criteri
         _nl: Criteria
       info_html:
-        _en: Audience segments allow you to target your newsletters based on specific criteria. These criteria always apply <b>only to active members</b> and to the <b>current or future membership configuration</b>.
-        _fr: Les segments d'audience vous permettent de cibler vos newsletters en fonction de critères précis. Ces critères s'appliquent toujours <b>uniquement aux membres actifs</b> et à la configuration de leur <b>abonnement actuel ou future</b>.
-        _de: Die Audienzsegmente ermöglichen es Ihnen, Ihre Newsletter anhand bestimmter Kriterien zu ciblieren. Diese Kriterien gelten immer <b>nur für aktive Mitglieder</b> und für die <b>aktuelle oder zukünftige Abonnementkonfiguration</b>.
-        _it: I segmenti di pubblico ti permettono di indirizzare le tue newsletter in base a criteri precisi. Questi criteri si applicano sempre <b>solo ai soci attivi</b> e alla <b>configurazione dell'abbonamento attuale o futura</b>.
-        _nl: Met segmenten kunt u uw nieuwsbrieven richten op basis van specifieke criteria. Deze criteria gelden altijd <b>alleen voor actieve leden</b> en voor de <b>huidige of toekomstige configuratie van het lidmaatschap</b>.
+        _en: Audience segments allow you to target your newsletters based on specific criteria. These criteria apply <b>only to active members</b> and to their <b>membership</b> based on the chosen scope (current, future, or both).
+        _fr: Les segments d'audience vous permettent de cibler vos newsletters en fonction de critères précis. Ces critères s'appliquent <b>uniquement aux membres actifs</b> et à leur <b>abonnement</b> en fonction de la portée choisie (actuel, futur, ou les deux).
+        _de: Die Audienzsegmente ermöglichen es Ihnen, Ihre Newsletter anhand bestimmter Kriterien zu ciblieren. Diese Kriterien gelten <b>nur für aktive Mitglieder</b> und für ihr <b>Abonnement</b> je nach gewähltem Umfang (aktuell, zukünftig oder beides).
+        _it: I segmenti di pubblico ti permettono di indirizzare le tue newsletter in base a criteri precisi. Questi criteri si applicano <b>solo ai soci attivi</b> e al loro <b>abbonamento</b> in base all'ambito scelto (attuale, futuro o entrambi).
+        _nl: Met segmenten kunt u uw nieuwsbrieven richten op basis van specifieke criteria. Deze criteria gelden <b>alleen voor actieve leden</b> en voor hun <b>lidmaatschap</b> op basis van het gekozen bereik (huidig, toekomstig of beide).
+      membership_scope:
+        current:
+          _en: Current only
+          _fr: Actuel uniquement
+          _de: Nur aktuell
+          _it: Solo attuale
+          _nl: Alleen huidig
+        current_or_future:
+          _en: Current or future
+          _fr: Actuel ou futur
+          _de: Aktuell oder zukünftig
+          _it: Attuale o futuro
+          _nl: Huidig of toekomstig
+        future:
+          _en: Future only
+          _fr: Futur uniquement
+          _de: Nur zukünftig
+          _it: Solo futuro
+          _nl: Alleen toekomstig
       title:
         _en: Segment
         _fr: Segment

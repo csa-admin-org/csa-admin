@@ -6,8 +6,11 @@ class Newsletter
 
     include TranslatedAttributes
 
+    MEMBERSHIP_SCOPES = %w[current_or_future current future].freeze
+
     translated_attributes :title
 
+    validates :membership_scope, inclusion: { in: MEMBERSHIP_SCOPES }
     validates :renewal_state,
       inclusion: { in: Membership::Renewal::STATES, allow_blank: true }
     validates :coming_deliveries_in_days,
@@ -40,7 +43,7 @@ class Newsletter
     def name; title end
 
     def members
-      members = Member.joins(:current_or_future_membership)
+      members = Member.joins(membership_join_name)
       members = by_basket_size(members)
       members = by_basket_complement(members)
       members = by_depot(members)
@@ -66,7 +69,7 @@ class Newsletter
       return members unless basket_complement_ids.any?
 
       members
-        .joins(current_or_future_membership: :memberships_basket_complements)
+        .joins(membership_join_name => :memberships_basket_complements)
         .where(memberships_basket_complements: { basket_complement_id: basket_complement_ids })
     end
 
@@ -123,6 +126,14 @@ class Newsletter
       return members unless city?
 
       members.where(city: city)
+    end
+
+    def membership_join_name
+      case membership_scope
+      when "current" then :current_membership
+      when "future" then :future_membership
+      else :current_or_future_membership
+      end
     end
   end
 end

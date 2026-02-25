@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_02_21_170000) do
+ActiveRecord::Schema[8.1].define(version: 2026_02_25_160505) do
   create_table "absences", force: :cascade do |t|
     t.datetime "created_at"
     t.date "ended_on"
@@ -709,6 +709,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_21_170000) do
     t.json "depot_ids", default: [], null: false
     t.boolean "first_membership"
     t.json "membership_ids", default: [], null: false
+    t.string "membership_scope", default: "current_or_future", null: false
     t.string "renewal_state"
     t.json "titles", default: {}, null: false
     t.datetime "updated_at", null: false

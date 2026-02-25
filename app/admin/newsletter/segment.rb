@@ -32,6 +32,14 @@ ActiveAdmin.register Newsletter::Segment do
     end
 
     f.inputs t("newsletters.segment.criterias") do
+      f.input :membership_scope,
+        as: :select,
+        collection: Newsletter::Segment::MEMBERSHIP_SCOPES.map { |s|
+          [ t("newsletters.segment.membership_scope.#{s}"), s ]
+        },
+        prompt: true,
+        include_blank: true,
+        hint: t("formtastic.hints.newsletter/segment.membership_scope")
       f.input :basket_size_ids,
         as: :check_boxes,
         for: BasketSize,
@@ -93,6 +101,7 @@ ActiveAdmin.register Newsletter::Segment do
   end
 
   permit_params(
+    :membership_scope,
     :renewal_state,
     :first_membership,
     :coming_deliveries_in_days,
