@@ -59,4 +59,22 @@ class PDF::Shop::DeliveryTest < ActiveSupport::TestCase
     assert_includes pdf_strings, "1 / 2"
     assert_includes pdf_strings, "2 / 2"
   end
+
+  test "generates delivery notes for special delivery with depot" do
+    special_delivery = shop_special_deliveries(:wednesday)
+    order = create_shop_order(
+      delivery: special_delivery,
+      items_attributes: {
+        "0" => {
+          product_id: shop_products(:oil).id,
+          product_variant_id: shop_product_variants(:oil_500).id,
+          quantity: 1
+        }
+      })
+
+    pdf_strings = save_pdf_and_return_strings(special_delivery)
+    assert_includes pdf_strings, "Jane Doe"
+    assert_includes pdf_strings, "5 April 2024"
+    assert_includes pdf_strings, "Bakery"
+  end
 end

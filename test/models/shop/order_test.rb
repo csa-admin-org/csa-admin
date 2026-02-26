@@ -219,6 +219,23 @@ class Shop::OrderTest < ActiveSupport::TestCase
     end
   end
 
+  test "resolve depot from future membership for special delivery" do
+    travel_to "2024-01-01"
+    member = members(:jane)
+    membership = member.current_membership
+    membership.update_columns(started_on: "2024-06-01", ended_on: "2025-05-31")
+
+    special_delivery = shop_special_deliveries(:wednesday) # 2024-04-05
+    order = create_shop_order(
+      state: "cart",
+      member: member,
+      delivery: special_delivery)
+
+    assert_equal membership.depot, order.depot
+    order.confirm!
+    assert_equal membership.depot_id, order.reload.depot_id
+  end
+
   test "update product stock when pending order is changing" do
     travel_to "2024-01-01"
     product = shop_products(:oil)

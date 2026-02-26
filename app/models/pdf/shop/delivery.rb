@@ -55,16 +55,16 @@ module PDF
 
       def header(member, depot = nil, page:, total_pages:)
         image org_logo_io(size: 110), at: [ 15, bounds.height - 20 ], width: 110
-        bounding_box [ bounds.width - 450, bounds.height - 20 ], width: 430, height: 120 do
+        bounding_box [ bounds.width - 450, bounds.height - 25 ], width: 430, height: 120 do
           text member.name, size: 22, align: :right
           move_down 10
           if depot
-            text depot.public_name, size: 20, align: :right
+            text depot.public_name, size: 18, align: :right
             move_down 5
           end
-          text I18n.l(delivery.date), size: 20, align: :right
+          text I18n.l(delivery.date), size: 18, align: :right
           if total_pages > 1
-            move_down 10
+            move_down 15
             text "#{page} / #{total_pages}", size: 22, align: :right, style: :bold
           end
         end

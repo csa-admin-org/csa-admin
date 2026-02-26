@@ -102,7 +102,7 @@ module Shop
       when Delivery
         delivery.baskets.joins(:membership).where(memberships: { member: member }).first&.depot
       when Shop::SpecialDelivery
-        member.memberships.during_year(delivery.date).first&.depot
+        member.memberships.during_year(delivery.date).first&.depot || member.shop_depot
       end
     end
 
