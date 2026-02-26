@@ -62,7 +62,7 @@ class PDF::Shop::DeliveryTest < ActiveSupport::TestCase
 
   test "generates delivery notes for special delivery with depot" do
     special_delivery = shop_special_deliveries(:wednesday)
-    order = create_shop_order(
+    create_shop_order(
       delivery: special_delivery,
       items_attributes: {
         "0" => {
