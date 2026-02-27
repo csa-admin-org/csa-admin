@@ -87,18 +87,10 @@ ActiveAdmin.register Delivery do
           if counts.present?
             render partial: "active_admin/deliveries/baskets",
               locals: { delivery: delivery, scope: :active }
-          end
-        end
 
-        if feature?("absence")
-          panel link_to(Absence.model_name.human(count: 2), absences_path(q: { including_date: delivery.date }, scope: :all)) do
-            absent_counts = delivery.basket_counts(scope: :absent)
-            if absent_counts.present?
-              render partial: "active_admin/deliveries/baskets",
-                locals: { delivery: delivery, scope: :absent }
-            else
-              div(class: "missing-data") { t("active_admin.empty") }
-            end
+            render partial: "active_admin/deliveries/changes", locals: { delivery: delivery }
+          else
+            div(class: "missing-data") { t("active_admin.empty") }
           end
         end
       end

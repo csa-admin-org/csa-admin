@@ -581,6 +581,19 @@ _:
           _de: Rechnungsstellung %{fiscal_year}
           _it: Fatturazione %{fiscal_year}
           _nl: Facturering %{fiscal_year}
+        changes_count:
+          one:
+            _en: 1 change
+            _fr: 1 changement
+            _de: 1 Änderung
+            _it: 1 modifica
+            _nl: 1 wijziging
+          other:
+            _en: "%{count} changes"
+            _fr: "%{count} changements"
+            _de: "%{count} Änderungen"
+            _it: "%{count} modifiche"
+            _nl: "%{count} wijzigingen"
         handbook_feature_inactive_html:
           _en: The <strong>%{feature}</strong> feature is not enabled for your organization.
           _fr: La fonctionnalité <strong>%{feature}</strong> n'est pas activée pour votre organisation.

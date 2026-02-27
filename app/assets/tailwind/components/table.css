@@ -266,11 +266,13 @@
     }
   }
 
-  :is(.attributes-table, .data-table-invoice-total) td details {
+  :is(.attributes-table, .data-table-invoice-total) td details,
+  .changes-details {
     interpolate-size: allow-keywords;
   }
 
-  :is(.attributes-table, .data-table-invoice-total) td details > summary {
+  :is(.attributes-table, .data-table-invoice-total) td details > summary,
+  .changes-details > summary {
     @apply flex cursor-pointer list-none items-center justify-end leading-[1.4rem];
 
     &::marker,
@@ -289,7 +291,8 @@
   :is(.attributes-table, .data-table-invoice-total)
     td
     details[open]
-    > summary::before {
+    > summary::before,
+  .changes-details[open] > summary::before {
     @apply rotate-90;
   }
 

@@ -40,17 +40,13 @@ ActiveAdmin.register_page "Dashboard" do
                 if announcements_count.positive?
                   bottom_links << link_to(t(".announcements_count", count: announcements_count), announcements_path(scope: :active, q: { deliveries_eq: next_delivery.id }))
                 end
-                if feature?("absence")
-                  absences_count = next_delivery.baskets.absent.sum(:quantity)
-                  if absences_count.positive?
-                    bottom_links << link_to(t(".absences_count", count: absences_count), absences_path(q: { including_date: next_delivery.date.to_s }))
-                  end
-                end
                 if bottom_links.present?
                   div class: "text-right mt-2 p-2" do
                     bottom_links.join(content_tag(:span, "/", class: "text-gray-300 dark:text-gray-700 mx-2.5")).html_safe
                   end
                 end
+
+                render partial: "active_admin/deliveries/changes", locals: { delivery: next_delivery }
               else
                 div class: "missing-data" do
                   if feature?("shop")

@@ -6,6 +6,43 @@ _:
       _de: Gesamt Anzahl Taschen
       _it: Totale cesti
       _nl: Totaal aantal pakketten
+    change_types:
+      basket_changed:
+        _en: Basket
+        _fr: Panier
+        _de: Tasche
+        _it: Cesta
+        _nl: Pakket
+      complements_changed:
+        _en: Complements
+        _fr: Compléments
+        _de: Zusätze
+        _it: Complementi
+        _nl: Aanvullingen
+      depot_changed:
+        _en: Depot
+        _fr: Dépôt
+        _de: Depot
+        _it: Deposito
+        _nl: Depot
+      ended:
+        _en: Ended
+        _fr: Terminé
+        _de: Beendet
+        _it: Terminato
+        _nl: Beëindigd
+      new:
+        _en: New
+        _fr: Nouveau
+        _de: Neu
+        _it: Nuovo
+        _nl: Nieuw
+    changes:
+      _en: Changes
+      _fr: Changements
+      _de: Änderungen
+      _it: Modifiche
+      _nl: Wijzigingen
     delivered_by:
       _en: Delivered by
       _fr: Livré par

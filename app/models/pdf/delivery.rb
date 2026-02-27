@@ -20,6 +20,7 @@ module PDF
 
       unless depot
         summary_page
+        changes_page
         start_new_page
       end
 
@@ -834,6 +835,93 @@ module PDF
           inline_format: true,
           align: :center,
           size: 8
+      end
+    end
+
+    def changes_page
+      changes = ::Delivery::Changes.new(delivery)
+      return unless changes.any?
+
+      start_new_page
+
+      image org_logo, at: [ 15, bounds.height - 20 ], width: 110
+      bounding_box [ bounds.width - 370, bounds.height - 20 ], width: 350, height: 120 do
+        text t("changes"), size: 24, align: :right
+        move_down 5
+        text I18n.l(delivery.date), size: 24, align: :right
+      end
+
+      move_down 0.25.cm
+      font_size 10
+
+      page_border = 20
+      width = bounds.width - 2 * page_border
+      member_width = width * 0.50
+      changes_width = width * 0.50
+
+      data = []
+      depot_rows = []
+      member_rows = []
+
+      header_row = [
+        { content: Member.model_name.human, width: member_width },
+        { content: t("changes"), width: changes_width }
+      ]
+      data << header_row
+
+      changes.entries_by_depot.each do |depot_name, entries|
+        depot_rows << data.size
+        data << [
+          { content: depot_name.to_s.upcase, colspan: 2, font_style: :bold, text_color: "888888" }
+        ]
+
+        entries.each do |entry|
+          dimmed = entry.ended? || entry.absent?
+          style = dimmed ? :italic : nil
+          color = dimmed ? "999999" : nil
+
+          member_rows << data.size
+          data << [
+            { content: entry.member.name, font_style: style, text_color: color },
+            { content: entry.formatted_description, font_style: style, text_color: color, inline_format: true }
+          ]
+        end
+      end
+
+      bounding_box [ page_border, cursor ], width: width do
+        table(
+          data,
+          header: true,
+          cell_style: {
+            border_width: 0,
+            border_color: "FFFFFF",
+            background_color: "FFFFFF",
+            size: 10,
+            padding: [ 3, 5, 6, 5 ],
+            valign: :center
+          }) do |t|
+          t.cells.borders = []
+
+          t.row(0).size = 11
+          t.row(0).font_style = :bold
+          t.row(0).padding = [ 6, 5, 12, 5 ]
+          t.row(0).background_color = "FFFFFF"
+
+          depot_rows.each do |i|
+            t.row(i).size = 8
+            t.row(i).background_color = "EEEEEE"
+            t.row(i).padding = [ 3, 5, 6, 5 ]
+            t.row(i).borders = %i[bottom top]
+            t.row(i).border_width = 0.5
+            t.row(i).border_color = "BBBBBB"
+          end
+
+          member_rows.each do |row_idx|
+            t.row(row_idx).borders = %i[bottom]
+            t.row(row_idx).border_width = 0.5
+            t.row(row_idx).border_color = "DDDDDD"
+          end
+        end
       end
     end
 

@@ -59,7 +59,8 @@ module XLSX
       @worksheet.sheet_data[0][@column].change_font_bold(true)
 
       Array(values).each_with_index do |val, i|
-        @worksheet.add_cell(i + 1, @column, val)
+        cell = @worksheet.add_cell(i + 1, @column, val)
+        cell.change_text_wrap(true) if val.is_a?(String) && val.include?("\n")
       end
 
       max_width ||= ([ header ] + Array(values)).map { |v| v.to_s.length }.max.to_i + 2

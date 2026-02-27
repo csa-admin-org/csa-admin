@@ -1,0 +1,46 @@
+# frozen_string_literal: true
+
+changes = Delivery::Changes.new(delivery)
+return unless changes.any?
+
+summary_parts = []
+if changes.absences_count.positive?
+  summary_parts << t("active_admin.page.index.absences_count", count: changes.absences_count)
+end
+if changes.other_changes_count.positive?
+  summary_parts << t("active_admin.page.index.changes_count", count: changes.other_changes_count)
+end
+
+details class: "changes-details" do
+  summary class: "cursor-pointer text-right text-gray-500 dark:text-gray-400 px-2 py-1 mt-8" do
+    text_node summary_parts.join(", ")
+  end
+  div class: "mb-1" do
+    table class: "data-table" do
+      thead do
+        tr do
+          th Member.model_name.human(count: 2), class: "w-2/5"
+          th I18n.t("delivery.changes")
+        end
+      end
+      tbody do
+        changes.entries_by_depot.each do |depot_name, entries|
+          tr class: "border-y border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-gray-800/60" do
+            td depot_name, colspan: "2", class: "px-3 py-1.5! font-bold text-xs! uppercase tracking-wide text-gray-500 dark:text-gray-400"
+          end
+          entries.each do |entry|
+            dimmed = entry.ended? || entry.absent?
+            row_class = "border-b border-dotted border-gray-200 dark:border-gray-800"
+            row_class += " italic text-gray-400 dark:text-gray-600" if dimmed
+            tr class: row_class do
+              td link_to(entry.member.name, entry.member), class: "w-2/5"
+              td do
+                text_node entry.html_description
+              end
+            end
+          end
+        end
+      end
+    end
+  end
+end

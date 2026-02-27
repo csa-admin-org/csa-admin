@@ -3,8 +3,8 @@
 require "test_helper"
 
 class PDF::DeliveryTest < ActiveSupport::TestCase
-  def save_pdf_and_return_strings(delivery)
-    pdf = PDF::Delivery.new(delivery)
+  def save_pdf_and_return_strings(delivery, depot = nil)
+    pdf = PDF::Delivery.new(delivery, depot)
     # pdf.render_file(Rails.root.join("tmp/delivery.pdf"))
     PDF::Inspector::Text.analyze(pdf.render).strings
   end
@@ -50,6 +50,75 @@ class PDF::DeliveryTest < ActiveSupport::TestCase
     assert_includes pdf_strings, "– 1 Jan 24, 00:00 –"
 
     assert_not pdf_strings.include?("Jane Doe")
+  end
+
+  test "changes page shows ended members on monday_2" do
+    travel_to "2024-01-01"
+    delivery = deliveries(:monday_2) # 2024-04-08, Bob & Anna ended 2024-04-05
+
+    pdf_strings = save_pdf_and_return_strings(delivery)
+
+    # Changes page header
+    assert_includes pdf_strings, "Changes"
+
+    # Bob and Anna should appear as ended with basket description
+    assert pdf_strings.any? { |s| s.start_with?("Ended (") }, "Expected an 'Ended (...)' entry in PDF"
+    assert_contains pdf_strings, "Bob Doe"
+    assert_contains pdf_strings, "Anna Doe"
+  end
+
+  test "changes page on first delivery of fiscal year shows new members" do
+    travel_to "2024-01-01"
+    delivery = deliveries(:monday_1) # first delivery of FY
+
+    pdf_strings = save_pdf_and_return_strings(delivery)
+
+    assert_includes pdf_strings, "Changes"
+    assert_includes pdf_strings, "New"
+  end
+
+  test "changes page excluded from per-depot PDF" do
+    travel_to "2024-01-01"
+    delivery = deliveries(:monday_2)
+
+    pdf_strings = save_pdf_and_return_strings(delivery, depots(:farm))
+
+    assert_not_includes pdf_strings, "Changes"
+  end
+
+  test "changes page shows depot change" do
+    travel_to "2024-01-01"
+    delivery = deliveries(:monday_2)
+
+    baskets(:john_2).update_columns(depot_id: depots(:bakery).id)
+
+    pdf_strings = save_pdf_and_return_strings(delivery)
+
+    assert_includes pdf_strings, "Changes"
+
+    detail = pdf_strings.find { |s| s.include?("Farm") && s.include?("=>") && s.include?("Bakery") }
+    assert detail, "Expected depot change details 'Farm => Bakery' in PDF"
+  end
+
+  test "changes page does not show ended members on later deliveries" do
+    travel_to "2024-01-01"
+    delivery = deliveries(:monday_5) # 2024-04-29, well after Bob/Anna ended on 2024-04-05
+
+    pdf_strings = save_pdf_and_return_strings(delivery)
+    assert_not_includes pdf_strings, "Ended"
+  end
+
+  test "no changes page when there are no changes" do
+    travel_to "2024-01-01"
+    delivery = deliveries(:monday_5)
+
+    memberships(:bob).baskets.destroy_all
+    memberships(:bob).destroy
+    memberships(:anna).baskets.destroy_all
+    memberships(:anna).destroy
+
+    pdf_strings = save_pdf_and_return_strings(delivery)
+    assert_not_includes pdf_strings, "Changes"
   end
 
   test "includes announcement" do

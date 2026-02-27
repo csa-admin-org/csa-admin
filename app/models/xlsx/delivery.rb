@@ -11,7 +11,11 @@ module XLSX
       @basket_complements = BasketComplement.for(@baskets, @shop_orders)
       @basket_sizes = BasketSize.for(@baskets)
 
-      build_summary_worksheet unless depot
+      unless depot
+        build_summary_worksheet
+        build_changes_worksheet
+      end
+
 
       @baskets = @baskets.joins(:member).merge(Member.order_by_name)
 
@@ -230,6 +234,23 @@ module XLSX
           border: border)
         add_column(t("delivered_by"), members.map { |m| " " * 25 }, border: border)
       end
+    end
+
+    def build_changes_worksheet
+      changes = ::Delivery::Changes.new(@delivery)
+      return unless changes.any?
+
+      add_worksheet(I18n.t("delivery.changes"))
+
+      add_column(
+        Member.human_attribute_name(:name),
+        changes.entries.map { |e| e.member.name })
+      add_column(
+        Depot.model_name.human,
+        changes.entries.map { |e| e.depot_name })
+      add_column(
+        I18n.t("delivery.changes"),
+        changes.entries.map { |e| e.description })
     end
 
     def t(key, *args)
