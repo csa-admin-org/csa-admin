@@ -118,6 +118,9 @@ production: &production
     members_host: membres.lamilpadesiles.ch
     aliases:
       - milpadesiles
+  chevreetchou:
+    admin_host: admin.chevreetchou.ch
+    members_host: membres.chevreetchou.ch
 
   mamajah:
     admin_host: admin.mamajah.org
@@ -130,10 +133,6 @@ production: &production
   stadsgroenteboer:
     admin_host: admin.stadsgroenteboer.nl
     members_host: members.stadsgroenteboer.nl
-    state: onboarding
-  chevreetchou:
-    admin_host: admin.chevreetchou.ch
-    members_host: membres.chevreetchou.ch
     state: onboarding
   radisnoir:
     admin_host: admin.radis-noir.ch
