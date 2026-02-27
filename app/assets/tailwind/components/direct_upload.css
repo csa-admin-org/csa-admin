@@ -1,0 +1,46 @@
+.direct-upload {
+  display: inline-block;
+  position: relative;
+  padding: 0.25rem 0.5rem;
+  margin-top: 0.25rem;
+  font-size: 0.875rem;
+  background: white;
+  border: 1px solid #d1d5db;
+  border-radius: 0.375rem;
+  width: 100%;
+}
+
+.dark .direct-upload {
+  background: #111827;
+  border-color: #374151;
+}
+
+.direct-upload--pending {
+  opacity: 0.6;
+}
+
+.direct-upload__progress {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  opacity: 0.15;
+  background: #3b82f6;
+  transition:
+    width 120ms ease-out,
+    opacity 300ms ease;
+  border-radius: 0.375rem;
+}
+
+.direct-upload--complete .direct-upload__progress {
+  opacity: 0.075;
+}
+
+.direct-upload--error {
+  border-color: #ef4444;
+}
+
+.direct-upload--error::before {
+  content: "⚠️";
+  margin-right: 0.25rem;
+}

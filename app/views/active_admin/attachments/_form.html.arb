@@ -2,7 +2,7 @@ f.has_many :attachments, allow_destroy: true, heading: "" do |a|
     if a.object.persisted?
       content_tag :span, display_attachment(a.object.file), class: "filename"
     else
-      a.input :file, as: :file
+      a.input :file, as: :file, input_html: { direct_upload: true }
     end
 end
 f.semantic_errors :attachments
