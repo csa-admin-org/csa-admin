@@ -380,7 +380,7 @@ ActiveAdmin.register Member do
           panel link_to(t(".email_deliveries"), all_mail_deliveries_path), count: mail_deliveries_count do
             table_for(mail_deliveries.limit(6), class: "table-auto table-mail-deliveries") do
               column(:subject, sortable: false) { |d|
-                auto_link d, (d.subject || d.source&.display_name)
+                auto_link d, (d.subject || d.source&.display_name), aria: { label: "show" }
               }
               column(:created_at, class: "text-right whitespace-nowrap") { |d| l(d.created_at, format: :short) }
               column(:state, class: "text-right") { |d| status_tag(d.state) }
