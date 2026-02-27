@@ -185,7 +185,7 @@
 
     <div class="mt-2 space-y-8">
       <% if Current.org.billing_year_divisions.many? %>
-        <%= f.input :waiting_billing_year_division, as: :radio_buttons, collection: organization_billing_year_divisions_collection(data: { form_disabler_target: "input", disabled_value: 1 }), wrapper_html: { class: ("disabled" if support_checked), data: { form_disabler_target: "label" } }, input_html: { disabled: support_checked }, label: Organization.human_attribute_name(:billing_year_divisions) %>
+        <%= f.input :waiting_billing_year_division, as: :radio_buttons, collection: organization_billing_year_divisions_collection(data: { form_disabler_target: "input", disabled_value: 1 }), wrapper_html: { class: ("disabled" if support_checked), data: { form_disabler_target: "label" } }, input_html: { disabled: support_checked }, label: Organization.human_attribute_name(:billing_year_divisions), required: true %>
       <% end %>
 
       <div data-controller="visibility">
