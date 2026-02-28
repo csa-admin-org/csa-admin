@@ -516,6 +516,7 @@ ActiveAdmin.register Organization do
             input_html: { rows: 5 })
           f.input :basket_price_extras,
             as: :string,
+            hint: true,
             input_html: { value: f.object.basket_price_extras }
           translated_input(f, :basket_price_extra_labels,
             as: :text,

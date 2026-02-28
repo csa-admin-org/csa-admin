@@ -65,7 +65,7 @@
         >
           <%= f.input BasketComplement.model_name.human(count: 2), wrapper_class: "input quantity_inputs", label_html: { class: "mb-1 text-base" }, disabled: support_checked do %>
             <% if Current.org.member_form_complements_text? %>
-              <div class="mb-4 text-justify text-sm">
+              <div class="trix-content mb-4 text-justify text-sm">
                 <%= Current.org.member_form_complements_text %>
               </div>
             <% end %>
@@ -88,6 +88,8 @@
       <% end %>
 
       <% if show_basket_price_extras? %>
+        <% basket_price_extra_options = basket_prices_extra_collection(data: { form_disabler_target: "input", action: "form-pricing#refresh" }) %>
+        <% use_select_for_price_extra = basket_price_extra_options.size > MembersHelper::RADIO_BUTTONS_MAX %>
         <div
           class="print:break-inside-avoid print:break-after-page"
           data-form-disabler-target="label"
@@ -102,12 +104,16 @@
           </legend>
 
           <% if Current.org.basket_price_extra_text? %>
-            <div class="mb-3 text-justify text-sm">
+            <div class="trix-content mb-3 text-justify text-sm">
               <%= Current.org.basket_price_extra_text %>
             </div>
           <% end %>
 
-          <%= f.input :waiting_basket_price_extra, as: :radio_buttons, collection: basket_prices_extra_collection(data: { form_disabler_target: "input", action: "form-pricing#refresh" }), label: false, wrapper_html: { class: ("disabled" if support_checked), data: { form_disabler_target: "label" } }, input_html: { disabled: support_checked } %>
+          <% if use_select_for_price_extra %>
+            <%= f.input :waiting_basket_price_extra, as: :select, collection: collection_as_plain_text(basket_price_extra_options), label: false, required: true, wrapper_html: { class: ("disabled" if support_checked), data: { form_disabler_target: "label" } }, input_html: { disabled: support_checked, data: { form_disabler_target: "input", action: "form-pricing#refresh" } } %>
+          <% else %>
+            <%= f.input :waiting_basket_price_extra, as: :radio_buttons, collection: basket_price_extra_options, label: false, wrapper_html: { class: ("disabled" if support_checked), data: { form_disabler_target: "label" } }, input_html: { disabled: support_checked } %>
+          <% end %>
         </div>
       <% end %>
 
@@ -151,7 +157,13 @@
       </div>
 
       <% if DeliveryCycle.visible? %>
-        <%= f.input :waiting_delivery_cycle_id, as: :radio_buttons, collection: visible_delivery_cycles_collection(data: { form_disabler_target: "input", form_choices_limiter_target: "input", action: "form-pricing#refresh" }), disabled: (f.object.waiting_depot ? (DeliveryCycle.pluck(:id) - (f.object.waiting_depot&.delivery_cycle_ids || [])) : []), label: Current.org.member_form_delivery_cycle_label, label_html: { class: "text-base" }, required: true, wrapper_html: { class: ("disabled" if support_checked), data: { form_disabler_target: "label" } }, input_html: { disabled: support_checked, class: "#{"disabled" if support_checked || !f.object.waiting_depot}" } %>
+        <% delivery_cycle_options = visible_delivery_cycles_collection(data: { form_disabler_target: "input", form_choices_limiter_target: "input", action: "form-pricing#refresh" }) %>
+        <% use_select_for_cycles = delivery_cycle_options.size > MembersHelper::RADIO_BUTTONS_MAX %>
+        <% if use_select_for_cycles %>
+          <%= f.input :waiting_delivery_cycle_id, as: :select, collection: collection_as_plain_text(delivery_cycle_options), label: Current.org.member_form_delivery_cycle_label, label_html: { class: "text-base" }, required: true, wrapper_html: { class: ("disabled" if support_checked), data: { form_disabler_target: "label" } }, input_html: { disabled: support_checked, data: { form_disabler_target: "input", form_choices_limiter_target: "input", action: "form-pricing#refresh" } } %>
+        <% else %>
+          <%= f.input :waiting_delivery_cycle_id, as: :radio_buttons, collection: delivery_cycle_options, disabled: (f.object.waiting_depot ? (DeliveryCycle.pluck(:id) - (f.object.waiting_depot&.delivery_cycle_ids || [])) : []), label: Current.org.member_form_delivery_cycle_label, label_html: { class: "text-base" }, required: true, wrapper_html: { class: ("disabled" if support_checked), data: { form_disabler_target: "label" } }, input_html: { disabled: support_checked, class: "#{"disabled" if support_checked || !f.object.waiting_depot}" } %>
+        <% end %>
       <% end %>
 
       <% if Current.org.allow_alternative_depots? %>

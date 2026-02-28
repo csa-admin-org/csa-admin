@@ -538,6 +538,40 @@ class Members::MembersTest < ApplicationSystemTestCase
     assert_equal "2", find_field("Bread").value
   end
 
+  test "renders basket_price_extra as radio buttons when options are few" do
+    org(basket_price_extras: [ "0", "1", "2" ])
+
+    visit "/new"
+
+    assert_text "Support"
+    assert_selector "input[type='radio'][name='member[waiting_basket_price_extra]']"
+    assert_no_selector "select[name='member[waiting_basket_price_extra]']"
+  end
+
+  test "renders basket_price_extra as select when options exceed threshold" do
+    org(basket_price_extras: (0..8).map(&:to_s))
+
+    visit "/new"
+
+    assert_text "Support"
+    assert_selector "select[name='member[waiting_basket_price_extra]']"
+    assert_no_selector "input[type='radio'][name='member[waiting_basket_price_extra]']"
+  end
+
+  test "renders delivery cycles as select when options exceed threshold" do
+    7.times do |i|
+      DeliveryCycle.create!(
+        name: "Cycle #{i}",
+        periods_attributes: [ { from_fy_month: 1, to_fy_month: 12 } ])
+    end
+    Depot.kept.each { |d| d.update!(delivery_cycles: DeliveryCycle.kept) }
+
+    visit "/new"
+
+    assert_selector "select[name='member[waiting_delivery_cycle_id]']"
+    assert_no_selector "input[type='radio'][name='member[waiting_delivery_cycle_id]']"
+  end
+
   # ==================== Member page ==========================
 
   test "redirects to deliveries with next basket" do

@@ -1,0 +1,14 @@
+/* Shared content-link custom properties for trix, member pages, and
+   anywhere user-authored HTML with links appears.
+   Admin links keep the base.css Tailwind style (underline-only, hover green text). */
+:root {
+  --link-decoration: var(--color-green-400);
+  --link-hover: var(--color-green-600);
+  --link-disabled: var(--color-gray-300);
+  --link-disabled-dark: var(--color-gray-600);
+}
+
+:is(.dark, .dark *) {
+  --link-decoration: var(--color-green-500);
+  --link-hover: var(--color-green-400);
+}

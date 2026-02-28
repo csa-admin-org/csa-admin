@@ -6,14 +6,22 @@
       @apply dark:hue-rotate-180 dark:invert;
     }
 
-    p a,
-    label a {
-      @apply underline;
-    }
-
     a,
     button {
       @apply no-underline hover:text-green-500;
+    }
+
+    p a,
+    label a,
+    .trix-content a {
+      text-decoration-line: underline;
+      text-decoration-color: var(--link-decoration);
+      text-underline-offset: 2px;
+
+      &:hover {
+        color: var(--link-hover);
+        text-decoration-color: var(--link-hover);
+      }
     }
 
     b,
@@ -187,17 +195,34 @@
   }
 }
 
+.disabled {
+  --link-decoration: var(--link-disabled);
+  --link-hover: var(--link-disabled);
+}
+:is(.dark, .dark *) .disabled {
+  --link-decoration: var(--link-disabled-dark);
+  --link-hover: var(--link-disabled-dark);
+}
+
 .disabled label,
 .disabled legend,
 .disabled span,
 .disabled input,
+.disabled select,
 .disabled a,
 .disabled .text-sm,
 input.string:disabled {
   @apply pointer-events-auto cursor-not-allowed border-gray-200 text-gray-300 dark:border-gray-900 dark:text-gray-600;
 }
 .disabled a {
-  @apply pointer-events-none decoration-gray-300 hover:bg-transparent dark:decoration-gray-600;
+  @apply pointer-events-none hover:bg-transparent;
+}
+.disabled select {
+  @apply bg-gray-100 dark:bg-gray-900;
+  background-image: url("data:image/svg+xml,<svg aria-hidden='true' xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 10 6'><path stroke='%23d1d5db' stroke-linecap='round' stroke-linejoin='round' stroke-width='1' d='m1 1 4 4 4-4'/></svg>");
+}
+:is(.dark, .dark *) .disabled select {
+  background-image: url("data:image/svg+xml,<svg aria-hidden='true' xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 10 6'><path stroke='%234b5563' stroke-linecap='round' stroke-linejoin='round' stroke-width='1' d='m1 1 4 4 4-4'/></svg>");
 }
 .disabled label {
   @apply border-gray-100 dark:border-gray-900;

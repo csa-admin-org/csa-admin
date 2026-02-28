@@ -976,11 +976,11 @@ _:
           _it: Questo testo opzionale è inserito dopo il titolo nel modulo di registrazione.
           _nl: Deze optionele tekst wordt ingevoegd na de kop in het registratieformulier.
         basket_price_extras:
-          _en: Separated by commas.
-          _fr: Séparé par des virgules.
-          _de: Durch Komma getrennt.
-          _it: Separate da una virgola.
-          _nl: Gescheiden door komma's.
+          _en: Separated by commas. It's recommended to use 6 options or fewer for a better registration experience.
+          _fr: Séparé par des virgules. Il est recommandé d'utiliser 6 options ou moins pour une meilleure expérience d'inscription.
+          _de: Durch Komma getrennt. Es wird empfohlen, 6 oder weniger Optionen für ein besseres Anmeldeerlebnis zu verwenden.
+          _it: Separate da una virgola. Si raccomanda di utilizzare 6 opzioni o meno per una migliore esperienza di registrazione.
+          _nl: Gescheiden door komma's. Het is aanbevolen om 6 of minder opties te gebruiken voor een betere registratie-ervaring.
         basket_shift_deadline_in_weeks_html:
           _en: Number of weeks after the end or before the beginning of the absence during which a shift is possible. In any case, a shift is not possible outside the current subscription.<br/>Leave empty to not impose a deadline for shifts.
           _fr: Nombre de semaines, suivant la fin ou le début de l'absence, ou un déplacement est possible. Dans tous les cas le déplacement n'est pas possible en dehors de l'abonnement en cours.<br/>Laisser vide pour ne pas imposer de délai maximum pour les déplacements.

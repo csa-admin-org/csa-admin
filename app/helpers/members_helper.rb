@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 module MembersHelper
+  RADIO_BUTTONS_MAX = 6
+
   def notice_pane(icon_name = nil, &block)
     content_tag :div, class: "mb-4 flex items-center gap-2 rounded border border-dashed border-teal-500 bg-teal-100 p-2 text-teal-700 hover:bg-teal-200 dark:bg-teal-900 dark:text-teal-300 hover:dark:bg-teal-800" do
       concat icon(icon_name, class: "size-5 w-8 shrink-0") if icon_name
@@ -173,7 +175,8 @@ module MembersHelper
         "extra" => extra,
         "full_year_price" => full_year_price)
 
-      text = collection_text(label_template.render("extra" => extra).strip, details: details)
+      label = label_template.render("extra" => extra).strip
+      text = collection_text(label, details: details)
       [ text, extra, data: data ]
     end
   end
@@ -278,8 +281,9 @@ module MembersHelper
     end
 
     cycles.map { |dc|
+      text = collection_text(dc.public_name, details: delivery_cycle_details(dc))
       [
-        collection_text(dc.public_name, details: delivery_cycle_details(dc)),
+        text,
         dc.id,
         data: data,
         checked: dc.id == checked_id
@@ -308,7 +312,7 @@ module MembersHelper
   end
 
   def document_link(type, url)
-    link_to t(".documents.#{type}"), url, target: "_blank", class: "underline text-green-500 hover:text-green-500"
+    link_to t(".documents.#{type}"), url, target: "_blank"
   end
 
   def display_address(member)
@@ -381,6 +385,16 @@ module MembersHelper
     else
       counts.first.to_i
     end
+  end
+
+  def collection_as_plain_text(collection)
+    collection.map { |item|
+      html = item[0].to_s
+      parts = html.scan(%r{<span[^>]*>(.*?)</span>}m).map { |m| strip_tags(m[0]).strip }
+      parts = [ strip_tags(html).gsub(/\s+/, " ").strip ] if parts.empty?
+      text = parts.reject(&:blank?).join(" – ")
+      [ text, *item[1..] ]
+    }
   end
 
   private

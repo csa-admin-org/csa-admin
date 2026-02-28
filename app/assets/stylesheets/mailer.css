@@ -6,7 +6,7 @@ body {
 }
 
 a {
-  color: #55b946;
+  color: #22c55e;
 }
 
 a img {
@@ -182,11 +182,11 @@ p.closing {
 }
 
 .button--green {
-  background-color: #55b946;
-  border-top: 10px solid #55b946;
-  border-right: 18px solid #55b946;
-  border-bottom: 10px solid #55b946;
-  border-left: 18px solid #55b946;
+  background-color: #22c55e;
+  border-top: 10px solid #22c55e;
+  border-right: 18px solid #22c55e;
+  border-bottom: 10px solid #22c55e;
+  border-left: 18px solid #22c55e;
 }
 
 .button--red {

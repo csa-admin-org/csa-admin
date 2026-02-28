@@ -23,7 +23,14 @@
   }
   .trix-content {
     a {
-      @apply text-green-500! underline! dark:text-green-500!;
+      text-decoration-line: underline;
+      text-decoration-color: var(--link-decoration);
+      text-underline-offset: 2px;
+
+      &:hover {
+        color: var(--link-hover);
+        text-decoration-color: var(--link-hover);
+      }
     }
     ol,
     ul {
