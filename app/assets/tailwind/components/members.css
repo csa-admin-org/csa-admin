@@ -177,7 +177,11 @@
       }
 
       div.boolean {
-        @apply flex flex-row items-center space-y-2;
+        @apply flex flex-row items-center;
+
+        &.field_with_errors {
+          @apply flex-col items-start;
+        }
 
         label {
           @apply flex flex-row items-center text-sm font-normal;
