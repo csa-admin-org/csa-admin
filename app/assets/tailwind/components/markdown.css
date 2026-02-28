@@ -45,6 +45,22 @@
       @apply my-2 ms-2 list-disc leading-6;
     }
 
+    table {
+      @apply my-4 w-full text-sm;
+
+      th {
+        @apply border-b border-gray-300 px-3 py-2 text-left font-semibold text-gray-900 dark:border-gray-600 dark:text-gray-100;
+      }
+
+      td {
+        @apply border-b border-gray-200 px-3 py-2 text-gray-700 dark:border-gray-700 dark:text-gray-300;
+      }
+
+      tbody tr:last-child td {
+        @apply border-b-0;
+      }
+    }
+
     img {
       @apply mx-auto my-2 w-full md:w-2/3;
     }

@@ -1239,6 +1239,12 @@ _:
           _de: Die Auswahl des Lieferzyklus wird den Mitgliedern nur angeboten, wenn mindestens zwei verschiedene Lieferzyklen für ein Depot verfügbar sind.
           _it: La scelta del ciclo di consegna viene proposta ai soci solo se sono disponibili almeno due cicli di consegna diversi per un punto di ritiro.
           _nl: De keuze van leveringscyclus wordt alleen aan leden aangeboden als er minstens twee verschillende leveringscycli beschikbaar zijn voor een depot.
+        word_count_warning_html:
+          _en: ⚠ <b>%{count}</b> words — this is getting long. Consider moving details to your website and linking from here. <a href="%{handbook_path}">See tips</a>.
+          _fr: ⚠ <b>%{count}</b> mots — ça commence à être long. Envisagez de déplacer les détails vers votre site web et de créer un lien ici. <a href="%{handbook_path}">Voir les conseils</a>.
+          _de: ⚠ <b>%{count}</b> Wörter — das wird ziemlich lang. Erwägen Sie, Details auf Ihre Website zu verschieben und von hier aus zu verlinken. <a href="%{handbook_path}">Siehe Tipps</a>.
+          _it: ⚠ <b>%{count}</b> parole — il testo si sta allungando. Considerate di spostare i dettagli sul vostro sito web e di inserire un link qui. <a href="%{handbook_path}">Vedi i consigli</a>.
+          _nl: ⚠ <b>%{count}</b> woorden — dit wordt vrij lang. Overweeg om details naar uw website te verplaatsen en hier een link te plaatsen. <a href="%{handbook_path}">Zie tips</a>.
       index:
         basket_prices:
           _en: Basket value (%{currency})

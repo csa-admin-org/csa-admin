@@ -1,0 +1,142 @@
+# Formulaire d'inscription
+
+Votre formulaire d'inscription est la porte d'entrée pour les nouveaux membres. Un formulaire clair et bien organisé rend le processus d'inscription fluide et accueillant. Cette page vous guide à travers chaque réglage et partage quelques conseils en chemin.
+
+> Vous pouvez prévisualiser votre formulaire à tout moment : [ouvrir le formulaire d'inscription](<%= new_members_member_url(subdomain: Current.org.members_subdomain) %>). Ça vaut la peine de le tester aussi sur mobile, car beaucoup de personnes s'inscriront depuis leur téléphone.
+
+## Texte d'introduction {#introduction}
+
+Le sous-titre apparaît juste en dessous du titre du formulaire. Une ou deux phrases suffisent : un court mot de bienvenue, ou un lien vers votre site web pour plus de détails.
+
+Le [réglage du sous-titre](/settings#registration) supporte le texte enrichi, mais gardez à l'esprit que les personnes qui arrivent sur votre formulaire sont déjà intéressées. Elles ont besoin d'un chemin clair pour s'inscrire, pas d'une présentation complète de votre organisation.
+
+**Bon exemple :**
+
+*Bienvenue ! Retrouvez tous les détails sur notre ACP sur [notre site](https://example.com). Remplissez ce formulaire pour nous rejoindre.*
+
+**Mieux vaut éviter :**
+
+*Notre ACP a été fondée en 2012 et livre des légumes bio depuis notre ferme à la campagne. Nous travaillons avec 3 fermes partenaires et proposons des paniers en 12 tailles différentes. Les prix sont basés sur un modèle solidaire où...* (et 200 mots de plus)
+
+## Conseils de mise en forme {#text-styling}
+
+Tous les champs de texte enrichi dans les [paramètres d'inscription](/settings#registration) utilisent l'éditeur de texte. Voici quelques points utiles sur la façon dont votre mise en forme apparaît dans le formulaire :
+
+- **Le texte explicatif apparaît plus petit** que les champs du formulaire eux-mêmes. C'est voulu : ça crée une hiérarchie visuelle où les choix ressortent et les explications restent en arrière-plan. Une mise en forme lourde (beaucoup de gras, beaucoup de titres) va à l'encontre de cet effet.
+- **Les titres** s'affichent comme des sous-titres discrets, pas comme de grands titres. Ils ajoutent un peu de structure sans dominer la page. Dans la plupart des cas, du texte en gras fonctionne tout aussi bien.
+- **Le gras** est idéal pour mettre en avant des infos clés comme les prix ou les délais, mais perd son effet si vous mettez en gras des phrases ou des paragraphes entiers.
+- **Les paragraphes courts fonctionnent mieux.** Deux ou trois phrases suffisent. Les gens ont tendance à survoler plutôt qu'à lire chaque mot.
+- **Renvoyez vers votre site web** pour les explications plus longues plutôt que de tout mettre dans le formulaire.
+
+Vous remarquerez un indicateur de nombre de mots dans l'éditeur des paramètres quand le texte devient long. C'est juste un petit rappel, pas une limite stricte. Si vous dépassez le seuil, ça vaut peut-être la peine de raccourcir ou de déplacer du contenu vers votre site web.
+
+## Tailles de panier {#basket-sizes}
+
+Les [tailles de panier](/basket_sizes) sont le cœur de votre formulaire d'inscription. Chaque taille visible apparaît comme un choix pour les nouveaux membres.
+
+- **Nom** : Ce que les membres voient (ex. « Petit », « Familial »). Un nom explicite aide : « Petit (1–2 personnes) » est plus clair que simplement « Petit ».
+- **Description** : Remplace le texte auto-généré (prix × livraisons). Utile quand le texte par défaut ne correspond pas tout à fait à ce dont vous avez besoin.
+- **Visibilité** : Rendez une taille invisible si elle est réservée aux admins (ex. un tarif spécial). Les tailles invisibles n'apparaissent pas dans le formulaire.
+- **Ordre d'affichage** : Contrôlé par le [réglage du mode d'ordre](/settings#registration), par nom, par prix ou par priorité personnalisée.
+
+## Compléments de panier {#basket-complements}
+
+Les [compléments de panier](/basket_complements) (pain, fromage, œufs, etc.) apparaissent après la sélection de la taille du panier.
+
+- **Cases à cocher vs. quantités** : Le [réglage des quantités](/settings#registration) contrôle si les membres voient de simples cases à cocher (s'abonner ou non) ou des champs de quantité (0, 1, 2...).
+- **Texte des compléments** : Une introduction optionnelle avant la liste. Une phrase suffit généralement pour expliquer ce qui est disponible.
+- **Ordre d'affichage** : Contrôlé par le [réglage du mode d'ordre](/settings#registration).
+
+## Prix solidaire / Prix panier extra {#basket-price-extra}
+
+<% if feature?("basket_price_extra") %>
+Cette fonctionnalité permet aux membres de payer volontairement plus par panier. Consultez la page dédiée du [manuel sur le prix panier extra](/handbook/basket_price_extra) pour les détails de configuration.
+
+Quelques conseils pour le formulaire d'inscription :
+
+- **4 à 6 options, c'est bien.** Trop de choix peut sembler décourageant. Si vous en avez plus de 6, le formulaire bascule vers un menu déroulant, qui est moins visible.
+- **Gardez le texte d'explication court.** Si vous voulez expliquer votre modèle solidaire en détail, renvoyez vers votre site web.
+- **Des labels clairs comptent.** Assurez-vous que chaque option montre clairement l'impact sur le prix. Consultez les [paramètres du prix panier extra](/settings#basket_price_extra) pour la configuration des labels.
+<% else %>
+Cette fonctionnalité n'est pas actuellement activée. Vous pouvez l'activer dans [vos paramètres](/settings#organization_features_input).
+<% end %>
+
+## Dépôts {#depots}
+
+Les [dépôts](/depots) sont les lieux de retrait que les membres choisissent. L'adresse du dépôt est toujours affichée à côté du nom, avec un lien carte pour que les membres puissent vérifier l'emplacement.
+
+- **Nom** : Ce que les membres voient. Gardez-le court et reconnaissable (ex. un nom de quartier ou un point de repère connu).
+- **Description** : Texte optionnel affiché sous le nom du dépôt. Utile pour les horaires de retrait ou des instructions spécifiques.
+- **Visibilité** : Cachez les dépôts complets ou réservés aux admins.
+- **Ordre d'affichage** : Contrôlé par le [réglage du mode d'ordre](/settings#registration).
+
+### Groupes de dépôts {#depot-groups}
+
+Si votre organisation a beaucoup de dépôts (8 ou plus), les [groupes de dépôts](/depot_groups) font une vraie différence. Ils organisent les dépôts en sections logiques pour que les membres puissent rapidement trouver leur zone.
+
+- **Exemples de groupes** : « Retrait à la ferme », « Points relais en ville », « Livraison à domicile »
+- **Texte d'information** : Texte optionnel affiché au-dessus des dépôts du groupe. Un bon endroit pour des infos partagées comme les horaires de retrait ou des instructions générales. Une phrase suffit généralement.
+- **Priorité d'ordre** : Contrôle quel groupe apparaît en premier.
+
+Sans groupes, une liste plate de 15+ dépôts peut sembler décourageante. Les groupes aident les membres à se repérer rapidement puis à choisir un lieu précis.
+
+## Cycles de livraisons {#delivery-cycles}
+
+Si vous utilisez plusieurs [cycles de livraisons](/delivery_cycles) (hebdomadaire, bimensuel, saisonnier), les membres en choisissent un lors de l'inscription. Consultez la [page du manuel sur les cycles de livraisons](/handbook/deliveries#delivery-cycles) pour la configuration détaillée.
+
+- **Label personnalisé** : Remplacez le titre par défaut « Livraisons » avec le [réglage du label de cycle de livraisons](/settings#registration).
+- **Ordre d'affichage** : Contrôlé par le [réglage du mode d'ordre](/settings#registration).
+- **Association avec les dépôts** : Les cycles peuvent être liés à des dépôts spécifiques. Le formulaire filtre alors automatiquement les cycles disponibles en fonction du dépôt sélectionné.
+
+Si un cycle ne concerne que certains dépôts, configurer les associations dépôt-cycle fait que les membres ne verront que les choix valides.
+
+## Texte d'explication supplémentaire {#extra-text}
+
+Deux réglages contrôlent le texte d'explication dans la section abonnement :
+
+- **[Texte supplémentaire](/settings#registration)** : Ajouté après le texte auto-généré (année fiscale, paniers à l'essai, cotisation annuelle, parts sociales).
+- **[Texte supplémentaire uniquement](/settings#registration)** : Remplace entièrement le texte auto-généré. Utile seulement si le texte par défaut ne correspond vraiment pas à vos besoins.
+
+Le texte auto-généré couvre déjà l'essentiel, donc le texte supplémentaire est idéal pour ce qui est spécifique à votre organisation. Si vous vous retrouvez à écrire plus d'un court paragraphe, envisagez plutôt de renvoyer vers votre site web.
+
+## Champs « Informations supplémentaires » {#more-info}
+
+Deux champs optionnels peuvent être affichés dans le formulaire :
+
+- **Profession** : Caché par défaut. Activez-le dans les [paramètres](/settings#registration) si c'est utile pour votre organisation.
+- **« Comment nous avez-vous connu ? »** (« Venu par ») : Utile pour comprendre comment les gens vous trouvent. C'est une question légère pour les membres et ça vous donne des données intéressantes au fil du temps.
+
+Les deux champs peuvent être configurés comme cachés, visibles ou obligatoires.
+
+## Documents légaux {#documents}
+
+Vous pouvez demander aux membres de prendre connaissance de quatre types de documents :
+
+- Charte
+- Statuts
+- Conditions générales
+- Politique de confidentialité
+
+Pour chacun, fournissez une URL pointant vers le document sur votre site web. Quand une URL est définie, les membres doivent cocher une case de confirmation avant de soumettre le formulaire.
+
+## Réglages d'ordre d'affichage {#order-settings}
+
+Plusieurs éléments du formulaire peuvent être réordonnés :
+
+| Élément | Réglage | Options |
+|---------|---------|---------|
+| Tailles de panier | [Mode d'ordre](/settings#registration) | Nom, prix (asc/desc), priorité |
+| Compléments | [Mode d'ordre](/settings#registration) | Nom, prix (asc/desc), priorité |
+| Dépôts | [Mode d'ordre](/settings#registration) | Nom, prix (asc/desc), priorité |
+| Cycles de livraisons | [Mode d'ordre](/settings#registration) | Nom, priorité |
+
+En mode « priorité », définissez le champ « Priorité d'ordre » sur chaque élément. Les valeurs les plus basses apparaissent en premier.
+
+## Quelques conseils {#tips}
+
+1. **Gardez le formulaire ciblé.** Chaque paragraphe supplémentaire allonge le formulaire. Votre site web est l'endroit pour raconter votre histoire ; le formulaire est là pour passer à l'action.
+2. **Testez sur mobile.** Parcourez tout le flux sur un téléphone au moins une fois.
+3. **Utilisez les groupes de dépôts** si vous avez plus de 8 dépôts.
+4. **Limitez les options de prix solidaire** à environ 4–6 choix.
+5. **Prévisualisez après chaque modification.** Après avoir mis à jour les paramètres, vérifiez le rendu du formulaire : [ouvrir le formulaire d'inscription](<%= new_members_member_url(subdomain: Current.org.members_subdomain) %>).
+6. **Texte court, labels clairs.** Si un membre doit lire un paragraphe entier pour comprendre un choix, le label pourrait probablement être amélioré.

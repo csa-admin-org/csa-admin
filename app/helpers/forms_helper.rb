@@ -78,4 +78,26 @@ module FormsHelper
       [ t("member_order.modes.#{mode}"), mode ]
     }
   end
+
+  def trix_word_count_wrapper(arbre, threshold:, handbook_page: :registration, handbook_anchor: "text-styling", &block)
+    path = handbook_page_path(handbook_page, anchor: handbook_anchor)
+    warning_html = I18n.t(
+      "active_admin.resource.form.word_count_warning_html",
+      count: '<b data-trix-word-count-target="count">0</b>',
+      handbook_path: path
+    )
+    warning_div = content_tag(:div,
+      warning_html.html_safe,
+      class: "mt-2 rounded-md bg-orange-50 border border-orange-300 px-3 py-2 text-xs text-orange-800 " \
+             "dark:bg-orange-900/30 dark:border-orange-700 dark:text-orange-400",
+      data: { trix_word_count_target: "warning" })
+
+    arbre.div data: {
+      controller: "trix-word-count",
+      trix_word_count_threshold_value: threshold
+    } do
+      arbre.text_node "<template data-trix-word-count-target=\"template\">#{warning_div}</template>".html_safe
+      block.call
+    end
+  end
 end

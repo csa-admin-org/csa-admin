@@ -158,32 +158,38 @@ ActiveAdmin.register Organization do
           handbook_button(self, "billing")
         end
         tab t(".registration"), id: "registration" do
-          translated_input(f, :member_form_subtitles,
-            hint: t("formtastic.hints.organization.member_form_subtitle"),
-            placeholder: ->(locale) {
-              I18n.with_locale(locale) {
-                I18n.t("members.members.new.subtitle")
-              }
-            },
-            required: false,
-            as: :action_text,
-            input_html: { rows: 1 })
+          trix_word_count_wrapper(self, threshold: 40) do
+            translated_input(f, :member_form_subtitles,
+              hint: t("formtastic.hints.organization.member_form_subtitle"),
+              placeholder: ->(locale) {
+                I18n.with_locale(locale) {
+                  I18n.t("members.members.new.subtitle")
+                }
+              },
+              required: false,
+              as: :action_text,
+              input_html: { rows: 1 })
+          end
 
 
           li class: "subtitle" do
             h2 t("members.members.form_modes.membership.title")
           end
-          translated_input(f, :member_form_extra_texts,
-            hint: t("formtastic.hints.organization.member_form_extra_text"),
-            required: false,
-            as: :action_text,
-            input_html: { rows: 5 })
+          trix_word_count_wrapper(self, threshold: 120) do
+            translated_input(f, :member_form_extra_texts,
+              hint: t("formtastic.hints.organization.member_form_extra_text"),
+              required: false,
+              as: :action_text,
+              input_html: { rows: 5 })
+          end
           f.input :member_form_extra_text_only, as: :boolean
-          translated_input(f, :member_form_complements_texts,
-            hint: t("formtastic.hints.organization.member_form_complements_text"),
-            required: false,
-            as: :action_text,
-            input_html: { rows: 5 })
+          trix_word_count_wrapper(self, threshold: 120) do
+            translated_input(f, :member_form_complements_texts,
+              hint: t("formtastic.hints.organization.member_form_complements_text"),
+              required: false,
+              as: :action_text,
+              input_html: { rows: 5 })
+          end
           f.input :member_form_complement_quantities, as: :boolean
           f.input :basket_sizes_member_order_mode,
             as: :select,
@@ -237,6 +243,8 @@ ActiveAdmin.register Organization do
               span t(".registration_form")
             end.html_safe
           end
+
+          handbook_button(self, "registration")
         end
         tab t(".member_account"), id: "member_account" do
           translated_input(f, :member_information_texts,
@@ -434,11 +442,13 @@ ActiveAdmin.register Organization do
           f.input :activity_participations_form_min
           f.input :activity_participations_form_max
           f.input :activity_participations_form_step, input_html: { min: 1 }
-          translated_input(f, :member_form_activity_participations_texts,
-            hint: t("formtastic.hints.organization.member_form_activity_participations_text"),
-            required: false,
-            as: :action_text,
-            input_html: { rows: 5 })
+          trix_word_count_wrapper(self, threshold: 40) do
+            translated_input(f, :member_form_activity_participations_texts,
+              hint: t("formtastic.hints.organization.member_form_activity_participations_text"),
+              required: false,
+              as: :action_text,
+              input_html: { rows: 5 })
+          end
           translated_input(f, :activity_participations_form_details,
             hint: t("formtastic.hints.organization.activity_participations_demanded_annually_form_detail"),
             required: false,
@@ -514,11 +524,13 @@ ActiveAdmin.register Organization do
           translated_input(f, :basket_price_extra_public_titles,
             hint: t("formtastic.hints.organization.basket_price_extra_public_title"),
             required: false)
-          translated_input(f, :basket_price_extra_texts,
-            hint: t("formtastic.hints.organization.basket_price_extra_text"),
-            required: false,
-            as: :action_text,
-            input_html: { rows: 5 })
+          trix_word_count_wrapper(self, threshold: 40) do
+            translated_input(f, :basket_price_extra_texts,
+              hint: t("formtastic.hints.organization.basket_price_extra_text"),
+              required: false,
+              as: :action_text,
+              input_html: { rows: 5 })
+          end
           f.input :basket_price_extras,
             as: :string,
             hint: true,

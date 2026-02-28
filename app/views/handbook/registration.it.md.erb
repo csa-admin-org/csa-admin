@@ -1,0 +1,142 @@
+# Modulo di iscrizione
+
+Il vostro modulo di iscrizione è il modo in cui i nuovi soci entrano nella vostra organizzazione. Un modulo chiaro e ben organizzato rende il processo di iscrizione fluido e accogliente. Questa pagina vi guida attraverso ogni impostazione e condivide alcuni consigli lungo il percorso.
+
+> Potete visualizzare l'anteprima del vostro modulo in qualsiasi momento: [aprire il modulo di iscrizione](<%= new_members_member_url(subdomain: Current.org.members_subdomain) %>). Vale la pena testarlo anche su mobile, dato che molte persone si iscriveranno dal loro telefono.
+
+## Testo di introduzione {#introduction}
+
+Il sottotitolo appare appena sotto il titolo del modulo. Una o due frasi sono l'ideale: un breve benvenuto o un link al vostro sito web per maggiori dettagli.
+
+L'[impostazione del sottotitolo](/settings#registration) supporta il testo formattato, ma tenete presente che le persone che raggiungono il vostro modulo sono già interessate. Hanno bisogno di un percorso chiaro per iscriversi, non di una presentazione completa della vostra organizzazione.
+
+**Buon esempio:**
+
+*Benvenuti! Trovate tutti i dettagli sulla nostra ACP sul [nostro sito](https://example.com). Compilate questo modulo per unirvi a noi.*
+
+**Meglio evitare:**
+
+*La nostra ACP è stata fondata nel 2012 e consegna verdura biologica dalla nostra fattoria in campagna. Collaboriamo con 3 aziende agricole partner e offriamo ceste in 12 dimensioni diverse. I prezzi si basano su un modello solidale dove...* (e altre 200 parole)
+
+## Consigli sulla formattazione {#text-styling}
+
+Tutti i campi di testo formattato nelle [impostazioni di iscrizione](/settings#registration) utilizzano l'editor di testo. Ecco alcuni punti utili su come la vostra formattazione appare nel modulo:
+
+- **Il testo esplicativo appare più piccolo** rispetto ai campi del modulo. È intenzionale: crea una gerarchia visiva in cui le scelte risaltano e le spiegazioni restano sullo sfondo. Una formattazione pesante (molto grassetto, molti titoli) va contro questo effetto.
+- **I titoli** vengono visualizzati come sottotitoli discreti, non come grandi intestazioni. Aggiungono un po' di struttura senza dominare la pagina. Nella maggior parte dei casi, il testo in grassetto funziona altrettanto bene.
+- **Il grassetto** è ottimo per evidenziare informazioni chiave come prezzi o scadenze, ma perde il suo effetto se mettete in grassetto intere frasi o paragrafi.
+- **I paragrafi brevi funzionano meglio.** Due o tre frasi sono sufficienti. Le persone tendono a scorrere piuttosto che leggere ogni parola.
+- **Linkate al vostro sito web** per spiegazioni più lunghe piuttosto che inserire tutto nel modulo.
+
+Noterete un indicatore del conteggio parole nell'editor delle impostazioni quando il testo diventa lungo. È solo un piccolo promemoria, non un limite rigido. Se superate la soglia, potrebbe valere la pena accorciare o spostare del contenuto sul vostro sito web.
+
+## Dimensioni della cesta {#basket-sizes}
+
+Le [dimensioni della cesta](/basket_sizes) sono il cuore del vostro modulo di iscrizione. Ogni dimensione visibile appare come scelta per i nuovi soci.
+
+- **Nome**: Ciò che i soci vedono (es. "Piccola", "Famiglia"). Un nome auto-esplicativo aiuta: "Piccola (1–2 persone)" è più chiaro di semplicemente "Piccola".
+- **Descrizione**: Sostituisce il testo generato automaticamente (prezzo × consegne). Utile quando il testo predefinito non corrisponde esattamente a ciò di cui avete bisogno.
+- **Visibilità**: Impostate una dimensione come invisibile se è riservata agli admin (es. una tariffa speciale). Le dimensioni invisibili non appaiono nel modulo.
+- **Ordine di visualizzazione**: Controllato dall'[impostazione della modalità di ordinamento](/settings#registration), per nome, per prezzo o per priorità personalizzata.
+
+## Complementi di cesta {#basket-complements}
+
+I [complementi di cesta](/basket_complements) (pane, formaggio, uova, ecc.) appaiono dopo la selezione della dimensione della cesta.
+
+- **Caselle di spunta vs. quantità**: L'[impostazione delle quantità dei complementi](/settings#registration) controlla se i soci vedono semplici caselle di spunta (abbonarsi o meno) o campi di quantità (0, 1, 2...).
+- **Testo dei complementi**: Un'introduzione opzionale prima dell'elenco. Una frase è generalmente sufficiente per spiegare cosa è disponibile.
+- **Ordine di visualizzazione**: Controllato dall'[impostazione della modalità di ordinamento](/settings#registration).
+
+## Prezzo solidale / Prezzo cesta extra {#basket-price-extra}
+
+<% if feature?("basket_price_extra") %>
+Questa funzionalità permette ai soci di pagare volontariamente di più per ogni cesta. Consultate la pagina dedicata del [manuale sul prezzo cesta extra](/handbook/basket_price_extra) per i dettagli di configurazione.
+
+Alcuni consigli per il modulo di iscrizione:
+
+- **4 a 6 opzioni funziona bene.** Troppe scelte possono sembrare scoraggianti. Se ne avete più di 6, il modulo passa a un menu a tendina, che è meno visibile.
+- **Mantenete il testo di spiegazione breve.** Se volete spiegare il vostro modello solidale in dettaglio, linkate al vostro sito web.
+- **Le etichette chiare contano.** Assicuratevi che ogni opzione mostri chiaramente l'impatto sul prezzo. Consultate le [impostazioni del prezzo cesta extra](/settings#basket_price_extra) per la configurazione delle etichette.
+<% else %>
+Questa funzionalità non è attualmente attivata. Potete attivarla nelle [vostre impostazioni](/settings#organization_features_input).
+<% end %>
+
+## Depositi {#depots}
+
+I [depositi](/depots) sono i luoghi di ritiro che i soci scelgono. L'indirizzo del deposito è sempre visualizzato accanto al nome, con un link alla mappa perché i soci possano verificare la posizione.
+
+- **Nome**: Ciò che i soci vedono. Mantenetelo breve e riconoscibile (es. un nome di quartiere o un punto di riferimento conosciuto).
+- **Descrizione**: Testo opzionale visualizzato sotto il nome del deposito. Utile per gli orari di ritiro o istruzioni specifiche.
+- **Visibilità**: Nascondete i depositi pieni o riservati agli admin.
+- **Ordine di visualizzazione**: Controllato dall'[impostazione della modalità di ordinamento](/settings#registration).
+
+### Gruppi di depositi {#depot-groups}
+
+Se la vostra organizzazione ha molti depositi (8 o più), i [gruppi di depositi](/depot_groups) fanno una vera differenza. Organizzano i depositi in sezioni logiche perché i soci possano trovare rapidamente la loro zona.
+
+- **Esempi di gruppi**: "Ritiro in fattoria", "Punti di distribuzione in città", "Consegna a domicilio"
+- **Testo informativo**: Testo opzionale visualizzato sopra i depositi del gruppo. Un buon posto per informazioni condivise come orari di ritiro o istruzioni generali. Una frase è generalmente sufficiente.
+- **Priorità d'ordine**: Controlla quale gruppo appare per primo.
+
+Senza gruppi, un elenco piatto di 15+ depositi può sembrare scoraggiante. I gruppi aiutano i soci a orientarsi rapidamente e poi scegliere un luogo specifico.
+
+## Cicli di consegne {#delivery-cycles}
+
+Se utilizzate più [cicli di consegne](/delivery_cycles) (settimanale, bisettimanale, stagionale), i soci ne scelgono uno durante l'iscrizione. Consultate la [pagina del manuale sui cicli di consegne](/handbook/deliveries#delivery-cycles) per la configurazione dettagliata.
+
+- **Etichetta personalizzata**: Sostituite l'intestazione predefinita "Consegne" con l'[impostazione dell'etichetta del ciclo di consegne](/settings#registration).
+- **Ordine di visualizzazione**: Controllato dall'[impostazione della modalità di ordinamento](/settings#registration).
+- **Associazione con i depositi**: I cicli possono essere collegati a depositi specifici. Il modulo filtra quindi automaticamente i cicli disponibili in base al deposito selezionato.
+
+Se un ciclo riguarda solo certi depositi, configurare le associazioni deposito-ciclo fa sì che i soci vedano solo le scelte valide.
+
+## Testo di spiegazione aggiuntivo {#extra-text}
+
+Due impostazioni controllano il testo di spiegazione nella sezione abbonamento:
+
+- **[Testo supplementare](/settings#registration)**: Aggiunto dopo il testo generato automaticamente (anno fiscale, ceste di prova, quota annuale, quote sociali).
+- **[Solo testo supplementare](/settings#registration)**: Sostituisce interamente il testo generato automaticamente. Utile solo se il testo predefinito non corrisponde davvero alle vostre esigenze.
+
+Il testo generato automaticamente copre già l'essenziale, quindi il testo supplementare è ideale per ciò che è specifico alla vostra organizzazione. Se vi ritrovate a scrivere più di un breve paragrafo, considerate di linkare al vostro sito web.
+
+## Campi "Informazioni aggiuntive" {#more-info}
+
+Due campi opzionali possono essere visualizzati nel modulo:
+
+- **Professione**: Nascosto per impostazione predefinita. Attivatelo nelle [impostazioni](/settings#registration) se è utile per la vostra organizzazione.
+- **"Come ci avete conosciuto?"** ("Venuto da"): Utile per capire come le persone vi trovano. È una domanda semplice per i soci e vi fornisce dati interessanti nel tempo.
+
+Entrambi i campi possono essere configurati come nascosti, visibili o obbligatori.
+
+## Documenti legali {#documents}
+
+Potete chiedere ai soci di prendere visione di quattro tipi di documenti:
+
+- Carta
+- Statuti
+- Condizioni generali
+- Informativa sulla privacy
+
+Per ciascuno, fornite un URL che punta al documento sul vostro sito web. Quando un URL è impostato, i soci devono spuntare una casella di conferma prima di inviare il modulo.
+
+## Impostazioni dell'ordine di visualizzazione {#order-settings}
+
+Diversi elementi del modulo possono essere riordinati:
+
+| Elemento | Impostazione | Opzioni |
+|----------|-------------|---------|
+| Dimensioni cesta | [Modalità di ordinamento](/settings#registration) | Nome, prezzo (asc/disc), priorità |
+| Complementi | [Modalità di ordinamento](/settings#registration) | Nome, prezzo (asc/disc), priorità |
+| Depositi | [Modalità di ordinamento](/settings#registration) | Nome, prezzo (asc/disc), priorità |
+| Cicli di consegne | [Modalità di ordinamento](/settings#registration) | Nome, priorità |
+
+In modalità "priorità", impostate il campo "Priorità d'ordine" su ogni elemento. I valori più bassi appaiono per primi.
+
+## Alcuni consigli {#tips}
+
+1. **Mantenete il modulo focalizzato.** Ogni paragrafo in più allunga il modulo. Il vostro sito web è il posto per raccontare la vostra storia; il modulo è per l'azione.
+2. **Testate su mobile.** Percorrete l'intero flusso su un telefono almeno una volta.
+3. **Usate i gruppi di depositi** se avete più di 8 depositi.
+4. **Limitate le opzioni di prezzo solidale** a circa 4–6 scelte.
+5. **Anteprima dopo le modifiche.** Dopo aver aggiornato le impostazioni, verificate come appare il modulo: [aprire il modulo di iscrizione](<%= new_members_member_url(subdomain: Current.org.members_subdomain) %>).
+6. **Testo breve, etichette chiare.** Se un socio deve leggere un intero paragrafo per capire una scelta, l'etichetta potrebbe probabilmente essere migliorata.

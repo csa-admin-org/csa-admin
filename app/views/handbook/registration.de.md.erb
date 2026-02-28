@@ -1,0 +1,142 @@
+# Anmeldeformular
+
+Ihr Anmeldeformular ist der Weg, über den neue Mitglieder Ihrer Organisation beitreten. Ein klares, gut organisiertes Formular macht den Anmeldeprozess reibungslos und einladend. Diese Seite führt Sie durch jede Einstellung und gibt Ihnen unterwegs einige Tipps.
+
+> Sie können Ihr Formular jederzeit in der Vorschau ansehen: [Anmeldeformular öffnen](<%= new_members_member_url(subdomain: Current.org.members_subdomain) %>). Es lohnt sich, es auch auf dem Handy zu testen, da sich viele Personen von ihrem Telefon aus anmelden werden.
+
+## Einleitungstext {#introduction}
+
+Der Untertitel erscheint direkt unter dem Formulartitel. Ein oder zwei Sätze sind hier ideal: eine kurze Begrüssung oder ein Link zu Ihrer Website für weitere Details.
+
+Die [Untertitel-Einstellung](/settings#registration) unterstützt Rich Text, aber bedenken Sie, dass Personen, die Ihr Formular erreichen, bereits interessiert sind. Sie brauchen einen klaren Weg zur Anmeldung, keine vollständige Präsentation Ihrer Organisation.
+
+**Gutes Beispiel:**
+
+*Willkommen! Alle Details zu unserer Solawi finden Sie auf [unserer Website](https://example.com). Füllen Sie dieses Formular aus, um uns beizutreten.*
+
+**Besser vermeiden:**
+
+*Unsere Solawi wurde 2012 gegründet und liefert Bio-Gemüse von unserem Hof auf dem Land. Wir arbeiten mit 3 Partnerbetrieben zusammen und bieten Taschen in 12 verschiedenen Grössen an. Die Preise basieren auf einem Solidarmodell, bei dem...* (und 200 weitere Wörter)
+
+## Tipps zur Textformatierung {#text-styling}
+
+Alle Rich-Text-Felder in den [Anmeldeeinstellungen](/settings#registration) verwenden den Texteditor. Hier sind einige nützliche Hinweise, wie Ihre Formatierung im Formular angezeigt wird:
+
+- **Erklärungstexte erscheinen kleiner** als die Formularfelder selbst. Das ist beabsichtigt: Es entsteht eine visuelle Hierarchie, bei der die Auswahlmöglichkeiten hervorstechen und die Erklärungen im Hintergrund bleiben. Starke Formatierung (viel Fettdruck, viele Überschriften) wirkt dem entgegen.
+- **Überschriften** werden als dezente Zwischenüberschriften dargestellt, nicht als grosse Titel. Sie fügen etwas Struktur hinzu, ohne die Seite zu dominieren. In den meisten Fällen funktioniert fetter Text genauso gut.
+- **Fetter Text** eignet sich gut, um wichtige Informationen wie Preise oder Fristen hervorzuheben, verliert aber seine Wirkung, wenn Sie ganze Sätze oder Absätze fett formatieren.
+- **Kurze Absätze funktionieren am besten.** Zwei oder drei Sätze genügen. Die Leute neigen dazu, zu überfliegen, anstatt jedes Wort zu lesen.
+- **Verlinken Sie auf Ihre Website** für längere Erklärungen, anstatt alles in das Formular zu packen.
+
+Im Einstellungseditor erscheint ein Wortzähler, wenn der Text lang wird. Das ist nur ein sanfter Hinweis, kein striktes Limit. Wenn Sie den Schwellenwert überschreiten, lohnt es sich vielleicht, zu kürzen oder Inhalte auf Ihre Website zu verschieben.
+
+## Taschengrössen {#basket-sizes}
+
+[Taschengrössen](/basket_sizes) sind das Herzstück Ihres Anmeldeformulars. Jede sichtbare Taschengrösse erscheint als Auswahl für neue Mitglieder.
+
+- **Name**: Was die Mitglieder sehen (z.B. „Klein", „Familie"). Ein selbsterklärender Name hilft: „Klein (1–2 Personen)" ist klarer als nur „Klein".
+- **Beschreibung**: Ersetzt den automatisch generierten Text (Preis × Lieferungen). Nützlich, wenn der Standardtext nicht ganz passt.
+- **Sichtbarkeit**: Setzen Sie eine Taschengrösse auf unsichtbar, wenn sie nur für Admins bestimmt ist (z.B. ein Spezialtarif). Unsichtbare Grössen erscheinen nicht im Formular.
+- **Anzeigereihenfolge**: Gesteuert durch die [Einstellung des Sortiermodus](/settings#registration), entweder nach Name, nach Preis oder nach benutzerdefinierter Priorität.
+
+## Taschenergänzungen {#basket-complements}
+
+[Taschenergänzungen](/basket_complements) (Brot, Käse, Eier usw.) erscheinen nach der Auswahl der Taschengrösse.
+
+- **Kontrollkästchen vs. Mengenmodus**: Die [Einstellung für Ergänzungsmengen](/settings#registration) steuert, ob Mitglieder einfache Kontrollkästchen (abonnieren oder nicht) oder Mengenfelder (0, 1, 2...) sehen.
+- **Ergänzungstext**: Eine optionale Einleitung vor der Liste. Ein Satz reicht normalerweise aus, um zu erklären, was verfügbar ist.
+- **Anzeigereihenfolge**: Gesteuert durch die [Einstellung des Sortiermodus](/settings#registration).
+
+## Solidarpreis / Taschenpreis Extra {#basket-price-extra}
+
+<% if feature?("basket_price_extra") %>
+Diese Funktion ermöglicht es Mitgliedern, freiwillig mehr pro Tasche zu zahlen. Weitere Konfigurationsdetails finden Sie auf der [Handbuchseite zum Taschenpreis Extra](/handbook/basket_price_extra).
+
+Einige Tipps für das Anmeldeformular:
+
+- **4 bis 6 Optionen funktionieren gut.** Zu viele Auswahlmöglichkeiten können überwältigend wirken. Bei mehr als 6 wechselt das Formular zu einem Dropdown-Menü, das weniger sichtbar ist.
+- **Halten Sie den Erklärungstext kurz.** Wenn Sie Ihr Solidarmodell im Detail erklären möchten, verlinken Sie auf Ihre Website.
+- **Klare Labels sind wichtig.** Stellen Sie sicher, dass jede Option die Preisauswirkung deutlich zeigt. Siehe die [Einstellungen für Taschenpreis Extra](/settings#basket_price_extra) für die Label-Konfiguration.
+<% else %>
+Diese Funktion ist derzeit nicht aktiviert. Sie können sie in [Ihren Einstellungen](/settings#organization_features_input) aktivieren.
+<% end %>
+
+## Depots {#depots}
+
+[Depots](/depots) sind die Abholorte, aus denen die Mitglieder wählen. Die Depot-Adresse wird immer neben dem Namen angezeigt, mit einem Kartenlink, damit die Mitglieder den Standort überprüfen können.
+
+- **Name**: Was die Mitglieder sehen. Halten Sie ihn kurz und wiedererkennbar (z.B. ein Quartiername oder ein bekannter Orientierungspunkt).
+- **Beschreibung**: Optionaler Text, der unter dem Depotnamen angezeigt wird. Nützlich für Abholzeiten oder spezifische Anweisungen.
+- **Sichtbarkeit**: Verstecken Sie Depots, die voll oder nur für Admins bestimmt sind.
+- **Anzeigereihenfolge**: Gesteuert durch die [Einstellung des Sortiermodus](/settings#registration).
+
+### Depot-Gruppen {#depot-groups}
+
+Wenn Ihre Organisation viele Depots hat (8 oder mehr), machen [Depot-Gruppen](/depot_groups) einen grossen Unterschied. Sie organisieren Depots in logische Abschnitte, damit Mitglieder schnell ihre Zone finden können.
+
+- **Beispielgruppen**: „Abholung am Hof", „Stadtrelais", „Hauslieferung"
+- **Informationstext**: Optionaler Text, der über den Depots der Gruppe angezeigt wird. Ein guter Ort für gemeinsame Infos wie Abholzeiten oder allgemeine Anweisungen. Ein Satz reicht normalerweise aus.
+- **Anzeigepriorität**: Steuert, welche Gruppe zuerst erscheint.
+
+Ohne Gruppen kann eine flache Liste von 15+ Depots überwältigend wirken. Gruppen helfen den Mitgliedern, sich schnell zurechtzufinden und dann einen bestimmten Standort auszuwählen.
+
+## Lieferzyklen {#delivery-cycles}
+
+Wenn Sie mehrere [Lieferzyklen](/delivery_cycles) verwenden (wöchentlich, zweiwöchentlich, saisonal), wählen die Mitglieder bei der Anmeldung einen aus. Weitere Details zur Konfiguration finden Sie auf der [Handbuchseite zu Lieferzyklen](/handbook/deliveries#delivery-cycles).
+
+- **Benutzerdefiniertes Label**: Ersetzen Sie die Standard-Überschrift „Lieferungen" mit der [Einstellung für das Lieferzyklus-Label](/settings#registration).
+- **Anzeigereihenfolge**: Gesteuert durch die [Einstellung des Sortiermodus](/settings#registration).
+- **Depot-Zuordnung**: Zyklen können mit bestimmten Depots verknüpft werden. Das Formular filtert dann automatisch die verfügbaren Zyklen basierend auf dem ausgewählten Depot.
+
+Wenn ein Zyklus nur für bestimmte Depots relevant ist, sorgt die Einrichtung der Depot-Zyklus-Zuordnungen dafür, dass Mitglieder nur gültige Optionen sehen.
+
+## Zusätzlicher Erklärungstext {#extra-text}
+
+Zwei Einstellungen steuern den Erklärungstext im Abonnementbereich:
+
+- **[Zusatztext](/settings#registration)**: Wird nach dem automatisch generierten Text angehängt (Geschäftsjahr, Probetaschen, Jahresbeitrag, Anteile).
+- **[Nur Zusatztext](/settings#registration)**: Ersetzt den automatisch generierten Text vollständig. Nur sinnvoll, wenn der Standardtext wirklich nicht zu Ihren Bedürfnissen passt.
+
+Der automatisch generierte Text deckt bereits das Wesentliche ab, daher eignet sich der Zusatztext am besten für das, was spezifisch für Ihre Organisation ist. Wenn Sie mehr als einen kurzen Absatz schreiben, verlinken Sie lieber auf Ihre Website.
+
+## Felder „Weitere Informationen" {#more-info}
+
+Zwei optionale Felder können im Formular angezeigt werden:
+
+- **Beruf**: Standardmässig ausgeblendet. Aktivieren Sie es in den [Einstellungen](/settings#registration), wenn es für Ihre Organisation nützlich ist.
+- **„Wie haben Sie von uns erfahren?"** („Gekommen von"): Hilfreich, um zu verstehen, wie die Leute Sie finden. Eine unkomplizierte Frage für Mitglieder, die Ihnen im Laufe der Zeit interessante Daten liefert.
+
+Beide Felder können als ausgeblendet, sichtbar oder obligatorisch konfiguriert werden.
+
+## Rechtliche Dokumente {#documents}
+
+Sie können von den Mitgliedern verlangen, bis zu vier Arten von Dokumenten zur Kenntnis zu nehmen:
+
+- Charta
+- Statuten
+- Allgemeine Geschäftsbedingungen
+- Datenschutzerklärung
+
+Geben Sie für jedes Dokument eine URL an, die auf das Dokument auf Ihrer Website verweist. Wenn eine URL festgelegt ist, müssen die Mitglieder ein Bestätigungskästchen ankreuzen, bevor sie das Formular absenden können.
+
+## Einstellungen der Anzeigereihenfolge {#order-settings}
+
+Mehrere Elemente im Formular können umsortiert werden:
+
+| Element | Einstellung | Optionen |
+|---------|-------------|----------|
+| Taschengrössen | [Sortiermodus](/settings#registration) | Name, Preis (auf-/absteigend), Priorität |
+| Ergänzungen | [Sortiermodus](/settings#registration) | Name, Preis (auf-/absteigend), Priorität |
+| Depots | [Sortiermodus](/settings#registration) | Name, Preis (auf-/absteigend), Priorität |
+| Lieferzyklen | [Sortiermodus](/settings#registration) | Name, Priorität |
+
+Im Modus „Priorität" setzen Sie das Feld „Anzeigepriorität" bei jedem Element. Niedrigere Werte erscheinen zuerst.
+
+## Einige Tipps {#tips}
+
+1. **Halten Sie das Formular fokussiert.** Jeder zusätzliche Absatz verlängert das Formular. Ihre Website ist der Ort für Storytelling; das Formular ist zum Handeln da.
+2. **Testen Sie auf dem Handy.** Gehen Sie den gesamten Ablauf mindestens einmal auf einem Telefon durch.
+3. **Verwenden Sie Depot-Gruppen**, wenn Sie mehr als 8 Depots haben.
+4. **Begrenzen Sie die Solidarpreis-Optionen** auf etwa 4–6 Auswahlmöglichkeiten.
+5. **Vorschau nach Änderungen.** Überprüfen Sie nach dem Aktualisieren der Einstellungen, wie das Formular aussieht: [Anmeldeformular öffnen](<%= new_members_member_url(subdomain: Current.org.members_subdomain) %>).
+6. **Kurze Texte, klare Labels.** Wenn ein Mitglied einen ganzen Absatz lesen muss, um eine Auswahl zu verstehen, könnte das Label wahrscheinlich verbessert werden.

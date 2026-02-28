@@ -1,0 +1,142 @@
+# Registration Form
+
+Your registration form is how new members join your organization. A clear, well-organized form makes the signup process smooth and welcoming. This page walks you through each setting and shares a few tips along the way.
+
+> You can preview your form anytime: [open registration form](<%= new_members_member_url(subdomain: Current.org.members_subdomain) %>). It's worth testing it on mobile too, since many people will sign up from their phone.
+
+## Introduction Text {#introduction}
+
+The subtitle appears just below the form title. A sentence or two is ideal here: a short welcome, or a link to your website for more details.
+
+The [subtitle setting](/settings#registration) supports rich text, but keep in mind that people who reach your form are already interested. They need a clear path to sign up, not a full presentation of your organization.
+
+**Good example:**
+
+*Welcome! Find all details about our CSA on [our website](https://example.com). Fill out this form to join us.*
+
+**Better to avoid:**
+
+*Our CSA was founded in 2012 and delivers organic vegetables from our farm in the countryside. We work with 3 partner farms and offer baskets in 12 different sizes. Pricing is based on a solidarity model where...* (and 200 more words)
+
+## Text Styling Tips {#text-styling}
+
+All rich text fields in the [registration settings](/settings#registration) use the text editor. Here are a few things worth knowing about how your formatting shows up in the form:
+
+- **Explanation text appears smaller** than the form fields themselves. This is intentional: it creates a visual hierarchy where the choices stand out and the explanations stay in the background. Heavy formatting (lots of bold, lots of headings) works against this.
+- **Headings** render as subtle sub-headings, not large titles. They add a bit of structure without dominating the page. In most cases, bold text works just as well.
+- **Bold text** is great for highlighting key info like prices or deadlines, but loses its effect if you bold entire sentences or paragraphs.
+- **Short paragraphs work best.** Two or three sentences is plenty. People tend to scan rather than read every word.
+- **Link to your website** for longer explanations rather than putting everything in the form.
+
+You'll notice a word count indicator in the settings editor when text gets long. It's just a gentle nudge, not a hard limit. If you're over the threshold, it might be worth trimming or moving some content to your website.
+
+## Basket Sizes {#basket-sizes}
+
+[Basket sizes](/basket_sizes) are the core of your registration form. Each visible basket size appears as a choice for new members.
+
+- **Name**: What members see (e.g., "Small", "Family"). A self-explanatory name helps: "Small (1–2 people)" is clearer than just "Small".
+- **Description**: Overrides the auto-generated text (price × deliveries). Useful when the default doesn't quite capture what you need.
+- **Visibility**: Set a basket size to invisible if it's only for admins (e.g., a special rate). Invisible sizes won't appear in the form.
+- **Display order**: Controlled by the [order mode setting](/settings#registration), either by name, by price, or by custom priority.
+
+## Basket Complements {#basket-complements}
+
+[Basket complements](/basket_complements) (bread, cheese, eggs, etc.) appear after the basket size selection.
+
+- **Checkbox vs. quantity mode**: The [complement quantities setting](/settings#registration) controls whether members see simple checkboxes (subscribe or not) or quantity fields (0, 1, 2...).
+- **Complement text**: An optional introduction before the list. One sentence is usually enough to explain what's available.
+- **Display order**: Controlled by the [order mode setting](/settings#registration).
+
+## Solidarity Pricing / Basket Price Extra {#basket-price-extra}
+
+<% if feature?("basket_price_extra") %>
+This feature lets members voluntarily pay more per basket. See the dedicated [basket price extra handbook page](/handbook/basket_price_extra) for configuration details.
+
+A few tips for the registration form:
+
+- **4 to 6 options works well.** Too many choices can feel overwhelming. If you have more than 6, the form switches to a dropdown, which is less visible.
+- **Keep the explanation text short.** If you want to explain your solidarity model in detail, link to your website.
+- **Clear labels matter.** Make sure each option shows the price impact clearly. See the [basket price extra settings](/settings#basket_price_extra) for label configuration.
+<% else %>
+This feature is not currently activated. You can enable it in [your settings](/settings#organization_features_input).
+<% end %>
+
+## Depots {#depots}
+
+[Depots](/depots) are the pickup locations members choose from. The depot address is always displayed alongside the name, with a map link so members can check the location.
+
+- **Name**: What members see. Keep it short and recognizable (e.g., a neighborhood name or a well-known landmark).
+- **Description**: Optional text shown below the depot name. Useful for pickup hours or specific instructions.
+- **Visibility**: Hide depots that are full or admin-only.
+- **Display order**: Controlled by the [order mode setting](/settings#registration).
+
+### Depot Groups {#depot-groups}
+
+If your organization has many depots (8 or more), [depot groups](/depot_groups) make a big difference. They organize depots into logical sections so members can quickly find their area.
+
+- **Example groups**: "Pickup at farm", "City relay points", "Home delivery"
+- **Information text**: Optional text shown above each group's depots. A good place for shared info like pickup hours or general instructions. One sentence is usually enough.
+- **Order priority**: Controls which group appears first.
+
+Without groups, a flat list of 15+ depots can feel overwhelming. Groups help members zero in on their area and then pick a specific location.
+
+## Delivery Cycles {#delivery-cycles}
+
+If you use multiple [delivery cycles](/delivery_cycles) (weekly, bi-weekly, seasonal), members choose one during registration. See the [delivery cycles handbook page](/handbook/deliveries#delivery-cycles) for detailed configuration.
+
+- **Custom label**: Override the default "Deliveries" heading with the [delivery cycle label setting](/settings#registration).
+- **Display order**: Controlled by the [order mode setting](/settings#registration).
+- **Depot association**: Cycles can be linked to specific depots. The form then automatically filters available cycles based on the selected depot.
+
+If a cycle is only relevant to certain depots, setting up the depot-cycle associations means members will only see valid choices.
+
+## Additional Explanation Text {#extra-text}
+
+Two settings control the explanation text in the membership section:
+
+- **[Extra text](/settings#registration)**: Appended after the auto-generated text (fiscal year, trial baskets, annual fee, shares).
+- **[Extra text only](/settings#registration)**: Replaces the auto-generated text entirely. Only useful if the default text really doesn't fit your needs.
+
+The auto-generated text already covers the essentials, so the extra text is best used for what's specific to your organization. If you find yourself writing more than a short paragraph, consider linking to your website instead.
+
+## More Info Fields {#more-info}
+
+Two optional fields can be shown on the form:
+
+- **Profession**: Hidden by default. Enable it in [settings](/settings#registration) if it's useful to your organization.
+- **"How did you hear about us?"** ("Come from"): Helpful for understanding how people find you. It's a low-effort question for members and gives you interesting data over time.
+
+Both fields can be set to hidden, visible, or required.
+
+## Legal Documents {#documents}
+
+You can require members to acknowledge up to four types of documents:
+
+- Charter
+- Statutes
+- Terms of Service
+- Privacy Policy
+
+For each, provide a URL pointing to the document on your website. When a URL is set, members must check a confirmation box before submitting the form.
+
+## Display Order Settings {#order-settings}
+
+Several elements in the form can be reordered:
+
+| Element | Setting | Options |
+|---------|---------|---------|
+| Basket sizes | [Order mode](/settings#registration) | Name, price (asc/desc), priority |
+| Basket complements | [Order mode](/settings#registration) | Name, price (asc/desc), priority |
+| Depots | [Order mode](/settings#registration) | Name, price (asc/desc), priority |
+| Delivery cycles | [Order mode](/settings#registration) | Name, priority |
+
+When using "priority" mode, set the "Order priority" field on each item. Lower values appear first.
+
+## A Few Tips {#tips}
+
+1. **Keep the form focused.** Every extra paragraph makes the form feel longer. Your website is the place for storytelling; the form is for action.
+2. **Test on mobile.** Tap through the entire flow on a phone at least once.
+3. **Use depot groups** if you have more than 8 depots.
+4. **Limit solidarity pricing options** to around 4–6 choices.
+5. **Preview after changes.** After updating settings, check how the form looks: [open registration form](<%= new_members_member_url(subdomain: Current.org.members_subdomain) %>).
+6. **Short text, clear labels.** If a member needs to read a full paragraph to understand a choice, the label could probably be improved.
