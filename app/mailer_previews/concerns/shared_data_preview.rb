@@ -21,7 +21,7 @@ module SharedDataPreview
       waiting_basket_size: basket_size,
       waiting_depot_id: depot&.id,
       waiting_depot: depot,
-      waiting_delivery_cycle_id: delivery_cycle.id,
+      waiting_delivery_cycle_id: delivery_cycle&.id,
       waiting_delivery_cycle: delivery_cycle,
       activity_participations: ActivityParticipation.coming.limit(1))
   end
@@ -65,6 +65,8 @@ module SharedDataPreview
   end
 
   def deliveries
+    return Delivery.none unless delivery_cycle
+
     @deliveries ||=
       if delivery_cycle.current_deliveries_count.positive?
         Delivery.where(id: delivery_cycle.current_deliveries.map(&:id))
@@ -94,11 +96,11 @@ module SharedDataPreview
 
   def delivery_cycle
     @delivery_cycle ||=
-     if delivery
-       DeliveryCycle.for(delivery).max_by(&:billable_deliveries_count)
-     else
-       DeliveryCycle.primary
-     end
+      if delivery
+        DeliveryCycle.for(delivery).max_by(&:billable_deliveries_count) || DeliveryCycle.primary
+      else
+        DeliveryCycle.primary
+      end
   end
 
   def memberships_basket_complements
