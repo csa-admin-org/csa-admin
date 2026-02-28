@@ -1,6 +1,15 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
+  connect() {
+    const error =
+      this.element.querySelector("[role='alert']") ||
+      this.element.querySelector(".field_with_errors")
+    if (error) {
+      setTimeout(() => error.scrollIntoView({ behavior: "smooth", block: "center" }), 100)
+    }
+  }
+
   observeForms() {
     const forms = document.querySelectorAll("form.formtastic")
     forms.forEach((form) => {
