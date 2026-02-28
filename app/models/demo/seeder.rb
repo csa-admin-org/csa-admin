@@ -381,6 +381,7 @@ class Demo::Seeder
       member_form_subtitle
       member_form_extra_text
       member_form_complements_text
+      member_form_activity_participations_text
       absence_extra_text
       shop_text
     ]

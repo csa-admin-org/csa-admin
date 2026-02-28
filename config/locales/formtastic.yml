@@ -1131,6 +1131,12 @@ _:
           _de: Definiert den Anzeigemodus dieses Feldes im Anmeldeformular.
           _it: Definisce la modalità di visualizzazione di questo campo nel modulo di registrazione.
           _nl: Definieert de weergavemodus van dit veld in het registratieformulier.
+        member_form_activity_participations_text:
+          _en: This optional text is inserted before the activity participations input in the registration/renewal form if the min/max number of participations can be changed by the member.
+          _fr: Ce texte optionnel est inséré avant le champ de saisie des participations dans le formulaire d'inscription/renouvellement si le nombre min/max de participation peut être modifié par le membre.
+          _de: Dieser optionale Text wird vor dem Eingabefeld für die Teilnahmen im Anmelde-/Verlängerungsformular eingefügt, wenn die Min/Max Anzahl der Teilnahmen vom Mitglied geändert werden kann.
+          _it: Questo testo opzionale è inserito prima del campo di inserimento delle partecipazioni nel modulo di registrazione/rinnovo se il numero min/max di partecipazioni può essere modificato dal socio.
+          _nl: Deze optionele tekst wordt ingevoegd voor het invoerveld van de deelnames in het registratie-/vernieuwingsformulier als het min/max aantal deelnames door het lid kan worden gewijzigd.
         member_form_complement_quantities:
           _en: If disabled, only checkboxes are displayed (quantity 0 or 1).
           _fr: Si désactivé, seules des cases à cocher sont affichées (quantité 0 ou 1).

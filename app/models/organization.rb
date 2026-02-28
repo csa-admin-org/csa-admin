@@ -59,6 +59,7 @@ class Organization < ApplicationRecord
   translated_rich_texts :member_form_subtitle
   translated_rich_texts :member_form_extra_text
   translated_rich_texts :member_form_complements_text
+  translated_rich_texts :member_form_activity_participations_text
   translated_attributes :member_form_delivery_cycle_label
 
   def member_form_delivery_cycle_label

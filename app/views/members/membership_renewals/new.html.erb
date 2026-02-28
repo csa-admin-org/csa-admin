@@ -47,7 +47,19 @@
             <% end %>
 
             <% if show_activity_participations? %>
-              <%= f.input :activity_participations_demanded_annually, as: :numeric, label: activities_human_name, required: true, input_html: { min: Current.org.activity_participations_form_min || f.object.activity_participations_demanded_annually, max: Current.org.activity_participations_form_max || f.object.activity_participations_demanded_annually, data: { min: Current.org.activity_participations_form_min, max: Current.org.activity_participations_form_max, form_activity_target: "input", action: "form-pricing#refresh" }, class: "w-20" }, hint: activity_participations_form_detail %>
+              <%= f.input :activity_participations_demanded_annually, as: :numeric, label: activities_human_name, required: true, label_html: { class: "text-base" } do %>
+                <% if Current.org.member_form_activity_participations_text? %>
+                  <div class="trix-content mb-4 text-sm">
+                    <%= Current.org.member_form_activity_participations_text %>
+                  </div>
+                <% end %>
+
+                <%= f.input_field :activity_participations_demanded_annually, as: :numeric, min: Current.org.activity_participations_form_min || f.object.activity_participations_demanded_annually, max: Current.org.activity_participations_form_max || f.object.activity_participations_demanded_annually, data: { min: Current.org.activity_participations_form_min, max: Current.org.activity_participations_form_max, form_activity_target: "input", action: "form-pricing#refresh" }, class: "w-20" %>
+
+                <% if (hint = activity_participations_form_detail) %>
+                  <span class="hint"><%= hint %></span>
+                <% end %>
+              <% end %>
             <% end %>
 
             <% if show_basket_price_extras? && !current_member.salary_basket? %>

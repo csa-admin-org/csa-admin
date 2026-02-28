@@ -2287,6 +2287,12 @@ _:
           _de: Wallet-Adresse
           _it: Indirizzo del portafoglio
           _nl: Wallet-adres
+        member_form_activity_participations_text:
+          _en: Explanation
+          _fr: Explication
+          _de: Erläuterung
+          _it: Spiegazione
+          _nl: Uitleg
         member_form_complement_quantities:
           _en: Allow entering a quantity for each complement
           _fr: Autoriser la saisie d'une quantité pour chaque complément

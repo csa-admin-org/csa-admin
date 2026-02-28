@@ -434,6 +434,11 @@ ActiveAdmin.register Organization do
           f.input :activity_participations_form_min
           f.input :activity_participations_form_max
           f.input :activity_participations_form_step, input_html: { min: 1 }
+          translated_input(f, :member_form_activity_participations_texts,
+            hint: t("formtastic.hints.organization.member_form_activity_participations_text"),
+            required: false,
+            as: :action_text,
+            input_html: { rows: 5 })
           translated_input(f, :activity_participations_form_details,
             hint: t("formtastic.hints.organization.activity_participations_demanded_annually_form_detail"),
             required: false,
@@ -624,6 +629,7 @@ ActiveAdmin.register Organization do
     *I18n.available_locales.map { |l| "member_form_subtitle_#{l}" },
     *I18n.available_locales.map { |l| "member_form_extra_text_#{l}" },
     *I18n.available_locales.map { |l| "member_form_complements_text_#{l}" },
+    *I18n.available_locales.map { |l| "member_form_activity_participations_text_#{l}" },
     *I18n.available_locales.map { |l| "member_form_delivery_cycle_label_#{l}" },
     *I18n.available_locales.map { |l| "shop_invoice_info_#{l}" },
     *I18n.available_locales.map { |l| "shop_delivery_pdf_footer_#{l}" },
