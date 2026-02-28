@@ -34,7 +34,7 @@
             <% if @membership.memberships_basket_complements.any? %>
               <%= f.input BasketComplement.model_name.human(count: 2), wrapper_class: "input quantity_inputs", label_html: { class: "text-base" } do %>
                 <% if Current.org.member_form_complements_text? %>
-                  <div class="mb-4 text-sm text-justify">
+                  <div class="mb-4 text-sm">
                     <%= Current.org.member_form_complements_text %>
                   </div>
                 <% end %>
@@ -56,7 +56,7 @@
                   <%= Current.org.basket_price_extra_public_title %>
                 </legend>
 
-                <div class="my-1 text-sm text-justify trix">
+                <div class="my-1 text-sm trix">
                   <%= Current.org.basket_price_extra_text %>
                 </div>
 
@@ -85,7 +85,7 @@
                         <div>
                           <% if group %>
                             <legend><%= group.public_name %></legend>
-                            <div class="mt-1 mb-3 text-sm text-justify">
+                            <div class="mt-1 mb-3 text-sm">
                               <%= group.information_text %>
                             </div>
                           <% end %>

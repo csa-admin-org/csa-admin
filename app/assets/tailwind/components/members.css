@@ -26,15 +26,25 @@
 
     b,
     strong {
-      @apply font-semibold;
+      @apply font-medium text-gray-600 dark:text-gray-400;
     }
 
     h1 {
-      @apply mb-12 text-4xl font-normal tracking-normal text-balance text-gray-950 dark:text-white;
+      @apply mb-12 text-3xl font-normal tracking-normal text-balance text-gray-950 md:text-4xl dark:text-white;
     }
 
     h2 {
       @apply text-xl font-medium text-gray-900 dark:text-gray-100;
+    }
+
+    .trix-content {
+      h1 {
+        @apply mt-4 mb-2 text-base font-medium text-gray-700 dark:text-gray-300;
+      }
+
+      h2 {
+        @apply mt-3 mb-1 text-sm font-medium text-gray-700 dark:text-gray-300;
+      }
     }
 
     section {

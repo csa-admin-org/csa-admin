@@ -9,13 +9,13 @@
       <%= t(".title") %>
     </legend>
 
-    <div class="mt-2 space-y-10">
+    <div class="mt-2 space-y-12">
       <% has_visible_basket_sizes = visible_basket_sizes.any? %>
 
       <% if has_visible_basket_sizes %>
         <div
           class="
-            space-y-4 text-justify font-normal text-gray-500
+            space-y-4 text-sm font-normal text-gray-500
             print:break-inside-avoid print:break-after-auto
           "
         >
@@ -50,13 +50,13 @@
             <div><%= Current.org.member_form_extra_text %></div>
           <% end %>
 
-          <%= f.input :waiting_basket_size_id, as: :radio_buttons, collection: basket_sizes_collection(data: { action: "form-disabler#enableInputs form-min-value#setMinValue form-choices-limiter#limitChoices form-activity#updateInput form-pricing#refresh form-annual-fee#disableInput" }, no_basket_data: { action: "form-disabler#disableInputs form-min-value#setMinValue form-choices-limiter#limitChoices form-pricing#refresh form-annual-fee#enableInput" }), required: true, label: BasketSize.model_name.human, label_html: { class: "text-base" } %>
+          <%= f.input :waiting_basket_size_id, as: :radio_buttons, collection: basket_sizes_collection(data: { action: "form-disabler#enableInputs form-min-value#setMinValue form-choices-limiter#limitChoices form-activity#updateInput form-pricing#refresh form-annual-fee#disableInput" }, no_basket_data: { action: "form-disabler#disableInputs form-min-value#setMinValue form-choices-limiter#limitChoices form-pricing#refresh form-annual-fee#enableInput" }), required: true, label: BasketSize.model_name.human, label_html: { class: "text-base" }, wrapper_html: { class: "mt-8" } %>
         </div>
       <% else %>
         <% if Current.org.member_form_extra_text? %>
           <div
             class="
-              space-y-4 text-justify font-normal text-gray-500
+              space-y-4 text-sm font-normal text-gray-500
               print:break-inside-avoid print:break-after-auto
             "
           >
@@ -80,7 +80,7 @@
         >
           <%= f.input BasketComplement.model_name.human(count: 2), wrapper_class: "input quantity_inputs", label_html: { class: "mb-1 text-base" }, disabled: support_checked do %>
             <% if Current.org.member_form_complements_text? %>
-              <div class="trix-content mb-4 text-justify text-sm">
+              <div class="trix-content mb-4 text-sm">
                 <%= Current.org.member_form_complements_text %>
               </div>
             <% end %>
@@ -119,7 +119,7 @@
           </legend>
 
           <% if Current.org.basket_price_extra_text? %>
-            <div class="trix-content mb-3 text-justify text-sm">
+            <div class="trix-content mb-3 text-sm">
               <%= Current.org.basket_price_extra_text %>
             </div>
           <% end %>
@@ -159,7 +159,7 @@
                   <div>
                     <% if group %>
                       <legend><%= group.public_name %></legend>
-                      <div class="mt-1 mb-3 text-justify text-sm">
+                      <div class="mt-1 mb-3 text-sm">
                         <%= group.information_text %>
                       </div>
                     <% end %>
@@ -191,7 +191,7 @@
             <%= Member.human_attribute_name(:waiting_alternative_depot_ids) %>
           </legend>
 
-          <p class="mt-1 mb-3 text-justify text-sm">
+          <p class="mt-1 mb-3 text-sm">
             <%= t(".alternative_depots_subtitle") %>
           </p>
 
