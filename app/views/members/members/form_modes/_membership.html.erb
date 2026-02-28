@@ -10,45 +10,60 @@
     </legend>
 
     <div class="mt-2 space-y-10">
-      <div
-        class="
-          space-y-4 text-justify font-normal text-gray-500
-          print:break-inside-avoid print:break-after-auto
-        "
-      >
-        <% unless Current.org.member_form_extra_text_only? %>
-          <p>
-            <%= t(".text", fiscal_year_months_range: fiscal_year_months_range) %>
+      <% has_visible_basket_sizes = visible_basket_sizes.any? %>
 
-            <% if Current.org.trial_baskets? %>
-              <%= " " %>
-              <%= t(".trial_text", count: Current.org.trial_baskets_count) %>
-            <% end %>
-          </p>
-          <% if Current.org.annual_fee? %>
-            <% if Current.org.annual_fee_support_member_only? %>
-              <p>
-                <%= t(".annual_fee_support_member_only_text_html", price: cur(Current.org.annual_fee, precision: 0)) %>
-              </p>
-            <% else %>
-              <p>
-                <%= t(".annual_fee_text_html", price: cur(Current.org.annual_fee, precision: 0)) %>
-              </p>
-            <% end %>
-          <% end %>
-          <% if Current.org.share? %>
+      <% if has_visible_basket_sizes %>
+        <div
+          class="
+            space-y-4 text-justify font-normal text-gray-500
+            print:break-inside-avoid print:break-after-auto
+          "
+        >
+          <% unless Current.org.member_form_extra_text_only? %>
             <p>
-              <%= t(".shares_text_html", price: cur(Current.org.share_price, precision: 0)) %>
+              <%= t(".text", fiscal_year_months_range: fiscal_year_months_range) %>
+
+              <% if Current.org.trial_baskets? %>
+                <%= " " %>
+                <%= t(".trial_text", count: Current.org.trial_baskets_count) %>
+              <% end %>
             </p>
+            <% if Current.org.annual_fee? %>
+              <% if Current.org.annual_fee_support_member_only? %>
+                <p>
+                  <%= t(".annual_fee_support_member_only_text_html", price: cur(Current.org.annual_fee, precision: 0)) %>
+                </p>
+              <% else %>
+                <p>
+                  <%= t(".annual_fee_text_html", price: cur(Current.org.annual_fee, precision: 0)) %>
+                </p>
+              <% end %>
+            <% end %>
+            <% if Current.org.share? %>
+              <p>
+                <%= t(".shares_text_html", price: cur(Current.org.share_price, precision: 0)) %>
+              </p>
+            <% end %>
           <% end %>
-        <% end %>
 
+          <% if Current.org.member_form_extra_text? %>
+            <div><%= Current.org.member_form_extra_text %></div>
+          <% end %>
+
+          <%= f.input :waiting_basket_size_id, as: :radio_buttons, collection: basket_sizes_collection(data: { action: "form-disabler#enableInputs form-min-value#setMinValue form-choices-limiter#limitChoices form-activity#updateInput form-pricing#refresh form-annual-fee#disableInput" }, no_basket_data: { action: "form-disabler#disableInputs form-min-value#setMinValue form-choices-limiter#limitChoices form-pricing#refresh form-annual-fee#enableInput" }), required: true, label: BasketSize.model_name.human, label_html: { class: "text-base" } %>
+        </div>
+      <% else %>
         <% if Current.org.member_form_extra_text? %>
-          <div><%= Current.org.member_form_extra_text %></div>
+          <div
+            class="
+              space-y-4 text-justify font-normal text-gray-500
+              print:break-inside-avoid print:break-after-auto
+            "
+          >
+            <div><%= Current.org.member_form_extra_text %></div>
+          </div>
         <% end %>
-
-        <%= f.input :waiting_basket_size_id, as: :radio_buttons, collection: basket_sizes_collection(data: { action: "form-disabler#enableInputs form-min-value#setMinValue form-choices-limiter#limitChoices form-activity#updateInput form-pricing#refresh form-annual-fee#disableInput" }, no_basket_data: { action: "form-disabler#disableInputs form-min-value#setMinValue form-choices-limiter#limitChoices form-pricing#refresh form-annual-fee#enableInput" }), required: true, label: BasketSize.model_name.human, label_html: { class: "text-base" } %>
-      </div>
+      <% end %>
 
       <% if Current.org.annual_fee? && Current.org.annual_fee_member_form? %>
         <%= f.input :annual_fee, as: :numeric, required: true, label_html: { class: "text-base" }, input_html: { min: 0, value: prefer_integer(f.object.annual_fee), data: { default_value: prefer_integer(Current.org.annual_fee), disabled_value: prefer_integer(!Current.org.annual_fee_support_member_only? && Current.org.annual_fee) }, class: "w-20" }, hint: t(".annual_fee_hint", currency: currency_symbol) %>
@@ -117,44 +132,48 @@
         </div>
       <% end %>
 
-      <div
-        class="space-y-6 print:break-inside-avoid print:break-after-page"
-        data-form-disabler-target="label"
-      >
-        <% grouped_depots = visible_depots.group_by(&:group) %>
+      <% all_visible_depots = visible_depots %>
 
-        <% if grouped_depots.keys.compact.any? %>
-          <div>
-            <legend class="text-base">
-              <%= Depot.model_name.human(count: 2) %>
-              <%= " " %>
+      <% if all_visible_depots.any? %>
+        <div
+          class="space-y-6 print:break-inside-avoid print:break-after-page"
+          data-form-disabler-target="label"
+        >
+          <% grouped_depots = all_visible_depots.group_by(&:group) %>
 
-              <abbr title="<%= t("simple_form.required.text") %>">
-                <%= t("simple_form.required.mark") %>
-              </abbr>
-            </legend>
+          <% if grouped_depots.keys.compact.any? %>
+            <div>
+              <legend class="text-base">
+                <%= Depot.model_name.human(count: 2) %>
+                <%= " " %>
 
-            <div class="mt-2 space-y-6">
-              <% grouped_depots = grouped_depots.sort_by { |g, _d| g&.member_order_priority.to_s + g&.public_name.to_s } %>
+                <abbr title="<%= t("simple_form.required.text") %>">
+                  <%= t("simple_form.required.mark") %>
+                </abbr>
+              </legend>
 
-              <% grouped_depots.each do |group, depots| %>
-                <div>
-                  <% if group %>
-                    <legend><%= group.public_name %></legend>
-                    <div class="mt-1 mb-3 text-justify text-sm">
-                      <%= group.information_text %>
-                    </div>
-                  <% end %>
+              <div class="mt-2 space-y-6">
+                <% grouped_depots = grouped_depots.sort_by { |g, _d| g&.member_order_priority.to_s + g&.public_name.to_s } %>
 
-                  <%= f.input :waiting_depot_id, hidden_fields: false, as: :radio_buttons, collection: depots_collection(depots: depots, data: { form_disabler_target: "input", action: "form-choice-excluder#excludeChoice form-choices-limiter#limitChoices form-pricing#refresh" }), label: false, wrapper_html: { class: ("disabled" if support_checked), data: { form_disabler_target: "label" } }, input_html: { disabled: support_checked }, include_hidden: false %>
-                </div>
-              <% end %>
+                <% grouped_depots.each do |group, depots| %>
+                  <div>
+                    <% if group %>
+                      <legend><%= group.public_name %></legend>
+                      <div class="mt-1 mb-3 text-justify text-sm">
+                        <%= group.information_text %>
+                      </div>
+                    <% end %>
+
+                    <%= f.input :waiting_depot_id, hidden_fields: false, as: :radio_buttons, collection: depots_collection(depots: depots, data: { form_disabler_target: "input", action: "form-choice-excluder#excludeChoice form-choices-limiter#limitChoices form-pricing#refresh" }), label: false, wrapper_html: { class: ("disabled" if support_checked), data: { form_disabler_target: "label" } }, input_html: { disabled: support_checked }, include_hidden: false %>
+                  </div>
+                <% end %>
+              </div>
             </div>
-          </div>
-        <% else %>
-          <%= f.input :waiting_depot_id, as: :radio_buttons, collection: depots_collection(data: { form_disabler_target: "input", action: "form-choice-excluder#excludeChoice form-choices-limiter#limitChoices form-pricing#refresh" }), label: Depot.model_name.human, required: true, wrapper_html: { class: ("disabled" if support_checked), data: { form_disabler_target: "label" } }, input_html: { disabled: support_checked }, label_html: { class: "text-base" } %>
-        <% end %>
-      </div>
+          <% else %>
+            <%= f.input :waiting_depot_id, as: :radio_buttons, collection: depots_collection(data: { form_disabler_target: "input", action: "form-choice-excluder#excludeChoice form-choices-limiter#limitChoices form-pricing#refresh" }), label: Depot.model_name.human, required: true, wrapper_html: { class: ("disabled" if support_checked), data: { form_disabler_target: "label" } }, input_html: { disabled: support_checked }, label_html: { class: "text-base" } %>
+          <% end %>
+        </div>
+      <% end %>
 
       <% if DeliveryCycle.visible? %>
         <% delivery_cycle_options = visible_delivery_cycles_collection(data: { form_disabler_target: "input", form_choices_limiter_target: "input", action: "form-pricing#refresh" }) %>

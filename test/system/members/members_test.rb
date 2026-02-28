@@ -508,6 +508,40 @@ class Members::MembersTest < ApplicationSystemTestCase
     end
   end
 
+  test "annual fee only (no basket sizes, no depots)" do
+    BasketSize.update_all(visible: false)
+    Depot.update_all(visible: false)
+    org(annual_fee_member_form: true)
+
+    visit "/new"
+
+    assert_no_text "Basket size"
+    assert_no_text "Supporting member"
+    assert_no_text "Depot"
+    assert_text "Annual fee"
+
+    fill_in "Name and surname", with: "Ryan Doe"
+    fill_in "Address", with: "Nowhere street 2"
+    fill_in "ZIP", with: "2042"
+    fill_in "City", with: "Moon City"
+    fill_in "Email(s)", with: "ryan@doe.com"
+    fill_in "Phone(s)", with: "077 142 42 42"
+
+    fill_in "Annual fee", with: "50"
+    check "I have read and agree to the rules."
+
+    click_button "Submit"
+
+    assert_text "Thank you for your registration!"
+
+    member = Member.last
+    assert_equal "pending", member.state
+    assert_equal "Ryan Doe", member.name
+    assert_nil member.waiting_basket_size
+    assert_nil member.waiting_depot
+    assert_equal 50, member.annual_fee
+  end
+
   test "without annual fee or organization shares" do
     org(annual_fee: nil, share_price: nil)
 
