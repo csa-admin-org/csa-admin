@@ -1,0 +1,41 @@
+@layer components {
+  /* Shared mobile drawer: floating button + slide-in panel */
+  .mobile-drawer {
+    @apply lg:hidden;
+  }
+
+  .mobile-drawer-btn {
+    @apply fixed right-5 z-40 flex size-12 items-center justify-center rounded-xl bg-green-600 text-white shadow-lg active:bg-green-700 dark:bg-green-600 dark:active:bg-green-700;
+    bottom: max(1.25rem, env(safe-area-inset-bottom, 0px));
+  }
+
+  .mobile-drawer-overlay {
+    @apply fixed inset-0 z-50 bg-black/40 opacity-0 transition-opacity duration-200 ease-out;
+
+    &.open {
+      @apply opacity-100;
+    }
+  }
+
+  .mobile-drawer-panel {
+    @apply absolute top-0 right-0 h-full w-[85vw] max-w-sm translate-x-full overflow-y-auto bg-white p-4 shadow-xl transition-transform duration-200 ease-out dark:bg-gray-900;
+
+    &.open {
+      @apply translate-x-0;
+    }
+  }
+
+  /* Filters: stack above handbook button when both are present on the same page */
+  .grid:has(.mobile-drawer:not(.mobile-drawer-filters))
+    .mobile-drawer-filters
+    .mobile-drawer-btn {
+    bottom: max(5rem, calc(3.75rem + env(safe-area-inset-bottom, 0px)));
+  }
+
+  /* Hide the sidebar pages panel on mobile (it's in the drawer instead) */
+  @media (max-width: 1023px) {
+    #pages_sidebar_section {
+      @apply hidden;
+    }
+  }
+}

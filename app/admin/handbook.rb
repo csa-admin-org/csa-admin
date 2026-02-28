@@ -18,6 +18,49 @@ ActiveAdmin.register_page "Handbook" do
           end
       end
     end
+
+    # Mobile floating menu button + modal (visible only below lg breakpoint)
+    div class: "mobile-drawer", data: { controller: "mobile-drawer", action: "keydown.esc@window->mobile-drawer#close" } do
+      # Floating trigger button
+      button \
+        class: "mobile-drawer-btn",
+        data: { action: "mobile-drawer#open" },
+        aria: { label: t("active_admin.shared.sidebar_section.pages") } do
+        icon "square-menu", class: "size-6"
+      end
+
+      # Modal overlay
+      div \
+        class: "mobile-drawer-overlay hidden",
+        data: {
+          "mobile-drawer-target": "overlay",
+          action: "click->mobile-drawer#closeOnOutside"
+        } do
+        div \
+          class: "mobile-drawer-panel",
+          data: { "mobile-drawer-target": "panel" } do
+          # Header with title and close button
+          div class: "flex items-center justify-between mb-3" do
+            h3 t("active_admin.shared.sidebar_section.pages"), class: "text-xl font-extralight"
+            button \
+              data: { action: "mobile-drawer#close" },
+              class: "p-1 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300",
+              aria: { label: "Close" } do
+              icon "x-mark", class: "size-5"
+            end
+          end
+
+          # Menu content
+          div class: "text-sm" do
+            handbook_menu self,
+              current_page: params[:id],
+              turbo_frame_id: "handbook-mobile-results",
+              link_data: { data: { action: "click->mobile-drawer#navigate" } }
+          end
+        end
+      end
+    end
+
     div \
       class: "markdown md:pr-4 content-page",
       data: {
@@ -30,66 +73,9 @@ ActiveAdmin.register_page "Handbook" do
 
   sidebar :pages, only: :index do
     side_panel t(".pages") do
-      div data: {
-        controller: "handbook-search",
-        "handbook-search-current-page-value": params[:id],
-        action: "keydown.down->handbook-search#navigateDown keydown.up->handbook-search#navigateUp keydown.enter->handbook-search#selectCurrent"
-      } do
-        form action: handbook_search_path, method: :get,
-          data: { "turbo-frame" => "handbook-sidebar-results", "handbook-search-target" => "form" } do |f|
-          input type: :hidden, name: :page, value: params[:id]
-          div class: "relative mb-3" do
-            div class: "pointer-events-none absolute inset-y-0 left-0 flex items-center pl-2.5" do
-              icon "magnifying-glass", class: "size-4 text-gray-400 dark:text-gray-500"
-            end
-            input type: :text, name: :q,
-              placeholder: t(".search_placeholder"),
-              autocomplete: "off",
-              spellcheck: "false",
-              data: {
-                "handbook-search-target" => "input",
-                action: "input->handbook-search#search"
-              },
-              class: "mt-0 w-full rounded-md border border-gray-300 py-1.5 pl-8 pr-3 text-base sm:text-sm " \
-                     "placeholder-gray-400 " \
-                     "dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 dark:placeholder-gray-500"
-          end
-        end
-
-        turbo_frame id: "handbook-sidebar-results", target: "_top",
-          data: { "handbook-search-target": "frame", action: "turbo:frame-load->handbook-search#resetSelection" } do
-          ul class: "space-y-2 text-base" do
-            Handbook.all(binding).each do |handbook|
-              next if handbook.restricted? && !current_admin.ultra?
-
-              li do
-                if handbook.name == params[:id]
-                  div class: "font-bold flex items-center justify-start" do
-                    div { icon "chevron-down", class: "size-4 me-1" }
-                    span handbook.title
-                  end
-                  ol class: "mt-2 mb-6 ml-5 list-inside list-none space-y-1" do
-                    handbook.subtitles.each do |subtitle, id|
-                      li do
-                        a href: handbook_page_path(handbook.name, anchor: id) do
-                          span subtitle
-                        end
-                      end
-                    end
-                  end
-                else
-                  a href: handbook_page_path(handbook.name) do
-                    div class: "flex items-center justify-start" do
-                      div { icon "chevron-right", class: "size-4 me-1" }
-                      span handbook.title
-                    end
-                  end
-                end
-              end
-            end
-          end
-        end
-      end
+      handbook_menu self,
+        current_page: params[:id],
+        turbo_frame_id: "handbook-sidebar-results"
     end
   end
 

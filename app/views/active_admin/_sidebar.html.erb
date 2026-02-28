@@ -1,4 +1,49 @@
 <% unless skip_sidebar? || sidebar_sections_for_action.blank? %>
+  <% filters_section = sidebar_sections_for_action.find { |s| s.name == "filters" }
+    has_filters = filters_section && active_admin_config.respond_to?(:filters) && active_admin_config.filters.any? %>
+  <% if has_filters %>
+    <div
+      class="mobile-drawer mobile-drawer-filters"
+      data-controller="mobile-drawer"
+      data-mobile-drawer-source-selector-value="#filters_sidebar_section"
+      data-action="keydown.esc@window->mobile-drawer#close"
+    >
+      <button
+        class="mobile-drawer-btn"
+        data-action="mobile-drawer#open"
+        aria-label="<%= I18n.t("active_admin.sidebars.filters") %>"
+      >
+        <%= icon "funnel", class: "size-6" %>
+      </button>
+
+      <div
+        class="mobile-drawer-overlay hidden"
+        data-mobile-drawer-target="overlay"
+        data-action="click->mobile-drawer#closeOnOutside"
+      >
+        <div class="mobile-drawer-panel" data-mobile-drawer-target="panel">
+          <div class="mb-3 flex items-center justify-between">
+            <h3 class="text-xl font-extralight">
+              <%= I18n.t("active_admin.sidebars.filters") %>
+            </h3>
+
+            <button
+              data-action="mobile-drawer#close"
+              class="
+                p-1 text-gray-400 hover:text-gray-600
+                dark:hover:text-gray-300
+              "
+              aria-label="Close"
+            >
+              <%= icon "x-mark", class: "size-5" %>
+            </button>
+          </div>
+
+          <div data-mobile-drawer-target="content"></div>
+        </div>
+      </div>
+    </div>
+  <% end %>
   <div class="space-y-6">
     <%= render "active_admin/shared/sidebar_sections" %>
   </div>

@@ -1,4 +1,6 @@
-<turbo-frame id="handbook-sidebar-results">
+<turbo-frame
+  id="<%= request.headers["Turbo-Frame"] || "handbook-sidebar-results" %>"
+>
   <% if @query.length >= 3 && @results.any? %>
     <ul class="space-y-3 text-sm">
       <% @results.each do |result| %>
