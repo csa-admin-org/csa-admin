@@ -4,7 +4,9 @@
   <h2><%= t(".subtitle") %></h2>
 
   <% if Current.org.membership_update_text? %>
-    <div class="trix mt-2 mb-8"><%= Current.org.membership_update_text %></div>
+    <div class="trix-content mt-2 mb-8">
+      <%= Current.org.membership_update_text %>
+    </div>
   <% end %>
 
   <%= simple_form_for @membership, html: { class: "mt-4" } do |f| %>

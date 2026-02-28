@@ -7,7 +7,9 @@
       <%= t(".title") %>
     </h2>
 
-    <div class="trix justify mt-2"><%= Current.org.open_renewal_text %></div>
+    <div class="trix-content justify mt-2">
+      <%= Current.org.open_renewal_text %>
+    </div>
 
     <%= simple_form_for membership, url: new_members_membership_renewal_path, method: :get, data: { remote: false } do |f| %>
       <div class="mt-6">

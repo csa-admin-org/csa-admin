@@ -490,6 +490,14 @@ p {
   line-height: 1.5;
   margin: 0.4em 0 1.1875em;
 }
+.trix-content a {
+  color: #22c55e;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.trix-content figure {
+  margin: 0.5em 0;
+}
 .trix-content * {
   box-sizing: border-box;
   margin: 0;

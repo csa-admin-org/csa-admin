@@ -6,7 +6,7 @@
   <h2><%= t(".form_title") %></h2>
 
   <% if Current.org.absence_extra_text.present? %>
-    <div class="trix mt-2"><%= Current.org.absence_extra_text %></div>
+    <div class="trix-content mt-2"><%= Current.org.absence_extra_text %></div>
   <% end %>
 
   <% unless Current.org.absence_extra_text_only? %>
