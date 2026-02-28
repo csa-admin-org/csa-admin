@@ -149,45 +149,63 @@
       <% end %>
 
       <% all_visible_depots = visible_depots %>
+      <% show_depot_filter = all_visible_depots.size >= MembersHelper::DEPOT_FILTER_MIN %>
 
       <% if all_visible_depots.any? %>
         <div
           class="space-y-6 print:break-inside-avoid print:break-after-page"
           data-form-disabler-target="label"
+          <%= "data-controller=form-depot-filter" if show_depot_filter %>
         >
           <% grouped_depots = all_visible_depots.group_by(&:group) %>
+          <% has_groups = grouped_depots.keys.compact.any? %>
 
-          <% if grouped_depots.keys.compact.any? %>
-            <div>
-              <legend class="text-base">
-                <%= Depot.model_name.human(count: 2) %>
-                <%= " " %>
+          <div>
+            <legend class="text-base">
+              <%= Depot.model_name.human(count: has_groups ? 2 : 1) %>
+              <%= " " %>
 
-                <abbr title="<%= t("simple_form.required.text") %>">
-                  <%= t("simple_form.required.mark") %>
-                </abbr>
-              </legend>
+              <abbr title="<%= t("simple_form.required.text") %>">
+                <%= t("simple_form.required.mark") %>
+              </abbr>
+            </legend>
 
-              <div class="mt-2 space-y-6">
-                <% grouped_depots = grouped_depots.sort_by { |g, _d| g&.member_order_priority.to_s + g&.public_name.to_s } %>
+            <% if show_depot_filter %>
+              <%= render "members/members/form_modes/depot_filter" %>
+            <% end %>
 
-                <% grouped_depots.each do |group, depots| %>
-                  <div>
-                    <% if group %>
+            <div class="<%= "mt-2 space-y-6" if has_groups %>">
+              <% grouped_depots = grouped_depots.sort_by { |g, _d| g&.member_order_priority.to_s + g&.public_name.to_s } %>
+
+              <% grouped_depots.each do |group, depots| %>
+                <div data-form-depot-filter-target="group">
+                  <% if group %>
+                    <div data-depot-group-header>
                       <legend><%= group.public_name %></legend>
+
                       <div class="mt-1 mb-3 text-sm">
                         <%= group.information_text %>
                       </div>
-                    <% end %>
+                    </div>
+                  <% end %>
 
-                    <%= f.input :waiting_depot_id, hidden_fields: false, as: :radio_buttons, collection: depots_collection(depots: depots, data: { form_disabler_target: "input", action: "form-choice-excluder#excludeChoice form-choices-limiter#limitChoices form-pricing#refresh" }), label: false, wrapper_html: { class: ("disabled" if support_checked), data: { form_disabler_target: "label" } }, input_html: { disabled: support_checked }, include_hidden: false %>
-                  </div>
-                <% end %>
-              </div>
+                  <%= f.input :waiting_depot_id, hidden_fields: !has_groups, as: :radio_buttons, collection: depots_collection(depots: depots, data: { form_disabler_target: "input", action: "form-choice-excluder#excludeChoice form-choices-limiter#limitChoices form-pricing#refresh" }), label: false, wrapper_html: { class: ("disabled" if support_checked), data: { form_disabler_target: "label" } }, input_html: { disabled: support_checked }, include_hidden: !has_groups %>
+                </div>
+              <% end %>
             </div>
-          <% else %>
-            <%= f.input :waiting_depot_id, as: :radio_buttons, collection: depots_collection(data: { form_disabler_target: "input", action: "form-choice-excluder#excludeChoice form-choices-limiter#limitChoices form-pricing#refresh" }), label: Depot.model_name.human, required: true, wrapper_html: { class: ("disabled" if support_checked), data: { form_disabler_target: "label" } }, input_html: { disabled: support_checked }, label_html: { class: "text-base" } %>
-          <% end %>
+
+            <% if show_depot_filter %>
+              <p
+                data-form-depot-filter-target="noResults"
+                class="
+                  hidden py-2 text-center text-sm text-gray-500
+                  dark:text-gray-400
+                "
+              >
+                <%= t(".depot_filter_no_results") %>
+              </p>
+            <% end %>
+          </div>
         </div>
       <% end %>
 
@@ -202,7 +220,10 @@
       <% end %>
 
       <% if Current.org.allow_alternative_depots? %>
-        <div data-form-disabler-target="label">
+        <div
+          data-form-disabler-target="label"
+          <%= "data-controller=form-depot-filter" if show_depot_filter %>
+        >
           <legend class="text-base">
             <%= Member.human_attribute_name(:waiting_alternative_depot_ids) %>
           </legend>
@@ -215,11 +236,31 @@
 
           <% unless selected %>
             <div class="flex flex-row justify-center">
-              <%= link_to t(".alternative_depots_show_all"), "#", class: "btn btn-sm", onclick: "document.querySelector('.member_waiting_alternative_depot_ids').classList.toggle('hidden'); this.classList.toggle('hidden'); return false;" %>
+              <%= link_to t(".alternative_depots_show_all"), "#", class: "btn btn-sm", onclick: "document.getElementById('alternative-depots').classList.toggle('hidden'); this.classList.toggle('hidden'); return false;" %>
             </div>
           <% end %>
 
-          <%= f.input :waiting_alternative_depot_ids, label: false, as: :check_boxes, collection: depots_collection(data: { form_disabler_target: "input", form_choice_excluder_target: "input" }), disabled: [ f.object.waiting_depot_id ].compact, required: false, hint: true, wrapper_html: { class: ("disabled" if support_checked), data: { form_disabler_target: "label" } }, input_html: { disabled: (depots_collection.map(&:last) if support_checked) }, wrapper_class: "flex flex-col space-y-2 #{"hidden" unless selected}" %>
+          <div id="alternative-depots" class="<%= "hidden" unless selected %>">
+            <% if show_depot_filter %>
+              <%= render "members/members/form_modes/depot_filter" %>
+            <% end %>
+
+            <div data-form-depot-filter-target="group">
+              <%= f.input :waiting_alternative_depot_ids, label: false, as: :check_boxes, collection: depots_collection(data: { form_disabler_target: "input", form_choice_excluder_target: "input" }), disabled: [ f.object.waiting_depot_id ].compact, required: false, hint: true, wrapper_html: { class: ("disabled" if support_checked), data: { form_disabler_target: "label" } }, input_html: { disabled: (depots_collection.map(&:last) if support_checked) }, wrapper_class: "flex flex-col space-y-2" %>
+            </div>
+
+            <% if show_depot_filter %>
+              <p
+                data-form-depot-filter-target="noResults"
+                class="
+                  hidden py-2 text-center text-sm text-gray-500
+                  dark:text-gray-400
+                "
+              >
+                <%= t(".depot_filter_no_results") %>
+              </p>
+            <% end %>
+          </div>
         </div>
       <% end %>
     </div>

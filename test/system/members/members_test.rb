@@ -606,6 +606,54 @@ class Members::MembersTest < ApplicationSystemTestCase
     assert_no_selector "input[type='radio'][name='member[waiting_delivery_cycle_id]']"
   end
 
+  test "renders depot filter when depots exceed threshold" do
+    6.times do |i|
+      Depot.create!(
+        name: "Depot #{i}",
+        city: "City#{i}",
+        zip: "100#{i}",
+        price: 0)
+    end
+
+    visit "/new"
+
+    assert_selector "input[data-form-depot-filter-target='input']"
+    assert_selector "p[data-form-depot-filter-target='noResults']"
+
+    depot_radios = all("input[type='radio'][name='member[waiting_depot_id]'][data-depot-name]")
+    assert depot_radios.size >= MembersHelper::DEPOT_FILTER_MIN
+
+    first_radio = depot_radios.first
+    assert first_radio["data-depot-name"].present?
+  end
+
+  test "does not render depot filter when depots are below threshold" do
+    visit "/new"
+
+    assert_selector "input[type='radio'][name='member[waiting_depot_id]']"
+    assert_no_selector "input[data-form-depot-filter-target='input']"
+    assert_no_selector "p[data-form-depot-filter-target='noResults']"
+  end
+
+  test "renders depot filter with grouped depots" do
+    group = DepotGroup.create!(name: "Downtown")
+    6.times do |i|
+      Depot.create!(
+        name: "Downtown Depot #{i}",
+        city: "Metropolis",
+        zip: "200#{i}",
+        price: 0,
+        group: group)
+    end
+
+    visit "/new"
+
+    assert_selector "input[data-form-depot-filter-target='input']"
+    assert_selector "[data-form-depot-filter-target='group']"
+    assert_selector "[data-depot-group-header]"
+    assert_text "Downtown"
+  end
+
   # ==================== Member page ==========================
 
   test "redirects to deliveries with next basket" do

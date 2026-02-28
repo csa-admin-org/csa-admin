@@ -2,6 +2,7 @@
 
 module MembersHelper
   RADIO_BUTTONS_MAX = 6
+  DEPOT_FILTER_MIN = 8
 
   def notice_pane(icon_name = nil, &block)
     content_tag :div, class: "mb-4 flex items-center gap-2 rounded border border-dashed border-teal-500 bg-teal-100 p-2 text-teal-700 hover:bg-teal-200 dark:bg-teal-900 dark:text-teal-300 hover:dark:bg-teal-800" do
@@ -211,8 +212,12 @@ module MembersHelper
           icon: d.full_address && map_icon(d.full_address).html_safe),
         d.id,
         data: {
-          form_choices_limiter_values_param: d.delivery_cycle_ids.join(",")
-        }.merge(data)
+          form_choices_limiter_values_param: d.delivery_cycle_ids.join(","),
+          depot_name: d.public_name,
+          depot_city: d.city,
+          depot_zip: d.zip,
+          depot_address: d.full_address
+        }.compact.merge(data)
       ]
     }
   end

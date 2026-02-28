@@ -1051,6 +1051,18 @@ _:
             _de: Jedes Mitglied zahlt zusätzlich zum Abonnement für den Korb auch einen Jahresbeitrag von %{price}.
             _it: Ogni socio paga anche una quota annuale di <b class="whitespace-nowrap">%{price}</b> oltre all'abbonamento alla cesta.
             _nl: Elk lid betaalt ook een jaarlijkse bijdrage van <b class="whitespace-nowrap">%{price}</b> naast het lidmaatschap voor het pakket.
+          depot_filter_no_results:
+            _en: No depot found.
+            _fr: Aucun dépôt trouvé.
+            _de: Kein Depot gefunden.
+            _it: Nessun punto di ritiro trovato.
+            _nl: Geen depot gevonden.
+          depot_filter_placeholder:
+            _en: Search by name, address, city, or ZIP…
+            _fr: Rechercher par nom, adresse, ville ou NPA…
+            _de: Nach Name, Adresse, Ort oder PLZ suchen…
+            _it: Cerca per nome, indirizzo, città o CAP…
+            _nl: Zoek op naam, adres, plaats of postcode…
           desired_shares_number_hint:
             _en: Get more shares to support the cooperative.
             _fr: Acquérir plus de parts sociales pour soutenir la coopérative.
