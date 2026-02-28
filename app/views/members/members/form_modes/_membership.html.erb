@@ -4,7 +4,7 @@
   data-controller="form-disabler form-min-value form-choice-excluder form-choices-limiter form-activity form-minmax-enforcer form-annual-fee"
   class="space-y-12"
 >
-  <div>
+  <div data-form-section-nav-target="section">
     <legend class="text-lg font-medium text-gray-700 dark:text-gray-300">
       <%= t(".title") %>
     </legend>
@@ -266,7 +266,7 @@
     </div>
   </div>
 
-  <div aria-label="Billing">
+  <div aria-label="Billing" data-form-section-nav-target="section">
     <legend class="text-lg font-medium text-gray-700 dark:text-gray-300">
       <%= t("active_admin.resource.show.billing") %>
     </legend>
