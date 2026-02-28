@@ -8,7 +8,7 @@ pin "@hotwired/stimulus-loading", to: "stimulus-loading.js"
 pin "@hotwired/turbo-rails", to: "turbo.min.js"
 pin "trix"
 pin "@rails/actiontext", to: "actiontext.esm.js"
-pin "@rails/activestorage", to: "activestorage.esm.js"
+
 pin_all_from "app/javascript/components", under: "components"
 pin "throttle-debounce" # @5.0.2
 
