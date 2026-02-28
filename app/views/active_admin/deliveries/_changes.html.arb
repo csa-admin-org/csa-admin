@@ -11,8 +11,8 @@ if changes.other_changes_count.positive?
   summary_parts << t("active_admin.page.index.changes_count", count: changes.other_changes_count)
 end
 
-details class: "changes-details" do
-  summary class: "cursor-pointer text-right text-gray-500 dark:text-gray-400 px-2 py-1 mt-8" do
+details class: "arrow-details" do
+  summary class: "justify-end text-gray-500 dark:text-gray-400 px-2 py-1 mt-8" do
     text_node summary_parts.join(", ")
   end
   div class: "mb-1" do

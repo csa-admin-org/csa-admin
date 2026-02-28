@@ -13,6 +13,7 @@
 @import "./components/panel.css";
 @import "./components/scopes.css";
 @import "./components/status_tag.css";
+@import "./components/summary.css";
 @import "./components/table.css";
 @import "./components/tabs_nav.css";
 @import "./components/formtastic.css";

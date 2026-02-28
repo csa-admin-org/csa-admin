@@ -266,34 +266,8 @@
     }
   }
 
-  :is(.attributes-table, .data-table-invoice-total) td details,
-  .changes-details {
-    interpolate-size: allow-keywords;
-  }
-
-  :is(.attributes-table, .data-table-invoice-total) td details > summary,
-  .changes-details > summary {
-    @apply flex cursor-pointer list-none items-center justify-end leading-[1.4rem];
-
-    &::marker,
-    &::-webkit-details-marker {
-      display: none;
-    }
-
-    &::before {
-      content: "";
-      @apply mr-1.5 size-3 shrink-0 text-gray-400 transition-transform duration-200 dark:text-gray-500;
-      background-color: currentColor;
-      clip-path: polygon(25% 10%, 85% 50%, 25% 90%);
-    }
-  }
-
-  :is(.attributes-table, .data-table-invoice-total)
-    td
-    details[open]
-    > summary::before,
-  .changes-details[open] > summary::before {
-    @apply rotate-90;
+  :is(.attributes-table, .data-table-invoice-total) td details > summary {
+    @apply justify-end;
   }
 
   :is(.attributes-table, .data-table-invoice-total)

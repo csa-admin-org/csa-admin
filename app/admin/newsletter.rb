@@ -227,7 +227,7 @@ ActiveAdmin.register Newsletter do
                 id: "mail_preview_#{locale}",
                 "data-iframe-target" => "iframe")
             end
-            details do
+            details class: "arrow-details" do
               summary label_with_language(f.object.class.human_attribute_name(:liquid_data_preview_yaml), locale)
               translated_input(f, :liquid_data_preview_yamls,
                 locale: locale,
