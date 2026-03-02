@@ -5,6 +5,8 @@ class MailDelivery
     queue_as :low
 
     def perform(mail_delivery_email)
+      return unless mail_delivery_email.processing?
+
       mail_delivery_email.process!
     end
   end

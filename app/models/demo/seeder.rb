@@ -1026,15 +1026,23 @@ class Demo::Seeder
 
   # Must run outside of transaction so after_create_commit on
   # MailDelivery::Email fires and ProcessJobs are enqueued.
-  # Processes each email first (renders message, stores preview on
+  # Tries to process each email (renders message, stores preview on
   # parent MailDelivery), then marks as delivered for demo display.
   # DemoMailInterceptor blocks actual email sending.
+  #
+  # ActiveStorage defers S3 uploads to after_commit, so invoice PDFs
+  # may not yet be available when this runs. Rescue and skip process!
+  # in that case — the preview is nice-to-have, delivered state is not.
   def mark_deliveries_delivered!
     MailDelivery::Email.find_each do |email|
       next unless email.processing?
 
-      email.process!
-      email.reload
+      begin
+        email.process!
+        email.reload
+      rescue ActiveStorage::FileNotFoundError
+        # PDF not yet on S3; skip preview, just mark delivered below.
+      end
       email.delivered!(at: 1.week.ago) if email.processing?
     end
   end
