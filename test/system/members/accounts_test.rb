@@ -17,6 +17,17 @@ class Members::AccountsTest < ApplicationSystemTestCase
     assert_text "john@doe.com"
     assert_text "079 123 45 67, +33 6 12 34 56 78"
     assert_text "English"
+    assert_no_text "Delivery note"
+  end
+
+  test "shows delivery note when present" do
+    member = members(:john)
+    member.update!(delivery_note: "Code 1234, 3rd floor")
+    login(member)
+
+    click_on "John Doe"
+
+    assert_text "Code 1234, 3rd floor"
   end
 
   test "edits current member data" do
@@ -98,6 +109,22 @@ class Members::AccountsTest < ApplicationSystemTestCase
 
     assert_link "Delete my account"
     assert_selector "a[href='#{new_members_account_deletion_request_path}']"
+  end
+
+  test "edits delivery note" do
+    travel_to "2024-01-01"
+    member = members(:john)
+    login(member)
+
+    click_on "John Doe"
+    click_on "Edit account"
+
+    fill_in "member_delivery_note", with: "Code 1234, 3rd floor"
+    click_button "Submit"
+
+    assert_text "Code 1234, 3rd floor"
+    assert_equal "Code 1234, 3rd floor", member.reload.delivery_note
+    assert_equal({ "delivery_note" => [ nil, "Code 1234, 3rd floor" ] }, member.audits.last.audited_changes)
   end
 
   test "delete account link navigates to deletion request page" do

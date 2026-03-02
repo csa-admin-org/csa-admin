@@ -101,6 +101,12 @@ _:
           _de: Abbrechen
           _it: Annullare
           _nl: Annuleren
+        delivery_note_hint:
+          _en: 'Delivery instructions: door code, floor, buzzer, drop-off spot, etc.'
+          _fr: 'Instructions de livraison : code, étage, sonnette, lieu de dépôt, etc.'
+          _de: 'Lieferhinweise: Türcode, Stockwerk, Klingel, Ablageort, usw.'
+          _it: 'Istruzioni per la consegna: codice porta, piano, campanello, punto di deposito, ecc.'
+          _nl: 'Leveringsinstructies: deurcode, verdieping, deurbel, afzetpunt, enz.'
         emails_hint:
           _en: The email used for this session (%{session_email}) cannot be changed.
           _fr: L'email utilisé pour cette session (%{session_email}) ne peut pas être modifié.

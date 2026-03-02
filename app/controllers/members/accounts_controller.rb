@@ -22,7 +22,7 @@ class Members::AccountsController < Members::BaseController
       .require(:member)
       .permit(
         :name,
-        :street, :zip, :city, :country_code,
+        :street, :zip, :city, :country_code, :delivery_note,
         :emails, :phones, :language, :theme,
         :different_billing_info,
         :billing_name, :billing_street, :billing_zip, :billing_city,

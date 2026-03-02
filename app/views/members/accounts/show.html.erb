@@ -17,6 +17,13 @@
       <span><%= display_address(current_member) %></span>
     </li>
 
+    <% if current_member.delivery_note? %>
+      <li class="flex flex-row gap-4">
+        <%= icon "notepad-text", class: "flex-none size-6" %>
+        <span><%= current_member.delivery_note %></span>
+      </li>
+    <% end %>
+
     <li class="flex flex-row gap-4">
       <%= icon "envelope", class: "flex-none size-6" %>
       <span><%= display_emails(current_member) %></span>

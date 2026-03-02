@@ -12,6 +12,7 @@
       </div>
 
       <%= f.input :country_code, as: :select, required: true, collection: countries_collection %>
+      <%= f.input :delivery_note, as: :text, hint: t(".delivery_note_hint"), input_html: { rows: 2 } %>
       <%= f.input :emails, as: :string, hint: t(".emails_hint", session_email: current_session.email), required: true %>
       <%= f.input :phones, as: :string, required: true %>
     </div>
