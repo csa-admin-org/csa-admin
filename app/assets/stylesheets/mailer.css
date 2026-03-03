@@ -537,6 +537,11 @@ p {
   background-color: #eee;
   overflow-x: auto;
 }
+.trix-content action-text-attachment {
+  display: block;
+  max-width: 100% !important;
+  overflow: hidden;
+}
 .trix-content img {
   max-width: 100%;
   height: auto;
