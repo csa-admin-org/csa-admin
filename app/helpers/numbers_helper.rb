@@ -22,23 +22,13 @@ module NumbersHelper
     options[:unit] = unit ? currency_symbol(currency_code) : ""
     options[:format] ||=
       if unit
-        case Current.org.currency_code
-        when "EUR"; "%n#{NBSP}%u"
-        when "CHF"; "%u#{NBSP}%n"
-        else
-          "%u#{NBSP}%n"
-        end
+        "%u#{NBSP}%n"
       else
         "%n"
       end
     options[:negative_format] ||=
       if unit
-        case Current.org.currency_code
-        when "EUR"; "-%n#{NBSP}%u"
-        when "CHF"; "%u#{NBSP}-%n"
-        else
-          "%u#{NBSP}-%n"
-        end
+        "%u#{NBSP}-%n"
       else
         "-%n"
       end
