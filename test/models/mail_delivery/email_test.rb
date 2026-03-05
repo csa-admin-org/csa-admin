@@ -227,4 +227,23 @@ class MailDelivery::EmailTest < ActiveSupport::TestCase
       delivery.emails.create!(email: "john@doe.com", state: :processing)
     end
   end
+
+  test "process! destroys mail_delivery when mailable was deleted" do
+    member = members(:john)
+    absence = absences(:jane_thursday_5)
+
+    delivery = MailDelivery.deliver!(
+      member: member, mailable: absence, action: "created")
+
+    email = delivery.emails.first
+    assert email.processing?
+
+    # Simulate the absence being deleted before the job runs
+    absence.destroy!
+
+    email.process!
+
+    assert_not MailDelivery.exists?(delivery.id)
+    assert_not MailDelivery::Email.exists?(email.id)
+  end
 end

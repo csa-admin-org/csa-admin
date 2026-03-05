@@ -73,6 +73,10 @@ class MailDelivery < ApplicationRecord
     source.build_mail_for(member, email: email, **mailable_params)
   end
 
+  def mailable_missing?
+    mailable_ids.present? && mailables.none?
+  end
+
   def recompute_state!
     return if draft?
 
@@ -164,9 +168,11 @@ class MailDelivery < ApplicationRecord
     return {} if mailable_ids.blank?
 
     records = mailables.to_a
+    return {} if records.empty?
+
     key = mailable_type.underscore.to_sym
 
-    if records.size == 1
+    if records.size == 1 && mailable_ids.size == 1
       { key => records.first }
     else
       # For ActivityParticipation groups: pass IDs array

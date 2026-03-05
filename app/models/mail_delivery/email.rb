@@ -22,6 +22,12 @@ class MailDelivery
     end
 
     def process!
+      if mail_delivery.mailable_missing?
+        Rails.logger.info "MailDelivery::Email##{id}: #{mail_delivery.mailable_type} #{mail_delivery.mailable_ids} no longer exists, skipping"
+        mail_delivery.destroy!
+        return
+      end
+
       message = mail_delivery.build_message(email: email)
 
       if deliverable?
