@@ -14,7 +14,8 @@
       "Liberation Mono", monospace;
     padding: 12px;
     tab-size: 2;
-    white-space: pre-wrap;
+    overflow: auto;
+    white-space: pre;
     word-wrap: break-word;
     overflow-wrap: break-word;
     min-height: 120px;

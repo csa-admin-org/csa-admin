@@ -32,6 +32,10 @@ export default class extends Controller {
     const languageClass = `language-${mode}`
     editDiv.classList.add(languageClass)
 
+    if (element.dataset.maxHeight) {
+      editDiv.style.maxHeight = element.dataset.maxHeight
+    }
+
     element.parentNode.insertBefore(editDiv, element)
 
     const highlight = (editor) => {

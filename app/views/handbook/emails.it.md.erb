@@ -1,0 +1,94 @@
+# Email
+
+CSA Admin utilizza due tipi di email per comunicare con i vostri soci:
+
+- [**Email automatiche**](/mail_templates): inviate automaticamente durante eventi specifici (nuova fattura, rinnovo, promemoria attività, ...). Potete personalizzarne il contenuto e attivarle/disattivarle.
+- [**Newsletters**](/newsletters): email di gruppo che componete e inviate manualmente (o programmate) a tutti o parte dei vostri soci.
+
+Entrambi i tipi utilizzano lo stesso linguaggio di template e le stesse opzioni di formattazione descritte di seguito.
+
+## Linguaggio di template Liquid {#liquid}
+
+I template di email utilizzano il linguaggio di template [Liquid](https://shopify.github.io/liquid), che permette di inserire dati dinamici specifici per ogni socio e aggiungere logica condizionale. Nonostante un invio "di gruppo", il contenuto di ogni email viene generato individualmente in base alle informazioni di ciascun socio (nome, lingua, abbonamento, ...).
+
+### Visualizzare i dati
+
+Utilizzate le doppie parentesi graffe per inserire un valore:
+
+~~~ liquid
+<p>Buongiorno {{ member.name }},</p>
+<p>La vostra prossima consegna è il {{ basket.delivery.date }}.</p>
+~~~
+
+### Condizioni
+
+Utilizzate `{% if %}` per mostrare contenuto solo quando una condizione è soddisfatta:
+
+~~~ liquid
+{% if basket.contents.size > 0 %}
+  <h2>Contenuto del cesto</h2>
+  ...
+{% endif %}
+~~~
+
+Potete utilizzare `and`, `or`, così come `{% elsif %}` e `{% else %}` per combinare le condizioni:
+
+~~~ liquid
+{% if membership.trial_baskets_count > 0 %}
+  <p>Siete ancora nel periodo di prova ({{ membership.trial_baskets_count }} cesti rimanenti).</p>
+{% elsif membership.activity_participations_missing_count > 0 %}
+  <p>Avete ancora {{ membership.activity_participations_missing_count }} attività da completare.</p>
+{% else %}
+  <p>Tutto è in ordine, grazie!</p>
+{% endif %}
+~~~
+
+### Cicli
+
+Utilizzate `{% for %}` per ripetere il contenuto per ogni elemento di una lista:
+
+~~~ liquid
+<ul>
+  {% for content in basket.contents %}
+    <li>{{ content.product }} ({{ content.quantity }})</li>
+  {% endfor %}
+</ul>
+~~~
+
+## Tag di formattazione {#formatting-tags}
+
+Oltre all'HTML standard, sono disponibili diversi tag speciali di formattazione:
+
+**Blocco in evidenza** — Mostra il contenuto in un riquadro colorato, utile per annunci importanti:
+
+~~~ liquid
+{% highlight %}
+  <p><strong>📣 Importante!</strong></p>
+  <p>Il vostro cesto sarà extra grande questa settimana.</p>
+{% endhighlight %}
+~~~
+
+**Blocco discreto** — Mostra il contenuto in un riquadro grigio sottile, utile per informazioni secondarie:
+
+~~~ liquid
+{% lowlight %}
+  <p>Gestite le vostre iscrizioni dal
+    <a href="{{ member.activities_url }}">vostro account</a>.</p>
+{% endlowlight %}
+~~~
+
+**Pulsante** — Mostra un pulsante di azione ben visibile. Passate il nome di una variabile contenente l'URL:
+
+~~~ liquid
+{% button member.activities_url %}
+  Iscriversi a un'attività
+{% endbutton %}
+~~~
+
+## Anteprima dei dati {#data-preview}
+
+Durante la modifica di un template di email o di un template di newsletter, un pannello di anteprima viene visualizzato sotto l'editor di codice. Questa anteprima mostra il vostro template renderizzato con dati di esempio per ogni lingua.
+
+Sotto ogni anteprima, un pannello di dati mostra la struttura esatta dei dati disponibili per il vostro template. Questi dati vengono generati in modo semi-casuale a partire dai dati reali della vostra organizzazione. Potete modificare i valori in questo pannello per testare come il vostro template viene renderizzato con diversi scenari (ad es. contenuto del cesto vuoto, zero attività mancanti, ecc.).
+
+> L'anteprima dei dati è il modo migliore per scoprire tutte le variabili disponibili e testare il vostro template. Ogni tipo di template di email ha il proprio set di dati disponibili — consultate sempre il pannello di anteprima per vedere cosa è disponibile.

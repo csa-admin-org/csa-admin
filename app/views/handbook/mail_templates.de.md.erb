@@ -1,0 +1,40 @@
+# Automatische E-Mails
+
+CSA Admin versendet automatisch E-Mails an Ihre Mitglieder bei bestimmten Ereignissen im Laufe des Jahres. Diese [E-Mail-Vorlagen](/mail_templates) können angepasst werden, um Ihrem Kommunikationsstil zu entsprechen.
+
+## Übersicht {#overview}
+
+Die E-Mail-Vorlagen sind nach Kategorien organisiert:
+
+- **Mitglied**: Versendet bei Statusänderungen eines Mitglieds (validiert, aktiviert).
+- **Tasche**: Versendet zu wichtigen Zeitpunkten des Abonnements (erste Tasche, letzte Tasche, Probezeit, ...).
+- **Rechnung**: Versendet bei der Erstellung, Stornierung oder Mahnung von Rechnungen.
+<% if Current.org.feature?("absence") %>
+- **Abwesenheit**: Versendet bei der Bestätigung einer Abwesenheit oder bei der Verschiebung von Taschen.
+<% end %>
+<% if Current.org.feature?("activity") %>
+- **<%= activities_human_name %>**: Versendet für Erinnerungen, Bestätigungen und Ablehnungen von Aktivitäten.
+<% end %>
+<% if Current.org.feature?("bidding_round") %>
+- **<%= BiddingRound.model_name.human %>**: Versendet bei der Eröffnung, Erinnerung, dem Abschluss oder dem Scheitern von Gebotsrunden.
+<% end %>
+
+Jede Vorlage hat eine Beschreibung auf ihrer Seite, die erklärt, wann sie versendet wird.
+
+## Aktivieren und Deaktivieren {#activating}
+
+Die meisten E-Mail-Vorlagen können auf ihrer Bearbeitungsseite aktiviert oder deaktiviert werden. Einige Vorlagen (wie Benachrichtigungen über neue Rechnungen) sind immer aktiv und können nicht deaktiviert werden.
+
+Wenn eine Vorlage deaktiviert ist, wird die entsprechende E-Mail einfach nicht versendet.
+
+## Inhalt anpassen {#customizing}
+
+Jede Vorlage hat einen Betreff und einen Inhalt, den Sie vollständig anpassen können. Vorlagen verwenden die Liquid-Vorlagensprache, um dynamische mitgliederspezifische Daten (Name, Taschendetails, Abonnementinformationen, ...) und bedingte Logik einzufügen. Für Details zur Liquid-Syntax, Formatierungstags und dem Datenvorschau-Panel, siehe die [Emails-Handbuchseite](/handbook/emails).
+
+> Jeder Typ von E-Mail-Vorlage hat seinen eigenen Satz verfügbarer Daten, spezifisch für seinen Kontext. Überprüfen Sie immer das Datenvorschau-Panel unter dem Editor, um genau zu sehen, welche Variablen für die Vorlage verfügbar sind, die Sie bearbeiten.
+
+## Zustellungsverfolgung {#delivery-tracking}
+
+Der Zustellstatus jeder automatischen E-Mail wird individuell verfolgt. Von der Detailseite einer Vorlage aus können Sie die Gesamtstatistiken der Zustellung sehen, und im [Zustellungsprotokoll](/mail_deliveries) können Sie einzelne E-Mails überprüfen.
+
+> Zustellungsdaten werden nach 1 Jahr automatisch gelöscht.

@@ -33,6 +33,16 @@ Esempio di un blocco con titolo e contenuto predefinito:
 {% endcontent %}
 ~~~
 
+Esempio di un blocco vuoto (da compilare durante la creazione di una newsletter):
+
+~~~ liquid
+{% content id: "text" %}{% endcontent %}
+~~~
+
+### Linguaggio dei template e formattazione {#liquid}
+
+I template utilizzano il linguaggio di template Liquid per inserire dati dinamici specifici per ogni socio (nome, dettagli del cesto, informazioni sull'abbonamento, ...) e logica condizionale. Per dettagli sulla sintassi Liquid, i tag di formattazione e il pannello di anteprima dei dati, consultate la [pagina Emails del manuale](/handbook/emails).
+
 ## Allegati {#attachments}
 
 Potete aggiungere allegati alle vostre newsletters, ma il peso totale di questi allegati non deve superare i 5 MB.

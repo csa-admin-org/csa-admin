@@ -33,6 +33,16 @@ Example of a block with a title and default content:
 {% endcontent %}
 ~~~
 
+Example of an empty block (to be filled in when creating a newsletter):
+
+~~~ liquid
+{% content id: "text" %}{% endcontent %}
+~~~
+
+### Template Language and Formatting {#liquid}
+
+Templates use the Liquid template language to insert dynamic member-specific data (name, basket details, membership info, ...) and conditional logic. For details on Liquid syntax, formatting tags, and the data preview panel, see the [Emails handbook page](/handbook/emails).
+
 ## Attachments {#attachments}
 
 You can add attachments to your newsletters, but the total weight of these attachments should not exceed 5 MB.

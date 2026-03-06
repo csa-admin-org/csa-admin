@@ -213,39 +213,7 @@ ActiveAdmin.register Newsletter do
           data: { action: "code-editor#updatePreview" }
         })
     end
-    div "data-controller" => "iframe", class: "flex  gap-5" do
-      Current.org.languages.each do |locale|
-        div class: "w-full" do
-          title = t(".preview")
-          title += " (#{t("languages.#{locale}")})" if Current.org.languages.many?
-          f.inputs title do
-            li class: "iframe-wrapper" do
-              iframe(
-                srcdoc: newsletter.mail_preview(locale),
-                scrolling: "no",
-                class: "mail_preview",
-                id: "mail_preview_#{locale}",
-                "data-iframe-target" => "iframe")
-            end
-            details class: "arrow-details" do
-              summary label_with_language(f.object.class.human_attribute_name(:liquid_data_preview_yaml), locale)
-              translated_input(f, :liquid_data_preview_yamls,
-                locale: locale,
-                label: false,
-                as: :text,
-                hint: t("formtastic.hints.liquid_data_preview"),
-                input_html: {
-                  data: {
-                    mode: "yaml",
-                    code_editor_target: "editor"
-                  },
-                  name: "newsletter[liquid_data_preview_yamls][#{locale}]"
-                })
-            end
-          end
-        end
-      end
-    end
+    mail_preview_inputs(self, f, newsletter)
     f.actions
   end
 

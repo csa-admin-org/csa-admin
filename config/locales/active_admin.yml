@@ -1455,6 +1455,12 @@ _:
           _de: Fahrgemeinschaft
           _it: Carpooling
           _nl: Carpooling
+        check_handbook:
+          _en: Handbook
+          _fr: Manuel
+          _de: Handbuch
+          _it: Manuale
+          _nl: Handleiding
         clear_activity_participations_demanded/basket_preparation:
           _en: Clear demanded basket preparations
           _fr: Annuler les préparations de paniers demandées

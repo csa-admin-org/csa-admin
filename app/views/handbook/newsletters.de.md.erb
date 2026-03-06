@@ -33,6 +33,16 @@ Beispiel eines Blocks mit Titel und Standardinhalt:
 {% endcontent %}
 ~~~
 
+Beispiel eines leeren Blocks (wird bei der Erstellung eines Newsletters ausgefüllt):
+
+~~~ liquid
+{% content id: "text" %}{% endcontent %}
+~~~
+
+### Vorlagensprache und Formatierung {#liquid}
+
+Vorlagen verwenden die Liquid-Vorlagensprache, um dynamische mitgliederspezifische Daten (Name, Taschendetails, Abonnementinformationen, ...) und bedingte Logik einzufügen. Für Details zur Liquid-Syntax, Formatierungstags und dem Datenvorschau-Panel, siehe die [Emails-Handbuchseite](/handbook/emails).
+
 ## Anhänge {#attachments}
 
 Sie können Ihren Newsletters Anhänge hinzufügen, aber das Gesamtgewicht dieser Anhänge darf 5 MB nicht überschreiten.

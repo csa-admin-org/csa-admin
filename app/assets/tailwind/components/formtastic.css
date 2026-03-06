@@ -5,7 +5,7 @@
 
     /* Structural Elements */
     fieldset.inputs {
-      @apply relative m-0 mb-8 w-full rounded-lg border border-gray-200 bg-white p-4 pt-2 shadow-md dark:border-gray-700 dark:bg-gray-900;
+      @apply relative m-0 mb-8 w-full min-w-0 rounded-lg border border-gray-200 bg-white p-4 pt-2 shadow-md dark:border-gray-700 dark:bg-gray-900;
 
       &:has(> legend) {
         @apply pt-14;

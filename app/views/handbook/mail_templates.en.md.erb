@@ -1,0 +1,40 @@
+# Automatic Emails
+
+CSA Admin automatically sends emails to your members during specific events throughout the year. These [email templates](/mail_templates) can be customized to match your communication style.
+
+## Overview {#overview}
+
+Email templates are organized by category:
+
+- **Member**: Sent when a member's status changes (validated, activated).
+- **Basket**: Sent at key moments of the membership (first basket, last basket, trial period, ...).
+- **Invoice**: Sent when invoices are created, cancelled, or overdue.
+<% if Current.org.feature?("absence") %>
+- **Absence**: Sent when an absence is confirmed or when baskets are shifted.
+<% end %>
+<% if Current.org.feature?("activity") %>
+- **<%= activities_human_name %>**: Sent for activity reminders, confirmations, and rejections.
+<% end %>
+<% if Current.org.feature?("bidding_round") %>
+- **<%= BiddingRound.model_name.human %>**: Sent when bidding rounds are opened, reminded, completed, or failed.
+<% end %>
+
+Each template has a description on its page explaining when it is sent.
+
+## Activating and Deactivating {#activating}
+
+Most email templates can be activated or deactivated from their edit page. Some templates (like new invoice notifications) are always active and cannot be deactivated.
+
+When a template is deactivated, the corresponding email will simply not be sent.
+
+## Customizing Content {#customizing}
+
+Each template has a subject and a content body that you can fully customize. Templates use the Liquid template language to insert dynamic member-specific data (name, basket details, membership info, ...) and conditional logic. For details on Liquid syntax, formatting tags, and the data preview panel, see the [Emails handbook page](/handbook/emails).
+
+> Each type of email template has its own set of available data, specific to its context. Always check the data preview panel below the editor to see exactly which variables are available for the template you are editing.
+
+## Delivery Tracking {#delivery-tracking}
+
+The delivery status of each automatic email is tracked individually. From a template's detail page, you can see the overall delivery statistics, and from [the delivery log](/mail_deliveries), you can inspect individual emails.
+
+> Delivery records are automatically purged after 1 year.

@@ -469,18 +469,18 @@ _:
           _de: Leer lassen, wenn keine MwSt. anfällt.
           _it: Lasciare vuoto se nessuna IVA è applicabile.
           _nl: Laat leeg indien geen btw van toepassing is.
-      liquid_data_preview:
-        _en: This data structure is presented as an example and is generated semi-randomly. You can change its values at will to preview your template.
-        _fr: Cette structure de données est présentée à titre d'exemple et est générée semi-aléatoirement, vous pouvez modifier ses valeurs à volonté pour prévisualiser votre template.
-        _de: Diese Datenstruktur wird als Beispiel vorgestellt und wird halbzufällig generiert. Sie können ihre Werte nach Belieben ändern, um eine Vorschau Ihrer Vorlage zu erhalten.
-        _it: Questa struttura dati è presentata come un esempio e viene generata in modo semi-casuale, potete modificarne i valori a piacimento per visualizzare in anteprima il tuo template.
-        _nl: Deze datastructuur wordt als voorbeeld gepresenteerd en wordt semi-willekeurig gegenereerd. U kunt de waarden naar believen wijzigen om uw sjabloon te bekijken.
+      liquid_data_preview_html:
+        _en: This <a href='/handbook/emails#data-preview'>data structure</a> is presented as an example and is generated semi-randomly. You can change its values at will to preview your template.
+        _fr: Cette <a href='/handbook/emails#data-preview'>structure de données</a> est présentée à titre d'exemple et est générée semi-aléatoirement, vous pouvez modifier ses valeurs à volonté pour prévisualiser votre template.
+        _de: Diese <a href='/handbook/emails#data-preview'>Datenstruktur</a> wird als Beispiel vorgestellt und wird halbzufällig generiert. Sie können ihre Werte nach Belieben ändern, um eine Vorschau Ihrer Vorlage zu erhalten.
+        _it: Questa <a href='/handbook/emails#data-preview'>struttura dati</a> è presentata come un esempio e viene generata in modo semi-casuale, potete modificarne i valori a piacimento per visualizzare in anteprima il tuo template.
+        _nl: Deze <a href='/handbook/emails#data-preview'>datastructuur</a> wordt als voorbeeld gepresenteerd en wordt semi-willekeurig gegenereerd. U kunt de waarden naar believen wijzigen om uw sjabloon te bekijken.
       liquid_html:
-        _en: Supports <a href='https://shopify.github.io/liquid/' target='_blank'>Liquid syntax</a> with the data structure defined below.
-        _fr: Supporte <a href='https://shopify.github.io/liquid/' target='_blank'>la syntaxe Liquid</a> avec la structure de données définie ci-dessous.
-        _de: Unterstützt <a href='https://shopify.github.io/liquid/' target='_blank'>die Liquid-Syntax</a> mit der unten definierten Datenstruktur.
-        _it: Supporta <a href='https://shopify.github.io/liquid/' target='_blank'>la sintassi Liquid</a> con la struttura dei dati definita qui.
-        _nl: Ondersteunt <a href='https://shopify.github.io/liquid/' target='_blank'>Liquid-syntaxis</a> met de hieronder gedefinieerde datastructuur.
+        _en: Supports <a href='/handbook/emails#liquid'>Liquid syntax</a> with the data structure defined below.
+        _fr: Supporte <a href='/handbook/emails#liquid'>la syntaxe Liquid</a> avec la structure de données définie ci-dessous.
+        _de: Unterstützt <a href='/handbook/emails#liquid'>die Liquid-Syntax</a> mit der unten definierten Datenstruktur.
+        _it: Supporta <a href='/handbook/emails#liquid'>la sintassi Liquid</a> con la struttura dei dati definita qui.
+        _nl: Ondersteunt <a href='/handbook/emails#liquid'>Liquid-syntaxis</a> met de hieronder gedefinieerde datastructuur.
       mail_template:
         active:
           _en: This email is not sent by default, please check its content before activating it.
@@ -946,23 +946,23 @@ _:
           _it: Numero di ore prima della mezzanotte del giorno di consegna in cui il contenuto della cesta diventa visibile ai soci. Ad esempio, 12 ore significa mezzogiorno del giorno prima. Se impostato su 0, il contenuto della cesta sarà visibile solo il giorno stesso della consegna.
           _nl: Aantal uren vóór middernacht op de leveringsdag waarop de pakketinhoud zichtbaar wordt voor leden. Bijvoorbeeld, 12 uur betekent 's middags de dag ervoor. Indien ingesteld op 0, wordt de pakketinhoud pas op de leveringsdag zelf zichtbaar.
         basket_price_extra_dynamic_pricing_html:
-          _en: Allows changing the price dynamically based on various criteria such as the size of the basket.<br/> Supports <a href='https://shopify.github.io/liquid/' target='_blank'>the Liquid syntax</a> with the objects "{{ extra }}", "{{ basket_size_id }}", "{{ basket_size_price }}", "{{ complements_price }}", and "{{ deliveries_count }}".
-          _fr: Permet de changer dynamiquement le prix en fonction de différents critères tels que la taille du panier.<br/> Supporte <a href='https://shopify.github.io/liquid/' target='_blank'>la syntaxe Liquid</a> avec les objets "{{ extra }}", "{{ basket_size_id }}", "{{ basket_size_price }}", "{{ complements_price }} et "{{ deliveries_count }}".
-          _de: Erlaubt es, den Preis dynamisch zu ändern, basierend auf verschiedenen Kriterien wie der Größe der Tasche.<br/> Unterstützt <a href='https://shopify.github.io/liquid/' target='_blank'>die Liquid-Syntax</a> mit den Objekten "{{ extra }}", "{{ basket_size_id }}", "{{ basket_size_price }}", "{{ complements_price }} und "{{ deliveries_count }}".
-          _it: Permette di cambiare dinamicamente il prezzo applicato in base a diversi criteri come la dimensione del cesto.<br/> Supporta <a href='https://shopify.github.io/liquid/' target='_blank'>la sintassi Liquid</a> con gli oggetti "{{ extra }}", "{{ basket_size_id }}", "{{ basket_size_price }}", "{{ complements_price }} e "{{ deliveries_count }}".
-          _nl: Stelt u in staat de prijs dynamisch te wijzigen op basis van verschillende criteria zoals de grootte van het pakket.<br/> Ondersteunt <a href='https://shopify.github.io/liquid/' target='_blank'>de Liquid-syntaxis</a> met de objecten "{{ extra }}", "{{ basket_size_id }}", "{{ basket_size_price }}", "{{ complements_price }}" en "{{ deliveries_count }}".
+          _en: Allows changing the price dynamically based on various criteria such as the size of the basket.<br/> Supports <a href='/handbook/emails#liquid'>the Liquid syntax</a> with the objects "{{ extra }}", "{{ basket_size_id }}", "{{ basket_size_price }}", "{{ complements_price }}", and "{{ deliveries_count }}".
+          _fr: Permet de changer dynamiquement le prix en fonction de différents critères tels que la taille du panier.<br/> Supporte <a href='/handbook/emails#liquid'>la syntaxe Liquid</a> avec les objets "{{ extra }}", "{{ basket_size_id }}", "{{ basket_size_price }}", "{{ complements_price }} et "{{ deliveries_count }}".
+          _de: Erlaubt es, den Preis dynamisch zu ändern, basierend auf verschiedenen Kriterien wie der Größe der Tasche.<br/> Unterstützt <a href='/handbook/emails#liquid'>die Liquid-Syntax</a> mit den Objekten "{{ extra }}", "{{ basket_size_id }}", "{{ basket_size_price }}", "{{ complements_price }} und "{{ deliveries_count }}".
+          _it: Permette di cambiare dinamicamente il prezzo applicato in base a diversi criteri come la dimensione del cesto.<br/> Supporta <a href='/handbook/emails#liquid'>la sintassi Liquid</a> con gli oggetti "{{ extra }}", "{{ basket_size_id }}", "{{ basket_size_price }}", "{{ complements_price }} e "{{ deliveries_count }}".
+          _nl: Stelt u in staat de prijs dynamisch te wijzigen op basis van verschillende criteria zoals de grootte van het pakket.<br/> Ondersteunt <a href='/handbook/emails#liquid'>de Liquid-syntaxis</a> met de objecten "{{ extra }}", "{{ basket_size_id }}", "{{ basket_size_price }}", "{{ complements_price }}" en "{{ deliveries_count }}".
         basket_price_extra_label_details_html:
-          _en: Supports <a href='https://shopify.github.io/liquid/' target='_blank'>the Liquid syntax</a> with the objects "{{ extra }}" and "{{ full_year_price }}".
-          _fr: Supporte <a href='https://shopify.github.io/liquid/' target='_blank'>la syntaxe Liquid</a> avec les objets "{{ extra }}" et "{{ full_year_price }}".
-          _de: Unterstützt <a href='https://shopify.github.io/liquid/' target='_blank'>die Liquid-Syntax</a> mit den Objekten "{{ extra }}" und "{{ full_year_price }}".
-          _it: Supporta <a href='https://shopify.github.io/liquid/' target='_blank'>la sintassi Liquid</a> con gli oggetti "{{ extra }}" e "{{ full_year_price }}".
-          _nl: Ondersteunt <a href='https://shopify.github.io/liquid/' target='_blank'>de Liquid-syntaxis</a> met de objecten "{{ extra }}" en "{{ full_year_price }}".
+          _en: Supports <a href='/handbook/emails#liquid'>the Liquid syntax</a> with the objects "{{ extra }}" and "{{ full_year_price }}".
+          _fr: Supporte <a href='/handbook/emails#liquid'>la syntaxe Liquid</a> avec les objets "{{ extra }}" et "{{ full_year_price }}".
+          _de: Unterstützt <a href='/handbook/emails#liquid'>die Liquid-Syntax</a> mit den Objekten "{{ extra }}" und "{{ full_year_price }}".
+          _it: Supporta <a href='/handbook/emails#liquid'>la sintassi Liquid</a> con gli oggetti "{{ extra }}" e "{{ full_year_price }}".
+          _nl: Ondersteunt <a href='/handbook/emails#liquid'>de Liquid-syntaxis</a> met de objecten "{{ extra }}" en "{{ full_year_price }}".
         basket_price_extra_labels_html:
-          _en: Supports <a href='https://shopify.github.io/liquid/' target='_blank'>the Liquid syntax</a> with the object "{{ extra }}".
-          _fr: Supporte <a href='https://shopify.github.io/liquid/' target='_blank'>la syntaxe Liquid</a> avec l'objet "{{ extra }}".
-          _de: Unterstützt <a href='https://shopify.github.io/liquid/' target='_blank'>die Liquid-Syntax</a> mit Objekt "{{ extra }}".
-          _it: Supporta <a href='https://shopify.github.io/liquid/' target='_blank'>la sintassi Liquid</a> con l'oggetto "{{ extra }}".
-          _nl: Ondersteunt <a href='https://shopify.github.io/liquid/' target='_blank'>de Liquid-syntaxis</a> met het object "{{ extra }}".
+          _en: Supports <a href='/handbook/emails#liquid'>the Liquid syntax</a> with the object "{{ extra }}".
+          _fr: Supporte <a href='/handbook/emails#liquid'>la syntaxe Liquid</a> avec l'objet "{{ extra }}".
+          _de: Unterstützt <a href='/handbook/emails#liquid'>die Liquid-Syntax</a> mit Objekt "{{ extra }}".
+          _it: Supporta <a href='/handbook/emails#liquid'>la sintassi Liquid</a> con l'oggetto "{{ extra }}".
+          _nl: Ondersteunt <a href='/handbook/emails#liquid'>de Liquid-syntaxis</a> met het object "{{ extra }}".
         basket_price_extra_public_title:
           _en: If present, replaces the title displayed for members (registration form, invoice, ...).
           _fr: Si présent, remplace le titre affiché pour les membres (formulaire d'inscription, facture, ...).

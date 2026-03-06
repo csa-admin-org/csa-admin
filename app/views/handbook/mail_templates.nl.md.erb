@@ -1,0 +1,40 @@
+# Automatische e-mails
+
+CSA Admin verstuurt automatisch e-mails naar uw leden tijdens specifieke gebeurtenissen gedurende het jaar. Deze [e-mailsjablonen](/mail_templates) kunnen worden aangepast aan uw communicatiestijl.
+
+## Overzicht {#overview}
+
+De e-mailsjablonen zijn georganiseerd per categorie:
+
+- **Lid**: Verzonden bij statuswijzigingen van een lid (gevalideerd, geactiveerd).
+- **Pakket**: Verzonden op belangrijke momenten van het lidmaatschap (eerste pakket, laatste pakket, proefperiode, ...).
+- **Factuur**: Verzonden bij het aanmaken, annuleren of herinneren van facturen.
+<% if Current.org.feature?("absence") %>
+- **Afwezigheid**: Verzonden bij de bevestiging van een afwezigheid of bij het verschuiven van pakketten.
+<% end %>
+<% if Current.org.feature?("activity") %>
+- **<%= activities_human_name %>**: Verzonden voor herinneringen, bevestigingen en afwijzingen van activiteiten.
+<% end %>
+<% if Current.org.feature?("bidding_round") %>
+- **<%= BiddingRound.model_name.human %>**: Verzonden bij het openen, herinneren, voltooien of mislukken van biedingsrondes.
+<% end %>
+
+Elke sjabloon heeft een beschrijving op zijn pagina die uitlegt wanneer deze wordt verzonden.
+
+## Activeren en deactiveren {#activating}
+
+De meeste e-mailsjablonen kunnen worden geactiveerd of gedeactiveerd vanaf hun bewerkingspagina. Sommige sjablonen (zoals meldingen van nieuwe facturen) zijn altijd actief en kunnen niet worden gedeactiveerd.
+
+Wanneer een sjabloon is gedeactiveerd, wordt de bijbehorende e-mail eenvoudigweg niet verzonden.
+
+## Inhoud aanpassen {#customizing}
+
+Elke sjabloon heeft een onderwerp en een inhoud die u volledig kunt aanpassen. Sjablonen gebruiken de Liquid-sjabloontaal om dynamische lidspecifieke gegevens (naam, pakketdetails, lidmaatschapsinformatie, ...) en voorwaardelijke logica in te voegen. Voor details over de Liquid-syntaxis, opmaaktags en het gegevensvoorbeeldpaneel, zie de [Emails-handboekpagina](/handbook/emails).
+
+> Elk type e-mailsjabloon heeft zijn eigen set beschikbare gegevens, specifiek voor zijn context. Controleer altijd het gegevensvoorbeeldpaneel onder de editor om precies te zien welke variabelen beschikbaar zijn voor het sjabloon dat u bewerkt.
+
+## Leveringstracking {#delivery-tracking}
+
+De leveringsstatus van elke automatische e-mail wordt individueel gevolgd. Vanaf de detailpagina van een sjabloon kunt u de algemene leveringsstatistieken zien, en vanuit [het leveringslogboek](/mail_deliveries) kunt u individuele e-mails inspecteren.
+
+> Leveringsgegevens worden na 1 jaar automatisch verwijderd.

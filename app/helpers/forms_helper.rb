@@ -1,6 +1,36 @@
 # frozen_string_literal: true
 
 module FormsHelper
+  def mail_preview_inputs(arbre, form, record)
+    param_key = record.class.model_name.param_key
+    arbre.div "data-controller" => "iframe", class: "w-full flex flex-wrap gap-5" do
+      Current.org.languages.each do |locale|
+        arbre.div class: "flex-1 min-w-lg max-w-full" do
+          title = I18n.t("active_admin.resource.form.preview")
+          title += " (#{I18n.t("languages.#{locale}")})" if Current.org.languages.many?
+          form.inputs title do
+            arbre.li class: "iframe-wrapper" do
+              arbre.iframe(
+                srcdoc: record.mail_preview(locale),
+                scrolling: "no",
+                class: "mail_preview",
+                id: "mail_preview_#{locale}",
+                "data-iframe-target" => "iframe")
+            end
+            translated_input(form, :liquid_data_preview_yamls,
+              locale: locale,
+              as: :text,
+              hint: I18n.t("formtastic.hints.liquid_data_preview_html").html_safe,
+              input_html: {
+                data: { mode: "yaml", code_editor_target: "editor", max_height: "24em" },
+                name: "#{param_key}[liquid_data_preview_yamls][#{locale}]"
+              })
+          end
+        end
+      end
+    end
+  end
+
   def translated_input(form, attr, options = {})
     locales = Array(options.delete(:locale) || Current.org.languages)
     input_html = options.delete(:input_html) || {}

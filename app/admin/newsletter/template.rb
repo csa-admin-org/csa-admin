@@ -40,34 +40,9 @@ ActiveAdmin.register Newsletter::Template do
           data: { mode: "liquid", code_editor_target: "editor" }
         })
 
-      handbook_button(self, "newsletters", anchor: "templates")
+      handbook_button(self, "emails")
     end
-    div "data-controller" => "iframe", class: "flex  gap-5" do
-      Current.org.languages.each do |locale|
-        div class: "w-full" do
-          title = t(".preview")
-          title += " (#{t("languages.#{locale}")})" if Current.org.languages.many?
-          f.inputs title do
-            li class: "iframe-wrapper" do
-              iframe(
-                srcdoc: newsletter_template.mail_preview(locale),
-                scrolling: "no",
-                class: "mail_preview",
-                id: "mail_preview_#{locale}",
-                "data-iframe-target" => "iframe")
-            end
-            translated_input(f, :liquid_data_preview_yamls,
-              locale: locale,
-              as: :text,
-              hint: t("formtastic.hints.liquid_data_preview"),
-              input_html: {
-                data: { mode: "yaml", code_editor_target: "editor" },
-                name: "newsletter_template[liquid_data_preview_yamls][#{locale}]"
-              })
-          end
-        end
-      end
-    end
+    mail_preview_inputs(self, f, newsletter_template)
     f.actions
   end
 
