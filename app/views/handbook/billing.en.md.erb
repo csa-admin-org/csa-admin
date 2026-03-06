@@ -2,7 +2,19 @@
 
 CSA Admin aims to automate most tasks related to billing ([memberships](#memberships), [share capital](#share-capital), [payment processing](#payments)), but some aspects such as billing for [uncompleted <%= activities_human_name %>](#activity) must be done manually.
 
-For Switzerland, CSA Admin generates QR-invoices with reference numbers (PDF) and sends them to all emails of the concerned member. To generate these invoices, you need to request a QR-IBAN from your bank, note that this number is different from your bank account IBAN. You can then enter it in [your billing settings](/settings#billing).
+<!-- country:CH -->
+## QR-Invoices {#qr-invoices}
+
+CSA Admin generates QR-invoices with reference numbers (PDF) and sends them to all emails of the concerned member.
+
+### QR-IBAN {#qr-iban}
+
+To generate these invoices, you need a **QR-IBAN** from your bank. This is a special IBAN (starting with CH and containing 30 or 31 as the bank clearing number) that is different from your regular bank account IBAN. Only the QR-IBAN allows generating Swiss QR-invoices with reference numbers — a normal IBAN is not supported for this purpose.
+
+You can request a QR-IBAN from your bank and then enter it in [your billing settings](/settings#billing).
+
+> If you're unsure whether you already have a QR-IBAN, check with your bank. The QR-IBAN is specifically tied to the QR-bill payment standard and cannot be replaced by your regular account IBAN.
+<!-- /country:CH -->
 
 ## Memberships {#memberships}
 
@@ -116,11 +128,24 @@ This redistribution mode is very convenient and thus allows managing cases where
 
 The most efficient way to process your payments is to ask your bank to set up [an EBICS connection](https://www.six-group.com/en/products-services/banking-services/standardization.html#scrollTo=ebics). This allows the system to automatically import (each night) payments of invoices with reference numbers from your members via the ISO camt.054 format.
 
+<!-- country:CH -->
 CSA Admin also manages automatic retrieval of payments from the [Alternative Bank Switzerland](https://www.bas.ch/en) which doesn't support the EBICS system.
+<!-- /country:CH -->
 
 > If you have questions about support for a particular bank or setting up EBICS, don't hesitate to [ask me](/support).
 
-### Manual import
+### Setting up EBICS {#ebics-setup}
+
+Setting up an EBICS connection with your bank involves several steps and typically takes a few days. Here is the process:
+
+1. **Request the EBICS registration form from your bank** — Contact your bank to ask them to activate an EBICS connection for your account with daily fetch and **camt.054** file support.
+2. **Send me the bank document** — Following your registration request, you will receive a document from your bank (containing the Participant ID, etc.), scan it and [send it to me](/support).
+3. **INI letter signing** — I will initialize the connection and send you back an INI letter. You must sign **pages 1 and 3** and send it to your bank.
+4. **Finalization** — Once your bank has received and validated the signed INI letter, I can finalize the connection.
+
+> In the meantime, you can use [manual import](#manual-import) to process your payments.
+
+### Manual import {#manual-import}
 
 When automatic import via [EBICS](https://www.six-group.com/en/products-services/banking-services/standardization.html#scrollTo=ebics) is not yet configured, you can easily import payments of invoices with reference numbers from your members by downloading a file in camt.053, camt.054, or mt940 format from your e-banking and uploading it to CSA Admin from [the payments page](/payments), "Import" section in the right column. Don't forget to repeat the operation regularly (every week) until the automatic import is in place.
 

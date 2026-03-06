@@ -39,7 +39,7 @@ module ActiveAdmin::HandbookHelper
 
       arbre.turbo_frame id: turbo_frame_id, target: "_top",
         data: { "handbook-search-target": "frame", action: "turbo:frame-load->handbook-search#resetSelection" } do
-        arbre.ul class: "space-y-2 text-base" do
+        arbre.ul class: "mt-6 space-y-2 text-base" do
           Handbook.all(binding).each do |handbook|
             next if handbook.restricted? && !current_admin.ultra?
 

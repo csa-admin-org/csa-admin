@@ -6,6 +6,7 @@ module Handbook::Search
   # Heading lines are plain text (no ERB), so regex is safe.
   H1_REGEX = /^#\s+(.+?)$/
   H2_REGEX = /^##\s+(.+?)\s*\{#([\w-]+)\}$/
+  H3_REGEX = /^###\s+(.+?)\s*\{#([\w-]+)\}$/
 
   SNIPPET_LENGTH = 120
   MAX_CONTENT_RESULTS = 10
@@ -75,7 +76,8 @@ module Handbook::Search
           next # One result per page — title match is best
         end
 
-        best_section_result = nil
+        heading_results = []
+        best_body_result = nil
 
         page[:sections].each do |section|
           heading_match = section[:normalized_heading] &&
@@ -84,7 +86,7 @@ module Handbook::Search
           body_match = terms.all? { |term| section[:normalized_text].include?(term) }
 
           if heading_match
-            candidate = {
+            heading_results << {
               name: page[:name],
               title: page[:title],
               heading: section[:heading],
@@ -92,11 +94,8 @@ module Handbook::Search
               snippet: build_snippet(section, terms),
               rank: 1
             }
-            if best_section_result.nil? || best_section_result[:rank] > 1
-              best_section_result = candidate
-            end
-          elsif body_match && best_section_result.nil?
-            best_section_result = {
+          elsif body_match && best_body_result.nil?
+            best_body_result = {
               name: page[:name],
               title: page[:title],
               heading: section[:heading],
@@ -107,7 +106,11 @@ module Handbook::Search
           end
         end
 
-        results << best_section_result if best_section_result
+        if heading_results.any?
+          results.concat(heading_results)
+        elsif best_body_result
+          results << best_body_result
+        end
       end
 
       results
@@ -116,10 +119,11 @@ module Handbook::Search
         .map { |r| r.except(:rank) }
     end
 
-    # Cached per locale; content is static (changes on deploy/restart).
+    # Cached per locale + country_code; content is static (changes on deploy/restart).
     def headings_for(locale)
       @headings ||= {}
-      @headings[locale.to_sym] ||= parse_headings(locale)
+      cache_key = :"#{locale}_#{Current.org.country_code}"
+      @headings[cache_key] ||= parse_headings(locale)
     end
 
     def clear_headings_cache!
@@ -128,7 +132,8 @@ module Handbook::Search
 
     def pages_for(locale)
       @pages ||= {}
-      @pages[locale.to_sym] ||= parse_pages(locale)
+      cache_key = :"#{locale}_#{Current.org.country_code}"
+      @pages[cache_key] ||= parse_pages(locale)
     end
 
     def clear_pages_cache!
@@ -142,11 +147,12 @@ module Handbook::Search
       Dir.glob(path).filter_map { |filepath|
         name = File.basename(filepath, ".#{locale}.md.erb")
         content = File.read(filepath)
+        content = Handbook.filter_country_sections(content)
 
         title = content[H1_REGEX, 1]
         next unless title
 
-        subtitles = content.scan(H2_REGEX).map { |text, anchor|
+        subtitles = (content.scan(H2_REGEX) + content.scan(H3_REGEX)).map { |text, anchor|
           [ text, anchor, SearchEntry.normalize_text(text) ]
         }
 
@@ -164,6 +170,7 @@ module Handbook::Search
       Dir.glob(path).filter_map { |filepath|
         name = File.basename(filepath, ".#{locale}.md.erb")
         content = File.read(filepath)
+        content = Handbook.filter_country_sections(content)
 
         title = content[H1_REGEX, 1]
         next unless title
@@ -188,7 +195,7 @@ module Handbook::Search
       content = content.sub(H1_REGEX, "").lstrip
 
       parts = content.split(/^(?=##\s)/)
-      parts.map { |part|
+      parts.flat_map { |part|
         heading_match = part.match(H2_REGEX)
         if heading_match
           heading = heading_match[1]
@@ -202,13 +209,26 @@ module Handbook::Search
 
         raw_text = clean_markdown(body)
 
-        {
+        h2_section = {
           heading: heading,
           anchor: anchor,
           normalized_heading: heading ? SearchEntry.normalize_text(heading) : nil,
           raw_text: raw_text,
           normalized_text: SearchEntry.normalize_text(raw_text)
         }
+
+        # Extract H3 sub-sections so they are individually searchable
+        h3_sections = body.scan(H3_REGEX).map { |h3_text, h3_anchor|
+          {
+            heading: h3_text,
+            anchor: h3_anchor,
+            normalized_heading: SearchEntry.normalize_text(h3_text),
+            raw_text: raw_text,
+            normalized_text: SearchEntry.normalize_text(raw_text)
+          }
+        }
+
+        [ h2_section ] + h3_sections
       }
     end
 

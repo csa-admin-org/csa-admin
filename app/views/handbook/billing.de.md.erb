@@ -2,7 +2,19 @@
 
 CSA Admin zielt darauf ab, die meisten Aufgaben im Zusammenhang mit der Abrechnung ([Abonnements](#memberships), [Anteilskapital](#share-capital), [Zahlungsverarbeitung](#payments)) zu automatisieren, aber einige Aspekte wie die Abrechnung von [nicht durchgeführten <%= activities_human_name %>](#activity) müssen manuell durchgeführt werden.
 
-Für die Schweiz generiert CSA Admin QR-Rechnungen mit Referenznummern (PDF) und sendet sie an alle E-Mail-Adressen des betreffenden Mitglieds. Um diese Rechnungen generieren zu können, müssen Sie eine QR-IBAN von Ihrer Bank anfordern. Beachten Sie, dass diese Nummer sich von der IBAN Ihres Bankkontos unterscheidet. Sie können sie dann in [Ihren Abrechnungseinstellungen](/settings#billing) eingeben.
+<!-- country:CH -->
+## QR-Rechnungen {#qr-invoices}
+
+CSA Admin generiert QR-Rechnungen mit Referenznummern (PDF) und sendet sie an alle E-Mail-Adressen des betreffenden Mitglieds.
+
+### QR-IBAN {#qr-iban}
+
+Um diese Rechnungen generieren zu können, benötigen Sie eine **QR-IBAN** von Ihrer Bank. Dies ist eine spezielle IBAN (beginnend mit CH und mit 30 oder 31 als Bank-Clearing-Nummer), die sich von der IBAN Ihres regulären Bankkontos unterscheidet. Nur die QR-IBAN ermöglicht die Erstellung von Schweizer QR-Rechnungen mit Referenznummern — eine normale IBAN wird für diesen Zweck nicht unterstützt.
+
+Sie können eine QR-IBAN bei Ihrer Bank anfordern und diese dann in [Ihren Abrechnungseinstellungen](/settings#billing) eingeben.
+
+> Wenn Sie sich nicht sicher sind, ob Sie bereits eine QR-IBAN haben, erkundigen Sie sich bei Ihrer Bank. Die QR-IBAN ist spezifisch an den QR-Rechnungsstandard gebunden und kann nicht durch Ihre reguläre Konto-IBAN ersetzt werden.
+<!-- /country:CH -->
 
 ## Abonnements {#memberships}
 
@@ -116,11 +128,24 @@ Dieser Umverteilungsmodus ist sehr praktisch und ermöglicht es so, Fälle zu ve
 
 Die effizienteste Methode zur Verarbeitung Ihrer Zahlungen besteht darin, Ihre Bank zu bitten, [eine EBICS-Verbindung](https://www.six-group.com/de/products-services/banking-services/standardization.html#scrollTo=ebics) einzurichten. Dies ermöglicht es dem System, Zahlungen von Rechnungen mit Referenznummern Ihrer Mitglieder automatisch (jede Nacht) über das ISO camt.054-Format zu importieren.
 
+<!-- country:CH -->
 CSA Admin verwaltet auch den automatischen Abruf von Zahlungen der [Alternativen Bank Schweiz](https://www.bas.ch/de), die das EBICS-System nicht unterstützt.
+<!-- /country:CH -->
 
 > Wenn Sie Fragen zur Förderung einer bestimmten Bank oder zur Einrichtung von EBICS haben, zögern Sie nicht, [mich zu fragen](/support).
 
-### Manueller Import
+### Einrichtung von EBICS {#ebics-setup}
+
+Die Einrichtung einer EBICS-Verbindung mit Ihrer Bank umfasst mehrere Schritte und dauert in der Regel einige Tage. Hier ist der Ablauf:
+
+1. **EBICS-Anmeldeformular bei Ihrer Bank anfordern** — Kontaktieren Sie Ihre Bank, um sie zu bitten, eine EBICS-Verbindung für Ihr Konto mit täglichem Abruf und Unterstützung des **camt.054**-Formats zu aktivieren.
+2. **Mir das Bankdokument senden** — Nach Ihrer Anmeldung erhalten Sie ein Dokument von Ihrer Bank (mit der Teilnehmer-ID usw.), scannen Sie es und [senden Sie es mir](/support).
+3. **Unterzeichnung des INI-Briefs** — Ich werde die Verbindung initialisieren und Ihnen einen INI-Brief zurücksenden. Sie müssen ihn unterschreiben (**Seiten 1 und 3**) und an Ihre Bank senden.
+4. **Finalisierung** — Sobald Ihre Bank den unterschriebenen INI-Brief erhalten und validiert hat, kann ich die Verbindung finalisieren.
+
+> In der Zwischenzeit können Sie den [manuellen Import](#manual-import) verwenden, um Ihre Zahlungen zu verarbeiten.
+
+### Manueller Import {#manual-import}
 
 Wenn der automatische Import über [EBICS](https://www.six-group.com/de/products-services/banking-services/standardization.html#scrollTo=ebics) noch nicht konfiguriert ist, können Sie Zahlungen von Rechnungen mit Referenznummern Ihrer Mitglieder einfach importieren, indem Sie eine Datei im camt.053-, camt.054- oder mt940-Format von Ihrem E-Banking herunterladen und in CSA Admin von [der Zahlungsseite](/payments) aus hochladen, Abschnitt "Import" in der rechten Spalte. Vergessen Sie nicht, den Vorgang regelmäßig (jede Woche) zu wiederholen, bis der automatische Import eingerichtet ist.
 

@@ -2,7 +2,19 @@
 
 CSA Admin mira ad automatizzare la maggior parte dei compiti relativi alla fatturazione ([abbonamenti](#memberships), [quote sociali](#share-capital), [elaborazione dei pagamenti](#payments)), ma alcuni aspetti come la fatturazione delle [<%= activities_human_name %> non effettuate](#activity) devono essere eseguiti manualmente.
 
-Per la Svizzera, CSA Admin genera fatture-QR con numero di riferimento (PDF) e le invia a tutte le email del socio interessato. Per poter generare queste fatture, dovete richiedere un QR-IBAN alla vostra banca, attenzione questo numero è diverso dall'IBAN del vostro conto bancario. Potete poi inserirlo nelle [vostre impostazioni di fatturazione](/settings#billing).
+<!-- country:CH -->
+## Fatture-QR {#qr-invoices}
+
+CSA Admin genera fatture-QR con numero di riferimento (PDF) e le invia a tutte le email del socio interessato.
+
+### QR-IBAN {#qr-iban}
+
+Per poter generare queste fatture, avete bisogno di un **QR-IBAN** dalla vostra banca. Si tratta di un IBAN speciale (che inizia con CH e contiene 30 o 31 come numero di clearing bancario) diverso dall'IBAN del vostro conto bancario abituale. Solo il QR-IBAN permette di generare fatture-QR svizzere con numero di riferimento — un IBAN normale non è supportato a questo scopo.
+
+Potete richiedere un QR-IBAN alla vostra banca e poi inserirlo nelle [vostre impostazioni di fatturazione](/settings#billing).
+
+> Se non siete sicuri di avere già un QR-IBAN, verificate con la vostra banca. Il QR-IBAN è specificamente legato allo standard di pagamento QR-fattura e non può essere sostituito dall'IBAN del vostro conto abituale.
+<!-- /country:CH -->
 
 ## Abbonamenti {#memberships}
 
@@ -116,11 +128,24 @@ Questa modalità di ridistribuzione è molto comoda e permette così di gestire 
 
 Il modo più efficiente per elaborare i vostri pagamenti è chiedere alla vostra banca di impostare [una connessione EBICS](https://www.six-group.com/it/products-services/banking-services/standardization.html#scrollTo=ebics). Questo permette al sistema di importare automaticamente (ogni notte) i pagamenti delle fatture con numero di riferimento dei vostri soci tramite il formato ISO camt.054.
 
+<!-- country:CH -->
 CSA Admin gestisce anche il recupero automatico dei pagamenti della [Banca Alternativa Svizzera](https://www.bas.ch/it) che non supporta il sistema EBICS.
+<!-- /country:CH -->
 
 > Se avete domande riguardanti il supporto di una banca in particolare o l'impostazione di EBICS, non esitate a [chiedermelo](/support).
 
-### Importazione manuale
+### Impostazione di EBICS {#ebics-setup}
+
+L'impostazione di una connessione EBICS con la vostra banca comprende diverse fasi e richiede generalmente alcuni giorni. Ecco il processo:
+
+1. **Richiedere il modulo di iscrizione EBICS alla vostra banca** — Contattate la vostra banca per chiedere di attivare una connessione EBICS per il vostro conto con recupero giornaliero e supporto del formato **camt.054**.
+2. **Inviarmi il documento della banca** — In seguito alla vostra richiesta di iscrizione, riceverete un documento dalla vostra banca (contenente l'identificativo del partecipante, ecc.), scannerizzatelo e [inviatelo a me](/support).
+3. **Firma della lettera INI** — Inizializzerò la connessione e vi restituirò una lettera INI. Dovrete firmarla (**pagine 1 e 3**) e inviarla alla vostra banca.
+4. **Finalizzazione** — Una volta che la vostra banca ha ricevuto e convalidato la lettera INI firmata, potrò finalizzare la connessione.
+
+> Nel frattempo, potete utilizzare [l'importazione manuale](#manual-import) per elaborare i vostri pagamenti.
+
+### Importazione manuale {#manual-import}
 
 Quando l'importazione automatica tramite [EBICS](https://www.six-group.com/it/products-services/banking-services/standardization.html#scrollTo=ebics) non è ancora configurata, potete facilmente importare i pagamenti delle fatture con numero di riferimento dei vostri soci scaricando un file in formato camt.053, camt.054 o mt940 dal vostro e-banking e caricandolo in CSA Admin dalla [pagina dei pagamenti](/payments), sezione "Importazione" nella colonna di destra. Non dimenticate di ripetere l'operazione regolarmente (ogni settimana) fino a quando l'''importazione automatica non sarà in atto.
 

@@ -61,7 +61,7 @@ Template files use language suffixes: `invoice_created.en.liquid`, `invoice_crea
 
 **Two-phase process:**
 1. During development, only add `_en` and `_fr` translations (if significant only)
-2. Once finalized, add `_de`, `_it`, `_nl` translations (on request)
+2. Once finalized, add `_de`, `_it`, `_nl` translations (automatically for .yml file, on request for templates)
 
 ## GDPR & Member Privacy
 

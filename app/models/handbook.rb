@@ -13,11 +13,17 @@ require "nokogiri"
 #      with regex to extract headings. No ERB rendering needed because
 #      h1/h2 lines are plain text. Results are cached per locale
 #      (invalidated on app restart).
+#
+# Country-specific content:
+#   Wrap sections with <!-- country:XX --> / <!-- /country:XX --> markers.
+#   These blocks are stripped for non-matching orgs in both rendering and search.
 class Handbook
   include Comparable
   include Search
 
   DIR_PATH = "app/views/handbook"
+
+  COUNTRY_SECTION_REGEX = /<!-- country:(\w+) -->\n?(.*?)<!-- \/country:\1 -->\n?/m
 
   attr_reader :name
 
@@ -27,6 +33,12 @@ class Handbook
       name = File.basename(path, ".#{locale}.md.erb")
       new(name, context, locale)
     }.sort
+  end
+
+  def self.filter_country_sections(text, country_code = Current.org.country_code)
+    text.gsub(COUNTRY_SECTION_REGEX) do
+      $1 == country_code ? $2 : ""
+    end
   end
 
   def initialize(name, context, locale = I18n.locale)
@@ -42,6 +54,7 @@ class Handbook
   def body
     @body ||= begin
       body = File.read(filepath)
+      body = self.class.filter_country_sections(body)
       result = ERB.new(body).result(@context)
       Kramdown::Document.new(result).to_html.html_safe
     end

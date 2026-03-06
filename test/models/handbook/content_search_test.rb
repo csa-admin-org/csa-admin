@@ -11,19 +11,19 @@ class HandbookContentSearchTest < ActiveSupport::TestCase
   # -- Content matching --
 
   test "content_search finds term in page body that is not in any heading" do
-    # "EBICS" appears in the billing page body (payments section) but not in any h1/h2
-    results = Handbook.content_search("ebics", locale: :en)
+    # "camt.054" appears in the billing page body but not in any heading
+    results = Handbook.content_search("camt.054", locale: :en)
 
     match = results.find { |r| r[:name] == "billing" }
-    assert match, "Expected a content match for 'ebics' in billing page"
+    assert match, "Expected a content match for 'camt.054' in billing page"
     assert match[:snippet].present?, "Expected a snippet for the match"
   end
 
   test "content_search returns snippet containing surrounding context" do
-    results = Handbook.content_search("ebics", locale: :en)
+    results = Handbook.content_search("camt.054", locale: :en)
 
     match = results.find { |r| r[:name] == "billing" }
-    assert match, "Expected a match for 'ebics'"
+    assert match, "Expected a match for 'camt.054'"
     # Snippet should be around SNIPPET_LENGTH chars
     assert match[:snippet].length <= 150, # allow for ellipsis
       "Snippet should be approximately #{Handbook::Search::SNIPPET_LENGTH} chars, got #{match[:snippet].length}"
@@ -47,6 +47,38 @@ class HandbookContentSearchTest < ActiveSupport::TestCase
     assert match, "Expected a heading match for 'delivery cycles'"
     assert_equal "Delivery cycles", match[:heading]
     assert_equal "Deliveries", match[:title]
+  end
+
+  # -- H3 heading matching --
+
+  test "content_search finds H3 heading with anchor as heading match" do
+    results = Handbook.content_search("setting up ebics", locale: :en)
+
+    match = results.find { |r| r[:name] == "billing" && r[:anchor] == "ebics-setup" }
+    assert match, "Expected a heading match for H3 'Setting up EBICS'"
+    assert_equal "Setting up EBICS", match[:heading]
+    assert_equal "Billing", match[:title]
+  end
+
+  test "content_search finds H3 heading match in French" do
+    results = Handbook.content_search("mise en place ebics", locale: :fr)
+
+    match = results.find { |r| r[:name] == "billing" && r[:anchor] == "ebics-setup" }
+    assert match, "Expected a heading match for H3 'Mise en place d'EBICS' in French"
+  end
+
+  test "content_search finds H3 heading for manual import" do
+    results = Handbook.content_search("manual import", locale: :en)
+
+    match = results.find { |r| r[:name] == "billing" && r[:anchor] == "manual-import" }
+    assert match, "Expected a heading match for H3 'Manual import'"
+  end
+
+  test "content_search finds H3 heading for trial baskets" do
+    results = Handbook.content_search("trial baskets", locale: :en)
+
+    match = results.find { |r| r[:name] == "billing" && r[:anchor] == "trial-baskets" }
+    assert match, "Expected a heading match for H3 'Trial baskets'"
   end
 
   # -- Accent-insensitive matching --
@@ -172,14 +204,35 @@ class HandbookContentSearchTest < ActiveSupport::TestCase
       "Expected at most #{Handbook::Search::MAX_CONTENT_RESULTS} results, got #{results.size}"
   end
 
-  # -- One result per page --
+  # -- Multiple heading matches per page --
 
-  test "content_search returns at most one result per page" do
+  test "content_search returns multiple heading matches from same page" do
+    results = Handbook.content_search("importation", locale: :fr)
+
+    billing_results = results.select { |r| r[:name] == "billing" }
+    assert billing_results.size >= 2,
+      "Expected at least 2 heading matches for 'importation' in billing page, got #{billing_results.size}"
+
+    anchors = billing_results.map { |r| r[:anchor] }
+    assert_includes anchors, "automatic_payments_processing"
+    assert_includes anchors, "manual-import"
+  end
+
+  test "content_search returns one result per page for title match" do
     results = Handbook.content_search("billing", locale: :en)
 
-    page_names = results.map { |r| r[:name] }
-    assert_equal page_names.uniq.size, page_names.size,
-      "Expected at most one result per page, got duplicates: #{page_names.tally.select { |_, v| v > 1 }}"
+    billing_results = results.select { |r| r[:name] == "billing" }
+    assert_equal 1, billing_results.size,
+      "Expected exactly one result for title match, got #{billing_results.size}"
+    assert_nil billing_results.first[:heading], "Title match should have nil heading"
+  end
+
+  test "content_search returns one result per page for body-only match" do
+    results = Handbook.content_search("camt.054", locale: :en)
+
+    billing_results = results.select { |r| r[:name] == "billing" }
+    assert_equal 1, billing_results.size,
+      "Expected exactly one body-only result per page, got #{billing_results.size}"
   end
 
   # -- ERB stripping --
@@ -293,5 +346,93 @@ class HandbookContentSearchTest < ActiveSupport::TestCase
     subsequent = billing[:sections][1..]
     assert subsequent.all? { |s| s[:heading].present? },
       "Expected all subsequent sections to have headings"
+  end
+
+  # -- Country-specific sections --
+
+  test "content_search finds QR-IBAN content for CH org" do
+    assert_equal "CH", Current.org.country_code
+
+    results = Handbook.content_search("QR-IBAN", locale: :en)
+
+    match = results.find { |r| r[:name] == "billing" }
+    assert match, "Expected a content match for 'QR-IBAN' in billing page for CH org"
+  end
+
+  test "content_search excludes QR-IBAN content for non-CH org" do
+    Current.org.update_column(:country_code, "DE")
+    Handbook.clear_pages_cache!
+
+    results = Handbook.content_search("QR-IBAN", locale: :en)
+
+    match = results.find { |r| r[:name] == "billing" }
+    assert_nil match, "Expected no 'QR-IBAN' content match for DE org"
+  ensure
+    Current.org.update_column(:country_code, "CH")
+  end
+
+  test "content_search finds Alternative Bank content for CH org" do
+    assert_equal "CH", Current.org.country_code
+
+    results = Handbook.content_search("Alternative Bank", locale: :en)
+
+    match = results.find { |r| r[:name] == "billing" }
+    assert match, "Expected a content match for 'Alternative Bank' in billing page for CH org"
+  end
+
+  test "content_search excludes Alternative Bank content for non-CH org" do
+    Current.org.update_column(:country_code, "FR")
+    Handbook.clear_pages_cache!
+
+    results = Handbook.content_search("Alternative Bank", locale: :en)
+
+    match = results.find { |r| r[:name] == "billing" }
+    assert_nil match, "Expected no 'Alternative Bank' content match for FR org"
+  ensure
+    Current.org.update_column(:country_code, "CH")
+  end
+
+  test "content_search still finds shared content regardless of country" do
+    results = Handbook.content_search("overdue notice", locale: :en)
+    match = results.find { |r| r[:name] == "billing" }
+    assert match, "Expected 'overdue notice' match for CH org"
+
+    Current.org.update_column(:country_code, "DE")
+    Handbook.clear_pages_cache!
+
+    results = Handbook.content_search("overdue notice", locale: :en)
+    match = results.find { |r| r[:name] == "billing" }
+    assert match, "Expected 'overdue notice' match for DE org too"
+  ensure
+    Current.org.update_column(:country_code, "CH")
+  end
+
+  test "pages_for caches separately per country code" do
+    Handbook.pages_for(:en)
+
+    Current.org.update_column(:country_code, "DE")
+    Handbook.pages_for(:en)
+
+    en_ch = Handbook.instance_variable_get(:@pages)[:"en_CH"]
+    en_de = Handbook.instance_variable_get(:@pages)[:"en_DE"]
+
+    assert en_ch, "Expected cached pages for en_CH"
+    assert en_de, "Expected cached pages for en_DE"
+    refute_same en_ch, en_de, "Expected different objects for different country codes"
+  ensure
+    Current.org.update_column(:country_code, "CH")
+  end
+
+  test "pages_for strips country markers from searchable text" do
+    pages = Handbook.pages_for(:en)
+
+    pages.each do |page|
+      page[:sections].each do |section|
+        assert_not_includes section[:raw_text], "<!-- country:",
+          "Expected no country markers in raw_text for page '#{page[:name]}'"
+        assert_not_includes section[:raw_text], "<!-- /country:",
+          "Expected no country closing markers in raw_text for page '#{page[:name]}'"
+      end
+    end
   end
 end

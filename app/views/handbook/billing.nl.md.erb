@@ -2,7 +2,19 @@
 
 CSA Admin heeft als doel om de meeste taken gerelateerd aan facturering te automatiseren ([lidmaatschappen](#memberships), [aandelenkapitaal](#share-capital), [betalingsverwerking](#payments)), maar sommige aspecten zoals facturering voor [niet voltooide <%= activities_human_name %>](#activity) moeten handmatig worden uitgevoerd.
 
-Voor Zwitserland genereert CSA Admin QR-facturen met referentienummers (PDF) en stuurt deze naar alle e-mailadressen van het betreffende lid. Om deze facturen te kunnen genereren, moet u een QR-IBAN aanvragen bij uw bank, let op dat dit nummer verschilt van uw bankrekening IBAN. U kunt het dan invoeren in [uw factureringsinstellingen](/settings#billing).
+<!-- country:CH -->
+## QR-facturen {#qr-invoices}
+
+CSA Admin genereert QR-facturen met referentienummers (PDF) en stuurt deze naar alle e-mailadressen van het betreffende lid.
+
+### QR-IBAN {#qr-iban}
+
+Om deze facturen te kunnen genereren, heeft u een **QR-IBAN** van uw bank nodig. Dit is een speciaal IBAN (beginnend met CH en met 30 of 31 als bank clearing nummer) dat verschilt van uw gewone bankrekening IBAN. Alleen het QR-IBAN maakt het mogelijk om Zwitserse QR-facturen met referentienummers te genereren — een normaal IBAN wordt hiervoor niet ondersteund.
+
+U kunt een QR-IBAN aanvragen bij uw bank en dit dan invoeren in [uw factureringsinstellingen](/settings#billing).
+
+> Als u niet zeker weet of u al een QR-IBAN heeft, neem dan contact op met uw bank. Het QR-IBAN is specifiek gekoppeld aan de QR-factuur betalingsstandaard en kan niet worden vervangen door uw gewone rekening IBAN.
+<!-- /country:CH -->
 
 ## Lidmaatschappen {#memberships}
 
@@ -116,11 +128,24 @@ Deze herverdelingsmodus is zeer handig en maakt het mogelijk om gevallen te behe
 
 De meest efficiënte manier om uw betalingen te verwerken is om uw bank te vragen een [EBICS-verbinding](https://www.six-group.com/en/products-services/banking-services/standardization.html#scrollTo=ebics) in te stellen. Dit stelt het systeem in staat om automatisch (elke nacht) betalingen van facturen met referentienummers van uw leden te importeren via het ISO camt.054 formaat.
 
+<!-- country:CH -->
 CSA Admin beheert ook automatische ophaling van betalingen van de [Alternative Bank Switzerland](https://www.bas.ch/en) die het EBICS-systeem niet ondersteunt.
+<!-- /country:CH -->
 
 > Als u vragen heeft over ondersteuning voor een bepaalde bank of het instellen van EBICS, aarzel niet om [mij te vragen](/support).
 
-### Handmatige import
+### EBICS instellen {#ebics-setup}
+
+Het instellen van een EBICS-verbinding met uw bank omvat verschillende stappen en duurt doorgaans enkele dagen. Hier is het proces:
+
+1. **Het EBICS-inschrijfformulier aanvragen bij uw bank** — Neem contact op met uw bank om hen te vragen een EBICS-verbinding te activeren voor uw rekening met dagelijkse ophaling en ondersteuning van het **camt.054** formaat.
+2. **Stuur mij het bankdocument** — Na uw inschrijvingsaanvraag ontvangt u een document van uw bank (met het deelnemer-ID, enz.), scan het en [stuur het naar mij](/support).
+3. **Ondertekening van de INI-brief** — Ik zal de verbinding initialiseren en u een INI-brief terugsturen. U dient deze te ondertekenen (**pagina's 1 en 3**) en naar uw bank te sturen.
+4. **Afronding** — Zodra uw bank de ondertekende INI-brief heeft ontvangen en gevalideerd, kan ik de verbinding afronden.
+
+> In de tussentijd kunt u [handmatige import](#manual-import) gebruiken om uw betalingen te verwerken.
+
+### Handmatige import {#manual-import}
 
 Wanneer automatische import via [EBICS](https://www.six-group.com/en/products-services/banking-services/standardization.html#scrollTo=ebics) nog niet is geconfigureerd, kunt u eenvoudig betalingen van facturen met referentienummers van uw leden importeren door een bestand in camt.053, camt.054 of mt940 formaat te downloaden van uw e-banking en dit te uploaden naar CSA Admin vanaf [de betalingenpagina](/payments), sectie "Import" in de rechterkolom. Vergeet niet om de bewerking regelmatig te herhalen (elke week) totdat de automatische import is ingevoerd.
 

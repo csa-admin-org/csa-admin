@@ -64,6 +64,38 @@ class HandbookSearchTest < ActiveSupport::TestCase
     assert_equal "membership_renewal", match[:name]
   end
 
+  # -- H3 heading matching --
+
+  test "search finds H3 heading with anchor as subtitle match" do
+    results = Handbook.search("setting up ebics", locale: :en)
+
+    match = results.find { |r| r[:name] == "billing" && r[:anchor] == "ebics-setup" }
+    assert match, "Expected a subtitle match for H3 'Setting up EBICS'"
+    assert_equal "Setting up EBICS", match[:subtitle]
+    assert_equal "Billing", match[:page_title]
+  end
+
+  test "search finds H3 heading for manual import" do
+    results = Handbook.search("manual import", locale: :en)
+
+    match = results.find { |r| r[:name] == "billing" && r[:anchor] == "manual-import" }
+    assert match, "Expected a subtitle match for H3 'Manual import'"
+  end
+
+  test "search finds H3 heading for trial baskets" do
+    results = Handbook.search("trial baskets", locale: :en)
+
+    match = results.find { |r| r[:name] == "billing" && r[:anchor] == "trial-baskets" }
+    assert match, "Expected a subtitle match for H3 'Trial baskets'"
+  end
+
+  test "search finds H3 heading in French" do
+    results = Handbook.search("mise en place ebics", locale: :fr)
+
+    match = results.find { |r| r[:name] == "billing" && r[:anchor] == "ebics-setup" }
+    assert match, "Expected a subtitle match for H3 'Mise en place d'EBICS' in French"
+  end
+
   test "search matches when terms span title and subtitle" do
     # "bill member" → "bill" in title "Billing", "member" in subtitle "Memberships"
     results = Handbook.search("bill member", locale: :en)
@@ -313,5 +345,81 @@ class HandbookSearchTest < ActiveSupport::TestCase
     title_match = results.find { |r| r[:name] == "billing" && r[:subtitle].nil? }
     assert_nil title_match,
       "Expected no French title match for English word 'Billing'"
+  end
+
+  # -- Country-specific sections --
+
+  test "search includes CH subtitle when org country is CH" do
+    assert_equal "CH", Current.org.country_code
+
+    results = Handbook.search("qr-invoices", locale: :en)
+
+    match = results.find { |r| r[:name] == "billing" && r[:anchor] == "qr-invoices" }
+    assert match, "Expected to find 'QR-Invoices' subtitle for CH org"
+  end
+
+  test "search excludes CH subtitle when org country is not CH" do
+    Current.org.update_column(:country_code, "DE")
+    Handbook.clear_headings_cache!
+
+    results = Handbook.search("qr-invoices", locale: :en)
+
+    match = results.find { |r| r[:name] == "billing" && r[:anchor] == "qr-invoices" }
+    assert_nil match, "Expected no 'QR-Invoices' subtitle for DE org"
+  ensure
+    Current.org.update_column(:country_code, "CH")
+  end
+
+  test "search includes billing payments subtitle for CH org in getting started" do
+    assert_equal "CH", Current.org.country_code
+
+    results = Handbook.search("billing payments", locale: :en)
+
+    match = results.find { |r| r[:name] == "getting_started" && r[:anchor] == "billing-payments" }
+    assert match, "Expected to find 'Billing & Payments' subtitle for CH org"
+  end
+
+  test "search includes billing payments subtitle for non-CH org in getting started" do
+    Current.org.update_column(:country_code, "FR")
+    Handbook.clear_headings_cache!
+
+    results = Handbook.search("billing payments", locale: :en)
+
+    match = results.find { |r| r[:name] == "getting_started" && r[:anchor] == "billing-payments" }
+    assert match, "Expected 'Billing & Payments' subtitle for FR org (shared heading)"
+  ensure
+    Current.org.update_column(:country_code, "CH")
+  end
+
+  test "headings_for caches separately per country code" do
+    Handbook.headings_for(:en)
+
+    Current.org.update_column(:country_code, "DE")
+    Handbook.headings_for(:en)
+
+    # Should have two cached entries (en_CH and en_DE)
+    en_ch = Handbook.instance_variable_get(:@headings)[:"en_CH"]
+    en_de = Handbook.instance_variable_get(:@headings)[:"en_DE"]
+
+    assert en_ch, "Expected cached headings for en_CH"
+    assert en_de, "Expected cached headings for en_DE"
+    refute_same en_ch, en_de, "Expected different objects for different country codes"
+  ensure
+    Current.org.update_column(:country_code, "CH")
+  end
+
+  test "search still finds shared subtitles regardless of country" do
+    results_ch = Handbook.search("memberships", locale: :en)
+    match_ch = results_ch.find { |r| r[:name] == "billing" && r[:anchor] == "memberships" }
+    assert match_ch, "Expected 'Memberships' subtitle for CH org"
+
+    Current.org.update_column(:country_code, "DE")
+    Handbook.clear_headings_cache!
+
+    results_de = Handbook.search("memberships", locale: :en)
+    match_de = results_de.find { |r| r[:name] == "billing" && r[:anchor] == "memberships" }
+    assert match_de, "Expected 'Memberships' subtitle for DE org too"
+  ensure
+    Current.org.update_column(:country_code, "CH")
   end
 end
