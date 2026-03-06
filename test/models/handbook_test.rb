@@ -165,4 +165,50 @@ class HandbookTest < ActiveSupport::TestCase
     assert_includes de_result, "Before."
     assert_includes de_result, "After."
   end
+
+  test "filter_country_sections negation keeps content for non-matching country" do
+    text = <<~MD
+      Intro.
+
+      <!-- country:!CH -->
+      Non-Swiss content.
+      <!-- /country:!CH -->
+
+      Outro.
+    MD
+
+    de_result = Handbook.filter_country_sections(text, "DE")
+    assert_includes de_result, "Non-Swiss content."
+    assert_includes de_result, "Intro."
+    assert_includes de_result, "Outro."
+
+    ch_result = Handbook.filter_country_sections(text, "CH")
+    assert_not_includes ch_result, "Non-Swiss content."
+    assert_includes ch_result, "Intro."
+    assert_includes ch_result, "Outro."
+  end
+
+  test "filter_country_sections negation combined with positive block" do
+    text = <<~MD
+      <!-- country:CH -->
+      Swiss only.
+      <!-- /country:CH -->
+
+      <!-- country:!CH -->
+      Everyone except Swiss.
+      <!-- /country:!CH -->
+    MD
+
+    ch_result = Handbook.filter_country_sections(text, "CH")
+    assert_includes ch_result, "Swiss only."
+    assert_not_includes ch_result, "Everyone except Swiss."
+
+    de_result = Handbook.filter_country_sections(text, "DE")
+    assert_not_includes de_result, "Swiss only."
+    assert_includes de_result, "Everyone except Swiss."
+
+    nl_result = Handbook.filter_country_sections(text, "NL")
+    assert_not_includes nl_result, "Swiss only."
+    assert_includes nl_result, "Everyone except Swiss."
+  end
 end

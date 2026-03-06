@@ -23,7 +23,7 @@ class Handbook
 
   DIR_PATH = "app/views/handbook"
 
-  COUNTRY_SECTION_REGEX = /<!-- country:(\w+) -->\n?(.*?)<!-- \/country:\1 -->\n?/m
+  COUNTRY_SECTION_REGEX = /<!-- country:(!?\w+) -->\n?(.*?)<!-- \/country:\1 -->\n?/m
 
   attr_reader :name
 
@@ -37,7 +37,12 @@ class Handbook
 
   def self.filter_country_sections(text, country_code = Current.org.country_code)
     text.gsub(COUNTRY_SECTION_REGEX) do
-      $1 == country_code ? $2 : ""
+      code = $1
+      if code.start_with?("!")
+        code.delete_prefix("!") != country_code ? $2 : ""
+      else
+        code == country_code ? $2 : ""
+      end
     end
   end
 

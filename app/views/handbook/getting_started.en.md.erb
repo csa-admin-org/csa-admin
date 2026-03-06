@@ -1,63 +1,55 @@
 # Getting Started
 
-Welcome! This guide presents the first steps to set up CSA Admin and prepare [your registration form](<%= new_members_member_url(subdomain: Current.org.members_subdomain) %>). Let's get started!
+Welcome! This guide will help you set up CSA Admin and get [your registration form](<%= new_members_member_url(subdomain: Current.org.members_subdomain) %>) ready to welcome new members. Let's get started!
 
-## 1. Settings {#settings}
+## 1. Invite Other Admins {#inviting-other-admins}
 
-Taking a tour through [the settings](/settings) is a good way to discover the various available configurations. You can start by filling out [the general settings](/settings), those concerning [emails](/settings#mail), as well as certain aspects of [billing](/settings#billing), for example, the first month of your fiscal year, payment intervals offered to your members, or the number of [trial baskets](/handbook/billing#trial-baskets)... If some points haven't been decided yet, no problem, you can define them later.
+Setting up your organization is easier as a team! You can [invite other admins](/admins/new) right away. An email will be sent to them so they can connect and join you.
 
-Some [settings specific to the registration form](/settings#registration) are also available, but they are all optional.
+[Specific access permissions](/permissions) can be configured if needed.
 
 ## 2. Deliveries {#deliveries}
 
-[Delivery dates](/deliveries) are an essential element, as their number determines the price of your annual memberships (deliveries * price of basket size). Deliveries are therefore required to be able to [create memberships](/memberships/new).
+Start by [creating your delivery dates](/deliveries) for the upcoming fiscal year. The number of deliveries determines the price of memberships, so they're required before you can create anything else.
 
-[A manual page](/handbook/deliveries) concerning them is available, with a section on [delivery cycles](/handbook/deliveries#delivery-cycles).
+[A handbook page](/handbook/deliveries) is available with more details, including a section on [delivery cycles](/handbook/deliveries#delivery-cycles).
 
-> Even if you're not certain about the dates, make sure to have the correct number of deliveries for the upcoming fiscal year so that the prices displayed in the registration form are correct. You can always modify these dates later.
+> Don't worry if the exact dates aren't finalized yet. Just make sure you have the right number of deliveries so that prices are correct on the registration form. You can always adjust the dates later.
 
 ## 3. Basket Sizes {#basket-sizes}
 
-Basket sizes determine the type of membership (small, large, ...) offered to your members. It's also possible to have certain sizes not visible in the form and thus only applicable by an admin.
-
-Depending on [the additional features activated in the settings](/settings#organization_features_input), it's also possible to define a different number of half-day work shifts or share capital for each basket size.
+Next, [create your basket sizes](/basket_sizes) (e.g. small, large). These define the types of memberships your members can choose from.
 
 ## 4. Basket Complements (optional) {#basket-complements}
 
-[Basket complements](/basket_complements) are, for example, a bread, cheese, eggs subscription... added to the basic basket membership. These complements are exclusively available for members with a membership.
-
-The price of a complement, like that of the basket size, is set by default based on the number of deliveries in the membership, but it's also possible to define a fixed annual price that won't depend on the number of deliveries.
-
-Each complement can also be delivered on specific deliveries, for example only during the winter period or every other week.
+[Basket complements](/basket_complements) are optional add-ons like bread, cheese, or eggs that members can subscribe to alongside their basket. Each complement can be delivered on specific deliveries, for example only during the winter period or every other week.
 
 ## 5. Depots {#depots}
 
-[Depots](/depots) represent the locations where members can go to pick up their baskets. You need at least one to be able to create memberships.
+[Create at least one depot](/depots), the pickup locations where members collect their baskets.
 
-A price can also be defined for each depot, for example to represent additional basket preparation or delivery costs. This will then be automatically taken into account when billing memberships.
-
-> In the "contact" section of the depot, you can define a list of emails that will automatically receive, the day before each delivery, the signature sheet (PDF) and the Excel summary concerning them.
+A price can also be set per depot to cover extra preparation or delivery costs. It will be automatically included when billing memberships.
 
 ## 6. Registration Form {#registration-form}
 
-Now that your deliveries, basket sizes, and depots are configured, it's a good time to check out the [registration form handbook page](/handbook/registration). It covers how each setting affects the form and shares tips on keeping text concise, organizing depots, and configuring display order.
+Now that your deliveries, basket sizes, and depots are configured, your [registration form](<%= new_members_member_url(subdomain: Current.org.members_subdomain) %>) should be taking shape and soon be ready to welcome new members!
 
-## 7. Email Templates {#email-templates}
+Check out the [registration form handbook page](/handbook/registration) to learn how each setting affects the form and find tips on fine-tuning it.
 
-You can take a look at the [email templates section](/mail_templates) and perhaps modify their content. You also have the possibility to modify and activate [a welcome email for newly validated registrations](/mail_templates/member_validated) or another when [the last trial basket of a membership is delivered](/mail_templates/membership_last_trial_basket).
-
-## 8. Billing & Payments {#billing-payments}
+## 7. Billing & Payments {#billing-payments}
 
 <!-- country:CH -->
 To generate QR-invoices, you need a [QR-IBAN](/handbook/billing#qr-iban) from your bank. This is different from your regular IBAN and is required for Swiss QR-invoices with reference numbers. Request one from your bank as soon as possible and enter it in [your billing settings](/settings#billing).
 <!-- /country:CH -->
 
+<!-- country:!CH -->
+To generate invoices, make sure to enter your IBAN in [your billing settings](/settings#billing). If you use SEPA direct debit, you'll also need to configure your creditor identifier there.
+<!-- /country:!CH -->
+
 For automatic payment import, you'll want to [set up an EBICS connection](/handbook/billing#ebics-setup) with your bank. This process takes a few days, so it's worth starting early. In the meantime, you can [manually import](/handbook/billing#manual-import) payment files from your e-banking.
 
 For more details on all billing-related topics, check out the [billing handbook page](/handbook/billing).
 
-## 9. Inviting Other Admins {#inviting-other-admins}
+---
 
-Finally, you have the possibility to [invite other admins](/admins/new), an email will then be automatically sent to them so they can connect and join you!
-
-[Specific access permissions](/permissions) can be configured if needed.
+That's it for the essentials! The rest you can discover as you go. Each section of the [handbook](/handbook) covers a specific topic in detail. If you have any questions, don't hesitate to [contact me](mailto:info@csa-admin.org). Happy setting up! 🙌🏻

@@ -1,63 +1,55 @@
 # Premiers pas
 
-Bienvenue, ce guide présente les premiers éléments à mettre en place pour bien démarrer avec CSA Admin et préparer [votre formulaire d'inscription](<%= new_members_member_url(subdomain: Current.org.members_subdomain) %>). C'est parti!
+Bienvenue! Ce guide va vous aider à configurer CSA Admin et préparer [votre formulaire d'inscription](<%= new_members_member_url(subdomain: Current.org.members_subdomain) %>) pour accueillir de nouveaux membres. C'est parti!
 
-## 1. Paramètres {#settings}
+## 1. Inviter d'autres admins {#inviting-other-admins}
 
-Faire un tour dans [les paramètres](/settings) est un bon moyen de découvrir les différents réglages disponibles. Vous pouvez commencer par remplir [les paramètres généraux](/settings), ceux concernant [les emails](/settings#mail), ainsi que certains aspects de [la facturation](/settings#billing), par exemple le 1er mois de votre année fiscale, les intervalles de paiements offerts à vos membres ou encore le nombre de [paniers à l'essai](/handbook/billing#trial-baskets)... Si certains points ne sont pas encore décidés, pas de problème, vous pourrez les définir plus tard.
+Configurer votre organisation, c'est plus facile à plusieurs! Vous pouvez [inviter d'autres admins](/admins/new) dès maintenant. Un email leur sera automatiquement envoyé afin qu'elles/ils puissent se connecter et vous rejoindre.
 
-Certains [paramètres spécifiques au formulaire d'inscription](/settings#registration) sont également disponibles, mais ils sont tous optionnels.
+[Des permissions d'accès spécifiques](/permissions) peuvent être configurées au besoin.
 
 ## 2. Livraisons {#deliveries}
 
-[Les dates de livraisons](/deliveries) sont un élément essentiel, car c'est leur nombre qui détermine le prix de vos abonnements à l'année (livraisons * prix de la taille du panier). Les livraisons sont de ce fait requises pour pouvoir [créer les abonnements](/memberships/new).
+Commencez par [créer vos dates de livraisons](/deliveries) pour l'année fiscale à venir. C'est leur nombre qui détermine le prix des abonnements, et elles sont requises avant de pouvoir créer quoi que ce soit d'autre.
 
-[Une page du manuel](/handbook/deliveries) les concernant est disponible, avec une section sur [les cycles de livraisons](/handbook/deliveries#delivery-cycles).
+[Une page du manuel](/handbook/deliveries) est disponible avec plus de détails, y compris une section sur [les cycles de livraisons](/handbook/deliveries#delivery-cycles).
 
-> Même si vous n'êtes pas certain des dates, faites quand même en sorte d'avoir le bon nombre de livraisons pour l'année fiscale à venir afin que les prix affichés dans le formulaire d'inscription soient les bons. Vous pourrez toujours modifier ces dates par la suite.
+> Pas de souci si les dates exactes ne sont pas encore fixées. Assurez-vous simplement d'avoir le bon nombre de livraisons pour que les prix affichés dans le formulaire d'inscription soient corrects. Vous pourrez toujours ajuster les dates par la suite.
 
 ## 3. Tailles de panier {#basket-sizes}
 
-Les tailles de panier déterminent le type d'abonnement (petit, grand, ...) proposé à vos membres. Il est en plus possible d'avoir certaines tailles non visibles dans le formulaire et donc uniquement applicable par un admin.
-
-Selon [les fonctionnalités supplémentaires activées dans les paramètres](/settings#organization_features_input), il est aussi possible de définir un nombre de ½ journées de travail ou de parts sociales différentes pour chaque taille de panier.
+Ensuite, [créez vos tailles de panier](/basket_sizes) (par ex. petit, grand). Elles définissent les types d'abonnements que vos membres pourront choisir.
 
 ## 4. Compléments de panier (optionnel) {#basket-complements}
 
-[Les compléments de panier](/basket_complements) sont par exemple un abonnement de pain, fromage, œufs, ... ajouté à l'abonnement de base du panier. Ces compléments sont exclusivement disponibles pour les membres avec un abonnement.
-
-Le prix d'un complément est, comme celui de la taille de panier, défini par défaut en fonction du nombre de livraisons de l'abonnement, mais il est également possible de définir un prix fixe par an qui ainsi ne dépendra pas du nombre de livraisons.
-
-Chaque complément peut par ailleurs être livré à certaines livraisons spécifiques, par exemple seulement durant la période hivernale ou une semaine sur deux.
+[Les compléments de panier](/basket_complements) sont des extras optionnels comme du pain, du fromage ou des œufs auxquels les membres peuvent s'abonner en plus de leur panier. Chaque complément peut être livré à certaines livraisons spécifiques, par exemple seulement durant la période hivernale ou une semaine sur deux.
 
 ## 5. Dépôts {#depots}
 
-[Les dépôts](/depots) représentent les lieux où les membres peuvent se rendre pour récupérer leurs paniers. Il en faut au minimum un pour pouvoir créer des abonnements.
+[Créez au moins un dépôt](/depots), les lieux de retrait où les membres viennent chercher leurs paniers.
 
-Un prix peut aussi être défini pour chaque dépôt, par exemple pour représenter des coûts de préparation ou de livraison du panier supplémentaires. Celui-ci sera alors automatiquement pris en compte lors de la facturation des abonnements.
-
-> Dans la section "contact" du dépôt, vous pouvez définir une liste d'emails qui recevront alors automatiquement, le jour précédent chaque livraison, la fiche de signature (PDF) et le récapitulatif Excel les concernant.
+Un prix peut aussi être défini par dépôt pour couvrir des coûts de préparation ou de livraison supplémentaires. Il sera alors automatiquement pris en compte lors de la facturation des abonnements.
 
 ## 6. Formulaire d'inscription {#registration-form}
 
-Maintenant que vos livraisons, tailles de panier et dépôts sont configurés, c'est le bon moment pour consulter la [page du manuel sur le formulaire d'inscription](/handbook/registration). Elle explique comment chaque réglage affecte le formulaire et partage des conseils pour garder les textes concis, organiser les dépôts et configurer l'ordre d'affichage.
+Maintenant que vos livraisons, tailles de panier et dépôts sont configurés, votre [formulaire d'inscription](<%= new_members_member_url(subdomain: Current.org.members_subdomain) %>) devrait prendre forme et bientôt être prêt à accueillir de nouveaux membres!
 
-## 7. Templates Email {#email-templates}
+Consultez la [page du manuel sur le formulaire d'inscription](/handbook/registration) pour découvrir comment chaque réglage affecte le formulaire et trouver des conseils pour le peaufiner.
 
-Vous pouvez jeter un coup d'œil à la [section des templates d'email](/mail_templates) et peut–être modifier le contenu de ceux-ci. Vous avez également la possibilité de modifier et activer [un email de bienvenue aux nouvelles inscriptions validées](/mail_templates/member_validated) ou encore un autre quand [le dernier panier à l'essai d'un abonnement est livré](/mail_templates/membership_last_trial_basket).
-
-## 8. Facturation & Paiements {#billing-payments}
+## 7. Facturation & Paiements {#billing-payments}
 
 <!-- country:CH -->
 Pour générer des factures-QR, il vous faut un [QR-IBAN](/handbook/billing#qr-iban) de votre banque. Celui-ci est différent de votre IBAN habituel et est requis pour les factures-QR suisses avec numéro de référence. Demandez-en un à votre banque dès que possible et entrez-le dans [vos paramètres de facturation](/settings#billing).
 <!-- /country:CH -->
 
+<!-- country:!CH -->
+Pour générer des factures, assurez-vous de saisir votre IBAN dans [vos paramètres de facturation](/settings#billing). Si vous utilisez le prélèvement SEPA, vous devrez également y configurer votre identifiant créancier.
+<!-- /country:!CH -->
+
 Pour l'importation automatique des paiements, vous voudrez [mettre en place une connexion EBICS](/handbook/billing#ebics-setup) avec votre banque. Ce processus prend quelques jours, il vaut donc la peine de commencer tôt. En attendant, vous pouvez [importer manuellement](/handbook/billing#manual-import) les fichiers de paiement depuis votre e-banking.
 
 Pour plus de détails sur tous les sujets liés à la facturation, consultez la [page du manuel sur la facturation](/handbook/billing).
 
-## 9. Inviter d'autres admins {#inviting-other-admins}
+---
 
-Pour finir, vous avez la possibilité [d'inviter d'autres admins](/admins/new), un email leur sera alors automatiquement envoyé afin qu'elle/il puisse se connecter et vous rejoindre!
-
-[Des permissions d'accès spécifiques](/permissions) peuvent être configurées au besoin.
+Voilà pour l'essentiel! Le reste se découvre au fil de l'eau. Chaque section du [manuel](/handbook) couvre un sujet spécifique en détail. Si vous avez des questions, n'hésitez pas à [me contacter](mailto:info@csa-admin.org). Bon démarrage! 🙌🏻
