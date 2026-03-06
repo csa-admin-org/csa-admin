@@ -157,6 +157,41 @@ Für Zahlungen ohne Referenznummer (Bargeld oder direkte Einzahlung) müssen Sie
 
 Wenn Sie ein Mitglied aus irgendeinem Grund zurückerstatten möchten, erstellen Sie einfach eine neue Zahlung mit einem negativen Betrag. Beachten Sie, dass die Rückerstattung von Ihnen beispielsweise über Ihr E-Banking durchgeführt werden muss, da CSA Admin keine Überweisung erstellen kann.
 
+<!-- country:!CH -->
+## SEPA-Lastschrift {#sepa}
+
+CSA Admin unterstützt das SEPA-Lastschriftverfahren zur Einziehung von Zahlungen Ihrer Mitglieder. Standardmäßig enthalten Rechnungen einen [EPC-QR-Code](https://de.wikipedia.org/wiki/EPC-QR-Code), den Mitglieder zum Bezahlen scannen können. Wenn ein Mitglied SEPA-Informationen hinterlegt hat (IBAN, Mandatsreferenz und Unterschriftsdatum), werden seine Rechnungen stattdessen als SEPA-Rechnungen gekennzeichnet und die Zahlung wird per Lastschrift direkt von seinem Bankkonto eingezogen.
+
+### Einrichtung {#sepa-setup}
+
+Um die SEPA-Lastschrift zu nutzen, müssen Sie folgendes in [Ihren Abrechnungseinstellungen](/settings#billing) konfigurieren:
+
+- **IBAN** — Die IBAN des Bankkontos Ihrer Organisation.
+- **Gläubiger-Identifikationsnummer** — Ihre SEPA-Gläubiger-ID (z.B. `DE98ZZZ09999999999`), die Sie bei Ihrer Bank oder der Deutschen Bundesbank erhalten können.
+
+Sie können außerdem einen eigenen **Informationstext (SEPA)** in [den Abrechnungseinstellungen](/settings#billing) festlegen, der auf SEPA-Rechnungen anstelle des Standard-Informationstextes angezeigt wird (z.B. «Der Betrag wird per SEPA-Lastschrift eingezogen.»).
+
+### SEPA-Informationen der Mitglieder {#sepa-member}
+
+Für jedes Mitglied, das die SEPA-Lastschrift nutzt, müssen Sie folgende Felder im Profil des Mitglieds unter dem Abschnitt «Abrechnung (SEPA)» ausfüllen:
+
+- **IBAN** — Die IBAN des Bankkontos des Mitglieds.
+- **Mandatsreferenz** — Eine eindeutige Kennung für das SEPA-Mandat.
+- **Datum der Mandatsunterschrift** — Das Datum, an dem das Mandat unterschrieben wurde.
+
+Mitglieder können ihre SEPA-Informationen auf ihrer Abrechnungsseite einsehen. Wenn alle drei Felder vorhanden sind, werden Rechnungen für dieses Mitglied als SEPA-Rechnungen gekennzeichnet. Mitglieder ohne SEPA-Informationen erhalten weiterhin Rechnungen mit einem EPC-QR-Code.
+
+### Verarbeitung der SEPA-Aufträge {#sepa-processing}
+
+Sobald eine SEPA-Rechnung erstellt und versendet wurde, muss ein SEPA-Lastschriftauftrag (pain.008 XML) bei Ihrer Bank eingereicht werden. Dafür gibt es zwei Möglichkeiten:
+
+**Mit einer EBICS-Verbindung** — Wenn Sie [eine EBICS-Verbindung](#ebics-setup) konfiguriert haben, werden SEPA-Lastschriftaufträge **automatisch** 3 Tage nach dem Versand der Rechnung an Ihre Bank übermittelt. Sie können die Übermittlung auch manuell von der Rechnungsseite aus auslösen, indem Sie auf die Schaltfläche «SEPA-Lastschriftauftrag an die Bank senden» klicken. Die Rechnungsseite zeigt die Auftrags-ID und das Upload-Datum an, sobald der Auftrag übermittelt wurde.
+
+**Ohne EBICS-Verbindung** — Wenn Sie keine EBICS-Verbindung haben, können Sie die **pain.xml-Datei manuell herunterladen** von der Rechnungsseite und sie selbst über das E-Banking-Portal Ihrer Bank hochladen. Ein Sammel-Download ist auch über die Seitenleiste der [Rechnungsseite](/invoices) verfügbar, mit dem Sie eine einzelne pain.xml-Datei für alle offenen SEPA-Rechnungen auf einmal herunterladen können.
+
+> SEPA-Rechnungen lösen keine Erinnerungen aus, da die Zahlungseinziehung von Ihnen (dem Gläubiger) und nicht vom Mitglied initiiert wird.
+<!-- /country:!CH -->
+
 ## Erinnerungen {#overdue_notice}
 
 Wenn Zahlungen automatisch importiert werden, kümmert sich das System automatisch darum, alle 35 Tage eine Erinnerungs-E-Mail an alle Mitglieder zu senden, die eine unbezahlte Rechnung haben, bis die Rechnung bezahlt ist (1. Erinnerung nach 35 Tagen, 2. Erinnerung nach 70 Tagen usw.).

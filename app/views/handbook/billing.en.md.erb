@@ -157,6 +157,41 @@ For payments without a reference number (cash or direct deposit), you simply nee
 
 If you wish to refund a member for any reason, simply create a new payment with a negative amount. Note that the refund must be made by you from your e-banking for example, as CSA Admin cannot create a transfer.
 
+<!-- country:!CH -->
+## SEPA Direct Debit {#sepa}
+
+CSA Admin supports SEPA direct debit for collecting payments from your members. By default, invoices include an [EPC QR code](https://en.wikipedia.org/wiki/EPC_QR_code) that members can scan to pay. When a member has SEPA information on file (IBAN, mandate ID, and signature date), their invoices are instead flagged as SEPA invoices and the payment is collected directly from their bank account via direct debit.
+
+### Setup {#sepa-setup}
+
+To use SEPA direct debit, you need to configure the following in [your billing settings](/settings#billing):
+
+- **IBAN** — Your organization's bank account IBAN.
+- **Creditor Identifier** — Your SEPA creditor identifier (e.g. `DE98ZZZ09999999999`), which you can obtain from your bank or national authority.
+
+You can also set a dedicated **Information text (SEPA)** in [the billing settings](/settings#billing) that will be displayed on SEPA invoices instead of the standard information text (e.g. "The amount will be collected via SEPA direct debit.").
+
+### Member SEPA information {#sepa-member}
+
+For each member using SEPA direct debit, you need to fill in the following fields in the member's profile under the "Billing (SEPA)" section:
+
+- **IBAN** — The member's bank account IBAN.
+- **Mandate ID** — A unique identifier for the SEPA mandate.
+- **Mandate signature date** — The date the mandate was signed.
+
+Members can view their SEPA information from their billing page. When all three fields are present, invoices created for that member will be flagged as SEPA invoices. Members without SEPA information will continue to receive invoices with an EPC QR code.
+
+### Processing SEPA orders {#sepa-processing}
+
+Once a SEPA invoice is created and sent, a SEPA direct debit order (pain.008 XML) needs to be submitted to your bank. There are two ways to do this:
+
+**With an EBICS connection** — If you have [an EBICS connection](#ebics-setup) configured, SEPA direct debit orders are **automatically uploaded** to your bank 3 days after the invoice is sent. You can also manually trigger the upload from an invoice's page by clicking the "Send SEPA direct debit order to the bank" button. The invoice page shows the order ID and upload date once the order has been submitted.
+
+**Without an EBICS connection** — If you don't have an EBICS connection, you can **download the pain.xml file** manually from an invoice's page and upload it yourself to your bank's e-banking portal. A bulk download is also available from [the invoices page](/invoices) sidebar, allowing you to download a single pain.xml file covering all open SEPA invoices at once.
+
+> SEPA invoices do not trigger overdue notices, since payment collection is initiated by you (the creditor) rather than the member.
+<!-- /country:!CH -->
+
 ## Overdue notice {#overdue_notice}
 
 When payments are imported automatically, the system automatically takes care of sending a reminder email to all members who have an unpaid invoice every 35 days, until the invoice is paid (1st reminder after 35 days, 2nd reminder after 70 days, etc.).

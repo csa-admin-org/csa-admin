@@ -157,6 +157,41 @@ Voor betalingen zonder referentienummer (contant geld of directe storting) hoeft
 
 Als u om welke reden dan ook een lid wilt terugbetalen, maakt u eenvoudig een nieuwe betaling aan met een negatief bedrag. Let op dat de terugbetaling door u moet worden gedaan vanuit bijvoorbeeld uw e-banking, aangezien CSA Admin geen overschrijving kan maken.
 
+<!-- country:!CH -->
+## SEPA-incasso {#sepa}
+
+CSA Admin ondersteunt SEPA-incasso voor het innen van betalingen van uw leden. Standaard bevatten facturen een [EPC-QR-code](https://nl.wikipedia.org/wiki/EPC_QR_code) die leden kunnen scannen om te betalen. Wanneer een lid SEPA-informatie heeft ingevuld (IBAN, mandaat-ID en handtekeningdatum), worden zijn facturen in plaats daarvan gemarkeerd als SEPA-facturen en wordt de betaling rechtstreeks via incasso van zijn bankrekening geïnd.
+
+### Instelling {#sepa-setup}
+
+Om SEPA-incasso te gebruiken, moet u het volgende configureren in [uw factureringsinstellingen](/settings#billing):
+
+- **IBAN** — Het IBAN van de bankrekening van uw organisatie.
+- **Crediteur-identificatie** — Uw SEPA-crediteur-identificatie (bijv. `DE98ZZZ09999999999`), die u kunt verkrijgen bij uw bank of de nationale autoriteit.
+
+U kunt ook een speciale **Informatietekst (SEPA)** instellen in [de factureringsinstellingen](/settings#billing) die op SEPA-facturen wordt weergegeven in plaats van de standaard informatietekst (bijv. «Het bedrag wordt via SEPA-incasso geïnd.»).
+
+### SEPA-informatie van leden {#sepa-member}
+
+Voor elk lid dat SEPA-incasso gebruikt, moet u de volgende velden invullen in het profiel van het lid onder de sectie «Facturering (SEPA)»:
+
+- **IBAN** — Het IBAN van de bankrekening van het lid.
+- **Mandaat-ID** — Een unieke identificatie voor het SEPA-mandaat.
+- **Datum mandaatondertekening** — De datum waarop het mandaat is ondertekend.
+
+Leden kunnen hun SEPA-informatie bekijken op hun factureringspagina. Wanneer alle drie velden aanwezig zijn, worden facturen voor dat lid gemarkeerd als SEPA-facturen. Leden zonder SEPA-informatie blijven facturen ontvangen met een EPC-QR-code.
+
+### Verwerking van SEPA-opdrachten {#sepa-processing}
+
+Zodra een SEPA-factuur is aangemaakt en verzonden, moet een SEPA-incasso-opdracht (pain.008 XML) bij uw bank worden ingediend. Er zijn twee manieren om dit te doen:
+
+**Met een EBICS-verbinding** — Als u [een EBICS-verbinding](#ebics-setup) heeft geconfigureerd, worden SEPA-incasso-opdrachten **automatisch geüpload** naar uw bank 3 dagen na het verzenden van de factuur. U kunt de upload ook handmatig activeren vanaf de pagina van een factuur door op de knop «SEPA-incasso-opdracht naar de bank sturen» te klikken. De factuurpagina toont het opdracht-ID en de uploaddatum zodra de opdracht is ingediend.
+
+**Zonder EBICS-verbinding** — Als u geen EBICS-verbinding heeft, kunt u het **pain.xml-bestand handmatig downloaden** vanaf de pagina van een factuur en het zelf uploaden naar het e-banking-portaal van uw bank. Een bulkdownload is ook beschikbaar via de zijbalk van [de facturenpagina](/invoices), waarmee u een enkel pain.xml-bestand kunt downloaden dat alle openstaande SEPA-facturen tegelijk omvat.
+
+> SEPA-facturen activeren geen betalingsherinneringen, aangezien de betalingsinning door u (de crediteur) wordt geïnitieerd en niet door het lid.
+<!-- /country:!CH -->
+
 ## Betalingsherinnering {#overdue_notice}
 
 Wanneer betalingen automatisch worden geïmporteerd, zorgt het systeem er automatisch voor dat elke 35 dagen een herinneringse-mail wordt verzonden naar alle leden die een onbetaalde factuur hebben, totdat de factuur is betaald (1e herinnering na 35 dagen, 2e herinnering na 70 dagen, enz.).

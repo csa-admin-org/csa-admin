@@ -155,6 +155,41 @@ Per i pagamenti senza numero di riferimento (contanti o versamento diretto), è 
 
 Se desiderate rimborsare un socio per qualsiasi motivo, è sufficiente creare un nuovo pagamento con un importo negativo. Notate che il rimborso deve essere effettuato da voi dal vostro e-banking per esempio, CSA Admin non può creare un versamento.
 
+<!-- country:!CH -->
+## Addebito diretto SEPA {#sepa}
+
+CSA Admin supporta l'addebito diretto SEPA per la riscossione dei pagamenti dai vostri soci. Per impostazione predefinita, le fatture includono un [codice QR EPC](https://it.wikipedia.org/wiki/EPC_QR_code) che i soci possono scansionare per pagare. Quando un socio ha le informazioni SEPA registrate (IBAN, identificativo del mandato e data di firma), le sue fatture vengono invece contrassegnate come fatture SEPA e il pagamento viene prelevato direttamente dal suo conto bancario tramite addebito diretto.
+
+### Configurazione {#sepa-setup}
+
+Per utilizzare l'addebito diretto SEPA, dovete configurare i seguenti elementi nelle [vostre impostazioni di fatturazione](/settings#billing):
+
+- **IBAN** — L'IBAN del conto bancario della vostra organizzazione.
+- **Identificativo creditore** — Il vostro identificativo creditore SEPA (ad es. `DE98ZZZ09999999999`), che potete ottenere dalla vostra banca o dall'autorità nazionale competente.
+
+Potete anche impostare un **Testo informativo (SEPA)** dedicato nelle [impostazioni di fatturazione](/settings#billing) che verrà visualizzato sulle fatture SEPA al posto del testo informativo standard (ad es. «L'importo sarà prelevato tramite addebito diretto SEPA.»).
+
+### Informazioni SEPA dei soci {#sepa-member}
+
+Per ogni socio che utilizza l'addebito diretto SEPA, dovete compilare i seguenti campi nel profilo del socio, sezione «Fatturazione (SEPA)»:
+
+- **IBAN** — L'IBAN del conto bancario del socio.
+- **Identificativo del mandato** — Un identificativo univoco per il mandato SEPA.
+- **Data di firma del mandato** — La data in cui il mandato è stato firmato.
+
+I soci possono consultare le loro informazioni SEPA dalla loro pagina di fatturazione. Quando tutti e tre i campi sono presenti, le fatture create per quel socio saranno contrassegnate come fatture SEPA. I soci senza informazioni SEPA continueranno a ricevere fatture con un codice QR EPC.
+
+### Elaborazione degli ordini SEPA {#sepa-processing}
+
+Una volta che una fattura SEPA è stata creata e inviata, un ordine di addebito diretto SEPA (XML pain.008) deve essere inviato alla vostra banca. Ci sono due modi per farlo:
+
+**Con una connessione EBICS** — Se avete [una connessione EBICS](#ebics-setup) configurata, gli ordini di addebito diretto SEPA vengono **inviati automaticamente** alla vostra banca 3 giorni dopo l'invio della fattura. Potete anche attivare manualmente l'invio dalla pagina di una fattura cliccando sul pulsante «Inviare l'ordine di addebito diretto SEPA alla banca». La pagina della fattura mostra l'identificativo dell'ordine e la data di invio una volta che l'ordine è stato trasmesso.
+
+**Senza connessione EBICS** — Se non avete una connessione EBICS, potete **scaricare il file pain.xml** manualmente dalla pagina di una fattura e trasmetterlo voi stessi tramite il portale e-banking della vostra banca. Un download collettivo è anche disponibile dalla barra laterale della [pagina delle fatture](/invoices), permettendo di scaricare un singolo file pain.xml che copre tutte le fatture SEPA aperte in una volta.
+
+> Le fatture SEPA non attivano promemoria, poiché la riscossione del pagamento è iniziata da voi (il creditore) e non dal socio.
+<!-- /country:!CH -->
+
 ## Promemoria {#overdue_notice}
 
 Quando i pagamenti vengono importati automaticamente, il sistema si occupa automaticamente di inviare un promemoria via email a tutti i soci che hanno una fattura non pagata ogni 35 giorni, fino a quando la fattura non viene pagata (1° promemoria dopo 35 giorni, 2° promemoria dopo 70 giorni, ecc.).

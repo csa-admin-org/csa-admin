@@ -156,6 +156,40 @@ Pour les paiements sans numéro de référence (liquide ou versement direct), il
 
 Si vous souhaitez rembourser un membre pour une raison quelconque, il suffit de créer un nouveau paiement avec un montant négatif. Noter que le remboursement doit bien être effectué par vos soins depuis votre e-banking par exemple, CSA Admin ne pouvant pas créer de versement.
 
+<!-- country:!CH -->
+## Prélèvement SEPA {#sepa}
+
+CSA Admin prend en charge le prélèvement SEPA pour collecter les paiements de vos membres. Par défaut, les factures incluent un [QR code EPC](https://fr.wikipedia.org/wiki/EPC_QR_code) que les membres peuvent scanner pour payer. Lorsqu'un membre dispose d'informations SEPA (IBAN, identifiant de mandat et date de signature), ses factures sont marquées comme factures SEPA et le paiement est prélevé directement depuis son compte bancaire par prélèvement.
+
+### Configuration {#sepa-setup}
+
+Pour utiliser le prélèvement SEPA, vous devez configurer les éléments suivants dans [vos paramètres de facturation](/settings#billing):
+
+- **IBAN** — L'IBAN du compte bancaire de votre organisation.
+- **Identifiant créancier** — Votre identifiant créancier SEPA (par ex. `DE98ZZZ09999999999`), que vous pouvez obtenir auprès de votre banque ou de l'autorité nationale compétente.
+
+Vous pouvez également définir un **Texte d'information (SEPA)** dédié dans [les paramètres de facturation](/settings#billing) qui sera affiché sur les factures SEPA à la place du texte d'information standard (par ex. «Le montant sera prélevé par prélèvement SEPA.»).
+
+### Informations SEPA des membres {#sepa-member}
+
+Pour chaque membre utilisant le prélèvement SEPA, vous devez remplir les champs suivants dans le profil du membre, section «Facturation (SEPA)»:
+
+- **IBAN** — L'IBAN du compte bancaire du membre.
+- **Identifiant de mandat** — Un identifiant unique pour le mandat SEPA.
+- **Date de signature du mandat** — La date à laquelle le mandat a été signé.
+
+Les membres peuvent consulter leurs informations SEPA depuis leur page de facturation. Lorsque les trois champs sont renseignés, les factures créées pour ce membre seront marquées comme factures SEPA. Les membres sans informations SEPA continueront de recevoir des factures avec un QR code EPC.
+
+### Traitement des ordres SEPA {#sepa-processing}
+
+Une fois qu'une facture SEPA est créée et envoyée, un ordre de prélèvement SEPA (XML pain.008) doit être soumis à votre banque. Il existe deux manières de procéder:
+
+**Avec une connexion EBICS** — Si vous avez [une connexion EBICS](#ebics-setup) configurée, les ordres de prélèvement SEPA sont **automatiquement envoyés** à votre banque 3 jours après l'envoi de la facture. Vous pouvez également déclencher manuellement l'envoi depuis la page d'une facture en cliquant sur le bouton «Envoyer l'ordre de prélèvement SEPA à la banque». La page de la facture affiche l'identifiant de l'ordre et la date d'envoi une fois l'ordre soumis.
+
+**Sans connexion EBICS** — Si vous n'avez pas de connexion EBICS, vous pouvez **télécharger le fichier pain.xml** manuellement depuis la page d'une facture et le transmettre vous-même via le portail e-banking de votre banque. Un téléchargement groupé est également disponible depuis la barre latérale de [la page des factures](/invoices), permettant de télécharger un seul fichier pain.xml couvrant toutes les factures SEPA ouvertes en une fois.
+
+> Les factures SEPA ne déclenchent pas de rappels, car la collecte du paiement est initiée par vous (le créancier) et non par le membre.
+<!-- /country:!CH -->
 
 ## Rappels {#overdue_notice}
 
