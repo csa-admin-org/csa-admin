@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require "test_helper"
+require "minitest/mock"
 
 class MailDelivery::EmailTest < ActiveSupport::TestCase
   test "has correct states" do
@@ -245,5 +246,37 @@ class MailDelivery::EmailTest < ActiveSupport::TestCase
 
     assert_not MailDelivery.exists?(delivery.id)
     assert_not MailDelivery::Email.exists?(email.id)
+  end
+
+  test "process! handles InvalidEmailRequestError by creating InvalidAddress suppression" do
+    member = members(:john)
+    delivery = MailDelivery.deliver!(
+      member: member, mailable: invoices(:annual_fee), action: "created")
+
+    email = delivery.emails.first
+    assert email.processing?
+
+    message = Struct.new(:subject, :body) {
+      def deliver_now
+        raise Postmark::InvalidEmailRequestError.new(300, "Invalid email", {})
+      end
+      def multipart? = false
+    }.new("Test", Struct.new(:decoded).new(""))
+
+    email.mail_delivery.stub(:build_message, message) do
+      email.process!
+    end
+
+    assert email.reload.suppressed?
+    assert_equal "not_delivered", delivery.reload.state
+
+    EmailSuppression::STREAM_IDS.each do |stream_id|
+      suppression = EmailSuppression.active.find_by(email: email.email, stream_id: stream_id)
+      assert suppression, "Expected suppression for #{stream_id}"
+      assert_equal "InvalidAddress", suppression.reason
+      assert_equal "Recipient", suppression.origin
+    end
+
+    assert_includes email.email_suppression_ids, EmailSuppression.active.find_by(email: email.email, stream_id: "outbound").id
   end
 end

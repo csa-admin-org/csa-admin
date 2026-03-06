@@ -67,6 +67,7 @@
     &[data-status="hard_bounce"],
     &[data-status="bounced"],
     &[data-status="spam_complaint"],
+    &[data-status="invalid_address"],
     &[data-status="no"],
     &[data-status="failed"],
     &[data-status="open"],

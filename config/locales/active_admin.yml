@@ -3519,6 +3519,12 @@ _:
         _de: inaktiv
         _it: inattivo
         _nl: inactief
+      invalid_address:
+        _en: invalid address
+        _fr: adresse invalide
+        _de: ungültige Adresse
+        _it: indirizzo non valido
+        _nl: ongeldig adres
       manual:
         _en: manual
         _fr: manuel

@@ -149,4 +149,41 @@ class EmailSuppressionTest < ActiveSupport::TestCase
 
     assert_equal 0, AdminMailer.deliveries.size
   end
+
+  test "InvalidAddress suppression is not unsuppressable" do
+    suppression = suppress!("outbound", "bad@email.com", "InvalidAddress", "Recipient")
+
+    assert suppression.active?
+    assert suppression.invalid_address?
+    assert_not suppression.unsuppressable?
+    assert_not_includes EmailSuppression.unsuppressable, suppression
+  end
+
+  test "InvalidAddress suppress! skips Postmark API" do
+    suppress!("outbound", "bad@email.com", "InvalidAddress", "Recipient")
+
+    assert_empty postmark_client.calls
+    assert EmailSuppression.active.exists?(email: "bad@email.com", reason: "InvalidAddress")
+  end
+
+  test "InvalidAddress unsuppress! is a no-op" do
+    suppression = suppress!("outbound", "bad@email.com", "InvalidAddress", "Recipient")
+
+    suppression.unsuppress!
+
+    assert suppression.active?, "InvalidAddress suppression should remain active"
+    assert_empty postmark_client.calls
+  end
+
+  test "notifies admins for InvalidAddress suppression" do
+    admin = admins(:ultra)
+    admin.update!(notifications: [ "new_email_suppression" ])
+    suppress!("outbound", "bad@email.com", "InvalidAddress", "Recipient")
+
+    perform_enqueued_jobs
+
+    assert_equal 1, AdminMailer.deliveries.size
+    mail = AdminMailer.deliveries.last
+    assert_equal "Email rejected (InvalidAddress)", mail.subject
+  end
 end

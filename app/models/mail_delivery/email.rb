@@ -42,6 +42,10 @@ class MailDelivery
       Scheduled::PostmarkSyncSuppressionsJob.perform_now
       suppressed!
       mail_delivery.store_preview_from!(message)
+    rescue Postmark::InvalidEmailRequestError
+      suppress_invalid_address!
+      suppressed!
+      mail_delivery.store_preview_from!(message)
     end
 
     def delivered!(at:, **attrs)
@@ -79,6 +83,17 @@ class MailDelivery
       update_columns(
         postmark_message_id: message["X-PM-Message-Id"]&.value,
         processed_at: Time.current)
+    end
+
+    def suppress_invalid_address!
+      EmailSuppression::STREAM_IDS.each do |stream_id|
+        EmailSuppression.suppress!(email, stream_id: stream_id,
+          reason: "InvalidAddress", origin: "Recipient")
+      end
+      suppressions = EmailSuppression.active.where(email: email).select(:id, :reason)
+      update_columns(
+        email_suppression_ids: suppressions.map(&:id),
+        email_suppression_reasons: suppressions.map(&:reason).uniq)
     end
 
     def check_email_suppressions

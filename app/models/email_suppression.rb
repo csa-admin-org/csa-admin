@@ -4,7 +4,7 @@ require "postmark_wrapper"
 
 class EmailSuppression < ApplicationRecord
   STREAM_IDS = %w[outbound broadcast]
-  REASONS = %w[HardBounce SpamComplaint ManualSuppression Forgotten]
+  REASONS = %w[HardBounce SpamComplaint ManualSuppression Forgotten InvalidAddress]
   ORIGINS = %w[Recipient Customer Admin Sync Mailchimp]
 
   normalizes :email, with: ->(email) { email.downcase.strip }
@@ -12,7 +12,7 @@ class EmailSuppression < ApplicationRecord
   scope :active, -> { where(unsuppressed_at: nil) }
   scope :outbound, -> { where(stream_id: "outbound") }
   scope :broadcast, -> { where(stream_id: "broadcast") }
-  scope :unsuppressable, -> { active.where.not(reason: "SpamComplaint") }
+  scope :unsuppressable, -> { active.where.not(reason: %w[SpamComplaint InvalidAddress]) }
 
   validates :email, presence: true
   validates :stream_id, presence: true, inclusion: { in: STREAM_IDS }
@@ -42,7 +42,9 @@ class EmailSuppression < ApplicationRecord
   def self.suppress!(email, stream_id:, **attrs)
     conditions = { email: email, stream_id: stream_id }
     unless active.exists?(conditions)
-      PostmarkWrapper.create_suppressions(stream_id, email.downcase)
+      unless attrs[:reason] == "InvalidAddress"
+        PostmarkWrapper.create_suppressions(stream_id, email.downcase)
+      end
       create!(conditions.merge(attrs))
     end
   end
@@ -60,7 +62,7 @@ class EmailSuppression < ApplicationRecord
   end
 
   def unsuppressable?
-    active? && !spam_complaint?
+    active? && !spam_complaint? && !invalid_address?
   end
 
   def owners
@@ -81,6 +83,10 @@ class EmailSuppression < ApplicationRecord
 
   def spam_complaint?
     reason == "SpamComplaint"
+  end
+
+  def invalid_address?
+    reason == "InvalidAddress"
   end
 
   private
