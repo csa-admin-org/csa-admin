@@ -2,6 +2,7 @@ import { Controller } from "@hotwired/stimulus"
 import { hide } from "components/utils"
 import { debounce } from "throttle-debounce"
 import { CodeJar } from "codejar"
+import { withLineNumbers } from "codejar-linenumbers"
 import Prism from "prismjs"
 
 window.Prism = Prism
@@ -44,14 +45,21 @@ export default class extends Controller {
       editor.innerHTML = Prism.highlight(code, grammar, mode)
     }
 
-    this.jar = CodeJar(editDiv, highlight, {
-      tab: "  ",
-      indentOn: /[{(\[]$/,
-      addClosing: true,
-      history: true,
-      catchTab: true,
-      preserveIdent: true
-    })
+    this.jar = CodeJar(
+      editDiv,
+      withLineNumbers(highlight, {
+        width: "45px",
+        backgroundColor: "transparent"
+      }),
+      {
+        tab: "  ",
+        indentOn: /[{(\[]$/,
+        addClosing: true,
+        history: true,
+        catchTab: true,
+        preserveIdent: true
+      }
+    )
 
     this.jar.updateCode(element.value)
 

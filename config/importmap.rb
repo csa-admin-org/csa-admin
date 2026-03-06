@@ -49,6 +49,7 @@ pin "prismjs", preload: false # @1.30.0
 pin "prismjs/components/prism-yaml", to: "prismjs--components--prism-yaml.js", preload: false
 pin "prismjs/components/prism-markup-templating", to: "prismjs--components--prism-markup-templating.js", preload: false
 pin "prismjs/components/prism-liquid", to: "prismjs--components--prism-liquid.js", preload: false
+pin "codejar-linenumbers", preload: false # @1.0.1
 # ActiveAdmin
 pin "@rails/ujs", to: "@rails--ujs.js", preload: false # @7.1.3
 pin_all_from File.join(`bundle show activeadmin`.strip, "app/javascript/active_admin"), under: "active_admin", preload: false

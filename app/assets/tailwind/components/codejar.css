@@ -22,6 +22,35 @@
   }
 
   /* ============================================
+     Line Numbers (codejar-linenumbers)
+     ============================================ */
+
+  .codejar-linenumbers-inner-wrap {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    overflow: hidden;
+  }
+
+  .codejar-linenumbers {
+    mix-blend-mode: initial;
+    height: 100%;
+    @apply border-r border-gray-200 dark:border-gray-600;
+  }
+
+  .codejar-linenumber {
+    position: relative;
+    top: 0;
+    color: theme(--color-gray-400) !important;
+    @apply pr-2 text-right select-none;
+  }
+
+  .dark .codejar-linenumber {
+    color: theme(--color-gray-500) !important;
+  }
+
+  /* ============================================
      GitHub Light Theme - Prism.js Token Colors
      ============================================ */
 
