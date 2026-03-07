@@ -517,7 +517,7 @@ _:
           _en: Leave blank for no annual fee. Setting an amount (even 0) gives the member support status.
           _fr: Laisser vide si aucune cotisation annuelle. Définir un montant (même 0) donne au membre le statut support.
           _de: Leer lassen, wenn kein Jahresbeitrag anfällt. Ein Betrag (auch 0) gibt dem Mitglied den Support-Status.
-          _it: Lasciare vuoto se non c'è nessuna quota annuale. Impostare un importo (anche 0) assegna al membro lo stato di supporto.
+          _it: Lasciare vuoto se non c'è nessuna quota annuale. Impostare un importo (anche 0) assegna al socio lo stato di supporto.
           _nl: Laat leeg als er geen jaarlijkse bijdrage is. Een bedrag instellen (zelfs 0) geeft het lid de supportstatus.
         billing_email:
           _en: If present, notification emails for new invoices and reminders will be sent to this address instead of the member's email(s).
