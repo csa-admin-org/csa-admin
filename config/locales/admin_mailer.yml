@@ -7,6 +7,13 @@ _:
         _de: Lieferungsliste vom %{date}
         _it: Lista di consegna del %{date}
         _nl: Leveringslijst van %{date}
+    demo_follow_up_email:
+      subject:
+        _en: How's it going with the demo?
+        _fr: Comment ça se passe avec la démo?
+        _de: Wie läuft es mit der Demo?
+        _it: Come va con la demo?
+        _nl: Hoe gaat het met de demo?
     depot_delivery_list_email:
       subject:
         _en: Delivery list of %{date} (%{depot})

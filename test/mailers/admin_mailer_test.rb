@@ -417,6 +417,56 @@ class AdminMailerTest < ActionMailer::TestCase
     end
   end
 
+  test "demo_follow_up_email" do
+    admin = Admin.new(
+      name: "Alice",
+      language: "en",
+      email: "alice@example.com")
+
+    Tenant.stub(:demo?, true) do
+      mail = AdminMailer.with(
+        admin: admin,
+        setup_handbook_url: "https://admin.csa-admin.org/handbook/setup"
+      ).demo_follow_up_email
+
+      assert_equal "How's it going with the demo?", mail.subject
+      assert_equal [ "alice@example.com" ], mail.to
+      assert_equal "admin-demo-follow-up", mail[:tag].to_s
+
+      body = mail.body.to_s
+      assert_includes body, "Hello Alice,"
+      assert_includes body, "exploration of the CSA Admin demo going"
+      assert_includes body, "https://admin.csa-admin.org/handbook/setup"
+      assert_includes body, "<a href=\"https://admin.csa-admin.org/handbook/setup\">Setup</a> handbook page"
+      assert_match %r{<p class="closing">Best regards,\n<br />Thibaud</p>}, body
+    end
+  end
+
+  test "demo_follow_up_notification_email" do
+    admin = Admin.new(
+      name: "Alice Johnson",
+      language: "en",
+      email: "alice@example.com")
+
+    with_env("ULTRA_ADMIN_EMAIL" => "info@csa-admin.org") do
+      Tenant.stub(:demo?, true) do
+        mail = AdminMailer.with(
+          admin: admin,
+          tenant: "demo-en"
+        ).demo_follow_up_notification_email
+
+        assert_equal "[Demo] Follow-up sent: Alice Johnson (alice@example.com)", mail.subject
+        assert_equal [ "info@csa-admin.org" ], mail.to
+        assert_equal "admin-demo-follow-up-notification", mail[:tag].to_s
+
+        body = mail.body.to_s
+        assert_includes body, "Alice Johnson"
+        assert_includes body, "alice@example.com"
+        assert_includes body, "demo-en"
+      end
+    end
+  end
+
   test "membership_trial_cancelation_email without note and annual fee" do
     travel_to "2024-01-01"
     org(trial_baskets_count: 2)

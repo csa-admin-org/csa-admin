@@ -73,6 +73,28 @@ class DemoMailInterceptorNotificationTest < ActiveSupport::TestCase
       assert message.perform_deliveries, "demo registration notification should be delivered in demo mode"
     end
   end
+
+  test "allows demo follow-up email in demo mode" do
+    with_tenant("demo-en") do
+      message = Mail.new(to: "prospect@example.com", from: "sender@example.com")
+      message[:tag] = "admin-demo-follow-up"
+
+      DemoMailInterceptor.delivering_email(message)
+
+      assert message.perform_deliveries, "demo follow-up email should be delivered in demo mode"
+    end
+  end
+
+  test "allows demo follow-up notification email in demo mode" do
+    with_tenant("demo-en") do
+      message = Mail.new(to: "admin@csa-admin.org", from: "sender@example.com")
+      message[:tag] = "admin-demo-follow-up-notification"
+
+      DemoMailInterceptor.delivering_email(message)
+
+      assert message.perform_deliveries, "demo follow-up notification should be delivered in demo mode"
+    end
+  end
 end
 
 class DemoMailInterceptorIntegrationTest < ActionMailer::TestCase

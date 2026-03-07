@@ -3,7 +3,8 @@
 module Scheduled
   class NotifierHourlyJob < BaseJob
     NOTIFICATIONS = [
-      Notification::AdminNewActivityParticipation
+      Notification::AdminNewActivityParticipation,
+      Notification::DemoFollowUp
     ].freeze
 
     def perform
