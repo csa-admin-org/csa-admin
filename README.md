@@ -6,56 +6,82 @@
 
 [![Tests](https://github.com/csa-admin-org/csa-admin/actions/workflows/tests.yml/badge.svg)](https://github.com/csa-admin-org/csa-admin/actions/workflows/tests.yml) [![Security](https://github.com/csa-admin-org/csa-admin/actions/workflows/security.yml/badge.svg)](https://github.com/csa-admin-org/csa-admin/actions/workflows/security.yml)
 
-Web application to manage CSA (Community Supported Agriculture), ACP (Agriculture Contractuelle de Proximité), or Solawi (Solidarische Landwirtschaft) organizations.
+CSA/ACP/Solawi Admin is a web application to manage Community Supported Agriculture organizations:
+- **CSA** (Community Supported Agriculture)
+- **ACP** (Agriculture Contractuelle de Proximité)
+- **Solawi** (Solidarische Landwirtschaft)
 
 Learn more on [csa-admin.org](https://csa-admin.org).
 
 ## Features
 
-Functions currently supported include:
-
 - Member management (status, contact information, etc.)
 - Membership management (basket size type, depot location, quantity, deliveries, etc.)
 - Basket complements (delivery frequency, quantity, etc.)
-- Online grocery store to allow members to order additional products
+- Online grocery store for additional product orders
 - Advanced delivery cycle management (every two weeks, winter/summer, etc.)
-- Basket content management (calculation of quantities according to harvests, price monitoring, etc.)
-- Automatic invoicing of memberships, creation and dispatch of invoices with reference numbers (QR-Code), automatic payment statements import from bank account (EBICS), overdue notice, etc.
-- Automatic invoicing of membership shares or annual fees
-- Activity participation management, with registration form for your members
+- Basket content management (harvest-based quantity calculations, price monitoring, etc.)
+- Bidding rounds for solidarity-based basket pricing (member pledges with min/max bounds)
+- Automatic invoicing:
+  - memberships
+  - membership shares / annual fees
+  - invoice dispatch with reference numbers (QR-Code, SEPA)
+  - automatic payment statement import from bank account (EBICS)
+  - overdue notices
+- Activity participation management with member registration forms
 - Advanced email and built-in newsletters system
-- Multi-language support (English/French/German/Italian)
-- And more... please [contact me](mailto:info@csa-admin.org) for a demo.
+- Multi-language support (**en, fr, de, it, nl**)
 
-Other features can be added as required, please [contact me](mailto:info@csa-admin.org) for more information.
+Need a demo or a specific feature? [Contact me](mailto:info@csa-admin.org).
 
 ## Organizations
 
-This application is currently used by [more than 30 organizations](https://csa-admin.org/#organizations) in Switzerland and Germany, and manages more than 100,000 basket deliveries per year.
+This application is currently used by [more than 30 organizations](https://csa-admin.org/#organizations) in Switzerland, Germany, and the Netherlands, and manages more than 140,000 basket deliveries per year.
 
-## Technical details
+## Technical overview
 
-- This application is built with Ruby on Rails and uses SQLite as databases.
-- Asynchronous jobs are handled by SolidQueue/ActiveJob and are backed by SQLite.
-- Transactional emails and newsletters are sent using the Postmark service.
+- Built with Ruby on Rails
+- Multi-tenant architecture:
+  - tenant resolved from request subdomain
+  - one isolated SQLite database per tenant
+- Asynchronous jobs handled by SolidQueue/ActiveJob (SQLite-backed)
+- Transactional emails and newsletters sent via Postmark
 
 ## Getting started
 
-- Clone the repository locally
-- Copy `config/tenant.yml.example` to `config/tenant.yml` and update your admin and members hostnames
-- Install dependencies, prepare and seed the database: `bin/setup`
-- Set up local subdomains (I recommend [puma-dev](https://github.com/puma/puma-dev)) to access [admin.my-domain.test](https://admin.my-domain.test) and [members.my-domain.test](https://members.my-domain.test)
-- Login to [the admin](https://admin.my-domain.test) with your email (e.g. `admin@my-domain.org`)
+1. Clone the repository
+2. Copy `config/tenant.yml.example` to `config/tenant.yml` and update your admin/member hostnames
+3. Install dependencies, prepare and seed databases:
 
-## Development and support
+   `bin/setup`
 
-- Thibaud Guillaume-Gentil ([info@csa-admin.org](mailto:info@csa-admin.org))
+4. Set up local subdomains (recommended: [puma-dev](https://github.com/puma/puma-dev)) to access:
+   - [admin.my-domain.test](https://admin.my-domain.test)
+   - [members.my-domain.test](https://members.my-domain.test)
 
-Don't hesitate to [contact me](mailto:info@csa-admin.org) for a demo or more information.
+5. Sign in to [the admin](https://admin.my-domain.test) with your email (for example `admin@my-domain.test`)
+
+## Development
+
+Useful commands:
+
+- Run all tests: `bin/rails test:all`
+- Check linting: `bin/rails lint:check`
+- Auto-fix linting issues: `bin/rails lint:autocorrect`
 
 ## Contributing
 
-I'm encouraging you to contribute to this project. Please [contact me](mailto:info@csa-admin.org) before starting to work on a feature or a bug fix.
+Contributions are welcome.
+
+Before starting substantial work (new feature, larger refactor), please [contact me](mailto:info@csa-admin.org) first so we can align on scope and implementation.
+
+For smaller fixes and improvements, feel free to open a pull request.
+
+## Support
+
+- Thibaud Guillaume-Gentil ([info@csa-admin.org](mailto:info@csa-admin.org))
+
+For demos, support, or custom feature requests, [contact me](mailto:info@csa-admin.org).
 
 ## License
 
