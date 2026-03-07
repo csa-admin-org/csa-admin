@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_02_25_160505) do
+ActiveRecord::Schema[8.1].define(version: 2026_03_07_153259) do
   create_table "absences", force: :cascade do |t|
     t.datetime "created_at"
     t.date "ended_on"
@@ -126,6 +126,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_25_160505) do
 
   create_table "admins", force: :cascade do |t|
     t.datetime "created_at"
+    t.datetime "demo_follow_up_sent_at"
     t.string "email", limit: 255, default: "", null: false
     t.string "language", default: "fr", null: false
     t.string "latest_update_read"
