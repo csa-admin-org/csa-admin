@@ -100,6 +100,9 @@ class AdminMailerTest < ActionMailer::TestCase
       ).invitation_email
 
       assert_equal "Invitation to the Acme", mail.subject
+
+      body = mail.body.to_s
+      assert_match %r{<p class="closing">Best regards,\n<br />Thibaud</p>}, body
     end
   end
 
@@ -363,6 +366,55 @@ class AdminMailerTest < ActionMailer::TestCase
     assert_includes body, "https://admin.acme.test/memberships/#{membership.id}"
     assert_includes body, "https://admin.acme.test/admins/#{admins(:ultra).id}/edit#notifications"
     assert_includes body, "Manage my notifications"
+  end
+
+  test "demo_registration_notification_email" do
+    admin = Admin.new(
+      name: "Alice Johnson",
+      language: "en",
+      email: "alice@example.com")
+
+    with_env("ULTRA_ADMIN_EMAIL" => "info@csa-admin.org") do
+      Tenant.stub(:demo?, true) do
+        mail = AdminMailer.with(
+          admin: admin,
+          note: "Green Valley CSA",
+          tenant: "demo-en"
+        ).demo_registration_notification_email
+
+        assert_equal "[Demo] New registration: Alice Johnson (alice@example.com)", mail.subject
+        assert_equal [ "info@csa-admin.org" ], mail.to
+        assert_equal "admin-demo-registration-notification", mail[:tag].to_s
+
+        body = mail.body.to_s
+        assert_includes body, "Alice Johnson"
+        assert_includes body, "alice@example.com"
+        assert_includes body, "Green Valley CSA"
+        assert_includes body, "demo-en"
+      end
+    end
+  end
+
+  test "demo_registration_notification_email without note" do
+    admin = Admin.new(
+      name: "Bob Smith",
+      language: "en",
+      email: "bob@example.com")
+
+    with_env("ULTRA_ADMIN_EMAIL" => "info@csa-admin.org") do
+      Tenant.stub(:demo?, true) do
+        mail = AdminMailer.with(
+          admin: admin,
+          note: nil,
+          tenant: "demo-en"
+        ).demo_registration_notification_email
+
+        body = mail.body.to_s
+        assert_includes body, "Bob Smith"
+        assert_includes body, "bob@example.com"
+        assert_not_includes body, "Note"
+      end
+    end
   end
 
   test "membership_trial_cancelation_email without note and annual fee" do

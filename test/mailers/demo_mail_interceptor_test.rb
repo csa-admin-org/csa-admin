@@ -62,6 +62,19 @@ class DemoMailInterceptorTest < ActiveSupport::TestCase
   end
 end
 
+class DemoMailInterceptorNotificationTest < ActiveSupport::TestCase
+  test "allows demo registration notification email in demo mode" do
+    with_tenant("demo-en") do
+      message = Mail.new(to: "admin@csa-admin.org", from: "sender@example.com")
+      message[:tag] = "admin-demo-registration-notification"
+
+      DemoMailInterceptor.delivering_email(message)
+
+      assert message.perform_deliveries, "demo registration notification should be delivered in demo mode"
+    end
+  end
+end
+
 class DemoMailInterceptorIntegrationTest < ActionMailer::TestCase
   test "blocks invoice emails in demo mode" do
     template = mail_templates(:invoice_created)

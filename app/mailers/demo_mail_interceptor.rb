@@ -3,6 +3,7 @@
 class DemoMailInterceptor
   ALLOWED_TAGS = %w[
     admin-invitation
+    admin-demo-registration-notification
     session-admin
   ].freeze
 

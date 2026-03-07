@@ -46,7 +46,7 @@ module Tenant
   DEMO_TENANT_PATTERN = /\Ademo-([a-z]{2})\z/
 
   def demo?
-    DEMO_TENANT_PATTERN.match?(current)
+    Thread.current[:_demo_mode] || DEMO_TENANT_PATTERN.match?(current)
   end
 
   def demo_tenants
@@ -54,7 +54,11 @@ module Tenant
   end
 
   def demo_language
-    current&.match(DEMO_TENANT_PATTERN)&.[](1)
+    if Thread.current[:_demo_mode]
+      Current.org.languages.first
+    else
+      current&.match(DEMO_TENANT_PATTERN)&.[](1)
+    end
   end
 
   def find_with_aliases(tenant)

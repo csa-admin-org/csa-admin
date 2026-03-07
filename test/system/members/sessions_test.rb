@@ -21,7 +21,7 @@ class Members::SessionsTest < ApplicationSystemTestCase
     assert_equal 1, SessionMailer.deliveries.size
 
     assert_equal "/login", current_path
-    assert_text "Thank you! An email has just been sent to you."
+    assert_text "Check your email! A login link has been sent to you."
 
     open_email("john@doe.com")
     current_email.click_link "Access my account"

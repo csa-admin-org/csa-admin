@@ -1,0 +1,30 @@
+<h1 class="mb-4 text-center text-2xl font-semibold md:text-3xl">
+  CSA Admin — <%= set_page_title t("demo.registrations.new.title") %>
+</h1>
+
+<div class="panel">
+  <div class="panel-body">
+    <p class="mt-2 px-2 text-sm text-gray-500">
+      <%= t("demo.registrations.new.description") %>
+    </p>
+
+    <%= semantic_form_for @registration, as: :demo_registration, url: demo_registrations_path do |f| %>
+      <ol class="list-none p-2">
+        <%= f.input :name, label: t("demo.registrations.new.name_input"), required: true %>
+        <%= f.input :email, label: t("demo.registrations.new.email_input"), required: true %>
+        <%= f.input :note, as: :text, label: t("demo.registrations.new.note_input"), required: false, input_html: { rows: 3, placeholder: t("demo.registrations.new.note_placeholder") } %>
+        <%= f.action :submit, label: t("demo.registrations.new.submit"), button_html: { value: t("demo.registrations.new.submit") }, wrapper_html: { class: "actions mt-2" } %>
+      </ol>
+    <% end %>
+  </div>
+</div>
+
+<div class="mt-8 flex flex-col items-center gap-2 text-sm text-gray-500">
+  <span>
+    <%= t("demo.registrations.new.already_have_account_html", login_path: login_path) %>
+  </span>
+
+  <span>
+    <%= t("demo.registrations.new.learn_more_html", website_url: csa_admin_website_url) %>
+  </span>
+</div>

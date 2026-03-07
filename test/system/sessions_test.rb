@@ -21,7 +21,7 @@ class SessionsTest < ApplicationSystemTestCase
     assert_equal 1, SessionMailer.deliveries.size
 
     assert_equal "/login", current_path
-    assert_equal "Thank you! An email has just been sent to you.", flash_notice
+    assert_equal "Check your email! A login link has been sent to you.", flash_notice
 
     open_email("info@csa-admin.org")
     current_email.click_link "Access my admin account"

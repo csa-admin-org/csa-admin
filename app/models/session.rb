@@ -57,8 +57,8 @@ class Session < ApplicationRecord
   end
 
   def request=(request)
-    self[:remote_addr] = request.remote_addr
-    self[:user_agent] = request.env.fetch("HTTP_USER_AGENT", "-")
+    self[:remote_addr] = request&.remote_addr || "127.0.0.1"
+    self[:user_agent] = request&.env&.dig("HTTP_USER_AGENT") || "-"
   end
 
   def expires_at

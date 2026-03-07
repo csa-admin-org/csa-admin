@@ -11,6 +11,8 @@ module HasName
       unscope(:order).order_by_name(dir)
     }
 
+    normalizes :name, with: ->(name) { name&.strip }
+
     validates :name, presence: true
   end
 end

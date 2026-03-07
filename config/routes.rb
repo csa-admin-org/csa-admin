@@ -15,6 +15,9 @@ Rails.application.routes.draw do
     get "/login" => "sessions#new", as: :login
     delete "/logout" => "sessions#destroy", as: :logout
 
+    resources :demo_registrations, only: %i[new create],
+      controller: "demo/registrations", path: "demo"
+
     resources :email_suppressions, only: :destroy
 
     get "search" => "search#index", as: :search

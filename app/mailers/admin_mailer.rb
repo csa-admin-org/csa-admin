@@ -64,6 +64,7 @@ class AdminMailer < ApplicationMailer
         "action_url" => params[:action_url],
         "demo" => Tenant.demo?)
       subject_key = Tenant.demo? ? ".subject_demo" : ".subject"
+      @signature = "#{I18n.t("organization.default_email_signature")}\nThibaud" if Tenant.demo?
       content_mail(content,
         to: admin.email,
         subject: t(subject_key, org: Current.org.name),
@@ -196,6 +197,24 @@ class AdminMailer < ApplicationMailer
         to: @admin.email,
         subject: t(".subject"),
         tag: "admin-membership-trial-cancelation")
+    end
+  end
+
+  def demo_registration_notification_email
+    admin = params[:admin]
+    note = params[:note]
+    tenant = params[:tenant]
+    I18n.with_locale("en") do
+      lines = []
+      lines << "<p><strong>Name:</strong> #{ERB::Util.html_escape(admin.name)}</p>"
+      lines << "<p><strong>Email:</strong> #{ERB::Util.html_escape(admin.email)}</p>"
+      lines << "<p><strong>Note:</strong> #{ERB::Util.html_escape(note)}</p>" if note
+      lines << "<p><strong>Tenant:</strong> #{ERB::Util.html_escape(tenant)}</p>"
+      lines << "<p><strong>Time:</strong> #{I18n.l(Time.current)}</p>"
+      content_mail(lines.join("\n"),
+        to: ENV["ULTRA_ADMIN_EMAIL"],
+        subject: "[Demo] New registration: #{admin.name} (#{admin.email})",
+        tag: "admin-demo-registration-notification")
     end
   end
 

@@ -15,7 +15,7 @@ class ApplicationMailerTest < ActionMailer::TestCase
 
   test "default_from uses demo email when tenant is demo" do
     Tenant.stub(:demo?, true) do
-      with_env("ULTRA_ADMIN_EMAIL" => "demo@csa-admin.org") do
+      with_env("ULTRA_ADMIN_EMAIL" => "info@csa-admin.org") do
         mail = AdminMailer.with(
           admin: admins(:ultra),
           member: members(:john)

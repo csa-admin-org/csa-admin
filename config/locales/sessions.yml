@@ -20,11 +20,11 @@ _:
         _it: La vostra sessione è scaduta, per favore autenticatevi di nuovo.
         _nl: Uw sessie is verlopen, log opnieuw in.
       initiated:
-        _en: Thank you! An email has just been sent to you.
-        _fr: Merci! Un email vient de vous être envoyé.
-        _de: Vielen Dank! Eine E-Mail wurde soeben an Sie gesendet.
-        _it: Grazie! Vi è stata inviata un'e-mail.
-        _nl: Dank u! Er is zojuist een e-mail naar u verzonden.
+        _en: Check your email! A login link has been sent to you.
+        _fr: Vérifiez vos emails! Un lien de connexion vous a été envoyé.
+        _de: Überprüfen Sie Ihre E-Mails! Ein Anmeldelink wurde Ihnen zugesandt.
+        _it: Controllate la vostra e-mail! Vi è stato inviato un link di accesso.
+        _nl: Controleer uw e-mail! Er is een inloglink naar u verzonden.
       invalid:
         _en: Your login link is no longer valid. Please request a new one.
         _fr: Votre lien de connexion n'est plus valide, merci d'en demander un nouveau.
@@ -50,6 +50,12 @@ _:
         _de: Der Zugang zu Ihrem Admin-Konto erfolgt ohne Passwort über einem Anmeldelink. Dieser Link wird Ihnen über das untenstehende Formular per E-Mail zugestellt.
         _it: La connessione al vostro account amministratore non richiede una password e viene eseguita ricevendo un link di connessione tramite e-mail utilizzando il modulo sottostante.
         _nl: Toegang tot uw admin account is wachtwoordvrij via een inloglink. Deze link wordt u per e-mail toegestuurd via onderstaand formulier.
+      no_account_html:
+        _en: No account yet? <a href="%{register_url}">Register for the demo</a>
+        _fr: Pas encore de compte? <a href="%{register_url}">S'inscrire à la démo</a>
+        _de: Noch kein Konto? <a href="%{register_url}">Für die Demo registrieren</a>
+        _it: Non avete ancora un account? <a href="%{register_url}">Registratevi per la demo</a>
+        _nl: Nog geen account? <a href="%{register_url}">Registreer voor de demo</a>
       submit:
         _en: Submit
         _fr: Envoyer

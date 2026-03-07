@@ -295,11 +295,11 @@ _:
       _nl: Verwijderd
     demo:
       welcome_html:
-        _en: <strong>Welcome to the demo!</strong><br>Explore freely, data is reset every weekend. Questions? <a href="/support">Get in touch!</a>
-        _fr: <strong>Bienvenue sur la démo!</strong><br>Explorez librement, les données sont réinitialisées chaque week-end. Des questions? <a href="/support">Contactez-moi!</a>
-        _de: <strong>Willkommen zur Demo!</strong><br>Erkunden Sie frei, die Daten werden jedes Wochenende zurückgesetzt. Fragen? <a href="/support">Kontaktieren Sie mich!</a>
-        _it: <strong>Benvenuto nella demo!</strong><br>Esplora liberamente, i dati vengono reimpostati ogni fine settimana. Domande? <a href="/support">Contattami!</a>
-        _nl: <strong>Welkom bij de demo!</strong><br>Verken vrij, gegevens worden elk weekend gereset. Vragen? <a href="/support">Neem contact op!</a>
+        _en: <strong>Welcome to the demo!</strong><br>Explore freely, data is reset every weekend. Check out the <a href="/handbook">handbook</a> for detailed documentation. Questions? <a href="/support">Get in touch!</a>
+        _fr: <strong>Bienvenue sur la démo!</strong><br>Explorez librement, les données sont réinitialisées chaque week-end. Consultez le <a href="/handbook">manuel</a> pour une documentation détaillée. Des questions? <a href="/support">Contactez-moi!</a>
+        _de: <strong>Willkommen zur Demo!</strong><br>Erkunden Sie frei, die Daten werden jedes Wochenende zurückgesetzt. Im <a href="/handbook">Handbuch</a> finden Sie eine ausführliche Dokumentation. Fragen? <a href="/support">Kontaktieren Sie mich!</a>
+        _it: <strong>Benvenuto nella demo!</strong><br>Esplora liberamente, i dati vengono reimpostati ogni fine settimana. Consulta il <a href="/handbook">manuale</a> per la documentazione dettagliata. Domande? <a href="/support">Contattami!</a>
+        _nl: <strong>Welkom bij de demo!</strong><br>Verken vrij, gegevens worden elk weekend gereset. Bekijk de <a href="/handbook">handleiding</a> voor gedetailleerde documentatie. Vragen? <a href="/support">Neem contact op!</a>
     details:
       _en: Details
       _fr: Détails

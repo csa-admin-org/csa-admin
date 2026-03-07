@@ -14,3 +14,9 @@
     <% end %>
   </div>
 </div>
+
+<% if Tenant.demo? %>
+  <div class="mt-4 text-center text-sm text-gray-500">
+    <%= t(".no_account_html", register_url: new_demo_registration_path) %>
+  </div>
+<% end %>
