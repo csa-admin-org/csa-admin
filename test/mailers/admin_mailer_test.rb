@@ -99,7 +99,7 @@ class AdminMailerTest < ActionMailer::TestCase
         action_url: "https://admin.acme.test"
       ).invitation_email
 
-      assert_equal "Invitation to the Acme", mail.subject
+      assert_equal "Invitation to the CSA Admin demo", mail.subject
 
       body = mail.body.to_s
       assert_match %r{<p class="closing">Best regards,\n<br />Thibaud</p>}, body

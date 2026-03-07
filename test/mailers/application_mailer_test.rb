@@ -21,7 +21,7 @@ class ApplicationMailerTest < ActionMailer::TestCase
           member: members(:john)
         ).new_registration_email
 
-        assert_equal "CSA Admin Demo <demo@csa-admin.org>", mail[:from].decoded
+        assert_equal "CSA Admin <info@csa-admin.org>", mail[:from].decoded
       end
     end
   end

@@ -14,7 +14,7 @@ class ApplicationMailer < ActionMailer::Base
 
   def default_from
     if Tenant.demo?
-      email_address_with_name(ENV["ULTRA_ADMIN_EMAIL"], "CSA Admin Demo")
+      email_address_with_name(ENV["ULTRA_ADMIN_EMAIL"], "CSA Admin")
     else
       email_address_with_name(
         Current.org.email_default_from,
