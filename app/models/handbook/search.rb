@@ -24,6 +24,7 @@ module Handbook::Search
       headings_for(locale).each do |page|
         next if Organization.restricted_features.include?(page[:name].to_sym)
         next if Current.org.inactive_feature?(page[:name])
+        next if Handbook::DEMO_ONLY_PAGES.include?(page[:name].to_sym) && !Tenant.demo?
 
         if terms.all? { |term| page[:normalized_title].include?(term) }
           results << {
@@ -63,6 +64,7 @@ module Handbook::Search
 
       pages_for(locale).each do |page|
         next if Organization.restricted_features.include?(page[:name].to_sym)
+        next if Handbook::DEMO_ONLY_PAGES.include?(page[:name].to_sym) && !Tenant.demo?
 
         if terms.all? { |term| page[:normalized_title].include?(term) }
           results << {

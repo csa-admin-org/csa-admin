@@ -159,6 +159,20 @@ class HandbookContentSearchTest < ActiveSupport::TestCase
       "Expected 'bidding_round' page to be included even when feature is inactive"
   end
 
+  test "content_search excludes demo-only pages on non-demo tenants" do
+    results = Handbook.content_search("setup", locale: :en)
+    assert_not results.any? { |r| r[:name] == "setup" },
+      "Expected 'setup' page to be excluded on non-demo tenant"
+  end
+
+  test "content_search includes demo-only pages on demo tenants" do
+    with_demo_tenant do
+      results = Handbook.content_search("setup", locale: :en)
+      assert results.any? { |r| r[:name] == "setup" },
+        "Expected 'setup' page to be included on demo tenant"
+    end
+  end
+
   test "content_search includes pages for active features" do
     assert Current.org.feature?(:absence)
 

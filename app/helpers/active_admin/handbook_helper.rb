@@ -42,6 +42,7 @@ module ActiveAdmin::HandbookHelper
         arbre.ul class: "mt-6 space-y-2 text-base" do
           Handbook.all(binding).each do |handbook|
             next if handbook.restricted? && !current_admin.ultra?
+            next if handbook.demo_only? && !Tenant.demo?
 
             arbre.li do
               if handbook.name == current_page

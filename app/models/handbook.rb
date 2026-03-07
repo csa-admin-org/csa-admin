@@ -24,6 +24,7 @@ class Handbook
   DIR_PATH = "app/views/handbook"
 
   COUNTRY_SECTION_REGEX = /<!-- country:(!?\w+) -->\n?(.*?)<!-- \/country:\1 -->\n?/m
+  DEMO_ONLY_PAGES = %i[setup].freeze
 
   attr_reader :name
 
@@ -79,6 +80,10 @@ class Handbook
 
   def restricted?
     name.to_sym.in?(Organization.restricted_features)
+  end
+
+  def demo_only?
+    name.to_sym.in?(DEMO_ONLY_PAGES)
   end
 
   def <=>(other)

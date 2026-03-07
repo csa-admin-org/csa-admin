@@ -211,4 +211,14 @@ class HandbookTest < ActiveSupport::TestCase
     assert_not_includes nl_result, "Swiss only."
     assert_includes nl_result, "Everyone except Swiss."
   end
+
+  test "demo_only? returns true for setup page" do
+    handbook = Handbook.new("setup", binding)
+    assert handbook.demo_only?
+  end
+
+  test "demo_only? returns false for non-setup pages" do
+    handbook = Handbook.new("getting_started", binding)
+    assert_not handbook.demo_only?
+  end
 end

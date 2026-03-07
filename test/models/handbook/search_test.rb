@@ -232,6 +232,22 @@ class HandbookSearchTest < ActiveSupport::TestCase
       "Expected 'billing' page to always be included (not a feature)"
   end
 
+  # -- Demo-only pages --
+
+  test "search excludes demo-only pages on non-demo tenants" do
+    results = Handbook.search("setup", locale: :en)
+    assert_not results.any? { |r| r[:name] == "setup" },
+      "Expected 'setup' page to be excluded on non-demo tenant"
+  end
+
+  test "search includes demo-only pages on demo tenants" do
+    with_demo_tenant do
+      results = Handbook.search("setup", locale: :en)
+      assert results.any? { |r| r[:name] == "setup" },
+        "Expected 'setup' page to be included on demo tenant"
+    end
+  end
+
   # -- Multi-word queries --
 
   test "search with multi-word query matches all terms (AND semantics)" do

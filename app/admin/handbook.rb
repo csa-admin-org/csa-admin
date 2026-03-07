@@ -89,7 +89,8 @@ ActiveAdmin.register_page "Handbook" do
 
   controller do
     before_action do
-      redirect_to handbook_page_path(:getting_started) unless params[:id]
+      default_page = Tenant.demo? ? :setup : :getting_started
+      redirect_to handbook_page_path(default_page) unless params[:id]
     end
   end
 end
