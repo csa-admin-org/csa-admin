@@ -22,7 +22,8 @@ module Templatable
   end
 
   def render_template(member, **data)
-    I18n.with_locale(member.language) do
+    locale = params[:locale] || member.language
+    I18n.with_locale(locale) do
       set_data(data)
       yield render_subjet, render_content
     end

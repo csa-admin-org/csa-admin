@@ -3,6 +3,27 @@
 require "test_helper"
 
 class TemplatableTest < ActionMailer::TestCase
+  # --- Locale override via params[:locale] (preview) ---
+
+  test "render_template uses params[:locale] over member language" do
+    org(languages: %w[en fr])
+    travel_to "2024-01-01"
+    template = mail_templates(:basket_last_trial)
+    membership = memberships(:john)
+    basket = membership.baskets.first
+
+    assert_equal "en", membership.member.language
+
+    mail = BasketMailer.with(
+      template: template,
+      basket: basket,
+      locale: "fr"
+    ).last_trial_email
+
+    assert_equal "Dernier panier à l'essai!", mail.subject
+    assert_includes mail.body.to_s, "dernier jour de votre période d'essai"
+  end
+
   # --- MailDelivery tracking via MailTemplate.deliver ---
 
   test "deliver creates MailDelivery and MailDelivery::Email records" do
