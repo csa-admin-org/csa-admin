@@ -73,7 +73,7 @@ class Basket < ApplicationRecord
   end
 
   def basket_description(public_name: false)
-    describe(basket_size, quantity, public_name: public_name)
+    describe(basket_size, quantity, public_name: public_name) if basket_size
   end
 
   def complements_description(public_name: false)

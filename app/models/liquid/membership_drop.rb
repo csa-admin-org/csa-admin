@@ -56,7 +56,9 @@ class Liquid::MembershipDrop < Liquid::Drop
   end
 
   def basket_size
-    Liquid::BasketSizeDrop.new(@membership.basket_size)
+    if basket_size = @membership.basket_size
+      Liquid::BasketSizeDrop.new(basket_size)
+    end
   end
 
   def basket_quantity
@@ -84,11 +86,15 @@ class Liquid::MembershipDrop < Liquid::Drop
   end
 
   def depot
-    Liquid::DepotDrop.new(@membership.depot)
+    if depot = @membership.depot
+      Liquid::DepotDrop.new(depot)
+    end
   end
 
   def delivery_cycle
-    Liquid::DeliveryCycleDrop.new(@membership.delivery_cycle)
+    if delivery_cycle = @membership.delivery_cycle
+      Liquid::DeliveryCycleDrop.new(delivery_cycle)
+    end
   end
 
   def absences_included

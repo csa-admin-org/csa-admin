@@ -6,7 +6,9 @@ class Liquid::BasketDrop < Liquid::Drop
   end
 
   def delivery
-    Liquid::DeliveryDrop.new(@basket.delivery)
+    if delivery = @basket.delivery
+      Liquid::DeliveryDrop.new(delivery)
+    end
   end
 
   def description
@@ -18,11 +20,15 @@ class Liquid::BasketDrop < Liquid::Drop
   end
 
   def size
-    Liquid::BasketSizeDrop.new(@basket.basket_size)
+    if basket_size = @basket.basket_size
+      Liquid::BasketSizeDrop.new(basket_size)
+    end
   end
 
   def depot
-    Liquid::DepotDrop.new(@basket.depot)
+    if depot = @basket.depot
+      Liquid::DepotDrop.new(depot)
+    end
   end
 
   def quantity
