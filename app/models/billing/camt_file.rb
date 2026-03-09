@@ -3,9 +3,6 @@
 require "ostruct"
 require "camt_parser"
 
-# ISO 20022 message ISO version 2019 valid as of SPS 2022
-CamtParser::Xml.register("urn:iso:std:iso:20022:tech:xsd:camt.054.001.08", :camt054)
-
 module Billing
   class CamtFile
     UnsupportedFileError = Class.new(StandardError)
@@ -75,7 +72,7 @@ module Billing
         statement.entries.flat_map { |entry|
           date = entry.value_date
 
-          entry.transactions.map { |transaction|
+          transactions_data = entry.transactions.map { |transaction|
             ref = transaction.remittance_information
             if transaction.credit?
               if Billing.reference.valid?(ref)
@@ -114,8 +111,36 @@ module Billing
               end
             end
           }.compact
+
+          if transactions_data.empty? && entry.credit?
+            transactions_data = parse_camt53_entry_without_transactions(entry, origin, date)
+          end
+
+          transactions_data
         }
       }
+    end
+
+    def parse_camt53_entry_without_transactions(entry, origin, date)
+      ref = Billing.reference.extract_ref(entry.additional_information)
+      if Billing.reference.valid?(ref)
+        payload = Billing.reference.payload(ref)
+        [ PaymentData.new(
+          origin: origin,
+          member_id: payload[:member_id],
+          invoice_id: payload[:invoice_id],
+          amount: entry.amount,
+          date: date) ]
+      elsif Billing.reference.unknown?(ref)
+        Rails.event.notify(:unknown_payment_reference,
+          origin: origin,
+          amount: entry.amount,
+          date: date,
+          ref: ref)
+        []
+      else
+        []
+      end
     end
   end
 end

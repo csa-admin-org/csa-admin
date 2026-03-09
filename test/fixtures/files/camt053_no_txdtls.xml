@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Document xmlns="urn:iso:std:iso:20022:tech:xsd:camt.053.001.04">
+<BkToCstmrStmt>
+  <GrpHdr>
+    <MsgId>2026030645936300</MsgId>
+    <CreDtTm>2026-03-06T07:27:12</CreDtTm>
+    <MsgPgntn>
+      <PgNb>1</PgNb>
+      <LastPgInd>true</LastPgInd>
+    </MsgPgntn>
+  </GrpHdr>
+  <Stmt>
+    <Id>2026030645936300</Id>
+    <ElctrncSeqNb>1</ElctrncSeqNb>
+    <CreDtTm>2026-03-06T07:27:12</CreDtTm>
+    <FrToDt>
+      <FrDtTm>2026-01-01T00:00:00</FrDtTm>
+      <ToDtTm>2026-03-05T23:59:59</ToDtTm>
+    </FrToDt>
+    <Acct>
+      <Id>
+        <IBAN>CH6106300504852414687</IBAN>
+      </Id>
+      <Ccy>CHF</Ccy>
+      <Ownr>
+        <Nm>Test Owner</Nm>
+      </Ownr>
+      <Svcr>
+        <FinInstnId>
+          <BICFI>VABECH22XXX</BICFI>
+          <Nm>Valiant Bank AG</Nm>
+        </FinInstnId>
+      </Svcr>
+    </Acct>
+    <Bal>
+      <Tp>
+        <CdOrPrtry>
+          <Cd>OPBD</Cd>
+        </CdOrPrtry>
+      </Tp>
+      <Amt Ccy="CHF">1000.00</Amt>
+      <CdtDbtInd>CRDT</CdtDbtInd>
+      <Dt>
+        <Dt>2026-01-01</Dt>
+      </Dt>
+    </Bal>
+    <Bal>
+      <Tp>
+        <CdOrPrtry>
+          <Cd>CLBD</Cd>
+        </CdOrPrtry>
+      </Tp>
+      <Amt Ccy="CHF">2000.00</Amt>
+      <CdtDbtInd>CRDT</CdtDbtInd>
+      <Dt>
+        <Dt>2026-03-05</Dt>
+      </Dt>
+    </Bal>
+    <Ntry>
+      <Amt Ccy="CHF">460</Amt>
+      <CdtDbtInd>CRDT</CdtDbtInd>
+      <RvslInd>false</RvslInd>
+      <Sts>BOOK</Sts>
+      <BookgDt>
+        <Dt>2026-02-25</Dt>
+      </BookgDt>
+      <ValDt>
+        <Dt>2026-02-25</Dt>
+      </ValDt>
+      <AcctSvcrRef>ZV20260225/531085</AcctSvcrRef>
+      <BkTxCd>
+        <Domn>
+          <Cd>PMNT</Cd>
+          <Fmly>
+            <Cd>RCDT</Cd>
+            <SubFmlyCd>VCOM</SubFmlyCd>
+          </Fmly>
+        </Domn>
+      </BkTxCd>
+      <NtryDtls>
+        <Btch>
+          <NbOfTxs>1</NbOfTxs>
+          <TtlAmt Ccy="CHF">460</TtlAmt>
+          <CdtDbtInd>CRDT</CdtDbtInd>
+        </Btch>
+      </NtryDtls>
+      <AddtlNtryInf>Crédit QRF 000000000000000420000000011</AddtlNtryInf>
+    </Ntry>
+    <Ntry>
+      <Amt Ccy="CHF">100</Amt>
+      <CdtDbtInd>DBIT</CdtDbtInd>
+      <RvslInd>false</RvslInd>
+      <Sts>BOOK</Sts>
+      <BookgDt>
+        <Dt>2026-02-25</Dt>
+      </BookgDt>
+      <ValDt>
+        <Dt>2026-02-25</Dt>
+      </ValDt>
+      <AcctSvcrRef>ZV20260225/531086</AcctSvcrRef>
+      <BkTxCd>
+        <Domn>
+          <Cd>PMNT</Cd>
+          <Fmly>
+            <Cd>ICDT</Cd>
+            <SubFmlyCd>OTHR</SubFmlyCd>
+          </Fmly>
+        </Domn>
+      </BkTxCd>
+      <NtryDtls>
+        <Btch>
+          <NbOfTxs>1</NbOfTxs>
+          <TtlAmt Ccy="CHF">100</TtlAmt>
+          <CdtDbtInd>DBIT</CdtDbtInd>
+        </Btch>
+      </NtryDtls>
+      <AddtlNtryInf>Débit quelconque</AddtlNtryInf>
+    </Ntry>
+  </Stmt>
+</BkToCstmrStmt>
+</Document>

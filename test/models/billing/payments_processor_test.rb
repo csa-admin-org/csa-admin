@@ -105,7 +105,7 @@ class Billing::PaymentsProcessorTest < ActiveSupport::TestCase
   test "returns early when payments data is empty" do
     assert_no_difference "Payment.count" do
       result = Billing::PaymentsProcessor.new([]).process!
-      assert_nil result
+      assert result
     end
   end
 end

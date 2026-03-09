@@ -43,6 +43,18 @@ class Billing::CamtFileTest < ActiveSupport::TestCase
     ], file.payments_data
   end
 
+  test "returns payment data from CAMT.053 entry without TxDtls" do
+    file = Billing::CamtFile.new(file_fixture("camt053_no_txdtls.xml"))
+    assert_equal [
+      Billing::CamtFile::PaymentData.new(
+        invoice_id: 1,
+        member_id: 42,
+        amount: 460,
+        date: Date.new(2026, 2, 25),
+        origin: "camt.053")
+    ], file.payments_data
+  end
+
   test "returns no payment data when REF has letter" do
     file = Billing::CamtFile.new(file_fixture("camt054_ref_with_letters.xml"))
     assert_empty file.payments_data

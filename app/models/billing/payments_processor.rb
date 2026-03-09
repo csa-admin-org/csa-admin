@@ -21,7 +21,7 @@ module Billing
     def process!
       unless @payments_data.present?
         Rails.event.notify(:payment_processing_no_payments_data, {})
-        return
+        return true
       end
 
       @payments_data.each do |payment_data|
