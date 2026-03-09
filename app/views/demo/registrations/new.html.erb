@@ -12,6 +12,11 @@
       <ol class="list-none p-2">
         <%= f.input :name, label: t("demo.registrations.new.name_input"), required: true %>
         <%= f.input :email, label: t("demo.registrations.new.email_input"), required: true %>
+
+        <div class="hidden" aria-hidden="true">
+          <%= f.input :organization, label: "Organization", required: false, input_html: { tabindex: "-1", autocomplete: "off" } %>
+        </div>
+
         <%= f.input :note, as: :text, label: t("demo.registrations.new.note_input"), required: false, input_html: { rows: 3, placeholder: t("demo.registrations.new.note_placeholder") } %>
         <%= f.action :submit, label: t("demo.registrations.new.submit"), button_html: { value: t("demo.registrations.new.submit") }, wrapper_html: { class: "actions mt-2" } %>
       </ol>

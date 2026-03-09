@@ -7,6 +7,7 @@ class Demo::Registration
   attribute :name, :string
   attribute :email, :string
   attribute :note, :string
+  attribute :organization, :string
 
   attr_accessor :request
 
@@ -25,13 +26,25 @@ class Demo::Registration
   private
 
   def spam?
-    detector = SpamDetector.new(nil)
-    spam = detector.gibberish?(name) || detector.gibberish?(note)
+    spam = honeypot_filled? || short_name? || gibberish?
     if spam
       Rails.error.unexpected("Demo registration spam detected",
-        context: { name: name, email: email, note: note })
+        context: { name: name, email: email, note: note, reason: spam })
     end
     spam
+  end
+
+  def honeypot_filled?
+    :honeypot if organization.present?
+  end
+
+  def short_name?
+    :short_name if name.present? && (name.strip.length < 3 || name.strip.scan(/\p{L}/).uniq.size < 2)
+  end
+
+  def gibberish?
+    detector = SpamDetector.new(nil)
+    :gibberish if detector.gibberish?(name) || detector.gibberish?(note)
   end
 
   def admin_must_be_valid
