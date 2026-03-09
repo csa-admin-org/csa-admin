@@ -5,15 +5,14 @@ div class: "flex justify-evenly mt-4 mb-6 gap-4" do
   basket_content_prices.each do |basket_size, depot_prices|
     prices = [ depot_prices.values.min, depot_prices.values.max ].uniq.compact
     if prices.any?
-      basket_price = basket_size.price_for(delivery.fy_year)
+      base_price = basket_size.price_for(delivery.fy_year)
+      basket_price = delivery.basket_size_price_for(base_price)
       div class: "flex flex-col align-top text-center", data: { "tooltip-target" => "tooltip-#{basket_size.id}" } do
         h3 basket_size.name, class: "text-lg font-light"
         div class: "flex justify-center items-center" do
           display_basket_price_with_diff(basket_price, prices)
         end
-        delivery.basket_content_yearly_price_diff(basket_size)&.each do |(cycle, diff)|
-          deliveries_count_so_far = cycle.deliveries_in(delivery.fiscal_year.beginning_of_year..delivery.date).size
-          baskets_price_total = basket_price * deliveries_count_so_far
+        delivery.basket_content_yearly_price_diff(basket_size)&.each do |(cycle, (diff, baskets_price_total))|
           if used_cycles.many?
             title = [ cycle.name, delivery.fiscal_year.to_s ].join(" – ")
           else

@@ -70,6 +70,7 @@ class BasketSize < ApplicationRecord
     Basket
       .during_year(year)
       .where(basket_size: self)
+      .where(deliveries: { basket_size_price_percentage: nil })
       .pluck(:basket_size_price)
       .group_by(&:itself)
       .max_by(&:size)

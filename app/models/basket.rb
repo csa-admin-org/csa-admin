@@ -206,13 +206,7 @@ class Basket < ApplicationRecord
   end
 
   def calculate_default_basket_size_price
-    price = basket_size&.price
-
-    if delivery&.basket_size_price_percentage?
-      price *= delivery.basket_size_price_percentage / 100.0
-    end
-
-    price
+    delivery&.basket_size_price_for(basket_size&.price) || basket_size&.price
   end
 
   def set_calculated_price_extra

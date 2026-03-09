@@ -223,9 +223,9 @@ class BasketContentTest < ActiveSupport::TestCase
     end
 
     assert_equal({
-      small_id => { delivery_cycles(:mondays) => 68 },
-      medium_id => { delivery_cycles(:mondays) => 102 },
-      large_id => { delivery_cycles(:mondays) => 0 }
+      small_id => { delivery_cycles(:mondays) => [ 68, 10 ] },
+      medium_id => { delivery_cycles(:mondays) => [ 102, 20 ] },
+      large_id => { delivery_cycles(:mondays) => [ 0, 0 ] }
     }, delivery.basket_content_yearly_price_diffs)
 
     assert_equal({
@@ -326,14 +326,14 @@ class BasketContentTest < ActiveSupport::TestCase
     }, delivery.basket_content_avg_prices)
     assert_not_equal other_delivery.basket_content_yearly_price_diffs, delivery.basket_content_yearly_price_diffs
     assert_equal({
-      small_id => { delivery_cycles(:mondays) => 68 },
-      medium_id => { delivery_cycles(:mondays) => 182 },
-      large_id => { delivery_cycles(:mondays) => 0 }
+      small_id => { delivery_cycles(:mondays) => [ 68, 10 ] },
+      medium_id => { delivery_cycles(:mondays) => [ 182, 40 ] },
+      large_id => { delivery_cycles(:mondays) => [ 0, 0 ] }
     }, other_delivery.basket_content_yearly_price_diffs)
     assert_equal({
-      small_id => { delivery_cycles(:mondays) => 68 },
-      medium_id => { delivery_cycles(:mondays) => 102 },
-      large_id => { delivery_cycles(:mondays) => 0 }
+      small_id => { delivery_cycles(:mondays) => [ 68, 10 ] },
+      medium_id => { delivery_cycles(:mondays) => [ 102, 20 ] },
+      large_id => { delivery_cycles(:mondays) => [ 0, 0 ] }
     }, delivery.basket_content_yearly_price_diffs)
   end
 

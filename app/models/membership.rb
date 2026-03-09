@@ -315,8 +315,8 @@ class Membership < ApplicationRecord
   end
 
   def basket_price_for(delivery)
-    if apply_basket_size_price_percentage && delivery.basket_size_price_percentage?
-      (basket_size_price * delivery.basket_size_price_percentage / 100.0).round_to_one_cent
+    if apply_basket_size_price_percentage
+      delivery.basket_size_price_for(basket_size_price)
     else
       basket_size_price
     end

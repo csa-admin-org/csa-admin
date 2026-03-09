@@ -162,6 +162,14 @@ class Delivery < ApplicationRecord
     future?
   end
 
+  def basket_size_price_for(base_price)
+    if basket_size_price_percentage?
+      (base_price * basket_size_price_percentage / 100.0).round_to_one_cent
+    else
+      base_price
+    end
+  end
+
   def basket_content_yearly_price_diff(basket_size)
     basket_content_yearly_price_diffs[basket_size.id]
   end
@@ -173,13 +181,17 @@ class Delivery < ApplicationRecord
       cycles.select! { |c| used_delivery_cycle_ids.include?(c.id) }
       cycles.each_with_object({}) do |cycle, h|
         range = fiscal_year.beginning_of_year..date
-        avg_prices = cycle.deliveries_in(range).map(&:basket_content_avg_prices)
+        cycle_deliveries = cycle.deliveries_in(range)
         BasketSize.ordered.paid.each do |basket_size|
-          prices = avg_prices.map { |ap| ap[basket_size.id.to_s] }.compact.map(&:to_d)
-          basket_prices = prices.size * basket_size.price_for(fy_year)
-          prices_sum = prices.sum
+          base_price = basket_size.price_for(fy_year)
+          deliveries_with_prices = cycle_deliveries.filter_map { |d|
+            price = d.basket_content_avg_prices[basket_size.id.to_s]
+            [ d, price.to_d ] if price
+          }
+          prices_sum = deliveries_with_prices.sum(&:last)
+          basket_prices_total = deliveries_with_prices.sum { |d, _| d.basket_size_price_for(base_price) }
           h[basket_size.id] ||= {}
-          h[basket_size.id][cycle] = (prices_sum - basket_prices).round_to_one_cent
+          h[basket_size.id][cycle] = [ (prices_sum - basket_prices_total).round_to_one_cent, basket_prices_total ]
         end
       end
     end
