@@ -447,7 +447,7 @@ _:
         default_basket_size_price:
           _en: Basket size price (default)
           _fr: Prix par taille de panier (défaut)
-          _de: Preis pro Taschengrösse (Standard)
+          _de: Richtwert pro Taschengrösse (Standard)
           _it: Prezzo per cesta (predefinito)
           _nl: Pakketgrootte prijs (standaard)
         default_membership_price:
@@ -465,7 +465,7 @@ _:
         pledged_basket_size_price:
           _en: Basket size price (pledged)
           _fr: Prix par taille de panier (engagé)
-          _de: Preis pro Taschengrösse (versprochen)
+          _de: Beitrag pro Taschengrösse (zugesagt)
           _it: Prezzo per cesta (prestato)
           _nl: Pakketgrootte prijs (toegezegd)
         pledged_membership_price:
@@ -478,7 +478,7 @@ _:
         basket_size_price:
           _en: Price per basket
           _fr: Prix par panier
-          _de: Preis pro Tasche
+          _de: Beitrag pro Tasche
           _it: Prezzo per cesta
           _nl: Prijs per pakket
       delivery:
@@ -2086,13 +2086,13 @@ _:
         bidding_round_basket_size_price_max_percentage:
           _en: Maximum basket size price (0-X%)
           _fr: Prix maximum de la taille du panier (0-X%)
-          _de: Maximalpreis der Taschengröße (0-X%)
+          _de: Maximalbeitrag pro Taschengröße (0-X%)
           _it: Prezzo massimo della dimensione del cestino (0-X%)
           _nl: Maximum pakketgrootte prijs (0-X%)
         bidding_round_basket_size_price_min_percentage:
           _en: Minimum basket size price (0-100%)
           _fr: Prix minimum de la taille du panier (0-100%)
-          _de: Minimumpreis der Taschengröße (0-100%)
+          _de: Mindestbeitrag pro Taschengröße (0-100%)
           _it: Prezzo minimo della dimensione del cestino (0-100%)
           _nl: Minimum pakketgrootte prijs (0-100%)
         billing_ends_on_last_delivery_fy_month:
@@ -3001,13 +3001,13 @@ _:
         one:
           _en: Bidding round
           _fr: Tour d'engagement
-          _de: Bieterunde
+          _de: Beitragsrunde
           _it: Turno di impegno
           _nl: Biedingronde
         other:
           _en: Bidding rounds
           _fr: Tours d'engagement
-          _de: Bieterunden
+          _de: Beitragsrunden
           _it: Turni di impegno
           _nl: Biedingrondes
       contact_sharing:
