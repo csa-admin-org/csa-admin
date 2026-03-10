@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "camt_parser"
 
 # ISO 20022 message ISO version 2019 valid as of SPS 2022
