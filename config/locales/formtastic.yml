@@ -1504,11 +1504,11 @@ _:
           _it: 'I soci possono iscriversi fino a mezzanotte, X giorni prima della data dell''attività (es: 3 giorni = domenica mezzanotte per un''attività di mercoledì). Lasciare a zero se non ci sono limiti.'
           _nl: Leden kunnen zich registreren tot middernacht, X dagen voor de activiteitsdatum (bijv. 3 dagen = zondag middernacht voor een activiteit op woensdag). Laat op nul staan als er geen limiet is.
         activity_i18n_scope_html:
-          _en: Please <a href="/handbook/activity">consult the manual</a> for more information about each designation.
-          _fr: Merci de <a href="/handbook/activity">consulter le manuel</a> pour plus d'informations sur chaque appellation.
-          _de: Bitte <a href="/handbook/activity">konsultieren Sie das Handbuch</a> für weitere Informationen zu jeder Bezeichnung.
-          _it: Si prega di <a href="/handbook/activity">consultare il manuale</a> per ulteriori informazioni su ciascuna denominazione.
-          _nl: Raadpleeg <a href="/handbook/activity">de handleiding</a> voor meer informatie over elke benaming.
+          _en: Determines the terminology and counting unit used for activities. Please <a href="/handbook/activity">consult the manual</a> for more information.
+          _fr: Détermine la terminologie et l'unité de comptage utilisée pour les activités. Merci de <a href="/handbook/activity">consulter le manuel</a> pour plus d'informations.
+          _de: Bestimmt die Terminologie und die Zähleinheit für Aktivitäten. Bitte <a href="/handbook/activity">konsultieren Sie das Handbuch</a> für weitere Informationen.
+          _it: Determina la terminologia e l'unità di conteggio utilizzata per le attività. Si prega di <a href="/handbook/activity">consultare il manuale</a> per ulteriori informazioni.
+          _nl: Bepaalt de terminologie en de tellingseenheid die voor activiteiten wordt gebruikt. Raadpleeg <a href="/handbook/activity">de handleiding</a> voor meer informatie.
         activity_participation_deletion_deadline_in_days:
           _en: Leave blank if no deadline is desired, in any case, deregistration is possible within the first 24 hours.
           _fr: Laisser vide si aucun délai, dans tous les cas la désinscription est possible pendant les premières 24h.

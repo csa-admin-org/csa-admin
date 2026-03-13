@@ -2714,11 +2714,11 @@ _:
           _it: Limite d'iscrizione in anticipo (in giorni)
           _nl: Registratietermijn (in dagen)
         activity_i18n_scope:
-          _en: Designation
-          _fr: Appellation
-          _de: Bezeichnung
-          _it: Designazione
-          _nl: Aanduiding
+          _en: Designation / Unit
+          _fr: Appellation / Unité
+          _de: Bezeichnung / Einheit
+          _it: Designazione / Unità
+          _nl: Aanduiding / Eenheid
         activity_participation_deletion_deadline_in_days:
           _en: Cancellation deadline (in days)
           _fr: Délai de désinscription (en jours)
