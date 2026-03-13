@@ -205,7 +205,13 @@ class Demo::Seeder
 
       # Single language matching the demo tenant
       languages: [ @org_language ],
-      basket_i18n_scopes: "basket",
+      basket_i18n_scopes: {
+        "fr" => "basket",
+        "de" => "share",
+        "it" => "basket",
+        "nl" => "package",
+        "en" => "basket"
+      },
       phone: nil,
       email: "info@csa-admin.org",
       email_default_from: "info@#{@org_domain}",
