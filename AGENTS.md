@@ -63,6 +63,22 @@ Template files use language suffixes: `invoice_created.en.liquid`, `invoice_crea
 1. During development, only add `_en` and `_fr` translations (if significant only)
 2. Once finalized, add `_de`, `_it`, `_nl` translations (automatically for .yml file, on request for templates)
 
+### Voice & Tone per Language
+
+| Context | EN | FR | DE | NL | IT |
+|---|---|---|---|---|---|
+| **Admin UI** (buttons, hints, confirmations) | you | vous | **impersonal** (infinitive, passive) | **impersonal** | voi |
+| **Member-facing** (member portal, emails, newsletters) | you | vous | **Du** (capitalized) | **je/jij** | tu |
+| **Handbook** (docs for admins) | you | vous | **Du** (capitalized) | **je/jij** | tu |
+
+**German impersonal** — Use infinitive constructions ("Alle Daten importieren"), passive ("Soll das wirklich durchgeführt werden?"), drop possessives ("Die IBAN" not "Ihre IBAN"). Never use "Sie" for direct address.
+
+**German Du** — Capitalize Du/Dein/Dir/Dich in direct address. Adjust verb conjugations (hast, kannst, möchtest). Preserve lowercase "sie/ihre" (= they/their, 3rd person) and "Siehe" (= See).
+
+**Dutch impersonal** — Same patterns as German: infinitive, passive, drop possessives. Never use "u/uw".
+
+**Dutch je** — Use "je" as the default (lighter). Use "jouw" only for emphasis. Adjust verb conjugations ("Je hebt", not "U heeft"). With inversion, drop the -t ("heb je", not "hebt je").
+
 ## GDPR & Member Privacy
 
 Anonymized members must not have their `member_id` exposed in CSV/XLSX exports.
