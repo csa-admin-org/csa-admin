@@ -84,7 +84,8 @@ ActiveAdmin.register Delivery do
           icon_file_link(:xlsx, delivery_path(delivery, format: :xlsx), title: Delivery.human_attribute_name(:summary)),
           icon_file_link(:pdf, delivery_path(delivery, format: :pdf), title: Delivery.human_attribute_name(:sheets), target: "_blank")) do
           counts = delivery.basket_counts
-          if counts.present?
+          complement_counts = delivery.basket_complement_counts
+          if counts.present? || complement_counts.present?
             render partial: "active_admin/deliveries/baskets",
               locals: { delivery: delivery, scope: :active }
 

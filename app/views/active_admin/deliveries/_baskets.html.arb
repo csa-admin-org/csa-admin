@@ -15,50 +15,52 @@ if authorized?(:update, Depot)
   }
 end
 
-table_for(counts.all, **attrs) do
-  column(Depot.model_name.human, class: "w-2/5") { |bc| link_to bc.depot.name, depot_path(bc.depot, delivery_id: delivery.id) }
-  if show_shop_orders
-    column link_to(t("shop.title"), shop_orders_path(q: { _delivery_gid_eq: delivery.gid })), :shop_orders_count, class: "text-right"
-  end
-  if counts.sum.positive?
-    column Basket.model_name.human(count: 2), :count, class: "text-right"
-    column "#{bs_names.join("&nbsp;/ ")}".html_safe, :baskets_count, class: "text-right"
-  end
-end
-
-if delivery.depots.any?(&:free?) && delivery.depots.any?(&:paid?)
-  free_counts = BasketCounts.new(delivery, Depot.free.pluck(:id), scope: scope)
-  paid_counts = BasketCounts.new(delivery, Depot.paid.pluck(:id), scope: scope)
-  totals = [
-    OpenStruct.new(
-      title: t("delivery.free_depots"),
-      count: free_counts.sum,
-      baskets_count: free_counts.sum_detail),
-    OpenStruct.new(
-      title: t("delivery.paid_depots"),
-      count:  paid_counts.sum,
-      baskets_count: paid_counts.sum_detail)
-  ]
-  table_for totals, class: "[&>tbody>tr:first-child]:border-t-0" do
-    column nil, :title, class: "w-2/5"
+if counts.present?
+  table_for(counts.all, **attrs) do
+    column(Depot.model_name.human, class: "w-2/5") { |bc| link_to bc.depot.name, depot_path(bc.depot, delivery_id: delivery.id) }
     if show_shop_orders
-      column nil, :shop_orders_count, class: "text-right"
+      column link_to(t("shop.title"), shop_orders_path(q: { _delivery_gid_eq: delivery.gid })), :shop_orders_count, class: "text-right"
     end
     if counts.sum.positive?
-      column nil, :count, class: "text-right"
-      column nil, :baskets_count, class: "text-right"
+      column Basket.model_name.human(count: 2), :count, class: "text-right"
+      column "#{bs_names.join("&nbsp;/ ")}".html_safe, :baskets_count, class: "text-right"
     end
   end
-end
 
-table_for nil, class: "font-bold -mt-2 data-no-hover [&>tbody>tr]:border-none" do
-  column(nil, :title, class: "w-2/5 text-lg!") { t("active_admin.page.index.total", number: "") }
-  if show_shop_orders
-    column(class: "text-right text-lg!") { counts.sum_shop_orders }
+  if delivery.depots.any?(&:free?) && delivery.depots.any?(&:paid?)
+    free_counts = BasketCounts.new(delivery, Depot.free.pluck(:id), scope: scope)
+    paid_counts = BasketCounts.new(delivery, Depot.paid.pluck(:id), scope: scope)
+    totals = [
+      OpenStruct.new(
+        title: t("delivery.free_depots"),
+        count: free_counts.sum,
+        baskets_count: free_counts.sum_detail),
+      OpenStruct.new(
+        title: t("delivery.paid_depots"),
+        count:  paid_counts.sum,
+        baskets_count: paid_counts.sum_detail)
+    ]
+    table_for totals, class: "[&>tbody>tr:first-child]:border-t-0" do
+      column nil, :title, class: "w-2/5"
+      if show_shop_orders
+        column nil, :shop_orders_count, class: "text-right"
+      end
+      if counts.sum.positive?
+        column nil, :count, class: "text-right"
+        column nil, :baskets_count, class: "text-right"
+      end
+    end
   end
-  if counts.sum.positive?
-    column(class: "text-right text-lg!") { counts.sum }
-    column(class: "text-right text-lg!") { counts.sum_detail }
+
+  table_for nil, class: "font-bold -mt-2 data-no-hover [&>tbody>tr]:border-none" do
+    column(nil, :title, class: "w-2/5 text-lg!") { t("active_admin.page.index.total", number: "") }
+    if show_shop_orders
+      column(class: "text-right text-lg!") { counts.sum_shop_orders }
+    end
+    if counts.sum.positive?
+      column(class: "text-right text-lg!") { counts.sum }
+      column(class: "text-right text-lg!") { counts.sum_detail }
+    end
   end
 end
 
