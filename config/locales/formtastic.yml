@@ -1114,36 +1114,12 @@ _:
           _de: Verändert den Schlussbetrag, unabhängig von der Anzahl der Anteile/Zusätze.
           _it: Modifica l'importo finale, indipendentemente dal numero di parti / aggiunte alle parti.
           _nl: Wijzigt het eindbedrag, ongeacht het aantal delen/aanvullingen.
-        basket_price_extra/bag:
-          _en: Price surcharge added to each bag.
-          _fr: Supplément de prix ajouté à chaque sac.
-          _de: Preisaufschlag, der zu jeder Tasche hinzugefügt wird.
-          _it: Prezzo aggiuntivo aggiunto ad ogni borsa.
-          _nl: Prijstoeslag toegevoegd aan elk tas.
-        basket_price_extra/basket:
-          _en: Price surcharge added to each basket.
-          _fr: Supplément de prix ajouté à chaque panier.
-          _de: Preisaufschlag, der zu jeder Korb hinzugefügt wird.
-          _it: Prezzo aggiuntivo aggiunto ad ogni cesta.
-          _nl: Prijstoeslag toegevoegd aan elk mand.
-        basket_price_extra/cone:
-          _en: Price surcharge added to each cone.
-          _fr: Supplément de prix ajouté à chaque cornet.
-          _de: Preisaufschlag, der zu jeder Tüte hinzugefügt wird.
-          _it: Prezzo aggiuntivo aggiunto ad ogni cono.
-          _nl: Prijstoeslag toegevoegd aan elk zak.
-        basket_price_extra/package:
-          _en: Price surcharge added to each package.
-          _fr: Supplément de prix ajouté à chaque colis.
-          _de: Preisaufschlag, der zu jeder Paket hinzugefügt wird.
-          _it: Prezzo aggiuntivo aggiunto ad ogni pacco.
-          _nl: Prijstoeslag toegevoegd aan elk pakket.
-        basket_price_extra/share:
-          _en: Price surcharge added to each share.
-          _fr: Supplément de prix ajouté à chaque part.
-          _de: Preisaufschlag, der zu jeder Anteil hinzugefügt wird.
-          _it: Prezzo aggiuntivo aggiunto ad ogni parte.
-          _nl: Prijstoeslag toegevoegd aan elk deel.
+        basket_price_extra:
+          _en: Price surcharge added to each delivery.
+          _fr: Supplément de prix ajouté à chaque livraison.
+          _de: Preisaufschlag, der zu jeder Lieferung hinzugefügt wird.
+          _it: Prezzo aggiuntivo aggiunto ad ogni consegna.
+          _nl: Prijstoeslag toegevoegd aan elke levering.
         basket_size_price:
           _en: Leave blank for the default price.
           _fr: Laisser blanc pour le prix par défaut.
@@ -1767,36 +1743,6 @@ _:
           _de: Bestimmt die Bezeichnung für «Korb» in der gesamten Anwendung.<br/>⚠️ Die Inhalte der <a href="/mail_templates">Automatische E-Mails</a> und <a href="/newsletter_templates">Newsletter-Vorlagen</a> werden nicht automatisch aktualisiert und müssen manuell überarbeitet werden.
           _it: Determina la terminologia utilizzata per «cesta» in tutta l'applicazione.<br/>⚠️ I contenuti delle <a href="/mail_templates">Email automatiche</a> e dei <a href="/newsletter_templates">Templates di newsletter</a> non vengono aggiornati automaticamente e devono essere rivisti manualmente.
           _nl: Bepaalt de terminologie die wordt gebruikt voor «mand» in de hele applicatie.<br/>⚠️ De inhoud van <a href="/mail_templates">Automatische e-mails</a> en <a href="/newsletter_templates">Nieuwsbriefsjablonen</a> wordt niet automatisch bijgewerkt en moet handmatig worden herzien.
-        basket_price_extra_dynamic_pricing/bag_html:
-          _en: Allows changing the price dynamically based on various criteria such as the size of the bag.<br/> Supports <a href='/handbook/emails#liquid'>the Liquid syntax</a> with the objects "{{ extra }}", "{{ bag_size_id }}", "{{ bag_size_price }}", "{{ complements_price }}", and "{{ deliveries_count }}".
-          _fr: Permet de changer dynamiquement le prix en fonction de différents critères tels que la taille du sac.<br/> Supporte <a href='/handbook/emails#liquid'>la syntaxe Liquid</a> avec les objets "{{ extra }}", "{{ basket_size_id }}", "{{ basket_size_price }}", "{{ complements_price }} et "{{ deliveries_count }}".
-          _de: Erlaubt es, den Preis dynamisch zu ändern, basierend auf verschiedenen Kriterien wie der Grösse der Tasche.<br/> Unterstützt <a href='/handbook/emails#liquid'>die Liquid-Syntax</a> mit den Objekten "{{ extra }}", "{{ basket_size_id }}", "{{ basket_size_price }}", "{{ complements_price }} und "{{ deliveries_count }}".
-          _it: Permette di cambiare dinamicamente il prezzo applicato in base a diversi criteri come la dimensione della borsa.<br/> Supporta <a href='/handbook/emails#liquid'>la sintassi Liquid</a> con gli oggetti "{{ extra }}", "{{ basket_size_id }}", "{{ basket_size_price }}", "{{ complements_price }} e "{{ deliveries_count }}".
-          _nl: Maakt het mogelijk de prijs dynamisch te wijzigen op basis van verschillende criteria zoals de grootte van de tas.<br/> Ondersteunt <a href='/handbook/emails#liquid'>de Liquid-syntaxis</a> met de objecten "{{ extra }}", "{{ basket_size_id }}", "{{ basket_size_price }}", "{{ complements_price }}" en "{{ deliveries_count }}".
-        basket_price_extra_dynamic_pricing/basket_html:
-          _en: Allows changing the price dynamically based on various criteria such as the size of the basket.<br/> Supports <a href='/handbook/emails#liquid'>the Liquid syntax</a> with the objects "{{ extra }}", "{{ basket_size_id }}", "{{ basket_size_price }}", "{{ complements_price }}", and "{{ deliveries_count }}".
-          _fr: Permet de changer dynamiquement le prix en fonction de différents critères tels que la taille du panier.<br/> Supporte <a href='/handbook/emails#liquid'>la syntaxe Liquid</a> avec les objets "{{ extra }}", "{{ basket_size_id }}", "{{ basket_size_price }}", "{{ complements_price }} et "{{ deliveries_count }}".
-          _de: Erlaubt es, den Preis dynamisch zu ändern, basierend auf verschiedenen Kriterien wie der Grösse des Korbs.<br/> Unterstützt <a href='/handbook/emails#liquid'>die Liquid-Syntax</a> mit den Objekten "{{ extra }}", "{{ basket_size_id }}", "{{ basket_size_price }}", "{{ complements_price }} und "{{ deliveries_count }}".
-          _it: Permette di cambiare dinamicamente il prezzo applicato in base a diversi criteri come la dimensione del cesto.<br/> Supporta <a href='/handbook/emails#liquid'>la sintassi Liquid</a> con gli oggetti "{{ extra }}", "{{ basket_size_id }}", "{{ basket_size_price }}", "{{ complements_price }} e "{{ deliveries_count }}".
-          _nl: Maakt het mogelijk de prijs dynamisch te wijzigen op basis van verschillende criteria zoals de grootte van de mand.<br/> Ondersteunt <a href='/handbook/emails#liquid'>de Liquid-syntaxis</a> met de objecten "{{ extra }}", "{{ basket_size_id }}", "{{ basket_size_price }}", "{{ complements_price }}" en "{{ deliveries_count }}".
-        basket_price_extra_dynamic_pricing/cone_html:
-          _en: Allows changing the price dynamically based on various criteria such as the size of the cone.<br/> Supports <a href='/handbook/emails#liquid'>the Liquid syntax</a> with the objects "{{ extra }}", "{{ cone_size_id }}", "{{ cone_size_price }}", "{{ complements_price }}", and "{{ deliveries_count }}".
-          _fr: Permet de changer dynamiquement le prix en fonction de différents critères tels que la taille du cornet.<br/> Supporte <a href='/handbook/emails#liquid'>la syntaxe Liquid</a> avec les objets "{{ extra }}", "{{ basket_size_id }}", "{{ basket_size_price }}", "{{ complements_price }} et "{{ deliveries_count }}".
-          _de: Erlaubt es, den Preis dynamisch zu ändern, basierend auf verschiedenen Kriterien wie der Grösse der Tüte.<br/> Unterstützt <a href='/handbook/emails#liquid'>die Liquid-Syntax</a> mit den Objekten "{{ extra }}", "{{ basket_size_id }}", "{{ basket_size_price }}", "{{ complements_price }} und "{{ deliveries_count }}".
-          _it: Permette di cambiare dinamicamente il prezzo applicato in base a diversi criteri come la dimensione del cono.<br/> Supporta <a href='/handbook/emails#liquid'>la sintassi Liquid</a> con gli oggetti "{{ extra }}", "{{ basket_size_id }}", "{{ basket_size_price }}", "{{ complements_price }} e "{{ deliveries_count }}".
-          _nl: Maakt het mogelijk de prijs dynamisch te wijzigen op basis van verschillende criteria zoals de grootte van de zak.<br/> Ondersteunt <a href='/handbook/emails#liquid'>de Liquid-syntaxis</a> met de objecten "{{ extra }}", "{{ basket_size_id }}", "{{ basket_size_price }}", "{{ complements_price }}" en "{{ deliveries_count }}".
-        basket_price_extra_dynamic_pricing/package_html:
-          _en: Allows changing the price dynamically based on various criteria such as the size of the package.<br/> Supports <a href='/handbook/emails#liquid'>the Liquid syntax</a> with the objects "{{ extra }}", "{{ package_size_id }}", "{{ package_size_price }}", "{{ complements_price }}", and "{{ deliveries_count }}".
-          _fr: Permet de changer dynamiquement le prix en fonction de différents critères tels que la taille du colis.<br/> Supporte <a href='/handbook/emails#liquid'>la syntaxe Liquid</a> avec les objets "{{ extra }}", "{{ basket_size_id }}", "{{ basket_size_price }}", "{{ complements_price }} et "{{ deliveries_count }}".
-          _de: Erlaubt es, den Preis dynamisch zu ändern, basierend auf verschiedenen Kriterien wie der Grösse des Pakets.<br/> Unterstützt <a href='/handbook/emails#liquid'>die Liquid-Syntax</a> mit den Objekten "{{ extra }}", "{{ basket_size_id }}", "{{ basket_size_price }}", "{{ complements_price }} und "{{ deliveries_count }}".
-          _it: Permette di cambiare dinamicamente il prezzo applicato in base a diversi criteri come la dimensione del pacco.<br/> Supporta <a href='/handbook/emails#liquid'>la sintassi Liquid</a> con gli oggetti "{{ extra }}", "{{ basket_size_id }}", "{{ basket_size_price }}", "{{ complements_price }} e "{{ deliveries_count }}".
-          _nl: Maakt het mogelijk de prijs dynamisch te wijzigen op basis van verschillende criteria zoals de grootte van het pakket.<br/> Ondersteunt <a href='/handbook/emails#liquid'>de Liquid-syntaxis</a> met de objecten "{{ extra }}", "{{ basket_size_id }}", "{{ basket_size_price }}", "{{ complements_price }}" en "{{ deliveries_count }}".
-        basket_price_extra_dynamic_pricing/share_html:
-          _en: Allows changing the price dynamically based on various criteria such as the size of the share.<br/> Supports <a href='/handbook/emails#liquid'>the Liquid syntax</a> with the objects "{{ extra }}", "{{ share_size_id }}", "{{ share_size_price }}", "{{ complements_price }}", and "{{ deliveries_count }}".
-          _fr: Permet de changer dynamiquement le prix en fonction de différents critères tels que la taille de la part.<br/> Supporte <a href='/handbook/emails#liquid'>la syntaxe Liquid</a> avec les objets "{{ extra }}", "{{ basket_size_id }}", "{{ basket_size_price }}", "{{ complements_price }} et "{{ deliveries_count }}".
-          _de: Erlaubt es, den Preis dynamisch zu ändern, basierend auf verschiedenen Kriterien wie der Grösse des Anteils.<br/> Unterstützt <a href='/handbook/emails#liquid'>die Liquid-Syntax</a> mit den Objekten "{{ extra }}", "{{ basket_size_id }}", "{{ basket_size_price }}", "{{ complements_price }} und "{{ deliveries_count }}".
-          _it: Permette di cambiare dinamicamente il prezzo applicato in base a diversi criteri come la dimensione della parte.<br/> Supporta <a href='/handbook/emails#liquid'>la sintassi Liquid</a> con gli oggetti "{{ extra }}", "{{ basket_size_id }}", "{{ basket_size_price }}", "{{ complements_price }} e "{{ deliveries_count }}".
-          _nl: Maakt het mogelijk de prijs dynamisch te wijzigen op basis van verschillende criteria zoals de grootte van het deel.<br/> Ondersteunt <a href='/handbook/emails#liquid'>de Liquid-syntaxis</a> met de objecten "{{ extra }}", "{{ basket_size_id }}", "{{ basket_size_price }}", "{{ complements_price }}" en "{{ deliveries_count }}".
         basket_price_extra_dynamic_pricing_html:
           _en: Allows changing the price dynamically based on various criteria such as the size of the basket.<br/> Supports <a href='/handbook/emails#liquid'>the Liquid syntax</a> with the objects "{{ extra }}", "{{ basket_size_id }}", "{{ basket_size_price }}", "{{ complements_price }}", and "{{ deliveries_count }}".
           _fr: Permet de changer dynamiquement le prix en fonction de différents critères tels que la taille du panier.<br/> Supporte <a href='/handbook/emails#liquid'>la syntaxe Liquid</a> avec les objets "{{ extra }}", "{{ basket_size_id }}", "{{ basket_size_price }}", "{{ complements_price }} et "{{ deliveries_count }}".

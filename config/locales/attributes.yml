@@ -132,36 +132,12 @@ _:
       _de: Anteil-ID
       _it: Parte ID
       _nl: Deel-ID
-    basket_price_extra/bag:
-      _en: Extra bag price
-      _fr: Prix sac extra
-      _de: Preis Extra-Tasche
-      _it: Prezzo extra borsa
-      _nl: Extra tasprijs
-    basket_price_extra/basket:
-      _en: Extra basket price
-      _fr: Prix panier extra
-      _de: Preis Extra-Korb
-      _it: Prezzo extra cesta
-      _nl: Extra mandprijs
-    basket_price_extra/cone:
-      _en: Extra cone price
-      _fr: Prix cornet extra
-      _de: Preis Extra-Tüte
-      _it: Prezzo extra cono
-      _nl: Extra zakprijs
-    basket_price_extra/package:
-      _en: Extra package price
-      _fr: Prix colis extra
-      _de: Preis Extra-Paket
-      _it: Prezzo extra pacco
-      _nl: Extra pakketprijs
-    basket_price_extra/share:
-      _en: Extra share price
-      _fr: Prix part extra
-      _de: Preis Extra-Anteil
-      _it: Prezzo extra parte
-      _nl: Extra deelprijs
+    basket_price_extra:
+      _en: Extra price
+      _fr: Prix extra
+      _de: Preis Extra
+      _it: Prezzo extra
+      _nl: Extra prijs
     basket_quantity/bag:
       _en: Bag quantity
       _fr: Quantité de sacs

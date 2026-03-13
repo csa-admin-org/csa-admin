@@ -84,66 +84,18 @@ _:
       _de: Bietet ein Tool zur Berechnung des Inhalts und des Werts der Anteile für jede Lieferung.<br/>Weitere Informationen im <a href="/handbook/basket_content">Handbuch</a>.
       _it: Fornisce uno strumento per calcolare il contenuto e il valore delle parti per ogni consegna.<br/>Si prega <a href="/handbook/basket_content">di consultare il manuale</a> per ulteriori informazioni.
       _nl: Biedt een hulpmiddel om de inhoud en waarde van delen voor elke levering te berekenen.<br/>Meer informatie in <a href="/handbook/basket_content">de handleiding</a>.
-    basket_price_extra/bag:
-      _en: Extra bag price
-      _fr: Prix sac extra
-      _de: Taschen-Extrapreis
-      _it: Prezzo extra borsa
-      _nl: Extra tasprijs
-    basket_price_extra/basket:
-      _en: Extra basket price
-      _fr: Prix panier extra
-      _de: Korb-Extrapreis
-      _it: Prezzo extra cesta
-      _nl: Extra mandprijs
-    basket_price_extra/cone:
-      _en: Extra cone price
-      _fr: Prix cornet extra
-      _de: Tüten-Extrapreis
-      _it: Prezzo extra cono
-      _nl: Extra zakprijs
-    basket_price_extra/package:
-      _en: Extra package price
-      _fr: Prix colis extra
-      _de: Paket-Extrapreis
-      _it: Prezzo extra pacco
-      _nl: Extra pakketprijs
-    basket_price_extra/share:
-      _en: Extra share price
-      _fr: Prix part extra
-      _de: Anteil-Extrapreis
-      _it: Prezzo extra parte
-      _nl: Extra deelprijs
-    basket_price_extra_hint/bag:
-      _en: Allows members to pay an additional amount for each bag.<br/>Please <a href="/handbook/basket_price_extra">consult the manual</a> for more information.
-      _fr: Permet de proposer aux membres de payer un montant supplémentaire pour chaque sac.<br/>Merci de <a href="/handbook/basket_price_extra">consulter le manuel</a> pour plus d'informations.
-      _de: Ermöglicht es Mitgliedern, einen zusätzlichen Betrag für jede Tasche zu zahlen.<br/>Weitere Informationen im <a href="/handbook/basket_price_extra">Handbuch</a>.
-      _it: Permette ai soci di pagare un importo supplementare per ogni borsa.<br/>Si prega <a href="/handbook/basket_price_extra">di consultare il manuale</a> per ulteriori informazioni.
-      _nl: Stelt leden in staat een extra bedrag te betalen voor elke tas.<br/>Meer informatie in <a href="/handbook/basket_price_extra">de handleiding</a>.
-    basket_price_extra_hint/basket:
-      _en: Allows members to pay an additional amount for each basket.<br/>Please <a href="/handbook/basket_price_extra">consult the manual</a> for more information.
-      _fr: Permet de proposer aux membres de payer un montant supplémentaire pour chaque panier.<br/>Merci de <a href="/handbook/basket_price_extra">consulter le manuel</a> pour plus d'informations.
-      _de: Ermöglicht es Mitgliedern, einen zusätzlichen Betrag für jeden Korb zu zahlen.<br/>Weitere Informationen im <a href="/handbook/basket_price_extra">Handbuch</a>.
-      _it: Permette ai soci di pagare un importo supplementare per ogni cesta.<br/>Si prega <a href="/handbook/basket_price_extra">di consultare il manuale</a> per ulteriori informazioni.
-      _nl: Stelt leden in staat een extra bedrag te betalen voor elke mand.<br/>Meer informatie in <a href="/handbook/basket_price_extra">de handleiding</a>.
-    basket_price_extra_hint/cone:
-      _en: Allows members to pay an additional amount for each cone.<br/>Please <a href="/handbook/basket_price_extra">consult the manual</a> for more information.
-      _fr: Permet de proposer aux membres de payer un montant supplémentaire pour chaque cornet.<br/>Merci de <a href="/handbook/basket_price_extra">consulter le manuel</a> pour plus d'informations.
-      _de: Ermöglicht es Mitgliedern, einen zusätzlichen Betrag für jede Tüte zu zahlen.<br/>Weitere Informationen im <a href="/handbook/basket_price_extra">Handbuch</a>.
-      _it: Permette ai soci di pagare un importo supplementare per ogni cono.<br/>Si prega <a href="/handbook/basket_price_extra">di consultare il manuale</a> per ulteriori informazioni.
-      _nl: Stelt leden in staat een extra bedrag te betalen voor elke zak.<br/>Meer informatie in <a href="/handbook/basket_price_extra">de handleiding</a>.
-    basket_price_extra_hint/package:
-      _en: Allows members to pay an additional amount for each package.<br/>Please <a href="/handbook/basket_price_extra">consult the manual</a> for more information.
-      _fr: Permet de proposer aux membres de payer un montant supplémentaire pour chaque colis.<br/>Merci de <a href="/handbook/basket_price_extra">consulter le manuel</a> pour plus d'informations.
-      _de: Ermöglicht es Mitgliedern, einen zusätzlichen Betrag für jedes Paket zu zahlen.<br/>Weitere Informationen im <a href="/handbook/basket_price_extra">Handbuch</a>.
-      _it: Permette ai soci di pagare un importo supplementare per ogni pacco.<br/>Si prega <a href="/handbook/basket_price_extra">di consultare il manuale</a> per ulteriori informazioni.
-      _nl: Stelt leden in staat een extra bedrag te betalen voor elk pakket.<br/>Meer informatie in <a href="/handbook/basket_price_extra">de handleiding</a>.
-    basket_price_extra_hint/share:
-      _en: Allows members to pay an additional amount for each share.<br/>Please <a href="/handbook/basket_price_extra">consult the manual</a> for more information.
-      _fr: Permet de proposer aux membres de payer un montant supplémentaire pour chaque part.<br/>Merci de <a href="/handbook/basket_price_extra">consulter le manuel</a> pour plus d'informations.
-      _de: Ermöglicht es Mitgliedern, einen zusätzlichen Betrag für jeden Anteil zu zahlen.<br/>Weitere Informationen im <a href="/handbook/basket_price_extra">Handbuch</a>.
-      _it: Permette ai soci di pagare un importo supplementare per ogni parte.<br/>Si prega <a href="/handbook/basket_price_extra">di consultare il manuale</a> per ulteriori informazioni.
-      _nl: Stelt leden in staat een extra bedrag te betalen voor elk deel.<br/>Meer informatie in <a href="/handbook/basket_price_extra">de handleiding</a>.
+    basket_price_extra:
+      _en: Extra price
+      _fr: Prix extra
+      _de: Preis Extra
+      _it: Prezzo extra
+      _nl: Extra prijs
+    basket_price_extra_hint:
+      _en: Allows members to pay an additional amount for each delivery.<br/>Please <a href="/handbook/basket_price_extra">consult the manual</a> for more information.
+      _fr: Permet de proposer aux membres de payer un montant supplémentaire pour chaque livraison.<br/>Merci de <a href="/handbook/basket_price_extra">consulter le manuel</a> pour plus d'informations.
+      _de: Ermöglicht es Mitgliedern, einen zusätzlichen Betrag für jede Lieferung zu zahlen.<br/>Weitere Informationen im <a href="/handbook/basket_price_extra">Handbuch</a>.
+      _it: Permette ai soci di pagare un importo supplementare per ogni consegna.<br/>Si prega <a href="/handbook/basket_price_extra">di consultare il manuale</a> per ulteriori informazioni.
+      _nl: Stelt leden in staat een extra bedrag te betalen voor elke levering.<br/>Meer informatie in <a href="/handbook/basket_price_extra">de handleiding</a>.
     bidding_round:
       _en: Bidding round
       _fr: Tour d'engagement

@@ -2899,36 +2899,12 @@ _:
           _de: Titel
           _it: Titolo
           _nl: Titel
-        basket_price_extras/bag:
-          _en: Bag price (extras)
-          _fr: Prix sac (extras)
-          _de: Preisen Taschen (zusätzlich)
-          _it: Prezzo della borsa (extras)
-          _nl: Tasprijs (extra's)
-        basket_price_extras/basket:
-          _en: Basket price (extras)
-          _fr: Prix panier (extras)
-          _de: Preisen Körbe (zusätzlich)
-          _it: Prezzo della cesta (extras)
-          _nl: Mandprijs (extra's)
-        basket_price_extras/cone:
-          _en: Cone price (extras)
-          _fr: Prix cornet (extras)
-          _de: Preisen Tüten (zusätzlich)
-          _it: Prezzo del cono (extras)
-          _nl: Zakprijs (extra's)
-        basket_price_extras/package:
-          _en: Package price (extras)
-          _fr: Prix colis (extras)
-          _de: Preisen Pakete (zusätzlich)
-          _it: Prezzo del pacco (extras)
-          _nl: Pakketprijs (extra's)
-        basket_price_extras/share:
-          _en: Share price (extras)
-          _fr: Prix part (extras)
-          _de: Preisen Anteile (zusätzlich)
-          _it: Prezzo della parte (extras)
-          _nl: Deelprijs (extra's)
+        basket_price_extras:
+          _en: Price (extras)
+          _fr: Prix (extras)
+          _de: Preise (zusätzlich)
+          _it: Prezzo (extras)
+          _nl: Prijs (extra's)
         basket_shift_deadline_in_weeks/bag:
           _en: Deadline for shifts (in weeks)
           _fr: Délai pour les déplacements (en semaines)
