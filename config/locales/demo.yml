@@ -7,13 +7,13 @@ _:
           _fr: Vous avez déjà un compte? <a href="%{login_path}">Se connecter</a>
           _de: Bereits ein Konto? <a href="%{login_path}">Anmelden</a>
           _it: Avete già un account? <a href="%{login_path}">Accedere</a>
-          _nl: Heeft u al een account? <a href="%{login_path}">Inloggen</a>
+          _nl: Al een account? <a href="%{login_path}">Inloggen</a>
         description:
           _en: Thanks for your interest! Simply fill in this short form and you'll receive a login link by email to access the demo right away.
           _fr: Merci pour votre intérêt! Remplissez simplement ce court formulaire et vous recevrez un lien de connexion par e-mail pour accéder à la démo immédiatement.
-          _de: Vielen Dank für Ihr Interesse! Füllen Sie einfach dieses kurze Formular aus und Sie erhalten per E-Mail einen Anmeldelink für den sofortigen Zugang zur Demo.
+          _de: Vielen Dank für das Interesse! Einfach dieses kurze Formular ausfüllen und per E-Mail wird ein Anmeldelink für den sofortigen Zugang zur Demo zugesendet.
           _it: Grazie per il vostro interesse! Compilate semplicemente questo breve modulo e riceverete un link di accesso via e-mail per accedere alla demo immediatamente.
-          _nl: Bedankt voor uw interesse! Vul gewoon dit korte formulier in en u ontvangt per e-mail een inloglink om direct toegang te krijgen tot de demo.
+          _nl: Bedankt voor de interesse! Vul gewoon dit korte formulier in om per e-mail een inloglink te ontvangen voor directe toegang tot de demo.
         email_input:
           _en: Email
           _fr: Email
@@ -29,19 +29,19 @@ _:
         name_input:
           _en: Your name
           _fr: Votre nom
-          _de: Ihr Name
+          _de: Name
           _it: Il vostro nome
-          _nl: Uw naam
+          _nl: Naam
         note_input:
           _en: Your CSA
           _fr: Votre ACP
-          _de: Ihre Solawi
+          _de: Solawi
           _it: La vostra ACP
-          _nl: Uw CSA
+          _nl: CSA
         note_placeholder:
           _en: Name, website, location, tell me more!
           _fr: Nom, site web, lieu, dites-m'en plus!
-          _de: Name, Website, Standort, erzählen Sie mir mehr!
+          _de: Name, Website, Standort, gerne mehr erzählen!
           _it: Nome, sito web, località, ditemi di più!
           _nl: Naam, website, locatie, vertel me meer!
         submit:

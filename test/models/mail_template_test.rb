@@ -38,7 +38,7 @@ class MailTemplateTest < ActiveSupport::TestCase
     )
     assert_includes template.contents["en"], "<p>Your membership is now active.</p>"
     assert_includes template.contents["fr"], "<p>Votre abonnement est maintenant actif.</p>"
-    assert_includes template.contents["de"], "<p>Ihr Abonnement ist jetzt aktiv.</p>"
+    assert_includes template.contents["de"], "<p>Dein Abonnement ist jetzt aktiv.</p>"
     assert_includes template.contents["it"], "<p>Il vostro abbonamento è ora attivo.</p>"
   end
 

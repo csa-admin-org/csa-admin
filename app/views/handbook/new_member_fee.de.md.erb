@@ -1,22 +1,22 @@
 # Teilnahmegebühr
 
-Diese Funktion ermöglicht es Ihnen, automatisch eine Teilnahmegebühr für Ihre neuen Mitglieder zu berechnen, beispielsweise für wiederverwendbare <%= Basket.model_name.human(count: 2) %>.
+Diese Funktion ermöglicht es Dir, automatisch eine Teilnahmegebühr für Deine neuen Mitglieder zu berechnen, beispielsweise für wiederverwendbare <%= Basket.model_name.human(count: 2) %>.
 
-Sobald diese zusätzliche Funktion aktiviert ist, müssen die Beschreibung sowie der Betrag Ihrer Teilnahmegebühr in [Ihren Einstellungen](/settings#new_member_fee) definiert werden.
+Sobald diese zusätzliche Funktion aktiviert ist, müssen die Beschreibung sowie der Betrag Deiner Teilnahmegebühr in [Deinen Einstellungen](/settings#new_member_fee) definiert werden.
 
-> Wenn Sie bereits manuell Teilnahmegebühren berechnet haben ([Rechnung "Sonstiges"](/handbook/billing#manual-invoice)), [kontaktieren Sie bitte mich](/support), damit ich mich um deren Migration kümmern kann, um zu vermeiden, dass diese Gebühren Ihren Mitgliedern unnötigerweise zweimal berechnet werden.
+> Wenn Du bereits manuell Teilnahmegebühren berechnet hast ([Rechnung "Sonstiges"](/handbook/billing#manual-invoice)), [kontaktiere bitte mich](/support), damit ich mich um deren Migration kümmern kann, um zu vermeiden, dass diese Gebühren Deinen Mitgliedern unnötigerweise zweimal berechnet werden.
 
 ## Abrechnung {#billing}
 
-Das System kümmert sich darum, diese Gebühren jedem neuen Mitglied am automatischen Abrechnungstag zu berechnen, der in [Ihren Einstellungen](/settings#billing) definiert ist. Wenn Sie [<%= Basket.model_name.human(count: 2) %> zur Probe](/handbook/billing#trial-baskets) haben, werden diese Gebühren erst am Ende der Probezeit berechnet, wenn das Mitglied sich entscheidet, weiterzumachen.
+Das System kümmert sich darum, diese Gebühren jedem neuen Mitglied am automatischen Abrechnungstag zu berechnen, der in [Deinen Einstellungen](/settings#billing) definiert ist. Wenn Du [<%= Basket.model_name.human(count: 2) %> zur Probe](/handbook/billing#trial-baskets) hast, werden diese Gebühren erst am Ende der Probezeit berechnet, wenn das Mitglied sich entscheidet, weiterzumachen.
 
 Es ist möglich, einen spezifischen Text in der [E-Mail-Vorlage "Neue Rechnung"](/mail_templates/invoice_created) mit Hilfe der folgenden [Liquid-Syntax](https://shopify.github.io/liquid) hinzuzufügen:
 
 ~~~ liquid
 {% case invoice.entity_type %}
 {% when 'NewMemberFee' %}
-  <p>Hier ist Ihre neue Rechnung für Ihre Teilnahmegebühr; alle Details finden Sie im angehängten PDF.</p>
+  <p>Hier ist Deine neue Rechnung für Deine Teilnahmegebühr; alle Details findest Du im angehängten PDF.</p>
 {% else %}
-  <p>Hier ist Ihre neue Rechnung; alle Details finden Sie im angehängten PDF.</p>
+  <p>Hier ist Deine neue Rechnung; alle Details findest Du im angehängten PDF.</p>
 {% endcase %}
 ~~~

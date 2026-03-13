@@ -16,9 +16,9 @@ _:
     auto_save_recovered:
       _en: Local auto-save recovered, don't forget to save your draft!
       _fr: Sauvegarde automatique locale récupérée, n'oubliez pas de sauver votre brouillon!
-      _de: Lokale automatische Sicherung wiederhergestellt, vergessen Sie nicht, Ihren Entwurf zu speichern!
+      _de: Lokale automatische Sicherung wiederhergestellt, nicht vergessen, den Entwurf zu speichern!
       _it: Backup automatico locale recuperato, non dimenticare di salvare la tua bozza!
-      _nl: Lokale automatische opslag hersteld, vergeet uw concept niet op te slaan!
+      _nl: Lokale automatische opslag hersteld, niet vergeten het concept op te slaan!
     member_state:
       all:
         _en: All
@@ -42,9 +42,9 @@ _:
       info_html:
         _en: Audience segments allow you to target your newsletters based on specific criteria. These criteria apply <b>only to active members</b> and to their <b>membership</b> based on the chosen scope (current, future, or both).
         _fr: Les segments d'audience vous permettent de cibler vos newsletters en fonction de critères précis. Ces critères s'appliquent <b>uniquement aux membres actifs</b> et à leur <b>abonnement</b> en fonction de la portée choisie (actuel, futur, ou les deux).
-        _de: Die Audienzsegmente ermöglichen es Ihnen, Ihre Newsletter anhand bestimmter Kriterien zu ciblieren. Diese Kriterien gelten <b>nur für aktive Mitglieder</b> und für ihr <b>Abonnement</b> je nach gewähltem Umfang (aktuell, zukünftig oder beides).
+        _de: Mit Audienzsegmenten lassen sich Newsletter anhand bestimmter Kriterien gezielt versenden. Diese Kriterien gelten <b>nur für aktive Mitglieder</b> und für ihr <b>Abonnement</b> je nach gewähltem Umfang (aktuell, zukünftig oder beides).
         _it: I segmenti di pubblico ti permettono di indirizzare le tue newsletter in base a criteri precisi. Questi criteri si applicano <b>solo ai soci attivi</b> e al loro <b>abbonamento</b> in base all'ambito scelto (attuale, futuro o entrambi).
-        _nl: Met segmenten kunt u uw nieuwsbrieven richten op basis van specifieke criteria. Deze criteria gelden <b>alleen voor actieve leden</b> en voor hun <b>lidmaatschap</b> op basis van het gekozen bereik (huidig, toekomstig of beide).
+        _nl: Met segmenten kunnen nieuwsbrieven worden gericht op basis van specifieke criteria. Deze criteria gelden <b>alleen voor actieve leden</b> en voor hun <b>lidmaatschap</b> op basis van het gekozen bereik (huidig, toekomstig of beide).
       membership_scope:
         current:
           _en: Current only

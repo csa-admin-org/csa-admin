@@ -62,9 +62,9 @@ _:
         visible:
           _en: Select "No" if this activity should only be visible to admins.
           _fr: Sélectionner "Non" si cette activité ne doit être visible que pour les admins.
-          _de: Wählen Sie "Nein", wenn diese Aktivität nur für Administratoren sichtbar sein soll.
+          _de: '"Nein" wählen, wenn diese Aktivität nur für Administratoren sichtbar sein soll.'
           _it: Selezionare "No" se questa attività deve essere visibile solo agli amministratori.
-          _nl: Selecteer "Nee" als deze activiteit alleen zichtbaar moet zijn voor beheerders.
+          _nl: '"Nee" selecteren als deze activiteit alleen zichtbaar moet zijn voor beheerders.'
       activity_preset:
         place_url:
           _en: Google Maps or other.
@@ -76,9 +76,9 @@ _:
         text_html:
           _en: Please check that the display on the sheets does not overflow.<br/>The announcement will be displayed on the sheets (PDF) of the depot/delivery pairs listed below.
           _fr: Merci de vérifier que l'affichage sur les fiches ne déborde pas.<br/>L'annonce sera affichée sur les fiches (PDF) des paires dépôts/livraisons ci-dessous.
-          _de: Bitte überprüfen Sie, dass die Anzeige auf den Blättern nicht überläuft.<br/>Die Ankündigung wird auf den Blättern (PDF) der unten aufgeführten Depots/Lieferungspaare angezeigt.
+          _de: Bitte prüfen, ob die Anzeige auf den Blättern nicht überläuft.<br/>Die Ankündigung wird auf den Blättern (PDF) der unten aufgeführten Depots/Lieferungspaare angezeigt.
           _it: Controlla che l'annuncio non esca dal foglio.<br/>L'annuncio verrà visualizzato sulla coppia di fogli punti di ritiro/consegne (PDF) qui sotto.
-          _nl: Controleer dat de weergave op de bladen niet overloopt.<br/>De aankondiging wordt weergegeven op de bladen (PDF) van de onderstaande depot/levering-paren.
+          _nl: Controleren of de weergave op de bladen niet overloopt.<br/>De aankondiging wordt weergegeven op de bladen (PDF) van de onderstaande depot/levering-paren.
       attributes:
         admin_name:
           _en: If present, replaces the name displayed in the administration interface. The name for members remains unchanged.
@@ -195,7 +195,7 @@ _:
           _fr: Sélectionner "Non" si le complément n'est pas disponible lors de l'inscription.
           _de: '"Nein" auswählen, wenn der Zusatz nicht vorhanden ist bei der Anmeldung.'
           _it: Seleziona "No" se il supplemento non è disponibile durante la registrazione.
-          _nl: Selecteer "Nee" als de aanvulling niet beschikbaar is tijdens registratie.
+          _nl: '"Nee" selecteren als de aanvulling niet beschikbaar is tijdens registratie.'
       basket_content:
         basket_size_ids_quantities:
           _en: g or pieces.
@@ -286,33 +286,33 @@ _:
         delivery_cycle/bag:
           _en: Allows you to force a specific delivery cycle for this bag size. The choice will not be offered to members during registration.
           _fr: Permet de forcer un cycle de livraisons spécifique pour cette taille sac. Le choix ne sera pas proposé aux membres lors de l'inscription.
-          _de: Ermöglicht es Ihnen, einen bestimmten Lieferzyklus für diese Taschengrösse zu erzwingen. Die Auswahl wird den Mitgliedern bei der Registrierung nicht angezeigt.
+          _de: Ermöglicht es, einen bestimmten Lieferzyklus für diese Taschengrösse zu erzwingen. Die Auswahl wird den Mitgliedern bei der Registrierung nicht angezeigt.
           _it: Permette di forzare un ciclo di consegna specifico per questa dimensione della borsa. La scelta non verrà proposta ai soci durante la registrazione.
-          _nl: Hiermee kunt u een specifieke leveringscyclus forceren voor deze tasgrootte. De keuze wordt niet aangeboden aan leden tijdens registratie.
+          _nl: Hiermee kan een specifieke leveringscyclus worden geforceerd voor deze tasgrootte. De keuze wordt niet aangeboden aan leden tijdens registratie.
         delivery_cycle/basket:
           _en: Allows you to force a specific delivery cycle for this basket size. The choice will not be offered to members during registration.
           _fr: Permet de forcer un cycle de livraisons spécifique pour cette taille de panier. Le choix ne sera pas proposé aux membres lors de l'inscription.
-          _de: Ermöglicht es Ihnen, einen bestimmten Lieferzyklus für diese Korbgrösse zu erzwingen. Die Auswahl wird den Mitgliedern bei der Registrierung nicht angezeigt.
+          _de: Ermöglicht es, einen bestimmten Lieferzyklus für diese Korbgrösse zu erzwingen. Die Auswahl wird den Mitgliedern bei der Registrierung nicht angezeigt.
           _it: Permette di forzare un ciclo di consegna specifico per questa dimensione della cesta. La scelta non verrà proposta ai soci durante la registrazione.
-          _nl: Hiermee kunt u een specifieke leveringscyclus forceren voor deze mandgrootte. De keuze wordt niet aangeboden aan leden tijdens registratie.
+          _nl: Hiermee kan een specifieke leveringscyclus worden geforceerd voor deze mandgrootte. De keuze wordt niet aangeboden aan leden tijdens registratie.
         delivery_cycle/cone:
           _en: Allows you to force a specific delivery cycle for this cone size. The choice will not be offered to members during registration.
           _fr: Permet de forcer un cycle de livraisons spécifique pour cette taille cornet. Le choix ne sera pas proposé aux membres lors de l'inscription.
-          _de: Ermöglicht es Ihnen, einen bestimmten Lieferzyklus für diese Tütengrösse zu erzwingen. Die Auswahl wird den Mitgliedern bei der Registrierung nicht angezeigt.
+          _de: Ermöglicht es, einen bestimmten Lieferzyklus für diese Tütengrösse zu erzwingen. Die Auswahl wird den Mitgliedern bei der Registrierung nicht angezeigt.
           _it: Permette di forzare un ciclo di consegna specifico per questa dimensione del cono. La scelta non verrà proposta ai soci durante la registrazione.
-          _nl: Hiermee kunt u een specifieke leveringscyclus forceren voor deze zakgrootte. De keuze wordt niet aangeboden aan leden tijdens registratie.
+          _nl: Hiermee kan een specifieke leveringscyclus worden geforceerd voor deze zakgrootte. De keuze wordt niet aangeboden aan leden tijdens registratie.
         delivery_cycle/package:
           _en: Allows you to force a specific delivery cycle for this package size. The choice will not be offered to members during registration.
           _fr: Permet de forcer un cycle de livraisons spécifique pour cette taille colis. Le choix ne sera pas proposé aux membres lors de l'inscription.
-          _de: Ermöglicht es Ihnen, einen bestimmten Lieferzyklus für diese Paketgrösse zu erzwingen. Die Auswahl wird den Mitgliedern bei der Registrierung nicht angezeigt.
+          _de: Ermöglicht es, einen bestimmten Lieferzyklus für diese Paketgrösse zu erzwingen. Die Auswahl wird den Mitgliedern bei der Registrierung nicht angezeigt.
           _it: Permette di forzare un ciclo di consegna specifico per questa dimensione del pacco. La scelta non verrà proposta ai soci durante la registrazione.
-          _nl: Hiermee kunt u een specifieke leveringscyclus forceren voor deze pakketgrootte. De keuze wordt niet aangeboden aan leden tijdens registratie.
+          _nl: Hiermee kan een specifieke leveringscyclus worden geforceerd voor deze pakketgrootte. De keuze wordt niet aangeboden aan leden tijdens registratie.
         delivery_cycle/share:
           _en: Allows you to force a specific delivery cycle for this share size. The choice will not be offered to members during registration.
           _fr: Permet de forcer un cycle de livraisons spécifique pour cette taille part. Le choix ne sera pas proposé aux membres lors de l'inscription.
-          _de: Ermöglicht es Ihnen, einen bestimmten Lieferzyklus für diese Anteilsgrösse zu erzwingen. Die Auswahl wird den Mitgliedern bei der Registrierung nicht angezeigt.
+          _de: Ermöglicht es, einen bestimmten Lieferzyklus für diese Anteilsgrösse zu erzwingen. Die Auswahl wird den Mitgliedern bei der Registrierung nicht angezeigt.
           _it: Permette di forzare un ciclo di consegna specifico per questa dimensione della parte. La scelta non verrà proposta ai soci durante la registrazione.
-          _nl: Hiermee kunt u een specifieke leveringscyclus forceren voor deze deelgrootte. De keuze wordt niet aangeboden aan leden tijdens registratie.
+          _nl: Hiermee kan een specifieke leveringscyclus worden geforceerd voor deze deelgrootte. De keuze wordt niet aangeboden aan leden tijdens registratie.
         first_cweek:
           cross_year:
             _en: Week number based on the year at the start of the fiscal year.
@@ -386,31 +386,31 @@ _:
           _fr: Sélectionner "Non" si la taille sac n'est pas disponible lors de l'inscription.
           _de: Nein" auswählen, wenn die Taschengrösse bei der Registrierung nicht verfügbar ist.
           _it: Seleziona "No" se la dimensione della borsa non è disponibile durante la registrazione.
-          _nl: Selecteer "Nee" als de tasgrootte niet beschikbaar is tijdens registratie.
+          _nl: '"Nee" selecteren als de tasgrootte niet beschikbaar is tijdens registratie.'
         visible/basket:
           _en: Select "No" if the basket size is not available during registration.
           _fr: Sélectionner "Non" si la taille de panier n'est pas disponible lors de l'inscription.
           _de: Nein" auswählen, wenn die Korbgrösse bei der Registrierung nicht verfügbar ist.
           _it: Seleziona "No" se la dimensione della cesta non è disponibile durante la registrazione.
-          _nl: Selecteer "Nee" als de mandgrootte niet beschikbaar is tijdens registratie.
+          _nl: '"Nee" selecteren als de mandgrootte niet beschikbaar is tijdens registratie.'
         visible/cone:
           _en: Select "No" if the cone size is not available during registration.
           _fr: Sélectionner "Non" si la taille cornet n'est pas disponible lors de l'inscription.
           _de: Nein" auswählen, wenn die Tütengrösse bei der Registrierung nicht verfügbar ist.
           _it: Seleziona "No" se la dimensione del cono non è disponibile durante la registrazione.
-          _nl: Selecteer "Nee" als de zakgrootte niet beschikbaar is tijdens registratie.
+          _nl: '"Nee" selecteren als de zakgrootte niet beschikbaar is tijdens registratie.'
         visible/package:
           _en: Select "No" if the package size is not available during registration.
           _fr: Sélectionner "Non" si la taille colis n'est pas disponible lors de l'inscription.
           _de: Nein" auswählen, wenn die Paketgrösse bei der Registrierung nicht verfügbar ist.
           _it: Seleziona "No" se la dimensione del pacco non è disponibile durante la registrazione.
-          _nl: Selecteer "Nee" als de pakketgrootte niet beschikbaar is tijdens registratie.
+          _nl: '"Nee" selecteren als de pakketgrootte niet beschikbaar is tijdens registratie.'
         visible/share:
           _en: Select "No" if the share size is not available during registration.
           _fr: Sélectionner "Non" si la taille part n'est pas disponible lors de l'inscription.
           _de: Nein" auswählen, wenn die Anteilsgrösse bei der Registrierung nicht verfügbar ist.
           _it: Seleziona "No" se la dimensione della parte non è disponibile durante la registrazione.
-          _nl: Selecteer "Nee" als de deelgrootte niet beschikbaar is tijdens registratie.
+          _nl: '"Nee" selecteren als de deelgrootte niet beschikbaar is tijdens registratie.'
       baskets_basket_complement:
         price:
           _en: Leave blank for the default price.
@@ -514,15 +514,15 @@ _:
         absences_included_annually:
           _en: Allows you to automatically exclude a certain number of deliveries, enabling members to plan a limited number of non-billed absences.
           _fr: Permet d'exclure automatiquement un certain nombre de livraisons, laissant aux membres la planification d'un nombre limité d'absences non-facturées.
-          _de: Ermöglicht es Ihnen, eine bestimmte Anzahl von Lieferungen automatisch auszuschließen, wodurch den Mitgliedern die Planung einer begrenzten Anzahl von nicht in Rechnung gestellten Abwesenheiten ermöglicht wird.
+          _de: Ermöglicht es, eine bestimmte Anzahl von Lieferungen automatisch auszuschließen, wodurch den Mitgliedern die Planung einer begrenzten Anzahl von nicht in Rechnung gestellten Abwesenheiten ermöglicht wird.
           _it: Consente di escludere automaticamente un certo numero di consegne, consentendo ai soci di pianificare un numero limitato di assenze non fatturate.
-          _nl: Stelt u in staat om automatisch een bepaald aantal leveringen uit te sluiten, waardoor leden een beperkt aantal niet-gefactureerde afwezigheden kunnen plannen.
+          _nl: Maakt het mogelijk om automatisch een bepaald aantal leveringen uit te sluiten, waardoor leden een beperkt aantal niet-gefactureerde afwezigheden kunnen plannen.
         depots:
           _en: Select the depots where this delivery cycle is available at registration.
           _fr: Sélectionnez les dépôts pour lesquels ce cycle de livraisons est disponible à l'inscription.
-          _de: Wählen Sie die Depots aus, für die dieser Lieferzyklus bei der Anmeldung verfügbar ist.
+          _de: Die Depots auswählen, für die dieser Lieferzyklus bei der Anmeldung verfügbar ist.
           _it: Seleziona i punti di ritiro per i quali questo ciclo di consegna è disponibile al momento della registrazione.
-          _nl: Selecteer de depots waarvoor deze leveringscyclus beschikbaar is bij registratie.
+          _nl: De depots selecteren waarvoor deze leveringscyclus beschikbaar is bij registratie.
         exclude_cweek_range:
           _en: Exclude deliveries within the week range instead of outside.
           _fr: Exclure les livraisons à l'intérieur de la plage de semaines plutôt qu'à l'extérieur.
@@ -656,9 +656,9 @@ _:
         group_html:
           _en: Allows you to display depots by <a href='/depot_groups'>group</a> on the registration form.
           _fr: Permet d'afficher les dépôts par <a href='/depot_groups'>groupe</a> sur le formulaire d'inscription.
-          _de: Ermöglicht es Ihnen, die Depots nach <a href='/depot_groups'>Gruppe</a> im Anmeldeformular anzuzeigen.
+          _de: Ermöglicht es, die Depots nach <a href='/depot_groups'>Gruppe</a> im Anmeldeformular anzuzeigen.
           _it: Permette di visualizzare i punti di ritiro per <a href='/depot_groups'>gruppo</a> nel modulo di registrazione.
-          _nl: Stelt u in staat depots per <a href='/depot_groups'>groep</a> weer te geven op het registratieformulier.
+          _nl: Maakt het mogelijk depots per <a href='/depot_groups'>groep</a> weer te geven op het registratieformulier.
         phones:
           _en: Separated by a comma.
           _fr: Séparés par une virgule.
@@ -706,7 +706,7 @@ _:
           _fr: Sélectionner "Non" si le dépôt n'est plus disponible lors de l'inscription.
           _de: '"Nein" auswählen, wenn das Depot bei der Registrierung nicht mehr verfügbar ist.'
           _it: Seleziona "No" se il punto di ritiro non è più disponibile durante la registrazione.
-          _nl: Selecteer "Nee" als het depot niet meer beschikbaar is bij registratie.
+          _nl: '"Nee" selecteren als het depot niet meer beschikbaar is bij registratie.'
       depot_group:
         information_text:
           _en: Information displayed below the group name on the registration form.
@@ -736,9 +736,9 @@ _:
       liquid_data_preview_html:
         _en: This <a href='/handbook/emails#data-preview'>data structure</a> is presented as an example and is generated semi-randomly. You can change its values at will to preview your template.
         _fr: Cette <a href='/handbook/emails#data-preview'>structure de données</a> est présentée à titre d'exemple et est générée semi-aléatoirement, vous pouvez modifier ses valeurs à volonté pour prévisualiser votre template.
-        _de: Diese <a href='/handbook/emails#data-preview'>Datenstruktur</a> wird als Beispiel vorgestellt und wird halbzufällig generiert. Sie können ihre Werte nach Belieben ändern, um eine Vorschau Ihrer Vorlage zu erhalten.
+        _de: Diese <a href='/handbook/emails#data-preview'>Datenstruktur</a> wird als Beispiel vorgestellt und wird halbzufällig generiert. Die Werte können nach Belieben geändert werden, um eine Vorschau der Vorlage zu erhalten.
         _it: Questa <a href='/handbook/emails#data-preview'>struttura dati</a> è presentata come un esempio e viene generata in modo semi-casuale, potete modificarne i valori a piacimento per visualizzare in anteprima il tuo template.
-        _nl: Deze <a href='/handbook/emails#data-preview'>datastructuur</a> wordt als voorbeeld gepresenteerd en wordt semi-willekeurig gegenereerd. U kunt de waarden naar believen wijzigen om uw sjabloon te bekijken.
+        _nl: Deze <a href='/handbook/emails#data-preview'>datastructuur</a> wordt als voorbeeld gepresenteerd en wordt semi-willekeurig gegenereerd. De waarden kunnen naar believen worden gewijzigd om het sjabloon te bekijken.
       liquid_html:
         _en: Supports <a href='/handbook/emails#liquid'>Liquid syntax</a> with the data structure defined below.
         _fr: Supporte <a href='/handbook/emails#liquid'>la syntaxe Liquid</a> avec la structure de données définie ci-dessous.
@@ -749,9 +749,9 @@ _:
         active:
           _en: This email is not sent by default, please check its content before activating it.
           _fr: Cet email n'est pas envoyé par défaut, veuillez vérifier son contenu avant de l'activer.
-          _de: Diese E-Mail wird standardmäßig nicht gesendet, bitte überprüfen Sie den Inhalt, bevor Sie sie aktivieren.
+          _de: Diese E-Mail wird standardmäßig nicht gesendet, bitte den Inhalt prüfen, bevor sie aktiviert wird.
           _it: Questa email non viene inviata per default, controlla il suo contenuto prima di attivarla
-          _nl: Deze e-mail wordt niet standaard verzonden, controleer de inhoud voordat u deze activeert.
+          _nl: Deze e-mail wordt niet standaard verzonden, de inhoud controleren voordat deze wordt geactiveerd.
         always_active:
           _en: This email is mandatory and cannot be deactivated.
           _fr: Cet email est obligatoire et ne peut pas être désactivé.
@@ -804,7 +804,7 @@ _:
         desired_shares_number:
           _en: Allows the member to have more shares than required. They will be billed automatically.
           _fr: Permet au membre d'avoir plus de parts sociales que celles requises. Elles seront facturées automatiquement.
-          _de: Erlaubt dem Mitglied, mehr Anteilscheine zu haben als die erforderliche Anzahl. Sie werden automatisch in Rechnung gestellt.
+          _de: Erlaubt dem Mitglied, mehr Anteilscheine zu haben als die erforderliche Anzahl. Diese werden automatisch in Rechnung gestellt.
           _it: Consente al socio di avere più quote sociali cooperative di quelle richieste. Saranno fatturate automaticamente.
           _nl: Stelt het lid in staat om meer aandelen te hebben dan vereist. Deze worden automatisch gefactureerd.
         emails:
@@ -836,37 +836,37 @@ _:
           _fr: Permet de changer le nombre par défaut qui dépends de la taille du sac de l'abonnement en cours.</br>Un nombre négatif permet d'indiquer que les parts ne seront pas remboursées afin de rendre le membre inactif.
           _de: Ermöglicht die Änderung der Standardanzahl, die von der Taschengrösse des aktuellen Abonnements abhängt.
           _it: Consente di modificare il numero predefinito che dipende dalla dimensione della borsa dell'abbonamento corrente.
-          _nl: Stelt u in staat het standaardaantal te wijzigen, dat afhangt van de tasgrootte van het huidige lidmaatschap.</br>Een negatief getal geeft aan dat de aandelen niet worden terugbetaald om het lid inactief te maken.
+          _nl: Maakt het mogelijk het standaardaantal te wijzigen, dat afhangt van de tasgrootte van het huidige lidmaatschap.</br>Een negatief getal geeft aan dat de aandelen niet worden terugbetaald om het lid inactief te maken.
         required_shares_number/basket_html:
           _en: Allows changing the default number, which depends on the basket size of the current membership.</br>A negative number indicates that the shares will not be refunded to make the member inactive.
           _fr: Permet de changer le nombre par défaut qui dépends de la taille du panier de l'abonnement en cours.</br>Un nombre négatif permet d'indiquer que les parts ne seront pas remboursées afin de rendre le membre inactif.
           _de: Ermöglicht die Änderung der Standardanzahl, die von der Korbgrösse des aktuellen Abonnements abhängt.
           _it: Consente di modificare il numero predefinito che dipende dalla dimensione della cesta dell'abbonamento corrente.
-          _nl: Stelt u in staat het standaardaantal te wijzigen, dat afhangt van de mandgrootte van het huidige lidmaatschap.</br>Een negatief getal geeft aan dat de aandelen niet worden terugbetaald om het lid inactief te maken.
+          _nl: Maakt het mogelijk het standaardaantal te wijzigen, dat afhangt van de mandgrootte van het huidige lidmaatschap.</br>Een negatief getal geeft aan dat de aandelen niet worden terugbetaald om het lid inactief te maken.
         required_shares_number/cone_html:
           _en: Allows changing the default number, which depends on the cone size of the current membership.</br>A negative number indicates that the shares will not be refunded to make the member inactive.
           _fr: Permet de changer le nombre par défaut qui dépends de la taille du cornet de l'abonnement en cours.</br>Un nombre négatif permet d'indiquer que les parts ne seront pas remboursées afin de rendre le membre inactif.
           _de: Ermöglicht die Änderung der Standardanzahl, die von der Tütengrösse des aktuellen Abonnements abhängt.
           _it: Consente di modificare il numero predefinito che dipende dalla dimensione del cono dell'abbonamento corrente.
-          _nl: Stelt u in staat het standaardaantal te wijzigen, dat afhangt van de zakgrootte van het huidige lidmaatschap.</br>Een negatief getal geeft aan dat de aandelen niet worden terugbetaald om het lid inactief te maken.
+          _nl: Maakt het mogelijk het standaardaantal te wijzigen, dat afhangt van de zakgrootte van het huidige lidmaatschap.</br>Een negatief getal geeft aan dat de aandelen niet worden terugbetaald om het lid inactief te maken.
         required_shares_number/package_html:
           _en: Allows changing the default number, which depends on the package size of the current membership.</br>A negative number indicates that the shares will not be refunded to make the member inactive.
           _fr: Permet de changer le nombre par défaut qui dépends de la taille du colis de l'abonnement en cours.</br>Un nombre négatif permet d'indiquer que les parts ne seront pas remboursées afin de rendre le membre inactif.
           _de: Ermöglicht die Änderung der Standardanzahl, die von der Paketgrösse des aktuellen Abonnements abhängt.
           _it: Consente di modificare il numero predefinito che dipende dalla dimensione del pacco dell'abbonamento corrente.
-          _nl: Stelt u in staat het standaardaantal te wijzigen, dat afhangt van de pakketgrootte van het huidige lidmaatschap.</br>Een negatief getal geeft aan dat de aandelen niet worden terugbetaald om het lid inactief te maken.
+          _nl: Maakt het mogelijk het standaardaantal te wijzigen, dat afhangt van de pakketgrootte van het huidige lidmaatschap.</br>Een negatief getal geeft aan dat de aandelen niet worden terugbetaald om het lid inactief te maken.
         required_shares_number/share_html:
           _en: Allows changing the default number, which depends on the share size of the current membership.</br>A negative number indicates that the shares will not be refunded to make the member inactive.
           _fr: Permet de changer le nombre par défaut qui dépends de la taille de la part de l'abonnement en cours.</br>Un nombre négatif permet d'indiquer que les parts ne seront pas remboursées afin de rendre le membre inactif.
           _de: Ermöglicht die Änderung der Standardanzahl, die von der Anteilsgrösse des aktuellen Abonnements abhängt.
           _it: Consente di modificare il numero predefinito che dipende dalla dimensione della parte dell'abbonamento corrente.
-          _nl: Stelt u in staat het standaardaantal te wijzigen, dat afhangt van de deelgrootte van het huidige lidmaatschap.</br>Een negatief getal geeft aan dat de aandelen niet worden terugbetaald om het lid inactief te maken.
+          _nl: Maakt het mogelijk het standaardaantal te wijzigen, dat afhangt van de deelgrootte van het huidige lidmaatschap.</br>Een negatief getal geeft aan dat de aandelen niet worden terugbetaald om het lid inactief te maken.
         required_shares_number_html:
           _en: Allows changing the default number, which depends on the basket size of the current membership.</br>A negative number indicates that the shares will not be refunded to make the member inactive.
           _fr: Permet de changer le nombre par défaut qui dépends de la taille du panier de l'abonnement en cours.</br>Un nombre négatif permet d'indiquer que les parts ne seront pas remboursées afin de rendre le membre inactif.
           _de: Ermöglicht die Änderung der Standardanzahl, die von der Taschengrösse des aktuellen Abonnements abhängt.
           _it: Consente di modificare il numero predefinito che dipende dalla dimensione della cesta dell'abbonamento corrente.
-          _nl: Stelt u in staat het standaardaantal te wijzigen, dat afhangt van de pakketgrootte van het huidige lidmaatschap.</br>Een negatief getal geeft aan dat de aandelen niet worden terugbetaald om het lid inactief te maken.
+          _nl: Maakt het mogelijk het standaardaantal te wijzigen, dat afhangt van de pakketgrootte van het huidige lidmaatschap.</br>Een negatief getal geeft aan dat de aandelen niet worden terugbetaald om het lid inactief te maken.
         send_validation_email_html:
           _en: <a href="%{url}">This email</a> is sent automatically when new members use <a href="%{new_members_url}">the registration form</a> and are validated by an admin.
           _fr: <a href="%{url}">Cet email</a> est envoyé automatiquement lorsque de nouveaux membres utilisent <a href="%{new_members_url}">le formulaire d'inscription</a> et sont validés par un administrateur.
@@ -876,9 +876,9 @@ _:
         sepa_mandate_id:
           _en: Unique reference number among your members (reusing the member's ID is recommended).
           _fr: Numéro de référence unique parmi vos membres (réutiliser l'ID du membre est recommandé).
-          _de: Eindeutige Referenznummer unter Ihren Mitgliedern (die Verwendung der Mitglieds-ID wird empfohlen).
+          _de: Eindeutige Referenznummer unter den Mitgliedern (die Verwendung der Mitglieds-ID wird empfohlen).
           _it: Numero di riferimento univoco tra i soci (riutilizzare l'ID del socio è consigliato).
-          _nl: Uniek referentienummer onder uw leden (hergebruik van het lid-ID wordt aanbevolen).
+          _nl: Uniek referentienummer onder de leden (hergebruik van het lid-ID wordt aanbevolen).
         shop_depot:
           _en: Allows a member without a membership to place grocery orders.
           _fr: Permet à un membre sans abonnement de passer des commandes d'épicerie.
@@ -888,63 +888,63 @@ _:
         trial_baskets_count/bag:
           _en: Allows you to change the default number of trial bags, useful if, for example, the member has already received bags before registering.
           _fr: Permet de modifier le nombre de sacs d'essai par défaut, pratique si, par exemple, le membre a déjà reçu des sacs avant son inscription.
-          _de: Ermöglicht es Ihnen, die Standardanzahl der Probetaschen zu ändern, was nützlich ist, wenn das Mitglied beispielsweise bereits Taschen erhalten hat, bevor es sich angemeldet hat.
+          _de: Ermöglicht es, die Standardanzahl der Probetaschen zu ändern, was nützlich ist, wenn das Mitglied beispielsweise bereits Taschen erhalten hat, bevor es sich angemeldet hat.
           _it: Consente di modificare il numero predefinito di borse di prova, utile se, ad esempio, il socio ha già ricevuto borse prima di registrarsi.
-          _nl: Stelt u in staat het standaardaantal proeftassen te wijzigen, handig als het lid bijvoorbeeld al tassen heeft ontvangen voor registratie.
+          _nl: Maakt het mogelijk het standaardaantal proeftassen te wijzigen, handig als het lid bijvoorbeeld al tassen heeft ontvangen voor registratie.
         trial_baskets_count/basket:
           _en: Allows you to change the default number of trial baskets, useful if, for example, the member has already received baskets before registering.
           _fr: Permet de modifier le nombre de paniers d'essai par défaut, pratique si, par exemple, le membre a déjà reçu des paniers avant son inscription.
-          _de: Ermöglicht es Ihnen, die Standardanzahl der Probekörbe zu ändern, was nützlich ist, wenn das Mitglied beispielsweise bereits Körbe erhalten hat, bevor es sich angemeldet hat.
+          _de: Ermöglicht es, die Standardanzahl der Probekörbe zu ändern, was nützlich ist, wenn das Mitglied beispielsweise bereits Körbe erhalten hat, bevor es sich angemeldet hat.
           _it: Consente di modificare il numero predefinito di ceste di prova, utile se, ad esempio, il socio ha già ricevuto ceste prima di registrarsi.
-          _nl: Stelt u in staat het standaardaantal proefmanden te wijzigen, handig als het lid bijvoorbeeld al manden heeft ontvangen voor registratie.
+          _nl: Maakt het mogelijk het standaardaantal proefmanden te wijzigen, handig als het lid bijvoorbeeld al manden heeft ontvangen voor registratie.
         trial_baskets_count/cone:
           _en: Allows you to change the default number of trial cones, useful if, for example, the member has already received cones before registering.
           _fr: Permet de modifier le nombre de cornets d'essai par défaut, pratique si, par exemple, le membre a déjà reçu des cornets avant son inscription.
-          _de: Ermöglicht es Ihnen, die Standardanzahl der Probetüten zu ändern, was nützlich ist, wenn das Mitglied beispielsweise bereits Tüten erhalten hat, bevor es sich angemeldet hat.
+          _de: Ermöglicht es, die Standardanzahl der Probetüten zu ändern, was nützlich ist, wenn das Mitglied beispielsweise bereits Tüten erhalten hat, bevor es sich angemeldet hat.
           _it: Consente di modificare il numero predefinito di coni di prova, utile se, ad esempio, il socio ha già ricevuto coni prima di registrarsi.
-          _nl: Stelt u in staat het standaardaantal proefzakken te wijzigen, handig als het lid bijvoorbeeld al zakken heeft ontvangen voor registratie.
+          _nl: Maakt het mogelijk het standaardaantal proefzakken te wijzigen, handig als het lid bijvoorbeeld al zakken heeft ontvangen voor registratie.
         trial_baskets_count/package:
           _en: Allows you to change the default number of trial packages, useful if, for example, the member has already received packages before registering.
           _fr: Permet de modifier le nombre de colis d'essai par défaut, pratique si, par exemple, le membre a déjà reçu des colis avant son inscription.
-          _de: Ermöglicht es Ihnen, die Standardanzahl der Probepakete zu ändern, was nützlich ist, wenn das Mitglied beispielsweise bereits Pakete erhalten hat, bevor es sich angemeldet hat.
+          _de: Ermöglicht es, die Standardanzahl der Probepakete zu ändern, was nützlich ist, wenn das Mitglied beispielsweise bereits Pakete erhalten hat, bevor es sich angemeldet hat.
           _it: Consente di modificare il numero predefinito di pacchi di prova, utile se, ad esempio, il socio ha già ricevuto pacchi prima di registrarsi.
-          _nl: Stelt u in staat het standaardaantal proefpakketten te wijzigen, handig als het lid bijvoorbeeld al pakketten heeft ontvangen voor registratie.
+          _nl: Maakt het mogelijk het standaardaantal proefpakketten te wijzigen, handig als het lid bijvoorbeeld al pakketten heeft ontvangen voor registratie.
         trial_baskets_count/share:
           _en: Allows you to change the default number of trial shares, useful if, for example, the member has already received shares before registering.
           _fr: Permet de modifier le nombre de parts d'essai par défaut, pratique si, par exemple, le membre a déjà reçu des parts avant son inscription.
-          _de: Ermöglicht es Ihnen, die Standardanzahl der Probeteile zu ändern, was nützlich ist, wenn das Mitglied beispielsweise bereits Anteile erhalten hat, bevor es sich angemeldet hat.
+          _de: Ermöglicht es, die Standardanzahl der Probeteile zu ändern, was nützlich ist, wenn das Mitglied beispielsweise bereits Anteile erhalten hat, bevor es sich angemeldet hat.
           _it: Consente di modificare il numero predefinito di parti di prova, utile se, ad esempio, il socio ha già ricevuto parti prima di registrarsi.
-          _nl: Stelt u in staat het standaardaantal proefdelen te wijzigen, handig als het lid bijvoorbeeld al delen heeft ontvangen voor registratie.
+          _nl: Maakt het mogelijk het standaardaantal proefdelen te wijzigen, handig als het lid bijvoorbeeld al delen heeft ontvangen voor registratie.
         waiting_alternative_depot_ids/bag:
           _en: You can choose one or more alternative depots if your first choice is already full. By agreeing to temporarily receive your bags at an alternative depot, you should be able to start faster.
           _fr: Vous pouvez choisir un ou plusieurs dépôts alternatifs dans le cas ou votre premier choix serait déjà complet. En acceptant de recevoir temporairement vos sacs dans un dépôt alternatif, vous devriez pouvoir commencer plus rapidement.
-          _de: Sie können eine oder mehrere alternative Depots wählen, falls Ihre erste Wahl bereits voll ist. Wenn Sie sich damit einverstanden erklären, Ihre Taschen vorübergehend in einem alternativen Depot zu erhalten, sollten Sie in der Lage sein, schneller zu starten.
+          _de: Es können ein oder mehrere alternative Depots gewählt werden, falls die erste Wahl bereits voll ist. Durch die Bereitschaft, die Taschen vorübergehend in einem alternativen Depot zu erhalten, kann schneller gestartet werden.
           _it: Potete scegliere uno o più punti di ritiro alternativi nel caso in cui la vostra prima scelta fosse già al completo. Accettando di ricevere temporaneamente le vostre borse in un luogo di consegna alternativo, dovreste essere in grado di iniziare più velocemente.
-          _nl: U kunt een of meer alternatieve depots kiezen als uw eerste keuze al vol is. Door ermee in te stemmen uw tassen tijdelijk bij een alternatief depot te ontvangen, zou u sneller kunnen starten.
+          _nl: Er kunnen een of meer alternatieve depots worden gekozen als de eerste keuze al vol is. Door ermee in te stemmen de tassen tijdelijk bij een alternatief depot te ontvangen, kan er sneller worden gestart.
         waiting_alternative_depot_ids/basket:
           _en: You can choose one or more alternative depots if your first choice is already full. By agreeing to temporarily receive your baskets at an alternative depot, you should be able to start faster.
           _fr: Vous pouvez choisir un ou plusieurs dépôts alternatifs dans le cas ou votre premier choix serait déjà complet. En acceptant de recevoir temporairement vos paniers dans un dépôt alternatif, vous devriez pouvoir commencer plus rapidement.
-          _de: Sie können eine oder mehrere alternative Depots wählen, falls Ihre erste Wahl bereits voll ist. Wenn Sie sich damit einverstanden erklären, Ihre Körbe vorübergehend in einem alternativen Depot zu erhalten, sollten Sie in der Lage sein, schneller zu starten.
+          _de: Es können ein oder mehrere alternative Depots gewählt werden, falls die erste Wahl bereits voll ist. Durch die Bereitschaft, die Körbe vorübergehend in einem alternativen Depot zu erhalten, kann schneller gestartet werden.
           _it: Potete scegliere uno o più punti di ritiro alternativi nel caso in cui la vostra prima scelta fosse già al completo. Accettando di ricevere temporaneamente le vostre ceste in un luogo di consegna alternativo, dovreste essere in grado di iniziare più velocemente.
-          _nl: U kunt een of meer alternatieve depots kiezen als uw eerste keuze al vol is. Door ermee in te stemmen uw manden tijdelijk bij een alternatief depot te ontvangen, zou u sneller kunnen starten.
+          _nl: Er kunnen een of meer alternatieve depots worden gekozen als de eerste keuze al vol is. Door ermee in te stemmen de manden tijdelijk bij een alternatief depot te ontvangen, kan er sneller worden gestart.
         waiting_alternative_depot_ids/cone:
           _en: You can choose one or more alternative depots if your first choice is already full. By agreeing to temporarily receive your cones at an alternative depot, you should be able to start faster.
           _fr: Vous pouvez choisir un ou plusieurs dépôts alternatifs dans le cas ou votre premier choix serait déjà complet. En acceptant de recevoir temporairement vos cornets dans un dépôt alternatif, vous devriez pouvoir commencer plus rapidement.
-          _de: Sie können eine oder mehrere alternative Depots wählen, falls Ihre erste Wahl bereits voll ist. Wenn Sie sich damit einverstanden erklären, Ihre Tüten vorübergehend in einem alternativen Depot zu erhalten, sollten Sie in der Lage sein, schneller zu starten.
+          _de: Es können ein oder mehrere alternative Depots gewählt werden, falls die erste Wahl bereits voll ist. Durch die Bereitschaft, die Tüten vorübergehend in einem alternativen Depot zu erhalten, kann schneller gestartet werden.
           _it: Potete scegliere uno o più punti di ritiro alternativi nel caso in cui la vostra prima scelta fosse già al completo. Accettando di ricevere temporaneamente le vostre coni in un luogo di consegna alternativo, dovreste essere in grado di iniziare più velocemente.
-          _nl: U kunt een of meer alternatieve depots kiezen als uw eerste keuze al vol is. Door ermee in te stemmen uw zakken tijdelijk bij een alternatief depot te ontvangen, zou u sneller kunnen starten.
+          _nl: Er kunnen een of meer alternatieve depots worden gekozen als de eerste keuze al vol is. Door ermee in te stemmen de zakken tijdelijk bij een alternatief depot te ontvangen, kan er sneller worden gestart.
         waiting_alternative_depot_ids/package:
           _en: You can choose one or more alternative depots if your first choice is already full. By agreeing to temporarily receive your packages at an alternative depot, you should be able to start faster.
           _fr: Vous pouvez choisir un ou plusieurs dépôts alternatifs dans le cas ou votre premier choix serait déjà complet. En acceptant de recevoir temporairement vos colis dans un dépôt alternatif, vous devriez pouvoir commencer plus rapidement.
-          _de: Sie können eine oder mehrere alternative Depots wählen, falls Ihre erste Wahl bereits voll ist. Wenn Sie sich damit einverstanden erklären, Ihre Pakete vorübergehend in einem alternativen Depot zu erhalten, sollten Sie in der Lage sein, schneller zu starten.
+          _de: Es können ein oder mehrere alternative Depots gewählt werden, falls die erste Wahl bereits voll ist. Durch die Bereitschaft, die Pakete vorübergehend in einem alternativen Depot zu erhalten, kann schneller gestartet werden.
           _it: Potete scegliere uno o più punti di ritiro alternativi nel caso in cui la vostra prima scelta fosse già al completo. Accettando di ricevere temporaneamente le vostre pacchi in un luogo di consegna alternativo, dovreste essere in grado di iniziare più velocemente.
-          _nl: U kunt een of meer alternatieve depots kiezen als uw eerste keuze al vol is. Door ermee in te stemmen uw pakketten tijdelijk bij een alternatief depot te ontvangen, zou u sneller kunnen starten.
+          _nl: Er kunnen een of meer alternatieve depots worden gekozen als de eerste keuze al vol is. Door ermee in te stemmen de pakketten tijdelijk bij een alternatief depot te ontvangen, kan er sneller worden gestart.
         waiting_alternative_depot_ids/share:
           _en: You can choose one or more alternative depots if your first choice is already full. By agreeing to temporarily receive your shares at an alternative depot, you should be able to start faster.
           _fr: Vous pouvez choisir un ou plusieurs dépôts alternatifs dans le cas ou votre premier choix serait déjà complet. En acceptant de recevoir temporairement vos parts dans un dépôt alternatif, vous devriez pouvoir commencer plus rapidement.
-          _de: Sie können eine oder mehrere alternative Depots wählen, falls Ihre erste Wahl bereits voll ist. Wenn Sie sich damit einverstanden erklären, Ihre Anteile vorübergehend in einem alternativen Depot zu erhalten, sollten Sie in der Lage sein, schneller zu starten.
+          _de: Es können ein oder mehrere alternative Depots gewählt werden, falls die erste Wahl bereits voll ist. Durch die Bereitschaft, die Anteile vorübergehend in einem alternativen Depot zu erhalten, kann schneller gestartet werden.
           _it: Potete scegliere uno o più punti di ritiro alternativi nel caso in cui la vostra prima scelta fosse già al completo. Accettando di ricevere temporaneamente le vostre parti in un luogo di consegna alternativo, dovreste essere in grado di iniziare più velocemente.
-          _nl: U kunt een of meer alternatieve depots kiezen als uw eerste keuze al vol is. Door ermee in te stemmen uw delen tijdelijk bij een alternatief depot te ontvangen, zou u sneller kunnen starten.
+          _nl: Er kunnen een of meer alternatieve depots worden gekozen als de eerste keuze al vol is. Door ermee in te stemmen de delen tijdelijk bij een alternatief depot te ontvangen, kan er sneller worden gestart.
       membership:
         absences_included_annually/bag_html:
           _en: Leave blank for the default number of the delivery cycle.<br/>The final number will be calculated automatically based on the logic defined in <a href='/settings#delivery_cycle'>the settings</a>, by default proportional to the number of bags.
@@ -985,37 +985,37 @@ _:
         activity_participations_annual_price_change/bag_html:
           _en: <span class="text-red-500">Leave blank for the system to calculate the amount automatically.</span><br/>Increase or decrease in the membership price, depending on the services rendered..
           _fr: <span class="text-red-500">Laisser blanc pour que le système calcule le montant automatiquement.</span><br/>Augmentation ou réduction du prix de l'abonnement contre service rendu ou non.
-          _de: <span class="text-red-500">Lassen Sie das Feld leer, um den Betrag automatisch zu berechnen.</span><br/>Erhöhung oder Verringerung des Abonnementpreises basierend auf den angebotenen oder nicht angebotenen Dienstleistungen.
+          _de: <span class="text-red-500">Das Feld leer lassen, um den Betrag automatisch zu berechnen.</span><br/>Erhöhung oder Verringerung des Abonnementpreises basierend auf den angebotenen oder nicht angebotenen Dienstleistungen.
           _it: <span class="text-red-500">Lasciare vuoto il campo per il numero predefinito del ciclo di consegna.</span><br/>Il numero finale sarà calcolato automaticamente in proporzione al numero di borse.
           _nl: <span class="text-red-500">Laat leeg voor het standaardaantal van de leveringscyclus.</span><br/>Het uiteindelijke aantal wordt automatisch berekend op basis van de logica gedefinieerd in <a href='/settings#delivery_cycle'>de instellingen</a>, standaard evenredig aan het aantal tassen.
         activity_participations_annual_price_change/basket_html:
           _en: <span class="text-red-500">Leave blank for the system to calculate the amount automatically.</span><br/>Increase or decrease in the membership price, depending on the services rendered..
           _fr: <span class="text-red-500">Laisser blanc pour que le système calcule le montant automatiquement.</span><br/>Augmentation ou réduction du prix de l'abonnement contre service rendu ou non.
-          _de: <span class="text-red-500">Lassen Sie das Feld leer, um den Betrag automatisch zu berechnen.</span><br/>Erhöhung oder Verringerung des Abonnementpreises basierend auf den angebotenen oder nicht angebotenen Dienstleistungen.
+          _de: <span class="text-red-500">Das Feld leer lassen, um den Betrag automatisch zu berechnen.</span><br/>Erhöhung oder Verringerung des Abonnementpreises basierend auf den angebotenen oder nicht angebotenen Dienstleistungen.
           _it: <span class="text-red-500">Lasciare vuoto il campo per il numero predefinito del ciclo di consegna.</span><br/>Il numero finale sarà calcolato automaticamente in proporzione al numero di cesti.
           _nl: <span class="text-red-500">Laat leeg voor het standaardaantal van de leveringscyclus.</span><br/>Het uiteindelijke aantal wordt automatisch berekend op basis van de logica gedefinieerd in <a href='/settings#delivery_cycle'>de instellingen</a>, standaard evenredig aan het aantal manden.
         activity_participations_annual_price_change/cone_html:
           _en: <span class="text-red-500">Leave blank for the system to calculate the amount automatically.</span><br/>Increase or decrease in the membership price, depending on the services rendered..
           _fr: <span class="text-red-500">Laisser blanc pour que le système calcule le montant automatiquement.</span><br/>Augmentation ou réduction du prix de l'abonnement contre service rendu ou non.
-          _de: <span class="text-red-500">Lassen Sie das Feld leer, um den Betrag automatisch zu berechnen.</span><br/>Erhöhung oder Verringerung des Abonnementpreises basierend auf den angebotenen oder nicht angebotenen Dienstleistungen.
+          _de: <span class="text-red-500">Das Feld leer lassen, um den Betrag automatisch zu berechnen.</span><br/>Erhöhung oder Verringerung des Abonnementpreises basierend auf den angebotenen oder nicht angebotenen Dienstleistungen.
           _it: <span class="text-red-500">Lasciare vuoto il campo per il numero predefinito del ciclo di consegna.</span><br/>Il numero finale sarà calcolato automaticamente in proporzione al numero di coni.
           _nl: <span class="text-red-500">Laat leeg voor het standaardaantal van de leveringscyclus.</span><br/>Het uiteindelijke aantal wordt automatisch berekend op basis van de logica gedefinieerd in <a href='/settings#delivery_cycle'>de instellingen</a>, standaard evenredig aan het aantal zakken.
         activity_participations_annual_price_change/package_html:
           _en: <span class="text-red-500">Leave blank for the system to calculate the amount automatically.</span><br/>Increase or decrease in the membership price, depending on the services rendered..
           _fr: <span class="text-red-500">Laisser blanc pour que le système calcule le montant automatiquement.</span><br/>Augmentation ou réduction du prix de l'abonnement contre service rendu ou non.
-          _de: <span class="text-red-500">Lassen Sie das Feld leer, um den Betrag automatisch zu berechnen.</span><br/>Erhöhung oder Verringerung des Abonnementpreises basierend auf den angebotenen oder nicht angebotenen Dienstleistungen.
+          _de: <span class="text-red-500">Das Feld leer lassen, um den Betrag automatisch zu berechnen.</span><br/>Erhöhung oder Verringerung des Abonnementpreises basierend auf den angebotenen oder nicht angebotenen Dienstleistungen.
           _it: <span class="text-red-500">Lasciare vuoto il campo per il numero predefinito del ciclo di consegna.</span><br/>Il numero finale sarà calcolato automaticamente in proporzione al numero di pacchi.
           _nl: <span class="text-red-500">Laat leeg voor het standaardaantal van de leveringscyclus.</span><br/>Het uiteindelijke aantal wordt automatisch berekend op basis van de logica gedefinieerd in <a href='/settings#delivery_cycle'>de instellingen</a>, standaard evenredig aan het aantal pakketten.
         activity_participations_annual_price_change/share_html:
           _en: <span class="text-red-500">Leave blank for the system to calculate the amount automatically.</span><br/>Increase or decrease in the membership price, depending on the services rendered..
           _fr: <span class="text-red-500">Laisser blanc pour que le système calcule le montant automatiquement.</span><br/>Augmentation ou réduction du prix de l'abonnement contre service rendu ou non.
-          _de: <span class="text-red-500">Lassen Sie das Feld leer, um den Betrag automatisch zu berechnen.</span><br/>Erhöhung oder Verringerung des Abonnementpreises basierend auf den angebotenen oder nicht angebotenen Dienstleistungen.
+          _de: <span class="text-red-500">Das Feld leer lassen, um den Betrag automatisch zu berechnen.</span><br/>Erhöhung oder Verringerung des Abonnementpreises basierend auf den angebotenen oder nicht angebotenen Dienstleistungen.
           _it: <span class="text-red-500">Lasciare vuoto il campo per il numero predefinito del ciclo di consegna.</span><br/>Il numero finale sarà calcolato automaticamente in proporzione al numero di parti.
           _nl: <span class="text-red-500">Laat leeg voor het standaardaantal van de leveringscyclus.</span><br/>Het uiteindelijke aantal wordt automatisch berekend op basis van de logica gedefinieerd in <a href='/settings#delivery_cycle'>de instellingen</a>, standaard evenredig aan het aantal delen.
         activity_participations_annual_price_change_html:
           _en: <span class="text-red-500">Leave blank for the system to calculate the amount automatically.</span><br/>Increase or decrease in the membership price, depending on the services rendered..
           _fr: <span class="text-red-500">Laisser blanc pour que le système calcule le montant automatiquement.</span><br/>Augmentation ou réduction du prix de l'abonnement contre service rendu ou non.
-          _de: <span class="text-red-500">Lassen Sie das Feld leer, um den Betrag automatisch zu berechnen.</span><br/>Erhöhung oder Verringerung des Abonnementpreises basierend auf den angebotenen oder nicht angebotenen Dienstleistungen.
+          _de: <span class="text-red-500">Das Feld leer lassen, um den Betrag automatisch zu berechnen.</span><br/>Erhöhung oder Verringerung des Abonnementpreises basierend auf den angebotenen oder nicht angebotenen Dienstleistungen.
           _it: <span class="text-red-500">Lasciare vuoto il campo per il numero predefinito del ciclo di consegna.</span><br/>Il numero finale sarà calcolato automaticamente in proporzione al numero di cesti.
           _nl: <span class="text-red-500">Laat leeg voor het standaardaantal van de leveringscyclus.</span><br/>Het uiteindelijke aantal wordt automatisch berekend op basis van de logica gedefinieerd in <a href='/settings#delivery_cycle'>de instellingen</a>, standaard evenredig aan het aantal pakketten.
         activity_participations_demanded_annually/bag_html:
@@ -1300,7 +1300,7 @@ _:
         scheduled_at:
           _en: Leave blank for sending it manually. If set, the newsletter will be sent automatically during the night of the specified date.
           _fr: Laisser vide pour l'envoyer manuellement. Si défini, la newsletter sera envoyée automatiquement pendant la nuit du jour spécifié.
-          _de: Lassen Sie es leer, um es manuell zu senden. Wenn es festgelegt ist, wird die Newsletter automatisch während der Nacht des angegebenen Datums gesendet.
+          _de: Leer lassen, um manuell zu senden. Wenn festgelegt, wird der Newsletter automatisch während der Nacht des angegebenen Datums gesendet.
           _it: Lasciare vuoto per inviarlo manualmente. Se impostato, la newsletter verrà inviata automaticamente durante la notte del giorno specificato.
           _nl: Laat leeg om deze handmatig te verzenden. Indien ingesteld, wordt de nieuwsbrief automatisch verzonden tijdens de nacht van de opgegeven datum.
       newsletter/segment:
@@ -1506,7 +1506,7 @@ _:
         activity_i18n_scope_html:
           _en: Determines the terminology and counting unit used for activities. Please <a href="/handbook/activity">consult the manual</a> for more information.
           _fr: Détermine la terminologie et l'unité de comptage utilisée pour les activités. Merci de <a href="/handbook/activity">consulter le manuel</a> pour plus d'informations.
-          _de: Bestimmt die Terminologie und die Zähleinheit für Aktivitäten. Bitte <a href="/handbook/activity">konsultieren Sie das Handbuch</a> für weitere Informationen.
+          _de: Bestimmt die Terminologie und die Zähleinheit für Aktivitäten. Bitte <a href="/handbook/activity">das Handbuch konsultieren</a> für weitere Informationen.
           _it: Determina la terminologia e l'unità di conteggio utilizzata per le attività. Si prega di <a href="/handbook/activity">consultare il manuale</a> per ulteriori informazioni.
           _nl: Bepaalt de terminologie en de tellingseenheid die voor activiteiten wordt gebruikt. Raadpleeg <a href="/handbook/activity">de handleiding</a> voor meer informatie.
         activity_participation_deletion_deadline_in_days:
@@ -1542,9 +1542,9 @@ _:
         activity_participations_form_step:
           _en: If the member can modify the number of participations via the registration/renewal form, this parameter allows you to define the step of the selection. For example, if the step is 2, the member will be able to choose 0, 2, 4, 6, etc. Please make sure that the min and max are multiples of this step.
           _fr: Si le membre peut modifier le nombre de participations via le formulaire d'inscription/renouvellement, ce paramètre permet de définir le pas de la sélection. Par exemple, si le pas est de 2, le membre pourra choisir 0 ,2, 4, 6, etc. Merci de veiller à ce que le min et le max soient des multiples de ce pas.
-          _de: Wenn das Mitglied die Anzahl der Teilnahmen über das Anmelde-/Verlängerungsformular ändern kann, ermöglicht dieser Parameter die Definition des Schritts der Auswahl. Wenn der Schritt beispielsweise 2 beträgt, kann das Mitglied 0, 2, 4, 6 usw. wählen. Bitte stellen Sie sicher, dass min und max Vielfache dieses Schritts sind.
+          _de: Wenn das Mitglied die Anzahl der Teilnahmen über das Anmelde-/Verlängerungsformular ändern kann, ermöglicht dieser Parameter die Definition des Schritts der Auswahl. Wenn der Schritt beispielsweise 2 beträgt, kann das Mitglied 0, 2, 4, 6 usw. wählen. Bitte sicherstellen, dass min und max Vielfache dieses Schritts sind.
           _it: Se il socio può modificare il numero di partecipazioni tramite il modulo di registrazione/rinnovo, questo parametro ti permette di definire il passo della selezione. Ad esempio, se il passo è 2, il socio potrà scegliere 0, 2, 4, 6, ecc. Assicurati che il min e il max siano multipli di questo passo.
-          _nl: Als het lid het aantal deelnames kan wijzigen via het registratie-/vernieuwingsformulier, stelt deze parameter u in staat de stap van de selectie te definiëren. Bijvoorbeeld, als de stap 2 is, kan het lid 0, 2, 4, 6, enz. kiezen. Zorg ervoor dat het minimum en maximum veelvouden van deze stap zijn.
+          _nl: Als het lid het aantal deelnames kan wijzigen via het registratie-/vernieuwingsformulier, maakt deze parameter het mogelijk de stap van de selectie te definiëren. Bijvoorbeeld, als de stap 2 is, kan het lid 0, 2, 4, 6, enz. kiezen. Zorg ervoor dat het minimum en maximum veelvouden van deze stap zijn.
         activity_phone_html:
           _en: Number displayed in <a href="/mail_templates?scope=activity">the activity email templates</a>.
           _fr: Numéro affiché dans <a href="/mail_templates?scope=activity">les templates email des activités</a>.
@@ -1554,15 +1554,15 @@ _:
         activity_price:
           _en: Leave at zero if missing or excess participations are not billed.
           _fr: Laisser à zéro si les participations manquantes ou excédentaires ne sont pas facturées.
-          _de: Lassen Sie es auf Null, wenn fehlende oder überschüssige Teilnahmen nicht in Rechnung gestellt werden.
+          _de: Auf Null lassen, wenn fehlende oder überschüssige Teilnahmen nicht in Rechnung gestellt werden.
           _it: Lasciare a zero se le partecipazioni mancanti o eccedenti non vengono fatturate.
           _nl: Laat op nul als ontbrekende of overtollige deelnames niet worden gefactureerd.
         allow_alternative_depots:
           _en: Allows you to choose one or more alternative depots during registration. Useful if the first choice is already full.
           _fr: Permet de choisir un ou plusieurs dépôts alternatifs lors de l'inscription. Utile si le premier choix est déjà complet.
-          _de: Ermöglicht es Ihnen, bei der Registrierung eine oder mehrere alternative Depots zu wählen. Nützlich, wenn die erste Auswahl bereits voll ist.
+          _de: Ermöglicht es, bei der Registrierung ein oder mehrere alternative Depots zu wählen. Nützlich, wenn die erste Auswahl bereits voll ist.
           _it: Permette di scegliere uno più luoghi di deposito alternativi durante la registrazione. Utile se la prima scelta è giâ completa.
-          _nl: Stelt u in staat een of meer alternatieve depots te kiezen tijdens registratie. Handig als de eerste keuze al vol is.
+          _nl: Maakt het mogelijk een of meer alternatieve depots te kiezen tijdens registratie. Handig als de eerste keuze al vol is.
         annual_fee:
           _en: Leave blank at zero if no annual fee. Any change will be automatically applied to all existing members, but only to those who have exactly the previous amount.
           _fr: Laisser vide si aucune cotisation annuelle. Tout changement sera automatiquement appliqué aux membres existants, mais uniquement à ceux qui ont exactement le montant précédent.
@@ -1632,9 +1632,9 @@ _:
         bank_reference:
           _en: Leave blank if your bank does not provide one, it will be included in the invoice reference number.
           _fr: Laisser vide si votre banque n'en fournit pas, sera inclus dans le numéro de référence de la facture.
-          _de: Lassen Sie es leer, wenn Ihre Bank keine bereitstellt, wird in die Rechnungsreferenznummer aufgenommen.
+          _de: Leer lassen, wenn die Bank keine bereitstellt, wird in die Rechnungsreferenznummer aufgenommen.
           _it: Lasciare vuoto se la tua banca non ne fornisce, sarà incluso nel numero di riferimento della fattura.
-          _nl: Laat leeg als uw bank er geen verstrekt, het wordt opgenomen in het factuurreferentienummer.
+          _nl: Laat leeg als de bank er geen verstrekt, het wordt opgenomen in het factuurreferentienummer.
         basket_complements_member_order_mode/bag:
           _en: Sets the order of bag complements in the registration form after considering their individual priority.
           _fr: Définit l'ordre des compléments de sac dans le formulaire d'inscription après avoir pris en compte leur priorité individuelle.
@@ -1772,37 +1772,37 @@ _:
           _fr: Permet de changer dynamiquement le prix en fonction de différents critères tels que la taille du sac.<br/> Supporte <a href='/handbook/emails#liquid'>la syntaxe Liquid</a> avec les objets "{{ extra }}", "{{ basket_size_id }}", "{{ basket_size_price }}", "{{ complements_price }} et "{{ deliveries_count }}".
           _de: Erlaubt es, den Preis dynamisch zu ändern, basierend auf verschiedenen Kriterien wie der Grösse der Tasche.<br/> Unterstützt <a href='/handbook/emails#liquid'>die Liquid-Syntax</a> mit den Objekten "{{ extra }}", "{{ basket_size_id }}", "{{ basket_size_price }}", "{{ complements_price }} und "{{ deliveries_count }}".
           _it: Permette di cambiare dinamicamente il prezzo applicato in base a diversi criteri come la dimensione della borsa.<br/> Supporta <a href='/handbook/emails#liquid'>la sintassi Liquid</a> con gli oggetti "{{ extra }}", "{{ basket_size_id }}", "{{ basket_size_price }}", "{{ complements_price }} e "{{ deliveries_count }}".
-          _nl: Stelt u in staat de prijs dynamisch te wijzigen op basis van verschillende criteria zoals de grootte van het tas.<br/> Ondersteunt <a href='/handbook/emails#liquid'>de Liquid-syntaxis</a> met de objecten "{{ extra }}", "{{ basket_size_id }}", "{{ basket_size_price }}", "{{ complements_price }}" en "{{ deliveries_count }}".
+          _nl: Maakt het mogelijk de prijs dynamisch te wijzigen op basis van verschillende criteria zoals de grootte van de tas.<br/> Ondersteunt <a href='/handbook/emails#liquid'>de Liquid-syntaxis</a> met de objecten "{{ extra }}", "{{ basket_size_id }}", "{{ basket_size_price }}", "{{ complements_price }}" en "{{ deliveries_count }}".
         basket_price_extra_dynamic_pricing/basket_html:
           _en: Allows changing the price dynamically based on various criteria such as the size of the basket.<br/> Supports <a href='/handbook/emails#liquid'>the Liquid syntax</a> with the objects "{{ extra }}", "{{ basket_size_id }}", "{{ basket_size_price }}", "{{ complements_price }}", and "{{ deliveries_count }}".
           _fr: Permet de changer dynamiquement le prix en fonction de différents critères tels que la taille du panier.<br/> Supporte <a href='/handbook/emails#liquid'>la syntaxe Liquid</a> avec les objets "{{ extra }}", "{{ basket_size_id }}", "{{ basket_size_price }}", "{{ complements_price }} et "{{ deliveries_count }}".
           _de: Erlaubt es, den Preis dynamisch zu ändern, basierend auf verschiedenen Kriterien wie der Grösse des Korbs.<br/> Unterstützt <a href='/handbook/emails#liquid'>die Liquid-Syntax</a> mit den Objekten "{{ extra }}", "{{ basket_size_id }}", "{{ basket_size_price }}", "{{ complements_price }} und "{{ deliveries_count }}".
           _it: Permette di cambiare dinamicamente il prezzo applicato in base a diversi criteri come la dimensione del cesto.<br/> Supporta <a href='/handbook/emails#liquid'>la sintassi Liquid</a> con gli oggetti "{{ extra }}", "{{ basket_size_id }}", "{{ basket_size_price }}", "{{ complements_price }} e "{{ deliveries_count }}".
-          _nl: Stelt u in staat de prijs dynamisch te wijzigen op basis van verschillende criteria zoals de grootte van het mand.<br/> Ondersteunt <a href='/handbook/emails#liquid'>de Liquid-syntaxis</a> met de objecten "{{ extra }}", "{{ basket_size_id }}", "{{ basket_size_price }}", "{{ complements_price }}" en "{{ deliveries_count }}".
+          _nl: Maakt het mogelijk de prijs dynamisch te wijzigen op basis van verschillende criteria zoals de grootte van de mand.<br/> Ondersteunt <a href='/handbook/emails#liquid'>de Liquid-syntaxis</a> met de objecten "{{ extra }}", "{{ basket_size_id }}", "{{ basket_size_price }}", "{{ complements_price }}" en "{{ deliveries_count }}".
         basket_price_extra_dynamic_pricing/cone_html:
           _en: Allows changing the price dynamically based on various criteria such as the size of the cone.<br/> Supports <a href='/handbook/emails#liquid'>the Liquid syntax</a> with the objects "{{ extra }}", "{{ cone_size_id }}", "{{ cone_size_price }}", "{{ complements_price }}", and "{{ deliveries_count }}".
           _fr: Permet de changer dynamiquement le prix en fonction de différents critères tels que la taille du cornet.<br/> Supporte <a href='/handbook/emails#liquid'>la syntaxe Liquid</a> avec les objets "{{ extra }}", "{{ basket_size_id }}", "{{ basket_size_price }}", "{{ complements_price }} et "{{ deliveries_count }}".
           _de: Erlaubt es, den Preis dynamisch zu ändern, basierend auf verschiedenen Kriterien wie der Grösse der Tüte.<br/> Unterstützt <a href='/handbook/emails#liquid'>die Liquid-Syntax</a> mit den Objekten "{{ extra }}", "{{ basket_size_id }}", "{{ basket_size_price }}", "{{ complements_price }} und "{{ deliveries_count }}".
           _it: Permette di cambiare dinamicamente il prezzo applicato in base a diversi criteri come la dimensione del cono.<br/> Supporta <a href='/handbook/emails#liquid'>la sintassi Liquid</a> con gli oggetti "{{ extra }}", "{{ basket_size_id }}", "{{ basket_size_price }}", "{{ complements_price }} e "{{ deliveries_count }}".
-          _nl: Stelt u in staat de prijs dynamisch te wijzigen op basis van verschillende criteria zoals de grootte van het zak.<br/> Ondersteunt <a href='/handbook/emails#liquid'>de Liquid-syntaxis</a> met de objecten "{{ extra }}", "{{ basket_size_id }}", "{{ basket_size_price }}", "{{ complements_price }}" en "{{ deliveries_count }}".
+          _nl: Maakt het mogelijk de prijs dynamisch te wijzigen op basis van verschillende criteria zoals de grootte van de zak.<br/> Ondersteunt <a href='/handbook/emails#liquid'>de Liquid-syntaxis</a> met de objecten "{{ extra }}", "{{ basket_size_id }}", "{{ basket_size_price }}", "{{ complements_price }}" en "{{ deliveries_count }}".
         basket_price_extra_dynamic_pricing/package_html:
           _en: Allows changing the price dynamically based on various criteria such as the size of the package.<br/> Supports <a href='/handbook/emails#liquid'>the Liquid syntax</a> with the objects "{{ extra }}", "{{ package_size_id }}", "{{ package_size_price }}", "{{ complements_price }}", and "{{ deliveries_count }}".
           _fr: Permet de changer dynamiquement le prix en fonction de différents critères tels que la taille du colis.<br/> Supporte <a href='/handbook/emails#liquid'>la syntaxe Liquid</a> avec les objets "{{ extra }}", "{{ basket_size_id }}", "{{ basket_size_price }}", "{{ complements_price }} et "{{ deliveries_count }}".
           _de: Erlaubt es, den Preis dynamisch zu ändern, basierend auf verschiedenen Kriterien wie der Grösse des Pakets.<br/> Unterstützt <a href='/handbook/emails#liquid'>die Liquid-Syntax</a> mit den Objekten "{{ extra }}", "{{ basket_size_id }}", "{{ basket_size_price }}", "{{ complements_price }} und "{{ deliveries_count }}".
           _it: Permette di cambiare dinamicamente il prezzo applicato in base a diversi criteri come la dimensione del pacco.<br/> Supporta <a href='/handbook/emails#liquid'>la sintassi Liquid</a> con gli oggetti "{{ extra }}", "{{ basket_size_id }}", "{{ basket_size_price }}", "{{ complements_price }} e "{{ deliveries_count }}".
-          _nl: Stelt u in staat de prijs dynamisch te wijzigen op basis van verschillende criteria zoals de grootte van het pakket.<br/> Ondersteunt <a href='/handbook/emails#liquid'>de Liquid-syntaxis</a> met de objecten "{{ extra }}", "{{ basket_size_id }}", "{{ basket_size_price }}", "{{ complements_price }}" en "{{ deliveries_count }}".
+          _nl: Maakt het mogelijk de prijs dynamisch te wijzigen op basis van verschillende criteria zoals de grootte van het pakket.<br/> Ondersteunt <a href='/handbook/emails#liquid'>de Liquid-syntaxis</a> met de objecten "{{ extra }}", "{{ basket_size_id }}", "{{ basket_size_price }}", "{{ complements_price }}" en "{{ deliveries_count }}".
         basket_price_extra_dynamic_pricing/share_html:
           _en: Allows changing the price dynamically based on various criteria such as the size of the share.<br/> Supports <a href='/handbook/emails#liquid'>the Liquid syntax</a> with the objects "{{ extra }}", "{{ share_size_id }}", "{{ share_size_price }}", "{{ complements_price }}", and "{{ deliveries_count }}".
           _fr: Permet de changer dynamiquement le prix en fonction de différents critères tels que la taille de la part.<br/> Supporte <a href='/handbook/emails#liquid'>la syntaxe Liquid</a> avec les objets "{{ extra }}", "{{ basket_size_id }}", "{{ basket_size_price }}", "{{ complements_price }} et "{{ deliveries_count }}".
           _de: Erlaubt es, den Preis dynamisch zu ändern, basierend auf verschiedenen Kriterien wie der Grösse des Anteils.<br/> Unterstützt <a href='/handbook/emails#liquid'>die Liquid-Syntax</a> mit den Objekten "{{ extra }}", "{{ basket_size_id }}", "{{ basket_size_price }}", "{{ complements_price }} und "{{ deliveries_count }}".
           _it: Permette di cambiare dinamicamente il prezzo applicato in base a diversi criteri come la dimensione della parte.<br/> Supporta <a href='/handbook/emails#liquid'>la sintassi Liquid</a> con gli oggetti "{{ extra }}", "{{ basket_size_id }}", "{{ basket_size_price }}", "{{ complements_price }} e "{{ deliveries_count }}".
-          _nl: Stelt u in staat de prijs dynamisch te wijzigen op basis van verschillende criteria zoals de grootte van het deel.<br/> Ondersteunt <a href='/handbook/emails#liquid'>de Liquid-syntaxis</a> met de objecten "{{ extra }}", "{{ basket_size_id }}", "{{ basket_size_price }}", "{{ complements_price }}" en "{{ deliveries_count }}".
+          _nl: Maakt het mogelijk de prijs dynamisch te wijzigen op basis van verschillende criteria zoals de grootte van het deel.<br/> Ondersteunt <a href='/handbook/emails#liquid'>de Liquid-syntaxis</a> met de objecten "{{ extra }}", "{{ basket_size_id }}", "{{ basket_size_price }}", "{{ complements_price }}" en "{{ deliveries_count }}".
         basket_price_extra_dynamic_pricing_html:
           _en: Allows changing the price dynamically based on various criteria such as the size of the basket.<br/> Supports <a href='/handbook/emails#liquid'>the Liquid syntax</a> with the objects "{{ extra }}", "{{ basket_size_id }}", "{{ basket_size_price }}", "{{ complements_price }}", and "{{ deliveries_count }}".
           _fr: Permet de changer dynamiquement le prix en fonction de différents critères tels que la taille du panier.<br/> Supporte <a href='/handbook/emails#liquid'>la syntaxe Liquid</a> avec les objets "{{ extra }}", "{{ basket_size_id }}", "{{ basket_size_price }}", "{{ complements_price }} et "{{ deliveries_count }}".
           _de: Erlaubt es, den Preis dynamisch zu ändern, basierend auf verschiedenen Kriterien wie der Grösse der Tasche.<br/> Unterstützt <a href='/handbook/emails#liquid'>die Liquid-Syntax</a> mit den Objekten "{{ extra }}", "{{ basket_size_id }}", "{{ basket_size_price }}", "{{ complements_price }} und "{{ deliveries_count }}".
           _it: Permette di cambiare dinamicamente il prezzo applicato in base a diversi criteri come la dimensione del cesto.<br/> Supporta <a href='/handbook/emails#liquid'>la sintassi Liquid</a> con gli oggetti "{{ extra }}", "{{ basket_size_id }}", "{{ basket_size_price }}", "{{ complements_price }} e "{{ deliveries_count }}".
-          _nl: Stelt u in staat de prijs dynamisch te wijzigen op basis van verschillende criteria zoals de grootte van het pakket.<br/> Ondersteunt <a href='/handbook/emails#liquid'>de Liquid-syntaxis</a> met de objecten "{{ extra }}", "{{ basket_size_id }}", "{{ basket_size_price }}", "{{ complements_price }}" en "{{ deliveries_count }}".
+          _nl: Maakt het mogelijk de prijs dynamisch te wijzigen op basis van verschillende criteria zoals de grootte van het pakket.<br/> Ondersteunt <a href='/handbook/emails#liquid'>de Liquid-syntaxis</a> met de objecten "{{ extra }}", "{{ basket_size_id }}", "{{ basket_size_price }}", "{{ complements_price }}" en "{{ deliveries_count }}".
         basket_price_extra_label_details_html:
           _en: Supports <a href='/handbook/emails#liquid'>the Liquid syntax</a> with the objects "{{ extra }}" and "{{ full_year_price }}".
           _fr: Supporte <a href='/handbook/emails#liquid'>la syntaxe Liquid</a> avec les objets "{{ extra }}" et "{{ full_year_price }}".
@@ -1836,43 +1836,43 @@ _:
         basket_shift_deadline_in_weeks_html:
           _en: Number of weeks after the end or before the beginning of the absence during which a shift is possible. In any case, a shift is not possible outside the current subscription.<br/>Leave empty to not impose a deadline for shifts.
           _fr: Nombre de semaines, suivant la fin ou le début de l'absence, ou un déplacement est possible. Dans tous les cas le déplacement n'est pas possible en dehors de l'abonnement en cours.<br/>Laisser vide pour ne pas imposer de délai maximum pour les déplacements.
-          _de: Anzahl der Wochen nach dem Ende oder vor dem Beginn der Abwesenheit, in denen eine Verschiebung möglich ist. In jedem Fall ist eine Verschiebung außerhalb des aktuellen Abonnements nicht möglich.<br/>Lassen Sie leer, um keine Deadline für Verschiebungen zu erzwingen.
+          _de: Anzahl der Wochen nach dem Ende oder vor dem Beginn der Abwesenheit, in denen eine Verschiebung möglich ist. In jedem Fall ist eine Verschiebung außerhalb des aktuellen Abonnements nicht möglich.<br/>Leer lassen, um keine Deadline für Verschiebungen zu erzwingen.
           _it: Numero di settimane dopo la fine o prima dell'inizio dell'assenza durante le quali è possibile effettuare uno spostamento. In ogni caso, uno spostamento non è possibile al di fuori dell'abbonamento corrente.<br/>Lasciare vuoto per non impostare un limite massimo per gli spostamenti.
           _nl: Aantal weken na het einde of voor het begin van de afwezigheid waarin een verschuiving mogelijk is. In elk geval is een verschuiving niet mogelijk buiten het huidige lidmaatschap.<br/>Laat leeg om geen deadline op te leggen voor verschuivingen.
         basket_shifts_annually/bag_html:
           _en: Allows members to shift the content of their bag during their absence to another delivery from their account.<br/>Leave empty to not impose a limit on the number of possible shifts.
           _fr: Permet aux membres de déplacer le contenu de leur sac durant leur absence vers une autre livraison depuis leur compte.<br/>Laisser vide pour ne pas imposer de limite au nombre de déplacements possibles.
-          _de: Erlaubt Mitgliedern, den Inhalt ihrer Tasche während ihrer Abwesenheit auf eine andere Lieferung aus ihrem Konto zu verschieben.<br/>Lassen Sie leer, um keine Begrenzung für die Anzahl möglicher Verschiebungen zu erzwingen.
+          _de: Erlaubt Mitgliedern, den Inhalt ihrer Tasche während ihrer Abwesenheit auf eine andere Lieferung aus ihrem Konto zu verschieben.<br/>Leer lassen, um keine Begrenzung für die Anzahl möglicher Verschiebungen zu erzwingen.
           _it: Permette ai soci di spostare il contenuto del loro borsa durante la loro assenza a un'altra consegna dal loro account.<br/>Lasciare vuoto per non impostare un limite al numero di spostamenti possibili.
           _nl: Stelt leden in staat de inhoud van hun tas tijdens hun afwezigheid te verschuiven naar een andere levering vanuit hun account.<br/>Laat leeg om geen limiet op te leggen aan het aantal mogelijke verschuivingen.
         basket_shifts_annually/basket_html:
           _en: Allows members to shift the content of their basket during their absence to another delivery from their account.<br/>Leave empty to not impose a limit on the number of possible shifts.
           _fr: Permet aux membres de déplacer le contenu de leur panier durant leur absence vers une autre livraison depuis leur compte.<br/>Laisser vide pour ne pas imposer de limite au nombre de déplacements possibles.
-          _de: Erlaubt Mitgliedern, den Inhalt ihrer Korb während ihrer Abwesenheit auf eine andere Lieferung aus ihrem Konto zu verschieben.<br/>Lassen Sie leer, um keine Begrenzung für die Anzahl möglicher Verschiebungen zu erzwingen.
+          _de: Erlaubt Mitgliedern, den Inhalt ihres Korbs während ihrer Abwesenheit auf eine andere Lieferung aus ihrem Konto zu verschieben.<br/>Leer lassen, um keine Begrenzung für die Anzahl möglicher Verschiebungen zu erzwingen.
           _it: Permette ai soci di spostare il contenuto della loro cesta durante la loro assenza a un'altra consegna dal loro account.<br/>Lasciare vuoto per non impostare un limite al numero di spostamenti possibili.
           _nl: Stelt leden in staat de inhoud van hun mand tijdens hun afwezigheid te verschuiven naar een andere levering vanuit hun account.<br/>Laat leeg om geen limiet op te leggen aan het aantal mogelijke verschuivingen.
         basket_shifts_annually/cone_html:
           _en: Allows members to shift the content of their cone during their absence to another delivery from their account.<br/>Leave empty to not impose a limit on the number of possible shifts.
           _fr: Permet aux membres de déplacer le contenu de leur cornet durant leur absence vers une autre livraison depuis leur compte.<br/>Laisser vide pour ne pas imposer de limite au nombre de déplacements possibles.
-          _de: Erlaubt Mitgliedern, den Inhalt ihrer Tüte während ihrer Abwesenheit auf eine andere Lieferung aus ihrem Konto zu verschieben.<br/>Lassen Sie leer, um keine Begrenzung für die Anzahl möglicher Verschiebungen zu erzwingen.
+          _de: Erlaubt Mitgliedern, den Inhalt ihrer Tüte während ihrer Abwesenheit auf eine andere Lieferung aus ihrem Konto zu verschieben.<br/>Leer lassen, um keine Begrenzung für die Anzahl möglicher Verschiebungen zu erzwingen.
           _it: Permette ai soci di spostare il contenuto del loro cono durante la loro assenza a un'altra consegna dal loro account.<br/>Lasciare vuoto per non impostare un limite al numero di spostamenti possibili.
           _nl: Stelt leden in staat de inhoud van hun zak tijdens hun afwezigheid te verschuiven naar een andere levering vanuit hun account.<br/>Laat leeg om geen limiet op te leggen aan het aantal mogelijke verschuivingen.
         basket_shifts_annually/package_html:
           _en: Allows members to shift the content of their package during their absence to another delivery from their account.<br/>Leave empty to not impose a limit on the number of possible shifts.
           _fr: Permet aux membres de déplacer le contenu de leur colis durant leur absence vers une autre livraison depuis leur compte.<br/>Laisser vide pour ne pas imposer de limite au nombre de déplacements possibles.
-          _de: Erlaubt Mitgliedern, den Inhalt ihrer Paket während ihrer Abwesenheit auf eine andere Lieferung aus ihrem Konto zu verschieben.<br/>Lassen Sie leer, um keine Begrenzung für die Anzahl möglicher Verschiebungen zu erzwingen.
+          _de: Erlaubt Mitgliedern, den Inhalt ihres Pakets während ihrer Abwesenheit auf eine andere Lieferung aus ihrem Konto zu verschieben.<br/>Leer lassen, um keine Begrenzung für die Anzahl möglicher Verschiebungen zu erzwingen.
           _it: Permette ai soci di spostare il contenuto del loro pacco durante la loro assenza a un'altra consegna dal loro account.<br/>Lasciare vuoto per non impostare un limite al numero di spostamenti possibili.
           _nl: Stelt leden in staat de inhoud van hun pakket tijdens hun afwezigheid te verschuiven naar een andere levering vanuit hun account.<br/>Laat leeg om geen limiet op te leggen aan het aantal mogelijke verschuivingen.
         basket_shifts_annually/share_html:
           _en: Allows members to shift the content of their share during their absence to another delivery from their account.<br/>Leave empty to not impose a limit on the number of possible shifts.
           _fr: Permet aux membres de déplacer le contenu de leur part durant leur absence vers une autre livraison depuis leur compte.<br/>Laisser vide pour ne pas imposer de limite au nombre de déplacements possibles.
-          _de: Erlaubt Mitgliedern, den Inhalt ihrer Anteil während ihrer Abwesenheit auf eine andere Lieferung aus ihrem Konto zu verschieben.<br/>Lassen Sie leer, um keine Begrenzung für die Anzahl möglicher Verschiebungen zu erzwingen.
+          _de: Erlaubt Mitgliedern, den Inhalt ihres Anteils während ihrer Abwesenheit auf eine andere Lieferung aus ihrem Konto zu verschieben.<br/>Leer lassen, um keine Begrenzung für die Anzahl möglicher Verschiebungen zu erzwingen.
           _it: Permette ai soci di spostare il contenuto del loro parte durante la loro assenza a un'altra consegna dal loro account.<br/>Lasciare vuoto per non impostare un limite al numero di spostamenti possibili.
           _nl: Stelt leden in staat de inhoud van hun deel tijdens hun afwezigheid te verschuiven naar een andere levering vanuit hun account.<br/>Laat leeg om geen limiet op te leggen aan het aantal mogelijke verschuivingen.
         basket_shifts_annually_html:
           _en: Allows members to shift the content of their basket during their absence to another delivery from their account.<br/>Leave empty to not impose a limit on the number of possible shifts.
           _fr: Permet aux membres de déplacer le contenu de leur panier durant leur absence vers une autre livraison depuis leur compte.<br/>Laisser vide pour ne pas imposer de limite au nombre de déplacements possibles.
-          _de: Erlaubt Mitgliedern, den Inhalt ihrer Tasche während ihrer Abwesenheit auf eine andere Lieferung aus ihrem Konto zu verschieben.<br/>Lassen Sie leer, um keine Begrenzung für die Anzahl möglicher Verschiebungen zu erzwingen.
+          _de: Erlaubt Mitgliedern, den Inhalt ihrer Tasche während ihrer Abwesenheit auf eine andere Lieferung aus ihrem Konto zu verschieben.<br/>Leer lassen, um keine Begrenzung für die Anzahl möglicher Verschiebungen zu erzwingen.
           _it: Permette ai soci di spostare il contenuto della loro cesta durante la loro assenza a un'altra consegna dal loro account.<br/>Lasciare vuoto per non impostare un limite al numero di spostamenti possibili.
           _nl: Stelt leden in staat de inhoud van hun pakket tijdens hun afwezigheid te verschuiven naar een andere levering vanuit hun account.<br/>Laat leeg om geen limiet op te leggen aan het aantal mogelijke verschuivingen.
         basket_sizes_member_order_mode/bag:
@@ -2046,21 +2046,21 @@ _:
         fiscal_year_start_month:
           _en: Please contact me for changes.
           _fr: Merci de me contacter pour tout changement.
-          _de: Bitte kontaktieren Sie mich für Änderungen.
+          _de: Bitte für Änderungen Kontakt aufnehmen.
           _it: Grazie di contattarmi per qualsiasi modifica.
           _nl: Neem contact met mij op voor wijzigingen.
         iban_html:
           _en: A QR-IBAN is required to generate Swiss QR invoices with reference numbers. This number is different from your regular bank account IBAN and must be requested from your bank. <a href="/handbook/billing">Learn more</a>
           _fr: Un QR-IBAN est nécessaire pour générer des factures-QR suisses avec numéro de référence. Ce numéro est différent de l'IBAN de votre compte bancaire et doit être demandé à votre banque. <a href="/handbook/billing">En savoir plus</a>
-          _de: Ein QR-IBAN ist erforderlich, um Schweizer QR-Rechnungen mit Referenznummern zu erstellen. Diese Nummer unterscheidet sich von Ihrer regulären Bankkontonummer (IBAN) und muss bei Ihrer Bank angefordert werden. <a href="/handbook/billing">Mehr erfahren</a>
+          _de: Ein QR-IBAN ist erforderlich, um Schweizer QR-Rechnungen mit Referenznummern zu erstellen. Diese Nummer unterscheidet sich von der regulären Bankkontonummer (IBAN) und muss bei der Bank angefordert werden. <a href="/handbook/billing">Mehr erfahren</a>
           _it: Un QR-IBAN è necessario per generare fatture-QR svizzere con numero di riferimento. Questo numero è diverso dall'IBAN del vostro conto bancario e deve essere richiesto alla vostra banca. <a href="/handbook/billing">Scopri di più</a>
-          _nl: Een QR-IBAN is vereist om Zwitserse QR-facturen met referentienummers te genereren. Dit nummer verschilt van uw reguliere bankrekeningnummer (IBAN) en moet bij uw bank worden aangevraagd. <a href="/handbook/billing">Meer informatie</a>
+          _nl: Een QR-IBAN is vereist om Zwitserse QR-facturen met referentienummers te genereren. Dit nummer verschilt van het reguliere bankrekeningnummer (IBAN) en moet bij de bank worden aangevraagd. <a href="/handbook/billing">Meer informatie</a>
         invoice_document_name_html:
           _en: For tax purposes (especially VAT), changing the name of the PDF documents generated for invoices can be beneficial. Be sure to also update the content of the <a href="mail_templates?scope=invoice">automated billing emails</a> to keep them consistent with this change.
           _fr: Pour des raisons fiscales (notamment la TVA), il peut être bénéfique de modifier le nom des documents PDF générés pour les factures. Pensez également à mettre à jour le contenu des <a href="mail_templates?scope=invoice">e-mails automatiques de facturation</a> afin qu'ils restent cohérents avec ce changement.
-          _de: Aus steuerlichen Gründen (insbesondere der Mehrwertsteuer) kann es sinnvoll sein, den Namen der für Rechnungen erstellten PDF-Dokumente zu ändern. Denken Sie daran, auch den Inhalt der <a href="mail_templates?scope=invoice">automatischen Rechnungs-E-Mails</a> anzupassen, damit sie mit dieser Änderung übereinstimmen.
+          _de: Aus steuerlichen Gründen (insbesondere der Mehrwertsteuer) kann es sinnvoll sein, den Namen der für Rechnungen erstellten PDF-Dokumente zu ändern. Dabei auch den Inhalt der <a href="mail_templates?scope=invoice">automatischen Rechnungs-E-Mails</a> anpassen, damit sie mit dieser Änderung übereinstimmen.
           _it: Per motivi fiscali (soprattutto l'IVA), può essere utile modificare il nome dei documenti PDF generati per le fatture. Ricorda di aggiornare anche il contenuto delle <a href="mail_templates?scope=invoice">e-mail di fatturazione automatiche</a> per mantenerle coerenti con questa modifica.
-          _nl: Voor belastingdoeleinden (vooral btw) kan het wijzigen van de naam van de PDF-documenten gegenereerd voor facturen voordelig zijn. Zorg ervoor dat u ook de inhoud van de <a href="mail_templates?scope=invoice">geautomatiseerde factuur-e-mails</a> bijwerkt om deze consistent te houden met deze wijziging.
+          _nl: Voor belastingdoeleinden (vooral btw) kan het wijzigen van de naam van de PDF-documenten gegenereerd voor facturen voordelig zijn. Zorg ervoor dat ook de inhoud van de <a href="mail_templates?scope=invoice">geautomatiseerde factuur-e-mails</a> wordt bijgewerkt om deze consistent te houden met deze wijziging.
         invoice_footer:
           _en: Text displayed at the bottom of the invoice, before the payment section.
           _fr: Texte affiché en bas de la facture, avant la section concernant son paiement.
@@ -2118,7 +2118,7 @@ _:
         languages:
           _en: Please contact me for changes.
           _fr: Merci de me contacter pour tout changement.
-          _de: Bitte kontaktieren Sie mich für Änderungen.
+          _de: Bitte für Änderungen Kontakt aufnehmen.
           _it: Grazie di contattarmi per qualsiasi modifica.
           _nl: Neem contact met mij op voor wijzigingen.
         local_currency_membership_annual_fee_only:
@@ -2202,13 +2202,13 @@ _:
         member_information_text:
           _en: If present, the content of this field will be displayed on the member's account under the "Information" section. You can use it, for example, to share confidential information with your members.
           _fr: Si présent, le contenu de ce champ sera affiché sur le compte du membre sous la section "Informations". Vous pouvez l'utiliser, par exemple, pour partager des informations confidentielles avec vos membres.
-          _de: Wenn vorhanden, wird der Inhalt dieses Feldes im Mitgliederkonto unter dem Punkt "Informationen" angezeigt. Sie können es z.B. verwenden, um vertrauliche Informationen mit Ihren Mitgliedern zu teilen.
+          _de: Wenn vorhanden, wird der Inhalt dieses Feldes im Mitgliederkonto unter dem Punkt "Informationen" angezeigt. Kann z.B. verwendet werden, um vertrauliche Informationen mit den Mitgliedern zu teilen.
           _it: Se presente, il contenuto di questo campo verrà visualizzato sul conto del socio sotto la sezione "Informazioni". Puoi usarlo, ad esempio, per condividere informazioni riservate con i tuoi soci.
-          _nl: Indien aanwezig, wordt de inhoud van dit veld weergegeven op het ledenaccount onder de sectie "Informatie". U kunt het bijvoorbeeld gebruiken om vertrouwelijke informatie met uw leden te delen.
+          _nl: Indien aanwezig, wordt de inhoud van dit veld weergegeven op het ledenaccount onder de sectie "Informatie". Kan bijvoorbeeld worden gebruikt om vertrouwelijke informatie met de leden te delen.
         member_information_title:
           _en: Leave blank to use the default title.
           _fr: Laisser blanc pour utiliser l'intitulé par défaut.
-          _de: Lassen Sie es leer, um den Standardtitel zu verwenden.
+          _de: Leer lassen, um den Standardtitel zu verwenden.
           _it: Lasciare vuoto per utilizzare il titolo predefinito.
           _nl: Laat leeg om de standaardtitel te gebruiken.
         member_order_priority_html:
@@ -2216,7 +2216,7 @@ _:
           _fr: Permet de forcer la position avant l'application de l'ordre défini dans <a href='/settings#registration'>les paramètres</a>.
           _de: Ermöglicht das Erzwingen der Position, bevor die in <a href='/settings#registration'>den Einstellungen</a> festgelegte Reihenfolge angewendet wird.
           _it: Utilizzato per forzare la posizione prima di applicare l'ordine definito <a href='/settings#registration'>nei parametri</a>.
-          _nl: Stelt u in staat de positie te forceren voordat de volgorde gedefinieerd in <a href='/settings#registration'>de instellingen</a> wordt toegepast.
+          _nl: Maakt het mogelijk de positie te forceren voordat de volgorde gedefinieerd in <a href='/settings#registration'>de instellingen</a> wordt toegepast.
         member_profession_form_mode:
           _en: Defines the display mode of this field in the registration form.
           _fr: Définis le mode d'affichage de ce champ dans le formulaire d'inscription.
@@ -2316,7 +2316,7 @@ _:
         open_renewal_reminder_sent_after_in_days:
           _en: The reminder is sent only once, X days after the renewal request is sent. Leave blank if no reminder.
           _fr: Le rappel n'est envoyé qu'une seule fois, X jours après l'envoi de la demande de renouvellement. Laisser vide si aucun rappel.
-          _de: Die Erinnerung wird nur einmal verschickt, und zwar X Tage, nachdem der Verlängerungsantrag abgeschickt wurde. Lassen Sie das Feld leer, wenn keine Erinnerung erfolgt.
+          _de: Die Erinnerung wird nur einmal verschickt, und zwar X Tage, nachdem der Verlängerungsantrag abgeschickt wurde. Das Feld leer lassen, wenn keine Erinnerung erfolgen soll.
           _it: Il promemoria è inviato una sola volta, X giorni prima dell'invio della domanda di rinnovo. Lasciare vuoto se non c'è alcun promemoria.
           _nl: De herinnering wordt slechts één keer verzonden, X dagen na het verzenden van het vernieuwingsverzoek. Laat leeg als er geen herinnering is.
         open_renewal_text:
@@ -2382,9 +2382,9 @@ _:
         shop_admin_only:
           _en: Allows you to hide the farm shop from members while products are being set up. Only admins accessing a member's account can see the farm shop in the menu.
           _fr: Permet de cacher l'épicerie aux membres pendant la mise en place des produits. Seuls les admins accédant au compte d'un membre peuvent voir l'épicerie dans le menu.
-          _de: Ermöglicht es Ihnen, das Hofladen vor den Mitgliedern zu verbergen, während die Produkte aufgestellt werden. Nur Admins, die auf das Konto eines Mitglieds zugreifen, können das Hofladen im Menü sehen.
+          _de: Ermöglicht es, den Hofladen vor den Mitgliedern zu verbergen, während die Produkte aufgestellt werden. Nur Admins, die auf das Konto eines Mitglieds zugreifen, können den Hofladen im Menü sehen.
           _it: Permette di nascondere la drogheria ai soci mentre i prodotti vengono piazzati. Solo gli admin che accedono all'account di un socio possono vedere la spesa nel menu.
-          _nl: Stelt u in staat de winkel te verbergen voor leden terwijl producten worden ingesteld. Alleen beheerders die toegang hebben tot een ledenaccount kunnen de winkel in het menu zien.
+          _nl: Maakt het mogelijk de winkel te verbergen voor leden terwijl producten worden ingesteld. Alleen beheerders die toegang hebben tot een ledenaccount kunnen de winkel in het menu zien.
         shop_delivery_open_delay_in_days:
           _en: Leave blank if orders can still be placed on the day of delivery.
           _fr: Laisser vide si les commandes peuvent encore être faites le jour de livraison.
@@ -2412,9 +2412,9 @@ _:
         shop_order_automatic_invoicing_delay_in_days:
           _en: Allows you to automatically invoice orders X days after or before (-X) the delivery date. Leave blank to manually invoice orders.
           _fr: Permet de facturer automatiquement, durant la nuit, les commandes X jours après ou avant (-X) la date de livraison. Laisser vide pour facturer manuellement les commandes.
-          _de: Ermöglicht es Ihnen, die Bestellungen X Tage nach oder vor (-X) dem Lieferdatum automatisch zu fakturieren. Lassen Sie das Feld leer, um die Bestellungen manuell zu fakturieren.
+          _de: Ermöglicht es, die Bestellungen X Tage nach oder vor (-X) dem Lieferdatum automatisch zu fakturieren. Das Feld leer lassen, um die Bestellungen manuell zu fakturieren.
           _it: Permette di fatturare automaticamente, durante la notte, gli ordini X giorni dopo o prima (-X) la data di consegna. Lasciare vuoto per fatturare manualmente gli ordini.
-          _nl: Stelt u in staat bestellingen automatisch te factureren X dagen na of voor (-X) de leveringsdatum. Laat leeg om bestellingen handmatig te factureren.
+          _nl: Maakt het mogelijk bestellingen automatisch te factureren X dagen na of voor (-X) de leveringsdatum. Laat leeg om bestellingen handmatig te factureren.
         shop_order_maximum_weight_in_kg:
           _en: Leave blank if no limit.
           _fr: Laisser vide si aucune limite.
@@ -2580,21 +2580,21 @@ _:
         context:
           _en: For a quick resolution of your request, please provide direct links, IDs (member, subscription, invoice, etc.) or screenshots (below).
           _fr: Pour une résolution rapide de votre demande, merci de fournir des liens directs, IDs (membre, abonnement, facture, etc.) ou captures d'écran (ci-dessous).
-          _de: Für eine schnelle Lösung Ihrer Anfrage geben Sie bitte direkte Links, IDs (Mitglied, Abonnement, Rechnung usw.) oder Screenshots (unterhalb) an.
+          _de: Für eine schnelle Lösung der Anfrage bitte direkte Links, IDs (Mitglied, Abonnement, Rechnung usw.) oder Screenshots (unterhalb) angeben.
           _it: Per una risoluzione rapida della richiesta, fornisca link diretti, ID (socio, abbonamento, fattura, ecc.) o screenshot (sotto).
-          _nl: Voor een snel oplossen van uw aanvraag, geef alstublieft directe links, IDs (lid, abonnement, factuur, etc.) of schermafdrukken (onder).
+          _nl: Voor een snelle oplossing van de aanvraag, gelieve directe links, IDs (lid, abonnement, factuur, etc.) of schermafdrukken (onder) te verstrekken.
         emails:
           _en: Replies will be sent to your admin email (%{to}), but you can add other email addresses in CC.
           _fr: Les réponses seront envoyées à votre adresse e-mail d'admin (%{to}), mais vous pouvez ajouter d'autres adresses e-mail en CC.
-          _de: Antworten werden an Ihre Admin-E-Mail (%{to}) gesendet, aber Sie können andere E-Mail-Adressen in CC hinzufügen.
+          _de: Antworten werden an die Admin-E-Mail (%{to}) gesendet, es können aber andere E-Mail-Adressen in CC hinzugefügt werden.
           _it: Le risposte verranno inviate alla sua email admin (%{to}), ma può aggiungere altri indirizzi email in CC.
-          _nl: Antwoorden worden verzonden naar uw admin-e-mail (%{to}), maar u kunt andere e-mailadressen toevoegen in CC.
+          _nl: Antwoorden worden verzonden naar de admin-e-mail (%{to}), maar er kunnen andere e-mailadressen worden toegevoegd in CC.
         subject:
           _en: Briefly describe your issue or request.
           _fr: Décrivez brièvement votre problème ou votre demande.
-          _de: Beschreiben Sie kurz Ihr Problem oder Ihre Anfrage.
+          _de: Das Problem oder die Anfrage kurz beschreiben.
           _it: Descrivi brevemente il tuo problema o la tua richiesta.
-          _nl: Beschrijf kort uw probleem of uw verzoek.
+          _nl: Het probleem of het verzoek kort beschrijven.
     inputs:
       period:
         _en: Schedule

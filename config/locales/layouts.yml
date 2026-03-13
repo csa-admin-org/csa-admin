@@ -37,7 +37,7 @@ _:
         absences_subtitle:
           _en: "⤷ Let us know!"
           _fr: "⤷ Prévenez-nous!"
-          _de: "⤷ Informieren Sie uns!"
+          _de: "⤷ Informiere uns!"
           _it: "⤷ Facci sapere!"
           _nl: "⤷ Laat het ons weten!"
         absences_used:
@@ -69,9 +69,9 @@ _:
         bidding_round_pledge:
           _en: "⤷ Pledge your amount!"
           _fr: "⤷ Fixez votre montant!"
-          _de: "⤷ Betrag festlegen!"
+          _de: "⤷ Lege Deinen Betrag fest!"
           _it: "⤷ Fissate il vostro importo!"
-          _nl: "⤷ Bepaal uw bedrag!"
+          _nl: "⤷ Bepaal je bedrag!"
         billing:
           _en: Billing
           _fr: Facturation
@@ -129,9 +129,9 @@ _:
         newsletter_subscribe:
           _en: "⤷ Subscribe!"
           _fr: "⤷ Abonnez-vous!"
-          _de: "⤷ Abonnieren Sie!"
+          _de: "⤷ Abonniere!"
           _it: "⤷ Iscriviti!"
-          _nl: "⤷ Abonneer u!"
+          _nl: "⤷ Abonneer je!"
         no_activity_participations_demanded:
           _en: "⤷ No commitment"
           _fr: "⤷ Aucun engagement"

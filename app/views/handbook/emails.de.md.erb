@@ -1,28 +1,28 @@
 # Emails
 
-CSA Admin verwendet zwei Arten von E-Mails, um mit Ihren Mitgliedern zu kommunizieren:
+CSA Admin verwendet zwei Arten von E-Mails, um mit Deinen Mitgliedern zu kommunizieren:
 
-- [**Automatische E-Mails**](/mail_templates): werden automatisch bei bestimmten Ereignissen versendet (neue Rechnung, Verlängerung, Aktivitätserinnerung, ...). Sie können deren Inhalt anpassen und sie aktivieren/deaktivieren.
-- [**Newsletters**](/newsletters): Gruppen-E-Mails, die Sie manuell verfassen und senden (oder planen) an alle oder einen Teil Ihrer Mitglieder.
+- [**Automatische E-Mails**](/mail_templates): werden automatisch bei bestimmten Ereignissen versendet (neue Rechnung, Verlängerung, Aktivitätserinnerung, ...). Du kannst deren Inhalt anpassen und sie aktivieren/deaktivieren.
+- [**Newsletters**](/newsletters): Gruppen-E-Mails, die Du manuell verfasst und sendest (oder planst) an alle oder einen Teil Deiner Mitglieder.
 
 Beide Typen verwenden dieselbe Vorlagensprache und dieselben Formatierungsoptionen, die unten beschrieben werden.
 
 ## Liquid-Vorlagensprache {#liquid}
 
-E-Mail-Vorlagen verwenden die [Liquid](https://shopify.github.io/liquid)-Vorlagensprache, mit der Sie dynamische mitgliederspezifische Daten einfügen und bedingte Logik hinzufügen können. Trotz eines "Gruppen"-Versands wird der Inhalt jeder E-Mail individuell anhand der Informationen des jeweiligen Mitglieds (Name, Sprache, Abonnement, ...) generiert.
+E-Mail-Vorlagen verwenden die [Liquid](https://shopify.github.io/liquid)-Vorlagensprache, mit der Du dynamische mitgliederspezifische Daten einfügen und bedingte Logik hinzufügen kannst. Trotz eines "Gruppen"-Versands wird der Inhalt jeder E-Mail individuell anhand der Informationen des jeweiligen Mitglieds (Name, Sprache, Abonnement, ...) generiert.
 
 ### Daten anzeigen
 
-Verwenden Sie doppelte geschweifte Klammern, um einen Wert einzufügen:
+Verwende doppelte geschweifte Klammern, um einen Wert einzufügen:
 
 ~~~ liquid
 <p>Hallo {{ member.name }},</p>
-<p>Ihre nächste Lieferung ist am {{ basket.delivery.date }}.</p>
+<p>Deine nächste Lieferung ist am {{ basket.delivery.date }}.</p>
 ~~~
 
 ### Bedingungen
 
-Verwenden Sie `{% if %}`, um Inhalte nur anzuzeigen, wenn eine Bedingung erfüllt ist:
+Verwende `{% if %}`, um Inhalte nur anzuzeigen, wenn eine Bedingung erfüllt ist:
 
 ~~~ liquid
 {% if basket.contents.size > 0 %}
@@ -31,13 +31,13 @@ Verwenden Sie `{% if %}`, um Inhalte nur anzuzeigen, wenn eine Bedingung erfüll
 {% endif %}
 ~~~
 
-Sie können `and`, `or` sowie `{% elsif %}` und `{% else %}` verwenden, um Bedingungen zu kombinieren:
+Du kannst `and`, `or` sowie `{% elsif %}` und `{% else %}` verwenden, um Bedingungen zu kombinieren:
 
 ~~~ liquid
 {% if membership.trial_baskets_count > 0 %}
-  <p>Sie befinden sich noch in Ihrer Probezeit ({{ membership.trial_baskets_count }} <%= Basket.model_name.human(count: 2) %> verbleibend).</p>
+  <p>Du befindest Dich noch in Deiner Probezeit ({{ membership.trial_baskets_count }} <%= Basket.model_name.human(count: 2) %> verbleibend).</p>
 {% elsif membership.activity_participations_missing_count > 0 %}
-  <p>Sie haben noch {{ membership.activity_participations_missing_count }} Aktivität(en) zu absolvieren.</p>
+  <p>Du hast noch {{ membership.activity_participations_missing_count }} Aktivität(en) zu absolvieren.</p>
 {% else %}
   <p>Alles ist auf dem neuesten Stand, vielen Dank!</p>
 {% endif %}
@@ -45,7 +45,7 @@ Sie können `and`, `or` sowie `{% elsif %}` und `{% else %}` verwenden, um Bedin
 
 ### Schleifen
 
-Verwenden Sie `{% for %}`, um Inhalte für jedes Element einer Liste zu wiederholen:
+Verwende `{% for %}`, um Inhalte für jedes Element einer Liste zu wiederholen:
 
 ~~~ liquid
 <ul>
@@ -64,7 +64,7 @@ Zusätzlich zu Standard-HTML stehen mehrere spezielle Formatierungstags zur Verf
 ~~~ liquid
 {% highlight %}
   <p><strong>📣 Wichtig!</strong></p>
-  <p>Ihre <%= Basket.model_name.human %> wird diese Woche extra groß sein.</p>
+  <p>Deine <%= Basket.model_name.human %> wird diese Woche extra groß sein.</p>
 {% endhighlight %}
 ~~~
 
@@ -72,12 +72,12 @@ Zusätzlich zu Standard-HTML stehen mehrere spezielle Formatierungstags zur Verf
 
 ~~~ liquid
 {% lowlight %}
-  <p>Verwalten Sie Ihre Anmeldungen über
-    <a href="{{ member.activities_url }}">Ihr Konto</a>.</p>
+  <p>Verwalte Deine Anmeldungen über
+    <a href="{{ member.activities_url }}">Dein Konto</a>.</p>
 {% endlowlight %}
 ~~~
 
-**Schaltfläche** — Zeigt eine auffällige Aktionsschaltfläche an. Übergeben Sie den Namen einer Variable, die die URL enthält:
+**Schaltfläche** — Zeigt eine auffällige Aktionsschaltfläche an. Übergib den Namen einer Variable, die die URL enthält:
 
 ~~~ liquid
 {% button member.activities_url %}
@@ -87,8 +87,8 @@ Zusätzlich zu Standard-HTML stehen mehrere spezielle Formatierungstags zur Verf
 
 ## Datenvorschau {#data-preview}
 
-Beim Bearbeiten einer E-Mail-Vorlage oder einer Newsletter-Vorlage wird ein Vorschau-Panel unter dem Code-Editor angezeigt. Diese Vorschau zeigt Ihre Vorlage gerendert mit Beispieldaten für jede Sprache.
+Beim Bearbeiten einer E-Mail-Vorlage oder einer Newsletter-Vorlage wird ein Vorschau-Panel unter dem Code-Editor angezeigt. Diese Vorschau zeigt Deine Vorlage gerendert mit Beispieldaten für jede Sprache.
 
-Unter jeder Vorschau zeigt ein Daten-Panel die genaue Datenstruktur, die Ihrer Vorlage zur Verfügung steht. Diese Daten werden halbzufällig aus Ihren tatsächlichen Organisationsdaten generiert. Sie können die Werte in diesem Panel ändern, um zu testen, wie Ihre Vorlage mit verschiedenen Szenarien gerendert wird (z.B. leerer <%= BasketContent.model_name.human %>, null fehlende Aktivitäten, usw.).
+Unter jeder Vorschau zeigt ein Daten-Panel die genaue Datenstruktur, die Deiner Vorlage zur Verfügung steht. Diese Daten werden halbzufällig aus Deinen tatsächlichen Organisationsdaten generiert. Du kannst die Werte in diesem Panel ändern, um zu testen, wie Deine Vorlage mit verschiedenen Szenarien gerendert wird (z.B. leerer <%= BasketContent.model_name.human %>, null fehlende Aktivitäten, usw.).
 
-> Die Datenvorschau ist der beste Weg, alle verfügbaren Variablen zu entdecken und Ihre Vorlage zu testen. Jeder Typ von E-Mail-Vorlage hat seinen eigenen Satz verfügbarer Daten — überprüfen Sie immer das Vorschau-Panel, um zu sehen, was verfügbar ist.
+> Die Datenvorschau ist der beste Weg, alle verfügbaren Variablen zu entdecken und Deine Vorlage zu testen. Jeder Typ von E-Mail-Vorlage hat seinen eigenen Satz verfügbarer Daten — überprüfe immer das Vorschau-Panel, um zu sehen, was verfügbar ist.

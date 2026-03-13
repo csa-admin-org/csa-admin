@@ -10,34 +10,34 @@ _:
       confirmation_paragraph:
         _en: Use the following code to confirm your account deletion.
         _fr: Utilisez le code suivant pour confirmer la suppression de votre compte.
-        _de: Verwenden Sie den folgenden Code, um die Löschung Ihres Kontos zu bestätigen.
+        _de: Verwende den folgenden Code, um die Löschung Deines Kontos zu bestätigen.
         _it: Usa il seguente codice per confermare l'eliminazione del tuo account.
-        _nl: Gebruik de volgende code om de verwijdering van uw account te bevestigen.
+        _nl: Gebruik de volgende code om de verwijdering van je account te bevestigen.
       subject:
         _en: Confirm your account deletion
         _fr: Confirmez la suppression de votre compte
-        _de: Bestätigen Sie die Löschung Ihres Kontos
+        _de: Löschung Deines Kontos bestätigen
         _it: Conferma l'eliminazione del tuo account
-        _nl: Bevestig de verwijdering van uw account
+        _nl: Bevestig de verwijdering van je account
     new_admin_session_email:
       login_button:
         _en: Access my admin account
         _fr: Accéder à mon compte admin
-        _de: Zugang zu meinem Admin-Konto
+        _de: Zugang zum Admin-Konto
         _it: Accedere al mio conto admin
-        _nl: Toegang tot mijn admin-account
+        _nl: Toegang tot het admin-account
       login_paragraph:
         _en: Click the login link below to access your admin account.
         _fr: Cliquez sur le lien de connexion ci-dessous afin d'accéder à votre compte admin.
-        _de: Mit dem Link hier unten gelangen Sie zu Ihrem Admin-Konto.
+        _de: Über den folgenden Link kann das Admin-Konto aufgerufen werden.
         _it: Cliccate sul seguente link di accesso per connettervi al vostro conto admin.
-        _nl: Klik op de inloglink hieronder om toegang te krijgen tot uw admin-account.
+        _nl: Klik op de inloglink hieronder om toegang te krijgen tot het admin-account.
       subject:
         _en: Login to your admin account
         _fr: Connexion à votre compte admin
-        _de: Anmeldung mit Ihrem Admin-Konto
+        _de: Anmeldung beim Admin-Konto
         _it: Connessione al vostro conto admin
-        _nl: Inloggen op uw admin account
+        _nl: Inloggen op het admin-account
     new_member_session_email:
       login_button:
         _en: Access my account
@@ -48,12 +48,12 @@ _:
       login_paragraph:
         _en: Click the login link below to access your account.
         _fr: Cliquez sur le lien de connexion ci-dessous afin d'accéder à votre compte.
-        _de: Mit dem Link hier unten gelangen Sie zu Ihrem Konto.
+        _de: Klicke auf den folgenden Link, um auf Dein Konto zuzugreifen.
         _it: Cliccate sul seguente link di accesso per connettervi al vostro conto.
-        _nl: Klik op de inloglink hieronder om toegang te krijgen tot uw account.
+        _nl: Klik op de inloglink hieronder om toegang te krijgen tot je account.
       subject:
         _en: Login to your account
         _fr: Connexion à votre compte
-        _de: Anmeldung mit Ihrem Konto
+        _de: Anmeldung bei Deinem Konto
         _it: Connessione al vostro conto
-        _nl: Inloggen op uw account
+        _nl: Inloggen op je account

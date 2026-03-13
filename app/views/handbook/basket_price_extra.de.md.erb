@@ -1,6 +1,6 @@
 # Preis Extra-<%= Basket.model_name.human %>
 
-Diese Funktion ermöglicht es Ihnen, Ihren Mitgliedern anzubieten, für jede <%= Basket.model_name.human %> einen zusätzlichen Betrag zu zahlen.
+Diese Funktion ermöglicht es Dir, Deinen Mitgliedern anzubieten, für jede <%= Basket.model_name.human %> einen zusätzlichen Betrag zu zahlen.
 
 Dieses zusätzliche Einkommen kann verschiedenen Bedürfnissen dienen, zum Beispiel:
 
@@ -9,15 +9,15 @@ Dieses zusätzliche Einkommen kann verschiedenen Bedürfnissen dienen, zum Beisp
 
 ## Konfiguration {#configuration}
 
-Sobald diese zusätzliche Funktion in [Ihren Einstellungen](/settings#organization_features_input) aktiviert ist, können Sie mit [mehreren Einstellungen](/settings#basket_price_extra) konfigurieren, wie diese Extras Ihren Mitgliedern bei ihrer Anmeldung oder [Erneuerung](/handbook/membership_renewal) ihres Abonnements präsentiert werden.
+Sobald diese zusätzliche Funktion in [Deinen Einstellungen](/settings#organization_features_input) aktiviert ist, kannst Du mit [mehreren Einstellungen](/settings#basket_price_extra) konfigurieren, wie diese Extras Deinen Mitgliedern bei ihrer Anmeldung oder [Erneuerung](/handbook/membership_renewal) ihres Abonnements präsentiert werden.
 
-Nachdem Sie den Titel des Extras und einen (optionalen) Erklärungstext gewählt haben, können Sie eine Liste von durch Kommas getrennten Extras definieren, zum Beispiel:
+Nachdem Du den Titel des Extras und einen (optionalen) Erklärungstext gewählt hast, kannst Du eine Liste von durch Kommas getrennten Extras definieren, zum Beispiel:
 
 ~~~
 0.0, 1.0, 1.5, 3.0, 5.0
 ~~~
 
-Anschließend müssen Sie definieren, mit welchem Label Ihre Extras angezeigt werden, zum Beispiel mit Hilfe der folgenden [Liquid-Syntax](https://shopify.github.io/liquid):
+Anschließend musst Du definieren, mit welchem Label Deine Extras angezeigt werden, zum Beispiel mit Hilfe der folgenden [Liquid-Syntax](https://shopify.github.io/liquid):
 
 ~~~ liquid
 {% if extra == 0 %}
@@ -32,7 +32,7 @@ Basispreis
 Dies ergibt folgende Darstellung (bei 40 Lieferungen):
 ![Label-Anzeige](<%= image_url("handbook/basket_price_extra/label.de.png") %>)
 
-Sie können auch wählen, dem Label mehr Details hinzuzufügen, zum Beispiel mit Hilfe der folgenden [Liquid-Syntax](https://shopify.github.io/liquid):
+Du kannst auch wählen, dem Label mehr Details hinzuzufügen, zum Beispiel mit Hilfe der folgenden [Liquid-Syntax](https://shopify.github.io/liquid):
 
 ~~~ liquid
 {% if extra == 1.5 %}
@@ -47,6 +47,6 @@ Dies ergibt diese detailliertere Darstellung (bei 40 Lieferungen):
 
 ## Bericht {#report}
 
-Der Gesamtbetrag aller Extras wird unten rechts in [der Abonnementsliste](https://admin.tapatate.test/memberships?q%5Bduring_year%5D=<%= Current.fy_year %>&scope=all&subdomain=admin&order=started_on_desc), unterhalb der Filter angezeigt. Vergessen Sie nicht, die Abonnements nach Geschäftsjahr zu filtern, um den richtigen Betrag zu erhalten.
+Der Gesamtbetrag aller Extras wird unten rechts in [der Abonnementsliste](https://admin.tapatate.test/memberships?q%5Bduring_year%5D=<%= Current.fy_year %>&scope=all&subdomain=admin&order=started_on_desc), unterhalb der Filter angezeigt. Vergiss nicht, die Abonnements nach Geschäftsjahr zu filtern, um den richtigen Betrag zu erhalten.
 
-Sie können [die Abonnementsliste](/memberships?q%5Bbasket_price_extra_gt%5D=0&subdomain=admin&order=started_on_desc) mit einem Extra leicht mit dem dafür vorgesehenen Filter auf der rechten Seite filtern. Diese Information findet sich auch im [CSV-Export der Abonnements](/memberships.csv).
+Du kannst [die Abonnementsliste](/memberships?q%5Bbasket_price_extra_gt%5D=0&subdomain=admin&order=started_on_desc) mit einem Extra leicht mit dem dafür vorgesehenen Filter auf der rechten Seite filtern. Diese Information findet sich auch im [CSV-Export der Abonnements](/memberships.csv).

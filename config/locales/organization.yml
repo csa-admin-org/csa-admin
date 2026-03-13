@@ -71,39 +71,39 @@ _:
     default_basket_content_member_title/bag:
       _en: Your bag contents
       _fr: Contenu de votre sac
-      _de: Ihr Tascheninhalt
+      _de: Dein Tascheninhalt
       _it: Contenuto della vostra borsa
-      _nl: Inhoud van uw tas
+      _nl: Inhoud van je tas
     default_basket_content_member_title/basket:
       _en: Your basket contents
       _fr: Contenu de votre panier
-      _de: Ihr Korbinhalt
+      _de: Dein Korbinhalt
       _it: Contenuto della vostra cesta
-      _nl: Inhoud van uw mand
+      _nl: Inhoud van je mand
     default_basket_content_member_title/cone:
       _en: Your cone contents
       _fr: Contenu de votre cornet
-      _de: Ihr Tüteninhalt
+      _de: Dein Tüteninhalt
       _it: Contenuto del vostro cono
-      _nl: Inhoud van uw zak
+      _nl: Inhoud van je zak
     default_basket_content_member_title/package:
       _en: Your package contents
       _fr: Contenu de votre colis
-      _de: Ihr Paketinhalt
+      _de: Dein Paketinhalt
       _it: Contenuto del vostro pacco
-      _nl: Inhoud van uw pakket
+      _nl: Inhoud van je pakket
     default_basket_content_member_title/share:
       _en: Your share contents
       _fr: Contenu de votre part
-      _de: Ihr Anteilsinhalt
+      _de: Dein Anteilsinhalt
       _it: Contenuto della vostra parte
-      _nl: Inhoud van uw deel
+      _nl: Inhoud van je deel
     default_email_footer:
       _en: If you have any questions or comments, please reply to this email.
       _fr: En cas de questions ou remarques, répondez simplement à cet email.
-      _de: Falls Sie Fragen oder Anmerkungen haben, antworten Sie einfach auf diese E-Mail.
+      _de: Falls Du Fragen oder Anmerkungen hast, antworte einfach auf diese E-Mail.
       _it: Se hai domande o commenti, rispondi semplicemente a questo email.
-      _nl: Als u vragen of opmerkingen heeft, antwoord dan op deze e-mail.
+      _nl: Als je vragen of opmerkingen hebt, antwoord dan op deze e-mail.
     default_email_signature:
       _en: Best regards,
       _fr: Au plaisir,

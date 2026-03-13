@@ -100,9 +100,9 @@ _:
       destroy_confirm:
         _en: Are you sure? Please check that this email is (still) valid before reactivating it?
         _fr: Êtes-vous sûr? Merci de vérifier que cet email soit bien (encore) valide avant de le réactiver?
-        _de: Sind Sie sicher? Bitte überprüfen Sie, ob diese E-Mail (noch) gültig ist, bevor Sie sie reaktivieren?
+        _de: Wirklich fortfahren? Bitte prüfen, ob diese E-Mail (noch) gültig ist, bevor sie reaktiviert wird.
         _it: Sei sicuro/a? Per favore controllate che questa email sia (ancora) valida prima di riattivarla?
-        _nl: Weet u het zeker? Controleer alstublieft of dit e-mailadres (nog) geldig is voordat u het opnieuw activeert?
+        _nl: Echt doorgaan? Controleren of dit e-mailadres (nog) geldig is voordat het opnieuw wordt geactiveerd.
     no_basket_size:
       _en: Supporting member
       _fr: Membre de soutien

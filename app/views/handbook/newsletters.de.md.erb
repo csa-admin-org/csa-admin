@@ -2,20 +2,20 @@
 
 Ergänzend zu [automatischen E-Mails](/mail_templates), die bei bestimmten Ereignissen verschickt werden (neue Rechnung, Verlängerung, ...), bietet CSA Admin auch die Möglichkeit, [Newsletters (Gruppen-E-Mails)](/newsletters) zu versenden.
 
-Diese Newsletters können an alle Ihre Mitglieder oder an ein spezifisches Publikum (Status, <%= BasketSize.model_name.human %>, Depot, ...) gerichtet werden.
+Diese Newsletters können an alle Deine Mitglieder oder an ein spezifisches Publikum (Status, <%= BasketSize.model_name.human %>, Depot, ...) gerichtet werden.
 
 > Im Gegensatz zu [automatischen E-Mails](/mail_templates) enthalten Newsletters einen (obligatorischen) Abmeldelink in ihrer Fußzeile.
 
 ## Vorlagen {#templates}
 
-Um die Erstellung Ihrer Newsletters zu erleichtern, bietet CSA Admin ein ausgeklügeltes System von [Vorlagen](/newsletter_templates). Diese Vorlagen sind E-Mail-Modelle mit vordefinierten Inhaltsblöcken, die Sie nach Ihren Bedürfnissen erstellen und ändern können.
+Um die Erstellung Deiner Newsletters zu erleichtern, bietet CSA Admin ein ausgeklügeltes System von [Vorlagen](/newsletter_templates). Diese Vorlagen sind E-Mail-Modelle mit vordefinierten Inhaltsblöcken, die Du nach Deinen Bedürfnissen erstellen und ändern kannst.
 
 Standardmäßig sind [2 Vorlagen](/newsletter_templates) verfügbar:
 
 - <strong>Freier Text</strong>: eine einfache Vorlage mit einem einzelnen Inhaltsblock ohne Titel.
 - <strong>Nächste Lieferung</strong>: eine komplexere Vorlage mit mehreren Inhaltsblöcken sowie dynamischen Informationen ([<%= BasketContent.model_name.human %>](/handbook/basket_content), [nächste Aktivität](/handbook/activity), ...).
 
-Zögern Sie nicht, diese zu duplizieren und nach Belieben zu ändern oder [neue zu erstellen](/newsletter_templates/new).
+Zögere nicht, diese zu duplizieren und nach Belieben zu ändern oder [neue zu erstellen](/newsletter_templates/new).
 
 > Trotz des "Gruppen"-Versands eines Newsletters wird der Inhalt jeder E-Mail individuell anhand der Informationen des jeweiligen Mitglieds (Name, Sprache, Abonnement, ...) generiert.
 
@@ -45,13 +45,13 @@ Vorlagen verwenden die Liquid-Vorlagensprache, um dynamische mitgliederspezifisc
 
 ## Anhänge {#attachments}
 
-Sie können Ihren Newsletters Anhänge hinzufügen, aber das Gesamtgewicht dieser Anhänge darf 5 MB nicht überschreiten.
+Du kannst Deinen Newsletters Anhänge hinzufügen, aber das Gesamtgewicht dieser Anhänge darf 5 MB nicht überschreiten.
 
-Wenn Sie schwerere Anhänge versenden möchten, können Sie einen externen Dienst wie [SwissTransfer](https://www.swisstransfer.com) verwenden oder sie auf Ihrer Website hosten und einfach einen Link zu diesen Dateien in Ihrem Newsletter hinzufügen.
+Wenn Du schwerere Anhänge versenden möchtest, kannst Du einen externen Dienst wie [SwissTransfer](https://www.swisstransfer.com) verwenden oder sie auf Deiner Website hosten und einfach einen Link zu diesen Dateien in Deinem Newsletter hinzufügen.
 
 ## Zustellungsverfolgung {#delivery-tracking}
 
-Sobald ein Newsletter versendet wurde, wird der Zustellstatus jeder E-Mail einzeln verfolgt. Sie können die Anzahl der zugestellten, abgelehnten oder unterdrückten E-Mails direkt auf der [Detailseite des Newsletters](/newsletters) sehen.
+Sobald ein Newsletter versendet wurde, wird der Zustellstatus jeder E-Mail einzeln verfolgt. Du kannst die Anzahl der zugestellten, abgelehnten oder unterdrückten E-Mails direkt auf der [Detailseite des Newsletters](/newsletters) sehen.
 
 Jeder Zustellungseintrag zeigt:
 
@@ -69,7 +69,7 @@ Wenn ein Mitglied eine neue E-Mail-Adresse hinzufügt (oder eine bestehende korr
 
 ## Versandplanung {#scheduling}
 
-Um den automatischen Versand eines Newsletters zu planen, geben Sie ein zukünftiges Datum im Feld "Versand geplant am" an. Das System wird ihn automatisch in der Nacht des gewählten Datums versenden. Stellen Sie sicher, dass der Inhalt finalisiert ist, bevor Sie einen Versand planen!
+Um den automatischen Versand eines Newsletters zu planen, gib ein zukünftiges Datum im Feld "Versand geplant am" an. Das System wird ihn automatisch in der Nacht des gewählten Datums versenden. Stelle sicher, dass der Inhalt finalisiert ist, bevor Du einen Versand planst!
 
 ## Abmeldung {#unsubscription}
 
@@ -79,4 +79,4 @@ Alle Mitglieder sind standardmäßig für Newsletters angemeldet. Jedes Mitglied
 
 Mitglieder, die sich abgemeldet haben, können sich problemlos wieder anmelden über [ihr Konto](<%= members_newsletter_deliveries_url(subdomain: Current.org.members_subdomain) %>) im Bereich "Newsletters".
 
-> Bitte beachten Sie, dass der Link zur Wiederanmeldung für Newsletter nur im Konto des Mitglieds erscheint, wenn sich dieses selbst angemeldet hat, und nicht wenn ein Administrator sich in sein Konto eingeloggt hat.
+> Bitte beachte, dass der Link zur Wiederanmeldung für Newsletter nur im Konto des Mitglieds erscheint, wenn sich dieses selbst angemeldet hat, und nicht wenn ein Administrator sich in sein Konto eingeloggt hat.

@@ -8,28 +8,28 @@ Alle Abonnements können manuell von einem Administrator erneuert werden; entwed
 
 Um Abonnements zu erneuern, ist es zunächst notwendig, alle [Lieferungen](/deliveries/new) für das neue Geschäftsjahr zu erstellen (siehe [Lieferungen](/handbook/deliveries)) und gegebenenfalls die Preise (<%= BasketSize.model_name.human %>, <%= BasketComplement.model_name.human %>, Depot...) für das folgende Jahr anzupassen. Tatsächlich bedeutet die Erneuerung eines Abonnements, ein neues Abonnement mit den gleichen Informationen wie das aktuelle zu erstellen, jedoch für das nächste Geschäftsjahr.
 
-Sobald die Lieferungen erstellt sind, können Administratoren die Abonnements manuell erneuern, zu einem Zeitpunkt ihrer Wahl. Beachten Sie, dass wenn ein Abonnement nach der ersten Lieferung des neuen Geschäftsjahres erneuert wird, diese Lieferung dennoch im erneuerten Abonnement enthalten sein wird.
+Sobald die Lieferungen erstellt sind, können Administratoren die Abonnements manuell erneuern, zu einem Zeitpunkt ihrer Wahl. Beachte, dass wenn ein Abonnement nach der ersten Lieferung des neuen Geschäftsjahres erneuert wird, diese Lieferung dennoch im erneuerten Abonnement enthalten sein wird.
 
 ## Versenden von Anfragen {#sending-requests}
 
 Abschnitt "Erneuerungen" unterhalb der Filter auf [der Seite der Abonnements](/memberships), sobald die unten genannten Voraussetzungen erfüllt sind:
 ![Abonnements Abschnitt](<%= image_url("handbook/membership_renewal/section.de.png") %>){:class="small"}
 
-> Es ist wichtig zu beachten, dass das System nicht automatisch Erneuerungsanfragen an die Mitglieder sendet; es liegt also an Ihnen, den geeigneten Zeitpunkt für den Versand entsprechend Ihren Statuten oder Vorschriften zu wählen. <br/><br/>
-> Wenn Mitglieder nicht antworten, liegt es ebenfalls an Ihnen, diese Abonnements zum Zeitpunkt Ihrer Wahl stillschweigend zu erneuern (oder nicht) mit Hilfe der Schaltfläche "X Abonnements erneuern", die sich auf [der Seite der Abonnements](/memberships) befindet.
+> Es ist wichtig zu beachten, dass das System nicht automatisch Erneuerungsanfragen an die Mitglieder sendet; es liegt also an Dir, den geeigneten Zeitpunkt für den Versand entsprechend Deinen Statuten oder Vorschriften zu wählen. <br/><br/>
+> Wenn Mitglieder nicht antworten, liegt es ebenfalls an Dir, diese Abonnements zum Zeitpunkt Deiner Wahl stillschweigend zu erneuern (oder nicht) mit Hilfe der Schaltfläche "X Abonnements erneuern", die sich auf [der Seite der Abonnements](/memberships) befindet.
 
 ### Voraussetzungen
 
-Um Erneuerungsanfragen versenden zu können, müssen Sie zunächst die folgenden Elemente einrichten:
+Um Erneuerungsanfragen versenden zu können, musst Du zunächst die folgenden Elemente einrichten:
 
-- Erstellen Sie alle [Lieferungen](/deliveries/new) für das neue Geschäftsjahr.
-- Bearbeiten und aktivieren Sie [die E-Mail-Vorlage "Abonnementserneuerung"](/mail_templates/membership_renewal).
-- Bearbeiten und aktivieren Sie [die E-Mail-Vorlage "Abonnementserneuerung (Erinnerung)"](/mail_templates/membership_renewal_reminder) (optional).
-- Bearbeiten Sie [die Einstellungen](/settings#membership_renewal), wie den Erklärungstext, der auf der Mitgliederseite angezeigt wird (erfordert "maximale" Berechtigung).
+- Erstelle alle [Lieferungen](/deliveries/new) für das neue Geschäftsjahr.
+- Bearbeite und aktiviere [die E-Mail-Vorlage "Abonnementserneuerung"](/mail_templates/membership_renewal).
+- Bearbeite und aktiviere [die E-Mail-Vorlage "Abonnementserneuerung (Erinnerung)"](/mail_templates/membership_renewal_reminder) (optional).
+- Bearbeite [die Einstellungen](/settings#membership_renewal), wie den Erklärungstext, der auf der Mitgliederseite angezeigt wird (erfordert "maximale" Berechtigung).
 
 ### Test des Versands einer Anfrage
 
-Sobald die Voraussetzungen erfüllt sind, ist es möglich, eine Erneuerungsanfrage per E-Mail für ein einzelnes Mitglied (zum Beispiel Sie) von der Seite seines Abonnements aus zu versenden. Dies ermöglicht es Ihnen, sicherzustellen, dass alles korrekt funktioniert.
+Sobald die Voraussetzungen erfüllt sind, ist es möglich, eine Erneuerungsanfrage per E-Mail für ein einzelnes Mitglied (zum Beispiel Dich) von der Seite seines Abonnements aus zu versenden. Dies ermöglicht es Dir, sicherzustellen, dass alles korrekt funktioniert.
 
 ### Erinnerungs-E-Mail
 
@@ -37,7 +37,7 @@ Wenn konfiguriert, Feld "Eine Erinnerung senden nach (in Tagen)" in [den Einstel
 
 [Die E-Mail-Vorlage "Abonnementserneuerung (Erinnerung)"](/mail_templates/membership_renewal_reminder) muss ebenfalls zuvor bearbeitet und aktiviert worden sein.
 
-> Da das Erneuern oder Kündigen von Abonnements nur vor der ersten Lieferung des neuen Geschäftsjahres sinnvoll ist, achten Sie darauf, dass zwischen dem Versand der Erinnerung und dieser Frist immer genug Zeit bleibt.
+> Da das Erneuern oder Kündigen von Abonnements nur vor der ersten Lieferung des neuen Geschäftsjahres sinnvoll ist, achte darauf, dass zwischen dem Versand der Erinnerung und dieser Frist immer genug Zeit bleibt.
 
 ## Erneuerungsformular {#renewal-form}
 

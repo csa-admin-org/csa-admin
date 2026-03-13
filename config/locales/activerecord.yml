@@ -1327,9 +1327,9 @@ _:
         come_from:
           _en: How did you hear about us?
           _fr: Comment avez-vous entendu parler de nous?
-          _de: Wie haben Sie von uns gehört?
+          _de: Wie wurde von uns erfahren?
           _it: Dove avete sentito parlare di noi?
-          _nl: Hoe heeft u van ons gehoord?
+          _nl: Hoe over ons gehoord?
         contact_sharing/bag:
           _en: Contact sharing
           _fr: Cosacage
@@ -3322,7 +3322,7 @@ _:
         membership_renewal_depot_update:
           _en: Allow changing the depot
           _fr: Permettre le changement du dépôt
-          _de: Erlauben Sie die Änderung das Depot
+          _de: Änderung des Depots erlauben
           _it: Permettere il cambiamento del punto di ritiro
           _nl: Depot wijzigen toestaan
         membership_renewed_attributes:
@@ -3340,13 +3340,13 @@ _:
         open_bidding_round_reminder_sent_after_in_days:
           _en: Send a reminder after (in days)
           _fr: Envoyer un rappel après (en jours)
-          _de: Senden Sie eine Erinnerung nach (in Tagen)
+          _de: Erinnerung senden nach (in Tagen)
           _it: Inviare un promemoria dopo (in giorni)
           _nl: Herinnering verzenden na (in dagen)
         open_renewal_reminder_sent_after_in_days:
           _en: Send a reminder after (in days)
           _fr: Envoyer un rappel après (en jours)
-          _de: Senden Sie eine Erinnerung nach (in Tagen)
+          _de: Erinnerung senden nach (in Tagen)
           _it: Inviare un promemoria dopo (in giorni)
           _nl: Herinnering verzenden na (in dagen)
         open_renewal_text:
@@ -3710,7 +3710,7 @@ _:
               suppressed:
                 _en: Email blocked, please contact us.
                 _fr: Email bloqué, veuillez nous contacter.
-                _de: E-Mail gesperrt, bitte kontaktieren Sie uns.
+                _de: E-Mail gesperrt, bitte Kontakt aufnehmen.
                 _it: E-mail bloccata, contattateci per favore.
                 _nl: E-mail geblokkeerd, neem contact met ons op.
               unknown:
