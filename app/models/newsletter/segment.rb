@@ -40,6 +40,13 @@ class Newsletter
       super.join(", ")
     end
 
+    # Rails form helpers use `_before_type_cast` to render input values after
+    # a validation error. For JSON array columns, this returns the raw Array
+    # which gets joined with spaces in the HTML value attribute, losing commas.
+    def membership_ids_before_type_cast
+      membership_ids
+    end
+
     def name; title end
 
     def members
