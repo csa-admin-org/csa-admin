@@ -3980,6 +3980,18 @@ _:
           _de: Kein
           _it: Nessuna
           _nl: Geen
+        one:
+          _en: Complement
+          _fr: Complément
+          _de: Zusatz
+          _it: Aggiunta
+          _nl: Aanvulling
+        other:
+          _en: Complements
+          _fr: Compléments
+          _de: Zusätze
+          _it: Aggiunte
+          _nl: Aanvullingen
       basket_complement/bag:
         one:
           _en: Bag complement
@@ -4143,6 +4155,18 @@ _:
           _de: Kein
           _it: Nessuna
           _nl: Geen
+        one:
+          _en: Size
+          _fr: Taille
+          _de: Grösse
+          _it: Dimensione
+          _nl: Grootte
+        other:
+          _en: Sizes
+          _fr: Tailles
+          _de: Grössen
+          _it: Dimensioni
+          _nl: Groottes
       basket_size/bag:
         one:
           _en: Bag size
