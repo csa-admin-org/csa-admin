@@ -26,7 +26,7 @@ class Members::MembershipsController < Members::BaseController
   end
 
   def ensure_member_can_update_membership!
-    redirect_to members_memberships_path unless @membership.can_member_update?
+    redirect_to members_memberships_path unless @membership.can_member_update? && @membership.can_member_update_depot?
   end
 
   def membership_params
