@@ -87,17 +87,9 @@ class Membership < ApplicationRecord
     ]
   end
 
-  ACTIVITY_SCOPED_ATTRIBUTES = %w[
-    activity_participations_demanded_annually
-    activity_participations_annual_price_change
-  ].freeze
-
   def self.human_attribute_name(attr, *args)
-    attr = attr.to_s
-    if attr == "basket_price_extra_title"
+    if attr.to_s == "basket_price_extra_title"
       Current.org.basket_price_extra_title
-    elsif attr.in?(ACTIVITY_SCOPED_ATTRIBUTES)
-      super("#{attr}/#{Current.org.activity_i18n_scope}", *args)
     else
       super
     end

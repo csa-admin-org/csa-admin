@@ -4,7 +4,6 @@ require "stringio"
 
 module PDF
   class Invoice < Base
-    include ActivitiesHelper
     include MembershipsHelper
     include NumbersHelper
 
@@ -178,15 +177,15 @@ module PDF
         end
       when "ActivityParticipation"
         if entity
-          str = t_activity("missed_activity_participation_with_date", date: I18n.l(entity.activity.date))
+          str = t("missed_activity_participation_with_date", date: I18n.l(entity.activity.date))
           if invoice.missing_activity_participations_count > 1
             str += " (#{invoice.missing_activity_participations_count} #{ActivityParticipation.human_attribute_name(:participants).downcase})"
           end
         elsif invoice.missing_activity_participations_count == 1
-          str = t_activity("missed_activity_participation",
+          str = t("missed_activity_participation",
             year: invoice.missing_activity_participations_fiscal_year)
         else
-          str = t_activity("missed_activity_participations",
+          str = t("missed_activity_participations",
             year: invoice.missing_activity_participations_fiscal_year,
             count: invoice.missing_activity_participations_count)
         end
@@ -774,16 +773,15 @@ module PDF
     end
 
     def activity_participations_annual_price_change_description
-      i18n_scope = Current.org.activity_i18n_scope
       diff = entity.activity_participations_demanded_diff_from_default
       if diff.positive?
-        Membership.human_attribute_name("activity_participations_annual_price_change_reduction/#{i18n_scope}", count: diff)
+        Membership.human_attribute_name("activity_participations_annual_price_change_reduction", count: diff)
       elsif diff.negative?
-        Membership.human_attribute_name("activity_participations_annual_price_change_negative/#{i18n_scope}", count: diff)
+        Membership.human_attribute_name("activity_participations_annual_price_change_negative", count: diff)
       elsif entity.activity_participations_annual_price_change.positive?
-        Membership.human_attribute_name("activity_participations_annual_price_change_positive/#{i18n_scope}")
+        Membership.human_attribute_name("activity_participations_annual_price_change_positive")
       else
-        Membership.human_attribute_name("activity_participations_annual_price_change_default/#{i18n_scope}")
+        Membership.human_attribute_name("activity_participations_annual_price_change_default")
       end
     end
 
@@ -807,10 +805,6 @@ module PDF
 
     def t(key, **args)
       I18n.t("invoices.pdf.#{key}", **args)
-    end
-
-    def t_activity(key, **args)
-      super(key, **args)
     end
   end
 end

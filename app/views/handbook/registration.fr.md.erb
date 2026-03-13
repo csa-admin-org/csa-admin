@@ -16,7 +16,7 @@ Le [réglage du sous-titre](/settings#registration) supporte le texte enrichi, m
 
 **Mieux vaut éviter :**
 
-*Notre ACP a été fondée en 2012 et livre des légumes bio depuis notre ferme à la campagne. Nous travaillons avec 3 fermes partenaires et proposons des paniers en 12 tailles différentes. Les prix sont basés sur un modèle solidaire où...* (et 200 mots de plus)
+*Notre ACP a été fondée en 2012 et livre des légumes bio depuis notre ferme à la campagne. Nous travaillons avec 3 fermes partenaires et proposons des <%= Basket.model_name.human(count: 2).downcase %> en 12 tailles différentes. Les prix sont basés sur un modèle solidaire où...* (et 200 mots de plus)
 
 ## Conseils de mise en forme {#text-styling}
 
@@ -30,33 +30,33 @@ Tous les champs de texte enrichi dans les [paramètres d'inscription](/settings#
 
 Vous remarquerez un indicateur de nombre de mots dans l'éditeur des paramètres quand le texte devient long. C'est juste un petit rappel, pas une limite stricte. Si vous dépassez le seuil, ça vaut peut-être la peine de raccourcir ou de déplacer du contenu vers votre site web.
 
-## Tailles de panier {#basket-sizes}
+## <%= BasketSize.model_name.human(count: 2) %> {#basket-sizes}
 
-Les [tailles de panier](/basket_sizes) sont le cœur de votre formulaire d'inscription. Chaque taille visible apparaît comme un choix pour les nouveaux membres.
+Les [<%= BasketSize.model_name.human(count: 2).downcase %>](/basket_sizes) sont le cœur de votre formulaire d'inscription. Chaque taille visible apparaît comme un choix pour les nouveaux membres.
 
 - **Nom** : Ce que les membres voient (ex. « Petit », « Familial »). Un nom explicite aide : « Petit (1–2 personnes) » est plus clair que simplement « Petit ».
-- **Description** : Remplace le texte auto-généré (prix × livraisons). Utile quand le texte par défaut ne correspond pas tout à fait à ce dont vous avez besoin.
-- **Visibilité** : Rendez une taille invisible si elle est réservée aux admins (ex. un tarif spécial). Les tailles invisibles n'apparaissent pas dans le formulaire.
+- **Description** : Remplace le texte auto-généré (prix × livraisons). Utile quand le texte par défaut ne correspond pas tout à fait à vos besoins.
+- **Visibilité** : Rendez une <%= BasketSize.model_name.human.downcase %> invisible si elle est réservée aux admins (ex. tarif spécial). Les tailles invisibles n'apparaîtront pas dans le formulaire.
 - **Ordre d'affichage** : Contrôlé par le [réglage du mode d'ordre](/settings#registration), par nom, par prix ou par priorité personnalisée.
 
-## Compléments de panier {#basket-complements}
+## <%= BasketComplement.model_name.human(count: 2) %> {#basket-complements}
 
-Les [compléments de panier](/basket_complements) (pain, fromage, œufs, etc.) apparaissent après la sélection de la taille du panier.
+Les [<%= BasketComplement.model_name.human(count: 2).downcase %>](/basket_complements) (pain, fromage, œufs, etc.) apparaissent après la sélection de la <%= BasketSize.model_name.human.downcase %>.
 
 - **Cases à cocher vs. quantités** : Le [réglage des quantités](/settings#registration) contrôle si les membres voient de simples cases à cocher (s'abonner ou non) ou des champs de quantité (0, 1, 2...).
 - **Texte des compléments** : Une introduction optionnelle avant la liste. Une phrase suffit généralement pour expliquer ce qui est disponible.
 - **Ordre d'affichage** : Contrôlé par le [réglage du mode d'ordre](/settings#registration).
 
-## Prix solidaire / Prix panier extra {#basket-price-extra}
+## Prix solidaire / Prix <%= Basket.model_name.human.downcase %> extra {#basket-price-extra}
 
 <% if feature?("basket_price_extra") %>
-Cette fonctionnalité permet aux membres de payer volontairement plus par panier. Consultez la page dédiée du [manuel sur le prix panier extra](/handbook/basket_price_extra) pour les détails de configuration.
+Cette fonctionnalité permet aux membres de payer volontairement plus par <%= Basket.model_name.human.downcase %>. Consultez la page dédiée du [manuel sur le prix <%= Basket.model_name.human.downcase %> extra](/handbook/basket_price_extra) pour les détails de configuration.
 
 Quelques conseils pour le formulaire d'inscription :
 
 - **4 à 6 options, c'est bien.** Trop de choix peut sembler décourageant. Si vous en avez plus de 6, le formulaire bascule vers un menu déroulant, qui est moins visible.
 - **Gardez le texte d'explication court.** Si vous voulez expliquer votre modèle solidaire en détail, renvoyez vers votre site web.
-- **Des labels clairs comptent.** Assurez-vous que chaque option montre clairement l'impact sur le prix. Consultez les [paramètres du prix panier extra](/settings#basket_price_extra) pour la configuration des labels.
+- **Des labels clairs comptent.** Assurez-vous que chaque option montre clairement l'impact sur le prix. Consultez les [paramètres du prix <%= Basket.model_name.human.downcase %> extra](/settings#basket_price_extra) pour la configuration des labels.
 <% else %>
 Cette fonctionnalité n'est pas actuellement activée. Vous pouvez l'activer dans [vos paramètres](/settings#organization_features_input).
 <% end %>
@@ -94,7 +94,7 @@ Si un cycle ne concerne que certains dépôts, configurer les associations dép�
 
 Deux réglages contrôlent le texte d'explication dans la section abonnement :
 
-- **[Texte supplémentaire](/settings#registration)** : Ajouté après le texte auto-généré (année fiscale, paniers à l'essai, cotisation annuelle, parts sociales).
+- **[Texte supplémentaire](/settings#registration)** : Ajouté après le texte auto-généré (année fiscale, <%= Basket.model_name.human(count: 2).downcase %> à l'essai, cotisation annuelle, parts sociales).
 - **[Texte supplémentaire uniquement](/settings#registration)** : Remplace entièrement le texte auto-généré. Utile seulement si le texte par défaut ne correspond vraiment pas à vos besoins.
 
 Le texte auto-généré couvre déjà l'essentiel, donc le texte supplémentaire est idéal pour ce qui est spécifique à votre organisation. Si vous vous retrouvez à écrire plus d'un court paragraphe, envisagez plutôt de renvoyer vers votre site web.
@@ -125,8 +125,8 @@ Plusieurs éléments du formulaire peuvent être réordonnés :
 
 | Élément | Réglage | Options |
 |---------|---------|---------|
-| Tailles de panier | [Mode d'ordre](/settings#registration) | Nom, prix (asc/desc), priorité |
-| Compléments | [Mode d'ordre](/settings#registration) | Nom, prix (asc/desc), priorité |
+| <%= BasketSize.model_name.human(count: 2) %> | [Mode d'ordre](/settings#registration) | Nom, prix (asc/desc), priorité |
+| <%= BasketComplement.model_name.human(count: 2) %> | [Mode d'ordre](/settings#registration) | Nom, prix (asc/desc), priorité |
 | Dépôts | [Mode d'ordre](/settings#registration) | Nom, prix (asc/desc), priorité |
 | Cycles de livraisons | [Mode d'ordre](/settings#registration) | Nom, priorité |
 

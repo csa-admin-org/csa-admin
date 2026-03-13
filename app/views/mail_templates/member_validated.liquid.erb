@@ -1,0 +1,13 @@
+<p><%= t(".registration_received_paragraph") %></p>
+
+<p><%= t(".registration_validated_paragraph") %></p>
+
+{% highlight %}
+  <%= t(".waiting_list_position_label") %> <strong>{{ waiting_list_position }}</strong>
+{% endhighlight %}
+
+<p><%= t(".next_steps_paragraph") %></p>
+
+{% button member.page_url %}
+  <%= t(".member_page_button") %>
+{% endbutton %}

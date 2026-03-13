@@ -1,8 +1,8 @@
 # Livraisons
 
-[Les livraisons](/deliveries) sont un élément central d'CSA Admin et permettent de gérer toutes les dates de livraison de vos paniers au cours de l'année. Les livraisons sont un des premiers éléments à créer. Il est important que **toutes les dates de livraison** soient définies **avant le début de votre année fiscale** car la création des abonnements et de leurs paniers en dépend.
+[Les livraisons](/deliveries) sont un élément central d'CSA Admin et permettent de gérer toutes les dates de livraison de vos <%= Basket.model_name.human(count: 2).downcase %> au cours de l'année. Les livraisons sont un des premiers éléments à créer. Il est important que **toutes les dates de livraison** soient définies **avant le début de votre année fiscale** car la création des abonnements et de leurs <%= Basket.model_name.human(count: 2).downcase %> en dépend.
 
-La prochaine livraison ainsi que son nombre de paniers/compléments par dépôt sont toujours disponibles depuis [le tableau de bord](/dashboard). Chaque page de livraison contient également ces informations ainsi que la liste des membres absents.
+La prochaine livraison ainsi que son nombre de <%= Basket.model_name.human(count: 2).downcase %>/<%= BasketComplement.model_name.human(count: 2).downcase %> par dépôt sont toujours disponibles depuis [le tableau de bord](/dashboard). Chaque page de livraison contient également ces informations ainsi que la liste des membres absents.
 
 > Vous pouvez facilement créer des livraisons en lot à l'aide de l'onglet "Dates multiples" dans [le formulaire de création d'une livraison](/deliveries/new).
 
@@ -14,7 +14,7 @@ Certaines organisations proposent différents choix de livraisons, par exemple :
 - Livraisons chaque semaine ou une semaine sur deux.
 - Livraisons uniquement en hiver ou en été.
 
-[Les cycles de livraisons](/delivery_cycles) permettent de regrouper, de manière dynamique, les livraisons existantes d'une même année fiscale en fonction de vos besoins et vous offrent ainsi une grande flexibilité dans la gestion de vos livraisons. Chaque abonnement est associé à un cycle de livraisons, qui détermine ses dates de livraison et le nombre de paniers.
+[Les cycles de livraisons](/delivery_cycles) permettent de regrouper, de manière dynamique, les livraisons existantes d'une même année fiscale en fonction de vos besoins et vous offrent ainsi une grande flexibilité dans la gestion de vos livraisons. Chaque abonnement est associé à un cycle de livraisons, qui détermine ses dates de livraison et le nombre de <%= Basket.model_name.human(count: 2).downcase %>.
 
 ### Paramètres {#settings}
 
@@ -42,7 +42,7 @@ La disponibilité de chaque cycle de livraisons peut être configurée par dép�
 
 Le choix d'un cycle de livraisons sur le formulaire d'inscription dépend de la configuration de leur disponibilité par dépôt. Dans tous les cas, le choix du cycle de livraisons est proposé aux membres uniquement si au moins deux cycles de livraisons sont disponibles pour un dépôt visible.
 
-> Lors de la création d'un abonnement par un admin, il est toujours possible de choisir n'importe quel cycle de livraisons. Les paniers seront automatiquement créés en fonction des livraisons de ce cycle comprises entre les dates de début et de fin ✨.
+> Lors de la création d'un abonnement par un admin, il est toujours possible de choisir n'importe quel cycle de livraisons. Les <%= Basket.model_name.human(count: 2).downcase %> seront automatiquement créés en fonction des livraisons de ce cycle comprises entre les dates de début et de fin ✨.
 
 ### Facturation
 
@@ -52,6 +52,6 @@ Chaque cycle de livraisons peut avoir ses propres options de facturation :
 - **Nom (facture)** : Un nom personnalisé affiché sur les factures au lieu du nom par défaut du cycle de livraisons.
 - **Absences incluses annuellement** : Exclure automatiquement un certain nombre de livraisons, permettant aux membres de planifier un nombre limité d'absences non facturées. Voir [Absences incluses](/handbook/absence#absence-included) pour plus de détails.
 
-## Compléments de panier {#basket-complements}
+## <%= BasketComplement.model_name.human(count: 2) %> {#basket-complements}
 
-[Les compléments de panier](/basket_complements) suivent souvent leur propre cycle de livraisons et cela d'une manière difficilement programmable de manière dynamique. Il est donc nécessaire, et cela pour chaque complément de panier, de définir toutes les dates de livraison où ce complément est disponible ou non. Cette opération doit être réalisée chaque année après la création des nouvelles livraisons.
+[Les <%= BasketComplement.model_name.human(count: 2).downcase %>](/basket_complements) suivent souvent leur propre cycle de livraisons et cela d'une manière difficilement programmable de manière dynamique. Il est donc nécessaire, et cela pour chaque <%= BasketComplement.model_name.human.downcase %>, de définir toutes les dates de livraison où ce complément est disponible ou non. Cette opération doit être réalisée chaque année après la création des nouvelles livraisons.

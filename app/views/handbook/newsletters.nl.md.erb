@@ -2,7 +2,7 @@
 
 Naast [automatische e-mails](/mail_templates) die worden verzonden tijdens specifieke gebeurtenissen (nieuwe factuur, vernieuwing, ...), biedt CSA Admin ook de mogelijkheid om [nieuwsbrieven (groepse-mails)](/newsletters) te verzenden.
 
-Deze nieuwsbrieven kunnen worden gericht aan al uw leden of aan een specifiek publiek (status, pakketgrootte, depot, ...).
+Deze nieuwsbrieven kunnen worden gericht aan al uw leden of aan een specifiek publiek (status, <%= BasketSize.model_name.human.downcase %>, depot, ...).
 
 > In tegenstelling tot [automatische e-mails](/mail_templates) bevatten nieuwsbrieven een (verplichte) uitschrijflink in hun voettekst.
 
@@ -13,7 +13,7 @@ Om het aanmaken van uw nieuwsbrieven te vergemakkelijken, biedt CSA Admin een ge
 Standaard zijn [2 sjablonen](/newsletter_templates) beschikbaar:
 
 - <strong>Vrije tekst</strong>: een eenvoudige sjabloon met een enkel inhoudsblok zonder titel.
-- <strong>Volgende levering</strong>: een meer complexe sjabloon met meerdere inhoudsblokken, evenals dynamische informatie ([pakketinhoud](/handbook/basket_content), [volgende activiteit](/handbook/activity), ...).
+- <strong>Volgende levering</strong>: een meer complexe sjabloon met meerdere inhoudsblokken, evenals dynamische informatie ([<%= BasketContent.model_name.human.downcase %>](/handbook/basket_content), [volgende activiteit](/handbook/activity), ...).
 
 U kunt ze gerust dupliceren en naar wens wijzigen of [nieuwe aanmaken](/newsletter_templates/new).
 
@@ -41,7 +41,7 @@ Voorbeeld van een leeg blok (in te vullen bij het aanmaken van een nieuwsbrief):
 
 ### Sjabloontaal en opmaak {#liquid}
 
-Sjablonen gebruiken de Liquid-sjabloontaal om dynamische lidspecifieke gegevens (naam, pakketdetails, lidmaatschapsinformatie, ...) en voorwaardelijke logica in te voegen. Voor details over de Liquid-syntaxis, opmaaktags en het gegevensvoorbeeldpaneel, zie de [Emails-handboekpagina](/handbook/emails).
+Sjablonen gebruiken de Liquid-sjabloontaal om dynamische lidspecifieke gegevens (naam, details van de <%= Basket.model_name.human.downcase %>, lidmaatschapsinformatie, ...) en voorwaardelijke logica in te voegen. Voor details over de Liquid-syntaxis, opmaaktags en het gegevensvoorbeeldpaneel, zie de [Emails-handboekpagina](/handbook/emails).
 
 ## Bijlagen {#attachments}
 

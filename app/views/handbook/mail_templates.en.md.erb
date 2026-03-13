@@ -7,10 +7,10 @@ CSA Admin automatically sends emails to your members during specific events thro
 Email templates are organized by category:
 
 - **Member**: Sent when a member's status changes (validated, activated).
-- **Basket**: Sent at key moments of the membership (first basket, last basket, trial period, ...).
+- **<%= Basket.model_name.human %>**: Sent at key moments of the membership (first <%= Basket.model_name.human.downcase %>, last <%= Basket.model_name.human.downcase %>, trial period, ...).
 - **Invoice**: Sent when invoices are created, cancelled, or overdue.
 <% if Current.org.feature?("absence") %>
-- **Absence**: Sent when an absence is confirmed or when baskets are shifted.
+- **Absence**: Sent when an absence is confirmed or when <%= Basket.model_name.human(count: 2).downcase %> are shifted.
 <% end %>
 <% if Current.org.feature?("activity") %>
 - **<%= activities_human_name %>**: Sent for activity reminders, confirmations, and rejections.
@@ -29,7 +29,7 @@ When a template is deactivated, the corresponding email will simply not be sent.
 
 ## Customizing Content {#customizing}
 
-Each template has a subject and a content body that you can fully customize. Templates use the Liquid template language to insert dynamic member-specific data (name, basket details, membership info, ...) and conditional logic. For details on Liquid syntax, formatting tags, and the data preview panel, see the [Emails handbook page](/handbook/emails).
+Each template has a subject and a content body that you can fully customize. Templates use the Liquid template language to insert dynamic member-specific data (name, <%= Basket.model_name.human.downcase %> details, membership info, ...) and conditional logic. For details on Liquid syntax, formatting tags, and the data preview panel, see the [Emails handbook page](/handbook/emails).
 
 > Each type of email template has its own set of available data, specific to its context. Always check the data preview panel below the editor to see exactly which variables are available for the template you are editing.
 

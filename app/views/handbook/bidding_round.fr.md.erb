@@ -1,6 +1,6 @@
 # Tour d'engagement
 
-Le tour d'engagement permet aux membres d'indiquer le prix par panier qu’ils sont prêts à payer pour leur taille du panier, en fonction de leurs capacités, tout en veillant à couvrir les besoins de l’organisation.
+Le tour d'engagement permet aux membres d'indiquer le prix par <%= Basket.model_name.human.downcase %> qu'ils sont prêts à payer pour leur <%= BasketSize.model_name.human.downcase %>, en fonction de leurs capacités, tout en veillant à couvrir les besoins de l'organisation.
 
 Les montants proposés sont encadrés par des bornes (min/max) configurables.
 
@@ -11,26 +11,26 @@ Les montants proposés sont encadrés par des bornes (min/max) configurables.
 
 Avant d'ouvrir un tour d'engagement, vérifiez les paramètres suivants dans les [réglages](/settings#bidding_round):
 
-- Prix minimum de la taille du panier (0–100 %) — définit le pourcentage minimal autorisé.
-- Prix maximum de la taille du panier (0–X %) — définit le pourcentage maximal autorisé.
+- Prix minimum de la <%= BasketSize.model_name.human.downcase %> (0–100 %) — définit le pourcentage minimal autorisé.
+- Prix maximum de la <%= BasketSize.model_name.human.downcase %> (0–X %) — définit le pourcentage maximal autorisé.
 - Rappel automatique pour un tour d'engagement ouvert — « Envoyer un rappel après (en jours) ».
 
 Ces paramètres garantissent un cadre cohérent pour les montants proposés et permettent d'automatiser les relances pendant la période d'ouverture.
 
-> Par défaut, le prix par panier est celui défini dans la [configuration des tailles de panier](/basket_sizes), qui est appliqué sur les abonnements renouvelés, ou celui défini dans les abonnements en cas de montant personnalisé.
+> Par défaut, le prix par <%= Basket.model_name.human.downcase %> est celui défini dans la [configuration des <%= BasketSize.model_name.human(count: 2).downcase %>](/basket_sizes), qui est appliqué sur les abonnements renouvelés, ou celui défini dans les abonnements en cas de montant personnalisé.
 
 ## Déroulement {#flow}
 
 1. Créer les abonnements pour la nouvelle saison (voir [renouvellement](/handbook/membership_renewal)).
 2. Créer et ouvrir un nouveau tour d'engagement.
-3. Laisser les membres proposer des montants pour leurs tailles du panier (la durée de la période d'ouverture est libre).
+3. Laisser les membres proposer des montants pour leurs <%= BasketSize.model_name.human(count: 2).downcase %> (la durée de la période d'ouverture est libre).
 4. Analyser les résultats du tour d'engagement et décider :
-   - Les besoins sont‑ils couverts ? Terminer le tour d'engagement pour mettre à jour le prix par panier de tous les abonnements ayant reçu une proposition.
+   - Les besoins sont‑ils couverts ? Terminer le tour d'engagement pour mettre à jour le prix par <%= Basket.model_name.human.downcase %> de tous les abonnements ayant reçu une proposition.
    - Les besoins ne sont pas couverts ? Clôturer (échec) le tour d'engagement, puis en créer un nouveau.
 
 ## Ouverture {#opening}
 
-À l’ouverture du tour d'engagement, un email automatique est envoyé aux membres. Depuis leur compte, ils accèdent à un formulaire leur permettant de fixer le montant pour leur taille du panier.
+À l'ouverture du tour d'engagement, un email automatique est envoyé aux membres. Depuis leur compte, ils accèdent à un formulaire leur permettant de fixer le montant pour leur <%= BasketSize.model_name.human.downcase %>.
 
 ### Rappel
 
@@ -38,12 +38,12 @@ Un rappel peut être envoyé automatiquement tant que le tour d'engagement est o
 
 ## Terminer (succès) {#finish}
 
-Lorsque le tour d'engagement est terminé (succès), le prix par panier est mis à jour pour tous les abonnements ayant reçu une proposition. Les abonnements sans proposition ne sont pas modifiés.
+Lorsque le tour d'engagement est terminé (succès), le prix par <%= Basket.model_name.human.downcase %> est mis à jour pour tous les abonnements ayant reçu une proposition. Les abonnements sans proposition ne sont pas modifiés.
 
 Un email automatique (optionnel) peut être envoyé à tous les membres concernés.
 
 ## Clôturer (échec) {#close}
 
-Lorsque le tour d'engagement est clôturé (échec), aucune modification n'est apportée aux abonnements. Il est alors possible d'ouvrir un nouveau tour d'engagement afin de tenter de converger vers un prix acceptable pour l’ensemble des membres.
+Lorsque le tour d'engagement est clôturé (échec), aucune modification n'est apportée aux abonnements. Il est alors possible d'ouvrir un nouveau tour d'engagement afin de tenter de converger vers un prix acceptable pour l'ensemble des membres.
 
 Un email automatique (optionnel) peut être envoyé à tous les membres concernés.

@@ -1,39 +1,39 @@
-# Tascheninhalt
+# <%= BasketContent.model_name.human %>
 
-Diese Funktion bietet ein Werkzeug zur Berechnung des Inhalts und des Werts der Taschen für jede Lieferung. Sie ermöglicht es, festzulegen, welche Produkte in jede Taschengrösse kommen, mit automatischer oder manueller Verteilung der Mengen.
+Diese Funktion bietet ein Werkzeug zur Berechnung des Inhalts und des Werts der <%= Basket.model_name.human(count: 2) %> für jede Lieferung. Sie ermöglicht es, festzulegen, welche Produkte in jede <%= BasketSize.model_name.human %> kommen, mit automatischer oder manueller Verteilung der Mengen.
 
 ## Produkte {#products}
 
-Bevor Sie den Tascheninhalt konfigurieren, müssen Sie Ihre [Produkte](/basket_content_products) einrichten. Jedes Produkt hat einen Namen und optional eine Standardeinheit (kg oder Stück), einen Standard-Stückpreis und eine URL zur Website des Produzenten.
+Bevor Sie den <%= BasketContent.model_name.human %> konfigurieren, müssen Sie Ihre [Produkte](/basket_content_products) einrichten. Jedes Produkt hat einen Namen und optional eine Standardeinheit (kg oder Stück), einen Standard-Stückpreis und eine URL zur Website des Produzenten.
 
 Produkte sind über Lieferungen hinweg wiederverwendbar — einmal erstellt, können sie beim Hinzufügen von Inhalten zu jeder Lieferung ausgewählt werden.
 
-## Tascheninhalt konfigurieren {#configuring-basket-contents}
+## <%= BasketContent.model_name.human %> konfigurieren {#configuring-basket-contents}
 
-Wählen Sie auf [der Tascheninhalt-Seite](/basket_contents) eine Lieferung aus, um deren Inhalt anzuzeigen und zu verwalten. Für jede Lieferung können Sie Produkte hinzufügen und konfigurieren, wie sie auf die Taschengrössen verteilt werden.
+Wählen Sie auf [der <%= BasketContent.model_name.human %>-Seite](/basket_contents) eine Lieferung aus, um deren Inhalt anzuzeigen und zu verwalten. Für jede Lieferung können Sie Produkte hinzufügen und konfigurieren, wie sie auf die <%= BasketSize.model_name.human(count: 2) %> verteilt werden.
 
 ### Verteilungsmodi
 
 Für jedes Produkt stehen zwei Verteilungsmodi zur Verfügung:
 
-- **Automatisch**: Sie definieren die Gesamtmenge und eine prozentuale Aufteilung zwischen den Taschengrössen. Das System berechnet die einzelnen Taschenmengen und optimiert dabei den Überschuss.
-- **Manuell**: Sie geben die Menge pro Tasche für jede Taschengrösse direkt an.
+- **Automatisch**: Sie definieren die Gesamtmenge und eine prozentuale Aufteilung zwischen den <%= BasketSize.model_name.human(count: 2) %>. Das System berechnet die einzelnen Mengen pro <%= Basket.model_name.human %> und optimiert dabei den Überschuss.
+- **Manuell**: Sie geben die Menge pro <%= Basket.model_name.human %> für jede <%= BasketSize.model_name.human %> direkt an.
 
 ### Depots
 
-Jeder Tascheninhalt-Eintrag kann auf bestimmte Depots beschränkt werden. Dies ist nützlich, wenn die Menge eines Produkts nicht für alle Depots ausreicht.
+Jeder <%= BasketContent.model_name.human %>-Eintrag kann auf bestimmte Depots beschränkt werden. Dies ist nützlich, wenn die Menge eines Produkts nicht für alle Depots ausreicht.
 
 ### Inhalte duplizieren
 
-Um Zeit zu sparen, können Sie den gesamten Tascheninhalt von einer Lieferung auf eine andere duplizieren, indem Sie die Aktion in der Seitenleiste der Tascheninhalt-Seite verwenden. Dies ist besonders praktisch, wenn die Zusammensetzung Ihrer Taschen von Woche zu Woche ähnlich ist.
+Um Zeit zu sparen, können Sie den gesamten <%= BasketContent.model_name.human %> von einer Lieferung auf eine andere duplizieren, indem Sie die Aktion in der Seitenleiste der <%= BasketContent.model_name.human %>-Seite verwenden. Dies ist besonders praktisch, wenn die Zusammensetzung Ihrer <%= Basket.model_name.human(count: 2) %> von Woche zu Woche ähnlich ist.
 
 ## Inhalt für Mitglieder anzeigen {#displaying-contents-to-members}
 
-Der Tascheninhalt kann optional auf der Lieferungsseite im Konto Ihrer Mitglieder angezeigt werden. Jedes Mitglied sieht nur die Produkte, die für seine spezifische Taschengrösse und sein Depot relevant sind. Dies muss in [Ihren Einstellungen](/settings#basket_content) aktiviert werden.
+Der <%= BasketContent.model_name.human %> kann optional auf der Lieferungsseite im Konto Ihrer Mitglieder angezeigt werden. Jedes Mitglied sieht nur die Produkte, die für seine spezifische <%= BasketSize.model_name.human %> und sein Depot relevant sind. Dies muss in [Ihren Einstellungen](/settings#basket_content) aktiviert werden.
 
 ### Sichtbarkeitsfenster
 
-Um Ihnen Zeit zu geben, den Tascheninhalt vor der Sichtbarkeit fertigzustellen, können Sie eine Anzahl von Stunden vor Mitternacht am Liefertag konfigurieren, ab der der Inhalt sichtbar wird. Zum Beispiel wird bei dem Standardwert von 12 Stunden der Inhalt einer Donnerstagslieferung ab Mittwoch um 12 Uhr sichtbar.
+Um Ihnen Zeit zu geben, den <%= BasketContent.model_name.human %> vor der Sichtbarkeit fertigzustellen, können Sie eine Anzahl von Stunden vor Mitternacht am Liefertag konfigurieren, ab der der Inhalt sichtbar wird. Zum Beispiel wird bei dem Standardwert von 12 Stunden der Inhalt einer Donnerstagslieferung ab Mittwoch um 12 Uhr sichtbar.
 
 ### Anzeigeoptionen
 
@@ -43,15 +43,15 @@ Mehrere Optionen stehen zur Verfügung, um die Anzeige anzupassen:
 - **Hinweis**: Ein optionaler Hinweis, der unter der Produktliste angezeigt wird, zum Beispiel um darauf hinzuweisen, dass kurzfristige Änderungen möglich sind (ein Standard wird bereitgestellt, leer lassen zum Ausblenden).
 - **Menge anzeigen**: Wenn aktiviert, wird die Menge neben jedem Produktnamen angezeigt, z.B. «Karotten (250g)».
 
-Der aktuelle Sichtbarkeitsstatus für jede Lieferung wird in der Seitenleiste von [der Tascheninhalt-Seite](/basket_contents) angezeigt, wenn Sie eine kommende Lieferung betrachten.
+Der aktuelle Sichtbarkeitsstatus für jede Lieferung wird in der Seitenleiste von [der <%= BasketContent.model_name.human %>-Seite](/basket_contents) angezeigt, wenn Sie eine kommende Lieferung betrachten.
 
 ## Newsletter-Integration {#newsletter-integration}
 
-Der Tascheninhalt ist auch in Newsletter-Vorlagen mit [Liquid-Syntax](https://shopify.github.io/liquid) verfügbar. Die Standard-Newsletter-Vorlage [«Nächste Lieferung»](/newsletter_templates) enthält bereits einen Abschnitt zum Tascheninhalt. Falls Ihre Vorlage diesen nicht enthält oder Sie ihn anpassen möchten, können Sie folgenden Code verwenden:
+Der <%= BasketContent.model_name.human %> ist auch in Newsletter-Vorlagen mit [Liquid-Syntax](https://shopify.github.io/liquid) verfügbar. Die Standard-Newsletter-Vorlage [«Nächste Lieferung»](/newsletter_templates) enthält bereits einen Abschnitt zum <%= BasketContent.model_name.human %>. Falls Ihre Vorlage diesen nicht enthält oder Sie ihn anpassen möchten, können Sie folgenden Code verwenden:
 
 ~~~ liquid
 {% if basket.contents.size > 0 and basket.quantity > 0 %}
-  <h2>Tascheninhalt</h2>
+  <h2><%= BasketContent.model_name.human %></h2>
 
   <span>{{ basket.description }}:</span>
   <ul>
@@ -62,7 +62,7 @@ Der Tascheninhalt ist auch in Newsletter-Vorlagen mit [Liquid-Syntax](https://sh
 {% endif %}
 ~~~
 
-Jeder Tascheninhalt in der Schleife bietet folgende Attribute:
+Jeder <%= BasketContent.model_name.human %> in der Schleife bietet folgende Attribute:
 
 - `content.product`: Der Produktname
 - `content.quantity`: Die formatierte Menge (z.B. «250g», «3Stk»)

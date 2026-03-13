@@ -26,7 +26,7 @@ Use `{% if %}` to show content only when a condition is met:
 
 ~~~ liquid
 {% if basket.contents.size > 0 %}
-  <h2>Basket Contents</h2>
+  <h2><%= BasketContent.model_name.human(count: 2) %></h2>
   ...
 {% endif %}
 ~~~
@@ -35,7 +35,7 @@ You can use `and`, `or`, as well as `{% elsif %}` and `{% else %}` to combine co
 
 ~~~ liquid
 {% if membership.trial_baskets_count > 0 %}
-  <p>You are still in your trial period ({{ membership.trial_baskets_count }} baskets remaining).</p>
+  <p>You are still in your trial period ({{ membership.trial_baskets_count }} <%= Basket.model_name.human(count: 2).downcase %> remaining).</p>
 {% elsif membership.activity_participations_missing_count > 0 %}
   <p>You still have {{ membership.activity_participations_missing_count }} activity(s) to complete.</p>
 {% else %}
@@ -64,7 +64,7 @@ In addition to standard HTML, several special formatting tags are available:
 ~~~ liquid
 {% highlight %}
   <p><strong>📣 Important!</strong></p>
-  <p>Your basket will be extra large this week.</p>
+  <p>Your <%= Basket.model_name.human.downcase %> will be extra large this week.</p>
 {% endhighlight %}
 ~~~
 
@@ -89,6 +89,6 @@ In addition to standard HTML, several special formatting tags are available:
 
 When editing an email template or a newsletter template, a preview panel is displayed below the code editor. This preview shows your template rendered with sample data for each language.
 
-Below each preview, a data panel shows the exact data structure available to your template. This data is generated semi-randomly from your actual organization data. You can modify the values in this panel to test how your template renders with different scenarios (e.g. empty basket contents, zero missing activities, etc.).
+Below each preview, a data panel shows the exact data structure available to your template. This data is generated semi-randomly from your actual organization data. You can modify the values in this panel to test how your template renders with different scenarios (e.g. empty <%= BasketContent.model_name.human.downcase %>, zero missing activities, etc.).
 
 > The data preview is the best way to discover all available variables and test your template. Each type of email template has its own set of available data — always check the preview panel to see what's available.

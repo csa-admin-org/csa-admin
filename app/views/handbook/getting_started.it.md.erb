@@ -16,23 +16,23 @@ Cominciate [creando le vostre date di consegna](/deliveries) per il prossimo ann
 
 > Non preoccupatevi se le date esatte non sono ancora definitive. Assicuratevi semplicemente di avere il numero corretto di consegne affinché i prezzi nel modulo di iscrizione siano corretti. Potrete sempre modificare le date in seguito.
 
-## 3. Dimensioni della cesta {#basket-sizes}
+## 3. <%= BasketSize.model_name.human(count: 2) %> {#basket-sizes}
 
-Poi, [create le vostre dimensioni della cesta](/basket_sizes) (es. piccola, grande). Definiscono i tipi di abbonamento che i vostri soci potranno scegliere.
+Poi, [create le vostre <%= BasketSize.model_name.human(count: 2).downcase %>](/basket_sizes) (es. piccola, grande). Definiscono i tipi di abbonamento che i vostri soci potranno scegliere.
 
-## 4. Complementi di cesta (opzionale) {#basket-complements}
+## 4. <%= BasketComplement.model_name.human(count: 2) %> (opzionale) {#basket-complements}
 
-[I complementi di cesta](/basket_complements) sono extra opzionali come pane, formaggio o uova a cui i soci possono abbonarsi in aggiunta alla loro cesta. Ogni complemento può essere consegnato in consegne specifiche, per esempio solo durante il periodo invernale o una settimana su due.
+[I <%= BasketComplement.model_name.human(count: 2).downcase %>](/basket_complements) sono extra opzionali come pane, formaggio o uova a cui i soci possono abbonarsi in aggiunta alla loro <%= Basket.model_name.human.downcase %>. Ogni complemento può essere consegnato in consegne specifiche, per esempio solo durante il periodo invernale o una settimana su due.
 
 ## 5. Depositi {#depots}
 
-[Create almeno un deposito](/depots), i punti di ritiro dove i soci vengono a ritirare le loro ceste.
+[Create almeno un deposito](/depots), i punti di ritiro dove i soci vengono a ritirare le loro <%= Basket.model_name.human(count: 2).downcase %>.
 
 Un prezzo può anche essere definito per deposito per coprire costi di preparazione o consegna supplementari. Verrà automaticamente preso in considerazione durante la fatturazione degli abbonamenti.
 
 ## 6. Modulo di iscrizione {#registration-form}
 
-Ora che le vostre consegne, dimensioni della cesta e depositi sono configurati, il vostro [modulo di iscrizione](<%= new_members_member_url(subdomain: Current.org.members_subdomain) %>) dovrebbe prendere forma ed essere presto pronto ad accogliere nuovi soci!
+Ora che le vostre consegne, <%= BasketSize.model_name.human(count: 2).downcase %> e depositi sono configurati, il vostro [modulo di iscrizione](<%= new_members_member_url(subdomain: Current.org.members_subdomain) %>) dovrebbe prendere forma ed essere presto pronto ad accogliere nuovi soci!
 
 Consultate la [pagina del manuale sul modulo di iscrizione](/handbook/registration) per scoprire come ogni impostazione influisce sul modulo e trovare consigli per perfezionarlo.
 

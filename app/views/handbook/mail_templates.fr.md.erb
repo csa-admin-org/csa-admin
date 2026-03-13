@@ -7,10 +7,10 @@ CSA Admin envoie automatiquement des emails à vos membres lors d'événements s
 Les templates d'email sont organisés par catégorie:
 
 - **Membre**: Envoyés lors de changements de statut d'un membre (validé, activé).
-- **Panier**: Envoyés à des moments clés de l'abonnement (premier panier, dernier panier, période d'essai, ...).
+- **<%= Basket.model_name.human %>**: Envoyés à des moments clés de l'abonnement (premier <%= Basket.model_name.human.downcase %>, dernier <%= Basket.model_name.human.downcase %>, période d'essai, ...).
 - **Facture**: Envoyés lors de la création, l'annulation ou le rappel de factures.
 <% if Current.org.feature?("absence") %>
-- **Absence**: Envoyés lors de la confirmation d'une absence ou du déplacement de paniers.
+- **Absence**: Envoyés lors de la confirmation d'une absence ou du déplacement de <%= Basket.model_name.human(count: 2).downcase %>.
 <% end %>
 <% if Current.org.feature?("activity") %>
 - **<%= activities_human_name %>**: Envoyés pour les rappels, confirmations et refus d'activités.
@@ -29,7 +29,7 @@ Lorsqu'un template est désactivé, l'email correspondant ne sera simplement pas
 
 ## Personnalisation du contenu {#customizing}
 
-Chaque template possède un sujet et un contenu que vous pouvez entièrement personnaliser. Les templates utilisent le langage de template Liquid pour insérer des données dynamiques propres à chaque membre (nom, détails du panier, informations d'abonnement, ...) et de la logique conditionnelle. Pour plus de détails sur la syntaxe Liquid, les balises de mise en forme et le panneau de prévisualisation des données, consultez la [page Emails du manuel](/handbook/emails).
+Chaque template possède un sujet et un contenu que vous pouvez entièrement personnaliser. Les templates utilisent le langage de template Liquid pour insérer des données dynamiques propres à chaque membre (nom, détails du <%= Basket.model_name.human.downcase %>, informations d'abonnement, ...) et de la logique conditionnelle. Pour plus de détails sur la syntaxe Liquid, les balises de mise en forme et le panneau de prévisualisation des données, consultez la [page Emails du manuel](/handbook/emails).
 
 > Chaque type de template d'email possède son propre jeu de données disponibles, spécifique à son contexte. Consultez toujours le panneau de prévisualisation des données sous l'éditeur pour voir exactement quelles variables sont disponibles pour le template que vous éditez.
 

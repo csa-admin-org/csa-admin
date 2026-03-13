@@ -32,6 +32,15 @@ ActiveAdmin.register Organization do
             toggle_all: false,
             collection: org_languages_collection,
             disabled: Organization.languages
+          Current.org.languages.each do |locale|
+            f.input "basket_i18n_scope_#{locale}".to_sym,
+              as: :select,
+              collection: basket_i18n_scopes_collection(locale),
+              label: label_with_language(Organization.human_attribute_name(:basket_i18n_scopes), locale),
+              selected: resource.basket_i18n_scopes[locale],
+              prompt: true,
+              hint: t("formtastic.hints.organization.basket_i18n_scopes_html")
+          end
           if current_admin.ultra?
             f.input :logo, as: :file
             if resource.logo.attached?
@@ -64,8 +73,7 @@ ActiveAdmin.register Organization do
             as: :select,
             collection: Organization.currency_codes,
             input_html: { disabled: true }
-          f.input :trial_baskets_count,
-            hint: t("formtastic.hints.organization.trial_baskets_count_html")
+          f.input :trial_baskets_count
           f.input :send_closed_invoice, as: :boolean
           f.input :billing_starts_after_first_delivery, as: :boolean
           f.input :billing_ends_on_last_delivery_fy_month, as: :boolean
@@ -94,8 +102,7 @@ ActiveAdmin.register Organization do
             translated_input(f, :invoice_document_names,
               hint: t("formtastic.hints.organization.invoice_document_name_html"),
               input_html: { placeholder: Invoice.model_name.human })
-            f.input :invoice_membership_summary_only,
-              hint: t("formtastic.hints.organization.invoice_membership_summary_only")
+            f.input :invoice_membership_summary_only
           end
           translated_input(f, :invoice_infos,
             hint: t("formtastic.hints.organization.invoice_info"))
@@ -185,7 +192,6 @@ ActiveAdmin.register Organization do
           f.input :member_form_extra_text_only, as: :boolean
           trix_word_count_wrapper(self, threshold: 120) do
             translated_input(f, :member_form_complements_texts,
-              hint: t("formtastic.hints.organization.member_form_complements_text"),
               required: false,
               as: :action_text,
               input_html: { rows: 5 })
@@ -264,8 +270,7 @@ ActiveAdmin.register Organization do
           f.input :membership_complements_update_allowed
           translated_input(f, :membership_update_texts,
             as: :action_text,
-            required: false,
-            hint: t("formtastic.hints.organization.membership_update_text"))
+            required: false)
 
           f.input :basket_update_limit_in_days, step: 1
         end
@@ -324,10 +329,12 @@ ActiveAdmin.register Organization do
         },
       toggle_all: false,
       collection: all_features.map { |ff|
+        t_name = t("features.#{ff}")
+        t_hint = t("features.#{ff}_hint")
         [
           content_tag(:span, class: "ms-4") {
-            content_tag(:h3, t("features.#{ff}"), class: "font-medium") +
-            content_tag(:span, t("features.#{ff}_hint").html_safe, class: "text-gray-500 dark:text-gray-400")
+            content_tag(:h3, t_name, class: "font-medium") +
+            content_tag(:span, t_hint.html_safe, class: "text-gray-500 dark:text-gray-400")
           },
           ff,
           data: { action: "features-list#toggleTab" }
@@ -341,7 +348,6 @@ ActiveAdmin.register Organization do
         end
         tab Absence.model_name.human, id: "absence", hidden: !feature?("absence"), selected: feature?("absence"), data: { controller: "form-disabler" } do
           f.input :absences_billed,
-            hint: t("formtastic.hints.organization.absences_billed"),
             input_html: { data: { action: "form-disabler#toggleInputs" } }
           f.input :absence_notice_period_in_days, min: 1, required: true
 
@@ -361,7 +367,6 @@ ActiveAdmin.register Organization do
             para t(".absence_basket_shifts_hint"), class: "description"
           end
           f.input :basket_shifts_annually,
-            hint: t("formtastic.hints.organization.basket_shifts_annually_html"),
             input_html: {
               data: { form_disabler_target: "input", default_value: f.object.basket_shifts_annually },
               disabled: !f.object.absences_billed?
@@ -484,7 +489,7 @@ ActiveAdmin.register Organization do
 
           handbook_button(self, "new_member_fee")
         end
-        tab t("features.basket_content"), id: "basket_content", hidden: !feature?("basket_content"), selected: feature?("basket_content") do
+        tab BasketContent.model_name.human, id: "basket_content", hidden: !feature?("basket_content"), selected: feature?("basket_content") do
           div "data-controller" => "form-checkbox-toggler" do
             f.input :basket_content_member_visible,
               as: :boolean,
@@ -496,7 +501,6 @@ ActiveAdmin.register Organization do
               required: true,
               input_html: { data: { form_checkbox_toggler_target: "input" } })
             translated_input(f, :basket_content_member_notes,
-              hint: t("formtastic.hints.organization.basket_content_member_note"),
               required: false,
               placeholder: ->(locale) {
                 I18n.with_locale(locale) {
@@ -509,7 +513,6 @@ ActiveAdmin.register Organization do
               min: 0,
               max: 7 * 24,
               step: 1,
-              hint: t("formtastic.hints.organization.basket_content_member_visible_hours_before"),
               input_html: { data: { form_checkbox_toggler_target: "input" } }
             f.input :basket_content_member_display_quantity,
               as: :boolean,
@@ -519,7 +522,7 @@ ActiveAdmin.register Organization do
 
           handbook_button(self, "basket_content")
         end
-        tab Organization.human_attribute_name(:basket_price_extra), id: "basket_price_extra", hidden: !feature?("basket_price_extra"), selected: feature?("basket_price_extra") do
+        tab t("features.basket_price_extra"), id: "basket_price_extra", hidden: !feature?("basket_price_extra"), selected: feature?("basket_price_extra") do
           translated_input(f, :basket_price_extra_titles, required: false)
           translated_input(f, :basket_price_extra_public_titles,
             hint: t("formtastic.hints.organization.basket_price_extra_public_title"),
@@ -550,7 +553,6 @@ ActiveAdmin.register Organization do
 
           f.input :basket_price_extra_dynamic_pricing,
             as: :text,
-            hint: t("formtastic.hints.organization.basket_price_extra_dynamic_pricing_html"),
             input_html: {
               data: { mode: "liquid", code_editor_target: "editor" }
             }
@@ -583,6 +585,7 @@ ActiveAdmin.register Organization do
     :name, :host,
     :url, :logo, :email, :phone,
     :email_default_from, :email_footer,
+    *I18n.available_locales.map { |l| "basket_i18n_scope_#{l}" },
     :trial_baskets_count,
     :iban, :sepa_creditor_identifier, :bank_reference, :creditor_name,
     :creditor_street, :creditor_city, :creditor_zip,

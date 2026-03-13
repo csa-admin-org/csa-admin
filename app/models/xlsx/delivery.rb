@@ -189,7 +189,7 @@ module XLSX
         members.map { |m| m.city },
         border: border)
       add_column(
-        Basket.model_name.human(count: 1),
+        Basket.model_name.human,
         members.map { |m| m.basket&.basket_description || "-" },
         border: border)
       if @basket_complements.any?

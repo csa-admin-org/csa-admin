@@ -534,7 +534,7 @@ module MembersHelper
     return unless feature?("activity")
     return if count.zero?
 
-    t_activity("helpers.activities_count_per_year", count: count).gsub(/\s/, "&nbsp;")
+    t("helpers.activities_count_per_year", count: count).gsub(/\s/, "&nbsp;")
   end
 
   def shares_number(number)
@@ -545,7 +545,7 @@ module MembersHelper
 
   def member_features_sentence
     features = []
-    features << t_activity(".features.activity_text") if feature?("activity")
+    features << t(".features.activity_text") if feature?("activity")
     features << t(".features.absence_text") if feature?("absence")
     features << t(".features.deliveries_text")
     features << t(".features.billing_text")

@@ -1,6 +1,6 @@
-# Prezzo extra cesta
+# Prezzo extra <%= Basket.model_name.human.downcase %>
 
-Questa funzione permette di offrire ai vostri soci di versare un extra per ogni cesta.
+Questa funzione permette di offrire ai vostri soci di versare un extra per ogni <%= Basket.model_name.human.downcase %>.
 
 Questo reddito aggiuntivo può servire a diverse esigenze, per esempio:
 
@@ -23,9 +23,9 @@ Successivamente, dovete definire con quale etichetta saranno visualizzati i vost
 {% if extra == 0 %}
 Tariffa di base
 {% elsif extra == 1.5 %}
-+ {{ extra }}/cesta
++ {{ extra }}/<%= Basket.model_name.human.downcase %>
 {% else %}
-+ {{ extra | ceil }}.-/cesta
++ {{ extra | ceil }}.-/<%= Basket.model_name.human.downcase %>
 {% endif %}
 ~~~
 

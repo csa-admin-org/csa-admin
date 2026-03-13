@@ -1,39 +1,39 @@
-# Contenuto cesta
+# <%= BasketContent.model_name.human %>
 
-Questa funzionalità fornisce uno strumento per calcolare il contenuto e il valore delle ceste per ogni consegna. Permette di definire quali prodotti compongono ogni dimensione di cesta, con una distribuzione automatica o manuale delle quantità.
+Questa funzionalità fornisce uno strumento per calcolare il contenuto e il valore delle <%= Basket.model_name.human(count: 2).downcase %> per ogni consegna. Permette di definire quali prodotti compongono ogni <%= BasketSize.model_name.human.downcase %>, con una distribuzione automatica o manuale delle quantità.
 
 ## Prodotti {#products}
 
-Prima di configurare il contenuto delle ceste, dovete creare i vostri [prodotti](/basket_content_products). Ogni prodotto ha un nome, e opzionalmente un'unità predefinita (kg o pezzi), un prezzo unitario predefinito e un URL verso il sito web del produttore.
+Prima di configurare il <%= BasketContent.model_name.human.downcase %>, dovete creare i vostri [prodotti](/basket_content_products). Ogni prodotto ha un nome, e opzionalmente un'unità predefinita (kg o pezzi), un prezzo unitario predefinito e un URL verso il sito web del produttore.
 
 I prodotti sono riutilizzabili da una consegna all'altra — una volta creati, possono essere selezionati quando si aggiunge contenuto a qualsiasi consegna.
 
-## Configurare il contenuto delle ceste {#configuring-basket-contents}
+## Configurare il <%= BasketContent.model_name.human.downcase %> {#configuring-basket-contents}
 
-Dalla [pagina del contenuto delle ceste](/basket_contents), selezionate una consegna per visualizzare e gestire il suo contenuto. Per ogni consegna, potete aggiungere prodotti e configurare come vengono distribuiti tra le dimensioni delle ceste.
+Dalla [pagina del <%= BasketContent.model_name.human.downcase %>](/basket_contents), selezionate una consegna per visualizzare e gestire il suo contenuto. Per ogni consegna, potete aggiungere prodotti e configurare come vengono distribuiti tra le <%= BasketSize.model_name.human(count: 2).downcase %>.
 
 ### Modalità di distribuzione
 
 Per ogni prodotto sono disponibili due modalità di distribuzione:
 
-- **Automatica**: Definite la quantità totale e una suddivisione percentuale tra le dimensioni delle ceste. Il sistema calcola le quantità individuali per cesta, ottimizzando per ridurre al minimo il surplus.
-- **Manuale**: Specificate direttamente la quantità per cesta per ogni dimensione di cesta.
+- **Automatica**: Definite la quantità totale e una suddivisione percentuale tra le <%= BasketSize.model_name.human(count: 2).downcase %>. Il sistema calcola le quantità individuali per <%= Basket.model_name.human.downcase %>, ottimizzando per ridurre al minimo il surplus.
+- **Manuale**: Specificate direttamente la quantità per <%= Basket.model_name.human.downcase %> per ogni <%= BasketSize.model_name.human.downcase %>.
 
 ### Depositi
 
-Ogni voce di contenuto può essere limitata a depositi specifici. Questo è utile quando la quantità di un prodotto non è sufficiente per tutti i depositi.
+Ogni voce di <%= BasketContent.model_name.human.downcase %> può essere limitata a depositi specifici. Questo è utile quando la quantità di un prodotto non è sufficiente per tutti i depositi.
 
 ### Duplicare il contenuto
 
-Per risparmiare tempo, potete duplicare tutto il contenuto di una consegna verso un'altra utilizzando l'azione nella barra laterale della pagina del contenuto delle ceste. Questo è particolarmente pratico quando la composizione delle vostre ceste è simile da una settimana all'altra.
+Per risparmiare tempo, potete duplicare tutto il <%= BasketContent.model_name.human.downcase %> di una consegna verso un'altra utilizzando l'azione nella barra laterale della pagina del <%= BasketContent.model_name.human.downcase %>. Questo è particolarmente pratico quando la composizione delle vostre <%= Basket.model_name.human(count: 2).downcase %> è simile da una settimana all'altra.
 
 ## Visualizzazione del contenuto ai soci {#displaying-contents-to-members}
 
-Il contenuto delle ceste può opzionalmente essere visualizzato ai vostri soci sulla pagina delle consegne del loro account. Ogni socio vede solo i prodotti pertinenti alla sua dimensione di cesta e al suo deposito. Questo deve essere attivato dalle [vostre impostazioni](/settings#basket_content).
+Il <%= BasketContent.model_name.human.downcase %> può opzionalmente essere visualizzato ai vostri soci sulla pagina delle consegne del loro account. Ogni socio vede solo i prodotti pertinenti alla sua <%= BasketSize.model_name.human.downcase %> e al suo deposito. Questo deve essere attivato dalle [vostre impostazioni](/settings#basket_content).
 
 ### Finestra di visibilità
 
-Per lasciarvi il tempo di finalizzare il contenuto delle ceste prima che diventi visibile, potete configurare un numero di ore prima della mezzanotte del giorno di consegna a partire dal quale il contenuto diventa visibile. Ad esempio, con il valore predefinito di 12 ore, il contenuto di una consegna del giovedì diventerà visibile il mercoledì a mezzogiorno.
+Per lasciarvi il tempo di finalizzare il <%= BasketContent.model_name.human.downcase %> prima che diventi visibile, potete configurare un numero di ore prima della mezzanotte del giorno di consegna a partire dal quale il contenuto diventa visibile. Ad esempio, con il valore predefinito di 12 ore, il contenuto di una consegna del giovedì diventerà visibile il mercoledì a mezzogiorno.
 
 ### Opzioni di visualizzazione
 
@@ -43,15 +43,15 @@ Diverse opzioni sono disponibili per personalizzare la visualizzazione:
 - **Nota**: Una nota opzionale visualizzata sotto la lista dei prodotti, ad esempio per indicare che cambiamenti dell'ultimo minuto sono possibili (un valore predefinito è fornito, lasciare vuoto per nascondere).
 - **Visualizzare la quantità**: Quando attivato, la quantità è mostrata accanto al nome di ogni prodotto, ad es. "Carote (250g)".
 
-Lo stato attuale di visibilità per ogni consegna è mostrato nella barra laterale della [pagina del contenuto delle ceste](/basket_contents) quando si consulta una consegna a venire.
+Lo stato attuale di visibilità per ogni consegna è mostrato nella barra laterale della [pagina del <%= BasketContent.model_name.human.downcase %>](/basket_contents) quando si consulta una consegna a venire.
 
 ## Integrazione newsletter {#newsletter-integration}
 
-Il contenuto delle ceste è anche disponibile nei template delle newsletter utilizzando [la sintassi Liquid](https://shopify.github.io/liquid). Il [template di newsletter "Prossima consegna"](/newsletter_templates) predefinito include già una sezione contenuto delle ceste. Se il vostro template non la include, o se desiderate personalizzarla, potete utilizzare il seguente codice:
+Il <%= BasketContent.model_name.human.downcase %> è anche disponibile nei template delle newsletter utilizzando [la sintassi Liquid](https://shopify.github.io/liquid). Il [template di newsletter "Prossima consegna"](/newsletter_templates) predefinito include già una sezione <%= BasketContent.model_name.human.downcase %>. Se il vostro template non la include, o se desiderate personalizzarla, potete utilizzare il seguente codice:
 
 ~~~ liquid
 {% if basket.contents.size > 0 and basket.quantity > 0 %}
-  <h2>Contenuto cesta</h2>
+  <h2><%= BasketContent.model_name.human %></h2>
 
   <span>{{ basket.description }}:</span>
   <ul>
@@ -62,7 +62,7 @@ Il contenuto delle ceste è anche disponibile nei template delle newsletter util
 {% endif %}
 ~~~
 
-Ogni contenuto di cesta nel ciclo fornisce i seguenti attributi:
+Ogni <%= BasketContent.model_name.human.downcase %> nel ciclo fornisce i seguenti attributi:
 
 - `content.product`: Il nome del prodotto
 - `content.quantity`: La quantità formattata (ad es. "250g", "3pz")

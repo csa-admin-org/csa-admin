@@ -75,10 +75,10 @@ class HandbookContentSearchTest < ActiveSupport::TestCase
   end
 
   test "content_search finds H3 heading for trial baskets" do
-    results = Handbook.content_search("trial baskets", locale: :en)
+    results = Handbook.content_search("trial", locale: :en)
 
     match = results.find { |r| r[:name] == "billing" && r[:anchor] == "trial-baskets" }
-    assert match, "Expected a heading match for H3 'Trial baskets'"
+    assert match, "Expected a heading match for H3 'Trial ...' (dynamic basket name)"
   end
 
   # -- Accent-insensitive matching --

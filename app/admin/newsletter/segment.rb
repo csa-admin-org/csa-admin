@@ -45,15 +45,13 @@ ActiveAdmin.register Newsletter::Segment do
         for: BasketSize,
         wrapper_html: { class: "single-column" },
         collection: admin_basket_sizes,
-        label: BasketSize.model_name.human(count: 2),
-        hint: t("formtastic.hints.newsletter/segment.basket_size_ids")
+        label: BasketSize.model_name.human(count: 2)
       if BasketComplement.kept.any?
         f.input :basket_complement_ids,
           collection: admin_basket_complements,
           as: :check_boxes,
           for: BasketComplement,
-          label: BasketComplement.model_name.human(count: 2),
-          hint: t("formtastic.hints.newsletter/segment.basket_complement_ids")
+          label: BasketComplement.model_name.human(count: 2)
       end
       f.input :depot_ids,
         collection: admin_depots,
@@ -79,8 +77,7 @@ ActiveAdmin.register Newsletter::Segment do
         collection: [ [ t("boolean.yes"), true ], [ t("boolean.no"), false ] ],
         include_blank: true,
         hint: t("formtastic.hints.newsletter/segment.first_membership")
-      f.input :coming_deliveries_in_days,
-        hint: t("formtastic.hints.newsletter/segment.coming_deliveries_in_days")
+      f.input :coming_deliveries_in_days
       f.input :renewal_state,
         as: :select,
         collection: renewal_states_collection,

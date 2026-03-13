@@ -1,6 +1,6 @@
 # Abwesenheiten
 
-Diese Funktion ermöglicht es Ihnen, die Abwesenheiten Ihrer Mitglieder zu verwalten und abwesende Taschen automatisch von Ihren Lieferungen abzuziehen. Ihre Mitglieder können ihre Abwesenheiten direkt über ihren Mitgliederbereich melden. Sie können als Administrator auch Abwesenheiten für Ihre Mitglieder hinzufügen ([Sonstiges > Abwesenheiten](/absences)).
+Diese Funktion ermöglicht es Ihnen, die Abwesenheiten Ihrer Mitglieder zu verwalten und abwesende <%= Basket.model_name.human(count: 2) %> automatisch von Ihren Lieferungen abzuziehen. Ihre Mitglieder können ihre Abwesenheiten direkt über ihren Mitgliederbereich melden. Sie können als Administrator auch Abwesenheiten für Ihre Mitglieder hinzufügen ([Sonstiges > Abwesenheiten](/absences)).
 
 ## Konfiguration {#configuration}
 
@@ -8,36 +8,36 @@ Sobald diese zusätzliche Funktion in [Ihren Einstellungen](/settings#organizati
 
 ## Abrechnung {#billing}
 
-Standardmäßig werden als abwesend markierte und nicht gelieferte Taschen in Rechnung gestellt, und den Mitgliedern wird empfohlen, einen Bekannten zu finden, der ihre Tasche an ihrer Stelle abholt. In [den Einstellungen](/settings#absence) können Sie auch wählen, sie nicht in Rechnung zu stellen. Das System wird dann automatisch [die Abrechnung des Abonnements anpassen](/handbook/billing#price-change).
+Standardmäßig werden als abwesend markierte und nicht gelieferte <%= Basket.model_name.human(count: 2) %> in Rechnung gestellt, und den Mitgliedern wird empfohlen, einen Bekannten zu finden, der ihre <%= Basket.model_name.human %> an ihrer Stelle abholt. In [den Einstellungen](/settings#absence) können Sie auch wählen, sie nicht in Rechnung zu stellen. Das System wird dann automatisch [die Abrechnung des Abonnements anpassen](/handbook/billing#price-change).
 
-## Taschenverschiebungen {#basket-shift}
+## Verschiebung von <%= Basket.model_name.human(count: 2) %> {#basket-shift}
 
-Es ist möglich, die Lieferung einer Tasche während einer Abwesenheit auf eine andere Lieferung zu verschieben. Dies ermöglicht es den Mitgliedern, ihre Abwesenheiten zu kompensieren, ohne die Anzahl der in Rechnung gestellten Taschen zu ändern.
+Es ist möglich, die Lieferung einer <%= Basket.model_name.human %> während einer Abwesenheit auf eine andere Lieferung zu verschieben. Dies ermöglicht es den Mitgliedern, ihre Abwesenheiten zu kompensieren, ohne die Anzahl der in Rechnung gestellten <%= Basket.model_name.human(count: 2) %> zu ändern.
 
-Auf der Admin-Seite reicht es aus, eine als abwesend markierte Tasche von der Abonnementseite aus zu bearbeiten und ein anderes Lieferdatum zu wählen. Der Tascheninhalt (einschließlich Ergänzungen) wird dann automatisch auf die gewählte Tasche verschoben.
+Auf der Admin-Seite reicht es aus, eine als abwesend markierte <%= Basket.model_name.human %> von der Abonnementseite aus zu bearbeiten und ein anderes Lieferdatum zu wählen. Der Inhalt der <%= Basket.model_name.human %> (einschließlich Ergänzungen) wird dann automatisch auf die gewählte <%= Basket.model_name.human %> verschoben.
 
-Auf der Mitgliederseite ist die Taschenverschiebung standardmäßig nicht möglich. Um diese Funktion zu aktivieren, haben Sie die Möglichkeit, [die folgenden Einstellungen zu ändern](/settings#absence):
+Auf der Mitgliederseite ist die Verschiebung von <%= Basket.model_name.human(count: 2) %> standardmäßig nicht möglich. Um diese Funktion zu aktivieren, haben Sie die Möglichkeit, [die folgenden Einstellungen zu ändern](/settings#absence):
 
 - **Anzahl der zulässigen Verschiebungen**: um, falls gewünscht, die Anzahl der von den Mitgliedern möglichen Verschiebungen zu begrenzen.
 - **Frist für Verschiebungen**: um, falls gewünscht, die zeitlich möglichen Verschiebungen zu begrenzen.
 
-Wenn die Abwesenheit storniert wird, wird der Tascheninhalt automatisch zu seiner ursprünglichen Lieferung zurückgebracht.
+Wenn die Abwesenheit storniert wird, wird der Inhalt der <%= Basket.model_name.human %> automatisch zu seiner ursprünglichen Lieferung zurückgebracht.
 
-> Taschenverschiebungen sind nur für kostenpflichtige Abwesenheiten möglich. Inbegriffene Abwesenheiten (nicht kostenpflichtig) können nicht verschoben werden.
+> Die Verschiebung von <%= Basket.model_name.human(count: 2) %> ist nur für kostenpflichtige Abwesenheiten möglich. Inbegriffene Abwesenheiten (nicht kostenpflichtig) können nicht verschoben werden.
 
 ### Newsletter-Vorlage
 
-Wenn eine Tasche Verschiebungen erhalten hat, können Sie eine Erinnerung in Ihren [Newsletter-Vorlagen](/newsletter_templates) anzeigen, indem Sie die Variablen `basket.shifted` und `basket.shifts` verwenden:
+Wenn eine <%= Basket.model_name.human %> Verschiebungen erhalten hat, können Sie eine Erinnerung in Ihren [Newsletter-Vorlagen](/newsletter_templates) anzeigen, indem Sie die Variablen `basket.shifted` und `basket.shifts` verwenden:
 
 ~~~ liquid
 {% if basket.shifted %}
   {% highlight %}
     <p><strong>📣 Wichtige Erinnerung!</strong></p>
-    <p>Sie haben diese Woche <strong>{{ basket.quantity }} Taschen</strong> abzuholen:</p>
+    <p>Sie haben diese Woche <strong>{{ basket.quantity }} <%= Basket.model_name.human(count: 2) %></strong> abzuholen:</p>
     <ul>
-      <li>Ihre reguläre Tasche</li>
+      <li>Ihre reguläre <%= Basket.model_name.human %></li>
       {% for shift in basket.shifts %}
-        <li>Tasche verschoben vom {{ shift.old_delivery_date }}</li>
+        <li><%= Basket.model_name.human %> verschoben vom {{ shift.old_delivery_date }}</li>
       {% endfor %}
     </ul>
   {% endhighlight %}
@@ -56,7 +56,7 @@ Wenn Mitglieder nicht alle ihre inbegriffenen Abwesenheiten bis zum Ende ihres A
 
 **Vorläufige Abwesenheit respektiert**
 
-Dies ist der Standardmodus. Vorläufige Abwesenheiten werden nicht geliefert. Die Mitglieder erhalten eine Erinnerungs-E-Mail und können dann eine Lieferung von ihrem Konto aus erzwingen, wenn sie Taschen erhalten möchten, die als vorläufig abwesend markiert waren.
+Dies ist der Standardmodus. Vorläufige Abwesenheiten werden nicht geliefert. Die Mitglieder erhalten eine Erinnerungs-E-Mail und können dann eine Lieferung von ihrem Konto aus erzwingen, wenn sie <%= Basket.model_name.human(count: 2) %> erhalten möchten, die als vorläufig abwesend markiert waren.
 
 Dieser Modus ist nützlich, wenn Sie bevorzugen, dass ungenutzte Abwesenheiten standardmäßig als Abwesenheiten verbleiben und den Mitgliedern die Möglichkeit geben, bei Bedarf eine Lieferung anzufordern.
 
@@ -64,11 +64,11 @@ Dieser Modus ist nützlich, wenn Sie bevorzugen, dass ungenutzte Abwesenheiten s
 
 In diesem Modus werden ungenutzte inbegriffene Abwesenheiten bei der Erinnerung erzwungen geliefert und in Rechnung gestellt. Die Mitglieder erhalten eine Erinnerungs-E-Mail und können eine Abwesenheit melden, um sich abzumelden, bevor die Lieferung stattfindet und in Rechnung gestellt wird.
 
-Dieser Modus ist nützlich, wenn Sie bevorzugen, dass Mitglieder ihre Taschen standardmäßig erhalten, um Verwirrung zu vermeiden, wenn Mitglieder erscheinen und eine Tasche erwarten, die nicht vorbereitet wurde.
+Dieser Modus ist nützlich, wenn Sie bevorzugen, dass Mitglieder ihre <%= Basket.model_name.human(count: 2) %> standardmäßig erhalten, um Verwirrung zu vermeiden, wenn Mitglieder erscheinen und eine <%= Basket.model_name.human %> erwarten, die nicht vorbereitet wurde.
 
 ### Erinnerungs-E-Mail {#absence-included-reminder}
 
 Eine Erinnerungs-E-Mail wird an Mitglieder mit ungenutzten inkludierten Abwesenheiten eine konfigurierbare Anzahl von Wochen vor der ersten vorläufigen Abwesenheit gesendet (Standard: 4 Wochen). Dies gibt den Mitgliedern Zeit, je nach gewähltem Modus zu handeln:
 
-- **Im Modus "Vorläufige Abwesenheit respektiert"**: Eine Lieferung zu erzwingen, wenn sie Taschen erhalten möchten, die als vorläufig abwesend markiert waren.
+- **Im Modus "Vorläufige Abwesenheit respektiert"**: Eine Lieferung zu erzwingen, wenn sie <%= Basket.model_name.human(count: 2) %> erhalten möchten, die als vorläufig abwesend markiert waren.
 - **Im Modus "Lieferung der verbleibenden Abwesenheiten"**: Eine Abwesenheit zu melden, um Lieferungen abzulehnen, die sie nicht möchten.

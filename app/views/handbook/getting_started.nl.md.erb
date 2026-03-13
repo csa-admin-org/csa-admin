@@ -16,23 +16,23 @@ Begin met het [aanmaken van uw leveringsdatums](/deliveries) voor het komende bo
 
 > Geen zorgen als de exacte datums nog niet vaststaan. Zorg er gewoon voor dat u het juiste aantal leveringen heeft zodat de prijzen op het registratieformulier correct zijn. U kunt de datums later altijd aanpassen.
 
-## 3. Pakketgroottes {#basket-sizes}
+## 3. <%= BasketSize.model_name.human(count: 2) %> {#basket-sizes}
 
-Vervolgens, [maak uw pakketgroottes aan](/basket_sizes) (bijv. klein, groot). Deze bepalen de soorten lidmaatschappen waaruit uw leden kunnen kiezen.
+Vervolgens, [maak uw <%= BasketSize.model_name.human(count: 2).downcase %> aan](/basket_sizes) (bijv. klein, groot). Deze bepalen de soorten lidmaatschappen waaruit uw leden kunnen kiezen.
 
-## 4. Pakketaanvullingen (optioneel) {#basket-complements}
+## 4. <%= BasketComplement.model_name.human(count: 2) %> (optioneel) {#basket-complements}
 
-[Pakketaanvullingen](/basket_complements) zijn optionele extra's zoals brood, kaas of eieren waar leden zich op kunnen abonneren naast hun pakket. Elke aanvulling kan op specifieke leveringen worden geleverd, bijvoorbeeld alleen tijdens de winterperiode of om de week.
+[<%= BasketComplement.model_name.human(count: 2) %>](/basket_complements) zijn optionele extra's zoals brood, kaas of eieren waar leden zich op kunnen abonneren naast hun <%= Basket.model_name.human.downcase %>. Elke aanvulling kan op specifieke leveringen worden geleverd, bijvoorbeeld alleen tijdens de winterperiode of om de week.
 
 ## 5. Depots {#depots}
 
-[Maak minstens één depot aan](/depots), de ophaallocaties waar leden hun pakketten ophalen.
+[Maak minstens één depot aan](/depots), de ophaallocaties waar leden hun <%= Basket.model_name.human(count: 2).downcase %> ophalen.
 
 Een prijs kan ook per depot worden ingesteld om extra voorbereidings- of leveringskosten te dekken. Deze wordt automatisch meegenomen bij het factureren van lidmaatschappen.
 
 ## 6. Registratieformulier {#registration-form}
 
-Nu uw leveringen, pakketgroottes en depots zijn geconfigureerd, zou uw [registratieformulier](<%= new_members_member_url(subdomain: Current.org.members_subdomain) %>) vorm moeten krijgen en binnenkort klaar zijn om nieuwe leden te verwelkomen!
+Nu uw leveringen, <%= BasketSize.model_name.human(count: 2).downcase %> en depots zijn geconfigureerd, zou uw [registratieformulier](<%= new_members_member_url(subdomain: Current.org.members_subdomain) %>) vorm moeten krijgen en binnenkort klaar zijn om nieuwe leden te verwelkomen!
 
 Bekijk de [handboekpagina over het registratieformulier](/handbook/registration) om te leren hoe elke instelling het formulier beïnvloedt en tips te vinden om het te verfijnen.
 

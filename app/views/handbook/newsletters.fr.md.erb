@@ -2,7 +2,7 @@
 
 En complément [des emails automatiques](/mail_templates) envoyés lors d'événements spécifiques (nouvelle facture, renouvellement, ...), CSA Admin offre également la possibilité d'envoyer [des newsletters (emails groupés)](/newsletters).
 
-Ces newsletters peuvent s'adresser à tous vos membres ou à une audience spécifique (statut, taille de panier, dépôt, ...).
+Ces newsletters peuvent s'adresser à tous vos membres ou à une audience spécifique (statut, <%= BasketSize.model_name.human.downcase %>, dépôt, ...).
 
 > Contrairement [aux emails automatiques](/mail_templates), les newsletters incluent un lien de désinscription (obligatoire) dans leur bas de page.
 
@@ -13,7 +13,7 @@ Pour faciliter la création de vos newsletters, CSA Admin propose un système so
 Par défaut, [2 templates](/newsletter_templates) sont disponibles:
 
 - <strong>Texte libre</strong>: un template simple avec un seul bloc de contenu sans titre.
-- <strong>Prochaine livraison</strong>: un template plus complexe avec plusieurs blocs de contenu, ainsi que des informations dynamiques ([contenu panier](/handbook/basket_content), [prochaine activité](/handbook/activity), ...).
+- <strong>Prochaine livraison</strong>: un template plus complexe avec plusieurs blocs de contenu, ainsi que des informations dynamiques ([<%= BasketContent.model_name.human.downcase %>](/handbook/basket_content), [prochaine activité](/handbook/activity), ...).
 
 N'hésitez pas à les dupliquer et à les modifier à votre guise ou en [créer de nouveaux](/newsletter_templates/new).
 
@@ -41,7 +41,7 @@ Exemple d'un bloc vide (à remplir lors de la création d'une newsletter):
 
 ### Langage de template et mise en forme {#liquid}
 
-Les templates utilisent le langage de template Liquid pour insérer des données dynamiques propres à chaque membre (nom, détails du panier, informations d'abonnement, ...) et de la logique conditionnelle. Pour plus de détails sur la syntaxe Liquid, les balises de mise en forme et le panneau de prévisualisation des données, consultez la [page Emails du manuel](/handbook/emails).
+Les templates utilisent le langage de template Liquid pour insérer des données dynamiques propres à chaque membre (nom, détails du <%= Basket.model_name.human.downcase %>, informations d'abonnement, ...) et de la logique conditionnelle. Pour plus de détails sur la syntaxe Liquid, les balises de mise en forme et le panneau de prévisualisation des données, consultez la [page Emails du manuel](/handbook/emails).
 
 ## Pièces jointes {#attachments}
 

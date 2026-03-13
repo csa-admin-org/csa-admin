@@ -6,7 +6,7 @@ Alle Abonnements können manuell von einem Administrator erneuert werden; entwed
 
 ## Voraussetzungen {#prerequisites}
 
-Um Abonnements zu erneuern, ist es zunächst notwendig, alle [Lieferungen](/deliveries/new) für das neue Geschäftsjahr zu erstellen (siehe [Lieferungen](/handbook/deliveries)) und gegebenenfalls die Preise (Taschengröße, Ergänzung, Depot...) für das folgende Jahr anzupassen. Tatsächlich bedeutet die Erneuerung eines Abonnements, ein neues Abonnement mit den gleichen Informationen wie das aktuelle zu erstellen, jedoch für das nächste Geschäftsjahr.
+Um Abonnements zu erneuern, ist es zunächst notwendig, alle [Lieferungen](/deliveries/new) für das neue Geschäftsjahr zu erstellen (siehe [Lieferungen](/handbook/deliveries)) und gegebenenfalls die Preise (<%= BasketSize.model_name.human %>, <%= BasketComplement.model_name.human %>, Depot...) für das folgende Jahr anzupassen. Tatsächlich bedeutet die Erneuerung eines Abonnements, ein neues Abonnement mit den gleichen Informationen wie das aktuelle zu erstellen, jedoch für das nächste Geschäftsjahr.
 
 Sobald die Lieferungen erstellt sind, können Administratoren die Abonnements manuell erneuern, zu einem Zeitpunkt ihrer Wahl. Beachten Sie, dass wenn ein Abonnement nach der ersten Lieferung des neuen Geschäftsjahres erneuert wird, diese Lieferung dennoch im erneuerten Abonnement enthalten sein wird.
 
@@ -47,7 +47,7 @@ Sobald die Erneuerungsanfrage gesendet wurde, hat das Mitglied Zugriff auf ein F
 
 ### Erneuerung
 
-Wenn das Mitglied sich für die Erneuerung seines Abonnements entscheidet, wird es zur Erneuerungsseite weitergeleitet, auf der es seine Taschengröße, seine Ergänzungen (falls verfügbar), sein Depot (falls in [den Einstellungen](/settings#membership_renewal) aktiviert), das Zahlungsintervall ändern sowie einen freien Kommentar hinterlassen kann.
+Wenn das Mitglied sich für die Erneuerung seines Abonnements entscheidet, wird es zur Erneuerungsseite weitergeleitet, auf der es seine <%= BasketSize.model_name.human %>, seine <%= BasketComplement.model_name.human(count: 2) %> (falls verfügbar), sein Depot (falls in [den Einstellungen](/settings#membership_renewal) aktiviert), das Zahlungsintervall ändern sowie einen freien Kommentar hinterlassen kann.
 
 Nach der Bestätigung wird sein Abonnement für das folgende Geschäftsjahr automatisch erstellt und kann wie jedes andere Abonnement über die Administrationsschnittstelle eingesehen und geändert werden. Im Fehlerfall kann das Abonnement ohne weiteres gelöscht werden, was die Erneuerung rückgängig macht.
 

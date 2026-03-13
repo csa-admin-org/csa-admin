@@ -96,7 +96,7 @@ class Basket::CSVExporter
     cols << :depot
     cols << :depot_price
     cols << :basket_size_id
-    cols << I18n.t("attributes.basket_size")
+    cols << BasketSize.model_name.human
     cols << :quantity
     cols << :basket_size_price
     cols << :state

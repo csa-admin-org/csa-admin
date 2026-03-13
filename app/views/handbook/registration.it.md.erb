@@ -16,7 +16,7 @@ L'[impostazione del sottotitolo](/settings#registration) supporta il testo forma
 
 **Meglio evitare:**
 
-*La nostra ACP è stata fondata nel 2012 e consegna verdura biologica dalla nostra fattoria in campagna. Collaboriamo con 3 aziende agricole partner e offriamo ceste in 12 dimensioni diverse. I prezzi si basano su un modello solidale dove...* (e altre 200 parole)
+*La nostra ACP è stata fondata nel 2012 e consegna verdura biologica dalla nostra fattoria in campagna. Collaboriamo con 3 aziende agricole partner e offriamo <%= Basket.model_name.human(count: 2).downcase %> in 12 dimensioni diverse. I prezzi si basano su un modello solidale dove...* (e altre 200 parole)
 
 ## Consigli sulla formattazione {#text-styling}
 
@@ -30,33 +30,33 @@ Tutti i campi di testo formattato nelle [impostazioni di iscrizione](/settings#r
 
 Noterete un indicatore del conteggio parole nell'editor delle impostazioni quando il testo diventa lungo. È solo un piccolo promemoria, non un limite rigido. Se superate la soglia, potrebbe valere la pena accorciare o spostare del contenuto sul vostro sito web.
 
-## Dimensioni della cesta {#basket-sizes}
+## <%= BasketSize.model_name.human(count: 2) %> {#basket-sizes}
 
-Le [dimensioni della cesta](/basket_sizes) sono il cuore del vostro modulo di iscrizione. Ogni dimensione visibile appare come scelta per i nuovi soci.
+Le [<%= BasketSize.model_name.human(count: 2).downcase %>](/basket_sizes) sono il cuore del vostro modulo di iscrizione. Ogni <%= BasketSize.model_name.human.downcase %> visibile appare come scelta per i nuovi soci.
 
 - **Nome**: Ciò che i soci vedono (es. "Piccola", "Famiglia"). Un nome auto-esplicativo aiuta: "Piccola (1–2 persone)" è più chiaro di semplicemente "Piccola".
 - **Descrizione**: Sostituisce il testo generato automaticamente (prezzo × consegne). Utile quando il testo predefinito non corrisponde esattamente a ciò di cui avete bisogno.
-- **Visibilità**: Impostate una dimensione come invisibile se è riservata agli admin (es. una tariffa speciale). Le dimensioni invisibili non appaiono nel modulo.
+- **Visibilità**: Rendete una <%= BasketSize.model_name.human.downcase %> invisibile se è riservata agli admin (es. una tariffa speciale). Le dimensioni invisibili non appariranno nel modulo.
 - **Ordine di visualizzazione**: Controllato dall'[impostazione della modalità di ordinamento](/settings#registration), per nome, per prezzo o per priorità personalizzata.
 
-## Complementi di cesta {#basket-complements}
+## <%= BasketComplement.model_name.human(count: 2) %> {#basket-complements}
 
-I [complementi di cesta](/basket_complements) (pane, formaggio, uova, ecc.) appaiono dopo la selezione della dimensione della cesta.
+I [<%= BasketComplement.model_name.human(count: 2).downcase %>](/basket_complements) (pane, formaggio, uova, ecc.) appaiono dopo la selezione della <%= BasketSize.model_name.human.downcase %>.
 
 - **Caselle di spunta vs. quantità**: L'[impostazione delle quantità dei complementi](/settings#registration) controlla se i soci vedono semplici caselle di spunta (abbonarsi o meno) o campi di quantità (0, 1, 2...).
 - **Testo dei complementi**: Un'introduzione opzionale prima dell'elenco. Una frase è generalmente sufficiente per spiegare cosa è disponibile.
 - **Ordine di visualizzazione**: Controllato dall'[impostazione della modalità di ordinamento](/settings#registration).
 
-## Prezzo solidale / Prezzo cesta extra {#basket-price-extra}
+## Prezzo solidale / Prezzo <%= Basket.model_name.human.downcase %> extra {#basket-price-extra}
 
 <% if feature?("basket_price_extra") %>
-Questa funzionalità permette ai soci di pagare volontariamente di più per ogni cesta. Consultate la pagina dedicata del [manuale sul prezzo cesta extra](/handbook/basket_price_extra) per i dettagli di configurazione.
+Questa funzionalità permette ai soci di pagare volontariamente di più per ogni <%= Basket.model_name.human.downcase %>. Consultate la pagina dedicata del [manuale sul prezzo <%= Basket.model_name.human.downcase %> extra](/handbook/basket_price_extra) per i dettagli di configurazione.
 
 Alcuni consigli per il modulo di iscrizione:
 
 - **4 a 6 opzioni funziona bene.** Troppe scelte possono sembrare scoraggianti. Se ne avete più di 6, il modulo passa a un menu a tendina, che è meno visibile.
 - **Mantenete il testo di spiegazione breve.** Se volete spiegare il vostro modello solidale in dettaglio, linkate al vostro sito web.
-- **Le etichette chiare contano.** Assicuratevi che ogni opzione mostri chiaramente l'impatto sul prezzo. Consultate le [impostazioni del prezzo cesta extra](/settings#basket_price_extra) per la configurazione delle etichette.
+- **Le etichette chiare contano.** Assicuratevi che ogni opzione mostri chiaramente l'impatto sul prezzo. Consultate le [impostazioni del prezzo <%= Basket.model_name.human.downcase %> extra](/settings#basket_price_extra) per la configurazione delle etichette.
 <% else %>
 Questa funzionalità non è attualmente attivata. Potete attivarla nelle [vostre impostazioni](/settings#organization_features_input).
 <% end %>
@@ -94,7 +94,7 @@ Se un ciclo riguarda solo certi depositi, configurare le associazioni deposito-c
 
 Due impostazioni controllano il testo di spiegazione nella sezione abbonamento:
 
-- **[Testo supplementare](/settings#registration)**: Aggiunto dopo il testo generato automaticamente (anno fiscale, ceste di prova, quota annuale, quote sociali).
+- **[Testo supplementare](/settings#registration)**: Aggiunto dopo il testo generato automaticamente (anno fiscale, <%= Basket.model_name.human(count: 2).downcase %> di prova, quota annuale, quote sociali).
 - **[Solo testo supplementare](/settings#registration)**: Sostituisce interamente il testo generato automaticamente. Utile solo se il testo predefinito non corrisponde davvero alle vostre esigenze.
 
 Il testo generato automaticamente copre già l'essenziale, quindi il testo supplementare è ideale per ciò che è specifico alla vostra organizzazione. Se vi ritrovate a scrivere più di un breve paragrafo, considerate di linkare al vostro sito web.
@@ -125,8 +125,8 @@ Diversi elementi del modulo possono essere riordinati:
 
 | Elemento | Impostazione | Opzioni |
 |----------|-------------|---------|
-| Dimensioni cesta | [Modalità di ordinamento](/settings#registration) | Nome, prezzo (asc/disc), priorità |
-| Complementi | [Modalità di ordinamento](/settings#registration) | Nome, prezzo (asc/disc), priorità |
+| <%= BasketSize.model_name.human(count: 2) %> | [Modalità di ordinamento](/settings#registration) | Nome, prezzo (asc/desc), priorità |
+| <%= BasketComplement.model_name.human(count: 2) %> | [Modalità di ordinamento](/settings#registration) | Nome, prezzo (asc/desc), priorità |
 | Depositi | [Modalità di ordinamento](/settings#registration) | Nome, prezzo (asc/disc), priorità |
 | Cicli di consegne | [Modalità di ordinamento](/settings#registration) | Nome, priorità |
 

@@ -1,6 +1,6 @@
-# Preis Extra-Tasche
+# Preis Extra-<%= Basket.model_name.human %>
 
-Diese Funktion ermöglicht es Ihnen, Ihren Mitgliedern anzubieten, für jede Tasche einen zusätzlichen Betrag zu zahlen.
+Diese Funktion ermöglicht es Ihnen, Ihren Mitgliedern anzubieten, für jede <%= Basket.model_name.human %> einen zusätzlichen Betrag zu zahlen.
 
 Dieses zusätzliche Einkommen kann verschiedenen Bedürfnissen dienen, zum Beispiel:
 
@@ -23,9 +23,9 @@ Anschließend müssen Sie definieren, mit welchem Label Ihre Extras angezeigt we
 {% if extra == 0 %}
 Basispreis
 {% elsif extra == 1.5 %}
-+ {{ extra }}/Tasche
++ {{ extra }}/<%= Basket.model_name.human %>
 {% else %}
-+ {{ extra | ceil }}.-/Tasche
++ {{ extra | ceil }}.-/<%= Basket.model_name.human %>
 {% endif %}
 ~~~
 

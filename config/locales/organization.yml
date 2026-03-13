@@ -32,24 +32,72 @@ _:
         _de: Basispreis
         _it: Tariffa di base
         _nl: Basisprijs
-      basket:
+      basket/bag:
+        _en: bag
+        _fr: sac
+        _de: Tasche
+        _it: borsa
+        _nl: tas
+      basket/basket:
         _en: basket
         _fr: panier
-        _de: Tasche
+        _de: Korb
         _it: cesta
+        _nl: mand
+      basket/cone:
+        _en: cone
+        _fr: cornet
+        _de: Tüte
+        _it: cono
+        _nl: zak
+      basket/package:
+        _en: package
+        _fr: colis
+        _de: Paket
+        _it: pacco
         _nl: pakket
+      basket/share:
+        _en: share
+        _fr: part
+        _de: Anteil
+        _it: parte
+        _nl: deel
     default_basket_content_member_note:
       _en: No guarantee, last-minute changes are possible
       _fr: Sans garantie, des changements de dernière minute sont possibles
       _de: Keine Garantie, Last-Minute-Änderungen sind möglich
       _it: Nessuna garanzia, sono possibili cambiamenti dell'ultimo minuto
       _nl: Geen garantie, last-minute wijzigingen zijn mogelijk
-    default_basket_content_member_title:
+    default_basket_content_member_title/bag:
+      _en: Your bag contents
+      _fr: Contenu de votre sac
+      _de: Ihr Tascheninhalt
+      _it: Contenuto della vostra borsa
+      _nl: Inhoud van uw tas
+    default_basket_content_member_title/basket:
       _en: Your basket contents
       _fr: Contenu de votre panier
-      _de: Ihr Tascheninhalt
+      _de: Ihr Korbinhalt
       _it: Contenuto della vostra cesta
+      _nl: Inhoud van uw mand
+    default_basket_content_member_title/cone:
+      _en: Your cone contents
+      _fr: Contenu de votre cornet
+      _de: Ihr Tüteninhalt
+      _it: Contenuto del vostro cono
+      _nl: Inhoud van uw zak
+    default_basket_content_member_title/package:
+      _en: Your package contents
+      _fr: Contenu de votre colis
+      _de: Ihr Paketinhalt
+      _it: Contenuto del vostro pacco
       _nl: Inhoud van uw pakket
+    default_basket_content_member_title/share:
+      _en: Your share contents
+      _fr: Contenu de votre part
+      _de: Ihr Anteilsinhalt
+      _it: Contenuto della vostra parte
+      _nl: Inhoud van uw deel
     default_email_footer:
       _en: If you have any questions or comments, please reply to this email.
       _fr: En cas de questions ou remarques, répondez simplement à cet email.

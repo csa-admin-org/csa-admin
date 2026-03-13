@@ -13,16 +13,6 @@ module ActivitiesHelper
     I18n.t("activities.#{Current.org.activity_i18n_scope}.other")
   end
 
-  def t_activity(key, **options)
-    t(activity_scoped_attribute(key), **options)
-  end
-
-  def activity_scoped_attribute(attr)
-    html = attr.end_with?("_html")
-    attr = attr.to_s.delete_suffix("_html")
-    "#{attr}/#{Current.org.activity_i18n_scope}#{html ? "_html" : ""}".to_sym
-  end
-
   def activities_collection(activities, data: {})
     activities.map do |activity|
       text = content_tag(:span, class: "inline-block grow #{'cursor-not-allowed text-gray-300 dark:text-gray-700' if activity.full?}") {

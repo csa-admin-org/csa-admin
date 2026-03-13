@@ -51,7 +51,7 @@ ActiveAdmin.register Invoice do
   filter :overdue_notices_count
   filter :activity_participations_fiscal_year,
     label: -> {
-      Invoice.human_attribute_name(activity_scoped_attribute(:missing_participations_fiscal_year))
+      Invoice.human_attribute_name(:missing_participations_fiscal_year)
     },
     as: :select,
     collection: -> { fiscal_years_collection }

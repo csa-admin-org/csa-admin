@@ -38,7 +38,7 @@ module XLSX
         ::Absence.human_attribute_name(:ended_on),
         @absences.map { |absence| absence.ended_on.to_s })
       add_column(
-        ::Basket.model_name.human(count: 2),
+        Basket.model_name.human(count: 2),
         @absences.map { |absence| absence.baskets.size })
       add_column(
         ::Absence.human_attribute_name(:note),
@@ -49,7 +49,7 @@ module XLSX
     end
 
     def build_baskets_worksheet
-      add_worksheet ::Basket.model_name.human(count: 2)
+      add_worksheet Basket.model_name.human(count: 2)
 
       add_column(
         ::Basket.human_attribute_name(:id),

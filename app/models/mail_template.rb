@@ -23,6 +23,7 @@ class MailTemplate < ApplicationRecord
     basket_second_last_trial
     basket_last_trial
   ].freeze
+
   ABSENCE_TITLES = %w[
     absence_created
     absence_baskets_shifted
@@ -276,8 +277,7 @@ class MailTemplate < ApplicationRecord
 
   def default_contents
     Organization.languages.reduce({}) do |h, locale|
-      path = Rails.root.join("app/views/mail_templates/#{title}.#{locale}.liquid")
-      h[locale] = contents[locale] || File.read(path)
+      h[locale] = contents[locale] || LiquidErb.render("mail_templates/#{title}", locale: locale)
       h
     end
   end

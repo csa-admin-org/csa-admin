@@ -1,12 +1,36 @@
 _:
   mail_template:
     default_subjects:
-      absence_baskets_shifted:
+      absence_baskets_shifted/bag:
+        _en: Bag(s) shifted
+        _fr: Sac(s) déplacé(s)
+        _de: Tasche(n) verschoben
+        _it: Borsa/e spostata/e
+        _nl: Tas(sen) verschoven
+      absence_baskets_shifted/basket:
         _en: Basket(s) shifted
         _fr: Panier(s) déplacé(s)
-        _de: Tasche(n) verschoben
-        _it: Cestino/i spostato/i
+        _de: Korb/Körbe verschoben
+        _it: Cesta/e spostata/e
+        _nl: Mand(en) verschoven
+      absence_baskets_shifted/cone:
+        _en: Cone(s) shifted
+        _fr: Cornet(s) déplacé(s)
+        _de: Tüte(n) verschoben
+        _it: Cono/i spostato/i
+        _nl: Zak(ken) verschoven
+      absence_baskets_shifted/package:
+        _en: Package(s) shifted
+        _fr: Colis déplacé(s)
+        _de: Paket(e) verschoben
+        _it: Pacco/i spostato/i
         _nl: Pakket(ten) verschoven
+      absence_baskets_shifted/share:
+        _en: Share(s) shifted
+        _fr: Part(s) déplacée(s)
+        _de: Anteil(e) verschoben
+        _it: Parte/i spostata/e
+        _nl: Deel/Delen verschoven
       absence_created:
         _en: Absence confirmation
         _fr: Confirmation d'absence
@@ -37,42 +61,186 @@ _:
         _de: "Bestätigte Aktivität \U0001F389"
         _it: "Attività confermata \U0001F389"
         _nl: "Activiteit bevestigd \U0001F389"
-      basket_final:
+      basket_final/bag:
+        _en: Last bag!
+        _fr: Dernier sac!
+        _de: Letzte Tasche!
+        _it: Ultima borsa!
+        _nl: Laatste tas!
+      basket_final/basket:
         _en: Last basket!
         _fr: Dernier panier!
-        _de: Letzte Tasche!
-        _it: Ultimo cestino!
+        _de: Letzter Korb!
+        _it: Ultima cesta!
+        _nl: Laatste mand!
+      basket_final/cone:
+        _en: Last cone!
+        _fr: Dernier cornet!
+        _de: Letzte Tüte!
+        _it: Ultimo cono!
+        _nl: Laatste zak!
+      basket_final/package:
+        _en: Last package!
+        _fr: Dernier colis!
+        _de: Letztes Paket!
+        _it: Ultimo pacco!
         _nl: Laatste pakket!
-      basket_first:
+      basket_final/share:
+        _en: Last share!
+        _fr: Dernière part!
+        _de: Letzter Anteil!
+        _it: Ultima parte!
+        _nl: Laatste deel!
+      basket_first/bag:
+        _en: First bag of the year!
+        _fr: Premier sac de l'année!
+        _de: Erste Tasche des Jahres!
+        _it: Prima borsa dell'anno!
+        _nl: Eerste tas van het jaar!
+      basket_first/basket:
         _en: First basket of the year!
         _fr: Premier panier de l'année!
-        _de: Erste Tasche des Jahres!
-        _it: Primo cestino dell'anno!
+        _de: Erster Korb des Jahres!
+        _it: Prima cesta dell'anno!
+        _nl: Eerste mand van het jaar!
+      basket_first/cone:
+        _en: First cone of the year!
+        _fr: Premier cornet de l'année!
+        _de: Erste Tüte des Jahres!
+        _it: Primo cono dell'anno!
+        _nl: Eerste zak van het jaar!
+      basket_first/package:
+        _en: First package of the year!
+        _fr: Premier colis de l'année!
+        _de: Erstes Paket des Jahres!
+        _it: Primo pacco dell'anno!
         _nl: Eerste pakket van het jaar!
-      basket_initial:
+      basket_first/share:
+        _en: First share of the year!
+        _fr: Première part de l'année!
+        _de: Erster Anteil des Jahres!
+        _it: Prima parte dell'anno!
+        _nl: Eerste deel van het jaar!
+      basket_initial/bag:
+        _en: First bag!
+        _fr: Premier sac!
+        _de: Erste Tasche!
+        _it: Prima borsa!
+        _nl: Eerste tas!
+      basket_initial/basket:
         _en: First basket!
         _fr: Premier panier!
-        _de: Erste Tasche!
-        _it: Primo cestino!
+        _de: Erster Korb!
+        _it: Prima cesta!
+        _nl: Eerste mand!
+      basket_initial/cone:
+        _en: First cone!
+        _fr: Premier cornet!
+        _de: Erste Tüte!
+        _it: Primo cono!
+        _nl: Eerste zak!
+      basket_initial/package:
+        _en: First package!
+        _fr: Premier colis!
+        _de: Erstes Paket!
+        _it: Primo pacco!
         _nl: Eerste pakket!
-      basket_last:
+      basket_initial/share:
+        _en: First share!
+        _fr: Première part!
+        _de: Erster Anteil!
+        _it: Prima parte!
+        _nl: Eerste deel!
+      basket_last/bag:
+        _en: Last bag of the year!
+        _fr: Dernier sac de l'année!
+        _de: Letzte Tasche des Jahres!
+        _it: Ultima borsa dell'anno!
+        _nl: Laatste tas van het jaar!
+      basket_last/basket:
         _en: Last basket of the year!
         _fr: Dernier panier de l'année!
-        _de: Letzte Tasche des Jahres!
-        _it: Ultimo cestino dell'anno!
+        _de: Letzter Korb des Jahres!
+        _it: Ultima cesta dell'anno!
+        _nl: Laatste mand van het jaar!
+      basket_last/cone:
+        _en: Last cone of the year!
+        _fr: Dernier cornet de l'année!
+        _de: Letzte Tüte des Jahres!
+        _it: Ultimo cono dell'anno!
+        _nl: Laatste zak van het jaar!
+      basket_last/package:
+        _en: Last package of the year!
+        _fr: Dernier colis de l'année!
+        _de: Letztes Paket des Jahres!
+        _it: Ultimo pacco dell'anno!
         _nl: Laatste pakket van het jaar!
-      basket_last_trial:
+      basket_last/share:
+        _en: Last share of the year!
+        _fr: Dernière part de l'année!
+        _de: Letzter Anteil des Jahres!
+        _it: Ultima parte dell'anno!
+        _nl: Laatste deel van het jaar!
+      basket_last_trial/bag:
+        _en: Last trial bag!
+        _fr: Dernier sac à l'essai!
+        _de: Letzte Probe Tasche!
+        _it: Ultima borsa da provare!
+        _nl: Laatste proeftas!
+      basket_last_trial/basket:
         _en: Last trial basket!
         _fr: Dernier panier à l'essai!
-        _de: Letzte Probe Tasche!
-        _it: Ultimo cestino da provare!
+        _de: Letzter Probe Korb!
+        _it: Ultima cesta da provare!
+        _nl: Laatste proefmand!
+      basket_last_trial/cone:
+        _en: Last trial cone!
+        _fr: Dernier cornet à l'essai!
+        _de: Letzte Probe Tüte!
+        _it: Ultimo cono da provare!
+        _nl: Laatste proefzak!
+      basket_last_trial/package:
+        _en: Last trial package!
+        _fr: Dernier colis à l'essai!
+        _de: Letztes Probe Paket!
+        _it: Ultimo pacco da provare!
         _nl: Laatste proefpakket!
-      basket_second_last_trial:
+      basket_last_trial/share:
+        _en: Last trial share!
+        _fr: Dernière part à l'essai!
+        _de: Letzter Probe Anteil!
+        _it: Ultima parte da provare!
+        _nl: Laatste proefdeel!
+      basket_second_last_trial/bag:
+        _en: Second to last trial bag!
+        _fr: Avant-dernier sac à l'essai!
+        _de: Vorletzte Probe Tasche!
+        _it: Penultima borsa da provare!
+        _nl: Voorlaatste proeftas!
+      basket_second_last_trial/basket:
         _en: Second to last trial basket!
         _fr: Avant-dernier panier à l'essai!
-        _de: Vorletzte Probe Tasche!
-        _it: Penultimo cestino da provare!
+        _de: Vorletzter Probe Korb!
+        _it: Penultima cesta da provare!
+        _nl: Voorlaatste proefmand!
+      basket_second_last_trial/cone:
+        _en: Second to last trial cone!
+        _fr: Avant-dernier cornet à l'essai!
+        _de: Vorletzte Probe Tüte!
+        _it: Penultimo cono da provare!
+        _nl: Voorlaatste proefzak!
+      basket_second_last_trial/package:
+        _en: Second to last trial package!
+        _fr: Avant-dernier colis à l'essai!
+        _de: Vorletztes Probe Paket!
+        _it: Penultimo pacco da provare!
         _nl: Voorlaatste proefpakket!
+      basket_second_last_trial/share:
+        _en: Second to last trial share!
+        _fr: Avant-dernière part à l'essai!
+        _de: Vorletzter Probe Anteil!
+        _it: Penultima parte da provare!
+        _nl: Voorlaatste proefdeel!
       bidding_round_completed:
         _en: "Bidding round #{{ bidding_round.number }} completed \U0001F389"
         _fr: "Tour d'engagement n°{{ bidding_round.number }} terminé \U0001F389"
@@ -140,12 +308,36 @@ _:
         _it: Rinnovo del vostro abbonamento (promemoria)
         _nl: Vernieuw uw lidmaatschap (herinnering)
     description:
-      absence_baskets_shifted:
+      absence_baskets_shifted/bag:
+        _en: Sent when one or more bags are shifted during an absence, by a member or an admin.
+        _fr: Envoyé quand un ou plusieurs sacs sont déplacés durant une absence, par un membre ou un admin.
+        _de: Wird gesendet, wenn eine oder mehrere Taschen während einer Abwesenheit von einem Mitglied oder einem Admin verschoben werden.
+        _it: Inviato quando una o più borse vengono spostate durante un'assenza, da un socio o da un admin.
+        _nl: Verzonden wanneer een of meer tassen worden verschoven tijdens een afwezigheid, door een lid of een beheerder.
+      absence_baskets_shifted/basket:
         _en: Sent when one or more baskets are shifted during an absence, by a member or an admin.
         _fr: Envoyé quand un ou plusieurs paniers sont déplacés durant une absence, par un membre ou un admin.
-        _de: Wird gesendet, wenn eine oder mehrere Taschen während einer Abwesenheit von einem Mitglied oder einem Admin verschoben werden.
-        _it: Inviato quando uno o più cestini vengono spostati durante un'assenza, da un socio o da un admin.
+        _de: Wird gesendet, wenn eine oder mehrere Körbe während einer Abwesenheit von einem Mitglied oder einem Admin verschoben werden.
+        _it: Inviato quando una o più ceste vengono spostate durante un'assenza, da un socio o da un admin.
+        _nl: Verzonden wanneer een of meer manden worden verschoven tijdens een afwezigheid, door een lid of een beheerder.
+      absence_baskets_shifted/cone:
+        _en: Sent when one or more cones are shifted during an absence, by a member or an admin.
+        _fr: Envoyé quand un ou plusieurs cornets sont déplacés durant une absence, par un membre ou un admin.
+        _de: Wird gesendet, wenn eine oder mehrere Tüten während einer Abwesenheit von einem Mitglied oder einem Admin verschoben werden.
+        _it: Inviato quando uno o più coni vengono spostati durante un'assenza, da un socio o da un admin.
+        _nl: Verzonden wanneer een of meer zakken worden verschoven tijdens een afwezigheid, door een lid of een beheerder.
+      absence_baskets_shifted/package:
+        _en: Sent when one or more packages are shifted during an absence, by a member or an admin.
+        _fr: Envoyé quand un ou plusieurs colis sont déplacés durant une absence, par un membre ou un admin.
+        _de: Wird gesendet, wenn eine oder mehrere Pakete während einer Abwesenheit von einem Mitglied oder einem Admin verschoben werden.
+        _it: Inviato quando uno o più pacchi vengono spostati durante un'assenza, da un socio o da un admin.
         _nl: Verzonden wanneer een of meer pakketten worden verschoven tijdens een afwezigheid, door een lid of een beheerder.
+      absence_baskets_shifted/share:
+        _en: Sent when one or more shares are shifted during an absence, by a member or an admin.
+        _fr: Envoyé quand une ou plusieurs parts sont déplacées durant une absence, par un membre ou un admin.
+        _de: Wird gesendet, wenn eine oder mehrere Anteile während einer Abwesenheit von einem Mitglied oder einem Admin verschoben werden.
+        _it: Inviato quando uno o più parti vengono spostati durante un'assenza, da un socio o da un admin.
+        _nl: Verzonden wanneer een of meer delen worden verschoven tijdens een afwezigheid, door een lid of een beheerder.
       absence_created:
         _en: Sent when an absence is created, by a member or an admin.
         _fr: Envoyé quand une absence est créée, par un membre ou un admin.
@@ -176,42 +368,186 @@ _:
         _de: Wird gesendet, wenn die Teilnahme an einer Aktivität bestätigt wird.
         _it: Inviato quando viene convalidata una partecipazione a un'attività.
         _nl: Verzonden wanneer deelname aan een activiteit wordt bevestigd.
-      basket_final:
+      basket_final/bag:
+        _en: Sent on the delivery day of the member's very last bag, in case the membership is canceled.
+        _fr: Envoyé le jour de la livraison du tout dernier sac du membre, dans le cas où l'abonnement est résilié.
+        _de: Wird gesendet am Tag der Auslieferung der allerletzten Tasche des Mitglieds, falls das Abonnement gekündigt wird.
+        _it: Inviato il giorno della consegna dell'ultima borsa del socio, nel caso in cui l'abbonamento viene terminato.
+        _nl: Verzonden op de leveringsdag van de allerlaatste tas van het lid, indien het lidmaatschap wordt opgezegd.
+      basket_final/basket:
         _en: Sent on the delivery day of the member's very last basket, in case the membership is canceled.
         _fr: Envoyé le jour de la livraison du tout dernier panier du membre, dans le cas où l'abonnement est résilié.
-        _de: Wird gesendet am Tag der Auslieferung der allerletzten Tasche des Mitglieds, falls das Abonnement gekündigt wird.
-        _it: Inviato il giorno della consegna dell'ultimo cestino del socio, nel caso in cui l'abbonamento viene terminato.
+        _de: Wird gesendet am Tag der Auslieferung des allerletzten Korbs des Mitglieds, falls das Abonnement gekündigt wird.
+        _it: Inviato il giorno della consegna dell'ultima cesta del socio, nel caso in cui l'abbonamento viene terminato.
+        _nl: Verzonden op de leveringsdag van de allerlaatste mand van het lid, indien het lidmaatschap wordt opgezegd.
+      basket_final/cone:
+        _en: Sent on the delivery day of the member's very last cone, in case the membership is canceled.
+        _fr: Envoyé le jour de la livraison du tout dernier cornet du membre, dans le cas où l'abonnement est résilié.
+        _de: Wird gesendet am Tag der Auslieferung der allerletzten Tüte des Mitglieds, falls das Abonnement gekündigt wird.
+        _it: Inviato il giorno della consegna dell'ultimo cono del socio, nel caso in cui l'abbonamento viene terminato.
+        _nl: Verzonden op de leveringsdag van de allerlaatste zak van het lid, indien het lidmaatschap wordt opgezegd.
+      basket_final/package:
+        _en: Sent on the delivery day of the member's very last package, in case the membership is canceled.
+        _fr: Envoyé le jour de la livraison du tout dernier colis du membre, dans le cas où l'abonnement est résilié.
+        _de: Wird gesendet am Tag der Auslieferung des allerletzten Pakets des Mitglieds, falls das Abonnement gekündigt wird.
+        _it: Inviato il giorno della consegna dell'ultimo pacco del socio, nel caso in cui l'abbonamento viene terminato.
         _nl: Verzonden op de leveringsdag van het allerlaatste pakket van het lid, indien het lidmaatschap wordt opgezegd.
-      basket_first:
+      basket_final/share:
+        _en: Sent on the delivery day of the member's very last share, in case the membership is canceled.
+        _fr: Envoyé le jour de la livraison de la toute dernière part du membre, dans le cas où l'abonnement est résilié.
+        _de: Wird gesendet am Tag der Auslieferung des allerletzten Anteils des Mitglieds, falls das Abonnement gekündigt wird.
+        _it: Inviato il giorno della consegna dell'ultima parte del socio, nel caso in cui l'abbonamento viene terminato.
+        _nl: Verzonden op de leveringsdag van het allerlaatste deel van het lid, indien het lidmaatschap wordt opgezegd.
+      basket_first/bag:
+        _en: Sent on the delivery day of the first bag of each membership, each fiscal year.
+        _fr: Envoyé le jour de la livraison du premier sac de chaque abonnement, chaque année fiscale.
+        _de: Wird gesendet am Tag der Auslieferung der ersten Tasche jedes Abonnements, jedes Geschäftsjahr.
+        _it: Inviato il giorno della consegna della prima borsa di ogni abbonamento, ogni anno fiscale.
+        _nl: Verzonden op de leveringsdag van de eerste tas van elk lidmaatschap, elk boekjaar.
+      basket_first/basket:
         _en: Sent on the delivery day of the first basket of each membership, each fiscal year.
         _fr: Envoyé le jour de la livraison du premier panier de chaque abonnement, chaque année fiscale.
-        _de: Wird gesendet am Tag der Auslieferung der ersten Tasche jedes Abonnements, jedes Geschäftsjahr.
-        _it: Inviato il giorno della consegna del primo cestino di ogni abbonamento, ogni anno fiscale.
+        _de: Wird gesendet am Tag der Auslieferung des ersten Korbs jedes Abonnements, jedes Geschäftsjahr.
+        _it: Inviato il giorno della consegna della prima cesta di ogni abbonamento, ogni anno fiscale.
+        _nl: Verzonden op de leveringsdag van de eerste mand van elk lidmaatschap, elk boekjaar.
+      basket_first/cone:
+        _en: Sent on the delivery day of the first cone of each membership, each fiscal year.
+        _fr: Envoyé le jour de la livraison du premier cornet de chaque abonnement, chaque année fiscale.
+        _de: Wird gesendet am Tag der Auslieferung der ersten Tüte jedes Abonnements, jedes Geschäftsjahr.
+        _it: Inviato il giorno della consegna del primo cono di ogni abbonamento, ogni anno fiscale.
+        _nl: Verzonden op de leveringsdag van de eerste zak van elk lidmaatschap, elk boekjaar.
+      basket_first/package:
+        _en: Sent on the delivery day of the first package of each membership, each fiscal year.
+        _fr: Envoyé le jour de la livraison du premier colis de chaque abonnement, chaque année fiscale.
+        _de: Wird gesendet am Tag der Auslieferung des ersten Pakets jedes Abonnements, jedes Geschäftsjahr.
+        _it: Inviato il giorno della consegna del primo pacco di ogni abbonamento, ogni anno fiscale.
         _nl: Verzonden op de leveringsdag van het eerste pakket van elk lidmaatschap, elk boekjaar.
-      basket_initial:
+      basket_first/share:
+        _en: Sent on the delivery day of the first share of each membership, each fiscal year.
+        _fr: Envoyé le jour de la livraison de la première part de chaque abonnement, chaque année fiscale.
+        _de: Wird gesendet am Tag der Auslieferung des ersten Anteils jedes Abonnements, jedes Geschäftsjahr.
+        _it: Inviato il giorno della consegna della prima parte di ogni abbonamento, ogni anno fiscale.
+        _nl: Verzonden op de leveringsdag van het eerste deel van elk lidmaatschap, elk boekjaar.
+      basket_initial/bag:
+        _en: Sent on the delivery day of the member's very first bag. Sent only once, unless the member resubscribes after an interruption.
+        _fr: Envoyé le jour de la livraison du tout premier sac du membre. Envoyé une seule fois, à moins que le membre ne se réabonne après une interruption.
+        _de: Wird gesendet am Tag der Auslieferung der allerersten Tasche des Mitglieds. Wird nur einmal gesendet, es sei denn, das Mitglied abonniert sich nach einer Unterbrechung erneut.
+        _it: Inviato il giorno della consegna della prima borsa in assoluto del socio. Inviato una sola volta, a meno che il socio non si riabboni dopo un'interruzione.
+        _nl: Verzonden op de leveringsdag van de allereerste tas van het lid. Slechts één keer verzonden, tenzij het lid opnieuw inschrijft na een onderbreking.
+      basket_initial/basket:
         _en: Sent on the delivery day of the member's very first basket. Sent only once, unless the member resubscribes after an interruption.
         _fr: Envoyé le jour de la livraison du tout premier panier du membre. Envoyé une seule fois, à moins que le membre ne se réabonne après une interruption.
-        _de: Wird gesendet am Tag der Auslieferung der allerersten Tasche des Mitglieds. Wird nur einmal gesendet, es sei denn, das Mitglied abonniert sich nach einer Unterbrechung erneut.
-        _it: Inviato il giorno della consegna del primo cestino in assoluto del socio. Inviato una sola volta, a meno che il socio non si riabboni dopo un'interruzione.
+        _de: Wird gesendet am Tag der Auslieferung des allerersten Korbs des Mitglieds. Wird nur einmal gesendet, es sei denn, das Mitglied abonniert sich nach einer Unterbrechung erneut.
+        _it: Inviato il giorno della consegna della prima cesta in assoluto del socio. Inviato una sola volta, a meno che il socio non si riabboni dopo un'interruzione.
+        _nl: Verzonden op de leveringsdag van de allereerste mand van het lid. Slechts één keer verzonden, tenzij het lid opnieuw inschrijft na een onderbreking.
+      basket_initial/cone:
+        _en: Sent on the delivery day of the member's very first cone. Sent only once, unless the member resubscribes after an interruption.
+        _fr: Envoyé le jour de la livraison du tout premier cornet du membre. Envoyé une seule fois, à moins que le membre ne se réabonne après une interruption.
+        _de: Wird gesendet am Tag der Auslieferung der allerersten Tüte des Mitglieds. Wird nur einmal gesendet, es sei denn, das Mitglied abonniert sich nach einer Unterbrechung erneut.
+        _it: Inviato il giorno della consegna del primo cono in assoluto del socio. Inviato una sola volta, a meno che il socio non si riabboni dopo un'interruzione.
+        _nl: Verzonden op de leveringsdag van de allereerste zak van het lid. Slechts één keer verzonden, tenzij het lid opnieuw inschrijft na een onderbreking.
+      basket_initial/package:
+        _en: Sent on the delivery day of the member's very first package. Sent only once, unless the member resubscribes after an interruption.
+        _fr: Envoyé le jour de la livraison du tout premier colis du membre. Envoyé une seule fois, à moins que le membre ne se réabonne après une interruption.
+        _de: Wird gesendet am Tag der Auslieferung des allerersten Pakets des Mitglieds. Wird nur einmal gesendet, es sei denn, das Mitglied abonniert sich nach einer Unterbrechung erneut.
+        _it: Inviato il giorno della consegna del primo pacco in assoluto del socio. Inviato una sola volta, a meno che il socio non si riabboni dopo un'interruzione.
         _nl: Verzonden op de leveringsdag van het allereerste pakket van het lid. Slechts één keer verzonden, tenzij het lid opnieuw inschrijft na een onderbreking.
-      basket_last:
+      basket_initial/share:
+        _en: Sent on the delivery day of the member's very first share. Sent only once, unless the member resubscribes after an interruption.
+        _fr: Envoyé le jour de la livraison de la toute première part du membre. Envoyé une seule fois, à moins que le membre ne se réabonne après une interruption.
+        _de: Wird gesendet am Tag der Auslieferung des allerersten Anteils des Mitglieds. Wird nur einmal gesendet, es sei denn, das Mitglied abonniert sich nach einer Unterbrechung erneut.
+        _it: Inviato il giorno della consegna della prima parte in assoluto del socio. Inviato una sola volta, a meno che il socio non si riabboni dopo un'interruzione.
+        _nl: Verzonden op de leveringsdag van het allereerste deel van het lid. Slechts één keer verzonden, tenzij het lid opnieuw inschrijft na een onderbreking.
+      basket_last/bag:
+        _en: Sent on the delivery day of the last bag of each membership, only if the membership is renewed.
+        _fr: Envoyé le jour de la livraison du dernier sac de chaque abonnement, uniquement si l'abonnement est renouvelé.
+        _de: Wird gesendet am Tag der Auslieferung der letzten Tasche jedes Abonnements, nur wenn das Abonnement verlängert wird.
+        _it: Inviato il giorno della consegna dell'ultima borsa di ogni abbonamento, solo se l'abbonamento viene rinnovato.
+        _nl: Verzonden op de leveringsdag van de laatste tas van elk lidmaatschap, alleen als het lidmaatschap wordt vernieuwd.
+      basket_last/basket:
         _en: Sent on the delivery day of the last basket of each membership, only if the membership is renewed.
         _fr: Envoyé le jour de la livraison du dernier panier de chaque abonnement, uniquement si l'abonnement est renouvelé.
-        _de: Wird gesendet am Tag der Auslieferung der letzten Tasche jedes Abonnements, nur wenn das Abonnement verlängert wird.
-        _it: Inviato il giorno della consegna dell'ultimo cestino di ogni abbonamento, solo se l'abbonamento viene rinnovato.
+        _de: Wird gesendet am Tag der Auslieferung des letzten Korbs jedes Abonnements, nur wenn das Abonnement verlängert wird.
+        _it: Inviato il giorno della consegna dell'ultima cesta di ogni abbonamento, solo se l'abbonamento viene rinnovato.
+        _nl: Verzonden op de leveringsdag van de laatste mand van elk lidmaatschap, alleen als het lidmaatschap wordt vernieuwd.
+      basket_last/cone:
+        _en: Sent on the delivery day of the last cone of each membership, only if the membership is renewed.
+        _fr: Envoyé le jour de la livraison du dernier cornet de chaque abonnement, uniquement si l'abonnement est renouvelé.
+        _de: Wird gesendet am Tag der Auslieferung der letzten Tüte jedes Abonnements, nur wenn das Abonnement verlängert wird.
+        _it: Inviato il giorno della consegna dell'ultimo cono di ogni abbonamento, solo se l'abbonamento viene rinnovato.
+        _nl: Verzonden op de leveringsdag van de laatste zak van elk lidmaatschap, alleen als het lidmaatschap wordt vernieuwd.
+      basket_last/package:
+        _en: Sent on the delivery day of the last package of each membership, only if the membership is renewed.
+        _fr: Envoyé le jour de la livraison du dernier colis de chaque abonnement, uniquement si l'abonnement est renouvelé.
+        _de: Wird gesendet am Tag der Auslieferung des letzten Pakets jedes Abonnements, nur wenn das Abonnement verlängert wird.
+        _it: Inviato il giorno della consegna dell'ultimo pacco di ogni abbonamento, solo se l'abbonamento viene rinnovato.
         _nl: Verzonden op de leveringsdag van het laatste pakket van elk lidmaatschap, alleen als het lidmaatschap wordt vernieuwd.
-      basket_last_trial:
+      basket_last/share:
+        _en: Sent on the delivery day of the last share of each membership, only if the membership is renewed.
+        _fr: Envoyé le jour de la livraison de la dernière part de chaque abonnement, uniquement si l'abonnement est renouvelé.
+        _de: Wird gesendet am Tag der Auslieferung des letzten Anteils jedes Abonnements, nur wenn das Abonnement verlängert wird.
+        _it: Inviato il giorno della consegna dell'ultima parte di ogni abbonamento, solo se l'abbonamento viene rinnovato.
+        _nl: Verzonden op de leveringsdag van het laatste deel van elk lidmaatschap, alleen als het lidmaatschap wordt vernieuwd.
+      basket_last_trial/bag:
+        _en: Sent on the day of delivery of the last trial bag to ask the member if they wish to continue their membership until the end of the fiscal year.
+        _fr: Envoyé le jour de la livraison du dernier sac à l'essai afin de demander au membre si il désire continuer son abonnement jusqu'à la fin de l'année fiscale.
+        _de: Wird gesendet am Tag der Auslieferung der letzten Probe-Tasche, um das Mitglied zu fragen, ob es sein Abonnement bis zum Ende des Geschäftsjahres fortsetzen möchte.
+        _it: Inviato il giorno della consegna dell'ultima borsa di prova per chiedere al socio se desidera continuare il suo abbonamento fino alla fine dell'anno fiscale.
+        _nl: Verzonden op de leveringsdag van de laatste proeftas om het lid te vragen of ze hun lidmaatschap tot het einde van het boekjaar willen voortzetten.
+      basket_last_trial/basket:
         _en: Sent on the day of delivery of the last trial basket to ask the member if they wish to continue their membership until the end of the fiscal year.
         _fr: Envoyé le jour de la livraison du dernier panier à l'essai afin de demander au membre si il désire continuer son abonnement jusqu'à la fin de l'année fiscale.
-        _de: Wird gesendet am Tag der Auslieferung der letzten Probe-Tasche, um das Mitglied zu fragen, ob es sein Abonnement bis zum Ende des Geschäftsjahres fortsetzen möchte.
-        _it: Inviato il giorno della consegna dell'ultimo cestino di prova per chiedere al socio se desidera continuare il suo abbonamento fino alla fine dell'anno fiscale.
+        _de: Wird gesendet am Tag der Auslieferung des letzten Probe-Korbs, um das Mitglied zu fragen, ob es sein Abonnement bis zum Ende des Geschäftsjahres fortsetzen möchte.
+        _it: Inviato il giorno della consegna dell'ultima cesta di prova per chiedere al socio se desidera continuare il suo abbonamento fino alla fine dell'anno fiscale.
+        _nl: Verzonden op de leveringsdag van de laatste proefmand om het lid te vragen of ze hun lidmaatschap tot het einde van het boekjaar willen voortzetten.
+      basket_last_trial/cone:
+        _en: Sent on the day of delivery of the last trial cone to ask the member if they wish to continue their membership until the end of the fiscal year.
+        _fr: Envoyé le jour de la livraison du dernier cornet à l'essai afin de demander au membre si il désire continuer son abonnement jusqu'à la fin de l'année fiscale.
+        _de: Wird gesendet am Tag der Auslieferung der letzten Probe-Tüte, um das Mitglied zu fragen, ob es sein Abonnement bis zum Ende des Geschäftsjahres fortsetzen möchte.
+        _it: Inviato il giorno della consegna dell'ultimo cono di prova per chiedere al socio se desidera continuare il suo abbonamento fino alla fine dell'anno fiscale.
+        _nl: Verzonden op de leveringsdag van de laatste proefzak om het lid te vragen of ze hun lidmaatschap tot het einde van het boekjaar willen voortzetten.
+      basket_last_trial/package:
+        _en: Sent on the day of delivery of the last trial package to ask the member if they wish to continue their membership until the end of the fiscal year.
+        _fr: Envoyé le jour de la livraison du dernier colis à l'essai afin de demander au membre si il désire continuer son abonnement jusqu'à la fin de l'année fiscale.
+        _de: Wird gesendet am Tag der Auslieferung des letzten Probe-Pakets, um das Mitglied zu fragen, ob es sein Abonnement bis zum Ende des Geschäftsjahres fortsetzen möchte.
+        _it: Inviato il giorno della consegna dell'ultimo pacco di prova per chiedere al socio se desidera continuare il suo abbonamento fino alla fine dell'anno fiscale.
         _nl: Verzonden op de leveringsdag van het laatste proefpakket om het lid te vragen of ze hun lidmaatschap tot het einde van het boekjaar willen voortzetten.
-      basket_second_last_trial:
+      basket_last_trial/share:
+        _en: Sent on the day of delivery of the last trial share to ask the member if they wish to continue their membership until the end of the fiscal year.
+        _fr: Envoyé le jour de la livraison de la dernière part à l'essai afin de demander au membre si il désire continuer son abonnement jusqu'à la fin de l'année fiscale.
+        _de: Wird gesendet am Tag der Auslieferung des letzten Probe-Anteils, um das Mitglied zu fragen, ob es sein Abonnement bis zum Ende des Geschäftsjahres fortsetzen möchte.
+        _it: Inviato il giorno della consegna dell'ultima parte di prova per chiedere al socio se desidera continuare il suo abbonamento fino alla fine dell'anno fiscale.
+        _nl: Verzonden op de leveringsdag van het laatste proefdeel om het lid te vragen of ze hun lidmaatschap tot het einde van het boekjaar willen voortzetten.
+      basket_second_last_trial/bag:
+        _en: Sent on the day of delivery of the second to last trial bag, one bag earlier than the last trial bag email.
+        _fr: Envoyé le jour de la livraison de l'avant-dernier sac à l'essai, un sac avant l'email du dernier sac à l'essai.
+        _de: Wird gesendet am Tag der Auslieferung der vorletzten Probe-Tasche, eine Tasche früher als die E-Mail der letzten Probe-Tasche.
+        _it: Inviato il giorno della consegna della penultima borsa di prova, una borsa prima dell'email dell'ultima borsa di prova.
+        _nl: Verzonden op de leveringsdag van de voorlaatste proeftas, één tas eerder dan de e-mail van de laatste proeftas.
+      basket_second_last_trial/basket:
         _en: Sent on the day of delivery of the second to last trial basket, one basket earlier than the last trial basket email.
         _fr: Envoyé le jour de la livraison de l'avant-dernier panier à l'essai, un panier avant l'email du dernier panier à l'essai.
-        _de: Wird gesendet am Tag der Auslieferung der vorletzten Probe-Tasche, eine Tasche früher als die E-Mail der letzten Probe-Tasche.
-        _it: Inviato il giorno della consegna del penultimo cestino di prova, un cestino prima dell'email dell'ultimo cestino di prova.
+        _de: Wird gesendet am Tag der Auslieferung des vorletzten Probe-Korbs, einen Korb früher als die E-Mail des letzten Probe-Korbs.
+        _it: Inviato il giorno della consegna della penultima cesta di prova, una cesta prima dell'email dell'ultima cesta di prova.
+        _nl: Verzonden op de leveringsdag van de voorlaatste proefmand, één mand eerder dan de e-mail van de laatste proefmand.
+      basket_second_last_trial/cone:
+        _en: Sent on the day of delivery of the second to last trial cone, one cone earlier than the last trial cone email.
+        _fr: Envoyé le jour de la livraison de l'avant-dernier cornet à l'essai, un cornet avant l'email du dernier cornet à l'essai.
+        _de: Wird gesendet am Tag der Auslieferung der vorletzten Probe-Tüte, eine Tüte früher als die E-Mail der letzten Probe-Tüte.
+        _it: Inviato il giorno della consegna del penultimo cono di prova, un cono prima dell'email dell'ultimo cono di prova.
+        _nl: Verzonden op de leveringsdag van de voorlaatste proefzak, één zak eerder dan de e-mail van de laatste proefzak.
+      basket_second_last_trial/package:
+        _en: Sent on the day of delivery of the second to last trial package, one package earlier than the last trial package email.
+        _fr: Envoyé le jour de la livraison de l'avant-dernier colis à l'essai, un colis avant l'email du dernier colis à l'essai.
+        _de: Wird gesendet am Tag der Auslieferung des vorletzten Probe-Pakets, ein Paket früher als die E-Mail des letzten Probe-Pakets.
+        _it: Inviato il giorno della consegna del penultimo pacco di prova, un pacco prima dell'email dell'ultimo pacco di prova.
         _nl: Verzonden op de leveringsdag van het voorlaatste proefpakket, één pakket eerder dan de e-mail van het laatste proefpakket.
+      basket_second_last_trial/share:
+        _en: Sent on the day of delivery of the second to last trial share, one share earlier than the last trial share email.
+        _fr: Envoyé le jour de la livraison de l'avant-dernière part à l'essai, une part avant l'email de la dernière part à l'essai.
+        _de: Wird gesendet am Tag der Auslieferung des vorletzten Probe-Anteils, einen Anteil früher als die E-Mail des letzten Probe-Anteils.
+        _it: Inviato il giorno della consegna della penultima parte di prova, una parte prima dell'email dell'ultima parte di prova.
+        _nl: Verzonden op de leveringsdag van het voorlaatste proefdeel, één deel eerder dan de e-mail van het laatste proefdeel.
       bidding_round_completed:
         _en: Sent to notify the members that the bidding round has been completed with success. Sent to all eligible members, even if they have not pledged.
         _fr: Envoyé pour informer les membres que le tour d'engagement est terminé avec succès. Envoyé à tous les membres concernés, même s'ils n'ont pas fixé leur montant.
@@ -279,12 +615,36 @@ _:
         _it: Inviato per ricordare al socio che non ha ancora completato il modulo di rinnovo dell'abbonamento (vedi <a href='/settings#membership_renewal'>parametri</a> per le scadenze).
         _nl: Verzonden om het lid eraan te herinneren dat ze het formulier voor lidmaatschapsvernieuwing nog niet hebben ingevuld (zie <a href='/settings#membership_renewal'>instellingen</a> voor de deadline).
     title:
-      absence_baskets_shifted:
+      absence_baskets_shifted/bag:
+        _en: Bag(s) Shifted
+        _fr: Sac(s) déplacé(s)
+        _de: Tasche(n) verschoben
+        _it: Borsa/e spostata/e
+        _nl: Tas(sen) verschoven
+      absence_baskets_shifted/basket:
         _en: Basket(s) Shifted
         _fr: Panier(s) déplacé(s)
-        _de: Tasche(n) verschoben
-        _it: Cestino/i spostato/i
+        _de: Korb/Körbe verschoben
+        _it: Cesta/e spostata/e
+        _nl: Mand(en) verschoven
+      absence_baskets_shifted/cone:
+        _en: Cone(s) Shifted
+        _fr: Cornet(s) déplacé(s)
+        _de: Tüte(n) verschoben
+        _it: Cono/i spostato/i
+        _nl: Zak(ken) verschoven
+      absence_baskets_shifted/package:
+        _en: Package(s) Shifted
+        _fr: Colis déplacé(s)
+        _de: Paket(e) verschoben
+        _it: Pacco/i spostato/i
         _nl: Pakket(ten) verschoven
+      absence_baskets_shifted/share:
+        _en: Share(s) Shifted
+        _fr: Part(s) déplacée(s)
+        _de: Anteil(e) verschoben
+        _it: Parte/i spostata/e
+        _nl: Deel/Delen verschoven
       absence_created:
         _en: New absence
         _fr: Nouvelle absence
@@ -315,64 +675,208 @@ _:
         _de: Bestätigte Aktivität
         _it: Attività confermata
         _nl: Activiteit bevestigd
-      basket_final:
+      basket_final/bag:
+        _en: Final Bag
+        _fr: Sac final
+        _de: Endgültige Tasche
+        _it: Borsa finale
+        _nl: Laatste tas
+      basket_final/basket:
         _en: Final Basket
         _fr: Panier final
-        _de: Endgültige Tasche
-        _it: Cestino finale
+        _de: Endgültiger Korb
+        _it: Cesta finale
+        _nl: Laatste mand
+      basket_final/cone:
+        _en: Final Cone
+        _fr: Cornet final
+        _de: Endgültige Tüte
+        _it: Cono finale
+        _nl: Laatste zak
+      basket_final/package:
+        _en: Final Package
+        _fr: Colis final
+        _de: Endgültiges Paket
+        _it: Pacco finale
         _nl: Laatste pakket
-      basket_first:
+      basket_final/share:
+        _en: Final Share
+        _fr: Part final
+        _de: Endgültiger Anteil
+        _it: Parte finale
+        _nl: Laatste deel
+      basket_first/bag:
+        _en: First Bag
+        _fr: Premier sac
+        _de: Erste Tasche
+        _it: Prima borsa
+        _nl: Eerste tas
+      basket_first/basket:
         _en: First Basket
         _fr: Premier panier
-        _de: Erste Tasche
-        _it: Primo cestino
+        _de: Erster Korb
+        _it: Prima cesta
+        _nl: Eerste mand
+      basket_first/cone:
+        _en: First Cone
+        _fr: Premier cornet
+        _de: Erste Tüte
+        _it: Primo cono
+        _nl: Eerste zak
+      basket_first/package:
+        _en: First Package
+        _fr: Premier colis
+        _de: Erstes Paket
+        _it: Primo pacco
         _nl: Eerste pakket
-      basket_initial:
+      basket_first/share:
+        _en: First Share
+        _fr: Première part
+        _de: Erster Anteil
+        _it: Prima parte
+        _nl: Eerste deel
+      basket_initial/bag:
+        _en: Initial Bag
+        _fr: Sac initial
+        _de: Initiale Tasche
+        _it: Borsa iniziale
+        _nl: Eerste tas
+      basket_initial/basket:
         _en: Initial Basket
         _fr: Panier initial
-        _de: Initiale Tasche
-        _it: Cestino iniziale
+        _de: Initialer Korb
+        _it: Cesta iniziale
+        _nl: Eerste mand
+      basket_initial/cone:
+        _en: Initial Cone
+        _fr: Cornet initial
+        _de: Initiale Tüte
+        _it: Cono iniziale
+        _nl: Eerste zak
+      basket_initial/package:
+        _en: Initial Package
+        _fr: Colis initial
+        _de: Initiales Paket
+        _it: Pacco iniziale
         _nl: Eerste pakket
-      basket_last:
+      basket_initial/share:
+        _en: Initial Share
+        _fr: Part initial
+        _de: Initialer Anteil
+        _it: Parte iniziale
+        _nl: Eerste deel
+      basket_last/bag:
+        _en: Last Bag
+        _fr: Dernier sac
+        _de: Letzte Tasche
+        _it: Ultima borsa
+        _nl: Laatste tas
+      basket_last/basket:
         _en: Last Basket
         _fr: Dernier panier
-        _de: Letzte Tasche
-        _it: Ultimo cestino
+        _de: Letzter Korb
+        _it: Ultima cesta
+        _nl: Laatste mand
+      basket_last/cone:
+        _en: Last Cone
+        _fr: Dernier cornet
+        _de: Letzte Tüte
+        _it: Ultimo cono
+        _nl: Laatste zak
+      basket_last/package:
+        _en: Last Package
+        _fr: Dernier colis
+        _de: Letztes Paket
+        _it: Ultimo pacco
         _nl: Laatste pakket
-      basket_last_trial:
+      basket_last/share:
+        _en: Last Share
+        _fr: Dernière part
+        _de: Letzter Anteil
+        _it: Ultima parte
+        _nl: Laatste deel
+      basket_last_trial/bag:
+        _en: Last trial bag
+        _fr: Dernier sac à l'essai
+        _de: Letzte Probe Tasche
+        _it: Ultima borsa da provare
+        _nl: Laatste proeftas
+      basket_last_trial/basket:
         _en: Last trial basket
         _fr: Dernier panier à l'essai
-        _de: Letzte Probe Tasche
-        _it: Ultimo cestino da provare
+        _de: Letzter Probe Korb
+        _it: Ultima cesta da provare
+        _nl: Laatste proefmand
+      basket_last_trial/cone:
+        _en: Last trial cone
+        _fr: Dernier cornet à l'essai
+        _de: Letzte Probe Tüte
+        _it: Ultimo cono da provare
+        _nl: Laatste proefzak
+      basket_last_trial/package:
+        _en: Last trial package
+        _fr: Dernier colis à l'essai
+        _de: Letztes Probe Paket
+        _it: Ultimo pacco da provare
         _nl: Laatste proefpakket
-      basket_second_last_trial:
+      basket_last_trial/share:
+        _en: Last trial share
+        _fr: Dernière part à l'essai
+        _de: Letzter Probe Anteil
+        _it: Ultima parte da provare
+        _nl: Laatste proefdeel
+      basket_second_last_trial/bag:
+        _en: Second to last trial bag
+        _fr: Avant-dernier sac à l'essai
+        _de: Vorletzte Probe Tasche
+        _it: Penultima borsa da provare
+        _nl: Voorlaatste proeftas
+      basket_second_last_trial/basket:
         _en: Second to last trial basket
         _fr: Avant-dernier panier à l'essai
-        _de: Vorletzte Probe Tasche
-        _it: Penultimo cestino da provare
+        _de: Vorletzter Probe Korb
+        _it: Penultima cesta da provare
+        _nl: Voorlaatste proefmand
+      basket_second_last_trial/cone:
+        _en: Second to last trial cone
+        _fr: Avant-dernier cornet à l'essai
+        _de: Vorletzte Probe Tüte
+        _it: Penultimo cono da provare
+        _nl: Voorlaatste proefzak
+      basket_second_last_trial/package:
+        _en: Second to last trial package
+        _fr: Avant-dernier colis à l'essai
+        _de: Vorletztes Probe Paket
+        _it: Penultimo pacco da provare
         _nl: Voorlaatste proefpakket
+      basket_second_last_trial/share:
+        _en: Second to last trial share
+        _fr: Avant-dernière part à l'essai
+        _de: Vorletzter Probe Anteil
+        _it: Penultima parte da provare
+        _nl: Voorlaatste proefdeel
       bidding_round_completed:
         _en: Bidding Round Completed
         _fr: Tour d'engagement terminé
-        _de: Gebotsrunde abgeschlossen
+        _de: Beitragsrunde abgeschlossen
         _it: Turno di offerta completato
         _nl: Biedronde afgerond
       bidding_round_failed:
         _en: Bidding Round Failed
         _fr: Tour d'engagement échoué
-        _de: Gebotsrunde fehlgeschlagen
+        _de: Beitragsrunde fehlgeschlagen
         _it: Turno di offerta fallito
         _nl: Biedronde mislukt
       bidding_round_opened:
         _en: Bidding Round Opened
         _fr: Tour d'engagement ouvert
-        _de: Gebotsrunde geöffnet
+        _de: Beitragsrunde geöffnet
         _it: Turno di offerta aperto
         _nl: Biedronde geopend
       bidding_round_opened_reminder:
         _en: Bidding Round Opened (reminder)
         _fr: Tour d'engagement ouvert (rappel)
-        _de: Gebotsrunde geöffnet (Erinnerung)
+        _de: Beitragsrunde geöffnet (Erinnerung)
         _it: Turno di offerta aperto (promemoria)
         _nl: Biedronde geopend (herinnering)
       invoice_cancelled:

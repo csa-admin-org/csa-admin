@@ -205,24 +205,96 @@ _:
           _de: abwesend
           _it: assente
           _nl: afwezig
-        basket_size:
+        basket_size/bag:
+          _en: Size
+          _fr: Taille
+          _de: Grösse
+          _it: Dimensione
+          _nl: Tasgrootte
+        basket_size/basket:
+          _en: Size
+          _fr: Taille
+          _de: Grösse
+          _it: Dimensione
+          _nl: Mandgrootte
+        basket_size/cone:
+          _en: Size
+          _fr: Taille
+          _de: Grösse
+          _it: Dimensione
+          _nl: Zakgrootte
+        basket_size/package:
           _en: Size
           _fr: Taille
           _de: Grösse
           _it: Dimensione
           _nl: Pakketgrootte
-        basket_size_id:
+        basket_size/share:
+          _en: Size
+          _fr: Taille
+          _de: Grösse
+          _it: Dimensione
+          _nl: Deelgrootte
+        basket_size_id/bag:
+          _en: Bag size ID
+          _fr: Taille sac ID
+          _de: Taschengrösse ID
+          _it: Dimensione borsa ID
+          _nl: Tasgrootte ID
+        basket_size_id/basket:
           _en: Basket size ID
           _fr: Taille panier ID
-          _de: Taschengrösse ID
+          _de: Korbgrösse ID
           _it: Dimensione cesta ID
+          _nl: Mandgrootte ID
+        basket_size_id/cone:
+          _en: Cone size ID
+          _fr: Taille cornet ID
+          _de: Tütengrösse ID
+          _it: Dimensione cono ID
+          _nl: Zakgrootte ID
+        basket_size_id/package:
+          _en: Package size ID
+          _fr: Taille colis ID
+          _de: Paketgrösse ID
+          _it: Dimensione pacco ID
           _nl: Pakketgrootte ID
-        basket_size_price:
+        basket_size_id/share:
+          _en: Share size ID
+          _fr: Taille part ID
+          _de: Anteilsgrösse ID
+          _it: Dimensione parte ID
+          _nl: Deelgrootte ID
+        basket_size_price/bag:
+          _en: Bag price
+          _fr: Prix sac
+          _de: Preis Tasche
+          _it: Prezzo della borsa
+          _nl: Tasprijs
+        basket_size_price/basket:
           _en: Basket price
           _fr: Prix panier
-          _de: Preis Tasche
+          _de: Preis Korb
           _it: Prezzo della cesta
+          _nl: Mandprijs
+        basket_size_price/cone:
+          _en: Cone price
+          _fr: Prix cornet
+          _de: Preis Tüte
+          _it: Prezzo del cono
+          _nl: Zakprijs
+        basket_size_price/package:
+          _en: Package price
+          _fr: Prix colis
+          _de: Preis Paket
+          _it: Prezzo del pacco
           _nl: Pakketprijs
+        basket_size_price/share:
+          _en: Share price
+          _fr: Prix part
+          _de: Preis Anteil
+          _it: Prezzo della parte
+          _nl: Deelprijs
         complement_ids:
           _en: Complements
           _fr: Compléments
@@ -253,12 +325,36 @@ _:
           _de: Preis Depot
           _it: Prezzo del punto di ritiro
           _nl: Depotprijs
-        description:
+        description/bag:
+          _en: Bag
+          _fr: Sac
+          _de: Tasche
+          _it: Borsa
+          _nl: Tas
+        description/basket:
           _en: Basket
           _fr: Panier
-          _de: Tasche
+          _de: Korb
           _it: Cesta
+          _nl: Mand
+        description/cone:
+          _en: Cone
+          _fr: Cornet
+          _de: Tüte
+          _it: Cono
+          _nl: Zak
+        description/package:
+          _en: Package
+          _fr: Colis
+          _de: Paket
+          _it: Pacco
           _nl: Pakket
+        description/share:
+          _en: Share
+          _fr: Part
+          _de: Anteil
+          _it: Parte
+          _nl: Deel
         member_id:
           _en: Member ID
           _fr: Membre ID
@@ -302,12 +398,36 @@ _:
           _de: Mengen
           _it: Quantità
           _nl: Hoeveelheden
-        basket_size:
+        basket_size/bag:
+          _en: Bag
+          _fr: Sac
+          _de: Tasche
+          _it: Borsa
+          _nl: Tas
+        basket_size/basket:
           _en: Basket
           _fr: Panier
-          _de: Tasche
+          _de: Korb
           _it: Cesta
+          _nl: Mand
+        basket_size/cone:
+          _en: Cone
+          _fr: Cornet
+          _de: Tüte
+          _it: Cono
+          _nl: Zak
+        basket_size/package:
+          _en: Package
+          _fr: Colis
+          _de: Paket
+          _it: Pacco
           _nl: Pakket
+        basket_size/share:
+          _en: Share
+          _fr: Part
+          _de: Anteil
+          _it: Parte
+          _nl: Deel
         content:
           _en: Content
           _fr: Contenu
@@ -444,12 +564,36 @@ _:
           _it: Aggiunte
           _nl: Aanvulling
       bidding_round:
-        default_basket_size_price:
+        default_basket_size_price/bag:
+          _en: Bag size price (default)
+          _fr: Prix par taille de sac (défaut)
+          _de: Richtwert pro Taschengrösse (Standard)
+          _it: Prezzo per borsa (predefinito)
+          _nl: Tasgrootte prijs (standaard)
+        default_basket_size_price/basket:
           _en: Basket size price (default)
           _fr: Prix par taille de panier (défaut)
-          _de: Richtwert pro Taschengrösse (Standard)
+          _de: Richtwert pro Korbgrösse (Standard)
           _it: Prezzo per cesta (predefinito)
+          _nl: Mandgrootte prijs (standaard)
+        default_basket_size_price/cone:
+          _en: Cone size price (default)
+          _fr: Prix par taille de cornet (défaut)
+          _de: Richtwert pro Tütengrösse (Standard)
+          _it: Prezzo per cono (predefinito)
+          _nl: Zakgrootte prijs (standaard)
+        default_basket_size_price/package:
+          _en: Package size price (default)
+          _fr: Prix par taille de colis (défaut)
+          _de: Richtwert pro Paketgrösse (Standard)
+          _it: Prezzo per pacco (predefinito)
           _nl: Pakketgrootte prijs (standaard)
+        default_basket_size_price/share:
+          _en: Share size price (default)
+          _fr: Prix par taille de part (défaut)
+          _de: Richtwert pro Anteilsgrösse (Standard)
+          _it: Prezzo per parte (predefinito)
+          _nl: Deelgrootte prijs (standaard)
         default_membership_price:
           _en: Membership price (default)
           _fr: Prix de l'abonnement (défaut)
@@ -462,12 +606,36 @@ _:
           _de: Versprochen am
           _it: Prestato il
           _nl: Toegezegd op
-        pledged_basket_size_price:
+        pledged_basket_size_price/bag:
+          _en: Bag size price (pledged)
+          _fr: Prix par taille de sac (engagé)
+          _de: Beitrag pro Taschengrösse (zugesagt)
+          _it: Prezzo per borsa (prestato)
+          _nl: Tasgrootte prijs (toegezegd)
+        pledged_basket_size_price/basket:
           _en: Basket size price (pledged)
           _fr: Prix par taille de panier (engagé)
-          _de: Beitrag pro Taschengrösse (zugesagt)
+          _de: Beitrag pro Korbgrösse (zugesagt)
           _it: Prezzo per cesta (prestato)
+          _nl: Mandgrootte prijs (toegezegd)
+        pledged_basket_size_price/cone:
+          _en: Cone size price (pledged)
+          _fr: Prix par taille de cornet (engagé)
+          _de: Beitrag pro Tütengrösse (zugesagt)
+          _it: Prezzo per cono (prestato)
+          _nl: Zakgrootte prijs (toegezegd)
+        pledged_basket_size_price/package:
+          _en: Package size price (pledged)
+          _fr: Prix par taille de colis (engagé)
+          _de: Beitrag pro Paketgrösse (zugesagt)
+          _it: Prezzo per pacco (prestato)
           _nl: Pakketgrootte prijs (toegezegd)
+        pledged_basket_size_price/share:
+          _en: Share size price (pledged)
+          _fr: Prix par taille de part (engagé)
+          _de: Beitrag pro Anteilsgrösse (zugesagt)
+          _it: Prezzo per parte (prestato)
+          _nl: Deelgrootte prijs (toegezegd)
         pledged_membership_price:
           _en: Membership price (pledged)
           _fr: Prix de l'abonnement (engagé)
@@ -475,31 +643,127 @@ _:
           _it: Prezzo abbonamento (prestato)
           _nl: Lidmaatschapsprijs (toegezegd)
       bidding_round/pledge:
-        basket_size_price:
+        basket_size_price/bag:
+          _en: Price per bag
+          _fr: Prix par sac
+          _de: Beitrag pro Tasche
+          _it: Prezzo per borsa
+          _nl: Prijs per tas
+        basket_size_price/basket:
           _en: Price per basket
           _fr: Prix par panier
-          _de: Beitrag pro Tasche
+          _de: Beitrag pro Korb
           _it: Prezzo per cesta
+          _nl: Prijs per mand
+        basket_size_price/cone:
+          _en: Price per cone
+          _fr: Prix par cornet
+          _de: Beitrag pro Tüte
+          _it: Prezzo per cono
+          _nl: Prijs per zak
+        basket_size_price/package:
+          _en: Price per package
+          _fr: Prix par colis
+          _de: Beitrag pro Paket
+          _it: Prezzo per pacco
           _nl: Prijs per pakket
+        basket_size_price/share:
+          _en: Price per share
+          _fr: Prix par part
+          _de: Beitrag pro Anteil
+          _it: Prezzo per parte
+          _nl: Prijs per deel
       delivery:
-        basket_complements:
+        basket_complements/bag:
+          _en: Bag complements
+          _fr: Compléments sacs
+          _de: Taschenzusätze
+          _it: Aggiunte nella borsa
+          _nl: Tasaanvullingen
+        basket_complements/basket:
           _en: Basket complements
           _fr: Compléments paniers
-          _de: Taschenzusätze
+          _de: Korbzusätze
           _it: Aggiunte nella cesta
+          _nl: Mandaanvullingen
+        basket_complements/cone:
+          _en: Cone complements
+          _fr: Compléments cornets
+          _de: Tütenzusätze
+          _it: Aggiunte nel cono
+          _nl: Zakaanvullingen
+        basket_complements/package:
+          _en: Package complements
+          _fr: Compléments colis
+          _de: Paketzusätze
+          _it: Aggiunte nel pacco
           _nl: Pakketaanvullingen
-        basket_size_price:
+        basket_complements/share:
+          _en: Share complements
+          _fr: Compléments parts
+          _de: Anteilszusätze
+          _it: Aggiunte nella parte
+          _nl: Deelaanvullingen
+        basket_size_price/bag:
+          _en: Bag size price
+          _fr: Prix taille de sac
+          _de: Preis pro Taschengrösse
+          _it: Prezzo per borsa
+          _nl: Prijs per tas
+        basket_size_price/basket:
           _en: Basket size price
           _fr: Prix taille de panier
-          _de: Preis pro Taschengröße
+          _de: Preis pro Korbgrösse
           _it: Prezzo per cesta
+          _nl: Prijs per mand
+        basket_size_price/cone:
+          _en: Cone size price
+          _fr: Prix taille de cornet
+          _de: Preis pro Tütengrösse
+          _it: Prezzo per cono
+          _nl: Prijs per zak
+        basket_size_price/package:
+          _en: Package size price
+          _fr: Prix taille de colis
+          _de: Preis pro Paketgrösse
+          _it: Prezzo per pacco
           _nl: Prijs per pakket
-        basket_size_price_percentage:
+        basket_size_price/share:
+          _en: Share size price
+          _fr: Prix taille de part
+          _de: Preis pro Anteilsgrösse
+          _it: Prezzo per parte
+          _nl: Prijs per deel
+        basket_size_price_percentage/bag:
+          _en: Bag size price change (in %)
+          _fr: Modification du prix de la taille de sac (en %)
+          _de: Taschengrössepreisänderung (in %)
+          _it: Modifica prezzo borsa (in %)
+          _nl: Tasgrootteprijsverandering (in %)
+        basket_size_price_percentage/basket:
           _en: Basket size price change (in %)
           _fr: Modification du prix de la taille de panier (en %)
-          _de: Taschengrössepreisänderung (in %)
+          _de: Korbgrössepreisänderung (in %)
           _it: Modifica prezzo cesta (in %)
+          _nl: Mandgrootteprijsverandering (in %)
+        basket_size_price_percentage/cone:
+          _en: Cone size price change (in %)
+          _fr: Modification du prix de la taille de cornet (en %)
+          _de: Tütengrössepreisänderung (in %)
+          _it: Modifica prezzo cono (in %)
+          _nl: Zakgrootteprijsverandering (in %)
+        basket_size_price_percentage/package:
+          _en: Package size price change (in %)
+          _fr: Modification du prix de la taille de colis (en %)
+          _de: Paketgrössepreisänderung (in %)
+          _it: Modifica prezzo pacco (in %)
           _nl: Pakketgrootteprijsverandering (in %)
+        basket_size_price_percentage/share:
+          _en: Share size price change (in %)
+          _fr: Modification du prix de la taille de part (en %)
+          _de: Anteilsgrössepreisänderung (in %)
+          _it: Modifica prezzo parte (in %)
+          _nl: Deelgrootteprijsverandering (in %)
         note:
           _en: Internal memo
           _fr: Note interne
@@ -970,18 +1234,66 @@ _:
           _it: Modello
           _nl: Sjabloon
       member:
-        basket_complements:
+        basket_complements/bag:
+          _en: Bag complements
+          _fr: Compléments sac
+          _de: Taschenzusätze
+          _it: Aggiunte nella borsa
+          _nl: Tasaanvullingen
+        basket_complements/basket:
           _en: Basket complements
           _fr: Compléments panier
-          _de: Taschenzusätze
+          _de: Korbzusätze
           _it: Aggiunte nella cesta
+          _nl: Mandaanvullingen
+        basket_complements/cone:
+          _en: Cone complements
+          _fr: Compléments cornet
+          _de: Tütenzusätze
+          _it: Aggiunte nel cono
+          _nl: Zakaanvullingen
+        basket_complements/package:
+          _en: Package complements
+          _fr: Compléments colis
+          _de: Paketzusätze
+          _it: Aggiunte nel pacco
           _nl: Pakketaanvullingen
-        basket_size:
+        basket_complements/share:
+          _en: Share complements
+          _fr: Compléments part
+          _de: Anteilszusätze
+          _it: Aggiunte nella parte
+          _nl: Deelaanvullingen
+        basket_size/bag:
+          _en: Bag size
+          _fr: Taille sac
+          _de: Taschengrösse
+          _it: Dimensione della borsa
+          _nl: Tasgrootte
+        basket_size/basket:
           _en: Basket size
           _fr: Taille panier
-          _de: Taschengrösse
+          _de: Korbgrösse
           _it: Dimensione della cesta
+          _nl: Mandgrootte
+        basket_size/cone:
+          _en: Cone size
+          _fr: Taille cornet
+          _de: Tütengrösse
+          _it: Dimensione del cono
+          _nl: Zakgrootte
+        basket_size/package:
+          _en: Package size
+          _fr: Taille colis
+          _de: Paketgrösse
+          _it: Dimensione del pacco
           _nl: Pakketgrootte
+        basket_size/share:
+          _en: Share size
+          _fr: Taille part
+          _de: Anteilsgrösse
+          _it: Dimensione della parte
+          _nl: Deelgrootte
         billing_city:
           _en: City (billing)
           _fr: Ville (facturation)
@@ -1018,11 +1330,35 @@ _:
           _de: Wie haben Sie von uns gehört?
           _it: Dove avete sentito parlare di noi?
           _nl: Hoe heeft u van ons gehoord?
-        contact_sharing:
+        contact_sharing/bag:
+          _en: Contact sharing
+          _fr: Cosacage
+          _de: Kontakt Teilen
+          _it: Condivisione ritiro borsa
+          _nl: Contactdeling
+        contact_sharing/basket:
           _en: Contact sharing
           _fr: Copaniérage
           _de: Kontakt Teilen
           _it: Condivisione ritiro cesta
+          _nl: Contactdeling
+        contact_sharing/cone:
+          _en: Contact sharing
+          _fr: Cocornérage
+          _de: Kontakt Teilen
+          _it: Condivisione ritiro cono
+          _nl: Contactdeling
+        contact_sharing/package:
+          _en: Contact sharing
+          _fr: Cocolisage
+          _de: Kontakt Teilen
+          _it: Condivisione ritiro pacco
+          _nl: Contactdeling
+        contact_sharing/share:
+          _en: Contact sharing
+          _fr: Copartage
+          _de: Kontakt Teilen
+          _it: Condivisione ritiro parte
           _nl: Contactdeling
         current_membership:
           _en: Membership (ongoing)
@@ -1030,12 +1366,36 @@ _:
           _de: Abonnement (laufend)
           _it: Abbonamento (in corso)
           _nl: Lidmaatschap (lopend)
-        deliveries_received_count_since_first_membership:
+        deliveries_received_count_since_first_membership/bag:
+          _en: Bags received
+          _fr: Sacs reçus
+          _de: Erhaltene Taschen
+          _it: Borse ricevute
+          _nl: Ontvangen tassen
+        deliveries_received_count_since_first_membership/basket:
           _en: Baskets received
           _fr: Paniers reçus
-          _de: Erhaltene Taschen
+          _de: Erhaltene Körbe
           _it: Ceste ricevute
+          _nl: Ontvangen manden
+        deliveries_received_count_since_first_membership/cone:
+          _en: Cones received
+          _fr: Cornets reçus
+          _de: Erhaltene Tüten
+          _it: Coni ricevute
+          _nl: Ontvangen zakken
+        deliveries_received_count_since_first_membership/package:
+          _en: Packages received
+          _fr: Colis reçus
+          _de: Erhaltene Pakete
+          _it: Pacchi ricevute
           _nl: Ontvangen pakketten
+        deliveries_received_count_since_first_membership/share:
+          _en: Shares received
+          _fr: Parts reçus
+          _de: Erhaltene Anteile
+          _it: Parti ricevute
+          _nl: Ontvangen delen
         depot:
           _en: Depot
           _fr: Dépôt
@@ -1072,12 +1432,36 @@ _:
           _de: Rechnungen
           _it: Fatture
           _nl: Facturen
-        next_basket:
+        next_basket/bag:
+          _en: Next bag
+          _fr: Prochain sac
+          _de: Nächste Tasche
+          _it: Prossima borsa
+          _nl: Volgend tas
+        next_basket/basket:
           _en: Next basket
           _fr: Prochain panier
-          _de: Nächste Tasche
-          _it: Prossimo cestino
+          _de: Nächste Korb
+          _it: Prossima cesta
+          _nl: Volgend mand
+        next_basket/cone:
+          _en: Next cone
+          _fr: Prochain cornet
+          _de: Nächste Tüte
+          _it: Prossimo cono
+          _nl: Volgend zak
+        next_basket/package:
+          _en: Next package
+          _fr: Prochain colis
+          _de: Nächste Paket
+          _it: Prossimo pacco
           _nl: Volgend pakket
+        next_basket/share:
+          _en: Next share
+          _fr: Prochain part
+          _de: Nächste Anteil
+          _it: Prossima parte
+          _nl: Volgend deel
         payments_amount:
           _en: Payments
           _fr: Paiements
@@ -1096,12 +1480,36 @@ _:
           _de: Anzahl der benötigten Anteilscheine
           _it: Numero di quote sociali cooperative richieste
           _nl: Aantal vereiste coöperatieaandelen
-        salary_basket:
+        salary_basket/bag:
+          _en: Salary bag(s)
+          _fr: Sac(s) salaire
+          _de: Lohntasche(n)
+          _it: Borse-compenso
+          _nl: Salaristas(sen)
+        salary_basket/basket:
           _en: Salary basket(s)
           _fr: Panier(s) salaire
-          _de: Lohntasche(n)
+          _de: Lohnkorb(-körbe)
           _it: Ceste-compenso
+          _nl: Salarismand(en)
+        salary_basket/cone:
+          _en: Salary cone(s)
+          _fr: Cornet(s) salaire
+          _de: Lohntüte(n)
+          _it: Coni-compenso
+          _nl: Salariszak(ken)
+        salary_basket/package:
+          _en: Salary package(s)
+          _fr: Colis salaire
+          _de: Lohnpaket(e)
+          _it: Pacchi-compenso
           _nl: Salarispakket(ten)
+        salary_basket/share:
+          _en: Salary share(s)
+          _fr: Part(s) salaire
+          _de: Lohnteil(e)
+          _it: Parti-compenso
+          _nl: Salarisdeel(-delen)
         sepa_mandate_id:
           _en: Mandate reference number
           _fr: Numéro de référence du mandat
@@ -1168,18 +1576,66 @@ _:
           _de: Alternative Depot(s)
           _it: Punto/ di ritiro alternativo
           _nl: Alternatief depot(s)
-        waiting_basket_complements:
+        waiting_basket_complements/bag:
+          _en: Bag complements (waiting list)
+          _fr: Compléments sac (en attente)
+          _de: Taschenzusätze (Warteliste)
+          _it: Aggiunta alla borsa (in lista d'attesa)
+          _nl: Tasaanvullingen (wachtlijst)
+        waiting_basket_complements/basket:
           _en: Basket complements (waiting list)
           _fr: Compléments panier (en attente)
-          _de: Taschenzusätze (Warteliste)
+          _de: Korbzusätze (Warteliste)
           _it: Aggiunta alla cesta (in lista d'attesa)
+          _nl: Mandaanvullingen (wachtlijst)
+        waiting_basket_complements/cone:
+          _en: Cone complements (waiting list)
+          _fr: Compléments cornet (en attente)
+          _de: Tütenzusätze (Warteliste)
+          _it: Aggiunta al cono (in lista d'attesa)
+          _nl: Zakaanvullingen (wachtlijst)
+        waiting_basket_complements/package:
+          _en: Package complements (waiting list)
+          _fr: Compléments colis (en attente)
+          _de: Paketzusätze (Warteliste)
+          _it: Aggiunta al pacco (in lista d'attesa)
           _nl: Pakketaanvullingen (wachtlijst)
-        waiting_basket_size:
+        waiting_basket_complements/share:
+          _en: Share complements (waiting list)
+          _fr: Compléments part (en attente)
+          _de: Anteilszusätze (Warteliste)
+          _it: Aggiunta alla parte (in lista d'attesa)
+          _nl: Deelaanvullingen (wachtlijst)
+        waiting_basket_size/bag:
+          _en: Bag size (waiting list)
+          _fr: Taille sac (en attente)
+          _de: Taschengrösse (Warteliste)
+          _it: Dimensione borsa (in lista d'attesa)
+          _nl: Tasgrootte (wachtlijst)
+        waiting_basket_size/basket:
           _en: Basket size (waiting list)
           _fr: Taille panier (en attente)
-          _de: Taschengrösse (Warteliste)
+          _de: Korbgrösse (Warteliste)
           _it: Dimensione cesta (in lista d'attesa)
+          _nl: Mandgrootte (wachtlijst)
+        waiting_basket_size/cone:
+          _en: Cone size (waiting list)
+          _fr: Taille cornet (en attente)
+          _de: Tütengrösse (Warteliste)
+          _it: Dimensione cono (in lista d'attesa)
+          _nl: Zakgrootte (wachtlijst)
+        waiting_basket_size/package:
+          _en: Package size (waiting list)
+          _fr: Taille colis (en attente)
+          _de: Paketgrösse (Warteliste)
+          _it: Dimensione pacco (in lista d'attesa)
           _nl: Pakketgrootte (wachtlijst)
+        waiting_basket_size/share:
+          _en: Share size (waiting list)
+          _fr: Taille part (en attente)
+          _de: Anteilsgrösse (Warteliste)
+          _it: Dimensione parte (in lista d'attesa)
+          _nl: Deelgrootte (wachtlijst)
         waiting_delivery_cycle:
           _en: Delivery cycle (waiting list)
           _fr: Cycle de livraisons (en attente)
@@ -1224,12 +1680,36 @@ _:
           _it: Aggiunte
           _nl: Aanvulling
       membership:
-        absences_count:
+        absences_count/bag:
+          _en: Absent bags
+          _fr: Sacs absents
+          _de: Abwesende Taschen
+          _it: Borse assenti
+          _nl: Afwezige tassen
+        absences_count/basket:
           _en: Absent baskets
           _fr: Paniers absents
-          _de: Abwesende Taschen
+          _de: Abwesende Körbe
           _it: Cestini assenti
+          _nl: Afwezige manden
+        absences_count/cone:
+          _en: Absent cones
+          _fr: Cornets absents
+          _de: Abwesende Tüten
+          _it: Coni assenti
+          _nl: Afwezige zakken
+        absences_count/package:
+          _en: Absent packages
+          _fr: Colis absents
+          _de: Abwesende Pakete
+          _it: Pacchi assenti
           _nl: Afwezige pakketten
+        absences_count/share:
+          _en: Absent shares
+          _fr: Parts absents
+          _de: Abwesende Anteile
+          _it: Parti assenti
+          _nl: Afwezige delen
         absences_included:
           _en: Absences included
           _fr: Absences incluses
@@ -1436,12 +1916,6 @@ _:
             _de: Reduktion für %{count} zusätzliche Arbeitsstunden
             _it: Riduzione per %{count} ore di lavoro supplementari
             _nl: Korting voor %{count} extra werkuren
-        activity_participations_demanded:
-          _en: Requested
-          _fr: Demandées
-          _de: Verlangte
-          _it: Richieste
-          _nl: Gevraagd
         activity_participations_demanded/basket_preparation:
           _en: Requested basket preparations
           _fr: Mises en panier demandées
@@ -1490,6 +1964,12 @@ _:
           _de: Arbeitsstunden pro Jahr
           _it: Ore di lavoro all'anno
           _nl: Werkuren per jaar
+        activity_participations_demanded_scope:
+          _en: Requested
+          _fr: Demandées
+          _de: Verlangte
+          _it: Richieste
+          _nl: Gevraagd
         activity_participations_future:
           _en: Upcoming
           _fr: À venir
@@ -1544,18 +2024,66 @@ _:
           _de: Bestätigte
           _it: Confermato
           _nl: Gevalideerd
-        apply_basket_size_price_percentage:
+        apply_basket_size_price_percentage/bag:
+          _en: Apply delivery bag size price change (in %)
+          _fr: Appliquer la modification du prix de la taille de sac par livraison (en %)
+          _de: Lieferungsbedingte Taschengrössepreisänderung anwenden (in %)
+          _it: Applicare la modifica del prezzo della dimensione della borsa per consegna (in %)
+          _nl: Leveringsgerelateerde tasgrootteprijsverandering toepassen (in %)
+        apply_basket_size_price_percentage/basket:
           _en: Apply delivery basket size price change (in %)
           _fr: Appliquer la modification du prix de la taille de panier par livraison (en %)
-          _de: Lieferungsbedingte Taschengrössepreisänderung anwenden (in %)
-          _it: Applicare la modifica del prezzo della dimensione del cestino per consegna (in %)
+          _de: Lieferungsbedingte Korbgrössepreisänderung anwenden (in %)
+          _it: Applicare la modifica del prezzo della dimensione della cesta per consegna (in %)
+          _nl: Leveringsgerelateerde mandgrootteprijsverandering toepassen (in %)
+        apply_basket_size_price_percentage/cone:
+          _en: Apply delivery cone size price change (in %)
+          _fr: Appliquer la modification du prix de la taille de cornet par livraison (en %)
+          _de: Lieferungsbedingte Tütengrössepreisänderung anwenden (in %)
+          _it: Applicare la modifica del prezzo della dimensione del cono per consegna (in %)
+          _nl: Leveringsgerelateerde zakgrootteprijsverandering toepassen (in %)
+        apply_basket_size_price_percentage/package:
+          _en: Apply delivery package size price change (in %)
+          _fr: Appliquer la modification du prix de la taille de colis par livraison (en %)
+          _de: Lieferungsbedingte Paketgrössepreisänderung anwenden (in %)
+          _it: Applicare la modifica del prezzo della dimensione del pacco per consegna (in %)
           _nl: Leveringsgerelateerde pakketgrootteprijsverandering toepassen (in %)
-        basket_complements:
+        apply_basket_size_price_percentage/share:
+          _en: Apply delivery share size price change (in %)
+          _fr: Appliquer la modification du prix de la taille de part par livraison (en %)
+          _de: Lieferungsbedingte Anteilsgrössepreisänderung anwenden (in %)
+          _it: Applicare la modifica del prezzo della dimensione della parte per consegna (in %)
+          _nl: Leveringsgerelateerde deelgrootteprijsverandering toepassen (in %)
+        basket_complements/bag:
+          _en: Bag complements
+          _fr: Compléments sac
+          _de: Taschenzusätze
+          _it: Aggiunta borse
+          _nl: Tasaanvullingen
+        basket_complements/basket:
           _en: Basket complements
           _fr: Compléments panier
-          _de: Taschenzusätze
+          _de: Korbzusätze
           _it: Aggiunta ceste
+          _nl: Mandaanvullingen
+        basket_complements/cone:
+          _en: Cone complements
+          _fr: Compléments cornet
+          _de: Tütenzusätze
+          _it: Aggiunta coni
+          _nl: Zakaanvullingen
+        basket_complements/package:
+          _en: Package complements
+          _fr: Compléments colis
+          _de: Paketzusätze
+          _it: Aggiunta pacchi
           _nl: Pakketaanvullingen
+        basket_complements/share:
+          _en: Share complements
+          _fr: Compléments part
+          _de: Anteilszusätze
+          _it: Aggiunta parti
+          _nl: Deelaanvullingen
         basket_complements_annual_price_change:
           _en: Membership price adjustment (complements)
           _fr: Ajustement du prix de l'abonnement (compléments)
@@ -1574,66 +2102,282 @@ _:
           _de: Menge
           _it: Quantità
           _nl: Hoeveelheid
-        basket_shifts:
-          _en: Basket shifts
+        basket_shifts/bag:
+          _en: Bag shifts
           _fr: Déplacements
           _de: Taschenverschiebungen
+          _it: Scambi di borse
+          _nl: Tasverschuivingen
+        basket_shifts/basket:
+          _en: Basket shifts
+          _fr: Déplacements
+          _de: Korbverschiebungen
           _it: Scambi di cestini
+          _nl: Mandverschuivingen
+        basket_shifts/cone:
+          _en: Cone shifts
+          _fr: Déplacements
+          _de: Tütenverschiebungen
+          _it: Scambi di coni
+          _nl: Zakverschuivingen
+        basket_shifts/package:
+          _en: Package shifts
+          _fr: Déplacements
+          _de: Paketverschiebungen
+          _it: Scambi di pacchi
           _nl: Pakketverschuivingen
-        basket_size_price:
+        basket_shifts/share:
+          _en: Share shifts
+          _fr: Déplacements
+          _de: Anteilsverschiebungen
+          _it: Scambi di parti
+          _nl: Deelverschuivingen
+        basket_size_price/bag:
+          _en: Bag price
+          _fr: Prix sac
+          _de: Preis Tasche
+          _it: Prezzo borsa
+          _nl: Tasprijs
+        basket_size_price/basket:
           _en: Basket price
           _fr: Prix panier
-          _de: Preis Tasche
+          _de: Preis Korb
           _it: Prezzo cesta
+          _nl: Mandprijs
+        basket_size_price/cone:
+          _en: Cone price
+          _fr: Prix cornet
+          _de: Preis Tüte
+          _it: Prezzo cono
+          _nl: Zakprijs
+        basket_size_price/package:
+          _en: Package price
+          _fr: Prix colis
+          _de: Preis Paket
+          _it: Prezzo pacco
           _nl: Pakketprijs
-        basket_sizes_price:
+        basket_size_price/share:
+          _en: Share price
+          _fr: Prix part
+          _de: Preis Anteil
+          _it: Prezzo parte
+          _nl: Deelprijs
+        basket_sizes_price/bag:
+          _en: Bag prices
+          _fr: Prix sacs
+          _de: Preis Taschen
+          _it: Prezzo borse
+          _nl: Tasprijzen
+        basket_sizes_price/basket:
           _en: Basket prices
           _fr: Prix paniers
-          _de: Preis Taschen
+          _de: Preis Körbe
           _it: Prezzo ceste
+          _nl: Mandprijzen
+        basket_sizes_price/cone:
+          _en: Cone prices
+          _fr: Prix cornets
+          _de: Preis Tüten
+          _it: Prezzo coni
+          _nl: Zakprijzen
+        basket_sizes_price/package:
+          _en: Package prices
+          _fr: Prix colis
+          _de: Preis Pakete
+          _it: Prezzo pacchi
           _nl: Pakketprijzen
-        baskets:
+        basket_sizes_price/share:
+          _en: Share prices
+          _fr: Prix parts
+          _de: Preis Anteile
+          _it: Prezzo parti
+          _nl: Deelprijzen
+        baskets/bag:
+          _en: Bags
+          _fr: Sacs
+          _de: Taschen
+          _it: Borse
+          _nl: Tassen
+        baskets/basket:
           _en: Baskets
           _fr: Paniers
-          _de: Taschen
+          _de: Körbe
           _it: Ceste
+          _nl: Manden
+        baskets/cone:
+          _en: Cones
+          _fr: Cornets
+          _de: Tüten
+          _it: Coni
+          _nl: Zakken
+        baskets/package:
+          _en: Packages
+          _fr: Colis
+          _de: Pakete
+          _it: Pacchi
           _nl: Pakketten
+        baskets/share:
+          _en: Shares
+          _fr: Parts
+          _de: Anteile
+          _it: Parti
+          _nl: Delen
         baskets_absent_count:
           _en: Absences
           _fr: Absences
           _de: Abwesenheiten
           _it: Assenze
           _nl: Afwezigheden
-        baskets_annual_price_change:
+        baskets_annual_price_change/bag:
+          _en: Membership price adjustment (bags)
+          _fr: Ajustement du prix de l'abonnement (sacs)
+          _de: Anpassung Preis Abonnement (Taschen)
+          _it: Correzione del prezzo dell'abbonamento (borse)
+          _nl: Lidmaatschapprijs aanpassing (tassen)
+        baskets_annual_price_change/basket:
           _en: Membership price adjustment (baskets)
           _fr: Ajustement du prix de l'abonnement (paniers)
-          _de: Anpassung Preis Abonnement (Taschen)
+          _de: Anpassung Preis Abonnement (Körbe)
           _it: Correzione del prezzo dell'abbonamento (ceste)
+          _nl: Lidmaatschapprijs aanpassing (manden)
+        baskets_annual_price_change/cone:
+          _en: Membership price adjustment (cones)
+          _fr: Ajustement du prix de l'abonnement (cornets)
+          _de: Anpassung Preis Abonnement (Tüten)
+          _it: Correzione del prezzo dell'abbonamento (coni)
+          _nl: Lidmaatschapprijs aanpassing (zakken)
+        baskets_annual_price_change/package:
+          _en: Membership price adjustment (packages)
+          _fr: Ajustement du prix de l'abonnement (colis)
+          _de: Anpassung Preis Abonnement (Pakete)
+          _it: Correzione del prezzo dell'abbonamento (pacchi)
           _nl: Lidmaatschapprijs aanpassing (pakketten)
-        baskets_count:
-          _en: Baskets
-          _fr: Paniers
+        baskets_annual_price_change/share:
+          _en: Membership price adjustment (shares)
+          _fr: Ajustement du prix de l'abonnement (parts)
+          _de: Anpassung Preis Abonnement (Anteile)
+          _it: Correzione del prezzo dell'abbonamento (parti)
+          _nl: Lidmaatschapprijs aanpassing (delen)
+        baskets_count/bag:
+          _en: Bags
+          _fr: Sacs
           _de: Taschen
           _it: Paniers
-          _nl: Pakketten
-        baskets_trial_count:
-          _en: Trial baskets
-          _fr: Paniers à l'essai
-          _de: Probetaschen
-          _it: Ceste di prova
-          _nl: Proefpakketten
-        deliveries_count:
+          _nl: Tassen
+        baskets_count/basket:
           _en: Baskets
           _fr: Paniers
-          _de: Taschen
-          _it: Ceste
+          _de: Körbe
+          _it: Paniers
+          _nl: Manden
+        baskets_count/cone:
+          _en: Cones
+          _fr: Cornets
+          _de: Tüten
+          _it: Paniers
+          _nl: Zakken
+        baskets_count/package:
+          _en: Packages
+          _fr: Colis
+          _de: Pakete
+          _it: Paniers
           _nl: Pakketten
-        deliveries_received_count:
+        baskets_count/share:
+          _en: Shares
+          _fr: Parts
+          _de: Anteile
+          _it: Paniers
+          _nl: Delen
+        baskets_trial_count/bag:
+          _en: Trial bags
+          _fr: Sacs à l'essai
+          _de: Probetaschen
+          _it: Borse di prova
+          _nl: Proeftassen
+        baskets_trial_count/basket:
+          _en: Trial baskets
+          _fr: Paniers à l'essai
+          _de: Probekörbe
+          _it: Ceste di prova
+          _nl: Proefmanden
+        baskets_trial_count/cone:
+          _en: Trial cones
+          _fr: Cornets à l'essai
+          _de: Probetüten
+          _it: Coni di prova
+          _nl: Proefzakken
+        baskets_trial_count/package:
+          _en: Trial packages
+          _fr: Colis à l'essai
+          _de: Probepakete
+          _it: Pacchi di prova
+          _nl: Proefpakketten
+        baskets_trial_count/share:
+          _en: Trial shares
+          _fr: Parts à l'essai
+          _de: Probeteile
+          _it: Parti di prova
+          _nl: Proefdelen
+        deliveries_count/bag:
+          _en: Bags
+          _fr: Sacs
+          _de: Taschen
+          _it: Borse
+          _nl: Tassen
+        deliveries_count/basket:
+          _en: Baskets
+          _fr: Paniers
+          _de: Körbe
+          _it: Ceste
+          _nl: Manden
+        deliveries_count/cone:
+          _en: Cones
+          _fr: Cornets
+          _de: Tüten
+          _it: Coni
+          _nl: Zakken
+        deliveries_count/package:
+          _en: Packages
+          _fr: Colis
+          _de: Pakete
+          _it: Pacchi
+          _nl: Pakketten
+        deliveries_count/share:
+          _en: Shares
+          _fr: Parts
+          _de: Anteile
+          _it: Parti
+          _nl: Delen
+        deliveries_received_count/bag:
+          _en: Delivered bags
+          _fr: Sacs livrés
+          _de: Gelieferte Taschen
+          _it: Borse consegnate
+          _nl: Geleverde tassen
+        deliveries_received_count/basket:
           _en: Delivered baskets
           _fr: Paniers livrés
-          _de: Gelieferte Taschen
+          _de: Gelieferte Körbe
           _it: Ceste consegnate
+          _nl: Geleverde manden
+        deliveries_received_count/cone:
+          _en: Delivered cones
+          _fr: Cornets livrés
+          _de: Gelieferte Tüten
+          _it: Coni consegnati
+          _nl: Geleverde zakken
+        deliveries_received_count/package:
+          _en: Delivered packages
+          _fr: Colis livrés
+          _de: Gelieferte Pakete
+          _it: Pacchi consegnati
           _nl: Geleverde pakketten
+        deliveries_received_count/share:
+          _en: Delivered shares
+          _fr: Parts livrés
+          _de: Gelieferte Anteile
+          _it: Parti consegnate
+          _nl: Geleverde delen
         delivery_cycle_id:
           _en: Delivery cycle
           _fr: Cycle de livraisons
@@ -1784,12 +2528,36 @@ _:
           _de: Anfang
           _it: Inizio
           _nl: Start
-        subscribed_basket_complement_ids:
+        subscribed_basket_complement_ids/bag:
+          _en: Bag complements
+          _fr: Compléments sacs
+          _de: Taschenzusätze
+          _it: Aggiunte borsa
+          _nl: Tasaanvullingen
+        subscribed_basket_complement_ids/basket:
           _en: Basket complements
           _fr: Compléments paniers
-          _de: Taschenzusätze
+          _de: Korbzusätze
           _it: Aggiunte cesta
+          _nl: Mandaanvullingen
+        subscribed_basket_complement_ids/cone:
+          _en: Cone complements
+          _fr: Compléments cornets
+          _de: Tütenzusätze
+          _it: Aggiunte cono
+          _nl: Zakaanvullingen
+        subscribed_basket_complement_ids/package:
+          _en: Package complements
+          _fr: Compléments colis
+          _de: Paketzusätze
+          _it: Aggiunte pacco
           _nl: Pakketaanvullingen
+        subscribed_basket_complement_ids/share:
+          _en: Share complements
+          _fr: Compléments parts
+          _de: Anteilszusätze
+          _it: Aggiunte parte
+          _nl: Deelaanvullingen
         will_be_changed_at:
           _en: Change effective from
           _fr: Changement effectif depuis le
@@ -1823,12 +2591,36 @@ _:
           _it: Soggeto
           _nl: Onderwerp
       newsletter/segment:
-        coming_deliveries_in_days:
+        coming_deliveries_in_days/bag:
+          _en: Next bag in at least (in days)
+          _fr: Prochain sac dans au moins (en jours)
+          _de: Nächste Tasche in mindestens (in Tagen)
+          _it: La prossima borsa tra almeno (in giorni)
+          _nl: Volgend tas over minstens (in dagen)
+        coming_deliveries_in_days/basket:
           _en: Next basket in at least (in days)
           _fr: Prochain panier dans au moins (en jours)
-          _de: Nächste Tasche in mindestens (in Tagen)
-          _it: Il prossimo cestino tra almeno (in giorni)
+          _de: Nächste Korb in mindestens (in Tagen)
+          _it: La prossima cesta tra almeno (in giorni)
+          _nl: Volgend mand over minstens (in dagen)
+        coming_deliveries_in_days/cone:
+          _en: Next cone in at least (in days)
+          _fr: Prochain cornet dans au moins (en jours)
+          _de: Nächste Tüte in mindestens (in Tagen)
+          _it: Il prossimo cono tra almeno (in giorni)
+          _nl: Volgend zak over minstens (in dagen)
+        coming_deliveries_in_days/package:
+          _en: Next package in at least (in days)
+          _fr: Prochain colis dans au moins (en jours)
+          _de: Nächste Paket in mindestens (in Tagen)
+          _it: Il prossimo pacco tra almeno (in giorni)
           _nl: Volgend pakket over minstens (in dagen)
+        coming_deliveries_in_days/share:
+          _en: Next share in at least (in days)
+          _fr: Prochain part dans au moins (en jours)
+          _de: Nächste Anteil in mindestens (in Tagen)
+          _it: La prossima parte tra almeno (in giorni)
+          _nl: Volgend deel over minstens (in dagen)
         first_membership:
           _en: First membership this year
           _fr: Premier abonnement cette année
@@ -1873,12 +2665,36 @@ _:
           _de: Kündigungsfrist (in Tagen)
           _it: Periodo di preavviso (in giorni)
           _nl: Opzegtermijn (in dagen)
-        absences_billed:
+        absences_billed/bag:
+          _en: Billing of bags during absences
+          _fr: Facturation des sacs durant les absences
+          _de: Fakturierung von Taschen bei Abwesenheiten
+          _it: Fatturazione delle borse durante le assenze
+          _nl: Facturering van tassen tijdens afwezigheid
+        absences_billed/basket:
           _en: Billing of baskets during absences
           _fr: Facturation des paniers durant les absences
-          _de: Fakturierung von Taschen bei Abwesenheiten
+          _de: Fakturierung von Körbe bei Abwesenheiten
           _it: Fatturazione delle ceste durante le assenze
+          _nl: Facturering van manden tijdens afwezigheid
+        absences_billed/cone:
+          _en: Billing of cones during absences
+          _fr: Facturation des cornets durant les absences
+          _de: Fakturierung von Tüten bei Abwesenheiten
+          _it: Fatturazione delle coni durante le assenze
+          _nl: Facturering van zakken tijdens afwezigheid
+        absences_billed/package:
+          _en: Billing of packages during absences
+          _fr: Facturation des colis durant les absences
+          _de: Fakturierung von Pakete bei Abwesenheiten
+          _it: Fatturazione delle pacchi durante le assenze
           _nl: Facturering van pakketten tijdens afwezigheid
+        absences_billed/share:
+          _en: Billing of shares during absences
+          _fr: Facturation des parts durant les absences
+          _de: Fakturierung von Anteile bei Abwesenheiten
+          _it: Fatturazione delle parti durante le assenze
+          _nl: Facturering van delen tijdens afwezigheid
         absences_included_mode:
           _en: Absences included mode
           _fr: Mode des absences incluses
@@ -2005,18 +2821,48 @@ _:
           _de: Titel
           _it: Titolo
           _nl: Titel
-        basket_content_member_visible:
+        basket_content_member_visible/bag:
+          _en: Display the bag content on the member area
+          _fr: Afficher le contenu du sac sur l'espace membre
+          _de: Tascheninhalt im Mitgliederbereich anzeigen
+          _it: Visualizzare il contenuto della borsa nell'area soci
+          _nl: Tasinhoud weergeven op de ledenpagina
+        basket_content_member_visible/basket:
           _en: Display the basket content on the member area
           _fr: Afficher le contenu du panier sur l'espace membre
-          _de: Tascheninhalt im Mitgliederbereich anzeigen
+          _de: Korbinhalt im Mitgliederbereich anzeigen
           _it: Visualizzare il contenuto della cesta nell'area soci
+          _nl: Mandinhoud weergeven op de ledenpagina
+        basket_content_member_visible/cone:
+          _en: Display the cone content on the member area
+          _fr: Afficher le contenu du cornet sur l'espace membre
+          _de: Tüteninhalt im Mitgliederbereich anzeigen
+          _it: Visualizzare il contenuto del cono nell'area soci
+          _nl: Zakinhoud weergeven op de ledenpagina
+        basket_content_member_visible/package:
+          _en: Display the package content on the member area
+          _fr: Afficher le contenu du colis sur l'espace membre
+          _de: Paketinhalt im Mitgliederbereich anzeigen
+          _it: Visualizzare il contenuto del pacco nell'area soci
           _nl: Pakketinhoud weergeven op de ledenpagina
+        basket_content_member_visible/share:
+          _en: Display the share content on the member area
+          _fr: Afficher le contenu de la part sur l'espace membre
+          _de: Anteilsinhalt im Mitgliederbereich anzeigen
+          _it: Visualizzare il contenuto della parte nell'area soci
+          _nl: Deelinhoud weergeven op de ledenpagina
         basket_content_member_visible_hours_before:
           _en: Visible (hours before delivery day)
           _fr: Visible (heures avant le jour de la livraison)
           _de: Sichtbar (Stunden vor dem Liefertag)
           _it: Visibile (ore prima del giorno di consegna)
           _nl: Zichtbaar (uren vóór de leveringsdag)
+        basket_i18n_scopes:
+          _en: Basket designation
+          _fr: Appellation panier
+          _de: Korbbezeichnung
+          _it: Designazione cesta
+          _nl: Mandaanduiding
         basket_price_extra_dynamic_pricing:
           _en: Dynamic price
           _fr: Prix dynamique
@@ -2053,17 +2899,65 @@ _:
           _de: Titel
           _it: Titolo
           _nl: Titel
-        basket_price_extras:
+        basket_price_extras/bag:
+          _en: Bag price (extras)
+          _fr: Prix sac (extras)
+          _de: Preisen Taschen (zusätzlich)
+          _it: Prezzo della borsa (extras)
+          _nl: Tasprijs (extra's)
+        basket_price_extras/basket:
           _en: Basket price (extras)
           _fr: Prix panier (extras)
-          _de: Preisen Taschen (zusätzlich)
+          _de: Preisen Körbe (zusätzlich)
           _it: Prezzo della cesta (extras)
+          _nl: Mandprijs (extra's)
+        basket_price_extras/cone:
+          _en: Cone price (extras)
+          _fr: Prix cornet (extras)
+          _de: Preisen Tüten (zusätzlich)
+          _it: Prezzo del cono (extras)
+          _nl: Zakprijs (extra's)
+        basket_price_extras/package:
+          _en: Package price (extras)
+          _fr: Prix colis (extras)
+          _de: Preisen Pakete (zusätzlich)
+          _it: Prezzo del pacco (extras)
           _nl: Pakketprijs (extra's)
-        basket_shift_deadline_in_weeks:
+        basket_price_extras/share:
+          _en: Share price (extras)
+          _fr: Prix part (extras)
+          _de: Preisen Anteile (zusätzlich)
+          _it: Prezzo della parte (extras)
+          _nl: Deelprijs (extra's)
+        basket_shift_deadline_in_weeks/bag:
           _en: Deadline for shifts (in weeks)
           _fr: Délai pour les déplacements (en semaines)
           _de: Frist für Taschenverschiebungen (in Wochen)
+          _it: Scadenza per i spostamenti di borsa (in settimane)
+          _nl: Deadline voor verschuivingen (in weken)
+        basket_shift_deadline_in_weeks/basket:
+          _en: Deadline for shifts (in weeks)
+          _fr: Délai pour les déplacements (en semaines)
+          _de: Frist für Korbverschiebungen (in Wochen)
           _it: Scadenza per i spostamenti di cesta (in settimane)
+          _nl: Deadline voor verschuivingen (in weken)
+        basket_shift_deadline_in_weeks/cone:
+          _en: Deadline for shifts (in weeks)
+          _fr: Délai pour les déplacements (en semaines)
+          _de: Frist für Tütenverschiebungen (in Wochen)
+          _it: Scadenza per i spostamenti di cono (in settimane)
+          _nl: Deadline voor verschuivingen (in weken)
+        basket_shift_deadline_in_weeks/package:
+          _en: Deadline for shifts (in weeks)
+          _fr: Délai pour les déplacements (en semaines)
+          _de: Frist für Paketverschiebungen (in Wochen)
+          _it: Scadenza per i spostamenti di pacco (in settimane)
+          _nl: Deadline voor verschuivingen (in weken)
+        basket_shift_deadline_in_weeks/share:
+          _en: Deadline for shifts (in weeks)
+          _fr: Délai pour les déplacements (en semaines)
+          _de: Frist für Anteilsverschiebungen (in Wochen)
+          _it: Scadenza per i spostamenti di parte (in settimane)
           _nl: Deadline voor verschuivingen (in weken)
         basket_shifts_annually:
           _en: Number of allowed shifts (per year)
@@ -2071,30 +2965,102 @@ _:
           _de: Anzahl der zulässigen Verschiebungen (pro Jahr)
           _it: Numero di spostamenti consentiti (all'anno)
           _nl: Aantal toegestane verschuivingen (per jaar)
-        basket_sizes_member_order_mode:
+        basket_sizes_member_order_mode/bag:
+          _en: Order of bag sizes
+          _fr: Ordre des tailles de sac
+          _de: Reihenfolge der Taschengrössen
+          _it: Ordine delle dimensioni del cesto
+          _nl: Volgorde van tasgrootttes
+        basket_sizes_member_order_mode/basket:
           _en: Order of basket sizes
           _fr: Ordre des tailles de panier
-          _de: Reihenfolge der Taschengrößen
+          _de: Reihenfolge der Korbgrössen
+          _it: Ordine delle dimensioni del cesto
+          _nl: Volgorde van mandgrootttes
+        basket_sizes_member_order_mode/cone:
+          _en: Order of cone sizes
+          _fr: Ordre des tailles de cornet
+          _de: Reihenfolge der Tütengrössen
+          _it: Ordine delle dimensioni del cesto
+          _nl: Volgorde van zakgrootttes
+        basket_sizes_member_order_mode/package:
+          _en: Order of package sizes
+          _fr: Ordre des tailles de colis
+          _de: Reihenfolge der Paketgrössen
           _it: Ordine delle dimensioni del cesto
           _nl: Volgorde van pakketgrootttes
+        basket_sizes_member_order_mode/share:
+          _en: Order of share sizes
+          _fr: Ordre des tailles de part
+          _de: Reihenfolge der Anteilsgrössen
+          _it: Ordine delle dimensioni del cesto
+          _nl: Volgorde van deelgrootttes
         basket_update_limit_in_days:
           _en: Allow changes before delivery (in days)
           _fr: Délai de modification avant la livraison (en jours)
           _de: Änderungen vor der Lieferung erlauben (in Tagen)
           _it: Permettere la modifica prima della consegna (in giorni)
           _nl: Wijzigingen toestaan voor levering (in dagen)
-        bidding_round_basket_size_price_max_percentage:
+        bidding_round_basket_size_price_max_percentage/bag:
+          _en: Maximum bag size price (0-X%)
+          _fr: Prix maximum de la taille du sac (0-X%)
+          _de: Maximalbeitrag der Taschengrösse (0-X%)
+          _it: Prezzo massimo della dimensione della borsa (0-X%)
+          _nl: Maximum tasgrootte prijs (0-X%)
+        bidding_round_basket_size_price_max_percentage/basket:
           _en: Maximum basket size price (0-X%)
           _fr: Prix maximum de la taille du panier (0-X%)
-          _de: Maximalbeitrag pro Taschengröße (0-X%)
-          _it: Prezzo massimo della dimensione del cestino (0-X%)
+          _de: Maximalbeitrag der Korbgrösse (0-X%)
+          _it: Prezzo massimo della dimensione della cesta (0-X%)
+          _nl: Maximum mandgrootte prijs (0-X%)
+        bidding_round_basket_size_price_max_percentage/cone:
+          _en: Maximum cone size price (0-X%)
+          _fr: Prix maximum de la taille du cornet (0-X%)
+          _de: Maximalbeitrag der Tütengrösse (0-X%)
+          _it: Prezzo massimo della dimensione del cono (0-X%)
+          _nl: Maximum zakgrootte prijs (0-X%)
+        bidding_round_basket_size_price_max_percentage/package:
+          _en: Maximum package size price (0-X%)
+          _fr: Prix maximum de la taille du colis (0-X%)
+          _de: Maximalbeitrag der Paketgrösse (0-X%)
+          _it: Prezzo massimo della dimensione del pacco (0-X%)
           _nl: Maximum pakketgrootte prijs (0-X%)
-        bidding_round_basket_size_price_min_percentage:
+        bidding_round_basket_size_price_max_percentage/share:
+          _en: Maximum share size price (0-X%)
+          _fr: Prix maximum de la taille de la part (0-X%)
+          _de: Maximalbeitrag der Anteilsgrösse (0-X%)
+          _it: Prezzo massimo della dimensione della parte (0-X%)
+          _nl: Maximum deelgrootte prijs (0-X%)
+        bidding_round_basket_size_price_min_percentage/bag:
+          _en: Minimum bag size price (0-100%)
+          _fr: Prix minimum de la taille du sac (0-100%)
+          _de: Mindestbeitrag der Taschengrösse (0-100%)
+          _it: Prezzo minimo della dimensione della borsa (0-100%)
+          _nl: Minimum tasgrootte prijs (0-100%)
+        bidding_round_basket_size_price_min_percentage/basket:
           _en: Minimum basket size price (0-100%)
           _fr: Prix minimum de la taille du panier (0-100%)
-          _de: Mindestbeitrag pro Taschengröße (0-100%)
-          _it: Prezzo minimo della dimensione del cestino (0-100%)
+          _de: Mindestbeitrag der Korbgrösse (0-100%)
+          _it: Prezzo minimo della dimensione della cesta (0-100%)
+          _nl: Minimum mandgrootte prijs (0-100%)
+        bidding_round_basket_size_price_min_percentage/cone:
+          _en: Minimum cone size price (0-100%)
+          _fr: Prix minimum de la taille du cornet (0-100%)
+          _de: Mindestbeitrag der Tütengrösse (0-100%)
+          _it: Prezzo minimo della dimensione del cono (0-100%)
+          _nl: Minimum zakgrootte prijs (0-100%)
+        bidding_round_basket_size_price_min_percentage/package:
+          _en: Minimum package size price (0-100%)
+          _fr: Prix minimum de la taille du colis (0-100%)
+          _de: Mindestbeitrag der Paketgrösse (0-100%)
+          _it: Prezzo minimo della dimensione del pacco (0-100%)
           _nl: Minimum pakketgrootte prijs (0-100%)
+        bidding_round_basket_size_price_min_percentage/share:
+          _en: Minimum share size price (0-100%)
+          _fr: Prix minimum de la taille de la part (0-100%)
+          _de: Mindestbeitrag der Anteilsgrösse (0-100%)
+          _it: Prezzo minimo della dimensione della parte (0-100%)
+          _nl: Minimum deelgrootte prijs (0-100%)
         billing_ends_on_last_delivery_fy_month:
           _en: Bill memberships only until their last delivery
           _fr: Facturer les abonnements jusqu'à leur dernière livraison uniquement
@@ -2611,12 +3577,36 @@ _:
           _it: Stato dell'ordine
           _nl: Bestelling status
       shop/product:
-        basket_complement:
+        basket_complement/bag:
+          _en: Bag complement
+          _fr: Complément sac
+          _de: Taschenzusatz
+          _it: Aggiunta borsa
+          _nl: Tasaanvulling
+        basket_complement/basket:
           _en: Basket complement
           _fr: Complément panier
-          _de: Taschenzusatz
+          _de: Korbzusatz
           _it: Aggiunta cesta
+          _nl: Mandaanvulling
+        basket_complement/cone:
+          _en: Cone complement
+          _fr: Complément cornet
+          _de: Tütenzusatz
+          _it: Aggiunta cono
+          _nl: Zakaanvulling
+        basket_complement/package:
+          _en: Package complement
+          _fr: Complément colis
+          _de: Paketzusatz
+          _it: Aggiunta pacco
           _nl: Pakketaanvulling
+        basket_complement/share:
+          _en: Share complement
+          _fr: Complément part
+          _de: Anteilszusatz
+          _it: Aggiunta parte
+          _nl: Deelaanvulling
         display_in_delivery_sheets:
           _en: Display in delivery sheets (PDF) and summary (XLSX)
           _fr: Afficher dans les fiches (PDF) et le récapitulatif (XLSX) de livraison
@@ -2770,12 +3760,36 @@ _:
                 _it: Non può essere attivato se il prodotto ha più varianti
                 _nl: Kan niet worden geactiveerd als het product meerdere varianten heeft
             variants:
-              single_variant:
+              single_variant/bag:
+                _en: ": only one variant is allowed when the product is linked to a bag complement"
+                _fr: ": une seule variante est autorisée quand le produit est lié à un complément sac"
+                _de: ": nur eine Variante ist erlaubt, wenn das Produkt mit einem Taschenzusatz verbunden ist"
+                _it: ": solo una variante è consentita quando il prodotto è collegato a una aggiunta borsa"
+                _nl: ": slechts één variant is toegestaan wanneer het product is gekoppeld aan een tasaanvulling"
+              single_variant/basket:
                 _en: ": only one variant is allowed when the product is linked to a basket complement"
                 _fr: ": une seule variante est autorisée quand le produit est lié à un complément panier"
-                _de: ": nur eine Variante ist erlaubt, wenn das Produkt mit einem Taschenzusatz verbunden ist"
+                _de: ": nur eine Variante ist erlaubt, wenn das Produkt mit einem Korbzusatz verbunden ist"
                 _it: ": solo una variante è consentita quando il prodotto è collegato a una aggiunta cesta"
+                _nl: ": slechts één variant is toegestaan wanneer het product is gekoppeld aan een mandaanvulling"
+              single_variant/cone:
+                _en: ": only one variant is allowed when the product is linked to a cone complement"
+                _fr: ": une seule variante est autorisée quand le produit est lié à un complément cornet"
+                _de: ": nur eine Variante ist erlaubt, wenn das Produkt mit einem Tütenzusatz verbunden ist"
+                _it: ": solo una variante è consentita quando il prodotto è collegato a una aggiunta cono"
+                _nl: ": slechts één variant is toegestaan wanneer het product is gekoppeld aan een zakaanvulling"
+              single_variant/package:
+                _en: ": only one variant is allowed when the product is linked to a package complement"
+                _fr: ": une seule variante est autorisée quand le produit est lié à un complément colis"
+                _de: ": nur eine Variante ist erlaubt, wenn das Produkt mit einem Paketzusatz verbunden ist"
+                _it: ": solo una variante è consentita quando il prodotto è collegato a una aggiunta pacco"
                 _nl: ": slechts één variant is toegestaan wanneer het product is gekoppeld aan een pakketaanvulling"
+              single_variant/share:
+                _en: ": only one variant is allowed when the product is linked to a share complement"
+                _fr: ": une seule variante est autorisée quand le produit est lié à un complément part"
+                _de: ": nur eine Variante ist erlaubt, wenn das Produkt mit einem Anteilszusatz verbunden ist"
+                _it: ": solo una variante è consentita quando il prodotto è collegato a una aggiunta parte"
+                _nl: ": slechts één variant is toegestaan wanneer het product is gekoppeld aan een deelaanvulling"
     models:
       absence:
         one:
@@ -2894,19 +3908,71 @@ _:
           _de: Verlauf
           _it: Cronologia
           _nl: Geschiedenis
-      basket:
+      basket/bag:
+        one:
+          _en: Bag
+          _fr: Sac
+          _de: Tasche
+          _it: Borsa
+          _nl: Tas
+        other:
+          _en: Bags
+          _fr: Sacs
+          _de: Taschen
+          _it: Borse
+          _nl: Tassen
+      basket/basket:
         one:
           _en: Basket
           _fr: Panier
-          _de: Tasche
+          _de: Korb
           _it: Cesta
-          _nl: Pakket
+          _nl: Mand
         other:
           _en: Baskets
           _fr: Paniers
-          _de: Taschen
+          _de: Körbe
           _it: Ceste
+          _nl: Manden
+      basket/cone:
+        one:
+          _en: Cone
+          _fr: Cornet
+          _de: Tüte
+          _it: Cono
+          _nl: Zak
+        other:
+          _en: Cones
+          _fr: Cornets
+          _de: Tüten
+          _it: Coni
+          _nl: Zakken
+      basket/package:
+        one:
+          _en: Package
+          _fr: Colis
+          _de: Paket
+          _it: Pacco
+          _nl: Pakket
+        other:
+          _en: Packages
+          _fr: Colis
+          _de: Pakete
+          _it: Pacchi
           _nl: Pakketten
+      basket/share:
+        one:
+          _en: Share
+          _fr: Part
+          _de: Anteil
+          _it: Parte
+          _nl: Deel
+        other:
+          _en: Shares
+          _fr: Parts
+          _de: Anteile
+          _it: Parti
+          _nl: Delen
       basket_complement:
         none:
           _en: None
@@ -2914,30 +3980,122 @@ _:
           _de: Kein
           _it: Nessuna
           _nl: Geen
+      basket_complement/bag:
+        one:
+          _en: Bag complement
+          _fr: Complément sac
+          _de: Taschenzusatz
+          _it: Aggiunta borsa
+          _nl: Tasaanvulling
+        other:
+          _en: Bag complements
+          _fr: Compléments sac
+          _de: Taschenzusätze
+          _it: Aggiunte borse
+          _nl: Tasaanvullingen
+      basket_complement/basket:
         one:
           _en: Basket complement
           _fr: Complément panier
-          _de: Taschenzusatz
+          _de: Korbzusatz
           _it: Aggiunta cesta
-          _nl: Pakketaanvulling
+          _nl: Mandaanvulling
         other:
           _en: Basket complements
           _fr: Compléments panier
-          _de: Taschenzusätze
+          _de: Korbzusätze
           _it: Aggiunte ceste
+          _nl: Mandaanvullingen
+      basket_complement/cone:
+        one:
+          _en: Cone complement
+          _fr: Complément cornet
+          _de: Tütenzusatz
+          _it: Aggiunta cono
+          _nl: Zakaanvulling
+        other:
+          _en: Cone complements
+          _fr: Compléments cornet
+          _de: Tütenzusätze
+          _it: Aggiunte coni
+          _nl: Zakaanvullingen
+      basket_complement/package:
+        one:
+          _en: Package complement
+          _fr: Complément colis
+          _de: Paketzusatz
+          _it: Aggiunta pacco
+          _nl: Pakketaanvulling
+        other:
+          _en: Package complements
+          _fr: Compléments colis
+          _de: Paketzusätze
+          _it: Aggiunte pacchi
           _nl: Pakketaanvullingen
-      basket_content:
+      basket_complement/share:
+        one:
+          _en: Share complement
+          _fr: Complément part
+          _de: Anteilszusatz
+          _it: Aggiunta parte
+          _nl: Deelaanvulling
+        other:
+          _en: Share complements
+          _fr: Compléments part
+          _de: Anteilszusätze
+          _it: Aggiunte parti
+          _nl: Deelaanvullingen
+      basket_content/bag:
+        one:
+          _en: Bag content
+          _fr: Contenu sac
+          _de: Tascheninhalt
+          _it: Contenuto borsa
+          _nl: Tasinhoud
+        other:
+          _en: Bag contents
+          _fr: Contenu sacs
+          _de: Tascheninhalte
+          _it: Contenuto borse
+          _nl: Tasinhouden
+      basket_content/basket:
         one:
           _en: Basket content
-          _fr: Contenu Panier
-          _de: Tascheninhalt
+          _fr: Contenu panier
+          _de: Korbinhalt
           _it: Contenuto cesta
-          _nl: Pakketinhoud
+          _nl: Mandinhoud
         other:
           _en: Basket contents
-          _fr: Contenu Paniers
-          _de: Tascheninhalte
+          _fr: Contenu paniers
+          _de: Korbinhalte
           _it: Contenuto ceste
+          _nl: Mandinhouden
+      basket_content/cone:
+        one:
+          _en: Cone content
+          _fr: Contenu cornet
+          _de: Tüteninhalt
+          _it: Contenuto cono
+          _nl: Zakinhoud
+        other:
+          _en: Cone contents
+          _fr: Contenu cornets
+          _de: Tüteninhalte
+          _it: Contenuto coni
+          _nl: Zakinhouden
+      basket_content/package:
+        one:
+          _en: Package content
+          _fr: Contenu colis
+          _de: Paketinhalt
+          _it: Contenuto pacco
+          _nl: Pakketinhoud
+        other:
+          _en: Package contents
+          _fr: Contenu colis
+          _de: Paketinhalte
+          _it: Contenuto pacchi
           _nl: Pakketinhouden
       basket_content/product:
         one:
@@ -2952,6 +4110,19 @@ _:
           _de: Produkte
           _it: Prodotti
           _nl: Producten
+      basket_content/share:
+        one:
+          _en: Share content
+          _fr: Contenu part
+          _de: Anteilsinhalt
+          _it: Contenuto parte
+          _nl: Deelinhoud
+        other:
+          _en: Share contents
+          _fr: Contenu parts
+          _de: Anteilsinhalte
+          _it: Contenuto parti
+          _nl: Deelinhouden
       basket_shift:
         one:
           _en: Shift
@@ -2972,18 +4143,71 @@ _:
           _de: Kein
           _it: Nessuna
           _nl: Geen
+      basket_size/bag:
+        one:
+          _en: Bag size
+          _fr: Taille sac
+          _de: Taschengrösse
+          _it: Dimensione borsa
+          _nl: Tasgrootte
+        other:
+          _en: Bag sizes
+          _fr: Tailles sac
+          _de: Taschengrössen
+          _it: Dimensioni borse
+          _nl: Tasgroottes
+      basket_size/basket:
         one:
           _en: Basket size
           _fr: Taille panier
-          _de: Taschengrösse
+          _de: Korbgrösse
           _it: Dimensione cesta
-          _nl: Pakketgrootte
+          _nl: Mandgrootte
         other:
           _en: Basket sizes
           _fr: Tailles panier
-          _de: Taschengrössen
+          _de: Korbgrössen
           _it: Dimensioni ceste
+          _nl: Mandgroottes
+      basket_size/cone:
+        one:
+          _en: Cone size
+          _fr: Taille cornet
+          _de: Tütengrösse
+          _it: Dimensione cono
+          _nl: Zakgrootte
+        other:
+          _en: Cone sizes
+          _fr: Tailles cornet
+          _de: Tütengrössen
+          _it: Dimensioni coni
+          _nl: Zakgroottes
+      basket_size/package:
+        one:
+          _en: Package size
+          _fr: Taille colis
+          _de: Paketgrösse
+          _it: Dimensione pacco
+          _nl: Pakketgrootte
+        other:
+          _en: Package sizes
+          _fr: Tailles colis
+          _de: Paketgrössen
+          _it: Dimensioni pacchi
           _nl: Pakketgroottes
+      basket_size/share:
+        one:
+          _en: Share size
+          _fr: Taille part
+          _de: Anteilsgrösse
+          _it: Dimensione parte
+          _nl: Deelgrootte
+        other:
+          _en: Share sizes
+          _fr: Tailles part
+          _de: Anteilsgrössen
+          _it: Dimensioni parti
+          _nl: Deelgroottes
       baskets_basket_complement:
         one:
           _en: Complement

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_03_07_153259) do
+ActiveRecord::Schema[8.1].define(version: 2026_03_08_092923) do
   create_table "absences", force: :cascade do |t|
     t.datetime "created_at"
     t.date "ended_on"
@@ -774,6 +774,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_07_153259) do
     t.json "basket_content_member_titles", default: {}, null: false
     t.boolean "basket_content_member_visible", default: false, null: false
     t.integer "basket_content_member_visible_hours_before", default: 12, null: false
+    t.json "basket_i18n_scopes", default: {"fr" => "basket", "de" => "share", "it" => "basket", "nl" => "package", "en" => "basket"}, null: false
     t.text "basket_price_extra_dynamic_pricing"
     t.json "basket_price_extra_label_details", default: {}, null: false
     t.json "basket_price_extra_labels", default: {}, null: false

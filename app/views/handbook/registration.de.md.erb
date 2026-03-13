@@ -16,7 +16,7 @@ Die [Untertitel-Einstellung](/settings#registration) unterstützt Rich Text, abe
 
 **Besser vermeiden:**
 
-*Unsere Solawi wurde 2012 gegründet und liefert Bio-Gemüse von unserem Hof auf dem Land. Wir arbeiten mit 3 Partnerbetrieben zusammen und bieten Taschen in 12 verschiedenen Grössen an. Die Preise basieren auf einem Solidarmodell, bei dem...* (und 200 weitere Wörter)
+*Unsere Solawi wurde 2012 gegründet und liefert Bio-Gemüse von unserem Hof auf dem Land. Wir arbeiten mit 3 Partnerbetrieben zusammen und bieten <%= Basket.model_name.human(count: 2) %> in 12 verschiedenen Grössen an. Die Preise basieren auf einem Solidarmodell, bei dem...* (und 200 weitere Wörter)
 
 ## Tipps zur Textformatierung {#text-styling}
 
@@ -30,33 +30,33 @@ Alle Rich-Text-Felder in den [Anmeldeeinstellungen](/settings#registration) verw
 
 Im Einstellungseditor erscheint ein Wortzähler, wenn der Text lang wird. Das ist nur ein sanfter Hinweis, kein striktes Limit. Wenn Sie den Schwellenwert überschreiten, lohnt es sich vielleicht, zu kürzen oder Inhalte auf Ihre Website zu verschieben.
 
-## Taschengrössen {#basket-sizes}
+## <%= BasketSize.model_name.human(count: 2) %> {#basket-sizes}
 
-[Taschengrössen](/basket_sizes) sind das Herzstück Ihres Anmeldeformulars. Jede sichtbare Taschengrösse erscheint als Auswahl für neue Mitglieder.
+[<%= BasketSize.model_name.human(count: 2) %>](/basket_sizes) sind das Herzstück Ihres Anmeldeformulars. Jede sichtbare <%= BasketSize.model_name.human %> erscheint als Auswahl für neue Mitglieder.
 
 - **Name**: Was die Mitglieder sehen (z.B. „Klein", „Familie"). Ein selbsterklärender Name hilft: „Klein (1–2 Personen)" ist klarer als nur „Klein".
 - **Beschreibung**: Ersetzt den automatisch generierten Text (Preis × Lieferungen). Nützlich, wenn der Standardtext nicht ganz passt.
-- **Sichtbarkeit**: Setzen Sie eine Taschengrösse auf unsichtbar, wenn sie nur für Admins bestimmt ist (z.B. ein Spezialtarif). Unsichtbare Grössen erscheinen nicht im Formular.
+- **Sichtbarkeit**: Setzen Sie eine <%= BasketSize.model_name.human %> auf unsichtbar, wenn sie nur für Admins gedacht ist (z.B. ein Spezialtarif). Unsichtbare Grössen erscheinen nicht im Formular.
 - **Anzeigereihenfolge**: Gesteuert durch die [Einstellung des Sortiermodus](/settings#registration), entweder nach Name, nach Preis oder nach benutzerdefinierter Priorität.
 
-## Taschenergänzungen {#basket-complements}
+## <%= BasketComplement.model_name.human(count: 2) %> {#basket-complements}
 
-[Taschenergänzungen](/basket_complements) (Brot, Käse, Eier usw.) erscheinen nach der Auswahl der Taschengrösse.
+[<%= BasketComplement.model_name.human(count: 2) %>](/basket_complements) (Brot, Käse, Eier usw.) erscheinen nach der Auswahl der <%= BasketSize.model_name.human %>.
 
 - **Kontrollkästchen vs. Mengenmodus**: Die [Einstellung für Ergänzungsmengen](/settings#registration) steuert, ob Mitglieder einfache Kontrollkästchen (abonnieren oder nicht) oder Mengenfelder (0, 1, 2...) sehen.
 - **Ergänzungstext**: Eine optionale Einleitung vor der Liste. Ein Satz reicht normalerweise aus, um zu erklären, was verfügbar ist.
 - **Anzeigereihenfolge**: Gesteuert durch die [Einstellung des Sortiermodus](/settings#registration).
 
-## Solidarpreis / Taschenpreis Extra {#basket-price-extra}
+## Solidarpreis / Preis Extra-<%= Basket.model_name.human %> {#basket-price-extra}
 
 <% if feature?("basket_price_extra") %>
-Diese Funktion ermöglicht es Mitgliedern, freiwillig mehr pro Tasche zu zahlen. Weitere Konfigurationsdetails finden Sie auf der [Handbuchseite zum Taschenpreis Extra](/handbook/basket_price_extra).
+Diese Funktion ermöglicht es Mitgliedern, freiwillig mehr pro <%= Basket.model_name.human %> zu zahlen. Weitere Konfigurationsdetails finden Sie auf der [Handbuchseite zum Preis Extra-<%= Basket.model_name.human %>](/handbook/basket_price_extra).
 
 Einige Tipps für das Anmeldeformular:
 
 - **4 bis 6 Optionen funktionieren gut.** Zu viele Auswahlmöglichkeiten können überwältigend wirken. Bei mehr als 6 wechselt das Formular zu einem Dropdown-Menü, das weniger sichtbar ist.
 - **Halten Sie den Erklärungstext kurz.** Wenn Sie Ihr Solidarmodell im Detail erklären möchten, verlinken Sie auf Ihre Website.
-- **Klare Labels sind wichtig.** Stellen Sie sicher, dass jede Option die Preisauswirkung deutlich zeigt. Siehe die [Einstellungen für Taschenpreis Extra](/settings#basket_price_extra) für die Label-Konfiguration.
+- **Klare Labels sind wichtig.** Stellen Sie sicher, dass jede Option die Preisauswirkung deutlich zeigt. Siehe die [Einstellungen für Preis Extra-<%= Basket.model_name.human %>](/settings#basket_price_extra) für die Label-Konfiguration.
 <% else %>
 Diese Funktion ist derzeit nicht aktiviert. Sie können sie in [Ihren Einstellungen](/settings#organization_features_input) aktivieren.
 <% end %>
@@ -94,7 +94,7 @@ Wenn ein Zyklus nur für bestimmte Depots relevant ist, sorgt die Einrichtung de
 
 Zwei Einstellungen steuern den Erklärungstext im Abonnementbereich:
 
-- **[Zusatztext](/settings#registration)**: Wird nach dem automatisch generierten Text angehängt (Geschäftsjahr, Probetaschen, Jahresbeitrag, Anteile).
+- **[Zusatztext](/settings#registration)**: Wird nach dem automatisch generierten Text angehängt (Geschäftsjahr, <%= Basket.model_name.human(count: 2) %> zur Probe, Jahresbeitrag, Anteile).
 - **[Nur Zusatztext](/settings#registration)**: Ersetzt den automatisch generierten Text vollständig. Nur sinnvoll, wenn der Standardtext wirklich nicht zu Ihren Bedürfnissen passt.
 
 Der automatisch generierte Text deckt bereits das Wesentliche ab, daher eignet sich der Zusatztext am besten für das, was spezifisch für Ihre Organisation ist. Wenn Sie mehr als einen kurzen Absatz schreiben, verlinken Sie lieber auf Ihre Website.
@@ -125,8 +125,8 @@ Mehrere Elemente im Formular können umsortiert werden:
 
 | Element | Einstellung | Optionen |
 |---------|-------------|----------|
-| Taschengrössen | [Sortiermodus](/settings#registration) | Name, Preis (auf-/absteigend), Priorität |
-| Ergänzungen | [Sortiermodus](/settings#registration) | Name, Preis (auf-/absteigend), Priorität |
+| <%= BasketSize.model_name.human(count: 2) %> | [Sortiermodus](/settings#registration) | Name, Preis (auf/absteigend), Priorität |
+| <%= BasketComplement.model_name.human(count: 2) %> | [Sortiermodus](/settings#registration) | Name, Preis (auf/absteigend), Priorität |
 | Depots | [Sortiermodus](/settings#registration) | Name, Preis (auf-/absteigend), Priorität |
 | Lieferzyklen | [Sortiermodus](/settings#registration) | Name, Priorität |
 

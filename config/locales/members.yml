@@ -28,19 +28,71 @@ _:
             _it: nessuna consegna
             _nl: geen levering
       basket_shifts_notice:
-        notice:
+        notice/bag:
+          one:
+            _en: Shift your bag delivery during your absence.
+            _fr: Déplacer la livraison d'un sac durant votre absence.
+            _de: Verschieben Sie die Lieferung Ihrer Tasche während Ihrer Abwesenheit.
+            _it: Sposta la consegna della tua borsa durante la tua assenza.
+            _nl: Verschuif uw taslevering tijdens uw afwezigheid.
+          other:
+            _en: Shift your bag deliveries during your absence.
+            _fr: Déplacer la livraison de vos sacs durant votre absence.
+            _de: Verschieben Sie die Lieferungen Ihrer Tasche während Ihrer Abwesenheit.
+            _it: Sposta la consegna delle tue borse durante la tua assenza.
+            _nl: Verschuif uw tasleveringen tijdens uw afwezigheid.
+        notice/basket:
           one:
             _en: Shift your basket delivery during your absence.
             _fr: Déplacer la livraison d'un panier durant votre absence.
-            _de: Verschieben Sie die Lieferung Ihres Tasches während Ihrer Abwesenheit.
+            _de: Verschieben Sie die Lieferung Ihres Korbs während Ihrer Abwesenheit.
             _it: Sposta la consegna del tuo cesto durante la tua assenza.
-            _nl: Verschuif uw pakketlevering tijdens uw afwezigheid.
+            _nl: Verschuif uw mandlevering tijdens uw afwezigheid.
           other:
             _en: Shift your basket deliveries during your absence.
             _fr: Déplacer la livraison de vos paniers durant votre absence.
-            _de: Verschieben Sie die Lieferungen Ihrer Tasche während Ihrer Abwesenheit.
+            _de: Verschieben Sie die Lieferungen Ihres Korbs während Ihrer Abwesenheit.
             _it: Sposta la consegna dei tuoi cestini durante la tua assenza.
+            _nl: Verschuif uw mandleveringen tijdens uw afwezigheid.
+        notice/cone:
+          one:
+            _en: Shift your cone delivery during your absence.
+            _fr: Déplacer la livraison d'un cornet durant votre absence.
+            _de: Verschieben Sie die Lieferung Ihrer Tüte während Ihrer Abwesenheit.
+            _it: Sposta la consegna del tuo cono durante la tua assenza.
+            _nl: Verschuif uw zaklevering tijdens uw afwezigheid.
+          other:
+            _en: Shift your cone deliveries during your absence.
+            _fr: Déplacer la livraison de vos cornets durant votre absence.
+            _de: Verschieben Sie die Lieferungen Ihrer Tüte während Ihrer Abwesenheit.
+            _it: Sposta la consegna dei tuoi coni durante la tua assenza.
+            _nl: Verschuif uw zakleveringen tijdens uw afwezigheid.
+        notice/package:
+          one:
+            _en: Shift your package delivery during your absence.
+            _fr: Déplacer la livraison d'un colis durant votre absence.
+            _de: Verschieben Sie die Lieferung Ihres Pakets während Ihrer Abwesenheit.
+            _it: Sposta la consegna del tuo pacco durante la tua assenza.
+            _nl: Verschuif uw pakketlevering tijdens uw afwezigheid.
+          other:
+            _en: Shift your package deliveries during your absence.
+            _fr: Déplacer la livraison de vos colis durant votre absence.
+            _de: Verschieben Sie die Lieferungen Ihres Pakets während Ihrer Abwesenheit.
+            _it: Sposta la consegna dei tuoi pacchi durante la tua assenza.
             _nl: Verschuif uw pakketleveringen tijdens uw afwezigheid.
+        notice/share:
+          one:
+            _en: Shift your share delivery during your absence.
+            _fr: Déplacer la livraison d'un part durant votre absence.
+            _de: Verschieben Sie die Lieferung Ihres Anteils während Ihrer Abwesenheit.
+            _it: Sposta la consegna della tua parte durante la tua assenza.
+            _nl: Verschuif uw deellevering tijdens uw afwezigheid.
+          other:
+            _en: Shift your share deliveries during your absence.
+            _fr: Déplacer la livraison de vos parts durant votre absence.
+            _de: Verschieben Sie die Lieferungen Ihres Anteils während Ihrer Abwesenheit.
+            _it: Sposta la consegna delle tue parti durante la tua assenza.
+            _nl: Verschuif uw deelleveringen tijdens uw afwezigheid.
       create:
         flash:
           notice:
@@ -63,12 +115,36 @@ _:
             _de: Ihr Abonnement beinhaltet <b>%{count} Abwesenheiten</b>. Die Abwesenheiten, die noch nicht gemeldet wurden, werden provisorisch auf die letzten Lieferungen angewendet.
             _it: Il tuo abbonamento prevede <b>%{count} assenze</b>. Le assenze non ancora annunciate vengono applicate provvisoriamente alle ultime consegne.
             _nl: Uw lidmaatschap omvat <b>%{count} afwezigheden</b>. Afwezigheden die nog niet zijn gemeld, worden voorlopig toegepast op de laatste leveringen.
-        explanation_billed:
+        explanation_billed/bag:
+          _en: During your absence, you can give your bag to friends, neighbors, or family. If this is not possible, please inform us of your absence using the form below. Your bag will then be shared among other members. These bags are not refunded.
+          _fr: Lors de votre absence, le plus simple est de proposer votre sac à vos ami(e)s, voisin(e)s, famille, ... Si malheureusement ce n'est pas possible, merci d'annoncer votre absence à l'aide du formulaire ci-dessous. Votre sac sera alors partagé avec les autres membres. Ces sacs ne sont pas remboursés.
+          _de: Während Ihrer Abwesenheit können Sie gerne Ihre Tasche an Freunden, Nachbarn oder Familie schenken. Wenn dies leider nicht möglich ist, sind wir Ihnen dankbar, uns über Ihrer Abwesenheit mit dem unten stehenden Formular zu informieren. Ihre Tasche wird dann unter den anderen Mitgliedern geteilt. Diese Taschen werden nicht zurückerstattet.
+          _it: In caso di assenza, la soluzione più semplice, è quella di proporre la tua borsa ad amici o parenti, ... Se ciò non è possibile, grazie per farcelo sapere indicando la tua assenza con il modulo sottostante. La tua borsa non verra sprecata. Queste borse non saranno rimborsate.
+          _nl: Tijdens uw afwezigheid kunt u uw tas aan vrienden, buren of familie geven. Als dit niet mogelijk is, gelieve ons te informeren over uw afwezigheid met behulp van onderstaand formulier. Uw tas wordt dan gedeeld onder andere leden. Deze tassen worden niet terugbetaald.
+        explanation_billed/basket:
           _en: During your absence, you can give your basket to friends, neighbors, or family. If this is not possible, please inform us of your absence using the form below. Your basket will then be shared among other members. These baskets are not refunded.
           _fr: Lors de votre absence, le plus simple est de proposer votre panier à vos ami(e)s, voisin(e)s, famille, ... Si malheureusement ce n'est pas possible, merci d'annoncer votre absence à l'aide du formulaire ci-dessous. Votre panier sera alors partagé avec les autres membres. Ces paniers ne sont pas remboursés.
-          _de: Während Ihrer Abwesenheit können Sie gerne Ihre Tasche an Freunden, Nachbarn oder Familie schenken. Wenn dies leider nicht möglich ist, sind wir Ihnen dankbar, uns über Ihrer Abwesenheit mit dem unten stehenden Formular zu informieren. Ihre Tasche wird dann unter den anderen Mitgliedern geteilt. Diese Taschen werden nicht zurückerstattet.
+          _de: Während Ihrer Abwesenheit können Sie gerne Ihren Korb an Freunden, Nachbarn oder Familie schenken. Wenn dies leider nicht möglich ist, sind wir Ihnen dankbar, uns über Ihrer Abwesenheit mit dem unten stehenden Formular zu informieren. Ihren Korb wird dann unter den anderen Mitgliedern geteilt. Diese Körbe werden nicht zurückerstattet.
           _it: In caso di assenza, la soluzione più semplice, è quella di proporre la tua cesta ad amici o parenti, ... Se ciò non è possibile, grazie per farcelo sapere indicando la tua assenza con il modulo sottostante. La tua cesta non verra sprecata. Queste ceste non saranno rimborsate.
+          _nl: Tijdens uw afwezigheid kunt u uw mand aan vrienden, buren of familie geven. Als dit niet mogelijk is, gelieve ons te informeren over uw afwezigheid met behulp van onderstaand formulier. Uw mand wordt dan gedeeld onder andere leden. Deze manden worden niet terugbetaald.
+        explanation_billed/cone:
+          _en: During your absence, you can give your cone to friends, neighbors, or family. If this is not possible, please inform us of your absence using the form below. Your cone will then be shared among other members. These cones are not refunded.
+          _fr: Lors de votre absence, le plus simple est de proposer votre cornet à vos ami(e)s, voisin(e)s, famille, ... Si malheureusement ce n'est pas possible, merci d'annoncer votre absence à l'aide du formulaire ci-dessous. Votre cornet sera alors partagé avec les autres membres. Ces cornets ne sont pas remboursés.
+          _de: Während Ihrer Abwesenheit können Sie gerne Ihre Tüte an Freunden, Nachbarn oder Familie schenken. Wenn dies leider nicht möglich ist, sind wir Ihnen dankbar, uns über Ihrer Abwesenheit mit dem unten stehenden Formular zu informieren. Ihre Tüte wird dann unter den anderen Mitgliedern geteilt. Diese Tüten werden nicht zurückerstattet.
+          _it: In caso di assenza, la soluzione più semplice, è quella di proporre il tuo cono ad amici o parenti, ... Se ciò non è possibile, grazie per farcelo sapere indicando la tua assenza con il modulo sottostante. Il tuo cono non verrà sprecato. Questi coni non saranno rimborsati.
+          _nl: Tijdens uw afwezigheid kunt u uw zak aan vrienden, buren of familie geven. Als dit niet mogelijk is, gelieve ons te informeren over uw afwezigheid met behulp van onderstaand formulier. Uw zak wordt dan gedeeld onder andere leden. Deze zakken worden niet terugbetaald.
+        explanation_billed/package:
+          _en: During your absence, you can give your package to friends, neighbors, or family. If this is not possible, please inform us of your absence using the form below. Your package will then be shared among other members. These packages are not refunded.
+          _fr: Lors de votre absence, le plus simple est de proposer votre colis à vos ami(e)s, voisin(e)s, famille, ... Si malheureusement ce n'est pas possible, merci d'annoncer votre absence à l'aide du formulaire ci-dessous. Votre colis sera alors partagé avec les autres membres. Ces colis ne sont pas remboursés.
+          _de: Während Ihrer Abwesenheit können Sie gerne Ihr Paket an Freunden, Nachbarn oder Familie schenken. Wenn dies leider nicht möglich ist, sind wir Ihnen dankbar, uns über Ihrer Abwesenheit mit dem unten stehenden Formular zu informieren. Ihr Paket wird dann unter den anderen Mitgliedern geteilt. Diese Pakete werden nicht zurückerstattet.
+          _it: In caso di assenza, la soluzione più semplice, è quella di proporre il tuo pacco ad amici o parenti, ... Se ciò non è possibile, grazie per farcelo sapere indicando la tua assenza con il modulo sottostante. Il tuo pacco non verrà sprecato. Questi pacchi non saranno rimborsati.
           _nl: Tijdens uw afwezigheid kunt u uw pakket aan vrienden, buren of familie geven. Als dit niet mogelijk is, gelieve ons te informeren over uw afwezigheid met behulp van onderstaand formulier. Uw pakket wordt dan gedeeld onder andere leden. Deze pakketten worden niet terugbetaald.
+        explanation_billed/share:
+          _en: During your absence, you can give your share to friends, neighbors, or family. If this is not possible, please inform us of your absence using the form below. Your share will then be shared among other members. These shares are not refunded.
+          _fr: Lors de votre absence, le plus simple est de proposer votre part à vos ami(e)s, voisin(e)s, famille, ... Si malheureusement ce n'est pas possible, merci d'annoncer votre absence à l'aide du formulaire ci-dessous. Votre part sera alors partagée avec les autres membres. Ces parts ne sont pas remboursées.
+          _de: Während Ihrer Abwesenheit können Sie gerne Ihren Anteil an Freunden, Nachbarn oder Familie schenken. Wenn dies leider nicht möglich ist, sind wir Ihnen dankbar, uns über Ihrer Abwesenheit mit dem unten stehenden Formular zu informieren. Ihren Anteil wird dann unter den anderen Mitgliedern geteilt. Diese Anteile werden nicht zurückerstattet.
+          _it: In caso di assenza, la soluzione più semplice, è quella di proporre la tua parte ad amici o parenti, ... Se ciò non è possibile, grazie per farcelo sapere indicando la tua assenza con il modulo sottostante. La tua parte non verra sprecata. Queste parti non saranno rimborsate.
+          _nl: Tijdens uw afwezigheid kunt u uw deel aan vrienden, buren of familie geven. Als dit niet mogelijk is, gelieve ons te informeren over uw afwezigheid met behulp van onderstaand formulier. Uw deel wordt dan gedeeld onder andere leden. Deze delen worden niet terugbetaald.
         form_title:
           _en: Report an absence
           _fr: Annoncer une absence
@@ -403,18 +479,66 @@ _:
           _nl: Voltooid
     basket_shifts:
       flash:
-        alert:
+        alert/bag:
+          _en: Bag shift is not possible.
+          _fr: Le déplacement du sac n'est pas possible.
+          _de: Die Verschiebung der Tasche ist nicht möglich.
+          _it: Il trasferimento della borsa non è possibile.
+          _nl: Tasverplaatsing is niet mogelijk.
+        alert/basket:
           _en: Basket shift is not possible.
           _fr: Le déplacement du panier n'est pas possible.
-          _de: Die Verschiebung der Tasche ist nicht möglich.
-          _it: Il trasferimento del carrello non è possibile.
+          _de: Die Verschiebung des Korbs ist nicht möglich.
+          _it: Il trasferimento della cesta non è possibile.
+          _nl: Mandverplaatsing is niet mogelijk.
+        alert/cone:
+          _en: Cone shift is not possible.
+          _fr: Le déplacement du cornet n'est pas possible.
+          _de: Die Verschiebung der Tüte ist nicht möglich.
+          _it: Il trasferimento del cono non è possibile.
+          _nl: Zakverplaatsing is niet mogelijk.
+        alert/package:
+          _en: Package shift is not possible.
+          _fr: Le déplacement du colis n'est pas possible.
+          _de: Die Verschiebung des Pakets ist nicht möglich.
+          _it: Il trasferimento del pacco non è possibile.
           _nl: Pakketverplaatsing is niet mogelijk.
-        notice:
+        alert/share:
+          _en: Share shift is not possible.
+          _fr: Le déplacement du part n'est pas possible.
+          _de: Die Verschiebung des Anteils ist nicht möglich.
+          _it: Il trasferimento della parte non è possibile.
+          _nl: Deelverplaatsing is niet mogelijk.
+        notice/bag:
+          _en: Bag updated successfully.
+          _fr: Le sac a été mis à jour avec succès.
+          _de: Die Tasche wurde erfolgreich aktualisiert.
+          _it: Il trasferimento della borsa è andato a buon fine.
+          _nl: Tas succesvol bijgewerkt.
+        notice/basket:
           _en: Basket updated successfully.
           _fr: Le panier a été mis à jour avec succès.
-          _de: Die Tasche wurde erfolgreich aktualisiert.
-          _it: Il trasferimento del carrello è andato a buon fine.
+          _de: Der Korb wurde erfolgreich aktualisiert.
+          _it: Il trasferimento della cesta è andato a buon fine.
+          _nl: Mand succesvol bijgewerkt.
+        notice/cone:
+          _en: Cone updated successfully.
+          _fr: Le cornet a été mis à jour avec succès.
+          _de: Die Tüte wurde erfolgreich aktualisiert.
+          _it: Il trasferimento del cono è andato a buon fine.
+          _nl: Zak succesvol bijgewerkt.
+        notice/package:
+          _en: Package updated successfully.
+          _fr: Le colis a été mis à jour avec succès.
+          _de: Das Paket wurde erfolgreich aktualisiert.
+          _it: Il trasferimento del pacco è andato a buon fine.
           _nl: Pakket succesvol bijgewerkt.
+        notice/share:
+          _en: Share updated successfully.
+          _fr: Le part a été mis à jour avec succès.
+          _de: Der Anteil wurde erfolgreich aktualisiert.
+          _it: Il trasferimento della parte è andato a buon fine.
+          _nl: Deel succesvol bijgewerkt.
       new:
         after_absence:
           _en: After your absence
@@ -422,12 +546,36 @@ _:
           _de: Nach Ihrer Abwesenheit
           _it: Dopo la tua assenza
           _nl: Na uw afwezigheid
-        basket_shift_declined:
+        basket_shift_declined/bag:
+          _en: I don't want to shift my bag
+          _fr: Je ne désire pas déplacer mon sac
+          _de: Ich möchte meine Tasche nicht verschieben
+          _it: Non voglio spostare la mia borsa
+          _nl: Ik wil mijn tas niet verplaatsen
+        basket_shift_declined/basket:
           _en: I don't want to shift my basket
           _fr: Je ne désire pas déplacer mon panier
-          _de: Ich möchte meine Tasche nicht verschieben
-          _it: Non voglio spostare il mio cestino
+          _de: Ich möchte meinen Korb nicht verschieben
+          _it: Non voglio spostare la mia cesta
+          _nl: Ik wil mijn mand niet verplaatsen
+        basket_shift_declined/cone:
+          _en: I don't want to shift my cone
+          _fr: Je ne désire pas déplacer mon cornet
+          _de: Ich möchte meine Tüte nicht verschieben
+          _it: Non voglio spostare il mio cono
+          _nl: Ik wil mijn zak niet verplaatsen
+        basket_shift_declined/package:
+          _en: I don't want to shift my package
+          _fr: Je ne désire pas déplacer mon colis
+          _de: Ich möchte mein Paket nicht verschieben
+          _it: Non voglio spostare il mio pacco
           _nl: Ik wil mijn pakket niet verplaatsen
+        basket_shift_declined/share:
+          _en: I don't want to shift my share
+          _fr: Je ne désire pas déplacer mon part
+          _de: Ich möchte meinen Anteil nicht verschieben
+          _it: Non voglio spostare la mia parte
+          _nl: Ik wil mijn deel niet verplaatsen
         basket_shift_none:
           _en: No shift
           _fr: Aucun déplacement
@@ -484,12 +632,36 @@ _:
           _de: Verschiebung während Ihrer Abwesenheit
           _it: Spostamento durante la tua assenza
           _nl: Verplaatsing tijdens uw afwezigheid
-        text:
+        text/bag:
+          _en: During your absence, you have the possibility to shift the delivery of your bag to another date.
+          _fr: Durant votre absence, vous avez la possibilité de déplacer la livraison de votre sac à une autre date.
+          _de: Während Ihrer Abwesenheit haben Sie die Möglichkeit, die Lieferung Ihrer Tasche auf ein anderes Datum zu verschieben.
+          _it: Durante la tua assenza, hai la possibilità di spostare la consegna della tua borsa a un'altra data.
+          _nl: Tijdens uw afwezigheid heeft u de mogelijkheid om de levering van uw tas naar een andere datum te verplaatsen.
+        text/basket:
           _en: During your absence, you have the possibility to shift the delivery of your basket to another date.
           _fr: Durant votre absence, vous avez la possibilité de déplacer la livraison de votre panier à une autre date.
-          _de: Während Ihrer Abwesenheit haben Sie die Möglichkeit, die Lieferung Ihrer Tasche auf ein anderes Datum zu verschieben.
-          _it: Durante la tua assenza, hai la possibilità di spostare la consegna del tuo cestino a un'altra data.
+          _de: Während Ihrer Abwesenheit haben Sie die Möglichkeit, die Lieferung Ihres Korbs auf ein anderes Datum zu verschieben.
+          _it: Durante la tua assenza, hai la possibilità di spostare la consegna della tua cesta a un'altra data.
+          _nl: Tijdens uw afwezigheid heeft u de mogelijkheid om de levering van uw mand naar een andere datum te verplaatsen.
+        text/cone:
+          _en: During your absence, you have the possibility to shift the delivery of your cone to another date.
+          _fr: Durant votre absence, vous avez la possibilité de déplacer la livraison de votre cornet à une autre date.
+          _de: Während Ihrer Abwesenheit haben Sie die Möglichkeit, die Lieferung Ihrer Tüte auf ein anderes Datum zu verschieben.
+          _it: Durante la tua assenza, hai la possibilità di spostare la consegna del tuo cono a un'altra data.
+          _nl: Tijdens uw afwezigheid heeft u de mogelijkheid om de levering van uw zak naar een andere datum te verplaatsen.
+        text/package:
+          _en: During your absence, you have the possibility to shift the delivery of your package to another date.
+          _fr: Durant votre absence, vous avez la possibilité de déplacer la livraison de votre colis à une autre date.
+          _de: Während Ihrer Abwesenheit haben Sie die Möglichkeit, die Lieferung Ihres Pakets auf ein anderes Datum zu verschieben.
+          _it: Durante la tua assenza, hai la possibilità di spostare la consegna del tuo pacco a un'altra data.
           _nl: Tijdens uw afwezigheid heeft u de mogelijkheid om de levering van uw pakket naar een andere datum te verplaatsen.
+        text/share:
+          _en: During your absence, you have the possibility to shift the delivery of your share to another date.
+          _fr: Durant votre absence, vous avez la possibilité de déplacer la livraison de votre part à une autre date.
+          _de: Während Ihrer Abwesenheit haben Sie die Möglichkeit, die Lieferung Ihres Anteils auf ein anderes Datum zu verschieben.
+          _it: Durante la tua assenza, hai la possibilità di spostare la consegna della tua parte a un'altra data.
+          _nl: Tijdens uw afwezigheid heeft u de mogelijkheid om de levering van uw deel naar een andere datum te verplaatsen.
         title:
           _en: Delivery of %{date}
           _fr: Livraison du %{date}
@@ -522,12 +694,36 @@ _:
           _de: Verschiebung abgelehnt
           _it: Spostamento rifiutato
           _nl: Verplaatsing geweigerd
-        shift_not_possible:
+        shift_not_possible/bag:
+          _en: It is no longer possible to shift this bag.
+          _fr: Déplacer ce sac n'est plus possible.
+          _de: Es ist nicht mehr möglich, diese Tasche zu verschieben.
+          _it: Non è più possibile spostare questa borsa.
+          _nl: Het is niet meer mogelijk om dit tas te verplaatsen.
+        shift_not_possible/basket:
           _en: It is no longer possible to shift this basket.
           _fr: Déplacer ce panier n'est plus possible.
-          _de: Es ist nicht mehr möglich, diese Tasche zu verschieben.
-          _it: Non è più possibile spostare questo cestino.
+          _de: Es ist nicht mehr möglich, diesen Korb zu verschieben.
+          _it: Non è più possibile spostare questa cesta.
+          _nl: Het is niet meer mogelijk om dit mand te verplaatsen.
+        shift_not_possible/cone:
+          _en: It is no longer possible to shift this cone.
+          _fr: Déplacer ce cornet n'est plus possible.
+          _de: Es ist nicht mehr möglich, diese Tüte zu verschieben.
+          _it: Non è più possibile spostare questo cono.
+          _nl: Het is niet meer mogelijk om dit zak te verplaatsen.
+        shift_not_possible/package:
+          _en: It is no longer possible to shift this package.
+          _fr: Déplacer ce colis n'est plus possible.
+          _de: Es ist nicht mehr möglich, dieses Paket zu verschieben.
+          _it: Non è più possibile spostare questo pacco.
           _nl: Het is niet meer mogelijk om dit pakket te verplaatsen.
+        shift_not_possible/share:
+          _en: It is no longer possible to shift this share.
+          _fr: Déplacer cette part n'est plus possible.
+          _de: Es ist nicht mehr möglich, diesen Anteil zu verschieben.
+          _it: Non è più possibile spostare questa parte.
+          _nl: Het is niet meer mogelijk om dit deel te verplaatsen.
         shifted:
           _en: Shifted on %{target_date}
           _fr: Déplacé au %{target_date}
@@ -682,31 +878,127 @@ _:
           _nl: Terugbetaling
     calendars:
       show:
-        description:
+        description/bag:
+          _en: Bag delivery calendar.
+          _fr: Calendrier des livraisons de sacs.
+          _de: Taschenlieferungskalender.
+          _it: Calendario delle consegne di borse.
+          _nl: Kalender voor tasleveringen.
+        description/basket:
           _en: Basket delivery calendar.
           _fr: Calendrier des livraisons de paniers.
-          _de: Taschenlieferungskalender.
+          _de: Korblieferungskalender.
           _it: Calendario delle consegne di ceste.
+          _nl: Kalender voor mandleveringen.
+        description/cone:
+          _en: Cone delivery calendar.
+          _fr: Calendrier des livraisons de cornets.
+          _de: Tütenlieferungskalender.
+          _it: Calendario delle consegne di coni.
+          _nl: Kalender voor zakleveringen.
+        description/package:
+          _en: Package delivery calendar.
+          _fr: Calendrier des livraisons de colis.
+          _de: Paketlieferungskalender.
+          _it: Calendario delle consegne di pacchi.
           _nl: Kalender voor pakketleveringen.
+        description/share:
+          _en: Share delivery calendar.
+          _fr: Calendrier des livraisons de parts.
+          _de: Anteilslieferungskalender.
+          _it: Calendario delle consegne di parti.
+          _nl: Kalender voor deelleveringen.
         event:
-          summary:
+          summary/bag:
+            _en: Bag %{org_name}
+            _fr: Sac %{org_name}
+            _de: Tasche %{org_name}
+            _it: Borsa %{org_name}
+            _nl: Tas %{org_name}
+          summary/basket:
             _en: Basket %{org_name}
             _fr: Panier %{org_name}
-            _de: Tasche %{org_name}
+            _de: Korb %{org_name}
             _it: Cesta %{org_name}
+            _nl: Mand %{org_name}
+          summary/cone:
+            _en: Cone %{org_name}
+            _fr: Cornet %{org_name}
+            _de: Tüte %{org_name}
+            _it: Cono %{org_name}
+            _nl: Zak %{org_name}
+          summary/package:
+            _en: Package %{org_name}
+            _fr: Colis %{org_name}
+            _de: Paket %{org_name}
+            _it: Pacco %{org_name}
             _nl: Pakket %{org_name}
-          summary_absent:
+          summary/share:
+            _en: Share %{org_name}
+            _fr: Part %{org_name}
+            _de: Anteil %{org_name}
+            _it: Parte %{org_name}
+            _nl: Deel %{org_name}
+          summary_absent/bag:
+            _en: Bag %{org_name} (absent)
+            _fr: Sac %{org_name} (absent)
+            _de: Tasche %{org_name} (abwesend)
+            _it: Borsa %{org_name} (assente)
+            _nl: Tas %{org_name} (afwezig)
+          summary_absent/basket:
             _en: Basket %{org_name} (absent)
             _fr: Panier %{org_name} (absent)
-            _de: Tasche %{org_name} (abwesend)
+            _de: Korb %{org_name} (abwesend)
             _it: Cesta %{org_name} (assente)
+            _nl: Mand %{org_name} (afwezig)
+          summary_absent/cone:
+            _en: Cone %{org_name} (absent)
+            _fr: Cornet %{org_name} (absent)
+            _de: Tüte %{org_name} (abwesend)
+            _it: Cono %{org_name} (assente)
+            _nl: Zak %{org_name} (afwezig)
+          summary_absent/package:
+            _en: Package %{org_name} (absent)
+            _fr: Colis %{org_name} (absent)
+            _de: Paket %{org_name} (abwesend)
+            _it: Pacco %{org_name} (assente)
             _nl: Pakket %{org_name} (afwezig)
-          summary_trial:
+          summary_absent/share:
+            _en: Share %{org_name} (absent)
+            _fr: Part %{org_name} (absent)
+            _de: Anteil %{org_name} (abwesend)
+            _it: Parte %{org_name} (assente)
+            _nl: Deel %{org_name} (afwezig)
+          summary_trial/bag:
+            _en: Bag %{org_name} (trial)
+            _fr: Sac %{org_name} (essai)
+            _de: Tasche %{org_name} (Probe)
+            _it: Borsa %{org_name} (prova)
+            _nl: Tas %{org_name} (proef)
+          summary_trial/basket:
             _en: Basket %{org_name} (trial)
             _fr: Panier %{org_name} (essai)
-            _de: Tasche %{org_name} (Probe)
+            _de: Korb %{org_name} (Probe)
             _it: Cesta %{org_name} (prova)
+            _nl: Mand %{org_name} (proef)
+          summary_trial/cone:
+            _en: Cone %{org_name} (trial)
+            _fr: Cornet %{org_name} (essai)
+            _de: Tüte %{org_name} (Probe)
+            _it: Cono %{org_name} (prova)
+            _nl: Zak %{org_name} (proef)
+          summary_trial/package:
+            _en: Package %{org_name} (trial)
+            _fr: Colis %{org_name} (essai)
+            _de: Paket %{org_name} (Probe)
+            _it: Pacco %{org_name} (prova)
             _nl: Pakket %{org_name} (proef)
+          summary_trial/share:
+            _en: Share %{org_name} (trial)
+            _fr: Part %{org_name} (essai)
+            _de: Anteil %{org_name} (Probe)
+            _it: Parte %{org_name} (prova)
+            _nl: Deel %{org_name} (proef)
       subscribe_button:
         calendar_feed:
           _en: Calendar feed
@@ -735,18 +1027,66 @@ _:
           _de: Bitte <a href='mailto:%{email}'>kontaktieren Sie uns per E-Mail</a>, wenn Sie die Weitergabe Ihrer Kontaktdaten beenden möchten.
           _it: Per favore <a href='mailto:%{email}'>contattaci via email</a> se vuoi smettere di condividere le tue informazioni.
           _nl: Gelieve ons <a href='mailto:%{email}'>per e-mail te contacteren</a> als u wilt stoppen met het delen van uw contactgegevens.
-        description:
+        description/bag:
+          _en: Here is the list of members of your depot who share their contact information. You can contact them to arrange a pickup of your bag if you are occasionally prevented.
+          _fr: Voici la liste des membres de votre dépôt partageant leurs coordonnées. Vous pouvez les contacter pour organiser une récupération de votre sac en cas d'empêchement occasionnel.
+          _de: Hier ist die Liste der Mitglieder Ihres Depots, die ihre Kontaktinformationen mitteilen. Sie können sich mit ihnen in Verbindung setzen, um eine Abholung Ihrer Tasche zu vereinbaren, wenn Sie gelegentlich verhindert sind.
+          _it: Ecco la lista dei soci del tuo punto di ritiro che condividono le loro informazioni di contatto. Potete contattarli per organizzare il ritiro della vostra borsa nel caso in cui non possiate partecipare occasionalmente.
+          _nl: Hier is de lijst van leden van uw depot die hun contactgegevens delen. U kunt hen contacteren om de afhaling van uw tas te regelen als u af en toe verhinderd bent.
+        description/basket:
           _en: Here is the list of members of your depot who share their contact information. You can contact them to arrange a pickup of your basket if you are occasionally prevented.
           _fr: Voici la liste des membres de votre dépôt partageant leurs coordonnées. Vous pouvez les contacter pour organiser une récupération de votre panier en cas d'empêchement occasionnel.
-          _de: Hier ist die Liste der Mitglieder Ihres Depots, die ihre Kontaktinformationen mitteilen. Sie können sich mit ihnen in Verbindung setzen, um eine Abholung Ihrer Tasche zu vereinbaren, wenn Sie gelegentlich verhindert sind.
+          _de: Hier ist die Liste der Mitglieder Ihres Depots, die ihre Kontaktinformationen mitteilen. Sie können sich mit ihnen in Verbindung setzen, um eine Abholung Ihres Korbs zu vereinbaren, wenn Sie gelegentlich verhindert sind.
           _it: Ecco la lista dei soci del tuo punto di ritiro che condividono le loro informazioni di contatto. Potete contattarli per organizzare il ritiro della vostra cesta nel caso in cui non possiate partecipare occasionalmente.
+          _nl: Hier is de lijst van leden van uw depot die hun contactgegevens delen. U kunt hen contacteren om de afhaling van uw mand te regelen als u af en toe verhinderd bent.
+        description/cone:
+          _en: Here is the list of members of your depot who share their contact information. You can contact them to arrange a pickup of your cone if you are occasionally prevented.
+          _fr: Voici la liste des membres de votre dépôt partageant leurs coordonnées. Vous pouvez les contacter pour organiser une récupération de votre cornet en cas d'empêchement occasionnel.
+          _de: Hier ist die Liste der Mitglieder Ihres Depots, die ihre Kontaktinformationen mitteilen. Sie können sich mit ihnen in Verbindung setzen, um eine Abholung Ihrer Tüte zu vereinbaren, wenn Sie gelegentlich verhindert sind.
+          _it: Ecco la lista dei soci del tuo punto di ritiro che condividono le loro informazioni di contatto. Potete contattarli per organizzare il ritiro del vostro cono nel caso in cui non possiate partecipare occasionalmente.
+          _nl: Hier is de lijst van leden van uw depot die hun contactgegevens delen. U kunt hen contacteren om de afhaling van uw zak te regelen als u af en toe verhinderd bent.
+        description/package:
+          _en: Here is the list of members of your depot who share their contact information. You can contact them to arrange a pickup of your package if you are occasionally prevented.
+          _fr: Voici la liste des membres de votre dépôt partageant leurs coordonnées. Vous pouvez les contacter pour organiser une récupération de votre colis en cas d'empêchement occasionnel.
+          _de: Hier ist die Liste der Mitglieder Ihres Depots, die ihre Kontaktinformationen mitteilen. Sie können sich mit ihnen in Verbindung setzen, um eine Abholung Ihres Pakets zu vereinbaren, wenn Sie gelegentlich verhindert sind.
+          _it: Ecco la lista dei soci del tuo punto di ritiro che condividono le loro informazioni di contatto. Potete contattarli per organizzare il ritiro del vostro pacco nel caso in cui non possiate partecipare occasionalmente.
           _nl: Hier is de lijst van leden van uw depot die hun contactgegevens delen. U kunt hen contacteren om de afhaling van uw pakket te regelen als u af en toe verhinderd bent.
-        explanation:
+        description/share:
+          _en: Here is the list of members of your depot who share their contact information. You can contact them to arrange a pickup of your share if you are occasionally prevented.
+          _fr: Voici la liste des membres de votre dépôt partageant leurs coordonnées. Vous pouvez les contacter pour organiser une récupération de votre part en cas d'empêchement occasionnel.
+          _de: Hier ist die Liste der Mitglieder Ihres Depots, die ihre Kontaktinformationen mitteilen. Sie können sich mit ihnen in Verbindung setzen, um eine Abholung Ihres Anteils zu vereinbaren, wenn Sie gelegentlich verhindert sind.
+          _it: Ecco la lista dei soci del tuo punto di ritiro che condividono le loro informazioni di contatto. Potete contattarli per organizzare il ritiro della vostra parte nel caso in cui non possiate partecipare occasionalmente.
+          _nl: Hier is de lijst van leden van uw depot die hun contactgegevens delen. U kunt hen contacteren om de afhaling van uw deel te regelen als u af en toe verhinderd bent.
+        explanation/bag:
+          _en: Sharing contact information allows members of a depot to contact each other to arrange the pickup of their bags if they are occasionally prevented. You must agree to share your contact information (name, address, and phone number) to access the data of members who have also decided to do so.
+          _fr: Le copaniérage (covoiturage pour sac) permet aux membres d'un dépôt de se contacter afin d'organiser la récupération de leurs sacs en cas d'empêchement occasionnel. Vous devez accepter de partager vos coordonnées (nom, adresse et téléphone) afin d'avoir accès à celles des membres qui ont décidé de faire de même.
+          _de: Die gemeinsame Nutzung von Kontaktdaten ermöglicht es den Mitgliedern eines Depots, sich gegenseitig zu kontaktieren, um die Abholung ihrer Taschen zu arrangieren, falls sie gelegentlich verhindert sein sollten. Sie müssen der Weitergabe Ihrer Kontaktdaten (Name, Adresse und Telefonnummer) zustimmen, um Zugang zu den Daten von Mitgliedern zu erhalten, die sich dazu entschlossen haben, dies ebenfalls zu tun.
+          _it: La condivisione delle informazioni di contatto permette ai soci di un punto di ritiro di contattarsi a vicenda per organizzare la consegna delle loro borse nel caso in cui siano occasionalmente impossibilitati a partecipare. Devi accettare di condividere le tue informazioni di contatto (nome, indirizzo e numero di telefono) per avere accesso a quelle dei soci che hanno deciso di fare lo stesso.
+          _nl: Het delen van contactgegevens stelt leden van een depot in staat om elkaar te contacteren om de afhaling van hun tassen te regelen als zij af en toe verhinderd zijn. U moet instemmen met het delen van uw contactgegevens (naam, adres en telefoonnummer) om toegang te krijgen tot de gegevens van leden die ook hebben besloten dit te doen.
+        explanation/basket:
           _en: Sharing contact information allows members of a depot to contact each other to arrange the pickup of their baskets if they are occasionally prevented. You must agree to share your contact information (name, address, and phone number) to access the data of members who have also decided to do so.
           _fr: Le copaniérage (covoiturage pour panier) permet aux membres d'un dépôt de se contacter afin d'organiser la récupération de leurs paniers en cas d'empêchement occasionnel. Vous devez accepter de partager vos coordonnées (nom, adresse et téléphone) afin d'avoir accès à celles des membres qui ont décidé de faire de même.
           _de: Die gemeinsame Nutzung von Kontaktdaten ermöglicht es den Mitgliedern eines Depots, sich gegenseitig zu kontaktieren, um die Abholung ihrer Körbe zu arrangieren, falls sie gelegentlich verhindert sein sollten. Sie müssen der Weitergabe Ihrer Kontaktdaten (Name, Adresse und Telefonnummer) zustimmen, um Zugang zu den Daten von Mitgliedern zu erhalten, die sich dazu entschlossen haben, dies ebenfalls zu tun.
           _it: La condivisione delle informazioni di contatto permette ai soci di un punto di ritiro di contattarsi a vicenda per organizzare la consegna delle loro ceste nel caso in cui siano occasionalmente impossibilitati a partecipare. Devi accettare di condividere le tue informazioni di contatto (nome, indirizzo e numero di telefono) per avere accesso a quelle dei soci che hanno deciso di fare lo stesso.
+          _nl: Het delen van contactgegevens stelt leden van een depot in staat om elkaar te contacteren om de afhaling van hun manden te regelen als zij af en toe verhinderd zijn. U moet instemmen met het delen van uw contactgegevens (naam, adres en telefoonnummer) om toegang te krijgen tot de gegevens van leden die ook hebben besloten dit te doen.
+        explanation/cone:
+          _en: Sharing contact information allows members of a depot to contact each other to arrange the pickup of their cones if they are occasionally prevented. You must agree to share your contact information (name, address, and phone number) to access the data of members who have also decided to do so.
+          _fr: Le copaniérage (covoiturage pour cornet) permet aux membres d'un dépôt de se contacter afin d'organiser la récupération de leurs cornets en cas d'empêchement occasionnel. Vous devez accepter de partager vos coordonnées (nom, adresse et téléphone) afin d'avoir accès à celles des membres qui ont décidé de faire de même.
+          _de: Die gemeinsame Nutzung von Kontaktdaten ermöglicht es den Mitgliedern eines Depots, sich gegenseitig zu kontaktieren, um die Abholung ihrer Tüten zu arrangieren, falls sie gelegentlich verhindert sein sollten. Sie müssen der Weitergabe Ihrer Kontaktdaten (Name, Adresse und Telefonnummer) zustimmen, um Zugang zu den Daten von Mitgliedern zu erhalten, die sich dazu entschlossen haben, dies ebenfalls zu tun.
+          _it: La condivisione delle informazioni di contatto permette ai soci di un punto di ritiro di contattarsi a vicenda per organizzare la consegna delle loro coni nel caso in cui siano occasionalmente impossibilitati a partecipare. Devi accettare di condividere le tue informazioni di contatto (nome, indirizzo e numero di telefono) per avere accesso a quelle dei soci che hanno deciso di fare lo stesso.
+          _nl: Het delen van contactgegevens stelt leden van een depot in staat om elkaar te contacteren om de afhaling van hun zakken te regelen als zij af en toe verhinderd zijn. U moet instemmen met het delen van uw contactgegevens (naam, adres en telefoonnummer) om toegang te krijgen tot de gegevens van leden die ook hebben besloten dit te doen.
+        explanation/package:
+          _en: Sharing contact information allows members of a depot to contact each other to arrange the pickup of their packages if they are occasionally prevented. You must agree to share your contact information (name, address, and phone number) to access the data of members who have also decided to do so.
+          _fr: Le copaniérage (covoiturage pour colis) permet aux membres d'un dépôt de se contacter afin d'organiser la récupération de leurs colis en cas d'empêchement occasionnel. Vous devez accepter de partager vos coordonnées (nom, adresse et téléphone) afin d'avoir accès à celles des membres qui ont décidé de faire de même.
+          _de: Die gemeinsame Nutzung von Kontaktdaten ermöglicht es den Mitgliedern eines Depots, sich gegenseitig zu kontaktieren, um die Abholung ihrer Pakete zu arrangieren, falls sie gelegentlich verhindert sein sollten. Sie müssen der Weitergabe Ihrer Kontaktdaten (Name, Adresse und Telefonnummer) zustimmen, um Zugang zu den Daten von Mitgliedern zu erhalten, die sich dazu entschlossen haben, dies ebenfalls zu tun.
+          _it: La condivisione delle informazioni di contatto permette ai soci di un punto di ritiro di contattarsi a vicenda per organizzare la consegna delle loro pacchi nel caso in cui siano occasionalmente impossibilitati a partecipare. Devi accettare di condividere le tue informazioni di contatto (nome, indirizzo e numero di telefono) per avere accesso a quelle dei soci che hanno deciso di fare lo stesso.
           _nl: Het delen van contactgegevens stelt leden van een depot in staat om elkaar te contacteren om de afhaling van hun pakketten te regelen als zij af en toe verhinderd zijn. U moet instemmen met het delen van uw contactgegevens (naam, adres en telefoonnummer) om toegang te krijgen tot de gegevens van leden die ook hebben besloten dit te doen.
+        explanation/share:
+          _en: Sharing contact information allows members of a depot to contact each other to arrange the pickup of their shares if they are occasionally prevented. You must agree to share your contact information (name, address, and phone number) to access the data of members who have also decided to do so.
+          _fr: Le copaniérage (covoiturage pour part) permet aux membres d'un dépôt de se contacter afin d'organiser la récupération de leurs parts en cas d'empêchement occasionnel. Vous devez accepter de partager vos coordonnées (nom, adresse et téléphone) afin d'avoir accès à celles des membres qui ont décidé de faire de même.
+          _de: Die gemeinsame Nutzung von Kontaktdaten ermöglicht es den Mitgliedern eines Depots, sich gegenseitig zu kontaktieren, um die Abholung ihrer Anteile zu arrangieren, falls sie gelegentlich verhindert sein sollten. Sie müssen der Weitergabe Ihrer Kontaktdaten (Name, Adresse und Telefonnummer) zustimmen, um Zugang zu den Daten von Mitgliedern zu erhalten, die sich dazu entschlossen haben, dies ebenfalls zu tun.
+          _it: La condivisione delle informazioni di contatto permette ai soci di un punto di ritiro di contattarsi a vicenda per organizzare la consegna delle loro parti nel caso in cui siano occasionalmente impossibilitati a partecipare. Devi accettare di condividere le tue informazioni di contatto (nome, indirizzo e numero di telefono) per avere accesso a quelle dei soci che hanno deciso di fare lo stesso.
+          _nl: Het delen van contactgegevens stelt leden van een depot in staat om elkaar te contacteren om de afhaling van hun delen te regelen als zij af en toe verhinderd zijn. U moet instemmen met het delen van uw contactgegevens (naam, adres en telefoonnummer) om toegang te krijgen tot de gegevens van leden die ook hebben besloten dit te doen.
         nobody_sharing_contact:
           _en: No other members are sharing their contact information at this time!
           _fr: Aucun autre membre ne partage ses coordonnées pour le moment!
@@ -1051,6 +1391,36 @@ _:
             _de: Jedes Fördermitglied (ohne Abonnement) zahlt einen Jahresbeitrag von <b class="whitespace-nowrap">%{price}</b>.
             _it: Ogni socio sostenitore (senza abbonamento) paga una quota annuale di <b class="whitespace-nowrap">%{price}</b>.
             _nl: Elk ondersteunend lid (zonder abonnement) betaalt een jaarlijkse bijdrage van <b class="whitespace-nowrap">%{price}</b>.
+          annual_fee_text/bag_html:
+            _en: Each member also pays an annual fee of <b class="whitespace-nowrap">%{price}</b> in addition to the membership to the bag.
+            _fr: Chaque membre verse une cotisation annuelle de <b class="whitespace-nowrap">%{price}</b> en plus de l'abonnement à son sac.
+            _de: Jedes Mitglied zahlt zusätzlich zum Abonnement für die Tasche auch einen Jahresbeitrag von %{price}.
+            _it: Ogni socio paga anche una quota annuale di <b class="whitespace-nowrap">%{price}</b> oltre all'abbonamento alla borsa.
+            _nl: Elk lid betaalt ook een jaarlijkse bijdrage van <b class="whitespace-nowrap">%{price}</b> naast het lidmaatschap voor de tas.
+          annual_fee_text/basket_html:
+            _en: Each member also pays an annual fee of <b class="whitespace-nowrap">%{price}</b> in addition to the membership to the basket.
+            _fr: Chaque membre verse une cotisation annuelle de <b class="whitespace-nowrap">%{price}</b> en plus de l'abonnement à son panier.
+            _de: Jedes Mitglied zahlt zusätzlich zum Abonnement für den Korb auch einen Jahresbeitrag von %{price}.
+            _it: Ogni socio paga anche una quota annuale di <b class="whitespace-nowrap">%{price}</b> oltre all'abbonamento alla cesta.
+            _nl: Elk lid betaalt ook een jaarlijkse bijdrage van <b class="whitespace-nowrap">%{price}</b> naast het lidmaatschap voor de mand.
+          annual_fee_text/cone_html:
+            _en: Each member also pays an annual fee of <b class="whitespace-nowrap">%{price}</b> in addition to the membership to the cone.
+            _fr: Chaque membre verse une cotisation annuelle de <b class="whitespace-nowrap">%{price}</b> en plus de l'abonnement à son cornet.
+            _de: Jedes Mitglied zahlt zusätzlich zum Abonnement für die Tüte auch einen Jahresbeitrag von %{price}.
+            _it: Ogni socio paga anche una quota annuale di <b class="whitespace-nowrap">%{price}</b> oltre all'abbonamento al cono.
+            _nl: Elk lid betaalt ook een jaarlijkse bijdrage van <b class="whitespace-nowrap">%{price}</b> naast het lidmaatschap voor de zak.
+          annual_fee_text/package_html:
+            _en: Each member also pays an annual fee of <b class="whitespace-nowrap">%{price}</b> in addition to the membership to the package.
+            _fr: Chaque membre verse une cotisation annuelle de <b class="whitespace-nowrap">%{price}</b> en plus de l'abonnement à son colis.
+            _de: Jedes Mitglied zahlt zusätzlich zum Abonnement für das Paket auch einen Jahresbeitrag von %{price}.
+            _it: Ogni socio paga anche una quota annuale di <b class="whitespace-nowrap">%{price}</b> oltre all'abbonamento al pacco.
+            _nl: Elk lid betaalt ook een jaarlijkse bijdrage van <b class="whitespace-nowrap">%{price}</b> naast het lidmaatschap voor het pakket.
+          annual_fee_text/share_html:
+            _en: Each member also pays an annual fee of <b class="whitespace-nowrap">%{price}</b> in addition to the membership to the share.
+            _fr: Chaque membre verse une cotisation annuelle de <b class="whitespace-nowrap">%{price}</b> en plus de l'abonnement à sa part.
+            _de: Jedes Mitglied zahlt zusätzlich zum Abonnement für den Anteil auch einen Jahresbeitrag von %{price}.
+            _it: Ogni socio paga anche una quota annuale di <b class="whitespace-nowrap">%{price}</b> oltre all'abbonamento alla parte.
+            _nl: Elk lid betaalt ook een jaarlijkse bijdrage van <b class="whitespace-nowrap">%{price}</b> naast het lidmaatschap voor het deel.
           annual_fee_text_html:
             _en: Each member also pays an annual fee of <b class="whitespace-nowrap">%{price}</b> in addition to the membership to the basket.
             _fr: Chaque membre verse une cotisation annuelle de <b class="whitespace-nowrap">%{price}</b> en plus de l'abonnement à son panier.
@@ -1093,7 +1463,7 @@ _:
             _de: Mitgliedschaft
             _it: Adesione
             _nl: Lidmaatschap
-          trial_text:
+          trial_text/bag:
             one:
               _en: The first delivery is a trial and without commitment.
               _fr: La première livraison est à l'essai et sans engagement.
@@ -1104,6 +1474,58 @@ _:
               _en: The first %{count} deliveries are a trial and without commitment.
               _fr: Les %{count} premières livraisons sont à l'essai et sans engagement.
               _de: Die ersten %{count} Taschen sind noch unverbindlich (Probetaschen).
+              _it: Le %{count} consegne sono in prova e senza impegno.
+              _nl: De eerste %{count} leveringen zijn een proef en zonder verplichtingen.
+          trial_text/basket:
+            one:
+              _en: The first delivery is a trial and without commitment.
+              _fr: La première livraison est à l'essai et sans engagement.
+              _de: Der erste Korb ist noch unverbindlich (Probekörbe).
+              _it: La prima consegna è in prova e senza impegno.
+              _nl: De eerste levering is een proef en zonder verplichtingen.
+            other:
+              _en: The first %{count} deliveries are a trial and without commitment.
+              _fr: Les %{count} premières livraisons sont à l'essai et sans engagement.
+              _de: Die ersten %{count} Körbe sind noch unverbindlich (Probekörbe).
+              _it: Le %{count} consegne sono in prova e senza impegno.
+              _nl: De eerste %{count} leveringen zijn een proef en zonder verplichtingen.
+          trial_text/cone:
+            one:
+              _en: The first delivery is a trial and without commitment.
+              _fr: La première livraison est à l'essai et sans engagement.
+              _de: Die erste Tüte ist noch unverbindlich (Probetüten).
+              _it: La prima consegna è in prova e senza impegno.
+              _nl: De eerste levering is een proef en zonder verplichtingen.
+            other:
+              _en: The first %{count} deliveries are a trial and without commitment.
+              _fr: Les %{count} premières livraisons sont à l'essai et sans engagement.
+              _de: Die ersten %{count} Tüten sind noch unverbindlich (Probetüten).
+              _it: Le %{count} consegne sono in prova e senza impegno.
+              _nl: De eerste %{count} leveringen zijn een proef en zonder verplichtingen.
+          trial_text/package:
+            one:
+              _en: The first delivery is a trial and without commitment.
+              _fr: La première livraison est à l'essai et sans engagement.
+              _de: Das erste Paket ist noch unverbindlich (Probepakete).
+              _it: La prima consegna è in prova e senza impegno.
+              _nl: De eerste levering is een proef en zonder verplichtingen.
+            other:
+              _en: The first %{count} deliveries are a trial and without commitment.
+              _fr: Les %{count} premières livraisons sont à l'essai et sans engagement.
+              _de: Die ersten %{count} Pakete sind noch unverbindlich (Probepakete).
+              _it: Le %{count} consegne sono in prova e senza impegno.
+              _nl: De eerste %{count} leveringen zijn een proef en zonder verplichtingen.
+          trial_text/share:
+            one:
+              _en: The first delivery is a trial and without commitment.
+              _fr: La première livraison est à l'essai et sans engagement.
+              _de: Der erste Anteil ist noch unverbindlich (Probeanteile).
+              _it: La prima consegna è in prova e senza impegno.
+              _nl: De eerste levering is een proef en zonder verplichtingen.
+            other:
+              _en: The first %{count} deliveries are a trial and without commitment.
+              _fr: Les %{count} premières livraisons sont à l'essai et sans engagement.
+              _de: Die ersten %{count} Anteile sind noch unverbindlich (Probeanteile).
               _it: Le %{count} consegne sono in prova e senza impegno.
               _nl: De eerste %{count} leveringen zijn een proef en zonder verplichtingen.
         shop:
@@ -1200,12 +1622,36 @@ _:
           _it: Formulario d'iscrizione
           _nl: Inschrijfformulier
       pricing:
-        salary_basket:
+        salary_basket/bag:
+          _en: Salary bag (free)
+          _fr: Sac salaire (gratuit)
+          _de: Lohn-Tasche (gratis)
+          _it: Borsa-compenso (gratuita)
+          _nl: Salarietas (gratis)
+        salary_basket/basket:
           _en: Salary basket (free)
           _fr: Panier salaire (gratuit)
-          _de: Lohn-Tasche (gratis)
+          _de: Lohn-Korb (gratis)
           _it: Cesta-compenso (gratuita)
+          _nl: Salarismand (gratis)
+        salary_basket/cone:
+          _en: Salary cone (free)
+          _fr: Cornet salaire (gratuit)
+          _de: Lohn-Tüte (gratis)
+          _it: Cono-compenso (gratuito)
+          _nl: Salariszak (gratis)
+        salary_basket/package:
+          _en: Salary package (free)
+          _fr: Colis salaire (gratuit)
+          _de: Lohn-Paket (gratis)
+          _it: Pacco-compenso (gratuito)
           _nl: Salarispakket (gratis)
+        salary_basket/share:
+          _en: Salary share (free)
+          _fr: Part salaire (gratuit)
+          _de: Lohn-Anteil (gratis)
+          _it: Parte-compenso (gratuita)
+          _nl: Salarisdeel (gratis)
         year:
           _en: year
           _fr: an
@@ -1383,12 +1829,36 @@ _:
           _de: Bearbeiten
           _it: Modifica
           _nl: Bewerken
-        price_salary_basket:
+        price_salary_basket/bag:
+          _en: Salary bags
+          _fr: Sacs salaire
+          _de: Lohntaschen
+          _it: Borsa-compenso
+          _nl: Salaristassen
+        price_salary_basket/basket:
           _en: Salary baskets
           _fr: Paniers salaire
-          _de: Lohntaschen
+          _de: Lohnkörbe
           _it: Cesta-compenso
+          _nl: Salarismanden
+        price_salary_basket/cone:
+          _en: Salary cones
+          _fr: Cornets salaire
+          _de: Lohntüten
+          _it: Cono-compenso
+          _nl: Salariszakken
+        price_salary_basket/package:
+          _en: Salary packages
+          _fr: Colis salaire
+          _de: Lohnpakete
+          _it: Pacco-compenso
           _nl: Salarispakketten
+        price_salary_basket/share:
+          _en: Salary shares
+          _fr: Parts salaire
+          _de: Lohnteile
+          _it: Parte-compenso
+          _nl: Salarisdelen
         price_tooltip:
           _en: Please consult your last PDF invoice (available on the billing page) for more details.
           _fr: Merci de consulter votre dernière facture PDF (disponible depuis la page facturation) pour plus de détails.
@@ -1963,6 +2433,36 @@ _:
           _de: Kündigung bestätigen
           _it: Confermare l'annullamento
           _nl: Annulering bevestigen
+        text/bag_html:
+          _en: Your trial membership will end after the last trial delivery on <u>%{last_trial_date}</u>. These trial bags will be billed.
+          _fr: Votre abonnement à l'essai se terminera après la dernière livraison d'essai du <u>%{last_trial_date}</u>. Ces sacs à l'essai seront facturés.
+          _de: Ihr Probe-Abonnement endet nach der letzten Probelieferung am <u>%{last_trial_date}</u>. Diese Probetaschen werden in Rechnung gestellt.
+          _it: Il tuo abbonamento di prova terminerà dopo l'ultima consegna di prova del <u>%{last_trial_date}</u>. Queste borse di prova saranno fatturate.
+          _nl: Uw proeflidmaatschap eindigt na de laatste proeflevering op <u>%{last_trial_date}</u>. Deze proeftassen worden gefactureerd.
+        text/basket_html:
+          _en: Your trial membership will end after the last trial delivery on <u>%{last_trial_date}</u>. These trial baskets will be billed.
+          _fr: Votre abonnement à l'essai se terminera après la dernière livraison d'essai du <u>%{last_trial_date}</u>. Ces paniers à l'essai seront facturés.
+          _de: Ihr Probe-Abonnement endet nach der letzten Probelieferung am <u>%{last_trial_date}</u>. Diese Probekörbe werden in Rechnung gestellt.
+          _it: Il tuo abbonamento di prova terminerà dopo l'ultima consegna di prova del <u>%{last_trial_date}</u>. Queste ceste di prova saranno fatturate.
+          _nl: Uw proeflidmaatschap eindigt na de laatste proeflevering op <u>%{last_trial_date}</u>. Deze proefmanden worden gefactureerd.
+        text/cone_html:
+          _en: Your trial membership will end after the last trial delivery on <u>%{last_trial_date}</u>. These trial cones will be billed.
+          _fr: Votre abonnement à l'essai se terminera après la dernière livraison d'essai du <u>%{last_trial_date}</u>. Ces cornets à l'essai seront facturés.
+          _de: Ihr Probe-Abonnement endet nach der letzten Probelieferung am <u>%{last_trial_date}</u>. Diese Probetüten werden in Rechnung gestellt.
+          _it: Il tuo abbonamento di prova terminerà dopo l'ultima consegna di prova del <u>%{last_trial_date}</u>. Questi coni di prova saranno fatturati.
+          _nl: Uw proeflidmaatschap eindigt na de laatste proeflevering op <u>%{last_trial_date}</u>. Deze proefzakken worden gefactureerd.
+        text/package_html:
+          _en: Your trial membership will end after the last trial delivery on <u>%{last_trial_date}</u>. These trial packages will be billed.
+          _fr: Votre abonnement à l'essai se terminera après la dernière livraison d'essai du <u>%{last_trial_date}</u>. Ces colis à l'essai seront facturés.
+          _de: Ihr Probe-Abonnement endet nach der letzten Probelieferung am <u>%{last_trial_date}</u>. Diese Probepakete werden in Rechnung gestellt.
+          _it: Il tuo abbonamento di prova terminerà dopo l'ultima consegna di prova del <u>%{last_trial_date}</u>. Questi pacchi di prova saranno fatturati.
+          _nl: Uw proeflidmaatschap eindigt na de laatste proeflevering op <u>%{last_trial_date}</u>. Deze proefpakketten worden gefactureerd.
+        text/share_html:
+          _en: Your trial membership will end after the last trial delivery on <u>%{last_trial_date}</u>. These trial shares will be billed.
+          _fr: Votre abonnement à l'essai se terminera après la dernière livraison d'essai du <u>%{last_trial_date}</u>. Ces parts à l'essai seront facturés.
+          _de: Ihr Probe-Abonnement endet nach der letzten Probelieferung am <u>%{last_trial_date}</u>. Diese Probeteile werden in Rechnung gestellt.
+          _it: Il tuo abbonamento di prova terminerà dopo l'ultima consegna di prova del <u>%{last_trial_date}</u>. Queste parti di prova saranno fatturate.
+          _nl: Uw proeflidmaatschap eindigt na de laatste proeflevering op <u>%{last_trial_date}</u>. Deze proefdelen worden gefactureerd.
         text_html:
           _en: Your trial membership will end after the last trial delivery on <u>%{last_trial_date}</u>. These trial baskets will be billed.
           _fr: Votre abonnement à l'essai se terminera après la dernière livraison d'essai du <u>%{last_trial_date}</u>. Ces paniers à l'essai seront facturés.

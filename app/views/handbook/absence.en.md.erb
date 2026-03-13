@@ -1,6 +1,6 @@
 # Absences
 
-This feature allows you to manage your members' absences and automatically deduct absent baskets from your deliveries. Your members can announce their absences directly from their member area. You can also add absences for your members as an admin ([Other > Absences](/absences)).
+This feature allows you to manage your members' absences and automatically deduct absent <%= Basket.model_name.human(count: 2).downcase %> from your deliveries. Your members can announce their absences directly from their member area. You can also add absences for your members as an admin ([Other > Absences](/absences)).
 
 ## Configuration {#configuration}
 
@@ -8,36 +8,36 @@ Once this additional feature is activated in [your settings](/settings#organizat
 
 ## Billing {#billing}
 
-By default, baskets marked as absent and not delivered are billed, and members are advised to find an acquaintance to collect their basket in their place. In [the settings](/settings#absence), you can also choose not to bill them. The system will then automatically [adjust the billing](/handbook/billing#price-change) of the membership.
+By default, <%= Basket.model_name.human(count: 2).downcase %> marked as absent and not delivered are billed, and members are advised to find an acquaintance to collect their <%= Basket.model_name.human.downcase %> in their place. In [the settings](/settings#absence), you can also choose not to bill them. The system will then automatically [adjust the billing](/handbook/billing#price-change) of the membership.
 
-## Basket Shifts {#basket-shift}
+## <%= Basket.model_name.human %> Shifts {#basket-shift}
 
-It is possible to shift the delivery of a basket during an absence to another delivery. This allows members to compensate for their absences without changing the number of baskets billed.
+It is possible to shift the delivery of a <%= Basket.model_name.human.downcase %> during an absence to another delivery. This allows members to compensate for their absences without changing the number of <%= Basket.model_name.human(count: 2).downcase %> billed.
 
-On the admin side, simply modify a basket marked as absent from the membership page and choose another delivery date. The basket content (including complements) will then be automatically shifted to the chosen basket.
+On the admin side, simply modify a <%= Basket.model_name.human.downcase %> marked as absent from the membership page and choose another delivery date. The <%= Basket.model_name.human.downcase %> content (including complements) will then be automatically shifted to the chosen <%= Basket.model_name.human.downcase %>.
 
-On the member side, basket shifting is not possible by default. To activate this feature, you have the option to [modify the following settings](/settings#absence):
+On the member side, <%= Basket.model_name.human.downcase %> shifting is not possible by default. To activate this feature, you have the option to [modify the following settings](/settings#absence):
 
 - **Number of allowed shifts**: to limit, if you wish, the number of shifts possible by members.
 - **Deadline for shifts**: to limit, if you wish, the shifts possible in time.
 
-If the absence is cancelled, the basket content will be automatically restored to its original delivery.
+If the absence is cancelled, the <%= Basket.model_name.human.downcase %> content will be automatically restored to its original delivery.
 
-> Basket shifting is only possible for billable absences. Included absences (non-billable) cannot be shifted.
+> <%= Basket.model_name.human %> shifting is only possible for billable absences. Included absences (non-billable) cannot be shifted.
 
 ### Newsletter Template
 
-When a basket has received shifts, you can display a reminder in your [newsletter templates](/newsletter_templates) using the `basket.shifted` and `basket.shifts` variables:
+When a <%= Basket.model_name.human.downcase %> has received shifts, you can display a reminder in your [newsletter templates](/newsletter_templates) using the `basket.shifted` and `basket.shifts` variables:
 
 ~~~ liquid
 {% if basket.shifted %}
   {% highlight %}
     <p><strong>📣 Important reminder!</strong></p>
-    <p>You have <strong>{{ basket.quantity }} baskets</strong> to pick up this week:</p>
+    <p>You have <strong>{{ basket.quantity }} <%= Basket.model_name.human(count: 2).downcase %></strong> to pick up this week:</p>
     <ul>
-      <li>Your regular basket</li>
+      <li>Your regular <%= Basket.model_name.human.downcase %></li>
       {% for shift in basket.shifts %}
-        <li>Basket shifted from {{ shift.old_delivery_date }}</li>
+        <li><%= Basket.model_name.human %> shifted from {{ shift.old_delivery_date }}</li>
       {% endfor %}
     </ul>
   {% endhighlight %}
@@ -56,7 +56,7 @@ When members don't use all their included absences by the end of their membershi
 
 **Provisional Absence Respected**
 
-This is the default mode. Provisional absences will not be delivered. Members will receive a reminder email and can then choose to force a delivery from their account if they want to receive baskets that were marked as provisionally absent.
+This is the default mode. Provisional absences will not be delivered. Members will receive a reminder email and can then choose to force a delivery from their account if they want to receive <%= Basket.model_name.human(count: 2).downcase %> that were marked as provisionally absent.
 
 This mode is useful when you prefer that unused absences remain as absences by default, giving members the option to request delivery if needed.
 
@@ -64,11 +64,11 @@ This mode is useful when you prefer that unused absences remain as absences by d
 
 In this mode, unused included absences will have their delivery forced and billed at reminder time. Members receive a reminder email and can report an absence to opt out before the delivery happens and is billed.
 
-This mode is useful when you prefer that members receive their baskets by default, avoiding the confusion of members showing up expecting a basket that wasn't prepared.
+This mode is useful when you prefer that members receive their <%= Basket.model_name.human(count: 2).downcase %> by default, avoiding the confusion of members showing up expecting a <%= Basket.model_name.human.downcase %> that wasn't prepared.
 
 ### Reminder Email {#absence-included-reminder}
 
 A reminder email is sent to members with unused included absences a configurable number of weeks before the first provisional absence (default: 4 weeks). This gives members time to take action according to the chosen mode:
 
-- **In "Provisional Absence Respected" mode**: Force a delivery if they want to receive baskets that were marked as provisionally absent.
+- **In "Provisional Absence Respected" mode**: Force a delivery if they want to receive <%= Basket.model_name.human(count: 2).downcase %> that were marked as provisionally absent.
 - **In "Delivery of Remaining Absences" mode**: Report an absence to opt out of deliveries they don't want.

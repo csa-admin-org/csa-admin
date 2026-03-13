@@ -13,12 +13,36 @@ _:
         _de: Alle, außer %{missing}
         _it: Tutto, tranne %{missing}
         _nl: Alle, behalve %{missing}
-    distribution:
+    distribution/bag:
+      _en: Distribution by bag size
+      _fr: Distribution par taille de sacs
+      _de: Verteilung nach Taschengrösse
+      _it: Distribuzione per dimensione della borsa
+      _nl: Verdeling per tasgrootte
+    distribution/basket:
       _en: Distribution by basket size
       _fr: Distribution par taille de paniers
-      _de: Verteilung nach Taschengröße
-      _it: Distribuzione per dimensione del cestino
+      _de: Verteilung nach Korbgrösse
+      _it: Distribuzione per dimensione della cesta
+      _nl: Verdeling per mandgrootte
+    distribution/cone:
+      _en: Distribution by cone size
+      _fr: Distribution par taille de cornets
+      _de: Verteilung nach Tütengrösse
+      _it: Distribuzione per dimensione del cono
+      _nl: Verdeling per zakgrootte
+    distribution/package:
+      _en: Distribution by package size
+      _fr: Distribution par taille de colis
+      _de: Verteilung nach Paketgrösse
+      _it: Distribuzione per dimensione del pacco
       _nl: Verdeling per pakketgrootte
+    distribution/share:
+      _en: Distribution by share size
+      _fr: Distribution par taille de parts
+      _de: Verteilung nach Anteilsgrösse
+      _it: Distribuzione per dimensione della parte
+      _nl: Verdeling per deelgrootte
     distribution_mode:
       automatic:
         _en: Automatic
@@ -51,9 +75,33 @@ _:
         _de: Pro rata des Preises
         _it: Pro rata al prezzo
         _nl: Pro rata naar prijs
-    quantities_hint:
+    quantities_hint/bag:
+      _en: The total quantity will be calculated automatically according to the number of bags and the quantity of each size.
+      _fr: La quantité totale sera calculée automatiquement selon le nombre de sacs et la quantité de chaque taille.
+      _de: Die Gesamtmenge wird automatisch berechnet, basierend auf der Anzahl der Taschen und der Menge jeder Grösse.
+      _it: La quantità totale sarà calcolata automaticamente in base al numero di borse e alla quantità di ciascuna dimensione.
+      _nl: De totale hoeveelheid wordt automatisch berekend op basis van het aantal tassen en de hoeveelheid van elke grootte.
+    quantities_hint/basket:
       _en: The total quantity will be calculated automatically according to the number of baskets and the quantity of each size.
       _fr: La quantité totale sera calculée automatiquement selon le nombre de paniers et la quantité de chaque taille.
-      _de: Die Gesamtmenge wird automatisch berechnet, basierend auf der Anzahl der Taschen und der Menge jeder Größe.
-      _it: La quantità totale sarà calcolata automaticamente in base al numero di cesti e alla quantità di ciascuna dimensione.
+      _de: Die Gesamtmenge wird automatisch berechnet, basierend auf der Anzahl der Körbe und der Menge jeder Grösse.
+      _it: La quantità totale sarà calcolata automaticamente in base al numero di ceste e alla quantità di ciascuna dimensione.
+      _nl: De totale hoeveelheid wordt automatisch berekend op basis van het aantal manden en de hoeveelheid van elke grootte.
+    quantities_hint/cone:
+      _en: The total quantity will be calculated automatically according to the number of cones and the quantity of each size.
+      _fr: La quantité totale sera calculée automatiquement selon le nombre de cornets et la quantité de chaque taille.
+      _de: Die Gesamtmenge wird automatisch berechnet, basierend auf der Anzahl der Tüten und der Menge jeder Grösse.
+      _it: La quantità totale sarà calcolata automaticamente in base al numero di coni e alla quantità di ciascuna dimensione.
+      _nl: De totale hoeveelheid wordt automatisch berekend op basis van het aantal zakken en de hoeveelheid van elke grootte.
+    quantities_hint/package:
+      _en: The total quantity will be calculated automatically according to the number of packages and the quantity of each size.
+      _fr: La quantité totale sera calculée automatiquement selon le nombre de colis et la quantité de chaque taille.
+      _de: Die Gesamtmenge wird automatisch berechnet, basierend auf der Anzahl der Pakete und der Menge jeder Grösse.
+      _it: La quantità totale sarà calcolata automaticamente in base al numero di pacchi e alla quantità di ciascuna dimensione.
       _nl: De totale hoeveelheid wordt automatisch berekend op basis van het aantal pakketten en de hoeveelheid van elke grootte.
+    quantities_hint/share:
+      _en: The total quantity will be calculated automatically according to the number of shares and the quantity of each size.
+      _fr: La quantité totale sera calculée automatiquement selon le nombre de parts et la quantité de chaque taille.
+      _de: Die Gesamtmenge wird automatisch berechnet, basierend auf der Anzahl der Anteile und der Menge jeder Grösse.
+      _it: La quantità totale sarà calcolata automaticamente in base al numero di parti e alla quantità di ciascuna dimensione.
+      _nl: De totale hoeveelheid wordt automatisch berekend op basis van het aantal delen en de hoeveelheid van elke grootte.

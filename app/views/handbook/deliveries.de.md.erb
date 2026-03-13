@@ -1,8 +1,8 @@
 # Lieferungen
 
-[Die Lieferungen](/deliveries) sind ein zentrales Element von CSA Admin und ermöglichen es Ihnen, alle Lieferdaten Ihrer Taschen im Laufe des Jahres zu verwalten. Die Lieferungen sind eines der ersten Elemente, die erstellt werden müssen. Es ist wichtig, dass **alle Lieferdaten** **vor Beginn Ihres Geschäftsjahres** definiert sind, da die Erstellung der Abonnements und ihrer Taschen davon abhängt.
+[Die Lieferungen](/deliveries) sind ein zentrales Element von CSA Admin und ermöglichen es Ihnen, alle Lieferdaten Ihrer <%= Basket.model_name.human(count: 2) %> im Laufe des Jahres zu verwalten. Die Lieferungen sind eines der ersten Elemente, die erstellt werden müssen. Es ist wichtig, dass **alle Lieferdaten** **vor Beginn Ihres Geschäftsjahres** definiert sind, da die Erstellung der Abonnements und ihrer <%= Basket.model_name.human(count: 2) %> davon abhängt.
 
-Die nächste Lieferung sowie die Anzahl ihrer Taschen/Ergänzungen pro Depot sind immer vom [Dashboard](/dashboard) aus verfügbar. Jede Lieferungsseite enthält auch diese Informationen sowie die Liste der abwesenden Mitglieder.
+Die nächste Lieferung sowie die Anzahl ihrer <%= Basket.model_name.human(count: 2) %>/<%= BasketComplement.model_name.human(count: 2) %> pro Depot sind immer vom [Dashboard](/dashboard) aus verfügbar. Jede Lieferungsseite enthält auch diese Informationen sowie die Liste der abwesenden Mitglieder.
 
 > Sie können einfach Lieferungen in Chargen mit Hilfe der Registerkarte "Mehrere Termine" im [Lieferungserstellungsformular](/deliveries/new) erstellen.
 
@@ -14,7 +14,7 @@ Einige Organisationen bieten verschiedene Lieferoptionen an, zum Beispiel:
 - Lieferungen jede Woche oder jede zweite Woche.
 - Lieferungen nur im Winter oder im Sommer.
 
-[Die Lieferzyklen](/delivery_cycles) ermöglichen es, bestehende Lieferungen eines Geschäftsjahres dynamisch nach Ihren Bedürfnissen zu gruppieren und bieten Ihnen so große Flexibilität bei der Verwaltung Ihrer Lieferungen. Jedes Abonnement ist mit einem Lieferzyklus verbunden, der die Lieferdaten und die Anzahl der Taschen bestimmt.
+[Die Lieferzyklen](/delivery_cycles) ermöglichen es, bestehende Lieferungen eines Geschäftsjahres dynamisch nach Ihren Bedürfnissen zu gruppieren und bieten Ihnen so große Flexibilität bei der Verwaltung Ihrer Lieferungen. Jedes Abonnement ist mit einem Lieferzyklus verbunden, der die Lieferdaten und die Anzahl der <%= Basket.model_name.human(count: 2) %> bestimmt.
 
 ### Einstellungen {#settings}
 
@@ -42,7 +42,7 @@ Die Verfügbarkeit jedes Lieferzyklus kann pro Depot konfiguriert werden; ein De
 
 Die Auswahl eines Lieferzyklus im Anmeldeformular hängt von der Konfiguration ihrer Verfügbarkeit pro Depot ab. In jedem Fall wird die Auswahl des Lieferzyklus den Mitgliedern nur angeboten, wenn mindestens zwei Lieferzyklen für ein sichtbares Depot verfügbar sind.
 
-> Bei der Erstellung einer Mitgliedschaft durch einen Administrator ist es immer möglich, jeden beliebigen Lieferzyklus zu wählen. Die Taschen werden automatisch basierend auf den Lieferungen dieses Zyklus zwischen dem Start- und Enddatum erstellt ✨.
+> Bei der Erstellung einer Mitgliedschaft durch einen Administrator ist es immer möglich, jeden beliebigen Lieferzyklus zu wählen. Die <%= Basket.model_name.human(count: 2) %> werden automatisch basierend auf den Lieferungen dieses Zyklus zwischen dem Start- und Enddatum erstellt ✨.
 
 ### Abrechnung
 
@@ -52,6 +52,6 @@ Jeder Lieferzyklus kann eigene Abrechnungsoptionen haben:
 - **Name (Rechnung)**: Ein benutzerdefinierter Name, der auf Rechnungen anstelle des Standard-Lieferzyklusnamens angezeigt wird.
 - **Jährlich enthaltene Abwesenheiten**: Automatisch eine bestimmte Anzahl von Lieferungen ausschließen, damit Mitglieder eine begrenzte Anzahl nicht berechneter Abwesenheiten planen können. Siehe [Enthaltene Abwesenheiten](/handbook/absence#absence-included) für weitere Details.
 
-## Taschenergänzungen {#basket-complements}
+## <%= BasketComplement.model_name.human(count: 2) %> {#basket-complements}
 
-[Die Taschenergänzungen](/basket_complements) folgen oft ihrem eigenen Lieferzyklus, und das auf eine Weise, die schwer dynamisch zu programmieren ist. Es ist daher notwendig, und das für jede Taschenergänzung, alle Lieferdaten zu definieren, an denen diese Ergänzung verfügbar ist oder nicht. Diese Operation muss jedes Jahr nach der Erstellung der neuen Lieferungen durchgeführt werden.
+[Die <%= BasketComplement.model_name.human(count: 2) %>](/basket_complements) folgen oft ihrem eigenen Lieferzyklus, und das auf eine Weise, die schwer dynamisch zu programmieren ist. Es ist daher notwendig, und das für jede <%= BasketComplement.model_name.human %>, alle Lieferdaten zu definieren, an denen diese Ergänzung verfügbar ist oder nicht. Diese Operation muss jedes Jahr nach der Erstellung der neuen Lieferungen durchgeführt werden.

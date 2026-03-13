@@ -69,6 +69,14 @@ module OrganizationsHelper
     end
   end
 
+  def basket_i18n_scopes_collection(locale)
+    I18n.with_locale(locale) do
+      Organization.basket_i18n_scopes.map { |s| [ I18n.t("baskets.#{s}.other"), s ]
+      }.sort_by(&:first)
+    end
+  end
+
+
   private
 
   def membership_renewed_attribute_item(attribute, label: nil)

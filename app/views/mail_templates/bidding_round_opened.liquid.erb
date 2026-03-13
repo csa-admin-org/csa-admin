@@ -1,0 +1,9 @@
+<p><%= t(".round_opened_paragraph") %></p>
+
+{{ bidding_round.information_text }}
+
+<p><%= t(".make_pledge_paragraph") %></p>
+
+{% button member.memberships_url %}
+  <%= t(".pledge_button") %>
+{% endbutton %}

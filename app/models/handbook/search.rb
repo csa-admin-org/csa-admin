@@ -3,7 +3,8 @@
 module Handbook::Search
   extend ActiveSupport::Concern
 
-  # Heading lines are plain text (no ERB), so regex is safe.
+  # Heading lines may contain ERB model_name.human calls which are
+  # resolved at search-index time via resolve_erb_model_names.
   H1_REGEX = /^#\s+(.+?)$/
   H2_REGEX = /^##\s+(.+?)\s*\{#([\w-]+)\}$/
   H3_REGEX = /^###\s+(.+?)\s*\{#([\w-]+)\}$/
@@ -150,6 +151,7 @@ module Handbook::Search
         name = File.basename(filepath, ".#{locale}.md.erb")
         content = File.read(filepath)
         content = Handbook.filter_country_sections(content)
+        content = resolve_erb_model_names(content)
 
         title = content[H1_REGEX, 1]
         next unless title
@@ -173,6 +175,7 @@ module Handbook::Search
         name = File.basename(filepath, ".#{locale}.md.erb")
         content = File.read(filepath)
         content = Handbook.filter_country_sections(content)
+        content = resolve_erb_model_names(content)
 
         title = content[H1_REGEX, 1]
         next unless title
@@ -187,6 +190,38 @@ module Handbook::Search
           sections: sections
         }
       }
+    end
+
+    # Resolves ERB model_name.human calls (e.g. <%= Basket.model_name.human %>)
+    # to their rendered text so headings and body content are searchable.
+    # Other ERB tags (control flow, helpers) are left untouched for
+    # strip_erb_tags to remove later.
+    MODEL_NAME_ERB_REGEX = /<%=\s*(\w+)\.model_name\.human(?:\(([^)]*)\))?(\.\w+)*\s*%>/
+
+    def resolve_erb_model_names(text)
+      text.gsub(MODEL_NAME_ERB_REGEX) do
+        klass_name = $1
+        args_str = $2
+        chain = $3
+
+        klass = klass_name.safe_constantize
+        next $& unless klass&.respond_to?(:model_name)
+
+        opts = {}
+        if args_str.present?
+          args_str.scan(/([\w]+):\s*(\d+)/) { |k, v| opts[k.to_sym] = v.to_i }
+        end
+
+        result = klass.model_name.human(**opts)
+
+        if chain.present?
+          chain.scan(/\.(\w+)/).each do |method,|
+            result = result.public_send(method) if result.respond_to?(method)
+          end
+        end
+
+        result
+      end
     end
 
     def strip_erb_tags(text)

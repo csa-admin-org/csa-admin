@@ -189,7 +189,8 @@ class Newsletter::TemplateTest < ActiveSupport::TestCase
 
     assert_includes mail_body, "Here are the upcoming activities where we still need people:"
     assert_includes mail_body, "Help with the harvest, Farm</li>"
-    assert_includes mail_body, "Considering your current registrations, you still have\n2"
+    assert_includes mail_body, "Considering your current registrations, you still have"
+    assert_includes mail_body, "2 activity(s)"
   end
 
   test "send default next delivery template (without activities)" do

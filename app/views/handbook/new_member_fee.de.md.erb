@@ -1,6 +1,6 @@
 # Teilnahmegebühr
 
-Diese Funktion ermöglicht es Ihnen, automatisch eine Teilnahmegebühr für Ihre neuen Mitglieder zu berechnen, beispielsweise für wiederverwendbare Taschen/Säcke.
+Diese Funktion ermöglicht es Ihnen, automatisch eine Teilnahmegebühr für Ihre neuen Mitglieder zu berechnen, beispielsweise für wiederverwendbare <%= Basket.model_name.human(count: 2) %>.
 
 Sobald diese zusätzliche Funktion aktiviert ist, müssen die Beschreibung sowie der Betrag Ihrer Teilnahmegebühr in [Ihren Einstellungen](/settings#new_member_fee) definiert werden.
 
@@ -8,7 +8,7 @@ Sobald diese zusätzliche Funktion aktiviert ist, müssen die Beschreibung sowie
 
 ## Abrechnung {#billing}
 
-Das System kümmert sich darum, diese Gebühren jedem neuen Mitglied am automatischen Abrechnungstag zu berechnen, der in [Ihren Einstellungen](/settings#billing) definiert ist. Wenn Sie [Probetaschen](/handbook/billing#trial-baskets) haben, werden diese Gebühren erst am Ende der Probezeit berechnet, wenn das Mitglied sich entscheidet, weiterzumachen.
+Das System kümmert sich darum, diese Gebühren jedem neuen Mitglied am automatischen Abrechnungstag zu berechnen, der in [Ihren Einstellungen](/settings#billing) definiert ist. Wenn Sie [<%= Basket.model_name.human(count: 2) %> zur Probe](/handbook/billing#trial-baskets) haben, werden diese Gebühren erst am Ende der Probezeit berechnet, wenn das Mitglied sich entscheidet, weiterzumachen.
 
 Es ist möglich, einen spezifischen Text in der [E-Mail-Vorlage "Neue Rechnung"](/mail_templates/invoice_created) mit Hilfe der folgenden [Liquid-Syntax](https://shopify.github.io/liquid) hinzuzufügen:
 

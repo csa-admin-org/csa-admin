@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 class AdminMailer < ApplicationMailer
-  include ActivitiesHelper
-
   def depot_delivery_list_email
     depot = params[:depot]
     delivery = params[:delivery]
@@ -153,7 +151,7 @@ class AdminMailer < ApplicationMailer
       content_mail(content,
         to: @admin.email,
         reply_to: params[:reply_to],
-        subject: t_activity(".subject"),
+        subject: t(".subject"),
         tag: "admin-activity-participation-created")
     end
   end

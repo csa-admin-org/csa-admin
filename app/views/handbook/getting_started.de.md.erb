@@ -16,23 +16,23 @@ Eine [Handbuchseite](/handbook/deliveries) ist mit weiteren Details verfügbar, 
 
 > Kein Problem, wenn die genauen Daten noch nicht feststehen. Stellen Sie einfach sicher, dass die richtige Anzahl an Lieferungen vorhanden ist, damit die Preise im Anmeldeformular korrekt angezeigt werden. Sie können die Daten später jederzeit anpassen.
 
-## 3. Taschengrößen {#basket-sizes}
+## 3. <%= BasketSize.model_name.human(count: 2) %> {#basket-sizes}
 
-Als Nächstes [erstellen Sie Ihre Taschengrößen](/basket_sizes) (z.B. klein, groß). Diese definieren die Abonnement-Typen, aus denen Ihre Mitglieder wählen können.
+Als Nächstes [erstellen Sie Ihre <%= BasketSize.model_name.human(count: 2) %>](/basket_sizes) (z.B. klein, groß). Diese definieren die Abonnement-Typen, aus denen Ihre Mitglieder wählen können.
 
-## 4. Taschenergänzungen (optional) {#basket-complements}
+## 4. <%= BasketComplement.model_name.human(count: 2) %> (optional) {#basket-complements}
 
-[Taschenergänzungen](/basket_complements) sind optionale Extras wie Brot, Käse oder Eier, die Mitglieder zusätzlich zu ihrer Tasche abonnieren können. Jede Ergänzung kann an bestimmten Lieferterminen geliefert werden, zum Beispiel nur während der Winterperiode oder jede zweite Woche.
+[<%= BasketComplement.model_name.human(count: 2) %>](/basket_complements) sind optionale Extras wie Brot, Käse oder Eier, die Mitglieder zusätzlich zu ihrer <%= Basket.model_name.human %> abonnieren können. Jede Ergänzung kann an bestimmten Lieferterminen geliefert werden, zum Beispiel nur während der Winterperiode oder jede zweite Woche.
 
 ## 5. Depots {#depots}
 
-[Erstellen Sie mindestens ein Depot](/depots), die Abholorte, an denen Mitglieder ihre Taschen abholen.
+[Erstellen Sie mindestens ein Depot](/depots), die Abholorte, an denen Mitglieder ihre <%= Basket.model_name.human(count: 2) %> abholen.
 
 Ein Preis kann auch pro Depot festgelegt werden, um zusätzliche Vorbereitungs- oder Lieferkosten abzudecken. Dieser wird bei der Abrechnung der Abonnements automatisch berücksichtigt.
 
 ## 6. Anmeldeformular {#registration-form}
 
-Jetzt, wo Ihre Lieferungen, Taschengrößen und Depots konfiguriert sind, sollte Ihr [Anmeldeformular](<%= new_members_member_url(subdomain: Current.org.members_subdomain) %>) Gestalt annehmen und bald bereit sein, neue Mitglieder zu empfangen!
+Jetzt, wo Ihre Lieferungen, <%= BasketSize.model_name.human(count: 2) %> und Depots konfiguriert sind, sollte Ihr [Anmeldeformular](<%= new_members_member_url(subdomain: Current.org.members_subdomain) %>) Gestalt annehmen und bald bereit sein, neue Mitglieder aufzunehmen!
 
 Schauen Sie sich die [Handbuchseite zum Anmeldeformular](/handbook/registration) an, um zu erfahren, wie jede Einstellung das Formular beeinflusst und Tipps zur Feinabstimmung zu finden.
 

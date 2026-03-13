@@ -1,0 +1,12 @@
+<p><%= t(".greeting") %></p>
+
+{% if member.existing %}
+  <p><%= t(".existing_member_paragraph") %></p>
+  <p><%= t(".account_updated_paragraph") %></p>
+{% else %}
+  <p><%= t(".new_member_paragraph") %></p>
+{% endif %}
+
+{% button member.admin_url %}
+  <%= t(".member_page_button") %>
+{% endbutton %}

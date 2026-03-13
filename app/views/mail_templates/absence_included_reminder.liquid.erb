@@ -1,0 +1,38 @@
+<p><%= t(".absences_included_paragraph") %></p>
+
+{% case organization.absences_included_mode %}
+{% when "provisional_absence" %}
+
+<p><%= t(".provisional_absence_paragraph") %></p>
+{% highlight %}
+  <ul>
+  {% for basket in membership.provisional_baskets %}
+    <li>{{ basket.delivery.date }}</li>
+  {% endfor %}
+  </ul>
+{% endhighlight %}
+
+<p><%= t(".provisional_absence_baskets_paragraph") %></p>
+
+{% button member.deliveries_url %}
+  <%= t(".view_deliveries_button") %>
+{% endbutton %}
+
+{% when "provisional_delivery" %}
+
+<p><%= t(".provisional_delivery_paragraph") %></p>
+{% highlight %}
+  <ul>
+  {% for basket in membership.forced_baskets %}
+    <li>{{ basket.delivery.date }}</li>
+  {% endfor %}
+  </ul>
+{% endhighlight %}
+
+<p><%= t(".provisional_delivery_absence_paragraph") %></p>
+
+{% button member.absences_url %}
+  <%= t(".manage_absences_button") %>
+{% endbutton %}
+
+{% endcase %}

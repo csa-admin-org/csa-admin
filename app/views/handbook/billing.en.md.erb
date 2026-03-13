@@ -24,7 +24,7 @@ The invoice amount is calculated as follows: total membership amount / number of
 
 It is therefore crucial that each membership configuration is up to date so that invoices are correct.
 
-By default, the first invoice is sent on the billing day following the first basket delivery, but it's possible to modify this in [the settings](/settings#billing) (Bill memberships only after their first delivery) to bill the membership from its start.
+By default, the first invoice is sent on the billing day following the first <%= Basket.model_name.human.downcase %> delivery, but it's possible to modify this in [the settings](/settings#billing) (Bill memberships only after their first delivery) to bill the membership from its start.
 
 By default, billing extends until the membership end date, but it's possible to modify this in [the settings](/settings#billing) (Bill memberships until their last delivery only) to extend the billing period only until the date of their last delivery. This is useful when, for example, the last months of the fiscal year have no deliveries.
 
@@ -44,7 +44,7 @@ Advance invoicing can be done from the page of a future subscription by clicking
 
 ### Price change {#price-change}
 
-If a membership configuration (dates, basket size, ...) is modified, several cases are possible:
+If a membership configuration (dates, <%= BasketSize.model_name.human.downcase %>, ...) is modified, several cases are possible:
 
 - A future invoice still needs to be sent (it's the middle of the year and the member is billed each quarter); in this case, the price change (positive or negative) will simply be applied to the next invoice.
 - The last invoice has already been sent (it's the end of the year or the member is billed once), there are then 2 possibilities:
@@ -55,13 +55,13 @@ If a membership configuration (dates, basket size, ...) is modified, several cas
 
 The annual fee is automatically included in the first invoice of the membership. If the member doesn't have a membership ([support](/handbook/members#statuses)) then a specific invoice is automatically created at the beginning of the fiscal year.
 
-### Trial baskets {#trial-baskets}
+### Trial <%= Basket.model_name.human(count: 2).downcase %> {#trial-baskets}
 
-If a number of trial baskets is defined in [the billing settings](/settings#billing), then the membership will only be billed once all trial baskets are delivered, on the next billing day following the delivery of the first non-trial basket.
+If a number of trial <%= Basket.model_name.human(count: 2).downcase %> is defined in [the billing settings](/settings#billing), then the membership will only be billed once all trial <%= Basket.model_name.human(count: 2).downcase %> are delivered, on the next billing day following the delivery of the first non-trial <%= Basket.model_name.human.downcase %>.
 
-Members can cancel their membership themselves during the trial period from their member account. The membership will then end on the last trial basket delivery date. To cancel a membership immediately, the admin must do so manually.
+Members can cancel their membership themselves during the trial period from their member account. The membership will then end on the last trial <%= Basket.model_name.human.downcase %> delivery date. To cancel a membership immediately, the admin must do so manually.
 
-If the membership is canceled during the trial period, only the delivered baskets will be billed, on the next billing day. In this case, the annual fee is not billed (unless the member chooses to pay it).
+If the membership is canceled during the trial period, only the delivered <%= Basket.model_name.human(count: 2).downcase %> will be billed, on the next billing day. In this case, the annual fee is not billed (unless the member chooses to pay it).
 
 ## Share capital {#share-capital}
 

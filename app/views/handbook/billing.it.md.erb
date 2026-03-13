@@ -24,7 +24,7 @@ L'importo della fattura è calcolato così: importo totale dell'abbonamento / nu
 
 È quindi fondamentale che ogni configurazione di abbonamento sia ben aggiornata affinché le fatture siano corrette.
 
-Per impostazione predefinita, la prima fattura viene inviata il giorno di fatturazione successivo alla prima consegna della cesta, ma è possibile modificarlo nelle [impostazioni](/settings#billing) (Fatturare gli abbonamenti solo dopo la loro prima consegna) per fatturare l'abbonamento dall'inizio dello stesso.
+Per impostazione predefinita, la prima fattura viene inviata il giorno di fatturazione successivo alla prima consegna della <%= Basket.model_name.human.downcase %>, ma è possibile modificarlo nelle [impostazioni](/settings#billing) (Fatturare gli abbonamenti solo dopo la loro prima consegna) per fatturare l'abbonamento dall'inizio dello stesso.
 
 Per impostazione predefinita, la fatturazione si estende fino alla data di fine dell'abbonamento, ma è possibile modificarlo nelle [impostazioni](/settings#billing) (Fatturare gli abbonamenti solo fino alla loro ultima consegna) per estendere il periodo di fatturazione solo fino alla data della loro ultima consegna. Questo è utile quando, per esempio, gli ultimi mesi dell'anno fiscale non hanno consegne.
 
@@ -44,7 +44,7 @@ La fatturazione anticipata può essere effettuata dalla pagina di un abbonamento
 
 ### Cambio di prezzo {#price-change}
 
-Se la configurazione di un abbonamento (date, dimensione della cesta, ...) viene modificata, sono possibili diversi casi:
+Se la configurazione di un abbonamento (date, <%= BasketSize.model_name.human.downcase %>, ...) viene modificata, sono possibili diversi casi:
 
 - Una fattura futura deve ancora essere inviata (è la metà dell'anno e il socio viene fatturato ogni trimestre); in questo caso, il cambiamento di prezzo (positivo o negativo) sarà semplicemente applicato alla prossima fattura.
 - L'ultima fattura è già stata inviata (è la fine dell'anno o il socio viene fatturato una volta), ci sono allora 2 possibilità:
@@ -55,13 +55,13 @@ Se la configurazione di un abbonamento (date, dimensione della cesta, ...) viene
 
 La quota annuale è automaticamente inclusa nella prima fattura dell'abbonamento. Se il socio non ha un abbonamento ([supporto](/handbook/members#statuses)) allora viene creata automaticamente una fattura specifica all'inizio dell'anno fiscale.
 
-### Ceste di prova {#trial-baskets}
+### <%= Basket.model_name.human(count: 2) %> di prova {#trial-baskets}
 
-Se un numero di ceste di prova è definito nelle [impostazioni di fatturazione](/settings#billing), allora l'abbonamento sarà fatturato solo una volta che tutte le ceste di prova saranno state consegnate, il prossimo giorno di fatturazione successivo alla consegna della prima cesta non di prova.
+Se un numero di <%= Basket.model_name.human(count: 2).downcase %> di prova è definito nelle [impostazioni di fatturazione](/settings#billing), allora l'abbonamento sarà fatturato solo una volta che tutte le <%= Basket.model_name.human(count: 2).downcase %> di prova saranno state consegnate, il prossimo giorno di fatturazione successivo alla consegna della prima <%= Basket.model_name.human.downcase %> non di prova.
 
-I soci possono annullare il proprio abbonamento durante il periodo di prova dal proprio account. L'abbonamento terminerà alla data dell'ultima consegna della cesta di prova. Per annullare un abbonamento immediatamente, l'amministratore deve farlo manualmente.
+I soci possono annullare il proprio abbonamento durante il periodo di prova dal proprio account. L'abbonamento terminerà alla data dell'ultima consegna della <%= Basket.model_name.human.downcase %> di prova. Per annullare un abbonamento immediatamente, l'amministratore deve farlo manualmente.
 
-Se l'abbonamento viene annullato durante il periodo di prova, solo le ceste consegnate saranno fatturate, il prossimo giorno di fatturazione. In questo caso, la quota annuale non viene fatturata (a meno che il socio non scelga di pagarla).
+Se l'abbonamento viene annullato durante il periodo di prova, solo le <%= Basket.model_name.human(count: 2).downcase %> consegnate saranno fatturate, il prossimo giorno di fatturazione. In questo caso, la quota annuale non viene fatturata (a meno che il socio non scelga di pagarla).
 
 ## Quote sociali {#share-capital}
 

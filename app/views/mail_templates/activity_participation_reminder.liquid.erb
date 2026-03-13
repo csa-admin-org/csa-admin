@@ -1,0 +1,37 @@
+<p><%= t(".reminder_paragraph") %></p>
+
+{% highlight_list %}
+  <strong><%= t(".date_label") %></strong> {{ activity.date_long }}
+  <strong><%= t(".schedule_label") %></strong> {{ activity.period }}
+  <strong><%= t(".activity_label") %></strong> {{ activity.title }}
+  {% if activity.description %}
+  <strong><%= t(".description_label") %></strong> {{ activity.description }}
+  {% endif %}
+  {% if activity.place_url %}
+  <strong><%= t(".location_label") %></strong> <a href="{{ activity.place_url }}" target="_black">{{ activity.place }}</a>
+  {% elsif activity.place %}
+  <strong><%= t(".location_label") %></strong> {{ activity.place }}
+  {% endif %}
+  <strong><%= t(".participants_label") %></strong> {{ activity_participation.participants_count }}
+{% endhighlight_list %}
+
+{% if organization.activity_phone %}
+  <p><%= t(".questions_paragraph") %></p>
+{% endif %}
+
+{% if activity_participation.carpooling.size > 0 %}
+  <p><%= t(".carpooling_paragraph") %></p>
+  {% highlight %}
+    <ul>
+      {% for carpooling in activity_participation.carpooling %}
+        <li><strong>{{ carpooling.member_name }}</strong>: {{ carpooling.member_phone }} {% if carpooling.leaving_from_city %}({{ carpooling.leaving_from_city }}){% endif %}</li>
+      {% endfor %}
+    </ul>
+  {% endhighlight %}
+{% endif %}
+
+<p><%= t(".modify_registrations_paragraph") %></p>
+
+{% button member.activities_url %}
+  <%= t(".member_page_button") %>
+{% endbutton %}

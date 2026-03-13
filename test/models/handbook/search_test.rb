@@ -83,10 +83,10 @@ class HandbookSearchTest < ActiveSupport::TestCase
   end
 
   test "search finds H3 heading for trial baskets" do
-    results = Handbook.search("trial baskets", locale: :en)
+    results = Handbook.search("trial", locale: :en)
 
     match = results.find { |r| r[:name] == "billing" && r[:anchor] == "trial-baskets" }
-    assert match, "Expected a subtitle match for H3 'Trial baskets'"
+    assert match, "Expected a subtitle match for H3 'Trial ...' (dynamic basket name)"
   end
 
   test "search finds H3 heading in French" do

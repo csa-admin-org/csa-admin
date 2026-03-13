@@ -16,7 +16,7 @@ The [subtitle setting](/settings#registration) supports rich text, but keep in m
 
 **Better to avoid:**
 
-*Our CSA was founded in 2012 and delivers organic vegetables from our farm in the countryside. We work with 3 partner farms and offer baskets in 12 different sizes. Pricing is based on a solidarity model where...* (and 200 more words)
+*Our CSA was founded in 2012 and delivers organic vegetables from our farm in the countryside. We work with 3 partner farms and offer <%= Basket.model_name.human(count: 2).downcase %> in 12 different sizes. Pricing is based on a solidarity model where...* (and 200 more words)
 
 ## Text Styling Tips {#text-styling}
 
@@ -30,33 +30,33 @@ All rich text fields in the [registration settings](/settings#registration) use 
 
 You'll notice a word count indicator in the settings editor when text gets long. It's just a gentle nudge, not a hard limit. If you're over the threshold, it might be worth trimming or moving some content to your website.
 
-## Basket Sizes {#basket-sizes}
+## <%= BasketSize.model_name.human(count: 2) %> {#basket-sizes}
 
-[Basket sizes](/basket_sizes) are the core of your registration form. Each visible basket size appears as a choice for new members.
+[<%= BasketSize.model_name.human(count: 2) %>](/basket_sizes) are the core of your registration form. Each visible <%= BasketSize.model_name.human.downcase %> appears as a choice for new members.
 
 - **Name**: What members see (e.g., "Small", "Family"). A self-explanatory name helps: "Small (1–2 people)" is clearer than just "Small".
 - **Description**: Overrides the auto-generated text (price × deliveries). Useful when the default doesn't quite capture what you need.
-- **Visibility**: Set a basket size to invisible if it's only for admins (e.g., a special rate). Invisible sizes won't appear in the form.
+- **Visibility**: Set a <%= BasketSize.model_name.human.downcase %> to invisible if it's only for admins (e.g., a special rate). Invisible sizes won't appear in the form.
 - **Display order**: Controlled by the [order mode setting](/settings#registration), either by name, by price, or by custom priority.
 
-## Basket Complements {#basket-complements}
+## <%= BasketComplement.model_name.human(count: 2) %> {#basket-complements}
 
-[Basket complements](/basket_complements) (bread, cheese, eggs, etc.) appear after the basket size selection.
+[<%= BasketComplement.model_name.human(count: 2) %>](/basket_complements) (bread, cheese, eggs, etc.) appear after the <%= BasketSize.model_name.human.downcase %> selection.
 
 - **Checkbox vs. quantity mode**: The [complement quantities setting](/settings#registration) controls whether members see simple checkboxes (subscribe or not) or quantity fields (0, 1, 2...).
 - **Complement text**: An optional introduction before the list. One sentence is usually enough to explain what's available.
 - **Display order**: Controlled by the [order mode setting](/settings#registration).
 
-## Solidarity Pricing / Basket Price Extra {#basket-price-extra}
+## Solidarity Pricing / <%= Basket.model_name.human %> Price Extra {#basket-price-extra}
 
 <% if feature?("basket_price_extra") %>
-This feature lets members voluntarily pay more per basket. See the dedicated [basket price extra handbook page](/handbook/basket_price_extra) for configuration details.
+This feature lets members voluntarily pay more per <%= Basket.model_name.human.downcase %>. See the dedicated [<%= Basket.model_name.human.downcase %> price extra handbook page](/handbook/basket_price_extra) for configuration details.
 
 A few tips for the registration form:
 
 - **4 to 6 options works well.** Too many choices can feel overwhelming. If you have more than 6, the form switches to a dropdown, which is less visible.
 - **Keep the explanation text short.** If you want to explain your solidarity model in detail, link to your website.
-- **Clear labels matter.** Make sure each option shows the price impact clearly. See the [basket price extra settings](/settings#basket_price_extra) for label configuration.
+- **Clear labels matter.** Make sure each option shows the price impact clearly. See the [<%= Basket.model_name.human.downcase %> price extra settings](/settings#basket_price_extra) for label configuration.
 <% else %>
 This feature is not currently activated. You can enable it in [your settings](/settings#organization_features_input).
 <% end %>
@@ -94,7 +94,7 @@ If a cycle is only relevant to certain depots, setting up the depot-cycle associ
 
 Two settings control the explanation text in the membership section:
 
-- **[Extra text](/settings#registration)**: Appended after the auto-generated text (fiscal year, trial baskets, annual fee, shares).
+- **[Extra text](/settings#registration)**: Appended after the auto-generated text (fiscal year, trial <%= Basket.model_name.human(count: 2).downcase %>, annual fee, shares).
 - **[Extra text only](/settings#registration)**: Replaces the auto-generated text entirely. Only useful if the default text really doesn't fit your needs.
 
 The auto-generated text already covers the essentials, so the extra text is best used for what's specific to your organization. If you find yourself writing more than a short paragraph, consider linking to your website instead.
@@ -125,8 +125,8 @@ Several elements in the form can be reordered:
 
 | Element | Setting | Options |
 |---------|---------|---------|
-| Basket sizes | [Order mode](/settings#registration) | Name, price (asc/desc), priority |
-| Basket complements | [Order mode](/settings#registration) | Name, price (asc/desc), priority |
+| <%= BasketSize.model_name.human(count: 2) %> | [Order mode](/settings#registration) | Name, price (asc/desc), priority |
+| <%= BasketComplement.model_name.human(count: 2) %> | [Order mode](/settings#registration) | Name, price (asc/desc), priority |
 | Depots | [Order mode](/settings#registration) | Name, price (asc/desc), priority |
 | Delivery cycles | [Order mode](/settings#registration) | Name, priority |
 

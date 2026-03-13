@@ -1,6 +1,6 @@
-# Extra pakketprijs
+# Extra <%= Basket.model_name.human.downcase %>prijs
 
-Deze functie stelt u in staat om uw leden de mogelijkheid te bieden om een extra bedrag voor elk pakket te betalen.
+Deze functie stelt u in staat om uw leden de mogelijkheid te bieden om een extra bedrag voor elke <%= Basket.model_name.human.downcase %> te betalen.
 
 Deze aanvullende inkomsten kunnen verschillende behoeften dienen, bijvoorbeeld:
 
@@ -23,9 +23,9 @@ Vervolgens moet u definiëren hoe uw extra's worden weergegeven, bijvoorbeeld me
 {% if extra == 0 %}
 Basisprijs
 {% elsif extra == 1.5 %}
-+ {{ extra }}/pakket
++ {{ extra }}/<%= Basket.model_name.human.downcase %>
 {% else %}
-+ {{ extra | ceil }}.-/pakket
++ {{ extra | ceil }}.-/<%= Basket.model_name.human.downcase %>
 {% endif %}
 ~~~
 

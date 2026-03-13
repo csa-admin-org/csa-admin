@@ -24,42 +24,162 @@ _:
       _de: Ermöglicht die Verwaltung von Aktivitäten, die von Mitgliedern durchgeführt werden.<br/>Bitte <a href="/handbook/activity">konsultieren Sie das Handbuch</a> für weitere Informationen.
       _it: Permette di gestire le attività svolte dai soci.<br/>Si prega <a href="/handbook/activity">di consultare il manuale</a> per ulteriori informazioni.
       _nl: Maakt het mogelijk om activiteiten die door leden worden uitgevoerd te beheren.<br/>Raadpleeg <a href="/handbook/activity">de handleiding</a> voor meer informatie.
-    basket_content:
-      _en: Basket content
-      _fr: Contenu Panier
+    basket_content/bag:
+      _en: Bag content
+      _fr: Contenu sac
       _de: Tascheninhalt
+      _it: Contenuto borsa
+      _nl: Tasinhoud
+    basket_content/basket:
+      _en: Basket content
+      _fr: Contenu panier
+      _de: Korbinhalt
       _it: Contenuto cesta
+      _nl: Mandinhoud
+    basket_content/cone:
+      _en: Cone content
+      _fr: Contenu cornet
+      _de: Tüteninhalt
+      _it: Contenuto cono
+      _nl: Zakinhoud
+    basket_content/package:
+      _en: Package content
+      _fr: Contenu colis
+      _de: Paketinhalt
+      _it: Contenuto pacco
       _nl: Pakketinhoud
-    basket_content_hint:
+    basket_content/share:
+      _en: Share content
+      _fr: Contenu part
+      _de: Anteilsinhalt
+      _it: Contenuto parte
+      _nl: Deelinhoud
+    basket_content_hint/bag:
+      _en: Provides a tool to calculate the content and value of bags for each delivery.<br/>Please <a href="/handbook/basket_content">consult the manual</a> for more information.
+      _fr: Fournit un outil pour calculer le contenu et la valeur des sacs pour chaque livraison.<br/>Merci de <a href="/handbook/basket_content">consulter le manuel</a> pour plus d'informations.
+      _de: Bietet ein Tool zur Berechnung des Inhalts und des Werts der Taschen für jede Lieferung.<br/>Bitte <a href="/handbook/basket_content">konsultieren Sie das Handbuch</a> für weitere Informationen.
+      _it: Fornisce uno strumento per calcolare il contenuto e il valore delle borse per ogni consegna.<br/>Si prega <a href="/handbook/basket_content">di consultare il manuale</a> per ulteriori informazioni.
+      _nl: Biedt een hulpmiddel om de inhoud en waarde van tassen voor elke levering te berekenen.<br/>Raadpleeg <a href="/handbook/basket_content">de handleiding</a> voor meer informatie.
+    basket_content_hint/basket:
       _en: Provides a tool to calculate the content and value of baskets for each delivery.<br/>Please <a href="/handbook/basket_content">consult the manual</a> for more information.
       _fr: Fournit un outil pour calculer le contenu et la valeur des paniers pour chaque livraison.<br/>Merci de <a href="/handbook/basket_content">consulter le manuel</a> pour plus d'informations.
-      _de: Bietet ein Tool zur Berechnung des Inhalts und des Werts der Taschen für jede Lieferung.<br/>Bitte <a href="/handbook/basket_content">konsultieren Sie das Handbuch</a> für weitere Informationen.
-      _it: Fornisce uno strumento per calcolare il contenuto e il valore dei cestini per ogni consegna.<br/>Si prega <a href="/handbook/basket_content">di consultare il manuale</a> per ulteriori informazioni.
+      _de: Bietet ein Tool zur Berechnung des Inhalts und des Werts der Körbe für jede Lieferung.<br/>Bitte <a href="/handbook/basket_content">konsultieren Sie das Handbuch</a> für weitere Informationen.
+      _it: Fornisce uno strumento per calcolare il contenuto e il valore delle ceste per ogni consegna.<br/>Si prega <a href="/handbook/basket_content">di consultare il manuale</a> per ulteriori informazioni.
+      _nl: Biedt een hulpmiddel om de inhoud en waarde van manden voor elke levering te berekenen.<br/>Raadpleeg <a href="/handbook/basket_content">de handleiding</a> voor meer informatie.
+    basket_content_hint/cone:
+      _en: Provides a tool to calculate the content and value of cones for each delivery.<br/>Please <a href="/handbook/basket_content">consult the manual</a> for more information.
+      _fr: Fournit un outil pour calculer le contenu et la valeur des cornets pour chaque livraison.<br/>Merci de <a href="/handbook/basket_content">consulter le manuel</a> pour plus d'informations.
+      _de: Bietet ein Tool zur Berechnung des Inhalts und des Werts der Tüten für jede Lieferung.<br/>Bitte <a href="/handbook/basket_content">konsultieren Sie das Handbuch</a> für weitere Informationen.
+      _it: Fornisce uno strumento per calcolare il contenuto e il valore dei coni per ogni consegna.<br/>Si prega <a href="/handbook/basket_content">di consultare il manuale</a> per ulteriori informazioni.
+      _nl: Biedt een hulpmiddel om de inhoud en waarde van zakken voor elke levering te berekenen.<br/>Raadpleeg <a href="/handbook/basket_content">de handleiding</a> voor meer informatie.
+    basket_content_hint/package:
+      _en: Provides a tool to calculate the content and value of packages for each delivery.<br/>Please <a href="/handbook/basket_content">consult the manual</a> for more information.
+      _fr: Fournit un outil pour calculer le contenu et la valeur des colis pour chaque livraison.<br/>Merci de <a href="/handbook/basket_content">consulter le manuel</a> pour plus d'informations.
+      _de: Bietet ein Tool zur Berechnung des Inhalts und des Werts der Pakete für jede Lieferung.<br/>Bitte <a href="/handbook/basket_content">konsultieren Sie das Handbuch</a> für weitere Informationen.
+      _it: Fornisce uno strumento per calcolare il contenuto e il valore dei pacchi per ogni consegna.<br/>Si prega <a href="/handbook/basket_content">di consultare il manuale</a> per ulteriori informazioni.
       _nl: Biedt een hulpmiddel om de inhoud en waarde van pakketten voor elke levering te berekenen.<br/>Raadpleeg <a href="/handbook/basket_content">de handleiding</a> voor meer informatie.
-    basket_price_extra:
+    basket_content_hint/share:
+      _en: Provides a tool to calculate the content and value of shares for each delivery.<br/>Please <a href="/handbook/basket_content">consult the manual</a> for more information.
+      _fr: Fournit un outil pour calculer le contenu et la valeur des parts pour chaque livraison.<br/>Merci de <a href="/handbook/basket_content">consulter le manuel</a> pour plus d'informations.
+      _de: Bietet ein Tool zur Berechnung des Inhalts und des Werts der Anteile für jede Lieferung.<br/>Bitte <a href="/handbook/basket_content">konsultieren Sie das Handbuch</a> für weitere Informationen.
+      _it: Fornisce uno strumento per calcolare il contenuto e il valore delle parti per ogni consegna.<br/>Si prega <a href="/handbook/basket_content">di consultare il manuale</a> per ulteriori informazioni.
+      _nl: Biedt een hulpmiddel om de inhoud en waarde van delen voor elke levering te berekenen.<br/>Raadpleeg <a href="/handbook/basket_content">de handleiding</a> voor meer informatie.
+    basket_price_extra/bag:
+      _en: Extra bag price
+      _fr: Prix sac extra
+      _de: Taschen-Extrapreis
+      _it: Prezzo extra borsa
+      _nl: Extra tasprijs
+    basket_price_extra/basket:
       _en: Extra basket price
       _fr: Prix panier extra
-      _de: Preis Extra-Tasche
+      _de: Korb-Extrapreis
       _it: Prezzo extra cesta
+      _nl: Extra mandprijs
+    basket_price_extra/cone:
+      _en: Extra cone price
+      _fr: Prix cornet extra
+      _de: Tüten-Extrapreis
+      _it: Prezzo extra cono
+      _nl: Extra zakprijs
+    basket_price_extra/package:
+      _en: Extra package price
+      _fr: Prix colis extra
+      _de: Paket-Extrapreis
+      _it: Prezzo extra pacco
       _nl: Extra pakketprijs
-    basket_price_extra_hint:
-      _en: Provides a tool to calculate the content of a delivery basket proportionally to the basket size price.<br/>Please <a href="/handbook/basket_price_extra">consult the manual</a> for more information.
+    basket_price_extra/share:
+      _en: Extra share price
+      _fr: Prix part extra
+      _de: Anteil-Extrapreis
+      _it: Prezzo extra parte
+      _nl: Extra deelprijs
+    basket_price_extra_hint/bag:
+      _en: Allows members to pay an additional amount for each bag.<br/>Please <a href="/handbook/basket_price_extra">consult the manual</a> for more information.
+      _fr: Permet de proposer aux membres de payer un montant supplémentaire pour chaque sac.<br/>Merci de <a href="/handbook/basket_price_extra">consulter le manuel</a> pour plus d'informations.
+      _de: Ermöglicht es Mitgliedern, einen zusätzlichen Betrag für jede Tasche zu zahlen.<br/>Bitte <a href="/handbook/basket_price_extra">konsultieren Sie das Handbuch</a> für weitere Informationen.
+      _it: Permette ai soci di pagare un importo supplementare per ogni borsa.<br/>Si prega <a href="/handbook/basket_price_extra">di consultare il manuale</a> per ulteriori informazioni.
+      _nl: Stelt leden in staat een extra bedrag te betalen voor elke tas.<br/>Raadpleeg <a href="/handbook/basket_price_extra">de handleiding</a> voor meer informatie.
+    basket_price_extra_hint/basket:
+      _en: Allows members to pay an additional amount for each basket.<br/>Please <a href="/handbook/basket_price_extra">consult the manual</a> for more information.
       _fr: Permet de proposer aux membres de payer un montant supplémentaire pour chaque panier.<br/>Merci de <a href="/handbook/basket_price_extra">consulter le manuel</a> pour plus d'informations.
-      _de: Bietet ein Werkzeug, um den Inhalt der Taschen einer Lieferung anteilig nach dem Preis der Taschengröße zu berechnen.<br/>Bitte <a href="/handbook/basket_price_extra">konsultieren Sie das Handbuch</a> für weitere Informationen.
-      _it: Fornisce uno strumento per calcolare il contenuto del cesto di una consegna in proporzione al prezzo della dimensione del cesto.<br/>Si prega <a href="/handbook/basket_price_extra">di consultare il manuale</a> per ulteriori informazioni.
-      _nl: Biedt een hulpmiddel om de inhoud van een pakket bij een levering te berekenen in verhouding tot de prijs van de pakketgrootte.<br/>Raadpleeg <a href="/handbook/basket_price_extra">de handleiding</a> voor meer informatie.
+      _de: Ermöglicht es Mitgliedern, einen zusätzlichen Betrag für jeden Korb zu zahlen.<br/>Bitte <a href="/handbook/basket_price_extra">konsultieren Sie das Handbuch</a> für weitere Informationen.
+      _it: Permette ai soci di pagare un importo supplementare per ogni cesta.<br/>Si prega <a href="/handbook/basket_price_extra">di consultare il manuale</a> per ulteriori informazioni.
+      _nl: Stelt leden in staat een extra bedrag te betalen voor elke mand.<br/>Raadpleeg <a href="/handbook/basket_price_extra">de handleiding</a> voor meer informatie.
+    basket_price_extra_hint/cone:
+      _en: Allows members to pay an additional amount for each cone.<br/>Please <a href="/handbook/basket_price_extra">consult the manual</a> for more information.
+      _fr: Permet de proposer aux membres de payer un montant supplémentaire pour chaque cornet.<br/>Merci de <a href="/handbook/basket_price_extra">consulter le manuel</a> pour plus d'informations.
+      _de: Ermöglicht es Mitgliedern, einen zusätzlichen Betrag für jede Tüte zu zahlen.<br/>Bitte <a href="/handbook/basket_price_extra">konsultieren Sie das Handbuch</a> für weitere Informationen.
+      _it: Permette ai soci di pagare un importo supplementare per ogni cono.<br/>Si prega <a href="/handbook/basket_price_extra">di consultare il manuale</a> per ulteriori informazioni.
+      _nl: Stelt leden in staat een extra bedrag te betalen voor elke zak.<br/>Raadpleeg <a href="/handbook/basket_price_extra">de handleiding</a> voor meer informatie.
+    basket_price_extra_hint/package:
+      _en: Allows members to pay an additional amount for each package.<br/>Please <a href="/handbook/basket_price_extra">consult the manual</a> for more information.
+      _fr: Permet de proposer aux membres de payer un montant supplémentaire pour chaque colis.<br/>Merci de <a href="/handbook/basket_price_extra">consulter le manuel</a> pour plus d'informations.
+      _de: Ermöglicht es Mitgliedern, einen zusätzlichen Betrag für jedes Paket zu zahlen.<br/>Bitte <a href="/handbook/basket_price_extra">konsultieren Sie das Handbuch</a> für weitere Informationen.
+      _it: Permette ai soci di pagare un importo supplementare per ogni pacco.<br/>Si prega <a href="/handbook/basket_price_extra">di consultare il manuale</a> per ulteriori informazioni.
+      _nl: Stelt leden in staat een extra bedrag te betalen voor elk pakket.<br/>Raadpleeg <a href="/handbook/basket_price_extra">de handleiding</a> voor meer informatie.
+    basket_price_extra_hint/share:
+      _en: Allows members to pay an additional amount for each share.<br/>Please <a href="/handbook/basket_price_extra">consult the manual</a> for more information.
+      _fr: Permet de proposer aux membres de payer un montant supplémentaire pour chaque part.<br/>Merci de <a href="/handbook/basket_price_extra">consulter le manuel</a> pour plus d'informations.
+      _de: Ermöglicht es Mitgliedern, einen zusätzlichen Betrag für jeden Anteil zu zahlen.<br/>Bitte <a href="/handbook/basket_price_extra">konsultieren Sie das Handbuch</a> für weitere Informationen.
+      _it: Permette ai soci di pagare un importo supplementare per ogni parte.<br/>Si prega <a href="/handbook/basket_price_extra">di consultare il manuale</a> per ulteriori informazioni.
+      _nl: Stelt leden in staat een extra bedrag te betalen voor elk deel.<br/>Raadpleeg <a href="/handbook/basket_price_extra">de handleiding</a> voor meer informatie.
     bidding_round:
       _en: Bidding round
       _fr: Tour d'engagement
       _de: Beitragsrunde
       _it: Turno di impegno
       _nl: Toezeggingsronde
-    bidding_round_hint:
+    bidding_round_hint/bag:
+      _en: Enables members to pledge their bag size price through organized bidding rounds.<br/>Please <a href="/handbook/bidding_round">consult the manual</a> for more information.
+      _fr: Permet aux membres de s'engager sur le prix de leur sac en organisant des tours d'engagement.<br/>Merci de <a href="/handbook/bidding_round">consulter le manuel</a> pour plus d'informations.
+      _de: Ermöglicht Mitgliedern, den Beitrag für ihre Taschengrösse über organisierte Beitragsrunden selbst festzulegen.<br/>Weitere Informationen im <a href="/handbook/bidding_round">Handbuch</a>.
+      _it: Consente ai soci di fissare il prezzo della dimensione della loro borsa tramite turni di impegno organizzati.<br/>Si prega <a href="/handbook/bidding_round">di consultare il manuale</a> per ulteriori informazioni.
+      _nl: Stelt leden in staat om via georganiseerde toezeggingsrondes hun tasgrootteprijs toe te zeggen.<br/>Raadpleeg <a href="/handbook/bidding_round">de handleiding</a> voor meer informatie.
+    bidding_round_hint/basket:
       _en: Enables members to pledge their basket size price through organized bidding rounds.<br/>Please <a href="/handbook/bidding_round">consult the manual</a> for more information.
       _fr: Permet aux membres de s'engager sur le prix de leur panier en organisant des tours d'engagement.<br/>Merci de <a href="/handbook/bidding_round">consulter le manuel</a> pour plus d'informations.
-      _de: Ermöglicht Mitgliedern, den Beitrag für ihre Taschengröße über organisierte Beitragsrunden selbst festzulegen.<br/>Weitere Informationen im <a href="/handbook/bidding_round">Handbuch</a>.
-      _it: Consente ai soci di fissare il prezzo della dimensione del loro cestino tramite turni di impegno organizzati.<br/>Si prega <a href="/handbook/bidding_round">di consultare il manuale</a> per ulteriori informazioni.
+      _de: Ermöglicht Mitgliedern, den Beitrag für ihre Korbgrösse über organisierte Beitragsrunden selbst festzulegen.<br/>Weitere Informationen im <a href="/handbook/bidding_round">Handbuch</a>.
+      _it: Consente ai soci di fissare il prezzo della dimensione della loro cesta tramite turni di impegno organizzati.<br/>Si prega <a href="/handbook/bidding_round">di consultare il manuale</a> per ulteriori informazioni.
+      _nl: Stelt leden in staat om via georganiseerde toezeggingsrondes hun mandgrootteprijs toe te zeggen.<br/>Raadpleeg <a href="/handbook/bidding_round">de handleiding</a> voor meer informatie.
+    bidding_round_hint/cone:
+      _en: Enables members to pledge their cone size price through organized bidding rounds.<br/>Please <a href="/handbook/bidding_round">consult the manual</a> for more information.
+      _fr: Permet aux membres de s'engager sur le prix de leur cornet en organisant des tours d'engagement.<br/>Merci de <a href="/handbook/bidding_round">consulter le manuel</a> pour plus d'informations.
+      _de: Ermöglicht Mitgliedern, den Beitrag für ihre Tütengrösse über organisierte Beitragsrunden selbst festzulegen.<br/>Weitere Informationen im <a href="/handbook/bidding_round">Handbuch</a>.
+      _it: Consente ai soci di fissare il prezzo della dimensione del loro cono tramite turni di impegno organizzati.<br/>Si prega <a href="/handbook/bidding_round">di consultare il manuale</a> per ulteriori informazioni.
+      _nl: Stelt leden in staat om via georganiseerde toezeggingsrondes hun zakgrootteprijs toe te zeggen.<br/>Raadpleeg <a href="/handbook/bidding_round">de handleiding</a> voor meer informatie.
+    bidding_round_hint/package:
+      _en: Enables members to pledge their package size price through organized bidding rounds.<br/>Please <a href="/handbook/bidding_round">consult the manual</a> for more information.
+      _fr: Permet aux membres de s'engager sur le prix de leur colis en organisant des tours d'engagement.<br/>Merci de <a href="/handbook/bidding_round">consulter le manuel</a> pour plus d'informations.
+      _de: Ermöglicht Mitgliedern, den Beitrag für ihre Paketgrösse über organisierte Beitragsrunden selbst festzulegen.<br/>Weitere Informationen im <a href="/handbook/bidding_round">Handbuch</a>.
+      _it: Consente ai soci di fissare il prezzo della dimensione del loro pacco tramite turni di impegno organizzati.<br/>Si prega <a href="/handbook/bidding_round">di consultare il manuale</a> per ulteriori informazioni.
       _nl: Stelt leden in staat om via georganiseerde toezeggingsrondes hun pakketgrootteprijs toe te zeggen.<br/>Raadpleeg <a href="/handbook/bidding_round">de handleiding</a> voor meer informatie.
+    bidding_round_hint/share:
+      _en: Enables members to pledge their share size price through organized bidding rounds.<br/>Please <a href="/handbook/bidding_round">consult the manual</a> for more information.
+      _fr: Permet aux membres de s'engager sur le prix de leur part en organisant des tours d'engagement.<br/>Merci de <a href="/handbook/bidding_round">consulter le manuel</a> pour plus d'informations.
+      _de: Ermöglicht Mitgliedern, den Beitrag für ihre Anteilsgrösse über organisierte Beitragsrunden selbst festzulegen.<br/>Weitere Informationen im <a href="/handbook/bidding_round">Handbuch</a>.
+      _it: Consente ai soci di fissare il prezzo della dimensione della loro parte tramite turni di impegno organizzati.<br/>Si prega <a href="/handbook/bidding_round">di consultare il manuale</a> per ulteriori informazioni.
+      _nl: Stelt leden in staat om via georganiseerde toezeggingsrondes hun deelgrootteprijs toe te zeggen.<br/>Raadpleeg <a href="/handbook/bidding_round">de handleiding</a> voor meer informatie.
     contact_sharing:
       _en: Contact sharing
       _fr: Copaniérage
@@ -90,21 +210,69 @@ _:
       _de: Teilnahmegebühr
       _it: Quota di adesione
       _nl: Inschrijvingskosten voor nieuwe leden
-    new_member_fee_hint:
-      _en: Allows charging a specific amount (e.g., for reusable baskets/bags) to new members (after their potential trial period).<br/>Please <a href="/handbook/new_member_fee">consult the manual</a> for more information.
-      _fr: Permet de facturer un certain montant (par ex. pour des paniers/sacs réutilisables) aux nouveaux membres (après leur éventuelle période d'essai).<br/>Merci de <a href="/handbook/new_member_fee">consulter le manuel</a> pour plus d'informations.
-      _de: Ermöglicht es, einen bestimmten Betrag (z.B. für wiederverwendbare Körbe/Taschen) von neuen Mitgliedern zu berechnen (nach ihrer eventuellen Probezeit).<br/>Bitte <a href="/handbook/new_member_fee">konsultieren Sie das Handbuch</a> für weitere Informationen.
-      _it: Permette di fatturare un importo fisso (ad es. per cestini/sacchetti riutilizzabili) ai nuovi soci (dopo il loro eventuale periodo di prova).<br/>Si prega <a href="/handbook/new_member_fee">di consultare il manuale</a> per ulteriori informazioni.
-      _nl: Maakt het mogelijk een specifiek bedrag (bijv. voor herbruikbare pakketten/tassen) aan nieuwe leden aan te rekenen (na hun eventuele proefperiode).<br/>Raadpleeg <a href="/handbook/new_member_fee">de handleiding</a> voor meer informatie.
+    new_member_fee_hint/bag:
+      _en: Allows charging a specific amount (e.g., for reusable bags) to new members (after their potential trial period).<br/>Please <a href="/handbook/new_member_fee">consult the manual</a> for more information.
+      _fr: Permet de facturer un certain montant (par ex. pour des sacs réutilisables) aux nouveaux membres (après leur éventuelle période d'essai).<br/>Merci de <a href="/handbook/new_member_fee">consulter le manuel</a> pour plus d'informations.
+      _de: Ermöglicht es, einen bestimmten Betrag (z.B. für wiederverwendbare Taschen) von neuen Mitgliedern zu berechnen (nach ihrer eventuellen Probezeit).<br/>Bitte <a href="/handbook/new_member_fee">konsultieren Sie das Handbuch</a> für weitere Informationen.
+      _it: Permette di fatturare un importo fisso (ad es. per borse riutilizzabili) ai nuovi soci (dopo il loro eventuale periodo di prova).<br/>Si prega <a href="/handbook/new_member_fee">di consultare il manuale</a> per ulteriori informazioni.
+      _nl: Maakt het mogelijk een specifiek bedrag (bijv. voor herbruikbare tassen) aan nieuwe leden aan te rekenen (na hun eventuele proefperiode).<br/>Raadpleeg <a href="/handbook/new_member_fee">de handleiding</a> voor meer informatie.
+    new_member_fee_hint/basket:
+      _en: Allows charging a specific amount (e.g., for reusable baskets) to new members (after their potential trial period).<br/>Please <a href="/handbook/new_member_fee">consult the manual</a> for more information.
+      _fr: Permet de facturer un certain montant (par ex. pour des paniers réutilisables) aux nouveaux membres (après leur éventuelle période d'essai).<br/>Merci de <a href="/handbook/new_member_fee">consulter le manuel</a> pour plus d'informations.
+      _de: Ermöglicht es, einen bestimmten Betrag (z.B. für wiederverwendbare Körbe) von neuen Mitgliedern zu berechnen (nach ihrer eventuellen Probezeit).<br/>Bitte <a href="/handbook/new_member_fee">konsultieren Sie das Handbuch</a> für weitere Informationen.
+      _it: Permette di fatturare un importo fisso (ad es. per ceste riutilizzabili) ai nuovi soci (dopo il loro eventuale periodo di prova).<br/>Si prega <a href="/handbook/new_member_fee">di consultare il manuale</a> per ulteriori informazioni.
+      _nl: Maakt het mogelijk een specifiek bedrag (bijv. voor herbruikbare manden) aan nieuwe leden aan te rekenen (na hun eventuele proefperiode).<br/>Raadpleeg <a href="/handbook/new_member_fee">de handleiding</a> voor meer informatie.
+    new_member_fee_hint/cone:
+      _en: Allows charging a specific amount (e.g., for reusable cones) to new members (after their potential trial period).<br/>Please <a href="/handbook/new_member_fee">consult the manual</a> for more information.
+      _fr: Permet de facturer un certain montant (par ex. pour des cornets réutilisables) aux nouveaux membres (après leur éventuelle période d'essai).<br/>Merci de <a href="/handbook/new_member_fee">consulter le manuel</a> pour plus d'informations.
+      _de: Ermöglicht es, einen bestimmten Betrag (z.B. für wiederverwendbare Tüten) von neuen Mitgliedern zu berechnen (nach ihrer eventuellen Probezeit).<br/>Bitte <a href="/handbook/new_member_fee">konsultieren Sie das Handbuch</a> für weitere Informationen.
+      _it: Permette di fatturare un importo fisso (ad es. per coni riutilizzabili) ai nuovi soci (dopo il loro eventuale periodo di prova).<br/>Si prega <a href="/handbook/new_member_fee">di consultare il manuale</a> per ulteriori informazioni.
+      _nl: Maakt het mogelijk een specifiek bedrag (bijv. voor herbruikbare zakken) aan nieuwe leden aan te rekenen (na hun eventuele proefperiode).<br/>Raadpleeg <a href="/handbook/new_member_fee">de handleiding</a> voor meer informatie.
+    new_member_fee_hint/package:
+      _en: Allows charging a specific amount (e.g., for reusable packages) to new members (after their potential trial period).<br/>Please <a href="/handbook/new_member_fee">consult the manual</a> for more information.
+      _fr: Permet de facturer un certain montant (par ex. pour des colis réutilisables) aux nouveaux membres (après leur éventuelle période d'essai).<br/>Merci de <a href="/handbook/new_member_fee">consulter le manuel</a> pour plus d'informations.
+      _de: Ermöglicht es, einen bestimmten Betrag (z.B. für wiederverwendbare Pakete) von neuen Mitgliedern zu berechnen (nach ihrer eventuellen Probezeit).<br/>Bitte <a href="/handbook/new_member_fee">konsultieren Sie das Handbuch</a> für weitere Informationen.
+      _it: Permette di fatturare un importo fisso (ad es. per pacchi riutilizzabili) ai nuovi soci (dopo il loro eventuale periodo di prova).<br/>Si prega <a href="/handbook/new_member_fee">di consultare il manuale</a> per ulteriori informazioni.
+      _nl: Maakt het mogelijk een specifiek bedrag (bijv. voor herbruikbare pakketten) aan nieuwe leden aan te rekenen (na hun eventuele proefperiode).<br/>Raadpleeg <a href="/handbook/new_member_fee">de handleiding</a> voor meer informatie.
+    new_member_fee_hint/share:
+      _en: Allows charging a specific amount (e.g., for reusable containers) to new members (after their potential trial period).<br/>Please <a href="/handbook/new_member_fee">consult the manual</a> for more information.
+      _fr: Permet de facturer un certain montant (par ex. pour des contenants réutilisables) aux nouveaux membres (après leur éventuelle période d'essai).<br/>Merci de <a href="/handbook/new_member_fee">consulter le manuel</a> pour plus d'informations.
+      _de: Ermöglicht es, einen bestimmten Betrag (z.B. für wiederverwendbare Behälter) von neuen Mitgliedern zu berechnen (nach ihrer eventuellen Probezeit).<br/>Bitte <a href="/handbook/new_member_fee">konsultieren Sie das Handbuch</a> für weitere Informationen.
+      _it: Permette di fatturare un importo fisso (ad es. per contenitori riutilizzabili) ai nuovi soci (dopo il loro eventuale periodo di prova).<br/>Si prega <a href="/handbook/new_member_fee">di consultare il manuale</a> per ulteriori informazioni.
+      _nl: Maakt het mogelijk een specifiek bedrag (bijv. voor herbruikbare houders) aan nieuwe leden aan te rekenen (na hun eventuele proefperiode).<br/>Raadpleeg <a href="/handbook/new_member_fee">de handleiding</a> voor meer informatie.
     shop:
       _en: Shop
       _fr: Épicerie
       _de: Hofladen
       _it: Bottega
       _nl: Winkel
-    shop_hint:
+    shop_hint/bag:
+      _en: Allows members to order additional products with each bag delivery.<br/>Please <a href="/handbook/shop">consult the manual</a> for more information.
+      _fr: Permet aux membres de commander des produits supplémentaires à chaque livraison de sacs.<br/>Merci de <a href="/handbook/shop">consulter le manuel</a> pour plus d'informations.
+      _de: Ermöglicht es Mitgliedern, bei jeder Lieferung von Taschen zusätzliche Produkte zu bestellen.<br/>Bitte <a href="/handbook/shop">konsultieren Sie das Handbuch</a> für weitere Informationen.
+      _it: Permette ai soci di ordinare prodotti aggiuntivi con ogni consegna della borsa.<br/>Si prega <a href="/handbook/shop">di consultare il manuale</a> per ulteriori informazioni.
+      _nl: Stelt leden in staat om extra producten te bestellen bij elke taslevering.<br/>Raadpleeg <a href="/handbook/shop">de handleiding</a> voor meer informatie.
+    shop_hint/basket:
       _en: Allows members to order additional products with each basket delivery.<br/>Please <a href="/handbook/shop">consult the manual</a> for more information.
       _fr: Permet aux membres de commander des produits supplémentaires à chaque livraison de paniers.<br/>Merci de <a href="/handbook/shop">consulter le manuel</a> pour plus d'informations.
-      _de: Ermöglicht es Mitgliedern, bei jeder Lieferung von Taschen zusätzliche Produkte zu bestellen.<br/>Bitte <a href="/handbook/shop">konsultieren Sie das Handbuch</a> für weitere Informationen.
-      _it: Permette ai soci di ordinare prodotti aggiuntivi con ogni consegna del cesto.<br/>Si prega <a href="/handbook/shop">di consultare il manuale</a> per ulteriori informazioni.
+      _de: Ermöglicht es Mitgliedern, bei jeder Lieferung von Körben zusätzliche Produkte zu bestellen.<br/>Bitte <a href="/handbook/shop">konsultieren Sie das Handbuch</a> für weitere Informationen.
+      _it: Permette ai soci di ordinare prodotti aggiuntivi con ogni consegna della cesta.<br/>Si prega <a href="/handbook/shop">di consultare il manuale</a> per ulteriori informazioni.
+      _nl: Stelt leden in staat om extra producten te bestellen bij elke mandlevering.<br/>Raadpleeg <a href="/handbook/shop">de handleiding</a> voor meer informatie.
+    shop_hint/cone:
+      _en: Allows members to order additional products with each cone delivery.<br/>Please <a href="/handbook/shop">consult the manual</a> for more information.
+      _fr: Permet aux membres de commander des produits supplémentaires à chaque livraison de cornets.<br/>Merci de <a href="/handbook/shop">consulter le manuel</a> pour plus d'informations.
+      _de: Ermöglicht es Mitgliedern, bei jeder Lieferung von Tüten zusätzliche Produkte zu bestellen.<br/>Bitte <a href="/handbook/shop">konsultieren Sie das Handbuch</a> für weitere Informationen.
+      _it: Permette ai soci di ordinare prodotti aggiuntivi con ogni consegna del cono.<br/>Si prega <a href="/handbook/shop">di consultare il manuale</a> per ulteriori informazioni.
+      _nl: Stelt leden in staat om extra producten te bestellen bij elke zaklevering.<br/>Raadpleeg <a href="/handbook/shop">de handleiding</a> voor meer informatie.
+    shop_hint/package:
+      _en: Allows members to order additional products with each package delivery.<br/>Please <a href="/handbook/shop">consult the manual</a> for more information.
+      _fr: Permet aux membres de commander des produits supplémentaires à chaque livraison de colis.<br/>Merci de <a href="/handbook/shop">consulter le manuel</a> pour plus d'informations.
+      _de: Ermöglicht es Mitgliedern, bei jeder Lieferung von Paketen zusätzliche Produkte zu bestellen.<br/>Bitte <a href="/handbook/shop">konsultieren Sie das Handbuch</a> für weitere Informationen.
+      _it: Permette ai soci di ordinare prodotti aggiuntivi con ogni consegna del pacco.<br/>Si prega <a href="/handbook/shop">di consultare il manuale</a> per ulteriori informazioni.
       _nl: Stelt leden in staat om extra producten te bestellen bij elke pakketlevering.<br/>Raadpleeg <a href="/handbook/shop">de handleiding</a> voor meer informatie.
+    shop_hint/share:
+      _en: Allows members to order additional products with each share delivery.<br/>Please <a href="/handbook/shop">consult the manual</a> for more information.
+      _fr: Permet aux membres de commander des produits supplémentaires à chaque livraison de parts.<br/>Merci de <a href="/handbook/shop">consulter le manuel</a> pour plus d'informations.
+      _de: Ermöglicht es Mitgliedern, bei jeder Lieferung von Anteilen zusätzliche Produkte zu bestellen.<br/>Bitte <a href="/handbook/shop">konsultieren Sie das Handbuch</a> für weitere Informationen.
+      _it: Permette ai soci di ordinare prodotti aggiuntivi con ogni consegna della parte.<br/>Si prega <a href="/handbook/shop">di consultare il manuale</a> per ulteriori informazioni.
+      _nl: Stelt leden in staat om extra producten te bestellen bij elke deellevering.<br/>Raadpleeg <a href="/handbook/shop">de handleiding</a> voor meer informatie.

@@ -1,6 +1,6 @@
 # Assenze
 
-Questa funzione permette di gestire le assenze dei vostri soci e di detrarre automaticamente le ceste assenti dalle vostre consegne. I vostri soci possono annunciare le loro assenze direttamente dalla loro area personale. Potete anche aggiungere assenze per i vostri soci come amministratore ([Altro > Assenze](/absences)).
+Questa funzione permette di gestire le assenze dei vostri soci e di detrarre automaticamente le <%= Basket.model_name.human(count: 2).downcase %> assenti dalle vostre consegne. I vostri soci possono annunciare le loro assenze direttamente dalla loro area personale. Potete anche aggiungere assenze per i vostri soci come amministratore ([Altro > Assenze](/absences)).
 
 ## Configurazione {#configuration}
 
@@ -8,36 +8,36 @@ Una volta attivata questa funzione aggiuntiva nelle [vostre impostazioni](/setti
 
 ## Fatturazione {#billing}
 
-Per impostazione predefinita, le ceste segnate come assenti e non consegnate vengono fatturate e si consiglia ai soci di trovare un conoscente per ritirare la loro cesta al loro posto. Nelle [impostazioni](/settings#absence), potete anche scegliere di non fatturarle. Il sistema si occuperà quindi automaticamente di [adeguare la fatturazione](/handbook/billing#price-change) dell'abbonamento.
+Per impostazione predefinita, le <%= Basket.model_name.human(count: 2).downcase %> segnate come assenti e non consegnate vengono fatturate e si consiglia ai soci di trovare un conoscente per ritirare la loro <%= Basket.model_name.human.downcase %> al loro posto. Nelle [impostazioni](/settings#absence), potete anche scegliere di non fatturarle. Il sistema si occuperà quindi automaticamente di [adeguare la fatturazione](/handbook/billing#price-change) dell'abbonamento.
 
-## Spostamenti di cestini {#basket-shift}
+## Spostamento di <%= Basket.model_name.human(count: 2).downcase %> {#basket-shift}
 
-È possibile spostare la consegna di un cestino durante un'assenza verso un'altra consegna. Questo permette ai soci di compensare le loro assenze senza cambiare il numero di cestini fatturati.
+È possibile spostare la consegna di una <%= Basket.model_name.human.downcase %> durante un'assenza verso un'altra consegna. Questo permette ai soci di compensare le loro assenze senza cambiare il numero di <%= Basket.model_name.human(count: 2).downcase %> fatturate.
 
-Dal lato amministrativo, è sufficiente modificare un cestino segnato come assente dalla pagina dell'abbonamento e scegliere un'altra data di consegna. Il contenuto del cestino (complementi inclusi) sarà quindi automaticamente spostato verso il cestino scelto.
+Dal lato amministrativo, è sufficiente modificare una <%= Basket.model_name.human.downcase %> segnata come assente dalla pagina dell'abbonamento e scegliere un'altra data di consegna. Il contenuto della <%= Basket.model_name.human.downcase %> (complementi inclusi) sarà quindi automaticamente spostato verso la <%= Basket.model_name.human.downcase %> scelta.
 
-Dal lato del socio, lo spostamento di cestini non è possibile per impostazione predefinita. Per attivare questa funzionalità, avete la possibilità di [modificare le seguenti impostazioni](/settings#absence):
+Dal lato del socio, lo spostamento di <%= Basket.model_name.human(count: 2).downcase %> non è possibile per impostazione predefinita. Per attivare questa funzionalità, avete la possibilità di [modificare le seguenti impostazioni](/settings#absence):
 
 - **Numero di spostamenti consentiti**: per limitare, se lo desiderate, il numero di spostamenti possibili da parte dei soci.
 - **Scadenza per gli spostamenti**: per limitare, se lo desiderate, gli spostamenti possibili nel tempo.
 
-Se l'assenza viene annullata, il contenuto del cestino sarà automaticamente restituito alla sua consegna originale.
+Se l'assenza viene annullata, il contenuto della <%= Basket.model_name.human.downcase %> sarà automaticamente restituito alla sua consegna originale.
 
-> Lo spostamento di cestini è possibile solo per le assenze fatturate. Le assenze incluse (non fatturate) non possono essere spostate.
+> Lo spostamento di <%= Basket.model_name.human(count: 2).downcase %> è possibile solo per le assenze fatturate. Le assenze incluse (non fatturate) non possono essere spostate.
 
 ### Template di newsletter
 
-Quando un cestino ha ricevuto spostamenti, potete visualizzare un promemoria nei vostri [template di newsletter](/newsletter_templates) utilizzando le variabili `basket.shifted` e `basket.shifts`:
+Quando una <%= Basket.model_name.human.downcase %> ha ricevuto spostamenti, potete visualizzare un promemoria nei vostri [template di newsletter](/newsletter_templates) utilizzando le variabili `basket.shifted` e `basket.shifts`:
 
 ~~~ liquid
 {% if basket.shifted %}
   {% highlight %}
     <p><strong>📣 Promemoria importante!</strong></p>
-    <p>Avete <strong>{{ basket.quantity }} cestini</strong> da ritirare questa settimana:</p>
+    <p>Avete <strong>{{ basket.quantity }} <%= Basket.model_name.human(count: 2).downcase %></strong> da ritirare questa settimana:</p>
     <ul>
-      <li>Il vostro cestino abituale</li>
+      <li>La vostra <%= Basket.model_name.human.downcase %> abituale</li>
       {% for shift in basket.shifts %}
-        <li>Cestino spostato dal {{ shift.old_delivery_date }}</li>
+        <li><%= Basket.model_name.human %> spostato dal {{ shift.old_delivery_date }}</li>
       {% endfor %}
     </ul>
   {% endhighlight %}
@@ -56,7 +56,7 @@ Quando i soci non utilizzano tutte le loro assenze incluse entro la fine del lor
 
 **Assenza provvisoria rispettata**
 
-Questa è la modalità predefinita. Le assenze provvisorie non verranno consegnate. I soci riceveranno un'email di promemoria e potranno quindi scegliere di forzare una consegna dal loro account se desiderano ricevere cestini che erano segnati come provvisoriamente assenti.
+Questa è la modalità predefinita. Le assenze provvisorie non verranno consegnate. I soci riceveranno un'email di promemoria e potranno quindi scegliere di forzare una consegna dal loro account se desiderano ricevere <%= Basket.model_name.human(count: 2).downcase %> che erano segnate come provvisoriamente assenti.
 
 Questa modalità è utile quando preferite che le assenze non utilizzate rimangano come assenze per impostazione predefinita, dando ai soci la possibilità di richiedere una consegna se necessario.
 
@@ -64,11 +64,11 @@ Questa modalità è utile quando preferite che le assenze non utilizzate rimanga
 
 In questa modalità, le assenze incluse non utilizzate vedranno la loro consegna forzata e fatturata al momento del promemoria. I soci ricevono un'email di promemoria e possono segnalare un'assenza per rifiutare prima che la consegna avvenga e venga fatturata.
 
-Questa modalità è utile quando preferite che i soci ricevano i loro cestini per impostazione predefinita, evitando la confusione dei soci che si presentano aspettandosi un cestino che non è stato preparato.
+Questa modalità è utile quando preferite che i soci ricevano le loro <%= Basket.model_name.human(count: 2).downcase %> per impostazione predefinita, evitando la confusione dei soci che si presentano aspettandosi una <%= Basket.model_name.human.downcase %> che non è stata preparata.
 
 ### Email di promemoria {#absence-included-reminder}
 
 Un'email di promemoria viene inviata ai soci con assenze incluse non utilizzate un numero configurabile di settimane prima della prima assenza provvisoria (predefinito: 4 settimane). Questo dà ai soci il tempo di agire secondo la modalità scelta:
 
-- **In modalità "Assenza provvisoria rispettata"**: Forzare una consegna se desiderano ricevere cestini che erano segnati come provvisoriamente assenti.
+- **In modalità "Assenza provvisoria rispettata"**: Forzare una consegna se desiderano ricevere <%= Basket.model_name.human(count: 2).downcase %> che erano segnate come provvisoriamente assenti.
 - **In modalità "Consegna delle assenze rimanenti"**: Segnalare un'assenza per rifiutare le consegne che non desiderano.

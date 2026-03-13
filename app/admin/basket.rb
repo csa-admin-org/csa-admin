@@ -96,7 +96,7 @@ ActiveAdmin.register Basket do
         end
       end
       f.inputs [
-        Basket.model_name.human(count: 1),
+        Basket.model_name.human,
         BasketComplement.kept.any? ? Membership.human_attribute_name(:memberships_basket_complements) : nil
       ].compact.to_sentence, "data-controller" => "form-reset" do
         f.input :basket_size,

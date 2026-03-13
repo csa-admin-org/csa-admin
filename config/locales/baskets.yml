@@ -1,5 +1,152 @@
 _:
   baskets:
+    bag:
+      complement:
+        _en: Bag complement
+        _fr: Complément sac
+        _de: Taschenzusatz
+        _it: Aggiunta borsa
+        _nl: Tasaanvulling
+      complements:
+        _en: Bag complements
+        _fr: Compléments sac
+        _de: Taschenzusätze
+        _it: Aggiunte borse
+        _nl: Tasaanvullingen
+      content:
+        _en: Bag content
+        _fr: Contenu sac
+        _de: Tascheninhalt
+        _it: Contenuto borsa
+        _nl: Tasinhoud
+      contents:
+        _en: Bag contents
+        _fr: Contenu sacs
+        _de: Tascheninhalte
+        _it: Contenuto borse
+        _nl: Tasinhouden
+      one:
+        _en: Bag
+        _fr: Sac
+        _de: Tasche
+        _it: Borsa
+        _nl: Tas
+      other:
+        _en: Bags
+        _fr: Sacs
+        _de: Taschen
+        _it: Borse
+        _nl: Tassen
+      size:
+        _en: Bag size
+        _fr: Taille sac
+        _de: Taschengrösse
+        _it: Dimensione borsa
+        _nl: Tasgrootte
+      sizes:
+        _en: Bag sizes
+        _fr: Tailles sac
+        _de: Taschengrössen
+        _it: Dimensioni borse
+        _nl: Tasgroottes
+    basket:
+      complement:
+        _en: Basket complement
+        _fr: Complément panier
+        _de: Korbzusatz
+        _it: Aggiunta cesta
+        _nl: Mandaanvulling
+      complements:
+        _en: Basket complements
+        _fr: Compléments panier
+        _de: Korbzusätze
+        _it: Aggiunte ceste
+        _nl: Mandaanvullingen
+      content:
+        _en: Basket content
+        _fr: Contenu panier
+        _de: Korbinhalt
+        _it: Contenuto cesta
+        _nl: Mandinhoud
+      contents:
+        _en: Basket contents
+        _fr: Contenu paniers
+        _de: Korbinhalte
+        _it: Contenuto ceste
+        _nl: Mandinhouden
+      one:
+        _en: Basket
+        _fr: Panier
+        _de: Korb
+        _it: Cesta
+        _nl: Mand
+      other:
+        _en: Baskets
+        _fr: Paniers
+        _de: Körbe
+        _it: Ceste
+        _nl: Manden
+      size:
+        _en: Basket size
+        _fr: Taille panier
+        _de: Korbgrösse
+        _it: Dimensione cesta
+        _nl: Mandgrootte
+      sizes:
+        _en: Basket sizes
+        _fr: Tailles panier
+        _de: Korbgrössen
+        _it: Dimensioni ceste
+        _nl: Mandgroottes
+    cone:
+      complement:
+        _en: Cone complement
+        _fr: Complément cornet
+        _de: Tütenzusatz
+        _it: Aggiunta cono
+        _nl: Zakaanvulling
+      complements:
+        _en: Cone complements
+        _fr: Compléments cornet
+        _de: Tütenzusätze
+        _it: Aggiunte coni
+        _nl: Zakaanvullingen
+      content:
+        _en: Cone content
+        _fr: Contenu cornet
+        _de: Tüteninhalt
+        _it: Contenuto cono
+        _nl: Zakinhoud
+      contents:
+        _en: Cone contents
+        _fr: Contenu cornets
+        _de: Tüteninhalte
+        _it: Contenuto coni
+        _nl: Zakinhouden
+      one:
+        _en: Cone
+        _fr: Cornet
+        _de: Tüte
+        _it: Cono
+        _nl: Zak
+      other:
+        _en: Cones
+        _fr: Cornets
+        _de: Tüten
+        _it: Coni
+        _nl: Zakken
+      size:
+        _en: Cone size
+        _fr: Taille cornet
+        _de: Tütengrösse
+        _it: Dimensione cono
+        _nl: Zakgrootte
+      sizes:
+        _en: Cone sizes
+        _fr: Tailles cornet
+        _de: Tütengrössen
+        _it: Dimensioni coni
+        _nl: Zakgroottes
     force:
       flash:
         notice:
@@ -8,6 +155,104 @@ _:
           _de: Die Lieferung wurde erzwungen und die Abonnementabrechnung aktualisiert.
           _it: La consegna è stata forzata e la fatturazione dell'abbonamento è stata aggiornata.
           _nl: De levering is geforceerd en de facturering van het lidmaatschap is bijgewerkt.
+    package:
+      complement:
+        _en: Package complement
+        _fr: Complément colis
+        _de: Paketzusatz
+        _it: Aggiunta pacco
+        _nl: Pakketaanvulling
+      complements:
+        _en: Package complements
+        _fr: Compléments colis
+        _de: Paketzusätze
+        _it: Aggiunte pacchi
+        _nl: Pakketaanvullingen
+      content:
+        _en: Package content
+        _fr: Contenu colis
+        _de: Paketinhalt
+        _it: Contenuto pacco
+        _nl: Pakketinhoud
+      contents:
+        _en: Package contents
+        _fr: Contenu colis
+        _de: Paketinhalte
+        _it: Contenuto pacchi
+        _nl: Pakketinhouden
+      one:
+        _en: Package
+        _fr: Colis
+        _de: Paket
+        _it: Pacco
+        _nl: Pakket
+      other:
+        _en: Packages
+        _fr: Colis
+        _de: Pakete
+        _it: Pacchi
+        _nl: Pakketten
+      size:
+        _en: Package size
+        _fr: Taille colis
+        _de: Paketgrösse
+        _it: Dimensione pacco
+        _nl: Pakketgrootte
+      sizes:
+        _en: Package sizes
+        _fr: Tailles colis
+        _de: Paketgrössen
+        _it: Dimensioni pacchi
+        _nl: Pakketgroottes
+    share:
+      complement:
+        _en: Share complement
+        _fr: Complément part
+        _de: Anteilszusatz
+        _it: Aggiunta parte
+        _nl: Deelaanvulling
+      complements:
+        _en: Share complements
+        _fr: Compléments part
+        _de: Anteilszusätze
+        _it: Aggiunte parti
+        _nl: Deelaanvullingen
+      content:
+        _en: Share content
+        _fr: Contenu part
+        _de: Anteilsinhalt
+        _it: Contenuto parte
+        _nl: Deelinhoud
+      contents:
+        _en: Share contents
+        _fr: Contenu parts
+        _de: Anteilsinhalte
+        _it: Contenuto parti
+        _nl: Deelinhouden
+      one:
+        _en: Share
+        _fr: Part
+        _de: Anteil
+        _it: Parte
+        _nl: Deel
+      other:
+        _en: Shares
+        _fr: Parts
+        _de: Anteile
+        _it: Parti
+        _nl: Delen
+      size:
+        _en: Share size
+        _fr: Taille part
+        _de: Anteilsgrösse
+        _it: Dimensione parte
+        _nl: Deelgrootte
+      sizes:
+        _en: Share sizes
+        _fr: Tailles part
+        _de: Anteilsgrössen
+        _it: Dimensioni parti
+        _nl: Deelgroottes
     unforce:
       flash:
         notice:

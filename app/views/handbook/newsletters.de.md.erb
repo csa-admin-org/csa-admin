@@ -2,7 +2,7 @@
 
 Ergänzend zu [automatischen E-Mails](/mail_templates), die bei bestimmten Ereignissen verschickt werden (neue Rechnung, Verlängerung, ...), bietet CSA Admin auch die Möglichkeit, [Newsletters (Gruppen-E-Mails)](/newsletters) zu versenden.
 
-Diese Newsletters können an alle Ihre Mitglieder oder an ein spezifisches Publikum (Status, Taschengröße, Depot, ...) gerichtet werden.
+Diese Newsletters können an alle Ihre Mitglieder oder an ein spezifisches Publikum (Status, <%= BasketSize.model_name.human %>, Depot, ...) gerichtet werden.
 
 > Im Gegensatz zu [automatischen E-Mails](/mail_templates) enthalten Newsletters einen (obligatorischen) Abmeldelink in ihrer Fußzeile.
 
@@ -13,7 +13,7 @@ Um die Erstellung Ihrer Newsletters zu erleichtern, bietet CSA Admin ein ausgekl
 Standardmäßig sind [2 Vorlagen](/newsletter_templates) verfügbar:
 
 - <strong>Freier Text</strong>: eine einfache Vorlage mit einem einzelnen Inhaltsblock ohne Titel.
-- <strong>Nächste Lieferung</strong>: eine komplexere Vorlage mit mehreren Inhaltsblöcken sowie dynamischen Informationen ([Tascheninhalt](/handbook/basket_content), [nächste Aktivität](/handbook/activity), ...).
+- <strong>Nächste Lieferung</strong>: eine komplexere Vorlage mit mehreren Inhaltsblöcken sowie dynamischen Informationen ([<%= BasketContent.model_name.human %>](/handbook/basket_content), [nächste Aktivität](/handbook/activity), ...).
 
 Zögern Sie nicht, diese zu duplizieren und nach Belieben zu ändern oder [neue zu erstellen](/newsletter_templates/new).
 
@@ -41,7 +41,7 @@ Beispiel eines leeren Blocks (wird bei der Erstellung eines Newsletters ausgefü
 
 ### Vorlagensprache und Formatierung {#liquid}
 
-Vorlagen verwenden die Liquid-Vorlagensprache, um dynamische mitgliederspezifische Daten (Name, Taschendetails, Abonnementinformationen, ...) und bedingte Logik einzufügen. Für Details zur Liquid-Syntax, Formatierungstags und dem Datenvorschau-Panel, siehe die [Emails-Handbuchseite](/handbook/emails).
+Vorlagen verwenden die Liquid-Vorlagensprache, um dynamische mitgliederspezifische Daten (Name, Details der <%= Basket.model_name.human %>, Abonnementinformationen, ...) und bedingte Logik einzufügen. Für Details zur Liquid-Syntax, Formatierungstags und dem Datenvorschau-Panel, siehe die [Emails-Handbuchseite](/handbook/emails).
 
 ## Anhänge {#attachments}
 

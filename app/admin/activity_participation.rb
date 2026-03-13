@@ -159,7 +159,7 @@ ActiveAdmin.register ActivityParticipation do
                   button_to clear_all_activity_participations_demanded_memberships_path,
                     params: { year: fy.year },
                     form: { class: "flex justify-center", data: { controller: "disable", disable_with_value: "..." } },
-                    data: { confirm: t_activity("active_admin.resource.show.clear_activity_participations_demanded_confirm", year: fy.to_s, count: missing_count) },
+                    data: { confirm: t("active_admin.resource.show.clear_activity_participations_demanded_confirm", year: fy.to_s, count: missing_count) },
                     class: "text-gray-400 dark:text-gray-600 hover:text-green-500 cursor-pointer" do
                       icon("x-circle", class: "size-6")
                     end

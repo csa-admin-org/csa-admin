@@ -6,7 +6,7 @@ Tutti gli abbonamenti possono essere rinnovati manualmente da un amministratore;
 
 ## Prerequisiti {#prerequisites}
 
-Per rinnovare gli abbonamenti, è innanzitutto necessario creare tutte [le consegne](/deliveries/new) per il nuovo anno fiscale (vedi [Consegne](/handbook/deliveries)) e, se necessario, adeguare i prezzi (dimensione del cestino, supplemento, deposito...) per l'anno successivo. Infatti, rinnovare un abbonamento significa creare un nuovo abbonamento con le stesse informazioni di quello corrente, ma per il prossimo anno fiscale.
+Per rinnovare gli abbonamenti, è innanzitutto necessario creare tutte [le consegne](/deliveries/new) per il nuovo anno fiscale (vedi [Consegne](/handbook/deliveries)) e, se necessario, adeguare i prezzi (<%= BasketSize.model_name.human.downcase %>, <%= BasketComplement.model_name.human.downcase %>, deposito...) per l'anno successivo. Infatti, rinnovare un abbonamento significa creare un nuovo abbonamento con le stesse informazioni di quello corrente, ma per il prossimo anno fiscale.
 
 Una volta create le consegne, gli amministratori possono rinnovare gli abbonamenti manualmente, al momento di loro scelta. Nota che se un abbonamento viene rinnovato dopo la prima consegna del nuovo anno fiscale, tale consegna sarà comunque inclusa nell'abbonamento rinnovato.
 
@@ -47,7 +47,7 @@ Una volta inviata la richiesta di rinnovo, il socio avrà accesso a un modulo su
 
 ### Rinnovo
 
-Se il socio sceglie di rinnovare il suo abbonamento, sarà reindirizzato alla pagina di rinnovo che gli permetterà di cambiare la sua dimensione della cesta, i suoi complementi (se disponibili), il suo deposito (se attivato nelle [impostazioni](/settings#membership_renewal)), l'intervallo di pagamento, e di lasciare un commento libero.
+Se il socio sceglie di rinnovare il suo abbonamento, sarà reindirizzato alla pagina di rinnovo che gli permetterà di cambiare la sua <%= BasketSize.model_name.human.downcase %>, i suoi <%= BasketComplement.model_name.human(count: 2).downcase %> (se disponibili), il suo deposito (se attivato nelle [impostazioni](/settings#membership_renewal)), l'intervallo di pagamento, e di lasciare un commento libero.
 
 Una volta confermato, il suo abbonamento per l'anno fiscale successivo viene automaticamente creato e può essere consultato e modificato dall'interfaccia di amministrazione come qualsiasi altro abbonamento. In caso di errore, l'abbonamento può essere cancellato senza problemi, il che avrà l'effetto di annullare il rinnovo.
 

@@ -24,7 +24,7 @@ Het factuurbedrag wordt als volgt berekend: totale lidmaatschapsbedrag / aantal 
 
 Het is daarom cruciaal dat elke lidmaatschapsconfiguratie up-to-date is zodat facturen correct zijn.
 
-Standaard wordt de eerste factuur verzonden op de factureringsdag die volgt op de eerste pakketlevering, maar het is mogelijk om dit te wijzigen in [de instellingen](/settings#billing) (Factureer lidmaatschappen alleen na hun eerste levering) om het lidmaatschap vanaf het begin te factureren.
+Standaard wordt de eerste factuur verzonden op de factureringsdag die volgt op de eerste levering van een <%= Basket.model_name.human.downcase %>, maar het is mogelijk om dit te wijzigen in [de instellingen](/settings#billing) (Factureer lidmaatschappen alleen na hun eerste levering) om het lidmaatschap vanaf het begin te factureren.
 
 Standaard strekt facturering zich uit tot de einddatum van het lidmaatschap, maar het is mogelijk om dit te wijzigen in [de instellingen](/settings#billing) (Factureer lidmaatschappen alleen tot hun laatste levering) om de factureringsperiode alleen uit te breiden tot de datum van hun laatste levering. Dit is nuttig wanneer bijvoorbeeld de laatste maanden van het boekjaar geen leveringen hebben.
 
@@ -44,7 +44,7 @@ Vooraf factureren kan worden gedaan vanaf de pagina van een toekomstig abonnemen
 
 ### Prijswijziging {#price-change}
 
-Als een lidmaatschapsconfiguratie (datums, pakketgrootte, ...) wordt gewijzigd, zijn verschillende gevallen mogelijk:
+Als een lidmaatschapsconfiguratie (datums, <%= BasketSize.model_name.human.downcase %>, ...) wordt gewijzigd, zijn verschillende gevallen mogelijk:
 
 - Een toekomstige factuur moet nog worden verzonden (het is het midden van het jaar en het lid wordt elk kwartaal gefactureerd); in dit geval wordt de prijswijziging (positief of negatief) eenvoudig toegepast op de volgende factuur.
 - De laatste factuur is al verzonden (het is het einde van het jaar of het lid wordt eenmaal gefactureerd), er zijn dan 2 mogelijkheden:
@@ -55,13 +55,13 @@ Als een lidmaatschapsconfiguratie (datums, pakketgrootte, ...) wordt gewijzigd, 
 
 De jaarlijkse bijdrage wordt automatisch opgenomen in de eerste factuur van het lidmaatschap. Als het lid geen lidmaatschap heeft ([ondersteuning](/handbook/members#statuses)) dan wordt automatisch een specifieke factuur aangemaakt aan het begin van het boekjaar.
 
-### Proefpakketten {#trial-baskets}
+### <%= Basket.model_name.human(count: 2) %> op proef {#trial-baskets}
 
-Als een aantal proefpakketten is gedefinieerd in [de factureringsinstellingen](/settings#billing), dan wordt het lidmaatschap pas gefactureerd nadat alle proefpakketten zijn geleverd, op de volgende factureringsdag na de levering van het eerste niet-proefpakket.
+Als een aantal <%= Basket.model_name.human(count: 2).downcase %> op proef is gedefinieerd in [de factureringsinstellingen](/settings#billing), dan wordt het lidmaatschap pas gefactureerd nadat alle <%= Basket.model_name.human(count: 2).downcase %> op proef zijn geleverd, op de volgende factureringsdag na de levering van de eerste <%= Basket.model_name.human.downcase %> zonder proef.
 
-Leden kunnen hun lidmaatschap zelf annuleren tijdens de proefperiode via hun ledenaccount. Het lidmaatschap eindigt dan op de laatste proefpakket leveringsdatum. Om een lidmaatschap onmiddellijk te annuleren, moet de administratie dit handmatig doen.
+Leden kunnen hun lidmaatschap zelf annuleren tijdens de proefperiode via hun ledenaccount. Het lidmaatschap eindigt dan op de leveringsdatum van de laatste <%= Basket.model_name.human.downcase %> op proef. Om een lidmaatschap onmiddellijk te annuleren, moet de administratie dit handmatig doen.
 
-Als het lidmaatschap wordt geannuleerd tijdens de proefperiode, worden alleen de geleverde pakketten gefactureerd, op de volgende factureringsdag. In dit geval wordt de jaarlijkse bijdrage niet gefactureerd (tenzij het lid ervoor kiest deze te betalen).
+Als het lidmaatschap wordt geannuleerd tijdens de proefperiode, worden alleen de geleverde <%= Basket.model_name.human(count: 2).downcase %> gefactureerd, op de volgende factureringsdag. In dit geval wordt de jaarlijkse bijdrage niet gefactureerd (tenzij het lid ervoor kiest deze te betalen).
 
 ## Aandelenkapitaal {#share-capital}
 

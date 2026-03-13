@@ -1,0 +1,19 @@
+<p><%= t(".greeting") %></p>
+
+{% if demo %}
+<p><%= t(".demo_welcome_paragraph") %></p>
+
+<p><%= t(".demo_explore_paragraph") %></p>
+
+<p><%= t(".demo_questions_paragraph") %></p>
+
+{% button action_url %}
+  <%= t(".demo_button") %>
+{% endbutton %}
+{% else %}
+<p><%= t(".admin_account_paragraph") %></p>
+
+{% button action_url %}
+  <%= t(".admin_button") %>
+{% endbutton %}
+{% endif %}

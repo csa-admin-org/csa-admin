@@ -57,10 +57,10 @@ formatter:
   # # Additional patterns beyond the defaults for formatting
   # include:
   #   - '**/*.xml.erb'
-  #
-  # # Patterns to exclude from formatting
-  # exclude:
-  #   - 'app/views/admin/**/*'
+
+  # Patterns to exclude from formatting
+  exclude:
+    - '**/*.liquid.erb'
 
   # Rewriters modify templates during formatting
   rewriter:

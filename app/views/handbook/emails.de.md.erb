@@ -26,7 +26,7 @@ Verwenden Sie `{% if %}`, um Inhalte nur anzuzeigen, wenn eine Bedingung erfüll
 
 ~~~ liquid
 {% if basket.contents.size > 0 %}
-  <h2>Tascheninhalt</h2>
+  <h2><%= BasketContent.model_name.human %></h2>
   ...
 {% endif %}
 ~~~
@@ -35,7 +35,7 @@ Sie können `and`, `or` sowie `{% elsif %}` und `{% else %}` verwenden, um Bedin
 
 ~~~ liquid
 {% if membership.trial_baskets_count > 0 %}
-  <p>Sie befinden sich noch in Ihrer Probezeit ({{ membership.trial_baskets_count }} Taschen verbleibend).</p>
+  <p>Sie befinden sich noch in Ihrer Probezeit ({{ membership.trial_baskets_count }} <%= Basket.model_name.human(count: 2) %> verbleibend).</p>
 {% elsif membership.activity_participations_missing_count > 0 %}
   <p>Sie haben noch {{ membership.activity_participations_missing_count }} Aktivität(en) zu absolvieren.</p>
 {% else %}
@@ -64,7 +64,7 @@ Zusätzlich zu Standard-HTML stehen mehrere spezielle Formatierungstags zur Verf
 ~~~ liquid
 {% highlight %}
   <p><strong>📣 Wichtig!</strong></p>
-  <p>Ihre Tasche wird diese Woche extra groß sein.</p>
+  <p>Ihre <%= Basket.model_name.human %> wird diese Woche extra groß sein.</p>
 {% endhighlight %}
 ~~~
 
@@ -89,6 +89,6 @@ Zusätzlich zu Standard-HTML stehen mehrere spezielle Formatierungstags zur Verf
 
 Beim Bearbeiten einer E-Mail-Vorlage oder einer Newsletter-Vorlage wird ein Vorschau-Panel unter dem Code-Editor angezeigt. Diese Vorschau zeigt Ihre Vorlage gerendert mit Beispieldaten für jede Sprache.
 
-Unter jeder Vorschau zeigt ein Daten-Panel die genaue Datenstruktur, die Ihrer Vorlage zur Verfügung steht. Diese Daten werden halbzufällig aus Ihren tatsächlichen Organisationsdaten generiert. Sie können die Werte in diesem Panel ändern, um zu testen, wie Ihre Vorlage mit verschiedenen Szenarien gerendert wird (z.B. leerer Tascheninhalt, null fehlende Aktivitäten, usw.).
+Unter jeder Vorschau zeigt ein Daten-Panel die genaue Datenstruktur, die Ihrer Vorlage zur Verfügung steht. Diese Daten werden halbzufällig aus Ihren tatsächlichen Organisationsdaten generiert. Sie können die Werte in diesem Panel ändern, um zu testen, wie Ihre Vorlage mit verschiedenen Szenarien gerendert wird (z.B. leerer <%= BasketContent.model_name.human %>, null fehlende Aktivitäten, usw.).
 
 > Die Datenvorschau ist der beste Weg, alle verfügbaren Variablen zu entdecken und Ihre Vorlage zu testen. Jeder Typ von E-Mail-Vorlage hat seinen eigenen Satz verfügbarer Daten — überprüfen Sie immer das Vorschau-Panel, um zu sehen, was verfügbar ist.

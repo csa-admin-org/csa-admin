@@ -1,6 +1,6 @@
 # Beitragsrunde
 
-Die Beitragsrunde ermöglicht es Mitgliedern, den Beitrag pro Tasche entsprechend ihren finanziellen Möglichkeiten selbst festzulegen und dabei sicherzustellen, dass die Bedürfnisse der Organisation gedeckt sind.
+Die Beitragsrunde ermöglicht es Mitgliedern, für ihre <%= BasketSize.model_name.human %> einen Beitrag pro <%= Basket.model_name.human %> entsprechend ihren finanziellen Möglichkeiten selbst festzulegen und dabei sicherzustellen, dass die Bedürfnisse der Organisation gedeckt sind.
 
 Zugesagte Beträge werden durch konfigurierbare Min/Max-Grenzen begrenzt.
 
@@ -11,26 +11,26 @@ Zugesagte Beträge werden durch konfigurierbare Min/Max-Grenzen begrenzt.
 
 Vor dem Öffnen einer Beitragsrunde bitte in den [Einstellungen](/settings#bidding_round) prüfen:
 
-- Mindestbeitrag pro Taschengröße (0–100%) — definiert den minimal zulässigen Prozentsatz.
-- Maximalbeitrag pro Taschengröße (0–X%) — definiert den maximal zulässigen Prozentsatz.
+- Mindestbeitrag der <%= BasketSize.model_name.human %> (0–100%) — definiert den minimal zulässigen Prozentsatz.
+- Maximalbeitrag der <%= BasketSize.model_name.human %> (0–X%) — definiert den maximal zulässigen Prozentsatz.
 - Erinnerung senden nach (in Tagen).
 
 Diese Einstellungen sorgen für einen konsistenten Rahmen für die Zusagen der Mitglieder und ermöglichen automatische Erinnerungen während der offenen Phase.
 
-> Standardmäßig ist der Beitrag pro Tasche der in der [Konfiguration der Taschengrößen](/basket_sizes) definierte Richtwert, der auf die erneuerten Abonnements angewendet wird, oder der im Abonnement gesetzte Betrag, falls ein benutzerdefinierter Beitrag verwendet wird.
+> Standardmäßig ist der Beitrag pro <%= Basket.model_name.human %> der in der [Konfiguration der <%= BasketSize.model_name.human(count: 2) %>](/basket_sizes) definierte Richtwert, der auf die erneuerten Abonnements angewendet wird, oder der im Abonnement gesetzte Betrag, falls ein benutzerdefinierter Beitrag verwendet wird.
 
 ## Ablauf {#flow}
 
 1. Abonnements für die neue Saison erstellen (siehe [Verlängerung](/handbook/membership_renewal)).
 2. Eine neue Beitragsrunde erstellen und öffnen.
-3. Mitglieder ihren Beitrag pro Tasche zusagen lassen (die Dauer des Öffnungsfensters ist frei wählbar).
+3. Mitglieder Zusagen für ihre <%= BasketSize.model_name.human(count: 2) %> abgeben lassen (die Dauer des Öffnungsfensters ist frei wählbar).
 4. Ergebnisse der Beitragsrunde auswerten und entscheiden:
-   - Sind die Bedürfnisse gedeckt? Die Beitragsrunde abschließen, um den Beitrag pro Tasche für alle Abonnements zu aktualisieren, die eine Zusage erhalten haben.
+   - Sind die Bedürfnisse gedeckt? Die Beitragsrunde abschließen, um den Beitrag pro <%= Basket.model_name.human %> für alle Abonnements zu aktualisieren, die eine Zusage erhalten haben.
    - Bedürfnisse nicht gedeckt? Die Beitragsrunde schließen (Fehlschlag) und eine neue eröffnen.
 
 ## Öffnen {#opening}
 
-Beim Öffnen der Beitragsrunde wird automatisch eine E‑Mail an die Mitglieder gesendet. Über das Mitgliedskonto erhalten sie Zugriff auf ein Formular, um den Beitrag für ihre Taschengröße zuzusagen.
+Beim Öffnen der Beitragsrunde wird automatisch eine E‑Mail an die Mitglieder gesendet. Über das Mitgliedskonto erhalten sie Zugriff auf ein Formular, um den Beitrag für ihre <%= BasketSize.model_name.human %> zuzusagen.
 
 ### Erinnerung
 
@@ -38,7 +38,7 @@ Solange die Beitragsrunde geöffnet ist, kann automatisch eine Erinnerung versen
 
 ## Abschließen (Erfolg) {#finish}
 
-Wenn die Beitragsrunde abgeschlossen ist (Erfolg), wird der Beitrag pro Tasche für alle Abonnements aktualisiert, die eine Zusage erhalten haben. Abonnements ohne Zusage werden nicht geändert.
+Wenn die Beitragsrunde abgeschlossen ist (Erfolg), wird der Beitrag pro <%= Basket.model_name.human %> für alle Abonnements aktualisiert, die eine Zusage erhalten haben. Abonnements ohne Zusage werden nicht geändert.
 
 Optional kann eine automatische E‑Mail an alle betroffenen Mitglieder gesendet werden.
 

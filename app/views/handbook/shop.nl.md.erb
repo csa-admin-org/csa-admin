@@ -1,6 +1,6 @@
 # Winkel
 
-De online winkel stelt uw leden in staat om aanvullende producten te bestellen vanaf hun account enkele dagen voor de levering van hun volgende pakketten.
+De online winkel stelt uw leden in staat om aanvullende producten te bestellen vanaf hun account enkele dagen voor de levering van hun volgende <%= Basket.model_name.human(count: 2).downcase %>.
 
 Om u de mogelijkheid te geven om de inhoud van uw winkel rustig voor te bereiden, verschijnt de winkel **standaard niet** in het menu van het ledenaccount. Alleen admins die toegang hebben tot het account van een lid (via de knop "Toegang tot account" op de adminpagina van een lid) kunnen de winkel zien. Op deze manier kunt u ervoor zorgen dat alle producten goed gepresenteerd zijn. Zodra alles op zijn plaats staat, kan deze beperking worden uitgeschakeld vanuit [de instellingen](/settings#shop).
 
@@ -32,7 +32,7 @@ De beschikbaarheid van een product kan worden gedefinieerd voor zichzelf of voor
 
 ### Aanvullingen
 
-Het is mogelijk om een product te koppelen aan een bestaande [pakketaanvulling](/handbook/deliveries#basket-complements); bestellingen voor dit product worden dan automatisch toegevoegd aan het aantal van deze aanvulling in de samenvatting (XLSX) en bladen (PDF) van de pakketlevering.
+Het is mogelijk om een product te koppelen aan een bestaande [<%= BasketComplement.model_name.human.downcase %>](/handbook/deliveries#basket-complements); bestellingen voor dit product worden dan automatisch toegevoegd aan het aantal van deze aanvulling in de samenvatting (XLSX) en bladen (PDF) van de levering van <%= Basket.model_name.human(count: 2).downcase %>.
 
 Dit product zal ook alleen beschikbaar zijn op de leveringsdagen van de aanvulling.
 
@@ -44,7 +44,7 @@ Het is ook mogelijk om een minimaal bestelbedrag evenals een maximaal gewicht in
 
 Zodra een bestelling is geplaatst, verschijnt deze met de status "voor te bereiden" in [de bestellingenlijst](/shop_orders?scope=pending). Deze bestellingen kunnen altijd door leden worden gewijzigd tot de geconfigureerde deadline. Een admin kan ze ook op elk moment wijzigen.
 
-Een leveringsbon (PDF), exclusief de prijs van producten, is beschikbaar voor elke bestelling als u deze wilt afdrukken en aan de pakketten wilt bevestigen.
+Een leveringsbon (PDF), exclusief de prijs van producten, is beschikbaar voor elke bestelling als u deze wilt afdrukken en aan de <%= Basket.model_name.human(count: 2).downcase %> wilt bevestigen.
 
 ### Facturering {#billing}
 
@@ -71,8 +71,8 @@ Standaard, en buiten [speciale leveringen](#special-deliveries), is de toegang t
 
 ## Speciale leveringen {#special-deliveries}
 
-Speciale leveringen stellen u in staat om aanvullende producten aan uw leden aan te bieden buiten de reguliere pakketleveringen via de online winkel.
+Speciale leveringen stellen u in staat om aanvullende producten aan uw leden aan te bieden buiten de reguliere leveringen van <%= Basket.model_name.human(count: 2).downcase %> via de online winkel.
 
 Beschikbare producten kunnen afzonderlijk worden gedefinieerd voor elke speciale levering, de individuele instelling van de beschikbaarheid van elk product wordt genegeerd. De beschikbaarheid van varianten evenals de staat van hun voorraad worden echter altijd gerespecteerd.
 
-> Omdat speciale leveringen worden geleverd buiten pakketleveringen om, staan ze open voor al uw leden, actief of niet.
+> Omdat speciale leveringen worden geleverd buiten leveringen van <%= Basket.model_name.human(count: 2).downcase %> om, staan ze open voor al uw leden, actief of niet.

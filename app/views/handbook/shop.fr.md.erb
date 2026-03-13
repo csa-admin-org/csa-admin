@@ -1,6 +1,6 @@
 # Épicerie
 
-L'épicerie en ligne permet à vos membres de commander des produits supplémentaires depuis leur compte quelques jours avant la livraison de leurs prochains paniers.
+L'épicerie en ligne permet à vos membres de commander des produits supplémentaires depuis leur compte quelques jours avant la livraison de leurs prochains <%= Basket.model_name.human(count: 2).downcase %>.
 
 Pour vous permettre de préparer le contenu de votre épicerie tranquillement, par défaut, l'épicerie **n'apparaît pas** dans le menu du compte membre. Seuls les admins pouvant accéder au compte d'un membre (depuis le bouton "Accéder au compte" de la page admin d'un membre) peuvent voir l'épicerie. Vous pouvez ainsi vous assurer que tous les produits sont bien présentés. Une fois tout en place, cette limitation peut être désactivée depuis [les paramètres](/settings#shop).
 
@@ -32,7 +32,7 @@ La disponibilité d'un produit peut–être définie pour lui-même ou pour chac
 
 ### Compléments
 
-Il est possible de lier un produit à un [complément de panier](/handbook/deliveries#basket-complements) existant; les commandes de ce produit seront alors automatiquement ajoutées au nombre de ce complément dans le récapitulatif (XLSX) et les fiches (PDF) de la livraison des paniers.
+Il est possible de lier un produit à un [<%= BasketComplement.model_name.human.downcase %>](/handbook/deliveries#basket-complements) existant; les commandes de ce produit seront alors automatiquement ajoutées au nombre de ce complément dans le récapitulatif (XLSX) et les fiches (PDF) de la livraison des <%= Basket.model_name.human(count: 2).downcase %>.
 
 Ce produit ne sera également disponible que les jours de livraison du complément.
 
@@ -44,7 +44,7 @@ Il est également possible de paramétrer un montant minimal de commande ainsi q
 
 Une fois une commande passée, elle apparaît avec le statut "à préparer" dans [la liste des commandes](/shop_orders?scope=pending). Ces commandes sont toujours modifiables par les membres jusqu'au délai configuré. Un admin peut également les modifier à tout moment.
 
-Un bulletin de livraison (PDF), n'incluant pas le prix des produits, est disponible pour chaque commande si vous désirez les imprimer et les joindre aux paniers.
+Un bulletin de livraison (PDF), n'incluant pas le prix des produits, est disponible pour chaque commande si vous désirez les imprimer et les joindre aux <%= Basket.model_name.human(count: 2).downcase %>.
 
 ### Facturation {#billing}
 
@@ -72,8 +72,8 @@ Par défaut, et en dehors [des livraisons spéciales](#special-deliveries), l'ac
 
 ## Livraisons spéciales {#special-deliveries}
 
-Les livraisons spéciales vous permettent de proposer des produits supplémentaires à vos membres en dehors des livraisons de paniers habituelles via l'épicerie en ligne.
+Les livraisons spéciales vous permettent de proposer des produits supplémentaires à vos membres en dehors des livraisons de <%= Basket.model_name.human(count: 2).downcase %> habituelles via l'épicerie en ligne.
 
 Les produits disponibles peuvent être définis séparément pour chaque livraison spéciale, le réglage individuel de la disponibilité de chaque produit est ignoré. Par contre, la disponibilité des variantes ainsi que l'état de leur stock sont toujours respectés.
 
-> Comme les livraisons spéciales sont livrées en dehors des livraisons de paniers, elles sont ouvertes à tous vos membres actifs ou non.
+> Comme les livraisons spéciales sont livrées en dehors des livraisons de <%= Basket.model_name.human(count: 2).downcase %>, elles sont ouvertes à tous vos membres actifs ou non.

@@ -1,0 +1,32 @@
+<p><%= t(".greeting") %></p>
+
+<p><%= t(".registration_paragraph") %></p>
+
+{% highlight_list %}
+  <strong><%= t(".date_label") %></strong> {{ activity.date_long }}
+  <strong><%= t(".schedule_label") %></strong> {{ activity.period }}
+  <strong><%= t(".activity_label") %></strong> {{ activity.title }}
+  {% if activity.description %}
+  <strong><%= t(".description_label") %></strong> {{ activity.description }}
+  {% endif %}
+  {% if activity.place_url %}
+  <strong><%= t(".location_label") %></strong> <a href="{{ activity.place_url }}" target="_blank">{{ activity.place }}</a>
+  {% elsif activity.place %}
+  <strong><%= t(".location_label") %></strong> {{ activity.place }}
+  {% endif %}
+  <strong><%= t(".participants_label") %></strong> {{ activity_participation.participants_count }}
+  {% if activity_participation.carpooling %}
+    <strong><%= t(".carpooling_label") %></strong> {{ activity_participation.carpooling_phone }} {% if activity_participation.carpooling_city %}({{ activity_participation.carpooling_city }}){% endif %}
+  {% endif %}
+{% endhighlight_list %}
+
+{% if activity_participation.note %}
+<p>
+  <%= t(".member_note_label") %><br/>
+  <i>{{ activity_participation.note }}</i>
+</p>
+{% endif %}
+
+{% button activity_participation.admin_url %}
+  <%= t(".participation_page_button") %>
+{% endbutton %}

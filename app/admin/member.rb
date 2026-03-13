@@ -292,7 +292,7 @@ ActiveAdmin.register Member do
           activity_participations_count = activity_participations.count
           panel link_to(activities_human_name, all_activity_participations_path), count: activity_participations_count do
             if activity_participations_count.zero?
-              div(class: "missing-data") { t_activity(".no_activities") }
+              div(class: "missing-data") { t(".no_activities") }
             else
               table_for(activity_participations.limit(6), class: "table-auto") do
                 column(Activity.model_name.human) { |ap|
@@ -650,8 +650,7 @@ ActiveAdmin.register Member do
           input_html: {
             value: f.object[:required_shares_number],
             placeholder: f.object.default_required_shares_number
-          },
-          hint: t("formtastic.hints.member.required_shares_number_html")
+          }
         f.input :shares_info
       end
     end

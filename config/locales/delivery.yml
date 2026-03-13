@@ -1,18 +1,66 @@
 _:
   delivery:
-    basket_sizes_total:
+    basket_sizes_total/bag:
+      _en: Total bags
+      _fr: Total sacs
+      _de: Gesamt Anzahl Taschen
+      _it: Totale borse
+      _nl: Totaal aantal tassen
+    basket_sizes_total/basket:
       _en: Total baskets
       _fr: Total paniers
-      _de: Gesamt Anzahl Taschen
-      _it: Totale cesti
+      _de: Gesamt Anzahl Körbe
+      _it: Totale ceste
+      _nl: Totaal aantal manden
+    basket_sizes_total/cone:
+      _en: Total cones
+      _fr: Total cornets
+      _de: Gesamt Anzahl Tüten
+      _it: Totale coni
+      _nl: Totaal aantal zakken
+    basket_sizes_total/package:
+      _en: Total packages
+      _fr: Total colis
+      _de: Gesamt Anzahl Pakete
+      _it: Totale pacchi
       _nl: Totaal aantal pakketten
+    basket_sizes_total/share:
+      _en: Total shares
+      _fr: Total parts
+      _de: Gesamt Anzahl Anteile
+      _it: Totale parti
+      _nl: Totaal aantal delen
     change_types:
-      basket_changed:
+      basket_changed/bag:
+        _en: Bag
+        _fr: Sac
+        _de: Tasche
+        _it: Borsa
+        _nl: Tas
+      basket_changed/basket:
         _en: Basket
         _fr: Panier
-        _de: Tasche
+        _de: Korb
         _it: Cesta
+        _nl: Mand
+      basket_changed/cone:
+        _en: Cone
+        _fr: Cornet
+        _de: Tüte
+        _it: Cono
+        _nl: Zak
+      basket_changed/package:
+        _en: Package
+        _fr: Colis
+        _de: Paket
+        _it: Pacco
         _nl: Pakket
+      basket_changed/share:
+        _en: Share
+        _fr: Part
+        _de: Anteil
+        _it: Parte
+        _nl: Deel
       complements_changed:
         _en: Complements
         _fr: Compléments
@@ -61,12 +109,36 @@ _:
       _de: Gratis Depots
       _it: Punto di ritiro gratuito
       _nl: Gratis depots
-    no_basket_complements:
+    no_basket_complements/bag:
+      _en: No bag complements
+      _fr: Aucun complément sac
+      _de: Kein Taschenzusatz
+      _it: Nessuna aggiunta borsa
+      _nl: Geen tasaanvullingen
+    no_basket_complements/basket:
       _en: No basket complements
-      _fr: Aucun complément
-      _de: Kein Zusatz
-      _it: Nessun supplemento
-      _nl: Geen aanvullingen
+      _fr: Aucun complément panier
+      _de: Kein Korbzusatz
+      _it: Nessuna aggiunta cesta
+      _nl: Geen mandaanvullingen
+    no_basket_complements/cone:
+      _en: No cone complements
+      _fr: Aucun complément cornet
+      _de: Kein Tütenzusatz
+      _it: Nessuna aggiunta cono
+      _nl: Geen zakaanvullingen
+    no_basket_complements/package:
+      _en: No package complements
+      _fr: Aucun complément colis
+      _de: Kein Paketzusatz
+      _it: Nessuna aggiunta pacco
+      _nl: Geen pakketaanvullingen
+    no_basket_complements/share:
+      _en: No share complements
+      _fr: Aucun complément part
+      _de: Kein Anteilszusatz
+      _it: Nessuna aggiunta parte
+      _nl: Geen deelaanvullingen
     paid_depots:
       _en: Paid depots
       _fr: Dépôts payants

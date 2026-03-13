@@ -2,7 +2,7 @@
 
 In addition to [automatic emails](/mail_templates) sent during specific events (new invoice, renewal, ...), CSA Admin also offers the possibility to send [newsletters (group emails)](/newsletters).
 
-These newsletters can be addressed to all your members or to a specific audience (status, basket size, depot, ...).
+These newsletters can be addressed to all your members or to a specific audience (status, <%= BasketSize.model_name.human.downcase %>, depot, ...).
 
 > Unlike [automatic emails](/mail_templates), newsletters include an unsubscribe link (mandatory) in their footer.
 
@@ -13,7 +13,7 @@ To facilitate the creation of your newsletters, CSA Admin offers a sophisticated
 By default, [2 templates](/newsletter_templates) are available:
 
 - <strong>Free text</strong>: a simple template with a single content block without a title.
-- <strong>Next delivery</strong>: a more complex template with multiple content blocks, as well as dynamic information ([basket content](/handbook/basket_content), [next activity](/handbook/activity), ...).
+- <strong>Next delivery</strong>: a more complex template with multiple content blocks, as well as dynamic information ([<%= BasketContent.model_name.human.downcase %>](/handbook/basket_content), [next activity](/handbook/activity), ...).
 
 Feel free to duplicate and modify them as you wish or [create new ones](/newsletter_templates/new).
 
@@ -41,7 +41,7 @@ Example of an empty block (to be filled in when creating a newsletter):
 
 ### Template Language and Formatting {#liquid}
 
-Templates use the Liquid template language to insert dynamic member-specific data (name, basket details, membership info, ...) and conditional logic. For details on Liquid syntax, formatting tags, and the data preview panel, see the [Emails handbook page](/handbook/emails).
+Templates use the Liquid template language to insert dynamic member-specific data (name, <%= Basket.model_name.human.downcase %> details, membership info, ...) and conditional logic. For details on Liquid syntax, formatting tags, and the data preview panel, see the [Emails handbook page](/handbook/emails).
 
 ## Attachments {#attachments}
 

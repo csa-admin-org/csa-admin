@@ -1,0 +1,14 @@
+<p><%= t(".greeting") %></p>
+
+<p><%= t(".absence_paragraph") %></p>
+
+{% if absence.note %}
+<p>
+  <%= t(".member_note_label") %><br/>
+  <i>{{ absence.note }}</i>
+</p>
+{% endif %}
+
+{% button absence.admin_url %}
+  <%= t(".absence_page_button") %>
+{% endbutton %}

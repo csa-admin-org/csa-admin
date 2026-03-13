@@ -1,6 +1,6 @@
 # Warenkorb
 
-Der Online-Warenkorb ermöglicht es Ihren Mitgliedern, einige Tage vor der Lieferung ihrer nächsten Taschen zusätzliche Produkte von ihrem Konto aus zu bestellen.
+Der Online-Warenkorb ermöglicht es Ihren Mitgliedern, einige Tage vor der Lieferung ihrer nächsten <%= Basket.model_name.human(count: 2) %> zusätzliche Produkte von ihrem Konto aus zu bestellen.
 
 Um Ihnen zu ermöglichen, den Inhalt Ihres Warenkorbs in Ruhe vorzubereiten, erscheint der Warenkorb standardmäßig **nicht** im Menü des Mitgliedskontos. Nur Administratoren, die auf das Konto eines Mitglieds zugreifen können (über die Schaltfläche "Auf Konto zugreifen" auf der Administratorseite eines Mitglieds), können den Warenkorb sehen. So können Sie sicherstellen, dass alle Produkte gut präsentiert sind. Sobald alles eingerichtet ist, kann diese Einschränkung in [den Einstellungen](/settings#shop) deaktiviert werden.
 
@@ -32,7 +32,7 @@ Die Verfügbarkeit eines Produkts kann für sich selbst oder für jede seiner Va
 
 ### Ergänzungen
 
-Es ist möglich, ein Produkt mit einer bestehenden [Taschenergänzung](/handbook/deliveries#basket-complements) zu verknüpfen; Bestellungen dieses Produkts werden dann automatisch zur Anzahl dieser Ergänzung in der Zusammenfassung (XLSX) und den Blättern (PDF) der Taschenlieferung hinzugefügt.
+Es ist möglich, ein Produkt mit einer bestehenden [<%= BasketComplement.model_name.human %>](/handbook/deliveries#basket-complements) zu verknüpfen; Bestellungen dieses Produkts werden dann automatisch zur Anzahl dieser Ergänzung in der Zusammenfassung (XLSX) und den Blättern (PDF) der Lieferung der <%= Basket.model_name.human(count: 2) %> hinzugefügt.
 
 Dieses Produkt wird auch nur an den Liefertagen der Ergänzung verfügbar sein.
 
@@ -44,7 +44,7 @@ Es ist auch möglich, einen Mindestbestellbetrag sowie ein maximales Gewicht fes
 
 Sobald eine Bestellung aufgegeben wurde, erscheint sie mit dem Status "vorzubereiten" in [der Bestellliste](/shop_orders?scope=pending). Diese Bestellungen können von den Mitgliedern bis zur konfigurierten Frist jederzeit geändert werden. Ein Administrator kann sie jederzeit ändern.
 
-Ein Lieferschein (PDF), der den Preis der Produkte nicht enthält, ist für jede Bestellung verfügbar, wenn Sie sie ausdrucken und den Taschen beifügen möchten.
+Ein Lieferschein (PDF), der den Preis der Produkte nicht enthält, ist für jede Bestellung verfügbar, wenn Sie sie ausdrucken und den <%= Basket.model_name.human(count: 2) %> beifügen möchten.
 
 ### Abrechnung {#billing}
 
@@ -71,8 +71,8 @@ Standardmäßig und außerhalb [von Sonderlieferungen](#special-deliveries) ist 
 
 ## Sonderlieferungen {#special-deliveries}
 
-Sonderlieferungen ermöglichen es Ihnen, Ihren Mitgliedern zusätzliche Produkte außerhalb der üblichen Taschenlieferungen über den Online-Warenkorb anzubieten.
+Sonderlieferungen ermöglichen es Ihnen, Ihren Mitgliedern zusätzliche Produkte außerhalb der üblichen Lieferungen von <%= Basket.model_name.human(count: 2) %> über den Online-Warenkorb anzubieten.
 
 Verfügbare Produkte können separat für jede Sonderlieferung definiert werden, die individuelle Einstellung der Verfügbarkeit jedes Produkts wird ignoriert. Die Verfügbarkeit der Varianten sowie der Zustand ihres Bestands werden jedoch immer respektiert.
 
-> Da Sonderlieferungen außerhalb der Taschenlieferungen geliefert werden, sind sie für alle Ihre Mitglieder, aktiv oder nicht, zugänglich.
+> Da Sonderlieferungen außerhalb der Lieferungen von <%= Basket.model_name.human(count: 2) %> geliefert werden, sind sie für alle Ihre Mitglieder, aktiv oder nicht, zugänglich.

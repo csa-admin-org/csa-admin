@@ -70,12 +70,36 @@ _:
         _de: Anpassung Preis der Zusätze
         _it: Correzione del prezzo delle aggiunte
         _nl: Aanpassing van de prijs van aanvullingen
-      baskets_annual_price_change:
+      baskets_annual_price_change/bag:
+        _en: Adjustment of the price of bags
+        _fr: Ajustement du prix des sacs
+        _de: Anpassung Preis der Taschen
+        _it: Correzione del prezzo delle borse
+        _nl: Aanpassing van de prijs van tassen
+      baskets_annual_price_change/basket:
         _en: Adjustment of the price of baskets
         _fr: Ajustement du prix des paniers
-        _de: Anpassung Preis der Taschen
+        _de: Anpassung Preis der Körbe
         _it: Correzione del prezzo delle ceste
+        _nl: Aanpassing van de prijs van manden
+      baskets_annual_price_change/cone:
+        _en: Adjustment of the price of cones
+        _fr: Ajustement du prix des cornets
+        _de: Anpassung Preis der Tüten
+        _it: Correzione del prezzo dei coni
+        _nl: Aanpassing van de prijs van zakken
+      baskets_annual_price_change/package:
+        _en: Adjustment of the price of packages
+        _fr: Ajustement du prix des colis
+        _de: Anpassung Preis der Pakete
+        _it: Correzione del prezzo dei pacchi
         _nl: Aanpassing van de prijs van pakketten
+      baskets_annual_price_change/share:
+        _en: Adjustment of the price of shares
+        _fr: Ajustement du prix des parts
+        _de: Anpassung Preis der Anteile
+        _it: Correzione del prezzo delle parti
+        _nl: Aanpassing van de prijs van delen
       credit_amount:
         _en: Balance
         _fr: Balance

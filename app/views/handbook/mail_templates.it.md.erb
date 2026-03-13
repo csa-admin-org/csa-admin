@@ -7,10 +7,10 @@ CSA Admin invia automaticamente email ai vostri soci durante eventi specifici ne
 I template di email sono organizzati per categoria:
 
 - **Socio**: Inviati quando lo stato di un socio cambia (validato, attivato).
-- **Cesto**: Inviati in momenti chiave dell'abbonamento (primo cesto, ultimo cesto, periodo di prova, ...).
+- **<%= Basket.model_name.human %>**: Inviati nei momenti chiave dell'abbonamento (prima <%= Basket.model_name.human.downcase %>, ultima <%= Basket.model_name.human.downcase %>, periodo di prova, ...).
 - **Fattura**: Inviati alla creazione, annullamento o sollecito di fatture.
 <% if Current.org.feature?("absence") %>
-- **Assenza**: Inviati alla conferma di un'assenza o allo spostamento di cesti.
+- **Assenza**: Inviati alla conferma di un'assenza o allo spostamento di <%= Basket.model_name.human(count: 2).downcase %>.
 <% end %>
 <% if Current.org.feature?("activity") %>
 - **<%= activities_human_name %>**: Inviati per promemoria, conferme e rifiuti di attività.
@@ -29,7 +29,7 @@ Quando un template è disattivato, l'email corrispondente semplicemente non verr
 
 ## Personalizzazione del contenuto {#customizing}
 
-Ogni template ha un oggetto e un contenuto che potete personalizzare completamente. I template utilizzano il linguaggio di template Liquid per inserire dati dinamici specifici per ogni socio (nome, dettagli del cesto, informazioni sull'abbonamento, ...) e logica condizionale. Per dettagli sulla sintassi Liquid, i tag di formattazione e il pannello di anteprima dei dati, consultate la [pagina Emails del manuale](/handbook/emails).
+Ogni template ha un oggetto e un contenuto che potete personalizzare completamente. I template utilizzano il linguaggio Liquid per inserire dati dinamici specifici del socio (nome, dettagli della <%= Basket.model_name.human.downcase %>, informazioni sull'abbonamento, ...) e logica condizionale. Per dettagli sulla sintassi Liquid, i tag di formattazione e il pannello di anteprima dei dati, consultate la [pagina Email del manuale](/handbook/emails).
 
 > Ogni tipo di template di email ha il proprio set di dati disponibili, specifico al suo contesto. Consultate sempre il pannello di anteprima dei dati sotto l'editor per vedere esattamente quali variabili sono disponibili per il template che state modificando.
 

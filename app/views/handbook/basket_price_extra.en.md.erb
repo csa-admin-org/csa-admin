@@ -1,6 +1,6 @@
-# Extra Basket Price
+# Extra <%= Basket.model_name.human %> Price
 
-This feature allows you to offer your members the option to pay an extra amount for each basket.
+This feature allows you to offer your members the option to pay an extra amount for each <%= Basket.model_name.human.downcase %>.
 
 This additional income can serve different needs, for example:
 
@@ -23,9 +23,9 @@ Next, you need to define how your extras will be displayed, for example using [L
 {% if extra == 0 %}
 Base price
 {% elsif extra == 1.5 %}
-+ {{ extra }}/basket
++ {{ extra }}/<%= Basket.model_name.human.downcase %>
 {% else %}
-+ {{ extra | ceil }}.-/basket
++ {{ extra | ceil }}.-/<%= Basket.model_name.human.downcase %>
 {% endif %}
 ~~~
 

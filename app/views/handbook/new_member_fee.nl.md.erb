@@ -1,6 +1,6 @@
 # Nieuwlidenbijdrage
 
-Deze functie stelt u in staat om automatisch een nieuwlidenbijdrage te factureren, bijvoorbeeld voor herbruikbare pakketten/tassen, aan uw nieuwe leden.
+Deze functie stelt u in staat om automatisch een nieuwlidenbijdrage te factureren, bijvoorbeeld voor herbruikbare <%= Basket.model_name.human(count: 2).downcase %>, aan uw nieuwe leden.
 
 Zodra deze aanvullende functie is geactiveerd, moeten de beschrijving en het bedrag van uw nieuwlidenbijdrage worden gedefinieerd in [uw instellingen](/settings#new_member_fee).
 
@@ -8,7 +8,7 @@ Zodra deze aanvullende functie is geactiveerd, moeten de beschrijving en het bed
 
 ## Facturering {#billing}
 
-Het systeem zorgt ervoor dat deze bijdragen aan elk nieuw lid worden gefactureerd op de automatische factureringsdag gedefinieerd in [uw instellingen](/settings#billing). Als u [proefpakketten](/handbook/billing#trial-baskets) heeft, worden deze bijdragen alleen gefactureerd aan het einde van de proefperiode, als het lid besluit door te gaan.
+Het systeem zorgt ervoor dat deze bijdragen aan elk nieuw lid worden gefactureerd op de automatische factureringsdag gedefinieerd in [uw instellingen](/settings#billing). Als u [proef<%= Basket.model_name.human(count: 2).downcase %>](/handbook/billing#trial-baskets) heeft, worden deze bijdragen alleen gefactureerd aan het einde van de proefperiode, als het lid besluit door te gaan.
 
 Het is mogelijk om specifieke tekst toe te voegen in de ["Nieuwe factuur" e-mailsjabloon](/mail_templates/invoice_created) met behulp van [Liquid syntax](https://shopify.github.io/liquid) als volgt:
 

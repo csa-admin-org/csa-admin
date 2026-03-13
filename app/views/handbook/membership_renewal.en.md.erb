@@ -6,7 +6,7 @@ All memberships can be manually renewed by an administrator; either from a membe
 
 ## Prerequisites {#prerequisites}
 
-In order to renew memberships, it is first necessary to create all [the deliveries](/deliveries/new) for the new fiscal year (see [Deliveries](/handbook/deliveries)) and, if necessary, adjust the prices (basket size, supplement, deposit...) for the following year. Indeed, renewing a membership consists of creating a new membership with the same information as the current one, but for the next fiscal year.
+In order to renew memberships, it is first necessary to create all [the deliveries](/deliveries/new) for the new fiscal year (see [Deliveries](/handbook/deliveries)) and, if necessary, adjust the prices (<%= BasketSize.model_name.human.downcase %>, <%= BasketComplement.model_name.human.downcase %>, deposit...) for the following year. Indeed, renewing a membership consists of creating a new membership with the same information as the current one, but for the next fiscal year.
 
 Once the deliveries are created, administrators can renew memberships manually, at the time of their choice. Note that if a membership is renewed after the first delivery of the new fiscal year, that delivery will be included in the renewed membership regardless.
 
@@ -47,7 +47,7 @@ Once the renewal request is sent, the member will have access to a form on their
 
 ### Renewal
 
-If the member chooses to renew their membership, they will be redirected to the renewal page which will allow them to change their basket size, their complements (if available), their depot (if activated in [the settings](/settings#membership_renewal)), the payment interval, as well as leave a free comment.
+If the member chooses to renew their membership, they will be redirected to the renewal page which will allow them to change their <%= BasketSize.model_name.human.downcase %>, their <%= BasketComplement.model_name.human(count: 2).downcase %> (if available), their depot (if activated in [the settings](/settings#membership_renewal)), the payment interval, as well as leave a free comment.
 
 Once confirmed, their membership for the following fiscal year is automatically created and can be consulted and modified from the administration interface like any other membership. In case of error, the membership can be easily deleted, which will cancel the renewal.
 

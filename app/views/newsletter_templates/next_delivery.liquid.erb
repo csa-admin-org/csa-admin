@@ -1,0 +1,64 @@
+{% if basket.shifted %}
+  {% highlight %}
+    <p><strong><%= t(".shifted_reminder_title") %></strong></p>
+    <p><%= t(".shifted_reminder_paragraph") %></p>
+    <ul>
+      <li><%= t(".regular_basket_item") %></li>
+      {% for shift in basket.shifts %}
+        <li><%= t(".shifted_basket_item") %></li>
+      {% endfor %}
+    </ul>
+  {% endhighlight %}
+{% endif %}
+
+{% content id: "intro" %}{% endcontent %}
+
+{% if basket.contents.size > 0 and basket.quantity > 0 %}
+  <h2><%= t(".basket_contents_title") %></h2>
+
+  <span>{{ basket.description }}:</span>
+  <ul>
+    {% for content in basket.contents %}
+      <li>{{ content.product }} ({{ content.quantity }})</li>
+    {% endfor %}
+  </ul>
+
+  {% if basket.complements.size > 0 %}
+    <p><%= t(".complements_label") %> {{ basket.complements_description }}</p>
+  {% endif %}
+{% endif %}
+
+{% content id: "events", title: "<%= t(".events_title") %>" %}{% endcontent %}
+
+{% content id: "recipe", title: "<%= t(".recipe_title") %>" %}{% endcontent %}
+
+{% if member.activities_url %}
+  {% lowlight %}
+    {% if future_activities.size > 0 %}
+      <span><%= t(".upcoming_activities_paragraph") %></span>
+      <ul>
+        {% assign activities = future_activities | slice: 0, 7 %}
+        {% for activity in activities %}
+          <li>{{ activity.date_long }}, {{ activity.period }}, {{ activity.title }}, {{ activity.place }}</li>
+        {% endfor %}
+      </ul>
+      <br/>
+    {% endif %}
+
+    {% if coming_activity_participations.size > 0 %}
+      <span><%= t(".your_registrations_paragraph") %></span>
+      <ul>
+        {% for participation in coming_activity_participations %}
+          <li>{{ participation.activity.date_long }}, {{ participation.activity.period }}, {{ participation.activity.title }}, {{ participation.activity.place }}</li>
+        {% endfor %}
+      </ul>
+      <br/>
+    {% endif %}
+
+    {% if membership.activity_participations_missing_count > 0 %}
+      <p><%= t(".missing_activities_paragraph") %></p>
+    {% endif %}
+
+    <p><%= t(".manage_registrations_paragraph") %></p>
+  {% endlowlight %}
+{% endif %}

@@ -26,7 +26,7 @@ Utilizzate `{% if %}` per mostrare contenuto solo quando una condizione è soddi
 
 ~~~ liquid
 {% if basket.contents.size > 0 %}
-  <h2>Contenuto del cesto</h2>
+  <h2><%= BasketContent.model_name.human %></h2>
   ...
 {% endif %}
 ~~~
@@ -35,7 +35,7 @@ Potete utilizzare `and`, `or`, così come `{% elsif %}` e `{% else %}` per combi
 
 ~~~ liquid
 {% if membership.trial_baskets_count > 0 %}
-  <p>Siete ancora nel periodo di prova ({{ membership.trial_baskets_count }} cesti rimanenti).</p>
+  <p>Siete ancora nel periodo di prova ({{ membership.trial_baskets_count }} <%= Basket.model_name.human(count: 2).downcase %> rimanenti).</p>
 {% elsif membership.activity_participations_missing_count > 0 %}
   <p>Avete ancora {{ membership.activity_participations_missing_count }} attività da completare.</p>
 {% else %}
@@ -64,7 +64,7 @@ Oltre all'HTML standard, sono disponibili diversi tag speciali di formattazione:
 ~~~ liquid
 {% highlight %}
   <p><strong>📣 Importante!</strong></p>
-  <p>Il vostro cesto sarà extra grande questa settimana.</p>
+  <p>Il vostro <%= Basket.model_name.human.downcase %> sarà extra grande questa settimana.</p>
 {% endhighlight %}
 ~~~
 
@@ -89,6 +89,6 @@ Oltre all'HTML standard, sono disponibili diversi tag speciali di formattazione:
 
 Durante la modifica di un template di email o di un template di newsletter, un pannello di anteprima viene visualizzato sotto l'editor di codice. Questa anteprima mostra il vostro template renderizzato con dati di esempio per ogni lingua.
 
-Sotto ogni anteprima, un pannello di dati mostra la struttura esatta dei dati disponibili per il vostro template. Questi dati vengono generati in modo semi-casuale a partire dai dati reali della vostra organizzazione. Potete modificare i valori in questo pannello per testare come il vostro template viene renderizzato con diversi scenari (ad es. contenuto del cesto vuoto, zero attività mancanti, ecc.).
+Sotto ogni anteprima, un pannello di dati mostra la struttura esatta dei dati disponibili per il vostro template. Questi dati vengono generati in modo semi-casuale a partire dai dati reali della vostra organizzazione. Potete modificare i valori in questo pannello per testare come il vostro template viene renderizzato con diversi scenari (ad es. <%= BasketContent.model_name.human.downcase %> vuoto, zero attività mancanti, ecc.).
 
 > L'anteprima dei dati è il modo migliore per scoprire tutte le variabili disponibili e testare il vostro template. Ogni tipo di template di email ha il proprio set di dati disponibili — consultate sempre il pannello di anteprima per vedere cosa è disponibile.

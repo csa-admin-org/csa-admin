@@ -29,8 +29,7 @@ class Newsletter
           I18n.with_locale(l) { I18n.t("newsletters.template.#{key}.title") }
         }
         contents = Organization.languages.index_with { |l|
-          path = Rails.root.join("app/views/newsletter_templates/#{key}.#{l}.liquid")
-          File.read(path)
+          LiquidErb.render("newsletter_templates/#{key}", locale: l)
         }
         create!(titles: titles, contents: contents)
       end

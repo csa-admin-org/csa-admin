@@ -1,0 +1,14 @@
+<p><%= t(".greeting") %></p>
+
+<p><%= t(".suppression_paragraph") %></p>
+
+{% highlight %}
+  <p><%= t(".linked_to_label") %></p>
+  <ul>
+    {% for owner in email_suppression.owners %}
+      <li><a href='{{ owner.admin_url }}'>{{ owner.type }}: {{ owner.name }}</a></li>
+    {% endfor %}
+  </ul>
+{% endhighlight %}
+
+<p><%= t(".no_more_messages_paragraph") %></p>

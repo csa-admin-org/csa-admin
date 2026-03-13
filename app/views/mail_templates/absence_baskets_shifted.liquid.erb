@@ -1,0 +1,15 @@
+<p><%= t(".shifts_registered_paragraph") %></p>
+
+{% highlight %}
+  <ul>
+  {% for shift in basket_shifts %}
+    <li><strong>{{ shift.old_delivery_date }}</strong> → <strong>{{ shift.new_delivery_date }}</strong></li>
+  {% endfor %}
+  </ul>
+{% endhighlight %}
+
+<p><%= t(".view_deliveries_paragraph") %></p>
+
+{% button member.page_url %}
+  <%= t(".member_page_button") %>
+{% endbutton %}

@@ -1,0 +1,12 @@
+<p><%= t(".absence_registered_paragraph") %></p>
+
+{% highlight_list %}
+  <strong><%= t(".period_label") %></strong> {{ absence.start_date }} <%= t(".period_separator") %> {{ absence.end_date }}
+  <strong><%= t(".affected_deliveries_label") %></strong> {{ absence.baskets_count }}
+{% endhighlight_list %}
+
+<p><%= t(".view_absences_paragraph") %></p>
+
+{% button member.absences_url %}
+  <%= t(".member_page_button") %>
+{% endbutton %}

@@ -1,8 +1,8 @@
 # Deliveries
 
-[Deliveries](/deliveries) are a central element of CSA Admin and allow you to manage all the delivery dates of your baskets throughout the year. Deliveries are one of the first elements to create. It's important that **all delivery dates** are defined **before the start of your fiscal year** because the creation of memberships and their baskets depends on it.
+[Deliveries](/deliveries) are a central element of CSA Admin and allow you to manage all the delivery dates of your <%= Basket.model_name.human(count: 2).downcase %> throughout the year. Deliveries are one of the first elements to create. It's important that **all delivery dates** are defined **before the start of your fiscal year** because the creation of memberships and their <%= Basket.model_name.human(count: 2).downcase %> depends on it.
 
-The next delivery as well as its number of baskets/complements per depot are always available from [the dashboard](/dashboard). Each delivery page also contains this information as well as the list of absent members.
+The next delivery as well as its number of <%= Basket.model_name.human(count: 2).downcase %>/<%= BasketComplement.model_name.human(count: 2).downcase %> per depot are always available from [the dashboard](/dashboard). Each delivery page also contains this information as well as the list of absent members.
 
 > You can easily create batch deliveries using the "Multiple dates" tab in [the delivery creation form](/deliveries/new).
 
@@ -14,7 +14,7 @@ Some organizations offer different delivery choices, for example:
 - deliveries every week or every other week.
 - deliveries only in winter or summer.
 
-[Delivery cycles](/delivery_cycles) allow you to dynamically group existing deliveries from the same fiscal year according to your needs and thus offer you great flexibility in managing your deliveries. Each membership is associated with a delivery cycle, which determines its delivery dates and the number of baskets.
+[Delivery cycles](/delivery_cycles) allow you to dynamically group existing deliveries from the same fiscal year according to your needs and thus offer you great flexibility in managing your deliveries. Each membership is associated with a delivery cycle, which determines its delivery dates and the number of <%= Basket.model_name.human(count: 2).downcase %>.
 
 ### Settings {#settings}
 
@@ -42,7 +42,7 @@ The availability of each delivery cycle can be configured by depot; for example,
 
 The choice of a delivery cycle on the registration form depends on the configuration of their availability by depot. In any case, the choice of delivery cycle is offered to members only if at least two delivery cycles are available for a visible depot.
 
-> When creating a membership by an admin, it's always possible to choose any delivery cycle. Baskets will be automatically created based on the deliveries of this cycle between the start and end dates ✨.
+> When creating a membership by an admin, it's always possible to choose any delivery cycle. <%= Basket.model_name.human(count: 2) %> will be automatically created based on the deliveries of this cycle between the start and end dates ✨.
 
 ### Billing
 
@@ -52,6 +52,6 @@ Each delivery cycle can have its own billing options:
 - **Name (invoice)**: A custom name displayed on invoices instead of the default delivery cycle name.
 - **Absences included annually**: Automatically exclude a certain number of deliveries, enabling members to plan a limited number of non-billed absences. See [Included Absences](/handbook/absence#absence-included) for more details.
 
-## Basket complements {#basket-complements}
+## <%= BasketComplement.model_name.human(count: 2) %> {#basket-complements}
 
-[Basket complements](/basket_complements) often follow their own delivery cycle in a way that is difficult to program dynamically. It is therefore necessary, and this for each basket complement, to define all the delivery dates where this complement is available or not. This operation must be carried out each year after the creation of new deliveries.
+[<%= BasketComplement.model_name.human(count: 2) %>](/basket_complements) often follow their own delivery cycle in a way that is difficult to program dynamically. It is therefore necessary, and this for each <%= BasketComplement.model_name.human.downcase %>, to define all the delivery dates where this complement is available or not. This operation must be carried out each year after the creation of new deliveries.

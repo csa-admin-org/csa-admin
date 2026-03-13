@@ -1,6 +1,6 @@
 # Bottega
 
-La bottega online permette ai vostri soci di ordinare prodotti aggiuntivi dal loro account alcuni giorni prima della consegna delle loro prossime ceste.
+La bottega online permette ai vostri soci di ordinare prodotti aggiuntivi dal loro account alcuni giorni prima della consegna delle loro prossime <%= Basket.model_name.human(count: 2).downcase %>.
 
 Per permettervi di preparare il contenuto della vostra bottega tranquillamente, per default, la bottega **non appare** nel menu dell'account socio. Solo gli admin che possono accedere all'account di un socio (dal pulsante "Accedere all'account" della pagina admin di un socio) possono vedere la bottega. Potete così assicurarvi che tutti i prodotti siano ben presentati. Una volta tutto a posto, questa limitazione può essere disattivata dalle [impostazioni](/settings#shop).
 
@@ -32,7 +32,7 @@ La disponibilità di un prodotto può essere definita per se stesso o per ciascu
 
 ### Complementi
 
-È possibile collegare un prodotto a un [complemento di cesta](/handbook/deliveries#basket-complements) esistente; gli ordini di questo prodotto saranno allora automaticamente aggiunti al numero di questo complemento nel riepilogo (XLSX) e nei fogli (PDF) della consegna delle ceste.
+È possibile collegare un prodotto a un [<%= BasketComplement.model_name.human.downcase %>](/handbook/deliveries#basket-complements) esistente; gli ordini di questo prodotto saranno allora automaticamente aggiunti al numero di questo complemento nel riepilogo (XLSX) e nei fogli (PDF) della consegna delle <%= Basket.model_name.human(count: 2).downcase %>.
 
 Questo prodotto sarà anche disponibile solo nei giorni di consegna del complemento.
 
@@ -44,7 +44,7 @@ Per lasciarvi il tempo di elaborare e fatturare gli ordini effettuati prima dell
 
 Una volta effettuato un ordine, appare con lo stato "da preparare" nella [lista degli ordini](/shop_orders?scope=pending). Questi ordini sono sempre modificabili dai soci fino alla scadenza configurata. Un admin può anche modificarli in qualsiasi momento.
 
-Un bollettino di consegna (PDF), che non include il prezzo dei prodotti, è disponibile per ogni ordine se desiderate stamparli e allegarli alle ceste.
+Un bollettino di consegna (PDF), che non include il prezzo dei prodotti, è disponibile per ogni ordine se desiderate stamparli e allegarli alle <%= Basket.model_name.human(count: 2).downcase %>.
 
 ### Fatturazione {#billing}
 
@@ -71,8 +71,8 @@ Per default, e al di fuori [delle consegne speciali](#special-deliveries), l'acc
 
 ## Consegne speciali {#special-deliveries}
 
-Le consegne speciali vi permettono di proporre prodotti aggiuntivi ai vostri soci al di fuori delle consegne di ceste abituali tramite la bottega online.
+Le consegne speciali vi permettono di proporre prodotti aggiuntivi ai vostri soci al di fuori delle consegne di <%= Basket.model_name.human(count: 2).downcase %> abituali tramite la bottega online.
 
 I prodotti disponibili possono essere definiti separatamente per ogni consegna speciale, l'impostazione individuale della disponibilità di ogni prodotto viene ignorata. Invece, la disponibilità delle varianti così come lo stato del loro stock sono sempre rispettati.
 
-> Poiché le consegne speciali sono consegnate al di fuori delle consegne di ceste, sono aperte a tutti i vostri soci attivi o meno.
+> Poiché le consegne speciali sono consegnate al di fuori delle consegne di <%= Basket.model_name.human(count: 2).downcase %>, sono aperte a tutti i vostri soci attivi o meno.

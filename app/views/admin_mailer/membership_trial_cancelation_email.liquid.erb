@@ -1,0 +1,20 @@
+<p><%= t(".greeting") %></p>
+
+<p><%= t(".trial_cancelation_paragraph") %></p>
+
+<p><%= t(".membership_end_paragraph") %></p>
+
+{% if membership.renewal_note %}
+<p><strong><%= t(".member_note_label") %></strong><br/>
+<i>{{ membership.renewal_note }}</i></p>
+{% else %}
+<p><i><%= t(".no_note_paragraph") %></i></p>
+{% endif %}
+
+{% if membership.renewal_annual_fee %}
+<p><%= t(".annual_fee_paragraph") %></p>
+{% endif %}
+
+{% button membership.admin_url %}
+  <%= t(".membership_page_button") %>
+{% endbutton %}

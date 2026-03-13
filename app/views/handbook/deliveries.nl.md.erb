@@ -1,8 +1,8 @@
 # Leveringen
 
-[Leveringen](/deliveries) zijn een centraal element van CSA Admin en stellen u in staat om alle leveringsdatums van uw pakketten gedurende het jaar te beheren. Leveringen zijn een van de eerste elementen die moeten worden aangemaakt. Het is belangrijk dat **alle leveringsdatums** zijn gedefinieerd **voor het begin van uw boekjaar** omdat de aanmaak van lidmaatschappen en hun pakketten hiervan afhangt.
+[Leveringen](/deliveries) zijn een centraal element van CSA Admin en stellen u in staat om alle leveringsdatums van uw <%= Basket.model_name.human(count: 2).downcase %> gedurende het jaar te beheren. Leveringen zijn een van de eerste elementen die moeten worden aangemaakt. Het is belangrijk dat **alle leveringsdatums** zijn gedefinieerd **voor het begin van uw boekjaar** omdat de aanmaak van lidmaatschappen en hun <%= Basket.model_name.human(count: 2).downcase %> hiervan afhangt.
 
-De volgende levering evenals het aantal pakketten/aanvullingen per depot zijn altijd beschikbaar vanaf [het dashboard](/dashboard). Elke leveringspagina bevat ook deze informatie evenals de lijst van afwezige leden.
+De volgende levering evenals het aantal <%= Basket.model_name.human(count: 2).downcase %>/<%= BasketComplement.model_name.human(count: 2).downcase %> per depot zijn altijd beschikbaar vanaf [het dashboard](/dashboard). Elke leveringspagina bevat ook deze informatie evenals de lijst van afwezige leden.
 
 > U kunt eenvoudig leveringen in batch aanmaken met behulp van het tabblad "Meerdere datums" in [het leveringsaanmaakformulier](/deliveries/new).
 
@@ -14,7 +14,7 @@ Sommige organisaties bieden verschillende leveringskeuzes aan, bijvoorbeeld:
 - leveringen elke week of om de week.
 - leveringen alleen in de winter of zomer.
 
-[Leveringscycli](/delivery_cycles) stellen u in staat om bestaande leveringen van hetzelfde boekjaar dynamisch te groeperen volgens uw behoeften en bieden u dus grote flexibiliteit bij het beheren van uw leveringen. Elk lidmaatschap is gekoppeld aan een leveringscyclus, die de leveringsdatums en het aantal pakketten bepaalt.
+[Leveringscycli](/delivery_cycles) stellen u in staat om bestaande leveringen van hetzelfde boekjaar dynamisch te groeperen volgens uw behoeften en bieden u dus grote flexibiliteit bij het beheren van uw leveringen. Elk lidmaatschap is gekoppeld aan een leveringscyclus, die de leveringsdatums en het aantal <%= Basket.model_name.human(count: 2).downcase %> bepaalt.
 
 ### Instellingen {#settings}
 
@@ -42,7 +42,7 @@ De beschikbaarheid van elke leveringscyclus kan per depot worden geconfigureerd;
 
 De keuze van een leveringscyclus op het registratieformulier hangt af van de configuratie van hun beschikbaarheid per depot. In elk geval wordt de keuze van leveringscyclus alleen aan leden aangeboden als ten minste twee leveringscycli beschikbaar zijn voor een zichtbaar depot.
 
-> Bij het aanmaken van een lidmaatschap door een admin is het altijd mogelijk om elke leveringscyclus te kiezen. Pakketten worden automatisch aangemaakt op basis van de leveringen van deze cyclus tussen de start- en einddatums ✨.
+> Bij het aanmaken van een lidmaatschap door een admin is het altijd mogelijk om elke leveringscyclus te kiezen. <%= Basket.model_name.human(count: 2) %> worden automatisch aangemaakt op basis van de leveringen van deze cyclus tussen de start- en einddatums ✨.
 
 ### Facturatie
 
@@ -52,6 +52,6 @@ Elke leveringscyclus kan eigen facturatieopties hebben:
 - **Naam (factuur)**: Een aangepaste naam die op facturen wordt weergegeven in plaats van de standaard leveringscyclusnaam.
 - **Jaarlijks inbegrepen afwezigheden**: Automatisch een bepaald aantal leveringen uitsluiten, zodat leden een beperkt aantal niet-gefactureerde afwezigheden kunnen plannen. Zie [Inbegrepen afwezigheden](/handbook/absence#absence-included) voor meer details.
 
-## Pakketaanvullingen {#basket-complements}
+## <%= BasketComplement.model_name.human(count: 2) %> {#basket-complements}
 
-[Pakketaanvullingen](/basket_complements) volgen vaak hun eigen leveringscyclus op een manier die moeilijk dynamisch te programmeren is. Het is daarom noodzakelijk, en dit voor elke pakketaanvulling, om alle leveringsdatums te definiëren waar deze aanvulling beschikbaar is of niet. Deze bewerking moet elk jaar worden uitgevoerd na het aanmaken van nieuwe leveringen.
+[<%= BasketComplement.model_name.human(count: 2) %>](/basket_complements) volgen vaak hun eigen leveringscyclus op een manier die moeilijk dynamisch te programmeren is. Het is daarom noodzakelijk, en dit voor elke <%= BasketComplement.model_name.human.downcase %>, om alle leveringsdatums te definiëren waar deze aanvulling beschikbaar is of niet. Deze bewerking moet elk jaar worden uitgevoerd na het aanmaken van nieuwe leveringen.

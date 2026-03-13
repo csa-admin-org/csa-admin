@@ -1,0 +1,171 @@
+_:
+  newsletter_template_defaults:
+    next_delivery:
+      basket_contents_title/bag:
+        _en: Bag Contents
+        _fr: Contenu sac
+        _de: Inhalt Tasche
+        _it: Contenuto della borsa
+        _nl: Tasinhoud
+      basket_contents_title/basket:
+        _en: Basket Contents
+        _fr: Contenu panier
+        _de: Inhalt Korb
+        _it: Contenuto della cesta
+        _nl: Mandinhoud
+      basket_contents_title/cone:
+        _en: Cone Contents
+        _fr: Contenu cornet
+        _de: Inhalt Tüte
+        _it: Contenuto del cono
+        _nl: Zakinhoud
+      basket_contents_title/package:
+        _en: Package Contents
+        _fr: Contenu colis
+        _de: Inhalt Paket
+        _it: Contenuto del pacco
+        _nl: Pakketinhoud
+      basket_contents_title/share:
+        _en: Share Contents
+        _fr: Contenu part
+        _de: Inhalt Anteil
+        _it: Contenuto della parte
+        _nl: Deelinhoud
+      complements_label:
+        _en: 'Complement(s):'
+        _fr: 'Complément(s):'
+        _de: 'Zusatz(e):'
+        _it: 'Complemento/i:'
+        _nl: 'Aanvulling(en):'
+      events_title:
+        _en: Upcoming Events
+        _fr: Événements à venir
+        _de: Bevorstehende Veranstaltungen
+        _it: Prossimi eventi
+        _nl: Komende Evenementen
+      manage_registrations_paragraph:
+        _en: Manage your registrations from <a href="{{ member.activities_url }}">your account</a>.
+        _fr: Gérez vos inscriptions depuis <a href="{{ member.activities_url }}">votre compte</a>.
+        _de: Verwalten Sie Ihre Anmeldungen <a href="{{ member.activities_url }}">von Ihrem Konto</a> aus.
+        _it: Gestite le vostre registrazioni dal <a href="{{ member.activities_url }}">vostro account</a>.
+        _nl: Beheer uw registraties vanaf <a href="{{ member.activities_url }}">uw account</a>.
+      missing_activities_paragraph:
+        _en: Considering your current registrations, you still have <strong>{{ membership.activity_participations_missing_count }} activity(s)</strong> to complete.
+        _fr: En tenant compte de vos inscriptions actuelles, il vous reste encore <strong>{{ membership.activity_participations_missing_count }} activité(s)</strong> à effectuer.
+        _de: Unter Berücksichtigung Ihrer derzeitigen Anmeldungen müssen Sie noch <strong>{{ membership.activity_participations_missing_count }}</strong> Aktivität(en) absolvieren.
+        _it: Tenendo conto delle vostre registrazioni attuali, avete ancora <strong>{{ membership.activity_participations_missing_count }}</strong> attività da svolgere.
+        _nl: Gezien uw huidige registraties, heeft u nog <strong>{{ membership.activity_participations_missing_count }} activiteit(en)</strong> te voltooien.
+      recipe_title:
+        _en: Recipe
+        _fr: La recette
+        _de: Das Rezept
+        _it: La ricetta
+        _nl: Recept
+      regular_basket_item/bag:
+        _en: Your regular bag
+        _fr: Votre sac habituel
+        _de: Ihre reguläre Tasche
+        _it: La vostra borsa abituale
+        _nl: Uw gewone tas
+      regular_basket_item/basket:
+        _en: Your regular basket
+        _fr: Votre panier habituel
+        _de: Ihre reguläre Korb
+        _it: La vostra cesta abituale
+        _nl: Uw gewone mand
+      regular_basket_item/cone:
+        _en: Your regular cone
+        _fr: Votre cornet habituel
+        _de: Ihre reguläre Tüte
+        _it: Il vostro cono abituale
+        _nl: Uw gewone zak
+      regular_basket_item/package:
+        _en: Your regular package
+        _fr: Votre colis habituel
+        _de: Ihr reguläres Paket
+        _it: Il vostro pacco abituale
+        _nl: Uw gewone pakket
+      regular_basket_item/share:
+        _en: Your regular share
+        _fr: Votre part habituelle
+        _de: Ihr regulärer Anteil
+        _it: La vostra parte abituale
+        _nl: Uw gewone deel
+      shifted_basket_item/bag:
+        _en: Bag shifted from {{ shift.old_delivery_date }}
+        _fr: Sac reporté du {{ shift.old_delivery_date }}
+        _de: Tasche verschoben vom {{ shift.old_delivery_date }}
+        _it: Borsa spostata dal {{ shift.old_delivery_date }}
+        _nl: Tas verschoven van {{ shift.old_delivery_date }}
+      shifted_basket_item/basket:
+        _en: Basket shifted from {{ shift.old_delivery_date }}
+        _fr: Panier reporté du {{ shift.old_delivery_date }}
+        _de: Korb verschoben vom {{ shift.old_delivery_date }}
+        _it: Cesta spostata dal {{ shift.old_delivery_date }}
+        _nl: Mand verschoven van {{ shift.old_delivery_date }}
+      shifted_basket_item/cone:
+        _en: Cone shifted from {{ shift.old_delivery_date }}
+        _fr: Cornet reporté du {{ shift.old_delivery_date }}
+        _de: Tüte verschoben vom {{ shift.old_delivery_date }}
+        _it: Cono spostato dal {{ shift.old_delivery_date }}
+        _nl: Zak verschoven van {{ shift.old_delivery_date }}
+      shifted_basket_item/package:
+        _en: Package shifted from {{ shift.old_delivery_date }}
+        _fr: Colis reporté du {{ shift.old_delivery_date }}
+        _de: Paket verschoben vom {{ shift.old_delivery_date }}
+        _it: Pacco spostato dal {{ shift.old_delivery_date }}
+        _nl: Pakket verschoven van {{ shift.old_delivery_date }}
+      shifted_basket_item/share:
+        _en: Share shifted from {{ shift.old_delivery_date }}
+        _fr: Part reportée du {{ shift.old_delivery_date }}
+        _de: Anteil verschoben vom {{ shift.old_delivery_date }}
+        _it: Parte spostata dal {{ shift.old_delivery_date }}
+        _nl: Deel verschoven van {{ shift.old_delivery_date }}
+      shifted_reminder_paragraph/bag:
+        _en: 'You have <strong>{{ basket.quantity }} bags</strong> to pick up this week:'
+        _fr: 'Vous avez <strong>{{ basket.quantity }} sacs</strong> à récupérer cette semaine:'
+        _de: 'Sie haben diese Woche <strong>{{ basket.quantity }} Taschen</strong> abzuholen:'
+        _it: 'Avete <strong>{{ basket.quantity }} borse</strong> da ritirare questa settimana:'
+        _nl: 'U heeft <strong>{{ basket.quantity }} tassen</strong> op te halen deze week:'
+      shifted_reminder_paragraph/basket:
+        _en: 'You have <strong>{{ basket.quantity }} baskets</strong> to pick up this week:'
+        _fr: 'Vous avez <strong>{{ basket.quantity }} paniers</strong> à récupérer cette semaine:'
+        _de: 'Sie haben diese Woche <strong>{{ basket.quantity }} Körbe</strong> abzuholen:'
+        _it: 'Avete <strong>{{ basket.quantity }} ceste</strong> da ritirare questa settimana:'
+        _nl: 'U heeft <strong>{{ basket.quantity }} manden</strong> op te halen deze week:'
+      shifted_reminder_paragraph/cone:
+        _en: 'You have <strong>{{ basket.quantity }} cones</strong> to pick up this week:'
+        _fr: 'Vous avez <strong>{{ basket.quantity }} cornets</strong> à récupérer cette semaine:'
+        _de: 'Sie haben diese Woche <strong>{{ basket.quantity }} Tüten</strong> abzuholen:'
+        _it: 'Avete <strong>{{ basket.quantity }} coni</strong> da ritirare questa settimana:'
+        _nl: 'U heeft <strong>{{ basket.quantity }} zakken</strong> op te halen deze week:'
+      shifted_reminder_paragraph/package:
+        _en: 'You have <strong>{{ basket.quantity }} packages</strong> to pick up this week:'
+        _fr: 'Vous avez <strong>{{ basket.quantity }} colis</strong> à récupérer cette semaine:'
+        _de: 'Sie haben diese Woche <strong>{{ basket.quantity }} Pakete</strong> abzuholen:'
+        _it: 'Avete <strong>{{ basket.quantity }} pacchi</strong> da ritirare questa settimana:'
+        _nl: 'U heeft <strong>{{ basket.quantity }} pakketten</strong> op te halen deze week:'
+      shifted_reminder_paragraph/share:
+        _en: 'You have <strong>{{ basket.quantity }} shares</strong> to pick up this week:'
+        _fr: 'Vous avez <strong>{{ basket.quantity }} parts</strong> à récupérer cette semaine:'
+        _de: 'Sie haben diese Woche <strong>{{ basket.quantity }} Anteile</strong> abzuholen:'
+        _it: 'Avete <strong>{{ basket.quantity }} parti</strong> da ritirare questa settimana:'
+        _nl: 'U heeft <strong>{{ basket.quantity }} delen</strong> op te halen deze week:'
+      shifted_reminder_title:
+        _en: "\U0001F4E3 Important reminder!"
+        _fr: "\U0001F4E3 Rappel important!"
+        _de: "\U0001F4E3 Wichtige Erinnerung!"
+        _it: "\U0001F4E3 Promemoria importante!"
+        _nl: "\U0001F4E3 Belangrijke herinnering!"
+      upcoming_activities_paragraph:
+        _en: 'Here are the upcoming activities where we still need people:'
+        _fr: 'Voici les activités à venir pour lesquelles nous avons encore besoin de monde:'
+        _de: 'Hier sind die kommenden Aktivitäten, für die wir noch Leute brauchen:'
+        _it: 'Ecco le prossime attività per le quali abbiamo ancora bisogno di persone:'
+        _nl: 'Hier zijn de komende activiteiten waar we nog mensen voor nodig hebben:'
+      your_registrations_paragraph:
+        _en: 'Your upcoming registrations:'
+        _fr: 'Vos inscriptions à venir:'
+        _de: 'Ihre Anmeldungen in Kürze:'
+        _it: 'La vostra registrazione è in arrivo:'
+        _nl: 'Uw komende registraties:'

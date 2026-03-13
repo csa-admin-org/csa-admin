@@ -1,6 +1,6 @@
 # Absences
 
-Cette fonctionnalité permet de gérer les absences de vos membres et d'automatiquement déduire les paniers absents de vos livraisons. Vos membres peuvent annoncer leurs absences directement depuis leur espace membre. Vous pouvez également ajouter des absences pour vos membres en tant qu'admin ([Autre > Absences](/absences)).
+Cette fonctionnalité permet de gérer les absences de vos membres et d'automatiquement déduire les <%= Basket.model_name.human(count: 2).downcase %> absents de vos livraisons. Vos membres peuvent annoncer leurs absences directement depuis leur espace membre. Vous pouvez également ajouter des absences pour vos membres en tant qu'admin ([Autre > Absences](/absences)).
 
 ## Configuration {#configuration}
 
@@ -8,36 +8,36 @@ Une fois cette fonctionnalité supplémentaire activée dans [vos paramètres](/
 
 ## Facturation {#billing}
 
-Par défaut, les paniers marqués comme absents et non délivrés sont facturés. Il est conseillé aux membres de trouver une connaissance pour récupérer leur panier à leur place. Dans [les paramètres](/settings#absence), vous pouvez également choisir de ne pas les facturer. Le système s'occupera alors automatiquement d'[ajuster la facturation](/handbook/billing#price-change) de l'abonnement.
+Par défaut, les <%= Basket.model_name.human(count: 2).downcase %> marqués comme absents et non délivrés sont facturés. Il est conseillé aux membres de trouver une connaissance pour récupérer leur <%= Basket.model_name.human.downcase %> à leur place. Dans [les paramètres](/settings#absence), vous pouvez également choisir de ne pas les facturer. Le système s'occupera alors automatiquement d'[ajuster la facturation](/handbook/billing#price-change) de l'abonnement.
 
-## Déplacement de paniers {#basket-shift}
+## Déplacement de <%= Basket.model_name.human(count: 2).downcase %> {#basket-shift}
 
-Il est possible de déplacer la livraison d'un panier durant une absence vers une autre livraison. Cela permet aux membres de compenser leurs absences sans changer le nombre de paniers facturés.
+Il est possible de déplacer la livraison d'un <%= Basket.model_name.human.downcase %> durant une absence vers une autre livraison. Cela permet aux membres de compenser leurs absences sans changer le nombre de <%= Basket.model_name.human(count: 2).downcase %> facturés.
 
-Côté admin, il suffit de modifier un panier marqué comme absent depuis la page de l'abonnement et de choisir une autre date de livraison. Le contenu du panier (compléments inclus) sera alors automatiquement déplacé vers le panier choisi.
+Côté admin, il suffit de modifier un <%= Basket.model_name.human.downcase %> marqué comme absent depuis la page de l'abonnement et de choisir une autre date de livraison. Le contenu du <%= Basket.model_name.human.downcase %> (compléments inclus) sera alors automatiquement déplacé vers le <%= Basket.model_name.human.downcase %> choisi.
 
-Côté membre, le déplacement de paniers n'est pas possible par défaut. Pour activer cette fonctionnalité, vous avez la possibilité de [modifier les paramètres](/settings#absence) suivants:
+Côté membre, le déplacement de <%= Basket.model_name.human(count: 2).downcase %> n'est pas possible par défaut. Pour activer cette fonctionnalité, vous avez la possibilité de [modifier les paramètres](/settings#absence) suivants:
 
 - **Nombre de déplacements permis** : afin de limiter, si vous le souhaitez, le nombre de déplacements possibles par les membres.
 - **Délai pour les déplacements** : afin de limiter, si vous le souhaitez, les déplacements possibles dans le temps.
 
-Si l'absence est annulée, le contenu du panier sera automatiquement restitué à sa livraison d'origine.
+Si l'absence est annulée, le contenu du <%= Basket.model_name.human.downcase %> sera automatiquement restitué à sa livraison d'origine.
 
-> Le déplacement de paniers est possible uniquement pour les absences facturées. Les absences incluses (non facturées) ne peuvent pas être déplacées.
+> Le déplacement de <%= Basket.model_name.human(count: 2).downcase %> est possible uniquement pour les absences facturées. Les absences incluses (non facturées) ne peuvent pas être déplacées.
 
 ### Template de newsletter
 
-Lorsqu'un panier a reçu des déplacements, vous pouvez afficher un rappel dans [vos templates de newsletter](/newsletter_templates) en utilisant les variables `basket.shifted` et `basket.shifts`:
+Lorsqu'un <%= Basket.model_name.human.downcase %> a reçu des déplacements, vous pouvez afficher un rappel dans [vos templates de newsletter](/newsletter_templates) en utilisant les variables `basket.shifted` et `basket.shifts`:
 
 ~~~ liquid
 {% if basket.shifted %}
   {% highlight %}
     <p><strong>📣 Rappel important!</strong></p>
-    <p>Vous avez <strong>{{ basket.quantity }} paniers</strong> à récupérer cette semaine:</p>
+    <p>Vous avez <strong>{{ basket.quantity }} <%= Basket.model_name.human(count: 2).downcase %></strong> à récupérer cette semaine:</p>
     <ul>
-      <li>Votre panier habituel</li>
+      <li>Votre <%= Basket.model_name.human.downcase %> habituel</li>
       {% for shift in basket.shifts %}
-        <li>Panier reporté du {{ shift.old_delivery_date }}</li>
+        <li><%= Basket.model_name.human %> reporté du {{ shift.old_delivery_date }}</li>
       {% endfor %}
     </ul>
   {% endhighlight %}
@@ -56,7 +56,7 @@ Lorsque les membres n'utilisent pas toutes leurs absences incluses à la fin de 
 
 **Absence provisoire respectée**
 
-C'est le mode par défaut. Les absences provisoires ne seront pas livrées. Les membres recevront un email de rappel et pourront ensuite choisir de forcer une livraison depuis leur compte s'ils souhaitent recevoir des paniers qui étaient marqués comme provisoirement absents.
+C'est le mode par défaut. Les absences provisoires ne seront pas livrées. Les membres recevront un email de rappel et pourront ensuite choisir de forcer une livraison depuis leur compte s'ils souhaitent recevoir des <%= Basket.model_name.human(count: 2).downcase %> qui étaient marqués comme provisoirement absents.
 
 Ce mode est utile lorsque vous préférez que les absences non utilisées restent des absences par défaut, en donnant aux membres la possibilité de demander une livraison si nécessaire.
 
@@ -64,11 +64,11 @@ Ce mode est utile lorsque vous préférez que les absences non utilisées resten
 
 Dans ce mode, les absences incluses non utilisées verront leur livraison forcée et facturée lors du rappel. Les membres reçoivent un email de rappel et peuvent annoncer une absence pour les refuser avant que la livraison n'ait pas lieu et ne soit pas facturée.
 
-Ce mode est utile lorsque vous préférez que les membres reçoivent leurs paniers par défaut, évitant ainsi la confusion des membres qui se présentent en attendant un panier qui n'a pas été préparé.
+Ce mode est utile lorsque vous préférez que les membres reçoivent leurs <%= Basket.model_name.human(count: 2).downcase %> par défaut, évitant ainsi la confusion des membres qui se présentent en attendant un <%= Basket.model_name.human.downcase %> qui n'a pas été préparé.
 
 ### Email de rappel {#absence-included-reminder}
 
 Un email de rappel est envoyé aux membres ayant des absences incluses non utilisées un nombre configurable de semaines avant la première absence provisoire (par défaut : 4 semaines). Cela donne aux membres le temps d'agir selon le mode choisi :
 
-- **En mode "Absence provisoire respectée"** : Forcer une livraison s'ils souhaitent recevoir des paniers qui étaient marqués comme provisoirement absents.
+- **En mode "Absence provisoire respectée"** : Forcer une livraison s'ils souhaitent recevoir des <%= Basket.model_name.human(count: 2).downcase %> qui étaient marqués comme provisoirement absents.
 - **En mode "Livraison des absences restantes"** : Annoncer une absence pour refuser les livraisons qu'ils ne souhaitent pas.

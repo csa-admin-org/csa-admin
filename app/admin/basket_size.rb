@@ -49,7 +49,7 @@ ActiveAdmin.register BasketSize do
         label: BasketSize.human_attribute_name(:price_per_delivery)
       if feature?("activity")
         f.input :activity_participations_demanded_annually,
-          label: BasketSize.human_attribute_name(activity_scoped_attribute(:activity_participations_demanded_annually)),
+          label: BasketSize.human_attribute_name(:activity_participations_demanded_annually),
           as: :number,
           step: 1,
           min: 0

@@ -1,0 +1,21 @@
+<p><%= t(".membership_active_paragraph") %></p>
+
+<p><%= t(".membership_details_paragraph") %></p>
+
+{% highlight_list %}
+  <strong><%= t(".start_label") %></strong> {{ membership.start_date }}
+  <strong><%= t(".end_label") %></strong> {{ membership.end_date }}
+  <strong><%= t(".basket_size_label") %></strong> {{ membership.basket_size.name }}
+  {% if membership.basket_complement_names %}
+  <strong><%= t(".complements_label") %></strong> {{ membership.basket_complement_names }}
+  {% endif %}
+  <strong><%= t(".depot_label") %></strong> {{ membership.depot.name }}
+  <strong><%= t(".trial_baskets_label") %></strong> {{ membership.trial_baskets_count }}
+  <strong><%= t(".activity_participations_label") %></strong> {{ membership.activity_participations_demanded_count }}
+{% endhighlight_list %}
+
+<p><%= t(".member_page_paragraph") %></p>
+
+{% button member.page_url %}
+  <%= t(".member_page_button") %>
+{% endbutton %}

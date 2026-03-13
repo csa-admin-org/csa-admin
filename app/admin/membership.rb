@@ -67,16 +67,9 @@ ActiveAdmin.register Membership do
   filter :basket_price_extra,
     label: proc { Current.org.basket_price_extra_title },
     if: proc { feature?("basket_price_extra") }
-  filter :activity_participations_accepted,
-    label: proc { Membership.human_attribute_name(activity_scoped_attribute(:activity_participations_accepted)) },
-    if: proc { feature?("activity") }
-  filter :activity_participations_demanded,
-    label: proc { Membership.human_attribute_name(activity_scoped_attribute(:activity_participations_demanded)) },
-    if: proc { feature?("activity") }
-  filter :activity_participations_missing,
-    as: :numeric,
-    label: proc { Membership.human_attribute_name(activity_scoped_attribute(:activity_participations_missing)) },
-    if: proc { feature?("activity") }
+  filter :activity_participations_accepted, if: proc { feature?("activity") }
+  filter :activity_participations_demanded, if: proc { feature?("activity") }
+  filter :activity_participations_missing, as: :numeric, if: proc { feature?("activity") }
 
   includes :member, :baskets, :delivery_cycle
   index do
@@ -326,14 +319,14 @@ ActiveAdmin.register Membership do
     end
     column(:delivery_cycle) { |m| m.delivery_cycle.name }
     if feature?("activity")
-      column(activity_scoped_attribute(:activity_participations_demanded), &:activity_participations_demanded)
-      column(activity_scoped_attribute(:activity_participations_accepted), &:activity_participations_accepted)
-      column(activity_scoped_attribute(:activity_participations_missing), &:activity_participations_missing)
+      column(:activity_participations_demanded, &:activity_participations_demanded)
+      column(:activity_participations_accepted, &:activity_participations_accepted)
+      column(:activity_participations_missing, &:activity_participations_missing)
     end
     column(:renewal_state) { |m| t("active_admin.status_tag.#{m.renewal_state}") }
     column(:renewed_at)
     column(:renewal_note)
-    column(activity_scoped_attribute(:activity_participations_annual_price_change)) { |m| cur(m.activity_participations_annual_price_change) }
+    column(:activity_participations_annual_price_change) { |m| cur(m.activity_participations_annual_price_change) }
     column(:billing_year_division) { |m| t("billing.year_division.x#{m.billing_year_division}") }
     column(:baskets_annual_price_change) { |m| cur(m.baskets_annual_price_change) }
     if BasketComplement.kept.any?
@@ -549,7 +542,7 @@ ActiveAdmin.register Membership do
           else
             attributes_table do
               if m.basket_sizes_price.nonzero?
-                row(Basket.model_name.human(count: m.baskets_count), class: "tabular-nums") {
+                row(Basket.model_name.human(count: 2), class: "tabular-nums") {
                   display_price_description(m.basket_sizes_price, basket_sizes_price_info(m, m.baskets))
                 }
               end
@@ -587,7 +580,7 @@ ActiveAdmin.register Membership do
                 }
               end
               if feature?("activity") && m.activity_participations_annual_price_change.nonzero?
-                row(t_activity(".activity_participations_annual_price_change"), class: "tabular-nums") {
+                row(t(".activity_participations_annual_price_change"), class: "tabular-nums") {
                   cur(m.activity_participations_annual_price_change, unit: false)
                 }
               end
@@ -643,7 +636,7 @@ ActiveAdmin.register Membership do
             ul class: "counts justify-evenly" do
               li class: "w-1/3" do
                 counter_tag(
-                  Membership.human_attribute_name(:activity_participations_demanded),
+                  Membership.human_attribute_name(:activity_participations_demanded_scope),
                   m.activity_participations_demanded)
               end
               %i[future pending validated rejected].each do |scope|
@@ -665,10 +658,10 @@ ActiveAdmin.register Membership do
             end
             if authorized?(:clear_activity_participations_demanded, m)
               div class: "mt-3 flex items-center justify-center gap-4" do
-                panel_button t_activity(".clear_activity_participations_demanded"), clear_activity_participations_demanded_membership_path(m),
+                panel_button t(".clear_activity_participations_demanded"), clear_activity_participations_demanded_membership_path(m),
                   icon: "x-circle",
                   form: { class: "inline" },
-                  data: { confirm: t_activity(".clear_activity_participations_demanded_confirm") }
+                  data: { confirm: t(".clear_activity_participations_demanded_confirm") }
               end
             end
           end
@@ -707,11 +700,9 @@ ActiveAdmin.register Membership do
           label: "#{activities_human_name} (#{t('.full_year')})",
           input_html: {
             data: { "1p_ignore": true, action: "form-reset#reset" }
-          },
-          hint: t("formtastic.hints.membership.activity_participations_demanded_annually_html")
+          }
         f.input :activity_participations_annual_price_change,
-          input_html: { data: { form_reset_target: "input" } },
-          hint: t("formtastic.hints.membership.activity_participations_annual_price_change_html")
+          input_html: { data: { form_reset_target: "input" } }
       end
     end
 
@@ -769,15 +760,14 @@ ActiveAdmin.register Membership do
             step: 1,
             input_html: {
               data: { form_reset_target: "input", "1p_ignore": true }
-            },
-            hint: t("formtastic.hints.membership.absences_included_annually_html")
+            }
 
           handbook_button(self, "absence", anchor: "absence-included")
         end
       end
     end
     f.inputs [
-      Basket.model_name.human(count: 1),
+      Basket.model_name.human,
       BasketComplement.kept.any? ? Membership.human_attribute_name(:memberships_basket_complements) : nil
     ].compact.to_sentence, "data-controller" => "form-reset" do
       f.input :basket_size,

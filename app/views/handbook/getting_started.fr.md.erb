@@ -16,23 +16,23 @@ Commencez par [créer vos dates de livraisons](/deliveries) pour l'année fiscal
 
 > Pas de souci si les dates exactes ne sont pas encore fixées. Assurez-vous simplement d'avoir le bon nombre de livraisons pour que les prix affichés dans le formulaire d'inscription soient corrects. Vous pourrez toujours ajuster les dates par la suite.
 
-## 3. Tailles de panier {#basket-sizes}
+## 3. <%= BasketSize.model_name.human(count: 2) %> {#basket-sizes}
 
-Ensuite, [créez vos tailles de panier](/basket_sizes) (par ex. petit, grand). Elles définissent les types d'abonnements que vos membres pourront choisir.
+Ensuite, [créez vos <%= BasketSize.model_name.human(count: 2).downcase %>](/basket_sizes) (par ex. petit, grand). Elles définissent les types d'abonnements que vos membres pourront choisir.
 
-## 4. Compléments de panier (optionnel) {#basket-complements}
+## 4. <%= BasketComplement.model_name.human(count: 2) %> (optionnel) {#basket-complements}
 
-[Les compléments de panier](/basket_complements) sont des extras optionnels comme du pain, du fromage ou des œufs auxquels les membres peuvent s'abonner en plus de leur panier. Chaque complément peut être livré à certaines livraisons spécifiques, par exemple seulement durant la période hivernale ou une semaine sur deux.
+[Les <%= BasketComplement.model_name.human(count: 2).downcase %>](/basket_complements) sont des extras optionnels comme du pain, du fromage ou des œufs auxquels les membres peuvent s'abonner en plus de leur <%= Basket.model_name.human.downcase %>. Chaque complément peut être livré à certaines livraisons spécifiques, par exemple seulement durant la période hivernale ou une semaine sur deux.
 
 ## 5. Dépôts {#depots}
 
-[Créez au moins un dépôt](/depots), les lieux de retrait où les membres viennent chercher leurs paniers.
+[Créez au moins un dépôt](/depots), les lieux de retrait où les membres viennent chercher leurs <%= Basket.model_name.human(count: 2).downcase %>.
 
 Un prix peut aussi être défini par dépôt pour couvrir des coûts de préparation ou de livraison supplémentaires. Il sera alors automatiquement pris en compte lors de la facturation des abonnements.
 
 ## 6. Formulaire d'inscription {#registration-form}
 
-Maintenant que vos livraisons, tailles de panier et dépôts sont configurés, votre [formulaire d'inscription](<%= new_members_member_url(subdomain: Current.org.members_subdomain) %>) devrait prendre forme et bientôt être prêt à accueillir de nouveaux membres!
+Maintenant que vos livraisons, <%= BasketSize.model_name.human(count: 2).downcase %> et dépôts sont configurés, votre [formulaire d'inscription](<%= new_members_member_url(subdomain: Current.org.members_subdomain) %>) devrait prendre forme et bientôt être prêt à accueillir de nouveaux membres!
 
 Consultez la [page du manuel sur le formulaire d'inscription](/handbook/registration) pour découvrir comment chaque réglage affecte le formulaire et trouver des conseils pour le peaufiner.
 

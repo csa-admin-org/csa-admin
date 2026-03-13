@@ -1,0 +1,9 @@
+<p><%= t(".reminder_paragraph") %></p>
+
+{{ bidding_round.information_text }}
+
+<p><%= t(".no_pledge_yet_paragraph") %></p>
+
+{% button member.memberships_url %}
+  <%= t(".pledge_button") %>
+{% endbutton %}

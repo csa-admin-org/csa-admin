@@ -1,0 +1,17 @@
+<p><%= t(".overdue_notice_paragraph") %></p>
+
+{% highlight %}
+  <strong><%= t(".remaining_amount_notice") %></strong>
+{% endhighlight %}
+
+<p><%= t(".please_pay_paragraph") %></p>
+<p><%= t(".already_paid_paragraph") %></p>
+<p><%= t(".thank_you_paragraph") %></p>
+
+{% unless member.billing_email %}
+  <p><%= t(".view_billing_paragraph") %></p>
+
+  {% button member.billing_url %}
+    <%= t(".member_page_button") %>
+  {% endbutton %}
+{% endunless %}

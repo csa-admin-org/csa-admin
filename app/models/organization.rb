@@ -24,7 +24,9 @@ class Organization < ApplicationRecord
 
   def self.features
     (FEATURES | Current.org.features)
-      .sort_by { |f| I18n.transliterate I18n.t("features.#{f}") }
+      .sort_by { |f|
+        I18n.transliterate I18n.t("features.#{f}")
+      }
   end
   def self.feature_flags = FEATURE_FLAGS
   def self.restricted_features = RESTRICTED_FEATURES
@@ -35,6 +37,7 @@ class Organization < ApplicationRecord
   include TranslatedRichTexts
   include NormalizedString
   include Billing, Trial
+  include BasketNaming
   include \
     AbsenceFeature,
     ActivityFeature,

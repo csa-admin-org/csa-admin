@@ -24,7 +24,7 @@ Le montant de la facture est calculé ainsi: montant total de l'abonnement / nom
 
 Il est donc primordial que chaque configuration d'abonnement soit bien à jour afin que les factures soient correctes.
 
-Par défaut, la première facture est envoyée le jour de facturation suivant la première livraison de panier, mais il est possible de modifier cela dans [les paramètres](/settings#billing) (Facturer les abonnements seulement après leur première livraison) pour facturer l'abonnement dès le début de celui-ci.
+Par défaut, la première facture est envoyée le jour de facturation suivant la première livraison de <%= Basket.model_name.human.downcase %>, mais il est possible de modifier cela dans [les paramètres](/settings#billing) (Facturer les abonnements seulement après leur première livraison) pour facturer l'abonnement dès le début de celui-ci.
 
 Par défaut, la facturation s'étend jusqu'à la date de fin de l'abonnement, mais il est possible de modifier cela dans [les paramètres](/settings#billing) (Facturer les abonnements jusqu'à leur dernière livraison uniquement) pour étendre la période de facturation uniquement jusqu'à la date de leur dernière livraison. Ceci est utile lorsque, par exemple, les derniers mois de l'année fiscale n'ont aucune livraison.
 
@@ -44,7 +44,7 @@ La facturation à l'avance peut être effectuée depuis la page d'un abonnement 
 
 ### Changement de prix {#price-change}
 
-Si la configuration d'un abonnement (dates, de taille de panier, ...) est modifiée, plusieurs cas sont possibles:
+Si la configuration d'un abonnement (dates, <%= BasketSize.model_name.human.downcase %>, ...) est modifiée, plusieurs cas sont possibles:
 
 - Une facture future doit encore être envoyée (c'est le milieu de l'année et le membre est facturé chaque trimestre); dans ce cas, le changement de prix (positif ou négatif) sera simplement appliqué à la prochaine facture.
 - La dernière facture a déjà été envoyée (c'est la fin de l'année ou le membre est facturé en une fois), il y a alors 2 possibilités:
@@ -55,13 +55,13 @@ Si la configuration d'un abonnement (dates, de taille de panier, ...) est modifi
 
 La cotisation annuelle est automatiquement incluse dans la première facture de l'abonnement. Si le membre n'a pas d'abonnement ([soutien](/handbook/members#statuses)) alors une facture spécifique est créée automatiquement au début de l'année fiscale.
 
-### Paniers à l'essai {#trial-baskets}
+### <%= Basket.model_name.human(count: 2) %> à l'essai {#trial-baskets}
 
-Si un nombre de paniers à l'essai est défini dans [les paramètres de facturation](/settings#billing), alors l'abonnement sera uniquement facturé une fois que tous les paniers à l'essai seront livrés, le prochain jour de facturation suivant la livraison du premier panier non à l'essai.
+Si un nombre de <%= Basket.model_name.human(count: 2).downcase %> à l'essai est défini dans [les paramètres de facturation](/settings#billing), alors l'abonnement sera uniquement facturé une fois que tous les <%= Basket.model_name.human(count: 2).downcase %> à l'essai seront livrés, le prochain jour de facturation suivant la livraison du premier <%= Basket.model_name.human.downcase %> non à l'essai.
 
-Les membres peuvent annuler leur abonnement eux-mêmes durant la période d'essai depuis leur compte membre. L'abonnement se terminera alors à la date de livraison du dernier panier à l'essai. Pour annuler un abonnement immédiatement, l'admin doit le faire manuellement.
+Les membres peuvent annuler leur abonnement eux-mêmes durant la période d'essai depuis leur compte membre. L'abonnement se terminera alors à la date de livraison du dernier <%= Basket.model_name.human.downcase %> à l'essai. Pour annuler un abonnement immédiatement, l'admin doit le faire manuellement.
 
-Si l'abonnement est annulé durant la période d'essai, alors seulement les paniers livrés seront facturés, le prochain jour de facturation. Dans ce cas, la cotisation annuelle n'est pas facturée (sauf si le membre choisit de la payer).
+Si l'abonnement est annulé durant la période d'essai, alors seulement les <%= Basket.model_name.human(count: 2).downcase %> livrés seront facturés, le prochain jour de facturation. Dans ce cas, la cotisation annuelle n'est pas facturée (sauf si le membre choisit de la payer).
 
 ## Parts sociales {#share-capital}
 

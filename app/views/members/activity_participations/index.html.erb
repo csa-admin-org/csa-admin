@@ -7,7 +7,7 @@
   <h2><%= t(".activity_participation_form_title") %></h2>
 
   <% if @activities.empty? %>
-    <p class="nocontent mt-2"><%= t_activity(".no_activities") %></p>
+    <p class="nocontent mt-2"><%= t(".no_activities") %></p>
   <% else %>
     <div
       class="activities-form"
@@ -65,11 +65,11 @@
 
 <% message_class = condition ? "mt-4 pb-4 text-center text-sm italic text-gray-400 dark:text-gray-500" : "nocontent" %>
 
-<% message_text = condition ? t_activity(".coming_activity_participation_cannot_be_cancel_explanation_html", days_count: Current.org.activity_participation_deletion_deadline_in_days, contact_link: mail_to(Current.org.email, t(".contact_link"))) : t(".edit_activity_participation_explanation") %>
+<% message_text = condition ? t(".coming_activity_participation_cannot_be_cancel_explanation_html", days_count: Current.org.activity_participation_deletion_deadline_in_days, contact_link: mail_to(Current.org.email, t(".contact_link"))) : t(".edit_activity_participation_explanation") %>
 
 <% if @coming_participations.any? %>
   <section>
-    <h2><%= t_activity(".coming_activity_participations") %></h2>
+    <h2><%= t(".coming_activity_participations") %></h2>
 
     <ul id="coming_participations" class="mt-2 space-y-4">
       <%= render @coming_participations %>
@@ -80,7 +80,7 @@
 <% end %>
 
 <section>
-  <h2><%= t_activity(".past_activity_participations") %></h2>
+  <h2><%= t(".past_activity_participations") %></h2>
 
   <% @past_participations = current_member.activity_participations.past_current_year.includes(:activity).merge(Activity.ordered(:desc)) %>
 

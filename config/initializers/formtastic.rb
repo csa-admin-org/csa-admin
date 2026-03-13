@@ -61,7 +61,9 @@
 
 # Specifies the class to use for localization lookups. You can create your own
 # class and use it instead by subclassing Formtastic::Localizer (which is the default).
-# Formtastic::FormBuilder.i18n_localizer = MyOwnLocalizer
+Rails.application.config.after_initialize do
+  Formtastic::FormBuilder.i18n_localizer = Formtastic::HtmlHintLocalizer
+end
 
 # You can add custom inputs or override parts of Formtastic by subclassing Formtastic::FormBuilder and
 # specifying that class here.  Defaults to Formtastic::FormBuilder.

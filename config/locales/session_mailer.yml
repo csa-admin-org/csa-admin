@@ -1,6 +1,18 @@
 _:
   session_mailer:
     deletion_confirmation_email:
+      code_expires_paragraph:
+        _en: This code expires in 15 minutes.
+        _fr: Ce code expire dans 15 minutes.
+        _de: Dieser Code läuft in 15 Minuten ab.
+        _it: Questo codice scade tra 15 minuti.
+        _nl: Deze code verloopt over 15 minuten.
+      confirmation_paragraph:
+        _en: Use the following code to confirm your account deletion.
+        _fr: Utilisez le code suivant pour confirmer la suppression de votre compte.
+        _de: Verwenden Sie den folgenden Code, um die Löschung Ihres Kontos zu bestätigen.
+        _it: Usa il seguente codice per confermare l'eliminazione del tuo account.
+        _nl: Gebruik de volgende code om de verwijdering van uw account te bevestigen.
       subject:
         _en: Confirm your account deletion
         _fr: Confirmez la suppression de votre compte
@@ -8,6 +20,18 @@ _:
         _it: Conferma l'eliminazione del tuo account
         _nl: Bevestig de verwijdering van uw account
     new_admin_session_email:
+      login_button:
+        _en: Access my admin account
+        _fr: Accéder à mon compte admin
+        _de: Zugang zu meinem Admin-Konto
+        _it: Accedere al mio conto admin
+        _nl: Toegang tot mijn admin-account
+      login_paragraph:
+        _en: Click the login link below to access your admin account.
+        _fr: Cliquez sur le lien de connexion ci-dessous afin d'accéder à votre compte admin.
+        _de: Mit dem Link hier unten gelangen Sie zu Ihrem Admin-Konto.
+        _it: Cliccate sul seguente link di accesso per connettervi al vostro conto admin.
+        _nl: Klik op de inloglink hieronder om toegang te krijgen tot uw admin-account.
       subject:
         _en: Login to your admin account
         _fr: Connexion à votre compte admin
@@ -15,6 +39,18 @@ _:
         _it: Connessione al vostro conto admin
         _nl: Inloggen op uw admin account
     new_member_session_email:
+      login_button:
+        _en: Access my account
+        _fr: Accéder à mon compte
+        _de: Zugang zu meinem Konto
+        _it: Accedere al mio conto
+        _nl: Toegang tot mijn account
+      login_paragraph:
+        _en: Click the login link below to access your account.
+        _fr: Cliquez sur le lien de connexion ci-dessous afin d'accéder à votre compte.
+        _de: Mit dem Link hier unten gelangen Sie zu Ihrem Konto.
+        _it: Cliccate sul seguente link di accesso per connettervi al vostro conto.
+        _nl: Klik op de inloglink hieronder om toegang te krijgen tot uw account.
       subject:
         _en: Login to your account
         _fr: Connexion à votre compte

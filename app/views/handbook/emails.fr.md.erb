@@ -26,7 +26,7 @@ Utilisez `{% if %}` pour afficher du contenu uniquement quand une condition est 
 
 ~~~ liquid
 {% if basket.contents.size > 0 %}
-  <h2>Contenu du panier</h2>
+  <h2><%= BasketContent.model_name.human %></h2>
   ...
 {% endif %}
 ~~~
@@ -35,7 +35,7 @@ Vous pouvez utiliser `and`, `or`, ainsi que `{% elsif %}` et `{% else %}` pour c
 
 ~~~ liquid
 {% if membership.trial_baskets_count > 0 %}
-  <p>Vous êtes encore en période d'essai ({{ membership.trial_baskets_count }} paniers restants).</p>
+  <p>Vous êtes encore en période d'essai ({{ membership.trial_baskets_count }} <%= Basket.model_name.human(count: 2).downcase %> restants).</p>
 {% elsif membership.activity_participations_missing_count > 0 %}
   <p>Il vous reste encore {{ membership.activity_participations_missing_count }} activité(s) à effectuer.</p>
 {% else %}
@@ -64,7 +64,7 @@ En plus du HTML standard, plusieurs balises spéciales de mise en forme sont dis
 ~~~ liquid
 {% highlight %}
   <p><strong>📣 Important!</strong></p>
-  <p>Votre panier sera extra large cette semaine.</p>
+  <p>Votre <%= Basket.model_name.human.downcase %> sera extra large cette semaine.</p>
 {% endhighlight %}
 ~~~
 
@@ -89,6 +89,6 @@ En plus du HTML standard, plusieurs balises spéciales de mise en forme sont dis
 
 Lors de l'édition d'un template d'email ou d'un template de newsletter, un panneau de prévisualisation est affiché sous l'éditeur de code. Cette prévisualisation montre votre template rendu avec des données d'exemple pour chaque langue.
 
-Sous chaque prévisualisation, un panneau de données montre la structure exacte des données disponibles pour votre template. Ces données sont générées semi-aléatoirement à partir des données réelles de votre organisation. Vous pouvez modifier les valeurs dans ce panneau pour tester le rendu de votre template avec différents scénarios (p.ex. contenu de panier vide, zéro activités manquantes, etc.).
+Sous chaque prévisualisation, un panneau de données montre la structure exacte des données disponibles pour votre template. Ces données sont générées semi-aléatoirement à partir des données réelles de votre organisation. Vous pouvez modifier les valeurs dans ce panneau pour tester le rendu de votre template avec différents scénarios (p.ex. <%= BasketContent.model_name.human.downcase %> vide, zéro activités manquantes, etc.).
 
 > La prévisualisation des données est le meilleur moyen de découvrir toutes les variables disponibles et de tester votre template. Chaque type de template d'email a son propre jeu de données disponibles — consultez toujours le panneau de prévisualisation pour voir ce qui est disponible.

@@ -26,7 +26,7 @@ Gebruik `{% if %}` om inhoud alleen te tonen wanneer aan een voorwaarde is volda
 
 ~~~ liquid
 {% if basket.contents.size > 0 %}
-  <h2>Pakketinhoud</h2>
+  <h2><%= BasketContent.model_name.human %></h2>
   ...
 {% endif %}
 ~~~
@@ -35,7 +35,7 @@ U kunt `and`, `or`, evenals `{% elsif %}` en `{% else %}` gebruiken om voorwaard
 
 ~~~ liquid
 {% if membership.trial_baskets_count > 0 %}
-  <p>U bent nog in uw proefperiode ({{ membership.trial_baskets_count }} pakketten resterend).</p>
+  <p>U bent nog in uw proefperiode ({{ membership.trial_baskets_count }} <%= Basket.model_name.human(count: 2).downcase %> resterend).</p>
 {% elsif membership.activity_participations_missing_count > 0 %}
   <p>U heeft nog {{ membership.activity_participations_missing_count }} activiteit(en) te voltooien.</p>
 {% else %}
@@ -64,7 +64,7 @@ Naast standaard HTML zijn er verschillende speciale opmaaktags beschikbaar:
 ~~~ liquid
 {% highlight %}
   <p><strong>📣 Belangrijk!</strong></p>
-  <p>Uw pakket zal deze week extra groot zijn.</p>
+  <p>Uw <%= Basket.model_name.human.downcase %> zal deze week extra groot zijn.</p>
 {% endhighlight %}
 ~~~
 
@@ -89,6 +89,6 @@ Naast standaard HTML zijn er verschillende speciale opmaaktags beschikbaar:
 
 Bij het bewerken van een e-mailsjabloon of een nieuwsbriefsjabloon wordt een voorbeeldpaneel weergegeven onder de code-editor. Dit voorbeeld toont uw sjabloon gerenderd met voorbeeldgegevens voor elke taal.
 
-Onder elk voorbeeld toont een gegevenspaneel de exacte gegevensstructuur die beschikbaar is voor uw sjabloon. Deze gegevens worden semi-willekeurig gegenereerd uit uw werkelijke organisatiegegevens. U kunt de waarden in dit paneel wijzigen om te testen hoe uw sjabloon wordt weergegeven met verschillende scenario's (bijv. lege pakketinhoud, nul ontbrekende activiteiten, enz.).
+Onder elk voorbeeld toont een gegevenspaneel de exacte gegevensstructuur die beschikbaar is voor uw sjabloon. Deze gegevens worden semi-willekeurig gegenereerd uit uw werkelijke organisatiegegevens. U kunt de waarden in dit paneel wijzigen om te testen hoe uw sjabloon wordt weergegeven met verschillende scenario's (bijv. lege <%= BasketContent.model_name.human.downcase %>, nul ontbrekende activiteiten, enz.).
 
 > Het gegevensvoorbeeld is de beste manier om alle beschikbare variabelen te ontdekken en uw sjabloon te testen. Elk type e-mailsjabloon heeft zijn eigen set beschikbare gegevens — controleer altijd het voorbeeldpaneel om te zien wat beschikbaar is.

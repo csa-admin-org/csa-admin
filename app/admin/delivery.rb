@@ -172,8 +172,7 @@ ActiveAdmin.register Delivery do
         f.input :basket_complements,
           as: :check_boxes,
           wrapper_html: { class: "legend-title" },
-          collection: admin_basket_complements,
-          hint: true
+          collection: admin_basket_complements
 
         handbook_button(self, "deliveries", anchor: "basket-complements")
       end

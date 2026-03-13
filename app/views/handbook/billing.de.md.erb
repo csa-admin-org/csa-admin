@@ -24,7 +24,7 @@ Der Rechnungsbetrag wird wie folgt berechnet: Gesamtbetrag des Abonnements / Anz
 
 Es ist daher entscheidend, dass jede Abonnementskonfiguration aktuell ist, damit die Rechnungen korrekt sind.
 
-Standardmäßig wird die erste Rechnung am Abrechnungstag nach der ersten Taschenlieferung versendet, aber es ist möglich, dies in [den Einstellungen](/settings#billing) zu ändern (Abonnements erst nach ihrer ersten Lieferung abrechnen), um das Abonnement ab seinem Beginn abzurechnen.
+Standardmäßig wird die erste Rechnung am Abrechnungstag nach der ersten Lieferung einer <%= Basket.model_name.human %> versendet, aber es ist möglich, dies in [den Einstellungen](/settings#billing) zu ändern (Abonnements erst nach ihrer ersten Lieferung abrechnen), um das Abonnement ab seinem Beginn abzurechnen.
 
 Standardmäßig erstreckt sich die Abrechnung bis zum Enddatum des Abonnements, aber es ist möglich, dies in [den Einstellungen](/settings#billing) zu ändern (Abonnements nur bis zu ihrer letzten Lieferung abrechnen), um den Abrechnungszeitraum nur bis zum Datum ihrer letzten Lieferung zu verlängern. Dies ist nützlich, wenn beispielsweise die letzten Monate des Geschäftsjahres keine Lieferungen haben.
 
@@ -44,7 +44,7 @@ Die Vorausabrechnung kann von der Seite eines zukünftigen Abonnements aus erfol
 
 ### Preisänderung {#price-change}
 
-Wenn eine Abonnementskonfiguration (Daten, Taschengröße, ...) geändert wird, sind mehrere Fälle möglich:
+Wenn eine Abonnementskonfiguration (Daten, <%= BasketSize.model_name.human %>, ...) geändert wird, sind mehrere Fälle möglich:
 
 - Eine zukünftige Rechnung muss noch gesendet werden (es ist Mitte des Jahres und das Mitglied wird vierteljährlich abgerechnet); in diesem Fall wird die Preisänderung (positiv oder negativ) einfach auf die nächste Rechnung angewendet.
 - Die letzte Rechnung wurde bereits gesendet (es ist das Ende des Jahres oder das Mitglied wird einmal abgerechnet), dann gibt es 2 Möglichkeiten:
@@ -55,13 +55,13 @@ Wenn eine Abonnementskonfiguration (Daten, Taschengröße, ...) geändert wird, 
 
 Der Jahresbeitrag ist automatisch in der ersten Rechnung des Abonnements enthalten. Wenn das Mitglied kein Abonnement hat ([Förderung](/handbook/members#statuses)), wird zu Beginn des Geschäftsjahres automatisch eine spezielle Rechnung erstellt.
 
-### Probetaschen {#trial-baskets}
+### <%= Basket.model_name.human(count: 2) %> zur Probe {#trial-baskets}
 
-Wenn in [den Abrechnungseinstellungen](/settings#billing) eine Anzahl von Probetaschen definiert ist, wird das Abonnement erst abgerechnet, wenn alle Probetaschen geliefert wurden, und zwar am nächsten Abrechnungstag nach der Lieferung der ersten Nicht-Probetasche.
+Wenn in [den Abrechnungseinstellungen](/settings#billing) eine Anzahl von <%= Basket.model_name.human(count: 2) %> zur Probe definiert ist, wird das Abonnement erst abgerechnet, wenn alle <%= Basket.model_name.human(count: 2) %> zur Probe geliefert wurden, und zwar am nächsten Abrechnungstag nach der Lieferung der ersten <%= Basket.model_name.human %> ohne Probe.
 
-Mitglieder können ihr Abonnement während der Probezeit selbst über ihr Mitgliederkonto kündigen. Das Abonnement endet dann am Lieferdatum der letzten Probetasche. Um ein Abonnement sofort zu kündigen, muss der Admin dies manuell tun.
+Mitglieder können ihr Abonnement während der Probezeit selbst über ihr Mitgliederkonto kündigen. Das Abonnement endet dann am Lieferdatum der letzten <%= Basket.model_name.human %> zur Probe. Um ein Abonnement sofort zu kündigen, muss der Admin dies manuell tun.
 
-Wenn das Abonnement während der Probezeit gekündigt wird, werden nur die gelieferten Taschen am nächsten Abrechnungstag in Rechnung gestellt. In diesem Fall wird der Jahresbeitrag nicht berechnet (es sei denn, das Mitglied entscheidet sich, ihn zu zahlen).
+Wenn das Abonnement während der Probezeit gekündigt wird, werden nur die gelieferten <%= Basket.model_name.human(count: 2) %> am nächsten Abrechnungstag in Rechnung gestellt. In diesem Fall wird der Jahresbeitrag nicht berechnet (es sei denn, das Mitglied entscheidet sich, ihn zu zahlen).
 
 ## Anteilskapital {#share-capital}
 
@@ -110,7 +110,7 @@ Es ist möglich, spezifischen Text in der [E-Mail-Vorlage "Neue Rechnung"](/mail
 
 ## Manuelle Rechnung (Sonstiges) {#manual-invoice}
 
-CSA Admin bietet die Möglichkeit, verschiedene Artikel oder Dienstleistungen manuell in Rechnung zu stellen (zum Beispiel den Kauf von Stofftaschen für neue Abonnenten). Dazu müssen Sie einfach [eine neue Rechnung erstellen](/invoices/new) und die Artikel unter der Registerkarte "Sonstiges" eingeben. Nach Überprüfung des PDFs können Sie die Rechnung manuell mit der Schaltfläche "Senden" auf der Seite der Rechnung versenden.
+CSA Admin bietet die Möglichkeit, verschiedene Artikel oder Dienstleistungen manuell in Rechnung zu stellen (zum Beispiel den Kauf von Stoffbeuteln für neue Abonnenten). Dazu müssen Sie einfach [eine neue Rechnung erstellen](/invoices/new) und die Artikel unter der Registerkarte "Sonstiges" eingeben. Nach Überprüfung des PDFs können Sie die Rechnung manuell mit der Schaltfläche "Senden" auf der Seite der Rechnung versenden.
 
 > Achtung, Rechnungen vom Typ "Sonstiges" sollten nicht verwendet werden, um Abonnements, Anteilskapital oder <%= activities_human_name.downcase %> in Rechnung zu stellen, da das System diese nicht berücksichtigt.
 

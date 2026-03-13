@@ -1,6 +1,6 @@
 # Shop
 
-The online shop allows your members to order additional products from their account a few days before the delivery of their next baskets.
+The online shop allows your members to order additional products from their account a few days before the delivery of their next <%= Basket.model_name.human(count: 2).downcase %>.
 
 To allow you to prepare the content of your shop calmly, by default, the shop **does not appear** in the member account menu. Only admins who can access a member's account (from the "Access account" button on a member's admin page) can see the shop. This way, you can ensure that all products are well presented. Once everything is in place, this limitation can be disabled from [the settings](/settings#shop).
 
@@ -32,7 +32,7 @@ The availability of a product can be defined for itself or for each of its varia
 
 ### Complements
 
-It's possible to link a product to an existing [basket complement](/handbook/deliveries#basket-complements); orders for this product will then be automatically added to the number of this complement in the summary (XLSX) and sheets (PDF) of the basket delivery.
+It's possible to link a product to an existing [<%= BasketComplement.model_name.human.downcase %>](/handbook/deliveries#basket-complements); orders for this product will then be automatically added to the number of this complement in the summary (XLSX) and sheets (PDF) of the <%= Basket.model_name.human.downcase %> delivery.
 
 This product will also only be available on the delivery days of the complement.
 
@@ -44,7 +44,7 @@ It's also possible to set a minimum order amount as well as a maximum weight, if
 
 Once an order is placed, it appears with the status "to prepare" in [the orders list](/shop_orders?scope=pending). These orders are always modifiable by members until the configured deadline. An admin can also modify them at any time.
 
-A delivery note (PDF), not including the price of products, is available for each order if you wish to print them and attach them to the baskets.
+A delivery note (PDF), not including the price of products, is available for each order if you wish to print them and attach them to the <%= Basket.model_name.human(count: 2).downcase %>.
 
 ### Billing {#billing}
 
@@ -71,8 +71,8 @@ By default, and outside of [special deliveries](#special-deliveries), access to 
 
 ## Special deliveries {#special-deliveries}
 
-Special deliveries allow you to offer additional products to your members outside of regular basket deliveries via the online shop.
+Special deliveries allow you to offer additional products to your members outside of regular <%= Basket.model_name.human.downcase %> deliveries via the online shop.
 
 Available products can be defined separately for each special delivery, the individual setting of the availability of each product is ignored. However, the availability of variants as well as the state of their stock are always respected.
 
-> As special deliveries are delivered outside of basket deliveries, they are open to all your members, active or not.
+> As special deliveries are delivered outside of <%= Basket.model_name.human.downcase %> deliveries, they are open to all your members, active or not.

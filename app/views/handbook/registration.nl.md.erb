@@ -16,7 +16,7 @@ De [ondertitelinstelling](/settings#registration) ondersteunt opgemaakte tekst, 
 
 **Beter te vermijden:**
 
-*Onze CSA werd opgericht in 2012 en levert biologische groenten van onze boerderij op het platteland. We werken samen met 3 partnerbedrijven en bieden pakketten aan in 12 verschillende formaten. De prijzen zijn gebaseerd op een solidariteitsmodel waarbij...* (en nog 200 woorden meer)
+*Onze CSA is opgericht in 2012 en levert biologische groenten van onze boerderij op het platteland. We werken samen met 3 partnerbedrijven en bieden <%= Basket.model_name.human(count: 2).downcase %> aan in 12 verschillende groottes. De prijzen zijn gebaseerd op een solidariteitsmodel waarbij...* (en nog 200 woorden meer)
 
 ## Tips voor tekstopmaak {#text-styling}
 
@@ -30,33 +30,33 @@ Alle opgemaakte tekstvelden in de [registratie-instellingen](/settings#registrat
 
 U zult een woordteller opmerken in de instellingeneditor wanneer de tekst lang wordt. Het is slechts een zachte hint, geen strikte limiet. Als u de drempel overschrijdt, is het misschien de moeite waard om in te korten of inhoud naar uw website te verplaatsen.
 
-## Pakketgroottes {#basket-sizes}
+## <%= BasketSize.model_name.human(count: 2) %> {#basket-sizes}
 
-[Pakketgroottes](/basket_sizes) vormen de kern van uw registratieformulier. Elke zichtbare pakketgrootte verschijnt als keuze voor nieuwe leden.
+[<%= BasketSize.model_name.human(count: 2) %>](/basket_sizes) vormen de kern van uw registratieformulier. Elke zichtbare <%= BasketSize.model_name.human.downcase %> verschijnt als keuze voor nieuwe leden.
 
 - **Naam**: Wat leden zien (bijv. "Klein", "Familie"). Een zelfverklarende naam helpt: "Klein (1–2 personen)" is duidelijker dan alleen "Klein".
 - **Beschrijving**: Vervangt de automatisch gegenereerde tekst (prijs × leveringen). Handig wanneer de standaardtekst niet helemaal past bij wat u nodig heeft.
-- **Zichtbaarheid**: Stel een pakketgrootte in als onzichtbaar als deze alleen voor admins is (bijv. een speciaal tarief). Onzichtbare groottes verschijnen niet in het formulier.
+- **Zichtbaarheid**: Stel een <%= BasketSize.model_name.human.downcase %> in als onzichtbaar als deze alleen voor admins is (bijv. een speciaal tarief). Onzichtbare groottes verschijnen niet in het formulier.
 - **Weergavevolgorde**: Gestuurd door de [instelling van de sorteermodus](/settings#registration), op naam, op prijs of op aangepaste prioriteit.
 
-## Pakketaanvullingen {#basket-complements}
+## <%= BasketComplement.model_name.human(count: 2) %> {#basket-complements}
 
-[Pakketaanvullingen](/basket_complements) (brood, kaas, eieren, enz.) verschijnen na de selectie van de pakketgrootte.
+[<%= BasketComplement.model_name.human(count: 2) %>](/basket_complements) (brood, kaas, eieren, enz.) verschijnen na de selectie van de <%= BasketSize.model_name.human.downcase %>.
 
 - **Selectievakjes vs. hoeveelheidsmodus**: De [instelling voor aanvullingshoeveelheden](/settings#registration) bepaalt of leden eenvoudige selectievakjes (abonneren of niet) of hoeveelheidsvelden (0, 1, 2...) zien.
 - **Aanvullingstekst**: Een optionele introductie voor de lijst. Eén zin is meestal voldoende om uit te leggen wat beschikbaar is.
 - **Weergavevolgorde**: Gestuurd door de [instelling van de sorteermodus](/settings#registration).
 
-## Solidariteitsprijs / Pakketprijs extra {#basket-price-extra}
+## Solidariteitsprijs / <%= Basket.model_name.human %>prijs extra {#basket-price-extra}
 
 <% if feature?("basket_price_extra") %>
-Deze functie laat leden vrijwillig meer betalen per pakket. Zie de speciale [handboekpagina over pakketprijs extra](/handbook/basket_price_extra) voor configuratiedetails.
+Deze functie laat leden vrijwillig meer betalen per <%= Basket.model_name.human.downcase %>. Zie de speciale [handboekpagina over <%= Basket.model_name.human.downcase %>prijs extra](/handbook/basket_price_extra) voor configuratiedetails.
 
 Enkele tips voor het registratieformulier:
 
 - **4 tot 6 opties werkt goed.** Te veel keuzes kunnen overweldigend aanvoelen. Als u er meer dan 6 heeft, schakelt het formulier over naar een dropdown, die minder zichtbaar is.
 - **Houd de uitleg kort.** Als u uw solidariteitsmodel in detail wilt uitleggen, link naar uw website.
-- **Duidelijke labels zijn belangrijk.** Zorg ervoor dat elke optie de prijsimpact duidelijk toont. Zie de [instellingen voor pakketprijs extra](/settings#basket_price_extra) voor de labelconfiguratie.
+- **Duidelijke labels zijn belangrijk.** Zorg ervoor dat elke optie de prijsimpact duidelijk toont. Zie de [instellingen voor extra <%= Basket.model_name.human.downcase %>prijs](/settings#basket_price_extra) voor labelconfiguratie.
 <% else %>
 Deze functie is momenteel niet geactiveerd. U kunt deze inschakelen in [uw instellingen](/settings#organization_features_input).
 <% end %>
@@ -94,7 +94,7 @@ Als een cyclus alleen relevant is voor bepaalde depots, zorgt het instellen van 
 
 Twee instellingen bepalen de uitleg in het lidmaatschapgedeelte:
 
-- **[Aanvullende tekst](/settings#registration)**: Toegevoegd na de automatisch gegenereerde tekst (boekjaar, proefpakketten, jaarlijkse bijdrage, aandelen).
+- **[Extra tekst](/settings#registration)**: Toegevoegd na de automatisch gegenereerde tekst (boekjaar, <%= Basket.model_name.human(count: 2).downcase %> op proef, jaarlijkse bijdrage, aandelen).
 - **[Alleen aanvullende tekst](/settings#registration)**: Vervangt de automatisch gegenereerde tekst volledig. Alleen nuttig als de standaardtekst echt niet bij uw behoeften past.
 
 De automatisch gegenereerde tekst dekt al het essentiële, dus de aanvullende tekst is het beste voor wat specifiek is voor uw organisatie. Als u meer dan een korte alinea schrijft, overweeg dan om naar uw website te linken.
@@ -125,8 +125,8 @@ Verschillende elementen in het formulier kunnen worden herschikt:
 
 | Element | Instelling | Opties |
 |---------|-----------|--------|
-| Pakketgroottes | [Sorteermodus](/settings#registration) | Naam, prijs (oplopend/aflopend), prioriteit |
-| Aanvullingen | [Sorteermodus](/settings#registration) | Naam, prijs (oplopend/aflopend), prioriteit |
+| <%= BasketSize.model_name.human(count: 2) %> | [Sorteermodus](/settings#registration) | Naam, prijs (oplopend/aflopend), prioriteit |
+| <%= BasketComplement.model_name.human(count: 2) %> | [Sorteermodus](/settings#registration) | Naam, prijs (oplopend/aflopend), prioriteit |
 | Depots | [Sorteermodus](/settings#registration) | Naam, prijs (oplopend/aflopend), prioriteit |
 | Leveringscycli | [Sorteermodus](/settings#registration) | Naam, prioriteit |
 

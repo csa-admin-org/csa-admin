@@ -7,10 +7,10 @@ CSA Admin versendet automatisch E-Mails an Ihre Mitglieder bei bestimmten Ereign
 Die E-Mail-Vorlagen sind nach Kategorien organisiert:
 
 - **Mitglied**: Versendet bei Statusänderungen eines Mitglieds (validiert, aktiviert).
-- **Tasche**: Versendet zu wichtigen Zeitpunkten des Abonnements (erste Tasche, letzte Tasche, Probezeit, ...).
+- **<%= Basket.model_name.human %>**: Versendet zu wichtigen Zeitpunkten des Abonnements (erste <%= Basket.model_name.human %>, letzte <%= Basket.model_name.human %>, Probezeit, ...).
 - **Rechnung**: Versendet bei der Erstellung, Stornierung oder Mahnung von Rechnungen.
 <% if Current.org.feature?("absence") %>
-- **Abwesenheit**: Versendet bei der Bestätigung einer Abwesenheit oder bei der Verschiebung von Taschen.
+- **Abwesenheit**: Versendet bei der Bestätigung einer Abwesenheit oder bei der Verschiebung von <%= Basket.model_name.human(count: 2) %>.
 <% end %>
 <% if Current.org.feature?("activity") %>
 - **<%= activities_human_name %>**: Versendet für Erinnerungen, Bestätigungen und Ablehnungen von Aktivitäten.
@@ -29,7 +29,7 @@ Wenn eine Vorlage deaktiviert ist, wird die entsprechende E-Mail einfach nicht v
 
 ## Inhalt anpassen {#customizing}
 
-Jede Vorlage hat einen Betreff und einen Inhalt, den Sie vollständig anpassen können. Vorlagen verwenden die Liquid-Vorlagensprache, um dynamische mitgliederspezifische Daten (Name, Taschendetails, Abonnementinformationen, ...) und bedingte Logik einzufügen. Für Details zur Liquid-Syntax, Formatierungstags und dem Datenvorschau-Panel, siehe die [Emails-Handbuchseite](/handbook/emails).
+Jede Vorlage hat einen Betreff und einen Inhalt, den Sie vollständig anpassen können. Vorlagen verwenden die Liquid-Vorlagensprache, um dynamische mitgliederspezifische Daten (Name, Details der <%= Basket.model_name.human %>, Abonnementinformationen, ...) und bedingte Logik einzufügen. Für Details zur Liquid-Syntax, Formatierungstags und dem Datenvorschau-Panel, siehe die [Emails-Handbuchseite](/handbook/emails).
 
 > Jeder Typ von E-Mail-Vorlage hat seinen eigenen Satz verfügbarer Daten, spezifisch für seinen Kontext. Überprüfen Sie immer das Datenvorschau-Panel unter dem Editor, um genau zu sehen, welche Variablen für die Vorlage verfügbar sind, die Sie bearbeiten.
 

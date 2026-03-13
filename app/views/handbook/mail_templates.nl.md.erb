@@ -7,10 +7,10 @@ CSA Admin verstuurt automatisch e-mails naar uw leden tijdens specifieke gebeurt
 De e-mailsjablonen zijn georganiseerd per categorie:
 
 - **Lid**: Verzonden bij statuswijzigingen van een lid (gevalideerd, geactiveerd).
-- **Pakket**: Verzonden op belangrijke momenten van het lidmaatschap (eerste pakket, laatste pakket, proefperiode, ...).
+- **<%= Basket.model_name.human %>**: Verzonden op belangrijke momenten van het lidmaatschap (eerste <%= Basket.model_name.human.downcase %>, laatste <%= Basket.model_name.human.downcase %>, proefperiode, ...).
 - **Factuur**: Verzonden bij het aanmaken, annuleren of herinneren van facturen.
 <% if Current.org.feature?("absence") %>
-- **Afwezigheid**: Verzonden bij de bevestiging van een afwezigheid of bij het verschuiven van pakketten.
+- **Afwezigheid**: Verzonden bij de bevestiging van een afwezigheid of bij het verschuiven van <%= Basket.model_name.human(count: 2).downcase %>.
 <% end %>
 <% if Current.org.feature?("activity") %>
 - **<%= activities_human_name %>**: Verzonden voor herinneringen, bevestigingen en afwijzingen van activiteiten.
@@ -29,7 +29,7 @@ Wanneer een sjabloon is gedeactiveerd, wordt de bijbehorende e-mail eenvoudigweg
 
 ## Inhoud aanpassen {#customizing}
 
-Elke sjabloon heeft een onderwerp en een inhoud die u volledig kunt aanpassen. Sjablonen gebruiken de Liquid-sjabloontaal om dynamische lidspecifieke gegevens (naam, pakketdetails, lidmaatschapsinformatie, ...) en voorwaardelijke logica in te voegen. Voor details over de Liquid-syntaxis, opmaaktags en het gegevensvoorbeeldpaneel, zie de [Emails-handboekpagina](/handbook/emails).
+Elke sjabloon heeft een onderwerp en een inhoud die u volledig kunt aanpassen. Sjablonen gebruiken de Liquid-sjabloontaal om dynamische lidspecifieke gegevens (naam, details van de <%= Basket.model_name.human.downcase %>, lidmaatschapsinformatie, ...) en voorwaardelijke logica in te voegen. Voor details over de Liquid-syntaxis, opmaaktags en het gegevensvoorbeeldpaneel, zie de [Emails-handboekpagina](/handbook/emails).
 
 > Elk type e-mailsjabloon heeft zijn eigen set beschikbare gegevens, specifiek voor zijn context. Controleer altijd het gegevensvoorbeeldpaneel onder de editor om precies te zien welke variabelen beschikbaar zijn voor het sjabloon dat u bewerkt.
 

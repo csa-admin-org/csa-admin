@@ -86,8 +86,7 @@ ActiveAdmin.register Shop::Product do
           f.input :basket_complement,
             collection: BasketComplement.includes(:shop_product).ordered.map { |bc|
               [ bc.name, bc.id, disabled: !!bc.shop_product && bc.shop_product != f.object ]
-            },
-            hint: t("formtastic.hints.shop/product.basket_complement")
+            }
           f.input :display_in_delivery_sheets,
             as: :boolean,
             input_html: { disabled: f.object.basket_complement_id? },

@@ -51,8 +51,8 @@ class ApplicationMailer < ActionMailer::Base
 
   def liquid_template
     mailer_method = caller_locations(1, 1)[0].label.gsub("block in ", "").split("#").last
-    name = [ mailer_method, I18n.locale, "liquid" ].join(".")
-    path = Rails.root.join("app/views", self.class.name.underscore, name)
-    Liquid::Template.parse(File.read(path))
+    mailer_dir = self.class.name.underscore
+    content = LiquidErb.render("#{mailer_dir}/#{mailer_method}", locale: I18n.locale)
+    Liquid::Template.parse(content)
   end
 end

@@ -1,0 +1,29 @@
+{% case invoice.entity_type %}
+{% when 'Shop::Order' %}
+  <p><%= t(".new_invoice_order_paragraph") %></p>
+{% else %}
+  <p><%= t(".new_invoice_paragraph") %></p>
+{% endcase %}
+
+{% case invoice.state %}
+{% when 'closed' %}
+  {% highlight %}
+    <strong><%= t(".invoice_closed_notice") %></strong>
+  {% endhighlight %}
+{% when 'open' %}
+  {% if invoice.only_partially_paid %}
+    {% highlight %}
+      <strong><%= t(".invoice_partially_paid_notice") %></strong>
+    {% endhighlight %}
+  {% endif %}
+{% endcase %}
+
+<p><%= t(".thank_you") %></p>
+
+{% unless member.billing_email %}
+  <p><%= t(".view_billing_paragraph") %></p>
+
+  {% button member.billing_url %}
+    <%= t(".member_page_button") %>
+  {% endbutton %}
+{% endunless %}

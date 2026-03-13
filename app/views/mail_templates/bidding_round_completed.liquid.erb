@@ -1,0 +1,13 @@
+<p><%= t(".round_completed_paragraph") %></p>
+
+{% if bidding_round_pledge.basket_size_price %}
+  <p><%= t(".pledge_thank_you_paragraph") %></p>
+{% else %}
+  <p><%= t(".no_pledge_paragraph") %></p>
+{% endif %}
+
+<p><%= t(".review_membership_paragraph") %></p>
+
+{% button member.memberships_url %}
+  <%= t(".membership_button") %>
+{% endbutton %}
