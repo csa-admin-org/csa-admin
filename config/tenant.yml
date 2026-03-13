@@ -121,6 +121,11 @@ production: &production
   chevreetchou:
     admin_host: admin.chevreetchou.ch
     members_host: membres.chevreetchou.ch
+  rocambole:
+    admin_host: admin.larocambole.ch
+    members_host: membres.larocambole.ch
+    aliases:
+      - larocambole
 
   mamajah:
     admin_host: admin.mamajah.org
@@ -149,12 +154,6 @@ production: &production
     aliases:
       - fermedumonniati
       - lafermedumonniati
-  rocambole:
-    admin_host: admin.larocambole.ch
-    members_host: membres.larocambole.ch
-    state: onboarding
-    aliases:
-      - larocambole
   zalpenblick:
     admin_host: admin.zalpenblick.ch
     members_host: mitglieder.zalpenblick.ch
