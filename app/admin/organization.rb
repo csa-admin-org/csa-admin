@@ -5,7 +5,7 @@ ActiveAdmin.register Organization do
 
   actions :edit, :update
 
-  form data: { controller: "code-editor" } do |f|
+  form html: { novalidate: true }, data: { controller: "code-editor" } do |f|
     if f.object.errors.any?
       div class: "mb-6" do
         f.object.errors.attribute_names.each do |attr|
@@ -41,12 +41,10 @@ ActiveAdmin.register Organization do
               prompt: true,
               hint: t("formtastic.hints.organization.basket_i18n_scopes_html")
           end
-          if current_admin.ultra?
-            f.input :logo, as: :file
-            if resource.logo.attached?
-              div class: "mt-2" do
-                image_tag resource.logo, class: "h-16"
-              end
+          f.input :logo, as: :file, input_html: { accept: "image/png, image/jpg, image/jpeg" }
+          if resource.logo.attached? && resource.logo.blob.persisted?
+            div class: "mt-2" do
+              image_tag resource.logo, class: "h-16"
             end
           end
         end

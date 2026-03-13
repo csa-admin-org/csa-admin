@@ -2127,6 +2127,12 @@ _:
           _de: Wenn aktiviert, werden nur Abonnement- und Jahresbeitragsrechnungen in lokaler Währung ausgestellt. Andere Rechnungsarten (Hofladen-Bestellungen, Anteilscheine usw.) verwenden die nationale Währung. Wenn deaktiviert, werden alle Rechnungen in lokaler Währung ausgestellt.
           _it: Quando abilitato, solo le fatture di abbonamento e quota annuale vengono emesse in valuta locale. Gli altri tipi di fattura (ordini drogheria, quote sociali, ecc.) utilizzeranno la valuta nazionale. Quando disabilitato, tutte le fatture vengono emesse in valuta locale.
           _nl: Indien ingeschakeld, worden alleen lidmaatschaps- en jaarlijkse bijdragefacturen uitgegeven in lokale valuta. Andere factuurtypen (winkelbestellingen, aandelen, enz.) gebruiken de nationale valuta. Indien uitgeschakeld, worden alle facturen uitgegeven in lokale valuta.
+        logo:
+          _en: Square PNG or JPEG image, at least 512×512 pixels, max 400 KB. Ideally with transparent background.
+          _fr: Image PNG ou JPEG carrée, au moins 512×512 pixels, max 400 Ko. Idéalement avec un fond transparent.
+          _de: Quadratisches PNG- oder JPEG-Bild, mindestens 512×512 Pixel, max. 400 KB. Idealerweise mit transparentem Hintergrund.
+          _it: Immagine PNG o JPEG quadrata, almeno 512×512 pixel, max 400 KB. Idealmente con sfondo trasparente.
+          _nl: Vierkante PNG- of JPEG-afbeelding, minstens 512×512 pixels, max 400 KB. Idealiter met transparante achtergrond.
         member_come_from_form_mode:
           _en: Defines the display mode of this field in the registration form.
           _fr: Définis le mode d'affichage de ce champ dans le formulaire d'inscription.

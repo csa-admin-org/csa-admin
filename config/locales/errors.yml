@@ -148,6 +148,30 @@ _:
         _de: muss kleiner oder gleich %{count} sein
         _it: deve essere inferiore o uguale a %{count}
         _nl: moet kleiner dan of gelijk zijn aan %{count}
+      logo_content_type_invalid:
+        _en: must be a PNG or JPEG image
+        _fr: doit être une image PNG ou JPEG
+        _de: muss ein PNG- oder JPEG-Bild sein
+        _it: deve essere un'immagine PNG o JPEG
+        _nl: moet een PNG- of JPEG-afbeelding zijn
+      logo_not_square:
+        _en: must be square
+        _fr: doit être carrée
+        _de: muss quadratisch sein
+        _it: deve essere quadrata
+        _nl: moet vierkant zijn
+      logo_too_heavy:
+        _en: must be less than 400 KB
+        _fr: doit faire moins de 400 Ko
+        _de: darf nicht größer als 400 KB sein
+        _it: deve essere inferiore a 400 KB
+        _nl: mag niet groter zijn dan 400 KB
+      logo_too_small:
+        _en: must be at least 512×512 pixels
+        _fr: doit faire au moins 512×512 pixels
+        _de: muss mindestens 512×512 Pixel groß sein
+        _it: deve essere di almeno 512×512 pixel
+        _nl: moet minstens 512×512 pixels zijn
       missing_iban:
         _en: Your IBAN number is not configured
         _fr: Votre numéro IBAN n'est pas configuré

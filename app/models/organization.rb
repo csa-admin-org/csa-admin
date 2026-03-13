@@ -36,7 +36,7 @@ class Organization < ApplicationRecord
   include TranslatedAttributes
   include TranslatedRichTexts
   include NormalizedString
-  include Billing, Trial
+  include Billing, Logo, Trial
   include BasketNaming
   include \
     AbsenceFeature,
