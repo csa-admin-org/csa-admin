@@ -155,6 +155,10 @@ production: &production
     state: onboarding
     aliases:
       - larocambole
+  zalpenblick:
+    admin_host: admin.zalpenblick.ch
+    members_host: mitglieder.zalpenblick.ch
+    state: onboarding
 
   demo-fr:
     admin_host: admin.acp-admin.ch
