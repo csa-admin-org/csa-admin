@@ -141,13 +141,13 @@ _:
       _nl: "%{price}/levering"
     shares_number:
       one:
-        _en: "%{count} share certificate"
+        _en: "%{count} cooperative share certificate"
         _fr: "%{count} part sociale"
         _de: "%{count} Anteilschein"
         _it: "%{count} quota sociale cooperativa"
         _nl: "%{count} aandeelcertificaat"
       other:
-        _en: "%{count} share certificates"
+        _en: "%{count} cooperative share certificates"
         _fr: "%{count} parts sociales"
         _de: "%{count} Anteilscheine"
         _it: "%{count} quote sociali cooperativa"

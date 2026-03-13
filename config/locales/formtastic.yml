@@ -802,7 +802,7 @@ _:
           _it: Verrà visualizzato sul riepilogo di consegna (XLSX) e sui foglia (PDF) quando viene selezionata la modalità "consegna" nel punto di ritiro.
           _nl: Wordt weergegeven op de leveringsbon (XLSX) en bladen (PDF) wanneer de "levering" modus is geselecteerd bij het depot.
         desired_shares_number:
-          _en: Allows the member to have more shares than required. They will be billed automatically.
+          _en: Allows the member to have more cooperative shares than required. They will be billed automatically.
           _fr: Permet au membre d'avoir plus de parts sociales que celles requises. Elles seront facturées automatiquement.
           _de: Erlaubt dem Mitglied, mehr Anteilscheine zu haben als die erforderliche Anzahl. Diese werden automatisch in Rechnung gestellt.
           _it: Consente al socio di avere più quote sociali cooperative di quelle richieste. Saranno fatturate automaticamente.
@@ -814,7 +814,7 @@ _:
           _it: Separate da una virgola.
           _nl: Gescheiden door komma's.
         existing_shares_number:
-          _en: Useful if some shares were billed outside the system.
+          _en: Useful if some cooperative shares were billed outside the system.
           _fr: Utile si certaines parts sociales ont été facturées en dehors du système.
           _de: Nützlich, wenn einige Anteilschein außerhalb des Systems fakturiert wurden.
           _it: Utile se alcune quote sociali cooperative sono state fatturate al di fuori del sistema.
@@ -832,37 +832,37 @@ _:
           _it: Che potrebbe essere potenzialmente utile per le nostre attività.
           _nl: Die mogelijk nuttig kunnen zijn voor onze activiteiten.
         required_shares_number/bag_html:
-          _en: Allows changing the default number, which depends on the bag size of the current membership.</br>A negative number indicates that the shares will not be refunded to make the member inactive.
+          _en: Allows changing the default number, which depends on the bag size of the current membership.</br>A negative number indicates that the cooperative shares will not be refunded to make the member inactive.
           _fr: Permet de changer le nombre par défaut qui dépends de la taille du sac de l'abonnement en cours.</br>Un nombre négatif permet d'indiquer que les parts ne seront pas remboursées afin de rendre le membre inactif.
           _de: Ermöglicht die Änderung der Standardanzahl, die von der Taschengrösse des aktuellen Abonnements abhängt.
           _it: Consente di modificare il numero predefinito che dipende dalla dimensione della borsa dell'abbonamento corrente.
           _nl: Maakt het mogelijk het standaardaantal te wijzigen, dat afhangt van de tasgrootte van het huidige lidmaatschap.</br>Een negatief getal geeft aan dat de aandelen niet worden terugbetaald om het lid inactief te maken.
         required_shares_number/basket_html:
-          _en: Allows changing the default number, which depends on the basket size of the current membership.</br>A negative number indicates that the shares will not be refunded to make the member inactive.
+          _en: Allows changing the default number, which depends on the basket size of the current membership.</br>A negative number indicates that the cooperative shares will not be refunded to make the member inactive.
           _fr: Permet de changer le nombre par défaut qui dépends de la taille du panier de l'abonnement en cours.</br>Un nombre négatif permet d'indiquer que les parts ne seront pas remboursées afin de rendre le membre inactif.
           _de: Ermöglicht die Änderung der Standardanzahl, die von der Korbgrösse des aktuellen Abonnements abhängt.
           _it: Consente di modificare il numero predefinito che dipende dalla dimensione della cesta dell'abbonamento corrente.
           _nl: Maakt het mogelijk het standaardaantal te wijzigen, dat afhangt van de mandgrootte van het huidige lidmaatschap.</br>Een negatief getal geeft aan dat de aandelen niet worden terugbetaald om het lid inactief te maken.
         required_shares_number/cone_html:
-          _en: Allows changing the default number, which depends on the cone size of the current membership.</br>A negative number indicates that the shares will not be refunded to make the member inactive.
+          _en: Allows changing the default number, which depends on the cone size of the current membership.</br>A negative number indicates that the cooperative shares will not be refunded to make the member inactive.
           _fr: Permet de changer le nombre par défaut qui dépends de la taille du cornet de l'abonnement en cours.</br>Un nombre négatif permet d'indiquer que les parts ne seront pas remboursées afin de rendre le membre inactif.
           _de: Ermöglicht die Änderung der Standardanzahl, die von der Tütengrösse des aktuellen Abonnements abhängt.
           _it: Consente di modificare il numero predefinito che dipende dalla dimensione del cono dell'abbonamento corrente.
           _nl: Maakt het mogelijk het standaardaantal te wijzigen, dat afhangt van de zakgrootte van het huidige lidmaatschap.</br>Een negatief getal geeft aan dat de aandelen niet worden terugbetaald om het lid inactief te maken.
         required_shares_number/package_html:
-          _en: Allows changing the default number, which depends on the package size of the current membership.</br>A negative number indicates that the shares will not be refunded to make the member inactive.
+          _en: Allows changing the default number, which depends on the package size of the current membership.</br>A negative number indicates that the cooperative shares will not be refunded to make the member inactive.
           _fr: Permet de changer le nombre par défaut qui dépends de la taille du colis de l'abonnement en cours.</br>Un nombre négatif permet d'indiquer que les parts ne seront pas remboursées afin de rendre le membre inactif.
           _de: Ermöglicht die Änderung der Standardanzahl, die von der Paketgrösse des aktuellen Abonnements abhängt.
           _it: Consente di modificare il numero predefinito che dipende dalla dimensione del pacco dell'abbonamento corrente.
           _nl: Maakt het mogelijk het standaardaantal te wijzigen, dat afhangt van de pakketgrootte van het huidige lidmaatschap.</br>Een negatief getal geeft aan dat de aandelen niet worden terugbetaald om het lid inactief te maken.
         required_shares_number/share_html:
-          _en: Allows changing the default number, which depends on the share size of the current membership.</br>A negative number indicates that the shares will not be refunded to make the member inactive.
+          _en: Allows changing the default number, which depends on the share size of the current membership.</br>A negative number indicates that the cooperative shares will not be refunded to make the member inactive.
           _fr: Permet de changer le nombre par défaut qui dépends de la taille de la part de l'abonnement en cours.</br>Un nombre négatif permet d'indiquer que les parts ne seront pas remboursées afin de rendre le membre inactif.
           _de: Ermöglicht die Änderung der Standardanzahl, die von der Anteilsgrösse des aktuellen Abonnements abhängt.
           _it: Consente di modificare il numero predefinito che dipende dalla dimensione della parte dell'abbonamento corrente.
           _nl: Maakt het mogelijk het standaardaantal te wijzigen, dat afhangt van de deelgrootte van het huidige lidmaatschap.</br>Een negatief getal geeft aan dat de aandelen niet worden terugbetaald om het lid inactief te maken.
         required_shares_number_html:
-          _en: Allows changing the default number, which depends on the basket size of the current membership.</br>A negative number indicates that the shares will not be refunded to make the member inactive.
+          _en: Allows changing the default number, which depends on the basket size of the current membership.</br>A negative number indicates that the cooperative shares will not be refunded to make the member inactive.
           _fr: Permet de changer le nombre par défaut qui dépends de la taille du panier de l'abonnement en cours.</br>Un nombre négatif permet d'indiquer que les parts ne seront pas remboursées afin de rendre le membre inactif.
           _de: Ermöglicht die Änderung der Standardanzahl, die von der Taschengrösse des aktuellen Abonnements abhängt.
           _it: Consente di modificare il numero predefinito che dipende dalla dimensione della cesta dell'abbonamento corrente.
@@ -2344,37 +2344,37 @@ _:
           _it: Se disattivato, le nuove fatture considerate già pagate a causa di un saldo positivo non vengono inviate dalla fatturazione automatica.
           _nl: Indien uitgeschakeld, worden nieuwe facturen die als reeds betaald worden beschouwd vanwege een positief saldo niet verzonden door automatische facturering.
         share_price:
-          _en: Leave blank if no shares.
+          _en: Leave blank if no cooperative shares.
           _fr: Laisser vide si pas de part sociale.
           _de: Leer lassen, wenn keine Anteilscheine.
           _it: Lasciare vuoto se non ci sono quote sociali cooperative.
           _nl: Laat leeg als er geen aandelen zijn.
         shares_number/bag:
-          _en: Minimum number of shares required at registration, this number can also be adjusted by bag size. Leave blank if no shares.
+          _en: Minimum number of cooperative shares required at registration, this number can also be adjusted by bag size. Leave blank if no cooperative shares.
           _fr: Nombre de parts sociales minimum requises lors de l'inscription, ce nombre peut également être ajusté par taille sac. Laisser vide si pas de part sociale.
           _de: Mindestanzahl an Anteilscheinen, die bei der Anmeldung erforderlich ist, diese Anzahl kann auch nach Taschengrösse angepasst werden. Leer lassen, wenn keine Anteilscheine.
           _it: Numero minimo di quote sociali richieste all'iscrizione, questo numero può anche essere regolato per dimensione della borsa. Lasciare vuoto se non ci sono quote sociali.
           _nl: Minimum aantal aandelen vereist bij registratie, dit aantal kan ook worden aangepast per tasgrootte. Laat leeg als er geen aandelen zijn.
         shares_number/basket:
-          _en: Minimum number of shares required at registration, this number can also be adjusted by basket size. Leave blank if no shares.
+          _en: Minimum number of cooperative shares required at registration, this number can also be adjusted by basket size. Leave blank if no cooperative shares.
           _fr: Nombre de parts sociales minimum requises lors de l'inscription, ce nombre peut également être ajusté par taille de panier. Laisser vide si pas de part sociale.
           _de: Mindestanzahl an Anteilscheinen, die bei der Anmeldung erforderlich ist, diese Anzahl kann auch nach Korbgrösse angepasst werden. Leer lassen, wenn keine Anteilscheine.
           _it: Numero minimo di quote sociali richieste all'iscrizione, questo numero può anche essere regolato per dimensione del cesto. Lasciare vuoto se non ci sono quote sociali.
           _nl: Minimum aantal aandelen vereist bij registratie, dit aantal kan ook worden aangepast per mandgrootte. Laat leeg als er geen aandelen zijn.
         shares_number/cone:
-          _en: Minimum number of shares required at registration, this number can also be adjusted by cone size. Leave blank if no shares.
+          _en: Minimum number of cooperative shares required at registration, this number can also be adjusted by cone size. Leave blank if no cooperative shares.
           _fr: Nombre de parts sociales minimum requises lors de l'inscription, ce nombre peut également être ajusté par taille cornet. Laisser vide si pas de part sociale.
           _de: Mindestanzahl an Anteilscheinen, die bei der Anmeldung erforderlich ist, diese Anzahl kann auch nach Tütengrösse angepasst werden. Leer lassen, wenn keine Anteilscheine.
           _it: Numero minimo di quote sociali richieste all'iscrizione, questo numero può anche essere regolato per dimensione del cono. Lasciare vuoto se non ci sono quote sociali.
           _nl: Minimum aantal aandelen vereist bij registratie, dit aantal kan ook worden aangepast per zakgrootte. Laat leeg als er geen aandelen zijn.
         shares_number/package:
-          _en: Minimum number of shares required at registration, this number can also be adjusted by package size. Leave blank if no shares.
+          _en: Minimum number of cooperative shares required at registration, this number can also be adjusted by package size. Leave blank if no cooperative shares.
           _fr: Nombre de parts sociales minimum requises lors de l'inscription, ce nombre peut également être ajusté par taille colis. Laisser vide si pas de part sociale.
           _de: Mindestanzahl an Anteilscheinen, die bei der Anmeldung erforderlich ist, diese Anzahl kann auch nach Paketgrösse angepasst werden. Leer lassen, wenn keine Anteilscheine.
           _it: Numero minimo di quote sociali richieste all'iscrizione, questo numero può anche essere regolato per dimensione del pacco. Lasciare vuoto se non ci sono quote sociali.
           _nl: Minimum aantal aandelen vereist bij registratie, dit aantal kan ook worden aangepast per pakketgrootte. Laat leeg als er geen aandelen zijn.
         shares_number/share:
-          _en: Minimum number of shares required at registration, this number can also be adjusted by share size. Leave blank if no shares.
+          _en: Minimum number of cooperative shares required at registration, this number can also be adjusted by share size. Leave blank if no cooperative shares.
           _fr: Nombre de parts sociales minimum requises lors de l'inscription, ce nombre peut également être ajusté par taille part. Laisser vide si pas de part sociale.
           _de: Mindestanzahl an Anteilscheinen, die bei der Anmeldung erforderlich ist, diese Anzahl kann auch nach Anteilsgrösse angepasst werden. Leer lassen, wenn keine Anteilscheine.
           _it: Numero minimo di quote sociali richieste all'iscrizione, questo numero può anche essere regolato per dimensione della parte. Lasciare vuoto se non ci sono quote sociali.

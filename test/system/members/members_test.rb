@@ -387,7 +387,7 @@ class Members::MembersTest < ApplicationSystemTestCase
 
     visit "/new"
 
-    assert_text "Each member joins the cooperative and must acquire one or more shares (CHF 250/share)."
+    assert_text "Each member joins the cooperative and must acquire one or more cooperative shares (CHF 250/cooperative share)."
 
     fill_in "Name and surname", with: "Ryan Doe"
     fill_in "Address", with: "Nowhere street 2"
@@ -399,7 +399,7 @@ class Members::MembersTest < ApplicationSystemTestCase
     assert_no_text "Supporting memberAnnual fee only"
     assert_text "Supporting memberCooperative share only"
     choose "Supporting member"
-    fill_in "Share certificates", with: "3"
+    fill_in "Cooperative share certificates", with: "3"
 
     check "I have read and agree to the rules."
     click_button "Submit"

@@ -353,26 +353,26 @@ _:
         _nl: Deze correctiefactuur vervangt de geannuleerde facturen nr. %{ids}.
       shares_number:
         one:
-          _en: Acquisition of one share certificate
+          _en: Acquisition of one cooperative share certificate
           _fr: Acquisition d'une part sociale
           _de: Erwerb eines Anteilscheins
           _it: Acquisto di una quota sociale cooperativa
           _nl: Verwerving van één aandeelcertificaat
         other:
-          _en: Acquisition of %{count} share certificates
+          _en: Acquisition of %{count} cooperative share certificates
           _fr: Acquisition de %{count} parts sociales
           _de: Erwerb von %{count} Anteilscheinen
           _it: Acquisto di  %{count} quote sociali cooperative
           _nl: Verwerving van %{count} aandeelcertificaten
       shares_number_negative:
         one:
-          _en: Refund of one share certificate
+          _en: Refund of one cooperative share certificate
           _fr: Remboursement d'une part sociale
           _de: Rückzahlung eines Anteilscheins
           _it: Rimborso di una quota sociale cooperativa
           _nl: Terugbetaling van één aandeelcertificaat
         other:
-          _en: Refund of %{count} share certificates
+          _en: Refund of %{count} cooperative share certificates
           _fr: Remboursement de %{count} parts sociales
           _de: Rückzahlung von %{count} Anteilscheinen
           _it: Rimborso di %{count} quote sociali cooperative

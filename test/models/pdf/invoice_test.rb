@@ -83,7 +83,7 @@ class PDF::InvoiceTest < ActiveSupport::TestCase
 
     assert_contains pdf_strings, [
       "Description", "Amount (CHF)",
-      "Acquisition of 2 share certificates", "200.00",
+      "Acquisition of 2 cooperative share certificates", "200.00",
       "Total", "200.00"
     ]
     assert_not_includes pdf_strings, "Remaining credit"
@@ -97,7 +97,7 @@ class PDF::InvoiceTest < ActiveSupport::TestCase
 
     assert_contains pdf_strings, [
       "Description", "Amount (CHF)",
-      "Refund of 2 share certificates", "-200.00",
+      "Refund of 2 cooperative share certificates", "-200.00",
       "Total", "-200.00",
       "Remaining credit", "275.00"
     ]

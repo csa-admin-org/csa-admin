@@ -1403,7 +1403,7 @@ _:
           _it: Punto di ritiro
           _nl: Depot
         desired_shares_number:
-          _en: Share certificates
+          _en: Cooperative share certificates
           _fr: Parts sociales
           _de: Anteilscheine
           _it: Quote sociali della cooperativa
@@ -1415,7 +1415,7 @@ _:
           _it: Utilizzare un altro nome e indirizzo per la fatturazione
           _nl: Gebruik een andere naam en adres voor facturering
         existing_shares_number:
-          _en: Number of existing share certificates
+          _en: Number of existing cooperative share certificates
           _fr: Nombre de parts sociales existantes
           _de: Anzahl der bestehenden Anteilscheine
           _it: Numero di quote sociali cooperative esistenti
@@ -1475,7 +1475,7 @@ _:
           _it: Professione / Competenze
           _nl: Beroep / Vaardigheden
         required_shares_number:
-          _en: Number of required share certificates
+          _en: Number of required cooperative share certificates
           _fr: Nombre de parts sociales requises
           _de: Anzahl der benötigten Anteilscheine
           _it: Numero di quote sociali cooperative richieste
@@ -1523,7 +1523,7 @@ _:
           _it: Mandato firmato il
           _nl: Mandaat ondertekend op
         shares_info:
-          _en: Share certificate No.
+          _en: Cooperative share certificate No.
           _fr: N° part sociale
           _de: Anteilscheinnummer
           _it: N° quote sociali cooperative
@@ -4525,6 +4525,19 @@ _:
           _de: Sitzungen
           _it: Sessioni
           _nl: Sessies
+      share:
+        one:
+          _en: Cooperative share
+          _fr: Part sociale
+          _de: Anteilschein
+          _it: Quota sociale cooperativa
+          _nl: Coöperatief aandeel
+        other:
+          _en: Cooperative shares
+          _fr: Parts sociales
+          _de: Anteilscheine
+          _it: Quote sociali cooperative
+          _nl: Coöperatieve aandelen
       shop:
         one:
           _en: Shop

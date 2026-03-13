@@ -1440,13 +1440,13 @@ _:
             _it: Cerca per nome, indirizzo, città o CAP…
             _nl: Zoek op naam, adres, plaats of postcode…
           desired_shares_number_hint:
-            _en: Get more shares to support the cooperative.
+            _en: Get more cooperative shares to support the cooperative.
             _fr: Acquérir plus de parts sociales pour soutenir la coopérative.
             _de: Mehr Anteilscheine erwerben, um die Genossenschaft zu unterstützen.
             _it: Acquisire altre azioni per sostenere la cooperativa.
             _nl: Koop meer aandelen om de coöperatie te ondersteunen.
           shares_text_html:
-            _en: Each member joins the cooperative and must acquire one or more shares (<b class="whitespace-nowrap">%{price}</b>/share).
+            _en: Each member joins the cooperative and must acquire one or more cooperative shares (<b class="whitespace-nowrap">%{price}</b>/cooperative share).
             _fr: Chaque membre fait également partie de la coopérative et se doit d'acquérir des parts sociales (<b class="whitespace-nowrap">%{price}</b>/part).
             _de: Jedes Mitglied tritt der Genossenschaft bei und muss ein oder merhere Anteilscheine (<b class="whitespace-nowrap">%{price}</b>/Anteilschein) erwerben.
             _it: Ogni socio è parte della cooperativa e deve acquisire quote sociali della cooperativa (<b class="whitespace-nowrap">%{price}</b>/part).

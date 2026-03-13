@@ -1635,7 +1635,7 @@ _:
           _it: Impostazioni
           _nl: Instellingen
         shares:
-          _en: Shares
+          _en: Cooperative shares
           _fr: Parts sociales
           _de: Anteilscheine
           _it: Quote sociali della cooperativa
@@ -1800,7 +1800,7 @@ _:
           _it: Collaborazione rifiutata da %{date}
           _nl: Geweigerde activiteitsdeelname van %{date}
         shares:
-          _en: Shares
+          _en: Cooperative shares
           _fr: Parts sociales
           _de: Anteilscheine
           _it: Quote sociali della cooperativa
