@@ -1,5 +1,5 @@
 <h1>
-  <%= t(".title", date: l(@basket.delivery.date).gsub(" ", "&nbsp;")).html_safe %>
+  <%= t(".title_html", date: content_tag(:span, l(@basket.delivery.date), class: "whitespace-nowrap")) %>
 </h1>
 
 <section>

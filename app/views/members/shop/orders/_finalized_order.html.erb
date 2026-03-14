@@ -1,5 +1,5 @@
 <div class="mt-2 space-y-4 md:space-y-2">
-  <% @order.items.sort_by { |i| [ i.product.name, i.product_variant.name ] }.each do |item| %>
+  <% order.items.sort_by { |i| [ i.product.name, i.product_variant.name ] }.each do |item| %>
     <div
       class="
         -mx-1 my-1 flex flex-col items-center rounded-sm px-1 py-1
@@ -34,24 +34,24 @@
   <% end %>
 </div>
 
-<% if @order.amount_percentage? %>
+<% if order.amount_percentage? %>
   <div class="mt-6 flex flex-row items-center justify-end md:mt-4">
     <span class="border-t border-gray-500 pl-1 text-right">
       <span><%= t(".total") %></span>
 
       <span class="inline-block w-28">
-        <%= cur(@order.amount_before_percentage) %>
+        <%= cur(order.amount_before_percentage) %>
       </span>
     </span>
   </div>
   <div class="flex flex-row items-center justify-end">
     <span class="text-right">
       <span>
-        <%= _number_to_percentage(@order.amount_percentage, precision: 1) %>
+        <%= _number_to_percentage(order.amount_percentage, precision: 1) %>
       </span>
 
       <span class="inline-block w-28">
-        <%= cur(@order.amount - @order.amount_before_percentage) %>
+        <%= cur(order.amount - order.amount_before_percentage) %>
       </span>
     </span>
   </div>
@@ -66,25 +66,25 @@
     title="<%= t(".order_total_weight") %>"
   >
     <%= icon "scale", class: "size-4" %>
-    <span class="ml-1"><%= kg(@order.weight_in_kg) %></span>
+    <span class="ml-1"><%= kg(order.weight_in_kg) %></span>
   </div>
 
   <div class="ml-6 text-right">
     <span class="border-t border-gray-500 pl-1 font-medium">
       <span><%= t(".total") %></span>
-      <span class="inline-block w-28"><%= cur(@order.amount) %></span>
+      <span class="inline-block w-28"><%= cur(order.amount) %></span>
     </span>
   </div>
 </div>
 
-<% if @order.pending? && @order.can_member_update? %>
+<% if order.pending? && order.can_member_update? %>
   <div class="mt-8 flex w-full flex-col md:flex-row md:justify-end">
     <div class="actions order-1 flex w-full items-center md:order-2 md:ml-2 md:w-auto">
-      <%= button_to t(".unconfirm_order"), unconfirm_members_shop_order_path(@order), form: { data: { turbo: false }, class: "w-full" } %>
+      <%= button_to t(".unconfirm_order"), unconfirm_members_shop_order_path(order), form: { data: { turbo: false }, class: "w-full" } %>
     </div>
   </div>
   <div class="mt-12 flex flex-row justify-center md:justify-end">
-    <%= button_to members_shop_order_path(@order), method: :delete, form: { data: { turbo: false, controller: "confirmation", confirmation_message_value: t(".cancel_order_confirm"), action: "submit->confirmation#confirm" } }, class: "focus:outline-hidden focus:ring-green-500 focus:border-green-500 focus:z-10 text-base cursor-pointer" do %>
+    <%= button_to members_shop_order_path(order), method: :delete, form: { data: { turbo: false, controller: "confirmation", confirmation_message_value: t(".cancel_order_confirm"), action: "submit->confirmation#confirm" } }, class: "focus:outline-hidden focus:ring-green-500 focus:border-green-500 focus:z-10 text-base cursor-pointer" do %>
       <div class="flex flex-row items-center">
         <%= icon "trash", class: "size-4" %>
         <span class="ml-1 text-sm font-normal"><%= t(".cancel_order") %></span>
@@ -98,14 +98,14 @@
 <% end %>
 
 <% if current_member.use_shop_depot? %>
-  <%= render "members/shop/orders/shop_depot" %>
+  <%= render "members/shop/orders/shop_depot", order: order %>
 <% end %>
 
-<% if next_shop_delivery && @order.delivery == current_shop_delivery && @order.shop_open? %>
+<% if next_shop_delivery && order.delivery == current_shop_delivery && order.shop_open? %>
   <p class="mt-16 text-gray-400 dark:text-gray-500">
     <%= t("members.shop.products.index.next_delivery_html",
       date: l(next_shop_delivery.date, format: :long),
-      start_date: l(@order.delivery.shop_closing_at, format: :long),
+      start_date: l(order.delivery.shop_closing_at, format: :long),
       end_date: l(next_shop_delivery.shop_closing_at, format: :long)) %>
   </p>
 <% end %>

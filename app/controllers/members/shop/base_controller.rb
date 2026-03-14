@@ -16,6 +16,10 @@ class Members::Shop::BaseController < Members::BaseController
     end
   end
 
+  def current_order
+    @order
+  end
+
   def shop_path
     case @order&.delivery
     when next_shop_delivery; members_shop_next_path

@@ -1,9 +1,10 @@
-<%= render partial: "members/shop/shared/header" %>
+<%= render partial: "members/shop/shared/header", locals: { order: @order } %>
+
+<p class="mt-2">
+  <%= t(".#{@order.shop_open? ? :closing_at_html : :closed_at_html}", date: l(@order.delivery.shop_closing_at, format: :long)) %>
+</p>
 
 <% if @order.shop_open? %>
-  <p class="mt-2">
-    <%= t(".closing_at_html", date: l(@order.delivery.shop_closing_at, format: :long)) %>
-  </p>
   <div class="mt-6 h-12 w-full">
     <div
       data-controller="sticky"
@@ -22,7 +23,7 @@
           "
         >
           <%= turbo_frame_tag "cart" do %>
-            <%= render partial: "members/shop/orders/cart" %>
+            <%= render partial: "members/shop/orders/cart", locals: { order: @order } %>
           <% end %>
         </div>
       </div>
@@ -74,13 +75,10 @@
     <% end %>
 
     <div class="mt-8 space-y-8">
-      <%= render partial: "members/shop/products/product", collection: available_products %>
+      <%= render partial: "members/shop/products/product", collection: available_products, locals: { order: @order } %>
     </div>
   </section>
 <% else %>
-  <p class="mt-2">
-    <%= t(".closed_at_html", date: l(@order.delivery.shop_closing_at, format: :long)) %>
-  </p>
   <% if next_shop_delivery %>
     <div class="mt-12 flex flex-row justify-center">
       <%= link_to members_shop_next_path, class: "cursor-pointer underline" do %>

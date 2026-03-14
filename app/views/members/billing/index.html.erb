@@ -1,6 +1,9 @@
 <h1><%= t(".billing") %></h1>
 
-<section><%= render "summary" %><%= render "membership" %></section>
+<section>
+  <%= render "summary", membership: @membership %>
+  <%= render "membership" %>
+</section>
 
 <% if @open_invoices.any? %>
   <section>

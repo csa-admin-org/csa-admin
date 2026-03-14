@@ -668,6 +668,12 @@ _:
           _de: Lieferung am %{date}
           _it: Consegna il %{date}
           _nl: Levering van %{date}
+        title_html:
+          _en: Delivery of %{date}
+          _fr: Livraison du %{date}
+          _de: Lieferung am %{date}
+          _it: Consegna il %{date}
+          _nl: Levering van %{date}
     baskets:
       basket:
         edit:
@@ -750,6 +756,12 @@ _:
           _it: Modifica
           _nl: Bewerken
         title:
+          _en: Delivery of %{date}
+          _fr: Livraison du %{date}
+          _de: Lieferung am %{date}
+          _it: Consegna il %{date}
+          _nl: Levering van %{date}
+        title_html:
           _en: Delivery of %{date}
           _fr: Livraison du %{date}
           _de: Lieferung am %{date}

@@ -11,13 +11,20 @@
 # GitHub Repo: https://github.com/marcoroth/herb
 #
 
-version: 0.8.10
+version: 0.9.0
 
 files:
   # Patterns to exclude (can exclude defaults too)
   exclude:
     - 'tmp/**/*'
     - 'vendor/**/*'
+    - 'lib/templates/erb/scaffold/**/*'
+
+# engine:
+#   validators:
+#     security: true       # default: true
+#     nesting: true        # default: true
+#     accessibility: true  # default: true
 
 linter:
   enabled: true
@@ -54,6 +61,7 @@ formatter:
   enabled: true
   indentWidth: 2
   maxLineLength: 80
+
   # # Additional patterns beyond the defaults for formatting
   # include:
   #   - '**/*.xml.erb'

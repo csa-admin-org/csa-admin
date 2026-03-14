@@ -1,4 +1,4 @@
-<% if @order.items.none? %>
+<% if order.items.none? %>
   <div
     class="
       flex w-full flex-row items-center justify-center p-2 text-gray-400
@@ -13,16 +13,16 @@
   </div>
 <% else %>
   <div class="w-full">
-    <%= link_to members_shop_order_path(@order), target: "_top", title: t(".show_basket"), class: "flex flex-row items-center justify-between p-2" do %>
+    <%= link_to members_shop_order_path(order), target: "_top", title: t(".show_basket"), class: "flex flex-row items-center justify-between p-2" do %>
       <%= icon "shopping-basket", class: "flex-none size-8 text-gray-400" %>
 
       <div class="ml-4 grow text-gray-400">
-        <% count = @order.items.sum(:quantity) %>
+        <% count = order.items.sum(:quantity) %>
         <%= "#{count} #{Shop::Product.model_name.human(count: count)}" %>
       </div>
 
       <div class="ml-2 flex-none text-gray-400">
-        <%= cur @order.items.sum(&:amount) %>
+        <%= cur order.items.sum(&:amount) %>
       </div>
 
       <div class="ml-4 flex-none">

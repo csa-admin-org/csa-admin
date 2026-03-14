@@ -177,6 +177,26 @@ module MembershipsHelper
     end
   end
 
+  def membership_delivery_summary(membership)
+    parts = [
+      link_to(
+        "#{membership.baskets_count} #{Delivery.model_name.human(count: membership.baskets_count)}",
+        members_deliveries_path
+      )
+    ]
+    if membership.trial? && !membership.canceled?
+      parts << t("members.memberships.membership.remaining_trial_baskets_count",
+        count: membership.remaining_trial_baskets_count)
+    end
+    if feature?("absence") && membership.baskets.absent.any?
+      parts << link_to(
+        t("members.memberships.membership.absent_baskets_count", count: membership.baskets.absent.count),
+        members_absences_path
+      )
+    end
+    safe_join(parts, ", ")
+  end
+
   private
 
   def precise_cur(number)

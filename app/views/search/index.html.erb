@@ -1,1 +1,3 @@
-<turbo-frame id="search-results"><%= render "search/results" %></turbo-frame>
+<turbo-frame id="search-results">
+  <%= render "search/results", query: @query, handbook_results: @handbook_results, results: @results %>
+</turbo-frame>

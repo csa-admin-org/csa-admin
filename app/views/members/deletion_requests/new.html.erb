@@ -12,10 +12,6 @@
         <li><%= t(".what_happens.invoices_retained") %></li>
       </ul>
     </div>
-    <div class="actions">
-      <%= link_to t(".cancel"), members_account_path, class: "cancel-link" %>
-      <%= button_to t(".request_code"), members_account_deletion_request_path, method: :post, class: "destructive" %>
-    </div>
   <% else %>
     <div class="mt-2 mb-8 space-y-4">
       <p class="font-medium"><%= t(".not_eligible") %></p>
@@ -28,8 +24,14 @@
         </ul>
       <% end %>
     </div>
-    <div class="actions">
-      <%= link_to t(".back"), members_account_path, class: "cancel-link" %>
-    </div>
   <% end %>
+
+  <div class="actions">
+    <% if current_member.can_discard? %>
+      <%= link_to t(".cancel"), members_account_path, class: "cancel-link" %>
+      <%= button_to t(".request_code"), members_account_deletion_request_path, method: :post, class: "destructive" %>
+    <% else %>
+      <%= link_to t(".back"), members_account_path, class: "cancel-link" %>
+    <% end %>
+  </div>
 </section>

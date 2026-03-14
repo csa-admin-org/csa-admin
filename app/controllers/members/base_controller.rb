@@ -9,6 +9,7 @@ class Members::BaseController < ApplicationController
   around_action :set_time_zone
 
   helper_method :current_member
+  helper_method :current_order
 
   private
 
@@ -26,6 +27,10 @@ class Members::BaseController < ApplicationController
         session_id: current_session.id)
       update_last_usage(current_session)
     end
+  end
+
+  def current_order
+    nil
   end
 
   def current_member

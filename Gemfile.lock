@@ -120,7 +120,7 @@ GEM
       async-http (~> 0.42)
       protocol-url (~> 0.2)
     aws-eventstream (1.4.0)
-    aws-partitions (1.1225.0)
+    aws-partitions (1.1226.0)
     aws-sdk-core (3.243.0)
       aws-eventstream (~> 1, >= 1.3.0)
       aws-partitions (~> 1, >= 1.992.0)
@@ -261,10 +261,10 @@ GEM
       activesupport (>= 7.0)
     hashdiff (1.2.1)
     hashery (2.1.2)
-    herb (0.8.10-aarch64-linux-gnu)
-    herb (0.8.10-arm64-darwin)
-    herb (0.8.10-x86_64-linux-gnu)
-    herb (0.8.10-x86_64-linux-musl)
+    herb (0.9.0-aarch64-linux-gnu)
+    herb (0.9.0-arm64-darwin)
+    herb (0.9.0-x86_64-linux-gnu)
+    herb (0.9.0-x86_64-linux-musl)
     hexapdf (1.6.0)
       cmdparse (~> 3.0, >= 3.0.3)
       geom2d (~> 0.4, >= 0.4.1)
@@ -643,10 +643,10 @@ GEM
     tailwindcss-rails (4.4.0)
       railties (>= 7.0.0)
       tailwindcss-ruby (~> 4.0)
-    tailwindcss-ruby (4.2.0-aarch64-linux-gnu)
-    tailwindcss-ruby (4.2.0-arm64-darwin)
-    tailwindcss-ruby (4.2.0-x86_64-linux-gnu)
-    tailwindcss-ruby (4.2.0-x86_64-linux-musl)
+    tailwindcss-ruby (4.2.1-aarch64-linux-gnu)
+    tailwindcss-ruby (4.2.1-arm64-darwin)
+    tailwindcss-ruby (4.2.1-x86_64-linux-gnu)
+    tailwindcss-ruby (4.2.1-x86_64-linux-musl)
     terminal-table (4.0.0)
       unicode-display_width (>= 1.1.1, < 4)
     thor (1.5.0)
@@ -721,6 +721,7 @@ DEPENDENCIES
   epics
   faker
   girocode
+  herb
   hexapdf
   i18n-backend-side_by_side
   icalendar
@@ -803,7 +804,7 @@ CHECKSUMS
   async-pool (0.11.2) sha256=0a43a17b02b04d9c451b7d12fafa9a50e55dc6dd00d4369aca00433f16a7e3ed
   async-rest (0.20.0) sha256=72b0d467f65269a53a64fc12b828f3d81b4afa201b4eea0b98cddb990e7e95eb
   aws-eventstream (1.4.0) sha256=116bf85c436200d1060811e6f5d2d40c88f65448f2125bc77ffce5121e6e183b
-  aws-partitions (1.1225.0) sha256=eb348951c2e5e375897843afc0ecff16830d346d53149441d9677508195172b2
+  aws-partitions (1.1226.0) sha256=66fde74a9b53de8df53d511fdf2d898cb647d804ba1db34a6fe9b256fed449a8
   aws-sdk-core (3.243.0) sha256=a014eef785124b71d28325783fa422a1512f8421ec9b6e3931c8b0ca3fbb0f1c
   aws-sdk-kms (1.122.0) sha256=47ce3f51b26bd7d76f1270cfdfca17b40073ecd3219c8c9400788712abfb4eb8
   aws-sdk-s3 (1.216.0) sha256=a3bf6191e6f7a3dfb04b7cc73409f059394be559e4aff92d2a764341e4d90af4
@@ -869,10 +870,10 @@ CHECKSUMS
   has_scope (0.9.0) sha256=783a93006cf898525bb4899696f1d088c0f6ff897d6df2bf03fdbbe0d0b5124c
   hashdiff (1.2.1) sha256=9c079dbc513dfc8833ab59c0c2d8f230fa28499cc5efb4b8dd276cf931457cd1
   hashery (2.1.2) sha256=d239cc2310401903f6b79d458c2bbef5bf74c46f3f974ae9c1061fb74a404862
-  herb (0.8.10-aarch64-linux-gnu) sha256=da47ed456350077e73c6d94336dda8a3ac141922c867cf552bf17cb0840388de
-  herb (0.8.10-arm64-darwin) sha256=bba77f7f64ffd144f36af5d4573ca5ee863f7258acd71c8536384d63d60e3d72
-  herb (0.8.10-x86_64-linux-gnu) sha256=268b059f66a1f3191c8d7c15cfcb293a91be5c3811704856acd49b6f2e5dc1b1
-  herb (0.8.10-x86_64-linux-musl) sha256=bd1b2bf9f0ab9ceecdd874cdf03424176b83fa3c937188568c011cecf40b5d7f
+  herb (0.9.0-aarch64-linux-gnu) sha256=d9130f8f1549e75874ee2528a3fdf44c44290b90a7caf597e356a03f9318acae
+  herb (0.9.0-arm64-darwin) sha256=20b16c3f57ec7f985737659c19f0786eab658014c0247881df07f041452ccd5c
+  herb (0.9.0-x86_64-linux-gnu) sha256=04b67ed7de5f98acd534ceb85163609716518089152cf9e73e90e7cace58b66a
+  herb (0.9.0-x86_64-linux-musl) sha256=cddc44b8af89359b2a793a878614b1cd182f56cbfbae1e288c3d6f2d7fc31cfa
   hexapdf (1.6.0) sha256=78e32fc5a088a347bcb2cad4ab327cbdd0a0c5e1e77963b52460eef78d402582
   htmlentities (4.4.2) sha256=bbafbdf69f2eca9262be4efef7e43e6a1de54c95eb600f26984f71d2fe96c5c3
   i18n (1.14.8) sha256=285778639134865c5e0f6269e0b818256017e8cde89993fdfcbfb64d088824a5
@@ -1018,10 +1019,10 @@ CHECKSUMS
   stringio (3.2.0) sha256=c37cb2e58b4ffbd33fe5cd948c05934af997b36e0b6ca6fdf43afa234cf222e1
   strscan (3.1.7) sha256=5f76462b94a3ea50b44973225b7d75b2cb96d4e1bee9ef1319b99ca117b72c8c
   tailwindcss-rails (4.4.0) sha256=efa2961351a52acebe616e645a81a30bb4f27fde46cc06ce7688d1cd1131e916
-  tailwindcss-ruby (4.2.0-aarch64-linux-gnu) sha256=9b0e0576ea7493090ae871a0b6f1b62154c2934cb07e166296f8198a15638f37
-  tailwindcss-ruby (4.2.0-arm64-darwin) sha256=809776c7b784327dc526e041e52341adb46b6416d59ba3d86886adc9a6baaad0
-  tailwindcss-ruby (4.2.0-x86_64-linux-gnu) sha256=5d5822135ba81bbd81cb9a81c479bea9e5954e39d4a31f5f4dafbef952993baf
-  tailwindcss-ruby (4.2.0-x86_64-linux-musl) sha256=4df2f0b7d59a7d9ad474c9e92a74ae1efdd8d56a072135aab9af225c3b1c5801
+  tailwindcss-ruby (4.2.1-aarch64-linux-gnu) sha256=de457ddfc999c6bbbe1a59fbc11eb2168d619f6e0cb72d8d3334d372b331e36f
+  tailwindcss-ruby (4.2.1-arm64-darwin) sha256=bcf222fb8542cf5433925623e5e7b257897fbb8291a2350daae870a32f2eeb91
+  tailwindcss-ruby (4.2.1-x86_64-linux-gnu) sha256=201d0e5e5d4aba52cae4ee4bd1acd497d2790c83e7f15da964aab8ec93876831
+  tailwindcss-ruby (4.2.1-x86_64-linux-musl) sha256=79fa48ad51e533545f9fdbb04227e1342a65a42c2bd1314118b95473d5612007
   terminal-table (4.0.0) sha256=f504793203f8251b2ea7c7068333053f0beeea26093ec9962e62ea79f94301d2
   thor (1.5.0) sha256=e3a9e55fe857e44859ce104a84675ab6e8cd59c650a49106a05f55f136425e73
   thruster (0.1.19-aarch64-linux) sha256=cfabff204f655359675c3f0e3e3940c6d1f110b765d0d48f5281077b8bb65325

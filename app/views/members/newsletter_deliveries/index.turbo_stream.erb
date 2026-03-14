@@ -4,7 +4,7 @@
 
 <%= turbo_stream.replace "show-more" do %>
   <% if @next_offset %>
-    <%= render "show_more" %>
+    <%= render "show_more", next_offset: @next_offset %>
   <% else %>
     <turbo-frame id="show-more"></turbo-frame>
   <% end %>

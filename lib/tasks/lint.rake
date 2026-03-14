@@ -26,9 +26,9 @@ namespace :lint do
       when :rubocop
         "bin/rubocop --parallel --format simple"
       when :herb_lint
-        "npm run herb:lint"
+        "bundle exec herb lint ."
       when :herb_format
-        "npm run herb:format:check"
+        "bundle exec herb format . --check"
       when :prettier
         "npx prettier app --check --cache --log-level warn"
       end
@@ -44,7 +44,7 @@ namespace :lint do
       when :rubocop
         "bin/rubocop --parallel --autocorrect-all --format quiet"
       when :herb_format
-        "npm run herb:format"
+        "bundle exec herb format ."
       when :prettier
         "npx prettier app --write --cache --log-level warn"
       end

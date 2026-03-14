@@ -37,7 +37,7 @@
     <% product.variants.select(&:available?).each do |variant| %>
       <li class="-ml-1 w-full p-1 hover:bg-gray-100 dark:hover:bg-gray-900">
         <%= turbo_frame_tag "product_variant_#{variant.id}" do %>
-          <%= render partial: "members/shop/products/variant", object: variant %>
+          <%= render partial: "members/shop/products/variant", object: variant, locals: { order: order } %>
         <% end %>
       </li>
     <% end %>

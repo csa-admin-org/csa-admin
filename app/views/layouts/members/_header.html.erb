@@ -58,7 +58,7 @@
               <%= link_to members_shop_path, class: "py-0" do %>
                 <h2><%= t("activerecord.models.shop.one") %></h2>
 
-                <span class="<%= nav_class("shop") if @order&.delivery == current_shop_delivery %>">
+                <span class="<%= nav_class("shop") if current_order&.delivery == current_shop_delivery %>">
                   <%= t(".delivery", date: l(current_shop_delivery.date)) %>
                 </span>
               <% end %>
@@ -66,7 +66,7 @@
 
             <% if !current_shop_delivery&.shop_open? && next_shop_delivery %>
               <%= link_to members_shop_next_path, class: "py-0" do %>
-                <span class="<%= nav_class("shop") if @order&.delivery == next_shop_delivery %>">
+                <span class="<%= nav_class("shop") if current_order&.delivery == next_shop_delivery %>">
                   <%= t(".delivery", date: l(next_shop_delivery.date)) %>
                 </span>
               <% end %>
@@ -84,7 +84,7 @@
                   </h2>
                 <% end %>
 
-                <span class="<%= nav_class("shop") if @order&.delivery == delivery %>">
+                <span class="<%= nav_class("shop") if current_order&.delivery == delivery %>">
                   <%= t(".delivery", date: l(delivery.date)) %>
                 </span>
               <% end %>

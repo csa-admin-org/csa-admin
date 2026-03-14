@@ -1,4 +1,5 @@
 <%# Skip if this is a trial-canceled membership (handled by _trial.html.erb) %>
+
 <% return if membership.trial? && membership.canceled? %>
 
 <% if membership.renewal_opened? %>

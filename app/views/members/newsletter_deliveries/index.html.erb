@@ -22,6 +22,6 @@
   </ul>
 
   <% if @next_offset %>
-    <%= render "show_more" %>
+    <%= render "show_more", next_offset: @next_offset %>
   <% end %>
 </section>

@@ -1,4 +1,4 @@
-<%= render partial: "members/shop/shared/header" %>
+<%= render partial: "members/shop/shared/header", locals: { order: @order } %>
 
 <% case @order.state %>
 <% when Shop::Order::CART_STATE %>
@@ -11,7 +11,7 @@
     <h2><%= t(".cart") %></h2>
 
     <%= turbo_frame_tag "order" do %>
-      <%= render partial: "members/shop/orders/order" %>
+      <%= render partial: "members/shop/orders/order", locals: { order: @order } %>
     <% end %>
   </section>
 <% when Shop::Order::PENDING_STATE %>
@@ -48,7 +48,7 @@
       <% end %>
     </h2>
 
-    <%= render partial: "members/shop/orders/finalized_order" %>
+    <%= render partial: "members/shop/orders/finalized_order", locals: { order: @order } %>
   </section>
 <% when Shop::Order::INVOICED_STATE %>
   <p class="mt-2"><%= t(".invoiced_order_html") %></p>
@@ -83,7 +83,7 @@
       </span>
     </h2>
 
-    <%= render partial: "members/shop/orders/finalized_order" %>
+    <%= render partial: "members/shop/orders/finalized_order", locals: { order: @order } %>
   </section>
 <% end %>
 

@@ -1,7 +1,7 @@
 <h1><%= t("activerecord.models.shop.one") %></h1>
 
-<h2><%= delivery_title(@order.delivery) %></h2>
+<h2><%= delivery_title(order.delivery) %></h2>
 
-<% if @order.delivery.shop_text.present? %>
-  <div class="trix-content mt-2"><%= @order.delivery.shop_text %></div>
+<% if order.delivery.shop_text.present? %>
+  <div class="trix-content mt-2"><%= order.delivery.shop_text %></div>
 <% end %>

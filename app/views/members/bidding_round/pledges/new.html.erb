@@ -26,7 +26,17 @@
           </span>
 
           <span class="grow text-right tabular-nums">
-            <%= display_price_description(@pledge.total_membership_baskets_price, "#{membership.baskets_count}x <span class=\"animate-highlight px-0.5 -mx-0.5 rounded\">#{precise_cur(@pledge.basket_size_price)}</span>".html_safe) %>
+            <%= display_price_description(
+              @pledge.total_membership_baskets_price,
+              safe_join([
+                "#{membership.baskets_count}x ",
+                content_tag(
+                  :span,
+                  precise_cur(@pledge.basket_size_price),
+                  class: "animate-highlight px-0.5 -mx-0.5 rounded"
+                )
+              ])
+            ) %>
           </span>
         </li>
 

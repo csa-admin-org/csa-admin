@@ -4,7 +4,7 @@
 
 <% case object %>
 <% when Invoice %>
-  <span class="order-1 md:order-2 w-full flex grow justify-between items-center">
+  <span class="order-1 flex w-full grow items-center justify-between md:order-2">
     <span>
       <%= t(".invoice_info_html", document_name: object.document_name, id: object.id, type: display_entity(object, link: false)) %>
     </span>
@@ -15,7 +15,7 @@
       <% end %>
     </span>
   </span>
-  <span class="order-3 flex-none text-right w-28 tabular-nums">
+  <span class="order-3 w-28 flex-none text-right tabular-nums">
     <%= ccur(object, :amount) %>
   </span>
 <% when Payment %>
@@ -30,7 +30,7 @@
       <%= t(".refund_info") %>
     <% end %>
   </span>
-  <span class="order-3 flex-none text-right w-28">
+  <span class="order-3 w-28 flex-none text-right">
     <%= cur(-object.amount, currency_code: object.currency_code) %>
   </span>
 <% end %>
