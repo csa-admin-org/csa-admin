@@ -19,8 +19,16 @@ class ApplicationController < ActionController::Base
       alert: t("active_admin.flash.invalid_foreign_key_alert"))
   end
 
-  rescue_from ActionController::UnknownFormat,
-              ActionDispatch::Http::MimeNegotiation::InvalidType do
+  rescue_from ActionController::UnknownFormat do
+    render plain: "Unsupported media type", status: :unsupported_media_type
+  end
+
+  # rescue_from cannot catch InvalidType because it's raised during format
+  # negotiation inside process_action, before rescue handlers are in scope.
+  # Bots/scanners regularly send garbage Accept headers (incl. SQL injections).
+  def process_action(*)
+    super
+  rescue ActionDispatch::Http::MimeNegotiation::InvalidType
     render plain: "Unsupported media type", status: :unsupported_media_type
   end
 

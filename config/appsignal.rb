@@ -8,7 +8,9 @@ Appsignal.configure do |config|
   config.ignore_errors = [
     "ActiveRecord::RecordNotFound",
     "ActionController::InvalidAuthenticityToken",
-    "ActionController::BadRequest"
+    "ActionController::BadRequest",
+    "ActionController::UnknownFormat",
+    "ActionDispatch::Http::MimeNegotiation::InvalidType"
   ]
 
   config.active = Rails.env.production?
