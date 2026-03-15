@@ -29,8 +29,8 @@
       <% if @order.can_member_update? %>
         <span
           class="
-            px-3 flex items-center text-sm font-normal text-green-700
-            dark:text-green-300 rounded-full bg-green-300 dark:bg-green-700
+            flex items-center rounded-full bg-green-300 px-3 text-sm
+            font-normal text-green-700 dark:bg-green-700 dark:text-green-300
           "
         >
           <%= t(".order_received_state") %>
@@ -38,9 +38,9 @@
       <% else %>
         <span
           class="
-            px-3 flex items-center text-sm font-normal text-yellow-700
-            dark:text-yellow-300 rounded-full bg-yellow-300
-            dark:bg-yellow-700
+            flex items-center rounded-full bg-yellow-300 px-3 text-sm
+            font-normal text-yellow-700 dark:bg-yellow-700
+            dark:text-yellow-300
           "
         >
           <%= t(".order_pending_state") %>
@@ -56,8 +56,8 @@
     <%= link_to rails_blob_path(@order.invoice.pdf_file, disposition: "attachment") do %>
       <div
         class="
-          mx-auto w-max px-4 py-1 flex flex-row items-center text-gray-500
-          rounded-full border border-gray-300 hover:border-green-300
+          mx-auto flex w-max flex-row items-center rounded-full border
+          border-gray-300 px-4 py-1 text-gray-500 hover:border-green-300
           hover:text-green-500
         "
       >
@@ -75,8 +75,8 @@
 
       <span
         class="
-          px-3 flex items-center text-sm font-normal text-green-700
-          dark:text-green-300 rounded-full bg-green-300 dark:bg-green-700
+          flex items-center rounded-full bg-green-300 px-3 text-sm
+          font-normal text-green-700 dark:bg-green-700 dark:text-green-300
         "
       >
         <%= t(".order_invoiced_state") %>

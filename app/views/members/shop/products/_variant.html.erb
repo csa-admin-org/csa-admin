@@ -8,8 +8,8 @@
     <% when 1..5 %>
       <span
         class="
-          ml-2 px-2 text-xs text-red-500 dark:text-red-400 rounded-full
-          bg-red-100 dark:bg-red-800 whitespace-nowrap
+          ml-2 rounded-full bg-red-100 px-2 text-xs whitespace-nowrap
+          text-red-500 dark:bg-red-800 dark:text-red-400
         "
       >
         <%= t(".live_stock", count: live_stock) %>
@@ -17,8 +17,8 @@
     <% when ..0 %>
       <span
         class="
-          ml-2 px-2 text-xs text-gray-400 dark:text-gray-500 rounded-full
-          bg-gray-200 dark:bg-gray-800 whitespace-nowrap
+          ml-2 rounded-full bg-gray-200 px-2 text-xs whitespace-nowrap
+          text-gray-400 dark:bg-gray-800 dark:text-gray-500
         "
       >
         <%= t(".live_stock", count: 0) %>
