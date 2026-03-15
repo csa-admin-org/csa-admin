@@ -19,7 +19,8 @@ class ApplicationController < ActionController::Base
       alert: t("active_admin.flash.invalid_foreign_key_alert"))
   end
 
-  rescue_from ActionController::UnknownFormat do
+  rescue_from ActionController::UnknownFormat,
+              ActionDispatch::Http::MimeNegotiation::InvalidType do
     render plain: "Unsupported media type", status: :unsupported_media_type
   end
 
