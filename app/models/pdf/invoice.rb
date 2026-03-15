@@ -589,7 +589,8 @@ module PDF
         qr_code_width = 110
         svg Billing::EPCQRCode.generate(invoice),
           at: [ 0, y_start ],
-          width: qr_code_width
+          width: qr_code_width,
+          enable_web_requests: false
 
         bounding_box [ 0, y_start - qr_code_width - 12 ], width: qr_code_width do
           text t("payment.pay_with_code"), size: 10, align: :center
