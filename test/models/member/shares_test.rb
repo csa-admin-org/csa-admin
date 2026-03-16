@@ -5,7 +5,7 @@ require "test_helper"
 class Member::SharesTest < ActiveSupport::TestCase
   test "validates desired_shares_number on public create" do
     org(annual_fee: 50, share_price: nil, shares_number: nil)
-    member = build_member(desired_shares_number: 0)
+    member = build_member(desired_shares_number: 0, waiting_basket_size_id: 0)
     member.public_create = nil
     assert member.valid?
     member.public_create = true

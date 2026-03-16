@@ -128,9 +128,15 @@ class Member < ApplicationRecord
     },
     if: -> { public_create && Current.org.feature?("activity") }
   validates :waiting_basket_price_extra, presence: true, if: -> { public_create && Current.org.feature?("basket_price_extra") && waiting_depot }, on: :create
+  validates :waiting_basket_size_id, presence: true,
+    on: :create,
+    if: -> { public_create && Current.org.member_form_mode == "membership" && BasketSize.visible.exists? }
   validates :waiting_depot, inclusion: { in: proc { Depot.all }, allow_nil: true }, on: :create
   validates :waiting_depot_id, presence: true, if: :waiting_basket_size, on: :create
   validates :shop_depot, inclusion: { in: proc { Depot.all }, allow_nil: true }
+  validates :shop_depot_id, presence: true,
+    on: :create,
+    if: -> { public_create && Current.org.member_form_mode == "shop" && Depot.visible.exists? }
   validates :annual_fee, numericality: { greater_than_or_equal_to: 0 }, allow_nil: true
   validates :annual_fee,
     presence: true,

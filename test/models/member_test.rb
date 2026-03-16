@@ -130,6 +130,29 @@ class MemberTest < ActiveSupport::TestCase
     assert_includes member.errors[:waiting_basket_size_id], "can't be blank"
   end
 
+  test "validates waiting_basket_size_id presence on public create in membership mode" do
+    member = build_member(public_create: true, waiting_basket_size_id: nil)
+
+    assert_not member.valid?
+    assert_includes member.errors[:waiting_basket_size_id], "can't be blank"
+
+    # Support member (id=0) is a valid explicit choice
+    member.waiting_basket_size_id = 0
+    assert member.valid?
+
+    # Not required when no basket sizes are visible
+    BasketSize.update_all(visible: false)
+    member.waiting_basket_size_id = nil
+    assert member.valid?
+  end
+
+  test "validates waiting_basket_size_id not required on public create in shop mode" do
+    org(member_form_mode: "shop")
+    member = build_member(public_create: true, waiting_basket_size_id: nil, shop_depot_id: depots(:farm).id)
+
+    assert member.valid?
+  end
+
   test "validates waiting_basket_price_extra presence" do
     member = build_member(
       public_create: true,
@@ -149,9 +172,32 @@ class MemberTest < ActiveSupport::TestCase
     assert_includes member.errors[:waiting_depot_id], "can't be blank"
   end
 
+  test "validates shop_depot_id presence on public create in shop mode" do
+    org(member_form_mode: "shop")
+    member = build_member(public_create: true, shop_depot_id: nil)
+
+    assert_not member.valid?
+    assert_includes member.errors[:shop_depot_id], "can't be blank"
+
+    member.shop_depot_id = depots(:farm).id
+    assert member.valid?
+
+    # Not required when no depots are visible
+    Depot.update_all(visible: false)
+    member.shop_depot_id = nil
+    assert member.valid?
+  end
+
+  test "validates shop_depot_id not required on public create in membership mode" do
+    member = build_member(public_create: true, waiting_basket_size_id: 0, shop_depot_id: nil)
+
+    assert member.valid?
+  end
+
   test "validates waiting_activity_participations_demanded_annually on public create" do
     member = build_member(
       waiting_activity_participations_demanded_annually: nil,
+      waiting_basket_size_id: 0,
       public_create: true)
 
     org(activity_participations_form_min: 2)
@@ -170,7 +216,7 @@ class MemberTest < ActiveSupport::TestCase
   end
 
   test "required profession mode on public create" do
-    member = build_member(public_create: true, profession: nil)
+    member = build_member(public_create: true, profession: nil, waiting_basket_size_id: 0)
     org(member_profession_form_mode: "visible")
     assert member.valid?
 
@@ -179,7 +225,7 @@ class MemberTest < ActiveSupport::TestCase
   end
 
   test "required come_form mode on public create" do
-    member = build_member(public_create: true, come_from: nil)
+    member = build_member(public_create: true, come_from: nil, waiting_basket_size_id: 0)
     org(member_come_from_form_mode: "visible")
     assert member.valid?
 

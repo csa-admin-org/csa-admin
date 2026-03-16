@@ -137,7 +137,7 @@ class MemberRegistrationTest < ActiveSupport::TestCase
     member.discard
     member.anonymize!
 
-    new_member = build_member(emails: email, phones: "+41 79 999 99 99")
+    new_member = build_member(emails: email, phones: "+41 79 999 99 99", waiting_basket_size_id: 0)
     new_member.public_create = true
 
     # Email should now be available after anonymization cleared it
