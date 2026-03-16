@@ -117,8 +117,8 @@ ActiveAdmin.register Activity do
   end
 
   before_action only: :index do
-    if params.dig(:q, :during_year).present? && params.dig(:q, :during_year).to_i < Current.fy_year
-      params[:scope] ||= "all"
+    if params.dig(:q, :during_year).present? && params.dig(:q, :during_year).to_i != Current.fy_year && params[:scope].nil?
+      redirect_to url_for(params.to_unsafe_h.merge(scope: :all))
     end
   end
 
