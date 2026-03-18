@@ -25,7 +25,7 @@ module XLSX
 
     def filename
       [
-        BasketContent.model_name.human(count: 2),
+        ::BasketContent.model_name.human(count: 2),
         @delivery.display_number,
         @delivery.date.strftime("%Y%m%d")
       ].join("-") + ".xlsx"
