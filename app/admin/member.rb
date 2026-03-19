@@ -771,6 +771,9 @@ ActiveAdmin.register Member do
   member_action :wait, method: :post do
     resource.wait!
     redirect_to member_path(resource)
+  rescue ActiveRecord::RecordInvalid => e
+    flash[:alert] = e.message
+    redirect_to member_path(resource)
   end
 
   member_action :become do

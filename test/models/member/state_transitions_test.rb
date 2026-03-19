@@ -130,6 +130,12 @@ class Member::StateTransitionsTest < ActiveSupport::TestCase
     assert_nil member.annual_fee
   end
 
+  test "wait! raises if inactive member has no address" do
+    member = members(:mary)
+    member.update_columns(street: nil, city: nil, zip: nil)
+    assert_raises(ActiveRecord::RecordInvalid) { member.wait! }
+  end
+
   test "wait! raises if not support or inactive" do
     member = members(:john)
     assert_raises(InvalidTransitionError) { member.wait! }
