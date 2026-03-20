@@ -95,7 +95,7 @@ module Membership::Pricing
   end
 
   def missing_invoices_amount
-    [ price - invoices_amount, 0 ].max
+    [ (price || 0) - (invoices_amount || 0), 0 ].max
   end
 
   def overcharged_invoices_amount?

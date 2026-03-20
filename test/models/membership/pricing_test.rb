@@ -3,6 +3,23 @@
 require "test_helper"
 
 class Membership::PricingTest < ActiveSupport::TestCase
+  test "#missing_invoices_amount returns 0 when price is nil" do
+    travel_to "2024-01-01"
+    membership = memberships(:john)
+    membership.update_column(:price, nil)
+
+    assert_equal 0, membership.missing_invoices_amount
+    assert_not membership.billable?
+  end
+
+  test "#missing_invoices_amount returns price when invoices_amount is nil" do
+    travel_to "2024-01-01"
+    membership = memberships(:john)
+    membership.update_columns(price: 100, invoices_amount: nil)
+
+    assert_equal 100, membership.missing_invoices_amount
+  end
+
   test "price from association" do
     travel_to "2024-01-01"
     delivery_cycles(:thursdays).update!(price: 2)
