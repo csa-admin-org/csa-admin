@@ -44,6 +44,19 @@ Le choix d'un cycle de livraisons sur le formulaire d'inscription dépend de la 
 
 > Lors de la création d'un abonnement par un admin, il est toujours possible de choisir n'importe quel cycle de livraisons. Les <%= Basket.model_name.human(count: 2).downcase %> seront automatiquement créés en fonction des livraisons de ce cycle comprises entre les dates de début et de fin ✨.
 
+### Répartition équitable (une semaine sur deux) {#even-odd-distribution}
+
+Si vous proposez des livraisons une semaine sur deux, vous souhaitez probablement répartir les membres équitablement entre les semaines paires et impaires. Or, un seul cycle « Une semaine sur deux » attribuerait les mêmes semaines à tous les membres.
+
+La solution consiste à créer **deux cycles distincts**, l'un avec la sélection des livraisons « Paires » et l'autre « Impaires », puis à n'en **afficher qu'un seul** aux membres dans le formulaire d'inscription :
+
+1. Créez deux cycles avec chacun une période couvrant toute l'année : l'un avec la sélection des livraisons « Paires », l'autre « Impaires ».
+2. Donnez-leur le **même nom**, par ex. « Une semaine sur deux », mais des **noms internes différents**, par ex. « Une semaine sur deux (paires) » et « Une semaine sur deux (impaires) ».
+3. Rendez **un seul** des deux cycles visible sur le formulaire d'inscription (via la disponibilité par dépôt).
+4. Lors de la création des abonnements, répartissez manuellement les membres entre les deux cycles afin d'équilibrer les livraisons.
+
+Ainsi, les membres ne voient qu'une seule option « Une semaine sur deux » à l'inscription, mais vous gardez le contrôle de la répartition en interne.
+
 ### Facturation
 
 Chaque cycle de livraisons peut avoir ses propres options de facturation :

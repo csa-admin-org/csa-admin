@@ -44,6 +44,19 @@ De keuze van een leveringscyclus op het registratieformulier hangt af van de con
 
 > Bij het aanmaken van een lidmaatschap door een admin is het altijd mogelijk om elke leveringscyclus te kiezen. <%= Basket.model_name.human(count: 2) %> worden automatisch aangemaakt op basis van de leveringen van deze cyclus tussen de start- en einddatums ✨.
 
+### Gelijke verdeling (om de week) {#even-odd-distribution}
+
+Als om-de-week-leveringen worden aangeboden, is het waarschijnlijk wenselijk om de leden gelijkmatig te verdelen over even en oneven weken. Met één enkel "om de week"-cyclus zouden alle leden dezelfde weken krijgen.
+
+De oplossing is om **twee afzonderlijke cycli** aan te maken, één met de leveringsselectie « Even » en de andere « Oneven », en slechts **één ervan zichtbaar** te maken voor de leden:
+
+1. Maak twee cycli aan, elk met een periode die het hele jaar bestrijkt: één met de leveringsselectie « Even », de andere « Oneven ».
+2. Geef ze dezelfde **naam**, bijv. « Om de week », maar verschillende **interne namen**, bijv. « Om de week (even) » en « Om de week (oneven) ».
+3. Maak slechts **één** van de twee cycli zichtbaar op het registratieformulier (via de depotbeschikbaarheid).
+4. Verdeel bij het aanmaken van lidmaatschappen de leden handmatig over de twee cycli om de leveringen in evenwicht te brengen.
+
+Zo zien de leden slechts één optie « Om de week » bij registratie, terwijl intern de controle over de verdeling behouden blijft.
+
 ### Facturatie
 
 Elke leveringscyclus kan eigen facturatieopties hebben:

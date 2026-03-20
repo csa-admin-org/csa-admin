@@ -44,6 +44,19 @@ The choice of a delivery cycle on the registration form depends on the configura
 
 > When creating a membership by an admin, it's always possible to choose any delivery cycle. <%= Basket.model_name.human(count: 2) %> will be automatically created based on the deliveries of this cycle between the start and end dates ✨.
 
+### Even distribution (every other week) {#even-odd-distribution}
+
+If you offer every-other-week deliveries, you probably want to distribute members evenly between even and odd weeks. A single "every other" cycle would assign the same weeks to all members.
+
+The solution is to create **two separate cycles**, one with the delivery selection "Even" and the other "Odd", then make **only one visible** to members on the registration form:
+
+1. Create two cycles, each with a period covering the full year: one with the delivery selection "Even", the other "Odd".
+2. Give them the **same name**, e.g. "Every other week", but different **internal names**, e.g. "Every other week (even)" and "Every other week (odd)".
+3. Make **only one** of the two cycles visible on the registration form (via depot availability).
+4. When creating memberships, manually distribute members between the two cycles to balance deliveries.
+
+This way, members see only one "Every other week" option at registration, but you keep control of the distribution internally.
+
 ### Billing
 
 Each delivery cycle can have its own billing options:

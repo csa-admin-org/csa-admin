@@ -44,6 +44,19 @@ La scelta di un ciclo di consegne sul modulo di iscrizione dipende dalla configu
 
 > Durante la creazione di un abbonamento da parte di un admin, è sempre possibile scegliere qualsiasi ciclo di consegne. Le <%= Basket.model_name.human(count: 2).downcase %> saranno automaticamente create in base alle consegne di questo ciclo comprese tra le date di inizio e fine ✨.
 
+### Distribuzione equa (una settimana su due) {#even-odd-distribution}
+
+Se proponete consegne una settimana su due, probabilmente vorrete distribuire i soci equamente tra le settimane pari e dispari. Con un solo ciclo « una su due », tutti i soci riceverebbero le stesse settimane.
+
+La soluzione consiste nel creare **due cicli distinti**, uno con la selezione delle consegne « Pari » e l'altro « Dispari », e nel renderne **uno solo visibile** ai soci:
+
+1. Create due cicli, ciascuno con un periodo che copre tutto l'anno: uno con la selezione delle consegne « Pari », l'altro « Dispari ».
+2. Date loro lo **stesso nome**, ad es. « Una settimana su due », ma **nomi interni diversi**, ad es. « Una settimana su due (pari) » e « Una settimana su due (dispari) ».
+3. Rendete **uno solo** dei due cicli visibile sul modulo di iscrizione (tramite la disponibilità per deposito).
+4. Al momento della creazione degli abbonamenti, distribuite manualmente i soci tra i due cicli per equilibrare le consegne.
+
+In questo modo, i soci vedono una sola opzione « Una settimana su due » all'iscrizione, ma voi mantenete il controllo della distribuzione internamente.
+
 ### Fatturazione
 
 Ogni ciclo di consegne può avere le proprie opzioni di fatturazione:

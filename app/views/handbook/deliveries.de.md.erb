@@ -44,6 +44,19 @@ Die Auswahl eines Lieferzyklus im Anmeldeformular hängt von der Konfiguration s
 
 > Bei der Erstellung einer Mitgliedschaft durch einen Administrator ist es immer möglich, jeden beliebigen Lieferzyklus zu wählen. Die <%= Basket.model_name.human(count: 2) %> werden automatisch basierend auf den Lieferungen dieses Zyklus zwischen dem Start- und Enddatum erstellt ✨.
 
+### Gleichmässige Verteilung (jede zweite Woche) {#even-odd-distribution}
+
+Wenn Lieferungen jede zweite Woche angeboten werden, sollen die Mitglieder wahrscheinlich gleichmässig auf gerade und ungerade Wochen verteilt werden. Ein einzelner Zyklus „jede zweite Woche" würde jedoch allen Mitgliedern dieselben Wochen zuweisen.
+
+Die Lösung besteht darin, **zwei separate Zyklen** zu erstellen, einen mit der Lieferungsauswahl „Gerade" und den anderen mit „Ungerade", und den Mitgliedern **nur einen davon anzuzeigen**:
+
+1. Zwei Zyklen erstellen, jeweils mit einem Zeitraum über das ganze Jahr: einen mit der Lieferungsauswahl „Gerade", den anderen mit „Ungerade".
+2. Beiden den **gleichen Namen** geben, z.B. „Jede zweite Woche", aber **unterschiedliche interne Namen**, z.B. „Jede zweite Woche (gerade)" und „Jede zweite Woche (ungerade)".
+3. **Nur einen** der beiden Zyklen im Anmeldeformular sichtbar machen (über die Depotverfügbarkeit).
+4. Bei der Erstellung der Abonnements die Mitglieder manuell auf die beiden Zyklen verteilen, um die Lieferungen auszugleichen.
+
+So sehen die Mitglieder bei der Anmeldung nur eine einzige Option „Jede zweite Woche", während die Verteilung intern gesteuert wird.
+
 ### Abrechnung
 
 Jeder Lieferzyklus kann eigene Abrechnungsoptionen haben:
