@@ -253,6 +253,7 @@ class Membership < ApplicationRecord
 
   def finalize_after_save!
     update_member_and_baskets!
+  ensure
     update_price_and_invoices_amount!
   end
 

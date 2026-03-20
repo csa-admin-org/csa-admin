@@ -19,6 +19,7 @@ module NumbersHelper
   end
 
   def cur(amount, unit: true, currency_code: nil, **options)
+    amount ||= 0
     options[:unit] = unit ? currency_symbol(currency_code) : ""
     options[:format] ||=
       if unit
