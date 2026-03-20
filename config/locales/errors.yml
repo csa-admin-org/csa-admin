@@ -175,9 +175,9 @@ _:
       missing_iban:
         _en: Your IBAN number is not configured
         _fr: Votre numéro IBAN n'est pas configuré
-        _de: Ihre IBAN-Nummer ist nicht konfiguriert
+        _de: Die IBAN-Nummer ist nicht konfiguriert
         _it: Il tuo numero IBAN non è configurato
-        _nl: Uw IBAN-nummer is niet geconfigureerd
+        _nl: Het IBAN-nummer is niet geconfigureerd
       must_be_one_hour:
         _en: must be one hour longer than the start
         _fr: doit être une heure de plus que le début

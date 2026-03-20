@@ -184,61 +184,61 @@ _:
       basket_last_trial/bag:
         _en: Last trial bag!
         _fr: Dernier sac à l'essai!
-        _de: Letzte Probe Tasche!
+        _de: Letzte Probe-Tasche!
         _it: Ultima borsa da provare!
         _nl: Laatste proeftas!
       basket_last_trial/basket:
         _en: Last trial basket!
         _fr: Dernier panier à l'essai!
-        _de: Letzter Probe Korb!
+        _de: Letzter Probe-Korb!
         _it: Ultima cesta da provare!
         _nl: Laatste proefmand!
       basket_last_trial/cone:
         _en: Last trial cone!
         _fr: Dernier cornet à l'essai!
-        _de: Letzte Probe Tüte!
+        _de: Letzte Probe-Tüte!
         _it: Ultimo cono da provare!
         _nl: Laatste proefzak!
       basket_last_trial/package:
         _en: Last trial package!
         _fr: Dernier colis à l'essai!
-        _de: Letztes Probe Paket!
+        _de: Letztes Probe-Paket!
         _it: Ultimo pacco da provare!
         _nl: Laatste proefpakket!
       basket_last_trial/share:
         _en: Last trial share!
         _fr: Dernière part à l'essai!
-        _de: Letzter Probe Anteil!
+        _de: Letzter Probe-Anteil!
         _it: Ultima parte da provare!
         _nl: Laatste proefdeel!
       basket_second_last_trial/bag:
         _en: Second to last trial bag!
         _fr: Avant-dernier sac à l'essai!
-        _de: Vorletzte Probe Tasche!
+        _de: Vorletzte Probe-Tasche!
         _it: Penultima borsa da provare!
         _nl: Voorlaatste proeftas!
       basket_second_last_trial/basket:
         _en: Second to last trial basket!
         _fr: Avant-dernier panier à l'essai!
-        _de: Vorletzter Probe Korb!
+        _de: Vorletzter Probe-Korb!
         _it: Penultima cesta da provare!
         _nl: Voorlaatste proefmand!
       basket_second_last_trial/cone:
         _en: Second to last trial cone!
         _fr: Avant-dernier cornet à l'essai!
-        _de: Vorletzte Probe Tüte!
+        _de: Vorletzte Probe-Tüte!
         _it: Penultimo cono da provare!
         _nl: Voorlaatste proefzak!
       basket_second_last_trial/package:
         _en: Second to last trial package!
         _fr: Avant-dernier colis à l'essai!
-        _de: Vorletztes Probe Paket!
+        _de: Vorletztes Probe-Paket!
         _it: Penultimo pacco da provare!
         _nl: Voorlaatste proefpakket!
       basket_second_last_trial/share:
         _en: Second to last trial share!
         _fr: Avant-dernière part à l'essai!
-        _de: Vorletzter Probe Anteil!
+        _de: Vorletzter Probe-Anteil!
         _it: Penultima parte da provare!
         _nl: Voorlaatste proefdeel!
       bidding_round_completed:
@@ -298,13 +298,13 @@ _:
       membership_renewal:
         _en: Renew your membership
         _fr: Renouvellement de votre abonnement
-        _de: Ihr Abonnement verlängern
+        _de: Dein Abonnement verlängern
         _it: Rinnovo del vostro abbonamento
         _nl: Vernieuw uw lidmaatschap
       membership_renewal_reminder:
         _en: Renew your membership (reminder)
         _fr: Renouvellement de votre abonnement (rappel)
-        _de: Ihr Abonnement verlängern (Erinnerung)
+        _de: Dein Abonnement verlängern (Erinnerung)
         _it: Rinnovo del vostro abbonamento (promemoria)
         _nl: Vernieuw uw lidmaatschap (herinnering)
     description:
@@ -593,7 +593,7 @@ _:
       member_activated:
         _en: Sent when a member becomes active for the first time as soon as their first (current or future) membership is created.
         _fr: Envoyé quand un membre devient actif, pour la première fois, dès que son premier abonnement (en cours ou futur) est créé.
-        _de: Wird gesendet, wenn ein Mitglied zum ersten Mal aktiv wird, sobald sein erster (aktueller oder zukünftiger) Abonnement erstellt wird.
+        _de: Wird gesendet, wenn ein Mitglied zum ersten Mal aktiv wird, sobald sein erstes (aktuelles oder zukünftiges) Abonnement erstellt wird.
         _it: Inviato quando un socio diventa attivo, per la prima volta, non appena viene creato il suo primo abbonamento (attuale o futuro).
         _nl: Verzonden wanneer een lid voor de eerste keer actief wordt zodra hun eerste (huidige of toekomstige) lidmaatschap wordt aangemaakt.
       member_validated:
@@ -798,61 +798,61 @@ _:
       basket_last_trial/bag:
         _en: Last trial bag
         _fr: Dernier sac à l'essai
-        _de: Letzte Probe Tasche
+        _de: Letzte Probe-Tasche
         _it: Ultima borsa da provare
         _nl: Laatste proeftas
       basket_last_trial/basket:
         _en: Last trial basket
         _fr: Dernier panier à l'essai
-        _de: Letzter Probe Korb
+        _de: Letzter Probe-Korb
         _it: Ultima cesta da provare
         _nl: Laatste proefmand
       basket_last_trial/cone:
         _en: Last trial cone
         _fr: Dernier cornet à l'essai
-        _de: Letzte Probe Tüte
+        _de: Letzte Probe-Tüte
         _it: Ultimo cono da provare
         _nl: Laatste proefzak
       basket_last_trial/package:
         _en: Last trial package
         _fr: Dernier colis à l'essai
-        _de: Letztes Probe Paket
+        _de: Letztes Probe-Paket
         _it: Ultimo pacco da provare
         _nl: Laatste proefpakket
       basket_last_trial/share:
         _en: Last trial share
         _fr: Dernière part à l'essai
-        _de: Letzter Probe Anteil
+        _de: Letzter Probe-Anteil
         _it: Ultima parte da provare
         _nl: Laatste proefdeel
       basket_second_last_trial/bag:
         _en: Second to last trial bag
         _fr: Avant-dernier sac à l'essai
-        _de: Vorletzte Probe Tasche
+        _de: Vorletzte Probe-Tasche
         _it: Penultima borsa da provare
         _nl: Voorlaatste proeftas
       basket_second_last_trial/basket:
         _en: Second to last trial basket
         _fr: Avant-dernier panier à l'essai
-        _de: Vorletzter Probe Korb
+        _de: Vorletzter Probe-Korb
         _it: Penultima cesta da provare
         _nl: Voorlaatste proefmand
       basket_second_last_trial/cone:
         _en: Second to last trial cone
         _fr: Avant-dernier cornet à l'essai
-        _de: Vorletzte Probe Tüte
+        _de: Vorletzte Probe-Tüte
         _it: Penultimo cono da provare
         _nl: Voorlaatste proefzak
       basket_second_last_trial/package:
         _en: Second to last trial package
         _fr: Avant-dernier colis à l'essai
-        _de: Vorletztes Probe Paket
+        _de: Vorletztes Probe-Paket
         _it: Penultimo pacco da provare
         _nl: Voorlaatste proefpakket
       basket_second_last_trial/share:
         _en: Second to last trial share
         _fr: Avant-dernière part à l'essai
-        _de: Vorletzter Probe Anteil
+        _de: Vorletzter Probe-Anteil
         _it: Penultima parte da provare
         _nl: Voorlaatste proefdeel
       bidding_round_completed:

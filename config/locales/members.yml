@@ -98,7 +98,7 @@ _:
           notice:
             _en: Thank you for informing us!
             _fr: Merci de nous avoir prévenus!
-            _de: Danke, dass du uns informiert hast!
+            _de: Danke, dass Du uns informiert hast!
             _it: Grazie per averci informato!
             _nl: Bedankt voor het informeren van ons!
       index:
@@ -118,31 +118,31 @@ _:
         explanation_billed/bag:
           _en: During your absence, you can give your bag to friends, neighbors, or family. If this is not possible, please inform us of your absence using the form below. Your bag will then be shared among other members. These bags are not refunded.
           _fr: Lors de votre absence, le plus simple est de proposer votre sac à vos ami(e)s, voisin(e)s, famille, ... Si malheureusement ce n'est pas possible, merci d'annoncer votre absence à l'aide du formulaire ci-dessous. Votre sac sera alors partagé avec les autres membres. Ces sacs ne sont pas remboursés.
-          _de: Während Deiner Abwesenheit kannst Du gerne Deine Tasche an Freunden, Nachbarn oder Familie schenken. Wenn dies leider nicht möglich ist, sind wir Dir dankbar, uns über Deine Abwesenheit mit dem unten stehenden Formular zu informieren. Deine Tasche wird dann unter den anderen Mitgliedern geteilt. Diese Taschen werden nicht zurückerstattet.
+          _de: Während Deiner Abwesenheit kannst Du gerne Deine Tasche an Freunde, Nachbarn oder Familie schenken. Wenn dies leider nicht möglich ist, sind wir Dir dankbar, uns über Deine Abwesenheit mit dem unten stehenden Formular zu informieren. Deine Tasche wird dann unter den anderen Mitgliedern geteilt. Diese Taschen werden nicht zurückerstattet.
           _it: In caso di assenza, la soluzione più semplice, è quella di proporre la tua borsa ad amici o parenti, ... Se ciò non è possibile, grazie per farcelo sapere indicando la tua assenza con il modulo sottostante. La tua borsa non verra sprecata. Queste borse non saranno rimborsate.
           _nl: Tijdens je afwezigheid kun je je tas aan vrienden, buren of familie geven. Als dit niet mogelijk is, gelieve ons te informeren over je afwezigheid met behulp van onderstaand formulier. Je tas wordt dan gedeeld onder andere leden. Deze tassen worden niet terugbetaald.
         explanation_billed/basket:
           _en: During your absence, you can give your basket to friends, neighbors, or family. If this is not possible, please inform us of your absence using the form below. Your basket will then be shared among other members. These baskets are not refunded.
           _fr: Lors de votre absence, le plus simple est de proposer votre panier à vos ami(e)s, voisin(e)s, famille, ... Si malheureusement ce n'est pas possible, merci d'annoncer votre absence à l'aide du formulaire ci-dessous. Votre panier sera alors partagé avec les autres membres. Ces paniers ne sont pas remboursés.
-          _de: Während Deiner Abwesenheit kannst Du gerne Deinen Korb an Freunden, Nachbarn oder Familie schenken. Wenn dies leider nicht möglich ist, sind wir Dir dankbar, uns über Deine Abwesenheit mit dem unten stehenden Formular zu informieren. Dein Korb wird dann unter den anderen Mitgliedern geteilt. Diese Körbe werden nicht zurückerstattet.
+          _de: Während Deiner Abwesenheit kannst Du gerne Deinen Korb an Freunde, Nachbarn oder Familie schenken. Wenn dies leider nicht möglich ist, sind wir Dir dankbar, uns über Deine Abwesenheit mit dem unten stehenden Formular zu informieren. Dein Korb wird dann unter den anderen Mitgliedern geteilt. Diese Körbe werden nicht zurückerstattet.
           _it: In caso di assenza, la soluzione più semplice, è quella di proporre la tua cesta ad amici o parenti, ... Se ciò non è possibile, grazie per farcelo sapere indicando la tua assenza con il modulo sottostante. La tua cesta non verra sprecata. Queste ceste non saranno rimborsate.
           _nl: Tijdens je afwezigheid kun je je mand aan vrienden, buren of familie geven. Als dit niet mogelijk is, gelieve ons te informeren over je afwezigheid met behulp van onderstaand formulier. Je mand wordt dan gedeeld onder andere leden. Deze manden worden niet terugbetaald.
         explanation_billed/cone:
           _en: During your absence, you can give your cone to friends, neighbors, or family. If this is not possible, please inform us of your absence using the form below. Your cone will then be shared among other members. These cones are not refunded.
           _fr: Lors de votre absence, le plus simple est de proposer votre cornet à vos ami(e)s, voisin(e)s, famille, ... Si malheureusement ce n'est pas possible, merci d'annoncer votre absence à l'aide du formulaire ci-dessous. Votre cornet sera alors partagé avec les autres membres. Ces cornets ne sont pas remboursés.
-          _de: Während Deiner Abwesenheit kannst Du gerne Deine Tüte an Freunden, Nachbarn oder Familie schenken. Wenn dies leider nicht möglich ist, sind wir Dir dankbar, uns über Deine Abwesenheit mit dem unten stehenden Formular zu informieren. Deine Tüte wird dann unter den anderen Mitgliedern geteilt. Diese Tüten werden nicht zurückerstattet.
+          _de: Während Deiner Abwesenheit kannst Du gerne Deine Tüte an Freunde, Nachbarn oder Familie schenken. Wenn dies leider nicht möglich ist, sind wir Dir dankbar, uns über Deine Abwesenheit mit dem unten stehenden Formular zu informieren. Deine Tüte wird dann unter den anderen Mitgliedern geteilt. Diese Tüten werden nicht zurückerstattet.
           _it: In caso di assenza, la soluzione più semplice, è quella di proporre il tuo cono ad amici o parenti, ... Se ciò non è possibile, grazie per farcelo sapere indicando la tua assenza con il modulo sottostante. Il tuo cono non verrà sprecato. Questi coni non saranno rimborsati.
           _nl: Tijdens je afwezigheid kun je je zak aan vrienden, buren of familie geven. Als dit niet mogelijk is, gelieve ons te informeren over je afwezigheid met behulp van onderstaand formulier. Je zak wordt dan gedeeld onder andere leden. Deze zakken worden niet terugbetaald.
         explanation_billed/package:
           _en: During your absence, you can give your package to friends, neighbors, or family. If this is not possible, please inform us of your absence using the form below. Your package will then be shared among other members. These packages are not refunded.
           _fr: Lors de votre absence, le plus simple est de proposer votre colis à vos ami(e)s, voisin(e)s, famille, ... Si malheureusement ce n'est pas possible, merci d'annoncer votre absence à l'aide du formulaire ci-dessous. Votre colis sera alors partagé avec les autres membres. Ces colis ne sont pas remboursés.
-          _de: Während Deiner Abwesenheit kannst Du gerne Dein Paket an Freunden, Nachbarn oder Familie schenken. Wenn dies leider nicht möglich ist, sind wir Dir dankbar, uns über Deine Abwesenheit mit dem unten stehenden Formular zu informieren. Dein Paket wird dann unter den anderen Mitgliedern geteilt. Diese Pakete werden nicht zurückerstattet.
+          _de: Während Deiner Abwesenheit kannst Du gerne Dein Paket an Freunde, Nachbarn oder Familie schenken. Wenn dies leider nicht möglich ist, sind wir Dir dankbar, uns über Deine Abwesenheit mit dem unten stehenden Formular zu informieren. Dein Paket wird dann unter den anderen Mitgliedern geteilt. Diese Pakete werden nicht zurückerstattet.
           _it: In caso di assenza, la soluzione più semplice, è quella di proporre il tuo pacco ad amici o parenti, ... Se ciò non è possibile, grazie per farcelo sapere indicando la tua assenza con il modulo sottostante. Il tuo pacco non verrà sprecato. Questi pacchi non saranno rimborsati.
           _nl: Tijdens je afwezigheid kun je je pakket aan vrienden, buren of familie geven. Als dit niet mogelijk is, gelieve ons te informeren over je afwezigheid met behulp van onderstaand formulier. Je pakket wordt dan gedeeld onder andere leden. Deze pakketten worden niet terugbetaald.
         explanation_billed/share:
           _en: During your absence, you can give your share to friends, neighbors, or family. If this is not possible, please inform us of your absence using the form below. Your share will then be shared among other members. These shares are not refunded.
           _fr: Lors de votre absence, le plus simple est de proposer votre part à vos ami(e)s, voisin(e)s, famille, ... Si malheureusement ce n'est pas possible, merci d'annoncer votre absence à l'aide du formulaire ci-dessous. Votre part sera alors partagée avec les autres membres. Ces parts ne sont pas remboursées.
-          _de: Während Deiner Abwesenheit kannst Du gerne Deinen Anteil an Freunden, Nachbarn oder Familie schenken. Wenn dies leider nicht möglich ist, sind wir Dir dankbar, uns über Deine Abwesenheit mit dem unten stehenden Formular zu informieren. Dein Anteil wird dann unter den anderen Mitgliedern geteilt. Diese Anteile werden nicht zurückerstattet.
+          _de: Während Deiner Abwesenheit kannst Du gerne Deinen Anteil an Freunde, Nachbarn oder Familie schenken. Wenn dies leider nicht möglich ist, sind wir Dir dankbar, uns über Deine Abwesenheit mit dem unten stehenden Formular zu informieren. Dein Anteil wird dann unter den anderen Mitgliedern geteilt. Diese Anteile werden nicht zurückerstattet.
           _it: In caso di assenza, la soluzione più semplice, è quella di proporre la tua parte ad amici o parenti, ... Se ciò non è possibile, grazie per farcelo sapere indicando la tua assenza con il modulo sottostante. La tua parte non verra sprecata. Queste parti non saranno rimborsate.
           _nl: Tijdens je afwezigheid kun je je deel aan vrienden, buren of familie geven. Als dit niet mogelijk is, gelieve ons te informeren over je afwezigheid met behulp van onderstaand formulier. Je deel wordt dan gedeeld onder andere leden. Deze delen worden niet terugbetaald.
         form_title:
@@ -204,7 +204,7 @@ _:
         title:
           _en: Edit Account
           _fr: Modifier compte
-          _de: Konto Bearbeiten
+          _de: Konto bearbeiten
           _it: Modifica il conto
           _nl: Account bewerken
       show:
@@ -306,25 +306,25 @@ _:
         coming_activity_participation_cannot_be_cancel_explanation/basket_preparation_html:
           _en: For organizational reasons, registrations for basket preparation that take place in less than %{days_count} days can no longer be canceled. In case of hindrance, please contact us %{contact_link}.
           _fr: Pour des raisons d'organisation, les inscriptions aux mises en panier qui ont lieu dans moins de %{days_count} jours ne peuvent plus être annulées. En cas d'empêchement, merci de nous %{contact_link}.
-          _de: Aus Organisationsgründe, die Anmeldungen zu die Taschen befüllung, die in weniger als %{days_count} Tagen stattfinden, können nicht mehr abgesagt werden. Bei einer Verhinderung, bitte uns schreiben %{contact_link}.
+          _de: Aus organisatorischen Gründen können Anmeldungen zur Taschenbefüllung, die in weniger als %{days_count} Tagen stattfinden, nicht mehr abgesagt werden. Bei Verhinderung bitte %{contact_link}.
           _it: Per motivi organizzativi, le iscrizioni per la preparazione delle ceste che avvengono entro %{days_count} giorni non possono essere annullate. In caso di impedimenti gravi grazie per contattarci tempestivamente %{contact_link}.
           _nl: Om organisatorische redenen kunnen inschrijvingen voor pakketvoorbereiding die plaatsvinden binnen %{days_count} dagen niet meer worden geannuleerd. In geval van verhindering, gelieve ons te %{contact_link}.
         coming_activity_participation_cannot_be_cancel_explanation/day_work_html:
           _en: For organizational reasons, registrations for workdays that take place in less than %{days_count} days can no longer be canceled. In case of hindrance, please contact us %{contact_link}.
           _fr: Pour des raisons d'organisation, les inscriptions aux journées de travail qui ont lieu dans moins de %{days_count} jours ne peuvent plus être annulées. En cas d'empêchement, merci de nous %{contact_link}.
-          _de: Aus Organisationsgründe, die Anmeldungen zu Arbeitstagen, die in weniger als %{days_count} Tagen stattfinden, können nicht mehr abgesagt werden. Bei einer Verhinderung, bitte uns schreiben %{contact_link}.
+          _de: Aus organisatorischen Gründen können Anmeldungen zu Arbeitstagen, die in weniger als %{days_count} Tagen stattfinden, nicht mehr abgesagt werden. Bei Verhinderung bitte %{contact_link}.
           _it: Per motivi organizzativi, le iscrizioni per i giorni di lavoro che avvengono entro %{days_count} giorni non possono essere annullate. In caso di impedimenti gravi grazie per contattarci tempestivamente %{contact_link}.
           _nl: Om organisatorische redenen kunnen inschrijvingen voor werkdagen die plaatsvinden binnen %{days_count} dagen niet meer worden geannuleerd. In geval van verhindering, gelieve ons te %{contact_link}.
         coming_activity_participation_cannot_be_cancel_explanation/halfday_work_html:
           _en: For organizational reasons, registrations for ½ days that take place in less than %{days_count} days can no longer be canceled. In case of hindrance, please contact us %{contact_link}.
           _fr: Pour des raisons d'organisation, les inscriptions aux ½ journées qui ont lieu dans moins de %{days_count} jours ne peuvent plus être annulées. En cas d'empêchement, merci de nous %{contact_link}.
-          _de: Aus Organisationsgründe, die Anmeldungen zu den ½ Tage, die in weniger als %{days_count} Tagen stattfinden, können nicht mehr abgesagt werden. Bei einer Verhinderung, bitte uns schreiben %{contact_link}.
+          _de: Aus organisatorischen Gründen können Anmeldungen zu den ½ Tagen, die in weniger als %{days_count} Tagen stattfinden, nicht mehr abgesagt werden. Bei Verhinderung bitte %{contact_link}.
           _it: Per motivi organizzativi, le iscrizioni per le ½ giornate di lavoro che avvengono entro %{days_count} giorni non possono essere annullate. In caso di impedimenti gravi grazie per contattarci tempestivamente %{contact_link}.
           _nl: Om organisatorische redenen kunnen inschrijvingen voor ½ dagen die plaatsvinden binnen %{days_count} dagen niet meer worden geannuleerd. In geval van verhindering, gelieve ons te %{contact_link}.
         coming_activity_participation_cannot_be_cancel_explanation/hour_work_html:
           _en: For organizational reasons, registrations for work hours that take place in less than %{days_count} days can no longer be canceled. In case of hindrance, please contact us %{contact_link}.
           _fr: Pour des raisons d'organisation, les inscriptions aux heures de travail qui ont lieu dans moins de %{days_count} jours ne peuvent plus être annulées. En cas d'empêchement, merci de nous %{contact_link}.
-          _de: Aus Organisationsgründe, die Anmeldungen zu die Arbeitsstunden, die in weniger als %{days_count} Tagen stattfinden, können nicht mehr abgesagt werden. Bei einer Verhinderung, bitte uns schreiben %{contact_link}.
+          _de: Aus organisatorischen Gründen können Anmeldungen zu den Arbeitsstunden, die in weniger als %{days_count} Tagen stattfinden, nicht mehr abgesagt werden. Bei Verhinderung bitte %{contact_link}.
           _it: Per motivi organizzativi, le iscrizioni per le ore di lavoro che avvengono entro %{days_count} giorni non possono essere annullate. In caso di impedimenti gravi grazie per contattarci tempestivamente %{contact_link}.
           _nl: Om organisatorische redenen kunnen inschrijvingen voor werkuren die plaatsvinden binnen %{days_count} dagen niet meer worden geannuleerd. In geval van verhindering, gelieve ons te %{contact_link}.
         coming_activity_participations/basket_preparation:
@@ -372,7 +372,7 @@ _:
         no_activities/basket_preparation:
           _en: Sorry, no basket preparation available at the moment.
           _fr: Désolé, aucune mise en panier disponible pour le moment.
-          _de: Sorry, momentan gibt es keine freie Taschen befüllung.
+          _de: Sorry, momentan gibt es keine freie Taschenbefüllung.
           _it: Spiacenti, nessuna preparazione cesta è disponibile al momento.
           _nl: Sorry, er is momenteel geen pakketvoorbereiding beschikbaar.
         no_activities/day_work:
@@ -390,13 +390,13 @@ _:
         no_activities/hour_work:
           _en: Sorry, no work hours available at the moment.
           _fr: Désolé, aucune heure de travail disponible pour le moment.
-          _de: Sorry, momentan gibt es keinen freie Arbeitsstunde.
+          _de: Sorry, momentan gibt es keine freie Arbeitsstunde.
           _it: Spiacenti, nessuna ora di lavoro è disponibile al momento.
           _nl: Sorry, er zijn momenteel geen werkuren beschikbaar.
         no_activities_this_month/basket_preparation:
           _en: No basket preparation this month.
           _fr: Aucune mise en panier ce mois.
-          _de: In diesem Monat findet keine Taschen befüllung statt.
+          _de: In diesem Monat findet keine Taschenbefüllung statt.
           _it: Nessuna preparazione di ceste questo mese
           _nl: Geen pakketvoorbereiding deze maand.
         no_activities_this_month/day_work:
@@ -408,7 +408,7 @@ _:
         no_activities_this_month/halfday_work:
           _en: No ½ day this month.
           _fr: Aucune ½ journée ce mois.
-          _de: In diesem Monat findet keinen ½ Tag statt.
+          _de: In diesem Monat findet kein ½ Tag statt.
           _it: Nessuna ½ giornata di lavoro pianificata questo mese
           _nl: Geen ½ dag deze maand.
         no_activities_this_month/hour_work:
@@ -420,7 +420,7 @@ _:
         no_coming_activity_participations/basket_preparation:
           _en: No basket preparation available at the moment.
           _fr: Aucune mises en panier disponible pour le moment.
-          _de: Momentan gibt es keine freie Taschen befüllung.
+          _de: Momentan gibt es keine freie Taschenbefüllung.
           _it: Nessuna preparazione cesta è disponibile al momento.
           _nl: Geen pakketvoorbereiding beschikbaar op dit moment.
         no_coming_activity_participations/day_work:
@@ -432,7 +432,7 @@ _:
         no_coming_activity_participations/halfday_work:
           _en: No half-day work available at the moment.
           _fr: Aucune ½ journée disponible pour le moment.
-          _de: Momentan gibt es keine freie ½ Tage.
+          _de: Momentan gibt es keine freien ½ Tage.
           _it: Nessuna ½ giornata di lavoro è disponibile al momento.
           _nl: Geen ½ dag werk beschikbaar op dit moment.
         no_coming_activity_participations/hour_work:
@@ -444,7 +444,7 @@ _:
         no_past_activity_participations:
           _en: Nothing to report at the moment, we look forward to seeing you!
           _fr: Rien à signaler pour le moment, on se réjouit de vous voir!
-          _de: Momentan nichts zu melden, wir freuen uns Ihnen zu sehen!
+          _de: Momentan nichts zu melden, wir freuen uns, Dich zu sehen!
           _it: Nulla da segnalare per ora, ma non vediamo l'ora di rivedervi!
           _nl: Niets te melden op dit moment, we kijken ernaar uit je te zien!
         participants_count_label:
@@ -1467,7 +1467,7 @@ _:
           shares_text_html:
             _en: Each member joins the cooperative and must acquire one or more cooperative shares (<b class="whitespace-nowrap">%{price}</b>/cooperative share).
             _fr: Chaque membre fait également partie de la coopérative et se doit d'acquérir des parts sociales (<b class="whitespace-nowrap">%{price}</b>/part).
-            _de: Jedes Mitglied tritt der Genossenschaft bei und muss ein oder merhere Anteilscheine (<b class="whitespace-nowrap">%{price}</b>/Anteilschein) erwerben.
+            _de: Jedes Mitglied tritt der Genossenschaft bei und muss ein oder mehrere Anteilscheine (<b class="whitespace-nowrap">%{price}</b>/Anteilschein) erwerben.
             _it: Ogni socio è parte della cooperativa e deve acquisire quote sociali della cooperativa (<b class="whitespace-nowrap">%{price}</b>/part).
             _nl: Elk lid wordt lid van de coöperatie en moet één of meer aandelen verwerven (<b class="whitespace-nowrap">%{price}</b>/aandeel).
           text:
@@ -2060,13 +2060,13 @@ _:
         email_input:
           _en: Your email
           _fr: Votre email
-          _de: Deiner E-Mail
+          _de: Deine E-Mail
           _it: Vostra e-mail
           _nl: Je e-mail
         email_placeholder:
           _en: your@email.com
           _fr: votre@email.com
-          _de: ihre@email.com
+          _de: deine@email.com
           _it: vostra@email.com
           _nl: uw@email.com
         features:
@@ -2079,7 +2079,7 @@ _:
           activity_text/basket_preparation:
             _en: to sign up for basket preparation
             _fr: de s'inscrire aux mises en panier
-            _de: sich für die Taschen befüllung einschreiben können
+            _de: sich für die Taschenbefüllung einschreiben können
             _it: registrarsi per la preparazione ceste
             _nl: zich in te schrijven voor pakketvoorbereiding
           activity_text/day_work:
