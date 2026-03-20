@@ -16,8 +16,8 @@ class BasketMailer < ApplicationMailer
 
   def set_context
     @basket = params[:basket]
-    @membership = @basket.membership
-    @member = @membership.member
+    @membership = @basket.membership || params[:membership]
+    @member = @membership&.member || params[:member]
   end
 
   def basket_email
