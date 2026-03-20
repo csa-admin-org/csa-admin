@@ -1330,35 +1330,11 @@ _:
           _de: Wie wurde von uns erfahren?
           _it: Dove avete sentito parlare di noi?
           _nl: Hoe over ons gehoord?
-        contact_sharing/bag:
-          _en: Contact sharing
-          _fr: Cosacage
-          _de: Kontakt Teilen
-          _it: Condivisione ritiro borsa
-          _nl: Contactdeling
-        contact_sharing/basket:
+        contact_sharing:
           _en: Contact sharing
           _fr: Copaniérage
           _de: Kontakt Teilen
-          _it: Condivisione ritiro cesta
-          _nl: Contactdeling
-        contact_sharing/cone:
-          _en: Contact sharing
-          _fr: Cocornérage
-          _de: Kontakt Teilen
-          _it: Condivisione ritiro cono
-          _nl: Contactdeling
-        contact_sharing/package:
-          _en: Contact sharing
-          _fr: Cocolisage
-          _de: Kontakt Teilen
-          _it: Condivisione ritiro pacco
-          _nl: Contactdeling
-        contact_sharing/share:
-          _en: Contact sharing
-          _fr: Copartage
-          _de: Kontakt Teilen
-          _it: Condivisione ritiro parte
+          _it: Condivisione ritiro borsa
           _nl: Contactdeling
         current_membership:
           _en: Membership (ongoing)
