@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_03_08_092923) do
+ActiveRecord::Schema[8.1].define(version: 2026_03_20_081526) do
   create_table "absences", force: :cascade do |t|
     t.datetime "created_at"
     t.date "ended_on"
@@ -45,6 +45,23 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_08_092923) do
     t.index ["author_type", "author_id"], name: "index_active_admin_comments_on_author_type_and_author_id"
     t.index ["namespace"], name: "index_active_admin_comments_on_namespace"
     t.index ["resource_type", "resource_id"], name: "index_active_admin_comments_on_resource_type_and_resource_id"
+  end
+
+  create_table "active_hashcash_stamps", force: :cascade do |t|
+    t.integer "bits", null: false
+    t.json "context"
+    t.string "counter", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.date "date", null: false
+    t.string "ext", null: false
+    t.string "ip_address"
+    t.string "rand", null: false
+    t.string "request_path"
+    t.string "resource", null: false
+    t.datetime "updated_at", precision: nil, null: false
+    t.string "version", null: false
+    t.index ["counter", "rand", "date", "resource", "bits", "version", "ext"], name: "index_active_hashcash_stamps_unique", unique: true
+    t.index ["ip_address", "created_at"], name: "index_active_hashcash_stamps_on_ip_address_and_created_at", where: "ip_address IS NOT NULL"
   end
 
   create_table "active_storage_attachments", force: :cascade do |t|

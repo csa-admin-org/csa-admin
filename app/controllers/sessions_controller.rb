@@ -3,8 +3,10 @@
 require "bcrypt"
 
 class SessionsController < ApplicationController
+  include ActiveHashcash
   helper ActiveAdmin::LayoutHelper
   layout "active_admin_logged_out"
+  before_action :check_hashcash, only: :create
 
   def new
     redirect_to root_path if current_admin
@@ -41,5 +43,13 @@ class SessionsController < ApplicationController
     current_session&.revoke!
     cookies.delete(:session_id)
     redirect_to login_path, notice: t("sessions.flash.deleted")
+  end
+
+  private
+
+  def hashcash_after_failure
+    @session = Session.new
+    flash.now[:alert] = t(".hashcash_failed")
+    render :new, status: :unprocessable_entity
   end
 end

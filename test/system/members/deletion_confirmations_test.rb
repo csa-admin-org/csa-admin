@@ -113,6 +113,7 @@ class Members::DeletionConfirmationsTest < ApplicationSystemTestCase
     # Try to login again
     visit "/login"
     fill_in "session_email", with: "mary@doe.com"
+    fill_in_hashcash
     click_button "Send"
 
     assert_selector "span.error", text: "Unknown email"

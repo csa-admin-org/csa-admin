@@ -12,6 +12,7 @@ class Members::SessionsTest < ApplicationSystemTestCase
     assert_text "Please log in to access your account."
 
     fill_in "session_email", with: " john@doe.com "
+    fill_in_hashcash
     click_button "Send"
     perform_enqueued_jobs
 
@@ -41,6 +42,7 @@ class Members::SessionsTest < ApplicationSystemTestCase
     assert_equal "/login", current_path
 
     fill_in "session_email", with: ""
+    fill_in_hashcash
     click_button "Send"
     perform_enqueued_jobs
 
@@ -55,6 +57,7 @@ class Members::SessionsTest < ApplicationSystemTestCase
     assert_equal "/login", current_path
 
     fill_in "session_email", with: "foo@bar"
+    fill_in_hashcash
     click_button "Send"
     perform_enqueued_jobs
 
@@ -69,6 +72,7 @@ class Members::SessionsTest < ApplicationSystemTestCase
     assert_equal "/login", current_path
 
     fill_in "session_email", with: "unknown@member.com"
+    fill_in_hashcash
     click_button "Send"
     perform_enqueued_jobs
 

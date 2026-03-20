@@ -3,8 +3,10 @@
 require "bcrypt"
 
 class Members::SessionsController < Members::BaseController
+  include ActiveHashcash
   layout "members"
   skip_before_action :authenticate_member!
+  before_action :check_hashcash, only: :create
 
   def new
     redirect_to members_member_path if current_member
@@ -41,5 +43,13 @@ class Members::SessionsController < Members::BaseController
     current_session&.revoke!
     cookies.delete(:session_id)
     redirect_to members_login_path, notice: t("sessions.flash.deleted")
+  end
+
+  private
+
+  def hashcash_after_failure
+    @session = Session.new
+    flash.now[:alert] = t(".hashcash_failed")
+    render :new, status: :unprocessable_entity
   end
 end

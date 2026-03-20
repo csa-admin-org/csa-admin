@@ -127,55 +127,6 @@ class Demo::RegistrationTest < ActiveSupport::TestCase
     end
   end
 
-  test "gibberish name silently succeeds without creating admin" do
-    in_demo_tenant do
-      # Must be >= 20 chars to trigger gibberish detection (SpamDetector min_length)
-      registration = Demo::Registration.new(
-        name: "bxkrwvztnmlqjfphdsgc",
-        email: "test@example.com")
-
-      assert_no_enqueued_emails do
-        assert_raises(ActiveSupport::ErrorReporter::UnexpectedError) do
-          assert registration.save
-        end
-      end
-
-      assert_not Admin.exists?(email: "test@example.com")
-    end
-  end
-
-  test "short name silently succeeds without creating admin" do
-    in_demo_tenant do
-      registration = Demo::Registration.new(
-        name: "as",
-        email: "test@example.com")
-
-      assert_no_enqueued_emails do
-        assert_raises(ActiveSupport::ErrorReporter::UnexpectedError) do
-          assert registration.save
-        end
-      end
-
-      assert_not Admin.exists?(email: "test@example.com")
-    end
-  end
-
-  test "short name with single unique letter silently succeeds without creating admin" do
-    in_demo_tenant do
-      registration = Demo::Registration.new(
-        name: "aaa",
-        email: "test@example.com")
-
-      assert_no_enqueued_emails do
-        assert_raises(ActiveSupport::ErrorReporter::UnexpectedError) do
-          assert registration.save
-        end
-      end
-
-      assert_not Admin.exists?(email: "test@example.com")
-    end
-  end
-
   test "three-letter name with distinct letters creates admin" do
     in_demo_tenant do
       registration = Demo::Registration.new(
@@ -187,38 +138,6 @@ class Demo::RegistrationTest < ActiveSupport::TestCase
       end
 
       assert Admin.exists?(email: "joe@example.com")
-    end
-  end
-
-  test "honeypot filled silently succeeds without creating admin" do
-    in_demo_tenant do
-      registration = Demo::Registration.new(
-        name: "Spam Bot",
-        email: "bot@example.com",
-        organization: "Acme Corp")
-
-      assert_no_enqueued_emails do
-        assert_raises(ActiveSupport::ErrorReporter::UnexpectedError) do
-          assert registration.save
-        end
-      end
-
-      assert_not Admin.exists?(email: "bot@example.com")
-    end
-  end
-
-  test "empty honeypot allows registration" do
-    in_demo_tenant do
-      registration = Demo::Registration.new(
-        name: "Real Person",
-        email: "real@example.com",
-        organization: "")
-
-      assert_enqueued_emails 2 do
-        assert registration.save
-      end
-
-      assert Admin.exists?(email: "real@example.com")
     end
   end
 

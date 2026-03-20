@@ -1,3 +1,11 @@
+GIT
+  remote: https://github.com/thibaudgg/active_hashcash.git
+  revision: fe7d32ccaab46d0e028e4f273c96747a34ce16b1
+  branch: sha256-web-worker
+  specs:
+    active_hashcash (0.4.0)
+      rails (>= 5.2.0)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -699,6 +707,7 @@ PLATFORMS
 
 DEPENDENCIES
   action_text-trix
+  active_hashcash!
   activeadmin (~> 4.0.0.beta22)
   acts_as_list
   appsignal
@@ -788,6 +797,7 @@ CHECKSUMS
   actionpack (8.1.2) sha256=ced74147a1f0daafaa4bab7f677513fd4d3add574c7839958f7b4f1de44f8423
   actiontext (8.1.2) sha256=0bf57da22a9c19d970779c3ce24a56be31b51c7640f2763ec64aa72e358d2d2d
   actionview (8.1.2) sha256=80455b2588911c9b72cec22d240edacb7c150e800ef2234821269b2b2c3e2e5b
+  active_hashcash (0.4.0)
   activeadmin (4.0.0.beta22) sha256=0f890af53164254f51426a8675999b6aeaae859c10642dae84c5655286d941eb
   activejob (8.1.2) sha256=908dab3713b101859536375819f4156b07bdf4c232cc645e7538adb9e302f825
   activemodel (8.1.2) sha256=e21358c11ce68aed3f9838b7e464977bc007b4446c6e4059781e1d5c03bcf33e

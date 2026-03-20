@@ -12,6 +12,7 @@ class SessionsTest < ApplicationSystemTestCase
     assert_equal "Please log in to access your account.", flash_alert
 
     fill_in "Email", with: " info@csa-admin.org "
+    fill_in_hashcash
     click_button "Submit"
     perform_enqueued_jobs
 
@@ -41,6 +42,7 @@ class SessionsTest < ApplicationSystemTestCase
     assert_equal "/login", current_path
 
     fill_in "Email", with: ""
+    fill_in_hashcash
     click_button "Submit"
     perform_enqueued_jobs
 
@@ -55,6 +57,7 @@ class SessionsTest < ApplicationSystemTestCase
     assert_equal "/login", current_path
 
     fill_in "Email", with: "@foo"
+    fill_in_hashcash
     click_button "Submit"
     perform_enqueued_jobs
 
@@ -69,6 +72,7 @@ class SessionsTest < ApplicationSystemTestCase
     assert_equal "/login", current_path
 
     fill_in "Email", with: "unknown@admin.com"
+    fill_in_hashcash
     click_button "Submit"
     perform_enqueued_jobs
 

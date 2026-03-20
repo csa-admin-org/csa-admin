@@ -1,10 +1,12 @@
 # frozen_string_literal: true
 
 class Demo::RegistrationsController < ApplicationController
+  include ActiveHashcash
   helper ActiveAdmin::LayoutHelper
   layout "active_admin_logged_out"
 
   before_action :ensure_demo_tenant!
+  before_action :check_hashcash, only: :create
 
   def new
     @registration = Demo::Registration.new
@@ -27,6 +29,12 @@ class Demo::RegistrationsController < ApplicationController
   end
 
   def registration_params
-    params.require(:demo_registration).permit(:name, :email, :note, :organization)
+    params.require(:demo_registration).permit(:name, :email, :note)
+  end
+
+  def hashcash_after_failure
+    @registration = Demo::Registration.new(registration_params)
+    flash.now[:alert] = t(".hashcash_failed")
+    render :new, status: :unprocessable_entity
   end
 end

@@ -3,9 +3,11 @@
 class Members::MembersController < Members::BaseController
   include ActivitiesHelper
   include ShopHelper
+  include ActiveHashcash
 
   skip_before_action :authenticate_member!, only: %i[new create]
   before_action :redirect_current_member!, only: %i[new create]
+  before_action :check_hashcash, only: :create
 
   def new
     @member = Member.new(public_create: true)
@@ -37,22 +39,25 @@ class Members::MembersController < Members::BaseController
     member.language = I18n.locale
     member.public_create = true
 
-    if SpamDetector.spam?(member)
-      SpamDetector.notify!(member)
+    registration = MemberRegistration.new(member, member_params)
+    if registration.save
       redirect_to members_public_page_path("welcome")
     else
-      registration = MemberRegistration.new(member, member_params)
-      if registration.save
-        redirect_to members_public_page_path("welcome")
-      else
-        @member = registration.member
-        set_basket_complements
-        render :new, status: :unprocessable_entity
-      end
+      @member = registration.member
+      set_basket_complements
+      render :new, status: :unprocessable_entity
     end
   end
 
   private
+
+  def hashcash_after_failure
+    @member = Member.new(member_params)
+    @member.public_create = true
+    set_basket_complements
+    flash.now[:alert] = t(".hashcash_failed")
+    render :new, status: :unprocessable_entity
+  end
 
   def redirect_current_member!
     redirect_to members_member_path if current_member

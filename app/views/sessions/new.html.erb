@@ -1,3 +1,5 @@
+<%= javascript_include_tag "hashcash", defer: true, data: { turbo_track: "reload" } %>
+
 <div class="panel mt-2">
   <div class="panel-title pb-1 text-center text-2xl">
     <h1><%= set_page_title t(".title") %></h1>
@@ -9,6 +11,7 @@
     <%= semantic_form_for @session, as: :session do |f| %>
       <ol class="list-none p-2">
         <%= f.input :email, label: t(".email_input"), required: true %>
+        <%= hashcash_hidden_field_tag %>
         <%= f.action :submit, label: t(".submit"), button_html: { value: t(".submit") }, wrapper_html: { class: "actions mt-2" } %>
       </ol>
     <% end %>

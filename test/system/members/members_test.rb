@@ -65,6 +65,7 @@ class Members::MembersTest < ApplicationSystemTestCase
     fill_in "How did you hear about us?", with: "Friends"
     fill_in "Note", with: "Keep up the good work!"
     check "I have read and agree to the rules."
+    fill_in_hashcash
 
     click_on "Submit"
 
@@ -125,6 +126,7 @@ class Members::MembersTest < ApplicationSystemTestCase
     choose "Annual"
     fill_in "Note", with: "I'm back!"
     check "I have read and agree to the rules."
+    fill_in_hashcash
 
     assert_changes -> { member.reload.state }, from: "inactive", to: "waiting" do
       click_button "Submit"
@@ -162,6 +164,7 @@ class Members::MembersTest < ApplicationSystemTestCase
 
     choose "Supporting member"
     check "I have read and agree to the rules."
+    fill_in_hashcash
 
     assert_no_difference "Member.count" do
       click_button "Submit"
@@ -192,6 +195,7 @@ class Members::MembersTest < ApplicationSystemTestCase
     choose "Mondays"
     choose "Annual"
     check "I have read and agree to the rules."
+    fill_in_hashcash
 
     click_button "Submit"
 
@@ -224,6 +228,7 @@ class Members::MembersTest < ApplicationSystemTestCase
     choose "Annual"
     fill_in "Note", with: "I'm back!"
     check "I have read and agree to the rules."
+    fill_in_hashcash
 
     click_button "Submit"
 
@@ -278,6 +283,7 @@ class Members::MembersTest < ApplicationSystemTestCase
     assert_text "Bakery"
     assert_text "Home"
     choose "Bakery"
+    fill_in_hashcash
 
     click_button "Submit"
 
@@ -308,6 +314,7 @@ class Members::MembersTest < ApplicationSystemTestCase
 
     choose "Supporting member"
     check "I have read and agree to the rules."
+    fill_in_hashcash
 
     click_button "Submit"
 
@@ -339,6 +346,7 @@ class Members::MembersTest < ApplicationSystemTestCase
     choose "Supporting member"
     fill_in "Annual fee", with: "50"
     check "I have read and agree to the rules."
+    fill_in_hashcash
 
     click_button "Submit"
 
@@ -367,6 +375,7 @@ class Members::MembersTest < ApplicationSystemTestCase
 
     choose "Supporting member"
     check "I have read and agree to the rules."
+    fill_in_hashcash
 
     assert_changes -> { member.reload.state }, from: "inactive", to: "support" do
       click_button "Submit"
@@ -402,6 +411,7 @@ class Members::MembersTest < ApplicationSystemTestCase
     fill_in "Cooperative share certificates", with: "3"
 
     check "I have read and agree to the rules."
+    fill_in_hashcash
     click_button "Submit"
 
     assert_text "Thank you for your registration!"
@@ -475,6 +485,7 @@ class Members::MembersTest < ApplicationSystemTestCase
       fill_in "ZIP", with: "4200"
       fill_in "City", with: "Corp City"
     end
+    fill_in_hashcash
 
     click_button "Submit"
     assert_text "Thank you for your registration!"
@@ -487,25 +498,6 @@ class Members::MembersTest < ApplicationSystemTestCase
     assert_equal "4200", member.billing_zip
     assert_equal "Corp City", member.billing_city
     assert member.different_billing_info
-  end
-
-  test "notifies spam detection" do
-    org(terms_of_service_urls: {})
-
-    visit "/new"
-
-    fill_in "Name and surname", with: "Р РѕСЃСЃРёСЏ"
-    fill_in "Address", with: "Р РѕСЃСЃРёСЏ"
-    fill_in "ZIP", with: "999999"
-    fill_in "City", with: "Р РѕСЃСЃРёСЏ"
-    fill_in "Email(s)", with: "john@doe.com"
-    choose "Supporting member"
-
-    assert_no_difference -> { Member.count } do
-      assert_raises(ActiveSupport::ErrorReporter::UnexpectedError) do
-        click_button "Submit"
-      end
-    end
   end
 
   test "annual fee only (no basket sizes, no depots)" do
@@ -529,6 +521,7 @@ class Members::MembersTest < ApplicationSystemTestCase
 
     fill_in "Annual fee", with: "50"
     check "I have read and agree to the rules."
+    fill_in_hashcash
 
     click_button "Submit"
 
@@ -550,6 +543,26 @@ class Members::MembersTest < ApplicationSystemTestCase
     assert_no_text "Supporting member"
   end
 
+  test "rejects registration without hashcash" do
+    org(terms_of_service_urls: {})
+
+    visit "/new"
+
+    fill_in "Name and surname", with: "Jane Doe"
+    fill_in "Address", with: "Nowhere street 2"
+    fill_in "ZIP", with: "2042"
+    fill_in "City", with: "Moon City"
+    fill_in "Email(s)", with: "jane@doe.com"
+    fill_in "Phone(s)", with: "077 142 42 42"
+    choose "Supporting member"
+
+    assert_no_difference -> { Member.count } do
+      click_button "Submit"
+    end
+
+    assert_text "Security verification failed, please try again."
+  end
+
   test "with different form modes" do
     org(member_profession_form_mode: "hidden", member_come_from_form_mode: "required")
 
@@ -557,6 +570,7 @@ class Members::MembersTest < ApplicationSystemTestCase
 
     assert_no_text "Profession / Skills"
     assert_text "How did you hear about us? *"
+    fill_in_hashcash
 
     click_button "Submit"
 

@@ -1,6 +1,13 @@
 _:
   demo:
     registrations:
+      create:
+        hashcash_failed:
+          _en: Security verification failed, please try again.
+          _fr: La vérification de sécurité a échoué, veuillez réessayer.
+          _de: Sicherheitsüberprüfung fehlgeschlagen, bitte erneut versuchen.
+          _it: Verifica di sicurezza non riuscita, riprova.
+          _nl: Beveiligingsverificatie mislukt, probeer opnieuw.
       new:
         already_have_account_html:
           _en: Already have an account? <a href="%{login_path}">Log in</a>

@@ -43,6 +43,7 @@ module ActiveSupport
     include TenantHelper
     include ResponsesHelper
     include SessionsHelper
+    include HashcashHelper
     include ShopHelper
 
     # Run tests in parallel with specified workers

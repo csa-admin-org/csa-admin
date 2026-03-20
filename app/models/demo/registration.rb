@@ -7,7 +7,6 @@ class Demo::Registration
   attribute :name, :string
   attribute :email, :string
   attribute :note, :string
-  attribute :organization, :string
 
   attr_accessor :request
 
@@ -15,7 +14,6 @@ class Demo::Registration
 
   def save
     return false unless valid?
-    return true if spam?
 
     admin = create_admin!
     send_invitation_email!(admin)
@@ -24,28 +22,6 @@ class Demo::Registration
   end
 
   private
-
-  def spam?
-    spam = honeypot_filled? || short_name? || gibberish?
-    if spam
-      Rails.error.unexpected("Demo registration spam detected",
-        context: { name: name, email: email, note: note, reason: spam })
-    end
-    spam
-  end
-
-  def honeypot_filled?
-    :honeypot if organization.present?
-  end
-
-  def short_name?
-    :short_name if name.present? && (name.strip.length < 3 || name.strip.scan(/\p{L}/).uniq.size < 2)
-  end
-
-  def gibberish?
-    detector = SpamDetector.new(nil)
-    :gibberish if detector.gibberish?(name) || detector.gibberish?(note)
-  end
 
   def admin_must_be_valid
     return if build_admin.valid?

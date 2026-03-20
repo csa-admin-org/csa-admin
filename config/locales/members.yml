@@ -1377,6 +1377,13 @@ _:
         _it: Informazioni
         _nl: Informatie
     members:
+      create:
+        hashcash_failed:
+          _en: Security verification failed, please try again.
+          _fr: La vérification de sécurité a échoué, veuillez réessayer.
+          _de: Sicherheitsüberprüfung fehlgeschlagen, bitte erneut versuchen.
+          _it: Verifica di sicurezza non riuscita, riprova.
+          _nl: Beveiligingsverificatie mislukt, probeer opnieuw.
       form_modes:
         membership:
           alternative_depots_show_all:
@@ -2042,6 +2049,13 @@ _:
           _it: Grazie per l'iscrizione!
           _nl: Dank je voor je inschrijving!
     sessions:
+      create:
+        hashcash_failed:
+          _en: Security verification failed, please try again.
+          _fr: La vérification de sécurité a échoué, veuillez réessayer.
+          _de: Sicherheitsüberprüfung fehlgeschlagen, bitte erneut versuchen.
+          _it: Verifica di sicurezza non riuscita, riprova.
+          _nl: Beveiligingsverificatie mislukt, probeer opnieuw.
       new:
         email_input:
           _en: Your email

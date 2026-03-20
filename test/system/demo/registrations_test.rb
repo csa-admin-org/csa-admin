@@ -31,6 +31,7 @@ class Demo::RegistrationsTest < ApplicationSystemTestCase
       fill_in "Your name", with: "Alice Johnson"
       fill_in "Email", with: "alice@example.com"
       fill_in "Your CSA", with: "Green Valley CSA"
+      fill_in_hashcash
       click_button "Get started"
       perform_enqueued_jobs
 
@@ -49,6 +50,7 @@ class Demo::RegistrationsTest < ApplicationSystemTestCase
       visit new_demo_registration_path
 
       fill_in "Email", with: "test@example.com"
+      fill_in_hashcash
       click_button "Get started"
 
       assert_selector "p.inline-errors", text: "can't be blank"
@@ -61,6 +63,7 @@ class Demo::RegistrationsTest < ApplicationSystemTestCase
 
       fill_in "Your name", with: "Test User"
       fill_in "Email", with: "not-an-email"
+      fill_in_hashcash
       click_button "Get started"
 
       assert_selector "p.inline-errors", text: "is invalid"
@@ -79,24 +82,25 @@ class Demo::RegistrationsTest < ApplicationSystemTestCase
 
       fill_in "Your name", with: "Another User"
       fill_in "Email", with: "existing@example.com"
+      fill_in_hashcash
       click_button "Get started"
 
       assert_selector "p.inline-errors", text: "has already been taken"
     end
   end
 
-  test "gibberish name does not create admin" do
+  test "rejects registration without hashcash" do
     with_demo_tenant do
       visit new_demo_registration_path
 
-      fill_in "Your name", with: "bxkrwvztnmlqjfphdsgc"
-      fill_in "Email", with: "spam@example.com"
+      fill_in "Your name", with: "Alice Johnson"
+      fill_in "Email", with: "alice@example.com"
 
       assert_no_difference "Admin.count" do
-        assert_raises(ActiveSupport::ErrorReporter::UnexpectedError) do
-          click_button "Get started"
-        end
+        click_button "Get started"
       end
+
+      assert_text "Security verification failed, please try again."
     end
   end
 
