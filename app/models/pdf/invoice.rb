@@ -515,7 +515,7 @@ module PDF
       bounding_box [ 176.66 + border, 298 - border ], width: 390, height: 298 - 2 * border do
         qr_text_main_title t("payment.payment_part")
 
-        image Billing::SwissQRCode.generate(invoice),
+        image Billing::SwissQRCode.image(invoice),
           at: [ -2.5, 252 ],
           width: 137
 
@@ -587,7 +587,7 @@ module PDF
         y_start = bounds.height - 25
 
         qr_code_width = 110
-        svg Billing::EPCQRCode.generate(invoice),
+        svg Billing::EPCQRCode.svg(invoice),
           at: [ 0, y_start ],
           width: qr_code_width,
           enable_web_requests: false

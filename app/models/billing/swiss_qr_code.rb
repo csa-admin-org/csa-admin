@@ -45,8 +45,8 @@ module Billing
     # Allowed characters (as a single-character regex) per Swiss QR Bill:
     ALLOWED_CHAR_REGEX = /[a-zA-Z0-9\.,;:'\+\-\/\(\)?\*\[\]\{\}\|\\`´~ !"#%&<>÷=@_$£^àáâäçèéêëìíîïñòóôöùúûüýßÀÁÂÄÇÈÉÊËÌÍÎÏÒÓÔÖÙÚÛÜÑ]/
 
-    def self.generate(invoice)
-      new(invoice).generate
+    def self.image(invoice)
+      new(invoice).image
     end
 
     def initialize(invoice)
@@ -55,7 +55,7 @@ module Billing
       @org = Current.org
     end
 
-    def generate
+    def image
       QRCode.new(payload, logo: :swiss_cross).image
     end
 

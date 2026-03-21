@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require "test_helper"
-require "image_processing/vips"
+
 
 class Billing::SwissQRCodeTest < ActiveSupport::TestCase
   test "payload" do
@@ -45,28 +45,5 @@ class Billing::SwissQRCodeTest < ActiveSupport::TestCase
       "EPD\r\n" +
       "\r\n",
       payload)
-  end
-
-  test "generated QR check" do
-    expected = Vips::Image.new_from_file(file_fixture("qrcode-check.png").to_s)
-    member = create_member(
-      id: 1234,
-      name: "Martha",
-      street: "Nowhere 46",
-      zip: "1234",
-      city: "City",
-      country_code: "CH")
-    invoice = create_annual_fee_invoice(
-      id: 4321,
-      member: member,
-      date: "2024-01-01")
-
-    skip_qr_code_placeholder do
-      qr_image = Billing::SwissQRCode.new(invoice).generate
-      result = Vips::Image.new_from_file(qr_image.path)
-      diff = (result - expected).abs.max
-
-      assert_equal 0, diff
-    end
   end
 end

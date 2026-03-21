@@ -7,8 +7,8 @@ require "girocode"
 
 module Billing
   class EPCQRCode
-    def self.generate(invoice)
-      new(invoice).generate
+    def self.svg(invoice)
+      new(invoice).svg
     end
 
     def initialize(invoice)
@@ -17,7 +17,7 @@ module Billing
       @code = build_code
     end
 
-    def generate
+    def svg
       @code.to_svg
     end
 
