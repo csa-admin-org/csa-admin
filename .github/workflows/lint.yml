@@ -36,4 +36,4 @@ jobs:
         run: bin/rails lint:check
 
       - name: Check Migration Indexes
-        uses: speedshop/ids_must_be_indexed@v1.2.1
+        uses: speedshop/ids_must_be_indexed@v1
