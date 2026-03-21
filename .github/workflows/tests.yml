@@ -26,9 +26,7 @@ jobs:
           bundler-cache: true
 
       - name: Set timezone
-        uses: szenius/set-timezone@v2.0
-        with:
-          timezoneLinux: Europe/Zurich
+        run: echo "TZ=Europe/Zurich" >> $GITHUB_ENV
 
       - name: Run test:all
         env:
