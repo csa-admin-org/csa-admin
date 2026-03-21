@@ -15,9 +15,9 @@ task bookmarks: :environment do
       name: Current.org.name,
       tenant: tenant,
       production_admin_url: Current.org.admin_url(mc_login: true),
-      production_members_url: Current.org.members_url,
+      production_members_url: Current.org.members_url + "/new",
       development_admin_url: Current.org.admin_url.gsub(/\.[a-z]+\z/, ".test"),
-      development_members_url: Current.org.members_url.gsub(/\.[a-z]+\z/, ".test"))
+      development_members_url: Current.org.members_url.gsub(/\.[a-z]+\z/, ".test") + "/new")
   end
 
   html = ERB.new(template).result(binding)
