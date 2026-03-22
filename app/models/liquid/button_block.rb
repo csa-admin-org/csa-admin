@@ -20,7 +20,7 @@ class Liquid::ButtonBlock < Liquid::Block
                   <tr>
                     <td>
                       <a href="#{ url }" class="button button--green" target="_blank" rel="noreferrer noopener">
-                        #{ super }
+                        #{ super.gsub(/(\s|&nbsp;|<br\s*\/?>)+/i, " ").strip }
                       </a>
                     </td>
                   </tr>
