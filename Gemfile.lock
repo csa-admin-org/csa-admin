@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/thibaudgg/active_hashcash.git
-  revision: fe7d32ccaab46d0e028e4f273c96747a34ce16b1
+  revision: 676c225005b9e1d9c1617386f3e571387ef58f6d
   branch: sha256-web-worker
   specs:
     active_hashcash (0.4.0)
