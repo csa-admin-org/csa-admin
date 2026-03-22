@@ -68,9 +68,11 @@ class API::V1::MembersControllerTest < ActionDispatch::IntegrationTest
     params = { name: "" }
 
     assert_no_difference("Member.count") do
-      assert_raises(ActiveSupport::ErrorReporter::UnexpectedError) do
-        request(params: params)
-      end
+      request(params: params)
     end
+
+    assert_response :unprocessable_entity
+    json = JSON.parse(response.body)
+    assert_includes json["errors"]["name"], "can't be blank"
   end
 end

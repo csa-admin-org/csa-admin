@@ -10,9 +10,7 @@ module API
         if registration.save
           head :created
         else
-          Rails.error.unexpected("API Member invalid",
-            context: { params: params, permitted_params: member_params })
-          head :unprocessable_entity
+          render json: { errors: registration.member.errors.messages }, status: :unprocessable_entity
         end
       end
 
