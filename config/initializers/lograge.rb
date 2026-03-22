@@ -4,10 +4,12 @@ Rails.application.configure do
   config.lograge.enabled = true
 
   if Rails.env.production?
-    config.lograge.logger = Appsignal::Logger.new(
+    logger = Appsignal::Logger.new(
       "rails",
       format: Appsignal::Logger::LOGFMT
     )
+    logger.broadcast_to(Logger.new(STDOUT))
+    config.lograge.logger = logger
   end
 
   config.lograge.base_controller_class = [
