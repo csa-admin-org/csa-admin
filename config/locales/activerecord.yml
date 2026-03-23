@@ -2791,6 +2791,12 @@ _:
           _de: Reihenfolge der Zusätze
           _it: Ordine dei aggiunta
           _nl: Volgorde van aanvullingen
+        basket_content_member_display_product_url:
+          _en: Make use of product external link
+          _fr: Utiliser le lien externe du produit
+          _de: Externen Link des Produkts verwenden
+          _it: Utilizzare il link esterno del prodotto
+          _nl: Externe link van het product gebruiken
         basket_content_member_display_quantity:
           _en: Display quantity
           _fr: Afficher la quantité

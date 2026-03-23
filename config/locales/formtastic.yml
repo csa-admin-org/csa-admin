@@ -1641,6 +1641,12 @@ _:
           _de: Legt die Reihenfolge der Anteilszusätze im Anmeldeformular fest, nachdem ihre individuelle Priorität berücksichtigt wurde.
           _it: Permette di definire l'ordine di visualizzazione delle aggiunte di parti nel modulo di iscrizione, dopo aver preso in considerazione la loro priorità individuale.
           _nl: Stelt de volgorde van deelaanvullingen in het registratieformulier in na het in overweging nemen van hun individuele prioriteit.
+        basket_content_member_display_product_url:
+          _en: Make product name a clickable link when the external link URL is set on the product.
+          _fr: Rendre le nom du produit cliquable lorsque l'URL du lien externe est définie sur le produit.
+          _de: Produktname als anklickbaren Link anzeigen, wenn die externe Link-URL beim Produkt hinterlegt ist.
+          _it: Rendere il nome del prodotto un link cliccabile quando l'URL del link esterno è impostato sul prodotto.
+          _nl: Productnaam als klikbare link weergeven wanneer de externe link-URL is ingesteld bij het product.
         basket_content_member_display_quantity:
           _en: Show quantity next to product name, e.g. "Carrots (250g)".
           _fr: Afficher la quantité à côté du nom du produit, p.ex. "Carottes (250g)".

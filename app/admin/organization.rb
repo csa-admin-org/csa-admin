@@ -515,6 +515,10 @@ ActiveAdmin.register Organization do
               as: :boolean,
               hint: t("formtastic.hints.organization.basket_content_member_display_quantity"),
               input_html: { data: { form_checkbox_toggler_target: "input" } }
+            f.input :basket_content_member_display_product_url,
+              as: :boolean,
+              hint: t("formtastic.hints.organization.basket_content_member_display_product_url"),
+              input_html: { data: { form_checkbox_toggler_target: "input" } }
           end
 
           handbook_button(self, "basket_content")
@@ -618,6 +622,7 @@ ActiveAdmin.register Organization do
     :basket_content_member_visible,
     :basket_content_member_visible_hours_before,
     :basket_content_member_display_quantity,
+    :basket_content_member_display_product_url,
     :basket_price_extras,
     :member_profession_form_mode, :member_come_from_form_mode,
     :membership_depot_update_allowed, :membership_complements_update_allowed,

@@ -111,6 +111,45 @@ class Members::BasketContentsDeliveriesTest < ApplicationSystemTestCase
     assert_no_text "pc"
   end
 
+  test "shows product URLs when display_product_url is enabled and product has URL" do
+    travel_to "2024-04-03 13:00"
+    enable_basket_content_visibility(basket_content_member_display_product_url: true)
+    basket_content_products(:carrots).update!(url: "https://example.com/carrots")
+    create_contents_for_thursday_1
+
+    login(members(:jane))
+    visit "/deliveries"
+
+    assert_link "Carrots", href: "https://example.com/carrots"
+    assert_no_link "Cucumbers"
+    assert_text "Cucumbers"
+  end
+
+  test "does not link product when display_product_url is enabled but product has no URL" do
+    travel_to "2024-04-03 13:00"
+    enable_basket_content_visibility(basket_content_member_display_product_url: true)
+    create_contents_for_thursday_1
+
+    login(members(:jane))
+    visit "/deliveries"
+
+    assert_no_link "Carrots"
+    assert_text "Carrots"
+  end
+
+  test "does not link product when display_product_url is disabled" do
+    travel_to "2024-04-03 13:00"
+    enable_basket_content_visibility(basket_content_member_display_product_url: false)
+    basket_content_products(:carrots).update!(url: "https://example.com/carrots")
+    create_contents_for_thursday_1
+
+    login(members(:jane))
+    visit "/deliveries"
+
+    assert_no_link "Carrots"
+    assert_text "Carrots"
+  end
+
   test "shows note when present" do
     travel_to "2024-04-03 13:00"
     enable_basket_content_visibility

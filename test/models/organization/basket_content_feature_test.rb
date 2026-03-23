@@ -43,6 +43,12 @@ class BasketContentFeatureTest < ActiveSupport::TestCase
     assert org.basket_content_member_display_quantity?
   end
 
+  test "basket_content_member_display_product_url? returns false by default" do
+    org = organizations(:acme)
+
+    assert_not org.basket_content_member_display_product_url?
+  end
+
   test "validates basket_content_member_visible_hours_before is not negative" do
     org = organizations(:acme)
     org.basket_content_member_visible_hours_before = -1

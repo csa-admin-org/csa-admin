@@ -10,7 +10,11 @@
       </span>
 
       <span>
-        <%= bc.product.name %>
+        <% if Current.org.basket_content_member_display_product_url? && bc.product.url? %>
+          <%= link_to bc.product.name, bc.product.url %>
+        <% else %>
+          <%= bc.product.name %>
+        <% end %>
 
         <% if Current.org.basket_content_member_display_quantity? %>
           <span class="text-gray-400 dark:text-gray-500">
