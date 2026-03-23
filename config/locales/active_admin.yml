@@ -3157,7 +3157,7 @@ _:
         new_model:
           _en: New %{model}
           _fr: Nouvelle %{model}
-          _de: Neue %{model}
+          _de: Neuer %{model}
           _it: Nuovo %{model}
           _nl: Nieuwe %{model}
         scopes:
@@ -3632,7 +3632,7 @@ _:
           confirm:
             _en: Are you sure you want to send this newsletter to %{members_count} members?
             _fr: Êtes-vous sûr de vouloir envoyer cette newsletter à %{members_count} membres?
-            _de: Soll diese Newsletter wirklich an %{members_count} Mitglieder gesendet werden?
+            _de: Soll dieser Newsletter wirklich an %{members_count} Mitglieder gesendet werden?
             _it: Siete sicuri di voler inviare questa newsletter a %{members_count} soci?
             _nl: Moet deze nieuwsbrief echt naar %{members_count} leden worden verzonden?
         open:
@@ -3887,7 +3887,7 @@ _:
         no_eligible_memberships_text:
           _en: No memberships are eligible to start a bidding round in %{year}.
           _fr: Aucun abonnement n'est éligible pour démarrer un tour d'engagement en %{year}.
-          _de: Keine Abonnements sind für den Start eines Bietungsrunden in %{year} geeignet.
+          _de: Keine Abonnements sind für den Start einer Beitragsrunde in %{year} geeignet.
           _it: Nessun abbonamento è eleggibile per un turno di impegno in %{year}.
           _nl: Geen lidmaatschappen zijn geschikt om een biedronde te starten in %{year}.
         no_handbook_results:

@@ -441,12 +441,30 @@ _:
           _de: Momentan gibt es keine freie Arbeitsstunde.
           _it: Nessuna ora di lavoro è disponibile al momento.
           _nl: Geen werkuren beschikbaar op dit moment.
-        no_past_activity_participations:
-          _en: Nothing to report at the moment, we look forward to seeing you!
-          _fr: Rien à signaler pour le moment, on se réjouit de vous voir!
-          _de: Momentan nichts zu melden, wir freuen uns, Dich zu sehen!
-          _it: Nulla da segnalare per ora, ma non vediamo l'ora di rivedervi!
-          _nl: Niets te melden op dit moment, we kijken ernaar uit je te zien!
+        no_past_activity_participations/basket_preparation:
+          _en: No basket preparations completed yet. We look forward to seeing you soon!
+          _fr: Aucune mise en panier effectuée pour le moment. On se réjouit de vous voir bientôt!
+          _de: Noch keine Taschenbefüllung geleistet. Wir freuen uns, Dich bald wiederzusehen!
+          _it: Nessuna preparazione cesta completata per ora. Non vediamo l'ora di rivedervi presto!
+          _nl: Nog geen pakketvoorbereiding voltooid. We kijken ernaar uit je snel te zien!
+        no_past_activity_participations/day_work:
+          _en: No workdays completed yet. We look forward to seeing you soon!
+          _fr: Aucune journée de travail effectuée pour le moment. On se réjouit de vous voir bientôt!
+          _de: Noch keine Arbeitstage geleistet. Wir freuen uns, Dich bald wiederzusehen!
+          _it: Nessun giorno di lavoro completato per ora. Non vediamo l'ora di rivedervi presto!
+          _nl: Nog geen werkdagen voltooid. We kijken ernaar uit je snel te zien!
+        no_past_activity_participations/halfday_work:
+          _en: No half-days completed yet. We look forward to seeing you soon!
+          _fr: Aucune ½ journée effectuée pour le moment. On se réjouit de vous voir bientôt!
+          _de: Noch keine ½ Tage geleistet. Wir freuen uns, Dich bald wiederzusehen!
+          _it: Nessuna ½ giornata completata per ora. Non vediamo l'ora di rivedervi presto!
+          _nl: Nog geen ½ dagen voltooid. We kijken ernaar uit je snel te zien!
+        no_past_activity_participations/hour_work:
+          _en: No work hours completed yet. We look forward to seeing you soon!
+          _fr: Aucune heure de travail effectuée pour le moment. On se réjouit de vous voir bientôt!
+          _de: Noch keine Arbeitsstunden geleistet. Wir freuen uns, Dich bald wiederzusehen!
+          _it: Nessuna ora di lavoro completata per ora. Non vediamo l'ora di rivedervi presto!
+          _nl: Nog geen werkuren voltooid. We kijken ernaar uit je snel te zien!
         participants_count_label:
           _en: Number of participants
           _fr: Nombre de participants
@@ -456,19 +474,19 @@ _:
         past_activity_participations/basket_preparation:
           _en: Completed
           _fr: Effectuées
-          _de: Geleisteten
+          _de: Geleistete
           _it: Effettuate
           _nl: Voltooid
         past_activity_participations/day_work:
           _en: Completed
           _fr: Effectuées
-          _de: Geleisteten
+          _de: Geleistete
           _it: Effettuate
           _nl: Voltooid
         past_activity_participations/halfday_work:
           _en: Completed
           _fr: Effectuées
-          _de: Geleisteten
+          _de: Geleistete
           _it: Effettuate
           _nl: Voltooid
         past_activity_participations/hour_work:

@@ -113,7 +113,7 @@ _:
     default_invoice_info:
       _en: Payable within 30 days, with our thanks.
       _fr: Payable dans les 30 jours, avec nos remerciements.
-      _de: Zahlbar innerhalb von 30 Tagen, mit unseren Dank.
+      _de: Zahlbar innerhalb von 30 Tagen, herzlichen Dank.
       _it: Pagabile entro 30 giorni, con le nostre ringraziamenti.
       _nl: Betaalbaar binnen 30 dagen, met dank.
     delivery_pdf_member_info:

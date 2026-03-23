@@ -2340,7 +2340,7 @@ _:
         shop_admin_only:
           _en: Allows you to hide the farm shop from members while products are being set up. Only admins accessing a member's account can see the farm shop in the menu.
           _fr: Permet de cacher l'épicerie aux membres pendant la mise en place des produits. Seuls les admins accédant au compte d'un membre peuvent voir l'épicerie dans le menu.
-          _de: Ermöglicht es, den Hofladen vor den Mitgliedern zu verbergen, während die Produkte aufgestellt werden. Nur Admins, die auf das Konto eines Mitglieds zugreifen, können den Hofladen im Menü sehen.
+          _de: Ermöglicht es, den Hofladen vor den Mitgliedern zu verbergen, während die Produkte eingestellt werden. Nur Admins, die auf das Konto eines Mitglieds zugreifen, können den Hofladen im Menü sehen.
           _it: Permette di nascondere la drogheria ai soci mentre i prodotti vengono piazzati. Solo gli admin che accedono all'account di un socio possono vedere la spesa nel menu.
           _nl: Maakt het mogelijk de winkel te verbergen voor leden terwijl producten worden ingesteld. Alleen beheerders die toegang hebben tot een ledenaccount kunnen de winkel in het menu zien.
         shop_delivery_open_delay_in_days:

@@ -3817,13 +3817,13 @@ _:
         one:
           _en: Preset
           _fr: Preset
-          _de: Voreinstellung
+          _de: Vorlage
           _it: Preset
           _nl: Voorinstelling
         other:
           _en: Presets
           _fr: Presets
-          _de: Voreinstellungen
+          _de: Vorlagen
           _it: Presets
           _nl: Voorinstellingen
       admin:
@@ -4473,13 +4473,13 @@ _:
         one:
           _en: Permission
           _fr: Permission
-          _de: Erlaubnis
+          _de: Berechtigung
           _it: Permesso
           _nl: Toestemming
         other:
           _en: Permissions
           _fr: Permissions
-          _de: Erlaubnisse
+          _de: Berechtigungen
           _it: Permessi
           _nl: Toestemmingen
       session:
