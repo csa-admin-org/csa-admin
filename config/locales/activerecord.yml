@@ -398,6 +398,12 @@ _:
           _de: Mengen
           _it: Quantità
           _nl: Hoeveelheden
+        basket_quantity:
+          _en: Quantity
+          _fr: Quantité
+          _de: Menge
+          _it: Quantità
+          _nl: Hoeveelheid
         basket_size/bag:
           _en: Bag
           _fr: Sac
@@ -428,6 +434,12 @@ _:
           _de: Anteil
           _it: Parte
           _nl: Deel
+        basket_total_quantity:
+          _en: Total quantity
+          _fr: Quantité totale
+          _de: Gesamtmenge
+          _it: Quantità totale
+          _nl: Totale hoeveelheid
         content:
           _en: Content
           _fr: Contenu

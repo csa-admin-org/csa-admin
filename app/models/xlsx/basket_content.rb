@@ -47,8 +47,11 @@ module XLSX
           "#{basket_size.name} - #{Basket.model_name.human(count: 2)}",
           @basket_contents.map { |bc| bc.baskets_count(basket_size) })
         add_column(
-          "#{basket_size.name} - #{::BasketContent.human_attribute_name(:quantity)}",
+          "#{basket_size.name} - #{::BasketContent.human_attribute_name(:basket_quantity)}",
           @basket_contents.map { |bc| bc.basket_quantity(basket_size) })
+        add_column(
+          "#{basket_size.name} - #{::BasketContent.human_attribute_name(:basket_total_quantity)}",
+          @basket_contents.map { |bc| bc.baskets_count(basket_size) * bc.basket_quantity(basket_size) })
         add_column(
           "#{basket_size.name} - #{::BasketContent.human_attribute_name(:price)}",
           @basket_contents.map { |bc|
@@ -88,8 +91,13 @@ module XLSX
           "#{basket_size.name} - #{Basket.model_name.human(count: 2)}",
           basket_contents.map { |bc| baskets_count if bc.baskets_count(basket_size) })
         add_column(
-          "#{basket_size.name} - #{::BasketContent.human_attribute_name(:quantity)}",
+          "#{basket_size.name} - #{::BasketContent.human_attribute_name(:basket_quantity)}",
           basket_contents.map { |bc| bc.basket_quantity(basket_size) })
+        add_column(
+          "#{basket_size.name} - #{::BasketContent.human_attribute_name(:basket_total_quantity)}",
+          basket_contents.map { |bc|
+            bc.baskets_count(basket_size).to_i > 0 ? baskets_count * bc.basket_quantity(basket_size) : nil
+          })
         add_column(
           "#{basket_size.name} - #{::BasketContent.human_attribute_name(:price)}",
           basket_contents.map { |bc|
