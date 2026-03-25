@@ -9,7 +9,6 @@ Rails.application.routes.draw do
   }
 
   resources :logos, only: :show
-  get "favicon" => "favicons#show"
 
   constraints subdomain: "mc" do
     mount MissionControl::Jobs::Engine, at: "/jobs"
@@ -17,6 +16,7 @@ Rails.application.routes.draw do
   end
 
   constraints subdomain: "admin" do
+    get "favicon" => "favicons#show"
     constraints ultra_admin do
       mount ActiveHashcash::Engine, at: "/hashcash"
     end
@@ -67,6 +67,7 @@ Rails.application.routes.draw do
 
   scope module: "members", as: "members" do
     constraints subdomain: Organization::MEMBERS_SUBDOMAINS do
+      get "favicon" => "/favicons#show"
       resources :sessions, only: %i[show create]
       get "/login" => "sessions#new", as: :login
       delete "/logout" => "sessions#destroy", as: :logout
