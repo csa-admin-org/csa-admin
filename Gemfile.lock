@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/thibaudgg/active_hashcash.git
-  revision: 874fa81d80b23f83a2c94dc5bd3d9f27318c1770
+  revision: 8cba5841c688a91455d10828599ba26769c5549a
   branch: sha256-web-worker
   specs:
     active_hashcash (0.4.0)
@@ -316,7 +316,7 @@ GEM
       rdoc (>= 4.0.0)
       reline (>= 0.4.2)
     jmespath (1.6.2)
-    json (2.19.2)
+    json (2.19.3)
     kamal (2.11.0)
       activesupport (>= 7.0)
       base64 (~> 0.2)
@@ -532,7 +532,7 @@ GEM
       activerecord (>= 7.2)
       activesupport (>= 7.2)
       i18n
-    rbs (4.0.1)
+    rbs (4.0.2)
       logger
       prism (>= 1.6.0)
       tsort
@@ -653,9 +653,9 @@ GEM
     terminal-table (4.0.0)
       unicode-display_width (>= 1.1.1, < 4)
     thor (1.5.0)
-    thruster (0.1.19-aarch64-linux)
-    thruster (0.1.19-arm64-darwin)
-    thruster (0.1.19-x86_64-linux)
+    thruster (0.1.20-aarch64-linux)
+    thruster (0.1.20-arm64-darwin)
+    thruster (0.1.20-x86_64-linux)
     timeout (0.6.1)
     tod (3.1.2)
     traces (0.18.2)
@@ -896,7 +896,7 @@ CHECKSUMS
   io-stream (0.11.1) sha256=fa5f551fcff99581c1757b9d1cee2c37b124f07d2ca4f40b756a05ab9bd21b87
   irb (1.17.0) sha256=168c4ddb93d8a361a045c41d92b2952c7a118fa73f23fe14e55609eb7a863aae
   jmespath (1.6.2) sha256=238d774a58723d6c090494c8879b5e9918c19485f7e840f2c1c7532cf84ebcb1
-  json (2.19.2) sha256=e7e1bd318b2c37c4ceee2444841c86539bc462e81f40d134cf97826cb14e83cf
+  json (2.19.3) sha256=289b0bb53052a1fa8c34ab33cc750b659ba14a5c45f3fcf4b18762dc67c78646
   kamal (2.11.0) sha256=1408864425e0dec7e0a14d712a3b13f614e9f3a425b7661d3f9d287a51d7dd75
   kaminari (1.2.2) sha256=c4076ff9adccc6109408333f87b5c4abbda5e39dc464bd4c66d06d9f73442a3e
   kaminari-actionview (1.2.2) sha256=1330f6fc8b59a4a4ef6a549ff8a224797289ebf7a3a503e8c1652535287cc909
@@ -979,7 +979,7 @@ CHECKSUMS
   rainbow (3.1.1) sha256=039491aa3a89f42efa1d6dec2fc4e62ede96eb6acd95e52f1ad581182b79bc6a
   rake (13.3.1) sha256=8c9e89d09f66a26a01264e7e3480ec0607f0c497a861ef16063604b1b08eb19c
   ransack (4.4.1) sha256=6aeaac36fc19088570e10da1044e6cfd88c740e20f871b84566fd30e32b7a63d
-  rbs (4.0.1) sha256=e237fd49787fb265bf0f389f2f0f5788fdcdf1f49bb54b4f7952cea904162a07
+  rbs (4.0.2) sha256=af75671e66cd03434cc546622741ebf83f6197ec4328375805306330bf78ef25
   rchardet (1.10.0) sha256=d5ea2ed61a720a220f1914778208e718a0c7ed2a484b6d357ba695aa7001390f
   rdoc (7.2.0) sha256=8650f76cd4009c3b54955eb5d7e3a075c60a57276766ebf36f9085e8c9f23192
   reactionview (0.3.0) sha256=3bd363863776827eaf85a9baf75370c1ca52a4b0dad87ba5d672e4abe76eb640
@@ -1028,9 +1028,9 @@ CHECKSUMS
   tailwindcss-ruby (4.2.1-x86_64-linux-musl) sha256=79fa48ad51e533545f9fdbb04227e1342a65a42c2bd1314118b95473d5612007
   terminal-table (4.0.0) sha256=f504793203f8251b2ea7c7068333053f0beeea26093ec9962e62ea79f94301d2
   thor (1.5.0) sha256=e3a9e55fe857e44859ce104a84675ab6e8cd59c650a49106a05f55f136425e73
-  thruster (0.1.19-aarch64-linux) sha256=cfabff204f655359675c3f0e3e3940c6d1f110b765d0d48f5281077b8bb65325
-  thruster (0.1.19-arm64-darwin) sha256=2e1994341ad1076cea438a5a86b0dc126dc6e66f5a67f2dc077779b73e9fb6e3
-  thruster (0.1.19-x86_64-linux) sha256=7cddc1bd0c4fb2e26cc4878dc1f4eb7e883a45932e8d1cacda71b1aba1a645b6
+  thruster (0.1.20-aarch64-linux) sha256=754f1701061235235165dde31e7a3bc87ec88066a02981ff4241fcda0d76d397
+  thruster (0.1.20-arm64-darwin) sha256=630cf8c273f562063b92ea5ccd7a721d7ba6130cc422c823727f4744f6d0770e
+  thruster (0.1.20-x86_64-linux) sha256=d579f252bf67aee6ba6d957e48f566b72e019d7657ba2f267a5db1e4d91d2479
   timeout (0.6.1) sha256=78f57368a7e7bbadec56971f78a3f5ecbcfb59b7fcbb0a3ed6ddc08a5094accb
   tod (3.1.2) sha256=e67bf57dc67c8ec806edf0b61e6e499b27eea4e1eb23da1907ec77d45226fb08
   traces (0.18.2) sha256=80f1649cb4daace1d7174b81f3b3b7427af0b93047759ba349960cb8f315e214
