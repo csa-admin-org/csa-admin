@@ -9,6 +9,7 @@ Rails.application.routes.draw do
   }
 
   resources :logos, only: :show
+  get "favicon" => "favicons#show"
 
   constraints subdomain: "mc" do
     mount MissionControl::Jobs::Engine, at: "/jobs"
