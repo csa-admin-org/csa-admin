@@ -204,6 +204,10 @@ class Member < ApplicationRecord
     end
   end
 
+  def trial?
+    memberships.current_or_future.where(remaining_trial_baskets_count: 1..).exists?
+  end
+
   def absent?(date)
     absences.any? { |absence| absence.date_range.include?(date.to_date) }
   end

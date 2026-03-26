@@ -563,4 +563,58 @@ class MemberTest < ActiveSupport::TestCase
     member.update!(waiting_delivery_cycle_id: nil)
     assert_equal delivery_cycles(:all), member.waiting_delivery_cycle
   end
+
+  test "trial? with single membership in trial" do
+    travel_to "2024-04-04"
+    member = members(:jane)
+    member.current_membership.update_baskets_counts!
+
+    assert member.trial?
+  end
+
+  test "trial? with single membership after trial" do
+    travel_to "2024-04-18"
+    member = members(:jane)
+    member.current_membership.update_baskets_counts!
+
+    assert_not member.trial?
+  end
+
+  test "trial? with cross-year trial sees future membership" do
+    travel_to "2024-05-20"
+    org(trial_baskets_count: 4)
+
+    member = members(:mary)
+    member.update_columns(trial_baskets_count: 4)
+
+    m1 = create_membership(
+      member: member,
+      started_on: "2024-05-20",
+      ended_on: "2024-12-31"
+    )
+    m2 = create_membership(
+      member: member,
+      started_on: "2025-01-01",
+      ended_on: "2025-12-31"
+    )
+
+    # After m1's trial baskets are all past, member is still in trial via m2
+    travel_to "2024-06-04"
+    m1.update_baskets_counts!
+    m2.update_baskets_counts!
+    member.reload
+
+    assert_equal 0, m1.remaining_trial_baskets_count
+    assert_equal 1, m2.remaining_trial_baskets_count
+    assert member.trial?
+
+    # After m2's trial basket is also past, member is no longer in trial
+    travel_to "2025-04-08"
+    m1.update_baskets_counts!
+    m2.update_baskets_counts!
+    member.reload
+
+    assert_equal 0, m2.remaining_trial_baskets_count
+    assert_not member.trial?
+  end
 end

@@ -253,4 +253,41 @@ class Member::BillingTest < ActiveSupport::TestCase
       mandate_signed_on: Date.parse("2024-01-01")
     }, member.sepa_metadata)
   end
+
+  test "first_billable_delivery with single membership" do
+    travel_to "2024-01-01"
+    member = members(:jane)
+
+    assert_equal "2024-04-11", member.first_billable_delivery.date.to_s
+  end
+
+  test "first_billable_delivery with cross-year trial returns last trial basket" do
+    travel_to "2024-05-20"
+    org(trial_baskets_count: 4)
+
+    member = members(:mary)
+    member.update_columns(trial_baskets_count: 4)
+
+    create_membership(
+      member: member,
+      started_on: "2024-05-20",
+      ended_on: "2024-12-31"
+    )
+    create_membership(
+      member: member,
+      started_on: "2025-01-01",
+      ended_on: "2025-12-31"
+    )
+    member.reload
+
+    assert_equal "2025-04-07", member.first_billable_delivery.date.to_s
+  end
+
+  test "first_billable_delivery without trial baskets falls back to first membership" do
+    travel_to "2024-01-01"
+    org(trial_baskets_count: 0)
+    member = members(:john)
+
+    assert_equal member.first_membership.first_billable_delivery, member.first_billable_delivery
+  end
 end

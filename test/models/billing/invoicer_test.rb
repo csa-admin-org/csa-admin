@@ -65,6 +65,41 @@ class Billing::InvoicerTest < ActiveSupport::TestCase
     assert_equal member.memberships.last.price, invoice.memberships_amount
   end
 
+  test "does not bill annual fee for cross-year trial membership" do
+    travel_to "2024-05-20"
+    org(trial_baskets_count: 4)
+
+    member = members(:mary)
+    member.update_columns(trial_baskets_count: 4, annual_fee: 30)
+
+    # Membership 1 (FY 2024): 3 baskets (May 20, May 27, Jun 3) — all trial
+    create_membership(
+      member: member,
+      started_on: "2024-05-20",
+      ended_on: "2024-12-31"
+    )
+    # Membership 2 (FY 2025): 10 baskets (Apr 7 – Jun 9) — 1st is trial
+    m2 = create_membership(
+      member: member,
+      started_on: "2025-01-01",
+      ended_on: "2025-12-31"
+    )
+
+    # In FY 2025, m2 is current with 1 trial + 9 normal baskets.
+    travel_to "2025-01-01"
+    Current.reset
+    m2.update_baskets_counts!
+    member.reload
+
+    assert member.trial?
+    assert_not m2.trial_only?
+
+    invoice = force_invoice(member)
+
+    assert_equal m2, invoice.entity
+    assert_nil invoice.annual_fee
+  end
+
   test "does not bill annual fee when member annual_fee is nil" do
     travel_to "2025-01-01"
     member = members(:martha)

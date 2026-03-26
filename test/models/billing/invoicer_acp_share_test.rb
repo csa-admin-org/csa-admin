@@ -132,4 +132,55 @@ class Billing::InvoicerShareTest < ActiveSupport::TestCase
       invoice(member)
     end
   end
+
+  test "ignore member in trial period spanning two fiscal years" do
+    travel_to "2024-05-20"
+    org(share_price: 500, trial_baskets_count: 4)
+    basket_sizes(:small).update!(shares_number: 2)
+
+    member = members(:mary)
+    member.update_columns(trial_baskets_count: 4)
+
+    # Membership 1: 3 baskets (May 20, May 27, Jun 3) — all trial
+    m1 = create_membership(
+      member: member,
+      started_on: "2024-05-20",
+      ended_on: "2024-12-31"
+    )
+    # Membership 2: 10 baskets (Apr 7 – Jun 9) — first one is trial
+    m2 = create_membership(
+      member: member,
+      started_on: "2025-01-01",
+      ended_on: "2025-12-31"
+    )
+    member.reload
+
+    assert_equal 3, m1.trial_baskets_count
+    assert_equal 1, m2.trial_baskets_count
+
+    # m1's trial baskets are all past, but m2 still has a remaining trial basket
+    travel_to "2024-06-04"
+    m1.update_baskets_counts!
+    m2.update_baskets_counts!
+    member.reload
+
+    assert_equal 0, m1.remaining_trial_baskets_count
+    assert_equal 1, m2.remaining_trial_baskets_count
+
+    assert_no_difference -> { member.invoices.count } do
+      invoice(member)
+    end
+
+    # Trial fully over after last trial basket (Apr 7, 2025) is delivered
+    travel_to "2025-04-08"
+    m1.update_baskets_counts!
+    m2.update_baskets_counts!
+    member.reload
+
+    assert_equal 0, m2.remaining_trial_baskets_count
+
+    assert_difference -> { member.invoices.count }, 1 do
+      invoice(member)
+    end
+  end
 end

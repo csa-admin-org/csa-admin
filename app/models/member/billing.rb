@@ -9,6 +9,12 @@ module Member::Billing
     validate :billing_truemail
   end
 
+  def first_billable_delivery
+    if Current.org.trial_baskets? && trial_baskets_count.positive?
+      baskets.trial.last&.delivery
+    end || first_membership&.first_billable_delivery
+  end
+
   def billable?
     support?
       || missing_shares_number.positive?
