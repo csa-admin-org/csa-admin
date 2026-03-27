@@ -2,6 +2,20 @@
 
 CSA Admin zielt darauf ab, die meisten Aufgaben im Zusammenhang mit der Abrechnung ([Abonnements](#memberships), [Anteilskapital](#share-capital), [Zahlungsverarbeitung](#payments)) zu automatisieren, aber einige Aspekte wie die Abrechnung von [nicht durchgeführten <%= activities_human_name %>](#activity) müssen manuell durchgeführt werden.
 
+## Rechnungstypen {#invoice-types}
+
+CSA Admin verwaltet mehrere Rechnungstypen:
+
+| Typ | Beschreibung |
+|-----|-------------|
+| **Abonnement** | Hauptabrechnung des Abonnements (<%= BasketSize.model_name.human %>, <%= BasketComplement.model_name.human(count: 2) %>, Depot, Lieferzyklus). [Automatisch generiert](#memberships). |
+| **Jahresbeitrag** | In der ersten Abonnementsrechnung enthalten, oder [separat berechnet](#annual-fee) für [Fördermitglieder](/handbook/members#statuses). |
+| **Anteilskapital** | Für Organisationen, die [Anteilsbesitz](#share-capital) erfordern. Automatisch generiert bei fehlenden Anteilen. |
+| **<%= activities_human_name %>** | Abrechnung von [nicht durchgeführten Teilnahmen](#activity). Manuell oder in Gruppen ausgelöst. |
+| **Warenkorbbestellung** | Rechnung für [Warenkorb](/handbook/shop)-Bestellungen. Kann automatisch oder manuell erfolgen. |
+| **Neumitgliedsbeitrag** | Einmaliger Beitrag für neue Mitglieder, wenn die Funktion aktiviert ist. |
+| **Sonstiges** | [Freie Rechnungen](#manual-invoice) für verschiedene Artikel oder Dienstleistungen. |
+
 <!-- country:CH -->
 ## QR-Rechnungen {#qr-invoices}
 
@@ -51,9 +65,13 @@ Wenn eine Abonnementskonfiguration (Daten, <%= BasketSize.model_name.human %>, .
   - Die Preisänderung ist positiv, eine neue Rechnung (mit einem höheren Betrag) wird einfach am nächsten Abrechnungstag erstellt, um den fehlenden Betrag in Rechnung zu stellen.
   - Die Preisänderung ist negativ, die letzte(n) Rechnung(en) des Abonnements wird/werden dann automatisch storniert und eine neue Rechnung (mit einem niedrigeren Betrag) wird am nächsten Abrechnungstag neu erstellt. Wenn die alte stornierte Rechnung bereits bezahlt war, wird die neue Rechnung automatisch geschlossen und das Mitglied hat einen positiven Saldo. Bei Bedarf kannst Du eine Rückerstattung des Mitgliedersaldos durch [Erstellung einer negativen Zahlung](/payments/new) vornehmen.
 
-### Jahresbeitrag
+### Jahresbeitrag {#annual-fee}
 
-Der Jahresbeitrag ist automatisch in der ersten Rechnung des Abonnements enthalten. Wenn das Mitglied kein Abonnement hat ([Förderung](/handbook/members#statuses)), wird zu Beginn des Geschäftsjahres automatisch eine spezielle Rechnung erstellt.
+Der Standard-Jahresbeitrag der Organisation ist in [den Abrechnungseinstellungen](/settings#billing) definiert. Jedes Mitglied erbt diesen Standardwert bei der Erstellung, aber er kann individuell im Profil des Mitglieds (Bearbeitungsseite, Abschnitt «Abrechnung») überschrieben werden.
+
+Der Jahresbeitrag ist automatisch in der **ersten Rechnung** des Abonnements enthalten. Wenn das Mitglied kein Abonnement hat ([Förderung](/handbook/members#statuses)), wird zu Beginn des Geschäftsjahres automatisch eine spezifische Jahresbeitragsrechnung erstellt.
+
+Wenn Du den Standard-Jahresbeitrag der Organisation änderst, werden alle Mitglieder, die noch den alten Wert haben, automatisch aktualisiert.
 
 ### <%= Basket.model_name.human(count: 2) %> zur Probe {#trial-baskets}
 
@@ -63,15 +81,29 @@ Mitglieder können ihr Abonnement während der Probezeit selbst über ihr Mitgli
 
 Wenn das Abonnement während der Probezeit gekündigt wird, werden nur die gelieferten <%= Basket.model_name.human(count: 2) %> am nächsten Abrechnungstag in Rechnung gestellt. In diesem Fall wird der Jahresbeitrag nicht berechnet (es sei denn, das Mitglied entscheidet sich, ihn zu zahlen).
 
+### <%= Member.human_attribute_name(:salary_basket) %>
+
+Als «[<%= Member.human_attribute_name(:salary_basket).downcase %>](/handbook/members#salary-basket)» markierte Mitglieder sind vollständig von der Abrechnung ausgeschlossen. Ihr Abonnement existiert weiterhin für die Lieferverfolgung, aber alle Preise sind auf Null gesetzt und es werden keine Abonnementsrechnungen generiert.
+
 ## Anteilskapital {#share-capital}
+
+Der Preis pro Anteil ist in [den Abrechnungseinstellungen](/settings#billing) definiert. Die standardmäßig erforderliche Anzahl an Anteilen wird auf Organisationsebene konfiguriert, kann aber auch pro <%= BasketSize.model_name.human %> festgelegt werden (z.B. kann eine größere Variante mehr Anteile erfordern).
 
 An jedem Abrechnungstag erstellt das System automatisch Rechnungen für fehlendes Anteilskapital, beispielsweise für ein Mitglied, dessen Abonnement gerade begonnen hat.
 
-Um bereits in Rechnung gestelltes Anteilskapital zurückzuerstatten, gehe zur Rechnungsseite und klicke oben rechts auf die Schaltfläche "Rückerstattung". Du kannst dann einfach eine negative Anteilskapitalrechnung erstellen. Stelle sicher, dass das Mitglied kein Anteilskapital mehr benötigt, andernfalls wird es am nächsten Abrechnungstag automatisch neu erstellt.
+### Anteils-Felder des Mitglieds {#share-fields}
 
-Wenn Anteilskapital bereits außerhalb von CSA Admin in Rechnung gestellt wurde, kannst Du diese Information widerspiegeln, indem Du das Profil des Mitglieds bearbeitest, Abschnitt "Abrechnung" (Anzahl bestehender Anteile). Diese Anteile werden dann nicht in Rechnung gestellt.
+Drei anteilsbezogene Felder sind im Profil eines Mitglieds verfügbar (Bearbeitungsseite, Abschnitt «Abrechnung»):
 
-> Von der Seite eines Mitglieds aus kannst Du im Abschnitt "Abrechnung" (rechte Spalte) die Anzahl der Anteile sehen, die in Rechnung gestellt werden oder bereits in Rechnung gestellt wurden, mit einem Link zu den entsprechenden Rechnungen.
+- **Anzahl bestehender Anteile**: Bereits außerhalb von CSA Admin gehaltene Anteile (z.B. aus einem früheren System). Diese werden nicht erneut in Rechnung gestellt.
+- **Gewünschte Anzahl an Anteilen**: Mitglieder können bei der [Anmeldung](/handbook/registration) oder [Erneuerung](/handbook/membership_renewal) zusätzliche Anteile über das Minimum hinaus anfordern. Das System berechnet den höheren Wert aus erforderlicher und gewünschter Anzahl.
+- **Erforderliche Anzahl an Anteilen**: Admin-Überschreibung der für dieses Mitglied benötigten Anteile. Standardmäßig der für seine <%= BasketSize.model_name.human %> konfigurierte Wert.
+
+### Rückerstattung {#share-refund}
+
+Um bereits in Rechnung gestelltes Anteilskapital zurückzuerstatten, gehe zur Rechnungsseite und klicke oben rechts auf die Schaltfläche «Rückerstattung». Du kannst dann einfach eine negative Anteilskapitalrechnung erstellen. Stelle sicher, dass das Mitglied kein Anteilskapital mehr benötigt, andernfalls wird es am nächsten Abrechnungstag automatisch neu erstellt.
+
+> Von der Seite eines Mitglieds aus kannst Du im Abschnitt «Abrechnung» (rechte Spalte) die Anzahl der Anteile sehen, die in Rechnung gestellt werden oder bereits in Rechnung gestellt wurden, mit einem Link zu den entsprechenden Rechnungen.
 
 ## Nicht durchgeführte <%= activities_human_name %> {#activity}
 
@@ -113,6 +145,14 @@ Es ist möglich, spezifischen Text in der [E-Mail-Vorlage "Neue Rechnung"](/mail
 CSA Admin bietet die Möglichkeit, verschiedene Artikel oder Dienstleistungen manuell in Rechnung zu stellen (zum Beispiel den Kauf von Stoffbeuteln für neue Abonnenten). Dazu musst Du einfach [eine neue Rechnung erstellen](/invoices/new) und die Artikel unter der Registerkarte "Sonstiges" eingeben. Nach Überprüfung des PDFs kannst Du die Rechnung manuell mit der Schaltfläche "Senden" auf der Seite der Rechnung versenden.
 
 > Achtung, Rechnungen vom Typ "Sonstiges" sollten nicht verwendet werden, um Abonnements, Anteilskapital oder <%= activities_human_name.downcase %> in Rechnung zu stellen, da das System diese nicht berücksichtigt.
+
+## MwSt. {#vat}
+
+Wenn Deine Organisation der Mehrwertsteuer unterliegt, kannst Du MwSt.-Sätze in [den Abrechnungseinstellungen](/settings#billing) konfigurieren. Separate Sätze können für Abonnementsrechnungen, <%= activities_human_name.downcase %>-Rechnungen und Warenkorbbestellungsrechnungen definiert werden. Für Rechnungen vom Typ «Sonstiges» und «Neumitgliedsbeitrag» wird der MwSt.-Satz manuell auf jeder Rechnung festgelegt.
+
+Die MwSt. wird als inklusive Steuer berechnet (der Rechnungsbetrag enthält bereits die MwSt.). Der Nettobetrag und der MwSt.-Betrag werden auf der Rechnungs-PDF separat ausgewiesen.
+
+> MwSt. wird nur angewendet, wenn eine MwSt.-Nummer in [den Abrechnungseinstellungen](/settings#billing) konfiguriert ist.
 
 ## Zahlungen {#payments}
 
@@ -199,3 +239,11 @@ Wenn Zahlungen automatisch importiert werden, kümmert sich das System automatis
 Du kannst den Inhalt dieser Erinnerung konfigurieren, indem Du [die E-Mail-Vorlage "Rechnungserinnerung"](/mail_templates/invoice_overdue_notice) bearbeitest.
 
 > Du kannst per E-Mail benachrichtigt werden, wenn die 3. Erinnerung einer Rechnung gesendet wird. Verwalte Deine Benachrichtigungen über [Dein Administratorkonto](/admins/<%= current_admin.id %>/edit).
+
+## Admin-Benachrichtigungen {#notifications}
+
+Mehrere abrechnungsbezogene Ereignisse können E-Mail-Benachrichtigungen an Administratoren auslösen, die diese Option über [ihre Benachrichtigungseinstellungen](/admins/<%= current_admin.id %>/edit) aktiviert haben:
+
+- **Rechnung überbezahlt**: Wird gesendet, wenn eine Zahlung den bezahlten Betrag einer Rechnung über ihren Gesamtbetrag hinaus bringt, was darauf hinweist, dass das Mitglied ein positives Guthaben hat.
+- **3. Mahnung**: Wird gesendet, wenn die dritte Erinnerung für eine unbezahlte Rechnung versandt wird, was auf ein anhaltendes Zahlungsproblem hinweist.
+- **Zahlungsrückbuchung**: Wird gesendet, wenn eine negative Zahlung (Rückbuchung) importiert wird, was auf eine Lastschriftrückgabe oder eine Bankkorrektur hindeuten kann.

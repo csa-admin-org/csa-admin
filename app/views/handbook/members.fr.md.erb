@@ -47,3 +47,53 @@ Un membre inactif est un membre n'ayant pas d'abonnement pour l'année fiscale e
 Pour passer un membre inactif en support, éditez le profil du membre et définissez un montant de cotisation annuelle (même 0 pour les membres support ne payant pas de cotisation).
 
 À l'aide du bouton "Mettre en liste d'attente" en haut à droite de la page du membre, il est possible de remettre un membre inactif en liste d'attente. Sa cotisation annuelle sera alors remise avec la valeur par défaut de l'organisation.
+
+## <%= Member.human_attribute_name(:salary_basket) %> {#salary-basket}
+
+Le drapeau «<%= Member.human_attribute_name(:salary_basket) %>» sur le profil d'un membre indique que ce membre reçoit son <%= Basket.model_name.human.downcase %> dans le cadre de son salaire (par exemple, les employés de la ferme). Lorsqu'il est activé :
+
+- Tous les prix de l'abonnement sont mis à zéro (l'abonnement existe toujours pour le suivi des livraisons, mais rien n'est facturé).
+- Le membre est exclu des rapports de facturation et de la facturation prévisionnelle.
+- Le nombre par défaut de <%= activities_human_name.downcase %> demandées est mis à 0.
+- Le membre est exclu des [tours d'engagement](/handbook/bidding_round).
+
+Si le drapeau est activé ou désactivé sur un membre existant, ses abonnements actuels et futurs sont automatiquement recalculés.
+
+## Note alimentaire et note de livraison {#notes}
+
+Deux champs de texte libre sont disponibles sur le profil de chaque membre :
+
+- **Note alimentaire** : Allergies, préférences ou informations diététiques. Cette note peut être affichée sur les [fiches de livraison PDF](/handbook/deliveries#delivery-sheets) si le [paramètre](/settings#delivery) correspondant est activé.
+- **Note de livraison** : Instructions pratiques de livraison (code de porte, étage, etc.). Cette note est toujours affichée sur les fiches de livraison à domicile. Les membres peuvent modifier leur propre note de livraison depuis leur compte.
+
+Les deux champs apparaissent dans les exports (CSV/XLSX) et sont effacés lorsqu'un membre est [anonymisé](/handbook/right_to_be_forgotten).
+
+## Adresse de facturation différente {#billing-address}
+
+Si les factures d'un membre doivent être envoyées à une adresse différente (par exemple, une entreprise ou un proche), activez l'option « Adresse de facturation différente » dans le profil du membre sous la section « Facturation ». Cela révèle des champs supplémentaires pour un nom, une rue, un code postal et une ville de facturation séparés. Les membres peuvent également gérer cela depuis leur propre compte.
+
+## Partage des coordonnées {#contact-sharing}
+
+Les membres peuvent choisir de partager leurs coordonnées avec les autres membres du même dépôt et de la même livraison. Consultez la page dédiée du [manuel sur le partage des coordonnées](/handbook/contact_sharing) pour plus de détails.
+
+## Compte membre {#member-account}
+
+Chaque membre a accès à un compte personnel sur [le compte membre](<%= Current.org.members_url %>). La connexion se fait sans mot de passe : le membre entre son adresse email sur [la page de connexion](<%= Current.org.members_url %>/login) et reçoit un lien valide pendant 15 minutes. Une fois connecté, la session dure un an.
+
+Depuis son compte, le membre peut :
+
+- **Consulter les livraisons** : Voir ses prochains, futurs et passés <%= Basket.model_name.human(count: 2).downcase %>, y compris le détail du contenu lorsqu'il est disponible.
+- **Commander à l'épicerie** : Passer des commandes avant la prochaine livraison.
+- **S'inscrire aux <%= activities_human_name.downcase %>** : Parcourir et s'inscrire aux activités à venir.
+- **Gérer les absences** : Déclarer les absences à venir.
+- **Gérer la facturation** : Consulter les factures ouvertes (avec PDF) et l'historique complet des paiements.
+- **Modifier son profil** : Mettre à jour nom, adresse, coordonnées, langue et note de livraison.
+- **S'abonner à un calendrier** : Ajouter ses livraisons et <%= activities_human_name.downcase %> à n'importe quelle application de calendrier via un flux iCal.
+- **Consulter les newsletters** : Lire les newsletters passées reçues.
+- **Supprimer son compte** : Demander la suppression du compte (avec confirmation par email), conformément au [droit à l'oubli](/handbook/right_to_be_forgotten).
+
+Si l'organisation a configuré une [page d'information](/settings#member_information), elle apparaît également dans la navigation du membre.
+
+### Accès admin au compte d'un membre {#admin-access}
+
+Depuis la page admin d'un membre, le bouton « Accéder au compte » permet d'ouvrir le compte membre en tant que ce membre. Cela est utile pour vérifier ce qu'un membre voit ou pour résoudre un problème. Les sessions initiées par un admin expirent après 6 heures (au lieu de l'année habituelle).

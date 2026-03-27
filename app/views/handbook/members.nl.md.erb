@@ -45,3 +45,53 @@ Een inactief lid is iemand die geen abonnement heeft voor het huidige of toekoms
 Om een inactief lid naar ondersteuning te verplaatsen, bewerkt u het profiel van het lid en stelt u een jaarlijks bijdragebedrag in (zelfs 0 voor ondersteunende leden zonder bijdrage).
 
 Met de knop "Op wachtlijst plaatsen" rechtsboven op de pagina van het lid kunt u een inactief lid op de wachtlijst plaatsen. Hun jaarlijkse bijdrage wordt dan gereset naar de standaardwaarde van de organisatie.
+
+## <%= Member.human_attribute_name(:salary_basket) %> {#salary-basket}
+
+De «<%= Member.human_attribute_name(:salary_basket) %>»-markering op het profiel van een lid geeft aan dat dit lid zijn/haar <%= Basket.model_name.human.downcase %> ontvangt als onderdeel van het salaris (bijv. medewerkers van de boerderij). Wanneer ingeschakeld:
+
+- Alle lidmaatschapsprijzen worden op nul gezet (het lidmaatschap bestaat nog steeds voor leveringstracking, maar er wordt niets gefactureerd).
+- Het lid wordt uitgesloten van factureringsrapporten en voorlopige facturering.
+- Het standaard aantal gevraagde <%= activities_human_name.downcase %> wordt op 0 gezet.
+- Het lid wordt uitgesloten van [biedrondes](/handbook/bidding_round).
+
+Als de markering wordt in- of uitgeschakeld bij een bestaand lid, worden hun huidige en toekomstige lidmaatschappen automatisch herberekend.
+
+## Voedingsnotitie & leveringsnotitie {#notes}
+
+Twee vrije tekstvelden zijn beschikbaar in het profiel van elk lid:
+
+- **Voedingsnotitie**: Allergieën, voorkeuren of dieetinformatie. Deze notitie kan worden weergegeven op de [leveringsblad-PDFs](/handbook/deliveries#delivery-sheets) als de bijbehorende [instelling](/settings#delivery) is ingeschakeld.
+- **Leveringsnotitie**: Praktische leveringsinstructies (deurcode, verdieping, enz.). Deze notitie wordt altijd weergegeven op thuisleveringsbladen. Leden kunnen hun eigen leveringsnotitie bewerken vanuit hun account.
+
+Beide velden verschijnen in ledenexports (CSV/XLSX) en worden gewist wanneer een lid wordt [geanonimiseerd](/handbook/right_to_be_forgotten).
+
+## Afwijkend factuuradres {#billing-address}
+
+Als de facturen van een lid naar een ander adres moeten worden gestuurd (bijv. een bedrijf of familielid), schakel dan de optie «Afwijkend factuuradres» in het profiel van het lid in onder de sectie «Facturering». Dit toont extra velden voor een aparte factuurnaam, straat, postcode en plaats. Leden kunnen dit ook beheren vanuit hun eigen account.
+
+## Contactgegevens delen {#contact-sharing}
+
+Leden kunnen ervoor kiezen hun contactgegevens te delen met andere leden bij hetzelfde depot en dezelfde levering. Zie de speciale [handboekpagina over contactgegevens delen](/handbook/contact_sharing) voor details.
+
+## Ledenaccount {#member-account}
+
+Elk lid heeft toegang tot een persoonlijk account op [het ledenaccount](<%= Current.org.members_url %>). Inloggen is wachtwoordloos: het lid voert het e-mailadres in op [de inlogpagina](<%= Current.org.members_url %>/login) en ontvangt een link die 15 minuten geldig is. Na het inloggen duurt de sessie een jaar.
+
+Vanuit het account kan het lid:
+
+- **Leveringen bekijken**: De volgende, toekomstige en eerdere <%= Basket.model_name.human(count: 2).downcase %> bekijken, inclusief inhoudsdetails wanneer beschikbaar.
+- **Bestellen bij de winkel**: Bestellingen plaatsen voor de volgende levering.
+- **Inschrijven voor <%= activities_human_name.downcase %>**: Komende activiteiten bekijken en zich ervoor inschrijven.
+- **Afwezigheden beheren**: Komende afwezigheden melden.
+- **Facturering beheren**: Openstaande facturen (met PDF) en de volledige betalingsgeschiedenis bekijken.
+- **Profiel bewerken**: Naam, adres, contactgegevens, taal en leveringsnotitie bijwerken.
+- **Abonneren op een kalender**: Leveringen en <%= activities_human_name.downcase %> toevoegen aan elke kalender-app via een iCal-feed.
+- **Nieuwsbrieven doorbladeren**: Eerder ontvangen nieuwsbrieven lezen.
+- **Account verwijderen**: Accountverwijdering aanvragen (met e-mailbevestiging), in overeenstemming met het [recht om vergeten te worden](/handbook/right_to_be_forgotten).
+
+Als de organisatie een [informatiepagina](/settings#member_information) heeft geconfigureerd, verschijnt deze ook in de navigatie van het lid.
+
+### Admin-toegang tot een ledenaccount {#admin-access}
+
+Vanaf de adminpagina van een lid opent de knop «Toegang tot account» het ledenaccount als dat lid. Dit is handig om te controleren wat een lid ziet of om een probleem op te lossen. Door admins geïnitieerde sessies verlopen na 6 uur (in plaats van het gebruikelijke jaar).

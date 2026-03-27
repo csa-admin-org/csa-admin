@@ -68,3 +68,32 @@ Elke leveringscyclus kan eigen facturatieopties hebben:
 ## <%= BasketComplement.model_name.human(count: 2) %> {#basket-complements}
 
 [<%= BasketComplement.model_name.human(count: 2) %>](/basket_complements) volgen vaak hun eigen leveringscyclus op een manier die moeilijk dynamisch te programmeren is. Het is daarom noodzakelijk, en dit voor elke <%= BasketComplement.model_name.human.downcase %>, om alle leveringsdatums te definiëren waar deze aanvulling beschikbaar is of niet. Deze bewerking moet elk jaar worden uitgevoerd na het aanmaken van nieuwe leveringen.
+
+## Leveringsbladen (PDFs) {#delivery-sheets}
+
+Voor elke levering genereert CSA Admin PDF-bladen die u kunt afdrukken en gebruiken bij uw depots. Deze bladen zijn beschikbaar vanaf elke [leveringspagina](/deliveries) of vanaf [het dashboard](/dashboard).
+
+### Bladmodi {#sheet-modes}
+
+Elk depot kan een van twee bladmodi gebruiken (configureerbaar in de depotinstellingen):
+
+- **Handtekeningenblad** (standaard): Een checklist waar leden bij afhaling naast hun naam tekenen. Leden staan alfabetisch vermeld, met een kolom «Handtekening» rechts.
+- **Thuisleveringsblad**: Ontworpen voor bezorgers. Bevat het volledige adres van elk lid en hun leveringsnotitie (indien aanwezig) in de laatste kolom. De volgorde van leden kan handmatig worden aangepast via slepen en neerzetten in de depotinstellingen.
+
+### Ledeninformatie op bladen {#member-info}
+
+Een [instelling](/settings#delivery) bepaalt welke aanvullende informatie onder de naam van elk lid op de bladen wordt weergegeven:
+
+- **Geen** (standaard): Alleen de naam van het lid.
+- **Telefoonnummers**: Het/de telefoonnummer(s) van het lid verschijnen onder hun naam.
+- **Voedingsnotitie**: De voedingsnotitie van het lid (allergieën, voorkeuren) verschijnt onder hun naam.
+
+Deze instelling geldt globaal voor alle depots die de handtekeningenblad-modus gebruiken. Thuisleveringsbladen tonen altijd het adres en de leveringsnotitie ongeacht deze instelling.
+
+### Voettekst {#delivery-pdf-footer}
+
+Een aangepaste voettekst kan worden toegevoegd aan alle leveringsbladen via de [instelling voor leverings-PDF-voettekst](/settings#delivery). Handig voor een herinnering, een bedankbericht of praktische informatie.
+
+### Aankondigingen {#announcements}
+
+Korte berichten kunnen worden gekoppeld aan specifieke depot/leveringscombinaties en verschijnen op de corresponderende leveringsbladen. Zie de speciale [handboekpagina over aankondigingen](/handbook/announcements) voor details.

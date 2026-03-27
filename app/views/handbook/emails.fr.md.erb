@@ -92,3 +92,62 @@ Lors de l'édition d'un template d'email ou d'un template de newsletter, un pann
 Sous chaque prévisualisation, un panneau de données montre la structure exacte des données disponibles pour votre template. Ces données sont générées semi-aléatoirement à partir des données réelles de votre organisation. Vous pouvez modifier les valeurs dans ce panneau pour tester le rendu de votre template avec différents scénarios (p.ex. <%= BasketContent.model_name.human.downcase %> vide, zéro activités manquantes, etc.).
 
 > La prévisualisation des données est le meilleur moyen de découvrir toutes les variables disponibles et de tester votre template. Chaque type de template d'email a son propre jeu de données disponibles — consultez toujours le panneau de prévisualisation pour voir ce qui est disponible.
+
+## Variables Liquid courantes {#variables}
+
+Voici une référence rapide des variables les plus couramment utilisées dans les templates d'email. Toutes les variables ne sont pas disponibles dans chaque template — consultez toujours la [prévisualisation des données](#data-preview) pour le template spécifique que vous éditez.
+
+### `member`
+
+| Variable | Description |
+|----------|-------------|
+| `member.name` | Nom complet |
+| `member.balance` | Solde du compte courant (formaté) |
+| `member.annual_fee` | Montant de la cotisation annuelle (formaté) |
+| `member.page_url` | Lien vers la page du compte du membre |
+| `member.billing_url` | Lien vers la page de facturation du membre |
+| `member.deliveries_url` | Lien vers la page des livraisons du membre |
+| `member.activities_url` | Lien vers la page des activités du membre |
+| `member.absences_url` | Lien vers la page des absences du membre |
+| `member.membership_renewal_url` | Lien vers la page de renouvellement |
+
+### `membership`
+
+| Variable | Description |
+|----------|-------------|
+| `membership.start_date` | Date de début de l'abonnement (localisée) |
+| `membership.end_date` | Date de fin de l'abonnement (localisée) |
+| `membership.state` | État actuel |
+| `membership.renewal_state` | État du renouvellement |
+| `membership.trial_baskets_count` | <%= Basket.model_name.human(count: 2) %> à l'essai restants |
+| `membership.basket_size.name` | Nom de la <%= BasketSize.model_name.human.downcase %> |
+| `membership.depot.name` | Nom du dépôt |
+| `membership.basket_complement_names` | Liste des noms de compléments séparés par des virgules |
+| `membership.activity_participations_demanded_count` | Total des participations demandées |
+| `membership.activity_participations_accepted_count` | Participations validées |
+| `membership.activity_participations_missing_count` | Participations restantes à effectuer |
+| `membership.absences_included` | Nombre d'absences incluses |
+| `membership.absences_remaining` | Absences incluses restantes |
+
+### `basket`
+
+| Variable | Description |
+|----------|-------------|
+| `basket.delivery.date` | Date de livraison (localisée) |
+| `basket.description` | Description de la <%= BasketSize.model_name.human %> |
+| `basket.complements_description` | Description des compléments |
+| `basket.size.name` | Nom de la <%= BasketSize.model_name.human.downcase %> |
+| `basket.depot.name` | Nom du dépôt |
+| `basket.quantity` | Quantité |
+| `basket.contents` | Liste des <%= BasketContent.model_name.human(count: 2).downcase %> (utiliser dans une boucle `for`) |
+
+### `invoice`
+
+| Variable | Description |
+|----------|-------------|
+| `invoice.number` | Numéro de facture |
+| `invoice.date` | Date de la facture (localisée) |
+| `invoice.entity_type` | Type de facture (ex. « Membership », « Shop::Order ») |
+| `invoice.amount` | Montant total (formaté) |
+| `invoice.missing_amount` | Montant impayé restant (formaté) |
+| `invoice.overdue_notices_count` | Nombre de rappels envoyés |

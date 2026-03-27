@@ -9,6 +9,8 @@ Les montants proposés sont encadrés par des bornes (min/max) configurables.
 - Les abonnements pour la nouvelle saison doivent être créés et la première livraison doit être dans le futur.
 - Un seul tour d'engagement peut être ouvert à la fois.
 
+> Les membres marqués comme «<%= Member.human_attribute_name(:salary_basket) %>» sont automatiquement exclus des tours d'engagement, puisque le prix de leur abonnement est mis à zéro.
+
 Avant d'ouvrir un tour d'engagement, vérifiez les paramètres suivants dans les [réglages](/settings#bidding_round):
 
 - Prix minimum de la <%= BasketSize.model_name.human.downcase %> (0–100 %) — définit le pourcentage minimal autorisé.

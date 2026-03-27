@@ -9,6 +9,8 @@ Voorgestelde bedragen worden beperkt door configureerbare min/max grenzen.
 - Lidmaatschappen voor het nieuwe seizoen moeten zijn aangemaakt en de eerste levering moet in de toekomst liggen.
 - Er kan maar één biedronde tegelijk open zijn.
 
+> Leden gemarkeerd als «<%= Member.human_attribute_name(:salary_basket) %>» worden automatisch uitgesloten van biedrondes, aangezien hun lidmaatschapsprijs op nul is gezet.
+
 Voordat u een biedronde opent, controleer de volgende punten in de [instellingen](/settings#bidding_round):
 
 - Minimale <%= BasketSize.model_name.human.downcase %>prijs (0-100%) — definieert het minimaal toegestane percentage.

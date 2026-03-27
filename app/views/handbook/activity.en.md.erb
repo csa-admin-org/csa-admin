@@ -36,11 +36,13 @@ This logic can be modified using [Liquid syntax](https://shopify.github.io/liqui
 
 Members can sign up for activities from their member account, even if they don't have an active membership. This allows inactive members to participate in activities on a voluntary basis without commitment. They can also see the activities they are signed up for, as well as the participations they have completed and their validations.
 
-When signing up, the member can specify the number of participants (each participant counting as one participation), add a note, and choose to share their phone number and departure location for carpooling. This allows a member to register multiple people at once (e.g., family members or friends coming to help). Their contact information will then be shared with other members signed up for the same activity in [the reminder email sent 3 days before the activity](/mail_templates/activity_participation_reminder). This 3-day delay is fixed and cannot be configured.
+When signing up, the member can specify the number of participants, add a note, and choose to share their phone number and departure city for carpooling. This allows a member to register multiple people at once (e.g., family members or friends coming to help). Each participant counts as one participation towards the member's required total.
+
+If the member opts to share carpooling information, it will be included in [the reminder email sent 3 days before the activity](/mail_templates/activity_participation_reminder) alongside the contact details of all other participants who also opted in. This 3-day delay is fixed and cannot be configured.
 
 A sign-up deadline (in days) before the activity date can be defined in [the settings](/settings#activity) to avoid last-minute registrations.
 
-A cancellation deadline (in days) can also be defined in [the settings](/settings#activity). After this deadline, members will no longer be able to cancel their registration.
+A cancellation deadline (in days) can also be defined in [the settings](/settings#activity). After this deadline, members will no longer be able to cancel their registration themselves — only an admin can cancel it on their behalf.
 
 ## Activities {#activities}
 

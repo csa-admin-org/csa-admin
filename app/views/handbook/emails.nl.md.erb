@@ -92,3 +92,62 @@ Bij het bewerken van een e-mailsjabloon of een nieuwsbriefsjabloon wordt een voo
 Onder elk voorbeeld toont een gegevenspaneel de exacte gegevensstructuur die beschikbaar is voor uw sjabloon. Deze gegevens worden semi-willekeurig gegenereerd uit uw werkelijke organisatiegegevens. U kunt de waarden in dit paneel wijzigen om te testen hoe uw sjabloon wordt weergegeven met verschillende scenario's (bijv. lege <%= BasketContent.model_name.human.downcase %>, nul ontbrekende activiteiten, enz.).
 
 > Het gegevensvoorbeeld is de beste manier om alle beschikbare variabelen te ontdekken en uw sjabloon te testen. Elk type e-mailsjabloon heeft zijn eigen set beschikbare gegevens — controleer altijd het voorbeeldpaneel om te zien wat beschikbaar is.
+
+## Veelgebruikte Liquid-variabelen {#variables}
+
+Hier is een snelle referentie van de meest gebruikte variabelen in e-mailsjablonen. Niet alle variabelen zijn in elk sjabloon beschikbaar — controleer altijd het [gegevensvoorbeeld](#data-preview) voor het specifieke sjabloon dat u bewerkt.
+
+### `member`
+
+| Variabele | Beschrijving |
+|-----------|-------------|
+| `member.name` | Volledige naam |
+| `member.balance` | Huidig rekeningsaldo (geformateerd) |
+| `member.annual_fee` | Jaarlijkse bijdrage bedrag (geformateerd) |
+| `member.page_url` | Link naar de accountpagina van het lid |
+| `member.billing_url` | Link naar de factureringspagina van het lid |
+| `member.deliveries_url` | Link naar de leveringenpagina van het lid |
+| `member.activities_url` | Link naar de activiteitenpagina van het lid |
+| `member.absences_url` | Link naar de afwezighedenpagina van het lid |
+| `member.membership_renewal_url` | Link naar de vernieuwingspagina |
+
+### `membership`
+
+| Variabele | Beschrijving |
+|-----------|-------------|
+| `membership.start_date` | Startdatum van het lidmaatschap (gelokaliseerd) |
+| `membership.end_date` | Einddatum van het lidmaatschap (gelokaliseerd) |
+| `membership.state` | Huidige status |
+| `membership.renewal_state` | Vernieuwingsstatus |
+| `membership.trial_baskets_count` | Resterende <%= Basket.model_name.human(count: 2).downcase %> op proef |
+| `membership.basket_size.name` | Naam van de <%= BasketSize.model_name.human.downcase %> |
+| `membership.depot.name` | Naam van het depot |
+| `membership.basket_complement_names` | Door komma's gescheiden lijst van aanvullingsnamen |
+| `membership.activity_participations_demanded_count` | Totaal gevraagde deelnames |
+| `membership.activity_participations_accepted_count` | Gevalideerde deelnames |
+| `membership.activity_participations_missing_count` | Resterende te voltooien deelnames |
+| `membership.absences_included` | Aantal inbegrepen afwezigheden |
+| `membership.absences_remaining` | Resterende inbegrepen afwezigheden |
+
+### `basket`
+
+| Variabele | Beschrijving |
+|-----------|-------------|
+| `basket.delivery.date` | Leveringsdatum (gelokaliseerd) |
+| `basket.description` | Beschrijving van de <%= BasketSize.model_name.human %> |
+| `basket.complements_description` | Beschrijving van de aanvullingen |
+| `basket.size.name` | Naam van de <%= BasketSize.model_name.human.downcase %> |
+| `basket.depot.name` | Naam van het depot |
+| `basket.quantity` | Hoeveelheid |
+| `basket.contents` | Lijst van <%= BasketContent.model_name.human(count: 2).downcase %> (gebruik in een `for`-lus) |
+
+### `invoice`
+
+| Variabele | Beschrijving |
+|-----------|-------------|
+| `invoice.number` | Factuurnummer |
+| `invoice.date` | Factuurdatum (gelokaliseerd) |
+| `invoice.entity_type` | Factuurtype (bijv. «Membership», «Shop::Order») |
+| `invoice.amount` | Totaalbedrag (geformateerd) |
+| `invoice.missing_amount` | Resterend onbetaald bedrag (geformateerd) |
+| `invoice.overdue_notices_count` | Aantal verzonden betalingsherinneringen |

@@ -65,6 +65,16 @@ Il est possible d'ajouter un texte spécifique dans le [template email "Nouvelle
 {% endcase %}
 ~~~
 
+### Flexibilité des prix {#price-flexibility}
+
+Si vous souhaitez permettre aux membres d'ajuster volontairement le prix de leurs commandes (comme contribution solidaire ou comme réduction), vous pouvez définir une liste de pourcentages dans [les paramètres de l'épicerie](/settings#shop). Par exemple : `-10, -5, 5, 10`.
+
+Lorsque des pourcentages sont configurés, les membres voient un menu déroulant sur la page de commande où ils peuvent appliquer un ajustement (par exemple « Soutien +10% » ou « Réduction -5% »). Cet ajustement s'applique au montant total de la commande. Si la liste ne contient que des valeurs positives, le libellé indique une contribution de soutien ; si seulement des valeurs négatives, une réduction.
+
+## Conditions de vente {#terms-of-sale}
+
+Un lien vers vos conditions de vente peut être configuré par langue dans [les paramètres de l'épicerie](/settings#shop). Lorsqu'il est défini, le lien est affiché en bas de la page de l'épicerie du membre.
+
 ## Accès aux membres sans abonnement {#access-without-membership}
 
 Par défaut, et en dehors [des livraisons spéciales](#special-deliveries), l'accès à l'épicerie est limité aux membres actifs avec un abonnement. Il est cependant possible de définir un dépôt, en modifiant le profil d'un membre inactif, comme étant un "dépôt d'épicerie" afin de lui donner accès à l'épicerie. Les commandes de ces membres se retrouveront alors dans les fiches (PDF) des dépôts correspondants.

@@ -47,9 +47,28 @@ Once the renewal request is sent, the member will have access to a form on their
 
 ### Renewal
 
-If the member chooses to renew their membership, they will be redirected to the renewal page which will allow them to change their <%= BasketSize.model_name.human.downcase %>, their <%= BasketComplement.model_name.human(count: 2).downcase %> (if available), their depot (if activated in [the settings](/settings#membership_renewal)), the payment interval, as well as leave a free comment.
+If the member chooses to renew their membership, they will be redirected to the renewal page which will allow them to change their <%= BasketSize.model_name.human.downcase %>, their <%= BasketComplement.model_name.human(count: 2).downcase %> (if available), the payment interval, as well as leave a free comment.
+
+The following options are also available on the renewal page depending on your configuration:
+
+- **Depot**: Members can change their depot if the "Allow depot change on renewal" option is enabled in [the settings](/settings#membership_renewal).
+- **<%= Basket.model_name.human %> price extra**: Members can adjust their [extra price](/handbook/basket_price_extra) contribution.
+- **<%= activities_human_name %>**: If a minimum and/or maximum number of participations is configured in [the settings](/settings#activity), members can adjust the number of requested participations within those bounds.
 
 Once confirmed, their membership for the following fiscal year is automatically created and can be consulted and modified from the administration interface like any other membership. In case of error, the membership can be easily deleted, which will cancel the renewal.
+
+### Configurations carried over {#carried-over}
+
+When a membership is renewed (whether by the member or by an admin), certain configurations from the current membership are carried into the new one. The core configurations — <%= BasketSize.model_name.human.downcase %>, <%= BasketComplement.model_name.human(count: 2).downcase %>, depot, delivery cycle, payment interval, and <%= Basket.model_name.human.downcase %> price extra — are always carried over.
+
+Additional configurations can be optionally carried over, controlled by the "Configurations carried over" checkboxes in [the settings](/settings#membership_renewal):
+
+- **<%= Basket.model_name.human(count: 2) %> price adjustment**: The custom price adjustment on <%= Basket.model_name.human(count: 2).downcase %>.
+- **<%= BasketComplement.model_name.human(count: 2) %> price adjustment**: The custom price adjustment on complements.
+- **<%= activities_human_name %>**: The number of requested participations and any associated price adjustment.
+- **Absences included annually**: The number of included absences (if different from the delivery cycle default).
+
+If an attribute is not selected, it resets to the default value for the new membership. Price adjustments are also automatically cleared when the corresponding configuration changes (e.g., switching to a different <%= BasketSize.model_name.human.downcase %>).
 
 ### Termination
 

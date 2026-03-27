@@ -68,3 +68,32 @@ Ogni ciclo di consegne può avere le proprie opzioni di fatturazione:
 ## <%= BasketComplement.model_name.human(count: 2) %> {#basket-complements}
 
 [I <%= BasketComplement.model_name.human(count: 2).downcase %>](/basket_complements) seguono spesso il proprio ciclo di consegne e questo in un modo difficilmente programmabile in modo dinamico. È quindi necessario, e questo per ogni <%= BasketComplement.model_name.human.downcase %>, definire tutte le date di consegna in cui questo complemento è disponibile o meno. Questa operazione deve essere effettuata ogni anno dopo la creazione delle nuove consegne.
+
+## Schede di consegna (PDF) {#delivery-sheets}
+
+Per ogni consegna, CSA Admin genera schede PDF che potete stampare e utilizzare nei vostri depositi. Queste schede sono disponibili da ogni [pagina di consegna](/deliveries) o dal [cruscotto](/dashboard).
+
+### Modalità delle schede {#sheet-modes}
+
+Ogni deposito può utilizzare una delle due modalità di schede (configurabile nelle impostazioni del deposito):
+
+- **Scheda firma** (predefinita): Una lista dove i soci firmano accanto al loro nome al momento del ritiro. I soci sono elencati in ordine alfabetico, con una colonna «Firma» a destra.
+- **Scheda consegna a domicilio**: Progettata per i corrieri. Include l'indirizzo completo di ogni socio e la sua nota di consegna (se presente) nell'ultima colonna. L'ordine dei soci può essere modificato manualmente tramite trascinamento nelle impostazioni del deposito.
+
+### Informazioni del socio sulle schede {#member-info}
+
+Un'[impostazione](/settings#delivery) controlla quali informazioni aggiuntive sono visualizzate sotto il nome di ogni socio sulle schede:
+
+- **Nessuna** (predefinita): Solo il nome del socio.
+- **Numeri di telefono**: Il/i numero/i di telefono del socio appaiono sotto il suo nome.
+- **Nota alimentare**: La nota alimentare del socio (allergie, preferenze) appare sotto il suo nome.
+
+Questa impostazione si applica globalmente a tutti i depositi che utilizzano la modalità scheda firma. Le schede di consegna a domicilio mostrano sempre l'indirizzo e la nota di consegna indipendentemente da questa impostazione.
+
+### Piè di pagina {#delivery-pdf-footer}
+
+Un testo personalizzato di piè di pagina può essere aggiunto a tutte le schede di consegna tramite l'[impostazione del piè di pagina PDF di consegna](/settings#delivery). Utile per un promemoria, un messaggio di ringraziamento o informazioni pratiche.
+
+### Annunci {#announcements}
+
+Brevi messaggi possono essere associati a combinazioni specifiche deposito/consegna e appariranno sulle schede di consegna corrispondenti. Consultate la pagina dedicata del [manuale degli annunci](/handbook/announcements) per i dettagli.

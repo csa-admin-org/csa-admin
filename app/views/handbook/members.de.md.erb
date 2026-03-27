@@ -45,3 +45,53 @@ Ein inaktives Mitglied besitzt kein Abonnement für das laufende oder kommende G
 Um ein inaktives Mitglied auf Support umzustellen, bearbeite das Mitgliederprofil und lege einen Jahresbeitrag fest (auch 0 für Support-Mitglieder ohne Beitragszahlung).
 
 Mit der Schaltfläche „Auf die Warteliste setzen" kannst Du ein inaktives Mitglied auf die Warteliste setzen. In diesem Fall wird sein Jahresbeitrag wieder auf den Standardwert der Organisation gesetzt.
+
+## <%= Member.human_attribute_name(:salary_basket) %> {#salary-basket}
+
+Das Kennzeichen «<%= Member.human_attribute_name(:salary_basket) %>» im Profil eines Mitglieds zeigt an, dass dieses Mitglied seine <%= Basket.model_name.human %> als Teil seines Gehalts erhält (z.B. Angestellte des Betriebs). Wenn aktiviert:
+
+- Alle Abonnementspreise werden auf Null gesetzt (das Abonnement existiert weiterhin für die Lieferverfolgung, aber es wird nichts in Rechnung gestellt).
+- Das Mitglied wird von Abrechnungsberichten und vorläufiger Rechnungsstellung ausgeschlossen.
+- Die Standardanzahl angeforderter <%= activities_human_name.downcase %> wird auf 0 gesetzt.
+- Das Mitglied wird von [Beitragsrunden](/handbook/bidding_round) ausgeschlossen.
+
+Wenn das Kennzeichen bei einem bestehenden Mitglied aktiviert oder deaktiviert wird, werden dessen aktuelle und zukünftige Abonnements automatisch neu berechnet.
+
+## Essensnotiz & Liefernotiz {#notes}
+
+Zwei Freitextfelder stehen im Profil jedes Mitglieds zur Verfügung:
+
+- **Essensnotiz**: Allergien, Vorlieben oder Ernährungsinformationen. Diese Notiz kann auf den [Lieferschein-PDFs](/handbook/deliveries#delivery-sheets) angezeigt werden, wenn die entsprechende [Einstellung](/settings#delivery) aktiviert ist.
+- **Liefernotiz**: Praktische Lieferanweisungen (Türcode, Stockwerk, usw.). Diese Notiz wird immer auf Hauslieferungsblättern angezeigt. Mitglieder können ihre eigene Liefernotiz über ihr Konto bearbeiten.
+
+Beide Felder erscheinen in Mitglieder-Exporten (CSV/XLSX) und werden gelöscht, wenn ein Mitglied [anonymisiert](/handbook/right_to_be_forgotten) wird.
+
+## Abweichende Rechnungsadresse {#billing-address}
+
+Wenn die Rechnungen eines Mitglieds an eine andere Adresse gesendet werden sollen (z.B. ein Unternehmen oder ein Angehöriger), aktiviere die Option «Abweichende Rechnungsadresse» im Profil des Mitglieds unter dem Abschnitt «Abrechnung». Dadurch werden zusätzliche Felder für einen separaten Rechnungsnamen, Straße, PLZ und Ort sichtbar. Mitglieder können dies auch über ihr eigenes Konto verwalten.
+
+## Kontaktdaten teilen {#contact-sharing}
+
+Mitglieder können sich dafür entscheiden, ihre Kontaktdaten mit anderen Mitgliedern am selben Depot und derselben Lieferung zu teilen. Siehe die spezielle [Handbuchseite zum Kontaktdaten teilen](/handbook/contact_sharing) für Details.
+
+## Mitgliederkonto {#member-account}
+
+Jedes Mitglied hat Zugang zu einem persönlichen Konto auf [dem Mitgliederkonto](<%= Current.org.members_url %>). Die Anmeldung ist passwortlos: Das Mitglied gibt seine E-Mail-Adresse auf [der Anmeldeseite](<%= Current.org.members_url %>/login) ein und erhält einen Link, der 15 Minuten gültig ist. Nach der Anmeldung dauert die Sitzung ein Jahr.
+
+Über sein Konto kann das Mitglied:
+
+- **Lieferungen einsehen**: Die nächsten, zukünftigen und vergangenen <%= Basket.model_name.human(count: 2) %> ansehen, einschließlich Inhaltsdetails wenn verfügbar.
+- **Im Warenkorb bestellen**: Bestellungen vor der nächsten Lieferung aufgeben.
+- **Sich für <%= activities_human_name.downcase %> anmelden**: Kommende Aktivitäten durchsuchen und sich dafür registrieren.
+- **Abwesenheiten verwalten**: Kommende Abwesenheiten melden.
+- **Abrechnung verwalten**: Offene Rechnungen (mit PDF) und die vollständige Zahlungshistorie einsehen.
+- **Profil bearbeiten**: Name, Adresse, Kontaktdaten, Sprache und Liefernotiz aktualisieren.
+- **Kalender abonnieren**: Lieferungen und <%= activities_human_name.downcase %> über einen iCal-Feed in jede Kalender-App einfügen.
+- **Newsletters durchsuchen**: Vergangene empfangene Newsletters lesen.
+- **Konto löschen**: Kontolöschung beantragen (mit E-Mail-Bestätigung), gemäß dem [Recht auf Vergessenwerden](/handbook/right_to_be_forgotten).
+
+Wenn die Organisation eine [Informationsseite](/settings#member_information) konfiguriert hat, erscheint diese ebenfalls in der Navigation des Mitglieds.
+
+### Admin-Zugang zum Mitgliederkonto {#admin-access}
+
+Von der Admin-Seite eines Mitglieds aus ermöglicht die Schaltfläche «Auf Konto zugreifen» das Öffnen des Mitgliederkontos als dieses Mitglied. Dies ist nützlich, um zu prüfen, was ein Mitglied sieht, oder um ein Problem zu beheben. Vom Admin initiierte Sitzungen laufen nach 6 Stunden ab (statt des üblichen Jahres).

@@ -47,9 +47,28 @@ Zodra het vernieuwingsverzoek is verzonden, heeft het lid toegang tot een formul
 
 ### Vernieuwing
 
-Als het lid ervoor kiest om hun lidmaatschap te vernieuwen, worden zij doorverwezen naar de vernieuwingspagina die hen in staat stelt om hun <%= BasketSize.model_name.human.downcase %>, hun <%= BasketComplement.model_name.human(count: 2).downcase %> (indien beschikbaar), hun depot (indien geactiveerd in [de instellingen](/settings#membership_renewal)), het betalingsinterval te wijzigen, evenals een vrije opmerking achter te laten.
+Als het lid ervoor kiest om hun lidmaatschap te vernieuwen, worden zij doorverwezen naar de vernieuwingspagina die hen in staat stelt om hun <%= BasketSize.model_name.human.downcase %>, hun <%= BasketComplement.model_name.human(count: 2).downcase %> (indien beschikbaar), het betalingsinterval te wijzigen, evenals een vrije opmerking achter te laten.
+
+De volgende opties zijn ook beschikbaar op de vernieuwingspagina afhankelijk van uw configuratie:
+
+- **Depot**: Leden kunnen van depot wisselen als de optie «Depotwijziging bij vernieuwing toestaan» is ingeschakeld in [de instellingen](/settings#membership_renewal).
+- **<%= Basket.model_name.human %> extra prijs**: Leden kunnen hun [extra prijs](/handbook/basket_price_extra)-bijdrage aanpassen.
+- **<%= activities_human_name %>**: Als een minimum en/of maximum aantal deelnames is geconfigureerd in [de instellingen](/settings#activity), kunnen leden het aantal gevraagde deelnames binnen deze grenzen aanpassen.
 
 Eenmaal bevestigd, wordt hun lidmaatschap voor het volgende boekjaar automatisch aangemaakt en kan het worden geraadpleegd en gewijzigd vanaf de beheerinterface zoals elk ander lidmaatschap. In geval van een fout kan het lidmaatschap eenvoudig worden verwijderd, wat de vernieuwing zal annuleren.
+
+### Overgenomen configuraties {#carried-over}
+
+Wanneer een lidmaatschap wordt vernieuwd (door het lid of door een admin), worden bepaalde configuraties van het huidige lidmaatschap overgenomen in het nieuwe. De kernconfiguraties — <%= BasketSize.model_name.human.downcase %>, <%= BasketComplement.model_name.human(count: 2).downcase %>, depot, leveringscyclus, betalingsinterval en <%= Basket.model_name.human.downcase %> extra prijs — worden altijd overgenomen.
+
+Aanvullende configuraties kunnen optioneel worden overgenomen, gestuurd door de selectievakjes «Overgenomen configuraties» in [de instellingen](/settings#membership_renewal):
+
+- **Prijsaanpassing van <%= Basket.model_name.human(count: 2) %>**: De aangepaste prijsaanpassing op <%= Basket.model_name.human(count: 2).downcase %>.
+- **Prijsaanpassing van <%= BasketComplement.model_name.human(count: 2) %>**: De aangepaste prijsaanpassing op aanvullingen.
+- **<%= activities_human_name %>**: Het aantal gevraagde deelnames en eventuele bijbehorende prijsaanpassingen.
+- **Jaarlijks inbegrepen afwezigheden**: Het aantal inbegrepen afwezigheden (als afwijkend van de standaard van de leveringscyclus).
+
+Als een attribuut niet is geselecteerd, wordt het gereset naar de standaardwaarde voor het nieuwe lidmaatschap. Prijsaanpassingen worden ook automatisch gewist wanneer de bijbehorende configuratie verandert (bijv. wisseling van <%= BasketSize.model_name.human.downcase %>).
 
 ### Beëindiging
 

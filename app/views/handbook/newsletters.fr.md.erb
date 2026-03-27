@@ -2,9 +2,29 @@
 
 En complément [des emails automatiques](/mail_templates) envoyés lors d'événements spécifiques (nouvelle facture, renouvellement, ...), CSA Admin offre également la possibilité d'envoyer [des newsletters (emails groupés)](/newsletters).
 
-Ces newsletters peuvent s'adresser à tous vos membres ou à une audience spécifique (statut, <%= BasketSize.model_name.human.downcase %>, dépôt, ...).
+Ces newsletters peuvent s'adresser à tous vos membres ou à une [audience](#audience) spécifique (statut, <%= BasketSize.model_name.human.downcase %>, dépôt, ...).
 
 > Contrairement [aux emails automatiques](/mail_templates), les newsletters incluent un lien de désinscription (obligatoire) dans leur bas de page.
+
+## Audience {#audience}
+
+Lors de la création d'une newsletter, vous choisissez l'audience cible. Plusieurs filtres sont disponibles :
+
+- **Statut du membre** : Actif, soutien, en attente, inactif, ou tous les membres.
+- **Statut de l'abonnement** : À l'essai, en cours, futur ou passé.
+- **<%= BasketSize.model_name.human %>** : Membres avec une <%= BasketSize.model_name.human.downcase %> spécifique.
+- **<%= BasketComplement.model_name.human %>** : Membres abonnés à un <%= BasketComplement.model_name.human.downcase %> spécifique.
+- **Dépôt** : Membres dans un dépôt spécifique.
+- **Livraison** : Membres avec un <%= Basket.model_name.human.downcase %> pour une date de livraison spécifique.
+- **Statut de facture** : Membres avec des factures ouvertes ou en retard.
+- **<%= activities_human_name %>** : Membres avec des participations demandées ou manquantes, ou participants d'une activité spécifique.
+- **Livraison épicerie** : Membres avec des commandes pour une livraison épicerie spécifique.
+
+### Segments enregistrés {#segments}
+
+Si les filtres d'audience standard ci-dessus ne couvrent pas vos besoins, vous pouvez créer des [segments enregistrés](/newsletter_segments) pour un ciblage plus avancé. Un segment est une combinaison de filtres nommée et réutilisable qui peut combiner des critères non disponibles dans les filtres par défaut (par exemple, les membres d'une ville spécifique, avec un intervalle de facturation particulier ou un état de renouvellement spécifique).
+
+Les segments enregistrés peuvent filtrer par <%= BasketSize.model_name.human.downcase %>, <%= BasketComplement.model_name.human(count: 2).downcase %>, dépôt, cycle de livraisons, état du renouvellement, intervalle de facturation, ville, et plus encore. Ils apparaissent aux côtés des autres options d'audience lors de la création d'une newsletter.
 
 ## Templates {#templates}
 

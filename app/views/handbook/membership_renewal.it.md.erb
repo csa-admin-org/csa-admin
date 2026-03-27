@@ -47,9 +47,28 @@ Una volta inviata la richiesta di rinnovo, il socio avrà accesso a un modulo su
 
 ### Rinnovo
 
-Se il socio sceglie di rinnovare il suo abbonamento, sarà reindirizzato alla pagina di rinnovo che gli permetterà di cambiare la sua <%= BasketSize.model_name.human.downcase %>, i suoi <%= BasketComplement.model_name.human(count: 2).downcase %> (se disponibili), il suo deposito (se attivato nelle [impostazioni](/settings#membership_renewal)), l'intervallo di pagamento, e di lasciare un commento libero.
+Se il socio sceglie di rinnovare il suo abbonamento, sarà reindirizzato alla pagina di rinnovo che gli permetterà di cambiare la sua <%= BasketSize.model_name.human.downcase %>, i suoi <%= BasketComplement.model_name.human(count: 2).downcase %> (se disponibili), l'intervallo di pagamento, e di lasciare un commento libero.
+
+Le seguenti opzioni sono anche disponibili sulla pagina di rinnovo a seconda della vostra configurazione:
+
+- **Deposito**: I soci possono cambiare deposito se l'opzione «Consentire il cambio di deposito al rinnovo» è attivata nelle [impostazioni](/settings#membership_renewal).
+- **Prezzo extra della <%= Basket.model_name.human.downcase %>**: I soci possono adeguare il loro contributo di [prezzo extra](/handbook/basket_price_extra).
+- **<%= activities_human_name %>**: Se un numero minimo e/o massimo di partecipazioni è configurato nelle [impostazioni](/settings#activity), i soci possono adeguare il numero di partecipazioni richieste entro questi limiti.
 
 Una volta confermato, il suo abbonamento per l'anno fiscale successivo viene automaticamente creato e può essere consultato e modificato dall'interfaccia di amministrazione come qualsiasi altro abbonamento. In caso di errore, l'abbonamento può essere cancellato senza problemi, il che avrà l'effetto di annullare il rinnovo.
+
+### Configurazioni riprese {#carried-over}
+
+Quando un abbonamento viene rinnovato (dal socio o da un admin), alcune configurazioni dell'abbonamento corrente vengono riprese nel nuovo. Le configurazioni principali — <%= BasketSize.model_name.human.downcase %>, <%= BasketComplement.model_name.human(count: 2).downcase %>, deposito, ciclo di consegne, intervallo di pagamento e prezzo extra della <%= Basket.model_name.human.downcase %> — vengono sempre riprese.
+
+Configurazioni aggiuntive possono essere opzionalmente riprese, controllate dalle caselle «Configurazioni riprese» nelle [impostazioni](/settings#membership_renewal):
+
+- **Adeguamento del prezzo delle <%= Basket.model_name.human(count: 2) %>**: L'adeguamento di prezzo personalizzato sulle <%= Basket.model_name.human(count: 2).downcase %>.
+- **Adeguamento del prezzo dei <%= BasketComplement.model_name.human(count: 2) %>**: L'adeguamento di prezzo personalizzato sui complementi.
+- **<%= activities_human_name %>**: Il numero di partecipazioni richieste e qualsiasi adeguamento di prezzo associato.
+- **Assenze incluse annualmente**: Il numero di assenze incluse (se diverso dal valore predefinito del ciclo di consegne).
+
+Se una configurazione non è selezionata, viene reimpostata al valore predefinito per il nuovo abbonamento. Gli adeguamenti di prezzo vengono anche automaticamente cancellati quando la configurazione corrispondente cambia (ad esempio, cambio di <%= BasketSize.model_name.human.downcase %>).
 
 ### Disdetta
 

@@ -47,9 +47,28 @@ Une fois la demande de renouvellement envoyée, le membre aura accès à un form
 
 ### Renouvellement
 
-Si le membre choisit de renouveler son abonnement, il sera renvoyé vers la page de renouvellement qui lui permettra de changer sa <%= BasketSize.model_name.human.downcase %>, ses <%= BasketComplement.model_name.human(count: 2).downcase %> (si disponibles), son dépôt (si activé dans [les paramètres](/settings#membership_renewal)), l'intervalle de paiement, ainsi que de laisser une remarque libre.
+Si le membre choisit de renouveler son abonnement, il sera renvoyé vers la page de renouvellement qui lui permettra de changer sa <%= BasketSize.model_name.human.downcase %>, ses <%= BasketComplement.model_name.human(count: 2).downcase %> (si disponibles), l'intervalle de paiement, ainsi que de laisser une remarque libre.
+
+Les options suivantes sont également disponibles sur la page de renouvellement selon votre configuration :
+
+- **Dépôt** : Les membres peuvent changer de dépôt si l'option « Autoriser le changement de dépôt au renouvellement » est activée dans [les paramètres](/settings#membership_renewal).
+- **Prix extra du <%= Basket.model_name.human.downcase %>** : Les membres peuvent ajuster leur contribution de [prix extra](/handbook/basket_price_extra).
+- **<%= activities_human_name %>** : Si un nombre minimum et/ou maximum de participations est configuré dans [les paramètres](/settings#activity), les membres peuvent ajuster le nombre de participations demandées dans ces limites.
 
 Une fois confirmé, son abonnement pour l'année fiscale suivante est automatiquement créé et peut être consulté et modifié depuis l'interface d'administration comme n'importe quel autre abonnement. En cas d'erreur, l'abonnement peut être sans autre effacé, ce qui aura pour effet d'annuler le renouvellement.
+
+### Configurations reprises {#carried-over}
+
+Lorsqu'un abonnement est renouvelé (par le membre ou par un admin), certaines configurations de l'abonnement courant sont reprises dans le nouveau. Les configurations principales — <%= BasketSize.model_name.human.downcase %>, <%= BasketComplement.model_name.human(count: 2).downcase %>, dépôt, cycle de livraisons, intervalle de paiement et prix extra du <%= Basket.model_name.human.downcase %> — sont toujours reprises.
+
+Des configurations supplémentaires peuvent être optionnellement reprises, contrôlées par les cases « Configurations reprises » dans [les paramètres](/settings#membership_renewal) :
+
+- **Ajustement du prix des <%= Basket.model_name.human(count: 2) %>** : L'ajustement de prix personnalisé sur les <%= Basket.model_name.human(count: 2).downcase %>.
+- **Ajustement du prix des <%= BasketComplement.model_name.human(count: 2) %>** : L'ajustement de prix personnalisé sur les compléments.
+- **<%= activities_human_name %>** : Le nombre de participations demandées et tout ajustement de prix associé.
+- **Absences incluses annuellement** : Le nombre d'absences incluses (si différent de la valeur par défaut du cycle de livraisons).
+
+Si une configuration n'est pas sélectionnée, elle est réinitialisée à la valeur par défaut pour le nouvel abonnement. Les ajustements de prix sont également automatiquement effacés lorsque la configuration correspondante change (par exemple, changement de <%= BasketSize.model_name.human.downcase %>).
 
 ### Résiliation
 

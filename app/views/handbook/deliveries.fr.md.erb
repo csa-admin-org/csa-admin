@@ -68,3 +68,32 @@ Chaque cycle de livraisons peut avoir ses propres options de facturation :
 ## <%= BasketComplement.model_name.human(count: 2) %> {#basket-complements}
 
 [Les <%= BasketComplement.model_name.human(count: 2).downcase %>](/basket_complements) suivent souvent leur propre cycle de livraisons et cela d'une manière difficilement programmable de manière dynamique. Il est donc nécessaire, et cela pour chaque <%= BasketComplement.model_name.human.downcase %>, de définir toutes les dates de livraison où ce complément est disponible ou non. Cette opération doit être réalisée chaque année après la création des nouvelles livraisons.
+
+## Fiches de livraison (PDF) {#delivery-sheets}
+
+Pour chaque livraison, CSA Admin génère des fiches PDF que vous pouvez imprimer et utiliser dans vos dépôts. Ces fiches sont disponibles depuis chaque [page de livraison](/deliveries) ou depuis [le tableau de bord](/dashboard).
+
+### Modes de fiches {#sheet-modes}
+
+Chaque dépôt peut utiliser l'un des deux modes de fiches (configurable dans les paramètres du dépôt) :
+
+- **Fiche de signature** (par défaut) : Une liste où les membres signent à côté de leur nom lors du retrait. Les membres sont listés par ordre alphabétique, avec une colonne « Signature » à droite.
+- **Fiche de livraison à domicile** : Conçue pour les livreurs. Inclut l'adresse complète de chaque membre et sa note de livraison (si renseignée) dans la dernière colonne. L'ordre des membres peut être modifié manuellement par glisser-déposer dans les paramètres du dépôt.
+
+### Informations du membre sur les fiches {#member-info}
+
+Un [paramètre](/settings#delivery) contrôle quelles informations supplémentaires sont affichées sous le nom de chaque membre sur les fiches :
+
+- **Aucune** (par défaut) : Seul le nom du membre.
+- **Numéros de téléphone** : Le(s) numéro(s) de téléphone du membre apparaissent sous son nom.
+- **Note alimentaire** : La note alimentaire du membre (allergies, préférences) apparaît sous son nom.
+
+Ce paramètre s'applique globalement à tous les dépôts utilisant le mode fiche de signature. Les fiches de livraison à domicile affichent toujours l'adresse et la note de livraison indépendamment de ce paramètre.
+
+### Pied de page {#delivery-pdf-footer}
+
+Un texte de pied de page personnalisé peut être ajouté à toutes les fiches de livraison via le [paramètre de pied de page PDF de livraison](/settings#delivery). Utile pour un rappel, un message de remerciement ou des informations pratiques.
+
+### Annonces {#announcements}
+
+Des messages courts peuvent être rattachés à des combinaisons dépôt/livraison spécifiques et apparaîtront sur les fiches de livraison correspondantes. Consultez la page dédiée du [manuel des annonces](/handbook/announcements) pour plus de détails.

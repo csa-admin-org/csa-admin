@@ -68,3 +68,32 @@ Jeder Lieferzyklus kann eigene Abrechnungsoptionen haben:
 ## <%= BasketComplement.model_name.human(count: 2) %> {#basket-complements}
 
 [Die <%= BasketComplement.model_name.human(count: 2) %>](/basket_complements) folgen oft ihrem eigenen Lieferzyklus, und das auf eine Weise, die schwer dynamisch zu programmieren ist. Es ist daher notwendig, und das für jede <%= BasketComplement.model_name.human %>, alle Lieferdaten zu definieren, an denen diese Ergänzung verfügbar ist oder nicht. Dieser Vorgang muss jedes Jahr nach der Erstellung der neuen Lieferungen durchgeführt werden.
+
+## Lieferscheine (PDFs) {#delivery-sheets}
+
+Für jede Lieferung generiert CSA Admin PDF-Lieferscheine, die Du ausdrucken und in Deinen Depots verwenden kannst. Diese Lieferscheine sind von jeder [Lieferungsseite](/deliveries) oder vom [Dashboard](/dashboard) aus verfügbar.
+
+### Blattmodi {#sheet-modes}
+
+Jedes Depot kann einen von zwei Blattmodi verwenden (konfigurierbar in den Depot-Einstellungen):
+
+- **Unterschriftenblatt** (Standard): Eine Checkliste, bei der Mitglieder bei der Abholung neben ihrem Namen unterschreiben. Mitglieder sind alphabetisch aufgelistet, mit einer Spalte «Unterschrift» rechts.
+- **Hauslieferungsblatt**: Für Lieferfahrer konzipiert. Enthält die vollständige Adresse jedes Mitglieds und seine Liefernotiz (falls vorhanden) in der letzten Spalte. Die Reihenfolge der Mitglieder kann in den Depot-Einstellungen manuell per Drag & Drop geändert werden.
+
+### Mitgliederinformationen auf den Blättern {#member-info}
+
+Eine [Einstellung](/settings#delivery) steuert, welche zusätzlichen Informationen unter dem Namen jedes Mitglieds auf den Blättern angezeigt werden:
+
+- **Keine** (Standard): Nur der Name des Mitglieds.
+- **Telefonnummern**: Die Telefonnummer(n) des Mitglieds erscheinen unter seinem Namen.
+- **Essensnotiz**: Die Essensnotiz des Mitglieds (Allergien, Vorlieben) erscheint unter seinem Namen.
+
+Diese Einstellung gilt global für alle Depots, die den Unterschriftenblattmodus verwenden. Hauslieferungsblätter zeigen immer die Adresse und Liefernotiz an, unabhängig von dieser Einstellung.
+
+### Fußzeile {#delivery-pdf-footer}
+
+Ein benutzerdefinierter Fußzeilentext kann über die [Einstellung für die Lieferungs-PDF-Fußzeile](/settings#delivery) zu allen Lieferscheinen hinzugefügt werden. Nützlich für eine Erinnerung, eine Dankesnachricht oder praktische Informationen.
+
+### Ankündigungen {#announcements}
+
+Kurze Nachrichten können an bestimmte Depot/Lieferungs-Kombinationen angehängt werden und erscheinen auf den entsprechenden Lieferscheinen. Siehe die spezielle [Handbuchseite zu Ankündigungen](/handbook/announcements) für Details.

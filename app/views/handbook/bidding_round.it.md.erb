@@ -9,6 +9,8 @@ Gli importi impegnati sono inquadrati da limiti min/max configurabili.
 - Gli abbonamenti per la nuova stagione devono essere creati e la prima consegna deve essere nel futuro.
 - È possibile avere un solo turno di impegno aperto alla volta.
 
+> I soci contrassegnati come «<%= Member.human_attribute_name(:salary_basket) %>» sono automaticamente esclusi dai turni di impegno, poiché il prezzo del loro abbonamento è azzerato.
+
 Prima di aprire un turno di impegno, verifica quanto segue nelle [impostazioni](/settings#bidding_round):
 
 - Prezzo minimo della <%= BasketSize.model_name.human.downcase %> (0–100%) — definisce la percentuale minima consentita.

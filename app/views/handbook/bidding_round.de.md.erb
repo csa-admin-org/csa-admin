@@ -9,6 +9,8 @@ Zugesagte Beträge werden durch konfigurierbare Min/Max-Grenzen begrenzt.
 - Abonnements für die neue Saison müssen erstellt sein und die erste Lieferung muss in der Zukunft liegen.
 - Es kann jeweils nur eine Beitragsrunde gleichzeitig geöffnet sein.
 
+> Als «<%= Member.human_attribute_name(:salary_basket) %>» markierte Mitglieder sind automatisch von Beitragsrunden ausgeschlossen, da ihr Abonnementpreis auf Null gesetzt ist.
+
 Vor dem Öffnen einer Beitragsrunde bitte in den [Einstellungen](/settings#bidding_round) prüfen:
 
 - Mindestbeitrag der <%= BasketSize.model_name.human %> (0–100%) — definiert den minimal zulässigen Prozentsatz.

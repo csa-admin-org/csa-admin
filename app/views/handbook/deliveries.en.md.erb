@@ -68,3 +68,32 @@ Each delivery cycle can have its own billing options:
 ## <%= BasketComplement.model_name.human(count: 2) %> {#basket-complements}
 
 [<%= BasketComplement.model_name.human(count: 2) %>](/basket_complements) often follow their own delivery cycle in a way that is difficult to program dynamically. It is therefore necessary, and this for each <%= BasketComplement.model_name.human.downcase %>, to define all the delivery dates where this complement is available or not. This operation must be carried out each year after the creation of new deliveries.
+
+## Delivery sheets (PDFs) {#delivery-sheets}
+
+For each delivery, CSA Admin generates PDF sheets that you can print and use at your depots. These sheets are available from each [delivery page](/deliveries) or from [the dashboard](/dashboard).
+
+### Sheet modes {#sheet-modes}
+
+Each depot can use one of two sheet modes (configurable in the depot settings):
+
+- **Signature sheet** (default): A checklist where members sign next to their name upon pickup. Members are listed alphabetically, with a "Signature" column on the right.
+- **Home delivery sheet**: Designed for delivery drivers. Includes each member's full address and their delivery note (if any) in the last column. Members can be manually reordered via drag & drop in the depot settings.
+
+### Member info on sheets {#member-info}
+
+A [setting](/settings#delivery) controls what additional information is displayed below each member's name on the sheets:
+
+- **None** (default): Only the member's name.
+- **Phone numbers**: The member's phone number(s) appear below their name.
+- **Food note**: The member's food note (allergies, preferences) appears below their name.
+
+This setting applies globally to all depots using the signature sheet mode. Home delivery sheets always show the address and delivery note regardless of this setting.
+
+### Footer {#delivery-pdf-footer}
+
+A custom footer text can be added to all delivery sheets via the [delivery PDF footer setting](/settings#delivery). This is useful for a reminder, a thank-you message, or practical information.
+
+### Announcements {#announcements}
+
+Short messages can be attached to specific depot/delivery combinations and will appear on the corresponding delivery sheets. See the dedicated [announcements handbook page](/handbook/announcements) for details.

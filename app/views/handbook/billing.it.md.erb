@@ -2,6 +2,20 @@
 
 CSA Admin mira ad automatizzare la maggior parte dei compiti relativi alla fatturazione ([abbonamenti](#memberships), [quote sociali](#share-capital), [elaborazione dei pagamenti](#payments)), ma alcuni aspetti come la fatturazione delle [<%= activities_human_name %> non effettuate](#activity) devono essere eseguiti manualmente.
 
+## Tipi di fatture {#invoice-types}
+
+CSA Admin gestisce diversi tipi di fatture:
+
+| Tipo | Descrizione |
+|------|-------------|
+| **Abbonamento** | Fatturazione dell'abbonamento principale (<%= BasketSize.model_name.human.downcase %>, <%= BasketComplement.model_name.human(count: 2).downcase %>, deposito, ciclo di consegne). [Generata automaticamente](#memberships). |
+| **Quota annuale** | Inclusa nella prima fattura dell'abbonamento, o [fatturata separatamente](#annual-fee) per i [soci di supporto](/handbook/members#statuses). |
+| **Quote sociali** | Per le organizzazioni che richiedono il [possesso di quote](#share-capital). Generata automaticamente quando mancano quote. |
+| **<%= activities_human_name %>** | Fatturazione delle [partecipazioni non effettuate](#activity). Attivata manualmente o in gruppo. |
+| **Ordine bottega** | Fattura per gli ordini della [bottega](/handbook/shop). Può essere automatica o manuale. |
+| **Quota nuovo socio** | Quota una tantum per i nuovi soci, se la funzione è attivata. |
+| **Altro** | [Fatture libere](#manual-invoice) per articoli o servizi vari. |
+
 <!-- country:CH -->
 ## Fatture-QR {#qr-invoices}
 
@@ -51,9 +65,13 @@ Se la configurazione di un abbonamento (date, <%= BasketSize.model_name.human.do
   - Il cambiamento di prezzo è positivo, una nuova fattura (con un importo più elevato) sarà semplicemente creata il prossimo giorno di fatturazione per fatturare l'importo mancante.
   - Il cambiamento di prezzo è negativo, l'ultima/e fattura/e dell'abbonamento sarà/saranno quindi automaticamente annullata/e e una nuova fattura (con un importo inferiore) sarà ricreata il prossimo giorno di fatturazione. Se la vecchia fattura annullata era già stata pagata, allora la nuova fattura sarà automaticamente chiusa e il socio si troverà con un saldo positivo. Se necessario, potete riflettere un rimborso del saldo del socio [creando un pagamento negativo](/payments/new).
 
-### Quota annuale
+### Quota annuale {#annual-fee}
 
-La quota annuale è automaticamente inclusa nella prima fattura dell'abbonamento. Se il socio non ha un abbonamento ([supporto](/handbook/members#statuses)) allora viene creata automaticamente una fattura specifica all'inizio dell'anno fiscale.
+La quota annuale predefinita dell'organizzazione è definita nelle [impostazioni di fatturazione](/settings#billing). Ogni socio eredita questo valore predefinito alla creazione, ma può essere modificato individualmente dal suo profilo (pagina di modifica, sezione «Fatturazione»).
+
+La quota annuale è automaticamente inclusa nella **prima fattura** dell'abbonamento. Se il socio non ha un abbonamento ([supporto](/handbook/members#statuses)) allora viene creata automaticamente una fattura specifica di quota annuale all'inizio dell'anno fiscale.
+
+Se modificate la quota annuale predefinita dell'organizzazione, tutti i soci ancora al vecchio valore vengono automaticamente aggiornati.
 
 ### <%= Basket.model_name.human(count: 2) %> di prova {#trial-baskets}
 
@@ -63,15 +81,29 @@ I soci possono annullare il proprio abbonamento durante il periodo di prova dal 
 
 Se l'abbonamento viene annullato durante il periodo di prova, solo le <%= Basket.model_name.human(count: 2).downcase %> consegnate saranno fatturate, il prossimo giorno di fatturazione. In questo caso, la quota annuale non viene fatturata (a meno che il socio non scelga di pagarla).
 
+### <%= Member.human_attribute_name(:salary_basket) %>
+
+I soci contrassegnati come «[<%= Member.human_attribute_name(:salary_basket).downcase %>](/handbook/members#salary-basket)» sono completamente esclusi dalla fatturazione. Il loro abbonamento esiste ancora per il tracciamento delle consegne, ma tutti i prezzi sono azzerati e non vengono generate fatture di abbonamento.
+
 ## Quote sociali {#share-capital}
+
+Il prezzo per quota è definito nelle [impostazioni di fatturazione](/settings#billing). Il numero predefinito di quote richieste è configurato a livello di organizzazione, ma può anche essere impostato per <%= BasketSize.model_name.human.downcase %> (ad esempio, una dimensione maggiore può richiedere più quote).
 
 Ogni giorno di fatturazione, il sistema crea automaticamente le fatture per le quote sociali mancanti, per esempio per un socio il cui abbonamento è appena iniziato.
 
-Per rimborsare una quota sociale già fatturata, andate sulla pagina della fattura e cliccate sul pulsante "Rimborso" in alto a destra, potete quindi creare facilmente una fattura di quota sociale negativa. Assicuratevi che il socio non abbia più bisogno di quote sociali, altrimenti saranno automaticamente create di nuovo il prossimo giorno di fatturazione.
+### Campi quote del socio {#share-fields}
 
-Se le quote sociali sono già state fatturate al di fuori di CSA Admin, potete riflettere questa informazione modificando il profilo del socio, sezione "Fatturazione" (Numero di quote sociali esistenti). Queste quote non saranno quindi fatturate.
+Tre campi relativi alle quote sono disponibili nel profilo di un socio (pagina di modifica, sezione «Fatturazione»):
 
-> Dalla pagina di un socio, potete vedere nella sezione "Fatturazione" (colonna di destra) il numero di quote sociali che saranno o sono già fatturate con un link alle fatture corrispondenti.
+- **Numero di quote sociali esistenti**: Quote già possedute al di fuori di CSA Admin (ad esempio, provenienti da un sistema precedente). Queste non vengono fatturate nuovamente.
+- **Numero di quote sociali desiderate**: I soci possono richiedere quote aggiuntive oltre il minimo durante l'[iscrizione](/handbook/registration) o il [rinnovo](/handbook/membership_renewal). Il sistema fattura il maggiore tra il numero richiesto e quello desiderato.
+- **Numero di quote sociali richieste**: Modifica manuale da parte dell'admin del numero di quote necessarie per questo socio. Per impostazione predefinita, il valore configurato per la sua <%= BasketSize.model_name.human.downcase %>.
+
+### Rimborso {#share-refund}
+
+Per rimborsare una quota sociale già fatturata, andate sulla pagina della fattura e cliccate sul pulsante «Rimborso» in alto a destra, potete quindi creare facilmente una fattura di quota sociale negativa. Assicuratevi che il socio non abbia più bisogno di quote sociali, altrimenti saranno automaticamente create di nuovo il prossimo giorno di fatturazione.
+
+> Dalla pagina di un socio, potete vedere nella sezione «Fatturazione» (colonna di destra) il numero di quote sociali che saranno o sono già fatturate con un link alle fatture corrispondenti.
 
 ## <%= activities_human_name %> non effettuate {#activity}
 
@@ -113,6 +145,14 @@ Le fatture vengono qui inviate automaticamente.
 CSA Admin offre la possibilità di fatturare manualmente articoli o servizi vari (per esempio, acquisto di borse in tessuto per i nuovi abbonati). Per farlo, è sufficiente [creare una nuova fattura](/invoices/new) e inserire gli articoli sotto la scheda "Altro". Dopo aver verificato il PDF, potete inviare manualmente la fattura utilizzando il pulsante "Inviare" sulla pagina della stessa.
 
 > Attenzione, le fatture di tipo "Altro" non devono essere utilizzate per fatturare gli abbonamenti, quote sociali o <%= activities_human_name.downcase %>, perché il sistema non le prenderà in considerazione.
+
+## IVA {#vat}
+
+Se la vostra organizzazione è soggetta all'IVA, potete configurare le aliquote IVA nelle [impostazioni di fatturazione](/settings#billing). Aliquote separate possono essere definite per le fatture di abbonamento, le fatture di <%= activities_human_name.downcase %> e le fatture di ordini della bottega. Per le fatture «Altro» e «Quota nuovo socio», l'aliquota IVA viene impostata manualmente su ogni fattura.
+
+L'IVA è calcolata come imposta inclusa (il totale della fattura include già l'IVA). L'importo netto e l'importo IVA sono visualizzati separatamente sul PDF della fattura.
+
+> L'IVA viene applicata solo quando un numero di partita IVA è configurato nelle [impostazioni di fatturazione](/settings#billing).
 
 ## Pagamenti {#payments}
 
@@ -197,3 +237,11 @@ Quando i pagamenti vengono importati automaticamente, il sistema si occupa autom
 Potete configurare il contenuto di questo promemoria modificando [il template email "Promemoria fattura"](/mail_templates/invoice_overdue_notice).
 
 > Potete essere notificati via email quando viene inviato il 3° promemoria di una fattura. Gestite le vostre notifiche dal [vostro account admin](/admins/<%= current_admin.id %>/edit).
+
+## Notifiche amministratori {#notifications}
+
+Diversi eventi legati alla fatturazione possono attivare notifiche via email agli amministratori che hanno attivato l'opzione tramite [le loro preferenze di notifica](/admins/<%= current_admin.id %>/edit):
+
+- **Fattura pagata in eccesso**: Inviata quando un pagamento fa superare l'importo pagato di una fattura rispetto al suo totale, indicando che il socio ha un saldo positivo.
+- **3° promemoria**: Inviata quando il terzo promemoria viene inviato per una fattura non pagata, segnalando un problema di pagamento persistente.
+- **Storno di pagamento**: Inviata quando un pagamento negativo (storno) viene importato, che potrebbe indicare un addebito respinto o una correzione bancaria.

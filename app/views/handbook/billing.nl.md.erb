@@ -2,6 +2,20 @@
 
 CSA Admin heeft als doel om de meeste taken gerelateerd aan facturering te automatiseren ([lidmaatschappen](#memberships), [aandelenkapitaal](#share-capital), [betalingsverwerking](#payments)), maar sommige aspecten zoals facturering voor [niet voltooide <%= activities_human_name %>](#activity) moeten handmatig worden uitgevoerd.
 
+## Factuurtypen {#invoice-types}
+
+CSA Admin verwerkt verschillende typen facturen:
+
+| Type | Beschrijving |
+|------|-------------|
+| **Lidmaatschap** | Facturering van het hoofdlidmaatschap (<%= BasketSize.model_name.human.downcase %>, <%= BasketComplement.model_name.human(count: 2).downcase %>, depot, leveringscyclus). [Automatisch gegenereerd](#memberships). |
+| **Jaarlijkse bijdrage** | Opgenomen in de eerste lidmaatschapsfactuur, of [apart gefactureerd](#annual-fee) voor [ondersteunende leden](/handbook/members#statuses). |
+| **Aandelenkapitaal** | Voor organisaties die [aandelenbezit](#share-capital) vereisen. Automatisch gegenereerd wanneer aandelen ontbreken. |
+| **<%= activities_human_name %>** | Facturering van [niet voltooide deelnames](#activity). Handmatig of in groepen geactiveerd. |
+| **Winkelbestelling** | Factuur voor [winkel](/handbook/shop)-bestellingen. Kan automatisch of handmatig zijn. |
+| **Nieuw lid bijdrage** | Eenmalige bijdrage voor nieuwe leden, als de functie is ingeschakeld. |
+| **Overig** | [Vrije facturen](#manual-invoice) voor diverse artikelen of diensten. |
+
 <!-- country:CH -->
 ## QR-facturen {#qr-invoices}
 
@@ -51,9 +65,13 @@ Als een lidmaatschapsconfiguratie (datums, <%= BasketSize.model_name.human.downc
   - De prijswijziging is positief, een nieuwe factuur (met een hoger bedrag) wordt eenvoudig aangemaakt op de volgende factureringsdag om het ontbrekende bedrag te factureren.
   - De prijswijziging is negatief, de laatste factuur/facturen van het lidmaatschap worden dan automatisch geannuleerd en een nieuwe factuur (met een lager bedrag) wordt opnieuw aangemaakt op de volgende factureringsdag. Als de oude geannuleerde factuur al was betaald, dan wordt de nieuwe factuur automatisch gesloten en eindigt het lid met een positief saldo. Indien nodig kunt u een terugbetaling van het saldo van het lid weergeven door [een negatieve betaling aan te maken](/payments/new) voor hen.
 
-### Jaarlijkse bijdrage
+### Jaarlijkse bijdrage {#annual-fee}
 
-De jaarlijkse bijdrage wordt automatisch opgenomen in de eerste factuur van het lidmaatschap. Als het lid geen lidmaatschap heeft ([ondersteuning](/handbook/members#statuses)) dan wordt automatisch een specifieke factuur aangemaakt aan het begin van het boekjaar.
+De standaard jaarlijkse bijdrage van de organisatie is gedefinieerd in [de factureringsinstellingen](/settings#billing). Elk lid erft deze standaardwaarde bij aanmaak, maar deze kan individueel worden overschreven vanuit het profiel van het lid (bewerkpagina, sectie «Facturering»).
+
+De jaarlijkse bijdrage wordt automatisch opgenomen in de **eerste factuur** van het lidmaatschap. Als het lid geen lidmaatschap heeft ([ondersteuning](/handbook/members#statuses)) dan wordt automatisch een specifieke jaarlijkse bijdragefactuur aangemaakt aan het begin van het boekjaar.
+
+Als u de standaard jaarlijkse bijdrage van de organisatie wijzigt, worden alle leden die nog op de oude waarde staan automatisch bijgewerkt.
 
 ### <%= Basket.model_name.human(count: 2) %> op proef {#trial-baskets}
 
@@ -63,15 +81,29 @@ Leden kunnen hun lidmaatschap zelf annuleren tijdens de proefperiode via hun led
 
 Als het lidmaatschap wordt geannuleerd tijdens de proefperiode, worden alleen de geleverde <%= Basket.model_name.human(count: 2).downcase %> gefactureerd, op de volgende factureringsdag. In dit geval wordt de jaarlijkse bijdrage niet gefactureerd (tenzij het lid ervoor kiest deze te betalen).
 
+### <%= Member.human_attribute_name(:salary_basket) %>
+
+Leden gemarkeerd als «[<%= Member.human_attribute_name(:salary_basket).downcase %>](/handbook/members#salary-basket)» zijn volledig uitgesloten van facturering. Hun lidmaatschap bestaat nog steeds voor leveringstracking, maar alle prijzen zijn op nul gezet en er worden geen lidmaatschapsfacturen gegenereerd.
+
 ## Aandelenkapitaal {#share-capital}
+
+De prijs per aandeel is gedefinieerd in [de factureringsinstellingen](/settings#billing). Het standaard vereiste aantal aandelen wordt op organisatieniveau geconfigureerd, maar kan ook per <%= BasketSize.model_name.human.downcase %> worden ingesteld (bijv. een grotere maat kan meer aandelen vereisen).
 
 Elke factureringsdag maakt het systeem automatisch facturen aan voor ontbrekend aandelenkapitaal, bijvoorbeeld voor een lid wiens lidmaatschap net is begonnen.
 
-Om reeds gefactureerd aandelenkapitaal terug te betalen, ga naar de factuurpagina en klik op de knop "Terugbetalen" rechtsboven, u kunt dan eenvoudig een negatieve aandelenkapitaalfactuur aanmaken. Zorg ervoor dat het lid geen aandelenkapitaal meer nodig heeft, anders worden ze automatisch opnieuw aangemaakt op de volgende factureringsdag.
+### Aandelenvelden van het lid {#share-fields}
 
-Als aandelenkapitaal al is gefactureerd buiten CSA Admin, kunt u deze informatie weergeven door het profiel van het lid te wijzigen, sectie "Facturering" (Aantal bestaand aandelenkapitaal). Deze aandelen worden dan niet gefactureerd.
+Drie aandelengerelateerde velden zijn beschikbaar in het profiel van een lid (bewerkpagina, sectie «Facturering»):
 
-> Vanaf de pagina van een lid kunt u in de sectie "Facturering" (rechterkolom) het aantal aandelenkapitaal zien dat wordt of al is gefactureerd met een link naar de corresponderende facturen.
+- **Aantal bestaand aandelenkapitaal**: Aandelen die al buiten CSA Admin in bezit zijn (bijv. van een vorig systeem). Deze worden niet opnieuw gefactureerd.
+- **Gewenst aantal aandelenkapitaal**: Leden kunnen bij [registratie](/handbook/registration) of [vernieuwing](/handbook/membership_renewal) extra aandelen aanvragen boven het minimum. Het systeem factureert het hogere van het vereiste en gewenste aantal.
+- **Vereist aantal aandelenkapitaal**: Admin-overschrijving van het aantal aandelen dat dit lid nodig heeft. Standaard de waarde die is geconfigureerd voor hun <%= BasketSize.model_name.human.downcase %>.
+
+### Terugbetaling {#share-refund}
+
+Om reeds gefactureerd aandelenkapitaal terug te betalen, ga naar de factuurpagina en klik op de knop «Terugbetalen» rechtsboven, u kunt dan eenvoudig een negatieve aandelenkapitaalfactuur aanmaken. Zorg ervoor dat het lid geen aandelenkapitaal meer nodig heeft, anders worden ze automatisch opnieuw aangemaakt op de volgende factureringsdag.
+
+> Vanaf de pagina van een lid kunt u in de sectie «Facturering» (rechterkolom) het aantal aandelenkapitaal zien dat wordt of al is gefactureerd met een link naar de corresponderende facturen.
 
 ## Niet voltooide <%= activities_human_name %> {#activity}
 
@@ -113,6 +145,14 @@ Het is mogelijk om specifieke tekst toe te voegen in de ["Nieuwe factuur" e-mail
 CSA Admin biedt de mogelijkheid om handmatig verschillende artikelen of diensten te factureren (bijvoorbeeld aankoop van stoffen tassen voor nieuwe abonnees). Hiervoor hoeft u alleen maar [een nieuwe factuur aan te maken](/invoices/new) en de artikelen in te voeren onder het tabblad "Overig". Na controle van de PDF kunt u de factuur handmatig verzenden met de knop "Verzenden" op de betreffende pagina.
 
 > Opgelet, facturen van het type "Overig" mogen niet worden gebruikt om lidmaatschappen, aandelenkapitaal of <%= activities_human_name.downcase %> te factureren, omdat het systeem deze niet in aanmerking zal nemen.
+
+## BTW {#vat}
+
+Als uw organisatie BTW-plichtig is, kunt u BTW-tarieven configureren in [de factureringsinstellingen](/settings#billing). Aparte tarieven kunnen worden gedefinieerd voor lidmaatschapsfacturen, <%= activities_human_name.downcase %>-facturen en winkelbestelfacturen. Voor facturen van het type «Overig» en «Nieuw lid bijdrage» wordt het BTW-tarief handmatig op elke factuur ingesteld.
+
+BTW wordt berekend als inclusieve belasting (het factuurtotaal bevat al BTW). Het nettobedrag en het BTW-bedrag worden apart weergegeven op de factuur-PDF.
+
+> BTW wordt alleen toegepast wanneer een BTW-nummer is geconfigureerd in [de factureringsinstellingen](/settings#billing).
 
 ## Betalingen {#payments}
 
@@ -197,5 +237,13 @@ Zodra een SEPA-factuur is aangemaakt en verzonden, moet een SEPA-incasso-opdrach
 Wanneer betalingen automatisch worden geïmporteerd, zorgt het systeem er automatisch voor dat elke 35 dagen een herinneringse-mail wordt verzonden naar alle leden die een onbetaalde factuur hebben, totdat de factuur is betaald (1e herinnering na 35 dagen, 2e herinnering na 70 dagen, enz.).
 
 U kunt de inhoud van deze herinnering configureren door [de "Factuurherinnering" e-mailsjabloon](/mail_templates/invoice_overdue_notice) te wijzigen.
+
+## Admin-meldingen {#notifications}
+
+Verschillende factureringsgerelateerde gebeurtenissen kunnen e-mailmeldingen activeren naar beheerders die hiervoor hebben gekozen via [hun meldingsvoorkeuren](/admins/<%= current_admin.id %>/edit):
+
+- **Factuur overbetaald**: Verzonden wanneer een betaling ervoor zorgt dat het betaalde bedrag van een factuur het totaal overschrijdt, wat aangeeft dat het lid een positief saldo heeft.
+- **3e betalingsherinnering**: Verzonden wanneer de derde herinnering wordt verstuurd voor een onbetaalde factuur, wat wijst op een aanhoudend betalingsprobleem.
+- **Betalingsterugboeking**: Verzonden wanneer een negatieve betaling (terugboeking) wordt geïmporteerd, wat kan duiden op een incassostorno of bankcorrectie.
 
 > U kunt per e-mail worden gewaarschuwd wanneer de 3e herinnering van een factuur wordt verzonden. Beheer uw meldingen vanaf [uw admin-account](/admins/<%= current_admin.id %>/edit).

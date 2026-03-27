@@ -2,9 +2,29 @@
 
 Naast [automatische e-mails](/mail_templates) die worden verzonden tijdens specifieke gebeurtenissen (nieuwe factuur, vernieuwing, ...), biedt CSA Admin ook de mogelijkheid om [nieuwsbrieven (groepse-mails)](/newsletters) te verzenden.
 
-Deze nieuwsbrieven kunnen worden gericht aan al uw leden of aan een specifiek publiek (status, <%= BasketSize.model_name.human.downcase %>, depot, ...).
+Deze nieuwsbrieven kunnen worden gericht aan al uw leden of aan een specifiek [publiek](#audience) (status, <%= BasketSize.model_name.human.downcase %>, depot, ...).
 
 > In tegenstelling tot [automatische e-mails](/mail_templates) bevatten nieuwsbrieven een (verplichte) uitschrijflink in hun voettekst.
+
+## Publiek {#audience}
+
+Bij het aanmaken van een nieuwsbrief kiest u de doelgroep. Verschillende filters zijn beschikbaar:
+
+- **Ledenstatus**: Actief, ondersteuning, wachtlijst, inactief of alle leden.
+- **Lidmaatschapsstatus**: Proef, lopend, toekomstig of afgelopen.
+- **<%= BasketSize.model_name.human %>**: Leden met een specifieke <%= BasketSize.model_name.human.downcase %>.
+- **<%= BasketComplement.model_name.human %>**: Leden geabonneerd op een specifieke <%= BasketComplement.model_name.human.downcase %>.
+- **Depot**: Leden bij een specifiek depot.
+- **Levering**: Leden met een <%= Basket.model_name.human.downcase %> op een specifieke leveringsdatum.
+- **Factuurstatus**: Leden met openstaande of achterstallige facturen.
+- **<%= activities_human_name %>**: Leden met gevraagde of ontbrekende deelnames, of deelnemers aan een specifieke activiteit.
+- **Winkellevering**: Leden met bestellingen voor een specifieke winkellevering.
+
+### Opgeslagen segmenten {#segments}
+
+Als de bovenstaande standaard publieksfilters niet aan uw behoeften voldoen, kunt u [opgeslagen segmenten](/newsletter_segments) aanmaken voor geavanceerdere targeting. Een segment is een benoemde, herbruikbare filtercombinatie die criteria kan combineren die niet beschikbaar zijn in de standaardfilters (bijv. leden in een specifieke stad, met een bepaald factureringsinterval of een specifieke vernieuwingsstatus).
+
+Opgeslagen segmenten kunnen filteren op <%= BasketSize.model_name.human.downcase %>, <%= BasketComplement.model_name.human(count: 2).downcase %>, depot, leveringscyclus, vernieuwingsstatus, factureringsinterval, stad en meer. Ze verschijnen naast de andere publiekopties bij het aanmaken van een nieuwsbrief.
 
 ## Sjablonen {#templates}
 

@@ -2,6 +2,20 @@
 
 CSA Admin aims to automate most tasks related to billing ([memberships](#memberships), [share capital](#share-capital), [payment processing](#payments)), but some aspects such as billing for [uncompleted <%= activities_human_name %>](#activity) must be done manually.
 
+## Invoice types {#invoice-types}
+
+CSA Admin handles several types of invoices:
+
+| Type | Description |
+|------|-------------|
+| **Membership** | Main subscription billing (<%= BasketSize.model_name.human.downcase %>, <%= BasketComplement.model_name.human(count: 2).downcase %>, depot, delivery cycle). [Automatically generated](#memberships). |
+| **Annual fee** | Included in the first membership invoice, or [billed separately](#annual-fee) for [support members](/handbook/members#statuses). |
+| **Share capital** | For organizations requiring [share ownership](#share-capital). Automatically generated when shares are missing. |
+| **<%= activities_human_name %>** | Billing for [uncompleted participations](#activity). Triggered manually or in group. |
+| **Shop order** | Invoice for [shop](/handbook/shop) orders. Can be automatic or manual. |
+| **New member fee** | One-time fee charged to new members, if the feature is enabled. |
+| **Other** | [Free-form invoices](#manual-invoice) for miscellaneous items or services. |
+
 <!-- country:CH -->
 ## QR-Invoices {#qr-invoices}
 
@@ -51,9 +65,13 @@ If a membership configuration (dates, <%= BasketSize.model_name.human.downcase %
   - The price change is positive, a new invoice (with a higher amount) will simply be created on the next billing day to bill the missing amount.
   - The price change is negative, the last invoice(s) of the membership will then be automatically cancelled and a new invoice (with a lower amount) will be recreated on the next billing day. If the old cancelled invoice was already paid, then the new invoice will be automatically closed and the member will end up with a positive balance. If needed, you can reflect a refund of the member's balance by [creating a negative payment](/payments/new) for them.
 
-### Annual fee
+### Annual fee {#annual-fee}
 
-The annual fee is automatically included in the first invoice of the membership. If the member doesn't have a membership ([support](/handbook/members#statuses)) then a specific invoice is automatically created at the beginning of the fiscal year.
+The organization's default annual fee is defined in [your billing settings](/settings#billing). Each member inherits this default when created, but it can be overridden individually from their profile (edit page, "Billing" section).
+
+The annual fee is automatically included in the **first invoice** of the membership. If the member doesn't have a membership ([support](/handbook/members#statuses)) then a specific annual fee invoice is automatically created at the beginning of the fiscal year.
+
+If you change the organization's default annual fee, all members still set to the previous value are automatically updated to the new one.
 
 ### Trial <%= Basket.model_name.human(count: 2).downcase %> {#trial-baskets}
 
@@ -63,13 +81,27 @@ Members can cancel their membership themselves during the trial period from thei
 
 If the membership is canceled during the trial period, only the delivered <%= Basket.model_name.human(count: 2).downcase %> will be billed, on the next billing day. In this case, the annual fee is not billed (unless the member chooses to pay it).
 
+### <%= Member.human_attribute_name(:salary_basket) %>
+
+Members flagged as "[<%= Member.human_attribute_name(:salary_basket).downcase %>](/handbook/members#salary-basket)" are completely excluded from billing. Their membership still exists for delivery tracking, but all prices are zeroed out and no membership invoices are generated.
+
 ## Share capital {#share-capital}
+
+The price per share is defined in [the billing settings](/settings#billing). The default number of required shares is configured at the organization level, but can also be set per <%= BasketSize.model_name.human.downcase %> (e.g., a larger size may require more shares).
 
 Each billing day, the system automatically creates invoices for missing share capital, for example for a member whose membership has just started.
 
-To refund already billed share capital, go to the invoice page and click on the "Refund" button at the top right, you can then easily create a negative share capital invoice. Make sure that the member no longer needs share capital, otherwise they will be automatically created again on the next billing day.
+### Member share fields {#share-fields}
 
-If share capital has already been billed outside of CSA Admin, you can reflect this information by modifying the member's profile, "Billing" section (Number of existing share capital). These shares will then not be billed.
+Three share-related fields are available on a member's profile (edit page, "Billing" section):
+
+- **Number of existing share capital**: Shares already owned outside of CSA Admin (e.g., from a previous system). These are not billed again.
+- **Desired number of share capital**: Members can request additional shares beyond the minimum during [registration](/handbook/registration) or [renewal](/handbook/membership_renewal). The system invoices the higher of the required and desired amounts.
+- **Number of required share capital**: Admin override for the number of shares this member needs. Defaults to the value configured for their <%= BasketSize.model_name.human.downcase %>.
+
+### Refund {#share-refund}
+
+To refund already billed share capital, go to the invoice page and click on the "Refund" button at the top right, you can then easily create a negative share capital invoice. Make sure that the member no longer needs share capital, otherwise they will be automatically created again on the next billing day.
 
 > From a member's page, you can see in the "Billing" section (right column) the number of share capital that will be or are already billed with a link to the corresponding invoices.
 
@@ -113,6 +145,14 @@ It's possible to add specific text in the ["New invoice" email template](/mail_t
 CSA Admin offers the possibility to manually bill various items or services (for example, purchase of fabric bags for new subscribers). To do this, simply [create a new invoice](/invoices/new) and enter the items under the "Other" tab. After checking the PDF, you can manually send the invoice using the "Send" button on its page.
 
 > Attention, "Other" type invoices should not be used to bill memberships, share capital or <%= activities_human_name.downcase %>, as the system will not take them into account.
+
+## VAT {#vat}
+
+If your organization is subject to VAT, you can configure VAT rates in [the billing settings](/settings#billing). Separate rates can be defined for membership invoices, <%= activities_human_name.downcase %> invoices, and shop order invoices. For "Other" and "New member fee" invoices, the VAT rate is set manually on each invoice.
+
+VAT is calculated as an inclusive tax (the invoice total already includes VAT). The net amount and VAT amount are displayed separately on the invoice PDF.
+
+> VAT is only applied when a VAT number is configured in [the billing settings](/settings#billing).
 
 ## Payments {#payments}
 
@@ -199,3 +239,11 @@ When payments are imported automatically, the system automatically takes care of
 You can configure the content of this reminder by modifying [the "Invoice reminder" email template](/mail_templates/invoice_overdue_notice).
 
 > You can be notified by email when the 3rd reminder of an invoice is sent. Manage your notifications from [your admin account](/admins/<%= current_admin.id %>/edit).
+
+## Admin notifications {#notifications}
+
+Several billing-related events can trigger email notifications to administrators who have opted in via [their notification preferences](/admins/<%= current_admin.id %>/edit):
+
+- **Invoice overpaid**: Sent when a payment causes an invoice's paid amount to exceed its total, indicating the member has a positive balance.
+- **3rd overdue notice**: Sent when the third reminder is sent for an unpaid invoice, signaling a persistent payment issue.
+- **Payment reversal**: Sent when a negative payment (reversal) is imported, which may indicate a chargeback or bank correction.

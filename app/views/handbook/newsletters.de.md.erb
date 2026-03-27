@@ -2,9 +2,29 @@
 
 Ergänzend zu [automatischen E-Mails](/mail_templates), die bei bestimmten Ereignissen verschickt werden (neue Rechnung, Verlängerung, ...), bietet CSA Admin auch die Möglichkeit, [Newsletters (Gruppen-E-Mails)](/newsletters) zu versenden.
 
-Diese Newsletters können an alle Deine Mitglieder oder an ein spezifisches Publikum (Status, <%= BasketSize.model_name.human %>, Depot, ...) gerichtet werden.
+Diese Newsletters können an alle Deine Mitglieder oder an ein spezifisches [Publikum](#audience) (Status, <%= BasketSize.model_name.human %>, Depot, ...) gerichtet werden.
 
 > Im Gegensatz zu [automatischen E-Mails](/mail_templates) enthalten Newsletters einen (obligatorischen) Abmeldelink in ihrer Fußzeile.
+
+## Publikum {#audience}
+
+Beim Erstellen eines Newsletters wählst Du die Zielgruppe. Mehrere Filter sind verfügbar:
+
+- **Mitgliederstatus**: Aktiv, Förderung, Warteliste, inaktiv oder alle Mitglieder.
+- **Abonnementstatus**: Probezeit, laufend, zukünftig oder vergangen.
+- **<%= BasketSize.model_name.human %>**: Mitglieder mit einer bestimmten <%= BasketSize.model_name.human %>.
+- **<%= BasketComplement.model_name.human %>**: Mitglieder, die eine bestimmte <%= BasketComplement.model_name.human %> abonniert haben.
+- **Depot**: Mitglieder in einem bestimmten Depot.
+- **Lieferung**: Mitglieder mit einer <%= Basket.model_name.human %> an einem bestimmten Lieferdatum.
+- **Rechnungsstatus**: Mitglieder mit offenen oder überfälligen Rechnungen.
+- **<%= activities_human_name %>**: Mitglieder mit angeforderten oder fehlenden Teilnahmen, oder Teilnehmer einer bestimmten Aktivität.
+- **Warenkorblieferung**: Mitglieder mit Bestellungen für eine bestimmte Warenkorblieferung.
+
+### Gespeicherte Segmente {#segments}
+
+Wenn die oben genannten Standard-Publikumsfilter nicht ausreichen, kannst Du [gespeicherte Segmente](/newsletter_segments) für eine gezieltere Auswahl erstellen. Ein Segment ist eine benannte, wiederverwendbare Filterkombination, die Kriterien kombinieren kann, die in den Standardfiltern nicht verfügbar sind (z.B. Mitglieder in einer bestimmten Stadt, mit einem bestimmten Abrechnungsintervall oder einem bestimmten Erneuerungsstatus).
+
+Gespeicherte Segmente können nach <%= BasketSize.model_name.human %>, <%= BasketComplement.model_name.human(count: 2) %>, Depot, Lieferzyklus, Erneuerungsstatus, Abrechnungsintervall, Ort und mehr filtern. Sie erscheinen neben den anderen Publikumsoptionen beim Erstellen eines Newsletters.
 
 ## Vorlagen {#templates}
 

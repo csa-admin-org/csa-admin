@@ -2,9 +2,29 @@
 
 In aggiunta alle [email automatiche](/mail_templates) inviate durante eventi specifici (nuova fattura, rinnovo, ...), CSA Admin offre anche la possibilità di inviare [newsletters (email di gruppo)](/newsletters).
 
-Queste newsletters possono essere indirizzate a tutti i vostri soci o a un pubblico specifico (stato, <%= BasketSize.model_name.human.downcase %>, punto di ritiro, ...).
+Queste newsletters possono essere indirizzate a tutti i vostri soci o a un [pubblico](#audience) specifico (stato, <%= BasketSize.model_name.human.downcase %>, punto di ritiro, ...).
 
 > A differenza delle [email automatiche](/mail_templates), le newsletters includono un link di disiscrizione (obbligatorio) nel loro piè di pagina.
+
+## Pubblico {#audience}
+
+Durante la creazione di una newsletter, scegliete il pubblico di destinazione. Diversi filtri sono disponibili:
+
+- **Stato del socio**: Attivo, supporto, in attesa, inattivo o tutti i soci.
+- **Stato dell'abbonamento**: In prova, in corso, futuro o passato.
+- **<%= BasketSize.model_name.human %>**: Soci con una <%= BasketSize.model_name.human.downcase %> specifica.
+- **<%= BasketComplement.model_name.human %>**: Soci abbonati a un <%= BasketComplement.model_name.human.downcase %> specifico.
+- **Deposito**: Soci in un deposito specifico.
+- **Consegna**: Soci con una <%= Basket.model_name.human.downcase %> per una data di consegna specifica.
+- **Stato fattura**: Soci con fatture aperte o in ritardo.
+- **<%= activities_human_name %>**: Soci con partecipazioni richieste o mancanti, o partecipanti a un'attività specifica.
+- **Consegna bottega**: Soci con ordini per una consegna bottega specifica.
+
+### Segmenti salvati {#segments}
+
+Se i filtri di pubblico standard sopra non coprono le vostre esigenze, potete creare [segmenti salvati](/newsletter_segments) per un targeting più avanzato. Un segmento è una combinazione di filtri nominata e riutilizzabile che può combinare criteri non disponibili nei filtri predefiniti (ad esempio, soci in una città specifica, con un particolare intervallo di fatturazione o un determinato stato di rinnovo).
+
+I segmenti salvati possono filtrare per <%= BasketSize.model_name.human.downcase %>, <%= BasketComplement.model_name.human(count: 2).downcase %>, deposito, ciclo di consegne, stato del rinnovo, intervallo di fatturazione, città e altro. Appaiono accanto alle altre opzioni di pubblico durante la creazione di una newsletter.
 
 ## Templates {#templates}
 

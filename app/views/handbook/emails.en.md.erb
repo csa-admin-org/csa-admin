@@ -92,3 +92,62 @@ When editing an email template or a newsletter template, a preview panel is disp
 Below each preview, a data panel shows the exact data structure available to your template. This data is generated semi-randomly from your actual organization data. You can modify the values in this panel to test how your template renders with different scenarios (e.g. empty <%= BasketContent.model_name.human.downcase %>, zero missing activities, etc.).
 
 > The data preview is the best way to discover all available variables and test your template. Each type of email template has its own set of available data — always check the preview panel to see what's available.
+
+## Common Liquid Variables {#variables}
+
+Here is a quick reference of the most commonly used variables across email templates. Not all variables are available in every template — always check the [data preview](#data-preview) for the specific template you're editing.
+
+### `member`
+
+| Variable | Description |
+|----------|-------------|
+| `member.name` | Full name |
+| `member.balance` | Current account balance (formatted) |
+| `member.annual_fee` | Annual fee amount (formatted) |
+| `member.page_url` | Link to the member's account page |
+| `member.billing_url` | Link to the member's billing page |
+| `member.deliveries_url` | Link to the member's deliveries page |
+| `member.activities_url` | Link to the member's activities page |
+| `member.absences_url` | Link to the member's absences page |
+| `member.membership_renewal_url` | Link to the membership renewal page |
+
+### `membership`
+
+| Variable | Description |
+|----------|-------------|
+| `membership.start_date` | Membership start date (localized) |
+| `membership.end_date` | Membership end date (localized) |
+| `membership.state` | Current state |
+| `membership.renewal_state` | Renewal state |
+| `membership.trial_baskets_count` | Remaining trial <%= Basket.model_name.human(count: 2).downcase %> |
+| `membership.basket_size.name` | Name of the <%= BasketSize.model_name.human.downcase %> |
+| `membership.depot.name` | Name of the depot |
+| `membership.basket_complement_names` | Comma-separated list of complement names |
+| `membership.activity_participations_demanded_count` | Total participations requested |
+| `membership.activity_participations_accepted_count` | Validated participations |
+| `membership.activity_participations_missing_count` | Remaining participations to complete |
+| `membership.absences_included` | Number of included absences |
+| `membership.absences_remaining` | Remaining included absences |
+
+### `basket`
+
+| Variable | Description |
+|----------|-------------|
+| `basket.delivery.date` | Delivery date (localized) |
+| `basket.description` | <%= BasketSize.model_name.human %> description |
+| `basket.complements_description` | Complements description |
+| `basket.size.name` | Name of the <%= BasketSize.model_name.human.downcase %> |
+| `basket.depot.name` | Name of the depot |
+| `basket.quantity` | Quantity |
+| `basket.contents` | List of <%= BasketContent.model_name.human(count: 2).downcase %> (use in a `for` loop) |
+
+### `invoice`
+
+| Variable | Description |
+|----------|-------------|
+| `invoice.number` | Invoice number |
+| `invoice.date` | Invoice date (localized) |
+| `invoice.entity_type` | Type of invoice (e.g. "Membership", "Shop::Order") |
+| `invoice.amount` | Total amount (formatted) |
+| `invoice.missing_amount` | Remaining unpaid amount (formatted) |
+| `invoice.overdue_notices_count` | Number of overdue reminders sent |

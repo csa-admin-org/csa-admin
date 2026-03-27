@@ -2,6 +2,20 @@
 
 CSA Admin vise à automatiser la plupart des tâches relative à la facturation ([abonnements](#memberships), [parts sociales](#share-capital), [traitements des paiements](#payments)), mais certains aspects comme la facturation des [<%= activities_human_name %> non effectuées](#activity) doivent être effectués manuellement.
 
+## Types de factures {#invoice-types}
+
+CSA Admin gère plusieurs types de factures:
+
+| Type | Description |
+|------|-------------|
+| **Abonnement** | Facturation de l'abonnement principal (<%= BasketSize.model_name.human.downcase %>, <%= BasketComplement.model_name.human(count: 2).downcase %>, dépôt, cycle de livraisons). [Générée automatiquement](#memberships). |
+| **Cotisation annuelle** | Incluse dans la première facture de l'abonnement, ou [facturée séparément](#annual-fee) pour les [membres de soutien](/handbook/members#statuses). |
+| **Parts sociales** | Pour les organisations nécessitant la [détention de parts sociales](#share-capital). Générée automatiquement lorsqu'il manque des parts. |
+| **<%= activities_human_name %>** | Facturation des [participations non effectuées](#activity). Déclenchée manuellement ou de manière groupée. |
+| **Commande boutique** | Facture pour les commandes de la [boutique](/handbook/shop). Peut être automatique ou manuelle. |
+| **Cotisation nouveau membre** | Cotisation unique facturée aux nouveaux membres, si la fonctionnalité est activée. |
+| **Autre** | [Factures libres](#manual-invoice) pour des articles ou services divers. |
+
 <!-- country:CH -->
 ## Factures-QR {#qr-invoices}
 
@@ -51,9 +65,13 @@ Si la configuration d'un abonnement (dates, <%= BasketSize.model_name.human.down
   - Le changement de prix est positif, une nouvelle facture (avec un montant plus élevé) sera simplement créée le prochain jour de facturation afin de facturer le montant manquant.
   - Le changement de prix est négatif, la/les dernière(s) facture(s) de l'abonnement sera/seront alors automatiquement annulée(s) et une nouvelle facture (avec un montant moins élevé) sera recréée le prochain jour de facturation. Si l'ancienne facture annulée était déjà payée, alors la nouvelle facture sera automatiquement fermée et le membre se retrouvera avec une balance positive. Au besoin, vous pouvez refléter un remboursement du solde du membre en lui [créant un paiement négatif](/payments/new).
 
-### Cotisation annuelle
+### Cotisation annuelle {#annual-fee}
 
-La cotisation annuelle est automatiquement incluse dans la première facture de l'abonnement. Si le membre n'a pas d'abonnement ([soutien](/handbook/members#statuses)) alors une facture spécifique est créée automatiquement au début de l'année fiscale.
+La cotisation annuelle par défaut de l'organisation est définie dans [vos paramètres de facturation](/settings#billing). Chaque membre hérite de cette valeur par défaut à sa création, mais elle peut être modifiée individuellement depuis son profil (page d'édition, section «Facturation»).
+
+La cotisation annuelle est automatiquement incluse dans la **première facture** de l'abonnement. Si le membre n'a pas d'abonnement ([soutien](/handbook/members#statuses)) alors une facture spécifique de cotisation annuelle est créée automatiquement au début de l'année fiscale.
+
+Si vous modifiez la cotisation annuelle par défaut de l'organisation, tous les membres encore à l'ancienne valeur sont automatiquement mis à jour.
 
 ### <%= Basket.model_name.human(count: 2) %> à l'essai {#trial-baskets}
 
@@ -63,13 +81,27 @@ Les membres peuvent annuler leur abonnement eux-mêmes durant la période d'essa
 
 Si l'abonnement est annulé durant la période d'essai, alors seulement les <%= Basket.model_name.human(count: 2).downcase %> livrés seront facturés, le prochain jour de facturation. Dans ce cas, la cotisation annuelle n'est pas facturée (sauf si le membre choisit de la payer).
 
+### <%= Member.human_attribute_name(:salary_basket) %>
+
+Les membres marqués comme «[<%= Member.human_attribute_name(:salary_basket).downcase %>](/handbook/members#salary-basket)» sont complètement exclus de la facturation. Leur abonnement existe toujours pour le suivi des livraisons, mais tous les prix sont mis à zéro et aucune facture d'abonnement n'est générée.
+
 ## Parts sociales {#share-capital}
+
+Le prix par part sociale est défini dans [les paramètres de facturation](/settings#billing). Le nombre de parts requises par défaut est configuré au niveau de l'organisation, mais peut également être défini par <%= BasketSize.model_name.human.downcase %> (par exemple, une taille plus grande peut nécessiter davantage de parts).
 
 Chaque jour de facturation, le système crée automatiquement les factures pour les parts sociales manquantes, par exemple pour un membre dont l'abonnement vient de commencer.
 
-Pour rembourser une part sociale déjà facturée, rendez vous sur la page de la facture et cliquez sur le bouton "Remboursement" en haut à droite, vous pouvez alors facilement créer une facture de part sociale négative. Assurez-vous bien que le membre n'ai plus besoin de parts sociales, sinon elles seront à nouveau automatiquement créées le prochain jour de facturation.
+### Champs des parts sociales du membre {#share-fields}
 
-Si des parts sociales ont déjà été facturées en dehors d'CSA Admin, vous pouvez refléter cette information en modifiant le profile du membre, section "Facturation" (Nombre de parts sociales existantes). Ces parts ne seront alors pas facturées.
+Trois champs liés aux parts sociales sont disponibles sur le profil d'un membre (page d'édition, section «Facturation»):
+
+- **Nombre de parts sociales existantes**: Parts déjà détenues en dehors de CSA Admin (par exemple, provenant d'un ancien système). Ces parts ne seront pas facturées.
+- **Nombre de parts sociales désiré**: Les membres peuvent demander des parts supplémentaires au-delà du minimum lors de [l'inscription](/handbook/registration) ou du [renouvellement](/handbook/membership_renewal). Le système facture le maximum entre le nombre requis et le nombre désiré.
+- **Nombre de parts sociales requises**: Modification manuelle par l'admin du nombre de parts nécessaires pour ce membre. Par défaut, la valeur configurée pour sa <%= BasketSize.model_name.human.downcase %>.
+
+### Remboursement {#share-refund}
+
+Pour rembourser une part sociale déjà facturée, rendez vous sur la page de la facture et cliquez sur le bouton "Remboursement" en haut à droite, vous pouvez alors facilement créer une facture de part sociale négative. Assurez-vous bien que le membre n'ai plus besoin de parts sociales, sinon elles seront à nouveau automatiquement créées le prochain jour de facturation.
 
 > Depuis la page d'un membre, vous pouvez voir dans la section "Facturation" (colonne de droite) le nombre de parts sociales qui seront ou sont déjà facturées avec un lien sur les factures correspondantes.
 
@@ -112,6 +144,14 @@ Il est possible d'ajouter un texte spécifique dans le [template email "Nouvelle
 CSA Admin offre la possibilité de facturer manuellement des articles ou des services divers (par exemple, achat de sac en tissus pour les nouveaux abonnés). Pour cela, il suffit de [créer une nouvelle facture](/invoices/new) et de rentrer les articles sous l'onglet "Autre". Après vérification du PDF, vous pouvez envoyer manuellement la facture à l'aide du bouton "Envoyer" sur la page de celle-ci.
 
 > Attention, les factures de type "Autre" ne doivent pas être utilisées pour facturer les abonnements, parts sociales ou <%= activities_human_name.downcase %>, car le système ne les prendra pas en compte.
+
+## TVA {#vat}
+
+Si votre organisation est assujettie à la TVA, vous pouvez configurer les taux de TVA dans [les paramètres de facturation](/settings#billing). Des taux distincts peuvent être définis pour les factures d'abonnement, les factures de <%= activities_human_name.downcase %> et les factures de commandes boutique. Pour les factures «Autre» et «Cotisation nouveau membre», le taux de TVA est défini manuellement sur chaque facture.
+
+La TVA est calculée comme une taxe incluse (le montant total de la facture inclut déjà la TVA). Le montant net et le montant de la TVA sont affichés séparément sur le PDF de la facture.
+
+> La TVA n'est appliquée que lorsqu'un numéro de TVA est configuré dans [les paramètres de facturation](/settings#billing).
 
 ## Paiements {#payments}
 
@@ -198,3 +238,11 @@ Quand les paiements sont importés automatiquement, le système s'occupe automat
 Vous pouvez configurer le contenu de ce rappel en modifiant [le template email "Rappel facture"](/mail_templates/invoice_overdue_notice).
 
 > Vous pouvez être notifié par email lorsque le 3ᵉ rappel d'une facture est envoyé. Gérer vos notifications depuis [votre compte admin](/admins/<%= current_admin.id %>/edit).
+
+## Notifications administrateurs {#notifications}
+
+Plusieurs événements liés à la facturation peuvent déclencher des notifications par email aux administrateurs qui ont activé l'option via [leurs préférences de notifications](/admins/<%= current_admin.id %>/edit):
+
+- **Facture surpayée**: Envoyée lorsqu'un paiement fait dépasser le montant payé d'une facture par rapport à son total, indiquant que le membre a une balance positive.
+- **3ᵉ rappel**: Envoyée lorsque le troisième rappel est envoyé pour une facture impayée, signalant un problème de paiement persistant.
+- **Contrepassation de paiement**: Envoyée lorsqu'un paiement négatif (contrepassation) est importé, pouvant indiquer un rejet ou une correction bancaire.

@@ -45,3 +45,53 @@ Un socio inattivo è un socio che non possiede un abbonamento per l'anno fiscale
 Per spostare un socio inattivo a supporto, modificate il profilo del socio e definite un importo di quota annuale (anche 0 per i soci di supporto senza pagamento).
 
 Con il pulsante "Metti in lista d'attesa" in alto a destra nella pagina del socio, è possibile rimettere in lista d'attesa un socio inattivo. La sua quota annuale verrà quindi reimpostata al valore predefinito dell'organizzazione.
+
+## <%= Member.human_attribute_name(:salary_basket) %> {#salary-basket}
+
+Il flag «<%= Member.human_attribute_name(:salary_basket) %>» nel profilo di un socio indica che questo socio riceve la sua <%= Basket.model_name.human.downcase %> come parte del suo stipendio (ad esempio, dipendenti dell'azienda agricola). Quando attivato:
+
+- Tutti i prezzi dell'abbonamento sono azzerati (l'abbonamento esiste ancora per il tracciamento delle consegne, ma nulla viene fatturato).
+- Il socio è escluso dai rapporti di fatturazione e dalla fatturazione previsionale.
+- Il numero predefinito di <%= activities_human_name.downcase %> richieste è impostato a 0.
+- Il socio è escluso dai [turni di impegno](/handbook/bidding_round).
+
+Se il flag viene attivato o disattivato su un socio esistente, i suoi abbonamenti attuali e futuri vengono automaticamente ricalcolati.
+
+## Nota alimentare e nota di consegna {#notes}
+
+Due campi di testo libero sono disponibili nel profilo di ogni socio:
+
+- **Nota alimentare**: Allergie, preferenze o informazioni dietetiche. Questa nota può essere visualizzata sulle [schede di consegna PDF](/handbook/deliveries#delivery-sheets) se l'[impostazione](/settings#delivery) corrispondente è attivata.
+- **Nota di consegna**: Istruzioni pratiche di consegna (codice porta, piano, ecc.). Questa nota è sempre visualizzata sulle schede di consegna a domicilio. I soci possono modificare la propria nota di consegna dal loro account.
+
+Entrambi i campi appaiono nelle esportazioni (CSV/XLSX) e vengono cancellati quando un socio viene [anonimizzato](/handbook/right_to_be_forgotten).
+
+## Indirizzo di fatturazione diverso {#billing-address}
+
+Se le fatture di un socio devono essere inviate a un indirizzo diverso (ad esempio, un'azienda o un familiare), attivate l'opzione «Indirizzo di fatturazione diverso» nel profilo del socio sotto la sezione «Fatturazione». Questo rivela campi aggiuntivi per un nome, via, CAP e città di fatturazione separati. I soci possono anche gestire questo dal proprio account.
+
+## Condivisione dei contatti {#contact-sharing}
+
+I soci possono scegliere di condividere i propri dati di contatto con gli altri soci dello stesso deposito e della stessa consegna. Consultate la pagina dedicata del [manuale sulla condivisione dei contatti](/handbook/contact_sharing) per i dettagli.
+
+## Account socio {#member-account}
+
+Ogni socio ha accesso a un account personale sul proprio [account socio](<%= Current.org.members_url %>). L'accesso è senza password: il socio inserisce il proprio indirizzo email sulla [pagina di accesso](<%= Current.org.members_url %>/login) e riceve un link valido per 15 minuti. Una volta effettuato l'accesso, la sessione dura un anno.
+
+Dal proprio account, il socio può:
+
+- **Consultare le consegne**: Vedere le prossime, future e passate <%= Basket.model_name.human(count: 2).downcase %>, compresi i dettagli del contenuto quando disponibili.
+- **Ordinare dalla bottega**: Effettuare ordini prima della prossima consegna.
+- **Iscriversi alle <%= activities_human_name.downcase %>**: Sfogliare e iscriversi alle attività future.
+- **Gestire le assenze**: Dichiarare le assenze future.
+- **Gestire la fatturazione**: Consultare le fatture aperte (con PDF) e lo storico completo dei pagamenti.
+- **Modificare il profilo**: Aggiornare nome, indirizzo, contatti, lingua e nota di consegna.
+- **Abbonarsi a un calendario**: Aggiungere consegne e <%= activities_human_name.downcase %> a qualsiasi app calendario tramite un feed iCal.
+- **Consultare le newsletters**: Leggere le newsletter passate ricevute.
+- **Eliminare il proprio account**: Richiedere l'eliminazione dell'account (con conferma via email), in conformità con il [diritto all'oblio](/handbook/right_to_be_forgotten).
+
+Se l'organizzazione ha configurato una [pagina informativa](/settings#member_information), questa appare anche nella navigazione del socio.
+
+### Accesso admin all'account di un socio {#admin-access}
+
+Dalla pagina admin di un socio, il pulsante «Accedere all'account» permette di aprire l'account socio come quel socio. Questo è utile per verificare ciò che un socio vede o per risolvere un problema. Le sessioni iniziate da un admin scadono dopo 6 ore (invece dell'anno abituale).

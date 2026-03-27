@@ -9,6 +9,8 @@ Pledged amounts are constrained by configurable min/max bounds.
 - Memberships for the new season must be created and the first delivery must be in the future.
 - Only one bidding round can be open at a time.
 
+> Members flagged as "<%= Member.human_attribute_name(:salary_basket) %>" are automatically excluded from bidding rounds, since their membership price is zeroed out.
+
 Before opening a bidding round, check the following in the [settings](/settings#bidding_round):
 
 - Minimum <%= BasketSize.model_name.human.downcase %> price (0-100%) — defines the minimum allowed percentage.
