@@ -19,6 +19,12 @@ _:
         _de: Tüte(n) verschoben
         _it: Cono/i spostato/i
         _nl: Zak(ken) verschoven
+      absence_baskets_shifted/crate:
+        _en: Crate(s) shifted
+        _fr: Cagette(s) déplacée(s)
+        _de: Kiste(n) verschoben
+        _it: Cassetta/e spostata/e
+        _nl: Krat(ken) verschoven
       absence_baskets_shifted/package:
         _en: Package(s) shifted
         _fr: Colis déplacé(s)
@@ -79,6 +85,12 @@ _:
         _de: Letzte Tüte!
         _it: Ultimo cono!
         _nl: Laatste zak!
+      basket_final/crate:
+        _en: Last crate!
+        _fr: Dernière cagette!
+        _de: Letzte Kiste!
+        _it: Ultima cassetta!
+        _nl: Laatste krat!
       basket_final/package:
         _en: Last package!
         _fr: Dernier colis!
@@ -109,6 +121,12 @@ _:
         _de: Erste Tüte des Jahres!
         _it: Primo cono dell'anno!
         _nl: Eerste zak van het jaar!
+      basket_first/crate:
+        _en: First crate of the year!
+        _fr: Première cagette de l'année!
+        _de: Erste Kiste des Jahres!
+        _it: Prima cassetta dell'anno!
+        _nl: Eerste krat van het jaar!
       basket_first/package:
         _en: First package of the year!
         _fr: Premier colis de l'année!
@@ -139,6 +157,12 @@ _:
         _de: Erste Tüte!
         _it: Primo cono!
         _nl: Eerste zak!
+      basket_initial/crate:
+        _en: First crate!
+        _fr: Première cagette!
+        _de: Erste Kiste!
+        _it: Prima cassetta!
+        _nl: Eerste krat!
       basket_initial/package:
         _en: First package!
         _fr: Premier colis!
@@ -169,6 +193,12 @@ _:
         _de: Letzte Tüte des Jahres!
         _it: Ultimo cono dell'anno!
         _nl: Laatste zak van het jaar!
+      basket_last/crate:
+        _en: Last crate of the year!
+        _fr: Dernière cagette de l'année!
+        _de: Letzte Kiste des Jahres!
+        _it: Ultima cassetta dell'anno!
+        _nl: Laatste krat van het jaar!
       basket_last/package:
         _en: Last package of the year!
         _fr: Dernier colis de l'année!
@@ -199,6 +229,12 @@ _:
         _de: Letzte Probe-Tüte!
         _it: Ultimo cono da provare!
         _nl: Laatste proefzak!
+      basket_last_trial/crate:
+        _en: Last trial crate!
+        _fr: Dernière cagette à l'essai!
+        _de: Letzte Probe-Kiste!
+        _it: Ultima cassetta da provare!
+        _nl: Laatste proefkrat!
       basket_last_trial/package:
         _en: Last trial package!
         _fr: Dernier colis à l'essai!
@@ -229,6 +265,12 @@ _:
         _de: Vorletzte Probe-Tüte!
         _it: Penultimo cono da provare!
         _nl: Voorlaatste proefzak!
+      basket_second_last_trial/crate:
+        _en: Second to last trial crate!
+        _fr: Avant-dernière cagette à l'essai!
+        _de: Vorletzte Probe-Kiste!
+        _it: Penultima cassetta da provare!
+        _nl: Voorlaatste proefkrat!
       basket_second_last_trial/package:
         _en: Second to last trial package!
         _fr: Avant-dernier colis à l'essai!
@@ -326,6 +368,12 @@ _:
         _de: Wird gesendet, wenn eine oder mehrere Tüten während einer Abwesenheit von einem Mitglied oder einem Admin verschoben werden.
         _it: Inviato quando uno o più coni vengono spostati durante un'assenza, da un socio o da un admin.
         _nl: Verzonden wanneer een of meer zakken worden verschoven tijdens een afwezigheid, door een lid of een beheerder.
+      absence_baskets_shifted/crate:
+        _en: Sent when one or more crates are shifted during an absence, by a member or an admin.
+        _fr: Envoyé quand une ou plusieurs cagettes sont déplacées durant une absence, par un membre ou un admin.
+        _de: Wird gesendet, wenn eine oder mehrere Kisten während einer Abwesenheit von einem Mitglied oder einem Admin verschoben werden.
+        _it: Inviato quando una o più cassette vengono spostate durante un'assenza, da un socio o da un admin.
+        _nl: Verzonden wanneer een of meer kratten worden verschoven tijdens een afwezigheid, door een lid of een beheerder.
       absence_baskets_shifted/package:
         _en: Sent when one or more packages are shifted during an absence, by a member or an admin.
         _fr: Envoyé quand un ou plusieurs colis sont déplacés durant une absence, par un membre ou un admin.
@@ -386,6 +434,12 @@ _:
         _de: Wird gesendet am Tag der Auslieferung der allerletzten Tüte des Mitglieds, falls das Abonnement gekündigt wird.
         _it: Inviato il giorno della consegna dell'ultimo cono del socio, nel caso in cui l'abbonamento viene terminato.
         _nl: Verzonden op de leveringsdag van de allerlaatste zak van het lid, indien het lidmaatschap wordt opgezegd.
+      basket_final/crate:
+        _en: Sent on the delivery day of the member's very last crate, in case the membership is canceled.
+        _fr: Envoyé le jour de la livraison de la toute dernière cagette du membre, dans le cas où l'abonnement est résilié.
+        _de: Wird gesendet am Tag der Auslieferung der allerletzten Kiste des Mitglieds, falls das Abonnement gekündigt wird.
+        _it: Inviato il giorno della consegna dell'ultima cassetta del socio, nel caso in cui l'abbonamento viene terminato.
+        _nl: Verzonden op de leveringsdag van de allerlaatste krat van het lid, indien het lidmaatschap wordt opgezegd.
       basket_final/package:
         _en: Sent on the delivery day of the member's very last package, in case the membership is canceled.
         _fr: Envoyé le jour de la livraison du tout dernier colis du membre, dans le cas où l'abonnement est résilié.
@@ -416,6 +470,12 @@ _:
         _de: Wird gesendet am Tag der Auslieferung der ersten Tüte jedes Abonnements, jedes Geschäftsjahr.
         _it: Inviato il giorno della consegna del primo cono di ogni abbonamento, ogni anno fiscale.
         _nl: Verzonden op de leveringsdag van de eerste zak van elk lidmaatschap, elk boekjaar.
+      basket_first/crate:
+        _en: Sent on the delivery day of the first crate of each membership, each fiscal year.
+        _fr: Envoyé le jour de la livraison de la première cagette de chaque abonnement, chaque année fiscale.
+        _de: Wird gesendet am Tag der Auslieferung der ersten Kiste jedes Abonnements, jedes Geschäftsjahr.
+        _it: Inviato il giorno della consegna della prima cassetta di ogni abbonamento, ogni anno fiscale.
+        _nl: Verzonden op de leveringsdag van de eerste krat van elk lidmaatschap, elk boekjaar.
       basket_first/package:
         _en: Sent on the delivery day of the first package of each membership, each fiscal year.
         _fr: Envoyé le jour de la livraison du premier colis de chaque abonnement, chaque année fiscale.
@@ -446,6 +506,12 @@ _:
         _de: Wird gesendet am Tag der Auslieferung der allerersten Tüte des Mitglieds. Wird nur einmal gesendet, es sei denn, das Mitglied abonniert sich nach einer Unterbrechung erneut.
         _it: Inviato il giorno della consegna del primo cono in assoluto del socio. Inviato una sola volta, a meno che il socio non si riabboni dopo un'interruzione.
         _nl: Verzonden op de leveringsdag van de allereerste zak van het lid. Slechts één keer verzonden, tenzij het lid opnieuw inschrijft na een onderbreking.
+      basket_initial/crate:
+        _en: Sent on the delivery day of the member's very first crate. Sent only once, unless the member resubscribes after an interruption.
+        _fr: Envoyé le jour de la livraison de la toute première cagette du membre. Envoyé une seule fois, à moins que le membre ne se réabonne après une interruption.
+        _de: Wird gesendet am Tag der Auslieferung der allerersten Kiste des Mitglieds. Wird nur einmal gesendet, es sei denn, das Mitglied abonniert sich nach einer Unterbrechung erneut.
+        _it: Inviato il giorno della consegna della prima cassetta in assoluto del socio. Inviato una sola volta, a meno che il socio non si riabboni dopo un'interruzione.
+        _nl: Verzonden op de leveringsdag van de allereerste krat van het lid. Slechts één keer verzonden, tenzij het lid opnieuw inschrijft na een onderbreking.
       basket_initial/package:
         _en: Sent on the delivery day of the member's very first package. Sent only once, unless the member resubscribes after an interruption.
         _fr: Envoyé le jour de la livraison du tout premier colis du membre. Envoyé une seule fois, à moins que le membre ne se réabonne après une interruption.
@@ -476,6 +542,12 @@ _:
         _de: Wird gesendet am Tag der Auslieferung der letzten Tüte jedes Abonnements, nur wenn das Abonnement verlängert wird.
         _it: Inviato il giorno della consegna dell'ultimo cono di ogni abbonamento, solo se l'abbonamento viene rinnovato.
         _nl: Verzonden op de leveringsdag van de laatste zak van elk lidmaatschap, alleen als het lidmaatschap wordt vernieuwd.
+      basket_last/crate:
+        _en: Sent on the delivery day of the last crate of each membership, only if the membership is renewed.
+        _fr: Envoyé le jour de la livraison de la dernière cagette de chaque abonnement, uniquement si l'abonnement est renouvelé.
+        _de: Wird gesendet am Tag der Auslieferung der letzten Kiste jedes Abonnements, nur wenn das Abonnement verlängert wird.
+        _it: Inviato il giorno della consegna dell'ultima cassetta di ogni abbonamento, solo se l'abbonamento viene rinnovato.
+        _nl: Verzonden op de leveringsdag van de laatste krat van elk lidmaatschap, alleen als het lidmaatschap wordt vernieuwd.
       basket_last/package:
         _en: Sent on the delivery day of the last package of each membership, only if the membership is renewed.
         _fr: Envoyé le jour de la livraison du dernier colis de chaque abonnement, uniquement si l'abonnement est renouvelé.
@@ -506,6 +578,12 @@ _:
         _de: Wird gesendet am Tag der Auslieferung der letzten Probe-Tüte, um das Mitglied zu fragen, ob es sein Abonnement bis zum Ende des Geschäftsjahres fortsetzen möchte.
         _it: Inviato il giorno della consegna dell'ultimo cono di prova per chiedere al socio se desidera continuare il suo abbonamento fino alla fine dell'anno fiscale.
         _nl: Verzonden op de leveringsdag van de laatste proefzak om het lid te vragen of ze hun lidmaatschap tot het einde van het boekjaar willen voortzetten.
+      basket_last_trial/crate:
+        _en: Sent on the day of delivery of the last trial crate to ask the member if they wish to continue their membership until the end of the fiscal year.
+        _fr: Envoyé le jour de la livraison de la dernière cagette à l'essai afin de demander au membre si il désire continuer son abonnement jusqu'à la fin de l'année fiscale.
+        _de: Wird gesendet am Tag der Auslieferung der letzten Probe-Kiste, um das Mitglied zu fragen, ob es sein Abonnement bis zum Ende des Geschäftsjahres fortsetzen möchte.
+        _it: Inviato il giorno della consegna dell'ultima cassetta di prova per chiedere al socio se desidera continuare il suo abbonamento fino alla fine dell'anno fiscale.
+        _nl: Verzonden op de leveringsdag van de laatste proefkrat om het lid te vragen of ze hun lidmaatschap tot het einde van het boekjaar willen voortzetten.
       basket_last_trial/package:
         _en: Sent on the day of delivery of the last trial package to ask the member if they wish to continue their membership until the end of the fiscal year.
         _fr: Envoyé le jour de la livraison du dernier colis à l'essai afin de demander au membre si il désire continuer son abonnement jusqu'à la fin de l'année fiscale.
@@ -536,6 +614,12 @@ _:
         _de: Wird gesendet am Tag der Auslieferung der vorletzten Probe-Tüte, eine Tüte früher als die E-Mail der letzten Probe-Tüte.
         _it: Inviato il giorno della consegna del penultimo cono di prova, un cono prima dell'email dell'ultimo cono di prova.
         _nl: Verzonden op de leveringsdag van de voorlaatste proefzak, één zak eerder dan de e-mail van de laatste proefzak.
+      basket_second_last_trial/crate:
+        _en: Sent on the day of delivery of the second to last trial crate, one crate earlier than the last trial crate email.
+        _fr: Envoyé le jour de la livraison de l'avant-dernière cagette à l'essai, une cagette avant l'email de la dernière cagette à l'essai.
+        _de: Wird gesendet am Tag der Auslieferung der vorletzten Probe-Kiste, eine Kiste früher als die E-Mail der letzten Probe-Kiste.
+        _it: Inviato il giorno della consegna della penultima cassetta di prova, una cassetta prima dell'email dell'ultima cassetta di prova.
+        _nl: Verzonden op de leveringsdag van de voorlaatste proefkrat, één krat eerder dan de e-mail van de laatste proefkrat.
       basket_second_last_trial/package:
         _en: Sent on the day of delivery of the second to last trial package, one package earlier than the last trial package email.
         _fr: Envoyé le jour de la livraison de l'avant-dernier colis à l'essai, un colis avant l'email du dernier colis à l'essai.
@@ -633,6 +717,12 @@ _:
         _de: Tüte(n) verschoben
         _it: Cono/i spostato/i
         _nl: Zak(ken) verschoven
+      absence_baskets_shifted/crate:
+        _en: Crate(s) Shifted
+        _fr: Cagette(s) déplacée(s)
+        _de: Kiste(n) verschoben
+        _it: Cassetta/e spostata/e
+        _nl: Krat(ken) verschoven
       absence_baskets_shifted/package:
         _en: Package(s) Shifted
         _fr: Colis déplacé(s)
@@ -693,6 +783,12 @@ _:
         _de: Endgültige Tüte
         _it: Cono finale
         _nl: Laatste zak
+      basket_final/crate:
+        _en: Final Crate
+        _fr: Cagette finale
+        _de: Endgültige Kiste
+        _it: Cassetta finale
+        _nl: Laatste krat
       basket_final/package:
         _en: Final Package
         _fr: Colis final
@@ -723,6 +819,12 @@ _:
         _de: Erste Tüte
         _it: Primo cono
         _nl: Eerste zak
+      basket_first/crate:
+        _en: First Crate
+        _fr: Première cagette
+        _de: Erste Kiste
+        _it: Prima cassetta
+        _nl: Eerste krat
       basket_first/package:
         _en: First Package
         _fr: Premier colis
@@ -753,6 +855,12 @@ _:
         _de: Initiale Tüte
         _it: Cono iniziale
         _nl: Eerste zak
+      basket_initial/crate:
+        _en: Initial Crate
+        _fr: Cagette initiale
+        _de: Initiale Kiste
+        _it: Cassetta iniziale
+        _nl: Eerste krat
       basket_initial/package:
         _en: Initial Package
         _fr: Colis initial
@@ -783,6 +891,12 @@ _:
         _de: Letzte Tüte
         _it: Ultimo cono
         _nl: Laatste zak
+      basket_last/crate:
+        _en: Last Crate
+        _fr: Dernière cagette
+        _de: Letzte Kiste
+        _it: Ultima cassetta
+        _nl: Laatste krat
       basket_last/package:
         _en: Last Package
         _fr: Dernier colis
@@ -813,6 +927,12 @@ _:
         _de: Letzte Probe-Tüte
         _it: Ultimo cono da provare
         _nl: Laatste proefzak
+      basket_last_trial/crate:
+        _en: Last trial crate
+        _fr: Dernière cagette à l'essai
+        _de: Letzte Probe-Kiste
+        _it: Ultima cassetta da provare
+        _nl: Laatste proefkrat
       basket_last_trial/package:
         _en: Last trial package
         _fr: Dernier colis à l'essai
@@ -843,6 +963,12 @@ _:
         _de: Vorletzte Probe-Tüte
         _it: Penultimo cono da provare
         _nl: Voorlaatste proefzak
+      basket_second_last_trial/crate:
+        _en: Second to last trial crate
+        _fr: Avant-dernière cagette à l'essai
+        _de: Vorletzte Probe-Kiste
+        _it: Penultima cassetta da provare
+        _nl: Voorlaatste proefkrat
       basket_second_last_trial/package:
         _en: Second to last trial package
         _fr: Avant-dernier colis à l'essai

@@ -39,6 +39,12 @@ _:
           _de: 'Alle Tüteninhalte importieren von der folgenden Lieferung:'
           _it: 'Importare tutti i contenuti cono della consegna seguente:'
           _nl: 'Alle zakinhoud importeren van de volgende levering:'
+        text/crate:
+          _en: 'Import all crate contents from the following delivery:'
+          _fr: 'Importer tous les contenus cagette de la livraison suivante:'
+          _de: 'Alle Kisteninhalte importieren von der folgenden Lieferung:'
+          _it: 'Importare tutti i contenuti cassetta della consegna seguente:'
+          _nl: 'Alle kratinhoud importeren van de volgende levering:'
         text/package:
           _en: 'Import all package contents from the following delivery:'
           _fr: 'Importer tous les contenus colis de la livraison suivante:'
@@ -76,6 +82,12 @@ _:
           _de: 'Alle Tüteninhalte von dieser Lieferung duplizieren auf die Lieferung vom:'
           _it: 'Duplicare tutti i contenuti cono di questa consegna in quella di:'
           _nl: 'Alle zakinhoud van deze levering dupliceren naar de levering op:'
+        text/crate:
+          _en: 'Duplicate all crate contents from this delivery to the delivery on:'
+          _fr: 'Dupliquer tous les contenus cagette de cette livraison vers celle du:'
+          _de: 'Alle Kisteninhalte von dieser Lieferung duplizieren auf die Lieferung vom:'
+          _it: 'Duplicare tutti i contenuti cassetta di questa consegna in quella di:'
+          _nl: 'Alle kratinhoud van deze levering dupliceren naar de levering op:'
         text/package:
           _en: 'Duplicate all package contents from this delivery to the delivery on:'
           _fr: 'Dupliquer tous les contenus colis de cette livraison vers celle du:'
@@ -107,6 +119,12 @@ _:
           _de: Der Tüteninhalt ist derzeit auf der Mitgliederseite sichtbar!
           _it: Il contenuto dei coni è attualmente visibile sulla pagina dei soci!
           _nl: De zakinhoud is momenteel zichtbaar op de ledenpagina!
+        currently_visible/crate:
+          _en: Crate contents is currently visible on the member page!
+          _fr: Le contenu des cagettes est actuellement visible sur l'espace membre!
+          _de: Der Kisteninhalt ist derzeit auf der Mitgliederseite sichtbar!
+          _it: Il contenuto delle cassette è attualmente visibile sulla pagina dei soci!
+          _nl: De kratinhoud is momenteel zichtbaar op de ledenpagina!
         currently_visible/package:
           _en: Package contents is currently visible on the member page!
           _fr: Le contenu des colis est actuellement visible sur l'espace membre!
@@ -137,6 +155,12 @@ _:
           _de: Der Tüteninhalt ist derzeit nicht für die Anzeige auf der Mitgliederseite konfiguriert.
           _it: Il contenuto dei coni non è attualmente configurato per essere visualizzato sulla pagina dei soci.
           _nl: De zakinhoud is momenteel niet geconfigureerd om op de ledenpagina te worden weergegeven.
+        disabled/crate:
+          _en: Crate contents is currently not configured to be displayed on the member page.
+          _fr: Le contenu des cagettes n'est actuellement pas configuré pour être affiché sur la page membre.
+          _de: Der Kisteninhalt ist derzeit nicht für die Anzeige auf der Mitgliederseite konfiguriert.
+          _it: Il contenuto delle cassette non è attualmente configurato per essere visualizzato sulla pagina dei soci.
+          _nl: De kratinhoud is momenteel niet geconfigureerd om op de ledenpagina te worden weergegeven.
         disabled/package:
           _en: Package contents is currently not configured to be displayed on the member page.
           _fr: Le contenu des colis n'est actuellement pas configuré pour être affiché sur la page membre.
@@ -173,6 +197,12 @@ _:
           _de: Der Tüteninhalt wird auf der Mitgliederseite sichtbar am:<br><strong>%{datetime}</strong>
           _it: Il contenuto dei coni sarà visibile sulla pagina dei soci il:<br><strong>%{datetime}</strong>
           _nl: De zakinhoud wordt zichtbaar op de ledenpagina op:<br><strong>%{datetime}</strong>
+        visible_on/crate_html:
+          _en: The content of the crates will be visible on the member page on:<br><strong>%{datetime}</strong>
+          _fr: Le contenu des cagettes sera visible sur l'espace membre le:<br><strong>%{datetime}</strong>
+          _de: Der Kisteninhalt wird auf der Mitgliederseite sichtbar am:<br><strong>%{datetime}</strong>
+          _it: Il contenuto delle cassette sarà visibile sulla pagina dei soci il:<br><strong>%{datetime}</strong>
+          _nl: De kratinhoud wordt zichtbaar op de ledenpagina op:<br><strong>%{datetime}</strong>
         visible_on/package_html:
           _en: The content of the packages will be visible on the member page on:<br><strong>%{datetime}</strong>
           _fr: Le contenu des colis sera visible sur l'espace membre le:<br><strong>%{datetime}</strong>
@@ -631,6 +661,12 @@ _:
         _de: Tüte - Zusätze
         _it: Cono - Aggiunte
         _nl: Zak - Aanvullingen
+      basket_complements/crate:
+        _en: Crate - Complements
+        _fr: Cagette - Compléments
+        _de: Kiste - Zusätze
+        _it: Cassetta - Aggiunte
+        _nl: Krat - Aanvullingen
       basket_complements/package:
         _en: Package - Complements
         _fr: Colis - Compléments
@@ -661,6 +697,12 @@ _:
         _de: Tüte - Grössen
         _it: Cono - Dimensioni
         _nl: Zak - Groottes
+      basket_sizes/crate:
+        _en: Crate - Sizes
+        _fr: Cagette - Tailles
+        _de: Kiste - Grössen
+        _it: Cassetta - Dimensioni
+        _nl: Krat - Groottes
       basket_sizes/package:
         _en: Package - Sizes
         _fr: Colis - Tailles
@@ -804,6 +846,12 @@ _:
           _de: Keine Tüten für diese Lieferung
           _it: Nessun cono per questa consegna
           _nl: Geen zakken voor deze levering
+        no_baskets/crate:
+          _en: No crates for this delivery
+          _fr: Aucune cagette pour cette livraison
+          _de: Keine Kisten für diese Lieferung
+          _it: Nessuna cassetta per questa consegna
+          _nl: Geen kratten voor deze levering
         no_baskets/package:
           _en: No packages for this delivery
           _fr: Aucun colis pour cette livraison
@@ -834,6 +882,12 @@ _:
           _de: Keine Tüten oder Bestellungen für diese Lieferung
           _it: Nessun cono o ordine per questa consegna
           _nl: Geen zakken of bestellingen voor deze levering
+        no_baskets_or_shop_orders/crate:
+          _en: No crates or orders for this delivery
+          _fr: Aucune cagette ou commande pour cette livraison
+          _de: Keine Kisten oder Bestellungen für diese Lieferung
+          _it: Nessuna cassetta o ordine per questa consegna
+          _nl: Geen kratten of bestellingen voor deze levering
         no_baskets_or_shop_orders/package:
           _en: No packages or orders for this delivery
           _fr: Aucun colis ou commande pour cette livraison
@@ -913,6 +967,12 @@ _:
           _de: Tütengrössen erstellen
           _it: Crea le dimensioni del tuo cono
           _nl: Zakgroottes aanmaken
+        create_basket_sizes/crate:
+          _en: Create your crate sizes
+          _fr: Créer vos tailles de cagette
+          _de: Kistengrössen erstellen
+          _it: Crea le dimensioni della tua cassetta
+          _nl: Kratgroottes aanmaken
         create_basket_sizes/package:
           _en: Create your package sizes
           _fr: Créer vos tailles de colis
@@ -1076,6 +1136,12 @@ _:
           _de: Tütenverschiebungen
           _it: Spostamenti dei coni
           _nl: Zakverschuivingen
+        absence_basket_shifts/crate:
+          _en: Crate shifts
+          _fr: Déplacements de cagettes
+          _de: Kistenverschiebungen
+          _it: Spostamenti delle cassette
+          _nl: Kratverschuivingen
         absence_basket_shifts/package:
           _en: Package shifts
           _fr: Déplacements de colis
@@ -1106,6 +1172,12 @@ _:
           _de: Ermöglicht Mitgliedern, den Inhalt ihrer Tüte während einer Abwesenheit auf eine andere Lieferung zu verschieben.
           _it: Consente ai soci di spostare il contenuto del loro cono durante un'assenza a un'altra consegna.
           _nl: Sta leden toe de inhoud van hun zak tijdens een afwezigheid te verschuiven naar een andere levering.
+        absence_basket_shifts_hint/crate:
+          _en: Allow members to shift the content of their crate during an absence to another delivery.
+          _fr: Permet aux membres de déplacer le contenu de leur cagette durant une absence vers une autre livraison.
+          _de: Ermöglicht Mitgliedern, den Inhalt ihrer Kiste während einer Abwesenheit auf eine andere Lieferung zu verschieben.
+          _it: Consente ai soci di spostare il contenuto della loro cassetta durante un'assenza a un'altra consegna.
+          _nl: Sta leden toe de inhoud van hun krat tijdens een afwezigheid te verschuiven naar een andere levering.
         absence_basket_shifts_hint/package:
           _en: Allow members to shift the content of their package during an absence to another delivery.
           _fr: Permet aux membres de déplacer le contenu de leur colis durant une absence vers une autre livraison.
@@ -1154,6 +1226,12 @@ _:
           _de: Wenn ein Lieferzyklus Abwesenheiten enthält, werden die letzten Tüten vorläufig als abwesend markiert, während darauf gewartet wird, dass das Mitglied diese Abwesenheiten festlegt.
           _it: Quando un ciclo di consegna include assenze, gli ultimi coni sono provvisoriamente contrassegnati come assenti in attesa che il socio fissi queste assenze.
           _nl: Wanneer een leveringscyclus afwezigheden bevat, worden de laatste zakken voorlopig als afwezig gemarkeerd in afwachting dat het lid deze afwezigheden vastlegt.
+        absence_included_hint/crate:
+          _en: When a delivery cycle includes absences, the last crates are provisionally marked as absent while waiting for the member to fix these absences.
+          _fr: Lorsqu'un cycle de livraison inclut des absences, les dernières cagettes sont provisoirement marquées comme absentes en attendant que le membre fixe ces absences.
+          _de: Wenn ein Lieferzyklus Abwesenheiten enthält, werden die letzten Kisten vorläufig als abwesend markiert, während darauf gewartet wird, dass das Mitglied diese Abwesenheiten festlegt.
+          _it: Quando un ciclo di consegna include assenze, le ultime cassette sono provvisoriamente contrassegnate come assenti in attesa che il socio fissi queste assenze.
+          _nl: Wanneer een leveringscyclus afwezigheden bevat, worden de laatste kratten voorlopig als afwezig gemarkeerd in afwachting dat het lid deze afwezigheden vastlegt.
         absence_included_hint/package:
           _en: When a delivery cycle includes absences, the last packages are provisionally marked as absent while waiting for the member to fix these absences.
           _fr: Lorsqu'un cycle de livraison inclut des absences, les derniers colis sont provisoirement marqués comme absents en attendant que le membre fixe ces absences.
@@ -1232,6 +1310,12 @@ _:
           _de: Der Inhalt dieser Tüte kann auf eine andere Lieferung verschoben werden, um eine Abwesenheit zu kompensieren.
           _it: Il contenuto di questo cono può essere spostato in un'altra consegna per compensare un'assenza.
           _nl: De inhoud van deze zak kan naar een andere levering worden verschoven om een afwezigheid te compenseren.
+        basket_shift_explanation/crate:
+          _en: The content of this crate can be shifted to another delivery to compensate for an absence.
+          _fr: Le contenu de cette cagette peut être déplacé à une autre livraison pour compenser une absence.
+          _de: Der Inhalt dieser Kiste kann auf eine andere Lieferung verschoben werden, um eine Abwesenheit zu kompensieren.
+          _it: Il contenuto di questa cassetta può essere spostato in un'altra consegna per compensare un'assenza.
+          _nl: De inhoud van deze krat kan naar een andere levering worden verschoven om een afwezigheid te compenseren.
         basket_shift_explanation/package:
           _en: The content of this package can be shifted to another delivery to compensate for an absence.
           _fr: Le contenu de ce colis peut être déplacé à une autre livraison pour compenser une absence.
@@ -1274,6 +1358,12 @@ _:
           _de: 'Ein Teil des Inhalts dieser Tüte kompensiert die folgenden Lieferungen:'
           _it: 'Parte del contenuto di questo cono compensa le seguenti consegne:'
           _nl: 'Een deel van de inhoud van deze zak compenseert de volgende leveringen:'
+        basket_shift_targets_explanation/crate:
+          _en: 'Part of the content of this crate compensates the following deliveries:'
+          _fr: 'Une partie du contenu de cette cagette compense les livraisons suivantes:'
+          _de: 'Ein Teil des Inhalts dieser Kiste kompensiert die folgenden Lieferungen:'
+          _it: 'Parte del contenuto di questa cassetta compensa le seguenti consegne:'
+          _nl: 'Een deel van de inhoud van deze krat compenseert de volgende leveringen:'
         basket_shift_targets_explanation/package:
           _en: 'Part of the content of this package compensates the following deliveries:'
           _fr: 'Une partie du contenu de ce colis compense les livraisons suivantes:'
@@ -1310,6 +1400,12 @@ _:
           _de: Der Inhalt dieser Tüte wurde auf <a href="%{target_url}">die Lieferung am %{target_date}</a> verschoben.
           _it: Il contenuto di questo cono è stato spostato a <a href="%{target_url}">la consegna del %{target_date}</a>.
           _nl: De inhoud van deze zak is verschoven naar <a href="%{target_url}">de levering van %{target_date}</a>.
+        basket_shifted_description/crate_html:
+          _en: The content of this crate has been shifted to <a href="%{target_url}">the delivery of %{target_date}</a>.
+          _fr: Le contenu de cette cagette a été déplacé à <a href="%{target_url}">la livraison du %{target_date}</a>.
+          _de: Der Inhalt dieser Kiste wurde auf <a href="%{target_url}">die Lieferung am %{target_date}</a> verschoben.
+          _it: Il contenuto di questa cassetta è stato spostato a <a href="%{target_url}">la consegna del %{target_date}</a>.
+          _nl: De inhoud van dit krat is verschoven naar <a href="%{target_url}">de levering van %{target_date}</a>.
         basket_shifted_description/package_html:
           _en: The content of this package has been shifted to <a href="%{target_url}">the delivery of %{target_date}</a>.
           _fr: Le contenu de ce colis a été déplacé à <a href="%{target_url}">la livraison du %{target_date}</a>.
@@ -1490,6 +1586,12 @@ _:
           _de: Alle Tüten in diesem Abonnement werden nach der folgenden Konfiguration erstellt.
           _it: Tutti i coni di questo abbonamento saranno creati secondo la seguente configurazione.
           _nl: Alle zakken in dit lidmaatschap worden aangemaakt volgens de volgende configuratie.
+        membership_configuration_text/crate:
+          _en: All crates in this membership will be created according to the following configuration.
+          _fr: Toutes les cagettes de cet abonnement seront créées en fonction de la configuration ci-dessous.
+          _de: Alle Kisten in diesem Abonnement werden nach der folgenden Konfiguration erstellt.
+          _it: Tutte le cassette di questo abbonamento saranno create secondo la seguente configurazione.
+          _nl: Alle kratten in dit lidmaatschap worden aangemaakt volgens de volgende configuratie.
         membership_configuration_text/package:
           _en: All packages in this membership will be created according to the following configuration.
           _fr: Tous les colis de cet abonnement seront créés en fonction de la configuration ci-dessous.
@@ -1520,6 +1622,12 @@ _:
           _de: Achtung, jede Änderung der Konfiguration wird die Tüten dieses Abonnements ab dem unten angegebenen Datum neu erstellen!
           _it: Attenzione, qualsiasi modifica alla configurazione ricreerà i coni per questo abbonamento a partire dalla data sottostante!
           _nl: Waarschuwing, elke wijziging in de configuratie zal de zakken van dit lidmaatschap opnieuw aanmaken vanaf de onderstaande datum!
+        membership_configuration_warning_text/crate:
+          _en: Warning, any change in the configuration will recreate the crates of this membership from the date below!
+          _fr: Attention, toute modification de la configuration recréera les cagettes de cet abonnement à partir de la date ci-dessous!
+          _de: Achtung, jede Änderung der Konfiguration wird die Kisten dieses Abonnements ab dem unten angegebenen Datum neu erstellen!
+          _it: Attenzione, qualsiasi modifica alla configurazione ricreerà le cassette per questo abbonamento a partire dalla data sottostante!
+          _nl: Waarschuwing, elke wijziging in de configuratie zal de kratten van dit lidmaatschap opnieuw aanmaken vanaf de onderstaande datum!
         membership_configuration_warning_text/package:
           _en: Warning, any change in the configuration will recreate the packages of this membership from the date below!
           _fr: Attention, toute modification de la configuration recréera les colis de cet abonnement à partir de la date ci-dessous!
@@ -1562,6 +1670,12 @@ _:
           _de: Ermöglicht es Mitgliedern, die Konfiguration ihrer Mitgliedschaft oder zukünftiger Tüten individuell von ihrem Konto aus zu ändern.
           _it: Consentite ai vostri soci di modificare le impostazioni di abbonamento o i futuri coni individualmente dal loro account.
           _nl: Staat leden toe om individueel de configuratie van hun lidmaatschap of toekomstige zakken te wijzigen vanaf hun account.
+        membership_update_text/crate_html:
+          _en: Allow your members to individually change the configuration of their membership or future crates from their account.
+          _fr: Permettez à vos membres de modifier la configuration de leur abonnement ou futures cagettes individuellement depuis leur compte.
+          _de: Ermöglicht es Mitgliedern, die Konfiguration ihrer Mitgliedschaft oder zukünftiger Kisten individuell von ihrem Konto aus zu ändern.
+          _it: Consentite ai vostri soci di modificare le impostazioni di abbonamento o le future cassette individualmente dal loro account.
+          _nl: Staat leden toe om individueel de configuratie van hun lidmaatschap of toekomstige kratten te wijzigen vanaf hun account.
         membership_update_text/package_html:
           _en: Allow your members to individually change the configuration of their membership or future packages from their account.
           _fr: Permettez à vos membres de modifier la configuration de leur abonnement ou futurs colis individuellement depuis leur compte.
@@ -1714,6 +1828,12 @@ _:
           _de: Tütenwert (%{currency})
           _it: Valore dei coni (%{currency})
           _nl: Zakwaarde (%{currency})
+        basket_prices/crate:
+          _en: Crate value (%{currency})
+          _fr: Valeur des cagettes (%{currency})
+          _de: Kistenwert (%{currency})
+          _it: Valore delle cassette (%{currency})
+          _nl: Kratwaarde (%{currency})
         basket_prices/package:
           _en: Package value (%{currency})
           _fr: Valeur des colis (%{currency})
@@ -1892,6 +2012,12 @@ _:
           _de: Anpassung Tüten
           _it: Correzione coni
           _nl: Zak aanpassing
+        baskets_annual_price_change/crate:
+          _en: Crate adjustment
+          _fr: Ajustement cagettes
+          _de: Anpassung Kisten
+          _it: Correzione cassette
+          _nl: Krat aanpassing
         baskets_annual_price_change/package:
           _en: Package adjustment
           _fr: Ajustement colis
@@ -2111,6 +2237,12 @@ _:
           _de: Soll diese Lieferung wirklich erzwungen werden? Das Mitglied wird für diese Tüte in Rechnung gestellt.
           _it: Sei sicuro di voler forzare questa consegna? Il socio sarà fatturato per questo cono.
           _nl: Moet deze levering echt worden geforceerd? Het lid wordt gefactureerd voor deze zak.
+        force_confirm/crate:
+          _en: Are you sure you want to force this delivery? The member will be billed for this crate.
+          _fr: Êtes-vous sûr de vouloir forcer cette livraison? Le membre sera facturé pour cette cagette.
+          _de: Soll diese Lieferung wirklich erzwungen werden? Das Mitglied wird für diese Kiste in Rechnung gestellt.
+          _it: Sei sicuro di voler forzare questa consegna? Il socio sarà fatturato per questa cassetta.
+          _nl: Moet deze levering echt worden geforceerd? Het lid wordt gefactureerd voor deze krat.
         force_confirm/package:
           _en: Are you sure you want to force this delivery? The member will be billed for this package.
           _fr: Êtes-vous sûr de vouloir forcer cette livraison? Le membre sera facturé pour ce colis.
@@ -2243,6 +2375,12 @@ _:
           _de: Keine Tüten
           _it: Nessun cono
           _nl: Geen zakken
+        no_baskets/crate:
+          _en: No crates
+          _fr: Pas de cagettes
+          _de: Keine Kisten
+          _it: Nessuna cassetta
+          _nl: Geen kratten
         no_baskets/package:
           _en: No packages
           _fr: Pas de colis
@@ -2358,6 +2496,12 @@ _:
           _de: Die letzten Tüten werden vorübergehend als abwesend markiert, bis das Mitglied alle seine Abwesenheiten gemeldet hat. Die Lieferung kann erzwungen werden, wenn das Mitglied beschließt, eine enthaltene Abwesenheit nicht zu nutzen.
           _it: Gli ultimi coni sono marcati provvisoriamente come assenti finché il socio non ha annunciato tutte le sue assenze. La loro consegna può essere forzata se il socio decide di non utilizzare un'assenza inclusa.
           _nl: De laatste zakken worden tijdelijk gemarkeerd als afwezig totdat het lid alle afwezigheden heeft gemeld. Hun levering kan worden geforceerd als het lid besluit een inbegrepen afwezigheid niet te gebruiken.
+        provisional_absences/crate:
+          _en: The last crates are temporarily marked as absent until the member has reported all their absences. Their delivery can be forced if the member decides not to use an included absence.
+          _fr: Les dernières cagettes sont marquées provisoirement comme absentes tant que le membre n'a pas annoncé toutes ses absences. Leur livraison peut être forcée si le membre décide de ne pas utiliser une absence incluse.
+          _de: Die letzten Kisten werden vorübergehend als abwesend markiert, bis das Mitglied alle seine Abwesenheiten gemeldet hat. Die Lieferung kann erzwungen werden, wenn das Mitglied beschließt, eine enthaltene Abwesenheit nicht zu nutzen.
+          _it: Le ultime cassette sono marcate provvisoriamente come assenti finché il socio non ha annunciato tutte le sue assenze. La loro consegna può essere forzata se il socio decide di non utilizzare un'assenza inclusa.
+          _nl: De laatste kratten worden tijdelijk gemarkeerd als afwezig totdat het lid alle afwezigheden heeft gemeld. Hun levering kan worden geforceerd als het lid besluit een inbegrepen afwezigheid niet te gebruiken.
         provisional_absences/package:
           _en: The last packages are temporarily marked as absent until the member has reported all their absences. Their delivery can be forced if the member decides not to use an included absence.
           _fr: Les derniers colis sont marqués provisoirement comme absents tant que le membre n'a pas annoncé toutes ses absences. Leur livraison peut être forcée si le membre décide de ne pas utiliser une absence incluse.
@@ -2436,6 +2580,12 @@ _:
           _de: Gratis, Lohn-Tüte
           _it: Gratuito, cono-compenso
           _nl: Gratis, salaris-zak
+        salary_basket/crate:
+          _en: Free, salary crate
+          _fr: Gratuit, cagette salaire
+          _de: Gratis, Lohn-Kiste
+          _it: Gratuito, cassetta-compenso
+          _nl: Gratis, salaris-krat
         salary_basket/package:
           _en: Free, salary package
           _fr: Gratuit, colis salaire
@@ -2617,6 +2767,12 @@ _:
           _de: Gesamtbetrag, unter der Annahme, dass der Richtwert der Tütengrösse auf alle Abonnements angewendet wird, die noch keine Zusage erhalten haben.
           _it: Importo finale, assumendo che il prezzo predefinito della dimensione del cono venga applicato a tutti gli abbonamenti che non hanno ancora ricevuto una promessa.
           _nl: Eindbedrag, ervan uitgaande dat de standaardprijs van de zakgrootte wordt toegepast op alle lidmaatschappen die nog geen toezegging hebben ontvangen.
+        total_final_value_explanation/crate:
+          _en: Final amount, assuming the default crate size price is applied to all memberships that have not yet received a pledge.
+          _fr: Montant total, en supposant que le prix par défaut de la taille de la cagette est appliqué à tous les abonnements qui n'ont pas encore reçu un engagement.
+          _de: Gesamtbetrag, unter der Annahme, dass der Richtwert der Kistengrösse auf alle Abonnements angewendet wird, die noch keine Zusage erhalten haben.
+          _it: Importo finale, assumendo che il prezzo predefinito della dimensione della cassetta venga applicato a tutti gli abbonamenti che non hanno ancora ricevuto una promessa.
+          _nl: Eindbedrag, ervan uitgaande dat de standaardprijs van de kratgrootte wordt toegepast op alle lidmaatschappen die nog geen toezegging hebben ontvangen.
         total_final_value_explanation/package:
           _en: Final amount, assuming the default package size price is applied to all memberships that have not yet received a pledge.
           _fr: Montant total, en supposant que le prix par défaut de la taille du colis est appliqué à tous les abonnements qui n'ont pas encore reçu un engagement.
@@ -2671,6 +2827,12 @@ _:
           _de: Soll diese erzwungene Lieferung wirklich storniert werden? Die Tüte kehrt in ihren vorläufigen Abwesenheitszustand zurück.
           _it: Sei sicuro di voler annullare questa consegna forzata? Il cono tornerà al suo stato di assenza provvisorio.
           _nl: Moet deze geforceerde levering echt worden geannuleerd? De zak keert terug naar de voorlopige afwezigheidsstatus.
+        unforce_confirm/crate:
+          _en: Are you sure you want to cancel this forced delivery? The crate will return to its provisional absent state.
+          _fr: Êtes-vous sûr de vouloir annuler cette livraison forcée? La cagette reviendra à son état d'absence provisoire.
+          _de: Soll diese erzwungene Lieferung wirklich storniert werden? Die Kiste kehrt in ihren vorläufigen Abwesenheitszustand zurück.
+          _it: Sei sicuro di voler annullare questa consegna forzata? La cassetta tornerà al suo stato di assenza provvisorio.
+          _nl: Moet deze geforceerde levering echt worden geannuleerd? De krat keert terug naar de voorlopige afwezigheidsstatus.
         unforce_confirm/package:
           _en: Are you sure you want to cancel this forced delivery? The package will return to its provisional absent state.
           _fr: Êtes-vous sûr de vouloir annuler cette livraison forcée? Le colis reviendra à son état d'absence provisoire.
@@ -2859,6 +3021,12 @@ _:
             _de: Tüten, die ausserhalb dieses Wochenbereichs erstellt werden, haben ihre Menge auf 0 gesetzt (nur Zusätze).
             _it: I coni creati al di fuori di questo intervallo di settimane avranno la loro quantità impostata a 0 (solo aggiunte).
             _nl: Zakken die buiten dit weekbereik worden aangemaakt, krijgen hun aantal op 0 gezet (alleen aanvullingen).
+          availability_hint/crate:
+            _en: Crates created outside this week range will have their quantity set to 0 (complements only).
+            _fr: Les cagettes créées en dehors de cette plage de semaines auront leur quantité définie à 0 (compléments uniquement).
+            _de: Kisten, die ausserhalb dieses Wochenbereichs erstellt werden, haben ihre Menge auf 0 gesetzt (nur Zusätze).
+            _it: Le cassette create al di fuori di questo intervallo di settimane avranno la loro quantità impostata a 0 (solo aggiunte).
+            _nl: Kratten die buiten dit weekbereik worden aangemaakt, krijgen hun aantal op 0 gezet (alleen aanvullingen).
           availability_hint/package:
             _en: Packages created outside this week range will have their quantity set to 0 (complements only).
             _fr: Les colis créés en dehors de cette plage de semaines auront leur quantité définie à 0 (compléments uniquement).
@@ -2928,6 +3096,12 @@ _:
           _de: <strong>Achtung:</strong> Das laufende Geschäftsjahr (%{year}) hat bereits begonnen. Das Erstellen von Lieferungen innerhalb dieses Geschäftsjahres kann bestehenden Abonnements Tüten hinzufügen und deren Abrechnung beeinflussen. <a href="/handbook/billing#price-change">Mehr erfahren</a> Bei Fragen gerne <a href="/support">kontaktieren</a>.
           _it: <strong>Attenzione:</strong> L'anno fiscale corrente (%{year}) è già iniziato. La creazione di consegne all'interno di questo anno fiscale potrebbe aggiungere coni agli abbonamenti esistenti, influenzando la loro fatturazione. <a href="/handbook/billing#price-change">Scopri di più</a> – In caso di dubbio, non esitare a <a href="/support">contattarmi</a>.
           _nl: <strong>Waarschuwing:</strong> Het huidige boekjaar (%{year}) is al begonnen. Het aanmaken van leveringen binnen dit boekjaar kan zakken toevoegen aan bestaande lidmaatschappen, wat hun facturering beïnvloedt. <a href="/handbook/billing#price-change">Meer informatie</a> – Bij vragen gerust <a href="/support">contact opnemen</a>.
+        ongoing_fiscal_year_warning/crate_html:
+          _en: <strong>Warning:</strong> The current fiscal year (%{year}) has already started. Creating deliveries within this fiscal year may add crates to existing memberships, affecting their billing. <a href="/handbook/billing#price-change">Learn more</a> – If in doubt, don't hesitate to <a href="/support">contact me</a>.
+          _fr: <strong>Attention:</strong> L'année fiscale en cours (%{year}) a déjà commencé. La création de livraisons au sein de cette année fiscale peut ajouter des cagettes aux abonnements existants, affectant leur facturation. <a href="/handbook/billing#price-change">En savoir plus</a> – En cas de doute, n'hésitez pas à <a href="/support">me contacter</a>.
+          _de: <strong>Achtung:</strong> Das laufende Geschäftsjahr (%{year}) hat bereits begonnen. Das Erstellen von Lieferungen innerhalb dieses Geschäftsjahres kann bestehenden Abonnements Kisten hinzufügen und deren Abrechnung beeinflussen. <a href="/handbook/billing#price-change">Mehr erfahren</a> Bei Fragen gerne <a href="/support">kontaktieren</a>.
+          _it: <strong>Attenzione:</strong> L'anno fiscale corrente (%{year}) è già iniziato. La creazione di consegne all'interno di questo anno fiscale potrebbe aggiungere cassette agli abbonamenti esistenti, influenzando la loro fatturazione. <a href="/handbook/billing#price-change">Scopri di più</a> – In caso di dubbio, non esitare a <a href="/support">contattarmi</a>.
+          _nl: <strong>Waarschuwing:</strong> Het huidige boekjaar (%{year}) is al begonnen. Het aanmaken van leveringen binnen dit boekjaar kan kratten toevoegen aan bestaande lidmaatschappen, wat hun facturering beïnvloedt. <a href="/handbook/billing#price-change">Meer informatie</a> – Bij vragen gerust <a href="/support">contact opnemen</a>.
         ongoing_fiscal_year_warning/package_html:
           _en: <strong>Warning:</strong> The current fiscal year (%{year}) has already started. Creating deliveries within this fiscal year may add packages to existing memberships, affecting their billing. <a href="/handbook/billing#price-change">Learn more</a> – If in doubt, don't hesitate to <a href="/support">contact me</a>.
           _fr: <strong>Attention:</strong> L'année fiscale en cours (%{year}) a déjà commencé. La création de livraisons au sein de cette année fiscale peut ajouter des colis aux abonnements existants, affectant leur facturation. <a href="/handbook/billing#price-change">En savoir plus</a> – En cas de doute, n'hésitez pas à <a href="/support">me contacter</a>.
@@ -2972,6 +3146,12 @@ _:
           _de: <strong>Achtung:</strong> Das laufende Geschäftsjahr (%{year}) hat bereits begonnen und dieser Lieferzyklus wird von %{count} Abonnement(en) genutzt. Änderungen an der Konfiguration können deren Tüten und Abrechnung beeinflussen. <a href="/handbook/billing#price-change">Mehr erfahren</a> Bei Fragen gerne <a href="/support">kontaktieren</a>.
           _it: <strong>Attenzione:</strong> L'anno fiscale corrente (%{year}) è già iniziato e questo ciclo di consegna è utilizzato da %{count} abbonamento/i. La modifica della sua configurazione potrebbe influenzare i loro coni e la fatturazione. <a href="/handbook/billing#price-change">Scopri di più</a> – In caso di dubbio, non esitare a <a href="/support">contattarmi</a>.
           _nl: <strong>Waarschuwing:</strong> Het huidige boekjaar (%{year}) is al begonnen en deze leveringscyclus wordt gebruikt door %{count} lidmaatschap(pen). Het wijzigen van de configuratie kan hun zakken en facturering beïnvloeden. <a href="/handbook/billing#price-change">Meer informatie</a> – Bij vragen gerust <a href="/support">contact opnemen</a>.
+        ongoing_fiscal_year_warning/crate_html:
+          _en: <strong>Warning:</strong> The current fiscal year (%{year}) has already started and this delivery cycle is used by %{count} membership(s). Modifying its configuration may affect their crates and billing. <a href="/handbook/billing#price-change">Learn more</a> – If in doubt, don't hesitate to <a href="/support">contact me</a>.
+          _fr: <strong>Attention:</strong> L'année fiscale en cours (%{year}) a déjà commencé et ce cycle de livraisons est utilisé par %{count} abonnement(s). La modification de sa configuration peut affecter leurs cagettes et leur facturation. <a href="/handbook/billing#price-change">En savoir plus</a> – En cas de doute, n'hésitez pas à <a href="/support">me contacter</a>.
+          _de: <strong>Achtung:</strong> Das laufende Geschäftsjahr (%{year}) hat bereits begonnen und dieser Lieferzyklus wird von %{count} Abonnement(en) genutzt. Änderungen an der Konfiguration können deren Kisten und Abrechnung beeinflussen. <a href="/handbook/billing#price-change">Mehr erfahren</a> Bei Fragen gerne <a href="/support">kontaktieren</a>.
+          _it: <strong>Attenzione:</strong> L'anno fiscale corrente (%{year}) è già iniziato e questo ciclo di consegna è utilizzato da %{count} abbonamento/i. La modifica della sua configurazione potrebbe influenzare le loro cassette e la fatturazione. <a href="/handbook/billing#price-change">Scopri di più</a> – In caso di dubbio, non esitare a <a href="/support">contattarmi</a>.
+          _nl: <strong>Waarschuwing:</strong> Het huidige boekjaar (%{year}) is al begonnen en deze leveringscyclus wordt gebruikt door %{count} lidmaatschap(pen). Het wijzigen van de configuratie kan hun kratten en facturering beïnvloeden. <a href="/handbook/billing#price-change">Meer informatie</a> – Bij vragen gerust <a href="/support">contact opnemen</a>.
         ongoing_fiscal_year_warning/package_html:
           _en: <strong>Warning:</strong> The current fiscal year (%{year}) has already started and this delivery cycle is used by %{count} membership(s). Modifying its configuration may affect their packages and billing. <a href="/handbook/billing#price-change">Learn more</a> – If in doubt, don't hesitate to <a href="/support">contact me</a>.
           _fr: <strong>Attention:</strong> L'année fiscale en cours (%{year}) a déjà commencé et ce cycle de livraisons est utilisé par %{count} abonnement(s). La modification de sa configuration peut affecter leurs colis et leur facturation. <a href="/handbook/billing#price-change">En savoir plus</a> – En cas de doute, n'hésitez pas à <a href="/support">me contacter</a>.
@@ -3472,6 +3652,12 @@ _:
             _de: Soll diese Beitragsrunde wirklich abgeschlossen werden? Die Beiträge der Abonnements werden mit dem zugesagten Betrag aktualisiert.
             _it: Siete sicuri di voler completare questo turno di impegno? I prezzi dei coni degli abbonamenti verranno aggiornati con l'importo promesso.
             _nl: Moet deze biedronde echt worden voltooid? De zakprijzen van de lidmaatschappen worden bijgewerkt met het toegezegde bedrag.
+          complete_confirm/crate:
+            _en: Are you sure you want to complete this bidding round? The memberships crate price will be updated with the pledged amount.
+            _fr: Êtes-vous sûr de vouloir terminer ce tour d'engagement ? Le prix de la cagette des abonnements sera mis à jour avec la somme engagée.
+            _de: Soll diese Beitragsrunde wirklich abgeschlossen werden? Die Beiträge der Abonnements werden mit dem zugesagten Betrag aktualisiert.
+            _it: Siete sicuri di voler completare questo turno di impegno? I prezzi delle cassette degli abbonamenti verranno aggiornati con l'importo promesso.
+            _nl: Moet deze biedronde echt worden voltooid? De kratprijzen van de lidmaatschappen worden bijgewerkt met het toegezegde bedrag.
           complete_confirm/package:
             _en: Are you sure you want to complete this bidding round? The memberships package price will be updated with the pledged amount.
             _fr: Êtes-vous sûr de vouloir terminer ce tour d'engagement ? Le prix du colis des abonnements sera mis à jour avec la somme engagée.
@@ -3993,6 +4179,12 @@ _:
           _de: Produkte stellen die Artikel dar, die in die Tüten gelegt werden können. Einmal erstellt, können sie bei der Konfiguration des Tüteninhalts für jede Lieferung wiederverwendet werden.
           _it: I prodotti rappresentano gli articoli che possono essere messi nei coni. Una volta creati, possono essere riutilizzati per ogni consegna durante la configurazione del contenuto dei coni.
           _nl: Producten vertegenwoordigen de artikelen die in de zakken kunnen worden gedaan. Eenmaal aangemaakt, kunnen ze bij het configureren van de zakinhoud voor elke levering worden hergebruikt.
+        product_info/crate:
+          _en: Products represent the items that can go into crates. Once created, they can be reused across deliveries when configuring crate contents.
+          _fr: Les produits représentent les articles qui peuvent être mis dans les cagettes. Une fois créés, ils peuvent être réutilisés pour chaque livraison lors de la configuration du contenu des cagettes.
+          _de: Produkte stellen die Artikel dar, die in die Kisten gelegt werden können. Einmal erstellt, können sie bei der Konfiguration des Kisteninhalts für jede Lieferung wiederverwendet werden.
+          _it: I prodotti rappresentano gli articoli che possono essere messe nelle cassette. Una volta create, possono essere riutilizzati per ogni consegna durante la configurazione del contenuto delle cassette.
+          _nl: Producten vertegenwoordigen de artikelen die in de kratten kunnen worden gedaan. Eenmaal aangemaakt, kunnen ze bij het configureren van de kratinhoud voor elke levering worden hergebruikt.
         product_info/package:
           _en: Products represent the items that can go into packages. Once created, they can be reused across deliveries when configuring package contents.
           _fr: Les produits représentent les articles qui peuvent être mis dans les colis. Une fois créés, ils peuvent être réutilisés pour chaque livraison lors de la configuration du contenu des colis.

@@ -24,6 +24,12 @@ _:
       _de: Tüten (Abwesend)
       _it: Coni (assenti)
       _nl: Zakken (afwezig)
+    absent_baskets/crate:
+      _en: Crates (absent)
+      _fr: Cagettes (absentes)
+      _de: Kisten (Abwesend)
+      _it: Cassette (assenti)
+      _nl: Kratten (afwezig)
     absent_baskets/package:
       _en: Packages (absent)
       _fr: Colis (absents)
@@ -120,6 +126,12 @@ _:
       _de: Tüten-ID
       _it: Cono ID
       _nl: Zak-ID
+    basket_id/crate:
+      _en: Crate ID
+      _fr: Cagette ID
+      _de: Kisten-ID
+      _it: Cassetta ID
+      _nl: Krat-ID
     basket_id/package:
       _en: Package ID
       _fr: Colis ID
@@ -156,6 +168,12 @@ _:
       _de: Anzahl Tüten
       _it: Quantità di coni
       _nl: Zak hoeveelheid
+    basket_quantity/crate:
+      _en: Crate quantity
+      _fr: Quantité de cagettes
+      _de: Anzahl Kisten
+      _it: Quantità di cassette
+      _nl: Krat hoeveelheid
     basket_quantity/package:
       _en: Package quantity
       _fr: Quantité de colis
@@ -186,6 +204,12 @@ _:
       _de: Tütengrösse
       _it: Dimensione cono
       _nl: Zakgrootte
+    basket_size/crate:
+      _en: Crate size
+      _fr: Taille cagette
+      _de: Kistengrösse
+      _it: Dimensione cassetta
+      _nl: Kratgrootte
     basket_size/package:
       _en: Package size
       _fr: Taille colis
@@ -216,6 +240,12 @@ _:
       _de: Tütengrösse
       _it: Dimensione cono
       _nl: Zakgrootte
+    basket_size_id/crate:
+      _en: Crate size
+      _fr: Taille cagette
+      _de: Kistengrösse
+      _it: Dimensione cassetta
+      _nl: Kratgrootte
     basket_size_id/package:
       _en: Package size
       _fr: Taille colis
@@ -246,6 +276,12 @@ _:
       _de: Tütengrössen
       _it: Dimensioni coni
       _nl: Zakgroottes
+    basket_sizes/crate:
+      _en: Crate sizes
+      _fr: Tailles cagette
+      _de: Kistengrössen
+      _it: Dimensioni cassette
+      _nl: Kratgroottes
     basket_sizes/package:
       _en: Package sizes
       _fr: Tailles colis
@@ -276,6 +312,12 @@ _:
       _de: Tüten
       _it: Coni
       _nl: Zakken
+    baskets/crate:
+      _en: Crates
+      _fr: Cagettes
+      _de: Kisten
+      _it: Cassette
+      _nl: Kratten
     baskets/package:
       _en: Packages
       _fr: Colis
@@ -942,6 +984,12 @@ _:
       _de: Probetüten
       _it: Coni di prova
       _nl: Proefzakken
+    trial_baskets_count/crate:
+      _en: Trial crates
+      _fr: Cagettes à l'essai
+      _de: Probekisten
+      _it: Cassette di prova
+      _nl: Proefkratten
     trial_baskets_count/package:
       _en: Trial packages
       _fr: Colis à l'essai

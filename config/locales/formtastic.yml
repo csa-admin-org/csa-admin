@@ -123,6 +123,12 @@ _:
           _de: Nur Lieferungen mit einem ähnlichen Inhalt (Tütengrösse und Ergänzungen) sind nutzbar.
           _it: Solo le consegne con un contenuto simile (dimensione del cono e complementi) sono utilizzabili.
           _nl: Alleen leveringen met vergelijkbare inhoud (zakgrootte en aanvullingen) zijn bruikbaar.
+        shift_target_basket_id/crate:
+          _en: Only deliveries with a similar content (crate size and complements) are usable.
+          _fr: Seules les livraisons avec un contenu similaire (taille cagette et compléments) sont utilisables.
+          _de: Nur Lieferungen mit einem ähnlichen Inhalt (Kistengrösse und Ergänzungen) sind nutzbar.
+          _it: Solo le consegne con un contenuto simile (dimensione della cassetta e complementi) sono utilizzabili.
+          _nl: Alleen leveringen met vergelijkbare inhoud (kratgrootte en aanvullingen) zijn bruikbaar.
         shift_target_basket_id/package:
           _en: Only deliveries with a similar content (package size and complements) are usable.
           _fr: Seules les livraisons avec un contenu similaire (taille colis et compléments) sont utilisables.
@@ -154,6 +160,12 @@ _:
           _de: Werden zu denen der Tütengrösse hinzugefügt.
           _it: Saranno aggiunti a quelli della dimensione del cono.
           _nl: Worden toegevoegd aan die van de zakgrootte.
+        activity_participations_demanded_annually/crate:
+          _en: Will be added to those of the crate size.
+          _fr: Seront ajoutées à celles de la taille cagette.
+          _de: Werden zu denen der Kistengrösse hinzugefügt.
+          _it: Saranno aggiunti a quelli della dimensione della cassetta.
+          _nl: Worden toegevoegd aan die van de kratgrootte.
         activity_participations_demanded_annually/package:
           _en: Will be added to those of the package size.
           _fr: Seront ajoutées à celles de la taille colis.
@@ -221,6 +233,12 @@ _:
           _de: Die Depots ohne gelieferte Tüten werden automatisch ignoriert.
           _it: I punti di ritiro senza coni consegnati vengono automaticamente ignorati.
           _nl: Depots zonder geleverde zakken worden automatisch genegeerd.
+        depots/crate:
+          _en: Depots without delivered crates are automatically ignored.
+          _fr: Les dépôts sans cagettes livrées sont automatiquement ignorés.
+          _de: Die Depots ohne gelieferte Kisten werden automatisch ignoriert.
+          _it: I punti di ritiro senza cassette consegnate vengono automaticamente ignorati.
+          _nl: Depots zonder geleverde kratten worden automatisch genegeerd.
         depots/package:
           _en: Depots without delivered packages are automatically ignored.
           _fr: Les dépôts sans colis livrés sont automatiquement ignorés.
@@ -264,6 +282,12 @@ _:
           _de: Wenn nicht gesetzt, werden die Einheit und der Preis des letzten Tüteninhalts mit diesem Produkt verwendet.
           _it: Se non impostati, verranno utilizzati l'unità e il prezzo dell'ultimo contenuto cono che utilizza questo prodotto.
           _nl: Indien niet ingesteld, worden de eenheid en prijs van de laatste zakinhoud met dit product gebruikt.
+        defaults_intro/crate:
+          _en: When not set, the unit and price from the last crate content using this product will be used.
+          _fr: Si non définis, l'unité et le prix du dernier contenu de cagette utilisant ce produit seront utilisés.
+          _de: Wenn nicht gesetzt, werden die Einheit und der Preis des letzten Kisteninhalts mit diesem Produkt verwendet.
+          _it: Se non impostati, verranno utilizzati l'unità e il prezzo dell'ultimo contenuto cassetta che utilizza questo prodotto.
+          _nl: Indien niet ingesteld, worden de eenheid en prijs van de laatste kratinhoud met dit product gebruikt.
         defaults_intro/package:
           _en: When not set, the unit and price from the last package content using this product will be used.
           _fr: Si non définis, l'unité et le prix du dernier contenu de colis utilisant ce produit seront utilisés.
@@ -301,6 +325,12 @@ _:
           _de: Ermöglicht es, einen bestimmten Lieferzyklus für diese Tütengrösse zu erzwingen. Die Auswahl wird den Mitgliedern bei der Registrierung nicht angezeigt.
           _it: Permette di forzare un ciclo di consegna specifico per questa dimensione del cono. La scelta non verrà proposta ai soci durante la registrazione.
           _nl: Hiermee kan een specifieke leveringscyclus worden geforceerd voor deze zakgrootte. De keuze wordt niet aangeboden aan leden tijdens registratie.
+        delivery_cycle/crate:
+          _en: Allows you to force a specific delivery cycle for this crate size. The choice will not be offered to members during registration.
+          _fr: Permet de forcer un cycle de livraisons spécifique pour cette taille cagette. Le choix ne sera pas proposé aux membres lors de l'inscription.
+          _de: Ermöglicht es, einen bestimmten Lieferzyklus für diese Kistengrösse zu erzwingen. Die Auswahl wird den Mitgliedern bei der Registrierung nicht angezeigt.
+          _it: Permette di forzare un ciclo di consegna specifico per questa dimensione della cassetta. La scelta non verrà proposta ai soci durante la registrazione.
+          _nl: Hiermee kan een specifieke leveringscyclus worden geforceerd voor deze kratgrootte. De keuze wordt niet aangeboden aan leden tijdens registratie.
         delivery_cycle/package:
           _en: Allows you to force a specific delivery cycle for this package size. The choice will not be offered to members during registration.
           _fr: Permet de forcer un cycle de livraisons spécifique pour cette taille colis. Le choix ne sera pas proposé aux membres lors de l'inscription.
@@ -369,6 +399,12 @@ _:
           _de: Ein Preis von 0.00 bedeutet "nur Zusätze"; die Korbmenge wird automatisch auf 0 gesetzt.
           _it: Un prezzo di 0.00 significa "solo aggiunte"; la quantità del cono sarà automaticamente impostata a 0.
           _nl: Een prijs van 0.00 betekent "alleen aanvullingen"; de zakaantal wordt automatisch op 0 gezet.
+        price_zero/crate:
+          _en: A price of 0.00 means "complements only"; the crate quantity will be automatically set to 0.
+          _fr: Un prix à 0.00 signifie "compléments uniquement"; la quantité de cagette sera automatiquement mise à 0.
+          _de: Ein Preis von 0.00 bedeutet "nur Zusätze"; die Kistenmenge wird automatisch auf 0 gesetzt.
+          _it: Un prezzo di 0.00 significa "solo aggiunte"; la quantità della cassetta sarà automaticamente impostata a 0.
+          _nl: Een prijs van 0.00 betekent "alleen aanvullingen"; de krataantal wordt automatisch op 0 gezet.
         price_zero/package:
           _en: A price of 0.00 means "complements only"; the package quantity will be automatically set to 0.
           _fr: Un prix à 0.00 signifie "compléments uniquement"; la quantité de colis sera automatiquement mise à 0.
@@ -399,6 +435,12 @@ _:
           _de: Nein" auswählen, wenn die Tütengrösse bei der Registrierung nicht verfügbar ist.
           _it: Seleziona "No" se la dimensione del cono non è disponibile durante la registrazione.
           _nl: '"Nee" selecteren als de zakgrootte niet beschikbaar is tijdens registratie.'
+        visible/crate:
+          _en: Select "No" if the crate size is not available during registration.
+          _fr: Sélectionner "Non" si la taille cagette n'est pas disponible lors de l'inscription.
+          _de: Nein" auswählen, wenn die Kistengrösse bei der Registrierung nicht verfügbar ist.
+          _it: Seleziona "No" se la dimensione della cassetta non è disponibile durante la registrazione.
+          _nl: '"Nee" selecteren als de kratgrootte niet beschikbaar is tijdens registratie.'
         visible/package:
           _en: Select "No" if the package size is not available during registration.
           _fr: Sélectionner "Non" si la taille colis n'est pas disponible lors de l'inscription.
@@ -450,6 +492,12 @@ _:
           _de: Passt den Preis der Tütengrösse für die Tüten dieser Lieferung an. Z.B. 50% setzen, um den Preis zu halbieren (nützlich für kleinere Tüten im Winter).
           _it: Regola il prezzo della dimensione del cono per i coni di questa consegna. Ad esempio, imposta 50% per dimezzare il prezzo (utile per coni più piccoli in inverno).
           _nl: Past de prijs van de zakgrootte aan voor de zakken van deze levering. Bijv. stel 50% in om de prijs te halveren (handig voor kleinere zakken in de winter).
+        basket_size_price_percentage/crate:
+          _en: Adjusts the crate size price for crates on this delivery. E.g., set 50% to halve the price (useful for smaller crates in winter).
+          _fr: Ajuste le prix de la taille de la cagette pour les cagettes de cette livraison. Par exemple, définissez 50% pour réduire le prix de moitié (utile pour des cagettes plus petites en hiver).
+          _de: Passt den Preis der Kistengrösse für die Kisten dieser Lieferung an. Z.B. 50% setzen, um den Preis zu halbieren (nützlich für kleinere Kisten im Winter).
+          _it: Regola il prezzo della dimensione della cassetta per le cassette di questa consegna. Ad esempio, imposta 50% per dimezzare il prezzo (utile per cassette più piccole in inverno).
+          _nl: Past de prijs van de kratgrootte aan voor de kratten van deze levering. Bijv. stel 50% in om de prijs te halveren (handig voor kleinere kratten in de winter).
         basket_size_price_percentage/package:
           _en: Adjusts the package size price for packages on this delivery. E.g., set 50% to halve the price (useful for smaller packages in winter).
           _fr: Ajuste le prix de la taille du colis pour les colis de cette livraison. Par exemple, définissez 50% pour réduire le prix de moitié (utile pour des colis plus petits en hiver).
@@ -486,6 +534,12 @@ _:
           _de: Die Tüten in diese Depots werden bei einer Änderung automatisch gelöscht oder angelegt.
           _it: Le coni in questi punti di ritiro vengono automaticamente cancellate o create in caso di modifica.
           _nl: De zakken in deze depots worden automatisch verwijderd of aangemaakt bij wijziging.
+        depots/crate:
+          _en: The crates in these depots will be automatically deleted or created in case of change.
+          _fr: Les cagettes des dépôts seront automatiquement effacées ou créées en cas de changement.
+          _de: Die Kisten in diese Depots werden bei einer Änderung automatisch gelöscht oder angelegt.
+          _it: Le cassette in questi punti di ritiro vengono automaticamente cancellate o create in caso di modifica.
+          _nl: De kratten in deze depots worden automatisch verwijderd of aangemaakt bij wijziging.
         depots/package:
           _en: The packages in these depots will be automatically deleted or created in case of change.
           _fr: Les colis des dépôts seront automatiquement effacés ou créés en cas de changement.
@@ -635,6 +689,12 @@ _:
           _de: Jede E-Mail-Adresse (durch Komma getrennt) bekommt ein Tag vor der Lieferung eine Liste der Abonnenten, die eine Tüte bekommen.
           _it: Ogni email (separata da una virgola) riceve, il giorno precedente la consega, la lista dei soci che ritireranno un cono.
           _nl: Elke e-mail (gescheiden door een komma) ontvangt, de dag voor de levering, de lijst van leden die een zak zullen ophalen.
+        emails/crate:
+          _en: Each email (separated by a comma) receives, the day before delivery, the list of members receiving a crate.
+          _fr: Chaque email (séparé par une virgule) reçoit, le jour précédant la livraison, la liste des membres recevant une cagette.
+          _de: Jede E-Mail-Adresse (durch Komma getrennt) bekommt ein Tag vor der Lieferung eine Liste der Abonnenten, die eine Kiste bekommen.
+          _it: Ogni email (separata da una virgola) riceve, il giorno precedente la consega, la lista dei soci che ritireranno una cassetta.
+          _nl: Elke e-mail (gescheiden door een komma) ontvangt, de dag voor de levering, de lijst van leden die een krat zullen ophalen.
         emails/package:
           _en: Each email (separated by a comma) receives, the day before delivery, the list of members receiving a package.
           _fr: Chaque email (séparé par une virgule) reçoit, le jour précédant la livraison, la liste des membres recevant un colis.
@@ -683,6 +743,12 @@ _:
           _de: Preis für die Abpackung und/oder Lieferung einer Tüte.
           _it: Prezzo per la preparazione e/o consegna di un cono.
           _nl: Prijs voor de voorbereiding en/of levering van een zak.
+        price/crate:
+          _en: Price for the preparation and/or delivery of a crate.
+          _fr: Prix pour la préparation et/ou livraison d'une cagette.
+          _de: Preis für die Abpackung und/oder Lieferung einer Kiste.
+          _it: Prezzo per la preparazione e/o consegna di una cassetta.
+          _nl: Prijs voor de voorbereiding en/of levering van een krat.
         price/package:
           _en: Price for the preparation and/or delivery of a package.
           _fr: Prix pour la préparation et/ou livraison d'un colis.
@@ -849,6 +915,12 @@ _:
           _de: Ermöglicht die Änderung der Standardanzahl, die von der Tütengrösse des aktuellen Abonnements abhängt.
           _it: Consente di modificare il numero predefinito che dipende dalla dimensione del cono dell'abbonamento corrente.
           _nl: Maakt het mogelijk het standaardaantal te wijzigen, dat afhangt van de zakgrootte van het huidige lidmaatschap.</br>Een negatief getal geeft aan dat de aandelen niet worden terugbetaald om het lid inactief te maken.
+        required_shares_number/crate_html:
+          _en: Allows changing the default number, which depends on the crate size of the current membership.</br>A negative number indicates that the cooperative shares will not be refunded to make the member inactive.
+          _fr: Permet de changer le nombre par défaut qui dépends de la taille de la cagette de l'abonnement en cours.</br>Un nombre négatif permet d'indiquer que les parts ne seront pas remboursées afin de rendre le membre inactif.
+          _de: Ermöglicht die Änderung der Standardanzahl, die von der Kistengrösse des aktuellen Abonnements abhängt.
+          _it: Consente di modificare il numero predefinito che dipende dalla dimensione della cassetta dell'abbonamento corrente.
+          _nl: Maakt het mogelijk het standaardaantal te wijzigen, dat afhangt van de kratgrootte van het huidige lidmaatschap.</br>Een negatief getal geeft aan dat de aandelen niet worden terugbetaald om het lid inactief te maken.
         required_shares_number/package_html:
           _en: Allows changing the default number, which depends on the package size of the current membership.</br>A negative number indicates that the cooperative shares will not be refunded to make the member inactive.
           _fr: Permet de changer le nombre par défaut qui dépends de la taille du colis de l'abonnement en cours.</br>Un nombre négatif permet d'indiquer que les parts ne seront pas remboursées afin de rendre le membre inactif.
@@ -903,6 +975,12 @@ _:
           _de: Ermöglicht es, die Standardanzahl der Probetüten zu ändern, was nützlich ist, wenn das Mitglied beispielsweise bereits Tüten erhalten hat, bevor es sich angemeldet hat.
           _it: Consente di modificare il numero predefinito di coni di prova, utile se, ad esempio, il socio ha già ricevuto coni prima di registrarsi.
           _nl: Maakt het mogelijk het standaardaantal proefzakken te wijzigen, handig als het lid bijvoorbeeld al zakken heeft ontvangen voor registratie.
+        trial_baskets_count/crate:
+          _en: Allows you to change the default number of trial crates, useful if, for example, the member has already received crates before registering.
+          _fr: Permet de modifier le nombre de cagettes d'essai par défaut, pratique si, par exemple, le membre a déjà reçu des cagettes avant son inscription.
+          _de: Ermöglicht es, die Standardanzahl der Probekisten zu ändern, was nützlich ist, wenn das Mitglied beispielsweise bereits Kisten erhalten hat, bevor es sich angemeldet hat.
+          _it: Consente di modificare il numero predefinito di cassette di prova, utile se, ad esempio, il socio ha già ricevuto cassette prima di registrarsi.
+          _nl: Maakt het mogelijk het standaardaantal proefzakken te wijzigen, handig als het lid bijvoorbeeld al kratten heeft ontvangen voor registratie.
         trial_baskets_count/package:
           _en: Allows you to change the default number of trial packages, useful if, for example, the member has already received packages before registering.
           _fr: Permet de modifier le nombre de colis d'essai par défaut, pratique si, par exemple, le membre a déjà reçu des colis avant son inscription.
@@ -933,6 +1011,12 @@ _:
           _de: Es können ein oder mehrere alternative Depots gewählt werden, falls die erste Wahl bereits voll ist. Durch die Bereitschaft, die Tüten vorübergehend in einem alternativen Depot zu erhalten, kann schneller gestartet werden.
           _it: Potete scegliere uno o più punti di ritiro alternativi nel caso in cui la vostra prima scelta fosse già al completo. Accettando di ricevere temporaneamente le vostre coni in un luogo di consegna alternativo, dovreste essere in grado di iniziare più velocemente.
           _nl: Er kunnen een of meer alternatieve depots worden gekozen als de eerste keuze al vol is. Door ermee in te stemmen de zakken tijdelijk bij een alternatief depot te ontvangen, kan er sneller worden gestart.
+        waiting_alternative_depot_ids/crate:
+          _en: You can choose one or more alternative depots if your first choice is already full. By agreeing to temporarily receive your crates at an alternative depot, you should be able to start faster.
+          _fr: Vous pouvez choisir un ou plusieurs dépôts alternatifs dans le cas ou votre premier choix serait déjà complet. En acceptant de recevoir temporairement vos cagettes dans un dépôt alternatif, vous devriez pouvoir commencer plus rapidement.
+          _de: Es können ein oder mehrere alternative Depots gewählt werden, falls die erste Wahl bereits voll ist. Durch die Bereitschaft, die Kisten vorübergehend in einem alternativen Depot zu erhalten, kann schneller gestartet werden.
+          _it: Potete scegliere uno o più punti di ritiro alternativi nel caso in cui la vostra prima scelta fosse già al completo. Accettando di ricevere temporaneamente le vostre cassette in un luogo di consegna alternativo, dovreste essere in grado di iniziare più velocemente.
+          _nl: Er kunnen een of meer alternatieve depots worden gekozen als de eerste keuze al vol is. Door ermee in te stemmen de kratten tijdelijk bij een alternatief depot te ontvangen, kan er sneller worden gestart.
         waiting_alternative_depot_ids/package:
           _en: You can choose one or more alternative depots if your first choice is already full. By agreeing to temporarily receive your packages at an alternative depot, you should be able to start faster.
           _fr: Vous pouvez choisir un ou plusieurs dépôts alternatifs dans le cas ou votre premier choix serait déjà complet. En acceptant de recevoir temporairement vos colis dans un dépôt alternatif, vous devriez pouvoir commencer plus rapidement.
@@ -964,6 +1048,12 @@ _:
           _de: Leer lassen für die Standaranzahl des Lieferzyklus.<br/>Die endgültige Anzahl wird automatisch anhand der in <a href='/settings#delivery_cycle'>den Einstellungen festgelegten Logik</a> berechnet, standardmäßig anteilig an der Anzahl der Tüten.
           _it: Lasciare vuoto il campo per il numero predefinito del ciclo di consegna.<br/>Il numero finale sarà calcolato automaticamente in proporzione al numero di coni.
           _nl: Laat leeg voor het standaardaantal van de leveringscyclus.<br/>Het uiteindelijke aantal wordt automatisch berekend op basis van de logica gedefinieerd in <a href='/settings#delivery_cycle'>de instellingen</a>, standaard evenredig aan het aantal zakken.
+        absences_included_annually/crate_html:
+          _en: Leave blank for the default number of the delivery cycle.<br/>The final number will be calculated automatically based on the logic defined in <a href='/settings#delivery_cycle'>the settings</a>, by default proportional to the number of crates.
+          _fr: Laisser blanc pour le nombre par défaut du cycle de livraisons.<br/>Le nombre final sera calculé automatiquement au prorata du nombre de cagettes.
+          _de: Leer lassen für die Standaranzahl des Lieferzyklus.<br/>Die endgültige Anzahl wird automatisch anhand der in <a href='/settings#delivery_cycle'>den Einstellungen festgelegten Logik</a> berechnet, standardmäßig anteilig an der Anzahl der Kisten.
+          _it: Lasciare vuoto il campo per il numero predefinito del ciclo di consegna.<br/>Il numero finale sarà calcolato automaticamente in proporzione al numero di cassette.
+          _nl: Laat leeg voor het standaardaantal van de leveringscyclus.<br/>Het uiteindelijke aantal wordt automatisch berekend op basis van de logica gedefinieerd in <a href='/settings#delivery_cycle'>de instellingen</a>, standaard evenredig aan het aantal kratten.
         absences_included_annually/package_html:
           _en: Leave blank for the default number of the delivery cycle.<br/>The final number will be calculated automatically based on the logic defined in <a href='/settings#delivery_cycle'>the settings</a>, by default proportional to the number of packages.
           _fr: Laisser blanc pour le nombre par défaut du cycle de livraisons.<br/>Le nombre final sera calculé automatiquement au prorata du nombre de coliss.
@@ -1000,6 +1090,12 @@ _:
           _de: <span class="text-red-500">Das Feld leer lassen, um den Betrag automatisch zu berechnen.</span><br/>Erhöhung oder Verringerung des Abonnementpreises basierend auf den angebotenen oder nicht angebotenen Dienstleistungen.
           _it: <span class="text-red-500">Lasciare vuoto il campo per il numero predefinito del ciclo di consegna.</span><br/>Il numero finale sarà calcolato automaticamente in proporzione al numero di coni.
           _nl: <span class="text-red-500">Laat leeg voor het standaardaantal van de leveringscyclus.</span><br/>Het uiteindelijke aantal wordt automatisch berekend op basis van de logica gedefinieerd in <a href='/settings#delivery_cycle'>de instellingen</a>, standaard evenredig aan het aantal zakken.
+        activity_participations_annual_price_change/crate_html:
+          _en: <span class="text-red-500">Leave blank for the system to calculate the amount automatically.</span><br/>Increase or decrease in the membership price, depending on the services rendered..
+          _fr: <span class="text-red-500">Laisser blanc pour que le système calcule le montant automatiquement.</span><br/>Augmentation ou réduction du prix de l'abonnement contre service rendu ou non.
+          _de: <span class="text-red-500">Das Feld leer lassen, um den Betrag automatisch zu berechnen.</span><br/>Erhöhung oder Verringerung des Abonnementpreises basierend auf den angebotenen oder nicht angebotenen Dienstleistungen.
+          _it: <span class="text-red-500">Lasciare vuoto il campo per il numero predefinito del ciclo di consegna.</span><br/>Il numero finale sarà calcolato automaticamente in proporzione al numero di cassette.
+          _nl: <span class="text-red-500">Laat leeg voor het standaardaantal van de leveringscyclus.</span><br/>Het uiteindelijke aantal wordt automatisch berekend op basis van de logica gedefinieerd in <a href='/settings#delivery_cycle'>de instellingen</a>, standaard evenredig aan het aantal kratten.
         activity_participations_annual_price_change/package_html:
           _en: <span class="text-red-500">Leave blank for the system to calculate the amount automatically.</span><br/>Increase or decrease in the membership price, depending on the services rendered..
           _fr: <span class="text-red-500">Laisser blanc pour que le système calcule le montant automatiquement.</span><br/>Augmentation ou réduction du prix de l'abonnement contre service rendu ou non.
@@ -1036,6 +1132,12 @@ _:
           _de: Leer lassen für die Standaranzahl.<br/>Die endgültige Anzahl wird automatisch anhand der in <a href='/settings#activity'>den Einstellungen festgelegten Logik</a> berechnet, standardmäßig anteilig an der Anzahl der Tüten.
           _it: Lasciare vuoto il campo per il numero predefinito.<br/>Il numero finale sarà calcolato automaticamente secondo <a href='/settings#activity'>la logica definita nei parametri</a>, di default in proporzione al numero di coni.
           _nl: Laat leeg voor het standaardaantal.<br/>Het uiteindelijke aantal wordt automatisch berekend op basis van de logica gedefinieerd in <a href='/settings#activity'>de instellingen</a>, standaard evenredig aan het aantal zakken.
+        activity_participations_demanded_annually/crate_html:
+          _en: Leave blank for the default number.<br/>The final number will be calculated automatically based on the logic defined in <a href='/settings#activity'>the settings</a>, by default proportional to the number of crates.
+          _fr: Laisser blanc pour le nombre par défaut.<br/>Le nombre final sera calculé automatiquement en fonction de <a href='/settings#activity'>la logique définie dans les paramètres</a>, par défaut au prorata du nombre de cagettes.
+          _de: Leer lassen für die Standaranzahl.<br/>Die endgültige Anzahl wird automatisch anhand der in <a href='/settings#activity'>den Einstellungen festgelegten Logik</a> berechnet, standardmäßig anteilig an der Anzahl der Kisten.
+          _it: Lasciare vuoto il campo per il numero predefinito.<br/>Il numero finale sarà calcolato automaticamente secondo <a href='/settings#activity'>la logica definita nei parametri</a>, di default in proporzione al numero di cassette.
+          _nl: Laat leeg voor het standaardaantal.<br/>Het uiteindelijke aantal wordt automatisch berekend op basis van de logica gedefinieerd in <a href='/settings#activity'>de instellingen</a>, standaard evenredig aan het aantal kratten.
         activity_participations_demanded_annually/package_html:
           _en: Leave blank for the default number.<br/>The final number will be calculated automatically based on the logic defined in <a href='/settings#activity'>the settings</a>, by default proportional to the number of packages.
           _fr: Laisser blanc pour le nombre par défaut.<br/>Le nombre final sera calculé automatiquement en fonction de <a href='/settings#activity'>la logique définie dans les paramètres</a>, par défaut au prorata du nombre de coliss.
@@ -1072,6 +1174,12 @@ _:
           _de: Wenn aktiviert, werden die lieferungsbedingten prozentualen Anpassungen des Tütengrössepreises auch auf die Tüten dieses Abonnements angewendet.
           _it: Se selezionato, le modifiche percentuali del prezzo della dimensione del cono definite per consegna verranno applicate anche ai coni di questo abbonamento.
           _nl: Indien aangevinkt, worden de leveringsgerelateerde procentuele aanpassingen van de zakgrootteprijs ook toegepast op de zakken van dit lidmaatschap.
+        apply_basket_size_price_percentage/crate:
+          _en: When checked, the delivery-level crate size price percentage adjustments will also be applied to this membership's crates.
+          _fr: Lorsque coché, les ajustements en pourcentage du prix de la taille cagette définis par livraison seront également appliqués aux cagettes de cet abonnement.
+          _de: Wenn aktiviert, werden die lieferungsbedingten prozentualen Anpassungen des Kistengrössepreises auch auf die Kisten dieses Abonnements angewendet.
+          _it: Se selezionato, le modifiche percentuali del prezzo della dimensione della cassetta definite per consegna verranno applicate anche alle cassette di questo abbonamento.
+          _nl: Indien aangevinkt, worden de leveringsgerelateerde procentuele aanpassingen van de kratgrootteprijs ook toegepast op de kratten van dit lidmaatschap.
         apply_basket_size_price_percentage/package:
           _en: When checked, the delivery-level package size price percentage adjustments will also be applied to this membership's packages.
           _fr: Lorsque coché, les ajustements en pourcentage du prix de la taille colis définis par livraison seront également appliqués aux colis de cet abonnement.
@@ -1102,6 +1210,12 @@ _:
           _de: Verändert den Schlussbetrag, unabhängig von der Anzahl der Tüten/Zusätze.
           _it: Modifica l'importo finale, indipendentemente dal numero di coni / aggiunte ali coni.
           _nl: Wijzigt het eindbedrag, ongeacht het aantal zakken/aanvullingen.
+        basket_complements_annual_price_change/crate:
+          _en: Changes the final amount, regardless of the number of crates/complements.
+          _fr: Modifie le montant final, peu importe le nombre de cagettes/compléments.
+          _de: Verändert den Schlussbetrag, unabhängig von der Anzahl der Kisten/Zusätze.
+          _it: Modifica l'importo finale, indipendentemente dal numero di cassette / aggiunte ali cassette.
+          _nl: Wijzigt het eindbedrag, ongeacht het aantal kratten/aanvullingen.
         basket_complements_annual_price_change/package:
           _en: Changes the final amount, regardless of the number of packages/complements.
           _fr: Modifie le montant final, peu importe le nombre de coliss/compléments.
@@ -1144,6 +1258,12 @@ _:
           _de: Verändert den Schlussbetrag, unabhängig von der Anzahl der Tüten.
           _it: Modifica l'importo finale indipendentemente dal numero di coni.
           _nl: Wijzigt het eindbedrag, ongeacht het aantal zakken.
+        baskets_annual_price_change/crate:
+          _en: Changes the final amount, regardless of the number of crates.
+          _fr: Modifie le montant final, peu importe le nombre de cagettes.
+          _de: Verändert den Schlussbetrag, unabhängig von der Anzahl der Kisten.
+          _it: Modifica l'importo finale indipendentemente dal numero di cassette.
+          _nl: Wijzigt het eindbedrag, ongeacht het aantal kratten.
         baskets_annual_price_change/package:
           _en: Changes the final amount, regardless of the number of packages.
           _fr: Modifie le montant final, peu importe le nombre de coliss.
@@ -1211,6 +1331,12 @@ _:
           _de: Behält die benutzerdefinierte Anzahl geforderter Teilnahmen und die Preisanpassung bei. Wenn nicht aktiviert, wird der Standardwert basierend auf Tütengrösse und Zusätzen berechnet.
           _it: Mantiene il numero personalizzato di partecipazioni richieste e il relativo aggiustamento di prezzo. Se non selezionato, il valore predefinito sarà calcolato in base alla dimensione del cono e agli extra.
           _nl: Behoudt het aangepaste aantal gevraagde deelnames en de bijbehorende prijsaanpassing. Indien niet aangevinkt, wordt de standaardwaarde berekend op basis van zakgrootte en aanvullingen.
+        activity_participations/crate:
+          _en: Keeps the custom number of demanded participations and its price adjustment. If unchecked, the default value will be calculated based on the crate size and complements.
+          _fr: Conserve le nombre personnalisé de participations demandées et son ajustement de prix. Si décochée, la valeur par défaut sera calculée selon la taille de la cagette et les compléments.
+          _de: Behält die benutzerdefinierte Anzahl geforderter Teilnahmen und die Preisanpassung bei. Wenn nicht aktiviert, wird der Standardwert basierend auf Kistengrösse und Zusätzen berechnet.
+          _it: Mantiene il numero personalizzato di partecipazioni richieste e il relativo aggiustamento di prezzo. Se non selezionato, il valore predefinito sarà calcolato in base alla dimensione della cassetta e agli extra.
+          _nl: Behoudt het aangepaste aantal gevraagde deelnames en de bijbehorende prijsaanpassing. Indien niet aangevinkt, wordt de standaardwaarde berekend op basis van kratgrootte en aanvullingen.
         activity_participations/package:
           _en: Keeps the custom number of demanded participations and its price adjustment. If unchecked, the default value will be calculated based on the package size and complements.
           _fr: Conserve le nombre personnalisé de participations demandées et son ajustement de prix. Si décochée, la valeur par défaut sera calculée selon la taille du colis et les compléments.
@@ -1247,6 +1373,12 @@ _:
           _de: Behält Preisanpassungen für Tüten bei. Diese Anpassung erscheint als separate Zeile auf der Rechnung.
           _it: Mantiene l'aggiustamento di prezzo applicato ai coni. Questo aggiustamento appare come una riga separata sulla fattura.
           _nl: Behoudt prijsaanpassingen toegepast op zakken. Deze aanpassing verschijnt als een aparte regel op de factuur.
+        baskets_annual_price_change/crate:
+          _en: Keeps any price adjustment applied to crates. This adjustment appears as a separate line on the invoice.
+          _fr: Conserve l'ajustement de prix appliqué aux cagettes. Cet ajustement apparaît comme une ligne distincte sur la facture.
+          _de: Behält Preisanpassungen für Kisten bei. Diese Anpassung erscheint als separate Zeile auf der Rechnung.
+          _it: Mantiene l'aggiustamento di prezzo applicato alle cassette. Questo aggiustamento appare come una riga separata sulla fattura.
+          _nl: Behoudt prijsaanpassingen toegepast op kratten. Deze aanpassing verschijnt als een aparte regel op de factuur.
         baskets_annual_price_change/package:
           _en: Keeps any price adjustment applied to packages. This adjustment appears as a separate line on the invoice.
           _fr: Conserve l'ajustement de prix appliqué aux colis. Cet ajustement apparaît comme une ligne distincte sur la facture.
@@ -1298,6 +1430,12 @@ _:
           _de: Alle Tütenzusätze sind enthalten, wenn keiner ausgewählt ist.
           _it: Tutti i complementi del cono sono inclusi se nessuno è selezionato.
           _nl: Alle zakaanvullingen zijn inbegrepen als er geen zijn geselecteerd.
+        basket_complement_ids/crate:
+          _en: All crate supplements are included if none are selected.
+          _fr: Tous les compléments de cagette sont inclus si aucun n'est sélectionné.
+          _de: Alle Kistenzusätze sind enthalten, wenn keiner ausgewählt ist.
+          _it: Tutti i complementi della cassetta sono inclusi se nessuno è selezionato.
+          _nl: Alle krataanvullingen zijn inbegrepen als er geen zijn geselecteerd.
         basket_complement_ids/package:
           _en: All package supplements are included if none are selected.
           _fr: Tous les compléments de colis sont inclus si aucun n'est sélectionné.
@@ -1328,6 +1466,12 @@ _:
           _de: Alle Tütengrössen sind enthalten, wenn keine ausgewählt ist.
           _it: Tutte le dimensioni del cono sono incluse se nessuna è selezionata.
           _nl: Alle zakgroottes zijn inbegrepen als er geen zijn geselecteerd.
+        basket_size_ids/crate:
+          _en: All crate sizes are included if none are selected.
+          _fr: Toutes les tailles cagette sont incluses si aucune n'est sélectionnée.
+          _de: Alle Kistengrössen sind enthalten, wenn keine ausgewählt ist.
+          _it: Tutte le dimensioni della cassetta sono incluse se nessuna è selezionata.
+          _nl: Alle kratgroottes zijn inbegrepen als er geen zijn geselecteerd.
         basket_size_ids/package:
           _en: All package sizes are included if none are selected.
           _fr: Toutes les tailles colis sont incluses si aucune n'est sélectionnée.
@@ -1370,6 +1514,12 @@ _:
           _de: Unterscheidet aktive Mitglieder anhand des Datums ihrer nächsten Tütenlieferung.
           _it: Permette di differenziare i soci attivi in base alla data di consegna del prossimo carrello.
           _nl: Onderscheidt actieve leden op basis van de datum van hun volgende zaklevering.
+        coming_deliveries_in_days/crate:
+          _en: Differentiates active members based on the date of their next crate delivery.
+          _fr: Permet de différencier les membres actifs par la date de leur prochaine livraison de cagette.
+          _de: Unterscheidet aktive Mitglieder anhand des Datums ihrer nächsten Kistenlieferung.
+          _it: Permette di differenziare i soci attivi in base alla data di consegna della prossima cassetta.
+          _nl: Onderscheidt actieve leden op basis van de datum van hun volgende kratlevering.
         coming_deliveries_in_days/package:
           _en: Differentiates active members based on the date of their next package delivery.
           _fr: Permet de différencier les membres actifs par la date de leur prochaine livraison de colis.
@@ -1455,6 +1605,12 @@ _:
           _de: Wenn aktiviert, werden Tüten auch bei Abwesenheit des Mitglieds in Rechnung gestellt. Wenn deaktiviert, werden Abwesenheiten vom Abonnementpreis abgezogen.
           _it: Se attivato, i coni vengono fatturati anche quando il socio è assente. Se disattivato, le assenze vengono detratte dal prezzo dell'abbonamento.
           _nl: Indien ingeschakeld, worden zakken gefactureerd zelfs wanneer het lid afwezig is. Indien uitgeschakeld, worden afwezigheden afgetrokken van de lidmaatschapsprijs.
+        absences_billed/crate:
+          _en: If enabled, crates are billed even when the member is absent. If disabled, absences are deducted from the membership price.
+          _fr: Si activé, les cagettes sont facturées même lorsque le membre est absent. Si désactivé, les absences sont déduites du prix de l'abonnement.
+          _de: Wenn aktiviert, werden Kisten auch bei Abwesenheit des Mitglieds in Rechnung gestellt. Wenn deaktiviert, werden Abwesenheiten vom Abonnementpreis abgezogen.
+          _it: Se attivato, le cassette vengono fatturate anche quando il socio è assente. Se disattivato, le assenze vengono detratte dal prezzo dell'abbonamento.
+          _nl: Indien ingeschakeld, worden kratten gefactureerd zelfs wanneer het lid afwezig is. Indien uitgeschakeld, worden afwezigheden afgetrokken van de lidmaatschapsprijs.
         absences_billed/package:
           _en: If enabled, packages are billed even when the member is absent. If disabled, absences are deducted from the membership price.
           _fr: Si activé, les colis sont facturés même lorsque le membre est absent. Si désactivé, les absences sont déduites du prix de l'abonnement.
@@ -1563,6 +1719,12 @@ _:
           _de: Ermöglicht Fördermitgliedern, den Betrag ihres Jahresbeitrags bei der Anmeldung selbst festzulegen. Aktive Mitglieder (die eine Tütengrösse wählen) können diesen Betrag nicht ändern.
           _it: Consente ai soci sostenitori di scegliere l'importo della loro quota annuale all'iscrizione. I soci attivi (che scelgono una dimensione del cono) non possono modificare questo importo.
           _nl: Stelt ondersteunende leden in staat het bedrag van hun jaarlijkse bijdrage bij registratie te kiezen. Actieve leden (die een zakgrootte kiezen) kunnen dit bedrag niet wijzigen.
+        annual_fee_member_form/crate:
+          _en: Allow supporting members to choose the amount of their annual fee at registration. Active members (choosing a crate size) cannot modify this amount.
+          _fr: Permet aux membres de soutien de choisir le montant de leur cotisation annuelle lors de l'inscription. Les membres actifs (choisissant une taille cagette) ne peuvent pas modifier ce montant.
+          _de: Ermöglicht Fördermitgliedern, den Betrag ihres Jahresbeitrags bei der Anmeldung selbst festzulegen. Aktive Mitglieder (die eine Kistengrösse wählen) können diesen Betrag nicht ändern.
+          _it: Consente ai soci sostenitori di scegliere l'importo della loro quota annuale all'iscrizione. I soci attivi (che scelgono una dimensione della cassetta) non possono modificare questo importo.
+          _nl: Stelt ondersteunende leden in staat het bedrag van hun jaarlijkse bijdrage bij registratie te kiezen. Actieve leden (die een kratgrootte kiezen) kunnen dit bedrag niet wijzigen.
         annual_fee_member_form/package:
           _en: Allow supporting members to choose the amount of their annual fee at registration. Active members (choosing a package size) cannot modify this amount.
           _fr: Permet aux membres de soutien de choisir le montant de leur cotisation annuelle lors de l'inscription. Les membres actifs (choisissant une taille colis) ne peuvent pas modifier ce montant.
@@ -1593,6 +1755,12 @@ _:
           _de: Wenn aktiviert, wird der Jahresbeitrag standardmässig nur für Fördermitglieder bei der Anmeldung angewendet. Aktive Mitglieder (die eine Tütengrösse wählen) erhalten ihn nicht.
           _it: Se attivato, solo i soci sostenitori avranno la quota annuale applicata per impostazione predefinita all'iscrizione. I soci attivi (che scelgono una dimensione del cono) non lo avranno.
           _nl: Indien ingeschakeld, zullen alleen ondersteunende leden de jaarlijkse bijdrage standaard toegepast krijgen bij registratie. Actieve leden (die een zakgrootte kiezen) zullen deze niet hebben.
+        annual_fee_support_member_only/crate:
+          _en: If enabled, only supporting members will have the annual fee applied by default at registration. Active members (choosing a crate size) will not have it.
+          _fr: Si activé, seuls les membres de soutien auront la cotisation annuelle appliquée par défaut lors de leur l'inscription. Les membres actifs (choisissant une taille cagette) n'en auront pas.
+          _de: Wenn aktiviert, wird der Jahresbeitrag standardmässig nur für Fördermitglieder bei der Anmeldung angewendet. Aktive Mitglieder (die eine Kistengrösse wählen) erhalten ihn nicht.
+          _it: Se attivato, solo i soci sostenitori avranno la quota annuale applicata per impostazione predefinita all'iscrizione. I soci attivi (che scelgono una dimensione della cassetta) non lo avranno.
+          _nl: Indien ingeschakeld, zullen alleen ondersteunende leden de jaarlijkse bijdrage standaard toegepast krijgen bij registratie. Actieve leden (die een kratgrootte kiezen) zullen deze niet hebben.
         annual_fee_support_member_only/package:
           _en: If enabled, only supporting members will have the annual fee applied by default at registration. Active members (choosing a package size) will not have it.
           _fr: Si activé, seuls les membres de soutien auront la cotisation annuelle appliquée par défaut lors de leur l'inscription. Les membres actifs (choisissant une taille colis) n'en auront pas.
@@ -1629,6 +1797,12 @@ _:
           _de: Legt die Reihenfolge der Tütenzusätze im Anmeldeformular fest, nachdem ihre individuelle Priorität berücksichtigt wurde.
           _it: Permette di definire l'ordine di visualizzazione dei aggiunte di coni nel modulo di iscrizione, dopo aver preso in considerazione la loro priorità individuale.
           _nl: Stelt de volgorde van zakaanvullingen in het registratieformulier in na het in overweging nemen van hun individuele prioriteit.
+        basket_complements_member_order_mode/crate:
+          _en: Sets the order of crate complements in the registration form after considering their individual priority.
+          _fr: Définit l'ordre des compléments de cagette dans le formulaire d'inscription après avoir pris en compte leur priorité individuelle.
+          _de: Legt die Reihenfolge der Kistenzusätze im Anmeldeformular fest, nachdem ihre individuelle Priorität berücksichtigt wurde.
+          _it: Permette di definire l'ordine di visualizzazione dei aggiunte di cassette nel modulo di iscrizione, dopo aver preso in considerazione la loro priorità individuale.
+          _nl: Stelt de volgorde van krataanvullingen in het registratieformulier in na het in overweging nemen van hun individuele prioriteit.
         basket_complements_member_order_mode/package:
           _en: Sets the order of package complements in the registration form after considering their individual priority.
           _fr: Définit l'ordre des compléments de colis dans le formulaire d'inscription après avoir pris en compte leur priorité individuelle.
@@ -1671,6 +1845,12 @@ _:
           _de: Wird unter der Liste des Tüteninhalts angezeigt. Leer lassen, um keine Notiz anzuzeigen.
           _it: Visualizzato sotto la lista del contenuto del cono. Lasciare vuoto per non visualizzare alcuna nota.
           _nl: Wordt weergegeven onder de lijst met zakinhoud. Laat leeg om geen notitie weer te geven.
+        basket_content_member_note/crate:
+          _en: Shown below the crate contents list. Leave blank to not display any note.
+          _fr: Affiché sous la liste du contenu de la cagette. Laisser vide pour ne pas afficher de note.
+          _de: Wird unter der Liste des Kisteninhalts angezeigt. Leer lassen, um keine Notiz anzuzeigen.
+          _it: Visualizzato sotto la lista del contenuto della cassetta. Lasciare vuoto per non visualizzare alcuna nota.
+          _nl: Wordt weergegeven onder de lijst met kratinhoud. Laat leeg om geen notitie weer te geven.
         basket_content_member_note/package:
           _en: Shown below the package contents list. Leave blank to not display any note.
           _fr: Affiché sous la liste du contenu du colis. Laisser vide pour ne pas afficher de note.
@@ -1701,6 +1881,12 @@ _:
           _de: Wenn aktiviert, können Mitglieder den Inhalt ihres nächsten Korbs von der Lieferseite ihres Kontos aus sehen.
           _it: Se attivato, i soci potranno vedere il contenuto del loro prossimo cesto, dalla pagina delle consegne del loro account.
           _nl: Indien ingeschakeld, kunnen leden de inhoud van hun volgende zak zien vanaf de leveringspagina van hun account.
+        basket_content_member_visible/crate:
+          _en: If enabled, members will be able to see the content of their next crate, from the deliveries page of their account.
+          _fr: Si activé, les membres pourront voir le contenu de leur prochaine cagette, depuis la page des livraisons de leur compte.
+          _de: Wenn aktiviert, können Mitglieder den Inhalt ihrer nächsten Kiste von der Lieferseite ihres Kontos aus sehen.
+          _it: Se attivato, i soci potranno vedere il contenuto della loro prossima cassetta, dalla pagina delle consegne del loro account.
+          _nl: Indien ingeschakeld, kunnen leden de inhoud van hun volgende krat zien vanaf de leveringspagina van hun account.
         basket_content_member_visible/package:
           _en: If enabled, members will be able to see the content of their next package, from the deliveries page of their account.
           _fr: Si activé, les membres pourront voir le contenu de leur prochain colis, depuis la page des livraisons de leur compte.
@@ -1731,6 +1917,12 @@ _:
           _de: Anzahl der Stunden vor Mitternacht am Liefertag, ab wann der Tüteninhalt für die Mitglieder sichtbar wird. Zum Beispiel bedeuten 12 Stunden Mittag am Vortag. Bei 0 wird der Tüteninhalt erst am Liefertag selbst sichtbar.
           _it: Numero di ore prima della mezzanotte del giorno di consegna in cui il contenuto del cono diventa visibile ai soci. Ad esempio, 12 ore significa mezzogiorno del giorno prima. Se impostato su 0, il contenuto del cono sarà visibile solo il giorno stesso della consegna.
           _nl: Aantal uren vóór middernacht op de leveringsdag waarop de zakinhoud zichtbaar wordt voor leden. Bijvoorbeeld, 12 uur betekent 's middags de dag ervoor. Indien ingesteld op 0, wordt de zakinhoud pas op de leveringsdag zelf zichtbaar.
+        basket_content_member_visible_hours_before/crate:
+          _en: Number of hours before midnight on the delivery day when the crate contents become visible to members. For example, 12 hours means noon the day before. If set to 0, the crate content will only be visible on the delivery day itself.
+          _fr: Nombre d'heures avant minuit le jour de la livraison à partir duquel le contenu de la cagette devient visible pour les membres. Par exemple, 12 heures signifie midi la veille. Si réglé sur 0, le contenu de la cagette ne sera visible que le jour même de la livraison.
+          _de: Anzahl der Stunden vor Mitternacht am Liefertag, ab wann der Kisteninhalt für die Mitglieder sichtbar wird. Zum Beispiel bedeuten 12 Stunden Mittag am Vortag. Bei 0 wird der Kisteninhalt erst am Liefertag selbst sichtbar.
+          _it: Numero di ore prima della mezzanotte del giorno di consegna in cui il contenuto della cassetta diventa visibile ai soci. Ad esempio, 12 ore significa mezzogiorno del giorno prima. Se impostato su 0, il contenuto della cassetta sarà visibile solo il giorno stesso della consegna.
+          _nl: Aantal uren vóór middernacht op de leveringsdag waarop de kratinhoud zichtbaar wordt voor leden. Bijvoorbeeld, 12 uur betekent 's middags de dag ervoor. Indien ingesteld op 0, wordt de kratinhoud pas op de leveringsdag zelf zichtbaar.
         basket_content_member_visible_hours_before/package:
           _en: Number of hours before midnight on the delivery day when the package contents become visible to members. For example, 12 hours means noon the day before. If set to 0, the package content will only be visible on the delivery day itself.
           _fr: Nombre d'heures avant minuit le jour de la livraison à partir duquel le contenu du colis devient visible pour les membres. Par exemple, 12 heures signifie midi la veille. Si réglé sur 0, le contenu du colis ne sera visible que le jour même de la livraison.
@@ -1809,6 +2001,12 @@ _:
           _de: Erlaubt Mitgliedern, den Inhalt ihrer Tüte während ihrer Abwesenheit auf eine andere Lieferung aus ihrem Konto zu verschieben.<br/>Leer lassen, um keine Begrenzung für die Anzahl möglicher Verschiebungen zu erzwingen.
           _it: Permette ai soci di spostare il contenuto del loro cono durante la loro assenza a un'altra consegna dal loro account.<br/>Lasciare vuoto per non impostare un limite al numero di spostamenti possibili.
           _nl: Stelt leden in staat de inhoud van hun zak tijdens hun afwezigheid te verschuiven naar een andere levering vanuit hun account.<br/>Laat leeg om geen limiet op te leggen aan het aantal mogelijke verschuivingen.
+        basket_shifts_annually/crate_html:
+          _en: Allows members to shift the content of their crate during their absence to another delivery from their account.<br/>Leave empty to not impose a limit on the number of possible shifts.
+          _fr: Permet aux membres de déplacer le contenu de leur cagette durant leur absence vers une autre livraison depuis leur compte.<br/>Laisser vide pour ne pas imposer de limite au nombre de déplacements possibles.
+          _de: Erlaubt Mitgliedern, den Inhalt ihrer Kiste während ihrer Abwesenheit auf eine andere Lieferung aus ihrem Konto zu verschieben.<br/>Leer lassen, um keine Begrenzung für die Anzahl möglicher Verschiebungen zu erzwingen.
+          _it: Permette ai soci di spostare il contenuto della loro cassetta durante la loro assenza a un'altra consegna dal loro account.<br/>Lasciare vuoto per non impostare un limite al numero di spostamenti possibili.
+          _nl: Stelt leden in staat de inhoud van hun krat tijdens hun afwezigheid te verschuiven naar een andere levering vanuit hun account.<br/>Laat leeg om geen limiet op te leggen aan het aantal mogelijke verschuivingen.
         basket_shifts_annually/package_html:
           _en: Allows members to shift the content of their package during their absence to another delivery from their account.<br/>Leave empty to not impose a limit on the number of possible shifts.
           _fr: Permet aux membres de déplacer le contenu de leur colis durant leur absence vers une autre livraison depuis leur compte.<br/>Laisser vide pour ne pas imposer de limite au nombre de déplacements possibles.
@@ -1845,6 +2043,12 @@ _:
           _de: Legt die Reihenfolge der Tütengrössen im Anmeldeformular fest, nachdem ihre individuelle Priorität berücksichtigt wurde.
           _it: Permette di definire l'ordine di visualizzazione delle dimensioni dei coni nel modulo di iscrizione, dopo aver preso in considerazione la loro priorità individuale.
           _nl: Stelt de volgorde van zakgroottes in het registratieformulier in na het in overweging nemen van hun individuele prioriteit.
+        basket_sizes_member_order_mode/crate:
+          _en: Sets the order of crate sizes in the registration form after considering their individual priority.
+          _fr: Définit l'ordre des tailles cagette dans le formulaire d'inscription après avoir pris en compte leur priorité individuelle.
+          _de: Legt die Reihenfolge der Kistengrössen im Anmeldeformular fest, nachdem ihre individuelle Priorität berücksichtigt wurde.
+          _it: Permette di definire l'ordine di visualizzazione delle dimensioni delle cassette nel modulo di iscrizione, dopo aver preso in considerazione la loro priorità individuale.
+          _nl: Stelt de volgorde van kratgroottes in het registratieformulier in na het in overweging nemen van hun individuele prioriteit.
         basket_sizes_member_order_mode/package:
           _en: Sets the order of package sizes in the registration form after considering their individual priority.
           _fr: Définit l'ordre des tailles colis dans le formulaire d'inscription après avoir pris en compte leur priorité individuelle.
@@ -1875,6 +2079,12 @@ _:
           _de: Mitglieder können ihren Korb bis Mitternacht ändern, X Tage vor dem Lieferdatum (z.B. 3 Tage = Sonntag Mitternacht für eine Mittwochslieferung). Null bedeutet, dass Änderungen am Liefertag möglich sind.
           _it: 'I soci possono modificare il loro cono fino a mezzanotte, X giorni prima della data di consegna (es: 3 giorni = domenica mezzanotte per una consegna di mercoledì). Zero significa che la modifica è possibile il giorno della consegna.'
           _nl: Leden kunnen hun zak wijzigen tot middernacht, X dagen voor de leveringsdatum (bijv. 3 dagen = zondag middernacht voor een levering op woensdag). Nul betekent dat wijzigingen mogelijk zijn op de dag van levering.
+        basket_update_limit_in_days/crate:
+          _en: Members can modify their crate until midnight, X days before the delivery date (e.g., 3 days = Sunday midnight for a Wednesday delivery). Zero means changes are possible on the day of delivery.
+          _fr: 'Les membres peuvent modifier leur cagette jusqu''à minuit, X jours avant la date de livraison (ex: 3 jours = dimanche minuit pour une livraison mercredi). Zéro signifie que la modification est possible le jour même de la livraison.'
+          _de: Mitglieder können ihre Kiste bis Mitternacht ändern, X Tage vor dem Lieferdatum (z.B. 3 Tage = Sonntag Mitternacht für eine Mittwochslieferung). Null bedeutet, dass Änderungen am Liefertag möglich sind.
+          _it: 'I soci possono modificare la loro cassetta fino a mezzanotte, X giorni prima della data di consegna (es: 3 giorni = domenica mezzanotte per una consegna di mercoledì). Zero significa che la modifica è possibile il giorno della consegna.'
+          _nl: Leden kunnen hun krat wijzigen tot middernacht, X dagen voor de leveringsdatum (bijv. 3 dagen = zondag middernacht voor een levering op woensdag). Nul betekent dat wijzigingen mogelijk zijn op de dag van levering.
         basket_update_limit_in_days/package:
           _en: Members can modify their package until midnight, X days before the delivery date (e.g., 3 days = Sunday midnight for a Wednesday delivery). Zero means changes are possible on the day of delivery.
           _fr: 'Les membres peuvent modifier leur colis jusqu''à minuit, X jours avant la date de livraison (ex: 3 jours = dimanche minuit pour une livraison mercredi). Zéro signifie que la modification est possible le jour même de la livraison.'
@@ -1905,6 +2115,12 @@ _:
           _de: Prozentwert des maximalen Beitrags pro Tütengrösse, den ein Mitglied zusagen kann. 0% = Richtwert (kein Mehrbeitrag möglich), 100% = doppelter Richtwert, 200% = dreifacher Richtwert
           _it: Percentuale del prezzo massimo della dimensione del carrello che un socio può promettere di pagare. 0% = prezzo normale (nessun aggiuntivo possibile), 100% = due volte il prezzo normale, 200% = tre volte il prezzo normale
           _nl: Percentage van de maximumprijs van de zakgrootte die een lid kan beloven te betalen. 0% = normale prijs (geen extra mogelijk), 100% = twee keer de normale prijs, 200% = drie keer de normale prijs
+        bidding_round_basket_size_price_max_percentage/crate:
+          _en: Percentage of the maximum price of the crate size that a member can pledge to pay. 0% = normal price (no extra possible), 100% = twice the normal price, 200% = three times the normal price
+          _fr: Pourcentage du prix maximum de la taille de la cagette que le membre peut s'engager de payer. 0% = prix normal (aucun supplément possible), 100% = deux fois le prix normal, 200% = trois fois le prix normal
+          _de: Prozentwert des maximalen Beitrags pro Kistengrösse, den ein Mitglied zusagen kann. 0% = Richtwert (kein Mehrbeitrag möglich), 100% = doppelter Richtwert, 200% = dreifacher Richtwert
+          _it: Percentuale del prezzo massimo della dimensione della cassetta che un socio può promettere di pagare. 0% = prezzo normale (nessun aggiuntivo possibile), 100% = due volte il prezzo normale, 200% = tre volte il prezzo normale
+          _nl: Percentage van de maximumprijs van de kratgrootte die een lid kan beloven te betalen. 0% = normale prijs (geen extra mogelijk), 100% = twee keer de normale prijs, 200% = drie keer de normale prijs
         bidding_round_basket_size_price_max_percentage/package:
           _en: Percentage of the maximum price of the package size that a member can pledge to pay. 0% = normal price (no extra possible), 100% = twice the normal price, 200% = three times the normal price
           _fr: Pourcentage du prix maximum de la taille du colis que le membre peut s'engager de payer. 0% = prix normal (aucun supplément possible), 100% = deux fois le prix normal, 200% = trois fois le prix normal
@@ -1935,6 +2151,12 @@ _:
           _de: Prozentwert des Mindestbeitrags pro Tütengrösse, den ein Mitglied zusagen kann. 0% = kostenlos, 100% = Richtwert (keine Ermässigung möglich)
           _it: Percentuale del prezzo minimo della dimensione del carrello che un socio può promettere di pagare. 0% = gratuito, 100% = prezzo normale (nessuno sconto possibile)
           _nl: Percentage van de minimumprijs van de zakgrootte die een lid kan beloven te betalen. 0% = gratis, 100% = normale prijs (geen korting mogelijk)
+        bidding_round_basket_size_price_min_percentage/crate:
+          _en: Percentage of the minimum price of the crate size that a member can pledge to pay. 0% = free, 100% = normal price (no discount possible)
+          _fr: Pourcentage du prix minimum de la taille de la cagette que le membre peut s'engager à payer. 0% = gratuit, 100% = prix normal (pas de remise possible)
+          _de: Prozentwert des Mindestbeitrags pro Kistengrösse, den ein Mitglied zusagen kann. 0% = kostenlos, 100% = Richtwert (keine Ermässigung möglich)
+          _it: Percentuale del prezzo minimo della dimensione della cassetta che un socio può promettere di pagare. 0% = gratuito, 100% = prezzo normale (nessuno sconto possibile)
+          _nl: Percentage van de minimumprijs van de kratgrootte die een lid kan beloven te betalen. 0% = gratis, 100% = normale prijs (geen korting mogelijk)
         bidding_round_basket_size_price_min_percentage/package:
           _en: Percentage of the minimum price of the package size that a member can pledge to pay. 0% = free, 100% = normal price (no discount possible)
           _fr: Pourcentage du prix minimum de la taille du colis que le membre peut s'engager à payer. 0% = gratuit, 100% = prix normal (pas de remise possible)
@@ -2049,6 +2271,12 @@ _:
           _de: Wenn aktiviert, zeigen Mitgliedschaftsrechnungen nur eine einzelne Zeile «Jahresübersicht» an, anstatt eine detaillierte Aufschlüsselung der Körbe, Ergänzungen und anderer Posten darzustellen.
           _it: Quando abilitato, le fatture di abbonamento mostreranno solo una riga «Riepilogo annuale» invece di visualizzare un dettaglio di coni, complementi e altri articoli.
           _nl: Indien ingeschakeld, tonen abonnementsfacturen alleen een regel «Jaaroverzicht» in plaats van een gedetailleerde uitsplitsing van manden, aanvullingen en andere items.
+        invoice_membership_summary_only/crate:
+          _en: When enabled, membership invoices will display a single "Annual overview" line instead of showing a detailed breakdown of crates, complements, and other items.
+          _fr: Lorsque cette option est activée, les factures d'abonnement n'afficheront qu'une seule ligne «Récapitulatif annuel» au lieu de détailler les cagettes, les compléments et les autres éléments.
+          _de: Wenn aktiviert, zeigen Mitgliedschaftsrechnungen nur eine einzelne Zeile «Jahresübersicht» an, anstatt eine detaillierte Aufschlüsselung der Kisten, Ergänzungen und anderer Posten darzustellen.
+          _it: Quando abilitato, le fatture di abbonamento mostreranno solo una riga «Riepilogo annuale» invece di visualizzare un dettaglio di cassette, complementi e altri articoli.
+          _nl: Indien ingeschakeld, tonen abonnementsfacturen alleen een regel «Jaaroverzicht» in plaats van een gedetailleerde uitsplitsing van kratten, aanvullingen en andere items.
         invoice_membership_summary_only/package:
           _en: When enabled, membership invoices will display a single "Annual overview" line instead of showing a detailed breakdown of packages, complements, and other items.
           _fr: Lorsque cette option est activée, les factures d'abonnement n'afficheront qu'une seule ligne «Récapitulatif annuel» au lieu de détailler les colis, les compléments et les autres éléments.
@@ -2121,6 +2349,12 @@ _:
           _de: Dieser optionale Text wird vor der Liste der Tütenzusätze eingefügt.
           _it: Questo testo opzionale è inserito prima dell'elenco degli extra cono.
           _nl: Deze optionele tekst wordt ingevoegd voor de lijst van zakaanvullingen.
+        member_form_complements_text/crate:
+          _en: This optional text is inserted before the list of crate complements.
+          _fr: Ce texte optionnel est inséré avant la liste des compléments cagette.
+          _de: Dieser optionale Text wird vor der Liste der Kistenzusätze eingefügt.
+          _it: Questo testo opzionale è inserito prima dell'elenco degli extra cassetta.
+          _nl: Deze optionele tekst wordt ingevoegd voor de lijst van krataanvullingen.
         member_form_complements_text/package:
           _en: This optional text is inserted before the list of package complements.
           _fr: Ce texte optionnel est inséré avant la liste des compléments colis.
@@ -2217,6 +2451,12 @@ _:
           _de: Die ausgewählten Konfigurationen werden beim Erneuern des Abonnements automatisch übernommen. Wenn die Tütengrösse oder die Zusätze vom Mitglied geändert werden, werden die entsprechenden Konfigurationen trotzdem gelöscht.
           _it: Le configurazioni selezionate saranno automaticamente riprese al momento del rinnovo dell'abbonamento. Se la dimensione del cono o gli extra vengono modificati dal socio, le configurazioni corrispondenti saranno comunque cancellate.
           _nl: De geselecteerde configuraties worden automatisch overgenomen bij het vernieuwen van het lidmaatschap. Als de zakgrootte of aanvullingen door het lid worden gewijzigd, worden de overeenkomstige configuraties toch verwijderd.
+        membership_renewed_attributes/crate:
+          _en: The selected configurations will be automatically carried over when renewing the membership. If the crate size or complements are changed by the member, the corresponding configurations will be deleted anyway.
+          _fr: Les configurations sélectionnées seront automatiquement reprises lors du renouvellement de l'abonnement tel quel. Si la taille de la cagette ou les compléments sont modifiés par le membre, alors les configurations correspondantes seront de toute façon effacées.
+          _de: Die ausgewählten Konfigurationen werden beim Erneuern des Abonnements automatisch übernommen. Wenn die Kistengrösse oder die Zusätze vom Mitglied geändert werden, werden die entsprechenden Konfigurationen trotzdem gelöscht.
+          _it: Le configurazioni selezionate saranno automaticamente riprese al momento del rinnovo dell'abbonamento. Se la dimensione della cassetta o gli extra vengono modificati dal socio, le configurazioni corrispondenti saranno comunque cancellate.
+          _nl: De geselecteerde configuraties worden automatisch overgenomen bij het vernieuwen van het lidmaatschap. Als de kratgrootte of aanvullingen door het lid worden gewijzigd, worden de overeenkomstige configuraties toch verwijderd.
         membership_renewed_attributes/package:
           _en: The selected configurations will be automatically carried over when renewing the membership. If the package size or complements are changed by the member, the corresponding configurations will be deleted anyway.
           _fr: Les configurations sélectionnées seront automatiquement reprises lors du renouvellement de l'abonnement tel quel. Si la taille du colis ou les compléments sont modifiés par le membre, alors les configurations correspondantes seront de toute façon effacées.
@@ -2247,6 +2487,12 @@ _:
           _de: Optionaler Text, der auf der Mitgliederseite über dem Formular zur Änderung des Abonnements oder der Tüte angezeigt wird.
           _it: Testo opzionale visualizzato nella pagina del socio sopra il modulo di iscrizione o di modifica del cono.
           _nl: Optionele tekst weergegeven op de ledenpagina boven het lidmaatschap- of zakwijzigingsformulier.
+        membership_update_text/crate:
+          _en: Optional text displayed on the member page above the membership or crate modification form.
+          _fr: Texte optionnel affiché sur la page de membre au-dessus du formulaire de modification de l'abonnement ou de la cagette.
+          _de: Optionaler Text, der auf der Mitgliederseite über dem Formular zur Änderung des Abonnements oder der Kiste angezeigt wird.
+          _it: Testo opzionale visualizzato nella pagina del socio sopra il modulo di iscrizione o di modifica della cassetta.
+          _nl: Optionele tekst weergegeven op de ledenpagina boven het lidmaatschap- of kratwijzigingsformulier.
         membership_update_text/package:
           _en: Optional text displayed on the member page above the membership or package modification form.
           _fr: Texte optionnel affiché sur la page de membre au-dessus du formulaire de modification de l'abonnement ou du colis.
@@ -2325,6 +2571,12 @@ _:
           _de: Mindestanzahl an Anteilscheinen, die bei der Anmeldung erforderlich ist, diese Anzahl kann auch nach Tütengrösse angepasst werden. Leer lassen, wenn keine Anteilscheine.
           _it: Numero minimo di quote sociali richieste all'iscrizione, questo numero può anche essere regolato per dimensione del cono. Lasciare vuoto se non ci sono quote sociali.
           _nl: Minimum aantal aandelen vereist bij registratie, dit aantal kan ook worden aangepast per zakgrootte. Laat leeg als er geen aandelen zijn.
+        shares_number/crate:
+          _en: Minimum number of cooperative shares required at registration, this number can also be adjusted by crate size. Leave blank if no cooperative shares.
+          _fr: Nombre de parts sociales minimum requises lors de l'inscription, ce nombre peut également être ajusté par taille cagette. Laisser vide si pas de part sociale.
+          _de: Mindestanzahl an Anteilscheinen, die bei der Anmeldung erforderlich ist, diese Anzahl kann auch nach Kistengrösse angepasst werden. Leer lassen, wenn keine Anteilscheine.
+          _it: Numero minimo di quote sociali richieste all'iscrizione, questo numero può anche essere regolato per dimensione della cassetta. Lasciare vuoto se non ci sono quote sociali.
+          _nl: Minimum aantal aandelen vereist bij registratie, dit aantal kan ook worden aangepast per kratgrootte. Laat leeg als er geen aandelen zijn.
         shares_number/package:
           _en: Minimum number of cooperative shares required at registration, this number can also be adjusted by package size. Leave blank if no cooperative shares.
           _fr: Nombre de parts sociales minimum requises lors de l'inscription, ce nombre peut également être ajusté par taille colis. Laisser vide si pas de part sociale.
@@ -2421,6 +2673,12 @@ _:
           _de: Das Abonnement wird in Rechnung gestellt, sobald alle Probetüten ausgeliefert wurden. Wenn das Abonnement während oder am Ende der Probezeit beendet wird, dann werden nur die gelieferten Tüten in Rechnung gestellt. Wenn das Mitglied später erneut eintritt, wird die Anzahl der bereits verwendeten Probetüten zurückgesetzt, unabhängig von der Dauer der Unterbrechung. <a href="/handbook/billing#trial-baskets">Mehr erfahren</a>
           _it: L'abbonamento viene fatturato una volta che tutti i coni di prova sono stati consegnati. Se l'abbonamento viene interrotto durante o alla fine del periodo di prova, vengono addebitati solo i coni consegnati. Se il socio si rinnova in seguito, il numero di coni di prova già utilizzati viene azzerato, indipendentemente dalla durata dell'interruzione. <a href="/handbook/billing#trial-baskets">Scopri di più</a>
           _nl: Het lidmaatschap wordt gefactureerd zodra alle proefzakken zijn geleverd. Als het lidmaatschap wordt beëindigd tijdens of aan het einde van de proefperiode, worden alleen de geleverde zakken gefactureerd. Als het lid zich later vernieuwt, wordt het aantal reeds gebruikte proefzakken gereset, ongeacht de duur van de onderbreking. <a href="/handbook/billing#trial-baskets">Meer informatie</a>
+        trial_baskets_count/crate_html:
+          _en: The membership is billed once all trial crates have been delivered. If the membership is terminated during or at the end of the trial period, only the delivered crates are billed. If the member renews later, the number of trial crates already used is reset, regardless of the duration of the interruption. <a href="/handbook/billing#trial-crates">Learn more</a>
+          _fr: L'abonnement est facturé une fois que toutes les cagettes à l'essai ont été livrées. Si l'abonnement est arrêté pendant ou à la fin de la période d'essai, alors seulement les cagettes livrées sont facturées. Si le membre se réinscrit ultérieurement, le nombre de cagettes à l'essai déjà utilisées est réinitialisé, peu importe la durée de l'interruption. <a href="/handbook/billing#trial-baskets">En savoir plus</a>
+          _de: Das Abonnement wird in Rechnung gestellt, sobald alle Probekisten ausgeliefert wurden. Wenn das Abonnement während oder am Ende der Probezeit beendet wird, dann werden nur die gelieferten Kisten in Rechnung gestellt. Wenn das Mitglied später erneut eintritt, wird die Anzahl der bereits verwendeten Probekisten zurückgesetzt, unabhängig von der Dauer der Unterbrechung. <a href="/handbook/billing#trial-baskets">Mehr erfahren</a>
+          _it: L'abbonamento viene fatturato una volta che tutte le cassette di prova sono state consegnate. Se l'abbonamento viene interrotto durante o alla fine del periodo di prova, vengono addebitate solo le cassette consegnate. Se il socio si rinnova in seguito, il numero di cassette di prova già utilizzate viene azzerato, indipendentemente dalla durata dell'interruzione. <a href="/handbook/billing#trial-baskets">Scopri di più</a>
+          _nl: Het lidmaatschap wordt gefactureerd zodra alle proefkratten zijn geleverd. Als het lidmaatschap wordt beëindigd tijdens of aan het einde van de proefperiode, worden alleen de geleverde kratten gefactureerd. Als het lid zich later vernieuwt, wordt het aantal reeds gebruikte proefkratten gereset, ongeacht de duur van de onderbreking. <a href="/handbook/billing#trial-baskets">Meer informatie</a>
         trial_baskets_count/package_html:
           _en: The membership is billed once all trial packages have been delivered. If the membership is terminated during or at the end of the trial period, only the delivered packages are billed. If the member renews later, the number of trial packages already used is reset, regardless of the duration of the interruption. <a href="/handbook/billing#trial-packages">Learn more</a>
           _fr: L'abonnement est facturé une fois que tous les colis à l'essai ont été livrés. Si l'abonnement est arrêté pendant ou à la fin de la période d'essai, alors seulement les colis livrés sont facturés. Si le membre se réinscrit ultérieurement, le nombre de colis à l'essai déjà utilisés est réinitialisé, peu importe la durée de l'interruption. <a href="/handbook/billing#trial-baskets">En savoir plus</a>
@@ -2496,6 +2754,12 @@ _:
           _de: Verwaltet das Produkt als Zusatz, Bestellungen für dieses Produkt werden dann in den Blättern (PDF) und der Zusammenfassung (XLSX) der Tütenlieferung gezählt. Nur eine Variante pro Produkt ist erlaubt.
           _it: Gestisce il prodotto come componente aggiuntivo del carrello. Gli ordini per questo prodotto saranno quindi conteggiati nel foglio di consegna del carrello (PDF) e nel riepilogo (XLSX). È consentita una sola variante per prodotto.
           _nl: Beheert het product als zakaanvulling, bestellingen voor dit product worden dan meegeteld in de leveringsbladen (PDF) en het leveringsoverzicht (XLSX). Slechts één variant per product is toegestaan.
+        basket_complement/crate:
+          _en: Manages the product as a crate supplement, orders for this product will then be counted in the delivery sheets (PDF) and the delivery summary (XLSX). Only one variant per product is allowed.
+          _fr: Gère le produit comme un complément cagette, les commandes de ce produit seront alors comptées dans les fiches (PDF) et le récapitulatif (XLSX) de la livraison des cagettes. Une seule variante par produit est autorisée.
+          _de: Verwaltet das Produkt als Zusatz, Bestellungen für dieses Produkt werden dann in den Blättern (PDF) und der Zusammenfassung (XLSX) der Kistenlieferung gezählt. Nur eine Variante pro Produkt ist erlaubt.
+          _it: Gestisce il prodotto come componente aggiuntivo della cassetta. Gli ordini per questo prodotto saranno quindi conteggiati nel foglio di consegna della cassetta (PDF) e nel riepilogo (XLSX). È consentita una sola variante per prodotto.
+          _nl: Beheert het product als krataanvulling, bestellingen voor dit product worden dan meegeteld in de leveringsbladen (PDF) en het leveringsoverzicht (XLSX). Slechts één variant per product is toegestaan.
         basket_complement/package:
           _en: Manages the product as a package supplement, orders for this product will then be counted in the delivery sheets (PDF) and the delivery summary (XLSX). Only one variant per product is allowed.
           _fr: Gère le produit comme un complément colis, les commandes de ce produit seront alors comptées dans les fiches (PDF) et le récapitulatif (XLSX) de la livraison des colis. Une seule variante par produit est autorisée.
@@ -2586,6 +2850,12 @@ _:
           _de: Lohntüte(n) / Gratis-Abonnements
           _it: Coni-compenso / Abbonamento/i gratuito/i
           _nl: Salariszak(ken) / Gratis lidmaatschap/lidmaatschappen
+        salary_basket/crate:
+          _en: Salary crate(s) / Free membership(s)
+          _fr: Cagette(s) salaire / Abonnement(s) gratuit(s)
+          _de: Lohnkiste(n) / Gratis-Abonnements
+          _it: Cassette-compenso / Abbonamento/i gratuito/i
+          _nl: Salariskrat(ten) / Gratis lidmaatschap/lidmaatschappen
         salary_basket/package:
           _en: Salary package(s) / Free membership(s)
           _fr: Colis salaire / Abonnement(s) gratuit(s)

@@ -147,6 +147,55 @@ _:
         _de: Tütengrössen
         _it: Dimensioni coni
         _nl: Zakgroottes
+    crate:
+      complement:
+        _en: Crate complement
+        _fr: Complément cagette
+        _de: Kistenzusatz
+        _it: Aggiunta cassetta
+        _nl: Krataanvulling
+      complements:
+        _en: Crate complements
+        _fr: Compléments cagette
+        _de: Kistenzusätze
+        _it: Aggiunte cassette
+        _nl: Krataanvullingen
+      content:
+        _en: Crate content
+        _fr: Contenu cagette
+        _de: Kisteninhalt
+        _it: Contenuto cassetta
+        _nl: Kratinhoud
+      contents:
+        _en: Crate contents
+        _fr: Contenu cagettes
+        _de: Kisteninhalte
+        _it: Contenuto cassette
+        _nl: Kratinhouden
+      one:
+        _en: Crate
+        _fr: Cagette
+        _de: Kiste
+        _it: Cassetta
+        _nl: Krat
+      other:
+        _en: Crates
+        _fr: Cagettes
+        _de: Kisten
+        _it: Cassette
+        _nl: Kratten
+      size:
+        _en: Crate size
+        _fr: Taille cagette
+        _de: Kistengrösse
+        _it: Dimensione cassetta
+        _nl: Kratgrootte
+      sizes:
+        _en: Crate sizes
+        _fr: Tailles cagette
+        _de: Kistengrössen
+        _it: Dimensioni cassette
+        _nl: Kratgroottes
     force:
       flash:
         notice:

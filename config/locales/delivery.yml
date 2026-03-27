@@ -18,6 +18,12 @@ _:
       _de: Gesamt Anzahl Tüten
       _it: Totale coni
       _nl: Totaal aantal zakken
+    basket_sizes_total/crate:
+      _en: Total crates
+      _fr: Total cagettes
+      _de: Gesamt Anzahl Kisten
+      _it: Totale cassette
+      _nl: Totaal aantal kratten
     basket_sizes_total/package:
       _en: Total packages
       _fr: Total colis
@@ -49,6 +55,12 @@ _:
         _de: Tüte
         _it: Cono
         _nl: Zak
+      basket_changed/crate:
+        _en: Crate
+        _fr: Cagette
+        _de: Kiste
+        _it: Cassetta
+        _nl: Krat
       basket_changed/package:
         _en: Package
         _fr: Colis
@@ -127,6 +139,12 @@ _:
       _de: Kein Tütenzusatz
       _it: Nessuna aggiunta cono
       _nl: Geen zakaanvullingen
+    no_basket_complements/crate:
+      _en: No crate complements
+      _fr: Aucun complément cagette
+      _de: Kein Kistenzusatz
+      _it: Nessuna aggiunta cassetta
+      _nl: Geen krataanvullingen
     no_basket_complements/package:
       _en: No package complements
       _fr: Aucun complément colis

@@ -88,6 +88,12 @@ _:
         _de: Anpassung Preis der Tüten
         _it: Correzione del prezzo dei coni
         _nl: Aanpassing van de prijs van zakken
+      baskets_annual_price_change/crate:
+        _en: Adjustment of the price of crates
+        _fr: Ajustement du prix des cagettes
+        _de: Anpassung Preis der Kisten
+        _it: Correzione del prezzo delle cassette
+        _nl: Aanpassing van de prijs van kratten
       baskets_annual_price_change/package:
         _en: Adjustment of the price of packages
         _fr: Ajustement du prix des colis

@@ -71,7 +71,7 @@ module OrganizationsHelper
 
   def basket_i18n_scopes_collection(locale)
     I18n.with_locale(locale) do
-      Organization.basket_i18n_scopes.map { |s| [ I18n.t("baskets.#{s}.other"), s ]
+      Organization.basket_i18n_scopes.map { |s| [ I18n.t("baskets.#{s}.one"), s ]
       }.sort_by(&:first)
     end
   end

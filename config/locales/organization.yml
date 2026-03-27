@@ -50,6 +50,12 @@ _:
         _de: Tüte
         _it: cono
         _nl: zak
+      basket/crate:
+        _en: crate
+        _fr: cagette
+        _de: Kiste
+        _it: cassetta
+        _nl: krat
       basket/package:
         _en: package
         _fr: colis
@@ -86,6 +92,12 @@ _:
       _de: Dein Tüteninhalt
       _it: Contenuto del vostro cono
       _nl: Inhoud van je zak
+    default_basket_content_member_title/crate:
+      _en: Your crate contents
+      _fr: Contenu de votre cagette
+      _de: Dein Kisteninhalt
+      _it: Contenuto della vostra cassetta
+      _nl: Inhoud van je krat
     default_basket_content_member_title/package:
       _en: Your package contents
       _fr: Contenu de votre colis

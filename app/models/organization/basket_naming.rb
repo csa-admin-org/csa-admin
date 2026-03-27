@@ -3,7 +3,7 @@
 module Organization::BasketNaming
   extend ActiveSupport::Concern
 
-  BASKET_I18N_SCOPES = %w[basket bag share package cone]
+  BASKET_I18N_SCOPES = %w[basket bag share package cone crate]
 
   included do
     validate :validate_basket_i18n_scopes

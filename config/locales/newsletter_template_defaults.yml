@@ -19,6 +19,12 @@ _:
         _de: Inhalt Tüte
         _it: Contenuto del cono
         _nl: Zakinhoud
+      basket_contents_title/crate:
+        _en: Crate Contents
+        _fr: Contenu cagette
+        _de: Inhalt Kiste
+        _it: Contenuto della cassetta
+        _nl: Kratinhoud
       basket_contents_title/package:
         _en: Package Contents
         _fr: Contenu colis
@@ -79,6 +85,12 @@ _:
         _de: Deine reguläre Tüte
         _it: Il vostro cono abituale
         _nl: Je gewone zak
+      regular_basket_item/crate:
+        _en: Your regular crate
+        _fr: Votre cagette habituelle
+        _de: Deine reguläre Kiste
+        _it: Il vostra cassetta abituale
+        _nl: Je gewone krat
       regular_basket_item/package:
         _en: Your regular package
         _fr: Votre colis habituel
@@ -109,6 +121,12 @@ _:
         _de: Tüte verschoben vom {{ shift.old_delivery_date }}
         _it: Cono spostato dal {{ shift.old_delivery_date }}
         _nl: Zak verschoven van {{ shift.old_delivery_date }}
+      shifted_basket_item/crate:
+        _en: Crate shifted from {{ shift.old_delivery_date }}
+        _fr: Cagette reportée du {{ shift.old_delivery_date }}
+        _de: Kiste verschoben vom {{ shift.old_delivery_date }}
+        _it: Cassetta spostata dal {{ shift.old_delivery_date }}
+        _nl: Krat verschoven van {{ shift.old_delivery_date }}
       shifted_basket_item/package:
         _en: Package shifted from {{ shift.old_delivery_date }}
         _fr: Colis reporté du {{ shift.old_delivery_date }}
@@ -139,6 +157,12 @@ _:
         _de: 'Du hast diese Woche <strong>{{ basket.quantity }} Tüten</strong> abzuholen:'
         _it: 'Avete <strong>{{ basket.quantity }} coni</strong> da ritirare questa settimana:'
         _nl: 'Je hebt <strong>{{ basket.quantity }} zakken</strong> op te halen deze week:'
+      shifted_reminder_paragraph/crate:
+        _en: 'You have <strong>{{ basket.quantity }} crates</strong> to pick up this week:'
+        _fr: 'Vous avez <strong>{{ basket.quantity }} cagettes</strong> à récupérer cette semaine:'
+        _de: 'Du hast diese Woche <strong>{{ basket.quantity }} Kisten</strong> abzuholen:'
+        _it: 'Avete <strong>{{ basket.quantity }} cassette</strong> da ritirare questa settimana:'
+        _nl: 'Je hebt <strong>{{ basket.quantity }} kratten</strong> op te halen deze week:'
       shifted_reminder_paragraph/package:
         _en: 'You have <strong>{{ basket.quantity }} packages</strong> to pick up this week:'
         _fr: 'Vous avez <strong>{{ basket.quantity }} colis</strong> à récupérer cette semaine:'

@@ -223,6 +223,12 @@ _:
         _de: Die Mitgliedschaft endet am <strong>{{ membership.ended_on }}</strong> (letzte Probetüten-Lieferung).
         _it: L'abbonamento terminerà il <strong>{{ membership.ended_on }}</strong> (ultima consegna del cono di prova).
         _nl: Het lidmaatschap eindigt op <strong>{{ membership.ended_on }}</strong> (laatste proefzak levering).
+      membership_end_paragraph/crate:
+        _en: The membership will end on <strong>{{ membership.ended_on }}</strong> (last trial crate delivery).
+        _fr: L'abonnement se terminera le <strong>{{ membership.ended_on }}</strong> (dernière livraison de cagette d'essai).
+        _de: Die Mitgliedschaft endet am <strong>{{ membership.ended_on }}</strong> (letzte Probekisten-Lieferung).
+        _it: L'abbonamento terminerà il <strong>{{ membership.ended_on }}</strong> (ultima consegna della cassetta di prova).
+        _nl: Het lidmaatschap eindigt op <strong>{{ membership.ended_on }}</strong> (laatste proefkrat levering).
       membership_end_paragraph/package:
         _en: The membership will end on <strong>{{ membership.ended_on }}</strong> (last trial package delivery).
         _fr: L'abonnement se terminera le <strong>{{ membership.ended_on }}</strong> (dernière livraison de colis d'essai).

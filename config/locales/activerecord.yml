@@ -223,6 +223,12 @@ _:
           _de: Grösse
           _it: Dimensione
           _nl: Zakgrootte
+        basket_size/crate:
+          _en: Size
+          _fr: Taille
+          _de: Grösse
+          _it: Dimensione
+          _nl: Kratgrootte
         basket_size/package:
           _en: Size
           _fr: Taille
@@ -253,6 +259,12 @@ _:
           _de: Tütengrösse ID
           _it: Dimensione cono ID
           _nl: Zakgrootte ID
+        basket_size_id/crate:
+          _en: Crate size ID
+          _fr: Taille cagette ID
+          _de: Kistengrösse ID
+          _it: Dimensione cassetta ID
+          _nl: Kratgrootte ID
         basket_size_id/package:
           _en: Package size ID
           _fr: Taille colis ID
@@ -283,6 +295,12 @@ _:
           _de: Preis Tüte
           _it: Prezzo del cono
           _nl: Zakprijs
+        basket_size_price/crate:
+          _en: Crate price
+          _fr: Prix cagette
+          _de: Preis Kiste
+          _it: Prezzo della cassetta
+          _nl: Kratprijs
         basket_size_price/package:
           _en: Package price
           _fr: Prix colis
@@ -343,6 +361,12 @@ _:
           _de: Tüte
           _it: Cono
           _nl: Zak
+        description/crate:
+          _en: Crate
+          _fr: Cagette
+          _de: Kiste
+          _it: Cassetta
+          _nl: Krat
         description/package:
           _en: Package
           _fr: Colis
@@ -422,6 +446,12 @@ _:
           _de: Tüte
           _it: Cono
           _nl: Zak
+        basket_size/crate:
+          _en: Crate
+          _fr: Cagette
+          _de: Kiste
+          _it: Cassetta
+          _nl: Krat
         basket_size/package:
           _en: Package
           _fr: Colis
@@ -594,6 +624,12 @@ _:
           _de: Richtwert pro Tütengrösse (Standard)
           _it: Prezzo per cono (predefinito)
           _nl: Zakgrootte prijs (standaard)
+        default_basket_size_price/crate:
+          _en: Crate size price (default)
+          _fr: Prix par taille de cagette (défaut)
+          _de: Richtwert pro Kistengrösse (Standard)
+          _it: Prezzo per cassetta (predefinito)
+          _nl: Kratgrootte prijs (standaard)
         default_basket_size_price/package:
           _en: Package size price (default)
           _fr: Prix par taille de colis (défaut)
@@ -636,6 +672,12 @@ _:
           _de: Beitrag pro Tütengrösse (zugesagt)
           _it: Prezzo per cono (prestato)
           _nl: Zakgrootte prijs (toegezegd)
+        pledged_basket_size_price/crate:
+          _en: Crate size price (pledged)
+          _fr: Prix par taille de cagette (engagé)
+          _de: Beitrag pro Kistengrösse (zugesagt)
+          _it: Prezzo per cassetta (prestato)
+          _nl: Kratgrootte prijs (toegezegd)
         pledged_basket_size_price/package:
           _en: Package size price (pledged)
           _fr: Prix par taille de colis (engagé)
@@ -673,6 +715,12 @@ _:
           _de: Beitrag pro Tüte
           _it: Prezzo per cono
           _nl: Prijs per zak
+        basket_size_price/crate:
+          _en: Price per crate
+          _fr: Prix par cagette
+          _de: Beitrag pro Kiste
+          _it: Prezzo per cassetta
+          _nl: Prijs per krat
         basket_size_price/package:
           _en: Price per package
           _fr: Prix par colis
@@ -704,6 +752,12 @@ _:
           _de: Tütenzusätze
           _it: Aggiunte nel cono
           _nl: Zakaanvullingen
+        basket_complements/crate:
+          _en: Crate complements
+          _fr: Compléments cagettes
+          _de: Kistenzusätze
+          _it: Aggiunte nella cassetta
+          _nl: Krataanvullingen
         basket_complements/package:
           _en: Package complements
           _fr: Compléments colis
@@ -734,6 +788,12 @@ _:
           _de: Preis pro Tütengrösse
           _it: Prezzo per cono
           _nl: Prijs per zak
+        basket_size_price/crate:
+          _en: Crate size price
+          _fr: Prix taille de cagette
+          _de: Preis pro Kistengrösse
+          _it: Prezzo per cassetta
+          _nl: Prijs per krat
         basket_size_price/package:
           _en: Package size price
           _fr: Prix taille de colis
@@ -764,6 +824,12 @@ _:
           _de: Tütengrössepreisänderung (in %)
           _it: Modifica prezzo cono (in %)
           _nl: Zakgrootteprijsverandering (in %)
+        basket_size_price_percentage/crate:
+          _en: Crate size price change (in %)
+          _fr: Modification du prix de la taille de cagette (en %)
+          _de: Kistengrössepreisänderung (in %)
+          _it: Modifica prezzo cassetta (in %)
+          _nl: Kratgrootteprijsverandering (in %)
         basket_size_price_percentage/package:
           _en: Package size price change (in %)
           _fr: Modification du prix de la taille de colis (en %)
@@ -1264,6 +1330,12 @@ _:
           _de: Tütenzusätze
           _it: Aggiunte nel cono
           _nl: Zakaanvullingen
+        basket_complements/crate:
+          _en: Crate complements
+          _fr: Compléments cagette
+          _de: Kistenzusätze
+          _it: Aggiunte nella cassetta
+          _nl: Krataanvullingen
         basket_complements/package:
           _en: Package complements
           _fr: Compléments colis
@@ -1294,6 +1366,12 @@ _:
           _de: Tütengrösse
           _it: Dimensione del cono
           _nl: Zakgrootte
+        basket_size/crate:
+          _en: Crate size
+          _fr: Taille cagette
+          _de: Kistengrösse
+          _it: Dimensione della cassetta
+          _nl: Kratgrootte
         basket_size/package:
           _en: Package size
           _fr: Taille colis
@@ -1372,6 +1450,12 @@ _:
           _de: Erhaltene Tüten
           _it: Coni ricevute
           _nl: Ontvangen zakken
+        deliveries_received_count_since_first_membership/crate:
+          _en: Crates received
+          _fr: Cagettes reçues
+          _de: Erhaltene Kisten
+          _it: Cassette ricevute
+          _nl: Ontvangen kratten
         deliveries_received_count_since_first_membership/package:
           _en: Packages received
           _fr: Colis reçus
@@ -1438,6 +1522,12 @@ _:
           _de: Nächste Tüte
           _it: Prossimo cono
           _nl: Volgend zak
+        next_basket/crate:
+          _en: Next crate
+          _fr: Prochaine cagette
+          _de: Nächste Kiste
+          _it: Prossima cassetta
+          _nl: Volgend krat
         next_basket/package:
           _en: Next package
           _fr: Prochain colis
@@ -1486,6 +1576,12 @@ _:
           _de: Lohntüte(n)
           _it: Coni-compenso
           _nl: Salariszak(ken)
+        salary_basket/crate:
+          _en: Salary crate(s)
+          _fr: Cagette(s) salaire
+          _de: Lohnkiste(n)
+          _it: Cassette-compenso
+          _nl: Salariskrat(ten)
         salary_basket/package:
           _en: Salary package(s)
           _fr: Colis salaire
@@ -1582,6 +1678,12 @@ _:
           _de: Tütenzusätze (Warteliste)
           _it: Aggiunta al cono (in lista d'attesa)
           _nl: Zakaanvullingen (wachtlijst)
+        waiting_basket_complements/crate:
+          _en: Crate complements (waiting list)
+          _fr: Compléments cagette (en attente)
+          _de: Kistenzusätze (Warteliste)
+          _it: Aggiunta alla cassetta (in lista d'attesa)
+          _nl: Krataanvullingen (wachtlijst)
         waiting_basket_complements/package:
           _en: Package complements (waiting list)
           _fr: Compléments colis (en attente)
@@ -1612,6 +1714,12 @@ _:
           _de: Tütengrösse (Warteliste)
           _it: Dimensione cono (in lista d'attesa)
           _nl: Zakgrootte (wachtlijst)
+        waiting_basket_size/crate:
+          _en: Crate size (waiting list)
+          _fr: Taille cagette (en attente)
+          _de: Kistengrösse (Warteliste)
+          _it: Dimensione cassetta (in lista d'attesa)
+          _nl: Kratgrootte (wachtlijst)
         waiting_basket_size/package:
           _en: Package size (waiting list)
           _fr: Taille colis (en attente)
@@ -1686,6 +1794,12 @@ _:
           _de: Abwesende Tüten
           _it: Coni assenti
           _nl: Afwezige zakken
+        absences_count/crate:
+          _en: Absent crates
+          _fr: Cagettes absentes
+          _de: Abwesende Kisten
+          _it: Cassette assenti
+          _nl: Afwezige kratten
         absences_count/package:
           _en: Absent packages
           _fr: Colis absents
@@ -2030,6 +2144,12 @@ _:
           _de: Lieferungsbedingte Tütengrössepreisänderung anwenden (in %)
           _it: Applicare la modifica del prezzo della dimensione del cono per consegna (in %)
           _nl: Leveringsgerelateerde zakgrootteprijsverandering toepassen (in %)
+        apply_basket_size_price_percentage/crate:
+          _en: Apply delivery crate size price change (in %)
+          _fr: Appliquer la modification du prix de la taille de cagette par livraison (en %)
+          _de: Lieferungsbedingte Kistengrössepreisänderung anwenden (in %)
+          _it: Applicare la modifica del prezzo della dimensione della cassetta per consegna (in %)
+          _nl: Leveringsgerelateerde kratgrootteprijsverandering toepassen (in %)
         apply_basket_size_price_percentage/package:
           _en: Apply delivery package size price change (in %)
           _fr: Appliquer la modification du prix de la taille de colis par livraison (en %)
@@ -2060,6 +2180,12 @@ _:
           _de: Tütenzusätze
           _it: Aggiunta coni
           _nl: Zakaanvullingen
+        basket_complements/crate:
+          _en: Crate complements
+          _fr: Compléments cagette
+          _de: Kistenzusätze
+          _it: Aggiunta cassette
+          _nl: Krataanvullingen
         basket_complements/package:
           _en: Package complements
           _fr: Compléments colis
@@ -2108,6 +2234,12 @@ _:
           _de: Tütenverschiebungen
           _it: Scambi di coni
           _nl: Zakverschuivingen
+        basket_shifts/crate:
+          _en: Crate shifts
+          _fr: Déplacements
+          _de: Kistenverschiebungen
+          _it: Scambi di cassette
+          _nl: Kratverschuivingen
         basket_shifts/package:
           _en: Package shifts
           _fr: Déplacements
@@ -2138,6 +2270,12 @@ _:
           _de: Preis Tüte
           _it: Prezzo cono
           _nl: Zakprijs
+        basket_size_price/crate:
+          _en: Crate price
+          _fr: Prix cagette
+          _de: Preis Kiste
+          _it: Prezzo cassetta
+          _nl: Kratprijs
         basket_size_price/package:
           _en: Package price
           _fr: Prix colis
@@ -2168,6 +2306,12 @@ _:
           _de: Preis Tüten
           _it: Prezzo coni
           _nl: Zakprijzen
+        basket_sizes_price/crate:
+          _en: Crate prices
+          _fr: Prix cagettes
+          _de: Preis Kisten
+          _it: Prezzo cassette
+          _nl: Kratprijzen
         basket_sizes_price/package:
           _en: Package prices
           _fr: Prix colis
@@ -2198,6 +2342,12 @@ _:
           _de: Tüten
           _it: Coni
           _nl: Zakken
+        baskets/crate:
+          _en: Crates
+          _fr: Cagettes
+          _de: Kisten
+          _it: Cassette
+          _nl: Kratten
         baskets/package:
           _en: Packages
           _fr: Colis
@@ -2234,6 +2384,12 @@ _:
           _de: Anpassung Preis Abonnement (Tüten)
           _it: Correzione del prezzo dell'abbonamento (coni)
           _nl: Lidmaatschapprijs aanpassing (zakken)
+        baskets_annual_price_change/crate:
+          _en: Membership price adjustment (crates)
+          _fr: Ajustement du prix de l'abonnement (cagettes)
+          _de: Anpassung Preis Abonnement (Kisten)
+          _it: Correzione del prezzo dell'abbonamento (cassette)
+          _nl: Lidmaatschapprijs aanpassing (kratten)
         baskets_annual_price_change/package:
           _en: Membership price adjustment (packages)
           _fr: Ajustement du prix de l'abonnement (colis)
@@ -2264,6 +2420,12 @@ _:
           _de: Tüten
           _it: Paniers
           _nl: Zakken
+        baskets_count/crate:
+          _en: Crates
+          _fr: Cagettes
+          _de: Kisten
+          _it: Cassette
+          _nl: Kratten
         baskets_count/package:
           _en: Packages
           _fr: Colis
@@ -2294,6 +2456,12 @@ _:
           _de: Probetüten
           _it: Coni di prova
           _nl: Proefzakken
+        baskets_trial_count/crate:
+          _en: Trial crates
+          _fr: Cagettes à l'essai
+          _de: Probekisten
+          _it: Cassette di prova
+          _nl: Proefkratten
         baskets_trial_count/package:
           _en: Trial packages
           _fr: Colis à l'essai
@@ -2324,6 +2492,12 @@ _:
           _de: Tüten
           _it: Coni
           _nl: Zakken
+        deliveries_count/crate:
+          _en: Crates
+          _fr: Cagettes
+          _de: Kisten
+          _it: Cassette
+          _nl: Kratten
         deliveries_count/package:
           _en: Packages
           _fr: Colis
@@ -2354,6 +2528,12 @@ _:
           _de: Gelieferte Tüten
           _it: Coni consegnati
           _nl: Geleverde zakken
+        deliveries_received_count/crate:
+          _en: Delivered crates
+          _fr: Cagettes livrées
+          _de: Gelieferte Kisten
+          _it: Cassette consegnate
+          _nl: Geleverde kratten
         deliveries_received_count/package:
           _en: Delivered packages
           _fr: Colis livrés
@@ -2534,6 +2714,12 @@ _:
           _de: Tütenzusätze
           _it: Aggiunte cono
           _nl: Zakaanvullingen
+        subscribed_basket_complement_ids/crate:
+          _en: Crate complements
+          _fr: Compléments cagettes
+          _de: Kistenzusätze
+          _it: Aggiunte cassetta
+          _nl: Krataanvullingen
         subscribed_basket_complement_ids/package:
           _en: Package complements
           _fr: Compléments colis
@@ -2597,6 +2783,12 @@ _:
           _de: Nächste Tüte in mindestens (in Tagen)
           _it: Il prossimo cono tra almeno (in giorni)
           _nl: Volgend zak over minstens (in dagen)
+        coming_deliveries_in_days/crate:
+          _en: Next crate in at least (in days)
+          _fr: Prochaine cagette dans au moins (en jours)
+          _de: Nächste Kiste in mindestens (in Tagen)
+          _it: La prossima cassetta tra almeno (in giorni)
+          _nl: Volgend krat over minstens (in dagen)
         coming_deliveries_in_days/package:
           _en: Next package in at least (in days)
           _fr: Prochain colis dans au moins (en jours)
@@ -2671,6 +2863,12 @@ _:
           _de: Fakturierung von Tüten bei Abwesenheiten
           _it: Fatturazione delle coni durante le assenze
           _nl: Facturering van zakken tijdens afwezigheid
+        absences_billed/crate:
+          _en: Billing of crates during absences
+          _fr: Facturation des cagettes durant les absences
+          _de: Fakturierung von Kisten bei Abwesenheiten
+          _it: Fatturazione delle cassette durante le assenze
+          _nl: Facturering van kratten tijdens afwezigheid
         absences_billed/package:
           _en: Billing of packages during absences
           _fr: Facturation des colis durant les absences
@@ -2833,6 +3031,12 @@ _:
           _de: Tüteninhalt im Mitgliederbereich anzeigen
           _it: Visualizzare il contenuto del cono nell'area soci
           _nl: Zakinhoud weergeven op de ledenpagina
+        basket_content_member_visible/crate:
+          _en: Display the crate content on the member area
+          _fr: Afficher le contenu de la cagette sur l'espace membre
+          _de: Kisteninhalt im Mitgliederbereich anzeigen
+          _it: Visualizzare il contenuto della cassetta nell'area soci
+          _nl: Kratinhoud weergeven op de ledenpagina
         basket_content_member_visible/package:
           _en: Display the package content on the member area
           _fr: Afficher le contenu du colis sur l'espace membre
@@ -2917,6 +3121,12 @@ _:
           _de: Frist für Tütenverschiebungen (in Wochen)
           _it: Scadenza per i spostamenti di cono (in settimane)
           _nl: Deadline voor verschuivingen (in weken)
+        basket_shift_deadline_in_weeks/crate:
+          _en: Deadline for shifts (in weeks)
+          _fr: Délai pour les déplacements (en semaines)
+          _de: Frist für Kistenverschiebungen (in Wochen)
+          _it: Scadenza per i spostamenti di cassetta (in settimane)
+          _nl: Deadline voor verschuivingen (in weken)
         basket_shift_deadline_in_weeks/package:
           _en: Deadline for shifts (in weeks)
           _fr: Délai pour les déplacements (en semaines)
@@ -2953,6 +3163,12 @@ _:
           _de: Reihenfolge der Tütengrössen
           _it: Ordine delle dimensioni del cesto
           _nl: Volgorde van zakgrootttes
+        basket_sizes_member_order_mode/crate:
+          _en: Order of crate sizes
+          _fr: Ordre des tailles de cagette
+          _de: Reihenfolge der Kistengrössen
+          _it: Ordine delle dimensioni della cassetta
+          _nl: Volgorde van kratgroottes
         basket_sizes_member_order_mode/package:
           _en: Order of package sizes
           _fr: Ordre des tailles de colis
@@ -2989,6 +3205,12 @@ _:
           _de: Maximalbeitrag der Tütengrösse (0-X%)
           _it: Prezzo massimo della dimensione del cono (0-X%)
           _nl: Maximum zakgrootte prijs (0-X%)
+        bidding_round_basket_size_price_max_percentage/crate:
+          _en: Maximum crate size price (0-X%)
+          _fr: Prix maximum de la taille de la cagette (0-X%)
+          _de: Maximalbeitrag der Kistengrösse (0-X%)
+          _it: Prezzo massimo della dimensione della cassetta (0-X%)
+          _nl: Maximum kratgrootte prijs (0-X%)
         bidding_round_basket_size_price_max_percentage/package:
           _en: Maximum package size price (0-X%)
           _fr: Prix maximum de la taille du colis (0-X%)
@@ -3019,6 +3241,12 @@ _:
           _de: Mindestbeitrag der Tütengrösse (0-100%)
           _it: Prezzo minimo della dimensione del cono (0-100%)
           _nl: Minimum zakgrootte prijs (0-100%)
+        bidding_round_basket_size_price_min_percentage/crate:
+          _en: Minimum crate size price (0-100%)
+          _fr: Prix minimum de la taille de la cagette (0-100%)
+          _de: Mindestbeitrag der Kistengrösse (0-100%)
+          _it: Prezzo minimo della dimensione della cassetta (0-100%)
+          _nl: Minimum kratgrootte prijs (0-100%)
         bidding_round_basket_size_price_min_percentage/package:
           _en: Minimum package size price (0-100%)
           _fr: Prix minimum de la taille du colis (0-100%)
@@ -3565,6 +3793,12 @@ _:
           _de: Tütenzusatz
           _it: Aggiunta cono
           _nl: Zakaanvulling
+        basket_complement/crate:
+          _en: Crate complement
+          _fr: Complément cagette
+          _de: Kistenzusatz
+          _it: Aggiunta cassetta
+          _nl: Krataanvulling
         basket_complement/package:
           _en: Package complement
           _fr: Complément colis
@@ -3748,6 +3982,12 @@ _:
                 _de: ": nur eine Variante ist erlaubt, wenn das Produkt mit einem Tütenzusatz verbunden ist"
                 _it: ": solo una variante è consentita quando il prodotto è collegato a una aggiunta cono"
                 _nl: ": slechts één variant is toegestaan wanneer het product is gekoppeld aan een zakaanvulling"
+              single_variant/crate:
+                _en: ": only one variant is allowed when the product is linked to a crate complement"
+                _fr: ": une seule variante est autorisée quand le produit est lié à un complément cagette"
+                _de: ": nur eine Variante ist erlaubt, wenn das Produkt mit einem Kistenzusatz verbunden ist"
+                _it: ": solo una variante è consentita quando il prodotto è collegato a una aggiunta cassetta"
+                _nl: ": slechts één variant is toegestaan wanneer het product is gekoppeld aan een krataanvulling"
               single_variant/package:
                 _en: ": only one variant is allowed when the product is linked to a package complement"
                 _fr: ": une seule variante est autorisée quand le produit est lié à un complément colis"
@@ -3917,6 +4157,19 @@ _:
           _de: Tüten
           _it: Coni
           _nl: Zakken
+      basket/crate:
+        one:
+          _en: Crate
+          _fr: Cagette
+          _de: Kiste
+          _it: Cassetta
+          _nl: Krat
+        other:
+          _en: Crates
+          _fr: Cagettes
+          _de: Kisten
+          _it: Cassette
+          _nl: Kratten
       basket/package:
         one:
           _en: Package
@@ -4001,6 +4254,25 @@ _:
           _de: Tütenzusätze
           _it: Aggiunte coni
           _nl: Zakaanvullingen
+      basket_complement/crate:
+        none:
+          _en: None
+          _fr: Aucun
+          _de: Kein
+          _it: Nessuna
+          _nl: Geen
+        one:
+          _en: Crate complement
+          _fr: Complément cagette
+          _de: Kistenzusatz
+          _it: Aggiunta cassetta
+          _nl: Krataanvulling
+        other:
+          _en: Crate complements
+          _fr: Compléments cagette
+          _de: Kistenzusätze
+          _it: Aggiunte cassette
+          _nl: Krataanvullingen
       basket_complement/package:
         one:
           _en: Package complement
@@ -4066,6 +4338,19 @@ _:
           _de: Tüteninhalte
           _it: Contenuto coni
           _nl: Zakinhouden
+      basket_content/crate:
+        one:
+          _en: Crate content
+          _fr: Contenu cagette
+          _de: Kisteninhalt
+          _it: Contenuto cassetta
+          _nl: Kratinhoud
+        other:
+          _en: Crate contents
+          _fr: Contenu cagettes
+          _de: Kisteninhalte
+          _it: Contenuto cassette
+          _nl: Kratinhouden
       basket_content/package:
         one:
           _en: Package content
@@ -4176,6 +4461,19 @@ _:
           _de: Tütengrössen
           _it: Dimensioni coni
           _nl: Zakgroottes
+      basket_size/crate:
+        one:
+          _en: Crate size
+          _fr: Taille cagette
+          _de: Kistengrösse
+          _it: Dimensione cassetta
+          _nl: Kratgrootte
+        other:
+          _en: Crate sizes
+          _fr: Tailles cagette
+          _de: Kistengrössen
+          _it: Dimensioni cassette
+          _nl: Kratgroottes
       basket_size/package:
         one:
           _en: Package size

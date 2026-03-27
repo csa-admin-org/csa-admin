@@ -25,6 +25,12 @@ _:
         _de: 'Die Verschiebungen Deiner Tüten während Deiner Abwesenheit wurden erfolgreich registriert:'
         _it: 'Gli spostamenti dei vostri coni durante la vostra assenza sono stati registrati con successo:'
         _nl: 'De verschuivingen van je zakken tijdens je afwezigheid zijn succesvol geregistreerd:'
+      shifts_registered_paragraph/crate:
+        _en: 'Your crate shifts during your absence have been successfully registered:'
+        _fr: 'Les déplacements de vos cagettes durant votre absence ont bien été enregistrés :'
+        _de: 'Die Verschiebungen Deiner Kisten während Deiner Abwesenheit wurden erfolgreich registriert:'
+        _it: 'Gli spostamenti delle vostre cassette durante la vostra assenza sono stati registrati con successo:'
+        _nl: 'De verschuivingen van je kratten tijdens je afwezigheid zijn succesvol geregistreerd:'
       shifts_registered_paragraph/package:
         _en: 'Your package shifts during your absence have been successfully registered:'
         _fr: 'Les déplacements de vos colis durant votre absence ont bien été enregistrés :'
@@ -111,6 +117,12 @@ _:
         _de: Diese Tüten werden <strong>nicht geliefert</strong>, es sei denn, Du forderst sie an. Wenn Du eine dieser Lieferungen erhalten möchtest, kannst Du dies über Dein Konto tun.
         _it: Questi coni <strong>non saranno consegnati</strong> a meno che non li richiediate. Se desiderate ricevere alcune di queste consegne, potete farlo dal vostro account.
         _nl: Deze zakken worden <strong>niet geleverd</strong> tenzij je ze aanvraagt. Als je een van deze leveringen wilt ontvangen, kun je dit doen via je account.
+      provisional_absence_baskets_paragraph/crate:
+        _en: These crates will <strong>not be delivered</strong> unless you request them. If you would like to receive any of these deliveries, you can do so from your account.
+        _fr: Ces cagettes <strong>ne seront pas livrées</strong> sauf si vous en faites la demande. Si vous souhaitez recevoir certaines de ces livraisons, vous pouvez le faire depuis votre compte.
+        _de: Diese Kisten werden <strong>nicht geliefert</strong>, es sei denn, Du forderst sie an. Wenn Du eine dieser Lieferungen erhalten möchtest, kannst Du dies über Dein Konto tun.
+        _it: Queste cassette <strong>non saranno consegnate</strong> a meno che non le richiediate. Se desiderate ricevere alcune di queste consegne, potete farlo dal vostro account.
+        _nl: Deze kratten worden <strong>niet geleverd</strong> tenzij je ze aanvraagt. Als je een van deze leveringen wilt ontvangen, kun je dit doen via je account.
       provisional_absence_baskets_paragraph/package:
         _en: These packages will <strong>not be delivered</strong> unless you request them. If you would like to receive any of these deliveries, you can do so from your account.
         _fr: Ces colis <strong>ne seront pas livrés</strong> sauf si vous en faites la demande. Si vous souhaitez recevoir certaines de ces livraisons, vous pouvez le faire depuis votre compte.
@@ -355,6 +367,12 @@ _:
         _de: Heute ist der Liefertag Deiner letzten Tüte.
         _it: Oggi è il giorno di consegna del vostro ultimo cono.
         _nl: Vandaag is de leveringsdag van je laatste zak.
+      final_basket_paragraph/crate:
+        _en: Today is the delivery day of your final crate.
+        _fr: C'est le jour de livraison de votre toute dernière cagette.
+        _de: Heute ist der Liefertag Deiner letzten Kiste.
+        _it: Oggi è il giorno di consegna della vostra ultima cassetta.
+        _nl: Vandaag is de leveringsdag van je laatste krat.
       final_basket_paragraph/package:
         _en: Today is the delivery day of your final package.
         _fr: C'est le jour de livraison de votre tout dernier colis.
@@ -404,6 +422,12 @@ _:
         _de: Heute ist der Liefertag Deiner ersten Tüte des Jahres.
         _it: Oggi è il giorno della consegna del vostro primo cono dell'anno.
         _nl: Vandaag is de leveringsdag van je eerste zak van het jaar.
+      first_basket_paragraph/crate:
+        _en: Today is the delivery day of your first crate of the year.
+        _fr: C'est le jour de livraison de votre première cagette de l'année.
+        _de: Heute ist der Liefertag Deiner ersten Kiste des Jahres.
+        _it: Oggi è il giorno della consegna della vostra prima cassetta dell'anno.
+        _nl: Vandaag is de leveringsdag van je eerste krat van het jaar.
       first_basket_paragraph/package:
         _en: Today is the delivery day of your first package of the year.
         _fr: C'est le jour de livraison de votre premier colis de l'année.
@@ -447,6 +471,12 @@ _:
         _de: Heute ist der Liefertag Deiner allerersten Tüte!
         _it: Oggi è il giorno della consegna del vostro primo cono!
         _nl: Vandaag is de leveringsdag van je allereerste zak!
+      first_basket_paragraph/crate:
+        _en: Today is the day of your very first crate!
+        _fr: C'est le jour de votre toute première cagette!
+        _de: Heute ist der Liefertag Deiner allerersten Kiste!
+        _it: Oggi è il giorno della consegna della vostra prima cassetta!
+        _nl: Vandaag is de leveringsdag van je allereerste krat!
       first_basket_paragraph/package:
         _en: Today is the day of your very first package!
         _fr: C'est le jour de votre tout premier colis!
@@ -490,6 +520,12 @@ _:
         _de: Heute ist der Liefertag Deiner letzten Tüte des Jahres.
         _it: Oggi è il giorno di consegna del vostro ultimo cono dell'anno.
         _nl: Vandaag is de leveringsdag van je laatste zak van het jaar.
+      last_basket_paragraph/crate:
+        _en: Today is the day of your last crate of the year.
+        _fr: C'est le jour de votre dernière cagette de l'année.
+        _de: Heute ist der Liefertag Deiner letzten Kiste des Jahres.
+        _it: Oggi è il giorno di consegna della vostra ultima cassetta dell'anno.
+        _nl: Vandaag is de leveringsdag van je laatste krat van het jaar.
       last_basket_paragraph/package:
         _en: Today is the day of your last package of the year.
         _fr: C'est le jour de votre dernier colis de l'année.
@@ -564,6 +600,12 @@ _:
         _de: Dies ist Deine vorletzte Probetüte.
         _it: Questo è il vostro penultimo cono di prova.
         _nl: Dit is je voorlaatste proefzak.
+      second_last_trial_paragraph/crate:
+        _en: This is your second to last trial crate.
+        _fr: Ceci est votre avant-dernière cagette à l'essai.
+        _de: Dies ist Deine vorletzte Probekiste.
+        _it: Questa è la vostra penultima cassetta di prova.
+        _nl: Dit is je voorlaatste proefkrat.
       second_last_trial_paragraph/package:
         _en: This is your second to last trial package.
         _fr: Ceci est votre avant-dernier colis à l'essai.
@@ -601,6 +643,12 @@ _:
         _de: Es wurde kein Betrag zugesagt, daher wurde der Richtwert pro Tüte ({{ membership.basket_size.price }}) angewendet.
         _it: Non avete fissato un importo, quindi è stato applicato il prezzo predefinito del cono ({{ membership.basket_size.price }}).
         _nl: Je hebt geen bod uitgebracht, dus de standaard zakprijs ({{ membership.basket_size.price }}) is toegepast.
+      no_pledge_paragraph/crate:
+        _en: You didn't make a pledge, so the default crate price ({{ membership.basket_size.price }}) has been applied.
+        _fr: Vous n'aviez pas fixé de montant, le prix par défaut de la cagette ({{ membership.basket_size.price }}) a été appliqué.
+        _de: Es wurde kein Betrag zugesagt, daher wurde der Richtwert pro Kiste ({{ membership.basket_size.price }}) angewendet.
+        _it: Non avete fissato un importo, quindi è stato applicato il prezzo predefinito della cassetta ({{ membership.basket_size.price }}).
+        _nl: Je hebt geen bod uitgebracht, dus de standaard kratprijs ({{ membership.basket_size.price }}) is toegepast.
       no_pledge_paragraph/package:
         _en: You didn't make a pledge, so the default package price ({{ membership.basket_size.price }}) has been applied.
         _fr: Vous n'aviez pas fixé de montant, le prix par défaut du colis ({{ membership.basket_size.price }}) a été appliqué.
@@ -631,6 +679,12 @@ _:
         _de: Vielen Dank für die Zusage von {{ bidding_round_pledge.basket_size_price }} pro Tüte. Dieser Betrag wurde verwendet, um den Beitrag pro Tüte zu aktualisieren.
         _it: Grazie per il vostro impegno di {{ bidding_round_pledge.basket_size_price }} per cono. Questo importo è stato utilizzato per aggiornare il prezzo del vostro cono.
         _nl: Bedankt voor je bod van {{ bidding_round_pledge.basket_size_price }} per zak. Dit bedrag is gebruikt om je lidmaatschapsprijs bij te werken.
+      pledge_thank_you_paragraph/crate:
+        _en: Thank you for your pledge of {{ bidding_round_pledge.basket_size_price }} per crate. This amount has been used to update your membership price.
+        _fr: Merci pour votre engagement de {{ bidding_round_pledge.basket_size_price }} par cagette. Ce montant a été utilisé pour mettre à jour le prix de votre cagette.
+        _de: Vielen Dank für die Zusage von {{ bidding_round_pledge.basket_size_price }} pro Kiste. Dieser Betrag wurde verwendet, um den Beitrag pro Kiste zu aktualisieren.
+        _it: Grazie per il vostro impegno di {{ bidding_round_pledge.basket_size_price }} per cassetta. Questo importo è stato utilizzato per aggiornare il prezzo della vostra cassetta.
+        _nl: Bedankt voor je bod van {{ bidding_round_pledge.basket_size_price }} per krat. Dit bedrag is gebruikt om je lidmaatschapsprijs bij te werken.
       pledge_thank_you_paragraph/package:
         _en: Thank you for your pledge of {{ bidding_round_pledge.basket_size_price }} per package. This amount has been used to update your membership price.
         _fr: Merci pour votre engagement de {{ bidding_round_pledge.basket_size_price }} par colis. Ce montant a été utilisé pour mettre à jour le prix de votre colis.
@@ -686,6 +740,12 @@ _:
         _de: Die Zusage betrug {{ bidding_round_pledge.basket_size_price }} pro Tüte.
         _it: Il vostro impegno era di {{ bidding_round_pledge.basket_size_price }} per cono.
         _nl: Je hebt {{ bidding_round_pledge.basket_size_price }} per zak geboden.
+      pledge_amount_paragraph/crate:
+        _en: You pledged {{ bidding_round_pledge.basket_size_price }} per crate.
+        _fr: Votre engagement était de {{ bidding_round_pledge.basket_size_price }} par cagette.
+        _de: Die Zusage betrug {{ bidding_round_pledge.basket_size_price }} pro Kiste.
+        _it: Il vostro impegno era di {{ bidding_round_pledge.basket_size_price }} per cassetta.
+        _nl: Je hebt {{ bidding_round_pledge.basket_size_price }} per krat geboden.
       pledge_amount_paragraph/package:
         _en: You pledged {{ bidding_round_pledge.basket_size_price }} per package.
         _fr: Votre engagement était de {{ bidding_round_pledge.basket_size_price }} par colis.
@@ -884,6 +944,12 @@ _:
         _de: 'Tütengrösse:'
         _it: 'Dimensione cono:'
         _nl: 'Zakgrootte:'
+      basket_size_label/crate:
+        _en: 'Crate size:'
+        _fr: 'Taille cagette:'
+        _de: 'Kistengrösse:'
+        _it: 'Dimensione cassetta:'
+        _nl: 'Kratgrootte:'
       basket_size_label/package:
         _en: 'Package size:'
         _fr: 'Taille colis:'
@@ -962,6 +1028,12 @@ _:
         _de: 'Anzahl der Probetüten:'
         _it: 'Numero di coni in prova:'
         _nl: 'Aantal proefzakken:'
+      trial_baskets_label/crate:
+        _en: 'Number of trial crates:'
+        _fr: 'Nombre de cagettes à l''essai:'
+        _de: 'Anzahl der Probekisten:'
+        _it: 'Numero di cassette in prova:'
+        _nl: 'Aantal proefkratten:'
       trial_baskets_label/package:
         _en: 'Number of trial packages:'
         _fr: 'Nombre de colis à l''essai:'

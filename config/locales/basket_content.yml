@@ -31,6 +31,12 @@ _:
       _de: Verteilung nach Tütengrösse
       _it: Distribuzione per dimensione del cono
       _nl: Verdeling per zakgrootte
+    distribution/crate:
+      _en: Distribution by crate size
+      _fr: Distribution par taille de cagettes
+      _de: Verteilung nach Kistengrösse
+      _it: Distribuzione per dimensione della cassetta
+      _nl: Verdeling per kratgrootte
     distribution/package:
       _en: Distribution by package size
       _fr: Distribution par taille de colis
@@ -93,6 +99,12 @@ _:
       _de: Die Gesamtmenge wird automatisch berechnet, basierend auf der Anzahl der Tüten und der Menge jeder Grösse.
       _it: La quantità totale sarà calcolata automaticamente in base al numero di coni e alla quantità di ciascuna dimensione.
       _nl: De totale hoeveelheid wordt automatisch berekend op basis van het aantal zakken en de hoeveelheid van elke grootte.
+    quantities_hint/crate:
+      _en: The total quantity will be calculated automatically according to the number of crates and the quantity of each size.
+      _fr: La quantité totale sera calculée automatiquement selon le nombre de cagettes et la quantité de chaque taille.
+      _de: Die Gesamtmenge wird automatisch berechnet, basierend auf der Anzahl der Kisten und der Menge jeder Grösse.
+      _it: La quantità totale sarà calcolata automaticamente in base al numero di cassette e alla quantità di ciascuna dimensione.
+      _nl: De totale hoeveelheid wordt automatisch berekend op basis van het aantal kratten en de hoeveelheid van elke grootte.
     quantities_hint/package:
       _en: The total quantity will be calculated automatically according to the number of packages and the quantity of each size.
       _fr: La quantité totale sera calculée automatiquement selon le nombre de colis et la quantité de chaque taille.

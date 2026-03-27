@@ -1446,6 +1446,12 @@ _:
             _de: Jedes Mitglied zahlt zusätzlich zum Abonnement für die Tüte auch einen Jahresbeitrag von %{price}.
             _it: Ogni socio paga anche una quota annuale di <b class="whitespace-nowrap">%{price}</b> oltre all'abbonamento al cono.
             _nl: Elk lid betaalt ook een jaarlijkse bijdrage van <b class="whitespace-nowrap">%{price}</b> naast het lidmaatschap voor de zak.
+          annual_fee_text/crate_html:
+            _en: Each member also pays an annual fee of <b class="whitespace-nowrap">%{price}</b> in addition to the membership to the crate.
+            _fr: Chaque membre verse une cotisation annuelle de <b class="whitespace-nowrap">%{price}</b> en plus de l'abonnement à sa cagette.
+            _de: Jedes Mitglied zahlt zusätzlich zum Abonnement für die Kiste auch einen Jahresbeitrag von %{price}.
+            _it: Ogni socio paga anche una quota annuale di <b class="whitespace-nowrap">%{price}</b> oltre all'abbonamento alla cassetta.
+            _nl: Elk lid betaalt ook een jaarlijkse bijdrage van <b class="whitespace-nowrap">%{price}</b> naast het lidmaatschap voor het krat.
           annual_fee_text/package_html:
             _en: Each member also pays an annual fee of <b class="whitespace-nowrap">%{price}</b> in addition to the membership to the package.
             _fr: Chaque membre verse une cotisation annuelle de <b class="whitespace-nowrap">%{price}</b> en plus de l'abonnement à son colis.
@@ -2495,6 +2501,12 @@ _:
           _de: Dein Probe-Abonnement endet nach der letzten Probelieferung am <u>%{last_trial_date}</u>. Diese Probetüten werden in Rechnung gestellt.
           _it: Il tuo abbonamento di prova terminerà dopo l'ultima consegna di prova del <u>%{last_trial_date}</u>. Questi coni di prova saranno fatturati.
           _nl: Je proeflidmaatschap eindigt na de laatste proeflevering op <u>%{last_trial_date}</u>. Deze proefzakken worden gefactureerd.
+        text/crate_html:
+          _en: Your trial membership will end after the last trial delivery on <u>%{last_trial_date}</u>. These trial crates will be billed.
+          _fr: Votre abonnement à l'essai se terminera après la dernière livraison d'essai du <u>%{last_trial_date}</u>. Ces cagettes à l'essai seront facturées.
+          _de: Dein Probe-Abonnement endet nach der letzten Probelieferung am <u>%{last_trial_date}</u>. Diese Probekisten werden in Rechnung gestellt.
+          _it: Il tuo abbonamento di prova terminerà dopo l'ultima consegna di prova del <u>%{last_trial_date}</u>. Queste cassette di prova saranno fatturate.
+          _nl: Je proeflidmaatschap eindigt na de laatste proeflevering op <u>%{last_trial_date}</u>. Deze proefkratten worden gefactureerd.
         text/package_html:
           _en: Your trial membership will end after the last trial delivery on <u>%{last_trial_date}</u>. These trial packages will be billed.
           _fr: Votre abonnement à l'essai se terminera après la dernière livraison d'essai du <u>%{last_trial_date}</u>. Ces colis à l'essai seront facturés.

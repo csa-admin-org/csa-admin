@@ -93,6 +93,6 @@ class Organization::BasketNamingTest < ActiveSupport::TestCase
   end
 
   test "basket_i18n_scopes class method returns all scopes" do
-    assert_equal %w[basket bag share package cone], Organization.basket_i18n_scopes
+    assert_equal %w[basket bag share package cone crate], Organization.basket_i18n_scopes
   end
 end
