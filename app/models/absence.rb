@@ -2,7 +2,8 @@
 
 class Absence < ApplicationRecord
   include HasDateRange, HasNote, HasComment
-  include AdminNotifications
+
+  attr_accessor :admin
 
   belongs_to :member
   belongs_to :session, optional: true

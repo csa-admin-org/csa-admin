@@ -3,6 +3,7 @@
 module Scheduled
   class NotifierHourlyJob < BaseJob
     NOTIFICATIONS = [
+      Notification::AdminNewAbsence,
       Notification::AdminNewActivityParticipation,
       Notification::DemoFollowUp
     ].freeze

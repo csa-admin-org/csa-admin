@@ -6,6 +6,7 @@ class Notification::AdminNewActivityParticipationTest < ActiveSupport::TestCase
   def create_participation(attributes = {})
     activity = activities(:harvest)
     attributes[:member] ||= create_member
+    attributes[:created_at] ||= 10.minutes.ago
     ActivityParticipation.create!(activity: activity, **attributes)
   end
 

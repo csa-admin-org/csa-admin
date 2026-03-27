@@ -10,8 +10,9 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_03_21_000000) do
+ActiveRecord::Schema[8.1].define(version: 2026_03_26_101400) do
   create_table "absences", force: :cascade do |t|
+    t.datetime "admins_notified_at"
     t.datetime "created_at"
     t.date "ended_on"
     t.bigint "member_id"

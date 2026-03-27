@@ -14,7 +14,7 @@ class Notification::AdminNewActivityParticipation < Notification::Base
 
   def eligible_participations
     ActivityParticipation
-      .where(created_at: 1.day.ago.., admins_notified_at: nil)
+      .where(created_at: 1.day.ago..5.minutes.ago, admins_notified_at: nil)
       .includes(:activity, :member, :session)
   end
 
