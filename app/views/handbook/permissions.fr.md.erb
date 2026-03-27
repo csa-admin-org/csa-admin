@@ -1,0 +1,76 @@
+# Permissions
+
+CSA Admin utilise un système de permissions pour contrôler ce que chaque admin peut voir et faire. Chaque admin se voit attribuer une permission qui détermine son niveau d'accès à toutes les fonctionnalités de l'application.
+
+## Niveaux d'accès {#access-levels}
+
+Chaque fonctionnalité dispose de deux niveaux d'accès possibles :
+
+- **Lecture** : l'admin peut consulter toutes les données liées à la fonctionnalité, mais ne peut rien créer, modifier ou supprimer.
+- **Écriture** : accès complet, l'admin peut créer, modifier, supprimer et effectuer toutes les actions liées à la fonctionnalité (valider des membres, envoyer des factures, annuler des abonnements, etc.).
+
+Par défaut, lorsqu'aucun droit explicite n'est défini pour une fonctionnalité, un admin dispose d'un accès en **lecture**. Cela signifie que chaque admin peut toujours tout consulter ; les permissions contrôlent uniquement qui peut effectuer des modifications.
+
+## Super Admin {#super-admin}
+
+La permission Super Admin est créée automatiquement et ne peut être ni modifiée ni supprimée. Les admins disposant de cette permission ont un accès en **écriture** à toutes les fonctionnalités, y compris celles qui sont réservées aux Super Admins uniquement (voir [fonctionnalités réservées](#reserved-features) ci-dessous).
+
+C'est la permission à attribuer aux responsables de l'organisation et aux personnes ayant besoin d'un contrôle total sur les paramètres, les livraisons et l'équipe d'administration.
+
+## Permissions personnalisées {#custom-permissions}
+
+Vous pouvez [créer des permissions personnalisées](/permissions/new) pour adapter les accès aux différents rôles de votre équipe. Pour chaque fonctionnalité, choisissez entre l'accès en lecture et en écriture. Par exemple, vous pourriez créer :
+
+- Une permission **« Responsable facturation »** avec un accès en écriture uniquement à la facturation.
+- Une permission **« Coordinateur de livraisons »** avec un accès en écriture aux livraisons, dépôts et membres.
+- Une permission **« Éditeur de newsletters »** avec un accès en écriture uniquement aux newsletters.
+
+Pour créer une permission, rendez-vous dans [Admins](/admins) > [Permissions](/permissions) > « Nouvelle permission ».
+
+> Une permission personnalisée ne peut être supprimée que si aucun admin ne lui est actuellement attribué.
+
+## Fonctionnalités réservées {#reserved-features}
+
+Certaines fonctionnalités sont réservées au Super Admin et sont toujours en **lecture seule** pour les permissions personnalisées. Il s'agit de fonctionnalités dont les modifications affectent l'ensemble de l'organisation :
+
+| Fonctionnalité | Ce qu'elle contrôle |
+|---------|-----------------|
+| Admins | Création et gestion des comptes admin |
+| <%= BasketSize.model_name.human(count: 2) %> | Création et configuration des <%= BasketSize.model_name.human(count: 2).downcase %> |
+| <%= BasketComplement.model_name.human(count: 2) %> | Création et configuration des <%= BasketComplement.model_name.human(count: 2).downcase %> |
+| Livraisons | Création et gestion des dates de livraison et des [cycles de livraisons](/handbook/deliveries#delivery-cycles) |
+| Permissions | Création et gestion des permissions |
+| Templates email | Modification des [templates email automatiques](/handbook/mail_templates) |
+
+## Fonctionnalités configurables {#configurable-features}
+
+Ces fonctionnalités peuvent être définies en lecture ou en écriture indépendamment sur chaque permission personnalisée :
+
+| Fonctionnalité | Ce qu'elle contrôle |
+|---------|-----------------|
+| Membres | Gestion des profils des membres, validation des inscriptions, modification des statuts |
+| Abonnements | Création, modification et renouvellement des abonnements |
+| Facturation | Gestion des factures, paiements et opérations de facturation |
+| Dépôts | Gestion des dépôts et groupes de dépôts |
+| Annonces | Création des [annonces](/handbook/announcements) sur les fiches de livraison |
+| Newsletters | Création et envoi des [newsletters](/handbook/newsletters) |
+
+De plus, toute [fonctionnalité optionnelle](/settings#organization_features_input) activée pour votre organisation (absences, activités, épicerie, etc.) apparaît également dans la liste et peut être configurée par permission.
+
+## Préférences de notification {#notifications}
+
+Indépendamment des permissions, chaque admin peut s'abonner à des notifications par email pour des événements spécifiques. Ces notifications se configurent depuis la [page de profil](/admins) de chaque admin, et non depuis la permission elle-même.
+
+Les notifications disponibles incluent :
+
+- **Nouvelle inscription** : lorsqu'un membre s'inscrit via le formulaire
+- **Liste de livraison** : lorsqu'une liste de livraison est prête
+- **Email rejeté** : lorsqu'un email est rejeté ou supprimé
+- **Abonnement d'essai annulé** : lorsqu'un membre annule durant sa période d'essai
+- **Facture payée en trop** : lorsqu'un paiement dépasse le montant de la facture
+- **3ᵉ rappel** : lorsqu'une facture atteint son troisième rappel
+- **Remboursement d'un paiement** : lorsqu'un paiement est remboursé
+
+Des notifications supplémentaires sont disponibles en fonction des fonctionnalités activées (nouvelle absence, nouvelle participation à une activité, etc.).
+
+> Chaque admin gère ses propres notifications. Les permissions n'affectent pas les notifications auxquelles un admin peut s'abonner.

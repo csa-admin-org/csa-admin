@@ -1,0 +1,76 @@
+# Berechtigungen
+
+CSA Admin verwendet ein Berechtigungssystem, um zu steuern, was jeder Admin sehen und tun kann. Jedem Admin wird eine Berechtigung zugewiesen, die seine Zugriffsebene für alle Funktionen der Anwendung festlegt.
+
+## Zugriffsebenen {#access-levels}
+
+Jede Funktion hat zwei mögliche Zugriffsebenen:
+
+- **Lesen** – Der Admin kann alle Daten der Funktion einsehen, aber nichts erstellen, bearbeiten oder löschen.
+- **Schreiben** – Vollzugriff: Der Admin kann alle Aktionen der Funktion ausführen (Mitglieder bestätigen, Rechnungen versenden, Abonnements kündigen usw.).
+
+Wenn für eine Funktion kein explizites Recht festgelegt ist, hat ein Admin standardmäßig **Lese**-Zugriff. Das bedeutet, dass jeder Admin immer alles sehen kann; Berechtigungen steuern nur, wer Änderungen vornehmen darf.
+
+## Super Admin {#super-admin}
+
+Die Super-Admin-Berechtigung wird automatisch erstellt und kann weder bearbeitet noch gelöscht werden. Admins mit dieser Berechtigung haben **Schreib**-Zugriff auf jede Funktion, einschließlich sensibler Funktionen, die ausschließlich Super Admins vorbehalten sind (siehe [reservierte Funktionen](#reserved-features) weiter unten).
+
+Dies ist die Berechtigung für Organisationsleiter und Personen, die volle Kontrolle über Einstellungen, Lieferungen und das Admin-Team benötigen.
+
+## Benutzerdefinierte Berechtigungen {#custom-permissions}
+
+Du kannst [benutzerdefinierte Berechtigungen erstellen](/permissions/new), um den Zugriff für verschiedene Rollen in Deinem Team anzupassen. Wähle für jede Funktion zwischen Lese- und Schreibzugriff. Zum Beispiel könntest Du Folgendes erstellen:
+
+- Eine **„Abrechnungsmanager"**-Berechtigung mit Schreibzugriff nur auf die Abrechnung.
+- Eine **„Lieferkoordinator"**-Berechtigung mit Schreibzugriff auf Lieferungen, Depots und Mitglieder.
+- Eine **„Newsletter-Redakteur"**-Berechtigung mit Schreibzugriff nur auf Newsletter.
+
+Um eine Berechtigung zu erstellen, gehe zu [Admins](/admins) > [Berechtigungen](/permissions) > „Neue Berechtigung".
+
+> Eine benutzerdefinierte Berechtigung kann nur gelöscht werden, wenn ihr derzeit keine Admins zugewiesen sind.
+
+## Reservierte Funktionen {#reserved-features}
+
+Einige Funktionen sind dem Super Admin vorbehalten und sind für benutzerdefinierte Berechtigungen immer **schreibgeschützt**. Dies sind Funktionen, bei denen Änderungen die gesamte Organisation betreffen:
+
+| Funktion | Beschreibung |
+|----------|-------------|
+| Admins | Erstellen und Verwalten von Admin-Konten |
+| <%= BasketSize.model_name.human(count: 2) %> | Erstellen und Konfigurieren von <%= BasketSize.model_name.human(count: 2).downcase %> |
+| <%= BasketComplement.model_name.human(count: 2) %> | Erstellen und Konfigurieren von <%= BasketComplement.model_name.human(count: 2).downcase %> |
+| Lieferungen | Erstellen und Verwalten von Lieferterminen und [Lieferzyklen](/handbook/deliveries#delivery-cycles) |
+| Berechtigungen | Erstellen und Verwalten von Berechtigungen |
+| E-Mail-Vorlagen | Bearbeiten von [automatischen E-Mail-Vorlagen](/handbook/mail_templates) |
+
+## Konfigurierbare Funktionen {#configurable-features}
+
+Diese Funktionen können für jede benutzerdefinierte Berechtigung unabhängig auf Lesen oder Schreiben gesetzt werden:
+
+| Funktion | Beschreibung |
+|----------|-------------|
+| Mitglieder | Verwalten von Mitgliederprofilen, Bestätigen von Anmeldungen, Ändern von Status |
+| Abonnements | Erstellen, Bearbeiten und Verlängern von Abonnements |
+| Abrechnung | Verwalten von Rechnungen, Zahlungen und Abrechnungsvorgängen |
+| Depots | Verwalten von Depots und Depotgruppen |
+| Ankündigungen | Erstellen von [Ankündigungen](/handbook/announcements) auf Lieferscheinen |
+| Newsletter | Erstellen und Versenden von [Newslettern](/handbook/newsletters) |
+
+Darüber hinaus erscheint jede für Deine Organisation aktivierte [optionale Funktion](/settings#organization_features_input) (Abwesenheiten, Aktivitäten, Hofladen usw.) ebenfalls in der Liste und kann pro Berechtigung konfiguriert werden.
+
+## Benachrichtigungseinstellungen {#notifications}
+
+Unabhängig von Berechtigungen kann jeder Admin E-Mail-Benachrichtigungen für bestimmte Ereignisse abonnieren. Diese werden auf der [Profilseite](/admins) jedes Admins konfiguriert, nicht über die Berechtigung selbst.
+
+Verfügbare Benachrichtigungen sind:
+
+- **Neue Anmeldung** – wenn sich ein Mitglied über das Formular anmeldet
+- **Lieferliste** – wenn eine Lieferliste bereitsteht
+- **Neue E-Mail-Unterdrückung** – wenn eine E-Mail abgelehnt oder unterdrückt wird
+- **Kündigung während Probezeit** – wenn ein Mitglied während der Probezeit kündigt
+- **Rechnung überbezahlt** – wenn eine Zahlung den Rechnungsbetrag übersteigt
+- **3. Mahnung** – wenn eine Rechnung die dritte Mahnung erreicht
+- **Zahlungsrückgabe** – wenn eine Zahlung zurückgebucht wird
+
+Weitere Benachrichtigungen sind je nach aktivierten Funktionen verfügbar (neue Abwesenheit, neue Aktivitätsteilnahme usw.).
+
+> Jeder Admin verwaltet seine eigenen Benachrichtigungen. Berechtigungen haben keinen Einfluss darauf, welche Benachrichtigungen ein Admin abonnieren kann.

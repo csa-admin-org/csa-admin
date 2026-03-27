@@ -1,0 +1,76 @@
+# Rechten
+
+CSA Admin gebruikt een rechtensysteem om te bepalen wat elke beheerder kan zien en doen. Aan elke beheerder wordt een recht toegewezen dat het toegangsniveau voor alle functies van de applicatie bepaalt.
+
+## Toegangsniveaus {#access-levels}
+
+Elke functie heeft twee mogelijke toegangsniveaus:
+
+- **Lezen**: de beheerder kan alle gegevens met betrekking tot de functie bekijken, maar kan niets aanmaken, bewerken of verwijderen.
+- **Schrijven**: volledige toegang; de beheerder kan alles aanmaken, bewerken, verwijderen en alle acties uitvoeren met betrekking tot de functie (leden valideren, facturen versturen, lidmaatschappen annuleren, enz.).
+
+Wanneer er geen expliciet recht is ingesteld voor een functie, heeft een beheerder standaard **lees**toegang. Dit betekent dat elke beheerder altijd alles kan zien; rechten bepalen alleen wie wijzigingen kan aanbrengen.
+
+## Super Admin {#super-admin}
+
+Het Super Admin-recht wordt automatisch aangemaakt en kan niet worden bewerkt of verwijderd. Beheerders met dit recht hebben **schrijf**toegang tot elke functie, inclusief gevoelige functies die uitsluitend zijn voorbehouden aan Super Admins (zie [voorbehouden functies](#reserved-features) hieronder).
+
+Dit is het recht dat je moet toewijzen aan organisatiebeheerders en personen die volledige controle nodig hebben over instellingen, leveringen en het beheerdersteam.
+
+## Aangepaste rechten {#custom-permissions}
+
+Je kunt [aangepaste rechten aanmaken](/permissions/new) om de toegang af te stemmen op de verschillende rollen in je team. Kies voor elke functie tussen lees- en schrijftoegang. Je kunt bijvoorbeeld het volgende aanmaken:
+
+- Een recht **"Facturatiebeheerder"** met alleen schrijftoegang tot facturatie.
+- Een recht **"Leveringscoördinator"** met schrijftoegang tot leveringen, depots en leden.
+- Een recht **"Nieuwsbriefredacteur"** met alleen schrijftoegang tot nieuwsbrieven.
+
+Om een recht aan te maken, ga je naar [Beheerders](/admins) > [Rechten](/permissions) > "Nieuw recht".
+
+> Een aangepast recht kan alleen worden verwijderd als er geen beheerders aan zijn toegewezen.
+
+## Voorbehouden functies {#reserved-features}
+
+Sommige functies zijn voorbehouden aan de Super Admin en zijn altijd **alleen-lezen** voor aangepaste rechten. Dit zijn functies waarvan wijzigingen de hele organisatie beïnvloeden:
+
+| Functie | Wat het beheert |
+|---------|-----------------|
+| Beheerders | Aanmaken en beheren van beheerdersaccounts |
+| <%= BasketSize.model_name.human(count: 2) %> | Aanmaken en configureren van <%= BasketSize.model_name.human(count: 2).downcase %> |
+| <%= BasketComplement.model_name.human(count: 2) %> | Aanmaken en configureren van <%= BasketComplement.model_name.human(count: 2).downcase %> |
+| Leveringen | Aanmaken en beheren van leveringsdata en [leveringscycli](/handbook/deliveries#delivery-cycles) |
+| Rechten | Aanmaken en beheren van rechten |
+| E-mailsjablonen | Bewerken van [automatische e-mailsjablonen](/handbook/mail_templates) |
+
+## Configureerbare functies {#configurable-features}
+
+Deze functies kunnen per aangepast recht onafhankelijk worden ingesteld op lezen of schrijven:
+
+| Functie | Wat het beheert |
+|---------|-----------------|
+| Leden | Beheren van ledensprofielen, valideren van inschrijvingen, wijzigen van statussen |
+| Lidmaatschappen | Aanmaken, bewerken en vernieuwen van lidmaatschappen |
+| Facturatie | Beheren van facturen, betalingen en facturatiehandelingen |
+| Depots | Beheren van depots en depotgroepen |
+| Aankondigingen | Aanmaken van [aankondigingen](/handbook/announcements) op leveringsbladen |
+| Nieuwsbrieven | Aanmaken en verzenden van [nieuwsbrieven](/handbook/newsletters) |
+
+Daarnaast verschijnt elke [optionele functie](/settings#organization_features_input) die voor je organisatie is ingeschakeld (afwezigheden, activiteiten, winkel, enz.) ook in de lijst en kan per recht worden geconfigureerd.
+
+## Notificatievoorkeuren {#notifications}
+
+Onafhankelijk van rechten kan elke beheerder zich abonneren op e-mailnotificaties voor specifieke gebeurtenissen. Deze worden geconfigureerd vanuit de [profielpagina](/admins) van elke beheerder, niet vanuit het recht zelf.
+
+Beschikbare notificaties zijn onder andere:
+
+- **Nieuwe inschrijving**: wanneer een lid zich registreert via het formulier
+- **Leveringslijst**: wanneer een leveringslijst klaar is
+- **Nieuwe e-mailonderdrukking**: wanneer een e-mail wordt geweigerd of onderdrukt
+- **Annulering proefperiode**: wanneer een lid annuleert tijdens de proefperiode
+- **Te veel betaalde factuur**: wanneer een betaling het factuurbedrag overschrijdt
+- **3e betalingsherinnering**: wanneer een factuur de derde herinnering bereikt
+- **Terugboeking**: wanneer een betaling wordt teruggedraaid
+
+Aanvullende notificaties zijn beschikbaar afhankelijk van je ingeschakelde functies (nieuwe afwezigheid, nieuwe activiteitsdeelname, enz.).
+
+> Elke beheerder beheert eigen notificaties. Rechten hebben geen invloed op de notificaties waarop een beheerder zich kan abonneren.

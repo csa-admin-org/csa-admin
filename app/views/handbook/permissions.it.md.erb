@@ -1,0 +1,76 @@
+# Permessi
+
+CSA Admin utilizza un sistema di permessi per controllare ciò che ogni amministratore può vedere e fare. A ogni amministratore viene assegnato un permesso che determina il suo livello di accesso a tutte le funzionalità dell'applicazione.
+
+## Livelli di accesso {#access-levels}
+
+Ogni funzionalità ha due possibili livelli di accesso:
+
+- **Lettura**: l'amministratore può visualizzare tutti i dati relativi alla funzionalità, ma non può creare, modificare o eliminare nulla.
+- **Scrittura**: accesso completo, l'amministratore può creare, modificare, eliminare ed eseguire tutte le azioni relative alla funzionalità (validare soci, inviare fatture, annullare abbonamenti, ecc.).
+
+Per impostazione predefinita, quando nessun diritto esplicito è impostato per una funzionalità, un amministratore ha accesso in **lettura**. Ciò significa che ogni amministratore può sempre vedere tutto; i permessi controllano solo chi può apportare modifiche.
+
+## Super Admin {#super-admin}
+
+Il permesso Super Admin viene creato automaticamente e non può essere modificato o eliminato. Gli amministratori con questo permesso hanno accesso in **scrittura** a ogni funzionalità, comprese quelle sensibili riservate esclusivamente ai Super Admin (vedi [funzionalità riservate](#reserved-features) qui sotto).
+
+Questo è il permesso da assegnare ai responsabili dell'organizzazione e alle persone che necessitano di controllo completo su impostazioni, consegne e il team di amministratori.
+
+## Permessi personalizzati {#custom-permissions}
+
+Puoi [creare permessi personalizzati](/permissions/new) per adattare l'accesso ai diversi ruoli del tuo team. Per ogni funzionalità, scegli tra accesso in lettura e scrittura. Ad esempio, potresti creare:
+
+- Un permesso **"Responsabile fatturazione"** con accesso in scrittura solo alla fatturazione.
+- Un permesso **"Coordinatore consegne"** con accesso in scrittura a consegne, punti di ritiro e soci.
+- Un permesso **"Redattore newsletter"** con accesso in scrittura solo alle newsletter.
+
+Per creare un permesso, vai su [Amministratori](/admins) > [Permessi](/permissions) > "Nuovo permesso".
+
+> Un permesso personalizzato può essere eliminato solo se nessun amministratore vi è attualmente assegnato.
+
+## Funzionalità riservate {#reserved-features}
+
+Alcune funzionalità sono riservate al Super Admin e sono sempre in **sola lettura** per i permessi personalizzati. Si tratta di funzionalità in cui le modifiche influiscono sull'intera organizzazione:
+
+| Funzionalità | Cosa controlla |
+|---------|-----------------|
+| Amministratori | Creazione e gestione degli account amministratore |
+| <%= BasketSize.model_name.human(count: 2) %> | Creazione e configurazione delle <%= BasketSize.model_name.human(count: 2).downcase %> |
+| <%= BasketComplement.model_name.human(count: 2) %> | Creazione e configurazione delle <%= BasketComplement.model_name.human(count: 2).downcase %> |
+| Consegne | Creazione e gestione delle date di consegna e dei [cicli di consegna](/handbook/deliveries#delivery-cycles) |
+| Permessi | Creazione e gestione dei permessi |
+| Modelli email | Modifica dei [modelli email automatici](/handbook/mail_templates) |
+
+## Funzionalità configurabili {#configurable-features}
+
+Queste funzionalità possono essere impostate in lettura o scrittura in modo indipendente su ogni permesso personalizzato:
+
+| Funzionalità | Cosa controlla |
+|---------|-----------------|
+| Soci | Gestione dei profili dei soci, validazione delle iscrizioni, modifica degli stati |
+| Abbonamenti | Creazione, modifica e rinnovo degli abbonamenti |
+| Fatturazione | Gestione di fatture, pagamenti e operazioni di fatturazione |
+| Punti di ritiro | Gestione dei punti di ritiro e dei gruppi di punti di ritiro |
+| Annunci | Creazione di [annunci](/handbook/announcements) sui fogli di consegna |
+| Newsletter | Creazione e invio di [newsletter](/handbook/newsletters) |
+
+Inoltre, qualsiasi [funzionalità opzionale](/settings#organization_features_input) abilitata per la tua organizzazione (assenze, attività, negozio, ecc.) appare nell'elenco e può essere configurata per ogni permesso.
+
+## Preferenze di notifica {#notifications}
+
+Indipendentemente dai permessi, ogni amministratore può iscriversi alle notifiche email per eventi specifici. Queste vengono configurate dalla [pagina profilo](/admins) di ciascun amministratore, non dal permesso stesso.
+
+Le notifiche disponibili includono:
+
+- **Nuova iscrizione**: quando un socio si registra tramite il modulo
+- **Lista di consegna**: quando una lista di consegna è pronta
+- **Nuova soppressione email**: quando un'email viene rifiutata o soppressa
+- **Annullamento periodo di prova**: quando un socio annulla durante il periodo di prova
+- **Fattura pagata in eccesso**: quando un pagamento supera l'importo della fattura
+- **3° avviso di mora**: quando una fattura raggiunge il terzo sollecito
+- **Storno di pagamento**: quando un pagamento viene stornato
+
+Ulteriori notifiche sono disponibili in base alle funzionalità abilitate (nuova assenza, nuova partecipazione a un'attività, ecc.).
+
+> Ogni amministratore gestisce le proprie notifiche. I permessi non influiscono sulle notifiche a cui un amministratore può iscriversi.

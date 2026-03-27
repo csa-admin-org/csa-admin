@@ -1,0 +1,44 @@
+# Announcements
+
+Announcements are short messages displayed on [delivery sheet PDFs](/deliveries) at specific depots. They are a quick way to communicate important information to the people handling the delivery at a particular location, for example a reminder to bring back reusable bags or a notice about an exceptional schedule change.
+
+You can manage announcements from [Other > Announcements](/announcements).
+
+## How It Works {#how-it-works}
+
+Each announcement is a short translated text (up to 140 characters) that you target to one or more **depots** and one or more **deliveries**. The text is then printed in bold at the top of the corresponding depot's delivery sheet.
+
+Only one announcement can exist per depot and delivery combination. If you need different messages for different depots on the same delivery, simply create separate announcements.
+
+> Announcements are not visible to members in their online account; they only appear on the printed delivery sheets.
+
+## Creating an Announcement {#creating}
+
+From the [announcements page](/announcements), click "New announcement" and fill in:
+
+- **Text**: The message to display, in each of your organization's languages. Keep it short and actionable (140 characters max).
+- **Depots**: Select one or more depots where the announcement should appear.
+- **Deliveries**: Select one or more upcoming deliveries for the announcement.
+
+The announcement will appear on the delivery sheet PDF for each selected depot on each selected delivery.
+
+## Active and Past {#active-past}
+
+Announcements are automatically categorized:
+
+- **Active**: Linked to at least one upcoming delivery. These are the announcements currently in effect.
+- **Past**: All linked deliveries have already occurred. Past announcements are kept for reference but have no further effect.
+
+No manual archiving is needed, announcements move to "Past" on their own once all their deliveries have passed.
+
+## Practical Examples {#examples}
+
+Here are a few common uses for announcements:
+
+- "Please bring back your <%= Basket.model_name.human(count: 2).downcase %>!"
+- "Exceptional closing on Dec 26, no delivery"
+- "New pickup hours: 4–7 PM starting next week"
+
+## Permissions {#permissions}
+
+Creating and editing announcements requires **write** access to the "Announcements" feature in your [permission settings](/permissions). See the [permissions handbook page](/handbook/permissions) for details.

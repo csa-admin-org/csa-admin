@@ -1,0 +1,76 @@
+# Permissions
+
+CSA Admin uses a permission system to control what each admin can see and do. Every admin is assigned a permission that determines their access level across all features of the application.
+
+## Access Levels {#access-levels}
+
+Each feature has two possible access levels:
+
+- **Read** – The admin can view all data related to the feature but cannot create, edit, or delete anything.
+- **Write** – Full access: the admin can create, edit, delete, and perform all actions related to the feature (validate members, send invoices, cancel memberships, etc.).
+
+By default, when no explicit right is set for a feature, an admin has **read** access to it. This means every admin can always see everything; permissions only control who can make changes.
+
+## Super Admin {#super-admin}
+
+The Super Admin permission is created automatically and cannot be edited or deleted. Admins with this permission have **write** access to every feature, including sensitive ones that are reserved for Super Admins only (see [reserved features](#reserved-features) below).
+
+This is the permission to assign to organization managers and people who need full control over settings, deliveries, and the admin team.
+
+## Custom Permissions {#custom-permissions}
+
+You can [create custom permissions](/permissions/new) to tailor access for different roles in your team. For each feature, choose between read and write access. For example, you could create:
+
+- A **"Billing manager"** permission with write access only to billing.
+- A **"Delivery coordinator"** permission with write access to deliveries, depots, and members.
+- A **"Newsletter editor"** permission with write access only to newsletters.
+
+To create a permission, go to [Admins](/admins) > [Permissions](/permissions) > "New permission".
+
+> A custom permission can only be deleted if no admins are currently assigned to it.
+
+## Reserved Features {#reserved-features}
+
+Some features are reserved for the Super Admin and are always **read-only** for custom permissions. These are features where changes affect the entire organization:
+
+| Feature | What it controls |
+|---------|-----------------|
+| Admins | Creating and managing admin accounts |
+| <%= BasketSize.model_name.human(count: 2) %> | Creating and configuring <%= BasketSize.model_name.human(count: 2).downcase %> |
+| <%= BasketComplement.model_name.human(count: 2) %> | Creating and configuring <%= BasketComplement.model_name.human(count: 2).downcase %> |
+| Deliveries | Creating and managing delivery dates and [delivery cycles](/handbook/deliveries#delivery-cycles) |
+| Permissions | Creating and managing permissions |
+| Email templates | Editing [automatic email templates](/handbook/mail_templates) |
+
+## Configurable Features {#configurable-features}
+
+These features can be set to read or write independently on each custom permission:
+
+| Feature | What it controls |
+|---------|-----------------|
+| Members | Managing member profiles, validating registrations, changing statuses |
+| Memberships | Creating, editing, and renewing memberships |
+| Billing | Managing invoices, payments, and billing operations |
+| Depots | Managing depots and depot groups |
+| Announcements | Creating [announcements](/handbook/announcements) on delivery sheets |
+| Newsletters | Creating and sending [newsletters](/handbook/newsletters) |
+
+Additionally, any [optional feature](/settings#organization_features_input) enabled for your organization (absences, activities, shop, etc.) also appears in the list and can be configured per permission.
+
+## Notification Preferences {#notifications}
+
+Independently from permissions, each admin can subscribe to email notifications for specific events. These are configured from each admin's [profile page](/admins), not from the permission itself.
+
+Available notifications include:
+
+- **New registration** – when a member registers through the form
+- **Delivery list** – when a delivery list is ready
+- **New email suppression** – when an email bounces or is suppressed
+- **Trial cancellation** – when a member cancels during their trial period
+- **Invoice overpaid** – when a payment exceeds the invoice amount
+- **3rd overdue notice** – when an invoice reaches its third reminder
+- **Payment reversal** – when a payment is reversed
+
+Additional notifications are available depending on your enabled features (new absence, new activity participation, etc.).
+
+> Each admin manages their own notifications. Permissions do not affect which notifications an admin can subscribe to.

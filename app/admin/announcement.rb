@@ -24,7 +24,7 @@ ActiveAdmin.register Announcement do
   end
 
   sidebar :info, only: :index do
-    side_panel t(".info") do
+    side_panel t(".info"), action: handbook_icon_link("announcements") do
       para t(".announcement_info")
     end
   end

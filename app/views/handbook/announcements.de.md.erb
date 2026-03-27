@@ -1,0 +1,44 @@
+# Ankündigungen
+
+Ankündigungen sind kurze Nachrichten, die auf den [PDFs der Lieferscheine](/deliveries) an bestimmten Depots angezeigt werden. Sie sind eine schnelle Möglichkeit, wichtige Informationen an die Personen weiterzugeben, die die Lieferung an einem bestimmten Standort abwickeln, zum Beispiel eine Erinnerung, wiederverwendbare Taschen zurückzubringen, oder ein Hinweis auf eine ausserplanmässige Änderung.
+
+Du kannst Ankündigungen unter [Andere > Ankündigungen](/announcements) verwalten.
+
+## Wie es funktioniert {#how-it-works}
+
+Jede Ankündigung ist ein kurzer übersetzter Text (bis zu 140 Zeichen), den Du auf ein oder mehrere **Depots** und eine oder mehrere **Lieferungen** ausrichtest. Der Text wird dann fett gedruckt oben auf dem Lieferschein des entsprechenden Depots angezeigt.
+
+Pro Depot- und Lieferungskombination kann nur eine Ankündigung existieren. Wenn Du unterschiedliche Nachrichten für verschiedene Depots bei derselben Lieferung benötigst, erstelle einfach separate Ankündigungen.
+
+> Ankündigungen sind für Mitglieder in ihrem Online-Konto nicht sichtbar; sie erscheinen nur auf den gedruckten Lieferscheinen.
+
+## Eine Ankündigung erstellen {#creating}
+
+Klicke auf der [Ankündigungsseite](/announcements) auf „Neue Ankündigung" und fülle folgende Felder aus:
+
+- **Text**: Die anzuzeigende Nachricht, in jeder Sprache Deiner Organisation. Halte sie kurz und konkret (max. 140 Zeichen).
+- **Depots**: Wähle ein oder mehrere Depots aus, an denen die Ankündigung erscheinen soll.
+- **Lieferungen**: Wähle eine oder mehrere bevorstehende Lieferungen für die Ankündigung aus.
+
+Die Ankündigung erscheint auf dem PDF des Lieferscheins für jedes ausgewählte Depot bei jeder ausgewählten Lieferung.
+
+## Aktive und vergangene {#active-past}
+
+Ankündigungen werden automatisch kategorisiert:
+
+- **Aktiv**: Mit mindestens einer bevorstehenden Lieferung verknüpft. Dies sind die aktuell geltenden Ankündigungen.
+- **Vergangen**: Alle verknüpften Lieferungen haben bereits stattgefunden. Vergangene Ankündigungen werden zur Referenz aufbewahrt, haben aber keine weitere Wirkung.
+
+Eine manuelle Archivierung ist nicht nötig, Ankündigungen wechseln automatisch zu „Vergangen", sobald alle ihre Lieferungen stattgefunden haben.
+
+## Praktische Beispiele {#examples}
+
+Hier sind einige häufige Verwendungen von Ankündigungen:
+
+- „Bitte bringe Deine <%= Basket.model_name.human(count: 2).downcase %> zurück!"
+- „Ausserplanmässige Schliessung am 26. Dez., keine Lieferung"
+- „Neue Abholzeiten: 16–19 Uhr ab nächster Woche"
+
+## Berechtigungen {#permissions}
+
+Das Erstellen und Bearbeiten von Ankündigungen erfordert **Schreib**zugriff auf die Funktion „Ankündigungen" in Deinen [Berechtigungseinstellungen](/permissions). Weitere Details findest Du auf der [Handbuch-Seite zu Berechtigungen](/handbook/permissions).

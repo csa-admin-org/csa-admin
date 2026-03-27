@@ -1,0 +1,44 @@
+# Annunci
+
+Gli annunci sono brevi messaggi visualizzati sui [PDF delle schede di consegna](/deliveries) in determinati depositi. Sono un modo rapido per comunicare informazioni importanti alle persone che gestiscono la consegna in un punto specifico, ad esempio un promemoria per riportare le borse riutilizzabili o un avviso riguardante un cambiamento di orario eccezionale.
+
+Puoi gestire gli annunci da [Altro > Annunci](/announcements).
+
+## Come funziona {#how-it-works}
+
+Ogni annuncio è un breve testo tradotto (fino a 140 caratteri) che indirizzi a uno o più **depositi** e a una o più **consegne**. Il testo viene poi stampato in grassetto in cima alla scheda di consegna del deposito corrispondente.
+
+Per ogni combinazione di deposito e consegna può esistere un solo annuncio. Se hai bisogno di messaggi diversi per depositi diversi nella stessa consegna, crea semplicemente annunci separati.
+
+> Gli annunci non sono visibili ai membri nel loro account online; appaiono solo sulle schede di consegna stampate.
+
+## Creare un annuncio {#creating}
+
+Dalla [pagina degli annunci](/announcements), clicca su "Nuovo annuncio" e compila:
+
+- **Testo**: Il messaggio da visualizzare, in ciascuna delle lingue della tua organizzazione. Mantienilo breve e concreto (max 140 caratteri).
+- **Depositi**: Seleziona uno o più depositi in cui l'annuncio deve apparire.
+- **Consegne**: Seleziona una o più consegne future per l'annuncio.
+
+L'annuncio apparirà sul PDF della scheda di consegna per ogni deposito selezionato in ogni consegna selezionata.
+
+## Attivi e passati {#active-past}
+
+Gli annunci vengono categorizzati automaticamente:
+
+- **Attivi**: Collegati ad almeno una consegna futura. Sono gli annunci attualmente in vigore.
+- **Passati**: Tutte le consegne collegate sono già avvenute. Gli annunci passati vengono conservati come riferimento ma non hanno più alcun effetto.
+
+Non è necessaria alcuna archiviazione manuale, gli annunci passano automaticamente a "Passati" una volta che tutte le loro consegne hanno avuto luogo.
+
+## Esempi pratici {#examples}
+
+Ecco alcuni utilizzi comuni degli annunci:
+
+- "Per favore, riporta i tuoi <%= Basket.model_name.human(count: 2).downcase %>!"
+- "Chiusura eccezionale il 26 dic., nessuna consegna"
+- "Nuovi orari di ritiro: 16–19 dalla prossima settimana"
+
+## Permessi {#permissions}
+
+La creazione e la modifica degli annunci richiedono l'accesso in **scrittura** alla funzionalità "Annunci" nelle tue [impostazioni dei permessi](/permissions). Consulta la [pagina del manuale sui permessi](/handbook/permissions) per maggiori dettagli.

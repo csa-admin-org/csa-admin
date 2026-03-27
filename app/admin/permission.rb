@@ -13,7 +13,7 @@ ActiveAdmin.register Permission do
   end
 
   sidebar :info, only: :index do
-    side_panel t(".info") do
+    side_panel t(".info"), action: handbook_icon_link("permissions") do
       para t(".permission_info")
     end
   end
