@@ -1,15 +1,15 @@
 # Emails
 
-CSA Admin gebruikt twee soorten e-mails om met uw leden te communiceren:
+CSA Admin gebruikt twee soorten e-mails om met je leden te communiceren:
 
-- [**Automatische e-mails**](/mail_templates): worden automatisch verzonden tijdens specifieke gebeurtenissen (nieuwe factuur, vernieuwing, activiteitsherinnering, ...). U kunt de inhoud aanpassen en ze activeren/deactiveren.
-- [**Nieuwsbrieven**](/newsletters): groepse-mails die u handmatig opstelt en verzendt (of plant) naar al uw leden of een deel ervan.
+- [**Automatische e-mails**](/mail_templates): worden automatisch verzonden tijdens specifieke gebeurtenissen (nieuwe factuur, vernieuwing, activiteitsherinnering, ...). Je kunt de inhoud aanpassen en ze activeren/deactiveren.
+- [**Nieuwsbrieven**](/newsletters): groepse-mails die je handmatig opstelt en verzendt (of plant) naar al je leden of een deel ervan.
 
 Beide typen gebruiken dezelfde sjabloontaal en dezelfde opmaakopties die hieronder worden beschreven.
 
 ## Liquid-sjabloontaal {#liquid}
 
-E-mailsjablonen gebruiken de [Liquid](https://shopify.github.io/liquid)-sjabloontaal, waarmee u dynamische lidspecifieke gegevens kunt invoegen en voorwaardelijke logica kunt toevoegen. Ondanks een "groeps"verzending wordt de inhoud van elke e-mail individueel gegenereerd op basis van de informatie van elk lid (naam, taal, lidmaatschap, ...).
+E-mailsjablonen gebruiken de [Liquid](https://shopify.github.io/liquid)-sjabloontaal, waarmee je dynamische lidspecifieke gegevens kunt invoegen en voorwaardelijke logica kunt toevoegen. Ondanks een "groeps"verzending wordt de inhoud van elke e-mail individueel gegenereerd op basis van de informatie van elk lid (naam, taal, lidmaatschap, ...).
 
 ### Gegevens weergeven
 
@@ -17,7 +17,7 @@ Gebruik dubbele accolades om een waarde in te voegen:
 
 ~~~ liquid
 <p>Hallo {{ member.name }},</p>
-<p>Uw volgende levering is op {{ basket.delivery.date }}.</p>
+<p>Je volgende levering is op {{ basket.delivery.date }}.</p>
 ~~~
 
 ### Voorwaarden
@@ -31,13 +31,13 @@ Gebruik `{% if %}` om inhoud alleen te tonen wanneer aan een voorwaarde is volda
 {% endif %}
 ~~~
 
-U kunt `and`, `or`, evenals `{% elsif %}` en `{% else %}` gebruiken om voorwaarden te combineren:
+Je kunt `and`, `or`, evenals `{% elsif %}` en `{% else %}` gebruiken om voorwaarden te combineren:
 
 ~~~ liquid
 {% if membership.trial_baskets_count > 0 %}
-  <p>U bent nog in uw proefperiode ({{ membership.trial_baskets_count }} <%= Basket.model_name.human(count: 2).downcase %> resterend).</p>
+  <p>Je bent nog in je proefperiode ({{ membership.trial_baskets_count }} <%= Basket.model_name.human(count: 2).downcase %> resterend).</p>
 {% elsif membership.activity_participations_missing_count > 0 %}
-  <p>U heeft nog {{ membership.activity_participations_missing_count }} activiteit(en) te voltooien.</p>
+  <p>Je hebt nog {{ membership.activity_participations_missing_count }} activiteit(en) te voltooien.</p>
 {% else %}
   <p>Alles is up-to-date, bedankt!</p>
 {% endif %}
@@ -64,7 +64,7 @@ Naast standaard HTML zijn er verschillende speciale opmaaktags beschikbaar:
 ~~~ liquid
 {% highlight %}
   <p><strong>📣 Belangrijk!</strong></p>
-  <p>Uw <%= Basket.model_name.human.downcase %> zal deze week extra groot zijn.</p>
+  <p>Je <%= Basket.model_name.human.downcase %> zal deze week extra groot zijn.</p>
 {% endhighlight %}
 ~~~
 
@@ -72,8 +72,8 @@ Naast standaard HTML zijn er verschillende speciale opmaaktags beschikbaar:
 
 ~~~ liquid
 {% lowlight %}
-  <p>Beheer uw inschrijvingen vanaf
-    <a href="{{ member.activities_url }}">uw account</a>.</p>
+  <p>Beheer je inschrijvingen vanaf
+    <a href="{{ member.activities_url }}">je account</a>.</p>
 {% endlowlight %}
 ~~~
 
@@ -87,15 +87,15 @@ Naast standaard HTML zijn er verschillende speciale opmaaktags beschikbaar:
 
 ## Gegevensvoorbeeld {#data-preview}
 
-Bij het bewerken van een e-mailsjabloon of een nieuwsbriefsjabloon wordt een voorbeeldpaneel weergegeven onder de code-editor. Dit voorbeeld toont uw sjabloon gerenderd met voorbeeldgegevens voor elke taal.
+Bij het bewerken van een e-mailsjabloon of een nieuwsbriefsjabloon wordt een voorbeeldpaneel weergegeven onder de code-editor. Dit voorbeeld toont je sjabloon gerenderd met voorbeeldgegevens voor elke taal.
 
-Onder elk voorbeeld toont een gegevenspaneel de exacte gegevensstructuur die beschikbaar is voor uw sjabloon. Deze gegevens worden semi-willekeurig gegenereerd uit uw werkelijke organisatiegegevens. U kunt de waarden in dit paneel wijzigen om te testen hoe uw sjabloon wordt weergegeven met verschillende scenario's (bijv. lege <%= BasketContent.model_name.human.downcase %>, nul ontbrekende activiteiten, enz.).
+Onder elk voorbeeld toont een gegevenspaneel de exacte gegevensstructuur die beschikbaar is voor je sjabloon. Deze gegevens worden semi-willekeurig gegenereerd uit je werkelijke organisatiegegevens. Je kunt de waarden in dit paneel wijzigen om te testen hoe je sjabloon wordt weergegeven met verschillende scenario's (bijv. lege <%= BasketContent.model_name.human.downcase %>, nul ontbrekende activiteiten, enz.).
 
-> Het gegevensvoorbeeld is de beste manier om alle beschikbare variabelen te ontdekken en uw sjabloon te testen. Elk type e-mailsjabloon heeft zijn eigen set beschikbare gegevens — controleer altijd het voorbeeldpaneel om te zien wat beschikbaar is.
+> Het gegevensvoorbeeld is de beste manier om alle beschikbare variabelen te ontdekken en je sjabloon te testen. Elk type e-mailsjabloon heeft zijn eigen set beschikbare gegevens — controleer altijd het voorbeeldpaneel om te zien wat beschikbaar is.
 
 ## Veelgebruikte Liquid-variabelen {#variables}
 
-Hier is een snelle referentie van de meest gebruikte variabelen in e-mailsjablonen. Niet alle variabelen zijn in elk sjabloon beschikbaar — controleer altijd het [gegevensvoorbeeld](#data-preview) voor het specifieke sjabloon dat u bewerkt.
+Hier is een snelle referentie van de meest gebruikte variabelen in e-mailsjablonen. Niet alle variabelen zijn in elk sjabloon beschikbaar — controleer altijd het [gegevensvoorbeeld](#data-preview) voor het specifieke sjabloon dat je bewerkt.
 
 ### `member`
 

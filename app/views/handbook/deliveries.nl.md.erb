@@ -1,10 +1,10 @@
 # Leveringen
 
-[Leveringen](/deliveries) zijn een centraal element van CSA Admin en stellen u in staat om alle leveringsdatums van uw <%= Basket.model_name.human(count: 2).downcase %> gedurende het jaar te beheren. Leveringen zijn een van de eerste elementen die moeten worden aangemaakt. Het is belangrijk dat **alle leveringsdatums** zijn gedefinieerd **voor het begin van uw boekjaar** omdat de aanmaak van lidmaatschappen en hun <%= Basket.model_name.human(count: 2).downcase %> hiervan afhangt.
+[Leveringen](/deliveries) zijn een centraal element van CSA Admin en stellen je in staat om alle leveringsdatums van je <%= Basket.model_name.human(count: 2).downcase %> gedurende het jaar te beheren. Leveringen zijn een van de eerste elementen die moeten worden aangemaakt. Het is belangrijk dat **alle leveringsdatums** zijn gedefinieerd **voor het begin van je boekjaar** omdat de aanmaak van lidmaatschappen en hun <%= Basket.model_name.human(count: 2).downcase %> hiervan afhangt.
 
 De volgende levering evenals het aantal <%= Basket.model_name.human(count: 2).downcase %>/<%= BasketComplement.model_name.human(count: 2).downcase %> per depot zijn altijd beschikbaar vanaf [het dashboard](/dashboard). Elke leveringspagina bevat ook deze informatie evenals de lijst van afwezige leden.
 
-> U kunt eenvoudig leveringen in batch aanmaken met behulp van het tabblad "Meerdere datums" in [het leveringsaanmaakformulier](/deliveries/new).
+> Je kunt eenvoudig leveringen in batch aanmaken met behulp van het tabblad "Meerdere datums" in [het leveringsaanmaakformulier](/deliveries/new).
 
 ## Leveringscycli {#delivery-cycles}
 
@@ -14,7 +14,7 @@ Sommige organisaties bieden verschillende leveringskeuzes aan, bijvoorbeeld:
 - leveringen elke week of om de week.
 - leveringen alleen in de winter of zomer.
 
-[Leveringscycli](/delivery_cycles) stellen u in staat om bestaande leveringen van hetzelfde boekjaar dynamisch te groeperen volgens uw behoeften en bieden u dus grote flexibiliteit bij het beheren van uw leveringen. Elk lidmaatschap is gekoppeld aan een leveringscyclus, die de leveringsdatums en het aantal <%= Basket.model_name.human(count: 2).downcase %> bepaalt.
+[Leveringscycli](/delivery_cycles) stellen je in staat om bestaande leveringen van hetzelfde boekjaar dynamisch te groeperen volgens je behoeften en bieden je dus grote flexibiliteit bij het beheren van je leveringen. Elk lidmaatschap is gekoppeld aan een leveringscyclus, die de leveringsdatums en het aantal <%= Basket.model_name.human(count: 2).downcase %> bepaalt.
 
 ### Instellingen {#settings}
 
@@ -25,7 +25,7 @@ Instellingen definiëren de initiële selectie van leveringen voor deze cyclus. 
 
 ### Periodes {#periods}
 
-Periodes passen vervolgens extra filtering toe op de leveringen die door de bovenstaande instellingen zijn geselecteerd. Ze verdelen het boekjaar in segmenten, elk met eigen regels. Deze tweestapsaanpak (instellingen → periodes) geeft u gedetailleerde controle over welke leveringen worden opgenomen.
+Periodes passen vervolgens extra filtering toe op de leveringen die door de bovenstaande instellingen zijn geselecteerd. Ze verdelen het boekjaar in segmenten, elk met eigen regels. Deze tweestapsaanpak (instellingen → periodes) geeft je gedetailleerde controle over welke leveringen worden opgenomen.
 
 Elke leveringscyclus moet ten minste één periode hebben. Periodes kunnen niet overlappen binnen dezelfde cyclus.
 
@@ -44,6 +44,7 @@ De keuze van een leveringscyclus op het registratieformulier hangt af van de con
 
 > Bij het aanmaken van een lidmaatschap door een admin is het altijd mogelijk om elke leveringscyclus te kiezen. <%= Basket.model_name.human(count: 2) %> worden automatisch aangemaakt op basis van de leveringen van deze cyclus tussen de start- en einddatums ✨.
 
+
 ### Gelijke verdeling (om de week) {#even-odd-distribution}
 
 Als om-de-week-leveringen worden aangeboden, is het waarschijnlijk wenselijk om de leden gelijkmatig te verdelen over even en oneven weken. Met één enkel "om de week"-cyclus zouden alle leden dezelfde weken krijgen.
@@ -55,7 +56,7 @@ De oplossing is om **twee afzonderlijke cycli** aan te maken, één met de lever
 3. Maak slechts **één** van de twee cycli zichtbaar op het registratieformulier (via de depotbeschikbaarheid).
 4. Verdeel bij het aanmaken van lidmaatschappen de leden handmatig over de twee cycli om de leveringen in evenwicht te brengen.
 
-Zo zien de leden slechts één optie « Om de week » bij registratie, terwijl intern de controle over de verdeling behouden blijft.
+Zo zien de leden slechts één optie « Om de week » bij registratie, terwijl je intern de controle over de verdeling behoudt.
 
 ### Facturatie
 
@@ -69,9 +70,10 @@ Elke leveringscyclus kan eigen facturatieopties hebben:
 
 [<%= BasketComplement.model_name.human(count: 2) %>](/basket_complements) volgen vaak hun eigen leveringscyclus op een manier die moeilijk dynamisch te programmeren is. Het is daarom noodzakelijk, en dit voor elke <%= BasketComplement.model_name.human.downcase %>, om alle leveringsdatums te definiëren waar deze aanvulling beschikbaar is of niet. Deze bewerking moet elk jaar worden uitgevoerd na het aanmaken van nieuwe leveringen.
 
+
 ## Leveringsbladen (PDFs) {#delivery-sheets}
 
-Voor elke levering genereert CSA Admin PDF-bladen die u kunt afdrukken en gebruiken bij uw depots. Deze bladen zijn beschikbaar vanaf elke [leveringspagina](/deliveries) of vanaf [het dashboard](/dashboard).
+Voor elke levering genereert CSA Admin PDF-bladen die je kunt afdrukken en gebruiken bij je depots. Deze bladen zijn beschikbaar vanaf elke [leveringspagina](/deliveries) of vanaf [het dashboard](/dashboard).
 
 ### Bladmodi {#sheet-modes}
 
@@ -83,6 +85,7 @@ Elk depot kan een van twee bladmodi gebruiken (configureerbaar in de depotinstel
 ### Ledeninformatie op bladen {#member-info}
 
 Een [instelling](/settings#delivery) bepaalt welke aanvullende informatie onder de naam van elk lid op de bladen wordt weergegeven:
+
 
 - **Geen** (standaard): Alleen de naam van het lid.
 - **Telefoonnummers**: Het/de telefoonnummer(s) van het lid verschijnen onder hun naam.

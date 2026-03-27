@@ -1,14 +1,14 @@
 # Registratieformulier
 
-Uw registratieformulier is de manier waarop nieuwe leden zich bij uw organisatie aansluiten. Een duidelijk, goed georganiseerd formulier maakt het registratieproces soepel en uitnodigend. Deze pagina leidt u door elke instelling en deelt onderweg enkele tips.
+Je registratieformulier is de manier waarop nieuwe leden zich bij je organisatie aansluiten. Een duidelijk, goed georganiseerd formulier maakt het registratieproces soepel en uitnodigend. Deze pagina leidt je door elke instelling en deelt onderweg enkele tips.
 
-> U kunt uw formulier op elk moment bekijken: [registratieformulier openen](<%= new_members_member_url(subdomain: Current.org.members_subdomain) %>). Het is ook de moeite waard om het op mobiel te testen, aangezien veel mensen zich vanaf hun telefoon zullen aanmelden.
+> Je kunt je formulier op elk moment bekijken: [registratieformulier openen](<%= new_members_member_url(subdomain: Current.org.members_subdomain) %>). Het is ook de moeite waard om het op mobiel te testen, aangezien veel mensen zich vanaf hun telefoon zullen aanmelden.
 
 ## Introductietekst {#introduction}
 
-De ondertitel verschijnt direct onder de formuliertitel. Een of twee zinnen zijn hier ideaal: een kort welkom of een link naar uw website voor meer details.
+De ondertitel verschijnt direct onder de formuliertitel. Een of twee zinnen zijn hier ideaal: een kort welkom of een link naar je website voor meer details.
 
-De [ondertitelinstelling](/settings#registration) ondersteunt opgemaakte tekst, maar houd er rekening mee dat mensen die uw formulier bereiken al geïnteresseerd zijn. Ze hebben een duidelijk pad nodig om zich aan te melden, geen volledige presentatie van uw organisatie.
+De [ondertitelinstelling](/settings#registration) ondersteunt opgemaakte tekst, maar houd er rekening mee dat mensen die je formulier bereiken al geïnteresseerd zijn. Ze hebben een duidelijk pad nodig om zich aan te melden, geen volledige presentatie van je organisatie.
 
 **Goed voorbeeld:**
 
@@ -20,22 +20,22 @@ De [ondertitelinstelling](/settings#registration) ondersteunt opgemaakte tekst, 
 
 ## Tips voor tekstopmaak {#text-styling}
 
-Alle opgemaakte tekstvelden in de [registratie-instellingen](/settings#registration) gebruiken de teksteditor. Hier zijn enkele nuttige punten over hoe uw opmaak in het formulier verschijnt:
+Alle opgemaakte tekstvelden in de [registratie-instellingen](/settings#registration) gebruiken de teksteditor. Hier zijn enkele nuttige punten over hoe je opmaak in het formulier verschijnt:
 
 - **Verklarende tekst verschijnt kleiner** dan de formuliervelden zelf. Dit is opzettelijk: het creëert een visuele hiërarchie waarbij de keuzes opvallen en de uitleg op de achtergrond blijft. Zware opmaak (veel vetgedrukt, veel koppen) werkt dit effect tegen.
 - **Koppen** worden weergegeven als discrete tussenkoppen, niet als grote titels. Ze voegen wat structuur toe zonder de pagina te domineren. In de meeste gevallen werkt vetgedrukte tekst net zo goed.
-- **Vetgedrukte tekst** is ideaal om belangrijke informatie zoals prijzen of deadlines te benadrukken, maar verliest zijn effect als u hele zinnen of alinea's vet maakt.
+- **Vetgedrukte tekst** is ideaal om belangrijke informatie zoals prijzen of deadlines te benadrukken, maar verliest zijn effect als je hele zinnen of alinea's vet maakt.
 - **Korte alinea's werken het beste.** Twee of drie zinnen is voldoende. Mensen hebben de neiging om te scannen in plaats van elk woord te lezen.
-- **Link naar uw website** voor langere uitleg in plaats van alles in het formulier te plaatsen.
+- **Link naar je website** voor langere uitleg in plaats van alles in het formulier te plaatsen.
 
-U zult een woordteller opmerken in de instellingeneditor wanneer de tekst lang wordt. Het is slechts een zachte hint, geen strikte limiet. Als u de drempel overschrijdt, is het misschien de moeite waard om in te korten of inhoud naar uw website te verplaatsen.
+Je zult een woordteller opmerken in de instellingeneditor wanneer de tekst lang wordt. Het is slechts een zachte hint, geen strikte limiet. Als je de drempel overschrijdt, is het misschien de moeite waard om in te korten of inhoud naar je website te verplaatsen.
 
 ## <%= BasketSize.model_name.human(count: 2) %> {#basket-sizes}
 
-[<%= BasketSize.model_name.human(count: 2) %>](/basket_sizes) vormen de kern van uw registratieformulier. Elke zichtbare <%= BasketSize.model_name.human.downcase %> verschijnt als keuze voor nieuwe leden.
+[<%= BasketSize.model_name.human(count: 2) %>](/basket_sizes) vormen de kern van je registratieformulier. Elke zichtbare <%= BasketSize.model_name.human.downcase %> verschijnt als keuze voor nieuwe leden.
 
 - **Naam**: Wat leden zien (bijv. "Klein", "Familie"). Een zelfverklarende naam helpt: "Klein (1–2 personen)" is duidelijker dan alleen "Klein".
-- **Beschrijving**: Vervangt de automatisch gegenereerde tekst (prijs × leveringen). Handig wanneer de standaardtekst niet helemaal past bij wat u nodig heeft.
+- **Beschrijving**: Vervangt de automatisch gegenereerde tekst (prijs × leveringen). Handig wanneer de standaardtekst niet helemaal past bij wat je nodig hebt.
 - **Zichtbaarheid**: Stel een <%= BasketSize.model_name.human.downcase %> in als onzichtbaar als deze alleen voor admins is (bijv. een speciaal tarief). Onzichtbare groottes verschijnen niet in het formulier.
 - **Weergavevolgorde**: Gestuurd door de [instelling van de sorteermodus](/settings#registration), op naam, op prijs of op aangepaste prioriteit.
 
@@ -54,11 +54,11 @@ Deze functie laat leden vrijwillig meer betalen per <%= Basket.model_name.human.
 
 Enkele tips voor het registratieformulier:
 
-- **4 tot 6 opties werkt goed.** Te veel keuzes kunnen overweldigend aanvoelen. Als u er meer dan 6 heeft, schakelt het formulier over naar een dropdown, die minder zichtbaar is.
-- **Houd de uitleg kort.** Als u uw solidariteitsmodel in detail wilt uitleggen, link naar uw website.
+- **4 tot 6 opties werkt goed.** Te veel keuzes kunnen overweldigend aanvoelen. Als je er meer dan 6 hebt, schakelt het formulier over naar een dropdown, die minder zichtbaar is.
+- **Houd de uitleg kort.** Als je je solidariteitsmodel in detail wilt uitleggen, link naar je website.
 - **Duidelijke labels zijn belangrijk.** Zorg ervoor dat elke optie de prijsimpact duidelijk toont. Zie de [instellingen voor extra <%= Basket.model_name.human.downcase %>prijs](/settings#basket_price_extra) voor labelconfiguratie.
 <% else %>
-Deze functie is momenteel niet geactiveerd. U kunt deze inschakelen in [uw instellingen](/settings#organization_features_input).
+Deze functie is momenteel niet geactiveerd. Je kunt deze inschakelen in [je instellingen](/settings#organization_features_input).
 <% end %>
 
 ## Depots {#depots}
@@ -67,12 +67,12 @@ Deze functie is momenteel niet geactiveerd. U kunt deze inschakelen in [uw inste
 
 - **Naam**: Wat leden zien. Houd het kort en herkenbaar (bijv. een wijknaam of een bekend oriëntatiepunt).
 - **Beschrijving**: Optionele tekst die onder de depotnaam wordt weergegeven. Handig voor ophaaltijden of specifieke instructies.
-- **Zichtbaarheid**: Verberg depots die vol zijn of alleen voor admins bestemd zijn.
+- **Zichtbaarheid**: Verberg depots die vol zijn of alleen voor admins bestemd.
 - **Weergavevolgorde**: Gestuurd door de [instelling van de sorteermodus](/settings#registration).
 
 ### Depotgroepen {#depot-groups}
 
-Als uw organisatie veel depots heeft (8 of meer), maken [depotgroepen](/depot_groups) een groot verschil. Ze organiseren depots in logische secties zodat leden snel hun zone kunnen vinden.
+Als je organisatie veel depots heeft (8 of meer), maken [depotgroepen](/depot_groups) een groot verschil. Ze organiseren depots in logische secties zodat leden snel hun zone kunnen vinden.
 
 - **Voorbeeldgroepen**: "Ophalen bij de boerderij", "Stadrelaispunten", "Thuisbezorging"
 - **Informatietekst**: Optionele tekst die boven de depots van de groep wordt weergegeven. Een goede plek voor gedeelde info zoals ophaaltijden of algemene instructies. Eén zin is meestal voldoende.
@@ -82,7 +82,7 @@ Zonder groepen kan een platte lijst van 15+ depots overweldigend aanvoelen. Groe
 
 ## Leveringscycli {#delivery-cycles}
 
-Als u meerdere [leveringscycli](/delivery_cycles) gebruikt (wekelijks, tweewekelijks, seizoensgebonden), kiezen leden er één tijdens de registratie. Zie de [handboekpagina over leveringscycli](/handbook/deliveries#delivery-cycles) voor gedetailleerde configuratie.
+Als je meerdere [leveringscycli](/delivery_cycles) gebruikt (wekelijks, tweewekelijks, seizoensgebonden), kiezen leden er één tijdens de registratie. Zie de [handboekpagina over leveringscycli](/handbook/deliveries#delivery-cycles) voor gedetailleerde configuratie.
 
 - **Aangepast label**: Vervang de standaard kop "Leveringen" met de [instelling voor het leveringscycluslabel](/settings#registration).
 - **Weergavevolgorde**: Gestuurd door de [instelling van de sorteermodus](/settings#registration).
@@ -104,29 +104,29 @@ Beide velden worden geconfigureerd in [de factureringsinstellingen](/settings#bi
 Twee instellingen bepalen de uitleg in het lidmaatschapgedeelte:
 
 - **[Extra tekst](/settings#registration)**: Toegevoegd na de automatisch gegenereerde tekst (boekjaar, <%= Basket.model_name.human(count: 2).downcase %> op proef, jaarlijkse bijdrage, aandelen).
-- **[Alleen aanvullende tekst](/settings#registration)**: Vervangt de automatisch gegenereerde tekst volledig. Alleen nuttig als de standaardtekst echt niet bij uw behoeften past.
+- **[Alleen aanvullende tekst](/settings#registration)**: Vervangt de automatisch gegenereerde tekst volledig. Alleen nuttig als de standaardtekst echt niet bij je behoeften past.
 
-De automatisch gegenereerde tekst dekt al het essentiële, dus de aanvullende tekst is het beste voor wat specifiek is voor uw organisatie. Als u meer dan een korte alinea schrijft, overweeg dan om naar uw website te linken.
+De automatisch gegenereerde tekst dekt al het essentiële, dus de aanvullende tekst is het beste voor wat specifiek is voor je organisatie. Als je meer dan een korte alinea schrijft, overweeg dan om naar je website te linken.
 
 ## Velden "Aanvullende informatie" {#more-info}
 
 Twee optionele velden kunnen in het formulier worden weergegeven:
 
-- **Beroep**: Standaard verborgen. Activeer het in de [instellingen](/settings#registration) als het nuttig is voor uw organisatie.
-- **"Hoe heeft u van ons gehoord?"** ("Gekomen via"): Handig om te begrijpen hoe mensen u vinden. Het is een laagdrempelige vraag voor leden en levert u interessante gegevens op in de loop van de tijd.
+- **Beroep**: Standaard verborgen. Activeer het in de [instellingen](/settings#registration) als het nuttig is voor je organisatie.
+- **"Hoe heb je van ons gehoord?"** ("Gekomen via"): Handig om te begrijpen hoe mensen je vinden. Het is een laagdrempelige vraag voor leden en levert je interessante gegevens op in de loop van de tijd.
 
 Beide velden kunnen worden ingesteld als verborgen, zichtbaar of verplicht.
 
 ## Juridische documenten {#documents}
 
-U kunt leden vragen om kennis te nemen van vier soorten documenten:
+Je kunt leden vragen om kennis te nemen van vier soorten documenten:
 
 - Handvest
 - Statuten
 - Algemene voorwaarden
 - Privacybeleid
 
-Geef voor elk document een URL op die naar het document op uw website verwijst. Wanneer een URL is ingesteld, moeten leden een bevestigingsvakje aanvinken voordat ze het formulier kunnen verzenden.
+Geef voor elk document een URL op die naar het document op je website verwijst. Wanneer een URL is ingesteld, moeten leden een bevestigingsvakje aanvinken voordat ze het formulier kunnen verzenden.
 
 ## Instellingen weergavevolgorde {#order-settings}
 
@@ -139,13 +139,13 @@ Verschillende elementen in het formulier kunnen worden herschikt:
 | Depots | [Sorteermodus](/settings#registration) | Naam, prijs (oplopend/aflopend), prioriteit |
 | Leveringscycli | [Sorteermodus](/settings#registration) | Naam, prioriteit |
 
-In de modus "prioriteit" stelt u het veld "Weergaveprioriteit" in bij elk element. Lagere waarden verschijnen eerst.
+In de modus "prioriteit" stel je het veld "Weergaveprioriteit" in bij elk element. Lagere waarden verschijnen eerst.
 
 ## Enkele tips {#tips}
 
-1. **Houd het formulier gericht.** Elke extra alinea maakt het formulier langer. Uw website is de plek voor het verhaal; het formulier is er voor actie.
+1. **Houd het formulier gericht.** Elke extra alinea maakt het formulier langer. Je website is de plek voor het verhaal; het formulier is er voor actie.
 2. **Test op mobiel.** Doorloop de hele flow minstens één keer op een telefoon.
-3. **Gebruik depotgroepen** als u meer dan 8 depots heeft.
+3. **Gebruik depotgroepen** als je meer dan 8 depots hebt.
 4. **Beperk de solidariteitsprijsopties** tot ongeveer 4–6 keuzes.
 5. **Bekijk de voorvertoning na wijzigingen.** Controleer na het bijwerken van de instellingen hoe het formulier eruitziet: [registratieformulier openen](<%= new_members_member_url(subdomain: Current.org.members_subdomain) %>).
 6. **Korte tekst, duidelijke labels.** Als een lid een hele alinea moet lezen om een keuze te begrijpen, kan het label waarschijnlijk verbeterd worden.

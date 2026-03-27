@@ -1,18 +1,18 @@
 # Winkel
 
-De online winkel stelt uw leden in staat om aanvullende producten te bestellen vanaf hun account enkele dagen voor de levering van hun volgende <%= Basket.model_name.human(count: 2).downcase %>.
+De online winkel stelt je leden in staat om aanvullende producten te bestellen vanaf hun account enkele dagen voor de levering van hun volgende <%= Basket.model_name.human(count: 2).downcase %>.
 
-Om u de mogelijkheid te geven om de inhoud van uw winkel rustig voor te bereiden, verschijnt de winkel **standaard niet** in het menu van het ledenaccount. Alleen admins die toegang hebben tot het account van een lid (via de knop "Toegang tot account" op de adminpagina van een lid) kunnen de winkel zien. Op deze manier kunt u ervoor zorgen dat alle producten goed gepresenteerd zijn. Zodra alles op zijn plaats staat, kan deze beperking worden uitgeschakeld vanuit [de instellingen](/settings#shop).
+Om je de mogelijkheid te geven om de inhoud van je winkel rustig voor te bereiden, verschijnt de winkel **standaard niet** in het menu van het ledenaccount. Alleen admins die toegang hebben tot het account van een lid (via de knop "Toegang tot account" op de adminpagina van een lid) kunnen de winkel zien. Op deze manier kun je ervoor zorgen dat alle producten goed gepresenteerd zijn. Zodra alles op zijn plaats staat, kan deze beperking worden uitgeschakeld vanuit [de instellingen](/settings#shop).
 
 > Indien nodig is het mogelijk om de winkel per levering te sluiten vanaf de adminpagina van de betreffende levering.
 
 ## Producenten {#producers}
 
-Elk product kan worden gekoppeld aan [een producent](/shop_producers). Voor elk van hen kan een beschrijving evenals een link naar een website of document worden gedefinieerd. Alle producten kunnen worden gefilterd op producent in de ledeninterface van de winkel.
+Elk product kan worden gekoppeld aan [een producent](/shop_producers). Voor elk van hen kan een beschrijving evenals een link naar een website of document worden gedefinieerd. Alle producten kunnen worden gefilterd op producent in de ledeninterface van je winkel.
 
 ## Producten {#products}
 
-Veel opties worden aangeboden om de producten van uw winkel optimaal te beheren.
+Veel opties worden aangeboden om de producten van je winkel optimaal te beheren.
 
 ### Tags {#tags}
 
@@ -38,13 +38,13 @@ Dit product zal ook alleen beschikbaar zijn op de leveringsdagen van de aanvulli
 
 ## Bestellingen {#orders}
 
-Om u tijd te geven om bestellingen die voor de levering zijn geplaatst te verwerken en te factureren, kan een deadline (dagen en uren) tot wanneer bestellingen mogelijk zijn worden gedefinieerd vanuit [de winkelinstellingen](/settings#shop). Na deze deadline kunnen leden geen bestelling meer aanmaken of wijzigen voor de komende levering.
+Om je tijd te geven om bestellingen die voor de levering zijn geplaatst te verwerken en te factureren, kan een deadline (dagen en uren) tot wanneer bestellingen mogelijk zijn worden gedefinieerd vanuit [de winkelinstellingen](/settings#shop). Na deze deadline kunnen leden geen bestelling meer aanmaken of wijzigen voor de komende levering.
 
 Het is ook mogelijk om een minimaal bestelbedrag evenals een maximaal gewicht in te stellen, als deze informatie correct is ingevoerd voor elke productvariant.
 
 Zodra een bestelling is geplaatst, verschijnt deze met de status "voor te bereiden" in [de bestellingenlijst](/shop_orders?scope=pending). Deze bestellingen kunnen altijd door leden worden gewijzigd tot de geconfigureerde deadline. Een admin kan ze ook op elk moment wijzigen.
 
-Een leveringsbon (PDF), exclusief de prijs van producten, is beschikbaar voor elke bestelling als u deze wilt afdrukken en aan de <%= Basket.model_name.human(count: 2).downcase %> wilt bevestigen.
+Een leveringsbon (PDF), exclusief de prijs van producten, is beschikbaar voor elke bestelling als je deze wilt afdrukken en aan de <%= Basket.model_name.human(count: 2).downcase %> wilt bevestigen.
 
 ### Facturering {#billing}
 
@@ -59,21 +59,21 @@ Het is mogelijk om specifieke tekst toe te voegen in de ["Nieuwe factuur" e-mail
 ~~~ liquid
 {% case invoice.entity_type %}
 {% when 'Shop::Order' %}
-  <p>Hier is uw nieuwe factuur, voor uw bestelling N° {{ invoice.entity_number }}; alle details zijn te vinden in de bijgevoegde PDF.</p>
+  <p>Hier is je nieuwe factuur, voor je bestelling N° {{ invoice.entity_number }}; alle details zijn te vinden in de bijgevoegde PDF.</p>
 {% else %}
-  <p>Hier is uw nieuwe factuur; alle details zijn te vinden in de bijgevoegde PDF.</p>
+  <p>Hier is je nieuwe factuur; alle details zijn te vinden in de bijgevoegde PDF.</p>
 {% endcase %}
 ~~~
 
 ### Prijsflexibiliteit {#price-flexibility}
 
-Als u leden de mogelijkheid wilt geven om de prijs van hun bestellingen vrijwillig aan te passen (als solidariteitsbijdrage of als korting), kunt u een lijst van percentages definiëren in [de winkelinstellingen](/settings#shop). Bijvoorbeeld: `-10, -5, 5, 10`.
+Als je leden de mogelijkheid wilt geven om de prijs van hun bestellingen vrijwillig aan te passen (als solidariteitsbijdrage of als korting), kun je een lijst van percentages definiëren in [de winkelinstellingen](/settings#shop). Bijvoorbeeld: `-10, -5, 5, 10`.
 
 Wanneer percentages zijn geconfigureerd, zien leden een vervolgkeuzemenu op de bestelpagina waar zij een aanpassing kunnen toepassen (bijv. «Ondersteuning +10%» of «Korting -5%»). Deze aanpassing wordt toegepast op het totale bestelbedrag. Als de lijst alleen positieve waarden bevat, wordt het label weergegeven als een solidariteitsbijdrage; als alleen negatieve waarden, als een korting.
 
 ## Verkoopvoorwaarden {#terms-of-sale}
 
-Een link naar uw verkoopvoorwaarden kan per taal worden geconfigureerd in [de winkelinstellingen](/settings#shop). Wanneer ingesteld, wordt de link weergegeven onderaan de ledenwinkel-pagina.
+Een link naar je verkoopvoorwaarden kan per taal worden geconfigureerd in [de winkelinstellingen](/settings#shop). Wanneer ingesteld, wordt de link weergegeven onderaan de ledenwinkel-pagina.
 
 ## Toegang voor leden zonder lidmaatschap {#access-without-membership}
 
@@ -81,8 +81,8 @@ Standaard, en buiten [speciale leveringen](#special-deliveries), is de toegang t
 
 ## Speciale leveringen {#special-deliveries}
 
-Speciale leveringen stellen u in staat om aanvullende producten aan uw leden aan te bieden buiten de reguliere leveringen van <%= Basket.model_name.human(count: 2).downcase %> via de online winkel.
+Speciale leveringen stellen je in staat om aanvullende producten aan je leden aan te bieden buiten de reguliere leveringen van <%= Basket.model_name.human(count: 2).downcase %> via de online winkel.
 
 Beschikbare producten kunnen afzonderlijk worden gedefinieerd voor elke speciale levering, de individuele instelling van de beschikbaarheid van elk product wordt genegeerd. De beschikbaarheid van varianten evenals de staat van hun voorraad worden echter altijd gerespecteerd.
 
-> Omdat speciale leveringen worden geleverd buiten leveringen van <%= Basket.model_name.human(count: 2).downcase %> om, staan ze open voor al uw leden, actief of niet.
+> Omdat speciale leveringen worden geleverd buiten leveringen van <%= Basket.model_name.human(count: 2).downcase %> om, staan ze open voor al je leden, actief of niet.

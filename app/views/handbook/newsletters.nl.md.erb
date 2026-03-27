@@ -2,13 +2,13 @@
 
 Naast [automatische e-mails](/mail_templates) die worden verzonden tijdens specifieke gebeurtenissen (nieuwe factuur, vernieuwing, ...), biedt CSA Admin ook de mogelijkheid om [nieuwsbrieven (groepse-mails)](/newsletters) te verzenden.
 
-Deze nieuwsbrieven kunnen worden gericht aan al uw leden of aan een specifiek [publiek](#audience) (status, <%= BasketSize.model_name.human.downcase %>, depot, ...).
+Deze nieuwsbrieven kunnen worden gericht aan al je leden of aan een specifiek [publiek](#audience) (status, <%= BasketSize.model_name.human.downcase %>, depot, ...).
 
 > In tegenstelling tot [automatische e-mails](/mail_templates) bevatten nieuwsbrieven een (verplichte) uitschrijflink in hun voettekst.
 
 ## Publiek {#audience}
 
-Bij het aanmaken van een nieuwsbrief kiest u de doelgroep. Verschillende filters zijn beschikbaar:
+Bij het aanmaken van een nieuwsbrief kies je de doelgroep. Verschillende filters zijn beschikbaar:
 
 - **Ledenstatus**: Actief, ondersteuning, wachtlijst, inactief of alle leden.
 - **Lidmaatschapsstatus**: Proef, lopend, toekomstig of afgelopen.
@@ -22,20 +22,20 @@ Bij het aanmaken van een nieuwsbrief kiest u de doelgroep. Verschillende filters
 
 ### Opgeslagen segmenten {#segments}
 
-Als de bovenstaande standaard publieksfilters niet aan uw behoeften voldoen, kunt u [opgeslagen segmenten](/newsletter_segments) aanmaken voor geavanceerdere targeting. Een segment is een benoemde, herbruikbare filtercombinatie die criteria kan combineren die niet beschikbaar zijn in de standaardfilters (bijv. leden in een specifieke stad, met een bepaald factureringsinterval of een specifieke vernieuwingsstatus).
+Als de bovenstaande standaard publieksfilters niet aan je behoeften voldoen, kun je [opgeslagen segmenten](/newsletter_segments) aanmaken voor geavanceerdere targeting. Een segment is een benoemde, herbruikbare filtercombinatie die criteria kan combineren die niet beschikbaar zijn in de standaardfilters (bijv. leden in een specifieke stad, met een bepaald factureringsinterval of een specifieke vernieuwingsstatus).
 
 Opgeslagen segmenten kunnen filteren op <%= BasketSize.model_name.human.downcase %>, <%= BasketComplement.model_name.human(count: 2).downcase %>, depot, leveringscyclus, vernieuwingsstatus, factureringsinterval, stad en meer. Ze verschijnen naast de andere publiekopties bij het aanmaken van een nieuwsbrief.
 
 ## Sjablonen {#templates}
 
-Om het aanmaken van uw nieuwsbrieven te vergemakkelijken, biedt CSA Admin een geavanceerd systeem van [sjablonen](/newsletter_templates). Deze sjablonen zijn e-mailmodellen met voorgedefinieerde inhoudsblokken die u kunt aanmaken en wijzigen volgens uw behoeften.
+Om het aanmaken van je nieuwsbrieven te vergemakkelijken, biedt CSA Admin een geavanceerd systeem van [sjablonen](/newsletter_templates). Deze sjablonen zijn e-mailmodellen met voorgedefinieerde inhoudsblokken die je kunt aanmaken en wijzigen volgens je behoeften.
 
 Standaard zijn [2 sjablonen](/newsletter_templates) beschikbaar:
 
 - <strong>Vrije tekst</strong>: een eenvoudige sjabloon met een enkel inhoudsblok zonder titel.
 - <strong>Volgende levering</strong>: een meer complexe sjabloon met meerdere inhoudsblokken, evenals dynamische informatie ([<%= BasketContent.model_name.human.downcase %>](/handbook/basket_content), [volgende activiteit](/handbook/activity), ...).
 
-U kunt ze gerust dupliceren en naar wens wijzigen of [nieuwe aanmaken](/newsletter_templates/new).
+Je kunt ze gerust dupliceren en naar wens wijzigen of [nieuwe aanmaken](/newsletter_templates/new).
 
 > Ondanks de "groeps"verzending van een nieuwsbrief wordt de inhoud van elke e-mail individueel gegenereerd op basis van de informatie van elk lid (naam, taal, lidmaatschap, ...).
 
@@ -65,13 +65,13 @@ Sjablonen gebruiken de Liquid-sjabloontaal om dynamische lidspecifieke gegevens 
 
 ## Bijlagen {#attachments}
 
-U kunt bijlagen toevoegen aan uw nieuwsbrieven, maar het totale gewicht van deze bijlagen mag niet meer dan 5 MB bedragen.
+Je kunt bijlagen toevoegen aan je nieuwsbrieven, maar het totale gewicht van deze bijlagen mag niet meer dan 5 MB bedragen.
 
-Als u zwaardere bijlagen wilt verzenden, kunt u een externe dienst zoals [SwissTransfer](https://www.swisstransfer.com) gebruiken of ze hosten op uw website en eenvoudig een link naar deze bestanden toevoegen in uw nieuwsbrief.
+Als je zwaardere bijlagen wilt verzenden, kun je een externe dienst zoals [SwissTransfer](https://www.swisstransfer.com) gebruiken of ze hosten op je website en eenvoudig een link naar deze bestanden toevoegen in je nieuwsbrief.
 
 ## Leveringstracking {#delivery-tracking}
 
-Zodra een nieuwsbrief is verzonden, wordt de leveringsstatus van elke e-mail individueel gevolgd. U kunt het aantal afgeleverde, geweigerde of onderdrukte e-mails direct op de [detailpagina van de nieuwsbrief](/newsletters) zien.
+Zodra een nieuwsbrief is verzonden, wordt de leveringsstatus van elke e-mail individueel gevolgd. Je kunt het aantal afgeleverde, geweigerde of onderdrukte e-mails direct op de [detailpagina van de nieuwsbrief](/newsletters) zien.
 
 Elke leveringsregistratie toont:
 
@@ -89,7 +89,7 @@ Als een lid een nieuw e-mailadres toevoegt (of een bestaand adres wordt gecorrig
 
 ## Plannen {#scheduling}
 
-Om het automatische verzenden van een nieuwsbrief te plannen, specificeert u een toekomstige datum in het veld "Levering gepland op". Het systeem zal deze automatisch verzenden in de nacht van de gekozen datum. Zorg ervoor dat de inhoud is afgerond voordat u een verzending plant!
+Om het automatische verzenden van een nieuwsbrief te plannen, specificeer je een toekomstige datum in het veld "Levering gepland op". Het systeem zal deze automatisch verzenden in de nacht van de gekozen datum. Zorg ervoor dat de inhoud is afgerond voordat je een verzending plant!
 
 ## Uitschrijving {#unsubscription}
 

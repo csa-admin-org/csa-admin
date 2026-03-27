@@ -1,6 +1,6 @@
 # Biedronde
 
-De biedronde stelt leden in staat om de prijs per <%= Basket.model_name.human.downcase %> die zij bereid zijn te betalen voor hun <%= BasketSize.model_name.human.downcase %> aan te geven, gebaseerd op hun mogelijkheden, terwijl ervoor wordt gezorgd dat de behoeften van de organisatie worden gedekt.
+De biedronde stelt leden in staat om de prijs per <%= Basket.model_name.human.downcase %> die ze bereid zijn te betalen voor hun <%= BasketSize.model_name.human.downcase %> aan te geven, gebaseerd op hun mogelijkheden, terwijl ervoor wordt gezorgd dat de behoeften van de organisatie worden gedekt.
 
 Voorgestelde bedragen worden beperkt door configureerbare min/max grenzen.
 
@@ -11,7 +11,7 @@ Voorgestelde bedragen worden beperkt door configureerbare min/max grenzen.
 
 > Leden gemarkeerd als «<%= Member.human_attribute_name(:salary_basket) %>» worden automatisch uitgesloten van biedrondes, aangezien hun lidmaatschapsprijs op nul is gezet.
 
-Voordat u een biedronde opent, controleer de volgende punten in de [instellingen](/settings#bidding_round):
+Voordat je een biedronde opent, controleer de volgende punten in de [instellingen](/settings#bidding_round):
 
 - Minimale <%= BasketSize.model_name.human.downcase %>prijs (0-100%) — definieert het minimaal toegestane percentage.
 - Maximale <%= BasketSize.model_name.human.downcase %>prijs (0-X%) — definieert het maximaal toegestane percentage.
@@ -25,14 +25,14 @@ Deze instellingen zorgen voor een consistent kader voor ledenbiedingen en maken 
 
 1. Maak lidmaatschappen aan voor het nieuwe seizoen (zie [vernieuwing](/handbook/membership_renewal)).
 2. Maak een nieuwe biedronde aan en open deze.
-3. Laat leden bedragen bieden voor hun <%= BasketSize.model_name.human(count: 2).downcase %> (de duur van het openingsvenster is aan u).
+3. Laat leden bedragen bieden voor hun <%= BasketSize.model_name.human(count: 2).downcase %> (de duur van het openingsvenster is aan jou).
 4. Bekijk de resultaten van de biedronde en besluit:
    - Zijn de behoeften gedekt? Voltooi de biedronde om de prijs per <%= Basket.model_name.human.downcase %> bij te werken voor alle lidmaatschappen die een bod hebben ontvangen.
    - Behoeften niet gedekt? Sluit (falen) de biedronde en maak een nieuwe aan.
 
 ## Opening {#opening}
 
-Wanneer de biedronde wordt geopend, wordt automatisch een e-mail naar leden verzonden. Vanuit hun accounts kunnen zij toegang krijgen tot een formulier om de prijs voor hun <%= BasketSize.model_name.human.downcase %> te bieden.
+Wanneer de biedronde wordt geopend, wordt automatisch een e-mail naar leden verzonden. Vanuit hun accounts kunnen ze toegang krijgen tot een formulier om de prijs voor hun <%= BasketSize.model_name.human.downcase %> te bieden.
 
 ### Herinnering
 
@@ -46,6 +46,6 @@ Een automatische e-mail (optioneel) kan worden verzonden naar alle getroffen led
 
 ## Sluiten (falen) {#close}
 
-Wanneer de biedronde wordt gesloten (falen), wordt geen lidmaatschap gewijzigd. U kunt dan een nieuwe biedronde openen om te proberen te convergeren naar een prijs die acceptabel is voor alle leden.
+Wanneer de biedronde wordt gesloten (falen), wordt geen lidmaatschap gewijzigd. Je kunt dan een nieuwe biedronde openen om te proberen te convergeren naar een prijs die acceptabel is voor alle leden.
 
 Een automatische e-mail (optioneel) kan worden verzonden naar alle getroffen leden.

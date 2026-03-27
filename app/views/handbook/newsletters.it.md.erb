@@ -2,7 +2,7 @@
 
 In aggiunta alle [email automatiche](/mail_templates) inviate durante eventi specifici (nuova fattura, rinnovo, ...), CSA Admin offre anche la possibilità di inviare [newsletters (email di gruppo)](/newsletters).
 
-Queste newsletters possono essere indirizzate a tutti i vostri soci o a un [pubblico](#audience) specifico (stato, <%= BasketSize.model_name.human.downcase %>, punto di ritiro, ...).
+Queste newsletters possono essere indirizzate a tutti i tuoi soci o a un [pubblico](#audience) specifico (stato, <%= BasketSize.model_name.human.downcase %>, punto di ritiro, ...).
 
 > A differenza delle [email automatiche](/mail_templates), le newsletters includono un link di disiscrizione (obbligatorio) nel loro piè di pagina.
 
@@ -22,20 +22,20 @@ Durante la creazione di una newsletter, scegliete il pubblico di destinazione. D
 
 ### Segmenti salvati {#segments}
 
-Se i filtri di pubblico standard sopra non coprono le vostre esigenze, potete creare [segmenti salvati](/newsletter_segments) per un targeting più avanzato. Un segmento è una combinazione di filtri nominata e riutilizzabile che può combinare criteri non disponibili nei filtri predefiniti (ad esempio, soci in una città specifica, con un particolare intervallo di fatturazione o un determinato stato di rinnovo).
+Se i filtri di pubblico standard sopra non coprono le tue esigenze, puoi creare [segmenti salvati](/newsletter_segments) per un targeting più avanzato. Un segmento è una combinazione di filtri nominata e riutilizzabile che può combinare criteri non disponibili nei filtri predefiniti (ad esempio, soci in una città specifica, con un particolare intervallo di fatturazione o un determinato stato di rinnovo).
 
 I segmenti salvati possono filtrare per <%= BasketSize.model_name.human.downcase %>, <%= BasketComplement.model_name.human(count: 2).downcase %>, deposito, ciclo di consegne, stato del rinnovo, intervallo di fatturazione, città e altro. Appaiono accanto alle altre opzioni di pubblico durante la creazione di una newsletter.
 
 ## Templates {#templates}
 
-Per facilitare la creazione delle vostre newsletters, CSA Admin offre un sofisticato sistema di [templates](/newsletter_templates). Questi templates sono modelli di email con blocchi di contenuto predefiniti che potete creare e modificare secondo le vostre necessità.
+Per facilitare la creazione delle tue newsletters, CSA Admin offre un sofisticato sistema di [templates](/newsletter_templates). Questi templates sono modelli di email con blocchi di contenuto predefiniti che puoi creare e modificare secondo le tue necessità.
 
 Di default, sono disponibili [2 templates](/newsletter_templates):
 
 - <strong>Testo libero</strong>: un template semplice con un singolo blocco di contenuto senza titolo.
 - <strong>Prossima consegna</strong>: un template più complesso con diversi blocchi di contenuto, nonché informazioni dinamiche ([<%= BasketContent.model_name.human.downcase %>](/handbook/basket_content), [prossima attività](/handbook/activity), ...).
 
-Sentitevi liberi di duplicarli e modificarli come desiderate o [crearne di nuovi](/newsletter_templates/new).
+Sentiti libero di duplicarli e modificarli come desideri o [crearne di nuovi](/newsletter_templates/new).
 
 > Nonostante l'invio "di gruppo" di una newsletter, il contenuto di ogni email viene generato individualmente in base alle informazioni di ciascun socio (nome, lingua, abbonamento, ...).
 
@@ -61,17 +61,17 @@ Esempio di un blocco vuoto (da compilare durante la creazione di una newsletter)
 
 ### Linguaggio dei template e formattazione {#liquid}
 
-I template utilizzano il linguaggio di template Liquid per inserire dati dinamici specifici per ogni socio (nome, dettagli della <%= Basket.model_name.human.downcase %>, informazioni sull'abbonamento, ...) e logica condizionale. Per dettagli sulla sintassi Liquid, i tag di formattazione e il pannello di anteprima dei dati, consultate la [pagina Emails del manuale](/handbook/emails).
+I template utilizzano il linguaggio di template Liquid per inserire dati dinamici specifici per ogni socio (nome, dettagli della <%= Basket.model_name.human.downcase %>, informazioni sull'abbonamento, ...) e logica condizionale. Per dettagli sulla sintassi Liquid, i tag di formattazione e il pannello di anteprima dei dati, consulta la [pagina Emails del manuale](/handbook/emails).
 
 ## Allegati {#attachments}
 
-Potete aggiungere allegati alle vostre newsletters, ma il peso totale di questi allegati non deve superare i 5 MB.
+Puoi aggiungere allegati alle tue newsletters, ma il peso totale di questi allegati non deve superare i 5 MB.
 
-Se desiderate inviare allegati più pesanti, potete utilizzare un servizio esterno come [SwissTransfer](https://www.swisstransfer.com) o ospitarli sul vostro sito e semplicemente aggiungere un link a questi file nella vostra newsletter.
+Se desideri inviare allegati più pesanti, puoi utilizzare un servizio esterno come [SwissTransfer](https://www.swisstransfer.com) o ospitarli sul tuo sito e semplicemente aggiungere un link a questi file nella tua newsletter.
 
 ## Tracciamento delle consegne {#delivery-tracking}
 
-Una volta inviata una newsletter, lo stato di consegna di ogni email viene tracciato individualmente. Potete vedere il numero di email consegnate, rifiutate o soppresse direttamente sulla [pagina di dettaglio della newsletter](/newsletters).
+Una volta inviata una newsletter, lo stato di consegna di ogni email viene tracciato individualmente. Puoi vedere il numero di email consegnate, rifiutate o soppresse direttamente sulla [pagina di dettaglio della newsletter](/newsletters).
 
 Ogni registrazione di consegna mostra:
 
@@ -89,7 +89,7 @@ Se un socio aggiunge un nuovo indirizzo email (o uno esistente viene corretto) e
 
 ## Programmazione dell'invio {#scheduling}
 
-Per programmare l'invio automatico di una newsletter, specificate una data futura nel campo "Invio programmato il". Il sistema la invierà automaticamente durante la notte della data scelta. Assicuratevi che il contenuto sia finalizzato prima di programmare un invio!
+Per programmare l'invio automatico di una newsletter, specifica una data futura nel campo "Invio programmato il". Il sistema la invierà automaticamente durante la notte della data scelta. Assicurati che il contenuto sia finalizzato prima di programmare un invio!
 
 ## Disiscrizione {#unsubscription}
 

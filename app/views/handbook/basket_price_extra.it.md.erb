@@ -1,6 +1,6 @@
 # Prezzo extra
 
-Questa funzione permette di offrire ai vostri soci di versare un extra per ogni <%= Basket.model_name.human.downcase %>.
+Questa funzione permette di offrire ai tuoi soci di versare un extra per ogni <%= Basket.model_name.human.downcase %>.
 
 Questo reddito aggiuntivo può servire a diverse esigenze, per esempio:
 
@@ -9,15 +9,15 @@ Questo reddito aggiuntivo può servire a diverse esigenze, per esempio:
 
 ## Configurazione {#configuration}
 
-Una volta attivata questa funzione aggiuntiva nelle [vostre impostazioni](/settings#organization_features_input), [diverse impostazioni](/settings#basket_price_extra) vi permettono di configurare come questi extra saranno presentati ai vostri soci durante la loro iscrizione o il [rinnovo](/handbook/membership_renewal) del loro abbonamento.
+Una volta attivata questa funzione aggiuntiva nelle [tue impostazioni](/settings#organization_features_input), [diverse impostazioni](/settings#basket_price_extra) ti permettono di configurare come questi extra saranno presentati ai tuoi soci durante la loro iscrizione o il [rinnovo](/handbook/membership_renewal) del loro abbonamento.
 
-Una volta scelto il titolo dell'extra e un testo esplicativo (opzionale), potete quindi definire un elenco di extra separati da virgole, per esempio:
+Una volta scelto il titolo dell'extra e un testo esplicativo (opzionale), puoi quindi definire un elenco di extra separati da virgole, per esempio:
 
 ~~~
 0.0, 1.0, 1.5, 3.0, 5.0
 ~~~
 
-Successivamente, dovete definire con quale etichetta saranno visualizzati i vostri extra, per esempio utilizzando [la sintassi Liquid](https://shopify.github.io/liquid) seguente:
+Successivamente, devi definire con quale etichetta saranno visualizzati i tuoi extra, per esempio utilizzando [la sintassi Liquid](https://shopify.github.io/liquid) seguente:
 
 ~~~ liquid
 {% if extra == 0 %}
@@ -32,7 +32,7 @@ Tariffa di base
 Questo darà questa presentazione (con 40 consegne):
 ![Visualizzazione etichette](<%= image_url("handbook/basket_price_extra/label.it.png") %>)
 
-Potete anche scegliere di aggiungere più dettagli all'etichetta, per esempio utilizzando [la sintassi Liquid](https://shopify.github.io/liquid) seguente:
+Puoi anche scegliere di aggiungere più dettagli all'etichetta, per esempio utilizzando [la sintassi Liquid](https://shopify.github.io/liquid) seguente:
 
 ~~~ liquid
 {% if extra == 1.5 %}
@@ -47,6 +47,6 @@ Questo darà questa presentazione più dettagliata (con 40 consegne):
 
 ## Rapporto {#report}
 
-L'importo totale di tutti gli extra è visualizzato in basso a destra della [lista degli abbonamenti](/memberships?q%5Bduring_year%5D=<%= Current.fy_year %>&scope=all&order=started_on_desc), sotto i filtri. Non dimenticate di filtrare gli abbonamenti per anno fiscale per avere l'importo corretto.
+L'importo totale di tutti gli extra è visualizzato in basso a destra della [lista degli abbonamenti](/memberships?q%5Bduring_year%5D=<%= Current.fy_year %>&scope=all&order=started_on_desc), sotto i filtri. Non dimenticare di filtrare gli abbonamenti per anno fiscale per avere l'importo corretto.
 
-Potete facilmente filtrare [la lista degli abbonamenti](/memberships?q%5Bbasket_price_extra_gt%5D=0&order=started_on_desc) con un extra utilizzando il filtro a destra previsto a questo scopo. Questa informazione si trova anche nell'[esportazione CSV degli abbonamenti](/memberships.csv).
+Puoi facilmente filtrare [la lista degli abbonamenti](/memberships?q%5Bbasket_price_extra_gt%5D=0&order=started_on_desc) con un extra utilizzando il filtro a destra previsto a questo scopo. Questa informazione si trova anche nell'[esportazione CSV degli abbonamenti](/memberships.csv).

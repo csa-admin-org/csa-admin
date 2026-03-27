@@ -1,8 +1,8 @@
 # Bottega
 
-La bottega online permette ai vostri soci di ordinare prodotti aggiuntivi dal loro account alcuni giorni prima della consegna delle loro prossime <%= Basket.model_name.human(count: 2).downcase %>.
+La bottega online permette ai tuoi soci di ordinare prodotti aggiuntivi dal loro account alcuni giorni prima della consegna delle loro prossime <%= Basket.model_name.human(count: 2).downcase %>.
 
-Per permettervi di preparare il contenuto della vostra bottega tranquillamente, per default, la bottega **non appare** nel menu dell'account socio. Solo gli admin che possono accedere all'account di un socio (dal pulsante "Accedere all'account" della pagina admin di un socio) possono vedere la bottega. Potete così assicurarvi che tutti i prodotti siano ben presentati. Una volta tutto a posto, questa limitazione può essere disattivata dalle [impostazioni](/settings#shop).
+Per permetterti di preparare il contenuto della tua bottega tranquillamente, per default, la bottega **non appare** nel menu dell'account socio. Solo gli admin che possono accedere all'account di un socio (dal pulsante "Accedere all'account" della pagina admin di un socio) possono vedere la bottega. Puoi così assicurarti che tutti i prodotti siano ben presentati. Una volta tutto a posto, questa limitazione può essere disattivata dalle [impostazioni](/settings#shop).
 
 > Se necessario, è possibile chiudere la bottega per consegna dalla pagina admin di queste ultime.
 
@@ -12,7 +12,7 @@ Ogni prodotto può essere associato a [un produttore](/shop_producers). Una desc
 
 ## Prodotti {#products}
 
-Molte opzioni sono offerte per gestire al meglio i prodotti della vostra bottega.
+Molte opzioni sono offerte per gestire al meglio i prodotti della tua bottega.
 
 ### Tag {#tags}
 
@@ -38,13 +38,13 @@ Questo prodotto sarà anche disponibile solo nei giorni di consegna del compleme
 
 ## Ordini {#orders}
 
-Per lasciarvi il tempo di elaborare e fatturare gli ordini effettuati prima della consegna, una scadenza (giorni e ore) fino alla quale gli ordini sono possibili, può essere definita dalle [impostazioni della bottega](/settings#shop). Passata questa scadenza, i soci non potranno più creare o modificare il loro ordine per la consegna imminente.
+Per lasciarti il tempo di elaborare e fatturare gli ordini effettuati prima della consegna, una scadenza (giorni e ore) fino alla quale gli ordini sono possibili, può essere definita dalle [impostazioni della bottega](/settings#shop). Passata questa scadenza, i soci non potranno più creare o modificare il loro ordine per la consegna imminente.
 
 È anche possibile impostare un importo minimo di ordine così come un peso massimo, se questa informazione è stata ben inserita per ogni variante dei prodotti.
 
 Una volta effettuato un ordine, appare con lo stato "da preparare" nella [lista degli ordini](/shop_orders?scope=pending). Questi ordini sono sempre modificabili dai soci fino alla scadenza configurata. Un admin può anche modificarli in qualsiasi momento.
 
-Un bollettino di consegna (PDF), che non include il prezzo dei prodotti, è disponibile per ogni ordine se desiderate stamparli e allegarli alle <%= Basket.model_name.human(count: 2).downcase %>.
+Un bollettino di consegna (PDF), che non include il prezzo dei prodotti, è disponibile per ogni ordine se desideri stamparli e allegarli alle <%= Basket.model_name.human(count: 2).downcase %>.
 
 ### Fatturazione {#billing}
 
@@ -59,21 +59,21 @@ Per default, una volta preparati gli ordini, gli ordini devono essere fatturati 
 ~~~ liquid
 {% case invoice.entity_type %}
 {% when 'Shop::Order' %}
-  <p>Ecco la vostra nuova fattura, per il vostro ordine N° {{ invoice.entity_number }}; tutti i dettagli si trovano nel PDF allegato.</p>
+  <p>Ecco la tua nuova fattura, per il tuo ordine N° {{ invoice.entity_number }}; tutti i dettagli si trovano nel PDF allegato.</p>
 {% else %}
-  <p>Ecco la vostra nuova fattura; tutti i dettagli si trovano nel PDF allegato.</p>
+  <p>Ecco la tua nuova fattura; tutti i dettagli si trovano nel PDF allegato.</p>
 {% endcase %}
 ~~~
 
 ### Flessibilità dei prezzi {#price-flexibility}
 
-Se desiderate permettere ai soci di adeguare volontariamente il prezzo dei loro ordini (come contributo solidale o come sconto), potete definire un elenco di percentuali nelle [impostazioni della bottega](/settings#shop). Per esempio: `-10, -5, 5, 10`.
+Se desideri permettere ai soci di adeguare volontariamente il prezzo dei loro ordini (come contributo solidale o come sconto), puoi definire un elenco di percentuali nelle [impostazioni della bottega](/settings#shop). Per esempio: `-10, -5, 5, 10`.
 
 Quando delle percentuali sono configurate, i soci vedono un menu a tendina sulla pagina dell'ordine dove possono applicare un adeguamento (ad esempio «Sostegno +10%» o «Sconto -5%»). Questo adeguamento si applica all'importo totale dell'ordine. Se l'elenco contiene solo valori positivi, l'etichetta indica un contributo di sostegno; se solo valori negativi, uno sconto.
 
 ## Condizioni di vendita {#terms-of-sale}
 
-Un link alle vostre condizioni di vendita può essere configurato per lingua nelle [impostazioni della bottega](/settings#shop). Quando impostato, il link viene visualizzato in fondo alla pagina della bottega del socio.
+Un link alle tue condizioni di vendita può essere configurato per lingua nelle [impostazioni della bottega](/settings#shop). Quando impostato, il link viene visualizzato in fondo alla pagina della bottega del socio.
 
 ## Accesso ai soci senza abbonamento {#access-without-membership}
 
@@ -81,8 +81,8 @@ Per default, e al di fuori [delle consegne speciali](#special-deliveries), l'acc
 
 ## Consegne speciali {#special-deliveries}
 
-Le consegne speciali vi permettono di proporre prodotti aggiuntivi ai vostri soci al di fuori delle consegne di <%= Basket.model_name.human(count: 2).downcase %> abituali tramite la bottega online.
+Le consegne speciali ti permettono di proporre prodotti aggiuntivi ai tuoi soci al di fuori delle consegne di <%= Basket.model_name.human(count: 2).downcase %> abituali tramite la bottega online.
 
 I prodotti disponibili possono essere definiti separatamente per ogni consegna speciale, l'impostazione individuale della disponibilità di ogni prodotto viene ignorata. Invece, la disponibilità delle varianti così come lo stato del loro stock sono sempre rispettati.
 
-> Poiché le consegne speciali sono consegnate al di fuori delle consegne di <%= Basket.model_name.human(count: 2).downcase %>, sono aperte a tutti i vostri soci attivi o meno.
+> Poiché le consegne speciali sono consegnate al di fuori delle consegne di <%= Basket.model_name.human(count: 2).downcase %>, sono aperte a tutti i tuoi soci attivi o meno.

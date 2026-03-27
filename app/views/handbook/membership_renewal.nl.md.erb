@@ -15,12 +15,12 @@ Zodra de leveringen zijn aangemaakt, kunnen beheerders lidmaatschappen handmatig
 Sectie "Vernieuwingen" onder de filters van [de lidmaatschappenpagina](/memberships) zodra aan de onderstaande vereisten is voldaan:
 ![lidmaatschappen sectie](<%= image_url("handbook/membership_renewal/section.en.png") %>){:class="small"}
 
-> Het is belangrijk om te weten dat het systeem niet automatisch vernieuwingsverzoeken naar leden stuurt; het is daarom aan u om het juiste moment te kiezen om ze te verzenden volgens uw statuten of reglementen. <br/><br/>
-> Als leden niet reageren, is het ook aan u om deze lidmaatschappen stilzwijgend te vernieuwen (of niet) op het moment van uw keuze met behulp van de knop "X lidmaatschappen vernieuwen" die zich op [de lidmaatschappenpagina](/memberships) bevindt.
+> Het is belangrijk om te weten dat het systeem niet automatisch vernieuwingsverzoeken naar leden stuurt; het is daarom aan jou om het juiste moment te kiezen om ze te verzenden volgens je statuten of reglementen. <br/><br/>
+> Als leden niet reageren, is het ook aan jou om deze lidmaatschappen stilzwijgend te vernieuwen (of niet) op het moment van je keuze met behulp van de knop "X lidmaatschappen vernieuwen" die zich op [de lidmaatschappenpagina](/memberships) bevindt.
 
 ### Vereisten
 
-Om vernieuwingsverzoeken te kunnen verzenden, moet u eerst de volgende elementen instellen:
+Om vernieuwingsverzoeken te kunnen verzenden, moet je eerst de volgende elementen instellen:
 
 - Maak alle [leveringen](/deliveries/new) aan voor het nieuwe boekjaar.
 - Bewerk en activeer [de "Lidmaatschapsvernieuwing" e-mailsjabloon](/mail_templates/membership_renewal).
@@ -29,7 +29,7 @@ Om vernieuwingsverzoeken te kunnen verzenden, moet u eerst de volgende elementen
 
 ### Test verzending van een verzoek
 
-Zodra aan de vereisten is voldaan, is het mogelijk om een vernieuwingsverzoek per e-mail voor een enkel lid (bijvoorbeeld u) te verzenden vanaf hun lidmaatschappagina. Dit stelt u in staat om ervoor te zorgen dat alles correct werkt.
+Zodra aan de vereisten is voldaan, is het mogelijk om een vernieuwingsverzoek per e-mail voor een enkel lid (bijvoorbeeld jezelf) te verzenden vanaf hun lidmaatschappagina. Dit stelt je in staat om ervoor te zorgen dat alles correct werkt.
 
 ### Herinneringse-mail
 
@@ -47,9 +47,9 @@ Zodra het vernieuwingsverzoek is verzonden, heeft het lid toegang tot een formul
 
 ### Vernieuwing
 
-Als het lid ervoor kiest om hun lidmaatschap te vernieuwen, worden zij doorverwezen naar de vernieuwingspagina die hen in staat stelt om hun <%= BasketSize.model_name.human.downcase %>, hun <%= BasketComplement.model_name.human(count: 2).downcase %> (indien beschikbaar), het betalingsinterval te wijzigen, evenals een vrije opmerking achter te laten.
+Als het lid ervoor kiest om hun lidmaatschap te vernieuwen, worden ze doorverwezen naar de vernieuwingspagina die hen in staat stelt om hun <%= BasketSize.model_name.human.downcase %>, hun <%= BasketComplement.model_name.human(count: 2).downcase %> (indien beschikbaar), het betalingsinterval te wijzigen, evenals een vrije opmerking achter te laten.
 
-De volgende opties zijn ook beschikbaar op de vernieuwingspagina afhankelijk van uw configuratie:
+De volgende opties zijn ook beschikbaar op de vernieuwingspagina afhankelijk van je configuratie:
 
 - **Depot**: Leden kunnen van depot wisselen als de optie «Depotwijziging bij vernieuwing toestaan» is ingeschakeld in [de instellingen](/settings#membership_renewal).
 - **<%= Basket.model_name.human %> extra prijs**: Leden kunnen hun [extra prijs](/handbook/basket_price_extra)-bijdrage aanpassen.
@@ -72,6 +72,6 @@ Als een attribuut niet is geselecteerd, wordt het gereset naar de standaardwaard
 
 ### Beëindiging
 
-Als het lid ervoor kiest om hun lidmaatschap te beëindigen, worden zij vervolgens doorverwezen naar de beëindigingspagina die hen in staat stelt om een vrije opmerking achter te laten evenals te kiezen om de vereniging te blijven steunen als ondersteunend lid door de jaarlijkse bijdrage te betalen (indien van toepassing).
+Als het lid ervoor kiest om hun lidmaatschap te beëindigen, worden ze vervolgens doorverwezen naar de beëindigingspagina die hen in staat stelt om een vrije opmerking achter te laten evenals te kiezen om de vereniging te blijven steunen als ondersteunend lid door de jaarlijkse bijdrage te betalen (indien van toepassing).
 
 Indien nodig kan de beëindiging van het lidmaatschap door een beheerder worden geannuleerd vanaf de lidmaatschappagina.

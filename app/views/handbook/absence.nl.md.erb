@@ -1,22 +1,22 @@
 # Afwezigheid
 
-Deze functie stelt u in staat om de afwezigheid van uw leden te beheren en automatisch afwezige <%= Basket.model_name.human(count: 2).downcase %> van uw leveringen af te trekken. Uw leden kunnen hun afwezigheid direct vanuit hun ledengebied aankondigen. U kunt ook afwezigheid voor uw leden toevoegen als admin ([Overig > Afwezigheid](/absences)).
+Deze functie stelt je in staat om de afwezigheid van je leden te beheren en automatisch afwezige <%= Basket.model_name.human(count: 2).downcase %> van je leveringen af te trekken. Je leden kunnen hun afwezigheid direct vanuit hun ledengebied aankondigen. Je kunt ook afwezigheid voor je leden toevoegen als admin ([Overig > Afwezigheid](/absences)).
 
 ## Configuratie {#configuration}
 
-Zodra deze aanvullende functie is geactiveerd in [uw instellingen](/settings#organization_features_input), zijn [meerdere instellingen](/settings#absence) beschikbaar.
+Zodra deze aanvullende functie is geactiveerd in [je instellingen](/settings#organization_features_input), zijn [meerdere instellingen](/settings#absence) beschikbaar.
 
 ## Facturering {#billing}
 
-Standaard worden <%= Basket.model_name.human(count: 2).downcase %> die als afwezig zijn gemarkeerd en niet geleverd, gefactureerd, en leden wordt geadviseerd om een kennis te vinden die hun <%= Basket.model_name.human.downcase %> in hun plaats ophaalt. In [de instellingen](/settings#absence) kunt u er ook voor kiezen om ze niet te factureren. Het systeem zal dan automatisch [de facturering aanpassen](/handbook/billing#price-change) van het lidmaatschap.
+Standaard worden <%= Basket.model_name.human(count: 2).downcase %> die als afwezig zijn gemarkeerd en niet geleverd, gefactureerd, en leden wordt geadviseerd om een kennis te vinden die hun <%= Basket.model_name.human.downcase %> in hun plaats ophaalt. In [de instellingen](/settings#absence) kun je er ook voor kiezen om ze niet te factureren. Het systeem zal dan automatisch [de facturering aanpassen](/handbook/billing#price-change) van het lidmaatschap.
 
 ## Verschuiving van <%= Basket.model_name.human(count: 2).downcase %> {#basket-shift}
 
 Het is mogelijk om de levering van een <%= Basket.model_name.human.downcase %> tijdens een afwezigheid naar een andere levering te verschuiven. Dit stelt leden in staat om hun afwezigheid te compenseren zonder het aantal gefactureerde <%= Basket.model_name.human(count: 2).downcase %> te wijzigen.
 
-Aan de admin kant hoeft u alleen maar een <%= Basket.model_name.human.downcase %> dat als afwezig is gemarkeerd te wijzigen vanaf de lidmaatschappagina en een andere leveringsdatum te kiezen. De inhoud van de <%= Basket.model_name.human.downcase %> (inclusief aanvullingen) wordt dan automatisch naar de gekozen <%= Basket.model_name.human.downcase %> verschoven.
+Aan de admin kant hoef je alleen maar een <%= Basket.model_name.human.downcase %> dat als afwezig is gemarkeerd te wijzigen vanaf de lidmaatschappagina en een andere leveringsdatum te kiezen. De inhoud van de <%= Basket.model_name.human.downcase %> (inclusief aanvullingen) wordt dan automatisch naar de gekozen <%= Basket.model_name.human.downcase %> verschoven.
 
-Aan de ledenkant is de verschuiving van <%= Basket.model_name.human(count: 2).downcase %> standaard niet mogelijk. Om deze functie te activeren, heeft u de mogelijkheid om [de volgende instellingen te wijzigen](/settings#absence):
+Aan de ledenkant is de verschuiving van <%= Basket.model_name.human(count: 2).downcase %> standaard niet mogelijk. Om deze functie te activeren, heb je de mogelijkheid om [de volgende instellingen te wijzigen](/settings#absence):
 
 - **Aantal toegestane verschuivingen**: om, indien gewenst, het aantal verschuivingen dat mogelijk is door leden te beperken.
 - **Deadline voor verschuivingen**: om, indien gewenst, de verschuivingen in tijd te beperken.
@@ -27,15 +27,15 @@ Als de afwezigheid wordt geannuleerd, wordt de inhoud van de <%= Basket.model_na
 
 ### Nieuwsbrief Template
 
-Wanneer een <%= Basket.model_name.human.downcase %> verschuivingen heeft ontvangen, kunt u een herinnering weergeven in uw [nieuwsbrief templates](/newsletter_templates) met behulp van de variabelen `basket.shifted` en `basket.shifts`:
+Wanneer een <%= Basket.model_name.human.downcase %> verschuivingen heeft ontvangen, kun je een herinnering weergeven in je [nieuwsbrief templates](/newsletter_templates) met behulp van de variabelen `basket.shifted` en `basket.shifts`:
 
 ~~~ liquid
 {% if basket.shifted %}
   {% highlight %}
     <p><strong>📣 Belangrijke herinnering!</strong></p>
-    <p>U heeft <strong>{{ basket.quantity }} <%= Basket.model_name.human(count: 2).downcase %></strong> op te halen deze week:</p>
+    <p>Je hebt <strong>{{ basket.quantity }} <%= Basket.model_name.human(count: 2).downcase %></strong> op te halen deze week:</p>
     <ul>
-      <li>Uw gewone <%= Basket.model_name.human.downcase %></li>
+      <li>Je gewone <%= Basket.model_name.human.downcase %></li>
       {% for shift in basket.shifts %}
         <li><%= Basket.model_name.human %> verschoven van {{ shift.old_delivery_date }}</li>
       {% endfor %}
@@ -46,25 +46,25 @@ Wanneer een <%= Basket.model_name.human.downcase %> verschuivingen heeft ontvang
 
 ## Inbegrepen afwezigheid {#absence-included}
 
-Het is mogelijk om een aantal afwezigheid in te configureren die in het lidmaatschap zijn inbegrepen. Deze afwezigheid wordt dan automatisch afgetrokken en niet gefactureerd vanaf het begin van het lidmaatschap. Het systeem zal voorlopig de laatste leveringen van het lidmaatschap als afwezig markeren, in afwachting dat het lid deze afwezigheid op specifieke data vastlegt. Aanvullende afwezigheid wordt wel of niet gefactureerd volgens de gekozen modus in [uw instellingen](/settings#absence).
+Het is mogelijk om een aantal afwezigheid in te configureren die in het lidmaatschap zijn inbegrepen. Deze afwezigheid wordt dan automatisch afgetrokken en niet gefactureerd vanaf het begin van het lidmaatschap. Het systeem zal voorlopig de laatste leveringen van het lidmaatschap als afwezig markeren, in afwachting dat het lid deze afwezigheid op specifieke data vastlegt. Aanvullende afwezigheid wordt wel of niet gefactureerd volgens de gekozen modus in [je instellingen](/settings#absence).
 
-> Het aantal inbegrepen afwezigheid wordt ingesteld op het niveau van een [leveringscyclus](/handbook/deliveries#delivery-cycles), om lidmaatschappen aan te bieden met een aantal inbegrepen afwezigheid (en dus leveringen) op [uw registratieformulier](<%= new_members_member_url(subdomain: Current.org.members_subdomain) %>).
+> Het aantal inbegrepen afwezigheid wordt ingesteld op het niveau van een [leveringscyclus](/handbook/deliveries#delivery-cycles), om lidmaatschappen aan te bieden met een aantal inbegrepen afwezigheid (en dus leveringen) op [je registratieformulier](<%= new_members_member_url(subdomain: Current.org.members_subdomain) %>).
 
 ### Eindejaarmodus {#absence-included-mode}
 
-Wanneer leden niet al hun inbegrepen afwezigheid gebruiken tegen het einde van hun lidmaatschap, blijven de resterende afwezigheid voorlopig gemarkeerd op de laatste leveringen. Om deze situatie te beheren, kunt u een **eindejaarmodus** configureren in [de instellingen](/settings#absence):
+Wanneer leden niet al hun inbegrepen afwezigheid gebruiken tegen het einde van hun lidmaatschap, blijven de resterende afwezigheid voorlopig gemarkeerd op de laatste leveringen. Om deze situatie te beheren, kun je een **eindejaarmodus** configureren in [de instellingen](/settings#absence):
 
 **Voorlopige afwezigheid gerespecteerd**
 
 Dit is de standaardmodus. Voorlopige afwezigheid wordt niet geleverd. Leden ontvangen een herinneringsmail en kunnen dan kiezen om een levering te forceren vanuit hun account als ze <%= Basket.model_name.human(count: 2).downcase %> willen ontvangen die als voorlopig afwezig waren gemarkeerd.
 
-Deze modus is nuttig wanneer u de voorkeur geeft dat ongebruikte afwezigheid standaard als afwezigheid blijft, waardoor leden de mogelijkheid hebben om indien nodig een levering aan te vragen.
+Deze modus is nuttig wanneer je de voorkeur geeft dat ongebruikte afwezigheid standaard als afwezigheid blijft, waardoor leden de mogelijkheid hebben om indien nodig een levering aan te vragen.
 
 **Levering van resterende afwezigheid**
 
 In deze modus zullen ongebruikte inbegrepen afwezigheid hun levering geforceerd en gefactureerd zien bij de herinnering. Leden ontvangen een herinneringsmail en kunnen een afwezigheid melden om te weigeren voordat de levering plaatsvindt en wordt gefactureerd.
 
-Deze modus is nuttig wanneer u de voorkeur geeft dat leden hun <%= Basket.model_name.human(count: 2).downcase %> standaard ontvangen, om verwarring te vermijden van leden die verschijnen en een <%= Basket.model_name.human.downcase %> verwachten dat niet was voorbereid.
+Deze modus is nuttig wanneer je de voorkeur geeft dat leden hun <%= Basket.model_name.human(count: 2).downcase %> standaard ontvangen, om verwarring te vermijden van leden die verschijnen en een <%= Basket.model_name.human.downcase %> verwachten dat niet was voorbereid.
 
 ### Herinneringsmail {#absence-included-reminder}
 

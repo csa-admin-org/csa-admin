@@ -1,6 +1,6 @@
 # Automatische e-mails
 
-CSA Admin verstuurt automatisch e-mails naar uw leden tijdens specifieke gebeurtenissen gedurende het jaar. Deze [e-mailsjablonen](/mail_templates) kunnen worden aangepast aan uw communicatiestijl.
+CSA Admin verstuurt automatisch e-mails naar je leden tijdens specifieke gebeurtenissen gedurende het jaar. Deze [e-mailsjablonen](/mail_templates) kunnen worden aangepast aan je communicatiestijl.
 
 ## Overzicht {#overview}
 
@@ -19,7 +19,7 @@ De e-mailsjablonen zijn georganiseerd per categorie:
 - **<%= BiddingRound.model_name.human %>**: Verzonden bij het openen, herinneren, voltooien of mislukken van biedingsrondes.
 <% end %>
 
-Elke sjabloon heeft een beschrijving op zijn pagina die uitlegt wanneer deze wordt verzonden.
+Elke sjabloon heeft een beschrijving op de pagina die uitlegt wanneer deze wordt verzonden.
 
 ## Activeren en deactiveren {#activating}
 
@@ -29,12 +29,12 @@ Wanneer een sjabloon is gedeactiveerd, wordt de bijbehorende e-mail eenvoudigweg
 
 ## Inhoud aanpassen {#customizing}
 
-Elke sjabloon heeft een onderwerp en een inhoud die u volledig kunt aanpassen. Sjablonen gebruiken de Liquid-sjabloontaal om dynamische lidspecifieke gegevens (naam, details van de <%= Basket.model_name.human.downcase %>, lidmaatschapsinformatie, ...) en voorwaardelijke logica in te voegen. Voor details over de Liquid-syntaxis, opmaaktags en het gegevensvoorbeeldpaneel, zie de [Emails-handboekpagina](/handbook/emails).
+Elke sjabloon heeft een onderwerp en een inhoud die je volledig kunt aanpassen. Sjablonen gebruiken de Liquid-sjabloontaal om dynamische lidspecifieke gegevens (naam, details van de <%= Basket.model_name.human.downcase %>, lidmaatschapsinformatie, ...) en voorwaardelijke logica in te voegen. Voor details over de Liquid-syntaxis, opmaaktags en het gegevensvoorbeeldpaneel, zie de [Emails-handboekpagina](/handbook/emails).
 
-> Elk type e-mailsjabloon heeft zijn eigen set beschikbare gegevens, specifiek voor zijn context. Controleer altijd het gegevensvoorbeeldpaneel onder de editor om precies te zien welke variabelen beschikbaar zijn voor het sjabloon dat u bewerkt.
+> Elk type e-mailsjabloon heeft zijn eigen set beschikbare gegevens, specifiek voor zijn context. Controleer altijd het gegevensvoorbeeldpaneel onder de editor om precies te zien welke variabelen beschikbaar zijn voor het sjabloon dat je bewerkt.
 
 ## Leveringstracking {#delivery-tracking}
 
-De leveringsstatus van elke automatische e-mail wordt individueel gevolgd. Vanaf de detailpagina van een sjabloon kunt u de algemene leveringsstatistieken zien, en vanuit [het leveringslogboek](/mail_deliveries) kunt u individuele e-mails inspecteren.
+De leveringsstatus van elke automatische e-mail wordt individueel gevolgd. Vanaf de detailpagina van een sjabloon kun je de algemene leveringsstatistieken zien, en vanuit [het leveringslogboek](/mail_deliveries) kun je individuele e-mails inspecteren.
 
 > Leveringsgegevens worden na 1 jaar automatisch verwijderd.

@@ -1,10 +1,10 @@
 # Consegne
 
-[Le consegne](/deliveries) sono un elemento centrale di CSA Admin e permettono di gestire tutte le date di consegna delle vostre <%= Basket.model_name.human(count: 2).downcase %> durante l'anno. Le consegne sono uno dei primi elementi da creare. È importante che **tutte le date di consegna** siano definite **prima dell'inizio del vostro anno fiscale** perché la creazione degli abbonamenti e delle loro <%= Basket.model_name.human(count: 2).downcase %> dipende da questo.
+[Le consegne](/deliveries) sono un elemento centrale di CSA Admin e permettono di gestire tutte le date di consegna delle tue <%= Basket.model_name.human(count: 2).downcase %> durante l'anno. Le consegne sono uno dei primi elementi da creare. È importante che **tutte le date di consegna** siano definite **prima dell'inizio del tuo anno fiscale** perché la creazione degli abbonamenti e delle loro <%= Basket.model_name.human(count: 2).downcase %> dipende da questo.
 
 La prossima consegna e il suo numero di <%= Basket.model_name.human(count: 2).downcase %>/<%= BasketComplement.model_name.human(count: 2).downcase %> per deposito sono sempre disponibili dal [cruscotto](/dashboard). Ogni pagina di consegna contiene anche queste informazioni e la lista dei soci assenti.
 
-> Potete facilmente creare consegne in lotto utilizzando la scheda "Date multiple" nel [modulo di creazione di una consegna](/deliveries/new).
+> Puoi facilmente creare consegne in lotto utilizzando la scheda "Date multiple" nel [modulo di creazione di una consegna](/deliveries/new).
 
 ## Cicli di consegne {#delivery-cycles}
 
@@ -14,24 +14,24 @@ Alcune organizzazioni offrono diverse scelte di consegne, per esempio:
 - consegne ogni settimana o una settimana su due.
 - consegne solo in inverno o in estate.
 
-[I cicli di consegne](/delivery_cycles) permettono di raggruppare, in modo dinamico, le consegne esistenti di uno stesso anno fiscale in base alle vostre esigenze e vi offrono così una grande flessibilità nella gestione delle vostre consegne. Ogni abbonamento è associato a un ciclo di consegne, che determina le date di consegna e il numero di <%= Basket.model_name.human(count: 2).downcase %>.
+[I cicli di consegne](/delivery_cycles) permettono di raggruppare, in modo dinamico, le consegne esistenti di uno stesso anno fiscale in base alle tue esigenze e ti offrono così una grande flessibilità nella gestione delle tue consegne. Ogni abbonamento è associato a un ciclo di consegne, che determina le date di consegna e il numero di <%= Basket.model_name.human(count: 2).downcase %>.
 
 ### Impostazioni {#settings}
 
 Le impostazioni definiscono la selezione iniziale delle consegne per questo ciclo. Questi filtri vengono applicati per primi:
 
-- **Giorni**: Selezionate i giorni della settimana inclusi (es., solo lunedì).
-- **Dalla settimana / Fino alla settimana**: Limitate le consegne a un intervallo di numeri di settimana. Utile per cicli stagionali (es., settimana 18 a settimana 42 per una stagione estiva). Quando entrambi i limiti sono impostati, l'opzione **"Escludi intervallo settimane"** diventa disponibile per invertire la logica—escludendo le consegne all'interno dell'intervallo anziché all'esterno (es., per saltare un periodo di vacanza).
+- **Giorni**: Seleziona i giorni della settimana inclusi (es., solo lunedì).
+- **Dalla settimana / Fino alla settimana**: Limita le consegne a un intervallo di numeri di settimana. Utile per cicli stagionali (es., settimana 18 a settimana 42 per una stagione estiva). Quando entrambi i limiti sono impostati, l'opzione **"Escludi intervallo settimane"** diventa disponibile per invertire la logica—escludendo le consegne all'interno dell'intervallo anziché all'esterno (es., per saltare un periodo di vacanza).
 
 ### Periodi {#periods}
 
-I periodi applicano poi un filtraggio aggiuntivo alle consegne selezionate dalle impostazioni sopra. Dividono l'anno fiscale in segmenti, ciascuno con le proprie regole. Questo approccio a due fasi (impostazioni → periodi) vi offre un controllo preciso su quali consegne sono incluse.
+I periodi applicano poi un filtraggio aggiuntivo alle consegne selezionate dalle impostazioni sopra. Dividono l'anno fiscale in segmenti, ciascuno con le proprie regole. Questo approccio a due fasi (impostazioni → periodi) ti offre un controllo preciso su quali consegne sono incluse.
 
 Ogni ciclo di consegne deve avere almeno un periodo. I periodi non possono sovrapporsi all'interno dello stesso ciclo.
 
 Ogni periodo ha le seguenti opzioni:
 
-- **Dal mese / Al mese**: Definite l'intervallo di mesi dell'anno fiscale a cui si applica questo periodo (es., gennaio a giugno per un primo semestre).
+- **Dal mese / Al mese**: Definisci l'intervallo di mesi dell'anno fiscale a cui si applica questo periodo (es., gennaio a giugno per un primo semestre).
 - **Selezione delle consegne**: All'interno dell'intervallo di mesi del periodo, determina quali consegne vengono conservate (es., tutte, una su due, prima di ogni mese, ecc.).
 
 Questo permette configurazioni flessibili, come consegne settimanali durante i mesi estivi e consegne quindicinali durante l'inverno, tutto all'interno dello stesso ciclo di consegne.
@@ -46,16 +46,16 @@ La scelta di un ciclo di consegne sul modulo di iscrizione dipende dalla configu
 
 ### Distribuzione equa (una settimana su due) {#even-odd-distribution}
 
-Se proponete consegne una settimana su due, probabilmente vorrete distribuire i soci equamente tra le settimane pari e dispari. Con un solo ciclo « una su due », tutti i soci riceverebbero le stesse settimane.
+Se proponi consegne una settimana su due, probabilmente vorrai distribuire i soci equamente tra le settimane pari e dispari. Con un solo ciclo « una su due », tutti i soci riceverebbero le stesse settimane.
 
 La soluzione consiste nel creare **due cicli distinti**, uno con la selezione delle consegne « Pari » e l'altro « Dispari », e nel renderne **uno solo visibile** ai soci:
 
-1. Create due cicli, ciascuno con un periodo che copre tutto l'anno: uno con la selezione delle consegne « Pari », l'altro « Dispari ».
-2. Date loro lo **stesso nome**, ad es. « Una settimana su due », ma **nomi interni diversi**, ad es. « Una settimana su due (pari) » e « Una settimana su due (dispari) ».
-3. Rendete **uno solo** dei due cicli visibile sul modulo di iscrizione (tramite la disponibilità per deposito).
-4. Al momento della creazione degli abbonamenti, distribuite manualmente i soci tra i due cicli per equilibrare le consegne.
+1. Crea due cicli, ciascuno con un periodo che copre tutto l'anno: uno con la selezione delle consegne « Pari », l'altro « Dispari ».
+2. Da' loro lo **stesso nome**, ad es. « Una settimana su due », ma **nomi interni diversi**, ad es. « Una settimana su due (pari) » e « Una settimana su due (dispari) ».
+3. Rendi **uno solo** dei due cicli visibile sul modulo di iscrizione (tramite la disponibilità per deposito).
+4. Al momento della creazione degli abbonamenti, distribuisci manualmente i soci tra i due cicli per equilibrare le consegne.
 
-In questo modo, i soci vedono una sola opzione « Una settimana su due » all'iscrizione, ma voi mantenete il controllo della distribuzione internamente.
+In questo modo, i soci vedono una sola opzione « Una settimana su due » all'iscrizione, ma tu mantieni il controllo della distribuzione internamente.
 
 ### Fatturazione
 
@@ -71,7 +71,7 @@ Ogni ciclo di consegne può avere le proprie opzioni di fatturazione:
 
 ## Schede di consegna (PDF) {#delivery-sheets}
 
-Per ogni consegna, CSA Admin genera schede PDF che potete stampare e utilizzare nei vostri depositi. Queste schede sono disponibili da ogni [pagina di consegna](/deliveries) o dal [cruscotto](/dashboard).
+Per ogni consegna, CSA Admin genera schede PDF che puoi stampare e utilizzare nei tuoi depositi. Queste schede sono disponibili da ogni [pagina di consegna](/deliveries) o dal [cruscotto](/dashboard).
 
 ### Modalità delle schede {#sheet-modes}
 
@@ -96,4 +96,4 @@ Un testo personalizzato di piè di pagina può essere aggiunto a tutte le schede
 
 ### Annunci {#announcements}
 
-Brevi messaggi possono essere associati a combinazioni specifiche deposito/consegna e appariranno sulle schede di consegna corrispondenti. Consultate la pagina dedicata del [manuale degli annunci](/handbook/announcements) per i dettagli.
+Brevi messaggi possono essere associati a combinazioni specifiche deposito/consegna e appariranno sulle schede di consegna corrispondenti. Consulta la pagina dedicata del [manuale degli annunci](/handbook/announcements) per i dettagli.

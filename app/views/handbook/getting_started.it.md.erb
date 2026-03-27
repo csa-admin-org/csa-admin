@@ -1,24 +1,24 @@
 # Primi passi
 
-Benvenuti! Questa guida vi aiuterà a configurare CSA Admin e preparare [il vostro modulo di iscrizione](<%= new_members_member_url(subdomain: Current.org.members_subdomain) %>) per accogliere nuovi soci. Cominciamo!
+Benvenuto! Questa guida ti aiuterà a configurare CSA Admin e preparare [il tuo modulo di iscrizione](<%= new_members_member_url(subdomain: Current.org.members_subdomain) %>) per accogliere nuovi soci. Cominciamo!
 
 ## 1. Invitare altri admin {#inviting-other-admins}
 
-Configurare la vostra organizzazione è più facile in squadra! Potete [invitare altri admin](/admins/new) fin da subito. Un'email verrà automaticamente inviata affinché possano connettersi e unirsi a voi.
+Configurare la tua organizzazione è più facile in squadra! Puoi [invitare altri admin](/admins/new) fin da subito. Un'email verrà automaticamente inviata affinché possano connettersi e unirsi a te.
 
 [Permessi di accesso specifici](/permissions) possono essere configurati se necessario.
 
 ## 2. Consegne {#deliveries}
 
-Cominciate [creando le vostre date di consegna](/deliveries) per il prossimo anno fiscale. Il numero di consegne determina il prezzo degli abbonamenti, e sono necessarie prima di poter creare qualsiasi altra cosa.
+Comincia [creando le tue date di consegna](/deliveries) per il prossimo anno fiscale. Il numero di consegne determina il prezzo degli abbonamenti, e sono necessarie prima di poter creare qualsiasi altra cosa.
 
 [Una pagina del manuale](/handbook/deliveries) è disponibile con maggiori dettagli, inclusa una sezione sui [cicli di consegne](/handbook/deliveries#delivery-cycles).
 
-> Non preoccupatevi se le date esatte non sono ancora definitive. Assicuratevi semplicemente di avere il numero corretto di consegne affinché i prezzi nel modulo di iscrizione siano corretti. Potrete sempre modificare le date in seguito.
+> Non preoccuparti se le date esatte non sono ancora definitive. Assicurati semplicemente di avere il numero corretto di consegne affinché i prezzi nel modulo di iscrizione siano corretti. Potrai sempre modificare le date in seguito.
 
 ## 3. <%= BasketSize.model_name.human(count: 2) %> {#basket-sizes}
 
-Poi, [create le vostre <%= BasketSize.model_name.human(count: 2).downcase %>](/basket_sizes) (es. piccola, grande). Definiscono i tipi di abbonamento che i vostri soci potranno scegliere.
+Poi, [crea le tue <%= BasketSize.model_name.human(count: 2).downcase %>](/basket_sizes) (es. piccola, grande). Definiscono i tipi di abbonamento che i tuoi soci potranno scegliere.
 
 ## 4. <%= BasketComplement.model_name.human(count: 2) %> (opzionale) {#basket-complements}
 
@@ -26,38 +26,38 @@ Poi, [create le vostre <%= BasketSize.model_name.human(count: 2).downcase %>](/b
 
 ## 5. Depositi {#depots}
 
-[Create almeno un deposito](/depots), i punti di ritiro dove i soci vengono a ritirare le loro <%= Basket.model_name.human(count: 2).downcase %>.
+[Crea almeno un deposito](/depots), i punti di ritiro dove i soci vengono a ritirare le loro <%= Basket.model_name.human(count: 2).downcase %>.
 
 Un prezzo può anche essere definito per deposito per coprire costi di preparazione o consegna supplementari. Verrà automaticamente preso in considerazione durante la fatturazione degli abbonamenti.
 
 ## 6. Modulo di iscrizione {#registration-form}
 
-Ora che le vostre consegne, <%= BasketSize.model_name.human(count: 2).downcase %> e depositi sono configurati, il vostro [modulo di iscrizione](<%= new_members_member_url(subdomain: Current.org.members_subdomain) %>) dovrebbe prendere forma ed essere presto pronto ad accogliere nuovi soci!
+Ora che le tue consegne, <%= BasketSize.model_name.human(count: 2).downcase %> e depositi sono configurati, il tuo [modulo di iscrizione](<%= new_members_member_url(subdomain: Current.org.members_subdomain) %>) dovrebbe prendere forma ed essere presto pronto ad accogliere nuovi soci!
 
-Consultate la [pagina del manuale sul modulo di iscrizione](/handbook/registration) per scoprire come ogni impostazione influisce sul modulo e trovare consigli per perfezionarlo.
+Consulta la [pagina del manuale sul modulo di iscrizione](/handbook/registration) per scoprire come ogni impostazione influisce sul modulo e trovare consigli per perfezionarlo.
 
 ## 7. Fatturazione & Pagamenti {#billing-payments}
 
 <!-- country:CH -->
-Per generare fatture-QR, avete bisogno di un [QR-IBAN](/handbook/billing#qr-iban) dalla vostra banca. Questo è diverso dal vostro IBAN abituale ed è necessario per le fatture-QR svizzere con numero di riferimento. Richiedetene uno alla vostra banca il prima possibile e inseritelo nelle [vostre impostazioni di fatturazione](/settings#billing).
+Per generare fatture-QR, hai bisogno di un [QR-IBAN](/handbook/billing#qr-iban) dalla tua banca. Questo è diverso dal tuo IBAN abituale ed è necessario per le fatture-QR svizzere con numero di riferimento. Richiedine uno alla tua banca il prima possibile e inseriscilo nelle [tue impostazioni di fatturazione](/settings#billing).
 <!-- /country:CH -->
 
 <!-- country:!CH -->
-Per generare fatture, assicuratevi di inserire il vostro IBAN nelle [vostre impostazioni di fatturazione](/settings#billing). Se utilizzate l'[addebito diretto SEPA](/handbook/billing#sepa), dovrete anche configurare il vostro identificativo creditore.
+Per generare fatture, assicurati di inserire il tuo IBAN nelle [tue impostazioni di fatturazione](/settings#billing). Se utilizzi l'[addebito diretto SEPA](/handbook/billing#sepa), dovrai anche configurare il tuo identificativo creditore.
 <!-- /country:!CH -->
 
-Per l'importazione automatica dei pagamenti, vorrete [impostare una connessione EBICS](/handbook/billing#ebics-setup) con la vostra banca. Questo processo richiede alcuni giorni, quindi vale la pena iniziare presto. Nel frattempo, potete [importare manualmente](/handbook/billing#manual-import) i file di pagamento dal vostro e-banking.
+Per l'importazione automatica dei pagamenti, vorrai [impostare una connessione EBICS](/handbook/billing#ebics-setup) con la tua banca. Questo processo richiede alcuni giorni, quindi vale la pena iniziare presto. Nel frattempo, puoi [importare manualmente](/handbook/billing#manual-import) i file di pagamento dal tuo e-banking.
 
-Per maggiori dettagli su tutti gli argomenti relativi alla fatturazione, consultate la [pagina del manuale sulla fatturazione](/handbook/billing).
+Per maggiori dettagli su tutti gli argomenti relativi alla fatturazione, consulta la [pagina del manuale sulla fatturazione](/handbook/billing).
 
 ## 8. Importazione dei dati esistenti {#importing-data}
 
-Se avete già una lista di soci e i loro abbonamenti (in un file Excel o simile), posso scrivere uno script di importazione per integrare tutto automaticamente in CSA Admin, senza bisogno di ricopiare ogni voce a mano!
+Se hai già una lista di soci e i loro abbonamenti (in un file Excel o simile), posso scrivere uno script di importazione per integrare tutto automaticamente in CSA Admin, senza bisogno di ricopiare ogni voce a mano!
 
-È sufficiente [inviarmi il vostro file tramite il modulo di supporto](/support) e mi occuperò del resto. È possibile anche per i <%= BasketComplement.model_name.human(count: 2).downcase %> e altri dati di prodotti.
+È sufficiente [inviarmi il tuo file tramite il modulo di supporto](/support) e mi occuperò del resto. È possibile anche per i <%= BasketComplement.model_name.human(count: 2).downcase %> e altri dati di prodotti.
 
-> In alternativa, alcune organizzazioni preferiscono chiedere ai propri soci di reiscriversi tramite il [modulo di iscrizione](<%= new_members_member_url(subdomain: Current.org.members_subdomain) %>). Questo è particolarmente utile se le vostre liste esistenti mancano di dati come numeri di telefono o indirizzi email. Tenete però presente che potreste perdere alcuni soci nel processo.
+> In alternativa, alcune organizzazioni preferiscono chiedere ai propri soci di reiscriversi tramite il [modulo di iscrizione](<%= new_members_member_url(subdomain: Current.org.members_subdomain) %>). Questo è particolarmente utile se le tue liste esistenti mancano di dati come numeri di telefono o indirizzi email. Tieni però presente che potresti perdere alcuni soci nel processo.
 
 ---
 
-Ecco l'essenziale! Il resto si scopre man mano. Ogni sezione del [manuale](/handbook) copre un argomento specifico in dettaglio. Se avete domande, non esitate a [contattarmi](/support). Buon inizio! 🙌🏻
+Ecco l'essenziale! Il resto si scopre man mano. Ogni sezione del [manuale](/handbook) copre un argomento specifico in dettaglio. Se hai domande, non esitare a [contattarmi](/support). Buon inizio! 🙌🏻

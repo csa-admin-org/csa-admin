@@ -1,6 +1,6 @@
 # Leden
 
-Een lid vertegenwoordigt een persoon, familie, gedeelde woonruimte, of bedrijf, en stelt u in staat om hun informatie (adres, contactgegevens, enz.) te beheren. Het lidmaatschap van een lid wordt beheerd via hun abonnementen, met slechts één abonnement per boekjaar.
+Een lid vertegenwoordigt een persoon, familie, gedeelde woonruimte, of bedrijf, en stelt je in staat om hun informatie (adres, contactgegevens, enz.) te beheren. Het lidmaatschap van een lid wordt beheerd via hun abonnementen, met slechts één abonnement per boekjaar.
 
 Een lid wordt aangemaakt via het [registratieformulier](<%= new_members_member_url(subdomain: Current.org.members_subdomain) %>) of door een admin via het [lidaanmaakformulier](/members/new).
 
@@ -8,7 +8,7 @@ Een lid wordt aangemaakt via het [registratieformulier](<%= new_members_member_u
 
 ### Te valideren
 
-Nieuwe leden aangemaakt via het [registratieformulier](<%= new_members_member_url(subdomain: Current.org.members_subdomain) %>) worden toegevoegd aan [de lijst van leden om te valideren](/members?scope=pending). Zij moeten worden gevalideerd door een beheerder om ervoor te zorgen dat alle informatie correct is.
+Nieuwe leden aangemaakt via het [registratieformulier](<%= new_members_member_url(subdomain: Current.org.members_subdomain) %>) worden toegevoegd aan [de lijst van leden om te valideren](/members?scope=pending). Ze moeten worden gevalideerd door een beheerder om ervoor te zorgen dat alle informatie correct is.
 
 Het is mogelijk om automatisch een welkomste-mail te verzenden bij het valideren van een lid door [de "Lid gevalideerd" e-mailsjabloon](/mail_templates/member_validated) te configureren.
 
@@ -18,7 +18,7 @@ Het is mogelijk om automatisch een welkomste-mail te verzenden bij het valideren
 
 Eenmaal gevalideerd, of direct aangemaakt door een admin, belandt een lid met een (in behandeling zijnde) abonnementsconfiguratie op de wachtlijst. De wachtlijst is nuttig voor organisaties die een capaciteitslimiet hebben voor actieve leden.
 
-Om een lid actief te maken, hoeft u alleen maar een abonnement voor hen aan te maken (klik op "Een abonnement aanmaken" rechtsboven op de pagina van het lid). De (in behandeling zijnde) abonnementsconfiguratie wordt automatisch overgenomen in het abonnementaanmaakformulier.
+Om een lid actief te maken, hoef je alleen maar een abonnement voor hen aan te maken (klik op "Een abonnement aanmaken" rechtsboven op de pagina van het lid). De (in behandeling zijnde) abonnementsconfiguratie wordt automatisch overgenomen in het abonnementaanmaakformulier.
 
 Het is mogelijk om automatisch een welkomste-mail te verzenden bij het activeren van een lid door [de "Lid geactiveerd" e-mailsjabloon](/mail_templates/member_activated) te configureren.
 
@@ -32,19 +32,19 @@ Zodra het huidige abonnement wordt beëindigd of verwijderd, wordt het lid inact
 
 Een ondersteunend lid is iemand zonder abonnementen die een jaarlijkse bijdrage heeft ingesteld (voor verenigingen) of die [aandelenkapitaal](/handbook/billing#share-capital) bezit (voor coöperaties). Als een abonnement wordt aangemaakt voor een ondersteunend lid, worden zij actief.
 
-Om een inactief lid naar ondersteuning te verplaatsen, stelt u een jaarlijks bijdragebedrag in het profiel van het lid in (bewerkpagina). De jaarlijkse bijdrage kan op 0 worden ingesteld voor leden die de ondersteuningsstatus moeten hebben zonder bijdrage te betalen.
+Om een inactief lid naar ondersteuning te verplaatsen, stel je een jaarlijks bijdragebedrag in het profiel van het lid in (bewerkpagina). De jaarlijkse bijdrage kan op 0 worden ingesteld voor leden die de ondersteuningsstatus moeten hebben zonder bijdrage te betalen.
 
 Met de knop "Inactief maken" rechtsboven op de pagina van het lid is het mogelijk om een ondersteunend lid inactief te maken, wat hun jaarlijkse bijdrage zal wegvallen of hun vereiste aandelenkapitaal op nul zet.
 
-Met de knop "Op wachtlijst plaatsen" rechtsboven op de pagina van het lid kunt u een ondersteunend lid terug op de wachtlijst plaatsen. Hun jaarlijkse bijdrage of aantal aandelenkapitaal blijft ongewijzigd.
+Met de knop "Op wachtlijst plaatsen" rechtsboven op de pagina van het lid kun je een ondersteunend lid terug op de wachtlijst plaatsen. Hun jaarlijkse bijdrage of aantal aandelenkapitaal blijft ongewijzigd.
 
 ### Inactief
 
 Een inactief lid is iemand die geen abonnement heeft voor het huidige of toekomstige boekjaar en geen jaarlijkse bijdrage heeft ingesteld of aandelenkapitaal heeft. Een inactief lid kan opnieuw op de wachtlijst worden geplaatst of naar ondersteuning worden verplaatst.
 
-Om een inactief lid naar ondersteuning te verplaatsen, bewerkt u het profiel van het lid en stelt u een jaarlijks bijdragebedrag in (zelfs 0 voor ondersteunende leden zonder bijdrage).
+Om een inactief lid naar ondersteuning te verplaatsen, bewerk je het profiel van het lid en stel je een jaarlijks bijdragebedrag in (zelfs 0 voor ondersteunende leden zonder bijdrage).
 
-Met de knop "Op wachtlijst plaatsen" rechtsboven op de pagina van het lid kunt u een inactief lid op de wachtlijst plaatsen. Hun jaarlijkse bijdrage wordt dan gereset naar de standaardwaarde van de organisatie.
+Met de knop "Op wachtlijst plaatsen" rechtsboven op de pagina van het lid kun je een inactief lid op de wachtlijst plaatsen. Hun jaarlijkse bijdrage wordt dan gereset naar de standaardwaarde van de organisatie.
 
 ## <%= Member.human_attribute_name(:salary_basket) %> {#salary-basket}
 
@@ -61,7 +61,7 @@ Als de markering wordt in- of uitgeschakeld bij een bestaand lid, worden hun hui
 
 Twee vrije tekstvelden zijn beschikbaar in het profiel van elk lid:
 
-- **Voedingsnotitie**: Allergieën, voorkeuren of dieetinformatie. Deze notitie kan worden weergegeven op de [leveringsblad-PDFs](/handbook/deliveries#delivery-sheets) als de bijbehorende [instelling](/settings#delivery) is ingeschakeld.
+- **Voedingsnotitie**: Allergieën, voorkeuren of dieetinformatie. Deze notitie kan worden weergegeven op de [leveringsblad-PDF's](/handbook/deliveries#delivery-sheets) als de bijbehorende [instelling](/settings#delivery) is ingeschakeld.
 - **Leveringsnotitie**: Praktische leveringsinstructies (deurcode, verdieping, enz.). Deze notitie wordt altijd weergegeven op thuisleveringsbladen. Leden kunnen hun eigen leveringsnotitie bewerken vanuit hun account.
 
 Beide velden verschijnen in ledenexports (CSV/XLSX) en worden gewist wanneer een lid wordt [geanonimiseerd](/handbook/right_to_be_forgotten).
@@ -80,15 +80,15 @@ Elk lid heeft toegang tot een persoonlijk account op [het ledenaccount](<%= Curr
 
 Vanuit het account kan het lid:
 
-- **Leveringen bekijken**: De volgende, toekomstige en eerdere <%= Basket.model_name.human(count: 2).downcase %> bekijken, inclusief inhoudsdetails wanneer beschikbaar.
-- **Bestellen bij de winkel**: Bestellingen plaatsen voor de volgende levering.
-- **Inschrijven voor <%= activities_human_name.downcase %>**: Komende activiteiten bekijken en zich ervoor inschrijven.
-- **Afwezigheden beheren**: Komende afwezigheden melden.
-- **Facturering beheren**: Openstaande facturen (met PDF) en de volledige betalingsgeschiedenis bekijken.
-- **Profiel bewerken**: Naam, adres, contactgegevens, taal en leveringsnotitie bijwerken.
-- **Abonneren op een kalender**: Leveringen en <%= activities_human_name.downcase %> toevoegen aan elke kalender-app via een iCal-feed.
-- **Nieuwsbrieven doorbladeren**: Eerder ontvangen nieuwsbrieven lezen.
-- **Account verwijderen**: Accountverwijdering aanvragen (met e-mailbevestiging), in overeenstemming met het [recht om vergeten te worden](/handbook/right_to_be_forgotten).
+- **Leveringen bekijken**: de volgende, toekomstige en eerdere <%= Basket.model_name.human(count: 2).downcase %> bekijken, inclusief inhoudsdetails wanneer beschikbaar.
+- **Bestellen bij de winkel**: bestellingen plaatsen voor de volgende levering.
+- **Inschrijven voor <%= activities_human_name.downcase %>**: komende activiteiten bekijken en zich ervoor inschrijven.
+- **Afwezigheden beheren**: komende afwezigheden melden.
+- **Facturering beheren**: openstaande facturen (met PDF) en de volledige betalingsgeschiedenis bekijken.
+- **Profiel bewerken**: naam, adres, contactgegevens, taal en leveringsnotitie bijwerken.
+- **Abonneren op een kalender**: leveringen en <%= activities_human_name.downcase %> toevoegen aan elke kalender-app via een iCal-feed.
+- **Nieuwsbrieven doorbladeren**: eerder ontvangen nieuwsbrieven lezen.
+- **Account verwijderen**: accountverwijdering aanvragen (met e-mailbevestiging), in overeenstemming met het [recht om vergeten te worden](/handbook/right_to_be_forgotten).
 
 Als de organisatie een [informatiepagina](/settings#member_information) heeft geconfigureerd, verschijnt deze ook in de navigatie van het lid.
 
