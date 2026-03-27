@@ -22,7 +22,7 @@ gem "cloudflare-rails", require: false
 gem "appsignal"
 gem "lograge"
 gem "bcrypt"
-gem "active_hashcash", github: "thibaudgg/active_hashcash", branch: "sha256-webgpu"
+gem "active_hashcash", github: "BaseSecrete/active_hashcash", branch: "master"
 
 # Utilities and Validation
 gem "countries"

@@ -1,7 +1,7 @@
 GIT
-  remote: https://github.com/thibaudgg/active_hashcash.git
-  revision: 6c02b750d4b073d426ce453f98a0994ae1c62236
-  branch: sha256-webgpu
+  remote: https://github.com/BaseSecrete/active_hashcash.git
+  revision: ac77ae03162dc9062f5b15050b379e27d470683e
+  branch: master
   specs:
     active_hashcash (0.4.0)
       rails (>= 5.2.0)
