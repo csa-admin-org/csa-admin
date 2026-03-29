@@ -260,6 +260,8 @@ ActiveAdmin.register Organization do
             hint: t("formtastic.hints.organization.member_information_title"),
             required: false,
             input_html: { placeholder: t("members.information.default_title") })
+
+          handbook_button(self, "members", anchor: "information-page")
         end
         tab Membership.model_name.human, id: "membership" do
           para t(".membership_update_text_html"), class: "description"
