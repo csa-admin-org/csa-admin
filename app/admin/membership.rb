@@ -493,7 +493,7 @@ ActiveAdmin.register Membership do
                 end
                 row :renewal_note
                 if m.ended_on == Current.fiscal_year.end_of_year && authorized?(:mark_renewal_as_pending, m)
-                  div class: "mt-2 flex items-center justify-center gap-4 gap-y-2 flex-wrap" do
+                  div class: "mt-2 mb-1 flex items-center justify-center gap-4 gap-y-2 flex-wrap" do
                     div do
                       panel_button t(".mark_renewal_as_pending"), mark_renewal_as_pending_membership_path(m),
                         icon: "arrow-uturn-left",
@@ -511,12 +511,12 @@ ActiveAdmin.register Membership do
                     end
                   }
                 end
-                div class: "mt-2 flex items-center justify-center gap-4 gap-y-2 flex-wrap" do
+                div class: "mt-2 mb-1 flex items-center justify-center gap-4 gap-y-2 flex-wrap" do
                   renew_button(self, m)
                   cancel_renewal_buttons(self, m)
                 end
               else
-                div class: "mt-2 flex items-center justify-center gap-4 gap-y-2 flex-wrap" do
+                div class: "mt-2 mb-1 flex items-center justify-center gap-4 gap-y-2 flex-wrap" do
                   if Delivery.any_in_year?(m.fy_year + 1)
                     if authorized?(:open_renewal, m) && MailTemplate.active_template(:membership_renewal)
                       div do
