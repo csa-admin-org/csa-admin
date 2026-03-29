@@ -633,14 +633,14 @@ ActiveAdmin.register Membership do
 
         if feature?("activity")
           panel activities_human_name, action: handbook_icon_link("activity") do
-            ul class: "counts justify-evenly" do
-              li class: "w-1/3" do
+            ul class: "counts grid-cols-3 grid-flow-row" do
+              li do
                 counter_tag(
                   Membership.human_attribute_name(:activity_participations_demanded_scope),
                   m.activity_participations_demanded)
               end
               %i[future pending validated rejected].each do |scope|
-                li class: "w-1/3" do
+                li do
                   link_to activity_participations_path(scope: scope, q: { member_id_eq: resource.member_id, during_year: resource.fiscal_year.year }) do
                     counter_tag(
                       Membership.human_attribute_name("activity_participations_#{scope}"),
@@ -648,7 +648,7 @@ ActiveAdmin.register Membership do
                   end
                 end
               end
-              li class: "w-1/3" do
+              li do
                 link_to invoices_path(scope: :all, q: { entity_type_in: "ActivityParticipation", member_id_eq: resource.member_id, missing_participations_fiscal_year: resource.fiscal_year.year }) do
                   counter_tag(
                     Membership.human_attribute_name(:activity_participations_paid),

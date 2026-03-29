@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-ul class: "counts" do
+ul class: "counts grid-cols-3 grid-flow-row" do
   %i[future pending validated paid missing].each do |scope|
     li do
       path =
