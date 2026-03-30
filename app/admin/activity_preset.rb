@@ -19,19 +19,19 @@ ActiveAdmin.register ActivityPreset do
   end
 
   index download_links: false do
+    column :title, sortable: true
     column :place, sortable: true
     column :place_url, ->(ap) {
       link_to(truncate(ap.place_url, length: 50), ap.place_url) if ap.place_url?
     }
-    column :title, sortable: true
     actions
   end
 
   form do |f|
     f.inputs t(".details") do
+      translated_input(f, :titles)
       translated_input(f, :places)
       translated_input(f, :place_urls)
-      translated_input(f, :titles)
     end
     f.actions
   end

@@ -22,8 +22,8 @@ ActiveAdmin.register Activity do
   filter :during_year,
     as: :select,
     collection: -> { fiscal_years_collection }
-  filter :place, as: :select, collection: -> { Activity.select(:places).distinct.map(&:place).compact.sort }
   filter :title, as: :select, collection: -> { Activity.select(:titles).distinct.map(&:title).compact.sort }
+  filter :place, as: :select, collection: -> { Activity.select(:places).distinct.map(&:place).compact.sort }
   filter :date
   filter :wday, as: :select, collection: -> { wdays_collection }
   filter :month, as: :select, collection: -> { months_collection }
@@ -36,8 +36,8 @@ ActiveAdmin.register Activity do
     end
     column :date, ->(a) { l a.date, format: :medium }, sortable: :date, class: "text-right whitespace-nowrap"
     column :period, ->(a) { a.period }, class: "text-right tabular-nums"
-    column :place, ->(a) { display_place(a) }
     column :title, ->(a) { a.title }
+    column :place, ->(a) { display_place(a) }
     column :participants_short, ->(a) {
       text = [ a.participations.sum(&:participants_count), a.participants_limit || "∞" ].join("&nbsp;/&nbsp;").html_safe
       link_to text, activity_participations_path(q: { activity_id_eq: a.id }, scope: :all)
@@ -89,9 +89,9 @@ ActiveAdmin.register Activity do
           input_html: { data: { action: "preset#change" } }
       end
       preset_present = f.object.preset.present?
+      translated_input(f, :titles, input_html: { disabled: preset_present, data: { preset_target: "input" } })
       translated_input(f, :places, input_html: { disabled: preset_present, data: { preset_target: "input" } })
       translated_input(f, :place_urls, input_html: { disabled: preset_present, data: { preset_target: "input" } })
-      translated_input(f, :titles, input_html: { disabled: preset_present, data: { preset_target: "input" } })
     end
     f.inputs t(".details") do
       f.input :participants_limit, as: :number
