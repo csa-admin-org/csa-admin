@@ -584,11 +584,14 @@ p {
 .trix-content .attachment-gallery {
   margin: 16px 0;
   position: relative;
+  font-size: 0;
+  text-align: center;
 }
 .trix-content .attachment-gallery .attachment {
   margin: auto;
   padding: 0 0.5em;
   max-width: 33%;
+  font-size: 16px;
 }
 .trix-content .attachment-gallery.attachment-gallery--2 .attachment,
 .trix-content .attachment-gallery.attachment-gallery--4 .attachment {

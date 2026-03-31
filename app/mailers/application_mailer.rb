@@ -41,8 +41,14 @@ class ApplicationMailer < ActionMailer::Base
     args[:template_name] = "content"
     args[:template_path] = "mailers"
     @subject = args[:subject]
-    @content = content
+    @content = sanitize_action_text_for_email(content)
     mail(**args)
+  end
+
+  def sanitize_action_text_for_email(content)
+    content
+      .gsub(/<action-text-attachment\b[^>]*>/i, "")
+      .gsub(%r{</action-text-attachment>}i, "")
   end
 
   def set_postmark_server_token
