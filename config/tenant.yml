@@ -158,6 +158,12 @@ production: &production
     admin_host: admin.zalpenblick.ch
     members_host: mitglieder.zalpenblick.ch
     state: onboarding
+  vielfeld:
+    admin_host: admin.solawi-vielfeld.de
+    members_host: mitglieder.solawi-vielfeld.de
+    state: onboarding
+    aliases:
+      - solawi-vielfeld
 
   demo-fr:
     admin_host: admin.acp-admin.ch
