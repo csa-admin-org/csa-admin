@@ -89,7 +89,10 @@ ActiveAdmin.register Delivery do
             render partial: "active_admin/deliveries/baskets",
               locals: { delivery: delivery, scope: :active }
 
-            render partial: "active_admin/deliveries/changes", locals: { delivery: delivery }
+            div class: "mt-4" do
+              render partial: "active_admin/deliveries/absences", locals: { delivery: delivery }
+              render partial: "active_admin/deliveries/changes", locals: { delivery: delivery }
+            end
           else
             div(class: "missing-data") { t("active_admin.empty") }
           end

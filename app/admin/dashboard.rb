@@ -47,7 +47,10 @@ ActiveAdmin.register_page "Dashboard" do
                   end
                 end
 
-                render partial: "active_admin/deliveries/changes", locals: { delivery: next_delivery }
+                div class: "mt-4" do
+                  render partial: "active_admin/deliveries/absences", locals: { delivery: next_delivery }
+                  render partial: "active_admin/deliveries/changes", locals: { delivery: next_delivery }
+                end
               else
                 div class: "missing-data" do
                   if feature?("shop")

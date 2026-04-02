@@ -1,0 +1,11 @@
+# frozen_string_literal: true
+
+absences_count = delivery.baskets.absent.count
+return unless absences_count.positive?
+
+div class: "text-right px-2 py-1" do
+  link_to(
+    t("active_admin.page.index.absences_count", count: absences_count),
+    absences_path(q: { including_date: delivery.date }, scope: :all),
+    class: "text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200")
+end

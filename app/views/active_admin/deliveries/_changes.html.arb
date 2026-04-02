@@ -3,17 +3,9 @@
 changes = Delivery::Changes.new(delivery)
 return unless changes.any?
 
-summary_parts = []
-if changes.absences_count.positive?
-  summary_parts << t("active_admin.page.index.absences_count", count: changes.absences_count)
-end
-if changes.other_changes_count.positive?
-  summary_parts << t("active_admin.page.index.changes_count", count: changes.other_changes_count)
-end
-
 details class: "arrow-details" do
-  summary class: "justify-end text-gray-500 dark:text-gray-400 px-2 py-1 mt-8" do
-    text_node summary_parts.join(", ")
+  summary class: "px-2 pb-1 justify-end text-gray-500  dark:text-gray-400" do
+    text_node t("active_admin.page.index.changes_count", count: changes.entries.size)
   end
   div class: "mb-1" do
     table class: "data-table" do
