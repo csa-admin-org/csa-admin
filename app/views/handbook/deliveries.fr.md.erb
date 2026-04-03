@@ -65,6 +65,25 @@ Chaque cycle de livraisons peut avoir ses propres options de facturation :
 - **Nom (facture)** : Un nom personnalisé affiché sur les factures au lieu du nom par défaut du cycle de livraisons.
 - **Absences incluses annuellement** : Exclure automatiquement un certain nombre de livraisons, permettant aux membres de planifier un nombre limité d'absences non facturées. Voir [Absences incluses](/handbook/absence#absence-included) pour plus de détails.
 
+### Dépôt alternatif {#alternate-depot}
+
+Certains membres ont besoin de retirer leurs <%= Basket.model_name.human(count: 2).downcase %> dans différents dépôts selon les semaines — par exemple, parce que le véhicule de livraison ne dessert un dépôt donné qu'une semaine sur deux. CSA Admin prend en charge cette situation grâce à la configuration d'un **dépôt alternatif** au niveau de l'abonnement.
+
+Cette configuration est réservée aux administrateurs (non accessible aux membres) et se trouve dans le formulaire de modification d'un abonnement, dans la section dépliable « Dépôt alternatif » sous les paramètres de livraisons. Trois champs doivent être définis ensemble :
+
+- **Dépôt alternatif** : Le second lieu de retrait.
+- **Prix dépôt alternatif** : Le prix du dépôt pour les livraisons au dépôt alternatif (par défaut, le prix du dépôt est utilisé).
+- **Cycle de livraisons alternatif** : Détermine quelles livraisons vont au dépôt alternatif. Toutes les autres livraisons vont au dépôt principal.
+
+> **Exemple** : Un abonnement utilise le cycle « Chaque semaine ». Le véhicule ne passe à la boulangerie qu'une semaine sur deux (semaines paires), le membre retire donc à la ferme les autres semaines. Le dépôt principal est « Boulangerie », le dépôt alternatif est « Ferme » et le cycle de livraisons alternatif est « Semaines impaires ». Résultat : les <%= Basket.model_name.human(count: 2).downcase %> des semaines paires vont à la boulangerie, ceux des semaines impaires à la ferme.
+
+Quelques points importants :
+
+- Le cycle de livraisons alternatif **doit être différent du cycle principal** de l'abonnement et partager au moins une livraison avec celui-ci.
+- La **facturation** fonctionne automatiquement — chaque <%= Basket.model_name.human.downcase %> est facturé(e) au prix du dépôt correspondant.
+- Lors du **renouvellement** d'un abonnement, la configuration du dépôt alternatif est automatiquement reprise.
+- Si un membre change son **dépôt principal** depuis son espace membre, la configuration du dépôt alternatif est préservée.
+
 ## <%= BasketComplement.model_name.human(count: 2) %> {#basket-complements}
 
 [Les <%= BasketComplement.model_name.human(count: 2).downcase %>](/basket_complements) suivent souvent leur propre cycle de livraisons et cela d'une manière difficilement programmable de manière dynamique. Il est donc nécessaire, et cela pour chaque <%= BasketComplement.model_name.human.downcase %>, de définir toutes les dates de livraison où ce complément est disponible ou non. Cette opération doit être réalisée chaque année après la création des nouvelles livraisons.

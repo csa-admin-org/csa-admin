@@ -65,6 +65,25 @@ Each delivery cycle can have its own billing options:
 - **Name (invoice)**: A custom name displayed on invoices instead of the default delivery cycle name.
 - **Absences included annually**: Automatically exclude a certain number of deliveries, enabling members to plan a limited number of non-billed absences. See [Included Absences](/handbook/absence#absence-included) for more details.
 
+### Alternate depot {#alternate-depot}
+
+Some members need to pick up their <%= Basket.model_name.human(count: 2).downcase %> at different depots depending on the week — for example, because the CSA vehicle only serves a given depot every other week. CSA Admin supports this through an **alternate depot** configuration at the membership level.
+
+This configuration is only available to administrators (not to members) and can be found in the membership edit form, under the collapsible "Alternate depot" section within the delivery settings. Three fields must be set together:
+
+- **Alternate depot**: The second pickup location.
+- **Alternate depot price**: The depot price for deliveries at the alternate depot (defaults to the depot's price).
+- **Alternate delivery cycle**: Determines which deliveries go to the alternate depot. All other deliveries go to the main depot.
+
+> **Example**: A membership uses the "Every week" cycle. The CSA vehicle only passes by the bakery depot every other week (even weeks), so the member picks up at the farm on the other weeks. The main depot is set to "Bakery" with the alternate depot set to "Farm" and the alternate delivery cycle set to "Odd weeks". Result: even-week <%= Basket.model_name.human(count: 2).downcase %> go to the bakery, odd-week <%= Basket.model_name.human(count: 2).downcase %> go to the farm.
+
+A few important points:
+
+- The alternate delivery cycle **must differ from the main cycle** of the membership and share at least one delivery with it.
+- **Pricing** works automatically — each <%= Basket.model_name.human.downcase %> is billed at the price of its respective depot.
+- When a membership is **renewed**, the alternate depot configuration is automatically carried over.
+- If a member changes their **main depot** from the member area, the alternate depot configuration is preserved.
+
 ## <%= BasketComplement.model_name.human(count: 2) %> {#basket-complements}
 
 [<%= BasketComplement.model_name.human(count: 2) %>](/basket_complements) often follow their own delivery cycle in a way that is difficult to program dynamically. It is therefore necessary, and this for each <%= BasketComplement.model_name.human.downcase %>, to define all the delivery dates where this complement is available or not. This operation must be carried out each year after the creation of new deliveries.

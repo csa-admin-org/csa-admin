@@ -65,6 +65,25 @@ Ogni ciclo di consegne può avere le proprie opzioni di fatturazione:
 - **Nome (fattura)**: Un nome personalizzato visualizzato sulle fatture al posto del nome predefinito del ciclo di consegne.
 - **Assenze incluse annualmente**: Escludere automaticamente un certo numero di consegne, permettendo ai soci di pianificare un numero limitato di assenze non fatturate. Vedere [Assenze incluse](/handbook/absence#absence-included) per maggiori dettagli.
 
+### Punto di ritiro alternativo {#alternate-depot}
+
+Alcuni soci hanno bisogno di ritirare le proprie <%= Basket.model_name.human(count: 2).downcase %> in depositi diversi a seconda della settimana — ad esempio, perché il veicolo di consegna serve un determinato deposito solo una settimana su due. CSA Admin supporta questa esigenza tramite la configurazione di un **punto di ritiro alternativo** a livello di abbonamento.
+
+Questa configurazione è disponibile solo per gli amministratori (non per i soci) e si trova nel modulo di modifica di un abbonamento, nella sezione espandibile « Punto di ritiro alternativo » sotto le impostazioni delle consegne. Tre campi devono essere impostati insieme:
+
+- **Punto di ritiro alternativo**: Il secondo luogo di ritiro.
+- **Prezzo del punto di ritiro alternativo**: Il prezzo del deposito per le consegne al punto alternativo (viene impostato per impostazione predefinita dal prezzo del deposito).
+- **Ciclo di consegna alternativo**: Determina quali consegne vanno al punto alternativo. Tutte le altre consegne vanno al deposito principale.
+
+> **Esempio**: Un abbonamento usa il ciclo « Ogni settimana ». Il veicolo di consegna passa dalla panetteria solo una settimana su due (settimane pari), quindi il socio ritira alla fattoria nelle altre settimane. Il deposito principale è « Panetteria », il punto di ritiro alternativo è « Fattoria » e il ciclo di consegna alternativo è « Settimane dispari ». Risultato: le <%= Basket.model_name.human(count: 2).downcase %> delle settimane pari vanno alla panetteria, quelle delle settimane dispari alla fattoria.
+
+Alcuni punti importanti:
+
+- Il ciclo di consegna alternativo **deve essere diverso dal ciclo principale** dell'abbonamento e condividere almeno una consegna con esso.
+- Il **calcolo dei prezzi** funziona automaticamente — ogni <%= Basket.model_name.human.downcase %> viene fatturata con il prezzo del rispettivo deposito.
+- Al **rinnovo** di un abbonamento, la configurazione del punto alternativo viene automaticamente riportata.
+- Se un socio cambia il proprio **deposito principale** dall'area soci, la configurazione del punto alternativo viene mantenuta.
+
 ## <%= BasketComplement.model_name.human(count: 2) %> {#basket-complements}
 
 [I <%= BasketComplement.model_name.human(count: 2).downcase %>](/basket_complements) seguono spesso il proprio ciclo di consegne e questo in un modo difficilmente programmabile in modo dinamico. È quindi necessario, e questo per ogni <%= BasketComplement.model_name.human.downcase %>, definire tutte le date di consegna in cui questo complemento è disponibile o meno. Questa operazione deve essere effettuata ogni anno dopo la creazione delle nuove consegne.

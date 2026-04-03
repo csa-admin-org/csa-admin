@@ -247,4 +247,22 @@ class MembershipRenewalTest < ActiveSupport::TestCase
     renewed_membership = membership.reload.renewed_membership
     assert_equal cycle_with_deliveries, renewed_membership.delivery_cycle
   end
+
+  test "carries over alternate depot config unconditionally" do
+    membership = memberships(:jane)
+    membership.update!(
+      delivery_cycle: delivery_cycles(:all),
+      alternate_depot_id: depots(:home).id,
+      alternate_depot_price: 9,
+      alternate_delivery_cycle_id: delivery_cycles(:thursdays).id)
+
+    assert_difference "Membership.count", 1 do
+      MembershipRenewal.new(membership).renew!
+    end
+
+    renewed_membership = membership.reload.renewed_membership
+    assert_equal depots(:home).id, renewed_membership.alternate_depot_id
+    assert_equal 9, renewed_membership.alternate_depot_price
+    assert_equal delivery_cycles(:thursdays).id, renewed_membership.alternate_delivery_cycle_id
+  end
 end

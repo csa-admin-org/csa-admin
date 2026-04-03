@@ -66,6 +66,25 @@ Elke leveringscyclus kan eigen facturatieopties hebben:
 - **Naam (factuur)**: Een aangepaste naam die op facturen wordt weergegeven in plaats van de standaard leveringscyclusnaam.
 - **Jaarlijks inbegrepen afwezigheden**: Automatisch een bepaald aantal leveringen uitsluiten, zodat leden een beperkt aantal niet-gefactureerde afwezigheden kunnen plannen. Zie [Inbegrepen afwezigheden](/handbook/absence#absence-included) voor meer details.
 
+### Alternatief depot {#alternate-depot}
+
+Sommige leden moeten hun <%= Basket.model_name.human(count: 2).downcase %> afhankelijk van de week bij verschillende depots ophalen — bijvoorbeeld omdat het leveringsvoertuig een bepaald depot slechts om de week aandoet. CSA Admin ondersteunt dit via de configuratie van een **alternatief depot** op lidmaatschapsniveau.
+
+Deze configuratie is alleen beschikbaar voor beheerders (niet voor leden) en bevindt zich in het bewerkingsformulier van een lidmaatschap, in het uitklapbare gedeelte « Alternatief depot » onder de leveringsinstellingen. Drie velden moeten samen worden ingesteld:
+
+- **Alternatief depot**: De tweede ophaallocatie.
+- **Alternatieve depotprijs**: De depotprijs voor leveringen bij het alternatieve depot (wordt standaard overgenomen van de depotprijs).
+- **Alternatieve leveringscyclus**: Bepaalt welke leveringen naar het alternatieve depot gaan. Alle andere leveringen gaan naar het hoofddepot.
+
+> **Voorbeeld**: Een lidmaatschap gebruikt de cyclus « Elke week ». Het leveringsvoertuig passeert het bakkerijdepot slechts om de week (even weken), dus het lid haalt de andere weken op bij de boerderij. Het hoofddepot is « Bakkerij », het alternatieve depot is « Boerderij » en de alternatieve leveringscyclus is « Oneven weken ». Resultaat: <%= Basket.model_name.human(count: 2).downcase %> van even weken gaan naar de bakkerij, die van oneven weken naar de boerderij.
+
+Enkele belangrijke punten:
+
+- De alternatieve leveringscyclus **moet verschillen van de hoofdcyclus** van het lidmaatschap en minstens één levering gemeenschappelijk hebben.
+- De **prijsberekening** werkt automatisch — elke <%= Basket.model_name.human.downcase %> wordt gefactureerd met de prijs van het bijbehorende depot.
+- Bij de **vernieuwing** van een lidmaatschap wordt de configuratie van het alternatieve depot automatisch overgenomen.
+- Als een lid het **hoofddepot** wijzigt via het ledengedeelte, blijft de configuratie van het alternatieve depot behouden.
+
 ## <%= BasketComplement.model_name.human(count: 2) %> {#basket-complements}
 
 [<%= BasketComplement.model_name.human(count: 2) %>](/basket_complements) volgen vaak hun eigen leveringscyclus op een manier die moeilijk dynamisch te programmeren is. Het is daarom noodzakelijk, en dit voor elke <%= BasketComplement.model_name.human.downcase %>, om alle leveringsdatums te definiëren waar deze aanvulling beschikbaar is of niet. Deze bewerking moet elk jaar worden uitgevoerd na het aanmaken van nieuwe leveringen.

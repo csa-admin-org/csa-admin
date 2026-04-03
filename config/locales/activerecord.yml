@@ -2126,6 +2126,24 @@ _:
           _de: Bestätigte
           _it: Confermato
           _nl: Gevalideerd
+        alternate_delivery_cycle:
+          _en: Alternate delivery cycle
+          _fr: Cycle de livraisons alternatif
+          _de: Alternativer Lieferzyklus
+          _it: Ciclo di consegna alternativo
+          _nl: Alternatieve leveringscyclus
+        alternate_depot:
+          _en: Alternate depot
+          _fr: Dépôt alternatif
+          _de: Alternatives Depot
+          _it: Punto di ritiro alternativo
+          _nl: Alternatief depot
+        alternate_depot_price:
+          _en: Alternate depot price
+          _fr: Prix dépôt alternatif
+          _de: Preis alternatives Depot
+          _it: Prezzo del punto di ritiro alternativo
+          _nl: Alternatieve depotprijs
         apply_basket_size_price_percentage/bag:
           _en: Apply delivery bag size price change (in %)
           _fr: Appliquer la modification du prix de la taille de sac par livraison (en %)
@@ -3908,6 +3926,34 @@ _:
                 _de: Ungenügende
                 _it: Insufficiente
                 _nl: Onvoldoende
+        membership:
+          attributes:
+            alternate_delivery_cycle:
+              alternate_cycle_no_shared_deliveries:
+                _en: must share at least one delivery with the main delivery cycle
+                _fr: doit partager au moins une livraison avec le cycle de livraisons principal
+                _de: muss mindestens eine Lieferung mit dem Hauptlieferzyklus gemeinsam haben
+                _it: deve condividere almeno una consegna con il ciclo di consegna principale
+                _nl: moet minstens één levering gemeenschappelijk hebben met de hoofdleveringscyclus
+              alternate_cycle_same_as_main:
+                _en: must differ from the main delivery cycle
+                _fr: doit être différent du cycle de livraisons principal
+                _de: muss sich vom Hauptlieferzyklus unterscheiden
+                _it: deve essere diverso dal ciclo di consegna principale
+                _nl: moet verschillen van de hoofdleveringscyclus
+              alternate_depot_without_cycle:
+                _en: must be set together with an alternate depot
+                _fr: doit être défini avec un dépôt alternatif
+                _de: muss zusammen mit einem alternativen Depot angegeben werden
+                _it: deve essere impostato insieme a un punto di ritiro alternativo
+                _nl: moet samen met een alternatief depot worden ingesteld
+            alternate_depot:
+              alternate_depot_without_cycle:
+                _en: must be set together with an alternate delivery cycle
+                _fr: doit être défini avec un cycle de livraisons alternatif
+                _de: muss zusammen mit einem alternativen Lieferzyklus angegeben werden
+                _it: deve essere impostato insieme a un ciclo di consegna alternativo
+                _nl: moet samen met een alternatieve leveringscyclus worden ingesteld
         session:
           attributes:
             email:

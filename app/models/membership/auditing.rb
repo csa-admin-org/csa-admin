@@ -25,6 +25,7 @@ module Membership::Auditing
     basket_size_id basket_size_price basket_price_extra basket_quantity
     apply_basket_size_price_percentage
     depot_id depot_price
+    alternate_depot_id alternate_depot_price alternate_delivery_cycle_id
     delivery_cycle_id delivery_cycle_price
     absences_included_annually
   ].freeze
@@ -69,6 +70,7 @@ module Membership::Auditing
       :basket_size_id, :basket_size_price, :basket_price_extra, :basket_quantity,
       :apply_basket_size_price_percentage,
       :depot_id, :depot_price,
+      :alternate_depot_id, :alternate_depot_price, :alternate_delivery_cycle_id,
       :delivery_cycle_id, :delivery_cycle_price,
       :baskets_annual_price_change, :basket_complements_annual_price_change,
       :activity_participations_demanded_annually, :activity_participations_annual_price_change,

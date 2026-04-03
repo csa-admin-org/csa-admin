@@ -1256,6 +1256,12 @@ _:
           _de: Ein Willkommens-E-Mail wird an den Admin gesendet, um ihn zur Anmeldung einzuladen.
           _it: Un'email di benvenuto verrà inviata all'amministratore per invitarlo a connettersi.
           _nl: Een welkomst-e-mail wordt naar de admin gestuurd om hen uit te nodigen in te loggen.
+        alternate_depot_summary:
+          _en: Alternate depot
+          _fr: Dépôt alternatif
+          _de: Alternatives Depot
+          _it: Punto di ritiro alternativo
+          _nl: Alternatief depot
         annual_fee:
           _en: Annual fee
           _fr: Cotisation annuelle

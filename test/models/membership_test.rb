@@ -474,4 +474,161 @@ class MembershipTest < ActiveSupport::TestCase
       assert_equal 0, basket.basket_size_price
     end
   end
+
+  # == Alternate depot ==
+
+  test "alternate depot: creates baskets with correct depot per delivery" do
+    travel_to "2024-01-01"
+    membership = create_membership(
+      delivery_cycle: delivery_cycles(:all),
+      depot: depots(:farm),
+      alternate_depot: depots(:bakery),
+      alternate_depot_price: 4,
+      alternate_delivery_cycle: delivery_cycles(:thursdays))
+
+    monday_baskets = membership.baskets.joins(:delivery).where(deliveries: { date: Delivery.where("time_get_weekday(time_parse(date)) = 1").select(:date) })
+    thursday_baskets = membership.baskets.joins(:delivery).where(deliveries: { date: Delivery.where("time_get_weekday(time_parse(date)) = 4").select(:date) })
+
+    assert_equal [ farm_id ], monday_baskets.pluck(:depot_id).uniq
+    assert_equal [ 0 ], monday_baskets.pluck(:depot_price).uniq.map(&:to_i)
+    assert_equal [ bakery_id ], thursday_baskets.pluck(:depot_id).uniq
+    assert_equal [ 4 ], thursday_baskets.pluck(:depot_price).uniq.map(&:to_i)
+    assert_equal 20, membership.baskets.count
+  end
+
+  test "alternate depot: changing config triggers basket regeneration" do
+    travel_to "2024-01-01"
+    membership = create_membership(
+      delivery_cycle: delivery_cycles(:all),
+      depot: depots(:farm))
+
+    assert_equal [ farm_id ], membership.baskets.pluck(:depot_id).uniq
+
+    membership.update!(
+      new_config_from: Date.current,
+      alternate_depot_id: bakery_id,
+      alternate_depot_price: 4,
+      alternate_delivery_cycle_id: thursdays_id)
+
+    thursday_baskets = membership.baskets.where(depot_id: bakery_id)
+    assert thursday_baskets.count.positive?
+    assert_equal 10, thursday_baskets.count
+  end
+
+  test "alternate depot: validation requires both depot and cycle together" do
+    travel_to "2024-01-01"
+
+    membership = build_membership(
+      alternate_depot: depots(:bakery),
+      alternate_delivery_cycle: nil)
+    assert_not membership.valid?
+    assert membership.errors[:alternate_depot].any?
+
+    membership = build_membership(
+      alternate_depot: nil,
+      alternate_delivery_cycle: delivery_cycles(:thursdays))
+    assert_not membership.valid?
+    assert membership.errors[:alternate_delivery_cycle].any?
+  end
+
+  test "alternate depot: validation rejects same cycle as main" do
+    travel_to "2024-01-01"
+    membership = build_membership(
+      delivery_cycle: delivery_cycles(:mondays),
+      alternate_depot: depots(:bakery),
+      alternate_delivery_cycle: delivery_cycles(:mondays))
+
+    assert_not membership.valid?
+    assert membership.errors[:alternate_delivery_cycle].any?
+  end
+
+  test "alternate depot: validation rejects cycle with no shared deliveries" do
+    travel_to "2024-01-01"
+    membership = build_membership(
+      delivery_cycle: delivery_cycles(:mondays),
+      depot: depots(:farm),
+      alternate_depot: depots(:bakery),
+      alternate_delivery_cycle: delivery_cycles(:thursdays))
+
+    assert_not membership.valid?
+    assert membership.errors[:alternate_delivery_cycle].any?
+  end
+
+  test "alternate depot: defaults price from alternate depot" do
+    travel_to "2024-01-01"
+    membership = build_membership(
+      delivery_cycle: delivery_cycles(:all),
+      alternate_depot: depots(:home),
+      alternate_delivery_cycle: delivery_cycles(:thursdays))
+
+    membership.validate
+    assert_equal 9, membership.alternate_depot_price
+  end
+
+  test "alternate depot: clears price when depot is cleared" do
+    travel_to "2024-01-01"
+    membership = create_membership(
+      delivery_cycle: delivery_cycles(:all),
+      depot: depots(:farm),
+      alternate_depot: depots(:bakery),
+      alternate_depot_price: 4,
+      alternate_delivery_cycle: delivery_cycles(:thursdays))
+
+    membership.update!(
+      new_config_from: Date.current,
+      alternate_depot_id: nil,
+      alternate_delivery_cycle_id: nil)
+
+    assert_nil membership.reload.alternate_depot_price
+  end
+
+  test "alternate depot: pricing correctly sums mixed depots" do
+    travel_to "2024-01-01"
+    membership = create_membership(
+      delivery_cycle: delivery_cycles(:all),
+      depot: depots(:farm),
+      alternate_depot: depots(:home),
+      alternate_depot_price: 9,
+      alternate_delivery_cycle: delivery_cycles(:thursdays))
+
+    # farm depot_price=0 for 10 Monday baskets, home depot_price=9 for 10 Thursday baskets
+    assert_equal 90, membership.depots_price
+  end
+
+  test "alternate depot: member_update! re-applies alternate depot" do
+    travel_to "2024-01-01"
+    org(membership_depot_update_allowed: true, basket_update_limit_in_days: 1)
+    membership = create_membership(
+      delivery_cycle: delivery_cycles(:all),
+      depot: depots(:farm),
+      alternate_depot: depots(:home),
+      alternate_depot_price: 9,
+      alternate_delivery_cycle: delivery_cycles(:thursdays))
+
+    # All Thursday baskets should be at home depot
+    assert_equal 10, membership.baskets.where(depot_id: home_id).count
+
+    travel_to membership.baskets.last.delivery.date - 8.days
+    membership.member_update!(depot_id: bakery_id)
+
+    membership.reload
+    # Main depot changed to bakery
+    assert_equal bakery_id, membership.depot_id
+
+    # Updatable Thursday baskets should still be at alternate depot (home)
+    updatable_thursday_baskets = membership.baskets.includes(:delivery).select(&:can_member_update?).select { |b|
+      delivery_cycles(:thursdays).include_delivery?(b.delivery)
+    }
+    updatable_thursday_baskets.each do |b|
+      assert_equal home_id, b.depot_id
+    end
+
+    # Updatable Monday baskets should be at new main depot (bakery)
+    updatable_monday_baskets = membership.baskets.includes(:delivery).select(&:can_member_update?).reject { |b|
+      delivery_cycles(:thursdays).include_delivery?(b.delivery)
+    }
+    updatable_monday_baskets.each do |b|
+      assert_equal bakery_id, b.depot_id
+    end
+  end
 end

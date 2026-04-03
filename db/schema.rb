@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_03_26_101400) do
+ActiveRecord::Schema[8.1].define(version: 2026_04_03_092918) do
   create_table "absences", force: :cascade do |t|
     t.datetime "admins_notified_at"
     t.datetime "created_at"
@@ -653,6 +653,9 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_26_101400) do
     t.decimal "activity_participations_annual_price_change", precision: 8, scale: 2, default: "0.0", null: false
     t.integer "activity_participations_demanded", default: 0, null: false
     t.integer "activity_participations_demanded_annually", null: false
+    t.bigint "alternate_delivery_cycle_id"
+    t.bigint "alternate_depot_id"
+    t.decimal "alternate_depot_price", precision: 8, scale: 3
     t.boolean "apply_basket_size_price_percentage", default: true, null: false
     t.decimal "basket_complements_annual_price_change", precision: 8, scale: 2, default: "0.0", null: false
     t.decimal "basket_price_extra", precision: 8, scale: 2, default: "0.0", null: false
@@ -688,6 +691,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_26_101400) do
     t.date "started_on", null: false
     t.integer "trial_baskets_count", default: 0
     t.datetime "updated_at"
+    t.index ["alternate_delivery_cycle_id"], name: "index_memberships_on_alternate_delivery_cycle_id"
+    t.index ["alternate_depot_id"], name: "index_memberships_on_alternate_depot_id"
     t.index ["basket_size_id"], name: "index_memberships_on_basket_size_id"
     t.index ["delivery_cycle_id"], name: "index_memberships_on_delivery_cycle_id"
     t.index ["depot_id"], name: "index_memberships_on_depot_id"
@@ -1080,7 +1085,9 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_26_101400) do
   add_foreign_key "members", "depots", column: "shop_depot_id"
   add_foreign_key "members", "depots", column: "waiting_depot_id"
   add_foreign_key "memberships", "delivery_cycles"
+  add_foreign_key "memberships", "delivery_cycles", column: "alternate_delivery_cycle_id"
   add_foreign_key "memberships", "depots"
+  add_foreign_key "memberships", "depots", column: "alternate_depot_id"
   add_foreign_key "memberships_basket_complements", "delivery_cycles"
   add_foreign_key "newsletter_blocks", "newsletters"
   add_foreign_key "newsletters", "newsletter_templates"

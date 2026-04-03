@@ -65,6 +65,25 @@ Jeder Lieferzyklus kann eigene Abrechnungsoptionen haben:
 - **Name (Rechnung)**: Ein benutzerdefinierter Name, der auf Rechnungen anstelle des Standard-Lieferzyklusnamens angezeigt wird.
 - **Jährlich enthaltene Abwesenheiten**: Automatisch eine bestimmte Anzahl von Lieferungen ausschließen, damit Mitglieder eine begrenzte Anzahl nicht berechneter Abwesenheiten planen können. Siehe [Enthaltene Abwesenheiten](/handbook/absence#absence-included) für weitere Details.
 
+### Alternatives Depot {#alternate-depot}
+
+Manche Mitglieder müssen ihre <%= Basket.model_name.human(count: 2) %> je nach Woche an verschiedenen Depots abholen — zum Beispiel, weil das Lieferfahrzeug ein bestimmtes Depot nur jede zweite Woche anfährt. CSA Admin unterstützt dies über die Konfiguration eines **alternativen Depots** auf der Mitgliedschaftsebene.
+
+Diese Konfiguration ist nur für Administratoren verfügbar (nicht für Mitglieder) und befindet sich im Bearbeitungsformular einer Mitgliedschaft, im aufklappbaren Bereich „Alternatives Depot" unter den Lieferungseinstellungen. Drei Felder müssen zusammen gesetzt werden:
+
+- **Alternatives Depot**: Das zweite Abholort.
+- **Preis alternatives Depot**: Der Depotpreis für Lieferungen am alternativen Depot (wird standardmäßig vom Depotpreis übernommen).
+- **Alternativer Lieferzyklus**: Bestimmt, welche Lieferungen zum alternativen Depot gehen. Alle anderen Lieferungen gehen zum Hauptdepot.
+
+> **Beispiel**: Eine Mitgliedschaft nutzt den Zyklus „Jede Woche". Das Lieferfahrzeug fährt das Bäckerei-Depot nur jede zweite Woche an (gerade Wochen), daher holt das Mitglied in den anderen Wochen auf dem Hof ab. Das Hauptdepot ist „Bäckerei", das alternative Depot ist „Hof" und der alternative Lieferzyklus ist „Ungerade Wochen". Ergebnis: <%= Basket.model_name.human(count: 2) %> der geraden Wochen gehen zur Bäckerei, die der ungeraden Wochen zum Hof.
+
+Einige wichtige Punkte:
+
+- Der alternative Lieferzyklus **muss sich vom Hauptzyklus** der Mitgliedschaft unterscheiden und mindestens eine Lieferung mit ihm gemeinsam haben.
+- Die **Preisberechnung** funktioniert automatisch — jede <%= Basket.model_name.human.downcase %> wird mit dem Preis des jeweiligen Depots abgerechnet.
+- Bei der **Erneuerung** einer Mitgliedschaft wird die Konfiguration des alternativen Depots automatisch übernommen.
+- Wenn ein Mitglied sein **Hauptdepot** über den Mitgliederbereich ändert, bleibt die Konfiguration des alternativen Depots erhalten.
+
 ## <%= BasketComplement.model_name.human(count: 2) %> {#basket-complements}
 
 [Die <%= BasketComplement.model_name.human(count: 2) %>](/basket_complements) folgen oft ihrem eigenen Lieferzyklus, und das auf eine Weise, die schwer dynamisch zu programmieren ist. Es ist daher notwendig, und das für jede <%= BasketComplement.model_name.human %>, alle Lieferdaten zu definieren, an denen diese Ergänzung verfügbar ist oder nicht. Dieser Vorgang muss jedes Jahr nach der Erstellung der neuen Lieferungen durchgeführt werden.

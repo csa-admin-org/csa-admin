@@ -1156,6 +1156,12 @@ _:
           _de: Leer lassen für die Standaranzahl.<br/>Die endgültige Anzahl wird automatisch anhand der in <a href='/settings#activity'>den Einstellungen festgelegten Logik</a> berechnet, standardmäßig anteilig an der Anzahl der Taschen.
           _it: Lasciare vuoto il campo per il numero predefinito.<br/>Il numero finale sarà calcolato automaticamente secondo <a href='/settings#activity'>la logica definita nei parametri</a>, di default in proporzione al numero di cesti.
           _nl: Laat leeg voor het standaardaantal.<br/>Het uiteindelijke aantal wordt automatisch berekend op basis van de logica gedefinieerd in <a href='/settings#activity'>de instellingen</a>, standaard evenredig aan het aantal pakketten.
+        alternate_depot_text_html:
+          _en: When set, baskets whose delivery falls on the alternate delivery cycle will be assigned to the alternate depot instead of the main depot.
+          _fr: Lorsque configuré, les paniers dont la livraison correspond au cycle de livraisons alternatif seront attribués au dépôt alternatif au lieu du dépôt principal.
+          _de: Wenn konfiguriert, werden Körbe, deren Lieferung auf den alternativen Lieferzyklus fällt, dem alternativen Depot statt dem Hauptdepot zugewiesen.
+          _it: Quando configurato, i cesti la cui consegna corrisponde al ciclo di consegna alternativo saranno assegnati al punto di ritiro alternativo anziché a quello principale.
+          _nl: Wanneer ingesteld, worden manden waarvan de levering op de alternatieve leveringscyclus valt, toegewezen aan het alternatieve depot in plaats van het hoofddepot.
         apply_basket_size_price_percentage/bag:
           _en: When checked, the delivery-level bag size price percentage adjustments will also be applied to this membership's bags.
           _fr: Lorsque coché, les ajustements en pourcentage du prix de la taille sac définis par livraison seront également appliqués aux sacs de cet abonnement.

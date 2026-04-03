@@ -17,6 +17,8 @@ class Membership < ApplicationRecord
   belongs_to :basket_size
   belongs_to :depot
   belongs_to :delivery_cycle
+  belongs_to :alternate_depot, class_name: "Depot", optional: true
+  belongs_to :alternate_delivery_cycle, class_name: "DeliveryCycle", optional: true
   has_many :baskets, dependent: :destroy
   has_one :next_basket, -> { merge(Basket.deliverable.coming) }, class_name: "Basket"
   has_many :basket_sizes, -> { reorder_by_name }, through: :baskets
@@ -46,6 +48,11 @@ class Membership < ApplicationRecord
     self.basket_size_price ||= basket_size&.price
     self.depot_price ||= depot&.price
     self.delivery_cycle_price ||= delivery_cycle&.price
+    if alternate_depot_id?
+      self.alternate_depot_price ||= alternate_depot&.price
+    else
+      self.alternate_depot_price = nil
+    end
   end
 
   validates :member, presence: true
@@ -58,10 +65,12 @@ class Membership < ApplicationRecord
   validates :baskets_annual_price_change, numericality: true
   validates :basket_complements_annual_price_change, numericality: true
   validates :billing_year_division, presence: true, inclusion: { in: Organization.billing_year_divisions }
+  validates :alternate_depot_price, numericality: { greater_than_or_equal_to: 0 }, allow_nil: true
   validate :cannot_update_dates_when_renewed
   validate :only_one_per_year
   validate :unique_subscribed_basket_complement_id
   validate :at_least_one_basket
+  validate :alternate_depot_coherence
 
   after_create :setup_new_membership!
   after_update :sync_baskets_after_update!
@@ -146,7 +155,9 @@ class Membership < ApplicationRecord
 
     transaction do
       update_columns(params)
-      member_updatable_baskets.each { |b| b.update!(params) }
+      updatable = member_updatable_baskets
+      updatable.each { |b| b.update!(params) }
+      reapply_alternate_depot!(updatable) if alternate_depot_id?
     end
   end
 
@@ -197,6 +208,7 @@ class Membership < ApplicationRecord
   end
 
   def create_basket!(delivery)
+    did, dprice = depot_for(delivery)
     baskets.create!(
       delivery_id: delivery.id,
       delivery_cycle_price: delivery_cycle_price,
@@ -204,8 +216,8 @@ class Membership < ApplicationRecord
       basket_size_price: basket_price_for(delivery),
       price_extra: basket_price_extra,
       quantity: basket_quantity,
-      depot_id: depot_id,
-      depot_price: depot_price)
+      depot_id: did,
+      depot_price: dprice)
   end
 
   def fiscal_year_has_basket_size_price_percentage?
@@ -296,6 +308,7 @@ class Membership < ApplicationRecord
     tracked_attributes = %w[
       basket_size_id basket_size_price basket_price_extra basket_quantity
       depot_id depot_price delivery_cycle_id delivery_cycle_price
+      alternate_depot_id alternate_depot_price alternate_delivery_cycle_id
       apply_basket_size_price_percentage
     ]
     (saved_changes.keys & tracked_attributes).any? || !new_config_from.today?
@@ -312,6 +325,22 @@ class Membership < ApplicationRecord
       delivery.basket_size_price_for(basket_size_price)
     else
       basket_size_price
+    end
+  end
+
+  def depot_for(delivery)
+    if alternate_depot_id? && alternate_delivery_cycle&.include_delivery?(delivery)
+      [ alternate_depot_id, alternate_depot_price ]
+    else
+      [ depot_id, depot_price ]
+    end
+  end
+
+  def reapply_alternate_depot!(target_baskets)
+    target_baskets.each do |b|
+      if alternate_delivery_cycle.include_delivery?(b.delivery)
+        b.update!(depot_id: alternate_depot_id, depot_price: alternate_depot_price)
+      end
     end
   end
 
@@ -374,6 +403,31 @@ class Membership < ApplicationRecord
         errors.add(:base, :invalid)
       end
       used_basket_complement_ids << mbc.basket_complement_id
+    end
+  end
+
+  def alternate_depot_coherence
+    has_depot = alternate_depot_id.present?
+    has_cycle = alternate_delivery_cycle_id.present?
+
+    if has_depot != has_cycle
+      errors.add(:alternate_depot, :alternate_depot_without_cycle)
+      errors.add(:alternate_delivery_cycle, :alternate_depot_without_cycle)
+      return
+    end
+    return unless has_depot && has_cycle
+
+    if alternate_delivery_cycle_id == delivery_cycle_id
+      errors.add(:alternate_delivery_cycle, :alternate_cycle_same_as_main)
+      return
+    end
+
+    if period && delivery_cycle && alternate_delivery_cycle
+      main_ids = delivery_cycle.deliveries_in(period).map(&:id)
+      alt_ids = alternate_delivery_cycle.deliveries_in(period).map(&:id)
+      if (main_ids & alt_ids).empty?
+        errors.add(:alternate_delivery_cycle, :alternate_cycle_no_shared_deliveries)
+      end
     end
   end
 end

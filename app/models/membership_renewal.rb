@@ -59,6 +59,9 @@ class MembershipRenewal
         basket_price_extra
         depot_id
         delivery_cycle_id
+        alternate_depot_id
+        alternate_depot_price
+        alternate_delivery_cycle_id
         billing_year_division
       ] + optional_attributes_to_copy))
       .symbolize_keys

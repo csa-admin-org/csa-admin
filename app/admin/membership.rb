@@ -318,6 +318,11 @@ ActiveAdmin.register Membership do
       column(:depot_price) { |m| cur(m.depot_price, precision: 3) }
     end
     column(:delivery_cycle) { |m| m.delivery_cycle.name }
+    column(:alternate_depot) { |m| m.alternate_depot&.name }
+    if Depot.prices?
+      column(:alternate_depot_price) { |m| cur(m.alternate_depot_price, precision: 3) if m.alternate_depot_price }
+    end
+    column(:alternate_delivery_cycle) { |m| m.alternate_delivery_cycle&.name }
     if feature?("activity")
       column(:activity_participations_demanded, &:activity_participations_demanded)
       column(:activity_participations_accepted, &:activity_participations_accepted)
@@ -444,6 +449,12 @@ ActiveAdmin.register Membership do
             row(:delivery_cycle) {
               delivery_cycle_link(m.delivery_cycle, fy_year: m.fy_year)
             }
+            if m.alternate_depot_id?
+              row :alternate_depot
+              row(:alternate_delivery_cycle) {
+                delivery_cycle_link(m.alternate_delivery_cycle, fy_year: m.fy_year)
+              }
+            end
           end
         end
 
@@ -765,6 +776,35 @@ ActiveAdmin.register Membership do
           handbook_button(self, "absence", anchor: "absence-included")
         end
       end
+      li class: "mt-6" do
+        details class: "arrow-details", open: f.object.alternate_depot_id? ? "open" : nil do
+          summary do
+            t(".alternate_depot_summary")
+          end
+          div class: "mt-2" do
+            para t("formtastic.hints.membership.alternate_depot_text_html").html_safe, class: "text-sm text-gray-500 dark:text-gray-400 mb-4"
+            ol "data-controller" => "form-reset" do
+              f.input :alternate_depot,
+                collection: admin_depots_collection,
+                include_blank: true,
+                input_html: {
+                  data: { action: "form-reset#reset" }
+                }
+              if Depot.prices?
+                f.input :alternate_depot_price,
+                  required: false,
+                  input_html: { data: { form_reset_target: "input" } }
+              end
+              f.input :alternate_delivery_cycle,
+                collection: admin_delivery_cycles_collection_by_visibility,
+                as: :select,
+                include_blank: true
+            end
+
+            handbook_button(self, "deliveries", anchor: "alternate-depot")
+          end
+        end
+      end
     end
     f.inputs [
       Basket.model_name.human,
@@ -812,6 +852,7 @@ ActiveAdmin.register Membership do
     :member_id,
     :basket_size_id, :basket_size_price, :apply_basket_size_price_percentage, :basket_price_extra, :basket_quantity, :baskets_annual_price_change,
     :depot_id, :depot_price, :delivery_cycle_id, :delivery_cycle_price,
+    :alternate_depot_id, :alternate_depot_price, :alternate_delivery_cycle_id,
     :billing_year_division,
     :started_on, :ended_on, :renew, :renewal_annual_fee,
     :activity_participations_annual_price_change, :activity_participations_demanded_annually,
