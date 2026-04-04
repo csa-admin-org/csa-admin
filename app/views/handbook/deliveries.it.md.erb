@@ -116,3 +116,17 @@ Un testo personalizzato di piè di pagina può essere aggiunto a tutte le schede
 ### Annunci {#announcements}
 
 Brevi messaggi possono essere associati a combinazioni specifiche deposito/consegna e appariranno sulle schede di consegna corrispondenti. Consulta la pagina dedicata del [manuale degli annunci](/handbook/announcements) per i dettagli.
+
+## Notifiche di consegna {#delivery-notifications}
+
+CSA Admin può inviare automaticamente notifiche e-mail relative alle consegne:
+
+### Lista di consegna per deposito {#depot-delivery-list-notifications}
+
+Puoi configurare ogni deposito con indirizzi e-mail (nella sezione « Notifiche » del deposito). Il giorno prima di ogni consegna, questi indirizzi ricevono un'e-mail contenente la lista dei soci e delle loro <%= Basket.model_name.human(count: 2).downcase %>, con allegati PDF e XLSX delle schede di consegna.
+
+### Riepilogo settimanale dei <%= BasketComplement.model_name.human(count: 2).downcase %> {#complement-notifications}
+
+Per ogni <%= BasketComplement.model_name.human.downcase %> puoi configurare indirizzi e-mail (nella sezione « Notifiche » del <%= BasketComplement.model_name.human.downcase %>). Ogni domenica mattina, questi indirizzi ricevono un'e-mail che riepiloga il numero totale di quel complemento necessario per ogni consegna della settimana successiva.
+
+> Questo è utile per i fornitori esterni (ad es. un panettiere, un casaro) che devono sapere quanto preparare per la settimana successiva.

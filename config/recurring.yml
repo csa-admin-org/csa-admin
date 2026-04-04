@@ -53,6 +53,12 @@ production:
     queue: low
     schedule: at 4:30am every day
 
+  notifier_weekly:
+    class: TenantSwitchEachJob
+    args: [Scheduled::NotifierWeeklyJob]
+    queue: low
+    schedule: every sunday at 4:30am
+
   notifier_hourly:
     class: TenantSwitchEachJob
     args: [Scheduled::NotifierHourlyJob]

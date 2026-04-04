@@ -116,3 +116,17 @@ Ein benutzerdefinierter Fußzeilentext kann über die [Einstellung für die Lief
 ### Ankündigungen {#announcements}
 
 Kurze Nachrichten können an bestimmte Depot/Lieferungs-Kombinationen angehängt werden und erscheinen auf den entsprechenden Lieferscheinen. Siehe die spezielle [Handbuchseite zu Ankündigungen](/handbook/announcements) für Details.
+
+## Lieferungsbenachrichtigungen {#delivery-notifications}
+
+CSA Admin kann automatisch E-Mail-Benachrichtigungen zu Lieferungen versenden:
+
+### Depot-Lieferliste {#depot-delivery-list-notifications}
+
+Du kannst jedes Depot mit E-Mail-Adressen konfigurieren (im Abschnitt „Benachrichtigungen" des Depots). Am Tag vor jeder Lieferung erhalten diese Adressen eine E-Mail mit der Liste der Mitglieder und ihrer <%= Basket.model_name.human(count: 2).downcase %>, einschließlich PDF- und XLSX-Anhängen der Lieferscheine.
+
+### Wöchentliche Zusammenfassung der <%= BasketComplement.model_name.human(count: 2) %> {#complement-notifications}
+
+Für jede <%= BasketComplement.model_name.human %> kannst Du E-Mail-Adressen konfigurieren (im Abschnitt „Benachrichtigungen"). Jeden Sonntagmorgen erhalten diese Adressen eine E-Mail mit einer Zusammenfassung der Gesamtmenge dieser Ergänzung, die für jede Lieferung der kommenden Woche benötigt wird.
+
+> Dies ist nützlich für externe Lieferanten (z. B. ein Bäcker, ein Käsehersteller), die wissen müssen, wie viel sie für die kommende Woche vorbereiten müssen.

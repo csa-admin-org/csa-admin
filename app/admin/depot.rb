@@ -119,9 +119,6 @@ ActiveAdmin.register Depot do
               row(:admin_name) { depot.name }
             end
             row(:group)
-            if Current.org.languages.many?
-              row(:language) { t("languages.#{depot.language}") }
-            end
             row(:note) { text_format(depot.note) }
             row(:public_note) { depot.public_note if depot.public_note? }
           end
@@ -140,6 +137,15 @@ ActiveAdmin.register Depot do
               count = Announcement.depots_eq(depot.id).active.count
               link_to t("announcements.active", count: count), announcements_path(scope: :active, q: { depots_eq: depot.id })
             }
+          end
+        end
+
+        panel Admin.human_attribute_name(:notifications),  action: handbook_icon_link("deliveries", anchor: "depot-delivery-list-notifications") do
+          attributes_table do
+            row(:emails) { display_emails_with_link(self, depot.emails_array) }
+            if Current.org.languages.many?
+              row(:language) { t("languages.#{depot.language}") }
+            end
           end
         end
 
@@ -175,7 +181,6 @@ ActiveAdmin.register Depot do
         panel Depot.human_attribute_name(:contact) do
           attributes_table do
             row :contact_name
-            row(:emails) { display_emails_with_link(self, depot.emails_array) }
             row(:phones) { display_phones_with_link(self, depot.phones_array) }
           end
         end
@@ -191,7 +196,6 @@ ActiveAdmin.register Depot do
       f.input :group,
         as: :select,
         hint: t("formtastic.hints.depot.group_html")
-      language_input(f)
       f.input :note, input_html: { rows: 3 }
       translated_input(f, :public_notes,
         as: :action_text,
@@ -219,6 +223,13 @@ ActiveAdmin.register Depot do
             mode
           ]
         }
+    end
+
+    f.inputs Admin.human_attribute_name(:notifications) do
+      f.input :emails, as: :string
+      language_input(f)
+
+      handbook_button(self, "deliveries", anchor: "depot-delivery-list-notifications")
     end
 
     f.inputs t("active_admin.resource.show.member_new_form") do
@@ -253,7 +264,6 @@ ActiveAdmin.register Depot do
 
     f.inputs Depot.human_attribute_name(:contact) do
       f.input :contact_name
-      f.input :emails, as: :string
       f.input :phones, as: :string
     end
 

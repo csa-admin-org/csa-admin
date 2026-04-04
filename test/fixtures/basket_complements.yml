@@ -2,13 +2,16 @@ bread:
   names:
     en: Bread
   price: 4
+  language: en
 
 cheese:
   names:
     en: Cheese
   price: 5
+  language: en
 
 eggs:
   names:
     en: Eggs
   price: 6
+  language: en

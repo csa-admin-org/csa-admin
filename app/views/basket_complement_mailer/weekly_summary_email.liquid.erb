@@ -1,0 +1,16 @@
+<p><%= t(".intro_paragraph") %></p>
+
+{% highlight %}
+  <table>
+    {% for dc in deliveries_counts %}
+      <tr>
+        <td style="padding-right: 16px; padding-bottom: 1px;">{{ dc.date }}</td>
+        <td style="text-align: right; padding-left: 12px; padding-bottom: 1px;"><strong>{{ dc.count }}</strong></td>
+      </tr>
+    {% endfor %}
+    <tr>
+      <td style="padding-top: 2px;"><strong><%= t(".total_label") %></strong></td>
+      <td style="border-top: 2px solid; text-align: right; padding-left: 12px; padding-top: 2px;"><strong>{{ total }}</strong></td>
+    </tr>
+  </table>
+{% endhighlight %}

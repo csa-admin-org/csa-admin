@@ -116,3 +116,17 @@ A custom footer text can be added to all delivery sheets via the [delivery PDF f
 ### Announcements {#announcements}
 
 Short messages can be attached to specific depot/delivery combinations and will appear on the corresponding delivery sheets. See the dedicated [announcements handbook page](/handbook/announcements) for details.
+
+## Delivery notifications {#delivery-notifications}
+
+CSA Admin can automatically send email notifications related to deliveries:
+
+### Depot delivery list {#depot-delivery-list-notifications}
+
+Each depot can be configured with email addresses (in the depot's "Notifications" section). The day before each delivery, these addresses receive an email containing the list of members and their <%= Basket.model_name.human(count: 2).downcase %>, along with PDF and XLSX attachments for the delivery sheets.
+
+### <%= BasketComplement.model_name.human %> weekly summary {#complement-notifications}
+
+Each <%= BasketComplement.model_name.human.downcase %> can be configured with email addresses (in the <%= BasketComplement.model_name.human.downcase %>'s "Notifications" section). Every Sunday morning, these addresses receive an email summarizing the total count of that complement needed for each delivery of the upcoming week.
+
+> This is useful for external suppliers (e.g., a baker, a cheese maker) who need to know how much to prepare for the week ahead.

@@ -66,6 +66,13 @@ ActiveAdmin.register BasketComplement do
       end
     end
 
+    f.inputs Admin.human_attribute_name(:notifications) do
+      f.input :emails, as: :string
+      language_input(f)
+
+      handbook_button(self, "deliveries", anchor: "complement-notifications")
+    end
+
     f.inputs t("active_admin.resource.show.member_new_form") do
       f.input :member_order_priority,
         collection: member_order_priorities_collection,
@@ -111,6 +118,8 @@ ActiveAdmin.register BasketComplement do
     :activity_participations_demanded_annually,
     :visible,
     :member_order_priority,
+    :emails,
+    :language,
     *I18n.available_locales.map { |l| "public_name_#{l}" },
     *I18n.available_locales.map { |l| "admin_name_#{l}" },
     *I18n.available_locales.map { |l| "form_detail_#{l}" },

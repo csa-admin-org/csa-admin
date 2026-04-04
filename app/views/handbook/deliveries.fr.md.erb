@@ -116,3 +116,17 @@ Un texte de pied de page personnalisé peut être ajouté à toutes les fiches d
 ### Annonces {#announcements}
 
 Des messages courts peuvent être rattachés à des combinaisons dépôt/livraison spécifiques et apparaîtront sur les fiches de livraison correspondantes. Consultez la page dédiée du [manuel des annonces](/handbook/announcements) pour plus de détails.
+
+## Notifications de livraison {#delivery-notifications}
+
+CSA Admin peut envoyer automatiquement des notifications par e-mail liées aux livraisons :
+
+### Liste de livraison par dépôt {#depot-delivery-list-notifications}
+
+Chaque dépôt peut être configuré avec des adresses e-mail (dans la section « Notifications » du dépôt). La veille de chaque livraison, ces adresses reçoivent un e-mail contenant la liste des membres et de leurs <%= Basket.model_name.human(count: 2).downcase %>, accompagné des pièces jointes PDF et XLSX des fiches de livraison.
+
+### Résumé hebdomadaire des <%= BasketComplement.model_name.human(count: 2).downcase %> {#complement-notifications}
+
+Chaque <%= BasketComplement.model_name.human.downcase %> peut être configuré avec des adresses e-mail (dans la section « Notifications » du <%= BasketComplement.model_name.human.downcase %>). Chaque dimanche matin, ces adresses reçoivent un e-mail résumant le nombre total de ce complément nécessaire pour chaque livraison de la semaine à venir.
+
+> Cela est utile pour les fournisseurs externes (par ex., un boulanger, un fromager) qui ont besoin de savoir quelle quantité préparer pour la semaine.

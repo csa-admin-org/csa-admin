@@ -119,3 +119,17 @@ Een aangepaste voettekst kan worden toegevoegd aan alle leveringsbladen via de [
 ### Aankondigingen {#announcements}
 
 Korte berichten kunnen worden gekoppeld aan specifieke depot/leveringscombinaties en verschijnen op de corresponderende leveringsbladen. Zie de speciale [handboekpagina over aankondigingen](/handbook/announcements) voor details.
+
+## Leveringsmeldingen {#delivery-notifications}
+
+CSA Admin kan automatisch e-mailmeldingen versturen met betrekking tot leveringen:
+
+### Depot-leveringslijst {#depot-delivery-list-notifications}
+
+Je kunt elk depot configureren met e-mailadressen (in het gedeelte « Notificaties » van het depot). De dag voor elke levering ontvangen deze adressen een e-mail met de lijst van leden en hun <%= Basket.model_name.human(count: 2).downcase %>, inclusief PDF- en XLSX-bijlagen van de leveringsbladen.
+
+### Wekelijks overzicht van <%= BasketComplement.model_name.human(count: 2).downcase %> {#complement-notifications}
+
+Voor elke <%= BasketComplement.model_name.human.downcase %> kun je e-mailadressen configureren (in het gedeelte « Notificaties » van de <%= BasketComplement.model_name.human.downcase %>). Elke zondagochtend ontvangen deze adressen een e-mail met een samenvatting van het totale aantal van die aanvulling dat nodig is voor elke levering van de komende week.
+
+> Dit is handig voor externe leveranciers (bijv. een bakker, een kaasmaker) die moeten weten hoeveel ze voor de komende week moeten voorbereiden.

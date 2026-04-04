@@ -11,6 +11,8 @@ class BasketComplement < ApplicationRecord
 
   include TranslatedAttributes
   include HasPublicName
+  include HasEmails
+  include HasLanguage
   include HasVisibility
   include HasPrice
   include Discardable

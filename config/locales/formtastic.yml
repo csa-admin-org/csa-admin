@@ -184,6 +184,12 @@ _:
           _de: Jede Abonnements mit diesem Zusatz werden bei Änderungen automatisch aktualisiert. <b>Achtung, <a href='/handbook/billing#price-change'>die Rechnungung dieser Abonnements kann beeinflusst werden.</a></b>
           _it: Tutti gli abbonamenti che hanno sottoscritto questo supplemento verranno automaticamente aggiornati in caso di modifica. <b>Attenzione, <a href='/handbook/billing#price-change'>la fatturazione di questi abbonamenti potrebbe essere influenzata.</a></b>
           _nl: Alle lidmaatschappen met deze aanvulling worden automatisch bijgewerkt bij wijzigingen. <b>Let op, <a href='/handbook/billing#price-change'>de facturering van deze lidmaatschappen kan worden beïnvloed.</a></b>
+        emails:
+          _en: These email addresses (separated by a comma) receive a weekly summary of the complement counts every Sunday morning.
+          _fr: Ces adresses e-mail (séparées par une virgule) reçoivent un résumé hebdomadaire des quantités de compléments chaque dimanche matin.
+          _de: Diese E-Mail-Adressen (durch Komma getrennt) erhalten jeden Sonntagmorgen eine wöchentliche Zusammenfassung der Ergänzungsmengen.
+          _it: Questi indirizzi e-mail (separati da una virgola) ricevono ogni domenica mattina un riepilogo settimanale delle quantità di complementi.
+          _nl: Deze e-mailadressen (gescheiden door een komma) ontvangen elke zondagochtend een wekelijks overzicht van de aantallen aanvullingen.
         form_detail:
           _en: Leave blank for the default text.
           _fr: Laisser blanc pour le texte par défaut.
@@ -671,42 +677,12 @@ _:
           _de: Lieferzyklen, die bei der Anmeldung für Mitglieder für dieses Depot verfügbar sind. In jedem Fall wird die Auswahl des Lieferzyklus den Mitgliedern nur angeboten, wenn mindestens zwei Lieferzyklen für ein Depot verfügbar sind.
           _it: Cicli di consegna disponibili per i soci al momento della registrazione per questo punto di ritiro. In ogni caso, la scelta del ciclo di consegna viene proposta ai soci solo se sono disponibili almeno due cicli di consegna per un punto di ritiro.
           _nl: Leveringscycli beschikbaar voor leden bij registratie voor dit depot. In elk geval wordt de keuze van leveringscyclus alleen aan leden voorgesteld als er minstens twee leveringscycli beschikbaar zijn voor een depot.
-        emails/bag:
-          _en: Each email (separated by a comma) receives, the day before delivery, the list of members receiving a bag.
-          _fr: Chaque email (séparé par une virgule) reçoit, le jour précédant la livraison, la liste des membres recevant un sac.
-          _de: Jede E-Mail-Adresse (durch Komma getrennt) bekommt ein Tag vor der Lieferung eine Liste der Abonnenten, die eine Tasche bekommen.
-          _it: Ogni email (separata da una virgola) riceve, il giorno precedente la consega, la lista dei soci che ritireranno una borsa.
-          _nl: Elke e-mail (gescheiden door een komma) ontvangt, de dag voor de levering, de lijst van leden die een tas zullen ophalen.
-        emails/basket:
-          _en: Each email (separated by a comma) receives, the day before delivery, the list of members receiving a basket.
-          _fr: Chaque email (séparé par une virgule) reçoit, le jour précédant la livraison, la liste des membres recevant un panier.
-          _de: Jede E-Mail-Adresse (durch Komma getrennt) bekommt ein Tag vor der Lieferung eine Liste der Abonnenten, die eine Korb bekommen.
-          _it: Ogni email (separata da una virgola) riceve, il giorno precedente la consega, la lista dei soci che ritireranno una cesta.
-          _nl: Elke e-mail (gescheiden door een komma) ontvangt, de dag voor de levering, de lijst van leden die een mand zullen ophalen.
-        emails/cone:
-          _en: Each email (separated by a comma) receives, the day before delivery, the list of members receiving a cone.
-          _fr: Chaque email (séparé par une virgule) reçoit, le jour précédant la livraison, la liste des membres recevant un cornet.
-          _de: Jede E-Mail-Adresse (durch Komma getrennt) bekommt ein Tag vor der Lieferung eine Liste der Abonnenten, die eine Tüte bekommen.
-          _it: Ogni email (separata da una virgola) riceve, il giorno precedente la consega, la lista dei soci che ritireranno un cono.
-          _nl: Elke e-mail (gescheiden door een komma) ontvangt, de dag voor de levering, de lijst van leden die een zak zullen ophalen.
-        emails/crate:
-          _en: Each email (separated by a comma) receives, the day before delivery, the list of members receiving a crate.
-          _fr: Chaque email (séparé par une virgule) reçoit, le jour précédant la livraison, la liste des membres recevant une cagette.
-          _de: Jede E-Mail-Adresse (durch Komma getrennt) bekommt ein Tag vor der Lieferung eine Liste der Abonnenten, die eine Kiste bekommen.
-          _it: Ogni email (separata da una virgola) riceve, il giorno precedente la consega, la lista dei soci che ritireranno una cassetta.
-          _nl: Elke e-mail (gescheiden door een komma) ontvangt, de dag voor de levering, de lijst van leden die een krat zullen ophalen.
-        emails/package:
-          _en: Each email (separated by a comma) receives, the day before delivery, the list of members receiving a package.
-          _fr: Chaque email (séparé par une virgule) reçoit, le jour précédant la livraison, la liste des membres recevant un colis.
-          _de: Jede E-Mail-Adresse (durch Komma getrennt) bekommt ein Tag vor der Lieferung eine Liste der Abonnenten, die eine Paket bekommen.
-          _it: Ogni email (separata da una virgola) riceve, il giorno precedente la consega, la lista dei soci che ritireranno un pacco.
-          _nl: Elke e-mail (gescheiden door een komma) ontvangt, de dag voor de levering, de lijst van leden die een pakket zullen ophalen.
-        emails/share:
-          _en: Each email (separated by a comma) receives, the day before delivery, the list of members receiving a share.
-          _fr: Chaque email (séparé par une virgule) reçoit, le jour précédant la livraison, la liste des membres recevant un part.
-          _de: Jede E-Mail-Adresse (durch Komma getrennt) bekommt ein Tag vor der Lieferung eine Liste der Abonnenten, die eine Anteil bekommen.
-          _it: Ogni email (separata da una virgola) riceve, il giorno precedente la consega, la lista dei soci che ritireranno una parte.
-          _nl: Elke e-mail (gescheiden door een komma) ontvangt, de dag voor de levering, de lijst van leden die een deel zullen ophalen.
+        emails:
+          _en: These email addresses (separated by a comma) receive the delivery list (PDF and XLSX) the day before each delivery.
+          _fr: Ces adresses e-mail (séparées par une virgule) reçoivent la liste de livraison (PDF et XLSX) le jour précédant chaque livraison.
+          _de: Diese E-Mail-Adressen (durch Komma getrennt) erhalten die Lieferliste (PDF und XLSX) am Tag vor jeder Lieferung.
+          _it: Questi indirizzi e-mail (separati da una virgola) ricevono la lista di consegna (PDF e XLSX) il giorno precedente ogni consegna.
+          _nl: Deze e-mailadressen (gescheiden door een komma) ontvangen de leveringslijst (PDF en XLSX) de dag voor elke levering.
         form_detail:
           _en: Leave blank for the default text.
           _fr: Laisser blanc pour le texte par défaut.
