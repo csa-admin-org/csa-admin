@@ -1,40 +1,81 @@
 import { Controller } from "@hotwired/stimulus"
 
+let cameFromHandbook = false
+
+document.addEventListener("turbo:before-visit", () => {
+  cameFromHandbook = window.location.pathname.startsWith("/handbook")
+})
+
 export default class extends Controller {
   static targets = ["content"]
 
   connect() {
     const url = new URL(window.location)
     const query = url.searchParams.get("highlight")
-
-    if (!query || query.trim().length < 3) return
-    if (!this.hasContentTarget) return
-
-    const terms = this.extractTerms(query)
-    if (terms.length === 0) return
-
-    this.highlightTerms(this.contentTarget, terms)
-
-    // If a URL hash anchor is present, scroll to it (explicit navigation
-    // intent takes priority over highlight position). Otherwise fall back
-    // to the first highlighted match.
     const hash = url.hash?.slice(1)
-    const anchorTarget = hash && document.getElementById(hash)
-    const scrollTarget =
-      anchorTarget || this.contentTarget.querySelector("mark")
 
-    if (scrollTarget) {
-      requestAnimationFrame(() => {
-        scrollTarget.scrollIntoView({
-          behavior: "smooth",
-          block: anchorTarget ? "start" : "center"
-        })
-      })
+    if (query && query.trim().length >= 3 && this.hasContentTarget) {
+      const terms = this.extractTerms(query)
+      if (terms.length > 0) {
+        this.highlightTerms(this.contentTarget, terms)
+
+        // If a URL hash anchor is present, scroll to it (explicit navigation
+        // intent takes priority over highlight position). Otherwise fall back
+        // to the first highlighted match.
+        const anchorTarget = hash && document.getElementById(hash)
+        const scrollTarget =
+          anchorTarget || this.contentTarget.querySelector("mark")
+
+        if (scrollTarget) {
+          requestAnimationFrame(() => {
+            scrollTarget.scrollIntoView({
+              behavior: "smooth",
+              block: anchorTarget ? "start" : "center"
+            })
+          })
+        }
+
+        // Clean up the URL so refreshing doesn't re-highlight
+        url.searchParams.delete("highlight")
+        history.replaceState(history.state, "", url)
+      }
     }
 
-    // Clean up the URL so refreshing doesn't re-highlight
-    url.searchParams.delete("highlight")
-    history.replaceState(history.state, "", url)
+    if (!cameFromHandbook) {
+      this.pulseAnchorTarget(hash)
+    }
+  }
+
+  pulseAnchorTarget(hash) {
+    if (!hash) return
+
+    const heading = document.getElementById(hash)
+    if (!heading || !/^H[1-6]$/.test(heading.tagName)) return
+
+    const level = parseInt(heading.tagName[1])
+    const elements = [heading]
+    let sibling = heading.nextElementSibling
+    while (sibling) {
+      if (/^H[1-6]$/.test(sibling.tagName) && parseInt(sibling.tagName[1]) <= level) break
+      elements.push(sibling)
+      sibling = sibling.nextElementSibling
+    }
+
+    const wrapper = document.createElement("div")
+    wrapper.classList.add("animate-anchor-highlight")
+    heading.parentNode.insertBefore(wrapper, heading)
+    elements.forEach((el) => wrapper.appendChild(el))
+
+    wrapper.addEventListener(
+      "animationend",
+      () => {
+        while (wrapper.firstChild) {
+          wrapper.parentNode.insertBefore(wrapper.firstChild, wrapper)
+        }
+        wrapper.remove()
+      },
+      { once: true }
+    )
   }
 
   extractTerms(query) {
