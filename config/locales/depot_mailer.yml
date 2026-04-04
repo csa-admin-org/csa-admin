@@ -1,0 +1,21 @@
+_:
+  depot_mailer:
+    delivery_list_email:
+      members_list_paragraph:
+        _en: 'Here is the list of members:'
+        _fr: 'Voici la liste des membres:'
+        _de: 'Nachfolgend die Mitgliederliste:'
+        _it: 'Ecco la lista dei soci:'
+        _nl: 'Hier is de lijst van leden:'
+      see_attachments_paragraph:
+        _en: See the attachments for more details, thank you.
+        _fr: Voir les pièces jointes pour plus de détails, merci.
+        _de: Siehe Anhänge für mehr Details, vielen Dank.
+        _it: Consultare gli allegati per maggiori dettagli, grazie.
+        _nl: Zie de bijlagen voor meer details, bedankt.
+      subject:
+        _en: Delivery list of %{date} (%{depot})
+        _fr: Liste livraison du %{date} (%{depot})
+        _de: Lieferungsliste vom %{date} (%{depot})
+        _it: Lista di consegna del %{date} (%{depot})
+        _nl: Leveringslijst van %{date} (%{depot})
