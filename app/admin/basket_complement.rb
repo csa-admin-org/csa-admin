@@ -89,6 +89,8 @@ ActiveAdmin.register BasketComplement do
             }
           end
         })
+
+      handbook_button(self, "registration", anchor: "basket-complements")
     end
 
     f.inputs Delivery.model_name.human(count: 2) do

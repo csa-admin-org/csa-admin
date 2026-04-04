@@ -140,7 +140,7 @@ ActiveAdmin.register Depot do
           end
         end
 
-        panel Admin.human_attribute_name(:notifications),  action: handbook_icon_link("deliveries", anchor: "depot-delivery-list-notifications") do
+        panel Admin.human_attribute_name(:notifications), action: handbook_icon_link("deliveries", anchor: "depot-delivery-list-notifications") do
           attributes_table do
             row(:emails) { display_emails_with_link(self, depot.emails_array) }
             if Current.org.languages.many?
@@ -149,7 +149,7 @@ ActiveAdmin.register Depot do
           end
         end
 
-        panel t(".member_new_form") do
+        panel t(".member_new_form"), action: handbook_icon_link("registration", anchor: "depots") do
           attributes_table do
             row(:visible) { status_tag(depot.visible?) }
             if depot.visible?
@@ -251,6 +251,8 @@ ActiveAdmin.register Depot do
         input_html: f.object.persisted? ? {} : { checked: true },
         as: :check_boxes,
         required: true
+
+      handbook_button(self, "registration", anchor: "depots")
     end
 
     f.inputs Depot.human_attribute_name(:street) do

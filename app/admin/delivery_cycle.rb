@@ -84,7 +84,7 @@ ActiveAdmin.register DeliveryCycle do
         end
 
         if DeliveryCycle.visible?
-          panel t(".member_new_form") do
+          panel t(".member_new_form"), action: handbook_icon_link("registration", anchor: "delivery-cycles") do
             attributes_table do
               row(:visible) { status_tag(dc.visible?) }
               if dc.visible?
@@ -191,6 +191,8 @@ ActiveAdmin.register DeliveryCycle do
         as: :check_boxes,
         hint: true,
         disabled: depot_ids_with_only(f.object)
+
+      handbook_button(self, "registration", anchor: "delivery-cycles")
     end
 
     if feature?("absence")

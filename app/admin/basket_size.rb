@@ -91,6 +91,8 @@ ActiveAdmin.register BasketSize do
             }
           end
         })
+
+      handbook_button(self, "registration", anchor: "basket-sizes")
     end
 
     f.actions

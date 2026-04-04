@@ -15,18 +15,18 @@ ActiveAdmin.register DepotGroup do
     links
   end
 
-  sidebar :info, only: :index do
-    side_panel t(".info") do
-      para t(".depot_group_info")
-    end
-  end
-
   includes :depots
   index download_links: false do
     column :id
     column :name, ->(dg) { display_name_with_public_name(dg) }, class: "whitespace-nowrap", sortable: true
     column :depots, ->(dg) { dg.depots.reorder_by_name.map { |d| auto_link d }.to_sentence.html_safe }
     actions
+  end
+
+  sidebar :info, only: :index do
+    side_panel t(".info"), action: handbook_icon_link("registration", anchor: "depot-groups") do
+      para t(".depot_group_info")
+    end
   end
 
   form do |f|
