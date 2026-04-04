@@ -13,6 +13,7 @@ class BasketSize < ApplicationRecord
   include HasVisibility
   include Discardable
   include Deliverability
+  include DeliveryCounts
 
   translated_attributes :form_detail
 
@@ -75,9 +76,5 @@ class BasketSize < ApplicationRecord
       .group_by(&:itself)
       .max_by(&:size)
       &.first || 0
-  end
-
-  def billable_deliveries_counts
-    DeliveryCycle.billable_deliveries_counts_for(self)
   end
 end

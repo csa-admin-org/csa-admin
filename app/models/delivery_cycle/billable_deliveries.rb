@@ -12,20 +12,17 @@ module DeliveryCycle::BillableDeliveries
       end
     end
 
-    def billable_deliveries_count_for(basket_complement)
-      if visible?
-        visible.map { |dc| dc.billable_deliveries_count_for(basket_complement) }.uniq.sort
-      else
-        [ primary.billable_deliveries_count_for(basket_complement) ]
-      end
+    def deliveries_counts_for(object)
+      aggregate_counts_for(:deliveries_count, object)
     end
 
-    def billable_deliveries_counts_for(basket_size)
-      if visible?
-        visible.map { |dc| dc.billable_deliveries_count_for_basket_size(basket_size) }.uniq.sort
-      else
-        [ primary.billable_deliveries_count_for_basket_size(basket_size) ]
-      end
+    def absences_included_counts_for(object)
+      aggregate_counts_for(:absences_included_count, object)
+    end
+
+    # Pro-rate included absences removal
+    def billable_deliveries_counts_for(object)
+      aggregate_counts_for(:billable_deliveries_count, object)
     end
 
     def future_deliveries_counts
@@ -35,37 +32,55 @@ module DeliveryCycle::BillableDeliveries
         [ primary.future_deliveries_count ]
       end
     end
+
+    private
+
+    def aggregate_counts_for(method_prefix, object)
+      type = object.class.model_name.singular
+      method_name = :"#{method_prefix}_for_#{type}"
+      if visible?
+        visible.map { |dc| dc.public_send(method_name, object) }.uniq.sort
+      else
+        [ primary.public_send(method_name, object) ]
+      end
+    end
   end
 
   def billable_deliveries_count
     deliveries_count - absences_included_annually
   end
 
-  # Pro-rate included absences removal
-  def billable_deliveries_count_for(basket_complement)
-    count = (basket_complement.delivery_ids & current_and_future_delivery_ids).size
-    if absences_included_annually.positive?
-      full_year = deliveries_count.to_f
-      if full_year.positive?
-        count -= (count / full_year * absences_included_annually).round
-      end
-    end
-    count
+  def deliveries_count_for_basket_complement(basket_complement)
+    (basket_complement.delivery_ids & current_and_future_delivery_ids).size
+  end
+
+  def billable_deliveries_count_for_basket_complement(basket_complement)
+    deliveries_count_for_basket_complement(basket_complement) - absences_included_count_for_basket_complement(basket_complement)
+  end
+
+  def absences_included_count_for_basket_complement(basket_complement)
+    return 0 unless absences_included_annually.positive?
+    full_year = deliveries_count.to_f
+    return 0 unless full_year.positive?
+    (deliveries_count_for_basket_complement(basket_complement) / full_year * absences_included_annually).round
+  end
+
+  def deliveries_count_for_basket_size(basket_size)
+    return deliveries_count if basket_size.always_deliverable?
+
+    source_deliveries = future_deliveries.any? ? future_deliveries : current_deliveries
+    basket_size.filter_deliveries(source_deliveries).size
   end
 
   def billable_deliveries_count_for_basket_size(basket_size)
-    # Use cached count when basket_size has no availability restrictions
-    return billable_deliveries_count if basket_size.always_deliverable?
+    [ deliveries_count_for_basket_size(basket_size) - absences_included_count_for_basket_size(basket_size), 0 ].max
+  end
 
-    # Use same logic as deliveries_count: prefer future, fallback to current
-    source_deliveries = future_deliveries.any? ? future_deliveries : current_deliveries
-    count = basket_size.filter_deliveries(source_deliveries).size
-    if absences_included_annually.positive?
-      full_year = deliveries_count.to_f
-      if full_year.positive?
-        count -= (count / full_year * absences_included_annually).round
-      end
-    end
-    [ count, 0 ].max
+  def absences_included_count_for_basket_size(basket_size)
+    return absences_included_annually if basket_size.always_deliverable?
+    return 0 unless absences_included_annually.positive?
+    full_year = deliveries_count.to_f
+    return 0 unless full_year.positive?
+    (deliveries_count_for_basket_size(basket_size) / full_year * absences_included_annually).round
   end
 end

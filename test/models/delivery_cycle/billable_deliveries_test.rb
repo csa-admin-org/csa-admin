@@ -21,7 +21,7 @@ class DeliveryCycle::BillableDeliveriesTest < ActiveSupport::TestCase
     assert_equal cycle.deliveries_count, cycle.billable_deliveries_count
   end
 
-  test "billable_deliveries_count_for basket complement pro-rates absences" do
+  test "billable_deliveries_count_for_basket_complement pro-rates absences" do
     cycle = delivery_cycles(:mondays)
     cycle.update!(absences_included_annually: 2)
 
@@ -29,23 +29,57 @@ class DeliveryCycle::BillableDeliveriesTest < ActiveSupport::TestCase
     # Set up complement with some delivery_ids that overlap with cycle
     complement.delivery_ids = cycle.current_and_future_delivery_ids.take(5)
 
-    count = cycle.billable_deliveries_count_for(complement)
+    count = cycle.billable_deliveries_count_for_basket_complement(complement)
 
     # Should be less than the raw intersection count due to pro-rated absences
     assert count <= 5
     assert count >= 0
   end
 
-  test "billable_deliveries_count_for basket complement without absences" do
+  test "billable_deliveries_count_for_basket_complement without absences" do
     cycle = delivery_cycles(:mondays)
     cycle.update!(absences_included_annually: 0)
 
     complement = basket_complements(:bread)
     complement.delivery_ids = cycle.current_and_future_delivery_ids.take(5)
 
-    count = cycle.billable_deliveries_count_for(complement)
+    count = cycle.billable_deliveries_count_for_basket_complement(complement)
 
     assert_equal 5, count
+  end
+
+  test "deliveries_count_for_basket_complement counts intersection with cycle deliveries" do
+    cycle = delivery_cycles(:mondays)
+    complement = basket_complements(:bread)
+    complement.delivery_ids = cycle.current_and_future_delivery_ids.take(3)
+
+    assert_equal 3, cycle.deliveries_count_for_basket_complement(complement)
+  end
+
+  test "deliveries_count_for_basket_complement returns 0 when no overlap" do
+    cycle = delivery_cycles(:mondays)
+    complement = basket_complements(:bread)
+    complement.delivery_ids = []
+
+    assert_equal 0, cycle.deliveries_count_for_basket_complement(complement)
+  end
+
+  test "absences_included_count_for_basket_complement returns 0 without absences" do
+    cycle = delivery_cycles(:mondays)
+    cycle.update!(absences_included_annually: 0)
+    complement = basket_complements(:bread)
+
+    assert_equal 0, cycle.absences_included_count_for_basket_complement(complement)
+  end
+
+  test "absences_included_count_for_basket_complement pro-rates based on intersection size" do
+    cycle = delivery_cycles(:mondays)
+    # Setting absences equal to full count makes the formula trivial: result == intersection size
+    cycle.update!(absences_included_annually: cycle.deliveries_count)
+    complement = basket_complements(:bread)
+    complement.delivery_ids = cycle.current_and_future_delivery_ids.take(4)
+
+    assert_equal 4, cycle.absences_included_count_for_basket_complement(complement)
   end
 
   test "billable_deliveries_count_for_basket_size returns count based on filtered deliveries" do
@@ -89,16 +123,50 @@ class DeliveryCycle::BillableDeliveriesTest < ActiveSupport::TestCase
     assert count >= 0
   end
 
+  test "class method deliveries_counts_for dispatches for basket_complement" do
+    complement = basket_complements(:bread)
+
+    counts = DeliveryCycle.deliveries_counts_for(complement)
+
+    assert_kind_of Array, counts
+    assert_equal counts, counts.uniq.sort
+  end
+
+  test "class method deliveries_counts_for dispatches for basket_size" do
+    basket_size = basket_sizes(:small)
+
+    counts = DeliveryCycle.deliveries_counts_for(basket_size)
+
+    assert_kind_of Array, counts
+    assert_equal counts, counts.uniq.sort
+  end
+
+  test "class method absences_included_counts_for dispatches for basket_complement" do
+    complement = basket_complements(:bread)
+
+    counts = DeliveryCycle.absences_included_counts_for(complement)
+
+    assert_kind_of Array, counts
+  end
+
+  test "class method absences_included_counts_for dispatches for basket_size" do
+    basket_size = basket_sizes(:small)
+
+    counts = DeliveryCycle.absences_included_counts_for(basket_size)
+
+    assert_kind_of Array, counts
+  end
+
   test "class method billable_deliveries_counts returns unique sorted counts" do
     counts = DeliveryCycle.billable_deliveries_counts
 
     assert_equal counts, counts.uniq.sort
   end
 
-  test "class method billable_deliveries_count_for returns counts for complement" do
+  test "class method billable_deliveries_counts_for returns counts for complement" do
     complement = basket_complements(:bread)
 
-    counts = DeliveryCycle.billable_deliveries_count_for(complement)
+    counts = DeliveryCycle.billable_deliveries_counts_for(complement)
 
     assert_kind_of Array, counts
     assert_equal counts, counts.uniq.sort

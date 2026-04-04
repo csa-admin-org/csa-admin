@@ -28,18 +28,10 @@ ActiveAdmin.register DeliveryCycle do
     end
     column :next_delivery, ->(dc) { auto_link dc.next_delivery }, class: "text-right whitespace-nowrap"
     column Current.org.current_fiscal_year, ->(dc) {
-      txt = dc.current_deliveries_count.to_s
-      if dc.current_deliveries_count.positive? && dc.absences_included_annually.positive?
-        txt += " (-#{dc.absences_included_annually})"
-      end
-      txt
+      deliveries_count_range_with_absences(dc.current_deliveries_count, dc.absences_included_annually)
     }, class: "text-right whitespace-nowrap"
     column Current.org.fiscal_year_for(1.year.from_now), ->(dc) {
-      txt = dc.future_deliveries_count.to_s
-      if dc.future_deliveries_count.positive? && dc.absences_included_annually.positive?
-        txt += " (-#{dc.absences_included_annually})"
-      end
-      txt
+      deliveries_count_range_with_absences(dc.future_deliveries_count, dc.absences_included_annually)
     }, class: "text-right whitespace-nowrap"
     if DeliveryCycle.visible?
       column :visible, ->(dc) { status_tag dc.visible? }, class: "text-right"

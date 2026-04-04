@@ -19,8 +19,8 @@ ActiveAdmin.register BasketComplement do
       end
     }, class: "text-right tabular-nums whitespace-nowrap"
     column :deliveries, ->(bc) {
-      deliveries_count_range(bc.billable_deliveries_counts)
-    }, class: "text-right tabular-nums"
+      deliveries_count_range_with_absences(bc.deliveries_counts, bc.absences_included_counts)
+    }, class: "text-right tabular-nums whitespace-nowrap"
     column Current.org.current_fiscal_year, ->(bc) {
       link_to bc.current_deliveries.size, deliveries_path(
         q: {

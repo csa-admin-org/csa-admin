@@ -14,6 +14,7 @@ class BasketComplement < ApplicationRecord
   include HasVisibility
   include HasPrice
   include Discardable
+  include DeliveryCounts
 
   translated_attributes :form_detail
 
@@ -76,10 +77,6 @@ class BasketComplement < ApplicationRecord
       clauses << bc.public_name
       clauses
     }
-  end
-
-  def billable_deliveries_counts
-    DeliveryCycle.billable_deliveries_count_for(self)
   end
 
   def deliveries_count

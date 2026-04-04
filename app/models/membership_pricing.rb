@@ -98,7 +98,7 @@ class MembershipPricing
     return [ 0, 0 ] if quantity.zero?
 
     deliveries_counts = delivery_cycles.map { |dc|
-      dc.billable_deliveries_count_for(complement)
+      dc.billable_deliveries_count_for_basket_complement(complement)
     }.uniq
     [
       deliveries_counts.min * complement.price * quantity,

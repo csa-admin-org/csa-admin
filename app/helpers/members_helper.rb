@@ -189,7 +189,7 @@ module MembersHelper
     if only_price_per_delivery
       details << t("helpers.price_per_delivery", price: short_price(bc.price))
     else
-      counts = depots_delivery_cycles.map { |dc| dc.billable_deliveries_count_for(bc) }.uniq
+      counts = depots_delivery_cycles.map { |dc| dc.billable_deliveries_count_for_basket_complement(bc) }.uniq
       details << "#{deliveries_based_price_info(bc.price, counts)} (#{short_price(bc.price)} x #{deliveries_count(counts)})".html_safe
     end
     details << activities_count(bc.activity_participations_demanded_annually)
@@ -390,6 +390,15 @@ module MembersHelper
     else
       counts.first.to_i
     end
+  end
+
+  def deliveries_count_range_with_absences(deliveries_counts, absences_counts)
+    counts = Array(deliveries_counts)
+    txt = deliveries_count_range(counts).to_s
+    return txt unless counts.any?(&:positive?)
+    absences = Array(absences_counts).select(&:positive?)
+    txt += " (-#{[ absences.min, absences.max ].uniq.join("-")})" if absences.any?
+    txt
   end
 
   def collection_as_plain_text(collection)

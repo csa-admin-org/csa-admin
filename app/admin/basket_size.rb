@@ -19,8 +19,8 @@ ActiveAdmin.register BasketSize do
       end
     }, class: "text-right tabular-nums whitespace-nowrap"
     column :deliveries, ->(bs) {
-      deliveries_count_range(bs.billable_deliveries_counts)
-    }, class: "text-right tabular-nums"
+      deliveries_count_range_with_absences(bs.deliveries_counts, bs.absences_included_counts)
+    }, class: "text-right tabular-nums whitespace-nowrap"
     if feature?("activity")
       column activities_human_name,
         ->(bs) { bs.activity_participations_demanded_annually },
