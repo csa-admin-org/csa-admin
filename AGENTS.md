@@ -7,6 +7,7 @@ CSA Admin is a multi-tenant Rails application for managing Community Supported A
 ## Development Commands
 
 ```bash
+bin/ci                            # Full CI suite (lint, security, tests, seeds)
 bin/rails test:all                # Run all tests (uses "acme" tenant)
 bin/rails lint:check              # Check for style issues
 bin/rails lint:autocorrect        # Auto-fix style issues
@@ -26,6 +27,19 @@ Current.org                 # Organization singleton (tenant settings/features)
 Key files: `lib/tenant.rb`, `config/tenant.yml`
 
 Jobs inherit from `ApplicationJob` which includes `TenantContext` for automatic tenant serialization. Use `TenantSwitchEachJob.perform_later("MyJobClassName")` to run a job across all tenants.
+
+## Database & Migrations
+
+Standard Rails database tasks (`db:migrate`, `db:rollback`, `db:schema:load`, etc.) work as expected and automatically apply to all tenant databases. Custom overrides in `lib/tasks/database.rake` ensure multi-tenant compatibility.
+
+```bash
+bin/rails db:migrate              # Run pending migrations (all tenants)
+bin/rails db:rollback             # Rollback last migration (all tenants, STEP=n supported)
+bin/rails db:migrate:down VERSION=xxx  # Run down for a specific migration (all tenants)
+bin/rails db:schema:load          # Load schema into all tenant databases
+```
+
+Key file: `lib/tasks/database.rake`
 
 ## Code Style
 
@@ -97,10 +111,3 @@ column(:member_id) { |record| record.member&.display_id }
 A test in `test/models/member/discardable_test.rb` automatically scans export files for dangerous patterns.
 
 Key files: `app/models/member/discardable.rb`, `app/models/member/anonymization.rb`
-
-## Commits
-
-- **Never auto-commit** — always propose the commit message and wait for confirmation
-- **Always run `bin/rails test:all`** before proposing a commit
-- **One logical change per commit** — discuss splitting if needed
-- Keep messages short, explain **why** the change is needed
