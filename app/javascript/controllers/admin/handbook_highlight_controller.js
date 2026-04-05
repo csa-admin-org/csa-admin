@@ -56,7 +56,11 @@ export default class extends Controller {
     const elements = [heading]
     let sibling = heading.nextElementSibling
     while (sibling) {
-      if (/^H[1-6]$/.test(sibling.tagName) && parseInt(sibling.tagName[1]) <= level) break
+      if (
+        /^H[1-6]$/.test(sibling.tagName) &&
+        parseInt(sibling.tagName[1]) <= level
+      )
+        break
       elements.push(sibling)
       sibling = sibling.nextElementSibling
     }
