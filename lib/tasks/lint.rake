@@ -6,12 +6,11 @@ namespace :lint do
   LINT_TYPES = %i[locales rubocop herb_lint herb_format prettier]
 
   def parallel_lint(&block)
-    results = {}
-    Parallel.map(LINT_TYPES) do |type|
+    results = Parallel.map(LINT_TYPES) do |type|
       cmd = block.call(type)
       if cmd.present?
         puts "Running #{type}..."
-        results[type] = system(cmd)
+        system(cmd)
       end
     end
     abort("Linting failed") unless results.compact.all?

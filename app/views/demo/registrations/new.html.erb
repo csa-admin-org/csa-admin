@@ -1,4 +1,4 @@
-<%= javascript_include_tag "hashcash", defer: true, data: { turbo_track: "reload" } %>
+<%= javascript_include_tag "hashcash", defer: true, nonce: true, data: { turbo_track: "reload" } %>
 
 <h1 class="mb-4 text-center text-2xl font-semibold md:text-3xl">
   CSA Admin — <%= set_page_title t("demo.registrations.new.title") %>

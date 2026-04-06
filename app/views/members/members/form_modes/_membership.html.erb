@@ -24,7 +24,6 @@
               <%= t(".text", fiscal_year_months_range: fiscal_year_months_range) %>
 
               <% if Current.org.trial_baskets? %>
-                <%= " " %>
                 <%= t(".trial_text", count: Current.org.trial_baskets_count) %>
               <% end %>
             </p>
@@ -125,7 +124,6 @@
         >
           <legend class="mb-1 text-base">
             <%= Current.org.basket_price_extra_public_title %>
-            <%= " " %>
 
             <abbr title="<%= t("simple_form.required.text") %>">
               <%= t("simple_form.required.mark") %>
@@ -161,9 +159,8 @@
           <% has_groups = grouped_depots.keys.compact.any? %>
 
           <div>
-            <legend class="text-base">
+            <legend class="mb-1 text-base">
               <%= Depot.model_name.human(count: has_groups ? 2 : 1) %>
-              <%= " " %>
 
               <abbr title="<%= t("simple_form.required.text") %>">
                 <%= t("simple_form.required.mark") %>
@@ -238,7 +235,13 @@
 
           <% unless selected %>
             <div class="flex flex-row justify-center">
-              <%= link_to t(".alternative_depots_show_all"), "#", class: "btn btn-sm", onclick: "document.getElementById('alternative-depots').classList.toggle('hidden'); this.classList.toggle('hidden'); return false;" %>
+              <button
+                type="button"
+                class="btn btn-sm"
+                onclick="document.getElementById('alternative-depots').classList.toggle('hidden'); this.classList.toggle('hidden');"
+              >
+                <%= t(".alternative_depots_show_all") %>
+              </button>
             </div>
           <% end %>
 

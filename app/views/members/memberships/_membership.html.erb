@@ -48,7 +48,7 @@
         <%= icon "handshake", class: "flex-none size-6 -mb-0.5 text-gray-300 dark:text-gray-600" %>
 
         <span>
-          <%= "#{activities_human_name}: " %>
+          <%= activities_human_name %>:
 
           <%= link_to members_activity_participations_path do %>
             <%= t(".activity_participations_demanded", count: membership.activity_participations_demanded) %>

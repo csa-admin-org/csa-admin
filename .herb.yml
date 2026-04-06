@@ -31,31 +31,23 @@ linter:
   # # Additional patterns beyond the defaults for linting
   # include:
   #   - '**/*.xml.erb'
-  #
-  # # Patterns to exclude from linting
-  # exclude:
-  #   - 'app/views/admin/**/*'
+
+  # Patterns to exclude from linting
+  exclude:
+    - 'public/**/*'
 
   rules:
     erb-no-extra-newline:
       enabled: true
-  #
-  #   # Rules can have 'include', 'only', and 'exclude' patterns
-  #   some-rule:
-  #     # Additional patterns to check (additive, ignored when 'only' is present)
-  #     include:
-  #       - 'app/components/**/*'
-  #     # Don't apply this rule to files matching these patterns
-  #     exclude:
-  #       - 'app/views/admin/**/*'
-  #
-  #   another-rule:
-  #     # Only apply this rule to files matching these patterns (overrides all 'include')
-  #     only:
-  #       - 'app/views/**/*'
-  #     # Exclude still applies even with 'only'
-  #     exclude:
-  #       - 'app/views/admin/**/*'
+    html-no-unknown-tag:
+      exclude:
+        - 'app/views/members/shop/products/_tag.html.erb'
+    erb-no-unused-expressions:
+      exclude:
+        - 'app/views/members/shop/orders/_order.html.erb'
+    html-require-script-nonce:
+      exclude:
+        - 'app/views/shared/_theme_script.html.erb'
 
 formatter:
   enabled: true

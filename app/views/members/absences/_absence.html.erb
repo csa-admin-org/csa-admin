@@ -5,8 +5,8 @@
   "
 >
   <span class="flex min-w-fit flex-row items-center">
-    <%= "#{l(absence.started_on)} – #{l(absence.ended_on)}" %>
-    <%= " (#{t('.deliveries_count', count: absence.baskets.size)})" %>
+    <%= l(absence.started_on) %> – <%= l(absence.ended_on) %>
+    (<%= t(".deliveries_count", count: absence.baskets.size) %>)
   </span>
 
   <% if absence.note? %>

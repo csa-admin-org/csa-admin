@@ -1,4 +1,4 @@
-<div class="attachment <%= blob.representable? ? "attachment--preview" : "attachment--file" %> <%= "attachment--#{blob.filename.extension}" %>">
+<div class="attachment <%= blob.representable? ? "attachment--preview" : "attachment--file" %>">
   <% limit = local_assigns[:in_gallery] ? [ 800, 600 ] : [ 1024, 768 ]
     # Convert to JPEG and apply quality compression for smaller file sizes.
     # This is appropriate for newsletters/Trix content where transparency isn't needed.

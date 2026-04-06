@@ -4,6 +4,6 @@
   </div>
 
   <% unless invoice.processing? %>
-    <%= image_tag invoice.pdf_file.preview(resize_to_limit: [ 2000, 2000 ]), class: "absolute top-0 z-20" %>
+    <%= image_tag invoice.pdf_file.preview(resize_to_limit: [ 2000, 2000 ]), alt: "", class: "absolute top-0 z-20" %>
   <% end %>
 </div>

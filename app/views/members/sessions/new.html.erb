@@ -1,5 +1,5 @@
 <% content_for :head do %>
-  <%= javascript_include_tag "hashcash", defer: true, data: { turbo_track: "reload" } %>
+  <%= javascript_include_tag "hashcash", defer: true, nonce: true, data: { turbo_track: "reload" } %>
 <% end %>
 
 <h1 class="mb-4 text-center"><%= t(".title") %></h1>

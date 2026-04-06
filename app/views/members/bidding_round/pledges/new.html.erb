@@ -16,7 +16,7 @@
       data-hover-id-value="<%= dom_id(membership) %>"
     >
       <div class="text-center text-xl whitespace-nowrap">
-        <%= "#{Membership.model_name.human} #{membership.fiscal_year}" %>
+        <%= Membership.model_name.human %> <%= membership.fiscal_year %>
       </div>
 
       <ul class="mt-4 w-full space-y-1">
