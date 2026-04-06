@@ -97,7 +97,9 @@ class MailDelivery
     end
 
     def check_email_suppressions
-      suppressions = EmailSuppression.active.where(email: email).select(:id, :reason)
+      scope = EmailSuppression.active.where(email: email)
+      scope = scope.outbound unless mail_delivery.newsletter?
+      suppressions = scope.select(:id, :reason)
 
       self.email_suppression_ids = suppressions.map(&:id)
       self.email_suppression_reasons = suppressions.map(&:reason).uniq

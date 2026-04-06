@@ -248,6 +248,79 @@ class MailDelivery::EmailTest < ActiveSupport::TestCase
     assert_not MailDelivery::Email.exists?(email.id)
   end
 
+  test "broadcast suppression does NOT block transactional email (invoice)" do
+    member = members(:john)
+    suppress_email("john@doe.com", stream_id: "broadcast", reason: "ManualSuppression", origin: "Customer")
+
+    delivery = MailDelivery.deliver!(
+      member: member, mailable: invoices(:other_closed), action: "created")
+
+    email = delivery.emails.find_by(email: "john@doe.com")
+    assert email.present?, "Email record should have been created"
+    assert email.deliverable?, "Broadcast suppression should not block transactional email"
+    assert_empty email.email_suppression_ids
+  end
+
+  test "broadcast suppression DOES block newsletter email" do
+    member = members(:john)
+    suppress_email("john@doe.com", stream_id: "broadcast", reason: "ManualSuppression", origin: "Customer")
+
+    delivery = MailDelivery.deliver!(
+      member: member, mailable: newsletters(:simple), action: "newsletter")
+
+    email = delivery.emails.find_by(email: "john@doe.com")
+    assert email.present?, "Email record should have been created"
+    assert_not email.deliverable?, "Broadcast suppression should block newsletter"
+    assert_not_empty email.email_suppression_ids
+  end
+
+  test "outbound suppression blocks transactional email" do
+    member = members(:john)
+    member.update!(emails: "john@doe.com, jojo@old.com")
+    suppress_email("jojo@old.com", stream_id: "outbound")
+
+    delivery = MailDelivery.deliver!(
+      member: member, mailable: invoices(:other_closed), action: "created")
+
+    # jojo@old.com should not even be a recipient (filtered by active_emails)
+    assert_nil delivery.emails.find_by(email: "jojo@old.com")
+    # john@doe.com should be deliverable
+    email = delivery.emails.find_by(email: "john@doe.com")
+    assert email.present?
+    assert email.deliverable?
+  end
+
+  test "outbound suppression DOES block transactional email deliverable?" do
+    member = members(:john)
+    suppress_email("john@doe.com", stream_id: "outbound")
+
+    delivery = MailDelivery.deliver!(
+      member: member, mailable: invoices(:other_closed), action: "created",
+      recipients: [ "john@doe.com" ])
+
+    email = delivery.emails.find_by(email: "john@doe.com")
+    assert email.present?
+    assert_not email.deliverable?, "Outbound suppression should block transactional email"
+    assert_not_empty email.email_suppression_ids
+  end
+
+  test "both broadcast and outbound suppressions block newsletter email" do
+    member = members(:john)
+    member.update!(emails: "john@doe.com, jojo@old.com")
+    suppress_email("john@doe.com", stream_id: "broadcast", reason: "ManualSuppression", origin: "Customer")
+    suppress_email("jojo@old.com", stream_id: "outbound")
+
+    delivery = MailDelivery.deliver!(
+      member: member, mailable: newsletters(:simple), action: "newsletter",
+      recipients: [ "john@doe.com", "jojo@old.com" ])
+
+    email_broadcast = delivery.emails.find_by(email: "john@doe.com")
+    assert_not email_broadcast.deliverable?, "Broadcast suppression should block newsletter"
+
+    email_outbound = delivery.emails.find_by(email: "jojo@old.com")
+    assert_not email_outbound.deliverable?, "Outbound suppression should block newsletter"
+  end
+
   test "process! handles InvalidEmailRequestError by creating InvalidAddress suppression" do
     member = members(:john)
     delivery = MailDelivery.deliver!(

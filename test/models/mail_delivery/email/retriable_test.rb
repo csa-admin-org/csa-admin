@@ -56,6 +56,37 @@ class MailDelivery::Email::RetriableTest < ActiveSupport::TestCase
     assert_equal %w[ManualSuppression], email.email_suppression_reasons
   end
 
+  test "retry! succeeds for transactional email with only broadcast suppression" do
+    member = members(:john)
+    suppress_email("john@doe.com", stream_id: "broadcast", reason: "ManualSuppression", origin: "Customer")
+
+    # Force-create a suppressed transactional email (simulating the old buggy behavior)
+    delivery = MailDelivery.deliver!(
+      member: member, mailable: invoices(:other_closed), action: "created",
+      recipients: [ "john@doe.com" ])
+
+    email = delivery.emails.first
+    suppression = EmailSuppression.active.broadcast.find_by(email: "john@doe.com")
+    email.update_columns(
+      state: "suppressed",
+      email_suppression_ids: [ suppression.id ],
+      email_suppression_reasons: [ "ManualSuppression" ])
+    delivery.recompute_state!
+
+    assert email.reload.suppressed?
+
+    # retry! should now ignore the broadcast suppression for transactional emails
+    assert_enqueued_with(job: MailDelivery::ProcessJob) do
+      assert email.retry!
+    end
+
+    email.reload
+    assert email.processing?
+    assert_empty email.email_suppression_ids
+    assert_empty email.email_suppression_reasons
+    assert_equal "processing", email.mail_delivery.reload.state
+  end
+
   test "retry! raises for non-suppressed email" do
     member = members(:john)
     delivery = MailDelivery.deliver!(

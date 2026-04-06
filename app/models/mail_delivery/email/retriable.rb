@@ -15,7 +15,9 @@ module MailDelivery::Email::Retriable
   def retry!
     invalid_transition(:retry) unless suppressed?
 
-    fresh_suppressions = EmailSuppression.active.where(email: email).select(:id, :reason)
+    scope = EmailSuppression.active.where(email: email)
+    scope = scope.outbound unless mail_delivery.newsletter?
+    fresh_suppressions = scope.select(:id, :reason)
 
     if fresh_suppressions.any?
       update!(

@@ -245,26 +245,26 @@ class TemplatableTest < ActionMailer::TestCase
     assert delivery.emails.first.processing?
   end
 
-  test "broadcast-suppressed email is marked as suppressed via process!" do
+  test "broadcast-suppressed email is NOT blocked for transactional email" do
     template = mail_templates(:member_validated)
     template.update!(active: true)
     member = members(:john)
     member.update!(emails: "john@doe.com, extra@doe.com")
-    suppression = suppress_email("extra@doe.com", stream_id: "broadcast")
+    suppress_email("extra@doe.com", stream_id: "broadcast")
 
     perform_enqueued_jobs do
       MailTemplate.deliver(:member_validated, member: member)
     end
 
-    # broadcast suppressions are NOT filtered by active_emails (only outbound are),
-    # so both emails are in one delivery; the broadcast-suppressed one is marked suppressed
+    # broadcast suppressions should not block transactional (non-newsletter) emails;
+    # both emails are created and both are deliverable
     delivery = MailDelivery.where(member: member, mailable_type: "Member", action: "validated").last
     assert_equal 2, delivery.emails.count
 
-    suppressed_email = delivery.emails.find_by(email: "extra@doe.com")
-    assert suppressed_email.suppressed?
-    assert_equal [ suppression.id ], suppressed_email.email_suppression_ids
-    assert_equal %w[HardBounce], suppressed_email.email_suppression_reasons
+    extra_email = delivery.emails.find_by(email: "extra@doe.com")
+    assert extra_email.processing?
+    assert extra_email.deliverable?
+    assert_empty extra_email.email_suppression_ids
 
     clean_email = delivery.emails.find_by(email: "john@doe.com")
     assert clean_email.processing?
