@@ -168,7 +168,7 @@ Ce mode de redistribution est très commode et permet de gérer ainsi les cas ou
 La manière la plus efficace de traiter vos paiements est de demander à votre banque de mettre en place [une connexion EBICS](https://www.six-group.com/fr/products-services/banking-services/standardization.html#scrollTo=ebics). Cela permet au système d'importer automatiquement (chaque nuit) les paiements des factures avec numéro de référence de vos membres via le format ISO camt.054.
 
 <!-- country:CH -->
-CSA Admin gère également la récupération automatique des paiements de la [Banque Alternative Suisse](https://www.bas.ch/fr) qui ne supporte pas le système EBICS.
+CSA Admin gère également la récupération automatique des paiements de la [Banque Alternative Suisse (BAS)](https://www.bas.ch/fr) qui ne supporte pas le système EBICS.
 <!-- /country:CH -->
 
 > Si vous avez des questions concernant le support d'une banque en particulier ou la mise en place d'EBICS, n'hésitez pas à [me demander](/support).
@@ -183,6 +183,22 @@ La mise en place d'une connexion EBICS avec votre banque implique plusieurs éta
 4. **Finalisation** — Une fois que votre banque a reçu et validé la lettre INI signée, je pourrai finaliser la connexion.
 
 > En attendant, vous pouvez utiliser [l'importation manuelle](#manual-import) pour traiter vos paiements.
+
+<!-- country:CH -->
+### Mise en place Banque Alternative Suisse (BAS) {#abs-setup}
+
+La mise en place d'une connexion avec [la BAS](https://www.bas.ch/fr) se fait via un système de fichier keyfile (fichier de clé) comme elle ne supporte pas EBICS. Voici le processus:
+
+1. **Contacter la banque** — Via votre canal de messagerie sécurisé e-banking, demandez une connexion "keyfile" (fichier de clé) pour votre contrat e-banking existant (IBXXXXXXX).
+2. **Recevoir le fichier keyfile** — La banque vous enverra par email un fichier keyfile chiffré (format `.p12`) ainsi que son mot de passe par courrier postal séparé.
+3. **M'envoyer les informations** — Une fois en possession de ces éléments, transmettez-les moi de préférence via un canal sécurisé avec chiffrement de bout en bout (Signal, Telegram, WhatsApp, iMessage, ...) :
+   - Le fichier keyfile chiffré (format `.p12`) et son mot de passe
+   - Votre numéro de contrat IBXXXXXXX
+   - Votre mot de passe de contrat IBXXXXXXX, identique à celui de votre e-banking. Noter que je n'ai pas accès à votre e-banking, le système peut récupèrer uniquement les fichiers camt.054 contenant la liste des paiements.
+   - Votre numéro de compte bancaire (XXX.XXX.XXX-XX)
+
+> ⚠️ Si vous modifiez votre mot de passe e-banking ou si votre contrat IB est supprimé, pensez à me le communiquer sans tarder, la récupération des paiements ne fonctionnera plus jusqu'à ce que les nouvelles informations soient mises à jour. En cas de suppression du contrat IB, toute la mise en place devra être recommencée avec un nouveau contrat.
+<!-- /country:CH -->
 
 ### Importation manuelle {#manual-import}
 

@@ -169,7 +169,7 @@ Deze herverdelingsmodus is zeer handig en maakt het mogelijk om gevallen te behe
 De meest efficiënte manier om je betalingen te verwerken is om je bank te vragen een [EBICS-verbinding](https://www.six-group.com/en/products-services/banking-services/standardization.html#scrollTo=ebics) in te stellen. Dit stelt het systeem in staat om automatisch (elke nacht) betalingen van facturen met referentienummers van je leden te importeren via het ISO camt.054 formaat.
 
 <!-- country:CH -->
-CSA Admin beheert ook automatische ophaling van betalingen van de [Alternative Bank Switzerland](https://www.bas.ch/en) die het EBICS-systeem niet ondersteunt.
+CSA Admin beheert ook automatische ophaling van betalingen van de [Alternative Bank Switzerland (ABS)](https://www.abs.ch/en) die het EBICS-systeem niet ondersteunt.
 <!-- /country:CH -->
 
 > Als je vragen hebt over ondersteuning voor een bepaalde bank of het instellen van EBICS, aarzel niet om [mij te vragen](/support).
@@ -184,6 +184,22 @@ Het instellen van een EBICS-verbinding met je bank omvat verschillende stappen e
 4. **Afronding** — Zodra je bank de ondertekende INI-brief heeft ontvangen en gevalideerd, kan ik de verbinding afronden.
 
 > In de tussentijd kun je [handmatige import](#manual-import) gebruiken om je betalingen te verwerken.
+
+<!-- country:CH -->
+### Alternative Bank Switzerland (ABS) instellen {#abs-setup}
+
+De verbinding met de [Alternative Bank Switzerland (ABS)](https://www.abs.ch/en) maakt gebruik van een keyfile (sleutelbestand) systeem, omdat ze EBICS niet ondersteunt. Hier is het proces:
+
+1. **Neem contact op met de bank** — Via je beveiligde e-banking berichtenkanaal, vraag een "keyfile (sleutelbestand) verbinding" aan voor je bestaande e-banking contract (IBXXXXXXX).
+2. **Ontvang het keyfile** — De bank stuurt je per e-mail een versleuteld keyfile-bestand (`.p12` formaat) en het bijbehorende wachtwoord per aparte post.
+3. **Stuur mij de informatie** — Zodra je alle gegevens hebt ontvangen, stuur ze mij bij voorkeur via een beveiligd end-to-end versleuteld kanaal (Signal, Telegram, WhatsApp, iMessage, ...):
+   - Het versleutelde keyfile-bestand (`.p12` formaat) en het bijbehorende wachtwoord
+   - Je IBXXXXXXX contractnummer
+   - Je IBXXXXXXX contractwachtwoord, hetzelfde als je e-banking wachtwoord. Houd er rekening mee dat ik geen toegang heb tot je e-banking — het systeem kan alleen de camt.054-bestanden ophalen met de lijst van betalingen.
+   - Je bankrekeningnummer (XXX.XXX.XXX-XX)
+
+> ⚠️ Als je je e-banking wachtwoord wijzigt of als je IB-contract wordt opgezegd, laat het mij dan snel weten — het ophalen van betalingen werkt niet meer totdat de informatie is bijgewerkt. Als het IB-contract wordt opgezegd, moet de volledige installatie opnieuw worden gestart met een nieuw contract.
+<!-- /country:CH -->
 
 ### Handmatige import {#manual-import}
 

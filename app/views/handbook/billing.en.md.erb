@@ -169,7 +169,7 @@ This redistribution mode is very convenient and thus allows managing cases where
 The most efficient way to process your payments is to ask your bank to set up [an EBICS connection](https://www.six-group.com/en/products-services/banking-services/standardization.html#scrollTo=ebics). This allows the system to automatically import (each night) payments of invoices with reference numbers from your members via the ISO camt.054 format.
 
 <!-- country:CH -->
-CSA Admin also manages automatic retrieval of payments from the [Alternative Bank Switzerland](https://www.bas.ch/en) which doesn't support the EBICS system.
+CSA Admin also manages automatic retrieval of payments from the [Alternative Bank Switzerland (ABS)](https://www.abs.ch/en) which doesn't support the EBICS system.
 <!-- /country:CH -->
 
 > If you have questions about support for a particular bank or setting up EBICS, don't hesitate to [ask me](/support).
@@ -184,6 +184,22 @@ Setting up an EBICS connection with your bank involves several steps and typical
 4. **Finalization** — Once your bank has received and validated the signed INI letter, I can finalize the connection.
 
 > In the meantime, you can use [manual import](#manual-import) to process your payments.
+
+<!-- country:CH -->
+### Setting up Alternative Bank Switzerland (ABS) {#abs-setup}
+
+The connection with [Alternative Bank Switzerland (ABS)](https://www.abs.ch/en) uses a keyfile (key file) system, as it doesn't support EBICS. Here is the process:
+
+1. **Contact the bank** — Via your secure e-banking messaging channel, request a "keyfile (key file) connection" for your existing e-banking contract (IBXXXXXXX).
+2. **Receive the keyfile** — The bank will send you an encrypted keyfile (`.p12` format) by email and its password by separate post mail.
+3. **Send me the information** — Once you have received all the details, please send them to me, ideally via a secure end-to-end encrypted channel (Signal, Telegram, WhatsApp, iMessage, ...):
+   - The encrypted keyfile (`.p12` format) and its password
+   - Your IBXXXXXXX contract number
+   - Your IBXXXXXXX contract password, same as your e-banking password. Note that I cannot access your e-banking — the system can only fetch the camt.054 files containing the list of payments.
+   - Your bank account number (XXX.XXX.XXX-XX)
+
+> ⚠️ If you change your e-banking password or if your IB contract is removed, please let me know promptly — payment retrieval will stop working until the information is updated. If the IB contract is removed, the full setup will need to be restarted with a new contract.
+<!-- /country:CH -->
 
 ### Manual import {#manual-import}
 

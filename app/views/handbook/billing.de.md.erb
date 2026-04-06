@@ -169,7 +169,7 @@ Dieser Umverteilungsmodus ist sehr praktisch und ermöglicht es so, Fälle zu ve
 Die effizienteste Methode zur Verarbeitung Deiner Zahlungen besteht darin, Deine Bank zu bitten, [eine EBICS-Verbindung](https://www.six-group.com/de/products-services/banking-services/standardization.html#scrollTo=ebics) einzurichten. Dies ermöglicht es dem System, Zahlungen von Rechnungen mit Referenznummern Deiner Mitglieder automatisch (jede Nacht) über das ISO camt.054-Format zu importieren.
 
 <!-- country:CH -->
-CSA Admin verwaltet auch den automatischen Abruf von Zahlungen der [Alternativen Bank Schweiz](https://www.bas.ch/de), die das EBICS-System nicht unterstützt.
+CSA Admin verwaltet auch den automatischen Abruf von Zahlungen der [Alternativen Bank Schweiz (ABS)](https://www.abs.ch/de), die das EBICS-System nicht unterstützt.
 <!-- /country:CH -->
 
 > Wenn Du Fragen zur Förderung einer bestimmten Bank oder zur Einrichtung von EBICS hast, zögere nicht, [mich zu fragen](/support).
@@ -184,6 +184,22 @@ Die Einrichtung einer EBICS-Verbindung mit Deiner Bank umfasst mehrere Schritte 
 4. **Finalisierung** — Sobald Deine Bank den unterschriebenen INI-Brief erhalten und validiert hat, kann ich die Verbindung finalisieren.
 
 > In der Zwischenzeit kannst Du den [manuellen Import](#manual-import) verwenden, um Deine Zahlungen zu verarbeiten.
+
+<!-- country:CH -->
+### Einrichtung Alternative Bank Schweiz (ABS) {#abs-setup}
+
+Die Verbindung mit der [Alternative Bank Schweiz (ABS)](https://www.abs.ch/de) verwendet ein Keyfile-(Schlüsseldatei-)System, da sie EBICS nicht unterstützt. Hier ist der Ablauf:
+
+1. **Kontaktiere die Bank** — Über Deinen sicheren E-Banking-Nachrichtenkanal, bitte um eine "Keyfile (Schlüsseldatei) Verbindung" für Deinen bestehenden E-Banking-Vertrag (IBXXXXXXX).
+2. **Keyfile erhalten** — Die Bank sendet Dir per E-Mail eine verschlüsselte Keyfile-Datei (Format `.p12`) und deren Passwort per separatem Postbrief.
+3. **Mir die Informationen senden** — Sobald Du alle Informationen hast, sende mir diese bitte über einen sicheren Ende-zu-Ende-verschlüsselten Kanal (Signal, Telegram, WhatsApp, iMessage, ...):
+   - Die verschlüsselte Keyfile-Datei (Format `.p12`) und ihr Passwort
+   - Deine IBXXXXXXX-Vertragsnummer
+   - Dein IBXXXXXXX-Vertragspasswort, identisch mit Deinem E-Banking-Passwort. Bitte beachte, dass ich keinen Zugriff auf Dein E-Banking habe — das System kann nur die camt.054-Dateien mit der Zahlungsliste abrufen.
+   - Deine Bankkontonummer (XXX.XXX.XXX-XX)
+
+> ⚠️ Falls Du Dein E-Banking-Passwort änderst oder Dein IB-Vertrag aufgelöst wird, informiere mich bitte umgehend — der Zahlungsabruf funktioniert nicht mehr, bis die Informationen aktualisiert sind. Bei einer Auflösung des IB-Vertrags muss die gesamte Einrichtung mit einem neuen Vertrag neu gestartet werden.
+<!-- /country:CH -->
 
 ### Manueller Import {#manual-import}
 
