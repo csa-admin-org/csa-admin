@@ -12,7 +12,7 @@ Tenant.switch_each do
   zip = "1234"
   city = "Metropolis"
 
-  Organization.create!(
+  org = Organization.new(
     name: name,
     url: "https://#{domain}",
     country_code: "CH",
@@ -30,6 +30,11 @@ Tenant.switch_each do
     email_default_from: email,
     email_footer: "If you have any questions or comments, simply reply to this email.\n#{name}, #{street}, #{zip} #{city}",
     email_signature: "Greetings,\n#{name}")
+
+  # Set Current.org before save so ScopedLookup has proper i18n scopes
+  # during before_create callbacks (no org exists in DB yet after truncation).
+  Current.instance.instance_variable_set(:@org, org)
+  org.save!
 
   Admin.create!(
     email: "admin@#{domain}",
