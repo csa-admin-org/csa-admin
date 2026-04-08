@@ -251,8 +251,9 @@ ActiveAdmin.register Newsletter do
   end
 
   action_item :send_email, class: "left-margin", only: :show, if: -> { authorized?(:send_email, resource) } do
+    confirm_key = resource.scheduled? ? ".newsletter.confirm_scheduled" : ".newsletter.confirm"
     action_button t(".send_email"), send_email_newsletter_path(resource),
-      data: { confirm: t(".newsletter.confirm", members_count: resource.audience_segment.members.count) },
+      data: { confirm: t(confirm_key, members_count: resource.audience_segment.members.count) },
       icon: "paper-airplane"
   end
 

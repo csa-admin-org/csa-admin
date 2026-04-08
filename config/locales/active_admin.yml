@@ -3827,6 +3827,12 @@ _:
             _de: Soll dieser Newsletter wirklich an %{members_count} Mitglieder gesendet werden?
             _it: Siete sicuri di voler inviare questa newsletter a %{members_count} soci?
             _nl: Moet deze nieuwsbrief echt naar %{members_count} leden worden verzonden?
+          confirm_scheduled:
+            _en: This will send the newsletter immediately to %{members_count} members, ignoring the scheduled date. Are you sure?
+            _fr: Cela enverra la newsletter immédiatement à %{members_count} membres, sans tenir compte de la date planifiée. Êtes-vous sûr?
+            _de: Der Newsletter wird sofort an %{members_count} Mitglieder gesendet, ungeachtet des geplanten Datums. Bist Du sicher?
+            _it: Questo invierà la newsletter immediatamente a %{members_count} soci, ignorando la data pianificata. Siete sicuri?
+            _nl: Dit stuurt de nieuwsbrief onmiddellijk naar %{members_count} leden, ongeacht de geplande datum. Weet je het zeker?
         open:
           _en: Open
           _fr: Ouvrir
