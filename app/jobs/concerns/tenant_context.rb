@@ -19,11 +19,13 @@ module TenantContext
 
   def with_context(&block)
     context = arguments.pop
+    raise "Missing tenant context, use perform_later (via TenantSwitchEachJob) instead of perform_now" unless context.is_a?(Hash) && context.key?("tenant")
+
     Tenant.switch(context["tenant"]) do
       Current.set(context["current"], &block)
     end
   ensure
-    set_context(context)
+    set_context(context) if context
   end
 
   private

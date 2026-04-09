@@ -39,7 +39,7 @@ class MailDelivery
         mail_delivery.store_preview_from!(message)
       end
     rescue Postmark::InactiveRecipientError
-      Scheduled::PostmarkSyncSuppressionsJob.perform_now
+      EmailSuppression.sync_postmark!(fromdate: 1.week.ago)
       suppressed!
       mail_delivery.store_preview_from!(message)
     rescue Postmark::InvalidEmailRequestError
