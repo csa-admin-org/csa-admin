@@ -94,6 +94,13 @@ class MemberTest < ActiveSupport::TestCase
     assert_not Member.new(emails: "john@example.com").valid?
   end
 
+  test "validates email uniqueness ignores discarded members" do
+    member = members(:mary)
+    member.update_columns(state: "inactive", discarded_at: Time.current, emails: "reuse@example.com")
+
+    assert build_member(emails: "reuse@example.com").valid?
+  end
+
   test "validates annual_fee to be greater or equal to zero" do
     assert build_member(annual_fee: nil).valid?
     assert build_member(annual_fee: 0).valid?
