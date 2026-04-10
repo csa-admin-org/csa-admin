@@ -22,6 +22,9 @@ class MailDelivery
     end
 
     def process!
+      return unless processing?
+      return unless mail_delivery
+
       if mail_delivery.mailable_missing?
         Rails.logger.info "MailDelivery::Email##{id}: #{mail_delivery.mailable_type} #{mail_delivery.mailable_ids} no longer exists, skipping"
         mail_delivery.destroy!
