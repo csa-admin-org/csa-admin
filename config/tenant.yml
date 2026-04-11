@@ -164,6 +164,12 @@ production: &production
     state: onboarding
     aliases:
       - solawi-vielfeld
+  closdedos:
+    admin_host: admin.essertfallon.ch
+    members_host: membres.essertfallon.ch
+    state: onboarding
+    aliases:
+      - essertfallon
 
   demo-fr:
     admin_host: admin.acp-admin.ch
