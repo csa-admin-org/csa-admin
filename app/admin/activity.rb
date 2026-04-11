@@ -42,7 +42,7 @@ ActiveAdmin.register Activity do
       text = [ a.participations.sum(&:participants_count), a.participants_limit || "∞" ].join("&nbsp;/&nbsp;").html_safe
       link_to text, activity_participations_path(q: { activity_id_eq: a.id }, scope: :all)
     }, class: "text-right"
-    column :visible, class: "text-right"
+    column :visible, ->(a) { aligned_status_tag(a.visible?) }, class: "text-right"
     actions
   end
 

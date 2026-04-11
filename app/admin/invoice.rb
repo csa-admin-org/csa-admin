@@ -73,7 +73,7 @@ ActiveAdmin.register Invoice do
     column :amount, ->(invoice) { ccur(invoice, :amount, unit: false) }, class: "text-right tabular-nums"
     column :paid_amount, ->(invoice) { invoice.canceled? ? "–" : ccur(invoice, :paid_amount, unit: false) }, class: "text-right tabular-nums"
     column :overdue_notices_count, ->(invoice) { invoice.sepa? ? "–" : invoice.overdue_notices_count }, class: "text-right"
-    column :state, ->(invoice) { status_tag invoice.state }, class: "text-right"
+    column :state, ->(invoice) { aligned_status_tag(invoice.state) }, class: "text-right"
     actions do |invoice|
       link_to_invoice_pdf(invoice)
     end
@@ -201,7 +201,7 @@ ActiveAdmin.register Invoice do
             table_for(payments, class: "table-auto") do
               column(:date) { |p| auto_link p, l(p.date, format: :number), aria: { label: "show" } }
               column(:amount, class: "text-right tabular-nums") { |p| ccur(p, :amount) }
-              column(:type, class: "text-right") { |p| status_tag p.type }
+              column(:type, class: "text-right") { |p| aligned_status_tag(p.type) }
             end
           end
         end
@@ -249,7 +249,7 @@ ActiveAdmin.register Invoice do
               row(:missing_activity_participations_count)
             end
             row(:date) { l invoice.date, format: :medium }
-            row(:sent) { status_tag invoice.sent_at? }
+            row(:sent) { aligned_status_tag(invoice.sent_at?) }
             row(:created_at) { l(invoice.created_at, format: :medium) }
             row(:created_by)
             if invoice.sent_at?

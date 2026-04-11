@@ -37,7 +37,9 @@ ActiveAdmin.register Delivery do
       column(:basket_complements) { |d| d.basket_complements.map(&:name).to_sentence }
     end
     if feature?("shop")
-      column :shop, ->(delivery) { status_tag(delivery.shop_configured_open?) }, class: "text-right w-px"
+      column :shop, ->(delivery) {
+        aligned_status_tag(delivery.shop_configured_open?)
+      }, class: "text-right w-px"
     end
     actions class: "w-px" do |delivery|
       icon_file_links(
@@ -127,8 +129,8 @@ ActiveAdmin.register Delivery do
 
         if feature?("shop")
           panel t("shop.title") do
-          attributes_table do
-              row(t("shop.open")) { status_tag(delivery.shop_open?) }
+            attributes_table do
+              row(t("shop.open")) { aligned_status_tag(delivery.shop_open?) }
               if delivery.shop_open
                 row(:depots) { display_depots(delivery.shop_open_for_depots) }
               end

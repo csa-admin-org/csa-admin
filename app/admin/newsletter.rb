@@ -37,7 +37,7 @@ ActiveAdmin.register Newsletter do
             span { l(n.scheduled_at.to_date, format: :short) }
           end
         else
-          status_tag :draft
+          aligned_status_tag(:draft)
         end
       end
     }, class: "text-right"

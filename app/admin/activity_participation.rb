@@ -68,7 +68,7 @@ ActiveAdmin.register ActivityParticipation do
     column :participants_short, ->(ap) {
       ap.participants_count
     }, sortable: "participants_count", class: "text-right"
-    column :state, ->(ap) { status_tag ap.state }, class: "text-right"
+    column :state, ->(ap) { aligned_status_tag(ap.state) }, class: "text-right"
     actions
   end
 

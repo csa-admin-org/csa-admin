@@ -66,14 +66,16 @@ ActiveAdmin.register Member do
         }
       when nil, "all", "active"
         column :next_basket, ->(member) {
-          if next_basket = member.next_basket
-            a href: url_for(member.next_basket.membership) do
-              content_tag(:span, [
-                next_basket.description,
-                next_basket.depot.name
-              ].join(" / "))
+          div class: "flex items-center justify-start gap-1" do
+            if next_basket = member.next_basket
+              a href: url_for(member.next_basket.membership) do
+                content_tag(:span, [
+                  next_basket.description,
+                  next_basket.depot.name
+                ].join(" / "))
+              end
+              status_tag(:trial, class: "ms-1") if next_basket.trial?
             end
-            status_tag(:trial, class: "ms-1") if next_basket.trial?
           end
         }
       end
@@ -83,7 +85,7 @@ ActiveAdmin.register Member do
     if params[:scope] == "inactive"
       column :city, ->(member) { member.city? ? "#{member.city} (#{member.zip})" : "–" }
     end
-    column :state, ->(member) { status_tag(member.state) }, class: "text-right"
+    column :state, ->(member) { aligned_status_tag(member.state) }, class: "text-right"
     actions
   end
 
@@ -170,7 +172,7 @@ ActiveAdmin.register Member do
           panel link_to(Member.human_attribute_name(:next_basket), next_basket.membership).html_safe do
             attributes_table do
               if next_basket.trial?
-                row(:state) { status_tag(:trial) }
+                row(:state) { aligned_status_tag(:trial) }
               end
               basket_config_rows(self, member.next_basket, member.next_basket.baskets_basket_complements)
               row(:depot) { link_to next_basket.depot.name, next_basket.depot  }
@@ -274,7 +276,7 @@ ActiveAdmin.register Member do
                 column(:date) { |o| l(o.date, format: :number) }
                 column(:delivery) { |o| link_to o.delivery.display_name(format: :number), o.delivery }
                 column(:amount, class: "text-right") { |o| cur(o.amount) }
-                column(:status, class: "text-right") { |o| status_tag o.state, label: o.state_i18n_name }
+                column(:status, class: "text-right") { |o| aligned_status_tag o.state, label: o.state_i18n_name }
               end
               if orders_count > 3
                 div show_more_link(all_orders_path)
@@ -299,7 +301,7 @@ ActiveAdmin.register Member do
                   auto_link ap, ap.activity.name, aria: { label: "show" }
                 }
                 column(:participants_short, class: "text-right") { |ap| ap.participants_count }
-                column(:state, class: "text-right") { |ap| status_tag(ap.state) }
+                column(:state, class: "text-right") { |ap| aligned_status_tag(ap.state) }
               end
               if activity_participations_count > 6
                 div show_more_link(all_activity_participations_path)
@@ -326,7 +328,7 @@ ActiveAdmin.register Member do
                   ].join.html_safe
                 end
               }
-              column(:status, class: "text-right") { |i| status_tag i.state }
+              column(:status, class: "text-right") { |i| aligned_status_tag i.state }
             end
             if invoices_count > 10
               div show_more_link(all_invoices_path)
@@ -346,7 +348,7 @@ ActiveAdmin.register Member do
               column(:date, class: "text-right") { |p| l(p.date, format: :number) }
               column(:invoice_id, class: "text-right") { |p| p.invoice_id ? auto_link(p.invoice, p.invoice_id) : "–" }
               column(:amount, class: "text-right") { |p| ccur(p, :amount, unit: false) }
-              column(:type, class: "text-right") { |p| status_tag p.state }
+              column(:type, class: "text-right") { |p| aligned_status_tag p.state }
             end
             if payments_count > 10
               div show_more_link(all_payments_path)
@@ -383,7 +385,7 @@ ActiveAdmin.register Member do
                 auto_link d, (d.subject || d.source&.display_name), aria: { label: "show" }
               }
               column(:created_at, class: "text-right whitespace-nowrap") { |d| l(d.created_at, format: :short) }
-              column(:state, class: "text-right") { |d| status_tag(d.state) }
+              column(:state, class: "text-right") { |d| aligned_status_tag(d.state) }
             end
             if mail_deliveries_count > 6
               div show_more_link(all_mail_deliveries_path)
@@ -418,17 +420,17 @@ ActiveAdmin.register Member do
               row(:language) { t("languages.#{member.language}") }
             end
             if feature?("contact_sharing")
-              row(:contact_sharing) { status_tag(member.contact_sharing) }
+              row(:contact_sharing) { aligned_status_tag(member.contact_sharing) }
             end
           end
         end
         panel t(".billing"), action: handbook_icon_link("billing") do
           attributes_table do
             if member.salary_basket?
-              row(:salary_basket) { status_tag(member.salary_basket) }
+              row(:salary_basket) { aligned_status_tag(member.salary_basket) }
             end
             if feature?("local_currency")
-              row(t("features.local_currency")) { status_tag(member.use_local_currency) }
+              row(t("features.local_currency")) { aligned_status_tag(member.use_local_currency) }
             end
             if member.billing_email?
               row(t(".email")) { display_email_with_link(self, member.billing_email) }

@@ -109,7 +109,7 @@ ActiveAdmin.register MailDelivery do
     end
     column :member, sortable: "members.name" if source_type != :member
     column :created_at, ->(d) { l(d.created_at, format: :short) }, sortable: true, class: "text-right"
-    column :state, ->(d) { status_tag(d.state) }, class: "text-right"
+    column :state, ->(d) { aligned_status_tag(d.state) }, class: "text-right"
     actions class: "hidden"
   end
 
@@ -212,7 +212,7 @@ ActiveAdmin.register MailDelivery do
                     case email.state
                     when "bounced"
                       row(:bounced_at) { l(email.bounced_at, format: :short) }
-                      row(:bounce_type) { status_tag(email.bounce_type.underscore) }
+                      row(:bounce_type) { aligned_status_tag(email.bounce_type.underscore) }
                       row(:bounce_description) { email.bounce_description }
                     when "delivered"
                       row(:delivered_at) { l(email.delivered_at, format: :short) }

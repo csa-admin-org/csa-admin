@@ -15,7 +15,7 @@ class Panel < ActiveAdmin::Component
         div class: "flex items-center gap-2" do
           @title = h3(title.to_s, class: "")
           span(class: "panel-title-count") { count } if count
-          div(status_tag(state)) if state
+          status_tag(state) if state
         end
         div(class: "panel-actions") { action } if action
       end

@@ -34,9 +34,9 @@ ActiveAdmin.register DeliveryCycle do
       deliveries_count_range_with_absences(dc.future_deliveries_count, dc.absences_included_annually)
     }, class: "text-right whitespace-nowrap"
     if DeliveryCycle.visible?
-      column :visible, ->(dc) { status_tag dc.visible? }, class: "text-right"
+      column :visible, ->(dc) { aligned_status_tag(dc.visible?) }, class: "text-right"
     else
-      column "", ->(dc) { status_tag(:primary) if dc.primary? }, class: "text-right"
+      column "", ->(dc) { aligned_status_tag(:primary) if dc.primary? }, class: "text-right"
     end
     actions
   end
@@ -86,7 +86,7 @@ ActiveAdmin.register DeliveryCycle do
         if DeliveryCycle.visible?
           panel t(".member_new_form"), action: handbook_icon_link("registration", anchor: "delivery-cycles") do
             attributes_table do
-              row(:visible) { status_tag(dc.visible?) }
+              row(:visible) { aligned_status_tag(dc.visible?) }
               if dc.visible?
                 row(:form_detail) { delivery_cycle_details(dc) }
               end
@@ -94,7 +94,7 @@ ActiveAdmin.register DeliveryCycle do
             if dc.visible?
                 table_for dc.depots, class: "mt-4" do
                   column Depot.model_name.human, ->(d) { auto_link d, aria: { label: "show" } }, class: "text-left"
-                  column :visible, class: "text-right"
+                  column :visible, ->(d) { aligned_status_tag(d.visible?) }, class: "text-right"
                 end
             end
           end
@@ -126,7 +126,7 @@ ActiveAdmin.register DeliveryCycle do
               row(:last_cweek) { dc.last_cweek }
             end
             if dc.first_cweek? && dc.last_cweek?
-              row(:exclude_cweek_range) { status_tag dc.exclude_cweek_range? }
+              row(:exclude_cweek_range) { aligned_status_tag(dc.exclude_cweek_range?) }
             end
             unless dc.all_week_numbers?
               row(:week_numbers) { t("delivery_cycle.week_numbers.#{dc.week_numbers}") }

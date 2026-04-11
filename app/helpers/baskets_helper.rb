@@ -8,8 +8,8 @@ module BasketsHelper
       content_tag(:span, t("active_admin.status_tag.forced"), class: "status-tag", data: { status: "forced" })
     elsif basket.absent?
       if basket.absence
-        link_to basket.absence do
-          content_tag(:span, t("active_admin.status_tag.absent"), class: "status-tag", data: { status: "absent" })
+        link_to basket.absence, class: "-mt-1" do
+          content_tag(:span, t("active_admin.status_tag.absent"), class: " status-tag", data: { status: "absent" })
         end
       else
         content_tag(:span, t("active_admin.status_tag.absent") + " *", class: "status-tag italic", data: { status: "absent" })

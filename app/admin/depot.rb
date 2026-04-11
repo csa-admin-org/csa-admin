@@ -37,7 +37,7 @@ ActiveAdmin.register Depot do
         end
       }, class: "text-right"
     end
-    column :visible, class: "text-right"
+    column :visible, ->(d) { aligned_status_tag(d.visible?) }, class: "text-right"
     actions
   end
 
@@ -151,7 +151,7 @@ ActiveAdmin.register Depot do
 
         panel t(".member_new_form"), action: handbook_icon_link("registration", anchor: "depots") do
           attributes_table do
-            row(:visible) { status_tag(depot.visible?) }
+            row(:visible) { aligned_status_tag(depot.visible?) }
             if depot.visible?
               row(:form_detail) { depot_details(depot) }
             end

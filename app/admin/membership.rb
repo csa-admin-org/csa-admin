@@ -371,7 +371,7 @@ ActiveAdmin.register Membership do
             column(:depot)
             if m.baskets.where(state: [ :absent, :trial ]).any?
               column(class: "text-right") do |b|
-                div class: "inline-flex items-center justify-between gap-2 " do
+                div class: "flex items-center justify-end gap-2 " do
                   ic = "".html_safe
                   if b.shifted?
                     ic += tag.div(data: {

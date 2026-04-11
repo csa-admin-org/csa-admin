@@ -49,7 +49,7 @@ ActiveAdmin.register Payment do
     column :date, ->(p) { l p.date, format: :number }, class: "text-right tabular-nums"
     column :invoice_id, ->(p) { p.invoice_id ? auto_link(p.invoice, p.invoice_id) : "–" }, class: "text-right"
     column :amount, ->(p) { ccur(p, :amount, unit: false) }, class: "text-right tabular-nums"
-    column :type, ->(p) { status_tag p.state }, class: "text-right"
+    column :type, ->(p) { aligned_status_tag(p.state) }, class: "text-right"
     actions do |payment|
       link_to_invoice_pdf(payment.invoice) if payment.invoice_id?
     end

@@ -76,7 +76,7 @@
   }
 
   .attributes-table :where(tbody > tr) {
-    @apply space-y-0.5 border-b dark:border-gray-800;
+    @apply flex items-center space-y-0.5 border-b dark:border-gray-800;
   }
 
   .attributes-table :where(tbody > tr > th) {
@@ -259,10 +259,6 @@
       & :where(.flex) {
         @apply justify-end;
       }
-    }
-
-    & td .status-tag {
-      @apply mb-0;
     }
   }
 

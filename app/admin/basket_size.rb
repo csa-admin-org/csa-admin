@@ -30,7 +30,7 @@ ActiveAdmin.register BasketSize do
     if Current.org.share?
       column t("billing.shares"), ->(bs) { bs.shares_number }, class: "text-right tabular-nums", sortable: :shares_number
     end
-    column :visible, class: "text-right"
+    column :visible, ->(bs) { aligned_status_tag(bs.visible?) }, class: "text-right"
     actions
   end
 

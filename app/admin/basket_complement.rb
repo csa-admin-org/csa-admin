@@ -43,7 +43,7 @@ ActiveAdmin.register BasketComplement do
         class: "text-right tabular-nums",
         sortable: :activity_participations_demanded_annually
     end
-    column :visible, class: "text-right"
+    column :visible, ->(bc) { aligned_status_tag(bc.visible?) }, class: "text-right"
     actions
   end
 

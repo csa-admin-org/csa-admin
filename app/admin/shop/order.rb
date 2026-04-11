@@ -60,7 +60,7 @@ ActiveAdmin.register Shop::Order do
       column :delivery, ->(order) { auto_link order.delivery, order.delivery.display_name  }, sortable: "delivery_id"
     end
     column :amount, ->(order) { cur(order.amount, unit: false) }, class: "text-right"
-    column :state, ->(order) { status_tag order.state, label: order.state_i18n_name }, class: "text-right"
+    column :state, ->(order) { aligned_status_tag(order.state, label: order.state_i18n_name) }, class: "text-right"
     actions do |order|
       link_to_invoice_pdf(order.invoice)
     end
@@ -162,7 +162,7 @@ ActiveAdmin.register Shop::Order do
             row(:amount) { cur(order.amount) }
             if order.invoice
               row(:invoice) { auto_link order.invoice, order.invoice.id }
-              row(:state) { status_tag order.invoice.state, label: order.invoice.state_i18n_name }
+              row(:state) { aligned_status_tag(order.invoice.state, label: order.invoice.state_i18n_name) }
               row(:paid_amount) { ccur(order.invoice, :paid_amount) }
               row(:balance) { ccur(order.invoice, :balance) }
             end

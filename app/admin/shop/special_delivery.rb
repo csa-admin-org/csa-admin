@@ -41,7 +41,7 @@ ActiveAdmin.register Shop::SpecialDelivery do
       if d.shop_open?
         l(d.shop_closing_at, format: :medium)
       else
-        status_tag :closed, class: "red"
+        aligned_status_tag :closed, class: "red"
       end
     }, class: "text-right"
     column Shop::Product.model_name.human(count: 2), ->(d) {
@@ -109,7 +109,7 @@ ActiveAdmin.register Shop::SpecialDelivery do
         end
         panel t(".opening") do
           attributes_table do
-            row(:open) { status_tag(delivery.shop_open?) }
+            row(:open) { aligned_status_tag(delivery.shop_open?) }
             if delivery.shop_open?
               row(:open_until) { l(delivery.shop_closing_at, format: :medium) }
             end

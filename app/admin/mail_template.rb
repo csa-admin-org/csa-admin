@@ -47,7 +47,8 @@ ActiveAdmin.register MailTemplate do
       div mt.display_name
       span mt.description, class: "block text-sm text-gray-500"
     }
-    column :active, sortable: false, class: "text-right"
+    column :active, ->(mt) { aligned_status_tag(mt.active?) }, sortable: false, class: "text-right"
+
     actions
   end
 
@@ -76,13 +77,13 @@ ActiveAdmin.register MailTemplate do
           end
           if !mail_template.active? || !mail_template.with_delivery_cycles_scope?
             attributes_table do
-              row(:active) { status_tag(mail_template.active?) }
+              row(:active) { aligned_status_tag(mail_template.active?) }
             end
           else
             table_for DeliveryCycle.kept.ordered, class: "table-auto" do
               column DeliveryCycle.model_name.human, ->(dc) { auto_link dc, aria: { label: "show" } }
               column MailTemplate.human_attribute_name(:active), ->(dc) {
-                status_tag(dc.id.in?(mail_template.delivery_cycle_ids))
+                aligned_status_tag(dc.id.in?(mail_template.delivery_cycle_ids))
               }, class: "text-right"
             end
           end
