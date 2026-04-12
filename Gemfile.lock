@@ -646,10 +646,10 @@ GEM
     tailwindcss-rails (4.4.0)
       railties (>= 7.0.0)
       tailwindcss-ruby (~> 4.0)
-    tailwindcss-ruby (4.2.1-aarch64-linux-gnu)
-    tailwindcss-ruby (4.2.1-arm64-darwin)
-    tailwindcss-ruby (4.2.1-x86_64-linux-gnu)
-    tailwindcss-ruby (4.2.1-x86_64-linux-musl)
+    tailwindcss-ruby (4.2.2-aarch64-linux-gnu)
+    tailwindcss-ruby (4.2.2-arm64-darwin)
+    tailwindcss-ruby (4.2.2-x86_64-linux-gnu)
+    tailwindcss-ruby (4.2.2-x86_64-linux-musl)
     terminal-table (4.0.0)
       unicode-display_width (>= 1.1.1, < 4)
     thor (1.5.0)
@@ -1022,10 +1022,10 @@ CHECKSUMS
   stringio (3.2.0) sha256=c37cb2e58b4ffbd33fe5cd948c05934af997b36e0b6ca6fdf43afa234cf222e1
   strscan (3.1.8) sha256=aae2db611a225559f21ffbb71765c9a4e60fd262534a9ea84f4f11c7f32f679e
   tailwindcss-rails (4.4.0) sha256=efa2961351a52acebe616e645a81a30bb4f27fde46cc06ce7688d1cd1131e916
-  tailwindcss-ruby (4.2.1-aarch64-linux-gnu) sha256=de457ddfc999c6bbbe1a59fbc11eb2168d619f6e0cb72d8d3334d372b331e36f
-  tailwindcss-ruby (4.2.1-arm64-darwin) sha256=bcf222fb8542cf5433925623e5e7b257897fbb8291a2350daae870a32f2eeb91
-  tailwindcss-ruby (4.2.1-x86_64-linux-gnu) sha256=201d0e5e5d4aba52cae4ee4bd1acd497d2790c83e7f15da964aab8ec93876831
-  tailwindcss-ruby (4.2.1-x86_64-linux-musl) sha256=79fa48ad51e533545f9fdbb04227e1342a65a42c2bd1314118b95473d5612007
+  tailwindcss-ruby (4.2.2-aarch64-linux-gnu) sha256=8656621046bb54c9c368cd1d2f03f7bfaf6046a4fe7060c574b9958043f1deeb
+  tailwindcss-ruby (4.2.2-arm64-darwin) sha256=2d66feba0c1ffca5b79246bd881bfb9a6b2298d57c4bc83ee3a8c3233df79d41
+  tailwindcss-ruby (4.2.2-x86_64-linux-gnu) sha256=7f5e7cdd697ff25600d684cedb4df4a56736633c231ee03c7148992c62fd228f
+  tailwindcss-ruby (4.2.2-x86_64-linux-musl) sha256=676b802dafc677983d471f3acf2dddbddea4e978ea0300bfa21ebd6ab167d6a8
   terminal-table (4.0.0) sha256=f504793203f8251b2ea7c7068333053f0beeea26093ec9962e62ea79f94301d2
   thor (1.5.0) sha256=e3a9e55fe857e44859ce104a84675ab6e8cd59c650a49106a05f55f136425e73
   thruster (0.1.20-aarch64-linux) sha256=754f1701061235235165dde31e7a3bc87ec88066a02981ff4241fcda0d76d397
