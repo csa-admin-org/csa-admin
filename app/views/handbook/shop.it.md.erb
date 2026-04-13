@@ -4,8 +4,6 @@ La bottega online permette ai tuoi soci di ordinare prodotti aggiuntivi dal loro
 
 Per permetterti di preparare il contenuto della tua bottega tranquillamente, per default, la bottega **non appare** nel menu dell'account socio. Solo gli admin che possono accedere all'account di un socio (dal pulsante "Accedere all'account" della pagina admin di un socio) possono vedere la bottega. Puoi così assicurarti che tutti i prodotti siano ben presentati. Una volta tutto a posto, questa limitazione può essere disattivata dalle [impostazioni](/settings#shop).
 
-> Se necessario, è possibile chiudere la bottega per consegna dalla pagina admin di queste ultime.
-
 ## Produttori {#producers}
 
 Ogni prodotto può essere associato a [un produttore](/shop_producers). Una descrizione così come un link verso un sito web o documento sono definibili per ciascuno di essi. Tutti i prodotti possono essere filtrati per produttore nell'interfaccia socio della bottega.
@@ -86,3 +84,7 @@ Le consegne speciali ti permettono di proporre prodotti aggiuntivi ai tuoi soci 
 I prodotti disponibili possono essere definiti separatamente per ogni consegna speciale, l'impostazione individuale della disponibilità di ogni prodotto viene ignorata. Invece, la disponibilità delle varianti così come lo stato del loro stock sono sempre rispettati.
 
 > Poiché le consegne speciali sono consegnate al di fuori delle consegne di <%= Basket.model_name.human(count: 2).downcase %>, sono aperte a tutti i tuoi soci attivi o meno.
+
+## Apertura della bottega {#opening}
+
+Prima che i soci possano effettuare ordini, la bottega deve essere **aperta per le consegne desiderate** dalla [pagina delle consegne](/deliveries). Questo può essere fatto in blocco con l'azione di gruppo « Apri la bottega », o individualmente modificando una consegna (dove si possono anche selezionare depositi specifici). La bottega può essere richiusa allo stesso modo se necessario.

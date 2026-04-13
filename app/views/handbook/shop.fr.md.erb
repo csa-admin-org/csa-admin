@@ -4,8 +4,6 @@ L'épicerie en ligne permet à vos membres de commander des produits supplément
 
 Pour vous permettre de préparer le contenu de votre épicerie tranquillement, par défaut, l'épicerie **n'apparaît pas** dans le menu du compte membre. Seuls les admins pouvant accéder au compte d'un membre (depuis le bouton "Accéder au compte" de la page admin d'un membre) peuvent voir l'épicerie. Vous pouvez ainsi vous assurer que tous les produits sont bien présentés. Une fois tout en place, cette limitation peut être désactivée depuis [les paramètres](/settings#shop).
 
-> Au besoin, il est possible de fermer l'épicerie par livraison depuis la page admin de ces dernières.
-
 ## Producteurs {#producers}
 
 Chaque produit peut être associé à [un producteur](/shop_producers). Une description ainsi qu'un lien vers un site web ou document sont définissables pour chacun d'entre eux. Tous les produits peuvent être filtrés par producteur dans l'interface membre de l'épicerie.
@@ -87,3 +85,7 @@ Les livraisons spéciales vous permettent de proposer des produits supplémentai
 Les produits disponibles peuvent être définis séparément pour chaque livraison spéciale, le réglage individuel de la disponibilité de chaque produit est ignoré. Par contre, la disponibilité des variantes ainsi que l'état de leur stock sont toujours respectés.
 
 > Comme les livraisons spéciales sont livrées en dehors des livraisons de <%= Basket.model_name.human(count: 2).downcase %>, elles sont ouvertes à tous vos membres actifs ou non.
+
+## Ouverture de l'épicerie {#opening}
+
+Avant que les membres puissent passer des commandes, l'épicerie doit être **ouverte pour les livraisons souhaitées** depuis [la page des livraisons](/deliveries). Cela peut être fait par lot avec l'action groupée « Ouvrir l'épicerie », ou individuellement en éditant une livraison (où vous pouvez également sélectionner des dépôts spécifiques). L'épicerie peut être refermée de la même manière au besoin.

@@ -4,8 +4,6 @@ The online shop allows your members to order additional products from their acco
 
 To allow you to prepare the content of your shop calmly, by default, the shop **does not appear** in the member account menu. Only admins who can access a member's account (from the "Access account" button on a member's admin page) can see the shop. This way, you can ensure that all products are well presented. Once everything is in place, this limitation can be disabled from [the settings](/settings#shop).
 
-> If needed, it's possible to close the shop by delivery from the admin page of the latter.
-
 ## Producers {#producers}
 
 Each product can be associated with [a producer](/shop_producers). A description as well as a link to a website or document can be defined for each of them. All products can be filtered by producer in the member interface of the shop.
@@ -86,3 +84,7 @@ Special deliveries allow you to offer additional products to your members outsid
 Available products can be defined separately for each special delivery, the individual setting of the availability of each product is ignored. However, the availability of variants as well as the state of their stock are always respected.
 
 > As special deliveries are delivered outside of <%= Basket.model_name.human.downcase %> deliveries, they are open to all your members, active or not.
+
+## Opening the shop {#opening}
+
+Before members can place orders, the shop must be **opened on the desired deliveries** from [the deliveries page](/deliveries). This can be done in batches using the "Open shop" group action, or individually by editing a delivery (where you can also select specific depots). The shop can be closed again the same way if needed.

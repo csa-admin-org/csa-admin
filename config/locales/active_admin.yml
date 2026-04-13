@@ -4307,6 +4307,18 @@ _:
           _de: Bestellungen für die Lieferung am <u>%{date}</u> sind nicht mehr möglich.
           _it: Gli ordini per la consegna il <u>%{date}</u> non sono più possibili.
           _nl: Bestellingen voor levering op <u>%{date}</u> zijn niet meer mogelijk.
+        shop_no_open_delivery:
+          _en: Shop closed
+          _fr: Épicerie fermée
+          _de: Hofladen geschlossen
+          _it: Bottega chiusa
+          _nl: Winkel gesloten
+        shop_no_open_delivery_text_html:
+          _en: No upcoming deliveries have the shop open. <a href="%{url}">Open the shop</a> for upcoming deliveries from the deliveries page.
+          _fr: Aucune livraison à venir n'a l'épicerie ouverte. <a href="%{url}">Ouvrez l'épicerie</a> pour les livraisons à venir depuis la page des livraisons.
+          _de: Keine kommenden Lieferungen haben den Hofladen geöffnet. <a href="%{url}">Öffnen Sie den Hofladen</a> für kommende Lieferungen auf der Lieferungsseite.
+          _it: Nessuna consegna futura ha la bottega aperta. <a href="%{url}">Apri la bottega</a> per le consegne future dalla pagina delle consegne.
+          _nl: Geen komende leveringen hebben de winkel open. <a href="%{url}">Open de winkel</a> voor komende leveringen op de leveringenpagina.
         shop_not_open_yet_html:
           _en: Orders for delivery on <u>%{date}</u> are not yet possible.
           _fr: Les commandes pour la livraison du <u>%{date}</u> ne sont pas encore possibles.

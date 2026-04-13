@@ -4,8 +4,6 @@ Der Online-Warenkorb ermöglicht es Deinen Mitgliedern, einige Tage vor der Lief
 
 Um Dir zu ermöglichen, den Inhalt Deines Warenkorbs in Ruhe vorzubereiten, erscheint der Warenkorb standardmäßig **nicht** im Menü des Mitgliedskontos. Nur Administratoren, die auf das Konto eines Mitglieds zugreifen können (über die Schaltfläche "Auf Konto zugreifen" auf der Administratorseite eines Mitglieds), können den Warenkorb sehen. So kannst Du sicherstellen, dass alle Produkte gut präsentiert sind. Sobald alles eingerichtet ist, kann diese Einschränkung in [den Einstellungen](/settings#shop) deaktiviert werden.
 
-> Bei Bedarf ist es möglich, den Warenkorb pro Lieferung von der Administratorseite der Lieferungen aus zu schließen.
-
 ## Produzenten {#producers}
 
 Jedes Produkt kann [einem Produzenten](/shop_producers) zugeordnet werden. Für jeden von ihnen können eine Beschreibung sowie ein Link zu einer Website oder einem Dokument definiert werden. Alle Produkte können in der Mitgliederschnittstelle des Warenkorbs nach Produzent gefiltert werden.
@@ -86,3 +84,7 @@ Sonderlieferungen ermöglichen es Dir, Deinen Mitgliedern zusätzliche Produkte 
 Verfügbare Produkte können separat für jede Sonderlieferung definiert werden, die individuelle Einstellung der Verfügbarkeit jedes Produkts wird ignoriert. Die Verfügbarkeit der Varianten sowie der Zustand ihres Bestands werden jedoch immer respektiert.
 
 > Da Sonderlieferungen außerhalb der Lieferungen von <%= Basket.model_name.human(count: 2) %> geliefert werden, sind sie für alle Deine Mitglieder, aktiv oder nicht, zugänglich.
+
+## Warenkorb öffnen {#opening}
+
+Bevor Mitglieder Bestellungen aufgeben können, muss der Warenkorb für die gewünschten Lieferungen **geöffnet** werden über [die Lieferungsseite](/deliveries). Dies kann über die Gruppenaktion « Warenkorb öffnen » im Stapel oder einzeln durch Bearbeiten einer Lieferung (wo auch bestimmte Depots ausgewählt werden können) erfolgen. Der Warenkorb kann bei Bedarf auf die gleiche Weise wieder geschlossen werden.

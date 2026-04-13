@@ -83,6 +83,7 @@ ActiveAdmin.register Shop::Order do
   end
 
   sidebar_shop_admin_only_warning
+  sidebar_shop_no_open_delivery_warning
 
   sidebar :total, only: :index do
     side_panel t(".total") do

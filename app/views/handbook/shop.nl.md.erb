@@ -4,8 +4,6 @@ De online winkel stelt je leden in staat om aanvullende producten te bestellen v
 
 Om je de mogelijkheid te geven om de inhoud van je winkel rustig voor te bereiden, verschijnt de winkel **standaard niet** in het menu van het ledenaccount. Alleen admins die toegang hebben tot het account van een lid (via de knop "Toegang tot account" op de adminpagina van een lid) kunnen de winkel zien. Op deze manier kun je ervoor zorgen dat alle producten goed gepresenteerd zijn. Zodra alles op zijn plaats staat, kan deze beperking worden uitgeschakeld vanuit [de instellingen](/settings#shop).
 
-> Indien nodig is het mogelijk om de winkel per levering te sluiten vanaf de adminpagina van de betreffende levering.
-
 ## Producenten {#producers}
 
 Elk product kan worden gekoppeld aan [een producent](/shop_producers). Voor elk van hen kan een beschrijving evenals een link naar een website of document worden gedefinieerd. Alle producten kunnen worden gefilterd op producent in de ledeninterface van je winkel.
@@ -86,3 +84,7 @@ Speciale leveringen stellen je in staat om aanvullende producten aan je leden aa
 Beschikbare producten kunnen afzonderlijk worden gedefinieerd voor elke speciale levering, de individuele instelling van de beschikbaarheid van elk product wordt genegeerd. De beschikbaarheid van varianten evenals de staat van hun voorraad worden echter altijd gerespecteerd.
 
 > Omdat speciale leveringen worden geleverd buiten leveringen van <%= Basket.model_name.human(count: 2).downcase %> om, staan ze open voor al je leden, actief of niet.
+
+## Winkel openen {#opening}
+
+Voordat leden bestellingen kunnen plaatsen, moet de winkel **geopend worden voor de gewenste leveringen** vanaf [de leveringenpagina](/deliveries). Dit kan in bulk met de groepsactie « Winkel openen », of individueel door een levering te bewerken (waar je ook specifieke depots kunt selecteren). De winkel kan op dezelfde manier weer worden gesloten indien nodig.

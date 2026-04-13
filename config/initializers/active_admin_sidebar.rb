@@ -38,6 +38,24 @@ ActiveAdmin.before_load do |app|
         end
         config.sidebar_sections << section
       end
+
+      def sidebar_shop_no_open_delivery_warning
+        section = ActiveAdmin::SidebarSection.new(
+          :shop_no_open_delivery,
+          if: -> { Delivery.coming.shop_open.none? },
+          only: :index
+        ) do
+          side_panel t("active_admin.shared.sidebar_section.shop_no_open_delivery"),
+            action: handbook_icon_link("shop", anchor: "opening"),
+            class: "warning" do
+            para do
+              t("active_admin.shared.sidebar_section.shop_no_open_delivery_text_html",
+                url: deliveries_path)
+            end
+          end
+        end
+        config.sidebar_sections << section
+      end
     end
   end
 end
