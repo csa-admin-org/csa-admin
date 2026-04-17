@@ -257,8 +257,21 @@
       @apply mt-3 flex justify-end;
     }
 
+    .actions {
+      @apply sticky bottom-0 z-10;
+    }
+
     .actions > ol {
       @apply flex flex-row-reverse items-center gap-4;
+    }
+
+    .actions.is-stuck > ol {
+      @apply -mx-5 rounded-tl-xl bg-[#FCFEFC] p-2.5 px-5 dark:border-t dark:border-l dark:border-gray-800 dark:bg-[#030712];
+      box-shadow: 0 -4px 16px rgb(0 0 0 / 0.08);
+
+      :where(.dark, .dark *) & {
+        box-shadow: 0 -4px 16px rgb(0 0 0 / 0.4);
+      }
     }
 
     /* Hints and Descriptions */
