@@ -6,11 +6,11 @@ class Liquid::BasketShiftDrop < Liquid::Drop
   end
 
   def new_delivery_date
-    I18n.l(@basket_shift.target_basket.delivery.date)
+    I18n.l(@basket_shift.target_delivery.date)
   end
 
   def old_delivery_date
-    I18n.l(@basket_shift.source_basket.delivery.date)
+    I18n.l(@basket_shift.source_delivery.date)
   end
 
   def description

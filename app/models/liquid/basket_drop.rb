@@ -44,7 +44,7 @@ class Liquid::BasketDrop < Liquid::Drop
   def shifts
     return [] unless Current.org.basket_shift_enabled?
 
-    @basket.shifts_as_target.includes(source_basket: :delivery, target_basket: :delivery).map { |shift|
+    @basket.shifts_as_target.includes(:source_delivery, :target_delivery).map { |shift|
       Liquid::BasketShiftDrop.new(shift)
     }
   end

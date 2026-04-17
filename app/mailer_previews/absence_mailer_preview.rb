@@ -49,13 +49,13 @@ class AbsenceMailerPreview < ActionMailer::Preview
   end
 
   def basket_shift
+    source = basket
     shift = OpenStruct.new(
       absence: absence,
-      source_basket: basket,
-      target_basket: OpenStruct.new(
-        delivery: OpenStruct.new(date: absence_date + 7.days)))
-    shift.define_singleton_method(:description) do |*args|
-      source_basket.basket_size.public_name
+      source_delivery: OpenStruct.new(date: absence_date),
+      target_delivery: OpenStruct.new(date: absence_date + 7.days))
+    shift.define_singleton_method(:description) do |**|
+      source.basket_size.public_name
     end
     shift
   end

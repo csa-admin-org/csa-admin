@@ -7,7 +7,7 @@ ActiveAdmin.register BasketShift do
   controller do
     def destroy
       destroy! do |success, failure|
-        success.html { redirect_to resource.source_basket.membership }
+        success.html { redirect_to resource.membership }
       end
     end
   end

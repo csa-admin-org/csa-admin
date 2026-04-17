@@ -33,14 +33,14 @@ ActiveAdmin.register Basket do
       panel t(".basket_shift_title"), class: "bg-teal-100 mb-8", action: handbook_icon_link("absence", anchor: "basket-shift") do
         div class: "px-2 mb-2" do
           para t(".basket_shifted_description_html",
-            target_date: l(f.object.shift_as_source.target_basket.delivery.date, format: :short),
+            target_date: l(f.object.shift_as_source.target_delivery.date, format: :short),
             target_url: edit_basket_path(f.object.shift_as_source.target_basket)
           ), class: "description"
           para t(".basket_content", content: f.object.shift_as_source.description), class: "mt-2 text-base"
         end
       end
       f.actions do
-        div link_to t(".basket_shift_destroy"), basket_shift_path(f.object.shift_as_source), method: :delete, class: "action-item-button"
+        div link_to t(".basket_shift_destroy"), basket_shift_path(f.object.shift_as_source), method: :delete, class: "action-item-button destructive"
         cancel_link membership_path(f.object.membership)
       end
     else
@@ -58,12 +58,12 @@ ActiveAdmin.register Basket do
           div class: "px-2 mb-2" do
             para t(".basket_shift_targets_explanation"), class: "description"
             ul class: "list-disc list-outside mt-4 ml-6 space-y-2 text-base" do
-              shifts = f.object.shifts_as_target.includes(source_basket: :delivery)
-              shifts.sort_by { |s| s.source_basket.delivery.date }.each do |shift|
+              shifts = f.object.shifts_as_target.includes(:source_delivery)
+              shifts.sort_by { |s| s.source_delivery.date }.each do |shift|
                 li do
                   div class: "flex items-start gap-2" do
                     span t(".basket_shift_target_description",
-                        source_date: l(shift.source_basket.delivery.date, format: :short),
+                        source_date: l(shift.source_delivery.date, format: :short),
                         description: shift.description)
                     span do
                       link_to t(".destroy"), basket_shift_path(shift), method: :delete, class: "btn btn-sm"

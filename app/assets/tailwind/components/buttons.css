@@ -35,6 +35,7 @@
   button[type="submit"].btn,
   input[type="submit"].btn,
   button.action-item-button,
+  a.action-item-button[data-method="delete"],
   .actions input[type="submit"],
   .actions button {
     @apply px-4 font-bold;

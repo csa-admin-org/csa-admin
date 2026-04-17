@@ -13,8 +13,9 @@ class BasketShiftTest < ActiveSupport::TestCase
   def build_basket_shift(absence: @absence, source_basket: @source_basket, target_basket: @target_basket)
     BasketShift.new(
       absence: absence,
-      source_basket: source_basket,
-      target_basket: target_basket)
+      membership: source_basket.membership,
+      source_delivery: source_basket.delivery,
+      target_delivery: target_basket.delivery)
   end
 
   test "validates source basket must be absent" do
@@ -22,7 +23,7 @@ class BasketShiftTest < ActiveSupport::TestCase
     makeup = build_basket_shift(source_basket: normal_basket)
 
     assert_not makeup.valid?
-    assert_includes makeup.errors[:source_basket], "is invalid"
+    assert_includes makeup.errors[:source_delivery], "is invalid"
   end
 
   test "validates source basket must not be empty" do
@@ -33,21 +34,21 @@ class BasketShiftTest < ActiveSupport::TestCase
     makeup = build_basket_shift
 
     assert_not makeup.valid?
-    assert_includes makeup.errors[:source_basket], "is invalid"
+    assert_includes makeup.errors[:source_delivery], "is invalid"
   end
 
-  test "validates target and source must share same membership" do
+  test "validates target delivery must have a basket for this membership" do
     makeup = build_basket_shift(target_basket: baskets(:john_7))
 
     assert_not makeup.valid?
-    assert_includes makeup.errors[:target_basket], "is invalid"
+    assert_includes makeup.errors[:target_delivery], "is invalid"
   end
 
   test "validates target and source must not be absent" do
     makeup = build_basket_shift(target_basket: @source_basket)
 
     assert_not makeup.valid?
-    assert_includes makeup.errors[:target_basket], "is invalid"
+    assert_includes makeup.errors[:target_delivery], "is invalid"
   end
 
   test "sets quantities on validation" do

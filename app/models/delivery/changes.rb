@@ -123,7 +123,7 @@ class Delivery::Changes
       .index_by(&:member_id)
 
     @current_baskets_by_membership_id = @delivery.baskets
-      .includes(:basket_size, :depot, :shifts_as_target, baskets_basket_complements: :basket_complement)
+      .includes(:basket_size, :depot, shifts_as_target: :source_delivery, baskets_basket_complements: :basket_complement)
       .index_by(&:membership_id)
 
     @included_cycles = DeliveryCycle.for(@delivery)
@@ -226,7 +226,7 @@ class Delivery::Changes
 
     if basket.shifts_as_target.any?
       source_dates = basket.shifts_as_target.map { |s|
-        I18n.l(s.source_basket.delivery.date, format: :short_no_year)
+        I18n.l(s.source_delivery.date, format: :short_no_year)
       }
       shift_label = BasketShift.model_name.human.downcase
       changes << build_change(:basket_changed,

@@ -631,4 +631,189 @@ class MembershipTest < ActiveSupport::TestCase
       assert_equal bakery_id, b.depot_id
     end
   end
+
+  test "basket shift survives depot-only config change and quantities are reapplied" do
+    travel_to "2024-01-01"
+    membership = memberships(:jane)
+    source_basket = baskets(:jane_5) # absent basket (thursday_5)
+    target_basket = baskets(:jane_6) # future basket (thursday_6)
+
+    # Create a shift: source (absent) → target
+    shift = BasketShift.create!(
+      absence: absences(:jane_thursday_5),
+      membership: membership,
+      source_delivery: source_basket.delivery,
+      target_delivery: target_basket.delivery)
+
+    assert_equal 0, source_basket.reload.quantity
+    assert_equal 2, target_basket.reload.quantity # 1 original + 1 shifted
+
+    source_delivery = source_basket.delivery
+    target_delivery = target_basket.delivery
+
+    # Change depot — triggers config sync (destroy + recreate baskets)
+    membership.update!(depot_id: farm_id, depot_price: 0)
+
+    # Shift record survives
+    assert BasketShift.exists?(shift.id)
+
+    # New baskets exist for the same deliveries
+    new_source = membership.baskets.find_by(delivery: source_delivery)
+    new_target = membership.baskets.find_by(delivery: target_delivery)
+    assert new_source, "source basket should be recreated"
+    assert new_target, "target basket should be recreated"
+    assert_equal farm_id, new_source.depot_id
+    assert_equal farm_id, new_target.depot_id
+
+    # Absence state is restored and shift quantities are reapplied
+    assert new_source.absent?
+    assert_equal 0, new_source.quantity
+    assert_equal 2, new_target.quantity # 1 original + 1 shifted
+  end
+
+  test "basket shift adapts to new basket_size and quantities are reapplied" do
+    travel_to "2024-01-01"
+    membership = memberships(:jane)
+    source_basket = baskets(:jane_5) # absent basket (thursday_5)
+    target_basket = baskets(:jane_6) # future basket (thursday_6)
+
+    old_basket_size_id = membership.basket_size_id
+
+    # Create a shift: source (absent) → target
+    shift = BasketShift.create!(
+      absence: absences(:jane_thursday_5),
+      membership: membership,
+      source_delivery: source_basket.delivery,
+      target_delivery: target_basket.delivery)
+
+    # Shift quantities reference old basket_size
+    assert_equal({ old_basket_size_id => 1 }, shift.quantities[:basket_size])
+
+    source_delivery = source_basket.delivery
+    target_delivery = target_basket.delivery
+
+    # Change basket_size — shift adapts to new config
+    membership.update!(basket_size_id: small_id, basket_size_price: 10)
+
+    # Shift record survives
+    assert BasketShift.exists?(shift.id)
+
+    # Shift quantities are re-snapshotted with new basket_size
+    shift.reload
+    assert_equal({ small_id => 1 }, shift.quantities[:basket_size])
+
+    # New baskets have the new basket_size
+    new_source = membership.baskets.find_by(delivery: source_delivery)
+    new_target = membership.baskets.find_by(delivery: target_delivery)
+    assert_equal small_id, new_source.basket_size_id
+    assert_equal small_id, new_target.basket_size_id
+
+    # Shift quantities are reapplied with new basket_size
+    assert new_source.absent?
+    assert_equal 0, new_source.quantity
+    assert_equal 2, new_target.quantity # 1 original + 1 shifted
+  end
+
+  test "basket shift adapts to new basket_complements and quantities are reapplied" do
+    travel_to "2024-01-01"
+    membership = memberships(:jane)
+    source_basket = baskets(:jane_5) # absent basket (thursday_5)
+    target_basket = baskets(:jane_6) # future basket (thursday_6)
+
+    # Jane subscribes to bread; verify both baskets have it
+    assert_equal [ bread_id ], source_basket.complement_ids
+    assert_equal [ bread_id ], target_basket.complement_ids
+
+    # Create a shift: source (absent) → target
+    shift = BasketShift.create!(
+      absence: absences(:jane_thursday_5),
+      membership: membership,
+      source_delivery: source_basket.delivery,
+      target_delivery: target_basket.delivery)
+
+    # Shift quantities reference bread complement
+    assert_equal({ bread_id => 1 }, shift.quantities[:basket_complements])
+
+    # Target complement quantity is incremented (1 original + 1 shifted)
+    assert_equal 2, target_basket.reload.baskets_basket_complements.find_by(basket_complement_id: bread_id).quantity
+
+    source_delivery = source_basket.delivery
+    target_delivery = target_basket.delivery
+
+    # Change complements: drop bread, add eggs
+    complements = membership.memberships_basket_complements
+    membership.update!(memberships_basket_complements_attributes: {
+      "0" => { id: complements.first.id, basket_complement_id: bread_id, _destroy: true },
+      "1" => { basket_complement_id: eggs_id, quantity: 1 }
+    })
+
+    # Shift record survives
+    assert BasketShift.exists?(shift.id)
+
+    # Shift quantities are re-snapshotted with new complements
+    shift.reload
+    assert_equal({ eggs_id => 1 }, shift.quantities[:basket_complements])
+
+    # New baskets have eggs, not bread
+    new_source = membership.baskets.find_by(delivery: source_delivery)
+    new_target = membership.baskets.find_by(delivery: target_delivery)
+    assert_equal [ eggs_id ], new_source.complement_ids
+    assert_equal [ eggs_id ], new_target.complement_ids
+
+    # Shift quantities are reapplied: target eggs incremented
+    assert new_source.absent?
+    source_eggs = new_source.baskets_basket_complements.find_by(basket_complement_id: eggs_id)
+    target_eggs = new_target.baskets_basket_complements.find_by(basket_complement_id: eggs_id)
+    assert_equal 0, source_eggs.quantity
+    assert_equal 2, target_eggs.quantity # 1 original + 1 shifted
+  end
+
+  test "basket shift reapplied when source is before new_config_from and target is after" do
+    travel_to "2024-01-01"
+    membership = memberships(:jane)
+    source_basket = baskets(:jane_5) # absent basket (thursday_5 = 2024-05-02)
+    target_basket = baskets(:jane_8) # normal basket (thursday_8 = 2024-05-23)
+
+    old_basket_size_id = membership.basket_size_id
+
+    # Create a shift: source (absent) → target
+    shift = BasketShift.create!(
+      absence: absences(:jane_thursday_5),
+      membership: membership,
+      source_delivery: source_basket.delivery,
+      target_delivery: target_basket.delivery)
+
+    assert_equal({ old_basket_size_id => 1 }, shift.quantities[:basket_size])
+    assert_equal 0, source_basket.reload.quantity
+    assert_equal 2, target_basket.reload.quantity # 1 original + 1 shifted
+
+    source_delivery = source_basket.delivery
+    target_delivery = target_basket.delivery
+
+    # Change basket_size starting from thursday_7 (2024-05-16)
+    # Source (thursday_5 = 2024-05-02) is BEFORE new_config_from → not recreated
+    # Target (thursday_8 = 2024-05-23) is AFTER new_config_from → recreated as small
+    membership.update!(
+      new_config_from: deliveries(:thursday_7).date,
+      basket_size_id: small_id,
+      basket_size_price: 10)
+
+    # Shift record survives
+    assert BasketShift.exists?(shift.id)
+
+    # Shift quantities are NOT re-snapshotted (source wasn't recreated)
+    shift.reload
+    assert_equal({ old_basket_size_id => 1 }, shift.quantities[:basket_size])
+
+    # Source basket is unchanged (before new_config_from)
+    new_source = membership.baskets.find_by(delivery: source_delivery)
+    assert_equal old_basket_size_id, new_source.basket_size_id
+    assert new_source.absent?
+    assert_equal 0, new_source.quantity
+
+    # Target basket has new basket_size but shift quantity is still applied
+    new_target = membership.baskets.find_by(delivery: target_delivery)
+    assert_equal small_id, new_target.basket_size_id
+    assert_equal 2, new_target.quantity # 1 original + 1 shifted
+  end
 end

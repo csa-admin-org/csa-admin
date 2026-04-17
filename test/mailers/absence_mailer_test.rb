@@ -29,10 +29,13 @@ class AbsenceMailerTest < ActionMailer::TestCase
     travel_to "2024-01-01"
     template = mail_templates(:absence_baskets_shifted)
     absence = absences(:jane_thursday_5)
+    source = baskets(:jane_5)
+    target = baskets(:jane_6)
     BasketShift.create!(
       absence: absence,
-      source_basket: baskets(:jane_5),
-      target_basket: baskets(:jane_6))
+      membership: source.membership,
+      source_delivery: source.delivery,
+      target_delivery: target.delivery)
 
     mail = AbsenceMailer.with(
       template: template,

@@ -12,7 +12,7 @@ class AbsenceMailer < ApplicationMailer
   end
 
   def baskets_shifted_email
-    basket_shifts = @absence.basket_shifts.includes(source_basket: :delivery, target_basket: :delivery)
+    basket_shifts = @absence.basket_shifts.includes(:source_delivery, :target_delivery)
     template_mail(@member,
       "member" => Liquid::MemberDrop.new(@member),
       "absence" => Liquid::AbsenceDrop.new(@absence),

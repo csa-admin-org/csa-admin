@@ -354,7 +354,7 @@ ActiveAdmin.register Membership do
             :depot,
             :complements,
             :absence,
-            shift_as_source: { target_basket: :delivery },
+            shift_as_source: :target_delivery,
             baskets_basket_complements: :basket_complement
           ),
             row_html: ->(b) {
@@ -381,7 +381,7 @@ ActiveAdmin.register Membership do
                       "hover-class-value": %w[bg-teal-100 dark:bg-teal-900]
                     }) do
                       description = t(".basket_shift_tooltip",
-                        target_date: l(b.shift_as_source.target_basket.delivery.date, format: :short))
+                        target_date: l(b.shift_as_source.target_delivery.date, format: :short))
                       tooltip(dom_id(b), description, icon_name: "redo")
                     end
                   end

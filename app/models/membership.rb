@@ -5,7 +5,7 @@ require "rounding"
 class Membership < ApplicationRecord
   include HasDescription
   include Timeframe, Absence, AbsencesIncludedRemindable,
-          Trial, Renewal, Pricing, Activity
+          BasketShifts, Trial, Renewal, Pricing, Activity
   include Auditing # Must come after all other concerns
   include Searchable
 
@@ -224,21 +224,6 @@ class Membership < ApplicationRecord
     Delivery.during_year(fy_year).where.not(basket_size_price_percentage: nil).exists?
   end
 
-  def basket_shift_allowed?
-    basket_shifts_allowance_remaining.positive?
-  end
-
-  def basket_shifts_allowance_remaining
-    return 0 unless Current.org.basket_shift_enabled?
-    return Float::INFINITY unless Current.org.basket_shift_annual_limit?
-
-    [ Current.org.basket_shifts_annually - basket_shifts_count, 0 ].max
-  end
-
-  def basket_shifts_count
-    baskets.joins(:shift_as_source).count
-  end
-
   private
 
   def setup_new_membership!
@@ -291,8 +276,11 @@ class Membership < ApplicationRecord
     return unless attributes_config_changed? || memberships_basket_complements_config_changed?
 
     range = new_config_from..ended_on
-    destroy_baskets!(range)
-    create_baskets!(range)
+    with_basket_shifts_reapplied!(range) do
+      destroy_baskets!(range)
+      create_baskets!(range)
+      update_absent_baskets!
+    end
   end
 
   def delete_bidding_round_pledge_on_basket_size_change!

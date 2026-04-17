@@ -60,10 +60,13 @@ class Members::BasketShiftsTest < ApplicationSystemTestCase
 
     travel_to "2024-05-01"
     absence = absences(:jane_thursday_5)
+    source = baskets(:jane_5)
+    target = baskets(:jane_6)
     BasketShift.create!(
       absence: absence,
-      source_basket: baskets(:jane_5),
-      target_basket: baskets(:jane_6))
+      membership: source.membership,
+      source_delivery: source.delivery,
+      target_delivery: target.delivery)
     perform_enqueued_jobs
 
     assert_equal 1, AbsenceMailer.deliveries.size

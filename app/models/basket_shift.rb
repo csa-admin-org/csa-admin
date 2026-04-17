@@ -4,30 +4,46 @@ class BasketShift < ApplicationRecord
   include HasDescription
 
   belongs_to :absence
-  belongs_to :source_basket, class_name: "Basket"
-  belongs_to :target_basket, class_name: "Basket"
+  belongs_to :membership
+  belongs_to :source_delivery, class_name: "Delivery"
+  belongs_to :target_delivery, class_name: "Delivery"
+
+  validates :source_delivery_id, uniqueness: { scope: :membership_id }
 
   validate :source_basket_must_be_absent_and_not_empty, on: :create
   validate :target_basket_must_same_membership_and_not_absent, on: :create
 
-  after_validation :set_quantities
+  after_validation :set_quantities, on: :create
 
   after_create -> {
-    decrement_quantities!(source_basket)
-    increment_quantities!(target_basket)
+    decrement_quantities!(source_basket) if source_basket
+    increment_quantities!(target_basket) if target_basket
   }
   after_destroy -> {
-    increment_quantities!(source_basket)
-    decrement_quantities!(target_basket)
+    increment_quantities!(source_basket) if source_basket
+    decrement_quantities!(target_basket) if target_basket
   }
-  after_commit -> { source_basket.membership.touch if source_basket.membership.persisted? }
+  after_commit -> { membership.touch if membership.persisted? }
   after_commit -> { MailTemplate.deliver(:absence_baskets_shifted, absence: absence) }, on: :create
 
   def self.shiftable?(source, target)
-    return unless new(absence: source.absence, source_basket: source, target_basket: target).valid?
+    shift = new(
+      absence: source.absence,
+      membership: source.membership,
+      source_delivery: source.delivery,
+      target_delivery: target.delivery)
+    return unless shift.valid?
     return unless source.basket_size_id == target.basket_size_id
 
     source.complement_ids & target.complement_ids == source.complement_ids
+  end
+
+  def source_basket
+    @source_basket ||= membership.baskets.find_by(delivery_id: source_delivery_id)
+  end
+
+  def target_basket
+    @target_basket ||= membership.baskets.find_by(delivery_id: target_delivery_id)
   end
 
   def quantities
@@ -52,33 +68,61 @@ class BasketShift < ApplicationRecord
     }.compact.to_sentence.presence
   end
 
+  # Reverses the effect of this shift on a basket outside the recreate range.
+  # Called by Membership#unapply_basket_shifts! before baskets are destroyed.
+  def unapply_on!(basket)
+    decrement_quantities!(basket)
+  end
+
+  # Re-applies the effect of this shift on a basket after recreation.
+  # Called by Membership#reapply_basket_shifts! after baskets are recreated.
+  def reapply_on!(basket)
+    increment_quantities!(basket)
+  end
+
+  # Re-snapshots quantities from the current source basket and saves.
+  # Called when the source basket was recreated (e.g. basket_size change).
+  def resnapshot!
+    @source_basket = nil
+    set_quantities
+    save!
+  end
+
   private
 
   def set_quantities
-    self[:quantities][:basket_size] = { source_basket.basket_size_id => source_basket.quantity }
-    self[:quantities][:basket_complements] = source_basket.baskets_basket_complements.map { |bbc|
-      [ bbc.basket_complement_id, bbc.quantity ]
-    }.to_h
+    basket = source_basket
+    return unless basket
+
+    self[:quantities] = {
+      basket_size: { basket.basket_size_id => basket.quantity },
+      basket_complements: basket.baskets_basket_complements.map { |bbc|
+        [ bbc.basket_complement_id, bbc.quantity ]
+      }.to_h
+    }
   end
 
   def source_basket_must_be_absent_and_not_empty
-    return unless absence && source_basket
+    return unless absence
 
-    if absence.baskets.exclude?(source_basket) || source_basket.empty?
-      errors.add(:source_basket, :invalid)
+    basket = source_basket
+    if basket.nil? || absence.baskets.exclude?(basket) || basket.empty?
+      errors.add(:source_delivery, :invalid)
     end
   end
 
   def target_basket_must_same_membership_and_not_absent
-    return unless target_basket && source_basket
+    basket = source_basket
+    target = target_basket
 
-    if target_basket == source_basket || target_basket.membership_id != source_basket.membership_id || target_basket.absent?
-      errors.add(:target_basket, :invalid)
+    if target.nil? || basket.nil? || target == basket || target.membership_id != membership_id || target.absent?
+      errors.add(:target_delivery, :invalid)
     end
   end
 
   def increment_quantities!(basket, factor = 1)
-    increment_quantity! basket, factor * quantities[:basket_size][basket.basket_size_id].to_i
+    basket_qty = quantities[:basket_size]&.values&.first.to_i
+    increment_quantity! basket, factor * basket_qty
     bb_complements = basket.baskets_basket_complements.to_a
     quantities[:basket_complements].each do |id, quantity|
       bbc = bb_complements.find { |bbc| bbc.basket_complement_id == id }

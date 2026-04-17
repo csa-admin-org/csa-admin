@@ -7,7 +7,7 @@ module XLSX
       @baskets =
         Basket
           .where(absence: @absences.map(&:id))
-          .includes(:member, :delivery, shift_as_source: { target_basket: :delivery })
+          .includes(:member, :delivery, shift_as_source: :target_delivery)
 
       build_absences_worksheet
       build_baskets_worksheet
@@ -80,7 +80,7 @@ module XLSX
           if basket.shift_declined?
             I18n.t("states.basket_shift.declined")
           else
-            basket.shift_as_source&.target_basket&.delivery&.date.to_s
+            basket.shift_as_source&.target_delivery&.date.to_s
           end
         })
     end

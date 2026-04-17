@@ -583,10 +583,13 @@ class Delivery::ChangesTest < ActiveSupport::TestCase
       ended_on: deliveries(:monday_2).date + 1.day)
 
     baskets(:john_2).update_columns(state: "absent")
+    source = baskets(:john_2)
+    target = baskets(:john_3)
     BasketShift.create!(
       absence: absence,
-      source_basket: baskets(:john_2),
-      target_basket: baskets(:john_3))
+      membership: source.membership,
+      source_delivery: source.delivery,
+      target_delivery: target.delivery)
 
     changes = Delivery::Changes.new(delivery)
     john_entry = entries_with_change_type(changes, :basket_changed).find { |e| e.member == members(:john) }
@@ -610,10 +613,13 @@ class Delivery::ChangesTest < ActiveSupport::TestCase
       ended_on: deliveries(:monday_2).date + 1.day)
 
     baskets(:john_2).update_columns(state: "absent")
+    source = baskets(:john_2)
+    target = baskets(:john_3)
     BasketShift.create!(
       absence: absence,
-      source_basket: baskets(:john_2),
-      target_basket: baskets(:john_3))
+      membership: source.membership,
+      source_delivery: source.delivery,
+      target_delivery: target.delivery)
 
     changes = Delivery::Changes.new(delivery)
     john_entry = changes.entries.find { |e| e.member == members(:john) }

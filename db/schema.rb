@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_04_04_093500) do
+ActiveRecord::Schema[8.1].define(version: 2026_04_09_181300) do
   create_table "absences", force: :cascade do |t|
     t.datetime "admins_notified_at"
     t.datetime "created_at"
@@ -254,14 +254,16 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_04_093500) do
   create_table "basket_shifts", force: :cascade do |t|
     t.integer "absence_id", null: false
     t.datetime "created_at", null: false
+    t.integer "membership_id", null: false
     t.json "quantities", default: {}, null: false
-    t.integer "source_basket_id", null: false
-    t.integer "target_basket_id", null: false
+    t.integer "source_delivery_id", null: false
+    t.integer "target_delivery_id", null: false
     t.datetime "updated_at", null: false
-    t.index ["absence_id", "source_basket_id"], name: "index_basket_shifts_on_absence_id_and_source_basket_id", unique: true
     t.index ["absence_id"], name: "index_basket_shifts_on_absence_id"
-    t.index ["source_basket_id"], name: "index_basket_shifts_on_source_basket_id"
-    t.index ["target_basket_id"], name: "index_basket_shifts_on_target_basket_id"
+    t.index ["membership_id", "source_delivery_id"], name: "index_basket_shifts_on_membership_id_and_source_delivery_id", unique: true
+    t.index ["membership_id"], name: "index_basket_shifts_on_membership_id"
+    t.index ["source_delivery_id"], name: "index_basket_shifts_on_source_delivery_id"
+    t.index ["target_delivery_id"], name: "index_basket_shifts_on_target_delivery_id"
   end
 
   create_table "basket_sizes", force: :cascade do |t|
@@ -1068,8 +1070,9 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_04_093500) do
   add_foreign_key "basket_contents_depots", "basket_contents"
   add_foreign_key "basket_contents_depots", "depots"
   add_foreign_key "basket_shifts", "absences"
-  add_foreign_key "basket_shifts", "baskets", column: "source_basket_id"
-  add_foreign_key "basket_shifts", "baskets", column: "target_basket_id"
+  add_foreign_key "basket_shifts", "deliveries", column: "source_delivery_id"
+  add_foreign_key "basket_shifts", "deliveries", column: "target_delivery_id"
+  add_foreign_key "basket_shifts", "memberships"
   add_foreign_key "baskets", "absences"
   add_foreign_key "baskets", "basket_sizes"
   add_foreign_key "baskets", "deliveries"

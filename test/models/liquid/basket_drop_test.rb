@@ -67,7 +67,8 @@ class Liquid::BasketDropTest < ActiveSupport::TestCase
   def create_basket_shift!
     BasketShift.create!(
       absence: absences(:jane_thursday_5),
-      source_basket: @source_basket,
-      target_basket: @target_basket)
+      membership: @source_basket.membership,
+      source_delivery: @source_basket.delivery,
+      target_delivery: @target_basket.delivery)
   end
 end

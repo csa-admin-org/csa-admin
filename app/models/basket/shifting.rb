@@ -5,13 +5,18 @@ module Basket::Shifting
 
   included do
     has_one :shift_as_source,
+      ->(basket) { where(membership_id: basket.membership_id) },
       class_name: "BasketShift",
-      inverse_of: :source_basket,
-      dependent: :destroy
+      foreign_key: :source_delivery_id,
+      primary_key: :delivery_id,
+      dependent: nil
+
     has_many :shifts_as_target,
+      ->(basket) { where(membership_id: basket.membership_id) },
       class_name: "BasketShift",
-      inverse_of: :target_basket,
-      dependent: :destroy
+      foreign_key: :target_delivery_id,
+      primary_key: :delivery_id,
+      dependent: nil
   end
 
   def can_be_shifted?
@@ -47,7 +52,7 @@ module Basket::Shifting
   end
 
   def shift_target_basket_id
-    shift_declined? ? "declined" : shift_as_source&.target_basket_id
+    shift_declined? ? "declined" : shift_as_source&.target_basket&.id
   end
 
   def shift_target_basket_id=(id)
@@ -56,9 +61,11 @@ module Basket::Shifting
     elsif id.blank?
       self.shift_declined_at = nil
     else
+      target = membership.baskets.find(id)
       self.build_shift_as_source(
         absence: absence,
-        target_basket_id: id)
+        membership: membership,
+        target_delivery: target.delivery)
       self.shift_declined_at = nil
     end
   end
