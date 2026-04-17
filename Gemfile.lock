@@ -128,7 +128,7 @@ GEM
       async-http (~> 0.42)
       protocol-url (~> 0.2)
     aws-eventstream (1.4.0)
-    aws-partitions (1.1237.0)
+    aws-partitions (1.1239.0)
     aws-sdk-core (3.244.0)
       aws-eventstream (~> 1, >= 1.3.0)
       aws-partitions (~> 1, >= 1.992.0)
@@ -231,11 +231,11 @@ GEM
       nokogiri (>= 1.16.7)
       rexml (>= 3.3.7)
       rubyzip (>= 2.3.2)
-    erb (6.0.2)
+    erb (6.0.3)
     erubi (1.13.1)
     et-orbi (1.4.0)
       tzinfo
-    faker (3.6.1)
+    faker (3.8.0)
       i18n (>= 1.8.11, < 2)
     faraday (2.14.1)
       faraday-net_http (>= 2.0, < 3.5)
@@ -273,7 +273,7 @@ GEM
     herb (0.9.5-arm64-darwin)
     herb (0.9.5-x86_64-linux-gnu)
     herb (0.9.5-x86_64-linux-musl)
-    hexapdf (1.6.0)
+    hexapdf (1.7.0)
       cmdparse (~> 3.0, >= 3.0.3)
       geom2d (~> 0.4, >= 0.4.1)
       openssl (>= 2.2.1)
@@ -466,7 +466,7 @@ GEM
       activesupport (>= 7.0.0)
       rack
     protocol-hpack (1.5.1)
-    protocol-http (0.62.0)
+    protocol-http (0.62.2)
     protocol-http1 (0.39.0)
       protocol-http (~> 0.62)
     protocol-http2 (0.26.0)
@@ -527,7 +527,7 @@ GEM
       tsort (>= 0.2)
       zeitwerk (~> 2.6)
     rainbow (3.1.1)
-    rake (13.3.1)
+    rake (13.4.2)
     ransack (4.4.1)
       activerecord (>= 7.2)
       activesupport (>= 7.2)
@@ -628,10 +628,10 @@ GEM
     sqlean (0.3.0-arm64-darwin)
     sqlean (0.3.0-x86_64-linux-gnu)
     sqlean (0.3.0-x86_64-linux-musl)
-    sqlite3 (2.9.2-aarch64-linux-gnu)
-    sqlite3 (2.9.2-arm64-darwin)
-    sqlite3 (2.9.2-x86_64-linux-gnu)
-    sqlite3 (2.9.2-x86_64-linux-musl)
+    sqlite3 (2.9.3-aarch64-linux-gnu)
+    sqlite3 (2.9.3-arm64-darwin)
+    sqlite3 (2.9.3-x86_64-linux-gnu)
+    sqlite3 (2.9.3-x86_64-linux-musl)
     sshkit (1.25.0)
       base64
       logger
@@ -725,7 +725,7 @@ DEPENDENCIES
   epics
   faker
   girocode
-  herb
+  herb (= 0.9.5)
   hexapdf
   i18n-backend-side_by_side
   icalendar
@@ -809,7 +809,7 @@ CHECKSUMS
   async-pool (0.11.2) sha256=0a43a17b02b04d9c451b7d12fafa9a50e55dc6dd00d4369aca00433f16a7e3ed
   async-rest (0.20.0) sha256=72b0d467f65269a53a64fc12b828f3d81b4afa201b4eea0b98cddb990e7e95eb
   aws-eventstream (1.4.0) sha256=116bf85c436200d1060811e6f5d2d40c88f65448f2125bc77ffce5121e6e183b
-  aws-partitions (1.1237.0) sha256=9b82f529b69ad83a8e4c5e123038924ed5e8f59bd6064a293ef20efc63364841
+  aws-partitions (1.1239.0) sha256=177ac594c71d7c720888e3fc063bbb919bc8ae1f29192c6d42d304cd0a3c6e0c
   aws-sdk-core (3.244.0) sha256=3e458c078b0c5bdee95bc370c3a483374b3224cf730c1f9f0faf849a5d9a18ea
   aws-sdk-kms (1.123.0) sha256=d405f37e82f8fa32045ca8980be266c0b45b37aaf2012afe0254321a1e811f20
   aws-sdk-s3 (1.219.0) sha256=6a755d7377978525758b3c29185ca6a10128ce2b07555ca37c4549de10c2f1c7
@@ -853,10 +853,10 @@ CHECKSUMS
   drb (2.2.3) sha256=0b00d6fdb50995fe4a45dea13663493c841112e4068656854646f418fda13373
   ed25519 (1.4.0) sha256=16e97f5198689a154247169f3453ef4cfd3f7a47481fde0ae33206cdfdcac506
   epics (2.11.0) sha256=2d87760f79d13006bdbd241583a5f7831f010e8702a7ace87303546372c430ac
-  erb (6.0.2) sha256=9fe6264d44f79422c87490a1558479bd0e7dad4dd0e317656e67ea3077b5242b
+  erb (6.0.3) sha256=e43685a8a0a0ea6a924871b2162e8953ef73147ce46b75b36d1f6774fd286e91
   erubi (1.13.1) sha256=a082103b0885dbc5ecf1172fede897f9ebdb745a4b97a5e8dc63953db1ee4ad9
   et-orbi (1.4.0) sha256=6c7e3c90779821f9e3b324c5e96fda9767f72995d6ae435b96678a4f3e2de8bc
-  faker (3.6.1) sha256=c513d23c1d26b426283e913b25e0b714576011d7c1ad368a9ac6ea2113a1ccde
+  faker (3.8.0) sha256=c147b308df73a90f27a4fc84f18d4c22ef0ad9c2a64b2b61c86fd0ca71753efc
   faraday (2.14.1) sha256=a43cceedc1e39d188f4d2cdd360a8aaa6a11da0c407052e426ba8d3fb42ef61c
   faraday-net_http (3.4.2) sha256=f147758260d3526939bf57ecf911682f94926a3666502e24c69992765875906c
   ffi (1.17.4-aarch64-linux-gnu) sha256=b208f06f91ffd8f5e1193da3cae3d2ccfc27fc36fba577baf698d26d91c080df
@@ -879,7 +879,7 @@ CHECKSUMS
   herb (0.9.5-arm64-darwin) sha256=342c2065e6bf27b0fc3cd9d52906cf773caa9962642f57dbd2146abf43ce0295
   herb (0.9.5-x86_64-linux-gnu) sha256=5acd1a63bf456f27d66b5833649e493ab0f1527fb8ae44325cf76639d7b592db
   herb (0.9.5-x86_64-linux-musl) sha256=799e53792abfd89cdcdd018d661066a28506de25d0de9f05353a65a77af9dc2a
-  hexapdf (1.6.0) sha256=78e32fc5a088a347bcb2cad4ab327cbdd0a0c5e1e77963b52460eef78d402582
+  hexapdf (1.7.0) sha256=df9502a157ee2c3248573a14be8410045f104ca7ae8f46a2a4301406c5ce4155
   htmlentities (4.4.2) sha256=bbafbdf69f2eca9262be4efef7e43e6a1de54c95eb600f26984f71d2fe96c5c3
   i18n (1.14.8) sha256=285778639134865c5e0f6269e0b818256017e8cde89993fdfcbfb64d088824a5
   i18n-backend-side_by_side (1.3.0) sha256=9a48d06549d4d5e4e6640ab66c560ffa4a73883f29a881818810bd30e49f95d8
@@ -956,7 +956,7 @@ CHECKSUMS
   prism (1.9.0) sha256=7b530c6a9f92c24300014919c9dcbc055bf4cdf51ec30aed099b06cd6674ef85
   propshaft (1.3.1) sha256=9acc664ef67e819ffa3d95bd7ad4c3623ea799110c5f4dee67fa7e583e74c392
   protocol-hpack (1.5.1) sha256=6feca238b8078da1cd295677d6f306c6001af92d75fe0643d33e6956cbc3ad91
-  protocol-http (0.62.0) sha256=2b7a84a83c7d7c9ca1edfa3a31edcdb91a9264af86c2cb905b486091b35b461a
+  protocol-http (0.62.2) sha256=e1c1f2f56029c1af8c4e2b8a67d0d096c76620f3afd8d99d1dcd2f6b8ffa773b
   protocol-http1 (0.39.0) sha256=e49b3f4cda6f5d94c76a323d2b7f6977cba3ebd082d2da437039594da77ad8eb
   protocol-http2 (0.26.0) sha256=bac89cd78082b241ccd0cf7246f5160e4bb0c9c975fb4bf7deef5f88cc317486
   protocol-url (0.4.0) sha256=64d4c03b6b51ad815ac6fdaf77a1d91e5baf9220d26becb846c5459dacdea9e1
@@ -977,7 +977,7 @@ CHECKSUMS
   rails-i18n (8.1.0) sha256=52d5fd6c0abef28d84223cc05647f6ae0fd552637a1ede92deee9545755b6cf3
   railties (8.1.3) sha256=913eb0e0cb520aac687ffd74916bd726d48fa21f47833c6292576ef6a286de22
   rainbow (3.1.1) sha256=039491aa3a89f42efa1d6dec2fc4e62ede96eb6acd95e52f1ad581182b79bc6a
-  rake (13.3.1) sha256=8c9e89d09f66a26a01264e7e3480ec0607f0c497a861ef16063604b1b08eb19c
+  rake (13.4.2) sha256=cb825b2bd5f1f8e91ca37bddb4b9aaf345551b4731da62949be002fa89283701
   ransack (4.4.1) sha256=6aeaac36fc19088570e10da1044e6cfd88c740e20f871b84566fd30e32b7a63d
   rbs (4.0.2) sha256=af75671e66cd03434cc546622741ebf83f6197ec4328375805306330bf78ef25
   rchardet (1.10.0) sha256=d5ea2ed61a720a220f1914778208e718a0c7ed2a484b6d357ba695aa7001390f
@@ -1013,10 +1013,10 @@ CHECKSUMS
   sqlean (0.3.0-arm64-darwin) sha256=32ffa1e5a908a52c028fb06fa2dbe61f600a865c95960d7ec4f3fbc82f28bf78
   sqlean (0.3.0-x86_64-linux-gnu) sha256=51e7e0a66ceebf26c4a4509001412bea2214fb748752fde96a228db9cb2e85ce
   sqlean (0.3.0-x86_64-linux-musl) sha256=93eb4f18679539b64c478dd2d57e393404c036e0057a0a93b2a8089ea6caa94a
-  sqlite3 (2.9.2-aarch64-linux-gnu) sha256=eeb86db55645b85327ba75129e3614658d974bf4da8fdc87018a0d42c59f6e42
-  sqlite3 (2.9.2-arm64-darwin) sha256=d15bd9609a05f9d54930babe039585efc8cadd57517c15b64ec7dfa75158a5e9
-  sqlite3 (2.9.2-x86_64-linux-gnu) sha256=dce83ffcb7e72f9f7aeb6e5404f15d277a45332fe18ccce8a8b3ed51e8d23aee
-  sqlite3 (2.9.2-x86_64-linux-musl) sha256=e8dd906a613f13b60f6d47ae9dda376384d9de1ab3f7e3f2fdf2fd18a871a2d7
+  sqlite3 (2.9.3-aarch64-linux-gnu) sha256=ca6dd1cf6c037ccc8d3e5837190cc61ef15466092014951235641b5c4c8ab4ee
+  sqlite3 (2.9.3-arm64-darwin) sha256=76b265d3d57362d3e38338f24f50a0c9cd47a4599c9cfbb578fac125d2299906
+  sqlite3 (2.9.3-x86_64-linux-gnu) sha256=85200a10c6cf5c60085fcca411a3168c5fba8fda3e2b1b0109ec277d7c226d46
+  sqlite3 (2.9.3-x86_64-linux-musl) sha256=b6d0437046d9180335dea1aa0592802e65c4f7b57409d63f14408211bf28536b
   sshkit (1.25.0) sha256=c8c6543cdb60f91f1d277306d585dd11b6a064cb44eab0972827e4311ff96744
   stimulus-rails (1.3.4) sha256=765676ffa1f33af64ce026d26b48e8ffb2e0b94e0f50e9119e11d6107d67cb06
   stringio (3.2.0) sha256=c37cb2e58b4ffbd33fe5cd948c05934af997b36e0b6ca6fdf43afa234cf222e1
