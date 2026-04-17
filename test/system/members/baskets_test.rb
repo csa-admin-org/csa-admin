@@ -37,6 +37,13 @@ class Members::BasketsTest < ApplicationSystemTestCase
     assert_equal "/deliveries", current_path
     assert_text "Home"
     assert_text "2x Bread and Eggs"
+
+    override = BasketOverride.find_by(membership: membership, delivery: basket.delivery)
+    assert_not_nil override
+    assert_equal home_id, override.diff["depot_id"]
+    assert_not_nil override.diff["complements"]
+    assert_not_nil override.session
+    assert_not_nil override.session.member
   end
 
   test "update not allowed" do

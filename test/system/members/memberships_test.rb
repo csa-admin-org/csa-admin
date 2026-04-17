@@ -71,6 +71,9 @@ class Members::MembershipsTest < ApplicationSystemTestCase
 
     assert_equal "/memberships", current_path
     assert_text "Bakery"
+
+    assert_empty BasketOverride.where(membership: membership),
+      "Membership-level depot change should not create BasketOverride records"
   end
 
   test "inactive member" do

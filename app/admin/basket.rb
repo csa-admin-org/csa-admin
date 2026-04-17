@@ -186,6 +186,10 @@ ActiveAdmin.register Basket do
     end
   end
 
+  after_update do |basket|
+    basket.sync_basket_override!
+  end
+
   member_action :force, method: :post do
     ForcedDelivery.create!(basket: resource)
     redirect_to resource.membership, notice: t(".flash.notice")

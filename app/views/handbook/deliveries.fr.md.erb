@@ -84,6 +84,18 @@ Quelques points importants :
 - Lors du **renouvellement** d'un abonnement, la configuration du dépôt alternatif est automatiquement reprise.
 - Si un membre change son **dépôt principal** depuis son espace membre, la configuration du dépôt alternatif est préservée.
 
+## Modifications individuelles des <%= Basket.model_name.human(count: 2).downcase %> {#basket-overrides}
+
+Chaque <%= Basket.model_name.human.downcase %> d'un abonnement peut être modifié individuellement pour s'écarter de la configuration de l'abonnement : un dépôt différent, un autre <%= BasketSize.model_name.human.downcase %>, une quantité ajustée, des <%= BasketComplement.model_name.human(count: 2).downcase %> personnalisés ou même un déplacement vers une autre date de livraison (dans le contexte d'un autre cycle de livraison). Ces modifications individuelles sont **préservées** lorsque la configuration de l'abonnement est modifiée par la suite (par exemple, lorsque le <%= BasketSize.model_name.human.downcase %> ou le dépôt est mis à jour à partir d'une date donnée).
+
+Sur la page de l'abonnement, tout <%= Basket.model_name.human.downcase %> qui diverge de la configuration de l'abonnement affiche une petite **icône d'historique** à côté de son état. Au survol de l'icône, vous voyez qui a effectué la modification (nom de l'admin, ou «par le membre») et quand, ainsi que la liste des champs modifiés. De là, un bouton **«Annuler»** rétablit le <%= Basket.model_name.human.downcase %> aux valeurs par défaut de l'abonnement.
+
+Quelques points importants :
+
+- Les modifications sont capturées automatiquement dès qu'un admin édite un <%= Basket.model_name.human.downcase %> ou qu'un membre change son dépôt ou compléments depuis l'espace membre (si permis dans [les paramètres d'abonnement](/settings#membership)).
+- Lorsque la configuration de l'abonnement change, les modifications sont réappliquées sur les <%= Basket.model_name.human(count: 2).downcase %> recréés. Les modifications qui font référence à des livraisons qui ne sont plus couvertes par l'abonnement (par exemple, après un changement de cycle de livraisons) sont automatiquement nettoyées.
+- Si la configuration de l'abonnement est modifiée pour correspondre à un <%= Basket.model_name.human.downcase %> précédemment modifié, la modification devient sans effet et l'icône d'historique disparaît.
+
 ## <%= BasketComplement.model_name.human(count: 2) %> {#basket-complements}
 
 [Les <%= BasketComplement.model_name.human(count: 2).downcase %>](/basket_complements) suivent souvent leur propre cycle de livraisons et cela d'une manière difficilement programmable de manière dynamique. Il est donc nécessaire, et cela pour chaque <%= BasketComplement.model_name.human.downcase %>, de définir toutes les dates de livraison où ce complément est disponible ou non. Cette opération doit être réalisée chaque année après la création des nouvelles livraisons.

@@ -12,6 +12,9 @@ export default class extends Controller {
     const isLink = event.target.closest("a")
     if (isLink) return
 
+    const isButton = event.target.closest("button, form")
+    if (isButton) return
+
     const isCheckbox = event.target.closest("input[type='checkbox']")
     if (isCheckbox) return
 

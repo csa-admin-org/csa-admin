@@ -4,6 +4,7 @@ class Basket < ApplicationRecord
   include Content
   include HasDescription
   include HasState
+  include Overridable
   include Shifting
 
   has_states :normal, :absent, :trial, :forced
@@ -86,6 +87,21 @@ class Basket < ApplicationRecord
     baskets_basket_complements.sum { |bbc| bbc.quantity.to_i * bbc.price }
   end
 
+  def config
+    {
+      "basket_size_id" => basket_size_id,
+      "basket_size_price" => basket_size_price.to_f,
+      "price_extra" => price_extra.to_f,
+      "quantity" => quantity,
+      "depot_id" => depot_id,
+      "depot_price" => depot_price.to_f,
+      "delivery_cycle_price" => delivery_cycle_price.to_f,
+      "complements" => baskets_basket_complements.sort_by(&:basket_complement_id).map { |bbc|
+        { "basket_complement_id" => bbc.basket_complement_id, "quantity" => bbc.quantity, "price" => bbc.price.to_f }
+      }
+    }
+  end
+
   def empty?
     (quantity + baskets_basket_complements.sum(:quantity)).zero?
   end
@@ -126,7 +142,10 @@ class Basket < ApplicationRecord
     if params.key?(:depot_id)
       self.depot_price = nil
     end
-    update!(params)
+    transaction do
+      update!(params)
+      sync_basket_override!
+    end
   end
 
   def can_force?

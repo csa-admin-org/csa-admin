@@ -84,6 +84,18 @@ Einige wichtige Punkte:
 - Bei der **Erneuerung** einer Mitgliedschaft wird die Konfiguration des alternativen Depots automatisch übernommen.
 - Wenn ein Mitglied sein **Hauptdepot** über den Mitgliederbereich ändert, bleibt die Konfiguration des alternativen Depots erhalten.
 
+## Individuelle Änderungen der <%= Basket.model_name.human(count: 2) %> {#basket-overrides}
+
+Jede <%= Basket.model_name.human %> einer Mitgliedschaft kann individuell bearbeitet werden, um von der Mitgliedschaftskonfiguration abzuweichen: ein anderes Depot, eine andere <%= BasketSize.model_name.human.downcase %>, eine angepasste Menge, personalisierte <%= BasketComplement.model_name.human(count: 2).downcase %> oder sogar eine Verschiebung auf ein anderes Lieferdatum (im Rahmen eines anderen Lieferzyklus). Diese individuellen Änderungen bleiben **erhalten**, wenn die Konfiguration der Mitgliedschaft später geändert wird (zum Beispiel, wenn die <%= BasketSize.model_name.human.downcase %> oder das Depot ab einem bestimmten Datum aktualisiert wird).
+
+Auf der Mitgliedschaftsseite zeigt jede <%= Basket.model_name.human.downcase %>, die von der Mitgliedschaftskonfiguration abweicht, ein kleines **Verlaufssymbol** neben ihrem Status an. Wenn Du mit der Maus über das Symbol fährst, siehst Du, wer die Änderung vorgenommen hat (Name des Admins oder „durch das Mitglied") und wann, sowie die Liste der geänderten Felder. Von dort aus stellt eine Schaltfläche **„Rückgängig"** die <%= Basket.model_name.human.downcase %> auf die Standardwerte der Mitgliedschaft zurück.
+
+Einige wichtige Punkte:
+
+- Änderungen werden automatisch erfasst, sobald ein Admin eine <%= Basket.model_name.human.downcase %> bearbeitet oder ein Mitglied sein Depot oder seine <%= BasketComplement.model_name.human(count: 2).downcase %> über den Mitgliederbereich ändert (sofern in [den Mitgliedschaftseinstellungen](/settings#membership) erlaubt).
+- Wenn sich die Konfiguration der Mitgliedschaft ändert, werden die Änderungen auf die neu erstellten <%= Basket.model_name.human(count: 2).downcase %> erneut angewendet. Änderungen, die sich auf Lieferungen beziehen, die nicht mehr von der Mitgliedschaft abgedeckt sind (zum Beispiel nach einem Wechsel des Lieferzyklus), werden automatisch bereinigt.
+- Wird die Konfiguration der Mitgliedschaft so geändert, dass sie einer zuvor geänderten <%= Basket.model_name.human.downcase %> entspricht, wird die Änderung wirkungslos und das Verlaufssymbol verschwindet.
+
 ## <%= BasketComplement.model_name.human(count: 2) %> {#basket-complements}
 
 [Die <%= BasketComplement.model_name.human(count: 2) %>](/basket_complements) folgen oft ihrem eigenen Lieferzyklus, und das auf eine Weise, die schwer dynamisch zu programmieren ist. Es ist daher notwendig, und das für jede <%= BasketComplement.model_name.human %>, alle Lieferdaten zu definieren, an denen diese Ergänzung verfügbar ist oder nicht. Dieser Vorgang muss jedes Jahr nach der Erstellung der neuen Lieferungen durchgeführt werden.

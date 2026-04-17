@@ -18,7 +18,7 @@ module TooltipHelper
     popover_id = "popover-#{id}"
     content_tag(:button,
       type: "button",
-      class: "block z-20 hover:text-gray-900 dark:hover:text-gray-100",
+      class: "block z-0 hover:text-gray-900 dark:hover:text-gray-100",
       data: { "popover-target" => popover_id },
       onclick: "event.stopPropagation(); this.focus()"
     ) {

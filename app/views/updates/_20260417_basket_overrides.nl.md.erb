@@ -1,0 +1,17 @@
+# Individuele wijzigingen van <%= Basket.model_name.human(count: 2).downcase %> behouden
+
+Wanneer je een individuele <%= Basket.model_name.human.downcase %> wijzigt zodat deze afwijkt van de configuratie van het lidmaatschap (een ander depot, een andere <%= BasketSize.model_name.human.downcase %>, een aangepaste hoeveelheid, gepersonaliseerde <%= BasketComplement.model_name.human(count: 2).downcase %> of een verplaatsing naar een andere levering), worden deze wijzigingen nu **behouden** wanneer de configuratie van het lidmaatschap later wordt gewijzigd.
+
+Tot nu toe werden bij het wijzigen van de configuratie van een lidmaatschap (<%= BasketSize.model_name.human.downcase %>, depot, leveringscyclus, <%= BasketComplement.model_name.human(count: 2).downcase %>, ...) alle toekomstige <%= Basket.model_name.human(count: 2).downcase %> vernietigd en opnieuw aangemaakt, waarbij alle individuele aanpassingen stilzwijgend werden gewist. Dat is nu niet meer het geval.
+
+Op de pagina van het lidmaatschap toont elk(e) <%= Basket.model_name.human.downcase %> die afwijkt van de configuratie van het lidmaatschap een klein **geschiedenispictogram** naast de status. Wanneer je met de muis over het pictogram beweegt, zie je wie de wijziging heeft aangebracht en wanneer, evenals de lijst met gewijzigde velden. Van daaruit herstelt een knop **« Ongedaan maken »** de <%= Basket.model_name.human.downcase %> naar de standaardwaarden van het lidmaatschap.
+
+Enkele punten om in gedachten te houden:
+
+- **Wijzigingen van het depot door een lid** via het ledengedeelte worden ook vastgelegd (indien toegestaan in [de lidmaatschapsinstellingen](/settings#membership)), waardoor het wijzigen van het hoofddepot van het lidmaatschap niet overschrijft wat een lid heeft gekozen voor een specifiek(e) <%= Basket.model_name.human.downcase %>.
+- **Verplaatsingen van <%= Basket.model_name.human(count: 2).downcase %>** (door afwezigheden) blijven parallel aan deze wijzigingen werken. Een <%= Basket.model_name.human.downcase %> kan zowel een verplaatsing ontvangen als een handmatige aanpassing van de hoeveelheid hebben zonder dubbeltelling.
+- Als je later de configuratie van het lidmaatschap wijzigt zodat deze overeenkomt met een eerder gewijzigd(e) <%= Basket.model_name.human.downcase %>, wordt de wijziging zonder effect en verdwijnt het pictogram.
+
+Meer informatie over deze functie vind je in [het leveringshandboek](/handbook/deliveries#basket-overrides).
+
+Aarzel niet om [mij te laten weten](/support) als er iets niet klopt op je bestaande lidmaatschappen!

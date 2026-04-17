@@ -84,6 +84,18 @@ A few important points:
 - When a membership is **renewed**, the alternate depot configuration is automatically carried over.
 - If a member changes their **main depot** from the member area, the alternate depot configuration is preserved.
 
+## Individual <%= Basket.model_name.human.downcase %> modifications {#basket-overrides}
+
+Each <%= Basket.model_name.human.downcase %> of a membership can be edited individually to deviate from the membership configuration: a different depot, a different <%= BasketSize.model_name.human.downcase %>, an adjusted quantity, custom <%= BasketComplement.model_name.human(count: 2).downcase %>, or even a swap to another delivery date (in the context of another delivery cycle). These per-<%= Basket.model_name.human.downcase %> modifications are **preserved** when the membership configuration changes later (for example, when the <%= BasketSize.model_name.human.downcase %> or depot is updated from the given date).
+
+On the membership page, any <%= Basket.model_name.human.downcase %> that diverges from the membership configuration shows a small **history icon** next to its state. Hovering over the icon reveals who made the change (admin name, or "by the member") and when, along with the list of modified fields. From there, an **"Undo"** button restores the <%= Basket.model_name.human.downcase %> to the membership defaults.
+
+A few important points:
+
+- Modifications are captured automatically whenever an admin edits a <%= Basket.model_name.human.downcase %> or a member changes their depot or <%= BasketComplement.model_name.human(count: 2).downcase %> from the member area (if allowed in [the membership settings](/settings#membership)).
+- When the membership configuration changes, modifications are reapplied on the recreated <%= Basket.model_name.human(count: 2).downcase %>. Modifications that reference deliveries no longer covered by the membership (for example, after switching to a different delivery cycle) are cleaned up automatically.
+- If the membership configuration is changed to match a previously modified <%= Basket.model_name.human.downcase %>, the modification becomes a no-op and the history icon disappears.
+
 ## <%= BasketComplement.model_name.human(count: 2) %> {#basket-complements}
 
 [<%= BasketComplement.model_name.human(count: 2) %>](/basket_complements) often follow their own delivery cycle in a way that is difficult to program dynamically. It is therefore necessary, and this for each <%= BasketComplement.model_name.human.downcase %>, to define all the delivery dates where this complement is available or not. This operation must be carried out each year after the creation of new deliveries.

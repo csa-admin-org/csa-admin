@@ -1,0 +1,17 @@
+# Individuelle Änderungen der <%= Basket.model_name.human(count: 2) %> bleiben erhalten
+
+Wenn Du eine einzelne <%= Basket.model_name.human.downcase %> so bearbeitest, dass sie von der Konfiguration der Mitgliedschaft abweicht (ein anderes Depot, eine andere <%= BasketSize.model_name.human.downcase %>, eine angepasste Menge, personalisierte <%= BasketComplement.model_name.human(count: 2).downcase %> oder eine Verschiebung auf eine andere Lieferung), bleiben diese Änderungen nun **erhalten**, wenn die Konfiguration der Mitgliedschaft später geändert wird.
+
+Bisher führte eine Änderung der Konfiguration einer Mitgliedschaft (<%= BasketSize.model_name.human.downcase %>, Depot, Lieferzyklus, <%= BasketComplement.model_name.human(count: 2).downcase %>, ...) dazu, dass alle zukünftigen <%= Basket.model_name.human(count: 2).downcase %> gelöscht und neu erstellt wurden, wobei alle individuellen Anpassungen stillschweigend verloren gingen. Das ist nun nicht mehr der Fall.
+
+Auf der Mitgliedschaftsseite zeigt jede <%= Basket.model_name.human.downcase %>, die von der Konfiguration der Mitgliedschaft abweicht, ein kleines **Verlaufssymbol** neben ihrem Status an. Wenn Du mit der Maus über das Symbol fährst, siehst Du, wer die Änderung vorgenommen hat und wann, sowie die Liste der geänderten Felder. Von dort aus stellt eine Schaltfläche **„Rückgängig"** die <%= Basket.model_name.human.downcase %> auf die Standardwerte der Mitgliedschaft zurück.
+
+Einige Punkte zu beachten:
+
+- **Änderungen des Depots durch ein Mitglied** über den Mitgliederbereich werden ebenfalls erfasst (sofern in [den Mitgliedschaftseinstellungen](/settings#membership) erlaubt), so dass ein Wechsel des Hauptdepots der Mitgliedschaft nicht überschreibt, was ein Mitglied für eine bestimmte <%= Basket.model_name.human.downcase %> gewählt hat.
+- **Verschiebungen der <%= Basket.model_name.human(count: 2).downcase %>** (aufgrund von Abwesenheiten) funktionieren weiterhin parallel zu diesen Änderungen. Eine <%= Basket.model_name.human.downcase %> kann sowohl eine Verschiebung erhalten als auch eine manuelle Mengenanpassung haben, ohne doppelt gezählt zu werden.
+- Wenn Du die Konfiguration der Mitgliedschaft später so änderst, dass sie einer zuvor geänderten <%= Basket.model_name.human.downcase %> entspricht, wird die Änderung wirkungslos und das Symbol verschwindet.
+
+Weitere Informationen zu dieser Funktion findest Du im [Lieferhandbuch](/handbook/deliveries#basket-overrides).
+
+Zögere nicht, [mir Bescheid zu geben](/support), wenn bei Deinen bestehenden Mitgliedschaften etwas nicht stimmt!

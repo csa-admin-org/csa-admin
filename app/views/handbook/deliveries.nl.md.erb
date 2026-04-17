@@ -85,6 +85,18 @@ Enkele belangrijke punten:
 - Bij de **vernieuwing** van een lidmaatschap wordt de configuratie van het alternatieve depot automatisch overgenomen.
 - Als een lid het **hoofddepot** wijzigt via het ledengedeelte, blijft de configuratie van het alternatieve depot behouden.
 
+## Individuele wijzigingen van <%= Basket.model_name.human(count: 2).downcase %> {#basket-overrides}
+
+Elk(e) <%= Basket.model_name.human.downcase %> van een lidmaatschap kan individueel worden gewijzigd om af te wijken van de configuratie van het lidmaatschap: een ander depot, een andere <%= BasketSize.model_name.human.downcase %>, een aangepaste hoeveelheid, gepersonaliseerde <%= BasketComplement.model_name.human(count: 2).downcase %> of zelfs een verplaatsing naar een andere leveringsdatum (in de context van een andere leveringscyclus). Deze individuele wijzigingen blijven **behouden** wanneer de configuratie van het lidmaatschap later wordt gewijzigd (bijvoorbeeld wanneer de <%= BasketSize.model_name.human.downcase %> of het depot vanaf een bepaalde datum wordt bijgewerkt).
+
+Op de pagina van het lidmaatschap toont elk(e) <%= Basket.model_name.human.downcase %> die afwijkt van de configuratie van het lidmaatschap een klein **geschiedenispictogram** naast de status. Wanneer je met de muis over het pictogram beweegt, zie je wie de wijziging heeft aangebracht (naam van de admin, of « door het lid ») en wanneer, evenals de lijst met gewijzigde velden. Van daaruit herstelt een knop **« Ongedaan maken »** de <%= Basket.model_name.human.downcase %> naar de standaardwaarden van het lidmaatschap.
+
+Enkele belangrijke punten:
+
+- Wijzigingen worden automatisch vastgelegd zodra een admin een <%= Basket.model_name.human.downcase %> bewerkt of een lid zijn depot of <%= BasketComplement.model_name.human(count: 2).downcase %> wijzigt via het ledengedeelte (indien toegestaan in [de lidmaatschapsinstellingen](/settings#membership)).
+- Wanneer de configuratie van het lidmaatschap verandert, worden de wijzigingen opnieuw toegepast op de opnieuw aangemaakte <%= Basket.model_name.human(count: 2).downcase %>. Wijzigingen die verwijzen naar leveringen die niet langer onder het lidmaatschap vallen (bijvoorbeeld na een wijziging van de leveringscyclus) worden automatisch opgeschoond.
+- Als de configuratie van het lidmaatschap wordt gewijzigd zodat deze overeenkomt met een eerder gewijzigd(e) <%= Basket.model_name.human.downcase %>, wordt de wijziging zonder effect en verdwijnt het geschiedenispictogram.
+
 ## <%= BasketComplement.model_name.human(count: 2) %> {#basket-complements}
 
 [<%= BasketComplement.model_name.human(count: 2) %>](/basket_complements) volgen vaak hun eigen leveringscyclus op een manier die moeilijk dynamisch te programmeren is. Het is daarom noodzakelijk, en dit voor elke <%= BasketComplement.model_name.human.downcase %>, om alle leveringsdatums te definiëren waar deze aanvulling beschikbaar is of niet. Deze bewerking moet elk jaar worden uitgevoerd na het aanmaken van nieuwe leveringen.

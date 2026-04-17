@@ -65,6 +65,31 @@ _:
         _de: "%{count} Arbeitsstunden"
         _it: "%{count} ore di lavoro"
         _nl: "%{count} werkuren"
+    basket_override:
+      by_admin:
+        _en: by %{name}, on %{date}
+        _fr: par %{name}, le %{date}
+        _de: von %{name}, am %{date}
+        _it: da %{name}, il %{date}
+        _nl: door %{name}, op %{date}
+      by_member:
+        _en: by the member, on %{date}
+        _fr: par le membre, le %{date}
+        _de: vom Mitglied, am %{date}
+        _it: dal socio, il %{date}
+        _nl: door het lid, op %{date}
+      on_date:
+        _en: on %{date}
+        _fr: le %{date}
+        _de: am %{date}
+        _it: il %{date}
+        _nl: op %{date}
+      title:
+        _en: Modification
+        _fr: Modification
+        _de: Anpassung
+        _it: Modifica
+        _nl: Aanpassing
     deliveries_count:
       one:
         _en: 1 delivery

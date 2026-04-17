@@ -6,7 +6,7 @@ class Ability
   MODELS_MAPPING = {
     delivery: [ Delivery, DeliveryCycle ],
     depot: [ Depot, DepotGroup ],
-    membership: [ Membership, Basket, BasketShift ],
+    membership: [ Membership, Basket, BasketShift, BasketOverride ],
     billing: [ Invoice, Payment ],
     activity: [ Activity, ActivityParticipation, ActivityPreset ],
     basket_content: [ BasketContent, BasketContent::Product ],

@@ -5,7 +5,7 @@ require "rounding"
 class Membership < ApplicationRecord
   include HasDescription
   include Timeframe, Absence, AbsencesIncludedRemindable,
-          BasketShifts, Trial, Renewal, Pricing, Activity
+          BasketShifts, BasketOverrides, Trial, Renewal, Pricing, Activity
   include Auditing # Must come after all other concerns
   include Searchable
 
@@ -280,7 +280,9 @@ class Membership < ApplicationRecord
       destroy_baskets!(range)
       create_baskets!(range)
       update_absent_baskets!
+      reapply_basket_overrides!(range)
     end
+    cleanup_orphaned_overrides!
   end
 
   def delete_bidding_round_pledge_on_basket_size_change!

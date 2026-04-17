@@ -1,0 +1,17 @@
+# Modifications individuelles des paniers préservées
+
+Lorsque vous modifiez un panier individuel pour qu'il s'écarte de la configuration de l'abonnement (un dépôt différent, un autre panier, une quantité ajustée, des compléments personnalisés, ou un déplacement vers une autre livraison), ces modifications sont désormais **préservées** lorsque la configuration de l'abonnement est modifiée par la suite.
+
+Jusqu'à présent, changer la configuration d'un abonnement (taille de panier, dépôt, cycle de livraisons, compléments, ...) détruisait et recréait tous les paniers futurs, effaçant silencieusement toutes les personnalisations individuelles mises en place. Ce n'est désormais plus le cas.
+
+Sur la page de l'abonnement, tout panier qui diverge de la configuration de l'abonnement affiche une petite **icône d'historique** à côté de son état. Au survol de l'icône, vous voyez qui a effectué la modification et quand, ainsi que la liste des champs modifiés. De là, un bouton **«Annuler»** rétablit le panier aux valeurs par défaut de l'abonnement.
+
+Quelques points à garder à l'esprit :
+
+- **Les changements de dépôt par un membre** depuis l'espace membre sont également capturés (si permis dans [les paramètres d'abonnement](/settings#membership)), ainsi changer le dépôt principal de l'abonnement n'écrase pas ce qu'un membre a choisi pour un panier spécifique.
+- **Les déplacements de panier** (depuis les absences) continuent de fonctionner en parallèle de ces modifications. Un panier peut à la fois recevoir un déplacement et avoir un ajustement manuel de quantité sans double comptage.
+- Si vous modifiez ensuite la configuration de l'abonnement pour qu'elle corresponde à un panier précédemment modifié, la modification devient sans effet et l'icône disparaît.
+
+Retrouvez plus d'informations sur cette fonctionnalité dans [le manuel des livraisons](/handbook/deliveries#basket-overrides).
+
+N'hésitez pas à [me signaler](/support) si quelque chose semble incorrect sur vos abonnements existants!

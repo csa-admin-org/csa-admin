@@ -1611,41 +1611,41 @@ _:
           _it: Tutte le parti di questo abbonamento saranno create secondo la seguente configurazione.
           _nl: Alle delen in dit lidmaatschap worden aangemaakt volgens de volgende configuratie.
         membership_configuration_warning_text/bag:
-          _en: Warning, any change in the configuration will recreate the bags of this membership from the date below!
-          _fr: Attention, toute modification de la configuration recréera les sacs de cet abonnement à partir de la date ci-dessous!
-          _de: Achtung, jede Änderung der Konfiguration wird die Taschen dieses Abonnements ab dem unten angegebenen Datum neu erstellen!
-          _it: Attenzione, qualsiasi modifica alla configurazione ricreerà le borse per questo abbonamento a partire dalla data sottostante!
-          _nl: Waarschuwing, elke wijziging in de configuratie zal de tassen van dit lidmaatschap opnieuw aanmaken vanaf de onderstaande datum!
+          _en: Any change in the configuration will update the bags of this membership from the date below. Individual bag modifications will be preserved.
+          _fr: Toute modification de la configuration mettra à jour les sacs de cet abonnement à partir de la date ci-dessous. Les modifications individuelles des sacs seront conservées.
+          _de: Jede Änderung der Konfiguration aktualisiert die Taschen dieses Abonnements ab dem unten angegebenen Datum. Individuelle Anpassungen der Taschen bleiben erhalten.
+          _it: Qualsiasi modifica alla configurazione aggiornerà le borse di questo abbonamento a partire dalla data sottostante. Le modifiche individuali delle borse saranno conservate.
+          _nl: Elke wijziging in de configuratie zal de tassen van dit lidmaatschap bijwerken vanaf de onderstaande datum. Individuele aanpassingen van tassen blijven behouden.
         membership_configuration_warning_text/basket:
-          _en: Warning, any change in the configuration will recreate the baskets of this membership from the date below!
-          _fr: Attention, toute modification de la configuration recréera les paniers de cet abonnement à partir de la date ci-dessous!
-          _de: Achtung, jede Änderung der Konfiguration wird die Körbe dieses Abonnements ab dem unten angegebenen Datum neu erstellen!
-          _it: Attenzione, qualsiasi modifica alla configurazione ricreerà le ceste per questo abbonamento a partire dalla data sottostante!
-          _nl: Waarschuwing, elke wijziging in de configuratie zal de manden van dit lidmaatschap opnieuw aanmaken vanaf de onderstaande datum!
+          _en: Any change in the configuration will update the baskets of this membership from the date below. Individual basket modifications will be preserved.
+          _fr: Toute modification de la configuration mettra à jour les paniers de cet abonnement à partir de la date ci-dessous. Les modifications individuelles des paniers seront conservées.
+          _de: Jede Änderung der Konfiguration aktualisiert die Körbe dieses Abonnements ab dem unten angegebenen Datum. Individuelle Anpassungen der Körbe bleiben erhalten.
+          _it: Qualsiasi modifica alla configurazione aggiornerà le ceste di questo abbonamento a partire dalla data sottostante. Le modifiche individuali delle ceste saranno conservate.
+          _nl: Elke wijziging in de configuratie zal de manden van dit lidmaatschap bijwerken vanaf de onderstaande datum. Individuele aanpassingen van manden blijven behouden.
         membership_configuration_warning_text/cone:
-          _en: Warning, any change in the configuration will recreate the cones of this membership from the date below!
-          _fr: Attention, toute modification de la configuration recréera les cornets de cet abonnement à partir de la date ci-dessous!
-          _de: Achtung, jede Änderung der Konfiguration wird die Tüten dieses Abonnements ab dem unten angegebenen Datum neu erstellen!
-          _it: Attenzione, qualsiasi modifica alla configurazione ricreerà i coni per questo abbonamento a partire dalla data sottostante!
-          _nl: Waarschuwing, elke wijziging in de configuratie zal de zakken van dit lidmaatschap opnieuw aanmaken vanaf de onderstaande datum!
+          _en: Any change in the configuration will update the cones of this membership from the date below. Individual cone modifications will be preserved.
+          _fr: Toute modification de la configuration mettra à jour les cornets de cet abonnement à partir de la date ci-dessous. Les modifications individuelles des cornets seront conservées.
+          _de: Jede Änderung der Konfiguration aktualisiert die Tüten dieses Abonnements ab dem unten angegebenen Datum. Individuelle Anpassungen der Tüten bleiben erhalten.
+          _it: Qualsiasi modifica alla configurazione aggiornerà i coni di questo abbonamento a partire dalla data sottostante. Le modifiche individuali dei coni saranno conservate.
+          _nl: Elke wijziging in de configuratie zal de zakken van dit lidmaatschap bijwerken vanaf de onderstaande datum. Individuele aanpassingen van zakken blijven behouden.
         membership_configuration_warning_text/crate:
-          _en: Warning, any change in the configuration will recreate the crates of this membership from the date below!
-          _fr: Attention, toute modification de la configuration recréera les cagettes de cet abonnement à partir de la date ci-dessous!
-          _de: Achtung, jede Änderung der Konfiguration wird die Kisten dieses Abonnements ab dem unten angegebenen Datum neu erstellen!
-          _it: Attenzione, qualsiasi modifica alla configurazione ricreerà le cassette per questo abbonamento a partire dalla data sottostante!
-          _nl: Waarschuwing, elke wijziging in de configuratie zal de kratten van dit lidmaatschap opnieuw aanmaken vanaf de onderstaande datum!
+          _en: Any change in the configuration will update the crates of this membership from the date below. Individual crate modifications will be preserved.
+          _fr: Toute modification de la configuration mettra à jour les cagettes de cet abonnement à partir de la date ci-dessous. Les modifications individuelles des cagettes seront conservées.
+          _de: Jede Änderung der Konfiguration aktualisiert die Kisten dieses Abonnements ab dem unten angegebenen Datum. Individuelle Anpassungen der Kisten bleiben erhalten.
+          _it: Qualsiasi modifica alla configurazione aggiornerà le cassette di questo abbonamento a partire dalla data sottostante. Le modifiche individuali delle cassette saranno conservate.
+          _nl: Elke wijziging in de configuratie zal de kratten van dit lidmaatschap bijwerken vanaf de onderstaande datum. Individuele aanpassingen van kratten blijven behouden.
         membership_configuration_warning_text/package:
-          _en: Warning, any change in the configuration will recreate the packages of this membership from the date below!
-          _fr: Attention, toute modification de la configuration recréera les colis de cet abonnement à partir de la date ci-dessous!
-          _de: Achtung, jede Änderung der Konfiguration wird die Pakete dieses Abonnements ab dem unten angegebenen Datum neu erstellen!
-          _it: Attenzione, qualsiasi modifica alla configurazione ricreerà i pacchi per questo abbonamento a partire dalla data sottostante!
-          _nl: Waarschuwing, elke wijziging in de configuratie zal de pakketten van dit lidmaatschap opnieuw aanmaken vanaf de onderstaande datum!
+          _en: Any change in the configuration will update the packages of this membership from the date below. Individual package modifications will be preserved.
+          _fr: Toute modification de la configuration mettra à jour les colis de cet abonnement à partir de la date ci-dessous. Les modifications individuelles des colis seront conservées.
+          _de: Jede Änderung der Konfiguration aktualisiert die Pakete dieses Abonnements ab dem unten angegebenen Datum. Individuelle Anpassungen der Pakete bleiben erhalten.
+          _it: Qualsiasi modifica alla configurazione aggiornerà i pacchi di questo abbonamento a partire dalla data sottostante. Le modifiche individuali dei pacchi saranno conservate.
+          _nl: Elke wijziging in de configuratie zal de pakketten van dit lidmaatschap bijwerken vanaf de onderstaande datum. Individuele aanpassingen van pakketten blijven behouden.
         membership_configuration_warning_text/share:
-          _en: Warning, any change in the configuration will recreate the shares of this membership from the date below!
-          _fr: Attention, toute modification de la configuration recréera les parts de cet abonnement à partir de la date ci-dessous!
-          _de: Achtung, jede Änderung der Konfiguration wird die Anteile dieses Abonnements ab dem unten angegebenen Datum neu erstellen!
-          _it: Attenzione, qualsiasi modifica alla configurazione ricreerà le parti per questo abbonamento a partire dalla data sottostante!
-          _nl: Waarschuwing, elke wijziging in de configuratie zal de delen van dit lidmaatschap opnieuw aanmaken vanaf de onderstaande datum!
+          _en: Any change in the configuration will update the shares of this membership from the date below. Individual share modifications will be preserved.
+          _fr: Toute modification de la configuration mettra à jour les parts de cet abonnement à partir de la date ci-dessous. Les modifications individuelles des parts seront conservées.
+          _de: Jede Änderung der Konfiguration aktualisiert die Anteile dieses Abonnements ab dem unten angegebenen Datum. Individuelle Anpassungen der Anteile bleiben erhalten.
+          _it: Qualsiasi modifica alla configurazione aggiornerà le parti di questo abbonamento a partire dalla data sottostante. Le modifiche individuali delle parti saranno conservate.
+          _nl: Elke wijziging in de configuratie zal de delen van dit lidmaatschap bijwerken vanaf de onderstaande datum. Individuele aanpassingen van delen blijven behouden.
         membership_renewal:
           _en: Renewal
           _fr: Renouvellement
@@ -2133,6 +2133,12 @@ _:
           _de: Wirklich fortfahren? Die Anzahl der geforderten Arbeitsstunden wird auf null gesetzt.
           _it: Siete sicuri? Il numero di ore di lavoro richieste sarà impostato a zero.
           _nl: Echt doorgaan? Het aantal geëiste werkuren wordt op nul gezet.
+        clear_override:
+          _en: Undo
+          _fr: Annuler
+          _de: Rückgängig
+          _it: Annulla
+          _nl: Annuleren
         config:
           _en: Configuration
           _fr: Configuration

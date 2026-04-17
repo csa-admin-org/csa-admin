@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_04_09_181300) do
+ActiveRecord::Schema[8.1].define(version: 2026_04_10_132500) do
   create_table "absences", force: :cascade do |t|
     t.datetime "admins_notified_at"
     t.datetime "created_at"
@@ -249,6 +249,19 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_09_181300) do
     t.index ["basket_content_id", "depot_id"], name: "index_basket_contents_depots_unique", unique: true
     t.index ["basket_content_id"], name: "index_basket_contents_depots_on_basket_content_id"
     t.index ["depot_id"], name: "index_basket_contents_depots_on_depot_id"
+  end
+
+  create_table "basket_overrides", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.integer "delivery_id", null: false
+    t.json "diff", default: {}, null: false
+    t.integer "membership_id", null: false
+    t.integer "session_id"
+    t.datetime "updated_at", null: false
+    t.index ["delivery_id"], name: "index_basket_overrides_on_delivery_id"
+    t.index ["membership_id", "delivery_id"], name: "index_basket_overrides_on_membership_id_and_delivery_id", unique: true
+    t.index ["membership_id"], name: "index_basket_overrides_on_membership_id"
+    t.index ["session_id"], name: "index_basket_overrides_on_session_id"
   end
 
   create_table "basket_shifts", force: :cascade do |t|

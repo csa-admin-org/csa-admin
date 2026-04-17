@@ -1,0 +1,17 @@
+# Individual Basket Modifications Preserved
+
+When you edit a single basket to deviate from the membership configuration (a different depot, a different basket, an adjusted quantity, custom complements, or a swap to another delivery), these modifications are now **preserved** when the membership configuration changes later.
+
+Until now, changing a membership's configuration (basket size, depot, delivery cycle, complements, ...) would destroy and recreate all future baskets, silently wiping out any per-basket customization you had set up. That's no longer the case.
+
+On the membership page, any basket that diverges from the membership configuration shows a small **history icon** next to its state. Hovering over the icon reveals who made the change and when, along with the list of modified fields. From there, an **"Undo"** button restores the basket to the membership defaults.
+
+A few things to keep in mind:
+
+- **Member depot changes** from the member area are also captured (if allowed in [the membership settings](/settings#membership)), so switching the main depot of the membership won't override what a member picked for a specific basket.
+- **Basket shifts** (from absences) keep working alongside these modifications. A basket can both receive a shift and have a manual quantity adjustment without double-counting.
+- If you later change the membership configuration to match a previously modified basket, the modification becomes a no-op and the icon disappears.
+
+Find more information about this feature in [the deliveries handbook](/handbook/deliveries#basket-overrides).
+
+Don't hesitate to [let me know](/support) if anything looks off on your existing memberships!

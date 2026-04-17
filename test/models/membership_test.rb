@@ -816,4 +816,233 @@ class MembershipTest < ActiveSupport::TestCase
     assert_equal small_id, new_target.basket_size_id
     assert_equal 2, new_target.quantity # 1 original + 1 shifted
   end
+
+  # === Basket Override Preservation Tests (Phase 3) ===
+
+  test "basket override survives depot-only config change" do
+    travel_to "2024-01-01"
+    membership = memberships(:jane)
+    basket = baskets(:jane_6)
+    delivery = basket.delivery
+
+    # Manually override basket depot to farm
+    basket.update!(depot_id: farm_id, depot_price: 0)
+    basket.sync_basket_override!
+    assert BasketOverride.exists?(membership: membership, delivery: delivery)
+
+    # Change membership depot (triggers config sync: destroy + recreate baskets)
+    membership.update!(depot_id: home_id, depot_price: 9)
+
+    # Override survived and was reapplied — basket still has farm depot, not home
+    new_basket = membership.baskets.find_by(delivery: delivery)
+    assert_equal farm_id, new_basket.depot_id
+    assert_equal 0, new_basket.depot_price
+    assert BasketOverride.exists?(membership: membership, delivery: delivery)
+  end
+
+  test "basket override survives basket_size config change" do
+    travel_to "2024-01-01"
+    membership = memberships(:john)
+    basket = baskets(:john_6)
+    delivery = basket.delivery
+
+    # Manually override basket depot
+    basket.update!(depot_id: bakery_id, depot_price: 4)
+    basket.sync_basket_override!
+    assert BasketOverride.exists?(membership: membership, delivery: delivery)
+
+    # Change membership basket_size (triggers config sync)
+    membership.update!(basket_size_id: small_id, basket_size_price: 10)
+
+    # Override survived — basket has new size from config but keeps custom depot
+    new_basket = membership.baskets.find_by(delivery: delivery)
+    assert_equal small_id, new_basket.basket_size_id
+    assert_equal bakery_id, new_basket.depot_id
+    assert_equal 4, new_basket.depot_price
+  end
+
+  test "basket override with complement changes survives config change" do
+    travel_to "2024-01-01"
+    membership = memberships(:jane)
+    basket = baskets(:jane_6)
+    delivery = basket.delivery
+
+    # Create a complement override directly (testing reapply, not capture)
+    BasketOverride.create!(
+      membership: membership,
+      delivery: delivery,
+      diff: {
+        "complements" => [
+          { "basket_complement_id" => eggs_id, "quantity" => 2, "price" => 6.0 }
+        ]
+      })
+
+    # Change membership depot (triggers config sync)
+    membership.update!(depot_id: farm_id, depot_price: 0)
+
+    # Override survived — basket has custom complements
+    new_basket = membership.baskets.find_by(delivery: delivery)
+    assert_equal [ eggs_id ], new_basket.baskets_basket_complements.map(&:basket_complement_id)
+    assert_equal 2, new_basket.baskets_basket_complements.first.quantity
+  end
+
+  test "basket overrides and shifts both reapplied in correct order" do
+    travel_to "2024-01-01"
+    membership = memberships(:jane)
+    source_basket = baskets(:jane_5) # absent
+    target_basket = baskets(:jane_6) # normal
+
+    # Override target basket depot
+    target_basket.update!(depot_id: farm_id, depot_price: 0)
+    target_basket.sync_basket_override!
+
+    source_delivery = source_basket.delivery
+    target_delivery = target_basket.delivery
+
+    # Create a shift: source (absent) → target
+    BasketShift.create!(
+      absence: absences(:jane_thursday_5),
+      membership: membership,
+      source_delivery: source_delivery,
+      target_delivery: target_delivery)
+
+    # Change membership basket_size (triggers config sync)
+    membership.update!(depot_id: home_id, depot_price: 9)
+
+    # Override reapplied: target basket has farm depot (not home)
+    new_target = membership.baskets.find_by(delivery: target_delivery)
+    assert_equal farm_id, new_target.depot_id
+    assert_equal 0, new_target.depot_price
+
+    # Shift also reapplied: target basket has shifted quantities
+    assert_equal 2, new_target.quantity # 1 original + 1 shifted
+  end
+
+  test "quantity override on shifted basket survives config change without double-counting" do
+    travel_to "2024-01-01"
+    membership = memberships(:jane)
+    source_basket = baskets(:jane_5) # absent
+    target_basket = baskets(:jane_6) # normal
+
+    source_delivery = source_basket.delivery
+    target_delivery = target_basket.delivery
+
+    # Create a shift: source (absent) → target
+    BasketShift.create!(
+      absence: absences(:jane_thursday_5),
+      membership: membership,
+      source_delivery: source_delivery,
+      target_delivery: target_delivery)
+
+    # Target basket now has quantity 2 (1 original + 1 shifted)
+    target_basket.reload
+    assert_equal 2, target_basket.quantity
+
+    # Manually override target basket quantity to 3
+    target_basket.update!(quantity: 3)
+    target_basket.sync_basket_override!
+
+    # Assert a BasketOverride exists for the target delivery
+    override = BasketOverride.find_by(membership: membership, delivery: target_delivery)
+    assert_not_nil override, "override should be created for quantity change"
+
+    # The diff should store 2 (shift-adjusted: actual 3 minus 1 shift = 2, vs expected 1)
+    # NOT 3 (bug: raw actual value overwrites the adjusted diff)
+    assert_equal 2, override.diff["quantity"],
+      "diff should store shift-adjusted value (2), not raw actual (3)"
+
+    # Trigger config sync: change depot (destroys + recreates baskets)
+    membership.update!(depot_id: depots(:home).id, depot_price: 9)
+
+    # New target basket quantity should be 3 (override applies diff quantity 2, + 1 from shift reapply = 3)
+    # NOT 4 (bug: override applies diff quantity 3 + 1 from shift reapply = 4)
+    new_target = membership.baskets.find_by(delivery: target_delivery)
+    assert_equal 3, new_target.quantity
+  end
+
+  test "delivery swap override not orphaned after config change" do
+    travel_to "2024-01-01"
+    membership = memberships(:john)
+    basket = baskets(:john_6)
+    original_delivery = basket.delivery
+    target_delivery = deliveries(:monday_7)
+
+    # Remove existing basket at target to allow the swap
+    membership.baskets.find_by(delivery: target_delivery).destroy!
+
+    # Swap basket to a different delivery
+    basket.update!(delivery_id: target_delivery.id)
+    basket.sync_basket_override!
+
+    # Override is keyed on the original delivery with override_delivery_id in diff
+    override = BasketOverride.find_by(membership: membership, delivery: original_delivery)
+    assert_not_nil override
+    assert override.delivery_swap?
+
+    # Trigger config sync — baskets are destroyed and recreated
+    membership.update!(depot_id: bakery_id, depot_price: 4)
+
+    # The delivery swap override should survive cleanup
+    assert BasketOverride.exists?(membership: membership, delivery: original_delivery)
+
+    # The swap should still be in effect: basket at target, not at original
+    assert membership.baskets.exists?(delivery: target_delivery),
+      "basket should be at target delivery after config sync"
+    assert_not membership.baskets.exists?(delivery: original_delivery),
+      "basket should NOT be at original delivery after config sync"
+  end
+
+  test "delivery swap override reapplied when only target delivery is in config sync range" do
+    travel_to "2024-01-01"
+    membership = memberships(:john)
+    basket = baskets(:john_6)
+    original_delivery = basket.delivery           # monday_6
+    target_delivery = deliveries(:monday_7)
+
+    # Remove existing basket at target to allow the swap
+    membership.baskets.find_by(delivery: target_delivery).destroy!
+
+    # Swap basket AND bump quantity — the override carries both pieces of state
+    basket.update!(delivery_id: target_delivery.id, quantity: 3)
+    basket.sync_basket_override!
+
+    override = BasketOverride.find_by(membership: membership, delivery: original_delivery)
+    assert_not_nil override
+    assert override.delivery_swap?
+    assert_equal 3, override.diff["quantity"]
+
+    # Config sync range starts AT target delivery: source (monday_6) is outside,
+    # target (monday_7) is inside the range. Without the fix, the override is
+    # filtered out and the basket at target is recreated fresh, losing quantity.
+    membership.update!(
+      new_config_from: target_delivery.date,
+      depot_id: bakery_id,
+      depot_price: 4)
+
+    # Swap preserved: no basket at original, basket at target
+    assert_not membership.baskets.exists?(delivery: original_delivery)
+    target_basket = membership.baskets.find_by(delivery: target_delivery)
+    assert_not_nil target_basket
+    # Quantity override preserved too
+    assert_equal 3, target_basket.quantity
+    assert BasketOverride.exists?(membership: membership, delivery: original_delivery)
+  end
+
+  test "orphaned basket override cleaned up when delivery cycle changes" do
+    travel_to "2024-01-01"
+    membership = memberships(:jane)
+    basket = baskets(:jane_6)
+    delivery = basket.delivery
+
+    # Override depot
+    basket.update!(depot_id: farm_id, depot_price: 0)
+    basket.sync_basket_override!
+    assert BasketOverride.exists?(membership: membership, delivery: delivery)
+
+    # Change to mondays cycle — jane_6's thursday delivery is no longer in cycle
+    membership.update!(delivery_cycle: delivery_cycles(:mondays))
+
+    # Override for that thursday delivery should be cleaned up
+    assert_not BasketOverride.exists?(membership: membership, delivery: delivery)
+  end
 end

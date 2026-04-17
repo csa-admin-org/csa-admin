@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
 class Audit < ApplicationRecord
-  belongs_to :session, optional: true
+  include Sessionable
+
   belongs_to :auditable, polymorphic: true
 
   scope :reversed, -> { order(created_at: :desc) }
@@ -26,10 +27,6 @@ class Audit < ApplicationRecord
         checks.compact!
         checks.present? && checks.all?
       }
-  end
-
-  def actor
-    session&.owner || System.instance
   end
 
   def changes

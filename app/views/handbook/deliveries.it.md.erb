@@ -84,6 +84,18 @@ Alcuni punti importanti:
 - Al **rinnovo** di un abbonamento, la configurazione del punto alternativo viene automaticamente riportata.
 - Se un socio cambia il proprio **deposito principale** dall'area soci, la configurazione del punto alternativo viene mantenuta.
 
+## Modifiche individuali delle <%= Basket.model_name.human(count: 2).downcase %> {#basket-overrides}
+
+Ogni <%= Basket.model_name.human.downcase %> di un abbonamento può essere modificata individualmente per discostarsi dalla configurazione dell'abbonamento: un deposito diverso, una <%= BasketSize.model_name.human.downcase %> diversa, una quantità modificata, <%= BasketComplement.model_name.human(count: 2).downcase %> personalizzati o anche uno spostamento a un'altra data di consegna (nell'ambito di un altro ciclo di consegna). Queste modifiche individuali vengono **preservate** quando la configurazione dell'abbonamento viene modificata in seguito (ad esempio, quando la <%= BasketSize.model_name.human.downcase %> o il deposito viene aggiornato a partire da una data specifica).
+
+Nella pagina dell'abbonamento, ogni <%= Basket.model_name.human.downcase %> che si discosta dalla configurazione dell'abbonamento mostra una piccola **icona della cronologia** accanto al suo stato. Passando il mouse sull'icona, vedi chi ha effettuato la modifica (nome dell'admin o « dal socio ») e quando, insieme all'elenco dei campi modificati. Da lì, un pulsante **« Annulla »** ripristina la <%= Basket.model_name.human.downcase %> ai valori predefiniti dell'abbonamento.
+
+Alcuni punti importanti:
+
+- Le modifiche vengono catturate automaticamente non appena un admin modifica una <%= Basket.model_name.human.downcase %> o un socio cambia il proprio deposito o i propri <%= BasketComplement.model_name.human(count: 2).downcase %> dall'area soci (se consentito nelle [impostazioni dell'abbonamento](/settings#membership)).
+- Quando la configurazione dell'abbonamento cambia, le modifiche vengono riapplicate alle <%= Basket.model_name.human(count: 2).downcase %> ricreate. Le modifiche che fanno riferimento a consegne non più coperte dall'abbonamento (ad esempio, dopo un cambio di ciclo di consegna) vengono eliminate automaticamente.
+- Se la configurazione dell'abbonamento viene modificata per corrispondere a una <%= Basket.model_name.human.downcase %> precedentemente modificata, la modifica diventa senza effetto e l'icona della cronologia scompare.
+
 ## <%= BasketComplement.model_name.human(count: 2) %> {#basket-complements}
 
 [I <%= BasketComplement.model_name.human(count: 2).downcase %>](/basket_complements) seguono spesso il proprio ciclo di consegne e questo in un modo difficilmente programmabile in modo dinamico. È quindi necessario, e questo per ogni <%= BasketComplement.model_name.human.downcase %>, definire tutte le date di consegna in cui questo complemento è disponibile o meno. Questa operazione deve essere effettuata ogni anno dopo la creazione delle nuove consegne.

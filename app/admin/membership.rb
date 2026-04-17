@@ -346,6 +346,7 @@ ActiveAdmin.register Membership do
     columns do
       column do
         next_basket = m.next_basket
+        overrides_by_delivery = BasketOverride.by_delivery_id(m.basket_overrides.includes(session: [ :member, :admin ]))
         panel Basket.model_name.human(count: 2), count: m.baskets_count do
           table_for(m.baskets.preload(
             :membership,
@@ -359,7 +360,7 @@ ActiveAdmin.register Membership do
           ),
             row_html: ->(b) {
               classes = []
-              classes << "bg-gray-200 dark:bg-gray-700" if b == next_basket
+              classes << "bg-gray-200 dark:bg-gray-700/75" if b == next_basket
               classes << "text-gray-300 dark:text-gray-500 [&>td>a]:text-gray-300 [&>td>a]:decoration-gray-300 [&>td>a]:dark:text-gray-500 [&>td>a]:dark:decoration-gray-500" if b.absent? || b.empty?
               classes << "line-through" if !b.billable? || b.empty?
               { class: classes.join(" "), data: { "hover-id": dom_id(b) } }
@@ -369,11 +370,21 @@ ActiveAdmin.register Membership do
             column(:delivery, class: "md:w-32") { |b| link_to b.delivery.display_name(format: :number), b.delivery }
             column(:description) { |b| b.shifted? ? b.shift_as_source.description : b.description }
             column(:depot)
-            if m.baskets.where(state: [ :absent, :trial ]).any?
-              column(class: "text-right") do |b|
-                div class: "flex items-center justify-end gap-2 " do
-                  ic = "".html_safe
-                  if b.shifted?
+            column do |b|
+              div class: "flex items-center justify-end gap-2" do
+                ic = "".html_safe
+                if (override = overrides_by_delivery[b.delivery_id]) && override.active?
+                  ic += popover(dom_id(b, :override), icon_name: "history") do
+                    display_basket_override(override) +
+                      tag.div(class: "flex justify-end min-w-60 mt-2 pt-2 border-t border-gray-700 dark:border-gray-600") do
+                        panel_button t(".clear_override"), basket_override_path(override),
+                          icon: "arrow-uturn-left",
+                          class: "btn btn-xs destructive",
+                          method: :delete
+                      end
+                  end
+                end
+                if b.shifted?
                     ic += tag.div(data: {
                       controller: "hover",
                       action: "mouseenter->hover#show mouseleave->hover#hide",
@@ -384,12 +395,11 @@ ActiveAdmin.register Membership do
                         target_date: l(b.shift_as_source.target_delivery.date, format: :short))
                       tooltip(dom_id(b), description, icon_name: "redo")
                     end
-                  end
-                  if b.shift_declined?
-                    ic += tag.div { tooltip(dom_id(b), t(".basket_shift_declined_tooltip"), icon_name: "redo-off") }
-                  end
-                  ic + display_basket_state(b)
                 end
+                if b.shift_declined?
+                  ic += tag.div { tooltip(dom_id(b), t(".basket_shift_declined_tooltip"), icon_name: "redo-off") }
+                end
+                ic + display_basket_state(b)
               end
             end
             column(nil) { |b|
@@ -733,7 +743,7 @@ ActiveAdmin.register Membership do
     if resource.new_record?
       para t(".membership_configuration_text")
     else
-      para t(".membership_configuration_warning_text"), class: "font-bold text-red-600 dark:text-red-400"
+      para t(".membership_configuration_warning_text"), class: "description mb-2"
       f.inputs do
         f.input :new_config_from, as: :date_picker, required: true
       end
