@@ -1,7 +1,7 @@
 {
   "devDependencies": {
-    "@herb-tools/linter": "0.9.5",
-    "@herb-tools/formatter": "0.9.5",
+    "@herb-tools/linter": "^0.9",
+    "@herb-tools/formatter": "^0.9",
     "prettier": "^3.6",
     "prettier-plugin-tailwindcss": "^0.6"
   }

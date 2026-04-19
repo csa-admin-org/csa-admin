@@ -61,12 +61,6 @@
 
 <% @coming_participations = current_member.activity_participations.coming.includes(:activity).merge(Activity.ordered(:asc)) %>
 
-<% condition = @coming_participations.any? { |p| !p.destroyable? } %>
-
-<% message_class = condition ? "mt-4 pb-4 text-center text-sm italic text-gray-400 dark:text-gray-500" : "nocontent" %>
-
-<% message_text = condition ? t(".coming_activity_participation_cannot_be_cancel_explanation_html", days_count: Current.org.activity_participation_deletion_deadline_in_days, contact_link: mail_to(Current.org.email, t(".contact_link"))) : t(".edit_activity_participation_explanation") %>
-
 <% if @coming_participations.any? %>
   <section>
     <h2><%= t(".coming_activity_participations") %></h2>
@@ -75,7 +69,22 @@
       <%= render @coming_participations %>
     </ul>
 
-    <p class="<%= message_class %>"><%= message_text %></p>
+    <% if @coming_participations.any? { |p| !p.destroyable? } %>
+      <p
+        class="
+          mt-4 pb-4 text-center text-sm text-gray-400 italic
+          dark:text-gray-500
+        "
+      >
+        <%= t(".coming_activity_participation_cannot_be_cancel_explanation_html",
+          days_count: Current.org.activity_participation_deletion_deadline_in_days,
+          contact_link: mail_to(Current.org.email, t(".contact_link"))) %>
+      </p>
+    <% else %>
+      <p class="nocontent">
+        <%= t(".edit_activity_participation_explanation") %>
+      </p>
+    <% end %>
   </section>
 <% end %>
 
