@@ -124,4 +124,43 @@ class Basket::OverridableTest < ActiveSupport::TestCase
     assert_not_nil override
     assert_not_nil override.diff["complements"]
   end
+
+  test "basket shift via autosave does not create spurious override on source basket" do
+    travel_to "2024-01-01"
+    membership = memberships(:jane)
+    source_basket = baskets(:jane_5) # absent
+    target_basket = baskets(:jane_6)
+
+    # Simulate admin form: set shift target and save (autosave creates BasketShift)
+    assert_no_difference "BasketOverride.count" do
+      source_basket.update!(shift_target_basket_id: target_basket.id.to_s)
+      source_basket.sync_basket_override!
+    end
+
+    # Source basket quantity decremented by shift
+    assert_equal 0, source_basket.reload.quantity
+    # Target basket quantity incremented by shift
+    assert_equal 2, target_basket.reload.quantity
+  end
+
+  test "basket shift with depot change creates override for depot only" do
+    travel_to "2024-01-01"
+    membership = memberships(:jane)
+    source_basket = baskets(:jane_5) # absent
+    target_basket = baskets(:jane_6)
+
+    # Simulate admin form: shift + depot change at the same time
+    assert_difference "BasketOverride.count", 1 do
+      source_basket.update!(
+        shift_target_basket_id: target_basket.id.to_s,
+        depot_id: farm_id,
+        depot_price: 0)
+      source_basket.sync_basket_override!
+    end
+
+    override = BasketOverride.find_by(membership: membership, delivery: source_basket.delivery)
+    assert_equal farm_id, override.diff["depot_id"]
+    assert_equal 0.0, override.diff["depot_price"]
+    assert_nil override.diff["quantity"], "quantity should not appear in diff (shift-induced)"
+  end
 end

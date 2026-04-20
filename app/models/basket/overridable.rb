@@ -24,6 +24,7 @@ module Basket::Overridable
       diff["override_delivery_id"] = delivery_id
       [ original_delivery.id, diff ]
     else
+      reload # Ensure fresh data; shift callbacks may have modified quantities via a different object
       [ delivery_id, BasketOverride.compute_diff_from_basket(self, membership) ]
     end
   end
