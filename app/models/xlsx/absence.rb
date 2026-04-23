@@ -7,7 +7,7 @@ module XLSX
       @baskets =
         Basket
           .where(absence: @absences.map(&:id))
-          .includes(:member, :delivery, shift_as_source: :target_delivery)
+          .preload(:member, :delivery, shift_as_source: :target_delivery)
 
       build_absences_worksheet
       build_baskets_worksheet
