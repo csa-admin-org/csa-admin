@@ -234,7 +234,7 @@ module MembersHelper
       elsif billable_deliveries_counts.many?
         if d.price.positive?
           details << "#{deliveries_based_price_info(d.price, d.billable_deliveries_counts)} (#{short_price(d.price)} x #{deliveries_count(d.billable_deliveries_counts)})"
-        elsif d.delivery_cycles != depots_delivery_cycles
+        elsif d.delivery_cycle_ids.sort != depots_delivery_cycle_ids
           details << deliveries_count(d.billable_deliveries_counts)
         end
       elsif d.price.positive?
@@ -483,6 +483,10 @@ module MembersHelper
 
   def depots_delivery_cycles
     @depots_delivery_cycles ||= visible_depots.flat_map(&:delivery_cycles).uniq
+  end
+
+  def depots_delivery_cycle_ids
+    @depots_delivery_cycle_ids ||= depots_delivery_cycles.map(&:id).sort
   end
 
   def short_price(price)
