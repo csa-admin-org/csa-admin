@@ -9,6 +9,7 @@ AllCops:
   NewCops: enable
   Exclude:
     - "**/*.tmp"
+    - "agents/*"
 
 Style/FrozenStringLiteralComment:
   Enabled: true
