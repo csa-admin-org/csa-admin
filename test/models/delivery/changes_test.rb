@@ -245,6 +245,59 @@ class Delivery::ChangesTest < ActiveSupport::TestCase
     assert_includes depot_change.details, "=>"
   end
 
+  test "ignores depot change caused by alternate depot from main to alternate" do
+    travel_to "2024-01-01"
+    create_membership(
+      delivery_cycle: delivery_cycles(:all),
+      depot: depots(:farm),
+      alternate_depot: depots(:bakery),
+      alternate_delivery_cycle: delivery_cycles(:thursdays))
+
+    delivery = deliveries(:thursday_1)
+
+    changes = Delivery::Changes.new(delivery)
+    mary_entries = changes.entries.select { |e| e.member == members(:mary) }
+
+    assert_empty mary_entries
+  end
+
+  test "ignores depot change caused by alternate depot from alternate to main" do
+    travel_to "2024-01-01"
+    create_membership(
+      delivery_cycle: delivery_cycles(:all),
+      depot: depots(:farm),
+      alternate_depot: depots(:bakery),
+      alternate_delivery_cycle: delivery_cycles(:thursdays))
+
+    delivery = deliveries(:monday_2)
+
+    changes = Delivery::Changes.new(delivery)
+    mary_entries = changes.entries.select { |e| e.member == members(:mary) }
+
+    assert_empty mary_entries
+  end
+
+  test "detects unexpected depot change for alternate depot membership" do
+    travel_to "2024-01-01"
+    membership = create_membership(
+      delivery_cycle: delivery_cycles(:all),
+      depot: depots(:farm),
+      alternate_depot: depots(:bakery),
+      alternate_delivery_cycle: delivery_cycles(:thursdays))
+
+    delivery = deliveries(:thursday_1)
+    membership.baskets.find_by!(delivery: delivery).update_columns(depot_id: depots(:home).id)
+
+    changes = Delivery::Changes.new(delivery)
+    mary_entry = entries_with_change_type(changes, :depot_changed).find { |e| e.member == members(:mary) }
+
+    assert mary_entry
+    depot_change = mary_entry.changes.find { |c| c.type == :depot_changed }
+    assert_includes depot_change.details, depots(:farm).name
+    assert_includes depot_change.details, depots(:home).name
+    assert_includes depot_change.details, "=>"
+  end
+
   # == Basket changed (size and/or quantity merged) ==
 
   test "detects basket size change" do

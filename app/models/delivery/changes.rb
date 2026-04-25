@@ -112,7 +112,7 @@ class Delivery::Changes
   def load_data
     @current_memberships = Membership
       .during_year(@delivery.fy_year)
-      .includes(:member, :delivery_cycle)
+      .includes(:member, :delivery_cycle, :alternate_delivery_cycle)
       .to_a
 
     current_member_ids = @current_memberships.map(&:member_id)
@@ -155,7 +155,7 @@ class Delivery::Changes
       .where(membership_id: all_valid_membership_ids)
       .joins(:delivery)
       .where(deliveries: { date: cutoff_date...@delivery.date })
-      .includes(:basket_size, :depot, baskets_basket_complements: :basket_complement)
+      .includes(:basket_size, :depot, :delivery, baskets_basket_complements: :basket_complement)
       .reorder("deliveries.date DESC")
       .to_a
 
@@ -205,7 +205,7 @@ class Delivery::Changes
 
     changes = []
 
-    if basket.depot_id != prev_basket.depot_id
+    if depot_changed?(membership, basket, prev_basket)
       changes << build_change(:depot_changed,
         details: "#{prev_basket.depot.name} => #{basket.depot.name}")
     end
@@ -219,6 +219,17 @@ class Delivery::Changes
     return [] if changes.empty?
 
     [ build_entry(membership.member, basket.depot.name, changes) ]
+  end
+
+  def depot_changed?(membership, basket, prev_basket)
+    return false if basket.depot_id == prev_basket.depot_id
+    return true unless membership.alternate_depot_id?
+
+    expected_current_depot_id, = membership.send(:depot_for, @delivery)
+    expected_previous_depot_id, = membership.send(:depot_for, prev_basket.delivery)
+
+    basket.depot_id != expected_current_depot_id ||
+      prev_basket.depot_id != expected_previous_depot_id
   end
 
   def detect_basket_content_changes(basket, prev_basket)
