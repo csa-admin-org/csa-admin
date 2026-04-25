@@ -41,10 +41,7 @@ if counts.present?
   end
 
   summary_sections.each_with_index do |rows, index|
-    table_class = "font-medium [&>tbody>tr:first-child]:border-t-0"
-    table_class = "mt-2 #{table_class}" if index.positive?
-
-    table_for rows, class: table_class do
+    table_for rows, class: "font-medium [&>tbody>tr:first-child]:border-t-0" do
       column nil, :title, class: "w-2/5"
       if show_shop_orders
         column nil, :shop_orders_count, class: "text-right"
