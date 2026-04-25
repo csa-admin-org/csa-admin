@@ -21,10 +21,8 @@ class InvoiceOverdueNotice
 
     invoice.increment(:overdue_notices_count)
     invoice.overdue_notice_sent_at = Time.current
-    invoice.attach_pdf # regenerate PDF
     invoice.save!
 
-    # Leave some time for the new invoice PDF to be uploaded
     MailTemplate.deliver(:invoice_overdue_notice, invoice: invoice)
 
     if invoice.overdue_notices_count == 3

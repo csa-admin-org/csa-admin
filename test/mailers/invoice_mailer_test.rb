@@ -223,6 +223,7 @@ class InvoiceMailerTest < ActionMailer::TestCase
 
     body = mail.html_part.body.to_s
     assert_includes body, "The remaining amount to be paid is: CHF\u00A030.00"
+    assert_includes body, "Attached is the original invoice for reference."
     assert_includes body, "Access my member page"
     assert_includes body, "https://members.acme.test/billing"
 
@@ -252,6 +253,7 @@ class InvoiceMailerTest < ActionMailer::TestCase
 
     body = mail.html_part.body.to_s
     assert_includes body, "The remaining amount to be paid is: CHF\u00A030.00"
+    assert_includes body, "Attached is the original invoice for reference."
     assert_not_includes body, "Access my member page"
     assert_not_includes body, "https://members.acme.test/billing"
 

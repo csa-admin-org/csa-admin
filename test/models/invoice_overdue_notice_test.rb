@@ -27,13 +27,30 @@ class InvoiceOverdueNoticeTest < ActiveSupport::TestCase
     assert_equal "Overdue notice #1 for invoice ##{invoice.id} 😬", mail.subject
   end
 
-  test "regenerate invoice PDF email" do
+  test "keeps original membership invoice PDF when pricing changed before overdue notice" do
     enable_invoice_pdf
-    invoice = invoices(:annual_fee)
+    invoice = invoices(:bob_membership)
+    invoice.attach_pdf
     invoice.update!(sent_at: 40.days.ago)
 
+    original_pdf = invoice.pdf_file.download
+    original_strings = PDF::Inspector::Text.analyze(original_pdf).strings
+
+    membership = invoice.entity
+    membership.baskets.first.update!(basket_size_price: 12, depot_price: 16)
+    membership.update!(price: 28)
+    invoice.reload
+
+    changed_strings = PDF::Inspector::Text.analyze(PDF::Invoice.new(invoice).render).strings
+
+    refute_equal original_strings, changed_strings
+    assert_includes original_strings, "10.00"
+    assert_includes original_strings, "9.00"
+    assert_includes changed_strings, "12.00"
+    assert_includes changed_strings, "16.00"
+
     assert_difference -> { InvoiceMailer.deliveries.size }, 1 do
-      assert_changes -> { invoice.pdf_file.download } do
+      assert_no_changes -> { invoice.pdf_file.download } do
         deliver(invoice)
       end
     end

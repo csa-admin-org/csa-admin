@@ -896,11 +896,11 @@ _:
         _it: 'Salvo errori o omissioni da parte nostra, il pagamento della fattura #{{ invoice.number }} datata {{ invoice.date }} non ci è parvenuto completamene.'
         _nl: 'Tenzij er een fout of verzuim van onze kant is, hebben wij geen volledige betaling ontvangen voor factuur #{{ invoice.number }} gedateerd {{ invoice.date }}.'
       please_pay_paragraph:
-        _en: Please proceed with the payment as soon as possible. Attached is a duplicate of this invoice for your reference.
-        _fr: Nous vous prions de bien vouloir procéder à son règlement dans les meilleurs délais, et vous adressons, à toutes fins utiles, un duplicata de cette facture en pièce jointe.
-        _de: Begleiche bitte diesen Betrag so schnell wie möglich. Du findest im Anhang noch eine Kopie dieser Rechnung.
-        _it: Vi preghiamo gentilmente di procedere al pagamento il più presto possibile e per praticità vi inviamo in allegato un duplicato della fattura in questione.
-        _nl: Gelieve zo spoedig mogelijk over te gaan tot betaling. Bijgevoegd is een duplicaat van deze factuur ter referentie.
+        _en: Please proceed with the payment as soon as possible. Attached is the original invoice for reference.
+        _fr: Nous vous prions de bien vouloir procéder à son règlement dans les meilleurs délais. Vous trouverez en pièce jointe la facture originale à titre de référence.
+        _de: Begleiche bitte diesen Betrag so schnell wie möglich. Im Anhang findest Du die ursprüngliche Rechnung zur Referenz.
+        _it: Vi preghiamo gentilmente di procedere al pagamento il più presto possibile. In allegato trovate la fattura originale a titolo di riferimento.
+        _nl: Gelieve zo spoedig mogelijk over te gaan tot betaling. In de bijlage vind je de oorspronkelijke factuur ter referentie.
       remaining_amount_notice:
         _en: 'The remaining amount to be paid is: {{ invoice.missing_amount }}'
         _fr: 'Le montant restant à payer est de: {{ invoice.missing_amount }}'
