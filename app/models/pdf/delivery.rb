@@ -320,15 +320,19 @@ module PDF
       end
       data << total_line
 
+      summary_section_break_rows = []
+
       # Depots
       @depots.each do |depot|
         data << summary_baskets_line(depot, width: depot_name_width, basket_sizes: basket_sizes, basket_complements: basket_complements, shop_products: shop_products)
       end
 
-      if @depots.any?(&:free?) && @depots.any?(&:paid?)
+      @delivery.basket_summary_sections(depots: @depots).each do |section|
+        summary_section_break_rows << data.size
         data << [ "" ]
-        data << summary_baskets_line(@depots.free, title: t("free_depots"), width: depot_name_width, basket_sizes: basket_sizes, basket_complements: basket_complements, shop_products: shop_products)
-        data << summary_baskets_line(@depots.paid, title: t("paid_depots"), width: depot_name_width, basket_sizes: basket_sizes, basket_complements: basket_complements, shop_products: shop_products)
+        section.rows.each do |row|
+          data << summary_baskets_line(row.depot_ids, title: row.title, width: depot_name_width, basket_sizes: basket_sizes, basket_complements: basket_complements, shop_products: shop_products)
+        end
       end
 
       cell_style =
@@ -392,43 +396,28 @@ module PDF
 
         t.column(bs_size).background_color = "999999"
 
-        if @depots.any?(&:free?) && @depots.any?(&:paid?)
+        summary_section_break_rows.each do |row_index|
+          t.row(row_index).height = cell_style[:height] + 4
+          t.row(row_index).background_color = "FFFFFF"
 
-          if t.cells.row_count%2 == 1
-            t.row(-4).borders = %i[bottom right]
-            t.row(-4).border_bottom_width = 1
-            t.row(-4).border_bottom_color = "CCCCCC"
-          end
-          if t.cells.column_count%2 == 0
-            t.column(-4).borders = %i[bottom right]
-            t.column(-4).border_right_width = 1
-            t.column(-4).border_right_color = "CCCCCC"
+          if row_index.positive?
+            t.row(row_index - 1).borders = %i[bottom right]
+            t.row(row_index - 1).border_bottom_width = 1
+            t.row(row_index - 1).border_bottom_color = "CCCCCC"
           end
 
-          if t.cells.row_count%2 == 1
-            t.row(-2).borders = %i[top right]
-            t.row(-2).border_top_width = 1
-            t.row(-2).border_top_color = "CCCCCC"
-          end
-          if t.cells.column_count%2 == 0
-            t.column(-2).borders = %i[top right]
-            t.column(-2).border_right_width = 1
-            t.column(-2).border_right_color = "CCCCCC"
-          end
+          next unless row_index + 1 < t.cells.row_count
 
-          t.row(0).borders = %i[bottom right]
-          t.row(0).border_bottom_width = 1
-          t.row(0).border_bottom_color = "000000"
-
-          t.row(-3).height = cell_style[:height] + 4
-          t.row(-3).background_color = "FFFFFF"
+          t.row(row_index + 1).borders = %i[top right]
+          t.row(row_index + 1).border_top_width = 1
+          t.row(row_index + 1).border_top_color = "CCCCCC"
         end
       end
     end
 
     def summary_baskets_line(depot, title: nil, width:, basket_sizes:, basket_complements:, shop_products:)
       column_content = title || depot.name
-      depot_ids = depot.respond_to?(:ids) ? depot.ids : [ depot.id ]
+      depot_ids = summary_depot_ids(depot)
       shop_orders = @shop_orders.where(depot_id: depot_ids)
 
       line = [
@@ -453,6 +442,12 @@ module PDF
         line << display_quantity(shop_orders.quantity_for(p))
       end
       line
+    end
+
+    def summary_depot_ids(depot)
+      return depot.ids if depot.respond_to?(:ids)
+
+      Array(depot).map { |value| value.is_a?(Depot) ? value.id : value }
     end
 
     def delivery_note

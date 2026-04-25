@@ -54,7 +54,7 @@ class Basket::CSVExporter
     @baskets ||= begin
       scope = Basket.deliverable.where(delivery: @deliveries)
 
-      includes = [ :delivery, :basket_size, :depot, baskets_basket_complements: :basket_complement ]
+      includes = [ :delivery, :basket_size, { depot: :group }, baskets_basket_complements: :basket_complement ]
       includes << { membership: :member }
 
       scope.includes(*includes)
@@ -93,7 +93,13 @@ class Basket::CSVExporter
     end
 
     cols << :depot_id
+    if depot_groups_used?
+      cols << :depot_group_id
+    end
     cols << :depot
+    if depot_groups_used?
+      cols << :depot_group
+    end
     cols << :depot_price
     cols << :basket_size_id
     cols << BasketSize.model_name.human
@@ -149,7 +155,13 @@ class Basket::CSVExporter
     end
 
     cols << basket.depot_id
+    if depot_groups_used?
+      cols << basket.depot&.group_id
+    end
     cols << basket.depot&.public_name
+    if depot_groups_used?
+      cols << basket.depot&.group&.display_name
+    end
     cols << cur(basket.depot_price)
     cols << basket.basket_size_id
     cols << basket.basket_size.name
@@ -193,6 +205,10 @@ class Basket::CSVExporter
     else
       Shop::Order.none
     end
+  end
+
+  def depot_groups_used?
+    @depot_groups_used ||= baskets.joins(:depot).where.not(depots: { group_id: nil }).exists?
   end
 
   def feature?(name)

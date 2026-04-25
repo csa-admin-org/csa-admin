@@ -105,6 +105,10 @@ class Delivery < ApplicationRecord
     Depot.where(id: depot_ids.uniq)
   end
 
+  def basket_summary_sections(depots: nil)
+    Delivery::BasketSummarySections.new(self, depots: depots).sections
+  end
+
   def basket_counts(scope: nil)
     BasketCounts.new(self, Depot.pluck(:id), scope: scope)
   end

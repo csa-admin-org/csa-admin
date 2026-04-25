@@ -63,9 +63,10 @@ module XLSX
       end
       add_empty_line
 
-      if @depots.any?(&:free?) && @depots.any?(&:paid?)
-        add_baskets_line(@depots.free, title: t("free_depots"))
-        add_baskets_line(@depots.paid, title: t("paid_depots"))
+      @delivery.basket_summary_sections(depots: @depots).each do |section|
+        section.rows.each do |row|
+          add_baskets_line(row.depot_ids, title: row.title)
+        end
         add_empty_line
       end
 
@@ -87,9 +88,10 @@ module XLSX
     end
 
     def add_baskets_line(depot, bold: false, title: nil)
-      baskets = depot ? @baskets.where(depot: depot) : @baskets
+      depot_ids = summary_depot_ids(depot)
+      baskets = depot_ids ? @baskets.where(depot_id: depot_ids) : @baskets
       cols_count = 1
-      @worksheet.add_cell(@line, 0, title || depot.name)
+      @worksheet.add_cell(@line, 0, title || summary_depot_title(depot))
       @worksheet.add_cell(@line, 1, baskets.sum(:quantity)).set_number_format("0")
       @basket_sizes.each_with_index do |basket_size, i|
         amount = baskets.where(basket_size_id: basket_size.id).sum(:quantity)
@@ -98,7 +100,7 @@ module XLSX
       end
 
 
-      shop_orders = depot ? @shop_orders.where(depot: depot) : @shop_orders
+      shop_orders = depot_ids ? @shop_orders.where(depot_id: depot_ids) : @shop_orders
       if @basket_complements.any?
         cols_count += 1
         @basket_complements.each_with_index do |complement, i|
@@ -128,6 +130,18 @@ module XLSX
       @worksheet.change_row_bold(@line, bold)
 
       @line += 1
+    end
+
+    def summary_depot_ids(depot)
+      return unless depot
+
+      depot.respond_to?(:ids) ? depot.ids : Array(depot).map { |value| value.is_a?(Depot) ? value.id : value }
+    end
+
+    def summary_depot_title(depot)
+      return depot.name if depot.respond_to?(:name)
+
+      Depot.where(id: summary_depot_ids(depot)).map(&:name).to_sentence
     end
 
     def build_depot_worksheet(depot)

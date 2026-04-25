@@ -331,6 +331,18 @@ _:
           _de: Preis Lieferung
           _it: Prezzo di consegna
           _nl: Leveringsprijs
+        depot_group:
+          _en: Depot group
+          _fr: Groupe de dépôts
+          _de: Depotgruppe
+          _it: Gruppo di ritiro
+          _nl: Depotgroep
+        depot_group_id:
+          _en: Depot group ID
+          _fr: Groupe de dépôts ID
+          _de: Depotgruppe ID
+          _it: Gruppo di ritiro ID
+          _nl: Depotgroep ID
         depot_id:
           _en: Depot ID
           _fr: Dépôt ID

@@ -200,3 +200,9 @@ _:
       _de: Gesamt
       _it: Totale
       _nl: Totaal
+    ungrouped_depots:
+      _en: Ungrouped depots
+      _fr: Dépôts non groupés
+      _de: Nicht gruppierte Depots
+      _it: Punto di ritiro non ordinato
+      _nl: Niet ingedeelde depots

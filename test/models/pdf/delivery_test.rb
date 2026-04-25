@@ -166,4 +166,47 @@ class PDF::DeliveryTest < ActiveSupport::TestCase
     assert_includes pdf_strings, "Signature"
     assert_includes pdf_strings, "Jane Doe"
   end
+
+  test "summary includes depot-group sections when they add information beyond free and paid depots" do
+    travel_to "2024-01-01"
+    delivery = deliveries(:monday_1)
+
+    countryside = DepotGroup.create!(
+      names: { en: "Countryside" },
+      public_names: { en: "Countryside" },
+      member_order_priority: 2)
+    city = DepotGroup.create!(
+      names: { en: "City" },
+      public_names: { en: "City" },
+      member_order_priority: 1)
+
+    depots(:farm).update!(group: countryside)
+    depots(:home).update!(group: countryside)
+    depots(:bakery).update!(group: city)
+
+    pdf_strings = save_pdf_and_return_strings(delivery)
+
+    assert_includes pdf_strings, "City"
+    assert_includes pdf_strings, "Countryside"
+    assert_includes pdf_strings, "Free depots"
+    assert_includes pdf_strings, "Paid depots"
+  end
+
+  test "summary includes ungrouped depot subtotals when grouped and ungrouped depots coexist" do
+    travel_to "2024-01-01"
+    delivery = deliveries(:monday_1)
+
+    route = DepotGroup.create!(
+      names: { en: "Route" },
+      public_names: { en: "Route" })
+
+    depots(:farm).update!(group: route)
+
+    pdf_strings = save_pdf_and_return_strings(delivery)
+
+    assert_includes pdf_strings, "Route"
+    assert_includes pdf_strings, "Ungrouped depots"
+    refute_includes pdf_strings, "Free depots"
+    refute_includes pdf_strings, "Paid depots"
+  end
 end

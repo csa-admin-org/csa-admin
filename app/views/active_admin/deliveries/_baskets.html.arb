@@ -5,6 +5,19 @@ require "ostruct"
 counts = delivery.basket_counts(scope: scope)
 bs_names = counts.basket_sizes.map(&:name).map { |name| content_tag :span, name, class: "whitespace-nowrap" }
 show_shop_orders = feature?("shop") && delivery.shop_open && scope != :absent
+summary_sections = delivery.basket_summary_sections.filter_map do |section|
+  rows = section.rows.filter_map do |row|
+    row_counts = BasketCounts.new(delivery, row.depot_ids, scope: scope)
+    next if row_counts.sum.zero? && (!show_shop_orders || row_counts.sum_shop_orders.zero?)
+
+    OpenStruct.new(
+      title: row.title,
+      count: row_counts.sum,
+      baskets_count: row_counts.sum_detail,
+      shop_orders_count: row_counts.sum_shop_orders)
+  end
+  rows if rows.any?
+end
 
 attrs = { class: "" }
 if authorized?(:update, Depot)
@@ -27,20 +40,11 @@ if counts.present?
     end
   end
 
-  if delivery.depots.any?(&:free?) && delivery.depots.any?(&:paid?)
-    free_counts = BasketCounts.new(delivery, Depot.free.pluck(:id), scope: scope)
-    paid_counts = BasketCounts.new(delivery, Depot.paid.pluck(:id), scope: scope)
-    totals = [
-      OpenStruct.new(
-        title: t("delivery.free_depots"),
-        count: free_counts.sum,
-        baskets_count: free_counts.sum_detail),
-      OpenStruct.new(
-        title: t("delivery.paid_depots"),
-        count:  paid_counts.sum,
-        baskets_count: paid_counts.sum_detail)
-    ]
-    table_for totals, class: "[&>tbody>tr:first-child]:border-t-0" do
+  summary_sections.each_with_index do |rows, index|
+    table_class = "font-medium [&>tbody>tr:first-child]:border-t-0"
+    table_class = "mt-2 #{table_class}" if index.positive?
+
+    table_for rows, class: table_class do
       column nil, :title, class: "w-2/5"
       if show_shop_orders
         column nil, :shop_orders_count, class: "text-right"

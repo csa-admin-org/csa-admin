@@ -39,7 +39,7 @@ class BasketCounts
   end
 
   def sum_shop_orders
-    @sum_shop_orders ||= @shop_orders.size
+    all.sum(&:shop_orders_count)
   end
 
   class BasketCount

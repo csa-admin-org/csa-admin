@@ -92,6 +92,36 @@ class Basket::CSVExporterTest < ActiveSupport::TestCase
     assert_includes csv.headers, Basket.human_attribute_name(:description)
   end
 
+  test "export omits depot group columns when depot groups are not used" do
+    travel_to "2024-04-01"
+    delivery = deliveries(:monday_1)
+    exporter = Basket::CSVExporter.new(delivery: delivery)
+
+    csv = CSV.parse(exporter.generate, headers: true)
+
+    refute_includes csv.headers, Basket.human_attribute_name(:depot_group_id)
+    refute_includes csv.headers, Basket.human_attribute_name(:depot_group)
+  end
+
+  test "export includes depot group columns when depot groups are used" do
+    travel_to "2024-04-01"
+    delivery = deliveries(:monday_1)
+    group = DepotGroup.create!(
+      names: { en: "Countryside route" },
+      public_names: { en: "Public countryside route" })
+    depots(:farm).update!(group: group)
+
+    exporter = Basket::CSVExporter.new(delivery: delivery)
+    csv = CSV.parse(exporter.generate, headers: true)
+
+    assert_includes csv.headers, Basket.human_attribute_name(:depot_group_id)
+    assert_includes csv.headers, Basket.human_attribute_name(:depot_group)
+
+    row = csv.find { |r| r[Basket.human_attribute_name(:basket_id)] == baskets(:john_1).id.to_s }
+    assert_equal group.id.to_s, row[Basket.human_attribute_name(:depot_group_id)]
+    assert_equal "Countryside route", row[Basket.human_attribute_name(:depot_group)]
+  end
+
   test "discarded member still has member_id in export" do
     travel_to "2024-04-01"
     delivery = deliveries(:monday_1)
