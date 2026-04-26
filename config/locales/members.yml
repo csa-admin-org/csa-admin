@@ -2072,6 +2072,13 @@ _:
           _de: Vielen Dank für Deine Anmeldung!
           _it: Grazie per l'iscrizione!
           _nl: Dank je voor je inschrijving!
+    read_only_sessions:
+      alert:
+        _en: This session was opened from the admin and is read-only. Use the admin interface to make changes.
+        _fr: Cette session a été ouverte depuis l'admin et est en lecture seule. Utilisez l'interface d'administration pour effectuer des modifications.
+        _de: Diese Sitzung wurde vom Admin geöffnet und ist nur lesend. Verwende die Admin-Schnittstelle, um Änderungen zu machen.
+        _it: Questa sessione è stata aperta dall'admin e è in sola lettura. Utilizza l'interfaccia di amministrazione per apportare modifiche.
+        _nl: Deze sessie is geopend vanuit het admin en is alleen leesbaar. Gebruik de admin-interface om wijzigingen te maken.
     sessions:
       create:
         hashcash_failed:

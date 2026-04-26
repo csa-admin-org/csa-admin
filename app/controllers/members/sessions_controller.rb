@@ -47,6 +47,10 @@ class Members::SessionsController < Members::BaseController
 
   private
 
+  def allow_admin_originated_session_write?
+    action_name == "destroy"
+  end
+
   def hashcash_after_failure
     @session = Session.new
     flash.now[:alert] = t(".hashcash_failed")

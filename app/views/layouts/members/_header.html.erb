@@ -180,7 +180,7 @@
               <h2><%= Newsletter.model_name.human(count: 2) %></h2>
 
               <span>
-                <% if newsletter_unsubscribed? %>
+                <% if newsletter_unsubscribed_email %>
                   <%= t(".newsletter_subscribe") %>
                 <% else %>
                   <%= t(".delivery", date: l(newsletter.sent_at.to_date)) %>

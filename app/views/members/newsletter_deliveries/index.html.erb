@@ -1,6 +1,6 @@
 <h1><%= Newsletter.model_name.human(count: 2) %></h1>
 
-<% if newsletter_unsubscribed? %>
+<% if email = newsletter_unsubscribed_email %>
   <div
     class="
       mb-8 flex flex-wrap items-center justify-center gap-1 rounded-lg
@@ -9,7 +9,7 @@
     "
   >
     <p class="ml-1 grow">
-      <%= t(".unsubscribed_html", email: current_session.email) %>
+      <%= t(".unsubscribed_html", email: email) %>
     </p>
 
     <%= button_to t(".subscribe"), members_email_suppression_path, method: :delete, class: "btn btn-sm", data: { turbo: false } %>

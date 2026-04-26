@@ -77,10 +77,11 @@ class Ability
       can :preview, MailTemplate
     end
 
+    can :become, Member
+
     if admin.permission.can_write?(:member)
       writable_models += models_for(:member)
 
-      can :become, Member
       can :validate, Member, pending?: true
       can :deactivate, Member, can_deactivate?: true
       can :wait, Member, can_wait?: true

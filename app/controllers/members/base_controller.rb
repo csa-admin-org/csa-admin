@@ -2,10 +2,12 @@
 
 class Members::BaseController < ApplicationController
   include OrganizationsHelper
+  include ReadOnlyAdminOriginatedMemberSession
 
   layout "members"
 
   before_action :authenticate_member!
+  before_action :ensure_admin_originated_session_is_read_only!
   around_action :set_time_zone
 
   helper_method :current_member

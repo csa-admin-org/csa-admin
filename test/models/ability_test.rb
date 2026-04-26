@@ -32,6 +32,7 @@ class AbilityTest < ActiveSupport::TestCase
     assert ability.can?(:create, ActiveAdmin::Comment)
     assert_not ability.can?(:manage, active_admin_comments(:super_admin))
     assert ability.can?(:manage, active_admin_comments(:external))
+    assert ability.can?(:become, Member)
     assert_not ability.can?(:batch_action, Member)
     assert_not ability.can?(:batch_action, Membership)
     assert_not ability.can?(:batch_action, Invoice)

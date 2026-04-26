@@ -5,12 +5,14 @@ module NewslettersHelper
     Newsletter.any?
   end
 
-  def newsletter_unsubscribed?
+  def newsletter_unsubscribed_email
+    emails = current_session.admin_originated? ? current_member.emails_array : [ current_session.email ]
     EmailSuppression
       .unsuppressable
-      .where(email: current_session.email)
+      .where(email: emails)
       .broadcast
-      .any?
+      .pluck(:email)
+      .first
   end
 
   def newsletter_audience_collection(newsletter)
