@@ -581,6 +581,7 @@ ActiveAdmin.register Organization do
 
     f.actions do
       f.submit t("active_admin.resources.organization.submit")
+      cancel_link :back
     end
   end
 
