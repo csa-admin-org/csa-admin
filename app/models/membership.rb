@@ -221,6 +221,8 @@ class Membership < ApplicationRecord
   end
 
   def fiscal_year_has_basket_size_price_percentage?
+    return false unless started_on
+
     Delivery.during_year(fy_year).where.not(basket_size_price_percentage: nil).exists?
   end
 
