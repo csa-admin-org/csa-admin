@@ -31,6 +31,9 @@ module Billing
       }
     rescue MaintenanceError
       []
+    rescue LoginError => e
+      Rails.error.unexpected(e)
+      []
     end
 
     def sepa_direct_debit_upload(*args)
