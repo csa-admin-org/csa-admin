@@ -1132,6 +1132,12 @@ _:
           _de: Leer lassen für die Standaranzahl.<br/>Die endgültige Anzahl wird automatisch anhand der in <a href='/settings#activity'>den Einstellungen festgelegten Logik</a> berechnet, standardmäßig anteilig an der Anzahl der Taschen.
           _it: Lasciare vuoto il campo per il numero predefinito.<br/>Il numero finale sarà calcolato automaticamente secondo <a href='/settings#activity'>la logica definita nei parametri</a>, di default in proporzione al numero di cesti.
           _nl: Laat leeg voor het standaardaantal.<br/>Het uiteindelijke aantal wordt automatisch berekend op basis van de logica gedefinieerd in <a href='/settings#activity'>de instellingen</a>, standaard evenredig aan het aantal pakketten.
+        alternate_depot_price:
+          _en: Leave blank for the default price.
+          _fr: Laisser blanc pour le prix par défaut.
+          _de: Leer lassen für den Standardpreis.
+          _it: Lasciare vuoto il campo per il numero predefinito.
+          _nl: Laat leeg voor de standaardprijs.
         alternate_depot_text_html:
           _en: When set, baskets whose delivery falls on the alternate delivery cycle will be assigned to the alternate depot instead of the main depot.
           _fr: Lorsque configuré, les paniers dont la livraison correspond au cycle de livraisons alternatif seront attribués au dépôt alternatif au lieu du dépôt principal.
