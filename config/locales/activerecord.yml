@@ -4113,17 +4113,17 @@ _:
           _nl: Deelnames
       activity_preset:
         one:
-          _en: Preset
-          _fr: Preset
+          _en: Template
+          _fr: Modèle
           _de: Vorlage
-          _it: Preset
-          _nl: Voorinstelling
+          _it: Modello
+          _nl: Sjabloon
         other:
-          _en: Presets
-          _fr: Presets
+          _en: Templates
+          _fr: Modèles
           _de: Vorlagen
-          _it: Presets
-          _nl: Voorinstellingen
+          _it: Modelli
+          _nl: Sjablonen
       admin:
         one:
           _en: Admin

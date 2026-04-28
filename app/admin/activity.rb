@@ -83,15 +83,36 @@ ActiveAdmin.register Activity do
     end
     f.inputs t("formtastic.inputs.place_and_title"), "data-controller" => "preset" do
       if f.object.new_record? && ActivityPreset.any?
+        activity_preset_collection = ActivityPreset.all.map { |preset|
+          [
+            preset.name,
+            preset.id,
+            {
+              data: {
+                places: preset.places.to_json,
+                place_urls: preset.place_urls.to_json,
+                titles: preset.titles.to_json
+              }
+            }
+          ]
+        } + [ [ ActivityPreset.human_attribute_name(:other), 0 ] ]
+
         f.input :preset_id,
-          collection: ActivityPreset.all + [ ActivityPreset.new(id: 0, place: ActivityPreset.human_attribute_name(:other)) ],
+          collection: activity_preset_collection,
           include_blank: false,
-          input_html: { data: { action: "preset#change" } }
+          input_html: { data: { action: "preset#change", preset_target: "select" } }
       end
       preset_present = f.object.preset.present?
-      translated_input(f, :titles, input_html: { disabled: preset_present, data: { preset_target: "input" } })
-      translated_input(f, :places, input_html: { disabled: preset_present, data: { preset_target: "input" } })
-      translated_input(f, :place_urls, input_html: { disabled: preset_present, data: { preset_target: "input" } })
+      translated_input(f, :titles,
+        placeholder: ->(locale) { I18n.t("formtastic.placeholders.activity.title", locale: locale) },
+        input_html: { disabled: preset_present, data: { preset_target: "input", preset_attribute: "titles" } })
+      translated_input(f, :places,
+        placeholder: ->(locale) { I18n.t("formtastic.placeholders.activity.place", locale: locale) },
+        input_html: { disabled: preset_present, data: { preset_target: "input", preset_attribute: "places" } })
+      translated_input(f, :place_urls,
+        hint: t("formtastic.hints.activity.place_url"),
+        placeholder: ->(locale) { I18n.t("formtastic.placeholders.activity.place_url", locale: locale) },
+        input_html: { disabled: preset_present, data: { preset_target: "input", preset_attribute: "place_urls" } })
     end
     f.inputs t(".details") do
       f.input :participants_limit, as: :number

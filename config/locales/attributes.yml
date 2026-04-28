@@ -787,11 +787,17 @@ _:
       _it: Luogo
       _nl: Plaats
     place_url:
-      _en: Place URL
-      _fr: Lieu URL
-      _de: Standort URL
-      _it: URL Luogo
-      _nl: Plaats URL
+      _en: Place link
+      _fr: Lien du lieu
+      _de: Link zum Standort
+      _it: Link al luogo
+      _nl: Link naar locatie
+    preset_id:
+      _en: Template
+      _fr: Modèle
+      _de: Vorlage
+      _it: Modello
+      _nl: Sjabloon
     presets:
       _en: Presets
       _fr: Presets

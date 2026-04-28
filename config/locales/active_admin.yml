@@ -3894,6 +3894,12 @@ _:
           _de: Feed <a href="https://fr.wikipedia.org/wiki/ICalendar">iCalendar</a>, der alle Teilnahmen an bevorstehenden Aktivitäten enthält.
           _it: Feed <a href="https://it.wikipedia.org/wiki/ICalendar">iCalendar</a> contenente tutte le voci per le prossime attività.
           _nl: Feed <a href="https://nl.wikipedia.org/wiki/ICalendar">iCalendar</a> met alle komende activiteitsdeelnames.
+        activity_preset_info:
+          _en: Templates save time when you often create similar activities with the same title, place, and place link. Select one when creating an activity to prefill these fields automatically.
+          _fr: Les modèles font gagner du temps lorsque vous créez souvent des activités similaires avec le même intitulé, lieu et lien du lieu. Sélectionnez-en un lors de la création d'une activité pour préremplir automatiquement ces champs.
+          _de: Vorlagen sparen Zeit, wenn oft ähnliche Aktivitäten mit demselben Titel, Standort und Standort-Link erstellt werden. Beim Erstellen einer Aktivität eine Vorlage auswählen, um diese Felder automatisch vorab auszufüllen.
+          _it: I modelli fanno risparmiare tempo quando create spesso attività simili con lo stesso titolo, luogo e link al luogo. Selezionatene uno durante la creazione di un'attività per precompilare automaticamente questi campi.
+          _nl: Sjablonen besparen tijd wanneer je vaak vergelijkbare activiteiten aanmaakt met dezelfde titel, locatie en locatielink. Selecteer er een bij het aanmaken van een activiteit om deze velden automatisch vooraf in te vullen.
         amount:
           _en: Amount
           _fr: Montant
@@ -4076,6 +4082,12 @@ _:
           _de: Fehlende
           _it: Mancante
           _nl: Ontbrekend
+        newsletter_template_info:
+          _en: Templates let you reuse newsletter layouts and content blocks instead of starting from scratch each time. They are especially useful for recurring newsletters with a similar structure.
+          _fr: Les templates permettent de réutiliser des mises en page et blocs de contenu de newsletters au lieu de repartir de zéro à chaque fois. Ils sont particulièrement utiles pour les newsletters récurrentes avec une structure similaire.
+          _de: Vorlagen ermöglichen es, Newsletter-Layouts und Inhaltsblöcke wiederzuverwenden, statt jedes Mal von vorne zu beginnen. Sie sind besonders nützlich für wiederkehrende Newsletter mit ähnlicher Struktur.
+          _it: I template consentono di riutilizzare layout e blocchi di contenuto delle newsletter invece di ripartire da zero ogni volta. Sono particolarmente utili per newsletter ricorrenti con una struttura simile.
+          _nl: Sjablonen laten je nieuwsbriefindelingen en inhoudsblokken hergebruiken in plaats van telkens opnieuw te beginnen. Ze zijn vooral handig voor terugkerende nieuwsbrieven met een vergelijkbare structuur.
         no_automatic_payments_processing_warning_text_html:
           _en: Payments are currently not processed automatically, please <a href="/support">contact me</a> to set this up.
           _fr: Les paiements ne sont actuellement pas traités automatiquement, merci de <a href="/support">me contacter</a> afin de mettre cela en place.

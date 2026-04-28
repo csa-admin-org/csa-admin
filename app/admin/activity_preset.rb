@@ -27,11 +27,21 @@ ActiveAdmin.register ActivityPreset do
     actions
   end
 
+  sidebar :info, only: :index do
+    side_panel t(".info"), action: handbook_icon_link("activity", anchor: "activities") do
+      para t(".activity_preset_info")
+    end
+  end
+
   form do |f|
     f.inputs t(".details") do
-      translated_input(f, :titles)
-      translated_input(f, :places)
-      translated_input(f, :place_urls)
+      translated_input(f, :titles,
+        placeholder: ->(locale) { I18n.t("formtastic.placeholders.activity_preset.title", locale: locale) })
+      translated_input(f, :places,
+        placeholder: ->(locale) { I18n.t("formtastic.placeholders.activity_preset.place", locale: locale) })
+      translated_input(f, :place_urls,
+        hint: t("formtastic.hints.activity_preset.place_url"),
+        placeholder: ->(locale) { I18n.t("formtastic.placeholders.activity_preset.place_url", locale: locale) })
     end
     f.actions
   end

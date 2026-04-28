@@ -25,6 +25,12 @@ ActiveAdmin.register Newsletter::Template do
     end
   end
 
+  sidebar :info, only: :index do
+    side_panel t(".info"), action: handbook_icon_link("newsletters", anchor: "templates") do
+      para t(".newsletter_template_info")
+    end
+  end
+
   form data: {
     controller: "code-editor",
     code_editor_target: "form",

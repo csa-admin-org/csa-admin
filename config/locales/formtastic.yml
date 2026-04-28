@@ -54,11 +54,11 @@ _:
           _it: Lasciare vuoto se non ci sono limiti.
           _nl: Laat leeg indien geen limiet.
         place_url:
-          _en: Google Maps or other.
-          _fr: Google Maps ou autre.
-          _de: Google Maps oder anderes.
-          _it: Google Maps o altro.
-          _nl: Google Maps of andere.
+          _en: Google Maps or any other link helping members reach the place.
+          _fr: Google Maps ou tout autre lien aidant les membres à rejoindre le lieu.
+          _de: Google Maps oder ein anderer Link, der Mitgliedern hilft, den Standort zu finden.
+          _it: Google Maps o un altro link che aiuti i soci a raggiungere il luogo.
+          _nl: Google Maps of een andere link die leden helpt de locatie te vinden.
         visible:
           _en: Select "No" if this activity should only be visible to admins.
           _fr: Sélectionner "Non" si cette activité ne doit être visible que pour les admins.
@@ -67,11 +67,11 @@ _:
           _nl: '"Nee" selecteren als deze activiteit alleen zichtbaar moet zijn voor beheerders.'
       activity_preset:
         place_url:
-          _en: Google Maps or other.
-          _fr: Google Maps ou autre.
-          _de: Google Maps oder anderes.
-          _it: Google Maps o altro.
-          _nl: Google Maps of andere.
+          _en: Google Maps or any other link helping members reach the place.
+          _fr: Google Maps ou tout autre lien aidant les membres à rejoindre le lieu.
+          _de: Google Maps oder ein anderer Link, der Mitgliedern hilft, den Standort zu finden.
+          _it: Google Maps o un altro link che aiuti i soci a raggiungere il luogo.
+          _nl: Google Maps of een andere link die leden helpt de locatie te vinden.
       announcement:
         text_html:
           _en: Please check that the display on the sheets does not overflow.<br/>The announcement will be displayed on the sheets (PDF) of the depot/delivery pairs listed below.
@@ -2863,6 +2863,45 @@ _:
       _de: Nein
       _it: 'No'
       _nl: Nee
+    placeholders:
+      activity:
+        place:
+          _en: Fields
+          _fr: Champs
+          _de: Felder
+          _it: Campi
+          _nl: Velden
+        place_url:
+          _en: https://maps.google.com/...
+          _fr: https://maps.google.com/...
+          _de: https://maps.google.com/...
+          _it: https://maps.google.com/...
+          _nl: https://maps.google.com/...
+        title:
+          _en: Weeding
+          _fr: Désherbage
+          _de: Jäten
+          _it: Diserbo
+          _nl: Wieden
+      activity_preset:
+        place:
+          _en: Fields
+          _fr: Champs
+          _de: Felder
+          _it: Campi
+          _nl: Velden
+        place_url:
+          _en: https://maps.google.com/...
+          _fr: https://maps.google.com/...
+          _de: https://maps.google.com/...
+          _it: https://maps.google.com/...
+          _nl: https://maps.google.com/...
+        title:
+          _en: Weeding
+          _fr: Désherbage
+          _de: Jäten
+          _it: Diserbo
+          _nl: Wieden
     processing:
       _en: Processing...
       _fr: Traitement...
