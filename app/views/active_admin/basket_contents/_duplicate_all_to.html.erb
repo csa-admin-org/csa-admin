@@ -1,4 +1,4 @@
-<% deliveries = BasketContent.coming_unfilled_deliveries(after_date: from_delivery.date) %>
+<% deliveries = BasketContent.coming_deliveries_missing_contents_from(from_delivery) %>
 
 <%= form_with url: duplicate_all_basket_contents_path, method: :post, class: "sidebar_form" do |f| %>
   <%= f.hidden_field :from_delivery_id, value: from_delivery.id %>

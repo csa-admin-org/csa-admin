@@ -406,11 +406,12 @@ class BasketContentTest < ActiveSupport::TestCase
     end
   end
 
-  test "duplicate_all does nothing when target delivery already has contents" do
+  test "duplicate_all copies missing contents when target delivery already has other contents" do
     from_delivery = deliveries(:monday_1)
     to_delivery = deliveries(:monday_2)
 
     create_basket_content(
+      product: basket_content_products(:carrots),
       delivery: from_delivery,
       basket_size_ids_percentages: {
         small_id => 40,
@@ -419,7 +420,55 @@ class BasketContentTest < ActiveSupport::TestCase
       quantity: 100,
       unit: "kg",
       unit_price: 1)
+    existing_content = create_basket_content(
+      product: basket_content_products(:cucumbers),
+      distribution_mode: "manual",
+      delivery: to_delivery,
+      basket_size_ids_quantities: {
+        small_id => 75,
+        medium_id => 75
+      },
+      unit: "pc")
+
+    assert_difference -> { to_delivery.basket_contents.count }, 1 do
+      BasketContent.duplicate_all(from_delivery.id, to_delivery.id)
+    end
+
+    assert_equal existing_content, to_delivery.basket_contents.find_by(product: basket_content_products(:cucumbers))
+    copied_content = to_delivery.basket_contents.find_by(product: basket_content_products(:carrots))
+    assert_equal({
+      "basket_size_ids" => [ small_id, medium_id ],
+      "basket_percentages" => [ 40, 60 ],
+      "baskets_counts" => [ 0, 1 ],
+      "quantity" => 100,
+      "unit" => "kg",
+      "unit_price" => 1
+    }, copied_content.attributes.slice(*%w[
+      basket_size_ids
+      basket_percentages
+      baskets_counts
+      quantity
+      unit
+      unit_price
+    ]))
+  end
+
+  test "duplicate_all skips contents whose product already exists on target delivery" do
+    from_delivery = deliveries(:monday_1)
+    to_delivery = deliveries(:monday_2)
+
     create_basket_content(
+      product: basket_content_products(:carrots),
+      delivery: from_delivery,
+      basket_size_ids_percentages: {
+        small_id => 40,
+        medium_id => 60
+      },
+      quantity: 100,
+      unit: "kg",
+      unit_price: 1)
+    existing_content = create_basket_content(
+      product: basket_content_products(:carrots),
       distribution_mode: "manual",
       delivery: to_delivery,
       basket_size_ids_quantities: {
@@ -431,5 +480,155 @@ class BasketContentTest < ActiveSupport::TestCase
     assert_no_difference -> { to_delivery.basket_contents.count } do
       BasketContent.duplicate_all(from_delivery.id, to_delivery.id)
     end
+    assert_equal [ existing_content ], to_delivery.basket_contents.where(product: basket_content_products(:carrots)).to_a
+  end
+
+  test "duplicate_all skips existing products and copies missing products" do
+    from_delivery = deliveries(:monday_1)
+    to_delivery = deliveries(:monday_2)
+
+    create_basket_content(
+      product: basket_content_products(:carrots),
+      delivery: from_delivery,
+      basket_size_ids_percentages: {
+        small_id => 40,
+        medium_id => 60
+      },
+      quantity: 100,
+      unit: "kg")
+    create_basket_content(
+      product: basket_content_products(:cucumbers),
+      distribution_mode: "manual",
+      delivery: from_delivery,
+      basket_size_ids_quantities: {
+        small_id => 75,
+        medium_id => 75
+      },
+      unit: "pc")
+    existing_content = create_basket_content(
+      product: basket_content_products(:carrots),
+      delivery: to_delivery,
+      distribution_mode: "manual",
+      basket_size_ids_quantities: {
+        medium_id => 75
+      },
+      unit: "pc")
+
+    assert_difference -> { to_delivery.basket_contents.count }, 1 do
+      BasketContent.duplicate_all(from_delivery.id, to_delivery.id)
+    end
+
+    assert_equal [ existing_content ], to_delivery.basket_contents.where(product: basket_content_products(:carrots)).to_a
+    copied_content = to_delivery.basket_contents.find_by(product: basket_content_products(:cucumbers))
+    assert_equal({
+      "basket_size_ids" => [ small_id, medium_id ],
+      "basket_quantities" => [ 75, 75 ],
+      "baskets_counts" => [ 0, 1 ],
+      "quantity" => 75,
+      "unit" => "pc"
+    }, copied_content.attributes.slice(*%w[
+      basket_size_ids
+      basket_quantities
+      baskets_counts
+      quantity
+      unit
+    ]))
+  end
+
+  test "coming_deliveries_missing_contents_from includes empty and partial targets only" do
+    source_delivery = deliveries(:monday_1)
+    empty_delivery = deliveries(:monday_2)
+    partial_delivery = deliveries(:monday_3)
+    full_delivery = deliveries(:monday_4)
+
+    create_basket_content(
+      product: basket_content_products(:carrots),
+      delivery: source_delivery,
+      basket_size_ids_percentages: { small_id => 100 },
+      quantity: 100,
+      unit: "kg")
+    create_basket_content(
+      product: basket_content_products(:cucumbers),
+      delivery: source_delivery,
+      basket_size_ids_percentages: { small_id => 100 },
+      quantity: 100,
+      unit: "pc")
+    create_basket_content(
+      product: basket_content_products(:carrots),
+      delivery: partial_delivery,
+      basket_size_ids_percentages: { small_id => 100 },
+      quantity: 100,
+      unit: "kg")
+    create_basket_content(
+      product: basket_content_products(:carrots),
+      delivery: full_delivery,
+      basket_size_ids_percentages: { small_id => 100 },
+      quantity: 100,
+      unit: "kg")
+    create_basket_content(
+      product: basket_content_products(:cucumbers),
+      delivery: full_delivery,
+      basket_size_ids_percentages: { small_id => 100 },
+      quantity: 100,
+      unit: "pc")
+
+    deliveries = BasketContent.coming_deliveries_missing_contents_from(source_delivery)
+
+    assert_includes deliveries, empty_delivery
+    assert_includes deliveries, partial_delivery
+    assert_not_includes deliveries, full_delivery
+    assert_not_includes deliveries, source_delivery
+  end
+
+  test "coming_deliveries_missing_contents_from returns no deliveries when source has no contents" do
+    assert_empty BasketContent.coming_deliveries_missing_contents_from(deliveries(:monday_1))
+  end
+
+  test "filled_deliveries_with_contents_missing_from includes only sources that can add contents" do
+    to_delivery = deliveries(:monday_1)
+    missing_source_delivery = deliveries(:monday_2)
+    covered_source_delivery = deliveries(:monday_3)
+
+    create_basket_content(
+      product: basket_content_products(:carrots),
+      delivery: to_delivery,
+      basket_size_ids_percentages: { small_id => 100 },
+      quantity: 100,
+      unit: "kg")
+    create_basket_content(
+      product: basket_content_products(:cucumbers),
+      delivery: missing_source_delivery,
+      basket_size_ids_percentages: { small_id => 100 },
+      quantity: 100,
+      unit: "pc")
+    create_basket_content(
+      product: basket_content_products(:carrots),
+      delivery: covered_source_delivery,
+      basket_size_ids_percentages: { small_id => 100 },
+      quantity: 100,
+      unit: "kg")
+
+    deliveries = BasketContent.filled_deliveries_with_contents_missing_from(to_delivery)
+
+    assert_includes deliveries, missing_source_delivery
+    assert_not_includes deliveries, covered_source_delivery
+    assert_not_includes deliveries, to_delivery
+  end
+
+  test "filled_deliveries_with_contents_missing_from returns all filled sources when target is empty" do
+    to_delivery = deliveries(:monday_1)
+    source_delivery = deliveries(:monday_2)
+
+    create_basket_content(
+      product: basket_content_products(:carrots),
+      delivery: source_delivery,
+      basket_size_ids_percentages: { small_id => 100 },
+      quantity: 100,
+      unit: "kg")
+
+    deliveries = BasketContent.filled_deliveries_with_contents_missing_from(to_delivery)
+
+    assert_includes deliveries, source_delivery
+    assert_not_includes deliveries, to_delivery
   end
 end

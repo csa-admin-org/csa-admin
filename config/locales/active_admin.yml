@@ -21,42 +21,12 @@ _:
           _de: Importieren
           _it: Importare
           _nl: Importeren
-        text/bag:
-          _en: 'Import all bag contents from the following delivery:'
-          _fr: 'Importer tous les contenus sac de la livraison suivante:'
-          _de: 'Alle Tascheninhalte importieren von der folgenden Lieferung:'
-          _it: 'Importare tutti i contenuti borsa della consegna seguente:'
-          _nl: 'Alle tasinhoud importeren van de volgende levering:'
-        text/basket:
-          _en: 'Import all basket contents from the following delivery:'
-          _fr: 'Importer tous les contenus panier de la livraison suivante:'
-          _de: 'Alle Korbinhalte importieren von der folgenden Lieferung:'
-          _it: 'Importare tutti i contenuti cesta della consegna seguente:'
-          _nl: 'Alle mandinhoud importeren van de volgende levering:'
-        text/cone:
-          _en: 'Import all cone contents from the following delivery:'
-          _fr: 'Importer tous les contenus cornet de la livraison suivante:'
-          _de: 'Alle Tüteninhalte importieren von der folgenden Lieferung:'
-          _it: 'Importare tutti i contenuti cono della consegna seguente:'
-          _nl: 'Alle zakinhoud importeren van de volgende levering:'
-        text/crate:
-          _en: 'Import all crate contents from the following delivery:'
-          _fr: 'Importer tous les contenus cagette de la livraison suivante:'
-          _de: 'Alle Kisteninhalte importieren von der folgenden Lieferung:'
-          _it: 'Importare tutti i contenuti cassetta della consegna seguente:'
-          _nl: 'Alle kratinhoud importeren van de volgende levering:'
-        text/package:
-          _en: 'Import all package contents from the following delivery:'
-          _fr: 'Importer tous les contenus colis de la livraison suivante:'
-          _de: 'Alle Paketinhalte importieren von der folgenden Lieferung:'
-          _it: 'Importare tutti i contenuti pacco della consegna seguente:'
-          _nl: 'Alle pakketinhoud importeren van de volgende levering:'
-        text/share:
-          _en: 'Import all share contents from the following delivery:'
-          _fr: 'Importer tous les contenus part de la livraison suivante:'
-          _de: 'Alle Anteilsinhalte importieren von der folgenden Lieferung:'
-          _it: 'Importare tutti i contenuti parte della consegna seguente:'
-          _nl: 'Alle deelinhoud importeren van de volgende levering:'
+        text:
+          _en: 'Import missing products from:'
+          _fr: 'Importer les produits manquants depuis:'
+          _de: 'Fehlende Produkte importieren von:'
+          _it: 'Importare i prodotti mancanti da:'
+          _nl: 'Ontbrekende producten importeren van:'
       duplicate_all_to:
         button:
           _en: Duplicate
@@ -64,42 +34,12 @@ _:
           _de: Duplizieren
           _it: Duplicare
           _nl: Dupliceren
-        text/bag:
-          _en: 'Duplicate all bag contents from this delivery to the delivery on:'
-          _fr: 'Dupliquer tous les contenus sac de cette livraison vers celle du:'
-          _de: 'Alle Tascheninhalte von dieser Lieferung duplizieren auf die Lieferung vom:'
-          _it: 'Duplicare tutti i contenuti borsa di questa consegna in quella di:'
-          _nl: 'Alle tasinhoud van deze levering dupliceren naar de levering op:'
-        text/basket:
-          _en: 'Duplicate all basket contents from this delivery to the delivery on:'
-          _fr: 'Dupliquer tous les contenus panier de cette livraison vers celle du:'
-          _de: 'Alle Korbinhalte von dieser Lieferung duplizieren auf die Lieferung vom:'
-          _it: 'Duplicare tutti i contenuti cesta di questa consegna in quella di:'
-          _nl: 'Alle mandinhoud van deze levering dupliceren naar de levering op:'
-        text/cone:
-          _en: 'Duplicate all cone contents from this delivery to the delivery on:'
-          _fr: 'Dupliquer tous les contenus cornet de cette livraison vers celle du:'
-          _de: 'Alle Tüteninhalte von dieser Lieferung duplizieren auf die Lieferung vom:'
-          _it: 'Duplicare tutti i contenuti cono di questa consegna in quella di:'
-          _nl: 'Alle zakinhoud van deze levering dupliceren naar de levering op:'
-        text/crate:
-          _en: 'Duplicate all crate contents from this delivery to the delivery on:'
-          _fr: 'Dupliquer tous les contenus cagette de cette livraison vers celle du:'
-          _de: 'Alle Kisteninhalte von dieser Lieferung duplizieren auf die Lieferung vom:'
-          _it: 'Duplicare tutti i contenuti cassetta di questa consegna in quella di:'
-          _nl: 'Alle kratinhoud van deze levering dupliceren naar de levering op:'
-        text/package:
-          _en: 'Duplicate all package contents from this delivery to the delivery on:'
-          _fr: 'Dupliquer tous les contenus colis de cette livraison vers celle du:'
-          _de: 'Alle Paketinhalte von dieser Lieferung duplizieren auf die Lieferung vom:'
-          _it: 'Duplicare tutti i contenuti pacco di questa consegna in quella di:'
-          _nl: 'Alle pakketinhoud van deze levering dupliceren naar de levering op:'
-        text/share:
-          _en: 'Duplicate all share contents from this delivery to the delivery on:'
-          _fr: 'Dupliquer tous les contenus part de cette livraison vers celle du:'
-          _de: 'Alle Anteilsinhalte von dieser Lieferung duplizieren auf die Lieferung vom:'
-          _it: 'Duplicare tutti i contenuti parte di questa consegna in quella di:'
-          _nl: 'Alle deelinhoud van deze levering dupliceren naar de levering op:'
+        text:
+          _en: 'Copy missing products to:'
+          _fr: 'Copier les produits manquants vers:'
+          _de: 'Fehlende Produkte kopieren nach:'
+          _it: 'Copiare i prodotti mancanti in:'
+          _nl: 'Ontbrekende producten kopiëren naar:'
       member_visibility:
         currently_visible/bag:
           _en: Bag contents is currently visible on the member page!

@@ -168,7 +168,7 @@ ActiveAdmin.register BasketContent do
       && params.dig(:q, :delivery_id_eq).present?
       && collection.present?
       && (delivery = Delivery.find(params.dig(:q, :delivery_id_eq)))
-      && BasketContent.coming_unfilled_deliveries(after_date: delivery.date).any?
+      && BasketContent.coming_deliveries_missing_contents_from(delivery).any?
   } do
     side_panel t(".duplicate_all_to") do
       delivery = Delivery.find(params.dig(:q, :delivery_id_eq))
@@ -180,8 +180,8 @@ ActiveAdmin.register BasketContent do
   sidebar :duplicate_all_from, only: :index, if: -> {
     authorized?(:create, BasketContent)
       && params.dig(:q, :delivery_id_eq).present?
-      && collection.empty?
-      && BasketContent.any?
+      && (delivery = Delivery.find(params.dig(:q, :delivery_id_eq)))
+      && BasketContent.filled_deliveries_with_contents_missing_from(delivery).any?
   } do
     side_panel t(".duplicate_all_from") do
       delivery = Delivery.find(params.dig(:q, :delivery_id_eq))
@@ -197,7 +197,8 @@ ActiveAdmin.register BasketContent do
     from = params.require(:from_delivery_id)
     to = params.require(:to_delivery_id)
     BasketContent.duplicate_all(from, to)
-    redirect_to basket_contents_path(q: { delivery_id_eq: to })
+    delivery = Delivery.find(to)
+    redirect_to basket_contents_path(q: { delivery_id_eq: delivery.id, during_year: delivery.fiscal_year })
   end
 
   form data: { controller: "basket-content-products-select" } do |f|

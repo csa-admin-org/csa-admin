@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class BillingsController < ApplicationController
+  include UncachedSendData
+
   before_action :authenticate_admin!
 
   def show

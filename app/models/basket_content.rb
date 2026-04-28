@@ -55,7 +55,10 @@ class BasketContent < ApplicationRecord
   def self.duplicate_all(from_delivery_id, to_delivery_id)
     contents = where(delivery_id: from_delivery_id)
     return if contents.none?
-    return if where(delivery_id: to_delivery_id).any?
+
+    existing_product_ids = where(delivery_id: to_delivery_id).distinct.pluck(:product_id)
+    contents = contents.where.not(product_id: existing_product_ids) if existing_product_ids.any?
+    return if contents.none?
 
     transaction do
       contents.includes(:depots).find_each do |content|
@@ -76,7 +79,7 @@ class BasketContent < ApplicationRecord
           attrs.merge!(
             basket_size_ids_quantities: content.basket_size_ids_quantities)
         end
-        create(attrs)
+        create!(attrs)
       end
     end
   end
@@ -86,9 +89,28 @@ class BasketContent < ApplicationRecord
     Delivery.where(id: ids).reorder(date: :desc)
   end
 
-  def self.coming_unfilled_deliveries(after_date:)
-    ids = distinct.pluck(:delivery_id)
-    Delivery.where.not(id: ids).where(date: after_date..)
+  def self.coming_deliveries_missing_contents_from(delivery, after_date: delivery.date)
+    delivery_id = delivery.id
+    source_product_ids = where(delivery_id: delivery_id).distinct.pluck(:product_id)
+    return Delivery.none if source_product_ids.empty?
+
+    delivery_ids = Delivery.where(date: after_date..).where.not(id: delivery_id).pluck(:id)
+    delivery_ids.select! { |target_delivery_id|
+      where(delivery_id: target_delivery_id, product_id: source_product_ids).distinct.count(:product_id) < source_product_ids.size
+    }
+    Delivery.where(id: delivery_ids)
+  end
+
+  def self.filled_deliveries_with_contents_missing_from(delivery)
+    delivery_id = delivery.id
+    target_product_ids = where(delivery_id: delivery_id).distinct.pluck(:product_id)
+    delivery_ids = where.not(delivery_id: delivery_id).distinct.pluck(:delivery_id)
+    if target_product_ids.any?
+      delivery_ids.select! { |source_delivery_id|
+        where(delivery_id: source_delivery_id).where.not(product_id: target_product_ids).exists?
+      }
+    end
+    Delivery.where(id: delivery_ids).reorder(date: :desc)
   end
 
   def self.closest_delivery
