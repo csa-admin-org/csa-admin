@@ -28,6 +28,7 @@ class API::V1::BasketsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_includes response.content_type, "text/csv"
     assert_includes response.headers["Content-Disposition"], "delivery-"
+    assert_no_store_download_headers
   end
 
   test "resolves 'current' to the current delivery" do

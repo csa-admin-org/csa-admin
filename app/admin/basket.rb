@@ -149,6 +149,8 @@ ActiveAdmin.register Basket do
     ]
 
   controller do
+    include UncachedSendData
+
     def index
       if request.format.csv?
         exporter = build_csv_exporter

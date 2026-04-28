@@ -249,6 +249,7 @@ ActiveAdmin.register Delivery do
 
   controller do
     include TranslatedCSVFilename
+    include UncachedSendData
 
     def apply_sorting(chain)
       if params[:scope] == "past" && !params[:order]

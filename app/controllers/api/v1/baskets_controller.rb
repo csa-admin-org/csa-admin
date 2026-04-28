@@ -4,6 +4,7 @@ module API
   module V1
     class BasketsController < BaseController
       include DeliveryScoped
+      include UncachedSendData
 
       def index
         exporter = Basket::CSVExporter.new(delivery: @delivery)

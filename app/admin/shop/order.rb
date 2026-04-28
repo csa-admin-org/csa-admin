@@ -352,6 +352,7 @@ ActiveAdmin.register Shop::Order do
     include TranslatedCSVFilename
     include ApplicationHelper
     include ShopHelper
+    include UncachedSendData
 
     before_create do |order|
       cart_order = Shop::Order.cart.find_by(member_id: order.member_id, delivery_id: order.delivery_id)

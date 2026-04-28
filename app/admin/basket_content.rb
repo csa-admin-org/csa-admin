@@ -381,6 +381,7 @@ ActiveAdmin.register BasketContent do
   controller do
     include TranslatedCSVFilename
     include ApplicationHelper
+    include UncachedSendData
 
     def index
       super do |format|

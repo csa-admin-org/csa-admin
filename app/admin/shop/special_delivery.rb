@@ -217,6 +217,7 @@ ActiveAdmin.register Shop::SpecialDelivery do
 
   controller do
     include TranslatedCSVFilename
+    include UncachedSendData
 
     def apply_sorting(chain)
       params[:order] ||= "date_desc" if params[:scope] == "past"
