@@ -1046,6 +1046,37 @@ _:
         _de: 'Anzahl der Probeteile:'
         _it: 'Numero di parti in prova:'
         _nl: 'Aantal proefdelen:'
+    member_shop_depot_activated:
+      depot_label:
+        _en: 'Pickup depot:'
+        _fr: 'Dépôt de retrait:'
+        _de: 'Abholdepot:'
+        _it: 'Punto di ritiro:'
+        _nl: 'Afhaaldepot:'
+      member_page_button:
+        _en: Access my member page
+        _fr: Accéder à ma page de membre
+        _de: Zugang zu meiner Mitgliederseite
+        _it: Accedere alla mia pagina di socio
+        _nl: Toegang tot mijn ledenpagina
+      member_page_paragraph:
+        _en: You can access your member page at any time to place shop orders or update your information.
+        _fr: Vous pouvez accéder à votre page de membre à tout moment pour passer des commandes à l'épicerie ou mettre à jour vos informations.
+        _de: Du kannst jederzeit auf Deine Mitgliederseite zugreifen, um Bestellungen im Hofladen aufzugeben oder Deine Informationen zu aktualisieren.
+        _it: Potete accedere alla vostra pagina di socio in qualsiasi momento per effettuare ordini in bottega o aggiornare le vostre informazioni.
+        _nl: Je kunt op elk moment je ledenpagina bezoeken om winkelbestellingen te plaatsen of je gegevens bij te werken.
+      shop_depot_active_paragraph:
+        _en: Your shop access is now active.
+        _fr: Votre accès à l'épicerie est maintenant actif.
+        _de: Dein Zugang zum Hofladen ist jetzt aktiv.
+        _it: Il vostro accesso alla bottega è ora attivo.
+        _nl: Je toegang tot de winkel is nu actief.
+      shop_depot_details_paragraph:
+        _en: 'Your shop orders will be available at the following pickup depot:'
+        _fr: 'Vos commandes à l''épicerie seront disponibles au dépôt de retrait suivant:'
+        _de: 'Deine Bestellungen im Hofladen sind im folgenden Abholdepot verfügbar:'
+        _it: 'I vostri ordini in bottega saranno disponibili presso il seguente punto di ritiro:'
+        _nl: 'Je winkelbestellingen zijn beschikbaar bij het volgende afhaaldepot:'
     member_validated:
       member_page_button:
         _en: Access my member page

@@ -232,6 +232,43 @@ class Member::StateTransitionsTest < ActiveSupport::TestCase
     assert member.activated_at?
   end
 
+  test "activate! sends shop-depot-activated email without membership" do
+    travel_to "2024-01-01"
+    org(features: [ :shop ])
+    mail_templates(:member_activated).update!(active: true)
+    mail_templates(:member_shop_depot_activated).update!(active: true)
+    member = members(:mary)
+    member.update_columns(
+      shop_depot_id: depots(:farm).id,
+      activated_at: nil,
+      annual_fee: nil)
+
+    assert_difference "MemberMailer.deliveries.size" do
+      perform_enqueued_jobs { member.activate! }
+    end
+
+    assert member.activated_at?
+    mail = MemberMailer.deliveries.last
+    assert_equal "Your shop access is active!", mail.subject
+  end
+
+  test "activate! does not send shop-depot-activated email when shop feature is disabled" do
+    travel_to "2024-01-01"
+    org(features: [])
+    mail_templates(:member_shop_depot_activated).update!(active: true)
+    member = members(:mary)
+    member.update_columns(
+      shop_depot_id: depots(:farm).id,
+      activated_at: nil,
+      annual_fee: nil)
+
+    assert_no_difference "MemberMailer.deliveries.size" do
+      perform_enqueued_jobs { member.activate! }
+    end
+
+    assert member.activated_at?
+  end
+
   test "activate! activates previously active member" do
     travel_to "2024-01-01"
     mail_templates(:member_activated).update!(active: true)

@@ -27,6 +27,30 @@ class MemberMailerTest < ActionMailer::TestCase
     assert_includes body, "https://members.acme.test"
   end
 
+  test "shop_depot_activated_email" do
+    travel_to "2024-01-01"
+    template = mail_templates(:member_shop_depot_activated)
+    member = members(:mary)
+    member.update_columns(shop_depot_id: depots(:farm).id)
+
+    mail = MemberMailer.with(
+      template: template,
+      member: member
+    ).shop_depot_activated_email
+
+    assert_equal "Your shop access is active!", mail.subject
+    assert_equal [ "mary@doe.com" ], mail.to
+    assert_equal "member-shop-depot-activated", mail.tag
+    assert_equal "Acme <info@acme.test>", mail[:from].decoded
+    assert_equal "outbound", mail[:message_stream].to_s
+
+    body = mail.body.to_s
+    assert_includes body, "Your shop access is now active."
+    assert_includes body, "<strong>Pickup depot:</strong> Our farm"
+    assert_includes body, "Access my member page"
+    assert_includes body, "https://members.acme.test"
+  end
+
   test "validated_email" do
     template = mail_templates(:member_validated)
     member = members(:john)

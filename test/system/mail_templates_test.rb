@@ -8,6 +8,26 @@ class MailTemplatesTest < ApplicationSystemTestCase
     Capybara::Node::Simple.new(src)
   end
 
+  test "hide shop depot activation template when shop feature is disabled" do
+    mail_templates(:member_shop_depot_activated)
+    org(features: [])
+
+    login admins(:super)
+    visit mail_templates_path
+
+    assert_no_text "Shop access activated"
+  end
+
+  test "show shop depot activation template when shop feature is enabled" do
+    mail_templates(:member_shop_depot_activated)
+    org(features: [ :shop ])
+
+    login admins(:super)
+    visit mail_templates_path
+
+    assert_text "Shop access activated"
+  end
+
   test "modify and preview" do
     travel_to "2024-01-01"
     mail_template = mail_templates(:member_activated)

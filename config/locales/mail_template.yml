@@ -331,6 +331,12 @@ _:
         _de: Herzlich willkommen!
         _it: Benvenuto/a!
         _nl: Welkom!
+      member_shop_depot_activated:
+        _en: Your shop access is active!
+        _fr: Votre accès à l'épicerie est actif!
+        _de: Dein Zugang zum Hofladen ist aktiv!
+        _it: Il vostro accesso alla bottega è attivo!
+        _nl: Je toegang tot de winkel is actief!
       member_validated:
         _en: Registration validated!
         _fr: Inscription validée!
@@ -675,11 +681,17 @@ _:
         _it: Inviato automaticamente quando una fattura è ancora aperta 35 giorni dopo la sua creazione o il suo ultimo promemoria.</br><i>Disattivato quando i pagamenti non vengono elaborati automaticamente (EBICS).</i>
         _nl: Automatisch verzonden wanneer een factuur nog open staat 35 dagen na aanmaak of laatste herinnering.</br><i>Uitgeschakeld wanneer betalingen niet automatisch worden verwerkt (EBICS).</i>
       member_activated:
-        _en: Sent when a member becomes active for the first time as soon as their first (current or future) membership is created.
-        _fr: Envoyé quand un membre devient actif, pour la première fois, dès que son premier abonnement (en cours ou futur) est créé.
-        _de: Wird gesendet, wenn ein Mitglied zum ersten Mal aktiv wird, sobald sein erstes (aktuelles oder zukünftiges) Abonnement erstellt wird.
-        _it: Inviato quando un socio diventa attivo, per la prima volta, non appena viene creato il suo primo abbonamento (attuale o futuro).
-        _nl: Verzonden wanneer een lid voor de eerste keer actief wordt zodra hun eerste (huidige of toekomstige) lidmaatschap wordt aangemaakt.
+        _en: Sent when a member becomes active for the first time after their first (current or future) membership is created.
+        _fr: Envoyé quand un membre devient actif, pour la première fois, après la création de son premier abonnement (en cours ou futur).
+        _de: Wird gesendet, wenn ein Mitglied zum ersten Mal aktiv wird, nachdem sein erstes (aktuelles oder zukünftiges) Abonnement erstellt wurde.
+        _it: Inviato quando un socio diventa attivo per la prima volta dopo la creazione del suo primo abbonamento (attuale o futuro).
+        _nl: Verzonden wanneer een lid voor de eerste keer actief wordt nadat hun eerste (huidige of toekomstige) lidmaatschap is aangemaakt.
+      member_shop_depot_activated:
+        _en: Sent when a member becomes active for the first time with only a shop pickup depot and no current or future membership.
+        _fr: Envoyé quand un membre devient actif pour la première fois avec uniquement un dépôt de retrait pour l'épicerie et sans abonnement en cours ou futur.
+        _de: Wird gesendet, wenn ein Mitglied zum ersten Mal aktiv wird, nur mit einem Abholdepot für den Hofladen und ohne aktuelles oder zukünftiges Abonnement.
+        _it: Inviato quando un socio diventa attivo per la prima volta solo con un punto di ritiro per la bottega e senza abbonamento attuale o futuro.
+        _nl: Verzonden wanneer een lid voor het eerst actief wordt met alleen een afhaaldepot voor de winkel en zonder huidig of toekomstig lidmaatschap.
       member_validated:
         _en: Sent when the registration of a new member is validated.
         _fr: Envoyé quand l'inscription d'un nouveau membre est validée.
@@ -1029,6 +1041,12 @@ _:
         _de: Mitglied aktiviert
         _it: Socio attivato
         _nl: Lid geactiveerd
+      member_shop_depot_activated:
+        _en: Shop access activated
+        _fr: Accès épicerie activé
+        _de: Hofladen-Zugang aktiviert
+        _it: Accesso bottega attivato
+        _nl: Winkeltoegang geactiveerd
       member_validated:
         _en: Member validated
         _fr: Membre validé

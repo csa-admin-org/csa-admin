@@ -12,6 +12,12 @@ class MemberMailer < ApplicationMailer
       "basket" => Liquid::BasketDrop.new(@basket))
   end
 
+  def shop_depot_activated_email
+    template_mail(@member,
+      "member" => Liquid::MemberDrop.new(@member),
+      "shop_depot" => Liquid::DepotDrop.new(@shop_depot))
+  end
+
   def validated_email
     template_mail(@member,
       "member" => Liquid::MemberDrop.new(@member),
@@ -30,5 +36,6 @@ class MemberMailer < ApplicationMailer
     @member = params[:member]
     @membership = @member.current_or_future_membership
     @basket = @membership&.next_basket
+    @shop_depot = params[:shop_depot] || @member.shop_depot
   end
 end

@@ -65,6 +65,19 @@ class MailTemplateTest < ActiveSupport::TestCase
     assert template.active
   end
 
+  test "member_shop_depot_activated is inactive when shop feature is disabled" do
+    template = mail_templates(:member_shop_depot_activated)
+
+    org(features: [])
+    template.active = true
+    assert template.inactive?
+    assert_not template.active
+
+    org(features: [ :shop ])
+    assert_not template.inactive?
+    assert template.active
+  end
+
   test "invoice_overdue_notice is not always active" do
     template = mail_templates(:invoice_overdue_notice)
 

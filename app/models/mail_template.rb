@@ -9,6 +9,7 @@ class MailTemplate < ApplicationRecord
   MEMBER_TITLES = %w[
     member_validated
     member_activated
+    member_shop_depot_activated
   ].freeze
   MEMBERSHIP_TITLES = %w[
     membership_renewal
@@ -200,6 +201,8 @@ class MailTemplate < ApplicationRecord
       !Current.org.bank_connection?
     when "membership_renewal_reminder"
       Current.org.open_renewal_reminder_sent_after_in_days.blank?
+    when "member_shop_depot_activated"
+      !Current.org.feature?(:shop)
     when "bidding_round_opened_reminder"
       Current.org.open_bidding_round_reminder_sent_after_in_days.blank?
     when "basket_second_last_trial"

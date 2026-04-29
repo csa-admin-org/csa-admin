@@ -67,8 +67,10 @@ module Member::StateTransitions
     self.activated_at = Time.current
     save!
 
-    if emails? && (activated_at_previously_was.nil? || activated_at_previously_was < 1.week.ago)
+    if send_member_activated_email?
       MailTemplate.deliver(:member_activated, member: self)
+    elsif send_member_shop_depot_activated_email?
+      MailTemplate.deliver(:member_shop_depot_activated, member: self)
     end
   end
 
@@ -109,5 +111,23 @@ module Member::StateTransitions
       || support?
       || (!support? && !current_or_future_membership)
     )
+  end
+
+  private
+
+  def send_member_activated_email?
+    current_or_future_membership && send_activation_email?
+  end
+
+  def send_member_shop_depot_activated_email?
+    Current.org.feature?(:shop) &&
+      shop_depot &&
+      !current_or_future_membership &&
+      send_activation_email?
+  end
+
+  def send_activation_email?
+    emails? &&
+      (activated_at_previously_was.nil? || activated_at_previously_was < 1.week.ago)
   end
 end

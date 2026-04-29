@@ -1,0 +1,13 @@
+<p><%= t(".shop_depot_active_paragraph") %></p>
+
+<p><%= t(".shop_depot_details_paragraph") %></p>
+
+{% highlight_list %}
+  <strong><%= t(".depot_label") %></strong> {{ shop_depot.name }}
+{% endhighlight_list %}
+
+<p><%= t(".member_page_paragraph") %></p>
+
+{% button member.page_url %}
+  <%= t(".member_page_button") %>
+{% endbutton %}

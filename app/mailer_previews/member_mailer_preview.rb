@@ -9,6 +9,12 @@ class MemberMailerPreview < ActionMailer::Preview
     MemberMailer.with(params).activated_email
   end
 
+  def shop_depot_activated_email
+    params.merge!(shop_depot_activated_email_params)
+    params[:template] ||= MailTemplate.find_by!(title: :member_shop_depot_activated)
+    MemberMailer.with(params).shop_depot_activated_email
+  end
+
   def validated_email
     params.merge!(validated_email_params)
     params[:template] ||= MailTemplate.find_by!(title: :member_validated)
@@ -23,6 +29,14 @@ class MemberMailerPreview < ActionMailer::Preview
       member: member,
       membership: membership,
       basket: basket
+    }
+  end
+
+  def shop_depot_activated_email_params
+    member.current_or_future_membership = nil
+    {
+      member: member,
+      shop_depot: depot
     }
   end
 
