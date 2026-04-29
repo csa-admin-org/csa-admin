@@ -101,4 +101,23 @@ class DepotTest < ActiveSupport::TestCase
 
     assert_equal %w[ alice Bob Élodie ], depot_member_names(depot, deliveries(:monday_1))
   end
+
+  test "invoice_description uses invoice_name when present" do
+    depot = depots(:bakery)
+    depot.update!(invoice_names: { "en" => "Custom Invoice Name" })
+
+    I18n.with_locale(:en) do
+      assert_equal "Custom Invoice Name", depot.invoice_description
+    end
+  end
+
+  test "invoice_description falls back to depot model name with public name" do
+    depot = depots(:bakery)
+    depot.update!(invoice_names: {})
+
+    description = depot.invoice_description
+
+    assert_includes description, depot.public_name
+    assert_includes description, Depot.model_name.human
+  end
 end

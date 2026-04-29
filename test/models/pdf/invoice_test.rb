@@ -129,6 +129,32 @@ class PDF::InvoiceTest < ActiveSupport::TestCase
     ]
   end
 
+  test "annual membership with custom depot invoice name" do
+    travel_to "2024-01-01"
+    memberships(:jane).update!(
+      baskets_annual_price_change: -33,
+      basket_complements_annual_price_change: 5)
+    depots(:bakery).update!(invoice_name: "Pickup point: Bakery")
+    invoice = create_invoice(
+      entity: memberships(:jane),
+      annual_fee: 30,
+      memberships_amount_description: "Annual amount")
+    pdf_strings = save_pdf_and_return_strings(invoice)
+
+    assert_contains pdf_strings, [
+      "Description", "Amount (CHF)",
+      "Basket: Large basket 10x 30.00", "300.00",
+      "Adjustment of the price of baskets", "-33.00",
+      "Bread: 10x 4.00", "40.00",
+      "Adjustment of the price of supplements", "5.00",
+      "Pickup point: Bakery 10x 4.00", "40.00",
+      "Annual amount", "352.00",
+      "Annual amount", "352.00",
+      "Annual fee", "30.00",
+      "Total", "382.00"
+    ]
+  end
+
   test "annual membership with activity_participations reduction" do
     travel_to "2024-01-01"
     memberships(:john).update!(

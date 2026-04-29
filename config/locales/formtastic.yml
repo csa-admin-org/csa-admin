@@ -695,6 +695,12 @@ _:
           _de: Ermöglicht es, die Depots nach <a href='/depot_groups'>Gruppe</a> im Anmeldeformular anzuzeigen.
           _it: Permette di visualizzare i punti di ritiro per <a href='/depot_groups'>gruppo</a> nel modulo di registrazione.
           _nl: Maakt het mogelijk depots per <a href='/depot_groups'>groep</a> weer te geven op het registratieformulier.
+        invoice_name:
+          _en: If present, replaces the name displayed in the invoice.
+          _fr: Si présent, remplace le nom affiché dans la facture.
+          _de: Wenn vorhanden, ersetzt den Namen auf der Rechnung.
+          _it: Se presente, sostituisce il nome visualizzato nella fattura.
+          _nl: Indien aanwezig, vervangt de naam die wordt weergegeven op de factuur.
         phones:
           _en: Separated by a comma.
           _fr: Séparés par une virgule.

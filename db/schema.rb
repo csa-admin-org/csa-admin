@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_04_10_132500) do
+ActiveRecord::Schema[8.1].define(version: 2026_04_29_150131) do
   create_table "absences", force: :cascade do |t|
     t.datetime "admins_notified_at"
     t.datetime "created_at"
@@ -442,6 +442,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_10_132500) do
     t.string "emails"
     t.json "form_details", default: {}, null: false
     t.bigint "group_id"
+    t.json "invoice_names", default: {}, null: false
     t.string "language", default: "fr", null: false
     t.json "member_ids_position", default: []
     t.integer "member_order_priority", default: 1, null: false

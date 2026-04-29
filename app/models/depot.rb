@@ -27,6 +27,7 @@ class Depot < ApplicationRecord
   attribute :language, :string, default: -> { Current.org.languages.first }
 
   translated_attributes :form_detail
+  translated_attributes :invoice_name
   translated_rich_texts :public_note
 
   has_many :baskets
@@ -107,6 +108,14 @@ class Depot < ApplicationRecord
       .deliverable
       .where(delivery_id: delivery.id, basket_size_id: basket_size.id)
       .count
+  end
+
+  def invoice_description
+    if invoice_name?
+      invoice_name
+    else
+      [ Depot.model_name.human, public_name ].join(": ")
+    end
   end
 
   def full_address

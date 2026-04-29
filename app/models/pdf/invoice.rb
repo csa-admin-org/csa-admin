@@ -754,7 +754,7 @@ module PDF
 
     def membership_depot_description(depot)
       baskets = entity.baskets.where(depot: depot)
-      "#{Depot.model_name.human}: #{depot.public_name} #{depots_price_info(baskets)}"
+      "#{depot.invoice_description} #{depots_price_info(baskets)}"
     end
 
     def membership_deliveries_description

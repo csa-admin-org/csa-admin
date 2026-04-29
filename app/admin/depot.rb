@@ -127,6 +127,7 @@ ActiveAdmin.register Depot do
         panel t(".billing") do
           attributes_table do
             row(:price) { cur(depot.price, precision: 3) }
+            row(:invoice_name) { depot.invoice_name if depot.invoice_name? }
           end
         end
 
@@ -208,6 +209,10 @@ ActiveAdmin.register Depot do
         min: 0,
         hint: true,
         label: Depot.human_attribute_name(:price_per_delivery)
+      translated_input(f, :invoice_names,
+        required: false,
+        hint: t("formtastic.hints.depot.invoice_name"),
+        input_html: { placeholder: f.object.invoice_description })
     end
 
     f.inputs Delivery.human_attribute_name(:sheets_pdf) do
@@ -286,6 +291,7 @@ ActiveAdmin.register Depot do
     *I18n.available_locales.map { |l| "admin_name_#{l}" },
     *I18n.available_locales.map { |l| "public_note_#{l}" },
     *I18n.available_locales.map { |l| "form_detail_#{l}" },
+    *I18n.available_locales.map { |l| "invoice_name_#{l}" },
     delivery_cycle_ids: [])
 
   before_build do |depot|

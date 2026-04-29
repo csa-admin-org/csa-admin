@@ -1055,6 +1055,18 @@ _:
           _de: Gruppe
           _it: Gruppo
           _nl: Groep
+        invoice_name:
+          _en: Name (invoice)
+          _fr: Nom (facture)
+          _de: Name (Rechnung)
+          _it: Nome (fattura)
+          _nl: Naam (factuur)
+        invoice_names:
+          _en: Names (invoice)
+          _fr: Noms (facture)
+          _de: Namen (Rechnung)
+          _it: Nomi (fattura)
+          _nl: Namen (factuur)
         note:
           _en: Internal memo
           _fr: Note interne
