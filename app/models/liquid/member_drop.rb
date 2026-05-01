@@ -71,6 +71,10 @@ class Liquid::MemberDrop < Liquid::Drop
     !!@member.billing_email?
   end
 
+  def shop_url
+    url(:members_shop)
+  end
+
   def shop_depot
     return unless @member.use_shop_depot?
 

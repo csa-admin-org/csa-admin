@@ -45,6 +45,7 @@ class Liquid::DataPreviewTest < ActiveSupport::TestCase
         "page_url" => "https://members.acme.test",
         "sepa" => nil,
         "new_sepa_mandate_url" => nil,
+        "shop_url" => "https://members.acme.test/shop",
         "shop_depot" => nil
       },
       "membership" => {
@@ -181,6 +182,7 @@ class Liquid::DataPreviewTest < ActiveSupport::TestCase
         "page_url" => "https://members.acme.test",
         "sepa" => nil,
         "new_sepa_mandate_url" => nil,
+        "shop_url" => "https://members.acme.test/shop",
         "shop_depot" => nil
       },
       "organization" => {
@@ -252,7 +254,8 @@ class Liquid::DataPreviewTest < ActiveSupport::TestCase
         "name" => "John Doe",
         "page_url" => "https://members.acme.test",
         "sepa" => nil,
-        "new_sepa_mandate_url" => nil
+        "new_sepa_mandate_url" => nil,
+        "shop_url" => "https://members.acme.test/shop"
       },
       "membership" => {
         "absences_included" => nil,
