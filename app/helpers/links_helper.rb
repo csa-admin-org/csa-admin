@@ -25,6 +25,14 @@ module LinksHelper
     end
   end
 
+  def form_submit_tag(label, icon: "check", **options)
+    icon_name = icon
+    options[:type] ||= :submit
+    content_tag(:button, **options) do
+      icon(icon_name, class: "size-5 -ms-1 me-2") + label
+    end
+  end
+
   def action_link(name, url, icon: nil, **options)
     link_to url, class: "h-9 action-item-button #{options.delete(:class)}", **options do
       txt = name.to_s.html_safe

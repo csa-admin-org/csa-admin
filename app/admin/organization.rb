@@ -582,7 +582,7 @@ ActiveAdmin.register Organization do
     end
 
     f.actions do
-      f.submit t("active_admin.resources.organization.submit")
+      f.action :submit, label: t("active_admin.resources.organization.submit")
       cancel_link :back
     end
   end

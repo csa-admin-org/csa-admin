@@ -228,7 +228,7 @@ ActiveAdmin.register Shop::Order do
     end
 
     f.actions do
-      f.action :submit, as: :input
+      f.action :submit
       cancel_link shop_orders_path(q: { _delivery_gid_eq: f.object.delivery_gid })
     end
   end
