@@ -57,6 +57,8 @@ module LocalCurrency
       res = Net::HTTP.start(uri.hostname, uri.port, use_ssl: true) do |http|
         http.request(req)
       end
+      return [] if res.body.blank?
+
       JSON.parse(res.body)
     rescue StandardError => e
       Rails.error.report(e, context: { body: res&.body })
