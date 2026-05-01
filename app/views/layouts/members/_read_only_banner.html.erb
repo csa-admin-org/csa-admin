@@ -1,0 +1,12 @@
+<% if current_session&.admin_originated? %>
+  <div
+    class="
+      flex items-center justify-center border-b border-amber-400
+      bg-amber-100 p-2 text-sm text-amber-800 dark:border-amber-600
+      dark:bg-amber-900 dark:text-amber-200
+    "
+  >
+    <%= icon "exclamation-triangle", class: "size-5 mr-2 flex-shrink-0" %>
+    <span><%= t("members.read_only_sessions.alert") %></span>
+  </div>
+<% end %>

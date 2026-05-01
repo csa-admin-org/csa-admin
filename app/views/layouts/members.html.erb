@@ -26,6 +26,7 @@
     data-theme-preference-value="<%= current_member&.theme || "system" %>"
   >
     <% if current_member %>
+      <%= render "layouts/members/read_only_banner" %>
       <div class="flex flex-col md:mx-auto md:max-w-4xl md:flex-row">
         <div class="flex flex-col md:w-80">
           <div>
