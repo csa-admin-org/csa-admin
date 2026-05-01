@@ -78,7 +78,7 @@ module Billing
     def ensure_recent_payments!
       if Invoice.not_canceled.sent.where("created_at > ?", NO_RECENT_PAYMENTS_SINCE.ago).any?
           && Payment.import.where("created_at > ?", NO_RECENT_PAYMENTS_SINCE.ago).none?
-        if last_payment = Payment.auto.reorder(:created_at).last
+        if last_payment = Payment.import.reorder(:created_at).last
           Rails.error.unexpected("No recent payment error", context: {
             last_payment_id: last_payment.id,
             last_payment_date: last_payment.date,
