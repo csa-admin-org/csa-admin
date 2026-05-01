@@ -1,20 +1,20 @@
-# Warenkorb
+# Hofladen
 
-Der Online-Warenkorb ermöglicht es Deinen Mitgliedern, einige Tage vor der Lieferung ihrer nächsten <%= Basket.model_name.human(count: 2) %> zusätzliche Produkte von ihrem Konto aus zu bestellen.
+Der Online-Hofladen ermöglicht es Deinen Mitgliedern, einige Tage vor der Lieferung ihrer nächsten <%= Basket.model_name.human(count: 2) %> zusätzliche Produkte von ihrem Konto aus zu bestellen.
 
-Um Dir zu ermöglichen, den Inhalt Deines Warenkorbs in Ruhe vorzubereiten, erscheint der Warenkorb standardmäßig **nicht** im Menü des Mitgliedskontos. Nur Administratoren, die auf das Konto eines Mitglieds zugreifen können (über die Schaltfläche "Auf Konto zugreifen" auf der Administratorseite eines Mitglieds), können den Warenkorb sehen. So kannst Du sicherstellen, dass alle Produkte gut präsentiert sind. Sobald alles eingerichtet ist, kann diese Einschränkung in [den Einstellungen](/settings#shop) deaktiviert werden.
+Um Dir zu ermöglichen, den Inhalt Deines Hofladens in Ruhe vorzubereiten, erscheint der Hofladen standardmäßig **nicht** im Menü des Mitgliedskontos. Nur Administratoren, die auf das Konto eines Mitglieds zugreifen können (über die Schaltfläche "Auf Konto zugreifen" auf der Administratorseite eines Mitglieds), können den Hofladen sehen. So kannst Du sicherstellen, dass alle Produkte gut präsentiert sind. Sobald alles eingerichtet ist, kann diese Einschränkung in [den Einstellungen](/settings#shop) deaktiviert werden.
 
 ## Produzenten {#producers}
 
-Jedes Produkt kann [einem Produzenten](/shop_producers) zugeordnet werden. Für jeden von ihnen können eine Beschreibung sowie ein Link zu einer Website oder einem Dokument definiert werden. Alle Produkte können in der Mitgliederschnittstelle des Warenkorbs nach Produzent gefiltert werden.
+Jedes Produkt kann [einem Produzenten](/shop_producers) zugeordnet werden. Für jeden von ihnen können eine Beschreibung sowie ein Link zu einer Website oder einem Dokument definiert werden. Alle Produkte können in der Mitgliederschnittstelle des Hofladens nach Produzent gefiltert werden.
 
 ## Produkte {#products}
 
-Viele Optionen werden angeboten, um die Produkte Deines Warenkorbs bestmöglich zu verwalten.
+Viele Optionen werden angeboten, um die Produkte Deines Hofladens bestmöglich zu verwalten.
 
 ### Tags {#tags}
 
-[Tags](/shop_tags) sind Schlüsselwörter, die es ermöglichen, die Produkte in der Mitgliederschnittstelle des Warenkorbs zu filtern. Jedes Produkt kann einem oder mehreren Tags zugeordnet werden.
+[Tags](/shop_tags) sind Schlüsselwörter, die es ermöglichen, die Produkte in der Mitgliederschnittstelle des Hofladens zu filtern. Jedes Produkt kann einem oder mehreren Tags zugeordnet werden.
 
 ### Varianten
 
@@ -36,7 +36,7 @@ Dieses Produkt wird auch nur an den Liefertagen der Ergänzung verfügbar sein.
 
 ## Bestellungen {#orders}
 
-Um Dir Zeit zu geben, die vor der Lieferung aufgegebenen Bestellungen zu bearbeiten und zu berechnen, kann eine Frist (Tage und Stunden), bis zu der Bestellungen möglich sind, in [den Warenkorbeinstellungen](/settings#shop) festgelegt werden. Nach dieser Frist können Mitglieder ihre Bestellung für die bevorstehende Lieferung nicht mehr erstellen oder ändern.
+Um Dir Zeit zu geben, die vor der Lieferung aufgegebenen Bestellungen zu bearbeiten und zu berechnen, kann eine Frist (Tage und Stunden), bis zu der Bestellungen möglich sind, in [den Hofladeneinstellungen](/settings#shop) festgelegt werden. Nach dieser Frist können Mitglieder ihre Bestellung für die bevorstehende Lieferung nicht mehr erstellen oder ändern.
 
 Es ist auch möglich, einen Mindestbestellbetrag sowie ein maximales Gewicht festzulegen, wenn diese Information für jede Produktvariante ordnungsgemäß eingegeben wurde.
 
@@ -48,7 +48,7 @@ Ein Lieferschein (PDF), der den Preis der Produkte nicht enthält, ist für jede
 
 Standardmäßig müssen die Bestellungen, sobald sie vorbereitet sind, **manuell** in Rechnung gestellt werden (Möglichkeit, alle auf einmal über eine Gruppenmaßnahme in Rechnung zu stellen). Die Rechnung wird dann automatisch per E-Mail an das Mitglied gesendet.
 
-Es ist auch möglich, die **automatische Abrechnung** der Bestellungen in [den Warenkorbeinstellungen](/settings#shop) zu konfigurieren, nach oder vor einer bestimmten Anzahl von Tagen nach oder vor dem Lieferdatum.
+Es ist auch möglich, die **automatische Abrechnung** der Bestellungen in [den Hofladeneinstellungen](/settings#shop) zu konfigurieren, nach oder vor einer bestimmten Anzahl von Tagen nach oder vor dem Lieferdatum.
 
 > Wenn eine bereits in Rechnung gestellte Bestellung geändert wird, wird die bestehende Rechnung automatisch storniert und eine neue Rechnung muss generiert und gesendet werden.
 
@@ -65,26 +65,26 @@ Es ist möglich, einen spezifischen Text in der [E-Mail-Vorlage "Neue Rechnung"]
 
 ### Preisflexibilität {#price-flexibility}
 
-Wenn Du Mitgliedern ermöglichen möchtest, den Preis ihrer Bestellungen freiwillig anzupassen (als Solidarbeitrag oder als Rabatt), kannst Du eine Liste von Prozentsätzen in [den Warenkorbeinstellungen](/settings#shop) definieren. Zum Beispiel: `-10, -5, 5, 10`.
+Wenn Du Mitgliedern ermöglichen möchtest, den Preis ihrer Bestellungen freiwillig anzupassen (als Solidarbeitrag oder als Rabatt), kannst Du eine Liste von Prozentsätzen in [den Hofladeneinstellungen](/settings#shop) definieren. Zum Beispiel: `-10, -5, 5, 10`.
 
 Wenn Prozentsätze konfiguriert sind, sehen Mitglieder ein Dropdown-Menü auf der Bestellseite, in dem sie eine Anpassung vornehmen können (z.B. «Unterstützung +10%» oder «Rabatt -5%»). Diese Anpassung wird auf den Gesamtbestellbetrag angewendet. Wenn die Liste nur positive Werte enthält, wird dies als Solidarbeitrag angezeigt; wenn nur negative, als Rabatt.
 
 ## Verkaufsbedingungen {#terms-of-sale}
 
-Ein Link zu Deinen Verkaufsbedingungen kann pro Sprache in [den Warenkorbeinstellungen](/settings#shop) konfiguriert werden. Wenn definiert, wird der Link am Ende der Mitglieder-Warenkorbseite angezeigt.
+Ein Link zu Deinen Verkaufsbedingungen kann pro Sprache in [den Hofladeneinstellungen](/settings#shop) konfiguriert werden. Wenn definiert, wird der Link am Ende der Mitglieder-Hofladenseite angezeigt.
 
 ## Zugang für Mitglieder ohne Mitgliedschaft {#access-without-membership}
 
-Standardmäßig und außerhalb [von Sonderlieferungen](#special-deliveries) ist der Zugang zum Warenkorb auf aktive Mitglieder mit einer Mitgliedschaft beschränkt. Es ist jedoch möglich, ein Depot durch Ändern des Profils eines inaktiven Mitglieds als "Warenkorbdepot" zu definieren, um ihm Zugang zum Warenkorb zu geben. Die Bestellungen dieser Mitglieder werden dann in den Blättern (PDF) der entsprechenden Depots erscheinen.
+Standardmäßig und außerhalb [von Sonderlieferungen](#special-deliveries) ist der Zugang zum Hofladen auf aktive Mitglieder mit einer Mitgliedschaft beschränkt. Es ist jedoch möglich, ein Depot durch Ändern des Profils eines inaktiven Mitglieds als "Hofladendepot" zu definieren, um ihm Zugang zum Hofladen zu geben. Die Bestellungen dieser Mitglieder werden dann in den Blättern (PDF) der entsprechenden Depots erscheinen.
 
 ## Sonderlieferungen {#special-deliveries}
 
-Sonderlieferungen ermöglichen es Dir, Deinen Mitgliedern zusätzliche Produkte außerhalb der üblichen Lieferungen von <%= Basket.model_name.human(count: 2) %> über den Online-Warenkorb anzubieten.
+Sonderlieferungen ermöglichen es Dir, Deinen Mitgliedern zusätzliche Produkte außerhalb der üblichen Lieferungen von <%= Basket.model_name.human(count: 2) %> über den Online-Hofladen anzubieten.
 
 Verfügbare Produkte können separat für jede Sonderlieferung definiert werden, die individuelle Einstellung der Verfügbarkeit jedes Produkts wird ignoriert. Die Verfügbarkeit der Varianten sowie der Zustand ihres Bestands werden jedoch immer respektiert.
 
 > Da Sonderlieferungen außerhalb der Lieferungen von <%= Basket.model_name.human(count: 2) %> geliefert werden, sind sie für alle Deine Mitglieder, aktiv oder nicht, zugänglich.
 
-## Warenkorb öffnen {#opening}
+## Hofladen öffnen {#opening}
 
-Bevor Mitglieder Bestellungen aufgeben können, muss der Warenkorb für die gewünschten Lieferungen **geöffnet** werden über [die Lieferungsseite](/deliveries). Dies kann über die Gruppenaktion « Warenkorb öffnen » im Stapel oder einzeln durch Bearbeiten einer Lieferung (wo auch bestimmte Depots ausgewählt werden können) erfolgen. Der Warenkorb kann bei Bedarf auf die gleiche Weise wieder geschlossen werden.
+Bevor Mitglieder Bestellungen aufgeben können, muss der Hofladen für die gewünschten Lieferungen **geöffnet** werden über [die Lieferungsseite](/deliveries). Dies kann über die Gruppenaktion « Hofladen öffnen » im Stapel oder einzeln durch Bearbeiten einer Lieferung (wo auch bestimmte Depots ausgewählt werden können) erfolgen. Der Hofladen kann bei Bedarf auf die gleiche Weise wieder geschlossen werden.
