@@ -31,7 +31,7 @@ ActiveAdmin.register_page "Dashboard" do
                   locals: { delivery: next_delivery, scope: :active }
 
                 if next_delivery.note?
-                  para class: "mt-4 p-2 text-sm rounded-md bg-green-200 dark:bg-green-900" do
+                  para class: "mt-4 p-2 px-2.5 text-sm rounded-md bg-green-200 dark:bg-green-900" do
                     next_delivery.note
                   end
                 end
