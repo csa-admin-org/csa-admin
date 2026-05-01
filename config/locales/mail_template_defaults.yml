@@ -1011,11 +1011,11 @@ _:
         _it: Firma il mandato SEPA
         _nl: SEPA-machtiging ondertekenen
       sepa_mandate_paragraph:
-        _en: If you wish to pay your invoices via SEPA direct debit, please sign the mandate on the dedicated page.
-        _fr: Si vous souhaitez payer vos factures par prélèvement SEPA, merci de signer le mandat depuis la page dédiée.
-        _de: Wenn Du Deine Rechnungen per SEPA-Lastschrift bezahlen möchtest, unterzeichne bitte das Mandat auf der dafür vorgesehenen Seite.
-        _it: Se desiderate pagare le fatture tramite addebito diretto SEPA, vi invitiamo a firmare il mandato dalla pagina dedicata.
-        _nl: Als je je facturen via SEPA-incasso wilt betalen, onderteken dan de machtiging op de speciale pagina.
+        _en: If you wish to pay your invoices via SEPA direct debit, please <a href="{{ member.new_sepa_mandate_url }}">sign the mandate on the dedicated page</a>.
+        _fr: Si vous souhaitez payer vos factures par prélèvement SEPA, merci de <a href="{{ member.new_sepa_mandate_url }}">signer le mandat depuis la page dédiée</a>.
+        _de: Wenn Du Deine Rechnungen per SEPA-Lastschrift bezahlen möchtest, <a href="{{ member.new_sepa_mandate_url }}">unterzeichne bitte das Mandat auf der dafür vorgesehenen Seite</a>.
+        _it: Se desiderate pagare le fatture tramite addebito diretto SEPA, vi invitiamo a <a href="{{ member.new_sepa_mandate_url }}">firmare il mandato dalla pagina dedicata</a>.
+        _nl: Als je je facturen via SEPA-incasso wilt betalen, <a href="{{ member.new_sepa_mandate_url }}">onderteken dan de machtiging op de speciale pagina</a>.
       start_label:
         _en: 'Start:'
         _fr: 'Début:'
@@ -1121,11 +1121,11 @@ _:
         _it: Firma il mandato SEPA
         _nl: SEPA-machtiging ondertekenen
       sepa_mandate_paragraph:
-        _en: If you wish to pay your invoices via SEPA direct debit, please sign the mandate on the dedicated page.
-        _fr: Si vous souhaitez payer vos factures par prélèvement SEPA, merci de signer le mandat depuis la page dédiée.
-        _de: Wenn Du Deine Rechnungen per SEPA-Lastschrift bezahlen möchtest, unterzeichne bitte das Mandat auf der dafür vorgesehenen Seite.
-        _it: Se desiderate pagare le fatture tramite addebito diretto SEPA, vi invitiamo a firmare il mandato dalla pagina dedicata.
-        _nl: Als je je facturen via SEPA-incasso wilt betalen, onderteken dan de machtiging op de speciale pagina.
+        _en: If you wish to pay your invoices via SEPA direct debit, please <a href="{{ member.new_sepa_mandate_url }}">sign the mandate on the dedicated page</a>.
+        _fr: Si vous souhaitez payer vos factures par prélèvement SEPA, merci de <a href="{{ member.new_sepa_mandate_url }}">signer le mandat depuis la page dédiée</a>.
+        _de: Wenn Du Deine Rechnungen per SEPA-Lastschrift bezahlen möchtest, <a href="{{ member.new_sepa_mandate_url }}">unterzeichne bitte das Mandat auf der dafür vorgesehenen Seite</a>.
+        _it: Se desiderate pagare le fatture tramite addebito diretto SEPA, vi invitiamo a <a href="{{ member.new_sepa_mandate_url }}">firmare il mandato dalla pagina dedicata</a>.
+        _nl: Als je je facturen via SEPA-incasso wilt betalen, <a href="{{ member.new_sepa_mandate_url }}">onderteken dan de machtiging op de speciale pagina</a>.
       waiting_list_position_label:
         _en: 'Waiting list position:'
         _fr: 'Position sur la liste d''attente:'
