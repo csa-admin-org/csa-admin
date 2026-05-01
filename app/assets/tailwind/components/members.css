@@ -59,7 +59,7 @@
       li span {
         color: var(--color-gray-500);
       }
-      li:hover span {
+      li a:hover span {
         color: var(--color-green-500);
       }
       li.active span,
