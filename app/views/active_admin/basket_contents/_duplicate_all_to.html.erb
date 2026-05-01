@@ -10,6 +10,9 @@
   </div>
 
   <div class="mt-2 flex justify-end">
-    <%= f.submit t(".button"), class: "btn btn-sm" %>
+    <button type="submit" class="btn btn-sm">
+      <%= icon("square-arrow-right-exit", class: "size-4 me-2") %>
+      <%= t(".button") %>
+    </button>
   </div>
 <% end %>
