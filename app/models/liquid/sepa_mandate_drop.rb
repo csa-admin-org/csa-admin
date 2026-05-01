@@ -13,6 +13,10 @@ class Liquid::SEPAMandateDrop < Liquid::Drop
     I18n.l(@mandate.signed_on)
   end
 
+  def debtor_name
+    @mandate.member.billing_info(:name)
+  end
+
   def masked_iban
     @mandate.masked_iban
   end

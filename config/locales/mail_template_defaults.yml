@@ -1183,6 +1183,12 @@ _:
         _de: Dein SEPA-Lastschriftmandat wurde gespeichert. Zukünftige Rechnungen werden direkt von dem untenstehenden Konto eingezogen.
         _it: Il mandato di addebito diretto SEPA è stato registrato. Le fatture future saranno addebitate direttamente sul conto indicato di seguito.
         _nl: Je SEPA-machtiging is geregistreerd. Toekomstige facturen worden automatisch van de onderstaande rekening afgeschreven.
+      debtor_name_label:
+        _en: 'Debtor name:'
+        _fr: 'Nom du débiteur :'
+        _de: 'Zahlungspflichtiger:'
+        _it: 'Nome del debitore:'
+        _nl: 'Naam rekeninghouder:'
       iban_label:
         _en: 'IBAN:'
         _fr: 'IBAN :'

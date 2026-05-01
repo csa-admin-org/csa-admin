@@ -1,6 +1,7 @@
 <p><%= t(".confirmation_paragraph") %></p>
 
 {% highlight_list %}
+  <strong><%= t(".debtor_name_label") %></strong> {{ sepa_mandate.debtor_name }}
   <strong><%= t(".iban_label") %></strong> {{ sepa_mandate.masked_iban }}
   <strong><%= t(".mandate_id_label") %></strong> {{ sepa_mandate.umr }}
   <strong><%= t(".signed_on_label") %></strong> {{ sepa_mandate.signed_on }}
