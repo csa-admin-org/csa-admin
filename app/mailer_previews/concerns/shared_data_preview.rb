@@ -12,18 +12,22 @@ module SharedDataPreview
   end
 
   def member
-    @_member ||= OpenStruct.new(
-      id: 1,
-      name: [ "Jane Doe", "John Doe" ].sample(random: random),
-      language: params[:locale] || I18n.locale,
-      annual_fee: Current.org.annual_fee,
-      waiting_basket_size_id: basket_size&.id,
-      waiting_basket_size: basket_size,
-      waiting_depot_id: depot&.id,
-      waiting_depot: depot,
-      waiting_delivery_cycle_id: delivery_cycle&.id,
-      waiting_delivery_cycle: delivery_cycle,
-      activity_participations: ActivityParticipation.coming.limit(1))
+    @_member ||= begin
+      m = OpenStruct.new(
+        id: 1,
+        name: [ "Jane Doe", "John Doe" ].sample(random: random),
+        language: params[:locale] || I18n.locale,
+        annual_fee: Current.org.annual_fee,
+        waiting_basket_size_id: basket_size&.id,
+        waiting_basket_size: basket_size,
+        waiting_depot_id: depot&.id,
+        waiting_depot: depot,
+        waiting_delivery_cycle_id: delivery_cycle&.id,
+        waiting_delivery_cycle: delivery_cycle,
+        activity_participations: ActivityParticipation.coming.limit(1))
+      def m.billing_info(attr) = send(attr)
+      m
+    end
   end
 
   def membership
