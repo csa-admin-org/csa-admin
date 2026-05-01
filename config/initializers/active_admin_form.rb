@@ -33,7 +33,7 @@ Formtastic::Actions::ButtonAction.class_eval do
   def to_html
     icon_name = options[:icon] || "check"
     wrapper do
-      template.form_submit_tag(text, icon: icon_name, **button_html)
+      template.form_submit_tag(text, icon: icon_name, icon_class: options[:icon_class], **button_html)
     end
   end
 end

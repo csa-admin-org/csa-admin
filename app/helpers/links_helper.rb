@@ -25,11 +25,12 @@ module LinksHelper
     end
   end
 
-  def form_submit_tag(label, icon: "check", **options)
+  def form_submit_tag(label, icon: "check", icon_class: nil, **options)
     icon_name = icon
+    icon_class ||= "size-5 -ms-1 me-2"
     options[:type] ||= :submit
     content_tag(:button, **options) do
-      icon(icon_name, class: "size-5 -ms-1 me-2") + label
+      icon(icon_name, class: icon_class) + label
     end
   end
 

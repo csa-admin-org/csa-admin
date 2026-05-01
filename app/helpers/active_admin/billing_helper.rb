@@ -25,6 +25,7 @@ module ActiveAdmin::BillingHelper
           if authorized
             arbre.div do
               panel_button t("active_admin.resource.show.recurring_billing"), path,
+                icon: "banknote",
                 disabled: !Current.org.iban?,
                 disabled_tooltip: t("active_admin.resource.show.recurring_billing_iban_missing", iban_type: Current.org.iban_type_name),
                 form: { class: "inline" },

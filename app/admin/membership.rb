@@ -642,7 +642,7 @@ ActiveAdmin.register Membership do
             if invoicer.billable?
               div class: "mt-2 flex items-center justify-center gap-4" do
                 panel_button t(".future_billing"), future_billing_membership_path(resource),
-                  icon: "banknotes",
+                  icon: "banknote",
                   disabled: !Current.org.iban?,
                   disabled_tooltip: t(".future_billing_iban_missing", iban_type: Current.org.iban_type_name),
                   form: { class: "inline" },
