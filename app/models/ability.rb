@@ -84,6 +84,7 @@ class Ability
 
       can :validate, Member, pending?: true
       can :deactivate, Member, can_deactivate?: true
+      can :disable_sepa, Member, can_disable_sepa?: true
       can :wait, Member, can_wait?: true
     end
 

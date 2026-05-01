@@ -58,9 +58,6 @@ module Member::Anonymization
       food_note: nil,
       profession: nil,
       come_from: nil,
-      iban: nil,
-      sepa_mandate_id: nil,
-      sepa_mandate_signed_on: nil,
       contact_sharing: false,
       anonymized_at: Time.current
     )
@@ -70,6 +67,7 @@ module Member::Anonymization
   def nullify_related_session_ids!
     absences.update_all(session_id: nil)
     activity_participations.update_all(session_id: nil)
+    sepa_mandates.update_all(session_id: nil)
   end
 
   def anonymize_absences!

@@ -1176,6 +1176,12 @@ _:
           _de: Gesendete
           _it: Inviato
           _nl: Verzonden
+        sepa_debtor_name:
+          _en: Debtor name
+          _fr: Nom du débiteur
+          _de: Zahlungspflichtiger
+          _it: Nome del debitore
+          _nl: Naam rekeninghouder
         sepa_direct_debit:
           _en: Direct Debit
           _fr: Paiement direct
@@ -1618,6 +1624,12 @@ _:
           _de: Lohnteil(e)
           _it: Parti-compenso
           _nl: Salarisdeel(-delen)
+        sepa_disabled_at:
+          _en: SEPA disabled at
+          _fr: SEPA désactivé le
+          _de: SEPA deaktiviert am
+          _it: SEPA disattivato il
+          _nl: SEPA uitgeschakeld op
         sepa_mandate_id:
           _en: Mandate reference number
           _fr: Numéro de référence du mandat

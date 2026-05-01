@@ -81,21 +81,6 @@ module Member::Billing
     [ balance_amount, 0 ].max
   end
 
-  def sepa?
-    iban? && sepa_mandate_id? && sepa_mandate_signed_on?
-  end
-
-  def sepa_metadata
-    return {} unless sepa?
-
-    {
-      name: billing_info(:name),
-      iban: iban,
-      mandate_id: sepa_mandate_id,
-      mandate_signed_on: sepa_mandate_signed_on
-    }
-  end
-
   private
 
   def billing_truemail

@@ -13,26 +13,28 @@ class Scheduled::BillingSEPADirectDebitOrdersUploaderJobTest < ActiveJob::TestCa
     assert Current.org.bank_connection?
 
     member = members(:anna)
-    member.update!(
-      language: "de",
+    member.update!(language: "de", country_code: "DE")
+    member.sepa_mandates.create!(
       iban: "DE21500500009876543210",
-      sepa_mandate_id: "123456",
-      sepa_mandate_signed_on: "2023-12-24")
+      umr: "123456",
+      signed_on: Date.parse("2023-12-24"),
+      source: "admin")
+    member.reload
 
-    non_sepa_invoice = create_annual_fee_invoice(member: member, sepa_metadata: {})
+    non_sepa_invoice = create_annual_fee_invoice(member: members(:john))
 
-    closed_sepa_invoice = create_annual_fee_invoice(member: member, sepa_metadata: { iban: member.iban })
+    closed_sepa_invoice = create_annual_fee_invoice(member: member)
     closed_sepa_invoice.update!(state: "closed")
 
-    unsent_sepa_invoice = create_annual_fee_invoice(member: member, sepa_metadata: { iban: member.iban })
+    unsent_sepa_invoice = create_annual_fee_invoice(member: member)
 
-    recent_sent_sepa_invoice = create_annual_fee_invoice(member: member, sepa_metadata: { iban: member.iban })
+    recent_sent_sepa_invoice = create_annual_fee_invoice(member: member)
     recent_sent_sepa_invoice.update!(sent_at: 1.day.ago)
 
-    uploaded_sepa_invoice = create_annual_fee_invoice(member: member, sepa_metadata: { iban: member.iban })
+    uploaded_sepa_invoice = create_annual_fee_invoice(member: member)
     uploaded_sepa_invoice.update!(sent_at: 5.days.ago, sepa_direct_debit_order_uploaded_at: 1.day.ago)
 
-    qualifying_invoice = create_annual_fee_invoice(member: member, sepa_metadata: { iban: member.iban })
+    qualifying_invoice = create_annual_fee_invoice(member: member)
     qualifying_invoice.update!(sent_at: 5.days.ago)
 
     assert_enqueued_jobs 1, only: Billing::SEPADirectDebitOrderUploaderJob do
@@ -56,13 +58,15 @@ class Scheduled::BillingSEPADirectDebitOrdersUploaderJobTest < ActiveJob::TestCa
     assert Current.org.bank_connection?
 
     member = members(:anna)
-    member.update!(
-      language: "de",
+    member.update!(language: "de", country_code: "DE")
+    member.sepa_mandates.create!(
       iban: "DE21500500009876543210",
-      sepa_mandate_id: "123456",
-      sepa_mandate_signed_on: "2023-12-24")
+      umr: "123456",
+      signed_on: Date.parse("2023-12-24"),
+      source: "admin")
+    member.reload
 
-    qualifying_invoice = create_annual_fee_invoice(member: member, sepa_metadata: { iban: member.iban })
+    qualifying_invoice = create_annual_fee_invoice(member: member)
     qualifying_invoice.update!(sent_at: 5.days.ago)
 
     assert_no_enqueued_jobs only: Billing::SEPADirectDebitOrderUploaderJob do
@@ -80,13 +84,15 @@ class Scheduled::BillingSEPADirectDebitOrdersUploaderJobTest < ActiveJob::TestCa
     assert_not Current.org.bank_connection?
 
     member = members(:anna)
-    member.update!(
-      language: "de",
+    member.update!(language: "de", country_code: "DE")
+    member.sepa_mandates.create!(
       iban: "DE21500500009876543210",
-      sepa_mandate_id: "123456",
-      sepa_mandate_signed_on: "2023-12-24")
+      umr: "123456",
+      signed_on: Date.parse("2023-12-24"),
+      source: "admin")
+    member.reload
 
-    qualifying_invoice = create_annual_fee_invoice(member: member, sepa_metadata: { iban: member.iban })
+    qualifying_invoice = create_annual_fee_invoice(member: member)
     qualifying_invoice.update!(sent_at: 5.days.ago)
 
     assert_no_enqueued_jobs only: Billing::SEPADirectDebitOrderUploaderJob do

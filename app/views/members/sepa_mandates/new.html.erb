@@ -1,0 +1,96 @@
+<h1><%= t(".title") %></h1>
+
+<section>
+  <%= simple_form_for @sepa_mandate, url: members_sepa_mandate_path, html: { id: "sepa_mandate_form" } do |f| %>
+    <div class="mt-4 space-y-4">
+      <div
+        class="
+          mb-8 space-y-3 rounded-sm border border-gray-200 bg-gray-50 px-5
+          py-4 text-sm dark:border-gray-700 dark:bg-gray-800
+        "
+      >
+        <% interp = {
+          creditor_name: Current.org.creditor_name,
+          creditor_street: Current.org.creditor_street,
+          creditor_zip: Current.org.creditor_zip,
+          creditor_city: Current.org.creditor_city,
+          sepa_creditor_identifier: Current.org.sepa_creditor_identifier,
+          sepa_mandate_id: current_member.current_sepa_mandate&.umr || current_member.id.to_s
+        } %>
+
+        <dl class="space-y-1">
+          <div class="flex gap-2">
+            <dt class="shrink-0 font-semibold">
+              <%= t("sepa_mandate.pdf.creditor") %>
+            </dt>
+
+            <dd>
+              <%= [ Current.org.creditor_name, Current.org.creditor_street, "#{Current.org.creditor_zip} #{Current.org.creditor_city}" ].compact.join(", ") %>
+            </dd>
+          </div>
+
+          <div class="flex gap-2">
+            <dt class="shrink-0 font-semibold">
+              <%= t("sepa_mandate.pdf.creditor_identifier") %>
+            </dt>
+
+            <dd><%= Current.org.sepa_creditor_identifier %></dd>
+          </div>
+
+          <div class="flex gap-2">
+            <dt class="shrink-0 font-semibold">
+              <%= t("sepa_mandate.pdf.mandate_reference") %>
+            </dt>
+
+            <dd>
+              <%= current_member.current_sepa_mandate&.umr || current_member.id.to_s %>
+            </dd>
+          </div>
+        </dl>
+
+        <p class="pt-2"><%= t("sepa_mandate.authorisation", **interp) %></p>
+        <p><%= t("sepa_mandate.refund_notice", **interp) %></p>
+      </div>
+
+      <dl class="mb-2 space-y-1 text-sm">
+        <div class="flex gap-2">
+          <dt class="shrink-0 font-semibold">
+            <%= t("sepa_mandate.pdf.debtor") %>
+          </dt>
+
+          <dd>
+            <%= current_member.billing_info(:name) %><br>
+            <%= current_member.billing_info(:street) %><br>
+            <%= current_member.billing_info(:zip) %> <%= current_member.billing_info(:city) %>
+          </dd>
+        </div>
+      </dl>
+
+      <p class="mb-8 text-xs text-gray-500 dark:text-gray-400">
+        <%= link_to t("members.sepa_mandates.new.edit_billing_info_link"),
+          edit_members_account_path,
+          class: "underline" %>
+      </p>
+
+      <%= f.input :iban,
+        required: true,
+        input_html: {
+          placeholder: Billing.iban_placeholder,
+          autocomplete: "off"
+        } %>
+
+      <div class="check_boxes">
+        <div class="checkbox">
+          <%= f.input :sepa_mandate_accepted,
+            as: :boolean,
+            label: t(".consent_label") %>
+        </div>
+      </div>
+    </div>
+
+    <div class="actions">
+      <%= link_to t(".cancel_link"), members_billing_path, class: "cancel-link" %>
+      <%= f.button :submit, t(".submit") %>
+    </div>
+  <% end %>
+</section>

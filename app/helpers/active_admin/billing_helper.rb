@@ -39,4 +39,14 @@ module ActiveAdmin::BillingHelper
       end
     end
   end
+
+  def sepa_mandate_panel_actions(sepa_mandate)
+    actions = [ handbook_icon_link(:sepa) ]
+    if sepa_mandate&.pdf&.attached?
+      actions << icon_file_link(:pdf,
+        rails_blob_path(sepa_mandate.pdf, disposition: "attachment"),
+        title: SEPAMandate.model_name.human)
+    end
+    icon_file_links(*actions)
+  end
 end

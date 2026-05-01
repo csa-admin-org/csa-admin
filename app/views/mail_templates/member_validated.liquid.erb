@@ -11,3 +11,13 @@
 {% button member.page_url %}
   <%= t(".member_page_button") %>
 {% endbutton %}
+
+{% if member.new_sepa_mandate_url %}
+  {% unless member.sepa %}
+    <p><%= t(".sepa_mandate_paragraph") %></p>
+
+    {% button member.new_sepa_mandate_url %}
+      <%= t(".sepa_mandate_button") %>
+    {% endbutton %}
+  {% endunless %}
+{% endif %}

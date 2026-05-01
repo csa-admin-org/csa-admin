@@ -1,0 +1,48 @@
+<!-- country:!CH -->
+# SEPA-incasso
+
+CSA Admin beheert SEPA-incasso voor het innen van betalingen van je leden. Leden kunnen hun machtiging online ondertekenen via een speciale pagina, en facturen worden vervolgens rechtstreeks van hun bankrekening geïnd.
+
+## Overzicht {#overview}
+
+Standaard bevatten facturen een [EPC QR-code](https://nl.wikipedia.org/wiki/EPC_QR_code) die leden kunnen scannen om te betalen. Wanneer een lid een SEPA-machtiging heeft geregistreerd (IBAN, machtigingsreferentie en ondertekeningsdatum), worden toekomstige facturen gemarkeerd als SEPA-facturen en wordt de betaling via automatische incasso geïnd.
+
+Twee wegen leiden tot een geldige SEPA-machtiging:
+
+- **Self-service** — Het lid ondertekent zijn machtiging online via de factureringspagina. Het ontvangt een bevestigingsmail met het ondertekende machtigings-PDF als bijlage.
+- **Admin-invoer** — Je voert IBAN, machtigingsreferentie en ondertekeningsdatum handmatig in op de ledenpagina. Handig voor bijvoorbeeld op papier ondertekende machtigingen.
+
+## Organisatie-instellingen {#setup}
+
+Om SEPA-incasso te activeren, configureer het volgende in [je factureringsinstellingen](/settings#billing):
+
+- **IBAN** — Het IBAN van de bankrekening van je organisatie.
+- **Incassant-ID** — Je SEPA-incassant-identificatie (bijv. `DE98ZZZ09999999999`), verkregen bij je bank of de nationale autoriteit.
+- **Informatietekst (SEPA)** (optioneel) — Wordt weergegeven op SEPA-facturen in plaats van de standaard informatietekst.
+- **EBICS-verbinding** (optioneel) — Indien geconfigureerd, worden SEPA-incasso-opdrachten automatisch 3 dagen na het verzenden van de factuur naar je bank verzonden. Meer informatie over [EBICS-instellingen](/handbook/billing#ebics-setup).
+
+Zodra een incassant-ID is ingesteld, wordt de self-service machtigingspagina beschikbaar voor alle leden.
+
+## Self-service voor leden {#self-service}
+
+Leden bereiken de machtigingspagina via hun factureringspagina. Ze zien de machtigingstekst in hun eigen taal, voeren hun IBAN in, vinken een toestemmingsvakje aan en versturen het formulier.
+
+Na ondertekening:
+
+- IBAN, machtigingsreferentie (UMR) en ondertekeningsdatum worden opgeslagen.
+- Een ondertekend machtigings-PDF wordt gegenereerd en als bijlage bij een bevestigingsmail naar het lid gestuurd.
+- De machtigingsreferentie is standaard het ID van het lid en **blijft stabiel bij IBAN-wijzigingen**.
+
+Als een lid later zijn IBAN wijzigt, wordt dezelfde machtigingsreferentie hergebruikt, de ondertekeningsdatum wordt bijgewerkt naar vandaag en een nieuwe bevestigingsmail met het nieuwe machtigings-PDF wordt verzonden. Elke IBAN-wijziging genereert een nieuwe machtiging, de machtigingshistorie wordt bewaard.
+
+## Verwerking van SEPA-opdrachten {#processing}
+
+Zodra een SEPA-factuur is aangemaakt en verzonden, moet een SEPA-incasso-opdracht (XML pain.008) bij je bank worden ingediend.
+
+**Met EBICS-verbinding** — Opdrachten worden **automatisch verzonden** naar je bank 3 dagen na het verzenden van de factuur. Je kunt de verzending ook handmatig starten vanuit de factuurpagina. De factuurpagina toont het opdracht-ID en de verzenddatum zodra de opdracht is ingediend.
+
+**Zonder EBICS-verbinding** — Je kunt **het pain.xml-bestand handmatig downloaden** vanuit de factuurpagina en het zelf uploaden via het e-bankingportaal van je bank. Een bulkdownload is ook beschikbaar via de zijbalk van [de facturenpagina](/invoices), met alle openstaande SEPA-facturen in één keer.
+
+> SEPA-facturen activeren geen betalingsherinneringen, aangezien de inning door jou (de incassant) wordt geïnitieerd en niet door het lid.
+
+<!-- /country:!CH -->

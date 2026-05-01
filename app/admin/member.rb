@@ -474,14 +474,39 @@ ActiveAdmin.register Member do
         end
 
         if Current.org.sepa?
-          panel t(".billing") + " (SEPA)" do
-            attributes_table do
-              row(:iban) { member.iban_formatted }
-              row(:sepa_mandate_id) {
-                if member.sepa_mandate_id?
-                  member.sepa_mandate_id + " (#{l(member.sepa_mandate_signed_on)})"
+          current_mandate = member.current_sepa_mandate
+          panel t(".billing") + " (SEPA)", action: sepa_mandate_panel_actions(current_mandate) do
+            if current_mandate
+              disabled_value_class = "italic text-gray-400 dark:text-gray-500"
+
+              attributes_table do
+                row(Invoice.human_attribute_name(:sepa_debtor_name)) do
+                  value = member.billing_info(:name)
+                  member.sepa_disabled? ? content_tag(:span, value, class: disabled_value_class) : value
                 end
-              }
+                row(:iban) do
+                  value = current_mandate.iban_formatted
+                  member.sepa_disabled? ? content_tag(:span, value, class: disabled_value_class) : value
+                end
+                row(:sepa_mandate_id) do
+                  value = current_mandate.umr + " (#{l(current_mandate.signed_on)})"
+                  member.sepa_disabled? ? content_tag(:span, value, class: disabled_value_class) : value
+                end
+              end
+
+              if member.sepa_disabled?
+                para t(".sepa_disabled_hint"), class: "hint mt-4"
+              elsif authorized?(:update, member)
+                div class: "mt-2 mb-1 flex items-center justify-center gap-4 gap-y-2 flex-wrap" do
+                  panel_button t(".disable_sepa"), disable_sepa_member_path(member),
+                    icon: "circle-off",
+                    method: :post,
+                    class: "btn btn-sm destructive",
+                    data: { confirm: t(".disable_sepa_confirm") }
+                end
+              end
+            else
+              div(class: "missing-data") { t("active_admin.empty") }
             end
           end
         end
@@ -625,14 +650,34 @@ ActiveAdmin.register Member do
       end
     end
 
-    if Current.org.sepa?
+    if Current.org.sepa? && f.object.persisted?
       f.inputs t("active_admin.resource.show.billing") + " (SEPA)" do
-        f.input :iban,
-          placeholder: Billing.iban_placeholder,
-          required: false,
-          input_html: { value: f.object.iban_formatted }
-        f.input :sepa_mandate_id
-        f.input :sepa_mandate_signed_on, as: :date_picker, required: false
+        current_mandate = f.object.current_sepa_mandate
+        mandate_active = f.object.sepa?
+
+        if current_mandate && f.object.sepa_disabled?
+          para t(".sepa_disabled_form_hint"), class: "hint"
+        end
+
+        f.fields_for :sepa_mandates, f.object.sepa_mandates.build(
+          iban: mandate_active ? current_mandate&.iban : nil,
+          umr: mandate_active ? current_mandate&.umr : nil,
+          signed_on: mandate_active ? current_mandate&.signed_on : nil
+        ) do |sf|
+          sf.input :iban,
+            placeholder: Billing.iban_placeholder,
+            required: false,
+            input_html: { value: mandate_active ? f.object.iban_formatted : nil }
+          sf.input :umr,
+            placeholder: f.object.current_sepa_mandate&.umr || f.object.id&.to_s,
+            required: false,
+            label: Member.human_attribute_name(:sepa_mandate_id),
+            hint: t("formtastic.hints.member.sepa_mandate_id")
+          sf.input :signed_on,
+            label: Member.human_attribute_name(:sepa_mandate_signed_on),
+            as: :date_picker,
+            required: false
+        end
       end
     end
 
@@ -686,7 +731,6 @@ ActiveAdmin.register Member do
     :billing_email, :trial_baskets_count,
     :different_billing_info,
     :billing_name, :billing_street, :billing_city, :billing_zip,
-    :iban, :sepa_mandate_id, :sepa_mandate_signed_on,
     :shares_info, :existing_shares_number,
     :desired_shares_number, :required_shares_number,
     :waiting, :waiting_basket_size_id, :waiting_basket_price_extra,
@@ -699,6 +743,7 @@ ActiveAdmin.register Member do
     :send_validation_email,
     :use_local_currency,
     waiting_alternative_depot_ids: [],
+    sepa_mandates_attributes: [ :iban, :umr, :signed_on ],
     members_basket_complements_attributes: [
       :id, :basket_complement_id, :quantity, :_destroy
     ]
@@ -776,6 +821,12 @@ ActiveAdmin.register Member do
   rescue ActiveRecord::RecordInvalid => e
     flash[:alert] = e.message
     redirect_to member_path(resource)
+  end
+
+  member_action :disable_sepa, method: :post do
+    authorize!(:update, resource)
+    resource.disable_sepa!
+    redirect_to member_path(resource), notice: t(".flash.notice")
   end
 
   member_action :become do

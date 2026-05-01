@@ -55,6 +55,7 @@ module ActiveSupport
     setup do
       Tenant.connect("acme")
       skip_invoice_pdf
+      skip_sepa_mandate_pdf
     end
 
     teardown do

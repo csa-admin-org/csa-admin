@@ -31,7 +31,7 @@ module AuditsHelper
     ended_on
     renewed_at
     renewal_opened_at
-    sepa_mandate_signed_on
+    signed_on
   ].freeze
 
   TRANSLATED_HASH_ATTRIBUTES = %w[

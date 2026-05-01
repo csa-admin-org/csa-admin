@@ -355,6 +355,12 @@ _:
         _de: Dein Abonnement verlängern (Erinnerung)
         _it: Rinnovo del vostro abbonamento (promemoria)
         _nl: Vernieuw uw lidmaatschap (herinnering)
+      sepa_mandate_confirmation:
+        _en: SEPA mandate confirmation
+        _fr: Confirmation du mandat SEPA
+        _de: Bestätigung des SEPA-Mandats
+        _it: Conferma del mandato SEPA
+        _nl: Bevestiging SEPA-machtiging
     description:
       absence_baskets_shifted/bag:
         _en: Sent when one or more bags are shifted during an absence, by a member or an admin.
@@ -710,6 +716,12 @@ _:
         _de: Gesendet, um das Mitglied daran zu erinnern, dass es das Abonnementserneuerungsformular noch nicht ausgefüllt hat (siehe <a href='/settings#membership_renewal'>die Einstellungen</a> für die Frist).
         _it: Inviato per ricordare al socio che non ha ancora completato il modulo di rinnovo dell'abbonamento (vedi <a href='/settings#membership_renewal'>parametri</a> per le scadenze).
         _nl: Verzonden om het lid eraan te herinneren dat ze het formulier voor lidmaatschapsvernieuwing nog niet hebben ingevuld (zie <a href='/settings#membership_renewal'>instellingen</a> voor de deadline).
+      sepa_mandate_confirmation:
+        _en: Sent when a member signs or updates their SEPA direct debit mandate via the self-service page. Contains the full mandate text and acts as evidence of consent.
+        _fr: Envoyé quand un membre signe ou met à jour son mandat de prélèvement SEPA depuis la page dédiée. Contient le texte complet du mandat et sert de preuve de consentement.
+        _de: Wird gesendet, wenn ein Mitglied sein SEPA-Lastschriftmandat über die Selbstbedienungsseite unterzeichnet oder aktualisiert. Enthält den vollständigen Mandatstext als Nachweis der Zustimmung.
+        _it: Inviato quando un socio firma o aggiorna il mandato di addebito diretto SEPA dalla pagina self-service. Contiene il testo completo del mandato come prova del consenso.
+        _nl: Verzonden wanneer een lid zijn SEPA-machtiging ondertekent of bijwerkt via de selfservicepagina. Bevat de volledige mandaattekst als bewijs van toestemming.
     title:
       absence_baskets_shifted/bag:
         _en: Bag(s) Shifted
@@ -1065,3 +1077,9 @@ _:
         _de: Abonnement verlängern (Erinnerung)
         _it: Rinnovo abbonamento (promemoria)
         _nl: Lidmaatschapsvernieuwing (herinnering)
+      sepa_mandate_confirmation:
+        _en: SEPA mandate confirmation
+        _fr: Confirmation du mandat SEPA
+        _de: Bestätigung des SEPA-Mandats
+        _it: Conferma del mandato SEPA
+        _nl: Bevestiging SEPA-machtiging

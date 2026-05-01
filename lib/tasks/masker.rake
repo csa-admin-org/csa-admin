@@ -27,6 +27,7 @@ namespace :masker do
             fake_email
           end
           fake_iban = member.iban? ? Faker::Bank.iban(country_code: member.country_code) : nil
+          billing_name = name
           member.update_columns(
             name: name,
             emails: fake_emails.join(", "),
@@ -34,12 +35,10 @@ namespace :masker do
             street: Faker::Address.street_address,
             city: Faker::Address.city,
             zip: Faker::Address.zip,
-            iban: fake_iban,
             note: nil,
             food_note: nil,
             come_from: nil,
             profession: nil)
-          billing_name = name
           if member.different_billing_info
             billing_name = Faker::Name.unique.name
             member.update_columns(
@@ -49,14 +48,21 @@ namespace :masker do
               billing_zip: Faker::Address.zip)
           end
           member.sessions.update_all(email: member.emails_array.first)
-          # Update invoices sepa_metadata with anonymized data
+          member.invoices.sepa.update_all(sepa_debtor_name: billing_name)
+
+          # Update SEPA mandates with anonymized data and regenerate any attached PDFs
           if fake_iban
-            member.invoices.where.not(sepa_metadata: {}).find_each do |invoice|
-              invoice.update_columns(
-                sepa_metadata: invoice.sepa_metadata.merge(
-                  "name" => billing_name,
-                  "iban" => fake_iban
-                ))
+            member.sepa_mandates.find_each do |sepa_mandate|
+              had_pdf = sepa_mandate.pdf.attached?
+              sepa_mandate.update_columns(
+                iban: fake_iban,
+                ip: nil,
+                user_agent: nil)
+
+              next unless had_pdf
+
+              sepa_mandate.pdf.purge
+              sepa_mandate.generate_pdf!
             end
           end
         end
@@ -92,6 +98,6 @@ namespace :masker do
       end
     end
 
-    puts "Data masking completed successfully."
+    Rails.logger.info "Data masking completed successfully."
   end
 end

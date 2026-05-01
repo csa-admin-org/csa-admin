@@ -4,15 +4,21 @@ module Invoice::SEPA
   extend ActiveSupport::Concern
 
   included do
-    scope :sepa, -> { where.not(sepa_metadata: {}) }
-    scope :not_sepa, -> { where(sepa_metadata: {}) }
+    belongs_to :sepa_mandate, optional: true
+
+    scope :sepa, -> { where.not(sepa_mandate_id: nil) }
+    scope :not_sepa, -> { where(sepa_mandate_id: nil) }
     scope :sepa_eq, ->(bool) { ActiveRecord::Type::Boolean.new.cast(bool) ? sepa : not_sepa }
 
-    before_validation :set_sepa_metadata, on: :create
+    before_validation :set_sepa_mandate, on: :create
   end
 
   def sepa?
-    Current.org.sepa_creditor_identifier? && sepa_metadata.present?
+    Current.org.sepa_creditor_identifier? && sepa_mandate_id?
+  end
+
+  def sepa_debtor_name
+    self[:sepa_debtor_name].presence || member&.billing_info(:name)
   end
 
   def sepa_direct_debit_pain_xml
@@ -75,9 +81,8 @@ module Invoice::SEPA
 
   private
 
-  def set_sepa_metadata
-    return unless member&.sepa?
-
-    self.sepa_metadata = member.sepa_metadata
+  def set_sepa_mandate
+    self.sepa_mandate ||= member&.current_sepa_mandate if member&.sepa?
+    self[:sepa_debtor_name] ||= member&.billing_info(:name) if sepa_mandate.present?
   end
 end

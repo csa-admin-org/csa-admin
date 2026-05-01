@@ -1,0 +1,13 @@
+<p><%= t(".confirmation_paragraph") %></p>
+
+{% highlight_list %}
+  <strong><%= t(".iban_label") %></strong> {{ sepa_mandate.masked_iban }}
+  <strong><%= t(".mandate_id_label") %></strong> {{ sepa_mandate.umr }}
+  <strong><%= t(".signed_on_label") %></strong> {{ sepa_mandate.signed_on }}
+{% endhighlight_list %}
+
+<p><%= t(".pdf_attached_paragraph") %></p>
+
+{% button member.billing_url %}
+  <%= t(".billing_button") %>
+{% endbutton %}

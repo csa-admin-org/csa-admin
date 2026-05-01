@@ -1688,6 +1688,12 @@ _:
           _de: Die automatische E-Mail "Mitglied validiert" senden.
           _it: Invia l'email automatica "Socio confermato".
           _nl: Verstuur de automatische email "Lid gevalideerd".
+        sepa_disabled_form_hint:
+          _en: SEPA is currently disabled. Enter an IBAN to reactivate it, or leave the fields blank to keep it disabled.
+          _fr: Le SEPA est actuellement désactivé. Saisissez un IBAN pour le réactiver, ou laissez les champs vides pour le garder désactivé.
+          _de: SEPA ist derzeit deaktiviert. Eine IBAN eingeben, um SEPA wieder zu aktivieren, oder die Felder leer lassen, um SEPA deaktiviert zu lassen.
+          _it: Il SEPA è attualmente disattivato. Inserite un IBAN per riattivarlo oppure lasciate i campi vuoti per mantenerlo disattivato.
+          _nl: SEPA is momenteel uitgeschakeld. Voer een IBAN in om het opnieuw te activeren, of laat de velden leeg om het uitgeschakeld te houden.
         settings:
           _en: Settings
           _fr: Paramètres
@@ -2128,6 +2134,18 @@ _:
           _de: Direkte Einzahlungen
           _it: Pagamento diretto
           _nl: Directe betalingen
+        disable_sepa:
+          _en: Disable SEPA
+          _fr: Désactiver SEPA
+          _de: SEPA deaktivieren
+          _it: Disattivare SEPA
+          _nl: SEPA uitschakelen
+        disable_sepa_confirm:
+          _en: Are you sure you want to disable SEPA for this member? Future invoices will no longer be collected by direct debit.
+          _fr: Êtes-vous sûr de vouloir désactiver le SEPA pour ce membre ? Les prochaines factures ne seront plus encaissées par prélèvement.
+          _de: SEPA für dieses Mitglied wirklich deaktivieren? Künftige Rechnungen werden nicht mehr per Lastschrift eingezogen.
+          _it: Siete sicuri di voler disattivare il SEPA per questo socio? Le prossime fatture non saranno più riscosse tramite addebito diretto.
+          _nl: SEPA voor dit lid echt uitschakelen? Toekomstige facturen worden niet meer via automatische incasso geïnd.
         edit:
           _en: Edit
           _fr: Modifier
@@ -2581,6 +2599,12 @@ _:
             _de: Der Lastschriftauftrag wird automatisch nachts an die Bank hochgeladen.
             _it: L'ordine di pagamento verrà automaticamente inviato al banco durante la notte.
             _nl: De direct debit order wordt automatisch naar de bank geüpload.
+        sepa_disabled_hint:
+          _en: SEPA is disabled for future invoices. The latest mandate remains stored for audit purposes.
+          _fr: Le SEPA est désactivé pour les prochaines factures. Le dernier mandat reste conservé à des fins d'audit.
+          _de: SEPA ist für künftige Rechnungen deaktiviert. Das letzte Mandat bleibt aus Prüfungsgründen gespeichert.
+          _it: Il SEPA è disattivato per le prossime fatture. L'ultimo mandato resta conservato a fini di audit.
+          _nl: SEPA is uitgeschakeld voor toekomstige facturen. De laatste machtiging blijft bewaard voor controledoeleinden.
         sepa_pain:
           _en: SEPA Direct Debit (XML)
           _fr: Prélèvement SEPA (XML)

@@ -10,12 +10,12 @@ class Member < ApplicationRecord
   include HasLanguage
   include HasSessions
   include HasTheme
-  include HasIBAN
   include Auditable
   include NormalizedString
   include Searchable
   # Sub-model concerns (order matters for callbacks!)
   include Billing
+  include SEPA
   include Shares
   include StateTransitions
   include Discardable
@@ -39,14 +39,13 @@ class Member < ApplicationRecord
   audited_attributes \
     :state, :name, :emails, :billing_email, :phones, :contact_sharing, \
     :street, :zip, :city, :country_code, \
-    :billing_name, :billing_street, :billing_city, :billing_zip, \
+    :billing_name, :billing_street, :billing_city, :billing_zip, :sepa_disabled_at, \
     :profession, :come_from, :note, :delivery_note, :food_note, \
     :annual_fee, :shares_info, :existing_shares_number, :required_shares_number, :desired_shares_number, \
-    :shop_depot_id, :salary_basket, \
-    :iban, :sepa_mandate_id, :sepa_mandate_signed_on
+    :shop_depot_id, :salary_basket
+
   normalized_string_attributes :name, :street, :city, :zip
   normalized_string_attributes :billing_name, :billing_street, :billing_city, :billing_zip
-  normalizes :sepa_mandate_id, :iban, with: ->(value) { value.to_s.strip.presence }
 
   has_states :pending, :waiting, :active, :support, :inactive
 
@@ -83,9 +82,6 @@ class Member < ApplicationRecord
 
   accepts_nested_attributes_for :members_basket_complements, allow_destroy: true
 
-  scope :sepa, -> { where.not(sepa_mandate_id: [ nil, "" ]) }
-  scope :not_sepa, -> { where(sepa_mandate_id: nil) }
-  scope :sepa_eq, ->(bool) { ActiveRecord::Type::Boolean.new.cast(bool) ? sepa : not_sepa }
   scope :not_pending, -> { where.not(state: "pending") }
   scope :not_inactive, -> { where.not(state: "inactive") }
   scope :trial, -> { joins(:current_membership).merge(Membership.trial) }
@@ -147,12 +143,6 @@ class Member < ApplicationRecord
   validate :unique_waiting_basket_complement_id
 
   validates :trial_baskets_count, numericality: { greater_than_or_equal_to: 0 }, presence: true
-  validates :iban, presence: true, if: :sepa_mandate_id?
-  validates :iban, format: -> { ::Billing.iban_format }, allow_nil: :true
-  validates_with SEPA::IBANValidator, if: :sepa_mandate_id?
-  validates :sepa_mandate_id, uniqueness: true, presence: true, if: :sepa_mandate_signed_on?
-  validates_with SEPA::MandateIdentifierValidator, field_name: :sepa_mandate_id, if: :sepa_mandate_id?
-  validates :sepa_mandate_signed_on, presence: true, if: :sepa_mandate_id?
 
   after_initialize :set_default_annual_fee
   before_save :handle_annual_fee_change

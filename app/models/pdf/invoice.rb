@@ -83,8 +83,9 @@ module PDF
 
     def member_address_and_id
       member = invoice.member
+      debtor_name = invoice.sepa? ? invoice.sepa_debtor_name : member.billing_info(:name)
       parts = [
-        member.billing_info(:name).truncate(70),
+        debtor_name.truncate(70),
         member.billing_info(:street).truncate(70),
         "#{member.billing_info(:zip)} #{member.billing_info(:city)}"
       ]
@@ -428,7 +429,7 @@ module PDF
         elsif Current.org.swiss_qr?
           swiss_qr(border)
         elsif Current.org.sepa?
-          if invoice.sepa_metadata.present?
+          if invoice.sepa_mandate.present?
             payment_info(border)
           else
             epc_qr(border)
@@ -685,14 +686,13 @@ module PDF
 
           payment_info_title t("payment.payable_by")
           if invoice.sepa?
-            payment_info_text invoice.sepa_metadata["name"].truncate(70)
+            payment_info_text invoice.sepa_debtor_name.truncate(70)
             payment_info_text invoice.member.billing_info(:street).truncate(70)
             payment_info_text invoice.member.billing_info(:zip) + " " + invoice.member.billing_info(:city)
 
             move_down 5
-            payment_info_text "IBAN: <b>#{invoice.sepa_metadata["iban"].scan(/.{1,4}/)&.join(" ")}</b>"
-            mandate_signed_on = Date.parse(invoice.sepa_metadata["mandate_signed_on"])
-            payment_info_text "#{t("payment.sepa_mandate_id")}: <b>#{invoice.sepa_metadata["mandate_id"]}</b> (#{I18n.l(mandate_signed_on, format: :short)})"
+            payment_info_text "IBAN: <b>#{invoice.sepa_mandate.iban_formatted}</b>"
+            payment_info_text "#{t("payment.sepa_mandate_id")}: <b>#{invoice.sepa_mandate.umr}</b> (#{I18n.l(invoice.sepa_mandate.signed_on, format: :short)})"
           else
             payment_info_text invoice.member.billing_info(:name).truncate(70)
             payment_info_text invoice.member.billing_info(:street).truncate(70)

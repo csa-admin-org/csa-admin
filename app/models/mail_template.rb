@@ -45,6 +45,10 @@ class MailTemplate < ApplicationRecord
     invoice_cancelled
     invoice_overdue_notice
   ].freeze
+  SEPA_MANDATE_TITLES = %w[
+    sepa_mandate_confirmation
+  ].freeze
+  BILLING_SCOPES = %w[invoice sepa_mandate].freeze
   SCOPE_TITLES = {
     "member" => MEMBER_TITLES,
     "membership" => MEMBERSHIP_TITLES,
@@ -52,7 +56,8 @@ class MailTemplate < ApplicationRecord
     "absence" => ABSENCE_TITLES,
     "activity_participation" => ACTIVITY_PARTICIPATION_TITLES,
     "bidding_round" => BIDDING_ROUND_TITLES,
-    "invoice" => INVOICE_TITLES
+    "invoice" => INVOICE_TITLES,
+    "sepa_mandate" => SEPA_MANDATE_TITLES
   }.freeze
   TITLE_SCOPE_MAP = SCOPE_TITLES.each_with_object({}) { |(scope, titles), map|
     titles.each { |t| map[t] = scope }
@@ -69,6 +74,7 @@ class MailTemplate < ApplicationRecord
     bidding_round_opened_reminder
     bidding_round_completed
     bidding_round_failed
+    sepa_mandate_confirmation
   ]
   TITLES_WITH_DELIVERY_CYCLES_SCOPE = BASKET_TITLES.freeze
 
@@ -89,6 +95,7 @@ class MailTemplate < ApplicationRecord
   SCOPE_TITLES.each do |name, titles|
     scope name, -> { where(title: titles) }
   end
+  scope :billing, -> { where(title: INVOICE_TITLES + SEPA_MANDATE_TITLES) }
 
   def self.active_template(title)
     active.find_by(title: title)
@@ -174,9 +181,15 @@ class MailTemplate < ApplicationRecord
     case scope_name
     when "activity_participation"
       I18n.t("activities.#{Current.org.activity_i18n_scope}.one")
+    when *BILLING_SCOPES
+      I18n.t("active_admin.menu.billing")
     else
       scope_class.model_name.human
     end
+  end
+
+  def admin_scope_name
+    scope_name.in?(BILLING_SCOPES) ? "billing" : scope_name
   end
 
   def mailer_preview
@@ -207,6 +220,8 @@ class MailTemplate < ApplicationRecord
       Current.org.open_bidding_round_reminder_sent_after_in_days.blank?
     when "basket_second_last_trial"
       Current.org.trial_baskets_count < 2
+    when "sepa_mandate_confirmation"
+      !(Current.org.sepa? && Current.org.sepa_creditor_identifier?)
     else
       false
     end

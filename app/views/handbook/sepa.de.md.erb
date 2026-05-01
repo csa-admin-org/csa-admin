@@ -1,0 +1,48 @@
+<!-- country:!CH -->
+# SEPA-Lastschrift
+
+CSA Admin verwaltet das SEPA-Lastschriftverfahren für die Zahlungseinziehung bei Deinen Mitgliedern. Die Mitglieder können ihr Mandat online auf einer dedizierten Seite unterzeichnen, und die Rechnungen werden dann direkt von ihrem Bankkonto eingezogen.
+
+## Übersicht {#overview}
+
+Standardmäßig enthalten Rechnungen einen [EPC-QR-Code](https://de.wikipedia.org/wiki/EPC-QR-Code), den die Mitglieder zum Bezahlen scannen können. Wenn ein Mitglied ein SEPA-Mandat hinterlegt hat (IBAN, Mandatsreferenz und Unterschriftsdatum), werden seine zukünftigen Rechnungen als SEPA-Rechnungen gekennzeichnet und die Zahlung wird per Lastschrift eingezogen.
+
+Zwei Wege führen zu einem gültigen SEPA-Mandat:
+
+- **Self-Service** — Das Mitglied unterzeichnet sein Mandat online über seine Rechnungsseite. Es erhält eine Bestätigungs-E-Mail mit dem unterschriebenen Mandats-PDF im Anhang.
+- **Admin-Eingabe** — Du gibst IBAN, Mandatsreferenz und Unterschriftsdatum manuell auf der Mitgliedsseite ein. Praktisch z. B. für auf Papier unterschriebene Mandate.
+
+## Organisationseinstellungen {#setup}
+
+Um das SEPA-Lastschriftverfahren zu aktivieren, konfiguriere die folgenden Einstellungen in [Deinen Rechnungseinstellungen](/settings#billing):
+
+- **IBAN** — Die IBAN des Bankkontos Deiner Organisation.
+- **Gläubiger-Identifikationsnummer** — Deine SEPA-Gläubiger-ID (z. B. `DE98ZZZ09999999999`), erhältlich bei Deiner Bank oder der nationalen Behörde.
+- **Informationstext (SEPA)** (optional) — Wird auf SEPA-Rechnungen anstelle des Standardinformationstextes angezeigt.
+- **EBICS-Verbindung** (optional) — Wenn konfiguriert, werden SEPA-Lastschriftaufträge automatisch 3 Tage nach dem Rechnungsversand an Deine Bank übermittelt. Mehr Informationen zur [EBICS-Einrichtung](/handbook/billing#ebics-setup).
+
+Sobald eine Gläubiger-ID eingetragen ist, wird die Self-Service-Mandatsseite für alle Mitglieder zugänglich.
+
+## Self-Service für Mitglieder {#self-service}
+
+Mitglieder erreichen die Mandatsseite über ihre Rechnungsseite. Sie sehen den Mandatstext in ihrer eigenen Sprache, geben ihre IBAN ein, setzen ein Häkchen bei der Einwilligung und senden das Formular ab.
+
+Nach der Unterzeichnung:
+
+- IBAN, Mandatsreferenz (UMR) und Unterschriftsdatum werden gespeichert.
+- Ein unterschriebenes Mandats-PDF wird erstellt und als Anhang einer Bestätigungs-E-Mail an das Mitglied gesendet.
+- Die Mandatsreferenz entspricht standardmäßig der Mitglieds-ID und **bleibt bei IBAN-Änderungen stabil**.
+
+Wenn ein Mitglied seine IBAN später aktualisiert, wird dieselbe Mandatsreferenz wiederverwendet, das Unterschriftsdatum wird auf heute aktualisiert und eine neue Bestätigungs-E-Mail mit dem neuen Mandats-PDF wird gesendet. Jede IBAN-Änderung erzeugt ein neues Mandat, die Mandatshistorie wird aufbewahrt.
+
+## Verarbeitung von SEPA-Aufträgen {#processing}
+
+Sobald eine SEPA-Rechnung erstellt und versendet wurde, muss ein SEPA-Lastschriftauftrag (XML pain.008) bei Deiner Bank eingereicht werden.
+
+**Mit EBICS-Verbindung** — Aufträge werden **automatisch** 3 Tage nach dem Rechnungsversand an Deine Bank übermittelt. Du kannst die Übermittlung auch manuell von der Rechnungsseite aus auslösen. Die Rechnungsseite zeigt die Auftrags-ID und das Übermittlungsdatum an, sobald der Auftrag eingereicht wurde.
+
+**Ohne EBICS-Verbindung** — Du kannst **die pain.xml-Datei manuell** von der Rechnungsseite herunterladen und selbst über das E-Banking-Portal Deiner Bank einreichen. Ein Sammeldownload ist ebenfalls über die Seitenleiste der [Rechnungsseite](/invoices) verfügbar und umfasst alle offenen SEPA-Rechnungen auf einmal.
+
+> SEPA-Rechnungen lösen keine Zahlungserinnerungen aus, da die Zahlungseinziehung von Dir (dem Gläubiger) und nicht vom Mitglied initiiert wird.
+
+<!-- /country:!CH -->

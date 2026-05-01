@@ -3,37 +3,42 @@
 require "test_helper"
 
 class Invoice::SEPATest < ActiveSupport::TestCase
-  test "persisted sepa_metadata on invoice creation" do
+  test "persisted sepa_mandate on invoice creation" do
     org(
       country_code: "DE",
       sepa_creditor_identifier: "DE98ZZZ09999999999")
     member = create_member(
       name: "John Doe",
-      country_code: "DE",
+      country_code: "DE")
+    member.sepa_mandates.create!(
       iban: "DE89370400440532013000",
-      sepa_mandate_id: "123",
-      sepa_mandate_signed_on: Date.parse("2024-01-01"))
+      umr: "123",
+      signed_on: Date.parse("2024-01-01"),
+      source: "admin")
+    member.reload
 
     invoice = create_annual_fee_invoice(member: member)
-    assert_equal({
-      "name" => "John Doe",
-      "iban" => "DE89370400440532013000",
-      "mandate_id" => "123",
-      "mandate_signed_on" => "2024-01-01"
-    }, invoice.sepa_metadata)
+
+    assert_equal "DE89370400440532013000", invoice.sepa_mandate.iban
+    assert_equal "John Doe", invoice.sepa_debtor_name
+    assert_equal "123", invoice.sepa_mandate.umr
+    assert_equal Date.parse("2024-01-01"), invoice.sepa_mandate.signed_on
     assert invoice.sepa?
   end
 
-  test "persisted sepa_metadata uses billing_info name when different billing info is set" do
+  test "persisted sepa_mandate with different billing info" do
     org(
       country_code: "DE",
       sepa_creditor_identifier: "DE98ZZZ09999999999")
     member = create_member(
       name: "John Doe",
-      country_code: "DE",
+      country_code: "DE")
+    member.sepa_mandates.create!(
       iban: "DE89370400440532013000",
-      sepa_mandate_id: "123",
-      sepa_mandate_signed_on: Date.parse("2024-01-01"))
+      umr: "123",
+      signed_on: Date.parse("2024-01-01"),
+      source: "admin")
+    member.reload
     member.update!(
       different_billing_info: true,
       billing_name: "Acme Corp",
@@ -42,23 +47,76 @@ class Invoice::SEPATest < ActiveSupport::TestCase
       billing_zip: "9999")
 
     invoice = create_annual_fee_invoice(member: member)
-    assert_equal({
-      "name" => "Acme Corp",
-      "iban" => "DE89370400440532013000",
-      "mandate_id" => "123",
-      "mandate_signed_on" => "2024-01-01"
-    }, invoice.sepa_metadata)
+
+    assert_equal "DE89370400440532013000", invoice.sepa_mandate.iban
+    assert_equal "Acme Corp", invoice.sepa_debtor_name
+    assert_equal "123", invoice.sepa_mandate.umr
     assert invoice.sepa?
+  end
+
+  test "keeps sepa debtor name snapshot when member billing name changes later" do
+    org(
+      country_code: "DE",
+      sepa_creditor_identifier: "DE98ZZZ09999999999")
+    member = create_member(
+      name: "John Doe",
+      country_code: "DE")
+    member.sepa_mandates.create!(
+      iban: "DE89370400440532013000",
+      umr: "123",
+      signed_on: Date.parse("2024-01-01"),
+      source: "admin")
+    member.reload
+
+    invoice = create_annual_fee_invoice(member: member)
+
+    member.update!(
+      different_billing_info: true,
+      billing_name: "Changed Corp",
+      billing_street: "Changed Street 1",
+      billing_city: "Changed City",
+      billing_zip: "1111")
+
+    assert_equal "John Doe", invoice.reload.sepa_debtor_name
+  end
+
+  test "falls back to current billing info when sepa debtor snapshot is missing" do
+    org(
+      country_code: "DE",
+      sepa_creditor_identifier: "DE98ZZZ09999999999")
+    member = create_member(
+      name: "John Doe",
+      country_code: "DE")
+    member.sepa_mandates.create!(
+      iban: "DE89370400440532013000",
+      umr: "123",
+      signed_on: Date.parse("2024-01-01"),
+      source: "admin")
+    member.reload
+
+    invoice = create_annual_fee_invoice(member: member)
+    invoice.update_columns(sepa_debtor_name: nil)
+
+    member.update!(
+      different_billing_info: true,
+      billing_name: "Fallback Corp",
+      billing_street: "Fallback Street 1",
+      billing_city: "Fallback City",
+      billing_zip: "2222")
+
+    assert_equal "Fallback Corp", invoice.reload.sepa_debtor_name
   end
 
   test "upload_sepa_direct_debit_order does nothing if order_id already present" do
     german_org(sepa_creditor_identifier: "DE98ZZZ09999999999")
     member = members(:anna)
-    member.update!(
-      language: "de",
+    member.update!(language: "de", country_code: "DE")
+    member.sepa_mandates.create!(
       iban: "DE21500500009876543210",
-      sepa_mandate_id: "123456",
-      sepa_mandate_signed_on: "2023-12-24")
+      umr: "123456",
+      signed_on: Date.parse("2023-12-24"),
+      source: "admin")
+    member.reload
     invoice = create_annual_fee_invoice(member: member)
     invoice.update!(sepa_direct_debit_order_id: "N001")
 
@@ -84,11 +142,13 @@ class Invoice::SEPATest < ActiveSupport::TestCase
   test "upload_sepa_direct_debit_order does nothing if no bank_connection" do
     german_org(sepa_creditor_identifier: "DE98ZZZ09999999999")
     member = members(:anna)
-    member.update!(
-      language: "de",
+    member.update!(language: "de", country_code: "DE")
+    member.sepa_mandates.create!(
       iban: "DE21500500009876543210",
-      sepa_mandate_id: "123456",
-      sepa_mandate_signed_on: "2023-12-24")
+      umr: "123456",
+      signed_on: Date.parse("2023-12-24"),
+      source: "admin")
+    member.reload
     invoice = create_annual_fee_invoice(member: member)
 
     assert_no_changes -> { invoice.reload.sepa_direct_debit_order_uploaded_at } do
@@ -106,11 +166,13 @@ class Invoice::SEPATest < ActiveSupport::TestCase
       bank_connection_type: "mock",
       bank_credentials: { password: "secret" })
     member = members(:anna)
-    member.update!(
-      language: "de",
+    member.update!(language: "de", country_code: "DE")
+    member.sepa_mandates.create!(
       iban: "DE21500500009876543210",
-      sepa_mandate_id: "123456",
-      sepa_mandate_signed_on: "2023-12-24")
+      umr: "123456",
+      signed_on: Date.parse("2023-12-24"),
+      source: "admin")
+    member.reload
     invoice = create_annual_fee_invoice(member: member)
     invoice.touch(:sent_at)
 

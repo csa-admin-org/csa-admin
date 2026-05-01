@@ -514,9 +514,10 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_29_150131) do
     t.decimal "paid_memberships_amount", precision: 8, scale: 2
     t.decimal "remaining_memberships_amount", precision: 8, scale: 2
     t.datetime "sent_at"
+    t.string "sepa_debtor_name"
     t.string "sepa_direct_debit_order_id"
     t.datetime "sepa_direct_debit_order_uploaded_at"
-    t.json "sepa_metadata", default: {}, null: false
+    t.integer "sepa_mandate_id"
     t.integer "shares_number"
     t.datetime "stamped_at"
     t.string "state", default: "processing", null: false
@@ -525,6 +526,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_29_150131) do
     t.decimal "vat_rate", precision: 8, scale: 2
     t.index ["entity_type", "entity_id"], name: "index_invoices_on_entity_type_and_entity_id"
     t.index ["member_id"], name: "index_invoices_on_member_id"
+    t.index ["sepa_mandate_id"], name: "index_invoices_on_sepa_mandate_id"
     t.index ["state"], name: "index_invoices_on_state"
   end
 
@@ -604,7 +606,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_29_150131) do
     t.integer "existing_shares_number", default: 0, null: false
     t.datetime "final_basket_sent_at"
     t.text "food_note"
-    t.string "iban"
     t.datetime "initial_basket_sent_at"
     t.string "language", default: "fr", null: false
     t.integer "memberships_count", default: 0, null: false
@@ -614,8 +615,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_29_150131) do
     t.string "profession"
     t.integer "required_shares_number"
     t.boolean "salary_basket", default: false
-    t.string "sepa_mandate_id"
-    t.date "sepa_mandate_signed_on"
+    t.datetime "sepa_disabled_at"
     t.string "shares_info"
     t.bigint "shop_depot_id"
     t.string "state", default: "pending", null: false
@@ -636,7 +636,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_29_150131) do
     t.string "zip", limit: 255
     t.index ["anonymized_at"], name: "index_members_on_anonymized_at"
     t.index ["discarded_at"], name: "index_members_on_discarded_at"
-    t.index ["sepa_mandate_id"], name: "index_members_on_sepa_mandate_id", unique: true
     t.index ["shop_depot_id"], name: "index_members_on_shop_depot_id"
     t.index ["state"], name: "index_members_on_state"
     t.index ["use_local_currency"], name: "index_members_on_use_local_currency"
@@ -946,6 +945,20 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_29_150131) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "sepa_mandates", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "iban", null: false
+    t.string "ip"
+    t.integer "member_id", null: false
+    t.integer "session_id"
+    t.date "signed_on", null: false
+    t.string "source", null: false
+    t.string "umr", null: false
+    t.string "user_agent"
+    t.index ["member_id"], name: "index_sepa_mandates_on_member_id"
+    t.index ["session_id"], name: "index_sepa_mandates_on_session_id"
+  end
+
   create_table "sessions", force: :cascade do |t|
     t.bigint "admin_id"
     t.datetime "created_at", null: false
@@ -1099,6 +1112,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_29_150131) do
   add_foreign_key "forced_deliveries", "deliveries"
   add_foreign_key "forced_deliveries", "memberships"
   add_foreign_key "invoice_items", "invoices"
+  add_foreign_key "invoices", "sepa_mandates", on_delete: :nullify
   add_foreign_key "mail_deliveries", "members"
   add_foreign_key "mail_delivery_emails", "mail_deliveries"
   add_foreign_key "members", "depots", column: "shop_depot_id"

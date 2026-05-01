@@ -162,20 +162,29 @@ class Member::AnonymizationTest < ActiveSupport::TestCase
     assert_nil member.come_from
   end
 
-  test "anonymize! clears SEPA information" do
+  test "anonymize! keeps SEPA mandates intact" do
     member = discardable_member
-    member.update_columns(
+    member.sepa_mandates.create!(
       iban: "DE89370400440532013000",
-      sepa_mandate_id: "MANDATE-123",
-      sepa_mandate_signed_on: Date.current
-    )
+      umr: "MANDATE-123",
+      signed_on: Date.current,
+      source: "admin",
+      ip: "10.0.0.1",
+      user_agent: "TestAgent/1.0")
+    member.reload
+    assert member.sepa?
+
     member.discard
     member.anonymize!
     member.reload
 
-    assert_nil member.iban
-    assert_nil member.sepa_mandate_id
-    assert_nil member.sepa_mandate_signed_on
+    assert_equal 1, member.sepa_mandates.count
+    mandate = member.sepa_mandates.first
+    assert_equal "DE89370400440532013000", mandate.iban
+    assert_equal "10.0.0.1", mandate.ip
+    assert_equal "TestAgent/1.0", mandate.user_agent
+    assert_equal "MANDATE-123", mandate.umr
+    assert_equal Date.current, mandate.signed_on
   end
 
   test "anonymize! sets contact_sharing to false" do

@@ -1004,6 +1004,18 @@ _:
         _de: 'Hier sind die Details Deines Abonnements:'
         _it: 'Ecco i dettagli del vostro abbonamento:'
         _nl: 'Hier zijn de details van je lidmaatschap:'
+      sepa_mandate_button:
+        _en: Sign SEPA mandate
+        _fr: Signer le mandat SEPA
+        _de: SEPA-Mandat unterzeichnen
+        _it: Firma il mandato SEPA
+        _nl: SEPA-machtiging ondertekenen
+      sepa_mandate_paragraph:
+        _en: If you wish to pay your invoices via SEPA direct debit, please sign the mandate on the dedicated page.
+        _fr: Si vous souhaitez payer vos factures par prélèvement SEPA, merci de signer le mandat depuis la page dédiée.
+        _de: Wenn Du Deine Rechnungen per SEPA-Lastschrift bezahlen möchtest, unterzeichne bitte das Mandat auf der dafür vorgesehenen Seite.
+        _it: Se desiderate pagare le fatture tramite addebito diretto SEPA, vi invitiamo a firmare il mandato dalla pagina dedicata.
+        _nl: Als je je facturen via SEPA-incasso wilt betalen, onderteken dan de machtiging op de speciale pagina.
       start_label:
         _en: 'Start:'
         _fr: 'Début:'
@@ -1102,6 +1114,18 @@ _:
         _de: Deine Anmeldung wurde erhalten und bestätigt.
         _it: La vostra iscrizione è stata ricevuta e confermata.
         _nl: Je registratie is ontvangen en bevestigd.
+      sepa_mandate_button:
+        _en: Sign SEPA mandate
+        _fr: Signer le mandat SEPA
+        _de: SEPA-Mandat unterzeichnen
+        _it: Firma il mandato SEPA
+        _nl: SEPA-machtiging ondertekenen
+      sepa_mandate_paragraph:
+        _en: If you wish to pay your invoices via SEPA direct debit, please sign the mandate on the dedicated page.
+        _fr: Si vous souhaitez payer vos factures par prélèvement SEPA, merci de signer le mandat depuis la page dédiée.
+        _de: Wenn Du Deine Rechnungen per SEPA-Lastschrift bezahlen möchtest, unterzeichne bitte das Mandat auf der dafür vorgesehenen Seite.
+        _it: Se desiderate pagare le fatture tramite addebito diretto SEPA, vi invitiamo a firmare il mandato dalla pagina dedicata.
+        _nl: Als je je facturen via SEPA-incasso wilt betalen, onderteken dan de machtiging op de speciale pagina.
       waiting_list_position_label:
         _en: 'Waiting list position:'
         _fr: 'Position sur la liste d''attente:'
@@ -1146,3 +1170,40 @@ _:
         _de: Zugang zum Verlängerungsformular
         _it: Accedere al formulario di rinnovo
         _nl: Toegang tot het vernieuwingsformulier
+    sepa_mandate_confirmation:
+      billing_button:
+        _en: View my billing page
+        _fr: Accéder à ma page de facturation
+        _de: Zu meiner Abrechnungsseite
+        _it: Vai alla mia pagina di fatturazione
+        _nl: Ga naar mijn facturatiepagina
+      confirmation_paragraph:
+        _en: Your SEPA direct debit mandate has been recorded. Future invoices will be collected directly from the bank account below.
+        _fr: Votre mandat de prélèvement SEPA a bien été enregistré. Les factures à venir seront prélevées directement sur le compte ci-dessous.
+        _de: Dein SEPA-Lastschriftmandat wurde gespeichert. Zukünftige Rechnungen werden direkt von dem untenstehenden Konto eingezogen.
+        _it: Il mandato di addebito diretto SEPA è stato registrato. Le fatture future saranno addebitate direttamente sul conto indicato di seguito.
+        _nl: Je SEPA-machtiging is geregistreerd. Toekomstige facturen worden automatisch van de onderstaande rekening afgeschreven.
+      iban_label:
+        _en: 'IBAN:'
+        _fr: 'IBAN :'
+        _de: 'IBAN:'
+        _it: 'IBAN:'
+        _nl: 'IBAN:'
+      mandate_id_label:
+        _en: 'Mandate reference (UMR):'
+        _fr: 'Référence unique du mandat (RUM) :'
+        _de: 'Mandatsreferenz:'
+        _it: 'Riferimento mandato (UMR):'
+        _nl: 'Kenmerk machtiging:'
+      pdf_attached_paragraph:
+        _en: A PDF copy of the signed mandate is attached to this email for your records.
+        _fr: Une copie PDF du mandat signé est jointe à cet e-mail pour vos archives.
+        _de: Eine PDF-Kopie des unterzeichneten Mandats ist dieser E-Mail beigefügt.
+        _it: Una copia PDF del mandato firmato è allegata a questa e-mail per i vostri archivi.
+        _nl: Een PDF-kopie van de ondertekende machtiging is bij deze e-mail gevoegd voor je administratie.
+      signed_on_label:
+        _en: 'Signed on:'
+        _fr: 'Signé le :'
+        _de: 'Unterzeichnet am:'
+        _it: 'Firmato il:'
+        _nl: 'Ondertekend op:'

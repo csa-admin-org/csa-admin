@@ -43,15 +43,15 @@ module Billing
     def add_transactions(sdd)
       @invoices.each do |invoice|
         sdd.add_transaction(
-          name: invoice.sepa_metadata["name"],
-          iban: invoice.sepa_metadata["iban"],
+          name: invoice.sepa_debtor_name,
+          iban: invoice.sepa_mandate.iban,
           amount: invoice.amount,
           currency: Current.org.currency_code,
           instruction: [ invoice.member_id, invoice.id ].join("-"),
           reference: invoice.reference,
           batch_booking: false, # Disable "Sammelbuchung / Einzelbuchung"
-          mandate_id: invoice.sepa_metadata["mandate_id"],
-          mandate_date_of_signature: Date.parse(invoice.sepa_metadata["mandate_signed_on"]),
+          mandate_id: invoice.sepa_mandate.umr,
+          mandate_date_of_signature: invoice.sepa_mandate.signed_on,
           local_instrument: "CORE", # "Basis-Lastschrift"
           sequence_type: "OOFF") # "Einmalige Lastschrift"
       end

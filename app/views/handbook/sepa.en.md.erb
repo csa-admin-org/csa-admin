@@ -1,0 +1,48 @@
+<!-- country:!CH -->
+# SEPA Direct Debit
+
+CSA Admin manages SEPA direct debit for collecting payments from your members. Members can sign their mandate online from a dedicated page, and invoices are then collected directly from their bank account.
+
+## Overview {#overview}
+
+By default, invoices include an [EPC QR code](https://en.wikipedia.org/wiki/EPC_QR_code) that members can scan to pay. When a member has a SEPA mandate on file (IBAN, mandate reference, and signature date), their future invoices are flagged as SEPA invoices and the payment is collected via direct debit.
+
+Two paths lead to a valid SEPA mandate:
+
+- **Self-service** — The member signs their mandate online from their billing page. They receive a confirmation email with the signed mandate PDF attached.
+- **Admin entry** — You enter the IBAN, mandate reference, and signature date manually on the member page. Useful for, e.g., paper-signed mandates.
+
+## Organization setup {#setup}
+
+To enable SEPA direct debit, configure the following in [your billing settings](/settings#billing):
+
+- **IBAN** — Your organization's bank account IBAN.
+- **Creditor Identifier** — Your SEPA creditor identifier (e.g. `DE98ZZZ09999999999`), obtained from your bank or the national authority.
+- **Information text (SEPA)** (optional) — Displayed on SEPA invoices instead of the standard information text.
+- **EBICS connection** (optional) — If configured, SEPA direct debit orders are automatically uploaded to your bank 3 days after the invoice is sent. More info on [EBICS setup](/handbook/billing#ebics-setup).
+
+As soon as a creditor identifier is set, the self-service mandate page becomes available to all members.
+
+## Member self-service {#self-service}
+
+Members reach the mandate page from their billing page. They see the mandate text in their own language, enter their IBAN, tick a consent checkbox, and submit.
+
+Once signed:
+
+- The IBAN, mandate reference (UMR), and signature date are saved.
+- A signed mandate PDF is generated and attached to a confirmation email sent to the member.
+- The mandate reference defaults to the member's ID and **stays stable across IBAN changes**.
+
+If a member updates their IBAN later, the same mandate reference is reused, the signature date is bumped to today, and a new confirmation email with the new mandate PDF is sent. Each IBAN change generates a new mandate, and the mandate history is preserved.
+
+## Processing SEPA orders {#processing}
+
+Once a SEPA invoice is created and sent, a SEPA direct debit order (pain.008 XML) needs to be submitted to your bank.
+
+**With an EBICS connection** — Orders are **automatically uploaded** to your bank 3 days after the invoice is sent. You can also trigger the upload manually from an invoice's page. The invoice page shows the order ID and upload date once the order has been submitted.
+
+**Without an EBICS connection** — You can **download the pain.xml file** manually from an invoice's page and upload it yourself to your bank's e-banking portal. A bulk download is also available from [the invoices page](/invoices) sidebar, covering all open SEPA invoices at once.
+
+> SEPA invoices do not trigger overdue notices, since payment collection is initiated by you (the creditor) rather than the member.
+
+<!-- /country:!CH -->

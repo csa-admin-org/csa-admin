@@ -9,12 +9,12 @@ ActiveAdmin.register MailTemplate do
     when "show"
       [
         link_to(MailTemplate.model_name.human(count: 2), mail_templates_path),
-        link_to(resource.scope_label, mail_templates_path(scope: resource.scope_name))
+        link_to(resource.scope_label, mail_templates_path(scope: resource.admin_scope_name))
       ]
     when "edit", "update"
       [
         link_to(MailTemplate.model_name.human(count: 2), mail_templates_path),
-        link_to(resource.scope_label, mail_templates_path(scope: resource.scope_name)),
+        link_to(resource.scope_label, mail_templates_path(scope: resource.admin_scope_name)),
         link_to(resource.display_name, resource)
       ]
     end
@@ -24,7 +24,7 @@ ActiveAdmin.register MailTemplate do
   scope :member, group: :type
   scope :membership, group: :type
   scope -> { Basket.model_name.human }, :basket, group: :type
-  scope :invoice, group: :type
+  scope -> { I18n.t("active_admin.menu.billing") }, :billing, group: :type
   scope -> { Absence.model_name.human }, :absence,
     group: :type, if: -> { feature?("absence") }
   scope -> { activity_human_name }, :activity_participation,
@@ -200,6 +200,9 @@ ActiveAdmin.register MailTemplate do
       end
       unless feature?("shop")
         scoped = scoped.where.not(title: "member_shop_depot_activated")
+      end
+      unless Current.org.sepa? && Current.org.sepa_creditor_identifier?
+        scoped = scoped.where.not(title: MailTemplate::SEPA_MANDATE_TITLES)
       end
       order_clause = MailTemplate::TITLES.each_with_index.map do |title, index|
         "WHEN #{ActiveRecord::Base.connection.quote(title)} THEN #{index + 1}"

@@ -1,0 +1,48 @@
+<!-- country:!CH -->
+# Prélèvement SEPA
+
+CSA Admin gère le prélèvement SEPA pour collecter les paiements de vos membres. Les membres peuvent signer leur mandat en ligne depuis une page dédiée, et les factures sont ensuite prélevées directement sur leur compte bancaire.
+
+## Vue d'ensemble {#overview}
+
+Par défaut, les factures incluent un [QR code EPC](https://fr.wikipedia.org/wiki/EPC_QR_code) que les membres peuvent scanner pour payer. Lorsqu'un membre dispose d'un mandat SEPA enregistré (IBAN, référence du mandat et date de signature), ses futures factures sont marquées comme factures SEPA et le paiement est collecté par prélèvement automatique.
+
+Deux voies mènent à un mandat SEPA valide:
+
+- **Self-service** — Le membre signe son mandat en ligne depuis sa page de facturation. Il reçoit un e-mail de confirmation avec le PDF du mandat signé en pièce jointe.
+- **Saisie admin** — Vous saisissez manuellement l'IBAN, la référence du mandat et la date de signature sur la page du membre. Pratique pour, par exemple, les mandats signés sur papier.
+
+## Configuration de l'organisation {#setup}
+
+Pour activer le prélèvement SEPA, configurez les éléments suivants dans [vos paramètres de facturation](/settings#billing):
+
+- **IBAN** — L'IBAN du compte bancaire de votre organisation.
+- **Identifiant créancier** — Votre identifiant créancier SEPA (par ex. `DE98ZZZ09999999999`), obtenu auprès de votre banque ou de l'autorité nationale.
+- **Texte d'information (SEPA)** (optionnel) — Affiché sur les factures SEPA à la place du texte d'information standard.
+- **Connexion EBICS** (optionnelle) — Si configurée, les ordres de prélèvement SEPA sont automatiquement transmis à votre banque 3 jours après l'envoi de la facture. Plus d'info sur la [configuration EBICS](/handbook/billing#ebics-setup).
+
+Dès qu'un identifiant créancier est défini, la page de mandat self-service devient accessible à tous les membres.
+
+## Self-service membre {#self-service}
+
+Les membres accèdent à la page du mandat depuis leur page de facturation. Ils voient le texte du mandat dans leur propre langue, saisissent leur IBAN, cochent une case de consentement, puis soumettent.
+
+Une fois signé:
+
+- L'IBAN, la référence du mandat (UMR) et la date de signature sont enregistrés.
+- Un PDF du mandat signé est généré et joint à un e-mail de confirmation envoyé au membre.
+- La référence du mandat correspond par défaut à l'ID du membre et **reste stable lors des changements d'IBAN**.
+
+Si un membre met à jour son IBAN par la suite, la même référence de mandat est réutilisée, la date de signature est mise à jour à aujourd'hui, et un nouvel e-mail de confirmation avec le nouveau PDF du mandat est envoyé. Chaque changement d'IBAN génère un nouveau mandat, l'historique des mandats est conservé.
+
+## Traitement des ordres SEPA {#processing}
+
+Une fois qu'une facture SEPA est créée et envoyée, un ordre de prélèvement SEPA (XML pain.008) doit être soumis à votre banque.
+
+**Avec une connexion EBICS** — Les ordres sont **automatiquement transmis** à votre banque 3 jours après l'envoi de la facture. Vous pouvez aussi déclencher la transmission manuellement depuis la page d'une facture. La page de la facture affiche l'ID de l'ordre et la date de transmission une fois l'ordre soumis.
+
+**Sans connexion EBICS** — Vous pouvez **télécharger le fichier pain.xml** manuellement depuis la page d'une facture et le transmettre vous-même via le portail e-banking de votre banque. Un téléchargement groupé est également disponible depuis la barre latérale de [la page des factures](/invoices), couvrant toutes les factures SEPA ouvertes en une seule fois.
+
+> Les factures SEPA ne déclenchent pas de rappels de paiement, puisque la collecte est initiée par vous (le créancier) plutôt que par le membre.
+
+<!-- /country:!CH -->

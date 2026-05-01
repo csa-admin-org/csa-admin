@@ -574,23 +574,19 @@ class PDF::InvoiceTest < ActiveSupport::TestCase
     member = members(:anna)
     member.update!(
       language: "de",
-      iban: "DE21500500009876543210",
-      sepa_mandate_id: "123456",
-      sepa_mandate_signed_on: "2023-12-24",
       street: "Grosse Marktgasse 28",
       zip: "30952",
       city: "Ronnenberg",
       country_code: "DE")
+    member.sepa_mandates.create!(
+      iban: "DE21500500009876543210",
+      umr: "123456",
+      signed_on: Date.parse("2023-12-24"),
+      source: "admin")
+    member.reload
 
-    invoice = create_annual_fee_invoice(id: 412351, member: member)
-
-    assert_equal({
-      "name" => "Anna Doe",
-      "iban" => "DE21500500009876543210",
-      "mandate_id" => "123456",
-      "mandate_signed_on" => "2023-12-24"
-    }, invoice.sepa_metadata)
-
+    invoice = create_annual_fee_invoice(member: member)
+    member.update!(billing_name: "Anna Changed")
     pdf_strings = save_pdf_and_return_strings(invoice)
     assert_equal [
       "Mitgliedsbestätigung", "N°\u00A0#{invoice.id}",
@@ -625,13 +621,16 @@ class PDF::InvoiceTest < ActiveSupport::TestCase
     membership = memberships(:jane)
     membership.member.update!(
       language: "de",
-      iban: "DE21500500009876543210",
-      sepa_mandate_id: "123456",
-      sepa_mandate_signed_on: "2023-12-24",
       street: "Grosse Marktgasse 28",
       zip: "30952",
       city: "Ronnenberg",
       country_code: "DE")
+    membership.member.sepa_mandates.create!(
+      iban: "DE21500500009876543210",
+      umr: "123456",
+      signed_on: Date.parse("2023-12-24"),
+      source: "admin")
+    membership.member.reload
 
     invoice = create_invoice(
       member: membership.member,

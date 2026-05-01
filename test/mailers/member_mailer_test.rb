@@ -25,6 +25,8 @@ class MemberMailerTest < ActionMailer::TestCase
     assert_includes body, "<strong>Complements:</strong> Bread"
     assert_includes body, "Access my member page"
     assert_includes body, "https://members.acme.test"
+    refute_includes body, "Sign SEPA mandate"
+    refute_includes body, "href=\"\""
   end
 
   test "shop_depot_activated_email" do
@@ -70,5 +72,7 @@ class MemberMailerTest < ActionMailer::TestCase
     assert_includes body, "Waiting list position: <strong>2</strong>"
     assert_includes body, "Access my member page"
     assert_includes body, "https://members.acme.test"
+    refute_includes body, "Sign SEPA mandate"
+    refute_includes body, "href=\"\""
   end
 end

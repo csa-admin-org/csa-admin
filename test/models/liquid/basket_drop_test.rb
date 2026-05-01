@@ -45,7 +45,7 @@ class Liquid::BasketDropTest < ActiveSupport::TestCase
   end
 
   test "shifts returns array of BasketShiftDrop when basket has received shifts" do
-    shift = create_basket_shift!
+    create_basket_shift!
     drop = Liquid::BasketDrop.new(@target_basket)
 
     assert_equal 1, drop.shifts.size

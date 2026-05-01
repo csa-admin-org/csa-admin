@@ -279,11 +279,13 @@ ActiveAdmin.register Invoice do
         end
 
         if invoice.sepa?
-          panel "SEPA" do
+          sepa_mandate = invoice.sepa_mandate
+          panel "SEPA", action: sepa_mandate_panel_actions(sepa_mandate) do
             attributes_table do
-              row(:iban) { invoice.sepa_metadata["iban"].gsub(/.{4}/, '\0 ') }
+              row(Invoice.human_attribute_name(:sepa_debtor_name)) { invoice.sepa_debtor_name }
+              row(:iban) { sepa_mandate.iban_formatted }
               row(Member.human_attribute_name(:sepa_mandate_id)) {
-                "#{invoice.sepa_metadata["mandate_id"]} (#{l Date.parse(invoice.sepa_metadata["mandate_signed_on"]), format: :short})"
+                "#{sepa_mandate.umr} (#{l(sepa_mandate.signed_on)})"
               }
             end
 

@@ -1363,6 +1363,14 @@ _:
           _de: Die letzten Lieferungen sind provisorisch als abwesend markiert, bis Du <a href="/absences">Deine endgültige Abwesenheit</a> meldest.
           _it: Le ultime consegne sono provvisoriamente marcate come assenti fino a quando <a href="/absences">non annuncerai le tue assenze</a> definitive.
           _nl: De laatste leveringen zijn voorlopig gemarkeerd als afwezig totdat je <a href="/absences">je definitieve afwezigheid meldt</a>.
+    disable_sepa:
+      flash:
+        notice:
+          _en: SEPA disabled.
+          _fr: SEPA désactivé.
+          _de: SEPA deaktiviert.
+          _it: SEPA disattivato.
+          _nl: SEPA uitgeschakeld.
     email_suppressions:
       destroy:
         flash:
@@ -2079,6 +2087,100 @@ _:
         _de: Diese Sitzung wurde vom Admin geöffnet und ist nur lesend. Verwende die Admin-Schnittstelle, um Änderungen zu machen.
         _it: Questa sessione è stata aperta dall'admin e è in sola lettura. Utilizza l'interfaccia di amministrazione per apportare modifiche.
         _nl: Deze sessie is geopend vanuit het admin en is alleen leesbaar. Gebruik de admin-interface om wijzigingen te maken.
+    sepa_mandates:
+      disable:
+        confirm:
+          _en: Are you sure you want to disable SEPA direct debit?
+          _fr: Êtes-vous sûr de vouloir désactiver le prélèvement SEPA ?
+          _de: Möchtest Du das SEPA-Lastschriftverfahren wirklich deaktivieren?
+          _it: Sei sicuro di voler disattivare l'addebito diretto SEPA?
+          _nl: Weet je zeker dat je de SEPA-incasso wilt uitschakelen?
+        link:
+          _en: Disable SEPA direct debit
+          _fr: Désactiver le prélèvement SEPA
+          _de: SEPA-Lastschrift deaktivieren
+          _it: Disattivare l'addebito diretto SEPA
+          _nl: SEPA-incasso uitschakelen
+      flash:
+        created:
+          _en: SEPA mandate saved.
+          _fr: Mandat SEPA enregistré.
+          _de: SEPA-Mandat gespeichert.
+          _it: Mandato SEPA salvato.
+          _nl: SEPA-machtiging opgeslagen.
+      new:
+        cancel_link:
+          _en: Cancel
+          _fr: Annuler
+          _de: Abbrechen
+          _it: Annullare
+          _nl: Annuleren
+        consent_label:
+          _en: I have read the mandate above and authorize the direct debit.
+          _fr: J'ai lu le mandat ci-dessus et j'autorise le prélèvement.
+          _de: Ich habe das obenstehende Mandat gelesen und ermächtige den Lastschrifteinzug.
+          _it: Ho letto il mandato qui sopra e autorizzo l'addebito diretto.
+          _nl: Ik heb de bovenstaande machtiging gelezen en geef toestemming voor de incasso.
+        current_mandate:
+          _en: Current mandate
+          _fr: Mandat en cours
+          _de: Aktuelles Mandat
+          _it: Mandato attuale
+          _nl: Huidige machtiging
+        download_pdf:
+          _en: Download mandate PDF
+          _fr: Télécharger le PDF du mandat
+          _de: Mandats-PDF herunterladen
+          _it: Scarica il PDF del mandato
+          _nl: Machtiging-PDF downloaden
+        edit_billing_info_link:
+          _en: Need to change your billing details? Edit your account.
+          _fr: Besoin de modifier vos coordonnées de facturation ? Modifiez votre compte.
+          _de: Rechnungsdaten ändern? Bearbeite Dein Konto.
+          _it: Hai bisogno di modificare i tuoi dati di fatturazione? Modifica il tuo account.
+          _nl: Factuurgegevens wijzigen? Bewerk je account.
+        edit_link:
+          _en: Update SEPA mandate
+          _fr: Mettre à jour le mandat SEPA
+          _de: SEPA-Mandat aktualisieren
+          _it: Aggiornare il mandato SEPA
+          _nl: SEPA-machtiging bijwerken
+        invitation:
+          _en: Pay future invoices automatically via SEPA direct debit.
+          _fr: Payez automatiquement vos factures via prélèvement SEPA.
+          _de: Zukünftige Rechnungen automatisch per SEPA-Lastschrift bezahlen.
+          _it: Pagate automaticamente le fatture future tramite addebito diretto SEPA.
+          _nl: Betaal toekomstige facturen automatisch via SEPA-incasso.
+        not_accepted:
+          _en: You must accept the mandate to continue.
+          _fr: Vous devez accepter le mandat pour continuer.
+          _de: Das Mandat muss akzeptiert werden, um fortzufahren.
+          _it: Per continuare è necessario accettare il mandato.
+          _nl: Om verder te gaan, moet de machtiging worden geaccepteerd.
+        replace_iban_title:
+          _en: Replace IBAN
+          _fr: Remplacer l'IBAN
+          _de: IBAN ersetzen
+          _it: Sostituire l'IBAN
+          _nl: IBAN vervangen
+        setup_link:
+          _en: Set up SEPA direct debit
+          _fr: Configurer le prélèvement SEPA
+          _de: SEPA-Lastschrift einrichten
+          _it: Configurare l'addebito diretto SEPA
+          _nl: SEPA-incasso instellen
+        submit:
+          _en: Sign SEPA mandate
+          _fr: Signer le mandat SEPA
+          _de: SEPA-Mandat unterzeichnen
+          _it: Firmare il mandato SEPA
+          _nl: SEPA-machtiging ondertekenen
+        title:
+          _en: SEPA Direct Debit Mandate
+          _fr: Mandat de prélèvement SEPA
+          _de: SEPA-Lastschriftmandat
+          _it: Mandato di addebito diretto SEPA
+          _nl: SEPA-machtiging doorlopende incasso
     sessions:
       create:
         hashcash_failed:

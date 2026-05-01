@@ -21,6 +21,12 @@ _:
           _de: Der Newsletter hat zu viel Inhalt
           _it: La newsletter ha troppo contenuto
           _nl: Nieuwsbrief heeft te veel inhoud
+        pdf_generation_failed:
+          _en: The mandate PDF could not be generated. Please try again.
+          _fr: Le PDF du mandat n'a pas pu être généré. Merci de réessayer.
+          _de: Das Mandats-PDF konnte nicht erzeugt werden. Bitte erneut versuchen.
+          _it: Non è stato possibile generare il PDF del mandato. Riprova.
+          _nl: De machtiging-PDF kon niet worden gegenereerd. Probeer het opnieuw.
     format:
       _en: "%{attribute} %{message}"
       _fr: "%{attribute} %{message}"

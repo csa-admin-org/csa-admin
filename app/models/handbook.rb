@@ -30,9 +30,10 @@ class Handbook
 
   def self.all(context, locale = I18n.locale)
     path = Rails.root.join(DIR_PATH, "*.#{locale}.md.erb")
-    Dir.glob(path).map { |path|
+    Dir.glob(path).filter_map { |path|
       name = File.basename(path, ".#{locale}.md.erb")
-      new(name, context, locale)
+      handbook = new(name, context, locale)
+      handbook if handbook.content?
     }.sort
   end
 
@@ -84,6 +85,14 @@ class Handbook
 
   def demo_only?
     name.to_sym.in?(DEMO_ONLY_PAGES)
+  end
+
+  # True when the page has visible content after country-section filtering.
+  # Cheaper than rendering body — reads the raw file and checks for an H1.
+  def content?
+    raw = File.read(filepath)
+    filtered = self.class.filter_country_sections(raw)
+    filtered.match?(/^#\s+.+$/)
   end
 
   def <=>(other)

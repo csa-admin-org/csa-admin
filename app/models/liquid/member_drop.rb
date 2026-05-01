@@ -51,6 +51,18 @@ class Liquid::MemberDrop < Liquid::Drop
     url(:members_memberships)
   end
 
+  def new_sepa_mandate_url
+    return unless Current.org.sepa? && Current.org.sepa_creditor_identifier?
+
+    url(:new_members_sepa_mandate)
+  end
+
+  def sepa
+    return unless Current.org.sepa? && Current.org.sepa_creditor_identifier?
+
+    @member.sepa?
+  end
+
   def deliveries_url
     url(:members_deliveries)
   end

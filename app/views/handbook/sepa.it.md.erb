@@ -1,0 +1,48 @@
+<!-- country:!CH -->
+# Addebito diretto SEPA
+
+CSA Admin gestisce l'addebito diretto SEPA per la riscossione dei pagamenti dai tuoi soci. I soci possono firmare il mandato online da una pagina dedicata, e le fatture vengono poi addebitate direttamente sul loro conto bancario.
+
+## Panoramica {#overview}
+
+Per impostazione predefinita, le fatture includono un [QR code EPC](https://it.wikipedia.org/wiki/EPC_QR_code) che i soci possono scansionare per pagare. Quando un socio ha un mandato SEPA registrato (IBAN, riferimento del mandato e data di firma), le sue fatture future vengono contrassegnate come fatture SEPA e il pagamento viene riscosso tramite addebito diretto.
+
+Due percorsi portano a un mandato SEPA valido:
+
+- **Self-service** — Il socio firma il mandato online dalla sua pagina di fatturazione. Riceve un'e-mail di conferma con il PDF del mandato firmato in allegato.
+- **Inserimento admin** — Inserisci manualmente IBAN, riferimento del mandato e data di firma nella pagina del socio. Utile, ad esempio, per i mandati firmati su carta.
+
+## Configurazione dell'organizzazione {#setup}
+
+Per attivare l'addebito diretto SEPA, configura i seguenti elementi nelle [impostazioni di fatturazione](/settings#billing):
+
+- **IBAN** — L'IBAN del conto bancario della tua organizzazione.
+- **Identificativo creditore** — Il tuo identificativo creditore SEPA (es. `DE98ZZZ09999999999`), ottenuto dalla tua banca o dall'autorità nazionale.
+- **Testo informativo (SEPA)** (opzionale) — Visualizzato sulle fatture SEPA al posto del testo informativo standard.
+- **Connessione EBICS** (opzionale) — Se configurata, gli ordini di addebito diretto SEPA vengono automaticamente trasmessi alla tua banca 3 giorni dopo l'invio della fattura. Maggiori informazioni sulla [configurazione EBICS](/handbook/billing#ebics-setup).
+
+Non appena un identificativo creditore è impostato, la pagina di mandato self-service diventa accessibile a tutti i soci.
+
+## Self-service per i soci {#self-service}
+
+I soci accedono alla pagina del mandato dalla loro pagina di fatturazione. Vedono il testo del mandato nella propria lingua, inseriscono il loro IBAN, spuntano una casella di consenso e inviano.
+
+Dopo la firma:
+
+- IBAN, riferimento del mandato (UMR) e data di firma vengono salvati.
+- Un PDF del mandato firmato viene generato e allegato a un'e-mail di conferma inviata al socio.
+- Il riferimento del mandato corrisponde per impostazione predefinita all'ID del socio e **resta stabile in caso di cambio IBAN**.
+
+Se un socio aggiorna il proprio IBAN in seguito, lo stesso riferimento di mandato viene riutilizzato, la data di firma viene aggiornata a oggi e una nuova e-mail di conferma con il nuovo PDF del mandato viene inviata. Ogni cambio di IBAN genera un nuovo mandato, lo storico dei mandati viene conservato.
+
+## Elaborazione degli ordini SEPA {#processing}
+
+Una volta creata e inviata una fattura SEPA, un ordine di addebito diretto SEPA (XML pain.008) deve essere inoltrato alla tua banca.
+
+**Con connessione EBICS** — Gli ordini vengono **automaticamente trasmessi** alla tua banca 3 giorni dopo l'invio della fattura. Puoi anche attivare la trasmissione manualmente dalla pagina della fattura. La pagina della fattura mostra l'ID dell'ordine e la data di trasmissione una volta che l'ordine è stato inoltrato.
+
+**Senza connessione EBICS** — Puoi **scaricare il file pain.xml** manualmente dalla pagina della fattura e trasmetterlo tu stesso tramite il portale e-banking della tua banca. È disponibile anche un download collettivo dalla barra laterale della [pagina delle fatture](/invoices), che copre tutte le fatture SEPA aperte in una sola volta.
+
+> Le fatture SEPA non attivano promemoria di pagamento, poiché la riscossione è avviata da te (il creditore) e non dal socio.
+
+<!-- /country:!CH -->

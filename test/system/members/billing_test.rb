@@ -64,10 +64,12 @@ class Members::BillingTest < ApplicationSystemTestCase
     member = create_member(
       language: "de",
       name: "John Doe",
-      country_code: "DE",
+      country_code: "DE")
+    member.sepa_mandates.create!(
       iban: "DE89370400440532013000",
-      sepa_mandate_id: "123",
-      sepa_mandate_signed_on: Date.parse("2024-01-01"))
+      umr: "123",
+      signed_on: Date.parse("2024-01-01"),
+      source: "admin")
     invoice = create_membership_invoice(member: member)
 
     login(member)
@@ -83,16 +85,17 @@ class Members::BillingTest < ApplicationSystemTestCase
     member = create_member(
       language: "de",
       name: "John Doe",
-      country_code: "DE",
+      country_code: "DE")
+    member.sepa_mandates.create!(
       iban: "DE89370400440532013000",
-      sepa_mandate_id: "MANDATE-123",
-      sepa_mandate_signed_on: Date.parse("2024-01-15"))
+      umr: "MANDATE-123",
+      signed_on: Date.parse("2024-01-15"),
+      source: "admin")
 
     login(member)
     visit "/billing"
 
     assert_text "SEPA-Lastschriftverfahren"
-    assert_text "Name John Doe"
     assert_text "IBAN DE89 3704 0044 0532 0130 00"
     assert_text "Mandatsreferenz MANDATE-123 (15. Januar 2024)"
   end
@@ -103,10 +106,12 @@ class Members::BillingTest < ApplicationSystemTestCase
     member = create_member(
       language: "de",
       name: "John Doe",
-      country_code: "DE",
+      country_code: "DE")
+    member.sepa_mandates.create!(
       iban: "DE89370400440532013000",
-      sepa_mandate_id: "MANDATE-456",
-      sepa_mandate_signed_on: Date.parse("2024-02-20"))
+      umr: "MANDATE-456",
+      signed_on: Date.parse("2024-02-20"),
+      source: "admin")
     member.update!(
       billing_name: "Acme GmbH",
       billing_street: "Billing Street 1",
@@ -117,7 +122,6 @@ class Members::BillingTest < ApplicationSystemTestCase
     visit "/billing"
 
     assert_text "SEPA-Lastschriftverfahren"
-    assert_text "Name Acme GmbH"
     assert_text "IBAN DE89 3704 0044 0532 0130 00"
     assert_text "Mandatsreferenz MANDATE-456 (20. Februar 2024)"
   end

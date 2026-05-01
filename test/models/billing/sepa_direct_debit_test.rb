@@ -11,13 +11,16 @@ class Billing::SEPADirectDebitTest < ActiveSupport::TestCase
     member = members(:anna)
     member.update!(
       language: "de",
-      iban: "DE21500500009876543210",
-      sepa_mandate_id: "123456",
-      sepa_mandate_signed_on: "2023-12-24",
       street: "Grosse Marktgasse 28",
       zip: "30952",
       city: "Ronnenberg",
       country_code: "DE")
+    member.sepa_mandates.create!(
+      iban: "DE21500500009876543210",
+      umr: "123456",
+      signed_on: Date.parse("2023-12-24"),
+      source: "admin")
+    member.reload
 
     invoice1 = create_annual_fee_invoice(member: member)
     invoice2 = create_invoice(
@@ -26,6 +29,8 @@ class Billing::SEPADirectDebitTest < ActiveSupport::TestCase
       items_attributes: {
         "0" => { description: "A cool cheap thing", amount: 12.34 }
       })
+
+    member.update!(billing_name: "Anna Changed")
 
     xml = Billing::SEPADirectDebit.new([ invoice1, invoice2 ]).xml
     assert_includes xml, <<-XML
@@ -147,13 +152,16 @@ class Billing::SEPADirectDebitTest < ActiveSupport::TestCase
     member = members(:anna)
     member.update!(
       language: "de",
-      iban: "DE21500500009876543210",
-      sepa_mandate_id: "123456",
-      sepa_mandate_signed_on: "2023-12-24",
       street: "Grosse Marktgasse 28",
       zip: "30952",
       city: "Ronnenberg",
       country_code: "DE")
+    member.sepa_mandates.create!(
+      iban: "DE21500500009876543210",
+      umr: "123456",
+      signed_on: Date.parse("2023-12-24"),
+      source: "admin")
+    member.reload
 
     invoice = create_annual_fee_invoice(member: member)
     create_payment(invoice: invoice, amount: 30)

@@ -2541,6 +2541,12 @@ _:
           _de: Wenn deaktiviert, werden neue Rechnungen, die aufgrund eines positiven Saldos als bereits bezahlt gelten, nicht über die automatische Rechnungsstellung versendet.
           _it: Se disattivato, le nuove fatture considerate già pagate a causa di un saldo positivo non vengono inviate dalla fatturazione automatica.
           _nl: Indien uitgeschakeld, worden nieuwe facturen die als reeds betaald worden beschouwd vanwege een positief saldo niet verzonden door automatische facturering.
+        sepa_creditor_identifier_html:
+          _en: SEPA Creditor Identifier (Gläubiger-ID) issued by your central bank. Required to collect SEPA direct debits and to display valid mandate references on invoices and member mandate forms. <a href="/handbook/sepa#setup">Learn more</a>
+          _fr: Identifiant créancier SEPA (ICS) attribué par votre banque centrale. Requis pour prélever par SEPA et pour afficher des références de mandat valides sur les factures et les formulaires de mandat des membres. <a href="/handbook/sepa#setup">En savoir plus</a>
+          _de: SEPA-Gläubiger-Identifikationsnummer, die von der Bundesbank ausgegeben wird. Erforderlich, um SEPA-Lastschriften einzuziehen und gültige Mandatsreferenzen auf Rechnungen und Mitglieder-Mandatsformularen anzuzeigen. <a href="/handbook/sepa#setup">Mehr erfahren</a>
+          _it: Identificativo del creditore SEPA rilasciato dalla vostra banca centrale. Necessario per addebitare tramite SEPA e per visualizzare riferimenti di mandato validi sulle fatture e sui moduli di mandato dei membri. <a href="/handbook/sepa#setup">Scopri di più</a>
+          _nl: SEPA Incassant-ID (Creditor Identifier) afgegeven door uw centrale bank. Vereist om SEPA-incasso's te innen en geldige machtigingsreferenties weer te geven op facturen en machtigingsformulieren van leden. <a href="/handbook/sepa#setup">Meer informatie</a>
         share_price:
           _en: Leave blank if no cooperative shares.
           _fr: Laisser vide si pas de part sociale.

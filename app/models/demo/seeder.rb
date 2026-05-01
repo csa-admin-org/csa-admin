@@ -841,14 +841,12 @@ class Demo::Seeder
     sepa_attrs = if germany? && rand < 0.5
       {
         iban: Faker::Bank.iban(country_code: "de"),
-        sepa_mandate_id: SecureRandom.alphanumeric(12).upcase,
-        sepa_mandate_signed_on: Date.current - rand(30..365).days
+        umr: SecureRandom.alphanumeric(12).upcase,
+        signed_on: Date.current - rand(30..365).days
       }
-    else
-      {}
     end
 
-    Member.create!(
+    member = Member.create!(
       name: name,
       emails: email,
       phones: "#{phone_prefix} #{rand(70..79)} #{rand(100..999)} #{rand(10..99)} #{rand(10..99)}",
@@ -859,9 +857,18 @@ class Demo::Seeder
       language: Current.org.languages.sample,
       state: state,
       annual_fee: Current.org.annual_fee,
-      **sepa_attrs,
       **attrs
     )
+
+    if sepa_attrs
+      member.sepa_mandates.create!(
+        iban: sepa_attrs[:iban],
+        umr: sepa_attrs[:umr],
+        signed_on: sepa_attrs[:signed_on],
+        source: "admin")
+    end
+
+    member
   rescue ActiveRecord::RecordInvalid => e
     Rails.logger.error("Failed to create member: #{e.message}")
     retry

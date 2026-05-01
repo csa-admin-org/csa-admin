@@ -124,6 +124,7 @@ Rails.application.routes.draw do
         resource :deletion_request, only: %i[new create], path: "delete", path_names: { new: "" }
         resource :deletion_confirmation, only: %i[new create], path: "delete/confirm", path_names: { new: "" }
       end
+      resource :sepa_mandate, only: %i[new create destroy]
       resource :info, only: :show
       resource :contact_sharing, only: %i[show create]
       resource :email_suppression, only: :destroy
