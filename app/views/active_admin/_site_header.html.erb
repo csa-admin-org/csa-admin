@@ -36,17 +36,14 @@
         <% current_menu.items(self).each do |item| %>
           <% children = item.items(self).presence %>
 
-          <li class="group text-base md:text-sm" data-item-id="<%= item.id %>">
+          <li
+            class="group text-base md:relative md:text-sm"
+            data-item-id="<%= item.id %>"
+          >
             <% if children %>
               <%# Desktop, with hover menu %>
               <button
                 id="dropdownHoverButton-<%= item.id %>"
-                data-dropdown-toggle="<%= item.id %>"
-                data-dropdown-trigger="hover"
-                data-dropdown-placement="bottom-start"
-                data-dropdown-offset-distance="0"
-                data-dropdown-offset-skidding="-8"
-                data-dropdown-delay="0"
                 class="hidden w-full items-center rounded-md px-2 py-1 font-semibold text-white hover:bg-green-700 hover:text-white md:flex md:w-auto md:border-0 dark:text-black dark:hover:text-black <%= "bg-green-700" if children.any? { |j| current_menu_item?(j) } %>"
               >
                 <%= item.label(self) %>
@@ -55,7 +52,7 @@
               <%= tag.ul(
                 id: item.id,
                 role: "list",
-                class: "hidden min-w-36 space-y-1 rounded-md bg-green-600 p-4 font-semibold shadow-xl group-data-open:block md:p-2",
+                class: "hidden md:block md:invisible md:absolute md:top-full md:-start-3 md:z-10 md:whitespace-nowrap md:group-hover:visible min-w-36 space-y-1 rounded-md bg-green-600 p-4 font-semibold shadow-xl md:p-2.5",
                 "aria-labelledby": "dropdownHoverButton-#{item.id}",
                 data: item.html_options[:data].to_h
               ) do %>
