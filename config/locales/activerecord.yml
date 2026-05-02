@@ -3043,6 +3043,42 @@ _:
           _de: Reihenfolge der Zusätze
           _it: Ordine dei aggiunta
           _nl: Volgorde van aanvullingen
+        basket_content_delivery_pdf_visible/bag:
+          _en: Display the bag content on delivery sheets (PDF)
+          _fr: Afficher le contenu du sac sur les fiches de livraison (PDF)
+          _de: Tascheninhalt auf den Lieferscheinen (PDF) anzeigen
+          _it: Visualizzare il contenuto della borsa sulle schede di consegna (PDF)
+          _nl: Tasinhoud weergeven op de leveringsbonnen (PDF)
+        basket_content_delivery_pdf_visible/basket:
+          _en: Display the basket content on delivery sheets (PDF)
+          _fr: Afficher le contenu du panier sur les fiches de livraison (PDF)
+          _de: Korbinhalt auf den Lieferscheinen (PDF) anzeigen
+          _it: Visualizzare il contenuto della cesta sulle schede di consegna (PDF)
+          _nl: Mandinhoud weergeven op de leveringsbonnen (PDF)
+        basket_content_delivery_pdf_visible/cone:
+          _en: Display the cone content on delivery sheets (PDF)
+          _fr: Afficher le contenu du cornet sur les fiches de livraison (PDF)
+          _de: Tüteninhalt auf den Lieferscheinen (PDF) anzeigen
+          _it: Visualizzare il contenuto del cono sulle schede di consegna (PDF)
+          _nl: Zakinhoud weergeven op de leveringsbonnen (PDF)
+        basket_content_delivery_pdf_visible/crate:
+          _en: Display the crate content on delivery sheets (PDF)
+          _fr: Afficher le contenu de la cagette sur les fiches de livraison (PDF)
+          _de: Kisteninhalt auf den Lieferscheinen (PDF) anzeigen
+          _it: Visualizzare il contenuto della cassetta sulle schede di consegna (PDF)
+          _nl: Kratinhoud weergeven op de leveringsbonnen (PDF)
+        basket_content_delivery_pdf_visible/package:
+          _en: Display the package content on delivery sheets (PDF)
+          _fr: Afficher le contenu du colis sur les fiches de livraison (PDF)
+          _de: Paketinhalt auf den Lieferscheinen (PDF) anzeigen
+          _it: Visualizzare il contenuto del pacco sulle schede di consegna (PDF)
+          _nl: Pakketinhoud weergeven op de leveringsbonnen (PDF)
+        basket_content_delivery_pdf_visible/share:
+          _en: Display the share content on delivery sheets (PDF)
+          _fr: Afficher le contenu de la part sur les fiches de livraison (PDF)
+          _de: Anteilsinhalt auf den Lieferscheinen (PDF) anzeigen
+          _it: Visualizzare il contenuto della parte sulle schede di consegna (PDF)
+          _nl: Deelinhoud weergeven op de leveringsbonnen (PDF)
         basket_content_member_display_product_url:
           _en: Make use of product external link
           _fr: Utiliser le lien externe du produit

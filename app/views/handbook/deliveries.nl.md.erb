@@ -132,6 +132,17 @@ Een aangepaste voettekst kan worden toegevoegd aan alle leveringsbladen via de [
 
 Korte berichten kunnen worden gekoppeld aan specifieke depot/leveringscombinaties en verschijnen op de corresponderende leveringsbladen. Zie de speciale [handboekpagina over aankondigingen](/handbook/announcements) voor details.
 
+### <%= BasketContent.model_name.human %> op de leveringsbonnen {#basket-content-sheets}
+
+Als de [<%= BasketContent.model_name.human.downcase %>-functie](/handbook/basket_content) is ingeschakeld, kun je optioneel de productlijst op je leveringsbonnen weergeven. Schakel deze optie in via [de <%= BasketContent.model_name.human.downcase %>-instellingen](/settings#basket_content).
+
+Wanneer ingeschakeld, verschijnen er twee extra tabellen op de bonnen:
+
+- **Samenvattingspagina**: Een tabel met de totale hoeveelheid van elk product per depot (bijv. «4.5kg» wortelen voor depot Boerderij).
+- **Depot-pagina's**: Een tabel met elk product en de hoeveelheid per <%= BasketSize.model_name.human.downcase %> (bijv. «250g» per kleine <%= Basket.model_name.human.downcase %>, «400g» per grote).
+
+Als de producttabel niet op dezelfde pagina past als de bestaande ledentabel, verschijnt deze automatisch op een aparte pagina.
+
 ## Leveringsmeldingen {#delivery-notifications}
 
 CSA Admin kan automatisch e-mailmeldingen versturen met betrekking tot leveringen:

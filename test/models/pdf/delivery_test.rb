@@ -209,4 +209,97 @@ class PDF::DeliveryTest < ActiveSupport::TestCase
     refute_includes pdf_strings, "Free depots"
     refute_includes pdf_strings, "Paid depots"
   end
+
+  test "includes basket content on summary and depot pages when enabled" do
+    travel_to "2024-01-01"
+    Current.org.update!(basket_content_delivery_pdf_visible: true)
+    delivery = deliveries(:monday_1)
+
+    # John: medium basket at farm, Anna: large basket at bakery, Bob: small basket at home
+    create_basket_content(
+      delivery: delivery,
+      product: basket_content_products(:carrots),
+      basket_size_ids_percentages: { medium_id => 40, large_id => 60 },
+      depots: Depot.all,
+      quantity: 10,
+      unit: "kg")
+    create_basket_content(
+      delivery: delivery,
+      product: basket_content_products(:cucumbers),
+      basket_size_ids_percentages: { small_id => 30, medium_id => 30, large_id => 40 },
+      depots: [ depots(:farm), depots(:bakery) ],
+      quantity: 9,
+      unit: "pc")
+
+    pdf_strings = save_pdf_and_return_strings(delivery)
+
+    # Summary page should show product names
+    assert_includes pdf_strings, "Carrots"
+    assert_includes pdf_strings, "Cucumbers"
+
+    # Per-depot pages should also show product names
+    # Farm depot has John (medium), should show Carrots and Cucumbers
+    assert pdf_strings.count { |s| s == "Carrots" } >= 2
+  end
+
+  test "does not include basket content when setting is disabled" do
+    travel_to "2024-01-01"
+    Current.org.update!(basket_content_delivery_pdf_visible: false)
+    delivery = deliveries(:monday_1)
+
+    create_basket_content(
+      delivery: delivery,
+      product: basket_content_products(:carrots),
+      basket_size_ids_percentages: { medium_id => 50, large_id => 50 },
+      depots: Depot.all,
+      quantity: 10,
+      unit: "kg")
+
+    pdf_strings = save_pdf_and_return_strings(delivery)
+
+    # Product names should NOT appear anywhere in the PDF
+    refute_includes pdf_strings, "Carrots"
+  end
+
+  test "does not include basket content when feature is disabled" do
+    travel_to "2024-01-01"
+    Current.org.update!(
+      basket_content_delivery_pdf_visible: true,
+      features: Current.org.features - [ :basket_content ])
+    delivery = deliveries(:monday_1)
+
+    create_basket_content(
+      delivery: delivery,
+      product: basket_content_products(:carrots),
+      basket_size_ids_percentages: { medium_id => 50, large_id => 50 },
+      depots: Depot.all,
+      quantity: 10,
+      unit: "kg")
+
+    pdf_strings = save_pdf_and_return_strings(delivery)
+
+    refute_includes pdf_strings, "Carrots"
+  end
+
+  test "basket content per-depot page shows quantities per basket size" do
+    travel_to "2024-01-01"
+    Current.org.update!(basket_content_delivery_pdf_visible: true)
+    delivery = deliveries(:monday_1)
+
+    create_basket_content(
+      delivery: delivery,
+      product: basket_content_products(:carrots),
+      basket_size_ids_percentages: { medium_id => 40, large_id => 60 },
+      depots: Depot.all,
+      quantity: 8,
+      unit: "kg")
+
+    pdf_strings = save_pdf_and_return_strings(delivery, depots(:farm))
+
+    # Should show product name and quantity formatted with unit
+    assert_includes pdf_strings, "Carrots"
+    # The quantity for the medium basket (only basket at farm) should be displayed
+    assert pdf_strings.any? { |s| s.include?("kg") || s.include?("g") },
+      "Expected quantity with kg or g unit in PDF"
+  end
 end

@@ -129,6 +129,17 @@ A custom footer text can be added to all delivery sheets via the [delivery PDF f
 
 Short messages can be attached to specific depot/delivery combinations and will appear on the corresponding delivery sheets. See the dedicated [announcements handbook page](/handbook/announcements) for details.
 
+### <%= BasketContent.model_name.human %> on sheets {#basket-content-sheets}
+
+If the [<%= BasketContent.model_name.human.downcase %> feature](/handbook/basket_content) is enabled, you can optionally include the product list on your delivery sheets. Enable this from [the <%= BasketContent.model_name.human.downcase %> settings](/settings#basket_content).
+
+When enabled, two additional tables appear on the sheets:
+
+- **Summary page**: A table showing the total quantity of each product per depot (e.g. "4.5kg" of carrots going to the Farm depot).
+- **Per-depot pages**: A table listing each product with its quantity per <%= BasketSize.model_name.human.downcase %> (e.g. "250g" per small <%= Basket.model_name.human.downcase %>, "400g" per large).
+
+If the product table doesn't fit on the same page as the existing members table, it will automatically appear on a separate page.
+
 ## Delivery notifications {#delivery-notifications}
 
 CSA Admin can automatically send email notifications related to deliveries:

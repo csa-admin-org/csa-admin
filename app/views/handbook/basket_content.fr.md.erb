@@ -45,6 +45,10 @@ Plusieurs options sont disponibles pour personnaliser l'affichage:
 
 Le statut actuel de visibilité pour chaque livraison est affiché dans la barre latérale de [la page du <%= BasketContent.model_name.human.downcase %>](/basket_contents) lorsque vous consultez une livraison à venir.
 
+## Fiches de livraison {#delivery-sheets}
+
+Le <%= BasketContent.model_name.human.downcase %> peut également être inclus sur les fiches de livraison imprimées (PDF). Lorsqu'activé depuis [les paramètres <%= BasketContent.model_name.human.downcase %>](/settings#basket_content), chaque fiche affichera la liste des produits avec les quantités. Voir [la documentation des fiches de livraison](/handbook/deliveries#basket-content-sheets) pour plus de détails.
+
 ## Intégration newsletter {#newsletter-integration}
 
 Le <%= BasketContent.model_name.human.downcase %> est également disponible dans les templates de newsletters à l'aide de [la syntaxe Liquid](https://shopify.github.io/liquid). Le [template de newsletter "Prochaine livraison"](/newsletter_templates) par défaut inclut déjà une section <%= BasketContent.model_name.human.downcase %>. Si votre template ne l'inclut pas, ou si vous souhaitez le personnaliser, vous pouvez utiliser le code suivant:

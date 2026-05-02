@@ -45,6 +45,10 @@ Mehrere Optionen stehen zur Verfügung, um die Anzeige anzupassen:
 
 Der aktuelle Sichtbarkeitsstatus für jede Lieferung wird in der Seitenleiste von [der <%= BasketContent.model_name.human %>-Seite](/basket_contents) angezeigt, wenn Du eine kommende Lieferung betrachtest.
 
+## Lieferscheine {#delivery-sheets}
+
+Der <%= BasketContent.model_name.human.downcase %> kann auch auf gedruckten Lieferscheinen (PDFs) angezeigt werden. Wenn diese Option in [den <%= BasketContent.model_name.human %>-Einstellungen](/settings#basket_content) aktiviert ist, wird auf jedem Lieferschein die Produktliste mit Mengen angezeigt. Weitere Informationen findest Du in der [Dokumentation zu den Lieferscheinen](/handbook/deliveries#basket-content-sheets).
+
 ## Newsletter-Integration {#newsletter-integration}
 
 Der <%= BasketContent.model_name.human %> ist auch in Newsletter-Vorlagen mit [Liquid-Syntax](https://shopify.github.io/liquid) verfügbar. Die Standard-Newsletter-Vorlage [«Nächste Lieferung»](/newsletter_templates) enthält bereits einen Abschnitt zum <%= BasketContent.model_name.human %>. Falls Deine Vorlage diesen nicht enthält oder Du ihn anpassen möchtest, kannst Du folgenden Code verwenden:

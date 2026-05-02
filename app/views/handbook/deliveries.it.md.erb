@@ -129,6 +129,17 @@ Un testo personalizzato di piè di pagina può essere aggiunto a tutte le schede
 
 Brevi messaggi possono essere associati a combinazioni specifiche deposito/consegna e appariranno sulle schede di consegna corrispondenti. Consulta la pagina dedicata del [manuale degli annunci](/handbook/announcements) per i dettagli.
 
+### <%= BasketContent.model_name.human %> sulle schede {#basket-content-sheets}
+
+Se la [funzionalità <%= BasketContent.model_name.human.downcase %>](/handbook/basket_content) è attivata, puoi opzionalmente includere la lista dei prodotti sulle tue schede di consegna. Attiva questa opzione dalle [impostazioni <%= BasketContent.model_name.human.downcase %>](/settings#basket_content).
+
+Quando attivato, due tabelle aggiuntive appaiono sulle schede:
+
+- **Pagina riepilogativa**: Una tabella che mostra la quantità totale di ogni prodotto per punto di ritiro (es. «4.5kg» di carote per il punto di ritiro Fattoria).
+- **Pagine per punto di ritiro**: Una tabella che elenca ogni prodotto con la sua quantità per <%= BasketSize.model_name.human.downcase %> (es. «250g» per <%= Basket.model_name.human.downcase %> piccolo, «400g» per grande).
+
+Se la tabella dei prodotti non entra nella stessa pagina della tabella dei membri esistente, apparirà automaticamente su una pagina separata.
+
 ## Notifiche di consegna {#delivery-notifications}
 
 CSA Admin può inviare automaticamente notifiche e-mail relative alle consegne:

@@ -129,6 +129,17 @@ Un texte de pied de page personnalisé peut être ajouté à toutes les fiches d
 
 Des messages courts peuvent être rattachés à des combinaisons dépôt/livraison spécifiques et apparaîtront sur les fiches de livraison correspondantes. Consultez la page dédiée du [manuel des annonces](/handbook/announcements) pour plus de détails.
 
+### <%= BasketContent.model_name.human %> sur les fiches {#basket-content-sheets}
+
+Si la [fonctionnalité <%= BasketContent.model_name.human.downcase %>](/handbook/basket_content) est activée, vous pouvez optionnellement inclure la liste des produits sur vos fiches de livraison. Activez cette option depuis [les paramètres <%= BasketContent.model_name.human.downcase %>](/settings#basket_content).
+
+Lorsqu'activé, deux tableaux supplémentaires apparaissent sur les fiches :
+
+- **Page récapitulative** : Un tableau montrant la quantité totale de chaque produit par dépôt (ex. « 4.5kg » de carottes pour le dépôt Ferme).
+- **Pages par dépôt** : Un tableau listant chaque produit avec sa quantité par <%= BasketSize.model_name.human.downcase %> (ex. « 250g » par petit <%= Basket.model_name.human.downcase %>, « 400g » par grand).
+
+Si le tableau des produits ne tient pas sur la même page que le tableau des membres existant, il apparaîtra automatiquement sur une page séparée.
+
 ## Notifications de livraison {#delivery-notifications}
 
 CSA Admin peut envoyer automatiquement des notifications par e-mail liées aux livraisons :

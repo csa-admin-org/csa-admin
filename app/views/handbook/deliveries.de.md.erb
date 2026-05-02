@@ -129,6 +129,17 @@ Ein benutzerdefinierter Fußzeilentext kann über die [Einstellung für die Lief
 
 Kurze Nachrichten können an bestimmte Depot/Lieferungs-Kombinationen angehängt werden und erscheinen auf den entsprechenden Lieferscheinen. Siehe die spezielle [Handbuchseite zu Ankündigungen](/handbook/announcements) für Details.
 
+### <%= BasketContent.model_name.human %> auf den Lieferscheinen {#basket-content-sheets}
+
+Wenn die [<%= BasketContent.model_name.human.downcase %>-Funktion](/handbook/basket_content) aktiviert ist, kannst Du optional die Produktliste auf Deinen Lieferscheinen anzeigen. Aktiviere diese Option in [den <%= BasketContent.model_name.human %>-Einstellungen](/settings#basket_content).
+
+Wenn aktiviert, erscheinen zwei zusätzliche Tabellen auf den Lieferscheinen:
+
+- **Zusammenfassungsseite**: Eine Tabelle mit der Gesamtmenge jedes Produkts pro Depot (z.B. «4.5kg» Karotten für das Depot Hof).
+- **Depot-Seiten**: Eine Tabelle mit jedem Produkt und seiner Menge pro <%= BasketSize.model_name.human.downcase %> (z.B. «250g» pro kleinem <%= Basket.model_name.human.downcase %>, «400g» pro grossem).
+
+Wenn die Produkttabelle nicht auf dieselbe Seite wie die bestehende Mitgliedertabelle passt, erscheint sie automatisch auf einer separaten Seite.
+
 ## Lieferungsbenachrichtigungen {#delivery-notifications}
 
 CSA Admin kann automatisch E-Mail-Benachrichtigungen zu Lieferungen versenden:

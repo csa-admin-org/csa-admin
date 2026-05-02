@@ -305,6 +305,8 @@ ActiveAdmin.register Organization do
                 info
               ]
             }
+
+          handbook_button(self, "deliveries", anchor: "delivery-sheets")
         end
         tab t(".mailer"), id: "mail"  do
           para t(".mailer_text_html"), class: "description"
@@ -491,6 +493,10 @@ ActiveAdmin.register Organization do
           handbook_button(self, "new_member_fee")
         end
         tab BasketContent.model_name.human, id: "basket_content", hidden: !feature?("basket_content"), selected: feature?("basket_content") do
+          f.input :basket_content_delivery_pdf_visible,
+            as: :boolean,
+            hint: t("formtastic.hints.organization.basket_content_delivery_pdf_visible")
+
           div "data-controller" => "form-checkbox-toggler" do
             f.input :basket_content_member_visible,
               as: :boolean,
@@ -624,6 +630,7 @@ ActiveAdmin.register Organization do
     :member_form_extra_text_only, :member_form_complement_quantities,
     :basket_sizes_member_order_mode, :basket_complements_member_order_mode,
     :depots_member_order_mode, :delivery_cycles_member_order_mode,
+    :basket_content_delivery_pdf_visible,
     :basket_content_member_visible,
     :basket_content_member_visible_hours_before,
     :basket_content_member_display_quantity,

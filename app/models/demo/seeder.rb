@@ -306,6 +306,7 @@ class Demo::Seeder
       # ============================================
       delivery_pdf_footers: {},
       delivery_pdf_member_info: "none",
+      basket_content_delivery_pdf_visible: false,
 
       # ============================================
       # Mailer settings

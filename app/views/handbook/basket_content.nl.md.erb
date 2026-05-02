@@ -45,6 +45,10 @@ Verschillende opties zijn beschikbaar om de weergave aan te passen:
 
 De huidige zichtbaarheidsstatus voor elke levering wordt weergegeven in de zijbalk van [de <%= BasketContent.model_name.human.downcase %>pagina](/basket_contents) wanneer je een komende levering bekijkt.
 
+## Leveringsbonnen {#delivery-sheets}
+
+De <%= BasketContent.model_name.human.downcase %> kan ook worden weergegeven op gedrukte leveringsbonnen (PDF's). Wanneer ingeschakeld via [de <%= BasketContent.model_name.human.downcase %>-instellingen](/settings#basket_content), toont elke bon de productlijst met hoeveelheden. Zie [de documentatie over leveringsbonnen](/handbook/deliveries#basket-content-sheets) voor details.
+
 ## Nieuwsbriefintegratie {#newsletter-integration}
 
 De <%= BasketContent.model_name.human.downcase %> is ook beschikbaar in nieuwsbriefsjablonen met behulp van [Liquid syntax](https://shopify.github.io/liquid). Het standaard ["Volgende levering" nieuwsbriefsjabloon](/newsletter_templates) bevat al een <%= BasketContent.model_name.human.downcase %>-sectie. Als je sjabloon dit niet bevat, of als je het wilt aanpassen, kun je de volgende code gebruiken:

@@ -1809,6 +1809,12 @@ _:
           _de: Legt die Reihenfolge der Anteilszusätze im Anmeldeformular fest, nachdem ihre individuelle Priorität berücksichtigt wurde.
           _it: Permette di definire l'ordine di visualizzazione delle aggiunte di parti nel modulo di iscrizione, dopo aver preso in considerazione la loro priorità individuale.
           _nl: Stelt de volgorde van deelaanvullingen in het registratieformulier in na het in overweging nemen van hun individuele prioriteit.
+        basket_content_delivery_pdf_visible:
+          _en: If enabled, the product list with quantities is displayed on the delivery sheets (PDF).
+          _fr: Si activé, la liste des produits avec les quantités est affichée sur les fiches de livraison (PDF).
+          _de: Wenn aktiviert, wird die Produktliste mit Mengen auf den Lieferscheinen (PDF) angezeigt.
+          _it: Se attivato, la lista dei prodotti con le quantità viene visualizzata sulle schede di consegna (PDF).
+          _nl: Indien ingeschakeld, wordt de productlijst met hoeveelheden weergegeven op de leveringsbonnen (PDF).
         basket_content_member_display_product_url:
           _en: Make product name a clickable link when the external link URL is set on the product.
           _fr: Rendre le nom du produit cliquable lorsque l'URL du lien externe est définie sur le produit.

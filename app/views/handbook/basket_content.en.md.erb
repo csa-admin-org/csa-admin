@@ -45,6 +45,10 @@ Several options are available to customize the display:
 
 The current visibility status for each delivery is shown in the sidebar of [the <%= BasketContent.model_name.human.downcase %> page](/basket_contents) when viewing a specific coming delivery.
 
+## Delivery Sheets {#delivery-sheets}
+
+<%= BasketContent.model_name.human %> can also be included on printed delivery sheets (PDFs). When enabled from [the <%= BasketContent.model_name.human.downcase %> settings](/settings#basket_content), each sheet will display the product list with quantities. See [the delivery sheets documentation](/handbook/deliveries#basket-content-sheets) for details.
+
 ## Newsletter Integration {#newsletter-integration}
 
 <%= BasketContent.model_name.human %> are also available in newsletter templates using [Liquid syntax](https://shopify.github.io/liquid). The default ["Next delivery" newsletter template](/newsletter_templates) already includes a <%= BasketContent.model_name.human.downcase %> section. If your template doesn't include it, or if you'd like to customize it, you can use the following code:
