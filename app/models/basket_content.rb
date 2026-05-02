@@ -113,9 +113,10 @@ class BasketContent < ApplicationRecord
     Delivery.where(id: delivery_ids).reorder(date: :desc)
   end
 
-  def self.closest_delivery
-    Delivery
-      .joins(:basket_contents)
+  def self.closest_delivery(year = nil)
+    scope = Delivery.joins(:basket_contents)
+    scope = scope.during_year(year) if year
+    scope
       .distinct
       .reorder(Arel.sql("ABS(julianday(deliveries.date) - julianday(date('now')))"))
       .first

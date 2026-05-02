@@ -17,7 +17,7 @@ ActiveAdmin.register BasketContent do
     when "new"
       links << link_to(BasketContent.model_name.human(count: 2), smart_basket_contents_path)
     when "edit"
-      links << link_to(BasketContent.model_name.human(count: 2), basket_contents_path(q: { delivery_id_eq: resource.delivery_id, during_year: resource.delivery.fy_year }))
+      links << link_to(BasketContent.model_name.human(count: 2), basket_contents_path(q: { delivery_id_eq: resource.delivery_id }))
     end
     links
   end
@@ -197,8 +197,7 @@ ActiveAdmin.register BasketContent do
     from = params.require(:from_delivery_id)
     to = params.require(:to_delivery_id)
     BasketContent.duplicate_all(from, to)
-    delivery = Delivery.find(to)
-    redirect_to basket_contents_path(q: { delivery_id_eq: delivery.id, during_year: delivery.fiscal_year })
+    redirect_to basket_contents_path(q: { delivery_id_eq: to })
   end
 
   form data: { controller: "basket-content-products-select" } do |f|
@@ -363,7 +362,7 @@ ActiveAdmin.register BasketContent do
     end
     f.actions do
       f.action :submit
-      cancel_link basket_contents_path(q: { delivery_id_eq: f.object.delivery_id, during_year: f.object.delivery&.fy_year })
+      cancel_link basket_contents_path(q: { delivery_id_eq: f.object.delivery_id })
     end
   end
 
@@ -376,6 +375,22 @@ ActiveAdmin.register BasketContent do
     basket_content.delivery_id ||= referer_filter(:delivery_id) || Delivery.next&.id
     if params[:action] == "new" && basket_content.depots.empty?
       basket_content.depots = Depot.kept
+    end
+  end
+
+  before_action only: :index do
+    params[:q] ||= {}
+    if delivery_id = params.dig(:q, :delivery_id_eq)
+      if delivery = Delivery.find_by(id: delivery_id)
+        fy_year = params.dig(:q, :during_year)
+        if fy_year && fy_year.to_i != delivery.fy_year
+          params[:q][:delivery_id_eq] = BasketContent.closest_delivery(fy_year)&.id
+        else
+          params[:q][:during_year] = delivery.fy_year
+        end
+      end
+    elsif fy_year = params.dig(:q, :during_year)
+      params[:q][:delivery_id_eq] = BasketContent.closest_delivery(fy_year)&.id
     end
   end
 
@@ -398,13 +413,13 @@ ActiveAdmin.register BasketContent do
 
     def create
       create! do |success, failure|
-        success.html { redirect_to collection_path(q: { delivery_id_eq: resource.delivery_id, during_year: resource.delivery.fy_year }) }
+        success.html { redirect_to collection_path(q: { delivery_id_eq: resource.delivery_id }) }
       end
     end
 
     def update
       update! do |success, failure|
-        success.html { redirect_to collection_path(q: { delivery_id_eq: resource.delivery_id, during_year: resource.delivery.fy_year }) }
+        success.html { redirect_to collection_path(q: { delivery_id_eq: resource.delivery_id }) }
       end
     end
 
