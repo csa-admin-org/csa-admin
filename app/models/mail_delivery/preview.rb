@@ -12,7 +12,9 @@ module MailDelivery::Preview
   end
 
   def mail_preview
-    html = content.to_s
+    return unless content.present?
+
+    html = content
 
     if html.include?("<html") || html.include?("<!DOCTYPE")
       # New format: full HTML stored by ProcessJob

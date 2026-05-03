@@ -124,17 +124,22 @@ ActiveAdmin.register MailDelivery do
           end
         else
           panel t(".preview") do
-            div class: "iframe-wrapper" do
-              preview = if delivery.draft? && delivery.newsletter?
+            preview =
+              if delivery.draft? && delivery.newsletter?
                 delivery.source.mail_preview(delivery.member.language)
               else
                 delivery.mail_preview
               end
-              iframe(
-                srcdoc: preview,
-                scrolling: "no",
-                class: "mail_preview",
-                "data-iframe-target" => "iframe")
+            if preview
+              div class: "iframe-wrapper" do
+                iframe(
+                  srcdoc: preview,
+                  scrolling: "no",
+                  class: "mail_preview",
+                  "data-iframe-target" => "iframe")
+              end
+            else
+              div(class: "missing-data") { t("active_admin.empty") }
             end
           end
         end
