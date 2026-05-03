@@ -178,12 +178,17 @@ ActiveAdmin.register MailDelivery do
             else
               div(class: "grid gap-y-2") do
                 member_emails.each do |email_address|
-                  suppressions = EmailSuppression.active.where(email: email_address)
+                  suppressions = EmailSuppression.visible.where(email: email_address)
                   suppressed = suppressions.any?
                   div do
-                    div(class: "flex flex-wrap items-center justify-start mx-2 gap-2") do
+                    div(class: "flex flex-wrap items-center justify-between mx-2 mb-2 gap-x-2") do
                       h4 email_address, class: "m-0 text-lg font-extralight"
-                      status_tag(suppressed ? :suppressed : :active, class: "m-0")
+                      div(class: "flex justify-end items-center gap-x-2") do
+                        status_tag(suppressed ? :suppressed : :active, class: "m-0")
+                        suppressions.select(&:unsuppressable?).each do |suppression|
+                          span { reactivate_email_suppression_button(suppression, btn_class: "btn btn-xs mt-0.5") }
+                        end
+                      end
                     end
                     if suppressed
                       attributes_table do
@@ -204,9 +209,18 @@ ActiveAdmin.register MailDelivery do
             div(class: "grid gap-y-6") do
               delivery.emails.order(:created_at).each do |email|
                 div do
-                  div(class: "flex flex-wrap items-center justify-start mx-2 mb-1 gap-2") do
+                  div(class: "flex flex-wrap items-center justify-between mx-2 mb-2 gap-x-2") do
                     h4 email.email, class: "m-0 text-lg font-extralight"
-                    status_tag(email.state, class: "m-0")
+                    div(class: "flex justify-end items-center gap-x-2") do
+                      status_tag(email.state, class: "m-0")
+                      EmailSuppression
+                        .visible
+                        .unsuppressable
+                        .where(email: email.email)
+                        .each do |suppression|
+                          span { reactivate_email_suppression_button(suppression, btn_class: "btn btn-xs mt-0.75") }
+                        end
+                    end
                   end
                   attributes_table_for email do
                     case email.state

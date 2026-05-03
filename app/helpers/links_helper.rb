@@ -58,6 +58,16 @@ module LinksHelper
       **options, &block)
   end
 
+  def reactivate_email_suppression_button(suppression, btn_class: "btn btn-sm")
+    button_to email_suppression_path(suppression),
+      method: :delete,
+      class: "#{btn_class} inline-flex items-center",
+      data: { confirm: t("helpers.email_suppressions.destroy_confirm") } do
+        icon("circle-check-big", class: "size-4 me-2") +
+          t("helpers.email_suppressions.destroy")
+      end
+  end
+
   private
 
   def _submit_button(name, url, btn_class:, icon: nil, icon_class: nil,

@@ -45,19 +45,15 @@ module ApplicationHelper
   def display_email_with_link(arbre, email)
     suppressions =
       EmailSuppression
-        .active
+        .visible
         .where(email: email)
-        .where.not(reason: "ManualSuppression")
     if suppressions.any?
       arbre.s(email)
       suppressions.each do |suppression|
         arbre.status_tag suppression.reason.underscore
         if suppression.unsuppressable?
           arbre.span do
-            link_to(t("helpers.email_suppressions.destroy"), suppression,
-              method: :delete,
-              class: "btn btn-xs",
-              data: { confirm: t("helpers.email_suppressions.destroy_confirm") })
+            reactivate_email_suppression_button(suppression, btn_class: "btn btn-xs")
           end
         end
       end
