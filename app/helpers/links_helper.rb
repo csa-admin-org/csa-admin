@@ -83,18 +83,27 @@ module LinksHelper
   end
 
   def _disabled_button(name, btn_class:, icon: nil, icon_class: nil, tooltip: nil)
-    tooltip_id = "tooltip-#{SecureRandom.hex(4)}"
     icon_class = icon_class&.gsub(/\btext-white\b/, "")&.squish
 
-    content_tag(:button,
-      class: "#{btn_class} cursor-not-allowed".squish,
-      disabled: true,
-      data: { "tooltip-target" => tooltip_id, "tooltip-placement" => "bottom" }
+    content_tag(:span,
+      class: "relative inline-flex",
+      tabindex: 0,
+      data: {
+        controller: "tooltip",
+        "tooltip-target" => "trigger",
+        "tooltip-placement-value" => "bottom",
+        action: "mouseenter->tooltip#show mouseleave->tooltip#hide focus->tooltip#show blur->tooltip#hide"
+      }
     ) do
-      txt = name.to_s.html_safe
-      txt.prepend(icon(icon, class: icon_class)) if icon.present?
-      txt
-    end +
-    tooltip_element(tooltip_id, tooltip)
+      content_tag(:button,
+        class: "#{btn_class} cursor-not-allowed".squish,
+        disabled: true
+      ) do
+        txt = name.to_s.html_safe
+        txt.prepend(icon(icon, class: icon_class)) if icon.present?
+        txt
+      end +
+      tooltip_element(tooltip)
+    end
   end
 end

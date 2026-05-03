@@ -3,13 +3,13 @@ import { removeClass, addClass, prop } from "components/utils"
 
 export default class extends Controller {
   connect() {
-    for (var hash of this.allHiddenTabs()) {
+    for (const hash of this.allHiddenTabs()) {
       prop(this.allTabRequiredInputs(hash), "required", false)
     }
   }
 
   toggleTab(event) {
-    var feature = event.target.value
+    const feature = event.target.value
     if (event.target.checked) {
       this.showTab(feature)
     } else {
@@ -18,41 +18,34 @@ export default class extends Controller {
   }
 
   showTab(hash) {
-    var tab = document.querySelector('[aria-controls="' + hash + '"]')
-    if (tab) {
-      if (hash !== "none") {
-        removeClass(tab, "hidden")
-      }
-      prop(this.allTabRequiredInputs(hash), "required", true)
-      tab.click()
-    }
+    const tab = this.tabFor(hash)
+    if (!tab) return
+
+    if (hash !== "none") removeClass(tab, "hidden")
+    prop(this.allTabRequiredInputs(hash), "required", true)
+    tab.click()
   }
 
   hideTab(hash) {
-    var tab = document.querySelector('[aria-controls="' + hash + '"]')
-    if (tab) {
-      addClass(tab, "hidden")
-      prop(this.allTabRequiredInputs(hash), "required", false)
-      this.showFirstActiveTab()
-    }
+    const tab = this.tabFor(hash)
+    if (!tab) return
+
+    addClass(tab, "hidden")
+    prop(this.allTabRequiredInputs(hash), "required", false)
+    this.showFirstActiveTab()
   }
 
   showFirstActiveTab() {
-    var activeFeatures = Array.from(
+    const firstActiveFeature = this.activeFeatures().find((feature) => {
+      return this.tabFor(feature) !== null
+    })
+    this.showTab(firstActiveFeature || "none")
+  }
+
+  activeFeatures() {
+    return Array.from(
       this.element.querySelectorAll('input[type="checkbox"]:checked')
-    ).map((feature) => {
-      return feature.value
-    })
-    var firstActiveFeature = activeFeatures.find((feature) => {
-      return (
-        document.querySelector('[aria-controls="' + feature + '"]') !== null
-      )
-    })
-    if (firstActiveFeature) {
-      this.showTab(firstActiveFeature)
-    } else {
-      this.showTab("none")
-    }
+    ).map((feature) => feature.value)
   }
 
   allTabRequiredInputs(hash) {
@@ -64,13 +57,16 @@ export default class extends Controller {
   }
 
   allHiddenTabs() {
-    var tabs = Array.from(
-      document.querySelectorAll(
-        '#features [role="tab"][data-tabs-hidden="true"]'
-      )
-    )
-    return tabs.map((tab) => {
-      return tab.getAttribute("aria-controls")
-    })
+    return this.tabs()
+      .filter((tab) => tab.dataset.tabsHidden === "true")
+      .map((tab) => tab.getAttribute("aria-controls"))
+  }
+
+  tabFor(hash) {
+    return this.tabs().find((tab) => tab.getAttribute("aria-controls") === hash)
+  }
+
+  tabs() {
+    return Array.from(document.querySelectorAll('#features [role="tab"]'))
   }
 }

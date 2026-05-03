@@ -3,14 +3,6 @@ import "@hotwired/turbo-rails"
 import "admin/trix"
 import "controllers/admin"
 
-import "flowbite"
-// https://github.com/themesberg/flowbite/issues/88#issuecomment-1962238351
-window.document.addEventListener("turbo:submit-end", (_event) => {
-  window.setTimeout(() => {
-    window.initFlowbite()
-  }, 10)
-})
-
 import Rails from "@rails/ujs"
 import "active_admin/features/batch_actions"
 

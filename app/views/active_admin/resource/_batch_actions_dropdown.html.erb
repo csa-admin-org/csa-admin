@@ -1,0 +1,41 @@
+<% if batch_actions_to_display.any? %>
+  <div
+    class="batch-actions-dropdown relative"
+    data-controller="tooltip"
+    data-tooltip-dismissible-value="true"
+    data-tooltip-placement-value="bottom-start"
+  >
+    <button
+      type="button"
+      class="batch-actions-dropdown-toggle"
+      data-tooltip-target="trigger"
+      data-action="click->tooltip#toggle"
+      aria-controls="batch-action-menu"
+      aria-expanded="false"
+      disabled
+    >
+      <%= I18n.t("active_admin.batch_actions.button_label") %>
+      <%= icon "chevron-down", class: "mt-0.5 size-3 stroke-3" %>
+    </button>
+
+    <ul
+      class="
+        batch-actions-dropdown-menu invisible opacity-0 transition-opacity
+        duration-150
+      "
+      id="batch-action-menu"
+      data-tooltip-target="content"
+    >
+      <% batch_actions_to_display.each do |batch_action| %>
+        <li>
+          <% confirmation_text = render_or_call_method_or_proc_on(self, batch_action.confirm) %>
+          <% default_title = render_or_call_method_or_proc_on(self, batch_action.title) %>
+          <% title = I18n.t("active_admin.batch_actions.labels.#{batch_action.sym}", default: default_title) %>
+          <% label = I18n.t("active_admin.batch_actions.action_label", title: title) %>
+
+          <%= link_to(label, "#batch-action-menu", batch_action.link_html_options.merge(data: { action: batch_action.sym, confirm: confirmation_text.presence, batch_action_item: "" })) %>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>

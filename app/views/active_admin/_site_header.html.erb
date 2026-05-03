@@ -1,8 +1,10 @@
 <div class="fixed inset-s-0 top-0 z-50 w-full bg-green-600 shadow-xs">
-  <div class="mx-auto flex max-w-7xl flex-wrap items-center justify-between py-2">
+  <div
+    class="mx-auto flex max-w-7xl flex-wrap items-center justify-between py-2"
+    data-controller="nav-toggle"
+  >
     <div class="order-1 flex grow pl-4 md:hidden">
       <button
-        data-collapse-toggle="navbar-dropdown"
         type="button"
         class="
           inline-flex items-center justify-center rounded-lg text-sm
@@ -10,7 +12,7 @@
           focus:outline-hidden md:hidden dark:text-black/50
           dark:hover:text-black dark:focus:ring-gray-600
         "
-        aria-controls="navbar-dropdown"
+        data-action="nav-toggle#toggle"
         aria-expanded="false"
       >
         <%= icon "bars-3", class: "size-9" %>
@@ -24,6 +26,7 @@
         md:order-2 md:block md:h-auto md:w-auto md:overflow-visible
       "
       id="navbar-dropdown"
+      data-nav-toggle-target="menu"
     >
       <ul
         class="

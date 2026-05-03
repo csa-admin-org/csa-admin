@@ -7,7 +7,16 @@ div class: "flex justify-evenly mt-4 mb-6 gap-4" do
     if prices.any?
       base_price = basket_size.price_for(delivery.fy_year)
       basket_price = delivery.basket_size_price_for(base_price)
-      div class: "flex flex-col align-top text-center", data: { "tooltip-target" => "tooltip-#{basket_size.id}" } do
+      container_options = { class: "flex flex-col align-top text-center" }
+      if prices.many?
+        container_options[:data] = {
+          controller: "tooltip",
+          "tooltip-target" => "trigger",
+          action: "mouseenter->tooltip#show mouseleave->tooltip#hide"
+        }
+      end
+
+      div container_options do
         h3 basket_size.name, class: "text-lg font-light"
         div class: "flex justify-center items-center" do
           display_basket_price_with_diff(basket_price, prices)
@@ -23,13 +32,16 @@ div class: "flex justify-evenly mt-4 mb-6 gap-4" do
         end
 
         if prices.many?
-          div id: "tooltip-#{basket_size.id}", role: "tooltip", class: "absolute z-10 invisible inline-block max-w-96 px-3 py-2 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-xs opacity-0 tooltip dark:bg-gray-700 " do
+          div role: "tooltip", class: "invisible fixed z-50 w-max max-w-96 p-1 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-xs opacity-0 transition-opacity duration-150 tooltip dark:bg-gray-700", data: { "tooltip-target" => "content" } do
             ul class: "list-none text-left" do
               depot_prices.sort_by { |d, p| [ p, d.name ] }.map do |depot, price|
-                li "#{depot.name}:#{cur(price, unit: false)}"
+                li class: "flex justify-between hover:bg-gray-700 dark:hover:bg-gray-600 px-1 rounded-md" do
+                  span depot.name
+                  span cur(price, unit: false), class: "ms-4"
+                end
               end
             end
-            div class: "tooltip-arrow", data: { "popper-arrow" => true }
+            div class: "tooltip-arrow", data: { "tooltip-target" => "arrow" }
           end
         end
       end

@@ -18,9 +18,6 @@ pin "@appsignal/javascript", to: "@appsignal--javascript.js" # @1.6.1
 pin "https", preload: false # @2.1.0
 pin "tslib", preload: false # @2.8.1
 
-# ActiveAdmin (used also by members)
-pin "flowbite", to: "flowbite.turbo.min.js" # @4.0.1
-
 # Members
 pin "members", preload: false
 pin_all_from "app/javascript/controllers/members", under: "controllers/members", preload: false
@@ -54,3 +51,5 @@ pin "codejar-linenumbers", preload: false # @1.0.1
 # ActiveAdmin
 pin "@rails/ujs", to: "@rails--ujs.js", preload: false # @7.1.3
 pin_all_from File.join(`bundle show activeadmin`.strip, "app/javascript/active_admin"), under: "active_admin", preload: false
+# Floating UI (tooltip/popover positioning) — single self-contained bundle
+pin "@floating-ui/dom", to: "@floating-ui--dom.js", preload: false # @1.7.6

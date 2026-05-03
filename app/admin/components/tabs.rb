@@ -14,7 +14,7 @@ class Tabs < ActiveAdmin::Component
     super(attributes)
     add_class "tabs"
     set_attribute :data, controller: "tabs"
-    @menu = nav(class: "tabs-nav", role: "tablist", "data-tabs-toggle": "#tabs-container-#{object_id}")
+    @menu = nav(class: "tabs-nav", role: "tablist")
     @tabs_content = div(class: "tabs-content", id: "tabs-container-#{object_id}")
   end
 
@@ -24,8 +24,7 @@ class Tabs < ActiveAdmin::Component
     data_action = options.dig(:html_options, "data-action")
     html_options = options.fetch(:html_options, {}).merge(
       "data-tabs-hidden": hidden,
-      "data-tabs-target": "##{fragment}",
-      "data-action": "tabs#updateAnchor #{data_action}",
+      "data-action": "click->tabs#switchTab #{data_action}",
       role: "tab",
       "aria-controls": fragment,
       "aria-selected": options.delete(:selected) || false,

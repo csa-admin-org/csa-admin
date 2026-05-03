@@ -4,54 +4,97 @@ import { addClass, removeClass } from "components/utils"
 export default class extends Controller {
   connect() {
     const hash = location.hash.substring(1)
-    if (typeof hash === "string" && hash.length > 0) {
-      this.showTab(hash)
-    }
     this._handleHiddenTabs()
+    if (hash && this.showTab(hash)) {
+      document.getElementById(hash)?.scrollIntoView()
+    } else {
+      this._showDefaultTab()
+    }
+  }
+
+  switchTab(event) {
+    event.preventDefault()
+    const hash = event.currentTarget.getAttribute("aria-controls")
+    if (hash && this.showTab(hash)) {
+      this._updateAnchor(hash)
+    }
   }
 
   showTab(hash) {
-    const tab = this.element.querySelectorAll(
-      '[aria-controls="' + hash + '"]'
-    )[0]
-    if (tab && tab.getAttribute("data-tabs-hidden") !== "true") {
-      this._hideActiveTabs()
-      tab.setAttribute("aria-selected", "true")
-      const tabContent = document.getElementById(hash)
-      removeClass(tabContent, "hidden")
-      document.getElementById(hash).scrollIntoView()
-    }
+    const tab = this._tabFor(hash)
+    const tabContent = document.getElementById(hash)
+    if (!tab || !tabContent || !this._canShowTab(tab)) return false
+
+    this._hideActiveTabs()
+    tab.setAttribute("aria-selected", "true")
+    removeClass(tabContent, "hidden")
+    return true
   }
 
   _hideActiveTabs() {
-    const tabs = this.element.querySelectorAll("[aria-selected='true']")
-    for (const tab of tabs) {
+    for (const tab of this._selectedTabs()) {
       tab.setAttribute("aria-selected", "false")
-      const hash = tab.getAttribute("aria-controls")
-      const tabContent = document.getElementById(hash)
-      addClass(tabContent, "hidden")
+      addClass(
+        document.getElementById(tab.getAttribute("aria-controls")),
+        "hidden"
+      )
     }
   }
 
   _handleHiddenTabs() {
-    const tabs = this.element.querySelectorAll('a[data-tabs-hidden="true"]')
-    for (const tab of tabs) {
+    for (const tab of this._tabs().filter(
+      (tab) => tab.dataset.tabsHidden === "true"
+    )) {
       addClass(tab, "hidden")
     }
   }
 
-  updateAnchor(event) {
-    const hash = event.target.getAttribute("aria-controls")
-    if (
-      typeof hash === "string" &&
-      hash.length > 0 &&
-      hash !== location.hash.substring(1)
-    ) {
-      if (history.replaceState) {
-        history.replaceState(null, null, `#${hash}`)
-      } else {
-        location.hash = hash
-      }
+  _showDefaultTab() {
+    const tab =
+      this._selectedVisibleTab() ||
+      this._firstVisibleTab() ||
+      this._selectedTabs()[0]
+    if (tab) this.showTab(tab.getAttribute("aria-controls"))
+  }
+
+  _tabs() {
+    const tablist = this.element.querySelector(":scope > .tabs-nav")
+    return Array.from(tablist?.querySelectorAll('[role="tab"]') || [])
+  }
+
+  _selectedTabs() {
+    return this._tabs().filter(
+      (tab) => tab.getAttribute("aria-selected") === "true"
+    )
+  }
+
+  _selectedVisibleTab() {
+    return this._selectedTabs().find((tab) => this._isVisibleTab(tab))
+  }
+
+  _firstVisibleTab() {
+    return this._tabs().find((tab) => this._isVisibleTab(tab))
+  }
+
+  _tabFor(hash) {
+    return this._tabs().find(
+      (tab) => tab.getAttribute("aria-controls") === hash
+    )
+  }
+
+  _isVisibleTab(tab) {
+    return !tab.classList.contains("hidden")
+  }
+
+  _canShowTab(tab) {
+    return (
+      this._isVisibleTab(tab) || tab.getAttribute("aria-controls") === "none"
+    )
+  }
+
+  _updateAnchor(hash) {
+    if (hash && hash !== location.hash.substring(1)) {
+      history.replaceState(null, null, `#${hash}`)
     }
   }
 }
