@@ -39,5 +39,16 @@ export default class extends Controller {
       }
     })
     this.updateToggle()
+    // Notify nested group toggle controllers
+    this.element
+      .querySelectorAll('[data-controller~="check-boxes-group-toggle"]')
+      .forEach((el) => {
+        const controller =
+          this.application.getControllerForElementAndIdentifier(
+            el,
+            "check-boxes-group-toggle"
+          )
+        if (controller) controller.updateToggle()
+      })
   }
 }

@@ -358,7 +358,8 @@ ActiveAdmin.register BasketContent do
       f.input :depots,
         as: :check_boxes,
         wrapper_html: { class: "legend-title" },
-        collection: admin_depots
+        collection: admin_depots,
+        grouped_collection: admin_depots_grouped_collection
     end
     f.actions do
       f.action :submit

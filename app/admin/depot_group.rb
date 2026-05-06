@@ -50,7 +50,7 @@ ActiveAdmin.register DepotGroup do
       f.input :depots,
         as: :check_boxes,
         wrapper_html: { class: "legend-title" },
-        collection: admin_depots_collection
+        collection: admin_depots
     end
 
     f.actions

@@ -10,6 +10,8 @@ class CheckBoxesInput < Formtastic::Inputs::CheckBoxesInput
           class: "w-full rounded-lg border mt-1 border-dashed border-gray-300 px-6 py-6 text-center hover:border-gray-400 dark:border-gray-700 dark:hover:border-gray-600"
         )
       end
+    elsif grouped_collection.present?
+      grouped_to_html
     else
       super
     end
@@ -31,6 +33,12 @@ class CheckBoxesInput < Formtastic::Inputs::CheckBoxesInput
         action: "#{choice_action} check-boxes-toggle-all#updateToggle"
       )
     end
+    if grouped_collection.present?
+      data = data.merge(
+        check_boxes_group_toggle_target: "input",
+        action: "#{data[:action]} check-boxes-group-toggle#updateToggle"
+      )
+    end
     input_html_options
       .merge(choice_html_options)
       .merge(data: data.compact)
@@ -46,12 +54,66 @@ class CheckBoxesInput < Formtastic::Inputs::CheckBoxesInput
 
   private
 
+  def grouped_to_html
+    input_wrapping do
+      choices_wrapping do
+        legend_html <<
+        hidden_field_for_all <<
+        grouped_choices_html
+      end
+    end
+  end
+
+  def grouped_choices_html
+    choices_by_value = collection.index_by { |choice| choice_value(choice).to_s }
+
+    grouped_collection.filter_map { |group_label, group_ids|
+      group_items = group_ids.filter_map { |id| choices_by_value[id.to_s] }
+      group_section_html(group_label, group_items) if group_items.any?
+    }.join("\n").html_safe
+  end
+
+  def group_section_html(group_label, group_items)
+    template.content_tag(:div,
+      group_header_html(group_label, group_items) +
+      template.content_tag(:ol,
+        group_items.map { |choice|
+          choice_wrapping(choice_wrapping_html_options(choice)) do
+            choice_html(choice)
+          end
+        }.join("\n").html_safe,
+        class: "choices-group"
+      ),
+      class: "w-full not-last:mb-4",
+      data: { controller: "check-boxes-group-toggle" }
+    )
+  end
+
+  def group_header_html(group_label, group_items)
+    template.content_tag(:div, class: "mb-1 flex items-center gap-2 text-sm font-semibold text-gray-600 dark:text-gray-400") do
+      template.concat(group_toggle_checkbox)
+      template.concat(template.content_tag(:span, group_label))
+    end
+  end
+
+  def group_toggle_checkbox
+    template.tag(:input, type: "checkbox", class: "size-4",
+      data: {
+        check_boxes_group_toggle_target: "toggle",
+        action: "check-boxes-group-toggle#toggleAll"
+      })
+  end
+
   def toggle_all?
     options.fetch(:toggle_all, true)
   end
 
   def placeholder?
     options.fetch(:placeholder, true) && target_class.present?
+  end
+
+  def grouped_collection
+    options[:grouped_collection]
   end
 
   def legend_content

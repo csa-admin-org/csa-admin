@@ -190,7 +190,8 @@ ActiveAdmin.register DeliveryCycle do
       f.input :depots,
         as: :check_boxes,
         hint: true,
-        disabled: depot_ids_with_only(f.object)
+        disabled: depot_ids_with_only(f.object),
+        grouped_collection: admin_depots_grouped_collection
 
       handbook_button(self, "registration", anchor: "delivery-cycles")
     end

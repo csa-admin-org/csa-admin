@@ -48,7 +48,8 @@ ActiveAdmin.register Announcement do
         as: :check_boxes,
         for: Depot,
         required: true,
-        label: Depot.model_name.human(count: 2)
+        label: Depot.model_name.human(count: 2),
+        grouped_collection: admin_depots_grouped_collection
       if Delivery.current_year.any?
         f.input :delivery_ids,
           as: :check_boxes,

@@ -58,7 +58,8 @@ ActiveAdmin.register Newsletter::Segment do
         as: :check_boxes,
         for: Depot,
         label: Depot.model_name.human(count: 2),
-        hint: t("formtastic.hints.newsletter/segment.depot_ids")
+        hint: t("formtastic.hints.newsletter/segment.depot_ids"),
+        grouped_collection: admin_depots_grouped_collection
       f.input :city,
         as: :select,
         collection: member_cities_collection,

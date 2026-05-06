@@ -9,6 +9,27 @@ module AdminHelper
     grouped_by_visibility(admin_depots, options)
   end
 
+  def admin_depots_grouped_collection
+    return unless DepotGroup.any?
+
+    depots = admin_depots.includes(:group)
+    grouped = depots.group_by(&:group_id)
+
+    result = []
+    DepotGroup.order_by_name.each do |group|
+      items = grouped[group.id]
+      next unless items&.any?
+      result << [ group.name, items.map(&:id) ]
+    end
+
+    ungrouped = grouped[nil]
+    if ungrouped&.any?
+      result << [ I18n.t("delivery.ungrouped_depots"), ungrouped.map(&:id) ]
+    end
+
+    result.presence
+  end
+
   def admin_basket_sizes
     BasketSize.kept.ordered
   end
