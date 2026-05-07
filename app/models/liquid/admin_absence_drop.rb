@@ -6,6 +6,6 @@ class Liquid::AdminAbsenceDrop < Liquid::AbsenceDrop
       .application
       .routes
       .url_helpers
-      .absence_url(@absence, {}, host: Current.org.admin_url)
+      .absence_url(@absence, host: Current.org.admin_url)
   end
 end

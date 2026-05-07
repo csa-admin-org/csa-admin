@@ -41,6 +41,6 @@ class Liquid::PaymentDrop < Liquid::Drop
       .application
       .routes
       .url_helpers
-      .payment_url(@payment.id, {}, host: Current.org.admin_url)
+      .payment_url(@payment.id, host: Current.org.admin_url)
   end
 end

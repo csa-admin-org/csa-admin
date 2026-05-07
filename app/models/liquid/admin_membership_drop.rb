@@ -14,7 +14,7 @@ class Liquid::AdminMembershipDrop < Liquid::Drop
       .application
       .routes
       .url_helpers
-      .membership_url(@membership.id, {}, host: Current.org.admin_url)
+      .membership_url(@membership.id, host: Current.org.admin_url)
   end
 
   def ended_on

@@ -22,6 +22,6 @@ class Liquid::AdminDepotDrop < Liquid::Drop
       .application
       .routes
       .url_helpers
-      .depot_url(@depot.id, {}, host: Current.org.admin_url)
+      .depot_url(@depot.id, host: Current.org.admin_url)
   end
 end

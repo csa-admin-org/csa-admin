@@ -23,7 +23,7 @@ class Liquid::AdminMemberDrop < Liquid::Drop
       .application
       .routes
       .url_helpers
-      .member_url(@member.id, {}, host: Current.org.admin_url)
+      .member_url(@member.id, host: Current.org.admin_url)
   end
 
   def admin_audits_url
@@ -31,6 +31,6 @@ class Liquid::AdminMemberDrop < Liquid::Drop
       .application
       .routes
       .url_helpers
-      .member_audits_url(@member.id, {}, host: Current.org.admin_url)
+      .member_member_audits_url(@member.id, host: Current.org.admin_url)
   end
 end

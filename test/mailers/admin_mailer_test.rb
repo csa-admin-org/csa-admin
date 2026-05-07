@@ -245,6 +245,20 @@ class AdminMailerTest < ActionMailer::TestCase
     assert_includes body, "Manage my notifications"
   end
 
+  test "new_registration_email (existing member)" do
+    mail = AdminMailer.with(
+      admin: admins(:ultra),
+      member: members(:john),
+      existing: true
+    ).new_registration_email
+
+    assert_equal "New re-registration", mail.subject
+
+    body = mail.body.to_s
+    assert_includes body, "Hello Thibaud,"
+    assert_includes body, "https://admin.acme.test/members/#{members(:john).id}/member_audits"
+  end
+
   test "memberships_renewal_pending_email" do
     mail = AdminMailer.with(
       admin: admins(:ultra),
