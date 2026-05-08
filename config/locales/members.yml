@@ -1435,7 +1435,7 @@ _:
             _fr: Chaque membre de soutien (sans abonnement) verse une cotisation annuelle de <b class="whitespace-nowrap">%{price}</b>.
             _de: Jedes Fördermitglied (ohne Abonnement) zahlt einen Jahresbeitrag von <b class="whitespace-nowrap">%{price}</b>.
             _it: Ogni socio sostenitore (senza abbonamento) paga una quota annuale di <b class="whitespace-nowrap">%{price}</b>.
-            _nl: Elk ondersteunend lid (zonder abonnement) betaalt een jaarlijkse bijdrage van <b class="whitespace-nowrap">%{price}</b>.
+            _nl: Elk ondersteunend lid (zonder lidmaatschap) betaalt een jaarlijkse bijdrage van <b class="whitespace-nowrap">%{price}</b>.
           annual_fee_text/bag_html:
             _en: Each member also pays an annual fee of <b class="whitespace-nowrap">%{price}</b> in addition to the membership to the bag.
             _fr: Chaque membre verse une cotisation annuelle de <b class="whitespace-nowrap">%{price}</b> en plus de l'abonnement à son sac.

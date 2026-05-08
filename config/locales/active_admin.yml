@@ -1213,7 +1213,7 @@ _:
           _fr: Facturé au début de chaque année fiscale ou après l'inscription en cours d'année. Pour les membres actifs, elle est intégrée à la première facture de l'abonnement.
           _de: Wird zu Beginn jedes Geschäftsjahres oder nach der Anmeldung während des Jahres in Rechnung gestellt. Für aktive Mitglieder ist sie in der ersten Abonnementrechnung enthalten.
           _it: Fatturato all'inizio di ogni anno fiscale o dopo l'iscrizione durante l'anno. Per i soci attivi, è incluso nella prima fattura di abbonamento.
-          _nl: Gefactureerd aan het begin van elk boekjaar of na inschrijving tijdens het jaar. Voor actieve leden is het inbegrepen in de eerste abonnementsfactuur.
+          _nl: Gefactureerd aan het begin van elk boekjaar of na inschrijving tijdens het jaar. Voor actieve leden is het inbegrepen in de eerste lidmaatschapsfactuur.
         availability:
           _en: Availability
           _fr: Disponibilité
