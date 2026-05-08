@@ -71,6 +71,63 @@ class Members::AbsencesTest < ApplicationSystemTestCase
     assert_equal "/deliveries", current_path
   end
 
+  test "shows basket shift allowance notice when shifts are available" do
+    org(basket_shifts_annually: 3)
+    login(members(:john))
+
+    visit "/absences"
+    assert_text "You have 3 basket shifts remaining"
+    assert_text "Once an absence is created, you can shift the delivery to another date."
+  end
+
+  test "shows basket shift notice with absences_included footnote" do
+    org(basket_shifts_annually: 3)
+    member = members(:john)
+    member.current_membership.update!(absences_included_annually: 2)
+    login(member)
+
+    visit "/absences"
+    assert_text "You have 3 basket shifts remaining"
+    assert_text "Shifting is available for absences beyond the 2 included in your membership."
+  end
+
+  test "shows basket shift unlimited notice when no annual limit" do
+    org(basket_shifts_annually: nil)
+    login(members(:john))
+
+    visit "/absences"
+    assert_text "Once an absence is created, you can shift the delivery to another date."
+  end
+
+  test "does not show basket shift notice when feature is disabled" do
+    org(basket_shifts_annually: 0)
+    login(members(:john))
+
+    visit "/absences"
+    assert_no_text "Once an absence is created"
+    assert_no_text "shift"
+  end
+
+  test "does not show basket shift notice when no shifts remaining" do
+    org(basket_shifts_annually: 1)
+    member = members(:jane)
+    login(member)
+
+    # Jane already has one basket shift via fixture (absences(:jane_thursday_5))
+    # Create a shift to exhaust the allowance
+    source = baskets(:jane_5)
+    target = baskets(:jane_6)
+    BasketShift.create!(
+      absence: absences(:jane_thursday_5),
+      membership: source.membership,
+      source_delivery: source.delivery,
+      target_delivery: target.delivery)
+
+    visit "/absences"
+    assert_no_text "basket shift"
+    assert_no_text "Once an absence is created"
+  end
+
   test "list included absences in menu" do
     member = members(:john)
     login(member)

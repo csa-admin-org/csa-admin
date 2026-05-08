@@ -1,7 +1,27 @@
+<% absences_included = current_member.current_or_future_membership&.absences_included %>
+
 <% if basket = next_shiftable_basket %>
   <%= link_to deliveries_path(anchor: dom_id(basket)), data: { turbo: false } do %>
     <%= notice_pane("redo") do %>
       <%= t(".notice", count: current_member.current_or_future_membership.basket_shifts_allowance_remaining) %>
+
+      <% if absences_included&.positive? %>
+        <p class="mt-2 text-xs italic opacity-75">
+          <%= t(".absences_included_footnote_html", count: absences_included) %>
+        </p>
+      <% end %>
+    <% end %>
+  <% end %>
+<% elsif Current.org.basket_shift_enabled? && current_member.current_or_future_membership&.basket_shift_allowed? %>
+  <% remaining = current_member.current_or_future_membership.basket_shifts_allowance_remaining %>
+  <% notice_text = remaining == Float::INFINITY ? t(".allowance_notice_unlimited") : t(".allowance_notice_html", count: remaining) %>
+  <%= notice_pane("redo") do %>
+    <%= notice_text %>
+
+    <% if absences_included&.positive? %>
+      <p class="mt-2 text-xs italic opacity-75">
+        <%= t(".absences_included_footnote_html", count: absences_included) %>
+      </p>
     <% end %>
   <% end %>
 <% end %>

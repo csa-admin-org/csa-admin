@@ -28,6 +28,114 @@ _:
             _it: nessuna consegna
             _nl: geen levering
       basket_shifts_notice:
+        absences_included_footnote_html:
+          one:
+            _en: Shifting is available for absences beyond the <b>1</b> included in your membership.
+            _fr: Le déplacement est disponible pour les absences au-delà de la <b>1</b> incluse dans votre abonnement.
+            _de: Verschieben ist für Abwesenheiten möglich, die über die <b>1</b> in Deinem Abonnement enthaltene hinausgehen.
+            _it: Lo spostamento è disponibile per le assenze oltre alla <b>1</b> inclusa nel tuo abbonamento.
+            _nl: Verschuiven is beschikbaar voor afwezigheden na de <b>1</b> die in je lidmaatschap is inbegrepen.
+          other:
+            _en: Shifting is available for absences beyond the <b>%{count}</b> included in your membership.
+            _fr: Le déplacement est disponible pour les absences au-delà des <b>%{count}</b> incluses dans votre abonnement.
+            _de: Verschieben ist für Abwesenheiten möglich, die über die <b>%{count}</b> in Deinem Abonnement enthaltenen hinausgehen.
+            _it: Lo spostamento è disponibile per le assenze oltre alle <b>%{count}</b> incluse nel tuo abbonamento.
+            _nl: Verschuiven is beschikbaar voor afwezigheden na de <b>%{count}</b> die in je lidmaatschap zijn inbegrepen.
+        allowance_notice/bag_html:
+          one:
+            _en: You have <b>1 bag shift</b> remaining. Once an absence is created, you can shift the delivery to another date.
+            _fr: Il vous reste <b>1 déplacement de sac</b>. Une fois une absence créée, vous pouvez déplacer la livraison à une autre date.
+            _de: Du hast noch <b>1 Taschenverschiebung</b> übrig. Sobald eine Abwesenheit erstellt ist, kannst Du die Lieferung auf ein anderes Datum verschieben.
+            _it: Hai ancora <b>1 spostamento di borsa</b> disponibile. Una volta creata un'assenza, puoi spostare la consegna a un'altra data.
+            _nl: Je hebt nog <b>1 tasverschuiving</b> over. Zodra een afwezigheid is aangemaakt, kun je de levering naar een andere datum verschuiven.
+          other:
+            _en: You have <b>%{count} bag shifts</b> remaining. Once an absence is created, you can shift the delivery to another date.
+            _fr: Il vous reste <b>%{count} déplacements de sacs</b>. Une fois une absence créée, vous pouvez déplacer la livraison à une autre date.
+            _de: Du hast noch <b>%{count} Taschenverschiebungen</b> übrig. Sobald eine Abwesenheit erstellt ist, kannst Du die Lieferung auf ein anderes Datum verschieben.
+            _it: Hai ancora <b>%{count} spostamenti di borsa</b> disponibili. Una volta creata un'assenza, puoi spostare la consegna a un'altra data.
+            _nl: Je hebt nog <b>%{count} tasverschuivingen</b> over. Zodra een afwezigheid is aangemaakt, kun je de levering naar een andere datum verschuiven.
+        allowance_notice/basket_html:
+          one:
+            _en: You have <b>1 basket shift</b> remaining. Once an absence is created, you can shift the delivery to another date.
+            _fr: Il vous reste <b>1 déplacement de panier</b>. Une fois une absence créée, vous pouvez déplacer la livraison à une autre date.
+            _de: Du hast noch <b>1 Korbverschiebung</b> übrig. Sobald eine Abwesenheit erstellt ist, kannst Du die Lieferung auf ein anderes Datum verschieben.
+            _it: Hai ancora <b>1 spostamento di cesto</b> disponibile. Una volta creata un'assenza, puoi spostare la consegna a un'altra data.
+            _nl: Je hebt nog <b>1 mandverschuiving</b> over. Zodra een afwezigheid is aangemaakt, kun je de levering naar een andere datum verschuiven.
+          other:
+            _en: You have <b>%{count} basket shifts</b> remaining. Once an absence is created, you can shift the delivery to another date.
+            _fr: Il vous reste <b>%{count} déplacements de paniers</b>. Une fois une absence créée, vous pouvez déplacer la livraison à une autre date.
+            _de: Du hast noch <b>%{count} Korbverschiebungen</b> übrig. Sobald eine Abwesenheit erstellt ist, kannst Du die Lieferung auf ein anderes Datum verschieben.
+            _it: Hai ancora <b>%{count} spostamenti di cesto</b> disponibili. Una volta creata un'assenza, puoi spostare la consegna a un'altra data.
+            _nl: Je hebt nog <b>%{count} mandverschuivingen</b> over. Zodra een afwezigheid is aangemaakt, kun je de levering naar een andere datum verschuiven.
+        allowance_notice/cone_html:
+          one:
+            _en: You have <b>1 cone shift</b> remaining. Once an absence is created, you can shift the delivery to another date.
+            _fr: Il vous reste <b>1 déplacement de cornet</b>. Une fois une absence créée, vous pouvez déplacer la livraison à une autre date.
+            _de: Du hast noch <b>1 Tütenverschiebung</b> übrig. Sobald eine Abwesenheit erstellt ist, kannst Du die Lieferung auf ein anderes Datum verschieben.
+            _it: Hai ancora <b>1 spostamento di cono</b> disponibile. Una volta creata un'assenza, puoi spostare la consegna a un'altra data.
+            _nl: Je hebt nog <b>1 zakverschuiving</b> over. Zodra een afwezigheid is aangemaakt, kun je de levering naar een andere datum verschuiven.
+          other:
+            _en: You have <b>%{count} cone shifts</b> remaining. Once an absence is created, you can shift the delivery to another date.
+            _fr: Il vous reste <b>%{count} déplacements de cornets</b>. Une fois une absence créée, vous pouvez déplacer la livraison à une autre date.
+            _de: Du hast noch <b>%{count} Tütenverschiebungen</b> übrig. Sobald eine Abwesenheit erstellt ist, kannst Du die Lieferung auf ein anderes Datum verschieben.
+            _it: Hai ancora <b>%{count} spostamenti di cono</b> disponibili. Una volta creata un'assenza, puoi spostare la consegna a un'altra data.
+            _nl: Je hebt nog <b>%{count} zakverschuivingen</b> over. Zodra een afwezigheid is aangemaakt, kun je de levering naar een andere datum verschuiven.
+        allowance_notice/package_html:
+          one:
+            _en: You have <b>1 package shift</b> remaining. Once an absence is created, you can shift the delivery to another date.
+            _fr: Il vous reste <b>1 déplacement de colis</b>. Une fois une absence créée, vous pouvez déplacer la livraison à une autre date.
+            _de: Du hast noch <b>1 Paketverschiebung</b> übrig. Sobald eine Abwesenheit erstellt ist, kannst Du die Lieferung auf ein anderes Datum verschieben.
+            _it: Hai ancora <b>1 spostamento di pacco</b> disponibile. Una volta creata un'assenza, puoi spostare la consegna a un'altra data.
+            _nl: Je hebt nog <b>1 pakketverschuiving</b> over. Zodra een afwezigheid is aangemaakt, kun je de levering naar een andere datum verschuiven.
+          other:
+            _en: You have <b>%{count} package shifts</b> remaining. Once an absence is created, you can shift the delivery to another date.
+            _fr: Il vous reste <b>%{count} déplacements de colis</b>. Une fois une absence créée, vous pouvez déplacer la livraison à une autre date.
+            _de: Du hast noch <b>%{count} Paketverschiebungen</b> übrig. Sobald eine Abwesenheit erstellt ist, kannst Du die Lieferung auf ein anderes Datum verschieben.
+            _it: Hai ancora <b>%{count} spostamenti di pacco</b> disponibili. Una volta creata un'assenza, puoi spostare la consegna a un'altra data.
+            _nl: Je hebt nog <b>%{count} pakketverschuivingen</b> over. Zodra een afwezigheid is aangemaakt, kun je de levering naar een andere datum verschuiven.
+        allowance_notice/share_html:
+          one:
+            _en: You have <b>1 share shift</b> remaining. Once an absence is created, you can shift the delivery to another date.
+            _fr: Il vous reste <b>1 déplacement de part</b>. Une fois une absence créée, vous pouvez déplacer la livraison à une autre date.
+            _de: Du hast noch <b>1 Anteilsverschiebung</b> übrig. Sobald eine Abwesenheit erstellt ist, kannst Du die Lieferung auf ein anderes Datum verschieben.
+            _it: Hai ancora <b>1 spostamento di parte</b> disponibile. Una volta creata un'assenza, puoi spostare la consegna a un'altra data.
+            _nl: Je hebt nog <b>1 deelverschuiving</b> over. Zodra een afwezigheid is aangemaakt, kun je de levering naar een andere datum verschuiven.
+          other:
+            _en: You have <b>%{count} share shifts</b> remaining. Once an absence is created, you can shift the delivery to another date.
+            _fr: Il vous reste <b>%{count} déplacements de parts</b>. Une fois une absence créée, vous pouvez déplacer la livraison à une autre date.
+            _de: Du hast noch <b>%{count} Anteilsverschiebungen</b> übrig. Sobald eine Abwesenheit erstellt ist, kannst Du die Lieferung auf ein anderes Datum verschieben.
+            _it: Hai ancora <b>%{count} spostamenti di parte</b> disponibili. Una volta creata un'assenza, puoi spostare la consegna a un'altra data.
+            _nl: Je hebt nog <b>%{count} deelverschuivingen</b> over. Zodra een afwezigheid is aangemaakt, kun je de levering naar een andere datum verschuiven.
+        allowance_notice_unlimited/bag:
+          _en: Once an absence is created, you can shift the delivery to another date.
+          _fr: Une fois une absence créée, vous pouvez déplacer la livraison à une autre date.
+          _de: Sobald eine Abwesenheit erstellt ist, kannst Du die Lieferung auf ein anderes Datum verschieben.
+          _it: Una volta creata un'assenza, puoi spostare la consegna a un'altra data.
+          _nl: Zodra een afwezigheid is aangemaakt, kun je de levering naar een andere datum verschuiven.
+        allowance_notice_unlimited/basket:
+          _en: Once an absence is created, you can shift the delivery to another date.
+          _fr: Une fois une absence créée, vous pouvez déplacer la livraison à une autre date.
+          _de: Sobald eine Abwesenheit erstellt ist, kannst Du die Lieferung auf ein anderes Datum verschieben.
+          _it: Una volta creata un'assenza, puoi spostare la consegna a un'altra data.
+          _nl: Zodra een afwezigheid is aangemaakt, kun je de levering naar een andere datum verschuiven.
+        allowance_notice_unlimited/cone:
+          _en: Once an absence is created, you can shift the delivery to another date.
+          _fr: Une fois une absence créée, vous pouvez déplacer la livraison à une autre date.
+          _de: Sobald eine Abwesenheit erstellt ist, kannst Du die Lieferung auf ein anderes Datum verschieben.
+          _it: Una volta creata un'assenza, puoi spostare la consegna a un'altra data.
+          _nl: Zodra een afwezigheid is aangemaakt, kun je de levering naar een andere datum verschuiven.
+        allowance_notice_unlimited/package:
+          _en: Once an absence is created, you can shift the delivery to another date.
+          _fr: Une fois une absence créée, vous pouvez déplacer la livraison à une autre date.
+          _de: Sobald eine Abwesenheit erstellt ist, kannst Du die Lieferung auf ein anderes Datum verschieben.
+          _it: Una volta creata un'assenza, puoi spostare la consegna a un'altra data.
+          _nl: Zodra een afwezigheid is aangemaakt, kun je de levering naar een andere datum verschuiven.
+        allowance_notice_unlimited/share:
+          _en: Once an absence is created, you can shift the delivery to another date.
+          _fr: Une fois une absence créée, vous pouvez déplacer la livraison à une autre date.
+          _de: Sobald eine Abwesenheit erstellt ist, kannst Du die Lieferung auf ein anderes Datum verschieben.
+          _it: Una volta creata un'assenza, puoi spostare la consegna a un'altra data.
+          _nl: Zodra een afwezigheid is aangemaakt, kun je de levering naar een andere datum verschuiven.
         notice/bag:
           one:
             _en: Shift your bag delivery during your absence.
