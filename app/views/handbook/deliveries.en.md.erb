@@ -146,7 +146,7 @@ CSA Admin can automatically send email notifications related to deliveries:
 
 ### Depot delivery list {#depot-delivery-list-notifications}
 
-Each depot can be configured with email addresses (in the depot's "Notifications" section). The day before each delivery, these addresses receive an email containing the list of members and their <%= Basket.model_name.human(count: 2).downcase %>, along with PDF and XLSX attachments for the delivery sheets.
+Each depot can be configured with email addresses (in the depot's "Notifications" section). Before each delivery, these addresses receive an email containing the list of members and their <%= Basket.model_name.human(count: 2).downcase %>, along with PDF and XLSX attachments for the delivery sheets. By default, the email is sent the day before, but this can be adjusted per depot (0 for same day, 2 for two days before, etc.).
 
 ### <%= BasketComplement.model_name.human %> weekly summary {#complement-notifications}
 

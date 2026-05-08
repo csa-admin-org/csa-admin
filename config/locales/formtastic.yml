@@ -678,11 +678,11 @@ _:
           _it: Cicli di consegna disponibili per i soci al momento della registrazione per questo punto di ritiro. In ogni caso, la scelta del ciclo di consegna viene proposta ai soci solo se sono disponibili almeno due cicli di consegna per un punto di ritiro.
           _nl: Leveringscycli beschikbaar voor leden bij registratie voor dit depot. In elk geval wordt de keuze van leveringscyclus alleen aan leden voorgesteld als er minstens twee leveringscycli beschikbaar zijn voor een depot.
         emails:
-          _en: These email addresses (separated by a comma) receive the delivery list (PDF and XLSX) the day before each delivery.
-          _fr: Ces adresses e-mail (séparées par une virgule) reçoivent la liste de livraison (PDF et XLSX) le jour précédant chaque livraison.
-          _de: Diese E-Mail-Adressen (durch Komma getrennt) erhalten die Lieferliste (PDF und XLSX) am Tag vor jeder Lieferung.
-          _it: Questi indirizzi e-mail (separati da una virgola) ricevono la lista di consegna (PDF e XLSX) il giorno precedente ogni consegna.
-          _nl: Deze e-mailadressen (gescheiden door een komma) ontvangen de leveringslijst (PDF en XLSX) de dag voor elke levering.
+          _en: These email addresses (separated by a comma) receive the delivery list (PDF and XLSX) before each delivery.
+          _fr: Ces adresses e-mail (séparées par une virgule) reçoivent la liste de livraison (PDF et XLSX) avant chaque livraison.
+          _de: Diese E-Mail-Adressen (durch Komma getrennt) erhalten die Lieferliste (PDF und XLSX) vor jeder Lieferung.
+          _it: Questi indirizzi e-mail (separati da una virgola) ricevono la lista di consegna (PDF e XLSX) prima di ogni consegna.
+          _nl: Deze e-mailadressen (gescheiden door een komma) ontvangen de leveringslijst (PDF en XLSX) voor elke levering.
         form_detail:
           _en: Leave blank for the default text.
           _fr: Laisser blanc pour le texte par défaut.
@@ -701,6 +701,12 @@ _:
           _de: Wenn vorhanden, ersetzt den Namen auf der Rechnung.
           _it: Se presente, sostituisce il nome visualizzato nella fattura.
           _nl: Indien aanwezig, vervangt de naam die wordt weergegeven op de factuur.
+        notify_days_before_delivery:
+          _en: Number of days before each delivery to send the delivery list. Use 0 to send on the same day of the delivery.
+          _fr: Nombre de jours avant chaque livraison pour envoyer la liste de livraison. Utilisez 0 pour envoyer le jour même de la livraison.
+          _de: Anzahl der Tage vor jeder Lieferung, um die Lieferliste zu senden. Verwende 0, um am selben Tag der Lieferung zu senden.
+          _it: Numero di giorni prima di ogni consegna per inviare la lista di consegna. Utilizza 0 per inviare il giorno stesso della consegna.
+          _nl: Aantal dagen voor elke levering om de leveringslijst te versturen. Gebruik 0 om op dezelfde dag van de levering te versturen.
         phones:
           _en: Separated by a comma.
           _fr: Séparés par une virgule.

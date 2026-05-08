@@ -58,6 +58,7 @@ class Depot < ApplicationRecord
 
   validates :delivery_sheets_mode, inclusion: { in: DELIVERY_SHEETS_MODES }, presence: :true
   validates :delivery_cycles, presence: true
+  validates :notify_days_before_delivery, numericality: { greater_than_or_equal_to: 0, only_integer: true }, presence: true
 
   def self.prices?
     kept.pluck(:price).any?(&:positive?)

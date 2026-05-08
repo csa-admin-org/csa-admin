@@ -149,7 +149,7 @@ CSA Admin kan automatisch e-mailmeldingen versturen met betrekking tot leveringe
 
 ### Depot-leveringslijst {#depot-delivery-list-notifications}
 
-Je kunt elk depot configureren met e-mailadressen (in het gedeelte « Notificaties » van het depot). De dag voor elke levering ontvangen deze adressen een e-mail met de lijst van leden en hun <%= Basket.model_name.human(count: 2).downcase %>, inclusief PDF- en XLSX-bijlagen van de leveringsbladen.
+Je kunt elk depot configureren met e-mailadressen (in het gedeelte « Notificaties » van het depot). Voor elke levering ontvangen deze adressen een e-mail met de lijst van leden en hun <%= Basket.model_name.human(count: 2).downcase %>, inclusief PDF- en XLSX-bijlagen van de leveringsbladen. Standaard wordt de e-mail de dag ervoor verstuurd, maar dit kan per depot worden aangepast (0 voor dezelfde dag, 2 voor twee dagen ervoor, enz.).
 
 ### Wekelijks overzicht van <%= BasketComplement.model_name.human(count: 2).downcase %> {#complement-notifications}
 

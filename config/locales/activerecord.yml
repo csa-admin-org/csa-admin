@@ -1073,6 +1073,12 @@ _:
           _de: Interne Notiz
           _it: Nota interna
           _nl: Interne memo
+        notify_days_before_delivery:
+          _en: Days before delivery
+          _fr: Jours avant la livraison
+          _de: Tage vor der Lieferung
+          _it: Giorni prima della consegna
+          _nl: Dagen voor de levering
       invoice:
         activity_price:
           _en: Amount

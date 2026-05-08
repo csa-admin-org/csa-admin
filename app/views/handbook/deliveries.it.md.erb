@@ -146,7 +146,7 @@ CSA Admin può inviare automaticamente notifiche e-mail relative alle consegne:
 
 ### Lista di consegna per deposito {#depot-delivery-list-notifications}
 
-Puoi configurare ogni deposito con indirizzi e-mail (nella sezione « Notifiche » del deposito). Il giorno prima di ogni consegna, questi indirizzi ricevono un'e-mail contenente la lista dei soci e delle loro <%= Basket.model_name.human(count: 2).downcase %>, con allegati PDF e XLSX delle schede di consegna.
+Puoi configurare ogni deposito con indirizzi e-mail (nella sezione « Notifiche » del deposito). Prima di ogni consegna, questi indirizzi ricevono un'e-mail contenente la lista dei soci e delle loro <%= Basket.model_name.human(count: 2).downcase %>, con allegati PDF e XLSX delle schede di consegna. Per impostazione predefinita, l'e-mail viene inviata il giorno prima, ma può essere regolata per deposito (0 per il giorno stesso, 2 per due giorni prima, ecc.).
 
 ### Riepilogo settimanale dei <%= BasketComplement.model_name.human(count: 2).downcase %> {#complement-notifications}
 

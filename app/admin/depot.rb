@@ -232,6 +232,7 @@ ActiveAdmin.register Depot do
 
     f.inputs Admin.human_attribute_name(:notifications) do
       f.input :emails, as: :string
+      f.input :notify_days_before_delivery, as: :number, input_html: { min: 0 }
       language_input(f)
 
       handbook_button(self, "deliveries", anchor: "depot-delivery-list-notifications")
@@ -284,6 +285,7 @@ ActiveAdmin.register Depot do
       price visible note
       address_name street zip city
       contact_name emails phones
+      notify_days_before_delivery
       member_order_priority
       delivery_sheets_mode
     ],

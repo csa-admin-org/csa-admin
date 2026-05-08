@@ -146,7 +146,7 @@ CSA Admin kann automatisch E-Mail-Benachrichtigungen zu Lieferungen versenden:
 
 ### Depot-Lieferliste {#depot-delivery-list-notifications}
 
-Du kannst jedes Depot mit E-Mail-Adressen konfigurieren (im Abschnitt „Benachrichtigungen" des Depots). Am Tag vor jeder Lieferung erhalten diese Adressen eine E-Mail mit der Liste der Mitglieder und ihrer <%= Basket.model_name.human(count: 2).downcase %>, einschließlich PDF- und XLSX-Anhängen der Lieferscheine.
+Du kannst jedes Depot mit E-Mail-Adressen konfigurieren (im Abschnitt „Benachrichtigungen" des Depots). Vor jeder Lieferung erhalten diese Adressen eine E-Mail mit der Liste der Mitglieder und ihrer <%= Basket.model_name.human(count: 2).downcase %>, einschließlich PDF- und XLSX-Anhängen der Lieferscheine. Standardmäßig wird die E-Mail am Tag zuvor gesendet, dies kann aber pro Depot angepasst werden (0 für den gleichen Tag, 2 für zwei Tage vorher, usw.).
 
 ### Wöchentliche Zusammenfassung der <%= BasketComplement.model_name.human(count: 2) %> {#complement-notifications}
 

@@ -146,7 +146,7 @@ CSA Admin peut envoyer automatiquement des notifications par e-mail liées aux l
 
 ### Liste de livraison par dépôt {#depot-delivery-list-notifications}
 
-Chaque dépôt peut être configuré avec des adresses e-mail (dans la section « Notifications » du dépôt). La veille de chaque livraison, ces adresses reçoivent un e-mail contenant la liste des membres et de leurs <%= Basket.model_name.human(count: 2).downcase %>, accompagné des pièces jointes PDF et XLSX des fiches de livraison.
+Chaque dépôt peut être configuré avec des adresses e-mail (dans la section « Notifications » du dépôt). Avant chaque livraison, ces adresses reçoivent un e-mail contenant la liste des membres et de leurs <%= Basket.model_name.human(count: 2).downcase %>, accompagné des pièces jointes PDF et XLSX des fiches de livraison. Par défaut, l'e-mail est envoyé la veille, mais cela peut être ajusté par dépôt (0 pour le jour même, 2 pour deux jours avant, etc.).
 
 ### Résumé hebdomadaire des <%= BasketComplement.model_name.human(count: 2).downcase %> {#complement-notifications}
 
