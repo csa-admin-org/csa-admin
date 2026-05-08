@@ -135,6 +135,17 @@ production: &production
   radisnoir:
     admin_host: admin.radis-noir.ch
     members_host: membres.radis-noir.ch
+  monniati:
+    admin_host: admin.lafermedumonniati.ch
+    members_host: membres.lafermedumonniati.ch
+    aliases:
+      - fermedumonniati
+      - lafermedumonniati
+  vielfeld:
+    admin_host: admin.solawi-vielfeld.de
+    members_host: mitglieder.solawi-vielfeld.de
+    aliases:
+      - solawi-vielfeld
 
   mamajah:
     admin_host: admin.mamajah.org
@@ -144,23 +155,10 @@ production: &production
     admin_host: admin.querbeetgrosswangen.ch
     members_host: mitglieder.querbeetgrosswangen.ch
     state: onboarding
-  monniati:
-    admin_host: admin.lafermedumonniati.ch
-    members_host: membres.lafermedumonniati.ch
-    state: onboarding
-    aliases:
-      - fermedumonniati
-      - lafermedumonniati
   zalpenblick:
     admin_host: admin.zalpenblick.ch
     members_host: mitglieder.zalpenblick.ch
     state: onboarding
-  vielfeld:
-    admin_host: admin.solawi-vielfeld.de
-    members_host: mitglieder.solawi-vielfeld.de
-    state: onboarding
-    aliases:
-      - solawi-vielfeld
   closdedos:
     admin_host: admin.essertfallon.ch
     members_host: membres.essertfallon.ch
