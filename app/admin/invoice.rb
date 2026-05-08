@@ -243,7 +243,7 @@ ActiveAdmin.register Invoice do
               row(:missing_activity_participations_fiscal_year)
               row(:membership) {
                 if membership = invoice.member.membership(invoice.missing_activity_participations_fiscal_year)
-                  auto_link membership
+                  auto_link membership, membership.id
                 end
               }
               row(:missing_activity_participations_count)

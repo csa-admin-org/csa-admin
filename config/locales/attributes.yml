@@ -672,6 +672,12 @@ _:
       _de: Abonnement
       _it: Abbonamento
       _nl: Lidmaatschap
+    memberships:
+      _en: Memberships
+      _fr: Abonnements
+      _de: Abonnements
+      _it: Abbonamenti
+      _nl: Lidmaatschappen
     missing_amount:
       _en: Missing amount
       _fr: Montant manquant

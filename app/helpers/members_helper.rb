@@ -36,11 +36,13 @@ module MembersHelper
       Arbre::Context.new({}, self) do
         div class: "flex items-center justify-between" do
           div yield
-          div(if reply&.dig(:to).present?
-            helpers.note_popover(id, note, reply: reply)
-          else
-            helpers.tooltip(id, note, icon_name: "chat-bubble-bottom-center-text")
-          end)
+          div class: "flex items-center ms-3" do
+            if reply&.dig(:to).present?
+              helpers.note_popover(id, note, reply: reply)
+            else
+              helpers.tooltip(id, note, icon_name: "chat-bubble-bottom-center-text")
+            end
+          end
         end
       end.html_safe
     else
@@ -50,7 +52,7 @@ module MembersHelper
 
   def note_popover(id, note, reply:)
     popover(id, icon_name: "chat-bubble-bottom-center-text") do
-      content_tag(:span, note) +
+      content_tag(:p, note, class: "text-pretty") +
         content_tag(:div, class: "mt-2 text-right") do
           note_mail_to(note, reply: reply,
             class: "inline-flex items-center text-white underline hover:text-green-300")

@@ -63,7 +63,7 @@ module PDF
         case invoice.entity_type
         when "Membership"
           move_down 5
-          text membership_period(entity, format: :number), size: 10
+          text display_period(entity.date_range, format: :number), size: 10
         when "Shop::Order"
           move_down 12
           text "#{::Shop::Order.model_name.human} N°\u00A0#{entity.id}"

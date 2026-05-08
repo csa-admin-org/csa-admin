@@ -234,8 +234,9 @@ ActiveAdmin.register Member do
           if memberships_count.zero?
             div(class: "missing-data") { t(".no_memberships") }
           else
-            table_for(memberships.limit(3), class: "table-memberships") do
-              column(:period) { |m| auto_link m, membership_period(m, format: :number), aria: { label: "show" } }
+            table_for(memberships.limit(3), class: "table-auto") do
+              column(:id) { |m| auto_link m, m.id, aria: { label: "show" } }
+              column(:period, class: "whitespace-nowrap") { |m| display_period(m.date_range, format: :number) }
               if feature?("activity")
                 column(activities_human_name, class: "text-right") { |m|
                   link_to(
@@ -248,6 +249,9 @@ ActiveAdmin.register Member do
               end
               column(:baskets_count, class: "text-right") { |m|
                 [ m.past_baskets_count, m.baskets_count ].join(" / ")
+              }
+              column(:status, class: "text-right") { |m|
+                aligned_status_tag m.state, label: t("states.membership.#{m.state}")
               }
             end
             if memberships_count > 3
@@ -298,7 +302,9 @@ ActiveAdmin.register Member do
             else
               table_for(activity_participations.limit(6), class: "table-auto") do
                 column(Activity.model_name.human) { |ap|
-                  auto_link ap, ap.activity.name, aria: { label: "show" }
+                  with_note_icon ap.note, reply: ap.note_reply_args do
+                    auto_link ap, ap.activity.name, aria: { label: "show" }
+                  end
                 }
                 column(:participants_short, class: "text-right") { |ap| ap.participants_count }
                 column(:state, class: "text-right") { |ap| aligned_status_tag(ap.state) }
@@ -364,9 +370,17 @@ ActiveAdmin.register Member do
             if absences_count.zero?
               div(class: "missing-data") { t(".no_absences") }
             else
-              table_for(absences.limit(3), class: "table-absences") do
-                column(:started_on) { |a| auto_link a, l(a.started_on), aria: { label: "show" } }
-                column(:ended_on) { |a| auto_link a, l(a.ended_on) }
+              table_for(absences.limit(3).includes(baskets: :membership), class: "table-auto") do
+                column(:id) { |a| auto_link a, a.id, aria: { label: "show" } }
+                column(:period, class: "whitespace-nowrap") { |a|
+                  with_note_icon a.note, reply: a.note_reply_args do
+                    display_period(a.date_range, format: :default)
+                  end
+                }
+                column(:deliveries, class: "text-right") { |a| a.baskets.size }
+                column(:memberships, class: "text-right") { |a|
+                  a.baskets.map(&:membership).uniq.map { |m| auto_link m, m.id }.join(", ").html_safe
+                }
               end
               if absences_count > 3
                 div show_more_link(all_absences_path)

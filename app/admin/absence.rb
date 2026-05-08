@@ -44,7 +44,7 @@ ActiveAdmin.register Absence do
     collection: -> { members_collection(collection) }
   filter :with_note, as: :boolean
 
-  includes :member, :session, :baskets
+  includes :member, :session, { baskets: :membership }
   index download_links: [ :csv, :xlsx ] do
     column :member, ->(absence) {
       with_note_icon absence.note, reply: absence.note_reply_args do
@@ -59,6 +59,9 @@ ActiveAdmin.register Absence do
     }, class: "text-right"
     column :deliveries, ->(absence) {
       absence.baskets.size
+    }, class: "text-right"
+    column :memberships, ->(absence) {
+      absence.baskets.map(&:membership).uniq.map { |m| auto_link m, m.id }.join(", ").html_safe
     }, class: "text-right"
     actions
   end
@@ -81,7 +84,7 @@ ActiveAdmin.register Absence do
         panel Basket.model_name.human(count: 2), count: absence.baskets.count do
           table_for absence.baskets.includes(:membership, :delivery), class: "table-auto" do
             column(:delivery) { |b| auto_link b.delivery }
-            column(:membership) { |b| auto_link b.membership, aria: { label: "show" } }
+            column(:membership, class: "text-right") { |b| auto_link b.membership, b.membership.id, aria: { label: "show" } }
           end
         end
         if absence.note?
@@ -96,8 +99,8 @@ ActiveAdmin.register Absence do
             row :id
             row :member
             row(:email_session) { absence.session&.email }
-            row(:started_on) { l absence.started_on }
-            row(:ended_on) { l absence.ended_on }
+            row(:started_on) { l absence.started_on, format: :long }
+            row(:ended_on) { l absence.ended_on, format: :long }
           end
         end
         render "active_admin/mail_deliveries/panel", mailable: absence

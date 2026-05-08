@@ -9,9 +9,9 @@ module MembershipsHelper
     parts.join(" + ").html_safe
   end
 
-  def membership_period(membership, format: :number)
-    %i[started_on ended_on].map { |d|
-      I18n.l(membership.send(d), format: format)
+  def display_period(range, format: :number)
+    [ range.min, range.max ].map { |d|
+      I18n.l(d, format: format)
     }.join(" – ")
   end
 

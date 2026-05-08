@@ -14,6 +14,12 @@ _:
           _de: Bemerkung
           _it: Nota
           _nl: Opmerking
+        period:
+          _en: Period
+          _fr: Période
+          _de: Periode
+          _it: Periodo
+          _nl: Periode
         started_on:
           _en: Start
           _fr: Début

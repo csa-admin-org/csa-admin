@@ -253,7 +253,7 @@ ActiveAdmin.register ActivityParticipation do
             row(:activity) { link_to ap.activity.name, activity_participations_path(q: { activity_id_eq: ap.activity_id }, scope: :all) }
             row(:membership) {
               if membership = ap.member.membership(ap.activity.fiscal_year)
-                auto_link membership
+                auto_link membership, membership.id
               end
             }
             row(:participants_count)
