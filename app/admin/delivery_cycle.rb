@@ -51,7 +51,7 @@ ActiveAdmin.register DeliveryCycle do
     columns do
       column do
         deliveries_panel = ->(title, deliveries) {
-          panel title, count: deliveries.count do
+          panel title, icon: "calendar-days", count: deliveries.count do
             if deliveries.any?
               table_for deliveries, class: "table-auto" do
                 column "#", ->(d) { d.number }
@@ -73,7 +73,7 @@ ActiveAdmin.register DeliveryCycle do
       end
 
       column do
-        panel t(".details") do
+        panel t(".details"), icon: "notebook-text" do
           attributes_table do
             row :id
             row(:name) { dc.public_name }
@@ -84,7 +84,7 @@ ActiveAdmin.register DeliveryCycle do
         end
 
         if DeliveryCycle.visible?
-          panel t(".member_new_form"), action: handbook_icon_link("registration", anchor: "delivery-cycles") do
+          panel t(".member_new_form"), icon: "form", action: handbook_icon_link("registration", anchor: "delivery-cycles") do
             attributes_table do
               row(:visible) { aligned_status_tag(dc.visible?) }
               if dc.visible?
@@ -100,7 +100,7 @@ ActiveAdmin.register DeliveryCycle do
           end
         end
 
-        panel t(".billing") do
+        panel t(".billing"), icon: "banknotes" do
           attributes_table do
             row(:price) { cur(dc.price) }
             row(:invoice_name) { dc.invoice_name }
@@ -110,7 +110,7 @@ ActiveAdmin.register DeliveryCycle do
           end
         end
 
-        panel t("delivery_cycle.settings") do
+        panel t("delivery_cycle.settings"), icon: "sliders-horizontal" do
           attributes_table do
             row(:wdays) {
               if dc.wdays.size == 7
@@ -134,7 +134,7 @@ ActiveAdmin.register DeliveryCycle do
           end
         end
 
-        panel DeliveryCycle::Period.model_name.human(count: 2) do
+        panel DeliveryCycle::Period.model_name.human(count: 2), icon: "calendar-range" do
           table_for dc.periods.order(:from_fy_month) do
             column t("delivery_cycle.period.fy_months"), ->(p) {
               from_month = fy_month_name(p.from_fy_month)

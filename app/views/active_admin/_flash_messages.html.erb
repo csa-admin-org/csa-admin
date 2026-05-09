@@ -10,7 +10,7 @@
           "
           aria-label="Flash error"
         >
-          <%= icon "exclamation-circle", class: "size-5 shrink-0 rtl:-scale-x-100" %>
+          <%= icon "circle-alert", class: "size-5 shrink-0 rtl:-scale-x-100" %>
           <%= message %>
         </div>
       <% elsif type == "alert" %>
@@ -22,7 +22,7 @@
           "
           aria-label="Flash alert"
         >
-          <%= icon "information-circle", class: "size-5 shrink-0 rtl:-scale-x-100" %>
+          <%= icon "info", class: "size-5 shrink-0 rtl:-scale-x-100" %>
           <%= message %>
         </div>
       <% elsif type == "notice" %>
@@ -34,7 +34,7 @@
           "
           aria-label="Flash notice"
         >
-          <%= icon "information-circle", class: "size-5 shrink-0 rtl:-scale-x-100" %>
+          <%= icon "info", class: "size-5 shrink-0 rtl:-scale-x-100" %>
           <%= message %>
         </div>
       <% end %>

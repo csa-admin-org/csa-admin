@@ -10,7 +10,7 @@ class SidePanel < ActiveAdmin::Component
     super(*args)
     add_class "panel p-4 shadow-xs"
     if title.present?
-      div class: "flex items-start justify-between mb-3" do
+      div class: "flex items-center justify-between mb-3" do
         @title = h3(title.to_s, class: "text-xl font-extralight")
         div(class: "panel-actions") { action }  if action
       end

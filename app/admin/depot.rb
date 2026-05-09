@@ -85,7 +85,7 @@ ActiveAdmin.register Depot do
     columns do
       column do
         if delivery = params[:delivery_id] ? Delivery.find(params[:delivery_id]) : depot.next_delivery
-          panel t("active_admin.page.index.next_delivery", delivery: link_to(delivery.display_name(format: :long), delivery)).html_safe, action: icon_file_links(
+          panel t("active_admin.page.index.next_delivery", delivery: link_to(delivery.display_name(format: :long), delivery)).html_safe, icon: "calendar", action: icon_file_links(
             icon_file_link(:xlsx, delivery_path(delivery, format: :xlsx, depot_id: depot.id), title: Delivery.human_attribute_name(:summary)),
             icon_file_link(:pdf, delivery_path(delivery, format: :pdf, depot_id: depot.id), title: Delivery.human_attribute_name(:sheets), target: "_blank")) do
             attrs = {}
@@ -103,7 +103,7 @@ ActiveAdmin.register Depot do
             end
           end
         else
-          panel t("active_admin.page.index.no_next_delivery") do
+          panel t("active_admin.page.index.no_next_delivery"), icon: "calendar" do
             div class: "missing-data" do
               link_to t("active_admin.page.index.no_next_deliveries"), deliveries_path
             end
@@ -111,7 +111,7 @@ ActiveAdmin.register Depot do
         end
       end
       column do
-        panel t(".details") do
+        panel t(".details"), icon: "notebook-text" do
           attributes_table do
             row :id
             row(:name) { depot.public_name }
@@ -124,14 +124,14 @@ ActiveAdmin.register Depot do
           end
         end
 
-        panel t(".billing") do
+        panel t(".billing"), icon: "banknotes" do
           attributes_table do
             row(:price) { cur(depot.price, precision: 3) }
             row(:invoice_name) { depot.invoice_name if depot.invoice_name? }
           end
         end
 
-        panel Delivery.human_attribute_name(:sheets_pdf) do
+        panel Delivery.human_attribute_name(:sheets_pdf), icon: "file-spreadsheet" do
           attributes_table do
             row(:delivery_sheets_mode) { t("delivery.sheets_mode.#{depot.delivery_sheets_mode}") }
             row(Announcement.model_name.human(count: 2)) {
@@ -141,7 +141,7 @@ ActiveAdmin.register Depot do
           end
         end
 
-        panel Admin.human_attribute_name(:notifications), action: handbook_icon_link("deliveries", anchor: "depot-delivery-list-notifications") do
+        panel Admin.human_attribute_name(:notifications), icon: "mail-check", action: handbook_icon_link("deliveries", anchor: "depot-delivery-list-notifications") do
           attributes_table do
             row(:emails) { display_emails_with_link(self, depot.emails_array) }
             if Current.org.languages.many?
@@ -150,7 +150,7 @@ ActiveAdmin.register Depot do
           end
         end
 
-        panel t(".member_new_form"), action: handbook_icon_link("registration", anchor: "depots") do
+        panel t(".member_new_form"), icon: "form", action: handbook_icon_link("registration", anchor: "depots") do
           attributes_table do
             row(:visible) { aligned_status_tag(depot.visible?) }
             if depot.visible?
@@ -170,7 +170,7 @@ ActiveAdmin.register Depot do
           end
         end
 
-        panel Depot.human_attribute_name(:street) do
+        panel Depot.human_attribute_name(:street), icon: "map" do
           attributes_table do
             row :address_name
             row :street
@@ -179,7 +179,7 @@ ActiveAdmin.register Depot do
           end
         end
 
-        panel Depot.human_attribute_name(:contact) do
+        panel Depot.human_attribute_name(:contact), icon: "contact-round" do
           attributes_table do
             row :contact_name
             row(:phones) { display_phones_with_link(self, depot.phones_array) }

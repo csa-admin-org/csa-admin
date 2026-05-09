@@ -1,5 +1,9 @@
 <div class="panel">
   <div class="panel-title">
+    <span class="panel-title-icon">
+      <%= icon("message-square-text", class: "size-5") %>
+    </span>
+
     <h3><%= I18n.t "active_admin.comments.title_content" %></h3>
     <span class="panel-title-count"><%= comments.total_count %></span>
   </div>

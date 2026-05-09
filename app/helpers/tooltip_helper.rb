@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module TooltipHelper
-  def tooltip(id, text, icon_name: "information-circle")
+  def tooltip(id, text, icon_name: "info")
     tooltip_id = "tooltip-#{id}"
 
     content_tag(:span,
@@ -24,7 +24,7 @@ module TooltipHelper
     end
   end
 
-  def popover(id, icon_name: "information-circle", &block)
+  def popover(id, icon_name: "info", &block)
     popover_id = "popover-#{id}"
 
     content_tag(:span,

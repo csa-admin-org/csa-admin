@@ -169,7 +169,7 @@ ActiveAdmin.register Member do
     columns do
       column do
         if next_basket = member.next_basket
-          panel link_to(Member.human_attribute_name(:next_basket), next_basket.membership).html_safe do
+          panel link_to(Member.human_attribute_name(:next_basket), next_basket.membership).html_safe, icon: "shopping-bag" do
             attributes_table do
               if next_basket.trial?
                 row(:state) { aligned_status_tag(:trial) }
@@ -191,7 +191,7 @@ ActiveAdmin.register Member do
         end
 
         if member.pending? || member.waiting?
-          panel t(".waiting_membership") do
+          panel t(".waiting_membership"), icon: "clock" do
             div class: "px-2" do
               attributes_table do
                 row(:basket_size) { auto_link member.waiting_basket_size }
@@ -230,7 +230,7 @@ ActiveAdmin.register Member do
         all_memberships_path = memberships_path(q: { member_id_eq: member.id }, scope: :all)
         memberships = member.memberships.order(started_on: :desc)
         memberships_count = memberships.count
-        panel link_to(Membership.model_name.human(count: 2), all_memberships_path), count: memberships_count do
+        panel link_to(Membership.model_name.human(count: 2), all_memberships_path), icon: "calendar-range", count: memberships_count do
           if memberships_count.zero?
             div(class: "missing-data") { t(".no_memberships") }
           else
@@ -238,7 +238,7 @@ ActiveAdmin.register Member do
               column(:id) { |m| auto_link m, m.id, aria: { label: "show" } }
               column(:period, class: "whitespace-nowrap") { |m| display_period(m.date_range, format: :number) }
               if feature?("activity")
-                column(activities_human_name, class: "text-right") { |m|
+                column(activities_human_name, class: "text-right whitespace-nowrap") { |m|
                   link_to(
                     [ m.activity_participations_accepted, m.activity_participations_demanded ].join(" / "),
                     activity_participations_path(q: {
@@ -269,7 +269,7 @@ ActiveAdmin.register Member do
               .includes(:delivery, invoice: { pdf_file_attachment: :blob })
               .order(created_at: :desc)
           orders_count = orders.count
-          panel link_to(t("shop.title_orders", count: 2), all_orders_path), count: orders_count do
+          panel link_to(t("shop.title_orders", count: 2), all_orders_path), icon: "shopping-basket", count: orders_count do
             if orders_count.zero?
               div do
                 div(class: "missing-data") { t(".no_orders") }
@@ -296,7 +296,7 @@ ActiveAdmin.register Member do
             member.activity_participations.includes(:activity)
               .order("activities.date DESC, activities.start_time DESC")
           activity_participations_count = activity_participations.count
-          panel link_to(activities_human_name, all_activity_participations_path), count: activity_participations_count do
+          panel link_to(activities_human_name, all_activity_participations_path), icon: "handshake", count: activity_participations_count do
             if activity_participations_count.zero?
               div(class: "missing-data") { t(".no_activities") }
             else
@@ -319,7 +319,7 @@ ActiveAdmin.register Member do
         all_invoices_path = invoices_path(q: { member_id_eq: member.id }, scope: :all)
         invoices = member.invoices.includes(pdf_file_attachment: :blob).order(date: :desc, id: :desc)
         invoices_count = invoices.count
-        panel link_to(Invoice.model_name.human(count: 2), all_invoices_path), count: invoices.count do
+        panel link_to(Invoice.model_name.human(count: 2), all_invoices_path), icon: "banknotes", count: invoices.count do
           if invoices_count.zero?
             div(class: "missing-data") { t(".no_invoices") }
           else
@@ -345,7 +345,7 @@ ActiveAdmin.register Member do
         all_payments_path = payments_path(q: { member_id_eq: member.id }, scope: :all)
         payments = member.payments.includes(:invoice).reorder(date: :desc)
         payments_count = payments.count
-        panel link_to(Payment.model_name.human(count: 2), all_payments_path), count: payments_count do
+        panel link_to(Payment.model_name.human(count: 2), all_payments_path), icon: "banknotes", count: payments_count do
           if payments_count.zero?
             div(class: "missing-data") { t(".no_payments") }
           else
@@ -366,7 +366,7 @@ ActiveAdmin.register Member do
           all_absences_path = absences_path(q: { member_id_eq: member.id }, scope: :all)
           absences = member.absences.order(started_on: :desc)
           absences_count = absences.count
-          panel link_to(Absence.model_name.human(count: 2), all_absences_path), count: absences_count do
+          panel link_to(Absence.model_name.human(count: 2), all_absences_path), icon: "tent", count: absences_count do
             if absences_count.zero?
               div(class: "missing-data") { t(".no_absences") }
             else
@@ -393,7 +393,7 @@ ActiveAdmin.register Member do
         mail_deliveries = member.mail_deliveries.order(created_at: :desc)
         mail_deliveries_count = mail_deliveries.count
         if mail_deliveries_count > 0
-          panel link_to(t(".email_deliveries"), all_mail_deliveries_path), count: mail_deliveries_count do
+          panel link_to(t(".email_deliveries"), all_mail_deliveries_path), icon: "mails", count: mail_deliveries_count do
             table_for(mail_deliveries.limit(6), class: "table-auto table-mail-deliveries") do
               column(:subject, sortable: false) { |d|
                 auto_link d, (d.subject || d.source&.display_name), aria: { label: "show" }
@@ -409,7 +409,7 @@ ActiveAdmin.register Member do
       end
 
       column do
-        panel t(".details") do
+        panel t(".details"), icon: "notebook-text" do
           attributes_table do
             row(:id)
             row(:created_at) { l(member.created_at, format: :medium) }
@@ -418,13 +418,13 @@ ActiveAdmin.register Member do
           end
         end
         if feature?("shop") && member.use_shop_depot?
-          panel t("shop.title") do
+          panel t("shop.title"), icon: "shopping-basket" do
             attributes_table do
               row(:depot) { member.shop_depot }
             end
           end
         end
-        panel Member.human_attribute_name(:contact) do
+        panel Member.human_attribute_name(:contact), icon: "contact-round" do
           attributes_table do
             row :name
             row(:emails) { display_emails_with_link(self, member.emails_array) }
@@ -438,7 +438,7 @@ ActiveAdmin.register Member do
             end
           end
         end
-        panel t(".billing"), action: handbook_icon_link("billing") do
+        panel t(".billing"), icon: "banknotes", action: handbook_icon_link("billing") do
           attributes_table do
             if member.salary_basket?
               row(:salary_basket) { aligned_status_tag(member.salary_basket) }
@@ -489,7 +489,7 @@ ActiveAdmin.register Member do
 
         if Current.org.sepa?
           current_mandate = member.current_sepa_mandate
-          panel t(".billing") + " (SEPA)", action: sepa_mandate_panel_actions(current_mandate) do
+          panel t(".billing") + " (SEPA)", icon: "banknotes", action: sepa_mandate_panel_actions(current_mandate) do
             if current_mandate
               disabled_value_class = "italic text-gray-400 dark:text-gray-500"
 
@@ -526,7 +526,7 @@ ActiveAdmin.register Member do
         end
 
         if Current.org.share?
-          panel t("active_admin.resource.new.shares") do
+          panel t("active_admin.resource.new.shares"), icon: "receipt-text" do
             attributes_table do
               row(Organization.human_attribute_name(:shares_number)) { display_shares_number(member) }
               row(:shares_info) { member.shares_info }
@@ -543,7 +543,7 @@ ActiveAdmin.register Member do
           end
         end
 
-        panel t(".notes") do
+        panel t(".notes"), icon: "notepad-text" do
           attributes_table do
             row :profession
             row(:come_from) { text_format(member.come_from) }
@@ -815,7 +815,7 @@ ActiveAdmin.register Member do
 
   action_item :become, only: :show do
     action_link t(".become_member"), become_member_path(resource),
-      icon: "arrow-right-end-on-rectangle",
+      icon: "log-in",
       data: { turbo: false }
   end
 

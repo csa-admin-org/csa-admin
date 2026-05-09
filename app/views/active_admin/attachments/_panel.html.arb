@@ -1,4 +1,4 @@
-panel Attachment.model_name.human(count: 2) do
+panel Attachment.model_name.human(count: 2), icon: "paperclip" do
   if attachments.any?
     div class: "p-2 pt-0" do
       ul class: "ms-6 list-disc list-outside space-y-0.5" do

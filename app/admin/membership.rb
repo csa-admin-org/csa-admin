@@ -220,11 +220,11 @@ ActiveAdmin.register Membership do
           if renewal.actionable?
             if renewal.renewing?
               div class: "flex justify-center items-center italic" do
-                icon("arrow-path", class: "size-4 mr-2") + t(".renewing")
+                icon("refresh-cw", class: "size-4 mr-2") + t(".renewing")
               end
             elsif renewal.opening?
               div class: "flex justify-center items-center italic" do
-                icon("paper-airplane", class: "size-4 mr-2") + t(".opening")
+                icon("send-horizontal", class: "size-4 mr-2") + t(".opening")
               end
             else
               div class: "space-y-2" do
@@ -232,7 +232,7 @@ ActiveAdmin.register Membership do
                   if renewal.openable_count.positive?
                     div do
                       panel_button t(".open_renewal_all_action", count: renewal.openable_count), open_renewal_all_memberships_path,
-                        icon: "paper-airplane",
+                        icon: "send-horizontal",
                         params: { year: renewal.fy_year },
                         form: { class: "flex justify-center", data: { disable_with_value: t(".opening") } },
                         data: { confirm: t("active_admin.batch_actions.default_confirmation") }
@@ -242,7 +242,7 @@ ActiveAdmin.register Membership do
                 if authorized?(:renew_all, Membership)
                   div do
                     panel_button t(".renew_all_action", count: renewal.renewable_count), renew_all_memberships_path,
-                      icon: "arrow-path",
+                      icon: "refresh-cw",
                       params: { year: renewal.fy_year },
                       form: { class: "flex justify-center", data: { disable_with_value: t(".renewing") } },
                       data: { confirm: t(".renew_all_confirm") }
@@ -347,7 +347,7 @@ ActiveAdmin.register Membership do
       column do
         next_basket = m.next_basket
         overrides_by_delivery = BasketOverride.by_delivery_id(m.basket_overrides.includes(session: [ :member, :admin ]))
-        panel Basket.model_name.human(count: 2), count: m.baskets_count do
+        panel Basket.model_name.human(count: 2), icon: "shopping-bag", count: m.baskets_count do
           table_for(m.baskets.preload(
             :membership,
             :delivery,
@@ -378,7 +378,7 @@ ActiveAdmin.register Membership do
                     display_basket_override(override) +
                       tag.div(class: "flex justify-end min-w-60 mt-2 pt-2 border-t border-gray-700 dark:border-gray-600") do
                         panel_button t(".clear_override"), basket_override_path(override),
-                          icon: "arrow-uturn-left",
+                          icon: "undo-2",
                           class: "btn btn-xs destructive",
                           method: :delete
                       end
@@ -426,7 +426,7 @@ ActiveAdmin.register Membership do
                   end
                   span do
                     link_to edit_basket_path(b), title: t(".edit"), aria: { label: "edit" } do
-                      icon "pencil-square", class: "size-5"
+                      icon "square-pen", class: "size-5"
                     end
                   end
                 end
@@ -442,7 +442,7 @@ ActiveAdmin.register Membership do
       end
 
       column do
-        panel t(".details") do
+        panel t(".details"), icon: "notebook-text" do
           attributes_table do
             row :id
             row :member
@@ -452,7 +452,7 @@ ActiveAdmin.register Membership do
           end
         end
 
-        panel t(".config") do
+        panel t(".config"), icon: "sliders-horizontal" do
           attributes_table do
             basket_config_rows(self, m, m.memberships_basket_complements.includes(:basket_complement))
             row :depot
@@ -469,7 +469,7 @@ ActiveAdmin.register Membership do
         end
 
         if feature?("absence") && (m.absences_included_annually.positive? || Current.org.basket_shift_enabled? || m.basket_shifts_count.positive?)
-          panel link_to(Absence.model_name.human(count: 2), absences_path(q: { member_id_eq: m.member_id, during_year: m.fy_year }, scope: :all)), count: m.baskets.absent.count, class: "absence-panel" do
+          panel link_to(Absence.model_name.human(count: 2), absences_path(q: { member_id_eq: m.member_id, during_year: m.fy_year }, scope: :all)), icon: "tent", count: m.baskets.absent.count, class: "absence-panel" do
             attributes_table do
               if m.absences_included_annually.positive?
                 row(:absences_included) {
@@ -499,7 +499,7 @@ ActiveAdmin.register Membership do
         end
 
         if Current.fiscal_year >= m.fiscal_year || m.canceled?
-          panel Membership.human_attribute_name(:renew), state: m.renewal_state, action: handbook_icon_link("membership_renewal") do
+          panel Membership.human_attribute_name(:renew), icon: "refresh-cw", state: m.renewal_state, action: handbook_icon_link("membership_renewal") do
             attributes_table do
               if m.renewed?
                 row(:renewed_at) { l m.renewed_at.to_date  }
@@ -517,7 +517,7 @@ ActiveAdmin.register Membership do
                   div class: "mt-2 mb-1 flex items-center justify-center gap-4 gap-y-2 flex-wrap" do
                     div do
                       panel_button t(".mark_renewal_as_pending"), mark_renewal_as_pending_membership_path(m),
-                        icon: "arrow-uturn-left",
+                        icon: "undo-2",
                         class: "btn btn-sm destructive",
                         data: { confirm: t(".confirm") }
                     end
@@ -542,7 +542,7 @@ ActiveAdmin.register Membership do
                     if authorized?(:open_renewal, m) && MailTemplate.active_template(:membership_renewal)
                       div do
                         panel_button t(".open_renewal"), open_renewal_membership_path(m),
-                          icon: "paper-airplane",
+                          icon: "send-horizontal",
                           data: { confirm: t(".confirm") }
                       end
                     end
@@ -555,7 +555,7 @@ ActiveAdmin.register Membership do
           end
         end
 
-        panel Membership.human_attribute_name(:amount), class: "full-table" do
+        panel Membership.human_attribute_name(:amount), icon: "receipt-text", class: "full-table" do
           if m.member.salary_basket?
             div(class: "missing-data") { t(".salary_basket") }
           elsif m.baskets_count.zero?
@@ -612,7 +612,7 @@ ActiveAdmin.register Membership do
           end
         end
 
-        panel t(".billing"), action: handbook_icon_link("billing", anchor: "memberships") do
+        panel t(".billing"), icon: "banknotes", action: handbook_icon_link("billing", anchor: "memberships") do
           attributes_table do
             row(:billing_year_division) { t("billing.year_division.x#{m.billing_year_division}") }
             row(:invoices_amount, class: "tabular-nums") {
@@ -653,7 +653,7 @@ ActiveAdmin.register Membership do
         end
 
         if feature?("activity")
-          panel activities_human_name, action: handbook_icon_link("activity") do
+          panel activities_human_name, icon: "handshake", action: handbook_icon_link("activity") do
             ul class: "counts grid-cols-3 grid-flow-row" do
               li do
                 counter_tag(
@@ -680,7 +680,7 @@ ActiveAdmin.register Membership do
             if authorized?(:clear_activity_participations_demanded, m)
               div class: "mt-3 flex items-center justify-center gap-4" do
                 panel_button t(".clear_activity_participations_demanded"), clear_activity_participations_demanded_membership_path(m),
-                  icon: "x-circle",
+                  icon: "circle-x",
                   form: { class: "inline" },
                   data: { confirm: t(".clear_activity_participations_demanded_confirm") }
               end

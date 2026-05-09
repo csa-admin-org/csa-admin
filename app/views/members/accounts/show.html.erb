@@ -3,12 +3,12 @@
 <section>
   <ul class="space-y-4">
     <li class="flex flex-row items-center gap-4">
-      <%= icon "hashtag", class: "flex-none size-5 mx-0.5" %>
+      <%= icon "hash", class: "flex-none size-5 mx-0.5" %>
       <span><%= current_member.id %></span>
     </li>
 
     <li class="flex flex-row gap-4">
-      <%= icon "identification", class: "flex-none size-6" %>
+      <%= icon "id-card", class: "flex-none size-6" %>
       <span><%= current_member.name %></span>
     </li>
 
@@ -25,7 +25,7 @@
     <% end %>
 
     <li class="flex flex-row gap-4">
-      <%= icon "envelope", class: "flex-none size-6" %>
+      <%= icon "mail", class: "flex-none size-6" %>
       <span><%= display_emails(current_member) %></span>
     </li>
 
@@ -65,7 +65,7 @@
 
     <% if Current.org.languages.many? %>
       <li class="flex flex-row gap-4">
-        <%= icon "language", class: "flex-none size-6" %>
+        <%= icon "languages", class: "flex-none size-6" %>
         <span><%= t("languages.#{current_member.language}") %></span>
       </li>
     <% end %>
@@ -81,7 +81,7 @@
 
   <div class="mt-8 flex w-full flex-col gap-4 md:max-w-max">
     <%= link_to edit_members_account_path, class: "btn inline-flex items-center gap-2" do %>
-      <%= icon "pencil-square", class: "size-4.5" %>
+      <%= icon "square-pen", class: "size-4.5" %>
       <span><%= t(".edit_link") %></span>
     <% end %>
   </div>

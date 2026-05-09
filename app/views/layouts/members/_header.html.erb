@@ -11,7 +11,7 @@
 
     <div class="m-4 text-gray-900 md:hidden dark:text-gray-100">
       <%= link_to "#menu", data: { action: "click->menu#show" } do %>
-        <%= icon "bars-3", title: "Show Menu", class: "h-10 w-10" %>
+        <%= icon "menu", title: "Show Menu", class: "h-10 w-10" %>
       <% end %>
     </div>
   </div>
@@ -27,7 +27,7 @@
       "
     >
       <%= link_to "#nomenu", data: { action: "click->menu#hide" }, class: "inline-block" do %>
-        <%= icon "x-mark", title: "Hide Menu", class: "h-10 w-10" %>
+        <%= icon "x", title: "Hide Menu", class: "h-10 w-10" %>
       <% end %>
     </div>
 
@@ -192,11 +192,8 @@
 
         <li class="mt-12 flex items-center justify-center md:justify-start">
           <%= link_to members_account_path, class: "py-2 px-8 flex items-center" do %>
-            <span class="-ms-1 w-8">
-              <%= icon "user-circle", class: "size-8" %>
-            </span>
-
-            <span class="ml-2"><%= current_member.name_was %></span>
+            <%= icon "circle-user-round", class: "size-7 -ms-0.5 me-2" %>
+            <%= current_member.name_was %>
           <% end %>
         </li>
 
@@ -208,8 +205,8 @@
                 dark:text-gray-600
               "
             >
-              <%= icon "arrow-right-start-on-rectangle", class: "size-6" %>
-              <div class="ml-3"><%= t(".logout") %></div>
+              <%= icon "log-out", class: "size-5 ms-1 me-2.5" %>
+              <%= t(".logout") %>
             </span>
           <% end %>
         </li>

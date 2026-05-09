@@ -115,7 +115,7 @@ ActiveAdmin.register Organization do
             resource.invoice_logos.select(&:persisted?).each do |invoice_logo|
               li class: "relative" do
                 span class: "absolute -top-3 -right-3 text-gray-500 z-50 cursor-pointer", onclick: "this.parentNode.remove()" do
-                  icon("x-circle", class: "size-6")
+                  icon("circle-x", class: "size-6")
                 end
                 f.hidden_field :invoice_logos, multiple: true, value: invoice_logo.signed_id
                  span do
@@ -245,7 +245,7 @@ ActiveAdmin.register Organization do
 
           para class: "mt-4 flex justify-center" do
             a href: new_members_member_url(subdomain: Current.org.members_subdomain), class: "btn btn-sm btn-light" do
-              span icon("arrow-top-right-on-square", class: "size-5 me-1", title: t("active_admin.site_footer.handbook"))
+              span icon("external-link", class: "size-5 me-1", title: t("active_admin.site_footer.handbook"))
               span t(".registration_form")
             end.html_safe
           end

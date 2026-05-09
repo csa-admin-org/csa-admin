@@ -1,7 +1,7 @@
 <h1><%= t(".title") %></h1>
 
 <section>
-  <%= notice_pane("envelope") do %>
+  <%= notice_pane("mail") do %>
     <%= t(".code_sent_html", email: content_tag(:strong, current_session.email)) %>
   <% end %>
 

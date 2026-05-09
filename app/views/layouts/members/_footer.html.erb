@@ -21,7 +21,7 @@
 
       <li class="mx-auto px-4 <%= "md:mx-0 md:px-0" if current_member %>">
         <%= mail_to Current.org.email, class: "flex items-center py-1 px-4 md:px-0" do %>
-          <%= icon "envelope", class: "size-6" %>
+          <%= icon "mail", class: "size-6" %>
           <span class="ml-2"><%= t(".contact") %></span>
         <% end %>
       </li>
@@ -43,7 +43,7 @@
         <% Current.org.social_networks.each do |network| %>
           <li>
             <%= link_to network.url, class: "flex items-center py-1 fill-gray-400 dark:fill-gray-500 hover:fill-green-500 hover:dark:fill-green-500" do %>
-              <%= icon network.icon, class: "size-5", variant: "simpleicons" %>
+              <%= simpleicons network.icon, class: "size-5" %>
             <% end %>
           </li>
         <% end %>
@@ -71,7 +71,7 @@
 
   <div class="mx-auto mt-12 mb-4 text-gray-300 dark:text-gray-600 <%= "md:mx-0.5" if current_member %>">
     <%= link_to csa_admin_website_url, class: "flex items-center text-sm" do %>
-      <%= icon "logo", class: "size-4 me-2 md:ms-0.5 md:me-3 fill-current", variant: "solid" %>
+      <%= icon "logo", class: "size-4 me-2 md:ms-0.5 md:me-3 fill-current" %>
       CSA Admin
     <% end %>
   </div>

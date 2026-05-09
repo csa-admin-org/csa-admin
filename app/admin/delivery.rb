@@ -81,7 +81,7 @@ ActiveAdmin.register Delivery do
   show title: ->(d) { d.display_name(format: :long, capitalize: true) } do |delivery|
     columns do
       column do
-        panel Basket.model_name.human(count: 2), action: icon_file_links(
+        panel Basket.model_name.human(count: 2), icon: "shopping-bag", action: icon_file_links(
           icon_file_link(:csv, baskets_path(q: { delivery_id_eq: delivery.id }, format: :csv), title: Delivery.human_attribute_name(:summary)),
           icon_file_link(:xlsx, delivery_path(delivery, format: :xlsx), title: Delivery.human_attribute_name(:summary)),
           icon_file_link(:pdf, delivery_path(delivery, format: :pdf), title: Delivery.human_attribute_name(:sheets), target: "_blank")) do
@@ -102,7 +102,7 @@ ActiveAdmin.register Delivery do
       end
 
       column do
-        panel t(".details") do
+        panel t(".details"), icon: "notebook-text" do
           attributes_table do
             row("#") { delivery.number }
             row(:cweek) { delivery.date.cweek }
@@ -110,7 +110,7 @@ ActiveAdmin.register Delivery do
           end
         end
 
-        panel Delivery.human_attribute_name(:sheets_pdf) do
+        panel Delivery.human_attribute_name(:sheets_pdf), icon: "file-spreadsheet" do
           attributes_table do
             row(Announcement.model_name.human(count: 2)) {
               count = Announcement.active.deliveries_eq(delivery.id).count
@@ -120,7 +120,7 @@ ActiveAdmin.register Delivery do
         end
 
         if delivery.basket_size_price_percentage?
-          panel t(".billing") do
+          panel t(".billing"), icon: "banknotes" do
             attributes_table do
               row(:basket_size_price) { number_to_percentage(delivery.basket_size_price_percentage || 100, precision: 0) }
             end
@@ -128,7 +128,7 @@ ActiveAdmin.register Delivery do
         end
 
         if feature?("shop")
-          panel t("shop.title") do
+          panel t("shop.title"), icon: "shopping-basket" do
             attributes_table do
               row(t("shop.open")) { aligned_status_tag(delivery.shop_open?) }
               if delivery.shop_open
@@ -148,7 +148,7 @@ ActiveAdmin.register Delivery do
 
         if feature?("basket_content")
           basket_contents = delivery.basket_contents.includes(:product)
-          panel link_to(BasketContent.model_name.human(count: 2), basket_contents_path(q: { delivery_id_eq: delivery.id })) do
+          panel link_to(BasketContent.model_name.human(count: 2), basket_contents_path(q: { delivery_id_eq: delivery.id })), icon: "sprout" do
             if basket_contents.any?
               div class: "p-2" do
                 basket_contents.map { |bc| bc.product.name }.sort.to_sentence.html_safe

@@ -33,7 +33,7 @@ ActiveAdmin.register MailTemplate do
     group: :type, if: -> { feature?("bidding_round") }
 
   action_item :view, only: :index, if: -> { authorized?(:update, Organization) } do
-    action_link t(".settings"), edit_organization_path(anchor: "mail"), icon: "adjustments-horizontal"
+    action_link t(".settings"), edit_organization_path(anchor: "mail"), icon: "sliders-horizontal"
   end
 
   action_item :deliveries, only: :show do
@@ -58,7 +58,7 @@ ActiveAdmin.register MailTemplate do
         Current.org.languages.each do |locale|
           title = t(".preview")
           title += " (#{t("languages.#{locale}")})" if Current.org.languages.many?
-          panel title do
+          panel title, icon: "eye" do
             div class: "iframe-wrapper" do
               iframe(
                 srcdoc: mail_template.mail_preview(locale),
@@ -71,7 +71,7 @@ ActiveAdmin.register MailTemplate do
         end
       end
       column do
-        panel t(".details") do
+        panel t(".details"), icon: "notebook-text" do
           div class: "mx-2 mb-4" do
             para mail_template.description, class: "text-base description"
           end
@@ -92,14 +92,14 @@ ActiveAdmin.register MailTemplate do
         deliveries = mail_template.mail_deliveries
         deliveries_count = deliveries.count
         if deliveries_count > 0
-          panel link_to(MailDelivery.model_name.human(count: 2), mail_deliveries_path(mail_template_id: mail_template.id)), count: deliveries_count do
+          panel link_to(MailDelivery.model_name.human(count: 2), mail_deliveries_path(mail_template_id: mail_template.id)), icon: "mails", count: deliveries_count do
             mail_delivery_email_stats(self, deliveries,
               path_params: { mail_template_id: mail_template.id })
             para t("active_admin.resources.mail_delivery.retention_notice"), class: "mt-4 text-sm missing-data"
           end
 
           if mail_template.show_missing_delivery_emails?
-            panel t(".missing_deliveries") do
+            panel t(".missing_deliveries"), icon: "triangle-alert" do
               missing_delivery_emails_grid(self, mail_template)
             end
           end

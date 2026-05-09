@@ -5,7 +5,7 @@ module ActiveAdmin::MembershipHelper
     if authorized?(:renew, membership)
       arbre.div do
         panel_button t("active_admin.resource.show.renew"), renew_membership_path(membership),
-          icon: "arrow-path",
+          icon: "refresh-cw",
           disabled: !membership.can_renew?,
           disabled_tooltip: t("active_admin.resource.show.renew_no_future_deliveries"),
           data: { confirm: t("active_admin.resource.show.confirm") }
@@ -17,7 +17,7 @@ module ActiveAdmin::MembershipHelper
     if authorized?(:cancel, membership)
       arbre.div do
         panel_button t("active_admin.resource.show.cancel_renewal"), cancel_membership_path(membership),
-          icon: "x-circle",
+          icon: "circle-x",
           class: "btn btn-sm destructive",
           data: { confirm: t("active_admin.resource.show.confirm") }
       end
@@ -25,7 +25,7 @@ module ActiveAdmin::MembershipHelper
     if Current.org.annual_fee? && authorized?(:cancel_keep_support, membership)
       arbre.div do
         panel_button t("active_admin.resource.show.cancel_renewal_keep_support"), cancel_keep_support_membership_path(membership),
-          icon: "x-circle",
+          icon: "circle-x",
           class: "btn btn-sm destructive",
           data: { confirm: t("active_admin.resource.show.confirm") }
       end

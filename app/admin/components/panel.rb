@@ -8,11 +8,15 @@ class Panel < ActiveAdmin::Component
     action = args.delete(:action) if args.key?(:action)
     state = args.delete(:state) if args.key?(:state)
     count = args.delete(:count) if args.key?(:count)
+    icon_name = args.delete(:icon) if args.key?(:icon)
     super(args)
     add_class "panel"
     if title
       div class: "panel-title justify-between" do
         div class: "flex items-center gap-2" do
+          if icon_name
+            span(class: "panel-title-icon") { icon(icon_name, class: "size-5") }
+          end
           @title = h3(title.to_s, class: "")
           span(class: "panel-title-count") { count } if count
           status_tag(state) if state

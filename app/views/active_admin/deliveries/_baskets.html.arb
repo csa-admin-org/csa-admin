@@ -21,7 +21,7 @@ end
 
 attrs = { class: "" }
 if authorized?(:update, Depot)
-  attrs[:class] += "cursor-move"
+  attrs[:class] += " cursor-move"
   attrs[:tbody_html] = { data: { controller: "sortable" } }
   attrs[:row_html] = ->(bc) {
     { data: { "sortable-update-url" => "/depots/#{bc.depot_id}/move_to?delivery_id=#{delivery.id}" } }
@@ -35,8 +35,8 @@ if counts.present?
       column link_to(t("shop.title"), shop_orders_path(q: { _delivery_gid_eq: delivery.gid })), :shop_orders_count, class: "text-right"
     end
     if counts.sum.positive?
-      column Basket.model_name.human(count: 2), :count, class: "text-right"
-      column "#{bs_names.join("&nbsp;/ ")}".html_safe, :baskets_count, class: "text-right"
+      column Basket.model_name.human(count: 2), :count, class: "text-right "
+      column "#{bs_names.join("&nbsp;/ ")}".html_safe, :baskets_count, class: "text-right whitespace-normal!"
     end
   end
 
@@ -69,8 +69,8 @@ if BasketComplement.kept.any?
   div class: "mt-6" do
     counts = delivery.basket_complement_counts(scope: scope)
     if counts.any?
-      table_for counts do
-        column BasketComplement.model_name.human, :title, class: "w-2/5"
+      table_for counts, class: "" do
+        column BasketsBasketComplement.model_name.human, :title, class: "w-2/5"
         if show_shop_orders
           column link_to(t("shop.title"), shop_orders_path(q: { _delivery_gid_eq: delivery.gid })), :shop_orders_count, class: "text-right"
         end

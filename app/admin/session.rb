@@ -25,8 +25,8 @@ ActiveAdmin.register Session, as: "MSession" do
     column nil, ->(s) {
       content_tag(:span, class: "flex items-center gap-1 justify-end text-gray-500") {
         txt = ""
-        txt += icon("arrow-right-start-on-rectangle", class: "size-5") if s.revoked?
-        txt += icon("archive-box-x-mark", class: "size-5") if s.expired?
+        txt += icon("log-out", class: "size-5") if s.revoked?
+        txt += icon("archive-x", class: "size-5") if s.expired?
         txt += icon("key", class: "size-5") if s.admin
         txt += icon("user", class: "size-5") if s.member
         txt.html_safe

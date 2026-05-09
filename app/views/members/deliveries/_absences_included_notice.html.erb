@@ -9,7 +9,7 @@
 
 <% if show_notice %>
   <%= link_to members_absences_path do %>
-    <%= notice_pane("calendar-date-range") do %>
+    <%= notice_pane("calendar-range") do %>
       <% prefix = membership.absences_included_reminded? ? "reminded_" : "" %>
       <% mode = Current.org.absences_included_mode %>
       <% announced = membership.absences_included - membership.absences_included_remaining %>

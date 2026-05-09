@@ -3,7 +3,7 @@
 ActiveAdmin.register_page "Dashboard" do
   menu priority: 1, label: -> {
     [
-      icon("home", title: t("active_admin.dashboard"), class: "size-5 md:size-5.5 -mt-1 md:-my-0.5 min-w-5 md:min-w-6 mr-2.5 md:mr-0 inline"),
+      icon("house", title: t("active_admin.dashboard"), class: "size-5 md:size-5.5 -mt-1 md:-my-0.5 min-w-5 md:min-w-6 mr-2.5 md:mr-0 inline"),
       content_tag(:span, t("active_admin.dashboard"), class: "inline md:hidden")
     ].join.html_safe
   }
@@ -23,7 +23,7 @@ ActiveAdmin.register_page "Dashboard" do
         column do
           if next_delivery
             date_format = next_delivery.fiscal_year == Current.fiscal_year ? :long_no_year : :long
-            panel t(".next_delivery", delivery: link_to(next_delivery.display_name(format: date_format), next_delivery)).html_safe, action: next_delivery_panel_action(next_delivery) do
+            panel t(".next_delivery", delivery: link_to(next_delivery.display_name(format: date_format), next_delivery)).html_safe, icon: "calendar", action: next_delivery_panel_action(next_delivery) do
               counts = next_delivery.basket_counts
               complement_counts = next_delivery.basket_complement_counts
               if counts.present? || complement_counts.present?
@@ -62,23 +62,23 @@ ActiveAdmin.register_page "Dashboard" do
               end
             end
           else
-            panel t(".no_next_delivery") do
+            panel t(".no_next_delivery"), icon: "calendar" do
               link_to t(".no_next_deliveries"), deliveries_path, class: "missing-data"
             end
           end
         end
 
         column do
-          panel Member.model_name.human(count: 2) do
+          panel Member.model_name.human(count: 2), icon: "users" do
             render "members_count"
           end
 
-          panel Membership.model_name.human(count: 2) do
+          panel Membership.model_name.human(count: 2), icon: "calendar-range" do
             render "memberships_count"
           end
 
           if feature?("bidding_round") && open_bidding_round
-            panel link_to(open_bidding_round.title, open_bidding_round) do
+            panel link_to(open_bidding_round.title, open_bidding_round), icon: "scale" do
               ul class: "counts" do
                 li do
                   counter_tag(t("active_admin.resource.show.pledges_percentage").capitalize, open_bidding_round.pledges_percentage, type: :percentage)
@@ -91,12 +91,12 @@ ActiveAdmin.register_page "Dashboard" do
           end
 
           if feature?("activity")
-            panel activities_human_name do
+            panel activities_human_name, icon: "handshake" do
               render "activity_participations_count"
             end
           end
 
-          panel t(".billing"), action: billing_panel_action do
+          panel t(".billing"), icon: "banknotes", action: billing_panel_action do
             div class: "px-2" do
               table class: "w-full text-base data-table-invoice-total" do
                 tbody do

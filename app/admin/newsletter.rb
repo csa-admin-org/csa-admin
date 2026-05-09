@@ -43,7 +43,7 @@ ActiveAdmin.register Newsletter do
     }, class: "text-right"
     actions do |newsletter|
       link_to new_newsletter_path(newsletter_id: newsletter.id), title: t(".duplicate") do
-        icon "document-duplicate", class: "size-5"
+        icon "copy", class: "size-5"
       end
     end
   end
@@ -56,7 +56,7 @@ ActiveAdmin.register Newsletter do
         Current.org.languages.each do |locale|
           title = t(".preview")
           title += " (#{t("languages.#{locale}")})" if Current.org.languages.many?
-          panel title do
+          panel title, icon: "eye" do
             div class: "iframe-wrapper" do
               iframe(
                 srcdoc: newsletter.mail_preview(locale),
@@ -77,14 +77,14 @@ ActiveAdmin.register Newsletter do
               if authorized?(:unschedule, newsletter)
                 span {
                   button_to unschedule_newsletter_path(newsletter), method: :put, class: "m-0 p-0 text-orange-300 hover:text-orange-500 cursor-pointer", form: { class: "flex items-center" }, data: { confirm: t(".confirm") } do
-                    icon("x-circle", class: "size-6")
+                    icon("circle-x", class: "size-6")
                   end
                 }
               end
             end
           end
         end
-        panel t(".details") do
+        panel t(".details"), icon: "notebook-text" do
           attributes_table do
             row(:id)
             case newsletter.state
@@ -104,7 +104,7 @@ ActiveAdmin.register Newsletter do
         panel_title = MailDelivery.model_name.human(count: 2)
         panel_title = deliveries_purged ? panel_title : link_to(panel_title, mail_deliveries_path(newsletter_id: newsletter.id))
 
-        panel panel_title, count: deliveries_count do
+        panel panel_title, icon: "mails", count: deliveries_count do
           attributes_table do
             row(:audience) { newsletter.audience_name }
             row(:from) { newsletter.from || Current.org.email_default_from }
@@ -119,7 +119,7 @@ ActiveAdmin.register Newsletter do
         end
 
         if newsletter.sent?
-          panel t(".missing_deliveries") do
+          panel t(".missing_deliveries"), icon: "triangle-alert" do
             if newsletter.show_missing_delivery_emails?
               missing_delivery_emails_grid(self, newsletter)
             elsif newsletter.missing_delivery_emails_allowed?
@@ -241,7 +241,7 @@ ActiveAdmin.register Newsletter do
 
   action_item :duplicate, only: :show, if: -> { authorized?(:create, resource) } do
     action_link t(".duplicate"), new_newsletter_path(newsletter_id: resource.id),
-      icon: "document-duplicate"
+      icon: "copy"
   end
 
   action_item :deliveries, only: :show, if: -> { resource.mail_deliveries.exists? } do
@@ -254,7 +254,7 @@ ActiveAdmin.register Newsletter do
     confirm_key = resource.scheduled? ? ".newsletter.confirm_scheduled" : ".newsletter.confirm"
     action_button t(".send_email"), send_email_newsletter_path(resource),
       data: { confirm: t(confirm_key, members_count: resource.audience_segment.members.count) },
-      icon: "paper-airplane"
+      icon: "send-horizontal"
   end
 
   member_action :unschedule, method: :put do

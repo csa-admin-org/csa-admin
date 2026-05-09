@@ -40,7 +40,7 @@ ActiveAdmin.register Admin do
         as: :select,
         collection: org_languages_collection,
         prompt: true,
-        wrapper_html: { id: "language", class: "scroll-mt-24" }
+        wrapper_html: { id: "languages", class: "scroll-mt-24" }
       if f.object.persisted? && f.object == current_admin
         li id: "theme", class: "input scroll-mt-24" do
           render partial: "shared/icon_select", locals: {

@@ -28,7 +28,7 @@ module ActiveAdmin
 end
 
 # Override ButtonAction to render submit buttons with a check icon.
-# Pass `icon: "paper-airplane"` (or any icon name) to f.action to customize.
+# Pass `icon: "send-horizontal"` (or any icon name) to f.action to customize.
 Formtastic::Actions::ButtonAction.class_eval do
   def to_html
     icon_name = options[:icon] || "check"

@@ -132,7 +132,7 @@ ActiveAdmin.register Shop::Order do
   show do |order|
     columns do
       column do
-        panel Shop::Product.model_name.human(count: 2), count: order.items.size do
+        panel Shop::Product.model_name.human(count: 2), icon: "shopping-basket", count: order.items.size do
           table_for order.items.includes(:product, :product_variant), class: "table-auto" do
             column(:product) { |i| auto_link i.product, "#{i.product.name}, #{i.product_variant.name}", aria: { label: "show" } }
             column(:item_price, class: "text-right") { |i| cur(i.item_price) }
@@ -142,7 +142,7 @@ ActiveAdmin.register Shop::Order do
         end
       end
       column do
-        panel t(".details") do
+        panel t(".details"), icon: "notebook-text" do
           attributes_table do
             row :id
             row(:member)
@@ -154,7 +154,7 @@ ActiveAdmin.register Shop::Order do
           end
         end
 
-        panel t("billing.title") do
+        panel t("billing.title"), icon: "banknotes" do
           attributes_table do
             if order.amount_percentage?
               row(:amount_before_percentage) { cur(order.amount_before_percentage) }
@@ -251,7 +251,7 @@ ActiveAdmin.register Shop::Order do
   action_item :cancel, only: :show, if: -> { resource.can_cancel? } do
     action_button t(".cancel_action"), cancel_shop_order_path(resource),
       data: { confirm: t(".cancel_action_confirm") },
-      icon: "pencil-square"
+      icon: "square-pen"
   end
 
   member_action :cancel, method: :post, only: :show, if: -> { resource.can_cancel? } do

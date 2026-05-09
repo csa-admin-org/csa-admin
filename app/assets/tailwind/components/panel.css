@@ -15,6 +15,10 @@
     @apply mt-3 mb-2 flex flex-wrap items-center gap-2 overflow-x-auto bg-transparent px-4 text-xl font-extralight whitespace-nowrap;
   }
 
+  .panel-title-icon {
+    @apply mr-1 flex items-center opacity-50;
+  }
+
   .panel-title-count {
     @apply m-0 rounded-full bg-green-200/80 px-2 py-0 text-base font-medium text-green-800 dark:bg-green-800 dark:text-green-200;
   }

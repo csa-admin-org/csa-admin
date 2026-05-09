@@ -32,7 +32,7 @@
   }
 
   .data-table :where(thead > tr > th) {
-    @apply border-b bg-gray-50 px-3 py-3.5 text-start text-xs font-semibold whitespace-nowrap! text-gray-700 uppercase dark:border-gray-800 dark:bg-gray-800/30 dark:text-gray-300;
+    @apply border-b bg-gray-50 px-3 py-3.5 text-start text-xs font-semibold text-gray-700 uppercase dark:border-gray-800 dark:bg-gray-800/30 dark:text-gray-300;
   }
 
   .data-table :where(thead > tr > th > a) {

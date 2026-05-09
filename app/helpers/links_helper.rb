@@ -20,7 +20,7 @@ module LinksHelper
   def show_more_link(url)
     content_tag :div, class: "mt-2 flex justify-center" do
       link_to url, title: t(".show_more") do
-        icon "ellipsis-horizontal", class: "size-6"
+        icon "ellipsis", class: "size-6"
       end
     end
   end

@@ -3,7 +3,7 @@
 class WarningPane < ActiveAdmin::Component
   builder_method :warning_pane
 
-  def build(icon_name = "exclamation-triangle", *args)
+  def build(icon_name = "triangle-alert", *args)
     args = args.extract_options!
     add_class args.delete(:class) if args.key?(:class)
     super(*args)

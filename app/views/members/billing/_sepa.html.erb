@@ -27,12 +27,12 @@
 
             <% if mandate&.pdf&.attached? %>
               <%= link_to rails_blob_path(mandate.pdf, disposition: "attachment"), title: t("members.sepa_mandates.new.download_pdf") do %>
-                <%= icon "document-arrow-down", class: "size-5" %>
+                <%= icon "file-down", class: "size-5" %>
               <% end %>
             <% end %>
 
             <%= link_to new_members_sepa_mandate_path, title: t("members.sepa_mandates.new.edit_link") do %>
-              <%= icon "pencil-square", class: "size-5" %>
+              <%= icon "square-pen", class: "size-5" %>
             <% end %>
           </div>
         </div>

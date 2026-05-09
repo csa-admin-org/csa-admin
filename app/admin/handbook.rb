@@ -46,7 +46,7 @@ ActiveAdmin.register_page "Handbook" do
               data: { action: "mobile-drawer#close" },
               class: "p-1 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300",
               aria: { label: "Close" } do
-              icon "x-mark", class: "size-5"
+              icon "x", class: "size-5"
             end
           end
 

@@ -81,20 +81,20 @@ ActiveAdmin.register Absence do
   show do |absence|
     columns do
       column do
-        panel Basket.model_name.human(count: 2), count: absence.baskets.count do
+        panel Basket.model_name.human(count: 2), icon: "shopping-bag", count: absence.baskets.count do
           table_for absence.baskets.includes(:membership, :delivery), class: "table-auto" do
             column(:delivery) { |b| auto_link b.delivery }
             column(:membership, class: "text-right") { |b| auto_link b.membership, b.membership.id, aria: { label: "show" } }
           end
         end
         if absence.note?
-          panel Absence.human_attribute_name(:note) do
+          panel Absence.human_attribute_name(:note), icon: "message-square-text" do
             note_panel absence.note, reply: absence.note_reply_args
           end
         end
       end
       column do
-        panel t(".details") do
+        panel t(".details"), icon: "notebook-text" do
           attributes_table do
             row :id
             row :member

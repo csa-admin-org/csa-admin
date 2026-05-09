@@ -8,17 +8,16 @@ namespace :simpleicons do
   task svg_to_png: :environment do
     require "fileutils"
 
-    svg_dir = Rails.root.join("app/assets/icons/simpleicons")
-    output_dir = Rails.root.join("app/assets/images/simpleicons")
-    FileUtils.mkdir_p(output_dir.to_s)
+    dir = Rails.root.join("app/assets/images/simpleicons")
+    FileUtils.mkdir_p(dir.to_s)
 
     min_size = 20 * 3
     color_fill = "#AAAAAA"
 
-    Dir.glob(svg_dir.join("*.svg")).each do |svg_file_path|
+    Dir.glob(dir.join("*.svg")).each do |svg_file_path|
       svg_file = svg_file_path.to_s
       file_name = File.basename(svg_file, ".svg")
-      png_file = output_dir.join("#{file_name}.png").to_s
+      png_file = dir.join("#{file_name}.png").to_s
 
       begin
         svg_content = File.read(svg_file)

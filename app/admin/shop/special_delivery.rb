@@ -71,12 +71,12 @@ ActiveAdmin.register Shop::SpecialDelivery do
       column do
         all = Shop::DeliveryTotal.all_by_producer(delivery)
         if all.empty?
-          panel Shop::Order.model_name.human(count: 2) do
+          panel Shop::Order.model_name.human(count: 2), icon: "shopping-basket" do
             div(class: "missing-data") { t(".no_orders") }
           end
         else
           all.each do |producer, items|
-            panel producer.name, action: icon_file_link(:xlsx, shop_special_delivery_path(delivery, format: :xlsx, producer_id: producer.id)) do
+            panel producer.name, icon: "shopping-basket", action: icon_file_link(:xlsx, shop_special_delivery_path(delivery, format: :xlsx, producer_id: producer.id)) do
               table_for items, i18n: Shop::OrderItem, class: "table-auto data-table-total" do
                 column(:product) { |i| auto_link i.product, aria: { label: "show" } }
                 column(:product_variant) { |i| i.product_variant }
@@ -90,7 +90,7 @@ ActiveAdmin.register Shop::SpecialDelivery do
         end
       end
       column do
-        panel t(".details") do
+        panel t(".details"), icon: "notebook-text" do
           attributes_table do
             row(:title)
             row(:date) { l(delivery.date, format: :medium) }
@@ -107,7 +107,7 @@ ActiveAdmin.register Shop::SpecialDelivery do
                   }
           end
         end
-        panel t(".opening") do
+        panel t(".opening"), icon: "clock" do
           attributes_table do
             row(:open) { aligned_status_tag(delivery.shop_open?) }
             if delivery.shop_open?
@@ -118,7 +118,7 @@ ActiveAdmin.register Shop::SpecialDelivery do
             }
           end
         end
-        panel Shop::SpecialDelivery.human_attribute_name(:description) do
+        panel Shop::SpecialDelivery.human_attribute_name(:description), icon: "notepad-text" do
           div class: "p-2" do
             if delivery.shop_text?
               delivery.shop_text

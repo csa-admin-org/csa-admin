@@ -115,7 +115,7 @@ ActiveAdmin.register Payment do
     columns do
       column do
         if payment.invoice_id?
-          panel auto_link(payment.invoice), action: icon_file_link(:pdf, pdf_invoice_path(payment.invoice), target: "_blank") do
+          panel auto_link(payment.invoice), icon: "eye", action: icon_file_link(:pdf, pdf_invoice_path(payment.invoice), target: "_blank") do
             div class: "p-2" do
               link_to_invoice_pdf(payment.invoice) do
                 render "invoice_preview", invoice: payment.invoice
@@ -123,7 +123,7 @@ ActiveAdmin.register Payment do
             end
           end
         else
-          panel Invoice.model_name.human do
+          panel Invoice.model_name.human, icon: "eye" do
             div class: "missing-data" do
               t(".no_invoice")
             end
@@ -131,7 +131,7 @@ ActiveAdmin.register Payment do
         end
       end
       column do
-        panel t(".details") do
+        panel t(".details"), icon: "notebook-text" do
           attributes_table do
             row :id
             row :member

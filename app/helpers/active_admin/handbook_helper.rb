@@ -21,7 +21,7 @@ module ActiveAdmin::HandbookHelper
         arbre.input type: :hidden, name: :page, value: current_page
         arbre.div class: "relative mb-3" do
           arbre.div class: "pointer-events-none absolute inset-y-0 left-0 flex items-center pl-2.5" do
-            icon "magnifying-glass", class: "size-4 text-gray-400 dark:text-gray-500"
+            icon "search", class: "size-4 text-gray-400 dark:text-gray-500"
           end
           arbre.input type: :text, name: :q,
             placeholder: I18n.t("active_admin.shared.sidebar_section.search_placeholder"),

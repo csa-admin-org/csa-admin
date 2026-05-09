@@ -161,7 +161,7 @@ ActiveAdmin.register ActivityParticipation do
                     form: { class: "flex justify-center", data: { controller: "disable", disable_with_value: "..." } },
                     data: { confirm: t("active_admin.resource.show.clear_activity_participations_demanded_confirm", year: fy.to_s, count: missing_count) },
                     class: "text-gray-400 dark:text-gray-600 hover:text-green-500 cursor-pointer" do
-                      icon("x-circle", class: "size-6")
+                      icon("circle-x", class: "size-6")
                     end
                   end
               end
@@ -216,7 +216,7 @@ ActiveAdmin.register ActivityParticipation do
   show do |ap|
     columns do
       column do
-        panel ActivityParticipation.human_attribute_name(:contact) do
+        panel ActivityParticipation.human_attribute_name(:contact), icon: "contact-round" do
           attributes_table do
             row :member
             row(:email) { display_emails_with_link(self, ap.session&.email) }
@@ -225,7 +225,7 @@ ActiveAdmin.register ActivityParticipation do
         end
 
         if ap.carpooling?
-          panel t(".carpooling") do
+          panel t(".carpooling"), icon: "car" do
             attributes_table do
               row(:phone) { display_phones_with_link(self, ap.carpooling_phone) }
               row(:carpooling_city) { ap.carpooling_city }
@@ -234,13 +234,13 @@ ActiveAdmin.register ActivityParticipation do
         end
 
         if ap.note?
-          panel ActivityParticipation.human_attribute_name(:note) do
+          panel ActivityParticipation.human_attribute_name(:note), icon: "message-square-text" do
             note_panel ap.note, reply: ap.note_reply_args
           end
         end
 
         if ap.invoices.any?
-          panel t(".billing") do
+          panel t(".billing"), icon: "banknotes" do
             attributes_table do
               row(:invoiced_at) { auto_link ap.invoices.first, l(ap.invoices.first.date) }
             end
@@ -248,7 +248,7 @@ ActiveAdmin.register ActivityParticipation do
         end
       end
       column do
-        panel t(".details") do
+        panel t(".details"), icon: "notebook-text" do
           attributes_table do
             row(:activity) { link_to ap.activity.name, activity_participations_path(q: { activity_id_eq: ap.activity_id }, scope: :all) }
             row(:membership) {
@@ -266,7 +266,7 @@ ActiveAdmin.register ActivityParticipation do
 
 
         if ap.validated? || ap.rejected?
-          panel ActivityParticipation.human_attribute_name(:state) do
+          panel ActivityParticipation.human_attribute_name(:state), icon: "circle-check-big" do
             attributes_table do
               row :validator
               if ap.validated?

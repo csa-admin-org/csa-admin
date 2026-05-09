@@ -17,7 +17,7 @@ ActiveAdmin.register Support::Ticket do
     end
 
     f.actions do
-      f.action :submit, label: t("active_admin.resources.support/ticket.submit"), icon: "paper-airplane"
+      f.action :submit, label: t("active_admin.resources.support/ticket.submit"), icon: "send-horizontal"
     end
   end
 

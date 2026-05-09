@@ -157,7 +157,7 @@ ActiveAdmin.register Invoice do
         url: invoices_path(scope: "open", q: { sepa_eq: true }))
       div class: "mt-3 flex justify-center" do
         link_to sepa_pain_all_invoices_path(params.permit(:scope, q: {})), class: "btn btn-sm", title: Billing::SEPADirectDebit::SCHEMA,  data: { turbo: false } do
-          icon("document-arrow-down", class: "size-4 mr-2") + t(".sepa_pain")
+          icon("file-down", class: "size-4 mr-2") + t(".sepa_pain")
         end
       end
     end
@@ -175,7 +175,7 @@ ActiveAdmin.register Invoice do
       if authorized?(:create, Invoice)
         div class: "mt-3 " do
           panel_button t(".send_overdue_notices"), send_overdue_notices_invoices_path,
-            icon: "paper-airplane",
+            icon: "send-horizontal",
             form: { class: "flex justify-center", data: { disable_with_value: t(".sending") } }
         end
       end
@@ -193,7 +193,7 @@ ActiveAdmin.register Invoice do
   show do |invoice|
     columns do
       column do
-        panel link_to(t(".direct_payments"), payments_path(q: { invoice_id_eq: invoice.id, member_id_eq: invoice.member_id }, scope: :all)), count: invoice.payments.count do
+        panel link_to(t(".direct_payments"), payments_path(q: { invoice_id_eq: invoice.id, member_id_eq: invoice.member_id }, scope: :all)), icon: "banknotes", count: invoice.payments.count do
           payments = invoice.payments.order(:date)
           if payments.none?
             div(class: "missing-data") { t(".no_payments") }
@@ -206,7 +206,7 @@ ActiveAdmin.register Invoice do
           end
         end
         if invoice.items.any?
-          panel InvoiceItem.model_name.human(count: 2), count: invoice.items.count do
+          panel InvoiceItem.model_name.human(count: 2), icon: "receipt-text", count: invoice.items.count do
             table_for(invoice.items, class: "table-auto") do
               column(:description) { |ii| ii.description }
               column(:amount, class: "text-right tabular-nums") { |ii| ccur(ii, :amount) }
@@ -214,13 +214,13 @@ ActiveAdmin.register Invoice do
           end
         end
         if invoice.processing?
-          panel "PDF", data: { controller: "auto-refresh" } do
+          panel "PDF", icon: "eye", data: { controller: "auto-refresh" } do
             div class: "p-2" do
               render "invoice_preview", invoice: invoice
             end
           end
         else
-          panel "PDF", action: icon_file_link(:pdf, pdf_invoice_path(invoice), target: "_blank") do
+          panel "PDF", icon: "eye", action: icon_file_link(:pdf, pdf_invoice_path(invoice), target: "_blank") do
             div class: "p-2" do
               link_to_invoice_pdf(invoice) do
                 render "invoice_preview", invoice: invoice
@@ -231,7 +231,7 @@ ActiveAdmin.register Invoice do
       end
 
       column do
-        panel t(".details") do
+        panel t(".details"), icon: "notebook-text" do
           attributes_table do
             row :id
             row :member
@@ -266,7 +266,7 @@ ActiveAdmin.register Invoice do
           end
         end
 
-        panel Invoice.human_attribute_name(:amount) do
+        panel Invoice.human_attribute_name(:amount), icon: "receipt-text" do
           attributes_table do
             if invoice.amount_percentage?
               row(:amount_before_percentage, class: "tabular-nums text-right") { ccur(invoice, :amount_before_percentage) }
@@ -280,7 +280,7 @@ ActiveAdmin.register Invoice do
 
         if invoice.sepa?
           sepa_mandate = invoice.sepa_mandate
-          panel "SEPA", action: sepa_mandate_panel_actions(sepa_mandate) do
+          panel "SEPA", icon: "banknotes", action: sepa_mandate_panel_actions(sepa_mandate) do
             attributes_table do
               row(Invoice.human_attribute_name(:sepa_debtor_name)) { invoice.sepa_debtor_name }
               row(:iban) { sepa_mandate.iban_formatted }
@@ -314,13 +314,13 @@ ActiveAdmin.register Invoice do
             elsif invoice.open?
               div class: "mt-4 mb-2 flex items-center justify-center" do
                 link_to sepa_pain_invoice_path(invoice), class: "btn btn-sm", title: Billing::SEPADirectDebit::SCHEMA, data: { turbo: false } do
-                  icon("document-arrow-down", class: "size-4 me-1.5") + t(".sepa_pain")
+                  icon("file-down", class: "size-4 me-1.5") + t(".sepa_pain")
                 end
               end
             end
           end
         else
-          panel Invoice.human_attribute_name(:overdue_notices_count), count: invoice.overdue_notices_count do
+          panel Invoice.human_attribute_name(:overdue_notices_count), icon: "mail-warning", count: invoice.overdue_notices_count do
             attributes_table do
               row(:overdue_notice_sent_at) { l invoice.overdue_notice_sent_at if invoice.overdue_notice_sent_at }
             end
@@ -343,12 +343,12 @@ ActiveAdmin.register Invoice do
     shares_number = [ resource.shares_number, resource.member.shares_number ].min
     action_link t(".refund"),
       new_invoice_path(member_id: resource.member_id, shares_number: -shares_number, anchor: "share"),
-      icon: "receipt-refund"
+      icon: "undo-2"
   end
 
   action_item :send_email, only: :show, if: -> { authorized?(:send_email, resource) } do
     action_button t(".send_email"), send_email_invoice_path(resource),
-      icon: "paper-airplane"
+      icon: "send-horizontal"
   end
 
   action_item :mark_as_sent, only: :show, if: -> { authorized?(:mark_as_sent, resource) } do
@@ -367,7 +367,7 @@ ActiveAdmin.register Invoice do
   action_item :cancel_and_edit_shop_order, only: :show, if: -> { resource.shop_order_type? && authorized?(:cancel, resource.entity) } do
     action_button t(".cancel_and_edit_shop_order"), cancel_shop_order_path(resource.entity),
       data: { confirm: t(".cancel_action_confirm") },
-      icon: "pencil-square"
+      icon: "square-pen"
   end
 
   action_item :pdf, only: :show, if: -> { resource.processed? } do

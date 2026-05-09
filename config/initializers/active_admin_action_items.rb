@@ -46,7 +46,7 @@ ActiveAdmin.before_load do |app|
         def add_default_edit_action_item
           add_action_item :edit, only: :show, if: -> { edit_action_authorized?(resource) } do
             localizer = ActiveAdmin::Localizers.resource(active_admin_config)
-            action_link localizer.t(:edit_model), edit_resource_path(resource), icon: "pencil-square"
+            action_link localizer.t(:edit_model), edit_resource_path(resource), icon: "square-pen"
           end
         end
 

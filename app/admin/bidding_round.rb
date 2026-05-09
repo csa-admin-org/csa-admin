@@ -99,7 +99,7 @@ ActiveAdmin.register BiddingRound do
       end
 
       column do
-        panel t(".details"), action: handbook_icon_link("bidding_round") do
+        panel t(".details"), icon: "notebook-text", action: handbook_icon_link("bidding_round") do
           attributes_table do
             row(:created_at)
             unless bidding_round.draft?
@@ -108,7 +108,7 @@ ActiveAdmin.register BiddingRound do
             end
           end
         end
-        panel BiddingRound.human_attribute_name(:information_text) do
+        panel BiddingRound.human_attribute_name(:information_text), icon: "info" do
           div class: "px-2 mb-2" do
             para bidding_round.information_text
           end

@@ -143,7 +143,7 @@ ActiveAdmin.register BasketContent do
 
     settings_action = if authorized?(:update, Organization)
       link_to edit_organization_path(anchor: "basket_content"), title: t("#{t_scope}.settings") do
-        icon "adjustments-horizontal", class: "size-6 mt-0.5"
+        icon "sliders-horizontal", class: "size-5"
       end
     end
 

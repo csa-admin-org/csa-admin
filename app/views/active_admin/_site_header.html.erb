@@ -3,7 +3,7 @@
     class="mx-auto flex max-w-7xl flex-wrap items-center justify-between py-2"
     data-controller="nav-toggle"
   >
-    <div class="order-1 flex grow pl-4 md:hidden">
+    <div class="order-1 flex grow pl-3 md:hidden">
       <button
         type="button"
         class="
@@ -15,7 +15,7 @@
         data-action="nav-toggle#toggle"
         aria-expanded="false"
       >
-        <%= icon "bars-3", class: "size-9" %>
+        <%= icon "menu", class: "size-8" %>
         <span class="sr-only">Open main menu</span>
       </button>
     </div>
@@ -96,7 +96,7 @@
       </ul>
     </nav>
 
-    <div class="order-2 ms-auto flex space-x-1 pe-4 md:order-3">
+    <div class="order-2 ms-auto flex pe-3 md:order-3 md:pe-4">
       <%= render "search/modal" %>
 
       <% if Update.unread_count(current_active_admin_user).positive? %>
@@ -113,7 +113,7 @@
 
           <div
             class="
-              absolute inset-e-1 top-1 size-2 rounded-full bg-red-500
+              absolute inset-e-1.5 top-1 size-2 rounded-full bg-red-500
               text-xs font-semibold dark:border-gray-900
             "
           ></div>
@@ -142,7 +142,7 @@
             dark:text-black/50! dark:hover:text-black!
           "
         >
-          <%= icon "adjustments-horizontal", class: "size-6" %>
+          <%= icon "sliders-horizontal", class: "size-5" %>
         </a>
       <% end %>
 

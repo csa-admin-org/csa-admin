@@ -117,13 +117,13 @@ ActiveAdmin.register MailDelivery do
     columns do
       column "data-controller" => "iframe" do
         if delivery.processing?
-          panel t(".preview"), data: { controller: "auto-refresh" } do
+          panel t(".preview"), icon: "eye", data: { controller: "auto-refresh" } do
             div class: "flex min-h-96 items-center justify-center" do
               render "shared/spinner"
             end
           end
         else
-          panel t(".preview") do
+          panel t(".preview"), icon: "eye" do
             preview =
               if delivery.draft? && delivery.newsletter?
                 delivery.source.mail_preview(delivery.member.language)
@@ -145,7 +145,7 @@ ActiveAdmin.register MailDelivery do
         end
       end
       column do
-        panel t(".details") do
+        panel t(".details"), icon: "notebook-text" do
           attributes_table do
             row(:id)
             row(:member) { auto_link(delivery.member) }
@@ -160,7 +160,7 @@ ActiveAdmin.register MailDelivery do
         end
         if delivery.newsletter?
           nl = delivery.source
-          panel link_to(Newsletter.model_name.human, nl), action: handbook_icon_link("newsletters", anchor: "subscribe") do
+          panel link_to(Newsletter.model_name.human, nl), icon: "mail", action: handbook_icon_link("newsletters", anchor: "subscribe") do
             attributes_table do
               row(:from) { nl.from || Current.org.email_default_from }
               row(:audience) { nl.audience_name }
@@ -169,13 +169,13 @@ ActiveAdmin.register MailDelivery do
           end
         else
           mt = delivery.source
-          panel link_to(MailTemplate.model_name.human, mt) do
+          panel link_to(MailTemplate.model_name.human, mt), icon: "mail" do
             div class: "mx-2 mb-2" do
               para mt.description, class: "text-base description"
             end
           end
         end
-        panel t(".recipients") do
+        panel t(".recipients"), icon: "users" do
           if delivery.draft?
             member_emails = delivery.member.emails_array
             if member_emails.empty?
@@ -253,7 +253,7 @@ ActiveAdmin.register MailDelivery do
         end
 
         if delivery.show_missing_emails?
-          panel t(".missing_deliveries") do
+          panel t(".missing_deliveries"), icon: "triangle-alert" do
             div(class: "grid gap-y-2") do
               delivery.missing_emails.each do |email|
                 div(class: "flex flex-wrap items-center justify-start mx-2 gap-2") do

@@ -3,7 +3,7 @@
 class InfoPane < ActiveAdmin::Component
   builder_method :info_pane
 
-  def build(icon_name = "information-circle", *args)
+  def build(icon_name = "info", *args)
     args = args.extract_options!
     add_class args.delete(:class) if args.key?(:class)
     super(*args)

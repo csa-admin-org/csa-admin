@@ -3,7 +3,7 @@ mail_deliveries_count = mail_deliveries.count
 
 if mail_deliveries_count > 0
   all_path = mail_deliveries_path(mailable_type: mailable.class.name, mailable_id: mailable.id)
-  panel link_to(t("active_admin.resource.show.email_deliveries"), all_path), count: mail_deliveries_count do
+  panel link_to(t("active_admin.resource.show.email_deliveries"), all_path), icon: "mails", count: mail_deliveries_count do
     table_for(mail_deliveries.limit(4), class: "table-auto table-mail-deliveries") do
       column(:subject, sortable: false) { |d|
         auto_link d, (d.subject || d.source&.display_name)
