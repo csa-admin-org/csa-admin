@@ -38,7 +38,7 @@ ActiveAdmin.register Announcement do
       end
     end
 
-    f.inputs t(".details") do
+    f.inputs t(".details"), icon: "notebook-text" do
       translated_input(f, :texts,
         as: :text,
         input_html: { rows: 4, cols: 32 },

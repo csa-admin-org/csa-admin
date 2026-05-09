@@ -33,7 +33,7 @@ ActiveAdmin.register Admin do
     if f.object.new_record?
       para t(".admin_invitation"), class: "m-0 pt-0 pb-4 text-base"
     end
-    f.inputs t(".details") do
+    f.inputs t(".details"), icon: "notebook-text" do
       f.input :name
       f.input :email
       f.input :language,

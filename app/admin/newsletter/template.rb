@@ -37,7 +37,7 @@ ActiveAdmin.register Newsletter::Template do
     code_editor_preview_path_value: "/newsletter_templates/preview.js"
   } do |f|
     newsletter_template = f.object
-    f.inputs t(".details") do
+    f.inputs t(".details"), icon: "notebook-text" do
       translated_input(f, :titles)
       translated_input(f, :contents,
         as: :text,

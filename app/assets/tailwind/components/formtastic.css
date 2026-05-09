@@ -67,12 +67,16 @@
     }
 
     .fieldset-title {
-      @apply absolute top-3 bg-transparent pb-4 text-xl font-extralight;
+      @apply absolute top-3 flex items-center gap-2 bg-transparent pb-4 text-xl font-extralight;
     }
 
     .fieldset-title,
     .has-many-fields-title {
-      @apply mb-3 block w-full border-none text-lg font-bold;
+      @apply mb-3 w-full border-none text-lg font-bold;
+    }
+
+    .fieldset-title-icon {
+      @apply flex items-center opacity-50;
     }
 
     li.subtitle {

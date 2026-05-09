@@ -35,11 +35,11 @@ ActiveAdmin.register BasketSize do
   end
 
   form do |f|
-    f.inputs t(".details") do
+    f.inputs t(".details"), icon: "notebook-text" do
       render partial: "public_name", locals: { f: f, resource: resource, context: self }
     end
 
-    f.inputs t(".billing") do
+    f.inputs t(".billing"), icon: "banknotes" do
       price_hint = []
       price_hint << t("formtastic.hints.basket_size.price") if f.object.persisted?
       price_hint << t("formtastic.hints.basket_size.price_zero")
@@ -59,7 +59,7 @@ ActiveAdmin.register BasketSize do
       end
     end
 
-    f.inputs t("active_admin.resources.basket_size.edit.availability") do
+    f.inputs t("active_admin.resources.basket_size.edit.availability"), icon: "calendar-range" do
       para t("active_admin.resources.basket_size.edit.availability_hint"), class: "description -mt-2 mb-4"
       div class: "single-line" do
         f.input :first_cweek,
@@ -75,7 +75,7 @@ ActiveAdmin.register BasketSize do
       end
     end
 
-    f.inputs t("active_admin.resource.show.member_new_form") do
+    f.inputs t("active_admin.resource.show.member_new_form"), icon: "form" do
       f.input :visible, as: :select, include_blank: false
       f.input :member_order_priority,
         collection: member_order_priorities_collection,

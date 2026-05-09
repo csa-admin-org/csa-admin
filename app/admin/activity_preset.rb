@@ -34,7 +34,7 @@ ActiveAdmin.register ActivityPreset do
   end
 
   form do |f|
-    f.inputs t(".details") do
+    f.inputs t(".details"), icon: "notebook-text" do
       translated_input(f, :titles,
         placeholder: ->(locale) { I18n.t("formtastic.placeholders.activity_preset.title", locale: locale) })
       translated_input(f, :places,

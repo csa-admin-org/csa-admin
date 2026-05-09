@@ -175,7 +175,7 @@ ActiveAdmin.register Payment do
   end
 
   form do |f|
-    f.inputs t(".details") do
+    f.inputs t(".details"), icon: "notebook-text" do
       if f.object.invoice_id?
         f.input :member_id, as: :hidden
       end

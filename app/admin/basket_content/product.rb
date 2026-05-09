@@ -73,11 +73,11 @@ class BasketContent
     end
 
     form do |f|
-      f.inputs t(".details") do
+      f.inputs t(".details"), icon: "notebook-text" do
         translated_input(f, :names)
         f.input :url, hint: t("formtastic.hints.basket_content/product.url")
       end
-      f.inputs t(".defaults") do
+      f.inputs t(".defaults"), icon: "sliders-horizontal" do
         para t("formtastic.hints.basket_content/product.defaults_intro"), class: "description -mt-2 mb-4"
         div class: "single-line" do
           f.input :default_unit,

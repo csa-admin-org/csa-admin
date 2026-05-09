@@ -148,7 +148,7 @@ ActiveAdmin.register Newsletter do
       t("newsletters.auto_save_recovered")
     end
     f.semantic_errors :base
-    f.inputs t(".details") do
+    f.inputs t(".details"), icon: "notebook-text" do
       f.input :id, as: :hidden
       translated_input(f, :subjects,
         hint: t("formtastic.hints.liquid_html"),
@@ -157,7 +157,7 @@ ActiveAdmin.register Newsletter do
         })
     end
 
-    f.inputs MailDelivery.model_name.human(count: 2) do
+    f.inputs MailDelivery.model_name.human(count: 2), icon: "send-horizontal" do
       f.input :audience, collection: newsletter_audience_collection(f.object), prompt: true
 
       f.input :from,
@@ -168,11 +168,11 @@ ActiveAdmin.register Newsletter do
       f.input :scheduled_at, as: :date_picker, input_html: { min: Date.tomorrow }
     end
 
-    f.inputs Attachment.model_name.human(count: 2) do
+    f.inputs Attachment.model_name.human(count: 2), icon: "paperclip" do
       render partial: "active_admin/attachments/form", locals: { f: f }
     end
 
-    f.inputs t(".content") do
+    f.inputs t(".content"), icon: "notebook-pen" do
       f.input :template,
         prompt: true,
         include_blank: false,

@@ -29,12 +29,12 @@ ActiveAdmin.register Permission do
   end
 
   form do |f|
-    f.inputs t(".details") do
+    f.inputs t(".details"), icon: "notebook-text" do
       translated_input(f, :names)
     end
 
     f.semantic_fields_for :rights do |fr|
-      f.inputs Permission.human_attribute_name(:rights) do
+      f.inputs Permission.human_attribute_name(:rights), icon: "key" do
         features = Permission.editable_features
         features.sort_by { |f| feature_name(f) }.each do |feature|
           fr.input feature,
@@ -47,7 +47,7 @@ ActiveAdmin.register Permission do
       end
     end
     f.semantic_fields_for :rights do |fr|
-      f.inputs Permission.human_attribute_name(:superadmin_rights) do
+      f.inputs Permission.human_attribute_name(:superadmin_rights), icon: "key" do
         Permission.superadmin_features.sort_by { |f| feature_name(f) }.each do |feature|
           fr.input feature,
             label: feature_name(feature),

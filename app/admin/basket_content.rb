@@ -201,13 +201,13 @@ ActiveAdmin.register BasketContent do
   end
 
   form data: { controller: "basket-content-products-select" } do |f|
-    f.inputs t(".details") do
+    f.inputs t(".details"), icon: "notebook-text" do
       f.input :delivery,
         collection: grouped_by_date(Delivery, past: :first),
         required: true,
         prompt: true
     end
-    f.inputs BasketContent.human_attribute_name(:content) do
+    f.inputs BasketContent.human_attribute_name(:content), icon: "sprout" do
       f.input :product,
         input_html: {
           data: {

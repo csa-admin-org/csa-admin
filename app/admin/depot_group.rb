@@ -30,11 +30,11 @@ ActiveAdmin.register DepotGroup do
   end
 
   form do |f|
-    f.inputs t(".details") do
+    f.inputs t(".details"), icon: "notebook-text" do
       render partial: "public_name", locals: { f: f, resource: resource, context: self }
     end
 
-    f.inputs t("active_admin.resource.show.member_new_form") do
+    f.inputs t("active_admin.resource.show.member_new_form"), icon: "form" do
       translated_input(f, :information_texts,
         as: :action_text,
         required: false,

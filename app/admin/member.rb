@@ -559,7 +559,7 @@ ActiveAdmin.register Member do
   end
 
   form do |f|
-    f.inputs Member.human_attribute_name(:contact) do
+    f.inputs Member.human_attribute_name(:contact), icon: "contact-round" do
       f.input :name
       f.input :emails, as: :string
       f.input :phones, as: :string
@@ -578,7 +578,7 @@ ActiveAdmin.register Member do
     end
 
     if member.pending? || member.waiting?
-      f.inputs t("active_admin.resource.show.waiting_membership") do
+      f.inputs t("active_admin.resource.show.waiting_membership"), icon: "clock" do
         f.input :waiting_basket_size,
           label: BasketSize.model_name.human,
           collection: admin_basket_sizes_collection,
@@ -635,7 +635,7 @@ ActiveAdmin.register Member do
       end
     end
     if feature?("shop") && !member.current_or_future_membership
-      f.inputs t("shop.title") do
+      f.inputs t("shop.title"), icon: "shopping-basket" do
         f.input :shop_depot,
           label: Depot.model_name.human,
           required: false,
@@ -643,7 +643,7 @@ ActiveAdmin.register Member do
       end
     end
 
-    f.inputs t("active_admin.resource.show.billing"), data: { controller: "visibility" } do
+    f.inputs t("active_admin.resource.show.billing"), icon: "banknotes", data: { controller: "visibility" } do
       f.input :billing_email, type: :email, label: t(".email")
       f.input :different_billing_info, input_html: { data: { action: "visibility#toggle" } }
       ol class: "-mt-4 #{f.object.different_billing_info ? "" : "hidden"}", data: { "visibility-target" => "element" } do
@@ -665,7 +665,7 @@ ActiveAdmin.register Member do
     end
 
     if Current.org.sepa? && f.object.persisted?
-      f.inputs t("active_admin.resource.show.billing") + " (SEPA)" do
+      f.inputs t("active_admin.resource.show.billing") + " (SEPA)", icon: "banknotes" do
         current_mandate = f.object.current_sepa_mandate
         mandate_active = f.object.sepa?
 
@@ -696,13 +696,13 @@ ActiveAdmin.register Member do
     end
 
     if Current.org.annual_fee?
-      f.inputs t(".annual_fee") do
+      f.inputs t(".annual_fee"), icon: "calendar-sync" do
         f.input :annual_fee, label: Organization.human_attribute_name(:annual_fee)
       end
     end
 
     if Current.org.share?
-      f.inputs t(".shares") do
+      f.inputs t(".shares"), icon: "receipt-text" do
         f.input :existing_shares_number
         if member.shares_number.zero? || member.desired_shares_number.positive?
           f.input :desired_shares_number
@@ -716,7 +716,7 @@ ActiveAdmin.register Member do
       end
     end
 
-    f.inputs t("active_admin.resource.show.notes") do
+    f.inputs t("active_admin.resource.show.notes"), icon: "notepad-text" do
       f.input :profession
       f.input :come_from, input_html: { rows: 4 }
       f.input :delivery_note
@@ -725,7 +725,7 @@ ActiveAdmin.register Member do
     end
 
     if f.object.new_record? && MailTemplate.active_template(:member_validated).present?
-      f.inputs "Notifications" do
+      f.inputs "Notifications", icon: "mail-check" do
         f.input :send_validation_email,
           as: :boolean,
           label: t(".send_validation_email"),

@@ -35,7 +35,7 @@ ActiveAdmin.register Shop::Tag do
   end
 
   form do |f|
-    f.inputs t(".details") do
+    f.inputs t(".details"), icon: "notebook-text" do
       translated_input(f, :names)
       f.input :emoji, input_html: { data: { controller: "emoji-button", emoji_button_target: "button", action: "click->emoji-button#toggle" }, class: "emoji-button", size: 1 }
     end

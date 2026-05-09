@@ -45,7 +45,7 @@ ActiveAdmin.register BiddingRound do
       end
     end
 
-    f.inputs t(".details") do
+    f.inputs t(".details"), icon: "notebook-text" do
       f.input :title, input_html: { disabled: true }
 
       translated_input(f, :information_texts,

@@ -27,11 +27,11 @@ ActiveAdmin.register Newsletter::Segment do
   sidebar_handbook_link("newsletters")
 
   form do |f|
-    f.inputs t(".details") do
+    f.inputs t(".details"), icon: "notebook-text" do
       translated_input(f, :titles, required: true)
     end
 
-    f.inputs t("newsletters.segment.criterias") do
+    f.inputs t("newsletters.segment.criterias"), icon: "funnel" do
       f.input :membership_scope,
         as: :select,
         collection: Newsletter::Segment::MEMBERSHIP_SCOPES.map { |s|

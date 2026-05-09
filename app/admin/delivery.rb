@@ -184,7 +184,7 @@ ActiveAdmin.register Delivery do
       end
     end
 
-    f.inputs t(".billing") do
+    f.inputs t(".billing"), icon: "banknotes" do
       f.input :basket_size_price_percentage,
         as: :number,
         step: 1,
@@ -192,7 +192,7 @@ ActiveAdmin.register Delivery do
     end
 
     if feature?("shop")
-      f.inputs t("shop.title"), "data-controller" => "form-checkbox-toggler" do
+      f.inputs t("shop.title"), icon: "shopping-basket", "data-controller" => "form-checkbox-toggler" do
         f.input :shop_open,
           as: :boolean,
           input_html: { data: {
@@ -211,7 +211,7 @@ ActiveAdmin.register Delivery do
       end
     end
 
-    f.inputs t(".details") do
+    f.inputs t(".details"), icon: "notebook-text" do
       f.input :note, as: :text, input_html: { rows: 3 }
     end
 

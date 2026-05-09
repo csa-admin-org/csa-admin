@@ -192,7 +192,7 @@ ActiveAdmin.register Depot do
   end
 
   form do |f|
-    f.inputs t(".details") do
+    f.inputs t(".details"), icon: "notebook-text" do
       render partial: "public_name", locals: { f: f, resource: resource, context: self }
       f.input :group,
         as: :select,
@@ -204,7 +204,7 @@ ActiveAdmin.register Depot do
         hint: t("formtastic.hints.depot.public_note"))
     end
 
-    f.inputs t(".billing") do
+    f.inputs t(".billing"), icon: "banknotes" do
       f.input :price,
         min: 0,
         hint: true,
@@ -215,7 +215,7 @@ ActiveAdmin.register Depot do
         input_html: { placeholder: f.object.invoice_description })
     end
 
-    f.inputs Delivery.human_attribute_name(:sheets_pdf) do
+    f.inputs Delivery.human_attribute_name(:sheets_pdf), icon: "file-spreadsheet" do
       f.input :delivery_sheets_mode,
         as: :radio,
         required: false,
@@ -230,7 +230,7 @@ ActiveAdmin.register Depot do
         }
     end
 
-    f.inputs Admin.human_attribute_name(:notifications) do
+    f.inputs Admin.human_attribute_name(:notifications), icon: "mail-check" do
       f.input :emails, as: :string
       f.input :notify_days_before_delivery, as: :number, input_html: { min: 0 }
       language_input(f)
@@ -238,7 +238,7 @@ ActiveAdmin.register Depot do
       handbook_button(self, "deliveries", anchor: "depot-delivery-list-notifications")
     end
 
-    f.inputs t("active_admin.resource.show.member_new_form") do
+    f.inputs t("active_admin.resource.show.member_new_form"), icon: "form" do
       f.input :visible, as: :select, include_blank: false
       f.input :member_order_priority,
         collection: member_order_priorities_collection,
@@ -261,7 +261,7 @@ ActiveAdmin.register Depot do
       handbook_button(self, "registration", anchor: "depots")
     end
 
-    f.inputs Depot.human_attribute_name(:street) do
+    f.inputs Depot.human_attribute_name(:street), icon: "map" do
       f.input :address_name
       f.input :street
       div class: "single-line" do
@@ -270,7 +270,7 @@ ActiveAdmin.register Depot do
       end
     end
 
-    f.inputs Depot.human_attribute_name(:contact) do
+    f.inputs Depot.human_attribute_name(:contact), icon: "contact-round" do
       f.input :contact_name
       f.input :phones, as: :string
     end

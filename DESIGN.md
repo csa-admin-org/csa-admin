@@ -13,6 +13,31 @@ end
 The icon renders at half opacity (`opacity-50`) at `size-5`,
 lighter than the title so it doesn't feel heavy — it serves as a quick visual cue.
 
+## Form Input Icons
+
+Form fieldsets (`f.inputs`) also support the `icon:` option:
+
+```ruby
+f.inputs "Title", icon: "icon-name" do
+  f.input :field
+end
+```
+
+The icon renders the same way as panel icons — half opacity, `size-5`, before the
+fieldset legend. **Only titled fieldsets get icons** — bare `f.inputs do` blocks
+(no title string) should never receive an icon.
+
+When a fieldset also has extra options (e.g. `data:` or string-key attributes),
+place `icon:` before them:
+
+```ruby
+f.inputs "Title", icon: "icon-name", data: { controller: "..." } do
+f.inputs "Title", icon: "icon-name", "data-controller" => "..." do
+```
+
+The same icon mapping tables below apply to both panels and form fieldsets —
+use the same icon for the same concept everywhere.
+
 ### Icon Mapping
 
 All icons are sourced from [Lucide](https://lucide.dev), stored as SVGs in
@@ -84,7 +109,7 @@ Two icons in `app/assets/images/icons/` are **not** from Lucide:
 2. Copy the SVG from the local Lucide clone (`lucide/icons/{name}.svg`)
 3. Save it in `app/assets/images/icons/{name}.svg`
 4. Adjust `stroke-width` from `2` to `1.5` and remove the `class` attribute
-5. Use the icon via `icon("name")` helper or `panel "Title", icon: "name"`
+5. Use the icon via `icon("name")` helper, `panel "Title", icon: "name"`, or `f.inputs "Title", icon: "name"`
 
 ### Style Guidelines
 

@@ -8,7 +8,7 @@ module FormsHelper
         arbre.div class: "flex-1 min-w-lg max-w-full" do
           title = I18n.t("active_admin.resource.form.preview")
           title += " (#{I18n.t("languages.#{locale}")})" if Current.org.languages.many?
-          form.inputs title do
+          form.inputs title, icon: "eye" do
             arbre.li class: "iframe-wrapper" do
               arbre.iframe(
                 srcdoc: record.mail_preview(locale),

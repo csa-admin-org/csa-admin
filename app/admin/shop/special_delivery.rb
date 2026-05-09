@@ -145,7 +145,7 @@ ActiveAdmin.register Shop::SpecialDelivery do
   end
 
   form do |f|
-    f.inputs t(".details") do
+    f.inputs t(".details"), icon: "notebook-text" do
       translated_input(f, :titles,
         required: false,
         placeholder: ->(locale) {
@@ -158,7 +158,7 @@ ActiveAdmin.register Shop::SpecialDelivery do
         hint: t("formtastic.hints.organization.shop_text"))
     end
 
-    f.inputs t(".opening"), data: { controller: "form-checkbox-toggler" } do
+    f.inputs t(".opening"), icon: "calendar-clock", data: { controller: "form-checkbox-toggler" } do
       f.input :open,
         hint: t("formtastic.hints.delivery.shop_open"),
         input_html: { data: {
@@ -182,7 +182,7 @@ ActiveAdmin.register Shop::SpecialDelivery do
         }
     end
 
-    f.inputs Shop::SpecialDelivery.human_attribute_name(:products), id: "products" do
+    f.inputs Shop::SpecialDelivery.human_attribute_name(:products), icon: "shopping-basket", id: "products" do
       Shop::Product
         .includes(:producer)
         .group_by(&:producer)

@@ -110,7 +110,7 @@ ActiveAdmin.register Absence do
   end
 
   form do |f|
-    f.inputs t(".details") do
+    f.inputs t(".details"), icon: "notebook-text" do
       f.input :member,
         collection: Member.joins(:memberships).distinct.order_by_name.map { |d| [ d.name, d.id ] },
         prompt: true,

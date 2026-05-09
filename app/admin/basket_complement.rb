@@ -48,11 +48,11 @@ ActiveAdmin.register BasketComplement do
   end
 
   form do |f|
-    f.inputs t(".details") do
+    f.inputs t(".details"), icon: "notebook-text" do
       render partial: "public_name", locals: { f: f, resource: resource, context: self }
     end
 
-    f.inputs t(".billing") do
+    f.inputs t(".billing"), icon: "banknotes" do
       f.input :price,
         min: 0,
         hint: f.object.persisted?,
@@ -66,14 +66,14 @@ ActiveAdmin.register BasketComplement do
       end
     end
 
-    f.inputs Admin.human_attribute_name(:notifications) do
+    f.inputs Admin.human_attribute_name(:notifications), icon: "mail-check" do
       f.input :emails, as: :string
       language_input(f)
 
       handbook_button(self, "deliveries", anchor: "complement-notifications")
     end
 
-    f.inputs t("active_admin.resource.show.member_new_form") do
+    f.inputs t("active_admin.resource.show.member_new_form"), icon: "form" do
       f.input :member_order_priority,
         collection: member_order_priorities_collection,
         as: :select,
@@ -93,7 +93,7 @@ ActiveAdmin.register BasketComplement do
       handbook_button(self, "registration", anchor: "basket-complements")
     end
 
-    f.inputs Delivery.model_name.human(count: 2) do
+    f.inputs Delivery.model_name.human(count: 2), icon: "calendar" do
       if Delivery.current_year.any?
         f.input :current_deliveries,
           label: Current.fiscal_year.to_s,

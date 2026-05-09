@@ -76,7 +76,7 @@ ActiveAdmin.register Basket do
         end
       end
 
-      f.inputs Delivery.model_name.human(count: 1), "data-controller" => "form-reset" do
+      f.inputs Delivery.model_name.human(count: 1), icon: "calendar", "data-controller" => "form-reset" do
         f.input :depot,
           prompt: true,
           input_html: { data: { action: "form-reset#reset" } }
@@ -98,7 +98,7 @@ ActiveAdmin.register Basket do
       f.inputs [
         Basket.model_name.human,
         BasketComplement.kept.any? ? Membership.human_attribute_name(:memberships_basket_complements) : nil
-      ].compact.to_sentence, "data-controller" => "form-reset" do
+      ].compact.to_sentence, icon: "shopping-bag", "data-controller" => "form-reset" do
         f.input :basket_size,
           prompt: true,
           collection: admin_basket_sizes_collection,

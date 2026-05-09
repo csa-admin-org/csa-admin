@@ -116,7 +116,7 @@ ActiveAdmin.register MailTemplate do
     code_editor_preview_path_value: "/mail_templates/preview.js",
     turbo: false
   } do |f|
-    f.inputs t(".settings") do
+    f.inputs t(".settings"), icon: "sliders-horizontal" do
       para f.object.description, class: "text-base description"
       f.input :title, as: :hidden
 

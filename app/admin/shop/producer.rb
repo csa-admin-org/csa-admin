@@ -38,7 +38,7 @@ ActiveAdmin.register Shop::Producer do
   sidebar_handbook_link("shop#producers")
 
   form do |f|
-    f.inputs t(".details") do
+    f.inputs t(".details"), icon: "notebook-text" do
       f.input :name
       f.input :website_url
       translated_input(f, :descriptions,

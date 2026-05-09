@@ -182,7 +182,7 @@ ActiveAdmin.register Shop::Order do
     f.semantic_errors :base
     f.semantic_errors :amount
 
-    f.inputs t(".details") do
+    f.inputs t(".details"), icon: "notebook-text" do
       f.input :member, collection: members_collection, prompt: true
       f.input :delivery_gid,
         label: Delivery.model_name.human,
@@ -222,7 +222,7 @@ ActiveAdmin.register Shop::Order do
       f.semantic_errors :items
     end
 
-    f.inputs Attachment.model_name.human(count: 2) do
+    f.inputs Attachment.model_name.human(count: 2), icon: "paperclip" do
       f.para t(".invoice_attachments_html")
       render partial: "active_admin/attachments/form", locals: { f: f }
     end

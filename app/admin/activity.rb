@@ -71,7 +71,7 @@ ActiveAdmin.register Activity do
   form do |f|
     render partial: "bulk_dates", locals: { f: f, resource: resource, context: self }
 
-    f.inputs t("formtastic.inputs.period") do
+    f.inputs t("formtastic.inputs.period"), icon: "calendar-days" do
       div class: "single-line" do
         f.input :start_time,
           as: :time_picker,
@@ -81,7 +81,7 @@ ActiveAdmin.register Activity do
           input_html: { value: f.object.end_time&.strftime("%H:%M") || "12:00" }
       end
     end
-    f.inputs t("formtastic.inputs.place_and_title"), "data-controller" => "preset" do
+    f.inputs t("formtastic.inputs.place_and_title"), icon: "map", "data-controller" => "preset" do
       if f.object.new_record? && ActivityPreset.any?
         activity_preset_collection = ActivityPreset.all.map { |preset|
           [
@@ -114,7 +114,7 @@ ActiveAdmin.register Activity do
         placeholder: ->(locale) { I18n.t("formtastic.placeholders.activity.place_url", locale: locale) },
         input_html: { disabled: preset_present, data: { preset_target: "input", preset_attribute: "place_urls" } })
     end
-    f.inputs t(".details") do
+    f.inputs t(".details"), icon: "notebook-text" do
       f.input :participants_limit, as: :number
       f.input :visible, as: :select, include_blank: false
       translated_input(f, :descriptions, as: :text, required: false, input_html: { rows: 4 })

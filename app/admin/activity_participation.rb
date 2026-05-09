@@ -194,7 +194,7 @@ ActiveAdmin.register ActivityParticipation do
   sidebar_handbook_link("activity#participations")
 
   form do |f|
-    f.inputs t(".details") do
+    f.inputs t(".details"), icon: "notebook-text" do
       f.input :activity,
         collection: grouped_by_date(Activity),
         prompt: true

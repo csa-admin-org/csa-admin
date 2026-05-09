@@ -164,11 +164,11 @@ ActiveAdmin.register DeliveryCycle do
       end
     end
 
-    f.inputs t(".details") do
+    f.inputs t(".details"), icon: "notebook-text" do
       render partial: "public_name", locals: { f: f, resource: resource, context: self }
     end
 
-    f.inputs t("active_admin.resource.show.member_new_form") do
+    f.inputs t("active_admin.resource.show.member_new_form"), icon: "form" do
       f.input :member_order_priority,
         collection: member_order_priorities_collection,
         as: :select,
@@ -197,7 +197,7 @@ ActiveAdmin.register DeliveryCycle do
     end
 
     if feature?("absence")
-      f.inputs t(".billing") do
+      f.inputs t(".billing"), icon: "banknotes" do
         f.input :price,
           min: 0,
           hint: true,
@@ -211,7 +211,7 @@ ActiveAdmin.register DeliveryCycle do
       end
     end
 
-    f.inputs t("delivery_cycle.settings") do
+    f.inputs t("delivery_cycle.settings"), icon: "sliders-horizontal" do
       para t("formtastic.hints.delivery_cycle.settings_intro"), class: "description -mt-2 mb-4"
       f.input :wdays,
         as: :check_boxes,
@@ -248,7 +248,7 @@ ActiveAdmin.register DeliveryCycle do
       handbook_button(self, "deliveries", anchor: "settings")
     end
 
-    f.inputs DeliveryCycle::Period.model_name.human(count: 2) do
+    f.inputs DeliveryCycle::Period.model_name.human(count: 2), icon: "calendar-days" do
       para t("formtastic.hints.delivery_cycle.periods_intro"), class: "description -mt-2 mb-4"
       f.semantic_errors :periods
       f.has_many :periods, allow_destroy: true, new_record: t("delivery_cycle.add_period"), heading: nil do |ff|

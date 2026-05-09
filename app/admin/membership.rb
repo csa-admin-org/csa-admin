@@ -695,7 +695,7 @@ ActiveAdmin.register Membership do
 
   form do |f|
     f.semantic_errors :base
-    f.inputs t(".details") do
+    f.inputs t(".details"), icon: "notebook-text" do
       f.input :member,
         collection: members_collection,
         prompt: true
@@ -706,13 +706,13 @@ ActiveAdmin.register Membership do
     end
 
     if Current.org.annual_fee? && f.object.canceled?
-      f.inputs Membership.human_attribute_name(:renew) do
+      f.inputs Membership.human_attribute_name(:renew), icon: "refresh-cw" do
         f.input :renewal_annual_fee
       end
     end
 
     if feature?("activity")
-      f.inputs activities_human_name, "data-controller" => "form-reset" do
+      f.inputs activities_human_name, icon: "handshake", "data-controller" => "form-reset" do
         div class: "panel-actions" do
           handbook_icon_link("activity")
         end
@@ -727,7 +727,7 @@ ActiveAdmin.register Membership do
       end
     end
 
-    f.inputs t(".billing") do
+    f.inputs t(".billing"), icon: "banknotes" do
       f.input :billing_year_division,
         as: :select,
         collection: billing_year_divisions_collection,
@@ -748,7 +748,7 @@ ActiveAdmin.register Membership do
         f.input :new_config_from, as: :date_picker, required: true
       end
     end
-    f.inputs Delivery.model_name.human(count: 2) do
+    f.inputs Delivery.model_name.human(count: 2), icon: "calendar" do
        ol "data-controller" => "form-reset" do
         f.input :depot,
           collection: admin_depots_collection,
@@ -819,7 +819,7 @@ ActiveAdmin.register Membership do
     f.inputs [
       Basket.model_name.human,
       BasketComplement.kept.any? ? Membership.human_attribute_name(:memberships_basket_complements) : nil
-    ].compact.to_sentence, "data-controller" => "form-reset" do
+    ].compact.to_sentence, icon: "shopping-bag", "data-controller" => "form-reset" do
       f.input :basket_size,
         collection: admin_basket_sizes_collection,
         prompt: true,
