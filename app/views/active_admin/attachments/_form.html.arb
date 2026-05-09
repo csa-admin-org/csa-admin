@@ -1,6 +1,9 @@
 f.has_many :attachments, allow_destroy: true, heading: "" do |a|
     if a.object.persisted?
       content_tag :span, display_attachment(a.object.file), class: "filename"
+    elsif a.object.file.attached?
+      a.input :file, as: :hidden, input_html: { value: a.object.file.signed_id }
+      a.template.concat(a.template.content_tag(:span, a.object.file.filename.to_s, class: "filename"))
     else
       a.input :file, as: :file, input_html: { direct_upload: true }
     end
