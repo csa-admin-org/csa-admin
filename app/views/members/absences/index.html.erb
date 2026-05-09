@@ -34,7 +34,12 @@
       <%= f.input :note, input_html: { rows: 2 } %>
     </div>
 
-    <div class="actions"><%= f.button :submit, t(".submit") %></div>
+    <div class="actions">
+      <%= button_tag type: "submit" do %>
+        <%= icon "check", class: "size-5" %>
+        <span><%= t(".submit") %></span>
+      <% end %>
+    </div>
   <% end %>
 
   <% absences_included = current_member.current_or_future_membership&.absences_included %>

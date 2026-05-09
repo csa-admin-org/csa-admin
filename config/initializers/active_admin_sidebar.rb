@@ -8,7 +8,7 @@ ActiveAdmin.before_load do |app|
           div class: "flex justify-center" do
             a href: "/handbook/#{page}", class: "btn btn-sm btn-light" do
               span do
-                icon "book-open", class: "size-4 me-2"
+                icon "book-open", class: "size-4"
               end
               span do
                 t("active_admin.site_footer.handbook")

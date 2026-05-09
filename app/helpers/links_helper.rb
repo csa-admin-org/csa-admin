@@ -27,7 +27,7 @@ module LinksHelper
 
   def form_submit_tag(label, icon: "check", icon_class: nil, **options)
     icon_name = icon
-    icon_class ||= "size-5 -ms-1 me-2"
+    icon_class ||= "size-5"
     options[:type] ||= :submit
     content_tag(:button, **options) do
       icon(icon_name, class: icon_class) + label
@@ -37,14 +37,14 @@ module LinksHelper
   def action_link(name, url, icon: nil, **options)
     link_to url, class: "h-9 action-item-button #{options.delete(:class)}", **options do
       txt = name.to_s.html_safe
-      txt.prepend(icon(icon, class: "size-5 #{"-ms-1 me-2" if name}")) if icon.present?
+      txt.prepend(icon(icon, class: "size-5")) if icon.present?
       txt
     end
   end
 
   def action_button(name, url = nil, icon: nil, disabled: false, disabled_tooltip: nil, **options)
     _submit_button(name, url,
-      icon: icon, icon_class: "text-white size-5 #{"-ms-2 me-2" if name}",
+      icon: icon, icon_class: "text-white size-5 #{"-ms-2" if name}",
       btn_class: "h-9 action-item-button #{options.delete(:class)}",
       disabled: disabled, disabled_tooltip: disabled_tooltip,
       **options)
@@ -52,7 +52,7 @@ module LinksHelper
 
   def panel_button(name, url = nil, icon: nil, disabled: false, disabled_tooltip: nil, **options, &block)
     _submit_button(name, url,
-      icon: icon, icon_class: "size-4 me-2",
+      icon: icon, icon_class: "size-4",
       btn_class: options.delete(:class) || "btn btn-sm",
       disabled: disabled, disabled_tooltip: disabled_tooltip,
       **options, &block)
@@ -63,7 +63,7 @@ module LinksHelper
       method: :delete,
       class: "#{btn_class} inline-flex items-center",
       data: { confirm: t("helpers.email_suppressions.destroy_confirm") } do
-        icon("circle-check-big", class: "size-4 me-2") +
+        icon("circle-check-big", class: "size-4") +
           t("helpers.email_suppressions.destroy")
       end
   end

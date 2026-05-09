@@ -16,7 +16,12 @@
 
       <%= hashcash_hidden_field_tag %>
 
-      <div class="actions mt-4"><%= f.button :submit, t(".submit") %></div>
+      <div class="actions mt-4">
+        <%= button_tag type: "submit" do %>
+          <%= icon "send-horizontal", class: "size-5" %>
+          <span><%= t(".submit") %></span>
+        <% end %>
+      </div>
     </div>
   <% end %>
 </div>

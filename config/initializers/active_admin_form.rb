@@ -7,7 +7,7 @@ module ActiveAdmin
       li_attrs[:class] ||= "action cancel"
       html_options[:class] ||= "cancel-link"
       li_content = template.link_to(url, **html_options) do
-        template.icon("arrow-left", class: "size-5 -ms-1 me-2") +
+        template.icon("arrow-left", class: "size-5") +
           I18n.t("active_admin.cancel")
       end
       template.content_tag(:li, li_content, li_attrs)

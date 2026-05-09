@@ -39,7 +39,7 @@ class Members::DeletionConfirmationsControllerTest < ActionDispatch::Integration
     assert_response :success
     assert_select "h1", I18n.t("members.deletion_confirmations.new.title")
     assert_select "input[name='code']"
-    assert_select "input[type='submit'][value=?]", I18n.t("members.deletion_confirmations.new.confirm")
+    assert_select "button[type='submit']", text: /#{Regexp.escape(I18n.t('members.deletion_confirmations.new.confirm'))}/
   end
 
   test "new shows what happens explanation" do

@@ -28,10 +28,19 @@
 
   <div class="actions">
     <% if current_member.can_discard? %>
-      <%= link_to t(".cancel"), members_account_path, class: "cancel-link" %>
-      <%= button_to t(".request_code"), members_account_deletion_request_path, method: :post, class: "destructive" %>
+      <%= link_to members_account_path, class: "cancel-link" do %>
+        <%= icon "arrow-left", class: "size-5" %>
+        <span><%= t(".cancel") %></span>
+      <% end %>
+      <%= button_to members_account_deletion_request_path, method: :post, class: "destructive" do %>
+        <%= icon "send-horizontal", class: "size-5" %>
+        <span><%= t(".request_code") %></span>
+      <% end %>
     <% else %>
-      <%= link_to t(".back"), members_account_path, class: "cancel-link" %>
+      <%= link_to members_account_path, class: "cancel-link" do %>
+        <%= icon "arrow-left", class: "size-5" %>
+        <span><%= t(".back") %></span>
+      <% end %>
     <% end %>
   </div>
 </section>

@@ -39,7 +39,10 @@
 
     <span class="flex grow flex-row items-center justify-end">
       <% if activity_participation.destroyable? %>
-        <%= button_to t(".cancel_link"), [ :members, activity_participation ], method: :delete, class: "btn btn-xs" %>
+        <%= button_to [ :members, activity_participation ], method: :delete, class: "btn btn-xs" do %>
+          <%= icon "x", class: "size-3.5" %>
+          <span><%= t(".cancel_link") %></span>
+        <% end %>
       <% elsif activity_participation.validated? || activity_participation.rejected? %>
         <span
           class="status-tag"

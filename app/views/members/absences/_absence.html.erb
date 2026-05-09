@@ -20,9 +20,12 @@
         justify-end gap-2 md:mt-0
       "
     >
-      <%= button_to t(".cancel_link"), [ :members, absence ], method: :delete,
+      <%= button_to [ :members, absence ], method: :delete,
     class: "btn btn-xs",
-    form_class: "flex items-center" %>
+    form_class: "flex items-center" do %>
+        <%= icon "x", class: "size-3.5" %>
+        <span><%= t(".cancel_link") %></span>
+      <% end %>
     </span>
   <% end %>
 </li>

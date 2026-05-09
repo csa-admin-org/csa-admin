@@ -48,7 +48,12 @@
         </div>
       </div>
 
-      <div class="actions"><%= f.submit t(".submit") %></div>
+      <div class="actions">
+        <%= button_tag type: "submit" do %>
+          <%= icon "check", class: "size-5" %>
+          <span><%= t(".submit") %></span>
+        <% end %>
+      </div>
     <% end %>
   <% end %>
 </section>

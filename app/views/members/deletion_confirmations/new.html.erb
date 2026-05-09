@@ -44,8 +44,15 @@
       </div>
 
       <div class="actions">
-        <%= link_to t(".cancel"), members_account_path, class: "cancel-link" %>
-        <%= f.submit t(".confirm"), class: "destructive" %>
+        <%= link_to members_account_path, class: "cancel-link" do %>
+          <%= icon "arrow-left", class: "size-5" %>
+          <span><%= t(".cancel") %></span>
+        <% end %>
+
+        <%= button_tag type: "submit", class: "destructive" do %>
+          <%= icon "trash", class: "size-5" %>
+          <span><%= t(".confirm") %></span>
+        <% end %>
       </div>
     </div>
   <% end %>

@@ -2,6 +2,9 @@
 
 <% if collection.size > limit && !params[:"all_#{anchor}"] %>
   <div class="md:w-none mt-6 w-full text-center">
-    <%= link_to t(".show_all"), url_for("all_#{anchor}" => true, anchor: anchor), class: "btn btn-sm" %>
+    <%= link_to url_for("all_#{anchor}" => true, anchor: anchor), class: "btn btn-sm" do %>
+      <%= icon "plus", class: "size-3.5" %>
+      <span><%= t(".show_all") %></span>
+    <% end %>
   </div>
 <% end %>

@@ -51,7 +51,10 @@
           </div>
 
           <div class="actions">
-            <%= f.button :submit, t(".activity_form_submit"), data: { calendar_target: "submit" } %>
+            <%= button_tag type: "submit", data: { calendar_target: "submit" } do %>
+              <%= icon "check", class: "size-5" %>
+              <span><%= t(".activity_form_submit") %></span>
+            <% end %>
           </div>
         </div>
       <% end %>

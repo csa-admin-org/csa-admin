@@ -170,11 +170,17 @@
 
 <div class="actions mt-8 flex w-full flex-col md:flex-row md:justify-end">
   <div class="order-2 mt-2 flex items-center md:order-1 md:mt-0">
-    <%= link_to t(".continue_shopping"), shop_path, class: "cancel-link", target: "_top" %>
+    <%= link_to shop_path, class: "cancel-link", target: "_top" do %>
+      <%= icon "arrow-left", class: "size-5" %>
+      <span><%= t(".continue_shopping") %></span>
+    <% end %>
   </div>
 
   <div class="order-1 flex w-full items-center md:order-2 md:ml-2 md:w-auto">
-    <%= button_to t(".submit_order"), confirm_members_shop_order_path(order), disabled: submit_disabled, form: { data: { turbo: false }, class: "w-full" }, aria: { label: "confirm_order" } %>
+    <%= button_to confirm_members_shop_order_path(order), disabled: submit_disabled, form: { data: { turbo: false }, class: "w-full" }, aria: { label: "confirm_order" } do %>
+      <%= icon "check", class: "size-5" %>
+      <span><%= t(".submit_order") %></span>
+    <% end %>
   </div>
 </div>
 

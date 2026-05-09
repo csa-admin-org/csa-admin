@@ -139,8 +139,15 @@
       </div>
 
       <div class="actions">
-        <%= link_to t(".cancel"), members_memberships_path, class: "cancel-link" %>
-        <%= f.button :submit, t(".submit") %>
+        <%= link_to members_memberships_path, class: "cancel-link" do %>
+          <%= icon "arrow-left", class: "size-5" %>
+          <span><%= t(".cancel") %></span>
+        <% end %>
+
+        <%= button_tag type: "submit" do %>
+          <%= icon "check", class: "size-5" %>
+          <span><%= t(".submit") %></span>
+        <% end %>
       </div>
     <% end %>
 

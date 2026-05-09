@@ -11,7 +11,10 @@
     </p>
 
     <div class="actions">
-      <%= link_to t(".cancel_link"), new_members_trial_cancelation_path, class: "btn btn-primary" %>
+      <%= link_to new_members_trial_cancelation_path, class: "btn btn-primary" do %>
+        <%= icon "circle-x", class: "size-5" %>
+        <span><%= t(".cancel_link") %></span>
+      <% end %>
     </div>
   </div>
 <% elsif membership.trial_only? && membership.canceled? %>

@@ -84,7 +84,10 @@
       <%= hashcash_hidden_field_tag %>
 
       <div class="actions -mt-4 print:hidden">
-        <%= f.button :submit, t(".submit") %>
+        <%= button_tag type: "submit" do %>
+          <%= icon "check", class: "size-5" %>
+          <span><%= t(".submit") %></span>
+        <% end %>
       </div>
     </div>
   <% end %>

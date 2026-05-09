@@ -185,7 +185,7 @@ ActiveAdmin.register ActivityParticipation do
       para t(".activity_participation_ical_text_html")
       div class: "mt-4 text-center" do
         link_to activity_participations_calendar_url(auth_token: Current.org.icalendar_auth_token).gsub(/^https/, "webcal"), class: "btn btn-sm" do
-          icon("calendar-days", class: "size-4 me-2") + t(".subscribe_ical_link")
+          icon("calendar-days", class: "size-4") + t(".subscribe_ical_link")
         end
       end
     end
