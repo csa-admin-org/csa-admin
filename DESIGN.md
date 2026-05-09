@@ -1,42 +1,33 @@
 # Design Conventions
 
-## Panel Icons
+UI and visual conventions for the admin interface. Read this when working on ActiveAdmin show pages, forms, dashboards, or any view code.
 
-Panels can display an icon before their title using the `icon:` option:
+## Icons in Panels and Form Fieldsets
+
+Both `panel` and `f.inputs` support the `icon:` option:
 
 ```ruby
 panel "Title", icon: "icon-name" do
   # ...
 end
-```
 
-The icon renders at half opacity (`opacity-50`) at `size-5`,
-lighter than the title so it doesn't feel heavy — it serves as a quick visual cue.
-
-## Form Input Icons
-
-Form fieldsets (`f.inputs`) also support the `icon:` option:
-
-```ruby
 f.inputs "Title", icon: "icon-name" do
   f.input :field
 end
 ```
 
-The icon renders the same way as panel icons — half opacity, `size-5`, before the
-fieldset legend. **Only titled fieldsets get icons** — bare `f.inputs do` blocks
-(no title string) should never receive an icon.
+Icons render at half opacity (`opacity-50`) at `size-5` — a muted visual cue, not a distraction.
 
-When a fieldset also has extra options (e.g. `data:` or string-key attributes),
-place `icon:` before them:
+**Only titled fieldsets get icons** — bare `f.inputs do` blocks (no title string) should never receive an icon.
+
+When a fieldset has extra options, place `icon:` before them:
 
 ```ruby
 f.inputs "Title", icon: "icon-name", data: { controller: "..." } do
 f.inputs "Title", icon: "icon-name", "data-controller" => "..." do
 ```
 
-The same icon mapping tables below apply to both panels and form fieldsets —
-use the same icon for the same concept everywhere.
+Use the same icon for the same concept everywhere (panels, fieldsets, nav).
 
 ### Icon Mapping
 
@@ -106,16 +97,13 @@ Two icons in `app/assets/images/icons/` are **not** from Lucide:
 ### Adding New Icons
 
 1. Find the icon on [Lucide](https://lucide.dev)
-2. Copy the SVG from the local Lucide clone (`lucide/icons/{name}.svg`)
-3. Save it in `app/assets/images/icons/{name}.svg`
-4. Adjust `stroke-width` from `2` to `1.5` and remove the `class` attribute
-5. Use the icon via `icon("name")` helper, `panel "Title", icon: "name"`, or `f.inputs "Title", icon: "name"`
+2. Download the SVG and save to `app/assets/images/icons/{name}.svg`
+3. Set `stroke-width="1.5"` and remove the `class` attribute
+4. Use via `icon("name")`, `panel "Title", icon: "name"`, or `f.inputs "Title", icon: "name"`
 
 ### Style Guidelines
 
-- **Lucide only** — all icons should come from Lucide for visual consistency
+- **Lucide only** — all icons come from Lucide (two custom exceptions noted above)
 - **24px / stroke 1.5** — all SVGs use `width="24" height="24"` and `stroke-width="1.5"`
 - **Match nav icons** — if a concept has a nav icon, the panel must use the same one
-- **One icon per concept** — if the same concept appears in multiple places, use the same icon
-- **Muted color** — panel icons are intentionally subdued; they orient, not distract
-- **Size 5** — panel icons render at `size-5` (20px) matching the title's visual weight
+- **One icon per concept** — same concept = same icon everywhere

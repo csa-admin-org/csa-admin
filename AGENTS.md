@@ -6,12 +6,10 @@ CSA Admin is a multi-tenant Rails application for managing Community Supported A
 
 ## Development Commands
 
-```bash
-bin/ci                            # Full CI suite (lint, security, tests, seeds)
-bin/rails test:all                # Run all tests (uses "acme" tenant)
-bin/rails lint:check              # Check for style issues
-bin/rails lint:autocorrect        # Auto-fix style issues
-```
+- `bin/ci` — Full CI suite (lint, security, tests, seeds) — steps defined in `config/ci.rb`
+- `bin/rails test:all` — All tests, unit + system (uses "acme" tenant)
+- `bin/rails lint:check` / `lint:autocorrect` — Style checks
+- **Minitest** with fixtures (`test/fixtures/`), no factories. System tests use Capybara.
 
 ## Multi-Tenant Architecture
 
@@ -51,7 +49,7 @@ Prefer Rails conventions over custom abstractions. Use models, concerns, and bui
 
 Put business logic in models. When a model grows:
 1. Extract cohesive functionality into sub-model concerns (e.g., `app/models/member/billing.rb`)
-2. Delegate complex operations to POROs in `app/models/` (e.g., `app/models/billing//invoicer.rb`)
+2. Delegate complex operations to POROs in `app/models/` (e.g., `app/models/billing/invoicer.rb`)
 
 Shared concerns go in `app/models/concerns/`. When including multiple concerns, document callback order dependencies.
 
@@ -59,39 +57,20 @@ Shared concerns go in `app/models/concerns/`. When including multiple concerns, 
 
 Code should speak for itself. Use clear naming and small methods instead of comments. Only add comments to explain **why** something non-obvious is done, never **what** the code does. No `@param`/`@return` yard-style docs — this is an app, not a public API gem.
 
-## Translations Workflow
+## ActiveAdmin
 
-Supported languages: English (`en`), French (`fr`), German (`de`), Italian (`it`), Dutch (`nl`).
+Admin interface built on ActiveAdmin. Resource files: `app/admin/`.
+Custom DSL extensions (panel icons, fieldset icons): `lib/active_admin/`.
+See `DESIGN.md` for icon and panel conventions.
 
-YAML locale files use language-prefixed keys:
-```yaml
-members:
-  title:
-    _en: Members
-    _fr: Membres
-```
+## Frontend
 
-Template files use language suffixes: `invoice_created.en.liquid`, `invoice_created.fr.liquid`
+- **Importmap** (no JS bundler), **Tailwind CSS**, **Turbo + Stimulus**
+- Icons from Lucide (see `DESIGN.md`)
 
-**Two-phase process:**
-1. During development, only add `_en` and `_fr` translations (if significant only)
-2. Once finalized, add `_de`, `_it`, `_nl` translations (automatically for .yml file, on request for templates)
+## Translations
 
-### Voice & Tone per Language
-
-| Context | EN | FR | DE | NL | IT |
-|---|---|---|---|---|---|
-| **Admin UI** (buttons, hints, confirmations) | you | vous | **impersonal** (infinitive, passive) | **impersonal** | voi |
-| **Member-facing** (member portal, emails, newsletters) | you | vous | **Du** (capitalized) | **je/jij** | tu |
-| **Handbook** (docs for admins) | you | vous | **Du** (capitalized) | **je/jij** | tu |
-
-**German impersonal** — Use infinitive constructions ("Alle Daten importieren"), passive ("Soll das wirklich durchgeführt werden?"), drop possessives ("Die IBAN" not "Ihre IBAN"). Never use "Sie" for direct address.
-
-**German Du** — Capitalize Du/Dein/Dir/Dich in direct address. Adjust verb conjugations (hast, kannst, möchtest). Preserve lowercase "sie/ihre" (= they/their, 3rd person) and "Siehe" (= See).
-
-**Dutch impersonal** — Same patterns as German: infinitive, passive, drop possessives. Never use "u/uw".
-
-**Dutch je** — Use "je" as the default (lighter). Use "jouw" only for emphasis. Adjust verb conjugations ("Je hebt", not "U heeft"). With inversion, drop the -t ("heb je", not "hebt je").
+See `TRANSLATIONS.md` for locale file conventions, two-phase workflow, and voice & tone rules per language.
 
 ## GDPR & Member Privacy
 
