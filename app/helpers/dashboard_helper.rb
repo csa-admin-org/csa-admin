@@ -26,7 +26,7 @@ module DashboardHelper
             content_tag(:button,
               type: "button",
               id: "billing-snapshots-button",
-              class: "flex size-6 cursor-pointer items-center justify-center",
+              class: "flex cursor-pointer items-center justify-center hover:bg-gray-100 dark:hover:bg-gray-800 rounded",
               data: {
                 "tooltip-target" => "trigger",
                 action: "click->tooltip#toggle"
@@ -36,7 +36,7 @@ module DashboardHelper
                 expanded: false
               }
             ) do
-              icon "chevron-down", class: "size-6"
+              icon "chevron-down", class: "size-7"
             end +
             content_tag(:div,
               id: "billing-snapshots-menu",
