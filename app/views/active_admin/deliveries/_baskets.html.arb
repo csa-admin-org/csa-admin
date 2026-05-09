@@ -74,7 +74,7 @@ if BasketComplement.kept.any?
         if show_shop_orders
           column link_to(t("shop.title"), shop_orders_path(q: { _delivery_gid_eq: delivery.gid })), :shop_orders_count, class: "text-right"
         end
-        column Membership.model_name.human(count: 2), :memberships_count, class: "text-right"
+        column Membership.model_name.human(count: 2), :memberships_count, class: "text-right truncate"
         column t("active_admin.page.index.total", number: ""), :count, class: "text-right text-bold"
       end
     else
