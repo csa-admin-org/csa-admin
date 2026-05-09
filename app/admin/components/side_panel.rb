@@ -8,7 +8,7 @@ class SidePanel < ActiveAdmin::Component
     action = args.delete(:action) if args.key?(:action)
     add_class args.delete(:class) if args.key?(:class)
     super(*args)
-    add_class "panel p-4 shadow-xs"
+    add_class "panel p-4 py-2.5 shadow-xs"
     if title.present?
       div class: "flex items-center justify-between mb-3" do
         @title = h3(title.to_s, class: "text-xl font-extralight")
