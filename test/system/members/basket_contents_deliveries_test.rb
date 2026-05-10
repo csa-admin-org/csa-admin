@@ -20,16 +20,14 @@ class Members::BasketContentsDeliveriesTest < ApplicationSystemTestCase
     create_basket_content(
       delivery: deliveries(:thursday_1),
       product: basket_content_products(:carrots),
-      basket_size_ids_percentages: { large_id => 100 },
+      basket_size_ids_quantities: { large_id => 1000 },
       depots: Depot.all,
-      quantity: 1,
       unit: "kg")
     create_basket_content(
       delivery: deliveries(:thursday_1),
       product: basket_content_products(:cucumbers),
-      basket_size_ids_percentages: { large_id => 100 },
+      basket_size_ids_quantities: { large_id => 3 },
       depots: Depot.all,
-      quantity: 3,
       unit: "pc")
   end
 
@@ -93,8 +91,8 @@ class Members::BasketContentsDeliveriesTest < ApplicationSystemTestCase
     login(members(:jane))
     visit "/deliveries"
 
-    assert_text "Carrots (1.0kg)"
-    assert_text "Cucumbers (3pc)"
+    assert_text "Carrots (1.0\u202Fkg)"
+    assert_text "Cucumbers (3\u202Fpc)"
   end
 
   test "hides quantities when display_quantity is disabled" do

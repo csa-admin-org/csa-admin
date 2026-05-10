@@ -234,21 +234,18 @@ class Newsletter::TemplateTest < ActiveSupport::TestCase
     create_basket_content(
       delivery: deliveries(:thursday_1),
       product: basket_content_products(:carrots),
-      basket_size_ids_percentages: { large_id => 100 },
-      quantity: 2,
+      basket_size_ids_quantities: { large_id => 2000 },
       unit: "kg")
     create_basket_content(
       delivery: deliveries(:thursday_1),
       product: basket_content_products(:cucumbers),
-      basket_size_ids_percentages: { large_id => 100 },
-      quantity: 3,
+      basket_size_ids_quantities: { large_id => 3 },
       unit: "pc")
     create_basket_content(
       delivery: deliveries(:thursday_1),
       depots: [ depots(:farm) ],
       product: basket_content_products(:cucumbers),
-      basket_size_ids_percentages: { large_id => 100 },
-      quantity: 3,
+      basket_size_ids_quantities: { large_id => 3000 },
       unit: "kg")
 
     assert_difference -> { newsletter.mail_delivery_emails.processing.count } do
@@ -259,9 +256,9 @@ class Newsletter::TemplateTest < ActiveSupport::TestCase
     assert_equal [ "jane@doe.com" ], mail.to
     mail_body = mail.parts.map(&:body).join
     assert_includes mail_body, "Large basket:</span>"
-    assert_includes mail_body, ">Carrots (2.0kg)</li>"
-    assert_includes mail_body, ">Cucumbers (3pc)</li>"
-    assert_not_includes mail_body, ">Cucumbers (3.0kg)</li>"
+    assert_includes mail_body, ">Carrots (2.0\u202Fkg)</li>"
+    assert_includes mail_body, ">Cucumbers (3\u202Fpc)</li>"
+    assert_not_includes mail_body, ">Cucumbers (3.0\u202Fkg)</li>"
 
     assert_includes mail_body, "Complement(s): Bread"
   end

@@ -12,9 +12,8 @@ class Basket::ContentTest < ActiveSupport::TestCase
     create_basket_content(
       delivery: basket.delivery,
       product: basket_content_products(:carrots),
-      basket_size_ids_percentages: { large_id => 100 },
+      basket_size_ids_quantities: { large_id => 20000 },
       depots: Depot.all,
-      quantity: 20,
       unit: "kg")
 
     contents = basket.contents
@@ -28,16 +27,14 @@ class Basket::ContentTest < ActiveSupport::TestCase
     create_basket_content(
       delivery: basket.delivery,
       product: basket_content_products(:carrots),
-      basket_size_ids_percentages: { large_id => 100 },
+      basket_size_ids_quantities: { large_id => 20000 },
       depots: Depot.all,
-      quantity: 20,
       unit: "kg")
     create_basket_content(
       delivery: basket.delivery,
       product: basket_content_products(:cucumbers),
-      basket_size_ids_percentages: { large_id => 100 },
+      basket_size_ids_quantities: { large_id => 3 },
       depots: [ depots(:farm) ],
-      quantity: 3,
       unit: "pc")
 
     contents = basket.contents
@@ -50,16 +47,14 @@ class Basket::ContentTest < ActiveSupport::TestCase
     create_basket_content(
       delivery: basket.delivery,
       product: basket_content_products(:carrots),
-      basket_size_ids_percentages: { large_id => 100 },
+      basket_size_ids_quantities: { large_id => 20000 },
       depots: Depot.all,
-      quantity: 20,
       unit: "kg")
     create_basket_content(
       delivery: basket.delivery,
       product: basket_content_products(:cucumbers),
-      basket_size_ids_percentages: { small_id => 100 },
+      basket_size_ids_quantities: { small_id => 100 },
       depots: Depot.all,
-      quantity: 100,
       unit: "pc")
 
     contents = basket.contents
@@ -72,16 +67,14 @@ class Basket::ContentTest < ActiveSupport::TestCase
     create_basket_content(
       delivery: basket.delivery,
       product: basket_content_products(:cucumbers),
-      basket_size_ids_percentages: { large_id => 100 },
+      basket_size_ids_quantities: { large_id => 3 },
       depots: Depot.all,
-      quantity: 3,
       unit: "pc")
     create_basket_content(
       delivery: basket.delivery,
       product: basket_content_products(:carrots),
-      basket_size_ids_percentages: { large_id => 100 },
+      basket_size_ids_quantities: { large_id => 20000 },
       depots: Depot.all,
-      quantity: 20,
       unit: "kg")
 
     contents = basket.contents
@@ -100,9 +93,8 @@ class Basket::ContentTest < ActiveSupport::TestCase
     create_basket_content(
       delivery: basket.delivery,
       product: basket_content_products(:carrots),
-      basket_size_ids_percentages: { small_id => 100 },
+      basket_size_ids_quantities: { small_id => 100 },
       depots: [ depots(:farm) ],
-      quantity: 100,
       unit: "pc")
 
     assert_empty basket.contents
@@ -114,9 +106,8 @@ class Basket::ContentTest < ActiveSupport::TestCase
     create_basket_content(
       delivery: deliveries(:thursday_2),
       product: basket_content_products(:carrots),
-      basket_size_ids_percentages: { large_id => 100 },
+      basket_size_ids_quantities: { large_id => 20000 },
       depots: Depot.all,
-      quantity: 20,
       unit: "kg")
 
     assert_empty basket.contents
@@ -128,17 +119,13 @@ class Basket::ContentTest < ActiveSupport::TestCase
     bc = create_basket_content(
       delivery: basket.delivery,
       product: basket_content_products(:carrots),
-      basket_size_ids_percentages: { large_id => 100 },
+      basket_size_ids_quantities: { large_id => 20000 },
       depots: Depot.all,
-      quantity: 20,
       unit: "kg")
 
     # Simulate an edge case where quantity ends up as zero for this basket size
     # (e.g. data changed after the BasketContent was saved)
-    idx = bc.basket_size_ids.index(basket.basket_size_id)
-    quantities = bc.basket_quantities.dup
-    quantities[idx] = 0
-    bc.update_columns(basket_quantities: quantities)
+    bc.update_columns(basket_quantities: { basket.basket_size_id.to_s => 0 })
 
     assert_empty basket.contents
   end

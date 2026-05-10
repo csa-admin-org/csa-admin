@@ -1,6 +1,6 @@
 # <%= BasketContent.model_name.human %>
 
-Cette fonctionnalité fournit un outil pour calculer le contenu et la valeur des <%= Basket.model_name.human(count: 2).downcase %> pour chaque livraison. Elle permet de définir quels produits composent chaque <%= BasketSize.model_name.human.downcase %>, avec une répartition automatique ou manuelle des quantités.
+Cette fonctionnalité fournit un outil pour calculer le contenu et la valeur des <%= Basket.model_name.human(count: 2).downcase %> pour chaque livraison. Elle permet de définir quels produits composent chaque <%= BasketSize.model_name.human.downcase %> et de configurer la répartition des quantités entre les <%= BasketSize.model_name.human(count: 2).downcase %>.
 
 ## Produits {#products}
 
@@ -12,12 +12,16 @@ Les produits sont réutilisables d'une livraison à l'autre — une fois créés
 
 Depuis [la page du <%= BasketContent.model_name.human.downcase %>](/basket_contents), sélectionnez une livraison pour voir et gérer son contenu. Pour chaque livraison, vous pouvez ajouter des produits et configurer comment ils sont répartis entre les <%= BasketSize.model_name.human(count: 2).downcase %>.
 
-### Modes de distribution
+### Distribution
 
-Deux modes de distribution sont disponibles pour chaque produit:
+Pour chaque produit, vous définissez la quantité par <%= Basket.model_name.human.downcase %> pour chaque <%= BasketSize.model_name.human.downcase %>. Des curseurs de pourcentage permettent d'ajuster la répartition entre les tailles de manière proportionnelle, et la quantité totale se met à jour automatiquement en fonction des quantités par taille et du nombre actuel de <%= Basket.model_name.human(count: 2).downcase %>.
 
-- **Automatique**: Vous définissez la quantité totale et un pourcentage de répartition entre les <%= BasketSize.model_name.human(count: 2).downcase %>. Le système calcule les quantités individuelles par <%= Basket.model_name.human.downcase %>, en optimisant pour minimiser le surplus.
-- **Manuel**: Vous spécifiez directement la quantité par <%= Basket.model_name.human.downcase %> pour chaque <%= BasketSize.model_name.human.downcase %>.
+Deux boutons de préréglage sont disponibles pour une distribution rapide :
+
+- **Au prorata du prix** : répartit les quantités proportionnellement au prix de chaque <%= BasketSize.model_name.human.downcase %>, de sorte qu'une taille deux fois plus chère reçoit environ deux fois plus.
+- **À parts égales** : attribue la même quantité à chaque <%= BasketSize.model_name.human.downcase %>.
+
+Un aperçu en direct affiche le nombre de <%= Basket.model_name.human(count: 2).downcase %>, les prix et le surplus éventuel.
 
 ### Dépôts
 

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_05_07_120000) do
+ActiveRecord::Schema[8.1].define(version: 2026_05_09_200700) do
   create_table "absences", force: :cascade do |t|
     t.datetime "admins_notified_at"
     t.datetime "created_at"
@@ -222,25 +222,16 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_07_120000) do
   end
 
   create_table "basket_contents", force: :cascade do |t|
-    t.json "basket_percentages", default: [], null: false
-    t.json "basket_quantities", default: [], null: false
-    t.json "basket_size_ids", default: [], null: false
-    t.json "baskets_counts", default: [], null: false
+    t.json "basket_quantities", default: {}, null: false
     t.datetime "created_at", null: false
     t.bigint "delivery_id", null: false
-    t.string "distribution_mode", default: "automatic", null: false
     t.bigint "product_id", null: false
-    t.decimal "quantity", precision: 8, scale: 2, null: false
-    t.decimal "surplus_quantity", precision: 8, scale: 2, default: "0.0", null: false
     t.string "unit", null: false
     t.decimal "unit_price", precision: 8, scale: 2
     t.datetime "updated_at", null: false
     t.index ["delivery_id"], name: "index_basket_contents_on_delivery_id"
     t.index ["product_id"], name: "index_basket_contents_on_product_id"
-    t.check_constraint "JSON_TYPE(basket_percentages) = 'array'", name: "basket_contents_basket_percentages_is_array"
-    t.check_constraint "JSON_TYPE(basket_quantities) = 'array'", name: "basket_contents_basket_quantities_is_array"
-    t.check_constraint "JSON_TYPE(basket_size_ids) = 'array'", name: "basket_contents_basket_size_ids_is_array"
-    t.check_constraint "JSON_TYPE(baskets_counts) = 'array'", name: "basket_contents_baskets_counts_is_array"
+    t.check_constraint "JSON_TYPE(basket_quantities) = 'object'", name: "basket_contents_basket_quantities_is_object"
   end
 
   create_table "basket_contents_depots", id: false, force: :cascade do |t|

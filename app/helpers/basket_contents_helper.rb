@@ -39,14 +39,6 @@ module BasketContentsHelper
     end
   end
 
-  def display_surplus_quantity(basket_content)
-    quantity = basket_content.surplus_quantity
-    case basket_content.unit
-    when "kg"; display_quantity((quantity * 1000).to_i, "g")
-    when "pc"; display_quantity(quantity.to_i, "pc")
-    end
-  end
-
   def display_depots(depots)
     depots = depots.kept
     all_depots = Depot.kept.to_a
@@ -123,6 +115,22 @@ module BasketContentsHelper
     end
   end
 
+  def basket_content_unit_suffix(unit)
+    unit == "pc" ? I18n.t("units.pc_quantity", quantity: "").strip : "g"
+  end
+
+  def basket_content_total_unit_suffix(unit)
+    unit == "pc" ? basket_content_unit_suffix(unit) : "kg"
+  end
+
+  def basket_content_form_percentages(basket_content)
+    if basket_content.basket_size_ids.any?
+      basket_content.basket_size_ids_percentages
+    else
+      basket_content.basket_size_ids_percentages_pro_rated
+    end
+  end
+
   def basket_content_products_collection
     products =
       BasketContent::Product
@@ -130,35 +138,24 @@ module BasketContentsHelper
         .ordered
     products.map do |product|
       data = { latest_basket_content: {} }
+      latest_by_unit = {
+        "kg" => product.latest_basket_content_in_kg,
+        "pc" => product.latest_basket_content_in_pc
+      }
+      latest = latest_by_unit.values.compact.max_by(&:updated_at)
 
       if product.default_unit.present?
         data[:latest_basket_content_unit] = product.default_unit
-        data[:latest_basket_content][product.default_unit.to_sym] = {
-          unit_price: product.default_unit_price
-        }
-      else
-        bc_kg = product.latest_basket_content_in_kg
-        bc_pc = product.latest_basket_content_in_pc
-        if bc_kg
-          if !bc_pc || bc_kg.updated_at >= bc_pc.updated_at
-            data[:latest_basket_content_unit] = "kg"
-          end
-          data[:latest_basket_content][:kg] = {
-            quantity: bc_kg.quantity,
-            unit_price: bc_kg.unit_price,
-            used_at: bc_kg.updated_at.to_datetime.strftime("%Q")
-          }
-        end
-        if bc_pc
-          if !bc_kg || bc_pc.updated_at >= bc_kg.updated_at
-            data[:latest_basket_content_unit] = "pc"
-          end
-          data[:latest_basket_content][:pc] = {
-            quantity: bc_pc.quantity,
-            unit_price: bc_pc.unit_price,
-            used_at: bc_pc.updated_at.to_datetime.strftime("%Q")
-          }
-        end
+      elsif latest
+        data[:latest_basket_content_unit] = latest.unit
+      end
+
+      latest_by_unit.each do |unit, basket_content|
+        next unless basket_content || product.default_unit == unit
+
+        data[:latest_basket_content][unit] = basket_content_product_unit_data(
+          basket_content,
+          unit_price: product.default_unit == unit ? product.default_unit_price : nil)
       end
 
       if product.url?
@@ -169,5 +166,18 @@ module BasketContentsHelper
       end
       [ product.name, product.id, data: data ]
     end
+  end
+
+  private
+
+  def basket_content_product_unit_data(basket_content, unit_price: nil)
+    data = { unit_price: unit_price }
+    return data unless basket_content
+
+    data.merge(
+      quantity: basket_content.quantity,
+      unit_price: unit_price || basket_content.unit_price,
+      basket_size_ids_quantities: basket_content.basket_size_ids_quantities
+        .transform_keys(&:to_s))
   end
 end

@@ -428,12 +428,6 @@ _:
           _it: prova
           _nl: proef
       basket_content:
-        basket_percentages:
-          _en: Percentage distribution
-          _fr: La somme des pourcentages
-          _de: Prozentuale Verteilung
-          _it: Distribuzione percentuale
-          _nl: Percentageverdeling
         basket_quantities:
           _en: Quantities
           _fr: Quantités
@@ -506,12 +500,6 @@ _:
           _de: Gesamtmenge
           _it: Quantità totale
           _nl: Totale hoeveelheid
-        surplus:
-          _en: Surplus
-          _fr: Surplus
-          _de: Überschuss
-          _it: Surplus
-          _nl: Overschot
         unit:
           _en: Unit
           _fr: Unité
@@ -4001,15 +3989,6 @@ _:
           _nl: Onderwerp
     errors:
       models:
-        basket_content:
-          attributes:
-            quantity:
-              insufficient:
-                _en: Insufficient
-                _fr: Insuffisante
-                _de: Ungenügende
-                _it: Insufficiente
-                _nl: Onvoldoende
         membership:
           attributes:
             alternate_delivery_cycle:

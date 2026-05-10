@@ -1,0 +1,11 @@
+# Distribution du <%= BasketContent.model_name.human.downcase %> simplifiée
+
+Le formulaire de distribution du <%= BasketContent.model_name.human.downcase %> n'a désormais plus d'onglets «Automatique» et «Manuel» séparés. Tout se fait maintenant dans un panneau unique où l'on définit les quantités par taille directement, ajuste la répartition avec les mêmes curseurs de pourcentage et préréglages de l'ancien mode «Automatique».
+
+Lorsque le prix du produit est renseigné, chaque ajustement affiche automatiquement les prix totaux et nombres de <%= Basket.model_name.human(count: 2).downcase %> à la volée en direct. Plus besoin de sauvegarder et de revenir vérifier si les chiffres sont corrects.
+
+De plus, le système ne sauvegarde plus que la quantité pour chaque taille, tout changement de dernière minute du nombre de <%= Basket.model_name.human(count: 2).downcase %> est donc désormais automatiquement pris en compte. ✨
+
+J'ai encore quelques idées d'amélioration en tête, entre-temps n'hésitez pas à [me contacter](/support) si vous avez des suggestions ou si les changements effectués posent des problèmes.
+
+Retrouvez plus d'informations dans [le manuel](/handbook/basket_content#configuring-basket-contents).

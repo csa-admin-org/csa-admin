@@ -257,12 +257,6 @@ _:
           _de: Die Depots ohne gelieferte Anteile werden automatisch ignoriert.
           _it: I punti di ritiro senza parti consegnate vengono automaticamente ignorati.
           _nl: Depots zonder geleverde delen worden automatisch genegeerd.
-        quantity:
-          _en: Kg or pieces.
-          _fr: En kg ou en pièces.
-          _de: In kg oder Stück.
-          _it: In kg o pezzi.
-          _nl: Kg of stuks.
         unit_price:
           _en: Per kg or per piece.
           _fr: Au kg ou à la pièce.

@@ -1,6 +1,6 @@
 # <%= BasketContent.model_name.human %>
 
-Deze functie biedt een hulpmiddel om de inhoud en waarde van <%= Basket.model_name.human(count: 2).downcase %> voor elke levering te berekenen. Het stelt je in staat om te bepalen welke producten in elke <%= BasketSize.model_name.human.downcase %> gaan, met automatische of handmatige verdeling van hoeveelheden.
+Deze functie biedt een hulpmiddel om de inhoud en waarde van <%= Basket.model_name.human(count: 2).downcase %> voor elke levering te berekenen. Het stelt je in staat om te bepalen welke producten in elke <%= BasketSize.model_name.human.downcase %> gaan, en te configureren hoe de hoeveelheden over de <%= BasketSize.model_name.human(count: 2).downcase %> worden verdeeld.
 
 ## Producten {#products}
 
@@ -12,12 +12,16 @@ Producten zijn herbruikbaar over leveringen heen — eenmaal aangemaakt, kunnen 
 
 Selecteer op [de <%= BasketContent.model_name.human.downcase %>pagina](/basket_contents) een levering om de inhoud ervan te bekijken en te beheren. Voor elke levering kun je producten toevoegen en configureren hoe ze over de <%= BasketSize.model_name.human(count: 2).downcase %> worden verdeeld.
 
-### Verdelingsmodi
+### Verdeling
 
-Voor elk product zijn twee verdelingsmodi beschikbaar:
+Voor elk product stel je de hoeveelheid per <%= Basket.model_name.human.downcase %> in voor elke <%= BasketSize.model_name.human.downcase %>. Percentuele schuifregelaars laten je de verdeling tussen de maten proportioneel aanpassen, en de totale hoeveelheid wordt automatisch berekend op basis van de hoeveelheden per maat en het huidige aantal <%= Basket.model_name.human(count: 2).downcase %>.
 
-- **Automatisch**: Je definieert de totale hoeveelheid en een procentuele verdeling tussen <%= BasketSize.model_name.human(count: 2).downcase %>. Het systeem berekent de individuele hoeveelheden per <%= Basket.model_name.human.downcase %>, waarbij het overschot wordt geminimaliseerd.
-- **Handmatig**: Je specificeert direct de hoeveelheid per <%= Basket.model_name.human.downcase %> voor elke <%= BasketSize.model_name.human.downcase %>.
+Twee voorinstellingsknoppen zijn beschikbaar voor een snelle verdeling:
+
+- **Pro rata naar prijs**: verdeelt de hoeveelheden proportioneel op basis van de prijs van elke <%= BasketSize.model_name.human.downcase %>, zodat een maat die twee keer zo duur is ongeveer het dubbele van de hoeveelheid krijgt.
+- **Gelijke verdeling**: kent dezelfde hoeveelheid toe aan elke <%= BasketSize.model_name.human.downcase %>.
+
+Een live-voorbeeld toont het aantal <%= Basket.model_name.human(count: 2).downcase %>, prijzen en eventueel overschot.
 
 ### Depots
 

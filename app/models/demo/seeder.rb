@@ -1199,33 +1199,29 @@ class Demo::Seeder
     basket_sizes = BasketSize.paid.reorder(:id)
     return if basket_sizes.empty?
 
-    basket_size_ids = basket_sizes.map(&:id)
-    # Pro-rate percentages based on price
+    # Pro-rate quantities based on price ratios
     total_price = basket_sizes.sum(&:price)
-    percentages = basket_sizes.map { |bs| ((bs.price / total_price.to_f) * 100).round }
-    # Adjust to ensure sum is 100
-    percentages[-1] += 100 - percentages.sum if percentages.sum != 100
-
-    # Build percentages hash for basket_size_ids_percentages setter
-    percentages_hash = basket_size_ids.zip(percentages).to_h { |id, pct| [ id.to_s, pct ] }
 
     deliveries_to_fill.each do |delivery|
       # Add 6 products per delivery
       products_for_delivery = @products.sample(6)
 
       products_for_delivery.each do |product|
-        # Calculate quantity based on number of baskets
-        base_quantity = product.default_unit == "kg" ? rand(20..25) : rand(40..45)
+        # Build per-basket-size quantities using price ratios
+        base_qty = product.default_unit == "kg" ? rand(100..250) : rand(1..5)
+        quantities = basket_sizes.each_with_object({}) do |bs, h|
+          ratio = bs.price / total_price.to_f
+          qty = (base_qty * ratio).round
+          h[bs.id.to_s] = qty if qty > 0
+        end
 
         BasketContent.create!(
           delivery: delivery,
           product: product,
-          quantity: base_quantity,
           unit: product.default_unit,
           unit_price: product.default_unit_price,
           depot_ids: @all_depots.map(&:id),
-          distribution_mode: "automatic",
-          basket_size_ids_percentages: percentages_hash
+          basket_size_ids_quantities: quantities
         )
       end
     end

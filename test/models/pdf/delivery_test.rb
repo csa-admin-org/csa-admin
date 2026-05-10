@@ -219,16 +219,14 @@ class PDF::DeliveryTest < ActiveSupport::TestCase
     create_basket_content(
       delivery: delivery,
       product: basket_content_products(:carrots),
-      basket_size_ids_percentages: { medium_id => 40, large_id => 60 },
+      basket_size_ids_quantities: { medium_id => 4000, large_id => 6000 },
       depots: Depot.all,
-      quantity: 10,
       unit: "kg")
     create_basket_content(
       delivery: delivery,
       product: basket_content_products(:cucumbers),
-      basket_size_ids_percentages: { small_id => 30, medium_id => 30, large_id => 40 },
+      basket_size_ids_quantities: { small_id => 3, medium_id => 3, large_id => 4 },
       depots: [ depots(:farm), depots(:bakery) ],
-      quantity: 9,
       unit: "pc")
 
     pdf_strings = save_pdf_and_return_strings(delivery)
@@ -250,9 +248,8 @@ class PDF::DeliveryTest < ActiveSupport::TestCase
     create_basket_content(
       delivery: delivery,
       product: basket_content_products(:carrots),
-      basket_size_ids_percentages: { medium_id => 50, large_id => 50 },
+      basket_size_ids_quantities: { medium_id => 5000, large_id => 5000 },
       depots: Depot.all,
-      quantity: 10,
       unit: "kg")
 
     pdf_strings = save_pdf_and_return_strings(delivery)
@@ -271,9 +268,8 @@ class PDF::DeliveryTest < ActiveSupport::TestCase
     create_basket_content(
       delivery: delivery,
       product: basket_content_products(:carrots),
-      basket_size_ids_percentages: { medium_id => 50, large_id => 50 },
+      basket_size_ids_quantities: { medium_id => 5000, large_id => 5000 },
       depots: Depot.all,
-      quantity: 10,
       unit: "kg")
 
     pdf_strings = save_pdf_and_return_strings(delivery)
@@ -289,9 +285,8 @@ class PDF::DeliveryTest < ActiveSupport::TestCase
     create_basket_content(
       delivery: delivery,
       product: basket_content_products(:carrots),
-      basket_size_ids_percentages: { medium_id => 40, large_id => 60 },
+      basket_size_ids_quantities: { medium_id => 3200, large_id => 4800 },
       depots: Depot.all,
-      quantity: 8,
       unit: "kg")
 
     pdf_strings = save_pdf_and_return_strings(delivery, depots(:farm))

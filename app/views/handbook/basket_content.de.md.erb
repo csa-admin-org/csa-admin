@@ -1,6 +1,6 @@
 # <%= BasketContent.model_name.human %>
 
-Diese Funktion bietet ein Werkzeug zur Berechnung des Inhalts und des Werts der <%= Basket.model_name.human(count: 2) %> für jede Lieferung. Sie ermöglicht es, festzulegen, welche Produkte in jede <%= BasketSize.model_name.human %> kommen, mit automatischer oder manueller Verteilung der Mengen.
+Diese Funktion bietet ein Werkzeug zur Berechnung des Inhalts und des Werts der <%= Basket.model_name.human(count: 2) %> für jede Lieferung. Sie ermöglicht es, festzulegen, welche Produkte in jede <%= BasketSize.model_name.human %> kommen, und die Verteilung der Mengen auf die <%= BasketSize.model_name.human(count: 2) %> zu konfigurieren.
 
 ## Produkte {#products}
 
@@ -12,12 +12,16 @@ Produkte sind über Lieferungen hinweg wiederverwendbar — einmal erstellt, kö
 
 Wähle auf [der <%= BasketContent.model_name.human %>-Seite](/basket_contents) eine Lieferung aus, um deren Inhalt anzuzeigen und zu verwalten. Für jede Lieferung kannst Du Produkte hinzufügen und konfigurieren, wie sie auf die <%= BasketSize.model_name.human(count: 2) %> verteilt werden.
 
-### Verteilungsmodi
+### Verteilung
 
-Für jedes Produkt stehen zwei Verteilungsmodi zur Verfügung:
+Für jedes Produkt legst Du die Menge pro <%= Basket.model_name.human %> für jede <%= BasketSize.model_name.human %> fest. Prozentuale Schieberegler ermöglichen es, die Aufteilung zwischen den Grössen proportional anzupassen, und die Gesamtmenge wird automatisch anhand der Mengen pro Grösse und der aktuellen Anzahl <%= Basket.model_name.human(count: 2) %> berechnet.
 
-- **Automatisch**: Du definierst die Gesamtmenge und eine prozentuale Aufteilung zwischen den <%= BasketSize.model_name.human(count: 2) %>. Das System berechnet die einzelnen Mengen pro <%= Basket.model_name.human %> und optimiert dabei den Überschuss.
-- **Manuell**: Du gibst die Menge pro <%= Basket.model_name.human %> für jede <%= BasketSize.model_name.human %> direkt an.
+Zwei Voreinstellungen stehen für eine schnelle Verteilung zur Verfügung:
+
+- **Pro rata des Preises**: verteilt die Mengen proportional zum Preis jeder <%= BasketSize.model_name.human %>, sodass eine doppelt so teure Grösse etwa die doppelte Menge erhält.
+- **Gleichmässig**: weist jeder <%= BasketSize.model_name.human %> die gleiche Menge zu.
+
+Eine Live-Vorschau zeigt die Anzahl <%= Basket.model_name.human(count: 2) %>, Preise und den allfälligen Überschuss an.
 
 ### Depots
 

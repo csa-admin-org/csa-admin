@@ -1,0 +1,11 @@
+# Simplified <%= BasketContent.model_name.human %> Distribution
+
+The <%= BasketContent.model_name.human.downcase %> distribution form no longer has separate "Automatic" and "Manual" tabs. Everything now lives in a single pane where you set per-size quantities directly, adjust the split with the same percentage sliders and presets from the old "Automatic" mode.
+
+When a unit price is set, each adjustment automatically displays total prices and <%= Basket.model_name.human.downcase %> counts on the fly. No more saving and coming back to check whether the numbers are correct.
+
+On top of that, the system now only saves the quantity for each size, so any last-minute change in the number of <%= Basket.model_name.human(count: 2).downcase %> is automatically taken into account. ✨
+
+I have a few more improvement ideas in mind, but in the meantime don't hesitate to [let me know](/support) if you have suggestions or if these changes cause any issues.
+
+Find more information in [the handbook](/handbook/basket_content#configuring-basket-contents).

@@ -13,186 +13,232 @@ class BasketContentTest < ActiveSupport::TestCase
     baskets(:anna_1).update_column(:quantity, large)
   end
 
-  test "validates quantity presence" do
-    basket_content = build_basket_content(quantity: nil)
-    assert_not basket_content.valid?
-    assert_includes basket_content.errors[:quantity], "can't be blank"
-
-    basket_content = build_basket_content(quantity: 0)
-    assert_not basket_content.valid?
-    assert_includes basket_content.errors[:quantity], "Insufficient"
-  end
-
-  test "validates percentages" do
-    basket_content = build_basket_content(
-      basket_size_ids_percentages: {
-        small_id => 99
-      })
-    assert_not basket_content.valid?
-    assert_includes basket_content.errors[:basket_percentages], "is invalid"
-  end
-
-  test "validates enough quantity" do
-    config(small: 100, medium: 0)
-    basket_content = build_basket_content(
-      basket_size_ids_percentages: { small_id => 100 },
-      quantity: 99,
+  test "validates basket_quantities presence" do
+    bc = BasketContent.new(
+      product: basket_content_products(:carrots),
+      delivery: deliveries(:monday_1),
+      depots: Depot.all,
       unit: "pc")
-    assert_not basket_content.valid?
-    assert_includes basket_content.errors[:quantity], "Insufficient"
+    assert_not bc.valid?
+    assert_includes bc.errors[:basket_quantities], "is invalid"
   end
 
-  test "splits pieces to both baskets" do
-    config(small: 100, medium: 50)
-    basket_content = create_basket_content(
-      basket_size_ids_percentages: {
-        small_id => 40,
-        medium_id => 60
+  test "validates basket_quantities values are positive" do
+    bc = build_basket_content(
+      basket_size_ids_quantities: {
+        small_id => -1,
+        medium_id => 1
       },
-      quantity: 150,
       unit: "pc")
 
-    assert_equal [ 1, 1 ], basket_content.basket_quantities
-    assert_equal 0, basket_content.surplus_quantity
+    assert_not bc.valid?
+    assert_includes bc.errors[:basket_quantities], "is invalid"
   end
 
-  test "splits pieces with more to big baskets" do
-    config(small: 100, medium: 50)
-    basket_content = create_basket_content(
-      basket_size_ids_percentages: {
-        small_id => 40,
-        medium_id => 60
+  test "validates basket_quantities keys are paid basket sizes" do
+    bc = BasketContent.new(
+      product: basket_content_products(:carrots),
+      delivery: deliveries(:monday_1),
+      depots: Depot.all,
+      unit: "pc",
+      basket_quantities: { (BasketSize.maximum(:id) + 1).to_s => 1 })
+
+    assert_not bc.valid?
+    assert_includes bc.errors[:basket_quantities], "is invalid"
+  end
+
+  test "stores quantities as hash via setter (kg)" do
+    config(small: 1, medium: 1)
+    bc = create_basket_content(
+      basket_size_ids_quantities: {
+        small_id => 500,
+        medium_id => 750
       },
-      quantity: 200,
+      unit: "kg")
+
+    assert_equal({ small_id.to_s => 0.5, medium_id.to_s => 0.75 }, bc.basket_quantities)
+    assert_equal 0.5, bc.basket_quantity(basket_sizes(:small))
+    assert_equal 0.75, bc.basket_quantity(basket_sizes(:medium))
+  end
+
+  test "stores quantities as hash via setter (pc)" do
+    config(small: 1, medium: 1)
+    bc = create_basket_content(
+      basket_size_ids_quantities: {
+        small_id => 2,
+        medium_id => 3
+      },
       unit: "pc")
 
-    assert_equal [ 1, 2 ], basket_content.basket_quantities
-    assert_equal 0, basket_content.surplus_quantity
+    assert_equal({ small_id.to_s => 2, medium_id.to_s => 3 }, bc.basket_quantities)
+    assert_equal 2, bc.basket_quantity(basket_sizes(:small))
+    assert_equal 3, bc.basket_quantity(basket_sizes(:medium))
   end
 
-  test "gives all pieces to small baskets" do
-    config(small: 100, medium: 50)
-    basket_content = create_basket_content(
-      basket_size_ids_percentages: {
-        small_id => 100,
-        medium_id => 0
-      },
-      quantity: 200,
-      unit: "pc")
-
-    assert_equal [ 2 ], basket_content.basket_quantities
-    assert_equal 0, basket_content.basket_quantity(BasketSize.new(id: medium_id))
-    assert_equal 0, basket_content.surplus_quantity
-  end
-
-  test "splits kilogram to both baskets" do
-    config(small: 131, medium: 29)
-    basket_content = create_basket_content(
-      basket_size_ids_percentages: {
-        small_id => 41,
-        medium_id => 59
-      },
-      quantity: 83,
-      unit: "kg")
-
-    assert_equal [ 0.48, 0.693 ], basket_content.basket_quantities.map(&:to_f)
-    assert_equal 0.02, basket_content.surplus_quantity.to_f
-  end
-
-  test "splits kilogram to both baskets (2)" do
-    config(small: 131, medium: 29)
-    basket_content = create_basket_content(
-      basket_size_ids_percentages: {
-        small_id => 41,
-        medium_id => 59
-      },
-      quantity: 100,
-      unit: "kg")
-
-    assert_equal [ 0.579, 0.832 ], basket_content.basket_quantities.map(&:to_f)
-    assert_equal 0.02, basket_content.surplus_quantity.to_f
-  end
-
-  test "splits kilogram to both baskets (3)" do
-    config(small: 151, medium: 29)
-    basket_content = create_basket_content(
-      basket_size_ids_percentages: {
-        small_id => 41,
-        medium_id => 59
-      },
-      quantity: 34,
-      unit: "kg")
-
-    assert_equal [ 0.176, 0.255 ], basket_content.basket_quantities.map(&:to_f)
-    assert_equal 0.03, basket_content.surplus_quantity.to_f
-  end
-
-  test "splits kilogram equally between both baskets" do
-    config(small: 131, medium: 29)
-    basket_content = create_basket_content(
-      basket_size_ids_percentages: {
-        small_id => 50,
-        medium_id => 50
-      },
-      quantity: 320,
-      unit: "kg")
-
-    assert_equal [ 2, 2 ], basket_content.basket_quantities.map(&:to_f)
-    assert_equal 0, basket_content.surplus_quantity.to_f
-  end
-
-  test "gives all kilogram to big baskets" do
-    config(small: 131, medium: 29)
-    basket_content = create_basket_content(
-      basket_size_ids_percentages: {
-        small_id => 0,
-        medium_id => 100
-      },
-      quantity: 83,
-      unit: "kg")
-
-    assert_equal [ 2.862 ], basket_content.basket_quantities.map(&:to_f)
-    assert_equal 0, basket_content.basket_quantity(BasketSize.new(id: small_id))
-    assert_equal 0, basket_content.surplus_quantity.to_f
-  end
-
-  test "with 3 basket sizes" do
-    config(small: 100, medium: 50, large: 20)
-    basket_content = create_basket_content(
-      basket_size_ids_percentages: {
-        small_id => 23,
-        medium_id => 33,
-        large_id => 44
-      },
-      quantity: 100,
-      unit: "kg")
-
-    assert_equal [ 0.476, 0.684, 0.91 ], basket_content.basket_quantities.map(&:to_f)
-    assert_equal 0, basket_content.surplus_quantity.to_f
-  end
-
-  test "gives all kilogram to big baskets with quantities" do
-    config(small: 131, medium: 29)
-    basket_content = create_basket_content(
-      distribution_mode: "manual",
+  test "zero quantities are excluded from hash" do
+    config(small: 1, medium: 1)
+    bc = create_basket_content(
       basket_size_ids_quantities: {
         small_id => 0,
         medium_id => 2500
       },
       unit: "kg")
 
-    assert_equal [ medium_id ], basket_content.basket_size_ids
-    assert_equal [ 2.5 ], basket_content.basket_quantities.map(&:to_f)
-    assert_equal [ 100 ], basket_content.basket_percentages
-    assert_equal 0, basket_content.basket_quantity(BasketSize.new(id: small_id))
-    assert_equal 72.5, basket_content.quantity.to_f
-    assert_equal 0, basket_content.surplus_quantity.to_f
+    assert_equal [ medium_id ], bc.basket_size_ids
+    assert_equal 2.5, bc.basket_quantity(basket_sizes(:medium))
+    assert_equal 0, bc.basket_quantity(basket_sizes(:small))
   end
 
-  test "with 3 basket sizes with quantities" do
-    config(small: 100, medium: 50, large: 20)
-    basket_content = create_basket_content(
-      distribution_mode: "manual",
+  test "computes basket_size_ids from hash keys" do
+    config(small: 1, medium: 1)
+    bc = create_basket_content(
+      basket_size_ids_quantities: {
+        small_id => 500,
+        medium_id => 600
+      },
+      unit: "kg")
+
+    assert_equal [ small_id, medium_id ].sort, bc.basket_size_ids.sort
+  end
+
+  test "computes quantity (total) from basket quantities and counts" do
+    config(small: 100, medium: 50)
+    bc = create_basket_content(
+      basket_size_ids_quantities: {
+        small_id => 500,
+        medium_id => 600
+      },
+      unit: "kg")
+
+    # total = 0.5 * 100 + 0.6 * 50 = 50 + 30 = 80
+    assert_equal 80.0, bc.quantity
+  end
+
+  test "computes rounded quantity and surplus for kg" do
+    config(small: 1, medium: 1)
+    bc = create_basket_content(
+      basket_size_ids_quantities: {
+        small_id => 500,
+        medium_id => 750
+      },
+      unit: "kg")
+
+    assert_equal 1.25, bc.exact_quantity
+    assert_equal 2, bc.rounded_quantity
+    assert_equal 750, bc.quantity_surplus
+    assert_equal "g", bc.quantity_surplus_unit
+  end
+
+  test "computes rounded quantity and surplus for pieces" do
+    config(small: 1, medium: 1, large: 1)
+    bc = create_basket_content(
+      basket_size_ids_quantities: {
+        small_id => 39,
+        medium_id => 48,
+        large_id => 40
+      },
+      unit: "pc")
+
+    assert_equal 127, bc.exact_quantity
+    assert_equal 130, bc.rounded_quantity
+    assert_equal 3, bc.quantity_surplus
+    assert_equal "pc", bc.quantity_surplus_unit
+  end
+
+  test "computes zero surplus for perfect matches" do
+    config(small: 1, medium: 1)
+    bc = create_basket_content(
+      basket_size_ids_quantities: {
+        small_id => 500,
+        medium_id => 500
+      },
+      unit: "kg")
+
+    assert_equal 1, bc.rounded_quantity
+    assert_equal 0, bc.quantity_surplus
+  end
+
+  test "does not round exact kg totals up due to floating point precision" do
+    config(small: 100)
+    bc = create_basket_content(
+      basket_size_ids_quantities: { small_id => 70 },
+      unit: "kg")
+
+    assert_equal 7, bc.exact_quantity
+    assert_equal 7, bc.rounded_quantity
+    assert_equal 0, bc.quantity_surplus
+  end
+
+  test "surplus increases when distributed kg quantity decreases within the same rounded bucket" do
+    config(small: 1, medium: 1)
+
+    fuller = create_basket_content(
+      basket_size_ids_quantities: {
+        small_id => 500,
+        medium_id => 750
+      },
+      unit: "kg")
+    lighter = create_basket_content(
+      basket_size_ids_quantities: {
+        small_id => 500,
+        medium_id => 700
+      },
+      unit: "kg")
+
+    assert_operator lighter.quantity_surplus, :>, fuller.quantity_surplus
+  end
+
+  test "surplus increases when distributed piece quantity decreases within the same rounded bucket" do
+    config(small: 1, medium: 1, large: 1)
+
+    fuller = create_basket_content(
+      basket_size_ids_quantities: {
+        small_id => 39,
+        medium_id => 48,
+        large_id => 40
+      },
+      unit: "pc")
+    lighter = create_basket_content(
+      basket_size_ids_quantities: {
+        small_id => 39,
+        medium_id => 44,
+        large_id => 40
+      },
+      unit: "pc")
+
+    assert_equal fuller.rounded_quantity, lighter.rounded_quantity
+    assert_operator lighter.quantity_surplus, :>, fuller.quantity_surplus
+  end
+
+  test "computes baskets_count from delivery baskets" do
+    config(small: 5, medium: 3)
+    bc = create_basket_content(
+      basket_size_ids_quantities: {
+        small_id => 100,
+        medium_id => 200
+      },
+      unit: "kg")
+
+    assert_equal 5, bc.baskets_count(basket_sizes(:small))
+    assert_equal 3, bc.baskets_count(basket_sizes(:medium))
+  end
+
+  test "baskets_count ignores preloaded counts for sizes without quantity" do
+    bc = build_basket_content(
+      basket_size_ids_quantities: { small_id => 100 },
+      unit: "pc")
+    bc.baskets_counts_hash = {
+      small_id => 5,
+      medium_id => 3
+    }
+
+    assert_equal 5, bc.baskets_count(basket_sizes(:small))
+    assert_equal 0, bc.baskets_count(basket_sizes(:medium))
+  end
+
+  test "computes basket_percentage from relative quantities" do
+    config(small: 1, medium: 1)
+    bc = create_basket_content(
       basket_size_ids_quantities: {
         small_id => 500,
         medium_id => 600,
@@ -200,33 +246,60 @@ class BasketContentTest < ActiveSupport::TestCase
       },
       unit: "kg")
 
-    assert_equal [ 0.5, 0.6, 0.9 ], basket_content.basket_quantities.map(&:to_f)
-    assert_equal [ 25, 30, 45 ], basket_content.basket_percentages
-    assert_equal 98, basket_content.quantity.to_f
-    assert_equal 0, basket_content.surplus_quantity.to_f
+    assert_equal 25, bc.basket_percentage(basket_sizes(:small))
+    assert_equal 30, bc.basket_percentage(basket_sizes(:medium))
+    assert_equal 45, bc.basket_percentage(basket_sizes(:large))
+  end
+
+  test "basket_quantity returns 0 for unknown basket_size" do
+    config(small: 1)
+    bc = create_basket_content(
+      basket_size_ids_quantities: { small_id => 100 },
+      unit: "pc")
+
+    assert_equal 0, bc.basket_quantity(BasketSize.new(id: 999))
+  end
+
+  test "price_for returns quantity times unit_price when depot matches" do
+    config(small: 1, medium: 1)
+    bc = create_basket_content(
+      basket_size_ids_quantities: {
+        small_id => 500,
+        medium_id => 750
+      },
+      unit: "kg",
+      unit_price: 2)
+
+    assert_equal 1.0, bc.price_for(basket_sizes(:small), depots(:farm))
+    assert_equal 1.5, bc.price_for(basket_sizes(:medium), depots(:farm))
+  end
+
+  test "price_for returns nil when depot not included" do
+    config(small: 1)
+    bc = create_basket_content(
+      basket_size_ids_quantities: { small_id => 500 },
+      depots: [ depots(:farm) ],
+      unit: "kg",
+      unit_price: 2)
+
+    assert_nil bc.price_for(basket_sizes(:small), depots(:home))
   end
 
   test "Delivery#update_basket_content_avg_prices! with all depots content" do
     config(small: 1, medium: 1)
     delivery = deliveries(:monday_1)
 
+    # small gets 39pc, medium gets 61pc → small price = 39*2=78, medium = 61*2=122
     assert_changes -> { delivery.reload.basket_content_avg_prices }, from: {}, to: { small_id.to_s => "78.0", medium_id.to_s => "122.0" } do
       create_basket_content(
-        basket_size_ids_percentages: {
-          small_id => 40,
-          medium_id => 60
+        basket_size_ids_quantities: {
+          small_id => 39,
+          medium_id => 61
         },
         delivery: delivery,
-        quantity: 100,
         unit: "pc",
         unit_price: 2)
     end
-
-    assert_equal({
-      small_id => { delivery_cycles(:mondays) => [ 68, 10 ] },
-      medium_id => { delivery_cycles(:mondays) => [ 102, 20 ] },
-      large_id => { delivery_cycles(:mondays) => [ 0, 0 ] }
-    }, delivery.basket_content_yearly_price_diffs)
 
     assert_equal({
       basket_sizes(:small) => {
@@ -247,12 +320,10 @@ class BasketContentTest < ActiveSupport::TestCase
     delivery = deliveries(:monday_1)
 
     create_basket_content(
-      basket_size_ids_percentages: {
-        small_id => 40,
-        medium_id => 60
+      basket_size_ids_quantities: {
+        small_id => 100
       },
       delivery: delivery,
-      quantity: 100,
       unit: "pc",
       unit_price: 2,
       depots: [ depots(:home) ])
@@ -272,12 +343,10 @@ class BasketContentTest < ActiveSupport::TestCase
     delivery = deliveries(:monday_1)
 
     create_basket_content(
-      basket_size_ids_percentages: {
-        small_id => 0,
+      basket_size_ids_quantities: {
         medium_id => 100
       },
       delivery: delivery,
-      quantity: 100,
       unit: "pc",
       unit_price: 2)
 
@@ -293,50 +362,6 @@ class BasketContentTest < ActiveSupport::TestCase
     }, delivery.basket_content_prices)
   end
 
-  test "Delivery#update_basket_content_avg_prices! with other delivery basket content" do
-    config(small: 1, medium: 1)
-    delivery = deliveries(:monday_1)
-    other_delivery = deliveries(:monday_2)
-
-    create_basket_content(
-      basket_size_ids_percentages: {
-        small_id => 40,
-        medium_id => 60
-      },
-      delivery: delivery,
-      quantity: 100,
-      unit: "pc",
-      unit_price: 2)
-    create_basket_content(
-      basket_size_ids_percentages: {
-        small_id => 40,
-        medium_id => 60
-      },
-      delivery: other_delivery,
-      quantity: 100,
-      unit: "kg",
-      unit_price: 1)
-
-    assert_equal({
-      medium_id.to_s => "100.0"
-    }, other_delivery.basket_content_avg_prices)
-    assert_equal({
-      small_id.to_s => "78.0",
-      medium_id.to_s => "122.0"
-    }, delivery.basket_content_avg_prices)
-    assert_not_equal other_delivery.basket_content_yearly_price_diffs, delivery.basket_content_yearly_price_diffs
-    assert_equal({
-      small_id => { delivery_cycles(:mondays) => [ 68, 10 ] },
-      medium_id => { delivery_cycles(:mondays) => [ 182, 40 ] },
-      large_id => { delivery_cycles(:mondays) => [ 0, 0 ] }
-    }, other_delivery.basket_content_yearly_price_diffs)
-    assert_equal({
-      small_id => { delivery_cycles(:mondays) => [ 68, 10 ] },
-      medium_id => { delivery_cycles(:mondays) => [ 102, 20 ] },
-      large_id => { delivery_cycles(:mondays) => [ 0, 0 ] }
-    }, delivery.basket_content_yearly_price_diffs)
-  end
-
   test "duplicate_all copies all basket content from one delivery to another" do
     config(small: 1, medium: 1)
     from_delivery = deliveries(:monday_1)
@@ -345,16 +370,13 @@ class BasketContentTest < ActiveSupport::TestCase
     create_basket_content(
       product: basket_content_products(:carrots),
       delivery: from_delivery,
-      basket_size_ids_percentages: {
-        small_id => 40,
-        medium_id => 60
+      basket_size_ids_quantities: {
+        small_id => 500,
+        medium_id => 750
       },
-      quantity: 100,
       unit: "kg",
-      unit_price: 1
-    )
+      unit_price: 1)
     create_basket_content(
-      distribution_mode: "manual",
       product: basket_content_products(:cucumbers),
       delivery: from_delivery,
       basket_size_ids_quantities: {
@@ -367,34 +389,14 @@ class BasketContentTest < ActiveSupport::TestCase
       BasketContent.duplicate_all(from_delivery.id, to_delivery.id)
     end
 
-    assert_equal({
-      "basket_size_ids" => [ small_id, medium_id ],
-      "basket_percentages" => [ 40, 60 ],
-      "baskets_counts" => [ 0, 1 ],
-      "quantity" => 100,
-      "unit" => "kg",
-      "unit_price" => 1
-    }, to_delivery.basket_contents.first.attributes.slice(*%w[
-      basket_size_ids
-      basket_percentages
-      baskets_counts
-      quantity
-      unit
-      unit_price
-    ]))
-    assert_equal({
-      "basket_size_ids" => [ small_id, medium_id ],
-      "basket_quantities" => [ 75, 75 ],
-      "baskets_counts" => [ 0, 1 ],
-      "quantity" => 75,
-      "unit" => "pc"
-    }, to_delivery.basket_contents.last.attributes.slice(*%w[
-      basket_size_ids
-      basket_quantities
-      baskets_counts
-      quantity
-      unit
-    ]))
+    copied_kg = to_delivery.basket_contents.find_by(product: basket_content_products(:carrots))
+    assert_equal({ small_id.to_s => 0.5, medium_id.to_s => 0.75 }, copied_kg.basket_quantities)
+    assert_equal "kg", copied_kg.unit
+    assert_equal 1, copied_kg.unit_price
+
+    copied_pc = to_delivery.basket_contents.find_by(product: basket_content_products(:cucumbers))
+    assert_equal({ small_id.to_s => 75, medium_id.to_s => 75 }, copied_pc.basket_quantities)
+    assert_equal "pc", copied_pc.unit
   end
 
   test "duplicate_all does nothing when deliveries have no contents" do
@@ -413,16 +415,14 @@ class BasketContentTest < ActiveSupport::TestCase
     create_basket_content(
       product: basket_content_products(:carrots),
       delivery: from_delivery,
-      basket_size_ids_percentages: {
-        small_id => 40,
-        medium_id => 60
+      basket_size_ids_quantities: {
+        small_id => 500,
+        medium_id => 750
       },
-      quantity: 100,
       unit: "kg",
       unit_price: 1)
     existing_content = create_basket_content(
       product: basket_content_products(:cucumbers),
-      distribution_mode: "manual",
       delivery: to_delivery,
       basket_size_ids_quantities: {
         small_id => 75,
@@ -435,22 +435,8 @@ class BasketContentTest < ActiveSupport::TestCase
     end
 
     assert_equal existing_content, to_delivery.basket_contents.find_by(product: basket_content_products(:cucumbers))
-    copied_content = to_delivery.basket_contents.find_by(product: basket_content_products(:carrots))
-    assert_equal({
-      "basket_size_ids" => [ small_id, medium_id ],
-      "basket_percentages" => [ 40, 60 ],
-      "baskets_counts" => [ 0, 1 ],
-      "quantity" => 100,
-      "unit" => "kg",
-      "unit_price" => 1
-    }, copied_content.attributes.slice(*%w[
-      basket_size_ids
-      basket_percentages
-      baskets_counts
-      quantity
-      unit
-      unit_price
-    ]))
+    copied = to_delivery.basket_contents.find_by(product: basket_content_products(:carrots))
+    assert_equal({ small_id.to_s => 0.5, medium_id.to_s => 0.75 }, copied.basket_quantities)
   end
 
   test "duplicate_all skips contents whose product already exists on target delivery" do
@@ -460,16 +446,14 @@ class BasketContentTest < ActiveSupport::TestCase
     create_basket_content(
       product: basket_content_products(:carrots),
       delivery: from_delivery,
-      basket_size_ids_percentages: {
-        small_id => 40,
-        medium_id => 60
+      basket_size_ids_quantities: {
+        small_id => 500,
+        medium_id => 750
       },
-      quantity: 100,
       unit: "kg",
       unit_price: 1)
     existing_content = create_basket_content(
       product: basket_content_products(:carrots),
-      distribution_mode: "manual",
       delivery: to_delivery,
       basket_size_ids_quantities: {
         small_id => 75,
@@ -490,15 +474,13 @@ class BasketContentTest < ActiveSupport::TestCase
     create_basket_content(
       product: basket_content_products(:carrots),
       delivery: from_delivery,
-      basket_size_ids_percentages: {
-        small_id => 40,
-        medium_id => 60
+      basket_size_ids_quantities: {
+        small_id => 500,
+        medium_id => 750
       },
-      quantity: 100,
       unit: "kg")
     create_basket_content(
       product: basket_content_products(:cucumbers),
-      distribution_mode: "manual",
       delivery: from_delivery,
       basket_size_ids_quantities: {
         small_id => 75,
@@ -508,7 +490,6 @@ class BasketContentTest < ActiveSupport::TestCase
     existing_content = create_basket_content(
       product: basket_content_products(:carrots),
       delivery: to_delivery,
-      distribution_mode: "manual",
       basket_size_ids_quantities: {
         medium_id => 75
       },
@@ -519,20 +500,8 @@ class BasketContentTest < ActiveSupport::TestCase
     end
 
     assert_equal [ existing_content ], to_delivery.basket_contents.where(product: basket_content_products(:carrots)).to_a
-    copied_content = to_delivery.basket_contents.find_by(product: basket_content_products(:cucumbers))
-    assert_equal({
-      "basket_size_ids" => [ small_id, medium_id ],
-      "basket_quantities" => [ 75, 75 ],
-      "baskets_counts" => [ 0, 1 ],
-      "quantity" => 75,
-      "unit" => "pc"
-    }, copied_content.attributes.slice(*%w[
-      basket_size_ids
-      basket_quantities
-      baskets_counts
-      quantity
-      unit
-    ]))
+    copied = to_delivery.basket_contents.find_by(product: basket_content_products(:cucumbers))
+    assert_equal({ small_id.to_s => 75, medium_id.to_s => 75 }, copied.basket_quantities)
   end
 
   test "coming_deliveries_missing_contents_from includes empty and partial targets only" do
@@ -544,32 +513,27 @@ class BasketContentTest < ActiveSupport::TestCase
     create_basket_content(
       product: basket_content_products(:carrots),
       delivery: source_delivery,
-      basket_size_ids_percentages: { small_id => 100 },
-      quantity: 100,
+      basket_size_ids_quantities: { small_id => 100 },
       unit: "kg")
     create_basket_content(
       product: basket_content_products(:cucumbers),
       delivery: source_delivery,
-      basket_size_ids_percentages: { small_id => 100 },
-      quantity: 100,
+      basket_size_ids_quantities: { small_id => 1 },
       unit: "pc")
     create_basket_content(
       product: basket_content_products(:carrots),
       delivery: partial_delivery,
-      basket_size_ids_percentages: { small_id => 100 },
-      quantity: 100,
+      basket_size_ids_quantities: { small_id => 100 },
       unit: "kg")
     create_basket_content(
       product: basket_content_products(:carrots),
       delivery: full_delivery,
-      basket_size_ids_percentages: { small_id => 100 },
-      quantity: 100,
+      basket_size_ids_quantities: { small_id => 100 },
       unit: "kg")
     create_basket_content(
       product: basket_content_products(:cucumbers),
       delivery: full_delivery,
-      basket_size_ids_percentages: { small_id => 100 },
-      quantity: 100,
+      basket_size_ids_quantities: { small_id => 1 },
       unit: "pc")
 
     deliveries = BasketContent.coming_deliveries_missing_contents_from(source_delivery)
@@ -592,20 +556,17 @@ class BasketContentTest < ActiveSupport::TestCase
     create_basket_content(
       product: basket_content_products(:carrots),
       delivery: to_delivery,
-      basket_size_ids_percentages: { small_id => 100 },
-      quantity: 100,
+      basket_size_ids_quantities: { small_id => 100 },
       unit: "kg")
     create_basket_content(
       product: basket_content_products(:cucumbers),
       delivery: missing_source_delivery,
-      basket_size_ids_percentages: { small_id => 100 },
-      quantity: 100,
+      basket_size_ids_quantities: { small_id => 1 },
       unit: "pc")
     create_basket_content(
       product: basket_content_products(:carrots),
       delivery: covered_source_delivery,
-      basket_size_ids_percentages: { small_id => 100 },
-      quantity: 100,
+      basket_size_ids_quantities: { small_id => 100 },
       unit: "kg")
 
     deliveries = BasketContent.filled_deliveries_with_contents_missing_from(to_delivery)
@@ -622,8 +583,7 @@ class BasketContentTest < ActiveSupport::TestCase
     create_basket_content(
       product: basket_content_products(:carrots),
       delivery: source_delivery,
-      basket_size_ids_percentages: { small_id => 100 },
-      quantity: 100,
+      basket_size_ids_quantities: { small_id => 100 },
       unit: "kg")
 
     deliveries = BasketContent.filled_deliveries_with_contents_missing_from(to_delivery)

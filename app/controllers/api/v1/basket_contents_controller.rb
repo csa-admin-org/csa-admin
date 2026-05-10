@@ -28,16 +28,26 @@ module API
             {
               id: content.product_id,
               unit: content.unit,
-              quantities: content.basket_size_ids.map { |basket_size_id|
-                {
-                  basket_size_id: basket_size_id,
-                  quantity: content.basket_quantity(basket_size_id).to_f
-                }
-              },
+              quantities: quantities_for(content),
               depot_ids: content.depot_ids.sort
             }
           }
         }
+      end
+
+      def quantities_for(content)
+        content.basket_quantities
+          .sort_by { |id, _| basket_size_ids_order.index(id.to_i) || basket_size_ids_order.size }
+          .map { |id, qty|
+            {
+              basket_size_id: id.to_i,
+              quantity: qty.to_f
+            }
+          }
+      end
+
+      def basket_size_ids_order
+        @basket_size_ids_order ||= BasketSize.ordered.paid.pluck(:id)
       end
     end
   end

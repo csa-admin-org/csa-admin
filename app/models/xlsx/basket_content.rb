@@ -36,6 +36,9 @@ module XLSX
     def build_summary_worksheet
       add_worksheet I18n.t("delivery.summary")
 
+      # Preload basket counts once for all basket contents
+      preload_baskets_counts(@basket_contents)
+
       add_product_columns(@basket_contents)
       add_unit_columns(@basket_contents)
       add_unit_price_columns(@basket_contents)
@@ -59,12 +62,6 @@ module XLSX
           })
       end
       add_column(
-        ::BasketContent.human_attribute_name(:surplus),
-        @basket_contents.map { |bc| bc.surplus_quantity })
-      add_column(
-        "#{::BasketContent.human_attribute_name(:surplus)} - #{::BasketContent.human_attribute_name(:price)}",
-        @basket_contents.map { |bc| display_price bc.unit_price, bc.surplus_quantity })
-      add_column(
         Depot.model_name.human(count: 2),
         @basket_contents.map { |bc| display_depots(bc.depots) })
     end
@@ -73,6 +70,12 @@ module XLSX
       add_worksheet(depot.name)
 
       basket_contents = @basket_contents.for_depot(depot)
+
+      # Preload basket counts scoped to this depot
+      depot_counts = baskets.group(:basket_size_id).sum(:quantity)
+      basket_contents.each do |bc|
+        bc.baskets_counts_hash = depot_counts.slice(*bc.basket_size_ids)
+      end
 
       add_product_columns(basket_contents)
       add_unit_columns(basket_contents)
@@ -89,7 +92,7 @@ module XLSX
         baskets_count = baskets.where(basket_size_id: basket_size.id).sum(:quantity)
         add_column(
           "#{basket_size.name} - #{Basket.model_name.human(count: 2)}",
-          basket_contents.map { |bc| baskets_count if bc.baskets_count(basket_size) })
+          basket_contents.map { |bc| baskets_count if bc.baskets_count(basket_size).positive? })
         add_column(
           "#{basket_size.name} - #{::BasketContent.human_attribute_name(:basket_quantity)}",
           basket_contents.map { |bc| bc.basket_quantity(basket_size) })
@@ -103,6 +106,24 @@ module XLSX
           basket_contents.map { |bc|
             display_price bc.unit_price, bc.basket_quantity(basket_size)
           })
+      end
+    end
+
+    def preload_baskets_counts(basket_contents)
+      # Single query: group by (depot_id, basket_size_id) so each BC can
+      # filter by its own depot_ids without extra queries.
+      raw_counts = @delivery.baskets.active
+        .where(basket_size_id: BasketSize.paid.pluck(:id))
+        .group(:depot_id, :basket_size_id)
+        .sum(:quantity)
+      basket_contents.each do |bc|
+        bc_depot_ids = bc.depot_ids
+        bc_basket_size_ids = bc.basket_size_ids
+        merged = Hash.new(0)
+        raw_counts.each do |(depot_id, bs_id), count|
+          merged[bs_id] += count if bc_depot_ids.include?(depot_id) && bc_basket_size_ids.include?(bs_id)
+        end
+        bc.baskets_counts_hash = merged
       end
     end
 

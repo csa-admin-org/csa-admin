@@ -21,6 +21,16 @@ class API::V1::BasketContentsControllerTest < ActionDispatch::IntegrationTest
 
   test "returns current delivery and its basket contents" do
     travel_to "2024-04-01"
+    create_basket_content(
+      delivery: deliveries(:monday_1),
+      product: basket_content_products(:carrots),
+      basket_size_ids_quantities: {
+        medium_id => 200,
+        small_id => 100
+      },
+      depots: [ depots(:farm), depots(:home) ],
+      unit: "pc")
+
     request
 
     assert_response :success
@@ -30,7 +40,21 @@ class API::V1::BasketContentsControllerTest < ActionDispatch::IntegrationTest
         "id" => deliveries(:monday_1).id,
         "date" => "2024-04-01"
       },
-      "products" => []
+      "products" => [ {
+        "id" => basket_content_products(:carrots).id,
+        "unit" => "pc",
+        "quantities" => [
+          {
+            "basket_size_id" => small_id,
+            "quantity" => 100.0
+          },
+          {
+            "basket_size_id" => medium_id,
+            "quantity" => 200.0
+          }
+        ],
+        "depot_ids" => [ depots(:farm).id, depots(:home).id ].sort
+      } ]
     }, json_response)
   end
 end

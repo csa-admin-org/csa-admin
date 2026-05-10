@@ -1,6 +1,6 @@
 # <%= BasketContent.model_name.human %>
 
-This feature provides a tool to calculate the content and value of <%= Basket.model_name.human(count: 2).downcase %> for each delivery. It allows you to define which products go into each <%= BasketSize.model_name.human.downcase %>, with automatic or manual distribution of quantities.
+This feature provides a tool to calculate the content and value of <%= Basket.model_name.human(count: 2).downcase %> for each delivery. It allows you to define which products go into each <%= BasketSize.model_name.human.downcase %> and configure how quantities are distributed across <%= BasketSize.model_name.human(count: 2).downcase %>.
 
 ## Products {#products}
 
@@ -12,12 +12,16 @@ Products are reusable across deliveries — once created, they can be selected w
 
 From [the <%= BasketContent.model_name.human.downcase %> page](/basket_contents), select a delivery to view and manage its contents. For each delivery, you can add products and configure how they are distributed across <%= BasketSize.model_name.human(count: 2).downcase %>.
 
-### Distribution Modes
+### Distribution
 
-Two distribution modes are available for each product:
+For each product, you set the quantity per <%= Basket.model_name.human.downcase %> for each <%= BasketSize.model_name.human.downcase %>. Percentage sliders let you adjust the split between sizes proportionally, and the total quantity updates automatically based on your per-size quantities and the current number of <%= Basket.model_name.human(count: 2).downcase %>.
 
-- **Automatic**: You define the total quantity and a percentage split between <%= BasketSize.model_name.human(count: 2).downcase %>. The system calculates individual <%= Basket.model_name.human.downcase %> quantities, optimizing for minimal surplus.
-- **Manual**: You directly specify the quantity per <%= Basket.model_name.human.downcase %> for each <%= BasketSize.model_name.human.downcase %>.
+Two preset buttons are available for quick distribution:
+
+- **Pro rata by price**: splits quantities proportionally based on each <%= BasketSize.model_name.human.downcase %>'s price, so a size that costs twice as much gets roughly twice the quantity.
+- **In equal parts**: gives the same quantity to every <%= BasketSize.model_name.human.downcase %>.
+
+A live preview shows <%= Basket.model_name.human.downcase %> counts, prices, and any surplus quantity.
 
 ### Depots
 

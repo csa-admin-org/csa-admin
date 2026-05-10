@@ -6,8 +6,8 @@ module BasketContentsHelper
       product: basket_content_products(:carrots),
       delivery: deliveries(:monday_1),
       depots: Depot.all,
-      quantity: 100,
-      unit: "pc"
+      unit: "pc",
+      basket_size_ids_quantities: { small_id => 1, medium_id => 1 }
     }.merge(attrs))
   end
 
