@@ -19,6 +19,42 @@ _:
       _de: Verteilung
       _it: Distribuzione
       _nl: Verdeling
+    total_quantity_tooltip/bag:
+      _en: Helper value, not saved. Distributed across bag sizes using the sliders. The final amount depends on actual deliveries.
+      _fr: Valeur indicative, non enregistrée. Répartie entre les tailles de sac à l'aide des curseurs. Le montant final dépend des livraisons effectives.
+      _de: Hilfswert, wird nicht gespeichert. Wird über die Schieberegler auf die Taschengrössen verteilt. Die endgültige Menge hängt von den tatsächlichen Lieferungen ab.
+      _it: Valore indicativo, non salvato. Distribuito tra le dimensioni delle borse tramite i cursori. La quantità finale dipende dalle consegne effettive.
+      _nl: Hulpwaarde, wordt niet opgeslagen. Verdeeld over de tasgroottes via de schuifregelaars. De uiteindelijke hoeveelheid hangt af van de werkelijke leveringen.
+    total_quantity_tooltip/basket:
+      _en: Helper value, not saved. Distributed across basket sizes using the sliders. The final amount depends on actual deliveries.
+      _fr: Valeur indicative, non enregistrée. Répartie entre les tailles de panier à l'aide des curseurs. Le montant final dépend des livraisons effectives.
+      _de: Hilfswert, wird nicht gespeichert. Wird über die Schieberegler auf die Korbgrössen verteilt. Die endgültige Menge hängt von den tatsächlichen Lieferungen ab.
+      _it: Valore indicativo, non salvato. Distribuito tra le dimensioni delle ceste tramite i cursori. La quantità finale dipende dalle consegne effettive.
+      _nl: Hulpwaarde, wordt niet opgeslagen. Verdeeld over de mandgroottes via de schuifregelaars. De uiteindelijke hoeveelheid hangt af van de werkelijke leveringen.
+    total_quantity_tooltip/cone:
+      _en: Helper value, not saved. Distributed across cone sizes using the sliders. The final amount depends on actual deliveries.
+      _fr: Valeur indicative, non enregistrée. Répartie entre les tailles de cornet à l'aide des curseurs. Le montant final dépend des livraisons effectives.
+      _de: Hilfswert, wird nicht gespeichert. Wird über die Schieberegler auf die Tütengrössen verteilt. Die endgültige Menge hängt von den tatsächlichen Lieferungen ab.
+      _it: Valore indicativo, non salvato. Distribuito tra le dimensioni dei coni tramite i cursori. La quantità finale dipende dalle consegne effettive.
+      _nl: Hulpwaarde, wordt niet opgeslagen. Verdeeld over de zakgroottes via de schuifregelaars. De uiteindelijke hoeveelheid hangt af van de werkelijke leveringen.
+    total_quantity_tooltip/crate:
+      _en: Helper value, not saved. Distributed across crate sizes using the sliders. The final amount depends on actual deliveries.
+      _fr: Valeur indicative, non enregistrée. Répartie entre les tailles de cagette à l'aide des curseurs. Le montant final dépend des livraisons effectives.
+      _de: Hilfswert, wird nicht gespeichert. Wird über die Schieberegler auf die Kistengrössen verteilt. Die endgültige Menge hängt von den tatsächlichen Lieferungen ab.
+      _it: Valore indicativo, non salvato. Distribuito tra le dimensioni delle cassette tramite i cursori. La quantità finale dipende dalle consegne effettive.
+      _nl: Hulpwaarde, wordt niet opgeslagen. Verdeeld over de kratgroottes via de schuifregelaars. De uiteindelijke hoeveelheid hangt af van de werkelijke leveringen.
+    total_quantity_tooltip/package:
+      _en: Helper value, not saved. Distributed across package sizes using the sliders. The final amount depends on actual deliveries.
+      _fr: Valeur indicative, non enregistrée. Répartie entre les tailles de colis à l'aide des curseurs. Le montant final dépend des livraisons effectives.
+      _de: Hilfswert, wird nicht gespeichert. Wird über die Schieberegler auf die Paketgrössen verteilt. Die endgültige Menge hängt von den tatsächlichen Lieferungen ab.
+      _it: Valore indicativo, non salvato. Distribuito tra le dimensioni dei pacchi tramite i cursori. La quantità finale dipende dalle consegne effettive.
+      _nl: Hulpwaarde, wordt niet opgeslagen. Verdeeld over de pakketgroottes via de schuifregelaars. De uiteindelijke hoeveelheid hangt af van de werkelijke leveringen.
+    total_quantity_tooltip/share:
+      _en: Helper value, not saved. Distributed across share sizes using the sliders. The final amount depends on actual deliveries.
+      _fr: Valeur indicative, non enregistrée. Répartie entre les tailles de part à l'aide des curseurs. Le montant final dépend des livraisons effectives.
+      _de: Hilfswert, wird nicht gespeichert. Wird über die Schieberegler auf die Anteilsgrössen verteilt. Die endgültige Menge hängt von den tatsächlichen Lieferungen ab.
+      _it: Valore indicativo, non salvato. Distribuito tra le dimensioni delle parti tramite i cursori. La quantità finale dipende dalle consegne effettive.
+      _nl: Hulpwaarde, wordt niet opgeslagen. Verdeeld over de deelgroottes via de schuifregelaars. De uiteindelijke hoeveelheid hangt af van de werkelijke leveringen.
     preset:
       basket_content_percentages_even:
         _en: In equal parts

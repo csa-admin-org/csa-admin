@@ -256,7 +256,11 @@ ActiveAdmin.register BasketContent do
       f.inputs t("basket_content.distribution"), icon: "scale" do
         f.semantic_errors :basket_quantities
         li class: "input string" do
-          label BasketContent.human_attribute_name(:quantity), for: "basket_content_total_quantity", class: "label font-normal!"
+          div class: "flex items-center gap-1 mb-1" do
+            label BasketContent.human_attribute_name(:quantity), for: "basket_content_total_quantity", class: "label font-normal! m-0!"
+            text_node tooltip("basket-content-total-quantity",
+              t("basket_content.total_quantity_tooltip"), icon_class: "size-4 text-gray-600 dark:text-gray-400")
+          end
           div class: "inline-flex items-center" do
             text_node helpers.tag.input(
               type: "number", min: 0,
@@ -279,29 +283,37 @@ ActiveAdmin.register BasketContent do
                 "baskets-count" => f.object.baskets_count(basket_size)
               } do
             label basket_size.name, for: "basket_size_ids_quantities_#{basket_size.id}", class: "label w-full m-0 p-0"
-            text_node helpers.tag.input(
-              type: "range", min: 0, max: 100, step: 0.1,
-              disabled: f.object.quantity.to_f.zero?,
-              id: "basket_size_ids_percentages_#{basket_size.id}_range",
-              value: percentages[basket_size.id] || 0,
-              class: "w-auto md:w-52",
-              "data-basket-content-distribution-target" => "range",
-              "data-action" => "input->basket-content-distribution#percentageChanged")
-            div class: "inline-flex items-center" do
-              text_node helpers.tag.input(
-                type: "number", min: 0, step: 1,
-                id: "basket_size_ids_quantities_#{basket_size.id}",
-                name: "basket_content[basket_size_ids_quantities][#{basket_size.id}]",
-                value: f.object.basket_size_ids_quantity(basket_size),
-                class: "w-22 text-left",
-                "data-basket-content-distribution-target" => "quantityInput",
-                "data-action" => "input->basket-content-distribution#quantityChanging blur->basket-content-distribution#quantityChanged")
-              span unit_suffix, class: "bc-unit-suffix text-sm text-gray-500 dark:text-gray-400 ms-2"
+            div class: "flex w-full md:w-auto items-center justify-around gap-x-6" do
+              div class: "relative w-full md:w-60" do
+                text_node helpers.tag.input(
+                  type: "range", min: 0, max: 100, step: 1,
+                  disabled: f.object.quantity.to_f.zero?,
+                  id: "basket_size_ids_percentages_#{basket_size.id}_range",
+                  value: percentages[basket_size.id] || 0,
+                  class: "w-full",
+                  "data-basket-content-distribution-target" => "range",
+                  "data-action" => "input->basket-content-distribution#percentageChanged")
+                span class: "bc-percentage-label absolute -bottom-3.5 right-0 text-xs text-gray-400 dark:text-gray-500 tabular-nums",
+                  "data-basket-content-distribution-target" => "percentageLabel" do
+                  text_node "#{(percentages[basket_size.id] || 0).round}%"
+                end
+              end
+              div class: "inline-flex items-center" do
+                text_node helpers.tag.input(
+                  type: "number", min: 0, step: 1,
+                  id: "basket_size_ids_quantities_#{basket_size.id}",
+                  name: "basket_content[basket_size_ids_quantities][#{basket_size.id}]",
+                  value: f.object.basket_size_ids_quantity(basket_size),
+                  class: "w-22 text-left",
+                  "data-basket-content-distribution-target" => "quantityInput",
+                  "data-action" => "input->basket-content-distribution#quantityChanging blur->basket-content-distribution#quantityChanged")
+                span unit_suffix, class: "bc-unit-suffix text-sm text-gray-500 dark:text-gray-400 ms-2"
+              end
             end
             span class: "bc-form-price empty:hidden w-full md:w-auto"
           end
         end
-        li class: "input flex mt-6 mb-2 gap-2" do
+        li class: "input flex mt-4 mb-2 gap-2" do
           button class: "btn btn-light btn-sm",
               type: "button",
               "data-basket-content-distribution-target" => "preset",

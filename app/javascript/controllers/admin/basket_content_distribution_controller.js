@@ -1,11 +1,18 @@
 import { Controller } from "@hotwired/stimulus"
 import { debounce } from "throttle-debounce"
 
-const PRESET_TOLERANCE = 1.0
+const PRESET_TOLERANCE = 2.0
 
 export default class extends Controller {
   static get targets() {
-    return ["totalQuantity", "range", "quantityInput", "preset", "frame"]
+    return [
+      "totalQuantity",
+      "range",
+      "quantityInput",
+      "percentageLabel",
+      "preset",
+      "frame"
+    ]
   }
 
   static get values() {
@@ -159,10 +166,12 @@ export default class extends Controller {
         input.value = 0
       } else {
         const quantity = (total * percentage) / weightedSum
-        input.value =
-          this.currentUnit() === "kg"
-            ? Math.round(quantity * 1000)
-            : Math.round(quantity)
+        if (this.currentUnit() === "kg") {
+          const grams = Math.round(quantity * 1000)
+          input.value = grams >= 100 ? Math.round(grams / 10) * 10 : grams
+        } else {
+          input.value = Math.round(quantity)
+        }
       }
     })
   }
@@ -305,7 +314,7 @@ export default class extends Controller {
   }
 
   roundPercentage(value) {
-    return Math.round((parseFloat(value) || 0) * 10) / 10
+    return Math.round((parseFloat(value) || 0) * 100) / 100
   }
 
   clampPercentage(value) {
@@ -375,10 +384,10 @@ export default class extends Controller {
   distribute() {
     this.clearPrices()
     this.updateUnitFromFrame()
-    this.updateBasketsCountsFromFrame()
+    const countsChanged = this.updateBasketsCountsFromFrame()
     if (this.distributionInputFocused()) {
       this.updateAll()
-    } else {
+    } else if (countsChanged) {
       this.synchronizeDistributionAfterRefresh()
     }
     this.updateTotalProductValueFromFrame()
@@ -391,13 +400,18 @@ export default class extends Controller {
   }
 
   updateBasketsCountsFromFrame() {
+    let changed = false
     this.frameTarget
       .querySelectorAll("[data-baskets-count-for]")
       .forEach((source) => {
         this.rowsFor(source.dataset.basketsCountFor).forEach((row) => {
-          row.dataset.basketsCount = source.dataset.basketsCount
+          if (row.dataset.basketsCount !== source.dataset.basketsCount) {
+            row.dataset.basketsCount = source.dataset.basketsCount
+            changed = true
+          }
         })
       })
+    return changed
   }
 
   updateTotalProductValueFromFrame() {
@@ -443,8 +457,24 @@ export default class extends Controller {
 
   updateAll() {
     this.updateRangeAvailability()
+    this.updatePercentageLabels()
     this.updatePresetStates()
     this.updateUnitSuffixes()
+  }
+
+  updatePercentageLabels() {
+    if (!this.hasPercentageLabelTarget) return
+
+    const rounded = this.rangeTargets.map((range) =>
+      Math.round(parseFloat(range.value) || 0)
+    )
+    const sum = rounded.reduce((s, v) => s + v, 0)
+    const approximate = sum !== 100 && sum !== 0
+
+    this.percentageLabelTargets.forEach((label, index) => {
+      const value = rounded[index] ?? 0
+      label.textContent = approximate ? `~${value}%` : `${value}%`
+    })
   }
 
   updateRangeAvailability() {
