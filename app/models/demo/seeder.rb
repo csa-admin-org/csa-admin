@@ -1186,14 +1186,14 @@ class Demo::Seeder
     return if @products.blank? || @current_year_deliveries.blank?
 
     # Find deliveries that have active baskets (from memberships)
-    deliveries_with_baskets = @current_year_deliveries.reverse.select do |delivery|
+    deliveries_with_baskets = @current_year_deliveries.select do |delivery|
       delivery.baskets.active.any?
     end
 
     return if deliveries_with_baskets.empty?
 
     # Add basket content to the first few deliveries with baskets
-    deliveries_to_fill = deliveries_with_baskets.first(5)
+    deliveries_to_fill = deliveries_with_baskets.select { |delivery| delivery.date <= 1.week.from_now }
 
     # Get basket size IDs for setting up basket content
     basket_sizes = BasketSize.paid.reorder(:id)
@@ -1208,11 +1208,18 @@ class Demo::Seeder
 
       products_for_delivery.each do |product|
         # Build per-basket-size quantities using price ratios
-        base_qty = product.default_unit == "kg" ? rand(100..250) : rand(1..5)
+        base_qty = product.default_unit == "kg" ? rand(1700..2000) : rand(9..12)
         quantities = basket_sizes.each_with_object({}) do |bs, h|
           ratio = bs.price / total_price.to_f
           qty = (base_qty * ratio).round
           h[bs.id.to_s] = qty if qty > 0
+        end
+
+        if quantities.empty?
+          # Piece quantities can all round down to zero; keep one allocation so
+          # demo resets don't fail validation.
+          largest_basket_size = basket_sizes.max_by(&:price)
+          quantities[largest_basket_size.id.to_s] = [ base_qty, 1 ].max
         end
 
         BasketContent.create!(
