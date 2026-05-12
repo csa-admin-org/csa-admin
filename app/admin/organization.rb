@@ -245,7 +245,7 @@ ActiveAdmin.register Organization do
 
           para class: "mt-4 flex justify-center" do
             a href: new_members_member_url(subdomain: Current.org.members_subdomain), class: "btn btn-sm btn-light" do
-              span icon("external-link", class: "size-5 me-1", title: t("active_admin.site_footer.handbook"))
+              span icon("external-link", class: "size-4", title: t("active_admin.site_footer.handbook"))
               span t(".registration_form")
             end.html_safe
           end
