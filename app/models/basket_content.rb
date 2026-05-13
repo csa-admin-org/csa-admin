@@ -32,6 +32,7 @@ class BasketContent < ApplicationRecord
   validates :unit_price, numericality: { greater_than_or_equal_to: 0, allow_nil: true }
 
   after_commit :update_delivery_basket_content_avg_prices!
+  after_commit :sync_product_latest_basket_content!
 
   def self.duplicate_all(from_delivery_id, to_delivery_id)
     contents = where(delivery_id: from_delivery_id)
@@ -329,5 +330,9 @@ class BasketContent < ApplicationRecord
 
   def update_delivery_basket_content_avg_prices!
     delivery.update_basket_content_avg_prices!
+  end
+
+  def sync_product_latest_basket_content!
+    product.sync_latest_basket_content!
   end
 end

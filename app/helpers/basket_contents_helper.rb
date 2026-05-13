@@ -132,30 +132,14 @@ module BasketContentsHelper
   end
 
   def basket_content_products_collection
-    products =
-      BasketContent::Product
-        .includes(:latest_basket_content_in_kg, :latest_basket_content_in_pc)
-        .ordered
+    products = BasketContent::Product.ordered
     products.map do |product|
-      data = { latest_basket_content: {} }
-      latest_by_unit = {
-        "kg" => product.latest_basket_content_in_kg,
-        "pc" => product.latest_basket_content_in_pc
-      }
-      latest = latest_by_unit.values.compact.max_by(&:updated_at)
+      data = {}
 
       if product.default_unit.present?
         data[:latest_basket_content_unit] = product.default_unit
-      elsif latest
-        data[:latest_basket_content_unit] = latest.unit
-      end
-
-      latest_by_unit.each do |unit, basket_content|
-        next unless basket_content || product.default_unit == unit
-
-        data[:latest_basket_content][unit] = basket_content_product_unit_data(
-          basket_content,
-          unit_price: product.default_unit == unit ? product.default_unit_price : nil)
+        data[:latest_basket_content_unit_price] = product.default_unit_price
+        data[:latest_basket_content_quantities] = product.default_basket_quantities.to_json
       end
 
       if product.url?
@@ -166,18 +150,5 @@ module BasketContentsHelper
       end
       [ product.name, product.id, data: data ]
     end
-  end
-
-  private
-
-  def basket_content_product_unit_data(basket_content, unit_price: nil)
-    data = { unit_price: unit_price }
-    return data unless basket_content
-
-    data.merge(
-      quantity: basket_content.quantity,
-      unit_price: unit_price || basket_content.unit_price,
-      basket_size_ids_quantities: basket_content.basket_size_ids_quantities
-        .transform_keys(&:to_s))
   end
 end

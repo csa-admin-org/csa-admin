@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_05_09_200700) do
+ActiveRecord::Schema[8.1].define(version: 2026_05_13_132800) do
   create_table "absences", force: :cascade do |t|
     t.datetime "admins_notified_at"
     t.datetime "created_at"
@@ -214,6 +214,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_09_200700) do
 
   create_table "basket_content_products", force: :cascade do |t|
     t.datetime "created_at", null: false
+    t.json "default_basket_quantities", default: {}, null: false
     t.string "default_unit"
     t.decimal "default_unit_price", precision: 8, scale: 2
     t.json "names", default: {}, null: false

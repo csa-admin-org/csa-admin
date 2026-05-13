@@ -142,4 +142,68 @@ class BasketContent::ProductTest < ActiveSupport::TestCase
 
     assert product.valid?
   end
+
+  test "sync_latest_basket_content! updates defaults from latest basket content" do
+    product = basket_content_products(:carrots)
+    create_basket_content(
+      product: product,
+      delivery: deliveries(:monday_1),
+      basket_size_ids_quantities: { small_id => 300, medium_id => 600 },
+      depots: Depot.all,
+      unit: "kg",
+      unit_price: 2.50)
+    create_basket_content(
+      product: product,
+      delivery: deliveries(:monday_2),
+      basket_size_ids_quantities: { small_id => 500, medium_id => 750 },
+      depots: Depot.all,
+      unit: "kg",
+      unit_price: 3.25)
+
+    product.reload
+    assert_equal "kg", product.default_unit
+    assert_equal BigDecimal("3.25"), product.default_unit_price
+    assert_equal({ small_id.to_s => 500, medium_id.to_s => 750 }, product.default_basket_quantities)
+  end
+
+  test "sync_latest_basket_content! uses delivery date order not creation order" do
+    product = basket_content_products(:carrots)
+    # Create content for a later delivery first
+    create_basket_content(
+      product: product,
+      delivery: deliveries(:monday_2),
+      basket_size_ids_quantities: { small_id => 500, medium_id => 750 },
+      depots: Depot.all,
+      unit: "kg",
+      unit_price: 3.25)
+    # Then create content for an earlier delivery
+    create_basket_content(
+      product: product,
+      delivery: deliveries(:monday_1),
+      basket_size_ids_quantities: { small_id => 2, medium_id => 4 },
+      depots: Depot.all,
+      unit: "pc",
+      unit_price: 1.00)
+
+    product.reload
+    # Should still reflect the later delivery (monday_2)
+    assert_equal "kg", product.default_unit
+    assert_equal BigDecimal("3.25"), product.default_unit_price
+    assert_equal({ small_id.to_s => 500, medium_id.to_s => 750 }, product.default_basket_quantities)
+  end
+
+  test "default_basket_quantities stores display-ready values" do
+    product = basket_content_products(:carrots)
+    create_basket_content(
+      product: product,
+      delivery: deliveries(:monday_1),
+      basket_size_ids_quantities: { small_id => 500, medium_id => 750 },
+      depots: Depot.all,
+      unit: "kg",
+      unit_price: 3.00)
+
+    product.reload
+    # Stored as grams (display format), not raw kg decimals
+    assert_equal({ small_id.to_s => 500, medium_id.to_s => 750 }, product.default_basket_quantities)
+  end
 end

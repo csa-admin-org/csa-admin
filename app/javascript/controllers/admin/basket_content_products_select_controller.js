@@ -17,20 +17,26 @@ export default class extends Controller {
   }
 
   unitChange() {
-    const data = this.latestBasketContentData()?.[this.unitSelectTarget.value]
-    this.applyDefaults(data)
+    const selectedUnit = this.unitSelectTarget.value
+    const latestUnit = this.productDataset("latestBasketContentUnit")
+    const matchesLatest = selectedUnit && selectedUnit === latestUnit
+    this.applyDefaults(matchesLatest)
   }
 
-  applyDefaults(data = null) {
+  applyDefaults(matchesLatest = false) {
     if (this.hasTotalQuantityInputTarget) {
-      this.totalQuantityInputTarget.value = data?.quantity ?? ""
+      this.totalQuantityInputTarget.value = ""
     }
 
     if (this.hasUnitPriceInputTarget) {
-      this.unitPriceInputTarget.value = data?.unit_price ?? ""
+      this.unitPriceInputTarget.value = matchesLatest
+        ? (this.productDataset("latestBasketContentUnitPrice") ?? "")
+        : ""
     }
 
-    this.applyBasketQuantities(data?.basket_size_ids_quantities)
+    this.applyBasketQuantities(
+      matchesLatest ? this.latestBasketContentQuantities() : null
+    )
     this.element.dispatchEvent(
       new CustomEvent("basket-content-products-updated", { bubbles: true })
     )
@@ -50,8 +56,8 @@ export default class extends Controller {
     )
   }
 
-  latestBasketContentData() {
-    const rawData = this.productDataset("latestBasketContent")
+  latestBasketContentQuantities() {
+    const rawData = this.productDataset("latestBasketContentQuantities")
     return rawData ? JSON.parse(rawData) : null
   }
 

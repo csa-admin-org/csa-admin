@@ -4,9 +4,9 @@ Cette fonctionnalité fournit un outil pour calculer le contenu et la valeur des
 
 ## Produits {#products}
 
-Avant de configurer le <%= BasketContent.model_name.human.downcase %>, vous devez créer vos [produits](/basket_content_products). Chaque produit a un nom, et optionnellement une unité par défaut (kg ou pièces), un prix unitaire par défaut, et un URL vers le site web du producteur.
+Avant de configurer le <%= BasketContent.model_name.human.downcase %>, vous devez créer vos [produits](/basket_content_products). Chaque produit a un nom, une unité (kg ou pièces), un prix unitaire, et optionnellement un URL vers le site web du producteur.
 
-Les produits sont réutilisables d'une livraison à l'autre — une fois créés, ils peuvent être sélectionnés lors de l'ajout de contenu à n'importe quelle livraison.
+Les produits sont réutilisables d'une livraison à l'autre — une fois créés, ils peuvent être sélectionnés lors de l'ajout de contenu à n'importe quelle livraison. L'unité, le prix et les quantités de la dernière utilisation sont automatiquement sauvegardés et pré-remplis lors de l'ajout du produit à une nouvelle livraison.
 
 ## Configurer le <%= BasketContent.model_name.human.downcase %> {#configuring-basket-contents}
 

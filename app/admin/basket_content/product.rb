@@ -24,18 +24,16 @@ class BasketContent
     index do
       column :name, sortable: true
       column :url, ->(p) { link_to(p.url_domain, p.url) if p.url? }
-      column(:default_price) { |p|
+      column(:default_price, class: "text-right") { |p|
         if p.default_unit.present?
-          t("units.#{p.default_unit}_quantity", quantity: "#{cur(p.default_unit_price)}/")
+          t("units.#{p.default_unit}_quantity", quantity: "#{cur(p.default_unit_price, unit: false)}/")
         end
       }
-      column(:latest_use) { |p|
+      column(:latest_use, class: "text-right tabular-nums") { |p|
         if p.latest_basket_content
-          display_with_unit_price(p.latest_basket_content.unit_price, p.latest_basket_content.unit) {
-            link_to(
-              l(p.latest_basket_content.delivery.date),
-              basket_contents_path(q: { delivery_id_eq: p.latest_basket_content.delivery_id }))
-          }
+          link_to(
+            l(p.latest_basket_content.delivery.date, format: :number),
+            basket_contents_path(q: { delivery_id_eq: p.latest_basket_content.delivery_id }))
         end
       }
       if authorized?(:update, Product)

@@ -4,9 +4,9 @@ Deze functie biedt een hulpmiddel om de inhoud en waarde van <%= Basket.model_na
 
 ## Producten {#products}
 
-Voordat je de <%= BasketContent.model_name.human.downcase %> configureert, moet je je [producten](/basket_content_products) instellen. Elk product heeft een naam, en optioneel een standaardeenheid (kg of stuks), een standaard eenheidsprijs en een URL naar de website van de producent.
+Voordat je de <%= BasketContent.model_name.human.downcase %> configureert, moet je je [producten](/basket_content_products) instellen. Elk product heeft een naam, een eenheid (kg of stuks), een eenheidsprijs en optioneel een URL naar de website van de producent.
 
-Producten zijn herbruikbaar over leveringen heen — eenmaal aangemaakt, kunnen ze worden geselecteerd bij het toevoegen van inhoud aan elke levering.
+Producten zijn herbruikbaar over leveringen heen — eenmaal aangemaakt, kunnen ze worden geselecteerd bij het toevoegen van inhoud aan elke levering. De eenheid, prijs en hoeveelheden van het laatste gebruik worden automatisch opgeslagen en vooraf ingevuld bij het toevoegen van het product aan een nieuwe levering.
 
 ## <%= BasketContent.model_name.human %> configureren {#configuring-basket-contents}
 

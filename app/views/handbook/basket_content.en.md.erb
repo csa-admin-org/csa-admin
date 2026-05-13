@@ -4,9 +4,9 @@ This feature provides a tool to calculate the content and value of <%= Basket.mo
 
 ## Products {#products}
 
-Before configuring <%= BasketContent.model_name.human.downcase %>, you need to set up your [products](/basket_content_products). Each product has a name, and optionally a default unit (kg or pieces), a default unit price, and a URL linking to the producer's website.
+Before configuring <%= BasketContent.model_name.human.downcase %>, you need to set up your [products](/basket_content_products). Each product has a name, a unit (kg or pieces), a unit price, and optionally a URL linking to the producer's website.
 
-Products are reusable across deliveries — once created, they can be selected when adding content to any delivery.
+Products are reusable across deliveries — once created, they can be selected when adding content to any delivery. The unit, price, and quantities from the last use are automatically saved and pre-filled when adding the product to a new delivery.
 
 ## Configuring <%= BasketContent.model_name.human %> {#configuring-basket-contents}
 
