@@ -62,11 +62,6 @@ export default class extends Controller {
   formChanged(event) {
     if (this.isDistributionInput(event.target)) return
 
-    if (this.isUnitInput(event.target)) {
-      this.markDistributionSource("quantity")
-      this.recalculateFromQuantities()
-    }
-
     this.refresh()
   }
 
@@ -336,7 +331,7 @@ export default class extends Controller {
     const formData = new FormData(this.form)
     const deliveryId = formData.get("basket_content[delivery_id]")
     const unitPrice = formData.get("basket_content[unit_price]")
-    const unit = formData.get("basket_content[unit]")
+    const unit = this.currentUnit()
 
     if (!deliveryId) {
       this.clearPrices()
@@ -535,9 +530,10 @@ export default class extends Controller {
   }
 
   currentUnit() {
-    return (
-      this.form.querySelector('[name="basket_content[unit]"]')?.value || "kg"
+    const select = this.element.querySelector(
+      '[data-basket-content-products-select-target="productSelect"]'
     )
+    return select?.selectedOptions[0]?.dataset.unit || "kg"
   }
 
   distributionInputFocused() {
@@ -552,9 +548,5 @@ export default class extends Controller {
         '[data-basket-content-distribution-target~="quantityInput"]'
       ].join(",")
     )
-  }
-
-  isUnitInput(target) {
-    return target?.matches?.('[name="basket_content[unit]"]')
   }
 }

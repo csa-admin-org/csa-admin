@@ -35,11 +35,6 @@ class BasketContent < ApplicationRecord
   after_commit :update_delivery_basket_content_avg_prices!
   after_commit :sync_product_latest_basket_content!
 
-  def product=(prod)
-    super
-    self.unit = prod.unit if prod
-  end
-
   def self.duplicate_all(from_delivery_id, to_delivery_id)
     contents = where(delivery_id: from_delivery_id)
     return if contents.none?
@@ -137,6 +132,10 @@ class BasketContent < ApplicationRecord
   # (e.g. in XLSX export where all contents share the same delivery)
   def baskets_counts_hash=(hash)
     @baskets_counts_hash = hash
+  end
+
+  def unit
+    self[:unit] || product&.unit
   end
 
   def quantity

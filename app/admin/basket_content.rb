@@ -232,13 +232,6 @@ ActiveAdmin.register BasketContent do
           required: true,
           prompt: true,
           hint: link_to(f.object.product&.url_domain.to_s, f.object.product&.url, target: "_blank", data: { "form-hint-url-target" => "link" })
-        li class: "hidden" do
-          text_node helpers.tag.input(
-            type: "hidden",
-            name: "basket_content[unit]",
-            value: f.object.product&.unit || "",
-            "data-basket-content-products-select-target" => "unitInput")
-        end
         li class: "input number pt-0" do
           label BasketContent.human_attribute_name(:price), for: "basket_content_unit_price", class: "label"
           div class: "inline-flex items-baseline" do
@@ -263,16 +256,18 @@ ActiveAdmin.register BasketContent do
               t("basket_content.total_quantity_tooltip"), icon_class: "size-4 text-gray-600 dark:text-gray-400")
           end
           div class: "inline-flex items-center" do
-            text_node helpers.tag.input(
-              type: "number", min: 0,
-              id: "basket_content_total_quantity",
-              value: f.object.rounded_quantity.positive? ? f.object.rounded_quantity : nil,
-              class: "text-input w-24",
-              "data-basket-content-products-select-target" => "totalQuantityInput",
-              "data-basket-content-distribution-target" => "totalQuantity",
-              "data-action" => "input->basket-content-distribution#totalQuantityChanging blur->basket-content-distribution#totalQuantityChanged")
-            span basket_content_total_unit_suffix(f.object.unit),
-              class: "bc-total-unit-suffix text-sm text-gray-500 dark:text-gray-400 ms-2"
+            div class: "inline-flex items-baseline" do
+              text_node helpers.tag.input(
+                type: "number", min: 0,
+                id: "basket_content_total_quantity",
+                value: f.object.rounded_quantity.positive? ? f.object.rounded_quantity : nil,
+                class: "text-input w-24",
+                "data-basket-content-products-select-target" => "totalQuantityInput",
+                "data-basket-content-distribution-target" => "totalQuantity",
+                "data-action" => "input->basket-content-distribution#totalQuantityChanging blur->basket-content-distribution#totalQuantityChanged")
+              span basket_content_total_unit_suffix(f.object.unit),
+                class: "bc-total-unit-suffix text-sm text-gray-500 dark:text-gray-400 ms-2"
+            end
             span class: "bc-total-form-price empty:hidden"
           end
         end
@@ -345,7 +340,7 @@ ActiveAdmin.register BasketContent do
     end
   end
 
-  permit_params(*%i[delivery_id product_id unit unit_price],
+  permit_params(*%i[delivery_id product_id unit_price],
     depot_ids: [],
     basket_size_ids_quantities: {})
 

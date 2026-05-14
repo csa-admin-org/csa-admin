@@ -2,18 +2,10 @@ import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
   static get targets() {
-    return [
-      "productSelect",
-      "unitInput",
-      "totalQuantityInput",
-      "unitPriceInput"
-    ]
+    return ["productSelect", "totalQuantityInput", "unitPriceInput"]
   }
 
   productChange() {
-    if (this.hasUnitInputTarget) {
-      this.unitInputTarget.value = this.productDataset("unit") || ""
-    }
     this.applyDefaults()
   }
 
