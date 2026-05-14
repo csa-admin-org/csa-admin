@@ -1,7 +1,9 @@
 carrots:
   names:
     en: Carrots
+  unit: kg
 
 cucumbers:
   names:
     en: Cucumbers
+  unit: pc

@@ -25,7 +25,29 @@ class BasketContentsHelperTest < ActionView::TestCase
     assert_equal({ small_id => 40, medium_id => 60 }, basket_content_form_percentages(content))
   end
 
-  test "products collection embeds default quantities from synced product" do
+  test "products collection shows plain name without sibling" do
+    product = basket_content_products(:carrots)
+
+    name, _, _ = basket_content_products_collection.find { |(_, id, _)| id == product.id }
+    assert_equal "Carrots", name
+  end
+
+  test "products collection shows name with unit when sibling exists" do
+    product = basket_content_products(:carrots)
+    BasketContent::Product.create!(names: product[:names], unit: "pc")
+
+    name, _, _ = basket_content_products_collection.find { |(_, id, _)| id == product.id }
+    assert_equal "Carrots (#{I18n.t('units.kg.short')})", name
+  end
+
+  test "products collection includes unit in data attributes" do
+    product = basket_content_products(:carrots)
+
+    _, _, options = basket_content_products_collection.find { |(_, id, _)| id == product.id }
+    assert_equal "kg", options[:data][:unit]
+  end
+
+  test "products collection embeds synced price and quantities" do
     product = basket_content_products(:carrots)
     create_basket_content(
       product: product,
@@ -41,38 +63,10 @@ class BasketContentsHelperTest < ActionView::TestCase
     _, _, options = basket_content_products_collection.find { |(_, id, _)| id == product.id }
     data = options[:data]
 
-    assert_equal "kg", data[:latest_basket_content_unit]
     assert_equal BigDecimal("3.25"), data[:latest_basket_content_unit_price]
     assert_equal({
       small_id.to_s => 500,
       medium_id.to_s => 750
-    }, JSON.parse(data[:latest_basket_content_quantities]))
-  end
-
-  test "products collection uses manually set defaults over synced values" do
-    product = basket_content_products(:carrots)
-    create_basket_content(
-      product: product,
-      delivery: deliveries(:monday_2),
-      basket_size_ids_quantities: {
-        small_id => 250,
-        medium_id => 500
-      },
-      depots: [ depots(:bakery) ],
-      unit: "kg",
-      unit_price: 3.25)
-
-    # Manually override the price (simulating season reset)
-    product.update!(default_unit_price: 4.50)
-
-    _, _, options = basket_content_products_collection.find { |(_, id, _)| id == product.id }
-    data = options[:data]
-
-    assert_equal "kg", data[:latest_basket_content_unit]
-    assert_equal BigDecimal("4.5"), data[:latest_basket_content_unit_price]
-    assert_equal({
-      small_id.to_s => 250,
-      medium_id.to_s => 500
     }, JSON.parse(data[:latest_basket_content_quantities]))
   end
 end

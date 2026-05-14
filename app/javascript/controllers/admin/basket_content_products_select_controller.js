@@ -4,39 +4,30 @@ export default class extends Controller {
   static get targets() {
     return [
       "productSelect",
-      "unitSelect",
+      "unitInput",
       "totalQuantityInput",
       "unitPriceInput"
     ]
   }
 
   productChange() {
-    const latestUnit = this.productDataset("latestBasketContentUnit")
-    this.unitSelectTarget.value = latestUnit || ""
-    this.unitChange()
+    if (this.hasUnitInputTarget) {
+      this.unitInputTarget.value = this.productDataset("unit") || ""
+    }
+    this.applyDefaults()
   }
 
-  unitChange() {
-    const selectedUnit = this.unitSelectTarget.value
-    const latestUnit = this.productDataset("latestBasketContentUnit")
-    const matchesLatest = selectedUnit && selectedUnit === latestUnit
-    this.applyDefaults(matchesLatest)
-  }
-
-  applyDefaults(matchesLatest = false) {
+  applyDefaults() {
     if (this.hasTotalQuantityInputTarget) {
       this.totalQuantityInputTarget.value = ""
     }
 
     if (this.hasUnitPriceInputTarget) {
-      this.unitPriceInputTarget.value = matchesLatest
-        ? (this.productDataset("latestBasketContentUnitPrice") ?? "")
-        : ""
+      this.unitPriceInputTarget.value =
+        this.productDataset("latestBasketContentUnitPrice") ?? ""
     }
 
-    this.applyBasketQuantities(
-      matchesLatest ? this.latestBasketContentQuantities() : null
-    )
+    this.applyBasketQuantities(this.latestBasketContentQuantities())
     this.element.dispatchEvent(
       new CustomEvent("basket-content-products-updated", { bubbles: true })
     )

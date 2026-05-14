@@ -13,11 +13,24 @@ _:
       _it: "%{quantity} g"
       _nl: "%{quantity} g"
     kg:
-      _en: Kilogram
-      _fr: Kilogramme
-      _de: Kilogramm
-      _it: Chilogrammi
-      _nl: Kilogram
+      flex:
+        _en: kg
+        _fr: kg
+        _de: kg
+        _it: kg
+        _nl: kg
+      long:
+        _en: Kilogram
+        _fr: Kilogramme
+        _de: Kilogramm
+        _it: Chilogrammi
+        _nl: Kilogram
+      short:
+        _en: kg
+        _fr: kg
+        _de: kg
+        _it: kg
+        _nl: kg
     kg_quantity:
       _en: "%{quantity} kg"
       _fr: "%{quantity} kg"
@@ -25,11 +38,24 @@ _:
       _it: "%{quantity} kg"
       _nl: "%{quantity} kg"
     pc:
-      _en: Piece
-      _fr: Pièce
-      _de: Stück
-      _it: Pezzo
-      _nl: Stuk
+      flex:
+        _en: piece
+        _fr: pièce
+        _de: stück
+        _it: pezzo
+        _nl: stuk
+      long:
+        _en: Piece
+        _fr: Pièce
+        _de: Stück
+        _it: Pezzo
+        _nl: Stuk
+      short:
+        _en: pc
+        _fr: p
+        _de: st
+        _it: p
+        _nl: st
     pc_count_quantity:
       _en: "%{count}x %{quantity} pc"
       _fr: "%{count}x %{quantity} p"

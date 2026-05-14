@@ -25,8 +25,8 @@ class Demo::SeederTest < ActiveSupport::TestCase
 
       product = BasketContent::Product.create!(
         names: { "en" => "Salad" },
-        default_unit: "pc",
-        default_unit_price: 2.5
+        unit: "pc",
+        default_price: 2.5
       )
 
       seeder = Demo::Seeder.new

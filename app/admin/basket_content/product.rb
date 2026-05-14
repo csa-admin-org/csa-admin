@@ -19,14 +19,21 @@ class BasketContent
     filter :name_cont,
       label: -> { BasketContent::Product.human_attribute_name(:name) },
       as: :string
+    filter :unit, collection: -> { units_collection }, as: :select
+    filter :default_price
 
     includes :basket_contents, latest_basket_content: :delivery
     index do
-      column :name, sortable: true
-      column :url, ->(p) { link_to(p.url_domain, p.url) if p.url? }
+      column :name, ->(p) {
+        display_with_external_url(p.name, p.url)
+      }, sortable: true
+      column(:unit) { |p| I18n.t("units.#{p.unit}.long") }
       column(:default_price, class: "text-right") { |p|
-        if p.default_unit.present?
-          t("units.#{p.default_unit}_quantity", quantity: "#{cur(p.default_unit_price, unit: false)}/")
+        if p.default_price.present?
+          span class: "inline-flex items-baseline gap-x-1" do
+            span cur(p.default_price, unit: false), class: "tabular-nums"
+            span "/#{t("units.#{p.unit}.short")}", class: "text-gray-500 w-5 text-sm text-left"
+          end
         end
       }
       column(:latest_use, class: "text-right tabular-nums") { |p|
@@ -54,11 +61,7 @@ class BasketContent
       column(:latest_delivery) { |p|
         p.latest_basket_content&.delivery&.date
       }
-      column(:latest_unit) { |p|
-        if p.latest_basket_content
-          t("units.#{p.latest_basket_content.unit}")
-        end
-      }
+      column(:latest_unit) { |p| t("units.#{p.unit}.flex") }
       column(:latest_quantity) { |p| p.latest_basket_content&.quantity }
       column(:latest_unit_price) { |p| p.latest_basket_content&.unit_price }
     end
@@ -75,21 +78,41 @@ class BasketContent
         translated_input(f, :names)
         f.input :url, hint: t("formtastic.hints.basket_content/product.url")
       end
-      f.inputs t(".defaults"), icon: "sliders-horizontal" do
-        para t("formtastic.hints.basket_content/product.defaults_intro"), class: "description -mt-2 mb-4"
-        div class: "single-line" do
-          f.input :default_unit,
-            as: :select,
-            collection: units_collection,
-            include_blank: true
-          f.input :default_unit_price,
-            hint: t("formtastic.hints.basket_content.unit_price")
+      f.inputs t(".settings"), icon: "sliders-horizontal",
+        data: {
+          controller: "price-unit-suffix",
+          "price-unit-suffix-suffixes-value" => { kg: "/#{t("units.kg.flex")}", pc: "/#{t("units.pc.flex")}" }.to_json
+        } do
+        f.input :unit,
+          as: :select,
+          collection: units_collection,
+          prompt: true,
+          include_blank: false,
+          input_html: {
+            data: {
+              "price-unit-suffix-target" => "select",
+              action: "price-unit-suffix#update"
+            }
+          }
+        li class: "input number" do
+          label BasketContent::Product.human_attribute_name(:default_price), for: "basket_content_product_default_price", class: "label"
+          div class: "inline-flex items-baseline" do
+            text_node helpers.tag.input(
+              type: "number", min: 0, step: 0.01,
+              id: "basket_content_product_default_price",
+              name: "basket_content_product[default_price]",
+              value: f.object.default_price)
+            span "/#{t("units.#{f.object.unit || 'kg'}.flex")}",
+              class: "text-sm text-gray-500 dark:text-gray-400 ms-2",
+              data: { "price-unit-suffix-target" => "text" }
+          end
+          para t("formtastic.hints.basket_content/product.default_price"), class: "inline-hints"
         end
       end
       f.actions
     end
 
-    permit_params(:url, :default_unit, :default_unit_price, *I18n.available_locales.map { |l| "name_#{l}" })
+    permit_params(:url, :unit, :default_price, *I18n.available_locales.map { |l| "name_#{l}" })
 
     controller do
       include TranslatedCSVFilename

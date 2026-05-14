@@ -23,7 +23,7 @@ class API::V1::BasketContentsControllerTest < ActionDispatch::IntegrationTest
     travel_to "2024-04-01"
     create_basket_content(
       delivery: deliveries(:monday_1),
-      product: basket_content_products(:carrots),
+      product: basket_content_products(:cucumbers),
       basket_size_ids_quantities: {
         medium_id => 200,
         small_id => 100
@@ -41,7 +41,7 @@ class API::V1::BasketContentsControllerTest < ActionDispatch::IntegrationTest
         "date" => "2024-04-01"
       },
       "products" => [ {
-        "id" => basket_content_products(:carrots).id,
+        "id" => basket_content_products(:cucumbers).id,
         "unit" => "pc",
         "quantities" => [
           {

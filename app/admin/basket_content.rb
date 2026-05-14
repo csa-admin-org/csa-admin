@@ -106,7 +106,7 @@ ActiveAdmin.register BasketContent do
     column(:month) { |bc| t("date.month_names")[bc.delivery.date.month] }
     column(:wday) { |bc| t("date.day_names")[bc.delivery.date.wday] }
     column(:product) { |bc| bc.product.name }
-    column(:unit) { |bc| t("units.#{bc.unit}") }
+    column(:unit) { |bc| t("units.#{bc.unit}.flex") }
     column(:unit_price) { |bc| cur(bc.unit_price) }
     column(:quantity) { |bc| bc.quantity }
     BasketSize.paid.ordered.each do |basket_size|
@@ -207,15 +207,15 @@ ActiveAdmin.register BasketContent do
       ].join(" "),
       "basket-content-distribution-url-value" => form_prices_basket_contents_path,
       "basket-content-distribution-id-value" => f.object.persisted? ? f.object.id.to_s : "",
-      "basket-content-distribution-pc-suffix-value" => t("units.pc_quantity", quantity: "").strip
+      "basket-content-distribution-pc-suffix-value" => t("units.pc_quantity", quantity: "").strip,
+      "basket-content-distribution-kg-price-suffix-value" => "/#{t("units.kg.flex")}",
+      "basket-content-distribution-pc-price-suffix-value" => "/#{t("units.pc.flex")}"
     } do
       f.inputs t(".details"), icon: "notebook-text" do
         f.input :delivery,
           collection: grouped_by_date(Delivery, past: :first),
           required: true,
           prompt: true
-      end
-      f.inputs BasketContent.human_attribute_name(:content), icon: "sprout" do
         f.input :product,
           input_html: {
             data: {
@@ -232,25 +232,26 @@ ActiveAdmin.register BasketContent do
           required: true,
           prompt: true,
           hint: link_to(f.object.product&.url_domain.to_s, f.object.product&.url, target: "_blank", data: { "form-hint-url-target" => "link" })
-        f.input :unit,
-          collection: units_collection,
-          prompt: true,
-          input_html: {
-            data: {
-              action: "basket-content-products-select#unitChange",
-              "basket-content-products-select-target" => "unitSelect"
-            }
-          }
-        f.input :unit_price,
-          label: BasketContent.human_attribute_name(:price),
-          as: :number,
-          min: 0,
-          step: 0.01,
-          input_html: {
-            data: {
-              "basket-content-products-select-target" => "unitPriceInput"
-            }
-          }
+        li class: "hidden" do
+          text_node helpers.tag.input(
+            type: "hidden",
+            name: "basket_content[unit]",
+            value: f.object.product&.unit || "",
+            "data-basket-content-products-select-target" => "unitInput")
+        end
+        li class: "input number pt-0" do
+          label BasketContent.human_attribute_name(:price), for: "basket_content_unit_price", class: "label"
+          div class: "inline-flex items-baseline" do
+            text_node helpers.tag.input(
+              type: "number", min: 0, step: 0.01,
+              id: "basket_content_unit_price",
+              name: "basket_content[unit_price]",
+              value: f.object.unit_price,
+              "data-basket-content-products-select-target" => "unitPriceInput")
+            price_suffix = f.object.product ? "/#{t("units.#{f.object.product.unit}.flex")}" : ""
+            span price_suffix, class: "bc-price-unit-suffix text-sm text-gray-500 dark:text-gray-400 ms-2"
+          end
+        end
       end
       unit_suffix = basket_content_unit_suffix(f.object.unit)
       f.inputs t("basket_content.distribution"), icon: "scale" do
@@ -298,7 +299,7 @@ ActiveAdmin.register BasketContent do
                   text_node "#{(percentages[basket_size.id] || 0).round}%"
                 end
               end
-              div class: "inline-flex items-center" do
+              div class: "inline-flex items-baseline" do
                 text_node helpers.tag.input(
                   type: "number", min: 0, step: 1,
                   id: "basket_size_ids_quantities_#{basket_size.id}",

@@ -2,11 +2,12 @@
 
 module BasketContentsHelper
   def build_basket_content(attrs)
+    unit = attrs[:unit] || "pc"
+    default_product = unit == "kg" ? basket_content_products(:carrots) : basket_content_products(:cucumbers)
     BasketContent.new({
-      product: basket_content_products(:carrots),
+      product: default_product,
       delivery: deliveries(:monday_1),
       depots: Depot.all,
-      unit: "pc",
       basket_size_ids_quantities: { small_id => 1, medium_id => 1 }
     }.merge(attrs))
   end

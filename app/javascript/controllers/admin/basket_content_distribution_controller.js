@@ -19,7 +19,9 @@ export default class extends Controller {
     return {
       url: String,
       id: { type: String, default: "" },
-      pcSuffix: { type: String, default: "pc" }
+      pcSuffix: { type: String, default: "pc" },
+      kgPriceSuffix: { type: String, default: "" },
+      pcPriceSuffix: { type: String, default: "" }
     }
   }
 
@@ -509,6 +511,12 @@ export default class extends Controller {
     const totalSuffix = unit === "pc" ? this.pcSuffixValue : "kg"
     this.element.querySelectorAll(".bc-total-unit-suffix").forEach((suffix) => {
       suffix.textContent = totalSuffix
+    })
+
+    const priceSuffix =
+      unit === "pc" ? this.pcPriceSuffixValue : this.kgPriceSuffixValue
+    this.element.querySelectorAll(".bc-price-unit-suffix").forEach((suffix) => {
+      suffix.textContent = priceSuffix
     })
   }
 

@@ -109,9 +109,9 @@ module BasketContentsHelper
     (yield + content_tag(:span, unit_price, class: "block text-sm text-gray-500 whitespace-nowrap")).html_safe
   end
 
-  def units_collection
+  def units_collection(format: :long)
     BasketContent::UNITS.map do |unit|
-      [ I18n.t("units.#{unit}"), unit ]
+      [ I18n.t("units.#{unit}.#{format}"), unit ]
     end
   end
 
@@ -132,15 +132,17 @@ module BasketContentsHelper
   end
 
   def basket_content_products_collection
-    products = BasketContent::Product.ordered
+    products = BasketContent::Product.includes(:sibling).ordered
     products.map do |product|
       data = {}
 
-      if product.default_unit.present?
-        data[:latest_basket_content_unit] = product.default_unit
-        data[:latest_basket_content_unit_price] = product.default_unit_price
+      if product.default_price.present?
+        data[:latest_basket_content_unit_price] = product.default_price
+      end
+      if product.default_basket_quantities.present?
         data[:latest_basket_content_quantities] = product.default_basket_quantities.to_json
       end
+      data[:unit] = product.unit
 
       if product.url?
         data[:form_hint_url] = {
@@ -148,7 +150,7 @@ module BasketContentsHelper
           href: product.url
         }
       end
-      [ product.name, product.id, data: data ]
+      [ product.name_with_unit, product.id, data: data ]
     end
   end
 end

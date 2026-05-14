@@ -714,8 +714,8 @@ class Demo::Seeder
     @products = PRODUCTS.map do |product_data|
       BasketContent::Product.create!(
         names: translated_text(product_data[:key]),
-        default_unit: product_data[:unit],
-        default_unit_price: product_data[:price]
+        unit: product_data[:unit],
+        default_price: product_data[:price]
       )
     end
   end
@@ -1208,7 +1208,7 @@ class Demo::Seeder
 
       products_for_delivery.each do |product|
         # Build per-basket-size quantities using price ratios
-        base_qty = product.default_unit == "kg" ? rand(1700..2000) : rand(9..12)
+        base_qty = product.unit == "kg" ? rand(1700..2000) : rand(9..12)
         quantities = basket_sizes.each_with_object({}) do |bs, h|
           ratio = bs.price / total_price.to_f
           qty = (base_qty * ratio).round
@@ -1225,8 +1225,7 @@ class Demo::Seeder
         BasketContent.create!(
           delivery: delivery,
           product: product,
-          unit: product.default_unit,
-          unit_price: product.default_unit_price,
+          unit_price: product.default_price,
           depot_ids: @all_depots.map(&:id),
           basket_size_ids_quantities: quantities
         )

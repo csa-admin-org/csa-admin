@@ -136,7 +136,7 @@ module XLSX
     def add_unit_columns(basket_contents)
       add_column(
         ::BasketContent.human_attribute_name(:unit),
-        basket_contents.map { |bc| I18n.t("units.#{bc.unit}") })
+        basket_contents.map { |bc| I18n.t("units.#{bc.unit}.flex") })
     end
 
     def add_unit_price_columns(basket_contents)

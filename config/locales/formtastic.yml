@@ -264,7 +264,7 @@ _:
           _it: Per kg o per pezzo.
           _nl: Per kg of per stuk.
       basket_content/product:
-        defaults_intro:
+        default_price:
           _en: Set a price manually for the next use. Automatically updated when new content is saved.
           _fr: Permet de définir un prix manuellement pour la prochaine utilisation. Automatiquement mis à jour lors de l'enregistrement d'un nouveau contenu.
           _de: Ermöglicht es, einen Preis manuell für die nächste Verwendung festzulegen. Wird automatisch beim Speichern eines neuen Inhalts aktualisiert.
