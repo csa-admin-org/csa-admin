@@ -6,7 +6,7 @@ Deze functie biedt een hulpmiddel om de inhoud en waarde van <%= Basket.model_na
 
 Voordat je de <%= BasketContent.model_name.human.downcase %> configureert, moet je je [producten](/basket_content_products) instellen. Elk product heeft een naam, een eenheid (kg of stuks), een eenheidsprijs en optioneel een URL naar de website van de producent.
 
-Producten zijn herbruikbaar over leveringen heen — eenmaal aangemaakt, kunnen ze worden geselecteerd bij het toevoegen van inhoud aan elke levering. De eenheid, prijs en hoeveelheden van het laatste gebruik worden automatisch opgeslagen en vooraf ingevuld bij het toevoegen van het product aan een nieuwe levering.
+Producten zijn herbruikbaar over leveringen heen — eenmaal aangemaakt, kunnen ze worden geselecteerd bij het toevoegen van inhoud aan elke levering. De prijs en hoeveelheden van het laatste gebruik worden automatisch opgeslagen en vooraf ingevuld bij het toevoegen van het product aan een nieuwe levering.
 
 ## <%= BasketContent.model_name.human %> configureren {#configuring-basket-contents}
 
@@ -25,11 +25,19 @@ Een live-voorbeeld toont het aantal <%= Basket.model_name.human(count: 2).downca
 
 ### Depots
 
-Elke <%= BasketContent.model_name.human.downcase %>-invoer kan worden beperkt tot specifieke depots. Dit is handig wanneer de hoeveelheid van een product niet voldoende is voor alle depots.
+Elke <%= BasketContent.model_name.human.downcase %>-invoer kan worden beperkt tot specifieke depots. Dit is handig wanneer de hoeveelheid van een product niet voldoende is voor alle depots. Wanneer depotgroepen zijn geconfigureerd, worden depots visueel gegroepeerd in het formulier met een groepsschakelaar om snel alle depots in een groep te selecteren of deselecteren.
 
 ### Inhoud dupliceren
 
 Om tijd te besparen kun je alle <%= BasketContent.model_name.human.downcase %> van de ene levering naar de andere dupliceren met behulp van de actie in de zijbalk van de <%= BasketContent.model_name.human.downcase %>pagina. Dit is bijzonder handig wanneer de samenstelling van je <%= Basket.model_name.human(count: 2).downcase %> van week tot week vergelijkbaar is.
+
+### Prijzen {#prices}
+
+Wanneer je een specifieke levering bekijkt, verschijnt boven de productlijst een prijspaneel voor elk product met een ingestelde eenheidsprijs. Voor elke <%= BasketSize.model_name.human.downcase %> toont het de berekende inhoudswaarde en het verschil met de basisprijs.
+
+Wanneer depots verschillende pakketprijzen ontvangen — bijvoorbeeld omdat sommige producten alleen aan bepaalde depots zijn toegewezen — toont het paneel een min-max prijsbereik. Door over elke waarde te hoveren zie je welke depots overeenkomen.
+
+Een inklapbaar gedeelte **Jaargemiddelde** toont het cumulatieve prijsverschil over het boekjaar, uitgesplitst per leveringscyclus wanneer er meerdere zijn geconfigureerd. Gekleurde stippen in de samenvatting geven een snel statusoverzicht: groen betekent dat het lopende gemiddelde boven de basisprijs ligt, rood eronder en neutraal op doel.
 
 ## Inhoud weergeven aan leden {#displaying-contents-to-members}
 

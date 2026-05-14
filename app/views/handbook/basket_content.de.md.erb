@@ -6,7 +6,7 @@ Diese Funktion bietet ein Werkzeug zur Berechnung des Inhalts und des Werts der 
 
 Bevor Du den <%= BasketContent.model_name.human %> konfigurierst, musst Du Deine [Produkte](/basket_content_products) einrichten. Jedes Produkt hat einen Namen, eine Einheit (kg oder Stück), einen Stückpreis und optional eine URL zur Website des Produzenten.
 
-Produkte sind über Lieferungen hinweg wiederverwendbar — einmal erstellt, können sie beim Hinzufügen von Inhalten zu jeder Lieferung ausgewählt werden. Einheit, Preis und Mengen der letzten Verwendung werden automatisch gespeichert und beim Hinzufügen des Produkts zu einer neuen Lieferung vorausgefüllt.
+Produkte sind über Lieferungen hinweg wiederverwendbar — einmal erstellt, können sie beim Hinzufügen von Inhalten zu jeder Lieferung ausgewählt werden. Preis und Mengen der letzten Verwendung werden automatisch gespeichert und beim Hinzufügen des Produkts zu einer neuen Lieferung vorausgefüllt.
 
 ## <%= BasketContent.model_name.human %> konfigurieren {#configuring-basket-contents}
 
@@ -25,11 +25,19 @@ Eine Live-Vorschau zeigt die Anzahl <%= Basket.model_name.human(count: 2) %>, Pr
 
 ### Depots
 
-Jeder <%= BasketContent.model_name.human %>-Eintrag kann auf bestimmte Depots beschränkt werden. Dies ist nützlich, wenn die Menge eines Produkts nicht für alle Depots ausreicht.
+Jeder <%= BasketContent.model_name.human %>-Eintrag kann auf bestimmte Depots beschränkt werden. Dies ist nützlich, wenn die Menge eines Produkts nicht für alle Depots ausreicht. Wenn Depotgruppen konfiguriert sind, werden die Depots im Formular visuell nach Gruppe zusammengefasst, mit einem Gruppen-Toggle zum schnellen Aus- oder Abwählen aller Depots einer Gruppe.
 
 ### Inhalte duplizieren
 
 Um Zeit zu sparen, kannst Du den gesamten <%= BasketContent.model_name.human %> von einer Lieferung auf eine andere duplizieren, indem Du die Aktion in der Seitenleiste der <%= BasketContent.model_name.human %>-Seite verwendest. Dies ist besonders praktisch, wenn die Zusammensetzung Deiner <%= Basket.model_name.human(count: 2) %> von Woche zu Woche ähnlich ist.
+
+### Preise {#prices}
+
+Beim Anzeigen einer bestimmten Lieferung erscheint über der Produktliste ein Preisfenster für alle Produkte mit festgelegtem Stückpreis. Für jede <%= BasketSize.model_name.human %> zeigt es den berechneten Inhaltspreis und die Abweichung vom Basispreis.
+
+Wenn Depots unterschiedliche Körbepreise erhalten — zum Beispiel weil bestimmte Produkte nur bestimmten Depots zugewiesen sind — zeigt das Fenster eine Min-Max-Preisspanne. Beim Überfahren eines Werts wird angezeigt, welche Depots diesem Preis entsprechen.
+
+Ein ausklappbarer Bereich **Jahresdurchschnitt** zeigt die kumulierte Preisabweichung über das Geschäftsjahr, aufgeteilt nach Lieferzyklen wenn mehrere konfiguriert sind. Die farbigen Punkte in der Zusammenfassung geben auf einen Blick Auskunft: Grün bedeutet, dass der laufende Durchschnitt über dem Basispreis liegt, Rot darunter und Neutral im Zielbereich.
 
 ## Inhalt für Mitglieder anzeigen {#displaying-contents-to-members}
 

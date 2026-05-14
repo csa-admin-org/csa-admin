@@ -6,7 +6,7 @@ This feature provides a tool to calculate the content and value of <%= Basket.mo
 
 Before configuring <%= BasketContent.model_name.human.downcase %>, you need to set up your [products](/basket_content_products). Each product has a name, a unit (kg or pieces), a unit price, and optionally a URL linking to the producer's website.
 
-Products are reusable across deliveries — once created, they can be selected when adding content to any delivery. The unit, price, and quantities from the last use are automatically saved and pre-filled when adding the product to a new delivery.
+Products are reusable across deliveries — once created, they can be selected when adding content to any delivery. The price and quantities from the last use are automatically saved and pre-filled when adding the product to a new delivery.
 
 ## Configuring <%= BasketContent.model_name.human %> {#configuring-basket-contents}
 
@@ -25,11 +25,19 @@ A live preview shows <%= Basket.model_name.human.downcase %> counts, prices, and
 
 ### Depots
 
-Each <%= BasketContent.model_name.human.downcase %> entry can be limited to specific depots. This is useful when there isn't enough of a product to supply all depots.
+Each <%= BasketContent.model_name.human.downcase %> entry can be limited to specific depots. This is useful when there isn't enough of a product to supply all depots. When depot groups are configured, depots are visually grouped in the form with a group-level toggle to quickly select or deselect all depots within a group.
 
 ### Duplicating Contents
 
 To save time, you can duplicate all <%= BasketContent.model_name.human.downcase %> from one delivery to another using the sidebar action on the <%= BasketContent.model_name.human.downcase %> page. This is particularly handy when your <%= Basket.model_name.human.downcase %> composition is similar from week to week.
+
+### Prices {#prices}
+
+When viewing a specific delivery, a prices panel appears above the product list for any products with a unit price set. For each <%= BasketSize.model_name.human.downcase %>, it shows the calculated content price alongside the difference from the base price.
+
+When depots receive different basket prices — for example because some products are only assigned to certain depots — the panel displays a min–max price range. Hovering over each value reveals which depots correspond to it.
+
+A collapsible **Yearly average** section shows the cumulative price difference across the fiscal year, broken down by delivery cycle when more than one is configured. Colored dots on the summary give a quick status at a glance: green means the running average is above the basket base price, red means below, and neutral means on target.
 
 ## Displaying Contents to Members {#displaying-contents-to-members}
 

@@ -6,7 +6,7 @@ Questa funzionalità fornisce uno strumento per calcolare il contenuto e il valo
 
 Prima di configurare il <%= BasketContent.model_name.human.downcase %>, devi creare i tuoi [prodotti](/basket_content_products). Ogni prodotto ha un nome, un'unità (kg o pezzi), un prezzo unitario e opzionalmente un URL verso il sito web del produttore.
 
-I prodotti sono riutilizzabili da una consegna all'altra — una volta creati, possono essere selezionati quando si aggiunge contenuto a qualsiasi consegna. L'unità, il prezzo e le quantità dell'ultimo utilizzo vengono salvati automaticamente e precompilati quando si aggiunge il prodotto a una nuova consegna.
+I prodotti sono riutilizzabili da una consegna all'altra — una volta creati, possono essere selezionati quando si aggiunge contenuto a qualsiasi consegna. Il prezzo e le quantità dell'ultimo utilizzo vengono salvati automaticamente e precompilati quando si aggiunge il prodotto a una nuova consegna.
 
 ## Configurare il <%= BasketContent.model_name.human.downcase %> {#configuring-basket-contents}
 
@@ -25,11 +25,19 @@ Un'anteprima in tempo reale mostra il numero di <%= Basket.model_name.human(coun
 
 ### Depositi
 
-Ogni voce di <%= BasketContent.model_name.human.downcase %> può essere limitata a depositi specifici. Questo è utile quando la quantità di un prodotto non è sufficiente per tutti i depositi.
+Ogni voce di <%= BasketContent.model_name.human.downcase %> può essere limitata a depositi specifici. Questo è utile quando la quantità di un prodotto non è sufficiente per tutti i depositi. Quando sono configurati gruppi di depositi, i depositi vengono raggruppati visivamente nel modulo con un selettore di gruppo per selezionare o deselezionare rapidamente tutti i depositi di un gruppo.
 
 ### Duplicare il contenuto
 
 Per risparmiare tempo, puoi duplicare tutto il <%= BasketContent.model_name.human.downcase %> di una consegna verso un'altra utilizzando l'azione nella barra laterale della pagina del <%= BasketContent.model_name.human.downcase %>. Questo è particolarmente pratico quando la composizione delle tue <%= Basket.model_name.human(count: 2).downcase %> è simile da una settimana all'altra.
+
+### Prezzi {#prices}
+
+Quando si visualizza una consegna specifica, un pannello dei prezzi appare sopra la lista dei prodotti per ogni prodotto con un prezzo unitario impostato. Per ogni <%= BasketSize.model_name.human.downcase %>, mostra il prezzo calcolato del contenuto e la sua differenza rispetto al prezzo base.
+
+Quando i depositi ricevono prezzi diversi — ad esempio perché alcuni prodotti sono assegnati solo a certi depositi — il pannello mostra un intervallo di prezzo min–max. Passando il cursore su ogni valore si vedono i depositi corrispondenti.
+
+Una sezione **Media annuale** pieghevole mostra la differenza di prezzo cumulata durante tutto l'anno fiscale, suddivisa per ciclo di consegna quando ne sono configurati più di uno. I punti colorati nel riepilogo danno uno stato rapido a colpo d'occhio: verde significa che la media è sopra il prezzo base, rosso sotto e neutro in linea.
 
 ## Visualizzazione del contenuto ai soci {#displaying-contents-to-members}
 
