@@ -299,10 +299,20 @@ ActiveAdmin.register Organization do
           f.input :delivery_pdf_member_info,
             as: :radio,
             required: false,
-            collection: Organization::DELIVERY_PDF_MEMBER_INFOS.map { |info|
+            collection: Organization::DeliveryPDF::MEMBER_INFOS.map { |info|
               [
                 content_tag(:span, t("organization.delivery_pdf_member_info.#{info}")),
                 info
+              ]
+            }
+
+          f.input :delivery_pdf_member_name_format,
+            as: :radio,
+            required: false,
+            collection: Organization.delivery_pdf_member_name_formats.keys.map { |fmt|
+              [
+                content_tag(:span, t("organization.delivery_pdf_member_name_format.#{fmt}")),
+                fmt
               ]
             }
 
@@ -616,6 +626,7 @@ ActiveAdmin.register Organization do
     :bidding_round_basket_size_price_min_percentage, :bidding_round_basket_size_price_max_percentage,
     :open_bidding_round_reminder_sent_after_in_days,
     :delivery_pdf_member_info,
+    :delivery_pdf_member_name_format,
     :shop_admin_only,
     :shop_order_maximum_weight_in_kg, :shop_order_minimal_amount,
     :shop_member_percentages,

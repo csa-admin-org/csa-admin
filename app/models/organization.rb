@@ -19,7 +19,6 @@ class Organization < ApplicationRecord
   LANGUAGES = %w[fr de it nl en]
   MEMBER_FORM_MODES = %w[membership shop]
   INPUT_FORM_MODES = %w[hidden visible required]
-  DELIVERY_PDF_MEMBER_INFOS = %w[none phones food_note]
   MEMBERS_SUBDOMAINS = %w[membres mitglieder soci members]
 
   def self.features
@@ -38,6 +37,7 @@ class Organization < ApplicationRecord
   include NormalizedString
   include Billing, Logo, Trial
   include BasketNaming
+  include DeliveryPDF
   include \
     AbsenceFeature,
     ActivityFeature,
@@ -52,7 +52,6 @@ class Organization < ApplicationRecord
 
   translated_attributes :invoice_document_name, :invoice_info, :invoice_footer
   translated_attributes :invoice_sepa_info, :invoice_footer
-  translated_attributes :delivery_pdf_footer
   translated_attributes :charter_url, :statutes_url, :terms_of_service_url, :privacy_policy_url
   translated_attributes :email_signature, :email_footer
   translated_rich_texts :open_renewal_text
@@ -107,9 +106,6 @@ class Organization < ApplicationRecord
   validates :delivery_cycles_member_order_mode,
     presence: true,
     inclusion: { in: DeliveryCycle::MEMBER_ORDER_MODES }
-  validates :delivery_pdf_member_info,
-    presence: true,
-    inclusion: { in: DELIVERY_PDF_MEMBER_INFOS }
   validates :basket_update_limit_in_days,
     presence: true,
     numericality: { greater_than_or_equal_to: 0 }

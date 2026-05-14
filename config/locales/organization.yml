@@ -147,3 +147,28 @@ _:
         _de: Telefonnummern
         _it: Numeri di telefono
         _nl: Telefoonnummers
+    delivery_pdf_member_name_format:
+      abbreviate_first:
+        _en: First part only (e.g. D. John)
+        _fr: Première partie uniquement (ex. D. Jean)
+        _de: Nur erster Teil (z.B. D. Hans)
+        _it: Solo prima parte (es. D. Giovanni)
+        _nl: Alleen eerste deel (bijv. D. Jan)
+      abbreviate_last:
+        _en: Last part only (e.g. John D.)
+        _fr: Dernière partie uniquement (ex. Jean D.)
+        _de: Nur letzter Teil (z.B. Hans D.)
+        _it: Solo ultima parte (es. Giovanni D.)
+        _nl: Alleen laatste deel (bijv. Jan D.)
+      full_name:
+        _en: None, full name
+        _fr: Aucune, nom complet
+        _de: Keine, vollständiger Name
+        _it: Nessuna, nome completo
+        _nl: Geen, volledige naam
+      initials:
+        _en: Initials only (e.g. J. D.)
+        _fr: Initiales uniquement (ex. J. D.)
+        _de: Nur Initialen (z.B. H. D.)
+        _it: Solo iniziali (es. G. D.)
+        _nl: Alleen initialen (bijv. J. D.)

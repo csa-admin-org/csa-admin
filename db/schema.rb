@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_05_14_110700) do
+ActiveRecord::Schema[8.1].define(version: 2026_05_15_000000) do
   create_table "absences", force: :cascade do |t|
     t.datetime "admins_notified_at"
     t.datetime "created_at"
@@ -838,6 +838,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_14_110700) do
     t.string "delivery_cycles_member_order_mode", default: "deliveries_count_desc", null: false
     t.json "delivery_pdf_footers", default: {}, null: false
     t.string "delivery_pdf_member_info", default: "none", null: false
+    t.string "delivery_pdf_member_name_format", default: "none", null: false
     t.string "depots_member_order_mode", default: "price_asc", null: false
     t.string "email"
     t.string "email_default_from", null: false

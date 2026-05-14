@@ -124,6 +124,19 @@ Een [instelling](/settings#delivery) bepaalt welke aanvullende informatie onder 
 
 Deze instelling geldt globaal voor alle depots die de handtekeningenblad-modus gebruiken. Thuisleveringsbladen tonen altijd het adres en de leveringsnotitie ongeacht deze instelling.
 
+### Afkorting van de ledennaam {#member-name-format}
+
+Een [instelling](/settings#pdf-sheets) bepaalt hoe ledennamen worden weergegeven op leveringsbonnen, zodat de privacy van leden beschermd wordt wanneer de bonnen zichtbaar zijn voor andere leden:
+
+- **Geen, volledige naam** (standaard): De volledige naam wordt weergegeven.
+- **Alleen eerste deel** (bijv. *D. Jan*): Het eerste woord van elk naamsegment wordt teruggebracht tot een initiaal. Geschikt voor organisaties waar namen worden opgeslagen als **Achternaam + Voornaam**.
+- **Alleen laatste deel** (bijv. *Jan D.*): Het laatste woord van elk naamsegment wordt teruggebracht tot een initiaal. Geschikt voor organisaties waar namen worden opgeslagen als **Voornaam + Achternaam**.
+- **Alleen initialen** (bijv. *J. D.*): Elk woord wordt teruggebracht tot zijn initiaal, voor maximale privacy.
+
+Wanneer een naam meerdere personen bevat die zijn verbonden door een komma of een voegwoord (*und*, *en*, *et*, *and*, *&*), wordt elk deel afzonderlijk afgekort. Bijvoorbeeld: "Jane Doe, John Doe" wordt "Jane D., John D." met de optie **Alleen laatste deel**.
+
+> Deze instelling is niet van toepassing op thuisleveringsdepots, waar de volledige naam altijd wordt weergegeven.
+
 ### Voettekst {#delivery-pdf-footer}
 
 Een aangepaste voettekst kan worden toegevoegd aan alle leveringsbladen via de [instelling voor leverings-PDF-voettekst](/settings#delivery). Handig voor een herinnering, een bedankbericht of praktische informatie.

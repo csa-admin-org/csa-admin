@@ -306,6 +306,7 @@ class Demo::Seeder
       # ============================================
       delivery_pdf_footers: {},
       delivery_pdf_member_info: "none",
+      delivery_pdf_member_name_format: "none",
       basket_content_delivery_pdf_visible: false,
 
       # ============================================

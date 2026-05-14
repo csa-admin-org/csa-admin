@@ -121,6 +121,19 @@ Un'[impostazione](/settings#delivery) controlla quali informazioni aggiuntive so
 
 Questa impostazione si applica globalmente a tutti i depositi che utilizzano la modalità scheda firma. Le schede di consegna a domicilio mostrano sempre l'indirizzo e la nota di consegna indipendentemente da questa impostazione.
 
+### Abbreviazione del nome del socio {#member-name-format}
+
+Un'[impostazione](/settings#pdf-sheets) controlla come vengono visualizzati i nomi dei soci sulle schede di consegna, consentendo di proteggere la privacy quando le schede sono visibili ad altri soci:
+
+- **Nessuna, nome completo** (predefinito): Viene mostrato il nome completo.
+- **Solo prima parte** (es. *D. Giovanni*): La prima parola di ogni segmento del nome è ridotta a un'iniziale. Adatto alle organizzazioni in cui i nomi sono memorizzati come **Cognome + Nome**.
+- **Solo ultima parte** (es. *Giovanni D.*): L'ultima parola di ogni segmento del nome è ridotta a un'iniziale. Adatto alle organizzazioni in cui i nomi sono memorizzati come **Nome + Cognome**.
+- **Solo iniziali** (es. *G. D.*): Ogni parola è ridotta alla sua iniziale, per la massima privacy.
+
+Quando un nome contiene più persone separate da una virgola o una congiunzione (*und*, *en*, *et*, *and*, *&*), ogni parte viene abbreviata indipendentemente. Ad esempio, "Jane Doe, John Doe" diventa "Jane D., John D." con l'opzione **Solo ultima parte**.
+
+> Questa impostazione non si applica ai depositi con consegna a domicilio, dove viene sempre mostrato il nome completo.
+
 ### Piè di pagina {#delivery-pdf-footer}
 
 Un testo personalizzato di piè di pagina può essere aggiunto a tutte le schede di consegna tramite l'[impostazione del piè di pagina PDF di consegna](/settings#delivery). Utile per un promemoria, un messaggio di ringraziamento o informazioni pratiche.

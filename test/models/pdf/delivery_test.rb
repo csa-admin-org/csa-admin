@@ -297,4 +297,26 @@ class PDF::DeliveryTest < ActiveSupport::TestCase
     assert pdf_strings.any? { |s| s.include?("kg") || s.include?("g") },
       "Expected quantity with kg or g unit in PDF"
   end
+
+  test "abbreviate_last hides surnames on signature sheet" do
+    travel_to "2024-01-01"
+    Current.org.update!(delivery_pdf_member_name_format: "abbreviate_last")
+    delivery = deliveries(:monday_1)
+
+    pdf_strings = save_pdf_and_return_strings(delivery, depots(:farm))
+
+    assert_includes pdf_strings, "John D."
+    assert_not_includes pdf_strings, "John Doe"
+  end
+
+  test "home delivery depot always shows full name regardless of name format" do
+    travel_to "2024-01-01"
+    Current.org.update!(delivery_pdf_member_name_format: "abbreviate_last")
+    delivery = deliveries(:monday_1)
+
+    pdf_strings = save_pdf_and_return_strings(delivery, depots(:home))
+
+    assert_includes pdf_strings, "Bob Doe"
+    assert_not_includes pdf_strings, "Bob D."
+  end
 end

@@ -3415,6 +3415,12 @@ _:
           _de: Zusätzliche Informationen
           _it: Informazioni aggiuntive
           _nl: Aanvullende informatie
+        delivery_pdf_member_name_format:
+          _en: Member name abbreviation
+          _fr: Abréviation du nom du membre
+          _de: Abkürzung des Mitgliedernamens
+          _it: Abbreviazione del nome del socio
+          _nl: Afkorting van de ledennaam
         depots_member_order_mode:
           _en: Order of depots
           _fr: Ordre des dépôts

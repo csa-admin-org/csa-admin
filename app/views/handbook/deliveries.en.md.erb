@@ -121,6 +121,19 @@ A [setting](/settings#delivery) controls what additional information is displaye
 
 This setting applies globally to all depots using the signature sheet mode. Home delivery sheets always show the address and delivery note regardless of this setting.
 
+### Member name abbreviation {#member-name-format}
+
+A [setting](/settings#pdf-sheets) controls how member names are displayed on delivery sheets, allowing you to protect member privacy when sheets are visible to other members:
+
+- **None, full name** (default): Full name is shown.
+- **First part only** (e.g. *D. John*): The first word of each name segment is reduced to an initial. Suited for organisations where names are stored as **Last name + First name**.
+- **Last part only** (e.g. *John D.*): The last word of each name segment is reduced to an initial. Suited for organisations where names are stored as **First name + Last name**.
+- **Initials only** (e.g. *J. D.*): Every word is reduced to its initial, for maximum privacy.
+
+When a name contains multiple people joined by a comma or a conjunction (*und*, *en*, *et*, *and*, *&*), each part is abbreviated independently. For example, "Jane Doe, John Doe" becomes "Jane D., John D." with the **Last part only** option.
+
+> This setting does not apply to home delivery depots, where the full name is always shown.
+
 ### Footer {#delivery-pdf-footer}
 
 A custom footer text can be added to all delivery sheets via the [delivery PDF footer setting](/settings#delivery). This is useful for a reminder, a thank-you message, or practical information.

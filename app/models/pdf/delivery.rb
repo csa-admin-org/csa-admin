@@ -667,7 +667,12 @@ module PDF
       baskets = baskets.includes(:membership, :baskets_basket_complements).to_a
       shop_orders = shop_orders.includes(items: :product).to_a
       members.each do |member|
-        column_content = member.name
+        column_content =
+          if depot.delivery_sheets_mode == "home_delivery"
+            member.name
+          else
+            Current.org.format_member_name_for_pdf(member.name)
+          end
         basket = baskets.find { |b| b.membership.member_id == member.id }
         shop_order = shop_orders.find { |so| so.member_id == member.id }
 

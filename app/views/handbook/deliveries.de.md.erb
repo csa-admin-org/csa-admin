@@ -121,6 +121,19 @@ Eine [Einstellung](/settings#delivery) steuert, welche zusätzlichen Information
 
 Diese Einstellung gilt global für alle Depots, die den Unterschriftenblattmodus verwenden. Hauslieferungsblätter zeigen immer die Adresse und Liefernotiz an, unabhängig von dieser Einstellung.
 
+### Abkürzung des Mitgliedernamens {#member-name-format}
+
+Eine [Einstellung](/settings#pdf-sheets) steuert, wie Mitgliedernamen auf den Lieferscheinen angezeigt werden, um die Privatsphäre zu schützen, wenn Lieferscheine für andere Mitglieder sichtbar sind:
+
+- **Keine, vollständiger Name** (Standard): Der vollständige Name wird angezeigt.
+- **Nur erster Teil** (z.B. *D. Hans*): Das erste Wort jedes Namenssegments wird auf einen Anfangsbuchstaben reduziert. Geeignet für Organisationen, bei denen Namen als **Nachname + Vorname** gespeichert werden.
+- **Nur letzter Teil** (z.B. *Hans D.*): Das letzte Wort jedes Namenssegments wird auf einen Anfangsbuchstaben reduziert. Geeignet für Organisationen, bei denen Namen als **Vorname + Nachname** gespeichert werden.
+- **Nur Initialen** (z.B. *H. D.*): Jedes Wort wird auf seinen Anfangsbuchstaben reduziert, für maximalen Datenschutz.
+
+Enthält ein Name mehrere Personen, die durch ein Komma oder eine Konjunktion (*und*, *en*, *et*, *and*, *&*) verbunden sind, wird jeder Teil unabhängig abgekürzt. Zum Beispiel wird "Jane Doe, John Doe" mit der Option **Nur letzter Teil** zu "Jane D., John D.".
+
+> Diese Einstellung gilt nicht für Hauszustellungsdepots, wo der vollständige Name immer angezeigt wird.
+
 ### Fußzeile {#delivery-pdf-footer}
 
 Ein benutzerdefinierter Fußzeilentext kann über die [Einstellung für die Lieferungs-PDF-Fußzeile](/settings#delivery) zu allen Lieferscheinen hinzugefügt werden. Nützlich für eine Erinnerung, eine Dankesnachricht oder praktische Informationen.

@@ -121,6 +121,19 @@ Un [paramètre](/settings#delivery) contrôle quelles informations supplémentai
 
 Ce paramètre s'applique globalement à tous les dépôts utilisant le mode fiche de signature. Les fiches de livraison à domicile affichent toujours l'adresse et la note de livraison indépendamment de ce paramètre.
 
+### Abréviation du nom du membre {#member-name-format}
+
+Un [paramètre](/settings#pdf-sheets) contrôle comment les noms des membres sont affichés sur les fiches de livraison, permettant de protéger la vie privée des membres lorsque les fiches sont visibles par d'autres membres :
+
+- **Aucune, nom complet** (par défaut) : Le nom complet est affiché.
+- **Première partie uniquement** (ex. *D. Jean*) : Le premier mot de chaque segment du nom est réduit à une initiale. Adapté aux organisations où les noms sont saisis en **Nom de famille + Prénom**.
+- **Dernière partie uniquement** (ex. *Jean D.*) : Le dernier mot de chaque segment du nom est réduit à une initiale. Adapté aux organisations où les noms sont saisis en **Prénom + Nom de famille**.
+- **Initiales uniquement** (ex. *J. D.*) : Chaque mot est réduit à son initiale, pour une protection maximale.
+
+Lorsqu'un nom contient plusieurs personnes séparées par une virgule ou une conjonction (*und*, *en*, *et*, *and*, *&*), chaque partie est abrégée indépendamment. Par exemple, «Jane Doe, John Doe» devient «Jane D., John D.» avec l'option **Dernière partie uniquement**.
+
+> Ce paramètre ne s'applique pas aux dépôts en livraison à domicile, où le nom complet est toujours affiché.
+
 ### Pied de page {#delivery-pdf-footer}
 
 Un texte de pied de page personnalisé peut être ajouté à toutes les fiches de livraison via le [paramètre de pied de page PDF de livraison](/settings#delivery). Utile pour un rappel, un message de remerciement ou des informations pratiques.
