@@ -42,7 +42,7 @@ ActiveAdmin.register BasketContent do
         delivery = Delivery.find(params.dig(:q, :delivery_id_eq))
         basket_content_prices = delivery.basket_content_prices
         if basket_content_prices.any?
-          panel t(".basket_prices", currency: currency_symbol) do
+          panel nil do
             render partial: "active_admin/basket_contents/prices", locals: { delivery: delivery, basket_content_prices: basket_content_prices, context: self }
           end
           return div class: "table-wrapper" do

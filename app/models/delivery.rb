@@ -194,8 +194,34 @@ class Delivery < ApplicationRecord
           }
           prices_sum = deliveries_with_prices.sum(&:last)
           basket_prices_total = deliveries_with_prices.sum { |d, _| d.basket_size_price_for(base_price) }
+          # Compute per-depot totals from stored depot prices.
+          # Only include depots present in ALL deliveries with prices,
+          # so partial-participation depots don't skew the range.
+          depot_totals = {}
+          depot_appearances = Hash.new(0)
+          deliveries_with_prices.each do |d, _|
+            depot_data = d.basket_content_depot_price_ranges[basket_size.id.to_s]
+            next unless depot_data.is_a?(Hash)
+
+            depot_data.each do |depot_id, price|
+              depot_totals[depot_id] ||= 0
+              depot_totals[depot_id] += price.to_d
+              depot_appearances[depot_id] += 1
+            end
+          end
+          # Keep only depots that appear in every delivery
+          expected_count = deliveries_with_prices.size
+          depot_totals.select! { |id, _| depot_appearances[id] == expected_count }
+          min_total = depot_totals.values.min || prices_sum
+          max_total = depot_totals.values.max || prices_sum
           h[basket_size.id] ||= {}
-          h[basket_size.id][cycle] = [ (prices_sum - basket_prices_total).round_to_one_cent, basket_prices_total ]
+          h[basket_size.id][cycle] = {
+            diff: (prices_sum - basket_prices_total).round_to_one_cent,
+            baskets_price_total: basket_prices_total,
+            min_diff: (min_total - basket_prices_total).round_to_one_cent,
+            max_diff: (max_total - basket_prices_total).round_to_one_cent,
+            depot_totals: depot_totals
+          }
         end
       end
     end
@@ -218,6 +244,7 @@ class Delivery < ApplicationRecord
 
   def update_basket_content_avg_prices!
     avg_prices = {}
+    depot_prices_map = {}
     basket_content_prices.each do |basket_size, depot_prices|
       prices = depot_prices.flat_map { |depot, price|
         Array(price) * depot.baskets_count_for(self, basket_size)
@@ -225,9 +252,16 @@ class Delivery < ApplicationRecord
       if prices.any?
         avg_price = prices.sum.fdiv(prices.size)
         avg_prices[basket_size.id] = avg_price.round_to_one_cent
+        depot_prices_map[basket_size.id] = depot_prices
+          .select { |_, price| price.positive? }
+          .transform_keys { |depot| depot.id.to_s }
+          .transform_values(&:round_to_one_cent)
       end
     end
-    update_column(:basket_content_avg_prices, avg_prices)
+    update_columns(
+      basket_content_avg_prices: avg_prices,
+      basket_content_depot_price_ranges: depot_prices_map
+    )
   end
 
   private

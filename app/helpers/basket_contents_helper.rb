@@ -68,18 +68,32 @@ module BasketContentsHelper
     }.join(content_tag(:span, "–", class: "text-2xl mx-2")).html_safe
   end
 
+  def basket_price_diff_color(base_price, diff)
+    per = (diff / base_price * 100).round(1)
+    if per.in?(-5..5)
+      :neutral
+    elsif per > 5
+      :green
+    else
+      :red
+    end
+  end
+
+  def basket_price_diff_color_class(base_price, diff)
+    case basket_price_diff_color(base_price, diff)
+    when :neutral
+      "bg-neutral-200 text-neutral-800 dark:bg-neutral-700 dark:text-neutral-200"
+    when :green
+      "bg-green-200 text-green-800 dark:bg-green-700 dark:text-green-200"
+    when :red
+      "bg-red-200 text-red-800 dark:bg-red-700 dark:text-red-200"
+    end
+  end
+
   def display_basket_price_diff(base_price, diff)
     per = (diff / base_price * 100).round(1)
     plus_sign = diff.positive? ? "+" : ""
-    color_class =
-      if per.in?(-5..5)
-        "bg-neutral-200 text-neutral-800 dark:bg-neutral-700 dark:text-neutral-200"
-      elsif per > 5
-        "bg-green-200 text-green-800 dark:bg-green-700 dark:text-green-200"
-      else
-        "bg-red-200 text-red-800 dark:bg-red-700 dark:text-red-200"
-      end
-    content_tag :span, class: "py-0.5 px-1 text-xs rounded-full #{color_class}" do
+    content_tag :span, class: "py-0.5 px-1 text-xs rounded-full #{basket_price_diff_color_class(base_price, diff)}" do
       [
         "#{plus_sign}#{cur(diff, unit: false, format: '%n')}",
         "#{plus_sign}#{per}%"
