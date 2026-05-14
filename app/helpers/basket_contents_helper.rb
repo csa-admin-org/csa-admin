@@ -29,13 +29,11 @@ module BasketContentsHelper
   def display_basket_quantity(basket_content, basket_size)
     count = basket_content.baskets_count(basket_size)
     quantity = basket_content.basket_quantity(basket_size)
-    return "–" if count.nil? || quantity.nil? || count.zero? || quantity.zero?
+    return "–" if count.nil? || quantity.nil? || quantity.zero?
 
-    case basket_content.unit
-    when "kg"
-      I18n.t("units.g_count_quantity", count: count, quantity: number_with_delimiter((quantity * 1000).to_i))
-    else
-      I18n.t("units.#{basket_content.unit}_count_quantity", count: count, quantity: number_with_delimiter(quantity.to_i))
+    content_tag(:span, class: "inline-flex items-baseline gap-1.5") do
+      concat content_tag(:span, "#{count}x", class: "text-xs text-gray-500")
+      concat content_tag(:span, display_quantity(quantity, basket_content.unit), class: "tabular-nums")
     end
   end
 
