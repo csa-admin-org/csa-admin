@@ -18,10 +18,10 @@ ActiveAdmin.register Admin do
     column :last_session_used_at, ->(a) {
       if a.last_session_used_at
         link_to_if authorized?(:read, Session),
-          I18n.l(a.last_session_used_at, format: :medium),
+          I18n.l(a.last_session_used_at, format: :short),
           m_sessions_path(q: { owner_type_eq: "Admin", admin_id_eq: a.id }, scope: :all)
       end
-    }, class: "text-right"
+    }, class: "text-right tabular-nums"
     actions
   end
 
