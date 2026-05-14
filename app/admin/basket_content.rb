@@ -30,7 +30,7 @@ ActiveAdmin.register BasketContent do
   filter :delivery,
     as: :select,
     collection: -> { grouped_by_date(Delivery, past: :first) }
-  filter :product, as: :select, collection: -> { BasketContent::Product.ordered }
+  filter :product, as: :select, collection: -> { basket_content_products_collection }
   filter :basket_size, as: :select, collection: -> { BasketSize.ordered.paid }
   filter :depots, as: :select, collection: -> { admin_depots_collection }
 
