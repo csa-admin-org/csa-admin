@@ -26,7 +26,7 @@ class BasketContent
 
     scope :ordered, -> { order_by_name }
 
-    validates :names, uniqueness: { scope: :unit }
+    validates :unit, uniqueness: { scope: :names }
 
     def name_with_unit
       if sibling
