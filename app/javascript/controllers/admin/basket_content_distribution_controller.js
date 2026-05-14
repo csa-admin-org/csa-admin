@@ -171,6 +171,22 @@ export default class extends Controller {
         }
       }
     })
+
+    this.ensureMinimumTotal()
+  }
+
+  ensureMinimumTotal() {
+    if (this.currentUnit() === "kg" || !this.hasTotalQuantityTarget) return
+
+    const requiredTotal = this.quantityInputTargets.reduce((sum, input) => {
+      const quantity = parseFloat(input.value) || 0
+      return sum + quantity * this.basketsCountFor(input)
+    }, 0)
+
+    const rounded = this.roundTotalQuantity(requiredTotal)
+    if (rounded > this.totalQuantity()) {
+      this.totalQuantityTarget.value = rounded
+    }
   }
 
   computeTotalFromQuantities() {
