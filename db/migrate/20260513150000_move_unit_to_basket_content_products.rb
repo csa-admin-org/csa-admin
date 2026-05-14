@@ -13,9 +13,6 @@ class MoveUnitToBasketContentProducts < ActiveRecord::Migration[8.1]
     change_column_null :basket_content_products, :unit, false
 
     rename_column :basket_content_products, :default_unit_price, :default_price
-
-    # Sync all products with their latest basket content (price + quantities)
-    sync_all_products
   end
 
   def down
@@ -81,10 +78,5 @@ class MoveUnitToBasketContentProducts < ActiveRecord::Migration[8.1]
         WHERE product_id = #{product_id.to_i} AND unit = #{connection.quote(other_unit)}
       SQL
     end
-  end
-
-  def sync_all_products
-    BasketContent::Product.reset_column_information
-    BasketContent::Product.find_each(&:sync_latest_basket_content!)
   end
 end
