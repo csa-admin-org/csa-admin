@@ -44,6 +44,12 @@ module BasketContentsHelper
     all_depots = Depot.kept.to_a
     if depots.size == all_depots.size
       I18n.t("basket_content.depots.all")
+    elsif depots.size == 1
+      depots.first.name
+    elsif all_depots.size - depots.size == 1
+      I18n.t("basket_content.depots.all_but", missing: (all_depots - depots).first.name)
+    elsif (result = display_depots_by_group(depots, all_depots))
+      result
     elsif all_depots.size - depots.size < 3
       missing = all_depots - depots
       I18n.t("basket_content.depots.all_but",
@@ -51,6 +57,38 @@ module BasketContentsHelper
     else
       depots.map(&:name).to_sentence
     end
+  end
+
+  def display_depots_by_group(depots, all_depots)
+    groups = DepotGroup.includes(:depots).to_a
+    return if groups.empty?
+
+    depot_ids = depots.map(&:id).to_set
+    all_depot_ids = all_depots.map(&:id).to_set
+
+    selected_groups = groups.select { |g| g.depots.any? && g.depots.all? { |d| depot_ids.include?(d.id) } }
+    excluded_groups = groups.select { |g| g.depots.any? && g.depots.none? { |d| depot_ids.include?(d.id) } }
+
+    # "All except [group(s)]" — excluded groups fully account for missing depots
+    if excluded_groups.any?
+      excluded_depot_ids = excluded_groups.flat_map { |g| g.depots.map(&:id) }.to_set
+      missing_depot_ids = all_depot_ids - depot_ids
+      if excluded_depot_ids == missing_depot_ids
+        return I18n.t("basket_content.depots.all_but",
+          missing: excluded_groups.map(&:name).to_sentence)
+      end
+    end
+
+    # "Only [group(s)]" — selected groups exactly account for all selected depots
+    if selected_groups.any?
+      selected_group_depot_ids = selected_groups.flat_map { |g| g.depots.map(&:id) }.to_set
+      if selected_group_depot_ids == depot_ids
+        return I18n.t("basket_content.depots.only",
+          selected: selected_groups.map(&:name).to_sentence)
+      end
+    end
+
+    nil
   end
 
   def depot_prices_list(depot_prices)

@@ -13,6 +13,12 @@ _:
         _de: Alle, außer %{missing}
         _it: Tutto, tranne %{missing}
         _nl: Alle, behalve %{missing}
+      only:
+        _en: Only %{selected}
+        _fr: Seulement %{selected}
+        _de: Nur %{selected}
+        _it: Solo %{selected}
+        _nl: Alleen %{selected}
     distribution:
       _en: Distribution
       _fr: Distribution

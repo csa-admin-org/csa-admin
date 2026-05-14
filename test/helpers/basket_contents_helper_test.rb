@@ -69,4 +69,87 @@ class BasketContentsHelperTest < ActionView::TestCase
       medium_id.to_s => 750
     }, JSON.parse(data[:latest_basket_content_quantities]))
   end
+
+  # display_depots
+
+  test "display_depots returns 'all' when all depots are selected" do
+    assert_equal I18n.t("basket_content.depots.all"), display_depots(Depot.kept)
+  end
+
+  test "display_depots returns depot name when only one depot is selected" do
+    assert_equal depots(:farm).name, display_depots(Depot.where(id: depots(:farm).id))
+  end
+
+  test "display_depots uses group name when all depots of a group are excluded" do
+    group = DepotGroup.create!(names: { en: "Tournée" })
+    depots(:farm).update!(group: group)
+    depots(:bakery).update!(group: group)
+    # home stays ungrouped; extra ensures selected set has 2 depots (avoids single-depot shortcut)
+    extra = Depot.create!(names: { en: "Extra" }, language: "en", price: 0, position: 99)
+
+    selected = Depot.kept.where(id: [ depots(:home).id, extra.id ])
+    assert_equal I18n.t("basket_content.depots.all_but", missing: group.name),
+      display_depots(selected)
+  end
+
+  test "display_depots uses group name when only one group is selected" do
+    group = DepotGroup.create!(names: { en: "Tournée" })
+    depots(:farm).update!(group: group)
+    depots(:bakery).update!(group: group)
+    # extra ensures 2 depots are missing (avoids single-missing shortcut)
+    extra = Depot.create!(names: { en: "Extra" }, language: "en", price: 0, position: 99)
+
+    selected = Depot.kept.where(id: [ depots(:farm).id, depots(:bakery).id ])
+    assert_equal I18n.t("basket_content.depots.only", selected: group.name),
+      display_depots(selected)
+  end
+
+  test "display_depots returns depot name when the single missing depot belongs to a group" do
+    group = DepotGroup.create!(names: { en: "Tournée" })
+    depots(:farm).update!(group: group)
+    # single-missing check fires before group logic, so the depot name is used
+    selected = Depot.kept.where.not(id: depots(:farm).id)
+    assert_equal I18n.t("basket_content.depots.all_but", missing: depots(:farm).name),
+      display_depots(selected)
+  end
+
+  test "display_depots falls back to depot names when only part of a group is selected" do
+    group = DepotGroup.create!(names: { en: "Tournée" })
+    depots(:farm).update!(group: group)
+    depots(:bakery).update!(group: group)
+    # extra gives us 4 depots total so selecting 2 doesn't hit single-missing
+    extra = Depot.create!(names: { en: "Extra" }, language: "en", price: 0, position: 99)
+
+    # Only one of the two group depots selected — no clean group match, falls back to "all but" with depot names
+    selected = Depot.kept.where(id: [ depots(:farm).id, depots(:home).id ])
+    assert_equal I18n.t("basket_content.depots.all_but",
+      missing: [ depots(:bakery).name, extra.name ].to_sentence),
+      display_depots(selected)
+  end
+
+  test "display_depots returns 'all but X' when one depot is missing" do
+    all_but_farm = Depot.kept.where.not(id: depots(:farm).id)
+    assert_equal I18n.t("basket_content.depots.all_but", missing: depots(:farm).name),
+      display_depots(all_but_farm)
+  end
+
+  test "display_depots returns 'all but X and Y' when two depots are missing" do
+    # extra ensures 2 depots remain selected so single-depot shortcut doesn't fire
+    Depot.create!(names: { en: "Extra" }, language: "en", price: 0, position: 99)
+    missing = [ depots(:farm), depots(:home) ]
+    selected = Depot.kept.where.not(id: missing.map(&:id))
+    assert_equal I18n.t("basket_content.depots.all_but",
+      missing: missing.map(&:name).to_sentence),
+      display_depots(selected)
+  end
+
+  test "display_depots lists depot names when more than 2 are missing and no group matches" do
+    # Add 2 extra depots so we have 5 total and can select only 2
+    Depot.create!(names: { en: "Extra 1" }, language: "en", price: 0, position: 10)
+    Depot.create!(names: { en: "Extra 2" }, language: "en", price: 0, position: 11)
+
+    selected = Depot.kept.where(id: [ depots(:farm).id, depots(:home).id ])
+    assert_equal [ depots(:farm).name, depots(:home).name ].to_sentence,
+      display_depots(selected)
+  end
 end
