@@ -1642,6 +1642,18 @@ _:
           _de: Anteilscheinnummer
           _it: N° quote sociali cooperative
           _nl: Coöperatieaandeel nr.
+        shop_delivery_cycle:
+          _en: Delivery cycle (shop)
+          _fr: Cycle de livraisons (épicerie)
+          _de: Lieferzyklus (Hofladen)
+          _it: Ciclo di consegne (drogheria)
+          _nl: Leveringscyclus (winkel)
+        shop_delivery_cycle_id:
+          _en: Delivery cycle (shop)
+          _fr: Cycle de livraisons (épicerie)
+          _de: Lieferzyklus (Hofladen)
+          _it: Ciclo di consegne (drogheria)
+          _nl: Leveringscyclus (winkel)
         shop_depot:
           _en: Depot (shop)
           _fr: Dépôt (épicerie)

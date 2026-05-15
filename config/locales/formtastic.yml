@@ -903,6 +903,12 @@ _:
           _de: Eindeutige Referenznummer unter den Mitgliedern (die Verwendung der Mitglieds-ID wird empfohlen).
           _it: Numero di riferimento univoco tra i soci (riutilizzare l'ID del socio è consigliato).
           _nl: Uniek referentienummer onder de leden (hergebruik van het lid-ID wordt aanbevolen).
+        shop_delivery_cycle:
+          _en: Limits which deliveries are accessible in the shop for this member.
+          _fr: Limite les livraisons accessibles dans l'épicerie pour ce membre.
+          _de: Beschränkt die im Hofladen zugänglichen Lieferungen für dieses Mitglied.
+          _it: Limita le consegne accessibili nella bottega per questo socio.
+          _nl: Beperkt welke leveringen toegankelijk zijn in de winkel voor dit lid.
         shop_depot:
           _en: Allows a member without a membership to place grocery orders.
           _fr: Permet à un membre sans abonnement de passer des commandes d'épicerie.

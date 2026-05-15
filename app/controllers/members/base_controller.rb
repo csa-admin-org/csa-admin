@@ -96,11 +96,13 @@ class Members::BaseController < ApplicationController
   def coming_delivery_ids
     if current_member.use_shop_depot?
       depot = current_member.shop_depot
+      delivery_cycle = current_member.shop_delivery_cycle
       Delivery
         .coming
         .select { |delivery|
           delivery.shop_open?(depot_id: depot.id, ignore_closing_at: true)
             && depot.include_delivery?(delivery)
+            && (!delivery_cycle || delivery_cycle.include_delivery?(delivery))
         }
         .map(&:id)
     else

@@ -22,6 +22,7 @@ module AuditsHelper
     "basket_size_id" => BasketSize,
     "depot_id" => Depot,
     "shop_depot_id" => Depot,
+    "shop_delivery_cycle_id" => DeliveryCycle,
     "delivery_cycle_id" => DeliveryCycle
   }.freeze
 

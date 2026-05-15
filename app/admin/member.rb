@@ -30,6 +30,10 @@ ActiveAdmin.register Member do
     as: :select,
     collection: -> { admin_depots_collection },
     if: proc { params[:scope] != "inactive" && feature?("shop") }
+  filter :shop_delivery_cycle,
+    as: :select,
+    collection: -> { admin_delivery_cycles_collection },
+    if: proc { params[:scope] != "inactive" && feature?("shop") }
   filter :city, as: :select, collection: -> { member_cities_collection }
   filter :country_code, as: :select, collection: -> {
     country_codes = Member.pluck(:country_code).uniq.map(&:presence).compact.sort
@@ -46,7 +50,7 @@ ActiveAdmin.register Member do
     if: proc { Current.org.annual_fee? }
   filter :sepa, as: :boolean, if: ->(a) { Current.org.sepa? }
 
-  includes :shop_depot, next_basket: [ :basket_size, :depot, :membership, baskets_basket_complements: :basket_complement ]
+  includes :shop_depot, :shop_delivery_cycle, next_basket: [ :basket_size, :depot, :membership, baskets_basket_complements: :basket_complement ]
   index do
     column :id
     if params[:scope] == "waiting"
@@ -151,6 +155,7 @@ ActiveAdmin.register Member do
     end
     if feature?("shop")
       column(:shop_depot) { |m| m.shop_depot&.name }
+      column(:shop_delivery_cycle) { |m| m.shop_delivery_cycle&.name }
     end
     column(:food_note)
     column(:come_from)
@@ -418,9 +423,10 @@ ActiveAdmin.register Member do
           end
         end
         if feature?("shop") && member.use_shop_depot?
-          panel t("shop.title"), icon: "shopping-basket" do
+          panel t("shop.title"), icon: "shopping-basket", action: handbook_icon_link("shop", anchor: "access-without-membership") do
             attributes_table do
               row(:depot) { member.shop_depot }
+              row(:delivery_cycle) { delivery_cycle_link(member.shop_delivery_cycle) }
             end
           end
         end
@@ -639,7 +645,15 @@ ActiveAdmin.register Member do
         f.input :shop_depot,
           label: Depot.model_name.human,
           required: false,
-          collection: admin_depots_collection
+          collection: admin_depots_collection,
+          hint: true
+        f.input :shop_delivery_cycle,
+          label: DeliveryCycle.model_name.human,
+          as: :select,
+          collection: admin_delivery_cycles_collection,
+          required: false,
+          include_blank: true,
+          hint: true
       end
     end
 
@@ -751,7 +765,7 @@ ActiveAdmin.register Member do
     :waiting_activity_participations_demanded_annually,
     :waiting_depot_id, :waiting_delivery_cycle_id,
     :waiting_billing_year_division,
-    :shop_depot_id,
+    :shop_depot_id, :shop_delivery_cycle_id,
     :profession, :come_from, :delivery_note, :food_note, :note,
     :contact_sharing,
     :send_validation_email,

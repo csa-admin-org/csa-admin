@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_05_15_000000) do
+ActiveRecord::Schema[8.1].define(version: 2026_05_15_091000) do
   create_table "absences", force: :cascade do |t|
     t.datetime "admins_notified_at"
     t.datetime "created_at"
@@ -611,6 +611,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_15_000000) do
     t.boolean "salary_basket", default: false
     t.datetime "sepa_disabled_at"
     t.string "shares_info"
+    t.integer "shop_delivery_cycle_id"
     t.bigint "shop_depot_id"
     t.string "state", default: "pending", null: false
     t.string "street", limit: 255
@@ -630,6 +631,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_15_000000) do
     t.string "zip", limit: 255
     t.index ["anonymized_at"], name: "index_members_on_anonymized_at"
     t.index ["discarded_at"], name: "index_members_on_discarded_at"
+    t.index ["shop_delivery_cycle_id"], name: "index_members_on_shop_delivery_cycle_id"
     t.index ["shop_depot_id"], name: "index_members_on_shop_depot_id"
     t.index ["state"], name: "index_members_on_state"
     t.index ["use_local_currency"], name: "index_members_on_use_local_currency"
@@ -1111,6 +1113,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_15_000000) do
   add_foreign_key "invoices", "sepa_mandates", on_delete: :nullify
   add_foreign_key "mail_deliveries", "members"
   add_foreign_key "mail_delivery_emails", "mail_deliveries"
+  add_foreign_key "members", "delivery_cycles", column: "shop_delivery_cycle_id"
   add_foreign_key "members", "depots", column: "shop_depot_id"
   add_foreign_key "members", "depots", column: "waiting_depot_id"
   add_foreign_key "memberships", "delivery_cycles"

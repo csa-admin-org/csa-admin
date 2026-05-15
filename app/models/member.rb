@@ -17,6 +17,7 @@ class Member < ApplicationRecord
   include Billing
   include SEPA
   include Shares
+  include Shop
   include StateTransitions
   include Discardable
   include Anonymization
@@ -42,7 +43,7 @@ class Member < ApplicationRecord
     :billing_name, :billing_street, :billing_city, :billing_zip, :sepa_disabled_at, \
     :profession, :come_from, :note, :delivery_note, :food_note, \
     :annual_fee, :shares_info, :existing_shares_number, :required_shares_number, :desired_shares_number, \
-    :shop_depot_id, :salary_basket
+    :shop_depot_id, :shop_delivery_cycle_id, :salary_basket
 
   normalized_string_attributes :name, :street, :city, :zip
   normalized_string_attributes :billing_name, :billing_street, :billing_city, :billing_zip
@@ -57,7 +58,6 @@ class Member < ApplicationRecord
     class_name: "Depot",
     join_table: "members_waiting_alternative_depots",
     optional: true
-  belongs_to :shop_depot, class_name: "Depot", optional: true
   has_many :absences, dependent: :destroy
   has_many :invoices
   has_many :payments
@@ -129,10 +129,6 @@ class Member < ApplicationRecord
     if: -> { public_create && Current.org.member_form_mode == "membership" && BasketSize.visible.exists? }
   validates :waiting_depot, inclusion: { in: proc { Depot.all }, allow_nil: true }, on: :create
   validates :waiting_depot_id, presence: true, if: :waiting_basket_size, on: :create
-  validates :shop_depot, inclusion: { in: proc { Depot.all }, allow_nil: true }
-  validates :shop_depot_id, presence: true,
-    on: :create,
-    if: -> { public_create && Current.org.member_form_mode == "shop" && Depot.visible.exists? }
   validates :annual_fee, numericality: { greater_than_or_equal_to: 0 }, allow_nil: true
   validates :annual_fee,
     presence: true,
@@ -163,14 +159,6 @@ class Member < ApplicationRecord
     Current.org.time_zone unless country_code?
 
     country.timezones.zone_info.first.identifier
-  end
-
-  def shop_depot
-    use_shop_depot? ? super : current_or_future_membership&.depot
-  end
-
-  def use_shop_depot?
-    shop_depot_id? && current_or_future_membership.nil?
   end
 
   def self.ransackable_scopes(_auth_object = nil)

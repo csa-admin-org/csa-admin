@@ -90,6 +90,7 @@ module Member::StateTransitions
     attrs = {
       state: Member::INACTIVE_STATE,
       shop_depot: nil,
+      shop_delivery_cycle: nil,
       annual_fee: nil,
       desired_shares_number: 0,
       waiting_started_at: nil
