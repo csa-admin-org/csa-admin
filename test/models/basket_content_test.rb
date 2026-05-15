@@ -13,14 +13,13 @@ class BasketContentTest < ActiveSupport::TestCase
     baskets(:anna_1).update_column(:quantity, large)
   end
 
-  test "validates basket_quantities presence" do
+  test "allows empty basket_quantities" do
     bc = BasketContent.new(
       product: basket_content_products(:carrots),
       delivery: deliveries(:monday_1),
       depots: Depot.all,
       unit: "pc")
-    assert_not bc.valid?
-    assert_includes bc.errors[:basket_quantities], "is invalid"
+    assert bc.valid?
   end
 
   test "validates basket_quantities values are positive" do

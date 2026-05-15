@@ -26,7 +26,6 @@ class BasketContent < ApplicationRecord
 
   validates :delivery, presence: true
   validates :unit, inclusion: { in: UNITS }, presence: true
-  validate :basket_quantities_presence
   validate :basket_quantities_structure
   validate :depots_presence
   validates :unit_price, numericality: { greater_than_or_equal_to: 0, allow_nil: true }
@@ -296,13 +295,6 @@ class BasketContent < ApplicationRecord
       end
     end
     pcts
-  end
-
-  def basket_quantities_presence
-    bq = basket_quantities || {}
-    if bq.empty? || bq.values.none? { |value| numeric_quantity(value)&.positive? }
-      errors.add(:basket_quantities, :invalid)
-    end
   end
 
   def basket_quantities_structure
