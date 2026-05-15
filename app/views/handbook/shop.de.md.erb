@@ -79,6 +79,16 @@ Standardmäßig und außerhalb [von Sonderlieferungen](#special-deliveries) ist 
 
 Ein Lieferzyklus kann ebenfalls zugewiesen werden, um die im Hofladen zugänglichen Lieferungen für diese Mitglieder einzuschränken. Ohne Lieferzyklus sind alle Lieferungen verfügbar, bei denen der Hofladen für das zugewiesene Depot geöffnet ist.
 
+### Beispiel: Restaurants oder professionelle Käufer {#restaurants}
+
+Ein häufiger Anwendungsfall ist es, Restaurants oder anderen professionellen Käufern ohne Mitgliedschaft Zugang zum Hofladen zu geben. So richtest Du das ein:
+
+1. **Ein verstecktes Depot erstellen**, das speziell für diese Mitglieder vorgesehen ist (z.B. «Restaurants»). Da es für reguläre Mitglieder nicht sichtbar ist, wird es die Depotliste bei der Anmeldung nicht überladen.
+2. **Dieses Depot als «Hofladendepot»** im Profil jedes Restaurant-Mitglieds zuweisen.
+3. **Produktsichtbarkeit über die Depotverfügbarkeit einschränken**: Indem bestimmte Produkte für alle Depots _außer_ diesem Restaurant-Depot als nicht verfügbar markiert werden, kannst Du einen Katalog ausschließlich für diese professionellen Käufer anbieten (z.B. Großgebinde, Mengenpreise). Reguläre Mitglieder mit einer Mitgliedschaft werden diese Produkte nicht sehen.
+4. **Hofladenöffnung pro Depot steuern**: Beim Öffnen des Hofladens für eine Lieferung kannst Du nur das Restaurant-Depot auswählen. So bleibt der Hofladen für Mitglieder mit einer Mitgliedschaft bei dieser Lieferung geschlossen, während er für Restaurants geöffnet ist. Umgekehrt kannst Du den Hofladen für alle Depots öffnen, wenn alle Zugang haben sollen.
+5. **Einen Lieferzyklus zuweisen** (optional): Wenn Restaurants nur an bestimmten Lieferterminen bestellen sollen, weise einen passenden Lieferzyklus zu, um ihre verfügbaren Lieferungen weiter einzuschränken.
+
 ## Sonderlieferungen {#special-deliveries}
 
 Sonderlieferungen ermöglichen es Dir, Deinen Mitgliedern zusätzliche Produkte außerhalb der üblichen Lieferungen von <%= Basket.model_name.human(count: 2) %> über den Online-Hofladen anzubieten.

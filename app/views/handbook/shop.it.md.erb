@@ -79,6 +79,16 @@ Per default, e al di fuori [delle consegne speciali](#special-deliveries), l'acc
 
 Un ciclo di consegne può anche essere assegnato per limitare quali consegne sono accessibili nella bottega per questi soci. Senza un ciclo di consegne, tutte le consegne in cui la bottega è aperta per il deposito assegnato saranno disponibili.
 
+### Esempio: ristoranti o acquirenti professionali {#restaurants}
+
+Un caso d'uso comune è dare accesso alla bottega a ristoranti o altri acquirenti professionali che non hanno un abbonamento. Ecco come configurarlo:
+
+1. **Creare un deposito nascosto** specificamente per questi soci (ad es. «Ristoranti»). Poiché non è visibile ai soci regolari, non ingombrerà la lista dei depositi durante l'iscrizione.
+2. **Assegnare questo deposito come «deposito della bottega»** sul profilo di ogni socio ristorante.
+3. **Limitare la visibilità dei prodotti tramite la disponibilità per deposito**: rendendo certi prodotti non disponibili per tutti i depositi _tranne_ questo deposito ristorante, puoi offrire un catalogo esclusivamente riservato a questi acquirenti professionali (ad es. formati più grandi, prezzi all'ingrosso). I soci regolari con un abbonamento non vedranno questi prodotti.
+4. **Controllare l'apertura della bottega per deposito**: all'apertura della bottega su una consegna, puoi selezionare solo il deposito ristorante. In questo modo, la bottega resta chiusa per i soci con un abbonamento su quella consegna, rimanendo aperta per i ristoranti. Viceversa, puoi aprire la bottega per tutti i depositi quando tutti devono avere accesso.
+5. **Assegnare un ciclo di consegne** (opzionale): se i ristoranti devono ordinare solo in certe date di consegna, assegna un ciclo di consegne corrispondente per limitare ulteriormente le loro consegne disponibili.
+
 ## Consegne speciali {#special-deliveries}
 
 Le consegne speciali ti permettono di proporre prodotti aggiuntivi ai tuoi soci al di fuori delle consegne di <%= Basket.model_name.human(count: 2).downcase %> abituali tramite la bottega online.

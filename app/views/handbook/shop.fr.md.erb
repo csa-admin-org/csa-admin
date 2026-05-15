@@ -79,6 +79,16 @@ Par défaut, et en dehors [des livraisons spéciales](#special-deliveries), l'ac
 
 Un cycle de livraisons peut également être assigné pour limiter les livraisons accessibles dans l'épicerie pour ces membres. Sans cycle de livraisons, toutes les livraisons où l'épicerie est ouverte pour le dépôt assigné seront disponibles.
 
+### Exemple : restaurants ou acheteurs professionnels {#restaurants}
+
+Un cas d'utilisation courant est de donner accès à l'épicerie à des restaurants ou autres acheteurs professionnels qui n'ont pas d'abonnement. Voici comment configurer cela :
+
+1. **Créer un dépôt caché** spécifiquement pour ces membres (par ex. « Restaurants »). Comme il n'est pas visible pour les membres réguliers, il n'encombrera pas la liste des dépôts lors de l'inscription.
+2. **Assigner ce dépôt comme « dépôt d'épicerie »** sur le profil de chaque membre restaurant.
+3. **Limiter la visibilité des produits via la disponibilité par dépôt** : en rendant certains produits indisponibles pour tous les dépôts _sauf_ ce dépôt restaurant, vous pouvez offrir un catalogue exclusivement réservé à ces acheteurs professionnels (par ex. grands formats, tarifs en gros). Les membres réguliers avec un abonnement ne verront pas ces produits.
+4. **Contrôler l'ouverture de l'épicerie par dépôt** : lors de l'ouverture de l'épicerie sur une livraison, vous pouvez sélectionner uniquement le dépôt restaurant. Ainsi, l'épicerie reste fermée pour les membres avec un abonnement sur cette livraison tout en étant ouverte pour les restaurants. Inversement, vous pouvez ouvrir l'épicerie pour tous les dépôts lorsque tout le monde doit y avoir accès.
+5. **Assigner un cycle de livraisons** (optionnel) : si les restaurants ne doivent commander qu'à certaines dates de livraison, assignez un cycle de livraisons correspondant pour restreindre davantage leurs livraisons disponibles.
+
 ## Livraisons spéciales {#special-deliveries}
 
 Les livraisons spéciales vous permettent de proposer des produits supplémentaires à vos membres en dehors des livraisons de <%= Basket.model_name.human(count: 2).downcase %> habituelles via l'épicerie en ligne.

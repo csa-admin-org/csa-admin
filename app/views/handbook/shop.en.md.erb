@@ -79,6 +79,16 @@ By default, and outside of [special deliveries](#special-deliveries), access to 
 
 A delivery cycle can also be assigned to limit which deliveries are accessible in the shop for these members. Without a delivery cycle, all deliveries where the shop is open for the assigned depot will be available.
 
+### Example: restaurants or professional buyers {#restaurants}
+
+A common use case is to give access to the shop to restaurants or other professional buyers who don't have a membership. Here's how to set this up:
+
+1. **Create a hidden depot** specifically for these members (e.g. "Restaurants"). Since it's not visible to regular members, it won't clutter the depot list during sign-up.
+2. **Assign this depot as the "shop depot"** on each restaurant member's profile.
+3. **Limit product visibility using depot availability**: by making certain products unavailable for all depots _except_ this restaurant depot, you can offer a catalog exclusively reserved for these professional buyers (e.g. larger formats, bulk pricing). Regular members with a membership will not see these products.
+4. **Control shop opening per depot**: when opening the shop on a delivery, you can select only the restaurant depot. This way, the shop remains closed for members with a membership on that delivery while being open for restaurants. Conversely, you can open the shop for all depots when you want everyone to have access.
+5. **Assign a delivery cycle** (optional): if restaurants should only order on specific delivery dates, assign a matching delivery cycle to further restrict their available deliveries.
+
 ## Special deliveries {#special-deliveries}
 
 Special deliveries allow you to offer additional products to your members outside of regular <%= Basket.model_name.human.downcase %> deliveries via the online shop.

@@ -79,6 +79,16 @@ Standaard, en buiten [speciale leveringen](#special-deliveries), is de toegang t
 
 Een leveringscyclus kan ook worden toegewezen om te beperken welke leveringen toegankelijk zijn in de winkel voor deze leden. Zonder leveringscyclus zijn alle leveringen beschikbaar waarvoor de winkel is geopend voor het toegewezen depot.
 
+### Voorbeeld: restaurants of professionele kopers {#restaurants}
+
+Een veelvoorkomend gebruik is om restaurants of andere professionele kopers zonder lidmaatschap toegang te geven tot de winkel. Zo stel je dit in:
+
+1. **Een verborgen depot aanmaken** specifiek voor deze leden (bijv. «Restaurants»). Omdat het niet zichtbaar is voor reguliere leden, zal het de depotlijst bij het inschrijven niet vervuilen.
+2. **Dit depot als «winkeldepot» toewijzen** op het profiel van elk restaurantlid.
+3. **Productzichtbaarheid beperken via depotbeschikbaarheid**: door bepaalde producten niet beschikbaar te maken voor alle depots _behalve_ dit restaurantdepot, kun je een catalogus aanbieden die exclusief gereserveerd is voor deze professionele kopers (bijv. grotere formaten, bulkprijzen). Reguliere leden met een lidmaatschap zullen deze producten niet zien.
+4. **Winkelopening per depot sturen**: bij het openen van de winkel op een levering kun je alleen het restaurantdepot selecteren. Zo blijft de winkel gesloten voor leden met een lidmaatschap op die levering, terwijl deze open is voor restaurants. Omgekeerd kun je de winkel openen voor alle depots wanneer iedereen toegang moet hebben.
+5. **Een leveringscyclus toewijzen** (optioneel): als restaurants alleen op bepaalde leveringsdata mogen bestellen, wijs dan een bijpassende leveringscyclus toe om hun beschikbare leveringen verder te beperken.
+
 ## Speciale leveringen {#special-deliveries}
 
 Speciale leveringen stellen je in staat om aanvullende producten aan je leden aan te bieden buiten de reguliere leveringen van <%= Basket.model_name.human(count: 2).downcase %> via de online winkel.
