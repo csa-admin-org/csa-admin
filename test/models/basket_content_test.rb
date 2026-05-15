@@ -223,7 +223,7 @@ class BasketContentTest < ActiveSupport::TestCase
     assert_equal 3, bc.baskets_count(basket_sizes(:medium))
   end
 
-  test "baskets_count ignores preloaded counts for sizes without quantity" do
+  test "baskets_count returns preloaded counts for all sizes" do
     bc = build_basket_content(
       basket_size_ids_quantities: { small_id => 100 },
       unit: "pc")
@@ -233,7 +233,7 @@ class BasketContentTest < ActiveSupport::TestCase
     }
 
     assert_equal 5, bc.baskets_count(basket_sizes(:small))
-    assert_equal 0, bc.baskets_count(basket_sizes(:medium))
+    assert_equal 3, bc.baskets_count(basket_sizes(:medium))
   end
 
   test "computes basket_percentage from relative quantities" do

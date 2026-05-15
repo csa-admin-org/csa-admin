@@ -77,7 +77,7 @@ ActiveAdmin.register BasketContent do
     unless params.dig(:q, :basket_size_eq).present?
       column :qt, ->(bc) {
         display_with_price(bc.unit_price, bc.quantity) {
-          display_quantity(bc.quantity, bc.unit)
+          display_total_quantity(bc)
         }
       }, class: "text-right whitespace-nowrap"
     end
@@ -89,7 +89,11 @@ ActiveAdmin.register BasketContent do
     basket_sizes.each do |basket_size|
       column basket_size.name, ->(bc) {
         display_with_price(bc.unit_price, bc.basket_quantity(basket_size)) {
-          display_basket_quantity(bc, basket_size)
+          if authorized?(:update, bc) && params.dig(:q, :delivery_id_eq).present?
+            display_basket_quantity_editable(bc, basket_size)
+          else
+            display_basket_quantity(bc, basket_size)
+          end
         }
       }, class: "text-right whitespace-nowrap"
     end
@@ -195,6 +199,23 @@ ActiveAdmin.register BasketContent do
     to = params.require(:to_delivery_id)
     BasketContent.duplicate_all(from, to)
     redirect_to basket_contents_path(q: { delivery_id_eq: to })
+  end
+
+  member_action :inline_update, method: :patch do
+    basket_content = BasketContent.find(params[:id])
+    authorize!(:update, basket_content)
+    basket_size_id = params.require(:basket_size_id)
+
+    # Build the full quantities hash preserving existing values
+    quantities = basket_content.basket_size_ids.each_with_object({}) do |id, h|
+      h[id.to_s] = basket_content.basket_size_ids_quantity(id).to_s
+    end
+    quantities[basket_size_id.to_s] = params[:quantity].to_i
+
+    basket_content.basket_size_ids_quantities = quantities
+    basket_content.save!
+
+    redirect_back fallback_location: collection_path(q: { delivery_id_eq: basket_content.delivery_id })
   end
 
   form do |f|

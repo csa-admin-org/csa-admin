@@ -26,6 +26,27 @@ module BasketContentsHelper
     end
   end
 
+  def display_total_quantity(basket_content)
+    quantity = basket_content.quantity
+    unit = basket_content.unit
+    case unit
+    when "kg"
+      if quantity < 1
+        unit = "g"
+        quantity = (quantity * 1000).to_i
+      else
+        quantity = quantity.round(1)
+      end
+    when "pc"
+      quantity = quantity.to_i
+    end
+
+    content_tag(:span, class: "inline-flex items-baseline gap-1 ml-3 -me-3.5") {
+      concat content_tag(:span, quantity, class: "tabular-nums")
+      concat content_tag(:span, I18n.t("units.#{unit}.short"), class: "text-left w-2.5 text-xs text-gray-500")
+    }
+  end
+
   def display_basket_quantity(basket_content, basket_size)
     count = basket_content.baskets_count(basket_size)
     quantity = basket_content.basket_quantity(basket_size)
@@ -34,6 +55,43 @@ module BasketContentsHelper
     content_tag(:span, class: "inline-flex items-baseline gap-1.5") do
       concat content_tag(:span, "#{count}x", class: "text-xs text-gray-500")
       concat content_tag(:span, display_quantity(quantity, basket_content.unit), class: "tabular-nums")
+    end
+  end
+
+  def display_basket_quantity_editable(basket_content, basket_size)
+    count = basket_content.baskets_count(basket_size)
+
+    input_value = basket_content.basket_size_ids_quantity(basket_size)
+    suffix = basket_content_unit_suffix(basket_content.unit)
+
+    content_tag(:span,
+      data: {
+        controller: "inline-edit"
+      },
+      class: "inline-flex items-baseline gap-1.5"
+    ) do
+      concat content_tag(:span, class: "inline-flex items-baseline gap-1 ml-4 -me-5") {
+        concat content_tag(:span, "#{count}x", class: "text-xs text-gray-500")
+        concat form_tag(
+          inline_update_basket_content_path(basket_content),
+          method: :patch,
+          class: "inline-flex items-baseline gap-0",
+          data: { "inline-edit-target" => "form" }
+        ) {
+          hidden_field_tag(:basket_size_id, basket_size.id) +
+          number_field_tag(:quantity, input_value.zero? ? nil : input_value,
+            min: 0,
+            step: 1,
+            placeholder: "0",
+            class: [ "text-input w-13 h-6 text-right tabular-nums m-0 py-0 px-1 border-0.5 border-gray-200 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" ],
+            data: {
+              "inline-edit-target" => "input",
+              action: "blur->inline-edit#submit keydown->inline-edit#keydown"
+            }
+          )
+        }
+        concat content_tag(:span, suffix, class: "text-left w-2.5 text-xs text-gray-500")
+      }
     end
   end
 
@@ -155,8 +213,10 @@ module BasketContentsHelper
   def display_with_unit_price(price, unit)
     return yield unless price.present?
 
-    unit_price = I18n.t("units.#{unit}_quantity", quantity: "#{cur(price)}/")
-    (yield + content_tag(:span, unit_price, class: "block text-sm text-gray-500 whitespace-nowrap")).html_safe
+    (yield + content_tag(:span, class: "flex items-baseline m-0 gap-0.5 text-gray-500 whitespace-nowrap") {
+      concat content_tag(:span, cur(price), class: "text-sm tabular-nums")
+      concat content_tag(:span, "/#{I18n.t("units.#{unit}.short")}", class: "text-xs")
+    }).html_safe
   end
 
   def units_collection(format: :long)

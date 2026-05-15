@@ -1,5 +1,24 @@
 _:
   units:
+    g:
+      flex:
+        _en: g
+        _fr: g
+        _de: g
+        _it: g
+        _nl: g
+      long:
+        _en: Gramme
+        _fr: Grammes
+        _de: Gramm
+        _it: Grammi
+        _nl: Gramm
+      short:
+        _en: g
+        _fr: g
+        _de: g
+        _it: g
+        _nl: g
     g_quantity:
       _en: "%{quantity} g"
       _fr: "%{quantity} g"

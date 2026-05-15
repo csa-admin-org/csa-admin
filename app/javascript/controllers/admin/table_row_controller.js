@@ -9,14 +9,9 @@ export default class extends Controller {
     const row = event.target.closest("tr")
     if (!row) return
 
-    const isLink = event.target.closest("a")
-    if (isLink) return
-
-    const isButton = event.target.closest("button, form.button_to")
-    if (isButton) return
-
-    const isCheckbox = event.target.closest("input[type='checkbox']")
-    if (isCheckbox) return
+    if (event.target.closest("a")) return
+    if (event.target.closest("button, form.button_to")) return
+    if (event.target.closest("input, select, textarea")) return
 
     event.preventDefault()
     event.stopPropagation()
@@ -43,12 +38,16 @@ export default class extends Controller {
     const row = event.target.closest("tr")
     if (!row) return
 
+    if (event.target.closest("input, select, textarea, form")) return
+
     row.focus()
   }
 
   handleKeydown(event) {
     const row = event.target.closest("tr")
     if (!row) return
+
+    if (event.target.closest("input, select, textarea")) return
 
     if (event.key === "Enter") {
       this.navigate(event)

@@ -123,8 +123,6 @@ class BasketContent < ApplicationRecord
 
   def baskets_count(basket_size)
     id = basket_size.respond_to?(:id) ? basket_size.id : basket_size
-    return 0 unless basket_quantities&.key?(id.to_s)
-
     baskets_counts_hash[id.to_i] || 0
   end
 
@@ -139,7 +137,7 @@ class BasketContent < ApplicationRecord
   end
 
   def quantity
-    exact_quantity.round(2)
+    exact_quantity.round(3)
   end
 
   def exact_quantity
@@ -260,7 +258,7 @@ class BasketContent < ApplicationRecord
     @baskets_counts_hash ||=
       if delivery
         delivery.baskets.active
-          .where(depot_id: depot_ids, basket_size_id: basket_size_ids)
+          .where(depot_id: depot_ids)
           .group(:basket_size_id)
           .sum(:quantity)
       else
