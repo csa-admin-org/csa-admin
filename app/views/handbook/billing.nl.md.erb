@@ -32,21 +32,64 @@ Je kunt een QR-IBAN aanvragen bij je bank en dit dan invoeren in [je facturering
 
 ## Lidmaatschappen {#memberships}
 
-Lidmaatschapsfacturering wordt volledig geautomatiseerd door het systeem. Je kunt in [de instellingen (Automatische facturering)](/settings#billing) de dag van de week definiëren waarop het systeem alle lidmaatschappen zal beoordelen en automatisch benodigde facturen zal aanmaken en verzenden. Bijvoorbeeld, als een lid elk kwartaal wordt gefactureerd, dan wordt automatisch een nieuwe factuur aangemaakt en verzonden op de eerste geconfigureerde dag van de week van een nieuw kwartaal.
-
-Het factuurbedrag wordt als volgt berekend: totale lidmaatschapsbedrag / aantal betalingsintervallen. Bijvoorbeeld, voor een lidmaatschap van 1000.- dat per kwartaal wordt betaald, zal elke factuur 250.- zijn.
+Lidmaatschapsfacturering wordt volledig geautomatiseerd door het systeem. Je kunt in [de instellingen (Automatische facturering)](/settings#billing) de dag van de week definiëren waarop het systeem alle lidmaatschappen beoordeelt en automatisch de benodigde facturen aanmaakt en verstuurt.
 
 Het is daarom cruciaal dat elke lidmaatschapsconfiguratie up-to-date is zodat facturen correct zijn.
 
-Standaard wordt de eerste factuur verzonden op de factureringsdag die volgt op de eerste levering van een <%= Basket.model_name.human.downcase %>, maar het is mogelijk om dit te wijzigen in [de instellingen](/settings#billing) (Factureer lidmaatschappen alleen na hun eerste levering) om het lidmaatschap vanaf het begin te factureren.
+### Automatische terugkerende facturering {#recurring-billing}
 
-Standaard strekt facturering zich uit tot de einddatum van het lidmaatschap, maar het is mogelijk om dit te wijzigen in [de instellingen](/settings#billing) (Factureer lidmaatschappen alleen tot hun laatste levering) om de factureringsperiode alleen uit te breiden tot de datum van hun laatste levering. Dit is nuttig wanneer bijvoorbeeld de laatste maanden van het boekjaar geen leveringen hebben.
+Terugkerende facturering is het mechanisme dat de lidmaatschapsfacturering verzorgt. Het moet ingeschakeld zijn om lidmaatschapsfacturen aan te kunnen maken; zonder dit worden er geen lidmaatschapsfacturen gegenereerd of verstuurd.
 
-> Vanaf de pagina van een lid of lidmaatschap kun je in de sectie "Facturering" (rechterkolom) de aanmaakdag van de volgende factuur zien.
+#### Hoe in te schakelen
 
-### Nu factureren
+In [de instellingen (Automatische facturering)](/settings#billing) kies je de **dag van de week** waarop het systeem moet draaien. Elke week op die dag controleert het systeem alle leden en maakt facturen aan wanneer deze verschuldigd zijn. Facturen die op deze manier worden aangemaakt, worden **automatisch per e-mail verstuurd**.
 
-In sommige gevallen, bijvoorbeeld na een wijziging in lidmaatschapsconfiguratie, is het mogelijk om de aanmaak van een nieuwe factuur af te dwingen in plaats van het systeem dit automatisch te laten doen op de volgende factureringsdag. Hiervoor klik je op de knop "Nu factureren" in de sectie "Facturering" (rechterkolom). De factuur wordt dan aangemaakt, maar <u>niet verzonden</u>, je kunt dan de PDF raadplegen en deze handmatig verzenden met de knop "Verzenden" op de betreffende pagina. Dit is nuttig als je in contact bent met een lid en snel een factuur wilt corrigeren.
+> Het is raadzaam een andere dag dan de leveringsdag te kiezen. Zo worden wijzigingen aan het lidmaatschap of pakket die op de leveringsdag worden gemaakt, meegenomen in de factuur van de dagen erna, in plaats van voortijdig diezelfde dag te worden gefactureerd of een volle week te moeten wachten.
+
+#### Betalingsintervallen {#billing-year-divisions}
+
+Elk lidmaatschap heeft een **betalingsinterval** dat bepaalt hoeveel facturen er over het boekjaar worden gegenereerd. De beschikbare intervallen worden geconfigureerd in [de instellingen](/settings#billing) en aangeboden aan leden bij inschrijving of verlenging.
+
+Beschikbare intervallen: Jaarlijks (1), Halfjaarlijks (2), Viermaandelijks (3), Driemaandelijks (4), Maandelijks (12).
+
+Het factuurbedrag wordt berekend als: **totaal lidmaatschapsbedrag ÷ aantal resterende intervallen**. Bijvoorbeeld, voor een lidmaatschap van 1000.- dat per kwartaal wordt betaald, is elke factuur 250.-.
+
+#### Wanneer wordt de eerste factuur verstuurd? {#first-invoice-timing}
+
+Standaard wordt de eerste factuur verstuurd op de factureringsdag die volgt op de **eerste levering van een <%= Basket.model_name.human.downcase %>**. Dit betekent dat er geen factuur wordt aangemaakt voordat het lid zijn eerste levering heeft ontvangen.
+
+Dit gedrag kan worden gewijzigd in [de instellingen](/settings#billing) door «Factureer lidmaatschappen alleen na hun eerste levering» uit te schakelen. Wanneer uitgeschakeld, begint de facturering vanaf de **startdatum van het lidmaatschap**, zelfs voor enige levering.
+
+#### Wanneer eindigt de facturering? {#billing-end}
+
+Standaard strekt facturering zich uit tot de **einddatum van het lidmaatschap**, waarmee het volledige boekjaar wordt gedekt, ook als er in de laatste maanden geen leveringen zijn.
+
+Dit kan worden gewijzigd in [de instellingen](/settings#billing) door «Factureer lidmaatschappen alleen tot hun laatste levering» in te schakelen. Wanneer ingeschakeld, dekt de facturering alleen tot de maand van de laatste levering. Dit is nuttig wanneer de laatste maanden van het boekjaar geen leveringen hebben.
+
+#### Gedetailleerde logica
+
+Elke factureringsdag controleert het systeem elk lid en bepaalt of een factuur verschuldigd is:
+
+1. Het boekjaar wordt opgedeeld in perioden op basis van het betalingsinterval (bijv. driemaandelijks = 4 perioden van 3 maanden).
+2. Als de **huidige periode al is gefactureerd**, wordt de volgende factuur gepland voor het begin van de volgende periode.
+3. Als de **huidige periode nog niet is gefactureerd**, wordt de factuur aangemaakt op de volgende factureringsdag, met inachtneming van de instelling «eerste levering» of «start lidmaatschap» zoals hierboven beschreven.
+4. Als de berekende datum **na het einde van het boekjaar** valt, wordt er geen verdere factuur meer gegenereerd voor dit jaar.
+
+De factuur wordt altijd aangemaakt op de geconfigureerde dag van de week. Als een factuur op een andere dag verschuldigd wordt (bijv. een nieuwe periode begint op woensdag maar de factureringsdag is maandag), wordt deze de volgende maandag aangemaakt.
+
+#### Datum volgende factuur
+
+Vanaf de pagina van een lid of lidmaatschap toont de sectie «Facturering» (rechterkolom) de **datum van de volgende factuur**. Deze geeft aan wanneer de volgende automatische factuur wordt aangemaakt en verstuurd.
+
+Deze datum wordt dynamisch bijgewerkt: zodra een factuur is verstuurd, springt deze naar de volgende geplande datum.
+
+### Nu factureren {#bill-now}
+
+In sommige gevallen, bijvoorbeeld na een wijziging in lidmaatschapsconfiguratie, wil je mogelijk direct een factuur aanmaken in plaats van te wachten op de volgende factureringsdag. Klik hiervoor op de knop «Nu factureren» in de sectie «Facturering» (rechterkolom) van de leden- of lidmaatschapspagina.
+
+De factuur wordt dan aangemaakt, maar **niet verstuurd**. Je kunt de PDF raadplegen en deze handmatig verzenden met de knop «Verzenden» op de betreffende pagina. Dit is nuttig als je in contact bent met een lid en snel een factuur wilt corrigeren of het resultaat van een configuratiewijziging wilt controleren.
+
+> De knop «Nu factureren» produceert exact dezelfde factuur als het automatische systeem, het enige verschil is dat deze niet automatisch wordt verstuurd, zodat je deze eerst kunt controleren.
 
 ### Alles vooraf factureren {#future_billing}
 

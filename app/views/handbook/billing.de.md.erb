@@ -32,21 +32,64 @@ Du kannst eine QR-IBAN bei Deiner Bank anfordern und diese dann in [Deinen Abrec
 
 ## Abonnements {#memberships}
 
-Die Abrechnung der Abonnements wird vollständig vom System automatisiert. Du kannst in [den Einstellungen (Automatische Abrechnung)](/settings#billing) den Wochentag festlegen, an dem das System alle Abonnements überprüft und automatisch die erforderlichen Rechnungen erstellt und versendet. Wenn ein Mitglied beispielsweise vierteljährlich abgerechnet wird, wird am ersten konfigurierten Wochentag eines neuen Quartals automatisch eine neue Rechnung erstellt und versendet.
-
-Der Rechnungsbetrag wird wie folgt berechnet: Gesamtbetrag des Abonnements / Anzahl der Zahlungsintervalle. Bei einem Abonnement von 1000.-, das vierteljährlich bezahlt wird, beträgt jede Rechnung beispielsweise 250.-.
+Die Abrechnung der Abonnements wird vollständig vom System automatisiert. Du kannst in [den Einstellungen (Automatische Abrechnung)](/settings#billing) den Wochentag festlegen, an dem das System alle Abonnements überprüft und automatisch die erforderlichen Rechnungen erstellt und versendet.
 
 Es ist daher entscheidend, dass jede Abonnementskonfiguration aktuell ist, damit die Rechnungen korrekt sind.
 
-Standardmäßig wird die erste Rechnung am Abrechnungstag nach der ersten Lieferung einer <%= Basket.model_name.human %> versendet, aber es ist möglich, dies in [den Einstellungen](/settings#billing) zu ändern (Abonnements erst nach ihrer ersten Lieferung abrechnen), um das Abonnement ab seinem Beginn abzurechnen.
+### Automatische wiederkehrende Abrechnung {#recurring-billing}
 
-Standardmäßig erstreckt sich die Abrechnung bis zum Enddatum des Abonnements, aber es ist möglich, dies in [den Einstellungen](/settings#billing) zu ändern (Abonnements nur bis zu ihrer letzten Lieferung abrechnen), um den Abrechnungszeitraum nur bis zum Datum ihrer letzten Lieferung zu verlängern. Dies ist nützlich, wenn beispielsweise die letzten Monate des Geschäftsjahres keine Lieferungen haben.
+Die wiederkehrende Abrechnung ist der Mechanismus, der die Abonnements-Abrechnung steuert. Sie muss aktiviert sein, damit überhaupt Abonnement-Rechnungen erstellt werden können; ohne sie werden keine Abonnement-Rechnungen generiert oder versendet.
 
-> Von der Seite eines Mitglieds oder eines Abonnements aus kannst Du im Abschnitt "Abrechnung" (rechte Spalte) den Erstellungstag der nächsten Rechnung sehen.
+#### Aktivierung
 
-### Jetzt abrechnen
+In [den Einstellungen (Automatische Abrechnung)](/settings#billing) wählst Du den **Wochentag**, an dem das System laufen soll. Jede Woche an diesem Tag überprüft das System alle Mitglieder und erstellt Rechnungen, wenn sie fällig sind. So erstellte Rechnungen werden **automatisch per E-Mail versendet**.
 
-In einigen Fällen, beispielsweise nach einer Änderung der Abonnementskonfiguration, ist es möglich, die Erstellung einer neuen Rechnung zu erzwingen, anstatt das System dies automatisch am nächsten Abrechnungstag tun zu lassen. Klicke dazu auf die Schaltfläche "Jetzt abrechnen" im Abschnitt "Abrechnung" (rechte Spalte). Die Rechnung wird dann erstellt, aber <u>nicht gesendet</u>. Du kannst dann das PDF einsehen und es manuell mit der Schaltfläche "Senden" auf der Seite der Rechnung versenden. Dies ist nützlich, wenn Du in Kontakt mit einem Mitglied stehst und schnell eine Rechnung korrigieren möchtest.
+> Es ist ratsam, einen anderen Tag als den Lieferungstag zu wählen. So werden Änderungen am Abonnement oder an der Tasche, die am Lieferungstag vorgenommen werden, in der Rechnung der folgenden Tage berücksichtigt, anstatt voreilig am selben Tag abgerechnet zu werden oder eine volle Woche warten zu müssen.
+
+#### Zahlungsintervalle {#billing-year-divisions}
+
+Jedes Abonnement hat ein **Zahlungsintervall**, das bestimmt, wie viele Rechnungen über das Geschäftsjahr generiert werden. Die verfügbaren Intervalle werden in [den Einstellungen](/settings#billing) konfiguriert und den Mitgliedern bei der Anmeldung oder Erneuerung angeboten.
+
+Verfügbare Intervalle: Jährlich (1), Halbjährlich (2), Dritteljährlich (3), Quartalweise (4), Monatlich (12).
+
+Der Rechnungsbetrag wird berechnet als: **Gesamtbetrag des Abonnements ÷ Anzahl der verbleibenden Intervalle**. Bei einem Abonnement von 1000.- das vierteljährlich bezahlt wird, beträgt jede Rechnung 250.-.
+
+#### Wann wird die erste Rechnung versendet? {#first-invoice-timing}
+
+Standardmäßig wird die erste Rechnung am Abrechnungstag nach der **ersten Lieferung einer <%= Basket.model_name.human %>** versendet. Das bedeutet, dass keine Rechnung erstellt wird, bevor das Mitglied seine erste Lieferung erhalten hat.
+
+Dieses Verhalten kann in [den Einstellungen](/settings#billing) geändert werden, indem «Abonnements erst nach ihrer ersten Lieferung abrechnen» deaktiviert wird. Dann beginnt die Abrechnung ab dem **Startdatum des Abonnements**, auch vor der ersten Lieferung.
+
+#### Wann endet die Abrechnung? {#billing-end}
+
+Standardmäßig erstreckt sich die Abrechnung bis zum **Enddatum des Abonnements** und deckt das gesamte Geschäftsjahr ab, auch wenn in den letzten Monaten keine Lieferungen stattfinden.
+
+Dies kann in [den Einstellungen](/settings#billing) geändert werden, indem «Abonnements nur bis zu ihrer letzten Lieferung abrechnen» aktiviert wird. Dann deckt die Abrechnung nur bis zum Monat der letzten Lieferung ab. Dies ist nützlich, wenn die letzten Monate des Geschäftsjahres keine Lieferungen haben.
+
+#### Detaillierte Logik
+
+An jedem Abrechnungstag überprüft das System jedes Mitglied und bestimmt, ob eine Rechnung fällig ist:
+
+1. Das Geschäftsjahr wird in Perioden auf Basis des Zahlungsintervalls aufgeteilt (z.B. quartalweise = 4 Perioden à 3 Monate).
+2. Wenn die **aktuelle Periode bereits abgerechnet** wurde, wird die nächste Rechnung für den Beginn der nächsten Periode geplant.
+3. Wenn die **aktuelle Periode noch nicht abgerechnet** wurde, wird die Rechnung am nächsten Abrechnungstag erstellt, unter Berücksichtigung der oben beschriebenen Einstellung «erste Lieferung» oder «Abonnement-Beginn».
+4. Wenn das berechnete Datum **nach dem Ende des Geschäftsjahres** liegt, wird keine weitere Rechnung für dieses Jahr erstellt.
+
+Die Rechnung wird immer am konfigurierten Wochentag erstellt. Wenn eine Rechnung an einem anderen Tag fällig wird (z.B. eine neue Periode beginnt an einem Mittwoch, aber der Abrechnungstag ist Montag), wird sie am folgenden Montag erstellt.
+
+#### Datum der nächsten Rechnung
+
+Auf der Seite eines Mitglieds oder eines Abonnements zeigt der Abschnitt «Abrechnung» (rechte Spalte) das **Datum der nächsten Rechnung** an. Dieses zeigt, wann die nächste automatische Rechnung erstellt und versendet wird.
+
+Dieses Datum aktualisiert sich dynamisch: Sobald eine Rechnung versendet wurde, springt es zum nächsten geplanten Datum.
+
+### Jetzt abrechnen {#bill-now}
+
+In einigen Fällen, beispielsweise nach einer Änderung der Abonnementskonfiguration, möchtest Du möglicherweise sofort eine Rechnung erstellen, anstatt auf den nächsten Abrechnungstag zu warten. Klicke dazu auf die Schaltfläche «Jetzt abrechnen» im Abschnitt «Abrechnung» (rechte Spalte) der Mitglieds- oder Abonnementsseite.
+
+Die Rechnung wird dann erstellt, aber **nicht gesendet**. Du kannst das PDF einsehen und es manuell mit der Schaltfläche «Senden» auf der Seite der Rechnung versenden. Dies ist nützlich, wenn Du in Kontakt mit einem Mitglied stehst und schnell eine Rechnung korrigieren oder das Ergebnis einer Konfigurationsänderung überprüfen möchtest.
+
+> Die Schaltfläche «Jetzt abrechnen» erzeugt exakt die gleiche Rechnung wie das automatische System, der einzige Unterschied ist, dass sie nicht automatisch versendet wird, sodass Du sie vorher überprüfen kannst.
 
 ### Alle in Zukunft abrechnen {#future_billing}
 

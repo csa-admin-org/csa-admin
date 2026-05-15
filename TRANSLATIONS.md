@@ -78,3 +78,16 @@ inversion, drop the -t ("heb je", not "hebt je").
 ### Italian
 
 - Use "voi" for Admin UI, "tu" for member-facing and handbook.
+
+## Writing Style
+
+- **Keep it human.** Write like you would explain something to a colleague. Avoid
+  robotic or overly structured prose (no walls of em dashes, no filler phrases like
+  "It is important to note that…").
+- **Use em dashes sparingly.** Prefer semicolons, periods, or commas. An em dash is
+  fine when it genuinely adds clarity, but overuse makes text feel AI-generated.
+- **Prefer `<strong>` / `**bold**` over `<u>` for emphasis** in hints and handbook.
+  Underlines are easily confused with hyperlinks.
+- **Be direct.** Say what happens, not what "the system does". Prefer active voice
+  and short sentences when possible.
+- **Don't over-explain.** Trust the reader. One clear sentence beats three hedging ones.

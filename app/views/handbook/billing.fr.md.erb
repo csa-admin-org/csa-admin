@@ -32,21 +32,64 @@ Vous pouvez demander un QR-IBAN à votre banque puis l'entrer dans [vos paramèt
 
 ## Abonnements {#memberships}
 
-La facturation des abonnements est complètement automatisée par le système. Vous pouvez définir dans [les paramètres (Facturation automatique)](/settings#billing) le jour de la semaine où le système va passer en revue tous les abonnements et créer et envoyer automatiquement les factures nécessaires. Par exemple, si un membre est facturé tous les trimestres, alors une nouvelle facture sera automatiquement créée et envoyée le premier jour de la semaine configuré d'un nouveau trimestre.
-
-Le montant de la facture est calculé ainsi: montant total de l'abonnement / nombre d'intervalles de paiements. Par exemple, pour un abonnement à 1000.- payé tous les trimestres, chaque facture sera de 250.-.
+La facturation des abonnements est complètement automatisée par le système. Vous pouvez définir dans [les paramètres (Facturation automatique)](/settings#billing) le jour de la semaine où le système va passer en revue tous les abonnements et créer et envoyer automatiquement les factures nécessaires.
 
 Il est donc primordial que chaque configuration d'abonnement soit bien à jour afin que les factures soient correctes.
 
-Par défaut, la première facture est envoyée le jour de facturation suivant la première livraison de <%= Basket.model_name.human.downcase %>, mais il est possible de modifier cela dans [les paramètres](/settings#billing) (Facturer les abonnements seulement après leur première livraison) pour facturer l'abonnement dès le début de celui-ci.
+### Facturation automatique récurrente {#recurring-billing}
 
-Par défaut, la facturation s'étend jusqu'à la date de fin de l'abonnement, mais il est possible de modifier cela dans [les paramètres](/settings#billing) (Facturer les abonnements jusqu'à leur dernière livraison uniquement) pour étendre la période de facturation uniquement jusqu'à la date de leur dernière livraison. Ceci est utile lorsque, par exemple, les derniers mois de l'année fiscale n'ont aucune livraison.
+La facturation récurrente est le mécanisme qui gère la facturation des abonnements. Elle doit être activée pour que toute facture d'abonnement puisse être créée; sans elle, aucune facture d'abonnement n'est générée ni envoyée.
 
-> Depuis la page d'un membre ou d'un abonnement, vous pouvez voir dans la section "Facturation" (colonne de droite) le jour de création de la prochaine facture.
+#### Comment l'activer
 
-### Facturer maintenant
+Dans [les paramètres (Facturation automatique)](/settings#billing), choisissez le **jour de la semaine** où le système doit s'exécuter. Chaque semaine à ce jour-là, le système passe en revue tous les membres et crée les factures lorsqu'elles sont dues. Les factures ainsi créées sont **automatiquement envoyées** par email.
 
-Dans certain cas, par exemple après un changement de configuration de l'abonnement, il est possible de forcer la création d'une nouvelle facture plutôt que de laisser le système le faire automatiquement le prochain jour de facturation. Pour cela, cliquez sur le bouton "Facturer maintenant" dans la section "Facturation" (colonne de droite). La facture sera alors créée, mais <u>non envoyée</u>, vous pouvez alors la consulter le PDF et l'envoyer manuellement à l'aide du bouton "Envoyer" sur la page de celle-ci. Cela s'avère utile si vous êtes en contact avec un membre et voulez rectifier rapidement une facture.
+> Il est préférable de choisir un jour différent de celui de la livraison. Ainsi, les modifications d'abonnement ou de panier effectuées le jour de la livraison seront prises en compte dans la facture générée les jours suivants, plutôt que d'être facturées prématurément le même jour ou de devoir attendre une semaine supplémentaire.
+
+#### Intervalles de paiement {#billing-year-divisions}
+
+Chaque abonnement possède un **intervalle de paiement** qui détermine combien de factures sont générées sur l'année fiscale. Les intervalles disponibles sont configurés dans [les paramètres](/settings#billing) et proposés aux membres lors de l'inscription ou du renouvellement.
+
+Intervalles disponibles : Annuel (1), Semestriel (2), Quadrimestriel (3), Trimestriel (4), Mensuel (12).
+
+Le montant de la facture est calculé ainsi : **montant total de l'abonnement ÷ nombre d'intervalles restants**. Par exemple, pour un abonnement à 1000.- payé tous les trimestres, chaque facture sera de 250.-.
+
+#### Quand la première facture est-elle envoyée ? {#first-invoice-timing}
+
+Par défaut, la première facture est envoyée le jour de facturation suivant la **première livraison de <%= Basket.model_name.human.downcase %>**. Cela signifie qu'aucune facture n'est générée avant que le membre ait reçu sa première livraison.
+
+Ce comportement peut être modifié dans [les paramètres](/settings#billing) en désactivant « Facturer les abonnements seulement après leur première livraison ». Lorsque désactivé, la facturation commence dès la **date de début de l'abonnement**, même avant toute livraison.
+
+#### Quand la facturation se termine-t-elle ? {#billing-end}
+
+Par défaut, la facturation s'étend jusqu'à la **date de fin de l'abonnement**, couvrant l'année fiscale complète même s'il n'y a pas de livraisons les derniers mois.
+
+Cela peut être modifié dans [les paramètres](/settings#billing) en activant « Facturer les abonnements jusqu'à leur dernière livraison uniquement ». Lorsqu'activé, la facturation ne couvre que jusqu'au mois de la dernière livraison. Ceci est utile lorsque les derniers mois de l'année fiscale n'ont aucune livraison.
+
+#### Logique détaillée
+
+Chaque jour de facturation, le système vérifie chaque membre et détermine si une facture est due :
+
+1. L'année fiscale est découpée en périodes selon l'intervalle de paiement (par ex. trimestriel = 4 périodes de 3 mois).
+2. Si la **période en cours a déjà été facturée**, la prochaine facture est planifiée pour le début de la période suivante.
+3. Si la **période en cours n'a pas encore été facturée**, la facture est créée au prochain jour de facturation, en respectant le paramètre « première livraison » ou « début de l'abonnement » décrit ci-dessus.
+4. Si la date calculée tombe **après la fin de l'année fiscale**, aucune facture supplémentaire n'est générée pour cette année.
+
+La facture est toujours créée le jour de la semaine configuré. Si une facture devient due un autre jour (par ex. une nouvelle période commence un mercredi mais le jour de facturation est le lundi), elle sera créée le lundi suivant.
+
+#### Date de la prochaine facture
+
+Depuis la page d'un membre ou d'un abonnement, la section « Facturation » (colonne de droite) affiche la **date de la prochaine facture**. Celle-ci indique quand la prochaine facture automatique sera créée et envoyée.
+
+Cette date se met à jour dynamiquement : une fois une facture envoyée, elle passe à la prochaine date planifiée.
+
+### Facturer maintenant {#bill-now}
+
+Dans certains cas, par exemple après un changement de configuration de l'abonnement, vous pouvez vouloir créer une facture immédiatement plutôt que d'attendre le prochain jour de facturation. Pour cela, cliquez sur le bouton « Facturer maintenant » dans la section « Facturation » (colonne de droite) de la page du membre ou de l'abonnement.
+
+La facture sera alors créée, mais **non envoyée**. Vous pouvez consulter le PDF et l'envoyer manuellement à l'aide du bouton « Envoyer » sur la page de celle-ci. Cela s'avère utile si vous êtes en contact avec un membre et voulez rectifier rapidement une facture ou vérifier le résultat d'un changement de configuration.
+
+> Le bouton « Facturer maintenant » produit exactement la même facture que le système automatique, la seule différence est qu'elle n'est pas envoyée automatiquement, ce qui vous laisse le temps de la vérifier.
 
 ### Tout facturer à l'avance {#future_billing}
 

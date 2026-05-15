@@ -13,6 +13,10 @@
       @apply mt-6 mb-2 scroll-mt-20 text-lg font-semibold text-gray-900 dark:text-gray-100;
     }
 
+    h4 {
+      @apply mt-6 -mb-1 scroll-mt-20 text-base font-semibold text-gray-900 dark:text-gray-100;
+    }
+
     p {
       @apply my-4 leading-6 text-gray-900 dark:text-gray-100;
     }

@@ -32,21 +32,64 @@ Puoi richiedere un QR-IBAN alla tua banca e poi inseriscilo nelle [tue impostazi
 
 ## Abbonamenti {#memberships}
 
-La fatturazione degli abbonamenti è completamente automatizzata dal sistema. Puoi definire nelle [impostazioni (Fatturazione automatica)](/settings#billing) il giorno della settimana in cui il sistema esaminerà tutti gli abbonamenti e creerà e invierà automaticamente le fatture necessarie. Per esempio, se un socio viene fatturato ogni trimestre, allora una nuova fattura sarà automaticamente creata e inviata il primo giorno della settimana configurato di un nuovo trimestre.
-
-L'importo della fattura è calcolato così: importo totale dell'abbonamento / numero di intervalli di pagamento. Per esempio, per un abbonamento di 1000.- pagato ogni trimestre, ogni fattura sarà di 250.-.
+La fatturazione degli abbonamenti è completamente automatizzata dal sistema. Puoi definire nelle [impostazioni (Fatturazione automatica)](/settings#billing) il giorno della settimana in cui il sistema esaminerà tutti gli abbonamenti e creerà e invierà automaticamente le fatture necessarie.
 
 È quindi fondamentale che ogni configurazione di abbonamento sia ben aggiornata affinché le fatture siano corrette.
 
-Per impostazione predefinita, la prima fattura viene inviata il giorno di fatturazione successivo alla prima consegna della <%= Basket.model_name.human.downcase %>, ma è possibile modificarlo nelle [impostazioni](/settings#billing) (Fatturare gli abbonamenti solo dopo la loro prima consegna) per fatturare l'abbonamento dall'inizio dello stesso.
+### Fatturazione automatica ricorrente {#recurring-billing}
 
-Per impostazione predefinita, la fatturazione si estende fino alla data di fine dell'abbonamento, ma è possibile modificarlo nelle [impostazioni](/settings#billing) (Fatturare gli abbonamenti solo fino alla loro ultima consegna) per estendere il periodo di fatturazione solo fino alla data della loro ultima consegna. Questo è utile quando, per esempio, gli ultimi mesi dell'anno fiscale non hanno consegne.
+La fatturazione ricorrente è il meccanismo che gestisce la fatturazione degli abbonamenti. Deve essere attivata affinché qualsiasi fattura di abbonamento possa essere creata; senza di essa, nessuna fattura di abbonamento viene generata né inviata.
 
-> Dalla pagina di un socio o di un abbonamento, puoi vedere nella sezione "Fatturazione" (colonna di destra) il giorno di creazione della prossima fattura.
+#### Come attivarla
 
-### Fatturare ora
+Nelle [impostazioni (Fatturazione automatica)](/settings#billing), scegli il **giorno della settimana** in cui il sistema deve essere eseguito. Ogni settimana in quel giorno, il sistema esamina tutti i soci e crea le fatture quando sono dovute. Le fatture così create vengono **automaticamente inviate** via email.
 
-In alcuni casi, per esempio dopo un cambiamento di configurazione dell'abbonamento, è possibile forzare la creazione di una nuova fattura piuttosto che lasciare che il sistema lo faccia automaticamente il prossimo giorno di fatturazione. Per farlo, clicca sul pulsante "Fatturare ora" nella sezione "Fatturazione" (colonna di destra). La fattura sarà quindi creata, ma <u>non inviata</u>, puoi poi consultare il PDF e inviarlo manualmente utilizzando il pulsante "Inviare" sulla pagina della stessa. Questo è utile se sei in contatto con un socio e vuoi rettificare rapidamente una fattura.
+> È consigliabile scegliere un giorno diverso da quello della consegna. In questo modo, le modifiche all'abbonamento o al paniere effettuate il giorno della consegna saranno considerate nella fattura generata nei giorni successivi, anziché essere fatturate prematuramente lo stesso giorno o dover attendere una settimana intera.
+
+#### Intervalli di pagamento {#billing-year-divisions}
+
+Ogni abbonamento ha un **intervallo di pagamento** che determina quante fatture vengono generate nell'anno fiscale. Gli intervalli disponibili sono configurati nelle [impostazioni](/settings#billing) e proposti ai soci durante l'iscrizione o il rinnovo.
+
+Intervalli disponibili: Annuale (1), Semestrale (2), Quadrimestrale (3), Trimestrale (4), Mensile (12).
+
+L'importo della fattura è calcolato così: **importo totale dell'abbonamento ÷ numero di intervalli rimanenti**. Per esempio, per un abbonamento di 1000.- pagato ogni trimestre, ogni fattura sarà di 250.-.
+
+#### Quando viene inviata la prima fattura? {#first-invoice-timing}
+
+Per impostazione predefinita, la prima fattura viene inviata il giorno di fatturazione successivo alla **prima consegna della <%= Basket.model_name.human.downcase %>**. Ciò significa che nessuna fattura viene generata prima che il socio abbia ricevuto la sua prima consegna.
+
+Questo comportamento può essere modificato nelle [impostazioni](/settings#billing) disattivando «Fatturare gli abbonamenti solo dopo la loro prima consegna». Quando disattivato, la fatturazione inizia dalla **data di inizio dell'abbonamento**, anche prima di qualsiasi consegna.
+
+#### Quando termina la fatturazione? {#billing-end}
+
+Per impostazione predefinita, la fatturazione si estende fino alla **data di fine dell'abbonamento**, coprendo l'intero anno fiscale anche se non ci sono consegne negli ultimi mesi.
+
+Questo può essere modificato nelle [impostazioni](/settings#billing) attivando «Fatturare gli abbonamenti solo fino alla loro ultima consegna». Quando attivato, la fatturazione copre solo fino al mese dell'ultima consegna. Questo è utile quando gli ultimi mesi dell'anno fiscale non hanno consegne.
+
+#### Logica dettagliata
+
+Ogni giorno di fatturazione, il sistema verifica ogni socio e determina se una fattura è dovuta:
+
+1. L'anno fiscale è suddiviso in periodi in base all'intervallo di pagamento (ad es. trimestrale = 4 periodi di 3 mesi).
+2. Se il **periodo corrente è già stato fatturato**, la prossima fattura è pianificata per l'inizio del periodo successivo.
+3. Se il **periodo corrente non è ancora stato fatturato**, la fattura viene creata al prossimo giorno di fatturazione, rispettando l'impostazione «prima consegna» o «inizio dell'abbonamento» descritta sopra.
+4. Se la data calcolata cade **dopo la fine dell'anno fiscale**, nessuna fattura aggiuntiva viene generata per quest'anno.
+
+La fattura viene sempre creata nel giorno della settimana configurato. Se una fattura diventa dovuta in un altro giorno (ad es. un nuovo periodo inizia di mercoledì ma il giorno di fatturazione è lunedì), sarà creata il lunedì successivo.
+
+#### Data della prossima fattura
+
+Dalla pagina di un socio o di un abbonamento, la sezione «Fatturazione» (colonna di destra) mostra la **data della prossima fattura**. Questa indica quando la prossima fattura automatica sarà creata e inviata.
+
+Questa data si aggiorna dinamicamente: una volta inviata una fattura, passa alla prossima data pianificata.
+
+### Fatturare ora {#bill-now}
+
+In alcuni casi, per esempio dopo un cambiamento di configurazione dell'abbonamento, potresti voler creare una fattura immediatamente piuttosto che aspettare il prossimo giorno di fatturazione. Per farlo, clicca sul pulsante «Fatturare ora» nella sezione «Fatturazione» (colonna di destra) della pagina del socio o dell'abbonamento.
+
+La fattura sarà creata, ma **non inviata**. Puoi consultare il PDF e inviarlo manualmente utilizzando il pulsante «Inviare» sulla pagina della stessa. Questo è utile se sei in contatto con un socio e vuoi rettificare rapidamente una fattura o verificare il risultato di un cambiamento di configurazione.
+
+> Il pulsante «Fatturare ora» produce esattamente la stessa fattura del sistema automatico, l'unica differenza è che non viene inviata automaticamente, dandoti il tempo di verificarla prima.
 
 ### Fatturare tutto in anticipo {#future_billing}
 

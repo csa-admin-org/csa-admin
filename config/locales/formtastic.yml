@@ -2518,11 +2518,11 @@ _:
           _it: Numero visualizzato nel piè di pagina della pagina dei soci.
           _nl: Nummer weergegeven in de voettekst van de ledenpagina.
         recurring_billing_wday_html:
-          _en: Automatic billing is done every week at the beginning of the chosen day. Invoices created this way are also sent automatically. <u>It is advisable to choose a day other than the delivery day.</u>
-          _fr: La facturation automatique est effectuée chaque semaine au début du jour choisi. Les factures ainsi créées sont également automatiquement envoyées. <u>Il est préférable de choisir un jour différent de celui de la livraison.</u>
-          _de: Die Rechnungsstellung erfolgt automatisch jede Woche zu Beginn des gewählten Tages. Auf diese Weise erstellte Rechnungen werden ebenfalls automatisch versendet. <u>Es ist ratsam, einen anderen Tag als den Lieferungstag zu wählen.</u>
-          _it: La fatturazione automatica è effettuata ogni settimana all'inizio del giorno scelto. Le fatture create sono inviate automaticamente. <u>È consigliabile scegliere un giorno diverso da quello della consegna.</u>
-          _nl: Automatische facturering wordt elke week uitgevoerd aan het begin van de gekozen dag. Facturen die op deze manier worden gemaakt, worden ook automatisch verzonden. <u>Het is raadzaam een andere dag dan de leveringsdag te kiezen.</u>
+          _en: Every week on the chosen day, the system reviews all members and creates and sends invoices when due. <em>It is advisable to choose a day other than the delivery day.</em> See the <a href="/handbook/billing#recurring-billing">handbook</a> for details.
+          _fr: Chaque semaine au jour choisi, le système passe en revue tous les membres et crée et envoie les factures lorsqu'elles sont dues. <em>Il est préférable de choisir un jour différent de celui de la livraison.</em> Voir le <a href="/handbook/billing#recurring-billing">manuel</a> pour plus de détails.
+          _de: Jede Woche am gewählten Tag prüft das System alle Mitglieder und erstellt und versendet Rechnungen wenn fällig. <em>Es ist ratsam, einen anderen Tag als den Lieferungstag zu wählen.</em> Siehe <a href="/handbook/billing#recurring-billing">Handbuch</a> für Details.
+          _it: Ogni settimana nel giorno scelto, il sistema verifica tutti i soci e crea e invia le fatture quando dovute. <em>È consigliabile scegliere un giorno diverso da quello della consegna.</em> Vedere il <a href="/handbook/billing#recurring-billing">manuale</a> per i dettagli.
+          _nl: Elke week op de gekozen dag controleert het systeem alle leden en maakt en verstuurt facturen wanneer ze verschuldigd zijn. <em>Het is raadzaam een andere dag dan de leveringsdag te kiezen.</em> Zie het <a href="/handbook/billing#recurring-billing">handboek</a> voor details.
         send_closed_invoice:
           _en: If disabled, new invoices considered already paid due to a positive balance are not sent by automatic billing.
           _fr: Si désactivée, les nouvelles factures considérées comme déjà payées à cause d'une balance positive ne sont pas envoyées par la facturation automatique.

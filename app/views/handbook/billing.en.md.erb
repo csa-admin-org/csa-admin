@@ -32,21 +32,64 @@ You can request a QR-IBAN from your bank and then enter it in [your billing sett
 
 ## Memberships {#memberships}
 
-Membership billing is completely automated by the system. You can define in [the settings (Automatic billing)](/settings#billing) the day of the week when the system will review all memberships and automatically create and send necessary invoices. For example, if a member is billed every quarter, then a new invoice will be automatically created and sent on the first configured day of the week of a new quarter.
-
-The invoice amount is calculated as follows: total membership amount / number of payment intervals. For example, for a 1000.- membership paid quarterly, each invoice will be 250.-.
+Membership billing is completely automated by the system. You can define in [the settings (Automatic billing)](/settings#billing) the day of the week when the system will review all memberships and automatically create and send necessary invoices.
 
 It is therefore crucial that each membership configuration is up to date so that invoices are correct.
 
-By default, the first invoice is sent on the billing day following the first <%= Basket.model_name.human.downcase %> delivery, but it's possible to modify this in [the settings](/settings#billing) (Bill memberships only after their first delivery) to bill the membership from its start.
+### Recurring automatic billing {#recurring-billing}
 
-By default, billing extends until the membership end date, but it's possible to modify this in [the settings](/settings#billing) (Bill memberships until their last delivery only) to extend the billing period only until the date of their last delivery. This is useful when, for example, the last months of the fiscal year have no deliveries.
+Recurring billing is the mechanism that handles membership invoicing. It must be enabled for any membership invoice to be created; without it, no membership invoices are generated or sent at all.
 
-> From a member's or membership's page, you can see in the "Billing" section (right column) the creation day of the next invoice.
+#### How to enable it
 
-### Bill now
+In [the settings (Automatic billing)](/settings#billing), choose the **day of the week** on which the system should run. Every week on that day, the system reviews all members and creates invoices when due. Invoices created this way are **automatically sent** by email.
 
-In some cases, for example after a change in membership configuration, it's possible to force the creation of a new invoice rather than letting the system do it automatically on the next billing day. To do this, click on the "Bill now" button in the "Billing" section (right column). The invoice will then be created, but <u>not sent</u>, you can then consult the PDF and send it manually using the "Send" button on its page. This is useful if you're in contact with a member and want to quickly rectify an invoice.
+> It is advisable to choose a day other than the delivery day. This way, any membership or basket changes made on the delivery day are reflected in the invoice generated in the following days, rather than being invoiced prematurely the same day or waiting a full week.
+
+#### Payment intervals {#billing-year-divisions}
+
+Each membership has a **payment interval** (also called billing year division) that determines how many invoices are generated over the fiscal year. The available intervals are configured in [the settings](/settings#billing) and offered to members during registration or renewal.
+
+Available intervals: Annual (1), Semi-annual (2), Four-monthly (3), Quarterly (4), Monthly (12).
+
+The invoice amount is calculated as: **total membership amount ÷ number of remaining intervals**. For example, for a 1000.- membership paid quarterly, each invoice will be 250.-.
+
+#### When is the first invoice sent? {#first-invoice-timing}
+
+By default, the first invoice is sent on the billing day following the **first <%= Basket.model_name.human.downcase %> delivery**. This means no invoice is generated before the member has received their first delivery.
+
+This behavior can be changed in [the settings](/settings#billing) by disabling "Bill memberships only after their first delivery". When disabled, billing starts from the **membership start date**, even before any delivery.
+
+#### When does billing end? {#billing-end}
+
+By default, billing extends until the **membership end date**, covering the full fiscal year even if there are no deliveries in the last months.
+
+This can be changed in [the settings](/settings#billing) by enabling "Bill memberships until their last delivery only". When enabled, billing only covers up to the month of the last delivery. This is useful when the last months of the fiscal year have no deliveries.
+
+#### Detailed logic
+
+Each billing day, the system checks every member and determines whether an invoice is due:
+
+1. The fiscal year is divided into periods based on the payment interval (e.g. quarterly = 4 periods of 3 months).
+2. If the **current period has already been billed**, the next invoice is scheduled for the beginning of the next period.
+3. If the **current period has not been billed yet**, the invoice is created on the next billing day, respecting the "first delivery" or "membership start" setting described above.
+4. If the calculated next invoice date falls **after the fiscal year end**, no further invoice is generated for this year.
+
+The invoice is always created on the configured day of the week. If an invoice becomes due on a different day (e.g. a new period starts on a Wednesday but billing day is Monday), it will be created the following Monday.
+
+#### Next invoice date
+
+From a member's or membership's page, the "Billing" section (right column) displays the **next invoice date**. This shows when the next automatic invoice will be created and sent.
+
+This date updates dynamically: once an invoice is sent, it moves to the next scheduled date.
+
+### Bill now {#bill-now}
+
+In some cases, for example after a change in membership configuration, you may want to create an invoice immediately rather than waiting for the next billing day. To do this, click on the "Bill now" button in the "Billing" section (right column) of the member's or membership's page.
+
+The invoice will be created but **not sent**. You can consult the PDF and send it manually using the "Send" button on its page. This is useful if you're in contact with a member and want to quickly rectify an invoice or verify the result of a configuration change.
+
+> The "Bill now" button produces the exact same invoice as the automatic system would, the only difference is that it's not sent automatically, giving you a chance to review it first.
 
 ### Invoice all in advance {#future_billing}
 

@@ -1665,11 +1665,11 @@ _:
           _it: disabilitato
           _nl: uitgeschakeld
         recurring_billing_wday_iban_required_hint_html:
-          _en: To enable automatic recurring billing, you must first configure your <a href="#billing">%{iban_type}</a> below.
-          _fr: Pour activer la facturation automatique récurrente, vous devez d'abord configurer votre <a href="#billing">%{iban_type}</a> ci-dessous.
-          _de: Um die automatische wiederkehrende Rechnungsstellung zu aktivieren, muss zunächst die <a href="#billing">%{iban_type}</a> unten konfiguriert werden.
-          _it: Per attivare la fatturazione automatica ricorrente, è necessario prima configurare il tuo <a href="#billing">%{iban_type}</a> qui sotto.
-          _nl: Om automatische terugkerende facturering in te schakelen, moet eerst de <a href="#billing">%{iban_type}</a> hieronder worden geconfigureerd.
+          _en: To enable automatic recurring billing, you must first configure your <a href="#billing">%{iban_type}</a> below. See the <a href="/handbook/billing#recurring-billing">handbook</a> for details.
+          _fr: Pour activer la facturation automatique récurrente, vous devez d'abord configurer votre <a href="#billing">%{iban_type}</a> ci-dessous. Voir le <a href="/handbook/billing#recurring-billing">manuel</a> pour plus de détails.
+          _de: Um die automatische wiederkehrende Rechnungsstellung zu aktivieren, muss zunächst die <a href="#billing">%{iban_type}</a> unten konfiguriert werden. Siehe <a href="/handbook/billing#recurring-billing">Handbuch</a> für Details.
+          _it: Per attivare la fatturazione automatica ricorrente, è necessario prima configurare il <a href="#billing">%{iban_type}</a> qui sotto. Vedere il <a href="/handbook/billing#recurring-billing">manuale</a> per i dettagli.
+          _nl: Om automatische terugkerende facturering in te schakelen, moet eerst de <a href="#billing">%{iban_type}</a> hieronder worden geconfigureerd. Zie het <a href="/handbook/billing#recurring-billing">handboek</a> voor details.
         registration:
           _en: Registration
           _fr: Inscription
