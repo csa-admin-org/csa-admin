@@ -25,11 +25,11 @@ namespace :lint do
       when :rubocop
         "bin/rubocop --parallel --format simple"
       when :herb_lint
-        "bundle exec herb lint ."
+        "bin/herb lint ."
       when :herb_format
-        "bundle exec herb format . --check"
+        "bin/herb format . --check"
       when :prettier
-        "npx prettier app --check --cache --log-level warn"
+        "bin/prettier app --check --cache --log-level warn"
       end
     end
   end
@@ -43,9 +43,9 @@ namespace :lint do
       when :rubocop
         "bin/rubocop --parallel --autocorrect-all --format quiet"
       when :herb_format
-        "bundle exec herb format ."
+        "bin/herb format ."
       when :prettier
-        "npx prettier app --write --cache --log-level warn"
+        "bin/prettier app --write --cache --log-level warn"
       end
     end
   end

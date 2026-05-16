@@ -1,7 +1,6 @@
 name: Security
 
 on:
-  push:
   schedule:
     - cron: "00 8 * * 5"
 

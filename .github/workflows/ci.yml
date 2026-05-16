@@ -1,0 +1,120 @@
+name: CI
+
+on: push
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Install APT Packages
+        uses: awalsh128/cache-apt-pkgs-action@v1
+        with:
+          packages: libvips
+
+      - name: Ruby Setup
+        uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
+
+      - name: Node Setup
+        uses: actions/setup-node@v6
+        with:
+          node-version-file: ".node-version"
+          cache: "npm"
+      - run: npm ci
+
+      - name: Locales
+        run: bin/rails locales:check
+
+      - name: RuboCop
+        run: bin/rubocop --parallel --format simple
+
+      - name: Herb lint
+        run: bin/herb lint .
+
+      - name: Herb format
+        run: bin/herb format . --check
+
+      - name: Prettier
+        run: bin/prettier app --check --cache --log-level warn
+
+      - name: Check Migration Indexes
+        uses: speedshop/ids_must_be_indexed@v1
+
+  scan:
+    name: Scan
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    permissions:
+      contents: read
+      security-events: write
+      actions: read
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Ruby Setup
+        uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
+
+      - name: Gem audit
+        run: bin/bundler-audit
+
+      - name: Importmap vulnerability audit
+        run: bin/importmap audit
+
+      - name: Brakeman code analysis
+        run: bin/brakeman -f sarif -o results.sarif
+
+      - name: Upload SARIF file
+        if: always()
+        uses: github/codeql-action/upload-sarif@v4
+        with:
+          sarif_file: results.sarif
+
+  tests:
+    name: Tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Install APT Packages
+        uses: awalsh128/cache-apt-pkgs-action@v1
+        with:
+          packages: libvips poppler-utils
+
+      - name: Ruby Setup
+        uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
+
+      - name: Set timezone
+        run: echo "TZ=Europe/Zurich" >> $GITHUB_ENV
+
+      - name: Rails
+        env:
+          RAILS_ENV: test
+          RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
+        run: bin/rails test:all
+
+      - name: Seeds
+        env:
+          RAILS_ENV: test
+          RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
+        run: bin/rails db:seed:replant

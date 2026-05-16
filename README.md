@@ -4,7 +4,7 @@
 
 # CSA/ACP/Solawi Admin
 
-[![Tests](https://github.com/csa-admin-org/csa-admin/actions/workflows/tests.yml/badge.svg)](https://github.com/csa-admin-org/csa-admin/actions/workflows/tests.yml) [![Security](https://github.com/csa-admin-org/csa-admin/actions/workflows/security.yml/badge.svg)](https://github.com/csa-admin-org/csa-admin/actions/workflows/security.yml)
+[![CI](https://github.com/csa-admin-org/csa-admin/actions/workflows/ci.yml/badge.svg)](https://github.com/csa-admin-org/csa-admin/actions/workflows/ci.yml)
 
 CSA/ACP/Solawi Admin is a web application to manage Community Supported Agriculture organizations:
 - **CSA** (Community Supported Agriculture)
