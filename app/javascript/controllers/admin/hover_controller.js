@@ -15,13 +15,13 @@ export default class extends Controller {
   }
 
   _toggleHover(hovering) {
-    const targets = document.querySelectorAll(
-      `[data-hover-id="${this.idValue}"]`
-    )
+    const targets = document.querySelectorAll(`[data-hover-id="${this.idValue}"]`)
     targets.forEach((el) => {
-      hovering
-        ? el.classList.add(...this.classValue)
-        : el.classList.remove(...this.classValue)
+      if (hovering) {
+        el.classList.add(...this.classValue)
+      } else {
+        el.classList.remove(...this.classValue)
+      }
     })
   }
 }

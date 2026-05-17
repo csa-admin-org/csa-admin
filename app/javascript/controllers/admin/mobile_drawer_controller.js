@@ -34,9 +34,7 @@ export default class extends Controller {
     if (this.contentTarget.children.length > 0) return
 
     this.contentTarget.append(...this.sourceElement.children)
-    this.sourceElement
-      .closest("[id$='_sidebar_section']")
-      ?.classList.add("hidden")
+    this.sourceElement.closest("[id$='_sidebar_section']")?.classList.add("hidden")
   }
 
   restoreContent() {
@@ -44,15 +42,13 @@ export default class extends Controller {
     if (this.contentTarget.children.length === 0) return
 
     this.sourceElement.append(...this.contentTarget.children)
-    this.sourceElement
-      .closest("[id$='_sidebar_section']")
-      ?.classList.remove("hidden")
+    this.sourceElement.closest("[id$='_sidebar_section']")?.classList.remove("hidden")
   }
 
   open() {
     this.overlayTarget.classList.remove("hidden")
     // Force reflow before adding transition classes
-    this.overlayTarget.offsetHeight
+    void this.overlayTarget.offsetHeight
     this.overlayTarget.classList.add("open")
     this.panelTarget.classList.add("open")
     document.body.classList.add("overflow-hidden")

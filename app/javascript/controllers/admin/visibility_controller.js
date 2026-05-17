@@ -3,7 +3,7 @@ import { Controller } from "@hotwired/stimulus"
 export default class extends Controller {
   static targets = ["element"]
 
-  toggle(event) {
+  toggle() {
     this.elementTargets.forEach((element) => {
       element.classList.toggle("hidden")
       const inputs = element.querySelectorAll("input")

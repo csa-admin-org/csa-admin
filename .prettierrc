@@ -1,4 +1,5 @@
 {
+  "printWidth": 100,
   "plugins": ["prettier-plugin-tailwindcss"],
   "tailwindStylesheet": "./app/assets/tailwind/application.css",
   "semi": false,

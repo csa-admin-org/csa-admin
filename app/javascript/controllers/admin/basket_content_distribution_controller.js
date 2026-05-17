@@ -5,14 +5,7 @@ const PRESET_TOLERANCE = 2.0
 
 export default class extends Controller {
   static get targets() {
-    return [
-      "totalQuantity",
-      "range",
-      "quantityInput",
-      "percentageLabel",
-      "preset",
-      "frame"
-    ]
+    return ["totalQuantity", "range", "quantityInput", "percentageLabel", "preset", "frame"]
   }
 
   static get values() {
@@ -48,10 +41,7 @@ export default class extends Controller {
 
   disconnect() {
     if (this.hasFrameTarget) {
-      this.frameTarget.removeEventListener(
-        "turbo:frame-load",
-        this._onFrameLoad
-      )
+      this.frameTarget.removeEventListener("turbo:frame-load", this._onFrameLoad)
     }
 
     this.clearPrices()
@@ -241,9 +231,7 @@ export default class extends Controller {
   roundTotalQuantityInput() {
     if (!this.hasTotalQuantityTarget) return
 
-    this.totalQuantityTarget.value = this.roundTotalQuantity(
-      this.totalQuantity()
-    )
+    this.totalQuantityTarget.value = this.roundTotalQuantity(this.totalQuantity())
   }
 
   roundTotalQuantity(total) {
@@ -285,27 +273,21 @@ export default class extends Controller {
     }, 0)
     const percentages = others.map((range) => {
       const value = parseFloat(range.value) || 0
-      return otherTotal > 0
-        ? (value / otherTotal) * remaining
-        : remaining / others.length
+      return otherTotal > 0 ? (value / otherTotal) * remaining : remaining / others.length
     })
     const roundedPercentages = percentages.map((value) => {
       return this.clampPercentage(value)
     })
     roundedPercentages[roundedPercentages.length - 1] = this.clampPercentage(
       roundedPercentages[roundedPercentages.length - 1] +
-        this.roundPercentage(
-          remaining - roundedPercentages.reduce((sum, value) => sum + value, 0)
-        )
+        this.roundPercentage(remaining - roundedPercentages.reduce((sum, value) => sum + value, 0))
     )
 
     others.forEach((range, index) => (range.value = roundedPercentages[index]))
   }
 
   percentageDiff(percentages) {
-    return this.roundPercentage(
-      100 - percentages.reduce((sum, percentage) => sum + percentage, 0)
-    )
+    return this.roundPercentage(100 - percentages.reduce((sum, percentage) => sum + percentage, 0))
   }
 
   percentageFor(input) {
@@ -357,10 +339,7 @@ export default class extends Controller {
     const url = new URL(this.urlValue, window.location.origin)
     url.searchParams.set("delivery_id", deliveryId)
     if (formData.get("basket_content[product_id]")) {
-      url.searchParams.set(
-        "product_id",
-        formData.get("basket_content[product_id]")
-      )
+      url.searchParams.set("product_id", formData.get("basket_content[product_id]"))
     }
     if (unitPrice !== "") url.searchParams.set("unit_price", unitPrice)
     if (unit) url.searchParams.set("unit", unit)
@@ -374,18 +353,13 @@ export default class extends Controller {
 
   appendQuantityParams(url, formData) {
     for (const [key, value] of formData.entries()) {
-      const match = key.match(
-        /^basket_content\[basket_size_ids_quantities\]\[(\d+)\]$/
-      )
-      if (match)
-        url.searchParams.set(`basket_size_ids_quantities[${match[1]}]`, value)
+      const match = key.match(/^basket_content\[basket_size_ids_quantities\]\[(\d+)\]$/)
+      if (match) url.searchParams.set(`basket_size_ids_quantities[${match[1]}]`, value)
     }
   }
 
   appendDepotParams(url, formData) {
-    const depotIds = formData
-      .getAll("basket_content[depot_ids][]")
-      .filter((value) => value !== "")
+    const depotIds = formData.getAll("basket_content[depot_ids][]").filter((value) => value !== "")
 
     if (depotIds.length === 0) {
       url.searchParams.set("depot_ids_empty", "1")
@@ -414,16 +388,14 @@ export default class extends Controller {
 
   updateBasketsCountsFromFrame() {
     let changed = false
-    this.frameTarget
-      .querySelectorAll("[data-baskets-count-for]")
-      .forEach((source) => {
-        this.rowsFor(source.dataset.basketsCountFor).forEach((row) => {
-          if (row.dataset.basketsCount !== source.dataset.basketsCount) {
-            row.dataset.basketsCount = source.dataset.basketsCount
-            changed = true
-          }
-        })
+    this.frameTarget.querySelectorAll("[data-baskets-count-for]").forEach((source) => {
+      this.rowsFor(source.dataset.basketsCountFor).forEach((row) => {
+        if (row.dataset.basketsCount !== source.dataset.basketsCount) {
+          row.dataset.basketsCount = source.dataset.basketsCount
+          changed = true
+        }
       })
+    })
     return changed
   }
 
@@ -434,28 +406,22 @@ export default class extends Controller {
   }
 
   updatePricesFromFrame() {
-    this.frameTarget
-      .querySelectorAll("[data-basket-size-id]")
-      .forEach((source) => {
-        this.rowsFor(source.dataset.basketSizeId).forEach((row) => {
-          const price = row.querySelector(".bc-form-price")
-          if (price) price.innerHTML = source.innerHTML
-        })
+    this.frameTarget.querySelectorAll("[data-basket-size-id]").forEach((source) => {
+      this.rowsFor(source.dataset.basketSizeId).forEach((row) => {
+        const price = row.querySelector(".bc-form-price")
+        if (price) price.innerHTML = source.innerHTML
       })
+    })
   }
 
   rowsFor(basketSizeId) {
-    return this.element.querySelectorAll(
-      `.bc-size-row[data-basket-size-id="${basketSizeId}"]`
-    )
+    return this.element.querySelectorAll(`.bc-size-row[data-basket-size-id="${basketSizeId}"]`)
   }
 
   clearPrices() {
-    this.element
-      .querySelectorAll(".bc-form-price, .bc-total-form-price")
-      .forEach((price) => {
-        price.innerHTML = ""
-      })
+    this.element.querySelectorAll(".bc-form-price, .bc-total-form-price").forEach((price) => {
+      price.innerHTML = ""
+    })
   }
 
   synchronizeDistributionAfterRefresh() {
@@ -478,9 +444,7 @@ export default class extends Controller {
   updatePercentageLabels() {
     if (!this.hasPercentageLabelTarget) return
 
-    const rounded = this.rangeTargets.map((range) =>
-      Math.round(parseFloat(range.value) || 0)
-    )
+    const rounded = this.rangeTargets.map((range) => Math.round(parseFloat(range.value) || 0))
     const sum = rounded.reduce((s, v) => s + v, 0)
     const approximate = sum !== 100 && sum !== 0
 
@@ -502,11 +466,7 @@ export default class extends Controller {
       const preset = Object.entries(JSON.parse(button.dataset.preset))
       button.disabled = preset.every(([basketSizeId, value]) => {
         const range = this.rangeByBasketSizeId(basketSizeId)
-        return (
-          range &&
-          Math.abs(parseFloat(range.value) - parseFloat(value)) <
-            PRESET_TOLERANCE
-        )
+        return range && Math.abs(parseFloat(range.value) - parseFloat(value)) < PRESET_TOLERANCE
       })
     })
   }
@@ -524,8 +484,7 @@ export default class extends Controller {
       suffix.textContent = totalSuffix
     })
 
-    const priceSuffix =
-      unit === "pc" ? this.pcPriceSuffixValue : this.kgPriceSuffixValue
+    const priceSuffix = unit === "pc" ? this.pcPriceSuffixValue : this.kgPriceSuffixValue
     this.element.querySelectorAll(".bc-price-unit-suffix").forEach((suffix) => {
       suffix.textContent = priceSuffix
     })

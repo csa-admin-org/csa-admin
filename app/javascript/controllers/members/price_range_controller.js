@@ -35,7 +35,7 @@ export default class extends Controller {
     this.refresh()
   }
 
-  setDefaultPrice(event) {
+  setDefaultPrice(_event) {
     let defaultPrice = parseFloat(this.defaultPriceValue)
     this.rangeTarget.value = defaultPrice.toFixed(2)
     this.inputTarget.value = defaultPrice.toFixed(2)
@@ -50,7 +50,6 @@ export default class extends Controller {
   }
 
   updateResetButtonDisabled() {
-    this.resetTarget.disabled =
-      parseFloat(this.rangeTarget.value) === this.defaultPriceValue
+    this.resetTarget.disabled = parseFloat(this.rangeTarget.value) === this.defaultPriceValue
   }
 }

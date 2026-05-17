@@ -3,4 +3,3 @@
 
 prettier_bin = File.expand_path("../node_modules/prettier/bin/prettier.cjs", __dir__)
 exec "node", prettier_bin, *ARGV
-

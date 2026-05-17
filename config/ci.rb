@@ -7,9 +7,12 @@ CI.run do
 
   step "Style: Locales", "bin/rails locales:check"
   step "Style: RuboCop", "bin/rubocop --parallel --format simple"
-  step "Style: Herb lint", "bin/herb lint ."
   step "Style: Herb format", "bin/herb format . --check"
-  step "Style: Prettier", "bin/prettier app --check --cache --log-level warn"
+  step "Style: Herb lint", "bin/herb lint ."
+  step "Style: Oxfmt (JS)", "bin/oxfmt app/javascript --check"
+  step "Style: Oxlint (JS)", "bin/oxlint app/javascript"
+  step "Style: Prettier (CSS)", 'bin/prettier "app/assets/tailwind/**/*.css" --check --cache --log-level warn'
+  step "Style: Stylelint (CSS)", 'bin/stylelint "app/assets/tailwind/**/*.css"'
 
   step "Security: Gem audit", "bin/bundler-audit"
   step "Security: Importmap vulnerability audit", "bin/importmap audit"

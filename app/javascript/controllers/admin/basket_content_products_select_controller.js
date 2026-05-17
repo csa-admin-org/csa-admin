@@ -15,8 +15,7 @@ export default class extends Controller {
     }
 
     if (this.hasUnitPriceInputTarget) {
-      this.unitPriceInputTarget.value =
-        this.productDataset("latestBasketContentUnitPrice") ?? ""
+      this.unitPriceInputTarget.value = this.productDataset("latestBasketContentUnitPrice") ?? ""
     }
 
     this.applyBasketQuantities(this.latestBasketContentQuantities())
@@ -28,8 +27,7 @@ export default class extends Controller {
   applyBasketQuantities(quantities) {
     this.basketQuantityInputs().forEach((input) => {
       const basketSizeId = input.id.match(/_(\d+)$/)?.[1]
-      input.value =
-        quantities && basketSizeId ? (quantities[basketSizeId] ?? 0) : ""
+      input.value = quantities && basketSizeId ? (quantities[basketSizeId] ?? 0) : ""
     })
   }
 

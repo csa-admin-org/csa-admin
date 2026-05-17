@@ -28,9 +28,7 @@ export default class extends Controller {
 
   _resize() {
     const heights = this._iframeBodies().map((body) => body.offsetHeight)
-    this.iframeTargets.forEach(
-      (i) => (i.style.height = Math.max(...heights) + "px")
-    )
+    this.iframeTargets.forEach((i) => (i.style.height = Math.max(...heights) + "px"))
   }
 
   _setColorScheme() {
@@ -43,7 +41,7 @@ export default class extends Controller {
   _iframeBody(element) {
     try {
       return element.contentWindow.document.body
-    } catch (e) {
+    } catch {
       return null
     }
   }

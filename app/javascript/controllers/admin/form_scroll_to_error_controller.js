@@ -6,10 +6,7 @@ export default class extends Controller {
       this.element.querySelector("[role='alert']") ||
       this.element.querySelector(".field_with_errors")
     if (error) {
-      setTimeout(
-        () => error.scrollIntoView({ behavior: "smooth", block: "center" }),
-        100
-      )
+      setTimeout(() => error.scrollIntoView({ behavior: "smooth", block: "center" }), 100)
     }
   }
 
@@ -18,10 +15,7 @@ export default class extends Controller {
     forms.forEach((form) => {
       const observer = new MutationObserver((mutations) => {
         mutations.forEach((mutation) => {
-          if (
-            mutation.type === "attributes" &&
-            mutation.attributeName === "aria-busy"
-          ) {
+          if (mutation.type === "attributes" && mutation.attributeName === "aria-busy") {
             if (!form.hasAttribute("aria-busy")) {
               this.observeFormChanges(form)
               observer.disconnect()

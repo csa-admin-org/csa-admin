@@ -26,7 +26,7 @@ export default class extends Controller {
       maxDate: this.datesValue[this.datesValue.length - 1],
       enable: this.datesValue,
       inline: true,
-      onChange: (selectedDates, dateStr, instance) => {
+      onChange: (selectedDates, dateStr, _instance) => {
         this._selectDate(dateStr)
       },
       onMonthChange: (selectedDates, dateStr, instance) => {
@@ -49,9 +49,7 @@ export default class extends Controller {
   }
 
   filterDates(event) {
-    var dates = event.target.value
-      ? event.target.value.split(", ")
-      : this.datesValue
+    var dates = event.target.value ? event.target.value.split(", ") : this.datesValue
     this.application.calendar.set("enable", dates)
     this.application.calendar.set("minDate", dates[0])
     this.application.calendar.set("maxDate", dates[dates.length - 1])
@@ -61,18 +59,12 @@ export default class extends Controller {
         dayElem.className += " not-full"
       }
     })
-    this.application.calendar.set(
-      "onMonthChange",
-      (selectedDates, dateStr, instance) => {
-        this._monthOrYearChanged(selectedDates, dates, instance)
-      }
-    )
-    this.application.calendar.set(
-      "onYearChange",
-      (selectedDates, dateStr, instance) => {
-        this._monthOrYearChanged(selectedDates, dates, instance)
-      }
-    )
+    this.application.calendar.set("onMonthChange", (selectedDates, dateStr, instance) => {
+      this._monthOrYearChanged(selectedDates, dates, instance)
+    })
+    this.application.calendar.set("onYearChange", (selectedDates, dateStr, instance) => {
+      this._monthOrYearChanged(selectedDates, dates, instance)
+    })
     this.application.calendar.set("defaultDate", dates[0])
     this.application.calendar.setDate(dates[0])
     this._selectDate(dates[0])
@@ -83,9 +75,7 @@ export default class extends Controller {
       hide(input.closest("span.checkbox"))
       input.checked = false
     }
-    const dateInputs = this.inputTargets.filter(
-      (input) => input.dataset.date == dateText
-    )
+    const dateInputs = this.inputTargets.filter((input) => input.dataset.date == dateText)
     if (dateInputs.length > 0) {
       for (const input of dateInputs) {
         show(input.closest("span.checkbox"))
@@ -121,9 +111,7 @@ export default class extends Controller {
     }
 
     const offset = date.getTimezoneOffset()
-    return new Date(date.getTime() - offset * 60 * 1000)
-      .toISOString()
-      .substring(0, 10)
+    return new Date(date.getTime() - offset * 60 * 1000).toISOString().substring(0, 10)
   }
 
   _flatpickrLocale() {

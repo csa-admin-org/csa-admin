@@ -58,8 +58,7 @@ export default class extends Controller {
     ].join(" ")
 
     const list = document.createElement("ol")
-    list.className =
-      "flex flex-row flex-wrap items-center justify-center gap-x-1 gap-y-0.5"
+    list.className = "flex flex-row flex-wrap items-center justify-center gap-x-1 gap-y-0.5"
 
     this.#links = this.sectionTargets.map((section, index) => {
       const legend = section.querySelector(":scope > legend")
@@ -71,8 +70,7 @@ export default class extends Controller {
       if (index > 0) {
         const separator = document.createElement("span")
         separator.textContent = "›"
-        separator.className =
-          "mr-1 text-xs text-gray-300 dark:text-gray-600 select-none"
+        separator.className = "mr-1 text-xs text-gray-300 dark:text-gray-600 select-none"
         separator.setAttribute("aria-hidden", "true")
         li.appendChild(separator)
       }
@@ -153,8 +151,7 @@ export default class extends Controller {
   }
 
   #checkBottom() {
-    const atBottom =
-      window.innerHeight + window.scrollY >= document.body.scrollHeight - 50
+    const atBottom = window.innerHeight + window.scrollY >= document.body.scrollHeight - 50
 
     if (atBottom) {
       const lastIndex = this.sectionTargets.length - 1
@@ -192,8 +189,7 @@ export default class extends Controller {
     if (!section) return
 
     const navHeight = this.nav?.offsetHeight || 0
-    const sectionTop =
-      section.getBoundingClientRect().top + window.scrollY - navHeight - 16
+    const sectionTop = section.getBoundingClientRect().top + window.scrollY - navHeight - 16
 
     window.scrollTo({ top: sectionTop, behavior: "smooth" })
   }

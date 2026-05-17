@@ -83,8 +83,6 @@ export default class extends Controller {
 
   getNextRow(currentRow) {
     const currentIndex = this.rowTargets.indexOf(currentRow)
-    return currentIndex < this.rowTargets.length - 1
-      ? this.rowTargets[currentIndex + 1]
-      : null
+    return currentIndex < this.rowTargets.length - 1 ? this.rowTargets[currentIndex + 1] : null
   }
 }

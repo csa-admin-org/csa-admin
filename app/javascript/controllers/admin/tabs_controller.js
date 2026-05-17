@@ -34,26 +34,18 @@ export default class extends Controller {
   _hideActiveTabs() {
     for (const tab of this._selectedTabs()) {
       tab.setAttribute("aria-selected", "false")
-      addClass(
-        document.getElementById(tab.getAttribute("aria-controls")),
-        "hidden"
-      )
+      addClass(document.getElementById(tab.getAttribute("aria-controls")), "hidden")
     }
   }
 
   _handleHiddenTabs() {
-    for (const tab of this._tabs().filter(
-      (tab) => tab.dataset.tabsHidden === "true"
-    )) {
+    for (const tab of this._tabs().filter((tab) => tab.dataset.tabsHidden === "true")) {
       addClass(tab, "hidden")
     }
   }
 
   _showDefaultTab() {
-    const tab =
-      this._selectedVisibleTab() ||
-      this._firstVisibleTab() ||
-      this._selectedTabs()[0]
+    const tab = this._selectedVisibleTab() || this._firstVisibleTab() || this._selectedTabs()[0]
     if (tab) this.showTab(tab.getAttribute("aria-controls"))
   }
 
@@ -63,9 +55,7 @@ export default class extends Controller {
   }
 
   _selectedTabs() {
-    return this._tabs().filter(
-      (tab) => tab.getAttribute("aria-selected") === "true"
-    )
+    return this._tabs().filter((tab) => tab.getAttribute("aria-selected") === "true")
   }
 
   _selectedVisibleTab() {
@@ -77,9 +67,7 @@ export default class extends Controller {
   }
 
   _tabFor(hash) {
-    return this._tabs().find(
-      (tab) => tab.getAttribute("aria-controls") === hash
-    )
+    return this._tabs().find((tab) => tab.getAttribute("aria-controls") === hash)
   }
 
   _isVisibleTab(tab) {
@@ -87,9 +75,7 @@ export default class extends Controller {
   }
 
   _canShowTab(tab) {
-    return (
-      this._isVisibleTab(tab) || tab.getAttribute("aria-controls") === "none"
-    )
+    return this._isVisibleTab(tab) || tab.getAttribute("aria-controls") === "none"
   }
 
   _updateAnchor(hash) {

@@ -1,0 +1,5 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+bin = File.expand_path("../node_modules/.bin/stylelint", __dir__)
+exec bin, *ARGV

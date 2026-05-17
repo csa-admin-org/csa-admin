@@ -266,9 +266,7 @@
     @apply justify-end;
   }
 
-  :is(.attributes-table, .data-table-invoice-total)
-    td
-    details::details-content {
+  :is(.attributes-table, .data-table-invoice-total) td details::details-content {
     block-size: 0;
     overflow: hidden;
     opacity: 0;
@@ -278,9 +276,7 @@
       content-visibility 200ms allow-discrete;
   }
 
-  :is(.attributes-table, .data-table-invoice-total)
-    td
-    details[open]::details-content {
+  :is(.attributes-table, .data-table-invoice-total) td details[open]::details-content {
     block-size: auto;
     opacity: 1;
   }

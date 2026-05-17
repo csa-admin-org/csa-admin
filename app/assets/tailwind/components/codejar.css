@@ -16,7 +16,7 @@
     tab-size: 2;
     overflow: auto;
     white-space: pre;
-    word-wrap: break-word;
+    overflow-wrap: break-word;
     overflow-wrap: break-word;
     min-height: 120px;
   }

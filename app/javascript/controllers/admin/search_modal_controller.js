@@ -24,15 +24,10 @@ export default class extends Controller {
 
     if (window.matchMedia("(pointer: fine)").matches) {
       const platform = this.isMac ? "mac" : "other"
-      this.hintTarget
-        .querySelector(`[data-platform="${platform}"]`)
-        ?.classList.remove("hidden")
+      this.hintTarget.querySelector(`[data-platform="${platform}"]`)?.classList.remove("hidden")
     }
 
-    this.resultsTarget.addEventListener(
-      "mousemove",
-      this.handleResultsMouseMove
-    )
+    this.resultsTarget.addEventListener("mousemove", this.handleResultsMouseMove)
 
     if (this.initialQueryValue) {
       requestAnimationFrame(() => {
@@ -52,10 +47,7 @@ export default class extends Controller {
   }
 
   disconnect() {
-    this.resultsTarget.removeEventListener(
-      "mousemove",
-      this.handleResultsMouseMove
-    )
+    this.resultsTarget.removeEventListener("mousemove", this.handleResultsMouseMove)
   }
 
   openViaShortcut() {
@@ -69,7 +61,7 @@ export default class extends Controller {
 
   open({ viaShortcut = false } = {}) {
     this.dialogTarget.classList.remove("hidden")
-    this.dialogTarget.offsetHeight // force reflow before adding opacity for transition
+    void this.dialogTarget.offsetHeight // force reflow before adding opacity for transition
     this.dialogTarget.classList.add("open")
     this.inputTarget.focus()
     this.inputTarget.select()
@@ -201,14 +193,10 @@ export default class extends Controller {
   }
 
   get resultItems() {
-    return Array.from(
-      this.resultsTarget.querySelectorAll("[data-search-result]")
-    )
+    return Array.from(this.resultsTarget.querySelectorAll("[data-search-result]"))
   }
 
   get isMac() {
-    return /Mac|iPhone|iPod|iPad/i.test(
-      navigator.platform || navigator.userAgent
-    )
+    return /Mac|iPhone|iPod|iPad/i.test(navigator.platform || navigator.userAgent)
   }
 }

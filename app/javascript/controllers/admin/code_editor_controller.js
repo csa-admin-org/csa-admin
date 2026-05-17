@@ -53,7 +53,7 @@ export default class extends Controller {
       }),
       {
         tab: "  ",
-        indentOn: /[{(\[]$/,
+        indentOn: /[{([]$/,
         addClosing: true,
         history: true,
         catchTab: true,

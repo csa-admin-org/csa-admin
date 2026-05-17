@@ -21,9 +21,7 @@ export default class extends Controller {
 
     for (var pair of form.entries()) {
       if (pair[0] != "authenticity_token") {
-        let editor = this.formTarget.querySelector(
-          `[name='${pair[0]}'] ~ trix-editor`
-        )
+        let editor = this.formTarget.querySelector(`[name='${pair[0]}'] ~ trix-editor`)
         if (editor && !editor.editor.getDocument().isEmpty()) {
           data.push([pair[0], JSON.stringify(editor.editor)])
         } else if (pair[1]) {
@@ -55,7 +53,7 @@ export default class extends Controller {
             try {
               const parsedValue = JSON.parse(value)
               editor.editor.loadJSON(parsedValue)
-            } catch (e) {}
+            } catch {}
           } else {
             input.value = value
             // Wait for other Stimulus controllers loading before triggering a change event.

@@ -12,6 +12,7 @@
     &.btn-sm {
       @apply px-2 py-0.5 text-sm font-medium;
     }
+
     &.btn-xs {
       @apply px-1.5 py-0 text-sm font-medium;
     }

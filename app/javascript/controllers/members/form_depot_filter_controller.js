@@ -124,19 +124,13 @@ export default class extends Controller {
     // Apply highlighting only to text content, preserving HTML tags.
     // Split the original HTML into tags and text segments, only apply
     // the regex replacement on text segments.
-    content.innerHTML = original.replace(
-      /(<[^>]+>)|([^<]+)/g,
-      (_match, tag, text) => {
-        if (tag) return tag
+    content.innerHTML = original.replace(/(<[^>]+>)|([^<]+)/g, (_match, tag, text) => {
+      if (tag) return tag
 
-        // Normalize the text to NFD so combining marks are separate,
-        // apply the highlight regex, then normalize back to NFC.
-        return text
-          .normalize("NFD")
-          .replace(regex, "<mark>$&</mark>")
-          .normalize("NFC")
-      }
-    )
+      // Normalize the text to NFD so combining marks are separate,
+      // apply the highlight regex, then normalize back to NFC.
+      return text.normalize("NFD").replace(regex, "<mark>$&</mark>").normalize("NFC")
+    })
   }
 
   restoreContent(item) {

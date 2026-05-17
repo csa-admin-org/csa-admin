@@ -37,9 +37,7 @@ export default class extends Controller {
     })
     this.updateToggle()
     // Notify parent check-boxes-toggle-all controller
-    const parent = this.element.closest(
-      '[data-controller~="check-boxes-toggle-all"]'
-    )
+    const parent = this.element.closest('[data-controller~="check-boxes-toggle-all"]')
     if (parent) {
       const controller = this.application.getControllerForElementAndIdentifier(
         parent,

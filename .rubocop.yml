@@ -11,6 +11,9 @@ AllCops:
     - "**/*.tmp"
     - "agents/*"
 
+Layout/LineLength:
+  Max: 100
+
 Style/FrozenStringLiteralComment:
   Enabled: true
 

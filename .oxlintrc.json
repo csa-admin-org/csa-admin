@@ -1,0 +1,14 @@
+{
+  "rules": {
+    "no-unused-vars": ["warn", {
+      "argsIgnorePattern": "^_",
+      "varsIgnorePattern": "^_"
+    }],
+    "no-eval": "off",
+    "unicorn/no-empty-file": "off"
+  },
+  "ignorePatterns": [
+    "app/assets/config/manifest.js",
+    "vendor/**"
+  ]
+}

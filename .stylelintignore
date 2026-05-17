@@ -1,7 +1,3 @@
-*.yaml
-*.yml
-*.tmp
-vendor/**
-
+# Vendored / third-party CSS - we don't want to lint these strictly
 app/assets/tailwind/components/flatpickr.css
 app/assets/tailwind/components/codejar.css

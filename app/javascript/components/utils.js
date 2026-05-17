@@ -1,7 +1,11 @@
 export const prop = (elementOrSelector, attrName, enabled) => {
   const els = getElements(elementOrSelector)
   for (const el of els) {
-    enabled ? el.setAttribute(attrName, attrName) : el.removeAttribute(attrName)
+    if (enabled) {
+      el.setAttribute(attrName, attrName)
+    } else {
+      el.removeAttribute(attrName)
+    }
   }
 }
 

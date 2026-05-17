@@ -5,7 +5,7 @@ export default class extends Controller {
     return ["input"]
   }
 
-  updateInput(event) {
+  updateInput(_event) {
     if (!this.hasInputTarget) return
 
     this._updateInputValue()
@@ -13,15 +13,10 @@ export default class extends Controller {
   }
 
   _updateInputValue() {
-    const inputsArray = Array.from(
-      document.querySelectorAll("input[data-activity]")
-    )
+    const inputsArray = Array.from(document.querySelectorAll("input[data-activity]"))
     let count = 0
     inputsArray.forEach((input) => {
-      if (
-        (input.type == "radio" || input.type == "checkbox") &&
-        input.checked
-      ) {
+      if ((input.type == "radio" || input.type == "checkbox") && input.checked) {
         count += parseInt(input.dataset.activity)
       }
       if (input.type == "number") {

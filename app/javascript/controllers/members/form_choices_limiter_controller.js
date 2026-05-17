@@ -37,9 +37,7 @@ export default class extends Controller {
       }
     }
 
-    const radios = Array.from(this.inputTargets).filter(
-      (i) => i.tagName !== "SELECT"
-    )
+    const radios = Array.from(this.inputTargets).filter((i) => i.tagName !== "SELECT")
     if (radios.length > 0) {
       checked(
         radios.find((i) => !i.disabled),
@@ -62,9 +60,7 @@ export default class extends Controller {
       }
     }
     if (!hasSelectedValid) {
-      const firstEnabled = Array.from(select.options).find(
-        (o) => o.value && !o.disabled
-      )
+      const firstEnabled = Array.from(select.options).find((o) => o.value && !o.disabled)
       if (firstEnabled) firstEnabled.selected = true
     }
     select.dispatchEvent(new Event("change", { bubbles: true }))

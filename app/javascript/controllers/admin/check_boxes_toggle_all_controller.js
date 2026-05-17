@@ -11,10 +11,7 @@ export default class extends Controller {
   }
 
   updateToggle() {
-    if (
-      this.inputTargets.length >= 2 &&
-      !this.toggleTarget.closest("form.filter_form")
-    ) {
+    if (this.inputTargets.length >= 2 && !this.toggleTarget.closest("form.filter_form")) {
       show(this.toggleTarget)
       const checkedCount = this.inputTargets.filter((i) => i.checked).length
       const totalCount = this.inputTargets.length
@@ -40,15 +37,12 @@ export default class extends Controller {
     })
     this.updateToggle()
     // Notify nested group toggle controllers
-    this.element
-      .querySelectorAll('[data-controller~="check-boxes-group-toggle"]')
-      .forEach((el) => {
-        const controller =
-          this.application.getControllerForElementAndIdentifier(
-            el,
-            "check-boxes-group-toggle"
-          )
-        if (controller) controller.updateToggle()
-      })
+    this.element.querySelectorAll('[data-controller~="check-boxes-group-toggle"]').forEach((el) => {
+      const controller = this.application.getControllerForElementAndIdentifier(
+        el,
+        "check-boxes-group-toggle"
+      )
+      if (controller) controller.updateToggle()
+    })
   }
 }

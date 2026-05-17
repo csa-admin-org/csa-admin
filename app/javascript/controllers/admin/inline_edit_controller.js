@@ -25,16 +25,10 @@ export default class extends Controller {
       this.inputTarget.blur()
     } else if (event.key === "ArrowUp") {
       event.preventDefault()
-      this.inputTarget.value = Math.max(
-        0,
-        parseInt(this.inputTarget.value || 0) + 1
-      )
+      this.inputTarget.value = Math.max(0, parseInt(this.inputTarget.value || 0) + 1)
     } else if (event.key === "ArrowDown") {
       event.preventDefault()
-      this.inputTarget.value = Math.max(
-        0,
-        parseInt(this.inputTarget.value || 0) - 1
-      )
+      this.inputTarget.value = Math.max(0, parseInt(this.inputTarget.value || 0) - 1)
     }
   }
 }

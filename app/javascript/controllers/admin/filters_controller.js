@@ -38,9 +38,7 @@ export default class extends Controller {
   }
 
   _hightlightActiveNumericFilters() {
-    const filters = this.element.querySelectorAll(
-      ".numeric.input, .string.input"
-    )
+    const filters = this.element.querySelectorAll(".numeric.input, .string.input")
     filters.forEach((filter) => {
       const input = filter.querySelector("input[type='text']")
       if (input.value != "") {
@@ -50,9 +48,7 @@ export default class extends Controller {
   }
 
   _hightlightActiveSelectFilters() {
-    const filters = this.element.querySelectorAll(
-      ".select.input, .boolean.input"
-    )
+    const filters = this.element.querySelectorAll(".select.input, .boolean.input")
     filters.forEach((filter) => {
       const select = filter.querySelector("select")
       if (select.value != "") {

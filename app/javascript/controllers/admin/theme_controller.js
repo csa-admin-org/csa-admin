@@ -29,10 +29,7 @@ export default class extends Controller {
 
   disconnect() {
     this.mediaQuery.removeEventListener("change", this.handleSystemChange)
-    document.removeEventListener(
-      "visibilitychange",
-      this.handleVisibilityChange
-    )
+    document.removeEventListener("visibilitychange", this.handleVisibilityChange)
     window.removeEventListener("focus", this.handleVisibilityChange)
     clearInterval(this.pollId)
   }
@@ -44,8 +41,7 @@ export default class extends Controller {
   applyTheme() {
     const preference = this.preferenceValue
     const systemIsDark = this.mediaQuery.matches
-    const shouldBeDark =
-      preference === "dark" || (preference !== "light" && systemIsDark)
+    const shouldBeDark = preference === "dark" || (preference !== "light" && systemIsDark)
 
     this.lastMatches = systemIsDark
 

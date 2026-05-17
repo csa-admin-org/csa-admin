@@ -43,17 +43,13 @@ export default class extends Controller {
   }
 
   activeFeatures() {
-    return Array.from(
-      this.element.querySelectorAll('input[type="checkbox"]:checked')
-    ).map((feature) => feature.value)
+    return Array.from(this.element.querySelectorAll('input[type="checkbox"]:checked')).map(
+      (feature) => feature.value
+    )
   }
 
   allTabRequiredInputs(hash) {
-    return Array.from(
-      document.querySelectorAll(
-        "#" + hash + '[role="tabpanel"] li.required input'
-      )
-    )
+    return Array.from(document.querySelectorAll("#" + hash + '[role="tabpanel"] li.required input'))
   }
 
   allHiddenTabs() {

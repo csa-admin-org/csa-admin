@@ -39,14 +39,23 @@ jobs:
       - name: RuboCop
         run: bin/rubocop --parallel --format simple
 
-      - name: Herb lint
-        run: bin/herb lint .
-
       - name: Herb format
         run: bin/herb format . --check
 
-      - name: Prettier
-        run: bin/prettier app --check --cache --log-level warn
+      - name: Herb lint
+        run: bin/herb lint .
+
+      - name: Oxfmt (JS)
+        run: bin/oxfmt app/javascript --check
+
+      - name: Oxlint (JS)
+        run: bin/oxlint app/javascript
+
+      - name: Prettier (CSS)
+        run: bin/prettier "app/assets/tailwind/**/*.css" --check --cache --log-level warn
+
+      - name: Stylelint (CSS)
+        run: bin/stylelint "app/assets/tailwind/**/*.css"
 
       - name: Check Migration Indexes
         uses: speedshop/ids_must_be_indexed@v1

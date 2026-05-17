@@ -1,12 +1,5 @@
 import { Controller } from "@hotwired/stimulus"
-import {
-  arrow,
-  autoUpdate,
-  computePosition,
-  flip,
-  offset,
-  shift
-} from "@floating-ui/dom"
+import { arrow, autoUpdate, computePosition, flip, offset, shift } from "@floating-ui/dom"
 
 // Positions hover tooltips and click-triggered dropdowns/popovers with Floating UI.
 let openDismissibleTooltip = null
@@ -131,8 +124,7 @@ export default class extends Controller {
 
   _isCurrentShowRequest(request) {
     return (
-      this._showRequest === request &&
-      (!this.dismissibleValue || openDismissibleTooltip === this)
+      this._showRequest === request && (!this.dismissibleValue || openDismissibleTooltip === this)
     )
   }
 
@@ -152,15 +144,11 @@ export default class extends Controller {
     const middleware = [offset(8), flip(), shift({ padding: 3 })]
     if (arrowEl) middleware.push(arrow({ element: arrowEl }))
 
-    const { x, y, placement, middlewareData } = await computePosition(
-      trigger,
-      content,
-      {
-        placement: this.placementValue,
-        strategy: "fixed",
-        middleware
-      }
-    )
+    const { x, y, placement, middlewareData } = await computePosition(trigger, content, {
+      placement: this.placementValue,
+      strategy: "fixed",
+      middleware
+    })
 
     Object.assign(content.style, {
       left: `${x}px`,

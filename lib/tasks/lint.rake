@@ -3,7 +3,7 @@
 require "parallel"
 
 namespace :lint do
-  LINT_TYPES = %i[locales rubocop herb_lint herb_format prettier]
+  LINT_TYPES = %i[locales rubocop herb_lint herb_format oxfmt oxlint prettier stylelint]
 
   def parallel_lint(&block)
     results = Parallel.map(LINT_TYPES) do |type|
@@ -16,7 +16,7 @@ namespace :lint do
     abort("Linting failed") unless results.compact.all?
   end
 
-  desc "Run Rubocop and Prettier to check code (no autocorrect)"
+  desc "Run Rubocop, Herb, Oxfmt (JS), Oxlint (JS), Prettier (CSS), and Stylelint (CSS) to check code (no autocorrect)"
   task :check do
     parallel_lint do |type|
       case type
@@ -28,13 +28,19 @@ namespace :lint do
         "bin/herb lint ."
       when :herb_format
         "bin/herb format . --check"
+      when :oxfmt
+        "bin/oxfmt app/javascript --check"
+      when :oxlint
+        "bin/oxlint app/javascript"
       when :prettier
-        "bin/prettier app --check --cache --log-level warn"
+        'bin/prettier "app/assets/tailwind/**/*.css" --check --cache --log-level warn'
+      when :stylelint
+        'bin/stylelint "app/assets/tailwind/**/*.css"'
       end
     end
   end
 
-  desc "Run Rubocop and Prettier with autocorrect"
+  desc "Run Rubocop, Herb, Oxfmt (JS), Oxlint (JS), Prettier (CSS), and Stylelint (CSS) with autocorrect"
   task :autocorrect do
     parallel_lint do |type|
       case type
@@ -44,8 +50,14 @@ namespace :lint do
         "bin/rubocop --parallel --autocorrect-all --format quiet"
       when :herb_format
         "bin/herb format ."
+      when :oxfmt
+        "bin/oxfmt app/javascript"
+      when :oxlint
+        "bin/oxlint app/javascript --fix"
       when :prettier
-        "bin/prettier app --write --cache --log-level warn"
+        'bin/prettier "app/assets/tailwind/**/*.css" --write --cache --log-level warn'
+      when :stylelint
+        'bin/stylelint "app/assets/tailwind/**/*.css" --fix'
       end
     end
   end

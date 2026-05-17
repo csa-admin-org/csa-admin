@@ -23,8 +23,7 @@ export default class extends Controller {
         // intent takes priority over highlight position). Otherwise fall back
         // to the first highlighted match.
         const anchorTarget = hash && document.getElementById(hash)
-        const scrollTarget =
-          anchorTarget || this.contentTarget.querySelector("mark")
+        const scrollTarget = anchorTarget || this.contentTarget.querySelector("mark")
 
         if (scrollTarget) {
           requestAnimationFrame(() => {
@@ -56,11 +55,7 @@ export default class extends Controller {
     const elements = [heading]
     let sibling = heading.nextElementSibling
     while (sibling) {
-      if (
-        /^H[1-6]$/.test(sibling.tagName) &&
-        parseInt(sibling.tagName[1]) <= level
-      )
-        break
+      if (/^H[1-6]$/.test(sibling.tagName) && parseInt(sibling.tagName[1]) <= level) break
       elements.push(sibling)
       sibling = sibling.nextElementSibling
     }
@@ -158,9 +153,7 @@ export default class extends Controller {
         const lastNormIdx = pos + term.length - 1
         // The original end is one past the last matched original character
         const origEnd =
-          lastNormIdx + 1 < indexMap.length
-            ? indexMap[lastNormIdx] + 1
-            : originalText.length
+          lastNormIdx + 1 < indexMap.length ? indexMap[lastNormIdx] + 1 : originalText.length
 
         ranges.push([origStart, origEnd])
         searchFrom = pos + 1
@@ -185,9 +178,7 @@ export default class extends Controller {
 
     for (const [start, end] of merged) {
       if (cursor < start) {
-        fragment.appendChild(
-          document.createTextNode(originalText.slice(cursor, start))
-        )
+        fragment.appendChild(document.createTextNode(originalText.slice(cursor, start)))
       }
       const mark = document.createElement("mark")
       mark.textContent = originalText.slice(start, end)

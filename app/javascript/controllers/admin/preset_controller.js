@@ -31,9 +31,7 @@ export default class extends Controller {
   }
 
   valueFor(input, option) {
-    const values = JSON.parse(
-      option.getAttribute(this.dataAttributeFor(input)) || "{}"
-    )
+    const values = JSON.parse(option.getAttribute(this.dataAttributeFor(input)) || "{}")
     return values[this.localeFor(input)] || ""
   }
 

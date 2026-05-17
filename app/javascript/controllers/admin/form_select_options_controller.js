@@ -4,9 +4,7 @@ export default class extends Controller {
   update(event) {
     const selectId = event.params.target
     const select = document.getElementById(selectId)
-    const dataset =
-      event.currentTarget.selectedOptions[0].dataset
-        .formSelectOptionsValuesParam
+    const dataset = event.currentTarget.selectedOptions[0].dataset.formSelectOptionsValuesParam
 
     if (dataset) {
       const values = dataset.split(",")

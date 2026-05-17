@@ -32,6 +32,7 @@
     /* Inline inputs within has-many containers */
     .has-many-fields .period-months {
       @apply inline-block py-3 pe-6;
+
       vertical-align: top;
     }
 
@@ -271,10 +272,11 @@
 
     .actions.is-stuck > ol {
       @apply -mx-5 rounded-tl-xl bg-[#FCFEFC] p-2.5 px-5 dark:border-t dark:border-l dark:border-gray-800 dark:bg-[#030712];
-      box-shadow: 0 -4px 16px rgb(0 0 0 / 0.08);
+
+      box-shadow: 0 -4px 16px rgb(0 0 0 / 8%);
 
       :where(.dark, .dark *) & {
-        box-shadow: 0 -4px 16px rgb(0 0 0 / 0.4);
+        box-shadow: 0 -4px 16px rgb(0 0 0 / 40%);
       }
     }
 

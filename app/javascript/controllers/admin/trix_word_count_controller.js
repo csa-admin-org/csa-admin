@@ -14,8 +14,7 @@ export default class extends Controller {
     this._warnings = new Map()
 
     this.editors.forEach((editor) => {
-      const warningEl =
-        this.templateTarget.content.cloneNode(true).firstElementChild
+      const warningEl = this.templateTarget.content.cloneNode(true).firstElementChild
       editor.closest(".input")?.appendChild(warningEl)
       this._warnings.set(editor, warningEl)
       editor.addEventListener("trix-change", this._onTrixChange)
@@ -36,9 +35,7 @@ export default class extends Controller {
     this._warnings?.forEach((warningEl, editor) => {
       const text = editor.editor?.getDocument()?.toString()?.trim() || ""
       const count = text.length > 0 ? text.split(/\s+/).length : 0
-      const countEl = warningEl.querySelector(
-        "[data-trix-word-count-target='count']"
-      )
+      const countEl = warningEl.querySelector("[data-trix-word-count-target='count']")
 
       if (count > this.thresholdValue) {
         if (countEl) countEl.textContent = count
