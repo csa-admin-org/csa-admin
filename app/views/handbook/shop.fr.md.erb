@@ -89,6 +89,8 @@ Un cas d'utilisation courant est de donner accès à l'épicerie à des restaura
 4. **Contrôler l'ouverture de l'épicerie par dépôt** : lors de l'ouverture de l'épicerie sur une livraison, vous pouvez sélectionner uniquement le dépôt restaurant. Ainsi, l'épicerie reste fermée pour les membres avec un abonnement sur cette livraison tout en étant ouverte pour les restaurants. Inversement, vous pouvez ouvrir l'épicerie pour tous les dépôts lorsque tout le monde doit y avoir accès.
 5. **Assigner un cycle de livraisons** (optionnel) : si les restaurants ne doivent commander qu'à certaines dates de livraison, assignez un cycle de livraisons correspondant pour restreindre davantage leurs livraisons disponibles.
 
+> Ces membres sont de préférence créés manuellement par un admin via le formulaire de [création de membre](/members/new), car le formulaire d'inscription est destiné aux membres standards qui souscriront également un abonnement.
+
 ## Livraisons spéciales {#special-deliveries}
 
 Les livraisons spéciales vous permettent de proposer des produits supplémentaires à vos membres en dehors des livraisons de <%= Basket.model_name.human(count: 2).downcase %> habituelles via l'épicerie en ligne.
