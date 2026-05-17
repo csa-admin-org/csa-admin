@@ -583,7 +583,7 @@ GEM
       lint_roller (~> 1.1)
       rubocop (>= 1.75.0, < 2.0)
       rubocop-ast (>= 1.47.1, < 2.0)
-    rubocop-rails (2.35.0)
+    rubocop-rails (2.35.1)
       activesupport (>= 4.2.0)
       lint_roller (~> 1.1)
       rack (>= 1.1)
@@ -996,7 +996,7 @@ CHECKSUMS
   rubocop-erb (0.7.1) sha256=17d376b5b9ebb08b75f6bce6bcdc61603b506ef4523473483885d2be88e9099d
   rubocop-minitest (0.39.1) sha256=998398d6da4026d297f0f9bf709a1eac5f2b6947c24431f94af08138510cf7ed
   rubocop-performance (1.26.1) sha256=cd19b936ff196df85829d264b522fd4f98b6c89ad271fa52744a8c11b8f71834
-  rubocop-rails (2.35.0) sha256=a5d9f0f6c6d9b73d9ddd181c4c0b6d2e00dd17107480828d31c7b369ebfcd49c
+  rubocop-rails (2.35.1) sha256=4ad270f5fb968ce86ac19f53c4b97354e4f91bc5334177478238674f51568377
   rubocop-rails-omakase (1.1.0) sha256=2af73ac8ee5852de2919abbd2618af9c15c19b512c4cfc1f9a5d3b6ef009109d
   ruby-lsp (0.26.9) sha256=33a01c001c00a76b4e821efc04ed7572983430f31ca5d6f3e343d0b6ccab4129
   ruby-lsp-rails (0.4.8) sha256=f09d1f926d4063deeb2f3049311925c20dfe6c912371e3bcd04a265a865c44ae
