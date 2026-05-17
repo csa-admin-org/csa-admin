@@ -9,10 +9,14 @@
     p.hint {
       @apply m-2 text-center leading-5 text-gray-500 italic;
     }
+
+    h3 {
+      @apply leading-5;
+    }
   }
 
   .panel-title {
-    @apply mt-3 mb-2 flex flex-wrap items-center gap-2 overflow-x-auto bg-transparent px-4 text-xl font-extralight whitespace-nowrap;
+    @apply mt-4 mb-2 flex flex-wrap items-center gap-2 overflow-x-auto bg-transparent px-4 text-xl font-extralight whitespace-nowrap;
   }
 
   .panel-title-icon {
