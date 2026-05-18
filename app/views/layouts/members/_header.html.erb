@@ -98,13 +98,9 @@
               <h2><%= Membership.model_name.human %></h2>
 
               <% if missing_bidding_round_pledge? %>
-                <span class="text-orange-500">
-                  <%= t(".bidding_round_pledge") %>
-                </span>
+                <span class="warning"><%= t(".bidding_round_pledge") %></span>
               <% elsif membership.renewal_opened? %>
-                <span class="text-red-500">
-                  <%= t(".membership_renewal") %>
-                </span>
+                <span class="alert"><%= t(".membership_renewal") %></span>
               <% elsif membership.trial? %>
                 <span><%= t(".membership_trial") %></span>
               <% elsif membership.current? %>
@@ -149,7 +145,7 @@
             <% open_invoice_count = current_member.invoices.open.count %>
 
             <% if open_invoice_count.positive? %>
-              <span class="text-red-500">
+              <span class="alert">
                 <%= t(".open_invoices", count: open_invoice_count) %>
               </span>
             <% else %>

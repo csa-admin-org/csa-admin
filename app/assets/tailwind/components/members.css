@@ -69,6 +69,14 @@
         @apply cursor-default text-green-500;
       }
 
+      span.alert {
+        @apply text-red-500;
+      }
+
+      span.warning {
+        @apply text-orange-500;
+      }
+
       li a {
         @apply block px-8 py-2;
       }
