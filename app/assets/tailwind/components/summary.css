@@ -1,10 +1,12 @@
 @layer components {
   :is(.attributes-table, .data-table-invoice-total) td details,
+  .panel-body,
   .arrow-details {
     interpolate-size: allow-keywords;
   }
 
   :is(.attributes-table, .data-table-invoice-total) td details > summary,
+  .panel-body summary,
   .arrow-details > summary {
     @apply flex cursor-pointer list-none items-center leading-[1.4rem];
 
@@ -24,6 +26,7 @@
   }
 
   :is(.attributes-table, .data-table-invoice-total) td details[open] > summary::before,
+  .panel-body details[open] summary::before,
   .arrow-details[open] > summary::before {
     @apply rotate-90;
   }

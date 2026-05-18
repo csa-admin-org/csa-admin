@@ -80,9 +80,9 @@ _:
       _de: Hilfswert, wird nicht gespeichert. Wird über die Schieberegler auf die Anteilsgrössen verteilt. Die endgültige Menge hängt von den tatsächlichen Lieferungen ab.
       _it: Valore indicativo, non salvato. Distribuito tra le dimensioni delle parti tramite i cursori. La quantità finale dipende dalle consegne effettive.
       _nl: Hulpwaarde, wordt niet opgeslagen. Verdeeld over de deelgroottes via de schuifregelaars. De uiteindelijke hoeveelheid hangt af van de werkelijke leveringen.
-    yearly_average:
-      _en: Average %{year}
-      _fr: Moyenne %{year}
-      _de: Durchschnitt %{year}
-      _it: Media %{year}
-      _nl: Gemiddelde %{year}
+    yearly_diff_note:
+      _en: Year-to-date cumulative difference (actual value − planned price) for deliveries carried out so far.
+      _fr: Différence cumulée depuis le début de l'année (valeur réelle − prix planifié) pour les livraisons effectuées jusqu'à présent.
+      _de: Kumulierte Differenz seit Jahresbeginn (tatsächlicher Wert − geplanter Preis) für die bisher durchgeführten Lieferungen.
+      _it: Differenza cumulativa da inizio anno (valore reale − prezzo pianificato) per le consegne effettuate finora.
+      _nl: Cumulatief verschil sinds begin van het jaar (werkelijke waarde − geplande prijs) voor de tot nu toe uitgevoerde leveringen.

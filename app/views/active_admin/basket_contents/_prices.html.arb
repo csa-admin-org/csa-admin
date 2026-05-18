@@ -66,7 +66,7 @@ div class: "grid #{grid_cols} mt-4 mb-4 gap-4" do
   nil
 end
 
-# Yearly average section (collapsible)
+# Yearly cumulative diff section (collapsible)
 yearly_diffs = basket_content_prices.filter_map { |basket_size, _|
   delivery.basket_content_yearly_price_diff(basket_size)&.map { |cycle, data|
     data[:diff]
@@ -89,14 +89,10 @@ if yearly_diffs.any?
   }.flatten.uniq.sort_by { |c| %i[red neutral green].index(c) || 99 }
 
   details class: "group mt-6 mb-2" do
-    summary class: "flex items-center justify-center gap-2 cursor-pointer list-none [&::-webkit-details-marker]:hidden" do
-      # Custom disclosure triangle that rotates when open
-      span class: "text-gray-400 transition-transform group-open:rotate-90" do
-        text_node "▶"
-      end
-      span t("basket_content.yearly_average", year: delivery.fiscal_year.to_s), class: "text-sm font-medium text-gray-600 dark:text-gray-300"
+    summary class: "flex items-center justify-center cursor-pointer list-none [&::-webkit-details-marker]:hidden" do
+      span delivery.fiscal_year.to_s, class: "text-sm font-medium text-gray-600 dark:text-gray-300"
       # Colored dots
-      div class: "flex items-center ml-2" do
+      div class: "flex items-center ml-3.25" do
         diff_colors.each do |color|
           color_class = case color
           when :green then "bg-green-200 dark:bg-green-700"
@@ -168,5 +164,7 @@ if yearly_diffs.any?
       end
       nil
     end
+
+    para t("basket_content.yearly_diff_note"), class: "mt-8 text-xs italic text-center text-gray-500 dark:text-gray-400"
   end
 end
