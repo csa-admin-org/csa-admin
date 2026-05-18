@@ -91,6 +91,7 @@ class Ability
     if admin.permission.can_write?(:membership)
       writable_models += models_for(:membership)
 
+      can :create_membership, Member
       can :renew_all, Membership
       can :open_renewal_all, Membership
       can :open_renewal, Membership, can_open_renewal?: true

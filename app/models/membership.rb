@@ -171,6 +171,44 @@ class Membership < ApplicationRecord
     end
   end
 
+  # Populates this (new) membership's attributes and nested basket complements
+  # from the member's waiting_* settings. Used for admin quick-create and
+  # pre-filling the new membership form from a waiting/pending member.
+  def populate_from_waiting_member!(member)
+    self.member_id ||= member.id
+    self.basket_size_id ||= member.waiting_basket_size_id
+    if member.waiting_basket_price_extra
+      self.basket_price_extra = member.waiting_basket_price_extra
+    end
+    if member.waiting_activity_participations_demanded_annually
+      self.activity_participations_demanded_annually = member.waiting_activity_participations_demanded_annually
+    end
+    self.depot_id ||= member.waiting_depot_id
+    self.delivery_cycle_id ||= member.waiting_delivery_cycle_id
+    member.members_basket_complements.each do |mbc|
+      memberships_basket_complements.build(
+        basket_complement_id: mbc.basket_complement_id,
+        quantity: mbc.quantity)
+    end
+    self.billing_year_division = member.waiting_billing_year_division
+    self
+  end
+
+  # Sets sensible started_on/ended_on for a brand-new membership based on the
+  # next upcoming delivery and the current fiscal year boundaries. Safe to call
+  # even when no next delivery exists (no-op in that case).
+  def populate_default_period_from_next_delivery!
+    return unless (next_delivery = Delivery.next)
+
+    self.started_on ||= [
+      Date.current,
+      next_delivery.fy_range.min,
+      next_delivery.date.beginning_of_week
+    ].max
+    self.ended_on ||= next_delivery.fy_range.max
+    self
+  end
+
   def memberships_basket_complements_attributes=(*args)
     @tracked_memberships_basket_complements_attributes =
       memberships_basket_complements.map(&:attributes)

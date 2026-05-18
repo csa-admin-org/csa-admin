@@ -925,31 +925,9 @@ ActiveAdmin.register Membership do
   before_build do |membership|
     membership.activity_participations_annual_price_change = nil
     if member = Member.find_by(id: params[:member_id])
-      membership.member_id ||= member.id
-      membership.basket_size_id ||= member.waiting_basket_size&.id
-      if member.waiting_basket_price_extra
-        membership.basket_price_extra = member.waiting_basket_price_extra
-      end
-      if member.waiting_activity_participations_demanded_annually
-        membership.activity_participations_demanded_annually = member.waiting_activity_participations_demanded_annually
-      end
-      membership.depot_id ||= member.waiting_depot&.id
-      membership.delivery_cycle_id ||= member.waiting_delivery_cycle&.id
-      member.members_basket_complements.each do |mbc|
-        membership.memberships_basket_complements.build(
-          basket_complement_id: mbc.basket_complement_id,
-          quantity: mbc.quantity)
-      end
-      membership.billing_year_division = member.waiting_billing_year_division
+      membership.populate_from_waiting_member!(member)
     end
-    if next_delivery = Delivery.next
-      membership.started_on ||= [
-        Date.current,
-        next_delivery.fy_range.min,
-        next_delivery.date.beginning_of_week
-      ].max
-      membership.ended_on ||= next_delivery.fy_range.max
-    end
+    membership.populate_default_period_from_next_delivery!
   end
 
   before_action only: :index do

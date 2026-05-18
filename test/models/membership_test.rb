@@ -1045,4 +1045,42 @@ class MembershipTest < ActiveSupport::TestCase
     # Override for that thursday delivery should be cleaned up
     assert_not BasketOverride.exists?(membership: membership, delivery: delivery)
   end
+
+  test "populate_from_waiting_member! copies waiting attributes, billing division and basket complements" do
+    member = Member.new(
+      id: 999,
+      waiting_basket_size_id: basket_sizes(:medium).id,
+      waiting_depot_id: depots(:farm).id,
+      waiting_delivery_cycle_id: delivery_cycles(:thursdays).id,
+      waiting_basket_price_extra: 2.5,
+      waiting_activity_participations_demanded_annually: 4,
+      waiting_billing_year_division: 2
+    )
+    member.members_basket_complements.build(basket_complement_id: bread_id, quantity: 1)
+    member.members_basket_complements.build(basket_complement_id: eggs_id, quantity: 2)
+
+    membership = Membership.new
+    membership.populate_from_waiting_member!(member)
+
+    assert_equal basket_sizes(:medium).id, membership.basket_size_id
+    assert_equal depots(:farm).id, membership.depot_id
+    assert_equal delivery_cycles(:thursdays).id, membership.delivery_cycle_id
+    assert_equal 2.5, membership.basket_price_extra
+    assert_equal 4, membership.activity_participations_demanded_annually
+    assert_equal 2, membership.billing_year_division
+    assert_equal 2, membership.memberships_basket_complements.size
+    assert_equal [ bread_id, eggs_id ].sort, membership.memberships_basket_complements.map(&:basket_complement_id).sort
+    assert_equal [ 1, 2 ].sort, membership.memberships_basket_complements.map(&:quantity).sort
+  end
+
+  test "populate_default_period_from_next_delivery! sets sane dates when a next delivery exists" do
+    travel_to "2024-05-01"
+
+    membership = Membership.new
+    membership.populate_default_period_from_next_delivery!
+
+    assert membership.started_on.present?
+    assert membership.ended_on.present?
+    assert membership.started_on <= membership.ended_on
+  end
 end

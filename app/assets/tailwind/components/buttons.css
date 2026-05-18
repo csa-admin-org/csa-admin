@@ -10,11 +10,11 @@
     @apply disabled:cursor-not-allowed disabled:border-gray-200 disabled:bg-gray-200 disabled:text-gray-500! hover:disabled:border-gray-200 hover:disabled:bg-gray-200 hover:disabled:text-gray-500! dark:disabled:border-gray-700 dark:disabled:bg-gray-700 dark:disabled:text-gray-400! hover:dark:disabled:border-gray-700 hover:dark:disabled:bg-gray-700 hover:dark:disabled:text-gray-400!;
 
     &.btn-sm {
-      @apply px-2 py-0.5 text-sm font-medium;
+      @apply gap-1.75 px-2 py-0.5 text-sm font-medium;
     }
 
     &.btn-xs {
-      @apply px-1.5 py-0 text-sm font-medium;
+      @apply gap-1.25 px-1.5 py-0 text-sm font-medium;
     }
 
     &.btn-light {

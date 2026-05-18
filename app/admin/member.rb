@@ -196,7 +196,18 @@ ActiveAdmin.register Member do
         end
 
         if member.pending? || member.waiting?
-          panel t(".waiting_membership"), icon: "clock" do
+          create_action = if member.waiting? &&
+              authorized?(:create_membership, Member) &&
+              Delivery.next
+            button_to create_membership_member_path(member),
+              method: :post,
+              form: { class: "flex items-center" },
+              class: "btn btn-sm",
+              data: { confirm: t(".create_membership_confirm") } do
+                icon("plus", class: "size-4") + t(".create_membership")
+            end
+          end
+          panel t(".waiting_membership"), icon: "clock", action: create_action do
             div class: "px-2" do
               attributes_table do
                 row(:basket_size) { auto_link member.waiting_basket_size }
@@ -847,6 +858,21 @@ ActiveAdmin.register Member do
     resource.wait!
     redirect_to member_path(resource)
   rescue ActiveRecord::RecordInvalid => e
+    flash[:alert] = e.message
+    redirect_to member_path(resource)
+  end
+
+  member_action :create_membership, method: :post do
+    membership = Membership.new
+    membership.populate_from_waiting_member!(resource)
+    membership.populate_default_period_from_next_delivery!
+    if membership.save
+      redirect_to membership
+    else
+      flash[:alert] = membership.errors.full_messages.to_sentence
+      redirect_to member_path(resource)
+    end
+  rescue ActiveRecord::RecordInvalid, ActiveRecord::StatementInvalid => e
     flash[:alert] = e.message
     redirect_to member_path(resource)
   end

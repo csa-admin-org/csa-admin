@@ -67,6 +67,7 @@ class AbilityTest < ActiveSupport::TestCase
     assert ability.can?(:future_billing, Membership)
     assert ability.can?(:renew, Membership)
     assert ability.can?(:cancel, Membership)
+    assert ability.can?(:create_membership, Member)
   end
 
   test "billing write permissions" do
