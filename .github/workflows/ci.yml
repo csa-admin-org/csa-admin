@@ -43,7 +43,7 @@ jobs:
         run: bin/herb format . --check
 
       - name: Herb lint
-        run: bin/herb lint .
+        run: bin/herb lint . --github
 
       - name: Oxfmt (JS)
         run: bin/oxfmt app/javascript --check
