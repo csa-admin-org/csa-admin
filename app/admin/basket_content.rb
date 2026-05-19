@@ -81,11 +81,19 @@ ActiveAdmin.register BasketContent do
         }
       }, class: "text-right whitespace-nowrap"
     end
-    basket_sizes = if params.dig(:q, :basket_size_eq).present?
-      BasketSize.ordered.where(id: params.dig(:q, :basket_size_eq))
-    else
-      BasketSize.ordered.paid
-    end
+    basket_sizes =
+      if params.dig(:q, :basket_size_eq).present?
+        BasketSize.ordered.paid.where(id: params.dig(:q, :basket_size_eq))
+      elsif (delivery_id = params.dig(:q, :delivery_id_eq)).present?
+        sizes =
+          BasketSize
+            .joins(:baskets)
+            .where(baskets: { delivery_id: delivery_id })
+            .distinct.paid.ordered
+        sizes.any? ? sizes : BasketSize.ordered.paid
+      else
+        BasketSize.ordered.paid
+      end
     basket_sizes.each do |basket_size|
       column basket_size.name, ->(bc) {
         display_with_price(bc.unit_price, bc.basket_quantity(basket_size)) {
