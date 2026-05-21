@@ -146,14 +146,13 @@ production: &production
     members_host: mitglieder.solawi-vielfeld.de
     aliases:
       - solawi-vielfeld
+  querbeet:
+    admin_host: admin.querbeetgrosswangen.ch
+    members_host: mitglieder.querbeetgrosswangen.ch
 
   mamajah:
     admin_host: admin.mamajah.org
     members_host: membres.mamajah.org
-    state: onboarding
-  querbeet:
-    admin_host: admin.querbeetgrosswangen.ch
-    members_host: mitglieder.querbeetgrosswangen.ch
     state: onboarding
   zalpenblick:
     admin_host: admin.zalpenblick.ch
