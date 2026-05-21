@@ -118,7 +118,7 @@ Se modifichi la quota annuale predefinita dell'organizzazione, tutti i soci anco
 
 ### <%= Basket.model_name.human(count: 2) %> di prova {#trial-baskets}
 
-Se un numero di <%= Basket.model_name.human(count: 2).downcase %> di prova è definito nelle [impostazioni di fatturazione](/settings#billing), allora l'abbonamento sarà fatturato solo una volta che tutte le <%= Basket.model_name.human(count: 2).downcase %> di prova saranno state consegnate, il prossimo giorno di fatturazione successivo alla consegna della prima <%= Basket.model_name.human.downcase %> non di prova.
+Se un numero di <%= Basket.model_name.human(count: 2).downcase %> di prova è definito nelle [impostazioni di fatturazione](/settings#billing), allora l'abbonamento sarà fatturato solo una volta che tutte le <%= Basket.model_name.human(count: 2).downcase %> di prova saranno state consegnate, il prossimo giorno di fatturazione successivo alla consegna della prima <%= Basket.model_name.human.downcase %> non di prova. Questo garantisce che la prima fattura non venga generata mentre il socio può ancora annullare il periodo di prova dal proprio account.
 
 I soci possono annullare il proprio abbonamento durante il periodo di prova dal proprio account. L'abbonamento terminerà alla data dell'ultima consegna della <%= Basket.model_name.human.downcase %> di prova. Per annullare un abbonamento immediatamente, l'amministratore deve farlo manualmente.
 

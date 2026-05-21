@@ -118,7 +118,7 @@ Als je de standaard jaarlijkse bijdrage van de organisatie wijzigt, worden alle 
 
 ### <%= Basket.model_name.human(count: 2) %> op proef {#trial-baskets}
 
-Als een aantal <%= Basket.model_name.human(count: 2).downcase %> op proef is gedefinieerd in [de factureringsinstellingen](/settings#billing), dan wordt het lidmaatschap pas gefactureerd nadat alle <%= Basket.model_name.human(count: 2).downcase %> op proef zijn geleverd, op de volgende factureringsdag na de levering van de eerste <%= Basket.model_name.human.downcase %> zonder proef.
+Als een aantal <%= Basket.model_name.human(count: 2).downcase %> op proef is gedefinieerd in [de factureringsinstellingen](/settings#billing), dan wordt het lidmaatschap pas gefactureerd nadat alle <%= Basket.model_name.human(count: 2).downcase %> op proef zijn geleverd, op de volgende factureringsdag na de levering van de eerste <%= Basket.model_name.human.downcase %> zonder proef. Dit zorgt ervoor dat de eerste factuur niet wordt gegenereerd zolang het lid de proefperiode nog zelf via zijn ledenaccount kan annuleren.
 
 Leden kunnen hun lidmaatschap zelf annuleren tijdens de proefperiode via hun ledenaccount. Het lidmaatschap eindigt dan op de leveringsdatum van de laatste <%= Basket.model_name.human.downcase %> op proef. Om een lidmaatschap onmiddellijk te annuleren, moet de administratie dit handmatig doen.
 

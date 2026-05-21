@@ -29,6 +29,11 @@ module Membership::Pricing
     (rel.trial.last || rel.first)&.delivery
   end
 
+  def first_non_trial_billable_delivery
+    rel = baskets.filled.billable
+    (rel.not_trial.first || rel.trial.last)&.delivery
+  end
+
   def baskets_annual_price_change=(price)
     super rounded_price(price.to_f)
   end

@@ -730,7 +730,12 @@ class Billing::InvoicerTest < ActiveSupport::TestCase
     member.current_membership.update!(billing_year_division: 1)
 
     travel_to "2024-04-15"
-    assert_equal "2024-04-15", Billing::Invoicer.new(member).next_date.to_s
+    # Jane's membership has trial baskets on Apr 4 & Apr 11 (from fixtures).
+    # We intentionally do *not* call update_baskets_counts! here so that
+    # remaining_trial_baskets_count stays positive. This keeps
+    # membership.trial? == true, ensuring the invoicer still uses the
+    # special first-invoice timing rule for trial memberships.
+    assert_equal "2024-04-22", Billing::Invoicer.new(member).next_date.to_s
     force_invoice(member)
 
     assert_nil Billing::Invoicer.new(member.reload).next_date
@@ -761,7 +766,10 @@ class Billing::InvoicerTest < ActiveSupport::TestCase
     member.current_membership.update!(billing_year_division: 12)
 
     travel_to "2024-04-01"
-    assert_equal "2024-04-15", Billing::Invoicer.new(member).next_date.to_s
+    # Jane's membership has trial baskets (Apr 4 & Apr 11). At this early date
+    # remaining_trial_baskets_count is still > 0, so membership.trial? is true
+    # and the invoicer uses the trial-specific first-invoice timing rule.
+    assert_equal "2024-04-22", Billing::Invoicer.new(member).next_date.to_s
     force_invoice(member)
 
     assert_equal "2024-05-06", Billing::Invoicer.new(member.reload).next_date.to_s
@@ -833,9 +841,13 @@ class Billing::InvoicerTest < ActiveSupport::TestCase
 
     assert_equal "2024-04-04", membership.deliveries.first.date.to_s
     assert_equal "2024-04-11", membership.baskets.trial.last.delivery.date.to_s
+    assert_equal "2024-04-18", membership.first_non_trial_billable_delivery.date.to_s
 
     travel_to "2024-04-04"
-    assert_equal "2024-04-15", Billing::Invoicer.new(member.reload).next_date.to_s
+    assert_equal "2024-04-22", Billing::Invoicer.new(member.reload).next_date.to_s
+    travel_to "2024-04-12"
+    # still waiting for first non-trial (Apr 18), even after last trial (Apr 11)
+    assert_equal "2024-04-22", Billing::Invoicer.new(member.reload).next_date.to_s
     travel_to "2024-04-16"
     assert_equal "2024-04-22", Billing::Invoicer.new(member.reload).next_date.to_s
     travel_to "2024-11-02"
@@ -844,6 +856,7 @@ class Billing::InvoicerTest < ActiveSupport::TestCase
 
   test "next_date with trial baskets, three trial baskets" do
     travel_to "2024-01-01"
+    Current.reset # clear memoized fiscal_year for update_trial_baskets! callback
     member = members(:jane)
     member.update!(trial_baskets_count: 11)
     membership = memberships(:jane)

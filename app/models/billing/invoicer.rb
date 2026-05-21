@@ -50,8 +50,10 @@ module Billing
               else
                 next_billing_day(beginning_of_next_period)
               end
-            elsif Current.org.billing_starts_after_first_delivery? || membership.trial?
+            elsif Current.org.billing_starts_after_first_delivery?
               next_billing_day_after_first_billable_delivery
+            elsif membership.trial?
+              next_billing_day_after_first_non_trial_billable_delivery
             else
               next_billing_day(membership.started_on)
             end
@@ -146,6 +148,12 @@ module Billing
       return unless membership.first_billable_delivery
 
       next_billing_day(membership.first_billable_delivery.date)
+    end
+
+    def next_billing_day_after_first_non_trial_billable_delivery
+      return unless membership.first_non_trial_billable_delivery
+
+      next_billing_day(membership.first_non_trial_billable_delivery.date)
     end
 
     def next_billing_day(day = date)

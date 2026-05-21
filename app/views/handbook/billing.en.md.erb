@@ -118,7 +118,7 @@ If you change the organization's default annual fee, all members still set to th
 
 ### Trial <%= Basket.model_name.human(count: 2).downcase %> {#trial-baskets}
 
-If a number of trial <%= Basket.model_name.human(count: 2).downcase %> is defined in [the billing settings](/settings#billing), then the membership will only be billed once all trial <%= Basket.model_name.human(count: 2).downcase %> are delivered, on the next billing day following the delivery of the first non-trial <%= Basket.model_name.human.downcase %>.
+If a number of trial <%= Basket.model_name.human(count: 2).downcase %> is defined in [the billing settings](/settings#billing), then the membership will only be billed once all trial <%= Basket.model_name.human(count: 2).downcase %> are delivered, on the next billing day following the delivery of the first non-trial <%= Basket.model_name.human.downcase %>. This ensures the first invoice is not generated while the member can still cancel their trial membership themselves.
 
 Members can cancel their membership themselves during the trial period from their member account. The membership will then end on the last trial <%= Basket.model_name.human.downcase %> delivery date. To cancel a membership immediately, the admin must do so manually.
 

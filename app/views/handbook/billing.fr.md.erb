@@ -118,7 +118,7 @@ Si vous modifiez la cotisation annuelle par défaut de l'organisation, tous les 
 
 ### <%= Basket.model_name.human(count: 2) %> à l'essai {#trial-baskets}
 
-Si un nombre de <%= Basket.model_name.human(count: 2).downcase %> à l'essai est défini dans [les paramètres de facturation](/settings#billing), alors l'abonnement sera uniquement facturé une fois que tous les <%= Basket.model_name.human(count: 2).downcase %> à l'essai seront livrés, le prochain jour de facturation suivant la livraison du premier <%= Basket.model_name.human.downcase %> non à l'essai.
+Si un nombre de <%= Basket.model_name.human(count: 2).downcase %> à l'essai est défini dans [les paramètres de facturation](/settings#billing), alors l'abonnement sera uniquement facturé une fois que tous les <%= Basket.model_name.human(count: 2).downcase %> à l'essai seront livrés, le prochain jour de facturation suivant la livraison du premier <%= Basket.model_name.human.downcase %> non à l'essai. Cela garantit que la première facture n'est pas générée tant que le membre peut encore annuler son essai lui-même.
 
 Les membres peuvent annuler leur abonnement eux-mêmes durant la période d'essai depuis leur compte membre. L'abonnement se terminera alors à la date de livraison du dernier <%= Basket.model_name.human.downcase %> à l'essai. Pour annuler un abonnement immédiatement, l'admin doit le faire manuellement.
 
