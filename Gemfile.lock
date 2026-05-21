@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/BaseSecrete/active_hashcash.git
-  revision: 28d7ffcb9fcb0ad0cb14d2a00f1873205bae6810
+  revision: 1fe416d92a2232718b02c93ad2fc157255bad900
   branch: master
   specs:
     active_hashcash (0.4.0)
