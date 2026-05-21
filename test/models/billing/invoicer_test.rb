@@ -864,12 +864,13 @@ class Billing::InvoicerTest < ActiveSupport::TestCase
 
     assert_equal 10, membership.deliveries.count
     assert_equal "2024-04-04", membership.deliveries.first.date.to_s
+    assert_equal "2024-05-02", membership.first_non_trial_billable_delivery.date.to_s
     assert_equal "2024-06-06", membership.deliveries.last.date.to_s
 
     travel_to "2024-04-04"
-    assert_equal "2024-06-10", Billing::Invoicer.new(member.reload).next_date.to_s
-    travel_to "2024-06-10"
-    assert_equal "2024-06-10", Billing::Invoicer.new(member.reload).next_date.to_s
+    assert_equal "2024-05-06", Billing::Invoicer.new(member.reload).next_date.to_s
+    travel_to "2024-05-10"
+    assert_equal "2024-05-13", Billing::Invoicer.new(member.reload).next_date.to_s
     travel_to "2024-12-31"
     assert_equal "2024-12-31", Billing::Invoicer.new(member.reload).next_date.to_s
   end
