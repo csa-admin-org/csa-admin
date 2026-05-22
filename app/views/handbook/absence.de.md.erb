@@ -30,7 +30,7 @@ Wenn die Abwesenheit storniert wird, wird der Inhalt der <%= Basket.model_name.h
 Wenn eine <%= Basket.model_name.human %> Verschiebungen erhalten hat, kannst Du eine Erinnerung in Deinen [Newsletter-Vorlagen](/newsletter_templates) anzeigen, indem Du die Variablen `basket.shifted` und `basket.shifts` verwendest:
 
 ~~~ liquid
-{% if basket.shifted %}
+{% if basket and basket.shifted %}
   {% highlight %}
     <p><strong>📣 Wichtige Erinnerung!</strong></p>
     <p>Du hast diese Woche <strong>{{ basket.quantity }} <%= Basket.model_name.human(count: 2) %></strong> abzuholen:</p>

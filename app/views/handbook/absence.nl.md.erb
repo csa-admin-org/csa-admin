@@ -30,7 +30,7 @@ Als de afwezigheid wordt geannuleerd, wordt de inhoud van de <%= Basket.model_na
 Wanneer een <%= Basket.model_name.human.downcase %> verschuivingen heeft ontvangen, kun je een herinnering weergeven in je [nieuwsbrief templates](/newsletter_templates) met behulp van de variabelen `basket.shifted` en `basket.shifts`:
 
 ~~~ liquid
-{% if basket.shifted %}
+{% if basket and basket.shifted %}
   {% highlight %}
     <p><strong>📣 Belangrijke herinnering!</strong></p>
     <p>Je hebt <strong>{{ basket.quantity }} <%= Basket.model_name.human(count: 2).downcase %></strong> op te halen deze week:</p>

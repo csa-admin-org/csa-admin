@@ -30,7 +30,7 @@ Se l'assenza viene annullata, il contenuto della <%= Basket.model_name.human.dow
 Quando una <%= Basket.model_name.human.downcase %> ha ricevuto spostamenti, puoi visualizzare un promemoria nei tuoi [template di newsletter](/newsletter_templates) utilizzando le variabili `basket.shifted` e `basket.shifts`:
 
 ~~~ liquid
-{% if basket.shifted %}
+{% if basket and basket.shifted %}
   {% highlight %}
     <p><strong>📣 Promemoria importante!</strong></p>
     <p>Hai <strong>{{ basket.quantity }} <%= Basket.model_name.human(count: 2).downcase %></strong> da ritirare questa settimana:</p>

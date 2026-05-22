@@ -14,7 +14,9 @@ class Liquid::DataPreviewTest < ActiveSupport::TestCase
         "complements_description" => nil,
         "contents" => [],
         "delivery" => {
-          "date" => "1 April 2024"
+          "date" => "1 April 2024",
+          "date_iso" => "2024-04-01",
+          "date_long" => "Monday 1 April 2024"
         },
         "depot" => {
           "id" => farm_id,
@@ -87,7 +89,7 @@ class Liquid::DataPreviewTest < ActiveSupport::TestCase
             "complements" => [],
             "complements_description" => nil,
             "contents" => [],
-            "delivery" => { "date" => "1 April 2024" },
+            "delivery" => { "date" => "1 April 2024", "date_iso" => "2024-04-01", "date_long" => "Monday 1 April 2024" },
             "depot" => { "id" => farm_id, "member_note" => nil, "name" => "Our farm" },
             "description" => "Medium basket",
             "quantity" => 1,
@@ -99,7 +101,7 @@ class Liquid::DataPreviewTest < ActiveSupport::TestCase
             "complements" => [],
             "complements_description" => nil,
             "contents" => [],
-            "delivery" => { "date" => "4 April 2024" },
+            "delivery" => { "date" => "4 April 2024", "date_iso" => "2024-04-04", "date_long" => "Thursday 4 April 2024" },
             "depot" => { "id" => farm_id, "member_note" => nil, "name" => "Our farm" },
             "description" => "Medium basket",
             "quantity" => 1,
@@ -115,17 +117,26 @@ class Liquid::DataPreviewTest < ActiveSupport::TestCase
         },
         "end_date" => "31 December 2024",
         "first_delivery" => {
-          "date" => "1 April 2024"
+          "date" => "1 April 2024",
+          "date_iso" => "2024-04-01",
+          "date_long" => "Monday 1 April 2024"
         },
         "last_delivery" => {
-          "date" => "6 June 2024"
+          "date" => "6 June 2024",
+          "date_iso" => "2024-06-06",
+          "date_long" => "Thursday 6 June 2024"
+        },
+        "next_delivery" => {
+          "date" => "1 April 2024",
+          "date_iso" => "2024-04-01",
+          "date_long" => "Monday 1 April 2024"
         },
         "provisional_baskets" => [
           {
             "complements" => [],
             "complements_description" => nil,
             "contents" => [],
-            "delivery" => { "date" => "1 April 2024" },
+            "delivery" => { "date" => "1 April 2024", "date_iso" => "2024-04-01", "date_long" => "Monday 1 April 2024" },
             "depot" => { "id" => farm_id, "member_note" => nil, "name" => "Our farm" },
             "description" => "Medium basket",
             "quantity" => 1,
@@ -137,7 +148,7 @@ class Liquid::DataPreviewTest < ActiveSupport::TestCase
             "complements" => [],
             "complements_description" => nil,
             "contents" => [],
-            "delivery" => { "date" => "4 April 2024" },
+            "delivery" => { "date" => "4 April 2024", "date_iso" => "2024-04-04", "date_long" => "Thursday 4 April 2024" },
             "depot" => { "id" => farm_id, "member_note" => nil, "name" => "Our farm" },
             "description" => "Medium basket",
             "quantity" => 1,
@@ -156,6 +167,11 @@ class Liquid::DataPreviewTest < ActiveSupport::TestCase
         "activity_phone" => nil,
         "email" => "info@acme.test",
         "name"=> "Acme",
+        "next_delivery" => {
+          "date" => "1 April 2024",
+          "date_iso" => "2024-04-01",
+          "date_long" => "Monday 1 April 2024"
+        },
         "phone"=> "+41 76 449 59 38",
         "url" => "https://www.acme.test"
       }
@@ -190,6 +206,11 @@ class Liquid::DataPreviewTest < ActiveSupport::TestCase
         "activity_phone" => nil,
         "email" => "info@acme.test",
         "name"=> "Acme",
+        "next_delivery" => {
+          "date" => "1 April 2024",
+          "date_iso" => "2024-04-01",
+          "date_long" => "Monday 1 April 2024"
+        },
         "phone"=> "+41 76 449 59 38",
         "url" => "https://www.acme.test"
       },
@@ -226,7 +247,9 @@ class Liquid::DataPreviewTest < ActiveSupport::TestCase
         "complements" => [],
         "complements_description" => nil,
         "delivery" => {
-          "date" => "1 April 2024"
+          "date" => "1 April 2024",
+          "date_iso" => "2024-04-01",
+          "date_long" => "Monday 1 April 2024"
         },
         "depot" => {
           "id" => farm_id,
@@ -296,10 +319,19 @@ class Liquid::DataPreviewTest < ActiveSupport::TestCase
         },
         "end_date" => "31 December 2024",
         "first_delivery" => {
-          "date" => "1 April 2024"
+          "date" => "1 April 2024",
+          "date_iso" => "2024-04-01",
+          "date_long" => "Monday 1 April 2024"
         },
         "last_delivery" => {
-          "date" => "6 June 2024"
+          "date" => "6 June 2024",
+          "date_iso" => "2024-06-06",
+          "date_long" => "Thursday 6 June 2024"
+        },
+        "next_delivery" => {
+          "date" => "1 April 2024",
+          "date_iso" => "2024-04-01",
+          "date_long" => "Monday 1 April 2024"
         },
         "provisional_baskets" => nil,
         "renewal_state" => "renewal_pending",
@@ -311,6 +343,11 @@ class Liquid::DataPreviewTest < ActiveSupport::TestCase
         "absences_included_mode" => nil,
         "email" => "info@acme.test",
         "name"=> "Acme",
+        "next_delivery" => {
+          "date" => "1 April 2024",
+          "date_iso" => "2024-04-01",
+          "date_long" => "Monday 1 April 2024"
+        },
         "phone"=> "+41 76 449 59 38",
         "url" => "https://www.acme.test"
       }

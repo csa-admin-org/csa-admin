@@ -1,4 +1,4 @@
-{% if basket.shifted %}
+{% if basket and basket.shifted %}
   {% highlight %}
     <p><strong><%= t(".shifted_reminder_title") %></strong></p>
     <p><%= t(".shifted_reminder_paragraph") %></p>
@@ -13,7 +13,7 @@
 
 {% content id: "intro" %}{% endcontent %}
 
-{% if basket.contents.size > 0 and basket.quantity > 0 %}
+{% if basket and basket.contents.size > 0 and basket.quantity > 0 %}
   <h2><%= t(".basket_contents_title") %></h2>
 
   <span>{{ basket.description }}:</span>
@@ -55,7 +55,7 @@
       <br/>
     {% endif %}
 
-    {% if membership.activity_participations_missing_count > 0 %}
+    {% if membership and membership.activity_participations_missing_count > 0 %}
       <p><%= t(".missing_activities_paragraph") %></p>
     {% endif %}
 

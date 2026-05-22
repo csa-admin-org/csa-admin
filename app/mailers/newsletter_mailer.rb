@@ -55,8 +55,17 @@ class NewsletterMailer < ApplicationMailer
 
   def prepared_data
     member = params[:member]
-    basket = member.next_basket
-    membership = basket&.membership
+
+    # In "next delivery" newsletter context, `basket` represents the member's
+    # basket for the organization's imminent upcoming delivery (Delivery.next).
+    # It is nil when the member has no deliverable basket for that delivery
+    # (e.g. absence). This makes `basket` + the next_delivery templates
+    # honest: they describe the close/current delivery being announced.
+    if (next_delivery = Delivery.next)
+      basket = params[:basket] || member.baskets.deliverable.find_by(delivery: next_delivery)
+      membership = params[:membership] || member.memberships.including_date(next_delivery.date).first
+    end
+
     today = I18n.with_locale(member.language) do
       params[:today] || I18n.l(Date.current)
     end
@@ -70,8 +79,8 @@ class NewsletterMailer < ApplicationMailer
       "today" => today,
       "subject" => params[:subject],
       "member" => Liquid::MemberDrop.new(member, email: params[:to]),
-      "membership" => Liquid::MembershipDrop.new(membership),
-      "basket" => Liquid::BasketDrop.new(basket),
+      "membership" => membership ? Liquid::MembershipDrop.new(membership) : nil,
+      "basket" => basket ? Liquid::BasketDrop.new(basket) : nil,
       "future_activities" => Activity.available.first(10).map { |a|
         Liquid::ActivityDrop.new(a)
       },

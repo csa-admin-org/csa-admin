@@ -12,6 +12,7 @@ WebMock.disable_net_connect!
 
 Dir[Rails.root.join("test/support/**/*.rb")].each { |f| require f }
 
+Minitest.load_plugins
 Minitest::Test.make_my_diffs_pretty!
 
 module ActiveSupport

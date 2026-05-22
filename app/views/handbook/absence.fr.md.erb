@@ -30,7 +30,7 @@ Si l'absence est annulée, le contenu du <%= Basket.model_name.human.downcase %>
 Lorsqu'un <%= Basket.model_name.human.downcase %> a reçu des déplacements, vous pouvez afficher un rappel dans [vos templates de newsletter](/newsletter_templates) en utilisant les variables `basket.shifted` et `basket.shifts`:
 
 ~~~ liquid
-{% if basket.shifted %}
+{% if basket and basket.shifted %}
   {% highlight %}
     <p><strong>📣 Rappel important!</strong></p>
     <p>Vous avez <strong>{{ basket.quantity }} <%= Basket.model_name.human(count: 2).downcase %></strong> à récupérer cette semaine:</p>

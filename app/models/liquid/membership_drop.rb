@@ -33,6 +33,12 @@ class Liquid::MembershipDrop < Liquid::Drop
     end
   end
 
+  def next_delivery
+    if delivery = @membership.next_basket&.delivery
+      Liquid::DeliveryDrop.new(delivery)
+    end
+  end
+
   def trial_baskets_count
     @membership.remaining_trial_baskets_count
   end

@@ -1,14 +1,6 @@
 # frozen_string_literal: true
 
-class Liquid::AdminDeliveryDrop < Liquid::Drop
-  def initialize(delivery)
-    @delivery = delivery
-  end
-
-  def date
-    I18n.l(@delivery.date)
-  end
-
+class Liquid::AdminDeliveryDrop < Liquid::DeliveryDrop
   def admin_url
     Rails
       .application

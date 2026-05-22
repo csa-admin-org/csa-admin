@@ -30,4 +30,10 @@ class Liquid::OrganizationDrop < Liquid::Drop
 
     @org.absences_included_mode
   end
+
+  def next_delivery
+    if delivery = Delivery.next
+      Liquid::DeliveryDrop.new(delivery)
+    end
+  end
 end

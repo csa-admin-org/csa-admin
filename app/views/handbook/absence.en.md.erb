@@ -30,7 +30,7 @@ If the absence is cancelled, the <%= Basket.model_name.human.downcase %> content
 When a <%= Basket.model_name.human.downcase %> has received shifts, you can display a reminder in your [newsletter templates](/newsletter_templates) using the `basket.shifted` and `basket.shifts` variables:
 
 ~~~ liquid
-{% if basket.shifted %}
+{% if basket and basket.shifted %}
   {% highlight %}
     <p><strong>📣 Important reminder!</strong></p>
     <p>You have <strong>{{ basket.quantity }} <%= Basket.model_name.human(count: 2).downcase %></strong> to pick up this week:</p>
