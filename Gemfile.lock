@@ -129,7 +129,7 @@ GEM
       protocol-url (~> 0.2)
     aws-eventstream (1.4.0)
     aws-partitions (1.1252.0)
-    aws-sdk-core (3.247.0)
+    aws-sdk-core (3.248.0)
       aws-eventstream (~> 1, >= 1.3.0)
       aws-partitions (~> 1, >= 1.992.0)
       aws-sigv4 (~> 1.9)
@@ -137,11 +137,11 @@ GEM
       bigdecimal
       jmespath (~> 1, >= 1.6.1)
       logger
-    aws-sdk-kms (1.127.0)
-      aws-sdk-core (~> 3, >= 3.247.0)
+    aws-sdk-kms (1.128.0)
+      aws-sdk-core (~> 3, >= 3.248.0)
       aws-sigv4 (~> 1.5)
-    aws-sdk-s3 (1.223.0)
-      aws-sdk-core (~> 3, >= 3.247.0)
+    aws-sdk-s3 (1.224.0)
+      aws-sdk-core (~> 3, >= 3.248.0)
       aws-sdk-kms (~> 1)
       aws-sigv4 (~> 1.5)
     aws-sigv4 (1.12.1)
@@ -291,7 +291,7 @@ GEM
       logger
       ostruct
     ice_cube (0.17.0)
-    image_processing (2.0.0)
+    image_processing (2.0.1)
     importmap-rails (2.2.3)
       actionpack (>= 6.0.0)
       activesupport (>= 6.0.0)
@@ -807,9 +807,9 @@ CHECKSUMS
   async-rest (0.20.0) sha256=72b0d467f65269a53a64fc12b828f3d81b4afa201b4eea0b98cddb990e7e95eb
   aws-eventstream (1.4.0) sha256=116bf85c436200d1060811e6f5d2d40c88f65448f2125bc77ffce5121e6e183b
   aws-partitions (1.1252.0) sha256=b44c74136ebd634d35f3fb8fd37def5214db21b9375f22c6954dbe7a7f2a449d
-  aws-sdk-core (3.247.0) sha256=789864594ce8cef05ee3d81fa8ed506099280bda6ea12a7612b8b7c5e5e62851
-  aws-sdk-kms (1.127.0) sha256=5d540b6afb9574327202989db2217741211e1cce3fb443ad0e1e37de730202e5
-  aws-sdk-s3 (1.223.0) sha256=655e382af34926caa76b77cf0171caed5f61ff52b8b58ae50f6f3e22c39e6cbc
+  aws-sdk-core (3.248.0) sha256=3e40f3e0ccd812c6ac4934964901298d1639c7122a3f2d2b3415170ea6eab293
+  aws-sdk-kms (1.128.0) sha256=20ce3957f80c7b40b3115a7e902af52b15a6eef42fe6b2e19db72f8e8c9e5658
+  aws-sdk-s3 (1.224.0) sha256=7d443c4ae9eda795b60e081d41f49b498e2483f1fc204f3239176ec922ed7879
   aws-sigv4 (1.12.1) sha256=6973ff95cb0fd0dc58ba26e90e9510a2219525d07620c8babeb70ef831826c00
   base64 (0.3.0) sha256=27337aeabad6ffae05c265c450490628ef3ebd4b67be58257393227588f5a97b
   bcrypt (3.1.22) sha256=1f0072e88c2d705d94aff7f2c5cb02eb3f1ec4b8368671e19112527489f29032
@@ -884,7 +884,7 @@ CHECKSUMS
   iban-tools (1.2.1) sha256=099962fc60fc8eff0674e1ce3d387a29cfa89d578cf5f08554ec7c6020ac631c
   icalendar (2.12.3) sha256=37dea76c36f5b21dd745bcd3cb53e7bacfbb4ad0a8d9c2a1c0aa9d39af83c850
   ice_cube (0.17.0) sha256=32deb45dda4b4acc53505c2f581f6d32b5afc04d29b9004769944a0df5a5fcbe
-  image_processing (2.0.0) sha256=5c2d821be42b98dd5c49e7f71e2d2a340e115ca0e74aed6332ba118b76555a3a
+  image_processing (2.0.1) sha256=69c93216dafe1179343a6c3ae8bfa554e3c1f5eece4043f255595e76df2cbf3f
   importmap-rails (2.2.3) sha256=7101be2a4dc97cf1558fb8f573a718404c5f6bcfe94f304bf1f39e444feeb16a
   inherited_resources (2.1.0) sha256=74f3f1862790fc1066b4eeb354717ddee220f59421fee4cea4bb1c4b775f4603
   inline_svg (1.10.0) sha256=5b652934236fd9f8adc61f3fd6e208b7ca3282698b19f28659971da84bf9a10f
