@@ -421,4 +421,40 @@ class Member::StateTransitionsTest < ActiveSupport::TestCase
     member = members(:mary)
     assert_not member.can_deactivate?
   end
+
+  test "can_create_membership? returns true for waiting member with complete waiting data" do
+    travel_to "2024-05-01"
+
+    member = Member.new(
+      state: "waiting",
+      waiting_basket_size_id: basket_sizes(:medium).id,
+      waiting_depot_id: depots(:farm).id,
+      waiting_delivery_cycle_id: delivery_cycles(:mondays).id)
+    assert member.can_create_membership?
+  end
+
+  test "can_create_membership? returns false if any required waiting id is missing" do
+    travel_to "2024-05-01"
+
+    base = {
+      state: "waiting",
+      waiting_basket_size_id: basket_sizes(:medium).id,
+      waiting_depot_id: depots(:farm).id,
+      waiting_delivery_cycle_id: delivery_cycles(:mondays).id
+    }
+    assert_not Member.new(base.merge(waiting_basket_size_id: nil)).can_create_membership?
+    assert_not Member.new(base.merge(waiting_depot_id: nil)).can_create_membership?
+    assert_not Member.new(base.merge(waiting_delivery_cycle_id: nil)).can_create_membership?
+  end
+
+  test "can_create_membership? returns false for non-waiting members" do
+    travel_to "2024-05-01"
+
+    member = Member.new(
+      state: "active",
+      waiting_basket_size_id: basket_sizes(:medium).id,
+      waiting_depot_id: depots(:farm).id,
+      waiting_delivery_cycle_id: delivery_cycles(:mondays).id)
+    assert_not member.can_create_membership?
+  end
 end

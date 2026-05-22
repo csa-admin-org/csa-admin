@@ -199,6 +199,14 @@ class Member < ApplicationRecord
     memberships.during_year(year).first
   end
 
+  def can_create_membership?
+    waiting? &&
+      waiting_basket_size_id? &&
+      waiting_depot_id? &&
+      waiting_delivery_cycle_id? &&
+      Delivery.next.present?
+  end
+
   private
 
   def enqueue_dependent_search_reindex

@@ -196,9 +196,7 @@ ActiveAdmin.register Member do
         end
 
         if member.pending? || member.waiting?
-          create_action = if member.waiting? &&
-              authorized?(:create_membership, Member) &&
-              Delivery.next
+          create_action = if authorized?(:create_membership, member)
             button_to create_membership_member_path(member),
               method: :post,
               form: { class: "flex items-center" },
