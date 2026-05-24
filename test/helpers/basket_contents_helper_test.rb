@@ -40,34 +40,15 @@ class BasketContentsHelperTest < ActionView::TestCase
     assert_equal "Carrots (#{I18n.t('units.kg.short')})", name
   end
 
-  test "products collection includes unit in data attributes" do
+  test "products collection does not expose product defaults as data attributes" do
     product = basket_content_products(:carrots)
+    product.update!(default_price: 3.25, default_basket_quantities: { small_id.to_s => 500 })
 
     _, _, options = basket_content_products_collection.find { |(_, id, _)| id == product.id }
-    assert_equal "kg", options[:data][:unit]
-  end
 
-  test "products collection embeds synced price and quantities" do
-    product = basket_content_products(:carrots)
-    create_basket_content(
-      product: product,
-      delivery: deliveries(:monday_2),
-      basket_size_ids_quantities: {
-        small_id => 500,
-        medium_id => 750
-      },
-      depots: [ depots(:home), depots(:farm) ],
-      unit: "kg",
-      unit_price: 3.25)
-
-    _, _, options = basket_content_products_collection.find { |(_, id, _)| id == product.id }
-    data = options[:data]
-
-    assert_equal BigDecimal("3.25"), data[:latest_basket_content_unit_price]
-    assert_equal({
-      small_id.to_s => 500,
-      medium_id.to_s => 750
-    }, JSON.parse(data[:latest_basket_content_quantities]))
+    refute_includes options[:data], :latest_basket_content_unit_price
+    refute_includes options[:data], :latest_basket_content_quantities
+    refute_includes options[:data], :unit
   end
 
   # display_depots
@@ -97,7 +78,7 @@ class BasketContentsHelperTest < ActionView::TestCase
     depots(:farm).update!(group: group)
     depots(:bakery).update!(group: group)
     # extra ensures 2 depots are missing (avoids single-missing shortcut)
-    extra = Depot.create!(names: { en: "Extra" }, language: "en", price: 0, position: 99)
+    Depot.create!(names: { en: "Extra" }, language: "en", price: 0, position: 99)
 
     selected = Depot.kept.where(id: [ depots(:farm).id, depots(:bakery).id ])
     assert_equal I18n.t("basket_content.depots.only", selected: group.name),

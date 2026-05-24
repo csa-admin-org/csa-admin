@@ -193,14 +193,6 @@ ActiveAdmin.register BasketContent do
 
   sidebar_handbook_link("basket_content")
 
-  collection_action :form_prices, method: :get do
-    delivery = Delivery.find_by(id: params[:delivery_id])
-
-    render partial: "active_admin/basket_contents/form_prices",
-      locals: BasketContent::FormPricePreview.new(delivery: delivery, params: params).to_h,
-      layout: false
-  end
-
   collection_action :duplicate_all, method: :post do
     authorize!(:create, BasketContent)
     from = params.require(:from_delivery_id)
@@ -226,147 +218,16 @@ ActiveAdmin.register BasketContent do
     redirect_back fallback_location: collection_path(q: { delivery_id_eq: basket_content.delivery_id })
   end
 
-  form do |f|
-    div data: {
-      controller: "basket-content-products-select basket-content-distribution",
-      action: [
-        "input->basket-content-distribution#formChanged",
-        "change->basket-content-distribution#formChanged",
-        "basket-content-products-updated->basket-content-distribution#productDefaultsChanged"
-      ].join(" "),
-      "basket-content-distribution-url-value" => form_prices_basket_contents_path,
-      "basket-content-distribution-id-value" => f.object.persisted? ? f.object.id.to_s : "",
-      "basket-content-distribution-pc-suffix-value" => t("units.pc_quantity", quantity: "").strip,
-      "basket-content-distribution-kg-price-suffix-value" => "/#{t("units.kg.flex")}",
-      "basket-content-distribution-pc-price-suffix-value" => "/#{t("units.pc.flex")}"
-    } do
-      f.inputs t(".details"), icon: "notebook-text" do
-        f.input :delivery,
-          collection: grouped_by_date(Delivery, past: :first),
-          required: true,
-          prompt: true
-        f.input :product,
-          input_html: {
-            data: {
-              action: "basket-content-products-select#productChange form-hint-url#change",
-              "basket-content-products-select-target" => "productSelect"
-            }
-          },
-          wrapper_html: {
-            data: {
-              controller: "form-hint-url"
-            }
-          },
-          collection: basket_content_products_collection,
-          required: true,
-          prompt: true,
-          hint: link_to(f.object.product&.url_domain.to_s, f.object.product&.url, target: "_blank", data: { "form-hint-url-target" => "link" })
-        li class: "input number pt-0" do
-          label BasketContent.human_attribute_name(:price), for: "basket_content_unit_price", class: "label"
-          div class: "inline-flex items-baseline" do
-            text_node helpers.tag.input(
-              type: "number", min: 0, step: 0.01,
-              id: "basket_content_unit_price",
-              name: "basket_content[unit_price]",
-              value: f.object.unit_price,
-              "data-basket-content-products-select-target" => "unitPriceInput")
-            price_suffix = f.object.product ? "/#{t("units.#{f.object.product.unit}.flex")}" : ""
-            span price_suffix, class: "bc-price-unit-suffix text-sm text-gray-500 dark:text-gray-400 ms-2"
-          end
-        end
-      end
-      unit_suffix = basket_content_unit_suffix(f.object.unit)
-      f.inputs t("basket_content.distribution"), icon: "scale" do
-        f.semantic_errors :basket_quantities
-        li class: "input string" do
-          div class: "flex items-center gap-1 mb-1" do
-            label BasketContent.human_attribute_name(:quantity), for: "basket_content_total_quantity", class: "label font-normal! m-0!"
-            text_node tooltip("basket-content-total-quantity",
-              t("basket_content.total_quantity_tooltip"), icon_class: "size-4 text-gray-600 dark:text-gray-400")
-          end
-          div class: "inline-flex items-center" do
-            div class: "inline-flex items-baseline" do
-              text_node helpers.tag.input(
-                type: "number", min: 0,
-                id: "basket_content_total_quantity",
-                value: f.object.rounded_quantity.positive? ? f.object.rounded_quantity : nil,
-                class: "text-input w-24",
-                "data-basket-content-products-select-target" => "totalQuantityInput",
-                "data-basket-content-distribution-target" => "totalQuantity",
-                "data-action" => "input->basket-content-distribution#totalQuantityChanging blur->basket-content-distribution#totalQuantityChanged")
-              span basket_content_total_unit_suffix(f.object.unit),
-                class: "bc-total-unit-suffix text-sm text-gray-500 dark:text-gray-400 ms-2"
-            end
-            span class: "bc-total-form-price empty:hidden"
-          end
-        end
-        percentages = basket_content_form_percentages(f.object)
-        BasketSize.ordered.paid.each do |basket_size|
-          li class: "input bc-size-row mt-3 flex flex-wrap items-center gap-x-6 gap-y-1",
-              data: {
-                "basket-size-id" => basket_size.id,
-                "baskets-count" => f.object.baskets_count(basket_size)
-              } do
-            label basket_size.name, for: "basket_size_ids_quantities_#{basket_size.id}", class: "label w-full m-0 p-0"
-            div class: "flex w-full md:w-auto items-center justify-around gap-x-6" do
-              div class: "relative w-full md:w-60" do
-                text_node helpers.tag.input(
-                  type: "range", min: 0, max: 100, step: 1,
-                  disabled: f.object.quantity.to_f.zero?,
-                  id: "basket_size_ids_percentages_#{basket_size.id}_range",
-                  value: percentages[basket_size.id] || 0,
-                  class: "w-full",
-                  "data-basket-content-distribution-target" => "range",
-                  "data-action" => "input->basket-content-distribution#percentageChanged")
-                span class: "bc-percentage-label absolute -bottom-3.5 right-0 text-xs text-gray-400 dark:text-gray-500 tabular-nums",
-                  "data-basket-content-distribution-target" => "percentageLabel" do
-                  text_node "#{(percentages[basket_size.id] || 0).round}%"
-                end
-              end
-              div class: "inline-flex items-baseline" do
-                text_node helpers.tag.input(
-                  type: "number", min: 0, step: 1,
-                  id: "basket_size_ids_quantities_#{basket_size.id}",
-                  name: "basket_content[basket_size_ids_quantities][#{basket_size.id}]",
-                  value: f.object.basket_size_ids_quantity(basket_size),
-                  class: "w-22 text-left",
-                  "data-basket-content-distribution-target" => "quantityInput",
-                  "data-action" => "input->basket-content-distribution#quantityChanging blur->basket-content-distribution#quantityChanged")
-                span unit_suffix, class: "bc-unit-suffix text-sm text-gray-500 dark:text-gray-400 ms-2"
-              end
-            end
-            span class: "bc-form-price empty:hidden w-full md:w-auto"
-          end
-        end
-        li class: "input flex mt-4 mb-2 gap-2" do
-          button class: "btn btn-light btn-sm",
-              type: "button",
-              "data-basket-content-distribution-target" => "preset",
-              "data-action" => "basket-content-distribution#applyPreset",
-              "data-preset" => f.object.basket_size_ids_percentages_pro_rated.to_json(stringify: true) do
-            t("basket_content.preset.basket_content_percentages_pro_rated")
-          end
-          button class: "btn btn-light btn-sm",
-              type: "button",
-              "data-basket-content-distribution-target" => "preset",
-              "data-action" => "basket-content-distribution#applyPreset",
-              "data-preset" => f.object.basket_size_ids_percentages_even.to_json(stringify: true) do
-            t("basket_content.preset.basket_content_percentages_even")
-          end
-        end
-        f.input :depots,
-          as: :check_boxes,
-          wrapper_html: { class: "mt-6" },
-          collection: admin_depots,
-          grouped_collection: admin_depots_grouped_collection
-      end
-      render partial: "active_admin/basket_contents/form_prices",
-        locals: { prices_data: {}, baskets_counts: {}, unit: nil }
-      f.actions do
-        f.action :submit
-        cancel_link basket_contents_path(q: { delivery_id_eq: f.object.delivery_id })
-      end
-    end
+  form data: {
+    controller: "basket-content-form",
+    action: [
+      "input->basket-content-form#formChanged",
+      "change->basket-content-form#formChanged"
+    ].join(" "),
+    "basket-content-form-target" => "form"
+  } do |f|
+    f.object.apply_form_params!(params)
+    render partial: "active_admin/basket_contents/form", locals: { f: f, context: self }
   end
 
   permit_params(*%i[delivery_id product_id unit_price],
@@ -401,6 +262,8 @@ ActiveAdmin.register BasketContent do
     include ApplicationHelper
     include UncachedSendData
 
+    helper_method :initial_distribution_data
+
     def index
       super do |format|
         format.xlsx do
@@ -427,6 +290,16 @@ ActiveAdmin.register BasketContent do
 
     def scoped_collection
       super.joins(:delivery, :product)
+    end
+
+    private
+
+    def initial_distribution_data(basket_content)
+      distribution = basket_content.form_distribution_data(params)
+      distribution[:depot_ids] ||= Depot.kept.pluck(:id)
+      distribution[:depots] = Depot.kept.order_by_name
+      distribution[:depot_groups] = helpers.admin_depots_grouped_collection
+      distribution
     end
   end
 

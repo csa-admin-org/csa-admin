@@ -13,6 +13,12 @@ _:
         _de: Alle, außer %{missing}
         _it: Tutto, tranne %{missing}
         _nl: Alle, behalve %{missing}
+      ignored_note:
+        _en: Depots without delivered baskets are automatically ignored.
+        _fr: Les dépôts sans paniers livrés sont automatiquement ignorés.
+        _de: Depots ohne gelieferte Körbe werden automatisch ignoriert.
+        _it: I punti di ritiro senza ceste consegnate vengono automaticamente ignorati.
+        _nl: Depots zonder geleverde manden worden automatisch genegeerd.
       only:
         _en: Only %{selected}
         _fr: Seulement %{selected}

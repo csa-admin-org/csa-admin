@@ -7,7 +7,7 @@
     @apply inline-flex cursor-pointer items-center justify-center gap-2.5 px-3 py-2 no-underline;
     @apply rounded-md text-sm;
     @apply focus:z-10 focus:ring-4 focus:outline-hidden;
-    @apply disabled:cursor-not-allowed disabled:border-gray-200 disabled:bg-gray-200 disabled:text-gray-500! hover:disabled:border-gray-200 hover:disabled:bg-gray-200 hover:disabled:text-gray-500! dark:disabled:border-gray-700 dark:disabled:bg-gray-700 dark:disabled:text-gray-400! hover:dark:disabled:border-gray-700 hover:dark:disabled:bg-gray-700 hover:dark:disabled:text-gray-400!;
+    @apply disabled:cursor-not-allowed disabled:border-gray-200 disabled:bg-gray-200 disabled:text-gray-500 hover:disabled:border-gray-200 hover:disabled:bg-gray-200 hover:disabled:text-gray-500 dark:disabled:border-gray-700 dark:disabled:bg-gray-700 dark:disabled:text-gray-400 hover:dark:disabled:border-gray-700 hover:dark:disabled:bg-gray-700 hover:dark:disabled:text-gray-400;
 
     &.btn-sm {
       @apply gap-1.75 px-2 py-0.5 text-sm font-medium;
@@ -23,11 +23,12 @@
   }
 
   a.btn,
+  button.btn,
   .action-item-button,
   .actions .cancel-link,
   button[type="reset"] {
     @apply font-medium;
-    @apply text-gray-700! hover:text-green-600! dark:text-gray-300! dark:hover:text-green-400!;
+    @apply text-gray-700 hover:text-green-600 dark:text-gray-300 dark:hover:text-green-400;
     @apply border border-gray-200 dark:border-gray-600;
     @apply bg-white hover:bg-gray-50 dark:bg-gray-900 dark:hover:bg-gray-800;
     @apply focus:ring-gray-200 dark:focus:ring-gray-700;
@@ -40,7 +41,7 @@
   .actions input[type="submit"],
   .actions button {
     @apply px-4 font-bold;
-    @apply text-white! hover:text-white! dark:text-white! dark:hover:text-white!;
+    @apply text-white hover:text-white dark:text-white dark:hover:text-white;
     @apply bg-green-500 hover:bg-green-600 dark:bg-green-600 dark:hover:bg-green-700;
     @apply border border-green-500 hover:border-green-600 dark:border-green-600 dark:hover:border-green-700;
     @apply focus:ring-green-300 dark:focus:ring-green-800;

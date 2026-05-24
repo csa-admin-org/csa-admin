@@ -246,14 +246,6 @@ module BasketContentsHelper
     products.map do |product|
       data = {}
 
-      if product.default_price.present?
-        data[:latest_basket_content_unit_price] = product.default_price
-      end
-      if product.default_basket_quantities.present?
-        data[:latest_basket_content_quantities] = product.default_basket_quantities.to_json
-      end
-      data[:unit] = product.unit
-
       if product.url?
         data[:form_hint_url] = {
           text: product.url_domain,

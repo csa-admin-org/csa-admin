@@ -1,0 +1,277 @@
+# frozen_string_literal: true
+
+context.instance_eval do
+  turbo_frame id: "basket-content-form", data: { "basket-content-form-target" => "frame" } do
+    text_node helpers.tag.input(
+      type: "hidden",
+      name: "distribution_source",
+      value: params[:distribution_source].presence || "quantity",
+      data: { "basket-content-form-target" => "distributionSource" })
+    text_node helpers.tag.input(
+      type: "hidden",
+      name: "preset",
+      value: params[:preset],
+      data: { "basket-content-form-target" => "preset" })
+
+    f.inputs t("active_admin.resource.form.details"), icon: "notebook-text" do
+      f.input :delivery,
+        collection: grouped_by_date(Delivery, past: :first),
+        required: true,
+        prompt: true
+      f.input :product,
+        input_html: {
+          data: {
+            "distribution-source" => "product",
+            action: "change->basket-content-form#changed form-hint-url#change"
+          }
+        },
+        wrapper_html: {
+          data: {
+            controller: "form-hint-url"
+          }
+        },
+        collection: basket_content_products_collection,
+        required: true,
+        prompt: true,
+        hint: link_to(f.object.product&.url_domain.to_s, f.object.product&.url, target: "_blank", data: { "form-hint-url-target" => "link" })
+      li class: "input number pt-0" do
+        label BasketContent.human_attribute_name(:price), for: "basket_content_unit_price", class: "label mb-0"
+        div class: "inline-flex items-baseline" do
+          text_node helpers.tag.input(
+            type: "number", min: 0, step: 0.01,
+            id: "basket_content_unit_price",
+            name: "basket_content[unit_price]",
+            value: f.object.unit_price,
+            data: {
+              action: "blur->basket-content-form#blurred mouseleave->basket-content-form#mouseLeft"
+            })
+          price_suffix = f.object.product ? "/#{t("units.#{f.object.product.unit}.flex")}" : ""
+          span price_suffix, class: "bc-price-unit-suffix text-sm text-gray-500 dark:text-gray-400 ms-2"
+        end
+      end
+    end
+
+    f.inputs t("basket_content.distribution"), icon: "scale" do
+      distribution = initial_distribution_data(f.object)
+      unit = distribution[:unit]
+      total_quantity = distribution[:total_quantity]
+      surplus = distribution[:surplus]
+      surplus_unit = distribution[:surplus_unit]
+      total_product_value = distribution[:total_product_value]
+      basket_sizes = distribution[:basket_sizes]
+      presets = distribution[:presets]
+      total_changed = distribution[:total_changed]
+      quantities_changed = distribution[:quantities_changed] || []
+
+      f.semantic_errors :basket_quantities
+
+      li class: "input string" do
+        div class: "mb-1 flex items-center gap-1" do
+          label BasketContent.human_attribute_name(:quantity),
+            for: "basket_content_total_quantity",
+            class: "label m-0! font-normal!"
+          text_node tooltip(
+            "basket-content-total-quantity",
+            t("basket_content.total_quantity_tooltip"),
+            icon_class: "size-4 text-gray-600 dark:text-gray-400")
+        end
+
+        div class: "inline-flex items-center" do
+          div class: "inline-flex items-baseline" do
+            total_input_class = "text-input w-24"
+            total_input_class += " animate-quantity-update" if total_changed
+            text_node helpers.tag.input(
+              type: "number",
+              autocomplete: "off",
+              min: 0,
+              id: "basket_content_total_quantity",
+              name: "total_quantity",
+              value: (total_quantity if total_quantity.to_i > 0),
+              class: total_input_class,
+              data: {
+                "distribution-source" => "total",
+                action: "input->basket-content-form#changed blur->basket-content-form#blurred mouseleave->basket-content-form#mouseLeft"
+              })
+
+            span basket_content_total_unit_suffix(unit), class: "bc-total-unit-suffix ms-2 text-sm text-gray-500 dark:text-gray-400"
+          end
+
+          div class: "ms-6 flex-col items-center justify-center text-center" do
+            if total_product_value.to_f.positive?
+              span cur(total_product_value), class: "text-sm font-medium text-gray-500 dark:text-gray-400"
+            end
+
+            surplus_class = "block rounded-md px-1.5 py-0.5 text-xs text-gray-500 dark:text-gray-400"
+            surplus_class += " animate-surplus-pulse" if total_changed || quantities_changed.any?
+            span class: surplus_class, data: { "distribution-surplus" => true } do
+              text_node t("basket_content.surplus", quantity: display_quantity(surplus.to_i, surplus_unit))
+            end
+          end
+        end
+      end
+
+      percentages_sum = basket_sizes.sum { |bs| bs[:percentage] }
+      approx_prefix = percentages_sum != 100 ? "~" : ""
+      percentage_inputs_disabled = total_quantity.to_i == 0
+
+      basket_sizes.each do |bs|
+        li class: "input bc-size-row mt-3 flex flex-wrap items-center gap-x-6 gap-y-1",
+          data: { "basket-size-id" => bs[:id], "baskets-count" => bs[:baskets_count] } do
+          label bs[:name],
+            for: "basket_size_ids_quantities_#{bs[:id]}",
+            class: "label m-0 w-full p-0"
+
+          div class: "flex w-full items-center justify-around gap-x-6 md:w-auto" do
+            div class: "relative w-full md:w-60" do
+              text_node helpers.tag.input(
+                type: "hidden",
+                name: "basket_size_ids_percentages[#{bs[:id]}]",
+                value: bs[:percentage],
+                disabled: !percentage_inputs_disabled)
+
+              text_node helpers.tag.input(
+                type: "range",
+                autocomplete: "off",
+                min: 0,
+                max: 100,
+                step: 1,
+                value: bs[:percentage],
+                id: "basket_size_ids_percentages_#{bs[:id]}_range",
+                name: "basket_size_ids_percentages[#{bs[:id]}]",
+                class: "w-full",
+                disabled: percentage_inputs_disabled,
+                data: {
+                  "basket-size-id" => bs[:id],
+                  "distribution-source" => "percentage",
+                  "basket-content-form-target" => "range",
+                  action: "input->basket-content-form#sliderInput change->basket-content-form#changed"
+                })
+
+              span class: "bc-percentage-label absolute right-0 -bottom-3.5 text-xs text-gray-400 tabular-nums dark:text-gray-500",
+                data: { "basket-content-form-target" => "percentageLabel" } do
+                text_node "#{approx_prefix}#{bs[:percentage].round}%"
+              end
+            end
+
+            div class: "inline-flex items-baseline" do
+              quantity_input_class = "w-22 text-left"
+              quantity_input_class += " animate-quantity-update" if quantities_changed.include?(bs[:id])
+              text_node helpers.tag.input(
+                type: "number",
+                min: 0,
+                step: 1,
+                autocomplete: "off",
+                id: "basket_size_ids_quantities_#{bs[:id]}",
+                name: "basket_content[basket_size_ids_quantities][#{bs[:id]}]",
+                value: bs[:quantity],
+                class: quantity_input_class,
+                data: {
+                  "basket-size-id" => bs[:id],
+                  "distribution-source" => "quantity",
+                  action: "input->basket-content-form#changed blur->basket-content-form#blurred mouseleave->basket-content-form#mouseLeft"
+                })
+
+              span basket_content_unit_suffix(unit), class: "bc-unit-suffix ms-2 text-sm text-gray-500 dark:text-gray-400"
+            end
+          end
+
+          div class: "mt-2 flex w-full items-center justify-around gap-x-6 text-sm md:mt-0 md:w-auto",
+            data: { "basket-size-price-info" => true } do
+            div class: "w-28 flex-col items-center justify-center text-center" do
+              span class: "flex items-center justify-center gap-x-2 font-medium text-gray-700 dark:text-gray-200" do
+                span "#{bs[:baskets_count]}x"
+                span cur(bs[:product_price]), class: "text-gray-500 dark:text-gray-400"
+              end
+
+              span cur(bs[:total_value]), class: "text-xs text-gray-500 dark:text-gray-400"
+            end
+
+            totals = bs[:totals] || []
+            has_range = basket_sizes.any? { |s| (s[:totals] || []).size > 1 }
+
+            if totals.one?
+              div class: "flex flex-col items-center #{"w-50 text-center" if has_range}" do
+                span cur(totals.first), class: "font-bold text-gray-700 dark:text-gray-200"
+                text_node display_basket_price_diff(bs[:basket_price], totals.first - bs[:basket_price])
+              end
+            elsif totals.any?
+              div class: "flex w-50 items-center justify-center gap-x-2" do
+                totals.each_with_index do |total, i|
+                  span "–", class: "text-lg font-light text-gray-400" if i > 0
+                  div class: "flex flex-col items-center" do
+                    span cur(total), class: "font-bold text-gray-700 dark:text-gray-200"
+                    text_node display_basket_price_diff(bs[:basket_price], total - bs[:basket_price])
+                  end
+                end
+              end
+            end
+          end
+        end
+      end
+
+      li class: "input mt-4 mb-2 flex gap-2" do
+        current_percentages = basket_sizes.each_with_object({}) { |bs, h| h[bs[:id]] = bs[:percentage] }
+
+        pro_rated = presets[:pro_rated] || {}
+        pro_rated_matches = pro_rated.all? { |id, pct| (current_percentages[id].to_i - pct.to_i).abs <= 2 }
+        pro_rated_button_attrs = {
+          type: "button",
+          class: "btn btn-light btn-xs",
+          data: { action: "basket-content-form#presetClicked", preset: "pro_rated" }
+        }
+        pro_rated_button_attrs[:disabled] = true if pro_rated_matches
+        button pro_rated_button_attrs do
+          text_node t("basket_content.preset.basket_content_percentages_pro_rated")
+        end
+
+        even = presets[:even] || {}
+        even_matches = even.all? { |id, pct| (current_percentages[id].to_i - pct.to_i).abs <= 2 }
+        even_button_attrs = {
+          type: "button",
+          class: "btn btn-light btn-xs",
+          data: { action: "basket-content-form#presetClicked", preset: "even" }
+        }
+        even_button_attrs[:disabled] = true if even_matches
+        button even_button_attrs do
+          text_node t("basket_content.preset.basket_content_percentages_even")
+        end
+      end
+
+      f.input :depots,
+        as: :check_boxes,
+        wrapper_html: { class: "mt-6" },
+        collection: admin_depots,
+        grouped_collection: admin_depots_grouped_collection,
+        input_html: {
+          data: {
+            "distribution-source" => "quantity",
+            action: "change->basket-content-form#changed"
+          }
+        },
+        toggle_html: {
+          data: {
+            "distribution-source" => "quantity",
+            action: "change->basket-content-form#changed"
+          }
+        },
+        group_toggle_html: {
+          data: {
+            "distribution-source" => "quantity",
+            action: "change->basket-content-form#changed"
+          }
+        },
+        hint: t("basket_content.depots.ignored_note")
+    end
+  end
+  f.actions do
+    f.action :submit, button_html: {
+      data: {
+        "basket-content-form-target" => "submit"
+      },
+      class: "disabled:text-white disabled:bg-green-500 disabled:dark:bg-green-600 disabled:border-green-500 disabled:dark:border-green-600"
+    }
+    li class: "cancel" do
+      link_to t("active_admin.cancel"), basket_contents_path(q: { delivery_id_eq: f.object.delivery_id })
+    end
+  end
+end

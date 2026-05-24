@@ -123,7 +123,7 @@ class BasketContentTest < ActiveSupport::TestCase
       unit: "kg")
 
     assert_equal 1.25, bc.exact_quantity
-    assert_equal 2, bc.rounded_quantity
+    assert_equal 2, bc.ceiled_total_quantity
     assert_equal 750, bc.quantity_surplus
     assert_equal "g", bc.quantity_surplus_unit
   end
@@ -139,7 +139,7 @@ class BasketContentTest < ActiveSupport::TestCase
       unit: "pc")
 
     assert_equal 127, bc.exact_quantity
-    assert_equal 130, bc.rounded_quantity
+    assert_equal 130, bc.ceiled_total_quantity
     assert_equal 3, bc.quantity_surplus
     assert_equal "pc", bc.quantity_surplus_unit
   end
@@ -153,7 +153,7 @@ class BasketContentTest < ActiveSupport::TestCase
       },
       unit: "kg")
 
-    assert_equal 1, bc.rounded_quantity
+    assert_equal 1, bc.ceiled_total_quantity
     assert_equal 0, bc.quantity_surplus
   end
 
@@ -164,7 +164,7 @@ class BasketContentTest < ActiveSupport::TestCase
       unit: "kg")
 
     assert_equal 7, bc.exact_quantity
-    assert_equal 7, bc.rounded_quantity
+    assert_equal 7, bc.ceiled_total_quantity
     assert_equal 0, bc.quantity_surplus
   end
 
@@ -205,7 +205,7 @@ class BasketContentTest < ActiveSupport::TestCase
       },
       unit: "pc")
 
-    assert_equal fuller.rounded_quantity, lighter.rounded_quantity
+    assert_equal fuller.ceiled_total_quantity, lighter.ceiled_total_quantity
     assert_operator lighter.quantity_surplus, :>, fuller.quantity_surplus
   end
 

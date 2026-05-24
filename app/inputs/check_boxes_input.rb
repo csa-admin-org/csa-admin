@@ -25,23 +25,21 @@ class CheckBoxesInput < Formtastic::Inputs::CheckBoxesInput
 
   def extra_html_options(choice)
     choice_html_options = custom_choice_html_options(choice)
-    choice_action = choice_html_options.dig(:data, :action)
-    data = (input_html_options[:data] || {}).merge(action: choice_action)
+    data = (input_html_options[:data] || {}).merge(choice_html_options[:data] || {})
+    actions = [ data.delete(:action), data.delete("action") ].compact
+
     if toggle_all?
-      data = data.merge(
-        check_boxes_toggle_all_target: "input",
-        action: "#{choice_action} check-boxes-toggle-all#updateToggle"
-      )
+      data = data.merge(check_boxes_toggle_all_target: "input")
+      actions << "check-boxes-toggle-all#updateToggle"
     end
     if grouped_collection.present?
-      data = data.merge(
-        check_boxes_group_toggle_target: "input",
-        action: "#{data[:action]} check-boxes-group-toggle#updateToggle"
-      )
+      data = data.merge(check_boxes_group_toggle_target: "input")
+      actions << "check-boxes-group-toggle#updateToggle"
     end
+
     input_html_options
       .merge(choice_html_options)
-      .merge(data: data.compact)
+      .merge(data: data.merge(action: actions.uniq.join(" ")).compact)
   end
 
   def legend_html
@@ -97,11 +95,9 @@ class CheckBoxesInput < Formtastic::Inputs::CheckBoxesInput
   end
 
   def group_toggle_checkbox
-    template.tag(:input, type: "checkbox", class: "size-4",
-      data: {
-        check_boxes_group_toggle_target: "toggle",
-        action: "check-boxes-group-toggle#toggleAll"
-      })
+    html_options = toggle_html_options(:group_toggle_html, "check-boxes-group-toggle#toggleAll")
+    html_options[:data] = html_options[:data].merge(check_boxes_group_toggle_target: "toggle")
+    template.tag(:input, html_options)
   end
 
   def toggle_all?
@@ -124,12 +120,19 @@ class CheckBoxesInput < Formtastic::Inputs::CheckBoxesInput
   end
 
   def toggle_checkbox
-    template.tag(:input, type: "checkbox", class: "size-4",
-      data: {
-        check_boxes_toggle_all_target: "toggle",
-        form_checkbox_toggler_target: "input",
-        action: "check-boxes-toggle-all#toggleAll"
-      })
+    html_options = toggle_html_options(:toggle_html, "check-boxes-toggle-all#toggleAll")
+    html_options[:data] = html_options[:data].merge(
+      check_boxes_toggle_all_target: "toggle",
+      form_checkbox_toggler_target: "input"
+    )
+    template.tag(:input, html_options)
+  end
+
+  def toggle_html_options(option_name, default_action)
+    html_options = { type: "checkbox", class: "size-4" }.merge((options[option_name] || {}).deep_dup)
+    data = (html_options[:data] || {}).dup
+    data[:action] = [ default_action, data.delete(:action), data.delete("action") ].compact.uniq.join(" ")
+    html_options.merge(data: data)
   end
 
   def placeholder_content

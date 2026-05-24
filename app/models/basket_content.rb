@@ -3,6 +3,8 @@
 class BasketContent < ApplicationRecord
   UNITS = %w[kg pc]
 
+  include Form
+
   belongs_to :delivery
   belongs_to :product, class_name: "BasketContent::Product"
   has_and_belongs_to_many :depots
@@ -146,7 +148,7 @@ class BasketContent < ApplicationRecord
     end
   end
 
-  def rounded_quantity
+  def ceiled_total_quantity
     case unit
     when "kg"
       grams = exact_quantity_in_grams
@@ -169,9 +171,9 @@ class BasketContent < ApplicationRecord
       grams = exact_quantity_in_grams
       return 0 unless grams.positive?
 
-      [ rounded_quantity * 1000 - grams, 0 ].max
+      [ ceiled_total_quantity * 1000 - grams, 0 ].max
     when "pc"
-      surplus = rounded_quantity - exact_quantity
+      surplus = ceiled_total_quantity - exact_quantity
       [ surplus.round, 0 ].max
     else
       0
@@ -211,11 +213,12 @@ class BasketContent < ApplicationRecord
   end
 
   def basket_size_ids_quantities=(quantities)
+    effective_unit = product&.unit || unit
     self.basket_quantities = (quantities || {}).each_with_object({}) do |(id, val), h|
       quantity = numeric_quantity(val)
       next if quantity.nil? || quantity.zero?
 
-      h[id.to_s] = case unit
+      h[id.to_s] = case effective_unit
       when "kg" then quantity / 1000.0
       when "pc" then quantity.to_i
       end
