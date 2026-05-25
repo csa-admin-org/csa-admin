@@ -19,7 +19,9 @@ class CheckBoxesInput < Formtastic::Inputs::CheckBoxesInput
 
   def choices_wrapping_html_options
     opts = { class: "choices" }
-    opts[:data] = { controller: "check-boxes-toggle-all" } if toggle_all?
+    if toggle_all? && render_master_toggle?
+      opts[:data] = { controller: "check-boxes-toggle" }
+    end
     opts
   end
 
@@ -28,13 +30,9 @@ class CheckBoxesInput < Formtastic::Inputs::CheckBoxesInput
     data = (input_html_options[:data] || {}).merge(choice_html_options[:data] || {})
     actions = [ data.delete(:action), data.delete("action") ].compact
 
-    if toggle_all?
-      data = data.merge(check_boxes_toggle_all_target: "input")
-      actions << "check-boxes-toggle-all#updateToggle"
-    end
-    if grouped_collection.present?
-      data = data.merge(check_boxes_group_toggle_target: "input")
-      actions << "check-boxes-group-toggle#updateToggle"
+    if toggle_all? || grouped_collection.present?
+      data[:check_boxes_toggle_target] = "input"
+      actions << "check-boxes-toggle#updateToggle"
     end
 
     input_html_options
@@ -82,8 +80,7 @@ class CheckBoxesInput < Formtastic::Inputs::CheckBoxesInput
         }.join("\n").html_safe,
         class: "choices-group"
       ),
-      class: "w-full not-last:mb-4",
-      data: { controller: "check-boxes-group-toggle" }
+      class: "w-full not-last:mb-4 choices-group-container"
     )
   end
 
@@ -95,8 +92,8 @@ class CheckBoxesInput < Formtastic::Inputs::CheckBoxesInput
   end
 
   def group_toggle_checkbox
-    html_options = toggle_html_options(:group_toggle_html, "check-boxes-group-toggle#toggleAll")
-    html_options[:data] = html_options[:data].merge(check_boxes_group_toggle_target: "toggle")
+    html_options = toggle_html_options(:group_toggle_html, "check-boxes-toggle#toggleGroup")
+    html_options[:data] = html_options[:data].merge(check_boxes_toggle_target: "groupToggle")
     template.tag(:input, html_options)
   end
 
@@ -114,15 +111,27 @@ class CheckBoxesInput < Formtastic::Inputs::CheckBoxesInput
 
   def legend_content
     template.content_tag(:label) do
-      template.concat(toggle_checkbox) if toggle_all?
+      template.concat(toggle_checkbox) if toggle_all? && render_master_toggle?
       template.concat(template.content_tag(:span, label_text))
     end
   end
 
+  def render_master_toggle?
+    effective_choice_count >= 2
+  end
+
+  def effective_choice_count
+    if grouped_collection.present?
+      grouped_collection.sum { |_, ids| ids.size }
+    else
+      collection.size
+    end
+  end
+
   def toggle_checkbox
-    html_options = toggle_html_options(:toggle_html, "check-boxes-toggle-all#toggleAll")
+    html_options = toggle_html_options(:toggle_html, "check-boxes-toggle#toggleAll")
     html_options[:data] = html_options[:data].merge(
-      check_boxes_toggle_all_target: "toggle",
+      check_boxes_toggle_target: "toggle",
       form_checkbox_toggler_target: "input"
     )
     template.tag(:input, html_options)
