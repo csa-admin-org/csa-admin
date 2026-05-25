@@ -13,6 +13,9 @@ export default class extends Controller {
   updateToggle() {
     if (this.inputTargets.length >= 2 && !this.toggleTarget.closest("form.filter_form")) {
       show(this.toggleTarget)
+      const allDisabled = this.inputTargets.length > 0 && this.inputTargets.every((i) => i.disabled)
+      this.toggleTarget.disabled = allDisabled
+
       const checkedCount = this.inputTargets.filter((i) => i.checked).length
       const totalCount = this.inputTargets.length
 
