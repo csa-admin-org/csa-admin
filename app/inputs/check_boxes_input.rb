@@ -88,7 +88,7 @@ class CheckBoxesInput < Formtastic::Inputs::CheckBoxesInput
   end
 
   def group_header_html(group_label, group_items)
-    template.content_tag(:div, class: "mb-1 flex items-center gap-2 text-sm font-semibold text-gray-600 dark:text-gray-400") do
+    template.content_tag(:label, class: "mb-1 flex items-center gap-2 text-sm font-semibold") do
       template.concat(group_toggle_checkbox)
       template.concat(template.content_tag(:span, group_label))
     end
