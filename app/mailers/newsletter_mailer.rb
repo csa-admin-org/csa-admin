@@ -55,15 +55,21 @@ class NewsletterMailer < ApplicationMailer
 
   def prepared_data
     member = params[:member]
+    membership = params[:membership]
 
-    # In "next delivery" newsletter context, `basket` represents the member's
-    # basket for the organization's imminent upcoming delivery (Delivery.next).
-    # It is nil when the member has no deliverable basket for that delivery
-    # (e.g. absence). This makes `basket` + the next_delivery templates
-    # honest: they describe the close/current delivery being announced.
-    if (next_delivery = Delivery.next)
-      basket = params[:basket] || member.baskets.deliverable.find_by(delivery: next_delivery)
-      membership = params[:membership] || member.memberships.including_date(next_delivery.date).first
+    # Scope to the imminent delivery window (next delivery date through end
+    # of that week) so we don't accidentally pull baskets far in the future.
+    # Within that window, find the member's first basket regardless of state,
+    # then expose it only when deliverable (active + filled).
+    if (next_date = Delivery.coming.pick(:date))
+      date_range = next_date..next_date.end_of_week
+      next_coming_basket = params[:basket] || member.baskets.between(date_range).first
+      if next_coming_basket
+        basket = next_coming_basket if next_coming_basket.deliverable?
+        membership ||= next_coming_basket.membership
+      else
+        membership ||= member.memberships.overlaps(date_range).first
+      end
     end
 
     today = I18n.with_locale(member.language) do

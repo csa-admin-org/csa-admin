@@ -106,6 +106,10 @@ class Basket < ApplicationRecord
     (quantity + baskets_basket_complements.sum(:quantity)).zero?
   end
 
+  def deliverable?
+    (normal? || trial? || forced?) && !empty?
+  end
+
   def provisionally_absent?
     absent? && absence_id.nil?
   end

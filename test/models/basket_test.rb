@@ -555,4 +555,57 @@ class BasketTest < ActiveSupport::TestCase
 
     assert_equal original_quantity, basket.quantity
   end
+
+  test "deliverable? returns true for normal basket with quantity > 0" do
+    basket = baskets(:john_1)
+    assert basket.normal?
+    assert basket.quantity > 0
+    assert basket.deliverable?
+  end
+
+  test "deliverable? returns true for trial basket with quantity > 0" do
+    basket = baskets(:bob_1)
+    assert basket.trial?
+    assert basket.quantity > 0
+    assert basket.deliverable?
+  end
+
+  test "deliverable? returns true for forced basket with quantity > 0" do
+    travel_to "2024-01-01"
+    basket = baskets(:john_1)
+    basket.update_column(:state, "forced")
+    assert basket.forced?
+    assert basket.quantity > 0
+    assert basket.deliverable?
+  end
+
+  test "deliverable? returns false for absent basket" do
+    basket = baskets(:jane_5)
+    assert basket.absent?
+    assert_not basket.deliverable?
+  end
+
+  test "deliverable? returns false for normal basket with quantity 0 and no complements" do
+    travel_to "2024-01-01"
+    basket = baskets(:john_1)
+    basket.update_column(:quantity, 0)
+    assert basket.normal?
+    assert_empty basket.baskets_basket_complements
+    assert_not basket.deliverable?
+  end
+
+  test "deliverable? returns true for normal basket with quantity 0 but complement quantity > 0" do
+    travel_to "2024-01-01"
+    basket = baskets(:jane_3)
+    basket.update_column(:quantity, 0)
+    assert basket.normal?
+    assert basket.baskets_basket_complements.sum(:quantity) > 0
+    assert basket.deliverable?
+  end
+
+  test ".deliverable scope matches deliverable? predicate" do
+    deliverable_ids = Basket.deliverable.pluck(:id).sort
+    expected_ids = Basket.all.select(&:deliverable?).map(&:id).sort
+    assert_equal expected_ids, deliverable_ids
+  end
 end

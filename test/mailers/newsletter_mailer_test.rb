@@ -55,4 +55,56 @@ class NewsletterMailerTest < ActionMailer::TestCase
     assert_equal "A -stylish- QR code.png", attachment.filename
     assert_equal "image/png", attachment.content_type
   end
+
+  test "prepared_data includes basket for member with deliverable basket" do
+    travel_to "2024-04-01" do
+      mail = NewsletterMailer.with(
+        template_contents: { "en" => "basket:{{ basket.description }}" },
+        subject: "Test",
+        member: members(:john),
+        to: "john@doe.com"
+      ).newsletter_email
+
+      assert_includes mail.body.to_s, "basket:Medium basket"
+    end
+  end
+
+  test "prepared_data includes basket for member on different delivery cycle" do
+    travel_to "2024-04-01" do
+      mail = NewsletterMailer.with(
+        template_contents: { "en" => "basket:{{ basket.description }}" },
+        subject: "Test",
+        member: members(:jane),
+        to: "jane@doe.com"
+      ).newsletter_email
+
+      assert_includes mail.body.to_s, "basket:Large basket"
+    end
+  end
+
+  test "prepared_data excludes basket when member is absent" do
+    travel_to "2024-04-29" do
+      mail = NewsletterMailer.with(
+        template_contents: { "en" => "basket:{{ basket.description }},membership:{{ membership.start_date }}" },
+        subject: "Test",
+        member: members(:jane),
+        to: "jane@doe.com"
+      ).newsletter_email
+
+      assert_includes mail.body.to_s, "basket:,membership:1 January 2024"
+    end
+  end
+
+  test "prepared_data provides membership when no basket in window" do
+    travel_to "2024-04-04" do
+      mail = NewsletterMailer.with(
+        template_contents: { "en" => "basket:{{ basket.description }},membership:{{ membership.start_date }}" },
+        subject: "Test",
+        member: members(:john),
+        to: "john@doe.com"
+      ).newsletter_email
+
+      assert_includes mail.body.to_s, "basket:,membership:1 January 2024"
+    end
+  end
 end
