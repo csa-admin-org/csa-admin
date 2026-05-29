@@ -922,13 +922,13 @@ _:
       _en: State
       _fr: Statut
       _de: Status
-      _it: Status
+      _it: Stato
       _nl: Status
     status:
       _en: Status
       _fr: Statut
       _de: Status
-      _it: Status
+      _it: Stato
       _nl: Status
     stock:
       _en: Stock
