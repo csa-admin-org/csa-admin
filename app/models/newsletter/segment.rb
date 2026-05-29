@@ -10,11 +10,14 @@ class Newsletter
 
     translated_attributes :title
 
-    validates :membership_scope, inclusion: { in: MEMBERSHIP_SCOPES }
+    validates :membership_scope,
+      inclusion: { in: MEMBERSHIP_SCOPES, allow_blank: true }
     validates :renewal_state,
       inclusion: { in: Membership::Renewal::STATES, allow_blank: true }
     validates :coming_deliveries_in_days,
       numericality: { only_integer: true, greater_than_or_equal_to: 0, allow_blank: true }
+
+    validate :member_ids_must_be_exclusive
 
     def basket_complement_ids=(ids)
       super ids.map(&:presence).compact.map(&:to_i)
@@ -32,35 +35,42 @@ class Newsletter
       super ids.map(&:presence).compact.map(&:to_i)
     end
 
-    def membership_ids=(ids)
+    def member_ids=(ids)
       super ids.to_s.split(",").map(&:strip).map(&:presence).compact.map(&:to_i).uniq.sort
     end
 
-    def membership_ids
+    def member_ids
       super.join(", ")
     end
 
     # Rails form helpers use `_before_type_cast` to render input values after
     # a validation error. For JSON array columns, this returns the raw Array
     # which gets joined with spaces in the HTML value attribute, losing commas.
-    def membership_ids_before_type_cast
-      membership_ids
+    def member_ids_before_type_cast
+      member_ids
     end
 
     def name; title end
 
     def members
-      members = Member.joins(membership_join_name)
-      members = by_basket_size(members)
-      members = by_basket_complement(members)
-      members = by_depot(members)
-      members = by_delivery_cycle(members)
-      members = by_renewal_state(members)
-      members = by_first_membership(members)
-      members = by_billing_year_division(members)
-      members = by_coming_deliveries_in_days(members)
-      members = by_membership_ids(members)
+      if self[:member_ids].any?
+        members = Member.where(id: self[:member_ids])
+      elsif membership_scope.present?
+        members = Member.joins(membership_join_name)
+        members = by_basket_size(members)
+        members = by_basket_complement(members)
+        members = by_depot(members)
+        members = by_delivery_cycle(members)
+        members = by_renewal_state(members)
+        members = by_first_membership(members)
+        members = by_billing_year_division(members)
+        members = by_coming_deliveries_in_days(members)
+      else
+        members = Member.all
+      end
+
       members = by_city(members)
+      members = by_member_state(members)
       members.uniq
     end
 
@@ -123,16 +133,16 @@ class Newsletter
         .where(deliveries: { date: ..limit })
     end
 
-    def by_membership_ids(members)
-      return members unless self[:membership_ids].any?
-
-      members.where(memberships: { id: self[:membership_ids] })
-    end
-
     def by_city(members)
       return members unless city?
 
       members.where(city: city)
+    end
+
+    def by_member_state(members)
+      return members unless member_state.present?
+
+      members.where(state: member_state)
     end
 
     def membership_join_name
@@ -140,6 +150,28 @@ class Newsletter
       when "current" then :current_membership
       when "future" then :future_membership
       else :current_or_future_membership
+      end
+    end
+
+    private
+
+    def member_ids_must_be_exclusive
+      return unless self[:member_ids].any?
+
+      has_blocking_criteria =
+        member_state.present?
+        || city.present?
+        || basket_size_ids.any?
+        || basket_complement_ids.any?
+        || depot_ids.any?
+        || delivery_cycle_ids.any?
+        || renewal_state.present?
+        || !first_membership.nil?
+        || coming_deliveries_in_days.present?
+        || billing_year_division.present?
+
+      if has_blocking_criteria
+        errors.add(:member_ids, :exclusive)
       end
     end
   end

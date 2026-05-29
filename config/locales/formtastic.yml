@@ -1461,11 +1461,11 @@ _:
           _it: Permette di differenziare i soci attivi in base all'intervallo di pagamento del loro abbonamento.
           _nl: Onderscheidt actieve leden op basis van de periode waarin zij hun rekeningen ontvangen.
         city:
-          _en: Filters active members by their city (exact match).
-          _fr: Permet de filtrer les membres actifs par leur ville (correspondance exacte).
-          _de: Filtert aktive Mitglieder nach ihrer Stadt (exakte Übereinstimmung).
-          _it: Filtra i soci attivi per la loro città (corrispondenza esatta).
-          _nl: Filtert actieve leden op hun stad (exacte overeenkomst).
+          _en: Filters members by their city (exact match).
+          _fr: Permet de filtrer les membres par leur ville (correspondance exacte).
+          _de: Filtert Mitglieder nach ihrer Stadt (exakte Übereinstimmung).
+          _it: Filtra i soci per la loro città (corrispondenza esatta).
+          _nl: Filtert leden op hun stad (exacte overeenkomst).
         coming_deliveries_in_days/bag:
           _en: Differentiates active members based on the date of their next bag delivery.
           _fr: Permet de différencier les membres actifs par la date de leur prochaine livraison de sac.
@@ -1520,12 +1520,24 @@ _:
           _de: Unterscheidet neue Mitglieder von alten, die bereits mehrere Abonnements haben.
           _it: Permette di distinguere tra nuovi soci attivi e vecchi soci che erano già abbonati negli anni precedenti.
           _nl: Onderscheidt nieuwe actieve leden van oude die al geabonneerd waren in voorgaande jaren.
-        membership_ids:
-          _en: List of membership IDs separated by a comma. Useful for precise targeting of members, when the other criteria are not sufficient.
-          _fr: Liste d'IDs d'abonnements séparés par une virgule. Utile pour une ciblage précis des membres, lorsque les autres critères ne sont pas suffisants.
-          _de: Liste von Abonnement-IDs, getrennt durch ein Komma. Nützlich für eine präzise Zielgruppenauswahl von Mitgliedern, wenn die anderen Kriterien nicht ausreichen.
-          _it: Lista di ID di abbonamento separati da una virgola. Utile per una cibazione precisa dei soci, quando gli altri criteri non sono sufficienti.
-          _nl: Lijst van lidmaatschap-ID's gescheiden door een komma. Handig voor nauwkeurig targeten van leden, wanneer de andere criteria niet voldoende zijn.
+        member_ids:
+          _en: List of member IDs separated by a comma. Targets exactly these members, regardless of their status.
+          _fr: Liste d'IDs de membres séparés par une virgule. Cible précisément ces membres, quel que soit leur état.
+          _de: Liste von Mitglieder-IDs, getrennt durch ein Komma. Spricht genau diese Mitglieder an, unabhängig von ihrem Status.
+          _it: Lista di ID di soci separati da una virgola. Seleziona esattamente questi soci, indipendentemente dal loro stato.
+          _nl: Lijst van leden-ID's gescheiden door een komma. Richt zich precies op deze leden, ongeacht hun status.
+        member_ids_exclusive:
+          _en: When this field is filled, all other criteria are ignored.
+          _fr: Lorsque ce champ est rempli, tous les autres critères sont ignorés.
+          _de: Wenn dieses Feld ausgefüllt ist, werden alle anderen Kriterien ignoriert.
+          _it: Quando questo campo è compilato, tutti gli altri criteri vengono ignorati.
+          _nl: Wanneer dit veld is ingevuld, worden alle andere criteria genegeerd.
+        member_state:
+          _en: Filters members by their current state (active, inactive, support, waiting...).
+          _fr: Filtre les membres selon leur état actuel (actif, inactif, soutien, en attente...).
+          _de: Filtert Mitglieder nach ihrem aktuellen Status (aktiv, inaktiv, Förderer, Warteliste...).
+          _it: Filtra i soci in base al loro stato attuale (attivo, inattivo, sostegno, in lista d'attesa...).
+          _nl: Filtert leden op hun huidige status (actief, inactief, steun, wachtlijst...).
         membership_scope:
           _en: Determines which membership to consider when filtering members.
           _fr: Détermine quel abonnement considérer lors du filtrage des membres.

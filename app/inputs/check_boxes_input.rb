@@ -20,7 +20,10 @@ class CheckBoxesInput < Formtastic::Inputs::CheckBoxesInput
   def choices_wrapping_html_options
     opts = { class: "choices" }
     if toggle_all? && render_master_toggle?
-      opts[:data] = { controller: "check-boxes-toggle" }
+      opts[:data] = {
+        controller: "check-boxes-toggle",
+        action: "form-disabler:state-changed@window->check-boxes-toggle#updateToggle"
+      }
     end
     opts
   end

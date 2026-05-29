@@ -7,7 +7,16 @@ export default class extends Controller {
   }
 
   toggleInputs(event) {
-    if (event.target.checked) {
+    const target = event.target
+    let shouldEnable = false
+
+    if (target.type === "checkbox") {
+      shouldEnable = target.checked
+    } else if (target.tagName === "SELECT") {
+      shouldEnable = target.value !== ""
+    }
+
+    if (shouldEnable) {
       this.enableInputs()
     } else {
       this.disableInputs()
@@ -20,6 +29,7 @@ export default class extends Controller {
     for (const input of this.inputTargets) {
       if (input.value == "") input.value = input.dataset.defaultValue
     }
+    this.dispatch("state-changed")
   }
 
   disableInputs() {
@@ -36,5 +46,6 @@ export default class extends Controller {
           break
       }
     }
+    this.dispatch("state-changed")
   }
 }

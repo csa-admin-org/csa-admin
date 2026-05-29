@@ -69,6 +69,12 @@ module AdminHelper
     end
   end
 
+  def member_state_collection(exclude: [])
+    (Member::STATES - exclude).map do |state|
+      [ I18n.t("states.member.#{state}"), state ]
+    end
+  end
+
   def member_cities_collection
     Member.pluck(:city).uniq.map(&:presence).compact.sort
   end

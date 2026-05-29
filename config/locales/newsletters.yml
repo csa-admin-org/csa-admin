@@ -39,12 +39,24 @@ _:
         _de: Kriterien
         _it: Criteri
         _nl: Criteria
+      criterias_explanation_html:
+        _en: Use the Members section to target any members (including inactive ones). Use the Memberships section to target members who have a membership. You can combine criteria from both sections, but some exclusive combinations may return no results (for example when pairing certain member states with restrictive membership filters).
+        _fr: Utilisez la section Membres pour cibler n'importe quels membres (y compris les inactifs). Utilisez la section Abonnements pour cibler les membres qui ont un abonnement. Vous pouvez combiner des critères des deux sections, mais certaines combinaisons exclusives peuvent ne renvoyer aucun résultat (par exemple en associant certains états de membre à des filtres d'abonnement restrictifs).
+        _de: Verwenden Sie den Bereich Mitglieder, um beliebige Mitglieder anzusprechen (auch inaktive). Verwenden Sie den Bereich Abonnements, um Mitglieder mit einem Abonnement anzusprechen. Sie können Kriterien aus beiden Bereichen kombinieren, aber manche exklusiven Kombinationen können zu keinem Ergebnis führen (zum Beispiel bei der Kombination bestimmter Mitglieder-Status mit restriktiven Abonnementfiltern).
+        _it: Usa la sezione Soci per selezionare qualsiasi socio (inclusi quelli inattivi). Usa la sezione Abbonamenti per selezionare soci che hanno un abbonamento. Puoi combinare criteri da entrambe le sezioni, ma alcune combinazioni esclusive potrebbero non restituire risultati (ad esempio associando determinati stati del socio a filtri di abbonamento restrittivi).
+        _nl: Gebruik het gedeelte Leden om alle leden te targeten (inclusief inactieve). Gebruik het gedeelte Lidmaatschappen om leden met een lidmaatschap te targeten. Je kunt criteria uit beide gedeelten combineren, maar sommige exclusieve combinaties kunnen tot geen resultaten leiden (bijvoorbeeld bij het combineren van bepaalde ledenstatussen met restrictieve abonnementsfilters).
       info_html:
-        _en: Audience segments allow you to target your newsletters based on specific criteria. These criteria apply <b>only to active members</b> and to their <b>membership</b> based on the chosen scope (current, future, or both).
-        _fr: Les segments d'audience vous permettent de cibler vos newsletters en fonction de critères précis. Ces critères s'appliquent <b>uniquement aux membres actifs</b> et à leur <b>abonnement</b> en fonction de la portée choisie (actuel, futur, ou les deux).
-        _de: Mit Audienzsegmenten lassen sich Newsletter anhand bestimmter Kriterien gezielt versenden. Diese Kriterien gelten <b>nur für aktive Mitglieder</b> und für ihr <b>Abonnement</b> je nach gewähltem Umfang (aktuell, zukünftig oder beides).
-        _it: I segmenti di pubblico ti permettono di indirizzare le tue newsletter in base a criteri precisi. Questi criteri si applicano <b>solo ai soci attivi</b> e al loro <b>abbonamento</b> in base all'ambito scelto (attuale, futuro o entrambi).
-        _nl: Met segmenten kunnen nieuwsbrieven worden gericht op basis van specifieke criteria. Deze criteria gelden <b>alleen voor actieve leden</b> en voor hun <b>lidmaatschap</b> op basis van het gekozen bereik (huidig, toekomstig of beide).
+        _en: Audience segments let you define reusable targeting rules for your newsletters. Use them when the standard audience options are not precise enough — for example to target members in a specific city, with a particular billing interval, or a custom list of members.
+        _fr: Les segments d'audience vous permettent de définir des règles de ciblage réutilisables pour vos newsletters. Utilisez-les lorsque les options d'audience standards ne sont pas assez précises, par exemple pour cibler des membres d'une ville spécifique, avec un intervalle de facturation particulier, ou une liste personnalisée de membres.
+        _de: Mit Audienzsegmenten lassen sich wiederverwendbare Zielgruppenregeln für Ihre Newsletter definieren. Nutzen Sie sie, wenn die Standard-Audience-Optionen nicht präzise genug sind — zum Beispiel um Mitglieder einer bestimmten Stadt, mit einem bestimmten Abrechnungsintervall oder einer benutzerdefinierten Mitgliederliste anzusprechen.
+        _it: I segmenti di pubblico ti permettono di definire regole di targeting riutilizzabili per le tue newsletter. Usali quando le opzioni di audience standard non sono abbastanza precise — ad esempio per raggiungere soci di una città specifica, con un particolare intervallo di fatturazione o un elenco personalizzato di soci.
+        _nl: Met segmenten kun je herbruikbare targetingregels voor je nieuwsbrieven definiëren. Gebruik ze wanneer de standaard audience-opties niet precies genoeg zijn — bijvoorbeeld om leden uit een specifieke stad, met een bepaald factureringsinterval of een aangepaste ledenlijst te bereiken.
+      members_tab:
+        _en: Members
+        _fr: Membres
+        _de: Mitglieder
+        _it: Soci
+        _nl: Leden
       membership_scope:
         current:
           _en: Current only
@@ -64,6 +76,12 @@ _:
           _de: Nur zukünftig
           _it: Solo futuro
           _nl: Alleen toekomstig
+      memberships_tab:
+        _en: Memberships
+        _fr: Abonnements
+        _de: Abonnements
+        _it: Abbonamenti
+        _nl: Lidmaatschappen
       title:
         _en: Segment
         _fr: Segment

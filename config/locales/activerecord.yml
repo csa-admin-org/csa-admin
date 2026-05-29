@@ -2867,12 +2867,18 @@ _:
           _de: Erstes Abonnement dieses Jahr
           _it: Primo abbonamento quest'anno
           _nl: Eerste lidmaatschap dit jaar
-        membership_ids:
-          _en: Membership IDs
-          _fr: IDs d'abonnement
-          _de: Abonnements-IDs
-          _it: ID abbonamento
-          _nl: Lidmaatschap IDs
+        member_ids:
+          _en: Member IDs
+          _fr: IDs de membre
+          _de: Mitglied-IDs
+          _it: ID del membro
+          _nl: Lid-IDs
+        member_state:
+          _en: State
+          _fr: Statut
+          _de: Status
+          _it: Stato
+          _nl: Status
         membership_scope:
           _en: Membership scope
           _fr: Portée de l'abonnement
@@ -4000,6 +4006,13 @@ _:
           _it: Oggetto
           _nl: Onderwerp
     errors:
+      messages:
+        exclusive:
+          _en: cannot be used together with other criteria
+          _fr: ne peut pas être utilisé avec d'autres critères
+          _de: kann nicht zusammen mit anderen Kriterien verwendet werden
+          _it: non può essere utilizzato insieme ad altri criteri
+          _nl: kan niet worden gecombineerd met andere criteria
       models:
         membership:
           attributes:
