@@ -12,6 +12,9 @@ ActiveAdmin.register Newsletter::Segment do
     links
   end
 
+  filter :title_cont,
+   label: -> { Newsletter::Segment.human_attribute_name(:title) }
+
   sidebar :info, only: :index do
     side_panel t(".info") do
       para t("newsletters.segment.info_html")
@@ -20,7 +23,12 @@ ActiveAdmin.register Newsletter::Segment do
 
   index download_links: false do
     column :title, sortable: true
-    column Member.model_name.human(count: 2), ->(s) { s.members.count }, sortable: false, class: "text-right"
+    column Member.model_name.human(count: 2), ->(s) {
+      s.members.count
+    }, class: "text-right tabular-nums"
+    column Newsletter.model_name.human(count: 2), ->(s) {
+      link_to s.newsletters.count, newsletters_path(q: { segment_eq: s.id })
+    }, class: "text-right tabular-nums"
     actions
   end
 
@@ -176,6 +184,6 @@ ActiveAdmin.register Newsletter::Segment do
       .join(" ")
   end
 
-  config.filters = false
   config.sort_order = "title_asc"
+  config.per_page = 20
 end

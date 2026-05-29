@@ -19,6 +19,10 @@ class Newsletter
 
     validate :member_ids_must_be_exclusive
 
+    def newsletters
+      Newsletter.segment_eq(id)
+    end
+
     def basket_complement_ids=(ids)
       super ids.map(&:presence).compact.map(&:to_i)
     end

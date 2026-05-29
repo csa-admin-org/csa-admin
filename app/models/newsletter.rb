@@ -26,6 +26,11 @@ class Newsletter < ApplicationRecord
   scope :scheduled, -> { where(sent_at: nil).where.not(scheduled_at: nil) }
   scope :schedulable, -> { scheduled.where(scheduled_at: ..Time.current) }
   scope :sent, -> { where.not(sent_at: nil) }
+  scope :segment_eq, ->(id) { where(audience: "segment_id::#{id}") if id.present? }
+
+  def self.ransackable_scopes(_auth_object = nil)
+    super + %i[segment_eq subject_cont]
+  end
 
   validates :audience, presence: true
   validate :subjects_must_be_valid

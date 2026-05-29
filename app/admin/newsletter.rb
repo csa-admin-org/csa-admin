@@ -8,7 +8,10 @@ ActiveAdmin.register Newsletter do
     label: -> { Newsletter.human_attribute_name(:subject) },
     as: :string
   filter :template
-  filter :members_segmemt
+  filter :segment,
+    as: :select,
+    collection: -> { Newsletter::Segment.order_by_title },
+    label: -> { Newsletter::Segment.model_name.human }
   filter :sent_at
 
   scope :all, default: true
