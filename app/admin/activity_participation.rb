@@ -284,11 +284,33 @@ ActiveAdmin.register ActivityParticipation do
     end
   end
 
+  action_item :validate, only: :show, if: -> {
+    authorized?(:update, resource) && resource.can_validate?
+  } do
+    action_button t(".validate"), validate_activity_participation_path(resource), icon: "check"
+  end
+
+  action_item :reject, only: :show, if: -> {
+    authorized?(:update, resource) && resource.can_reject?
+  } do
+    action_button t(".reject"), reject_activity_participation_path(resource), icon: "x", class: "destructive"
+  end
+
   action_item :invoice, only: :show, if: -> {
     authorized?(:create, Invoice) && resource.rejected? && resource.invoices.none?
   } do
     action_link t(".invoice_action"), new_invoice_path(activity_participation_id: resource.id, anchor: "activity_participation"),
       icon: "banknotes"
+  end
+
+  member_action :validate, method: :post do
+    resource.validate!(current_admin)
+    redirect_to resource_path
+  end
+
+  member_action :reject, method: :post do
+    resource.reject!(current_admin)
+    redirect_to resource_path
   end
 
   before_action only: :index do
