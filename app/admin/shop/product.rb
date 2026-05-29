@@ -72,69 +72,65 @@ ActiveAdmin.register Shop::Product do
 
   form do |f|
     f.semantic_errors :base
-    f.semantic_errors :variants
 
-    f.inputs do
-      tabs do
-        tab t(".details") do
-          translated_input(f, :names)
-          translated_input(f, :descriptions, as: :action_text)
-          f.input :tags,
+    f.inputs t(".details"), icon: "notebook-text" do
+      translated_input(f, :names)
+      translated_input(f, :descriptions, as: :action_text)
+      f.input :tags,
+        as: :check_boxes,
+        collection: Shop::Tag.kept.order_by_name,
+        toggle_all: false
+      f.input :producer, collection: Shop::Producer.kept
+      f.input :basket_complement,
+        collection: BasketComplement.includes(:shop_product).ordered.map { |bc|
+          [ bc.name, bc.id, disabled: !!bc.shop_product && bc.shop_product != f.object ]
+        }
+      f.input :display_in_delivery_sheets,
+        as: :boolean,
+        input_html: { disabled: f.object.basket_complement_id? },
+        hint: t("formtastic.hints.shop/product.display_in_delivery_sheets")
+    end
+    f.inputs Shop::ProductVariant.model_name.human(count: 2), icon: "list-tree" do
+      f.has_many :variants, allow_destroy: ->(pv) { pv.can_destroy? }, heading: nil do |ff|
+        translated_input(ff, :names)
+        ff.input :price, as: :number, step: 0.01, min: 0, max: 99999.99
+        ff.input :weight_in_kg, as: :number, step: 0.001, min: 0, required: false
+        ff.input :stock, as: :number, step: 1, min: 0, required: false
+        ff.input :available, as: :boolean, required: false
+      end
+      f.semantic_errors :variants
+    end
+    f.inputs t(".availability"), icon: "eye" do
+      div "data-controller" => "form-checkbox-toggler" do
+        f.input :available,
+          as: :boolean,
+          required: false,
+          input_html: { data: {
+            form_checkbox_toggler_target: "checkbox",
+            action: "form-checkbox-toggler#toggleInput"
+          } }
+        f.input :available_for_depot_ids,
+          label: Depot.model_name.human(count: 2),
+          as: :check_boxes,
+          for: Depot,
+          collection: admin_depots,
+          input_html: {
+            data: { form_checkbox_toggler_target: "input" }
+          }
+        coming_deliveries = Delivery.coming.shop_open.all
+        if coming_deliveries.any?
+          f.input :available_for_delivery_ids,
+            label: Delivery.model_name.human(count: 2),
             as: :check_boxes,
-            collection: Shop::Tag.kept.order_by_name,
-            toggle_all: false
-          f.input :producer, collection: Shop::Producer.kept
-          f.input :basket_complement,
-            collection: BasketComplement.includes(:shop_product).ordered.map { |bc|
-              [ bc.name, bc.id, disabled: !!bc.shop_product && bc.shop_product != f.object ]
+            for: Delivery,
+            collection: coming_deliveries,
+            input_html: {
+              data: { form_checkbox_toggler_target: "input" }
             }
-          f.input :display_in_delivery_sheets,
-            as: :boolean,
-            input_html: { disabled: f.object.basket_complement_id? },
-            hint: t("formtastic.hints.shop/product.display_in_delivery_sheets")
-        end
-        tab t(".availability"), id: :availability do
-          div "data-controller" => "form-checkbox-toggler" do
-            f.input :available,
-              as: :boolean,
-              required: false,
-              input_html: { data: {
-                form_checkbox_toggler_target: "checkbox",
-                action: "form-checkbox-toggler#toggleInput"
-              } }
-            f.input :available_for_depot_ids,
-              label: Depot.model_name.human(count: 2),
-              as: :check_boxes,
-              for: Depot,
-              collection: admin_depots,
-              input_html: {
-                data: { form_checkbox_toggler_target: "input" }
-              }
-            coming_deliveries = Delivery.coming.shop_open.all
-            if coming_deliveries.any?
-              f.input :available_for_delivery_ids,
-                label: Delivery.model_name.human(count: 2),
-                as: :check_boxes,
-                for: Delivery,
-                collection: coming_deliveries,
-                input_html: {
-                  data: { form_checkbox_toggler_target: "input" }
-                }
-            end
-          end
-        end
-        tab Shop::ProductVariant.model_name.human(count: 2), id: :variants do
-          f.has_many :variants, allow_destroy: ->(pv) { pv.can_destroy? }, heading: nil do |ff|
-            translated_input(ff, :names)
-            ff.input :price, as: :number, step: 0.01, min: 0, max: 99999.99
-            ff.input :weight_in_kg, as: :number, step: 0.001, min: 0, required: false
-            ff.input :stock, as: :number, step: 1, min: 0, required: false
-            ff.input :available, as: :boolean, required: false
-          end
-          f.semantic_errors :variants
         end
       end
     end
+
     f.actions
   end
 
