@@ -37,6 +37,7 @@ class MailDelivery
         delivered_message = message.deliver_now
         processed!(delivered_message)
         mail_delivery.store_preview_from!(delivered_message)
+        fake_delivery! if Tenant.demo?
       else
         suppressed!
         mail_delivery.store_preview_from!(message)
@@ -86,6 +87,10 @@ class MailDelivery
       update_columns(
         postmark_message_id: message["X-PM-Message-Id"]&.value,
         processed_at: Time.current)
+    end
+
+    def fake_delivery!
+      delivered!(at: Time.current)
     end
 
     def suppress_invalid_address!
