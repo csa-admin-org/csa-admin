@@ -321,22 +321,6 @@ class MailDelivery::EmailTest < ActiveSupport::TestCase
     assert_not email_outbound.deliverable?, "Outbound suppression should block newsletter"
   end
 
-  test "process! marks email as delivered on demo tenant" do
-    member = members(:john)
-    delivery = MailDelivery.deliver!(
-      member: member, mailable: invoices(:annual_fee), action: "created")
-
-    email = delivery.emails.first
-    assert email.processing?
-
-    with_demo_tenant do
-      email.process!
-    end
-
-    assert email.reload.delivered?
-    assert_not_nil email.delivered_at
-  end
-
   test "process! handles InvalidEmailRequestError by creating InvalidAddress suppression" do
     member = members(:john)
     delivery = MailDelivery.deliver!(

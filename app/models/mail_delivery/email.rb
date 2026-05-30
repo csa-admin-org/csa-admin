@@ -90,6 +90,8 @@ class MailDelivery
     end
 
     def fake_delivery!
+      return unless Tenant.demo?
+
       delivered!(at: Time.current)
     end
 
