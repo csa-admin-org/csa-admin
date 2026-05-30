@@ -322,19 +322,19 @@ class MailDelivery::EmailTest < ActiveSupport::TestCase
   end
 
   test "process! marks email as delivered on demo tenant" do
-    member = members(:john)
-    delivery = MailDelivery.deliver!(
-      member: member, mailable: invoices(:annual_fee), action: "created")
-
-    email = delivery.emails.first
-    assert email.processing?
-
     with_demo_tenant do
-      perform_enqueued_jobs(only: MailDelivery::ProcessJob)
-    end
+      member = members(:john)
+      delivery = MailDelivery.deliver!(
+        member: member, mailable: invoices(:annual_fee), action: "created")
 
-    assert email.reload.delivered?
-    assert_not_nil email.delivered_at
+      email = delivery.emails.first
+      assert email.processing?
+
+      perform_enqueued_jobs(only: MailDelivery::ProcessJob)
+
+      assert email.reload.delivered?
+      assert_not_nil email.delivered_at
+    end
   end
 
   test "process! handles InvalidEmailRequestError by creating InvalidAddress suppression" do
