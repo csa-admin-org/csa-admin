@@ -46,6 +46,29 @@ class Members::ShopProductsTest < ApplicationSystemTestCase
     assert_text "Delivery of Thursday 4 April 2024"
   end
 
+  test "shop products respect unavailable_for_depot_ids for members using shop_depot" do
+    travel_to "2024-04-01"
+    member = members(:martha)
+    login(member)
+
+    deliveries(:monday_1).update!(shop_open: true, shop_open_for_depot_ids: [ home_id ])
+    deliveries(:thursday_1).update!(shop_open: true, shop_open_for_depot_ids: [ farm_id ])
+    member.update!(shop_depot_id: farm_id)
+
+    shop_products(:oil).update!(available_for_depot_ids: [ home_id ])
+
+    visit "/shop"
+    assert_equal "/shop", current_path
+    assert_text "Delivery of Thursday 4 April 2024"
+
+    assert_no_text "Oil"
+    assert_no_selector "#product_variant_#{shop_product_variants(:oil_500).id}"
+    assert_no_selector "#product_variant_#{shop_product_variants(:oil_1000).id}"
+
+    assert_text "Flour"
+    assert_selector "#product_variant_#{shop_product_variants(:flour_wheat).id}"
+  end
+
   test "shop delivery open/closed depending date" do
     travel_to "2024-04-02 12:00:00"
     login(members(:jane))
