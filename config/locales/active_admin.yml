@@ -4382,12 +4382,24 @@ _:
         _it: Aggiornamenti
         _nl: Updates
     site_header:
+      handbook:
+        _en: Handbook
+        _fr: Manuel
+        _de: Handbuch
+        _it: Manuale
+        _nl: Handleiding
       support:
         _en: Support request
         _fr: Demande de support
         _de: Supportanfrage
         _it: Richiesta di supporto
         _nl: Ondersteuningsverzoek
+      updates:
+        _en: Updates
+        _fr: Mises à jour
+        _de: Aktualisierungen
+        _it: Aggiornamenti
+        _nl: Updates
     status_tag:
       absent:
         _en: absent
