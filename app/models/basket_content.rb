@@ -99,6 +99,52 @@ class BasketContent < ApplicationRecord
     %i[basket_size_eq during_year]
   end
 
+  def self.basket_size_ids_percentages_pro_rated(basket_sizes = BasketSize.paid.reorder(:id))
+    basket_sizes = basket_sizes.to_a
+    percentages = basket_percentages_pro_rated(basket_sizes)
+    basket_sizes.map.with_index { |basket_size, i| [ basket_size.id, percentages[i] ] }.to_h
+  end
+
+  def self.basket_size_ids_percentages_even(basket_sizes = BasketSize.paid.reorder(:id))
+    basket_sizes = basket_sizes.to_a
+    percentages = basket_percentages_even(basket_sizes)
+    basket_sizes.map.with_index { |basket_size, i| [ basket_size.id, percentages[i] ] }.to_h
+  end
+
+  class << self
+    private
+
+    def basket_percentages_pro_rated(basket_sizes)
+      total_prices = basket_sizes.sum(&:price)
+      percentages = basket_sizes.map do |basket_size|
+        ((basket_size.price / total_prices.to_f) * 100).round
+      end
+      ensure_percentages_total_100(percentages, basket_sizes)
+    end
+
+    def basket_percentages_even(basket_sizes)
+      percentages = basket_sizes.map do
+        (100 / basket_sizes.length.to_f).round
+      end
+      ensure_percentages_total_100(percentages, basket_sizes)
+    end
+
+    def ensure_percentages_total_100(percentages, basket_sizes)
+      return percentages if percentages.empty?
+
+      highest_price_index = basket_sizes.index(basket_sizes.max_by(&:price))
+      lowest_price_index = basket_sizes.index(basket_sizes.min_by(&:price))
+      until percentages.sum == 100
+        if percentages.sum < 100
+          percentages[highest_price_index] += 1
+        else
+          percentages[lowest_price_index] -= 1
+        end
+      end
+      percentages
+    end
+  end
+
   # --- Quantity accessors (computed from basket_quantities hash) ---
 
   def basket_size_ids
@@ -175,13 +221,11 @@ class BasketContent < ApplicationRecord
   end
 
   def basket_size_ids_percentages_pro_rated
-    pcts = basket_percentages_pro_rated
-    default_basket_sizes.map.with_index { |bs, i| [ bs.id, pcts[i] ] }.to_h
+    self.class.basket_size_ids_percentages_pro_rated(default_basket_sizes)
   end
 
   def basket_size_ids_percentages_even
-    pcts = basket_percentages_even
-    default_basket_sizes.map.with_index { |bs, i| [ bs.id, pcts[i] ] }.to_h
+    self.class.basket_size_ids_percentages_even(default_basket_sizes)
   end
 
   def basket_size_ids_quantities=(quantities)
@@ -235,34 +279,6 @@ class BasketContent < ApplicationRecord
 
   def default_basket_sizes
     @default_basket_sizes ||= BasketSize.paid.reorder(:id)
-  end
-
-  def basket_percentages_pro_rated
-    total_prices = default_basket_sizes.sum(&:price)
-    pcts = default_basket_sizes.map do |bs|
-      ((bs.price / total_prices.to_f) * 100).round
-    end
-    ensure_100(pcts)
-  end
-
-  def basket_percentages_even
-    pcts = default_basket_sizes.map do
-      (100 / default_basket_sizes.length.to_f).round
-    end
-    ensure_100(pcts)
-  end
-
-  def ensure_100(pcts)
-    return pcts if pcts.empty?
-
-    until pcts.sum == 100
-      if pcts.sum < 100
-        pcts[default_basket_sizes.index(BasketSize.order(:price).paid.last)] += 1
-      else
-        pcts[default_basket_sizes.index(BasketSize.order(:price).paid.first)] -= 1
-      end
-    end
-    pcts
   end
 
   def basket_quantities_structure
