@@ -44,12 +44,6 @@ _:
         _de: Pro rata des Preises
         _it: Pro rata al prezzo
         _nl: Pro rata naar prijs
-    surplus:
-      _en: 'Surplus: %{quantity}'
-      _fr: 'Surplus: %{quantity}'
-      _de: 'Überschuss: %{quantity}'
-      _it: 'Eccedenza: %{quantity}'
-      _nl: 'Overschot: %{quantity}'
     total_quantity_tooltip/bag:
       _en: Helper value, not saved. Distributed across bag sizes using the sliders. The final amount depends on actual deliveries.
       _fr: Valeur indicative, non enregistrée. Répartie entre les tailles de sac à l'aide des curseurs. Le montant final dépend des livraisons effectives.

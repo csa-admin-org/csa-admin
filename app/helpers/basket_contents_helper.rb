@@ -27,15 +27,13 @@ module BasketContentsHelper
   end
 
   def display_total_quantity(basket_content)
-    quantity = basket_content.quantity
+    quantity = basket_content.total_quantity
     unit = basket_content.unit
     case unit
     when "kg"
       if quantity < 1
         unit = "g"
         quantity = (quantity * 1000).to_i
-      else
-        quantity = quantity.round(1)
       end
     when "pc"
       quantity = quantity.to_i

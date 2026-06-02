@@ -30,7 +30,8 @@ class BasketContentsControllerTest < ActionDispatch::IntegrationTest
     assert_select "turbo-frame#basket-content-form[data-basket-content-form-target='frame']"
     assert_select "input[name='basket_content[basket_size_ids_quantities][#{small_id}]']"
     assert_select "input[name='basket_content[basket_size_ids_quantities][#{medium_id}]']"
-    assert_select "input#basket_content_total_quantity[name='total_quantity']"
+    assert_select "input#basket_content_total_quantity[name='total_quantity'][step='0.1']"
+    assert_select "[data-distribution-surplus]", false
     assert_select "input[name='basket_size_ids_percentages[#{small_id}]']"
   end
 
@@ -180,8 +181,7 @@ class BasketContentsControllerTest < ActionDispatch::IntegrationTest
 
     assert_response :success
     assert_select "turbo-frame#basket-content-form"
-    # Total should be computed from quantities: ceil((500+750)/1000) = 2
-    assert_select "input#basket_content_total_quantity[value='2']"
+    assert_select "input#basket_content_total_quantity[value='1.3']"
   end
 
   test "new form renders basket content form frame" do
@@ -215,6 +215,7 @@ class BasketContentsControllerTest < ActionDispatch::IntegrationTest
     assert_select "turbo-frame#basket-content-form"
     assert_select "select#basket_content_product_id option[value='#{product.id}'][selected]"
     assert_select "input#basket_content_unit_price[value='4.25']"
+    assert_select "input#basket_content_total_quantity[step='1']"
     assert_select "input[name='basket_content[basket_size_ids_quantities][#{small_id}]'][value='5']"
     assert_select ".bc-price-unit-suffix", text: "/piece"
   end

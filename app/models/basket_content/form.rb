@@ -93,7 +93,7 @@ class BasketContent
         product_id: product_id,
         unit: unit,
         unit_price: unit_price,
-        total_quantity: ceiled_total_quantity.positive? ? ceiled_total_quantity : 0,
+        total_quantity: total_quantity.positive? ? total_quantity : 0,
         basket_size_ids_quantities: basket_size_ids_quantities,
         basket_size_ids_percentages: basket_size_ids_percentages.presence || basket_size_ids_percentages_pro_rated,
         depot_ids: depot_ids,
@@ -134,8 +134,6 @@ class BasketContent
     end
 
     class Distribution
-      MAX_AUTO_BUMP_KG = 5
-
       def initialize(delivery:, params: {})
         @delivery = delivery
         @params = params
@@ -149,8 +147,6 @@ class BasketContent
         {
           total_quantity: total_quantity,
           unit: unit,
-          surplus: compute_surplus,
-          surplus_unit: unit == "kg" ? "g" : "pc",
           total_product_value: compute_total_product_value,
           basket_sizes: basket_sizes_data,
           presets: presets,
@@ -197,7 +193,7 @@ class BasketContent
           apply_best_kg_distribution(total_quantity, weighted_sum)
         else
           apply_pc_distribution(total_quantity, weighted_sum)
-          ensure_minimum_pc_total
+          compute_total_from_quantities
         end
 
         recompute_percentages_from_quantities
@@ -224,7 +220,6 @@ class BasketContent
           entry[:percentage] = preset_percentages[entry[:id]].to_i
         end
 
-        # Distribute from total using preset percentages, then recompute total
         if total_quantity > 0
           weighted_sum = current_weighted_sum
           if weighted_sum > 0
@@ -232,11 +227,11 @@ class BasketContent
               apply_best_kg_distribution(total_quantity, weighted_sum)
             else
               apply_pc_distribution(total_quantity, weighted_sum)
+              compute_total_from_quantities
             end
           end
         end
 
-        compute_total_from_quantities
         recompute_percentages_from_quantities
       end
 
@@ -246,12 +241,8 @@ class BasketContent
       # each basket size that maximizes allocated grams without exceeding
       # the total. The search multiplies each candidate value by its basket
       # count (sum(val_i × count_i) ≤ target_grams).
-      #
-      # If the best allocation still leaves ≥ 1000g surplus, auto-bumps the
-      # total by 1kg (capped at +5kg from the original input).
 
-      def apply_best_kg_distribution(total, weighted_sum, base_total = nil)
-        base_total ||= input_total_quantity
+      def apply_best_kg_distribution(total, weighted_sum)
         target_grams = (total * 1000).round
 
         line_data = basket_size_entries.map do |entry|
@@ -274,19 +265,8 @@ class BasketContent
 
         best = search_best_kg_allocation(line_data, target_grams)
 
-        # Apply the best assignment
         line_data.each_with_index do |ld, i|
           ld[:entry][:quantity] = best[:assignment][i]
-        end
-
-        allocated = best[:sum]
-        surplus_grams = target_grams - allocated
-
-        # Auto-bump total if surplus is too large
-        if surplus_grams >= 1000 && total < base_total + MAX_AUTO_BUMP_KG
-          @total_quantity = total + 1
-          @total_changed = true
-          apply_best_kg_distribution(@total_quantity, weighted_sum, base_total)
         end
       end
 
@@ -344,46 +324,12 @@ class BasketContent
         end
       end
 
-      def ensure_minimum_pc_total
-        required = basket_size_entries.sum { |e| e[:quantity] * e[:baskets_count] }
-        rounded = round_pc_total(required)
-
-        if rounded > total_quantity
-          @total_quantity = rounded
-          @total_changed = true
-        end
-      end
-
       # ─── Compute total from quantities (allocation-driven) ────────────
 
       def compute_total_from_quantities
-        if kg?
-          total_grams = basket_size_entries.sum { |e| e[:quantity] * e[:baskets_count] }
-          computed = ceil_kg_total(total_grams)
-          current = total_quantity
-
-          if computed > current
-            @total_quantity = computed
-            @total_changed = true
-          elsif (current * 1000 - total_grams) >= 1000
-            # Surplus ≥ 1kg → lower total to trim excess
-            @total_quantity = computed
-            @total_changed = true if computed != input_total_quantity
-          end
-        else
-          total_pieces = basket_size_entries.sum { |e| e[:quantity] * e[:baskets_count] }
-          computed = round_pc_total(total_pieces)
-          current = total_quantity
-
-          if computed > current
-            @total_quantity = computed
-            @total_changed = true
-          elsif (current - total_pieces) >= 10
-            # Surplus ≥ 10 pieces → lower total
-            @total_quantity = computed
-            @total_changed = true if computed != input_total_quantity
-          end
-        end
+        computed = total_quantity_from_quantities
+        @total_quantity = computed
+        @total_changed = computed != input_total_quantity
       end
 
       # ─── Percentage computation from quantities ───────────────────────
@@ -434,7 +380,7 @@ class BasketContent
       def input_total_quantity
         @input_total_quantity ||= begin
           value = params[:total_quantity].to_s.presence&.to_f || 0
-          kg? ? ceil_kg_total((value * 1000).round) : round_pc_total(value)
+          kg? ? round_kg_input_total(value) : ceil_pc_total(value)
         end
       end
 
@@ -543,16 +489,32 @@ class BasketContent
 
       # ─── Rounding helpers ─────────────────────────────────────────────
 
+      def total_quantity_from_quantities
+        if kg?
+          total_grams = basket_size_entries.sum { |e| e[:quantity] * e[:baskets_count] }
+          ceil_kg_total(total_grams)
+        else
+          total_pieces = basket_size_entries.sum { |e| e[:quantity] * e[:baskets_count] }
+          ceil_pc_total(total_pieces)
+        end
+      end
+
+      def round_kg_input_total(quantity)
+        return 0 unless quantity > 0
+
+        (quantity * 10).round / 10.0
+      end
+
       def ceil_kg_total(total_grams)
         return 0 unless total_grams > 0
 
-        (total_grams / 1000.0).ceil
+        (total_grams / 100.0).ceil / 10.0
       end
 
-      def round_pc_total(count)
+      def ceil_pc_total(count)
         return 0 unless count > 0
 
-        count < 10 ? count.ceil : ((count / 10.0).ceil * 10)
+        count.ceil
       end
 
       # ─── Output computation ───────────────────────────────────────────
@@ -565,16 +527,6 @@ class BasketContent
         @quantities_changed ||= basket_size_entries.filter_map do |entry|
           original = input_quantity_for(entry[:id])
           entry[:id] if entry[:quantity] != original
-        end
-      end
-
-      def compute_surplus
-        if kg?
-          allocated_grams = basket_size_entries.sum { |e| e[:quantity] * e[:baskets_count] }
-          [ total_quantity * 1000 - allocated_grams, 0 ].max
-        else
-          allocated = basket_size_entries.sum { |e| e[:quantity] * e[:baskets_count] }
-          [ total_quantity - allocated, 0 ].max
         end
       end
 
@@ -661,8 +613,6 @@ class BasketContent
         {
           total_quantity: 0,
           unit: unit,
-          surplus: 0,
-          surplus_unit: kg? ? "g" : "pc",
           total_product_value: 0,
           basket_sizes: [],
           presets: { pro_rated: {}, even: {} },

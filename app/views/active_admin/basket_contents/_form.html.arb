@@ -55,8 +55,6 @@ context.instance_eval do
       distribution = initial_distribution_data(f.object)
       unit = distribution[:unit]
       total_quantity = distribution[:total_quantity]
-      surplus = distribution[:surplus]
-      surplus_unit = distribution[:surplus_unit]
       total_product_value = distribution[:total_product_value]
       basket_sizes = distribution[:basket_sizes]
       presets = distribution[:presets]
@@ -84,9 +82,10 @@ context.instance_eval do
               type: "number",
               autocomplete: "off",
               min: 0,
+              step: unit == "kg" ? 0.1 : 1,
               id: "basket_content_total_quantity",
               name: "total_quantity",
-              value: (total_quantity if total_quantity.to_i > 0),
+              value: (total_quantity if total_quantity.to_f.positive?),
               class: total_input_class,
               data: {
                 "distribution-source" => "total",
@@ -96,15 +95,9 @@ context.instance_eval do
             span basket_content_total_unit_suffix(unit), class: "bc-total-unit-suffix ms-2 text-sm text-gray-500 dark:text-gray-400"
           end
 
-          div class: "ms-6 flex-col items-center justify-center text-center" do
-            if total_product_value.to_f.positive?
+          if total_product_value.to_f.positive?
+            div class: "mt-1.5 ms-6 flex-col items-center justify-center text-center" do
               span cur(total_product_value), class: "text-sm font-medium text-gray-500 dark:text-gray-400"
-            end
-
-            surplus_class = "block rounded-md px-1.5 py-0.5 text-xs text-gray-500 dark:text-gray-400"
-            surplus_class += " animate-surplus-pulse" if total_changed || quantities_changed.any?
-            span class: surplus_class, data: { "distribution-surplus" => true } do
-              text_node t("basket_content.surplus", quantity: display_quantity(surplus.to_i, surplus_unit))
             end
           end
         end
@@ -112,7 +105,7 @@ context.instance_eval do
 
       percentages_sum = basket_sizes.sum { |bs| bs[:percentage] }
       approx_prefix = percentages_sum != 100 ? "~" : ""
-      percentage_inputs_disabled = total_quantity.to_i == 0
+      percentage_inputs_disabled = total_quantity.to_f.zero?
 
       basket_sizes.each do |bs|
         li class: "input bc-size-row mt-3 flex flex-wrap items-center gap-x-6 gap-y-1",

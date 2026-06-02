@@ -144,14 +144,12 @@ export default class extends Controller {
   }
 
   _applyAnimations() {
-    const animated = this.frameTarget.querySelectorAll(
-      ".animate-quantity-update, .animate-surplus-pulse"
-    )
+    const animated = this.frameTarget.querySelectorAll(".animate-quantity-update")
     if (animated.length === 0) return
 
     setTimeout(() => {
       animated.forEach((el) => {
-        el.classList.remove("animate-quantity-update", "animate-surplus-pulse")
+        el.classList.remove("animate-quantity-update")
       })
     }, 700)
   }

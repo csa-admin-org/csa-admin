@@ -113,7 +113,7 @@ class BasketContentTest < ActiveSupport::TestCase
     assert_equal 80.0, bc.quantity
   end
 
-  test "computes rounded quantity and surplus for kg" do
+  test "computes display total quantity for kg rounded up to 100 grams" do
     config(small: 1, medium: 1)
     bc = create_basket_content(
       basket_size_ids_quantities: {
@@ -123,12 +123,10 @@ class BasketContentTest < ActiveSupport::TestCase
       unit: "kg")
 
     assert_equal 1.25, bc.exact_quantity
-    assert_equal 2, bc.ceiled_total_quantity
-    assert_equal 750, bc.quantity_surplus
-    assert_equal "g", bc.quantity_surplus_unit
+    assert_equal 1.3, bc.total_quantity
   end
 
-  test "computes rounded quantity and surplus for pieces" do
+  test "computes exact display total quantity for pieces" do
     config(small: 1, medium: 1, large: 1)
     bc = create_basket_content(
       basket_size_ids_quantities: {
@@ -139,12 +137,10 @@ class BasketContentTest < ActiveSupport::TestCase
       unit: "pc")
 
     assert_equal 127, bc.exact_quantity
-    assert_equal 130, bc.ceiled_total_quantity
-    assert_equal 3, bc.quantity_surplus
-    assert_equal "pc", bc.quantity_surplus_unit
+    assert_equal 127, bc.total_quantity
   end
 
-  test "computes zero surplus for perfect matches" do
+  test "keeps exact 100 gram kg totals unchanged" do
     config(small: 1, medium: 1)
     bc = create_basket_content(
       basket_size_ids_quantities: {
@@ -153,8 +149,8 @@ class BasketContentTest < ActiveSupport::TestCase
       },
       unit: "kg")
 
-    assert_equal 1, bc.ceiled_total_quantity
-    assert_equal 0, bc.quantity_surplus
+    assert_equal 1, bc.exact_quantity
+    assert_equal 1.0, bc.total_quantity
   end
 
   test "does not round exact kg totals up due to floating point precision" do
@@ -164,49 +160,20 @@ class BasketContentTest < ActiveSupport::TestCase
       unit: "kg")
 
     assert_equal 7, bc.exact_quantity
-    assert_equal 7, bc.ceiled_total_quantity
-    assert_equal 0, bc.quantity_surplus
+    assert_equal 7.0, bc.total_quantity
   end
 
-  test "surplus increases when distributed kg quantity decreases within the same rounded bucket" do
+  test "rounds fractional kg totals up to the next 100 grams" do
     config(small: 1, medium: 1)
-
-    fuller = create_basket_content(
+    bc = create_basket_content(
       basket_size_ids_quantities: {
         small_id => 500,
-        medium_id => 750
-      },
-      unit: "kg")
-    lighter = create_basket_content(
-      basket_size_ids_quantities: {
-        small_id => 500,
-        medium_id => 700
+        medium_id => 710
       },
       unit: "kg")
 
-    assert_operator lighter.quantity_surplus, :>, fuller.quantity_surplus
-  end
-
-  test "surplus increases when distributed piece quantity decreases within the same rounded bucket" do
-    config(small: 1, medium: 1, large: 1)
-
-    fuller = create_basket_content(
-      basket_size_ids_quantities: {
-        small_id => 39,
-        medium_id => 48,
-        large_id => 40
-      },
-      unit: "pc")
-    lighter = create_basket_content(
-      basket_size_ids_quantities: {
-        small_id => 39,
-        medium_id => 44,
-        large_id => 40
-      },
-      unit: "pc")
-
-    assert_equal fuller.ceiled_total_quantity, lighter.ceiled_total_quantity
-    assert_operator lighter.quantity_surplus, :>, fuller.quantity_surplus
+    assert_equal 1.21, bc.exact_quantity
+    assert_equal 1.3, bc.total_quantity
   end
 
   test "computes baskets_count from delivery baskets" do

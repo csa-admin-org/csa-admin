@@ -148,40 +148,12 @@ class BasketContent < ApplicationRecord
     end
   end
 
-  def ceiled_total_quantity
+  def total_quantity
     case unit
-    when "kg"
-      grams = exact_quantity_in_grams
-      return 0 unless grams.positive?
-
-      (grams / 1000.0).ceil
-    when "pc"
-      quantity = exact_quantity
-      return 0 unless quantity.positive?
-
-      round_pieces_quantity(quantity)
-    else
-      0
+    when "kg" then (exact_quantity_in_grams / 100.0).ceil / 10.0
+    when "pc" then exact_quantity.to_i
+    else 0
     end
-  end
-
-  def quantity_surplus
-    case unit
-    when "kg"
-      grams = exact_quantity_in_grams
-      return 0 unless grams.positive?
-
-      [ ceiled_total_quantity * 1000 - grams, 0 ].max
-    when "pc"
-      surplus = ceiled_total_quantity - exact_quantity
-      [ surplus.round, 0 ].max
-    else
-      0
-    end
-  end
-
-  def quantity_surplus_unit
-    unit == "kg" ? "g" : unit
   end
 
   def basket_percentage(basket_size)
@@ -247,13 +219,6 @@ class BasketContent < ApplicationRecord
 
   def exact_quantity_in_grams
     basket_size_ids.sum { |id| basket_quantity_in_grams(id) * baskets_count(id) }
-  end
-
-  def round_pieces_quantity(quantity)
-    quantity = quantity.ceil
-    return quantity if quantity < 10
-
-    (quantity / 10.0).ceil * 10
   end
 
   def baskets_counts_hash

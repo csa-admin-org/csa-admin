@@ -79,32 +79,4 @@
       transform: scale(1);
     }
   }
-
-  .animate-surplus-pulse {
-    animation: surplus-pulse 650ms ease-in-out 1;
-  }
-
-  @keyframes surplus-pulse {
-    0%,
-    100% {
-      background-color: transparent;
-    }
-    25%,
-    75% {
-      background-color: color-mix(in oklab, var(--color-lime-100) 80%, transparent);
-    }
-  }
-
-  @media (prefers-color-scheme: dark) {
-    @keyframes surplus-pulse {
-      0%,
-      100% {
-        background-color: transparent;
-      }
-      25%,
-      75% {
-        background-color: color-mix(in oklab, var(--color-zinc-700) 60%, transparent);
-      }
-    }
-  }
 }
