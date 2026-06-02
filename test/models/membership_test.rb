@@ -817,6 +817,31 @@ class MembershipTest < ActiveSupport::TestCase
     assert_equal 2, new_target.quantity # 1 original + 1 shifted
   end
 
+  test "basket shift is deleted when target delivery no longer has a basket after config change" do
+    travel_to "2024-01-01"
+    membership = memberships(:jane)
+    source_basket = baskets(:jane_5) # before new_config_from, remains unchanged
+    target_basket = baskets(:jane_8) # after new_config_from, removed by delivery cycle change
+
+    shift = BasketShift.create!(
+      absence: absences(:jane_thursday_5),
+      membership: membership,
+      source_delivery: source_basket.delivery,
+      target_delivery: target_basket.delivery)
+
+    assert_equal 0, source_basket.reload.quantity
+    assert_equal 2, target_basket.reload.quantity
+
+    membership.update!(
+      new_config_from: deliveries(:thursday_7).date,
+      delivery_cycle: delivery_cycles(:mondays),
+      delivery_cycle_price: 0)
+
+    assert_not BasketShift.exists?(shift.id)
+    assert_not source_basket.reload.shifted?
+    assert_equal 1, source_basket.quantity
+  end
+
   # === Basket Override Preservation Tests (Phase 3) ===
 
   test "basket override survives depot-only config change" do

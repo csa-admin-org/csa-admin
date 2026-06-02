@@ -13,7 +13,8 @@ class MembershipBasketsUpdater
     return if @membership.past?
 
     @membership.transaction do
-      baskets.where.not(delivery_id: future_deliveries).find_each(&:destroy!)
+      destroy_basket_shifts_for_obsolete_deliveries!
+      baskets.where(delivery_id: obsolete_delivery_ids).find_each(&:destroy!)
       future_deliveries.each do |delivery|
         unless baskets.exists?(delivery_id: delivery.id)
           @membership.create_basket!(delivery)
@@ -35,5 +36,19 @@ class MembershipBasketsUpdater
 
   def future_deliveries
     @future_deliveries ||= @membership.delivery_cycle.deliveries_in(range)
+  end
+
+  def obsolete_delivery_ids
+    @obsolete_delivery_ids ||= baskets.where.not(delivery_id: future_deliveries).pluck(:delivery_id)
+  end
+
+  def destroy_basket_shifts_for_obsolete_deliveries!
+    return if obsolete_delivery_ids.empty?
+
+    @membership
+      .basket_shifts
+      .where(source_delivery_id: obsolete_delivery_ids)
+      .or(@membership.basket_shifts.where(target_delivery_id: obsolete_delivery_ids))
+      .find_each(&:destroy!)
   end
 end

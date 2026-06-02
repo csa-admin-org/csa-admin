@@ -62,6 +62,34 @@ class MembershipBasketsUpdaterTest < ActiveSupport::TestCase
     ], dates(membership)
   end
 
+  test "deletes basket shifts when delivery cycle update removes the target basket" do
+    travel_to "2024-01-01"
+    cycle = delivery_cycles(:thursdays)
+    membership = memberships(:jane)
+    source_basket = baskets(:jane_5) # 2024-05-02, kept by first_of_each_month
+    target_basket = baskets(:jane_8) # 2024-05-23, removed by first_of_each_month
+
+    shift = BasketShift.create!(
+      absence: absences(:jane_thursday_5),
+      membership: membership,
+      source_delivery: source_basket.delivery,
+      target_delivery: target_basket.delivery)
+
+    assert_equal 0, source_basket.reload.quantity
+    assert_equal 2, target_basket.reload.quantity
+
+    cycle.update!(
+      periods_attributes: cycle.periods.map { |p| { id: p.id, _destroy: true } } + [
+        { from_fy_month: 1, to_fy_month: 12, results: :first_of_each_month }
+      ]
+    )
+    perform_enqueued_jobs
+
+    assert_not BasketShift.exists?(shift.id)
+    assert_not source_basket.reload.shifted?
+    assert_equal 1, source_basket.quantity
+  end
+
   test "leave untouched past baskets of ended membership" do
     travel_to "2024-01-01"
     membership = memberships(:jane)

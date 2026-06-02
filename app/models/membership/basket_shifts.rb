@@ -3,12 +3,14 @@
 # Handles BasketShift orchestration for a membership.
 #
 # BasketShifts are delivery-keyed (membership + source_delivery + target_delivery),
-# so they survive basket destruction during membership config changes.
+# so they survive basket destruction during membership config changes as long as
+# both deliveries still have baskets afterwards.
 #
 # When baskets are destroyed and recreated within a range (e.g. basket_size or
 # depot change via `sync_baskets_with_config_change!`), shifts must be
-# unapplied before destruction and reapplied after recreation. Use
-# `with_basket_shifts_reapplied!(range)` to wrap such a block.
+# unapplied before destruction and reapplied after recreation. Orphaned shifts,
+# whose source or target delivery is no longer covered by the membership, are
+# then cleaned up.
 #
 module Membership::BasketShifts
   extend ActiveSupport::Concern
@@ -40,6 +42,7 @@ module Membership::BasketShifts
     unapply_basket_shifts!(range)
     yield
     reapply_basket_shifts!(range)
+    cleanup_orphaned_basket_shifts!(range)
   end
 
   def unapply_basket_shifts!(range)
@@ -98,5 +101,24 @@ module Membership::BasketShifts
       shift.unapply_on!(source)
       shift.reapply_on!(target)
     end
+  end
+
+  def cleanup_orphaned_basket_shifts!(range)
+    delivery_ids_in_range = Delivery.between(range).pluck(:id)
+    return if delivery_ids_in_range.empty?
+
+    valid_delivery_ids = baskets.pluck(:delivery_id).to_set
+    orphaned_ids = basket_shifts.select { |shift|
+      next false unless shift.source_delivery_id.in?(delivery_ids_in_range) ||
+        shift.target_delivery_id.in?(delivery_ids_in_range)
+
+      !valid_delivery_ids.include?(shift.source_delivery_id) ||
+        !valid_delivery_ids.include?(shift.target_delivery_id)
+    }.map(&:id)
+
+    # The surrounding resync has already unapplied affected shifts before
+    # baskets were destroyed/recreated; running destroy callbacks here would
+    # apply the rollback twice.
+    BasketShift.where(id: orphaned_ids).delete_all if orphaned_ids.any?
   end
 end
