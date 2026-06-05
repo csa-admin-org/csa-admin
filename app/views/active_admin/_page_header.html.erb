@@ -5,13 +5,13 @@
   "
 >
   <div class="flex grow flex-col gap-1 pt-1">
-    <% breadcrumb_links = build_breadcrumb_links(request.path, class: " no-underline") %>
+    <% breadcrumb_links = build_breadcrumb_links(request.path) %>
 
     <% if breadcrumb_links.present? %>
       <nav aria-label="Breadcrumb">
-        <ol class="mb-1 flex flex-wrap gap-x-2 gap-y-2.5 text-sm opacity-60">
+        <ol class="mb-1 flex flex-wrap gap-x-2 gap-y-0.5 text-sm opacity-60">
           <% breadcrumb_links.each_with_index do |link, index| %>
-            <li class="inline-flex h-5 items-center">
+            <li class="inline-flex items-center">
               <%= link %>
 
               <% if index < breadcrumb_links.size - 1 %>
