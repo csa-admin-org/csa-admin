@@ -128,7 +128,7 @@ GEM
       async-http (~> 0.42)
       protocol-url (~> 0.2)
     aws-eventstream (1.4.0)
-    aws-partitions (1.1256.0)
+    aws-partitions (1.1257.0)
     aws-sdk-core (3.251.0)
       aws-eventstream (~> 1, >= 1.3.0)
       aws-partitions (~> 1, >= 1.992.0)
@@ -151,7 +151,7 @@ GEM
     bcrypt_pbkdf (1.1.2)
     bigdecimal (4.1.2)
     bindex (0.8.1)
-    bootsnap (1.24.5)
+    bootsnap (1.24.6)
       msgpack (~> 1.2)
     brakeman (8.0.4)
       racc
@@ -291,7 +291,7 @@ GEM
       logger
       ostruct
     ice_cube (0.17.0)
-    image_processing (2.0.1)
+    image_processing (2.0.2)
     importmap-rails (2.2.3)
       actionpack (>= 6.0.0)
       activesupport (>= 6.0.0)
@@ -314,7 +314,7 @@ GEM
       rdoc (>= 4.0.0)
       reline (>= 0.4.2)
     jmespath (1.6.2)
-    json (2.19.7)
+    json (2.19.8)
     kamal (2.11.0)
       activesupport (>= 7.0)
       base64 (~> 0.2)
@@ -679,7 +679,7 @@ GEM
       addressable (>= 2.8.0)
       crack (>= 0.3.2)
       hashdiff (>= 0.4.0, < 2.0.0)
-    websocket-driver (0.8.0)
+    websocket-driver (0.8.1)
       base64
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.5)
@@ -806,7 +806,7 @@ CHECKSUMS
   async-pool (0.11.2) sha256=0a43a17b02b04d9c451b7d12fafa9a50e55dc6dd00d4369aca00433f16a7e3ed
   async-rest (0.20.0) sha256=72b0d467f65269a53a64fc12b828f3d81b4afa201b4eea0b98cddb990e7e95eb
   aws-eventstream (1.4.0) sha256=116bf85c436200d1060811e6f5d2d40c88f65448f2125bc77ffce5121e6e183b
-  aws-partitions (1.1256.0) sha256=d497b54defeed306816eebadfe2d2246d3314643e05c586043aea91d70d1ec96
+  aws-partitions (1.1257.0) sha256=03c531f40fdd979a9ae2aae70140c60e59000e6f62a60b3d6171b78cdded960c
   aws-sdk-core (3.251.0) sha256=ef8186cb5509147e590310da58fab4c5b0901eba0e85a72955abdf772e425c87
   aws-sdk-kms (1.129.0) sha256=363f548df321f4a4fcfd05523384e591060b400f8e65133ed7ef0793155a3343
   aws-sdk-s3 (1.225.0) sha256=734752cc77e369c645ff5285b70ff5af207b0dcd3388346de2f727cd4e943924
@@ -816,10 +816,9 @@ CHECKSUMS
   bcrypt_pbkdf (1.1.2) sha256=c2414c23ce66869b3eb9f643d6a3374d8322dfb5078125c82792304c10b94cf6
   bigdecimal (4.1.2) sha256=53d217666027eab4280346fba98e7d5b66baaae1b9c3c1c0ffe89d48188a3fbd
   bindex (0.8.1) sha256=7b1ecc9dc539ed8bccfc8cb4d2732046227b09d6f37582ff12e50a5047ceb17e
-  bootsnap (1.24.5) sha256=36b677448524d279b470469aabd5dff4a980e3fa4931a0df68da4a500eb1b6c4
+  bootsnap (1.24.6) sha256=c60bab88c70332290f0a2636a288f675299eb4f804a02a3c085b42eca9da164a
   brakeman (8.0.4) sha256=7bf921fa9638544835df9aa7b3e720a9a72c0267f34f92135955edd80d4dcf6f
   builder (3.3.0) sha256=497918d2f9dca528fdca4b88d84e4ef4387256d984b8154e9d5d3fe5a9c8835f
-  bundler (4.0.11) sha256=5bcec0fb78302e48d02ee46f10ee6e6942be647ba5b44a6d1ddfda9a240ce785
   bundler-audit (0.9.3) sha256=81c8766c71e47d0d28a0f98c7eed028539f21a6ea3cd8f685eb6f42333c9b4e9
   camt_parser (2.18.0) sha256=0834c4b5511636254ecb86c61620bb97d288318ba20335269b1a5830b0052317
   cancancan (3.6.1) sha256=975c1d5cbf58d5df48a9452a7f61ae3d254608cd87570402f5925a8864c56b62
@@ -884,7 +883,7 @@ CHECKSUMS
   iban-tools (1.2.1) sha256=099962fc60fc8eff0674e1ce3d387a29cfa89d578cf5f08554ec7c6020ac631c
   icalendar (2.12.3) sha256=37dea76c36f5b21dd745bcd3cb53e7bacfbb4ad0a8d9c2a1c0aa9d39af83c850
   ice_cube (0.17.0) sha256=32deb45dda4b4acc53505c2f581f6d32b5afc04d29b9004769944a0df5a5fcbe
-  image_processing (2.0.1) sha256=69c93216dafe1179343a6c3ae8bfa554e3c1f5eece4043f255595e76df2cbf3f
+  image_processing (2.0.2) sha256=d0cf990f862d64efb1a14916044bf4b5bb2bccc7e235022413cde46019799cfa
   importmap-rails (2.2.3) sha256=7101be2a4dc97cf1558fb8f573a718404c5f6bcfe94f304bf1f39e444feeb16a
   inherited_resources (2.1.0) sha256=74f3f1862790fc1066b4eeb354717ddee220f59421fee4cea4bb1c4b775f4603
   inline_svg (1.10.0) sha256=5b652934236fd9f8adc61f3fd6e208b7ca3282698b19f28659971da84bf9a10f
@@ -894,7 +893,7 @@ CHECKSUMS
   io-stream (0.13.0) sha256=ce24bccb302bdf3ecedef05e8669a687b461621a498d83622fdcab549c9c1636
   irb (1.18.0) sha256=de9454a0703a54704b9811a5ef31a60c86949fbf4013fcf244fabc7c775248e3
   jmespath (1.6.2) sha256=238d774a58723d6c090494c8879b5e9918c19485f7e840f2c1c7532cf84ebcb1
-  json (2.19.7) sha256=fe432c8639f6efff69f9d73b518a3705d9581ab93156f981ea72806e1e5bcc3e
+  json (2.19.8) sha256=6354310fd76ef69b87d5bd1f38b40d730613baf90b6803d2d0a48f618d32dfaa
   kamal (2.11.0) sha256=1408864425e0dec7e0a14d712a3b13f614e9f3a425b7661d3f9d287a51d7dd75
   kaminari (1.2.2) sha256=c4076ff9adccc6109408333f87b5c4abbda5e39dc464bd4c66d06d9f73442a3e
   kaminari-actionview (1.2.2) sha256=1330f6fc8b59a4a4ef6a549ff8a224797289ebf7a3a503e8c1652535287cc909
@@ -1044,10 +1043,10 @@ CHECKSUMS
   useragent (0.16.11) sha256=700e6413ad4bb954bb63547fa098dddf7b0ebe75b40cc6f93b8d54255b173844
   web-console (4.3.0) sha256=e13b71301cdfc2093f155b5aa3a622db80b4672d1f2f713119cc7ec7ac6a6da4
   webmock (3.26.2) sha256=774556f2ea6371846cca68c01769b2eac0d134492d21f6d0ab5dd643965a4c90
-  websocket-driver (0.8.0) sha256=ed0dba4b943c22f17f9a734817e808bc84cdce6a7e22045f5315aa57676d4962
+  websocket-driver (0.8.1) sha256=5ab238238ce230e5d4b262d2be39624c867914eab99171dc4952b58b577c2d96
   websocket-extensions (0.1.5) sha256=1c6ba63092cda343eb53fc657110c71c754c56484aad42578495227d717a8241
   xpath (3.2.0) sha256=6dfda79d91bb3b949b947ecc5919f042ef2f399b904013eb3ef6d20dd3a4082e
   zeitwerk (2.8.2) sha256=7212a61311083c604184b1ea2574b9aa05cd14f855a0841c06985cabe9181d12
 
 BUNDLED WITH
-  4.0.11
+  4.0.13
