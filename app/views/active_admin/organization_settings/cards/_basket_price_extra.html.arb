@@ -1,0 +1,16 @@
+# frozen_string_literal: true
+
+context.instance_eval do
+  attributes_table_for org do
+    row(:basket_price_extra_title) { org.basket_price_extra_title }
+    row(:basket_price_extra_public_title) do
+      if org.basket_price_extra_public_title_without_fallback.present?
+        org.basket_price_extra_public_title
+      else
+        organization_settings_missing_status_tag
+      end
+    end
+    row(:basket_price_extra_dynamic_pricing) { organization_settings_presence_status_tag(org.basket_price_extra_dynamic_pricing) }
+    row(:basket_price_extras) { organization_settings_number_values(org[:basket_price_extras]) }
+  end
+end

@@ -58,7 +58,7 @@ Quelques conseils pour le formulaire d'inscription :
 - **Gardez le texte d'explication court.** Si vous voulez expliquer votre modèle solidaire en détail, renvoyez vers votre site web.
 - **Des labels clairs comptent.** Assurez-vous que chaque option montre clairement l'impact sur le prix. Consultez les [paramètres du prix <%= Basket.model_name.human.downcase %> extra](/settings#basket_price_extra) pour la configuration des labels.
 <% else %>
-Cette fonctionnalité n'est pas actuellement activée. Vous pouvez l'activer dans [vos paramètres](/settings#organization_features_input).
+Cette fonctionnalité n'est pas actuellement activée. Vous pouvez l'activer dans [vos paramètres](/settings#basket_price_extra).
 <% end %>
 
 ## Dépôts {#depots}
@@ -92,12 +92,12 @@ Si un cycle ne concerne que certains dépôts, configurer les associations dép�
 
 ## Cotisation annuelle et parts sociales {#annual-fee-shares}
 
-Selon le type d'organisation et les paramètres, des champs supplémentaires peuvent apparaître en bas de la section abonnement :
+Selon les fonctionnalités activées, des champs supplémentaires peuvent apparaître en bas de la section abonnement :
 
-- **Cotisation annuelle** : Affichée lorsque la fonctionnalité de cotisation annuelle est active et que le [paramètre de cotisation annuelle dans le formulaire membre](/settings#billing) est activé. Les membres voient le montant de la cotisation annuelle par défaut et peuvent l'ajuster si autorisé. Ceci est particulièrement pertinent pour les membres s'inscrivant en tant que membres de soutien (sans <%= BasketSize.model_name.human.downcase %>).
-- **Parts sociales souhaitées** : Affiché pour les coopératives ou associations nécessitant des [parts sociales](/handbook/billing#share-capital). Les membres peuvent demander des parts supplémentaires au-delà du minimum requis. La valeur minimale est définie par le nombre de parts par défaut de l'organisation.
+- **Cotisation annuelle** : Affichée lorsque la fonctionnalité de cotisation annuelle est activée et que le [paramètre de cotisation annuelle dans le formulaire membre](/settings#annual_fee) est activé. Les membres voient le montant de la cotisation annuelle par défaut et peuvent l'ajuster si autorisé. Ceci est particulièrement pertinent pour les membres s'inscrivant en tant que membres de soutien (sans <%= BasketSize.model_name.human.downcase %>).
+- **Parts sociales souhaitées** : Affichées lorsque la fonctionnalité des parts sociales est activée. Les membres peuvent demander des parts supplémentaires au-delà du minimum requis. La valeur minimale est définie par le nombre de parts par défaut de l'organisation.
 
-Les deux champs sont configurés dans [les paramètres de facturation](/settings#billing).
+Les options de cotisation annuelle sont configurées dans [les paramètres de cotisation annuelle](/settings#annual_fee). Le prix par part et les parts requises sont configurés dans [les paramètres des parts sociales](/settings#shares).
 
 ## Texte d'explication supplémentaire {#extra-text}
 

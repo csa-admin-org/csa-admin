@@ -1,0 +1,41 @@
+# frozen_string_literal: true
+
+context.instance_eval do
+  f.inputs t("active_admin.resources.organization.edit_model"), icon: "sliders-horizontal" do
+    translated_input(f, :basket_price_extra_titles, required: false)
+    translated_input(f, :basket_price_extra_public_titles,
+      hint: t("formtastic.hints.organization.basket_price_extra_public_title"),
+      required: false)
+    f.input :basket_price_extra_dynamic_pricing,
+      as: :text,
+      input_html: {
+        data: { mode: "liquid", code_editor_target: "editor" }
+      }
+  end
+
+  f.inputs t("active_admin.resource.form.registration_form"), icon: "form" do
+    trix_word_count_wrapper(self, threshold: 40) do
+      translated_input(f, :basket_price_extra_texts,
+        hint: t("formtastic.hints.organization.basket_price_extra_text"),
+        required: false,
+        as: :action_text,
+        input_html: { rows: 5 })
+    end
+    f.input :basket_price_extras,
+      as: :string,
+      hint: true,
+      input_html: { value: f.object.basket_price_extras }
+    translated_input(f, :basket_price_extra_labels,
+      as: :text,
+      hint: t("formtastic.hints.organization.basket_price_extra_labels_html"),
+      input_html: {
+        data: { mode: "liquid", code_editor_target: "editor" }
+      })
+    translated_input(f, :basket_price_extra_label_details,
+      as: :text,
+      hint: t("formtastic.hints.organization.basket_price_extra_label_details_html"),
+      input_html: {
+        data: { mode: "liquid", code_editor_target: "editor" }
+      })
+  end
+end

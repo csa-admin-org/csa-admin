@@ -1,0 +1,17 @@
+# frozen_string_literal: true
+
+context.instance_eval do
+  f.inputs t("active_admin.resources.organization.edit_model"), icon: "sliders-horizontal" do
+    f.input :local_currency_code,
+      collection: locale_currencies_collection,
+      include_blank: false,
+      required: false
+    f.input :local_currency_membership_annual_fee_only
+    f.input :local_currency_identifier, required: true
+    f.input :local_currency_wallet, required: true
+    f.input :local_currency_secret,
+      required: true,
+      as: :password,
+      input_html: { value: "*" * f.object.local_currency_secret&.length.to_i }
+  end
+end

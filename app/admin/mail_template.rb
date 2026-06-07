@@ -33,7 +33,7 @@ ActiveAdmin.register MailTemplate do
     group: :type, if: -> { feature?("bidding_round") }
 
   action_item :view, only: :index, if: -> { authorized?(:update, Organization) } do
-    action_link t(".settings"), edit_organization_path(anchor: "mail"), icon: "sliders-horizontal"
+    action_link t(".settings"), edit_organization_path(:mailer), icon: "sliders-horizontal"
   end
 
   action_item :deliveries, only: :show do
@@ -201,7 +201,7 @@ ActiveAdmin.register MailTemplate do
       unless feature?("shop")
         scoped = scoped.where.not(title: "member_shop_depot_activated")
       end
-      unless Current.org.sepa? && Current.org.sepa_creditor_identifier?
+      unless Current.org.sepa_configured?
         scoped = scoped.where.not(title: MailTemplate::SEPA_MANDATE_TITLES)
       end
       order_clause = MailTemplate::TITLES.each_with_index.map do |title, index|

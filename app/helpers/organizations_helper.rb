@@ -43,10 +43,19 @@ module OrganizationsHelper
       col << membership_renewed_attribute_item(:absences_included_annually)
     end
     if feature?("activity")
-      label = "#{activities_human_name} (#{t('active_admin.resource.form.full_year')})"
-      col << membership_renewed_attribute_item(:activity_participations, label: label)
+      col << membership_renewed_attribute_item(
+        :activity_participations,
+        label: membership_renewed_attribute_label(:activity_participations))
     end
     col
+  end
+
+  def membership_renewed_attribute_label(attribute)
+    if attribute.to_s == "activity_participations"
+      "#{activities_human_name} (#{t('active_admin.resource.form.full_year')})"
+    else
+      Membership.human_attribute_name(attribute)
+    end
   end
 
   def org_languages_collection
@@ -75,7 +84,6 @@ module OrganizationsHelper
       }.sort_by(&:first)
     end
   end
-
 
   private
 

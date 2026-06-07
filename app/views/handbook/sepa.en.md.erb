@@ -14,14 +14,15 @@ Two paths lead to a valid SEPA mandate:
 
 ## Organization setup {#setup}
 
-To enable SEPA direct debit, configure the following in [your billing settings](/settings#billing):
+To enable SEPA direct debit, first make sure your organization's IBAN is configured in [the invoice settings](/settings#invoice). Then enable the SEPA feature and configure the following in [the SEPA settings](/settings#sepa):
 
-- **IBAN** — Your organization's bank account IBAN.
 - **Creditor Identifier** — Your SEPA creditor identifier (e.g. `DE98ZZZ09999999999`), obtained from your bank or the national authority.
 - **Information text (SEPA)** (optional) — Displayed on SEPA invoices instead of the standard information text.
-- **EBICS connection** (optional) — If configured, SEPA direct debit orders are automatically uploaded to your bank 3 days after the invoice is sent. More info on [EBICS setup](/handbook/billing#ebics-setup).
+- **Membership summary only** (optional) — Shows only the invoice summary on membership invoices collected by SEPA.
 
-As soon as a creditor identifier is set, the self-service mandate page becomes available to all members.
+If an EBICS connection is configured, SEPA direct debit orders are automatically uploaded to your bank 3 days after the invoice is sent. More info on [EBICS setup](/handbook/billing#ebics-setup).
+
+Once the SEPA feature is enabled and the creditor identifier is configured, the self-service mandate page becomes available to all members.
 
 ## Member self-service {#self-service}
 

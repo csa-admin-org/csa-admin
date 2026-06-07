@@ -1,0 +1,21 @@
+# frozen_string_literal: true
+
+context.instance_eval do
+  f.inputs t("active_admin.resources.organization.activation"), icon: "toggle-left" do
+    if section[:handbook]
+      li class: "panel-actions" do
+        text_node handbook_icon_link(section[:handbook], anchor: section[:handbook_anchor])
+      end
+    end
+    para organization_disabled_setting_section_hint(section), class: "description -mt-2 mb-4"
+    f.object.features.map(&:to_s).excluding(section[:key]).each do |feature|
+      text_node f.hidden_field(:features, multiple: true, value: feature)
+    end
+    f.input :features,
+      as: :check_boxes,
+      collection: [ [ t("active_admin.resources.organization.activate_feature"), section[:key] ] ],
+      label: false,
+      wrapper_html: { class: "single-column" },
+      input_html: { checked: params[:activate].present? || f.object.feature?(section[:key]) }
+  end
+end

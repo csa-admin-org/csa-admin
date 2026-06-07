@@ -194,7 +194,16 @@ class Demo::Seeder
     org = Organization.instance
 
     # Features to exclude (require additional configuration)
-    excluded_features = %i[local_currency bidding_round new_member_fee]
+    excluded_features = %i[
+      annual_fee
+      bidding_round
+      local_currency
+      member_information
+      new_member_fee
+      shares
+      vat
+    ]
+    excluded_features << :sepa unless germany?
     enabled_features = (Organization::FEATURES - excluded_features).map(&:to_s)
 
     org.update!(
@@ -277,7 +286,7 @@ class Demo::Seeder
       terms_of_service_url: "https://csa-admin.org",
 
       # ============================================
-      # Member account settings (member_account tab)
+      # Member information settings (member_information section)
       # ============================================
       member_information_titles: {},
       social_network_urls: "",

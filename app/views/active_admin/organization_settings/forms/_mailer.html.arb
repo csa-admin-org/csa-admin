@@ -1,0 +1,18 @@
+# frozen_string_literal: true
+
+context.instance_eval do
+  f.inputs t("active_admin.resources.organization.edit_model"), icon: "sliders-horizontal" do
+    para t("active_admin.resource.form.mailer_text_html"), class: "description"
+    f.input :email_default_from,
+      as: :string,
+      hint: t("formtastic.hints.organization.email_default_from_html", domain: Current.org.domain)
+    translated_input(f, :email_signatures,
+      as: :text,
+      required: true,
+      input_html: { rows: 3 })
+    translated_input(f, :email_footers,
+      as: :text,
+      required: true,
+      input_html: { rows: 3 })
+  end
+end

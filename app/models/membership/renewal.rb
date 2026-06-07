@@ -131,7 +131,7 @@ module Membership::Renewal
     return if canceled?
     raise "cannot cancel an already renewed membership" if renewed?
 
-    if Current.org.annual_fee?
+    if Current.org.feature?("annual_fee")
       if ActiveRecord::Type::Boolean.new.cast(attrs[:renewal_annual_fee])
         self[:renewal_annual_fee] = Current.org.annual_fee
       end

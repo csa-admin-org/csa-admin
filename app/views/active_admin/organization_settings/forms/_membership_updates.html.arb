@@ -1,0 +1,13 @@
+# frozen_string_literal: true
+
+context.instance_eval do
+  f.inputs t("active_admin.resources.organization.edit_model"), icon: section[:icon] do
+    para t("active_admin.resource.form.membership_update_text_html"), class: "description"
+    f.input :membership_depot_update_allowed
+    f.input :membership_complements_update_allowed
+    f.input :basket_update_limit_in_days, step: 1
+    translated_input(f, :membership_update_texts,
+      as: :action_text,
+      required: false)
+  end
+end

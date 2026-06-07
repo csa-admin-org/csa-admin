@@ -1,7 +1,7 @@
 <footer class="mt-16 flex w-full flex-col text-base text-gray-400 dark:text-gray-500">
   <div class="mx-auto <%= "md:mx-0" if current_member %>">
     <ul class="flex flex-wrap <%= "flex-col" if current_member %>">
-      <% if current_member && Current.org.member_information_text? %>
+      <% if current_member && Current.org.feature?("member_information") %>
         <li class="mx-auto px-4 md:mx-0 md:px-0">
           <%= link_to members_info_path, class: "flex items-center py-1 px-4 md:px-0" do %>
             <%= icon "newspaper", class: "size-6" %>

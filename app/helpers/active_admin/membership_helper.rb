@@ -22,7 +22,7 @@ module ActiveAdmin::MembershipHelper
           data: { confirm: t("active_admin.resource.show.confirm") }
       end
     end
-    if Current.org.annual_fee? && authorized?(:cancel_keep_support, membership)
+    if Current.org.feature?("annual_fee") && authorized?(:cancel_keep_support, membership)
       arbre.div do
         panel_button t("active_admin.resource.show.cancel_renewal_keep_support"), cancel_keep_support_membership_path(membership),
           icon: "circle-x",

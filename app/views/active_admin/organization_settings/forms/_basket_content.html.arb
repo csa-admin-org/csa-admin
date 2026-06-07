@@ -1,0 +1,44 @@
+# frozen_string_literal: true
+
+context.instance_eval do
+  f.inputs Delivery.human_attribute_name(:sheets), icon: "file-spreadsheet" do
+    f.input :basket_content_delivery_pdf_visible,
+      as: :boolean,
+      hint: t("formtastic.hints.organization.basket_content_delivery_pdf_visible")
+  end
+
+  f.inputs t("active_admin.resource.form.member_account"), icon: "users",
+    data: { controller: "form-checkbox-toggler" } do
+    f.input :basket_content_member_visible,
+      as: :boolean,
+      input_html: { data: {
+        form_checkbox_toggler_target: "checkbox",
+        action: "form-checkbox-toggler#toggleInput"
+      } }
+    translated_input(f, :basket_content_member_titles,
+      required: true,
+      input_html: { data: { form_checkbox_toggler_target: "input" } })
+    translated_input(f, :basket_content_member_notes,
+      required: false,
+      placeholder: ->(locale) {
+        I18n.with_locale(locale) {
+          I18n.t("organization.default_basket_content_member_note")
+        }
+      },
+      input_html: { data: { form_checkbox_toggler_target: "input" } })
+    f.input :basket_content_member_visible_hours_before,
+      as: :number,
+      min: 0,
+      max: 7 * 24,
+      step: 1,
+      input_html: { data: { form_checkbox_toggler_target: "input" } }
+    f.input :basket_content_member_display_quantity,
+      as: :boolean,
+      hint: t("formtastic.hints.organization.basket_content_member_display_quantity"),
+      input_html: { data: { form_checkbox_toggler_target: "input" } }
+    f.input :basket_content_member_display_product_url,
+      as: :boolean,
+      hint: t("formtastic.hints.organization.basket_content_member_display_product_url"),
+      input_html: { data: { form_checkbox_toggler_target: "input" } }
+  end
+end

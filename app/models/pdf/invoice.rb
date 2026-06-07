@@ -428,7 +428,7 @@ module PDF
           local_currency_qr(border)
         elsif Current.org.swiss_qr?
           swiss_qr(border)
-        elsif Current.org.sepa?
+        elsif Current.org.sepa_country?
           if invoice.sepa_mandate.present?
             payment_info(border)
           else

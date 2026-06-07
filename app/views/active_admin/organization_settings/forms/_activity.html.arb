@@ -1,0 +1,48 @@
+# frozen_string_literal: true
+
+context.instance_eval do
+  f.inputs t("active_admin.resources.organization.edit_model"), icon: "sliders-horizontal" do
+    f.input :activity_i18n_scope,
+      as: :select,
+      collection: Organization.activity_i18n_scopes.map { |s| [ t("activities.#{s}", count: 2), s ] },
+      prompt: true
+    f.input :activity_price
+    f.input :activity_phone, as: :phone,
+      hint: t("formtastic.hints.organization.activity_phone_html")
+  end
+
+  f.inputs t("active_admin.resource.form.member_account"), icon: "users" do
+    f.input :activity_availability_limit_in_days, required: true
+    f.input :activity_participation_deletion_deadline_in_days
+  end
+
+  f.inputs t("active_admin.resource.form.registration_form"), icon: "form" do
+    f.input :activity_participations_form_min
+    f.input :activity_participations_form_max
+    f.input :activity_participations_form_step, input_html: { min: 1 }
+    trix_word_count_wrapper(self, threshold: 40) do
+      translated_input(f, :member_form_activity_participations_texts,
+        hint: t("formtastic.hints.organization.member_form_activity_participations_text"),
+        required: false,
+        as: :action_text,
+        input_html: { rows: 5 })
+    end
+    translated_input(f, :activity_participations_form_details,
+      hint: t("formtastic.hints.organization.activity_participations_demanded_annually_form_detail"),
+      required: false,
+      placeholder: ->(locale) {
+        I18n.with_locale(locale) {
+          activity_participations_form_detail(force_default: true)
+        }
+      })
+  end
+
+  f.inputs Organization.human_attribute_name(:activity_participations_demanded_logic), icon: "notebook-pen" do
+    f.input :activity_participations_demanded_logic,
+      as: :text,
+      hint: t("formtastic.hints.organization.activity_participations_demanded_logic_html"),
+      input_html: {
+        data: { mode: "liquid", code_editor_target: "editor" }
+      }
+  end
+end

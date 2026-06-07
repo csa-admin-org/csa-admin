@@ -143,7 +143,7 @@ ActiveAdmin.register BasketContent do
     delivery = Delivery.find(params.dig(:q, :delivery_id_eq))
 
     settings_action = if authorized?(:update, Organization)
-      link_to edit_organization_path(anchor: "basket_content"), title: t("#{t_scope}.settings") do
+      link_to edit_organization_path(:basket_content), title: t("#{t_scope}.settings") do
         icon "sliders-horizontal", class: "size-5"
       end
     end

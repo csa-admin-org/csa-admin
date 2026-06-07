@@ -1,0 +1,13 @@
+# frozen_string_literal: true
+
+context.instance_eval do
+  attributes_table_for org do
+    row(:basket_content_delivery_pdf_visible) { organization_settings_status_tag(org.basket_content_delivery_pdf_visible?) }
+    row(:basket_content_member_visible) { organization_settings_status_tag(org.basket_content_member_visible?) }
+    if org.basket_content_member_visible?
+      row(:basket_content_member_visible_hours_before) { org.basket_content_member_visible_hours_before }
+      row(:basket_content_member_display_quantity) { organization_settings_status_tag(org.basket_content_member_display_quantity?) }
+      row(:basket_content_member_display_product_url) { organization_settings_status_tag(org.basket_content_member_display_product_url?) }
+    end
+  end
+end

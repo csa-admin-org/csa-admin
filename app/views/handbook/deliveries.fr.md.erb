@@ -92,7 +92,7 @@ Sur la page de l'abonnement, tout <%= Basket.model_name.human.downcase %> qui di
 
 Quelques points importants :
 
-- Les modifications sont capturées automatiquement dès qu'un admin édite un <%= Basket.model_name.human.downcase %> ou qu'un membre change son dépôt ou compléments depuis l'espace membre (si permis dans [les paramètres d'abonnement](/settings#membership)).
+- Les modifications sont capturées automatiquement dès qu'un admin édite un <%= Basket.model_name.human.downcase %> ou qu'un membre change son dépôt ou compléments depuis l'espace membre (si permis dans [les paramètres de modification d'abonnement](/settings#membership_updates)).
 - Lorsque la configuration de l'abonnement change, les modifications sont réappliquées sur les <%= Basket.model_name.human(count: 2).downcase %> recréés. Les modifications qui font référence à des livraisons qui ne sont plus couvertes par l'abonnement (par exemple, après un changement de cycle de livraisons) sont automatiquement nettoyées.
 - Si la configuration de l'abonnement est modifiée pour correspondre à un <%= Basket.model_name.human.downcase %> précédemment modifié, la modification devient sans effet et l'icône d'historique disparaît.
 
@@ -113,7 +113,7 @@ Chaque dépôt peut utiliser l'un des deux modes de fiches (configurable dans le
 
 ### Informations du membre sur les fiches {#member-info}
 
-Un [paramètre](/settings#delivery) contrôle quelles informations supplémentaires sont affichées sous le nom de chaque membre sur les fiches :
+Un [paramètre](/settings#delivery_sheets) contrôle quelles informations supplémentaires sont affichées sous le nom de chaque membre sur les fiches :
 
 - **Aucune** (par défaut) : Seul le nom du membre.
 - **Numéros de téléphone** : Le(s) numéro(s) de téléphone du membre apparaissent sous son nom.
@@ -123,7 +123,7 @@ Ce paramètre s'applique globalement à tous les dépôts utilisant le mode fich
 
 ### Abréviation du nom du membre {#member-name-format}
 
-Un [paramètre](/settings#pdf-sheets) contrôle comment les noms des membres sont affichés sur les fiches de livraison, permettant de protéger la vie privée des membres lorsque les fiches sont visibles par d'autres membres :
+Un [paramètre](/settings#delivery_sheets) contrôle comment les noms des membres sont affichés sur les fiches de livraison, permettant de protéger la vie privée des membres lorsque les fiches sont visibles par d'autres membres :
 
 - **Aucune, nom complet** (par défaut) : Le nom complet est affiché.
 - **Première partie uniquement** (ex. *D. Jean*) : Le premier mot de chaque segment du nom est réduit à une initiale. Adapté aux organisations où les noms sont saisis en **Nom de famille + Prénom**.
@@ -136,7 +136,7 @@ Lorsqu'un nom contient plusieurs personnes séparées par une virgule ou une con
 
 ### Pied de page {#delivery-pdf-footer}
 
-Un texte de pied de page personnalisé peut être ajouté à toutes les fiches de livraison via le [paramètre de pied de page PDF de livraison](/settings#delivery). Utile pour un rappel, un message de remerciement ou des informations pratiques.
+Un texte de pied de page personnalisé peut être ajouté à toutes les fiches de livraison via le [paramètre de pied de page PDF de livraison](/settings#delivery_sheets). Utile pour un rappel, un message de remerciement ou des informations pratiques.
 
 ### Annonces {#announcements}
 

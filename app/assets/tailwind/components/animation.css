@@ -43,6 +43,10 @@
     margin: 0 -0.75rem;
   }
 
+  .animate-settings-anchor-highlight {
+    animation: anchor-highlight 1.5s ease-in-out 1;
+  }
+
   .animate-quantity-adjustment {
     @apply border-red-600 bg-red-100 text-red-800 ring-2 ring-red-500 dark:bg-red-900/60 dark:text-red-200 dark:ring-red-600;
     animation: quantity-adjustment-shake 480ms ease 1;

@@ -42,7 +42,12 @@ class Invoice::AmountsTest < ActiveSupport::TestCase
   end
 
   test "with vat" do
-    org(vat_membership_rate: 7.7, vat_number: "XXX")
+    org(
+      features: Current.org.features | [ :vat ],
+      vat_number: "XXX",
+      vat_membership_rate: 7.7,
+      vat_activity_rate: 5.5,
+      vat_shop_rate: 2.5)
 
     invoice = Invoice.new(
       vat_rate: 2.5,
@@ -76,7 +81,12 @@ class Invoice::AmountsTest < ActiveSupport::TestCase
   end
 
   test "sets the vat_amount for membership invoice and the organization with rate set" do
-    org(vat_membership_rate: 7.7, vat_number: "XXX")
+    org(
+      features: Current.org.features | [ :vat ],
+      vat_number: "XXX",
+      vat_membership_rate: 7.7,
+      vat_activity_rate: 5.5,
+      vat_shop_rate: 2.5)
     invoice = create_membership_invoice
 
     assert_equal 7.7, invoice.vat_rate
@@ -86,7 +96,12 @@ class Invoice::AmountsTest < ActiveSupport::TestCase
   end
 
   test "sets the vat_amount for activity participation invoice" do
-    org(vat_activity_rate: 5.5, vat_number: "XXX")
+    org(
+      features: Current.org.features | [ :vat ],
+      vat_number: "XXX",
+      vat_membership_rate: 7.7,
+      vat_activity_rate: 5.5,
+      vat_shop_rate: 2.5)
     invoice = Invoice.new(
       missing_activity_participations_count: 2,
       missing_activity_participations_fiscal_year: Current.fiscal_year,
@@ -100,7 +115,12 @@ class Invoice::AmountsTest < ActiveSupport::TestCase
   end
 
   test "sets the vat_amount for shop order invoice" do
-    org(vat_shop_rate: 2.5, vat_number: "XXX")
+    org(
+      features: Current.org.features | [ :vat ],
+      vat_number: "XXX",
+      vat_membership_rate: 7.7,
+      vat_activity_rate: 5.5,
+      vat_shop_rate: 2.5)
     invoice = shop_orders(:john).invoice!
 
     assert_equal 2.5, invoice.vat_rate
@@ -110,7 +130,12 @@ class Invoice::AmountsTest < ActiveSupport::TestCase
   end
 
   test "accepts custom vat_rate" do
-    org(vat_membership_rate: 7.7, vat_number: "XXX")
+    org(
+      features: Current.org.features | [ :vat ],
+      vat_number: "XXX",
+      vat_membership_rate: 7.7,
+      vat_activity_rate: 5.5,
+      vat_shop_rate: 2.5)
     invoice = Invoice.new(
       vat_rate: 2.5,
       items_attributes: {
@@ -125,7 +150,12 @@ class Invoice::AmountsTest < ActiveSupport::TestCase
   end
 
   test "accepts no vat_rate" do
-    org(vat_membership_rate: 7.7, vat_number: "XXX")
+    org(
+      features: Current.org.features | [ :vat ],
+      vat_number: "XXX",
+      vat_membership_rate: 7.7,
+      vat_activity_rate: 5.5,
+      vat_shop_rate: 2.5)
 
     invoice = Invoice.new(
       vat_rate: "",

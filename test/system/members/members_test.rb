@@ -392,7 +392,7 @@ class Members::MembersTest < ApplicationSystemTestCase
   end
 
   test "support member (share)" do
-    org(annual_fee: nil, share_price: 250, shares_number: 2)
+    org(features: (Current.org.features - [ :annual_fee ]) | [ :shares ], annual_fee: nil, share_price: 250, shares_number: 2)
 
     visit "/new"
 
@@ -536,7 +536,7 @@ class Members::MembersTest < ApplicationSystemTestCase
   end
 
   test "without annual fee or organization shares" do
-    org(annual_fee: nil, share_price: nil)
+    org(features: Current.org.features - [ :annual_fee, :shares ], annual_fee: nil, share_price: nil)
 
     visit "/new"
 

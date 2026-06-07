@@ -5,7 +5,7 @@ module Billing
     queue_as :low
 
     def perform(member)
-      if Current.org.share?
+      if Current.org.feature?("shares")
         Billing::InvoicerShare.invoice(member, send_email: true)
       end
       if Current.org.feature?("new_member_fee")

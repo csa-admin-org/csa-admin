@@ -1,0 +1,10 @@
+# frozen_string_literal: true
+
+context.instance_eval do
+  attributes_table_for org do
+    row(:absences_billed) { organization_settings_status_tag(org.absences_billed?) }
+    row(:absence_notice_period_in_days) { org.absence_notice_period_in_days }
+    row(:basket_shifts_annually) { org.basket_shifts_annually || t("active_admin.resources.organization.unlimited") }
+    row(:absences_included_mode) { t("organization.absences_included_mode.#{org.absences_included_mode}") }
+  end
+end

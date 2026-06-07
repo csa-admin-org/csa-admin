@@ -63,7 +63,7 @@ module Billing
         elsif member.support?
           if annual_fee_billable?
             next_billing_day
-          elsif Current.org.annual_fee?
+          elsif Current.org.feature?("annual_fee")
             next_billing_day(Current.fiscal_year.end_of_year + 1.day)
           end
         end
@@ -98,7 +98,8 @@ module Billing
     end
 
     def annual_fee_billable?
-      member.annual_fee&.positive?
+      Current.org.feature?("annual_fee")
+        && member.annual_fee&.positive?
         && (member.support? || (membership.billable? && !member.trial?))
         && invoices.annual_fee.none?
     end

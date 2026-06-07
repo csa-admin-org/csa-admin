@@ -1,0 +1,16 @@
+# frozen_string_literal: true
+
+context.instance_eval do
+  locale = current_admin&.language || I18n.locale
+  delivery_pdf_footer = org.delivery_pdf_footers[locale.to_s]
+
+  attributes_table_for org do
+    row(:delivery_pdf_member_info) { t("organization.delivery_pdf_member_info.#{org.delivery_pdf_member_info}") }
+    row(:delivery_pdf_member_name_format) { t("organization.delivery_pdf_member_name_format.#{org.delivery_pdf_member_name_format}") }
+    if delivery_pdf_footer.present?
+      row(:delivery_pdf_footer) { organization_settings_text_value(delivery_pdf_footer, class_name: "text-center text-sm") }
+    else
+      row(Organization.human_attribute_name(:delivery_pdf_footer)) { organization_settings_empty_value }
+    end
+  end
+end

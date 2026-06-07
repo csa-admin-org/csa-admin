@@ -58,7 +58,7 @@ A few tips for the registration form:
 - **Keep the explanation text short.** If you want to explain your solidarity model in detail, link to your website.
 - **Clear labels matter.** Make sure each option shows the price impact clearly. See the [<%= Basket.model_name.human.downcase %> price extra settings](/settings#basket_price_extra) for label configuration.
 <% else %>
-This feature is not currently activated. You can enable it in [your settings](/settings#organization_features_input).
+This feature is not currently activated. You can enable it in [your settings](/settings#basket_price_extra).
 <% end %>
 
 ## Depots {#depots}
@@ -92,12 +92,12 @@ If a cycle is only relevant to certain depots, setting up the depot-cycle associ
 
 ## Annual fee & share capital {#annual-fee-shares}
 
-Depending on your organization type and settings, additional fields may appear at the bottom of the membership section:
+Depending on the enabled features, additional fields may appear at the bottom of the membership section:
 
-- **Annual fee**: Shown when the annual fee feature is active and the [annual fee member form setting](/settings#billing) is enabled. Members see the default annual fee amount and can adjust it if allowed. This is particularly relevant for members registering as support members (without a <%= BasketSize.model_name.human.downcase %>).
-- **Desired share capital**: Shown for cooperatives or associations that require [share capital](/handbook/billing#share-capital). Members can request additional shares beyond the minimum required. The minimum value is set by the organization's default shares number.
+- **Annual fee**: Shown when the annual fee feature is enabled and the [annual fee member form setting](/settings#annual_fee) is enabled. Members see the default annual fee amount and can adjust it if allowed. This is particularly relevant for members registering as support members (without a <%= BasketSize.model_name.human.downcase %>).
+- **Desired share capital**: Shown when the cooperative shares feature is enabled. Members can request additional shares beyond the minimum required. The minimum value is set by the organization's default shares number.
 
-Both fields are configured in [the billing settings](/settings#billing).
+Annual fee options are configured in [the annual fee settings](/settings#annual_fee). Share price and required shares are configured in [the cooperative shares settings](/settings#shares).
 
 ## Additional Explanation Text {#extra-text}
 

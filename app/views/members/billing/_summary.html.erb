@@ -12,13 +12,13 @@
       value_class: "text-red-500" %>
   <% end %>
 
-  <% if Current.org.annual_fee? || !current_member.annual_fee.nil? %>
+  <% if Current.org.feature?("annual_fee") || !current_member.annual_fee.nil? %>
     <%= render "summary_card",
       label: t("members.billing.index.annual_fee"),
       value: cur(current_member.annual_fee) %>
   <% end %>
 
-  <% if Current.org.share? %>
+  <% if Current.org.feature?("shares") %>
     <%= render "summary_card",
       label: t("members.billing.index.shares"),
       value: current_member.shares_number %>

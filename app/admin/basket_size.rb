@@ -27,7 +27,7 @@ ActiveAdmin.register BasketSize do
         class: "text-right tabular-nums",
         sortable: :activity_participations_demanded_annually
     end
-    if Current.org.share?
+    if feature?("shares")
       column t("billing.shares"), ->(bs) { bs.shares_number }, class: "text-right tabular-nums", sortable: :shares_number
     end
     column :visible, ->(bs) { aligned_status_tag(bs.visible?) }, class: "text-right"
@@ -54,7 +54,7 @@ ActiveAdmin.register BasketSize do
           step: 1,
           min: 0
       end
-      if Current.org.share?
+      if feature?("shares")
         f.input :shares_number, as: :number, step: 1
       end
     end
@@ -111,7 +111,7 @@ ActiveAdmin.register BasketSize do
     *I18n.available_locales.map { |l| "form_detail_#{l}" })
 
   before_build do |basket_size|
-    basket_size.shares_number ||= Current.org.shares_number
+    basket_size.shares_number ||= Current.org.shares_number if Current.org.feature?("shares")
   end
 
   controller do

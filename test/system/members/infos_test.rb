@@ -4,7 +4,9 @@ require "application_system_test_case"
 
 class Members::InfosTest < ApplicationSystemTestCase
   test "show informations link" do
-    Current.org.update!(member_information_text: "Some confidential infos")
+    Current.org.update!(
+      features: Current.org.features | [ "member_information" ],
+      member_information_text: "Some confidential infos")
     login(members(:john))
 
     assert_selector "a", text: "Information"
@@ -18,6 +20,7 @@ class Members::InfosTest < ApplicationSystemTestCase
 
   test "show informations with custom title" do
     Current.org.update!(
+      features: Current.org.features | [ "member_information" ],
       member_information_title: "Archive",
       member_information_text: "Some confidential archive infos")
     login(members(:john))
@@ -42,7 +45,9 @@ class Members::InfosTest < ApplicationSystemTestCase
   end
 
   test "do not show informations when not logged in" do
-    Current.org.update!(member_information_text: "Some confidential infos")
+    Current.org.update!(
+      features: Current.org.features | [ "member_information" ],
+      member_information_text: "Some confidential infos")
 
     visit "/info"
     assert_equal "/login", current_path

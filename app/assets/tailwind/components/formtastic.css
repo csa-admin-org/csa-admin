@@ -290,11 +290,11 @@
     }
 
     .description {
-      @apply m-0 mt-2 text-base text-gray-500 dark:text-gray-500;
+      @apply m-0 mt-2 text-base text-gray-500 dark:text-gray-400;
     }
 
     .description a {
-      @apply text-gray-500 hover:text-green-600 dark:text-gray-500 dark:hover:text-green-600;
+      @apply text-gray-500 hover:text-green-600 dark:text-gray-400 dark:hover:text-green-600;
     }
 
     /* Errors */

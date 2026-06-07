@@ -4,7 +4,7 @@ require "test_helper"
 
 class Billing::InvoicerShareTest < ActiveSupport::TestCase
   setup do
-    org(share_price: 500, annual_fee: nil)
+    org(features: (Current.org.features - [ :annual_fee ]) | [ :shares ], share_price: 500, annual_fee: nil)
   end
 
   def invoice(member, **attrs)
@@ -135,7 +135,7 @@ class Billing::InvoicerShareTest < ActiveSupport::TestCase
 
   test "ignore member in trial period spanning two fiscal years" do
     travel_to "2024-05-20"
-    org(share_price: 500, trial_baskets_count: 4)
+    org(features: (Current.org.features - [ :annual_fee ]) | [ :shares ], share_price: 500, trial_baskets_count: 4)
     basket_sizes(:small).update!(shares_number: 2)
 
     member = members(:mary)

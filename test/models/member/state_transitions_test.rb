@@ -178,7 +178,7 @@ class Member::StateTransitionsTest < ActiveSupport::TestCase
   end
 
   test "review_active_state! sets state to support when user still has shares" do
-    org(share_price: 100, shares_number: 1, annual_fee: nil)
+    org(features: (Current.org.features - [ :annual_fee ]) | [ :shares ], share_price: 100, shares_number: 1, annual_fee: nil)
     member = members(:john)
     member.update_columns(existing_shares_number: 1)
     assert_equal 1, member.shares_number
@@ -190,7 +190,7 @@ class Member::StateTransitionsTest < ActiveSupport::TestCase
   end
 
   test "review_active_state! sets state to inactive and desired_shares_number to 0 when membership ended" do
-    org(share_price: 100, shares_number: 1, annual_fee: nil)
+    org(features: (Current.org.features - [ :annual_fee ]) | [ :shares ], share_price: 100, shares_number: 1, annual_fee: nil)
     member = members(:john)
     member.update_columns(desired_shares_number: 1)
 
@@ -334,7 +334,7 @@ class Member::StateTransitionsTest < ActiveSupport::TestCase
   end
 
   test "deactivate! support member with shares" do
-    org(share_price: 100, shares_number: 1, annual_fee: nil)
+    org(features: (Current.org.features - [ :annual_fee ]) | [ :shares ], share_price: 100, shares_number: 1, annual_fee: nil)
     member = members(:martha)
     member.update!(existing_shares_number: 2)
     assert_changes -> { member.state }, from: "support", to: "inactive" do
@@ -345,7 +345,7 @@ class Member::StateTransitionsTest < ActiveSupport::TestCase
   end
 
   test "deactivate! support member with only desired shares" do
-    org(share_price: 100, shares_number: 1, annual_fee: nil)
+    org(features: (Current.org.features - [ :annual_fee ]) | [ :shares ], share_price: 100, shares_number: 1, annual_fee: nil)
     member = members(:martha)
     member.update!(desired_shares_number: 2)
     assert_changes -> { member.state }, from: "support", to: "inactive" do

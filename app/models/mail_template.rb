@@ -221,7 +221,7 @@ class MailTemplate < ApplicationRecord
     when "basket_second_last_trial"
       Current.org.trial_baskets_count < 2
     when "sepa_mandate_confirmation"
-      !(Current.org.sepa? && Current.org.sepa_creditor_identifier?)
+      !Current.org.sepa_configured?
     else
       false
     end

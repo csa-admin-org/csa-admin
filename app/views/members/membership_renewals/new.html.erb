@@ -15,7 +15,7 @@
         <% case params[:decision] %>
         <% when "cancel" %>
           <%= f.input :renewal_note, as: :text, placeholder: t(".renewal_note.placeholder.cancel"), input_html: { rows: 3 } %>
-          <% if Current.org.annual_fee? %>
+          <% if Current.org.feature?("annual_fee") %>
             <div class="check_boxes">
               <div class="checkbox">
                 <%= f.input :renewal_annual_fee,

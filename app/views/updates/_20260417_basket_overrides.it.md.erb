@@ -8,7 +8,7 @@ Nella pagina dell'abbonamento, ogni <%= Basket.model_name.human.downcase %> che 
 
 Alcuni punti da tenere a mente:
 
-- **Le modifiche del deposito da parte di un socio** dall'area soci vengono anch'esse catturate (se consentito nelle [impostazioni dell'abbonamento](/settings#membership)), quindi cambiare il deposito principale dell'abbonamento non sovrascrive ciò che un socio ha scelto per una <%= Basket.model_name.human.downcase %> specifica.
+- **Le modifiche del deposito da parte di un socio** dall'area soci vengono anch'esse catturate (se consentito nelle [impostazioni delle modifiche all'abbonamento](/settings#membership_updates)), quindi cambiare il deposito principale dell'abbonamento non sovrascrive ciò che un socio ha scelto per una <%= Basket.model_name.human.downcase %> specifica.
 - **Gli spostamenti delle <%= Basket.model_name.human(count: 2).downcase %>** (dovuti ad assenze) continuano a funzionare parallelamente a queste modifiche. Una <%= Basket.model_name.human.downcase %> può ricevere sia uno spostamento sia un aggiustamento manuale della quantità senza doppi conteggi.
 - Se in seguito modifichi la configurazione dell'abbonamento per corrispondere a una <%= Basket.model_name.human.downcase %> precedentemente modificata, la modifica diventa senza effetto e l'icona scompare.
 

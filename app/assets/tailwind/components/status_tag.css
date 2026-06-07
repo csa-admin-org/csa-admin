@@ -10,6 +10,7 @@
   .status-tag {
     /* Green statuses - success/completed actions */
     &[data-status="available"],
+    &[data-status="visible"],
     &[data-status="renewed"],
     &[data-status="delivered"],
     &[data-status="invoiced"],
@@ -28,6 +29,7 @@
 
     /* Yellow statuses - warning/attention */
     &[data-status="support"],
+    &[data-status="required"],
     &[data-status="future"] {
       @apply bg-yellow-400 dark:bg-yellow-600;
     }
@@ -69,6 +71,7 @@
     &[data-status="spam_complaint"],
     &[data-status="invalid_address"],
     &[data-status="no"],
+    &[data-status="disabled"],
     &[data-status="failed"],
     &[data-status="open"],
     &[data-status="rejected"] {
@@ -78,13 +81,15 @@
     /* Grey/Neutral statuses - inactive/disabled */
     &[data-status="canceled"],
     &[data-status="absent"],
+    &[data-status="hidden"],
     &[data-status="forgotten"],
     &[data-status="ignored"],
     &[data-status="processing"],
     &[data-status="no_email"],
     &[data-status="past"],
     &[data-status="unavailable"],
-    &[data-status="inactive"] {
+    &[data-status="inactive"],
+    &[data-status="unconfigured"] {
       @apply bg-neutral-400 dark:bg-neutral-600;
     }
   }

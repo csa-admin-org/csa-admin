@@ -34,8 +34,8 @@ module Invoice::EntityType
       types = %w[Membership Other]
       types << "ActivityParticipation" if Current.org.feature?("activity")
       types << "Shop::Order" if Current.org.feature?("shop")
-      types << "AnnualFee" if Current.org.annual_fee?
-      types << "Share" if Current.org.share?
+      types << "AnnualFee" if Current.org.feature?("annual_fee")
+      types << "Share" if Current.org.feature?("shares")
       types << "NewMemberFee" if Current.org.feature?("new_member_fee")
       types += pluck(:entity_type)
       types.uniq.sort

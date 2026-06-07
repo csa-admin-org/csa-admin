@@ -3525,7 +3525,7 @@ _:
           _nl: Informatietekst (SEPA)
         languages:
           _en: Languages
-          _fr: Languages
+          _fr: Langues
           _de: Sprachen
           _it: Lingue
           _nl: Talen
@@ -3686,11 +3686,11 @@ _:
           _it: Importo
           _nl: Prijs
         shares_number:
-          _en: Number
-          _fr: Nombre
-          _de: Anzahl
-          _it: Numero
-          _nl: Aantal
+          _en: Number required
+          _fr: Nombre requis
+          _de: Erforderliche Anzahl
+          _it: Numero richiesto
+          _nl: Vereist aantal
         shop_admin_only:
           _en: Restrict access to admins only
           _fr: Limiter l'accès uniquement aux admins

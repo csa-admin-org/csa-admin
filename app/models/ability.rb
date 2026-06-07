@@ -11,6 +11,9 @@ class Ability
     activity: [ Activity, ActivityParticipation, ActivityPreset ],
     basket_content: [ BasketContent, BasketContent::Product ],
     bidding_round: [ BiddingRound, BiddingRound::Pledge ],
+    member_information: [],
+    sepa: [ SEPAMandate ],
+    vat: [],
     shop: [
       Shop::Order,
       Shop::OrderItem,
@@ -38,8 +41,8 @@ class Ability
 
     writable_models = []
 
+    can :read, Organization
     if admin.permission.can_write?(:organization)
-      can :read, Organization
       can :update, Organization, id: Current.org.id
     end
 

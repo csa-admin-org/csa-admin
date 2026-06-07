@@ -8,8 +8,8 @@ class InvoiceTotal
 
   def self.all(fiscal_year)
     scopes = %w[Membership]
-    scopes << "AnnualFee" if Current.org.annual_fee?
-    scopes << "Share" if Current.org.share?
+    scopes << "AnnualFee" if Current.org.feature?("annual_fee")
+    scopes << "Share" if Current.org.feature?("shares")
     scopes << "Shop::Order" if Current.org.feature?("shop")
     scopes << "ActivityParticipation" if Current.org.feature?("activity")
     scopes << "Other" if Invoice.current_year.not_canceled.other_type.any?

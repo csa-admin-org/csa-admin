@@ -1,0 +1,14 @@
+# frozen_string_literal: true
+
+context.instance_eval do
+  f.inputs t("active_admin.resources.organization.edit_model"), icon: "sliders-horizontal" do
+    translated_input(f, :member_information_titles,
+      hint: t("formtastic.hints.organization.member_information_title"),
+      input_html: { placeholder: t("members.information.default_title") })
+    translated_input(f, :member_information_texts,
+      hint: t("formtastic.hints.organization.member_information_text"),
+      required: true,
+      as: :action_text,
+      input_html: { class: "long-text" })
+  end
+end

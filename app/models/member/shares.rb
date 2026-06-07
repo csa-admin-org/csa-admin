@@ -11,7 +11,7 @@ module Member::Shares
       numericality: {
         greater_than_or_equal_to: ->(m) { m.waiting_basket_size&.shares_number || Current.org.shares_number || 0 }
       },
-      if: -> { public_create && Current.org.share? }
+      if: -> { public_create && Current.org.feature?("shares") }
 
     before_save :handle_required_shares_number_change
   end
@@ -48,7 +48,7 @@ module Member::Shares
   private
 
   def handle_required_shares_number_change
-    return unless Current.org.share?
+    return unless Current.org.feature?("shares")
 
     final_shares_number = [ shares_number, desired_shares_number ].max
     if (final_shares_number + required_shares_number).positive?

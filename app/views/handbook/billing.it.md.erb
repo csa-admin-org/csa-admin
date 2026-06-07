@@ -25,9 +25,9 @@ CSA Admin genera fatture-QR con numero di riferimento (PDF) e le invia a tutte l
 
 Per poter generare queste fatture, hai bisogno di un **QR-IBAN** dalla tua banca. Si tratta di un IBAN speciale (che inizia con CH e contiene 30 o 31 come numero di clearing bancario) diverso dall'IBAN del tuo conto bancario abituale. Solo il QR-IBAN permette di generare fatture-QR svizzere con numero di riferimento — un IBAN normale non è supportato a questo scopo.
 
-Puoi richiedere un QR-IBAN alla tua banca e poi inseriscilo nelle [tue impostazioni di fatturazione](/settings#billing).
+Puoi richiedere un QR-IBAN alla tua banca e poi inseriscilo nelle [tue impostazioni di fatturazione](/settings#invoice).
 
-> Se non sei sicuro di avere già un QR-IBAN, prova a inserirlo nelle [tue impostazioni di fatturazione](/settings#billing) — il sistema ne verificherà il formato e lo rifiuterà se non è un QR-IBAN valido. Se non ne hai uno, richiedilo alla tua banca.
+> Se non sei sicuro di avere già un QR-IBAN, prova a inserirlo nelle [tue impostazioni di fatturazione](/settings#invoice) — il sistema ne verificherà il formato e lo rifiuterà se non è un QR-IBAN valido. Se non ne hai uno, richiedilo alla tua banca.
 <!-- /country:CH -->
 
 ## Abbonamenti {#memberships}
@@ -110,9 +110,9 @@ Se la configurazione di un abbonamento (date, <%= BasketSize.model_name.human.do
 
 ### Quota annuale {#annual-fee}
 
-La quota annuale predefinita dell'organizzazione è definita nelle [impostazioni di fatturazione](/settings#billing). Ogni socio eredita questo valore predefinito alla creazione, ma può essere modificato individualmente dal suo profilo (pagina di modifica, sezione «Fatturazione»).
+Quando la funzione quota annuale è attivata, la quota annuale predefinita dell'organizzazione è definita nelle [impostazioni della quota annuale](/settings#annual_fee). Ogni socio eredita questo valore predefinito alla creazione, ma può essere modificato individualmente dal suo profilo (pagina di modifica, sezione «Fatturazione»).
 
-La quota annuale è automaticamente inclusa nella **prima fattura** dell'abbonamento. Se il socio non ha un abbonamento ([supporto](/handbook/members#statuses)) allora viene creata automaticamente una fattura specifica di quota annuale all'inizio dell'anno fiscale.
+Quando la funzione è attivata, la quota annuale è automaticamente inclusa nella **prima fattura** dell'abbonamento. Se il socio non ha un abbonamento ([supporto](/handbook/members#statuses)), viene creata automaticamente una fattura specifica di quota annuale all'inizio dell'anno fiscale.
 
 Se modifichi la quota annuale predefinita dell'organizzazione, tutti i soci ancora al vecchio valore vengono automaticamente aggiornati.
 
@@ -130,9 +130,9 @@ I soci contrassegnati come «[<%= Member.human_attribute_name(:salary_basket).do
 
 ## Quote sociali {#share-capital}
 
-Il prezzo per quota è definito nelle [impostazioni di fatturazione](/settings#billing). Il numero predefinito di quote richieste è configurato a livello di organizzazione, ma può anche essere impostato per <%= BasketSize.model_name.human.downcase %> (ad esempio, una dimensione maggiore può richiedere più quote).
+Quando la funzione quote sociali è attivata, il prezzo per quota e il numero predefinito di quote richieste sono definiti nelle [impostazioni delle quote sociali](/settings#shares). Il numero di quote richieste può anche essere impostato per <%= BasketSize.model_name.human.downcase %> (ad esempio, una dimensione maggiore può richiedere più quote).
 
-Ogni giorno di fatturazione, il sistema crea automaticamente le fatture per le quote sociali mancanti, per esempio per un socio il cui abbonamento è appena iniziato.
+Quando la funzione è attivata, ogni giorno di fatturazione CSA Admin crea automaticamente le fatture per le quote sociali mancanti, per esempio per un socio il cui abbonamento è appena iniziato.
 
 ### Campi quote del socio {#share-fields}
 
@@ -191,11 +191,11 @@ CSA Admin offre la possibilità di fatturare manualmente articoli o servizi vari
 
 ## IVA {#vat}
 
-Se la tua organizzazione è soggetta all'IVA, puoi configurare le aliquote IVA nelle [impostazioni di fatturazione](/settings#billing). Aliquote separate possono essere definite per le fatture di abbonamento, le fatture di <%= activities_human_name.downcase %> e le fatture di ordini della bottega. Per le fatture «Altro» e «Quota nuovo socio», l'aliquota IVA viene impostata manualmente su ogni fattura.
+Se la tua organizzazione è soggetta all'IVA, attiva la funzione IVA e configura il tuo numero di partita IVA e le aliquote nelle [impostazioni IVA](/settings#vat). Aliquote separate possono essere definite per le fatture di abbonamento, le fatture di <%= activities_human_name.downcase %> e le fatture di ordini della bottega. Per le fatture «Altro» e «Quota nuovo socio», l'aliquota IVA viene impostata manualmente su ogni fattura.
 
 L'IVA è calcolata come imposta inclusa (il totale della fattura include già l'IVA). L'importo netto e l'importo IVA sono visualizzati separatamente sul PDF della fattura.
 
-> L'IVA viene applicata solo quando un numero di partita IVA è configurato nelle [impostazioni di fatturazione](/settings#billing).
+> L'IVA viene applicata solo quando la funzione IVA è attivata. Le impostazioni IVA richiedono un numero di partita IVA e un'aliquota IVA per gli abbonamenti; le aliquote IVA per le <%= activities_human_name.downcase %> e per la bottega sono opzionali e vengono utilizzate solo quando queste funzioni sono attivate.
 
 ## Pagamenti {#payments}
 

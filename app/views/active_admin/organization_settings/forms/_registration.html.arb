@@ -1,0 +1,86 @@
+# frozen_string_literal: true
+
+context.instance_eval do
+  f.inputs t("active_admin.resource.form.registration"), icon: section[:icon] do
+    li class: "panel-actions" do
+      text_node handbook_icon_link(section[:handbook], anchor: section[:handbook_anchor])
+    end
+
+    trix_word_count_wrapper(self, threshold: 40) do
+      translated_input(f, :member_form_subtitles,
+        hint: t("formtastic.hints.organization.member_form_subtitle"),
+        placeholder: ->(locale) {
+          I18n.with_locale(locale) {
+            I18n.t("members.members.new.subtitle")
+          }
+        },
+        required: false,
+        as: :action_text,
+        input_html: { rows: 1 })
+    end
+  end
+
+  f.inputs t("active_admin.resource.form.content"), icon: "message-square-text" do
+    trix_word_count_wrapper(self, threshold: 120) do
+      translated_input(f, :member_form_extra_texts,
+        hint: t("formtastic.hints.organization.member_form_extra_text"),
+        required: false,
+        as: :action_text,
+        input_html: { rows: 5 })
+    end
+    f.input :member_form_extra_text_only, as: :boolean
+    trix_word_count_wrapper(self, threshold: 120) do
+      translated_input(f, :member_form_complements_texts,
+        required: false,
+        as: :action_text,
+        input_html: { rows: 5 })
+    end
+    f.input :member_form_complement_quantities, as: :boolean
+  end
+
+  f.inputs t("members.members.form_modes.membership.title"), icon: "form" do
+    f.input :basket_sizes_member_order_mode,
+      as: :select,
+      collection: member_order_modes_collection(BasketSize),
+      prompt: true
+    f.input :basket_complements_member_order_mode,
+      as: :select,
+      collection: member_order_modes_collection(BasketComplement),
+      prompt: true
+    f.input :depots_member_order_mode,
+      as: :select,
+      collection: member_order_modes_collection(Depot),
+      prompt: true
+    translated_input(f, :member_form_delivery_cycle_labels,
+      hint: t("formtastic.hints.organization.member_form_delivery_cycle_label"),
+      input_html: { placeholder: Delivery.model_name.human(count: 2) })
+    f.input :delivery_cycles_member_order_mode,
+      as: :select,
+      collection: member_order_modes_collection(DeliveryCycle),
+      prompt: true
+    f.input :allow_alternative_depots, as: :boolean
+  end
+
+  f.inputs t("members.members.new.more_info"), icon: "notebook-text" do
+    f.input :member_profession_form_mode,
+      label: Member.human_attribute_name(:profession),
+      as: :select,
+      collection: form_modes_collection,
+      include_blank: false,
+      required: false
+    f.input :member_come_from_form_mode,
+      label: Member.human_attribute_name(:come_from),
+      as: :select,
+      collection: form_modes_collection,
+      include_blank: false,
+      required: false
+  end
+
+  f.inputs t("active_admin.resource.form.documents_to_validate"), icon: "clipboard-check" do
+    para t("active_admin.resource.form.documents_to_validate_hint_html"), class: "description -mt-2 mb-4"
+    translated_input(f, :charter_urls, required: false)
+    translated_input(f, :statutes_urls, required: false)
+    translated_input(f, :terms_of_service_urls, required: false)
+    translated_input(f, :privacy_policy_urls, required: false)
+  end
+end

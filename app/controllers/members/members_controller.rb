@@ -11,7 +11,7 @@ class Members::MembersController < Members::BaseController
 
   def new
     @member = Member.new(public_create: true)
-    @member.desired_shares_number = Current.org.shares_number
+    @member.desired_shares_number = Current.org.shares_number if Current.org.feature?("shares")
     @member.waiting_activity_participations_demanded_annually = Current.org.activity_participations_form_min.to_i
     if params[:basket_size_id]
       @member.waiting_basket_size_id = params[:basket_size_id]
@@ -105,6 +105,8 @@ class Members::MembersController < Members::BaseController
       attrs["quantity"].to_i > 0
     }
     permitted[:waiting_alternative_depot_ids]&.map!(&:presence)&.compact!
+    permitted.delete(:annual_fee) unless Current.org.feature?("annual_fee")
+    permitted.delete(:desired_shares_number) unless Current.org.feature?("shares")
     permitted
   end
   helper_method :member_params

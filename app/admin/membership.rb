@@ -136,7 +136,7 @@ ActiveAdmin.register Membership do
                 icon: "banknotes",
                 params: { ids: ids },
                 form: { class: "flex justify-center", data: { disable_with_value: t(".invoicing") } },
-                data: { confirm: t(".future_billing#{"_with_annual_fee" if Current.org.annual_fee?}_confirm") }
+                data: { confirm: t(".future_billing#{"_with_annual_fee" if feature?("annual_fee")}_confirm") }
             end
           end
         end
@@ -506,7 +506,7 @@ ActiveAdmin.register Membership do
                 row(:renewed_membership)
                 row :renewal_note
               elsif m.canceled?
-                if Current.org.annual_fee?
+                if feature?("annual_fee")
                   row(:renewal_annual_fee) {
                     status_tag(!!m.renewal_annual_fee)
                     span { cur(m.renewal_annual_fee) }
@@ -705,7 +705,7 @@ ActiveAdmin.register Membership do
       end
     end
 
-    if Current.org.annual_fee? && f.object.canceled?
+    if feature?("annual_fee") && f.object.canceled?
       f.inputs Membership.human_attribute_name(:renew), icon: "refresh-cw" do
         f.input :renewal_annual_fee
       end
@@ -741,7 +741,7 @@ ActiveAdmin.register Membership do
 
     h3 t(".config")
     if resource.new_record?
-      para t(".membership_configuration_text")
+      para t(".membership_configuration_text"), class: "description mb-6"
     else
       para t(".membership_configuration_warning_text"), class: "description mb-2"
       f.inputs do

@@ -1,0 +1,11 @@
+# frozen_string_literal: true
+
+context.instance_eval do
+  locale = current_admin&.language || I18n.locale
+
+  attributes_table_for org do
+    row(:sepa_creditor_identifier) { org.sepa_creditor_identifier.presence || organization_settings_missing_status_tag }
+    row(:invoice_sepa_info) { organization_settings_text_value(org.invoice_sepa_infos[locale.to_s]) }
+    row(:invoice_membership_summary_only) { organization_settings_status_tag(org.invoice_membership_summary_only?) }
+  end
+end

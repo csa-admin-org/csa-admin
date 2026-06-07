@@ -1,0 +1,9 @@
+# frozen_string_literal: true
+
+context.instance_eval do
+  para organization_disabled_setting_section_hint(section), class: "description m-0 p-2 text-gray-500"
+
+  attributes_table_for org do
+    row(t("active_admin.resource.form.members_sharing_contact")) { Member.sharing_contact.count }
+  end
+end

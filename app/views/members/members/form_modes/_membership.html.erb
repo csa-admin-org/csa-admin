@@ -27,7 +27,7 @@
                 <%= t(".trial_text", count: Current.org.trial_baskets_count) %>
               <% end %>
             </p>
-            <% if Current.org.annual_fee? %>
+            <% if Current.org.feature?("annual_fee") %>
               <p>
                 <% if Current.org.annual_fee_support_member_only? %>
                   <%= t(".annual_fee_support_member_only_text_html", price: cur(Current.org.annual_fee, precision: 0)) %>
@@ -36,7 +36,7 @@
                 <% end %>
               </p>
             <% end %>
-            <% if Current.org.share? %>
+            <% if Current.org.feature?("shares") %>
               <p>
                 <%= t(".shares_text_html", price: cur(Current.org.share_price, precision: 0)) %>
               </p>
@@ -62,11 +62,11 @@
         <% end %>
       <% end %>
 
-      <% if Current.org.annual_fee? && Current.org.annual_fee_member_form? %>
+      <% if Current.org.feature?("annual_fee") && Current.org.annual_fee_member_form? %>
         <%= f.input :annual_fee, as: :numeric, required: true, label_html: { class: "text-base" }, input_html: { min: 0, value: prefer_integer(f.object.annual_fee), data: { default_value: prefer_integer(Current.org.annual_fee), disabled_value: prefer_integer(!Current.org.annual_fee_support_member_only? && Current.org.annual_fee) }, class: "w-20" }, hint: t(".annual_fee_hint", currency: currency_symbol) %>
       <% end %>
 
-      <% if Current.org.share? %>
+      <% if Current.org.feature?("shares") %>
         <%= f.input :desired_shares_number, as: :numeric, required: true, label_html: { class: "text-base" }, input_html: { min: Current.org.shares_number, data: { form_min_value_target: "input", action: "blur->form-minmax-enforcer#enforce" }, class: "w-20" }, hint: t(".desired_shares_number_hint") %>
       <% end %>
 

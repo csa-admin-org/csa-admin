@@ -134,7 +134,7 @@ class Member < ApplicationRecord
     presence: true,
     numericality: { greater_than_or_equal_to: 1 },
     on: :create,
-    if: -> { public_create && Current.org.annual_fee? && Current.org.annual_fee_member_form? && !waiting_basket_size_id? }
+    if: -> { public_create && Current.org.feature?("annual_fee") && Current.org.annual_fee_member_form? && !waiting_basket_size_id? }
   validate :email_must_be_unique
   validate :unique_waiting_basket_complement_id
 
@@ -216,6 +216,7 @@ class Member < ApplicationRecord
   def set_default_annual_fee
     return unless new_record?
     return if annual_fee
+    return unless Current.org.feature?("annual_fee")
     return unless Current.org.annual_fee&.positive?
 
     unless Current.org.annual_fee_support_member_only? && waiting_basket_size_id?
@@ -268,7 +269,7 @@ class Member < ApplicationRecord
   end
 
   def handle_annual_fee_change
-    return unless Current.org.annual_fee?
+    return unless Current.org.feature?("annual_fee")
 
     if !annual_fee.nil?
       self.state = SUPPORT_STATE if inactive?

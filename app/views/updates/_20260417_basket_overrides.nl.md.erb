@@ -8,7 +8,7 @@ Op de pagina van het lidmaatschap toont elk(e) <%= Basket.model_name.human.downc
 
 Enkele punten om in gedachten te houden:
 
-- **Wijzigingen van het depot door een lid** via het ledengedeelte worden ook vastgelegd (indien toegestaan in [de lidmaatschapsinstellingen](/settings#membership)), waardoor het wijzigen van het hoofddepot van het lidmaatschap niet overschrijft wat een lid heeft gekozen voor een specifiek(e) <%= Basket.model_name.human.downcase %>.
+- **Wijzigingen van het depot door een lid** via het ledengedeelte worden ook vastgelegd (indien toegestaan in [de instellingen voor lidmaatschapswijzigingen](/settings#membership_updates)), waardoor het wijzigen van het hoofddepot van het lidmaatschap niet overschrijft wat een lid heeft gekozen voor een specifiek(e) <%= Basket.model_name.human.downcase %>.
 - **Verplaatsingen van <%= Basket.model_name.human(count: 2).downcase %>** (door afwezigheden) blijven parallel aan deze wijzigingen werken. Een <%= Basket.model_name.human.downcase %> kan zowel een verplaatsing ontvangen als een handmatige aanpassing van de hoeveelheid hebben zonder dubbeltelling.
 - Als je later de configuratie van het lidmaatschap wijzigt zodat deze overeenkomt met een eerder gewijzigd(e) <%= Basket.model_name.human.downcase %>, wordt de wijziging zonder effect en verdwijnt het pictogram.
 

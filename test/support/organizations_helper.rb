@@ -6,7 +6,7 @@ module OrganizationsHelper
   end
 
   def german_org(columns = {})
-    Current.org.update!({
+    attrs = {
       languages: [ "de" ],
       country_code: "DE",
       currency_code: "EUR",
@@ -19,7 +19,12 @@ module OrganizationsHelper
       creditor_city: "Hannover",
       creditor_zip: "30159",
       basket_content_member_title_de: "Ihr Tascheninhalt"
-    }.merge(columns))
+    }.merge(columns)
+    if attrs[:sepa_creditor_identifier].present? && !columns.key?(:features)
+      attrs[:features] = Current.org.features | [ :sepa ]
+    end
+
+    Current.org.update!(attrs)
   end
 
   def france_org(columns = {})

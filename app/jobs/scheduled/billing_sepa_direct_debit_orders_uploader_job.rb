@@ -3,7 +3,7 @@
 module Scheduled
   class BillingSEPADirectDebitOrdersUploaderJob < BaseJob
     def perform
-      return unless Current.org.sepa_creditor_identifier?
+      return unless Current.org.sepa_configured?
       return unless Current.org.bank_connection?
 
       delay = Billing::SEPADirectDebit::AUTOMATIC_ORDER_UPLOAD_DELAY

@@ -25,9 +25,9 @@ CSA Admin genereert QR-facturen met referentienummers (PDF) en stuurt deze naar 
 
 Om deze facturen te kunnen genereren, heb je een **QR-IBAN** van je bank nodig. Dit is een speciaal IBAN (beginnend met CH en met 30 of 31 als bank clearing nummer) dat verschilt van je gewone bankrekening IBAN. Alleen het QR-IBAN maakt het mogelijk om Zwitserse QR-facturen met referentienummers te genereren — een normaal IBAN wordt hiervoor niet ondersteund.
 
-Je kunt een QR-IBAN aanvragen bij je bank en dit dan invoeren in [je factureringsinstellingen](/settings#billing).
+Je kunt een QR-IBAN aanvragen bij je bank en dit dan invoeren in [je factureringsinstellingen](/settings#invoice).
 
-> Als je niet zeker weet of je al een QR-IBAN hebt, probeer het dan in te voeren in [je factureringsinstellingen](/settings#billing) — het systeem valideert het formaat en weigert het als het geen geldig QR-IBAN is. Als je er geen hebt, vraag het dan aan bij je bank.
+> Als je niet zeker weet of je al een QR-IBAN hebt, probeer het dan in te voeren in [je factureringsinstellingen](/settings#invoice) — het systeem valideert het formaat en weigert het als het geen geldig QR-IBAN is. Als je er geen hebt, vraag het dan aan bij je bank.
 <!-- /country:CH -->
 
 ## Lidmaatschappen {#memberships}
@@ -110,9 +110,9 @@ Als een lidmaatschapsconfiguratie (datums, <%= BasketSize.model_name.human.downc
 
 ### Jaarlijkse bijdrage {#annual-fee}
 
-De standaard jaarlijkse bijdrage van de organisatie is gedefinieerd in [de factureringsinstellingen](/settings#billing). Elk lid erft deze standaardwaarde bij aanmaak, maar je kunt deze individueel overschrijven vanuit het profiel van het lid (bewerkpagina, sectie «Facturering»).
+Wanneer de functie voor jaarlijkse bijdrage is ingeschakeld, is de standaard jaarlijkse bijdrage van de organisatie gedefinieerd in [de instellingen voor jaarlijkse bijdrage](/settings#annual_fee). Elk lid erft deze standaardwaarde bij aanmaak, maar je kunt deze individueel overschrijven vanuit het profiel van het lid (bewerkpagina, sectie «Facturering»).
 
-De jaarlijkse bijdrage wordt automatisch opgenomen in de **eerste factuur** van het lidmaatschap. Als het lid geen lidmaatschap heeft ([ondersteuning](/handbook/members#statuses)) dan wordt automatisch een specifieke jaarlijkse bijdragefactuur aangemaakt aan het begin van het boekjaar.
+Wanneer de functie is ingeschakeld, wordt de jaarlijkse bijdrage automatisch opgenomen in de **eerste factuur** van het lidmaatschap. Als het lid geen lidmaatschap heeft ([ondersteuning](/handbook/members#statuses)), wordt automatisch een specifieke jaarlijkse bijdragefactuur aangemaakt aan het begin van het boekjaar.
 
 Als je de standaard jaarlijkse bijdrage van de organisatie wijzigt, worden alle leden die nog op de oude waarde staan automatisch bijgewerkt.
 
@@ -130,9 +130,9 @@ Leden gemarkeerd als «[<%= Member.human_attribute_name(:salary_basket).downcase
 
 ## Aandelenkapitaal {#share-capital}
 
-De prijs per aandeel is gedefinieerd in [de factureringsinstellingen](/settings#billing). Het standaard vereiste aantal aandelen wordt op organisatieniveau geconfigureerd, maar je kunt dit ook per <%= BasketSize.model_name.human.downcase %> instellen (bijv. een grotere maat kan meer aandelen vereisen).
+Wanneer de functie voor aandelenkapitaal is ingeschakeld, zijn de prijs per aandeel en het standaard vereiste aantal aandelen gedefinieerd in [de instellingen voor aandelenkapitaal](/settings#shares). Het vereiste aantal aandelen kan ook per <%= BasketSize.model_name.human.downcase %> worden ingesteld (bijv. een grotere maat kan meer aandelen vereisen).
 
-Elke factureringsdag maakt het systeem automatisch facturen aan voor ontbrekend aandelenkapitaal, bijvoorbeeld voor een lid wiens lidmaatschap net is begonnen.
+Wanneer de functie is ingeschakeld, maakt CSA Admin elke factureringsdag automatisch facturen aan voor ontbrekend aandelenkapitaal, bijvoorbeeld voor een lid wiens lidmaatschap net is begonnen.
 
 ### Aandelenvelden van het lid {#share-fields}
 
@@ -191,11 +191,11 @@ CSA Admin biedt de mogelijkheid om handmatig verschillende artikelen of diensten
 
 ## BTW {#vat}
 
-Als je organisatie BTW-plichtig is, kun je BTW-tarieven configureren in [de factureringsinstellingen](/settings#billing). Aparte tarieven kunnen worden gedefinieerd voor lidmaatschapsfacturen, <%= activities_human_name.downcase %>-facturen en winkelbestelfacturen. Voor facturen van het type «Overig» en «Nieuw lid bijdrage» wordt het BTW-tarief handmatig op elke factuur ingesteld.
+Als je organisatie BTW-plichtig is, schakel dan de BTW-functie in en configureer je BTW-nummer en tarieven in [de BTW-instellingen](/settings#vat). Aparte tarieven kunnen worden gedefinieerd voor lidmaatschapsfacturen, <%= activities_human_name.downcase %>-facturen en winkelbestelfacturen. Voor facturen van het type «Overig» en «Nieuw lid bijdrage» wordt het BTW-tarief handmatig op elke factuur ingesteld.
 
 BTW wordt berekend als inclusieve belasting (het factuurtotaal bevat al BTW). Het nettobedrag en het BTW-bedrag worden apart weergegeven op de factuur-PDF.
 
-> BTW wordt alleen toegepast wanneer een BTW-nummer is geconfigureerd in [de factureringsinstellingen](/settings#billing).
+> BTW wordt alleen toegepast wanneer de BTW-functie is ingeschakeld. In de BTW-instellingen zijn een BTW-nummer en een BTW-tarief voor lidmaatschappen vereist; BTW-tarieven voor <%= activities_human_name.downcase %> en de winkel zijn optioneel en worden alleen gebruikt wanneer die functies zijn ingeschakeld.
 
 ## Betalingen {#payments}
 

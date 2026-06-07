@@ -17,7 +17,7 @@ module Invoice::Amounts
         less_than_or_equal_to: 200,
         allow_nil: true
       }
-    validates :vat_rate, numericality: { greater_or_equal_to_than: 0, allow_nil: true }
+    validates :vat_rate, numericality: { greater_than_or_equal_to: 0, allow_nil: true }
     validates :vat_amount, presence: true, if: :vat_rate
 
     before_validation :set_amount, :set_vat_rate_and_amount, on: :create
@@ -93,6 +93,8 @@ module Invoice::Amounts
   end
 
   def set_vat_rate_and_amount
+    return unless Current.org.feature?("vat")
+
     if configured_vat_rate.presence&.positive?
       self[:vat_rate] = configured_vat_rate
       gross_amount = amount_with_vat

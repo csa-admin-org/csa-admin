@@ -87,6 +87,36 @@
     @apply p-3;
   }
 
+  .attributes-table
+    :where(
+      tbody > tr[data-row="membership_renewed_attributes"],
+      tbody > tr[data-row="delivery_pdf_footer"],
+      tbody > tr[data-row="email_footer"],
+      tbody > tr[data-row="invoice_sepa_info"]
+    ) {
+    @apply flex-col items-stretch;
+  }
+
+  .attributes-table
+    :where(
+      tbody > tr[data-row="membership_renewed_attributes"] > th,
+      tbody > tr[data-row="delivery_pdf_footer"] > th,
+      tbody > tr[data-row="email_footer"] > th,
+      tbody > tr[data-row="invoice_sepa_info"] > th
+    ) {
+    @apply w-full sm:w-full;
+  }
+
+  .attributes-table
+    :where(
+      tbody > tr[data-row="membership_renewed_attributes"] > td,
+      tbody > tr[data-row="delivery_pdf_footer"] > td,
+      tbody > tr[data-row="email_footer"] > td,
+      tbody > tr[data-row="invoice_sepa_info"] > td
+    ) {
+    @apply w-full pt-0 text-start;
+  }
+
   .attributes-table-empty-value {
     @apply text-sm text-gray-400 italic dark:text-gray-500;
   }
@@ -259,6 +289,10 @@
       & :where(.flex) {
         @apply justify-end;
       }
+    }
+
+    &.organization :where(tbody > tr > th) {
+      @apply md:max-w-[80%];
     }
   }
 

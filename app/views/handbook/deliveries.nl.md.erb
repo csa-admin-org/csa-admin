@@ -93,7 +93,7 @@ Op de pagina van het lidmaatschap toont elk(e) <%= Basket.model_name.human.downc
 
 Enkele belangrijke punten:
 
-- Wijzigingen worden automatisch vastgelegd zodra een admin een <%= Basket.model_name.human.downcase %> bewerkt of een lid zijn depot of <%= BasketComplement.model_name.human(count: 2).downcase %> wijzigt via het ledengedeelte (indien toegestaan in [de lidmaatschapsinstellingen](/settings#membership)).
+- Wijzigingen worden automatisch vastgelegd zodra een admin een <%= Basket.model_name.human.downcase %> bewerkt of een lid zijn depot of <%= BasketComplement.model_name.human(count: 2).downcase %> wijzigt via het ledengedeelte (indien toegestaan in [de instellingen voor lidmaatschapswijzigingen](/settings#membership_updates)).
 - Wanneer de configuratie van het lidmaatschap verandert, worden de wijzigingen opnieuw toegepast op de opnieuw aangemaakte <%= Basket.model_name.human(count: 2).downcase %>. Wijzigingen die verwijzen naar leveringen die niet langer onder het lidmaatschap vallen (bijvoorbeeld na een wijziging van de leveringscyclus) worden automatisch opgeschoond.
 - Als de configuratie van het lidmaatschap wordt gewijzigd zodat deze overeenkomt met een eerder gewijzigd(e) <%= Basket.model_name.human.downcase %>, wordt de wijziging zonder effect en verdwijnt het geschiedenispictogram.
 
@@ -115,7 +115,7 @@ Elk depot kan een van twee bladmodi gebruiken (configureerbaar in de depotinstel
 
 ### Ledeninformatie op bladen {#member-info}
 
-Een [instelling](/settings#delivery) bepaalt welke aanvullende informatie onder de naam van elk lid op de bladen wordt weergegeven:
+Een [instelling](/settings#delivery_sheets) bepaalt welke aanvullende informatie onder de naam van elk lid op de bladen wordt weergegeven:
 
 
 - **Geen** (standaard): Alleen de naam van het lid.
@@ -126,7 +126,7 @@ Deze instelling geldt globaal voor alle depots die de handtekeningenblad-modus g
 
 ### Afkorting van de ledennaam {#member-name-format}
 
-Een [instelling](/settings#pdf-sheets) bepaalt hoe ledennamen worden weergegeven op leveringsbonnen, zodat de privacy van leden beschermd wordt wanneer de bonnen zichtbaar zijn voor andere leden:
+Een [instelling](/settings#delivery_sheets) bepaalt hoe ledennamen worden weergegeven op leveringsbonnen, zodat de privacy van leden beschermd wordt wanneer de bonnen zichtbaar zijn voor andere leden:
 
 - **Geen, volledige naam** (standaard): De volledige naam wordt weergegeven.
 - **Alleen eerste deel** (bijv. *D. Jan*): Het eerste woord van elk naamsegment wordt teruggebracht tot een initiaal. Geschikt voor organisaties waar namen worden opgeslagen als **Achternaam + Voornaam**.
@@ -139,7 +139,7 @@ Wanneer een naam meerdere personen bevat die zijn verbonden door een komma of ee
 
 ### Voettekst {#delivery-pdf-footer}
 
-Een aangepaste voettekst kan worden toegevoegd aan alle leveringsbladen via de [instelling voor leverings-PDF-voettekst](/settings#delivery). Handig voor een herinnering, een bedankbericht of praktische informatie.
+Een aangepaste voettekst kan worden toegevoegd aan alle leveringsbladen via de [instelling voor leverings-PDF-voettekst](/settings#delivery_sheets). Handig voor een herinnering, een bedankbericht of praktische informatie.
 
 ### Aankondigingen {#announcements}
 

@@ -25,9 +25,9 @@ CSA Admin generates QR-invoices with reference numbers (PDF) and sends them to a
 
 To generate these invoices, you need a **QR-IBAN** from your bank. This is a special IBAN (starting with CH and containing 30 or 31 as the bank clearing number) that is different from your regular bank account IBAN. Only the QR-IBAN allows generating Swiss QR-invoices with reference numbers — a normal IBAN is not supported for this purpose.
 
-You can request a QR-IBAN from your bank and then enter it in [your billing settings](/settings#billing).
+You can request a QR-IBAN from your bank and then enter it in [your invoice settings](/settings#invoice).
 
-> If you're unsure whether you already have a QR-IBAN, try entering it in [your billing settings](/settings#billing) — the system will validate its format and reject it if it's not a valid QR-IBAN. If you don't have one, request it from your bank.
+> If you're unsure whether you already have a QR-IBAN, try entering it in [your invoice settings](/settings#invoice) — the system will validate its format and reject it if it's not a valid QR-IBAN. If you don't have one, request it from your bank.
 <!-- /country:CH -->
 
 ## Memberships {#memberships}
@@ -110,9 +110,9 @@ If a membership configuration (dates, <%= BasketSize.model_name.human.downcase %
 
 ### Annual fee {#annual-fee}
 
-The organization's default annual fee is defined in [your billing settings](/settings#billing). Each member inherits this default when created, but it can be overridden individually from their profile (edit page, "Billing" section).
+When the annual fee feature is enabled, the organization's default annual fee is defined in [the annual fee settings](/settings#annual_fee). Each member inherits this default when created, but it can be overridden individually from their profile (edit page, "Billing" section).
 
-The annual fee is automatically included in the **first invoice** of the membership. If the member doesn't have a membership ([support](/handbook/members#statuses)) then a specific annual fee invoice is automatically created at the beginning of the fiscal year.
+When enabled, the annual fee is automatically included in the **first invoice** of the membership. If the member doesn't have a membership ([support](/handbook/members#statuses)), a specific annual fee invoice is automatically created at the beginning of the fiscal year.
 
 If you change the organization's default annual fee, all members still set to the previous value are automatically updated to the new one.
 
@@ -130,9 +130,9 @@ Members flagged as "[<%= Member.human_attribute_name(:salary_basket).downcase %>
 
 ## Share capital {#share-capital}
 
-The price per share is defined in [the billing settings](/settings#billing). The default number of required shares is configured at the organization level, but can also be set per <%= BasketSize.model_name.human.downcase %> (e.g., a larger size may require more shares).
+When the cooperative shares feature is enabled, the price per share and the default number of required shares are defined in [the cooperative shares settings](/settings#shares). The required number of shares can also be set per <%= BasketSize.model_name.human.downcase %> (e.g., a larger size may require more shares).
 
-Each billing day, the system automatically creates invoices for missing share capital, for example for a member whose membership has just started.
+When the feature is enabled, each billing day the system automatically creates invoices for missing share capital, for example for a member whose membership has just started.
 
 ### Member share fields {#share-fields}
 
@@ -191,11 +191,11 @@ CSA Admin offers the possibility to manually bill various items or services (for
 
 ## VAT {#vat}
 
-If your organization is subject to VAT, you can configure VAT rates in [the billing settings](/settings#billing). Separate rates can be defined for membership invoices, <%= activities_human_name.downcase %> invoices, and shop order invoices. For "Other" and "New member fee" invoices, the VAT rate is set manually on each invoice.
+If your organization is subject to VAT, enable the VAT feature and configure your VAT number and rates in [the VAT settings](/settings#vat). Separate rates can be defined for membership invoices, <%= activities_human_name.downcase %> invoices, and shop order invoices. For "Other" and "New member fee" invoices, the VAT rate is set manually on each invoice.
 
 VAT is calculated as an inclusive tax (the invoice total already includes VAT). The net amount and VAT amount are displayed separately on the invoice PDF.
 
-> VAT is only applied when a VAT number is configured in [the billing settings](/settings#billing).
+> VAT is only applied when the VAT feature is enabled. The VAT settings require a VAT number and a membership VAT rate; <%= activities_human_name.downcase %> and shop VAT rates are optional and only used when those features are enabled.
 
 ## Payments {#payments}
 

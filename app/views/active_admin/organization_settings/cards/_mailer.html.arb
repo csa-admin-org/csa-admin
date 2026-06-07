@@ -1,0 +1,10 @@
+# frozen_string_literal: true
+
+context.instance_eval do
+  locale = current_admin&.language || I18n.locale
+
+  attributes_table_for org do
+    row(:email_default_from) { org.email_default_from }
+    row(:email_footer) { organization_settings_text_value(org.email_footers[locale.to_s], class_name: "text-center text-sm") }
+  end
+end

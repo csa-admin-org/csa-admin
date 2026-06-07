@@ -1,0 +1,9 @@
+# frozen_string_literal: true
+
+context.instance_eval do
+  attributes_table_for org do
+    row(:membership_depot_update_allowed) { organization_settings_status_tag(org.membership_depot_update_allowed?) }
+    row(:membership_complements_update_allowed) { organization_settings_status_tag(org.membership_complements_update_allowed?) }
+    row(:basket_update_limit_in_days) { org.basket_update_limit_in_days }
+  end
+end

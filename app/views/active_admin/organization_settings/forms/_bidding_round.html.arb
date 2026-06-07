@@ -1,0 +1,9 @@
+# frozen_string_literal: true
+
+context.instance_eval do
+  f.inputs t("active_admin.resources.organization.edit_model"), icon: "sliders-horizontal" do
+    f.input :bidding_round_basket_size_price_min_percentage, min: 0, max: 100, step: 1
+    f.input :bidding_round_basket_size_price_max_percentage, min: 0, step: 1
+    f.input :open_bidding_round_reminder_sent_after_in_days
+  end
+end

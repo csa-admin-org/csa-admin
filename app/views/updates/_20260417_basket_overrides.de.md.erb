@@ -8,7 +8,7 @@ Auf der Mitgliedschaftsseite zeigt jede <%= Basket.model_name.human.downcase %>,
 
 Einige Punkte zu beachten:
 
-- **Änderungen des Depots durch ein Mitglied** über den Mitgliederbereich werden ebenfalls erfasst (sofern in [den Mitgliedschaftseinstellungen](/settings#membership) erlaubt), so dass ein Wechsel des Hauptdepots der Mitgliedschaft nicht überschreibt, was ein Mitglied für eine bestimmte <%= Basket.model_name.human.downcase %> gewählt hat.
+- **Änderungen des Depots durch ein Mitglied** über den Mitgliederbereich werden ebenfalls erfasst (sofern in [den Einstellungen für Abo-Änderungen](/settings#membership_updates) erlaubt), so dass ein Wechsel des Hauptdepots der Mitgliedschaft nicht überschreibt, was ein Mitglied für eine bestimmte <%= Basket.model_name.human.downcase %> gewählt hat.
 - **Verschiebungen der <%= Basket.model_name.human(count: 2).downcase %>** (aufgrund von Abwesenheiten) funktionieren weiterhin parallel zu diesen Änderungen. Eine <%= Basket.model_name.human.downcase %> kann sowohl eine Verschiebung erhalten als auch eine manuelle Mengenanpassung haben, ohne doppelt gezählt zu werden.
 - Wenn Du die Konfiguration der Mitgliedschaft später so änderst, dass sie einer zuvor geänderten <%= Basket.model_name.human.downcase %> entspricht, wird die Änderung wirkungslos und das Symbol verschwindet.
 

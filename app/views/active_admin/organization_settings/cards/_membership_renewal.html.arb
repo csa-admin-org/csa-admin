@@ -1,0 +1,13 @@
+# frozen_string_literal: true
+
+context.instance_eval do
+  renewed_attributes = org.membership_renewed_attributes
+    .reject(&:blank?)
+    .map { |attr| membership_renewed_attribute_label(attr) }
+
+  attributes_table_for org do
+    row(:open_renewal_reminder_sent_after_in_days) { org.open_renewal_reminder_sent_after_in_days }
+    row(:membership_renewal_depot_update) { organization_settings_status_tag(org.membership_renewal_depot_update?) }
+    row(:membership_renewed_attributes) { organization_settings_list_value(renewed_attributes) }
+  end
+end

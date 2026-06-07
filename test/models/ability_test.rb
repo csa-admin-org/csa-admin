@@ -24,7 +24,7 @@ class AbilityTest < ActiveSupport::TestCase
 
     assert ability.can?(:read, ActiveAdmin::Page)
     assert ability.can?(:pdf, Invoice)
-    assert_not ability.can?(:read, Organization)
+    assert ability.can?(:read, Organization)
     assert_not ability.can?(:manage, Admin)
     assert_not ability.can?(:destroy, admin)
     assert ability.can?(:update, admin)

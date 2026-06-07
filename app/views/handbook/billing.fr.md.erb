@@ -25,9 +25,9 @@ CSA Admin génère des factures-QR avec numéro de référence (PDF) et les envo
 
 Afin de pouvoir générer ces factures, il vous faut un **QR-IBAN** de votre banque. Il s'agit d'un IBAN spécial (commençant par CH et contenant 30 ou 31 comme numéro de clearing bancaire) qui est différent de l'IBAN de votre compte bancaire habituel. Seul le QR-IBAN permet de générer des factures-QR suisses avec numéro de référence — un IBAN normal n'est pas supporté à cet effet.
 
-Vous pouvez demander un QR-IBAN à votre banque puis l'entrer dans [vos paramètres de facturation](/settings#billing).
+Vous pouvez demander un QR-IBAN à votre banque puis l'entrer dans [vos paramètres de facturation](/settings#invoice).
 
-> Si vous n'êtes pas sûr de déjà disposer d'un QR-IBAN, essayez de l'entrer dans [vos paramètres de facturation](/settings#billing) — le système validera son format et le rejettera s'il ne s'agit pas d'un QR-IBAN valide. Si vous n'en avez pas, demandez-le à votre banque.
+> Si vous n'êtes pas sûr de déjà disposer d'un QR-IBAN, essayez de l'entrer dans [vos paramètres de facturation](/settings#invoice) — le système validera son format et le rejettera s'il ne s'agit pas d'un QR-IBAN valide. Si vous n'en avez pas, demandez-le à votre banque.
 <!-- /country:CH -->
 
 ## Abonnements {#memberships}
@@ -110,9 +110,9 @@ Si la configuration d'un abonnement (dates, <%= BasketSize.model_name.human.down
 
 ### Cotisation annuelle {#annual-fee}
 
-La cotisation annuelle par défaut de l'organisation est définie dans [vos paramètres de facturation](/settings#billing). Chaque membre hérite de cette valeur par défaut à sa création, mais elle peut être modifiée individuellement depuis son profil (page d'édition, section «Facturation»).
+Lorsque la fonctionnalité de cotisation annuelle est activée, la cotisation annuelle par défaut de l'organisation est définie dans [les paramètres de cotisation annuelle](/settings#annual_fee). Chaque membre hérite de cette valeur par défaut à sa création, mais elle peut être modifiée individuellement depuis son profil (page d'édition, section «Facturation»).
 
-La cotisation annuelle est automatiquement incluse dans la **première facture** de l'abonnement. Si le membre n'a pas d'abonnement ([soutien](/handbook/members#statuses)) alors une facture spécifique de cotisation annuelle est créée automatiquement au début de l'année fiscale.
+Lorsque la fonctionnalité est activée, la cotisation annuelle est automatiquement incluse dans la **première facture** de l'abonnement. Si le membre n'a pas d'abonnement ([soutien](/handbook/members#statuses)), une facture spécifique de cotisation annuelle est créée automatiquement au début de l'année fiscale.
 
 Si vous modifiez la cotisation annuelle par défaut de l'organisation, tous les membres encore à l'ancienne valeur sont automatiquement mis à jour.
 
@@ -130,9 +130,9 @@ Les membres marqués comme «[<%= Member.human_attribute_name(:salary_basket).do
 
 ## Parts sociales {#share-capital}
 
-Le prix par part sociale est défini dans [les paramètres de facturation](/settings#billing). Le nombre de parts requises par défaut est configuré au niveau de l'organisation, mais peut également être défini par <%= BasketSize.model_name.human.downcase %> (par exemple, une taille plus grande peut nécessiter davantage de parts).
+Lorsque la fonctionnalité des parts sociales est activée, le prix par part sociale et le nombre de parts requises par défaut sont définis dans [les paramètres des parts sociales](/settings#shares). Le nombre de parts requises peut également être défini par <%= BasketSize.model_name.human.downcase %> (par exemple, une taille plus grande peut nécessiter davantage de parts).
 
-Chaque jour de facturation, le système crée automatiquement les factures pour les parts sociales manquantes, par exemple pour un membre dont l'abonnement vient de commencer.
+Lorsque la fonctionnalité est activée, CSA Admin crée automatiquement des factures pour les parts sociales manquantes chaque jour de facturation, par exemple pour un membre dont l'abonnement vient de commencer.
 
 ### Champs des parts sociales du membre {#share-fields}
 
@@ -190,11 +190,11 @@ CSA Admin offre la possibilité de facturer manuellement des articles ou des ser
 
 ## TVA {#vat}
 
-Si votre organisation est assujettie à la TVA, vous pouvez configurer les taux de TVA dans [les paramètres de facturation](/settings#billing). Des taux distincts peuvent être définis pour les factures d'abonnement, les factures de <%= activities_human_name.downcase %> et les factures de commandes boutique. Pour les factures «Autre» et «Cotisation nouveau membre», le taux de TVA est défini manuellement sur chaque facture.
+Si votre organisation est assujettie à la TVA, activez la fonctionnalité TVA et configurez votre numéro de TVA ainsi que vos taux dans [les paramètres de TVA](/settings#vat). Des taux distincts peuvent être définis pour les factures d'abonnement, les factures de <%= activities_human_name.downcase %> et les factures de commandes boutique. Pour les factures «Autre» et «Cotisation nouveau membre», le taux de TVA est défini manuellement sur chaque facture.
 
 La TVA est calculée comme une taxe incluse (le montant total de la facture inclut déjà la TVA). Le montant net et le montant de la TVA sont affichés séparément sur le PDF de la facture.
 
-> La TVA n'est appliquée que lorsqu'un numéro de TVA est configuré dans [les paramètres de facturation](/settings#billing).
+> La TVA n'est appliquée que lorsque la fonctionnalité TVA est activée. Les paramètres de TVA exigent un numéro de TVA et un taux de TVA pour les abonnements ; les taux de TVA pour les <%= activities_human_name.downcase %> et la boutique sont optionnels et ne sont utilisés que lorsque ces fonctionnalités sont activées.
 
 ## Paiements {#payments}
 

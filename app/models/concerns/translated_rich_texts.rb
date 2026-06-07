@@ -4,7 +4,7 @@ module TranslatedRichTexts
   extend ActiveSupport::Concern
 
   class_methods do
-    def translated_rich_texts(*texts)
+    def translated_rich_texts(*texts, required: false)
       texts.each do |text|
         Rails.application.config.i18n.available_locales.each do |locale|
           has_rich_text "#{text}_#{locale}"
@@ -43,6 +43,17 @@ module TranslatedRichTexts
         define_method("#{text}=") { |str|
           send("#{text}_#{I18n.locale}=", str)
         }
+
+        if required
+          validate_options = required.is_a?(Hash) ? required : {}
+          required_condition = required if required.respond_to?(:call)
+          Rails.application.config.i18n.available_locales.each do |locale|
+            validates "#{text}_#{locale}".to_sym, presence: true, **validate_options, if: -> {
+              locale.to_s.in?(Current.org.languages) &&
+                (!required_condition || instance_exec(&required_condition))
+            }
+          end
+        end
       end
     end
   end

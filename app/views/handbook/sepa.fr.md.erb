@@ -14,14 +14,15 @@ Deux voies mènent à un mandat SEPA valide:
 
 ## Configuration de l'organisation {#setup}
 
-Pour activer le prélèvement SEPA, configurez les éléments suivants dans [vos paramètres de facturation](/settings#billing):
+Pour activer le prélèvement SEPA, assurez-vous d'abord que l'IBAN de votre organisation est configuré dans [les paramètres de facturation](/settings#invoice). Activez ensuite la fonctionnalité SEPA et configurez les éléments suivants dans [les paramètres SEPA](/settings#sepa) :
 
-- **IBAN** — L'IBAN du compte bancaire de votre organisation.
 - **Identifiant créancier** — Votre identifiant créancier SEPA (par ex. `DE98ZZZ09999999999`), obtenu auprès de votre banque ou de l'autorité nationale.
 - **Texte d'information (SEPA)** (optionnel) — Affiché sur les factures SEPA à la place du texte d'information standard.
-- **Connexion EBICS** (optionnelle) — Si configurée, les ordres de prélèvement SEPA sont automatiquement transmis à votre banque 3 jours après l'envoi de la facture. Plus d'info sur la [configuration EBICS](/handbook/billing#ebics-setup).
+- **Résumé de l'abonnement uniquement** (optionnel) — Affiche uniquement le résumé de la facture sur les factures d'abonnement prélevées par SEPA.
 
-Dès qu'un identifiant créancier est défini, la page de mandat self-service devient accessible à tous les membres.
+Si une connexion EBICS est configurée, les ordres de prélèvement SEPA sont automatiquement transmis à votre banque 3 jours après l'envoi de la facture. Plus d'info sur la [configuration EBICS](/handbook/billing#ebics-setup).
+
+Une fois la fonctionnalité SEPA activée et l'identifiant créancier configuré, la page de mandat self-service devient accessible à tous les membres.
 
 ## Self-service membre {#self-service}
 

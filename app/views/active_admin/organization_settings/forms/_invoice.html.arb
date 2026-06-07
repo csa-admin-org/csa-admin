@@ -1,0 +1,53 @@
+# frozen_string_literal: true
+
+context.instance_eval do
+  f.inputs organization_setting_section_title(section), icon: section[:icon] do
+    if section[:handbook]
+      li class: "panel-actions" do
+        text_node handbook_icon_link(section[:handbook], anchor: section[:handbook_anchor])
+      end
+    end
+
+    f.input :iban,
+      label: f.object.iban_type_name,
+      placeholder: Billing.iban_placeholder(f.object.country_code),
+      hint: (t("formtastic.hints.organization.iban_html") if f.object.swiss_qr?),
+      input_html: { value: f.object.iban_formatted }
+    if f.object.swiss_qr?
+      f.input :bank_reference, input_html: { maxlength: 16 }
+    end
+    if f.object.sepa?
+      translated_input(f, :invoice_document_names,
+        hint: t("formtastic.hints.organization.invoice_document_name_html"),
+        input_html: { placeholder: Invoice.model_name.human })
+    end
+    translated_input(f, :invoice_infos,
+      hint: t("formtastic.hints.organization.invoice_info"))
+    f.input :invoice_logos, as: :file, input_html: { accept: "image/jpeg, image/png", multiple: true, class: "mt-1.5" }
+    ul class: "flex flex-nowrap flex-row gap-x-8" do
+      f.object.invoice_logos.select(&:persisted?).each do |invoice_logo|
+        li class: "relative" do
+          span class: "absolute -top-3 -right-3 text-gray-500 z-50 cursor-pointer", onclick: "this.parentNode.remove()" do
+            icon("circle-x", class: "size-6")
+          end
+          f.hidden_field :invoice_logos, multiple: true, value: invoice_logo.signed_id
+          span do
+            image_tag invoice_logo.variant(resize_to_limit: [ 256, 256 ]), class: "h-16"
+          end
+        end
+      end
+    end
+    translated_input(f, :invoice_footers,
+      hint: t("formtastic.hints.organization.invoice_footer"),
+      as: :text, input_html: { rows: 2 })
+  end
+
+  f.inputs t("attributes.address"), icon: "map" do
+    f.input :creditor_name, input_html: { maxlength: 70 }
+    f.input :creditor_street, input_html: { maxlength: 70 }
+    div class: "single-line" do
+      f.input :creditor_zip, input_html: { maxlength: 16 }, wrapper_html: { class: "md:w-50" }
+      f.input :creditor_city, input_html: { maxlength: 35 }, wrapper_html: { class: "w-full" }
+    end
+  end
+end

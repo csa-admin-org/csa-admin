@@ -25,9 +25,9 @@ CSA Admin generiert QR-Rechnungen mit Referenznummern (PDF) und sendet sie an al
 
 Um diese Rechnungen generieren zu können, benötigst Du eine **QR-IBAN** von Deiner Bank. Dies ist eine spezielle IBAN (beginnend mit CH und mit 30 oder 31 als Bank-Clearing-Nummer), die sich von der IBAN Deines regulären Bankkontos unterscheidet. Nur die QR-IBAN ermöglicht die Erstellung von Schweizer QR-Rechnungen mit Referenznummern — eine normale IBAN wird für diesen Zweck nicht unterstützt.
 
-Du kannst eine QR-IBAN bei Deiner Bank anfordern und diese dann in [Deinen Abrechnungseinstellungen](/settings#billing) eingeben.
+Du kannst eine QR-IBAN bei Deiner Bank anfordern und diese dann in [Deinen Rechnungseinstellungen](/settings#invoice) eingeben.
 
-> Wenn Du Dir nicht sicher bist, ob Du bereits eine QR-IBAN hast, versuche diese in [Deinen Abrechnungseinstellungen](/settings#billing) einzugeben — das System überprüft das Format und lehnt sie ab, wenn es sich nicht um eine gültige QR-IBAN handelt. Falls Du keine hast, fordere diese bei Deiner Bank an.
+> Wenn Du Dir nicht sicher bist, ob Du bereits eine QR-IBAN hast, versuche diese in [Deinen Rechnungseinstellungen](/settings#invoice) einzugeben — das System überprüft das Format und lehnt sie ab, wenn es sich nicht um eine gültige QR-IBAN handelt. Falls Du keine hast, fordere diese bei Deiner Bank an.
 <!-- /country:CH -->
 
 ## Abonnements {#memberships}
@@ -110,9 +110,9 @@ Wenn eine Abonnementskonfiguration (Daten, <%= BasketSize.model_name.human %>, .
 
 ### Jahresbeitrag {#annual-fee}
 
-Der Standard-Jahresbeitrag der Organisation ist in [den Abrechnungseinstellungen](/settings#billing) definiert. Jedes Mitglied erbt diesen Standardwert bei der Erstellung, aber er kann individuell im Profil des Mitglieds (Bearbeitungsseite, Abschnitt «Abrechnung») überschrieben werden.
+Wenn die Jahresbeitragsfunktion aktiviert ist, ist der Standard-Jahresbeitrag der Organisation in [den Einstellungen zum Jahresbeitrag](/settings#annual_fee) definiert. Jedes Mitglied erbt diesen Standardwert bei der Erstellung, aber er kann individuell im Profil des Mitglieds (Bearbeitungsseite, Abschnitt «Abrechnung») überschrieben werden.
 
-Der Jahresbeitrag ist automatisch in der **ersten Rechnung** des Abonnements enthalten. Wenn das Mitglied kein Abonnement hat ([Förderung](/handbook/members#statuses)), wird zu Beginn des Geschäftsjahres automatisch eine spezifische Jahresbeitragsrechnung erstellt.
+Wenn die Funktion aktiviert ist, ist der Jahresbeitrag automatisch in der **ersten Rechnung** des Abonnements enthalten. Wenn das Mitglied kein Abonnement hat ([Förderung](/handbook/members#statuses)), wird zu Beginn des Geschäftsjahres automatisch eine spezifische Jahresbeitragsrechnung erstellt.
 
 Wenn Du den Standard-Jahresbeitrag der Organisation änderst, werden alle Mitglieder, die noch den alten Wert haben, automatisch aktualisiert.
 
@@ -130,9 +130,9 @@ Als «[<%= Member.human_attribute_name(:salary_basket).downcase %>](/handbook/me
 
 ## Anteilskapital {#share-capital}
 
-Der Preis pro Anteil ist in [den Abrechnungseinstellungen](/settings#billing) definiert. Die standardmäßig erforderliche Anzahl an Anteilen wird auf Organisationsebene konfiguriert, kann aber auch pro <%= BasketSize.model_name.human %> festgelegt werden (z.B. kann eine größere Variante mehr Anteile erfordern).
+Wenn die Anteilskapitalfunktion aktiviert ist, sind der Preis pro Anteil und die standardmäßig erforderliche Anzahl Anteile in [den Einstellungen zum Anteilskapital](/settings#shares) definiert. Die erforderliche Anzahl Anteile kann auch pro <%= BasketSize.model_name.human %> festgelegt werden (z.B. kann eine größere Variante mehr Anteile erfordern).
 
-An jedem Abrechnungstag erstellt das System automatisch Rechnungen für fehlendes Anteilskapital, beispielsweise für ein Mitglied, dessen Abonnement gerade begonnen hat.
+Wenn die Funktion aktiviert ist, erstellt CSA Admin an jedem Abrechnungstag automatisch Rechnungen für fehlendes Anteilskapital, beispielsweise für ein Mitglied, dessen Abonnement gerade begonnen hat.
 
 ### Anteils-Felder des Mitglieds {#share-fields}
 
@@ -191,11 +191,11 @@ CSA Admin bietet die Möglichkeit, verschiedene Artikel oder Dienstleistungen ma
 
 ## MwSt. {#vat}
 
-Wenn Deine Organisation der Mehrwertsteuer unterliegt, kannst Du MwSt.-Sätze in [den Abrechnungseinstellungen](/settings#billing) konfigurieren. Separate Sätze können für Abonnementsrechnungen, <%= activities_human_name.downcase %>-Rechnungen und Hofladenbestellungsrechnungen definiert werden. Für Rechnungen vom Typ «Sonstiges» und «Neumitgliedsbeitrag» wird der MwSt.-Satz manuell auf jeder Rechnung festgelegt.
+Wenn Deine Organisation mehrwertsteuerpflichtig ist, aktiviere die MwSt.-Funktion und konfiguriere Deine MwSt.-Nummer sowie die Sätze in [den MwSt.-Einstellungen](/settings#vat). Separate Sätze können für Abonnementsrechnungen, <%= activities_human_name.downcase %>-Rechnungen und Hofladenbestellungsrechnungen definiert werden. Für Rechnungen vom Typ «Sonstiges» und «Neumitgliedsbeitrag» wird der MwSt.-Satz manuell auf jeder Rechnung festgelegt.
 
 Die MwSt. wird als inklusive Steuer berechnet (der Rechnungsbetrag enthält bereits die MwSt.). Der Nettobetrag und der MwSt.-Betrag werden auf der Rechnungs-PDF separat ausgewiesen.
 
-> MwSt. wird nur angewendet, wenn eine MwSt.-Nummer in [den Abrechnungseinstellungen](/settings#billing) konfiguriert ist.
+> MwSt. wird nur angewendet, wenn die MwSt.-Funktion aktiviert ist. In den MwSt.-Einstellungen sind eine MwSt.-Nummer und ein MwSt.-Satz für Abonnements erforderlich; MwSt.-Sätze für <%= activities_human_name.downcase %> und den Hofladen sind optional und werden nur verwendet, wenn diese Funktionen aktiviert sind.
 
 ## Zahlungen {#payments}
 

@@ -92,7 +92,7 @@ Nella pagina dell'abbonamento, ogni <%= Basket.model_name.human.downcase %> che 
 
 Alcuni punti importanti:
 
-- Le modifiche vengono catturate automaticamente non appena un admin modifica una <%= Basket.model_name.human.downcase %> o un socio cambia il proprio deposito o i propri <%= BasketComplement.model_name.human(count: 2).downcase %> dall'area soci (se consentito nelle [impostazioni dell'abbonamento](/settings#membership)).
+- Le modifiche vengono catturate automaticamente non appena un admin modifica una <%= Basket.model_name.human.downcase %> o un socio cambia il proprio deposito o i propri <%= BasketComplement.model_name.human(count: 2).downcase %> dall'area soci (se consentito nelle [impostazioni delle modifiche all'abbonamento](/settings#membership_updates)).
 - Quando la configurazione dell'abbonamento cambia, le modifiche vengono riapplicate alle <%= Basket.model_name.human(count: 2).downcase %> ricreate. Le modifiche che fanno riferimento a consegne non più coperte dall'abbonamento (ad esempio, dopo un cambio di ciclo di consegna) vengono eliminate automaticamente.
 - Se la configurazione dell'abbonamento viene modificata per corrispondere a una <%= Basket.model_name.human.downcase %> precedentemente modificata, la modifica diventa senza effetto e l'icona della cronologia scompare.
 
@@ -113,7 +113,7 @@ Ogni deposito può utilizzare una delle due modalità di schede (configurabile n
 
 ### Informazioni del socio sulle schede {#member-info}
 
-Un'[impostazione](/settings#delivery) controlla quali informazioni aggiuntive sono visualizzate sotto il nome di ogni socio sulle schede:
+Un'[impostazione](/settings#delivery_sheets) controlla quali informazioni aggiuntive sono visualizzate sotto il nome di ogni socio sulle schede:
 
 - **Nessuna** (predefinita): Solo il nome del socio.
 - **Numeri di telefono**: Il/i numero/i di telefono del socio appaiono sotto il suo nome.
@@ -123,7 +123,7 @@ Questa impostazione si applica globalmente a tutti i depositi che utilizzano la 
 
 ### Abbreviazione del nome del socio {#member-name-format}
 
-Un'[impostazione](/settings#pdf-sheets) controlla come vengono visualizzati i nomi dei soci sulle schede di consegna, consentendo di proteggere la privacy quando le schede sono visibili ad altri soci:
+Un'[impostazione](/settings#delivery_sheets) controlla come vengono visualizzati i nomi dei soci sulle schede di consegna, consentendo di proteggere la privacy quando le schede sono visibili ad altri soci:
 
 - **Nessuna, nome completo** (predefinito): Viene mostrato il nome completo.
 - **Solo prima parte** (es. *D. Giovanni*): La prima parola di ogni segmento del nome è ridotta a un'iniziale. Adatto alle organizzazioni in cui i nomi sono memorizzati come **Cognome + Nome**.
@@ -136,7 +136,7 @@ Quando un nome contiene più persone separate da una virgola o una congiunzione 
 
 ### Piè di pagina {#delivery-pdf-footer}
 
-Un testo personalizzato di piè di pagina può essere aggiunto a tutte le schede di consegna tramite l'[impostazione del piè di pagina PDF di consegna](/settings#delivery). Utile per un promemoria, un messaggio di ringraziamento o informazioni pratiche.
+Un testo personalizzato di piè di pagina può essere aggiunto a tutte le schede di consegna tramite l'[impostazione del piè di pagina PDF di consegna](/settings#delivery_sheets). Utile per un promemoria, un messaggio di ringraziamento o informazioni pratiche.
 
 ### Annunci {#announcements}
 

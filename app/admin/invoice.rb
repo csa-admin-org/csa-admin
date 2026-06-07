@@ -41,7 +41,7 @@ ActiveAdmin.register Invoice do
     as: :select,
     collection: -> { entity_type_collection }
   filter :sent, as: :boolean
-  filter :sepa, as: :boolean, if: ->(a) { Current.org.sepa? }
+  filter :sepa, as: :boolean, if: ->(a) { Current.org.sepa_configured? }
   filter :currency_code,
     as: :select,
     collection: -> { currency_codes_collection },
@@ -93,11 +93,11 @@ ActiveAdmin.register Invoice do
     column :amount_before_percentage
     column :amount_percentage
     column :amount
-    if Current.org.annual_fee?
+    if feature?("annual_fee")
       column :annual_fee
       column :memberships_amount
     end
-    if Current.org.vat_number?
+    if feature?("vat")
       column :vat_rate
       column :amount_without_vat
       column :vat_amount
@@ -134,7 +134,7 @@ ActiveAdmin.register Invoice do
     side_panel t(".total") do
       all = collection.unscope(:includes).offset(nil).limit(nil)
 
-      if Array(params.dig(:q, :entity_type_in)).include?("Membership") && Current.org.annual_fee?
+      if Array(params.dig(:q, :entity_type_in)).include?("Membership") && feature?("annual_fee")
         div number_line(Membership.model_name.human(count: 2), cur(all.sum(:memberships_amount), unit: false), bold: false)
         div number_line(t("billing.annual_fees"), cur(all.sum(:annual_fee), unit: false), bold: false)
         div number_line(t(".amount"), cur(all.sum(:amount)), border_top: true)
@@ -467,7 +467,7 @@ ActiveAdmin.register Invoice do
               f.input :activity_price, as: :number, min: 0, max: 99999.95, step: 0.05, hint: true
             end
           end
-          if Current.org.share?
+          if feature?("shares")
             tab t_invoice_entity_type("Share"), id: "share", hidden: f.object.entity.is_a?(ActivityParticipation) do
               f.input :shares_number, as: :number, step: 1
             end
@@ -475,7 +475,7 @@ ActiveAdmin.register Invoice do
         end
         tab t_invoice_entity_type("Other"), id: "items", hidden: f.object.entity.is_a?(ActivityParticipation) do
           f.semantic_errors :items
-          if Current.org.vat_number?
+          if feature?("vat")
             f.input :vat_rate, as: :number, min: 0, max: 100, step: 0.01
           end
           f.has_many :items, new_record: t(".has_many_new_invoice_item"), allow_destroy: true do |ff|

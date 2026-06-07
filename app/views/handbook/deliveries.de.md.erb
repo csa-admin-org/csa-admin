@@ -92,7 +92,7 @@ Auf der Mitgliedschaftsseite zeigt jede <%= Basket.model_name.human.downcase %>,
 
 Einige wichtige Punkte:
 
-- Änderungen werden automatisch erfasst, sobald ein Admin eine <%= Basket.model_name.human.downcase %> bearbeitet oder ein Mitglied sein Depot oder seine <%= BasketComplement.model_name.human(count: 2).downcase %> über den Mitgliederbereich ändert (sofern in [den Mitgliedschaftseinstellungen](/settings#membership) erlaubt).
+- Änderungen werden automatisch erfasst, sobald ein Admin eine <%= Basket.model_name.human.downcase %> bearbeitet oder ein Mitglied sein Depot oder seine <%= BasketComplement.model_name.human(count: 2).downcase %> über den Mitgliederbereich ändert (sofern in [den Einstellungen für Abo-Änderungen](/settings#membership_updates) erlaubt).
 - Wenn sich die Konfiguration der Mitgliedschaft ändert, werden die Änderungen auf die neu erstellten <%= Basket.model_name.human(count: 2).downcase %> erneut angewendet. Änderungen, die sich auf Lieferungen beziehen, die nicht mehr von der Mitgliedschaft abgedeckt sind (zum Beispiel nach einem Wechsel des Lieferzyklus), werden automatisch bereinigt.
 - Wird die Konfiguration der Mitgliedschaft so geändert, dass sie einer zuvor geänderten <%= Basket.model_name.human.downcase %> entspricht, wird die Änderung wirkungslos und das Verlaufssymbol verschwindet.
 
@@ -113,7 +113,7 @@ Jedes Depot kann einen von zwei Blattmodi verwenden (konfigurierbar in den Depot
 
 ### Mitgliederinformationen auf den Blättern {#member-info}
 
-Eine [Einstellung](/settings#delivery) steuert, welche zusätzlichen Informationen unter dem Namen jedes Mitglieds auf den Blättern angezeigt werden:
+Eine [Einstellung](/settings#delivery_sheets) steuert, welche zusätzlichen Informationen unter dem Namen jedes Mitglieds auf den Blättern angezeigt werden:
 
 - **Keine** (Standard): Nur der Name des Mitglieds.
 - **Telefonnummern**: Die Telefonnummer(n) des Mitglieds erscheinen unter seinem Namen.
@@ -123,7 +123,7 @@ Diese Einstellung gilt global für alle Depots, die den Unterschriftenblattmodus
 
 ### Abkürzung des Mitgliedernamens {#member-name-format}
 
-Eine [Einstellung](/settings#pdf-sheets) steuert, wie Mitgliedernamen auf den Lieferscheinen angezeigt werden, um die Privatsphäre zu schützen, wenn Lieferscheine für andere Mitglieder sichtbar sind:
+Eine [Einstellung](/settings#delivery_sheets) steuert, wie Mitgliedernamen auf den Lieferscheinen angezeigt werden, um die Privatsphäre zu schützen, wenn Lieferscheine für andere Mitglieder sichtbar sind:
 
 - **Keine, vollständiger Name** (Standard): Der vollständige Name wird angezeigt.
 - **Nur erster Teil** (z.B. *D. Hans*): Das erste Wort jedes Namenssegments wird auf einen Anfangsbuchstaben reduziert. Geeignet für Organisationen, bei denen Namen als **Nachname + Vorname** gespeichert werden.
@@ -136,7 +136,7 @@ Enthält ein Name mehrere Personen, die durch ein Komma oder eine Konjunktion (*
 
 ### Fußzeile {#delivery-pdf-footer}
 
-Ein benutzerdefinierter Fußzeilentext kann über die [Einstellung für die Lieferungs-PDF-Fußzeile](/settings#delivery) zu allen Lieferscheinen hinzugefügt werden. Nützlich für eine Erinnerung, eine Dankesnachricht oder praktische Informationen.
+Ein benutzerdefinierter Fußzeilentext kann über die [Einstellung für die Lieferungs-PDF-Fußzeile](/settings#delivery_sheets) zu allen Lieferscheinen hinzugefügt werden. Nützlich für eine Erinnerung, eine Dankesnachricht oder praktische Informationen.
 
 ### Ankündigungen {#announcements}
 

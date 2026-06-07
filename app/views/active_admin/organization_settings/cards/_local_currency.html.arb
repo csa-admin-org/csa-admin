@@ -1,0 +1,10 @@
+# frozen_string_literal: true
+
+context.instance_eval do
+  attributes_table_for org do
+    row(:local_currency_code) { org.local_currency_code }
+    row(:local_currency_identifier) { org.local_currency_identifier.presence || organization_settings_missing_status_tag }
+    row(:local_currency_wallet) { org.local_currency_wallet.presence || organization_settings_missing_status_tag }
+    row(:local_currency_membership_annual_fee_only) { organization_settings_status_tag(org.local_currency_membership_annual_fee_only?) }
+  end
+end

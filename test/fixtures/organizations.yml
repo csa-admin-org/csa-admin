@@ -36,6 +36,7 @@ acme:
   features:
     - absence
     - activity
+    - annual_fee
     - basket_content
     - basket_price_extra
     - contact_sharing

@@ -1,0 +1,14 @@
+# frozen_string_literal: true
+
+context.instance_eval do
+  f.inputs t("active_admin.resources.organization.edit_model"), icon: "sliders-horizontal" do
+    if section[:handbook] && !organization_setting_section_feature?(section)
+      li class: "panel-actions" do
+        text_node handbook_icon_link(section[:handbook], anchor: section[:handbook_anchor])
+      end
+    end
+
+    f.input :share_price, as: :number, required: true
+    f.input :shares_number, as: :number, required: true
+  end
+end

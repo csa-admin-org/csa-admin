@@ -1,0 +1,39 @@
+# frozen_string_literal: true
+
+context.instance_eval do
+  f.inputs t("active_admin.resources.organization.edit_model"), icon: "sliders-horizontal" do
+    li class: "panel-actions" do
+      text_node handbook_icon_link(section[:handbook], anchor: section[:handbook_anchor])
+    end
+
+    f.input :recurring_billing_wday,
+      as: :select,
+      collection: wdays_collection(t("active_admin.resource.form.recurring_billing_disabled")),
+      include_blank: false,
+      prompt: false,
+      required: false,
+      hint: f.object.iban? ? t("formtastic.hints.organization.recurring_billing_wday_html") : t("active_admin.resource.form.recurring_billing_wday_iban_required_hint_html", iban_type: f.object.iban_type_name),
+      input_html: { disabled: !f.object.iban? }
+    f.input :billing_year_divisions,
+      as: :check_boxes,
+      wrapper_html: { class: "single-column" },
+      toggle_all: false,
+      collection: billing_year_divisions_collection,
+      required: true
+    f.input :trial_baskets_count
+    f.input :send_closed_invoice, as: :boolean
+    f.input :currency_code,
+      as: :select,
+      collection: Organization.currency_codes,
+      input_html: { disabled: true }
+  end
+
+  f.inputs t("active_admin.resources.organization.period"), icon: "calendar-range" do
+    f.input :fiscal_year_start_month,
+      as: :select,
+      collection: (1..12).map { |m| [ t("date.month_names")[m], m ] },
+      input_html: { disabled: true }
+    f.input :billing_starts_after_first_delivery, as: :boolean
+    f.input :billing_ends_on_last_delivery_fy_month, as: :boolean
+  end
+end

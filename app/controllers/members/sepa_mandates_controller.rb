@@ -34,7 +34,7 @@ class Members::SEPAMandatesController < Members::BaseController
   end
 
   def ensure_sepa_capable
-    unless Current.org.sepa? && Current.org.sepa_creditor_identifier?
+    unless Current.org.sepa_configured?
       redirect_to members_billing_path
     end
   end

@@ -1,0 +1,24 @@
+# frozen_string_literal: true
+
+context.instance_eval do
+  f.inputs t("active_admin.resources.organization.edit_model"), icon: "sliders-horizontal" do
+    if section[:handbook] && !organization_setting_section_feature?(section)
+      li class: "panel-actions" do
+        text_node handbook_icon_link(section[:handbook], anchor: section[:handbook_anchor])
+      end
+    end
+
+    para t("active_admin.resource.form.membership_renewal_text_html"), class: "description"
+    translated_input(f, :open_renewal_texts,
+      as: :action_text,
+      required: false,
+      hint: t("formtastic.hints.organization.open_renewal_text"))
+    f.input :open_renewal_reminder_sent_after_in_days
+    f.input :membership_renewal_depot_update
+    f.input :membership_renewed_attributes,
+      as: :check_boxes,
+      wrapper_html: { class: "single-column" },
+      toggle_all: false,
+      collection: membership_renewed_attributes_collection
+  end
+end

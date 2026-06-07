@@ -1,0 +1,15 @@
+# frozen_string_literal: true
+
+context.instance_eval do
+  f.inputs t("active_admin.resources.organization.edit_model"), icon: "sliders-horizontal" do
+    translated_input(f, :new_member_fee_descriptions,
+      required: true,
+      label: ->(_) { InvoiceItem.human_attribute_name(:description) },
+      hint: t("formtastic.hints.organization.new_member_fee_description"))
+    f.input :new_member_fee,
+      required: true,
+      min: 0,
+      step: 0.05,
+      label: InvoiceItem.human_attribute_name(:amount)
+  end
+end

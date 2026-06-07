@@ -329,7 +329,12 @@ class PDF::InvoiceTest < ActiveSupport::TestCase
 
   test "activity participations with VAT" do
     travel_to "2024-01-01"
-    org(vat_activity_rate: 8.1, vat_number: "CHE-123.456.789")
+    org(
+      features: Current.org.features | [ :vat ],
+      vat_number: "CHE-123.456.789",
+      vat_membership_rate: 2.6,
+      vat_activity_rate: 8.1,
+      vat_shop_rate: 2.6)
     invoice = create_invoice(
       entity: activity_participations(:john_harvest))
     pdf_strings = save_pdf_and_return_strings(invoice)
@@ -377,7 +382,12 @@ class PDF::InvoiceTest < ActiveSupport::TestCase
   end
 
   test "with items, payment, percentage, and TVA" do
-    org(vat_number: "CHE-123.456.789")
+    org(
+      features: Current.org.features | [ :vat ],
+      vat_number: "CHE-123.456.789",
+      vat_membership_rate: 2.6,
+      vat_activity_rate: 8.1,
+      vat_shop_rate: 2.6)
     create_payment(amount: 21)
     invoice = create_invoice(
       vat_rate: 2.5,

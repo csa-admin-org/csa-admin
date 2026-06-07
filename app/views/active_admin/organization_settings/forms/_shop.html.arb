@@ -1,0 +1,34 @@
+# frozen_string_literal: true
+
+context.instance_eval do
+  f.inputs t("active_admin.resources.organization.edit_model"), icon: "sliders-horizontal" do
+    f.input :shop_admin_only
+    f.input :shop_order_maximum_weight_in_kg
+    f.input :shop_order_minimal_amount
+    translated_input(f, :shop_delivery_pdf_footers, required: false)
+  end
+
+  f.inputs t("active_admin.resource.form.member_account"), icon: "users" do
+    translated_input(f, :shop_texts,
+      as: :action_text,
+      required: false,
+      hint: t("formtastic.hints.organization.shop_text"))
+    f.input :shop_delivery_open_delay_in_days
+    f.input :shop_delivery_open_last_day_end_time, as: :time_picker, input_html: {
+      value: f.object.shop_delivery_open_last_day_end_time&.strftime("%H:%M")
+    }
+    translated_input(f, :shop_terms_of_sale_urls,
+      required: false,
+      hint: t("formtastic.hints.organization.shop_terms_of_sale_url"))
+  end
+
+  f.inputs t("active_admin.resource.form.billing"), icon: "receipt-text" do
+    f.input :shop_order_automatic_invoicing_delay_in_days
+    f.input :shop_member_percentages,
+      as: :string,
+      input_html: { value: f.object.shop_member_percentages }
+    translated_input(f, :shop_invoice_infos,
+      hint: t("formtastic.hints.organization.shop_invoice_info"),
+      required: false)
+  end
+end

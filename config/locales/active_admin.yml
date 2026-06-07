@@ -1394,6 +1394,12 @@ _:
           _de: Standardwerte
           _it: Valori predefiniti
           _nl: Standaardwaarden
+        delivery_sheets:
+          _en: Delivery Sheets
+          _fr: Fiches de livraison
+          _de: Lieferblätter
+          _it: Schede di consegna
+          _nl: Leveringsbladen
         delivery_sheets_text_html:
           _en: The sheets (PDF) are generated on-the-fly for each depot and delivery.
           _fr: Les fiches (PDF) sont générées à la volée pour chaque dépôt et livraison.
@@ -1508,12 +1514,24 @@ _:
           _de: Hier kann der Text angepasst werden, der Mitgliedern angezeigt wird, wenn sie eine Abwesenheit von ihrem Konto melden.
           _it: Personalizza il testo visualizzato ai soci quando annunciano un'assenza dal loro account.
           _nl: Hier kan de tekst worden aangepast die aan leden wordt getoond wanneer ze een afwezigheid melden vanuit hun account.
+        member_information_page:
+          _en: Information Page
+          _fr: Page d'information
+          _de: Informationsseite
+          _it: Pagina d'informazione
+          _nl: Informatiepagina
         members_participation:
           _en: Members' participation
           _fr: Participation des membres
           _de: Beteiligung der Mitglieder
           _it: Partecipazione dei soci
           _nl: Deelname van leden
+        members_sharing_contact:
+          _en: Members sharing contact
+          _fr: Membres partageant leurs coordonnées
+          _de: Mitglieder, die ihre Kontaktdaten teilen
+          _it: Soci che condividono i loro contatti
+          _nl: Leden die hun contactgegevens delen
         membership_configuration_text/bag:
           _en: All bags in this membership will be created according to the following configuration.
           _fr: Tous les sacs de cet abonnement seront créés en fonction de la configuration ci-dessous.
@@ -1634,6 +1652,12 @@ _:
           _de: Ermöglicht es Mitgliedern, die Konfiguration ihrer Mitgliedschaft oder zukünftiger Anteile individuell von ihrem Konto aus zu ändern.
           _it: Consentite ai vostri soci di modificare le impostazioni di abbonamento o le future parti individualmente dal loro account.
           _nl: Staat leden toe om individueel de configuratie van hun lidmaatschap of toekomstige delen te wijzigen vanaf hun account.
+        membership_updates:
+          _en: Membership Updates
+          _fr: Modification d'abonnement
+          _de: Abo-Änderungen
+          _it: Modifiche all'abbonamento
+          _nl: Lidmaatschapswijzigingen
         no_features_selected:
           _en: No features selected yet for your organization.
           _fr: Aucune fonctionnalité sélectionnée pour votre organisation.
@@ -1671,17 +1695,47 @@ _:
           _it: Per attivare la fatturazione automatica ricorrente, è necessario prima configurare il <a href="#billing">%{iban_type}</a> qui sotto. Vedere il <a href="/handbook/billing#recurring-billing">manuale</a> per i dettagli.
           _nl: Om automatische terugkerende facturering in te schakelen, moet eerst de <a href="#billing">%{iban_type}</a> hieronder worden geconfigureerd. Zie het <a href="/handbook/billing#recurring-billing">handboek</a> voor details.
         registration:
-          _en: Registration
-          _fr: Inscription
-          _de: Anmeldung
-          _it: Iscrizione
-          _nl: Registratie
+          _en: Registration Form
+          _fr: Formulaire d'inscription
+          _de: Registrierungsformular
+          _it: Formulario d'iscrizione
+          _nl: Registratieformulier
         registration_form:
           _en: Registration form
           _fr: Formulaire d'inscription
           _de: Registrierungsformular
           _it: Formulario d'iscrizione
           _nl: Registratieformulier
+        registration_form_choice:
+          _en: Registration form choice
+          _fr: Choix sur le formulaire d'inscription
+          _de: Auswahl im Registrierungsformular
+          _it: Scelta nel formulario d'iscrizione
+          _nl: Keuze op het registratieformulier
+        registration_form_choice_between:
+          _en: Between %{min} – %{max} (step value %{step})
+          _fr: Entre %{min} et %{max} (pas de %{step})
+          _de: Zwischen %{min} und %{max} (Schrittwert %{step})
+          _it: Tra %{min} e %{max} (passo di %{step})
+          _nl: Tussen %{min} en %{max} (stapwaarde %{step})
+        registration_form_choice_default:
+          _en: Disabled
+          _fr: Désactivé
+          _de: Deaktiviert
+          _it: Disabilitato
+          _nl: Uitgeschakeld
+        registration_form_choice_max:
+          _en: Max %{max} (step value %{step})
+          _fr: Max. %{max} (pas de %{step})
+          _de: Max. %{max} (Schrittwert %{step})
+          _it: Max. %{max} (passo di %{step})
+          _nl: Max. %{max} (stapwaarde %{step})
+        registration_form_choice_min:
+          _en: Min %{min} (step value %{step})
+          _fr: Min. %{min} (pas de %{step})
+          _de: Min. %{min} (Schrittwert %{step})
+          _it: Min. %{min} (passo di %{step})
+          _nl: Min. %{min} (stapwaarde %{step})
         send_validation_email:
           _en: Send the "Member validated" automatic email.
           _fr: Envoyer l'email automatique "Membre validé".
@@ -1712,6 +1766,25 @@ _:
           _de: Hofladen
           _it: Bottega
           _nl: Winkel
+        shop_opening:
+          one:
+            _en: 1 day before at %{time}
+            _fr: 1 jour avant à %{time}
+            _de: 1 Tag vorher um %{time}
+            _it: 1 giorno prima alle %{time}
+            _nl: 1 dag eerder om %{time}
+          other:
+            _en: "%{count} days before at %{time}"
+            _fr: "%{count} jours avant à %{time}"
+            _de: "%{count} Tage vorher um %{time}"
+            _it: "%{count} giorni prima alle %{time}"
+            _nl: "%{count} dagen eerder om %{time}"
+          zero:
+            _en: Delivery day at %{time}
+            _fr: Le jour de livraison à %{time}
+            _de: Am Liefertag um %{time}
+            _it: Il giorno della consegna alle %{time}
+            _nl: Op de leveringsdag om %{time}
         submit:
           preview:
             _en: Preview changes
@@ -3348,18 +3421,78 @@ _:
             _it: Inviato
             _nl: Verzonden
       organization:
+        activate_feature:
+          _en: Activate this feature
+          _fr: Activer cette fonctionnalité
+          _de: Diese Funktion aktivieren
+          _it: Attivare questa funzionalità
+          _nl: Deze functie activeren
+        activation:
+          _en: Activation
+          _fr: Activation
+          _de: Aktivierung
+          _it: Attivazione
+          _nl: Activering
+        all_optional_features_configured:
+          _en: All optional features are configured.
+          _fr: Toutes les fonctionnalités optionnelles sont configurées.
+          _de: Alle optionalen Funktionen sind konfiguriert.
+          _it: Tutte le funzionalità opzionali sono configurate.
+          _nl: Alle optionele functies zijn geconfigureerd.
+        billing_period:
+          _en: Billing Period
+          _fr: Période de facturation
+          _de: Abrechnungszeitraum
+          _it: Periodo di fatturazione
+          _nl: Factureringsperiode
+        configure:
+          _en: Configure
+          _fr: Configurer
+          _de: Konfigurieren
+          _it: Configurare
+          _nl: Configureren
         edit_model:
           _en: Settings
           _fr: Paramètres
           _de: Einstellungen
           _it: Impostazioni
           _nl: Instellingen
+        edit_section:
+          _en: Edit settings
+          _fr: Modifier les paramètres
+          _de: Einstellungen bearbeiten
+          _it: Modificare le impostazioni
+          _nl: Instellingen bewerken
+        not_configured:
+          _en: Not configured
+          _fr: Non configuré
+          _de: Nicht konfiguriert
+          _it: Non configurato
+          _nl: Niet geconfigureerd
+        optional_features_description_html:
+          _en: Add these as your needs evolve. Activation is limited to Super Admins; see <a href="/permissions">permissions</a> for who can manage access.
+          _fr: Ajoutez-les à mesure que vos besoins évoluent. L’activation est réservée aux Super Admins; consultez les <a href="/permissions">permissions</a> pour savoir qui peut gérer les accès.
+          _de: Bei Bedarf hinzufügen. Die Aktivierung ist SuperAdmins vorbehalten; unter <a href="/permissions">Berechtigungen</a> ist ersichtlich, wer Zugriffe verwalten kann.
+          _it: Aggiungetele man mano che le vostre esigenze evolvono. L’attivazione è riservata ai Super Admin; consultate i <a href="/permissions">permessi</a> per sapere chi può gestire gli accessi.
+          _nl: Deze toevoegen naarmate de behoeften evolueren. Activeren is voorbehouden aan SuperAdmins; onder <a href="/permissions">machtigingen</a> is te zien wie toegang kan beheren.
+        period:
+          _en: Period
+          _fr: Période
+          _de: Zeitraum
+          _it: Periodo
+          _nl: Periode
         submit:
           _en: Save
           _fr: Sauvegarder
           _de: Speichern
           _it: Salva
           _nl: Opslaan
+        unlimited:
+          _en: Unlimited
+          _fr: Illimité
+          _de: Unbegrenzt
+          _it: Illimitato
+          _nl: Onbeperkt
       payment:
         new_model:
           _en: New %{model}

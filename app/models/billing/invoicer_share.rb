@@ -21,7 +21,8 @@ module Billing
     end
 
     def billable?
-      (ongoing_membership || member.support? || member.shop_depot_id?)
+      Current.org.feature?("shares")
+        && (ongoing_membership || member.support? || member.shop_depot_id?)
         && member.billable?
         && !member.trial?
         && member.missing_shares_number.positive?

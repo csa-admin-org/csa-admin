@@ -1,0 +1,11 @@
+# frozen_string_literal: true
+
+context.instance_eval do
+  attributes_table_for org do
+    row(:member_form_complement_quantities) { organization_settings_status_tag(org.member_form_complement_quantities?) }
+    row(:allow_alternative_depots) { organization_settings_status_tag(org.allow_alternative_depots?) }
+    row(Member.human_attribute_name(:profession)) { organization_settings_form_mode_status(org.member_profession_form_mode) }
+    row(Member.human_attribute_name(:come_from)) { organization_settings_form_mode_status(org.member_come_from_form_mode) }
+    row(t("active_admin.resource.form.documents_to_validate")) { organization_settings_documents_status(org) }
+  end
+end

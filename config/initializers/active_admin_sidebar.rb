@@ -31,7 +31,8 @@ ActiveAdmin.before_load do |app|
             end
             if authorized?(:read, Current.org)
               div class: "text-center text-sm mt-3" do
-                a(href: "/settings#shop") { t("active_admin.shared.sidebar_section.edit_settings") }
+                path = authorized?(:update, Organization) ? edit_organization_path(:shop) : organization_path(anchor: :shop)
+                a(href: path) { t("active_admin.shared.sidebar_section.edit_settings") }
               end
             end
           end

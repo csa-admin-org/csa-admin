@@ -58,7 +58,7 @@ Alcuni consigli per il modulo di iscrizione:
 - **Mantieni il testo di spiegazione breve.** Se vuoi spiegare il tuo modello solidale in dettaglio, linka al tuo sito web.
 - **Le etichette chiare contano.** Assicurati che ogni opzione mostri chiaramente l'impatto sul prezzo. Consulta le [impostazioni del prezzo <%= Basket.model_name.human.downcase %> extra](/settings#basket_price_extra) per la configurazione delle etichette.
 <% else %>
-Questa funzionalità non è attualmente attivata. Puoi attivarla nelle [tue impostazioni](/settings#organization_features_input).
+Questa funzionalità non è attualmente attivata. Puoi attivarla nelle [tue impostazioni](/settings#basket_price_extra).
 <% end %>
 
 ## Depositi {#depots}
@@ -92,12 +92,12 @@ Se un ciclo riguarda solo certi depositi, configurare le associazioni deposito-c
 
 ## Quota annuale e quote sociali {#annual-fee-shares}
 
-A seconda del tipo di organizzazione e delle impostazioni, campi aggiuntivi possono apparire in fondo alla sezione abbonamento:
+A seconda delle funzioni attivate, campi aggiuntivi possono apparire in fondo alla sezione abbonamento:
 
-- **Quota annuale**: Mostrata quando la funzione di quota annuale è attiva e l'[impostazione della quota annuale nel modulo socio](/settings#billing) è attivata. I soci vedono l'importo predefinito della quota annuale e possono adeguarlo se consentito. Questo è particolarmente rilevante per i soci che si iscrivono come soci di supporto (senza <%= BasketSize.model_name.human.downcase %>).
-- **Quote sociali desiderate**: Mostrato per le cooperative o associazioni che richiedono [quote sociali](/handbook/billing#share-capital). I soci possono richiedere quote aggiuntive oltre il minimo richiesto. Il valore minimo è definito dal numero predefinito di quote dell'organizzazione.
+- **Quota annuale**: Mostrata quando la funzione quota annuale è attivata e l'[impostazione della quota annuale nel modulo socio](/settings#annual_fee) è attivata. I soci vedono l'importo predefinito della quota annuale e possono adeguarlo se consentito. Questo è particolarmente rilevante per i soci che si iscrivono come soci di supporto (senza <%= BasketSize.model_name.human.downcase %>).
+- **Quote sociali desiderate**: Mostrate quando la funzione quote sociali è attivata. I soci possono richiedere quote aggiuntive oltre il minimo richiesto. Il valore minimo è definito dal numero predefinito di quote dell'organizzazione.
 
-Entrambi i campi sono configurati nelle [impostazioni di fatturazione](/settings#billing).
+Le opzioni della quota annuale sono configurate nelle [impostazioni della quota annuale](/settings#annual_fee). Il prezzo per quota e le quote richieste sono configurati nelle [impostazioni delle quote sociali](/settings#shares).
 
 ## Testo di spiegazione aggiuntivo {#extra-text}
 

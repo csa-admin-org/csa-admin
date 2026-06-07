@@ -67,7 +67,9 @@ class InvoiceOverdueNoticeTest < ActiveSupport::TestCase
 
   test "skip overdue notice when SEPA invoice" do
     invoice = invoices(:annual_fee)
-    org(sepa_creditor_identifier: "DE98ZZZ09999999999")
+    org(
+      features: Current.org.features | [ :sepa ],
+      sepa_creditor_identifier: "DE98ZZZ09999999999")
     mandate = invoice.member.sepa_mandates.create!(
       iban: "DE21500500009876543210",
       umr: invoice.member.id.to_s,

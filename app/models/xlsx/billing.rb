@@ -88,7 +88,7 @@ module XLSX
       invoices_per_year.each do |year, invoices|
         add_line(t_invoice_with_year(Membership.model_name.human(count: 2), year), invoices.sum(&:memberships_amount))
       end
-      if Current.org.annual_fee?
+      if Current.org.feature?("annual_fee")
         # Add current year if not present (no memberships)
         unless invoices_per_year.map(&:first).include?(@year)
           invoices_per_year.unshift([ @year, [] ])
@@ -101,7 +101,7 @@ module XLSX
           add_line(t_invoice_with_year(t("annual_fees"), year), amount, Current.org.annual_fee)
         end
       end
-      if Current.org.share?
+      if Current.org.feature?("shares")
         add_line("#{t_invoice}: #{t('shares')}", @invoices.share.sum(:amount), Current.org.share_price)
       end
       if Current.org.feature?("shop")
@@ -118,7 +118,7 @@ module XLSX
       add_line("#{t_invoice}: #{t('other')}", @invoices.other_type.sum(:amount))
       add_line(t_invoice, invoices_total(:amount))
 
-      if Current.org.vat_number?
+      if Current.org.feature?("vat")
         add_empty_line
         add_empty_line
 

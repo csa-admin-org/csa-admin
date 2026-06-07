@@ -1,0 +1,9 @@
+# frozen_string_literal: true
+
+context.instance_eval do
+  attributes_table_for org do
+    row(:bidding_round_basket_size_price_min_percentage) { number_to_percentage(org.bidding_round_basket_size_price_min_percentage, precision: 0) }
+    row(:bidding_round_basket_size_price_max_percentage) { number_to_percentage(org.bidding_round_basket_size_price_max_percentage, precision: 0) }
+    row(:open_bidding_round_reminder_sent_after_in_days) { org.open_bidding_round_reminder_sent_after_in_days }
+  end
+end

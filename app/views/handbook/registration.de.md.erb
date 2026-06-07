@@ -58,7 +58,7 @@ Einige Tipps für das Anmeldeformular:
 - **Halte den Erklärungstext kurz.** Wenn Du Dein Solidarmodell im Detail erklären möchtest, verlinke auf Deine Website.
 - **Klare Labels sind wichtig.** Stelle sicher, dass jede Option die Preisauswirkung deutlich zeigt. Siehe die [Einstellungen für Preis Extra-<%= Basket.model_name.human %>](/settings#basket_price_extra) für die Label-Konfiguration.
 <% else %>
-Diese Funktion ist derzeit nicht aktiviert. Du kannst sie in [Deinen Einstellungen](/settings#organization_features_input) aktivieren.
+Diese Funktion ist derzeit nicht aktiviert. Du kannst sie in [Deinen Einstellungen](/settings#basket_price_extra) aktivieren.
 <% end %>
 
 ## Depots {#depots}
@@ -92,12 +92,12 @@ Wenn ein Zyklus nur für bestimmte Depots relevant ist, sorgt die Einrichtung de
 
 ## Jahresbeitrag & Anteilskapital {#annual-fee-shares}
 
-Je nach Organisationstyp und Einstellungen können zusätzliche Felder am Ende des Abonnementbereichs erscheinen:
+Je nach aktivierten Funktionen können zusätzliche Felder am Ende des Abonnementbereichs erscheinen:
 
-- **Jahresbeitrag**: Wird angezeigt, wenn die Jahresbeitragsfunktion aktiv ist und die [Einstellung für den Jahresbeitrag im Mitgliederformular](/settings#billing) aktiviert ist. Mitglieder sehen den Standard-Jahresbeitrag und können ihn bei Erlaubnis anpassen. Dies ist besonders relevant für Mitglieder, die sich als Fördermitglieder anmelden (ohne <%= BasketSize.model_name.human %>).
-- **Gewünschtes Anteilskapital**: Wird für Genossenschaften oder Vereine angezeigt, die [Anteilskapital](/handbook/billing#share-capital) erfordern. Mitglieder können zusätzliche Anteile über das Minimum hinaus anfordern. Der Mindestwert wird durch die Standard-Anteilsanzahl der Organisation festgelegt.
+- **Jahresbeitrag**: Wird angezeigt, wenn die Jahresbeitragsfunktion aktiviert ist und die [Einstellung für den Jahresbeitrag im Mitgliederformular](/settings#annual_fee) aktiviert ist. Mitglieder sehen den Standard-Jahresbeitrag und können ihn bei Erlaubnis anpassen. Dies ist besonders relevant für Mitglieder, die sich als Fördermitglieder anmelden (ohne <%= BasketSize.model_name.human %>).
+- **Gewünschtes Anteilskapital**: Wird angezeigt, wenn die Anteilskapitalfunktion aktiviert ist. Mitglieder können zusätzliche Anteile über das Minimum hinaus anfordern. Der Mindestwert wird durch die Standard-Anteilsanzahl der Organisation festgelegt.
 
-Beide Felder werden in [den Abrechnungseinstellungen](/settings#billing) konfiguriert.
+Optionen zum Jahresbeitrag werden in [den Einstellungen zum Jahresbeitrag](/settings#annual_fee) konfiguriert. Preis pro Anteil und erforderliche Anteile werden in [den Einstellungen zum Anteilskapital](/settings#shares) konfiguriert.
 
 ## Zusätzlicher Erklärungstext {#extra-text}
 

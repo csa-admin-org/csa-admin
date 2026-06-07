@@ -36,6 +36,7 @@ module API
           attrs["quantity"].to_i > 0
         }
         permitted[:waiting_alternative_depot_ids]&.map!(&:presence)&.compact!
+        permitted.delete(:desired_shares_number) unless Current.org.feature?("shares")
         permitted
       end
     end

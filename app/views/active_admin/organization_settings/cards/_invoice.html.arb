@@ -1,0 +1,9 @@
+# frozen_string_literal: true
+
+context.instance_eval do
+  attributes_table_for org do
+    row(org.iban_type_name) { org.iban? ? org.iban_formatted : organization_settings_missing_status_tag }
+    row(t("attributes.address")) { organization_settings_creditor_address(org) }
+    row(:invoice_logos) { organization_settings_invoice_logos(org) }
+  end
+end

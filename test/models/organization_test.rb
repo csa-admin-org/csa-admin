@@ -50,16 +50,124 @@ class OrganizationTest < ActiveSupport::TestCase
     assert_includes org.errors[:basket_price_extra_dynamic_pricing], "Liquid syntax error: 'if' tag was never closed"
   end
 
-  test "validate share related attribute presence" do
+  test "validates annual fee only when feature is enabled" do
     org = Current.org
 
-    org.assign_attributes(share_price: 50, shares_number: nil)
+    org.assign_attributes(features: [ "annual_fee" ], annual_fee: nil)
     assert_not org.valid?
+    assert_includes org.errors[:annual_fee], "can't be blank"
 
-    org.assign_attributes(share_price: nil, shares_number: 1)
+    org.assign_attributes(
+      features: [],
+      annual_fee: 30,
+      annual_fee_member_form: true,
+      annual_fee_support_member_only: true)
+    assert org.valid?
+  end
+
+  test "validates share related attributes only when feature is enabled" do
+    org = Current.org
+
+    org.assign_attributes(features: [ "shares" ], share_price: 50, shares_number: nil)
     assert_not org.valid?
+    assert_includes org.errors[:shares_number], "can't be blank"
 
-    org.assign_attributes(share_price: 50, shares_number: 1)
+    org.assign_attributes(features: [ "shares" ], share_price: nil, shares_number: 1)
+    assert_not org.valid?
+    assert_includes org.errors[:share_price], "can't be blank"
+
+    org.assign_attributes(features: [ "shares" ], share_price: 50, shares_number: 1)
+    assert org.valid?
+
+    org.assign_attributes(features: [], share_price: 50, shares_number: nil)
+    assert org.valid?
+  end
+
+  test "validates VAT settings only when feature is enabled" do
+    org = Current.org
+
+    org.assign_attributes(
+      features: [ "vat" ],
+      vat_number: nil,
+      vat_membership_rate: nil,
+      vat_activity_rate: nil,
+      vat_shop_rate: nil)
+    assert_not org.valid?
+    assert_includes org.errors[:vat_number], "can't be blank"
+    assert_includes org.errors[:vat_membership_rate], "can't be blank"
+    assert_empty org.errors[:vat_activity_rate]
+    assert_empty org.errors[:vat_shop_rate]
+
+    org.assign_attributes(features: [ "vat" ], vat_number: "CHE-103.987.077")
+    assert_not org.valid?
+    assert_includes org.errors[:vat_membership_rate], "can't be blank"
+    assert_empty org.errors[:vat_activity_rate]
+    assert_empty org.errors[:vat_shop_rate]
+
+    org.assign_attributes(
+      features: [ "vat" ],
+      vat_membership_rate: 2.6,
+      vat_activity_rate: nil,
+      vat_shop_rate: nil)
+    assert org.valid?
+
+    org.assign_attributes(features: [], vat_number: "CHE-103.987.077", vat_membership_rate: nil)
+    assert org.valid?
+  end
+
+  test "keeps SEPA country support separate from feature configuration" do
+    org = Current.org
+
+    org.assign_attributes(
+      features: [],
+      country_code: "DE",
+      iban: "DE89370400440532013000",
+      sepa_creditor_identifier: "DE98ZZZ09999999999")
+    assert org.sepa_country?
+    assert_not org.sepa?
+    assert_not org.sepa_configured?
+    assert org.valid?
+
+    org.assign_attributes(features: [ "sepa" ], country_code: "CH")
+    assert_not org.valid?
+    assert_includes org.errors[:country_code], "is not included in the list"
+
+    org.assign_attributes(
+      features: [ "sepa" ],
+      country_code: "DE",
+      iban: "DE89370400440532013000",
+      sepa_creditor_identifier: nil)
+    assert_not org.valid?
+    assert_includes org.errors[:sepa_creditor_identifier], "can't be blank"
+
+    org.assign_attributes(features: [ "sepa" ], sepa_creditor_identifier: "DE98ZZZ09999999999")
+    assert org.sepa?
+    assert org.sepa_configured?
+    assert org.valid?
+  end
+
+  test "validates member information text for every organization language only when feature is enabled" do
+    org = Current.org
+
+    org.assign_attributes(
+      features: [ "member_information" ],
+      languages: [ "en", "fr" ],
+      basket_content_member_title_fr: "Votre contenu de panier")
+    assert_not org.valid?
+    assert_includes org.errors[:member_information_text_en], "can't be blank"
+    assert_includes org.errors[:member_information_text_fr], "can't be blank"
+
+    org.member_information_text_en = "Confidential member text"
+    assert_not org.valid?
+    assert_empty org.errors[:member_information_text_en]
+    assert_includes org.errors[:member_information_text_fr], "can't be blank"
+
+    org.member_information_text_fr = "Infos confidentielles membres"
+    assert org.valid?
+
+    org.assign_attributes(features: [])
+    org.member_information_text_en = ""
+    org.member_information_text_fr = ""
     assert org.valid?
   end
 

@@ -47,8 +47,8 @@ ActiveAdmin.register Member do
     if: proc { feature?("local_currency") },
     label: -> { t("features.local_currency") }
   filter :annual_fee,
-    if: proc { Current.org.annual_fee? }
-  filter :sepa, as: :boolean, if: ->(a) { Current.org.sepa? }
+    if: proc { feature?("annual_fee") }
+  filter :sepa, as: :boolean, if: ->(a) { Current.org.sepa_configured? }
 
   includes :shop_depot, :shop_delivery_cycle, next_basket: [ :basket_size, :depot, :membership, baskets_basket_complements: :basket_complement ]
   index do
@@ -112,10 +112,10 @@ ActiveAdmin.register Member do
     column(:billing_street)
     column(:billing_zip)
     column(:billing_city)
-    if Current.org.annual_fee?
+    if feature?("annual_fee")
       column(:annual_fee) { |m| cur(m.annual_fee) }
     end
-    if Current.org.share?
+    if feature?("shares")
       column(:shares_number)
       column(:shares_info)
     end
@@ -468,7 +468,7 @@ ActiveAdmin.register Member do
               row(:name) { member.billing_name }
               row(Member.human_attribute_name(:address)) { display_billing_address(member) }
             end
-            if Current.org.annual_fee? || member.annual_fee
+            if feature?("annual_fee") || member.annual_fee
               row(:annual_fee, class: "tabular-nums") { cur member.annual_fee }
             end
             row(:invoices_amount, class: "tabular-nums") {
@@ -502,7 +502,7 @@ ActiveAdmin.register Member do
           end
         end
 
-        if Current.org.sepa?
+        if Current.org.sepa_configured?
           current_mandate = member.current_sepa_mandate
           panel t(".billing") + " (SEPA)", icon: "banknotes", action: sepa_mandate_panel_actions(current_mandate) do
             if current_mandate
@@ -540,7 +540,7 @@ ActiveAdmin.register Member do
           end
         end
 
-        if Current.org.share?
+        if feature?("shares")
           panel t("active_admin.resource.new.shares"), icon: "receipt-text" do
             attributes_table do
               row(Organization.human_attribute_name(:shares_number)) { display_shares_number(member) }
@@ -687,7 +687,7 @@ ActiveAdmin.register Member do
       end
     end
 
-    if Current.org.sepa? && f.object.persisted?
+    if Current.org.sepa_configured? && f.object.persisted?
       f.inputs t("active_admin.resource.show.billing") + " (SEPA)", icon: "banknotes" do
         current_mandate = f.object.current_sepa_mandate
         mandate_active = f.object.sepa?
@@ -718,13 +718,13 @@ ActiveAdmin.register Member do
       end
     end
 
-    if Current.org.annual_fee?
+    if feature?("annual_fee")
       f.inputs t(".annual_fee"), icon: "calendar-sync" do
         f.input :annual_fee, label: Organization.human_attribute_name(:annual_fee)
       end
     end
 
-    if Current.org.share?
+    if feature?("shares")
       f.inputs t(".shares"), icon: "receipt-text" do
         f.input :existing_shares_number
         if member.shares_number.zero? || member.desired_shares_number.positive?

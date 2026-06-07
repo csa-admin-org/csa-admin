@@ -14,7 +14,7 @@ module Invoice::SEPA
   end
 
   def sepa?
-    Current.org.sepa_creditor_identifier? && sepa_mandate_id?
+    Current.org.sepa_configured? && sepa_mandate_id?
   end
 
   def sepa_debtor_name
@@ -82,7 +82,7 @@ module Invoice::SEPA
   private
 
   def set_sepa_mandate
-    self.sepa_mandate ||= member&.current_sepa_mandate if member&.sepa?
+    self.sepa_mandate ||= member&.current_sepa_mandate if Current.org.sepa_configured? && member&.sepa?
     self[:sepa_debtor_name] ||= member&.billing_info(:name) if sepa_mandate.present?
   end
 end

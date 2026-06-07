@@ -8,14 +8,14 @@ ActiveAdmin.register_page "Handbook" do
     feature = params[:id].to_sym
     if Current.org.inactive_feature?(feature)
       info_pane do
-          if authorized?(:update, Organization)
-            text_node t("active_admin.page.index.handbook_feature_inactive_link_html",
-              feature: t("features.#{feature}"),
-              url: edit_organization_path(anchor: "organization_features_input"))
-          else
-            text_node t("active_admin.page.index.handbook_feature_inactive_html",
-              feature: t("features.#{feature}"))
-          end
+        if authorized?(:update, Organization)
+          text_node t("active_admin.page.index.handbook_feature_inactive_link_html",
+            feature: t("features.#{feature}"),
+            url: edit_organization_path(feature, activate: true))
+        else
+          text_node t("active_admin.page.index.handbook_feature_inactive_html",
+            feature: t("features.#{feature}"))
+        end
       end
     end
 

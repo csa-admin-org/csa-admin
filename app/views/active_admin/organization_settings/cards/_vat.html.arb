@@ -1,0 +1,10 @@
+# frozen_string_literal: true
+
+context.instance_eval do
+  attributes_table_for org do
+    row(:vat_number) { org.vat_number.presence || organization_settings_missing_status_tag }
+    row(Membership.model_name.human(count: 2)) { organization_settings_percentage_value(org.vat_membership_rate) }
+    row(activities_human_name) { organization_settings_percentage_value(org.vat_activity_rate) } if feature?("activity")
+    row(t("shop.title")) { organization_settings_percentage_value(org.vat_shop_rate) } if feature?("shop")
+  end
+end

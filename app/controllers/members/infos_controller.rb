@@ -9,7 +9,7 @@ class Members::InfosController < Members::BaseController
   private
 
   def ensure_info_presence
-    unless Current.org.member_information_text?
+    unless Current.org.feature?("member_information")
       redirect_to members_member_path
     end
   end

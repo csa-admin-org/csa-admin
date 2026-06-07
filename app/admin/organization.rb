@@ -3,603 +3,87 @@
 ActiveAdmin.register Organization do
   menu false
 
-  actions :edit, :update
+  actions :show, :edit, :update
+  config.clear_action_items!
 
-  form html: { novalidate: true }, data: { controller: "code-editor" } do |f|
-    if f.object.errors.any?
-      div class: "mb-6" do
-        f.object.errors.attribute_names.each do |attr|
-          para f.semantic_errors attr
-        end
-      end
+  breadcrumb do
+    if params[:action].in? %w[edit update]
+      [ link_to(t("active_admin.resources.organization.edit_model"), organization_path) ]
+    else
+      []
     end
+  end
 
-    f.inputs do
-      tabs do
-        tab t(".general"), id: "general" do
-          f.input :name
-          f.input :url, input_html: { disabled: true }
-          f.input :email, as: :email
-          f.input :phone, as: :phone
-          f.input :social_network_urls, as: :string
-          f.input :country_code,
-            as: :select,
-            collection: countries_collection,
-            input_html: { disabled: true }
-          f.input :languages,
-            as: :check_boxes,
-            wrapper_html: { class: "single-column" },
-            toggle_all: false,
-            collection: org_languages_collection,
-            disabled: Organization.languages
-          Current.org.languages.each do |locale|
-            f.input "basket_i18n_scope_#{locale}".to_sym,
-              as: :select,
-              collection: basket_i18n_scopes_collection(locale),
-              label: label_with_language(Organization.human_attribute_name(:basket_i18n_scopes), locale),
-              selected: resource.basket_i18n_scopes[locale],
-              prompt: true,
-              hint: t("formtastic.hints.organization.basket_i18n_scopes_html")
-          end
-          f.input :logo, as: :file, input_html: { accept: "image/png, image/jpg, image/jpeg" }
-          if resource.logo.attached? && resource.logo.blob.persisted?
-            div class: "mt-2" do
-              image_tag resource.logo, class: "h-16"
+  show title: proc { t("active_admin.resources.organization.edit_model") } do |org|
+    div class: "space-y-20", "data-controller" => "settings-anchor" do
+      div class: "grid grid-cols-1 lg:grid-cols-2 md:auto-rows-fr gap-4" do
+        organization_enabled_setting_sections(org).each do |section|
+          div id: section[:key], class: "scroll-mt-16 h-full", "data-settings-anchor-highlight-target" => true do
+            Array(section[:legacy_anchors]).each do |anchor|
+              span id: anchor, class: "block scroll-mt-16"
+            end
+            panel organization_setting_section_title(section),
+              icon: section[:icon],
+              action: organization_setting_section_actions(section, org),
+              class: "h-full" do
+              render partial: "active_admin/organization_settings/cards/#{section[:key]}",
+                locals: { org: org, section: section, context: self }
             end
           end
         end
-        tab t(".billing"), id: "billing" do
-          f.input :recurring_billing_wday,
-            as: :select,
-            collection: wdays_collection(t(".recurring_billing_disabled")),
-            include_blank: false,
-            prompt: false,
-            required: false,
-            hint: f.object.iban? ? t("formtastic.hints.organization.recurring_billing_wday_html") : t(".recurring_billing_wday_iban_required_hint_html", iban_type: f.object.iban_type_name),
-            input_html: { disabled: !f.object.iban? }
-          f.input :billing_year_divisions,
-            as: :check_boxes,
-            wrapper_html: { class: "single-column" },
-            toggle_all: false,
-            collection: billing_year_divisions_collection,
-            required: true
-          f.input :fiscal_year_start_month,
-            as: :select,
-            collection: (1..12).map { |m| [ t("date.month_names")[m], m ] },
-            input_html: { disabled: true }
-          f.input :currency_code,
-            as: :select,
-            collection: Organization.currency_codes,
-            input_html: { disabled: true }
-          f.input :trial_baskets_count
-          f.input :send_closed_invoice, as: :boolean
-          f.input :billing_starts_after_first_delivery, as: :boolean
-          f.input :billing_ends_on_last_delivery_fy_month, as: :boolean
+      end
 
-          li class: "subtitle" do
-            h2 t(".invoice")
-          end
-          f.input :iban,
-            label: f.object.iban_type_name,
-            placeholder: Billing.iban_placeholder(f.object.country_code),
-            hint: (t("formtastic.hints.organization.iban_html") if f.object.swiss_qr?),
-            input_html: { value: f.object.iban_formatted }
-          if f.object.sepa?
-            f.input :sepa_creditor_identifier,
-              input_html: { maxlength: 35, placeholder: sepa_creditor_identifier_placeholder },
-              hint: t("formtastic.hints.organization.sepa_creditor_identifier_html").html_safe
-          end
-          if f.object.swiss_qr?
-            f.input :bank_reference, input_html: { maxlength: 16 }
-          end
-          f.input :creditor_name, input_html: { maxlength: 70 }
-          f.input :creditor_street, input_html: { maxlength: 70 }
-          div class: "single-line" do
-            f.input :creditor_zip, input_html: { maxlength: 16 }, wrapper_html: { class: "md:w-50" }
-            f.input :creditor_city, input_html: { maxlength: 35 }, wrapper_html: { class: "w-full" }
-          end
-          if f.object.sepa?
-            translated_input(f, :invoice_document_names,
-              hint: t("formtastic.hints.organization.invoice_document_name_html"),
-              input_html: { placeholder: Invoice.model_name.human })
-            f.input :invoice_membership_summary_only
-          end
-          translated_input(f, :invoice_infos,
-            hint: t("formtastic.hints.organization.invoice_info"))
-          if f.object.sepa?
-            translated_input(f, :invoice_sepa_infos,
-              hint: t("formtastic.hints.organization.invoice_sepa_info"))
-          end
-          f.input :invoice_logos, as: :file, input_html: { accept: "image/jpeg, image/png", multiple: true, class: "mt-1.5" }
-          ul class: "flex flex-nowrap flex-row gap-x-8"  do
-            resource.invoice_logos.select(&:persisted?).each do |invoice_logo|
-              li class: "relative" do
-                span class: "absolute -top-3 -right-3 text-gray-500 z-50 cursor-pointer", onclick: "this.parentNode.remove()" do
-                  icon("circle-x", class: "size-6")
+      div id: "disabled-features", class: "scroll-mt-16 space-y-4", "data-settings-anchor-highlight-target" => true do
+        h3 Organization.human_attribute_name(:features), class: "text-left text-3xl font-extralight mb-2"
+        para t("active_admin.resources.organization.optional_features_description_html"), class: "text-gray-500 dark:text-gray-400"
+
+        disabled_sections = organization_disabled_setting_sections(org)
+        if disabled_sections.any?
+          div class: "mt-6 space-y-4" do
+            disabled_sections.each do |section|
+              div id: section[:key], class: "scroll-mt-16", "data-settings-anchor-highlight-target" => true do
+                panel organization_setting_section_title(section),
+                  icon: section[:icon],
+                  action: organization_disabled_setting_section_actions(section) do
+                  div class: "flex flex-nowrap gap-4 p-2 pt-0 justify-between items-center" do
+                    para organization_disabled_setting_section_hint(section), class: "description"
+                    if authorized?(:update, Organization)
+                      div do
+                        text_node organization_disabled_setting_section_primary_action(section)
+                      end
+                    end
+                  end
                 end
-                f.hidden_field :invoice_logos, multiple: true, value: invoice_logo.signed_id
-                 span do
-                   image_tag invoice_logo.variant(resize_to_limit: [ 256, 256 ]), class: "h-16"
-                 end
               end
             end
           end
-          translated_input(f, :invoice_footers,
-            hint: t("formtastic.hints.organization.invoice_footer"),
-            as: :text, input_html: { rows: 2 })
-
-          li class: "subtitle" do
-            h2 t(".vat")
-            span t(".if_applicable"), class: "optional"
-          end
-          f.input :vat_number, input_html: {
-            placeholder: Current.org.swiss_qr? ? "CHE-123.456.789" : nil
-          }
-          f.input :vat_membership_rate, as: :number, min: 0, max: 100, step: 0.01,
-            label: t(".vat_rate", type: Membership.model_name.human(count: 2))
-          if feature?("activity")
-            f.input :vat_activity_rate, as: :number, min: 0, max: 100, step: 0.01,
-              label: t(".vat_rate", type: activities_human_name)
-          end
-          if feature?("shop")
-            f.input :vat_shop_rate, as: :number, min: 0, max: 100, step: 0.01,
-              label: t(".vat_rate", type: t("shop.title"))
-          end
-
-          li class: "subtitle" do
-            h2 t(".annual_fee")
-            span t(".if_applicable"), class: "optional"
-            para t(".annual_fee_hint"), class: "description"
-          end
-          f.input :annual_fee, as: :number
-          f.input :annual_fee_support_member_only, as: :boolean
-          f.input :annual_fee_member_form, as: :boolean
-
-          li class: "subtitle" do
-            h2 t(".shares")
-            span t(".if_applicable"), class: "description"
-          end
-          f.input :share_price, as: :number, required: false
-          f.input :shares_number, as: :number, required: false
-
-          handbook_button(self, "billing")
-        end
-        tab t(".registration"), id: "registration" do
-          trix_word_count_wrapper(self, threshold: 40) do
-            translated_input(f, :member_form_subtitles,
-              hint: t("formtastic.hints.organization.member_form_subtitle"),
-              placeholder: ->(locale) {
-                I18n.with_locale(locale) {
-                  I18n.t("members.members.new.subtitle")
-                }
-              },
-              required: false,
-              as: :action_text,
-              input_html: { rows: 1 })
-          end
-
-
-          li class: "subtitle" do
-            h2 t("members.members.form_modes.membership.title")
-          end
-          trix_word_count_wrapper(self, threshold: 120) do
-            translated_input(f, :member_form_extra_texts,
-              hint: t("formtastic.hints.organization.member_form_extra_text"),
-              required: false,
-              as: :action_text,
-              input_html: { rows: 5 })
-          end
-          f.input :member_form_extra_text_only, as: :boolean
-          trix_word_count_wrapper(self, threshold: 120) do
-            translated_input(f, :member_form_complements_texts,
-              required: false,
-              as: :action_text,
-              input_html: { rows: 5 })
-          end
-          f.input :member_form_complement_quantities, as: :boolean
-          f.input :basket_sizes_member_order_mode,
-            as: :select,
-            collection: member_order_modes_collection(BasketSize),
-            prompt: true
-          f.input :basket_complements_member_order_mode,
-            as: :select,
-            collection: member_order_modes_collection(BasketComplement),
-            prompt: true
-          f.input :depots_member_order_mode,
-            as: :select,
-            collection: member_order_modes_collection(Depot),
-            prompt: true
-          translated_input(f, :member_form_delivery_cycle_labels,
-            hint: t("formtastic.hints.organization.member_form_delivery_cycle_label"),
-            input_html: { placeholder: Delivery.model_name.human(count: 2) })
-          f.input :delivery_cycles_member_order_mode,
-            as: :select,
-            collection: member_order_modes_collection(DeliveryCycle),
-            prompt: true
-          f.input :allow_alternative_depots, as: :boolean
-
-          li class: "subtitle" do
-            h2 t("members.members.new.more_info")
-          end
-          f.input :member_profession_form_mode,
-            label: Member.human_attribute_name(:profession),
-            as: :select,
-            collection: form_modes_collection,
-            include_blank: false,
-            required: false
-          f.input :member_come_from_form_mode,
-            label: Member.human_attribute_name(:come_from),
-            as: :select,
-            collection: form_modes_collection,
-            include_blank: false,
-            required: false
-
-          li class: "subtitle" do
-            h2 t(".documents_to_validate")
-            para t(".documents_to_validate_hint_html"), class: "description"
-          end
-          translated_input(f, :charter_urls, required: false)
-          translated_input(f, :statutes_urls, required: false)
-          translated_input(f, :terms_of_service_urls, required: false)
-          translated_input(f, :privacy_policy_urls, required: false)
-
-          para class: "mt-4 flex justify-center" do
-            a href: new_members_member_url(subdomain: Current.org.members_subdomain), class: "btn btn-sm btn-light" do
-              span icon("external-link", class: "size-4", title: t("active_admin.site_footer.handbook"))
-              span t(".registration_form")
-            end.html_safe
-          end
-
-          handbook_button(self, "registration")
-        end
-        tab t(".member_account"), id: "member_account" do
-          translated_input(f, :member_information_texts,
-            hint: t("formtastic.hints.organization.member_information_text"),
-            required: false,
-            as: :action_text,
-            input_html: { class: "long-text" })
-          translated_input(f, :member_information_titles,
-            hint: t("formtastic.hints.organization.member_information_title"),
-            required: false,
-            input_html: { placeholder: t("members.information.default_title") })
-
-          handbook_button(self, "members", anchor: "information-page")
-        end
-        tab Membership.model_name.human, id: "membership" do
-          para t(".membership_update_text_html"), class: "description"
-
-          f.input :membership_depot_update_allowed
-          f.input :membership_complements_update_allowed
-          translated_input(f, :membership_update_texts,
-            as: :action_text,
-            required: false)
-
-          f.input :basket_update_limit_in_days, step: 1
-        end
-        tab t(".membership_renewal"), id: "membership_renewal" do
-          para t(".membership_renewal_text_html"), class: "description"
-          translated_input(f, :open_renewal_texts,
-            as: :action_text,
-            required: false,
-            hint: t("formtastic.hints.organization.open_renewal_text"))
-          f.input :open_renewal_reminder_sent_after_in_days
-          f.input :membership_renewed_attributes,
-            as: :check_boxes,
-            wrapper_html: { class: "single-column" },
-            toggle_all: false,
-            collection: membership_renewed_attributes_collection
-          f.input :membership_renewal_depot_update
-
-          handbook_button(self, "membership_renewal")
-        end
-        tab Delivery.human_attribute_name(:sheets), id: "pdf-sheets" do
-          para t(".delivery_sheets_text_html"), class: "description"
-          translated_input(f, :delivery_pdf_footers, required: false)
-
-          f.input :delivery_pdf_member_info,
-            as: :radio,
-            required: false,
-            collection: Organization::DeliveryPDF::MEMBER_INFOS.map { |info|
-              [
-                content_tag(:span, t("organization.delivery_pdf_member_info.#{info}")),
-                info
-              ]
-            }
-
-          f.input :delivery_pdf_member_name_format,
-            as: :radio,
-            required: false,
-            collection: Organization.delivery_pdf_member_name_formats.keys.map { |fmt|
-              [
-                content_tag(:span, t("organization.delivery_pdf_member_name_format.#{fmt}")),
-                fmt
-              ]
-            }
-
-          handbook_button(self, "deliveries", anchor: "delivery-sheets")
-        end
-        tab t(".mailer"), id: "mail"  do
-          para t(".mailer_text_html"), class: "description"
-          f.input :email_default_from,
-            as: :string,
-            hint: t("formtastic.hints.organization.email_default_from_html", domain: Current.org.domain)
-          translated_input(f, :email_signatures,
-            as: :text,
-            required: true,
-            input_html: { rows: 2 })
-          translated_input(f, :email_footers,
-            as: :text,
-            required: true,
-            input_html: { rows: 3 })
+        else
+          para t("active_admin.resources.organization.all_optional_features_configured"), class: "text-gray-500 italic text-center"
         end
       end
     end
+  end
 
-    f.input :features,
-      as: :check_boxes,
-      wrapper_html: {
-        class: "features-list single-column scroll-mt-16",
-        data: { controller: "features-list" }
-        },
-      toggle_all: false,
-      collection: all_features.map { |ff|
-        t_name = t("features.#{ff}")
-        t_hint = t("features.#{ff}_hint")
-        [
-          content_tag(:span, class: "ms-4") {
-            content_tag(:h3, t_name, class: "font-medium") +
-            content_tag(:span, t_hint.html_safe, class: "text-gray-500 dark:text-gray-400")
-          },
-          ff,
-          data: { action: "features-list#toggleTab" }
-        ]
-      }
+  form title: proc { organization_setting_section_title(settings_section) },
+    html: { novalidate: true },
+    data: { controller: "code-editor", turbo: false } do |f|
+    section = settings_section
 
-    f.inputs do
-      tabs id: "features" do
-        tab "", selected: true, hidden: true, id: "none" do
-          para t(".no_features_selected"), class: "text-gray-500 italic text-center"
-        end
-        tab Absence.model_name.human, id: "absence", hidden: !feature?("absence"), selected: feature?("absence"), data: { controller: "form-disabler" } do
-          f.input :absences_billed,
-            input_html: { data: { action: "form-disabler#toggleInputs" } }
-          f.input :absence_notice_period_in_days, min: 1, required: true
+    text_node hidden_field_tag(:section, section[:key])
 
-          li class: "subtitle " do
-            h2 t(".member_account")
-            para t(".member_account_hint"), class: "description"
-          end
-          translated_input(f, :absence_extra_texts,
-            hint: t("formtastic.hints.organization.absence_extra_text"),
-            required: false,
-            as: :action_text,
-            input_html: { rows: 5 })
-          f.input :absence_extra_text_only, as: :boolean
+    f.semantic_errors :base
 
-          li class: "subtitle" do
-            h2 t(".absence_basket_shifts")
-            para t(".absence_basket_shifts_hint"), class: "description"
-          end
-          f.input :basket_shifts_annually,
-            input_html: {
-              data: { form_disabler_target: "input", default_value: f.object.basket_shifts_annually },
-              disabled: !f.object.absences_billed?
-            }
-          f.input :basket_shift_deadline_in_weeks,
-            hint: t("formtastic.hints.organization.basket_shift_deadline_in_weeks_html"),
-            input_html: {
-              data: { form_disabler_target: "input", default_value: f.object.basket_shift_deadline_in_weeks },
-              disabled: !f.object.absences_billed?
-            }
-
-          li class: "subtitle" do
-            h2 t(".absence_included")
-            para t(".absence_included_hint"), class: "description"
-          end
-
-          f.input :absences_included_mode,
-            as: :radio,
-            label: t(".absence_included_mode"),
-            required: false,
-            collection: Organization::AbsenceFeature::ABSENCES_INCLUDED_MODES.map { |mode|
-              [
-                content_tag(:span, class: "ms-2 py-0.5 leading-5") {
-                  content_tag(:span, t("organization.absences_included_mode.#{mode}"), class: "block font-medium") +
-                  content_tag(:span, t("organization.absences_included_mode.#{mode}_hint").html_safe, class: "inline-hints")
-                },
-                mode
-              ]
-            }
-
-          f.input :absences_included_reminder_weeks_before,
-            hint: t("formtastic.hints.organization.absences_included_reminder_weeks_before_html")
-
-          handbook_button(self, "absence")
-        end
-
-        tab BiddingRound.model_name.human, id: "bidding_round", hidden: !feature?("bidding_round"), selected: feature?("bidding_round"), data: { controller: "form-disabler" } do
-          f.input :bidding_round_basket_size_price_min_percentage, min: 0, max: 100, step: 1
-          f.input :bidding_round_basket_size_price_max_percentage, min: 0, step: 1
-          f.input :open_bidding_round_reminder_sent_after_in_days
-
-          handbook_button(self, "bidding_round")
-        end
-
-        tab t(".shop"), id: "shop", hidden: !feature?("shop"), selected: feature?("shop") do
-          f.input :shop_admin_only
-          translated_input(f, :shop_texts,
-            as: :action_text,
-            required: false,
-            hint: t("formtastic.hints.organization.shop_text"))
-          translated_input(f, :shop_terms_of_sale_urls,
-            required: false,
-            hint: t("formtastic.hints.organization.shop_terms_of_sale_url"))
-          f.input :shop_order_maximum_weight_in_kg
-          f.input :shop_order_minimal_amount
-          f.input :shop_member_percentages,
-            as: :string,
-            input_html: { value: f.object.shop_member_percentages }
-          f.input :shop_delivery_open_delay_in_days
-          f.input :shop_delivery_open_last_day_end_time, as: :time_picker, input_html: {
-            value: f.object.shop_delivery_open_last_day_end_time&.strftime("%H:%M")
-          }
-          f.input :shop_order_automatic_invoicing_delay_in_days
-          translated_input(f, :shop_invoice_infos,
-            hint: t("formtastic.hints.organization.shop_invoice_info"),
-            required: false)
-          translated_input(f, :shop_delivery_pdf_footers, required: false)
-
-          handbook_button(self, "shop")
-        end
-        tab t(".members_participation"), id: "activity", hidden: !feature?("activity"), selected: feature?("activity") do
-          f.input :activity_i18n_scope,
-            as: :select,
-            collection: Organization.activity_i18n_scopes.map { |s| [ t("activities.#{s}", count: 2), s ] },
-            prompt: true
-          f.input :activity_price
-          f.input :activity_participations_form_min
-          f.input :activity_participations_form_max
-          f.input :activity_participations_form_step, input_html: { min: 1 }
-          trix_word_count_wrapper(self, threshold: 40) do
-            translated_input(f, :member_form_activity_participations_texts,
-              hint: t("formtastic.hints.organization.member_form_activity_participations_text"),
-              required: false,
-              as: :action_text,
-              input_html: { rows: 5 })
-          end
-          translated_input(f, :activity_participations_form_details,
-            hint: t("formtastic.hints.organization.activity_participations_demanded_annually_form_detail"),
-            required: false,
-            placeholder: ->(locale) {
-              I18n.with_locale(locale) {
-                activity_participations_form_detail(force_default: true)
-              }
-            })
-          f.input :activity_participations_demanded_logic,
-            as: :text,
-            hint: t("formtastic.hints.organization.activity_participations_demanded_logic_html"),
-            input_html: {
-              data: { mode: "liquid", code_editor_target: "editor" }
-            }
-
-          f.input :activity_availability_limit_in_days, required: true
-          f.input :activity_participation_deletion_deadline_in_days
-          f.input :activity_phone, as: :phone,
-            hint: t("formtastic.hints.organization.activity_phone_html")
-
-          handbook_button(self, "activity")
-        end
-        tab t("features.new_member_fee"), id: "new_member_fee", hidden: !feature?("new_member_fee"), selected: feature?("new_member_fee") do
-          translated_input(f, :new_member_fee_descriptions,
-            required: true,
-            label: ->(_) { InvoiceItem.human_attribute_name(:description) },
-            hint: t("formtastic.hints.organization.new_member_fee_description"))
-          f.input :new_member_fee,
-            required: true,
-            min: 0,
-            step: 0.05,
-            label: InvoiceItem.human_attribute_name(:amount)
-
-          handbook_button(self, "new_member_fee")
-        end
-        tab BasketContent.model_name.human, id: "basket_content", hidden: !feature?("basket_content"), selected: feature?("basket_content") do
-          f.input :basket_content_delivery_pdf_visible,
-            as: :boolean,
-            hint: t("formtastic.hints.organization.basket_content_delivery_pdf_visible")
-
-          div "data-controller" => "form-checkbox-toggler" do
-            f.input :basket_content_member_visible,
-              as: :boolean,
-              input_html: { data: {
-                form_checkbox_toggler_target: "checkbox",
-                action: "form-checkbox-toggler#toggleInput"
-              } }
-            translated_input(f, :basket_content_member_titles,
-              required: true,
-              input_html: { data: { form_checkbox_toggler_target: "input" } })
-            translated_input(f, :basket_content_member_notes,
-              required: false,
-              placeholder: ->(locale) {
-                I18n.with_locale(locale) {
-                  I18n.t("organization.default_basket_content_member_note")
-                }
-              },
-              input_html: { data: { form_checkbox_toggler_target: "input" } })
-            f.input :basket_content_member_visible_hours_before,
-              as: :number,
-              min: 0,
-              max: 7 * 24,
-              step: 1,
-              input_html: { data: { form_checkbox_toggler_target: "input" } }
-            f.input :basket_content_member_display_quantity,
-              as: :boolean,
-              hint: t("formtastic.hints.organization.basket_content_member_display_quantity"),
-              input_html: { data: { form_checkbox_toggler_target: "input" } }
-            f.input :basket_content_member_display_product_url,
-              as: :boolean,
-              hint: t("formtastic.hints.organization.basket_content_member_display_product_url"),
-              input_html: { data: { form_checkbox_toggler_target: "input" } }
-          end
-
-          handbook_button(self, "basket_content")
-        end
-        tab t("features.basket_price_extra"), id: "basket_price_extra", hidden: !feature?("basket_price_extra"), selected: feature?("basket_price_extra") do
-          translated_input(f, :basket_price_extra_titles, required: false)
-          translated_input(f, :basket_price_extra_public_titles,
-            hint: t("formtastic.hints.organization.basket_price_extra_public_title"),
-            required: false)
-          trix_word_count_wrapper(self, threshold: 40) do
-            translated_input(f, :basket_price_extra_texts,
-              hint: t("formtastic.hints.organization.basket_price_extra_text"),
-              required: false,
-              as: :action_text,
-              input_html: { rows: 5 })
-          end
-          f.input :basket_price_extras,
-            as: :string,
-            hint: true,
-            input_html: { value: f.object.basket_price_extras }
-          translated_input(f, :basket_price_extra_labels,
-            as: :text,
-            hint: t("formtastic.hints.organization.basket_price_extra_labels_html"),
-            input_html: {
-              data: { mode: "liquid", code_editor_target: "editor" }
-            })
-          translated_input(f, :basket_price_extra_label_details,
-            as: :text,
-            hint: t("formtastic.hints.organization.basket_price_extra_label_details_html"),
-            input_html: {
-              data: { mode: "liquid", code_editor_target: "editor" }
-            })
-
-          f.input :basket_price_extra_dynamic_pricing,
-            as: :text,
-            input_html: {
-              data: { mode: "liquid", code_editor_target: "editor" }
-            }
-
-          handbook_button(self, "basket_price_extra")
-        end
-        tab t("features.local_currency"), id: "local_currency", hidden: !feature?("local_currency"), selected: feature?("local_currency") do
-          f.input :local_currency_code,
-            collection: locale_currencies_collection,
-            include_blank: false,
-            required: false
-          f.input :local_currency_membership_annual_fee_only
-          f.input :local_currency_identifier, required: true
-          f.input :local_currency_wallet, required: true
-          f.input :local_currency_secret,
-            required: true,
-            as: :password,
-            input_html: { value: "*" * resource.local_currency_secret&.length.to_i }
-          handbook_button(self, "local_currency")
-        end
-      end
+    if organization_setting_section_feature?(section)
+      render partial: "active_admin/organization_settings/forms/activation",
+        locals: { f: f, section: section, context: self }
     end
+
+    render partial: "active_admin/organization_settings/forms/#{section[:key]}",
+      locals: { f: f, section: section, context: self }
 
     f.actions do
       f.action :submit, label: t("active_admin.resources.organization.submit")
-      cancel_link :back
+      cancel_link organization_path(anchor: section[:key])
     end
   end
 
@@ -696,12 +180,50 @@ ActiveAdmin.register Organization do
 
   controller do
     include TranslatedCSVFilename
+    include ActivitiesHelper
     include FormsHelper
+    include OrganizationsHelper
+    include ActiveAdmin::OrganizationSettingsHelper
 
     defaults singleton: true
 
+    helper_method :settings_section, :settings_section_key
+
+    before_action :ensure_settings_section!, only: %i[edit update]
+    before_action :ensure_editable_settings_section!, only: :edit
+
     def resource
       @resource ||= Current.org
+    end
+
+    def update
+      update! do |success, failure|
+        success.html { redirect_to organization_path(anchor: settings_section_key) }
+        failure.html { render :edit, status: :unprocessable_entity }
+      end
+    end
+
+    def settings_section_key
+      params[:section].presence || params.dig(:organization, :settings_section).presence
+    end
+
+    def settings_section
+      @settings_section ||= organization_setting_section(settings_section_key)
+    end
+
+    private
+
+    def ensure_settings_section!
+      return if settings_section && organization_setting_section_available?(settings_section, resource)
+
+      redirect_to organization_path
+    end
+
+    def ensure_editable_settings_section!
+      return if performed?
+      return if organization_setting_section_editable?(settings_section)
+
+      redirect_to organization_path(anchor: settings_section_key)
     end
   end
 end

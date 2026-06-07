@@ -16,3 +16,12 @@ document.addEventListener("trix-file-accept", (e) => {
 })
 
 Trix.config.attachments.preview.caption = { name: false, size: false }
+
+// Turbo morphing removes Trix's generated toolbar while preserving the already-connected editor.
+document.addEventListener("turbo:before-render", (event) => {
+  if (event.detail.renderMethod !== "morph") return
+  if (!document.querySelector("trix-editor") && !event.detail.newBody?.querySelector("trix-editor"))
+    return
+
+  event.detail.render = (currentElement, newElement) => currentElement.replaceWith(newElement)
+})

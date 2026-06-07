@@ -1,0 +1,11 @@
+# frozen_string_literal: true
+
+context.instance_eval do
+  attributes_table_for org do
+    row(:shop_admin_only) { organization_settings_status_tag(true) } if org.shop_admin_only?
+    row(:shop_order_minimal_amount) { organization_settings_currency_value(org.shop_order_minimal_amount) }
+    row(:shop_order_maximum_weight_in_kg) { organization_settings_weight_value(org.shop_order_maximum_weight_in_kg) }
+    row(t("active_admin.resource.form.opening")) { organization_settings_shop_opening(org) }
+    row(:shop_order_automatic_invoicing_delay_in_days) { org.shop_order_automatic_invoicing_delay_in_days.presence || organization_settings_missing_status_tag }
+  end
+end

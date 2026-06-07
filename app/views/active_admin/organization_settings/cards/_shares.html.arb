@@ -1,0 +1,12 @@
+# frozen_string_literal: true
+
+context.instance_eval do
+  attributes_table_for org do
+    if org.share_price?
+      row(:share_price) { organization_settings_currency_value(org.share_price) }
+      row(:shares_number) { org.shares_number.presence || organization_settings_missing_status_tag }
+    else
+      row(:share_price) { organization_settings_missing_status_tag }
+    end
+  end
+end

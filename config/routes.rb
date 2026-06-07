@@ -37,9 +37,8 @@ Rails.application.routes.draw do
     get "billing/:year" => "billings#show", as: :billing
     get "billing/snapshots/:id" => "billing_snapshots#show", as: :billing_snapshot
 
-    get "settings" => "organizations#edit", as: :edit_organization
-    get "settings" => "organizations#edit", as: :organizations
-    resource :organization, path: "settings", only: :update
+    get "settings/:section/edit" => "organizations#edit", as: :edit_organization
+    resource :organization, path: "settings", only: %i[show update]
 
     get "deliveries/next" => "next_delivery#next"
     get "handbook/search" => "handbook_search#show", as: :handbook_search

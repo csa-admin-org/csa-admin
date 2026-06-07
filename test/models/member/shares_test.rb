@@ -11,7 +11,7 @@ class Member::SharesTest < ActiveSupport::TestCase
     member.public_create = true
     assert member.valid?
 
-    org(annual_fee: nil, share_price: 100, shares_number: 1)
+    org(features: (Current.org.features - [ :annual_fee ]) | [ :shares ], annual_fee: nil, share_price: 100, shares_number: 1)
     member.public_create = nil
     assert member.valid?
     member.public_create = true
@@ -19,7 +19,7 @@ class Member::SharesTest < ActiveSupport::TestCase
     member.update(desired_shares_number: 1)
     assert member.valid?
 
-    org(annual_fee: nil, share_price: 100, shares_number: 2)
+    org(features: (Current.org.features - [ :annual_fee ]) | [ :shares ], annual_fee: nil, share_price: 100, shares_number: 2)
     assert_not member.valid?
     member.update(desired_shares_number: 2)
     assert member.valid?
@@ -33,7 +33,7 @@ class Member::SharesTest < ActiveSupport::TestCase
   end
 
   test "shares_number includes existing and invoiced shares" do
-    org(share_price: 100, shares_number: 1)
+    org(features: (Current.org.features - [ :annual_fee ]) | [ :shares ], share_price: 100, shares_number: 1)
     member = members(:martha)
     member.update!(existing_shares_number: 2)
 
@@ -105,7 +105,7 @@ class Member::SharesTest < ActiveSupport::TestCase
   end
 
   test "handle_shares_change! sets state to support when shares exist and member is inactive" do
-    org(share_price: 100, shares_number: 1, annual_fee: nil)
+    org(features: (Current.org.features - [ :annual_fee ]) | [ :shares ], share_price: 100, shares_number: 1, annual_fee: nil)
     member = members(:mary)
     member.update!(existing_shares_number: 1)
 
@@ -115,7 +115,7 @@ class Member::SharesTest < ActiveSupport::TestCase
   end
 
   test "handle_shares_change! sets state to inactive when no shares and member is support" do
-    org(share_price: 100, shares_number: 1, annual_fee: nil)
+    org(features: (Current.org.features - [ :annual_fee ]) | [ :shares ], share_price: 100, shares_number: 1, annual_fee: nil)
     member = members(:martha)
     member.update_columns(state: "support", existing_shares_number: 0)
 
@@ -125,7 +125,7 @@ class Member::SharesTest < ActiveSupport::TestCase
   end
 
   test "changes inactive member state to support and back to inactive via invoice" do
-    org(share_price: 250, shares_number: 1)
+    org(features: (Current.org.features - [ :annual_fee ]) | [ :shares ], share_price: 250, shares_number: 1)
     member = members(:mary)
 
     assert_changes -> { member.reload.state }, from: "inactive", to: "support" do
@@ -140,7 +140,7 @@ class Member::SharesTest < ActiveSupport::TestCase
   end
 
   test "deactivate! removing negative number" do
-    org(share_price: 100, shares_number: 1, annual_fee: nil)
+    org(features: (Current.org.features - [ :annual_fee ]) | [ :shares ], share_price: 100, shares_number: 1, annual_fee: nil)
     member = members(:martha)
     member.update(existing_shares_number: 2, required_shares_number: -2)
     assert_changes -> { member.state }, from: "inactive", to: "support" do

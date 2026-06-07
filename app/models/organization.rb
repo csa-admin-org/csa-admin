@@ -6,13 +6,18 @@ class Organization < ApplicationRecord
   FEATURES = %i[
     absence
     activity
+    annual_fee
     basket_content
     basket_price_extra
     bidding_round
     contact_sharing
     local_currency
+    member_information
     new_member_fee
+    sepa
+    shares
     shop
+    vat
   ]
   RESTRICTED_FEATURES = %i[]
   FEATURE_FLAGS = %i[]
@@ -41,12 +46,17 @@ class Organization < ApplicationRecord
   include \
     AbsenceFeature,
     ActivityFeature,
+    AnnualFeeFeature,
     BasketContentFeature,
     BasketPriceExtraFeature,
     BiddingRoundFeature,
     LocalCurrencyFeature,
+    MemberInformationFeature,
     NewMemberFeeFeature,
-    ShopFeature
+    SEPAFeature,
+    SharesFeature,
+    ShopFeature,
+    VatFeature
 
   attribute :icalendar_auth_token, :string, default: -> { SecureRandom.hex(16) }
 
@@ -56,8 +66,6 @@ class Organization < ApplicationRecord
   translated_attributes :email_signature, :email_footer
   translated_rich_texts :open_renewal_text
   translated_rich_texts :membership_update_text
-  translated_rich_texts :member_information_text
-  translated_attributes :member_information_title
   translated_rich_texts :member_form_subtitle
   translated_rich_texts :member_form_extra_text
   translated_rich_texts :member_form_complements_text
@@ -120,6 +128,10 @@ class Organization < ApplicationRecord
 
   def features
     self[:features].map(&:to_sym) & FEATURES
+  end
+
+  def features=(features)
+    super Array(features).reject(&:blank?)
   end
 
   def feature_flags

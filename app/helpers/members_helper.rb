@@ -134,11 +134,11 @@ module MembersHelper
       col << [
         collection_text(t("helpers.no_basket_size"),
           details:
-            if Current.org.annual_fee? && Current.org.share?
+            if Current.org.feature?("annual_fee") && Current.org.feature?("shares")
               t("helpers.no_basket_size_annual_fee_and_share")
-            elsif Current.org.annual_fee?
+            elsif Current.org.feature?("annual_fee")
               t("helpers.no_basket_size_annual_fee")
-            elsif Current.org.share?
+            elsif Current.org.feature?("shares")
               t("helpers.no_basket_size_share")
             end
         ),
@@ -323,18 +323,17 @@ module MembersHelper
   end
 
   def display_address(member)
-    [
+    safe_join([
       member.street,
-      "#{member.zip} #{member.city}"
-    ].join("</br>").html_safe
+      [ member.zip, member.city ].compact_blank.join(" ")
+    ].compact_blank, tag.br)
   end
 
   def display_billing_address(member)
-    parts = [
+    safe_join([
       member.billing_info(:street),
-      "#{member.billing_info(:zip)} #{member.billing_info(:city)}"
-    ]
-    parts.join("</br>").html_safe
+      [ member.billing_info(:zip), member.billing_info(:city) ].compact_blank.join(" ")
+    ].compact_blank, tag.br)
   end
 
   def display_emails(member)

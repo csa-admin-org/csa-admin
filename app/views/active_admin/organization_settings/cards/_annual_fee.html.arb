@@ -1,0 +1,9 @@
+# frozen_string_literal: true
+
+context.instance_eval do
+  attributes_table_for org do
+    row(:annual_fee) { organization_settings_currency_value(org.annual_fee) }
+    row(:annual_fee_support_member_only) { organization_settings_status_tag(org.annual_fee_support_member_only?) }
+    row(:annual_fee_member_form) { organization_settings_status_tag(org.annual_fee_member_form?) }
+  end
+end

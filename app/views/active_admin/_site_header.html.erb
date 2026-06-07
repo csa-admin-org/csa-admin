@@ -147,9 +147,9 @@
         <%= icon "book-open", class: "size-5" %>
       </a>
 
-      <% if can?(:update, Organization) %>
+      <% if can?(:read, Organization) %>
         <a
-          href="<%= edit_organization_path %>"
+          href="<%= organization_path %>"
           class="
             relative flex size-9 items-center justify-center text-sm
             text-white/75! hover:text-white! focus:outline-hidden

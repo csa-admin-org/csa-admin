@@ -1,0 +1,16 @@
+# frozen_string_literal: true
+
+context.instance_eval do
+  attributes_table_for org do
+    row(:recurring_billing_wday) do
+      if org.recurring_billing_wday
+        t("date.day_names")[org.recurring_billing_wday].capitalize
+      else
+        organization_settings_status_tag(t("active_admin.resource.form.recurring_billing_disabled"), status: :disabled)
+      end
+    end
+    row(:billing_year_divisions) { org.billing_year_divisions.map { |i| I18n.t("billing.year_division.x#{i}") }.to_sentence }
+    row(:trial_baskets_count) { org.trial_baskets_count }
+    row(t("active_admin.resources.organization.billing_period")) { organization_settings_billing_period(org) }
+  end
+end

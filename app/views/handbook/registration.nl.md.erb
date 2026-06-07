@@ -58,7 +58,7 @@ Enkele tips voor het registratieformulier:
 - **Houd de uitleg kort.** Als je je solidariteitsmodel in detail wilt uitleggen, link naar je website.
 - **Duidelijke labels zijn belangrijk.** Zorg ervoor dat elke optie de prijsimpact duidelijk toont. Zie de [instellingen voor extra <%= Basket.model_name.human.downcase %>prijs](/settings#basket_price_extra) voor labelconfiguratie.
 <% else %>
-Deze functie is momenteel niet geactiveerd. Je kunt deze inschakelen in [je instellingen](/settings#organization_features_input).
+Deze functie is momenteel niet geactiveerd. Je kunt deze inschakelen in [je instellingen](/settings#basket_price_extra).
 <% end %>
 
 ## Depots {#depots}
@@ -92,12 +92,12 @@ Als een cyclus alleen relevant is voor bepaalde depots, zorgt het instellen van 
 
 ## Jaarlijkse bijdrage & aandelenkapitaal {#annual-fee-shares}
 
-Afhankelijk van het organisatietype en de instellingen kunnen extra velden verschijnen onderaan de lidmaatschapsectie:
+Afhankelijk van de ingeschakelde functies kunnen extra velden verschijnen onderaan de lidmaatschapsectie:
 
-- **Jaarlijkse bijdrage**: Getoond wanneer de jaarlijkse bijdragefunctie actief is en de [instelling voor jaarlijkse bijdrage in het ledenformulier](/settings#billing) is ingeschakeld. Leden zien het standaard jaarlijkse bijdragebedrag en kunnen dit aanpassen indien toegestaan. Dit is vooral relevant voor leden die zich registreren als ondersteunende leden (zonder <%= BasketSize.model_name.human.downcase %>).
-- **Gewenst aandelenkapitaal**: Getoond voor coöperaties of verenigingen die [aandelenkapitaal](/handbook/billing#share-capital) vereisen. Leden kunnen extra aandelen aanvragen boven het vereiste minimum. De minimumwaarde wordt bepaald door het standaard aantal aandelen van de organisatie.
+- **Jaarlijkse bijdrage**: Getoond wanneer de functie voor jaarlijkse bijdrage is ingeschakeld en de [instelling voor jaarlijkse bijdrage in het ledenformulier](/settings#annual_fee) is ingeschakeld. Leden zien het standaard jaarlijkse bijdragebedrag en kunnen dit aanpassen indien toegestaan. Dit is vooral relevant voor leden die zich registreren als ondersteunende leden (zonder <%= BasketSize.model_name.human.downcase %>).
+- **Gewenst aandelenkapitaal**: Getoond wanneer de functie voor aandelenkapitaal is ingeschakeld. Leden kunnen extra aandelen aanvragen boven het vereiste minimum. De minimumwaarde wordt bepaald door het standaard aantal aandelen van de organisatie.
 
-Beide velden worden geconfigureerd in [de factureringsinstellingen](/settings#billing).
+Opties voor jaarlijkse bijdrage worden geconfigureerd in [de instellingen voor jaarlijkse bijdrage](/settings#annual_fee). Aandeelprijs en vereiste aandelen worden geconfigureerd in [de instellingen voor aandelenkapitaal](/settings#shares).
 
 ## Aanvullende uitleg {#extra-text}
 

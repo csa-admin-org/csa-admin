@@ -1,0 +1,29 @@
+# frozen_string_literal: true
+
+context.instance_eval do
+  f.inputs t("active_admin.resources.organization.edit_model"), icon: "sliders-horizontal" do
+    li class: "panel-actions" do
+      text_node handbook_icon_link(section[:handbook], anchor: section[:handbook_anchor])
+    end
+    para t("active_admin.resource.form.delivery_sheets_text_html"), class: "description"
+    f.input :delivery_pdf_member_info,
+      as: :radio,
+      required: false,
+      collection: Organization::DeliveryPDF::MEMBER_INFOS.map { |info|
+        [
+          content_tag(:span, t("organization.delivery_pdf_member_info.#{info}")),
+          info
+        ]
+      }
+    f.input :delivery_pdf_member_name_format,
+      as: :radio,
+      required: false,
+      collection: Organization.delivery_pdf_member_name_formats.keys.map { |fmt|
+        [
+          content_tag(:span, t("organization.delivery_pdf_member_name_format.#{fmt}")),
+          fmt
+        ]
+      }
+    translated_input(f, :delivery_pdf_footers, required: false)
+  end
+end

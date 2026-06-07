@@ -1,0 +1,18 @@
+# frozen_string_literal: true
+
+context.instance_eval do
+  attributes_table_for org do
+    row(:activity_price) { organization_settings_currency_value(org.activity_price) }
+    row(t("active_admin.resource.form.registration_form_choice")) { organization_settings_activity_participations_form_choice(org) }
+    row(:activity_availability_limit_in_days) do
+      if org.activity_availability_limit_in_days.zero?
+        t("active_admin.resource.show.none")
+      else
+        org.activity_availability_limit_in_days
+      end
+    end
+    row(:activity_participation_deletion_deadline_in_days) do
+      org.activity_participation_deletion_deadline_in_days.presence || t("active_admin.resource.show.none")
+    end
+  end
+end

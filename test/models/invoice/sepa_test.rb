@@ -5,7 +5,9 @@ require "test_helper"
 class Invoice::SEPATest < ActiveSupport::TestCase
   test "persisted sepa_mandate on invoice creation" do
     org(
+      features: Current.org.features | [ :sepa ],
       country_code: "DE",
+      iban: "DE87200500001234567890",
       sepa_creditor_identifier: "DE98ZZZ09999999999")
     member = create_member(
       name: "John Doe",
@@ -28,7 +30,9 @@ class Invoice::SEPATest < ActiveSupport::TestCase
 
   test "persisted sepa_mandate with different billing info" do
     org(
+      features: Current.org.features | [ :sepa ],
       country_code: "DE",
+      iban: "DE87200500001234567890",
       sepa_creditor_identifier: "DE98ZZZ09999999999")
     member = create_member(
       name: "John Doe",
@@ -56,7 +60,9 @@ class Invoice::SEPATest < ActiveSupport::TestCase
 
   test "keeps sepa debtor name snapshot when member billing name changes later" do
     org(
+      features: Current.org.features | [ :sepa ],
       country_code: "DE",
+      iban: "DE87200500001234567890",
       sepa_creditor_identifier: "DE98ZZZ09999999999")
     member = create_member(
       name: "John Doe",
@@ -82,7 +88,9 @@ class Invoice::SEPATest < ActiveSupport::TestCase
 
   test "falls back to current billing info when sepa debtor snapshot is missing" do
     org(
+      features: Current.org.features | [ :sepa ],
       country_code: "DE",
+      iban: "DE87200500001234567890",
       sepa_creditor_identifier: "DE98ZZZ09999999999")
     member = create_member(
       name: "John Doe",
