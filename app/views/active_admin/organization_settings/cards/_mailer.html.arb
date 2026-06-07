@@ -5,6 +5,6 @@ context.instance_eval do
 
   attributes_table_for org do
     row(:email_default_from) { org.email_default_from }
-    row(:email_footer) { organization_settings_text_value(org.email_footers[locale.to_s], class_name: "text-center text-sm") }
+    row(:email_footer) { organization_settings_text_value(org.email_footers[locale.to_s], class_name: "w-full text-center text-sm") }
   end
 end

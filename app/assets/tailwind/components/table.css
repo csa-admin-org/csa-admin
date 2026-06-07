@@ -294,6 +294,9 @@
     &.organization :where(tbody > tr > th) {
       @apply md:max-w-[80%];
     }
+    &.organization :where(tbody > tr > td) {
+      @apply flex items-center justify-end gap-1;
+    }
   }
 
   :is(.attributes-table, .data-table-invoice-total) td details > summary {

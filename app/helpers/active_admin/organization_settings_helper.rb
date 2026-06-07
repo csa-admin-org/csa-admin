@@ -217,12 +217,12 @@ module ActiveAdmin::OrganizationSettingsHelper
     values = Array(values).compact_blank
     return organization_settings_missing_status_tag if values.none?
 
-    content_tag(:ul, class: "list-disc list-outside pl-5 text-left space-y-1") do
+    content_tag(:ul, class: "w-full list-disc list-outside pl-5 text-left space-y-1") do
       safe_join(values.map { |value| content_tag(:li, value) })
     end
   end
 
-  def organization_settings_text_value(value, class_name: "text-left text-sm")
+  def organization_settings_text_value(value, class_name: "w-full text-left text-sm")
     return organization_settings_missing_status_tag if value.blank?
 
     classes = [ class_name, "leading-relaxed text-gray-600 dark:text-gray-300" ].join(" ")
