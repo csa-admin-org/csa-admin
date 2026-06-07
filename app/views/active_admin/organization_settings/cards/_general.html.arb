@@ -3,8 +3,7 @@
 context.instance_eval do
   attributes_table_for org do
     row(:name) { org.name }
-    row(:email) { org.email }
-    row(:phone) { org.phone }
+    row(:contact) { [ org.email, org.phone ].compact.join(" / ") }
     row(organization_settings_social_networks_label) { organization_settings_social_network_links(org) }
     row(:logo) { organization_settings_logo(org) }
   end

@@ -15,17 +15,17 @@ module ActiveAdmin::OrganizationSettingsHelper
       organization_setting_section_definition(:annual_fee, :feature, "features.annual_fee", "calendar-sync", handbook: "billing", handbook_anchor: "annual-fee"),
       organization_setting_section_definition(:member_information, :feature, "features.member_information", "newspaper", handbook: "members", handbook_anchor: "information-page"),
       organization_setting_section_definition(:shares, :feature, "features.shares", "receipt-text", handbook: "billing", handbook_anchor: "share-capital"),
-      organization_setting_section_definition(:vat, :feature, "features.vat", "receipt-text", handbook: "billing", handbook_anchor: "vat"),
+      organization_setting_section_definition(:vat, :feature, "features.vat", "landmark", handbook: "billing", handbook_anchor: "vat"),
       organization_setting_section_definition(:sepa, :feature, "features.sepa", "banknotes", handbook: "sepa"),
 
       organization_setting_section_definition(:absence, :feature, Absence.model_name.human, "tent", handbook: "absence"),
       organization_setting_section_definition(:activity, :feature, "features.activity", "handshake", handbook: "activity"),
-      organization_setting_section_definition(:basket_content, :feature, BasketContent.model_name.human, "sprout", handbook: "basket_content"),
-      organization_setting_section_definition(:basket_price_extra, :feature, "features.basket_price_extra", "receipt-text", handbook: "basket_price_extra"),
+      organization_setting_section_definition(:basket_content, :feature, BasketContent.model_name.human, "shopping-bag", handbook: "basket_content"),
+      organization_setting_section_definition(:basket_price_extra, :feature, "features.basket_price_extra", "coins", handbook: "basket_price_extra"),
       organization_setting_section_definition(:bidding_round, :feature, BiddingRound.model_name.human, "scale", handbook: "bidding_round"),
       organization_setting_section_definition(:contact_sharing, :feature, "features.contact_sharing", "contact-round", handbook: "contact_sharing"),
       organization_setting_section_definition(:local_currency, :feature, "features.local_currency", "banknote", handbook: "local_currency"),
-      organization_setting_section_definition(:new_member_fee, :feature, "features.new_member_fee", "plus", handbook: "new_member_fee"),
+      organization_setting_section_definition(:new_member_fee, :feature, "features.new_member_fee", "circle-plus", handbook: "new_member_fee"),
       organization_setting_section_definition(:shop, :feature, "shop.title", "shopping-basket", handbook: "shop")
     ]
 
@@ -319,7 +319,7 @@ module ActiveAdmin::OrganizationSettingsHelper
     return organization_settings_empty_value unless org.logo.persisted?
 
     content_tag(:ul, class: "flex flex-wrap justify-end gap-2") do
-      image_tag org.logo.variant(resize_to_limit: [ 92, 92 ]), class: "logo max-h-9 max-w-16 object-contain"
+      image_tag org.logo.variant(resize_to_limit: [ 92, 92 ]), class: "logo size-12 object-contain"
     end
   end
 
@@ -330,7 +330,7 @@ module ActiveAdmin::OrganizationSettingsHelper
     content_tag(:ul, class: "flex flex-wrap justify-end gap-2") do
       safe_join(logos.map { |logo|
         content_tag(:li) do
-          image_tag logo.variant(resize_to_limit: [ 92, 92 ]), class: "max-h-9 max-w-16 object-contain"
+          image_tag logo.variant(resize_to_limit: [ 92, 92 ]), class: "max-h-12 max-w-16 object-contain"
         end
       })
     end
