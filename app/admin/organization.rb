@@ -45,10 +45,10 @@ ActiveAdmin.register Organization do
                 panel organization_setting_section_title(section),
                   icon: section[:icon],
                   action: organization_disabled_setting_section_actions(section) do
-                  div class: "flex flex-nowrap gap-4 p-2 pt-0 justify-between items-center" do
+                  div class: "flex flex-wrap gap-4 p-2 pt-0 justify-between items-center" do
                     para organization_disabled_setting_section_hint(section), class: "description"
                     if authorized?(:update, Organization)
-                      div do
+                      div class: "grow text-right" do
                         text_node organization_disabled_setting_section_primary_action(section)
                       end
                     end
