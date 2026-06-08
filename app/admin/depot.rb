@@ -17,6 +17,14 @@ ActiveAdmin.register Depot do
   filter :delivery_cycles,
     as: :select,
     collection: -> { admin_delivery_cycles_collection_by_visibility }
+  filter :delivery_sheets_mode,
+    label: -> { I18n.t("active_admin.filters.labels.delivery_sheets_mode") },
+    as: :select,
+    collection: -> {
+      Depot::DELIVERY_SHEETS_MODES.map { |mode|
+        [ I18n.t("delivery.sheets_mode.#{mode}"), mode ]
+      }
+    }
 
   includes :memberships, :delivery_cycles
   index do

@@ -298,6 +298,120 @@ class Delivery::ChangesTest < ActiveSupport::TestCase
     assert_includes depot_change.details, "=>"
   end
 
+  # == Audited member changes ==
+
+  test "detects member name change since previous basket" do
+    create_name_change(members(:john), from: "John Doe", to: "John Family", at: "2024-04-03 12:00")
+    delivery = deliveries(:monday_2)
+
+    changes = Delivery::Changes.new(delivery)
+    john_entry = entries_with_change_type(changes, :name_changed).find { |e| e.member == members(:john) }
+
+    assert john_entry
+    assert_equal [ :name_changed ], john_entry.changes.map(&:type)
+
+    name_change = john_entry.changes.find { |c| c.type == :name_changed }
+    assert_equal Member.human_attribute_name(:name), name_change.label
+    assert_equal "John Doe => John Family", name_change.details
+    assert_includes john_entry.description, "#{Member.human_attribute_name(:name)}: John Doe → John Family"
+  end
+
+  test "combines member name change with other changes" do
+    create_name_change(members(:john), from: "John Doe", to: "John Family", at: "2024-04-03 12:00")
+    delivery = deliveries(:monday_2)
+    baskets(:john_2).update_columns(depot_id: depots(:bakery).id)
+
+    changes = Delivery::Changes.new(delivery)
+    john_entries = changes.entries.select { |e| e.member == members(:john) }
+
+    assert_equal 1, john_entries.size
+
+    change_types = john_entries.first.changes.map(&:type)
+    assert_includes change_types, :name_changed
+    assert_includes change_types, :depot_changed
+  end
+
+  test "does not repeat member name change after first changed delivery" do
+    create_name_change(members(:john), from: "John Doe", to: "John Family", at: "2024-04-03 12:00")
+    delivery = deliveries(:monday_3)
+
+    changes = Delivery::Changes.new(delivery)
+    john_entries = entries_with_change_type(changes, :name_changed).select { |e| e.member == members(:john) }
+
+    assert_empty john_entries
+  end
+
+  test "ignores reverted member name changes" do
+    member = members(:john)
+    create_name_change(member, from: "John Doe", to: "John Family", at: "2024-04-03 12:00")
+    create_name_change(member, from: "John Family", to: "John Doe", at: "2024-04-04 12:00")
+    delivery = deliveries(:monday_2)
+
+    changes = Delivery::Changes.new(delivery)
+    john_entries = changes.entries.select { |e| e.member == members(:john) }
+
+    assert_empty john_entries
+  end
+
+  test "detects member address change for home delivery depot" do
+    move_baskets_to_home_delivery(baskets(:john_1), baskets(:john_2))
+    create_address_change(members(:john),
+      from: { street: "Nowhere 42", zip: "1234", city: "City" },
+      to: { street: "Main Street 1", zip: "9876", city: "Village" },
+      at: "2024-04-03 12:00")
+    delivery = deliveries(:monday_2)
+
+    changes = Delivery::Changes.new(delivery)
+    john_entry = entries_with_change_type(changes, :address_changed).find { |e| e.member == members(:john) }
+
+    assert john_entry
+    assert_equal [ :address_changed ], john_entry.changes.map(&:type)
+
+    address_change = john_entry.changes.find { |c| c.type == :address_changed }
+    assert_equal Member.human_attribute_name(:address), address_change.label
+    assert_equal "Nowhere 42\n1234 City\n=>\nMain Street 1\n9876 Village", address_change.details
+    assert_includes john_entry.html_description, "#{Member.human_attribute_name(:address)}:</span><br> Nowhere 42<br>1234 City<br>→<br>Main Street 1<br>9876 Village"
+  end
+
+  test "ignores member address change for non home delivery depot" do
+    create_address_change(members(:john),
+      from: { street: "Nowhere 42", zip: "1234", city: "City" },
+      to: { street: "Main Street 1", zip: "9876", city: "Village" },
+      at: "2024-04-03 12:00")
+    delivery = deliveries(:monday_2)
+
+    changes = Delivery::Changes.new(delivery)
+    john_entries = entries_with_change_type(changes, :address_changed).select { |e| e.member == members(:john) }
+
+    assert_empty john_entries
+  end
+
+  test "detects member delivery note change for home delivery depot" do
+    move_baskets_to_home_delivery(baskets(:john_1), baskets(:john_2))
+    create_delivery_note_change(members(:john), from: nil, to: "Leave behind the mailbox", at: "2024-04-03 12:00")
+    delivery = deliveries(:monday_2)
+
+    changes = Delivery::Changes.new(delivery)
+    john_entry = entries_with_change_type(changes, :delivery_note_changed).find { |e| e.member == members(:john) }
+
+    assert john_entry
+    assert_equal [ :delivery_note_changed ], john_entry.changes.map(&:type)
+
+    delivery_note_change = john_entry.changes.find { |c| c.type == :delivery_note_changed }
+    assert_equal Member.human_attribute_name(:delivery_note), delivery_note_change.label
+    assert_equal "⌀#{I18n.t('active_admin.empty').upcase}⌀ => Leave behind the mailbox", delivery_note_change.details
+  end
+
+  test "ignores member delivery note change for non home delivery depot" do
+    create_delivery_note_change(members(:john), from: nil, to: "Leave behind the mailbox", at: "2024-04-03 12:00")
+    delivery = deliveries(:monday_2)
+
+    changes = Delivery::Changes.new(delivery)
+    john_entries = entries_with_change_type(changes, :delivery_note_changed).select { |e| e.member == members(:john) }
+
+    assert_empty john_entries
+  end
+
   # == Basket changed (size and/or quantity merged) ==
 
   test "detects basket size change" do
@@ -790,6 +904,39 @@ class Delivery::ChangesTest < ActiveSupport::TestCase
   end
 
   private
+
+  def create_name_change(member, from:, to:, at:)
+    create_member_change(member,
+      changes: { "name" => [ from, to ] },
+      values: { name: to },
+      at: at)
+  end
+
+  def create_address_change(member, from:, to:, at:)
+    changes = %w[street zip city].each_with_object({}) do |attribute, h|
+      h[attribute] = [ from[attribute.to_sym], to[attribute.to_sym] ]
+    end
+    create_member_change(member, changes: changes, values: to, at: at)
+  end
+
+  def create_delivery_note_change(member, from:, to:, at:)
+    create_member_change(member,
+      changes: { "delivery_note" => [ from, to ] },
+      values: { delivery_note: to },
+      at: at)
+  end
+
+  def create_member_change(member, changes:, values:, at:)
+    member.audits.create!(
+      audited_changes: changes,
+      created_at: Time.zone.parse(at))
+    member.update_columns(values)
+    member.reload
+  end
+
+  def move_baskets_to_home_delivery(*baskets)
+    baskets.each { |basket| basket.update_columns(depot_id: depots(:home).id) }
+  end
 
   def entries_with_change_type(changes, type)
     changes.entries.select { |e| e.changes.any? { |c| c.type == type } }

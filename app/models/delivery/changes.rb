@@ -4,6 +4,7 @@ class Delivery::Changes
   Change = Data.define(:type, :label, :details)
   LABEL_COLOR = "666666"
   EMPTY_LABEL = /⌀(.+?)⌀/
+  ADDRESS_ATTRIBUTES = %w[street zip city].freeze
 
   Entry = Data.define(:member, :depot_name, :changes) do
     ARROW = " => "
@@ -12,7 +13,7 @@ class Delivery::Changes
 
     def description
       format_changes("\n") do |c|
-        details = c.details&.gsub(EMPTY_LABEL, '\1')&.gsub(ARROW, UNICODE_ARROW)
+        details = c.details&.gsub(EMPTY_LABEL, '\1')&.gsub("\n=>\n", "\n#{UNICODE_ARROW.strip}\n")&.gsub(ARROW, UNICODE_ARROW)
         format_change(c.type, c.label, details)
       end
     end
@@ -35,15 +36,19 @@ class Delivery::Changes
     def html_description
       format_changes("<br>") do |c|
         details = c.details && c.details
+          .gsub("\n=>\n", "\n#{UNICODE_ARROW.strip}\n")
           .gsub(ARROW, UNICODE_ARROW)
           .then { |d| ERB::Util.html_escape(d) }
           .gsub(EMPTY_LABEL) { "<span class=\"missing-data inline! w-auto! py-0! px-1!\">#{$1}</span>" }
+          .gsub("\n", "<br>")
         label = ERB::Util.html_escape(c.label)
         case c.type
         when :new
           format_change(c.type, "<strong>#{label}</strong>", details)
         when :absent
           "<span class=\"#{DIMMED_HTML}\">#{format_change(c.type, label, details)}</span>"
+        when :address_changed
+          format_change(c.type, label, details, styled_label: "<span class=\"#{DIMMED_HTML}\">#{label}:</span><br>")
         else
           format_change(c.type, label, details, styled_label: "<span class=\"#{DIMMED_HTML}\">#{label}:</span>")
         end
@@ -116,6 +121,7 @@ class Delivery::Changes
       .to_a
 
     current_member_ids = @current_memberships.map(&:member_id)
+    @current_members_by_id = @current_memberships.map(&:member).index_by(&:id)
 
     @previous_memberships_by_member = Membership
       .during_year(@delivery.fy_year - 1)
@@ -132,6 +138,7 @@ class Delivery::Changes
     @current_delivery_complement_ids = @delivery.basket_complement_ids.to_set
 
     load_previous_baskets
+    load_audited_member_changes
     load_previous_delivery_complement_ids
     load_previous_cycle_deliveries
   end
@@ -166,6 +173,85 @@ class Delivery::Changes
       # Keep only the most recent previous basket per member
       @previous_basket_by_member[member_id] ||= basket
     end
+  end
+
+  def load_audited_member_changes
+    @name_change_details_by_member_id = {}
+    @address_change_details_by_member_id = {}
+    @delivery_note_change_details_by_member_id = {}
+    member_ids = @previous_basket_by_member.keys
+    return if member_ids.empty?
+
+    start_date = @previous_basket_by_member.values.map { |b| b.delivery.date }.min
+    audits = Audit
+      .where(auditable_type: "Member", auditable_id: member_ids)
+      .where(created_at: start_date...(@delivery.date + 1.day))
+      .order(:created_at, :id)
+      .to_a
+
+    audits.group_by(&:auditable_id).each do |member_id, member_audits|
+      member_audits = recent_member_audits(member_id, member_audits)
+      next if member_audits.empty?
+
+      add_change_detail(@name_change_details_by_member_id, member_id, attribute_change_details(member_audits, "name"))
+      add_change_detail(@address_change_details_by_member_id, member_id, address_change_details(member_id, member_audits))
+      add_change_detail(@delivery_note_change_details_by_member_id, member_id, attribute_change_details(member_audits, "delivery_note"))
+    end
+  end
+
+  def recent_member_audits(member_id, audits)
+    prev_basket = @previous_basket_by_member[member_id]
+    audits.select { |audit| audit.created_at.to_date > prev_basket.delivery.date }
+  end
+
+  def add_change_detail(details_by_member_id, member_id, details)
+    details_by_member_id[member_id] = details if details
+  end
+
+  def attribute_change_details(audits, attribute)
+    changes = audits.filter_map { |audit| audit.changes[attribute] }
+    return if changes.empty?
+
+    previous_value = audited_value_description(changes.first.first)
+    current_value = audited_value_description(changes.last.last)
+    return if previous_value == current_value
+
+    "#{previous_value} => #{current_value}"
+  end
+
+  def address_change_details(member_id, audits)
+    return unless ADDRESS_ATTRIBUTES.any? { |attribute| audits.any? { |audit| audit.changes[attribute] } }
+
+    previous_values = {}
+    current_values = {}
+    member = @current_members_by_id[member_id]
+
+    ADDRESS_ATTRIBUTES.each do |attribute|
+      changes = audits.filter_map { |audit| audit.changes[attribute] }
+      previous_values[attribute], current_values[attribute] =
+        if changes.any?
+          [ changes.first.first, changes.last.last ]
+        else
+          [ member.public_send(attribute), member.public_send(attribute) ]
+        end
+    end
+
+    previous_address = address_description(previous_values)
+    current_address = address_description(current_values)
+    return if previous_address == current_address
+
+    "#{previous_address}\n=>\n#{current_address}"
+  end
+
+  def address_description(values)
+    [
+      values["street"],
+      [ values["zip"], values["city"] ].compact_blank.join(" ")
+    ].compact_blank.join("\n").presence || empty_label
+  end
+
+  def audited_value_description(value)
+    value.presence || empty_label
   end
 
   def load_previous_cycle_deliveries
@@ -205,6 +291,8 @@ class Delivery::Changes
 
     changes = []
 
+    changes.concat(detect_audited_member_changes(membership, basket))
+
     if depot_changed?(membership, basket, prev_basket)
       changes << build_change(:depot_changed,
         details: "#{prev_basket.depot.name} => #{basket.depot.name}")
@@ -219,6 +307,33 @@ class Delivery::Changes
     return [] if changes.empty?
 
     [ build_entry(membership.member, basket.depot.name, changes) ]
+  end
+
+  def detect_audited_member_changes(membership, basket)
+    changes = []
+
+    name_change = build_audited_member_change(:name_changed, membership)
+    changes << name_change if name_change
+
+    if basket.depot.delivery_sheets_mode == "home_delivery"
+      address_change = build_audited_member_change(:address_changed, membership)
+      delivery_note_change = build_audited_member_change(:delivery_note_changed, membership)
+      changes << address_change if address_change
+      changes << delivery_note_change if delivery_note_change
+    end
+
+    changes
+  end
+
+  def build_audited_member_change(type, membership)
+    details_by_member_id =
+      case type
+      when :name_changed then @name_change_details_by_member_id
+      when :address_changed then @address_change_details_by_member_id
+      when :delivery_note_changed then @delivery_note_change_details_by_member_id
+      end
+    details = details_by_member_id[membership.member_id]
+    build_change(type, details: details) if details
   end
 
   def depot_changed?(membership, basket, prev_basket)
@@ -336,6 +451,12 @@ class Delivery::Changes
       case type
       when :absent
         Basket.human_attribute_name(:absent).capitalize
+      when :name_changed
+        Member.human_attribute_name(:name)
+      when :address_changed
+        Member.human_attribute_name(:address)
+      when :delivery_note_changed
+        Member.human_attribute_name(:delivery_note)
       else
         I18n.t("delivery.change_types.#{type}")
       end

@@ -441,6 +441,13 @@ _:
           _de: Filtern
           _it: Filtro
           _nl: Filter
+      labels:
+        delivery_sheets_mode:
+          _en: Delivery sheets mode
+          _fr: Mode des fiches de livraison
+          _de: Lieferblätter-Modus
+          _it: Modalità schede di consegna
+          _nl: Modus leveringsbladen
       predicates:
         contains:
           _en: Contains
