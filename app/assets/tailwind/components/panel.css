@@ -11,12 +11,12 @@
     }
 
     h3 {
-      @apply leading-5;
+      @apply leading-6;
     }
   }
 
   .panel-title {
-    @apply mt-4 mb-2 flex h-6 flex-wrap items-center gap-2 overflow-x-auto bg-transparent px-4 text-xl font-extralight whitespace-nowrap;
+    @apply mt-4 mb-2 flex flex-wrap items-start gap-2 overflow-x-auto bg-transparent px-4 text-xl font-extralight whitespace-nowrap;
   }
 
   .panel-title-icon {
