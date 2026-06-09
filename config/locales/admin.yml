@@ -133,6 +133,18 @@ _:
         _de: Erhalte eine Benachrichtigung, wenn eine Anmeldung eines Mitglieds erstellt und validiert werden muss.
         _it: Ricevi una notifica quando viene creata un'iscrizione di un socio e deve essere validata.
         _nl: Ontvang een melding wanneer een registratie van een lid is aangemaakt en moet worden gevalideerd.
+      new_shop_order:
+        _en: New shop order
+        _fr: Nouvelle commande d'épicerie
+        _de: Neue Hofladen-Bestellung
+        _it: Nuovo ordine della bottega
+        _nl: Nieuwe winkelbestelling
+      new_shop_order_hint:
+        _en: Receive a notification when a shop order is placed by a member or another admin.
+        _fr: Recevoir une notification lorsqu'une commande d'épicerie est passée par un membre ou un autre admin.
+        _de: Benachrichtigung erhalten, wenn eine Hofladen-Bestellung von einem Mitglied oder einem anderen Admin aufgegeben wird.
+        _it: Ricevete una notifica quando un ordine della bottega viene effettuato da un socio o da un altro admin.
+        _nl: Een melding ontvangen wanneer een winkelbestelling door een lid of een andere beheerder wordt geplaatst.
       payment_reversal:
         _en: Payment reversal
         _fr: Remboursement d'un paiement

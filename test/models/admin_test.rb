@@ -28,6 +28,14 @@ class AdminTest < ActiveSupport::TestCase
     assert_equal "thibaud@thibaud.gg", admin.email
   end
 
+  test "notifications include new shop order only when shop is enabled" do
+    assert_includes Admin.notifications, "new_shop_order"
+
+    org(features: Current.org.features - [ :shop ])
+
+    assert_not_includes Admin.notifications, "new_shop_order"
+  end
+
   test "notify! with suppressed email" do
     admin = admins(:ultra)
     admin.update!(notifications: [ "new_absence" ])

@@ -168,6 +168,7 @@ module Shop
           state: PENDING_STATE,
           depot: depot)
       end
+      notify_admins_of_received_order!
     end
 
     def unconfirm!
@@ -221,6 +222,10 @@ module Shop
     end
 
     private
+
+    def notify_admins_of_received_order!
+      Admin.notify!(:new_shop_order, shop_order: self, skip: admin)
+    end
 
     def set_amount
       kept_items = items.reject(&:marked_for_destruction?)

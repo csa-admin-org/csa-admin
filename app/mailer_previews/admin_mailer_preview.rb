@@ -162,6 +162,29 @@ class AdminMailerPreview < ActionMailer::Preview
     ).new_registration_email
   end
 
+  def new_shop_order_email
+    admin = Admin.new(
+      id: 1,
+      name: "John",
+      language: I18n.locale,
+      email: "admin@csa-admin.org")
+    member = Member.new(
+      id: 2,
+      name: "Martha")
+    delivery = Delivery.new(
+      id: 3,
+      date: Date.new(2024, 6, 10))
+    order = Shop::Order.new(
+      id: 42,
+      member: member,
+      delivery: delivery,
+      amount: 32.50)
+    AdminMailer.with(
+      admin: admin,
+      shop_order: order
+    ).new_shop_order_email
+  end
+
   def membership_trial_cancelation_email
     admin = Admin.new(
       id: 1,

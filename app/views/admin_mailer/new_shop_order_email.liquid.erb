@@ -1,0 +1,13 @@
+<p><%= t(".greeting") %></p>
+
+<p><%= t(".order_received_paragraph") %></p>
+
+{% highlight_list %}
+  <strong><%= t(".member_label") %></strong> {{ member.name }}
+  <strong><%= t(".delivery_date_label") %></strong> {{ shop_order.delivery_date }}
+  <strong><%= t(".amount_label") %></strong> {{ shop_order.amount }}
+{% endhighlight_list %}
+
+{% button shop_order.admin_url %}
+  <%= t(".shop_order_page_button") %>
+{% endbutton %}

@@ -80,6 +80,7 @@ class Admin < ApplicationRecord
       all << "new_activity_participation"
       all << "new_activity_participation_with_note" # only with note
     end
+    all << "new_shop_order" if Current.org.feature?("shop")
     all
   end
 

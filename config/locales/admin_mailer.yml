@@ -498,6 +498,49 @@ _:
           _de: Neue Einschreibung
           _it: Nuova iscrizione
           _nl: Nieuwe registratie
+    new_shop_order_email:
+      amount_label:
+        _en: 'Total amount:'
+        _fr: 'Montant total:'
+        _de: 'Gesamtbetrag:'
+        _it: 'Importo totale:'
+        _nl: 'Totaalbedrag:'
+      delivery_date_label:
+        _en: 'Delivery date:'
+        _fr: 'Date de livraison:'
+        _de: 'Lieferdatum:'
+        _it: 'Data di consegna:'
+        _nl: 'Leveringsdatum:'
+      greeting:
+        _en: Hello {{ admin.name }},
+        _fr: Salut {{ admin.name }},
+        _de: Hallo {{ admin.name }},
+        _it: Ciao {{ admin.name }},
+        _nl: Hallo {{ admin.name }},
+      member_label:
+        _en: 'Member:'
+        _fr: 'Membre:'
+        _de: 'Mitglied:'
+        _it: 'Socio:'
+        _nl: 'Lid:'
+      order_received_paragraph:
+        _en: A new shop order has been received.
+        _fr: Une nouvelle commande d'épicerie a été reçue.
+        _de: Eine neue Hofladen-Bestellung ist eingegangen.
+        _it: È stato ricevuto un nuovo ordine della bottega.
+        _nl: Er is een nieuwe winkelbestelling ontvangen.
+      shop_order_page_button:
+        _en: Access shop order page
+        _fr: Accéder à la page de la commande d'épicerie
+        _de: Zur Seite der Hofladen-Bestellung gehen
+        _it: Accedere alla pagina dell'ordine della bottega
+        _nl: Naar de winkelbestelling
+      subject:
+        _en: 'New shop order #%{number}'
+        _fr: 'Nouvelle commande d''épicerie #%{number}'
+        _de: 'Neue Hofladen-Bestellung #%{number}'
+        _it: 'Nuovo ordine della bottega #%{number}'
+        _nl: 'Nieuwe winkelbestelling #%{number}'
     payment_reversal_email:
       greeting:
         _en: Hello {{ admin.name }},

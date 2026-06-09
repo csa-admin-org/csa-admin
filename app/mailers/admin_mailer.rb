@@ -156,6 +156,22 @@ class AdminMailer < ApplicationMailer
     end
   end
 
+  def new_shop_order_email
+    @admin = params[:admin]
+    order = params[:shop_order]
+    I18n.with_locale(@admin.language) do
+      shop_order = Liquid::AdminShopOrderDrop.new(order)
+      content = liquid_template.render(
+        "admin" => Liquid::AdminDrop.new(@admin),
+        "member" => Liquid::AdminMemberDrop.new(order.member),
+        "shop_order" => shop_order)
+      content_mail(content,
+        to: @admin.email,
+        subject: t(".subject", number: shop_order.id),
+        tag: "admin-shop-order-received")
+    end
+  end
+
   def membership_trial_cancelation_email
     @admin = params[:admin]
     I18n.with_locale(@admin.language) do

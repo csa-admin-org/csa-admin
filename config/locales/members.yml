@@ -1356,7 +1356,7 @@ _:
           pending_shop_orders:
             _en: You have pending shop orders.
             _fr: Vous avez des commandes en attente.
-            _de: Du hast ausstehende Shop-Bestellungen.
+            _de: Du hast ausstehende Hofladen-Bestellungen.
             _it: Hai ordini in sospeso.
             _nl: Je hebt lopende winkelbestellingen.
         reasons_title:

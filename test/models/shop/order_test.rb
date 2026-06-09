@@ -205,6 +205,57 @@ class Shop::OrderTest < ActiveSupport::TestCase
     end
   end
 
+  test "notify opted-in admins when confirmed" do
+    admins(:ultra).update!(notifications: [ "new_shop_order" ])
+    admins(:super).update!(notifications: [])
+    order = create_shop_order(state: "cart")
+
+    assert_enqueued_jobs 1, only: ActionMailer::MailDeliveryJob do
+      order.confirm!
+    end
+
+    perform_enqueued_jobs
+    mail = AdminMailer.deliveries.last
+    assert_equal [ admins(:ultra).email ], mail.to
+    assert_equal "New shop order ##{order.id}", mail.subject
+  end
+
+  test "does not notify admins that did not opt in" do
+    Admin.find_each { |admin| admin.update!(notifications: []) }
+    order = create_shop_order(state: "cart")
+
+    assert_no_enqueued_jobs only: ActionMailer::MailDeliveryJob do
+      order.confirm!
+    end
+  end
+
+  test "does not notify the admin who confirmed the order" do
+    admins(:ultra).update!(notifications: [ "new_shop_order" ])
+    admins(:super).update!(notifications: [ "new_shop_order" ])
+    order = create_shop_order(state: "cart")
+    order.admin = admins(:ultra)
+
+    assert_enqueued_jobs 1, only: ActionMailer::MailDeliveryJob do
+      order.confirm!
+    end
+
+    perform_enqueued_jobs
+    assert_equal [ admins(:super).email ], AdminMailer.deliveries.last.to
+  end
+
+  test "notify every time the order is confirmed" do
+    admins(:ultra).update!(notifications: [ "new_shop_order" ])
+    order = create_shop_order(state: "cart")
+
+    assert_enqueued_jobs 1, only: ActionMailer::MailDeliveryJob do
+      order.confirm!
+    end
+    order.unconfirm!
+    assert_enqueued_jobs 1, only: ActionMailer::MailDeliveryJob do
+      order.confirm!
+    end
+  end
+
   test "persist the depot" do
     travel_to "2024-01-01"
     member = members(:jane)

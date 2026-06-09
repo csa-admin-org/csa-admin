@@ -259,6 +259,32 @@ class AdminMailerTest < ActionMailer::TestCase
     assert_includes body, "https://admin.acme.test/members/#{members(:john).id}/member_audits"
   end
 
+  test "new_shop_order_email" do
+    order = create_shop_order
+
+    mail = AdminMailer.with(
+      admin: admins(:ultra),
+      shop_order: order
+    ).new_shop_order_email
+
+    assert_equal "New shop order ##{order.id}", mail.subject
+    assert_equal [ "info@csa-admin.org" ], mail.to
+    assert_equal "admin-shop-order-received", mail.tag
+    assert_equal "Acme <info@acme.test>", mail[:from].decoded
+
+    body = mail.body.to_s
+    assert_includes body, "Hello Thibaud,"
+    assert_includes body, "A new shop order has been received."
+    assert_includes body, "<strong>Member:</strong> Jane Doe"
+    assert_includes body, "<strong>Delivery date:</strong> Thursday 4 April 2024"
+    assert_match(/<strong>Total amount:<\/strong> CHF(?:&nbsp;|\u00A0)6\.00/, body)
+    assert_includes body, "Access shop order page"
+    assert_includes body, "https://admin.acme.test/shop_orders/#{order.id}"
+    assert_not_includes body, shop_products(:oil).name
+    assert_includes body, "https://admin.acme.test/admins/#{admins(:ultra).id}/edit#notifications"
+    assert_includes body, "Manage my notifications"
+  end
+
   test "memberships_renewal_pending_email" do
     mail = AdminMailer.with(
       admin: admins(:ultra),
