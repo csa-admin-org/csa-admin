@@ -185,15 +185,17 @@ ActiveAdmin.setup do |config|
   config.namespace false do |admin|
     admin.build_menu do |menu|
       menu.add label: -> {
+        label = t("active_admin.menu.shop")
         [
-          icon("shopping-basket", class: "size-5 mr-2.5 md:mr-0.5 inline", title: t("active_admin.menu.shop")),
-          content_tag(:span, t("active_admin.menu.shop"), class: "inline md:hidden")
+          icon("shopping-basket", class: "size-5 mr-2.5 md:mr-0.5 inline", title: label),
+          content_tag(:span, label, class: "inline md:hidden")
         ].join.html_safe
       }, priority: 6, id: :navshop
       menu.add label: -> {
+        label = activities_human_name
         [
-          icon("handshake", class: "size-5 mt-0.5 mr-2.5 md:mr-0.5 inline", title: activities_human_name),
-          content_tag(:span, activities_human_name, class: "inline md:hidden")
+          icon("handshake", class: "size-5 mt-0.5 mr-2.5 md:mr-0.5 inline", title: label),
+          content_tag(:span, label, class: "inline md:hidden")
         ].join.html_safe
       }, priority: 7, id: :activities_human_name
       menu.add label: -> {

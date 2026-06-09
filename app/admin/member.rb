@@ -6,7 +6,7 @@ ActiveAdmin.register Member do
       icon("users", class: "size-5 -mt-0.5 mr-2.5 md:mr-2 inline"),
       Member.model_name.human(count: 2)
     ].join.html_safe
-  }
+  }, url: -> { pending_members_menu_path }
 
   scope :all
   scope :pending, group: :state

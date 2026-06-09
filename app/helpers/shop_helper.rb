@@ -9,12 +9,7 @@ module ShopHelper
   end
 
   def smart_shop_orders_path
-    delivery =
-      Delivery.shop_open.next
-        || Shop::SpecialDelivery.next
-        || Delivery.shop_open.last
-        || Shop::SpecialDelivery.last
-    if delivery
+    if delivery = smart_shop_delivery
       shop_orders_path(q: { _delivery_gid_eq: delivery.gid })
     else
       shop_orders_path
@@ -83,12 +78,13 @@ module ShopHelper
   def shop_deliveries_collection(used: false)
     deliveries =
       if used
-        Delivery.shop_open.joins(:shop_orders).distinct +
-          Shop::SpecialDelivery.joins(:shop_orders).distinct
+        Delivery.joins(:shop_orders).distinct +
+          Shop::SpecialDelivery.joins(:shop_orders).distinct +
+          [ selected_shop_delivery, smart_shop_delivery ].compact
       else
         Delivery.shop_open + Shop::SpecialDelivery.all
       end
-    deliveries.sort_by(&:date).reverse.map do |delivery|
+    deliveries.uniq.sort_by(&:date).reverse.map do |delivery|
       [ delivery.display_name, delivery.to_global_id ]
     end
   end
@@ -104,6 +100,18 @@ module ShopHelper
         ]
       end
     end
+  end
+
+  def selected_shop_delivery
+    gid = params.dig(:q, :_delivery_gid_eq)
+    GlobalID::Locator.locate(gid) if gid.present?
+  end
+
+  def smart_shop_delivery
+    Delivery.shop_open.next ||
+      Shop::SpecialDelivery.next ||
+      Delivery.shop_open.last ||
+      Shop::SpecialDelivery.last
   end
 
   def delivery_title(delivery)

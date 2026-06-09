@@ -1,0 +1,14 @@
+@layer components {
+  .menu-icon-badge {
+    @apply ms-2 grid size-4 place-items-center rounded-full bg-red-500 ps-[0.5px] text-center text-[0.625rem] leading-none font-bold text-white normal-nums;
+    @apply md:absolute md:-inset-e-1.5 md:-top-1.5 md:ms-0;
+  }
+
+  .menu-inline-badge {
+    @apply ms-2 grid size-4 place-items-center rounded-full bg-red-500 text-center text-[0.625rem] leading-none font-bold text-white normal-nums;
+  }
+
+  .menu-badge-wide {
+    @apply w-auto min-w-5 px-1;
+  }
+}

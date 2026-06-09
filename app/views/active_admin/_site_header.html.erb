@@ -31,13 +31,15 @@
       <ul
         class="
           mt-4 flex flex-col space-y-1 pb-32 text-sm font-medium md:mt-0
-          md:flex-row md:items-center md:space-y-0 md:space-x-2 md:pb-0
+          md:flex-row md:items-center md:space-y-0 md:space-x-2.5 md:pb-0
           [&>li:first-child]:mr-0 [&>li:first-child]:mb-3
           md:[&>li:first-child]:mr-3 md:[&>li:first-child]:mb-0
         "
       >
         <% current_menu.items(self).each do |item| %>
           <% children = item.items(self).presence %>
+          <% label = menu_label_with_badge(item) %>
+          <% plain_label = item.label(self) %>
 
           <li
             class="group text-base md:relative md:text-sm"
@@ -47,9 +49,9 @@
               <%# Desktop, with hover menu %>
               <button
                 id="dropdownHoverButton-<%= item.id %>"
-                class="hidden w-full items-center rounded-md px-2 py-1 font-semibold text-white hover:bg-green-700 hover:text-white md:flex md:w-auto md:border-0 dark:text-black dark:hover:text-black <%= "bg-green-700" if children.any? { |j| current_menu_item?(j) } %>"
+                class="relative hidden w-full items-center rounded-md px-2 py-1 pr-1.5 font-semibold text-white hover:bg-green-700 hover:text-white md:flex md:h-[30px] md:w-auto md:border-0 dark:text-black dark:hover:text-black <%= "bg-green-700" if children.any? { |j| current_menu_item?(j) } %>"
               >
-                <%= item.label(self) %>
+                <%= label %>
                 <%= icon "chevron-down", class: "size-4 ms-1 mt-0.5" %>
               </button>
               <%= tag.ul(
@@ -68,11 +70,11 @@
               <%# Mobile %>
               <div
                 class="
-                  mb-1 flex w-full items-center px-2 py-2 font-semibold
-                  text-white/60 md:hidden dark:text-black/50
+                  relative mb-1 flex w-full items-center px-2 py-2
+                  font-semibold text-white/60 md:hidden dark:text-black/50
                 "
               >
-                <%= item.label(self) %>
+                <%= plain_label %>
               </div>
               <ul
                 class="
@@ -82,14 +84,14 @@
               >
                 <% children.each do |j| %>
                   <li data-item-id="<%= j.id %>">
-                    <%= link_to j.label(self), j.url(self), j.html_options.merge(class: "font-semibold text-white dark:text-black hover:text-white dark:hover:text-black hover:bg-green-700 block rounded-md py-1 px-2 no-underline #{(current_menu_item?(j) ? "bg-green-700 selected" : "")}") %>
+                    <%= link_to menu_label_with_badge(j, badge_class: "menu-inline-badge"), j.url(self), j.html_options.merge(class: "flex items-center rounded-md px-2 py-1 font-semibold text-white no-underline hover:bg-green-700 hover:text-white dark:text-black dark:hover:text-black #{(current_menu_item?(j) ? "bg-green-700 selected" : "")}") %>
                   </li>
                 <% end %>
               </ul>
             <% elsif url = item.url(self) %>
-              <%= link_to item.label(self), url, item.html_options.merge(class: "block py-1.5 md:py-1 px-2 text-white font-semibold dark:text-black hover:text-white dark:hover:text-black no-underline rounded-md hover:bg-green-700 md:border-0 #{current_menu_item?(item) ? "bg-green-700" : ""}").merge(current_menu_item?(item) ? { "aria-current" => "page" } : {}) %>
+              <%= link_to label, url, item.html_options.merge(class: "relative flex w-full items-center rounded-md px-2 py-1.5 font-semibold text-white no-underline hover:bg-green-700 hover:text-white md:h-[30px] md:w-auto md:py-1 md:border-0 dark:text-black dark:hover:text-black #{current_menu_item?(item) ? "bg-green-700" : ""}").merge(current_menu_item?(item) ? { "aria-current" => "page" } : {}) %>
             <% else %>
-              <%= item.label(self) %>
+              <%= label %>
             <% end %>
           </li>
         <% end %>

@@ -4,7 +4,7 @@ ActiveAdmin.register ActivityParticipation do
   menu \
     parent: :activities_human_name,
     priority: 1,
-    url: -> { activity_participations_path(q: { during_year: Current.fiscal_year.year }) }
+    url: -> { current_year_or_pending_activity_participations_path }
 
   breadcrumb do
     links = [ activities_human_name ]

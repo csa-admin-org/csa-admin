@@ -4,7 +4,7 @@ ActiveAdmin.register Shop::Order do
   menu \
    parent: :navshop,
    priority: 1,
-   url: -> { smart_shop_orders_path }
+   url: -> { smart_or_pending_shop_orders_path }
 
   breadcrumb do
     links = [ t("active_admin.menu.shop") ]

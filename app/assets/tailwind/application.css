@@ -3,6 +3,7 @@
 @import "./dark.css";
 @import "./components/animation.css";
 @import "./components/counts.css";
+@import "./components/menu_badge.css";
 @import "./components/filters.css";
 @import "./components/batch_actions.css";
 @import "./components/markdown.css";
