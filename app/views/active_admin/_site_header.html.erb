@@ -46,14 +46,27 @@
             data-item-id="<%= item.id %>"
           >
             <% if children %>
+              <% first_child = children.first %>
+              <% parent_quick_access = item.id != "other" && first_child&.url(self) %>
+              <% parent_classes = "relative hidden w-full items-center rounded-md px-2 py-1 pr-1.5 font-semibold text-white hover:bg-green-700 hover:text-white md:flex md:h-[30px] md:w-auto md:border-0 dark:text-black dark:hover:text-black #{children.any? { |j| current_menu_item?(j) } ? "bg-green-700" : ""}" %>
               <%# Desktop, with hover menu %>
-              <button
-                id="dropdownHoverButton-<%= item.id %>"
-                class="relative hidden w-full items-center rounded-md px-2 py-1 pr-1.5 font-semibold text-white hover:bg-green-700 hover:text-white md:flex md:h-[30px] md:w-auto md:border-0 dark:text-black dark:hover:text-black <%= "bg-green-700" if children.any? { |j| current_menu_item?(j) } %>"
-              >
-                <%= label %>
-                <%= icon "chevron-down", class: "size-4 ms-1 mt-0.5" %>
-              </button>
+              <% if parent_quick_access %>
+                <%= link_to first_child.url(self),
+                  id: "dropdownHoverButton-#{item.id}",
+                  class: "#{parent_classes} no-underline",
+                  **(current_menu_item?(first_child) ? { "aria-current" => "page" } : {}) do %>
+                  <%= label %>
+                  <%= icon "chevron-down", class: "size-4 ms-1 mt-0.5" %>
+                <% end %>
+              <% else %>
+                <button
+                  id="dropdownHoverButton-<%= item.id %>"
+                  class="<%= parent_classes %>"
+                >
+                  <%= label %>
+                  <%= icon "chevron-down", class: "size-4 ms-1 mt-0.5" %>
+                </button>
+              <% end %>
               <%= tag.ul(
                 id: item.id,
                 role: "list",
