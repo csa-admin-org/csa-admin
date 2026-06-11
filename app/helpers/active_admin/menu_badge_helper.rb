@@ -60,6 +60,26 @@ module ActiveAdmin::MenuBadgeHelper
     @pending_activity_participations_menu_count ||= ActivityParticipation.pending.count
   end
 
+  def pending_shop_orders_menu_path_params
+    { scope: :pending }.tap do |path_params|
+      if delivery_gid = pending_shop_orders_menu_delivery_gid
+        path_params[:q] = { _delivery_gid_eq: delivery_gid }
+      end
+    end
+  end
+
+  def pending_shop_orders_menu_delivery_gid
+    return @pending_shop_orders_menu_delivery_gid if defined?(@pending_shop_orders_menu_delivery_gid)
+
+    deliveries = Shop::Order.pending
+      .select(:delivery_type, :delivery_id)
+      .distinct
+      .limit(2)
+      .filter_map(&:delivery)
+
+    @pending_shop_orders_menu_delivery_gid = deliveries.one? ? deliveries.first.gid : nil
+  end
+
   def pending_members_menu_path
     if pending_members_menu_count.positive?
       members_path(scope: :pending)
@@ -70,7 +90,7 @@ module ActiveAdmin::MenuBadgeHelper
 
   def smart_or_pending_shop_orders_path
     if pending_shop_orders_menu_count.positive?
-      shop_orders_path(scope: :pending)
+      shop_orders_path(**pending_shop_orders_menu_path_params)
     else
       smart_shop_orders_path
     end

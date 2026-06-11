@@ -36,11 +36,15 @@ class SiteHeaderParentLinksTest < ApplicationSystemTestCase
 
   test "parent quick access links to pending scope when badge is present" do
     travel_to "2024-09-01" do
+      pending_shop_orders_path = shop_orders_path(
+        scope: :pending,
+        q: { _delivery_gid_eq: Shop::Order.pending.first.delivery_gid })
+
       login admins(:super)
       visit "/"
 
       within "li[data-item-id='navshop']" do
-        assert_selector "a#dropdownHoverButton-navshop[href='#{shop_orders_path(scope: :pending)}']"
+        assert_selector "a#dropdownHoverButton-navshop[href='#{pending_shop_orders_path}']"
       end
 
       within "li[data-item-id='activities_human_name']" do

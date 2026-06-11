@@ -5,6 +5,10 @@ require "application_system_test_case"
 class SiteHeaderBadgesTest < ApplicationSystemTestCase
   test "shows pending badges and points resource links to pending scopes" do
     travel_to "2024-09-01" do
+      pending_shop_orders_path = shop_orders_path(
+        scope: :pending,
+        q: { _delivery_gid_eq: Shop::Order.pending.first.delivery_gid })
+
       login admins(:super)
       visit "/"
 
@@ -18,7 +22,7 @@ class SiteHeaderBadgesTest < ApplicationSystemTestCase
         assert_selector "li[data-item-id='activity_participations'] a > [data-menu-badge='activities']", text: ActivityParticipation.pending.count.to_s
 
         assert_selector "a[href='#{members_path(scope: :pending)}']", minimum: 1
-        assert_selector "a[href='#{shop_orders_path(scope: :pending)}']", minimum: 1
+        assert_selector "a[href='#{pending_shop_orders_path}']", minimum: 1
         assert_selector "a[href='#{activity_participations_path(scope: :pending)}']", minimum: 1
       end
     end
