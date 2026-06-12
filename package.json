@@ -6,7 +6,6 @@
     "oxlint": "^1.65",
     "prettier": "^3.6",
     "prettier-plugin-tailwindcss": "^0.6.0",
-    "stimulus-lsp": "^0.3",
     "stylelint": "^17.11",
     "stylelint-config-recommended": "^18.0",
     "@dreamsicle.io/stylelint-config-tailwindcss": "^1.2.2",
