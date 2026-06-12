@@ -37,7 +37,7 @@ class BasketContentsControllerTest < ActionDispatch::IntegrationTest
     get basket_contents_path(q: { product_id_eq: product.id })
 
     assert_response :success
-    assert_includes response.body, BasketContent.human_attribute_name(:quantity)
+    assert_includes response.body, BasketContent.human_attribute_name(:basket_quantity)
     assert_includes response.body, I18n.t("units.kg_quantity", quantity: "2.3")
     assert_includes response.body, "5.50"
   end
