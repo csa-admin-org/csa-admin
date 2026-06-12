@@ -28,9 +28,9 @@ class Demo::RegistrationsTest < ApplicationSystemTestCase
     with_demo_tenant do
       visit new_demo_registration_path
 
-      fill_in "Your name", with: "Alice Johnson"
+      fill_in "Name / Organization", with: "Alice Johnson"
       fill_in "Email", with: "alice@example.com"
-      fill_in "Your CSA", with: "Green Valley CSA"
+      fill_in "Message", with: "Green Valley CSA"
       fill_in_cap
       click_button "Send"
       perform_enqueued_jobs
@@ -61,7 +61,7 @@ class Demo::RegistrationsTest < ApplicationSystemTestCase
     with_demo_tenant do
       visit new_demo_registration_path
 
-      fill_in "Your name", with: "Test User"
+      fill_in "Name / Organization", with: "Test User"
       fill_in "Email", with: "not-an-email"
       fill_in_cap
       click_button "Send"
@@ -80,7 +80,7 @@ class Demo::RegistrationsTest < ApplicationSystemTestCase
 
       visit new_demo_registration_path
 
-      fill_in "Your name", with: "Another User"
+      fill_in "Name / Organization", with: "Another User"
       fill_in "Email", with: "existing@example.com"
       fill_in_cap
       click_button "Send"
@@ -93,7 +93,7 @@ class Demo::RegistrationsTest < ApplicationSystemTestCase
     with_demo_tenant do
       visit new_demo_registration_path
 
-      fill_in "Your name", with: "Alice Johnson"
+      fill_in "Name / Organization", with: "Alice Johnson"
       fill_in "Email", with: "alice@example.com"
 
       assert_no_difference "Admin.count" do
