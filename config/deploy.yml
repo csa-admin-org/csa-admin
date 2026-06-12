@@ -73,7 +73,6 @@ accessories:
     env:
       clear:
         REDIS_URL: redis://csa-admin-cap-valkey:6379
-        REDIS_PREFIX: "cap:"
         RATELIMIT_IP_HEADER: cf-connecting-ip
         ENABLE_ASSETS_SERVER: "true"
         WIDGET_VERSION: "0.1.56"
