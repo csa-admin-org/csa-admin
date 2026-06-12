@@ -11,6 +11,31 @@ class BasketContentsHelperTest < ActionView::TestCase
     assert_equal pc_suffix, basket_content_total_unit_suffix("pc")
   end
 
+  test "basket content totals sum display quantities and each content price" do
+    first = create_basket_content(
+      basket_size_ids_quantities: {
+        small_id => 500,
+        medium_id => 750
+      },
+      unit: "kg",
+      unit_price: 2)
+    second = create_basket_content(
+      delivery: deliveries(:monday_2),
+      basket_size_ids_quantities: { medium_id => 1000 },
+      unit: "kg",
+      unit_price: 3)
+
+    totals = basket_contents_totals([ first, second ])
+
+    assert_equal BigDecimal("2.3"), totals[:quantity]
+    assert_equal BigDecimal("5.5"), totals[:price]
+  end
+
+  test "basket content total quantity display keeps kg totals in kg" do
+    assert_equal I18n.t("units.kg_quantity", quantity: "0"),
+      display_basket_contents_total_quantity(0, "kg")
+  end
+
   test "form percentages use saved quantities or pro-rated defaults" do
     new_content = BasketContent.new(unit: "kg")
     assert_equal new_content.basket_size_ids_percentages_pro_rated,

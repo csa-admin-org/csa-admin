@@ -17,6 +17,48 @@ class BasketContentsControllerTest < ActionDispatch::IntegrationTest
     get "/sessions/#{session.generate_token_for(:redeem)}"
   end
 
+  test "index shows total sidebar with product filter and no delivery filter" do
+    product = basket_content_products(:carrots)
+    create_basket_content(
+      product: product,
+      basket_size_ids_quantities: {
+        small_id => 500,
+        medium_id => 750
+      },
+      unit: "kg",
+      unit_price: 2)
+    create_basket_content(
+      product: product,
+      delivery: deliveries(:monday_2),
+      basket_size_ids_quantities: { medium_id => 1000 },
+      unit: "kg",
+      unit_price: 3)
+
+    get basket_contents_path(q: { product_id_eq: product.id })
+
+    assert_response :success
+    assert_includes response.body, BasketContent.human_attribute_name(:quantity)
+    assert_includes response.body, I18n.t("units.kg_quantity", quantity: "2.3")
+    assert_includes response.body, "5.50"
+  end
+
+  test "index hides total sidebar when delivery filter is present" do
+    product = basket_content_products(:carrots)
+    create_basket_content(
+      product: product,
+      basket_size_ids_quantities: { small_id => 500 },
+      unit: "kg",
+      unit_price: 2)
+
+    get basket_contents_path(q: {
+      product_id_eq: product.id,
+      delivery_id_eq: deliveries(:monday_1).id
+    })
+
+    assert_response :success
+    refute_includes response.body, BasketContent.human_attribute_name(:quantity)
+  end
+
   test "edit form renders basket content form frame" do
     bc = create_basket_content(
       basket_size_ids_quantities: { small_id => 500, medium_id => 750 },

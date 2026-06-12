@@ -135,6 +135,26 @@ ActiveAdmin.register BasketContent do
     column(:depots) { |bc| display_depots(bc.depots) }
   end
 
+  sidebar :total, only: :index, if: -> {
+    params.dig(:q, :product_id_eq).present? && params.dig(:q, :delivery_id_eq).blank?
+  } do
+    side_panel t(".total") do
+      basket_contents = collection.offset(nil).limit(nil).to_a
+      totals = basket_contents_totals(basket_contents)
+      unit = basket_contents.first&.unit ||
+        BasketContent::Product.find_by(id: params.dig(:q, :product_id_eq))&.unit
+
+      div number_line(
+        BasketContent.human_attribute_name(:basket_quantity),
+        display_basket_contents_total_quantity(totals[:quantity], unit),
+        bold: true)
+      div number_line(
+        BasketContent.human_attribute_name(:price),
+        cur(totals[:price]),
+        bold: false)
+    end
+  end
+
   sidebar :member_visibility, only: :index, if: -> {
     params.dig(:q, :delivery_id_eq).present? &&
       Delivery.find(params.dig(:q, :delivery_id_eq)).coming?

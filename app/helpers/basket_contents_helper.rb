@@ -45,6 +45,32 @@ module BasketContentsHelper
     }
   end
 
+  def basket_contents_totals(basket_contents)
+    basket_contents.each_with_object({ quantity: 0, price: 0 }) do |basket_content, totals|
+      totals[:quantity] += BigDecimal(basket_content.total_quantity.to_s)
+      totals[:price] += basket_content_total_price(basket_content)
+    end
+  end
+
+  def display_basket_contents_total_quantity(quantity, unit)
+    case unit
+    when "kg"
+      quantity = quantity.to_f.round(1)
+      quantity = quantity.to_i if quantity == quantity.to_i
+      I18n.t("units.kg_quantity", quantity: number_with_delimiter(quantity))
+    when "pc"
+      I18n.t("units.pc_quantity", quantity: number_with_delimiter(quantity.to_i))
+    else
+      number_with_delimiter(quantity)
+    end
+  end
+
+  def basket_content_total_price(basket_content)
+    return 0 unless basket_content.unit_price
+
+    basket_content.unit_price * BigDecimal(basket_content.quantity.to_s)
+  end
+
   def display_basket_quantity(basket_content, basket_size)
     count = basket_content.baskets_count(basket_size)
     quantity = basket_content.basket_quantity(basket_size)
