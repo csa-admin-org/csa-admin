@@ -45,11 +45,11 @@ _:
           _it: Nome, sito web, località, ditemi di più!
           _nl: Naam, website, locatie, vertel me meer!
         submit:
-          _en: Get started
-          _fr: Commencer
-          _de: Loslegen
-          _it: Iniziare
-          _nl: Aan de slag
+          _en: Send
+          _fr: Envoyer
+          _de: Senden
+          _it: Inviare
+          _nl: Verzenden
         title:
           _en: Try the Demo
           _fr: Essayer la démo

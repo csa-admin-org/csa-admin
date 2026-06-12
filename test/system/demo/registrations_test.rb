@@ -32,7 +32,7 @@ class Demo::RegistrationsTest < ApplicationSystemTestCase
       fill_in "Email", with: "alice@example.com"
       fill_in "Your CSA", with: "Green Valley CSA"
       fill_in_cap
-      click_button "Get started"
+      click_button "Send"
       perform_enqueued_jobs
 
       assert_equal "/login", current_path
@@ -51,7 +51,7 @@ class Demo::RegistrationsTest < ApplicationSystemTestCase
 
       fill_in "Email", with: "test@example.com"
       fill_in_cap
-      click_button "Get started"
+      click_button "Send"
 
       assert_selector "p.inline-errors", text: "can't be blank"
     end
@@ -64,7 +64,7 @@ class Demo::RegistrationsTest < ApplicationSystemTestCase
       fill_in "Your name", with: "Test User"
       fill_in "Email", with: "not-an-email"
       fill_in_cap
-      click_button "Get started"
+      click_button "Send"
 
       assert_selector "p.inline-errors", text: "is invalid"
     end
@@ -83,7 +83,7 @@ class Demo::RegistrationsTest < ApplicationSystemTestCase
       fill_in "Your name", with: "Another User"
       fill_in "Email", with: "existing@example.com"
       fill_in_cap
-      click_button "Get started"
+      click_button "Send"
 
       assert_selector "p.inline-errors", text: "has already been taken"
     end
@@ -97,7 +97,7 @@ class Demo::RegistrationsTest < ApplicationSystemTestCase
       fill_in "Email", with: "alice@example.com"
 
       assert_no_difference "Admin.count" do
-        click_button "Get started"
+        click_button "Send"
       end
 
       assert_text "Security verification failed, please try again."

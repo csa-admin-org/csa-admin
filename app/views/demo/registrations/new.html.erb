@@ -15,10 +15,12 @@
         <%= f.input :note, as: :text, label: t("demo.registrations.new.note_input"), required: false, input_html: { rows: 3, placeholder: t("demo.registrations.new.note_placeholder") } %>
         <%= cap_token_field %>
 
-        <%= f.action :submit,
-          label: t("demo.registrations.new.submit"),
-          button_html: { value: t("demo.registrations.new.submit"), data: cap_submit_tooltip_target_data },
-          wrapper_html: { class: "actions mt-2", data: cap_submit_tooltip_data } %>
+        <%= tag.li class: "actions mt-2", data: cap_submit_tooltip_data do %>
+          <%= button_tag type: "submit", data: cap_submit_tooltip_target_data do %>
+            <%= icon "send-horizontal", class: "size-5" %>
+            <span><%= t("demo.registrations.new.submit") %></span>
+          <% end %>
+        <% end %>
       </ol>
     <% end %>
   </div>

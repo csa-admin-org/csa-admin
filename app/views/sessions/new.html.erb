@@ -11,10 +11,12 @@
         <%= f.input :email, label: t(".email_input"), required: true %>
         <%= cap_token_field %>
 
-        <%= f.action :submit,
-          label: t(".submit"),
-          button_html: { value: t(".submit"), data: cap_submit_tooltip_target_data },
-          wrapper_html: { class: "actions mt-2", data: cap_submit_tooltip_data } %>
+        <%= tag.li class: "actions mt-2", data: cap_submit_tooltip_data do %>
+          <%= button_tag type: "submit", data: cap_submit_tooltip_target_data do %>
+            <%= icon "send-horizontal", class: "size-5" %>
+            <span><%= t(".submit") %></span>
+          <% end %>
+        <% end %>
       </ol>
     <% end %>
   </div>
