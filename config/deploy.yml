@@ -59,6 +59,35 @@ env:
     JOB_CONCURRENCY: 1
     LOG_REQUESTS: false
 
+accessories:
+  cap-valkey:
+    image: valkey/valkey:9-alpine
+    host: isle.thibaud.gg
+    directories:
+      - cap-valkey-data:/data
+    cmd: "valkey-server --save 60 1 --loglevel warning --maxmemory-policy noeviction"
+
+  cap:
+    image: tiago2/cap:3.1.5
+    host: isle.thibaud.gg
+    env:
+      clear:
+        REDIS_URL: redis://csa-admin-cap-valkey:6379
+        REDIS_PREFIX: "cap:"
+        RATELIMIT_IP_HEADER: cf-connecting-ip
+        ENABLE_ASSETS_SERVER: "true"
+        WIDGET_VERSION: "0.1.56"
+        WASM_VERSION: "0.0.7"
+      secret:
+        - ADMIN_KEY
+    directories:
+      - cap-data:/usr/src/app/data
+    proxy:
+      ssl: true
+      host: cap.csa-admin.org
+      app_port: 3000
+      forward_headers: true
+
 # Aliases are triggered with "bin/kamal <alias>". You can overwrite arguments on invocation:
 # "bin/kamal logs -r job" will tail logs from the first server in the job section.
 aliases:
@@ -67,6 +96,8 @@ aliases:
   logs: app logs -f -n 100
   migrate: app exec -r web "bin/rails db:migrate"
   restart: app boot
+  cap-logs: accessory logs cap -f
+  cap-boot: "accessory boot cap-valkey && accessory boot cap"
 
 # Use a persistent storage volume for sqlite database files and local Active Storage files.
 # Recommended to change this to a mounted volume path that is backed up off server.
