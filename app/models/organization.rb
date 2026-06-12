@@ -82,6 +82,7 @@ class Organization < ApplicationRecord
   has_secure_token :api_token, length: 36
 
   encrypts :postmark_server_token
+  encrypts :cap_secret_key
 
   has_one_attached :logo
   has_many_attached :invoice_logos

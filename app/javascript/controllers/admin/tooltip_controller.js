@@ -56,19 +56,23 @@ export default class extends Controller {
   }
 
   _showContent() {
+    if (!this.hasContentTarget) return
+
     this.contentTarget.classList.remove("invisible", "opacity-0")
     this.contentTarget.classList.add("visible", "opacity-100")
     this._syncExpandedState(true)
   }
 
   _hideContent() {
+    if (!this.hasContentTarget) return
+
     this.contentTarget.classList.add("invisible", "opacity-0")
     this.contentTarget.classList.remove("visible", "opacity-100")
     this._syncExpandedState(false)
   }
 
   _isHidden() {
-    return this.contentTarget.classList.contains("invisible")
+    return !this.hasContentTarget || this.contentTarget.classList.contains("invisible")
   }
 
   _closeOpenDismissibleTooltip() {
@@ -104,6 +108,8 @@ export default class extends Controller {
   }
 
   _startAutoUpdate(trigger) {
+    if (!this.hasContentTarget) return
+
     this._stopAutoUpdate()
     this._cleanupAutoUpdate = autoUpdate(trigger, this.contentTarget, () => {
       this._position()
@@ -130,7 +136,7 @@ export default class extends Controller {
 
   async _position() {
     const trigger = this._triggerTarget()
-    if (!trigger) return null
+    if (!trigger || !this.hasContentTarget) return null
 
     const content = this.contentTarget
     const arrowEl = this.hasArrowTarget ? this.arrowTarget : null

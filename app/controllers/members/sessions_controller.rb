@@ -3,10 +3,10 @@
 require "bcrypt"
 
 class Members::SessionsController < Members::BaseController
-  include ActiveHashcash
+  include CapVerifiable
+
   layout "members"
   skip_before_action :authenticate_member!
-  before_action :check_hashcash, only: :create
 
   def new
     redirect_to members_member_path if current_member
@@ -51,9 +51,9 @@ class Members::SessionsController < Members::BaseController
     action_name == "destroy"
   end
 
-  def hashcash_after_failure
+  def cap_after_failure
     @session = Session.new
-    flash.now[:alert] = t(".hashcash_failed")
+    flash.now[:alert] = t("cap.failed_retry")
     render :new, status: :unprocessable_entity
   end
 end

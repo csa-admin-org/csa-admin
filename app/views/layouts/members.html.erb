@@ -10,6 +10,7 @@
     <%= javascript_importmap_tags "members" %>
     <%= stylesheet_link_tag "trix", "tailwind", data: { turbo_track: "reload" } %>
     <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
 
     <meta charset="UTF-8">
     <%= favicon_link_tag members_favicon_url, type: nil %>

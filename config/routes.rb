@@ -3,11 +3,6 @@
 Rails.application.routes.draw do
   get "up" => "rails/health#show", as: :rails_health_check
 
-  ultra_admin = ->(request) {
-    session_id = request.cookie_jar.encrypted.permanent[:session_id]
-    session_id && Session.find_by(id: session_id)&.admin&.ultra?
-  }
-
   resources :logos, only: :show
 
   constraints subdomain: "mc" do
@@ -17,9 +12,6 @@ Rails.application.routes.draw do
 
   constraints subdomain: "admin" do
     get "favicon" => "favicons#show"
-    constraints ultra_admin do
-      mount ActiveHashcash::Engine, at: "/hashcash"
-    end
 
     resources :sessions, only: %i[show create]
     get "/login" => "sessions#new", as: :login

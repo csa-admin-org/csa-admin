@@ -1,12 +1,12 @@
 # frozen_string_literal: true
 
 class Demo::RegistrationsController < ApplicationController
-  include ActiveHashcash
+  include CapVerifiable
+
   helper ActiveAdmin::LayoutHelper
   layout "active_admin_logged_out"
 
-  before_action :ensure_demo_tenant!
-  before_action :check_hashcash, only: :create
+  prepend_before_action :ensure_demo_tenant!
 
   def new
     @registration = Demo::Registration.new
@@ -32,9 +32,9 @@ class Demo::RegistrationsController < ApplicationController
     params.require(:demo_registration).permit(:name, :email, :note)
   end
 
-  def hashcash_after_failure
+  def cap_after_failure
     @registration = Demo::Registration.new(registration_params)
-    flash.now[:alert] = t(".hashcash_failed")
+    flash.now[:alert] = t("cap.failed_retry")
     render :new, status: :unprocessable_entity
   end
 end

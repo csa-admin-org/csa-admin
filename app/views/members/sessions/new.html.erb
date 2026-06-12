@@ -1,7 +1,3 @@
-<% content_for :head do %>
-  <%= javascript_include_tag "hashcash", defer: true, nonce: true, data: { turbo_track: "reload" } %>
-<% end %>
-
 <h1 class="mb-4 text-center"><%= t(".title") %></h1>
 
 <div class="mt-2">
@@ -10,18 +6,18 @@
 </div>
 
 <div class="mt-8">
-  <%= simple_form_for [ :members, @session ] do |f| %>
+  <%= simple_form_for [ :members, @session ], data: { turbo: false } do |f| %>
     <div class="mt-8 flex flex-col">
       <%= f.input :email, as: :email, label_html: { class: "sr-only" }, input_html: {  required: true, placeholder: t(".email_placeholder") }, wrapper_html: { class: "grow" } %>
 
-      <%= hashcash_hidden_field_tag %>
+      <%= cap_token_field %>
 
-      <div class="actions mt-4">
-        <%= button_tag type: "submit" do %>
+      <%= tag.div class: "actions mt-4", data: cap_submit_tooltip_data do %>
+        <%= button_tag type: "submit", data: cap_submit_tooltip_target_data do %>
           <%= icon "send-horizontal", class: "size-5" %>
           <span><%= t(".submit") %></span>
         <% end %>
-      </div>
+      <% end %>
     </div>
   <% end %>
 </div>

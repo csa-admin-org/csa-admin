@@ -3,10 +3,10 @@
 require "bcrypt"
 
 class SessionsController < ApplicationController
-  include ActiveHashcash
+  include CapVerifiable
+
   helper ActiveAdmin::LayoutHelper
   layout "active_admin_logged_out"
-  before_action :check_hashcash, only: :create
 
   def new
     redirect_to root_path if current_admin
@@ -47,9 +47,9 @@ class SessionsController < ApplicationController
 
   private
 
-  def hashcash_after_failure
+  def cap_after_failure
     @session = Session.new
-    flash.now[:alert] = t(".hashcash_failed")
+    flash.now[:alert] = t("cap.failed_retry")
     render :new, status: :unprocessable_entity
   end
 end

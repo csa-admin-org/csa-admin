@@ -3,11 +3,10 @@
 class Members::MembersController < Members::BaseController
   include ActivitiesHelper
   include ShopHelper
-  include ActiveHashcash
+  include CapVerifiable
 
   skip_before_action :authenticate_member!, only: %i[new create]
-  before_action :redirect_current_member!, only: %i[new create]
-  before_action :check_hashcash, only: :create
+  prepend_before_action :redirect_current_member!, only: %i[new create]
 
   def new
     @member = Member.new(public_create: true)
@@ -51,11 +50,11 @@ class Members::MembersController < Members::BaseController
 
   private
 
-  def hashcash_after_failure
+  def cap_after_failure
     @member = Member.new(member_params)
     @member.public_create = true
     set_basket_complements
-    flash.now[:alert] = t(".hashcash_failed")
+    flash.now[:alert] = t("cap.failed_retry")
     render :new, status: :unprocessable_entity
   end
 

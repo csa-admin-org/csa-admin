@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 ENV["RAILS_ENV"] ||= "test"
+ENV["CAP_SKIP_VERIFY"] ||= "1"
 require_relative "../config/environment"
 require "rails/test_help"
 
@@ -41,10 +42,11 @@ module ActiveSupport
     include PostmarkHelper
     include QRCodeHelper
     include EnvHelper
+    include RailsEnvHelper
     include TenantHelper
     include ResponsesHelper
     include SessionsHelper
-    include HashcashHelper
+    include CapTestHelper
     include ShopHelper
 
     # Run tests in parallel with specified workers

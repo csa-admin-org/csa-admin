@@ -38,7 +38,7 @@ class Demo::RegistrationsControllerTest < ActionDispatch::IntegrationTest
     in_demo_tenant do
       assert_enqueued_emails 2 do
         post demo_registrations_path, params: {
-          hashcash: mint_hashcash("admin.acme.test"),
+          "cap-token" => cap_token,
           demo_registration: {
             name: "Alice Johnson",
             email: "alice@example.com",
@@ -52,7 +52,7 @@ class Demo::RegistrationsControllerTest < ActionDispatch::IntegrationTest
     end
   end
 
-  test "POST /demo without hashcash returns unprocessable entity" do
+  test "POST /demo without cap token returns unprocessable entity" do
     in_demo_tenant do
       assert_no_enqueued_emails do
         post demo_registrations_path, params: {
@@ -71,7 +71,7 @@ class Demo::RegistrationsControllerTest < ActionDispatch::IntegrationTest
     in_demo_tenant do
       assert_no_enqueued_emails do
         post demo_registrations_path, params: {
-          hashcash: mint_hashcash("admin.acme.test"),
+          "cap-token" => cap_token,
           demo_registration: { name: "", email: "" }
         }
       end

@@ -6,6 +6,8 @@
 # See the Securing Rails Applications Guide for more information:
 # https://guides.rubyonrails.org/security.html#content-security-policy-header
 
+cap_api_url = ENV.fetch("CAP_API_URL", "https://cap.csa-admin.org").delete_suffix("/")
+
 Rails.application.configure do
   config.content_security_policy do |policy|
     policy.default_src :self, :https, :unsafe_inline, :blob
@@ -15,6 +17,7 @@ Rails.application.configure do
     policy.script_src  :self, :https, :unsafe_inline, :unsafe_eval, :blob
     policy.style_src   :self, :https, :unsafe_inline
     policy.frame_src   :self, "*.youtube.com", "*.vimeo.com"
-    policy.connect_src :self, "https://appsignal-endpoint.net", "https://csa-admin-storage.ffdfd84ded457e75852ca37f08621d87.r2.cloudflarestorage.com"
+    policy.worker_src  :self, :blob
+    policy.connect_src :self, cap_api_url, "https://appsignal-endpoint.net", "https://csa-admin-storage.ffdfd84ded457e75852ca37f08621d87.r2.cloudflarestorage.com"
   end
 end

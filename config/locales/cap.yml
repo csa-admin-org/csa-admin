@@ -1,0 +1,26 @@
+_:
+  cap:
+    failed:
+      _en: Security verification failed. Please reload the page.
+      _fr: La vérification de sécurité a échoué. Veuillez recharger la page.
+      _de: Sicherheitsüberprüfung fehlgeschlagen. Bitte die Seite neu laden.
+      _it: Verifica di sicurezza non riuscita. Ricarica la pagina.
+      _nl: Beveiligingsverificatie mislukt. Laad de pagina opnieuw.
+    failed_retry:
+      _en: Security verification failed, please try again.
+      _fr: La vérification de sécurité a échoué, veuillez réessayer.
+      _de: Sicherheitsüberprüfung fehlgeschlagen, bitte erneut versuchen.
+      _it: Verifica di sicurezza non riuscita, riprova.
+      _nl: Beveiligingsverificatie mislukt, probeer opnieuw.
+    unavailable:
+      _en: Security verification is unavailable. Please reload the page.
+      _fr: La vérification de sécurité est indisponible. Veuillez recharger la page.
+      _de: Sicherheitsüberprüfung nicht verfügbar. Bitte die Seite neu laden.
+      _it: La verifica di sicurezza non è disponibile. Ricarica la pagina.
+      _nl: Beveiligingsverificatie is niet beschikbaar. Laad de pagina opnieuw.
+    verifying:
+      _en: Verifying…
+      _fr: Vérification en cours…
+      _de: Überprüfung läuft…
+      _it: Verifica in corso…
+      _nl: Beveiliging wordt gecontroleerd…

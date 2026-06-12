@@ -65,7 +65,7 @@ class Members::MembersTest < ApplicationSystemTestCase
     fill_in "How did you hear about us?", with: "Friends"
     fill_in "Note", with: "Keep up the good work!"
     check "I have read and agree to the rules."
-    fill_in_hashcash
+    fill_in_cap
 
     click_on "Submit"
 
@@ -126,7 +126,7 @@ class Members::MembersTest < ApplicationSystemTestCase
     choose "Annual"
     fill_in "Note", with: "I'm back!"
     check "I have read and agree to the rules."
-    fill_in_hashcash
+    fill_in_cap
 
     assert_changes -> { member.reload.state }, from: "inactive", to: "waiting" do
       click_button "Submit"
@@ -164,7 +164,7 @@ class Members::MembersTest < ApplicationSystemTestCase
 
     choose "Supporting member"
     check "I have read and agree to the rules."
-    fill_in_hashcash
+    fill_in_cap
 
     assert_no_difference "Member.count" do
       click_button "Submit"
@@ -195,7 +195,7 @@ class Members::MembersTest < ApplicationSystemTestCase
     choose "Mondays"
     choose "Annual"
     check "I have read and agree to the rules."
-    fill_in_hashcash
+    fill_in_cap
 
     click_button "Submit"
 
@@ -228,7 +228,7 @@ class Members::MembersTest < ApplicationSystemTestCase
     choose "Annual"
     fill_in "Note", with: "I'm back!"
     check "I have read and agree to the rules."
-    fill_in_hashcash
+    fill_in_cap
 
     click_button "Submit"
 
@@ -283,7 +283,7 @@ class Members::MembersTest < ApplicationSystemTestCase
     assert_text "Bakery"
     assert_text "Home"
     choose "Bakery"
-    fill_in_hashcash
+    fill_in_cap
 
     click_button "Submit"
 
@@ -314,7 +314,7 @@ class Members::MembersTest < ApplicationSystemTestCase
 
     choose "Supporting member"
     check "I have read and agree to the rules."
-    fill_in_hashcash
+    fill_in_cap
 
     click_button "Submit"
 
@@ -346,7 +346,7 @@ class Members::MembersTest < ApplicationSystemTestCase
     choose "Supporting member"
     fill_in "Annual fee", with: "50"
     check "I have read and agree to the rules."
-    fill_in_hashcash
+    fill_in_cap
 
     click_button "Submit"
 
@@ -375,7 +375,7 @@ class Members::MembersTest < ApplicationSystemTestCase
 
     choose "Supporting member"
     check "I have read and agree to the rules."
-    fill_in_hashcash
+    fill_in_cap
 
     assert_changes -> { member.reload.state }, from: "inactive", to: "support" do
       click_button "Submit"
@@ -411,7 +411,7 @@ class Members::MembersTest < ApplicationSystemTestCase
     fill_in "Cooperative share certificates", with: "3"
 
     check "I have read and agree to the rules."
-    fill_in_hashcash
+    fill_in_cap
     click_button "Submit"
 
     assert_text "Thank you for your registration!"
@@ -485,7 +485,7 @@ class Members::MembersTest < ApplicationSystemTestCase
       fill_in "ZIP", with: "4200"
       fill_in "City", with: "Corp City"
     end
-    fill_in_hashcash
+    fill_in_cap
 
     click_button "Submit"
     assert_text "Thank you for your registration!"
@@ -521,7 +521,7 @@ class Members::MembersTest < ApplicationSystemTestCase
 
     fill_in "Annual fee", with: "50"
     check "I have read and agree to the rules."
-    fill_in_hashcash
+    fill_in_cap
 
     click_button "Submit"
 
@@ -543,7 +543,7 @@ class Members::MembersTest < ApplicationSystemTestCase
     assert_no_text "Supporting member"
   end
 
-  test "rejects registration without hashcash" do
+  test "rejects registration without cap token" do
     org(terms_of_service_urls: {})
 
     visit "/new"
@@ -570,7 +570,7 @@ class Members::MembersTest < ApplicationSystemTestCase
 
     assert_no_text "Profession / Skills"
     assert_text "How did you hear about us? *"
-    fill_in_hashcash
+    fill_in_cap
 
     click_button "Submit"
 
