@@ -87,6 +87,8 @@ accessories:
       host: cap.csa-admin.org
       app_port: 3000
       forward_headers: true
+      healthcheck:
+        path: /
 
 # Aliases are triggered with "bin/kamal <alias>". You can overwrite arguments on invocation:
 # "bin/kamal logs -r job" will tail logs from the first server in the job section.
@@ -96,8 +98,9 @@ aliases:
   logs: app logs -f -n 100
   migrate: app exec -r web "bin/rails db:migrate"
   restart: app boot
+  cap-valkey-boot: accessory boot cap-valkey
+  cap-boot: accessory boot cap
   cap-logs: accessory logs cap -f
-  cap-boot: "accessory boot cap-valkey && accessory boot cap"
 
 # Use a persistent storage volume for sqlite database files and local Active Storage files.
 # Recommended to change this to a mounted volume path that is backed up off server.
