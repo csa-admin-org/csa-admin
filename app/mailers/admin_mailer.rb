@@ -194,7 +194,7 @@ class AdminMailer < ApplicationMailer
       lines = []
       lines << "<p><strong>Name:</strong> #{ERB::Util.html_escape(admin.name)}</p>"
       lines << "<p><strong>Email:</strong> #{ERB::Util.html_escape(admin.email)}</p>"
-      lines << "<p><strong>Note:</strong> #{ERB::Util.html_escape(note)}</p>" if note
+      lines << "<p><strong>Message:</strong> #{ERB::Util.html_escape(note)}</p>" if note
       lines << "<p><strong>Tenant:</strong> #{ERB::Util.html_escape(tenant)}</p>"
       lines << "<p><strong>Time:</strong> #{I18n.l(Time.current)}</p>"
       content_mail(lines.join("\n"),
