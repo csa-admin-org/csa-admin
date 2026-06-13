@@ -11,17 +11,19 @@ Un membre est créé via le [formulaire d'inscription](<%= new_members_member_ur
 
 Les nouveaux membres créés via le [formulaire d'inscription](<%= new_members_member_url(subdomain: Current.org.members_subdomain) %>) sont ajoutés dans [la liste des membres à valider](/members?scope=pending). Ils doivent être validés par un administrateur afin de s'assurer que les informations soient correctes.
 
-Il est possible d'envoyer automatiquement un email de bienvenue lors de la validation d'un membre en paramétrant [le template email "Membre validé"](/mail_templates/member_validated).
+Une inscription sans demande d'abonnement devient un membre support lors de sa validation. Il est possible d'envoyer automatiquement un e-mail de bienvenue lors de la validation d'un membre en paramétrant [le modèle d’e-mail « Membre validé »](/mail_templates/member_validated).
 
-> Les administrateurs peuvent être notifiés par email lors d'une nouvelle inscription en gérant leurs [préférences de notification](<%= edit_admin_path(current_admin) %>).
+> Les administrateurs peuvent être notifiés par e-mail lors d'une nouvelle inscription en gérant leurs [préférences de notification](<%= edit_admin_path(current_admin) %>).
 
-### Liste d'attente
+### Liste d'attente {#waiting-list}
 
-Une fois validé, ou créé directement par un admin, un membre avec une configuration d'abonnement (en attente) se retrouve en liste d'attente. La liste d'attente est utile pour les organisations qui ont une limite de membres actifs en fonction de leur capacité de production.
+La [liste d'attente](/settings#waiting_list) est une fonctionnalité optionnelle, utile pour les organisations qui ont une limite de membres actifs en fonction de leur capacité de production.
 
-Pour rendre un membre actif, il suffit de lui créer un abonnement (bouton "Créer un abonnement" en haut à droite de la page du membre). La configuration de l'abonnement (en attente) est automatiquement reprise dans le formulaire de création de l'abonnement.
+Les membres créés depuis le formulaire d'inscription public sont toujours ajoutés à [la liste des membres à valider](/members?scope=pending). Ils ne choisissent pas eux-mêmes de date de début d'abonnement. Lorsqu'un administrateur clique sur « Valider », une demande d'abonnement complète est placée en liste d'attente si cette fonctionnalité est activée ; si elle est désactivée, l'abonnement est créé directement à partir de la semaine de la prochaine livraison du cycle sélectionné.
 
-Il est possible d'envoyer automatiquement un email de bienvenue lors de l'activation d'un membre en paramétrant [le template email "Membre activé"](/mail_templates/member_activated).
+Lorsqu'un administrateur crée un membre directement depuis [le formulaire de création d'un membre](/members/new), le panneau de l'abonnement peut afficher un champ de date de début. Lorsque la liste d'attente est activée, laissez-le vide pour placer le membre en liste d'attente, ou indiquez une date pour créer l'abonnement immédiatement lors de la validation du membre. Cette création immédiate d'abonnement active le membre et utilise [le modèle d’e-mail « Membre activé »](/mail_templates/member_activated) s'il est actif.
+
+Pour rendre un membre en liste d'attente actif, cliquez sur « Activer » en haut à droite de la page du membre. Un abonnement est créé depuis les paramètres de liste d'attente et peut être modifié ensuite si nécessaire.
 
 ### Actif
 
@@ -36,17 +38,17 @@ Un membre support est un membre sans abonnements mais qui a une cotisation annue
 
 Pour passer un membre inactif en support, il suffit de définir un montant de cotisation annuelle dans le profil du membre (page d'édition). La cotisation annuelle peut être définie à 0 pour les membres qui doivent avoir le statut support sans payer de cotisation.
 
-À l'aide du bouton "Rendre inactif" en haut à droite de la page du membre, il est possible de rendre un membre support inactif, ce qui supprimera sa cotisation annuelle ou mettra son nombre de parts sociales requise à zéro.
+À l'aide du bouton « Désactiver » en haut à droite de la page du membre, il est possible de rendre un membre support inactif, ce qui supprimera sa cotisation annuelle ou mettra son nombre de parts sociales requises à zéro.
 
-À l'aide du bouton "Mettre en liste d'attente" en haut à droite de la page du membre, il est possible de remettre un membre support en liste d'attente. Sa cotisation annuelle ou son nombre de parts sociales est laissé tel quel.
+Pour donner un abonnement à un membre support, créez-lui un abonnement; il deviendra alors actif.
 
 ### Inactif
 
-Un membre inactif est un membre n'ayant pas d'abonnement pour l'année fiscale en cours ou future et n'ayant pas de cotisation annuelle définie ou ne possédant pas de parts sociales. Un membre inactif peut être remis en liste d'attente ou passé en support.
+Un membre inactif est un membre n'ayant pas d'abonnement pour l'année fiscale en cours ou future et n'ayant pas de cotisation annuelle définie ou ne possédant pas de parts sociales. Un membre inactif peut être passé en support, et peut être remis en liste d'attente lorsque la fonctionnalité de liste d'attente est activée.
 
 Pour passer un membre inactif en support, éditez le profil du membre et définissez un montant de cotisation annuelle (même 0 pour les membres support ne payant pas de cotisation).
 
-À l'aide du bouton "Mettre en liste d'attente" en haut à droite de la page du membre, il est possible de remettre un membre inactif en liste d'attente. Sa cotisation annuelle sera alors remise avec la valeur par défaut de l'organisation.
+Lorsque la [liste d'attente](/settings#waiting_list) est activée, éditez le profil d'un membre inactif et remplissez tous les champs obligatoires du panneau « Abonnement (en attente) » pour le remettre en liste d'attente.
 
 ## <%= Member.human_attribute_name(:salary_basket) %> {#salary-basket}
 

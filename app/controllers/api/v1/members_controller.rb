@@ -5,6 +5,7 @@ module API
     class MembersController < BaseController
       def create
         member = Member.new(member_params)
+        member.public_create = true
         registration = MemberRegistration.new(member, member_params)
 
         if registration.save

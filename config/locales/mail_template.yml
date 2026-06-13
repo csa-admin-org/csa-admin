@@ -699,11 +699,11 @@ _:
         _it: Inviato quando un socio diventa attivo per la prima volta solo con un punto di ritiro per la bottega e senza abbonamento attuale o futuro.
         _nl: Verzonden wanneer een lid voor het eerst actief wordt met alleen een afhaaldepot voor de winkel en zonder huidig of toekomstig lidmaatschap.
       member_validated:
-        _en: Sent when the registration of a new member is validated.
-        _fr: Envoyé quand l'inscription d'un nouveau membre est validée.
-        _de: Wird gesendet, wenn die Registrierung eines neuen Mitglieds validiert wurde.
-        _it: Inviato quando la registrazione di un nuovo socio viene convalidata.
-        _nl: Verzonden wanneer de registratie van een nieuw lid wordt gevalideerd.
+        _en: Sent when a new member registration is validated without activating the member right away, for example when they become a support member or are placed on the waiting list.
+        _fr: Envoyé lorsque l'inscription d'un nouveau membre est validée sans l'activer immédiatement, par exemple lorsqu'il devient membre support ou est placé en liste d'attente.
+        _de: Wird gesendet, wenn die Registrierung eines neuen Mitglieds bestätigt wird, ohne das Mitglied sofort zu aktivieren, zum Beispiel wenn es Support-Mitglied wird oder auf die Warteliste gesetzt wird.
+        _it: Inviato quando la registrazione di un nuovo socio viene confermata senza attivare subito il socio, per esempio quando diventa socio di supporto o viene inserito nella lista d'attesa.
+        _nl: Verzonden wanneer de registratie van een nieuw lid wordt gevalideerd zonder het lid meteen te activeren, bijvoorbeeld wanneer het een ondersteunend lid wordt of op de wachtlijst wordt geplaatst.
       membership_renewal:
         _en: Sent to ask the member via the form on their member page whether they wish to renew their membership or not.
         _fr: Envoyé afin de demander au membre si il désire ou non renouveler son abonnement via le formulaire sur sa page de membre.

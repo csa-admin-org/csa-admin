@@ -69,10 +69,22 @@ class MemberMailerTest < ActionMailer::TestCase
     assert_equal "outbound", mail[:message_stream].to_s
 
     body = mail.body.to_s
-    assert_includes body, "Waiting list position: <strong>2</strong>"
+    refute_includes body, "Waiting list position:"
     assert_includes body, "Access my member page"
     assert_includes body, "https://members.acme.test"
     refute_includes body, "Sign SEPA mandate"
     refute_includes body, "href=\"\""
+  end
+
+  test "validated_email includes waiting list position for waiting member" do
+    template = mail_templates(:member_validated)
+    member = members(:aria)
+
+    mail = MemberMailer.with(
+      template: template,
+      member: member
+    ).validated_email
+
+    assert_includes mail.body.to_s, "Waiting list position: <strong>1</strong>"
   end
 end

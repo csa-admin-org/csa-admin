@@ -18,6 +18,7 @@ class Organization < ApplicationRecord
     shares
     shop
     vat
+    waiting_list
   ]
   RESTRICTED_FEATURES = %i[]
   FEATURE_FLAGS = %i[]
@@ -56,7 +57,8 @@ class Organization < ApplicationRecord
     SEPAFeature,
     SharesFeature,
     ShopFeature,
-    VatFeature
+    VatFeature,
+    WaitingListFeature
 
   attribute :icalendar_auth_token, :string, default: -> { SecureRandom.hex(16) }
 

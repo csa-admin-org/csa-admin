@@ -51,6 +51,15 @@ class Newsletter::AudienceTest < ActiveSupport::TestCase
     assert_equal [ inactive ], segment.members
   end
 
+  test "member_state options hide waiting when waiting list is disabled and no waiting members remain" do
+    org(features: Current.org.features - [ :waiting_list ])
+    Member.waiting.update_all(state: "inactive")
+
+    values = Newsletter::Audience.segments[:member_state].map(&:value)
+
+    assert_not_includes values, "waiting"
+  end
+
   test "membership_state" do
     travel_to "2023-01-01"
     segment = segment_for("membership_state::ongoing")

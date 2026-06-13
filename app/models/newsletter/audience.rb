@@ -255,6 +255,7 @@ class Newsletter
 
     def member_state_records
       states = Member::STATES - %w[pending]
+      states -= %w[waiting] unless Member.waiting_list_available?
       states -= %w[support] unless Current.org.member_support?
       states += %w[all not_inactive]
       states.map { |s| record_for(:member_state, s) }

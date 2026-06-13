@@ -10,34 +10,9 @@ module Member::StateTransitions
   def validate!(validator, send_email: true)
     invalid_transition(:validate!) unless pending?
 
-    if waiting_basket_size_id? || waiting_depot_id?
-      self.waiting_started_at ||= Time.current
-      self.state = Member::WAITING_STATE
-    elsif !annual_fee.nil? || desired_shares_number.positive?
-      self.state = Member::SUPPORT_STATE
-    else
-      self.state = Member::INACTIVE_STATE
-    end
-    self.validated_at = Time.current
-    self.validator = validator
-    save!
-
-    if send_email && emails?
-      MailTemplate.deliver(:member_validated, member: self)
-    end
-  end
-
-  def wait!
-    invalid_transition(:wait!) unless can_wait?
-
-    self.state = Member::WAITING_STATE
-    self.waiting_started_at = Time.current
-    if Current.org.annual_fee_support_member_only?
-      self.annual_fee = nil
-    else
-      self.annual_fee ||= Current.org.annual_fee
-    end
-    save!
+    result = transaction { validate_pending_member!(validator) }
+    deliver_validation_email! if result == true && send_email
+    result
   end
 
   def review_active_state!
@@ -77,11 +52,11 @@ module Member::StateTransitions
   def support!(annual_fee: nil)
     invalid_transition(:support!) if support?
 
-    update!(
+    assign_attributes(
       state: Member::SUPPORT_STATE,
-      annual_fee: annual_fee || Current.org.annual_fee,
-      waiting_basket_size_id: nil,
-      waiting_started_at: nil)
+      annual_fee: annual_fee || Current.org.annual_fee)
+    clear_waiting_membership_attributes
+    save!
   end
 
   def deactivate!
@@ -99,11 +74,9 @@ module Member::StateTransitions
       attrs[:required_shares_number] = -1 * shares_number
     end
 
-    update!(**attrs)
-  end
-
-  def can_wait?
-    support? || inactive?
+    assign_attributes(**attrs)
+    clear_waiting_membership_attributes
+    save!
   end
 
   def can_deactivate?
@@ -115,6 +88,58 @@ module Member::StateTransitions
   end
 
   private
+
+  def validate_pending_member!(validator)
+    mark_as_validated_by(validator)
+    membership_request? ? validate_membership_request! : validate_without_membership_request!
+  end
+
+  def mark_as_validated_by(validator)
+    self.validated_at = Time.current
+    self.validator = validator
+  end
+
+  def validate_membership_request!
+    ensure_complete_membership_request!
+    return validate_into_waiting_list! if waiting_list_validation?
+
+    validate_with_direct_membership!
+  end
+
+  def validate_into_waiting_list!
+    self.waiting_started_at ||= Time.current
+    self.state = Member::WAITING_STATE
+    apply_waiting_annual_fee
+    save!
+    true
+  end
+
+  def validate_with_direct_membership!
+    self.state = Member::INACTIVE_STATE
+    save!
+    create_membership_from_waiting_request!
+  end
+
+  def validate_without_membership_request!
+    clear_waiting_membership_attributes
+    self.state = support_after_validation? ? Member::SUPPORT_STATE : Member::INACTIVE_STATE
+    save!
+    !active?
+  end
+
+  def waiting_list_validation?
+    Current.org.waiting_list? && !direct_membership_start_requested?
+  end
+
+  def support_after_validation?
+    !annual_fee.nil? || desired_shares_number.positive?
+  end
+
+  def deliver_validation_email!
+    return unless emails?
+
+    MailTemplate.deliver(:member_validated, member: self)
+  end
 
   def send_member_activated_email?
     current_or_future_membership && send_activation_email?

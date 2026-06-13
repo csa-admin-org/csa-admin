@@ -15,15 +15,19 @@ module AuditsHelper
     activity_participations_annual_price_change
     annual_fee
     renewal_annual_fee
+    waiting_basket_price_extra
   ].freeze
 
   BELONGS_TO_ATTRIBUTES = {
     "member_id" => Member,
     "basket_size_id" => BasketSize,
+    "waiting_basket_size_id" => BasketSize,
     "depot_id" => Depot,
+    "waiting_depot_id" => Depot,
     "shop_depot_id" => Depot,
     "shop_delivery_cycle_id" => DeliveryCycle,
-    "delivery_cycle_id" => DeliveryCycle
+    "delivery_cycle_id" => DeliveryCycle,
+    "waiting_delivery_cycle_id" => DeliveryCycle
   }.freeze
 
   DATE_ATTRIBUTES = %w[
@@ -33,6 +37,7 @@ module AuditsHelper
     renewed_at
     renewal_opened_at
     signed_on
+    waiting_started_at
   ].freeze
 
   TRANSLATED_HASH_ATTRIBUTES = %w[
@@ -44,6 +49,7 @@ module AuditsHelper
 
   DIFF_ATTRIBUTES = %w[
     depot_ids
+    waiting_alternative_depot_ids
     shop_open_for_depot_ids
     wdays
     periods
@@ -73,7 +79,7 @@ module AuditsHelper
     after_value ||= []
 
     case attr
-    when "depot_ids", "shop_open_for_depot_ids"
+    when "depot_ids", "waiting_alternative_depot_ids", "shop_open_for_depot_ids"
       render_depot_ids_diff(before_value, after_value)
     when "wdays"
       render_wdays_diff(before_value, after_value)
@@ -86,7 +92,7 @@ module AuditsHelper
     attr = attr.to_s
 
     # Translated hashes, periods, complements, depot_ids, and booleans need special nil handling
-    unless attr.in?(TRANSLATED_HASH_ATTRIBUTES) || attr.in?(%w[periods memberships_basket_complements depot_ids shop_open_for_depot_ids])
+    unless attr.in?(TRANSLATED_HASH_ATTRIBUTES) || attr.in?(%w[periods memberships_basket_complements waiting_basket_complements depot_ids waiting_alternative_depot_ids shop_open_for_depot_ids])
       # false.blank? returns true, so use nil? for booleans
       return display_empty_value if change.nil? || (change.respond_to?(:blank?) && change != false && change.blank?)
     end
@@ -98,15 +104,15 @@ module AuditsHelper
       display_phones_change(change)
     when "country_code"
       display_country_change(change)
-    when "memberships_basket_complements"
+    when "memberships_basket_complements", "waiting_basket_complements"
       display_basket_complements_change(change)
-    when "depot_ids", "shop_open_for_depot_ids"
+    when "depot_ids", "waiting_alternative_depot_ids", "shop_open_for_depot_ids"
       display_depot_ids_change(change)
     when "periods"
       display_periods_list(change)
     when "basket_size_price_percentage"
       display_percentage_change(change, **opts)
-    when "billing_year_division"
+    when "billing_year_division", "waiting_billing_year_division"
       content_tag(:span, t("billing.year_division.x#{change}"))
     when "week_numbers"
       content_tag(:span, t("delivery_cycle.week_numbers.#{change}"))

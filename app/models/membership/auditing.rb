@@ -34,16 +34,17 @@ module Membership::Auditing
   # method processes the nested attributes. Also overrides audited_nested_changes
   # to ensure it takes precedence over Auditable's default implementation.
   module BasketComplementsTracking
+    include Auditable::BasketComplementsTracking
+
     def memberships_basket_complements_attributes=(*args)
-      @tracked_memberships_basket_complements_attributes =
-        memberships_basket_complements.map(&:attributes)
+      track_basket_complements_change(:memberships_basket_complements, memberships_basket_complements)
       super
     end
 
     private
 
     def audited_nested_changes
-      change = compute_basket_complements_change
+      change = basket_complements_change(:memberships_basket_complements, memberships_basket_complements)
       change ? { "memberships_basket_complements" => change } : {}
     end
 
@@ -56,7 +57,7 @@ module Membership::Auditing
 
     def config_attributes_changing?
       # Check if any config attributes are changing, or if basket complements are changing
-      (changes.keys & CONFIG_ATTRIBUTES).any? || compute_basket_complements_change.present?
+      (changes.keys & CONFIG_ATTRIBUTES).any? || basket_complements_change(:memberships_basket_complements, memberships_basket_complements).present?
     end
   end
 
@@ -77,54 +78,5 @@ module Membership::Auditing
       :absences_included_annually,
       :billing_year_division,
       :renew, :renewal_annual_fee, :renewed_at, :renewal_opened_at, :renewal_note
-  end
-
-  private
-
-  def compute_basket_complements_change
-    return unless @tracked_memberships_basket_complements_attributes
-
-    before_all = serialize_basket_complements(@tracked_memberships_basket_complements_attributes)
-    after_all = serialize_basket_complements(memberships_basket_complements.reject(&:marked_for_destruction?).map(&:attributes))
-
-    return if before_all == after_all
-
-    # Only include complements that actually changed (added, removed, or modified)
-    # Use record ID for matching to properly track modifications
-    before_by_id = before_all.index_by { |c| c["id"] }
-    after_by_id = after_all.index_by { |c| c["id"] }
-
-    all_ids = (before_by_id.keys | after_by_id.keys).sort_by(&:to_i)
-
-    before_changed = []
-    after_changed = []
-
-    all_ids.each do |id|
-      before_complement = before_by_id[id]
-      after_complement = after_by_id[id]
-
-      # Skip unchanged complements
-      next if before_complement == after_complement
-
-      before_changed << before_complement if before_complement
-      after_changed << after_complement if after_complement
-    end
-
-    [ before_changed, after_changed ]
-  end
-
-  def serialize_basket_complements(complements_attributes)
-    complements_attributes
-      .reject { |attrs| attrs["_destroy"] == "1" || attrs["_destroy"] == true }
-      .sort_by { |attrs| attrs["id"].to_i }
-      .map { |attrs|
-        {
-          "id" => attrs["id"],
-          "basket_complement_id" => attrs["basket_complement_id"],
-          "quantity" => attrs["quantity"],
-          "price" => attrs["price"]&.to_f,
-          "delivery_cycle_id" => attrs["delivery_cycle_id"]
-        }.compact
-      }
   end
 end

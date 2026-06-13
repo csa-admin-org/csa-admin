@@ -35,33 +35,6 @@ class MemberTest < ActiveSupport::TestCase
     assert_includes member.errors[:country_code], "can't be blank"
   end
 
-  test "sets first organization billing_year_divisions by default" do
-    Current.org.billing_year_divisions = [ 4, 12 ]
-    member = members(:aria)
-    member.update(waiting_billing_year_division: nil)
-
-    assert_equal 12, member.waiting_billing_year_division
-  end
-
-  test "sets last organization billing_year_divisions by default" do
-    Current.org.billing_year_divisions = [ 4, 12 ]
-    member = members(:aria)
-    member.update(waiting_billing_year_division: 1)
-
-    assert_equal 12, member.waiting_billing_year_division
-  end
-
-  test "only accepts organization billing_year_divisions" do
-    Current.org.billing_year_divisions = [ 1, 12 ]
-    member = members(:aria)
-
-    member.update(waiting_billing_year_division: 3)
-    assert_equal 12, member.waiting_billing_year_division
-
-    member.update(waiting_billing_year_division: 1)
-    assert member.save!
-  end
-
   test "validates email presence, but only on public creation" do
     member = build_member(emails: "")
     assert member.valid?
@@ -125,78 +98,6 @@ class MemberTest < ActiveSupport::TestCase
     assert member.valid?
 
     member.update(public_create: false)
-    assert member.valid?
-  end
-
-  test "validates waiting_basket_size presence when a depot is set" do
-    member = build_member(
-      waiting_basket_size: nil,
-      waiting_depot: depots(:farm))
-
-    assert_not member.valid?
-    assert_includes member.errors[:waiting_basket_size_id], "can't be blank"
-  end
-
-  test "validates waiting_basket_size_id presence on public create in membership mode" do
-    member = build_member(public_create: true, waiting_basket_size_id: nil)
-
-    assert_not member.valid?
-    assert_includes member.errors[:waiting_basket_size_id], "can't be blank"
-
-    # Support member (id=0) is a valid explicit choice
-    member.waiting_basket_size_id = 0
-    assert member.valid?
-
-    # Not required when no basket sizes are visible
-    BasketSize.update_all(visible: false)
-    member.waiting_basket_size_id = nil
-    assert member.valid?
-  end
-
-  test "validates waiting_basket_size_id not required on public create in shop mode" do
-    org(member_form_mode: "shop")
-    member = build_member(public_create: true, waiting_basket_size_id: nil, shop_depot_id: depots(:farm).id)
-
-    assert member.valid?
-  end
-
-  test "validates waiting_basket_price_extra presence" do
-    member = build_member(
-      public_create: true,
-      waiting_depot: depots(:farm),
-      waiting_basket_price_extra: nil)
-
-    assert_not member.valid?
-    assert_includes member.errors[:waiting_basket_price_extra], "can't be blank"
-  end
-
-  test "validates waiting_depot presence" do
-    member = build_member(
-      waiting_basket_size: basket_sizes(:small),
-      waiting_depot: nil)
-
-    assert_not member.valid?
-    assert_includes member.errors[:waiting_depot_id], "can't be blank"
-  end
-
-  test "validates waiting_activity_participations_demanded_annually on public create" do
-    member = build_member(
-      waiting_activity_participations_demanded_annually: nil,
-      waiting_basket_size_id: 0,
-      public_create: true)
-
-    org(activity_participations_form_min: 2)
-    member.update(waiting_activity_participations_demanded_annually: 1)
-    assert_not member.valid?
-    member.update(waiting_activity_participations_demanded_annually: 2)
-    assert member.valid?
-
-    org(activity_participations_form_max: 4)
-    member.update(waiting_activity_participations_demanded_annually: 5)
-    assert_not member.valid?
-    member.update(waiting_activity_participations_demanded_annually: 4)
-    assert member.valid?
-    member.update(waiting_activity_participations_demanded_annually: 3)
     assert member.valid?
   end
 
@@ -540,13 +441,6 @@ class MemberTest < ActiveSupport::TestCase
     org(annual_fee: 0)
     member = build_member(annual_fee: nil)
     assert_nil member.annual_fee
-  end
-
-  test "set_default_waiting_delivery_cycle" do
-    travel_to "2024-01-01"
-    member = members(:aria)
-    member.update!(waiting_delivery_cycle_id: nil)
-    assert_equal delivery_cycles(:all), member.waiting_delivery_cycle
   end
 
   test "trial? with single membership in trial" do

@@ -14,13 +14,15 @@ Es ist möglich, beim Bestätigen eines Mitglieds automatisch eine Willkommens-E
 
 > Administratoren können per E-Mail benachrichtigt werden, wenn eine neue Anmeldung erfolgt, indem sie ihre [Benachrichtigungseinstellungen](<%= edit_admin_path(current_admin) %>) verwalten.
 
-### Warteliste
+### Warteliste {#waiting-list}
 
-Nachdem ein Mitglied bestätigt wurde oder direkt von einem Admin erstellt wurde, landet es mit einer (ausstehenden) Abonnementskonfiguration auf der Warteliste. Diese ist hilfreich für Organisationen mit einer Kapazitätsgrenze an aktiven Mitgliedern.
+Die [Warteliste](/settings#waiting_list) ist eine optionale Funktion, hilfreich für Organisationen mit einer Kapazitätsgrenze an aktiven Mitgliedern.
 
-Um ein Mitglied zu aktivieren, erstelle ein Abonnement für das Mitglied (Schaltfläche „Abonnement erstellen" oben rechts auf der Seite des Mitglieds). Die (ausstehende) Konfiguration wird automatisch in das Formular für die Abonnementserstellung übernommen.
+Mitglieder, die über das öffentliche Anmeldeformular erstellt werden, werden immer [der Liste der zu bestätigenden Mitglieder](/members?scope=pending) hinzugefügt. Dabei wird kein Startdatum für das Abonnement gewählt. Wenn Du als Admin auf „Bestätigen“ klickst, wird eine vollständige Abonnementsanfrage auf die Warteliste gesetzt, wenn diese Funktion aktiviert ist; wenn sie deaktiviert ist, wird das Abonnement direkt ab der Woche der nächsten Lieferung des ausgewählten Lieferzyklus erstellt.
 
-Es ist möglich, beim Aktivieren eines Mitglieds automatisch eine Willkommens-E-Mail zu versenden, indem [die E-Mail-Vorlage "Mitglied aktiviert"](/mail_templates/member_activated) eingerichtet wird.
+Wenn Du als Admin ein Mitglied direkt über [das Formular zur Mitgliedserstellung](/members/new) erstellst, kann im Abonnement-Bereich ein Startdatum-Feld angezeigt werden. Lass es bei aktivierter Warteliste leer, um das Mitglied auf die Warteliste zu setzen, oder setze ein Datum, um das Abonnement sofort beim Bestätigen des Mitglieds zu erstellen. Diese sofortige Abonnementerstellung aktiviert das Mitglied und verwendet [die E-Mail-Vorlage „Mitglied aktiviert“](/mail_templates/member_activated), falls sie aktiv ist.
+
+Um ein Mitglied auf der Warteliste zu aktivieren, klicke oben rechts auf der Mitgliederseite auf „Aktivieren“. Ein Abonnement wird aus den Wartelisten-Einstellungen erstellt und kann danach bei Bedarf bearbeitet werden.
 
 ### Aktiv
 
@@ -36,15 +38,15 @@ Um ein inaktives Mitglied auf Support umzustellen, genügt es, einen Jahresbeitr
 
 Über die Schaltfläche „Deaktivieren" oben rechts in der Mitgliederansicht kann ein Support-Mitglied inaktiv gemacht werden, wodurch sein jährlicher Beitrag entfernt oder die erforderliche Anzahl an Geschäftsanteilen auf Null gesetzt wird.
 
-Über die Schaltfläche „Auf die Warteliste setzen" kann ein Support-Mitglied wieder auf die Warteliste gesetzt werden. Beitrag oder Geschäftsanteile bleiben dabei unverändert.
+Um einem Support-Mitglied ein Abonnement zu geben, erstelle ein Abonnement für das Mitglied; danach wird es aktiv.
 
 ### Inaktiv
 
-Ein inaktives Mitglied besitzt kein Abonnement für das laufende oder kommende Geschäftsjahr und hat keinen Jahresbeitrag definiert oder hält keine Geschäftsanteile. Ein inaktives Mitglied kann erneut auf die Warteliste gesetzt oder auf Support umgestellt werden.
+Ein inaktives Mitglied besitzt kein Abonnement für das laufende oder kommende Geschäftsjahr und hat keinen Jahresbeitrag definiert oder hält keine Geschäftsanteile. Ein inaktives Mitglied kann auf Support umgestellt werden, und bei aktivierter Wartelisten-Funktion erneut auf die Warteliste gesetzt werden.
 
 Um ein inaktives Mitglied auf Support umzustellen, bearbeite das Mitgliederprofil und lege einen Jahresbeitrag fest (auch 0 für Support-Mitglieder ohne Beitragszahlung).
 
-Mit der Schaltfläche „Auf die Warteliste setzen" kannst Du ein inaktives Mitglied auf die Warteliste setzen. In diesem Fall wird sein Jahresbeitrag wieder auf den Standardwert der Organisation gesetzt.
+Wenn die [Warteliste](/settings#waiting_list) aktiviert ist, bearbeite das Profil eines inaktiven Mitglieds und fülle alle Pflichtfelder im Bereich „Abonnement (Warteliste)“ aus, um es wieder auf die Warteliste zu setzen.
 
 ## <%= Member.human_attribute_name(:salary_basket) %> {#salary-basket}
 

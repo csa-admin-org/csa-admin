@@ -232,7 +232,7 @@ class Liquid::DataPreviewTest < ActiveSupport::TestCase
         "name" => "Our farm"
       },
       "waiting_depot_id" => depots(:farm).id,
-      "waiting_list_position" => 2
+      "waiting_list_position" => nil
     }, data)
   end
 

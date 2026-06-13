@@ -324,6 +324,7 @@
     .error [type="tel"],
     .error [type="text"],
     .error [type="url"],
+    .error select,
     .error textarea {
       @apply border-red-500;
     }

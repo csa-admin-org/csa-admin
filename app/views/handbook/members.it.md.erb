@@ -14,13 +14,15 @@ I nuovi soci creati tramite il [formulario d'iscrizione](<%= new_members_member_
 
 > Gli amministratori possono ricevere notifiche via email per ogni nuova iscrizione gestendo le [preferenze di notifica](<%= edit_admin_path(current_admin) %>).
 
-### Lista d'attesa
+### Lista d'attesa {#waiting-list}
 
-Una volta confermato, o creato direttamente da un admin, un socio con una configurazione di abbonamento (in attesa) finisce nella lista d'attesa. La lista d'attesa è utile per le organizzazioni che hanno un limite di capacità per i soci attivi.
+La [lista d'attesa](/settings#waiting_list) è una funzionalità opzionale, utile per le organizzazioni che hanno un limite di capacità per i soci attivi.
 
-Per rendere un socio attivo, basta creare un abbonamento (clic sul pulsante “Crea un abbonamento” in alto a destra nella pagina del socio). La configurazione dell'abbonamento (in attesa) viene trasferita automaticamente nel formulario di creazione dell'abbonamento.
+I soci creati dal formulario d'iscrizione pubblico vengono sempre aggiunti [alla lista dei soci da convalidare](/members?scope=pending). Non scelgono una data d'inizio dell'abbonamento. Quando un admin clicca su “Convalida”, una richiesta di abbonamento completa viene inserita nella lista d'attesa se questa funzionalità è attiva; se è disattivata, l'abbonamento viene creato direttamente dalla settimana della prossima consegna del ciclo selezionato.
 
-È possibile inviare automaticamente un'email di benvenuto quando si attiva un socio, configurando [il template email “Socio attivato”](/mail_templates/member_activated).
+Quando un admin crea un socio direttamente dal [formulario di creazione di un socio](/members/new), il pannello dell'abbonamento può mostrare un campo data d'inizio. Con la lista d'attesa attiva, lascialo vuoto per inserire il socio nella lista d'attesa, oppure indica una data per creare subito l'abbonamento alla conferma del socio. Questa creazione immediata dell'abbonamento attiva il socio e usa [il template email “Socio attivato”](/mail_templates/member_activated) se è attivo.
+
+Per rendere attivo un socio in lista d'attesa, clicca su “Attivare” in alto a destra nella pagina del socio. Viene creato un abbonamento a partire dalle impostazioni della lista d'attesa e può essere modificato in seguito se necessario.
 
 ### Attivo
 
@@ -36,15 +38,15 @@ Per spostare un socio inattivo a supporto, è sufficiente definire un importo di
 
 Con il pulsante “Disattivare” in alto a destra nella pagina del socio, è possibile rendere inattivo un socio di supporto, rimuovendo così la sua quota annuale o azzerando le parti sociali richieste.
 
-Con il pulsante "Metti in lista d'attesa" in alto a destra nella pagina del socio, è possibile rimettere in lista d'attesa un socio di supporto. La sua quota annuale o il numero di parti sociali restano invariati.
+Per assegnare un abbonamento a un socio di supporto, crea un abbonamento per il socio; diventerà quindi attivo.
 
 ### Inattivo
 
-Un socio inattivo è un socio che non possiede un abbonamento per l'anno fiscale in corso o futuro e non ha una quota annuale definita né possiede parti sociali. Un socio inattivo può essere rimesso in lista d'attesa o spostato a supporto.
+Un socio inattivo è un socio che non possiede un abbonamento per l'anno fiscale in corso o futuro e non ha una quota annuale definita né possiede parti sociali. Un socio inattivo può essere spostato a supporto e, quando la funzionalità lista d'attesa è attiva, rimesso in lista d'attesa.
 
 Per spostare un socio inattivo a supporto, modifica il profilo del socio e definisci un importo di quota annuale (anche 0 per i soci di supporto senza pagamento).
 
-Con il pulsante "Metti in lista d'attesa" in alto a destra nella pagina del socio, è possibile rimettere in lista d'attesa un socio inattivo. La sua quota annuale verrà quindi reimpostata al valore predefinito dell'organizzazione.
+Quando la [lista d'attesa](/settings#waiting_list) è attiva, modifica il profilo di un socio inattivo e compila tutti i campi obbligatori del pannello “Abbonamento (lista d'attesa)” per rimetterlo in lista d'attesa.
 
 ## <%= Member.human_attribute_name(:salary_basket) %> {#salary-basket}
 

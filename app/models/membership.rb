@@ -195,10 +195,12 @@ class Membership < ApplicationRecord
   end
 
   # Sets sensible started_on/ended_on for a brand-new membership based on the
-  # next upcoming delivery and the current fiscal year boundaries. Safe to call
-  # even when no next delivery exists (no-op in that case).
-  def populate_default_period_from_next_delivery!
-    return unless (next_delivery = Delivery.next)
+  # next upcoming delivery and the current fiscal year boundaries. When a
+  # delivery cycle is provided, its next delivery is used before the global one.
+  def populate_default_period_from_next_delivery!(delivery_cycle: self.delivery_cycle, fallback: true)
+    next_delivery = delivery_cycle&.next_delivery
+    next_delivery ||= Delivery.next if fallback
+    return unless next_delivery
 
     self.started_on ||= [
       Date.current,
@@ -207,12 +209,6 @@ class Membership < ApplicationRecord
     ].max
     self.ended_on ||= next_delivery.fy_range.max
     self
-  end
-
-  def memberships_basket_complements_attributes=(*args)
-    @tracked_memberships_basket_complements_attributes =
-      memberships_basket_complements.map(&:attributes)
-    super
   end
 
   def first_delivery
@@ -281,6 +277,7 @@ class Membership < ApplicationRecord
   def cleanup_on_destroy!
     update_renewal_of_previous_membership_after_deletion
     destroy_or_cancel_invoices!
+    member.reload.review_active_state!
   end
 
   def finalize_after_create!
@@ -385,12 +382,7 @@ class Membership < ApplicationRecord
   end
 
   def clear_member_waiting_info!
-    member.update!(
-      waiting_started_at: nil,
-      waiting_basket_size: nil,
-      waiting_depot: nil,
-      waiting_delivery_cycle: nil,
-      waiting_basket_complement_ids: nil)
+    member.clear_waiting_membership_attributes!
   end
 
   def update_member_and_baskets!

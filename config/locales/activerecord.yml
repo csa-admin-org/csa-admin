@@ -1690,6 +1690,12 @@ _:
           _de: Auf Warteliste
           _it: Sulla lista d'attesa
           _nl: Op wachtlijst
+        waiting_activity_participations_demanded_annually:
+          _en: Participations per year (waiting list)
+          _fr: Participations par année (en attente)
+          _de: Teilnahmen pro Jahr (Warteliste)
+          _it: Partecipazioni all'anno (in lista d'attesa)
+          _nl: Deelnames per jaar (wachtlijst)
         waiting_alternative_depot_ids:
           _en: Alternative depot(s)
           _fr: Dépôt(s) alternatif(s)
@@ -1738,6 +1744,18 @@ _:
           _de: Anteilszusätze (Warteliste)
           _it: Aggiunta alla parte (in lista d'attesa)
           _nl: Deelaanvullingen (wachtlijst)
+        waiting_basket_price_extra:
+          _en: Extra price (waiting list)
+          _fr: Prix extra (en attente)
+          _de: Zusatzpreis (Warteliste)
+          _it: Prezzo extra (in lista d'attesa)
+          _nl: Extra prijs (wachtlijst)
+        waiting_basket_size:
+          _en: Size (waiting list)
+          _fr: Taille (en attente)
+          _de: Grösse (Warteliste)
+          _it: Dimensione (in lista d'attesa)
+          _nl: Grootte (wachtlijst)
         waiting_basket_size/bag:
           _en: Bag size (waiting list)
           _fr: Taille sac (en attente)
@@ -1774,7 +1792,61 @@ _:
           _de: Anteilsgrösse (Warteliste)
           _it: Dimensione parte (in lista d'attesa)
           _nl: Deelgrootte (wachtlijst)
+        waiting_basket_size_id:
+          _en: Size (waiting list)
+          _fr: Taille (en attente)
+          _de: Grösse (Warteliste)
+          _it: Dimensione (in lista d'attesa)
+          _nl: Grootte (wachtlijst)
+        waiting_basket_size_id/bag:
+          _en: Bag size (waiting list)
+          _fr: Taille sac (en attente)
+          _de: Taschengrösse (Warteliste)
+          _it: Dimensione borsa (in lista d'attesa)
+          _nl: Tasgrootte (wachtlijst)
+        waiting_basket_size_id/basket:
+          _en: Basket size (waiting list)
+          _fr: Taille panier (en attente)
+          _de: Korbgrösse (Warteliste)
+          _it: Dimensione cesta (in lista d'attesa)
+          _nl: Mandgrootte (wachtlijst)
+        waiting_basket_size_id/cone:
+          _en: Cone size (waiting list)
+          _fr: Taille cornet (en attente)
+          _de: Tütengrösse (Warteliste)
+          _it: Dimensione cono (in lista d'attesa)
+          _nl: Zakgrootte (wachtlijst)
+        waiting_basket_size_id/crate:
+          _en: Crate size (waiting list)
+          _fr: Taille cagette (en attente)
+          _de: Kistengrösse (Warteliste)
+          _it: Dimensione cassetta (in lista d'attesa)
+          _nl: Kratgrootte (wachtlijst)
+        waiting_basket_size_id/package:
+          _en: Package size (waiting list)
+          _fr: Taille colis (en attente)
+          _de: Paketgrösse (Warteliste)
+          _it: Dimensione pacco (in lista d'attesa)
+          _nl: Pakketgrootte (wachtlijst)
+        waiting_basket_size_id/share:
+          _en: Share size (waiting list)
+          _fr: Taille part (en attente)
+          _de: Anteilsgrösse (Warteliste)
+          _it: Dimensione parte (in lista d'attesa)
+          _nl: Deelgrootte (wachtlijst)
+        waiting_billing_year_division:
+          _en: Payment interval (waiting list)
+          _fr: Intervalle de paiement (en attente)
+          _de: Zahlungsintervall (Warteliste)
+          _it: Intervallo di pagamento (in lista d'attesa)
+          _nl: Betalingsinterval (wachtlijst)
         waiting_delivery_cycle:
+          _en: Delivery cycle (waiting list)
+          _fr: Cycle de livraisons (en attente)
+          _de: Zyklus von Lieferungen (Warteliste)
+          _it: Ciclo di consegne (in lista d'attesa)
+          _nl: Leveringscyclus (wachtlijst)
+        waiting_delivery_cycle_id:
           _en: Delivery cycle (waiting list)
           _fr: Cycle de livraisons (en attente)
           _de: Zyklus von Lieferungen (Warteliste)
@@ -1786,6 +1858,18 @@ _:
           _de: Depot (Warteliste)
           _it: Punto di ritiro (in lista d'attesa)
           _nl: Depot (wachtlijst)
+        waiting_depot_id:
+          _en: Depot (waiting list)
+          _fr: Dépôt (en attente)
+          _de: Depot (Warteliste)
+          _it: Punto di ritiro (in lista d'attesa)
+          _nl: Depot (wachtlijst)
+        waiting_membership_started_on:
+          _en: Start date
+          _fr: Date de début
+          _de: Startdatum
+          _it: Data d'inizio
+          _nl: Startdatum
         waiting_started_at:
           _en: On waiting list since
           _fr: Sur liste d'attente depuis

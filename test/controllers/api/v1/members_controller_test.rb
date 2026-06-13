@@ -31,6 +31,7 @@ class API::V1::MembersControllerTest < ActionDispatch::IntegrationTest
       emails: "john@woo.com",
       phones: "+41 12 345 67 89",
       waiting_basket_size_id: small_id,
+      waiting_basket_price_extra: 0,
       waiting_depot_id: depots(:bakery).id,
       members_basket_complements_attributes: [
         { basket_complement_id: bread_id, quantity: 1 },
@@ -53,9 +54,11 @@ class API::V1::MembersControllerTest < ActionDispatch::IntegrationTest
     assert_equal "CH", member.country_code
     assert_equal "john@woo.com", member.emails
     assert_equal "+41123456789", member.phones
+    assert member.pending?
     assert_equal basket_sizes(:small), member.waiting_basket_size
     assert_equal depots(:bakery), member.waiting_depot
     assert_equal 2, member.members_basket_complements.size
+    assert_empty member.memberships
 
     assert_equal 1, AdminMailer.deliveries.size
     mail = AdminMailer.deliveries.last

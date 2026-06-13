@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
 ul class: "counts" do
-  states = %i[pending waiting active]
+  states = %i[pending active]
+  states.insert(1, :waiting) if Member.waiting_list_available?
   states += %i[support] if Current.org.member_support?
   counts = Member.where(state: states).group(:state).count
   states.each do |scope|

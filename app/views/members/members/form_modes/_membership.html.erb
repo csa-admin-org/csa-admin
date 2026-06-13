@@ -216,7 +216,7 @@
         <% end %>
       <% end %>
 
-      <% if Current.org.allow_alternative_depots? %>
+      <% if Current.org.allow_alternative_depots? && Current.org.waiting_list? %>
         <div
           data-form-disabler-target="label"
           <% if show_depot_filter %>

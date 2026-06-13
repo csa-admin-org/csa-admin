@@ -14,13 +14,15 @@ Het is mogelijk om automatisch een welkomste-mail te verzenden bij het valideren
 
 > Beheerders kunnen per e-mail worden gewaarschuwd wanneer een nieuwe registratie plaatsvindt door hun [meldingsvoorkeuren](<%= edit_admin_path(current_admin) %>) te beheren.
 
-### Wachtlijst
+### Wachtlijst {#waiting-list}
 
-Eenmaal gevalideerd, of direct aangemaakt door een admin, belandt een lid met een (in behandeling zijnde) lidmaatschapsconfiguratie op de wachtlijst. De wachtlijst is nuttig voor organisaties die een capaciteitslimiet hebben voor actieve leden.
+De [wachtlijst](/settings#waiting_list) is een optionele functie, nuttig voor organisaties die een capaciteitslimiet hebben voor actieve leden.
 
-Om een lid actief te maken, hoef je alleen maar een lidmaatschap voor hen aan te maken (klik op "Een lidmaatschap aanmaken" rechtsboven op de pagina van het lid). De (in behandeling zijnde) lidmaatschapsconfiguratie wordt automatisch overgenomen in het lidmaatschapsaanmaakformulier.
+Leden die via het publieke registratieformulier worden aangemaakt, worden altijd toegevoegd aan [de lijst met te valideren leden](/members?scope=pending). Zij kiezen zelf geen startdatum voor het lidmaatschap. Wanneer een admin op "Valideren" klikt, wordt een volledige lidmaatschapsaanvraag op de wachtlijst geplaatst als deze functie is ingeschakeld; als ze is uitgeschakeld, wordt het lidmaatschap direct aangemaakt vanaf de week van de volgende levering van de geselecteerde leveringscyclus.
 
-Het is mogelijk om automatisch een welkomste-mail te verzenden bij het activeren van een lid door [de "Lid geactiveerd" e-mailsjabloon](/mail_templates/member_activated) te configureren.
+Wanneer een admin een lid rechtstreeks via [het formulier om een lid aan te maken](/members/new) aanmaakt, kan het lidmaatschapspaneel een startdatumveld tonen. Als de wachtlijst is ingeschakeld, laat je het leeg om het lid op de wachtlijst te plaatsen, of vul je een datum in om het lidmaatschap meteen bij het valideren van het lid aan te maken. Deze onmiddellijke aanmaak van het lidmaatschap activeert het lid en gebruikt [de e-mailsjabloon "Lid geactiveerd"](/mail_templates/member_activated) als die actief is.
+
+Om een lid op de wachtlijst actief te maken, klik je rechtsboven op de pagina van het lid op "Activeren". Er wordt een lidmaatschap aangemaakt op basis van de wachtlijstinstellingen en dit kan daarna indien nodig worden bewerkt.
 
 ### Actief
 
@@ -34,17 +36,17 @@ Een ondersteunend lid is iemand zonder lidmaatschappen die een jaarlijkse bijdra
 
 Om een inactief lid naar ondersteuning te verplaatsen, stel je een jaarlijks bijdragebedrag in het profiel van het lid in (bewerkpagina). De jaarlijkse bijdrage kan op 0 worden ingesteld voor leden die de ondersteuningsstatus moeten hebben zonder bijdrage te betalen.
 
-Met de knop "Inactief maken" rechtsboven op de pagina van het lid is het mogelijk om een ondersteunend lid inactief te maken, wat hun jaarlijkse bijdrage zal wegvallen of hun vereiste aandelenkapitaal op nul zet.
+Met de knop "Deactiveren" rechtsboven op de pagina van het lid is het mogelijk om een ondersteunend lid inactief te maken, wat hun jaarlijkse bijdrage verwijdert of hun vereiste aandelenkapitaal op nul zet.
 
-Met de knop "Op wachtlijst plaatsen" rechtsboven op de pagina van het lid kun je een ondersteunend lid terug op de wachtlijst plaatsen. Hun jaarlijkse bijdrage of aantal aandelenkapitaal blijft ongewijzigd.
+Om een ondersteunend lid een lidmaatschap te geven, maak je een lidmaatschap voor hen aan; daarna worden zij actief.
 
 ### Inactief
 
-Een inactief lid is iemand die geen lidmaatschap heeft voor het huidige of toekomstige boekjaar en geen jaarlijkse bijdrage heeft ingesteld of aandelenkapitaal heeft. Een inactief lid kan opnieuw op de wachtlijst worden geplaatst of naar ondersteuning worden verplaatst.
+Een inactief lid is iemand die geen lidmaatschap heeft voor het huidige of toekomstige boekjaar en geen jaarlijkse bijdrage heeft ingesteld of aandelenkapitaal heeft. Een inactief lid kan naar ondersteuning worden verplaatst en opnieuw op de wachtlijst worden geplaatst wanneer de wachtlijstfunctie is ingeschakeld.
 
 Om een inactief lid naar ondersteuning te verplaatsen, bewerk je het profiel van het lid en stel je een jaarlijks bijdragebedrag in (zelfs 0 voor ondersteunende leden zonder bijdrage).
 
-Met de knop "Op wachtlijst plaatsen" rechtsboven op de pagina van het lid kun je een inactief lid op de wachtlijst plaatsen. Hun jaarlijkse bijdrage wordt dan gereset naar de standaardwaarde van de organisatie.
+Wanneer de [wachtlijst](/settings#waiting_list) is ingeschakeld, bewerk je het profiel van een inactief lid en vul je alle verplichte velden in het paneel "Lidmaatschap (wachtlijst)" in om het lid op de wachtlijst te plaatsen.
 
 ## <%= Member.human_attribute_name(:salary_basket) %> {#salary-basket}
 

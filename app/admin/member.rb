@@ -10,7 +10,7 @@ ActiveAdmin.register Member do
 
   scope :all
   scope :pending, group: :state
-  scope :waiting, group: :state
+  scope :waiting, group: :state, if: -> { Member.waiting_list_available? }
   scope :active, group: :state, default: true
   scope :support, group: :state, if: -> { Current.org.member_support? }
   scope :inactive, group: :state
@@ -25,7 +25,7 @@ ActiveAdmin.register Member do
     label: -> { Member.human_attribute_name(:waiting_depot) },
     as: :select,
     collection: -> { admin_depots_collection },
-    if: proc { params[:scope] == "waiting" && Current.org.member_form_mode == "membership" }
+    if: proc { params[:scope] == "waiting" && Current.org.member_form_mode == "membership" && Member.waiting_list_available? }
   filter :shop_depot,
     as: :select,
     collection: -> { admin_depots_collection },
@@ -54,10 +54,9 @@ ActiveAdmin.register Member do
   index do
     column :id
     if params[:scope] == "waiting"
-      @waiting_started_ats ||= Member.waiting.order(:waiting_started_at).pluck(:waiting_started_at)
-      column "#", ->(member) {
-        @waiting_started_ats.index(member.waiting_started_at) + 1
-      }, sortable: :waiting_started_at, class: "text-right"
+      column "#", ->(member) { waiting_member_position(member) },
+        sortable: :waiting_started_at,
+        class: "text-right"
     end
     column :name, ->(member) { auto_link member }
     case Current.org.member_form_mode
@@ -195,18 +194,14 @@ ActiveAdmin.register Member do
           end
         end
 
-        if member.pending? || member.waiting?
-          create_action = if authorized?(:create_membership, member)
-            button_to create_membership_member_path(member),
-              method: :post,
-              form: { class: "flex items-center" },
-              class: "btn btn-sm",
-              data: { confirm: t(".create_membership_confirm") } do
-                icon("plus", class: "size-4") + t(".create_membership")
-            end
-          end
-          panel t(".waiting_membership"), icon: "clock", action: create_action do
+        if member.waiting? || (member.pending? && member.membership_request?)
+          panel member.waiting? ? t(".waiting_membership") : Membership.model_name.human,
+            icon: member.waiting? ? "clock" : "calendar-range" do
             div class: "px-2" do
+              if notice = waiting_membership_action_notice(member)
+                para notice, class: waiting_membership_action_notice_class(member)
+              end
+
               attributes_table do
                 row(:basket_size) { auto_link member.waiting_basket_size }
                 if BasketComplement.kept.any?
@@ -223,7 +218,7 @@ ActiveAdmin.register Member do
                 end
                 row(:depot) { auto_link member.waiting_depot }
                 row(:delivery_cycle) { delivery_cycle_link(member.waiting_delivery_cycle) }
-                if Current.org.allow_alternative_depots?
+                if Current.org.allow_alternative_depots? && (member.waiting? || Current.org.waiting_list?)
                   row(:waiting_alternative_depot_ids) {
                     member.waiting_alternative_depots.map(&:name).to_sentence
                   }
@@ -234,6 +229,7 @@ ActiveAdmin.register Member do
                   }
                 end
                 if member.waiting?
+                  row("#") { waiting_member_position(member) }
                   row :waiting_started_at
                 end
               end
@@ -592,8 +588,24 @@ ActiveAdmin.register Member do
       end
     end
 
-    if member.pending? || member.waiting?
-      f.inputs t("active_admin.resource.show.waiting_membership"), icon: "clock" do
+    if member.pending? || member.waiting? || (member.inactive? && Current.org.waiting_list?)
+      waiting_membership_form = member.waiting? || member.inactive?
+      f.inputs waiting_membership_form ? t("active_admin.resource.show.waiting_membership") : Membership.model_name.human,
+        icon: waiting_membership_form ? "clock" : "calendar-range",
+        data: { controller: "form-disabler" } do
+        if member.pending?
+          f.input :waiting_membership_started_on,
+            as: :date_picker,
+            required: false,
+            hint: Current.org.waiting_list? ? t("formtastic.hints.member.waiting_membership_started_on_html") : false,
+            input_html: {
+              data: {
+                action: "input->form-disabler#toggleInputs change->form-disabler#toggleInputs",
+                form_disabler_invert: true,
+                form_disabler_target: "trigger"
+              }
+            }
+        end
         f.input :waiting_basket_size,
           label: BasketSize.model_name.human,
           collection: admin_basket_sizes_collection,
@@ -631,13 +643,24 @@ ActiveAdmin.register Member do
           label: Membership.human_attribute_name(:billing_year_division),
           as: :select,
           collection: billing_year_divisions_collection,
-          prompt: true
-        if Depot.kept.many?
+          prompt: true,
+          required: false
+        if Depot.kept.many? && (member.waiting? || Current.org.waiting_list?)
+          direct_membership_start = member.direct_membership_start_requested?
           f.input :waiting_alternative_depot_ids,
             collection: admin_depots,
             as: :check_boxes,
             for: Depot,
-            hint: false
+            hint: false,
+            disabled: direct_membership_start ? admin_depots.map(&:id) : [],
+            input_html: {
+              disabled: direct_membership_start,
+              data: { form_disabler_target: "input" }
+            },
+            wrapper_html: {
+              class: ("disabled" if direct_membership_start),
+              data: { form_disabler_target: "label" }
+            }
         end
         if BasketComplement.kept.any?
           f.has_many :members_basket_complements, allow_destroy: true do |ff|
@@ -770,7 +793,8 @@ ActiveAdmin.register Member do
     :billing_name, :billing_street, :billing_city, :billing_zip,
     :shares_info, :existing_shares_number,
     :desired_shares_number, :required_shares_number,
-    :waiting, :waiting_basket_size_id, :waiting_basket_price_extra,
+    :waiting, :waiting_membership_started_on,
+    :waiting_basket_size_id, :waiting_basket_price_extra,
     :waiting_activity_participations_demanded_annually,
     :waiting_depot_id, :waiting_delivery_cycle_id,
     :waiting_billing_year_division,
@@ -795,17 +819,26 @@ ActiveAdmin.register Member do
     action_link nil, m_sessions_path(q: { member_id_eq: resource.id }, scope: :all), icon: "book-key"
   end
 
-  action_item :create_membership, only: :show, if: -> { resource.waiting? && authorized?(:create, Membership) && Delivery.next } do
-    action_link t(".create_membership"), new_membership_path(member_id: resource.id),
-      icon: "plus"
+  action_item :activate, only: :show, if: -> {
+    authorized?(:create_membership, resource) ||
+      (resource.activation_waiting_membership_no_delivery? && authorized?(:create, Membership))
+  } do
+    action_button t("active_admin.shared.action_items.activate"),
+      create_membership_member_path(resource),
+      icon: "check",
+      disabled: resource.activation_waiting_membership_no_delivery?,
+      disabled_tooltip: t("active_admin.resource.show.membership_activation_no_delivery"),
+      data: { confirm: t("active_admin.shared.action_items.activate_confirm") }
   end
 
   action_item :validate, only: :show, if: -> { authorized?(:validate, resource) } do
-    action_button t(".validate"), validate_member_path(resource), icon: "check"
+    action_button t(".validate"), validate_member_path(resource),
+      icon: "check",
+      disabled: resource.validation_waiting_membership_no_delivery?,
+      disabled_tooltip: t("active_admin.resource.show.membership_validation_no_delivery"),
+      data: (resource.validation_creates_membership? ? { confirm: t("active_admin.shared.action_items.activate_confirm") } : {})
   end
-  action_item :wait, only: :show, if: -> { authorized?(:wait, resource) } do
-    action_button t(".wait"), wait_member_path(resource), icon: "list-plus"
-  end
+
   action_item :deactivate, only: :show, if: -> { authorized?(:deactivate, resource) } do
     action_button t(".deactivate"), deactivate_member_path(resource), icon: "circle-off", class: "destructive"
   end
@@ -843,7 +876,10 @@ ActiveAdmin.register Member do
   end
 
   member_action :validate, method: :post do
-    resource.validate!(current_admin)
+    result = resource.validate!(current_admin)
+    redirect_to result.is_a?(Membership) ? result : member_path(resource)
+  rescue ActiveRecord::RecordInvalid => e
+    flash[:alert] = e.record.errors.full_messages.to_sentence.presence || e.message
     redirect_to member_path(resource)
   end
 
@@ -852,25 +888,12 @@ ActiveAdmin.register Member do
     redirect_to member_path(resource)
   end
 
-  member_action :wait, method: :post do
-    resource.wait!
-    redirect_to member_path(resource)
-  rescue ActiveRecord::RecordInvalid => e
-    flash[:alert] = e.message
-    redirect_to member_path(resource)
-  end
-
   member_action :create_membership, method: :post do
-    membership = Membership.new
-    membership.populate_from_waiting_member!(resource)
-    membership.populate_default_period_from_next_delivery!
-    if membership.save
-      redirect_to membership
-    else
-      flash[:alert] = membership.errors.full_messages.to_sentence
-      redirect_to member_path(resource)
-    end
-  rescue ActiveRecord::RecordInvalid, ActiveRecord::StatementInvalid => e
+    redirect_to resource.create_membership_from_waiting_request!
+  rescue ActiveRecord::RecordInvalid => e
+    flash[:alert] = e.record.errors.full_messages.to_sentence.presence || e.message
+    redirect_to member_path(resource)
+  rescue ActiveRecord::StatementInvalid => e
     flash[:alert] = e.message
     redirect_to member_path(resource)
   end
@@ -913,7 +936,7 @@ ActiveAdmin.register Member do
     include TranslatedCSVFilename
 
     def apply_sorting(chain)
-      params[:order] ||= "members.waiting_started_at_asc" if params[:scope] == "waiting"
+      params[:order] ||= "members.waiting_started_at_asc" if params[:scope] == "waiting" && Member.waiting_list_available?
       super
     end
 
@@ -931,10 +954,16 @@ ActiveAdmin.register Member do
 
     def create_resource(object)
       run_create_callbacks object do
-        save_resource(object)
-        if object.valid?
-          object.validate!(current_admin, send_email: object.send_validation_email)
-        end
+        object.class.transaction { save_and_validate_resource(object) }
+      end
+    rescue ActiveRecord::RecordInvalid
+      false
+    end
+
+    def save_and_validate_resource(object)
+      save_resource(object)
+      if object.valid?
+        object.validate!(current_admin, send_email: object.send_validation_email)
       end
     end
   end

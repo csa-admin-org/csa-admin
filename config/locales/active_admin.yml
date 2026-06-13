@@ -2177,18 +2177,6 @@ _:
           _de: Wirklich fortfahren?
           _it: Siete sicuri?
           _nl: Echt doorgaan?
-        create_membership:
-          _en: Create membership
-          _fr: Créer abonnement
-          _de: Abonnement erstellen
-          _it: Creare abbonamento
-          _nl: Lidmaatschap aanmaken
-        create_membership_confirm:
-          _en: This will create the membership from the waiting settings and make the member active. The membership can be edited afterwards if needed. Continue?
-          _fr: Cela va créer l'abonnement à partir des paramètres en attente et rendre le membre actif. L'abonnement pourra être modifié ensuite si nécessaire. Continuer ?
-          _de: Dies erstellt die Mitgliedschaft aus den Wartelisteneinstellungen und aktiviert das Mitglied. Die Mitgliedschaft kann bei Bedarf nachträglich bearbeitet werden. Fortfahren?
-          _it: Questo creerà l'abbonamento dalle impostazioni in attesa e renderà il socio attivo. L'abbonamento potrà essere modificato in seguito se necessario. Continuare?
-          _nl: Dit maakt het lidmaatschap aan vanuit de wachtlijstinstellingen en activeert het lid. Het lidmaatschap kan nadien indien nodig worden bewerkt. Doorgaan?
         delivered_emails:
           one:
             _en: Delivered email
@@ -2359,6 +2347,36 @@ _:
           _de: Registrierungsformular
           _it: Formulario d'iscrizione
           _nl: Registratieformulier
+        membership_activation_no_delivery:
+          _en: Activation cannot create a membership because the selected delivery cycle has no upcoming delivery.
+          _fr: L'activation ne peut pas créer d'abonnement car le cycle de livraisons sélectionné n'a aucune livraison à venir.
+          _de: Die Aktivierung kann kein Abonnement erstellen, da der ausgewählte Lieferzyklus keine kommende Lieferung hat.
+          _it: L'attivazione non può creare un abbonamento perché il ciclo di consegne selezionato non ha consegne future.
+          _nl: De activering kan geen lidmaatschap aanmaken omdat de geselecteerde leveringscyclus geen komende levering heeft.
+        membership_activation_start_on:
+          _en: Activation will create a membership starting on %{date}.
+          _fr: L'activation créera un abonnement commençant le %{date}.
+          _de: Die Aktivierung erstellt ein Abonnement ab dem %{date}.
+          _it: L'attivazione creerà un abbonamento a partire dal %{date}.
+          _nl: De activering maakt een lidmaatschap aan vanaf %{date}.
+        membership_validation_no_delivery:
+          _en: Validation cannot create a membership because the selected delivery cycle has no upcoming delivery.
+          _fr: La validation ne peut pas créer d'abonnement car le cycle de livraisons sélectionné n'a aucune livraison à venir.
+          _de: Die Bestätigung kann kein Abonnement erstellen, da der ausgewählte Lieferzyklus keine kommende Lieferung hat.
+          _it: La conferma non può creare un abbonamento perché il ciclo di consegne selezionato non ha consegne future.
+          _nl: De validatie kan geen lidmaatschap aanmaken omdat de geselecteerde leveringscyclus geen komende levering heeft.
+        membership_validation_start_on:
+          _en: Validation will create a membership starting on %{date}.
+          _fr: La validation créera un abonnement commençant le %{date}.
+          _de: Die Bestätigung erstellt ein Abonnement ab dem %{date}.
+          _it: La conferma creerà un abbonamento a partire dal %{date}.
+          _nl: De validatie maakt een lidmaatschap aan vanaf %{date}.
+        membership_validation_waiting_list:
+          _en: Validation will place this member on the waiting list.
+          _fr: La validation placera ce membre en liste d'attente.
+          _de: Die Bestätigung setzt dieses Mitglied auf die Warteliste.
+          _it: La conferma inserirà questo socio nella lista d'attesa.
+          _nl: De validatie plaatst dit lid op de wachtlijst.
         missing_deliveries:
           _en: New emails not delivered
           _fr: Nouveaux emails non-distribués
@@ -3755,6 +3773,18 @@ _:
       _nl: E-mailinstellingen
     shared:
       action_items:
+        activate:
+          _en: Activate
+          _fr: Activer
+          _de: Aktivieren
+          _it: Attivare
+          _nl: Activeren
+        activate_confirm:
+          _en: This will create a membership and activate the member. You can edit the membership afterwards if needed. Continue?
+          _fr: Cela va créer un abonnement et activer le membre. L'abonnement pourra être modifié ensuite si nécessaire. Continuer ?
+          _de: Dies erstellt eine Mitgliedschaft und aktiviert das Mitglied. Die Mitgliedschaft kann bei Bedarf nachträglich bearbeitet werden. Fortfahren?
+          _it: Creerete l'abbonamento e attiverete il socio. Potrete modificare l'abbonamento in seguito se necessario. Continuare?
+          _nl: Het lidmaatschap wordt aangemaakt en het lid wordt geactiveerd. Het lidmaatschap kan nadien indien nodig worden bewerkt. Doorgaan?
         become_member:
           _en: Access account
           _fr: Accéder au compte
@@ -3846,15 +3876,9 @@ _:
           _de: Vollständig
           _it: Completare
           _nl: Voltooien
-        create_membership:
-          _en: Create membership
-          _fr: Créer abonnement
-          _de: Abonnement erstellen
-          _it: Creare abbonamento
-          _nl: Lidmaatschap aanmaken
         deactivate:
-          _en: Make inactive
-          _fr: Rendre inactif
+          _en: Deactivate
+          _fr: Désactiver
           _de: Deaktivieren
           _it: Disattivare
           _nl: Deactiveren

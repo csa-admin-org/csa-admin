@@ -196,6 +196,12 @@ _:
         _de: Der Start-/Endzeitraum muss mindestens eine Lieferung einschließen.
         _it: La data di inizio/deinizio deve includere almeno una consegna.
         _nl: De start/eindperiode moet minstens één levering bevatten.
+      no_upcoming_delivery:
+        _en: has no upcoming delivery
+        _fr: n'a aucune livraison à venir
+        _de: hat keine kommende Lieferung
+        _it: non ha consegne future
+        _nl: heeft geen komende levering
       not_a_number:
         _en: is not a number
         _fr: n'est pas un nombre

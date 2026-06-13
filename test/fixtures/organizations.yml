@@ -42,6 +42,7 @@ acme:
     - contact_sharing
     - new_member_fee
     - shop
+    - waiting_list
   feature_flags: []
   shop_admin_only: false
   activity_price: 50

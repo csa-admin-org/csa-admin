@@ -987,6 +987,12 @@ _:
           _de: Es können ein oder mehrere alternative Depots gewählt werden, falls die erste Wahl bereits voll ist. Durch die Bereitschaft, die Anteile vorübergehend in einem alternativen Depot zu erhalten, kann schneller gestartet werden.
           _it: Potete scegliere uno o più punti di ritiro alternativi nel caso in cui la vostra prima scelta fosse già al completo. Accettando di ricevere temporaneamente le vostre parti in un luogo di consegna alternativo, dovreste essere in grado di iniziare più velocemente.
           _nl: Er kunnen een of meer alternatieve depots worden gekozen als de eerste keuze al vol is. Door ermee in te stemmen de delen tijdelijk bij een alternatief depot te ontvangen, kan er sneller worden gestart.
+        waiting_membership_started_on_html:
+          _en: Leave blank to place the member on the waiting list, or set a date to create the membership directly when validating.
+          _fr: Laissez vide pour placer le membre en liste d'attente, ou indiquez une date pour créer l'abonnement directement lors de la validation.
+          _de: Leer lassen, um das Mitglied auf die Warteliste zu setzen, oder ein Datum setzen, um das Abonnement bei der Bestätigung direkt zu erstellen.
+          _it: Lasciate vuoto per inserire il socio nella lista d'attesa, oppure indicate una data per creare direttamente l'abbonamento alla conferma.
+          _nl: Leeg laten om het lid op de wachtlijst te plaatsen, of een datum invullen om het lidmaatschap direct bij validatie aan te maken.
       membership:
         absences_included_annually/bag_html:
           _en: Leave blank for the default number of the delivery cycle.<br/>The final number will be calculated automatically based on the logic defined in <a href='/delivery_cycles'>the settings</a>, by default proportional to the number of bags.

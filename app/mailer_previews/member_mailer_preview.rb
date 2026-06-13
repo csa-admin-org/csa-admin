@@ -43,7 +43,7 @@ class MemberMailerPreview < ActionMailer::Preview
   def validated_email_params
     {
       member: member,
-      waiting_list_position: Member.waiting.count + 1,
+      waiting_list_position: nil,
       waiting_basket_size_id: member.waiting_basket_size_id,
       waiting_basket_size: member.waiting_basket_size,
       waiting_depot_id: member.waiting_depot_id,

@@ -318,3 +318,15 @@ _:
       _de: Ermöglicht die Konfiguration von MwSt.-Nummern und -Sätzen, wenn Rechnungen MwSt. enthalten müssen.
       _it: Permette di configurare numeri e aliquote IVA quando le fatture devono includere l'IVA.
       _nl: Maakt het mogelijk btw-nummers en -tarieven te configureren wanneer facturen btw moeten bevatten.
+    waiting_list:
+      _en: Waiting list
+      _fr: Liste d'attente
+      _de: Warteliste
+      _it: Lista d'attesa
+      _nl: Wachtlijst
+    waiting_list_hint:
+      _en: Allows validating registrations into a waiting list before creating their membership. Disable it to create memberships directly when validating registrations.
+      _fr: Permet de valider les inscriptions en liste d'attente avant de créer leur abonnement. Désactivez-la pour créer les abonnements directement lors de la validation des inscriptions.
+      _de: Ermöglicht, Anmeldungen vor dem Erstellen des Abonnements auf eine Warteliste zu setzen. Deaktivieren, um Abonnements beim Bestätigen von Anmeldungen direkt zu erstellen.
+      _it: Permette di convalidare le iscrizioni in una lista d'attesa prima di creare il loro abbonamento. Disattivatela per creare gli abbonamenti direttamente alla conferma delle iscrizioni.
+      _nl: Maakt het mogelijk registraties eerst op een wachtlijst te valideren voordat het lidmaatschap wordt aangemaakt. Uitschakelen om lidmaatschappen direct aan te maken bij het valideren van registraties.

@@ -3,28 +3,183 @@
 require "test_helper"
 
 class Member::StateTransitionsTest < ActiveSupport::TestCase
+  def member_mail_delivery_count(action)
+    MailDelivery.where(mailable_type: "Member", action: action).count
+  end
+
   test "validate! sets state to waiting if waiting basket/depot" do
     admin = admins(:super)
+    mail_templates(:member_validated).update!(active: true)
+    mail_templates(:member_activated).update!(active: true)
     member = members(:aria)
     member.update!(state: "pending", validated_at: nil)
-    assert_changes -> { member.state }, from: "pending", to: "waiting" do
-      member.validate!(admin)
+
+    assert_difference -> { member_mail_delivery_count("validated") }, 1 do
+      assert_no_difference -> { member_mail_delivery_count("activated") } do
+        assert_changes -> { member.state }, from: "pending", to: "waiting" do
+          member.validate!(admin)
+        end
+      end
     end
     assert member.validated_at.present?
     assert_equal admin, member.validator
   end
 
-  test "validate! sets state to active if shop depot is set" do
+  test "validate! sets default annual fee when pending member moves to waiting list" do
     admin = admins(:super)
+    member = members(:aria)
+    member.update!(state: "pending", validated_at: nil, annual_fee: nil)
+
+    member.validate!(admin)
+
+    assert member.reload.waiting?
+    assert_equal 30, member.annual_fee
+  end
+
+  test "validate! clears annual fee when pending member moves to waiting list for support-only fees" do
+    org(annual_fee_support_member_only: true)
+    admin = admins(:super)
+    member = members(:aria)
+    member.update!(state: "pending", validated_at: nil, annual_fee: 30)
+
+    member.validate!(admin)
+
+    assert member.reload.waiting?
+    assert_nil member.annual_fee
+  end
+
+  test "validate! creates membership directly when waiting membership start date is set" do
+    travel_to "2024-05-01"
+    admin = admins(:super)
+    mail_templates(:member_validated).update!(active: true)
+    mail_templates(:member_activated).update!(active: true)
+    member = members(:aria)
+    member.update!(state: "pending", validated_at: nil)
+    existing_audit_ids = member.audits.pluck(:id)
+    member.waiting_membership_started_on = Date.new(2024, 5, 6)
+    validated_membership = nil
+
+    assert_difference -> { member_mail_delivery_count("activated") }, 1 do
+      assert_no_difference -> { member_mail_delivery_count("validated") } do
+        assert_difference "Membership.count", 1 do
+          validated_membership = member.validate!(admin)
+        end
+      end
+    end
+
+    assert_nil member.waiting_membership_started_on
+
+    membership = member.reload.memberships.order(:id).last
+    assert_equal membership, validated_membership
+    assert member.active?
+    assert_equal Date.new(2024, 5, 6), membership.started_on
+    assert_nil member.waiting_started_at
+    assert_nil member.waiting_basket_size_id
+    assert_nil member.waiting_depot_id
+    assert_nil member.waiting_delivery_cycle_id
+
+    state_changes = member.audits.where.not(id: existing_audit_ids).filter_map { |audit|
+      audit.audited_changes["state"]
+    }
+    refute_includes state_changes, [ "pending", "waiting" ]
+  end
+
+  test "validate! creates membership directly when waiting list is disabled" do
+    travel_to "2024-05-01"
+    org(features: Current.org.features - [ :waiting_list ])
+    admin = admins(:super)
+    member = members(:aria)
+    member.update!(state: "pending", validated_at: nil)
+    member.waiting_membership_started_on = Date.new(2024, 5, 13)
+
+    assert_difference "Membership.count", 1 do
+      member.validate!(admin)
+    end
+
+    membership = member.reload.memberships.order(:id).last
+    assert member.active?
+    assert_equal Date.new(2024, 5, 13), membership.started_on
+  end
+
+  test "validate! creates membership from selected delivery cycle when waiting list is disabled" do
+    travel_to "2024-05-01"
+    org(features: Current.org.features - [ :waiting_list ])
+    admin = admins(:super)
+    mail_templates(:member_validated).update!(active: true)
+    mail_templates(:member_activated).update!(active: true)
+    member = members(:aria)
+    member.update!(state: "pending", validated_at: nil)
+
+    assert_difference -> { member_mail_delivery_count("activated") }, 1 do
+      assert_no_difference -> { member_mail_delivery_count("validated") } do
+        assert_difference "Membership.count", 1 do
+          member.validate!(admin)
+        end
+      end
+    end
+
+    membership = member.reload.memberships.order(:id).last
+    assert member.active?
+    assert_equal Date.new(2024, 5, 6), membership.started_on
+  end
+
+  test "validate! rolls back direct creation when membership request is incomplete" do
+    travel_to "2024-05-01"
+    org(features: Current.org.features - [ :waiting_list ])
+    admin = admins(:super)
+    member = members(:aria)
+    member.update_columns(
+      state: "pending",
+      validated_at: nil,
+      waiting_depot_id: nil,
+      waiting_delivery_cycle_id: nil)
+
+    assert_no_difference "Membership.count" do
+      assert_raises(ActiveRecord::RecordInvalid) { member.validate!(admin) }
+    end
+    assert member.reload.pending?
+    assert_nil member.validated_at
+  end
+
+  test "validate! rolls back direct creation when selected delivery cycle has no upcoming delivery" do
+    travel_to "2026-01-01"
+    org(features: Current.org.features - [ :waiting_list ])
+    admin = admins(:super)
+    member = members(:aria)
+    member.update!(state: "pending", validated_at: nil)
+
+    error = nil
+    assert_no_difference "Membership.count" do
+      error = assert_raises(ActiveRecord::RecordInvalid) { member.validate!(admin) }
+    end
+    assert_includes error.record.errors[:waiting_delivery_cycle], "has no upcoming delivery"
+    assert member.reload.pending?
+    assert_nil member.validated_at
+  end
+
+  test "validate! sets state to active if shop depot is set" do
+    org(features: Current.org.features | [ :shop ])
+    admin = admins(:super)
+    mail_templates(:member_validated).update!(active: true)
+    mail_templates(:member_shop_depot_activated).update!(active: true)
     member = members(:aria)
     member.update!(
       state: "pending",
       validated_at: nil,
       waiting_basket_size: nil,
       waiting_depot: nil,
+      waiting_delivery_cycle: nil,
+      waiting_basket_price_extra: nil,
+      waiting_activity_participations_demanded_annually: nil,
+      waiting_billing_year_division: nil,
       shop_depot: depots(:farm))
-    assert_changes -> { member.state }, from: "pending", to: "active" do
-      member.validate!(admin)
+
+    assert_difference -> { member_mail_delivery_count("shop_depot_activated") }, 1 do
+      assert_no_difference -> { member_mail_delivery_count("validated") } do
+        assert_changes -> { member.state }, from: "pending", to: "active" do
+          member.validate!(admin)
+        end
+      end
     end
     assert member.validated_at.present?
     assert_equal admin, member.validator
@@ -38,10 +193,46 @@ class Member::StateTransitionsTest < ActiveSupport::TestCase
       validated_at: nil,
       waiting_basket_size: nil,
       waiting_depot: nil,
+      waiting_delivery_cycle: nil,
+      waiting_basket_price_extra: nil,
+      waiting_activity_participations_demanded_annually: nil,
+      waiting_billing_year_division: nil,
       annual_fee: 30)
     assert_changes -> { member.state }, from: "pending", to: "support" do
       member.validate!(admin)
     end
+    assert member.validated_at.present?
+    assert_equal admin, member.validator
+  end
+
+  test "validate! sets state to support for support-only registration" do
+    admin = admins(:super)
+    member = members(:aria)
+    member.update!(
+      state: "pending",
+      validated_at: nil,
+      waiting_basket_size_id: 0,
+      waiting_depot: nil,
+      waiting_delivery_cycle: nil,
+      waiting_basket_price_extra: nil,
+      waiting_activity_participations_demanded_annually: nil,
+      waiting_billing_year_division: nil,
+      annual_fee: 30)
+
+    mail_templates(:member_validated).update!(active: true)
+    mail_templates(:member_activated).update!(active: true)
+
+    assert_not member.membership_request?
+    assert_difference -> { member_mail_delivery_count("validated") }, 1 do
+      assert_no_difference -> { member_mail_delivery_count("activated") } do
+        assert_no_difference "Membership.count" do
+          assert_changes -> { member.state }, from: "pending", to: "support" do
+            member.validate!(admin)
+          end
+        end
+      end
+    end
+    assert_nil member.reload.waiting_basket_size_id
     assert member.validated_at.present?
     assert_equal admin, member.validator
   end
@@ -54,6 +245,10 @@ class Member::StateTransitionsTest < ActiveSupport::TestCase
       validated_at: nil,
       waiting_basket_size: nil,
       waiting_depot: nil,
+      waiting_delivery_cycle: nil,
+      waiting_basket_price_extra: nil,
+      waiting_activity_participations_demanded_annually: nil,
+      waiting_billing_year_division: nil,
       annual_fee: 0)
     assert_changes -> { member.state }, from: "pending", to: "support" do
       member.validate!(admin)
@@ -70,6 +265,10 @@ class Member::StateTransitionsTest < ActiveSupport::TestCase
       validated_at: nil,
       waiting_basket_size: nil,
       waiting_depot: nil,
+      waiting_delivery_cycle: nil,
+      waiting_basket_price_extra: nil,
+      waiting_activity_participations_demanded_annually: nil,
+      waiting_billing_year_division: nil,
       annual_fee: nil)
     assert_changes -> { member.state }, from: "pending", to: "inactive" do
       member.validate!(admin)
@@ -87,6 +286,10 @@ class Member::StateTransitionsTest < ActiveSupport::TestCase
       validated_at: nil,
       waiting_basket_size: nil,
       waiting_depot: nil,
+      waiting_delivery_cycle: nil,
+      waiting_basket_price_extra: nil,
+      waiting_activity_participations_demanded_annually: nil,
+      waiting_billing_year_division: nil,
       desired_shares_number: 30)
     assert_changes -> { member.state }, from: "pending", to: "support" do
       member.validate!(admin)
@@ -99,46 +302,6 @@ class Member::StateTransitionsTest < ActiveSupport::TestCase
     admin = admins(:super)
     member = members(:john)
     assert_raises(InvalidTransitionError) { member.validate!(admin) }
-  end
-
-  test "wait! sets state to waiting and reset waiting_started_at" do
-    member = members(:martha)
-    member.update(waiting_started_at: 1.month.ago, annual_fee: 42)
-    assert_changes -> { member.state }, from: "support", to: "waiting" do
-      member.wait!
-    end
-    assert member.waiting_started_at > 1.minute.ago
-    assert_equal 42, member.annual_fee
-  end
-
-  test "wait! sets state to waiting and set default annual_fee" do
-    member = members(:mary)
-    assert_changes -> { member.state }, from: "inactive", to: "waiting" do
-      member.wait!
-    end
-    assert member.waiting_started_at > 1.minute.ago
-    assert_equal 30, member.annual_fee
-  end
-
-  test "wait! sets state to waiting and clear annual_fee when annual_fee_support_member_only is true" do
-    org(annual_fee_support_member_only: true)
-    member = members(:mary)
-    assert_changes -> { member.state }, from: "inactive", to: "waiting" do
-      member.wait!
-    end
-    assert member.waiting_started_at > 1.minute.ago
-    assert_nil member.annual_fee
-  end
-
-  test "wait! raises if inactive member has no address" do
-    member = members(:mary)
-    member.update_columns(street: nil, city: nil, zip: nil)
-    assert_raises(ActiveRecord::RecordInvalid) { member.wait! }
-  end
-
-  test "wait! raises if not support or inactive" do
-    member = members(:john)
-    assert_raises(InvalidTransitionError) { member.wait! }
   end
 
   test "review_active_state! activates new active member" do
@@ -297,14 +460,31 @@ class Member::StateTransitionsTest < ActiveSupport::TestCase
     assert member.activated_at?
   end
 
-  test "deactivate! sets state to inactive and clears waiting_started_at, annual_fee, and shop_depot" do
+  test "deactivate! sets state to inactive and clears waiting membership attributes, annual_fee, and shop_depot" do
     member = members(:martha)
-    member.update(shop_depot: depots(:farm))
+    member.update!(
+      shop_depot: depots(:farm),
+      waiting_basket_size: basket_sizes(:small),
+      waiting_depot: depots(:farm),
+      waiting_delivery_cycle: delivery_cycles(:mondays),
+      waiting_basket_price_extra: 1,
+      waiting_activity_participations_demanded_annually: 2,
+      waiting_billing_year_division: 1,
+      waiting_basket_complement_ids: [ bread_id ],
+      waiting_alternative_depot_ids: [ depots(:bakery).id ])
 
     assert_changes -> { member.state }, from: "active", to: "inactive" do
       member.deactivate!
     end
     assert_nil member.waiting_started_at
+    assert_nil member.waiting_basket_size_id
+    assert_nil member.waiting_depot_id
+    assert_nil member.waiting_delivery_cycle_id
+    assert_nil member.waiting_basket_price_extra
+    assert_nil member.waiting_activity_participations_demanded_annually
+    assert_nil member.waiting_billing_year_division
+    assert_empty member.waiting_basket_complement_ids
+    assert_empty member.waiting_alternative_depot_ids
     assert_nil member.annual_fee
     assert_nil member.shop_depot
   end
@@ -391,22 +571,6 @@ class Member::StateTransitionsTest < ActiveSupport::TestCase
     assert_nil member.annual_fee
   end
 
-  test "can_wait? returns true for support member" do
-    member = members(:martha)
-    assert member.can_wait?
-  end
-
-  test "can_wait? returns true for inactive member" do
-    member = members(:mary)
-    assert member.can_wait?
-  end
-
-  test "can_wait? returns false for active member" do
-    travel_to "2024-01-01"
-    member = members(:john)
-    assert_not member.can_wait?
-  end
-
   test "can_deactivate? returns true for waiting member" do
     member = members(:aria)
     assert member.can_deactivate?
@@ -420,41 +584,5 @@ class Member::StateTransitionsTest < ActiveSupport::TestCase
   test "can_deactivate? returns false for inactive member" do
     member = members(:mary)
     assert_not member.can_deactivate?
-  end
-
-  test "can_create_membership? returns true for waiting member with complete waiting data" do
-    travel_to "2024-05-01"
-
-    member = Member.new(
-      state: "waiting",
-      waiting_basket_size_id: basket_sizes(:medium).id,
-      waiting_depot_id: depots(:farm).id,
-      waiting_delivery_cycle_id: delivery_cycles(:mondays).id)
-    assert member.can_create_membership?
-  end
-
-  test "can_create_membership? returns false if any required waiting id is missing" do
-    travel_to "2024-05-01"
-
-    base = {
-      state: "waiting",
-      waiting_basket_size_id: basket_sizes(:medium).id,
-      waiting_depot_id: depots(:farm).id,
-      waiting_delivery_cycle_id: delivery_cycles(:mondays).id
-    }
-    assert_not Member.new(base.merge(waiting_basket_size_id: nil)).can_create_membership?
-    assert_not Member.new(base.merge(waiting_depot_id: nil)).can_create_membership?
-    assert_not Member.new(base.merge(waiting_delivery_cycle_id: nil)).can_create_membership?
-  end
-
-  test "can_create_membership? returns false for non-waiting members" do
-    travel_to "2024-05-01"
-
-    member = Member.new(
-      state: "active",
-      waiting_basket_size_id: basket_sizes(:medium).id,
-      waiting_depot_id: depots(:farm).id,
-      waiting_delivery_cycle_id: delivery_cycles(:mondays).id)
-    assert_not member.can_create_membership?
   end
 end

@@ -216,6 +216,23 @@ class AuditsHelperTest < ActionView::TestCase
     assert_includes result, t("active_admin.empty")
   end
 
+  test "display_audit_change handles waiting_basket_complements" do
+    complement = basket_complements(:eggs)
+    result = display_audit_change(Member, "waiting_basket_complements", [
+      { "basket_complement_id" => complement.id, "quantity" => 2 }
+    ])
+
+    assert_includes result, "2x"
+    assert_includes result, complement.name
+  end
+
+  test "display_audit_change handles waiting_alternative_depot_ids" do
+    depot = depots(:farm)
+    result = display_audit_change(Member, "waiting_alternative_depot_ids", [ depot.id ])
+
+    assert_includes result, depot.name
+  end
+
   # Additional price attributes tests
 
   test "display_audit_change handles annual_fee" do

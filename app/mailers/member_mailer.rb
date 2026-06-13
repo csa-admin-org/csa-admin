@@ -21,7 +21,7 @@ class MemberMailer < ApplicationMailer
   def validated_email
     template_mail(@member,
       "member" => Liquid::MemberDrop.new(@member),
-      "waiting_list_position" => Member.waiting.count + 1,
+      "waiting_list_position" => waiting_list_position,
       "waiting_basket_size_id" => @member.waiting_basket_size_id,
       "waiting_basket_size" => @member.waiting_basket_size && Liquid::BasketSizeDrop.new(@member.waiting_basket_size),
       "waiting_depot_id" => @member.waiting_depot_id,
@@ -31,6 +31,12 @@ class MemberMailer < ApplicationMailer
   end
 
   private
+
+  def waiting_list_position
+    return unless @member.respond_to?(:waiting?) && @member.waiting?
+
+    Member.waiting.order(:waiting_started_at, :id).pluck(:id).index(@member.id)&.+(1)
+  end
 
   def set_context
     @member = params[:member]

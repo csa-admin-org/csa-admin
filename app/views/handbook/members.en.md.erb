@@ -10,17 +10,19 @@ A member is created through the [registration form](<%= new_members_member_url(s
 
 New members created using the [registration form](<%= new_members_member_url(subdomain: Current.org.members_subdomain) %>) are added to [the list of members to validate](/members?scope=pending). They must be validated by an administrator to ensure that all information is correct.
 
-It is possible to automatically send a welcome email when validating a member by configuring [the "Member validated" email template](/mail_templates/member_validated).
+A support-only registration becomes a support member when validated. It is possible to automatically send a welcome email when validating a member by configuring [the "Member validated" email template](/mail_templates/member_validated).
 
 > Administrators can be notified by email when a new registration occurs by managing their [notification preferences](<%= edit_admin_path(current_admin) %>).
 
-### Waiting list
+### Waiting list {#waiting-list}
 
-Once validated, or directly created by an admin, a member with a (pending) subscription configuration ends up on the waiting list. The waiting list is useful for organizations that have a capacity limit on active members.
+The [waiting list](/settings#waiting_list) is an optional feature, useful for organizations that have a capacity limit on active members.
 
-To make a member active, simply create a subscription for them (click "Create a subscription" at the top right of the member's page). The (pending) subscription configuration is automatically carried into the subscription creation form.
+Members created from the public registration form are always added to [the list of members to validate](/members?scope=pending). They do not choose a membership start date. When an admin clicks "Validate", a complete membership request is placed on the waiting list if this feature is enabled; if the feature is disabled, the membership is created directly from the next delivery week of the selected delivery cycle.
 
-It is possible to automatically send a welcome email when activating a member by configuring [the "Member activated" email template](/mail_templates/member_activated).
+When an admin creates a member directly from [the member creation form](/members/new), the membership panel can show a start date field. With the waiting list feature enabled, leave it blank to place the member on the waiting list, or set a date to create the membership immediately while validating the member. This immediate membership creation activates the member and uses [the "Member activated" email template](/mail_templates/member_activated) if it is active.
+
+To make a waiting member active, click "Activate" at the top right of the member's page. A membership is created from the waiting-list settings and can be edited afterwards if needed.
 
 ### Active
 
@@ -34,17 +36,17 @@ A support member is one without any subscriptions who has an annual fee set (for
 
 To move an inactive member to support, simply set an annual fee amount in the member's profile (edit page). The annual fee can be set to 0 for members who should have the support status without paying any fee.
 
-Using the "Make inactive" button at the top right of the member's page, it is possible to make a support member inactive, which will remove their annual fee or set their required share capital to zero.
+Using the "Deactivate" button at the top right of the member's page, it is possible to make a support member inactive, which will remove their annual fee or set their required share capital to zero.
 
-Using the "Put on waiting list" button at the top right of the member's page, you can put a support member back on the waiting list. Their annual fee or number of share capital remains unchanged.
+To give a support member a subscription, create a membership for them; they will then become active.
 
 ### Inactive
 
-An inactive member is one who does not have a subscription for the current or future fiscal year and does not have an annual fee set or have share capital. An inactive member can be put on the waiting list again or moved to support.
+An inactive member is one who does not have a subscription for the current or future fiscal year and does not have an annual fee set or have share capital. An inactive member can be moved to support, and can be put on the waiting list again when the waiting list feature is enabled.
 
 To move an inactive member to support, edit the member's profile and set an annual fee amount (even 0 for non-paying support members).
 
-Using the "Put on waiting list" button at the top right of the member's page, you can put an inactive member on the waiting list. Their annual fee will then be reset to the organization's default value.
+When the [waiting list](/settings#waiting_list) feature is enabled, edit an inactive member's profile and fill in all required "Membership (waiting list)" fields to put them on the waiting list.
 
 ## <%= Member.human_attribute_name(:salary_basket) %> {#salary-basket}
 

@@ -3,24 +3,39 @@ import { prop, addClass, removeClass } from "components/utils"
 
 export default class extends Controller {
   static get targets() {
-    return ["label", "input"]
+    return ["label", "input", "trigger"]
+  }
+
+  connect() {
+    if (this.hasTriggerTarget) this.syncInputsFor(this.triggerTarget)
   }
 
   toggleInputs(event) {
-    const target = event.target
-    let shouldEnable = false
+    this.syncInputsFor(event.target)
+  }
 
-    if (target.type === "checkbox") {
-      shouldEnable = target.checked
-    } else if (target.tagName === "SELECT") {
-      shouldEnable = target.value !== ""
-    }
-
-    if (shouldEnable) {
+  syncInputsFor(target) {
+    if (this.shouldEnableInputsFor(target)) {
       this.enableInputs()
     } else {
       this.disableInputs()
     }
+  }
+
+  shouldEnableInputsFor(target) {
+    let shouldEnable = false
+
+    if (target.type === "checkbox") {
+      shouldEnable = target.checked
+    } else {
+      shouldEnable = target.value != null && target.value !== ""
+    }
+
+    if (target.dataset.formDisablerInvert === "true") {
+      return !shouldEnable
+    }
+
+    return shouldEnable
   }
 
   enableInputs() {

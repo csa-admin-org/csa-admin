@@ -68,7 +68,7 @@ class MemberRegistrationTest < ActiveSupport::TestCase
     assert_includes member.errors[:emails], "has already been taken"
   end
 
-  test "put back in waiting list matching inactive member" do
+  test "matching inactive member becomes pending after re-registration" do
     admin = admins(:ultra)
     admin.update!(notifications: %w[ new_registration ])
 
@@ -77,7 +77,7 @@ class MemberRegistrationTest < ActiveSupport::TestCase
     member = build_member(emails: email)
 
     assert_no_difference "Member.count" do
-      assert_changes -> { inactive_member.reload.state }, from: "inactive", to: "waiting" do
+      assert_changes -> { inactive_member.reload.state }, from: "inactive", to: "pending" do
         member = register(member, { name: "Mary and John", waiting_basket_size_id: "1" })
       end
     end
@@ -98,13 +98,30 @@ class MemberRegistrationTest < ActiveSupport::TestCase
     assert_includes mail.body.encoded, "Mary and John"
   end
 
-  test "put back in support only matching inactive member" do
+  test "matching support member becomes pending after re-registration" do
+    support_member = members(:martha)
+    email = support_member.emails_array.first
+    member = build_member(emails: email)
+
+    assert_no_difference "Member.count" do
+      assert_changes -> { support_member.reload.state }, from: "support", to: "pending" do
+        member = register(member, { name: "Martha and John", waiting_basket_size_id: "1" })
+      end
+    end
+
+    assert member.persisted?
+    assert member.valid?
+    assert_equal support_member.id, member.id
+    assert_equal "Martha and John", member.name
+  end
+
+  test "support only matching inactive member becomes pending after re-registration" do
     inactive_member = members(:mary)
     email = inactive_member.emails_array.first
     member = build_member(emails: email)
 
     assert_no_difference "Member.count" do
-      assert_changes -> { inactive_member.reload.state }, from: "inactive", to: "support" do
+      assert_changes -> { inactive_member.reload.state }, from: "inactive", to: "pending" do
         member = register(member, name: "Mary and John", waiting_basket_size_id: "0")
       end
     end
@@ -113,8 +130,26 @@ class MemberRegistrationTest < ActiveSupport::TestCase
     assert member.valid?
     assert_equal inactive_member.id, member.id
     assert_equal "Mary and John", member.name
-    assert_nil member.waiting_basket_size_id
+    assert_equal 0, member.waiting_basket_size_id
     assert_equal 30, member.annual_fee
+  end
+
+  test "matching inactive member becomes pending after re-registration when waiting list is disabled" do
+    org(features: Current.org.features - [ :waiting_list ])
+    inactive_member = members(:mary)
+    email = inactive_member.emails_array.first
+    member = build_member(emails: email)
+
+    assert_no_difference "Member.count" do
+      assert_changes -> { inactive_member.reload.state }, from: "inactive", to: "pending" do
+        member = register(member, { name: "Mary and John", waiting_basket_size_id: "1" })
+      end
+    end
+
+    assert member.persisted?
+    assert member.valid?
+    assert_equal inactive_member.id, member.id
+    assert_equal "Mary and John", member.name
   end
 
   test "can reuse discarded member email" do

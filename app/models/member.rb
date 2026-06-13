@@ -10,7 +10,7 @@ class Member < ApplicationRecord
   include HasLanguage
   include HasSessions
   include HasTheme
-  include Auditable
+  include Auditing
   include NormalizedString
   include Searchable
   # Sub-model concerns (order matters for callbacks!)
@@ -18,6 +18,7 @@ class Member < ApplicationRecord
   include SEPA
   include Shares
   include Shop
+  include Waiting
   include StateTransitions
   include Discardable
   include Anonymization
@@ -37,27 +38,12 @@ class Member < ApplicationRecord
   attribute :different_billing_info, :boolean, default: -> { false }
   attribute :send_validation_email, :boolean, default: -> { false }
 
-  audited_attributes \
-    :state, :name, :emails, :billing_email, :phones, :contact_sharing, \
-    :street, :zip, :city, :country_code, \
-    :billing_name, :billing_street, :billing_city, :billing_zip, :sepa_disabled_at, \
-    :profession, :come_from, :note, :delivery_note, :food_note, \
-    :annual_fee, :shares_info, :existing_shares_number, :required_shares_number, :desired_shares_number, \
-    :shop_depot_id, :shop_delivery_cycle_id, :salary_basket
-
   normalized_string_attributes :name, :street, :city, :zip
   normalized_string_attributes :billing_name, :billing_street, :billing_city, :billing_zip
 
   has_states :pending, :waiting, :active, :support, :inactive
 
   belongs_to :validator, class_name: "Admin", optional: true
-  belongs_to :waiting_basket_size, class_name: "BasketSize", optional: true
-  belongs_to :waiting_depot, class_name: "Depot", optional: true
-  belongs_to :waiting_delivery_cycle, class_name: "DeliveryCycle", optional: true
-  has_and_belongs_to_many :waiting_alternative_depots,
-    class_name: "Depot",
-    join_table: "members_waiting_alternative_depots",
-    optional: true
   has_many :absences, dependent: :destroy
   has_many :invoices
   has_many :payments
@@ -74,36 +60,15 @@ class Member < ApplicationRecord
   has_one :next_basket, through: :current_or_future_membership
   has_one :next_delivery, through: :current_or_future_membership
   has_many :shop_orders, class_name: "Shop::Order"
-  has_many :members_basket_complements, dependent: :destroy
-  has_many :waiting_basket_complements,
-    source: :basket_complement,
-    through: :members_basket_complements
   has_many :mail_deliveries, dependent: :destroy
-
-  accepts_nested_attributes_for :members_basket_complements, allow_destroy: true
 
   scope :not_pending, -> { where.not(state: "pending") }
   scope :not_inactive, -> { where.not(state: "inactive") }
   scope :trial, -> { joins(:current_membership).merge(Membership.trial) }
   scope :sharing_contact, -> { where(contact_sharing: true) }
   scope :no_salary_basket, -> { where(salary_basket: false) }
-  scope :with_waiting_depots_eq, ->(depot_id) {
-    left_joins(:members_waiting_alternative_depots).where(<<-SQL, depot_id: depot_id).distinct
-      members.waiting_depot_id = :depot_id OR
-      members_waiting_alternative_depots.depot_id = :depot_id
-    SQL
-  }
-
-  before_validation :set_default_waiting_billing_year_division
-  before_validation :set_default_waiting_delivery_cycle
 
   validates_acceptance_of :terms_of_service
-  validates :waiting_billing_year_division,
-    inclusion: { in: proc { Current.org.billing_year_divisions }, allow_nil: true },
-    on: :create,
-    if: :public_create
-  validates :waiting_billing_year_division,
-    inclusion: { in: Organization.billing_year_divisions, allow_nil: true }
   validates :country_code,
     inclusion: { in: ISO3166::Country.all.map(&:alpha2), allow_blank: true }
   validates :emails, presence: true, if: :public_create
@@ -113,22 +78,6 @@ class Member < ApplicationRecord
   validates :come_from, presence: true,
     if: -> { public_create && Current.org.member_come_from_form_mode == "required" }
   validates :street, :city, :zip, :country_code, presence: true, unless: :inactive?
-  validates :waiting_basket_size, inclusion: { in: proc { BasketSize.all }, allow_nil: true }, on: :create
-  validates :waiting_basket_size_id, presence: true, if: :waiting_depot, on: :create
-  validates :waiting_activity_participations_demanded_annually, numericality: true, allow_nil: true
-  validates :waiting_activity_participations_demanded_annually,
-    numericality: {
-      greater_than_or_equal_to: -> { Current.org.activity_participations_form_min || 0 },
-      less_than_or_equal_to: -> { Current.org.activity_participations_form_max || 1000 },
-      allow_nil: true
-    },
-    if: -> { public_create && Current.org.feature?("activity") }
-  validates :waiting_basket_price_extra, presence: true, if: -> { public_create && Current.org.feature?("basket_price_extra") && waiting_depot }, on: :create
-  validates :waiting_basket_size_id, presence: true,
-    on: :create,
-    if: -> { public_create && Current.org.member_form_mode == "membership" && BasketSize.visible.exists? }
-  validates :waiting_depot, inclusion: { in: proc { Depot.all }, allow_nil: true }, on: :create
-  validates :waiting_depot_id, presence: true, if: :waiting_basket_size, on: :create
   validates :annual_fee, numericality: { greater_than_or_equal_to: 0 }, allow_nil: true
   validates :annual_fee,
     presence: true,
@@ -136,7 +85,6 @@ class Member < ApplicationRecord
     on: :create,
     if: -> { public_create && Current.org.feature?("annual_fee") && Current.org.annual_fee_member_form? && !waiting_basket_size_id? }
   validate :email_must_be_unique
-  validate :unique_waiting_basket_complement_id
 
   validates :trial_baskets_count, numericality: { greater_than_or_equal_to: 0 }, presence: true
 
@@ -199,14 +147,6 @@ class Member < ApplicationRecord
     memberships.during_year(year).first
   end
 
-  def can_create_membership?
-    waiting? &&
-      waiting_basket_size_id? &&
-      waiting_depot_id? &&
-      waiting_delivery_cycle_id? &&
-      Delivery.next.present?
-  end
-
   private
 
   def enqueue_dependent_search_reindex
@@ -224,37 +164,12 @@ class Member < ApplicationRecord
     end
   end
 
-  def set_default_waiting_billing_year_division
-    if (waiting_basket_size_id? && !waiting_billing_year_division?)
-        || (waiting_billing_year_division? && !waiting_billing_year_division.in?(Current.org.billing_year_divisions))
-      self[:waiting_billing_year_division] = Current.org.billing_year_divisions.last
-    end
-  end
-
-  def set_default_waiting_delivery_cycle
-    return unless waiting_basket_size
-    return unless waiting_depot
-
-    self.waiting_delivery_cycle ||= waiting_depot.delivery_cycles.primary
-  end
-
   def email_must_be_unique
     emails_array.each do |email|
       if Member.kept.where.not(id: id).including_email(email).exists?
         errors.add(:emails, :taken)
         break
       end
-    end
-  end
-
-  def unique_waiting_basket_complement_id
-    used_basket_complement_ids = []
-    members_basket_complements.each do |mbc|
-      if mbc.basket_complement_id.in?(used_basket_complement_ids)
-        mbc.errors.add(:basket_complement_id, :taken)
-        errors.add(:base, :invalid)
-      end
-      used_basket_complement_ids << mbc.basket_complement_id
     end
   end
 

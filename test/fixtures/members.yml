@@ -87,5 +87,9 @@ aria:
   waiting_started_at: 2024-04-01
   waiting_basket_size: medium
   waiting_depot: farm
+  waiting_delivery_cycle: mondays
+  waiting_basket_price_extra: 0
+  waiting_activity_participations_demanded_annually: 0
+  waiting_billing_year_division: 1
   memberships_count: 0
   trial_baskets_count: 2

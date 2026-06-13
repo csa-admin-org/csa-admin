@@ -456,11 +456,11 @@ _:
         _nl: 'Het e-mailadres <strong>{{ email_suppression.email }}</strong> werd afgewezen tijdens de laatste berichtbezorging vanwege de volgende reden: <strong>{{ email_suppression.reason }}</strong>.'
     new_registration_email:
       account_updated_paragraph:
-        _en: Their account has been updated and added to the waiting list. You can review the changes made in the <a href="{{ member.admin_audits_url }}">audit log</a>.
-        _fr: Son compte a été mis à jour et ajouté à la liste d'attente. Vous pouvez consulter les changements appliqués dans <a href="{{ member.admin_audits_url }}">l'audit des modifications</a>.
-        _de: Das Konto wurde aktualisiert und zur Warteliste hinzugefügt. Die vorgenommenen Änderungen können im <a href="{{ member.admin_audits_url }}">Änderungsprotokoll</a> eingesehen werden.
-        _it: Il suo account è stato aggiornato e aggiunto alla lista d'attesa. Puoi consultare le modifiche applicate nell'<a href="{{ member.admin_audits_url }}">audit delle modifiche</a>.
-        _nl: Het account is bijgewerkt en toegevoegd aan de wachtlijst. De wijzigingen kunnen worden bekeken in het <a href="{{ member.admin_audits_url }}">audit logboek</a>.
+        _en: Their account has been updated and is awaiting validation. You can review the changes made in the <a href="{{ member.admin_audits_url }}">audit log</a>.
+        _fr: Son compte a été mis à jour et attend une validation. Vous pouvez consulter les changements appliqués dans <a href="{{ member.admin_audits_url }}">l'audit des modifications</a>.
+        _de: Das Konto wurde aktualisiert und wartet auf Bestätigung. Die vorgenommenen Änderungen können im <a href="{{ member.admin_audits_url }}">Änderungsprotokoll</a> eingesehen werden.
+        _it: Il suo account è stato aggiornato ed è in attesa di conferma. Potete consultare le modifiche applicate nell'<a href="{{ member.admin_audits_url }}">audit delle modifiche</a>.
+        _nl: Het account is bijgewerkt en wacht op validatie. De wijzigingen kunnen worden bekeken in het <a href="{{ member.admin_audits_url }}">audit logboek</a>.
       existing_member_paragraph:
         _en: An existing member, <strong>{{ member.name }}</strong>, has re-registered!
         _fr: Un membre existant, <strong>{{ member.name }}</strong>, s'est réinscrit !

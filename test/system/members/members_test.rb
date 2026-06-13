@@ -104,7 +104,7 @@ class Members::MembersTest < ApplicationSystemTestCase
     assert_includes mail.body.encoded, "Ryan and Sophie Doe"
   end
 
-  test "put back inactive existing member to waiting list" do
+  test "put back inactive existing member to pending with membership request" do
     admins(:super).update(notifications: [ "new_registration" ])
     member = members(:mary)
 
@@ -128,7 +128,7 @@ class Members::MembersTest < ApplicationSystemTestCase
     check "I have read and agree to the rules."
     fill_in_cap
 
-    assert_changes -> { member.reload.state }, from: "inactive", to: "waiting" do
+    assert_changes -> { member.reload.state }, from: "inactive", to: "pending" do
       click_button "Submit"
     end
 
@@ -141,7 +141,7 @@ class Members::MembersTest < ApplicationSystemTestCase
     assert_equal farm_id, member.waiting_depot_id
     assert_equal mondays_id, member.waiting_delivery_cycle_id
     assert_equal 1, member.waiting_billing_year_division
-    assert_equal 30, member.annual_fee
+    assert_nil member.annual_fee
 
     assert_difference -> { ActionMailer::Base.deliveries.size } do
       perform_enqueued_jobs
@@ -358,7 +358,7 @@ class Members::MembersTest < ApplicationSystemTestCase
     assert_equal 50, member.annual_fee
   end
 
-  test "put back inactive existing member to support" do
+  test "put back inactive existing member to pending as support member" do
     admins(:super).update(notifications: [ "new_registration" ])
     member = members(:mary)
 
@@ -377,7 +377,7 @@ class Members::MembersTest < ApplicationSystemTestCase
     check "I have read and agree to the rules."
     fill_in_cap
 
-    assert_changes -> { member.reload.state }, from: "inactive", to: "support" do
+    assert_changes -> { member.reload.state }, from: "inactive", to: "pending" do
       click_button "Submit"
     end
 
@@ -386,9 +386,13 @@ class Members::MembersTest < ApplicationSystemTestCase
     assert_equal "Mary Doe", member.name
     assert_equal 30, member.annual_fee
 
-    assert_no_difference -> { ActionMailer::Base.deliveries.size } do
+    assert_difference -> { ActionMailer::Base.deliveries.size } do
       perform_enqueued_jobs
     end
+    mail = AdminMailer.deliveries.last
+    assert_equal "New re-registration", mail.subject
+    assert_equal [ admins(:super).email ], mail.to
+    assert_includes mail.body.encoded, "An existing member, Mary Doe, has re-registered!"
   end
 
   test "support member (share)" do

@@ -2,9 +2,11 @@
 
 <p><%= t(".registration_validated_paragraph") %></p>
 
-{% highlight %}
-  <%= t(".waiting_list_position_label") %> <strong>{{ waiting_list_position }}</strong>
-{% endhighlight %}
+{% if waiting_list_position %}
+  {% highlight %}
+    <%= t(".waiting_list_position_label") %> <strong>{{ waiting_list_position }}</strong>
+  {% endhighlight %}
+{% endif %}
 
 <p><%= t(".next_steps_paragraph") %></p>
 

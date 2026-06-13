@@ -929,7 +929,7 @@ class OrganizationsControllerTest < ActionDispatch::IntegrationTest
     %w[
       registration member_information membership_updates membership_renewal delivery_sheets mailer
       annual_fee shares vat sepa absence activity basket_content basket_price_extra
-      bidding_round contact_sharing local_currency new_member_fee shop
+      bidding_round contact_sharing waiting_list local_currency new_member_fee shop
     ].each do |section|
       get edit_organization_path(section)
 

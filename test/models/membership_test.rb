@@ -201,7 +201,9 @@ class MembershipTest < ActiveSupport::TestCase
   test "clears member waiting info after creation" do
     travel_to "2024-01-01"
     member = members(:aria)
-    member.update!(waiting_basket_complement_ids: [ bread_id ])
+    member.update!(
+      waiting_basket_complement_ids: [ bread_id ],
+      waiting_alternative_depot_ids: [ depots(:bakery).id ])
 
     create_membership(member: member)
 
@@ -209,7 +211,11 @@ class MembershipTest < ActiveSupport::TestCase
     assert_nil member.waiting_basket_size_id
     assert_nil member.waiting_depot_id
     assert_nil member.waiting_delivery_cycle_id
+    assert_nil member.waiting_basket_price_extra
+    assert_nil member.waiting_activity_participations_demanded_annually
+    assert_nil member.waiting_billing_year_division
     assert_empty member.waiting_basket_complement_ids
+    assert_empty member.waiting_alternative_depot_ids
   end
 
   test "updates futures basket when configuration change" do
@@ -455,6 +461,16 @@ class MembershipTest < ActiveSupport::TestCase
 
     assert_difference -> { Membership.count }, -1 do
       membership.destroy
+    end
+  end
+
+  test "destroying last current membership deactivates member" do
+    travel_to "2024-01-01"
+    membership = memberships(:jane)
+    member = membership.member
+
+    assert_changes -> { member.reload.state }, from: "active", to: "inactive" do
+      membership.destroy!
     end
   end
 
@@ -1096,6 +1112,16 @@ class MembershipTest < ActiveSupport::TestCase
     assert_equal 2, membership.memberships_basket_complements.size
     assert_equal [ bread_id, eggs_id ].sort, membership.memberships_basket_complements.map(&:basket_complement_id).sort
     assert_equal [ 1, 2 ].sort, membership.memberships_basket_complements.map(&:quantity).sort
+  end
+
+  test "populate_default_period_from_next_delivery! uses selected delivery cycle" do
+    travel_to "2024-04-02"
+
+    membership = Membership.new(delivery_cycle: delivery_cycles(:mondays))
+    membership.populate_default_period_from_next_delivery!
+
+    assert_equal Date.new(2024, 4, 8), membership.started_on
+    assert_equal Date.new(2024, 12, 31), membership.ended_on
   end
 
   test "populate_default_period_from_next_delivery! sets sane dates when a next delivery exists" do
