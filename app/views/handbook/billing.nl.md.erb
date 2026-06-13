@@ -108,6 +108,8 @@ Als een lidmaatschapsconfiguratie (datums, <%= BasketSize.model_name.human.downc
   - De prijswijziging is positief, een nieuwe factuur (met een hoger bedrag) wordt eenvoudig aangemaakt op de volgende factureringsdag om het ontbrekende bedrag te factureren.
   - De prijswijziging is negatief, de laatste factuur/facturen van het lidmaatschap worden dan automatisch geannuleerd en een nieuwe factuur (met een lager bedrag) wordt opnieuw aangemaakt op de volgende factureringsdag. Als de oude geannuleerde factuur al was betaald, dan wordt de nieuwe factuur automatisch gesloten en eindigt het lid met een positief saldo. Indien nodig kun je een terugbetaling van het saldo van het lid weergeven door [een negatieve betaling aan te maken](/payments/new) voor hen.
 
+Het verkorten van de einddatum van een lidmaatschap, ook met de actie **Stoppen**, volgt dezelfde regel: toekomstige leveringen worden verwijderd, het lidmaatschapsbedrag wordt herberekend en het verschil wordt op de volgende factureringsdag verwerkt.
+
 ### Jaarlijkse bijdrage {#annual-fee}
 
 Wanneer de functie voor jaarlijkse bijdrage is ingeschakeld, is de standaard jaarlijkse bijdrage van de organisatie gedefinieerd in [de instellingen voor jaarlijkse bijdrage](/settings#annual_fee). Elk lid erft deze standaardwaarde bij aanmaak, maar je kunt deze individueel overschrijven vanuit het profiel van het lid (bewerkpagina, sectie «Facturering»).

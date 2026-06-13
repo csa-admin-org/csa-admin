@@ -36,7 +36,7 @@ class Membership::RenewalTest < ActiveSupport::TestCase
   test "prevents date modification when renewed" do
     travel_to "2024-01-01"
     membership = memberships(:john)
-    membership.renewed_at = 2024-12-10
+    membership.renewed_at = Time.current
     membership.ended_on = "2024-12-15"
 
     assert_not membership.valid?

@@ -456,6 +456,46 @@ class MembershipTest < ActiveSupport::TestCase
     assert membership.fiscal_year_has_basket_size_price_percentage?
   end
 
+  test "can_stop? only allows stopping ongoing non-renewed memberships after their start date" do
+    membership = memberships(:jane)
+
+    travel_to membership.started_on - 1.day
+    assert_not membership.can_stop?
+
+    travel_to membership.started_on
+    assert_not membership.can_stop?
+
+    travel_to membership.started_on + 1.day
+    assert membership.can_stop?
+
+    membership.update_columns(renewed_at: Time.current)
+    assert_not membership.can_stop?
+
+    membership.update_columns(renewed_at: nil)
+    travel_to membership.ended_on
+    assert_not membership.can_stop?
+  end
+
+  test "stop! ends membership today and removes future baskets" do
+    travel_to "2024-05-15"
+    membership = memberships(:jane)
+    future_baskets_count = membership.baskets.joins(:delivery).where(deliveries: { date: Date.tomorrow.. }).count
+
+    assert_difference -> { membership.reload.baskets.count }, -future_baskets_count do
+      assert_changes -> { membership.reload.ended_on }, to: Date.current do
+        membership.stop!
+      end
+    end
+    assert_empty membership.baskets.joins(:delivery).where(deliveries: { date: Date.tomorrow.. })
+  end
+
+  test "can_destroy? excludes renewed memberships" do
+    travel_to "2024-05-01"
+
+    assert memberships(:jane).can_destroy?
+    assert_not memberships(:john).can_destroy?
+  end
+
   test "can be destroyed" do
     membership = memberships(:jane)
 

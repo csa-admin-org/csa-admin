@@ -510,6 +510,12 @@ _:
         _de: Dieses Objekt kann nicht gelöscht werden, weil andere Objekte davon abhängen.
         _it: Questo oggetto non può essere eliminato perché altri oggetti dipendono da lui.
         _nl: Dit object kan niet worden verwijderd omdat andere objecten ervan afhankelijk zijn.
+      membership_stop_notice:
+        _en: Membership stopped.
+        _fr: Abonnement arrêté.
+        _de: Abonnement gestoppt.
+        _it: Abbonamento fermato.
+        _nl: Lidmaatschap gestopt.
       open_renewals_notice:
         _en: Renewal requests are being sent...
         _fr: Les demandes de renouvellement sont en train d'être envoyées...
@@ -2093,12 +2099,24 @@ _:
           _de: Kündigen
           _it: Terminare
           _nl: Opzeggen
+        cancel_renewal_confirm:
+          _en: This membership will remain active until the end of the fiscal year, but it will not be renewed or considered in the renewal process. Continue?
+          _fr: Cet abonnement restera actif jusqu'à la fin de l'année fiscale, mais il ne sera pas renouvelé ni pris en compte dans le processus de renouvellement. Continuer ?
+          _de: Das Abonnement bleibt bis zum Ende des Geschäftsjahrs aktiv, wird aber nicht verlängert und im Verlängerungsprozess nicht berücksichtigt. Fortfahren?
+          _it: L'abbonamento resterà attivo fino alla fine dell'anno fiscale, ma non sarà rinnovato né considerato nel processo di rinnovo. Continuare?
+          _nl: Het lidmaatschap blijft actief tot het einde van het boekjaar, maar wordt niet vernieuwd en niet meegenomen in het vernieuwingsproces. Doorgaan?
         cancel_renewal_keep_support:
           _en: Cancel (support)
           _fr: Résilier (soutien)
           _de: Kündigen (Förderung)
           _it: Terminare (sostegno)
           _nl: Opzeggen (ondersteuning)
+        cancel_renewal_keep_support_confirm:
+          _en: This membership will remain active until the end of the fiscal year and will not be renewed. When it ends, the member will remain a support member and the annual fee will be billed if applicable. Continue?
+          _fr: Cet abonnement restera actif jusqu'à la fin de l'année fiscale et ne sera pas renouvelé. À son terme, le membre restera membre de soutien et la cotisation annuelle sera facturée si applicable. Continuer ?
+          _de: Das Abonnement bleibt bis zum Ende des Geschäftsjahrs aktiv und wird nicht verlängert. Danach bleibt das Mitglied Fördermitglied; der Jahresbeitrag wird gegebenenfalls in Rechnung gestellt. Fortfahren?
+          _it: L'abbonamento resterà attivo fino alla fine dell'anno fiscale e non sarà rinnovato. Alla sua fine, il socio resterà socio sostenitore e la quota annuale sarà fatturata se applicabile. Continuare?
+          _nl: Het lidmaatschap blijft actief tot het einde van het boekjaar en wordt niet vernieuwd. Daarna blijft het lid ondersteunend lid en wordt de jaarlijkse bijdrage gefactureerd indien van toepassing. Doorgaan?
         carpooling:
           _en: Carpooling
           _fr: Covoiturage
@@ -2202,6 +2220,12 @@ _:
           _de: Lieferscheine
           _it: Bolle di consegna
           _nl: Leveringsbonnen
+        destroy_membership_confirm:
+          _en: This will permanently delete this membership and delete or cancel its related invoices. This cannot be undone. Continue?
+          _fr: Cet abonnement sera définitivement supprimé et ses factures liées seront supprimées ou annulées. Cette action est irréversible. Continuer ?
+          _de: Dieses Abonnement wird dauerhaft gelöscht; die zugehörigen Rechnungen werden gelöscht oder storniert. Diese Aktion kann nicht rückgängig gemacht werden. Fortfahren?
+          _it: Questo abbonamento sarà eliminato definitivamente e le relative fatture saranno eliminate o annullate. Questa azione non può essere annullata. Continuare?
+          _nl: Dit lidmaatschap wordt permanent verwijderd en de bijbehorende facturen worden verwijderd of geannuleerd. Deze actie kan niet ongedaan worden gemaakt. Doorgaan?
         details:
           _en: Details
           _fr: Détails
@@ -2792,6 +2816,18 @@ _:
           _de: mehr anzeigen
           _it: vedi altro
           _nl: meer tonen
+        stop:
+          _en: Stop
+          _fr: Arrêter
+          _de: Stoppen
+          _it: Fermare
+          _nl: Stoppen
+        stop_confirm:
+          _en: This will set the membership end date to today. Future baskets will be removed, and the membership will be fully billed on the next automatic invoice date. Use Edit if the membership must end on a specific date. Continue?
+          _fr: La date de fin de cet abonnement sera définie à aujourd'hui. Les paniers futurs seront supprimés et l'abonnement sera entièrement facturé à la prochaine date de facturation automatique. Utilisez Modifier si l'abonnement doit se terminer à une date précise. Continuer ?
+          _de: Das Enddatum dieses Abonnements wird auf heute gesetzt. Zukünftige Lieferungen werden entfernt, und das Abonnement wird beim nächsten automatischen Rechnungsdatum vollständig abgerechnet. Für ein bestimmtes Enddatum Bearbeiten verwenden. Fortfahren?
+          _it: La data di fine di questo abbonamento sarà impostata a oggi. Le consegne future saranno rimosse e l'abbonamento sarà fatturato completamente alla prossima data di fatturazione automatica. Usare Modifica se l'abbonamento deve terminare in una data specifica. Continuare?
+          _nl: De einddatum van dit lidmaatschap wordt op vandaag gezet. Toekomstige leveringen worden verwijderd en het lidmaatschap wordt volledig gefactureerd op de volgende automatische factuurdatum. Gebruik Bewerken als het lidmaatschap op een specifieke datum moet eindigen. Doorgaan?
         subscribed_emails:
           _en: active emails
           _fr: emails actifs

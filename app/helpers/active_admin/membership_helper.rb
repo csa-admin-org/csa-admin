@@ -19,7 +19,7 @@ module ActiveAdmin::MembershipHelper
         panel_button t("active_admin.resource.show.cancel_renewal"), cancel_membership_path(membership),
           icon: "circle-x",
           class: "btn btn-sm destructive",
-          data: { confirm: t("active_admin.resource.show.confirm") }
+          data: { confirm: t("active_admin.resource.show.cancel_renewal_confirm") }
       end
     end
     if Current.org.feature?("annual_fee") && authorized?(:cancel_keep_support, membership)
@@ -27,7 +27,7 @@ module ActiveAdmin::MembershipHelper
         panel_button t("active_admin.resource.show.cancel_renewal_keep_support"), cancel_keep_support_membership_path(membership),
           icon: "circle-x",
           class: "btn btn-sm destructive",
-          data: { confirm: t("active_admin.resource.show.confirm") }
+          data: { confirm: t("active_admin.resource.show.cancel_renewal_keep_support_confirm") }
       end
     end
   end

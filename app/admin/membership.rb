@@ -876,6 +876,26 @@ ActiveAdmin.register Membership do
       :_destroy
     ]
 
+  config.remove_action_item :destroy
+
+  action_item :stop, only: :show, if: -> { authorized?(:stop, resource) } do
+    action_button t("active_admin.resource.show.stop"), stop_membership_path(resource),
+      icon: "octagon-x",
+      class: "destructive",
+      data: { confirm: t("active_admin.resource.show.stop_confirm") }
+  end
+
+  action_item :destroy, only: :show, if: -> { authorized?(:destroy, resource) } do
+    label = I18n.t("active_admin.delete_model")
+    action_button nil, membership_path(resource),
+      method: :delete,
+      icon: "trash",
+      class: "destructive",
+      title: label,
+      aria: { label: label },
+      data: { confirm: t("active_admin.resource.show.destroy_membership_confirm") }
+  end
+
   member_action :open_renewal, method: :post do
     resource.open_renewal!
     redirect_to resource
@@ -892,6 +912,12 @@ ActiveAdmin.register Membership do
     else
       redirect_back fallback_location: resource
     end
+  end
+
+  member_action :stop, method: :post do
+    authorize!(:stop, resource)
+    resource.stop!
+    redirect_to resource, notice: t("active_admin.flash.membership_stop_notice")
   end
 
   collection_action :clear_all_activity_participations_demanded, method: :post do

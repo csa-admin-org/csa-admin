@@ -103,6 +103,7 @@ class Ability
       can :renew, Membership
       can :cancel, Membership
       can :cancel_keep_support, Membership
+      can :stop, Membership, can_stop?: true
       can :force, Basket, can_force?: true
       can :unforce, Basket, can_unforce?: true
     end

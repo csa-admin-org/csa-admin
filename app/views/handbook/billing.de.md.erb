@@ -108,6 +108,8 @@ Wenn eine Abonnementskonfiguration (Daten, <%= BasketSize.model_name.human %>, .
   - Die Preisänderung ist positiv, eine neue Rechnung (mit einem höheren Betrag) wird einfach am nächsten Abrechnungstag erstellt, um den fehlenden Betrag in Rechnung zu stellen.
   - Die Preisänderung ist negativ, die letzte(n) Rechnung(en) des Abonnements wird/werden dann automatisch storniert und eine neue Rechnung (mit einem niedrigeren Betrag) wird am nächsten Abrechnungstag neu erstellt. Wenn die alte stornierte Rechnung bereits bezahlt war, wird die neue Rechnung automatisch geschlossen und das Mitglied hat einen positiven Saldo. Bei Bedarf kannst Du eine Rückerstattung des Mitgliedersaldos durch [Erstellung einer negativen Zahlung](/payments/new) vornehmen.
 
+Das Verkürzen des Enddatums eines Abonnements, auch mit der Aktion **Stoppen**, folgt derselben Regel: Zukünftige Lieferungen werden entfernt, der Betrag des Abonnements wird neu berechnet und die Differenz wird am nächsten Abrechnungstag behandelt.
+
 ### Jahresbeitrag {#annual-fee}
 
 Wenn die Jahresbeitragsfunktion aktiviert ist, ist der Standard-Jahresbeitrag der Organisation in [den Einstellungen zum Jahresbeitrag](/settings#annual_fee) definiert. Jedes Mitglied erbt diesen Standardwert bei der Erstellung, aber er kann individuell im Profil des Mitglieds (Bearbeitungsseite, Abschnitt «Abrechnung») überschrieben werden.

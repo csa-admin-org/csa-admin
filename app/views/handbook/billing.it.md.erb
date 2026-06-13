@@ -108,6 +108,8 @@ Se la configurazione di un abbonamento (date, <%= BasketSize.model_name.human.do
   - Il cambiamento di prezzo è positivo, una nuova fattura (con un importo più elevato) sarà semplicemente creata il prossimo giorno di fatturazione per fatturare l'importo mancante.
   - Il cambiamento di prezzo è negativo, l'ultima/e fattura/e dell'abbonamento sarà/saranno quindi automaticamente annullata/e e una nuova fattura (con un importo inferiore) sarà ricreata il prossimo giorno di fatturazione. Se la vecchia fattura annullata era già stata pagata, allora la nuova fattura sarà automaticamente chiusa e il socio si troverà con un saldo positivo. Se necessario, puoi riflettere un rimborso del saldo del socio [creando un pagamento negativo](/payments/new).
 
+Accorciare la data di fine di un abbonamento, anche con l'azione **Fermare**, segue la stessa regola: le consegne future vengono rimosse, l'importo dell'abbonamento viene ricalcolato e la differenza viene trattata il prossimo giorno di fatturazione.
+
 ### Quota annuale {#annual-fee}
 
 Quando la funzione quota annuale è attivata, la quota annuale predefinita dell'organizzazione è definita nelle [impostazioni della quota annuale](/settings#annual_fee). Ogni socio eredita questo valore predefinito alla creazione, ma può essere modificato individualmente dal suo profilo (pagina di modifica, sezione «Fatturazione»).

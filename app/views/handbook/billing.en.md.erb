@@ -108,6 +108,8 @@ If a membership configuration (dates, <%= BasketSize.model_name.human.downcase %
   - The price change is positive, a new invoice (with a higher amount) will simply be created on the next billing day to bill the missing amount.
   - The price change is negative, the last invoice(s) of the membership will then be automatically cancelled and a new invoice (with a lower amount) will be recreated on the next billing day. If the old cancelled invoice was already paid, then the new invoice will be automatically closed and the member will end up with a positive balance. If needed, you can reflect a refund of the member's balance by [creating a negative payment](/payments/new) for them.
 
+Shortening a membership end date, including with the **Stop** action, follows the same rule: future deliveries are removed, the membership amount is recalculated, and the difference is handled on the next billing day.
+
 ### Annual fee {#annual-fee}
 
 When the annual fee feature is enabled, the organization's default annual fee is defined in [the annual fee settings](/settings#annual_fee). Each member inherits this default when created, but it can be overridden individually from their profile (edit page, "Billing" section).

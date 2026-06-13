@@ -52,6 +52,7 @@ class AbilityTest < ActiveSupport::TestCase
   end
 
   test "membership write permissions" do
+    travel_to "2024-05-01"
     admin = admins(:external)
     admin.permission.update!(rights: { membership: :write })
     ability = Ability.new(admin)
@@ -67,6 +68,10 @@ class AbilityTest < ActiveSupport::TestCase
     assert ability.can?(:future_billing, Membership)
     assert ability.can?(:renew, Membership)
     assert ability.can?(:cancel, Membership)
+    assert ability.can?(:destroy, memberships(:jane))
+    assert ability.cannot?(:destroy, memberships(:john))
+    assert ability.can?(:stop, memberships(:jane))
+    assert ability.cannot?(:stop, memberships(:john))
     assert ability.can?(:create_membership, Member)
   end
 

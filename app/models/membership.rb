@@ -113,7 +113,15 @@ class Membership < ApplicationRecord
   end
 
   def can_destroy?
-    current_or_future_year?
+    !renewed? && current_or_future_year?
+  end
+
+  def can_stop?
+    !renewed? && started_on < Date.current && ended_on > Date.current
+  end
+
+  def stop!
+    update!(ended_on: Date.current)
   end
 
   def can_update?
