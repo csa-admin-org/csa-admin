@@ -3786,11 +3786,11 @@ _:
           _it: Creerete l'abbonamento e attiverete il socio. Potrete modificare l'abbonamento in seguito se necessario. Continuare?
           _nl: Het lidmaatschap wordt aangemaakt en het lid wordt geactiveerd. Het lidmaatschap kan nadien indien nodig worden bewerkt. Doorgaan?
         become_member:
-          _en: Access account
-          _fr: Accéder au compte
-          _de: Zugang zum Konto
-          _it: Accedere al conto
-          _nl: Account benaderen
+          _en: Account
+          _fr: Compte
+          _de: Konto
+          _it: Account
+          _nl: Account
         bidding_round:
           complete_confirm/bag:
             _en: Are you sure you want to complete this bidding round? The memberships bag price will be updated with the pledged amount.

@@ -872,6 +872,8 @@ ActiveAdmin.register Member do
   action_item :become, only: :show do
     action_link t(".become_member"), become_member_path(resource),
       icon: "log-in",
+      target: "_blank",
+      rel: "noopener",
       data: { turbo: false }
   end
 
