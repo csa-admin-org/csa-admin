@@ -210,6 +210,38 @@ class SearchHelperTest < ActiveSupport::TestCase
     assert_not result.key?(:state_label)
   end
 
+  # --- Settings search result rendering ---
+
+  test "search_result_for_organization_setting links to the settings card anchor" do
+    entry = { key: "billing", title: "Billing", icon: "banknotes", feature: false, active: true }
+    result = search_result_for_organization_setting(entry, "billing")
+
+    assert_equal organization_path(anchor: "billing"), result[:url]
+  end
+
+  test "search_result_for_organization_setting uses the section icon" do
+    entry = { key: "billing", title: "Billing", icon: "banknotes", feature: false, active: true }
+    result = search_result_for_organization_setting(entry, "billing")
+
+    assert_equal "banknotes", result[:icon_name]
+  end
+
+  test "search_result_for_organization_setting marks inactive feature settings" do
+    entry = { key: "bidding_round", title: "Bidding round", icon: "scale", feature: true, active: false }
+    result = search_result_for_organization_setting(entry, "bidding")
+
+    assert_equal "inactive", result[:state]
+    assert_equal I18n.t("active_admin.status_tag.inactive"), result[:state_label]
+  end
+
+  test "search_result_for_organization_setting omits state for core settings" do
+    entry = { key: "billing", title: "Billing", icon: "banknotes", feature: false, active: true }
+    result = search_result_for_organization_setting(entry, "billing")
+
+    assert_nil result[:state]
+    assert_nil result[:state_label]
+  end
+
   test "highlight_search matches through hyphens in city names" do
     result = highlight_search("La Chaux-de-Fonds", "chaux-de-fonds")
     assert_equal "La <mark>Chaux-de-Fonds</mark>", result

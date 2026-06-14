@@ -82,7 +82,26 @@ module SearchHelper
     }
   end
 
+  def search_result_for_organization_setting(entry, query)
+    state = organization_setting_search_state(entry)
+
+    {
+      icon_name: entry[:icon],
+      url: organization_path(anchor: entry[:key]),
+      title: entry[:title],
+      subtitle_parts: [ highlight_search(I18n.t("active_admin.resources.organization.edit_model"), query) ],
+      state: state,
+      state_label: state && I18n.t("active_admin.status_tag.#{state}")
+    }
+  end
+
   private
+
+  def organization_setting_search_state(entry)
+    return unless entry[:feature]
+
+    entry[:active] ? "active" : "inactive"
+  end
 
   def search_result_for_member(member, query)
     parts = [ "##{member.id}" ]

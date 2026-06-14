@@ -91,6 +91,51 @@ class SearchControllerTest < ActionDispatch::IntegrationTest
     assert_not_includes response.body, "<!DOCTYPE"
   end
 
+  # -- Settings search integration --
+
+  test "returns setting card result for a core settings query" do
+    login(admins(:ultra))
+
+    get search_path(q: "registration"), headers: { "Turbo-Frame" => "search-results" }
+
+    assert_response :success
+    assert_includes response.body, organization_path(anchor: "registration")
+  end
+
+  test "settings card results appear after matching handbook results" do
+    login(admins(:ultra))
+
+    get search_path(q: "registration"), headers: { "Turbo-Frame" => "search-results" }
+
+    assert_response :success
+    assert_operator \
+      response.body.index(handbook_page_path(:registration)),
+      :<,
+      response.body.index(organization_path(anchor: "registration"))
+  end
+
+  test "settings card results are reserved when indexed records fill the list" do
+    login(admins(:ultra))
+    SearchEntry.rebuild!
+
+    get search_path(q: "invoice"), headers: { "Turbo-Frame" => "search-results" }
+
+    assert_response :success
+    assert_includes response.body, organization_path(anchor: "invoice")
+  end
+
+  test "returns setting card result for an inactive feature" do
+    login(admins(:ultra))
+
+    assert_not Current.org.feature?(:bidding_round)
+
+    get search_path(q: "bidding"), headers: { "Turbo-Frame" => "search-results" }
+
+    assert_response :success
+    assert_includes response.body, organization_path(anchor: "bidding_round")
+    assert_includes response.body, 'data-status="inactive"'
+  end
+
   # -- Handbook search integration --
 
   test "returns handbook result for a page title query" do

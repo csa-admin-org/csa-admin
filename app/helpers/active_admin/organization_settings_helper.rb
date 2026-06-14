@@ -125,6 +125,24 @@ module ActiveAdmin::OrganizationSettingsHelper
     I18n.t("features.#{section[:key]}_hint", default: "")
   end
 
+  def organization_setting_search_results(query, org = Current.org)
+    terms = SearchEntry.search_terms(query)
+    return [] if terms.empty?
+
+    organization_setting_sections.filter_map { |section|
+      title = organization_setting_section_title(section, org)
+      next unless organization_setting_search_match?(section, title, terms, org)
+
+      {
+        key: section[:key],
+        title: title,
+        icon: section[:icon],
+        feature: organization_setting_section_feature?(section),
+        active: organization_setting_section_enabled?(section, org)
+      }
+    }
+  end
+
   def organization_settings_status_tag(value, status: nil)
     status, label = if value == true || value == false
       key = value ? "yes" : "no"
@@ -386,6 +404,19 @@ module ActiveAdmin::OrganizationSettingsHelper
 
   def organization_setting_section_sort_title(section, org = Current.org)
     I18n.transliterate(organization_setting_section_title(section, org).downcase)
+  end
+
+  def organization_setting_search_match?(section, title, terms, org)
+    searchable_text = [
+      title,
+      I18n.t("active_admin.resources.organization.edit_model"),
+      organization_setting_section_activation?(section, org) && I18n.t("active_admin.resources.organization.activate_feature"),
+      section[:kind] == :feature && organization_setting_section_enabled?(section, org) && I18n.t("active_admin.status_tag.active"),
+      organization_setting_section_activation?(section, org) && I18n.t("active_admin.status_tag.inactive")
+    ].compact_blank.join(" ")
+
+    normalized_text = SearchEntry.normalize_text(searchable_text)
+    terms.all? { |term| normalized_text.include?(term) }
   end
 
   def organization_setting_section_website_action(org)
