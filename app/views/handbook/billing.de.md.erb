@@ -16,6 +16,12 @@ CSA Admin verwaltet mehrere Rechnungstypen:
 | **Neumitgliedsbeitrag** | Einmaliger Beitrag für neue Mitglieder, wenn die Funktion aktiviert ist. |
 | **Sonstiges** | [Freie Rechnungen](#manual-invoice) für verschiedene Artikel oder Dienstleistungen. |
 
+## Rechnungseinstellungen {#invoice-settings}
+
+Die Rechnungseinstellungen definieren die Bank- und Organisationsangaben, die auf Rechnungs-PDFs angezeigt werden. Konfiguriere Dein Bankkonto, die Gläubigeradresse, optionale Rechnungslogos sowie die Informations- und Footertexte in [den Rechnungseinstellungen](/settings#invoice).
+
+In SEPA-Ländern kann auch der Dokumentname der Rechnung pro Sprache angepasst werden, wenn die SEPA-Funktion aktiviert ist.
+
 <!-- country:CH -->
 ## QR-Rechnungen {#qr-invoices}
 
@@ -43,6 +49,8 @@ Die wiederkehrende Abrechnung ist der Mechanismus, der die Abonnements-Abrechnun
 #### Aktivierung
 
 In [den Einstellungen (Automatische Abrechnung)](/settings#billing) wählst Du den **Wochentag**, an dem das System laufen soll. Jede Woche an diesem Tag überprüft das System alle Mitglieder und erstellt Rechnungen, wenn sie fällig sind. So erstellte Rechnungen werden **automatisch per E-Mail versendet**.
+
+Standardmäßig werden Rechnungen, die bei ihrer Erstellung bereits als bezahlt/geschlossen gelten, nicht automatisch versendet. Du kannst dies mit der Einstellung «Geschlossene Rechnungen senden» ändern.
 
 > Es ist ratsam, einen anderen Tag als den Lieferungstag zu wählen. So werden Änderungen am Abonnement oder an der Tasche, die am Lieferungstag vorgenommen werden, in der Rechnung der folgenden Tage berücksichtigt, anstatt voreilig am selben Tag abgerechnet zu werden oder eine volle Woche warten zu müssen.
 
@@ -112,7 +120,7 @@ Das Verkürzen des Enddatums eines Abonnements, auch mit der Aktion **Stoppen**,
 
 ### Jahresbeitrag {#annual-fee}
 
-Wenn die Jahresbeitragsfunktion aktiviert ist, ist der Standard-Jahresbeitrag der Organisation in [den Einstellungen zum Jahresbeitrag](/settings#annual_fee) definiert. Jedes Mitglied erbt diesen Standardwert bei der Erstellung, aber er kann individuell im Profil des Mitglieds (Bearbeitungsseite, Abschnitt «Abrechnung») überschrieben werden.
+Wenn die Jahresbeitragsfunktion aktiviert ist, ist der Standard-Jahresbeitrag der Organisation in [den Einstellungen zum Jahresbeitrag](/settings#annual_fee) definiert. Jedes Mitglied erbt diesen Standardwert bei der Erstellung, aber er kann individuell im Profil des Mitglieds (Bearbeitungsseite, Abschnitt «Abrechnung») überschrieben werden. Wenn die Einstellung «nur Fördermitglieder» aktiviert ist, erben aktive Mitglieder den Standard-Jahresbeitrag der Organisation nicht automatisch; er bleibt für Fördermitglieder gedacht, sofern er nicht manuell gesetzt wird.
 
 Wenn die Funktion aktiviert ist, ist der Jahresbeitrag automatisch in der **ersten Rechnung** des Abonnements enthalten. Wenn das Mitglied kein Abonnement hat ([Förderung](/handbook/members#statuses)), wird zu Beginn des Geschäftsjahres automatisch eine spezifische Jahresbeitragsrechnung erstellt.
 

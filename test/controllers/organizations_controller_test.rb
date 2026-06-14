@@ -23,8 +23,6 @@ class OrganizationsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_includes response.body, 'id="general"'
     assert_includes response.body, 'id="disabled-features"'
-    assert_includes response.body, 'id="pdf-sheets"'
-    assert_includes response.body, 'id="delivery"'
     assert_select "[data-controller~='settings-anchor']"
     assert_select "#delivery_sheets[data-settings-anchor-highlight-target]"
     assert_select "#disabled-features[data-settings-anchor-highlight-target]"
@@ -116,6 +114,7 @@ class OrganizationsControllerTest < ActionDispatch::IntegrationTest
     get organization_path
 
     assert_response :success
+    assert_select "#mailer .panel-actions a[href='#{handbook_page_path("emails", anchor: "email-settings")}']"
     assert_select "#mailer tr[data-row='email_signature']", false
     assert_select "#mailer tr[data-row='email_footer'] p.text-sm.text-center", text: /Reply to this email\.\s*Acme, Nowhere 42/
     assert_select "#mailer", text: /Other language footer/, count: 0
@@ -182,6 +181,7 @@ class OrganizationsControllerTest < ActionDispatch::IntegrationTest
     get organization_path
 
     assert_response :success
+    assert_select "#invoice .panel-actions a[href='#{handbook_page_path("billing", anchor: "invoice-settings")}']"
     assert_select "#invoice", text: /#{Current.org.iban_type_name}/
     assert_select "#invoice", text: /#{Regexp.escape(Current.org.iban_formatted)}/
     assert_select "#invoice", text: /#{I18n.t("attributes.address", locale: admins(:super).language)}/
@@ -433,6 +433,7 @@ class OrganizationsControllerTest < ActionDispatch::IntegrationTest
 
     assert_response :success
     assert_select "#disabled-features #sepa", text: /#{Regexp.escape(I18n.t("features.sepa_hint", locale: locale))}/
+    assert_select "#disabled-features #sepa .panel-actions a[href='#{handbook_page_path("sepa", anchor: "setup")}']"
     assert_select "#disabled-features #sepa", text: /supported countries/, count: 0
     assert_select "#disabled-features #sepa", text: /handbook/, count: 0
     assert_select "#disabled-features #sepa a[href='#{edit_organization_path(:sepa, activate: true)}']"
@@ -470,6 +471,7 @@ class OrganizationsControllerTest < ActionDispatch::IntegrationTest
     get organization_path
 
     assert_response :success
+    assert_select "#membership_updates .panel-actions a[href='#{handbook_page_path("members", anchor: "membership-updates")}']"
     assert_select "#membership_updates .panel-title",
       text: I18n.t("active_admin.resource.form.membership_updates", locale: locale)
     assert_select "#membership_updates tr[data-row='membership_depot_update_allowed']"
@@ -658,6 +660,7 @@ class OrganizationsControllerTest < ActionDispatch::IntegrationTest
     assert billing_fieldset
     assert period_fieldset
     assert_includes billing_fieldset.to_html, "organization_recurring_billing_wday"
+    assert_select "#organization_currency_code[disabled]"
     assert_not_includes billing_fieldset.to_html, "organization_fiscal_year_start_month"
     assert_includes period_fieldset.to_html, "organization_fiscal_year_start_month"
     assert_includes period_fieldset.to_html, "organization_billing_starts_after_first_delivery"

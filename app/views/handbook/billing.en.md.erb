@@ -16,6 +16,12 @@ CSA Admin handles several types of invoices:
 | **New member fee** | One-time fee charged to new members, if the feature is enabled. |
 | **Other** | [Free-form invoices](#manual-invoice) for miscellaneous items or services. |
 
+## Invoice settings {#invoice-settings}
+
+Invoice settings define the bank and organization details displayed on invoice PDFs. Configure your bank account, the creditor address, optional invoice logos, and the information/footer text shown on invoices from [the invoice settings](/settings#invoice).
+
+In SEPA countries, the invoice document name can also be customized per language when the SEPA feature is enabled.
+
 <!-- country:CH -->
 ## QR-Invoices {#qr-invoices}
 
@@ -43,6 +49,8 @@ Recurring billing is the mechanism that handles membership invoicing. It must be
 #### How to enable it
 
 In [the settings (Automatic billing)](/settings#billing), choose the **day of the week** on which the system should run. Every week on that day, the system reviews all members and creates invoices when due. Invoices created this way are **automatically sent** by email.
+
+By default, invoices that are already considered paid/closed when created are not sent automatically. You can change this with the “Send closed invoices” setting.
 
 > It is advisable to choose a day other than the delivery day. This way, any membership or basket changes made on the delivery day are reflected in the invoice generated in the following days, rather than being invoiced prematurely the same day or waiting a full week.
 
@@ -112,7 +120,7 @@ Shortening a membership end date, including with the **Stop** action, follows th
 
 ### Annual fee {#annual-fee}
 
-When the annual fee feature is enabled, the organization's default annual fee is defined in [the annual fee settings](/settings#annual_fee). Each member inherits this default when created, but it can be overridden individually from their profile (edit page, "Billing" section).
+When the annual fee feature is enabled, the organization's default annual fee is defined in [the annual fee settings](/settings#annual_fee). Each member inherits this default when created, but it can be overridden individually from their profile (edit page, "Billing" section). If the “support members only” setting is enabled, active members do not automatically inherit the organization default annual fee; the default remains intended for support members unless set manually.
 
 When enabled, the annual fee is automatically included in the **first invoice** of the membership. If the member doesn't have a membership ([support](/handbook/members#statuses)), a specific annual fee invoice is automatically created at the beginning of the fiscal year.
 

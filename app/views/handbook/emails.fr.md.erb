@@ -7,6 +7,12 @@ CSA Admin utilise deux types d'emails pour communiquer avec vos membres:
 
 Les deux types utilisent le même langage de template et les mêmes options de mise en forme décrites ci-dessous.
 
+## Paramètres d'e-mail {#email-settings}
+
+Les paramètres d'e-mail définissent l'adresse d'expéditeur par défaut, la signature et le pied de page utilisés par les e-mails envoyés. L'adresse d'expéditeur doit utiliser votre domaine d'e-mail CSA Admin afin de garantir une bonne délivrabilité.
+
+Les signatures et pieds de page sont traduits pour chaque langue de l'organisation. La signature est ajoutée après le contenu de l'e-mail, et le pied de page apparaît tout en bas de l'e-mail.
+
 ## Langage de template Liquid {#liquid}
 
 Les templates d'email utilisent le langage de template [Liquid](https://shopify.github.io/liquid), qui permet d'insérer des données dynamiques propres à chaque membre et d'ajouter de la logique conditionnelle. Malgré un envoi "groupé", le contenu de chaque email est généré individuellement en fonction des informations de chaque membre (nom, langue, abonnement, ...).

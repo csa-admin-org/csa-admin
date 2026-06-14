@@ -16,6 +16,12 @@ CSA Admin verwerkt verschillende typen facturen:
 | **Nieuw lid bijdrage** | Eenmalige bijdrage voor nieuwe leden, als de functie is ingeschakeld. |
 | **Overig** | [Vrije facturen](#manual-invoice) voor diverse artikelen of diensten. |
 
+## Factuurinstellingen {#invoice-settings}
+
+Factuurinstellingen bepalen de bank- en organisatiegegevens die op factuur-PDF's worden weergegeven. Configureer je bankrekening, het adres van de schuldeiser, optionele factuurlogo's en de informatie- en voetteksten in [de factuurinstellingen](/settings#invoice).
+
+In SEPA-landen kan de documentnaam van de factuur ook per taal worden aangepast wanneer de SEPA-functie is ingeschakeld.
+
 <!-- country:CH -->
 ## QR-facturen {#qr-invoices}
 
@@ -43,6 +49,8 @@ Terugkerende facturering is het mechanisme dat de lidmaatschapsfacturering verzo
 #### Hoe in te schakelen
 
 In [de instellingen (Automatische facturering)](/settings#billing) kies je de **dag van de week** waarop het systeem moet draaien. Elke week op die dag controleert het systeem alle leden en maakt facturen aan wanneer deze verschuldigd zijn. Facturen die op deze manier worden aangemaakt, worden **automatisch per e-mail verstuurd**.
+
+Standaard worden facturen die bij aanmaak al als betaald/gesloten worden beschouwd niet automatisch verzonden. Je kunt dit wijzigen met de instelling «Gesloten facturen verzenden».
 
 > Het is raadzaam een andere dag dan de leveringsdag te kiezen. Zo worden wijzigingen aan het lidmaatschap of pakket die op de leveringsdag worden gemaakt, meegenomen in de factuur van de dagen erna, in plaats van voortijdig diezelfde dag te worden gefactureerd of een volle week te moeten wachten.
 
@@ -112,7 +120,7 @@ Het verkorten van de einddatum van een lidmaatschap, ook met de actie **Stoppen*
 
 ### Jaarlijkse bijdrage {#annual-fee}
 
-Wanneer de functie voor jaarlijkse bijdrage is ingeschakeld, is de standaard jaarlijkse bijdrage van de organisatie gedefinieerd in [de instellingen voor jaarlijkse bijdrage](/settings#annual_fee). Elk lid erft deze standaardwaarde bij aanmaak, maar je kunt deze individueel overschrijven vanuit het profiel van het lid (bewerkpagina, sectie «Facturering»).
+Wanneer de functie voor jaarlijkse bijdrage is ingeschakeld, is de standaard jaarlijkse bijdrage van de organisatie gedefinieerd in [de instellingen voor jaarlijkse bijdrage](/settings#annual_fee). Elk lid erft deze standaardwaarde bij aanmaak, maar je kunt deze individueel overschrijven vanuit het profiel van het lid (bewerkpagina, sectie «Facturering»). Als de instelling «alleen ondersteunende leden» is ingeschakeld, erven actieve leden de standaard jaarlijkse bijdrage van de organisatie niet automatisch; de standaard blijft bedoeld voor ondersteunende leden, tenzij je deze handmatig instelt.
 
 Wanneer de functie is ingeschakeld, wordt de jaarlijkse bijdrage automatisch opgenomen in de **eerste factuur** van het lidmaatschap. Als het lid geen lidmaatschap heeft ([ondersteuning](/handbook/members#statuses)), wordt automatisch een specifieke jaarlijkse bijdragefactuur aangemaakt aan het begin van het boekjaar.
 

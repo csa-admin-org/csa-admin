@@ -4,19 +4,19 @@ module ActiveAdmin::OrganizationSettingsHelper
   def organization_setting_sections
     sections = [
       organization_setting_section_definition(:general, :core, "active_admin.resource.form.general", "sliders-horizontal"),
-      organization_setting_section_definition(:mailer, :core, "active_admin.resource.form.mailer", "mail", handbook: "emails"),
+      organization_setting_section_definition(:mailer, :core, "active_admin.resource.form.mailer", "mail", handbook: "emails", handbook_anchor: "email-settings"),
       organization_setting_section_definition(:billing, :core, "active_admin.resource.form.billing", "banknotes", handbook: "billing"),
-      organization_setting_section_definition(:invoice, :core, "active_admin.resource.form.invoice", "receipt-text", handbook: "billing"),
+      organization_setting_section_definition(:invoice, :core, "active_admin.resource.form.invoice", "receipt-text", handbook: "billing", handbook_anchor: "invoice-settings"),
       organization_setting_section_definition(:registration, :core, "active_admin.resource.form.registration", "form", handbook: "registration"),
-      organization_setting_section_definition(:delivery_sheets, :core, "active_admin.resource.form.delivery_sheets", "file-spreadsheet", handbook: "deliveries", handbook_anchor: "delivery-sheets", legacy_anchors: %w[pdf-sheets delivery]),
-      organization_setting_section_definition(:membership_updates, :core, "active_admin.resource.form.membership_updates", "calendar-range"),
+      organization_setting_section_definition(:delivery_sheets, :core, "active_admin.resource.form.delivery_sheets", "file-spreadsheet", handbook: "deliveries", handbook_anchor: "delivery-sheets"),
+      organization_setting_section_definition(:membership_updates, :core, "active_admin.resource.form.membership_updates", "calendar-range", handbook: "members", handbook_anchor: "membership-updates"),
       organization_setting_section_definition(:membership_renewal, :core, "active_admin.resource.form.membership_renewal", "refresh-cw", handbook: "membership_renewal"),
 
       organization_setting_section_definition(:annual_fee, :feature, "features.annual_fee", "calendar-sync", handbook: "billing", handbook_anchor: "annual-fee"),
       organization_setting_section_definition(:member_information, :feature, "features.member_information", "newspaper", handbook: "members", handbook_anchor: "information-page"),
       organization_setting_section_definition(:shares, :feature, "features.shares", "receipt-text", handbook: "billing", handbook_anchor: "share-capital"),
       organization_setting_section_definition(:vat, :feature, "features.vat", "landmark", handbook: "billing", handbook_anchor: "vat"),
-      organization_setting_section_definition(:sepa, :feature, "features.sepa", "banknotes", handbook: "sepa"),
+      organization_setting_section_definition(:sepa, :feature, "features.sepa", "banknotes", handbook: "sepa", handbook_anchor: "setup"),
 
       organization_setting_section_definition(:absence, :feature, Absence.model_name.human, "tent", handbook: "absence"),
       organization_setting_section_definition(:activity, :feature, "features.activity", "handshake", handbook: "activity"),
@@ -383,15 +383,14 @@ module ActiveAdmin::OrganizationSettingsHelper
 
   private
 
-  def organization_setting_section_definition(key, kind, title, icon, handbook: nil, handbook_anchor: nil, legacy_anchors: [])
+  def organization_setting_section_definition(key, kind, title, icon, handbook: nil, handbook_anchor: nil)
     {
       key: key.to_s,
       kind: kind,
       title: title,
       icon: icon,
       handbook: handbook,
-      handbook_anchor: handbook_anchor,
-      legacy_anchors: legacy_anchors
+      handbook_anchor: handbook_anchor
     }
   end
 

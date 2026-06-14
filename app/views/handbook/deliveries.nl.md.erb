@@ -93,7 +93,7 @@ Op de pagina van het lidmaatschap toont elk(e) <%= Basket.model_name.human.downc
 
 Enkele belangrijke punten:
 
-- Wijzigingen worden automatisch vastgelegd zodra een admin een <%= Basket.model_name.human.downcase %> bewerkt of een lid zijn depot of <%= BasketComplement.model_name.human(count: 2).downcase %> wijzigt via het ledengedeelte (indien toegestaan in [de instellingen voor lidmaatschapswijzigingen](/settings#membership_updates)).
+- Wijzigingen worden automatisch vastgelegd zodra een admin een <%= Basket.model_name.human.downcase %> bewerkt of een lid zijn depot of <%= BasketComplement.model_name.human(count: 2).downcase %> wijzigt via het ledengedeelte (indien toegestaan in [de instellingen voor lidmaatschapswijzigingen](/settings#membership_updates); zie [lidmaatschapswijzigingen](/handbook/members#membership-updates)).
 - Wanneer de configuratie van het lidmaatschap verandert, worden de wijzigingen opnieuw toegepast op de opnieuw aangemaakte <%= Basket.model_name.human(count: 2).downcase %>. Wijzigingen die verwijzen naar leveringen die niet langer onder het lidmaatschap vallen (bijvoorbeeld na een wijziging van de leveringscyclus) worden automatisch opgeschoond.
 - Als de configuratie van het lidmaatschap wordt gewijzigd zodat deze overeenkomt met een eerder gewijzigd(e) <%= Basket.model_name.human.downcase %>, wordt de wijziging zonder effect en verdwijnt het geschiedenispictogram.
 

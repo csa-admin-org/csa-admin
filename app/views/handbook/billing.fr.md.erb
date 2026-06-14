@@ -16,6 +16,12 @@ CSA Admin gère plusieurs types de factures:
 | **Cotisation nouveau membre** | Cotisation unique facturée aux nouveaux membres, si la fonctionnalité est activée. |
 | **Autre** | [Factures libres](#manual-invoice) pour des articles ou services divers. |
 
+## Paramètres de facture {#invoice-settings}
+
+Les paramètres de facture définissent les informations bancaires et celles de l'organisation affichées sur les PDF de facture. Configurez votre compte bancaire, l'adresse du créancier, d'éventuels logos de facture, ainsi que les textes d'information et de pied de page depuis [les paramètres de facture](/settings#invoice).
+
+Dans les pays SEPA, le nom du document de facture peut également être personnalisé par langue lorsque la fonctionnalité SEPA est activée.
+
 <!-- country:CH -->
 ## Factures-QR {#qr-invoices}
 
@@ -43,6 +49,8 @@ La facturation récurrente est le mécanisme qui gère la facturation des abonne
 #### Comment l'activer
 
 Dans [les paramètres (Facturation automatique)](/settings#billing), choisissez le **jour de la semaine** où le système doit s'exécuter. Chaque semaine à ce jour-là, le système passe en revue tous les membres et crée les factures lorsqu'elles sont dues. Les factures ainsi créées sont **automatiquement envoyées** par email.
+
+Par défaut, les factures déjà considérées comme payées/fermées au moment de leur création ne sont pas envoyées automatiquement. Vous pouvez modifier ce comportement avec le paramètre « Envoyer les factures fermées ».
 
 > Il est préférable de choisir un jour différent de celui de la livraison. Ainsi, les modifications d'abonnement ou de panier effectuées le jour de la livraison seront prises en compte dans la facture générée les jours suivants, plutôt que d'être facturées prématurément le même jour ou de devoir attendre une semaine supplémentaire.
 
@@ -112,7 +120,7 @@ Raccourcir la date de fin d'un abonnement, y compris avec l'action **Arrêter**,
 
 ### Cotisation annuelle {#annual-fee}
 
-Lorsque la fonctionnalité de cotisation annuelle est activée, la cotisation annuelle par défaut de l'organisation est définie dans [les paramètres de cotisation annuelle](/settings#annual_fee). Chaque membre hérite de cette valeur par défaut à sa création, mais elle peut être modifiée individuellement depuis son profil (page d'édition, section «Facturation»).
+Lorsque la fonctionnalité de cotisation annuelle est activée, la cotisation annuelle par défaut de l'organisation est définie dans [les paramètres de cotisation annuelle](/settings#annual_fee). Chaque membre hérite de cette valeur par défaut à sa création, mais elle peut être modifiée individuellement depuis son profil (page d'édition, section « Facturation »). Si le paramètre « membres de soutien uniquement » est activé, les membres actifs n'héritent pas automatiquement de la cotisation annuelle par défaut de l'organisation ; celle-ci reste destinée aux membres de soutien, sauf si elle est définie manuellement.
 
 Lorsque la fonctionnalité est activée, la cotisation annuelle est automatiquement incluse dans la **première facture** de l'abonnement. Si le membre n'a pas d'abonnement ([soutien](/handbook/members#statuses)), une facture spécifique de cotisation annuelle est créée automatiquement au début de l'année fiscale.
 

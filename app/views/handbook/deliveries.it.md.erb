@@ -92,7 +92,7 @@ Nella pagina dell'abbonamento, ogni <%= Basket.model_name.human.downcase %> che 
 
 Alcuni punti importanti:
 
-- Le modifiche vengono catturate automaticamente non appena un admin modifica una <%= Basket.model_name.human.downcase %> o un socio cambia il proprio deposito o i propri <%= BasketComplement.model_name.human(count: 2).downcase %> dall'area soci (se consentito nelle [impostazioni delle modifiche all'abbonamento](/settings#membership_updates)).
+- Le modifiche vengono catturate automaticamente non appena un admin modifica una <%= Basket.model_name.human.downcase %> o un socio cambia il proprio deposito o i propri <%= BasketComplement.model_name.human(count: 2).downcase %> dall'area soci (se consentito nelle [impostazioni delle modifiche all'abbonamento](/settings#membership_updates); vedi [modifiche all'abbonamento](/handbook/members#membership-updates)).
 - Quando la configurazione dell'abbonamento cambia, le modifiche vengono riapplicate alle <%= Basket.model_name.human(count: 2).downcase %> ricreate. Le modifiche che fanno riferimento a consegne non più coperte dall'abbonamento (ad esempio, dopo un cambio di ciclo di consegna) vengono eliminate automaticamente.
 - Se la configurazione dell'abbonamento viene modificata per corrispondere a una <%= Basket.model_name.human.downcase %> precedentemente modificata, la modifica diventa senza effetto e l'icona della cronologia scompare.
 

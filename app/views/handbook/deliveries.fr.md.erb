@@ -92,7 +92,7 @@ Sur la page de l'abonnement, tout <%= Basket.model_name.human.downcase %> qui di
 
 Quelques points importants :
 
-- Les modifications sont capturées automatiquement dès qu'un admin édite un <%= Basket.model_name.human.downcase %> ou qu'un membre change son dépôt ou compléments depuis l'espace membre (si permis dans [les paramètres de modification d'abonnement](/settings#membership_updates)).
+- Les modifications sont enregistrées automatiquement dès qu'un admin modifie un <%= Basket.model_name.human.downcase %> ou qu'un membre change son dépôt ou ses compléments depuis l'espace membre (si permis dans [les paramètres de modification d'abonnement](/settings#membership_updates) ; voir [modifications d'abonnement](/handbook/members#membership-updates)).
 - Lorsque la configuration de l'abonnement change, les modifications sont réappliquées sur les <%= Basket.model_name.human(count: 2).downcase %> recréés. Les modifications qui font référence à des livraisons qui ne sont plus couvertes par l'abonnement (par exemple, après un changement de cycle de livraisons) sont automatiquement nettoyées.
 - Si la configuration de l'abonnement est modifiée pour correspondre à un <%= Basket.model_name.human.downcase %> précédemment modifié, la modification devient sans effet et l'icône d'historique disparaît.
 

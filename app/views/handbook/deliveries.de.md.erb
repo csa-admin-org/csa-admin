@@ -92,7 +92,7 @@ Auf der Mitgliedschaftsseite zeigt jede <%= Basket.model_name.human.downcase %>,
 
 Einige wichtige Punkte:
 
-- Änderungen werden automatisch erfasst, sobald ein Admin eine <%= Basket.model_name.human.downcase %> bearbeitet oder ein Mitglied sein Depot oder seine <%= BasketComplement.model_name.human(count: 2).downcase %> über den Mitgliederbereich ändert (sofern in [den Einstellungen für Abo-Änderungen](/settings#membership_updates) erlaubt).
+- Änderungen werden automatisch erfasst, sobald ein Admin eine <%= Basket.model_name.human.downcase %> bearbeitet oder ein Mitglied sein Depot oder seine <%= BasketComplement.model_name.human(count: 2).downcase %> über den Mitgliederbereich ändert (sofern in [den Einstellungen für Abo-Änderungen](/settings#membership_updates) erlaubt; siehe [Abonnementänderungen](/handbook/members#membership-updates)).
 - Wenn sich die Konfiguration der Mitgliedschaft ändert, werden die Änderungen auf die neu erstellten <%= Basket.model_name.human(count: 2).downcase %> erneut angewendet. Änderungen, die sich auf Lieferungen beziehen, die nicht mehr von der Mitgliedschaft abgedeckt sind (zum Beispiel nach einem Wechsel des Lieferzyklus), werden automatisch bereinigt.
 - Wird die Konfiguration der Mitgliedschaft so geändert, dass sie einer zuvor geänderten <%= Basket.model_name.human.downcase %> entspricht, wird die Änderung wirkungslos und das Verlaufssymbol verschwindet.
 

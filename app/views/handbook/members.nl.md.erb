@@ -92,9 +92,17 @@ Vanuit het account kan het lid:
 - **Nieuwsbrieven doorbladeren**: eerder ontvangen nieuwsbrieven lezen.
 - **Account verwijderen**: accountverwijdering aanvragen (met e-mailbevestiging), in overeenstemming met het [recht om vergeten te worden](/handbook/right_to_be_forgotten).
 
-Als de [functie Informatiepagina](/settings#member_information) is ingeschakeld, verschijnt de pagina in de navigatie van het lid.
+### Lidmaatschapswijzigingen {#membership-updates}
+
+Wanneer lidmaatschapswijzigingen zijn ingeschakeld in [de instellingen](/settings#membership_updates), kunnen leden hun depot en/of mandaanvullingen vanuit hun account wijzigen. Deze wijzigingen zijn alleen mogelijk wanneer het lidmaatschap compatibele depots of zichtbare aanvullingen voor de komende <%= Basket.model_name.human(count: 2).downcase %> heeft.
+
+De wijzigingsdeadline wordt bepaald door de instelling voor de wijzigingslimiet van <%= Basket.model_name.human(count: 2).downcase %>. Je kunt in de instellingen ook een toelichting toevoegen; die verschijnt boven de wijzigingsformulieren voor leden.
+
+Wijzigingen door leden worden opgeslagen als individuele wijzigingen aan <%= Basket.model_name.human(count: 2).downcase %>, net als wijzigingen door admins. Ze blijven bewaard en worden opnieuw toegepast wanneer de lidmaatschapsconfiguratie later verandert.
 
 ### Informatiepagina {#information-page}
+
+Als de [functie Informatiepagina](/settings#member_information) is ingeschakeld, verschijnt de pagina in de navigatie van het lid.
 
 De instelling «Informatiepagina» maakt het mogelijk om opgemaakte tekst rechtstreeks in het ledenaccount te publiceren onder een eigen navigatie-item. Je kunt het gebruiken om praktische informatie te delen die altijd gemakkelijk vindbaar moet zijn, zoals interne regels, ophalinstructies, seizoensgebonden updates of vertrouwelijke informatie voor leden.
 

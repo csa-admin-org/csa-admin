@@ -7,6 +7,12 @@ CSA Admin uses two types of emails to communicate with your members:
 
 Both types use the same template language and formatting options described below.
 
+## Email settings {#email-settings}
+
+The email settings define the default sender address, signature, and footer used by outgoing emails. The sender address must use your CSA Admin email domain so deliveries remain reliable.
+
+Signatures and footers are translated for each organization language. The signature is added after the email content, and the footer appears at the very bottom of the email.
+
 ## Liquid Template Language {#liquid}
 
 Email templates use the [Liquid](https://shopify.github.io/liquid) template language, which lets you insert dynamic member-specific data and add conditional logic. Despite a "group" sending, the content of each email is generated individually based on the information of each member (name, language, membership, ...).

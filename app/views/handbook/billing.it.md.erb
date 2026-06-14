@@ -16,6 +16,12 @@ CSA Admin gestisce diversi tipi di fatture:
 | **Quota nuovo socio** | Quota una tantum per i nuovi soci, se la funzione è attivata. |
 | **Altro** | [Fatture libere](#manual-invoice) per articoli o servizi vari. |
 
+## Impostazioni fattura {#invoice-settings}
+
+Le impostazioni fattura definiscono le informazioni bancarie e dell'organizzazione mostrate nei PDF delle fatture. Configura il conto bancario, l'indirizzo del creditore, loghi facoltativi e testi informativi e di piè di pagina nelle [impostazioni fattura](/settings#invoice).
+
+Nei paesi SEPA, il nome del documento della fattura può anche essere personalizzato per lingua quando la funzione SEPA è attivata.
+
 <!-- country:CH -->
 ## Fatture-QR {#qr-invoices}
 
@@ -43,6 +49,8 @@ La fatturazione ricorrente è il meccanismo che gestisce la fatturazione degli a
 #### Come attivarla
 
 Nelle [impostazioni (Fatturazione automatica)](/settings#billing), scegli il **giorno della settimana** in cui il sistema deve essere eseguito. Ogni settimana in quel giorno, il sistema esamina tutti i soci e crea le fatture quando sono dovute. Le fatture così create vengono **automaticamente inviate** via email.
+
+Per impostazione predefinita, le fatture già considerate pagate/chiuse al momento della creazione non vengono inviate automaticamente. Puoi cambiarlo con l'impostazione «Inviare fatture chiuse».
 
 > È consigliabile scegliere un giorno diverso da quello della consegna. In questo modo, le modifiche all'abbonamento o al paniere effettuate il giorno della consegna saranno considerate nella fattura generata nei giorni successivi, anziché essere fatturate prematuramente lo stesso giorno o dover attendere una settimana intera.
 
@@ -112,7 +120,7 @@ Accorciare la data di fine di un abbonamento, anche con l'azione **Fermare**, se
 
 ### Quota annuale {#annual-fee}
 
-Quando la funzione quota annuale è attivata, la quota annuale predefinita dell'organizzazione è definita nelle [impostazioni della quota annuale](/settings#annual_fee). Ogni socio eredita questo valore predefinito alla creazione, ma può essere modificato individualmente dal suo profilo (pagina di modifica, sezione «Fatturazione»).
+Quando la funzione quota annuale è attivata, la quota annuale predefinita dell'organizzazione è definita nelle [impostazioni della quota annuale](/settings#annual_fee). Ogni socio eredita questo valore predefinito alla creazione, ma può essere modificato individualmente dal suo profilo (pagina di modifica, sezione «Fatturazione»). Se l'impostazione «solo soci di supporto» è attivata, i soci attivi non ereditano automaticamente la quota annuale predefinita dell'organizzazione; resta destinata ai soci di supporto, salvo impostazione manuale.
 
 Quando la funzione è attivata, la quota annuale è automaticamente inclusa nella **prima fattura** dell'abbonamento. Se il socio non ha un abbonamento ([supporto](/handbook/members#statuses)), viene creata automaticamente una fattura specifica di quota annuale all'inizio dell'anno fiscale.
 
