@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 module ApplicationHelper
+  include SmartRefererHelper
+
   def spaced(string, size: 3)
     string = string.to_s
     (size - string.length).times do
@@ -155,13 +157,6 @@ module ApplicationHelper
         icon_name: HasTheme::THEME_ICONS.fetch(theme)
       }
     }
-  end
-
-  def referer_filter(attr)
-    return unless request&.referer
-
-    query = URI(request.referer).query
-    Rack::Utils.parse_nested_query(query).dig("q", "#{attr}_eq")
   end
 
   def handbook_icon_link(*args)

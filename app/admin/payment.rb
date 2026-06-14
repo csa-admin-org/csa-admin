@@ -175,27 +175,42 @@ ActiveAdmin.register Payment do
   end
 
   form do |f|
-    f.inputs t(".details"), icon: "notebook-text" do
-      if f.object.invoice_id?
+    invoice_locked = f.object.persisted? || params[:invoice_id].present?
+    invoice_contextual = f.object.invoice_id? && !invoice_locked
+    payment_form_data = if invoice_contextual
+      {
+        controller: "payment-form",
+        payment_form_invoice_member_id_value: f.object.invoice.member_id
+      }
+    end
+
+    f.inputs t(".details"), icon: "notebook-text", data: payment_form_data do
+      if invoice_locked
         f.input :member_id, as: :hidden
       end
       f.input :member,
         collection: members_collection,
         prompt: true,
-        input_html: { disabled: f.object.invoice_id? }
+        input_html: {
+          disabled: invoice_locked,
+          data: (invoice_contextual ? { action: "payment-form#clearInvoice", payment_form_target: "member" } : {})
+        }
       if f.object.invoice_id?
-        f.input :invoice_id, as: :hidden
+        f.input :invoice_id,
+          as: :hidden,
+          input_html: { data: (invoice_contextual ? { payment_form_target: "invoiceInput" } : {}) }
         f.input :invoice,
           collection: [ f.object.invoice ],
           include_blank: false,
-          input_html: { disabled: true }
+          input_html: { disabled: true },
+          wrapper_html: { data: (invoice_contextual ? { payment_form_target: "invoice" } : {}) }
       end
       f.input :date, as: :date_picker, prompt: true
       if feature?("local_currency")
         f.input :currency_code, collection: currency_codes_collection,
           include_blank: false,
           required: false,
-          input_html: { disabled: f.object.invoice_id? }
+          input_html: { disabled: invoice_locked }
       end
       f.input :amount, as: :number, step: 0.01, min: -99999.99, max: 99999.99
       unless f.object.persisted?
@@ -212,9 +227,14 @@ ActiveAdmin.register Payment do
       invoice = Invoice.find(params[:invoice_id])
       payment.invoice = invoice
       payment.member = invoice.member
+    else
+      member_id = params[:member_id].presence || referer_filter(:member_id)
+      invoice_id = referer_filter(:invoice_id) || smart_referer_context["invoice_id"]
+      payment.member_id ||= member_id || smart_referer_context["member_id"]
+      if invoice = Invoice.find_by(id: invoice_id)
+        payment.invoice = invoice if member_id.blank? || invoice.member_id == payment.member_id
+      end
     end
-    payment.member_id ||= referer_filter(:member_id)
-    payment.invoice_id ||= referer_filter(:invoice_id)
     payment.date ||= Date.current
     payment.amount ||= params[:amount] || 0
   end

@@ -255,7 +255,7 @@ ActiveAdmin.register BasketContent do
     basket_size_ids_quantities: {})
 
   before_build do |basket_content|
-    basket_content.delivery_id ||= referer_filter(:delivery_id) || Delivery.next&.id
+    basket_content.delivery_id ||= smart_referer(:delivery_id) || Delivery.next&.id
     if params[:action] == "new" && basket_content.depots.empty?
       basket_content.depots = Depot.kept
     end

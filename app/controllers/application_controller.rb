@@ -3,6 +3,7 @@
 class ApplicationController < ActionController::Base
   include SessionTracking
   include Observability
+  include SmartReferer
 
   protect_from_forgery with: :exception
 

@@ -950,10 +950,12 @@ ActiveAdmin.register Membership do
 
   before_build do |membership|
     membership.activity_participations_annual_price_change = nil
-    if member = Member.find_by(id: params[:member_id])
+    member = Member.find_by(id: params[:member_id]) if params[:member_id].present?
+    if member
       membership.populate_from_waiting_member!(member)
       membership.populate_default_period_from_next_delivery!(delivery_cycle: member.waiting_delivery_cycle, fallback: false)
     else
+      membership.member_id ||= smart_referer(:member_id) unless params[:member_id].present?
       membership.populate_default_period_from_next_delivery!
     end
   end

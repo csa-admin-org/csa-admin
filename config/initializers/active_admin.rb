@@ -133,6 +133,7 @@ ActiveAdmin.setup do |config|
   # Active Admin resources and pages from here.
   #
   # config.before_action :foo
+  config.after_action :remember_smart_referer_context
 
   # == Localize Date/Time Format
   #

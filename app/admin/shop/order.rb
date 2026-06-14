@@ -338,8 +338,8 @@ ActiveAdmin.register Shop::Order do
   end
 
   before_build do |order|
-    order.member_id ||= referer_filter(:member_id)
-    order.delivery_gid ||= referer_filter(:_delivery_gid)
+    order.member_id ||= smart_referer(:member_id)
+    order.delivery_gid ||= smart_referer(:_delivery_gid)
     order.delivery ||= Delivery.next
     order.admin = current_admin
   end

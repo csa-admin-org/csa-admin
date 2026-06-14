@@ -523,7 +523,7 @@ ActiveAdmin.register Invoice do
       invoice.shares_number ||= params[:shares_number]
     end
 
-    invoice.member_id ||= referer_filter(:member_id)
+    invoice.member_id ||= smart_referer(:member_id)
     invoice.date ||= Date.current
     invoice.missing_activity_participations_fiscal_year ||= Current.fiscal_year
   end

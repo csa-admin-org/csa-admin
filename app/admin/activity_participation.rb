@@ -321,8 +321,8 @@ ActiveAdmin.register ActivityParticipation do
 
   before_build do |ap|
     ap.session_id ||= session_id
-    ap.member_id ||= referer_filter(:member_id)
-    ap.activity_id ||= referer_filter(:activity_id)
+    ap.member_id ||= smart_referer(:member_id)
+    ap.activity_id ||= smart_referer(:activity_id)
   end
 
   after_create do |ap|
