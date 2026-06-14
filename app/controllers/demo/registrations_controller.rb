@@ -29,7 +29,7 @@ class Demo::RegistrationsController < ApplicationController
   end
 
   def registration_params
-    params.require(:demo_registration).permit(:name, :email, :note)
+    params.require(:demo_registration).permit(:name, :email, :message)
   end
 
   def cap_after_failure

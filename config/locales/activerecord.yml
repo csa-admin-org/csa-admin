@@ -166,6 +166,18 @@ _:
           _it: Con nota
           _nl: Met opmerking
       admin:
+        demo_message:
+          _en: Demo message
+          _fr: Message de démo
+          _de: Demo-Nachricht
+          _it: Messaggio demo
+          _nl: Demobericht
+        demo_registration_notification_sent_at:
+          _en: Demo registration notification sent at
+          _fr: Notification d'inscription démo envoyée le
+          _de: Demo-Registrierungsbenachrichtigung gesendet am
+          _it: Notifica registrazione demo inviata il
+          _nl: Demoregistratiemelding verzonden op
         last_session_used_at:
           _en: Last login
           _fr: Dernière connexion
@@ -1000,6 +1012,49 @@ _:
           _de: Bis
           _it: Al
           _nl: Tot
+      demo/page_visit:
+        action_name:
+          _en: Action
+          _fr: Action
+          _de: Aktion
+          _it: Azione
+          _nl: Actie
+        admin:
+          _en: Admin
+          _fr: Admin
+          _de: Admin
+          _it: Admin
+          _nl: Admin
+        controller_name:
+          _en: Controller
+          _fr: Controller
+          _de: Controller
+          _it: Controller
+          _nl: Controller
+        page_key:
+          _en: Page
+          _fr: Page
+          _de: Seite
+          _it: Pagina
+          _nl: Pagina
+        path:
+          _en: Path
+          _fr: Chemin
+          _de: Pfad
+          _it: Percorso
+          _nl: Pad
+        session:
+          _en: Session
+          _fr: Session
+          _de: Sitzung
+          _it: Sessione
+          _nl: Sessie
+        status:
+          _en: Status
+          _fr: Statut
+          _de: Status
+          _it: Stato
+          _nl: Status
       depot:
         address_name:
           _en: Name
@@ -4790,6 +4845,19 @@ _:
           _de: Zeiträume
           _it: Periodi
           _nl: Periodes
+      demo/page_visit:
+        one:
+          _en: Demo page visit
+          _fr: Visite de page démo
+          _de: Demo-Seitenbesuch
+          _it: Visita pagina demo
+          _nl: Demopaginabezoek
+        other:
+          _en: Demo page visits
+          _fr: Visites de pages démo
+          _de: Demo-Seitenbesuche
+          _it: Visite pagine demo
+          _nl: Demopaginabezoeken
       depot:
         one:
           _en: Depot

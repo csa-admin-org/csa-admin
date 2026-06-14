@@ -5,6 +5,7 @@ module Scheduled
     NOTIFICATIONS = [
       Notification::AdminNewAbsence,
       Notification::AdminNewActivityParticipation,
+      Notification::DemoRegistration,
       Notification::DemoFollowUp
     ].freeze
 

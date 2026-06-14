@@ -188,15 +188,16 @@ class AdminMailer < ApplicationMailer
 
   def demo_registration_notification_email
     admin = params[:admin]
-    note = params[:note]
+    message = params[:message]
     tenant = params[:tenant]
     I18n.with_locale("en") do
       lines = []
       lines << "<p><strong>Name:</strong> #{ERB::Util.html_escape(admin.name)}</p>"
       lines << "<p><strong>Email:</strong> #{ERB::Util.html_escape(admin.email)}</p>"
-      lines << "<p><strong>Message:</strong> #{ERB::Util.html_escape(note)}</p>" if note
+      lines << "<p><strong>Message:</strong> #{ERB::Util.html_escape(message)}</p>" if message
       lines << "<p><strong>Tenant:</strong> #{ERB::Util.html_escape(tenant)}</p>"
       lines << "<p><strong>Time:</strong> #{I18n.l(Time.current)}</p>"
+      lines.concat(demo_page_visit_summary_lines(admin))
       content_mail(lines.join("\n"),
         to: ENV["ULTRA_ADMIN_EMAIL"],
         subject: "[Demo] New registration: #{admin.name} (#{admin.email})",
@@ -252,5 +253,32 @@ class AdminMailer < ApplicationMailer
         subject: t(".subject"),
         tag: "admin-memberships-renewal-pending")
     end
+  end
+
+  private
+
+  def demo_page_visit_summary_lines(admin)
+    return [] unless admin.persisted?
+
+    visits = admin.demo_page_visits.meaningful
+    return [] unless visits.exists?
+
+    [
+      "<p><strong>Page visits:</strong> #{visits.count}</p>",
+      "<p><strong>Distinct pages:</strong> #{visits.distinct.count(:page_key)}</p>",
+      "<p><strong>First visit:</strong> #{I18n.l(visits.minimum(:created_at))}</p>",
+      "<p><strong>Last visit:</strong> #{I18n.l(visits.maximum(:created_at))}</p>",
+      "<p><strong>Top pages:</strong> #{demo_page_visit_top_pages(visits)}</p>"
+    ]
+  end
+
+  def demo_page_visit_top_pages(visits)
+    visits
+      .group(:page_key)
+      .order(Arel.sql("COUNT(*) DESC"))
+      .limit(5)
+      .count
+      .map { |page_key, count| "#{ERB::Util.html_escape(page_key)} (#{count})" }
+      .join(", ")
   end
 end

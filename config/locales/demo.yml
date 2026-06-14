@@ -26,24 +26,24 @@ _:
           _de: <a href="%{website_url}">Mehr über CSA Admin erfahren</a>
           _it: <a href="%{website_url}">Scopri di più su CSA Admin</a>
           _nl: <a href="%{website_url}">Meer over CSA Admin</a>
+        message_input:
+          _en: Message
+          _fr: Message
+          _de: Nachricht
+          _it: Messaggio
+          _nl: Bericht
+        message_placeholder:
+          _en: Website, location, member count, tell me more!
+          _fr: Site web, lieu, nombre de membres, dites-m'en plus!
+          _de: Website, Standort, Anzahl Mitglieder, gerne mehr erzählen!
+          _it: Sito web, località, numero di soci, ditemi di più!
+          _nl: Website, locatie, aantal leden, vertel me meer!
         name_input:
           _en: Name / Organization
           _fr: Nom / Organisation
           _de: Name / Organisation
           _it: Nome / Organizzazione
           _nl: Naam / Organisatie
-        note_input:
-          _en: Message
-          _fr: Message
-          _de: Nachricht
-          _it: Messaggio
-          _nl: Bericht
-        note_placeholder:
-          _en: Website, location, member count, tell me more!
-          _fr: Site web, lieu, nombre de membres, dites-m'en plus!
-          _de: Website, Standort, Anzahl Mitglieder, gerne mehr erzählen!
-          _it: Sito web, località, numero di soci, ditemi di più!
-          _nl: Website, locatie, aantal leden, vertel me meer!
         submit:
           _en: Send
           _fr: Envoyer

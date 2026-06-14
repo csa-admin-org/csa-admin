@@ -173,4 +173,13 @@ class AbilityTest < ActiveSupport::TestCase
       assert ability.can?(:update, admin)
     end
   end
+
+  test "demo page visits are only manageable by ultra admin in demo tenants" do
+    assert_not Ability.new(admins(:ultra)).can?(:manage, Demo::PageVisit)
+
+    with_tenant("demo-fr") do
+      assert Ability.new(admins(:ultra)).can?(:manage, Demo::PageVisit)
+      assert_not Ability.new(admins(:super)).can?(:manage, Demo::PageVisit)
+    end
+  end
 end

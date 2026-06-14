@@ -20,8 +20,8 @@ class Notification::DemoFollowUp < Notification::Base
   end
 
   def eligible?(admin)
-    last_used = admin.last_session_used_at
-    last_used && last_used < 24.hours.ago
+    last_visit = admin.last_demo_page_visit_at
+    last_visit && admin.meaningfully_explored_demo? && last_visit < 24.hours.ago
   end
 
   def send_follow_up!(admin)

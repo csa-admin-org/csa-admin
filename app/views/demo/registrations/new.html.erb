@@ -12,7 +12,7 @@
       <ol class="list-none p-2">
         <%= f.input :name, label: t("demo.registrations.new.name_input"), required: true %>
         <%= f.input :email, label: t("demo.registrations.new.email_input"), required: true %>
-        <%= f.input :note, as: :text, label: t("demo.registrations.new.note_input"), required: false, input_html: { rows: 3, placeholder: t("demo.registrations.new.note_placeholder") } %>
+        <%= f.input :message, as: :text, label: t("demo.registrations.new.message_input"), required: false, input_html: { rows: 3, placeholder: t("demo.registrations.new.message_placeholder") } %>
         <%= cap_token_field %>
 
         <%= tag.li class: "actions mt-2", data: cap_submit_tooltip_data do %>

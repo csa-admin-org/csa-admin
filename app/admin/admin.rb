@@ -22,6 +22,12 @@ ActiveAdmin.register Admin do
           m_sessions_path(q: { owner_type_eq: "Admin", admin_id_eq: a.id }, scope: :all)
       end
     }, class: "text-right tabular-nums"
+    if Tenant.demo? && current_admin.ultra?
+      column t("admin.demo_page_visits.visits"), ->(a) {
+        count = a.demo_page_visits_count
+        link_to_if count.positive?, count, demo_page_visits_path(q: { admin_id_eq: a.id })
+      }, class: "text-right tabular-nums"
+    end
     actions
   end
 

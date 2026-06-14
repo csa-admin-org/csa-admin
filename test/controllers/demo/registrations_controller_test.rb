@@ -22,7 +22,7 @@ class Demo::RegistrationsControllerTest < ActionDispatch::IntegrationTest
       assert_select "h1", "CSA Admin — #{I18n.t('demo.registrations.new.title')}"
       assert_select "input[name='demo_registration[name]']"
       assert_select "input[name='demo_registration[email]']"
-      assert_select "textarea[name='demo_registration[note]']"
+      assert_select "textarea[name='demo_registration[message]']"
     end
   end
 
@@ -36,17 +36,20 @@ class Demo::RegistrationsControllerTest < ActionDispatch::IntegrationTest
 
   test "POST /demo with valid params creates admin and redirects" do
     in_demo_tenant do
-      assert_enqueued_emails 2 do
+      assert_enqueued_emails 1 do
         post demo_registrations_path, params: {
           "cap-token" => cap_token,
           demo_registration: {
             name: "Alice Johnson",
             email: "alice@example.com",
-            note: "Green Valley CSA"
+            message: "Green Valley CSA"
           }
         }
       end
 
+      admin = Admin.find_by!(email: "alice@example.com")
+      assert_equal "Green Valley CSA", admin.demo_message
+      assert_nil admin.demo_registration_notification_sent_at
       assert_redirected_to login_path
       assert_equal I18n.t("sessions.flash.initiated"), flash[:notice]
     end

@@ -388,7 +388,7 @@ class AdminMailerTest < ActionMailer::TestCase
       Tenant.stub(:demo?, true) do
         mail = AdminMailer.with(
           admin: admin,
-          note: "Green Valley CSA",
+          message: "Green Valley CSA",
           tenant: "demo-en"
         ).demo_registration_notification_email
 
@@ -405,7 +405,62 @@ class AdminMailerTest < ActionMailer::TestCase
     end
   end
 
-  test "demo_registration_notification_email without note" do
+  test "demo_registration_notification_email includes page visit summary" do
+    admin = Admin.create!(
+      name: "Visited Demo",
+      language: "en",
+      email: "visited@example.com",
+      permission: permissions(:super_admin))
+    session = Session.create!(
+      admin: admin,
+      email: admin.email,
+      remote_addr: "127.0.0.1",
+      user_agent: "Test Browser")
+    Demo::PageVisit.create!(
+      admin: admin,
+      session: session,
+      path: "/",
+      controller_name: "dashboard",
+      action_name: "index",
+      page_key: "dashboard#index",
+      status: 200)
+    Demo::PageVisit.create!(
+      admin: admin,
+      session: session,
+      path: "/members",
+      controller_name: "members",
+      action_name: "index",
+      page_key: "members#index",
+      status: 200)
+    Demo::PageVisit.create!(
+      admin: admin,
+      session: session,
+      path: "/admins",
+      controller_name: "admins",
+      action_name: "index",
+      page_key: "admins#index",
+      status: 200)
+
+    with_env("ULTRA_ADMIN_EMAIL" => "info@csa-admin.org") do
+      Tenant.stub(:demo?, true) do
+        mail = AdminMailer.with(
+          admin: admin,
+          message: "Green Valley CSA",
+          tenant: "demo-en"
+        ).demo_registration_notification_email
+
+        body = mail.body.to_s
+        assert_includes body, "Green Valley CSA"
+        assert_includes body, "Page visits:</strong> 2"
+        assert_includes body, "Distinct pages:</strong> 2"
+        assert_includes body, "members#index"
+        assert_includes body, "admins#index"
+        assert_not_includes body, "dashboard#index"
+      end
+    end
+  end
+
+  test "demo_registration_notification_email without message" do
     admin = Admin.new(
       name: "Bob Smith",
       language: "en",
@@ -415,14 +470,14 @@ class AdminMailerTest < ActionMailer::TestCase
       Tenant.stub(:demo?, true) do
         mail = AdminMailer.with(
           admin: admin,
-          note: nil,
+          message: nil,
           tenant: "demo-en"
         ).demo_registration_notification_email
 
         body = mail.body.to_s
         assert_includes body, "Bob Smith"
         assert_includes body, "bob@example.com"
-        assert_not_includes body, "Note"
+        assert_not_includes body, "Message:"
       end
     end
   end

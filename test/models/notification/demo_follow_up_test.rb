@@ -24,11 +24,27 @@ class Notification::DemoFollowUpTest < ActiveSupport::TestCase
       last_used_at: last_used_at)
   end
 
+  def create_page_visit(admin:, session:, page_key:, created_at: 2.days.ago)
+    travel_to created_at do
+      Demo::PageVisit.create!(
+        admin: admin,
+        session: session,
+        path: "/#{page_key.split("#").first}",
+        controller_name: page_key.split("#").first,
+        action_name: page_key.split("#").last,
+        page_key: page_key,
+        status: 200)
+    end
+  end
+
   test "sends follow-up to eligible demo admin" do
     Tenant.stub(:demo?, true) do
       Tenant.stub(:admin_host, "admin.demo-en.csa-admin.org") do
         admin = create_demo_admin
-        create_used_session(admin: admin, last_used_at: 25.hours.ago)
+        session = create_used_session(admin: admin, last_used_at: 25.hours.ago)
+        create_page_visit(admin: admin, session: session, page_key: "dashboard#index", created_at: 25.hours.ago)
+        create_page_visit(admin: admin, session: session, page_key: "members#index", created_at: 25.hours.ago)
+        create_page_visit(admin: admin, session: session, page_key: "admins#index", created_at: 25.hours.ago)
 
         with_env("ULTRA_ADMIN_EMAIL" => "info@csa-admin.org") do
           assert_enqueued_emails 2 do
@@ -55,10 +71,27 @@ class Notification::DemoFollowUpTest < ActiveSupport::TestCase
     end
   end
 
+  test "does not send to admin who logged in but never visited pages" do
+    Tenant.stub(:demo?, true) do
+      admin = create_demo_admin
+      create_used_session(admin: admin, last_used_at: 2.days.ago)
+
+      with_env("ULTRA_ADMIN_EMAIL" => "info@csa-admin.org") do
+        assert_no_enqueued_emails do
+          Notification::DemoFollowUp.notify
+        end
+
+        assert_nil admin.reload.demo_follow_up_sent_at
+      end
+    end
+  end
+
   test "does not send to admin who logged in less than 24 hours ago" do
     Tenant.stub(:demo?, true) do
       admin = create_demo_admin
-      create_used_session(admin: admin, last_used_at: 23.hours.ago)
+      session = create_used_session(admin: admin, last_used_at: 23.hours.ago)
+      create_page_visit(admin: admin, session: session, page_key: "members#index", created_at: 23.hours.ago)
+      create_page_visit(admin: admin, session: session, page_key: "admins#index", created_at: 23.hours.ago)
 
       with_env("ULTRA_ADMIN_EMAIL" => "info@csa-admin.org") do
         assert_no_enqueued_emails do
@@ -73,7 +106,9 @@ class Notification::DemoFollowUpTest < ActiveSupport::TestCase
   test "does not send to admin who already received follow-up" do
     Tenant.stub(:demo?, true) do
       admin = create_demo_admin(demo_follow_up_sent_at: 1.day.ago)
-      create_used_session(admin: admin, last_used_at: 2.days.ago)
+      session = create_used_session(admin: admin, last_used_at: 2.days.ago)
+      create_page_visit(admin: admin, session: session, page_key: "members#index")
+      create_page_visit(admin: admin, session: session, page_key: "admins#index")
 
       with_env("ULTRA_ADMIN_EMAIL" => "info@csa-admin.org") do
         assert_no_enqueued_emails do
@@ -86,7 +121,9 @@ class Notification::DemoFollowUpTest < ActiveSupport::TestCase
   test "does not send to admin who contacted support" do
     Tenant.stub(:demo?, true) do
       admin = create_demo_admin
-      create_used_session(admin: admin, last_used_at: 2.days.ago)
+      session = create_used_session(admin: admin, last_used_at: 2.days.ago)
+      create_page_visit(admin: admin, session: session, page_key: "members#index")
+      create_page_visit(admin: admin, session: session, page_key: "admins#index")
       Support::Ticket.create!(
         admin: admin,
         subject: "Help",
@@ -109,7 +146,9 @@ class Notification::DemoFollowUpTest < ActiveSupport::TestCase
     Tenant.stub(:demo?, true) do
       with_env("ULTRA_ADMIN_EMAIL" => "ultra@example.com") do
         admin = create_demo_admin(email: "ultra@example.com")
-        create_used_session(admin: admin, last_used_at: 2.days.ago)
+        session = create_used_session(admin: admin, last_used_at: 2.days.ago)
+        create_page_visit(admin: admin, session: session, page_key: "members#index")
+        create_page_visit(admin: admin, session: session, page_key: "admins#index")
 
         assert_no_enqueued_emails do
           Notification::DemoFollowUp.notify
@@ -122,7 +161,9 @@ class Notification::DemoFollowUpTest < ActiveSupport::TestCase
 
   test "does nothing for non-demo tenants" do
     admin = create_demo_admin
-    create_used_session(admin: admin, last_used_at: 2.days.ago)
+    session = create_used_session(admin: admin, last_used_at: 2.days.ago)
+    create_page_visit(admin: admin, session: session, page_key: "members#index")
+    create_page_visit(admin: admin, session: session, page_key: "admins#index")
 
     with_env("ULTRA_ADMIN_EMAIL" => "info@csa-admin.org") do
       assert_no_enqueued_emails do

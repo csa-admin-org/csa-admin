@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 ActiveAdmin.register Session, as: "MSession" do
-  menu label: -> { Session.model_name.human(count: 2) }, parent: :other, priority: 99
+  menu false
   actions :index
 
   scope :all
@@ -22,6 +22,12 @@ ActiveAdmin.register Session, as: "MSession" do
     column :browser, ->(s) { s.last_user_agent&.to_s }, class: "text-right"
     column :os, ->(s) { s.last_user_agent&.os&.to_s }, class: "text-right"
     column :last_used_at, ->(s) { l(s.last_used_at, format: :short) if s.last_used_at }, class: "text-right whitespace-nowrap"
+    if Tenant.demo? && current_admin.ultra?
+      column t("admin.demo_page_visits.visits"), ->(s) {
+        count = s.demo_page_visits.count
+        link_to_if count.positive?, count, demo_page_visits_path(q: { session_id_eq: s.id })
+      }, class: "text-right tabular-nums"
+    end
     column nil, ->(s) {
       content_tag(:span, class: "flex items-center gap-1 justify-end text-gray-500") {
         txt = ""

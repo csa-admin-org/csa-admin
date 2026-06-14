@@ -20,7 +20,7 @@ class Demo::RegistrationsTest < ApplicationSystemTestCase
       assert_text "Try the Demo"
       assert_selector "input[name='demo_registration[name]']"
       assert_selector "input[name='demo_registration[email]']"
-      assert_selector "textarea[name='demo_registration[note]']"
+      assert_selector "textarea[name='demo_registration[message]']"
     end
   end
 

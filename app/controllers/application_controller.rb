@@ -2,6 +2,7 @@
 
 class ApplicationController < ActionController::Base
   include SessionTracking
+  include DemoPageVisitTracking
   include Observability
   include SmartReferer
 

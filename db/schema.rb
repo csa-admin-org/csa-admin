@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_06_12_120000) do
+ActiveRecord::Schema[8.1].define(version: 2026_06_14_123000) do
   create_table "absences", force: :cascade do |t|
     t.datetime "admins_notified_at"
     t.datetime "created_at"
@@ -128,6 +128,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_12_120000) do
   create_table "admins", force: :cascade do |t|
     t.datetime "created_at"
     t.datetime "demo_follow_up_sent_at"
+    t.text "demo_message"
+    t.datetime "demo_registration_notification_sent_at"
     t.string "email", limit: 255, default: "", null: false
     t.string "language", default: "fr", null: false
     t.string "latest_update_read"
@@ -398,6 +400,24 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_12_120000) do
     t.bigint "delivery_cycle_id", null: false
     t.bigint "depot_id", null: false
     t.index ["depot_id", "delivery_cycle_id"], name: "index_delivery_cycles_depots_on_depot_id_and_delivery_cycle_id", unique: true
+  end
+
+  create_table "demo_page_visits", force: :cascade do |t|
+    t.string "action_name", null: false
+    t.integer "admin_id", null: false
+    t.string "controller_name", null: false
+    t.datetime "created_at", null: false
+    t.string "page_key", null: false
+    t.string "path", null: false
+    t.integer "session_id", null: false
+    t.integer "status", null: false
+    t.datetime "updated_at", null: false
+    t.index ["admin_id", "created_at"], name: "index_demo_page_visits_on_admin_id_and_created_at"
+    t.index ["admin_id", "page_key"], name: "index_demo_page_visits_on_admin_id_and_page_key"
+    t.index ["admin_id"], name: "index_demo_page_visits_on_admin_id"
+    t.index ["page_key", "created_at"], name: "index_demo_page_visits_on_page_key_and_created_at"
+    t.index ["session_id", "created_at"], name: "index_demo_page_visits_on_session_id_and_created_at"
+    t.index ["session_id"], name: "index_demo_page_visits_on_session_id"
   end
 
   create_table "depot_groups", force: :cascade do |t|
@@ -1093,6 +1113,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_12_120000) do
   add_foreign_key "bidding_round_pledges", "bidding_rounds"
   add_foreign_key "bidding_round_pledges", "memberships"
   add_foreign_key "delivery_cycle_periods", "delivery_cycles"
+  add_foreign_key "demo_page_visits", "admins"
+  add_foreign_key "demo_page_visits", "sessions"
   add_foreign_key "depots", "depot_groups", column: "group_id"
   add_foreign_key "forced_deliveries", "deliveries"
   add_foreign_key "forced_deliveries", "memberships"

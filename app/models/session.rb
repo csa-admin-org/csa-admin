@@ -10,6 +10,7 @@ class Session < ApplicationRecord
 
   belongs_to :member, optional: true
   belongs_to :admin, optional: true
+  has_many :demo_page_visits, class_name: "Demo::PageVisit", dependent: :delete_all
 
   validates :remote_addr, :user_agent, presence: true
   validates :email, presence: true, allow_nil: true

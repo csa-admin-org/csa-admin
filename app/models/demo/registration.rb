@@ -6,7 +6,7 @@ class Demo::Registration
 
   attribute :name, :string
   attribute :email, :string
-  attribute :note, :string
+  attribute :message, :string
 
   attr_accessor :request
 
@@ -17,7 +17,6 @@ class Demo::Registration
 
     admin = create_admin!
     send_invitation_email!(admin)
-    send_notification_email!(admin)
     true
   end
 
@@ -43,7 +42,8 @@ class Demo::Registration
       name: name,
       email: email,
       language: Tenant.demo_language,
-      permission: Permission.superadmin)
+      permission: Permission.superadmin,
+      demo_message: message.presence)
   end
 
   def send_invitation_email!(admin)
@@ -55,13 +55,5 @@ class Demo::Registration
       admin: admin,
       action_url: action_url
     ).invitation_email.deliver_later
-  end
-
-  def send_notification_email!(admin)
-    AdminMailer.with(
-      admin: admin,
-      note: note.presence,
-      tenant: Tenant.current
-    ).demo_registration_notification_email.deliver_later
   end
 end

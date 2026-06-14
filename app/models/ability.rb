@@ -176,6 +176,7 @@ class Ability
     if admin.ultra?
       can :manage, Admin
       can :manage, Session
+      can :manage, Demo::PageVisit if Tenant.demo?
     end
 
     can :create, writable_models

@@ -1,5 +1,12 @@
 _:
   admin:
+    demo_page_visits:
+      visits:
+        _en: Visits
+        _fr: Visites
+        _de: Besuche
+        _it: Visite
+        _nl: Bezoeken
     notifications:
       delivery_list:
         _en: Delivery list (XLSX and PDF)

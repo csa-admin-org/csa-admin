@@ -11,9 +11,9 @@ class Demo::RegistrationTest < ActiveSupport::TestCase
       registration = Demo::Registration.new(
         name: "Alice Johnson",
         email: "alice@example.com",
-        note: "Green Valley CSA")
+        message: "Green Valley CSA")
 
-      assert_enqueued_emails 2 do
+      assert_enqueued_emails 1 do
         assert registration.save
       end
 
@@ -21,17 +21,19 @@ class Demo::RegistrationTest < ActiveSupport::TestCase
       assert admin
       assert_equal "Alice Johnson", admin.name
       assert_equal "en", admin.language
+      assert_equal "Green Valley CSA", admin.demo_message
+      assert_nil admin.demo_registration_notification_sent_at
       assert_equal Permission.superadmin, admin.permission
     end
   end
 
-  test "valid registration without note" do
+  test "valid registration without message" do
     in_demo_tenant do
       registration = Demo::Registration.new(
         name: "Bob Smith",
         email: "bob@example.com")
 
-      assert_enqueued_emails 2 do
+      assert_enqueued_emails 1 do
         assert registration.save
       end
     end
@@ -43,7 +45,7 @@ class Demo::RegistrationTest < ActiveSupport::TestCase
         name: "Claire Dupont",
         email: "claire@example.com")
 
-      assert_enqueued_emails 2 do
+      assert_enqueued_emails 1 do
         registration.save
       end
 
@@ -58,7 +60,7 @@ class Demo::RegistrationTest < ActiveSupport::TestCase
         name: "Dan Test",
         email: "  Dan@Example.COM  ")
 
-      assert_enqueued_emails 2 do
+      assert_enqueued_emails 1 do
         registration.save
       end
 
@@ -72,7 +74,7 @@ class Demo::RegistrationTest < ActiveSupport::TestCase
         name: "  Eve Tester  ",
         email: "eve@example.com")
 
-      assert_enqueued_emails 2 do
+      assert_enqueued_emails 1 do
         registration.save
       end
 
@@ -133,7 +135,7 @@ class Demo::RegistrationTest < ActiveSupport::TestCase
         name: "Joe",
         email: "joe@example.com")
 
-      assert_enqueued_emails 2 do
+      assert_enqueued_emails 1 do
         assert registration.save
       end
 
@@ -148,7 +150,7 @@ class Demo::RegistrationTest < ActiveSupport::TestCase
         email: "frank@example.com")
 
       assert_difference "Session.count", 1 do
-        assert_enqueued_emails 2 do
+        assert_enqueued_emails 1 do
           registration.save
         end
       end
@@ -161,17 +163,21 @@ class Demo::RegistrationTest < ActiveSupport::TestCase
     end
   end
 
-  test "enqueues notification email to ultra admin" do
+  test "does not enqueue ultra admin notification immediately" do
     in_demo_tenant do
       with_env("ULTRA_ADMIN_EMAIL" => "info@csa-admin.org") do
         registration = Demo::Registration.new(
           name: "Grace Test",
           email: "grace@example.com",
-          note: "Happy Farm")
+          message: "Happy Farm")
 
-        assert_enqueued_emails 2 do
+        assert_enqueued_emails 1 do
           registration.save
         end
+
+        admin = Admin.find_by!(email: "grace@example.com")
+        assert_equal "Happy Farm", admin.demo_message
+        assert_nil admin.demo_registration_notification_sent_at
       end
     end
   end
