@@ -86,7 +86,7 @@ ActiveAdmin.register Member do
       column(:shop_depot) unless params[:scope] == "inactive"
     end
     if params[:scope] == "inactive"
-      column :city, ->(member) { member.city? ? "#{member.city} (#{member.zip})" : "–" }
+      column :city, ->(member) { display_member_city_with_zip(member) }
     end
     column :state, ->(member) { aligned_status_tag(member.state) }, class: "text-right"
     actions

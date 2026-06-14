@@ -61,4 +61,29 @@ class MembersHelperTest < ActionView::TestCase
 
     assert_not_equal farm.full_address, depot_details(farm)
   end
+
+  test "display_member_city_with_zip shows city and zip" do
+    assert_equal "Lausanne (1000)", display_member_city_with_zip(member_address("Lausanne", "1000"))
+  end
+
+  test "display_member_city_with_zip omits missing zip" do
+    assert_equal "Lausanne", display_member_city_with_zip(member_address("Lausanne", nil))
+  end
+
+  test "display_member_city_with_zip shows zip when city is missing" do
+    assert_equal "1000", display_member_city_with_zip(member_address(nil, "1000"))
+  end
+
+  test "display_member_city_with_zip renders empty placeholder when city and zip are missing" do
+    html = display_member_city_with_zip(member_address("", nil)).to_s
+
+    assert_includes html, "attributes-table-empty-value"
+    assert_includes html, I18n.t("active_admin.empty")
+  end
+
+  private
+
+  def member_address(city, zip)
+    Struct.new(:city, :zip).new(city, zip)
+  end
 end

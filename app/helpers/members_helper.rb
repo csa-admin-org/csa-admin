@@ -329,6 +329,17 @@ module MembersHelper
     ].compact_blank, tag.br)
   end
 
+  def display_member_city_with_zip(member)
+    city = member.city.presence
+    zip = member.zip.presence
+
+    if city && zip
+      "#{city} (#{zip})"
+    else
+      city || zip || member_empty_value
+    end
+  end
+
   def display_billing_address(member)
     safe_join([
       member.billing_info(:street),
@@ -341,6 +352,10 @@ module MembersHelper
     parts = emails
     parts << content_tag(:i, current_session.email) unless current_session.admin_originated?
     parts.join(", ").html_safe
+  end
+
+  def member_empty_value
+    content_tag(:span, t("active_admin.empty"), class: "attributes-table-empty-value")
   end
 
   def display_phones(member)
