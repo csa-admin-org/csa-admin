@@ -10,9 +10,8 @@ require "nokogiri"
 #   1. Instance mode: renders a single page via ERB + Kramdown,
 #      requires a controller binding for helpers like Current.org, feature?().
 #   2. Class-level search (via Handbook::Search concern): parses raw markdown
-#      with regex to extract headings. No ERB rendering needed because
-#      h1/h2 lines are plain text. Results are cached per locale
-#      (invalidated on app restart).
+#      with regex to extract headings, resolving only safe ERB human-name calls.
+#      Results are cached per locale (invalidated on app restart).
 #
 # Country-specific content:
 #   Wrap sections with <!-- country:XX --> / <!-- /country:XX --> markers.

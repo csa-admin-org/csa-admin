@@ -3,8 +3,8 @@
 module Handbook::Search
   extend ActiveSupport::Concern
 
-  # Heading lines may contain ERB model_name.human calls which are
-  # resolved at search-index time via resolve_erb_model_names.
+  # Heading lines may contain safe ERB human-name calls which are
+  # resolved at search-index time via resolve_erb_human_names.
   H1_REGEX = /^#\s+(.+?)$/
   H2_REGEX = /^##\s+(.+?)\s*\{#([\w-]+)\}$/
   H3_REGEX = /^###\s+(.+?)\s*\{#([\w-]+)\}$/
@@ -151,7 +151,7 @@ module Handbook::Search
         name = File.basename(filepath, ".#{locale}.md.erb")
         content = File.read(filepath)
         content = Handbook.filter_country_sections(content)
-        content = resolve_erb_model_names(content)
+        content = resolve_erb_human_names(content, locale)
 
         title = content[H1_REGEX, 1]
         next unless title
@@ -175,7 +175,7 @@ module Handbook::Search
         name = File.basename(filepath, ".#{locale}.md.erb")
         content = File.read(filepath)
         content = Handbook.filter_country_sections(content)
-        content = resolve_erb_model_names(content)
+        content = resolve_erb_human_names(content, locale)
 
         title = content[H1_REGEX, 1]
         next unless title
@@ -192,36 +192,45 @@ module Handbook::Search
       }
     end
 
-    # Resolves ERB model_name.human calls (e.g. <%= Basket.model_name.human %>)
-    # to their rendered text so headings and body content are searchable.
-    # Other ERB tags (control flow, helpers) are left untouched for
-    # strip_erb_tags to remove later.
-    MODEL_NAME_ERB_REGEX = /<%=\s*(\w+)\.model_name\.human(?:\(([^)]*)\))?(\.\w+)*\s*%>/
+    # Resolves safe ERB human-name calls (e.g. <%= Basket.model_name.human %>,
+    # <%= Member.human_attribute_name(:salary_basket) %>) to their rendered text
+    # so headings and body content are searchable. Other ERB tags (control flow,
+    # helpers) are left untouched for strip_erb_tags to remove later.
+    CLASS_NAME_PATTERN = "[A-Z]\\w*(?:::[A-Z]\\w*)*"
+    MODEL_NAME_ERB_REGEX = /<%=\s*(#{CLASS_NAME_PATTERN})\.model_name\.human(?:\(([^)]*)\))?((?:\.\w+)*)\s*%>/
+    HUMAN_ATTRIBUTE_ERB_REGEX = /<%=\s*(#{CLASS_NAME_PATTERN})\.human_attribute_name\(\s*:?["']?([\w\/]+)["']?\s*(?:,\s*([^)]*))?\)((?:\.\w+)*)\s*%>/
 
-    def resolve_erb_model_names(text)
-      text.gsub(MODEL_NAME_ERB_REGEX) do
-        klass_name = $1
-        args_str = $2
-        chain = $3
-
-        klass = klass_name.safe_constantize
-        next $& unless klass&.respond_to?(:model_name)
-
-        opts = {}
-        if args_str.present?
-          args_str.scan(/([\w]+):\s*(\d+)/) { |k, v| opts[k.to_sym] = v.to_i }
-        end
-
-        result = klass.model_name.human(**opts)
-
-        if chain.present?
-          chain.scan(/\.(\w+)/).each do |method,|
-            result = result.public_send(method) if result.respond_to?(method)
-          end
-        end
-
-        result
+    def resolve_erb_human_names(text, locale)
+      I18n.with_locale(locale) do
+        text
+          .gsub(MODEL_NAME_ERB_REGEX) { resolve_erb_model_name(Regexp.last_match) }
+          .gsub(HUMAN_ATTRIBUTE_ERB_REGEX) { resolve_erb_human_attribute_name(Regexp.last_match) }
       end
+    end
+
+    def resolve_erb_model_name(match)
+      klass = match[1].safe_constantize
+      return match[0] unless klass&.respond_to?(:model_name)
+
+      apply_erb_method_chain(klass.model_name.human(**erb_human_options(match[2])), match[3])
+    end
+
+    def resolve_erb_human_attribute_name(match)
+      klass = match[1].safe_constantize
+      return match[0] unless klass&.respond_to?(:human_attribute_name)
+
+      apply_erb_method_chain(klass.human_attribute_name(match[2], **erb_human_options(match[3])), match[4])
+    end
+
+    def erb_human_options(args_str)
+      args_str.to_s.scan(/([\w]+):\s*(\d+)/).to_h { |key, value| [ key.to_sym, value.to_i ] }
+    end
+
+    def apply_erb_method_chain(result, chain)
+      chain.to_s.scan(/\.(\w+)/).each do |method,|
+        result = result.public_send(method) if result.respond_to?(method)
+      end
+      result
     end
 
     def strip_erb_tags(text)

@@ -81,6 +81,17 @@ class HandbookContentSearchTest < ActiveSupport::TestCase
     assert match, "Expected a heading match for H3 'Trial ...' (dynamic basket name)"
   end
 
+  test "content_search resolves human_attribute_name ERB in headings" do
+    results = Handbook.content_search("salary basket", locale: :en)
+
+    match = results.find { |r| r[:name] == "members" && r[:anchor] == "salary-basket" }
+    expected = I18n.with_locale(:en) { Member.human_attribute_name(:salary_basket) }
+
+    assert match, "Expected a heading match for salary basket"
+    assert_equal expected, match[:heading]
+    assert_not_includes match[:heading], "<%="
+  end
+
   # -- Accent-insensitive matching --
 
   test "content_search is accent-insensitive" do

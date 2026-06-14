@@ -317,6 +317,26 @@ class HandbookSearchTest < ActiveSupport::TestCase
     assert_equal "memberships", memberships[1]
   end
 
+  test "headings_for resolves human_attribute_name ERB in subtitles" do
+    headings = Handbook.headings_for(:en)
+    members = headings.find { |p| p[:name] == "members" }
+    assert members, "Expected to find members page"
+
+    salary_basket = members[:subtitles].find { |_, anchor, _| anchor == "salary-basket" }
+    expected = I18n.with_locale(:en) { Member.human_attribute_name(:salary_basket) }
+
+    assert salary_basket, "Expected to find salary basket subtitle in members page"
+    assert_equal expected, salary_basket[0]
+    assert_not_includes salary_basket[0], "<%="
+  end
+
+  test "search does not match unresolved ERB class names" do
+    results = Handbook.search("member", locale: :fr)
+
+    salary_basket = results.find { |r| r[:name] == "members" && r[:anchor] == "salary-basket" }
+    assert_nil salary_basket, "Expected French search not to match literal Member.human_attribute_name ERB"
+  end
+
   test "headings_for returns consistent anchors across locales" do
     en_headings = Handbook.headings_for(:en)
     fr_headings = Handbook.headings_for(:fr)
