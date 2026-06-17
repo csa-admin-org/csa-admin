@@ -13,7 +13,7 @@ module Member::Shares
       },
       if: -> { public_create && Current.org.feature?("shares") }
 
-    before_save :handle_required_shares_number_change
+    before_save :handle_required_shares_number_change, if: :shares_configuration_changed?
   end
 
   def shares_number
@@ -41,11 +41,19 @@ module Member::Shares
     if shares_number.positive?
       update_column(:state, Member::SUPPORT_STATE) if inactive?
     elsif support?
-      update_column(:state, Member::INACTIVE_STATE)
+      update_columns(
+        state: Member::INACTIVE_STATE,
+        desired_shares_number: 0)
     end
   end
 
   private
+
+  def shares_configuration_changed?
+    will_save_change_to_existing_shares_number? ||
+      will_save_change_to_desired_shares_number? ||
+      will_save_change_to_required_shares_number?
+  end
 
   def handle_required_shares_number_change
     return unless Current.org.feature?("shares")

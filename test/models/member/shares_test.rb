@@ -114,14 +114,29 @@ class Member::SharesTest < ActiveSupport::TestCase
     assert_equal "support", member.state
   end
 
-  test "handle_shares_change! sets state to inactive when no shares and member is support" do
+  test "handle_shares_change! sets state to inactive and clears desired shares when no shares and member is support" do
     org(features: (Current.org.features - [ :annual_fee ]) | [ :shares ], share_price: 100, shares_number: 1, annual_fee: nil)
     member = members(:martha)
-    member.update_columns(state: "support", existing_shares_number: 0)
+    member.update_columns(state: "support", existing_shares_number: 0, desired_shares_number: 2)
 
     member.handle_shares_change!
 
     assert_equal "inactive", member.state
+    assert_equal 0, member.desired_shares_number
+  end
+
+  test "saving unrelated attributes does not reactivate inactive member with stale desired shares" do
+    org(features: (Current.org.features - [ :annual_fee ]) | [ :shares ], share_price: 100, shares_number: 1, annual_fee: nil)
+    member = members(:mary)
+    member.update_columns(
+      state: "inactive",
+      existing_shares_number: 0,
+      desired_shares_number: 2,
+      required_shares_number: 0)
+
+    assert_no_changes -> { member.reload.state } do
+      member.update!(city: "New city")
+    end
   end
 
   test "changes inactive member state to support and back to inactive via invoice" do
@@ -137,6 +152,7 @@ class Member::SharesTest < ActiveSupport::TestCase
       create_invoice(member: member, shares_number: -1)
       perform_enqueued_jobs
     end
+    assert_equal 0, member.desired_shares_number
   end
 
   test "deactivate! removing negative number" do
