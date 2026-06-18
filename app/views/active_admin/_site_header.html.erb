@@ -3,7 +3,7 @@
     class="mx-auto flex max-w-7xl flex-wrap items-center justify-between py-2"
     data-controller="nav-toggle"
   >
-    <div class="order-1 flex grow pl-3 md:hidden">
+    <div class="order-1 flex grow pl-4 md:hidden">
       <button
         type="button"
         class="
@@ -15,7 +15,7 @@
         data-action="nav-toggle#toggle"
         aria-expanded="false"
       >
-        <%= icon "menu", class: "size-8" %>
+        <%= icon "menu", class: "size-9" %>
         <span class="sr-only">Open main menu</span>
       </button>
     </div>
@@ -111,7 +111,7 @@
       </ul>
     </nav>
 
-    <div class="order-2 ms-auto flex pe-3 md:order-3 md:pe-4">
+    <div class="order-2 ms-auto flex gap-x-1 pe-3 md:order-3 md:gap-x-0 md:pe-4">
       <%= render "search/modal" %>
 
       <a
@@ -124,7 +124,7 @@
         data-turbo-prefetch="false"
         title="<%= t(".support") %>"
       >
-        <%= icon "message-circle-question-mark", class: "size-5" %>
+        <%= icon "message-circle-question-mark", class: "size-6 md:size-5" %>
       </a>
 
       <% if Update.unread_count(current_active_admin_user).positive? %>
@@ -138,7 +138,7 @@
           data-turbo-prefetch="false"
           title="<%= t(".updates") %>"
         >
-          <%= icon "gift", class: "size-5" %>
+          <%= icon "gift", class: "size-6 md:size-5" %>
 
           <div
             class="
@@ -159,7 +159,7 @@
         data-turbo-prefetch="false"
         title="<%= t(".handbook") %>"
       >
-        <%= icon "book-open", class: "size-5" %>
+        <%= icon "book-open", class: "size-6 md:size-5" %>
       </a>
 
       <% if can?(:read, Organization) %>
@@ -171,7 +171,7 @@
             dark:text-black/50! dark:hover:text-black!
           "
         >
-          <%= icon "sliders-horizontal", class: "size-5" %>
+          <%= icon "sliders-horizontal", class: "size-6 md:size-5" %>
         </a>
       <% end %>
 
