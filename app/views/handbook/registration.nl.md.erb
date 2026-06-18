@@ -4,6 +4,18 @@ Je registratieformulier is de manier waarop nieuwe leden zich bij je organisatie
 
 > Je kunt je formulier op elk moment bekijken: [registratieformulier openen](<%= new_members_member_url(subdomain: Current.org.members_subdomain) %>). Het is ook de moeite waard om het op mobiel te testen, aangezien veel mensen zich vanaf hun telefoon zullen aanmelden.
 
+## Validatie en herregistratie {#validation-reregistration}
+
+Elke indiening via het publieke registratieformulier moet door een beheerder worden nagekeken. Dit geldt voor volledig nieuwe leden en voor mensen die al in CSA Admin staan.
+
+Als het ingevoerde e-mailadres overeenkomt met één bestaand inactief of ondersteunend lid, wordt de bestaande lidfiche bijgewerkt in plaats van een duplicaat aan te maken. De eerdere validatie wordt gewist en het lid gaat terug naar de [status "Te valideren"](/handbook/members#to-validate) en naar [de lijst met te valideren leden](/members?scope=pending), zodat je de nieuwe contactgegevens en de lidmaatschapsaanvraag kunt nakijken.
+
+Eerdere gegevens blijven beschikbaar in de "Geschiedenis" van de lidfiche als je ze later moet nakijken.
+
+Een herregistratie zonder lidmaatschapsaanvraag wist alle lidmaatschapskeuzes voor de wachtlijst (mand, depot, leveringscyclus, aanvullingen, factureringsopties, enz.). Het lid wordt bij validatie een ondersteunend lid.
+
+Actieve leden en leden op de wachtlijst worden niet op deze manier opnieuw geregistreerd; een e-mailadres dat al in gebruik is blokkeert de indiening van het formulier.
+
 ## Introductietekst {#introduction}
 
 De ondertitel verschijnt direct onder de formuliertitel. Een of twee zinnen zijn hier ideaal: een kort welkom of een link naar je website voor meer details.

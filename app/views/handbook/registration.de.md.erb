@@ -4,6 +4,18 @@ Dein Anmeldeformular ist der Weg, über den neue Mitglieder Deiner Organisation 
 
 > Du kannst Dein Formular jederzeit in der Vorschau ansehen: [Anmeldeformular öffnen](<%= new_members_member_url(subdomain: Current.org.members_subdomain) %>). Es lohnt sich, es auch auf dem Handy zu testen, da sich viele Personen von ihrem Telefon aus anmelden werden.
 
+## Bestätigung und erneute Anmeldung {#validation-reregistration}
+
+Jede über das öffentliche Anmeldeformular eingereichte Anmeldung muss von einem Administrator geprüft werden. Das gilt sowohl für ganz neue Mitglieder als auch für Personen, die bereits in CSA Admin erfasst sind.
+
+Wenn die eingegebene E-Mail-Adresse einem einzigen bestehenden inaktiven oder Support-Mitglied entspricht, wird der bestehende Mitgliedsdatensatz aktualisiert, statt ein Duplikat zu erstellen. Die vorherige Bestätigung wird zurückgesetzt und das Mitglied wechselt zurück in den [Status «Zu bestätigen»](/handbook/members#to-validate) und in [die Liste der zu bestätigenden Mitglieder](/members?scope=pending), damit Du die neuen Kontaktdaten und die Abonnementsanfrage prüfen kannst.
+
+Frühere Daten bleiben im «Verlauf» des Mitgliedsdatensatzes verfügbar, falls Du sie später prüfen musst.
+
+Eine erneute Anmeldung ohne Abonnementsanfrage entfernt alle Angaben zum Wartelisten-Abonnement (Korb, Depot, Lieferzyklus, Zusätze, Abrechnungsoptionen usw.). Das Mitglied wird beim Bestätigen zu einem Support-Mitglied.
+
+Aktive Mitglieder und Mitglieder auf der Warteliste werden auf diese Weise nicht erneut angemeldet; eine bereits verwendete E-Mail-Adresse blockiert das Absenden des Formulars.
+
 ## Einleitungstext {#introduction}
 
 Der Untertitel erscheint direkt unter dem Formulartitel. Ein oder zwei Sätze sind hier ideal: eine kurze Begrüssung oder ein Link zu Deiner Website für weitere Details.

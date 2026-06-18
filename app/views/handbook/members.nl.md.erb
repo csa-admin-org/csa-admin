@@ -6,11 +6,13 @@ Een lid wordt aangemaakt via het [registratieformulier](<%= new_members_member_u
 
 ## Statussen {#statuses}
 
-### Te valideren
+### Te valideren {#to-validate}
 
-Nieuwe leden aangemaakt via het [registratieformulier](<%= new_members_member_url(subdomain: Current.org.members_subdomain) %>) worden toegevoegd aan [de lijst van leden om te valideren](/members?scope=pending). Ze moeten worden gevalideerd door een beheerder om ervoor te zorgen dat alle informatie correct is.
+Personen die het [registratieformulier](<%= new_members_member_url(subdomain: Current.org.members_subdomain) %>) indienen, worden toegevoegd aan [de lijst met te valideren leden](/members?scope=pending), of het nu gaat om nieuwe leden of bestaande inactieve of ondersteunende leden die zich opnieuw registreren. Ze moeten worden gevalideerd door een beheerder om ervoor te zorgen dat alle informatie correct is.
 
-Het is mogelijk om automatisch een welkomste-mail te verzenden bij het valideren van een lid door [de "Lid gevalideerd" e-mailsjabloon](/mail_templates/member_validated) te configureren.
+Als het ingevoerde e-mailadres overeenkomt met een bestaand inactief of ondersteunend lid, wordt de bestaande lidfiche hergebruikt en teruggezet naar de status "Te valideren" in plaats van een duplicaat aan te maken. Zie de [pagina over het registratieformulier](/handbook/registration#validation-reregistration) voor de gedetailleerde workflow voor herregistratie.
+
+Een registratie zonder lidmaatschapsaanvraag wordt bij validatie een ondersteunend lid. Het is mogelijk om automatisch een welkomste-mail te verzenden bij het valideren van een lid door [de "Lid gevalideerd" e-mailsjabloon](/mail_templates/member_validated) te configureren.
 
 > Beheerders kunnen per e-mail worden gewaarschuwd wanneer een nieuwe registratie plaatsvindt door hun [meldingsvoorkeuren](<%= edit_admin_path(current_admin) %>) te beheren.
 
@@ -18,7 +20,7 @@ Het is mogelijk om automatisch een welkomste-mail te verzenden bij het valideren
 
 De [wachtlijst](/settings#waiting_list) is een optionele functie, nuttig voor organisaties die een capaciteitslimiet hebben voor actieve leden.
 
-Leden die via het publieke registratieformulier worden aangemaakt, worden altijd toegevoegd aan [de lijst met te valideren leden](/members?scope=pending). Zij kiezen zelf geen startdatum voor het lidmaatschap. Wanneer een admin op "Valideren" klikt, wordt een volledige lidmaatschapsaanvraag op de wachtlijst geplaatst als deze functie is ingeschakeld; als ze is uitgeschakeld, wordt het lidmaatschap direct aangemaakt vanaf de week van de volgende levering van de geselecteerde leveringscyclus.
+Registraties die via het publieke registratieformulier worden ingediend, worden altijd toegevoegd aan [de lijst met te valideren leden](/members?scope=pending). Leden kiezen zelf geen startdatum voor het lidmaatschap. Wanneer een admin op "Valideren" klikt, wordt een volledige lidmaatschapsaanvraag op de wachtlijst geplaatst als deze functie is ingeschakeld; als ze is uitgeschakeld, wordt het lidmaatschap direct aangemaakt vanaf de week van de volgende levering van de geselecteerde leveringscyclus.
 
 Wanneer een admin een lid rechtstreeks via [het formulier om een lid aan te maken](/members/new) aanmaakt, kan het lidmaatschapspaneel een startdatumveld tonen. Als de wachtlijst is ingeschakeld, laat je het leeg om het lid op de wachtlijst te plaatsen, of vul je een datum in om het lidmaatschap meteen bij het valideren van het lid aan te maken. Deze onmiddellijke aanmaak van het lidmaatschap activeert het lid en gebruikt [de e-mailsjabloon "Lid geactiveerd"](/mail_templates/member_activated) als die actief is.
 

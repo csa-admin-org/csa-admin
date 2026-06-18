@@ -6,11 +6,13 @@ Un socio viene creato tramite il [formulario d'iscrizione](<%= new_members_membe
 
 ## Statuti {#statuses}
 
-### Da confermare
+### Da confermare {#to-validate}
 
-I nuovi soci creati tramite il [formulario d'iscrizione](<%= new_members_member_url(subdomain: Current.org.members_subdomain) %>) vengono aggiunti [all'elenco dei soci da confermare](/members?scope=pending). Devono essere confermati da un amministratore per assicurarsi che le informazioni siano corrette.
+Le persone che presentano il [formulario d'iscrizione](<%= new_members_member_url(subdomain: Current.org.members_subdomain) %>) vengono aggiunte [all'elenco dei soci da confermare](/members?scope=pending), che si tratti di nuovi soci o di soci esistenti inattivi o di supporto che si iscrivono di nuovo. Devono essere confermate da un amministratore per assicurarsi che le informazioni siano corrette.
 
-È possibile inviare automaticamente un'email di benvenuto durante la conferma di un socio configurando [il template email “Socio confermato”](/mail_templates/member_validated).
+Se l'email inserita corrisponde a un socio esistente inattivo o di supporto, la sua scheda viene riutilizzata e riportata allo stato «Da confermare» invece di creare un duplicato. Vedi la [pagina del formulario d'iscrizione](/handbook/registration#validation-reregistration) per il funzionamento dettagliato della reiscrizione.
+
+Chi si iscrive senza richiesta di abbonamento diventa un socio di supporto al momento della conferma. È possibile inviare automaticamente un'email di benvenuto durante la conferma di un socio configurando [il template email “Socio confermato”](/mail_templates/member_validated).
 
 > Gli amministratori possono ricevere notifiche via email per ogni nuova iscrizione gestendo le [preferenze di notifica](<%= edit_admin_path(current_admin) %>).
 
@@ -18,7 +20,7 @@ I nuovi soci creati tramite il [formulario d'iscrizione](<%= new_members_member_
 
 La [lista d'attesa](/settings#waiting_list) è una funzionalità opzionale, utile per le organizzazioni che hanno un limite di capacità per i soci attivi.
 
-I soci creati dal formulario d'iscrizione pubblico vengono sempre aggiunti [alla lista dei soci da convalidare](/members?scope=pending). Non scelgono una data d'inizio dell'abbonamento. Quando un admin clicca su “Convalida”, una richiesta di abbonamento completa viene inserita nella lista d'attesa se questa funzionalità è attiva; se è disattivata, l'abbonamento viene creato direttamente dalla settimana della prossima consegna del ciclo selezionato.
+Le iscrizioni presentate tramite il formulario pubblico vengono sempre aggiunte [alla lista dei soci da convalidare](/members?scope=pending). I soci non scelgono una data d'inizio dell'abbonamento. Quando un admin clicca su “Convalida”, una richiesta di abbonamento completa viene inserita nella lista d'attesa se questa funzionalità è attiva; se è disattivata, l'abbonamento viene creato direttamente dalla settimana della prossima consegna del ciclo selezionato.
 
 Quando un admin crea un socio direttamente dal [formulario di creazione di un socio](/members/new), il pannello dell'abbonamento può mostrare un campo data d'inizio. Con la lista d'attesa attiva, lascialo vuoto per inserire il socio nella lista d'attesa, oppure indica una data per creare subito l'abbonamento alla conferma del socio. Questa creazione immediata dell'abbonamento attiva il socio e usa [il template email “Socio attivato”](/mail_templates/member_activated) se è attivo.
 

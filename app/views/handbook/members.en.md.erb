@@ -6,9 +6,11 @@ A member is created through the [registration form](<%= new_members_member_url(s
 
 ## Statuses {#statuses}
 
-### To validate
+### To validate {#to-validate}
 
-New members created using the [registration form](<%= new_members_member_url(subdomain: Current.org.members_subdomain) %>) are added to [the list of members to validate](/members?scope=pending). They must be validated by an administrator to ensure that all information is correct.
+People who submit the [registration form](<%= new_members_member_url(subdomain: Current.org.members_subdomain) %>) are added to [the list of members to validate](/members?scope=pending), whether they are brand-new members or existing inactive or support members registering again. They must be validated by an administrator to ensure that all information is correct.
+
+If the submitted email matches an existing inactive or support member, that member record is reused and moved back to this pending state instead of creating a duplicate. See the [registration form page](/handbook/registration#validation-reregistration) for the detailed re-registration workflow.
 
 A support-only registration becomes a support member when validated. It is possible to automatically send a welcome email when validating a member by configuring [the "Member validated" email template](/mail_templates/member_validated).
 
@@ -18,7 +20,7 @@ A support-only registration becomes a support member when validated. It is possi
 
 The [waiting list](/settings#waiting_list) is an optional feature, useful for organizations that have a capacity limit on active members.
 
-Members created from the public registration form are always added to [the list of members to validate](/members?scope=pending). They do not choose a membership start date. When an admin clicks "Validate", a complete membership request is placed on the waiting list if this feature is enabled; if the feature is disabled, the membership is created directly from the next delivery week of the selected delivery cycle.
+Registrations submitted through the public registration form are always added to [the list of members to validate](/members?scope=pending). Members do not choose a membership start date. When an admin clicks "Validate", a complete membership request is placed on the waiting list if this feature is enabled; if the feature is disabled, the membership is created directly from the next delivery week of the selected delivery cycle.
 
 When an admin creates a member directly from [the member creation form](/members/new), the membership panel can show a start date field. With the waiting list feature enabled, leave it blank to place the member on the waiting list, or set a date to create the membership immediately while validating the member. This immediate membership creation activates the member and uses [the "Member activated" email template](/mail_templates/member_activated) if it is active.
 

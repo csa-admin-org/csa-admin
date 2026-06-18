@@ -4,6 +4,18 @@ Your registration form is how new members join your organization. A clear, well-
 
 > You can preview your form anytime: [open registration form](<%= new_members_member_url(subdomain: Current.org.members_subdomain) %>). It's worth testing it on mobile too, since many people will sign up from their phone.
 
+## Validation and re-registration {#validation-reregistration}
+
+Every submission from the public registration form must be reviewed by an administrator. This includes brand-new members and people who were already in CSA Admin.
+
+If the submitted email matches a single existing inactive or support member, the existing member record is updated instead of creating a duplicate. The previous validation is cleared and the member moves back to the [To validate status](/handbook/members#to-validate) and [the list of members to validate](/members?scope=pending), so you can review the new contact details and membership request.
+
+Previous data remains available in the member record's audit history if you need to review it later.
+
+A support-only re-registration clears any waiting-list membership choices (basket, depot, delivery cycle, complements, billing options, etc.). The member becomes a support member when validated.
+
+Active members and waiting-list members are not re-registered this way; an email address that is already in use blocks the form submission.
+
 ## Introduction Text {#introduction}
 
 The subtitle appears just below the form title. A sentence or two is ideal here: a short welcome, or a link to your website for more details.

@@ -4,6 +4,18 @@ Votre formulaire d'inscription est la porte d'entrée pour les nouveaux membres.
 
 > Vous pouvez prévisualiser votre formulaire à tout moment : [ouvrir le formulaire d'inscription](<%= new_members_member_url(subdomain: Current.org.members_subdomain) %>). Ça vaut la peine de le tester aussi sur mobile, car beaucoup de personnes s'inscriront depuis leur téléphone.
 
+## Validation et réinscription {#validation-reregistration}
+
+Chaque soumission du formulaire d'inscription public doit être revue par un administrateur. Cela vaut autant pour les personnes qui s'inscrivent pour la première fois que pour celles déjà présentes dans CSA Admin.
+
+Si l'e-mail saisi correspond à un seul membre existant inactif ou support, sa fiche est mise à jour au lieu de créer un doublon. La validation précédente est effacée et le membre repasse au [statut « À valider »](/handbook/members#to-validate) et dans [la liste des membres à valider](/members?scope=pending), afin que vous puissiez vérifier les nouvelles coordonnées et la demande d'abonnement.
+
+Les données précédentes restent disponibles dans l'« Historique » de la fiche membre si vous devez les consulter plus tard.
+
+Une réinscription sans demande d'abonnement supprime les choix d'abonnement liés à la liste d'attente (panier, dépôt, cycle de livraison, compléments, options de facturation, etc.). Le membre devient support lors de sa validation.
+
+Les membres actifs et les membres en liste d'attente ne sont pas réinscrits de cette façon ; une adresse e-mail déjà utilisée bloque l'envoi du formulaire.
+
 ## Texte d'introduction {#introduction}
 
 Le sous-titre apparaît juste en dessous du titre du formulaire. Une ou deux phrases suffisent : un court mot de bienvenue, ou un lien vers votre site web pour plus de détails.

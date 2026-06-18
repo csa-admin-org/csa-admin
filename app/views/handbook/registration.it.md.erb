@@ -4,6 +4,18 @@ Il tuo modulo di iscrizione è il modo in cui i nuovi soci entrano nella tua org
 
 > Puoi visualizzare l'anteprima del tuo modulo in qualsiasi momento: [aprire il modulo di iscrizione](<%= new_members_member_url(subdomain: Current.org.members_subdomain) %>). Vale la pena testarlo anche su mobile, dato che molte persone si iscriveranno dal loro telefono.
 
+## Conferma e reiscrizione {#validation-reregistration}
+
+Ogni iscrizione presentata tramite il formulario pubblico deve essere rivista da un amministratore. Questo vale sia per i nuovi soci sia per le persone già presenti in CSA Admin.
+
+Se l'email inserita corrisponde a un solo socio esistente inattivo o di supporto, la sua scheda viene aggiornata invece di creare un duplicato. La conferma precedente viene cancellata e il socio torna allo [stato «Da confermare»](/handbook/members#to-validate) e [all'elenco dei soci da confermare](/members?scope=pending), così puoi verificare i nuovi dati di contatto e la richiesta di abbonamento.
+
+I dati precedenti restano disponibili nella «Cronologia» della scheda del socio se devi consultarli più tardi.
+
+Una reiscrizione senza richiesta di abbonamento cancella le scelte di abbonamento legate alla lista d'attesa (cesta, punto di ritiro, ciclo di consegna, aggiunte, opzioni di fatturazione, ecc.). Il socio diventa un socio di supporto al momento della conferma.
+
+I soci attivi e i soci in lista d'attesa non vengono reiscritti in questo modo; un indirizzo email già in uso blocca l'invio del formulario.
+
 ## Testo di introduzione {#introduction}
 
 Il sottotitolo appare appena sotto il titolo del modulo. Una o due frasi sono l'ideale: un breve benvenuto o un link al tuo sito web per maggiori dettagli.

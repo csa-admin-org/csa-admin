@@ -6,11 +6,13 @@ Ein Mitglied wird über das [Anmeldeformular](<%= new_members_member_url(subdoma
 
 ## Status {#statuses}
 
-### Zu bestätigen
+### Zu bestätigen {#to-validate}
 
-Neue Mitglieder, die über das [Anmeldeformular](<%= new_members_member_url(subdomain: Current.org.members_subdomain) %>) erstellt werden, erscheinen in [der Liste der zu bestätigenden Mitglieder](/members?scope=pending). Sie müssen von einem Administrator bestätigt werden, um sicherzustellen, dass alle Informationen korrekt sind.
+Personen, die das [Anmeldeformular](<%= new_members_member_url(subdomain: Current.org.members_subdomain) %>) einreichen, werden [der Liste der zu bestätigenden Mitglieder](/members?scope=pending) hinzugefügt, egal ob sie ganz neue Mitglieder sind oder bestehende inaktive oder Support-Mitglieder, die sich erneut anmelden. Sie müssen von einem Administrator bestätigt werden, um sicherzustellen, dass alle Informationen korrekt sind.
 
-Es ist möglich, beim Bestätigen eines Mitglieds automatisch eine Willkommens-E-Mail zu senden, indem [die E-Mail-Vorlage "Mitglied bestätigt"](/mail_templates/member_validated) konfiguriert wird.
+Wenn die eingegebene E-Mail-Adresse einem bestehenden inaktiven oder Support-Mitglied entspricht, wird der bestehende Mitgliedsdatensatz wiederverwendet und zurück in diesen Status «Zu bestätigen» verschoben, statt ein Duplikat zu erstellen. Auf der [Seite zum Anmeldeformular](/handbook/registration#validation-reregistration) findest Du den detaillierten Ablauf der erneuten Anmeldung.
+
+Eine Anmeldung ohne Abonnementsanfrage wird beim Bestätigen zu einem Support-Mitglied. Es ist möglich, beim Bestätigen eines Mitglieds automatisch eine Willkommens-E-Mail zu senden, indem [die E-Mail-Vorlage "Mitglied bestätigt"](/mail_templates/member_validated) konfiguriert wird.
 
 > Administratoren können per E-Mail benachrichtigt werden, wenn eine neue Anmeldung erfolgt, indem sie ihre [Benachrichtigungseinstellungen](<%= edit_admin_path(current_admin) %>) verwalten.
 
@@ -18,7 +20,7 @@ Es ist möglich, beim Bestätigen eines Mitglieds automatisch eine Willkommens-E
 
 Die [Warteliste](/settings#waiting_list) ist eine optionale Funktion, hilfreich für Organisationen mit einer Kapazitätsgrenze an aktiven Mitgliedern.
 
-Mitglieder, die über das öffentliche Anmeldeformular erstellt werden, werden immer [der Liste der zu bestätigenden Mitglieder](/members?scope=pending) hinzugefügt. Dabei wird kein Startdatum für das Abonnement gewählt. Wenn Du als Admin auf „Bestätigen“ klickst, wird eine vollständige Abonnementsanfrage auf die Warteliste gesetzt, wenn diese Funktion aktiviert ist; wenn sie deaktiviert ist, wird das Abonnement direkt ab der Woche der nächsten Lieferung des ausgewählten Lieferzyklus erstellt.
+Über das öffentliche Anmeldeformular eingereichte Anmeldungen werden immer [der Liste der zu bestätigenden Mitglieder](/members?scope=pending) hinzugefügt. Mitglieder wählen dabei kein Startdatum für das Abonnement. Wenn Du als Admin auf „Bestätigen“ klickst, wird eine vollständige Abonnementsanfrage auf die Warteliste gesetzt, wenn diese Funktion aktiviert ist; wenn sie deaktiviert ist, wird das Abonnement direkt ab der Woche der nächsten Lieferung des ausgewählten Lieferzyklus erstellt.
 
 Wenn Du als Admin ein Mitglied direkt über [das Formular zur Mitgliedserstellung](/members/new) erstellst, kann im Abonnement-Bereich ein Startdatum-Feld angezeigt werden. Lass es bei aktivierter Warteliste leer, um das Mitglied auf die Warteliste zu setzen, oder setze ein Datum, um das Abonnement sofort beim Bestätigen des Mitglieds zu erstellen. Diese sofortige Abonnementerstellung aktiviert das Mitglied und verwendet [die E-Mail-Vorlage „Mitglied aktiviert“](/mail_templates/member_activated), falls sie aktiv ist.
 
