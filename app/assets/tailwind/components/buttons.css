@@ -22,6 +22,10 @@
     }
   }
 
+  .admin-header-action {
+    @apply flex size-9 items-center justify-center text-sm text-white/75 hover:text-white focus:outline-hidden dark:text-green-100/75 dark:hover:text-white;
+  }
+
   a.btn,
   button.btn,
   .action-item-button,

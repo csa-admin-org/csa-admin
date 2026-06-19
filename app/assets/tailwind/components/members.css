@@ -6,6 +6,10 @@
       @apply dark:hue-rotate-180 dark:invert;
     }
 
+    .member-detail-icon {
+      @apply text-gray-300 dark:text-gray-500;
+    }
+
     a,
     button {
       @apply no-underline hover:text-green-500;

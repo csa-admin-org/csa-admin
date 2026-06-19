@@ -44,7 +44,7 @@
 
   <ul class="-ms-0.5 space-y-1.5 <%= "[&_a]:decoration-inherit line-through" if basket.content_forfeited? %>">
     <li class="flex flex-row items-center gap-2">
-      <%= icon "shopping-bag", class: "flex-none size-5 text-gray-300 dark:text-gray-500" %>
+      <%= icon "shopping-bag", class: "member-detail-icon flex-none size-5" %>
 
       <span>
         <% if basket.shifted? %>
@@ -56,7 +56,7 @@
     </li>
 
     <li class="flex flex-row items-center gap-2">
-      <%= icon "map", class: "flex-none size-5 text-gray-300 dark:text-gray-500" %>
+      <%= icon "map", class: "member-detail-icon flex-none size-5" %>
 
       <span><%= depot_map_link(basket.depot) %></span>
     </li>

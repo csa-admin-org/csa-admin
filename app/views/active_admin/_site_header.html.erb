@@ -122,11 +122,7 @@
 
       <a
         href="<%= support_path %>"
-        class="
-          relative flex size-9 items-center justify-center text-sm
-          text-white/75 hover:text-white focus:outline-hidden
-          dark:text-green-100/75 dark:hover:text-white
-        "
+        class="admin-header-action relative"
         data-turbo-prefetch="false"
         title="<%= t(".support") %>"
       >
@@ -136,11 +132,7 @@
       <% if Update.unread_count(current_active_admin_user).positive? %>
         <a
           href="<%= updates_path %>"
-          class="
-            relative flex size-9 items-center justify-center text-sm
-            text-white/75 hover:text-white focus:outline-hidden
-            dark:text-green-100/75 dark:hover:text-white
-          "
+          class="admin-header-action relative"
           data-turbo-prefetch="false"
           title="<%= t(".updates") %>"
         >
@@ -157,11 +149,7 @@
 
       <a
         href="<%= handbook_path %>"
-        class="
-          relative flex size-9 items-center justify-center text-sm
-          text-white/75 hover:text-white focus:outline-hidden
-          dark:text-green-100/75 dark:hover:text-white
-        "
+        class="admin-header-action relative"
         data-turbo-prefetch="false"
         title="<%= t(".handbook") %>"
       >
@@ -172,8 +160,7 @@
         <a
           href="<%= organization_path %>"
           class="
-            relative flex size-9 items-center justify-center text-sm
-            text-white/75! hover:text-white! focus:outline-hidden
+            admin-header-action relative text-white/75! hover:text-white!
             dark:text-green-100/75! dark:hover:text-white!
           "
         >

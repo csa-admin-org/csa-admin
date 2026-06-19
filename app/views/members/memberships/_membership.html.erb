@@ -11,7 +11,7 @@
 
   <ul class="relative -mx-2 my-2 space-y-2 p-2 md:mr-4">
     <li class="flex flex-row items-center gap-3">
-      <%= icon "calendar-range", class: "flex-none size-6 -mt-0.5 text-gray-300 dark:text-gray-500" %>
+      <%= icon "calendar-range", class: "member-detail-icon flex-none size-6 -mt-0.5" %>
 
       <span>
         <%= [ membership.first_delivery.date, membership.last_delivery.date ].map { |d| l(d) }.join(" – ") %>
@@ -19,7 +19,7 @@
     </li>
 
     <li class="mt-1 flex flex-row items-center gap-3">
-      <%= icon "shopping-bag", class: "flex-none size-6 text-gray-300 dark:text-gray-500" %>
+      <%= icon "shopping-bag", class: "member-detail-icon flex-none size-6" %>
 
       <span class="flex flex-col">
         <span><%= basket_size_description(membership) %></span>
@@ -32,20 +32,20 @@
     </li>
 
     <li class="mt-1 flex flex-row items-center gap-3">
-      <%= icon "map", class: "flex-none size-6 text-gray-300 dark:text-gray-500" %>
+      <%= icon "map", class: "member-detail-icon flex-none size-6" %>
 
       <span><%= depot_map_link(membership.depot) %></span>
     </li>
 
     <li class="mt-1 flex flex-row items-center gap-3">
-      <%= icon "truck", class: "flex-none size-6 text-gray-300 dark:text-gray-500" %>
+      <%= icon "truck", class: "member-detail-icon flex-none size-6" %>
 
       <span><%= membership_delivery_summary(membership) %></span>
     </li>
 
     <% if feature?("activity") %>
       <li class="mt-1 flex flex-row items-center gap-3">
-        <%= icon "handshake", class: "flex-none size-6 -mb-0.5 text-gray-300 dark:text-gray-500" %>
+        <%= icon "handshake", class: "member-detail-icon flex-none size-6 -mb-0.5" %>
 
         <span>
           <%= activities_human_name %>:
@@ -58,7 +58,7 @@
     <% end %>
 
     <li class="mt-1 flex flex-row items-center gap-3">
-      <%= icon "banknotes", class: "flex-none size-6 text-gray-300 dark:text-gray-500" %>
+      <%= icon "banknotes", class: "member-detail-icon flex-none size-6" %>
 
       <span>
         <% if current_member.salary_basket? %>

@@ -6,6 +6,10 @@
       @apply border-red-500 bg-red-100 dark:bg-red-900;
     }
 
+    &.basket-shift {
+      @apply border-teal-200 bg-teal-100 dark:border-teal-800 dark:bg-teal-950;
+    }
+
     p.hint {
       @apply m-2 text-center leading-5 text-gray-500 italic dark:text-gray-400;
     }
