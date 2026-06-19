@@ -22,7 +22,7 @@
   </head>
 
   <body
-    class="members dark:bg-black"
+    class="members dark:bg-gray-950"
     data-controller="menu theme"
     data-theme-preference-value="<%= current_member&.theme || "system" %>"
   >
@@ -59,7 +59,7 @@
             <header class="flex">
               <div class="mx-auto my-16 print:my-6!">
                 <%= link_to Current.org.url do %>
-                  <%= image_tag(org_logo_url, alt: "#{Current.org.name} Logo", class: "h-32 w-32 md:h-60 md:w-60 print:h-16! print:w-16!") %>
+                  <%= image_tag(org_logo_url, alt: "#{Current.org.name} Logo", class: "member-logo h-32 w-32 md:h-60 md:w-60 print:h-16! print:w-16!") %>
                 <% end %>
               </div>
             </header>

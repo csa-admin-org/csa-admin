@@ -1,6 +1,6 @@
 @layer components {
   .status-tag {
-    @apply inline-flex items-center rounded-full bg-gray-200 px-2 py-0.5 text-[0.7rem] leading-4 font-bold whitespace-nowrap text-white uppercase;
+    @apply inline-flex items-center rounded-full bg-neutral-100 px-2 py-0.5 text-[0.7rem] leading-4 font-bold whitespace-nowrap text-neutral-700 uppercase ring-1 ring-neutral-500/20 ring-inset dark:bg-neutral-800 dark:text-neutral-300 dark:ring-neutral-400/20;
 
     &.large {
       @apply m-0 px-3 py-1.5 text-lg;
@@ -24,14 +24,14 @@
     &[data-status="primary"],
     &[data-status="forced"],
     &[data-status="yes"] {
-      @apply bg-green-400 dark:bg-green-600;
+      @apply bg-green-100 text-green-800 ring-green-600/20 dark:bg-green-950 dark:text-green-300 dark:ring-green-400/25;
     }
 
     /* Yellow statuses - warning/attention */
     &[data-status="support"],
     &[data-status="required"],
     &[data-status="future"] {
-      @apply bg-yellow-400 dark:bg-yellow-600;
+      @apply bg-yellow-100 text-yellow-900 ring-yellow-600/25 dark:bg-yellow-950 dark:text-yellow-300 dark:ring-yellow-400/25;
     }
 
     /* Orange statuses - pending attention */
@@ -43,14 +43,14 @@
     &[data-status="renewal_pending"],
     &[data-status="scheduled"],
     &[data-status="waiting"] {
-      @apply bg-orange-400 dark:bg-orange-600;
+      @apply bg-orange-100 text-orange-800 ring-orange-600/25 dark:bg-orange-950 dark:text-orange-300 dark:ring-orange-400/25;
     }
 
     /* Lime statuses - in process */
     &[data-status="renewal_opened"],
     &[data-status="open"].bidding_round,
     &[data-status="pending"] {
-      @apply bg-lime-400 dark:bg-lime-600;
+      @apply bg-lime-100 text-lime-800 ring-lime-600/25 dark:bg-lime-950 dark:text-lime-300 dark:ring-lime-400/25;
     }
 
     /* Blue statuses - information/neutral action */
@@ -59,7 +59,7 @@
     &[data-status="manual"],
     &[data-status="not_sent"],
     &[data-status="trial"] {
-      @apply bg-blue-400 dark:bg-blue-600;
+      @apply bg-blue-100 text-blue-800 ring-blue-600/20 dark:bg-blue-950 dark:text-blue-300 dark:ring-blue-400/25;
     }
 
     /* Red statuses - error/negative */
@@ -75,7 +75,7 @@
     &[data-status="failed"],
     &[data-status="open"],
     &[data-status="rejected"] {
-      @apply bg-red-400 dark:bg-red-600;
+      @apply bg-red-100 text-red-800 ring-red-600/20 dark:bg-red-950 dark:text-red-300 dark:ring-red-400/25;
     }
 
     /* Grey/Neutral statuses - inactive/disabled */
@@ -90,7 +90,7 @@
     &[data-status="unavailable"],
     &[data-status="inactive"],
     &[data-status="unconfigured"] {
-      @apply bg-neutral-400 dark:bg-neutral-600;
+      @apply bg-neutral-100 text-neutral-700 ring-neutral-500/20 dark:bg-neutral-800 dark:text-neutral-300 dark:ring-neutral-400/20;
     }
   }
 }

@@ -5,7 +5,7 @@
   >
     <div class="md:my-8">
       <%= link_to Current.org.url do %>
-        <%= image_tag(org_logo_url, alt: "#{Current.org.name} Logo", class: "h-20 w-20 md:h-40 md:w-40") %>
+        <%= image_tag(org_logo_url, alt: "#{Current.org.name} Logo", class: "member-logo h-20 w-20 md:h-40 md:w-40") %>
       <% end %>
     </div>
 
@@ -198,7 +198,7 @@
             <span
               class="
                 flex items-center px-8 text-gray-300 hover:text-green-500
-                dark:text-gray-600
+                dark:text-gray-500
               "
             >
               <%= icon "log-out", class: "size-5 ms-1 me-2.5" %>

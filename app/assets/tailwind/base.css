@@ -207,5 +207,5 @@
 }
 
 @utility missing-data {
-  @apply block w-full py-4 text-center text-gray-400 italic dark:text-gray-500;
+  @apply block w-full py-4 text-center text-gray-400 italic dark:text-gray-400;
 }

@@ -1,8 +1,8 @@
 @layer components {
   body.members {
-    @apply text-base text-gray-600 dark:text-gray-400;
+    @apply text-base text-gray-600 dark:text-gray-300;
 
-    header img {
+    .member-logo {
       @apply dark:hue-rotate-180 dark:invert;
     }
 
@@ -26,7 +26,7 @@
 
     b,
     strong {
-      @apply font-medium text-gray-600 dark:text-gray-400;
+      @apply font-medium text-gray-600 dark:text-gray-200;
     }
 
     h1 {
@@ -53,11 +53,11 @@
 
     header {
       h2 {
-        @apply mt-0 text-base font-medium text-gray-700 dark:text-gray-400;
+        @apply mt-0 text-base font-medium text-gray-700 dark:text-gray-300;
       }
 
       li span {
-        color: var(--color-gray-500);
+        @apply text-gray-500 dark:text-gray-400;
       }
 
       li a:hover span {
@@ -119,7 +119,7 @@
     }
 
     p.nocontent {
-      @apply mt-4 pb-4 text-center text-gray-400 italic dark:text-gray-500;
+      @apply mt-4 pb-4 text-center text-gray-400 italic dark:text-gray-400;
     }
 
     li.price-line {
@@ -127,7 +127,7 @@
     }
 
     p.explanation {
-      @apply mt-8 text-sm text-gray-400 dark:text-gray-500;
+      @apply mt-8 text-sm text-gray-400 dark:text-gray-400;
     }
 
     form {

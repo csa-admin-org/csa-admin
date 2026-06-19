@@ -17,7 +17,7 @@
         <% end %>
 
         <% if Current.org.basket_content_member_display_quantity? %>
-          <span class="text-gray-400 dark:text-gray-500">
+          <span class="text-gray-400 dark:text-gray-400">
             (<%= display_quantity(bc.basket_quantity(basket_size), bc.unit) %>)
           </span>
         <% end %>
@@ -27,7 +27,7 @@
 </ul>
 
 <% if Current.org.basket_content_member_note.present? %>
-  <p class="mt-3 text-sm text-gray-400 italic dark:text-gray-500">
+  <p class="mt-3 text-sm text-gray-400 italic dark:text-gray-400">
     * <%= Current.org.basket_content_member_note %>
   </p>
 <% end %>

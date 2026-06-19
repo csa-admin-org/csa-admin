@@ -9,12 +9,17 @@
           bg-gray-100 shadow-md dark:border-gray-700 dark:bg-gray-900
         "
       >
-        <div class="flex flex-row items-center justify-center p-2 px-4 text-gray-500">
-          <%= icon "banknotes", class: "size-6 text-gray-400 dark:text-gray-500" %>
+        <div
+          class="
+            flex flex-row items-center justify-center p-2 px-4 text-gray-500
+            dark:text-gray-400
+          "
+        >
+          <%= icon "banknotes", class: "size-6 text-gray-400 dark:text-gray-400" %>
 
           <span class="ml-3">
             <% if current_member&.salary_basket? %>
-              <span class="text-gray-400 italic dark:text-gray-500">
+              <span class="text-gray-400 italic dark:text-gray-400">
                 <%= t(".salary_basket") %>
               </span>
             <% else %>
@@ -23,7 +28,7 @@
               <% else %>
                 <%= [ cur(pricing.prices.min), cur(pricing.prices.max, format: "%n") ].join("-") %>
               <% end %>
-              <span class="ml-1 text-gray-400 dark:text-gray-500">
+              <span class="ml-1 text-gray-400 dark:text-gray-400">
                 /<%= t(".year") %>
               </span>
             <% end %>

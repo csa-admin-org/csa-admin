@@ -1,6 +1,6 @@
 <%# Inline theme script to prevent FOUC on initial load and Turbo visits %>
 
-<script nonce="true">
+<script nonce="<%= content_security_policy_nonce %>">
   ;(function() {
     function applyTheme(preference) {
       var isDark =

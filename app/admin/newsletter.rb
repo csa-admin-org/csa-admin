@@ -73,13 +73,13 @@ ActiveAdmin.register Newsletter do
       end
       column do
         if newsletter.scheduled?
-          panel nil, class: "m-0 p-0 bg-orange-200 shadow-xs" do
-            div class: "flex items-center text-orange-700 gap-2" do
+          panel nil, class: "m-0 border-orange-200 bg-orange-100 p-0 text-orange-800 shadow-xs dark:border-orange-800 dark:bg-orange-950 dark:text-orange-300" do
+            div class: "flex items-center gap-2" do
               span(class: "ms-0.5") { icon("calendar-clock", class: "size-6") }
               span(class: "grow") { t(".newsletter_scheduled_at_html", on: l(newsletter.scheduled_at.to_date, format: :short)) }
               if authorized?(:unschedule, newsletter)
                 span {
-                  button_to unschedule_newsletter_path(newsletter), method: :put, class: "m-0 p-0 text-orange-300 hover:text-orange-500 cursor-pointer", form: { class: "flex items-center" }, data: { confirm: t(".confirm") } do
+                  button_to unschedule_newsletter_path(newsletter), method: :put, class: "m-0 cursor-pointer p-0 text-orange-500 hover:text-orange-700 dark:text-orange-400 dark:hover:text-orange-200", form: { class: "flex items-center" }, data: { confirm: t(".confirm") } do
                     icon("circle-x", class: "size-6")
                   end
                 }

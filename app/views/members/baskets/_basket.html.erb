@@ -36,7 +36,7 @@
 
       <% if basket.can_member_update? %>
         <%= link_to edit_members_basket_path(basket), title: t(".edit"), class: "" do %>
-          <%= icon "square-pen", class: "size-5 text-gray-400 dark:text-gray-500 hover:text-green-500 dark:hover:text-green-500" %>
+          <%= icon "square-pen", class: "size-5 text-gray-400 dark:text-gray-400 hover:text-green-500 dark:hover:text-green-500" %>
         <% end %>
       <% end %>
     </div>
@@ -44,7 +44,7 @@
 
   <ul class="-ms-0.5 space-y-1.5 <%= "[&_a]:decoration-inherit line-through" if basket.content_forfeited? %>">
     <li class="flex flex-row items-center gap-2">
-      <%= icon "shopping-bag", class: "flex-none size-5 text-gray-300 dark:text-gray-600" %>
+      <%= icon "shopping-bag", class: "flex-none size-5 text-gray-300 dark:text-gray-500" %>
 
       <span>
         <% if basket.shifted? %>
@@ -56,7 +56,7 @@
     </li>
 
     <li class="flex flex-row items-center gap-2">
-      <%= icon "map", class: "flex-none size-5 text-gray-300 dark:text-gray-600" %>
+      <%= icon "map", class: "flex-none size-5 text-gray-300 dark:text-gray-500" %>
 
       <span><%= depot_map_link(basket.depot) %></span>
     </li>

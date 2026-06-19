@@ -1,4 +1,9 @@
-<div class="fixed inset-s-0 top-0 z-50 w-full bg-green-600 shadow-xs">
+<div
+  class="
+    fixed inset-s-0 top-0 z-50 w-full bg-green-600 shadow-xs
+    dark:bg-green-700 dark:shadow-none
+  "
+>
   <div
     class="mx-auto flex max-w-7xl flex-wrap items-center justify-between py-2"
     data-controller="nav-toggle"
@@ -9,8 +14,8 @@
         class="
           inline-flex items-center justify-center rounded-lg text-sm
           text-white/80 hover:text-white focus:ring-2 focus:ring-gray-200
-          focus:outline-hidden md:hidden dark:text-black/50
-          dark:hover:text-black dark:focus:ring-gray-600
+          focus:outline-hidden md:hidden dark:text-green-100/80
+          dark:hover:text-white dark:focus:ring-green-700
         "
         data-action="nav-toggle#toggle"
         aria-expanded="false"
@@ -48,7 +53,7 @@
             <% if children %>
               <% first_child = children.first %>
               <% parent_quick_access = item.id != "other" && first_child&.url(self) %>
-              <% parent_classes = "relative hidden w-full items-center rounded-md px-2 py-1 pr-1.5 font-semibold text-white hover:bg-green-700 hover:text-white md:flex md:h-[30px] md:w-auto md:border-0 dark:text-black dark:hover:text-black #{children.any? { |j| current_menu_item?(j) } ? "bg-green-700" : ""}" %>
+              <% parent_classes = "relative hidden w-full items-center rounded-md px-2 py-1 pr-1.5 font-semibold text-white hover:bg-green-700 hover:text-white md:flex md:h-[30px] md:w-auto md:border-0 dark:text-green-50 dark:hover:bg-green-700 dark:hover:text-white #{children.any? { |j| current_menu_item?(j) } ? "bg-green-700 dark:bg-green-800 dark:text-white" : ""}" %>
               <%# Desktop, with hover menu %>
               <% if parent_quick_access %>
                 <%= link_to first_child.url(self),
@@ -70,13 +75,13 @@
               <%= tag.ul(
                 id: item.id,
                 role: "list",
-                class: "hidden md:block md:invisible md:absolute md:top-full md:-start-3 md:z-10 md:whitespace-nowrap md:group-hover:visible min-w-36 space-y-1 rounded-md bg-green-600 p-4 font-semibold shadow-xl md:p-2.5",
+                class: "hidden md:block md:invisible md:absolute md:top-full md:-start-3 md:z-10 md:whitespace-nowrap md:group-hover:visible min-w-36 space-y-1 rounded-md bg-green-600 p-4 font-semibold shadow-xl md:p-2.5 dark:bg-green-700",
                 "aria-labelledby": "dropdownHoverButton-#{item.id}",
                 data: item.html_options[:data].to_h
               ) do %>
                 <% children.each do |j| %>
                   <li data-item-id="<%= j.id %>">
-                    <%= link_to j.label(self), j.url(self), j.html_options.merge(class: "text-white dark:text-black hover:text-white dark:hover:text-black hover:bg-green-700 block rounded-md py-1 px-2 no-underline #{(current_menu_item?(j) ? "bg-green-700 selected" : "")}") %>
+                    <%= link_to j.label(self), j.url(self), j.html_options.merge(class: "block rounded-md px-2 py-1 text-white no-underline hover:bg-green-700 hover:text-white dark:text-green-50 dark:hover:bg-green-800 dark:hover:text-white #{(current_menu_item?(j) ? "selected bg-green-700 dark:bg-green-800 dark:text-white" : "")}") %>
                   </li>
                 <% end %>
               <% end %>
@@ -84,25 +89,26 @@
               <div
                 class="
                   relative mb-1 flex w-full items-center px-2 py-2
-                  font-semibold text-white/60 md:hidden dark:text-black/50
+                  font-semibold text-white/60 md:hidden
+                  dark:text-green-100/60
                 "
               >
                 <%= plain_label %>
               </div>
               <ul
                 class="
-                  mb-3 ml-4 space-y-1 border-l-2 border-white/30
-                  bg-green-600 pl-2.5 md:hidden dark:border-black/25
+                  mb-3 ml-4.5 space-y-1 border-l-2 border-white/30
+                  bg-green-600 pl-2.5 md:hidden dark:bg-green-700
                 "
               >
                 <% children.each do |j| %>
                   <li data-item-id="<%= j.id %>">
-                    <%= link_to menu_label_with_badge(j, badge_class: "menu-inline-badge"), j.url(self), j.html_options.merge(class: "flex items-center rounded-md px-2 py-1 font-semibold text-white no-underline hover:bg-green-700 hover:text-white dark:text-black dark:hover:text-black #{(current_menu_item?(j) ? "bg-green-700 selected" : "")}") %>
+                    <%= link_to menu_label_with_badge(j, badge_class: "menu-inline-badge"), j.url(self), j.html_options.merge(class: "flex items-center rounded-md px-2 py-1 font-semibold text-white no-underline hover:bg-green-700 hover:text-white dark:text-green-50 dark:hover:bg-green-800 dark:hover:text-white #{(current_menu_item?(j) ? "selected bg-green-700 dark:bg-green-800 dark:text-white" : "")}") %>
                   </li>
                 <% end %>
               </ul>
             <% elsif url = item.url(self) %>
-              <%= link_to label, url, item.html_options.merge(class: "relative flex w-full items-center rounded-md px-2 py-1.5 font-semibold text-white no-underline hover:bg-green-700 hover:text-white md:h-[30px] md:w-auto md:py-1 md:border-0 dark:text-black dark:hover:text-black #{current_menu_item?(item) ? "bg-green-700" : ""}").merge(current_menu_item?(item) ? { "aria-current" => "page" } : {}) %>
+              <%= link_to label, url, item.html_options.merge(class: "relative flex w-full items-center rounded-md px-2 py-1.5 font-semibold text-white no-underline hover:bg-green-700 hover:text-white md:h-[30px] md:w-auto md:py-1 md:border-0 dark:text-green-50 dark:hover:bg-green-800 dark:hover:text-white #{current_menu_item?(item) ? "bg-green-700 dark:bg-green-800 dark:text-white" : ""}").merge(current_menu_item?(item) ? { "aria-current" => "page" } : {}) %>
             <% else %>
               <%= label %>
             <% end %>
@@ -119,7 +125,7 @@
         class="
           relative flex size-9 items-center justify-center text-sm
           text-white/75 hover:text-white focus:outline-hidden
-          dark:text-black/50 dark:hover:text-black
+          dark:text-green-100/75 dark:hover:text-white
         "
         data-turbo-prefetch="false"
         title="<%= t(".support") %>"
@@ -133,7 +139,7 @@
           class="
             relative flex size-9 items-center justify-center text-sm
             text-white/75 hover:text-white focus:outline-hidden
-            dark:text-black/50 dark:hover:text-black
+            dark:text-green-100/75 dark:hover:text-white
           "
           data-turbo-prefetch="false"
           title="<%= t(".updates") %>"
@@ -154,7 +160,7 @@
         class="
           relative flex size-9 items-center justify-center text-sm
           text-white/75 hover:text-white focus:outline-hidden
-          dark:text-black/50 dark:hover:text-black
+          dark:text-green-100/75 dark:hover:text-white
         "
         data-turbo-prefetch="false"
         title="<%= t(".handbook") %>"
@@ -168,7 +174,7 @@
           class="
             relative flex size-9 items-center justify-center text-sm
             text-white/75! hover:text-white! focus:outline-hidden
-            dark:text-black/50! dark:hover:text-black!
+            dark:text-green-100/75! dark:hover:text-white!
           "
         >
           <%= icon "sliders-horizontal", class: "size-6 md:size-5" %>

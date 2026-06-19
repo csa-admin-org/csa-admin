@@ -107,7 +107,7 @@ module BasketContentsHelper
             min: 0,
             step: 1,
             placeholder: "0",
-            class: [ "text-input w-13 h-6 text-right tabular-nums m-0 py-0 px-1 border-0.5 border-gray-200 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" ],
+            class: [ "text-input w-13 h-6 text-right tabular-nums m-0 py-0 px-1 border-0.5 border-gray-200 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-100 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" ],
             data: {
               "inline-edit-target" => "input",
               action: "blur->inline-edit#submit keydown->inline-edit#keydown"
