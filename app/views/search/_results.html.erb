@@ -1,7 +1,12 @@
 <% if query.length < 2 || (query.length < 3 && !query.match?(/\A\d+\z/)) %>
   <%# No content for short queries %>
 <% elsif settings_results.blank? && handbook_results.blank? && results.empty? %>
-  <div class="px-4 py-8 text-center text-sm text-gray-500 dark:text-gray-400">
+  <div
+    class="
+      border-t border-gray-200 px-4 py-8 text-center text-sm text-gray-500
+      dark:border-gray-700 dark:text-gray-400
+    "
+  >
     <%= t("search.no_results") %>
 
     <div class="mt-2 text-xs text-gray-400 dark:text-gray-500">
@@ -9,7 +14,7 @@
     </div>
   </div>
 <% else %>
-  <div class="py-1">
+  <div class="border-t border-gray-200 py-1 dark:border-gray-700">
     <% handbook_results&.each do |entry| %>
       <%= render "search/result", **search_result_for_handbook(entry, query), query: query %>
     <% end %>

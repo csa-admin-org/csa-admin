@@ -1,4 +1,20 @@
 @layer components {
+  .search-dialog {
+    @apply fixed inset-0 z-100 m-0 h-dvh max-h-none w-dvw max-w-none overflow-y-auto overscroll-contain border-0 bg-transparent p-0 pt-15 text-left md:pt-18;
+  }
+
+  .search-dialog[open] {
+    @apply flex items-start justify-center;
+  }
+
+  .search-dialog::backdrop {
+    @apply bg-transparent;
+  }
+
+  .search-dialog-panel {
+    @apply mx-1.5 w-full max-w-xl overflow-hidden rounded-xl border border-gray-200 bg-white shadow-2xl dark:border-gray-700 dark:bg-slate-800 dark:shadow-2xl;
+  }
+
   [data-search-result].search-selected {
     @apply bg-gray-100 dark:bg-white/8;
   }

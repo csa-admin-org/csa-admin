@@ -6,10 +6,6 @@
   data-action="
     keydown.meta+k@document->search-modal#openViaShortcut:prevent
     keydown.ctrl+k@document->search-modal#openViaShortcut:prevent
-    keydown.esc@document->search-modal#close
-    keydown.down@document->search-modal#navigateDown
-    keydown.up@document->search-modal#navigateUp
-    keydown.enter@document->search-modal#selectCurrent
   "
 >
   <button
@@ -21,25 +17,19 @@
     <%= icon "search", class: "size-6 md:size-5" %>
   </button>
 
-  <div
+  <dialog
     data-search-modal-target="dialog"
-    data-action="click->search-modal#close:self"
-    class="
-      fixed inset-0 z-100 hidden items-start justify-center bg-black/10
-      pt-15 opacity-0 transition-opacity duration-150 md:pt-18
-      dark:bg-transparent dark:backdrop-blur-[1px] [&.open]:flex
-      [&.open]:opacity-100
+    data-action="
+      click->search-modal#closeOnBackdrop
+      close->search-modal#closed
+      keydown.down->search-modal#navigateDown
+      keydown.up->search-modal#navigateUp
+      keydown.enter->search-modal#selectCurrent
     "
+    aria-label="<%= t("search.title") %>"
+    class="search-dialog"
   >
-    <div
-      class="
-        dark:ring-0.5 mx-1.5 w-full max-w-xl scale-95 transform
-        overflow-hidden rounded-xl border border-gray-200 bg-white
-        shadow-2xl transition-transform duration-150 in-[.open]:scale-100
-        dark:border-gray-700 dark:bg-slate-800 dark:shadow-2xl
-        dark:ring-gray-600
-      "
-    >
+    <div class="search-dialog-panel">
       <%# Search input %>
       <form
         action="<%= search_path %>"
@@ -47,12 +37,7 @@
         data-turbo-frame="search-results"
         data-search-modal-target="form"
       >
-        <div
-          class="
-            flex h-12 items-center border-b border-gray-200 px-4
-            dark:border-gray-700
-          "
-        >
+        <div class="flex h-12 items-center px-4">
           <%= icon "search", class: "size-5 shrink-0 text-gray-400 dark:text-gray-500" %>
 
           <input
@@ -81,7 +66,8 @@
       <div
         data-search-modal-target="hint"
         class="
-          hidden px-4 py-2 text-center text-xs text-gray-400 max-sm:hidden
+          hidden border-t border-gray-200 px-4 py-2 text-center text-xs
+          text-gray-400 max-sm:hidden dark:border-gray-700
           dark:text-gray-500
         "
       >
@@ -102,5 +88,5 @@
         class="block max-h-[60vh] overflow-y-auto overscroll-contain"
       ></turbo-frame>
     </div>
-  </div>
+  </dialog>
 </div>

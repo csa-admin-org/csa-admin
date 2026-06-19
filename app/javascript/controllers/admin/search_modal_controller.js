@@ -18,7 +18,6 @@ export default class extends Controller {
     this.resetListSelection = nav.resetListSelection
 
     this.selectedIndex = -1
-    this.isOpen = false
     this.showHint = false
     this.keyboardMode = false
 
@@ -48,6 +47,7 @@ export default class extends Controller {
 
   disconnect() {
     this.resultsTarget.removeEventListener("mousemove", this.handleResultsMouseMove)
+    if (this.isOpen) this.unlockPage()
   }
 
   openViaShortcut() {
@@ -60,33 +60,36 @@ export default class extends Controller {
   }
 
   open({ viaShortcut = false } = {}) {
-    this.dialogTarget.classList.remove("hidden")
-    void this.dialogTarget.offsetHeight // force reflow before adding opacity for transition
-    this.dialogTarget.classList.add("open")
+    if (!this.isOpen) {
+      this.dialogTarget.showModal()
+    }
+
+    this.lockPage()
     this.inputTarget.focus()
     this.inputTarget.select()
-    this.isOpen = true
-    document.body.classList.add("overflow-hidden")
 
     this.showHint = !viaShortcut
-    if (this.showHint) {
-      this.hintTarget.classList.remove("hidden")
-    } else {
-      this.hintTarget.classList.add("hidden")
-    }
+    this.toggleHint(this.showHint)
   }
 
   close(event) {
     if (!this.isOpen) return
 
     event?.preventDefault()
-    this.dialogTarget.classList.remove("open")
-    this.dialogTarget.classList.add("hidden")
-    this.isOpen = false
+    this.dialogTarget.close()
+  }
+
+  closeOnBackdrop(event) {
+    if (event.target !== this.dialogTarget) return
+
+    this.close(event)
+  }
+
+  closed() {
     this.selectedIndex = -1
     this.setKeyboardMode(false, this.resultItems)
-    document.body.classList.remove("overflow-hidden")
-    this.hintTarget.classList.add("hidden")
+    this.unlockPage()
+    this.toggleHint(false)
   }
 
   search() {
@@ -95,13 +98,11 @@ export default class extends Controller {
       this.resultsTarget.innerHTML = ""
       this.selectedIndex = -1
       this.setKeyboardMode(false, this.resultItems)
-      if (this.showHint) {
-        this.hintTarget.classList.remove("hidden")
-      }
+      this.toggleHint(this.showHint)
       return
     }
 
-    this.hintTarget.classList.add("hidden")
+    this.toggleHint(false)
 
     this.submitForm()
   }
@@ -111,6 +112,8 @@ export default class extends Controller {
   }
 
   resetSelection() {
+    if (!this.isOpen) return
+
     this.resetListSelection()
   }
 
@@ -147,7 +150,7 @@ export default class extends Controller {
   }
 
   selectCurrent(event) {
-    if (!this.isOpen) return
+    if (!this.isOpen || event.isComposing) return
 
     event.preventDefault()
     const items = this.resultItems
@@ -192,8 +195,24 @@ export default class extends Controller {
     }
   }
 
+  lockPage() {
+    document.body.classList.add("overflow-hidden")
+  }
+
+  unlockPage() {
+    document.body.classList.remove("overflow-hidden")
+  }
+
+  toggleHint(visible) {
+    this.hintTarget.classList.toggle("hidden", !visible)
+  }
+
   get resultItems() {
     return Array.from(this.resultsTarget.querySelectorAll("[data-search-result]"))
+  }
+
+  get isOpen() {
+    return this.dialogTarget.open
   }
 
   get isMac() {
