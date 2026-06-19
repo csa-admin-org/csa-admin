@@ -5,7 +5,7 @@ ActiveAdmin.register BasketContent do
     priority: 5,
     label: -> {
       [
-        icon("shopping-bag", class: "size-5 -mt-0.5 mr-2.5 md:mr-2 inline"),
+        icon("shopping-bag", class: "size-5 mr-2.5 md:mr-2 inline"),
         Basket.model_name.human(count: 2)
       ].join.html_safe
     },

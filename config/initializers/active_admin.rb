@@ -195,7 +195,7 @@ ActiveAdmin.setup do |config|
       menu.add label: -> {
         label = activities_human_name
         [
-          icon("handshake", class: "size-5 mt-0.5 mr-2.5 md:mr-0.5 inline", title: label),
+          icon("handshake", class: "size-5 mr-2.5 md:mr-0.5 inline", title: label),
           content_tag(:span, label, class: "inline md:hidden")
         ].join.html_safe
       }, priority: 7, id: :activities_human_name
@@ -213,7 +213,7 @@ ActiveAdmin.setup do |config|
       }, priority: 19, id: :email
       menu.add label: -> {
         [
-          icon("ellipsis", class: "size-6 -my-0.5 mr-2.5 md:mr-0.5 inline", title: t("active_admin.settings")),
+          icon("ellipsis", class: "size-6 mr-2.5 md:mr-0.5 inline", title: t("active_admin.settings")),
           content_tag(:span, t("active_admin.menu.other"), class: "inline md:hidden")
         ].join.html_safe
       }, priority: 20, id: :other, html_options: { data: { controller: "menu-sorting" } }

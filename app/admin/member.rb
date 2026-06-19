@@ -3,7 +3,7 @@
 ActiveAdmin.register Member do
   menu priority: 2, label: -> {
     [
-      icon("users", class: "size-5 -mt-0.5 mr-2.5 md:mr-2 inline"),
+      icon("users", class: "size-5 mr-2.5 md:mr-2 inline"),
       Member.model_name.human(count: 2)
     ].join.html_safe
   }, url: -> { pending_members_menu_path }

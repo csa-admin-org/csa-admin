@@ -3,7 +3,7 @@
 ActiveAdmin.register Membership do
   menu priority: 3, label: -> {
     [
-      icon("calendar-range", class: "size-5 -mt-1 mr-2.5 md:mr-2 inline"),
+      icon("calendar-range", class: "size-5 mr-2.5 md:mr-2 inline"),
       Membership.model_name.human(count: 2)
     ].join.html_safe
   }
