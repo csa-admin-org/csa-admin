@@ -2,17 +2,17 @@
 
 used_cycles = Membership.used_delivery_cycle_ids_for(delivery.fy_year)
 
-grid_cols =
+grid_cols = "grid-cols-1 " +
   case basket_content_prices.size
-  when 1 then "grid-cols-1"
-  when 2 then "grid-cols-2"
-  when 3 then "grid-cols-3"
-  when 4 then "grid-cols-4"
-  else "grid-cols-5"
+  when 1 then "md:grid-cols-1"
+  when 2 then "md:grid-cols-2"
+  when 3 then "md:grid-cols-3"
+  when 4 then "md:grid-cols-4"
+  else "md:grid-cols-5"
   end
 
 # Current delivery prices section (always visible)
-div class: "grid #{grid_cols} mt-4 mb-4 gap-4" do
+div class: "grid #{grid_cols} mt-4 mb-4 gap-4 gap-y-8" do
   basket_content_prices.each do |basket_size, depot_prices|
     prices = [ depot_prices.values.min, depot_prices.values.max ].uniq.compact
     if prices.any?
@@ -88,7 +88,7 @@ if yearly_diffs.any?
     }
   }.flatten.uniq.sort_by { |c| %i[red neutral green].index(c) || 99 }
 
-  details class: "group mt-6 mb-2" do
+  details class: "group mt-12 md:mt-8 mb-2" do
     summary class: "flex items-center justify-center cursor-pointer list-none [&::-webkit-details-marker]:hidden" do
       span delivery.fiscal_year.to_s, class: "text-sm font-medium text-gray-600 dark:text-gray-300"
       # Colored dots
@@ -165,6 +165,6 @@ if yearly_diffs.any?
       nil
     end
 
-    para t("basket_content.yearly_diff_note"), class: "mt-8 text-xs italic text-center text-gray-500 dark:text-gray-400"
+    para t("basket_content.yearly_diff_note"), class: "mt-6 text-xs italic text-center text-gray-500 dark:text-gray-400"
   end
 end

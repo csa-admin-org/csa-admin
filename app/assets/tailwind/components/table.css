@@ -132,6 +132,10 @@
       @apply px-2 py-2 text-base;
     }
 
+    :where(tbody > tr > td a) {
+      @apply whitespace-nowrap md:whitespace-normal;
+    }
+
     tbody tr {
       @apply border-dotted;
     }
@@ -170,6 +174,10 @@
 
     .data-table :where(tbody > tr > td) {
       @apply px-3;
+    }
+
+    :where(.data-table tbody > tr > td) {
+      @apply whitespace-nowrap md:whitespace-normal;
     }
 
     .data-table tbody tr:nth-child(odd) {
@@ -284,7 +292,7 @@
     }
 
     & :where(tbody > tr > td) {
-      @apply min-w-0 flex-1 pl-4 text-right leading-5;
+      @apply min-w-0 flex-1 pl-4 text-right leading-5 wrap-anywhere;
 
       & :where(.flex) {
         @apply justify-end;
