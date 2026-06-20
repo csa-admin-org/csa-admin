@@ -6,7 +6,17 @@ class Session < ApplicationRecord
   include Session::DeletionCode
   EXPIRATION = 1.year
 
-  generates_token_for :redeem, expires_in: 15.minutes
+  generates_token_for :redeem, expires_in: 15.minutes do
+    [
+      Tenant.current,
+      owner_type,
+      admin_id,
+      member_id,
+      created_at&.to_i,
+      revoked_at&.to_i,
+      redeemed_at&.to_i
+    ]
+  end
 
   belongs_to :member, optional: true
   belongs_to :admin, optional: true
@@ -34,6 +44,10 @@ class Session < ApplicationRecord
 
   def self.ransackable_scopes(_auth_object = nil)
     super + %i[owner_type_eq]
+  end
+
+  def self.redeem_token(token)
+    find_by_token_for(:redeem, token)&.tap(&:redeem!)
   end
 
   def owner_type
@@ -72,6 +86,10 @@ class Session < ApplicationRecord
 
   def revoke!
     touch(:revoked_at)
+  end
+
+  def redeem!
+    touch(:redeemed_at)
   end
 
   def revoked?

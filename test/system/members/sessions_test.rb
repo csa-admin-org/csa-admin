@@ -94,17 +94,20 @@ class Members::SessionsTest < ApplicationSystemTestCase
     assert_text "Your login link is no longer valid. Please request a new one."
   end
 
-  test "can redeem session multiple times within expiration window" do
+  test "cannot redeem session token more than once" do
     session = create_session(members(:john))
     token = session.generate_token_for(:redeem)
 
-    assert_changes -> { session.reload.last_used_at }, from: nil do
+    assert_changes -> { session.reload.redeemed_at }, from: nil do
       visit "/sessions/#{token}"
     end
     assert_text "You are now logged in."
 
+    Capybara.reset_sessions!
     visit "/sessions/#{token}"
-    assert_text "You are now logged in."
+
+    assert_equal "/login", current_path
+    assert_text "Your login link is no longer valid. Please request a new one."
   end
 
   test "logout session without email" do

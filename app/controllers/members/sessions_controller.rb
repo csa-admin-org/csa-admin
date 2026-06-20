@@ -31,7 +31,7 @@ class Members::SessionsController < Members::BaseController
   end
 
   def show
-    if @session = Session.find_by_token_for(:redeem, params[:id])
+    if @session = Session.redeem_token(params[:id])
       cookies.encrypted.permanent[:session_id] = @session.id
       redirect_to members_member_path, notice: t("sessions.flash.created")
     else

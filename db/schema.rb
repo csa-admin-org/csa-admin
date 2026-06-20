@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_06_14_123000) do
+ActiveRecord::Schema[8.1].define(version: 2026_06_20_172000) do
   create_table "absences", force: :cascade do |t|
     t.datetime "admins_notified_at"
     t.datetime "created_at"
@@ -972,6 +972,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_14_123000) do
     t.datetime "last_used_at"
     t.string "last_user_agent"
     t.bigint "member_id"
+    t.datetime "redeemed_at"
     t.string "remote_addr", null: false
     t.datetime "revoked_at"
     t.datetime "updated_at", null: false

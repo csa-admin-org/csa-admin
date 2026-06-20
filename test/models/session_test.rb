@@ -38,6 +38,34 @@ class SessionTest < ActiveSupport::TestCase
     assert_empty members(:john).sessions.usable
   end
 
+  test "redeem token is tenant-specific" do
+    session = create_session(admins(:ultra))
+    token = session.generate_token_for(:redeem)
+
+    with_tenant("other") do
+      assert_nil Session.find_by_token_for(:redeem, token)
+      assert_nil Session.redeem_token(token)
+    end
+  end
+
+  test "redeem token can only be used once" do
+    session = create_session(admins(:ultra))
+    token = session.generate_token_for(:redeem)
+
+    assert_equal session, Session.redeem_token(token)
+    assert_predicate session.reload, :redeemed_at?
+    assert_nil Session.redeem_token(token)
+  end
+
+  test "redeem token is invalidated when the session is revoked" do
+    session = create_session(admins(:ultra))
+    token = session.generate_token_for(:redeem)
+
+    session.revoke!
+
+    assert_nil Session.redeem_token(token)
+  end
+
   test "expired after a year" do
     travel_to "2025-01-01"
     session = Session.new(email: "john@doe.com", created_at: Time.current)
