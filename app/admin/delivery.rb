@@ -229,7 +229,7 @@ ActiveAdmin.register Delivery do
     shop_open_for_depot_ids: [],
     basket_complement_ids: []
 
-  batch_action :destroy, false
+  batch_action :destroy, if: proc { params.dig(:q, :during_year).to_i > Current.fy_year }
 
   batch_action :open_shop, if: proc { feature?("shop") && (!params[:scope] || params[:scope] == "coming") } do |selection|
     Delivery.where(id: selection).update_all(shop_open: true)
