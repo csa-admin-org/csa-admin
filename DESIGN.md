@@ -83,7 +83,7 @@ The panel icon for a concept **must** match the nav icon when one exists.
 | Periods                | `calendar-days`                  | Delivery cycle periods       |
 | Information            | `info`                           | Info/help text               |
 | Missing Deliveries     | `triangle-alert`                 | Warning/missing data         |
-| Support                | `message-circle-question-mark`   | Help / support               |
+| Support                | `life-buoy`                      | Help / support               |
 | Updates                | `gift`                           | What's new                   |
 
 ### Custom Icons
