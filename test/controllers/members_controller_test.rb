@@ -65,6 +65,24 @@ class MembersControllerTest < ActionDispatch::IntegrationTest
     assert_select "button[disabled]", text: /Validate/
   end
 
+  test "show renders disabled delete action as icon-only" do
+    travel_to "2024-01-01"
+    member = members(:jane)
+    member.update_columns(state: "inactive")
+
+    login admins(:super)
+    get member_path(member)
+
+    assert_response :success
+    delete_label = I18n.t("active_admin.delete_model")
+    delete_wrappers = css_select("span[tabindex='0'][title='#{delete_label}'][aria-label='#{delete_label}']")
+    delete_buttons = css_select("button[disabled][title='#{delete_label}'][aria-label='#{delete_label}']")
+
+    assert_equal 1, delete_wrappers.size
+    assert_equal 1, delete_buttons.size
+    assert_equal "", delete_buttons.first.text.squish
+  end
+
   test "show displays waiting member activation start date" do
     travel_to "2024-05-01"
     member = members(:aria)

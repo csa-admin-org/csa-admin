@@ -1,5 +1,5 @@
 <% if destroy_action_authorized?(resource) && !resource.class.in?([ Member, Membership, Delivery ]) %>
-  <%= link_to resource_path(resource), method: :delete, data: { confirm: delete_confirmation_text }, title: delete_label, aria: { label: "destroy" } do %>
+  <%= link_to resource_path(resource), method: :delete, class: "destructive-icon-action index-destructive-icon-action", data: { confirm: delete_confirmation_text }, title: delete_label, aria: { label: delete_label } do %>
     <%= icon "trash", class: "size-5" %>
   <% end %>
 <% end %>

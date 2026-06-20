@@ -40,7 +40,12 @@ ActiveAdmin.register Basket do
         end
       end
       f.actions do
-        div link_to t(".basket_shift_destroy"), basket_shift_path(f.object.shift_as_source), method: :delete, class: "action-item-button destructive"
+        div do
+          link_to t(".basket_shift_destroy"), basket_shift_path(f.object.shift_as_source),
+            method: :delete,
+            class: "action-item-button destructive",
+            data: { confirm: t("active_admin.delete_confirmation") }
+        end
         cancel_link membership_path(f.object.membership)
       end
     else
@@ -61,12 +66,19 @@ ActiveAdmin.register Basket do
               shifts = f.object.shifts_as_target.includes(:source_delivery)
               shifts.sort_by { |s| s.source_delivery.date }.each do |shift|
                 li do
-                  div class: "flex items-start gap-2" do
+                  div class: "flex items-center gap-2" do
                     span t(".basket_shift_target_description",
                         source_date: l(shift.source_delivery.date, format: :short),
                         description: shift.description)
-                    span do
-                      link_to t(".destroy"), basket_shift_path(shift), method: :delete, class: "btn btn-sm"
+                    span class: "flex items-center" do
+                      link_to basket_shift_path(shift),
+                        method: :delete,
+                        class: "btn btn-sm destructive-icon-action",
+                        title: t(".destroy"),
+                        aria: { label: t(".destroy") },
+                        data: { confirm: t("active_admin.delete_confirmation") } do
+                          icon "trash", class: "size-4"
+                        end
                     end
                   end
                 end

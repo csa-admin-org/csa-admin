@@ -848,25 +848,32 @@ ActiveAdmin.register Member do
   action_item :destroy, only: :show, if: -> { authorized?(:destroy, resource) } do
     delete_label = I18n.t("active_admin.delete_model")
     if resource.can_delete?
-      action_button delete_label, member_path(resource),
+      action_button nil, member_path(resource),
         method: :delete,
         icon: "trash",
-        class: "destructive",
+        class: "destructive-icon-action",
+        title: delete_label,
+        aria: { label: delete_label },
         data: { confirm: t(".delete_confirm") }
     elsif resource.can_discard?
-      action_button delete_label, member_path(resource),
+      action_button nil, member_path(resource),
         method: :delete,
         icon: "trash",
-        class: "destructive",
+        class: "destructive-icon-action",
+        title: delete_label,
+        aria: { label: delete_label },
         data: { confirm: t(".discard_confirm", delay: Member::Anonymization::DELAY_IN_DAYS) }
     end
   end
 
   action_item :delete_disabled, only: :show, if: -> { resource.inactive? && !resource.can_destroy? } do
-    action_button I18n.t("active_admin.delete_model"),
+    delete_label = I18n.t("active_admin.delete_model")
+    action_button nil,
       disabled: true,
       disabled_tooltip: t(".delete_disabled_reason"),
-      icon: "trash"
+      icon: "trash",
+      title: delete_label,
+      aria: { label: delete_label }
   end
 
   action_item :become, only: :show do

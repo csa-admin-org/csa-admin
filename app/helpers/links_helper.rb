@@ -44,7 +44,7 @@ module LinksHelper
 
   def action_button(name, url = nil, icon: nil, disabled: false, disabled_tooltip: nil, **options)
     _submit_button(name, url,
-      icon: icon, icon_class: "text-white size-5 #{"-ms-2" if name}",
+      icon: icon, icon_class: "size-5 #{"-ms-2" if name}",
       btn_class: "h-9 action-item-button #{options.delete(:class)}",
       disabled: disabled, disabled_tooltip: disabled_tooltip,
       **options)
@@ -73,12 +73,14 @@ module LinksHelper
   def _submit_button(name, url, btn_class:, icon: nil, icon_class: nil,
                      disabled: false, disabled_tooltip: nil, **options, &block)
     if disabled
-      _disabled_button(name, btn_class: btn_class, icon: icon, icon_class: icon_class, tooltip: disabled_tooltip)
+      _disabled_button(name, btn_class: btn_class, icon: icon, icon_class: icon_class,
+        tooltip: disabled_tooltip, **options.slice(:title, :aria))
     else
       form_options = options.delete(:form) || {}
       form_options[:data] ||= {}
       form_options[:data][:controller] ||= "disable"
       form_options[:data][:disable_with_value] ||= t("formtastic.processing")
+      ensure_delete_confirmation!(options)
 
       button_to url, class: btn_class, form: form_options, **options do
         if block
@@ -92,7 +94,14 @@ module LinksHelper
     end
   end
 
-  def _disabled_button(name, btn_class:, icon: nil, icon_class: nil, tooltip: nil)
+  def ensure_delete_confirmation!(options)
+    return unless options[:method].to_s == "delete"
+
+    data = options[:data] ||= {}
+    data[:confirm] = t("active_admin.delete_confirmation") unless data.key?(:confirm) || data.key?("confirm")
+  end
+
+  def _disabled_button(name, btn_class:, icon: nil, icon_class: nil, tooltip: nil, **options)
     icon_class = icon_class&.gsub(/\btext-white\b/, "")&.squish
 
     content_tag(:span,
@@ -103,11 +112,13 @@ module LinksHelper
         "tooltip-target" => "trigger",
         "tooltip-placement-value" => "bottom",
         action: "mouseenter->tooltip#show mouseleave->tooltip#hide focus->tooltip#show blur->tooltip#hide"
-      }
+      },
+      **options.slice(:title, :aria)
     ) do
       content_tag(:button,
         class: "#{btn_class} cursor-not-allowed".squish,
-        disabled: true
+        disabled: true,
+        **options
       ) do
         txt = name.to_s.html_safe
         txt.prepend(icon(icon, class: icon_class)) if icon.present?

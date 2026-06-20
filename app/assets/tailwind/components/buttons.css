@@ -41,6 +41,7 @@
   button[type="submit"].btn,
   input[type="submit"].btn,
   button.action-item-button,
+  a.action-item-button.destructive,
   a.action-item-button[data-method="delete"],
   .actions input[type="submit"],
   .actions button {
@@ -55,6 +56,37 @@
       @apply border border-red-500 hover:border-red-600 dark:border-red-600 dark:hover:border-red-700;
       @apply focus:ring-red-300 dark:focus:ring-red-800;
     }
+  }
+
+  .destructive-icon-action,
+  a.destructive-icon-action,
+  button.destructive-icon-action {
+    @apply text-red-500 hover:text-red-600 active:text-red-700 dark:text-red-400 dark:hover:text-red-300 dark:active:text-red-200;
+  }
+
+  .btn.destructive-icon-action,
+  a.btn.destructive-icon-action,
+  button.btn.destructive-icon-action,
+  .action-item-button.destructive-icon-action,
+  a.action-item-button.destructive-icon-action,
+  button.action-item-button.destructive-icon-action,
+  button[type="submit"].action-item-button.destructive-icon-action {
+    @apply border-gray-200 bg-white text-red-500 hover:border-red-200 hover:bg-red-50 hover:text-red-600 active:border-red-300 active:bg-red-100 active:text-red-700;
+    @apply dark:border-gray-600 dark:bg-gray-900 dark:text-red-400 dark:hover:border-red-900 dark:hover:bg-red-950/50 dark:hover:text-red-300 dark:active:border-red-800 dark:active:bg-red-950 dark:active:text-red-200;
+    @apply focus:ring-red-200 dark:focus:ring-red-900;
+  }
+
+  .index-destructive-icon-action,
+  a.index-destructive-icon-action {
+    @apply text-gray-400 hover:text-red-600 active:text-red-700 dark:text-gray-500 dark:hover:text-red-300 dark:active:text-red-200;
+  }
+
+  button[type="submit"].btn:disabled,
+  input[type="submit"].btn:disabled,
+  button[type="submit"].action-item-button:disabled:not(.destructive-icon-action),
+  .actions input[type="submit"]:disabled,
+  .actions button[type="submit"]:disabled {
+    @apply text-white hover:text-white dark:text-white dark:hover:text-white;
   }
 
   .actions .cancel-link {

@@ -366,11 +366,11 @@ _:
       _it: Cancellare
       _nl: Verwijderen
     delete_confirmation:
-      _en: Really delete?
-      _fr: Êtes-vous certain de vouloir supprimer ceci ?
-      _de: Wirklich löschen?
-      _it: Siete sicuri di volerlo cancellare?
-      _nl: Echt verwijderen?
+      _en: Are you sure you want to delete this? This cannot be undone.
+      _fr: Êtes-vous sûr de vouloir supprimer ceci ? Cette action est irréversible.
+      _de: Soll dies wirklich gelöscht werden? Dieser Vorgang kann nicht rückgängig gemacht werden.
+      _it: Siete sicuri di volerlo eliminare? L'azione non può essere annullata.
+      _nl: Dit echt verwijderen? Dit kan niet ongedaan worden gemaakt.
     delete_model:
       _en: Delete
       _fr: Supprimer
@@ -2220,12 +2220,6 @@ _:
           _de: Lieferscheine
           _it: Bolle di consegna
           _nl: Leveringsbonnen
-        destroy_membership_confirm:
-          _en: This will permanently delete this membership and delete or cancel its related invoices. This cannot be undone. Continue?
-          _fr: Cet abonnement sera définitivement supprimé et ses factures liées seront supprimées ou annulées. Cette action est irréversible. Continuer ?
-          _de: Dieses Abonnement wird dauerhaft gelöscht; die zugehörigen Rechnungen werden gelöscht oder storniert. Diese Aktion kann nicht rückgängig gemacht werden. Fortfahren?
-          _it: Questo abbonamento sarà eliminato definitivamente e le relative fatture saranno eliminate o annullate. Questa azione non può essere annullata. Continuare?
-          _nl: Dit lidmaatschap wordt permanent verwijderd en de bijbehorende facturen worden verwijderd of geannuleerd. Deze actie kan niet ongedaan worden gemaakt. Doorgaan?
         details:
           _en: Details
           _fr: Détails
@@ -3194,6 +3188,12 @@ _:
             _it: Aperte
             _nl: Open
       delivery:
+        delete_confirmation:
+          _en: This will permanently delete this delivery and all baskets for memberships whose delivery cycle includes it. Those memberships will be refreshed and their billing may change. Basket contents and related shop orders will also be deleted. Continue?
+          _fr: Cette livraison sera définitivement supprimée, ainsi que tous les paniers des abonnements dont le cycle de livraisons l’inclut. Ces abonnements seront mis à jour et leur facturation peut changer. Les contenus de panier et les commandes d’épicerie liées seront aussi supprimés. Continuer ?
+          _de: Diese Lieferung und alle Taschen von Abonnements, deren Lieferzyklus sie enthält, werden dauerhaft gelöscht. Diese Abonnements werden aktualisiert und ihre Abrechnung kann sich ändern. Tascheninhalte und zugehörige Bestellungen werden ebenfalls gelöscht. Fortfahren?
+          _it: Questa consegna e tutte le borse degli abbonamenti il cui ciclo di consegne la include saranno eliminate definitivamente. Questi abbonamenti saranno aggiornati e la loro fatturazione potrebbe cambiare. Anche i contenuti delle borse e gli ordini della bottega collegati saranno eliminati. Continuare?
+          _nl: Deze levering en alle tassen van lidmaatschappen waarvan de leveringscyclus deze bevat, worden permanent verwijderd. Deze lidmaatschappen worden bijgewerkt en de facturatie kan veranderen. Tasinhoud en gekoppelde winkelbestellingen worden ook verwijderd. Doorgaan?
         new_model:
           _en: New %{model}
           _fr: Nouvelle %{model}
@@ -3430,6 +3430,12 @@ _:
           _it: Nuovo %{model}
           _nl: Nieuw %{model}
       membership:
+        delete_confirmation:
+          _en: This will permanently delete this membership and delete or cancel its related invoices. This cannot be undone. Continue?
+          _fr: Cet abonnement sera définitivement supprimé et ses factures liées seront supprimées ou annulées. Cette action est irréversible. Continuer ?
+          _de: Dieses Abonnement wird dauerhaft gelöscht; die zugehörigen Rechnungen werden gelöscht oder storniert. Diese Aktion kann nicht rückgängig gemacht werden. Fortfahren?
+          _it: Questo abbonamento sarà eliminato definitivamente e le relative fatture saranno eliminate o annullate. Questa azione non può essere annullata. Continuare?
+          _nl: Dit lidmaatschap wordt permanent verwijderd en de bijbehorende facturen worden verwijderd of geannuleerd. Deze actie kan niet ongedaan worden gemaakt. Doorgaan?
         new_model:
           _en: New %{model}
           _fr: Nouvel %{model}

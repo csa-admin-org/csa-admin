@@ -52,14 +52,18 @@ ActiveAdmin.before_load do |app|
 
         # Adds the default Destroy link on show
         def add_default_destroy_action_item
-          add_action_item :destroy, only: :show, if: -> { destroy_action_authorized?(resource) } do
+          add_action_item :destroy, only: :show, priority: 20, if: -> { destroy_action_authorized?(resource) } do
             localizer = ActiveAdmin::Localizers.resource(active_admin_config)
+            label = localizer.t(:delete_model)
             action_button \
-              localizer.t(:delete_model),
+              nil,
               resource_path(resource),
               method: :delete,
-              class: "destructive",
-              icon: "trash"
+              class: "destructive-icon-action",
+              icon: "trash",
+              title: label,
+              aria: { label: label },
+              data: { confirm: localizer.t(:delete_confirmation) }
           end
         end
       end
