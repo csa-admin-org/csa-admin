@@ -81,7 +81,9 @@ class Session < ApplicationRecord
   end
 
   def redeem_as(owner_type)
-    tap(&:redeem!) if redeemable_as?(owner_type)
+    with_lock do
+      tap(&:redeem!) if redeemable_as?(owner_type)
+    end
   end
 
   def redeem!

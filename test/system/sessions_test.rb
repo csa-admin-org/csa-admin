@@ -21,6 +21,7 @@ class SessionsTest < ApplicationSystemTestCase
     assert_equal "info@csa-admin.org", session.email
     assert_equal 1, SessionMailer.deliveries.size
 
+    assert_equal "http://admin.acme.test/login", current_url
     assert_equal "/login", current_path
     assert_equal "If this email is registered, a login link will be sent to you.", flash_notice
 
@@ -78,6 +79,7 @@ class SessionsTest < ApplicationSystemTestCase
 
     assert_equal 0, SessionMailer.deliveries.size
 
+    assert_equal "http://admin.acme.test/login", current_url
     assert_equal "/login", current_path
     assert_equal "If this email is registered, a login link will be sent to you.", flash_notice
     assert_no_selector "p.inline-errors"

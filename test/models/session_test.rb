@@ -57,6 +57,16 @@ class SessionTest < ActiveSupport::TestCase
     assert_nil Session.redeem_token(token, owner_type: :admin)
   end
 
+  test "redeeming a stale session copy does not consume the token twice" do
+    session = create_session(admins(:ultra))
+    first_copy = Session.find(session.id)
+    stale_copy = Session.find(session.id)
+
+    assert_equal first_copy, first_copy.redeem_as(:admin)
+    assert_nil stale_copy.redeem_as(:admin)
+    assert_predicate session.reload, :redeemed_at?
+  end
+
   test "redeem token is invalidated when the session is revoked" do
     session = create_session(admins(:ultra))
     token = session.generate_token_for(:redeem)

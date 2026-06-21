@@ -25,8 +25,7 @@ class SessionsController < ApplicationController
         session: @session,
         session_url: session_url(@session.generate_token_for(:redeem))
       ).new_admin_session_email.deliver_later(queue: :critical)
-      I18n.locale = @session.admin.language
-      redirect_to login_path(locale: I18n.locale), notice: t("sessions.flash.initiated")
+      redirect_to login_path, notice: t("sessions.flash.initiated")
     elsif @session.masked_login_error?
       redirect_to login_path, notice: t("sessions.flash.initiated")
     else

@@ -21,6 +21,7 @@ class Members::SessionsTest < ApplicationSystemTestCase
     assert_equal "john@doe.com", session.email
     assert_equal 1, SessionMailer.deliveries.size
 
+    assert_equal "http://members.acme.test/login", current_url
     assert_equal "/login", current_path
     assert_text "If this email is registered, a login link will be sent to you."
 
@@ -78,6 +79,7 @@ class Members::SessionsTest < ApplicationSystemTestCase
 
     assert_equal 0, SessionMailer.deliveries.size
 
+    assert_equal "http://members.acme.test/login", current_url
     assert_equal "/login", current_path
     assert_text "If this email is registered, a login link will be sent to you."
     assert_no_selector "span.error"
