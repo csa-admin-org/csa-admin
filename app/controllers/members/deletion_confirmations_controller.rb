@@ -9,7 +9,7 @@ class Members::DeletionConfirmationsController < Members::BaseController
   def create
     if DeletionCode.verify(current_session, params[:code])
       current_member.discard!
-      cookies.delete(:session_id)
+      delete_session_cookie
 
       redirect_to members_public_page_path("goodbye")
     else

@@ -42,10 +42,10 @@ class ApplicationController < ActionController::Base
 
   def authenticate_admin!
     if !current_admin
-      cookies.delete(:session_id)
+      delete_session_cookie
       redirect_to smart_login_path, alert: t("sessions.flash.required"), allow_other_host: true
     elsif current_session&.expired?
-      cookies.delete(:session_id)
+      delete_session_cookie
       redirect_to smart_login_path, alert: t("sessions.flash.expired"), allow_other_host: true
     else
       set_observability_context(
@@ -79,7 +79,7 @@ class ApplicationController < ActionController::Base
     end
 
     session = create_session!(admin)
-    cookies.encrypted.permanent[:session_id] = session.id
+    sign_in_session(session)
     session.admin
   end
 

@@ -3,6 +3,8 @@
 module SessionTracking
   extend ActiveSupport::Concern
 
+  SESSION_COOKIE = :session_id
+
   included do
     helper_method :current_session
   end
@@ -14,7 +16,30 @@ module SessionTracking
   end
 
   def session_id
-    cookies.encrypted[:session_id]
+    cookies.encrypted[SESSION_COOKIE]
+  end
+
+  def sign_in_session(session)
+    cookies.encrypted[SESSION_COOKIE] = session_cookie(session)
+  end
+
+  def sign_out_session
+    current_session&.revoke!
+    delete_session_cookie
+  end
+
+  def delete_session_cookie
+    cookies.delete(SESSION_COOKIE, path: "/")
+  end
+
+  def session_cookie(session)
+    {
+      value: session.id,
+      httponly: true,
+      secure: Rails.env.production?,
+      same_site: :lax,
+      path: "/"
+    }
   end
 
   def update_last_usage(session)

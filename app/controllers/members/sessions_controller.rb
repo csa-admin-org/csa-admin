@@ -35,7 +35,7 @@ class Members::SessionsController < Members::BaseController
 
   def show
     if @session = Session.redeem_token(params[:id], owner_type: :member)
-      cookies.encrypted.permanent[:session_id] = @session.id
+      sign_in_session(@session)
       redirect_to members_member_path, notice: t("sessions.flash.created")
     else
       redirect_to members_login_path, alert: t("sessions.flash.invalid")
@@ -43,8 +43,7 @@ class Members::SessionsController < Members::BaseController
   end
 
   def destroy
-    current_session&.revoke!
-    cookies.delete(:session_id)
+    sign_out_session
     redirect_to members_login_path, notice: t("sessions.flash.deleted")
   end
 

@@ -17,10 +17,10 @@ class Members::BaseController < ApplicationController
 
   def authenticate_member!
     if !current_member
-      cookies.delete(:session_id)
+      delete_session_cookie
       redirect_to members_login_path, alert: t("sessions.flash.required")
     elsif current_session&.expired?
-      cookies.delete(:session_id)
+      delete_session_cookie
       redirect_to members_login_path, alert: t("sessions.flash.expired")
     else
       set_observability_context(
