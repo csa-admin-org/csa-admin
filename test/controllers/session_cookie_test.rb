@@ -69,6 +69,66 @@ class SessionCookieTest < ActionDispatch::IntegrationTest
     assert_session_cookie
   end
 
+  test "expired admin session does not redirect away from login page" do
+    host! "admin.acme.test"
+    session = create_admin_session(admins(:ultra))
+
+    get "/sessions/#{session.generate_token_for(:redeem)}"
+    expire_session(session)
+    get login_path
+
+    assert_response :success
+    assert_select "form[action=?]", sessions_path
+  end
+
+  test "expired member session does not redirect away from login page" do
+    host! "members.acme.test"
+    session = create_member_session(members(:john))
+
+    get "/sessions/#{session.generate_token_for(:redeem)}"
+    expire_session(session)
+    get members_login_path
+
+    assert_response :success
+    assert_select "form[action=?]", members_sessions_path
+  end
+
+  test "expired admin-originated member session does not redirect away from login page" do
+    host! "members.acme.test"
+    session = create_admin_originated_member_session(admins(:ultra), members(:john))
+
+    get "/sessions/#{session.generate_token_for(:redeem)}"
+    expire_session(session)
+    get members_login_path
+
+    assert_response :success
+    assert_select "form[action=?]", members_sessions_path
+  end
+
+  test "expired admin session redirects protected pages with expired alert" do
+    host! "admin.acme.test"
+    session = create_admin_session(admins(:ultra))
+
+    get "/sessions/#{session.generate_token_for(:redeem)}"
+    expire_session(session)
+    get root_path
+
+    assert_redirected_to login_path
+    assert_equal I18n.t("sessions.flash.expired"), flash[:alert]
+  end
+
+  test "expired member session redirects protected pages with expired alert" do
+    host! "members.acme.test"
+    session = create_member_session(members(:john))
+
+    get "/sessions/#{session.generate_token_for(:redeem)}"
+    expire_session(session)
+    get members_member_path
+
+    assert_redirected_to members_login_path
+    assert_equal I18n.t("sessions.flash.expired"), flash[:alert]
+  end
+
   test "development admin auto sign in does not run on members host" do
     host! "members.acme.test"
 
@@ -148,6 +208,11 @@ class SessionCookieTest < ActionDispatch::IntegrationTest
 
   def assert_no_admin_only_session_created(&block)
     assert_no_difference -> { admin_only_sessions.count }, &block
+  end
+
+  def expire_session(session)
+    expiration = session.admin_originated? ? 6.hours : Session::EXPIRATION
+    session.update!(created_at: expiration.ago - 1.second)
   end
 
   def with_development_auto_admin_sign_in

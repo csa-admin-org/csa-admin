@@ -16,18 +16,18 @@ class Members::BaseController < ApplicationController
   private
 
   def authenticate_member!
-    if !current_member
-      delete_session_cookie
-      redirect_to members_login_path, alert: t("sessions.flash.required")
+    if member = current_member
+      set_observability_context(
+        subdomain: Current.org.members_subdomain,
+        member_id: member.id,
+        session_id: current_session.id)
+      update_last_usage(current_session)
     elsif current_session&.expired?
       delete_session_cookie
       redirect_to members_login_path, alert: t("sessions.flash.expired")
     else
-      set_observability_context(
-        subdomain: Current.org.members_subdomain,
-        member_id: current_member.id,
-        session_id: current_session.id)
-      update_last_usage(current_session)
+      delete_session_cookie
+      redirect_to members_login_path, alert: t("sessions.flash.required")
     end
   end
 
@@ -36,7 +36,7 @@ class Members::BaseController < ApplicationController
   end
 
   def current_member
-    current_session&.member
+    unexpired_current_session&.member
   end
 
   def set_time_zone

@@ -15,6 +15,11 @@ module SessionTracking
     Current.session ||= session_id && Session.usable.find_by(id: session_id)
   end
 
+  def unexpired_current_session
+    session = current_session
+    session unless session&.expired?
+  end
+
   def session_id
     cookies.encrypted[SESSION_COOKIE]
   end

@@ -41,18 +41,15 @@ class ApplicationController < ActionController::Base
   private
 
   def authenticate_admin!
-    if !current_admin
-      delete_session_cookie
-      redirect_to smart_login_path, alert: t("sessions.flash.required"), allow_other_host: true
+    if admin = current_admin
+      set_observability_context(subdomain: "admin", admin_id: admin.id, session_id: current_session.id)
+      update_last_usage(current_session)
     elsif current_session&.expired?
       delete_session_cookie
       redirect_to smart_login_path, alert: t("sessions.flash.expired"), allow_other_host: true
     else
-      set_observability_context(
-        subdomain: "admin",
-        admin_id: current_admin.id,
-        session_id: current_session.id)
-      update_last_usage(current_session)
+      delete_session_cookie
+      redirect_to smart_login_path, alert: t("sessions.flash.required"), allow_other_host: true
     end
   end
 
@@ -65,7 +62,7 @@ class ApplicationController < ActionController::Base
   end
 
   def current_admin
-    auto_sign_in_admin_in_dev || current_session&.admin
+    auto_sign_in_admin_in_dev || unexpired_current_session&.admin
   end
   alias_method :current_user, :current_admin
 
@@ -75,7 +72,7 @@ class ApplicationController < ActionController::Base
     return unless ENV["AUTO_SIGN_IN_ADMIN_EMAIL"]
 
     admin = Admin.find_by!(email: ENV["AUTO_SIGN_IN_ADMIN_EMAIL"])
-    if current_session&.admin == admin
+    if unexpired_current_session&.admin == admin
       return admin
     end
 
