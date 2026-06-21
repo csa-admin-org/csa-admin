@@ -8,6 +8,7 @@ module Scheduled
       Checker::MembershipPrice.check_all!
       Checker::DeliveryBasketContentAvgPrices.check_all!
       Checker::NewsletterStaleProcessing.check_all!
+      purge_expired_mail_deliveries!
       clear_stale_cart_shop_orders!
       clear_stale_sessions!
       clear_finished_solid_queue_jobs!
@@ -26,6 +27,10 @@ module Scheduled
       Member
         .includes(:current_or_future_membership, :last_membership)
         .find_each(&:review_active_state!)
+    end
+
+    def purge_expired_mail_deliveries!
+      MailDelivery.purge_expired!
     end
 
     def clear_stale_cart_shop_orders!
