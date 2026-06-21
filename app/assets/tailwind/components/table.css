@@ -194,12 +194,6 @@
     }
   }
 
-  .data-no-hover {
-    & tbody tr {
-      @apply hover:bg-transparent;
-    }
-  }
-
   .text-right {
     &th a {
       @apply flex flex-row-reverse;
@@ -351,7 +345,13 @@
   }
 
   tr[data-table-row-target="row"] {
-    @apply focus:bg-neutral-100! focus:outline-none focus:dark:bg-gray-800!;
+    @apply focus-within:bg-neutral-100! hover:bg-neutral-100! focus:bg-neutral-100! focus:outline-none dark:focus-within:bg-gray-800! dark:hover:bg-gray-800! dark:focus:bg-gray-800!;
+  }
+
+  .data-no-hover {
+    & tbody tr {
+      @apply focus-within:bg-transparent! hover:bg-transparent! focus:bg-transparent!;
+    }
   }
 
   tbody[data-controller="sortable"] tr {

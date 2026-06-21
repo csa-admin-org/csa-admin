@@ -38,7 +38,7 @@ export default class extends Controller {
     const row = event.target.closest("tr")
     if (!row) return
 
-    if (event.target.closest("input, select, textarea, form")) return
+    if (event.target.closest("input, select, textarea, button, form.button_to")) return
 
     row.focus()
   }
