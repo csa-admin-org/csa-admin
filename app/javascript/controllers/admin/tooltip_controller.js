@@ -21,6 +21,48 @@ export default class extends Controller {
   }
 
   show() {
+    this._show()
+  }
+
+  hide() {
+    this._close()
+  }
+
+  preview() {
+    this.cancelHidePreview()
+    if (this._pinned) return
+
+    this._previewing = true
+    this._show()
+  }
+
+  hidePreview(event) {
+    if (!this._previewing || this._pinned) return
+    if (this._movingWithinTooltip(event)) return
+
+    this._schedulePreviewHide()
+  }
+
+  cancelHidePreview() {
+    if (this._previewHideTimeout) {
+      clearTimeout(this._previewHideTimeout)
+      this._previewHideTimeout = null
+    }
+  }
+
+  toggle() {
+    this.cancelHidePreview()
+
+    if (this._pinned) {
+      this.hide()
+    } else {
+      this._previewing = false
+      this._pinned = true
+      this._show()
+    }
+  }
+
+  _show() {
     if (this.dismissibleValue) {
       this._closeOpenDismissibleTooltip()
       openDismissibleTooltip = this
@@ -36,20 +78,11 @@ export default class extends Controller {
     })
   }
 
-  hide() {
-    this._close()
-  }
-
-  toggle() {
-    if (this._isHidden()) {
-      this.show()
-    } else {
-      this.hide()
-    }
-  }
-
   _close() {
     this._newShowRequest()
+    this.cancelHidePreview()
+    this._previewing = false
+    this._pinned = false
     this._hideContent()
     this._stopAutoUpdate()
     this._removeDismissListeners()
@@ -79,6 +112,20 @@ export default class extends Controller {
     if (openDismissibleTooltip && openDismissibleTooltip !== this) {
       openDismissibleTooltip.hide()
     }
+  }
+
+  _schedulePreviewHide() {
+    this.cancelHidePreview()
+
+    this._previewHideTimeout = setTimeout(() => {
+      if (!this._previewing || this._pinned) return
+
+      this.hide()
+    }, 150)
+  }
+
+  _movingWithinTooltip(event) {
+    return event?.relatedTarget instanceof Node && this.element.contains(event.relatedTarget)
   }
 
   _addDismissListeners() {

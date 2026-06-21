@@ -56,7 +56,7 @@ module MembersHelper
   end
 
   def note_popover(id, note, reply:)
-    popover(id, icon_name: "message-square-text") do
+    popover(id, icon_name: "message-square-text", hover: true) do
       content_tag(:p, note, class: "text-pretty") +
         content_tag(:div, class: "mt-2 text-right") do
           note_mail_to(note, reply: reply,

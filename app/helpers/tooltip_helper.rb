@@ -24,8 +24,15 @@ module TooltipHelper
     end
   end
 
-  def popover(id, icon_name: "info", icon_class: "size-5", &block)
+  def popover(id, icon_name: "info", icon_class: "size-5", hover: false, &block)
     popover_id = "popover-#{id}"
+    actions = [ "click->tooltip#toggle" ]
+    actions += %w[
+      mouseenter->tooltip#preview
+      mouseleave->tooltip#hidePreview
+      focus->tooltip#preview
+      blur->tooltip#hidePreview
+    ] if hover
 
     content_tag(:span,
       class: "relative inline-flex",
@@ -36,14 +43,14 @@ module TooltipHelper
         class: "block z-0 cursor-pointer hover:text-gray-900 dark:hover:text-gray-100",
         data: {
           "tooltip-target" => "trigger",
-          action: "click->tooltip#toggle"
+          action: actions.join(" ")
         },
         aria: { controls: popover_id, expanded: false },
         onclick: "event.stopPropagation()"
       ) {
         icon icon_name, class: icon_class
       } +
-      popover_element(id: popover_id, &block)
+      popover_element(id: popover_id, hover: hover, &block)
     end
   end
 
@@ -51,17 +58,27 @@ module TooltipHelper
     _floating_element(id: id) { content_tag(:p, content) }
   end
 
-  def popover_element(id: nil, &block)
-    _floating_element(id: id) { capture(&block) }
+  def popover_element(id: nil, hover: false, &block)
+    actions = %w[
+      mouseenter->tooltip#cancelHidePreview
+      mouseleave->tooltip#hidePreview
+      focusin->tooltip#cancelHidePreview
+      focusout->tooltip#hidePreview
+    ] if hover
+
+    _floating_element(id: id, action: actions&.join(" ")) { capture(&block) }
   end
 
   private
 
-  def _floating_element(id: nil)
+  def _floating_element(id: nil, action: nil)
+    data = { "tooltip-target" => "content" }
+    data[:action] = action if action
+
     html_options = {
       role: "tooltip",
       class: "invisible fixed z-50 w-max max-w-96 px-3 py-2 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-xs opacity-0 transition-opacity duration-150 tooltip dark:bg-gray-700",
-      data: { "tooltip-target" => "content" }
+      data: data
     }
     html_options[:id] = id if id
     content_tag(:div, **html_options) do
