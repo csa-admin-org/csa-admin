@@ -5,6 +5,7 @@ require "bcrypt"
 class Members::SessionsController < Members::BaseController
   include CapVerifiable
   include SessionRateLimiting
+  include MagicLinkReferrerPolicy
 
   layout "members"
   skip_before_action :authenticate_member!

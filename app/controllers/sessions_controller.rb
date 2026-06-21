@@ -5,6 +5,7 @@ require "bcrypt"
 class SessionsController < ApplicationController
   include CapVerifiable
   include SessionRateLimiting
+  include MagicLinkReferrerPolicy
 
   helper ActiveAdmin::LayoutHelper
   layout "active_admin_logged_out"

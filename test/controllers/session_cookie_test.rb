@@ -69,6 +69,26 @@ class SessionCookieTest < ActionDispatch::IntegrationTest
     assert_session_cookie
   end
 
+  test "admin magic-link redeem response does not allow referrers" do
+    host! "admin.acme.test"
+    session = create_admin_session(admins(:ultra))
+
+    get "/sessions/#{session.generate_token_for(:redeem)}"
+
+    assert_redirected_to root_path
+    assert_no_referrer_policy
+  end
+
+  test "member magic-link redeem response does not allow referrers" do
+    host! "members.acme.test"
+    session = create_member_session(members(:john))
+
+    get "/sessions/#{session.generate_token_for(:redeem)}"
+
+    assert_redirected_to members_member_path
+    assert_no_referrer_policy
+  end
+
   test "expired admin session does not redirect away from login page" do
     host! "admin.acme.test"
     session = create_admin_session(admins(:ultra))
@@ -173,6 +193,10 @@ class SessionCookieTest < ActionDispatch::IntegrationTest
     assert_includes cookie_attributes, "httponly"
     assert_includes cookie_attributes, "samesite=lax"
     assert_not cookie_attributes.any? { |attribute| attribute.start_with?("expires=", "max-age=") }
+  end
+
+  def assert_no_referrer_policy
+    assert_equal "no-referrer", response.headers["Referrer-Policy"]
   end
 
   def session_cookie_header
