@@ -13,7 +13,7 @@ class ApplicationController < ActionController::Base
 
   helper_method :current_admin
 
-  allow_browser versions: { safari: 16.4, chrome: 116, firefox: 128, opera: 106, ie: false }, block: :handle_outdated_browser
+  allow_browser versions: { safari: 16.4, chrome: 120, firefox: 128, opera: 106, ie: false }, block: :handle_outdated_browser
 
   rescue_from ActiveRecord::InvalidForeignKey do
     redirect_back(
