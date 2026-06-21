@@ -7,14 +7,7 @@ class Session < ApplicationRecord
   EXPIRATION = 1.year
 
   generates_token_for :redeem, expires_in: 15.minutes do
-    [
-      Tenant.current,
-      admin_id,
-      member_id,
-      created_at&.to_i,
-      revoked_at&.to_i,
-      redeemed_at&.to_i
-    ]
+    Tenant.current
   end
 
   belongs_to :member, optional: true
