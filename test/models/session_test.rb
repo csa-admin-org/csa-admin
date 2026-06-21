@@ -135,6 +135,34 @@ class SessionTest < ActiveSupport::TestCase
     assert session.revoked?
   end
 
+  test "clear stale sessions" do
+    travel_to "2026-01-01" do
+      stale_session = create_session(admins(:ultra))
+      stale_session.update!(created_at: Session::RETENTION.ago - 1.second)
+      retained_session = create_session(members(:john))
+      retained_session.update!(created_at: Session::RETENTION.ago)
+      page_visit = Demo::PageVisit.create!(
+        admin: admins(:ultra),
+        session: stale_session,
+        path: "/",
+        controller_name: "dashboard",
+        action_name: "index",
+        page_key: "dashboard#index",
+        status: 200)
+      audit = Audit.create!(
+        auditable: members(:john),
+        session: stale_session,
+        audited_changes: { "name" => [ "John", "Johnny" ] })
+
+      Session.clear_stale!
+
+      assert_not Session.exists?(stale_session.id)
+      assert_not Demo::PageVisit.exists?(page_visit.id)
+      assert_nil audit.reload.session_id
+      assert Session.exists?(retained_session.id)
+    end
+  end
+
   test "cannot find discarded member by email" do
     member = discardable_member
     email = member.emails_array.first

@@ -5,6 +5,7 @@ require "user_agent_parser"
 class Session < ApplicationRecord
   include Session::DeletionCode
   EXPIRATION = 1.year
+  RETENTION = 15.months
 
   generates_token_for :redeem, expires_in: 15.minutes do
     Tenant.current
@@ -12,7 +13,12 @@ class Session < ApplicationRecord
 
   belongs_to :member, optional: true
   belongs_to :admin, optional: true
+  has_many :absences, dependent: :nullify
+  has_many :activity_participations, dependent: :nullify
+  has_many :audits, dependent: :nullify
+  has_many :basket_overrides, dependent: :nullify
   has_many :demo_page_visits, class_name: "Demo::PageVisit", dependent: :delete_all
+  has_many :sepa_mandates, class_name: "SEPAMandate", dependent: :nullify
 
   validates :remote_addr, :user_agent, presence: true
   validates :email, presence: true, allow_nil: true
@@ -40,6 +46,10 @@ class Session < ApplicationRecord
 
   def self.redeem_token(token, owner_type:)
     find_by_token_for(:redeem, token)&.redeem_as(owner_type)
+  end
+
+  def self.clear_stale!
+    where(created_at: ...RETENTION.ago).find_each(&:destroy!)
   end
 
   def owner_type
