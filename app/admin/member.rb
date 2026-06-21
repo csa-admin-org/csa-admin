@@ -877,11 +877,10 @@ ActiveAdmin.register Member do
   end
 
   action_item :become, only: :show do
-    action_link t(".become_member"), become_member_path(resource),
-      icon: "log-in",
-      target: "_blank",
-      rel: "noopener",
-      data: { turbo: false }
+    content = icon("log-in", class: "size-5") + t(".become_member")
+    button_to content, become_member_path(resource),
+      class: "h-9 action-item-button action-item-link-button",
+      form: { target: "_blank", rel: "noopener", data: { turbo: false } }
   end
 
   member_action :validate, method: :post do
@@ -913,7 +912,7 @@ ActiveAdmin.register Member do
     redirect_to member_path(resource), notice: t(".flash.notice")
   end
 
-  member_action :become do
+  member_action :become, method: :post do
     session = Session.create!(
       admin_email: current_admin.email,
       member: resource,

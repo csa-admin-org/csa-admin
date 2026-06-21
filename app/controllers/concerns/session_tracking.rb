@@ -20,6 +20,7 @@ module SessionTracking
   end
 
   def sign_in_session(session)
+    Current.session = session
     cookies.encrypted[SESSION_COOKIE] = session_cookie(session)
   end
 
@@ -29,6 +30,7 @@ module SessionTracking
   end
 
   def delete_session_cookie
+    Current.session = nil
     cookies.delete(SESSION_COOKIE, path: "/")
   end
 

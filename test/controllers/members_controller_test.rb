@@ -83,6 +83,35 @@ class MembersControllerTest < ActionDispatch::IntegrationTest
     assert_equal "", delete_buttons.first.text.squish
   end
 
+  test "show renders become member action as a blank-target post form" do
+    member = members(:john)
+
+    login admins(:super)
+    get member_path(member)
+
+    assert_response :success
+    assert_select "form[action='#{become_member_path(member)}'][method='post'][target='_blank'][rel='noopener'][data-turbo='false']" do |forms|
+      assert_nil forms.first["data-controller"]
+      assert_select "button.action-item-button.action-item-link-button", text: /Account/
+    end
+  end
+
+  test "become member creates an admin-originated member session" do
+    admin = admins(:super)
+    member = members(:john)
+
+    login admin
+
+    assert_difference "Session.count" do
+      post become_member_path(member)
+    end
+
+    session = Session.order(:id).last
+    assert_equal admin, session.admin
+    assert_equal member, session.member
+    assert_redirected_to %r{\Ahttp://members\.acme\.test/sessions/}
+  end
+
   test "show displays waiting member activation start date" do
     travel_to "2024-05-01"
     member = members(:aria)

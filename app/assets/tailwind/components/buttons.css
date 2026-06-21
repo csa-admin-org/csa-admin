@@ -58,6 +58,14 @@
     }
   }
 
+  button.action-item-button.action-item-link-button {
+    @apply px-3 font-medium;
+    @apply text-gray-700 hover:text-green-600 dark:text-gray-300 dark:hover:text-green-400;
+    @apply border-gray-200 hover:border-gray-200 dark:border-gray-600 dark:hover:border-gray-600;
+    @apply bg-white hover:bg-gray-50 dark:bg-gray-900 dark:hover:bg-gray-800;
+    @apply focus:ring-gray-200 dark:focus:ring-gray-700;
+  }
+
   .destructive-icon-action,
   a.destructive-icon-action,
   button.destructive-icon-action {

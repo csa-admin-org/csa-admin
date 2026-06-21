@@ -71,6 +71,7 @@ class ApplicationController < ActionController::Base
 
   def auto_sign_in_admin_in_dev
     return unless Rails.env.development?
+    return unless request.subdomain == "admin"
     return unless ENV["AUTO_SIGN_IN_ADMIN_EMAIL"]
 
     admin = Admin.find_by!(email: ENV["AUTO_SIGN_IN_ADMIN_EMAIL"])
