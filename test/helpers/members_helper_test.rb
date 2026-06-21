@@ -81,6 +81,14 @@ class MembersHelperTest < ActionView::TestCase
     assert_includes html, I18n.t("active_admin.empty")
   end
 
+  test "link_with_session renders unavailable actor as missing data" do
+    html = link_with_session(Unavailable.instance, nil).to_s
+
+    assert_includes html, Unavailable.instance.name
+    assert_includes html, "italic text-gray-400 dark:text-gray-600"
+    assert_not_includes html, "href"
+  end
+
   private
 
   def member_address(city, zip)

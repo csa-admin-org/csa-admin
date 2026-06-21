@@ -3,6 +3,37 @@
 require "test_helper"
 
 class AuditTest < ActiveSupport::TestCase
+  test "actor is unavailable when session was pruned after retention" do
+    travel_to "2026-01-01" do
+      audit = Audit.create!(
+        auditable: members(:john),
+        audited_changes: { "name" => [ "John", "Johnny" ] },
+        created_at: Session::RETENTION.ago - 1.second)
+
+      assert_equal Unavailable.instance, audit.actor
+    end
+  end
+
+  test "actor remains system for recent records without session" do
+    audit = Audit.create!(
+      auditable: members(:john),
+      audited_changes: { "name" => [ "John", "Johnny" ] })
+
+    assert_equal System.instance, audit.actor
+  end
+
+  test "actor keeps session owner for old records with session" do
+    travel_to "2026-01-01" do
+      audit = Audit.create!(
+        auditable: members(:john),
+        session: sessions(:ultra),
+        audited_changes: { "name" => [ "John", "Johnny" ] },
+        created_at: Session::RETENTION.ago - 1.second)
+
+      assert_equal admins(:ultra), audit.actor
+    end
+  end
+
   test "relevant_for excludes audits created within 1 second of auditable creation" do
     member = members(:john)
     creation_audit = member.audits.create!(

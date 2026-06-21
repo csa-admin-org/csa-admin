@@ -20,7 +20,12 @@ module MembersHelper
 
   def link_with_session(member, session)
     content_tag(:span) {
-      link = auto_link(member).html_safe
+      link = if member.is_a?(Unavailable)
+        content_tag(:span, member.name, class: "italic text-gray-400 dark:text-gray-600")
+      else
+        auto_link(member).html_safe
+      end
+
       if session && (!session.admin_id? && session.email)
         link += content_tag(:span, class: "block text-sm text-gray-500", title: Session.human_attribute_name(:email_session)) {
           session.email

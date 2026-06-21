@@ -7,3 +7,9 @@ _:
         _de: CSA Admin
         _it: CSA Admin
         _nl: CSA Admin
+      unavailable:
+        _en: Unavailable
+        _fr: Indisponible
+        _de: Nicht verfügbar
+        _it: Indisponibile
+        _nl: Niet beschikbaar

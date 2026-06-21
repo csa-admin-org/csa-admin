@@ -11,10 +11,18 @@ module Sessionable
   end
 
   def actor
-    session&.owner || System.instance
+    session&.owner || fallback_actor
   end
 
   private
+
+  def fallback_actor
+    if created_at && created_at < Session::RETENTION.ago
+      Unavailable.instance
+    else
+      System.instance
+    end
+  end
 
   def set_current_session
     self.session ||= Current.session
