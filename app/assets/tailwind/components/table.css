@@ -118,7 +118,7 @@
   }
 
   .attributes-table-empty-value {
-    @apply text-sm text-gray-400 italic dark:text-gray-400;
+    @apply text-sm muted-data;
   }
 
   .data-table {

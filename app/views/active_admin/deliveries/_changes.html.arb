@@ -23,7 +23,7 @@ details class: "arrow-details" do
           entries.each do |entry|
             dimmed = entry.ended? || entry.absent?
             row_class = "border-b border-dotted border-gray-200 dark:border-gray-800"
-            row_class += " italic text-gray-400 dark:text-gray-600" if dimmed
+            row_class += " muted-data" if dimmed
             tr class: row_class do
               td link_to(entry.member.name, entry.member), class: "w-2/5"
               td do

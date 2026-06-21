@@ -21,7 +21,7 @@ module MembersHelper
   def link_with_session(member, session)
     content_tag(:span) {
       link = if member.is_a?(Unavailable)
-        content_tag(:span, member.name, class: "italic text-gray-400 dark:text-gray-600")
+        content_tag(:span, member.name, class: "muted-data")
       else
         auto_link(member).html_safe
       end

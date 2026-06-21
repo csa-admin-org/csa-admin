@@ -35,7 +35,7 @@ module ActiveAdmin::BillingHelper
         end
       end
     else
-      arbre.span class: "italic text-gray-400 dark:text-gray-600" do
+      arbre.span class: "muted-data" do
         t("active_admin.resource.show.recurring_billing_disabled")
       end
     end

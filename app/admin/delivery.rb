@@ -139,7 +139,7 @@ ActiveAdmin.register Delivery do
                 if orders_count.positive?
                   link_to(orders_count, shop_orders_path(q: { _delivery_gid_eq: delivery.gid }, scope: :all_without_cart))
                 else
-                  content_tag :span, t("active_admin.empty"), class: "italic text-gray-400 dark:text-gray-600"
+                  content_tag :span, t("active_admin.empty"), class: "muted-data"
                 end
               }
             end

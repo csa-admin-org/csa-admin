@@ -20,7 +20,7 @@ module MembershipsHelper
     when Basket, Membership
       object.basket_description(public_name: public_name)
     else
-      content_tag(:em, t("activerecord.models.basket_size.none"), class: "italic text-gray-400 dark:text-gray-600") unless text_only
+      content_tag(:em, t("activerecord.models.basket_size.none"), class: "muted-data") unless text_only
     end
   end
 
@@ -35,7 +35,7 @@ module MembershipsHelper
     if names.present?
       names.to_sentence
     elsif !text_only
-      content_tag :em, t("activerecord.models.basket_complement.none"), class: "italic text-gray-400 dark:text-gray-600"
+      content_tag :em, t("activerecord.models.basket_complement.none"), class: "muted-data"
     end
   end
 
@@ -159,7 +159,7 @@ module MembershipsHelper
           content_tag(:span, t("members.memberships.renewal.options.renew"),
             class: "") +
           content_tag(:span, t("members.memberships.renewal.options.renew_hint"),
-            class: "hint text-sm italic text-gray-400 dark:text-gray-600")
+            class: "hint text-sm muted-data")
         }.html_safe,
         :renew
       ],
