@@ -213,7 +213,7 @@ ActiveAdmin.setup do |config|
       }, priority: 19, id: :email
       menu.add label: -> {
         [
-          icon("ellipsis", class: "size-6 mr-2.5 md:mr-0.5 inline", title: t("active_admin.settings")),
+          icon("ellipsis", class: "size-6 mr-1.5 md:mr-0 inline", title: t("active_admin.settings")),
           content_tag(:span, t("active_admin.menu.other"), class: "inline md:hidden")
         ].join.html_safe
       }, priority: 20, id: :other, html_options: { data: { controller: "menu-sorting" } }
