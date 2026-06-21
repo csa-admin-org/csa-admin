@@ -57,7 +57,9 @@
     h3 {
       @apply mb-3 text-xl font-extralight;
     }
+  }
 
+  .filters-form {
     input[type="text"],
     input[type="date"],
     select {
