@@ -3345,6 +3345,37 @@ _:
             _de: Letzte
             _it: Recente
             _nl: Recent
+        status_icons:
+          admin:
+            _en: Admin session
+            _fr: Session admin
+            _de: Admin-Sitzung
+            _it: Sessione admin
+            _nl: Adminsessie
+          admin_originated:
+            _en: Opened from admin by %{admin}
+            _fr: Ouverte depuis l'admin par %{admin}
+            _de: Vom Admin %{admin} geöffnet
+            _it: Aperta dall'admin da %{admin}
+            _nl: Geopend vanuit admin door %{admin}
+          expired:
+            _en: Expired session
+            _fr: Session expirée
+            _de: Abgelaufene Sitzung
+            _it: Sessione scaduta
+            _nl: Verlopen sessie
+          member:
+            _en: Member session
+            _fr: Session membre
+            _de: Mitgliedssitzung
+            _it: Sessione membro
+            _nl: Lidsessie
+          revoked:
+            _en: Revoked session
+            _fr: Session révoquée
+            _de: Widerrufene Sitzung
+            _it: Sessione revocata
+            _nl: Ingetrokken sessie
       mail_delivery:
         flash:
           notice:

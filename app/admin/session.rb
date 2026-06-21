@@ -29,15 +29,26 @@ ActiveAdmin.register Session, as: "MSession" do
       }, class: "text-right tabular-nums"
     end
     column nil, ->(s) {
-      content_tag(:span, class: "flex items-center gap-1 justify-end text-gray-500") {
-        txt = ""
-        txt += icon("log-out", class: "size-5") if s.revoked?
-        txt += icon("archive-x", class: "size-5") if s.expired?
-        txt += icon("key", class: "size-5") if s.admin
-        txt += icon("user", class: "size-5") if s.member
-        txt.html_safe
+      status_icon = ->(key, icon_name, **options) {
+        tooltip(
+          dom_id(s, key),
+          t("active_admin.resources.m_session.status_icons.#{key}", **options),
+          icon_name: icon_name,
+          icon_class: "size-5")
       }
-     }
+
+      icons = []
+      icons << status_icon.call(:revoked, "ban") if s.revoked?
+      icons << status_icon.call(:expired, "calendar-x") if s.expired?
+      if s.admin_originated?
+        icons << status_icon.call(:admin_originated, "shield-user", admin: s.admin.name)
+      elsif s.admin
+        icons << status_icon.call(:admin, "shield-user")
+      end
+      icons << status_icon.call(:member, "user") if s.member
+
+      content_tag(:span, safe_join(icons), class: "flex items-center gap-1 justify-end text-gray-500")
+    }
   end
 
   controller do
