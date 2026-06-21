@@ -4,6 +4,7 @@ require "bcrypt"
 
 class Members::SessionsController < Members::BaseController
   include CapVerifiable
+  include SessionRateLimiting
 
   layout "members"
   skip_before_action :authenticate_member!
@@ -25,13 +26,15 @@ class Members::SessionsController < Members::BaseController
       ).new_member_session_email.deliver_later(queue: :critical)
       I18n.locale = @session.member.language
       redirect_to members_login_path(locale: I18n.locale), notice: t("sessions.flash.initiated")
+    elsif @session.masked_login_error?
+      redirect_to members_login_path, notice: t("sessions.flash.initiated")
     else
       render :new, status: :unprocessable_entity
     end
   end
 
   def show
-    if @session = Session.redeem_token(params[:id])
+    if @session = Session.redeem_token(params[:id], owner_type: :member)
       cookies.encrypted.permanent[:session_id] = @session.id
       redirect_to members_member_path, notice: t("sessions.flash.created")
     else

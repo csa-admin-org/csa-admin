@@ -36,7 +36,7 @@ class Demo::RegistrationsTest < ApplicationSystemTestCase
       perform_enqueued_jobs
 
       assert_equal "/login", current_path
-      assert_text "Check your email! A login link has been sent to you."
+      assert_text "If this email is registered, a login link will be sent to you."
 
       open_email("alice@example.com")
       current_email.click_link "Access the demo"

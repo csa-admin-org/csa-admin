@@ -44,7 +44,7 @@ class SessionTest < ActiveSupport::TestCase
 
     with_tenant("other") do
       assert_nil Session.find_by_token_for(:redeem, token)
-      assert_nil Session.redeem_token(token)
+      assert_nil Session.redeem_token(token, owner_type: :admin)
     end
   end
 
@@ -52,9 +52,9 @@ class SessionTest < ActiveSupport::TestCase
     session = create_session(admins(:ultra))
     token = session.generate_token_for(:redeem)
 
-    assert_equal session, Session.redeem_token(token)
+    assert_equal session, Session.redeem_token(token, owner_type: :admin)
     assert_predicate session.reload, :redeemed_at?
-    assert_nil Session.redeem_token(token)
+    assert_nil Session.redeem_token(token, owner_type: :admin)
   end
 
   test "redeem token is invalidated when the session is revoked" do
@@ -63,7 +63,33 @@ class SessionTest < ActiveSupport::TestCase
 
     session.revoke!
 
-    assert_nil Session.redeem_token(token)
+    assert_nil Session.redeem_token(token, owner_type: :admin)
+  end
+
+  test "redeem token must match the expected owner type" do
+    session = create_session(members(:john))
+    token = session.generate_token_for(:redeem)
+
+    assert_nil Session.redeem_token(token, owner_type: :admin)
+    assert_nil session.reload.redeemed_at
+  end
+
+  test "redeem token is rejected for expired session" do
+    session = create_session(admins(:ultra))
+    session.update!(created_at: Session::EXPIRATION.ago - 1.second)
+    token = session.generate_token_for(:redeem)
+
+    assert_nil Session.redeem_token(token, owner_type: :admin)
+    assert_nil session.reload.redeemed_at
+  end
+
+  test "redeem token is rejected for unusable session" do
+    session = create_session(admins(:ultra))
+    session.update!(email: nil)
+    token = session.generate_token_for(:redeem)
+
+    assert_nil Session.redeem_token(token, owner_type: :admin)
+    assert_nil session.reload.redeemed_at
   end
 
   test "expired after a year" do

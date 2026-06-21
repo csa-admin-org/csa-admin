@@ -22,7 +22,7 @@ class SessionsTest < ApplicationSystemTestCase
     assert_equal 1, SessionMailer.deliveries.size
 
     assert_equal "/login", current_path
-    assert_equal "Check your email! A login link has been sent to you.", flash_notice
+    assert_equal "If this email is registered, a login link will be sent to you.", flash_notice
 
     open_email("info@csa-admin.org")
     current_email.click_link "Access my admin account"
@@ -67,7 +67,7 @@ class SessionsTest < ApplicationSystemTestCase
     assert_selector "p.inline-errors", text: "is invalid"
   end
 
-  test "does not accept unknown email" do
+  test "does not disclose unknown email" do
     visit "/"
     assert_equal "/login", current_path
 
@@ -78,8 +78,25 @@ class SessionsTest < ApplicationSystemTestCase
 
     assert_equal 0, SessionMailer.deliveries.size
 
-    assert_equal "/sessions", current_path
-    assert_selector "p.inline-errors", text: "Unknown email"
+    assert_equal "/login", current_path
+    assert_equal "If this email is registered, a login link will be sent to you.", flash_notice
+    assert_no_selector "p.inline-errors"
+  end
+
+  test "does not disclose suppressed email" do
+    suppress_email(admins(:ultra).email)
+
+    visit "/"
+    fill_in "Email", with: admins(:ultra).email
+    fill_in_cap
+    click_button "Submit"
+    perform_enqueued_jobs
+
+    assert_equal 0, SessionMailer.deliveries.size
+
+    assert_equal "/login", current_path
+    assert_equal "If this email is registered, a login link will be sent to you.", flash_notice
+    assert_no_selector "p.inline-errors"
   end
 
   test "cannot redeem old session token" do
@@ -91,6 +108,17 @@ class SessionsTest < ApplicationSystemTestCase
 
     assert_equal "/login", current_path
     assert_equal "Your login link is no longer valid. Please request a new one.", flash_alert
+  end
+
+  test "cannot redeem member session token on admin login" do
+    session = create_session(members(:john))
+    token = session.generate_token_for(:redeem)
+
+    visit "/sessions/#{token}"
+
+    assert_equal "/login", current_path
+    assert_equal "Your login link is no longer valid. Please request a new one.", flash_alert
+    assert_nil session.reload.redeemed_at
   end
 
   test "cannot redeem session token more than once" do

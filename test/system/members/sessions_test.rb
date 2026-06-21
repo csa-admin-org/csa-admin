@@ -22,7 +22,7 @@ class Members::SessionsTest < ApplicationSystemTestCase
     assert_equal 1, SessionMailer.deliveries.size
 
     assert_equal "/login", current_path
-    assert_text "Check your email! A login link has been sent to you."
+    assert_text "If this email is registered, a login link will be sent to you."
 
     open_email("john@doe.com")
     current_email.click_link "Access my account"
@@ -67,7 +67,7 @@ class Members::SessionsTest < ApplicationSystemTestCase
     assert_selector "span.error", text: "is invalid"
   end
 
-  test "does not accept unknown email" do
+  test "does not disclose unknown email" do
     visit "/"
     assert_equal "/login", current_path
 
@@ -78,8 +78,43 @@ class Members::SessionsTest < ApplicationSystemTestCase
 
     assert_equal 0, SessionMailer.deliveries.size
 
-    assert_equal "/sessions", current_path
-    assert_selector "span.error", text: "Unknown email"
+    assert_equal "/login", current_path
+    assert_text "If this email is registered, a login link will be sent to you."
+    assert_no_selector "span.error"
+  end
+
+  test "does not disclose suppressed email" do
+    suppress_email(members(:john).emails_array.first)
+
+    visit "/"
+    fill_in "session_email", with: members(:john).emails_array.first
+    fill_in_cap
+    click_button "Send"
+    perform_enqueued_jobs
+
+    assert_equal 0, SessionMailer.deliveries.size
+
+    assert_equal "/login", current_path
+    assert_text "If this email is registered, a login link will be sent to you."
+    assert_no_selector "span.error"
+  end
+
+  test "does not disclose discarded member email" do
+    member = discardable_member
+    email = member.emails_array.first
+    member.discard
+
+    visit "/"
+    fill_in "session_email", with: email
+    fill_in_cap
+    click_button "Send"
+    perform_enqueued_jobs
+
+    assert_equal 0, SessionMailer.deliveries.size
+
+    assert_equal "/login", current_path
+    assert_text "If this email is registered, a login link will be sent to you."
+    assert_no_selector "span.error"
   end
 
   test "cannot redeem old session token" do
@@ -92,6 +127,17 @@ class Members::SessionsTest < ApplicationSystemTestCase
     assert_equal "/login", current_path
 
     assert_text "Your login link is no longer valid. Please request a new one."
+  end
+
+  test "cannot redeem admin session token on member login" do
+    session = create_session(admins(:ultra))
+    token = session.generate_token_for(:redeem)
+
+    visit "/sessions/#{token}"
+
+    assert_equal "/login", current_path
+    assert_text "Your login link is no longer valid. Please request a new one."
+    assert_nil session.reload.redeemed_at
   end
 
   test "cannot redeem session token more than once" do

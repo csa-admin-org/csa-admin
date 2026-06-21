@@ -9,7 +9,6 @@ class Session < ApplicationRecord
   generates_token_for :redeem, expires_in: 15.minutes do
     [
       Tenant.current,
-      owner_type,
       admin_id,
       member_id,
       created_at&.to_i,
@@ -46,8 +45,8 @@ class Session < ApplicationRecord
     super + %i[owner_type_eq]
   end
 
-  def self.redeem_token(token)
-    find_by_token_for(:redeem, token)&.tap(&:redeem!)
+  def self.redeem_token(token, owner_type:)
+    find_by_token_for(:redeem, token)&.redeem_as(owner_type)
   end
 
   def owner_type
@@ -88,8 +87,19 @@ class Session < ApplicationRecord
     touch(:revoked_at)
   end
 
+  def redeem_as(owner_type)
+    tap(&:redeem!) if redeemable_as?(owner_type)
+  end
+
   def redeem!
     touch(:redeemed_at)
+  end
+
+  def masked_login_error?
+    email_errors = errors.details[:email]
+    email_errors.present?
+      && errors.details.except(:email).empty?
+      && email_errors.all? { |error| error[:error].in?(%i[unknown suppressed]) }
   end
 
   def revoked?
@@ -100,6 +110,15 @@ class Session < ApplicationRecord
     member && admin
   end
 
+  def redeemable_as?(owner_type)
+    return false unless redeemable?
+
+    case owner_type
+    when :admin then admin_session?
+    when :member then member_session?
+    end
+  end
+
   def last_user_agent
     user_agent = self[:last_user_agent]
     return unless user_agent.present?
@@ -108,6 +127,18 @@ class Session < ApplicationRecord
   end
 
   private
+
+  def redeemable?
+    email? && !revoked? && !redeemed_at? && !expired?
+  end
+
+  def admin_session?
+    admin_id? && !member_id?
+  end
+
+  def member_session?
+    member_id?
+  end
 
   def truemail
     if email.present? && !Truemail.valid?(email)

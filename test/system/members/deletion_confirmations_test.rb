@@ -116,6 +116,8 @@ class Members::DeletionConfirmationsTest < ApplicationSystemTestCase
     fill_in_cap
     click_button "Send"
 
-    assert_selector "span.error", text: "Unknown email"
+    assert_equal "/login", current_path
+    assert_text "If this email is registered, a login link will be sent to you."
+    assert_no_selector "span.error"
   end
 end

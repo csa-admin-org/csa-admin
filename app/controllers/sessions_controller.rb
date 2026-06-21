@@ -4,6 +4,7 @@ require "bcrypt"
 
 class SessionsController < ApplicationController
   include CapVerifiable
+  include SessionRateLimiting
 
   helper ActiveAdmin::LayoutHelper
   layout "active_admin_logged_out"
@@ -25,13 +26,15 @@ class SessionsController < ApplicationController
       ).new_admin_session_email.deliver_later(queue: :critical)
       I18n.locale = @session.admin.language
       redirect_to login_path(locale: I18n.locale), notice: t("sessions.flash.initiated")
+    elsif @session.masked_login_error?
+      redirect_to login_path, notice: t("sessions.flash.initiated")
     else
       render :new, status: :unprocessable_entity
     end
   end
 
   def show
-    if @session = Session.redeem_token(params[:id])
+    if @session = Session.redeem_token(params[:id], owner_type: :admin)
       cookies.encrypted.permanent[:session_id] = @session.id
       redirect_to root_path, notice: t("sessions.flash.created")
     else

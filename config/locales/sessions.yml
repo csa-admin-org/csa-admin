@@ -20,17 +20,23 @@ _:
         _it: La vostra sessione è scaduta, per favore autenticatevi di nuovo.
         _nl: De sessie is verlopen, gelieve opnieuw in te loggen.
       initiated:
-        _en: Check your email! A login link has been sent to you.
-        _fr: Vérifiez vos emails! Un lien de connexion vous a été envoyé.
-        _de: Bitte die E-Mails überprüfen! Ein Anmeldelink wurde zugesandt.
-        _it: Controllate la vostra e-mail! Vi è stato inviato un link di accesso.
-        _nl: Controleer de e-mail! Er is een inloglink verzonden.
+        _en: If this email is registered, a login link will be sent to you.
+        _fr: Si cet email est enregistré, un lien de connexion vous sera envoyé.
+        _de: Wenn diese E-Mail-Adresse registriert ist, wird ein Anmeldelink zugesandt.
+        _it: Se questa e-mail è registrata, vi verrà inviato un link di accesso.
+        _nl: Als dit e-mailadres geregistreerd is, wordt er een inloglink verzonden.
       invalid:
         _en: Your login link is no longer valid. Please request a new one.
         _fr: Votre lien de connexion n'est plus valide, merci d'en demander un nouveau.
         _de: Der Anmeldelink ist nicht mehr gültig. Bitte einen neuen anfordern.
         _it: Il vostro link di connessione non è più valido, richiedetene uno nuovo.
         _nl: De inloglink is niet meer geldig. Gelieve een nieuwe aan te vragen.
+      rate_limited:
+        _en: Too many login attempts. Please try again later.
+        _fr: Trop de tentatives de connexion, merci de réessayer plus tard.
+        _de: Zu viele Anmeldeversuche. Bitte später erneut versuchen.
+        _it: Troppi tentativi di connessione. Riprovate più tardi.
+        _nl: Te veel inlogpogingen. Probeer het later opnieuw.
       required:
         _en: Please log in to access your account.
         _fr: Merci de vous authentifier pour accéder à votre compte.
