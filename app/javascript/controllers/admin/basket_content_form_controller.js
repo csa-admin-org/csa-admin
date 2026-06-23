@@ -5,6 +5,7 @@ export default class extends Controller {
     "form",
     "frame",
     "range",
+    "targetPercentage",
     "percentageLabel",
     "distributionSource",
     "preset",
@@ -51,12 +52,14 @@ export default class extends Controller {
     this._setDistributionSource("percentage")
     this._setPreset("")
     this._rebalanceRanges(event.currentTarget)
+    this._syncTargetPercentagesFromRanges()
     this._updatePercentageLabels()
+    this._debouncedRefresh()
   }
 
   presetClicked(event) {
     event.preventDefault()
-    this._setDistributionSource("total")
+    this._setDistributionSource(event.currentTarget.dataset.distributionSource || "total")
     this._setPreset(event.currentTarget.dataset.preset)
     this._refresh()
   }
@@ -69,6 +72,7 @@ export default class extends Controller {
   }
 
   _debouncedRefresh() {
+    if (this.hasFrameTarget) this._disableSubmit()
     this._cancelDebounce()
     this._debounceTimer = setTimeout(() => this._refresh(), this.debounceValue)
   }
@@ -84,12 +88,12 @@ export default class extends Controller {
     this._cancelDebounce()
     if (!this.hasFrameTarget) return
 
+    this._disableSubmit()
     if (this._frameNumberInputFocused()) {
       this._refreshPending = true
       return
     }
     this._refreshPending = false
-    this._disableSubmit()
 
     const url = new URL(window.location.pathname, window.location.origin)
     const searchParams = this._formSearchParams()
@@ -179,6 +183,19 @@ export default class extends Controller {
     rounded[rounded.length - 1] = Math.min(100, Math.max(0, rounded[rounded.length - 1] + diff))
 
     others.forEach((r, i) => (r.value = rounded[i]))
+  }
+
+  _syncTargetPercentagesFromRanges() {
+    if (!this.hasTargetPercentageTarget) return
+
+    const targetsByBasketSize = new Map(
+      this.targetPercentageTargets.map((target) => [target.dataset.basketSizeId, target])
+    )
+
+    this.rangeTargets.forEach((range) => {
+      const target = targetsByBasketSize.get(range.dataset.basketSizeId)
+      if (target) target.value = range.value
+    })
   }
 
   _updatePercentageLabels() {

@@ -75,6 +75,10 @@ class BasketContentsControllerTest < ActionDispatch::IntegrationTest
     assert_select "input#basket_content_total_quantity[name='total_quantity'][step='0.1']"
     assert_select "[data-distribution-surplus]", false
     assert_select "input[name='basket_size_ids_percentages[#{small_id}]']"
+    assert_select "button[data-preset='pro_rated']"
+    assert_select "button[data-preset='even']"
+    assert_select "button[data-preset='pc_1_each']", false
+    assert_select "button[data-preset='pc_2_each']", false
   end
 
   test "edit form with distribution params computes from total" do
@@ -339,6 +343,109 @@ class BasketContentsControllerTest < ActionDispatch::IntegrationTest
       assert_select "[data-basket-size-price-info]", minimum: 1
       assert_select ".font-bold", minimum: 1
     end
+  end
+
+  test "edit form with pc total params does not bump requested total" do
+    product = basket_content_products(:cucumbers)
+    bc = BasketContent.create!(
+      delivery: deliveries(:monday_1),
+      product: product,
+      depots: Depot.kept,
+      unit: "pc",
+      unit_price: 1.5,
+      basket_size_ids_quantities: {
+        small_id => 1,
+        medium_id => 1,
+        large_id => 1
+      })
+
+    get edit_basket_content_path(bc), params: {
+      distribution_source: "total",
+      total_quantity: "2",
+      basket_content: {
+        delivery_id: deliveries(:monday_1).id,
+        product_id: product.id,
+        unit_price: "1.5",
+        depot_ids: [ "", *Depot.kept.pluck(:id) ],
+        basket_size_ids_quantities: {
+          small_id => 0,
+          medium_id => 0,
+          large_id => 0
+        }
+      },
+      basket_size_ids_percentages: {
+        small_id => 0,
+        medium_id => 0,
+        large_id => 0
+      }
+    }
+
+    assert_response :success
+    assert_select "input[name^='basket_size_ids_target_percentages']", minimum: 1
+    assert_select "input#basket_content_total_quantity[value='2']"
+    assert_select "input[value='1'][name^='basket_content[basket_size_ids_quantities]']", count: 2
+    assert_select "input[value='0'][name^='basket_content[basket_size_ids_quantities]']", count: 1
+    assert_select "button[data-preset='pc_1_each']", text: I18n.t("basket_content.preset.pc_1_each")
+    assert_select "button[data-preset='pc_2_each']", text: I18n.t("basket_content.preset.pc_2_each")
+    assert_select "button[data-preset='pro_rated']", false
+    assert_select "button[data-preset='even']", false
+  end
+
+  test "edit form with pc preset renders actual percentages and hidden target percentages" do
+    baskets(:bob_1).update_column(:quantity, 48)
+    baskets(:john_1).update_column(:quantity, 92)
+    baskets(:anna_1).update_column(:quantity, 12)
+
+    product = basket_content_products(:cucumbers)
+    bc = BasketContent.create!(
+      delivery: deliveries(:monday_1),
+      product: product,
+      depots: Depot.kept,
+      unit: "pc",
+      unit_price: 1.5,
+      basket_size_ids_quantities: {
+        small_id => 3,
+        medium_id => 0,
+        large_id => 2
+      })
+
+    get edit_basket_content_path(bc), params: {
+      distribution_source: "total",
+      preset: "even",
+      total_quantity: "104",
+      basket_content: {
+        delivery_id: deliveries(:monday_1).id,
+        product_id: product.id,
+        unit_price: "1.5",
+        depot_ids: [ "", *Depot.kept.pluck(:id) ],
+        basket_size_ids_quantities: {
+          small_id => 3,
+          medium_id => 0,
+          large_id => 2
+        }
+      },
+      basket_size_ids_percentages: {
+        small_id => 60,
+        medium_id => 0,
+        large_id => 40
+      }
+    }
+
+    assert_response :success
+    assert_select "input#basket_content_total_quantity[value='104']"
+    assert_select "input[type='range'][name='basket_size_ids_percentages[#{small_id}]'][value='0']"
+    assert_select "input[type='range'][name='basket_size_ids_percentages[#{medium_id}]'][value='50']"
+    assert_select "input[type='range'][name='basket_size_ids_percentages[#{large_id}]'][value='50']"
+    assert_select "input[type='hidden'][name='basket_size_ids_target_percentages[#{small_id}]'][value='33']"
+    assert_select "input[type='hidden'][name='basket_size_ids_target_percentages[#{medium_id}]'][value='33']"
+    assert_select "input[type='hidden'][name='basket_size_ids_target_percentages[#{large_id}]'][value='34']"
+    assert_select "input[name='basket_content[basket_size_ids_quantities][#{small_id}]'][value='0']"
+    assert_select "input[name='basket_content[basket_size_ids_quantities][#{medium_id}]'][value='1']"
+    assert_select "input[name='basket_content[basket_size_ids_quantities][#{large_id}]'][value='1']"
+    assert_select "button[data-preset='pc_1_each']"
+    assert_select "button[data-preset='pc_2_each']"
+    assert_select "button[data-preset='pro_rated']", false
+    assert_select "button[data-preset='even']", false
   end
 
   private

@@ -78,6 +78,7 @@ class BasketContent
         total_quantity: product_source?(request_params) ? nil : request_params[:total_quantity],
         basket_size_ids_quantities: form_quantities(request_params, form_params, product),
         basket_size_ids_percentages: request_params[:basket_size_ids_percentages],
+        basket_size_ids_target_percentages: request_params[:basket_size_ids_target_percentages],
         depot_ids: depot_ids,
         distribution_source: product_source?(request_params) ? "quantity" : request_params[:distribution_source],
         preset: request_params[:preset],

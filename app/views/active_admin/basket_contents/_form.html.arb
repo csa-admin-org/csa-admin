@@ -123,6 +123,15 @@ context.instance_eval do
                 disabled: !percentage_inputs_disabled)
 
               text_node helpers.tag.input(
+                type: "hidden",
+                name: "basket_size_ids_target_percentages[#{bs[:id]}]",
+                value: bs[:target_percentage] || bs[:percentage],
+                data: {
+                  "basket-size-id" => bs[:id],
+                  "basket-content-form-target" => "targetPercentage"
+                })
+
+              text_node helpers.tag.input(
                 type: "range",
                 autocomplete: "off",
                 min: 0,
@@ -137,7 +146,7 @@ context.instance_eval do
                   "basket-size-id" => bs[:id],
                   "distribution-source" => "percentage",
                   "basket-content-form-target" => "range",
-                  action: "input->basket-content-form#sliderInput change->basket-content-form#changed"
+                  action: "input->basket-content-form#sliderInput"
                 })
 
               span class: "bc-percentage-label absolute right-0 -bottom-3.5 text-xs text-gray-400 tabular-nums dark:text-gray-500",
@@ -203,30 +212,54 @@ context.instance_eval do
       end
 
       li class: "input mt-4 mb-2 flex gap-2" do
-        current_percentages = basket_sizes.each_with_object({}) { |bs, h| h[bs[:id]] = bs[:percentage] }
+        if unit == "pc"
+          { "pc_1_each" => 1, "pc_2_each" => 2 }.each do |preset, quantity|
+            matches = basket_sizes.all? do |bs|
+              expected_quantity = bs[:baskets_count].to_i.positive? ? quantity : 0
+              bs[:quantity].to_i == expected_quantity
+            end
+            button_attrs = {
+              type: "button",
+              class: "btn btn-light btn-xs",
+              data: {
+                action: "basket-content-form#presetClicked",
+                "distribution-source" => "quantity",
+                preset: preset
+              }
+            }
+            button_attrs[:disabled] = true if matches
+            button button_attrs do
+              text_node t("basket_content.preset.#{preset}")
+            end
+          end
+        else
+          current_percentages = basket_sizes.each_with_object({}) do |bs, h|
+            h[bs[:id]] = bs[:percentage]
+          end
 
-        pro_rated = presets[:pro_rated] || {}
-        pro_rated_matches = pro_rated.all? { |id, pct| (current_percentages[id].to_i - pct.to_i).abs <= 2 }
-        pro_rated_button_attrs = {
-          type: "button",
-          class: "btn btn-light btn-xs",
-          data: { action: "basket-content-form#presetClicked", preset: "pro_rated" }
-        }
-        pro_rated_button_attrs[:disabled] = true if pro_rated_matches
-        button pro_rated_button_attrs do
-          text_node t("basket_content.preset.basket_content_percentages_pro_rated")
-        end
+          pro_rated = presets[:pro_rated] || {}
+          pro_rated_matches = pro_rated.all? { |id, pct| (current_percentages[id].to_i - pct.to_i).abs <= 2 }
+          pro_rated_button_attrs = {
+            type: "button",
+            class: "btn btn-light btn-xs",
+            data: { action: "basket-content-form#presetClicked", preset: "pro_rated" }
+          }
+          pro_rated_button_attrs[:disabled] = true if pro_rated_matches
+          button pro_rated_button_attrs do
+            text_node t("basket_content.preset.basket_content_percentages_pro_rated")
+          end
 
-        even = presets[:even] || {}
-        even_matches = even.all? { |id, pct| (current_percentages[id].to_i - pct.to_i).abs <= 2 }
-        even_button_attrs = {
-          type: "button",
-          class: "btn btn-light btn-xs",
-          data: { action: "basket-content-form#presetClicked", preset: "even" }
-        }
-        even_button_attrs[:disabled] = true if even_matches
-        button even_button_attrs do
-          text_node t("basket_content.preset.basket_content_percentages_even")
+          even = presets[:even] || {}
+          even_matches = even.all? { |id, pct| (current_percentages[id].to_i - pct.to_i).abs <= 2 }
+          even_button_attrs = {
+            type: "button",
+            class: "btn btn-light btn-xs",
+            data: { action: "basket-content-form#presetClicked", preset: "even" }
+          }
+          even_button_attrs[:disabled] = true if even_matches
+          button even_button_attrs do
+            text_node t("basket_content.preset.basket_content_percentages_even")
+          end
         end
       end
 

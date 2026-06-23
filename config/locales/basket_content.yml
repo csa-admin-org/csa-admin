@@ -44,6 +44,18 @@ _:
         _de: Pro rata des Preises
         _it: Pro rata al prezzo
         _nl: Pro rata naar prijs
+      pc_1_each:
+        _en: 1 each
+        _fr: 1 chacun
+        _de: Je 1
+        _it: 1 ciascuno
+        _nl: 1 per stuk
+      pc_2_each:
+        _en: 2 each
+        _fr: 2 chacun
+        _de: Je 2
+        _it: 2 ciascuno
+        _nl: 2 per stuk
     total_quantity_tooltip/bag:
       _en: Helper value, not saved. Distributed across bag sizes using the sliders. The final amount depends on actual deliveries.
       _fr: Valeur indicative, non enregistrée. Répartie entre les tailles de sac à l'aide des curseurs. Le montant final dépend des livraisons effectives.
