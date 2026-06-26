@@ -2,6 +2,8 @@
 
 module MapsHelper
   def display_position(latitude, longitude)
+    return unless latitude && longitude
+
     link_to [ latitude, longitude ].join(", "), "https://www.google.com/maps?q=#{latitude},#{longitude}"
   end
 end
