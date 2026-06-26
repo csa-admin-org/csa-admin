@@ -7,6 +7,7 @@ class TenantTest < ActiveSupport::TestCase
     assert_equal "acme", Tenant.find_by(host: "admin.acme.test")
     assert_equal "acme", Tenant.find_by(host: "foo.acme.test")
     assert_nil Tenant.find_by(host: "admin.unknown.test")
+    assert_nil Tenant.find_by(host: "localhost")
   end
 
   test "admin and members hosts" do

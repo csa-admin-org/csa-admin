@@ -13,11 +13,19 @@ module Tenant
         @app.call(env)
       elsif tenant = Tenant.find_by(host: request.host)
         Tenant.switch(tenant) { @app.call(env) }
-      elsif PublicSuffix.parse(request.host).domain == ENV["APP_DOMAIN"]
+      elsif app_domain?(request.host)
         @app.call(env)
       else
         [ 404, {}, [ "Not Found" ] ]
       end
+    end
+
+    private
+
+    def app_domain?(host)
+      PublicSuffix.parse(host).domain == ENV["APP_DOMAIN"]
+    rescue PublicSuffix::Error
+      false
     end
   end
 end

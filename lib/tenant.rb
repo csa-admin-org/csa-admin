@@ -23,8 +23,10 @@ module Tenant
         [ relevant_host(attrs["admin_host"]), tenant.to_s ],
         [ relevant_host(attrs["members_host"]), tenant.to_s ]
       ]
-    }.to_h
-    @hosts[relevant_host(host)]
+    }.reject { |host_key, _| host_key.nil? }.to_h
+
+    host_key = relevant_host(host)
+    @hosts[host_key] if host_key
   end
 
   def admin_host
@@ -155,6 +157,8 @@ module Tenant
     host = PublicSuffix.parse(host)
     # Ignore tld locally
     Rails.env.local? ? host.sld : host.to_s
+  rescue PublicSuffix::Error
+    host if Rails.env.local?
   end
 
   def ensure_test_env_or_rails_console!
