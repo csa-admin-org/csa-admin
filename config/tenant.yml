@@ -149,21 +149,19 @@ production: &production
   querbeet:
     admin_host: admin.querbeetgrosswangen.ch
     members_host: mitglieder.querbeetgrosswangen.ch
-
   mamajah:
     admin_host: admin.mamajah.org
     members_host: membres.mamajah.org
-    state: onboarding
+  closdedos:
+    admin_host: admin.essertfallon.ch
+    members_host: membres.essertfallon.ch
+    aliases:
+      - essertfallon
+
   zalpenblick:
     admin_host: admin.zalpenblick.ch
     members_host: mitglieder.zalpenblick.ch
     state: onboarding
-  closdedos:
-    admin_host: admin.essertfallon.ch
-    members_host: membres.essertfallon.ch
-    state: onboarding
-    aliases:
-      - essertfallon
 
   demo-fr:
     admin_host: admin.acp-admin.ch
