@@ -1,5 +1,8 @@
 # frozen_string_literal: true
 
+require "ipaddr"
+require "public_suffix"
+
 module Embeds
   module Maps
     class DepotsController < ApplicationController
@@ -120,16 +123,40 @@ module Embeds
       def frame_ancestors
         return "*" if Rails.env.development?
 
-        [ "'self'", organization_origin ].compact.join(" ")
+        [ "'self'", *organization_origins ].join(" ")
       end
 
-      def organization_origin
+      def organization_origins
         uri = URI.parse(Current.org.url)
-        return unless uri.scheme.in?(%w[http https]) && uri.host
+        return [] unless uri.scheme.in?(%w[http https]) && uri.host
 
+        [ organization_origin(uri), organization_subdomain_origin(uri) ].compact.uniq
+      rescue URI::InvalidURIError, PublicSuffix::Error, TypeError
+        []
+      end
+
+      def organization_origin(uri)
         [ uri.scheme, "://", uri.host, organization_origin_port(uri) ].join
-      rescue URI::InvalidURIError, TypeError
-        nil
+      end
+
+      def organization_subdomain_origin(uri)
+        domain = organization_domain(uri.host)
+        return unless domain
+
+        [ uri.scheme, "://*.", domain, organization_origin_port(uri) ].join
+      end
+
+      def organization_domain(host)
+        return if ip_address?(host)
+
+        PublicSuffix.parse(host).domain
+      end
+
+      def ip_address?(host)
+        IPAddr.new(host)
+        true
+      rescue IPAddr::InvalidAddressError
+        false
       end
 
       def organization_origin_port(uri)

@@ -159,7 +159,7 @@ class Embeds::Maps::DepotsControllerTest < ActionDispatch::IntegrationTest
     assert_includes response.body, "Bakery"
   end
 
-  test "allows iframe embedding from organization website origin" do
+  test "allows iframe embedding from organization website origin and subdomains" do
     enable_maps
 
     get "/embeds/maps/depots"
@@ -167,7 +167,7 @@ class Embeds::Maps::DepotsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_nil response.headers["X-Frame-Options"]
     csp = response.headers["Content-Security-Policy"]
-    assert_includes csp, "frame-ancestors 'self' https://www.acme.test"
+    assert_includes csp, "frame-ancestors 'self' https://www.acme.test https://*.acme.test"
     assert_includes csp, "https://tiles.openfreemap.org"
     assert_match %r{script-src 'self' 'nonce-[^']+' https://unpkg\.com}, csp
     assert_not_includes csp, "script-src 'self' 'unsafe-inline'"
