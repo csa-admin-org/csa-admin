@@ -186,6 +186,18 @@ _:
       _de: Ermöglicht das Erstellen von Rechnungen in einer regionalen Währung zusätzlich zur nationalen Währung.
       _it: Consente di creare fatture in valuta locale oltre alla valuta nazionale.
       _nl: Stelt in staat om facturen in lokale valuta te creëren, naast de nationale valuta.
+    maps:
+      _en: Maps
+      _fr: Cartes
+      _de: Karten
+      _it: Mappe
+      _nl: Kaarten
+    maps_hint:
+      _en: Allows adding depots to maps that can be easily embedded on your website.
+      _fr: Permet d'ajouter des dépôts à des cartes faciles à intégrer sur votre site web.
+      _de: Ermöglicht das Hinzufügen von Depots zu Karten, die einfach in die Website eingebettet werden können.
+      _it: Permette di aggiungere punti di ritiro a mappe facilmente incorporabili sul vostro sito web.
+      _nl: Maakt het mogelijk depots toe te voegen aan kaarten die eenvoudig op de website kunnen worden ingesloten.
     member_information:
       _en: Information Page
       _fr: Page d'information

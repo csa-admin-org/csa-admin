@@ -11,6 +11,7 @@ class Ability
     activity: [ Activity, ActivityParticipation, ActivityPreset ],
     basket_content: [ BasketContent, BasketContent::Product ],
     bidding_round: [ BiddingRound, BiddingRound::Pledge ],
+    maps: [],
     member_information: [],
     sepa: [ SEPAMandate ],
     vat: [],

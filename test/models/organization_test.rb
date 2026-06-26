@@ -50,6 +50,16 @@ class OrganizationTest < ActiveSupport::TestCase
     assert_includes org.errors[:basket_price_extra_dynamic_pricing], "Liquid syntax error: 'if' tag was never closed"
   end
 
+  test "validates maps style" do
+    assert_equal %w[positron bright liberty dark fiord], Organization.map_styles
+    assert_equal "positron", Organization.new.maps_style
+
+    Current.org.maps_style = "3d"
+
+    assert_not Current.org.valid?
+    assert_includes Current.org.errors[:maps_style], "is not included in the list"
+  end
+
   test "validates annual fee only when feature is enabled" do
     org = Current.org
 

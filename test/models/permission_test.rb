@@ -11,6 +11,12 @@ class PermissionTest < ActiveSupport::TestCase
     assert_equal({ "member" => "write" }, permission.rights)
   end
 
+  test "maps feature is not an editable permission" do
+    org(features: Current.org.features | [ :maps ])
+
+    assert_not_includes Permission.editable_features, :maps
+  end
+
   test "superadmin" do
     permission = permissions(:super_admin)
     assert_empty permission.rights

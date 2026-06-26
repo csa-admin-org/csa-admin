@@ -53,12 +53,18 @@ class Depot < ApplicationRecord
       .reorder(:id)
       .distinct
   }
+  scope :mapped, -> {
+    kept.visible.where(maps_visible: true).where.not(latitude: nil, longitude: nil)
+  }
 
   before_validation :set_default_delivery_cycle, on: :create
 
   validates :delivery_sheets_mode, inclusion: { in: DELIVERY_SHEETS_MODES }, presence: :true
   validates :delivery_cycles, presence: true
   validates :notify_days_before_delivery, numericality: { greater_than_or_equal_to: 0, only_integer: true }, presence: true
+  validates :latitude, numericality: { greater_than_or_equal_to: -90, less_than_or_equal_to: 90, allow_blank: true }
+  validates :longitude, numericality: { greater_than_or_equal_to: -180, less_than_or_equal_to: 180, allow_blank: true }
+  validates :latitude, :longitude, presence: true, if: :maps_visible?
 
   def self.prices?
     kept.pluck(:price).any?(&:positive?)

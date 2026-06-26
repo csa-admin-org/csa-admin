@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_06_20_172000) do
+ActiveRecord::Schema[8.1].define(version: 2026_06_26_100000) do
   create_table "absences", force: :cascade do |t|
     t.datetime "admins_notified_at"
     t.datetime "created_at"
@@ -440,6 +440,9 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_20_172000) do
     t.bigint "group_id"
     t.json "invoice_names", default: {}, null: false
     t.string "language", default: "fr", null: false
+    t.decimal "latitude", precision: 10, scale: 6
+    t.decimal "longitude", precision: 10, scale: 6
+    t.boolean "maps_visible", default: false, null: false
     t.json "member_ids_position", default: []
     t.integer "member_order_priority", default: 1, null: false
     t.json "names", default: {}, null: false
@@ -455,6 +458,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_20_172000) do
     t.string "zip", limit: 255
     t.index ["discarded_at"], name: "index_depots_on_discarded_at"
     t.index ["group_id"], name: "index_depots_on_group_id"
+    t.index ["maps_visible"], name: "index_depots_on_maps_visible"
     t.index ["visible"], name: "index_depots_on_visible"
     t.check_constraint "JSON_TYPE(member_ids_position) = 'array'", name: "depots_member_ids_position_is_array"
   end
@@ -870,6 +874,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_20_172000) do
     t.boolean "local_currency_membership_annual_fee_only", default: true
     t.string "local_currency_secret"
     t.string "local_currency_wallet"
+    t.string "maps_style", default: "positron", null: false
     t.string "member_come_from_form_mode", default: "visible", null: false
     t.boolean "member_form_complement_quantities", default: false, null: false
     t.json "member_form_delivery_cycle_labels", default: {}, null: false

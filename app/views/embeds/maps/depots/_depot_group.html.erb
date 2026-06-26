@@ -1,0 +1,5 @@
+<div class="depot-info-window">
+  <% depots.each do |depot| %>
+    <h2><%= sanitize(depot.public_name, tags: []) %></h2>
+  <% end %>
+</div>

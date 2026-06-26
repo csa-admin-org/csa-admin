@@ -1,0 +1,7 @@
+# frozen_string_literal: true
+
+context.instance_eval do
+  attributes_table_for org do
+    row(:maps_style) { t("maps.styles.#{org.maps_style}") }
+  end
+end

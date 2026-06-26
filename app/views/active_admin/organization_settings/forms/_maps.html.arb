@@ -1,0 +1,12 @@
+# frozen_string_literal: true
+
+context.instance_eval do
+  f.inputs t("features.maps"), icon: "map" do
+    f.input :maps_style,
+      as: :select,
+      collection: Organization.map_styles.map { |style| [ t("maps.styles.#{style}"), style ] },
+      include_blank: true,
+      prompt: true,
+      hint: t("formtastic.hints.organization.maps_style")
+  end
+end

@@ -47,7 +47,7 @@ class Permission < ApplicationRecord
       announcement
       newsletter
     ] +
-      Current.org.features.map(&:to_sym) - %i[basket_price_extra contact_sharing waiting_list]
+      Current.org.features.map(&:to_sym) - %i[basket_price_extra contact_sharing maps waiting_list]
   end
 
   def rights=(attrs)

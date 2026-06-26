@@ -24,6 +24,7 @@ module ActiveAdmin::OrganizationSettingsHelper
       organization_setting_section_definition(:basket_price_extra, :feature, "features.basket_price_extra", "coins", handbook: "basket_price_extra"),
       organization_setting_section_definition(:bidding_round, :feature, BiddingRound.model_name.human, "scale", handbook: "bidding_round"),
       organization_setting_section_definition(:contact_sharing, :feature, "features.contact_sharing", "contact-round", handbook: "contact_sharing"),
+      organization_setting_section_definition(:maps, :feature, "features.maps", "map"),
       organization_setting_section_definition(:waiting_list, :feature, "features.waiting_list", "clock", handbook: "members", handbook_anchor: "waiting-list"),
       organization_setting_section_definition(:local_currency, :feature, "features.local_currency", "banknote", handbook: "local_currency"),
       organization_setting_section_definition(:new_member_fee, :feature, "features.new_member_fee", "circle-plus", handbook: "new_member_fee"),
@@ -396,9 +397,9 @@ module ActiveAdmin::OrganizationSettingsHelper
 
   def organization_setting_section_visible?(section)
     return true unless section[:kind] == :feature
-    return true if current_admin&.ultra?
+    return true if Organization.restricted_features.exclude?(section[:key].to_sym)
 
-    Organization.restricted_features.exclude?(section[:key].to_sym)
+    Current.org.feature?(section[:key])
   end
 
   def organization_setting_section_sort_title(section, org = Current.org)

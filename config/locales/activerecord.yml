@@ -1110,6 +1110,24 @@ _:
           _de: Namen (Rechnung)
           _it: Nomi (fattura)
           _nl: Namen (factuur)
+        latitude:
+          _en: Latitude
+          _fr: Latitude
+          _de: Breitengrad
+          _it: Latitudine
+          _nl: Breedtegraad
+        longitude:
+          _en: Longitude
+          _fr: Longitude
+          _de: Längengrad
+          _it: Longitudine
+          _nl: Lengtegraad
+        maps_visible:
+          _en: Visible on maps
+          _fr: Visible sur les cartes
+          _de: Auf Karten sichtbar
+          _it: Visibile sulle mappe
+          _nl: Zichtbaar op kaarten
         note:
           _en: Internal memo
           _fr: Note interne
@@ -3698,6 +3716,12 @@ _:
           _de: Wallet-Adresse
           _it: Indirizzo del portafoglio
           _nl: Wallet-adres
+        maps_style:
+          _en: Map style
+          _fr: Style de carte
+          _de: Kartenstil
+          _it: Stile della mappa
+          _nl: Kaartstijl
         member_form_activity_participations_text:
           _en: Explanation
           _fr: Explication

@@ -1,0 +1,33 @@
+_:
+  maps:
+    styles:
+      bright:
+        _en: Bright
+        _fr: Clair
+        _de: Hell
+        _it: Chiaro
+        _nl: Licht
+      dark:
+        _en: Dark
+        _fr: Sombre
+        _de: Dunkel
+        _it: Scuro
+        _nl: Donker
+      fiord:
+        _en: Fiord
+        _fr: Fiord
+        _de: Fiord
+        _it: Fiord
+        _nl: Fiord
+      liberty:
+        _en: Liberty
+        _fr: Liberty
+        _de: Liberty
+        _it: Liberty
+        _nl: Liberty
+      positron:
+        _en: Positron
+        _fr: Positron
+        _de: Positron
+        _it: Positron
+        _nl: Positron

@@ -80,6 +80,34 @@ class OrganizationsControllerTest < ActionDispatch::IntegrationTest
     assert_equal expected_optional_ids, actual_optional_ids
   end
 
+  test "restricted settings are hidden from disabled features until activated" do
+    login admins(:ultra)
+
+    get organization_path
+
+    assert_response :success
+    assert_select "#disabled-features #maps", false
+
+    org(features: Current.org.features | [ :maps ])
+    get organization_path
+
+    assert_response :success
+    assert_select "#maps .panel-title", text: I18n.t("features.maps", locale: admins(:ultra).language)
+    assert_select "#disabled-features #maps", false
+  end
+
+  test "enabled maps feature shows decimal depot coordinates to regular admins" do
+    org(features: Current.org.features | [ :maps ])
+    login admins(:super)
+
+    get edit_depot_path(depots(:farm))
+
+    assert_response :success
+    assert_select "#depot_maps_visible"
+    assert_select "#depot_latitude"
+    assert_select "#depot_longitude"
+  end
+
   test "activity settings title uses generic feature name until activated" do
     locale = admins(:super).language
     activity_title = I18n.t("activities.#{Current.org.activity_i18n_scope}", count: 2, locale: locale)

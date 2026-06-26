@@ -11,6 +11,7 @@ class Organization < ApplicationRecord
     basket_price_extra
     bidding_round
     contact_sharing
+    maps
     local_currency
     member_information
     new_member_fee
@@ -20,7 +21,9 @@ class Organization < ApplicationRecord
     vat
     waiting_list
   ]
-  RESTRICTED_FEATURES = %i[]
+  RESTRICTED_FEATURES = %i[
+    maps
+  ]
   FEATURE_FLAGS = %i[]
   LANGUAGES = %w[fr de it nl en]
   MEMBER_FORM_MODES = %w[membership shop]
@@ -52,6 +55,7 @@ class Organization < ApplicationRecord
     BasketPriceExtraFeature,
     BiddingRoundFeature,
     LocalCurrencyFeature,
+    MapsFeature,
     MemberInformationFeature,
     NewMemberFeeFeature,
     SEPAFeature,

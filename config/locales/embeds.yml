@@ -1,0 +1,11 @@
+_:
+  embeds:
+    maps:
+      depots:
+        show:
+          title:
+            _en: "%{org} depot map"
+            _fr: Carte des dépôts de %{org}
+            _de: Depotkarte von %{org}
+            _it: Mappa dei punti di ritiro di %{org}
+            _nl: Depotkaart van %{org}

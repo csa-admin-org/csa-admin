@@ -38,6 +38,12 @@ Rails.application.routes.draw do
 
     get "support" => "support_tickets#new", as: :support
 
+    namespace :embeds do
+      namespace :maps do
+        get "depots" => "depots#show"
+      end
+    end
+
     ActiveAdmin.routes(self)
 
     namespace :api do

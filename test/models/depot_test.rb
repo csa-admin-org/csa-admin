@@ -120,4 +120,37 @@ class DepotTest < ActiveSupport::TestCase
     assert_includes description, depot.public_name
     assert_includes description, Depot.model_name.human
   end
+
+  test "map coordinates are required when depot is visible on maps" do
+    depot = depots(:farm)
+    depot.maps_visible = true
+    depot.latitude = nil
+    depot.longitude = nil
+
+    assert_not depot.valid?
+    assert_includes depot.errors[:latitude], "can't be blank"
+    assert_includes depot.errors[:longitude], "can't be blank"
+  end
+
+  test "map coordinates must be in GPS ranges" do
+    depot = depots(:farm)
+    depot.latitude = 91
+    depot.longitude = 181
+
+    assert_not depot.valid?
+    assert_includes depot.errors[:latitude], "must be less than or equal to 90"
+    assert_includes depot.errors[:longitude], "must be less than or equal to 180"
+  end
+
+  test "mapped scope only returns public map depots with coordinates" do
+    farm = depots(:farm)
+    bakery = depots(:bakery)
+    home = depots(:home)
+
+    farm.update!(visible: true, maps_visible: true, latitude: 46.992979, longitude: 6.931932)
+    bakery.update!(visible: false, maps_visible: true, latitude: 46.992979, longitude: 6.931932)
+    home.update!(visible: true, maps_visible: false, latitude: 46.992979, longitude: 6.931932)
+
+    assert_equal [ farm ], Depot.mapped.to_a
+  end
 end

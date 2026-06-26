@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+
+<html lang="<%= I18n.locale %>">
+  <head>
+    <title><%= t(".title", org: Current.org.name) %></title>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link
+      href="https://unpkg.com/maplibre-gl/dist/maplibre-gl.css"
+      rel="stylesheet"
+    >
+
+    <style nonce="<%= @csp_nonce %>">
+      html,
+      body,
+      #map {
+        height: 100%;
+        margin: 0;
+      }
+
+      body {
+        color: #1f2937;
+        font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      }
+
+      .depot-info-window {
+        max-width: 18rem;
+      }
+
+      .depot-info-window h2 {
+        font-size: 0.95rem;
+        margin: 0;
+      }
+
+      .depot-info-window h2 + h2 {
+        margin-top: 0.35rem;
+      }
+
+      .maplibregl-ctrl-attrib {
+        opacity: 0.4;
+        border-top-left-radius: 0.35rem;
+        font-size: 0.6rem;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="map"></div>
+
+    <script
+      nonce="<%= @csp_nonce %>"
+      src="https://unpkg.com/maplibre-gl/dist/maplibre-gl.js"
+    ></script>
+
+    <script nonce="<%= @csp_nonce %>">
+      const markerGroups = <%= raw json_escape(@marker_groups.to_json) %>
+      const markerColor = <%= raw json_escape(@marker_color.to_json) %>
+      const map = new maplibregl.Map({
+        container: "map",
+        style: <%= raw json_escape(@map_style_url.to_json) %>,
+        attributionControl: false
+      })
+      const bounds = new maplibregl.LngLatBounds()
+
+      markerGroups.forEach((group) => {
+        const position = [group.longitude, group.latitude]
+
+        buildMarker(group)
+          .setLngLat(position)
+          .setPopup(new maplibregl.Popup({ offset: 16 }).setHTML(group.html))
+          .addTo(map)
+
+        bounds.extend(position)
+      })
+
+      function buildMarker(group) {
+        const marker = new maplibregl.Marker({ color: markerColor })
+        marker.getElement().setAttribute("aria-label", group.title)
+        marker.getElement().setAttribute("title", group.title)
+        return marker
+      }
+
+      map.on("load", () => {
+        if (markerGroups.length === 0) return
+
+        if (markerGroups.length === 1) {
+          map.setCenter(bounds.getCenter())
+          map.setZoom(13)
+        } else {
+          map.fitBounds(bounds, { padding: 48, maxZoom: 13 })
+        }
+      })
+      map.addControl(new maplibregl.AttributionControl({ compact: false }), "bottom-right")
+      </script>
+  </body>
+</html>

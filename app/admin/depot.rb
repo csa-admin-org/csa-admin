@@ -184,6 +184,10 @@ ActiveAdmin.register Depot do
             row :street
             row :zip
             row :city
+            if Current.org.feature?("maps")
+              row(:maps_visible) { aligned_status_tag(depot.maps_visible?) }
+              row(:position) { display_position(depot.latitude, depot.longitude) }
+            end
           end
         end
 
@@ -276,6 +280,13 @@ ActiveAdmin.register Depot do
         f.input :zip, wrapper_html: { class: "md:w-50" }
         f.input :city, wrapper_html: { class: "w-full" }
       end
+      if Current.org.feature?("maps")
+        f.input :maps_visible, as: :boolean
+        div class: "single-line" do
+          f.input :latitude, as: :number, input_html: { min: -90, max: 90 }
+          f.input :longitude, as: :number, input_html: { min: -180, max: 180 }
+        end
+      end
     end
 
     f.inputs Depot.human_attribute_name(:contact), icon: "contact-round" do
@@ -292,6 +303,7 @@ ActiveAdmin.register Depot do
       group_id
       price visible note
       address_name street zip city
+      maps_visible latitude longitude
       contact_name emails phones
       notify_days_before_delivery
       member_order_priority

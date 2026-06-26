@@ -798,6 +798,12 @@ _:
       _de: Link zum Standort
       _it: Link al luogo
       _nl: Link naar locatie
+    position:
+      _en: Position
+      _fr: Position
+      _de: Position
+      _it: Posizione
+      _nl: Positie
     preset_id:
       _en: Template
       _fr: Modèle
