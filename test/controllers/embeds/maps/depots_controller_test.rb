@@ -54,6 +54,28 @@ class Embeds::Maps::DepotsControllerTest < ActionDispatch::IntegrationTest
     assert_includes response.body, "const markerGroups = []"
   end
 
+  test "uses organization default locale for map controls" do
+    enable_maps
+    Current.org.update!(languages: %w[fr de], basket_content_member_titles: { fr: "Vos paniers", de: "Deine Taschen" })
+
+    get "/embeds/maps/depots"
+
+    assert_response :success
+    assert_includes response.body, '<html lang="fr">'
+    assert_includes response.body, '"CooperativeGesturesHandler.MacHelpText":"Utilisez ⌘ + défilement pour zoomer sur la carte"'
+  end
+
+  test "locale param overrides organization default locale for map controls" do
+    enable_maps
+    Current.org.update!(languages: %w[fr de], basket_content_member_titles: { fr: "Vos paniers", de: "Deine Taschen" })
+
+    get "/embeds/maps/depots", params: { locale: "de" }
+
+    assert_response :success
+    assert_includes response.body, '<html lang="de">'
+    assert_includes response.body, '"CooperativeGesturesHandler.WindowsHelpText":"Mit Strg + Scrollen die Karte zoomen"'
+  end
+
   test "excludes hidden and unmapped depots" do
     enable_maps
     depots(:farm).update!(visible: true, maps_visible: true, latitude: 46.992979, longitude: 6.931932)

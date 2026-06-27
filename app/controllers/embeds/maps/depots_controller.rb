@@ -22,6 +22,7 @@ module Embeds
         @maps_style = maps_style
         @map_style_url = format(OPEN_FREE_MAP_STYLE_URL, style: @maps_style)
         @marker_color = marker_color
+        @maplibre_locale = maplibre_locale
         @depot_groups = depot_groups
         @marker_groups = marker_groups
       end
@@ -32,7 +33,15 @@ module Embeds
         params_locale = params[:locale]&.first(2)
         I18n.locale =
           (params_locale.in?(I18n.available_locales.map(&:to_s)) && params_locale) ||
-          Current.org.languages.first
+          Current.org.default_locale
+      end
+
+      def maplibre_locale
+        {
+          "CooperativeGesturesHandler.WindowsHelpText" => t("maps.maplibre.cooperative_gestures.windows_help_text"),
+          "CooperativeGesturesHandler.MacHelpText" => t("maps.maplibre.cooperative_gestures.mac_help_text"),
+          "CooperativeGesturesHandler.MobileHelpText" => t("maps.maplibre.cooperative_gestures.mobile_help_text")
+        }
       end
 
       def depot_groups

@@ -57,11 +57,13 @@
     <script nonce="<%= @csp_nonce %>">
       const markerGroups = <%= raw json_escape(@marker_groups.to_json) %>
       const markerColor = <%= raw json_escape(@marker_color.to_json) %>
+      const maplibreLocale = <%= raw json_escape(@maplibre_locale.to_json) %>
       const map = new maplibregl.Map({
         container: "map",
         style: <%= raw json_escape(@map_style_url.to_json) %>,
         attributionControl: false,
-        cooperativeGestures: true
+        cooperativeGestures: true,
+        locale: maplibreLocale
       })
       const bounds = new maplibregl.LngLatBounds()
 

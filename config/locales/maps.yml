@@ -1,5 +1,25 @@
 _:
   maps:
+    maplibre:
+      cooperative_gestures:
+        mac_help_text:
+          _en: Use ⌘ + scroll to zoom the map
+          _fr: Utilisez ⌘ + défilement pour zoomer sur la carte
+          _de: Mit ⌘ + Scrollen die Karte zoomen
+          _it: Usate ⌘ + scorrimento per ingrandire la mappa
+          _nl: "⌘ + scrollen gebruiken om op de kaart in te zoomen"
+        mobile_help_text:
+          _en: Use two fingers to move the map
+          _fr: Utilisez deux doigts pour déplacer la carte
+          _de: Mit zwei Fingern die Karte bewegen
+          _it: Usate due dita per spostare la mappa
+          _nl: Twee vingers gebruiken om de kaart te verplaatsen
+        windows_help_text:
+          _en: Use Ctrl + scroll to zoom the map
+          _fr: Utilisez Ctrl + défilement pour zoomer sur la carte
+          _de: Mit Strg + Scrollen die Karte zoomen
+          _it: Usate Ctrl + scorrimento per ingrandire la mappa
+          _nl: Ctrl + scrollen gebruiken om op de kaart in te zoomen
     styles:
       bright:
         _en: Bright
