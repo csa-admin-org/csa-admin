@@ -39,7 +39,7 @@
       }
 
       .maplibregl-ctrl-attrib {
-        opacity: 0.4;
+        opacity: 0.5;
         border-top-left-radius: 0.35rem;
         font-size: 0.6rem;
       }
@@ -60,7 +60,8 @@
       const map = new maplibregl.Map({
         container: "map",
         style: <%= raw json_escape(@map_style_url.to_json) %>,
-        attributionControl: false
+        attributionControl: false,
+        cooperativeGestures: true
       })
       const bounds = new maplibregl.LngLatBounds()
 

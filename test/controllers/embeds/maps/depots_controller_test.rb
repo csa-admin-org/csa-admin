@@ -35,6 +35,7 @@ class Embeds::Maps::DepotsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_includes response.body, "maplibre-gl"
     assert_includes response.body, "https://tiles.openfreemap.org/styles/positron"
+    assert_includes response.body, "cooperativeGestures: true"
     assert_includes response.body, "AttributionControl"
     assert_includes response.body, "Our farm"
     assert_not_includes response.body, "Farm gate"
