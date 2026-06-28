@@ -69,9 +69,11 @@ class Delivery < ApplicationRecord
   end
 
   def self.update_numbers(fiscal_year)
-    during_year(fiscal_year).each_with_index do |d, i|
-      d.update_column(:number, i + 1)
-    end
+    ids = during_year(fiscal_year).pluck(:id)
+    return if ids.empty?
+
+    numbers = ids.map.with_index { |id, i| "WHEN #{connection.quote(id)} THEN #{i + 1}" }
+    unscoped.where(id: ids).update_all(Arel.sql("number = CASE id #{numbers.join(" ")} END"))
   end
 
   def gid

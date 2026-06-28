@@ -169,6 +169,20 @@ class DeliveryTest < ActiveSupport::TestCase
     assert_equal 21, last.reload.number
   end
 
+  test "updates fiscal year delivery numbers in a single statement" do
+    travel_to "2024-01-01"
+    updates = []
+    callback = ->(_name, _start, _finish, _id, payload) {
+      updates << payload[:sql] if payload[:sql].include?("SET number = CASE id")
+    }
+
+    ActiveSupport::Notifications.subscribed(callback, "sql.active_record") do
+      Delivery.update_numbers(Current.fy_year)
+    end
+
+    assert_equal 1, updates.size
+  end
+
   test "update membership when date created" do
     travel_to "2024-01-01"
     membership = memberships(:john)
