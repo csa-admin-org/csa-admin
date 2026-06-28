@@ -33,6 +33,27 @@ class AdminDestroyActionsControllerTest < ActionDispatch::IntegrationTest
       I18n.t("active_admin.resources.delivery.delete_confirmation"))
   end
 
+  test "delivery destroy handles memberships whose delivery cycle becomes empty" do
+    travel_to "2024-01-01"
+    org(features: [ :absence ], trial_baskets_count: 0, absences_billed: true)
+    delivery = Delivery.create!(date: "2024-04-02")
+    delivery_cycle = create_delivery_cycle(wdays: [ 2 ], absences_included_annually: 2)
+    membership = create_membership(
+      member: create_member,
+      delivery_cycle: delivery_cycle,
+      started_on: "2024-01-01",
+      ended_on: "2024-12-31",
+      absences_included_annually: 2)
+    login admins(:super)
+
+    assert_changes -> { Delivery.exists?(delivery.id) }, from: true, to: false do
+      delete delivery_path(delivery)
+    end
+
+    assert_redirected_to deliveries_path
+    assert_equal 0, membership.reload.absences_included
+  end
+
   private
 
   def login(admin)

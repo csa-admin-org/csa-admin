@@ -262,6 +262,10 @@ class Membership < ApplicationRecord
       depot_price: dprice)
   end
 
+  def refresh_after_baskets_update!
+    save!(validate: false)
+  end
+
   def fiscal_year_has_basket_size_price_percentage?
     return false unless started_on
 

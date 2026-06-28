@@ -20,8 +20,8 @@ class MembershipBasketsUpdater
           @membership.create_basket!(delivery)
         end
       end
-      @membership.save!
     end
+    @membership.refresh_after_baskets_update!
   end
 
   private

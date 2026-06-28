@@ -143,4 +143,53 @@ class MembershipBasketsUpdaterTest < ActiveSupport::TestCase
 
     assert_equal [ "2024-05-20", "2024-06-03" ], dates(membership).last(2)
   end
+
+  test "updates when destroyed delivery was the only one in membership period" do
+    travel_to "2024-01-01"
+    membership = memberships(:bob)
+
+    assert_difference -> { membership.reload.baskets.count }, -1 do
+      assert_difference -> { membership.reload.price }, -19 do
+        deliveries(:monday_1).destroy!
+        perform_enqueued_jobs
+      end
+    end
+
+    assert_empty dates(membership)
+    assert_equal 0, membership.reload.baskets_count
+  end
+
+  test "updates when delivery date change removes the only delivery in membership period" do
+    travel_to "2024-01-01"
+    membership = memberships(:bob)
+
+    assert_difference -> { membership.reload.baskets.count }, -1 do
+      assert_difference -> { membership.reload.price }, -19 do
+        deliveries(:monday_1).update!(date: "2024-04-02")
+        perform_enqueued_jobs
+      end
+    end
+
+    assert_empty dates(membership)
+    assert_equal 0, membership.reload.baskets_count
+  end
+
+  test "refreshes activity participations demanded after delivery update" do
+    travel_to "2024-01-01"
+    org(activity_participations_demanded_logic: "{{ membership.baskets }}")
+    delivery = Delivery.create!(date: "2024-04-02")
+    delivery_cycle = create_delivery_cycle(wdays: [ 2 ])
+    membership = create_membership(
+      member: create_member,
+      delivery_cycle: delivery_cycle,
+      started_on: "2024-01-01",
+      ended_on: "2024-12-31")
+
+    assert_equal 1, membership.reload.activity_participations_demanded
+
+    assert_changes -> { membership.reload.activity_participations_demanded }, from: 1, to: 0 do
+      delivery.destroy!
+      perform_enqueued_jobs
+    end
+  end
 end
