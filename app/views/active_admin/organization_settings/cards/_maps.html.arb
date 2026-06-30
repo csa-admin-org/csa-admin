@@ -1,7 +1,17 @@
 # frozen_string_literal: true
 
 context.instance_eval do
+  depots_with_coordinates_count = Depot.kept.with_map_coordinates(true).count
+  mapped_depots_count = Depot.mapped.count
+
   attributes_table_for org do
     row(:maps_style) { t("maps.styles.#{org.maps_style}") }
+    row(:member_form_depot_map) { aligned_status_tag(org.member_form_depot_map?) }
+    row(t("active_admin.resources.organization.depots_with_map_coordinates")) do
+      link_to depots_with_coordinates_count, depots_path(scope: :all, q: { with_map_coordinates: "true" })
+    end
+    row(t("active_admin.resources.organization.depots_visible_on_maps")) do
+      link_to mapped_depots_count, depots_path(scope: :visible, q: { maps_visible_eq: true, with_map_coordinates: "true" })
+    end
   end
 end

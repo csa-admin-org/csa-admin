@@ -7,10 +7,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link
-      href="https://unpkg.com/maplibre-gl/dist/maplibre-gl.css"
-      rel="stylesheet"
-    >
+    <link href="<%= maplibre_stylesheet_url %>" rel="stylesheet">
 
     <style nonce="<%= @csp_nonce %>">
       html,
@@ -38,6 +35,15 @@
         margin-top: 0.35rem;
       }
 
+      .maplibregl-popup {
+        pointer-events: none;
+        z-index: 50;
+      }
+
+      .maplibregl-popup-content {
+        padding: 0.35rem 0.75rem !important;
+      }
+
       .maplibregl-ctrl-attrib {
         opacity: 0.5;
         border-top-left-radius: 0.35rem;
@@ -49,15 +55,13 @@
   <body>
     <div id="map"></div>
 
-    <script
-      nonce="<%= @csp_nonce %>"
-      src="https://unpkg.com/maplibre-gl/dist/maplibre-gl.js"
-    ></script>
+    <script nonce="<%= @csp_nonce %>" src="<%= maplibre_script_url %>"></script>
 
     <script nonce="<%= @csp_nonce %>">
       const markerGroups = <%= raw json_escape(@marker_groups.to_json) %>
       const markerColor = <%= raw json_escape(@marker_color.to_json) %>
       const maplibreLocale = <%= raw json_escape(@maplibre_locale.to_json) %>
+      const mapControls = <%= raw json_escape(@map_controls.to_json) %>
       const map = new maplibregl.Map({
         container: "map",
         style: <%= raw json_escape(@map_style_url.to_json) %>,
@@ -72,17 +76,47 @@
 
         buildMarker(group)
           .setLngLat(position)
-          .setPopup(new maplibregl.Popup({ offset: 16 }).setHTML(group.html))
           .addTo(map)
 
         bounds.extend(position)
       })
 
       function buildMarker(group) {
+        const popup = new maplibregl.Popup({
+          closeButton: false,
+          closeOnClick: false,
+          focusAfterOpen: false,
+          offset: markerPopupOffset(),
+          padding: 8
+        }).setHTML(group.html)
         const marker = new maplibregl.Marker({ color: markerColor })
-        marker.getElement().setAttribute("aria-label", group.title)
-        marker.getElement().setAttribute("title", group.title)
+        const element = marker.getElement()
+
+        element.setAttribute("aria-label", group.title)
+        element.addEventListener("mouseenter", () => popup.setLngLat(marker.getLngLat()).addTo(map))
+        element.addEventListener("mouseleave", () => popup.remove())
+        element.addEventListener("focus", () => popup.setLngLat(marker.getLngLat()).addTo(map))
+        element.addEventListener("blur", () => popup.remove())
+        element.addEventListener("click", () => popup.setLngLat(marker.getLngLat()).addTo(map))
+
         return marker
+      }
+
+      function markerPopupOffset() {
+        const markerHeight = 42
+        const markerRadius = 14
+        const linearOffset = 20
+
+        return {
+          top: [0, 0],
+          "top-left": [0, 0],
+          "top-right": [0, 0],
+          bottom: [0, -markerHeight],
+          "bottom-left": [linearOffset, (markerHeight - markerRadius + linearOffset) * -1],
+          "bottom-right": [-linearOffset, (markerHeight - markerRadius + linearOffset) * -1],
+          left: [markerRadius, (markerHeight - markerRadius) * -1],
+          right: [-markerRadius, (markerHeight - markerRadius) * -1]
+        }
       }
 
       map.on("load", () => {
@@ -95,6 +129,26 @@
           map.fitBounds(bounds, { padding: 48, maxZoom: 13 })
         }
       })
+
+      if (mapControls.includes("geolocate") && "geolocation" in navigator) {
+        map.addControl(
+          new maplibregl.GeolocateControl({
+            positionOptions: { enableHighAccuracy: true },
+            trackUserLocation: false,
+            showUserHeading: true,
+            fitBoundsOptions: { maxZoom: 13 }
+          }),
+          "top-right"
+        )
+      }
+
+      if (mapControls.includes("zoom")) {
+        map.addControl(
+          new maplibregl.NavigationControl({ showCompass: false }),
+          "top-right"
+        )
+      }
+
       map.addControl(new maplibregl.AttributionControl({ compact: false }), "bottom-right")
       </script>
   </body>

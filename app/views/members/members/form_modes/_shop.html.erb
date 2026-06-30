@@ -1,4 +1,18 @@
-<div data-form-section-nav-target="section">
+<% all_visible_depots = visible_depots %>
+<% depot_map_markers = member_form_depot_map_markers(all_visible_depots) %>
+<% show_depot_map = Current.org.member_form_depot_map_enabled? && depot_map_markers.any? %>
+
+<div
+  data-form-section-nav-target="section"
+  <% if show_depot_map %>
+    data-controller="depot-map"
+    data-depot-map-markers-value="<%= json_escape(depot_map_markers.to_json) %>"
+    data-depot-map-style-url-value="<%= open_free_map_style_url %>"
+    data-depot-map-locale-value="<%= json_escape(maplibre_locale.to_json) %>"
+    data-depot-map-script-url-value="<%= maplibre_script_url %>"
+    data-depot-map-stylesheet-url-value="<%= maplibre_stylesheet_url %>"
+  <% end %>
+>
   <legend class="text-lg font-medium text-gray-700 dark:text-gray-300">
     <%= t("shop.title") %>
   </legend>
@@ -16,7 +30,11 @@
 
     <div>
       <div class="space-y-6">
-        <%= f.input :shop_depot_id, as: :radio_buttons, collection: depots_collection(show_price: false), label: Depot.model_name.human, label_html: { class: "text-base" }, required: true %>
+        <% if show_depot_map %>
+          <%= render "members/members/form_modes/depot_map", disabled: false %>
+        <% end %>
+
+        <%= f.input :shop_depot_id, as: :radio_buttons, collection: depots_collection(depots: all_visible_depots, show_price: false, data: { depot_map_target: "primaryInput" }), label: Depot.model_name.human, label_html: { class: "text-base" }, required: true %>
       </div>
     </div>
   </div>

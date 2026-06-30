@@ -60,6 +60,47 @@ class OrganizationTest < ActiveSupport::TestCase
     assert_includes Current.org.errors[:maps_style], "is not included in the list"
   end
 
+  test "website origins use configured website domain" do
+    Current.org.url = "https://www.acme.test/depot-map"
+
+    assert_equal "https://www.acme.test", Current.org.website_origin
+    assert_equal "https://*.acme.test", Current.org.website_subdomain_origin
+    assert_equal [ "https://www.acme.test", "https://*.acme.test" ], Current.org.website_origins
+  end
+
+  test "website origins keep non-standard ports" do
+    Current.org.url = "http://www.acme.test:3000/depot-map"
+
+    assert_equal "http://www.acme.test:3000", Current.org.website_origin
+    assert_equal "http://*.acme.test:3000", Current.org.website_subdomain_origin
+  end
+
+  test "website origins keep ports that are only default for another scheme" do
+    Current.org.url = "http://www.acme.test:443/depot-map"
+
+    assert_equal "http://www.acme.test:443", Current.org.website_origin
+    assert_equal "http://*.acme.test:443", Current.org.website_subdomain_origin
+  end
+
+  test "website origins do not wildcard IP addresses" do
+    Current.org.url = "http://127.0.0.1:3000"
+
+    assert_equal "http://127.0.0.1:3000", Current.org.website_origin
+    assert_nil Current.org.website_subdomain_origin
+    assert_equal [ "http://127.0.0.1:3000" ], Current.org.website_origins
+  end
+
+  test "member form depot map is only enabled when maps feature is active" do
+    org(features: [], member_form_depot_map: true)
+    assert_not Current.org.member_form_depot_map_enabled?
+
+    org(features: [ "maps" ], member_form_depot_map: false)
+    assert_not Current.org.member_form_depot_map_enabled?
+
+    org(features: [ "maps" ], member_form_depot_map: true)
+    assert Current.org.member_form_depot_map_enabled?
+  end
+
   test "validates annual fee only when feature is enabled" do
     org = Current.org
 

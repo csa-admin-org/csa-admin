@@ -2,20 +2,28 @@
   <input
     type="text"
     data-form-depot-filter-target="input"
+    data-form-disabler-target="input"
     data-action="input->form-depot-filter#filter keydown.esc->form-depot-filter#clear"
     placeholder="<%= t("members.members.form_modes.membership.depot_filter_placeholder") %>"
     class="mt-0 pr-8 text-base sm:text-sm"
     autocomplete="off"
+    <% if local_assigns[:disabled] %>
+      disabled
+    <% end %>
   >
 
   <button
     type="button"
     data-action="form-depot-filter#clear"
     data-form-depot-filter-target="clearButton"
+    data-form-disabler-target="input"
+    <% if local_assigns[:disabled] %>
+      disabled
+    <% end %>
     class="
-      absolute inset-y-0 right-0 hidden items-center pr-2 text-gray-400
-      hover:text-gray-600 dark:hover:text-gray-300
-    "
+        absolute inset-y-0 right-0 hidden items-center pr-2 text-gray-400
+        hover:text-gray-600 dark:hover:text-gray-300
+      "
     tabindex="-1"
   >
     <%= icon "x", class: "size-5" %>

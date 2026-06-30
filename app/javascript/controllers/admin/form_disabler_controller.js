@@ -42,7 +42,9 @@ export default class extends Controller {
     removeClass(this.labelTargets, "disabled")
     prop(this.inputTargets, "disabled", false)
     for (const input of this.inputTargets) {
-      if (input.value == "") input.value = input.dataset.defaultValue
+      if (input.value == "" && input.dataset.defaultValue != null) {
+        input.value = input.dataset.defaultValue
+      }
     }
     this.dispatch("state-changed")
   }

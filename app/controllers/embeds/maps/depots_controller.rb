@@ -1,13 +1,9 @@
 # frozen_string_literal: true
 
-require "ipaddr"
-require "public_suffix"
-
 module Embeds
   module Maps
     class DepotsController < ApplicationController
-      OPEN_FREE_MAP_STYLE_URL = "https://tiles.openfreemap.org/styles/%<style>s"
-      DEFAULT_MARKER_COLOR = "#2563eb"
+      MAP_CONTROLS = %w[geolocate zoom]
       MARKER_COLOR_PATTERN = /\A#?(?:\h{3}|\h{6})\z/
 
       layout false
@@ -20,9 +16,10 @@ module Embeds
         expires_in 5.minutes, public: true
         @csp_nonce = csp_nonce
         @maps_style = maps_style
-        @map_style_url = format(OPEN_FREE_MAP_STYLE_URL, style: @maps_style)
+        @map_style_url = helpers.open_free_map_style_url(@maps_style)
         @marker_color = marker_color
-        @maplibre_locale = maplibre_locale
+        @maplibre_locale = helpers.maplibre_locale
+        @map_controls = map_controls
         @depot_groups = depot_groups
         @marker_groups = marker_groups
       end
@@ -34,14 +31,6 @@ module Embeds
         I18n.locale =
           (params_locale.in?(I18n.available_locales.map(&:to_s)) && params_locale) ||
           Current.org.default_locale
-      end
-
-      def maplibre_locale
-        {
-          "CooperativeGesturesHandler.WindowsHelpText" => t("maps.maplibre.cooperative_gestures.windows_help_text"),
-          "CooperativeGesturesHandler.MacHelpText" => t("maps.maplibre.cooperative_gestures.mac_help_text"),
-          "CooperativeGesturesHandler.MobileHelpText" => t("maps.maplibre.cooperative_gestures.mobile_help_text")
-        }
       end
 
       def depot_groups
@@ -82,11 +71,17 @@ module Embeds
 
       def marker_color
         color = params[:marker_color].to_s
-        color = DEFAULT_MARKER_COLOR unless color.match?(MARKER_COLOR_PATTERN)
+        color = helpers.default_depot_marker_color unless color.match?(MARKER_COLOR_PATTERN)
         color = color.delete_prefix("#")
         color = color.chars.flat_map { |char| [ char, char ] }.join if color.length == 3
 
         "##{color.downcase}"
+      end
+
+      def map_controls
+        controls = params.key?(:controls) ? params[:controls].to_s : MAP_CONTROLS.join(",")
+
+        controls.split(",").map(&:strip) & MAP_CONTROLS
       end
 
       def marker_groups
@@ -132,46 +127,7 @@ module Embeds
       def frame_ancestors
         return "*" if Rails.env.development?
 
-        [ "'self'", *organization_origins ].join(" ")
-      end
-
-      def organization_origins
-        uri = URI.parse(Current.org.url)
-        return [] unless uri.scheme.in?(%w[http https]) && uri.host
-
-        [ organization_origin(uri), organization_subdomain_origin(uri) ].compact.uniq
-      rescue URI::InvalidURIError, PublicSuffix::Error, TypeError
-        []
-      end
-
-      def organization_origin(uri)
-        [ uri.scheme, "://", uri.host, organization_origin_port(uri) ].join
-      end
-
-      def organization_subdomain_origin(uri)
-        domain = organization_domain(uri.host)
-        return unless domain
-
-        [ uri.scheme, "://*.", domain, organization_origin_port(uri) ].join
-      end
-
-      def organization_domain(host)
-        return if ip_address?(host)
-
-        PublicSuffix.parse(host).domain
-      end
-
-      def ip_address?(host)
-        IPAddr.new(host)
-        true
-      rescue IPAddr::InvalidAddressError
-        false
-      end
-
-      def organization_origin_port(uri)
-        return if [ 80, 443 ].include?(uri.port)
-
-        ":#{uri.port}"
+        [ "'self'", *Current.org.website_origins ].join(" ")
       end
     end
   end

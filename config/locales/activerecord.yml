@@ -3746,6 +3746,12 @@ _:
           _de: Bezeichnung Lieferzyklen
           _it: Etichetta cicli di consegna
           _nl: Label leveringscycli
+        member_form_depot_map:
+          _en: Depot map on registration form
+          _fr: Carte des dépôts dans le formulaire d'inscription
+          _de: Depotkarte im Anmeldeformular
+          _it: Mappa dei punti di ritiro nel modulo di iscrizione
+          _nl: Depotkaart op het inschrijfformulier
         member_form_extra_text:
           _en: Additional explanation
           _fr: Explication supplémentaire

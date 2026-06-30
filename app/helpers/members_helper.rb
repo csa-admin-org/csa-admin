@@ -207,6 +207,14 @@ module MembersHelper
     collection_text(bc.public_name, details: basket_complement_details(bc, only_price_per_delivery: only_price_per_delivery))
   end
 
+  def member_form_depot_map_markers(depots)
+    public_depot_markers(depots.select(&:maps_visible?))
+  end
+
+  def member_form_depot_map?(depots)
+    Current.org.member_form_depot_map_enabled? && member_form_depot_map_markers(depots).any?
+  end
+
   def depots_collection(depots: nil, membership: nil, basket: nil, delivery_cycle: nil, only_with_future_deliveries: false, show_price: true, only_price_per_delivery: false, data: {})
     (depots || visible_depots(
       object: membership || basket,
@@ -216,7 +224,7 @@ module MembersHelper
       [
         collection_text(d.public_name,
           details: depot_details(d, show_price: show_price, only_price_per_delivery: only_price_per_delivery),
-          icon: d.full_address && map_icon(d.full_address).html_safe),
+          icon: map_icon(d)&.html_safe),
         d.id,
         data: {
           form_choices_limiter_values_param: d.delivery_cycle_ids.join(","),
@@ -548,20 +556,46 @@ module MembersHelper
     txts.join.html_safe
   end
 
-  def map_icon(location)
-    link_to "https://www.google.com/maps?q=#{location}", title: location, target: :blank do
+  def map_icon(depot)
+    return unless location = depot_map_icon_location(depot)
+
+    link_to depot_google_maps_url(location), title: depot_map_title(depot), target: :blank do
       icon "map", class: "inline-block text-gray-300 dark:text-gray-700 hover:text-green-500"
     end
   end
 
   def depot_map_link(depot)
-    if depot.full_address
-      link_to "https://www.google.com/maps?q=#{depot.full_address}", title: depot.full_address, target: :blank, class: "hover:text-green-500" do
+    if location = depot_map_location(depot)
+      link_to depot_google_maps_url(location), title: depot_map_title(depot), target: :blank, class: "hover:text-green-500" do
         h depot.public_name
       end
     else
       h depot.public_name
     end
+  end
+
+  def depot_google_maps_url(location)
+    "https://www.google.com/maps?q=#{location}"
+  end
+
+  def depot_map_icon_location(depot)
+    if feature?("maps")
+      depot_map_coordinates(depot) if depot.maps_visible?
+    else
+      depot.full_address
+    end
+  end
+
+  def depot_map_location(depot)
+    depot_map_coordinates(depot) || depot.full_address
+  end
+
+  def depot_map_coordinates(depot)
+    "#{depot.latitude},#{depot.longitude}" if depot.map_coordinates?
+  end
+
+  def depot_map_title(depot)
+    depot.full_address || depot.public_name
   end
 
   def activities_count(count)

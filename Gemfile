@@ -32,6 +32,7 @@ gem "tod"
 gem "discard"
 gem "rails-i18n"
 gem "i18n-backend-side_by_side"
+gem "geocoder"
 gem "rack-status"
 gem "rack-cors"
 

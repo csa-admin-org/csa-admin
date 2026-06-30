@@ -1,0 +1,66 @@
+<div
+  class="depot-coordinate-map-panel <%= "depot-coordinate-map-panel--show" unless editable %>"
+  data-controller="depot-coordinate-map"
+  data-depot-coordinate-map-latitude-value="<%= depot.latitude %>"
+  data-depot-coordinate-map-longitude-value="<%= depot.longitude %>"
+  data-depot-coordinate-map-latitude-input-id-value="depot_latitude"
+  data-depot-coordinate-map-longitude-input-id-value="depot_longitude"
+  data-depot-coordinate-map-street-input-id-value="depot_street"
+  data-depot-coordinate-map-zip-input-id-value="depot_zip"
+  data-depot-coordinate-map-city-input-id-value="depot_city"
+  data-depot-coordinate-map-geocode-url-value="<%= geocode_depot_path(depot, format: :json) if editable && depot.persisted? %>"
+  data-depot-coordinate-map-geocode-loading-message-value="<%= t("maps.admin_depot_map.geocoding") %>"
+  data-depot-coordinate-map-geocode-updated-message-value="<%= t("active_admin.resources.depot.geocoding_updated") %>"
+  data-depot-coordinate-map-geocode-failed-message-value="<%= t("active_admin.resources.depot.geocoding_failed") %>"
+  data-depot-coordinate-map-geocode-unavailable-message-value="<%= t("active_admin.resources.depot.geocoding_unavailable") %>"
+  data-depot-coordinate-map-marker-title-value="<%= strip_tags(depot.public_name.presence || depot.name) %>"
+  data-depot-coordinate-map-style-url-value="<%= open_free_map_style_url %>"
+  data-depot-coordinate-map-locale-value="<%= json_escape(maplibre_locale.to_json) %>"
+  data-depot-coordinate-map-script-url-value="<%= maplibre_script_url %>"
+  data-depot-coordinate-map-stylesheet-url-value="<%= maplibre_stylesheet_url %>"
+  data-depot-coordinate-map-editable-value="<%= editable %>"
+>
+  <div
+    class="depot-coordinate-map <%= "hidden" unless depot.map_coordinates? %>"
+    data-depot-coordinate-map-target="map"
+  ></div>
+
+  <p
+    class="depot-coordinate-map-empty <%= "hidden" if depot.map_coordinates? %>"
+    data-depot-coordinate-map-target="empty"
+  >
+    <%= t("maps.admin_depot_map.empty") %>
+  </p>
+
+  <p
+    class="depot-coordinate-map-unavailable hidden"
+    data-depot-coordinate-map-target="unavailable"
+  >
+    <%= t("maps.admin_depot_map.unavailable") %>
+  </p>
+
+  <% if editable && depot.persisted? %>
+    <div class="flex flex-wrap items-center gap-2">
+      <%= button_tag type: "button", class: "btn btn-sm", data: { action: "depot-coordinate-map#geocode", depot_coordinate_map_target: "geocodeButton" } do %>
+        <%= icon("map", class: "size-4") %>
+        <%= t("active_admin.resources.depot.geocode") %>
+      <% end %>
+
+      <span
+        class="inline-hints"
+        data-depot-coordinate-map-target="geocodeStatus"
+      >
+        <%= t("maps.admin_depot_map.geocode_hint") %>
+      </span>
+    </div>
+  <% end %>
+
+  <% if editable %>
+    <p
+      class="inline-hints <%= "hidden" unless depot.map_coordinates? %>"
+      data-depot-coordinate-map-target="hint"
+    >
+      <%= t("maps.admin_depot_map.hint") %>
+    </p>
+  <% end %>
+</div>

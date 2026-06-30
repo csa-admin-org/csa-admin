@@ -1,0 +1,76 @@
+# Kaarten
+
+Kaarten helpen leden en bezoekers om je depots te vinden. CSA Admin kan ze op twee plaatsen tonen:
+
+- op het inschrijfformulier, om mensen te helpen hun depot te kiezen;
+- op je openbare website, via een ingesloten depotkaart.
+
+Alleen depots die je expliciet zichtbaar maakt op kaarten worden getoond. De kaartgegevens bevatten alleen de openbare depotnaam en de positie. Contactgegevens, notities, prijzen en aantallen manden zijn niet inbegrepen.
+
+## Instellen {#setup}
+
+1. Activeer **Kaarten** in [de instellingen](/settings#maps).
+2. Kies een kaartstijl in [de kaartinstellingen](/settings#maps), als de standaardstijl niet bij je website past.
+3. Voor elk depot dat op een kaart moet verschijnen:
+   - vul het adres aan;
+   - gebruik **Geocode van adres** of vul breedte- en lengtegraad handmatig in;
+   - controleer de marker op het depotformulier;
+   - activeer **Zichtbaar op kaarten** pas wanneer de positie klopt.
+
+Coördinaten en kaartzichtbaarheid zijn bewust gescheiden. Een depot kan coördinaten hebben zonder op een kaart gepubliceerd te worden.
+
+## Coördinaten en geocoding {#geocoding}
+
+Op een depotformulier gebruikt **Geocode van adres** het adres dat momenteel in het formulier staat en stelt het coördinaten voor. Breedte- en lengtegraad worden ingevuld, maar het depot wordt niet automatisch opgeslagen.
+
+Wanneer coördinaten aanwezig zijn, toont het depotformulier een kaart. Klik op de kaart of versleep de marker om de positie te verfijnen. Je kunt breedte- en lengtegraad ook direct bewerken.
+{: #depot-review}
+
+> Controleer de marker altijd. Geocoding is een goed startpunt, maar kan in het midden van een gebouw, op een straat of bij een nabij adres uitkomen in plaats van exact bij de ingang van het afhaalpunt.
+
+Je kunt ook meerdere depots selecteren op [de depotpagina](<%= depots_path(scope: :visible) %>) en de batchacties gebruiken om ze op kaarten te tonen of te verbergen.
+
+## Kaart op het inschrijfformulier {#registration-form-map}
+
+De kaart op het inschrijfformulier wordt apart geactiveerd in [de kaartinstellingen](/settings#maps). Laat ze uitgeschakeld tot de depotposities zijn gecontroleerd.
+
+Wanneer ze actief is, verschijnt ze direct boven de keuze van het hoofddepot op het inschrijfformulier. De lijst blijft de officiële selectie: depots zonder coördinaten, thuislevering, fietslevering en andere opties zonder kaartpositie blijven zichtbaar en selecteerbaar in de lijst.
+
+Gebruik de kaart als visueel hulpmiddel:
+
+- klikken op een marker selecteert het bijbehorende hoofddepot;
+- met de muis over een marker gaan toont de depotnaam en markeert de bijbehorende regel, zonder die te selecteren of de lijst te verplaatsen;
+- een depot in de lijst selecteren of er met de muis over gaan markeert de marker; bij selectie kan de kaart bewegen om de marker zichtbaar te houden;
+- alternatieve depots kunnen, wanneer ze worden getoond, op de kaart worden gemarkeerd, maar klikken op een marker selecteert nooit een alternatief;
+- wanneer ze wordt getoond, filtert de tekstfilter van depots zowel de lijst als de zichtbare markers.
+
+## Openbare ingesloten depotkaart {#public-embed}
+
+Gebruik deze optie om een depotkaart op de website van je organisatie te tonen. De persoon die je website beheert kan dit iframe toevoegen:
+
+    <iframe
+      title="Depotkaart"
+      src="<%= Current.org.admin_url %>/embeds/maps/depots"
+      loading="lazy"
+      allow="geolocation"
+      referrerpolicy="no-referrer-when-downgrade"></iframe>
+
+Het attribuut `allow="geolocation"` laat de locatieknop van de kaart vragen naar de positie van de bezoeker. Zonder dit attribuut schakelen browsers geolocatie uit in een iframe vanaf een ander domein.
+
+Het iframe werkt op het domein dat voor de website is ingesteld en op de subdomeinen daarvan, bijvoorbeeld `<%= Current.org.website_origin %>` en `<%= Current.org.website_subdomain_origin %>`. Neem [contact met me op](/support) als het op een ander domein moet werken.
+
+### URL-parameters {#embed-params}
+
+De insluiting accepteert optionele URL-parameters:
+
+| Parameter | Voorbeeld | Doel |
+|-----------|-----------|------|
+| `style` | `?style=bright` | Verandert de kaartstijl voor dit iframe. Toegestane waarden: `positron`, `bright`, `liberty`, `dark`, `fiord`. |
+| `marker_color` | `?marker_color=4f8a10` | Verandert de markerkleur alleen voor dit iframe. Gebruik een hexkleur van 3 of 6 tekens, met of zonder `#`. Standaard is groen (`<%= default_depot_marker_color %>`). |
+| `locale` | `?locale=de` | Verandert de taal van de kaartinterface. Standaard is de hoofdtaal van de organisatie. |
+| `controls` | `?controls=geolocate,zoom` | Kiest de zichtbare kaartbediening. Standaard: `geolocate,zoom`; gebruik `?controls=` om ze te verbergen. |
+| `depot_ids` | `?depot_ids=1,2,3` | Beperkt de kaart tot bepaalde depot-ID's. Verborgen depots en depots die niet zichtbaar zijn op kaarten blijven uitgesloten. |
+
+Parameters kunnen worden gecombineerd:
+
+    <%= Current.org.admin_url %>/embeds/maps/depots?style=bright&marker_color=4f8a10&locale=nl

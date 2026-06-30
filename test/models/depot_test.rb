@@ -142,15 +142,87 @@ class DepotTest < ActiveSupport::TestCase
     assert_includes depot.errors[:longitude], "must be less than or equal to 180"
   end
 
-  test "mapped scope only returns public map depots with coordinates" do
+  test "mapped scope only returns public map depots with complete coordinates" do
     farm = depots(:farm)
     bakery = depots(:bakery)
     home = depots(:home)
 
     farm.update!(visible: true, maps_visible: true, latitude: 46.992979, longitude: 6.931932)
     bakery.update!(visible: false, maps_visible: true, latitude: 46.992979, longitude: 6.931932)
-    home.update!(visible: true, maps_visible: false, latitude: 46.992979, longitude: 6.931932)
+    home.update_columns(visible: true, maps_visible: true, latitude: 46.992979, longitude: nil)
 
     assert_equal [ farm ], Depot.mapped.to_a
+  end
+
+  test "with_map_coordinates scope filters depots with complete GPS positions" do
+    farm = depots(:farm)
+    bakery = depots(:bakery)
+    home = depots(:home)
+
+    farm.update_columns(latitude: 46.992979, longitude: 6.931932)
+    bakery.update_columns(latitude: nil, longitude: 6.931932)
+    home.update_columns(latitude: 46.992979, longitude: nil)
+
+    assert_equal [ farm ], Depot.with_map_coordinates("true").to_a
+    assert_equal [ home, bakery ], Depot.with_map_coordinates("false").to_a
+  end
+
+  test "enqueues geocoding when complete address changes and coordinates are blank" do
+    with_geocoding_enabled do
+      depot = depots(:bakery)
+      depot.update_columns(latitude: nil, longitude: nil, street: nil, zip: nil, city: nil)
+
+      assert_enqueued_with(job: DepotGeocodingJob) do
+        depot.update!(street: "Rue du Marché 1", zip: "2000", city: "Neuchâtel")
+      end
+    end
+  end
+
+  test "enqueues geocoding when one coordinate is missing" do
+    with_geocoding_enabled do
+      depot = depots(:farm)
+      depot.update_columns(latitude: 46.992979, longitude: nil)
+
+      assert_enqueued_with(job: DepotGeocodingJob) do
+        depot.update!(street: "Rue du Marché 1")
+      end
+    end
+  end
+
+  test "enqueues automatic geocoding when maps feature is disabled" do
+    with_geocoding_enabled do
+      disable_maps
+      depot = depots(:bakery)
+      depot.update_columns(latitude: nil, longitude: nil, street: nil, zip: nil, city: nil)
+
+      assert_enqueued_with(job: DepotGeocodingJob) do
+        depot.update!(street: "Rue du Marché 1", zip: "2000", city: "Neuchâtel")
+      end
+    end
+  end
+
+  test "does not enqueue automatic geocoding when coordinates are already set" do
+    with_geocoding_enabled do
+      depot = depots(:farm)
+      depot.update_columns(latitude: 46.992979, longitude: 6.931932)
+
+      assert_no_enqueued_jobs only: DepotGeocodingJob do
+        depot.update!(street: "Rue du Marché 1")
+      end
+    end
+  end
+
+  private
+
+  def disable_maps
+    org(features: Current.org.features - [ :maps ])
+  end
+
+  def with_geocoding_enabled
+    previous = Rails.application.config.x.geocoding.enabled
+    Rails.application.config.x.geocoding.enabled = true
+    yield
+  ensure
+    Rails.application.config.x.geocoding.enabled = previous
   end
 end

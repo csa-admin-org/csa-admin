@@ -25,9 +25,15 @@ ActiveAdmin.register Depot do
         [ I18n.t("delivery.sheets_mode.#{mode}"), mode ]
       }
     }
+  filter :maps_visible, as: :boolean, if: proc { feature?("maps") }
+  filter :with_map_coordinates,
+    label: -> { I18n.t("active_admin.filters.labels.with_map_coordinates") },
+    as: :boolean,
+    if: proc { feature?("maps") }
 
   includes :memberships, :delivery_cycles
   index do
+    selectable_column(class: "w-px")
     column :id
     column :name, ->(d) { display_name_with_public_name(d) }, sortable: true
     if DepotGroup.any?
@@ -46,6 +52,9 @@ ActiveAdmin.register Depot do
       }, class: "text-right"
     end
     column :visible, ->(d) { aligned_status_tag(d.visible?) }, class: "text-right"
+    if Current.org.feature?("maps")
+      column t("active_admin.resources.depot.map"), ->(d) { aligned_status_tag(d.maps_visible?) }, class: "text-right"
+    end
     actions
   end
 
@@ -66,6 +75,38 @@ ActiveAdmin.register Depot do
     head :ok
   end
 
+  member_action :geocode, method: :post do
+    return head :not_found unless Current.org.feature?("maps")
+
+    authorize!(:update, Depot)
+    depot = Depot.find(params[:id])
+    address = geocoding_address_for(depot)
+    coordinates = depot.geocode_coordinates(address)
+
+    respond_to do |format|
+      format.json do
+        if address.blank?
+          render json: { error: t("active_admin.resources.depot.geocoding_unavailable") }, status: :unprocessable_entity
+        elsif coordinates
+          latitude, longitude = coordinates
+          render json: { latitude: latitude, longitude: longitude }
+        else
+          render json: { error: t("active_admin.resources.depot.geocoding_failed") }, status: :unprocessable_entity
+        end
+      end
+
+      format.html do
+        if address.blank?
+          redirect_back fallback_location: depot_path(depot), alert: t("active_admin.resources.depot.geocoding_unavailable")
+        elsif coordinates && depot.update(latitude: coordinates.first, longitude: coordinates.last)
+          redirect_back fallback_location: edit_depot_path(depot), notice: t("active_admin.resources.depot.geocoding_updated")
+        else
+          redirect_back fallback_location: edit_depot_path(depot), alert: t("active_admin.resources.depot.geocoding_failed")
+        end
+      end
+    end
+  end
+
   csv do
     column(:id)
     column(:name)
@@ -80,6 +121,11 @@ ActiveAdmin.register Depot do
     column(:street)
     column(:zip)
     column(:visible)
+    if Current.org.feature?("maps")
+      column(:maps_visible)
+      column(:latitude)
+      column(:longitude)
+    end
     column(:contact_name)
     column(:emails) { |d| d.emails_array.join(", ") }
     column(:phones) { |d| d.phones_array.map(&:phony_formatted).join(", ") }
@@ -178,7 +224,7 @@ ActiveAdmin.register Depot do
           end
         end
 
-        panel Depot.human_attribute_name(:street), icon: "map" do
+        panel Depot.human_attribute_name(:street), icon: "map", action: handbook_icon_link("maps", anchor: "depot-review") do
           attributes_table do
             row :address_name
             row :street
@@ -188,6 +234,10 @@ ActiveAdmin.register Depot do
               row(:maps_visible) { aligned_status_tag(depot.maps_visible?) }
               row(:position) { display_position(depot.latitude, depot.longitude) }
             end
+          end
+
+          if Current.org.feature?("maps") && depot.map_coordinates?
+            render partial: "active_admin/depots/coordinate_map", locals: { depot: depot, editable: false }
           end
         end
 
@@ -283,9 +333,11 @@ ActiveAdmin.register Depot do
       if Current.org.feature?("maps")
         f.input :maps_visible, as: :boolean
         div class: "single-line" do
-          f.input :latitude, as: :number, input_html: { min: -90, max: 90 }
-          f.input :longitude, as: :number, input_html: { min: -180, max: 180 }
+          f.input :latitude, as: :number, input_html: { min: -90, max: 90, step: "any", inputmode: "decimal" }
+          f.input :longitude, as: :number, input_html: { min: -180, max: 180, step: "any", inputmode: "decimal" }
         end
+        render partial: "active_admin/depots/coordinate_map", locals: { depot: f.object, editable: true }
+        handbook_button(self, "maps", anchor: "depot-review")
       end
     end
 
@@ -316,6 +368,35 @@ ActiveAdmin.register Depot do
     *I18n.available_locales.map { |l| "invoice_name_#{l}" },
     delivery_cycle_ids: [])
 
+  batch_action :destroy, false
+
+  batch_action :show_in_registration_form, if: proc { authorized?(:update, Depot) && params[:scope].in?([ "all", "hidden" ]) } do |selection|
+    Depot.where(id: selection).update_all(visible: true)
+    redirect_back fallback_location: collection_path
+  end
+
+  batch_action :hide_from_registration_form, if: proc { authorized?(:update, Depot) && params[:scope].in?([ nil, "all", "visible" ]) } do |selection|
+    Depot.where(id: selection).update_all(visible: false)
+    redirect_back fallback_location: collection_path
+  end
+
+  batch_action :show_on_maps, if: proc { authorized?(:update, Depot) && feature?("maps") } do |selection|
+    depots = Depot.where(id: selection)
+    depots_with_coordinates = depots.where.not(latitude: nil).where.not(longitude: nil)
+    depots_with_coordinates.update_all(maps_visible: true)
+
+    if depots_with_coordinates.count < depots.count
+      redirect_back fallback_location: collection_path, alert: t("active_admin.resources.depot.maps_visible_skipped")
+    else
+      redirect_back fallback_location: collection_path
+    end
+  end
+
+  batch_action :hide_from_maps, if: proc { authorized?(:update, Depot) && feature?("maps") } do |selection|
+    Depot.where(id: selection).update_all(maps_visible: false)
+    redirect_back fallback_location: collection_path
+  end
+
   before_build do |depot|
     depot.price ||= 0.0
   end
@@ -326,6 +407,17 @@ ActiveAdmin.register Depot do
 
     def scoped_collection
       super.kept
+    end
+
+    private
+
+    def geocoding_address_for(depot)
+      if params[:depot]
+        attrs = params.fetch(:depot, {}).permit(:street, :zip, :city)
+        depot.geocoding_address(street: attrs[:street], zip: attrs[:zip], city: attrs[:city])
+      else
+        depot.geocoding_address
+      end
     end
   end
 
@@ -338,5 +430,6 @@ ActiveAdmin.register Depot do
   end
 
   config.sort_order = "name_asc"
+  config.batch_actions = true
   config.paginate = false
 end

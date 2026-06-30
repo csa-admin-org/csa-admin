@@ -7,6 +7,9 @@ context.instance_eval do
       collection: Organization.map_styles.map { |style| [ t("maps.styles.#{style}"), style ] },
       include_blank: true,
       prompt: true,
-      hint: t("formtastic.hints.organization.maps_style")
+      hint: t("formtastic.hints.organization.maps_style_html")
+    f.input :member_form_depot_map,
+      as: :boolean,
+      hint: t("formtastic.hints.organization.member_form_depot_map_html")
   end
 end

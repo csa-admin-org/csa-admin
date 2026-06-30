@@ -90,7 +90,7 @@ ActiveAdmin.register Organization do
     :email_default_from, :email_footer,
     *I18n.available_locales.map { |l| "basket_i18n_scope_#{l}" },
     :trial_baskets_count,
-    :maps_style,
+    :maps_style, :member_form_depot_map,
     :iban, :sepa_creditor_identifier, :bank_reference, :creditor_name,
     :creditor_street, :creditor_city, :creditor_zip,
     :annual_fee, :annual_fee_member_form, :annual_fee_support_member_only,

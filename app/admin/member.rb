@@ -48,7 +48,7 @@ ActiveAdmin.register Member do
     label: -> { t("features.local_currency") }
   filter :annual_fee,
     if: proc { feature?("annual_fee") }
-  filter :sepa, as: :boolean, if: ->(a) { Current.org.sepa_configured? }
+  filter :sepa, as: :boolean, if: proc { Current.org.sepa_configured? }
 
   includes :shop_depot, :shop_delivery_cycle, next_basket: [ :basket_size, :depot, :membership, baskets_basket_complements: :basket_complement ]
   index do

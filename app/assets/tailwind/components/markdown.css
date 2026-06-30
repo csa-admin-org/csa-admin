@@ -63,6 +63,10 @@
       tbody tr:last-child td {
         @apply border-b-0;
       }
+
+      td:nth-child(2) code {
+        @apply whitespace-nowrap;
+      }
     }
 
     img {

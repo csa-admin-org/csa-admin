@@ -33,10 +33,13 @@ class Embeds::Maps::DepotsControllerTest < ActionDispatch::IntegrationTest
     get "/embeds/maps/depots"
 
     assert_response :success
-    assert_includes response.body, "maplibre-gl"
+    assert_includes response.body, "maplibre-gl@5"
     assert_includes response.body, "https://tiles.openfreemap.org/styles/positron"
     assert_includes response.body, "cooperativeGestures: true"
     assert_includes response.body, "AttributionControl"
+    assert_includes response.body, "closeOnClick: false"
+    assert_includes response.body, "mouseenter"
+    assert_includes response.body, "click"
     assert_includes response.body, "Our farm"
     assert_not_includes response.body, "Farm gate"
     assert_not_includes response.body, "42 Nowhere"
@@ -52,6 +55,36 @@ class Embeds::Maps::DepotsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_includes response.body, "maplibre-gl"
     assert_includes response.body, "const markerGroups = []"
+  end
+
+  test "shows geolocate and zoom controls by default" do
+    enable_maps
+
+    get "/embeds/maps/depots"
+
+    assert_response :success
+    assert_includes response.body, 'const mapControls = ["geolocate","zoom"]'
+    assert_includes response.body, "new maplibregl.GeolocateControl"
+    assert_includes response.body, "new maplibregl.NavigationControl"
+  end
+
+  test "allows disabling optional map controls" do
+    enable_maps
+
+    get "/embeds/maps/depots", params: { controls: "" }
+
+    assert_response :success
+    assert_includes response.body, "const mapControls = []"
+    assert_includes response.body, "new maplibregl.AttributionControl"
+  end
+
+  test "ignores unknown map controls" do
+    enable_maps
+
+    get "/embeds/maps/depots", params: { controls: "banana,zoom" }
+
+    assert_response :success
+    assert_includes response.body, 'const mapControls = ["zoom"]'
   end
 
   test "uses organization default locale for map controls" do
@@ -164,7 +197,7 @@ class Embeds::Maps::DepotsControllerTest < ActionDispatch::IntegrationTest
     get "/embeds/maps/depots", params: { marker_color: "javascript:alert(1)" }
 
     assert_response :success
-    assert_includes response.body, "const markerColor = \"#2563eb\""
+    assert_includes response.body, "const markerColor = \"#16a34a\""
     assert_not_includes response.body, "javascript:alert"
   end
 

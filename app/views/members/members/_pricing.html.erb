@@ -1,7 +1,7 @@
 <% pricing = MembershipPricing.new(params) %>
 
 <% if pricing.present? || current_member&.salary_basket? %>
-  <div class="sticky bottom-2 mt-16 h-12 w-full">
+  <div class="sticky bottom-2 z-50 mt-16 h-12 w-full">
     <div class="-mx-4 bg-transparent px-4 md:mx-0 md:px-0">
       <div
         class="

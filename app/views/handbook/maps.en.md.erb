@@ -1,0 +1,76 @@
+# Maps
+
+Maps help members and visitors find your depots. CSA Admin can show them in two places:
+
+- in the registration form, to help people choose their depot;
+- on your public website, through an embedded depot map.
+
+Only depots that you explicitly mark as visible on maps are shown. The map data only includes the public depot name and its position. Contact details, notes, prices, and basket quantities are not included.
+
+## Setup checklist {#setup}
+
+1. Enable **Maps** in [the settings](/settings#maps).
+2. Pick a map style in [the maps settings](/settings#maps), if the default one does not suit your website.
+3. For each depot that should appear on a map:
+   - complete the address;
+   - use **Geocode from address** or enter latitude and longitude manually;
+   - check the marker on the depot form;
+   - enable **Visible on maps** only once the position is correct.
+
+Coordinates and map visibility are separate on purpose. A depot can have coordinates without being published on any map.
+
+## Coordinates and geocoding {#geocoding}
+
+On a depot form, **Geocode from address** looks at the address currently entered in the form and suggests coordinates. It fills the latitude and longitude fields, but it does not save the depot by itself.
+
+When coordinates are present, the depot form shows a map. Click the map or drag the marker to fine-tune the position. You can also edit latitude and longitude directly.
+{: #depot-review}
+
+> Always check the marker. Geocoding is a helpful starting point, but it can land on the middle of a building, a street, or a nearby address instead of the exact pickup entrance.
+
+You can also select several depots on [the depots page](<%= depots_path(scope: :visible) %>) and use the batch actions to show or hide them on maps.
+
+## Registration form map {#registration-form-map}
+
+The registration form map is enabled separately in [the maps settings](/settings#maps). Keep it disabled until the depot positions have been checked.
+
+When enabled, the map appears directly above the main depot choices in the registration form. The list remains the official choice: depots without coordinates, home delivery, bike delivery, and other unmapped options still appear in the list and remain selectable.
+
+Use the map as a visual aid:
+
+- clicking a marker selects the matching main depot;
+- hovering a marker shows its depot name and highlights the matching list item, without selecting it or moving the list;
+- selecting or hovering a depot in the list highlights its marker; selecting one may move the map to keep that marker visible;
+- alternative depots, when shown, can highlight on the map, but marker clicks never select alternatives;
+- when shown, the depot text filter filters both the list and the visible markers.
+
+## Public embedded depot map {#public-embed}
+
+Use this if you want to show a depot map on your organization website. The person who manages your website can add this iframe:
+
+    <iframe
+      title="Depot map"
+      src="<%= Current.org.admin_url %>/embeds/maps/depots"
+      loading="lazy"
+      allow="geolocation"
+      referrerpolicy="no-referrer-when-downgrade"></iframe>
+
+The `allow="geolocation"` attribute lets the map's locate button ask for the visitor's position. Without it, browsers disable geolocation inside a cross-origin iframe.
+
+The iframe works on the configured website domain and its subdomains, for example `<%= Current.org.website_origin %>` and `<%= Current.org.website_subdomain_origin %>`. If it needs to work on another domain, contact [me](/support).
+
+### URL parameters {#embed-params}
+
+The embed supports optional URL parameters:
+
+| Parameter | Example | Purpose |
+|-----------|---------|---------|
+| `style` | `?style=bright` | Changes the map style for this iframe. Allowed values: `positron`, `bright`, `liberty`, `dark`, `fiord`. |
+| `marker_color` | `?marker_color=4f8a10` | Changes marker color for this iframe only. Use a 3- or 6-digit hex color, with or without `#`. Defaults to green (`<%= default_depot_marker_color %>`). |
+| `locale` | `?locale=de` | Changes the map interface language. Defaults to the organization's main language. |
+| `controls` | `?controls=geolocate,zoom` | Chooses visible map controls. Defaults to `geolocate,zoom`; use `?controls=` to hide them. |
+| `depot_ids` | `?depot_ids=1,2,3` | Limits the map to specific depot IDs. Hidden depots and depots not visible on maps are still excluded. |
+
+Parameters can be combined:
+
+    <%= Current.org.admin_url %>/embeds/maps/depots?style=bright&marker_color=4f8a10&locale=en

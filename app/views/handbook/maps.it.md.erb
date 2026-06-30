@@ -1,0 +1,76 @@
+# Mappe
+
+Le mappe aiutano i soci e i visitatori a trovare i punti di ritiro. CSA Admin può mostrarle in due luoghi:
+
+- nel modulo di iscrizione, per aiutare le persone a scegliere il punto di ritiro;
+- sul sito web pubblico, tramite una mappa dei punti di ritiro integrata.
+
+Vengono mostrati solo i punti di ritiro che tu rendi esplicitamente visibili sulle mappe. I dati della mappa includono solo il nome pubblico del punto di ritiro e la sua posizione. Contatti, note, prezzi e quantità dei cestini non sono inclusi.
+
+## Configurazione {#setup}
+
+1. Attiva **Mappe** nei [parametri](/settings#maps).
+2. Scegli uno stile di mappa nei [parametri delle mappe](/settings#maps), se quello predefinito non si adatta al tuo sito.
+3. Per ogni punto di ritiro da mostrare su una mappa:
+   - completa l'indirizzo;
+   - usa **Geocodifica dall'indirizzo** o inserisci manualmente latitudine e longitudine;
+   - controlla il marcatore nel modulo del punto di ritiro;
+   - attiva **Visibile sulle mappe** solo quando la posizione è corretta.
+
+Coordinate e visibilità sulle mappe sono separate di proposito. Un punto di ritiro può avere coordinate senza essere pubblicato su una mappa.
+
+## Coordinate e geocodifica {#geocoding}
+
+Nel modulo di un punto di ritiro, **Geocodifica dall'indirizzo** usa l'indirizzo attualmente inserito nel modulo e propone delle coordinate. Latitudine e longitudine vengono compilate, ma il punto di ritiro non viene salvato automaticamente.
+
+Quando le coordinate sono presenti, il modulo del punto di ritiro mostra una mappa. Clicca sulla mappa o trascina il marcatore per regolare la posizione. Puoi anche modificare direttamente latitudine e longitudine.
+{: #depot-review}
+
+> Controlla sempre il marcatore. La geocodifica è un buon punto di partenza, ma può finire al centro di un edificio, su una strada o su un indirizzo vicino invece che sull'entrata esatta del ritiro.
+
+Puoi anche selezionare più punti di ritiro sulla [pagina dei punti di ritiro](<%= depots_path(scope: :visible) %>) e usare le azioni di gruppo per mostrarli o nasconderli sulle mappe.
+
+## Mappa nel modulo di iscrizione {#registration-form-map}
+
+La mappa del modulo di iscrizione si attiva separatamente nei [parametri delle mappe](/settings#maps). Lasciala disattivata finché le posizioni dei punti di ritiro non sono state controllate.
+
+Quando è attiva, appare direttamente sopra la scelta del punto di ritiro principale nel modulo di iscrizione. L'elenco resta la selezione ufficiale: punti senza coordinate, consegna a domicilio, consegna in bicicletta e altre opzioni non mappate restano visibili e selezionabili nell'elenco.
+
+Usa la mappa come aiuto visivo:
+
+- cliccare un marcatore seleziona il punto principale corrispondente;
+- passare con il mouse su un marcatore mostra il nome del punto di ritiro e mette in evidenza la riga corrispondente, senza selezionarla né spostare l'elenco;
+- selezionare o passare con il mouse su un punto nell'elenco mette in evidenza il suo marcatore; quando selezioni un punto, la mappa può spostarsi per mantenere visibile il marcatore;
+- i punti alternativi, quando sono mostrati, possono essere evidenziati sulla mappa, ma cliccare un marcatore non seleziona mai un'alternativa;
+- quando è mostrato, il filtro testo dei punti di ritiro filtra sia l'elenco sia i marcatori visibili.
+
+## Mappa pubblica integrata {#public-embed}
+
+Usa questa opzione per mostrare una mappa dei punti di ritiro sul sito web della tua organizzazione. La persona che gestisce il sito può aggiungere questo iframe:
+
+    <iframe
+      title="Mappa dei punti di ritiro"
+      src="<%= Current.org.admin_url %>/embeds/maps/depots"
+      loading="lazy"
+      allow="geolocation"
+      referrerpolicy="no-referrer-when-downgrade"></iframe>
+
+L'attributo `allow="geolocation"` permette al pulsante di localizzazione della mappa di chiedere la posizione della persona che visita il sito. Senza questo attributo, i browser disattivano la geolocalizzazione in un iframe proveniente da un altro dominio.
+
+L'iframe funziona sul dominio configurato per il sito web e sui suoi sottodomini, per esempio `<%= Current.org.website_origin %>` e `<%= Current.org.website_subdomain_origin %>`. Se deve funzionare su un altro dominio, [contattami](/support).
+
+### Parametri URL {#embed-params}
+
+L'integrazione accetta parametri URL opzionali:
+
+| Parametro | Esempio | Scopo |
+|-----------|---------|-------|
+| `style` | `?style=bright` | Cambia lo stile della mappa per questo iframe. Valori ammessi: `positron`, `bright`, `liberty`, `dark`, `fiord`. |
+| `marker_color` | `?marker_color=4f8a10` | Cambia il colore dei marcatori solo per questo iframe. Usa un colore esadecimale di 3 o 6 caratteri, con o senza `#`. Il colore predefinito è il verde (`<%= default_depot_marker_color %>`). |
+| `locale` | `?locale=de` | Cambia la lingua dell'interfaccia della mappa. Il valore predefinito è la lingua principale dell'organizzazione. |
+| `controls` | `?controls=geolocate,zoom` | Sceglie i controlli visibili sulla mappa. Valore predefinito: `geolocate,zoom`; usa `?controls=` per nasconderli. |
+| `depot_ids` | `?depot_ids=1,2,3` | Limita la mappa ad alcuni ID di punti di ritiro. I punti nascosti o non visibili sulle mappe restano esclusi. |
+
+I parametri possono essere combinati:
+
+    <%= Current.org.admin_url %>/embeds/maps/depots?style=bright&marker_color=4f8a10&locale=it

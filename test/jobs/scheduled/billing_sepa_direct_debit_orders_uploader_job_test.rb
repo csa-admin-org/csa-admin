@@ -21,12 +21,12 @@ class Scheduled::BillingSEPADirectDebitOrdersUploaderJobTest < ActiveJob::TestCa
       source: "admin")
     member.reload
 
-    non_sepa_invoice = create_annual_fee_invoice(member: members(:john))
+    create_annual_fee_invoice(member: members(:john))
 
     closed_sepa_invoice = create_annual_fee_invoice(member: member)
     closed_sepa_invoice.update!(state: "closed")
 
-    unsent_sepa_invoice = create_annual_fee_invoice(member: member)
+    create_annual_fee_invoice(member: member)
 
     recent_sent_sepa_invoice = create_annual_fee_invoice(member: member)
     recent_sent_sepa_invoice.update!(sent_at: 1.day.ago)

@@ -1,0 +1,76 @@
+# Cartes
+
+Les cartes aident les membres et les visiteurs à trouver vos dépôts. CSA Admin peut les afficher à deux endroits :
+
+- dans le formulaire d'inscription, pour aider les personnes à choisir leur dépôt ;
+- sur votre site web public, avec une carte des dépôts intégrée.
+
+Seuls les dépôts que vous marquez explicitement comme visibles sur les cartes sont affichés. Les données de carte contiennent uniquement le nom public du dépôt et sa position. Les contacts, notes, prix et quantités de paniers ne sont pas inclus.
+
+## Liste de configuration {#setup}
+
+1. Activez **Cartes** dans [les paramètres](/settings#maps).
+2. Choisissez un style de carte dans [les paramètres des cartes](/settings#maps), si le style par défaut ne convient pas à votre site.
+3. Pour chaque dépôt à afficher sur une carte :
+   - complétez l'adresse ;
+   - utilisez **Géocoder depuis l'adresse** ou saisissez manuellement la latitude et la longitude ;
+   - contrôlez le marqueur sur le formulaire du dépôt ;
+   - activez **Visible sur les cartes** seulement une fois la position correcte.
+
+Les coordonnées et la visibilité sur les cartes sont séparées volontairement. Un dépôt peut avoir des coordonnées sans être publié sur une carte.
+
+## Coordonnées et géocodage {#geocoding}
+
+Sur le formulaire d'un dépôt, **Géocoder depuis l'adresse** utilise l'adresse actuellement saisie dans le formulaire et propose des coordonnées. La latitude et la longitude sont remplies, mais le dépôt n'est pas enregistré automatiquement.
+
+Quand des coordonnées sont présentes, le formulaire du dépôt affiche une carte. Cliquez sur la carte ou déplacez le marqueur pour ajuster la position. Vous pouvez aussi modifier directement la latitude et la longitude.
+{: #depot-review}
+
+> Vérifiez toujours le marqueur. Le géocodage est un bon point de départ, mais il peut tomber au milieu d'un bâtiment, d'une rue ou d'une adresse proche plutôt que sur l'entrée exacte du lieu de retrait.
+
+Vous pouvez aussi sélectionner plusieurs dépôts sur [la page des dépôts](<%= depots_path(scope: :visible) %>) et utiliser les actions groupées pour les afficher ou les masquer sur les cartes.
+
+## Carte dans le formulaire d'inscription {#registration-form-map}
+
+La carte du formulaire d'inscription s'active séparément dans [les paramètres des cartes](/settings#maps). Gardez-la désactivée tant que les positions des dépôts n'ont pas été vérifiées.
+
+Une fois activée, elle apparaît directement au-dessus des choix de dépôt principal dans le formulaire d'inscription. La liste reste la sélection officielle : les dépôts sans coordonnées, la livraison à domicile, la livraison à vélo et les autres options non cartographiées restent visibles et sélectionnables dans la liste.
+
+Utilisez la carte comme aide visuelle :
+
+- cliquer sur un marqueur sélectionne le dépôt principal correspondant ;
+- survoler un marqueur affiche son nom et met la ligne correspondante en évidence, sans la sélectionner ni déplacer la liste ;
+- sélectionner ou survoler un dépôt dans la liste met son marqueur en évidence ; lors d'une sélection, la carte peut se déplacer pour garder le marqueur visible ;
+- les dépôts alternatifs, lorsqu'ils sont affichés, peuvent être mis en évidence sur la carte, mais cliquer sur un marqueur ne sélectionne jamais une alternative ;
+- lorsqu'il est affiché, le filtre texte des dépôts filtre à la fois la liste et les marqueurs visibles.
+
+## Carte publique intégrée {#public-embed}
+
+Utilisez cette option pour afficher une carte des dépôts sur le site web de votre organisation. La personne qui gère votre site peut ajouter cette iframe :
+
+    <iframe
+      title="Carte des dépôts"
+      src="<%= Current.org.admin_url %>/embeds/maps/depots"
+      loading="lazy"
+      allow="geolocation"
+      referrerpolicy="no-referrer-when-downgrade"></iframe>
+
+L'attribut `allow="geolocation"` permet au bouton de localisation de la carte de demander la position de la personne qui visite le site. Sans lui, les navigateurs désactivent la géolocalisation dans une iframe d'une autre origine.
+
+L'iframe fonctionne sur le domaine configuré pour le site web et ses sous-domaines, par exemple `<%= Current.org.website_origin %>` et `<%= Current.org.website_subdomain_origin %>`. Si elle doit être utilisée sur un autre domaine, contactez-[moi](/support).
+
+### Paramètres URL {#embed-params}
+
+L'intégration accepte quelques paramètres URL optionnels :
+
+| Paramètre | Exemple | Utilité |
+|-----------|---------|---------|
+| `style` | `?style=bright` | Change le style de carte pour cette iframe. Valeurs autorisées : `positron`, `bright`, `liberty`, `dark`, `fiord`. |
+| `marker_color` | `?marker_color=4f8a10` | Change la couleur des marqueurs pour cette iframe uniquement. Utilisez une couleur hexadécimale sur 3 ou 6 caractères, avec ou sans `#`. La couleur par défaut est le vert (`<%= default_depot_marker_color %>`). |
+| `locale` | `?locale=de` | Change la langue de l'interface de la carte. Par défaut : la langue principale de l'organisation. |
+| `controls` | `?controls=geolocate,zoom` | Choisit les contrôles visibles sur la carte. Par défaut : `geolocate,zoom` ; utilisez `?controls=` pour les masquer. |
+| `depot_ids` | `?depot_ids=1,2,3` | Limite la carte à certains IDs de dépôts. Les dépôts cachés ou non visibles sur les cartes restent exclus. |
+
+Les paramètres peuvent être combinés :
+
+    <%= Current.org.admin_url %>/embeds/maps/depots?style=bright&marker_color=4f8a10&locale=fr

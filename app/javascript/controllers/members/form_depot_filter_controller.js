@@ -77,6 +77,8 @@ export default class extends Controller {
     if (this.hasNoResultsTarget) {
       this.noResultsTarget.classList.toggle("hidden", totalVisible > 0)
     }
+
+    this.dispatchChange()
   }
 
   clear() {
@@ -102,6 +104,33 @@ export default class extends Controller {
     if (this.hasNoResultsTarget) {
       this.noResultsTarget.classList.add("hidden")
     }
+
+    this.dispatchChange()
+  }
+
+  dispatchChange() {
+    this.element.dispatchEvent(
+      new CustomEvent("depot-filter:change", {
+        bubbles: true,
+        detail: { visibleDepotIds: this.visibleDepotIds() }
+      })
+    )
+  }
+
+  visibleDepotIds() {
+    const ids = new Set()
+
+    for (const group of this.groupTargets) {
+      const items = group.querySelectorAll("input[data-depot-name]")
+      for (const item of items) {
+        const wrapper = item.closest("span")
+        if (!wrapper || wrapper.style.display !== "none" || item.checked) {
+          ids.add(item.value)
+        }
+      }
+    }
+
+    return Array.from(ids)
   }
 
   highlightContent(item, query) {

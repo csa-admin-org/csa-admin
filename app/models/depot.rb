@@ -21,6 +21,7 @@ class Depot < ApplicationRecord
   include HasPublicName
   include HasVisibility
   include Discardable
+  include Depot::Geocoding
 
   acts_as_list
 
@@ -54,7 +55,7 @@ class Depot < ApplicationRecord
       .distinct
   }
   scope :mapped, -> {
-    kept.visible.where(maps_visible: true).where.not(latitude: nil, longitude: nil)
+    kept.visible.where(maps_visible: true).where.not(latitude: nil).where.not(longitude: nil)
   }
 
   before_validation :set_default_delivery_cycle, on: :create

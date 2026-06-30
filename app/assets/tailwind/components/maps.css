@@ -1,0 +1,102 @@
+@layer components {
+  body.members {
+    .member-depot-map-panel {
+      @apply mt-4 mb-6 space-y-2;
+    }
+
+    .member-depot-picker-sticky {
+      @apply space-y-2;
+    }
+
+    @media (min-width: 48rem) and (min-height: 820px) {
+      .member-depot-picker-sticky {
+        @apply sticky z-40 -mx-4 border-b border-gray-100 bg-white/95 px-4 pt-2 pb-4 backdrop-blur-sm dark:border-gray-800 dark:bg-black/95;
+
+        top: var(--member-form-section-nav-height, 0px);
+      }
+
+      .member-depot-picker-sticky .member-depot-map-panel {
+        @apply mb-0;
+      }
+
+      .member-depot-picker-sticky .member-depot-map {
+        @apply h-56;
+      }
+    }
+
+    @media (min-width: 64rem) and (min-height: 960px) {
+      .member-depot-picker-sticky .member-depot-map {
+        @apply h-64;
+      }
+    }
+
+    .member-depot-map-hint {
+      @apply text-sm text-gray-500 dark:text-gray-400;
+    }
+
+    .member-depot-map {
+      --depot-map-marker-default: var(--color-gray-500);
+      --depot-map-marker-primary: var(--color-green-600);
+      --depot-map-marker-primary-hover: var(--color-green-400);
+      --depot-map-marker-alternative: var(--color-green-300);
+      --depot-map-marker-alternative-hover: var(--color-green-200);
+
+      @apply h-72 w-full overflow-hidden rounded-md border border-gray-200 bg-gray-100 transition-opacity dark:border-gray-700 dark:bg-gray-900;
+    }
+
+    .member-depot-map-panel.disabled .member-depot-map {
+      @apply pointer-events-none opacity-40 grayscale;
+    }
+
+    .member-depot-map .maplibregl-popup {
+      pointer-events: none;
+      z-index: 50;
+    }
+
+    .member-depot-map .maplibregl-popup-content {
+      padding: 0.25rem 0.75rem !important;
+      font-size: 0.875rem !important;
+      line-height: 1.25rem !important;
+    }
+  }
+
+  body.admin {
+    .depot-coordinate-map-panel {
+      @apply mt-4 space-y-3;
+    }
+
+    .panel-body:has(.depot-coordinate-map) {
+      @apply pb-0;
+    }
+
+    .depot-coordinate-map {
+      @apply h-64 w-full overflow-hidden rounded-md border border-gray-200 bg-gray-100 md:h-96 dark:border-gray-700 dark:bg-gray-900;
+    }
+
+    .depot-coordinate-map-panel--show {
+      @apply -mx-2 mt-2 mb-0;
+
+      .depot-coordinate-map {
+        @apply mb-0 h-32 rounded-t-none rounded-b-lg border-0 md:h-48;
+      }
+    }
+
+    .depot-coordinate-map-empty {
+      @apply rounded-md border border-dashed border-gray-300 bg-gray-50 p-4 text-sm text-gray-500 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-400;
+    }
+
+    .depot-coordinate-map-unavailable {
+      @apply rounded-md border border-amber-200 bg-amber-50 p-4 text-sm text-amber-900 dark:border-amber-800 dark:bg-amber-950 dark:text-amber-200;
+    }
+  }
+
+  .maplibregl-marker {
+    cursor: pointer;
+  }
+
+  .maplibregl-ctrl-attrib {
+    opacity: 0.65;
+    border-top-left-radius: 0.35rem;
+    font-size: 0.65rem;
+  }
+}

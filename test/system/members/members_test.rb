@@ -104,6 +104,61 @@ class Members::MembersTest < ApplicationSystemTestCase
     assert_includes mail.body.encoded, "Ryan and Sophie Doe"
   end
 
+  test "membership registration renders depot map when enabled" do
+    org(
+      features: Current.org.features | [ :maps ],
+      member_form_depot_map: true,
+      allow_alternative_depots: true)
+    depots(:farm).update!(visible: true, maps_visible: true, latitude: 46.992979, longitude: 6.931932)
+    depots(:bakery).update!(visible: true, maps_visible: true, latitude: 46.993979, longitude: 6.932932)
+    depots(:home).update!(visible: true, maps_visible: false, latitude: 46.994979, longitude: 6.933932)
+
+    visit "/new"
+
+    map = find("[data-controller~='depot-map']", visible: :all)
+    markers = JSON.parse(map["data-depot-map-markers-value"])
+
+    assert_selector ".member-depot-map", visible: :all
+    assert_equal [ depots(:farm).id, depots(:bakery).id ].sort, markers.map { |marker| marker["id"] }.sort
+    assert_selector "input[type='radio'][data-depot-map-target='primaryInput'][value='#{depots(:farm).id}']", visible: :all
+    assert_selector "input[type='checkbox'][data-depot-map-target='alternativeInput'][value='#{depots(:farm).id}']", visible: :all
+
+    assert_selector ".member-depot-picker-sticky", visible: :all
+    assert_selector ".member-depot-map-panel[data-form-disabler-target='label']", visible: :all
+    assert_selector ".member-depot-picker-boundary > .member-depot-picker-sticky", visible: :all
+    assert_selector ".member-depot-picker-boundary input[type='checkbox'][data-depot-map-target='alternativeInput'][value='#{depots(:farm).id}']", visible: :all
+  end
+
+  test "membership registration does not render depot map unless feature and setting are enabled" do
+    depots(:farm).update!(visible: true, maps_visible: true, latitude: 46.992979, longitude: 6.931932)
+
+    org(features: Current.org.features - [ :maps ], member_form_depot_map: true)
+    visit "/new"
+    assert_no_selector "[data-controller~='depot-map']", visible: :all
+
+    org(features: Current.org.features | [ :maps ], member_form_depot_map: false)
+    visit "/new"
+    assert_no_selector "[data-controller~='depot-map']", visible: :all
+  end
+
+  test "shop-only registration renders depot map when enabled" do
+    org(
+      features: Current.org.features | [ :maps ],
+      member_form_mode: "shop",
+      member_form_depot_map: true,
+      terms_of_service_urls: {})
+    depots(:farm).update!(visible: true, maps_visible: true, latitude: 46.992979, longitude: 6.931932)
+
+    visit "/new"
+
+    map = find("[data-controller~='depot-map']", visible: :all)
+    markers = JSON.parse(map["data-depot-map-markers-value"])
+
+    assert_selector ".member-depot-map", visible: :all
+    assert_equal [ depots(:farm).id ], markers.map { |marker| marker["id"] }
+    assert_selector "input[type='radio'][data-depot-map-target='primaryInput'][value='#{depots(:farm).id}']", visible: :all
+  end
+
   test "put back inactive existing member to pending with membership request" do
     admins(:super).update(notifications: [ "new_registration" ])
     member = members(:mary)
@@ -637,6 +692,8 @@ class Members::MembersTest < ApplicationSystemTestCase
 
     assert_selector "input[data-form-depot-filter-target='input']"
     assert_selector "p[data-form-depot-filter-target='noResults']"
+
+    assert_selector "input[data-form-depot-filter-target='input'][data-form-disabler-target='input']"
 
     depot_radios = all("input[type='radio'][name='member[waiting_depot_id]'][data-depot-name]")
     assert depot_radios.size >= MembersHelper::DEPOT_FILTER_MIN

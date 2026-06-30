@@ -678,11 +678,11 @@ _:
           _it: Coordinata GPS decimale, ad esempio 6.82586.
           _nl: Decimale gps-coördinaat, bijvoorbeeld 6.82586.
         maps_visible:
-          _en: Displays this depot on public maps when its coordinates are set.
-          _fr: Affiche ce dépôt sur les cartes publiques lorsque ses coordonnées sont renseignées.
-          _de: Zeigt dieses Depot auf öffentlichen Karten an, wenn die Koordinaten erfasst sind.
-          _it: Mostra questo punto di ritiro sulle mappe pubbliche quando le coordinate sono impostate.
-          _nl: Toont dit depot op openbare kaarten wanneer de coördinaten zijn ingevuld.
+          _en: Displays this depot on maps when its coordinates are set.
+          _fr: Affiche ce dépôt sur les cartes lorsque ses coordonnées sont renseignées.
+          _de: Zeigt dieses Depot auf Karten an, wenn die Koordinaten erfasst sind.
+          _it: Mostra questo punto di ritiro sulle mappe quando le coordinate sono impostate.
+          _nl: Toont dit depot op kaarten wanneer de coördinaten zijn ingevuld.
         notify_days_before_delivery:
           _en: Number of days before each delivery to send the delivery list. Use 0 to send on the same day of the delivery.
           _fr: Nombre de jours avant chaque livraison pour envoyer la liste de livraison. Utilisez 0 pour envoyer le jour même de la livraison.
@@ -2331,12 +2331,12 @@ _:
           _de: Quadratisches PNG- oder JPEG-Bild, mindestens 512×512 Pixel, max. 400 KB. Idealerweise mit transparentem Hintergrund.
           _it: Immagine PNG o JPEG quadrata, almeno 512×512 pixel, max 400 KB. Idealmente con sfondo trasparente.
           _nl: Vierkante PNG- of JPEG-afbeelding, minstens 512×512 pixels, max 400 KB. Idealiter met transparante achtergrond.
-        maps_style:
-          _en: Default OpenFreeMap style used by public map embeds. The iframe URL can override it with the style parameter.
-          _fr: Style OpenFreeMap utilisé par défaut pour les cartes publiques intégrées. L'URL de l'iframe peut le remplacer avec le paramètre style.
-          _de: Standardmässiger OpenFreeMap-Stil für öffentliche eingebettete Karten. Die iframe-URL kann ihn mit dem Parameter style überschreiben.
-          _it: Stile OpenFreeMap predefinito per le mappe pubbliche incorporate. L'URL dell'iframe può sostituirlo con il parametro style.
-          _nl: Standaard OpenFreeMap-stijl voor openbare ingesloten kaarten. De iframe-URL kan deze overschrijven met de parameter style.
+        maps_style_html:
+          _en: Default map style. Preview styles on <a href="https://openfreemap.org" target="_blank" rel="noopener">openfreemap.org</a>.
+          _fr: Style utilisé par défaut par les cartes. Vous pouvez prévisualiser les styles sur <a href="https://openfreemap.org" target="_blank" rel="noopener">openfreemap.org</a>.
+          _de: Standardmässiger Kartenstil. Stile können auf <a href="https://openfreemap.org" target="_blank" rel="noopener">openfreemap.org</a> geprüft werden.
+          _it: Stile predefinito delle mappe. Potete provare gli stili su <a href="https://openfreemap.org" target="_blank" rel="noopener">openfreemap.org</a>.
+          _nl: Standaard kaartstijl. Stijlen kunnen worden getest op <a href="https://openfreemap.org" target="_blank" rel="noopener">openfreemap.org</a>.
         member_come_from_form_mode:
           _en: Defines the display mode of this field in the registration form.
           _fr: Définis le mode d'affichage de ce champ dans le formulaire d'inscription.
@@ -2397,6 +2397,12 @@ _:
           _de: Bezeichnung, die über den Lieferzyklen im Anmeldeformular angezeigt wird.
           _it: Etichetta visualizzata sopra i cicli di consegna nel modulo di registrazione.
           _nl: Label weergegeven boven leveringscycli op het registratieformulier.
+        member_form_depot_map_html:
+          _en: Shows an interactive depot map on the registration form. Check and fine-tune depot coordinates before enabling it. <a href="/handbook/maps#registration-form-map">Learn more</a>.
+          _fr: Affiche une carte interactive des dépôts sur le formulaire d'inscription. Vérifiez et ajustez les coordonnées des dépôts avant de l'activer. <a href="/handbook/maps#registration-form-map">En savoir plus</a>.
+          _de: Zeigt eine interaktive Depotkarte im Anmeldeformular. Koordinaten der Depots vor der Aktivierung prüfen und feinjustieren. <a href="/handbook/maps#registration-form-map">Mehr erfahren</a>.
+          _it: Mostra una mappa interattiva dei punti di ritiro nel modulo di iscrizione. Controllate e regolate le coordinate prima di attivarla. <a href="/handbook/maps#registration-form-map">Scopri di più</a>.
+          _nl: Toont een interactieve depotkaart op het inschrijfformulier. Controleer en verfijn depotcoördinaten vóór activering. <a href="/handbook/maps#registration-form-map">Meer informatie</a>.
         member_form_extra_text:
           _en: This optional text is inserted after the default generated explanation text.
           _fr: Ce texte optionnel est inséré après le texte d'explication généré par défaut.

@@ -193,6 +193,18 @@ _:
           _de: Löschen
           _it: Cancellare
           _nl: Verwijderen
+        hide_from_maps:
+          _en: Hide from maps
+          _fr: Masquer des cartes
+          _de: Auf Karten ausblenden
+          _it: Nascondere dalle mappe
+          _nl: Verbergen op kaarten
+        hide_from_registration_form:
+          _en: Hide from registration form
+          _fr: Masquer du formulaire d'inscription
+          _de: Im Anmeldeformular ausblenden
+          _it: Nascondere dal modulo di iscrizione
+          _nl: Verbergen op inschrijfformulier
         invoice:
           _en: Invoice
           _fr: Facturer
@@ -229,6 +241,18 @@ _:
           _de: Erneuern
           _it: Rinnovare
           _nl: Vernieuwen
+        show_in_registration_form:
+          _en: Show in registration form
+          _fr: Afficher dans le formulaire d'inscription
+          _de: Im Anmeldeformular anzeigen
+          _it: Mostrare nel modulo di iscrizione
+          _nl: Tonen op inschrijfformulier
+        show_on_maps:
+          _en: Show on maps
+          _fr: Afficher sur les cartes
+          _de: Auf Karten anzeigen
+          _it: Mostrare sulle mappe
+          _nl: Tonen op kaarten
         validate:
           _en: Validate
           _fr: Valider
@@ -448,6 +472,12 @@ _:
           _de: Lieferblätter-Modus
           _it: Modalità schede di consegna
           _nl: Modus leveringsbladen
+        with_map_coordinates:
+          _en: GPS location
+          _fr: Position GPS
+          _de: GPS-Position
+          _it: Posizione GPS
+          _nl: GPS-locatie
       predicates:
         contains:
           _en: Contains
@@ -3287,6 +3317,42 @@ _:
           _it: <strong>Attenzione:</strong> L'anno fiscale corrente (%{year}) è già iniziato e questo ciclo di consegna è utilizzato da %{count} abbonamento/i. La modifica della sua configurazione potrebbe influenzare le loro parti e la fatturazione. <a href="/handbook/billing#price-change">Scopri di più</a> – In caso di dubbio, non esitare a <a href="/support">contattarmi</a>.
           _nl: <strong>Waarschuwing:</strong> Het huidige boekjaar (%{year}) is al begonnen en deze leveringscyclus wordt gebruikt door %{count} lidmaatschap(pen). Het wijzigen van de configuratie kan hun delen en facturering beïnvloeden. <a href="/handbook/billing#price-change">Meer informatie</a> – Bij vragen gerust <a href="/support">contact opnemen</a>.
       depot:
+        geocode:
+          _en: Geocode from address
+          _fr: Géocoder depuis l'adresse
+          _de: Aus Adresse geocodieren
+          _it: Geocodifica dall'indirizzo
+          _nl: Geocode van adres
+        geocoding_failed:
+          _en: No coordinates could be found for this address.
+          _fr: Aucune coordonnée n'a pu être trouvée pour cette adresse.
+          _de: Für diese Adresse konnten keine Koordinaten gefunden werden.
+          _it: Non è stato possibile trovare coordinate per questo indirizzo.
+          _nl: Er konden geen coördinaten worden gevonden voor dit adres.
+        geocoding_unavailable:
+          _en: Complete the depot street, ZIP, and city before geocoding.
+          _fr: Complétez la rue, le code postal et la localité du dépôt avant le géocodage.
+          _de: Strasse, Postleitzahl und Ort des Depots vor dem Geocoding vervollständigen.
+          _it: Completate via, NPA e località del punto di ritiro prima della geocodifica.
+          _nl: Vul straat, postcode en plaats van het depot in vóór geocoding.
+        geocoding_updated:
+          _en: Depot coordinates have been updated.
+          _fr: Les coordonnées du dépôt ont été mises à jour.
+          _de: Die Depotkoordinaten wurden aktualisiert.
+          _it: Le coordinate del punto di ritiro sono state aggiornate.
+          _nl: De depotcoördinaten zijn bijgewerkt.
+        map:
+          _en: Map
+          _fr: Carte
+          _de: Karte
+          _it: Mappa
+          _nl: Kaart
+        maps_visible_skipped:
+          _en: Some selected depots were not shown on maps because they do not have coordinates.
+          _fr: Certains dépôts sélectionnés n'ont pas été affichés sur les cartes car leurs coordonnées sont manquantes.
+          _de: Einige ausgewählte Depots wurden nicht auf Karten angezeigt, weil Koordinaten fehlen.
+          _it: Alcuni punti di ritiro selezionati non sono stati mostrati sulle mappe perché mancano le coordinate.
+          _nl: Sommige geselecteerde depots zijn niet op kaarten getoond omdat coördinaten ontbreken.
         new_model:
           _en: New %{model}
           _fr: Nouveau %{model}
@@ -3549,6 +3615,18 @@ _:
           _de: Konfigurieren
           _it: Configurare
           _nl: Configureren
+        depots_visible_on_maps:
+          _en: Depots shown on maps
+          _fr: Dépôts affichés sur les cartes
+          _de: Auf Karten angezeigte Depots
+          _it: Punti di ritiro mostrati sulle mappe
+          _nl: Depots getoond op kaarten
+        depots_with_map_coordinates:
+          _en: Depots with GPS location
+          _fr: Dépôts avec position GPS
+          _de: Depots mit GPS-Position
+          _it: Punti di ritiro con posizione GPS
+          _nl: Depots met GPS-locatie
         edit_model:
           _en: Settings
           _fr: Paramètres

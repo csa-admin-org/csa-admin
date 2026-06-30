@@ -158,7 +158,12 @@
           label {
             @apply w-full px-4 py-2;
             @apply flex cursor-pointer items-center;
-            @apply rounded-md border border-gray-200 dark:border-gray-700;
+            @apply rounded-md border border-gray-200 transition-colors hover:bg-green-50 dark:border-gray-700 dark:hover:bg-green-950/30;
+
+            &:has(input:focus-visible),
+            &.depot-map-highlight {
+              @apply bg-green-50 dark:bg-green-950/30;
+            }
           }
 
           input {
@@ -244,8 +249,14 @@
 .disabled select,
 .disabled a,
 .disabled .text-sm,
+.disabled .member-depot-map-hint,
 input.string:disabled {
   @apply pointer-events-auto cursor-not-allowed border-gray-200 text-gray-300 dark:border-gray-900 dark:text-gray-600;
+}
+
+.disabled input::placeholder,
+input.string:disabled::placeholder {
+  @apply text-gray-300 dark:text-gray-600;
 }
 
 .disabled a {
@@ -263,5 +274,5 @@ input.string:disabled {
 }
 
 .disabled label {
-  @apply border-gray-100 dark:border-gray-900;
+  @apply border-gray-100 hover:bg-transparent dark:border-gray-900 dark:hover:bg-transparent;
 }

@@ -193,11 +193,11 @@ _:
       _it: Mappe
       _nl: Kaarten
     maps_hint:
-      _en: Allows adding depots to maps that can be easily embedded on your website.
-      _fr: Permet d'ajouter des dépôts à des cartes faciles à intégrer sur votre site web.
-      _de: Ermöglicht das Hinzufügen von Depots zu Karten, die einfach in die Website eingebettet werden können.
-      _it: Permette di aggiungere punti di ritiro a mappe facilmente incorporabili sul vostro sito web.
-      _nl: Maakt het mogelijk depots toe te voegen aan kaarten die eenvoudig op de website kunnen worden ingesloten.
+      _en: Allows showing depots on the registration form and on public embedded maps.
+      _fr: Permet d'afficher les dépôts dans le formulaire d'inscription et sur des cartes publiques intégrées.
+      _de: Ermöglicht die Anzeige von Depots im Anmeldeformular und auf öffentlichen eingebetteten Karten.
+      _it: Permette di mostrare i punti di ritiro nel modulo di iscrizione e su mappe pubbliche incorporate.
+      _nl: Maakt het mogelijk depots te tonen op het inschrijfformulier en op openbare ingesloten kaarten.
     member_information:
       _en: Information Page
       _fr: Page d'information

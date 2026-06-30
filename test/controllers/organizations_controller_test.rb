@@ -15,6 +15,26 @@ class OrganizationsControllerTest < ActionDispatch::IntegrationTest
     get "/sessions/#{session.generate_token_for(:redeem)}"
   end
 
+  def with_geocoding_enabled
+    previous = Rails.application.config.x.geocoding.enabled
+    Rails.application.config.x.geocoding.enabled = true
+    yield
+  ensure
+    Rails.application.config.x.geocoding.enabled = previous
+  end
+
+  def stub_geocoding_results(coordinates, addresses: nil)
+    result = Struct.new(:coordinates).new(coordinates)
+    original = Geocoding::Nominatim.method(:search)
+    Geocoding::Nominatim.define_singleton_method(:search) do |address|
+      addresses << address if addresses
+      [ result ]
+    end
+    yield
+  ensure
+    Geocoding::Nominatim.define_singleton_method(:search, original)
+  end
+
   test "read-only admins can view settings overview without edit links" do
     login admins(:external)
 
@@ -80,32 +100,141 @@ class OrganizationsControllerTest < ActionDispatch::IntegrationTest
     assert_equal expected_optional_ids, actual_optional_ids
   end
 
-  test "restricted settings are hidden from disabled features until activated" do
+  test "maps settings are listed as optional until activated" do
     login admins(:ultra)
 
     get organization_path
 
     assert_response :success
-    assert_select "#disabled-features #maps", false
+    assert_select "#disabled-features #maps"
+    assert_select "#disabled-features #maps a[href='#{edit_organization_path(:maps, activate: true)}']"
 
     org(features: Current.org.features | [ :maps ])
+    depots(:farm).update_columns(visible: true, maps_visible: true, latitude: 46.992979, longitude: 6.931932)
+    depots(:bakery).update_columns(visible: false, maps_visible: true, latitude: 46.993979, longitude: 6.932932)
+
     get organization_path
 
     assert_response :success
     assert_select "#maps .panel-title", text: I18n.t("features.maps", locale: admins(:ultra).language)
+    assert_select "#maps tr[data-row='maps_style'] td", text: I18n.t("maps.styles.positron", locale: admins(:ultra).language)
+    assert_select "#maps tr[data-row='member_form_depot_map'] [data-status='no']"
+
+    maps_links = css_select("#maps a")
+    coordinates_link = maps_links.find { |link|
+      link["href"]&.include?("with_map_coordinates") && !link["href"].include?("maps_visible_eq")
+    }
+    mapped_link = maps_links.find { |link|
+      link["href"]&.include?("with_map_coordinates") && link["href"].include?("maps_visible_eq")
+    }
+    assert_equal "2", coordinates_link&.text&.squish
+    assert_equal "1", mapped_link&.text&.squish
+    assert_includes mapped_link["href"], "scope=visible"
     assert_select "#disabled-features #maps", false
+  end
+
+  test "maps settings can enable registration depot map" do
+    org(features: Current.org.features | [ :maps ])
+    login admins(:super)
+
+    patch organization_path, params: {
+      section: "maps",
+      organization: {
+        features: Current.org.features.map(&:to_s),
+        maps_style: "dark",
+        member_form_depot_map: "1"
+      }
+    }
+
+    assert_redirected_to organization_path(anchor: "maps")
+    assert_equal "dark", Current.org.reload.maps_style
+    assert Current.org.member_form_depot_map?
+  end
+
+  test "enabled maps feature shows depot map filters" do
+    org(features: Current.org.features | [ :maps ])
+    login admins(:super)
+
+    get depots_path
+
+    assert_response :success
+    assert_includes @response.body, Depot.human_attribute_name(:maps_visible)
+    assert_includes @response.body, I18n.t("active_admin.filters.labels.with_map_coordinates", locale: admins(:super).language)
   end
 
   test "enabled maps feature shows decimal depot coordinates to regular admins" do
     org(features: Current.org.features | [ :maps ])
+    depot = depots(:farm)
+    depot.update_columns(latitude: 46.995174, longitude: 6.924219)
     login admins(:super)
 
-    get edit_depot_path(depots(:farm))
+    get edit_depot_path(depot)
 
     assert_response :success
     assert_select "#depot_maps_visible"
-    assert_select "#depot_latitude"
-    assert_select "#depot_longitude"
+    assert_select "#depot_latitude[step='any'][inputmode='decimal']"
+    assert_select "#depot_longitude[step='any'][inputmode='decimal']"
+    assert_select ".depot-coordinate-map-panel[data-controller='depot-coordinate-map']"
+    assert_select ".depot-coordinate-map.hidden", false
+    assert_select "[data-depot-coordinate-map-target='hint']", text: I18n.t("maps.admin_depot_map.hint", locale: admins(:super).language)
+    assert_select ".depot-coordinate-map-unavailable.hidden", text: I18n.t("maps.admin_depot_map.unavailable", locale: admins(:super).language)
+    assert_select "button[type='button'][data-action='depot-coordinate-map#geocode'][data-depot-coordinate-map-target='geocodeButton']", text: I18n.t("active_admin.resources.depot.geocode", locale: admins(:super).language)
+    assert_select "a[href='#{geocode_depot_path(depot)}']", false
+  end
+
+  test "manual depot geocoding is only available when maps are enabled" do
+    org(features: Current.org.features - [ :maps ])
+    login admins(:super)
+
+    post geocode_depot_path(depots(:farm))
+
+    assert_response :not_found
+  end
+
+  test "manual depot geocoding updates coordinates immediately" do
+    org(features: Current.org.features | [ :maps ])
+    depot = depots(:farm)
+    depot.update_columns(latitude: nil, longitude: nil)
+    login admins(:super)
+
+    with_geocoding_enabled do
+      stub_geocoding_results([ 47.103928, 6.832534 ]) do
+        post geocode_depot_path(depot)
+      end
+    end
+
+    assert_redirected_to edit_depot_path(depot)
+    assert_in_delta 47.103928, depot.reload.latitude.to_f
+    assert_in_delta 6.832534, depot.longitude.to_f
+  end
+
+  test "inline depot geocoding uses current form address without saving" do
+    org(features: Current.org.features | [ :maps ])
+    depot = depots(:farm)
+    depot.update_columns(latitude: nil, longitude: nil, street: "Old street", zip: "1000", city: "Old city")
+    addresses = []
+    login admins(:super)
+
+    with_geocoding_enabled do
+      stub_geocoding_results([ 46.995174, 6.924219 ], addresses: addresses) do
+        post geocode_depot_path(depot, format: :json), params: {
+          depot: {
+            street: "Route des Falaises 1",
+            zip: "2000",
+            city: "Neuchâtel"
+          }
+        }, as: :json
+      end
+    end
+
+    assert_response :success
+    payload = response.parsed_body
+    assert_in_delta 46.995174, payload["latitude"]
+    assert_in_delta 6.924219, payload["longitude"]
+    assert_match(/Route des Falaises 1, 2000 Neuchâtel/, addresses.first)
+    assert_nil depot.reload.latitude
+    assert_nil depot.longitude
+    assert_equal "Old street", depot.street
   end
 
   test "activity settings title uses generic feature name until activated" do

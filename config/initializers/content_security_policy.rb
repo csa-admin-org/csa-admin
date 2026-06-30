@@ -18,6 +18,6 @@ Rails.application.configure do
     policy.style_src   :self, :https, :unsafe_inline
     policy.frame_src   :self, "*.youtube.com", "*.vimeo.com"
     policy.worker_src  :self, :blob
-    policy.connect_src :self, cap_api_url, "https://appsignal-endpoint.net", "https://csa-admin-storage.ffdfd84ded457e75852ca37f08621d87.r2.cloudflarestorage.com"
+    policy.connect_src :self, cap_api_url, "https://appsignal-endpoint.net", "https://csa-admin-storage.ffdfd84ded457e75852ca37f08621d87.r2.cloudflarestorage.com", "https://tiles.openfreemap.org"
   end
 end

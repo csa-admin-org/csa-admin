@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require "ipaddr"
 require "public_suffix"
 
 class Organization < ApplicationRecord
@@ -21,9 +22,7 @@ class Organization < ApplicationRecord
     vat
     waiting_list
   ]
-  RESTRICTED_FEATURES = %i[
-    maps
-  ]
+  RESTRICTED_FEATURES = %i[]
   FEATURE_FLAGS = %i[]
   LANGUAGES = %w[fr de it nl en]
   MEMBER_FORM_MODES = %w[membership shop]
@@ -221,7 +220,50 @@ class Organization < ApplicationRecord
     ].map { |url| URI.parse(url).host }
   end
 
+  def website_origins
+    [ website_origin, website_subdomain_origin ].compact.uniq
+  end
+
+  def website_origin
+    uri = URI.parse(url)
+    return unless uri.scheme.in?(%w[http https]) && uri.host
+
+    [ uri.scheme, "://", uri.host, website_origin_port(uri) ].join
+  rescue URI::InvalidURIError, TypeError
+    nil
+  end
+
+  def website_subdomain_origin
+    uri = URI.parse(url)
+    domain = website_domain(uri.host)
+    return unless uri.scheme.in?(%w[http https]) && domain
+
+    [ uri.scheme, "://*.", domain, website_origin_port(uri) ].join
+  rescue URI::InvalidURIError, PublicSuffix::Error, TypeError
+    nil
+  end
+
   private
+
+  def website_domain(host)
+    return if ip_address?(host)
+
+    PublicSuffix.parse(host).domain
+  end
+
+  def ip_address?(host)
+    IPAddr.new(host)
+    true
+  rescue IPAddr::InvalidAddressError
+    false
+  end
+
+  def website_origin_port(uri)
+    return if uri.scheme == "http" && uri.port == 80
+    return if uri.scheme == "https" && uri.port == 443
+
+    ":#{uri.port}"
+  end
 
   def only_one_organization
     return if Organization.count.zero?

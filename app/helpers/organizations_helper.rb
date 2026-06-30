@@ -10,7 +10,8 @@ module OrganizationsHelper
   end
 
   def feature?(feature)
-    return if feature.to_sym.in?(Organization.restricted_features) && !current_admin.ultra?
+    admin = current_admin if respond_to?(:current_admin)
+    return if admin && feature.to_sym.in?(Organization.restricted_features) && !admin.ultra?
 
     Current.org.feature?(feature)
   end

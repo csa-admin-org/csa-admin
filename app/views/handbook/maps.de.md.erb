@@ -1,0 +1,76 @@
+# Karten
+
+Karten helfen Mitgliedern und Besucherinnen, Deine Depots zu finden. CSA Admin kann sie an zwei Orten anzeigen:
+
+- im Anmeldeformular, damit Personen ihr Depot leichter auswählen können;
+- auf Deiner öffentlichen Website, als eingebettete Depotkarte.
+
+Nur Depots, die Du ausdrücklich als sichtbar auf Karten markierst, werden angezeigt. Die Kartendaten enthalten nur den öffentlichen Depotnamen und die Position. Kontaktangaben, Notizen, Preise und Korbmengen sind nicht enthalten.
+
+## Einrichtung {#setup}
+
+1. Aktiviere **Karten** in [den Einstellungen](/settings#maps).
+2. Wähle in [den Karteneinstellungen](/settings#maps) einen Kartenstil, falls der Standardstil nicht zu Deiner Website passt.
+3. Für jedes Depot, das auf einer Karte erscheinen soll:
+   - Adresse vervollständigen;
+   - **Aus Adresse geocodieren** verwenden oder Breiten- und Längengrad manuell eintragen;
+   - Marker im Depotformular prüfen;
+   - **Auf Karten sichtbar** erst aktivieren, wenn die Position stimmt.
+
+Koordinaten und Karten-Sichtbarkeit sind bewusst getrennt. Ein Depot kann Koordinaten haben, ohne auf einer Karte veröffentlicht zu werden.
+
+## Koordinaten und Geocoding {#geocoding}
+
+Im Depotformular verwendet **Aus Adresse geocodieren** die aktuell im Formular eingetragene Adresse und schlägt Koordinaten vor. Breiten- und Längengrad werden ausgefüllt, aber das Depot wird nicht automatisch gespeichert.
+
+Wenn Koordinaten vorhanden sind, zeigt das Depotformular eine Karte. Klicke auf die Karte oder ziehe den Marker, um die Position anzupassen. Du kannst Breiten- und Längengrad auch direkt bearbeiten.
+{: #depot-review}
+
+> Kontrolliere den Marker immer. Geocoding ist ein guter Startpunkt, kann aber in der Mitte eines Gebäudes, auf einer Strasse oder bei einer nahen Adresse landen statt genau beim Eingang des Abholorts.
+
+Du kannst auch auf [der Depotseite](<%= depots_path(scope: :visible) %>) mehrere Depots auswählen und sie über die Stapelaktionen auf Karten anzeigen oder ausblenden.
+
+## Karte im Anmeldeformular {#registration-form-map}
+
+Die Karte im Anmeldeformular wird separat in [den Karteneinstellungen](/settings#maps) aktiviert. Lass sie deaktiviert, bis die Depotpositionen geprüft sind.
+
+Wenn sie aktiv ist, erscheint sie direkt über der Auswahl des Hauptdepots im Anmeldeformular. Die Liste bleibt die verbindliche Auswahl: Depots ohne Koordinaten, Hauslieferung, Velolieferung und andere nicht kartierte Optionen bleiben in der Liste sichtbar und auswählbar.
+
+Nutze die Karte als visuelle Hilfe:
+
+- Klick auf einen Marker wählt das passende Hauptdepot;
+- wenn Du den Mauszeiger über einen Marker bewegst, wird der Depotname angezeigt und der passende Listeneintrag hervorgehoben, ohne ihn auszuwählen oder die Liste zu verschieben;
+- wenn Du ein Depot in der Liste auswählst oder den Mauszeiger darüber bewegst, wird der Marker hervorgehoben; bei einer Auswahl kann sich die Karte bewegen, damit der Marker sichtbar bleibt;
+- alternative Depots können, wenn sie angezeigt werden, auf der Karte hervorgehoben werden, aber Klick auf einen Marker wählt nie eine Alternative;
+- wenn er angezeigt wird, filtert der Textfilter der Depots die Liste und die sichtbaren Marker.
+
+## Öffentliche eingebettete Depotkarte {#public-embed}
+
+Verwende diese Option, wenn Du eine Depotkarte auf der Website Deiner Organisation anzeigen möchtest. Die Person, die die Website betreut, kann dieses iframe-Element einfügen:
+
+    <iframe
+      title="Depotkarte"
+      src="<%= Current.org.admin_url %>/embeds/maps/depots"
+      loading="lazy"
+      allow="geolocation"
+      referrerpolicy="no-referrer-when-downgrade"></iframe>
+
+Das Attribut `allow="geolocation"` erlaubt dem Standort-Button der Karte, nach der Position der besuchenden Person zu fragen. Ohne dieses Attribut deaktivieren Browser die Geolokalisierung in einem iframe von einer anderen Domain.
+
+Das iframe-Element funktioniert auf der für die Website hinterlegten Domain und ihren Subdomains, zum Beispiel `<%= Current.org.website_origin %>` und `<%= Current.org.website_subdomain_origin %>`. Wenn es auf einer anderen Domain funktionieren soll, melde Dich [bei mir](/support).
+
+### URL-Parameter {#embed-params}
+
+Die Einbettung akzeptiert optionale URL-Parameter:
+
+| Parameter | Beispiel | Zweck |
+|-----------|----------|-------|
+| `style` | `?style=bright` | Ändert den Kartenstil für dieses iframe-Element. Erlaubte Werte: `positron`, `bright`, `liberty`, `dark`, `fiord`. |
+| `marker_color` | `?marker_color=4f8a10` | Ändert die Markerfarbe nur für dieses iframe-Element. Verwende eine 3- oder 6-stellige Hexfarbe, mit oder ohne `#`. Standard ist Grün (`<%= default_depot_marker_color %>`). |
+| `locale` | `?locale=de` | Ändert die Sprache der Kartenoberfläche. Standard ist die Hauptsprache der Organisation. |
+| `controls` | `?controls=geolocate,zoom` | Wählt die sichtbaren Karten-Steuerelemente. Standard: `geolocate,zoom`; mit `?controls=` werden sie ausgeblendet. |
+| `depot_ids` | `?depot_ids=1,2,3` | Beschränkt die Karte auf bestimmte Depot-IDs. Versteckte Depots und Depots, die nicht auf Karten sichtbar sind, bleiben ausgeschlossen. |
+
+Parameter können kombiniert werden:
+
+    <%= Current.org.admin_url %>/embeds/maps/depots?style=bright&marker_color=4f8a10&locale=de

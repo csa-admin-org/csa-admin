@@ -62,6 +62,64 @@ class MembersHelperTest < ActionView::TestCase
     assert_not_equal farm.full_address, depot_details(farm)
   end
 
+  test "depot map location uses coordinates when present" do
+    farm = depots(:farm)
+    farm.latitude = 46.5191
+    farm.longitude = 6.5668
+
+    assert_equal "46.5191,6.5668", depot_map_location(farm)
+    assert_equal "https://www.google.com/maps?q=46.5191,6.5668", depot_google_maps_url(depot_map_location(farm))
+  end
+
+  test "depot map location falls back to address" do
+    farm = depots(:farm)
+
+    assert_equal "42 Nowhere, 1234 Unknown", depot_map_location(farm)
+  end
+
+  test "depot map icon location falls back to address when maps feature is off" do
+    org(features: Current.org.features - [ :maps ])
+    farm = depots(:farm)
+
+    assert_equal "42 Nowhere, 1234 Unknown", depot_map_icon_location(farm)
+  end
+
+  test "depot map icon location uses coordinates for mapped depots when maps feature is on" do
+    org(features: Current.org.features | [ :maps ])
+    farm = depots(:farm)
+    farm.maps_visible = true
+    farm.latitude = 46.5191
+    farm.longitude = 6.5668
+
+    assert_equal "46.5191,6.5668", depot_map_icon_location(farm)
+  end
+
+  test "depot map icon location does not fall back to address for hidden map depots" do
+    org(features: Current.org.features | [ :maps ])
+    farm = depots(:farm)
+    farm.maps_visible = false
+    farm.latitude = 46.5191
+    farm.longitude = 6.5668
+
+    assert_nil depot_map_icon_location(farm)
+  end
+
+  test "depot map icon location does not fall back to address for mapped depots without coordinates" do
+    org(features: Current.org.features | [ :maps ])
+    farm = depots(:farm)
+    farm.maps_visible = true
+
+    assert_nil depot_map_icon_location(farm)
+  end
+
+  test "depot map title stays human-readable when coordinates are present" do
+    farm = depots(:farm)
+    farm.latitude = 46.5191
+    farm.longitude = 6.5668
+
+    assert_equal "42 Nowhere, 1234 Unknown", depot_map_title(farm)
+  end
+
   test "display_member_city_with_zip shows city and zip" do
     assert_equal "Lausanne (1000)", display_member_city_with_zip(member_address("Lausanne", "1000"))
   end

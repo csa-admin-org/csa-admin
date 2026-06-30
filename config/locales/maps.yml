@@ -1,5 +1,36 @@
 _:
   maps:
+    admin_depot_map:
+      empty:
+        _en: The map appears once coordinates are set. Enter coordinates manually or geocode the saved address.
+        _fr: La carte s'affiche dès que les coordonnées sont renseignées. Saisissez-les manuellement ou géocodez l'adresse enregistrée.
+        _de: Die Karte wird angezeigt, sobald Koordinaten vorhanden sind. Koordinaten manuell erfassen oder die gespeicherte Adresse geocodieren.
+        _it: La mappa appare quando le coordinate sono impostate. Inseritele manualmente o geocodificate l'indirizzo salvato.
+        _nl: De kaart verschijnt zodra coördinaten zijn ingevuld. Voer ze handmatig in of geocode het opgeslagen adres.
+      geocode_hint:
+        _en: Uses the address currently entered above.
+        _fr: Utilise l'adresse actuellement saisie ci-dessus.
+        _de: Verwendet die oben aktuell erfasste Adresse.
+        _it: Usa l'indirizzo attualmente inserito qui sopra.
+        _nl: Gebruikt het hierboven ingevulde adres.
+      geocoding:
+        _en: Geocoding address…
+        _fr: Géocodage de l'adresse…
+        _de: Adresse wird geocodiert …
+        _it: Geocodifica dell'indirizzo…
+        _nl: Adres geocoderen…
+      hint:
+        _en: Click the map or drag the marker to fine-tune the saved latitude and longitude.
+        _fr: Cliquez sur la carte ou déplacez le marqueur pour ajuster finement la latitude et la longitude enregistrées.
+        _de: Auf die Karte klicken oder den Marker ziehen, um den gespeicherten Breiten- und Längengrad feinzujustieren.
+        _it: Cliccate sulla mappa o trascinate il marcatore per regolare con precisione latitudine e longitudine salvate.
+        _nl: Klik op de kaart of versleep de marker om de opgeslagen breedte- en lengtegraad nauwkeurig af te stellen.
+      unavailable:
+        _en: The map could not be loaded. The coordinates can still be edited manually.
+        _fr: La carte n'a pas pu être chargée. Les coordonnées peuvent toujours être modifiées manuellement.
+        _de: Die Karte konnte nicht geladen werden. Die Koordinaten können weiterhin manuell bearbeitet werden.
+        _it: La mappa non può essere caricata. Le coordinate possono comunque essere modificate manualmente.
+        _nl: De kaart kon niet worden geladen. De coördinaten kunnen nog steeds handmatig worden bewerkt.
     maplibre:
       cooperative_gestures:
         mac_help_text:
@@ -20,19 +51,32 @@ _:
           _de: Mit Strg + Scrollen die Karte zoomen
           _it: Usate Ctrl + scorrimento per ingrandire la mappa
           _nl: Ctrl + scrollen gebruiken om op de kaart in te zoomen
+    registration_depot_map:
+      hint:
+        _en: Use the map to locate a depot quickly. The list below remains the official selection.
+        _fr: Utilisez la carte pour repérer rapidement un dépôt. La liste ci-dessous reste la sélection officielle.
+        _de: Nutze die Karte, um ein Depot schnell zu finden. Die Liste darunter bleibt die verbindliche Auswahl.
+        _it: Usa la mappa per individuare rapidamente un punto di ritiro. L'elenco qui sotto resta la selezione ufficiale.
+        _nl: Gebruik de kaart om snel een depot te vinden. De lijst hieronder blijft de officiële selectie.
+      title:
+        _en: Depot map
+        _fr: Carte des dépôts
+        _de: Depotkarte
+        _it: Mappa dei punti di ritiro
+        _nl: Depotkaart
     styles:
       bright:
         _en: Bright
-        _fr: Clair
-        _de: Hell
-        _it: Chiaro
-        _nl: Licht
+        _fr: Bright
+        _de: Bright
+        _it: Bright
+        _nl: Bright
       dark:
         _en: Dark
-        _fr: Sombre
-        _de: Dunkel
-        _it: Scuro
-        _nl: Donker
+        _fr: Dark
+        _de: Dark
+        _it: Dark
+        _nl: Dark
       fiord:
         _en: Fiord
         _fr: Fiord
