@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ebicsRequest xmlns="urn:org:ebics:H005" xmlns:ds="http://www.w3.org/2000/09/xmldsig#" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:org:ebics:H005 ebics_request_H005.xsd" Version="H005" Revision="1">
+  <header authenticate="true">
+    <static>
+      <HostID>RAIFCHEC</HostID>
+      <Nonce>0123456789abcdef0123456789abcdef</Nonce>
+      <Timestamp>2026-07-01T12:00:00Z</Timestamp>
+      <PartnerID>PARTNERID</PartnerID>
+      <UserID>USERID</UserID>
+      <Product Language="en">CSA Admin</Product>
+      <OrderDetails>
+        <AdminOrderType>BTD</AdminOrderType>
+        <BTDOrderParams>
+          <Service>
+            <ServiceName>REP</ServiceName>
+            <Scope>CH</Scope>
+            <Container containerType="ZIP"/>
+            <MsgName version="04">camt.054</MsgName>
+          </Service>
+          <DateRange>
+            <Start>2026-06-01</Start>
+            <End>2026-06-30</End>
+          </DateRange>
+        </BTDOrderParams>
+      </OrderDetails>
+      <BankPubKeyDigests>
+        <Authentication Version="X002" Algorithm="http://www.w3.org/2001/04/xmlenc#sha256">BANK-X-DIGEST</Authentication>
+        <Encryption Version="E002" Algorithm="http://www.w3.org/2001/04/xmlenc#sha256">BANK-E-DIGEST</Encryption>
+      </BankPubKeyDigests>
+      <SecurityMedium>0000</SecurityMedium>
+    </static>
+    <mutable>
+      <TransactionPhase>Initialisation</TransactionPhase>
+    </mutable>
+  </header>
+  <AuthSignature>
+    <ds:SignedInfo>
+      <ds:CanonicalizationMethod Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315"/>
+      <ds:SignatureMethod Algorithm="http://www.w3.org/2001/04/xmldsig-more#rsa-sha256"/>
+      <ds:Reference URI="#xpointer(//*[@authenticate='true'])">
+        <ds:Transforms>
+          <ds:Transform Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315"/>
+        </ds:Transforms>
+        <ds:DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"/>
+        <ds:DigestValue>DIGEST</ds:DigestValue>
+      </ds:Reference>
+    </ds:SignedInfo>
+    <ds:SignatureValue>SIGNATURE</ds:SignatureValue>
+  </AuthSignature>
+  <body/>
+</ebicsRequest>

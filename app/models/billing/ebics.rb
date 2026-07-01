@@ -34,17 +34,20 @@ module Billing
     end
 
     def sepa_direct_debit_upload(document)
-      ebics_client.upload(operation_config.sepa_direct_debit_upload, document: document)
+      operation = operation_config.sepa_direct_debit_upload
+      ebics_client(operation).upload(operation, document: document)
     end
 
     def client
-      ebics_client.client
+      (@ebics_client || legacy_client).client
     end
 
     private
       def get_camt_files
-        ebics_client.download(
-          operation_config.payment_download(country_code: Current.org.country_code),
+        operation = operation_config.payment_download(country_code: Current.org.country_code)
+
+        ebics_client(operation).download(
+          operation,
           from: GET_PAYMENTS_FROM.to_date.to_s,
           to: Date.current.to_s)
       rescue NoDownloadDataAvailable => e
@@ -55,8 +58,19 @@ module Billing
         raise MaintenanceError, "EBICS technical error occurred"
       end
 
-      def ebics_client
-        @ebics_client ||= LegacyClient.new(credentials)
+      def ebics_client(operation)
+        return @ebics_client if @ebics_client
+        return btf_client if operation.btf?
+
+        legacy_client
+      end
+
+      def legacy_client
+        @legacy_client ||= LegacyClient.new(credentials)
+      end
+
+      def btf_client
+        @btf_client ||= BtfClient.new(credentials, legacy_client: legacy_client)
       end
 
       def notify(name, error)

@@ -78,6 +78,24 @@ class Billing::EBICSTest < ActiveSupport::TestCase
     assert_equal [ [ :CDD, [ "document" ] ] ], client.calls
   end
 
+  test "explicit BTF settings use the dormant H005 payment download path" do
+    org(country_code: "CH")
+    settings = {
+      "downloads" => {
+        "payments" => {
+          "mode" => "btf",
+          "btf" => Billing::EBICS::Btf::Presets.swiss_camt054
+        }
+      }
+    }
+
+    error = assert_raises(Billing::EBICS::UnsupportedOperation) do
+      Billing::EBICS.new(credentials, settings: settings).payments_data
+    end
+
+    assert_includes error.message, "not connected to transfer/receipt handling yet"
+  end
+
   test "returns no payments and notifies when no EBICS download data is available" do
     event = EventRecorder.new
     client = EBICSClientStub.new(z54: ::Epics::Error::BusinessError.new("090005"))
