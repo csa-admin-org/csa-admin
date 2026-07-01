@@ -129,6 +129,22 @@ class BankConnectionTest < ActiveSupport::TestCase
     assert_instance_of Billing::EBICSMock, connection.adapter
   end
 
+  test "passes EBICS settings to provider adapter" do
+    connection = BankConnection.new(
+      provider: "ebics",
+      credentials: ebics_credentials,
+      settings: {
+        "downloads" => {
+          "payments" => {
+            "mode" => "order_type",
+            "order_type" => "C54"
+          }
+        }
+      })
+
+    assert_equal "C54", connection.adapter.operation_config.payment_download.order_type
+  end
+
   test "keeps active scope separate from lifecycle state" do
     connection = BankConnection.create!(
       provider: "mock",

@@ -28,6 +28,29 @@ class Organization::BillingTest < ActiveSupport::TestCase
     assert_instance_of Billing::EBICSMock, Current.org.bank_connection
   end
 
+  test "bank_connection keeps legacy EBICS settings separate from active bank connection" do
+    BankConnection.delete_all
+    BankConnection.create!(
+      provider: "ebics",
+      active: true,
+      state: "ready",
+      credentials: ebics_credentials,
+      settings: {
+        "downloads" => {
+          "payments" => {
+            "mode" => "order_type",
+            "order_type" => "C54"
+          }
+        }
+      })
+    org(
+      country_code: "CH",
+      bank_connection_type: "ebics",
+      bank_credentials: ebics_credentials)
+
+    assert_equal "Z54", Current.org.bank_connection.operation_config.payment_download(country_code: "CH").order_type
+  end
+
   test "fiscal_years returns an array of fiscal years" do
     fiscal_years = Current.org.fiscal_years
 
@@ -75,5 +98,18 @@ class Organization::BillingTest < ActiveSupport::TestCase
     assert_equal [ current_year ], only_nils
     assert_equal current_year, only_nils.min
     assert_equal current_year, only_nils.max
+  end
+
+  private
+
+  def ebics_credentials
+    {
+      "keys" => "keys",
+      "secret" => "secret",
+      "url" => "https://ebics.example.test",
+      "host_id" => "HOSTID",
+      "participant_id" => "PARTICIPANTID",
+      "client_id" => "CLIENTID"
+    }
   end
 end

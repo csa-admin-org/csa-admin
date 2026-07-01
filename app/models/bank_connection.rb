@@ -34,7 +34,7 @@ class BankConnection < ApplicationRecord
   def adapter
     case provider
     when "ebics"
-      Billing::EBICS.new(credentials)
+      Billing::EBICS.new(credentials, settings: settings)
     when "bas"
       Billing::BAS.new(credentials)
     when "bunq"
@@ -78,27 +78,7 @@ class BankConnection < ApplicationRecord
     required_keys = %w[keys secret url host_id participant_id client_id]
     return {} unless required_keys.all? { |key| credentials[key].present? }
 
-    require "epics"
-    client = Epics::Client.new(
-      credentials.fetch("keys"),
-      credentials.fetch("secret"),
-      credentials.fetch("url"),
-      credentials.fetch("host_id"),
-      credentials.fetch("participant_id"),
-      credentials.fetch("client_id"))
-
-    key_bits = client.keys.transform_values { |key| key.key.n.to_i.bit_length }
-    participant_keys = key_bits.reject { |name, _bits| name.include?(".") }
-    bank_keys = key_bits.select { |name, _bits| name.include?(".") }
-
-    {
-      "key_names" => key_bits.keys.sort,
-      "key_bits" => key_bits.sort.to_h,
-      "participant_key_min_bits" => participant_keys.values.min,
-      "bank_key_min_bits" => bank_keys.values.min,
-      "participant_key_versions" => participant_keys.keys.sort,
-      "bank_key_versions" => bank_keys.keys.sort
-    }
+    Billing::EBICS::LegacyClient.new(credentials).key_summary
   rescue => e
     {
       "error" => {

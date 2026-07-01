@@ -22,6 +22,26 @@ class Billing::EBICSTest < ActiveSupport::TestCase
     ], args
   end
 
+  test "client initialization does not require current organization" do
+    client = EBICSClientStub.new
+
+    with_current_org_error do
+      with_epics_client(client) do
+        assert_same client, Billing::EBICS.new(credentials).client
+      end
+    end
+  end
+
+  test "SEPA direct debit upload does not require current organization" do
+    client = EBICSClientStub.new(cdd: "order-id")
+
+    with_current_org_error do
+      with_epics_client(client) do
+        assert_equal "order-id", Billing::EBICS.new(credentials).sepa_direct_debit_upload("document")
+      end
+    end
+  end
+
   test "downloads Swiss payments with legacy Z54 order type" do
     org(country_code: "CH")
     client = EBICSClientStub.new(z54: [ file_fixture("camt054.xml") ])
@@ -123,6 +143,14 @@ class Billing::EBICSTest < ActiveSupport::TestCase
     yield
   ensure
     Rails.define_singleton_method(:event, original)
+  end
+
+  def with_current_org_error
+    original = Current.method(:org)
+    Current.define_singleton_method(:org) { raise "Current.org should not be used" }
+    yield
+  ensure
+    Current.define_singleton_method(:org, original)
   end
 
   class EBICSClientStub
