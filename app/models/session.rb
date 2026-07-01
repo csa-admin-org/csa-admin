@@ -8,7 +8,7 @@ class Session < ApplicationRecord
   RETENTION = 15.months
 
   generates_token_for :redeem, expires_in: 15.minutes do
-    Tenant.current
+    Tenant.current || raise("Cannot generate session redeem token outside tenant context")
   end
 
   belongs_to :member, optional: true
@@ -97,7 +97,7 @@ class Session < ApplicationRecord
   end
 
   def redeem!
-    touch(:redeemed_at)
+    touch(:redeemed_at) unless redeemed_at?
   end
 
   def masked_login_error?
@@ -134,7 +134,9 @@ class Session < ApplicationRecord
   private
 
   def redeemable?
-    email? && !revoked? && !redeemed_at? && !expired?
+    # Link scanners may GET the magic link without following the redirect.
+    # Keep it reusable until an authenticated page records real session use.
+    email? && !revoked? && !last_used_at? && !expired?
   end
 
   def admin_session?

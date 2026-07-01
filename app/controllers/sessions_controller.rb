@@ -34,6 +34,8 @@ class SessionsController < ApplicationController
   end
 
   def show
+    return head :ok if request.head?
+
     if @session = Session.redeem_token(params[:id], owner_type: :admin)
       sign_in_session(@session)
       redirect_to root_path, notice: t("sessions.flash.created")

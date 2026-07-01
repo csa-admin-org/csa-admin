@@ -48,23 +48,40 @@ class SessionTest < ActiveSupport::TestCase
     end
   end
 
-  test "redeem token can only be used once" do
+  test "redeem token generation requires a tenant context" do
+    session = create_session(admins(:ultra))
+
+    error = assert_raises(RuntimeError) do
+      with_tenant(nil) { session.generate_token_for(:redeem) }
+    end
+    assert_equal "Cannot generate session redeem token outside tenant context", error.message
+  end
+
+  test "redeem token can be reused until the session is used" do
     session = create_session(admins(:ultra))
     token = session.generate_token_for(:redeem)
 
     assert_equal session, Session.redeem_token(token, owner_type: :admin)
-    assert_predicate session.reload, :redeemed_at?
+    redeemed_at = session.reload.redeemed_at
+    assert_predicate session, :redeemed_at?
+
+    travel 1.second do
+      assert_equal session, Session.redeem_token(token, owner_type: :admin)
+      assert_equal redeemed_at, session.reload.redeemed_at
+    end
+
+    session.update!(last_used_at: Time.current)
+
     assert_nil Session.redeem_token(token, owner_type: :admin)
   end
 
-  test "redeeming a stale session copy does not consume the token twice" do
+  test "redeeming a stale session copy cannot bypass used session rejection" do
     session = create_session(admins(:ultra))
-    first_copy = Session.find(session.id)
     stale_copy = Session.find(session.id)
 
-    assert_equal first_copy, first_copy.redeem_as(:admin)
+    session.update!(last_used_at: Time.current)
+
     assert_nil stale_copy.redeem_as(:admin)
-    assert_predicate session.reload, :redeemed_at?
   end
 
   test "redeem token is invalidated when the session is revoked" do

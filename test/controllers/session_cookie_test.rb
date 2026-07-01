@@ -89,6 +89,76 @@ class SessionCookieTest < ActionDispatch::IntegrationTest
     assert_no_referrer_policy
   end
 
+  test "head request does not redeem admin magic-link" do
+    host! "admin.acme.test"
+    session = create_admin_session(admins(:ultra))
+
+    head "/sessions/#{session.generate_token_for(:redeem)}"
+
+    assert_response :success
+    assert_nil session.reload.redeemed_at
+    assert_nil session_cookie_header
+  end
+
+  test "head request does not redeem member magic-link" do
+    host! "members.acme.test"
+    session = create_member_session(members(:john))
+
+    head "/sessions/#{session.generate_token_for(:redeem)}"
+
+    assert_response :success
+    assert_nil session.reload.redeemed_at
+    assert_nil session_cookie_header
+  end
+
+  test "admin magic-link can be reused after get without following redirect" do
+    host! "admin.acme.test"
+    session = create_admin_session(admins(:ultra))
+    token = session.generate_token_for(:redeem)
+
+    get "/sessions/#{token}"
+
+    assert_redirected_to root_path
+    assert_predicate session.reload, :redeemed_at?
+    assert_nil session.last_used_at
+
+    get "/sessions/#{token}"
+
+    assert_redirected_to root_path
+    assert_nil session.reload.last_used_at
+
+    follow_redirect!
+    assert_predicate session.reload, :last_used_at?
+
+    get "/sessions/#{token}"
+
+    assert_redirected_to login_path
+  end
+
+  test "member magic-link can be reused after get without following redirect" do
+    host! "members.acme.test"
+    session = create_member_session(members(:john))
+    token = session.generate_token_for(:redeem)
+
+    get "/sessions/#{token}"
+
+    assert_redirected_to members_member_path
+    assert_predicate session.reload, :redeemed_at?
+    assert_nil session.last_used_at
+
+    get "/sessions/#{token}"
+
+    assert_redirected_to members_member_path
+    assert_nil session.reload.last_used_at
+
+    follow_redirect!
+    assert_predicate session.reload, :last_used_at?
+
+    get "/sessions/#{token}"
+
+    assert_redirected_to members_login_path
+  end
+
   test "expired admin session does not redirect away from login page" do
     host! "admin.acme.test"
     session = create_admin_session(admins(:ultra))
