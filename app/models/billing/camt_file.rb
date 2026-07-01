@@ -26,7 +26,7 @@ module Billing
         when CamtParser::Format054::Base; parse_camt54(camt)
         when CamtParser::Format053::Base; parse_camt53(camt)
         else
-          raise UnsupportedFileError, "Invalid format: #{camt54.class.name}"
+          raise UnsupportedFileError, "Invalid format: #{camt.class.name}"
         end
       }
     rescue CamtParser::Errors::UnsupportedNamespaceError, ArgumentError => e

@@ -16,6 +16,19 @@ class Billing::CamtFileTest < ActiveSupport::TestCase
     ], file.payments_data
   end
 
+  test "returns payment data from CAMT.054.001.08 file" do
+    file = Billing::CamtFile.new(file_fixture("camt054_001_08.xml"))
+    assert_equal [
+      Billing::CamtFile::PaymentData.new(
+        invoice_id: 1,
+        member_id: 42,
+        amount: 1,
+        date: Date.new(2020, 11, 13, 11),
+        origin: "camt.054"
+      )
+    ], file.payments_data
+  end
+
   test "returns payment data from CAMT.053 file" do
     org(country_code: "DE")
     file = Billing::CamtFile.new(file_fixture("camt053.xml"))
