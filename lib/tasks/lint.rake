@@ -3,10 +3,10 @@
 require "parallel"
 
 namespace :lint do
-  LINT_TYPES = %i[locales rubocop herb_lint herb_format oxfmt oxlint prettier stylelint]
+  lint_types = %i[locales rubocop herb_lint herb_format oxfmt oxlint prettier stylelint]
 
-  def parallel_lint(&block)
-    results = Parallel.map(LINT_TYPES) do |type|
+  parallel_lint = lambda do |&block|
+    results = Parallel.map(lint_types) do |type|
       cmd = block.call(type)
       if cmd.present?
         puts "Running #{type}..."
@@ -18,7 +18,7 @@ namespace :lint do
 
   desc "Run Rubocop, Herb, Oxfmt (JS), Oxlint (JS), Prettier (CSS), and Stylelint (CSS) to check code (no autocorrect)"
   task :check do
-    parallel_lint do |type|
+    parallel_lint.call do |type|
       case type
       when :locales
         "bin/rails locales:check"
@@ -42,7 +42,7 @@ namespace :lint do
 
   desc "Run Rubocop, Herb, Oxfmt (JS), Oxlint (JS), Prettier (CSS), and Stylelint (CSS) with autocorrect"
   task :autocorrect do
-    parallel_lint do |type|
+    parallel_lint.call do |type|
       case type
       when :locales
         "bin/rails locales:format"

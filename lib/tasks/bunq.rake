@@ -34,13 +34,10 @@ namespace :bunq do
   # Persists credentials incrementally to bank_credentials to avoid losing
   # progress if an error occurs mid-setup.
   class BunqSetup
-    DESCRIPTION = "CSA Admin"
-    API_URL = "https://api.bunq.com"
-
     def initialize(org, api_key:)
       @org = org
       @api_key = api_key
-      @base_uri = URI(API_URL)
+      @base_uri = URI("https://api.bunq.com")
       @http = nil
       @session_token = nil
     end
@@ -127,7 +124,7 @@ namespace :bunq do
       # Use wildcard IP to allow calls from any IP
       response = post("/v1/device-server",
         {
-          description: DESCRIPTION,
+          description: "CSA Admin",
           secret: @api_key,
           permitted_ips: [ "*" ]
         },
