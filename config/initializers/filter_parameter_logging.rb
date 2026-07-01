@@ -15,6 +15,12 @@ Rails.application.config.filter_parameters += %i[
   from
   secret
   token
+  credentials
+  bank_credentials
+  private_key
+  api_key
+  installation_token
+  contract_password
   _key
   crypt
   salt

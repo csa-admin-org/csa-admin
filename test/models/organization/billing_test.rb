@@ -3,6 +3,31 @@
 require "test_helper"
 
 class Organization::BillingTest < ActiveSupport::TestCase
+  test "active_bank_connection returns active tenant-local bank connection" do
+    BankConnection.delete_all
+    connection = BankConnection.create!(
+      provider: "mock",
+      active: true,
+      state: "ready",
+      credentials: { password: "secret" })
+
+    assert_equal connection, Current.org.active_bank_connection
+  end
+
+  test "bank_connection keeps using legacy organization columns" do
+    BankConnection.delete_all
+    BankConnection.create!(
+      provider: "bas",
+      active: true,
+      state: "ready",
+      credentials: { account_number: "123" })
+    org(
+      bank_connection_type: "mock",
+      bank_credentials: { password: "secret" })
+
+    assert_instance_of Billing::EBICSMock, Current.org.bank_connection
+  end
+
   test "fiscal_years returns an array of fiscal years" do
     fiscal_years = Current.org.fiscal_years
 

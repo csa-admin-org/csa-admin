@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_06_27_100000) do
+ActiveRecord::Schema[8.1].define(version: 2026_07_01_113000) do
   create_table "absences", force: :cascade do |t|
     t.datetime "admins_notified_at"
     t.datetime "created_at"
@@ -172,6 +172,35 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_27_100000) do
     t.index ["auditable_type", "auditable_id"], name: "index_audits_on_auditable_type_and_auditable_id"
     t.index ["created_at"], name: "index_audits_on_created_at"
     t.index ["session_id"], name: "index_audits_on_session_id"
+  end
+
+  create_table "bank_connections", force: :cascade do |t|
+    t.boolean "active", default: false, null: false
+    t.json "capabilities", default: {}, null: false
+    t.datetime "created_at", null: false
+    t.json "credentials", default: {}, null: false
+    t.string "health_status", default: "unknown", null: false
+    t.string "last_error_class"
+    t.text "last_error_message"
+    t.datetime "last_health_check_at"
+    t.datetime "last_import_attempted_at"
+    t.datetime "last_import_succeeded_at"
+    t.datetime "last_no_data_at"
+    t.datetime "last_upload_attempted_at"
+    t.datetime "last_upload_succeeded_at"
+    t.string "name"
+    t.string "provider", null: false
+    t.json "settings", default: {}, null: false
+    t.string "state", default: "draft", null: false
+    t.json "status_details", default: {}, null: false
+    t.datetime "updated_at", null: false
+    t.index ["active"], name: "index_bank_connections_on_active_unique", unique: true, where: "active = 1"
+    t.index ["provider"], name: "index_bank_connections_on_provider"
+    t.index ["state"], name: "index_bank_connections_on_state"
+    t.check_constraint "JSON_TYPE(capabilities) = 'object'", name: "bank_connections_capabilities_is_object"
+    t.check_constraint "JSON_TYPE(credentials) = 'object'", name: "bank_connections_credentials_is_object"
+    t.check_constraint "JSON_TYPE(settings) = 'object'", name: "bank_connections_settings_is_object"
+    t.check_constraint "JSON_TYPE(status_details) = 'object'", name: "bank_connections_status_details_is_object"
   end
 
   create_table "basket_complements", force: :cascade do |t|

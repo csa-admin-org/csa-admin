@@ -40,6 +40,10 @@ module Organization::Billing
       bank_connection_type?
     end
 
+    def active_bank_connection
+      BankConnection.active.first
+    end
+
     def bank_connection
       case bank_connection_type
       when "ebics"
