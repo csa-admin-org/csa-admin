@@ -29,16 +29,17 @@ class Organization::BillingTest < ActiveSupport::TestCase
     assert_respond_to Current.org.bank_connection, :version
   end
 
-  test "bank_connection falls back to legacy organization columns" do
+  test "bank_connection ignores legacy organization columns without an active row" do
     BankConnection.delete_all
     org(
       bank_connection_type: "mock",
       bank_credentials: { password: "secret" })
 
-    assert_instance_of Billing::EBICSMock, Current.org.bank_connection
+    assert_not Current.org.bank_connection?
+    assert_nil Current.org.bank_connection
   end
 
-  test "bank_connection uses active EBICS settings" do
+  test "bank_connection uses active EBICS BTF settings" do
     BankConnection.delete_all
     BankConnection.create!(
       provider: "ebics",
@@ -48,8 +49,8 @@ class Organization::BillingTest < ActiveSupport::TestCase
       settings: {
         "downloads" => {
           "payments" => {
-            "mode" => "order_type",
-            "order_type" => "C54"
+            "mode" => "btf",
+            "btf" => Billing::EBICS::Btf::Presets.camt054(service_name: "REP", scope: "CH", version: "04")
           }
         }
       })
@@ -58,7 +59,10 @@ class Organization::BillingTest < ActiveSupport::TestCase
       bank_connection_type: "ebics",
       bank_credentials: ebics_credentials)
 
-    assert_equal "C54", Current.org.bank_connection.operation_config.payment_download(country_code: "CH").order_type
+    operation = Current.org.bank_connection.operation_config.payment_download
+    assert operation.btf?
+    assert_equal "BTD", operation.order_type
+    assert_equal "camt.054", operation.btf.fetch("message_name")
   end
 
   test "fiscal_years returns an array of fiscal years" do

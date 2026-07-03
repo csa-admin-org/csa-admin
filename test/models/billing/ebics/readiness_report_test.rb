@@ -20,7 +20,7 @@ class Billing::EBICS::ReadinessReportTest < ActiveSupport::TestCase
       active: true,
       state: "ready",
       credentials: ebics_credentials,
-      settings: legacy_payment_settings)
+      settings: btf_payment_settings)
 
     report = Billing::EBICS::ReadinessReport.new(tenant: "acme").to_h
 
@@ -30,8 +30,9 @@ class Billing::EBICS::ReadinessReportTest < ActiveSupport::TestCase
     assert_equal "ebics.example.test", report.dig("ebics", "endpoint_host")
     assert_equal "HOSTID", report.dig("ebics", "host_id")
     assert_equal "skipped", report.dig("ebics", "hev", "status")
-    assert_equal "order_type", report.dig("ebics", "current_payment_operation", "mode")
-    assert_equal "Z54", report.dig("ebics", "current_payment_operation", "order_type")
+    assert_equal "btf", report.dig("ebics", "current_payment_operation", "mode")
+    assert_equal "BTD", report.dig("ebics", "current_payment_operation", "order_type")
+    assert_equal "camt.054", report.dig("ebics", "current_payment_operation", "message_name")
     assert_equal "BTD", report.dig("ebics", "recommended_btf_payment_operation", "order_type")
     assert_equal "camt.054", report.dig("ebics", "recommended_btf_payment_operation", "message_name")
     assert report.dig("ebics", "btf_readiness", "request_build_ready")
@@ -50,7 +51,7 @@ class Billing::EBICS::ReadinessReportTest < ActiveSupport::TestCase
       active: true,
       state: "ready",
       credentials: ebics_credentials,
-      settings: legacy_payment_settings)
+      settings: btf_payment_settings)
 
     report = Billing::EBICS::ReadinessReport.new(
       tenant: "acme",
@@ -106,13 +107,13 @@ class Billing::EBICS::ReadinessReportTest < ActiveSupport::TestCase
     end
   end
 
-  def legacy_payment_settings
+  def btf_payment_settings
     {
-      "protocol" => "H004",
+      "protocol" => "H005",
       "downloads" => {
         "payments" => {
-          "mode" => "order_type",
-          "order_type" => "Z54"
+          "mode" => "btf",
+          "btf" => Billing::EBICS::Btf::Presets.camt054(service_name: "REP", scope: "CH", version: "04")
         }
       }
     }

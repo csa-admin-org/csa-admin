@@ -3,11 +3,13 @@
 require "test_helper"
 
 class Scheduled::BillingSEPADirectDebitOrdersUploaderJobTest < ActiveJob::TestCase
+  setup do
+    BankConnection.delete_all
+  end
+
   test "enqueues SEPA direct debit order uploader job only for qualifying invoices" do
-    german_org(
-      sepa_creditor_identifier: "DE98ZZZ09999999999",
-      bank_connection_type: "mock",
-      bank_credentials: { password: "secret" })
+    german_org(sepa_creditor_identifier: "DE98ZZZ09999999999")
+    create_mock_bank_connection
 
     assert Current.org.sepa_creditor_identifier?
     assert Current.org.bank_connection?
@@ -50,10 +52,8 @@ class Scheduled::BillingSEPADirectDebitOrdersUploaderJobTest < ActiveJob::TestCa
   end
 
   test "reports uploadable SEPA invoices stuck past the automatic upload window" do
-    german_org(
-      sepa_creditor_identifier: "DE98ZZZ09999999999",
-      bank_connection_type: "mock",
-      bank_credentials: { password: "secret" })
+    german_org(sepa_creditor_identifier: "DE98ZZZ09999999999")
+    create_mock_bank_connection
     member = members(:anna)
     member.update!(language: "de", country_code: "DE")
     member.sepa_mandates.create!(
@@ -80,10 +80,8 @@ class Scheduled::BillingSEPADirectDebitOrdersUploaderJobTest < ActiveJob::TestCa
   end
 
   test "does nothing if org has no sepa_creditor_identifier" do
-    german_org(
-      sepa_creditor_identifier: nil,
-      bank_connection_type: "mock",
-      bank_credentials: { password: "secret" })
+    german_org(sepa_creditor_identifier: nil)
+    create_mock_bank_connection
     assert_not Current.org.sepa_creditor_identifier?
     assert Current.org.bank_connection?
 
@@ -107,9 +105,7 @@ class Scheduled::BillingSEPADirectDebitOrdersUploaderJobTest < ActiveJob::TestCa
   end
 
   test "does nothing if org has no bank_connection" do
-    german_org(
-      sepa_creditor_identifier: "DE98ZZZ09999999999",
-      bank_connection_type: nil)
+    german_org(sepa_creditor_identifier: "DE98ZZZ09999999999")
     assert Current.org.sepa_creditor_identifier?
     assert_not Current.org.bank_connection?
 
@@ -130,5 +126,15 @@ class Scheduled::BillingSEPADirectDebitOrdersUploaderJobTest < ActiveJob::TestCa
         Scheduled::BillingSEPADirectDebitOrdersUploaderJob.perform_later
       end
     end
+  end
+
+  private
+
+  def create_mock_bank_connection
+    BankConnection.create!(
+      provider: "mock",
+      active: true,
+      state: "ready",
+      credentials: { password: "secret" })
   end
 end

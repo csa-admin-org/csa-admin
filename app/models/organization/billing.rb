@@ -37,7 +37,7 @@ module Organization::Billing
     end
 
     def bank_connection?
-      active_bank_connection.present? || bank_connection_type?
+      active_bank_connection.present?
     end
 
     def active_bank_connection
@@ -45,7 +45,7 @@ module Organization::Billing
     end
 
     def bank_connection
-      active_bank_connection&.runtime_adapter || legacy_bank_connection
+      active_bank_connection&.runtime_adapter
     end
 
     def send_invoice_overdue_notice?
@@ -109,19 +109,6 @@ module Organization::Billing
   end
 
   private
-
-  def legacy_bank_connection
-    case bank_connection_type
-    when "ebics"
-      Billing::EBICS.new(bank_credentials)
-    when "bas"
-      Billing::BAS.new(bank_credentials)
-    when "bunq"
-      Billing::Bunq.new(bank_credentials)
-    when "mock"
-      Billing::EBICSMock.new(bank_credentials)
-    end
-  end
 
   def refresh_previsional_invoicing
     attrs = %w[

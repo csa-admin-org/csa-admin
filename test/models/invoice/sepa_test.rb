@@ -179,9 +179,9 @@ class Invoice::SEPATest < ActiveSupport::TestCase
       settings: {
         "uploads" => {
           "sepa_direct_debit" => {
-            "mode" => "order_type",
-            "order_type" => "CDD",
-            "schema" => "pain.008.001.08"
+            "mode" => "btf",
+            "schema" => "pain.008.001.08",
+            "btf" => Billing::EBICS::Btf::Presets.sepa_direct_debit_upload(scope: "DE", container: "XML", version: nil)
           }
         }
       })
@@ -201,10 +201,13 @@ class Invoice::SEPATest < ActiveSupport::TestCase
 
   require "minitest/mock"
   test "upload_sepa_direct_debit_order uploads and updates invoice" do
-    german_org(
-      sepa_creditor_identifier: "DE98ZZZ09999999999",
-      bank_connection_type: "mock",
-      bank_credentials: { password: "secret" })
+    BankConnection.delete_all
+    german_org(sepa_creditor_identifier: "DE98ZZZ09999999999")
+    BankConnection.create!(
+      provider: "mock",
+      active: true,
+      state: "ready",
+      credentials: { password: "secret" })
     member = members(:anna)
     member.update!(language: "de", country_code: "DE")
     member.sepa_mandates.create!(

@@ -209,20 +209,23 @@ class BankConnectionTest < ActiveSupport::TestCase
     assert_instance_of Billing::EBICSMock, connection.adapter
   end
 
-  test "passes EBICS settings to provider adapter" do
+  test "passes EBICS BTF settings to provider adapter" do
     connection = BankConnection.new(
       provider: "ebics",
       credentials: ebics_credentials,
       settings: {
         "downloads" => {
           "payments" => {
-            "mode" => "order_type",
-            "order_type" => "C54"
+            "mode" => "btf",
+            "btf" => Billing::EBICS::Btf::Presets.camt054(service_name: "REP", scope: "CH", version: "04")
           }
         }
       })
 
-    assert_equal "C54", connection.adapter.operation_config.payment_download.order_type
+    operation = connection.adapter.operation_config.payment_download
+    assert operation.btf?
+    assert_equal "BTD", operation.order_type
+    assert_equal "camt.054", operation.btf.fetch("message_name")
   end
 
   test "keeps active scope separate from lifecycle state" do

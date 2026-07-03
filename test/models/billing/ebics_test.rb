@@ -33,61 +33,71 @@ class Billing::EBICSTest < ActiveSupport::TestCase
   end
 
   test "SEPA direct debit upload does not require current organization" do
-    client = EBICSClientStub.new(cdd: "order-id")
+    client = BtfClientStub.new([])
 
     with_current_org_error do
-      with_epics_client(client) do
-        assert_equal "order-id", Billing::EBICS.new(credentials).sepa_direct_debit_upload("document")
-      end
+      assert_equal [ "TX123", "A001" ], Billing::EBICS
+        .new(credentials, settings: upload_btf_settings, ebics_client: client)
+        .sepa_direct_debit_upload("document")
     end
   end
 
-  test "downloads Swiss payments with legacy Z54 order type" do
-    org(country_code: "CH")
-    client = EBICSClientStub.new(z54: [ file_fixture("camt054.xml") ])
-
-    with_epics_client(client) do
-      payments_data = Billing::EBICS.new(credentials).payments_data
-
-      assert_equal [ :Z54 ], client.calls.map(&:first)
-      assert_equal [ Billing::EBICS::GET_PAYMENTS_FROM.to_date.to_s, Date.current.to_s ], client.calls.first.last
-      assert_equal "camt.054", payments_data.first.origin
-    end
-  end
-
-  test "downloads non-Swiss payments with legacy C53 order type" do
-    org(country_code: "DE")
-    client = EBICSClientStub.new(c53: [ file_fixture("camt053.xml") ])
-
-    with_epics_client(client) do
-      payments_data = Billing::EBICS.new(credentials).payments_data
-
-      assert_equal [ :C53 ], client.calls.map(&:first)
-      assert_equal [ Billing::EBICS::GET_PAYMENTS_FROM.to_date.to_s, Date.current.to_s ], client.calls.first.last
-      assert_equal "camt.053", payments_data.first.origin
-    end
-  end
-
-  test "uploads SEPA direct debit with legacy CDD order type" do
-    client = EBICSClientStub.new(cdd: "order-id")
-
-    with_epics_client(client) do
-      assert_equal "order-id", Billing::EBICS.new(credentials).sepa_direct_debit_upload("document")
+  test "payment downloads require explicit BTF settings" do
+    error = assert_raises(Billing::EBICS::UnsupportedOperation) do
+      Billing::EBICS.new(credentials).payments_data
     end
 
-    assert_equal [ [ :CDD, [ "document" ] ] ], client.calls
+    assert_equal "Active EBICS payment_download must use explicit BTF settings", error.message
   end
 
-  test "reports configured SEPA direct debit PAIN schema" do
+  test "process payments marks legacy payment download settings as configuration errors" do
+    BankConnection.delete_all
+    settings = {
+      "downloads" => {
+        "payments" => {
+          "mode" => "order_type",
+          "order_type" => "Z54"
+        }
+      }
+    }
+    connection = bank_connection(settings: settings)
+
+    error = assert_raises(Billing::EBICS::UnsupportedOperation) do
+      Billing::EBICS.new(credentials, settings: settings, bank_connection: connection).process_payments!
+    end
+
+    assert_equal "Active EBICS payment_download must use explicit BTF settings", error.message
+    connection.reload
+    assert_equal "errored", connection.health_status
+    assert_equal "Billing::EBICS::UnsupportedOperation", connection.last_error_class
+    assert_equal "payment_download", connection.status_details.dig("last_error", "operation_kind")
+  end
+
+  test "SEPA direct debit upload marks legacy settings as configuration errors" do
+    BankConnection.delete_all
     settings = {
       "uploads" => {
         "sepa_direct_debit" => {
           "mode" => "order_type",
-          "order_type" => "CDD",
-          "schema" => "pain.008.001.08"
+          "order_type" => "CDD"
         }
       }
     }
+    connection = bank_connection(settings: settings)
+
+    error = assert_raises(Billing::EBICS::UnsupportedOperation) do
+      Billing::EBICS.new(credentials, settings: settings, bank_connection: connection).sepa_direct_debit_upload("document")
+    end
+
+    assert_equal "Active EBICS sepa_direct_debit_upload must use explicit BTF settings", error.message
+    connection.reload
+    assert_equal "errored", connection.health_status
+    assert_equal "Billing::EBICS::UnsupportedOperation", connection.last_error_class
+    assert_equal "sepa_direct_debit_upload", connection.status_details.dig("last_error", "operation_kind")
+  end
+
+  test "reports configured SEPA direct debit PAIN schema" do
+    settings = upload_btf_settings
 
     assert_equal "pain.008.001.08", Billing::EBICS.new(credentials, settings: settings).sepa_direct_debit_schema
   end
@@ -186,12 +196,11 @@ class Billing::EBICSTest < ActiveSupport::TestCase
 
   test "returns no payments and notifies when no EBICS download data is available" do
     event = EventRecorder.new
-    client = EBICSClientStub.new(z54: ::Epics::Error::BusinessError.new("090005"))
+    error = Billing::EBICS::NoDownloadDataAvailable.new(::Epics::Error::BusinessError.new("090005"))
+    client = BtfClientStub.new(error)
 
     with_rails_event(event) do
-      with_epics_client(client) do
-        assert_empty Billing::EBICS.new(credentials).payments_data
-      end
+      assert_empty Billing::EBICS.new(credentials, settings: btf_settings, ebics_client: client).payments_data
     end
 
     assert_equal 1, event.notifications.size
@@ -203,12 +212,11 @@ class Billing::EBICSTest < ActiveSupport::TestCase
 
   test "returns no payments and notifies when EBICS technical error occurs" do
     event = EventRecorder.new
-    client = EBICSClientStub.new(z54: ::Epics::Error::TechnicalError.new("061099"))
+    error = Billing::EBICS::TechnicalError.new(::Epics::Error::TechnicalError.new("061099"))
+    client = BtfClientStub.new(error)
 
     with_rails_event(event) do
-      with_epics_client(client) do
-        assert_empty Billing::EBICS.new(credentials).payments_data
-      end
+      assert_empty Billing::EBICS.new(credentials, settings: btf_settings, ebics_client: client).payments_data
     end
 
     assert_equal 1, event.notifications.size
@@ -337,11 +345,15 @@ class Billing::EBICSTest < ActiveSupport::TestCase
 
     def download(operation, from:, to:)
       @calls << [ operation, [ from, to ] ]
+      raise @files if @files.is_a?(Exception)
+
       @files
     end
 
     def download_and_process(operation, from:, to:)
       @calls << [ :download_and_process, operation, [ from, to ] ]
+      raise @files if @files.is_a?(Exception)
+
       yield @files
     end
   end

@@ -152,9 +152,11 @@ module Billing
       end
 
       def current_payment_operation
-        Billing::EBICS::OperationConfig
-          .new(ebics_settings, country_code: organization.country_code)
-          .payment_download
+        Billing::EBICS::OperationConfig.new(ebics_settings).payment_download
+      rescue UnsupportedOperation => e
+        {
+          "error" => e.message
+        }
       end
 
       def recommended_btf_payment_operation
@@ -166,14 +168,9 @@ module Billing
       end
 
       def operation_summary(operation)
-        if operation.btf?
-          operation.btf.merge("mode" => "btf")
-        else
-          {
-            "mode" => "order_type",
-            "order_type" => operation.order_type
-          }
-        end
+        return operation if operation.is_a?(Hash)
+
+        operation.btf.merge("mode" => "btf")
       end
 
       def btf_readiness

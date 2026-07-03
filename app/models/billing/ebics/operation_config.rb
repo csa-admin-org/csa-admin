@@ -3,32 +3,27 @@
 module Billing
   class EBICS
     class OperationConfig
-      def initialize(settings = {}, country_code: nil)
+      def initialize(settings = {})
         @settings = (settings || {}).to_h.deep_stringify_keys
-        @country_code = country_code
       end
 
-      def payment_download(country_code: self.country_code)
-        operation(
-          settings.dig("downloads", "payments"),
-          default_order_type: country_code == "CH" ? "Z54" : "C53")
+      def payment_download
+        btf_operation(settings.dig("downloads", "payments"), kind: "payment_download", order_type: "BTD")
       end
 
       def sepa_direct_debit_upload
-        operation(
-          sepa_direct_debit_upload_settings,
-          default_order_type: "CDD")
+        btf_operation(sepa_direct_debit_upload_settings, kind: "sepa_direct_debit_upload", order_type: "BTU")
       end
 
       def sepa_direct_debit_upload_schema
         sepa_direct_debit_upload_settings["schema"].presence ||
           btf_pain_schema ||
-          Billing::SEPADirectDebit::SCHEMA
+          raise(UnsupportedOperation, "Missing EBICS BTF SEPA direct debit upload schema")
       end
 
       private
 
-      attr_reader :settings, :country_code
+      attr_reader :settings
 
       def sepa_direct_debit_upload_settings
         @sepa_direct_debit_upload_settings ||=
@@ -42,18 +37,18 @@ module Billing
         "pain.008.001.#{btf.fetch("version").to_s.rjust(2, "0")}"
       end
 
-      def operation(attributes, default_order_type:)
+      def btf_operation(attributes, kind:, order_type:)
         attributes = (attributes || {}).to_h.deep_stringify_keys
-        mode = attributes["mode"].presence || "order_type"
-
-        case mode
-        when "order_type"
-          Operation.order_type(attributes["order_type"].presence || default_order_type)
-        when "btf"
-          Operation.btf(attributes.fetch("btf"))
-        else
-          raise UnsupportedOperation, "Unsupported EBICS operation mode: #{mode}"
+        mode = attributes["mode"].presence
+        unless mode == "btf"
+          raise UnsupportedOperation, "Active EBICS #{kind} must use explicit BTF settings"
         end
+
+        btf = attributes["btf"].to_h.deep_stringify_keys
+        raise UnsupportedOperation, "Missing EBICS BTF #{kind} settings" if btf.blank?
+        raise UnsupportedOperation, "Active EBICS #{kind} must use #{order_type} BTF settings" unless btf["order_type"] == order_type
+
+        Operation.btf(btf)
       end
     end
   end

@@ -3,59 +3,99 @@
 require "test_helper"
 
 class Billing::EBICS::OperationConfigTest < ActiveSupport::TestCase
-  test "defaults Swiss payment downloads to legacy Z54" do
-    operation = Billing::EBICS::OperationConfig.new(country_code: "CH").payment_download
+  test "requires explicit BTF payment download settings" do
+    error = assert_raises(Billing::EBICS::UnsupportedOperation) do
+      Billing::EBICS::OperationConfig.new.payment_download
+    end
 
-    assert operation.order_type?
-    assert_equal "Z54", operation.order_type
-    assert_equal :Z54, operation.method_name
+    assert_equal "Active EBICS payment_download must use explicit BTF settings", error.message
   end
 
-  test "defaults non-Swiss payment downloads to legacy C53" do
-    operation = Billing::EBICS::OperationConfig.new(country_code: "DE").payment_download
+  test "rejects legacy payment download order types" do
+    config = Billing::EBICS::OperationConfig.new({
+      "downloads" => {
+        "payments" => {
+          "mode" => "order_type",
+          "order_type" => "C54"
+        }
+      }
+    })
 
-    assert operation.order_type?
-    assert_equal "C53", operation.order_type
-    assert_equal :C53, operation.method_name
+    error = assert_raises(Billing::EBICS::UnsupportedOperation) { config.payment_download }
+    assert_equal "Active EBICS payment_download must use explicit BTF settings", error.message
   end
 
-  test "defaults direct debit uploads to legacy CDD" do
-    config = Billing::EBICS::OperationConfig.new(country_code: "CH")
-    operation = config.sepa_direct_debit_upload
+  test "rejects upload BTF tuple for payment downloads" do
+    config = Billing::EBICS::OperationConfig.new({
+      "downloads" => {
+        "payments" => {
+          "mode" => "btf",
+          "btf" => Billing::EBICS::Btf::Presets.sepa_direct_debit_upload
+        }
+      }
+    })
 
-    assert operation.order_type?
-    assert_equal "CDD", operation.order_type
-    assert_equal :CDD, operation.method_name
-    assert_equal Billing::SEPADirectDebit::SCHEMA, config.sepa_direct_debit_upload_schema
+    error = assert_raises(Billing::EBICS::UnsupportedOperation) { config.payment_download }
+    assert_equal "Active EBICS payment_download must use BTD BTF settings", error.message
+  end
+
+  test "requires explicit BTF direct debit upload settings" do
+    error = assert_raises(Billing::EBICS::UnsupportedOperation) do
+      Billing::EBICS::OperationConfig.new.sepa_direct_debit_upload
+    end
+
+    assert_equal "Active EBICS sepa_direct_debit_upload must use explicit BTF settings", error.message
+  end
+
+  test "rejects legacy direct debit upload order types" do
+    config = Billing::EBICS::OperationConfig.new({
+      "uploads" => {
+        "sepa_direct_debit" => {
+          "mode" => "order_type",
+          "order_type" => "CDD"
+        }
+      }
+    })
+
+    error = assert_raises(Billing::EBICS::UnsupportedOperation) { config.sepa_direct_debit_upload }
+    assert_equal "Active EBICS sepa_direct_debit_upload must use explicit BTF settings", error.message
+  end
+
+  test "rejects download BTF tuple for direct debit uploads" do
+    config = Billing::EBICS::OperationConfig.new({
+      "uploads" => {
+        "sepa_direct_debit" => {
+          "mode" => "btf",
+          "btf" => Billing::EBICS::Btf::Presets.camt054(service_name: "REP", scope: "CH", version: "04")
+        }
+      }
+    })
+
+    error = assert_raises(Billing::EBICS::UnsupportedOperation) { config.sepa_direct_debit_upload }
+    assert_equal "Active EBICS sepa_direct_debit_upload must use BTU BTF settings", error.message
+  end
+
+  test "requires direct debit upload schema from explicit schema or BTF version" do
+    config = Billing::EBICS::OperationConfig.new({
+      "uploads" => {
+        "sepa_direct_debit" => {
+          "mode" => "btf",
+          "btf" => Billing::EBICS::Btf::Presets.sepa_direct_debit_upload(version: nil)
+        }
+      }
+    })
+
+    error = assert_raises(Billing::EBICS::UnsupportedOperation) { config.sepa_direct_debit_upload_schema }
+    assert_equal "Missing EBICS BTF SEPA direct debit upload schema", error.message
   end
 
   test "uses explicit direct debit upload schema from settings" do
     config = Billing::EBICS::OperationConfig.new({
       "uploads" => {
         "sepa_direct_debit" => {
-          "mode" => "order_type",
-          "order_type" => "CDD",
-          "schema" => "pain.008.001.08"
-        }
-      }
-    })
-
-    assert_equal "CDD", config.sepa_direct_debit_upload.order_type
-    assert_equal "pain.008.001.08", config.sepa_direct_debit_upload_schema
-  end
-
-  test "derives direct debit upload schema from BTF message version" do
-    config = Billing::EBICS::OperationConfig.new({
-      "uploads" => {
-        "sepa_direct_debit" => {
           "mode" => "btf",
-          "btf" => {
-            "order_type" => "BTU",
-            "service_name" => "SDD",
-            "service_option" => "COR",
-            "message_name" => "pain.008",
-            "version" => "08"
-          }
+          "schema" => "pain.008.001.08",
+          "btf" => Billing::EBICS::Btf::Presets.sepa_direct_debit_upload(version: nil)
         }
       }
     })
@@ -64,17 +104,18 @@ class Billing::EBICS::OperationConfigTest < ActiveSupport::TestCase
     assert_equal "pain.008.001.08", config.sepa_direct_debit_upload_schema
   end
 
-  test "uses configured legacy order types" do
+  test "derives direct debit upload schema from BTF message version" do
     config = Billing::EBICS::OperationConfig.new({
-      "downloads" => {
-        "payments" => {
-          "mode" => "order_type",
-          "order_type" => "C54"
+      "uploads" => {
+        "sepa_direct_debit" => {
+          "mode" => "btf",
+          "btf" => Billing::EBICS::Btf::Presets.sepa_direct_debit_upload(version: "08")
         }
       }
-    }, country_code: "CH")
+    })
 
-    assert_equal "C54", config.payment_download.order_type
+    assert_equal "BTU", config.sepa_direct_debit_upload.order_type
+    assert_equal "pain.008.001.08", config.sepa_direct_debit_upload_schema
   end
 
   test "normalizes direct BTF operation attributes" do
@@ -90,17 +131,10 @@ class Billing::EBICS::OperationConfigTest < ActiveSupport::TestCase
       "downloads" => {
         "payments" => {
           "mode" => "btf",
-          "btf" => {
-            "order_type" => "BTD",
-            "service_name" => "REP",
-            "scope" => "CH",
-            "container" => "ZIP",
-            "message_name" => "camt.054",
-            "version" => "04"
-          }
+          "btf" => Billing::EBICS::Btf::Presets.camt054(service_name: "REP", scope: "CH", version: "04")
         }
       }
-    }, country_code: "CH")
+    })
 
     operation = config.payment_download
 

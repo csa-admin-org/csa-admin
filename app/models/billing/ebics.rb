@@ -35,26 +35,25 @@ module Billing
     end
 
     def process_payments!
-      operation = operation_config.payment_download(country_code: Current.org.country_code)
-
-      if operation.btf?
-        process_btf_payments!(operation)
-      else
-        report_legacy_operation!(operation, "payment_download")
-        Billing::PaymentsProcessor.new(payments_data).process!
-      end
+      operation = operation_config.payment_download
+      process_btf_payments!(operation)
+    rescue UnsupportedOperation => e
+      report_configuration_error(e, operation: nil, operation_kind: "payment_download")
+      raise
     rescue MaintenanceError
       Billing::PaymentsProcessor.new([]).process!
     end
 
     def sepa_direct_debit_upload(document)
       operation = operation_config.sepa_direct_debit_upload
-      report_legacy_operation!(operation, "sepa_direct_debit_upload") if operation.order_type?
       @bank_connection&.mark_upload_attempted!(operation: operation)
 
       result = ebics_client(operation).upload(operation, document: document)
       @bank_connection&.mark_upload_succeeded!(operation: operation, order_id: upload_order_id(result))
       result
+    rescue UnsupportedOperation => e
+      report_configuration_error(e, operation: operation, operation_kind: "sepa_direct_debit_upload")
+      raise
     rescue => e
       @bank_connection&.mark_error!(e, operation: operation, operation_kind: "sepa_direct_debit_upload")
       raise
@@ -71,7 +70,7 @@ module Billing
     private
 
     def get_camt_files
-      operation = operation_config.payment_download(country_code: Current.org.country_code)
+      operation = operation_config.payment_download
       @bank_connection&.mark_import_attempted!(operation: operation)
 
       files = ebics_client(operation).download(
@@ -163,13 +162,14 @@ module Billing
           error_message: error.message))
     end
 
-    def report_legacy_operation!(operation, operation_kind)
-      return unless @bank_connection&.ebics?
-
-      SafeContext.report_unexpected("Active EBICS connection uses legacy order-type operation",
+    def report_configuration_error(error, operation:, operation_kind:)
+      @bank_connection&.mark_error!(error, operation: operation, operation_kind: operation_kind)
+      Rails.error.report(error,
         context: safe_context(
           operation: operation,
-          operation_kind: operation_kind))
+          operation_kind: operation_kind,
+          error: error.class.name,
+          error_message: error.message))
     end
 
     def safe_context(operation: nil, **context)
