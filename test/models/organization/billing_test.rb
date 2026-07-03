@@ -14,30 +14,25 @@ class Organization::BillingTest < ActiveSupport::TestCase
     assert_equal connection, Current.org.active_bank_connection
   end
 
-  test "bank_connection prefers active tenant-local bank connection" do
+  test "bank_connection returns active tenant-local runtime adapter" do
     BankConnection.delete_all
     BankConnection.create!(
       provider: "bas",
       active: true,
       state: "ready",
       credentials: { account_number: "123", contract_number: "456", contract_password: "secret", private_key: "key" })
-    org(
-      bank_connection_type: "mock",
-      bank_credentials: { password: "secret" })
 
     assert_instance_of BankConnection::RuntimeAdapter, Current.org.bank_connection
     assert_respond_to Current.org.bank_connection, :version
   end
 
-  test "bank_connection ignores legacy organization columns without an active row" do
+  test "bank_connection is blank without an active tenant-local row" do
     BankConnection.delete_all
-    org(
-      bank_connection_type: "mock",
-      bank_credentials: { password: "secret" })
 
     assert_not Current.org.bank_connection?
     assert_nil Current.org.bank_connection
   end
+
 
   test "bank_connection uses active EBICS BTF settings" do
     BankConnection.delete_all
@@ -54,13 +49,10 @@ class Organization::BillingTest < ActiveSupport::TestCase
           }
         }
       })
-    org(
-      country_code: "CH",
-      bank_connection_type: "ebics",
-      bank_credentials: ebics_credentials)
+    org(country_code: "CH")
+
 
     operation = Current.org.bank_connection.operation_config.payment_download
-    assert operation.btf?
     assert_equal "BTD", operation.order_type
     assert_equal "camt.054", operation.btf.fetch("message_name")
   end

@@ -59,24 +59,7 @@ class BillingRakeTest < ActiveSupport::TestCase
     end
   end
 
-  test "payments process reports legacy fallback without importing" do
-    org(bank_connection_type: "mock", bank_credentials: { password: "secret" })
 
-    with_env("TENANT" => "acme", "CONFIRM" => "true") do
-      Tenant.stub(:exists?, true) do
-        Tenant.stub(:switch, ->(_tenant, &block) { block.call }) do
-          Billing::PaymentsProcessor.stub(:retrieve_and_process!, -> { flunk "should not import legacy fallback" }) do
-            out, = capture_io { Rake::Task["billing:payments:process"].invoke }
-            json = JSON.parse(out)
-
-            assert_equal({ "legacy_fallback" => 1 }, json.fetch("summary"))
-            assert_equal "mock", json.dig("results", 0, "provider")
-            assert_equal "legacy_organization", json.dig("results", 0, "source")
-          end
-        end
-      end
-    end
-  end
 
   test "payments process filters by provider" do
     create_connection(provider: "bunq")

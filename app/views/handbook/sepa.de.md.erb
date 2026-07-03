@@ -20,7 +20,7 @@ Um SEPA-Lastschrift zu aktivieren, stelle zuerst sicher, dass die IBAN Deiner Or
 - **Informationstext (SEPA)** (optional) — Wird auf SEPA-Rechnungen anstelle des Standardinformationstextes angezeigt.
 - **Nur Abonnementzusammenfassung** (optional) — Zeigt bei per SEPA eingezogenen Abonnementsrechnungen nur die Rechnungszusammenfassung an.
 
-Wenn eine EBICS-Verbindung konfiguriert ist, werden SEPA-Lastschriftaufträge automatisch 3 Tage nach dem Rechnungsversand an Deine Bank übermittelt. Mehr Informationen zur [EBICS-Einrichtung](/handbook/billing#ebics-setup).
+Wenn eine EBICS-3.0-Verbindung (H005/BTF) konfiguriert ist, werden SEPA-Lastschriftaufträge automatisch 3 Tage nach dem Rechnungsversand an Deine Bank übermittelt. Mehr Informationen zur [EBICS-Einrichtung](/handbook/billing#ebics-setup).
 
 Wenn die SEPA-Funktion aktiviert und die Gläubiger-ID konfiguriert ist, wird die Self-Service-Mandatsseite für alle Mitglieder zugänglich.
 
@@ -40,9 +40,9 @@ Wenn ein Mitglied seine IBAN später aktualisiert, wird dieselbe Mandatsreferenz
 
 Sobald eine SEPA-Rechnung erstellt und versendet wurde, muss ein SEPA-Lastschriftauftrag (XML pain.008) bei Deiner Bank eingereicht werden.
 
-**Mit EBICS-Verbindung** — Aufträge werden **automatisch** 3 Tage nach dem Rechnungsversand an Deine Bank übermittelt. Du kannst die Übermittlung auch manuell von der Rechnungsseite aus auslösen. Die Rechnungsseite zeigt die Auftrags-ID und das Übermittlungsdatum an, sobald der Auftrag eingereicht wurde.
+**Mit EBICS-3.0-Verbindung** — Aufträge werden **automatisch** 3 Tage nach dem Rechnungsversand an Deine Bank übermittelt. Du kannst die Übermittlung auch manuell von der Rechnungsseite aus auslösen. Die Rechnungsseite zeigt die Auftrags-ID und das Übermittlungsdatum an, sobald der Auftrag eingereicht wurde.
 
-**Ohne EBICS-Verbindung** — Du kannst **die pain.xml-Datei manuell** von der Rechnungsseite herunterladen und selbst über das E-Banking-Portal Deiner Bank einreichen. Ein Sammeldownload ist ebenfalls über die Seitenleiste der [Rechnungsseite](/invoices) verfügbar und umfasst alle offenen SEPA-Rechnungen auf einmal.
+**Ohne EBICS-3.0-Verbindung** — Du kannst **die pain.xml-Datei manuell** von der Rechnungsseite herunterladen und selbst über das E-Banking-Portal Deiner Bank einreichen. Ein Sammeldownload ist ebenfalls über die Seitenleiste der [Rechnungsseite](/invoices) verfügbar und umfasst alle offenen SEPA-Rechnungen auf einmal.
 
 > SEPA-Rechnungen lösen keine Zahlungserinnerungen aus, da die Zahlungseinziehung von Dir (dem Gläubiger) und nicht vom Mitglied initiiert wird.
 

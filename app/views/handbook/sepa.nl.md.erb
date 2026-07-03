@@ -20,7 +20,7 @@ Om SEPA-incasso te activeren, zorg er eerst voor dat het IBAN van je organisatie
 - **Informatietekst (SEPA)** (optioneel) — Wordt weergegeven op SEPA-facturen in plaats van de standaard informatietekst.
 - **Alleen lidmaatschapssamenvatting** (optioneel) — Toont alleen de factuursamenvatting op lidmaatschapsfacturen die via SEPA worden geïncasseerd.
 
-Als een EBICS-verbinding is geconfigureerd, worden SEPA-incasso-opdrachten automatisch 3 dagen na het verzenden van de factuur naar je bank verzonden. Meer informatie over [EBICS-instellingen](/handbook/billing#ebics-setup).
+Als een EBICS 3.0-verbinding (H005/BTF) is geconfigureerd, worden SEPA-incasso-opdrachten automatisch 3 dagen na het verzenden van de factuur naar je bank verzonden. Meer informatie over [EBICS-instellingen](/handbook/billing#ebics-setup).
 
 Zodra de SEPA-functie is ingeschakeld en de incassant-ID is geconfigureerd, wordt de self-service machtigingspagina beschikbaar voor alle leden.
 
@@ -40,9 +40,9 @@ Als een lid later zijn IBAN wijzigt, wordt dezelfde machtigingsreferentie hergeb
 
 Zodra een SEPA-factuur is aangemaakt en verzonden, moet een SEPA-incasso-opdracht (XML pain.008) bij je bank worden ingediend.
 
-**Met EBICS-verbinding** — Opdrachten worden **automatisch verzonden** naar je bank 3 dagen na het verzenden van de factuur. Je kunt de verzending ook handmatig starten vanuit de factuurpagina. De factuurpagina toont het opdracht-ID en de verzenddatum zodra de opdracht is ingediend.
+**Met EBICS 3.0-verbinding** — Opdrachten worden **automatisch verzonden** naar je bank 3 dagen na het verzenden van de factuur. Je kunt de verzending ook handmatig starten vanuit de factuurpagina. De factuurpagina toont het opdracht-ID en de verzenddatum zodra de opdracht is ingediend.
 
-**Zonder EBICS-verbinding** — Je kunt **het pain.xml-bestand handmatig downloaden** vanuit de factuurpagina en het zelf uploaden via het e-bankingportaal van je bank. Een bulkdownload is ook beschikbaar via de zijbalk van [de facturenpagina](/invoices), met alle openstaande SEPA-facturen in één keer.
+**Zonder EBICS 3.0-verbinding** — Je kunt **het pain.xml-bestand handmatig downloaden** vanuit de factuurpagina en het zelf uploaden via het e-bankingportaal van je bank. Een bulkdownload is ook beschikbaar via de zijbalk van [de facturenpagina](/invoices), met alle openstaande SEPA-facturen in één keer.
 
 > SEPA-facturen activeren geen betalingsherinneringen, aangezien de inning door jou (de incassant) wordt geïnitieerd en niet door het lid.
 

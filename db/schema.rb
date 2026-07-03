@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_07_01_113000) do
+ActiveRecord::Schema[8.1].define(version: 2026_07_03_143000) do
   create_table "absences", force: :cascade do |t|
     t.datetime "admins_notified_at"
     t.datetime "created_at"
@@ -839,8 +839,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_01_113000) do
     t.boolean "annual_fee_member_form", default: false, null: false
     t.boolean "annual_fee_support_member_only", default: false, null: false
     t.string "api_token", null: false
-    t.string "bank_connection_type"
-    t.json "bank_credentials", default: {}
     t.string "bank_reference"
     t.string "basket_complements_member_order_mode", default: "deliveries_count_desc", null: false
     t.boolean "basket_content_delivery_pdf_visible", default: false, null: false

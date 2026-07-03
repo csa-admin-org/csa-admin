@@ -24,14 +24,6 @@ module Billing
         attributes["schema_version"]
       end
 
-      def epics_client_args
-        [ keys, secret, url, host_id, participant_id, client_id ]
-      end
-
-      def epics_setup_args(keysize)
-        [ secret, url, host_id, participant_id, client_id, keysize ]
-      end
-
       def to_h
         attributes.dup
       end

@@ -79,12 +79,11 @@ class Billing::PaymentsProcessorTest < ActiveSupport::TestCase
     assert_equal "bunq", connection.status_details.dig("last_import", "operation", "provider")
   end
 
-  test "retrieve and process ignores legacy organization bank connection fallback" do
-    org(bank_connection_type: "mock", bank_credentials: { password: "secret" })
-
+  test "retrieve and process does nothing without an active bank connection" do
     assert_empty BankConnection.all
     assert_nil Billing::PaymentsProcessor.retrieve_and_process!
   end
+
 
   test "retrieve and process marks table-backed provider errors" do
     error = ErrorRecorder.new

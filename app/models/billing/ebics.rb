@@ -63,9 +63,7 @@ module Billing
       operation_config.sepa_direct_debit_upload_schema
     end
 
-    def client
-      (@ebics_client || legacy_client).client
-    end
+
 
     private
 
@@ -124,15 +122,8 @@ module Billing
       Date.current.to_s
     end
 
-    def ebics_client(operation)
-      return @ebics_client if @ebics_client
-      return btf_client if operation.btf?
-
-      legacy_client
-    end
-
-    def legacy_client
-      @legacy_client ||= LegacyClient.new(credentials)
+    def ebics_client(_operation)
+      @ebics_client || btf_client
     end
 
     def btf_client

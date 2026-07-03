@@ -342,14 +342,14 @@ module Billing
       end
 
       def ensure_btf_download!(operation)
-        return if operation.btf? && operation.order_type == "BTD"
+        return if operation.order_type == "BTD"
 
         raise UnsupportedOperation,
           "H005/BTF client only supports BTD download operations"
       end
 
       def ensure_btf_upload!(operation)
-        return if operation.btf? && operation.order_type == "BTU"
+        return if operation.order_type == "BTU"
 
         raise UnsupportedOperation,
           "H005/BTF client only supports BTU upload operations"

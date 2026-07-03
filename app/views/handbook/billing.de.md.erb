@@ -219,7 +219,7 @@ Dieser Umverteilungsmodus ist sehr praktisch und ermöglicht es so, Fälle zu ve
 
 ### Automatischer Import {#automatic_payments_processing}
 
-Die effizienteste Methode zur Verarbeitung Deiner Zahlungen besteht darin, Deine Bank zu bitten, [eine EBICS-Verbindung](https://www.six-group.com/de/products-services/banking-services/standardization.html#scrollTo=ebics) einzurichten. Dies ermöglicht es dem System, Zahlungen von Rechnungen mit Referenznummern Deiner Mitglieder automatisch (jede Nacht) über das ISO camt.054-Format zu importieren.
+Die effizienteste Methode zur Verarbeitung Deiner Zahlungen besteht darin, Deine Bank zu bitten, [eine EBICS-3.0-Verbindung](https://www.six-group.com/de/products-services/banking-services/standardization.html#scrollTo=ebics) einzurichten. CSA Admin unterstützt nur EBICS 3.0 (H005/BTF); ältere EBICS-2.x/H003/H004-Verbindungen mit Auftragsarten werden nicht mehr unterstützt. So kann das System die Zahlungen Deiner Mitglieder jede Nacht automatisch über ISO-camt.053/camt.054-Dateien importieren.
 
 <!-- country:CH -->
 CSA Admin verwaltet auch den automatischen Abruf von Zahlungen der [Alternativen Bank Schweiz (ABS)](https://www.abs.ch/de), die das EBICS-System nicht unterstützt.
@@ -229,9 +229,9 @@ CSA Admin verwaltet auch den automatischen Abruf von Zahlungen der [Alternativen
 
 ### Einrichtung von EBICS {#ebics-setup}
 
-Die Einrichtung einer EBICS-Verbindung mit Deiner Bank umfasst mehrere Schritte und dauert in der Regel einige Tage. Hier ist der Ablauf:
+Die Einrichtung einer EBICS-3.0-Verbindung (H005/BTF) mit Deiner Bank umfasst mehrere Schritte und dauert in der Regel einige Tage. Hier ist der Ablauf:
 
-1. **EBICS-Anmeldeformular bei Deiner Bank anfordern** — Kontaktiere Deine Bank, um sie zu bitten, eine EBICS-Verbindung für Dein Konto mit täglichem Abruf und Unterstützung des **camt.054**-Formats zu aktivieren.
+1. **EBICS-Anmeldeformular bei Deiner Bank anfordern** — Kontaktiere Deine Bank und bitte sie, eine EBICS-3.0-Verbindung (H005/BTF) für Dein Konto mit täglichem Abruf von Zahlungsdateien (`BTD`) und Unterstützung von **camt.053/camt.054** zu aktivieren.
 2. **Mir das Bankdokument senden** — Nach Deiner Anmeldung erhältst Du ein Dokument von Deiner Bank (mit der Teilnehmer-ID usw.), scanne es und [sende es mir](/support).
 3. **Unterzeichnung des INI-Briefs** — Ich werde die Verbindung initialisieren und Dir einen INI-Brief zurücksenden. Du musst ihn unterschreiben (**Seiten 1 und 3**) und an Deine Bank senden.
 4. **Finalisierung** — Sobald Deine Bank den unterschriebenen INI-Brief erhalten und validiert hat, kann ich die Verbindung finalisieren.

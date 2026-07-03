@@ -219,7 +219,7 @@ Questa modalità di ridistribuzione è molto comoda e permette così di gestire 
 
 ### Importazione automatica {#automatic_payments_processing}
 
-Il modo più efficiente per elaborare i tuoi pagamenti è chiedere alla tua banca di impostare [una connessione EBICS](https://www.six-group.com/it/products-services/banking-services/standardization.html#scrollTo=ebics). Questo permette al sistema di importare automaticamente (ogni notte) i pagamenti delle fatture con numero di riferimento dei tuoi soci tramite il formato ISO camt.054.
+Il modo più efficiente per elaborare i tuoi pagamenti è chiedere alla tua banca di impostare [una connessione EBICS 3.0](https://www.six-group.com/it/products-services/banking-services/standardization.html#scrollTo=ebics). CSA Admin supporta solo EBICS 3.0 (H005/BTF); le vecchie connessioni EBICS 2.x/H003/H004 con tipi d'ordine non sono più supportate. Questo permette al sistema di importare automaticamente ogni notte i pagamenti dei tuoi soci tramite file ISO camt.053/camt.054.
 
 <!-- country:CH -->
 CSA Admin gestisce anche il recupero automatico dei pagamenti della [Banca Alternativa Svizzera (BAS)](https://www.abs.ch/it) che non supporta il sistema EBICS.
@@ -229,9 +229,9 @@ CSA Admin gestisce anche il recupero automatico dei pagamenti della [Banca Alter
 
 ### Impostazione di EBICS {#ebics-setup}
 
-L'impostazione di una connessione EBICS con la tua banca comprende diverse fasi e richiede generalmente alcuni giorni. Ecco il processo:
+L'impostazione di una connessione EBICS 3.0 (H005/BTF) con la tua banca comprende diverse fasi e richiede generalmente alcuni giorni. Ecco il processo:
 
-1. **Richiedere il modulo di iscrizione EBICS alla tua banca** — Contatta la tua banca per chiedere di attivare una connessione EBICS per il tuo conto con recupero giornaliero e supporto del formato **camt.054**.
+1. **Richiedere il modulo di iscrizione EBICS alla tua banca** — Contatta la tua banca per chiedere di attivare una connessione EBICS 3.0 (H005/BTF) per il tuo conto con recupero giornaliero dei file di pagamento (`BTD`) e supporto dei formati **camt.053/camt.054**.
 2. **Inviarmi il documento della banca** — In seguito alla tua richiesta di iscrizione, riceverai un documento dalla tua banca (contenente l'identificativo del partecipante, ecc.), scannerizzalo e [invialo a me](/support).
 3. **Firma della lettera INI** — Inizializzerò la connessione e ti restituirò una lettera INI. Dovrai firmarla (**pagine 1 e 3**) e inviarla alla tua banca.
 4. **Finalizzazione** — Una volta che la tua banca ha ricevuto e convalidato la lettera INI firmata, potrò finalizzare la connessione.

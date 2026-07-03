@@ -219,7 +219,7 @@ This redistribution mode is very convenient and thus allows managing cases where
 
 ### Automatic import {#automatic_payments_processing}
 
-The most efficient way to process your payments is to ask your bank to set up [an EBICS connection](https://www.six-group.com/en/products-services/banking-services/standardization.html#scrollTo=ebics). This allows the system to automatically import (each night) payments of invoices with reference numbers from your members via the ISO camt.054 format.
+The most efficient way to process your payments is to ask your bank to set up [an EBICS 3.0 connection](https://www.six-group.com/en/products-services/banking-services/standardization.html#scrollTo=ebics). CSA Admin supports EBICS 3.0 (H005/BTF) only; older EBICS 2.x/H003/H004 order-type connections are no longer supported. This allows the system to automatically import payments from your members each night via ISO camt.053/camt.054 files.
 
 <!-- country:CH -->
 CSA Admin also manages automatic retrieval of payments from the [Alternative Bank Switzerland (ABS)](https://www.abs.ch/en) which doesn't support the EBICS system.
@@ -229,9 +229,9 @@ CSA Admin also manages automatic retrieval of payments from the [Alternative Ban
 
 ### Setting up EBICS {#ebics-setup}
 
-Setting up an EBICS connection with your bank involves several steps and typically takes a few days. Here is the process:
+Setting up an EBICS 3.0 (H005/BTF) connection with your bank involves several steps and typically takes a few days. Here is the process:
 
-1. **Request the EBICS registration form from your bank** — Contact your bank to ask them to activate an EBICS connection for your account with daily fetch and **camt.054** file support.
+1. **Request the EBICS registration form from your bank** — Contact your bank to ask them to activate an EBICS 3.0 (H005/BTF) connection for your account with daily payment-file downloads (`BTD`) and **camt.053/camt.054** support.
 2. **Send me the bank document** — Following your registration request, you will receive a document from your bank (containing the Participant ID, etc.), scan it and [send it to me](/support).
 3. **INI letter signing** — I will initialize the connection and send you back an INI letter. You must sign **pages 1 and 3** and send it to your bank.
 4. **Finalization** — Once your bank has received and validated the signed INI letter, I can finalize the connection.

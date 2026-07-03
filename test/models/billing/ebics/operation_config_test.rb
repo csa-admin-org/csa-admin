@@ -121,7 +121,6 @@ class Billing::EBICS::OperationConfigTest < ActiveSupport::TestCase
   test "normalizes direct BTF operation attributes" do
     operation = Billing::EBICS::Operation.btf(order_type: "BTD", service_name: "REP")
 
-    assert operation.btf?
     assert_equal "BTD", operation.order_type
     assert_equal "REP", operation.btf.fetch("service_name")
   end
@@ -138,7 +137,6 @@ class Billing::EBICS::OperationConfigTest < ActiveSupport::TestCase
 
     operation = config.payment_download
 
-    assert operation.btf?
     assert_equal "BTD", operation.order_type
     assert_equal "REP", operation.btf.fetch("service_name")
     assert_equal "camt.054", operation.btf.fetch("message_name")

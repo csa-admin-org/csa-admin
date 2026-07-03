@@ -20,7 +20,7 @@ To enable SEPA direct debit, first make sure your organization's IBAN is configu
 - **Information text (SEPA)** (optional) — Displayed on SEPA invoices instead of the standard information text.
 - **Membership summary only** (optional) — Shows only the invoice summary on membership invoices collected by SEPA.
 
-If an EBICS connection is configured, SEPA direct debit orders are automatically uploaded to your bank 3 days after the invoice is sent. More info on [EBICS setup](/handbook/billing#ebics-setup).
+If an EBICS 3.0 (H005/BTF) connection is configured, SEPA direct debit orders are automatically uploaded to your bank 3 days after the invoice is sent. More info on [EBICS setup](/handbook/billing#ebics-setup).
 
 Once the SEPA feature is enabled and the creditor identifier is configured, the self-service mandate page becomes available to all members.
 
@@ -40,9 +40,9 @@ If a member updates their IBAN later, the same mandate reference is reused, the 
 
 Once a SEPA invoice is created and sent, a SEPA direct debit order (pain.008 XML) needs to be submitted to your bank.
 
-**With an EBICS connection** — Orders are **automatically uploaded** to your bank 3 days after the invoice is sent. You can also trigger the upload manually from an invoice's page. The invoice page shows the order ID and upload date once the order has been submitted.
+**With an EBICS 3.0 connection** — Orders are **automatically uploaded** to your bank 3 days after the invoice is sent. You can also trigger the upload manually from an invoice's page. The invoice page shows the order ID and upload date once the order has been submitted.
 
-**Without an EBICS connection** — You can **download the pain.xml file** manually from an invoice's page and upload it yourself to your bank's e-banking portal. A bulk download is also available from [the invoices page](/invoices) sidebar, covering all open SEPA invoices at once.
+**Without an EBICS 3.0 connection** — You can **download the pain.xml file** manually from an invoice's page and upload it yourself to your bank's e-banking portal. A bulk download is also available from [the invoices page](/invoices) sidebar, covering all open SEPA invoices at once.
 
 > SEPA invoices do not trigger overdue notices, since payment collection is initiated by you (the creditor) rather than the member.
 

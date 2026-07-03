@@ -2,7 +2,6 @@
 
 require "test_helper"
 require "base64"
-require "epics"
 require "nokogiri"
 require "openssl"
 
@@ -23,13 +22,7 @@ class Billing::EBICS::Btf::RequestSignerTest < ActiveSupport::TestCase
       signed_info(doc))
   end
 
-  test "matches epics signer output for existing encrypted key blobs" do
-    epics_client = synthetic_epics_client
-    key_store = Billing::EBICS::KeyStore.new(credentials_from(epics_client))
 
-    assert_equal canonical_xml(sign_with_epics(epics_client)),
-      canonical_xml(Billing::EBICS::Btf::RequestSigner.new(key_store).sign(unsigned_xml))
-  end
 
   private
 
@@ -61,27 +54,7 @@ class Billing::EBICS::Btf::RequestSignerTest < ActiveSupport::TestCase
     XML
   end
 
-  def sign_with_epics(client)
-    signer = ::Epics::Signer.new(client, unsigned_xml)
-    signer.digest!
-    signer.sign!
-    signer.doc.to_xml(save_with: Nokogiri::XML::Node::SaveOptions::AS_XML, encoding: "utf-8")
-  end
 
-  def credentials_from(client)
-    {
-      "keys" => client.send(:dump_keys),
-      "secret" => "secret",
-      "url" => "https://ebics.example.test",
-      "host_id" => "HOSTID",
-      "participant_id" => "USERID",
-      "client_id" => "PARTNERID"
-    }
-  end
-
-  def canonical_xml(xml)
-    Nokogiri::XML(xml) { |config| config.noblanks }.canonicalize
-  end
 
   def digest_value(doc)
     doc.at_xpath("//ds:DigestValue", ds: XMLDSIG_NAMESPACE).text

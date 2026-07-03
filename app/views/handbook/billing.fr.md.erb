@@ -218,7 +218,7 @@ Ce mode de redistribution est très commode et permet de gérer ainsi les cas ou
 
 ### Importation automatique {#automatic_payments_processing}
 
-La manière la plus efficace de traiter vos paiements est de demander à votre banque de mettre en place [une connexion EBICS](https://www.six-group.com/fr/products-services/banking-services/standardization.html#scrollTo=ebics). Cela permet au système d'importer automatiquement (chaque nuit) les paiements des factures avec numéro de référence de vos membres via le format ISO camt.054.
+La manière la plus efficace de traiter vos paiements est de demander à votre banque de mettre en place [une connexion EBICS 3.0](https://www.six-group.com/fr/products-services/banking-services/standardization.html#scrollTo=ebics). CSA Admin supporte uniquement EBICS 3.0 (H005/BTF); les anciennes connexions EBICS 2.x/H003/H004 avec types d'ordre ne sont plus supportées. Cela permet au système d'importer automatiquement chaque nuit les paiements de vos membres via des fichiers ISO camt.053/camt.054.
 
 <!-- country:CH -->
 CSA Admin gère également la récupération automatique des paiements de la [Banque Alternative Suisse (BAS)](https://www.bas.ch/fr) qui ne supporte pas le système EBICS.
@@ -228,9 +228,9 @@ CSA Admin gère également la récupération automatique des paiements de la [Ba
 
 ### Mise en place d'EBICS {#ebics-setup}
 
-La mise en place d'une connexion EBICS avec votre banque implique plusieurs étapes et prend généralement quelques jours. Voici le processus:
+La mise en place d'une connexion EBICS 3.0 (H005/BTF) avec votre banque implique plusieurs étapes et prend généralement quelques jours. Voici le processus:
 
-1. **Demander le formulaire d'inscription à EBICS à votre banque** — Contacter votre banque afin de leur demander d'activer une connexion EBICS pour votre compte avec une récupération journalière et le support du format **camt.054**.
+1. **Demander le formulaire d'inscription à EBICS à votre banque** — Contactez votre banque afin de leur demander d'activer une connexion EBICS 3.0 (H005/BTF) pour votre compte avec récupération journalière des fichiers de paiement (`BTD`) et support des formats **camt.053/camt.054**.
 2. **M'envoyer le document de la banque** — Suite à votre demande d'inscription, vous recevrez un document de votre banque (contenant l'identifiant participant, etc.), scannez-le et [envoyez-le moi](/support).
 3. **Signature de la lettre INI** — J'initialiserai la connexion et vous renverrai une lettre INI. Vous devrez la signer (**pages 1 et 3**) et l'envoyer à votre banque.
 4. **Finalisation** — Une fois que votre banque a reçu et validé la lettre INI signée, je pourrai finaliser la connexion.

@@ -35,6 +35,7 @@ gem "i18n-backend-side_by_side"
 gem "geocoder"
 gem "rack-status"
 gem "rack-cors"
+gem "faraday", require: false
 
 # Admin and UI
 gem "activeadmin", "~> 4.0.0.beta22"
@@ -77,7 +78,6 @@ gem "liquid"
 
 # Billing
 gem "cmxl", require: false
-gem "epics", require: false
 gem "girocode", require: false # EPC QR code
 gem "iban-tools", require: false
 gem "rqrcode", require: false

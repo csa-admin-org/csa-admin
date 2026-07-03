@@ -20,7 +20,7 @@ Pour activer le prélèvement SEPA, assurez-vous d'abord que l'IBAN de votre org
 - **Texte d'information (SEPA)** (optionnel) — Affiché sur les factures SEPA à la place du texte d'information standard.
 - **Résumé de l'abonnement uniquement** (optionnel) — Affiche uniquement le résumé de la facture sur les factures d'abonnement prélevées par SEPA.
 
-Si une connexion EBICS est configurée, les ordres de prélèvement SEPA sont automatiquement transmis à votre banque 3 jours après l'envoi de la facture. Plus d'info sur la [configuration EBICS](/handbook/billing#ebics-setup).
+Si une connexion EBICS 3.0 (H005/BTF) est configurée, les ordres de prélèvement SEPA sont automatiquement transmis à votre banque 3 jours après l'envoi de la facture. Plus d'info sur la [configuration EBICS](/handbook/billing#ebics-setup).
 
 Une fois la fonctionnalité SEPA activée et l'identifiant créancier configuré, la page de mandat self-service devient accessible à tous les membres.
 
@@ -40,9 +40,9 @@ Si un membre met à jour son IBAN par la suite, la même référence de mandat e
 
 Une fois qu'une facture SEPA est créée et envoyée, un ordre de prélèvement SEPA (XML pain.008) doit être soumis à votre banque.
 
-**Avec une connexion EBICS** — Les ordres sont **automatiquement transmis** à votre banque 3 jours après l'envoi de la facture. Vous pouvez aussi déclencher la transmission manuellement depuis la page d'une facture. La page de la facture affiche l'ID de l'ordre et la date de transmission une fois l'ordre soumis.
+**Avec une connexion EBICS 3.0** — Les ordres sont **automatiquement transmis** à votre banque 3 jours après l'envoi de la facture. Vous pouvez aussi déclencher la transmission manuellement depuis la page d'une facture. La page de la facture affiche l'ID de l'ordre et la date de transmission une fois l'ordre soumis.
 
-**Sans connexion EBICS** — Vous pouvez **télécharger le fichier pain.xml** manuellement depuis la page d'une facture et le transmettre vous-même via le portail e-banking de votre banque. Un téléchargement groupé est également disponible depuis la barre latérale de [la page des factures](/invoices), couvrant toutes les factures SEPA ouvertes en une seule fois.
+**Sans connexion EBICS 3.0** — Vous pouvez **télécharger le fichier pain.xml** manuellement depuis la page d'une facture et le transmettre vous-même via le portail e-banking de votre banque. Un téléchargement groupé est également disponible depuis la barre latérale de [la page des factures](/invoices), couvrant toutes les factures SEPA ouvertes en une seule fois.
 
 > Les factures SEPA ne déclenchent pas de rappels de paiement, puisque la collecte est initiée par vous (le créancier) plutôt que par le membre.
 

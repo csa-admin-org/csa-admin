@@ -219,7 +219,7 @@ Deze herverdelingsmodus is zeer handig en maakt het mogelijk om gevallen te behe
 
 ### Automatische import {#automatic_payments_processing}
 
-De meest efficiënte manier om je betalingen te verwerken is om je bank te vragen een [EBICS-verbinding](https://www.six-group.com/en/products-services/banking-services/standardization.html#scrollTo=ebics) in te stellen. Dit stelt het systeem in staat om automatisch (elke nacht) betalingen van facturen met referentienummers van je leden te importeren via het ISO camt.054 formaat.
+De meest efficiënte manier om je betalingen te verwerken is om je bank te vragen een [EBICS 3.0-verbinding](https://www.six-group.com/en/products-services/banking-services/standardization.html#scrollTo=ebics) in te stellen. CSA Admin ondersteunt alleen EBICS 3.0 (H005/BTF); oudere EBICS 2.x/H003/H004-verbindingen met ordertypes worden niet meer ondersteund. Zo kan het systeem elke nacht automatisch betalingen van je leden importeren via ISO camt.053/camt.054-bestanden.
 
 <!-- country:CH -->
 CSA Admin beheert ook automatische ophaling van betalingen van de [Alternative Bank Switzerland (ABS)](https://www.abs.ch/en) die het EBICS-systeem niet ondersteunt.
@@ -229,9 +229,9 @@ CSA Admin beheert ook automatische ophaling van betalingen van de [Alternative B
 
 ### EBICS instellen {#ebics-setup}
 
-Het instellen van een EBICS-verbinding met je bank omvat verschillende stappen en duurt doorgaans enkele dagen. Hier is het proces:
+Het instellen van een EBICS 3.0-verbinding (H005/BTF) met je bank omvat verschillende stappen en duurt doorgaans enkele dagen. Hier is het proces:
 
-1. **Het EBICS-inschrijfformulier aanvragen bij je bank** — Neem contact op met je bank om hen te vragen een EBICS-verbinding te activeren voor je rekening met dagelijkse ophaling en ondersteuning van het **camt.054** formaat.
+1. **Het EBICS-inschrijfformulier aanvragen bij je bank** — Neem contact op met je bank en vraag om een EBICS 3.0-verbinding (H005/BTF) voor je rekening te activeren met dagelijkse ophaling van betalingsbestanden (`BTD`) en ondersteuning van **camt.053/camt.054**.
 2. **Stuur mij het bankdocument** — Na je inschrijvingsaanvraag ontvang je een document van je bank (met het deelnemer-ID, enz.), scan het en [stuur het naar mij](/support).
 3. **Ondertekening van de INI-brief** — Ik zal de verbinding initialiseren en je een INI-brief terugsturen. Je dient deze te ondertekenen (**pagina's 1 en 3**) en naar je bank te sturen.
 4. **Afronding** — Zodra je bank de ondertekende INI-brief heeft ontvangen en gevalideerd, kan ik de verbinding afronden.

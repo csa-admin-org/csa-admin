@@ -45,16 +45,11 @@ namespace :billing do
 
   def payment_import_process_result(tenant, provider:, confirm:, required: false)
     connection = Current.org.active_bank_connection
-    legacy_provider = Current.org.bank_connection_type
-    resolved_provider = connection&.provider || legacy_provider
+    resolved_provider = connection&.provider
 
-    abort "Tenant '#{tenant}' has no bank connection" if required && resolved_provider.blank?
-    return if resolved_provider.blank?
+    abort "Tenant '#{tenant}' has no active bank connection" if required && !connection
+    return unless connection
     return if provider && provider != resolved_provider
-
-    unless connection
-      return payment_import_result(tenant, provider: legacy_provider, source: "legacy_organization", status: "legacy_fallback")
-    end
 
     unless confirm
       return payment_import_result(tenant, connection:, provider: resolved_provider, source: "bank_connections", status: "dry_run")
@@ -68,7 +63,7 @@ namespace :billing do
     payment_import_result(tenant,
       connection: connection,
       provider: resolved_provider,
-      source: connection ? "bank_connections" : "legacy_organization",
+      source: "bank_connections",
       status: "error",
       error_class: e.class.name,
       error_message: e.message.to_s.truncate(500))

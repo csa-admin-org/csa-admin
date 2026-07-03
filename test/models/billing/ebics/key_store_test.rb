@@ -5,15 +5,15 @@ require "base64"
 require "openssl"
 
 class Billing::EBICS::KeyStoreTest < ActiveSupport::TestCase
-  test "loads existing encrypted epics key blobs" do
-    epics_client = synthetic_epics_client
-    store = Billing::EBICS::KeyStore.new(credentials_from(epics_client))
+  test "loads encrypted EBICS key blobs" do
+    key_material = synthetic_ebics_key_material
+    store = Billing::EBICS::KeyStore.new(synthetic_ebics_credentials(key_material: key_material))
 
-    assert_equal epics_client.a.public_digest, store.a.public_digest
-    assert_equal epics_client.x.public_digest, store.x.public_digest
-    assert_equal epics_client.e.public_digest, store.e.public_digest
-    assert_equal epics_client.bank_x.public_digest, store.bank_x.public_digest
-    assert_equal epics_client.bank_e.public_digest, store.bank_e.public_digest
+    assert_equal digest_for(key_material.fetch("A006")), store.a.public_digest
+    assert_equal digest_for(key_material.fetch("X002")), store.x.public_digest
+    assert_equal digest_for(key_material.fetch("E002")), store.e.public_digest
+    assert_equal digest_for(key_material.fetch("HOSTID.X002")), store.bank_x.public_digest
+    assert_equal digest_for(key_material.fetch("HOSTID.E002")), store.bank_e.public_digest
   end
 
   test "exposes the current EBICS client identity mapping" do
@@ -68,20 +68,10 @@ class Billing::EBICS::KeyStoreTest < ActiveSupport::TestCase
   private
 
   def credentials_with_bank_keys(bank_x:, bank_e:)
-    synthetic_epics_client.tap do |client|
-      client.keys["HOSTID.X002"] = ::Epics::Key.new(bank_x.public_to_pem)
-      client.keys["HOSTID.E002"] = ::Epics::Key.new(bank_e.public_to_pem)
-    end.then { |client| credentials_from(client) }
+    synthetic_ebics_credentials(bank_x: bank_x, bank_e: bank_e)
   end
 
-  def credentials_from(client)
-    {
-      "keys" => client.send(:dump_keys),
-      "secret" => "secret",
-      "url" => "https://ebics.example.test",
-      "host_id" => "HOSTID",
-      "participant_id" => "USERID",
-      "client_id" => "PARTNERID"
-    }
+  def digest_for(key)
+    Billing::EBICS::Key.new(key).public_digest
   end
 end

@@ -20,7 +20,7 @@ Per attivare l'addebito diretto SEPA, assicurati prima che l'IBAN della tua orga
 - **Testo informativo (SEPA)** (opzionale) — Visualizzato sulle fatture SEPA al posto del testo informativo standard.
 - **Solo riepilogo dell'abbonamento** (opzionale) — Mostra solo il riepilogo della fattura sulle fatture di abbonamento incassate tramite SEPA.
 
-Se è configurata una connessione EBICS, gli ordini di addebito diretto SEPA vengono automaticamente trasmessi alla tua banca 3 giorni dopo l'invio della fattura. Maggiori informazioni sulla [configurazione EBICS](/handbook/billing#ebics-setup).
+Se è configurata una connessione EBICS 3.0 (H005/BTF), gli ordini di addebito diretto SEPA vengono automaticamente trasmessi alla tua banca 3 giorni dopo l'invio della fattura. Maggiori informazioni sulla [configurazione EBICS](/handbook/billing#ebics-setup).
 
 Una volta attivata la funzione SEPA e configurato l'identificativo creditore, la pagina di mandato self-service diventa accessibile a tutti i soci.
 
@@ -40,9 +40,9 @@ Se un socio aggiorna il proprio IBAN in seguito, lo stesso riferimento di mandat
 
 Una volta creata e inviata una fattura SEPA, un ordine di addebito diretto SEPA (XML pain.008) deve essere inoltrato alla tua banca.
 
-**Con connessione EBICS** — Gli ordini vengono **automaticamente trasmessi** alla tua banca 3 giorni dopo l'invio della fattura. Puoi anche attivare la trasmissione manualmente dalla pagina della fattura. La pagina della fattura mostra l'ID dell'ordine e la data di trasmissione una volta che l'ordine è stato inoltrato.
+**Con connessione EBICS 3.0** — Gli ordini vengono **automaticamente trasmessi** alla tua banca 3 giorni dopo l'invio della fattura. Puoi anche attivare la trasmissione manualmente dalla pagina della fattura. La pagina della fattura mostra l'ID dell'ordine e la data di trasmissione una volta che l'ordine è stato inoltrato.
 
-**Senza connessione EBICS** — Puoi **scaricare il file pain.xml** manualmente dalla pagina della fattura e trasmetterlo tu stesso tramite il portale e-banking della tua banca. È disponibile anche un download collettivo dalla barra laterale della [pagina delle fatture](/invoices), che copre tutte le fatture SEPA aperte in una sola volta.
+**Senza connessione EBICS 3.0** — Puoi **scaricare il file pain.xml** manualmente dalla pagina della fattura e trasmetterlo tu stesso tramite il portale e-banking della tua banca. È disponibile anche un download collettivo dalla barra laterale della [pagina delle fatture](/invoices), che copre tutte le fatture SEPA aperte in una sola volta.
 
 > Le fatture SEPA non attivano promemoria di pagamento, poiché la riscossione è avviata da te (il creditore) e non dal socio.
 

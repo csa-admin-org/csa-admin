@@ -3,9 +3,8 @@
 require "json"
 
 namespace :ebics do
-  desc "Print sanitized EBICS readiness report (optional TENANT=ragedevert LIVE_HEV=true)"
+  desc "Print sanitized EBICS 3.0/H005 readiness report (optional TENANT=ragedevert; no live bank calls)"
   task readiness: :environment do
-    live_hev = ENV["LIVE_HEV"].in?(%w[1 true])
     tenant_name = ENV["TENANT"].presence || ENV["TENANT_NAME"].presence
     results = []
 
@@ -13,19 +12,17 @@ namespace :ebics do
       abort "Tenant '#{tenant_name}' does not exist" unless Tenant.exists?(tenant_name)
 
       Tenant.switch(tenant_name) do
-        results << Billing::EBICS::ReadinessReport.new(tenant: tenant_name, live_hev: live_hev).to_h
+        results << Billing::EBICS::ReadinessReport.new(tenant: tenant_name).to_h
       end
     else
       Tenant.switch_each do |tenant|
         next if Tenant.custom? && !ENV["TENANT"]
 
-        results << Billing::EBICS::ReadinessReport.new(tenant: tenant, live_hev: live_hev).to_h
+        results << Billing::EBICS::ReadinessReport.new(tenant: tenant).to_h
       end
     end
 
-    puts JSON.pretty_generate(
-      live_hev: live_hev,
-      results: results)
+    puts JSON.pretty_generate(results: results)
   end
 
   desc "Run EBICS capabilities monitor and print health summary (optional TENANT=ragedevert; live bank calls)"

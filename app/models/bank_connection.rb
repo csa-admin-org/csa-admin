@@ -3,7 +3,7 @@
 class BankConnection < ApplicationRecord
   include HasState
 
-  PROVIDERS = Organization::Billing::BANK_CONNECTION_TYPES
+  PROVIDERS = %w[ebics bas bunq mock]
   HEALTH_STATUSES = %w[unknown healthy warning errored]
   FILTERED = "[FILTERED]"
   SENSITIVE_CREDENTIAL_KEYS = %w[

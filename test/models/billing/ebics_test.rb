@@ -1,37 +1,8 @@
 # frozen_string_literal: true
 
 require "test_helper"
-require "epics"
 
 class Billing::EBICSTest < ActiveSupport::TestCase
-  test "initializes epics client with current credential keys" do
-    args = nil
-    client = EBICSClientStub.new
-
-    with_epics_client_factory(->(*given_args) { args = given_args; client }) do
-      assert_same client, Billing::EBICS.new(credentials).client
-    end
-
-    assert_equal [
-      "keys",
-      "secret",
-      "https://ebics.example.test",
-      "HOSTID",
-      "PARTICIPANTID",
-      "CLIENTID"
-    ], args
-  end
-
-  test "client initialization does not require current organization" do
-    client = EBICSClientStub.new
-
-    with_current_org_error do
-      with_epics_client(client) do
-        assert_same client, Billing::EBICS.new(credentials).client
-      end
-    end
-  end
-
   test "SEPA direct debit upload does not require current organization" do
     client = BtfClientStub.new([])
 
@@ -119,7 +90,6 @@ class Billing::EBICSTest < ActiveSupport::TestCase
 
     method, operation, document = client.calls.first
     assert_equal :upload, method
-    assert operation.btf?
     assert_equal "BTU", operation.order_type
     assert_equal "pain.008", operation.btf.fetch("message_name")
     assert_equal "pain-xml", document
@@ -133,7 +103,6 @@ class Billing::EBICSTest < ActiveSupport::TestCase
     payments_data = Billing::EBICS.new(credentials, settings: settings, ebics_client: client).payments_data
 
     operation, range = client.calls.first
-    assert operation.btf?
     assert_equal "BTD", operation.order_type
     assert_equal "camt.054", operation.btf.fetch("message_name")
     assert_equal [ Billing::EBICS::GET_PAYMENTS_FROM.to_date.to_s, Date.current.to_s ], range
@@ -148,7 +117,6 @@ class Billing::EBICSTest < ActiveSupport::TestCase
 
     method, operation, range = client.calls.first
     assert_equal :download_and_process, method
-    assert operation.btf?
     assert_equal "BTD", operation.order_type
     assert_equal [ Billing::EBICS::GET_PAYMENTS_FROM.to_date.to_s, Date.current.to_s ], range
   end
@@ -196,7 +164,7 @@ class Billing::EBICSTest < ActiveSupport::TestCase
 
   test "returns no payments and notifies when no EBICS download data is available" do
     event = EventRecorder.new
-    error = Billing::EBICS::NoDownloadDataAvailable.new(::Epics::Error::BusinessError.new("090005"))
+    error = Billing::EBICS::NoDownloadDataAvailable.new(StandardError.new("EBICS_NO_DOWNLOAD_DATA_AVAILABLE"))
     client = BtfClientStub.new(error)
 
     with_rails_event(event) do
@@ -206,13 +174,13 @@ class Billing::EBICSTest < ActiveSupport::TestCase
     assert_equal 1, event.notifications.size
     name, payload = event.notifications.first
     assert_equal :ebics_no_data_available, name
-    assert_equal "Epics::Error::BusinessError", payload[:error]
+    assert_equal "StandardError", payload[:error]
     assert_includes payload[:error_message], "EBICS_NO_DOWNLOAD_DATA_AVAILABLE"
   end
 
   test "returns no payments and notifies when EBICS technical error occurs" do
     event = EventRecorder.new
-    error = Billing::EBICS::TechnicalError.new(::Epics::Error::TechnicalError.new("061099"))
+    error = Billing::EBICS::TechnicalError.new(StandardError.new("EBICS_INTERNAL_ERROR"))
     client = BtfClientStub.new(error)
 
     with_rails_event(event) do
@@ -222,7 +190,7 @@ class Billing::EBICSTest < ActiveSupport::TestCase
     assert_equal 1, event.notifications.size
     name, payload = event.notifications.first
     assert_equal :ebics_technical_error, name
-    assert_equal "Epics::Error::TechnicalError", payload[:error]
+    assert_equal "StandardError", payload[:error]
     assert_includes payload[:error_message], "EBICS_INTERNAL_ERROR"
   end
 
@@ -271,17 +239,7 @@ class Billing::EBICSTest < ActiveSupport::TestCase
       settings: settings)
   end
 
-  def with_epics_client(client, &block)
-    with_epics_client_factory(->(*_args) { client }, &block)
-  end
 
-  def with_epics_client_factory(factory)
-    original = ::Epics::Client.method(:new)
-    ::Epics::Client.define_singleton_method(:new) { |*args| factory.call(*args) }
-    yield
-  ensure
-    ::Epics::Client.define_singleton_method(:new, original)
-  end
 
   def with_rails_event(event)
     original = Rails.method(:event)
@@ -299,36 +257,7 @@ class Billing::EBICSTest < ActiveSupport::TestCase
     Current.define_singleton_method(:org, original)
   end
 
-  class EBICSClientStub
-    attr_reader :calls
 
-    def initialize(z54: [], c53: [], cdd: nil)
-      @responses = { Z54: z54, C53: c53, CDD: cdd }
-      @calls = []
-    end
-
-    def Z54(*args)
-      call(:Z54, args)
-    end
-
-    def C53(*args)
-      call(:C53, args)
-    end
-
-    def CDD(*args)
-      call(:CDD, args)
-    end
-
-    private
-
-    def call(name, args)
-      @calls << [ name, args ]
-      response = @responses.fetch(name)
-      raise response if response.is_a?(Exception)
-
-      response
-    end
-  end
 
   class BtfClientStub
     attr_reader :calls

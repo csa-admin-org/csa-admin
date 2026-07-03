@@ -7,11 +7,8 @@ class Billing::EBICS::ReadinessReportTest < ActiveSupport::TestCase
     BankConnection.delete_all
   end
 
-  test "reports sanitized EBICS readiness without live HEV" do
-    org(
-      country_code: "CH",
-      bank_connection_type: "ebics",
-      bank_credentials: ebics_credentials)
+  test "reports sanitized EBICS 3.0 readiness" do
+    org(country_code: "CH")
     connection = BankConnection.create!(
       provider: "ebics",
       name: "HOSTID",
@@ -23,48 +20,24 @@ class Billing::EBICS::ReadinessReportTest < ActiveSupport::TestCase
     report = Billing::EBICS::ReadinessReport.new(tenant: "acme").to_h
 
     assert_equal "acme", report.fetch("tenant")
-    assert_equal "ebics", report.dig("legacy_connection", "provider")
     assert_equal connection.id, report.dig("active_connection", "id")
     assert_equal "ebics.example.test", report.dig("ebics", "endpoint_host")
     assert_equal "HOSTID", report.dig("ebics", "host_id")
-    assert_equal "skipped", report.dig("ebics", "hev", "status")
+    assert_equal "H005", report.dig("ebics", "protocol")
     assert_equal "btf", report.dig("ebics", "current_payment_operation", "mode")
     assert_equal "BTD", report.dig("ebics", "current_payment_operation", "order_type")
     assert_equal "camt.054", report.dig("ebics", "current_payment_operation", "message_name")
     assert_equal "BTD", report.dig("ebics", "recommended_btf_payment_operation", "order_type")
     assert_equal "camt.054", report.dig("ebics", "recommended_btf_payment_operation", "message_name")
+    assert report.dig("ebics", "btf_readiness", "h005_configured")
     assert report.dig("ebics", "btf_readiness", "request_build_ready")
-    assert_not report.dig("ebics", "btf_readiness", "live_dry_run_ready")
-    assert_includes report.dig("ebics", "btf_readiness", "live_dry_run_blocker"), "LIVE_HEV"
+    assert report.dig("ebics", "btf_readiness", "manual_download_ready")
+    assert_nil report.dig("ebics", "btf_readiness", "manual_download_blocker")
+    assert_includes report.dig("ebics", "live_capabilities_check"), "ebics:capabilities"
     assert_sanitized report
   end
 
-  test "confirms H005 only when live HEV is explicitly enabled" do
-    org(
-      country_code: "CH",
-      bank_connection_type: "ebics",
-      bank_credentials: ebics_credentials)
-    BankConnection.create!(
-      provider: "ebics",
-      active: true,
-      state: "ready",
-      credentials: ebics_credentials,
-      settings: btf_payment_settings)
-
-    report = Billing::EBICS::ReadinessReport.new(
-      tenant: "acme",
-      live_hev: true,
-      legacy_client: FakeLegacyClient.new).to_h
-
-    assert_equal "ok", report.dig("ebics", "hev", "status")
-    assert_equal "03.00", report.dig("ebics", "hev", "protocols", "H005")
-    assert report.dig("ebics", "btf_readiness", "h005_confirmed")
-    assert report.dig("ebics", "btf_readiness", "live_dry_run_ready")
-    assert_nil report.dig("ebics", "btf_readiness", "live_dry_run_blocker")
-  end
-
   test "reports non-EBICS tenants without EBICS details" do
-    org(bank_connection_type: "bas", bank_credentials: { account_number: "123" })
     BankConnection.create!(
       provider: "bas",
       active: true,
@@ -73,7 +46,7 @@ class Billing::EBICS::ReadinessReportTest < ActiveSupport::TestCase
 
     report = Billing::EBICS::ReadinessReport.new(tenant: "acme").to_h
 
-    assert_equal "bas", report.dig("legacy_connection", "provider")
+    assert_equal "bas", report.dig("active_connection", "provider")
     assert_nil report.fetch("ebics")
   end
 
@@ -100,18 +73,5 @@ class Billing::EBICS::ReadinessReportTest < ActiveSupport::TestCase
 
     assert_not_includes output, ebics_credentials.fetch(:secret)
     assert_not_includes output, ebics_credentials.fetch(:keys).first(80)
-  end
-
-  class FakeLegacyClient
-    def client
-      self
-    end
-
-    def HEV
-      {
-        "H004" => "02.50",
-        "H005" => "03.00"
-      }
-    end
   end
 end

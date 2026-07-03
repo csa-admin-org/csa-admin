@@ -77,12 +77,10 @@ module Billing
 
       def check_operation(kind, config, advertised_services)
         config = config.to_h.deep_stringify_keys
-        mode = config["mode"].presence || "order_type"
-
-        unless mode == "btf"
-          unexpected("Active EBICS connection uses legacy order-type operation",
+        unless config["mode"] == "btf"
+          unexpected("Active EBICS connection must use BTF operation settings",
             operation_kind: kind,
-            operation: legacy_operation(config))
+            operation: config.slice("mode", "btf"))
           return
         end
 
@@ -188,12 +186,6 @@ module Billing
         attributes.to_h.deep_stringify_keys.slice(*SERVICE_KEYS).compact_blank
       end
 
-      def legacy_operation(config)
-        {
-          "mode" => config["mode"].presence || "order_type",
-          "order_type" => config["order_type"]
-        }.compact_blank
-      end
 
       def unexpected(message, **context)
         warnings << message

@@ -16,15 +16,14 @@ class EbicsRakeTest < ActiveSupport::TestCase
   end
 
   test "readiness prints sanitized tenant report as JSON" do
-    with_env("TENANT" => "ragedevert", "LIVE_HEV" => "true") do
+    with_env("TENANT" => "ragedevert") do
       Tenant.stub(:exists?, true) do
         Tenant.stub(:switch, ->(_tenant, &block) { block.call }) do
           Billing::EBICS::ReadinessReport.stub(:new, readiness_report_stub) do
             out, = capture_io { Rake::Task["ebics:readiness"].invoke }
             json = JSON.parse(out)
 
-            assert json.fetch("live_hev")
-            assert_equal [ { "tenant" => "ragedevert", "ebics" => { "hev" => { "status" => "ok" } } } ], json.fetch("results")
+            assert_equal [ { "tenant" => "ragedevert", "ebics" => { "protocol" => "H005" } } ], json.fetch("results")
           end
         end
       end
@@ -180,15 +179,12 @@ class EbicsRakeTest < ActiveSupport::TestCase
   end
 
   def readiness_report_stub
-    ->(tenant:, live_hev:) {
+    ->(tenant:) {
       assert_equal "ragedevert", tenant
-      assert live_hev
       Struct.new(:to_h).new({
         "tenant" => tenant,
         "ebics" => {
-          "hev" => {
-            "status" => "ok"
-          }
+          "protocol" => "H005"
         }
       })
     }

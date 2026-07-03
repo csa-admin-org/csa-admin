@@ -31,7 +31,7 @@ namespace :bunq do
   end
 
   # Helper class to encapsulate the bunq setup logic.
-  # Persists credentials incrementally to bank_credentials to avoid losing
+  # Persists credentials incrementally to bank_connections to avoid losing
   # progress if an error occurs mid-setup.
   class BunqSetup
     def initialize(org, api_key:)
@@ -53,12 +53,27 @@ namespace :bunq do
 
     private
 
+    def connection
+      @connection ||= begin
+        active_connection = BankConnection.active.first
+        raise "Active bank connection is already #{active_connection.provider}" if active_connection && active_connection.provider != "bunq"
+
+        active_connection || BankConnection.where(provider: "bunq", active: false, state: "initializing").order(:id).first ||
+          BankConnection.new(provider: "bunq", active: false, state: "initializing")
+      end
+    end
+
     def credentials
-      @org.bank_credentials.symbolize_keys
+      connection.credentials.to_h.symbolize_keys
     end
 
     def update_credentials!(new_values)
-      @org.update!(bank_credentials: credentials.merge(new_values))
+      connection.assign_attributes(
+        provider: "bunq",
+        active: connection.active?,
+        state: connection.active? ? "ready" : "initializing",
+        credentials: credentials.merge(new_values))
+      connection.save!
     end
 
     # Step 1: Generate RSA keypair and store API key
@@ -69,7 +84,7 @@ namespace :bunq do
       if credentials[:private_key].present? && credentials[:installation_token].present?
         # Just ensure api_key is stored
         update_credentials!(api_key: @api_key) unless credentials[:api_key].present?
-        puts "   Using existing keypair from bank_credentials"
+        puts "   Using existing keypair from bank_connections"
         return
       end
 
@@ -84,7 +99,7 @@ namespace :bunq do
       puts "2. Creating bunq installation..."
 
       if credentials[:installation_token].present? && credentials[:server_public_key].present?
-        puts "   Using existing installation from bank_credentials"
+        puts "   Using existing installation from bank_connections"
         return
       end
 
@@ -117,7 +132,7 @@ namespace :bunq do
       puts "3. Registering device..."
 
       if credentials[:device_id].present?
-        puts "   Using existing device from bank_credentials"
+        puts "   Using existing device from bank_connections"
         return
       end
 
@@ -176,7 +191,7 @@ namespace :bunq do
       puts "5. Fetching monetary accounts..."
 
       if credentials[:monetary_account_id].present?
-        puts "   Using existing monetary account from bank_credentials (ID: #{credentials[:monetary_account_id]})"
+        puts "   Using existing monetary account from bank_connections (ID: #{credentials[:monetary_account_id]})"
         return
       end
 
@@ -225,18 +240,17 @@ namespace :bunq do
       puts "   Selected account: #{selected[:description]} (#{selected[:iban]})"
     end
 
-    # Step 6: Update bank connection type
+    # Step 6: Finalize the tenant-local bank connection
     def finalize
       puts "6. Finalizing setup..."
 
-      if @org.bank_connection_type == "bunq"
-        puts "   Bank connection type already set to 'bunq'"
-        return
-      end
+      connection.update!(
+        provider: "bunq",
+        name: [ "bunq", credentials[:monetary_account_id] ].compact.join(" "),
+        active: true,
+        state: "ready")
 
-      @org.update!(bank_connection_type: "bunq")
-
-      puts "   Bank connection type set to 'bunq'"
+      puts "   Bank connection saved to bank_connections (ID: #{connection.id})"
     end
 
     # HTTP helpers

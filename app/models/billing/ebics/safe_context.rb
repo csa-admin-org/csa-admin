@@ -26,11 +26,7 @@ module Billing
       def self.operation(operation)
         case operation
         when Billing::EBICS::Operation
-          if operation.btf?
-            operation.btf.slice(*OPERATION_KEYS).merge("mode" => "btf")
-          else
-            { "mode" => "order_type", "order_type" => operation.order_type }
-          end
+          operation.btf.slice(*OPERATION_KEYS).merge("mode" => "btf")
         when Hash
           attributes = operation.deep_stringify_keys
           attributes.slice(*OPERATION_KEYS).merge("mode" => attributes["mode"]).compact

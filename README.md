@@ -26,7 +26,7 @@ Learn more on [csa-admin.org](https://csa-admin.org).
   - memberships
   - membership shares / annual fees
   - invoice dispatch with reference numbers (QR-Code, SEPA)
-  - automatic payment statement import from bank account (EBICS)
+  - automatic payment statement import from bank accounts (EBICS 3.0/H005/BTF, BAS, bunq)
   - overdue notices
 - Activity participation management with member registration forms
 - Advanced email and built-in newsletters system
@@ -46,6 +46,7 @@ This application is currently used by [more than 30 organizations](https://csa-a
   - one isolated SQLite database per tenant
 - Asynchronous jobs handled by SolidQueue/ActiveJob (SQLite-backed)
 - Transactional emails and newsletters sent via Postmark
+- Tenant-local bank connections for automatic payment imports and EBICS 3.0/H005/BTF uploads; see `docs/bank_connections.md` for manual console setup
 
 ## Getting started
 

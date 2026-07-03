@@ -20,31 +20,6 @@ class Billing::EBICS::CredentialsTest < ActiveSupport::TestCase
     assert_equal "CLIENTID", credentials.client_id
   end
 
-  test "keeps current Epics client argument order" do
-    credentials = Billing::EBICS::Credentials.new(ebics_credentials)
-
-    assert_equal [
-      "keys",
-      "secret",
-      "https://ebics.example.test",
-      "HOSTID",
-      "PARTICIPANTID",
-      "CLIENTID"
-    ], credentials.epics_client_args
-  end
-
-  test "exposes setup arguments without requiring finalized keys" do
-    credentials = Billing::EBICS::Credentials.new(ebics_credentials.except("keys"))
-
-    assert_equal [
-      "secret",
-      "https://ebics.example.test",
-      "HOSTID",
-      "PARTICIPANTID",
-      "CLIENTID",
-      2048
-    ], credentials.epics_setup_args(2048)
-  end
 
   private
 

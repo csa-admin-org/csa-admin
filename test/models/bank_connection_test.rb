@@ -235,7 +235,6 @@ class BankConnectionTest < ActiveSupport::TestCase
       })
 
     operation = connection.adapter.operation_config.payment_download
-    assert operation.btf?
     assert_equal "BTD", operation.order_type
     assert_equal "camt.054", operation.btf.fetch("message_name")
   end

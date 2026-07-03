@@ -39,6 +39,12 @@ bin/rails db:schema:load          # Load schema into all tenant databases
 
 Key file: `lib/tasks/database.rake`
 
+## Banking & Payments
+
+Payment provider credentials live in tenant-local `bank_connections` rows, not on `organizations`. Use `Current.org.active_bank_connection` / `Current.org.bank_connection` to resolve the runtime adapter.
+
+CSA Admin supports EBICS 3.0 / H005 / BTF only for EBICS runtime and new EBICS connections. Do not add H003/H004 order-type fallback paths or store new credentials in legacy organization columns. Manual console setup examples for EBICS, BAS, bunq, and mock providers live in `docs/bank_connections.md`.
+
 ## Code Style
 
 ### Vanilla Rails is Plenty

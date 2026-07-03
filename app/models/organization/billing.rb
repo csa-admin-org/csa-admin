@@ -5,12 +5,9 @@ module Organization::Billing
 
   CURRENCIES = %w[CHF EUR]
   BILLING_YEAR_DIVISIONS = [ 1, 2, 3, 4, 12 ]
-  BANK_CONNECTION_TYPES = %w[ebics bas bunq mock]
-
   included do
     include HasIBAN
 
-    encrypts :bank_credentials
 
     validates :creditor_name, :creditor_street, :creditor_city, :creditor_zip, presence: true
     validates :bank_reference, format: { with: /\A\d+\z/, allow_blank: true }
@@ -19,8 +16,6 @@ module Organization::Billing
       presence: true,
       inclusion: { in: 1..12 }
     validates :billing_year_divisions, presence: true
-    validates :bank_connection_type, inclusion: { in: BANK_CONNECTION_TYPES }, allow_nil: true
-    validates :bank_credentials, presence: true, if: :bank_connection_type?
     validates :recurring_billing_wday, inclusion: { in: 0..6 }, allow_nil: true
     validates :currency_code, presence: true, inclusion: { in: currency_codes }
 

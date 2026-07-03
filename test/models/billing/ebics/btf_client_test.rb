@@ -302,13 +302,7 @@ class Billing::EBICS::BtfClientTest < ActiveSupport::TestCase
     assert_includes error.message, "EBICS_NO_DOWNLOAD_DATA_AVAILABLE"
   end
 
-  test "rejects order-type operations" do
-    client = btf_client
 
-    assert_raises(Billing::EBICS::UnsupportedOperation) do
-      client.download(Billing::EBICS::Operation.order_type("Z54"), from: "2026-06-01", to: "2026-06-30")
-    end
-  end
 
   private
 

@@ -9,12 +9,10 @@ module Billing
       PARTICIPANT_KEY_VERSIONS = %w[A006 X002 E002]
       BANK_KEY_SUFFIXES = %w[.X002 .E002]
 
-      def initialize(tenant:, organization: Current.org, connection: organization.active_bank_connection, live_hev: false, legacy_client: nil)
+      def initialize(tenant:, organization: Current.org, connection: organization.active_bank_connection)
         @tenant = tenant
         @organization = organization
         @connection = connection
-        @live_hev = live_hev
-        @legacy_client = legacy_client
       end
 
       def to_h
@@ -22,7 +20,6 @@ module Billing
           "tenant" => tenant,
           "organization" => organization.name,
           "country_code" => organization.country_code,
-          "legacy_connection" => legacy_connection_summary,
           "active_connection" => active_connection_summary,
           "last_import" => last_import_summary,
           "ebics" => ebics_summary
@@ -31,14 +28,7 @@ module Billing
 
       private
 
-      attr_reader :tenant, :organization, :connection, :live_hev
-
-      def legacy_connection_summary
-        {
-          "provider" => organization.bank_connection_type,
-          "credential_keys" => organization.bank_credentials.to_h.keys.map(&:to_s).sort
-        }
-      end
+      attr_reader :tenant, :organization, :connection
 
       def active_connection_summary
         return unless connection
@@ -70,33 +60,26 @@ module Billing
       end
 
       def ebics_summary
-        return unless ebics?
+        return unless connection&.ebics?
 
         {
           "endpoint_host" => endpoint_host,
           "host_id" => ebics_credentials["host_id"],
+          "protocol" => ebics_settings["protocol"],
           "key_summary" => key_summary,
-          "hev" => hev_summary,
           "current_payment_operation" => operation_summary(current_payment_operation),
           "recommended_btf_payment_operation" => recommended_btf_payment_operation,
-          "btf_readiness" => btf_readiness
+          "btf_readiness" => btf_readiness,
+          "live_capabilities_check" => "Run `bin/rails ebics:capabilities TENANT=#{tenant}` to verify live HTD/HAA BTF capabilities"
         }
       end
 
-      def ebics?
-        connection&.ebics? || organization.bank_connection_type == "ebics"
-      end
-
       def ebics_credentials
-        @ebics_credentials ||= if connection&.ebics?
-          connection.credentials.to_h.deep_stringify_keys
-        else
-          organization.bank_credentials.to_h.deep_stringify_keys
-        end
+        @ebics_credentials ||= connection.credentials.to_h.deep_stringify_keys
       end
 
       def ebics_settings
-        connection&.ebics? ? connection.settings : {}
+        @ebics_settings ||= connection.settings.to_h.deep_stringify_keys
       end
 
       def endpoint_host
@@ -118,37 +101,6 @@ module Billing
             "message" => "Unable to inspect EBICS keys"
           }
         }
-      end
-
-      def hev_summary
-        @hev_summary ||= begin
-          if live_hev
-            protocols = legacy_client.client.HEV
-            {
-              "status" => "ok",
-              "protocols" => protocols
-            }
-          else
-            skipped_hev_summary
-          end
-        rescue => e
-          {
-            "status" => "error",
-            "class" => e.class.name,
-            "message" => e.message
-          }
-        end
-      end
-
-      def skipped_hev_summary
-        {
-          "status" => "skipped",
-          "reason" => "Set LIVE_HEV=true to query the bank"
-        }
-      end
-
-      def legacy_client
-        @legacy_client ||= Billing::EBICS::LegacyClient.new(ebics_credentials)
       end
 
       def current_payment_operation
@@ -179,10 +131,10 @@ module Billing
           "participant_keys_present" => participant_keys_present?,
           "bank_public_keys_present" => bank_public_keys_present?,
           "key_size_ok" => key_size_ok?,
-          "h005_confirmed" => h005_confirmed,
+          "h005_configured" => h005_configured?,
           "request_build_ready" => request_build_ready?,
-          "live_dry_run_ready" => live_dry_run_ready?,
-          "live_dry_run_blocker" => live_dry_run_blocker
+          "manual_download_ready" => manual_download_ready?,
+          "manual_download_blocker" => manual_download_blocker
         }
       end
 
@@ -207,11 +159,8 @@ module Billing
         participant_bits.to_i >= 2048 && bank_bits.to_i >= 2048
       end
 
-      def h005_confirmed
-        return unless live_hev
-        return false unless hev_summary["status"] == "ok"
-
-        hev_summary.fetch("protocols", {}).key?("H005")
+      def h005_configured?
+        ebics_settings["protocol"] == "H005"
       end
 
       def request_build_ready?
@@ -219,17 +168,17 @@ module Billing
           participant_keys_present? &&
           bank_public_keys_present? &&
           key_size_ok? &&
+          h005_configured? &&
           !recommended_btf_payment_operation.key?("error")
       end
 
-      def live_dry_run_ready?
-        request_build_ready? && h005_confirmed == true
+      def manual_download_ready?
+        request_build_ready?
       end
 
-      def live_dry_run_blocker
-        return if live_dry_run_ready?
-        return "Set LIVE_HEV=true to confirm H005 before live dry-run" unless live_hev
-        return "Bank HEV does not confirm H005 support" unless h005_confirmed
+      def manual_download_blocker
+        return if manual_download_ready?
+        return "Active EBICS connection must use protocol H005" unless h005_configured?
 
         "BTF request cannot be built from current credentials/settings"
       end
