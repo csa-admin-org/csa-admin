@@ -60,6 +60,10 @@ module Billing
           text("//h:header/h:static/h:TransactionID")
         end
 
+        def order_id
+          text("//h:header/h:mutable/h:OrderID")
+        end
+
         def segment_number
           text("//h:header/h:mutable/h:SegmentNumber")
         end

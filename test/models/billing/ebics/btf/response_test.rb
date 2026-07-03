@@ -44,6 +44,14 @@ class Billing::EBICS::Btf::ResponseTest < ActiveSupport::TestCase
     assert_equal "090005", response.return_code
   end
 
+  test "parses upload order id" do
+    response = Billing::EBICS::Btf::Response.new(
+      client: client,
+      xml: response_xml(order_id: "A001"))
+
+    assert_equal "A001", response.order_id
+  end
+
   test "detects technical errors" do
     response = Billing::EBICS::Btf::Response.new(
       client: client,
@@ -75,10 +83,11 @@ class Billing::EBICS::Btf::ResponseTest < ActiveSupport::TestCase
     Base64.strict_encode64(cipher.update(zero_pad(compressed)) + cipher.final)
   end
 
-  def response_xml(order_data: nil, return_code: "000000", business_return_code: nil, report_text: "OK")
+  def response_xml(order_data: nil, return_code: "000000", business_return_code: nil, report_text: "OK", order_id: nil)
     transaction_key_xml = order_data ? "<TransactionKey>#{encrypted_transaction_key}</TransactionKey>" : ""
     order_data_xml = order_data ? "<OrderData>#{order_data}</OrderData>" : ""
     body_return_code_xml = business_return_code ? "<ReturnCode>#{business_return_code}</ReturnCode>" : ""
+    order_id_xml = order_id ? "<OrderID>#{order_id}</OrderID>" : ""
 
     <<~XML
       <?xml version="1.0" encoding="utf-8"?>
@@ -90,6 +99,7 @@ class Billing::EBICS::Btf::ResponseTest < ActiveSupport::TestCase
           <mutable>
             <TransactionPhase>Initialisation</TransactionPhase>
             <SegmentNumber lastSegment="true">1</SegmentNumber>
+            #{order_id_xml}
             <ReturnCode>#{return_code}</ReturnCode>
             <ReportText>#{report_text}</ReportText>
           </mutable>

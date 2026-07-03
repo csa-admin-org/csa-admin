@@ -134,6 +134,53 @@ class Billing::SEPADirectDebitTest < ActiveSupport::TestCase
     XML
   end
 
+  test "returns pain.008.001.08 direct debit XML for invoices" do
+    travel_to "2025-02-01"
+    german_org(
+      iban: "DE87200500001234567890",
+      sepa_creditor_identifier: "DE98ZZZ09999999999")
+    member = members(:anna)
+    member.update!(language: "de", country_code: "DE")
+    member.sepa_mandates.create!(
+      iban: "DE21500500009876543210",
+      umr: "123456",
+      signed_on: Date.parse("2023-12-24"),
+      source: "admin")
+    member.reload
+
+    invoice = create_annual_fee_invoice(member: member)
+    xml = Billing::SEPADirectDebit.new(
+      invoice,
+      schema: Billing::SEPADirectDebit::PAIN_008_001_08).xml
+
+    assert_includes xml, "urn:iso:std:iso:20022:tech:xsd:pain.008.001.08"
+    assert_includes xml, "<CreDtTm>2025-02-01T00:00:00+01:00</CreDtTm>"
+    assert_includes xml, "<PmtMtd>DD</PmtMtd>"
+    assert_includes xml, "<ReqdColltnDt>1999-01-01</ReqdColltnDt>"
+    assert_includes xml, "<InstdAmt Ccy=\"EUR\">30.00</InstdAmt>"
+    assert_includes xml, "<MndtId>123456</MndtId>"
+    assert_includes xml, "<DtOfSgntr>2023-12-24</DtOfSgntr>"
+  end
+
+  test "raises for unsupported direct debit XML schemas" do
+    german_org(sepa_creditor_identifier: "DE98ZZZ09999999999")
+    member = members(:anna)
+    member.update!(language: "de", country_code: "DE")
+    member.sepa_mandates.create!(
+      iban: "DE21500500009876543210",
+      umr: "123456",
+      signed_on: Date.parse("2023-12-24"),
+      source: "admin")
+    member.reload
+
+    invoice = create_annual_fee_invoice(member: member)
+
+    error = assert_raises(ArgumentError) do
+      Billing::SEPADirectDebit.new(invoice, schema: "pain.008.001.99").xml
+    end
+    assert_equal "Unsupported SEPA direct debit schema: \"pain.008.001.99\"", error.message
+  end
+
   test "return nil when no invoices" do
     assert_nil Billing::SEPADirectDebit.new([]).xml
   end

@@ -78,6 +78,43 @@ class Billing::EBICSTest < ActiveSupport::TestCase
     assert_equal [ [ :CDD, [ "document" ] ] ], client.calls
   end
 
+  test "reports configured SEPA direct debit PAIN schema" do
+    settings = {
+      "uploads" => {
+        "sepa_direct_debit" => {
+          "mode" => "order_type",
+          "order_type" => "CDD",
+          "schema" => "pain.008.001.08"
+        }
+      }
+    }
+
+    assert_equal "pain.008.001.08", Billing::EBICS.new(credentials, settings: settings).sepa_direct_debit_schema
+  end
+
+  test "explicit BTF settings use the H005 direct debit upload operation" do
+    settings = {
+      "uploads" => {
+        "sepa_direct_debit" => {
+          "mode" => "btf",
+          "btf" => Billing::EBICS::Btf::Presets.sepa_direct_debit_upload
+        }
+      }
+    }
+    client = BtfClientStub.new([])
+
+    assert_equal [ "TX123", "A001" ], Billing::EBICS
+      .new(credentials, settings: settings, ebics_client: client)
+      .sepa_direct_debit_upload("pain-xml")
+
+    method, operation, document = client.calls.first
+    assert_equal :upload, method
+    assert operation.btf?
+    assert_equal "BTU", operation.order_type
+    assert_equal "pain.008", operation.btf.fetch("message_name")
+    assert_equal "pain-xml", document
+  end
+
   test "explicit BTF settings use the H005 payment download operation" do
     org(country_code: "CH")
     settings = btf_settings
@@ -229,6 +266,11 @@ class Billing::EBICSTest < ActiveSupport::TestCase
     def initialize(files)
       @files = files
       @calls = []
+    end
+
+    def upload(operation, document:)
+      @calls << [ :upload, operation, document ]
+      [ "TX123", "A001" ]
     end
 
     def download(operation, from:, to:)

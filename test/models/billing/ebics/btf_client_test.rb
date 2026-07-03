@@ -35,6 +35,50 @@ class Billing::EBICS::BtfClientTest < ActiveSupport::TestCase
     assert_includes xml, "<ds:SignatureValue>SIGNATURE</ds:SignatureValue>"
   end
 
+  test "uploads H005 BTU data through initialisation and transfer" do
+    transport = TransportStub.new([
+      response_xml(order_id: "A001"),
+      response_xml(order_id: "B002")
+    ])
+    client = btf_client(transport: transport)
+
+    result = client.upload(btu_operation, document: "<Document>pain</Document>")
+
+    assert_equal [ "TX123", "B002" ], result
+    assert_equal 2, transport.requests.size
+    assert_includes transport.requests.first, "<AdminOrderType>BTU</AdminOrderType>"
+    assert_includes transport.requests.first, "<BTUOrderParams>"
+    assert_includes transport.requests.first, "<ServiceName>SDD</ServiceName>"
+    assert_includes transport.requests.first, "<ServiceOption>COR</ServiceOption>"
+    assert_includes transport.requests.first, "<MsgName version=\"08\">pain.008</MsgName>"
+    assert_includes transport.requests.first, "<SignatureData authenticate=\"true\">"
+    assert_includes transport.requests.first, "<DataDigest SignatureVersion=\"A006\">"
+    assert_includes transport.requests.second, "<TransactionPhase>Transfer</TransactionPhase>"
+    assert_includes transport.requests.second, "<SegmentNumber lastSegment=\"true\">1</SegmentNumber>"
+    assert_includes transport.requests.second, "<OrderData>"
+    assert_not_includes transport.requests.join, "<Document>pain</Document>"
+  end
+
+  test "BTU upload returns the initialisation order id when transfer omits one" do
+    transport = TransportStub.new([
+      response_xml(order_id: "A001"),
+      response_xml(order_id: nil)
+    ])
+    client = btf_client(transport: transport)
+
+    assert_equal [ "TX123", "A001" ], client.upload(btu_operation, document: "<Document>pain</Document>")
+  end
+
+  test "BTU upload rejects non-upload operations" do
+    client = btf_client
+
+    error = assert_raises(Billing::EBICS::UnsupportedOperation) do
+      client.upload(operation, document: "<Document>pain</Document>")
+    end
+
+    assert_includes error.message, "BTU upload"
+  end
+
   test "fetches H005 admin order data and acknowledges the metadata response" do
     htd_xml = "<HTDResponseOrderData><UserInfo><OrderInfo><AdminOrderType>BTD</AdminOrderType></OrderInfo></UserInfo></HTDResponseOrderData>"
     transport = TransportStub.new([
@@ -243,6 +287,10 @@ class Billing::EBICS::BtfClientTest < ActiveSupport::TestCase
     Billing::EBICS::Operation.btf(Billing::EBICS::Btf::Presets.camt054(service_name: "REP", scope: "CH", version: "04"))
   end
 
+  def btu_operation
+    Billing::EBICS::Operation.btf(Billing::EBICS::Btf::Presets.sepa_direct_debit_upload)
+  end
+
   def credentials
     {
       "keys" => "keys",
@@ -282,10 +330,11 @@ class Billing::EBICS::BtfClientTest < ActiveSupport::TestCase
     cipher.update(zero_pad(compressed)) + cipher.final
   end
 
-  def response_xml(segment_number: 1, last_segment: true, transaction_key: false, order_data: nil, return_code: "000000", business_return_code: nil, report_text: "OK")
+  def response_xml(segment_number: 1, last_segment: true, transaction_key: false, order_data: nil, return_code: "000000", business_return_code: nil, report_text: "OK", order_id: nil)
     transaction_key_xml = transaction_key ? "<TransactionKey>#{encrypted_transaction_key}</TransactionKey>" : ""
     order_data_xml = order_data ? "<OrderData>#{Base64.strict_encode64(order_data)}</OrderData>" : ""
     body_return_code_xml = business_return_code ? "<ReturnCode>#{business_return_code}</ReturnCode>" : ""
+    order_id_xml = order_id ? "<OrderID>#{order_id}</OrderID>" : ""
 
     <<~XML
       <?xml version="1.0" encoding="utf-8"?>
@@ -297,6 +346,7 @@ class Billing::EBICS::BtfClientTest < ActiveSupport::TestCase
           <mutable>
             <TransactionPhase>Initialisation</TransactionPhase>
             <SegmentNumber lastSegment="#{last_segment}">#{segment_number}</SegmentNumber>
+            #{order_id_xml}
             <ReturnCode>#{return_code}</ReturnCode>
             <ReportText>#{report_text}</ReportText>
           </mutable>

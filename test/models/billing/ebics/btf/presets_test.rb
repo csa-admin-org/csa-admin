@@ -48,6 +48,30 @@ class Billing::EBICS::Btf::PresetsTest < ActiveSupport::TestCase
     assert_not Billing::EBICS::Btf::Presets.payment_download(country_code: "DE").key?("version")
   end
 
+  test "builds non-container SEPA direct debit BTU preset" do
+    assert_equal({
+      "order_type" => "BTU",
+      "service_name" => "SDD",
+      "service_option" => "COR",
+      "message_name" => "pain.008",
+      "version" => "08",
+      "signature_flag" => true
+    }, Billing::EBICS::Btf::Presets.sepa_direct_debit_upload)
+  end
+
+  test "builds XML-container SEPA direct debit BTU preset" do
+    assert_equal({
+      "order_type" => "BTU",
+      "service_name" => "SDD",
+      "scope" => "DE",
+      "service_option" => "COR",
+      "container" => "XML",
+      "message_name" => "pain.008",
+      "version" => "08",
+      "signature_flag" => true
+    }, Billing::EBICS::Btf::Presets.sepa_direct_debit_upload(scope: "DE", container: "XML"))
+  end
+
   test "fails clearly when no country preset exists" do
     error = assert_raises(Billing::EBICS::UnsupportedOperation) do
       Billing::EBICS::Btf::Presets.payment_download(country_code: "FR")

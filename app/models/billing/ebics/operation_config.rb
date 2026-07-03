@@ -16,12 +16,30 @@ module Billing
 
       def sepa_direct_debit_upload
         operation(
-          settings.dig("uploads", "sepa_direct_debit"),
+          sepa_direct_debit_upload_settings,
           default_order_type: "CDD")
+      end
+
+      def sepa_direct_debit_upload_schema
+        sepa_direct_debit_upload_settings["schema"].presence ||
+          btf_pain_schema ||
+          Billing::SEPADirectDebit::SCHEMA
       end
 
       private
         attr_reader :settings, :country_code
+
+        def sepa_direct_debit_upload_settings
+          @sepa_direct_debit_upload_settings ||=
+            (settings.dig("uploads", "sepa_direct_debit") || {}).to_h.deep_stringify_keys
+        end
+
+        def btf_pain_schema
+          btf = sepa_direct_debit_upload_settings["btf"].to_h.deep_stringify_keys
+          return unless btf["message_name"] == "pain.008" && btf["version"].present?
+
+          "pain.008.001.#{btf.fetch("version").to_s.rjust(2, "0")}"
+        end
 
         def operation(attributes, default_order_type:)
           attributes = (attributes || {}).to_h.deep_stringify_keys

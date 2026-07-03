@@ -86,8 +86,20 @@ module Billing
       end
 
       def upload(operation, document:)
-        raise UnsupportedOperation,
-          "H005/BTF uploads are not implemented yet"
+        ensure_btf_upload!(operation)
+        initialisation_request = upload_request(operation, document: document)
+        initialisation_response = post_request(initialisation_request)
+        raise_response_error!(initialisation_response)
+
+        transfer_response = post_request(upload_transfer_request(
+          initialisation_response.transaction_id,
+          initialisation_request.payload))
+        raise_response_error!(transfer_response)
+
+        [
+          transfer_response.transaction_id.presence || initialisation_response.transaction_id,
+          transfer_response.order_id.presence || initialisation_response.order_id
+        ]
       end
 
       def admin_order(order_type)
@@ -115,6 +127,15 @@ module Billing
 
       def download_request_xml(operation, from:, to:, **overrides)
         download_request(operation, from: from, to: to, **overrides).to_xml
+      end
+
+      def upload_request_xml(operation, document:, **overrides)
+        upload_request(operation, document: document, **overrides).to_xml
+      end
+
+      def upload_transfer_request_xml(transaction_id:, document:, **overrides)
+        payload = Btf::UploadPayload.new(client: client, document: document)
+        upload_transfer_request(transaction_id, payload, **overrides).to_xml
       end
 
       def download_request(operation, from:, to:, **overrides)
@@ -178,6 +199,24 @@ module Billing
             client: client,
             order_type: order_type,
             **request_options.merge(overrides))
+        end
+
+        def upload_request(operation, document:, **overrides)
+          ensure_btf_upload!(operation)
+
+          Btf::UploadRequest.new(
+            client: client,
+            operation: operation,
+            document: document,
+            **request_options.merge(overrides))
+        end
+
+        def upload_transfer_request(transaction_id, payload, **overrides)
+          Btf::UploadTransferRequest.new(
+            client: client,
+            transaction_id: transaction_id,
+            payload: payload,
+            **{ signer: request_options[:signer] }.merge(overrides))
         end
 
         def validate_admin_order_data!(order_type, order_data)
@@ -249,6 +288,13 @@ module Billing
 
           raise UnsupportedOperation,
             "H005/BTF client only supports BTD download operations"
+        end
+
+        def ensure_btf_upload!(operation)
+          return if operation.btf? && operation.order_type == "BTU"
+
+          raise UnsupportedOperation,
+            "H005/BTF client only supports BTU upload operations"
         end
     end
   end

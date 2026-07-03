@@ -21,8 +21,15 @@ module Invoice::SEPA
     self[:sepa_debtor_name].presence || member&.billing_info(:name)
   end
 
-  def sepa_direct_debit_pain_xml
-    Billing::SEPADirectDebit.new(self).xml
+  def sepa_direct_debit_pain_schema
+    bank_connection = Current.org.bank_connection
+    return bank_connection.sepa_direct_debit_schema if bank_connection.respond_to?(:sepa_direct_debit_schema)
+
+    Billing::SEPADirectDebit::SCHEMA
+  end
+
+  def sepa_direct_debit_pain_xml(schema: sepa_direct_debit_pain_schema)
+    Billing::SEPADirectDebit.new(self, schema: schema).xml
   end
 
   def sepa_direct_debit_order_uploaded?

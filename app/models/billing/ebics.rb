@@ -50,6 +50,10 @@ module Billing
       ebics_client(operation).upload(operation, document: document)
     end
 
+    def sepa_direct_debit_schema
+      operation_config.sepa_direct_debit_upload_schema
+    end
+
     def client
       (@ebics_client || legacy_client).client
     end
