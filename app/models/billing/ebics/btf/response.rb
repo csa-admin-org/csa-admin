@@ -3,9 +3,6 @@
 require "base64"
 require "nokogiri"
 require "openssl"
-require "stringio"
-require "zip"
-require "zlib"
 
 module Billing
   class EBICS
@@ -38,6 +35,11 @@ module Billing
           return_code == NO_DOWNLOAD_DATA_CODE || report_text.include?("EBICS_NO_DOWNLOAD_DATA_AVAILABLE")
         end
 
+        def download_postprocess_skipped?
+          report_text.include?("EBICS_DOWNLOAD_POSTPROCESS_SKIPPED") ||
+            report_text.include?("Negative acknowledgement received")
+        end
+
         def return_code
           business_code.presence || technical_code
         end
@@ -62,19 +64,58 @@ module Billing
           text("//h:header/h:mutable/h:SegmentNumber")
         end
 
+        def next_segment_number
+          segment_number.to_i + 1
+        end
+
+        def segmented?
+          segment_number.present?
+        end
+
         def last_segment?
           doc.at_xpath("//h:header/h:mutable/h:SegmentNumber[@lastSegment='true']", h: H005_NAMESPACE).present?
         end
 
+        def order_data_present?
+          text("//h:OrderData").present?
+        end
+
+        def order_data_encrypted
+          Base64.decode64(text("//h:OrderData"))
+        end
+
+        def transaction_key_present?
+          text("//h:TransactionKey").present?
+        end
+
+        def transaction_key
+          encrypted_key = Base64.decode64(text("//h:TransactionKey"))
+          client.e.key.private_decrypt(encrypted_key)
+        end
+
         def order_data
-          encrypted_data = Base64.decode64(text("//h:OrderData"))
-          inflated_data(decrypt_order_data(encrypted_data))
+          Payload.new(responses: [ self ]).order_data
         end
 
         def files(container: nil)
-          return [ order_data ] unless container.to_s.casecmp("ZIP").zero?
+          Payload.new(responses: [ self ], container: container).files
+        end
 
-          unzip(order_data)
+        def digest_valid?
+          return false unless digest_node
+
+          authenticated = doc.xpath("//*[@authenticate='true']").map(&:canonicalize).join
+          digest = Base64.encode64(OpenSSL::Digest::SHA256.digest(authenticated)).strip
+          digest == digest_node.content
+        end
+
+        def signature_valid?
+          return false unless signature_node && signature_value_node
+
+          client.bank_x.key.verify(
+            OpenSSL::Digest::SHA256.new,
+            Base64.decode64(signature_value_node.content),
+            signature_node.canonicalize)
         end
 
         private
@@ -88,29 +129,16 @@ module Billing
             doc.xpath("//xmlns:SystemReturnCode/xmlns:ReturnCode", xmlns: "http://www.ebics.org/H000").text
           end
 
-          def decrypt_order_data(encrypted_data)
-            cipher = OpenSSL::Cipher.new("aes-128-cbc")
-            cipher.decrypt
-            cipher.padding = 0
-            cipher.key = transaction_key
-            cipher.update(encrypted_data) + cipher.final
+          def digest_node
+            doc.at_xpath("//ds:DigestValue", ds: DownloadRequest::XMLDSIG_NAMESPACE)
           end
 
-          def transaction_key
-            encrypted_key = Base64.decode64(text("//h:TransactionKey"))
-            client.e.key.private_decrypt(encrypted_key)
+          def signature_node
+            doc.at_xpath("//ds:SignedInfo", ds: DownloadRequest::XMLDSIG_NAMESPACE)
           end
 
-          def inflated_data(data)
-            Zlib::Inflate.inflate(data)
-          end
-
-          def unzip(data)
-            files = []
-            Zip::File.open_buffer(StringIO.new(data)) do |zip|
-              zip.reject(&:directory?).each { |entry| files << entry.get_input_stream.read }
-            end
-            files
+          def signature_value_node
+            doc.at_xpath("//ds:SignatureValue", ds: DownloadRequest::XMLDSIG_NAMESPACE)
           end
 
           def text(xpath)

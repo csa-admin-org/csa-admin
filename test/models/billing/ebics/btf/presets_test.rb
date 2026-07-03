@@ -3,7 +3,7 @@
 require "test_helper"
 
 class Billing::EBICS::Btf::PresetsTest < ActiveSupport::TestCase
-  test "builds Swiss CAMT.054 v04 payment download preset" do
+  test "builds CAMT.054 BTD preset from explicit BTF attributes" do
     assert_equal({
       "order_type" => "BTD",
       "service_name" => "REP",
@@ -11,11 +11,11 @@ class Billing::EBICS::Btf::PresetsTest < ActiveSupport::TestCase
       "container" => "ZIP",
       "message_name" => "camt.054",
       "version" => "04"
-    }, Billing::EBICS::Btf::Presets.swiss_camt054)
+    }, Billing::EBICS::Btf::Presets.camt054(service_name: "REP", scope: "CH", version: "04"))
   end
 
-  test "builds optional Swiss CAMT.054 v08 payment download preset" do
-    preset = Billing::EBICS::Btf::Presets.swiss_camt054(version: "08")
+  test "builds optional CAMT.054 v08 preset" do
+    preset = Billing::EBICS::Btf::Presets.camt054(service_name: "REP", scope: "CH", version: "08")
 
     assert_equal "BTD", preset.fetch("order_type")
     assert_equal "REP", preset.fetch("service_name")
@@ -25,7 +25,7 @@ class Billing::EBICS::Btf::PresetsTest < ActiveSupport::TestCase
     assert_equal "08", preset.fetch("version")
   end
 
-  test "builds German CAMT.053 v08 payment download preset" do
+  test "builds CAMT.053 BTD preset from explicit BTF attributes" do
     assert_equal({
       "order_type" => "BTD",
       "service_name" => "EOP",
@@ -33,7 +33,7 @@ class Billing::EBICS::Btf::PresetsTest < ActiveSupport::TestCase
       "container" => "ZIP",
       "message_name" => "camt.053",
       "version" => "08"
-    }, Billing::EBICS::Btf::Presets.german_camt053)
+    }, Billing::EBICS::Btf::Presets.camt053(service_name: "EOP", scope: "DE", version: "08"))
   end
 
   test "resolves payment download preset by country" do

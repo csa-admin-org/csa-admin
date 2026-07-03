@@ -78,22 +78,26 @@ class Billing::EBICSTest < ActiveSupport::TestCase
     assert_equal [ [ :CDD, [ "document" ] ] ], client.calls
   end
 
-  test "explicit BTF settings use the dormant H005 payment download path" do
+  test "explicit BTF settings use the H005 payment download operation" do
     org(country_code: "CH")
     settings = {
       "downloads" => {
         "payments" => {
           "mode" => "btf",
-          "btf" => Billing::EBICS::Btf::Presets.swiss_camt054
+          "btf" => Billing::EBICS::Btf::Presets.camt054(service_name: "REP", scope: "CH", version: "04")
         }
       }
     }
+    client = BtfClientStub.new([ file_fixture("camt054.xml") ])
 
-    error = assert_raises(Billing::EBICS::UnsupportedOperation) do
-      Billing::EBICS.new(credentials, settings: settings).payments_data
-    end
+    payments_data = Billing::EBICS.new(credentials, settings: settings, ebics_client: client).payments_data
 
-    assert_includes error.message, "not connected to transfer/receipt handling yet"
+    operation, range = client.calls.first
+    assert operation.btf?
+    assert_equal "BTD", operation.order_type
+    assert_equal "camt.054", operation.btf.fetch("message_name")
+    assert_equal [ Billing::EBICS::GET_PAYMENTS_FROM.to_date.to_s, Date.current.to_s ], range
+    assert_equal "camt.054", payments_data.first.origin
   end
 
   test "returns no payments and notifies when no EBICS download data is available" do
@@ -199,6 +203,20 @@ class Billing::EBICSTest < ActiveSupport::TestCase
       raise response if response.is_a?(Exception)
 
       response
+    end
+  end
+
+  class BtfClientStub
+    attr_reader :calls
+
+    def initialize(files)
+      @files = files
+      @calls = []
+    end
+
+    def download(operation, from:, to:)
+      @calls << [ operation, [ from, to ] ]
+      @files
     end
   end
 

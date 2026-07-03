@@ -4,20 +4,20 @@ module Billing
   class EBICS
     module Btf
       class Presets
-        def self.swiss_camt054(version: "04")
+        def self.camt054(service_name:, scope:, version:, container: "ZIP")
           btd(
-            service_name: "REP",
-            scope: "CH",
-            container: "ZIP",
+            service_name: service_name,
+            scope: scope,
+            container: container,
             message_name: "camt.054",
             version: version)
         end
 
-        def self.german_camt053(version: "08")
+        def self.camt053(service_name:, scope:, version:, container: "ZIP")
           btd(
-            service_name: "EOP",
-            scope: "DE",
-            container: "ZIP",
+            service_name: service_name,
+            scope: scope,
+            container: container,
             message_name: "camt.053",
             version: version)
         end
@@ -25,9 +25,9 @@ module Billing
         def self.payment_download(country_code:, version: nil)
           case country_code
           when "CH"
-            swiss_camt054(version: version || "04")
+            camt054(service_name: "REP", scope: "CH", version: version || "04")
           when "DE"
-            german_camt053(version: version || "08")
+            camt053(service_name: "EOP", scope: "DE", version: version || "08")
           else
             raise UnsupportedOperation, "No EBICS BTF payment download preset for #{country_code.inspect}"
           end

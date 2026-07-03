@@ -13,7 +13,7 @@ class Billing::EBICS::Btf::DownloadRequestTest < ActiveSupport::TestCase
   test "builds a deterministic H005 BTD CAMT.054 v04 request" do
     request = Billing::EBICS::Btf::DownloadRequest.new(
       client: FakeClient.new,
-      operation: operation(Billing::EBICS::Btf::Presets.swiss_camt054),
+      operation: operation(Billing::EBICS::Btf::Presets.camt054(service_name: "REP", scope: "CH", version: "04")),
       from: Date.new(2026, 6, 1),
       to: Date.new(2026, 6, 30),
       nonce: "0123456789abcdef0123456789abcdef",
@@ -34,7 +34,7 @@ class Billing::EBICS::Btf::DownloadRequestTest < ActiveSupport::TestCase
     client = synthetic_epics_client
     request = Billing::EBICS::Btf::DownloadRequest.new(
       client: client,
-      operation: operation(Billing::EBICS::Btf::Presets.german_camt053),
+      operation: operation(Billing::EBICS::Btf::Presets.camt053(service_name: "EOP", scope: "DE", version: "08")),
       from: "2026-06-01",
       to: "2026-06-30",
       nonce: "0123456789abcdef0123456789abcdef",
@@ -58,7 +58,7 @@ class Billing::EBICS::Btf::DownloadRequestTest < ActiveSupport::TestCase
   def unsigned_request_xml
     Billing::EBICS::Btf::DownloadRequest.new(
       client: FakeClient.new,
-      operation: operation(Billing::EBICS::Btf::Presets.swiss_camt054),
+      operation: operation(Billing::EBICS::Btf::Presets.camt054(service_name: "REP", scope: "CH", version: "04")),
       from: "2026-06-01",
       to: "2026-06-30",
       signer: FakeSigner.new).unsigned_xml

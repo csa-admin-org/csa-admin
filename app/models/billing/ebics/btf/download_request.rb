@@ -14,6 +14,31 @@ module Billing
         SHA256_ALGORITHM = "http://www.w3.org/2001/04/xmlenc#sha256"
         XML_C14N_ALGORITHM = "http://www.w3.org/TR/2001/REC-xml-c14n-20010315"
         RSA_SHA256_ALGORITHM = "http://www.w3.org/2001/04/xmldsig-more#rsa-sha256"
+        ROOT_ATTRIBUTES = {
+          "xmlns" => H005_NAMESPACE,
+          "xmlns:ds" => XMLDSIG_NAMESPACE,
+          "xmlns:xsi" => XSI_NAMESPACE,
+          "xsi:schemaLocation" => SCHEMA_LOCATION,
+          "Version" => "H005",
+          "Revision" => "1"
+        }.freeze
+
+        def self.auth_signature(xml)
+          xml.AuthSignature {
+            xml["ds"].SignedInfo {
+              xml["ds"].CanonicalizationMethod Algorithm: XML_C14N_ALGORITHM
+              xml["ds"].SignatureMethod Algorithm: RSA_SHA256_ALGORITHM
+              xml["ds"].Reference URI: "#xpointer(//*[@authenticate='true'])" do
+                xml["ds"].Transforms {
+                  xml["ds"].Transform Algorithm: XML_C14N_ALGORITHM
+                }
+                xml["ds"].DigestMethod Algorithm: SHA256_ALGORITHM
+                xml["ds"].DigestValue
+              end
+            }
+            xml["ds"].SignatureValue
+          }
+        end
 
         def initialize(client:, operation:, from:, to:, nonce: SecureRandom.hex(16), timestamp: Time.current.utc.iso8601, product_name: "CSA Admin", language: "en", signer: nil)
           @client = client
@@ -60,14 +85,7 @@ module Billing
           attr_reader :client, :operation, :from, :to, :nonce, :timestamp, :product_name, :language, :signer
 
           def root_attributes
-            {
-              "xmlns" => H005_NAMESPACE,
-              "xmlns:ds" => XMLDSIG_NAMESPACE,
-              "xmlns:xsi" => XSI_NAMESPACE,
-              "xsi:schemaLocation" => SCHEMA_LOCATION,
-              "Version" => "H005",
-              "Revision" => "1"
-            }
+            ROOT_ATTRIBUTES
           end
 
           def order_details(xml)
@@ -111,20 +129,7 @@ module Billing
           end
 
           def auth_signature(xml)
-            xml.AuthSignature {
-              xml["ds"].SignedInfo {
-                xml["ds"].CanonicalizationMethod Algorithm: XML_C14N_ALGORITHM
-                xml["ds"].SignatureMethod Algorithm: RSA_SHA256_ALGORITHM
-                xml["ds"].Reference URI: "#xpointer(//*[@authenticate='true'])" do
-                  xml["ds"].Transforms {
-                    xml["ds"].Transform Algorithm: XML_C14N_ALGORITHM
-                  }
-                  xml["ds"].DigestMethod Algorithm: SHA256_ALGORITHM
-                  xml["ds"].DigestValue
-                end
-              }
-              xml["ds"].SignatureValue
-            }
+            self.class.auth_signature(xml)
           end
 
           def btf
