@@ -40,7 +40,22 @@ module Billing
 
       def download(_operation, from:, to:)
         raise UnsupportedOperation,
-          "H005/BTF active downloads require ACK-after-processor before they can acknowledge returned data"
+          "Use download_and_process for H005/BTF imports so returned data is acknowledged only after processing succeeds"
+      end
+
+      def download_and_process(operation, from:, to:)
+        processed = false
+        responses = download_responses(operation, from: from, to: to)
+        files = files_from_responses(operation, responses)
+        result = yield files
+        processed = true
+        send_receipt!(responses.last.transaction_id, Btf::ReceiptRequest::SUCCESS_CODE) if receipt_required?(responses)
+        result
+      rescue NoDownloadDataAvailable
+        raise
+      rescue => e
+        safely_send_failure_receipt(responses) if defined?(responses) && !processed
+        raise e
       end
 
       def test_download(operation, from:, to:, acknowledge: false)

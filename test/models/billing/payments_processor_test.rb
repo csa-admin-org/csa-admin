@@ -1,9 +1,24 @@
 # frozen_string_literal: true
 
 require "test_helper"
+require "minitest/mock"
 
 class Billing::PaymentsProcessorTest < ActiveSupport::TestCase
   PaymentData = Billing::CamtFile::PaymentData
+
+  test "retrieve and process delegates to connection process hook" do
+    connection = ProcessPaymentsConnection.new
+    organization = Struct.new(:bank_connection).new(connection)
+
+    Current.reset
+    Organization.stub(:instance, organization) do
+      assert Billing::PaymentsProcessor.retrieve_and_process!
+    end
+
+    assert connection.processed
+  ensure
+    Current.reset
+  end
 
   test "creates payment for valid member and invoice" do
     invoice = invoices(:annual_fee)
@@ -102,10 +117,33 @@ class Billing::PaymentsProcessorTest < ActiveSupport::TestCase
     end
   end
 
+  test "raises processing errors when requested" do
+    invoice = invoices(:annual_fee)
+    member = invoice.member
+    data = PaymentData.new(
+      origin: "camt.054",
+      member_id: member.id,
+      invoice_id: invoice.id,
+      amount: 0,
+      date: Date.current)
+
+    assert_raises(ActiveRecord::RecordInvalid) do
+      Billing::PaymentsProcessor.new([ data ], raise_on_error: true).process!
+    end
+  end
+
   test "returns early when payments data is empty" do
     assert_no_difference "Payment.count" do
       result = Billing::PaymentsProcessor.new([]).process!
       assert result
+    end
+  end
+
+  class ProcessPaymentsConnection
+    attr_reader :processed
+
+    def process_payments!
+      @processed = true
     end
   end
 end

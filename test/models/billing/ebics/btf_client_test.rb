@@ -59,14 +59,70 @@ class Billing::EBICS::BtfClientTest < ActiveSupport::TestCase
     assert_includes transport.requests.third, "<ReceiptCode>0</ReceiptCode>"
   end
 
-  test "active BTF downloads remain disabled until ACK-after-processor exists" do
+  test "plain BTF downloads remain disabled to avoid pre-processing acknowledgements" do
     client = btf_client
 
     error = assert_raises(Billing::EBICS::UnsupportedOperation) do
       client.download(operation, from: "2026-06-01", to: "2026-06-30")
     end
 
-    assert_includes error.message, "ACK-after-processor"
+    assert_includes error.message, "download_and_process"
+  end
+
+  test "download and process acknowledges only after processing succeeds" do
+    xml_files = [ "<Document>one</Document>" ]
+    transport = TransportStub.new([
+      response_xml(segment_number: 1, last_segment: true, transaction_key: true, order_data: encrypted_order_data(zip(xml_files))),
+      ok_receipt_response_xml
+    ])
+    client = btf_client(transport: transport)
+
+    result = client.download_and_process(operation, from: "2026-06-01", to: "2026-06-30") do |files|
+      assert_equal xml_files, files
+      assert_equal 1, transport.requests.size
+      :processed
+    end
+
+    assert_equal :processed, result
+    assert_equal 2, transport.requests.size
+    assert_includes transport.requests.second, "<ReceiptCode>0</ReceiptCode>"
+  end
+
+  test "download and process sends failure receipt when processing fails" do
+    xml_files = [ "<Document>one</Document>" ]
+    transport = TransportStub.new([
+      response_xml(segment_number: 1, last_segment: true, transaction_key: true, order_data: encrypted_order_data(zip(xml_files))),
+      ok_receipt_response_xml
+    ])
+    client = btf_client(transport: transport)
+
+    error = assert_raises(RuntimeError) do
+      client.download_and_process(operation, from: "2026-06-01", to: "2026-06-30") do
+        raise "processing failed"
+      end
+    end
+
+    assert_equal "processing failed", error.message
+    assert_equal 2, transport.requests.size
+    assert_includes transport.requests.second, "<ReceiptCode>1</ReceiptCode>"
+  end
+
+  test "download and process does not send failure receipt after successful processing" do
+    xml_files = [ "<Document>one</Document>" ]
+    transport = TransportStub.new([
+      response_xml(segment_number: 1, last_segment: true, transaction_key: true, order_data: encrypted_order_data(zip(xml_files))),
+      response_xml(order_data: nil, return_code: "061099", report_text: "receipt failed")
+    ])
+    client = btf_client(transport: transport)
+
+    assert_raises(Billing::EBICS::TechnicalError) do
+      client.download_and_process(operation, from: "2026-06-01", to: "2026-06-30") do
+        :processed
+      end
+    end
+
+    assert_equal 2, transport.requests.size
+    assert_includes transport.requests.second, "<ReceiptCode>0</ReceiptCode>"
   end
 
   test "test download treats no-data as a successful authorization check" do

@@ -14,13 +14,22 @@ class Organization::BillingTest < ActiveSupport::TestCase
     assert_equal connection, Current.org.active_bank_connection
   end
 
-  test "bank_connection keeps using legacy organization columns" do
+  test "bank_connection prefers active tenant-local bank connection" do
     BankConnection.delete_all
     BankConnection.create!(
       provider: "bas",
       active: true,
       state: "ready",
-      credentials: { account_number: "123" })
+      credentials: { account_number: "123", contract_number: "456", contract_password: "secret", private_key: "key" })
+    org(
+      bank_connection_type: "mock",
+      bank_credentials: { password: "secret" })
+
+    assert_instance_of Billing::BAS, Current.org.bank_connection
+  end
+
+  test "bank_connection falls back to legacy organization columns" do
+    BankConnection.delete_all
     org(
       bank_connection_type: "mock",
       bank_credentials: { password: "secret" })
@@ -28,7 +37,7 @@ class Organization::BillingTest < ActiveSupport::TestCase
     assert_instance_of Billing::EBICSMock, Current.org.bank_connection
   end
 
-  test "bank_connection keeps legacy EBICS settings separate from active bank connection" do
+  test "bank_connection uses active EBICS settings" do
     BankConnection.delete_all
     BankConnection.create!(
       provider: "ebics",
@@ -48,7 +57,7 @@ class Organization::BillingTest < ActiveSupport::TestCase
       bank_connection_type: "ebics",
       bank_credentials: ebics_credentials)
 
-    assert_equal "Z54", Current.org.bank_connection.operation_config.payment_download(country_code: "CH").order_type
+    assert_equal "C54", Current.org.bank_connection.operation_config.payment_download(country_code: "CH").order_type
   end
 
   test "fiscal_years returns an array of fiscal years" do

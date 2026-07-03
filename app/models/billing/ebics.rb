@@ -33,6 +33,18 @@ module Billing
       []
     end
 
+    def process_payments!
+      operation = operation_config.payment_download(country_code: Current.org.country_code)
+
+      if operation.btf?
+        process_btf_payments!(operation)
+      else
+        Billing::PaymentsProcessor.new(payments_data).process!
+      end
+    rescue MaintenanceError
+      Billing::PaymentsProcessor.new([]).process!
+    end
+
     def sepa_direct_debit_upload(document)
       operation = operation_config.sepa_direct_debit_upload
       ebics_client(operation).upload(operation, document: document)
@@ -48,14 +60,36 @@ module Billing
 
         ebics_client(operation).download(
           operation,
-          from: GET_PAYMENTS_FROM.to_date.to_s,
-          to: Date.current.to_s)
+          from: payments_from,
+          to: payments_to)
       rescue NoDownloadDataAvailable => e
         notify(:ebics_no_data_available, e.original_error)
         []
       rescue TechnicalError => e
         notify(:ebics_technical_error, e.original_error)
         raise MaintenanceError, "EBICS technical error occurred"
+      end
+
+      def process_btf_payments!(operation)
+        ebics_client(operation).download_and_process(operation, from: payments_from, to: payments_to) do |files|
+          Billing::PaymentsProcessor
+            .new(CamtFile.new(files).payments_data, raise_on_error: true)
+            .process!
+        end
+      rescue NoDownloadDataAvailable => e
+        notify(:ebics_no_data_available, e.original_error)
+        Billing::PaymentsProcessor.new([]).process!
+      rescue TechnicalError => e
+        notify(:ebics_technical_error, e.original_error)
+        raise MaintenanceError, "EBICS technical error occurred"
+      end
+
+      def payments_from
+        GET_PAYMENTS_FROM.to_date.to_s
+      end
+
+      def payments_to
+        Date.current.to_s
       end
 
       def ebics_client(operation)

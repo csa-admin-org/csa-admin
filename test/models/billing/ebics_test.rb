@@ -80,14 +80,7 @@ class Billing::EBICSTest < ActiveSupport::TestCase
 
   test "explicit BTF settings use the H005 payment download operation" do
     org(country_code: "CH")
-    settings = {
-      "downloads" => {
-        "payments" => {
-          "mode" => "btf",
-          "btf" => Billing::EBICS::Btf::Presets.camt054(service_name: "REP", scope: "CH", version: "04")
-        }
-      }
-    }
+    settings = btf_settings
     client = BtfClientStub.new([ file_fixture("camt054.xml") ])
 
     payments_data = Billing::EBICS.new(credentials, settings: settings, ebics_client: client).payments_data
@@ -98,6 +91,19 @@ class Billing::EBICSTest < ActiveSupport::TestCase
     assert_equal "camt.054", operation.btf.fetch("message_name")
     assert_equal [ Billing::EBICS::GET_PAYMENTS_FROM.to_date.to_s, Date.current.to_s ], range
     assert_equal "camt.054", payments_data.first.origin
+  end
+
+  test "process payments uses ACK-after-processor for BTF downloads" do
+    org(country_code: "CH")
+    client = BtfClientStub.new([ file_fixture("camt054.xml") ])
+
+    assert Billing::EBICS.new(credentials, settings: btf_settings, ebics_client: client).process_payments!
+
+    method, operation, range = client.calls.first
+    assert_equal :download_and_process, method
+    assert operation.btf?
+    assert_equal "BTD", operation.order_type
+    assert_equal [ Billing::EBICS::GET_PAYMENTS_FROM.to_date.to_s, Date.current.to_s ], range
   end
 
   test "returns no payments and notifies when no EBICS download data is available" do
@@ -144,6 +150,17 @@ class Billing::EBICSTest < ActiveSupport::TestCase
       "host_id" => "HOSTID",
       "participant_id" => "PARTICIPANTID",
       "client_id" => "CLIENTID"
+    }
+  end
+
+  def btf_settings
+    {
+      "downloads" => {
+        "payments" => {
+          "mode" => "btf",
+          "btf" => Billing::EBICS::Btf::Presets.camt054(service_name: "REP", scope: "CH", version: "04")
+        }
+      }
     }
   end
 
@@ -217,6 +234,11 @@ class Billing::EBICSTest < ActiveSupport::TestCase
     def download(operation, from:, to:)
       @calls << [ operation, [ from, to ] ]
       @files
+    end
+
+    def download_and_process(operation, from:, to:)
+      @calls << [ :download_and_process, operation, [ from, to ] ]
+      yield @files
     end
   end
 

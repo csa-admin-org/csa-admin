@@ -8,14 +8,20 @@ module Billing
 
     def self.retrieve_and_process!
       return if Rails.env.development?
-      return unless Current.org.bank_connection?
 
-      payments_data = Current.org.bank_connection.payments_data
-      new(payments_data).process!
+      connection = Current.org.bank_connection
+      return unless connection
+
+      if connection.respond_to?(:process_payments!)
+        connection.process_payments!
+      else
+        new(connection.payments_data).process!
+      end
     end
 
-    def initialize(payments_data)
+    def initialize(payments_data, raise_on_error: false)
       @payments_data = payments_data
+      @raise_on_error = raise_on_error
     end
 
     def process!
@@ -32,6 +38,8 @@ module Billing
     end
 
     private
+
+    attr_reader :raise_on_error
 
     def create_payment!(data)
       return unless invoice = find_invoice(data)
@@ -57,6 +65,7 @@ module Billing
       end
     rescue => e
       Rails.error.report(e, context: { data: data })
+      raise if raise_on_error
     end
 
     def find_invoice(data)
