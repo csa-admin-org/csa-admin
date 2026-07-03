@@ -97,7 +97,7 @@ GEM
     arbre (2.2.1)
       activesupport (>= 7.0)
     ast (2.4.3)
-    async (2.39.0)
+    async (2.40.0)
       console (~> 1.29)
       fiber-annotation
       io-event (~> 1.11)
@@ -302,7 +302,7 @@ GEM
       nokogiri (>= 1.6)
     io-console (0.8.2)
     io-endpoint (0.17.2)
-    io-event (1.16.3)
+    io-event (1.16.4)
     io-stream (0.13.1)
     irb (1.18.0)
       pp (>= 0.6.0)
@@ -797,7 +797,7 @@ CHECKSUMS
   appsignal (4.8.6) sha256=411be975ddf3b3f47a18261a69990df36a3e9663e4efabdd3077ca67576600cb
   arbre (2.2.1) sha256=3048ba04c063e603fa9a47cd8ea8fe5ce79a0dbd7306840816ab37bb496c79d6
   ast (2.4.3) sha256=954615157c1d6a382bc27d690d973195e79db7f55e9765ac7c481c60bdb4d383
-  async (2.39.0) sha256=df18730073f2bbb45788077dfa20cb365ecc1b9453969f44de6796b5191a00aa
+  async (2.40.0) sha256=52c7cf92b7e12fec4054f721b2fc9df401940d65a076f7e771cd6af18947af66
   async-http (0.95.1) sha256=0c3dd458c204c06d5c4b20b01bbec4794a1203db627fb2ce536e1799ec14786c
   async-pool (0.11.2) sha256=0a43a17b02b04d9c451b7d12fafa9a50e55dc6dd00d4369aca00433f16a7e3ed
   async-rest (0.20.0) sha256=72b0d467f65269a53a64fc12b828f3d81b4afa201b4eea0b98cddb990e7e95eb
@@ -887,7 +887,7 @@ CHECKSUMS
   inline_svg (1.10.0) sha256=5b652934236fd9f8adc61f3fd6e208b7ca3282698b19f28659971da84bf9a10f
   io-console (0.8.2) sha256=d6e3ae7a7cc7574f4b8893b4fca2162e57a825b223a177b7afa236c5ef9814cc
   io-endpoint (0.17.2) sha256=3feaf766c116b35839c11fac68b6aaadc47887bb488902a57bf8e1d288fb3338
-  io-event (1.16.3) sha256=b36215c85397d1c0bab20ef5fa80d41422174fe6fd463ea8bae4392ffa26a207
+  io-event (1.16.4) sha256=98b04e3a5e374fe0ce20f69956d435a3430335920544e3c1a492bdf37c4bf6d6
   io-stream (0.13.1) sha256=570d7c4dfb0fbd767480b4a222048a2be6d9b78febc1ec68258d0e0a4cde20de
   irb (1.18.0) sha256=de9454a0703a54704b9811a5ef31a60c86949fbf4013fcf244fabc7c775248e3
   jmespath (1.6.2) sha256=238d774a58723d6c090494c8879b5e9918c19485f7e840f2c1c7532cf84ebcb1
