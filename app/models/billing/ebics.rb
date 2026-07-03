@@ -138,7 +138,6 @@ module Billing
     def btf_client
       @btf_client ||= BtfClient.new(
         credentials,
-        legacy_client: legacy_client,
         context: safe_context)
     end
 

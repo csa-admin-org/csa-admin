@@ -2,7 +2,6 @@
 
 require "test_helper"
 require "base64"
-require "epics"
 require "openssl"
 require "zip"
 require "zlib"
@@ -10,17 +9,17 @@ require "zlib"
 class Billing::EBICS::BtfClientTest < ActiveSupport::TestCase
   H005_NAMESPACE = Billing::EBICS::Btf::Response::H005_NAMESPACE
 
-  test "uses legacy client only as a key-loading bridge" do
-    legacy_client = LegacyClientStub.new
-    client = Billing::EBICS::BtfClient.new(credentials, legacy_client: legacy_client)
+  test "uses app-owned key store for H005 requests" do
+    key_store = KeyStoreStub.new
+    client = Billing::EBICS::BtfClient.new(credentials, key_store: key_store)
 
-    assert_same legacy_client.epics_client, client.client
+    assert_same key_store, client.client
   end
 
   test "builds signed BTD download request XML" do
     client = Billing::EBICS::BtfClient.new(
       credentials,
-      legacy_client: LegacyClientStub.new,
+      key_store: KeyStoreStub.new,
       request_options: {
         nonce: "0123456789abcdef0123456789abcdef",
         timestamp: "2026-07-01T12:00:00Z",
@@ -316,7 +315,7 @@ class Billing::EBICS::BtfClientTest < ActiveSupport::TestCase
   def btf_client(transport: TransportStub.new([]), error_reporter: ErrorRecorder.new)
     Billing::EBICS::BtfClient.new(
       credentials,
-      legacy_client: LegacyClientStub.new(synthetic_epics_client),
+      key_store: key_store,
       request_options: {
         nonce: "0123456789abcdef0123456789abcdef",
         timestamp: "2026-07-01T12:00:00Z",
@@ -337,27 +336,11 @@ class Billing::EBICS::BtfClientTest < ActiveSupport::TestCase
   end
 
   def credentials
-    {
-      "keys" => "keys",
-      "secret" => "secret",
-      "url" => "https://ebics.example.test",
-      "host_id" => "HOSTID",
-      "participant_id" => "PARTNERID",
-      "client_id" => "USERID"
-    }
+    @credentials ||= synthetic_ebics_credentials
   end
 
-  def synthetic_epics_client
-    @synthetic_epics_client ||= ::Epics::Client.setup(
-      "secret",
-      "https://ebics.example.test",
-      "HOSTID",
-      "USERID",
-      "PARTNERID",
-      2048).tap { |client|
-        client.keys["HOSTID.X002"] = client.x
-        client.keys["HOSTID.E002"] = client.e
-      }
+  def key_store
+    @key_store ||= Billing::EBICS::KeyStore.new(credentials)
   end
 
   def encrypted_order_data_segments(payload)
@@ -428,7 +411,7 @@ class Billing::EBICS::BtfClientTest < ActiveSupport::TestCase
   end
 
   def encrypted_transaction_key
-    Base64.strict_encode64(synthetic_epics_client.e.key.public_encrypt(transaction_key))
+    Base64.strict_encode64(key_store.e.key.public_encrypt(transaction_key))
   end
 
   def transaction_key
@@ -474,19 +457,7 @@ class Billing::EBICS::BtfClientTest < ActiveSupport::TestCase
     end
   end
 
-  class LegacyClientStub
-    attr_reader :epics_client
-
-    def initialize(epics_client = EpicsClientStub.new)
-      @epics_client = epics_client
-    end
-
-    def client
-      epics_client
-    end
-  end
-
-  class EpicsClientStub
+  class KeyStoreStub
     attr_reader :host_id, :partner_id, :user_id
 
     def initialize

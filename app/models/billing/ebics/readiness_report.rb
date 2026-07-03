@@ -107,7 +107,7 @@ module Billing
 
       def key_summary
         @key_summary ||= if REQUIRED_CREDENTIALS.all? { |key| ebics_credentials[key].present? }
-          Billing::EBICS::LegacyClient.new(ebics_credentials).key_summary
+          Billing::EBICS::KeyStore.new(ebics_credentials).key_summary
         else
           {}
         end

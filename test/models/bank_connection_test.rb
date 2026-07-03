@@ -185,6 +185,18 @@ class BankConnectionTest < ActiveSupport::TestCase
     assert_equal [ "New EBICS BTF message version advertised" ], connection.status_details.dig("last_capabilities_check", "warnings")
   end
 
+  test "returns EBICS key summary from encrypted credentials" do
+    connection = BankConnection.new(
+      provider: "ebics",
+      credentials: synthetic_ebics_credentials)
+
+    summary = connection.ebics_key_summary
+
+    assert_equal %w[A006 E002 HOSTID.E002 HOSTID.X002 X002], summary.fetch("key_names")
+    assert_operator summary.fetch("participant_key_min_bits"), :>=, 2048
+    assert_operator summary.fetch("bank_key_min_bits"), :>=, 2048
+  end
+
   test "returns empty EBICS key summary when credentials are incomplete" do
     connection = BankConnection.new(provider: "ebics", credentials: {})
 

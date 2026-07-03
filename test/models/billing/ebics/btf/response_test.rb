@@ -2,7 +2,6 @@
 
 require "test_helper"
 require "base64"
-require "epics"
 require "openssl"
 require "securerandom"
 require "stringio"
@@ -64,13 +63,7 @@ class Billing::EBICS::Btf::ResponseTest < ActiveSupport::TestCase
   private
 
   def client
-    @client ||= ::Epics::Client.setup(
-      "secret",
-      "https://ebics.example.test",
-      "HOSTID",
-      "USERID",
-      "PARTNERID",
-      2048)
+    @client ||= Billing::EBICS::KeyStore.new(synthetic_ebics_credentials)
   end
 
   def encrypted_order_data(payload)

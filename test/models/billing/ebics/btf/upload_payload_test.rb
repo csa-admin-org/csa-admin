@@ -2,7 +2,6 @@
 
 require "test_helper"
 require "base64"
-require "epics"
 require "nokogiri"
 require "openssl"
 require "zlib"
@@ -11,12 +10,16 @@ class Billing::EBICS::Btf::UploadPayloadTest < ActiveSupport::TestCase
   SIGNATURE_NAMESPACE = Billing::EBICS::Btf::UploadPayload::SIGNATURE_NAMESPACE
 
   test "encrypts order data and S002 signature data" do
-    client = synthetic_epics_client
+    bank_e = OpenSSL::PKey::RSA.generate(2048)
+    client = Billing::EBICS::KeyStore.new(synthetic_ebics_credentials(bank_e: bank_e))
     payload = Billing::EBICS::Btf::UploadPayload.new(
       client: client,
       document: "<Document>pain</Document>\n",
       transaction_key: "1234567890abcdef")
 
+    encrypted_transaction_key = Base64.strict_decode64(payload.encrypted_transaction_key)
+
+    assert_equal payload.transaction_key, bank_e.private_decrypt(encrypted_transaction_key)
     assert_equal "<Document>pain</Document>\n", decrypt(payload.encrypted_order_data, payload.transaction_key)
 
     signature_xml = decrypt(payload.encrypted_signature_data, payload.transaction_key)
@@ -33,18 +36,7 @@ class Billing::EBICS::Btf::UploadPayloadTest < ActiveSupport::TestCase
 
   private
 
-  def synthetic_epics_client
-    ::Epics::Client.setup(
-      "secret",
-      "https://ebics.example.test",
-      "HOSTID",
-      "USERID",
-      "PARTNERID",
-      2048).tap { |client|
-        client.keys["HOSTID.X002"] = client.x
-        client.keys["HOSTID.E002"] = client.e
-      }
-  end
+
 
   def decrypt(data, transaction_key)
     encrypted = Base64.strict_decode64(data)

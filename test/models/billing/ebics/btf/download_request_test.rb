@@ -2,7 +2,6 @@
 
 require "test_helper"
 require "base64"
-require "epics"
 require "nokogiri"
 require "openssl"
 
@@ -31,7 +30,7 @@ class Billing::EBICS::Btf::DownloadRequestTest < ActiveSupport::TestCase
   end
 
   test "signs generated XML with the participant X002 key" do
-    client = synthetic_epics_client
+    client = Billing::EBICS::KeyStore.new(synthetic_ebics_credentials)
     request = Billing::EBICS::Btf::DownloadRequest.new(
       client: client,
       operation: operation(Billing::EBICS::Btf::Presets.camt053(service_name: "EOP", scope: "DE")),
@@ -85,18 +84,7 @@ class Billing::EBICS::Btf::DownloadRequestTest < ActiveSupport::TestCase
     Nokogiri::XML(xml) { |config| config.noblanks }.canonicalize
   end
 
-  def synthetic_epics_client
-    ::Epics::Client.setup(
-      "secret",
-      "https://ebics.example.test",
-      "HOSTID",
-      "USERID",
-      "PARTNERID",
-      2048).tap { |client|
-        client.keys["HOSTID.X002"] = client.x
-        client.keys["HOSTID.E002"] = client.e
-      }
-  end
+
 
   class FakeSigner
     def sign(xml)

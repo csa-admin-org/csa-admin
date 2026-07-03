@@ -82,7 +82,7 @@ class BankConnection < ApplicationRecord
     required_keys = %w[keys secret url host_id participant_id client_id]
     return {} unless required_keys.all? { |key| credentials[key].present? }
 
-    Billing::EBICS::LegacyClient.new(credentials).key_summary
+    Billing::EBICS::KeyStore.new(credentials).key_summary
   rescue => e
     {
       "error" => {

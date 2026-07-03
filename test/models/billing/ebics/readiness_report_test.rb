@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 require "test_helper"
-require "epics"
-require "tempfile"
 
 class Billing::EBICS::ReadinessReportTest < ActiveSupport::TestCase
   setup do
@@ -82,29 +80,7 @@ class Billing::EBICS::ReadinessReportTest < ActiveSupport::TestCase
   private
 
   def ebics_credentials
-    @ebics_credentials ||= begin
-      client = ::Epics::Client.setup(
-        "test-passphrase-value",
-        "https://ebics.example.test",
-        "HOSTID",
-        "USERID",
-        "PARTNERID",
-        2048)
-      client.keys["HOSTID.X002"] = client.x
-      client.keys["HOSTID.E002"] = client.e
-
-      Tempfile.create do |file|
-        client.save_keys(file.path)
-        {
-          keys: File.read(file.path),
-          secret: "test-passphrase-value",
-          url: "https://ebics.example.test",
-          host_id: "HOSTID",
-          participant_id: "PARTNERID",
-          client_id: "USERID"
-        }
-      end
-    end
+    @ebics_credentials ||= synthetic_ebics_credentials(secret: "test-passphrase-value").symbolize_keys
   end
 
   def btf_payment_settings

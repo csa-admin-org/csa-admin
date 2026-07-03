@@ -42,6 +42,7 @@ module ActiveSupport
     include PostmarkHelper
     include QRCodeHelper
     include EnvHelper
+    include EbicsKeyStoreHelper
     include RailsEnvHelper
     include RailsErrorHelper
     include TenantHelper

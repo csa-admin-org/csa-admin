@@ -1,7 +1,9 @@
 # frozen_string_literal: true
 
 require "test_helper"
+require "base64"
 require "nokogiri"
+require "openssl"
 
 class Billing::EBICS::Btf::UploadRequestTest < ActiveSupport::TestCase
   H005_NAMESPACE = Billing::EBICS::Btf::DownloadRequest::H005_NAMESPACE
@@ -33,6 +35,27 @@ class Billing::EBICS::Btf::UploadRequestTest < ActiveSupport::TestCase
     assert_equal "DATA-DIGEST", text(xml, "//h:DataDigest")
     assert_equal "A006", xml.at_xpath("//h:DataDigest", h: H005_NAMESPACE)["SignatureVersion"]
     assert_equal "SIGNATURE", xml.at_xpath("//ds:SignatureValue", ds: XMLDSIG_NAMESPACE).text
+  end
+
+  test "real signer digests all authenticated upload nodes" do
+    client = Billing::EBICS::KeyStore.new(synthetic_ebics_credentials)
+    request = Billing::EBICS::Btf::UploadRequest.new(
+      client: client,
+      operation: operation(Billing::EBICS::Btf::Presets.sepa_direct_debit_upload(scope: "DE", container: "XML")),
+      document: "<Document>pain</Document>",
+      nonce: "0123456789abcdef0123456789abcdef",
+      timestamp: "2026-07-01T12:00:00Z",
+      payload: FakePayload.new)
+    xml = Nokogiri::XML(request.to_xml)
+
+    authenticated = xml.xpath("//*[@authenticate='true']").map(&:canonicalize).join
+    assert_equal 3, xml.xpath("//*[@authenticate='true']").size
+    assert_equal Base64.strict_encode64(OpenSSL::Digest::SHA256.digest(authenticated)),
+      xml.at_xpath("//ds:DigestValue", ds: XMLDSIG_NAMESPACE).text
+    assert client.x.key.verify(
+      OpenSSL::Digest::SHA256.new,
+      Base64.strict_decode64(xml.at_xpath("//ds:SignatureValue", ds: XMLDSIG_NAMESPACE).text),
+      xml.at_xpath("//ds:SignedInfo", ds: XMLDSIG_NAMESPACE).canonicalize)
   end
 
   test "can omit signature flag when explicitly configured" do

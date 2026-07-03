@@ -31,9 +31,9 @@ module Billing
 
       VerificationError = Class.new(StandardError)
 
-      def initialize(credentials, legacy_client: LegacyClient.new(credentials), request_options: {}, transport: Btf::Transport.new, verify_signatures: true, context: {}, error_reporter: Rails.error)
+      def initialize(credentials, key_store: KeyStore.new(credentials), request_options: {}, transport: Btf::Transport.new, verify_signatures: true, context: {}, error_reporter: Rails.error)
         @credentials = Credentials.new(credentials)
-        @legacy_client = legacy_client
+        @key_store = key_store
         @request_options = request_options
         @transport = transport
         @verify_signatures = verify_signatures
@@ -42,7 +42,7 @@ module Billing
       end
 
       def client
-        legacy_client.client
+        key_store
       end
 
       def download(_operation, from:, to:)
@@ -172,7 +172,7 @@ module Billing
 
       private
 
-      attr_reader :credentials, :legacy_client, :request_options, :transport, :verify_signatures, :context, :error_reporter
+      attr_reader :credentials, :key_store, :request_options, :transport, :verify_signatures, :context, :error_reporter
 
       def download_responses(operation, from:, to:)
         ensure_btf_download!(operation)
