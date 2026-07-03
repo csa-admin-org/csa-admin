@@ -59,62 +59,63 @@ module Billing
     end
 
     private
-      def get_camt_files
-        operation = operation_config.payment_download(country_code: Current.org.country_code)
 
-        ebics_client(operation).download(
-          operation,
-          from: payments_from,
-          to: payments_to)
-      rescue NoDownloadDataAvailable => e
-        notify(:ebics_no_data_available, e.original_error)
-        []
-      rescue TechnicalError => e
-        notify(:ebics_technical_error, e.original_error)
-        raise MaintenanceError, "EBICS technical error occurred"
+    def get_camt_files
+      operation = operation_config.payment_download(country_code: Current.org.country_code)
+
+      ebics_client(operation).download(
+        operation,
+        from: payments_from,
+        to: payments_to)
+    rescue NoDownloadDataAvailable => e
+      notify(:ebics_no_data_available, e.original_error)
+      []
+    rescue TechnicalError => e
+      notify(:ebics_technical_error, e.original_error)
+      raise MaintenanceError, "EBICS technical error occurred"
+    end
+
+    def process_btf_payments!(operation)
+      ebics_client(operation).download_and_process(operation, from: payments_from, to: payments_to) do |files|
+        Billing::PaymentsProcessor
+          .new(CamtFile.new(files).payments_data, raise_on_error: true)
+          .process!
       end
+    rescue NoDownloadDataAvailable => e
+      notify(:ebics_no_data_available, e.original_error)
+      Billing::PaymentsProcessor.new([]).process!
+    rescue TechnicalError => e
+      notify(:ebics_technical_error, e.original_error)
+      raise MaintenanceError, "EBICS technical error occurred"
+    end
 
-      def process_btf_payments!(operation)
-        ebics_client(operation).download_and_process(operation, from: payments_from, to: payments_to) do |files|
-          Billing::PaymentsProcessor
-            .new(CamtFile.new(files).payments_data, raise_on_error: true)
-            .process!
-        end
-      rescue NoDownloadDataAvailable => e
-        notify(:ebics_no_data_available, e.original_error)
-        Billing::PaymentsProcessor.new([]).process!
-      rescue TechnicalError => e
-        notify(:ebics_technical_error, e.original_error)
-        raise MaintenanceError, "EBICS technical error occurred"
-      end
+    def payments_from
+      GET_PAYMENTS_FROM.to_date.to_s
+    end
 
-      def payments_from
-        GET_PAYMENTS_FROM.to_date.to_s
-      end
+    def payments_to
+      Date.current.to_s
+    end
 
-      def payments_to
-        Date.current.to_s
-      end
+    def ebics_client(operation)
+      return @ebics_client if @ebics_client
+      return btf_client if operation.btf?
 
-      def ebics_client(operation)
-        return @ebics_client if @ebics_client
-        return btf_client if operation.btf?
+      legacy_client
+    end
 
-        legacy_client
-      end
+    def legacy_client
+      @legacy_client ||= LegacyClient.new(credentials)
+    end
 
-      def legacy_client
-        @legacy_client ||= LegacyClient.new(credentials)
-      end
+    def btf_client
+      @btf_client ||= BtfClient.new(credentials, legacy_client: legacy_client)
+    end
 
-      def btf_client
-        @btf_client ||= BtfClient.new(credentials, legacy_client: legacy_client)
-      end
-
-      def notify(name, error)
-        Rails.event.notify(name,
-          error: error.class.name,
-          error_message: error.message)
-      end
+    def notify(name, error)
+      Rails.event.notify(name,
+        error: error.class.name,
+        error_message: error.message)
+    end
   end
 end

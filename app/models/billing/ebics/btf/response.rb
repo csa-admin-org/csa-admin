@@ -123,31 +123,32 @@ module Billing
         end
 
         private
-          attr_reader :client
 
-          def mutable_return_code
-            text("//h:header/h:mutable/h:ReturnCode")
-          end
+        attr_reader :client
 
-          def system_return_code
-            doc.xpath("//xmlns:SystemReturnCode/xmlns:ReturnCode", xmlns: "http://www.ebics.org/H000").text
-          end
+        def mutable_return_code
+          text("//h:header/h:mutable/h:ReturnCode")
+        end
 
-          def digest_node
-            doc.at_xpath("//ds:DigestValue", ds: DownloadRequest::XMLDSIG_NAMESPACE)
-          end
+        def system_return_code
+          doc.xpath("//xmlns:SystemReturnCode/xmlns:ReturnCode", xmlns: "http://www.ebics.org/H000").text
+        end
 
-          def signature_node
-            doc.at_xpath("//ds:SignedInfo", ds: DownloadRequest::XMLDSIG_NAMESPACE)
-          end
+        def digest_node
+          doc.at_xpath("//ds:DigestValue", ds: DownloadRequest::XMLDSIG_NAMESPACE)
+        end
 
-          def signature_value_node
-            doc.at_xpath("//ds:SignatureValue", ds: DownloadRequest::XMLDSIG_NAMESPACE)
-          end
+        def signature_node
+          doc.at_xpath("//ds:SignedInfo", ds: DownloadRequest::XMLDSIG_NAMESPACE)
+        end
 
-          def text(xpath)
-            doc.xpath(xpath, h: H005_NAMESPACE).text
-          end
+        def signature_value_node
+          doc.at_xpath("//ds:SignatureValue", ds: DownloadRequest::XMLDSIG_NAMESPACE)
+        end
+
+        def text(xpath)
+          doc.xpath(xpath, h: H005_NAMESPACE).text
+        end
       end
     end
   end

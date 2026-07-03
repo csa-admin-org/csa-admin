@@ -82,74 +82,75 @@ module Billing
         end
 
         private
-          attr_reader :client, :operation, :from, :to, :nonce, :timestamp, :product_name, :language, :signer
 
-          def root_attributes
-            ROOT_ATTRIBUTES
-          end
+        attr_reader :client, :operation, :from, :to, :nonce, :timestamp, :product_name, :language, :signer
 
-          def order_details(xml)
-            xml.OrderDetails {
-              xml.AdminOrderType btf.fetch("order_type")
-              xml.BTDOrderParams {
-                service(xml)
-                date_range(xml)
-              }
+        def root_attributes
+          ROOT_ATTRIBUTES
+        end
+
+        def order_details(xml)
+          xml.OrderDetails {
+            xml.AdminOrderType btf.fetch("order_type")
+            xml.BTDOrderParams {
+              service(xml)
+              date_range(xml)
             }
-          end
+          }
+        end
 
-          def service(xml)
-            xml.Service {
-              xml.ServiceName btf.fetch("service_name")
-              xml.Scope btf.fetch("scope") if btf["scope"].present?
-              xml.ServiceOption btf.fetch("service_option") if btf["service_option"].present?
-              xml.Container containerType: btf.fetch("container") if btf["container"].present?
-              msg_name(xml)
-            }
-          end
+        def service(xml)
+          xml.Service {
+            xml.ServiceName btf.fetch("service_name")
+            xml.Scope btf.fetch("scope") if btf["scope"].present?
+            xml.ServiceOption btf.fetch("service_option") if btf["service_option"].present?
+            xml.Container containerType: btf.fetch("container") if btf["container"].present?
+            msg_name(xml)
+          }
+        end
 
-          def msg_name(xml)
-            if btf["version"].present?
-              xml.MsgName btf.fetch("message_name"), version: btf.fetch("version")
-            else
-              xml.MsgName btf.fetch("message_name")
-            end
+        def msg_name(xml)
+          if btf["version"].present?
+            xml.MsgName btf.fetch("message_name"), version: btf.fetch("version")
+          else
+            xml.MsgName btf.fetch("message_name")
           end
+        end
 
-          def date_range(xml)
-            return if from.blank? || to.blank?
+        def date_range(xml)
+          return if from.blank? || to.blank?
 
-            xml.DateRange {
-              xml.Start format_date(from)
-              xml.End format_date(to)
-            }
-          end
+          xml.DateRange {
+            xml.Start format_date(from)
+            xml.End format_date(to)
+          }
+        end
 
-          def bank_public_key_digests(xml)
-            xml.BankPubKeyDigests {
-              xml.Authentication client.bank_x.public_digest,
-                Version: "X002",
-                Algorithm: SHA256_ALGORITHM
-              xml.Encryption client.bank_e.public_digest,
-                Version: "E002",
-                Algorithm: SHA256_ALGORITHM
-            }
-          end
+        def bank_public_key_digests(xml)
+          xml.BankPubKeyDigests {
+            xml.Authentication client.bank_x.public_digest,
+              Version: "X002",
+              Algorithm: SHA256_ALGORITHM
+            xml.Encryption client.bank_e.public_digest,
+              Version: "E002",
+              Algorithm: SHA256_ALGORITHM
+          }
+        end
 
-          def auth_signature(xml)
-            self.class.auth_signature(xml)
-          end
+        def auth_signature(xml)
+          self.class.auth_signature(xml)
+        end
 
-          def btf
-            @btf ||= operation.btf.fetch_values(
-              "order_type",
-              "service_name",
-              "message_name").then { operation.btf }
-          end
+        def btf
+          @btf ||= operation.btf.fetch_values(
+            "order_type",
+            "service_name",
+            "message_name").then { operation.btf }
+        end
 
-          def format_date(value)
-            value.respond_to?(:to_date) ? value.to_date.iso8601 : value.to_s
-          end
+        def format_date(value)
+          value.respond_to?(:to_date) ? value.to_date.iso8601 : value.to_s
+        end
       end
     end
   end

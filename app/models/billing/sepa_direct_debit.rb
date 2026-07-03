@@ -42,31 +42,32 @@ module Billing
     end
 
     private
-      attr_reader :schema
 
-      def base
-        SEPA::DirectDebit.new(
-          name: Current.org.creditor_name,
-          iban: Current.org.iban,
-          creditor_identifier: Current.org.sepa_creditor_identifier)
-      end
+    attr_reader :schema
 
-      def add_transactions(sdd)
-        @invoices.each do |invoice|
-          sdd.add_transaction(
-            name: invoice.sepa_debtor_name,
-            iban: invoice.sepa_mandate.iban,
-            amount: invoice.amount,
-            currency: Current.org.currency_code,
-            instruction: [ invoice.member_id, invoice.id ].join("-"),
-            reference: invoice.reference,
-            batch_booking: false, # Disable "Sammelbuchung / Einzelbuchung"
-            mandate_id: invoice.sepa_mandate.umr,
-            mandate_date_of_signature: invoice.sepa_mandate.signed_on,
-            local_instrument: "CORE", # "Basis-Lastschrift"
-            sequence_type: "OOFF") # "Einmalige Lastschrift"
-        end
-        sdd
+    def base
+      SEPA::DirectDebit.new(
+        name: Current.org.creditor_name,
+        iban: Current.org.iban,
+        creditor_identifier: Current.org.sepa_creditor_identifier)
+    end
+
+    def add_transactions(sdd)
+      @invoices.each do |invoice|
+        sdd.add_transaction(
+          name: invoice.sepa_debtor_name,
+          iban: invoice.sepa_mandate.iban,
+          amount: invoice.amount,
+          currency: Current.org.currency_code,
+          instruction: [ invoice.member_id, invoice.id ].join("-"),
+          reference: invoice.reference,
+          batch_booking: false, # Disable "Sammelbuchung / Einzelbuchung"
+          mandate_id: invoice.sepa_mandate.umr,
+          mandate_date_of_signature: invoice.sepa_mandate.signed_on,
+          local_instrument: "CORE", # "Basis-Lastschrift"
+          sequence_type: "OOFF") # "Einmalige Lastschrift"
       end
+      sdd
+    end
   end
 end

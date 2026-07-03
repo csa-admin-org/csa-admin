@@ -37,15 +37,16 @@ module Billing
         end
 
         private
-          attr_reader :client, :transaction_id, :segment_number, :signer
 
-          def root_attributes
-            DownloadRequest::ROOT_ATTRIBUTES
-          end
+        attr_reader :client, :transaction_id, :segment_number, :signer
 
-          def auth_signature(xml)
-            DownloadRequest.auth_signature(xml)
-          end
+        def root_attributes
+          DownloadRequest::ROOT_ATTRIBUTES
+        end
+
+        def auth_signature(xml)
+          DownloadRequest.auth_signature(xml)
+        end
       end
     end
   end

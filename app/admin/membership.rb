@@ -749,7 +749,7 @@ ActiveAdmin.register Membership do
       end
     end
     f.inputs Delivery.model_name.human(count: 2), icon: "calendar" do
-       ol "data-controller" => "form-reset" do
+      ol "data-controller" => "form-reset" do
         f.input :depot,
           collection: admin_depots_collection,
           prompt: true,

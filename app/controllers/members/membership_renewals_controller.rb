@@ -86,10 +86,10 @@ class Members::MembershipRenewalsController < Members::BaseController
       ], memberships_basket_complements_attributes: [
         :basket_complement_id, :quantity
       ])
-      permitted[:memberships_basket_complements_attributes]&.select! { |i, attrs|
-        attrs["quantity"].to_i > 0
-      }
-      permitted
+    permitted[:memberships_basket_complements_attributes]&.select! { |i, attrs|
+      attrs["quantity"].to_i > 0
+    }
+    permitted
   end
   helper_method :renewal_params
 end

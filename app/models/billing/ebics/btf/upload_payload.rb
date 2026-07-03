@@ -55,44 +55,45 @@ module Billing
         end
 
         private
-          attr_reader :client, :document
 
-          def self.random_transaction_key
-            cipher = OpenSSL::Cipher.new("aes-128-cbc")
-            cipher.encrypt
-            cipher.random_key
-          end
+        attr_reader :client, :document
 
-          def random_transaction_key
-            self.class.random_transaction_key
-          end
+        def self.random_transaction_key
+          cipher = OpenSSL::Cipher.new("aes-128-cbc")
+          cipher.encrypt
+          cipher.random_key
+        end
 
-          def signature_value
-            client.a.sign(OpenSSL::Digest::SHA256.digest(signable_document))
-          end
+        def random_transaction_key
+          self.class.random_transaction_key
+        end
 
-          def signable_document
-            document.gsub(/\n|\r/, "")
-          end
+        def signature_value
+          client.a.sign(OpenSSL::Digest::SHA256.digest(signable_document))
+        end
 
-          def encrypt_and_encode(data)
-            Base64.strict_encode64(encrypt(data))
-          end
+        def signable_document
+          document.gsub(/\n|\r/, "")
+        end
 
-          def encrypt(data)
-            cipher = OpenSSL::Cipher.new("aes-128-cbc")
-            cipher.encrypt
-            cipher.padding = 0
-            cipher.key = transaction_key
-            cipher.iv = "\0" * cipher.iv_len
-            cipher.update(pad(data, cipher.block_size)) + cipher.final
-          end
+        def encrypt_and_encode(data)
+          Base64.strict_encode64(encrypt(data))
+        end
 
-          def pad(data, block_size)
-            length = block_size * ((data.bytesize / block_size) + 1)
-            padding_size = length - data.bytesize
-            data.ljust(length, "\0").tap { |padded| padded[-1] = padding_size.chr }
-          end
+        def encrypt(data)
+          cipher = OpenSSL::Cipher.new("aes-128-cbc")
+          cipher.encrypt
+          cipher.padding = 0
+          cipher.key = transaction_key
+          cipher.iv = "\0" * cipher.iv_len
+          cipher.update(pad(data, cipher.block_size)) + cipher.final
+        end
+
+        def pad(data, block_size)
+          length = block_size * ((data.bytesize / block_size) + 1)
+          padding_size = length - data.bytesize
+          data.ljust(length, "\0").tap { |padded| padded[-1] = padding_size.chr }
+        end
       end
     end
   end

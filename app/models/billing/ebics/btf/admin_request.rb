@@ -51,31 +51,32 @@ module Billing
         end
 
         private
-          attr_reader :client, :order_type, :nonce, :timestamp, :product_name, :language, :signer
 
-          def ensure_supported_order_type!
-            return if SUPPORTED_ORDER_TYPES.include?(order_type)
+        attr_reader :client, :order_type, :nonce, :timestamp, :product_name, :language, :signer
 
-            raise UnsupportedOperation, "H005 admin probe only supports #{SUPPORTED_ORDER_TYPES.to_sentence}"
-          end
+        def ensure_supported_order_type!
+          return if SUPPORTED_ORDER_TYPES.include?(order_type)
 
-          def order_details(xml)
-            xml.OrderDetails {
-              xml.AdminOrderType order_type
-              xml.StandardOrderParams
-            }
-          end
+          raise UnsupportedOperation, "H005 admin probe only supports #{SUPPORTED_ORDER_TYPES.to_sentence}"
+        end
 
-          def bank_public_key_digests(xml)
-            xml.BankPubKeyDigests {
-              xml.Authentication client.bank_x.public_digest,
-                Version: "X002",
-                Algorithm: DownloadRequest::SHA256_ALGORITHM
-              xml.Encryption client.bank_e.public_digest,
-                Version: "E002",
-                Algorithm: DownloadRequest::SHA256_ALGORITHM
-            }
-          end
+        def order_details(xml)
+          xml.OrderDetails {
+            xml.AdminOrderType order_type
+            xml.StandardOrderParams
+          }
+        end
+
+        def bank_public_key_digests(xml)
+          xml.BankPubKeyDigests {
+            xml.Authentication client.bank_x.public_digest,
+              Version: "X002",
+              Algorithm: DownloadRequest::SHA256_ALGORITHM
+            xml.Encryption client.bank_e.public_digest,
+              Version: "E002",
+              Algorithm: DownloadRequest::SHA256_ALGORITHM
+          }
+        end
       end
     end
   end

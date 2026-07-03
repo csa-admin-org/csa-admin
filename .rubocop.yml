@@ -13,6 +13,9 @@ AllCops:
 
 Layout/LineLength:
   Max: 100
+Layout/IndentationConsistency:
+  Enabled: true
+  EnforcedStyle: normal
 
 Style/FrozenStringLiteralComment:
   Enabled: true

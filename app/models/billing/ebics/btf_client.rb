@@ -161,141 +161,142 @@ module Billing
       end
 
       private
-        attr_reader :credentials, :legacy_client, :request_options, :transport, :verify_signatures
 
-        def download_responses(operation, from:, to:)
-          ensure_btf_download!(operation)
-          order_responses(download_request(operation, from: from, to: to))
-        end
+      attr_reader :credentials, :legacy_client, :request_options, :transport, :verify_signatures
 
-        def admin_responses(order_type)
-          order_responses(admin_request(order_type))
-        end
+      def download_responses(operation, from:, to:)
+        ensure_btf_download!(operation)
+        order_responses(download_request(operation, from: from, to: to))
+      end
 
-        def order_responses(request)
-          [].tap do |responses|
-            response = post_request(request)
+      def admin_responses(order_type)
+        order_responses(admin_request(order_type))
+      end
+
+      def order_responses(request)
+        [].tap do |responses|
+          response = post_request(request)
+          raise_response_error!(response)
+          responses << response
+
+          while response.segmented? && !response.last_segment?
+            response = post_request(transfer_request(response.transaction_id, response.next_segment_number))
             raise_response_error!(response)
             responses << response
-
-            while response.segmented? && !response.last_segment?
-              response = post_request(transfer_request(response.transaction_id, response.next_segment_number))
-              raise_response_error!(response)
-              responses << response
-            end
           end
         end
+      end
 
-        def post_request(request)
-          response_from(transport.post(credentials.url, request.to_xml))
-        end
+      def post_request(request)
+        response_from(transport.post(credentials.url, request.to_xml))
+      end
 
-        def response_from(response_xml)
-          Btf::Response.new(client: client, xml: response_xml).tap { |response| verify_response!(response) }
-        end
+      def response_from(response_xml)
+        Btf::Response.new(client: client, xml: response_xml).tap { |response| verify_response!(response) }
+      end
 
-        def admin_request(order_type, **overrides)
-          Btf::AdminRequest.new(
-            client: client,
-            order_type: order_type,
-            **request_options.merge(overrides))
-        end
+      def admin_request(order_type, **overrides)
+        Btf::AdminRequest.new(
+          client: client,
+          order_type: order_type,
+          **request_options.merge(overrides))
+      end
 
-        def upload_request(operation, document:, **overrides)
-          ensure_btf_upload!(operation)
+      def upload_request(operation, document:, **overrides)
+        ensure_btf_upload!(operation)
 
-          Btf::UploadRequest.new(
-            client: client,
-            operation: operation,
-            document: document,
-            **request_options.merge(overrides))
-        end
+        Btf::UploadRequest.new(
+          client: client,
+          operation: operation,
+          document: document,
+          **request_options.merge(overrides))
+      end
 
-        def upload_transfer_request(transaction_id, payload, **overrides)
-          Btf::UploadTransferRequest.new(
-            client: client,
-            transaction_id: transaction_id,
-            payload: payload,
-            **{ signer: request_options[:signer] }.merge(overrides))
-        end
+      def upload_transfer_request(transaction_id, payload, **overrides)
+        Btf::UploadTransferRequest.new(
+          client: client,
+          transaction_id: transaction_id,
+          payload: payload,
+          **{ signer: request_options[:signer] }.merge(overrides))
+      end
 
-        def validate_admin_order_data!(order_type, order_data)
-          expected_root = {
-            "HAA" => "HAAResponseOrderData",
-            "HTD" => "HTDResponseOrderData"
-          }.fetch(order_type.to_s.upcase)
-          root_name = Nokogiri::XML(order_data).root&.name
-          return if root_name == expected_root
+      def validate_admin_order_data!(order_type, order_data)
+        expected_root = {
+          "HAA" => "HAAResponseOrderData",
+          "HTD" => "HTDResponseOrderData"
+        }.fetch(order_type.to_s.upcase)
+        root_name = Nokogiri::XML(order_data).root&.name
+        return if root_name == expected_root
 
-          raise AdminOrderDataError, "Unexpected #{order_type.to_s.upcase} response order data"
-        end
+        raise AdminOrderDataError, "Unexpected #{order_type.to_s.upcase} response order data"
+      end
 
-        def transfer_request(transaction_id, segment_number)
-          Btf::TransferRequest.new(
-            client: client,
-            transaction_id: transaction_id,
-            segment_number: segment_number,
-            signer: request_options[:signer])
-        end
+      def transfer_request(transaction_id, segment_number)
+        Btf::TransferRequest.new(
+          client: client,
+          transaction_id: transaction_id,
+          segment_number: segment_number,
+          signer: request_options[:signer])
+      end
 
-        def send_receipt!(transaction_id, receipt_code, allow_download_postprocess_skipped: false)
-          response = response_from(transport.post(credentials.url, receipt_request(transaction_id, receipt_code).to_xml))
-          return if allow_download_postprocess_skipped && response.download_postprocess_skipped?
+      def send_receipt!(transaction_id, receipt_code, allow_download_postprocess_skipped: false)
+        response = response_from(transport.post(credentials.url, receipt_request(transaction_id, receipt_code).to_xml))
+        return if allow_download_postprocess_skipped && response.download_postprocess_skipped?
 
-          raise_response_error!(response)
-        end
+        raise_response_error!(response)
+      end
 
-        def safely_send_failure_receipt(responses)
-          return unless receipt_required?(responses)
+      def safely_send_failure_receipt(responses)
+        return unless receipt_required?(responses)
 
-          send_receipt!(
-            responses.last.transaction_id,
-            Btf::ReceiptRequest::FAILURE_CODE,
-            allow_download_postprocess_skipped: true)
-        rescue
-          nil
-        end
+        send_receipt!(
+          responses.last.transaction_id,
+          Btf::ReceiptRequest::FAILURE_CODE,
+          allow_download_postprocess_skipped: true)
+      rescue
+        nil
+      end
 
-        def receipt_request(transaction_id, receipt_code)
-          Btf::ReceiptRequest.new(
-            client: client,
-            transaction_id: transaction_id,
-            receipt_code: receipt_code,
-            signer: request_options[:signer])
-        end
+      def receipt_request(transaction_id, receipt_code)
+        Btf::ReceiptRequest.new(
+          client: client,
+          transaction_id: transaction_id,
+          receipt_code: receipt_code,
+          signer: request_options[:signer])
+      end
 
-        def receipt_required?(responses)
-          responses&.last&.transaction_id.present? && responses.any?(&:order_data_present?)
-        end
+      def receipt_required?(responses)
+        responses&.last&.transaction_id.present? && responses.any?(&:order_data_present?)
+      end
 
-        def raise_response_error!(response)
-          response_error = ResponseError.new(response)
+      def raise_response_error!(response)
+        response_error = ResponseError.new(response)
 
-          raise NoDownloadDataAvailable.new(response_error) if response.no_download_data?
-          raise TechnicalError.new(response_error) if response.technical_error?
-          raise ClientError.new(response_error) if response.business_error?
-        end
+        raise NoDownloadDataAvailable.new(response_error) if response.no_download_data?
+        raise TechnicalError.new(response_error) if response.technical_error?
+        raise ClientError.new(response_error) if response.business_error?
+      end
 
-        def verify_response!(response)
-          return unless verify_signatures
-          return if response.digest_valid? && response.signature_valid?
+      def verify_response!(response)
+        return unless verify_signatures
+        return if response.digest_valid? && response.signature_valid?
 
-          raise TechnicalError.new(VerificationError.new("Invalid EBICS response signature"))
-        end
+        raise TechnicalError.new(VerificationError.new("Invalid EBICS response signature"))
+      end
 
-        def ensure_btf_download!(operation)
-          return if operation.btf? && operation.order_type == "BTD"
+      def ensure_btf_download!(operation)
+        return if operation.btf? && operation.order_type == "BTD"
 
-          raise UnsupportedOperation,
-            "H005/BTF client only supports BTD download operations"
-        end
+        raise UnsupportedOperation,
+          "H005/BTF client only supports BTD download operations"
+      end
 
-        def ensure_btf_upload!(operation)
-          return if operation.btf? && operation.order_type == "BTU"
+      def ensure_btf_upload!(operation)
+        return if operation.btf? && operation.order_type == "BTU"
 
-          raise UnsupportedOperation,
-            "H005/BTF client only supports BTU upload operations"
-        end
+        raise UnsupportedOperation,
+          "H005/BTF client only supports BTU upload operations"
+      end
     end
   end
 end

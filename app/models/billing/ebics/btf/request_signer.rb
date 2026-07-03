@@ -19,7 +19,7 @@ module Billing
         end
 
         private
-          attr_reader :client
+        attr_reader :client
       end
     end
   end

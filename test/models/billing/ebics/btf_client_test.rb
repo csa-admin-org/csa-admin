@@ -316,8 +316,9 @@ class Billing::EBICS::BtfClientTest < ActiveSupport::TestCase
   end
 
   def encrypted_order_data_segments(payload)
- encrypted = encrypted_order_data(payload)
+    encrypted = encrypted_order_data(payload)
     midpoint = encrypted.bytesize / 2
+
     [ encrypted.byteslice(0, midpoint), encrypted.byteslice(midpoint, encrypted.bytesize - midpoint) ]
   end
 

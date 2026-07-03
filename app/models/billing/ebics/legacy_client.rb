@@ -72,14 +72,15 @@ module Billing
       end
 
       private
-        attr_reader :credentials, :client_factory
 
-        def ensure_order_type!(operation)
-          return if operation.order_type?
+      attr_reader :credentials, :client_factory
 
-          raise UnsupportedOperation,
-            "Legacy EBICS client only supports order-type operations"
-        end
+      def ensure_order_type!(operation)
+        return if operation.order_type?
+
+        raise UnsupportedOperation,
+          "Legacy EBICS client only supports order-type operations"
+      end
     end
   end
 end

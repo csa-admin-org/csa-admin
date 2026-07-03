@@ -43,7 +43,7 @@ module Billing
         end
 
         private
-          attr_reader :client, :transaction_id, :receipt_code, :signer
+        attr_reader :client, :transaction_id, :receipt_code, :signer
       end
     end
   end

@@ -43,7 +43,7 @@ module Billing
         end
 
         private
-          attr_reader :client, :transaction_id, :payload, :segment_number, :last_segment, :signer
+        attr_reader :client, :transaction_id, :payload, :segment_number, :last_segment, :signer
       end
     end
   end

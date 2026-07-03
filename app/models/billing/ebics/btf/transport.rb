@@ -18,20 +18,21 @@ module Billing
         end
 
         private
-          def http(uri)
-            Net::HTTP.new(uri.host, uri.port).tap do |http|
-              http.use_ssl = uri.scheme == "https"
-              http.open_timeout = 30
-              http.read_timeout = 60
-            end
-          end
 
-          def request(uri, xml)
-            Net::HTTP::Post.new(uri.request_uri, {
-              "Content-Type" => "text/xml",
-              "User-Agent" => "CSA Admin EBICS"
-            }).tap { |request| request.body = xml }
+        def http(uri)
+          Net::HTTP.new(uri.host, uri.port).tap do |http|
+            http.use_ssl = uri.scheme == "https"
+            http.open_timeout = 30
+            http.read_timeout = 60
           end
+        end
+
+        def request(uri, xml)
+          Net::HTTP::Post.new(uri.request_uri, {
+            "Content-Type" => "text/xml",
+            "User-Agent" => "CSA Admin EBICS"
+          }).tap { |request| request.body = xml }
+        end
       end
     end
   end
