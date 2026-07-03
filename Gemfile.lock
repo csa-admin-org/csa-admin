@@ -151,9 +151,6 @@ GEM
     bundler-audit (0.9.3)
       bundler (>= 1.2.0)
       thor (~> 1.0)
-    camt_parser (2.18.0)
-      bigdecimal
-      nokogiri
     cancancan (3.6.1)
     capybara (3.40.0)
       addressable
@@ -601,10 +598,10 @@ GEM
       rubyzip (~> 2.4)
     rubyzip (2.4.1)
     securerandom (0.4.1)
-    sepa_king (0.14.0)
-      activemodel (>= 4.2)
-      iban-tools
+    sepa_file_parser (0.11.0)
+      bigdecimal
       nokogiri
+      time
     simple_form (5.4.1)
       actionpack (>= 7.0)
       activemodel (>= 7.0)
@@ -649,6 +646,8 @@ GEM
     thruster (0.1.21-aarch64-linux)
     thruster (0.1.21-arm64-darwin)
     thruster (0.1.21-x86_64-linux)
+    time (0.4.2)
+      date
     timeout (0.6.1)
     tod (3.1.2)
     traces (0.18.2)
@@ -702,7 +701,6 @@ DEPENDENCIES
   bootsnap
   brakeman
   bundler-audit
-  camt_parser
   cancancan
   capybara
   capybara-email
@@ -721,6 +719,7 @@ DEPENDENCIES
   herb
   hexapdf
   i18n-backend-side_by_side
+  iban-tools
   icalendar
   image_processing
   importmap-rails
@@ -759,7 +758,7 @@ DEPENDENCIES
   ruby-vips
   rubyXL
   rubyzip (~> 2.4)
-  sepa_king
+  sepa_file_parser
   simple_form
   solid_queue
   sqlean
@@ -817,7 +816,6 @@ CHECKSUMS
   builder (3.3.0) sha256=497918d2f9dca528fdca4b88d84e4ef4387256d984b8154e9d5d3fe5a9c8835f
   bundler (4.0.14) sha256=d09a0a965cf772266a7e49e83610be7c2f4e49e61134c42a56804bb383cc24b8
   bundler-audit (0.9.3) sha256=81c8766c71e47d0d28a0f98c7eed028539f21a6ea3cd8f685eb6f42333c9b4e9
-  camt_parser (2.18.0) sha256=0834c4b5511636254ecb86c61620bb97d288318ba20335269b1a5830b0052317
   cancancan (3.6.1) sha256=975c1d5cbf58d5df48a9452a7f61ae3d254608cd87570402f5925a8864c56b62
   capybara (3.40.0) sha256=42dba720578ea1ca65fd7a41d163dd368502c191804558f6e0f71b391054aeef
   capybara-email (3.0.2) sha256=ab65dd9b15c096b1ebe24308d18d790eb08814f916883ebccbc1cf46f760696f
@@ -999,7 +997,7 @@ CHECKSUMS
   rubyXL (3.4.34) sha256=347d797af36ecea729296ab9497e697c3c2471f9b1909cb5294a89bbabbe8931
   rubyzip (2.4.1) sha256=8577c88edc1fde8935eb91064c5cb1aef9ad5494b940cf19c775ee833e075615
   securerandom (0.4.1) sha256=cc5193d414a4341b6e225f0cb4446aceca8e50d5e1888743fac16987638ea0b1
-  sepa_king (0.14.0) sha256=56a97ced91fef18138dce2c6e8f0c19c184a61d1ec24e45b00dce7c438e8239c
+  sepa_file_parser (0.11.0) sha256=40a5351ba6880cea98351fe782aca83edd959d1a95216deb1af43dfd926c0e32
   simple_form (5.4.1) sha256=58c3d229034c7e5545035c3271b6f030ef730c340b9d7d8eb730e0a385b20808
   simpleidn (0.2.3) sha256=08ce96f03fa1605286be22651ba0fc9c0b2d6272c9b27a260bc88be05b0d2c29
   solid_queue (1.4.0) sha256=e6a18d196f0b27cb6e3c77c5b31258b05fb634f8ed64fb1866ed164047216c2a
@@ -1026,6 +1024,7 @@ CHECKSUMS
   thruster (0.1.21-aarch64-linux) sha256=f5aff78fb7a6431ed3d6ab4bde03a89c461e9a73981dbc97d6990d85c3db235c
   thruster (0.1.21-arm64-darwin) sha256=bd8db9f57fae2cbb3fe08ebab49cb47fe49608122dac23daf0ce709adfb9bfc8
   thruster (0.1.21-x86_64-linux) sha256=6e2fbcf826540a72d3710ae4db072c2333287ac2ee57e7e52f35bc10900d74a7
+  time (0.4.2) sha256=f324e498c3bde9471d45a7d18f874c27980e9867aa5cfca61bebf52262bc3dab
   timeout (0.6.1) sha256=78f57368a7e7bbadec56971f78a3f5ecbcfb59b7fcbb0a3ed6ddc08a5094accb
   tod (3.1.2) sha256=e67bf57dc67c8ec806edf0b61e6e499b27eea4e1eb23da1907ec77d45226fb08
   traces (0.18.2) sha256=80f1649cb4daace1d7174b81f3b3b7427af0b93047759ba349960cb8f315e214

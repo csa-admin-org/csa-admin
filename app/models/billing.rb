@@ -3,6 +3,17 @@
 module Billing
   extend self
 
+  SEPA_CREDITOR_IDENTIFIER_FORMAT = /\A[A-Z]{2}\d{2}[A-Z0-9]{3}[A-Z0-9+?\/:().,'\-]{1,28}\z/i
+  SEPA_MANDATE_IDENTIFIER_FORMAT = /\A[A-Za-z0-9\/?:().,'+\- ]{1,35}\z/
+
+  def sepa_creditor_identifier_valid?(identifier)
+    identifier = identifier.to_s
+    return false unless identifier.match?(SEPA_CREDITOR_IDENTIFIER_FORMAT)
+    return identifier.length == 18 if identifier[0, 2].casecmp?("DE")
+
+    true
+  end
+
   def iban_format(country_code = nil)
     case Current.org.country_code
     when "CH"; /\ACH\d{2}3[01]\d{3}[a-z0-9]{12}\z/i # QR IBAN

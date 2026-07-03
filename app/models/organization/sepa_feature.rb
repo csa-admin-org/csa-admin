@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require "sepa_king"
-
 module Organization::SEPAFeature
   extend ActiveSupport::Concern
 
@@ -9,10 +7,7 @@ module Organization::SEPAFeature
 
   included do
     validates :sepa_creditor_identifier, presence: true, if: -> { feature?("sepa") }
-    validates_with SEPA::CreditorIdentifierValidator,
-      field_name: :sepa_creditor_identifier,
-      if: :sepa_creditor_identifier?
-
+    validate :sepa_creditor_identifier_must_be_valid, if: :sepa_creditor_identifier?
     validate :sepa_country_must_be_supported, if: -> { feature?("sepa") }
   end
 
@@ -30,6 +25,12 @@ module Organization::SEPAFeature
   end
 
   private
+
+  def sepa_creditor_identifier_must_be_valid
+    return if Billing.sepa_creditor_identifier_valid?(sepa_creditor_identifier)
+
+    errors.add(:sepa_creditor_identifier, :invalid)
+  end
 
   def sepa_country_must_be_supported
     return if sepa_country?

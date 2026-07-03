@@ -195,6 +195,27 @@ class OrganizationTest < ActiveSupport::TestCase
     assert org.sepa?
     assert org.sepa_configured?
     assert org.valid?
+
+    org.assign_attributes(
+      country_code: "NL",
+      iban: "NL91ABNA0417164300",
+      sepa_creditor_identifier: "NL00ZZZ123456780000")
+    assert org.valid?
+
+    org.assign_attributes(
+      country_code: "DE",
+      iban: "DE89370400440532013000",
+      sepa_creditor_identifier: "DE98ZZZ0999999999")
+    assert_not org.valid?
+    assert_includes org.errors[:sepa_creditor_identifier], "is invalid"
+
+    org.assign_attributes(sepa_creditor_identifier: "DE98ZZZ099999999999")
+    assert_not org.valid?
+    assert_includes org.errors[:sepa_creditor_identifier], "is invalid"
+
+    org.assign_attributes(sepa_creditor_identifier: "DE98ZZZ09999999999!")
+    assert_not org.valid?
+    assert_includes org.errors[:sepa_creditor_identifier], "is invalid"
   end
 
   test "validates member information text for every organization language only when feature is enabled" do

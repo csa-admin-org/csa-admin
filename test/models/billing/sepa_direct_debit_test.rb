@@ -1,9 +1,10 @@
 # frozen_string_literal: true
 
 require "test_helper"
+require "nokogiri"
 
 class Billing::SEPADirectDebitTest < ActiveSupport::TestCase
-  test "returns direct debit XML pain file for invoices" do
+  test "returns owned pain.008.001.08 direct debit XML for invoices" do
     travel_to "2025-02-01"
     german_org(
       iban: "DE87200500001234567890",
@@ -33,6 +34,7 @@ class Billing::SEPADirectDebitTest < ActiveSupport::TestCase
     member.update!(billing_name: "Anna Changed")
 
     xml = Billing::SEPADirectDebit.new([ invoice1, invoice2 ]).xml
+    assert_includes xml, "urn:iso:std:iso:20022:tech:xsd:pain.008.001.08"
     assert_includes xml, <<-XML
       <CreDtTm>2025-02-01T00:00:00+01:00</CreDtTm>
       <NbOfTxs>2</NbOfTxs>
@@ -134,7 +136,7 @@ class Billing::SEPADirectDebitTest < ActiveSupport::TestCase
     XML
   end
 
-  test "returns pain.008.001.08 direct debit XML for invoices" do
+  test "returns structurally valid pain.008.001.08 direct debit XML" do
     travel_to "2025-02-01"
     german_org(
       iban: "DE87200500001234567890",
@@ -153,13 +155,27 @@ class Billing::SEPADirectDebitTest < ActiveSupport::TestCase
       invoice,
       schema: Billing::SEPADirectDebit::PAIN_008_001_08).xml
 
-    assert_includes xml, "urn:iso:std:iso:20022:tech:xsd:pain.008.001.08"
-    assert_includes xml, "<CreDtTm>2025-02-01T00:00:00+01:00</CreDtTm>"
-    assert_includes xml, "<PmtMtd>DD</PmtMtd>"
-    assert_includes xml, "<ReqdColltnDt>1999-01-01</ReqdColltnDt>"
-    assert_includes xml, "<InstdAmt Ccy=\"EUR\">30.00</InstdAmt>"
-    assert_includes xml, "<MndtId>123456</MndtId>"
-    assert_includes xml, "<DtOfSgntr>2023-12-24</DtOfSgntr>"
+    document = Nokogiri::XML(xml)
+    namespace = "urn:iso:std:iso:20022:tech:xsd:pain.008.001.08"
+    ns = { pain: namespace }
+
+    assert_equal namespace, document.root.namespace.href
+    assert_equal "#{namespace} pain.008.001.08.xsd", document.root["xsi:schemaLocation"]
+    assert_equal "CSAADMIN/", text(document, "//pain:GrpHdr/pain:MsgId", ns).first(9)
+    assert_equal "2025-02-01T00:00:00+01:00", text(document, "//pain:GrpHdr/pain:CreDtTm", ns)
+    assert_equal "1", text(document, "//pain:GrpHdr/pain:NbOfTxs", ns)
+    assert_equal "30.00", text(document, "//pain:GrpHdr/pain:CtrlSum", ns)
+    assert_equal "DD", text(document, "//pain:PmtInf/pain:PmtMtd", ns)
+    assert_equal "false", text(document, "//pain:PmtInf/pain:BtchBookg", ns)
+    assert_equal "SEPA", text(document, "//pain:PmtTpInf/pain:SvcLvl/pain:Cd", ns)
+    assert_equal "CORE", text(document, "//pain:PmtTpInf/pain:LclInstrm/pain:Cd", ns)
+    assert_equal "OOFF", text(document, "//pain:PmtTpInf/pain:SeqTp", ns)
+    assert_equal "1999-01-01", text(document, "//pain:PmtInf/pain:ReqdColltnDt", ns)
+    assert_equal "NOTPROVIDED", text(document, "//pain:DbtrAgt/pain:FinInstnId/pain:Othr/pain:Id", ns)
+    assert_equal "30.00", text(document, "//pain:DrctDbtTxInf/pain:InstdAmt", ns)
+    assert_equal "EUR", document.at_xpath("//pain:DrctDbtTxInf/pain:InstdAmt", ns)["Ccy"]
+    assert_equal "123456", text(document, "//pain:MndtId", ns)
+    assert_equal "2023-12-24", text(document, "//pain:DtOfSgntr", ns)
   end
 
   test "raises for unsupported direct debit XML schemas" do
@@ -217,5 +233,11 @@ class Billing::SEPADirectDebitTest < ActiveSupport::TestCase
     assert invoice.sepa?
     assert invoice.closed?
     assert_nil Billing::SEPADirectDebit.new(invoice).xml
+  end
+
+  private
+
+  def text(document, xpath, namespaces)
+    document.at_xpath(xpath, namespaces).text
   end
 end

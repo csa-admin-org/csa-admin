@@ -25,6 +25,18 @@ class SEPAMandateTest < ActiveSupport::TestCase
     assert_includes mandate.errors[:iban], "can't be blank"
   end
 
+  test "validates iban checksum" do
+    mandate = SEPAMandate.new(valid_attributes(iban: "DE21500500009876543211"))
+    assert_not mandate.valid?
+    assert_includes mandate.errors[:iban], "is invalid"
+  end
+
+  test "validates mandate identifier format" do
+    mandate = SEPAMandate.new(valid_attributes(umr: "invalid\nidentifier"))
+    assert_not mandate.valid?
+    assert_includes mandate.errors[:umr], "is invalid"
+  end
+
   # umr, signed_on, and source all have defaults applied by set_defaults
   # before_validation. The meaningful constraint tests are the set_defaults
   # and inclusion tests below.

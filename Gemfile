@@ -76,12 +76,12 @@ gem "premailer-rails"
 gem "liquid"
 
 # Billing
-gem "camt_parser", require: false
 gem "cmxl", require: false
 gem "epics", require: false
 gem "girocode", require: false # EPC QR code
-gem "sepa_king", require: false
+gem "iban-tools", require: false
 gem "rqrcode", require: false
+gem "sepa_file_parser", require: false
 
 # Parsing and Data
 gem "user_agent_parser", require: false

@@ -25,7 +25,7 @@ module Invoice::SEPA
     bank_connection = Current.org.bank_connection
     return bank_connection.sepa_direct_debit_schema if bank_connection.respond_to?(:sepa_direct_debit_schema)
 
-    Billing::SEPADirectDebit::SCHEMA
+    Billing::SEPADirectDebit::PAIN_008_001_08
   end
 
   def sepa_direct_debit_pain_xml(schema: sepa_direct_debit_pain_schema)

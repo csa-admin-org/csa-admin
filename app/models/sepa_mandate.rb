@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require "iban-tools"
+
 class SEPAMandate < ApplicationRecord
   include Sessionable
   include HasIBAN  # provides normalizes :iban and iban_formatted
@@ -18,8 +20,10 @@ class SEPAMandate < ApplicationRecord
 
   validates :iban, :umr, :signed_on, :source, presence: true
   validates :source, inclusion: { in: SOURCES }
-  validates_with ::SEPA::IBANValidator
-  validates_with ::SEPA::MandateIdentifierValidator, field_name: :umr
+  validates :umr,
+    format: { with: Billing::SEPA_MANDATE_IDENTIFIER_FORMAT },
+    allow_nil: true
+  validate :iban_must_be_valid
   validate :umr_unique_across_members
   validates_acceptance_of :sepa_mandate_accepted, allow_nil: false, if: -> { source == "self-service" }
   validate :pdf_must_be_generated, on: :create
@@ -71,6 +75,13 @@ class SEPAMandate < ApplicationRecord
     self.umr = umr.presence || member&.current_sepa_mandate&.umr || member&.id.to_s
     self.signed_on ||= Date.current
     self.source ||= "admin"
+  end
+
+  def iban_must_be_valid
+    return if iban.blank?
+    return if IBANTools::IBAN.valid?(iban)
+
+    errors.add(:iban, :invalid)
   end
 
   def umr_unique_across_members

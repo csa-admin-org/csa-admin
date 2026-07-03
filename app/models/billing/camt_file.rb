@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require "ostruct"
-require "camt_parser"
 
 module Billing
   class CamtFile
@@ -20,17 +19,9 @@ module Billing
     end
 
     def payments_data
-      @files.flat_map { |file|
-        camt = CamtParser::String.parse(file)
-        case camt
-        when CamtParser::Format054::Base; parse_camt54(camt)
-        when CamtParser::Format053::Base; parse_camt53(camt)
-        else
-          raise UnsupportedFileError, "Invalid format: #{camt.class.name}"
-        end
-      }
-    rescue CamtParser::Errors::UnsupportedNamespaceError, ArgumentError => e
-      report_unexpected_file!(e)
+      @files.flat_map { |file| parse(Parser.new.parse(file)) }
+    rescue Parser::UnsupportedFileError => e
+      report_unexpected_file!(e.original_error)
       raise UnsupportedFileError, e.message
     end
 
@@ -41,13 +32,21 @@ module Billing
         context: Billing::EBICS::SafeContext.payloads_context(@files))
     end
 
+    def parse(result)
+      case result.origin
+      when "camt.054" then parse_camt54(result.document)
+      when "camt.053" then parse_camt53(result.document)
+      else raise UnsupportedFileError, "Invalid format: #{result.origin}"
+      end
+    end
+
     def parse_camt54(camt)
       origin = "camt.054"
       camt.notifications.flat_map { |notification|
         notification.entries.flat_map { |entry|
           date = entry.value_date
           entry.transactions.map { |transaction|
-            ref = transaction.creditor_reference
+            ref = creditor_reference(transaction)
             if transaction.credit?
               if Billing.reference.valid?(ref)
                 payload = Billing.reference.payload(ref)
@@ -69,6 +68,12 @@ module Billing
           }.compact
         }
       }
+    end
+
+    def creditor_reference(transaction)
+      return transaction.creditor_reference_information&.creditor_reference if transaction.respond_to?(:creditor_reference_information)
+
+      transaction.creditor_reference
     end
 
     def parse_camt53(camt)

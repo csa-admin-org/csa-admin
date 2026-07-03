@@ -167,6 +167,23 @@ class Invoice::SEPATest < ActiveSupport::TestCase
     assert_nil invoice.sepa_direct_debit_order_uploaded_at
   end
 
+  test "sepa direct debit PAIN XML defaults to owned pain.008.001.08 without bank connection" do
+    BankConnection.delete_all
+    german_org(sepa_creditor_identifier: "DE98ZZZ09999999999")
+    member = members(:anna)
+    member.update!(language: "de", country_code: "DE")
+    member.sepa_mandates.create!(
+      iban: "DE21500500009876543210",
+      umr: "123456",
+      signed_on: Date.parse("2023-12-24"),
+      source: "admin")
+    member.reload
+    invoice = create_annual_fee_invoice(member: member)
+
+    assert_equal "pain.008.001.08", invoice.sepa_direct_debit_pain_schema
+    assert_includes invoice.sepa_direct_debit_pain_xml, "urn:iso:std:iso:20022:tech:xsd:pain.008.001.08"
+  end
+
   test "sepa direct debit PAIN XML uses active bank connection schema" do
     BankConnection.delete_all
     german_org(sepa_creditor_identifier: "DE98ZZZ09999999999")

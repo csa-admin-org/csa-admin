@@ -7,6 +7,7 @@ module Billing
   class SEPADirectDebit
     class Pain008
       SCHEMA = SEPADirectDebit::PAIN_008_001_08
+      DEFAULT_REQUESTED_COLLECTION_DATE = Date.new(1999, 1, 1)
 
       def initialize(invoices)
         @invoices = invoices
@@ -63,7 +64,7 @@ module Billing
           xml.NbOfTxs invoices.size
           xml.CtrlSum amount_total
           payment_type_information(xml)
-          xml.ReqdColltnDt SEPA::Transaction::DEFAULT_REQUESTED_DATE.iso8601
+          xml.ReqdColltnDt DEFAULT_REQUESTED_COLLECTION_DATE.iso8601
           creditor(xml)
           invoices.each { |invoice| direct_debit_transaction(xml, invoice) }
         }
