@@ -39,6 +39,25 @@ class Billing::EBICS::CapabilitiesReportTest < ActiveSupport::TestCase
     assert_sanitized report
   end
 
+  test "reports sanitized admin order return details" do
+    connection = BankConnection.create!(
+      provider: "ebics",
+      name: "BCVDEBICS",
+      active: true,
+      state: "ready",
+      credentials: ebics_credentials,
+      settings: ebics_settings)
+
+    report = Billing::EBICS::CapabilitiesReport.new(
+      tenant: "lafermedugoupil",
+      connection: connection,
+      btf_client: FailingBtfClient.new).to_h
+
+    assert_equal "error", report.dig("h005", "admin_orders", "HTD", "status")
+    assert_equal "090003", report.dig("h005", "admin_orders", "HTD", "return_code")
+    assert_equal "[EBICS_OK] OK", report.dig("h005", "admin_orders", "HTD", "report_text")
+  end
+
   private
 
   def ebics_credentials
@@ -122,5 +141,17 @@ class Billing::EBICS::CapabilitiesReportTest < ActiveSupport::TestCase
         </HAAResponseOrderData>
       XML
     end
+  end
+
+  class FailingBtfClient
+    def admin_order(_order_type)
+      response_error = Billing::EBICS::BtfClient::ResponseError.new(FailingResponse.new)
+      raise Billing::EBICS::ClientError.new(response_error)
+    end
+  end
+
+  class FailingResponse
+    def return_code = "090003"
+    def report_text = "[EBICS_OK] OK"
   end
 end

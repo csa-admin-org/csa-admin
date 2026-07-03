@@ -81,8 +81,15 @@ module Billing
         {
           "status" => "error",
           "class" => e.class.name,
-          "message" => e.message
-        }
+          "message" => e.message,
+          "return_code" => error_response(e)&.return_code,
+          "report_text" => error_response(e)&.report_text
+        }.compact_blank
+      end
+
+      def error_response(error)
+        reported_error = error.respond_to?(:original_error) ? error.original_error : error
+        reported_error.response if reported_error.respond_to?(:response)
       end
 
       def htd_btf_downloads

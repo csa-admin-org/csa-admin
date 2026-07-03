@@ -63,11 +63,14 @@ module Billing
       def report_admin_order_errors
         h005.fetch("admin_orders") { {} }.each do |order_type, result|
           next unless result["status"] == "error"
+          next if ignored_admin_order_error?(order_type, result)
 
           unexpected("EBICS capabilities admin-order check failed",
             admin_order_type: order_type,
             error_class: result["class"],
-            error_message: result["message"])
+            error_message: result["message"],
+            return_code: admin_order_return_code(result),
+            report_text: result["report_text"])
         end
       end
 
@@ -89,6 +92,8 @@ module Billing
           unexpected("Active EBICS connection has missing BTF operation settings", operation_kind: kind)
           return
         end
+
+        return if advertised_services_unavailable?(advertised_services)
 
         unless configured_service_advertised?(service, advertised_services)
           unexpected("Configured EBICS BTF operation is no longer advertised",
@@ -138,6 +143,30 @@ module Billing
 
       def htd_services(source, key)
         source.fetch(key) { [] }.filter_map { |info| info["service"] }
+      end
+
+      def advertised_services_unavailable?(advertised_services)
+        advertised_services.empty? && admin_order_errors?
+      end
+
+      def admin_order_errors?
+        h005.fetch("admin_orders") { {} }.values.any? { |result| result["status"] == "error" }
+      end
+
+      def ignored_admin_order_error?(order_type, result)
+        ignored_admin_order_return_codes(order_type).include?(admin_order_return_code(result))
+      end
+
+      def ignored_admin_order_return_codes(order_type)
+        configured = settings.dig(
+          "monitoring",
+          "capabilities",
+          "ignored_admin_order_return_codes")
+        Array(configured.to_h[order_type.to_s.upcase]) + Array(configured.to_h["*"])
+      end
+
+      def admin_order_return_code(result)
+        result["return_code"].presence || result["message"].to_s[/\A\d{6}/]
       end
 
       def configured_service_advertised?(service, advertised_services)

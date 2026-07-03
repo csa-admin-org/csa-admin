@@ -92,6 +92,50 @@ class Billing::EBICS::CapabilitiesMonitorTest < ActiveSupport::TestCase
     assert_nil connection.last_error_class
   end
 
+  test "does not report configured tuple as missing when admin orders fail" do
+    error = ErrorRecorder.new
+    connection = create_connection
+
+    Billing::EBICS::CapabilitiesMonitor.new(
+      connection: connection,
+      report: capabilities_report(
+        admin_orders: failed_admin_orders,
+        htd_btf_downloads: [],
+        htd_btf_uploads: [],
+        haa_available_downloads: []),
+      error_reporter: error).check!
+
+    connection.reload
+    assert_equal "warning", connection.health_status
+    assert_equal [
+      "EBICS capabilities admin-order check failed",
+      "EBICS capabilities admin-order check failed"
+    ], connection.status_details.dig("last_capabilities_check", "warnings")
+    assert_equal [
+      "EBICS capabilities admin-order check failed",
+      "EBICS capabilities admin-order check failed"
+    ], error.unexpected_errors.map(&:first)
+  end
+
+  test "ignores explicitly tolerated admin order return codes" do
+    error = ErrorRecorder.new
+    connection = create_connection(settings: ignored_admin_order_error_settings)
+
+    Billing::EBICS::CapabilitiesMonitor.new(
+      connection: connection,
+      report: capabilities_report(
+        admin_orders: failed_admin_orders,
+        htd_btf_downloads: [],
+        htd_btf_uploads: [],
+        haa_available_downloads: []),
+      error_reporter: error).check!
+
+    connection.reload
+    assert_empty error.unexpected_errors
+    assert_equal "healthy", connection.health_status
+    assert_empty connection.status_details.dig("last_capabilities_check", "warnings")
+  end
+
   test "reports configured BTF services that disappear from bank capabilities" do
     error = ErrorRecorder.new
     connection = create_connection
@@ -155,17 +199,51 @@ class Billing::EBICS::CapabilitiesMonitorTest < ActiveSupport::TestCase
       })
   end
 
-  def capabilities_report(payment_service: self.payment_service, upload_service: self.upload_service)
+  def ignored_admin_order_error_settings
+    ebics_settings.merge(
+      "monitoring" => {
+        "capabilities" => {
+          "ignored_admin_order_return_codes" => {
+            "HTD" => [ "090003" ],
+            "HAA" => [ "090003" ]
+          }
+        }
+      })
+  end
+
+  def capabilities_report(
+    payment_service: self.payment_service,
+    upload_service: self.upload_service,
+    admin_orders: { "HTD" => { "status" => "ok" }, "HAA" => { "status" => "ok" } },
+    htd_btf_downloads: [ { "admin_order_type" => "BTD", "service" => payment_service } ],
+    htd_btf_uploads: [ { "admin_order_type" => "BTU", "service" => upload_service } ],
+    haa_available_downloads: [])
     {
       "country_code" => "DE",
       "h005" => {
-        "admin_orders" => {
-          "HTD" => { "status" => "ok" },
-          "HAA" => { "status" => "ok" }
-        },
-        "htd_btf_downloads" => [ { "admin_order_type" => "BTD", "service" => payment_service } ],
-        "htd_btf_uploads" => [ { "admin_order_type" => "BTU", "service" => upload_service } ],
-        "haa_available_downloads" => []
+        "admin_orders" => admin_orders,
+        "htd_btf_downloads" => htd_btf_downloads,
+        "htd_btf_uploads" => htd_btf_uploads,
+        "haa_available_downloads" => haa_available_downloads
+      }
+    }
+  end
+
+  def failed_admin_orders
+    {
+      "HTD" => {
+        "status" => "error",
+        "class" => "Billing::EBICS::ClientError",
+        "message" => "090003 [EBICS_OK] OK",
+        "return_code" => "090003",
+        "report_text" => "[EBICS_OK] OK"
+      },
+      "HAA" => {
+        "status" => "error",
+        "class" => "Billing::EBICS::ClientError",
+        "message" => "090003 [EBICS_OK] OK",
+        "return_code" => "090003",
+        "report_text" => "[EBICS_OK] OK"
       }
     }
   end
