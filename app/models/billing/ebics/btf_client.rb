@@ -31,12 +31,14 @@ module Billing
 
       VerificationError = Class.new(StandardError)
 
-      def initialize(credentials, legacy_client: LegacyClient.new(credentials), request_options: {}, transport: Btf::Transport.new, verify_signatures: true)
+      def initialize(credentials, legacy_client: LegacyClient.new(credentials), request_options: {}, transport: Btf::Transport.new, verify_signatures: true, context: {}, error_reporter: Rails.error)
         @credentials = Credentials.new(credentials)
         @legacy_client = legacy_client
         @request_options = request_options
         @transport = transport
         @verify_signatures = verify_signatures
+        @context = context
+        @error_reporter = error_reporter
       end
 
       def client
@@ -91,15 +93,23 @@ module Billing
         initialisation_response = post_request(initialisation_request)
         raise_response_error!(initialisation_response)
 
+        initialisation_transaction_id = require_response_value!(
+          initialisation_response,
+          :transaction_id,
+          "Missing EBICS BTU initialisation TransactionID",
+          operation: operation)
+
         transfer_response = post_request(upload_transfer_request(
-          initialisation_response.transaction_id,
+          initialisation_transaction_id,
           initialisation_request.payload))
         raise_response_error!(transfer_response)
 
-        [
-          transfer_response.transaction_id.presence || initialisation_response.transaction_id,
-          transfer_response.order_id.presence || initialisation_response.order_id
-        ]
+        transaction_id = transfer_response.transaction_id.presence || initialisation_transaction_id
+        order_id = transfer_response.order_id.presence || initialisation_response.order_id
+        require_value!(transaction_id, "Missing EBICS BTU upload TransactionID", operation: operation, response: transfer_response)
+        require_value!(order_id, "Missing EBICS BTU upload OrderID", operation: operation, response: transfer_response)
+
+        [ transaction_id, order_id ]
       end
 
       def admin_order(order_type)
@@ -162,7 +172,7 @@ module Billing
 
       private
 
-      attr_reader :credentials, :legacy_client, :request_options, :transport, :verify_signatures
+      attr_reader :credentials, :legacy_client, :request_options, :transport, :verify_signatures, :context, :error_reporter
 
       def download_responses(operation, from:, to:)
         ensure_btf_download!(operation)
@@ -180,7 +190,12 @@ module Billing
           responses << response
 
           while response.segmented? && !response.last_segment?
-            response = post_request(transfer_request(response.transaction_id, response.next_segment_number))
+            response = post_request(transfer_request(
+              require_response_value!(
+                response,
+                :transaction_id,
+                "Missing EBICS BTD transfer TransactionID"),
+              response.next_segment_number))
             raise_response_error!(response)
             responses << response
           end
@@ -228,6 +243,10 @@ module Billing
         root_name = Nokogiri::XML(order_data).root&.name
         return if root_name == expected_root
 
+        report_unexpected("Unexpected EBICS admin-order response data",
+          admin_order_type: order_type.to_s.upcase,
+          expected_root: expected_root,
+          root: root_name)
         raise AdminOrderDataError, "Unexpected #{order_type.to_s.upcase} response order data"
       end
 
@@ -267,6 +286,44 @@ module Billing
 
       def receipt_required?(responses)
         responses&.last&.transaction_id.present? && responses.any?(&:order_data_present?)
+      end
+
+      def require_response_value!(response, method_name, message, operation: nil)
+        require_value!(
+          response.public_send(method_name),
+          message,
+          operation: operation,
+          response: response)
+      end
+
+      def require_value!(value, message, operation: nil, response: nil)
+        return value if value.present?
+
+        report_unexpected(message,
+          operation: operation,
+          response: response)
+        raise TechnicalError.new(VerificationError.new(message))
+      end
+
+      def report_unexpected(message, operation: nil, response: nil, **extra)
+        Billing::EBICS::SafeContext.report_unexpected(message,
+          reporter: error_reporter,
+          context: context.merge(
+            Billing::EBICS::SafeContext.build(
+              operation: operation,
+              response: response_context(response),
+              **extra)))
+      end
+
+      def response_context(response)
+        return unless response
+
+        {
+          "return_code" => response.return_code,
+          "report_text" => response.report_text,
+          "transaction_id_present" => response.transaction_id.present?,
+          "order_id_present" => response.order_id.present?
+        }
       end
 
       def raise_response_error!(response)

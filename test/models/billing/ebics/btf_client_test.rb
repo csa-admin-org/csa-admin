@@ -69,6 +69,43 @@ class Billing::EBICS::BtfClientTest < ActiveSupport::TestCase
     assert_equal [ "TX123", "A001" ], client.upload(btu_operation, document: "<Document>pain</Document>")
   end
 
+  test "BTU upload reports and raises when initialisation response has no transaction id" do
+    error = ErrorRecorder.new
+    transport = TransportStub.new([ response_xml(transaction_id: nil, order_id: "A001") ])
+    client = btf_client(transport: transport, error_reporter: error)
+
+    raised = assert_raises(Billing::EBICS::TechnicalError) do
+      client.upload(btu_operation, document: "<Document>pain</Document>")
+    end
+
+    assert_includes raised.message, "Missing EBICS BTU initialisation TransactionID"
+    message, context = error.unexpected_errors.first
+    assert_equal "Missing EBICS BTU initialisation TransactionID", message
+    assert_equal "BTU", context.dig("operation", "order_type")
+    assert_equal "pain.008", context.dig("operation", "message_name")
+    refute context.dig("response", "transaction_id_present")
+    assert context.dig("response", "order_id_present")
+  end
+
+  test "BTU upload reports and raises when no order id is returned" do
+    error = ErrorRecorder.new
+    transport = TransportStub.new([
+      response_xml(order_id: nil),
+      response_xml(order_id: nil)
+    ])
+    client = btf_client(transport: transport, error_reporter: error)
+
+    raised = assert_raises(Billing::EBICS::TechnicalError) do
+      client.upload(btu_operation, document: "<Document>pain</Document>")
+    end
+
+    assert_includes raised.message, "Missing EBICS BTU upload OrderID"
+    message, context = error.unexpected_errors.first
+    assert_equal "Missing EBICS BTU upload OrderID", message
+    assert_equal "BTU", context.dig("operation", "order_type")
+    refute context.dig("response", "order_id_present")
+  end
+
   test "BTU upload rejects non-upload operations" do
     client = btf_client
 
@@ -98,17 +135,23 @@ class Billing::EBICS::BtfClientTest < ActiveSupport::TestCase
   end
 
   test "admin order sends failure receipt for unexpected order data" do
+    error = ErrorRecorder.new
     transport = TransportStub.new([
       response_xml(segment_number: 1, last_segment: true, transaction_key: true, order_data: encrypted_order_data("<Document>unexpected</Document>")),
       ok_receipt_response_xml
     ])
-    client = btf_client(transport: transport)
+    client = btf_client(transport: transport, error_reporter: error)
 
-    error = assert_raises(Billing::EBICS::BtfClient::AdminOrderDataError) do
+    raised = assert_raises(Billing::EBICS::BtfClient::AdminOrderDataError) do
       client.admin_order("HTD")
     end
 
-    assert_includes error.message, "Unexpected HTD response order data"
+    assert_includes raised.message, "Unexpected HTD response order data"
+    message, context = error.unexpected_errors.first
+    assert_equal "Unexpected EBICS admin-order response data", message
+    assert_equal "HTD", context.fetch("admin_order_type")
+    assert_equal "HTDResponseOrderData", context.fetch("expected_root")
+    assert_equal "Document", context.fetch("root")
     assert_equal 2, transport.requests.size
     assert_includes transport.requests.second, "<ReceiptCode>1</ReceiptCode>"
     assert_not_includes transport.requests.second, "<ReceiptCode>0</ReceiptCode>"
@@ -270,7 +313,7 @@ class Billing::EBICS::BtfClientTest < ActiveSupport::TestCase
 
   private
 
-  def btf_client(transport: TransportStub.new([]))
+  def btf_client(transport: TransportStub.new([]), error_reporter: ErrorRecorder.new)
     Billing::EBICS::BtfClient.new(
       credentials,
       legacy_client: LegacyClientStub.new(synthetic_epics_client),
@@ -280,7 +323,9 @@ class Billing::EBICS::BtfClientTest < ActiveSupport::TestCase
         signer: FakeSigner.new
       },
       transport: transport,
-      verify_signatures: false)
+      verify_signatures: false,
+      context: { "tenant" => "acme", "bank" => "Test Bank" },
+      error_reporter: error_reporter)
   end
 
   def operation
@@ -331,18 +376,19 @@ class Billing::EBICS::BtfClientTest < ActiveSupport::TestCase
     cipher.update(zero_pad(compressed)) + cipher.final
   end
 
-  def response_xml(segment_number: 1, last_segment: true, transaction_key: false, order_data: nil, return_code: "000000", business_return_code: nil, report_text: "OK", order_id: nil)
+  def response_xml(segment_number: 1, last_segment: true, transaction_key: false, order_data: nil, return_code: "000000", business_return_code: nil, report_text: "OK", order_id: nil, transaction_id: "TX123")
     transaction_key_xml = transaction_key ? "<TransactionKey>#{encrypted_transaction_key}</TransactionKey>" : ""
     order_data_xml = order_data ? "<OrderData>#{Base64.strict_encode64(order_data)}</OrderData>" : ""
     body_return_code_xml = business_return_code ? "<ReturnCode>#{business_return_code}</ReturnCode>" : ""
     order_id_xml = order_id ? "<OrderID>#{order_id}</OrderID>" : ""
+    transaction_id_xml = transaction_id ? "<TransactionID>#{transaction_id}</TransactionID>" : ""
 
     <<~XML
       <?xml version="1.0" encoding="utf-8"?>
       <ebicsResponse xmlns="#{H005_NAMESPACE}" Version="H005" Revision="1">
         <header authenticate="true">
           <static>
-            <TransactionID>TX123</TransactionID>
+            #{transaction_id_xml}
           </static>
           <mutable>
             <TransactionPhase>Initialisation</TransactionPhase>

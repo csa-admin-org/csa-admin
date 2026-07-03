@@ -143,6 +143,47 @@ class Billing::EBICSTest < ActiveSupport::TestCase
     assert_equal [ Billing::EBICS::GET_PAYMENTS_FROM.to_date.to_s, Date.current.to_s ], range
   end
 
+  test "process payments updates bank connection import status" do
+    org(country_code: "CH")
+    BankConnection.delete_all
+    connection = bank_connection(settings: btf_settings)
+    client = BtfClientStub.new([ file_fixture("camt054.xml") ])
+
+    assert Billing::EBICS
+      .new(credentials, settings: btf_settings, ebics_client: client, bank_connection: connection)
+      .process_payments!
+
+    connection.reload
+    assert_equal "healthy", connection.health_status
+    assert connection.last_import_attempted_at?
+    assert connection.last_import_succeeded_at?
+    assert connection.last_health_check_at?
+    assert_nil connection.last_error_class
+    assert_equal 1, connection.status_details.dig("last_import", "files_count")
+    assert_equal "BTD", connection.status_details.dig("last_import", "operation", "order_type")
+  end
+
+  test "SEPA direct debit upload updates bank connection upload status" do
+    BankConnection.delete_all
+    settings = upload_btf_settings
+    connection = bank_connection(settings: settings)
+    client = BtfClientStub.new([])
+
+    result = Billing::EBICS
+      .new(credentials, settings: settings, ebics_client: client, bank_connection: connection)
+      .sepa_direct_debit_upload("pain-xml")
+
+    assert_equal [ "TX123", "A001" ], result
+    connection.reload
+    assert_equal "healthy", connection.health_status
+    assert connection.last_upload_attempted_at?
+    assert connection.last_upload_succeeded_at?
+    assert connection.last_health_check_at?
+    assert_nil connection.last_error_class
+    assert_equal "A001", connection.status_details.dig("last_upload", "order_id")
+    assert_equal "BTU", connection.status_details.dig("last_upload", "operation", "order_type")
+  end
+
   test "returns no payments and notifies when no EBICS download data is available" do
     event = EventRecorder.new
     client = EBICSClientStub.new(z54: ::Epics::Error::BusinessError.new("090005"))
@@ -199,6 +240,27 @@ class Billing::EBICSTest < ActiveSupport::TestCase
         }
       }
     }
+  end
+
+  def upload_btf_settings
+    {
+      "uploads" => {
+        "sepa_direct_debit" => {
+          "mode" => "btf",
+          "schema" => "pain.008.001.08",
+          "btf" => Billing::EBICS::Btf::Presets.sepa_direct_debit_upload(scope: "DE", container: "XML", version: nil)
+        }
+      }
+    }
+  end
+
+  def bank_connection(settings:)
+    BankConnection.create!(
+      provider: "ebics",
+      active: true,
+      state: "ready",
+      credentials: credentials,
+      settings: settings)
   end
 
   def with_epics_client(client, &block)

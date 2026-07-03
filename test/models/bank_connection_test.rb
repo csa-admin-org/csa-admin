@@ -105,6 +105,86 @@ class BankConnectionTest < ActiveSupport::TestCase
     assert_equal BankConnection::FILTERED, summary.dig("status_details", "client_secret")
   end
 
+  test "tracks import and upload health status" do
+    connection = BankConnection.create!(
+      provider: "ebics",
+      active: true,
+      state: "ready",
+      credentials: ebics_credentials,
+      settings: { "protocol" => "H005" })
+    operation = Billing::EBICS::Operation.btf(
+      Billing::EBICS::Btf::Presets.camt053(service_name: "EOP", scope: "DE"))
+
+    connection.mark_import_attempted!(operation: operation)
+    connection.mark_import_succeeded!(operation: operation, files_count: 2)
+    connection.mark_upload_attempted!(operation: operation, invoice_id: 123)
+    connection.mark_upload_succeeded!(operation: operation, invoice_id: 123, order_id: "N0DD")
+
+    connection.reload
+    assert_equal "healthy", connection.health_status
+    assert connection.last_health_check_at?
+    assert connection.last_import_attempted_at?
+    assert connection.last_import_succeeded_at?
+    assert connection.last_upload_attempted_at?
+    assert connection.last_upload_succeeded_at?
+    assert_nil connection.last_error_class
+    assert_equal 2, connection.status_details.dig("last_import", "files_count")
+    assert_equal "btf", connection.status_details.dig("last_import", "operation", "mode")
+    assert_equal 123, connection.status_details.dig("last_upload", "invoice_id")
+    assert_equal "N0DD", connection.status_details.dig("last_upload", "order_id")
+  end
+
+  test "tracks no data and errors" do
+    connection = BankConnection.create!(
+      provider: "ebics",
+      active: true,
+      state: "ready",
+      credentials: ebics_credentials,
+      settings: { "protocol" => "H005" })
+    operation = Billing::EBICS::Operation.btf(
+      Billing::EBICS::Btf::Presets.camt053(service_name: "EOP", scope: "DE"))
+
+    connection.mark_no_data!(operation: operation)
+    connection.reload
+    assert_equal "healthy", connection.health_status
+    assert connection.last_no_data_at?
+    assert_nil connection.last_error_class
+
+    connection.mark_error!(RuntimeError.new("boom"), operation: operation, operation_kind: "payment_download")
+    connection.reload
+    assert_equal "errored", connection.health_status
+    assert_equal "RuntimeError", connection.last_error_class
+    assert_equal "boom", connection.last_error_message
+    assert_equal "payment_download", connection.status_details.dig("last_error", "operation_kind")
+  end
+
+  test "tracks capabilities health and warnings" do
+    connection = BankConnection.create!(
+      provider: "ebics",
+      active: true,
+      state: "ready",
+      credentials: ebics_credentials,
+      settings: { "protocol" => "H005" })
+
+    connection.mark_capabilities_checked!(
+      report: {
+        "country_code" => "DE",
+        "h005" => {
+          "htd_btf_downloads" => [ { "service" => { "message_name" => "camt.053" } } ]
+        }
+      },
+      status: "warning",
+      warnings: [ "New EBICS BTF message version advertised" ])
+
+    connection.reload
+    assert_equal "warning", connection.health_status
+    assert connection.last_health_check_at?
+    assert_equal "DE", connection.capabilities.fetch("country_code")
+    assert_equal "UnexpectedEBICSCapability", connection.last_error_class
+    assert_equal "New EBICS BTF message version advertised", connection.last_error_message
+    assert_equal [ "New EBICS BTF message version advertised" ], connection.status_details.dig("last_capabilities_check", "warnings")
+  end
+
   test "returns empty EBICS key summary when credentials are incomplete" do
     connection = BankConnection.new(provider: "ebics", credentials: {})
 

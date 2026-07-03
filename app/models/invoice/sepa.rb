@@ -78,12 +78,20 @@ module Invoice::SEPA
       order_id: order_id)
     true
   rescue => e
-    Rails.error.report(e, context: { invoice_id: id })
-    Rails.event.notify(:sepa_direct_debit_order_upload_failed,
-      invoice_id: id,
+    context = sepa_direct_debit_upload_context(
       error: e.class.name,
       error_message: e.message)
+    Rails.error.report(e, context: context)
+    Rails.event.notify(:sepa_direct_debit_order_upload_failed, **context.symbolize_keys)
     false
+  end
+
+  def sepa_direct_debit_upload_context(**attributes)
+    Billing::EBICS::SafeContext.build(
+      connection: Current.org.active_bank_connection,
+      invoice_id: id,
+      member_display_id: member&.display_id,
+      **attributes)
   end
 
   private

@@ -9,6 +9,7 @@ class EbicsRakeTest < ActiveSupport::TestCase
   setup do
     Rails.application.load_tasks unless Rake::Task.task_defined?("ebics:readiness")
     Rake::Task["ebics:readiness"].reenable
+    Rake::Task["ebics:monitor"].reenable
     Rake::Task["ebics:capabilities"].reenable
     Rake::Task["ebics:btf_download"].reenable
     BankConnection.delete_all
@@ -24,6 +25,33 @@ class EbicsRakeTest < ActiveSupport::TestCase
 
             assert json.fetch("live_hev")
             assert_equal [ { "tenant" => "ragedevert", "ebics" => { "hev" => { "status" => "ok" } } } ], json.fetch("results")
+          end
+        end
+      end
+    end
+  end
+
+  test "monitor runs capabilities monitor and prints health summary" do
+    org(country_code: "DE")
+    BankConnection.create!(
+      provider: "ebics",
+      name: "MULTIVIA",
+      active: true,
+      state: "ready",
+      credentials: ebics_credentials)
+
+    with_env("TENANT" => "wilderauke") do
+      Tenant.stub(:exists?, true) do
+        Tenant.stub(:switch, ->(_tenant, &block) { block.call }) do
+          Billing::EBICS::CapabilitiesMonitor.stub(:new, capabilities_monitor_stub) do
+            out, = capture_io { Rake::Task["ebics:monitor"].invoke }
+            json = JSON.parse(out)
+
+            assert_equal({ "healthy" => 1 }, json.fetch("summary"))
+            assert_equal "wilderauke", json.dig("results", 0, "tenant")
+            assert_equal "MULTIVIA", json.dig("results", 0, "bank")
+            assert_equal "healthy", json.dig("results", 0, "health_status")
+            assert_empty json.dig("results", 0, "warnings")
           end
         end
       end
@@ -112,6 +140,20 @@ class EbicsRakeTest < ActiveSupport::TestCase
             "acknowledged" => false,
             "receipt_code" => 1
           })
+        end
+      end
+    }
+  end
+
+  def capabilities_monitor_stub
+    ->(connection:) {
+      assert_equal "MULTIVIA", connection.name
+      Object.new.tap do |monitor|
+        monitor.define_singleton_method(:check!) do
+          connection.mark_capabilities_checked!(
+            report: { "country_code" => "DE", "h005" => {} },
+            status: "healthy",
+            warnings: [])
         end
       end
     }

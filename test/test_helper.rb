@@ -43,6 +43,7 @@ module ActiveSupport
     include QRCodeHelper
     include EnvHelper
     include RailsEnvHelper
+    include RailsErrorHelper
     include TenantHelper
     include ResponsesHelper
     include SessionsHelper

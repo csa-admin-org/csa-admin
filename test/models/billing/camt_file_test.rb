@@ -73,9 +73,20 @@ class Billing::CamtFileTest < ActiveSupport::TestCase
     assert_empty file.payments_data
   end
 
-  test "raises for invalid CAMT namespace" do
+  test "raises for invalid CAMT namespace and reports sanitized metadata" do
+    error = ErrorRecorder.new
     file = Billing::CamtFile.new(file_fixture("camt_wrong.xml"))
-    assert_raises(Billing::CamtFile::UnsupportedFileError) { file.payments_data }
+
+    with_rails_error(error) do
+      assert_raises(Billing::CamtFile::UnsupportedFileError) { file.payments_data }
+    end
+
+    _reported_error, context = error.unexpected_errors.first
+    assert_equal 1, context.fetch("files_count")
+    assert_equal "Document", context.dig("files", 0, "root")
+    assert_equal "urn:iso:std:iso:20022:tech:xsd:camt.053.001.04", context.dig("files", 0, "namespace")
+    assert_equal "camt.053.001.04", context.dig("files", 0, "message_version")
+    assert_not_includes context.to_json, "BkToCstmrDbtCdtNtfctn"
   end
 
   test "raises for invalid CAMT file" do

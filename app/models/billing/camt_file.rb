@@ -30,11 +30,16 @@ module Billing
         end
       }
     rescue CamtParser::Errors::UnsupportedNamespaceError, ArgumentError => e
-      Rails.error.report(e, context: { file: @files.first.read })
+      report_unexpected_file!(e)
       raise UnsupportedFileError, e.message
     end
 
     private
+
+    def report_unexpected_file!(error)
+      Billing::EBICS::SafeContext.report_unexpected(error,
+        context: Billing::EBICS::SafeContext.payloads_context(@files))
+    end
 
     def parse_camt54(camt)
       origin = "camt.054"

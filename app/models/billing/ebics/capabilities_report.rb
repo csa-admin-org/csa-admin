@@ -108,7 +108,9 @@ module Billing
       end
 
       def btf_client
-        @btf_client ||= BtfClient.new(connection.credentials)
+        @btf_client ||= BtfClient.new(
+          connection.credentials,
+          context: SafeContext.build(connection: connection))
       end
 
       class AdminOrderData

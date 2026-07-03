@@ -72,6 +72,17 @@ class Billing::EBICS::Btf::PresetsTest < ActiveSupport::TestCase
     }, Billing::EBICS::Btf::Presets.sepa_direct_debit_upload(scope: "DE", container: "XML"))
   end
 
+  test "builds SEPA direct debit status report BTD preset" do
+    assert_equal({
+      "order_type" => "BTD",
+      "service_name" => "REP",
+      "scope" => "DE",
+      "service_option" => "SDD",
+      "container" => "ZIP",
+      "message_name" => "pain.002"
+    }, Billing::EBICS::Btf::Presets.sepa_direct_debit_status_report)
+  end
+
   test "fails clearly when no country preset exists" do
     error = assert_raises(Billing::EBICS::UnsupportedOperation) do
       Billing::EBICS::Btf::Presets.payment_download(country_code: "FR")

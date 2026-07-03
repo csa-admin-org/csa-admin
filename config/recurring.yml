@@ -59,6 +59,12 @@ production:
     queue: low
     schedule: every sunday at 4:30am
 
+  ebics_capabilities_monitor:
+    class: TenantSwitchEachJob
+    args: [Scheduled::EBICSCapabilitiesMonitorJob]
+    queue: low
+    schedule: every sunday at 5am
+
   notifier_hourly:
     class: TenantSwitchEachJob
     args: [Scheduled::NotifierHourlyJob]

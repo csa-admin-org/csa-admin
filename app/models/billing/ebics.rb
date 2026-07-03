@@ -20,10 +20,11 @@ module Billing
 
     attr_reader :credentials, :operation_config
 
-    def initialize(credentials = {}, settings: {}, ebics_client: nil)
+    def initialize(credentials = {}, settings: {}, ebics_client: nil, bank_connection: nil)
       @credentials = Credentials.new(credentials)
       @operation_config = OperationConfig.new(settings)
       @ebics_client = ebics_client
+      @bank_connection = bank_connection
     end
 
     def payments_data
@@ -39,6 +40,7 @@ module Billing
       if operation.btf?
         process_btf_payments!(operation)
       else
+        report_legacy_operation!(operation, "payment_download")
         Billing::PaymentsProcessor.new(payments_data).process!
       end
     rescue MaintenanceError
@@ -47,7 +49,15 @@ module Billing
 
     def sepa_direct_debit_upload(document)
       operation = operation_config.sepa_direct_debit_upload
-      ebics_client(operation).upload(operation, document: document)
+      report_legacy_operation!(operation, "sepa_direct_debit_upload") if operation.order_type?
+      @bank_connection&.mark_upload_attempted!(operation: operation)
+
+      result = ebics_client(operation).upload(operation, document: document)
+      @bank_connection&.mark_upload_succeeded!(operation: operation, order_id: upload_order_id(result))
+      result
+    rescue => e
+      @bank_connection&.mark_error!(e, operation: operation, operation_kind: "sepa_direct_debit_upload")
+      raise
     end
 
     def sepa_direct_debit_schema
@@ -62,31 +72,49 @@ module Billing
 
     def get_camt_files
       operation = operation_config.payment_download(country_code: Current.org.country_code)
+      @bank_connection&.mark_import_attempted!(operation: operation)
 
-      ebics_client(operation).download(
+      files = ebics_client(operation).download(
         operation,
         from: payments_from,
         to: payments_to)
+      @bank_connection&.mark_import_succeeded!(operation: operation, files_count: files.size)
+      files
     rescue NoDownloadDataAvailable => e
+      @bank_connection&.mark_no_data!(operation: operation)
       notify(:ebics_no_data_available, e.original_error)
       []
     rescue TechnicalError => e
+      @bank_connection&.mark_error!(e.original_error, operation: operation, operation_kind: "payment_download")
       notify(:ebics_technical_error, e.original_error)
+      report_technical_error(e, operation, "payment_download")
       raise MaintenanceError, "EBICS technical error occurred"
     end
 
     def process_btf_payments!(operation)
-      ebics_client(operation).download_and_process(operation, from: payments_from, to: payments_to) do |files|
+      files_count = nil
+      @bank_connection&.mark_import_attempted!(operation: operation)
+
+      result = ebics_client(operation).download_and_process(operation, from: payments_from, to: payments_to) do |files|
+        files_count = files.size
         Billing::PaymentsProcessor
           .new(CamtFile.new(files).payments_data, raise_on_error: true)
           .process!
       end
+      @bank_connection&.mark_import_succeeded!(operation: operation, files_count: files_count)
+      result
     rescue NoDownloadDataAvailable => e
+      @bank_connection&.mark_no_data!(operation: operation)
       notify(:ebics_no_data_available, e.original_error)
       Billing::PaymentsProcessor.new([]).process!
     rescue TechnicalError => e
+      @bank_connection&.mark_error!(e.original_error, operation: operation, operation_kind: "payment_download")
       notify(:ebics_technical_error, e.original_error)
+      report_technical_error(e, operation, "payment_download")
       raise MaintenanceError, "EBICS technical error occurred"
+    rescue => e
+      @bank_connection&.mark_error!(e, operation: operation, operation_kind: "payment_download")
+      raise
     end
 
     def payments_from
@@ -109,13 +137,46 @@ module Billing
     end
 
     def btf_client
-      @btf_client ||= BtfClient.new(credentials, legacy_client: legacy_client)
+      @btf_client ||= BtfClient.new(
+        credentials,
+        legacy_client: legacy_client,
+        context: safe_context)
+    end
+
+    def upload_order_id(result)
+      result.is_a?(Array) ? result.second : result
     end
 
     def notify(name, error)
       Rails.event.notify(name,
-        error: error.class.name,
-        error_message: error.message)
+        **safe_context(
+          error: error.class.name,
+          error_message: error.message).symbolize_keys)
+    end
+
+    def report_technical_error(error, operation, operation_kind)
+      Rails.error.report(error.original_error,
+        context: safe_context(
+          operation: operation,
+          operation_kind: operation_kind,
+          error: error.class.name,
+          error_message: error.message))
+    end
+
+    def report_legacy_operation!(operation, operation_kind)
+      return unless @bank_connection&.ebics?
+
+      SafeContext.report_unexpected("Active EBICS connection uses legacy order-type operation",
+        context: safe_context(
+          operation: operation,
+          operation_kind: operation_kind))
+    end
+
+    def safe_context(operation: nil, **context)
+      SafeContext.build(
+        connection: @bank_connection,
+        operation: operation,
+        **context)
     end
   end
 end
