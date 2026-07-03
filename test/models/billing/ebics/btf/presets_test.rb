@@ -25,20 +25,27 @@ class Billing::EBICS::Btf::PresetsTest < ActiveSupport::TestCase
     assert_equal "08", preset.fetch("version")
   end
 
-  test "builds CAMT.053 BTD preset from explicit BTF attributes" do
+  test "builds CAMT.053 BTD preset without a message version" do
     assert_equal({
       "order_type" => "BTD",
       "service_name" => "EOP",
       "scope" => "DE",
       "container" => "ZIP",
-      "message_name" => "camt.053",
-      "version" => "08"
-    }, Billing::EBICS::Btf::Presets.camt053(service_name: "EOP", scope: "DE", version: "08"))
+      "message_name" => "camt.053"
+    }, Billing::EBICS::Btf::Presets.camt053(service_name: "EOP", scope: "DE"))
+  end
+
+  test "builds CAMT.053 BTD preset with an explicit message version" do
+    assert_equal "08", Billing::EBICS::Btf::Presets
+      .camt053(service_name: "EOP", scope: "DE", version: "08")
+      .fetch("version")
   end
 
   test "resolves payment download preset by country" do
     assert_equal "camt.054", Billing::EBICS::Btf::Presets.payment_download(country_code: "CH").fetch("message_name")
+    assert_equal "04", Billing::EBICS::Btf::Presets.payment_download(country_code: "CH").fetch("version")
     assert_equal "camt.053", Billing::EBICS::Btf::Presets.payment_download(country_code: "DE").fetch("message_name")
+    assert_not Billing::EBICS::Btf::Presets.payment_download(country_code: "DE").key?("version")
   end
 
   test "fails clearly when no country preset exists" do

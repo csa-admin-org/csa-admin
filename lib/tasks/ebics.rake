@@ -28,6 +28,22 @@ namespace :ebics do
       results: results)
   end
 
+  desc "Print sanitized H005 EBICS capabilities using HTD/HAA (TENANT required; live bank calls)"
+  task capabilities: :environment do
+    tenant_name = ENV["TENANT"].presence || ENV["TENANT_NAME"].presence
+
+    abort "TENANT is required" unless tenant_name
+    abort "Tenant '#{tenant_name}' does not exist" unless Tenant.exists?(tenant_name)
+
+    Tenant.switch(tenant_name) do
+      connection = Current.org.active_bank_connection
+      abort "Tenant '#{tenant_name}' has no active EBICS bank connection" unless connection&.ebics?
+
+      puts JSON.pretty_generate(
+        Billing::EBICS::CapabilitiesReport.new(tenant: tenant_name, connection: connection).to_h)
+    end
+  end
+
   desc "Run a manual H005/BTF payment download test (TENANT, FROM, TO required; ACK=true acknowledges returned data)"
   task btf_download: :environment do
     tenant_name = ENV["TENANT"].presence || ENV["TENANT_NAME"].presence

@@ -35,6 +35,41 @@ class Billing::EBICS::BtfClientTest < ActiveSupport::TestCase
     assert_includes xml, "<ds:SignatureValue>SIGNATURE</ds:SignatureValue>"
   end
 
+  test "fetches H005 admin order data and acknowledges the metadata response" do
+    htd_xml = "<HTDResponseOrderData><UserInfo><OrderInfo><AdminOrderType>BTD</AdminOrderType></OrderInfo></UserInfo></HTDResponseOrderData>"
+    transport = TransportStub.new([
+      response_xml(segment_number: 1, last_segment: true, transaction_key: true, order_data: encrypted_order_data(htd_xml)),
+      ok_receipt_response_xml
+    ])
+    client = btf_client(transport: transport)
+
+    result = client.admin_order("HTD")
+
+    assert_equal htd_xml, result.order_data
+    assert result.receipt_sent
+    assert_equal 2, transport.requests.size
+    assert_includes transport.requests.first, "<AdminOrderType>HTD</AdminOrderType>"
+    assert_includes transport.requests.first, "<StandardOrderParams/>"
+    assert_includes transport.requests.second, "<ReceiptCode>0</ReceiptCode>"
+  end
+
+  test "admin order sends failure receipt for unexpected order data" do
+    transport = TransportStub.new([
+      response_xml(segment_number: 1, last_segment: true, transaction_key: true, order_data: encrypted_order_data("<Document>unexpected</Document>")),
+      ok_receipt_response_xml
+    ])
+    client = btf_client(transport: transport)
+
+    error = assert_raises(Billing::EBICS::BtfClient::AdminOrderDataError) do
+      client.admin_order("HTD")
+    end
+
+    assert_includes error.message, "Unexpected HTD response order data"
+    assert_equal 2, transport.requests.size
+    assert_includes transport.requests.second, "<ReceiptCode>1</ReceiptCode>"
+    assert_not_includes transport.requests.second, "<ReceiptCode>0</ReceiptCode>"
+  end
+
   test "manual test download can acknowledge segmented BTD data" do
     xml_files = [ "<Document>one</Document>", "<Document>two</Document>" ]
     encrypted_segments = encrypted_order_data_segments(zip(xml_files))

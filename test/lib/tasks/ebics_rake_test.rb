@@ -9,6 +9,7 @@ class EbicsRakeTest < ActiveSupport::TestCase
   setup do
     Rails.application.load_tasks unless Rake::Task.task_defined?("ebics:readiness")
     Rake::Task["ebics:readiness"].reenable
+    Rake::Task["ebics:capabilities"].reenable
     Rake::Task["ebics:btf_download"].reenable
     BankConnection.delete_all
   end
@@ -23,6 +24,31 @@ class EbicsRakeTest < ActiveSupport::TestCase
 
             assert json.fetch("live_hev")
             assert_equal [ { "tenant" => "ragedevert", "ebics" => { "hev" => { "status" => "ok" } } } ], json.fetch("results")
+          end
+        end
+      end
+    end
+  end
+
+  test "capabilities prints sanitized H005 admin order report as JSON" do
+    org(country_code: "DE")
+    BankConnection.create!(
+      provider: "ebics",
+      name: "MULTIVIA",
+      active: true,
+      state: "ready",
+      credentials: ebics_credentials)
+
+    with_env("TENANT" => "wilderauke") do
+      Tenant.stub(:exists?, true) do
+        Tenant.stub(:switch, ->(_tenant, &block) { block.call }) do
+          Billing::EBICS::CapabilitiesReport.stub(:new, capabilities_report_stub) do
+            out, = capture_io { Rake::Task["ebics:capabilities"].invoke }
+            json = JSON.parse(out)
+
+            assert_equal "wilderauke", json.fetch("tenant")
+            assert_equal "MULTIVIA", json.dig("active_connection", "name")
+            assert_equal "ok", json.dig("h005", "admin_orders", "HTD", "status")
           end
         end
       end
@@ -88,6 +114,26 @@ class EbicsRakeTest < ActiveSupport::TestCase
           })
         end
       end
+    }
+  end
+
+  def capabilities_report_stub
+    ->(tenant:, connection:) {
+      assert_equal "wilderauke", tenant
+      assert_equal "MULTIVIA", connection.name
+      Struct.new(:to_h).new({
+        "tenant" => tenant,
+        "active_connection" => {
+          "name" => connection.name
+        },
+        "h005" => {
+          "admin_orders" => {
+            "HTD" => {
+              "status" => "ok"
+            }
+          }
+        }
+      })
     }
   end
 

@@ -34,7 +34,7 @@ class Billing::EBICS::Btf::DownloadRequestTest < ActiveSupport::TestCase
     client = synthetic_epics_client
     request = Billing::EBICS::Btf::DownloadRequest.new(
       client: client,
-      operation: operation(Billing::EBICS::Btf::Presets.camt053(service_name: "EOP", scope: "DE", version: "08")),
+      operation: operation(Billing::EBICS::Btf::Presets.camt053(service_name: "EOP", scope: "DE")),
       from: "2026-06-01",
       to: "2026-06-30",
       nonce: "0123456789abcdef0123456789abcdef",
@@ -50,6 +50,19 @@ class Billing::EBICS::Btf::DownloadRequestTest < ActiveSupport::TestCase
     assert_equal "BTD", xml.at_xpath("//h:AdminOrderType", h: H005_NAMESPACE).text
     assert_equal "EOP", xml.at_xpath("//h:ServiceName", h: H005_NAMESPACE).text
     assert_equal "DE", xml.at_xpath("//h:Scope", h: H005_NAMESPACE).text
+    assert_equal "camt.053", xml.at_xpath("//h:MsgName", h: H005_NAMESPACE).text
+    assert_nil xml.at_xpath("//h:MsgName", h: H005_NAMESPACE)["version"]
+  end
+
+  test "emits optional message version when configured" do
+    request = Billing::EBICS::Btf::DownloadRequest.new(
+      client: FakeClient.new,
+      operation: operation(Billing::EBICS::Btf::Presets.camt053(service_name: "EOP", scope: "DE", version: "08")),
+      from: "2026-06-01",
+      to: "2026-06-30",
+      signer: FakeSigner.new)
+    xml = Nokogiri::XML(request.to_xml)
+
     assert_equal "08", xml.at_xpath("//h:MsgName", h: H005_NAMESPACE)["version"]
   end
 

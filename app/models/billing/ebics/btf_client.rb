@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require "nokogiri"
+
 module Billing
   class EBICS
     class BtfClient
@@ -14,6 +16,9 @@ module Billing
           }
         end
       end
+
+      AdminOrderResult = Data.define(:order_data, :receipt_sent)
+      AdminOrderDataError = Class.new(StandardError)
 
       class ResponseError < StandardError
         attr_reader :response
@@ -85,6 +90,29 @@ module Billing
           "H005/BTF uploads are not implemented yet"
       end
 
+      def admin_order(order_type)
+        validated = false
+        responses = admin_responses(order_type)
+        order_data = Btf::Payload.new(responses: responses).order_data
+        validate_admin_order_data!(order_type, order_data)
+        validated = true
+        receipt_sent = receipt_required?(responses)
+        send_receipt!(responses.last.transaction_id, Btf::ReceiptRequest::SUCCESS_CODE) if receipt_sent
+
+        AdminOrderResult.new(order_data: order_data, receipt_sent: receipt_sent)
+      rescue => e
+        safely_send_failure_receipt(responses) if defined?(responses) && !validated
+        raise e
+      end
+
+      def admin_order_data(order_type)
+        admin_order(order_type).order_data
+      end
+
+      def admin_request_xml(order_type, **overrides)
+        admin_request(order_type, **overrides).to_xml
+      end
+
       def download_request_xml(operation, from:, to:, **overrides)
         download_request(operation, from: from, to: to, **overrides).to_xml
       end
@@ -116,9 +144,16 @@ module Billing
 
         def download_responses(operation, from:, to:)
           ensure_btf_download!(operation)
+          order_responses(download_request(operation, from: from, to: to))
+        end
 
+        def admin_responses(order_type)
+          order_responses(admin_request(order_type))
+        end
+
+        def order_responses(request)
           [].tap do |responses|
-            response = post_request(download_request(operation, from: from, to: to))
+            response = post_request(request)
             raise_response_error!(response)
             responses << response
 
@@ -136,6 +171,24 @@ module Billing
 
         def response_from(response_xml)
           Btf::Response.new(client: client, xml: response_xml).tap { |response| verify_response!(response) }
+        end
+
+        def admin_request(order_type, **overrides)
+          Btf::AdminRequest.new(
+            client: client,
+            order_type: order_type,
+            **request_options.merge(overrides))
+        end
+
+        def validate_admin_order_data!(order_type, order_data)
+          expected_root = {
+            "HAA" => "HAAResponseOrderData",
+            "HTD" => "HTDResponseOrderData"
+          }.fetch(order_type.to_s.upcase)
+          root_name = Nokogiri::XML(order_data).root&.name
+          return if root_name == expected_root
+
+          raise AdminOrderDataError, "Unexpected #{order_type.to_s.upcase} response order data"
         end
 
         def transfer_request(transaction_id, segment_number)

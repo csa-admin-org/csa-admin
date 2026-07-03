@@ -101,11 +101,19 @@ module Billing
           def service(xml)
             xml.Service {
               xml.ServiceName btf.fetch("service_name")
-              xml.Scope btf.fetch("scope")
+              xml.Scope btf.fetch("scope") if btf["scope"].present?
               xml.ServiceOption btf.fetch("service_option") if btf["service_option"].present?
-              xml.Container containerType: btf.fetch("container")
-              xml.MsgName btf.fetch("message_name"), version: btf.fetch("version")
+              xml.Container containerType: btf.fetch("container") if btf["container"].present?
+              msg_name(xml)
             }
+          end
+
+          def msg_name(xml)
+            if btf["version"].present?
+              xml.MsgName btf.fetch("message_name"), version: btf.fetch("version")
+            else
+              xml.MsgName btf.fetch("message_name")
+            end
           end
 
           def date_range(xml)
@@ -136,10 +144,7 @@ module Billing
             @btf ||= operation.btf.fetch_values(
               "order_type",
               "service_name",
-              "scope",
-              "container",
-              "message_name",
-              "version").then { operation.btf }
+              "message_name").then { operation.btf }
           end
 
           def format_date(value)
