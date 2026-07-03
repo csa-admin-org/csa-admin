@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require "digest"
 require "ostruct"
 require "tempfile"
 require "net/http"
@@ -32,7 +33,7 @@ module Billing
     rescue MaintenanceError
       []
     rescue LoginError => e
-      Rails.error.unexpected(e)
+      Rails.error.unexpected(e, context: safe_context(operation_kind: "payment_import"))
       []
     end
 
@@ -97,10 +98,14 @@ module Billing
       if res.body.include?("<FILE>")
         res.body[/<FILE>(.*)<\/FILE>/m, 1].force_encoding("UTF-8")
       elsif res.body.include?(NO_DATA_INFO_MSG)
-        Rails.event.notify(:bas_no_data_available, status: res.code, body: res.body)
+        Rails.event.notify(:bas_no_data_available,
+          **safe_context(provider_status: res.code, response: response_context(res)))
         nil
       else
-        Rails.error.unexpected("BAS CAMT054 GET issue", context: { version: version, body: res.body })
+        Rails.error.unexpected("BAS CAMT054 GET issue", context: safe_context(
+          version: version,
+          provider_status: res.code,
+          response: response_context(res)))
         nil
       end
     end
@@ -133,11 +138,12 @@ module Billing
         LANGUAGE: "french"
       }.merge(args)
       if res.code.to_i == 302 && res.body.blank?
-        Rails.event.notify(:bas_maintenance_error, status: res.code, body: res.body)
+        Rails.event.notify(:bas_maintenance_error,
+          **safe_context(provider_status: res.code, response: response_context(res)))
         raise MaintenanceError, "BAS probably in maintenance"
       end
       if !res.code.to_i.in?([ 200, 302 ]) || res.body[/<STATUS>(.*)<\/STATUS>/, 1] != "I0000"
-        raise LoginError, "Login issue (#{res.code.to_i}):\n#{res.body}"
+        raise LoginError, "Login issue (#{res.code.to_i})"
       end
       res
     end
@@ -145,10 +151,22 @@ module Billing
     def signed_challenge(res)
       challenge = res.body[/<CHALLENGE>(.*)<\/CHALLENGE>/, 1]
       unless challenge
-        raise LoginError, "Login Step Two issue, missing challenge (#{res.code}):\n#{res.body}"
+        raise LoginError, "Login Step Two issue, missing challenge (#{res.code})"
       end
       pkey = OpenSSL::PKey::RSA.new(@credentials.fetch(:private_key))
       Base64.strict_encode64 pkey.sign("MD5", challenge)
+    end
+
+    def safe_context(**attributes)
+      Billing::EBICS::SafeContext.build(**attributes)
+    end
+
+    def response_context(response)
+      body = response.body.to_s
+      {
+        bytes: body.bytesize,
+        sha256: Digest::SHA256.hexdigest(body)
+      }
     end
   end
 end

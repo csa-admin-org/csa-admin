@@ -45,7 +45,7 @@ module Organization::Billing
     end
 
     def bank_connection
-      active_bank_connection&.adapter || legacy_bank_connection
+      active_bank_connection&.runtime_adapter || legacy_bank_connection
     end
 
     def send_invoice_overdue_notice?

@@ -25,7 +25,8 @@ class Organization::BillingTest < ActiveSupport::TestCase
       bank_connection_type: "mock",
       bank_credentials: { password: "secret" })
 
-    assert_instance_of Billing::BAS, Current.org.bank_connection
+    assert_instance_of BankConnection::RuntimeAdapter, Current.org.bank_connection
+    assert_respond_to Current.org.bank_connection, :version
   end
 
   test "bank_connection falls back to legacy organization columns" do

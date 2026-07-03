@@ -90,10 +90,11 @@ module Billing
 
     def notify_unknown_reference(payment, amount, description)
       Rails.event.notify(:unknown_payment_reference,
-        origin: "bunq",
-        amount: amount,
-        date: parse_date(payment["created"]),
-        ref: description)
+        **safe_context(
+          origin: "bunq",
+          amount: amount,
+          date: parse_date(payment["created"]),
+          ref: description))
     end
 
     def reached_cutoff_date?(payment)
@@ -198,7 +199,8 @@ module Billing
       response = http.request(request)
       handle_response(response)
     rescue Errno::ECONNREFUSED, Errno::ETIMEDOUT, Net::OpenTimeout, Net::ReadTimeout => e
-      Rails.event.notify(:bunq_connection_error, error: e.class.name, message: e.message)
+      Rails.event.notify(:bunq_connection_error,
+        **safe_context(error: e.class.name, message: e.message))
       raise MaintenanceError, "bunq API connection error: #{e.message}"
     end
 
@@ -212,7 +214,8 @@ module Billing
       when 401, 403
         raise AuthenticationError, "bunq authentication failed: #{error_msg}"
       when 500..599
-        Rails.event.notify(:bunq_server_error, status: response.code, error: error_msg)
+        Rails.event.notify(:bunq_server_error,
+          **safe_context(provider_status: response.code, provider_error: error_msg))
         raise MaintenanceError, "bunq API server error: #{error_msg}"
       else
         raise AuthenticationError, "bunq API error (#{response.code}): #{error_msg}"
@@ -223,6 +226,10 @@ module Billing
 
     def extract_error(body)
       body.dig("Error")&.map { |e| e["error_description"] }&.join(", ") || "Unknown error"
+    end
+
+    def safe_context(**attributes)
+      Billing::EBICS::SafeContext.build(**attributes)
     end
   end
 end

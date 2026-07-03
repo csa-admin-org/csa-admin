@@ -15,6 +15,8 @@ module Billing
         message_name
         version
         signature_flag
+        provider
+        kind
       ].freeze
 
       def self.build(connection: current_connection, operation: nil, **attributes)

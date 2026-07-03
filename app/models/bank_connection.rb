@@ -44,6 +44,10 @@ class BankConnection < ApplicationRecord
     end
   end
 
+  def runtime_adapter
+    ebics? ? adapter : RuntimeAdapter.new(self, adapter)
+  end
+
   def credential_keys
     credentials.to_h.keys.map(&:to_s).sort
   end
@@ -188,6 +192,10 @@ class BankConnection < ApplicationRecord
           operation: safe_operation(operation))))
   end
 
+  def safe_context(operation: nil, **attributes)
+    Billing::EBICS::SafeContext.build(connection: self, operation: operation, **attributes)
+  end
+
   private
 
   def update_status!(attributes)
@@ -212,7 +220,11 @@ class BankConnection < ApplicationRecord
   end
 
   def safe_operation(operation)
-    Billing::EBICS::SafeContext.operation(operation)
+    Billing::EBICS::SafeContext.operation(operation).presence || provider_operation(operation)
+  end
+
+  def provider_operation(operation)
+    operation.to_h.deep_stringify_keys.slice("mode", "provider", "kind").compact_blank if operation.respond_to?(:to_h)
   end
 
   def capabilities_summary(report)
