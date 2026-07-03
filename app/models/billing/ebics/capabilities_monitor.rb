@@ -3,6 +3,7 @@
 module Billing
   class EBICS
     class CapabilitiesMonitor
+      Warning = Class.new(StandardError)
       SERVICE_KEYS = %w[service_name scope service_option container message_name version].freeze
 
       def initialize(connection: Current.org.active_bank_connection, report: nil, error_reporter: Rails.error)
@@ -196,9 +197,19 @@ module Billing
 
       def unexpected(message, **context)
         warnings << message
-        SafeContext.report_unexpected(message,
-          reporter: error_reporter,
-          context: safe_context(context))
+        error_reporter.report(Warning.new(message),
+          handled: false,
+          severity: :error,
+          context: warning_context(context),
+          source: "ebics.capabilities_monitor")
+      end
+
+      def warning_context(context)
+        safe_context(context).merge(
+          appsignal: {
+            namespace: "background",
+            action: "EBICS capabilities monitor"
+          })
       end
 
       def safe_context(context = {})

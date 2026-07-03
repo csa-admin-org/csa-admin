@@ -18,7 +18,7 @@ class Billing::EBICS::CapabilitiesMonitorTest < ActiveSupport::TestCase
       error_reporter: error).check!
 
     connection.reload
-    assert_empty error.unexpected_errors
+    assert_empty error.reports
     assert_equal "healthy", connection.health_status
     assert connection.last_health_check_at?
     assert_nil connection.last_error_class
@@ -36,7 +36,7 @@ class Billing::EBICS::CapabilitiesMonitorTest < ActiveSupport::TestCase
       error_reporter: error).check!
 
     connection.reload
-    assert_empty error.unexpected_errors
+    assert_empty error.reports
     assert_equal "healthy", connection.health_status
     assert_nil connection.last_error_class
   end
@@ -55,10 +55,13 @@ class Billing::EBICS::CapabilitiesMonitorTest < ActiveSupport::TestCase
     assert_equal "warning", connection.health_status
     assert_equal "UnexpectedEBICSCapability", connection.last_error_class
     assert_equal [ "New EBICS BTF message version advertised" ], connection.status_details.dig("last_capabilities_check", "warnings")
-    assert_equal 1, error.unexpected_errors.size
-    message, context = error.unexpected_errors.first
-    assert_equal "New EBICS BTF message version advertised", message
+    warning, context, options = error.reports.first
+    assert_instance_of Billing::EBICS::CapabilitiesMonitor::Warning, warning
+    assert_equal "New EBICS BTF message version advertised", warning.message
     assert_equal [ "08" ], context.fetch("advertised_versions")
+    assert_equal({ handled: false, severity: :error, source: "ebics.capabilities_monitor" }, options)
+    assert_equal "background", context.dig(:appsignal, :namespace)
+    assert_equal "EBICS capabilities monitor", context.dig(:appsignal, :action)
   end
 
   test "does not warn when SEPA upload settings are absent" do
@@ -71,7 +74,7 @@ class Billing::EBICS::CapabilitiesMonitorTest < ActiveSupport::TestCase
       error_reporter: error).check!
 
     connection.reload
-    assert_empty error.unexpected_errors
+    assert_empty error.reports
     assert_equal "healthy", connection.health_status
     assert_nil connection.last_error_class
   end
@@ -87,7 +90,7 @@ class Billing::EBICS::CapabilitiesMonitorTest < ActiveSupport::TestCase
       error_reporter: error).check!
 
     connection.reload
-    assert_empty error.unexpected_errors
+    assert_empty error.reports
     assert_equal "healthy", connection.health_status
     assert_nil connection.last_error_class
   end
@@ -114,7 +117,7 @@ class Billing::EBICS::CapabilitiesMonitorTest < ActiveSupport::TestCase
     assert_equal [
       "EBICS capabilities admin-order check failed",
       "EBICS capabilities admin-order check failed"
-    ], error.unexpected_errors.map(&:first)
+    ], error.reports.map { |warning, _context, _options| warning.message }
   end
 
   test "ignores explicitly tolerated admin order return codes" do
@@ -131,7 +134,7 @@ class Billing::EBICS::CapabilitiesMonitorTest < ActiveSupport::TestCase
       error_reporter: error).check!
 
     connection.reload
-    assert_empty error.unexpected_errors
+    assert_empty error.reports
     assert_equal "healthy", connection.health_status
     assert_empty connection.status_details.dig("last_capabilities_check", "warnings")
   end
@@ -148,10 +151,12 @@ class Billing::EBICS::CapabilitiesMonitorTest < ActiveSupport::TestCase
     connection.reload
     assert_equal "warning", connection.health_status
     assert_equal "UnexpectedEBICSCapability", connection.last_error_class
-    message, context = error.unexpected_errors.first
-    assert_equal "Configured EBICS BTF operation is no longer advertised", message
+    warning, context, options = error.reports.first
+    assert_instance_of Billing::EBICS::CapabilitiesMonitor::Warning, warning
+    assert_equal "Configured EBICS BTF operation is no longer advertised", warning.message
     assert_equal "sepa_direct_debit_upload", context.fetch("operation_kind")
     assert_equal "BTU", context.dig("operation", "order_type")
+    assert_equal :error, options.fetch(:severity)
   end
 
   private

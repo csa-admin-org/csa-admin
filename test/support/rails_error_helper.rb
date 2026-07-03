@@ -17,8 +17,8 @@ module RailsErrorHelper
       @unexpected_errors = []
     end
 
-    def report(error, context: {})
-      reports << [ error, context ]
+    def report(error, context: {}, **options)
+      reports << [ error, context, options ]
     end
 
     def unexpected(error, context: {})
