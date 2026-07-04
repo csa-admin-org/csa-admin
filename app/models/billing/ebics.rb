@@ -63,8 +63,6 @@ module Billing
       operation_config.sepa_direct_debit_upload_schema
     end
 
-
-
     private
 
     def get_camt_files
