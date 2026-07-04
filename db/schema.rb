@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_07_03_143000) do
+ActiveRecord::Schema[8.1].define(version: 2026_07_04_100000) do
   create_table "absences", force: :cascade do |t|
     t.datetime "admins_notified_at"
     t.datetime "created_at"
@@ -663,6 +663,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_07_03_143000) do
     t.integer "waiting_billing_year_division"
     t.bigint "waiting_delivery_cycle_id"
     t.bigint "waiting_depot_id"
+    t.date "waiting_membership_started_on"
     t.datetime "waiting_started_at"
     t.string "zip", limit: 255
     t.index ["anonymized_at"], name: "index_members_on_anonymized_at"

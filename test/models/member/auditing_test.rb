@@ -6,6 +6,7 @@ class Member::AuditingTest < ActiveSupport::TestCase
   test "audited waiting membership attribute names are translated" do
     attrs = %w[
       waiting_started_at
+      waiting_membership_started_on
       waiting_basket_size_id
       waiting_depot_id
       waiting_delivery_cycle_id
@@ -31,24 +32,29 @@ class Member::AuditingTest < ActiveSupport::TestCase
   test "audits changes to waiting membership attributes" do
     member = members(:aria)
     new_depot = depots(:bakery)
+    start_on = Date.current + 1.month
 
     assert_difference(-> { Audit.where(auditable: member).count }, 1) do
       member.update!(
         waiting_depot: new_depot,
+        waiting_membership_started_on: start_on,
         waiting_basket_price_extra: 5,
         waiting_activity_participations_demanded_annually: 3)
     end
 
     audit = member.audits.last
     assert_equal [ depots(:farm).id, new_depot.id ], audit.audited_changes["waiting_depot_id"]
+    assert_equal [ nil, start_on ], audit.audited_changes["waiting_membership_started_on"].map { |v| v&.to_date }
     assert_equal [ 0, 5 ], audit.audited_changes["waiting_basket_price_extra"].map(&:to_i)
     assert_equal [ 0, 3 ], audit.audited_changes["waiting_activity_participations_demanded_annually"]
   end
 
   test "audits clearing waiting membership attributes and joins" do
     member = members(:aria)
+    start_on = Date.current + 1.month
     member.update_columns(
       waiting_started_at: Time.zone.parse("2024-04-01"),
+      waiting_membership_started_on: start_on,
       waiting_basket_size_id: basket_sizes(:medium).id,
       waiting_depot_id: depots(:farm).id,
       waiting_delivery_cycle_id: delivery_cycles(:mondays).id,
@@ -69,6 +75,7 @@ class Member::AuditingTest < ActiveSupport::TestCase
     assert_equal [ basket_sizes(:medium).id, nil ], audit.audited_changes["waiting_basket_size_id"]
     assert_equal [ depots(:farm).id, nil ], audit.audited_changes["waiting_depot_id"]
     assert_equal [ delivery_cycles(:mondays).id, nil ], audit.audited_changes["waiting_delivery_cycle_id"]
+    assert_equal [ start_on, nil ], audit.audited_changes["waiting_membership_started_on"].map { |v| v&.to_date }
     assert_equal [ 2, nil ], audit.audited_changes["waiting_basket_price_extra"].map { |v| v&.to_i }
     assert_equal [ 4, nil ], audit.audited_changes["waiting_activity_participations_demanded_annually"]
     assert_equal [ 1, nil ], audit.audited_changes["waiting_billing_year_division"]

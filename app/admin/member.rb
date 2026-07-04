@@ -123,6 +123,7 @@ ActiveAdmin.register Member do
       column(I18n.t("features.local_currency"), &:use_local_currency?)
     end
     column(:waiting_started_at)
+    column(:waiting_membership_started_on) { |m| m.fresh_waiting_membership_started_on }
     column(:waiting_basket_size) { |m| m.waiting_basket_size&.name }
     if BasketComplement.kept.any?
       column(:waiting_basket_complements) { |m|
@@ -218,6 +219,9 @@ ActiveAdmin.register Member do
                 end
                 row(:depot) { auto_link member.waiting_depot }
                 row(:delivery_cycle) { delivery_cycle_link(member.waiting_delivery_cycle) }
+                if member.direct_membership_start_requested?
+                  row(:waiting_membership_started_on) { member.fresh_waiting_membership_started_on }
+                end
                 if Current.org.allow_alternative_depots? && (member.waiting? || Current.org.waiting_list?)
                   row(:waiting_alternative_depot_ids) {
                     member.waiting_alternative_depots.map(&:name).to_sentence
@@ -593,12 +597,22 @@ ActiveAdmin.register Member do
       f.inputs waiting_membership_form ? t("active_admin.resource.show.waiting_membership") : Membership.model_name.human,
         icon: waiting_membership_form ? "clock" : "calendar-range",
         data: { controller: "form-disabler" } do
-        if member.pending?
+        if member.pending? || member.waiting?
           f.input :waiting_membership_started_on,
             as: :date_picker,
             required: false,
-            hint: Current.org.waiting_list? ? t("formtastic.hints.member.waiting_membership_started_on_html") : false,
+            hint: (
+              if member.pending? && Current.org.waiting_list?
+                t("formtastic.hints.member.waiting_membership_started_on_html")
+              elsif member.waiting?
+                t("formtastic.hints.member.waiting_membership_started_on_activation_html")
+              else
+                false
+              end
+            ),
             input_html: {
+              value: member.fresh_waiting_membership_started_on,
+              min: Date.current,
               data: {
                 action: "input->form-disabler#toggleInputs change->form-disabler#toggleInputs",
                 form_disabler_invert: true,

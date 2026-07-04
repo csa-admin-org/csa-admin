@@ -202,12 +202,14 @@ class MembershipTest < ActiveSupport::TestCase
     travel_to "2024-01-01"
     member = members(:aria)
     member.update!(
+      waiting_membership_started_on: Date.new(2024, 5, 6),
       waiting_basket_complement_ids: [ bread_id ],
       waiting_alternative_depot_ids: [ depots(:bakery).id ])
 
     create_membership(member: member)
 
     assert_nil member.reload.waiting_started_at
+    assert_nil member.waiting_membership_started_on
     assert_nil member.waiting_basket_size_id
     assert_nil member.waiting_depot_id
     assert_nil member.waiting_delivery_cycle_id

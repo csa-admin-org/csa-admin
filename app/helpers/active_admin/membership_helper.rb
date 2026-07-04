@@ -74,16 +74,16 @@ module ActiveAdmin::MembershipHelper
   def waiting_membership_validation_notice(member)
     if Current.org.waiting_list? && !member.direct_membership_start_requested?
       t("active_admin.resource.show.membership_validation_waiting_list")
-    elsif start_on = member.waiting_membership_start_on
-      t("active_admin.resource.show.membership_validation_start_on", date: l(start_on))
+    elsif member.waiting_membership_deliveries?
+      t("active_admin.resource.show.membership_validation_start_on", date: l(member.waiting_membership_start_on))
     else
       t("active_admin.resource.show.membership_validation_no_delivery")
     end
   end
 
   def waiting_membership_activation_notice(member)
-    if start_on = member.waiting_delivery_cycle_next_start_on
-      t("active_admin.resource.show.membership_activation_start_on", date: l(start_on))
+    if member.waiting_membership_deliveries?
+      t("active_admin.resource.show.membership_activation_start_on", date: l(member.waiting_membership_start_on))
     else
       t("active_admin.resource.show.membership_activation_no_delivery")
     end

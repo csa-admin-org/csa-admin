@@ -4,8 +4,6 @@ module Member::Waiting
   extend ActiveSupport::Concern
 
   included do
-    attribute :waiting_membership_started_on, :date
-
     belongs_to :waiting_basket_size, class_name: "BasketSize", optional: true
     belongs_to :waiting_depot, class_name: "Depot", optional: true
     belongs_to :waiting_delivery_cycle, class_name: "DeliveryCycle", optional: true
@@ -27,6 +25,7 @@ module Member::Waiting
       SQL
     }
 
+    before_validation :clear_stale_waiting_membership_started_on
     before_validation :set_default_waiting_billing_year_division
     before_validation :set_default_waiting_delivery_cycle
     before_validation :move_inactive_to_waiting_list
@@ -52,6 +51,10 @@ module Member::Waiting
       if: -> { public_create && Current.org.member_form_mode == "membership" && BasketSize.visible.exists? }
     validates :waiting_depot, inclusion: { in: proc { Depot.all }, allow_nil: true }, on: :create
     validates :waiting_depot_id, presence: true, if: :waiting_basket_size, on: :create
+    validates :waiting_membership_started_on,
+      date: { after_or_equal_to: proc { Date.current } },
+      allow_nil: true,
+      if: :waiting_membership_started_on_change_to_be_saved
     validate :unique_waiting_basket_complement_id
     validate :waiting_membership_started_on_required_for_admin_create, on: :create
     validate :complete_waiting_list_request_for_inactive_member, on: :update
@@ -77,8 +80,16 @@ module Member::Waiting
     membership_request? && missing_membership_request_attributes.empty?
   end
 
+  def fresh_waiting_membership_started_on
+    waiting_membership_started_on unless stale_waiting_membership_started_on?
+  end
+
+  def stale_waiting_membership_started_on?
+    waiting_membership_started_on&.past?
+  end
+
   def direct_membership_start_requested?
-    waiting_membership_started_on.present?
+    fresh_waiting_membership_started_on.present?
   end
 
   def waiting_delivery_cycle_next_start_on
@@ -92,11 +103,18 @@ module Member::Waiting
   end
 
   def waiting_membership_start_on
-    waiting_membership_started_on.presence || waiting_delivery_cycle_next_start_on
+    fresh_waiting_membership_started_on.presence || waiting_delivery_cycle_next_start_on
   end
 
   def waiting_membership_end_on(started_on = waiting_membership_start_on)
     Current.org.fiscal_year_for(started_on).end_of_year if started_on
+  end
+
+  def waiting_membership_deliveries?
+    return false unless (started_on = waiting_membership_start_on)
+    return false unless (ended_on = waiting_membership_end_on(started_on))
+
+    waiting_delivery_cycle&.deliveries_in(started_on..ended_on)&.any?
   end
 
   def create_membership_from_waiting_request!(started_on: waiting_membership_start_on)
@@ -120,25 +138,25 @@ module Member::Waiting
   end
 
   def can_create_membership?
-    waiting? && complete_membership_request? && waiting_delivery_cycle_next_start_on.present?
+    waiting? && complete_membership_request? && waiting_membership_deliveries?
   end
 
   def validation_creates_membership?
     pending? &&
       complete_membership_request? &&
       !(Current.org.waiting_list? && !direct_membership_start_requested?) &&
-      waiting_membership_start_on.present?
+      waiting_membership_deliveries?
   end
 
   def validation_waiting_membership_no_delivery?
     pending? &&
       membership_request? &&
       !(Current.org.waiting_list? && !direct_membership_start_requested?) &&
-      waiting_membership_start_on.blank?
+      !waiting_membership_deliveries?
   end
 
   def activation_waiting_membership_no_delivery?
-    waiting? && complete_membership_request? && waiting_delivery_cycle_next_start_on.blank?
+    waiting? && complete_membership_request? && !waiting_membership_deliveries?
   end
 
   def clear_waiting_membership_attributes
@@ -162,6 +180,13 @@ module Member::Waiting
 
   private
 
+  def clear_stale_waiting_membership_started_on
+    return unless stale_waiting_membership_started_on?
+    return if waiting_membership_started_on_change_to_be_saved
+
+    self[:waiting_membership_started_on] = nil
+  end
+
   def set_default_waiting_billing_year_division
     if (waiting_basket_size_id? && !waiting_billing_year_division?)
         || (waiting_billing_year_division? && !waiting_billing_year_division.in?(Current.org.billing_year_divisions))
@@ -180,7 +205,7 @@ module Member::Waiting
     return if public_create
     return if Current.org.waiting_list?
     return unless membership_request?
-    return if waiting_membership_started_on.present?
+    return if self[:waiting_membership_started_on].present?
 
     errors.add(:waiting_membership_started_on, :blank)
   end
@@ -218,6 +243,7 @@ module Member::Waiting
     return unless complete_membership_request?
 
     self.state = Member::WAITING_STATE
+    self.waiting_membership_started_on = nil
     self.waiting_started_at ||= Time.current
     apply_waiting_annual_fee
   end

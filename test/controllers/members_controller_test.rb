@@ -124,6 +124,20 @@ class MembersControllerTest < ActionDispatch::IntegrationTest
     assert_select "button:not([disabled])", text: /Activate/
   end
 
+  test "show displays waiting member direct activation start date" do
+    travel_to "2024-05-01"
+    member = members(:aria)
+    member.update!(waiting_membership_started_on: Date.new(2024, 5, 20))
+
+    login admins(:super)
+    get member_path(member)
+
+    assert_response :success
+    assert_select "p", text: "Activation will create a membership starting on 20 May 2024."
+    assert_select "tr[data-row='waiting_membership_started_on']"
+    assert_select "button:not([disabled])", text: /Activate/
+  end
+
   test "show disables activation when waiting member has no upcoming delivery" do
     travel_to "2026-01-01"
     member = members(:aria)
@@ -149,6 +163,76 @@ class MembersControllerTest < ActionDispatch::IntegrationTest
     end
 
     membership = member.reload.memberships.order(:id).last
+    assert_redirected_to membership_path(membership)
+  end
+
+  test "validate uses direct membership start date saved from previous edit" do
+    travel_to "2024-05-01"
+    mail_templates(:member_validated).update!(active: true)
+    mail_templates(:member_activated).update!(active: true)
+    member = members(:aria)
+    member.update!(state: "pending", validated_at: nil)
+
+    login admins(:super)
+    patch member_path(member), params: {
+      member: { waiting_membership_started_on: "2024-05-20" }
+    }
+
+    assert_redirected_to member_path(member)
+    assert_equal Date.new(2024, 5, 20), member.reload.waiting_membership_started_on
+
+    assert_difference -> { member_mail_delivery_count("activated") }, 1 do
+      assert_no_difference -> { member_mail_delivery_count("validated") } do
+        assert_difference "Membership.count", 1 do
+          post validate_member_path(member)
+        end
+      end
+    end
+
+    membership = member.reload.memberships.order(:id).last
+    assert_equal Date.new(2024, 5, 20), membership.started_on
+    assert_redirected_to membership_path(membership)
+  end
+
+  test "stale waiting membership start date is hidden and treated as blank" do
+    travel_to "2024-05-01"
+    member = members(:aria)
+    member.update_columns(
+      state: "pending",
+      validated_at: nil,
+      waiting_membership_started_on: Date.new(2024, 4, 29))
+
+    login admins(:super)
+    get edit_member_path(member)
+
+    assert_response :success
+    assert_select "input[name='member[waiting_membership_started_on]']" do |inputs|
+      assert inputs.first["value"].blank?
+      assert_equal "2024-05-01", inputs.first["min"]
+    end
+
+    assert_no_difference "Membership.count" do
+      post validate_member_path(member)
+    end
+
+    assert_redirected_to member_path(member)
+    assert member.reload.waiting?
+    assert_nil member[:waiting_membership_started_on]
+  end
+
+  test "activate uses direct membership start date saved on waiting member" do
+    travel_to "2024-05-01"
+    member = members(:aria)
+    member.update!(waiting_membership_started_on: Date.new(2024, 5, 20))
+
+    login admins(:super)
+
+    assert_difference "Membership.count", 1 do
+      post create_membership_member_path(member)
+    end
+
+    membership = member.reload.memberships.order(:id).last
+    assert_equal Date.new(2024, 5, 20), membership.started_on
     assert_redirected_to membership_path(membership)
   end
 

@@ -48,15 +48,18 @@ class Member::StateTransitionsTest < ActiveSupport::TestCase
     assert_nil member.annual_fee
   end
 
-  test "validate! creates membership directly when waiting membership start date is set" do
+  test "validate! creates membership directly when persisted waiting membership start date is set" do
     travel_to "2024-05-01"
     admin = admins(:super)
     mail_templates(:member_validated).update!(active: true)
     mail_templates(:member_activated).update!(active: true)
     member = members(:aria)
-    member.update!(state: "pending", validated_at: nil)
+    member.update!(
+      state: "pending",
+      validated_at: nil,
+      waiting_membership_started_on: Date.new(2024, 5, 6))
+    member.reload
     existing_audit_ids = member.audits.pluck(:id)
-    member.waiting_membership_started_on = Date.new(2024, 5, 6)
     validated_membership = nil
 
     assert_difference -> { member_mail_delivery_count("activated") }, 1 do
@@ -89,8 +92,10 @@ class Member::StateTransitionsTest < ActiveSupport::TestCase
     org(features: Current.org.features - [ :waiting_list ])
     admin = admins(:super)
     member = members(:aria)
-    member.update!(state: "pending", validated_at: nil)
-    member.waiting_membership_started_on = Date.new(2024, 5, 13)
+    member.update!(
+      state: "pending",
+      validated_at: nil,
+      waiting_membership_started_on: Date.new(2024, 5, 13))
 
     assert_difference "Membership.count", 1 do
       member.validate!(admin)

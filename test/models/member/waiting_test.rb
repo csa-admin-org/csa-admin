@@ -93,6 +93,26 @@ class Member::WaitingTest < ActiveSupport::TestCase
     assert member.valid?
   end
 
+  test "validates waiting_membership_started_on is not in the past when changed" do
+    travel_to "2024-05-01"
+    member = members(:aria)
+
+    member.waiting_membership_started_on = Date.yesterday
+
+    assert_not member.valid?
+    assert_includes member.errors.details[:waiting_membership_started_on].pluck(:error), :date_after_or_equal_to
+  end
+
+  test "ignores stale persisted waiting_membership_started_on when it was not changed" do
+    travel_to "2024-05-01"
+    member = members(:aria)
+    member.update_columns(waiting_membership_started_on: Date.yesterday)
+    member.reload
+
+    assert member.valid?
+    assert_nil member[:waiting_membership_started_on]
+  end
+
   test "validates waiting_activity_participations_demanded_annually on public create" do
     member = build_member(
       waiting_activity_participations_demanded_annually: nil,
@@ -148,6 +168,7 @@ class Member::WaitingTest < ActiveSupport::TestCase
         waiting_billing_year_division: 1)
     end
     assert member.waiting_started_at > 1.minute.ago
+    assert_nil member.waiting_membership_started_on
   end
 
   test "inactive member with partial waiting request is invalid" do
@@ -218,6 +239,41 @@ class Member::WaitingTest < ActiveSupport::TestCase
     assert_not member.can_create_membership?
   end
 
+  test "waiting_membership_start_on uses fresh direct start date" do
+    travel_to "2024-05-01"
+    member = members(:aria)
+    member.update!(waiting_membership_started_on: Date.new(2024, 5, 20))
+
+    assert_equal Date.new(2024, 5, 20), member.waiting_membership_started_on
+    assert_equal Date.new(2024, 5, 20), member.waiting_membership_start_on
+  end
+
+  test "waiting_membership_start_on ignores stale direct start date" do
+    travel_to "2024-05-01"
+    member = members(:aria)
+    member.update_columns(waiting_membership_started_on: Date.new(2024, 4, 29))
+    member.reload
+
+    assert member.stale_waiting_membership_started_on?
+    assert_nil member.fresh_waiting_membership_started_on
+    assert_equal Date.new(2024, 5, 6), member.waiting_membership_start_on
+  end
+
+  test "direct start date requires matching deliveries in the membership period" do
+    travel_to "2024-05-01"
+    member = members(:aria)
+    member.update!(waiting_membership_started_on: Date.new(2024, 6, 10))
+
+    assert_not member.waiting_membership_deliveries?
+    assert_not member.can_create_membership?
+    assert member.activation_waiting_membership_no_delivery?
+
+    member.update!(state: "pending", validated_at: nil)
+
+    assert member.validation_waiting_membership_no_delivery?
+    assert_not member.validation_creates_membership?
+  end
+
   test "create_membership_from_waiting_request! uses selected delivery cycle next delivery week" do
     travel_to "2024-05-01"
     member = members(:aria)
@@ -225,6 +281,17 @@ class Member::WaitingTest < ActiveSupport::TestCase
     membership = member.create_membership_from_waiting_request!
 
     assert_equal Date.new(2024, 5, 6), membership.started_on
+    assert member.reload.active?
+  end
+
+  test "create_membership_from_waiting_request! uses fresh direct start date" do
+    travel_to "2024-05-01"
+    member = members(:aria)
+    member.update!(waiting_membership_started_on: Date.new(2024, 5, 20))
+
+    membership = member.create_membership_from_waiting_request!
+
+    assert_equal Date.new(2024, 5, 20), membership.started_on
     assert member.reload.active?
   end
 
