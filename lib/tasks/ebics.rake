@@ -3,6 +3,85 @@
 require "json"
 
 namespace :ebics do
+  namespace :key_rotation do
+    desc "Print sanitized EBICS key-rotation readiness inventory (optional TENANT=ragedevert; no live bank calls)"
+    task readiness: :environment do
+      tenant_name = ENV["TENANT"].presence || ENV["TENANT_NAME"].presence
+      results = []
+
+      if tenant_name
+        abort "Tenant '#{tenant_name}' does not exist" unless Tenant.exists?(tenant_name)
+
+        Tenant.switch(tenant_name) do
+          results << Billing::EBICS::KeyRotation.new(tenant: tenant_name).readiness
+        end
+      else
+        Tenant.switch_each do |tenant|
+          next if Tenant.custom? && !ENV["TENANT"]
+          next unless Current.org.active_bank_connection&.ebics?
+
+          results << Billing::EBICS::KeyRotation.new(tenant: tenant).readiness
+        end
+      end
+
+      puts JSON.pretty_generate(
+        summary: results.map { |result| result.fetch("state") }.tally,
+        results: results)
+    end
+
+    desc "Prepare encrypted pending 4096-bit EBICS participant keys (TENANT and CONFIRM=true required; no live bank calls)"
+    task prepare: :environment do
+      require_confirmation!
+      puts JSON.pretty_generate(with_key_rotation(&:prepare_pending!))
+    end
+
+    desc "Validate local EBICS key-rotation request-build prerequisites (TENANT required; sanitized metadata only)"
+    task validate: :environment do
+      puts JSON.pretty_generate(key_rotation_request_build_validation)
+    end
+
+    desc "Alias for ebics:key_rotation:validate"
+    task build: :environment do
+      puts JSON.pretty_generate(key_rotation_request_build_validation)
+    end
+
+    desc "Submit pending EBICS HCS key rotation to the bank (TENANT and CONFIRM=true required; live bank call)"
+    task submit: :environment do
+      require_confirmation!
+      puts JSON.pretty_generate(with_key_rotation(&:submit_pending!))
+    end
+
+    desc "Verify pending EBICS keys with HTD (TENANT and CONFIRM=true required; live bank call, no credential promotion)"
+    task verify: :environment do
+      require_confirmation!
+      puts JSON.pretty_generate(with_key_rotation(&:verify_pending!))
+    end
+
+    desc "Promote verified pending EBICS keys locally (TENANT and CONFIRM=true required; no live bank call)"
+    task promote: :environment do
+      require_confirmation!
+      puts JSON.pretty_generate(with_key_rotation(&:promote_pending!))
+    end
+
+    desc "Prepare, submit, verify, and promote EBICS HCS key rotation (TENANT and CONFIRM=true required; live bank calls)"
+    task perform: :environment do
+      require_confirmation!
+      puts JSON.pretty_generate(with_key_rotation(&:perform!))
+    end
+
+    desc "Rotate EBICS keys back to the previous encrypted key set (TENANT and CONFIRM=true required; live bank call)"
+    task rollback: :environment do
+      require_confirmation!
+      puts JSON.pretty_generate(with_key_rotation(&:rollback!))
+    end
+
+    desc "Recover a rollback after HCS may have succeeded but local promotion did not (TENANT and CONFIRM=true required; live bank call, no HCS)"
+    task recover_rollback: :environment do
+      require_confirmation!
+      puts JSON.pretty_generate(with_key_rotation(&:recover_rollback!))
+    end
+  end
+
   desc "Print sanitized EBICS 3.0/H005 readiness report (optional TENANT=ragedevert; no live bank calls)"
   task readiness: :environment do
     tenant_name = ENV["TENANT"].presence || ENV["TENANT_NAME"].presence
@@ -94,6 +173,30 @@ namespace :ebics do
         operation: operation.btf,
         result: result.to_h)
     end
+  end
+
+  def key_rotation_request_build_validation
+    with_key_rotation(&:request_build_validation)
+  end
+
+  def with_key_rotation
+    tenant_name = ENV["TENANT"].presence || ENV["TENANT_NAME"].presence
+
+    abort "TENANT is required" unless tenant_name
+    abort "Tenant '#{tenant_name}' does not exist" unless Tenant.exists?(tenant_name)
+
+    result = nil
+    Tenant.switch(tenant_name) do
+      connection = Current.org.active_bank_connection
+      abort "Tenant '#{tenant_name}' has no active EBICS bank connection" unless connection&.ebics?
+
+      result = yield Billing::EBICS::KeyRotation.new(tenant: tenant_name, connection: connection)
+    end
+    result
+  end
+
+  def require_confirmation!
+    abort "CONFIRM=true is required" unless ENV["CONFIRM"].in?(%w[1 true])
   end
 
   def monitor_capabilities_result(tenant, required: false)

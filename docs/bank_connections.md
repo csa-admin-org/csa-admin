@@ -113,6 +113,110 @@ TENANT=tenant FROM=2026-07-01 TO=2026-07-03 ACK=true bin/rails ebics:btf_downloa
 Run `ACK=true` only when you accept that returned payment data may be marked as
 consumed by the bank.
 
+### EBICS subscriber key rotation
+
+EBICS subscriber key rotation is an operator-only runbook. Do not expose it as an
+admin UI action and do not run it automatically across tenants. CSA Admin keeps
+EBICS 3.0 / H005 / BTF as the only supported runtime protocol; the fixed
+subscriber key target is 4096-bit RSA. Existing 4096-bit connections are already
+at target, and 2048-bit remains supported when a bank explicitly cannot accept
+4096-bit subscriber keys.
+
+Start with the read-only inventory:
+
+```sh
+bin/rails ebics:key_rotation:readiness
+TENANT=tenant bin/rails ebics:key_rotation:readiness
+```
+
+The report is sanitized. It includes tenant/host grouping, protocol status,
+participant and bank key sizes, public-key digests, blockers, pending rotation
+state, and one of these states:
+
+- `already_at_target`
+- `candidate`
+- `bank_limited_2048`
+- `blocked`
+- `unknown`
+- `pending_rotation`
+- `rotation_failed`
+- `rotated`
+
+CSA Admin reports `candidate` only when `HCS` is advertised in stored H005
+capabilities or explicitly confirmed in settings. `HCS` replaces all subscriber
+keys (`A006`, `X002`, and `E002`) and is the only key-change order CSA Admin uses
+for 4096-bit rotation. Do not treat a bank as live-rotation capable just because
+the current keys are 2048-bit.
+
+Prepare pending 4096-bit participant keys only for a single tenant and only
+after reviewing the readiness report:
+
+```sh
+TENANT=tenant CONFIRM=true bin/rails ebics:key_rotation:prepare
+```
+
+This writes encrypted pending A/X/E participant keys to
+`credentials["pending_key_rotation"]["keys"]`, keeps the active
+`credentials["keys"]` untouched, and records only sanitized digests/sizes in
+`status_details["key_rotation"]`. Running it for an already-4096-bit connection
+is a no-op.
+
+Validate the local prerequisites and sanitized metadata before doing any manual
+bank coordination:
+
+```sh
+TENANT=tenant bin/rails ebics:key_rotation:validate
+# Same validation alias:
+TENANT=tenant bin/rails ebics:key_rotation:build
+```
+
+The validation task builds the local `HCS` request and order-data XML in memory,
+but prints only root names, byte sizes, and SHA-256 digests. It does not print
+private keys, encrypted credential blobs, raw EBICS XML, signatures, or request
+payloads.
+
+Run live rotation one step at a time for the first tenant:
+
+```sh
+TENANT=tenant CONFIRM=true bin/rails ebics:key_rotation:submit
+TENANT=tenant CONFIRM=true bin/rails ebics:key_rotation:verify
+TENANT=tenant CONFIRM=true bin/rails ebics:key_rotation:promote
+```
+
+`submit` performs the live two-phase `HCS` upload using the current active keys
+and the pending public keys. `verify` performs an `HTD` admin-order check using
+the pending keys. `promote` is local-only and overwrites active
+`credentials["keys"]` only after verification succeeded; it keeps the previous
+active key blob encrypted in `credentials["previous_key_rotation"]["keys"]`.
+
+After the flow is proven for a bank, the guarded all-in-one command is available:
+
+```sh
+TENANT=tenant CONFIRM=true bin/rails ebics:key_rotation:perform
+```
+
+Rollback is also a live `HCS` key change. It rotates the bank back to the
+encrypted previous key set, verifies those keys with `HTD`, then promotes them
+locally:
+
+```sh
+TENANT=tenant CONFIRM=true bin/rails ebics:key_rotation:rollback
+```
+
+If a live submit has an uncertain outcome, do not retry `submit`. Run
+`verify` with the pending keys; if it succeeds, run `promote`. If it fails,
+inspect `status_details["key_rotation"]`, keep both active and pending key sets,
+and coordinate with the bank before doing anything else.
+
+If a live rollback has an uncertain outcome, do not retry `rollback` because that
+would submit another `HCS`. First try the recovery task, which verifies the
+previous key set with `HTD` and promotes it locally without another key-change
+submission:
+
+```sh
+TENANT=tenant CONFIRM=true bin/rails ebics:key_rotation:recover_rollback
+```
+
 ## BAS
 
 BAS connections use the bank keyfile flow instead of EBICS.

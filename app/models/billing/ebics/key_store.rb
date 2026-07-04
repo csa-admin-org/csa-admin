@@ -3,11 +3,25 @@
 require "base64"
 require "json"
 require "openssl"
+require "securerandom"
 
 module Billing
   class EBICS
     class KeyStore
       attr_reader :credentials, :keys, :url, :host_id, :user_id, :partner_id
+
+      def self.encrypt_keys(keys, secret)
+        keys.transform_values { |key| encrypt_key(key, secret) }.to_json
+      end
+
+      def self.encrypt_key(key, secret)
+        salt = SecureRandom.random_bytes(8)
+        cipher = OpenSSL::Cipher.new("aes-256-cbc")
+        cipher.encrypt
+        cipher.key = OpenSSL::PKCS5.pbkdf2_hmac_sha1(secret, salt, 1, cipher.key_len)
+
+        Base64.strict_encode64(salt + cipher.update(key.to_pem) + cipher.final)
+      end
 
       def initialize(credentials)
         @credentials = Credentials.new(credentials)
@@ -25,9 +39,9 @@ module Billing
       def bank_e = keys.fetch("#{host_id.upcase}.E002")
 
       def key_summary
-        key_bits = keys.transform_values { |key| key.key.n.to_i.bit_length }
-        participant_keys = key_bits.reject { |name, _bits| name.include?(".") }
-        bank_keys = key_bits.select { |name, _bits| name.include?(".") }
+        key_bits = keys.transform_values(&:bits)
+        participant_keys = key_bits.reject { |name, _bits| bank_key?(name) }
+        bank_keys = key_bits.select { |name, _bits| bank_key?(name) }
 
         {
           "key_names" => key_bits.keys.sort,
@@ -39,7 +53,27 @@ module Billing
         }
       end
 
+      def key_metadata
+        keys.keys.sort.index_with do |name|
+          key = keys.fetch(name)
+          {
+            "role" => bank_key?(name) ? "bank" : "participant",
+            "bits" => key.bits,
+            "public_digest" => key.public_digest
+          }
+        end
+      end
+
+      def bank_key_material
+        keys.slice("#{host_id.upcase}.X002", "#{host_id.upcase}.E002")
+          .transform_values(&:key)
+      end
+
       private
+
+      def bank_key?(name)
+        name.to_s.include?(".")
+      end
 
       def load_keys
         JSON.parse(credentials.keys).each_with_object({}) do |(name, encrypted_key), loaded|

@@ -53,6 +53,10 @@ class BankConnectionTest < ActiveSupport::TestCase
         "nested" => {
           "private_key" => "private-secret",
           "public_value" => "visible"
+        },
+        "pending_key_rotation" => {
+          "keys" => "pending-key-secret",
+          "public_digest" => "visible-digest"
         }
       })
 
@@ -62,6 +66,10 @@ class BankConnectionTest < ActiveSupport::TestCase
       "nested" => {
         "private_key" => BankConnection::FILTERED,
         "public_value" => "visible"
+      },
+      "pending_key_rotation" => {
+        "keys" => BankConnection::FILTERED,
+        "public_digest" => "visible-digest"
       }
     }, connection.redacted_credentials)
   end

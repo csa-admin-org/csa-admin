@@ -12,6 +12,8 @@ module Billing
         @key = key.is_a?(OpenSSL::PKey::RSA) ? key : OpenSSL::PKey::RSA.new(key)
       end
 
+      def bits = key.n.to_i.bit_length
+
       def public_digest
         values = [ key.e, key.n ].map { |value| value.to_s(16).sub(/\A0+/, "").downcase }
         Base64.strict_encode64(OpenSSL::Digest::SHA256.digest(values.join(" ")))

@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
-require "base64"
 require "openssl"
-require "securerandom"
 
 module EbicsKeyStoreHelper
   def synthetic_ebics_key_material(host_id: "HOSTID", keysize: 2048, bank_x: OpenSSL::PKey::RSA.generate(keysize), bank_e: OpenSSL::PKey::RSA.generate(keysize))
@@ -35,15 +33,6 @@ module EbicsKeyStoreHelper
   private
 
   def encrypted_ebics_keys(keys, secret)
-    keys.transform_values { |key| encrypt_ebics_key(key, secret) }.to_json
-  end
-
-  def encrypt_ebics_key(key, secret)
-    salt = SecureRandom.random_bytes(8)
-    cipher = OpenSSL::Cipher.new("aes-256-cbc")
-    cipher.encrypt
-    cipher.key = OpenSSL::PKCS5.pbkdf2_hmac_sha1(secret, salt, 1, cipher.key_len)
-
-    Base64.strict_encode64(salt + cipher.update(key.to_pem) + cipher.final)
+    Billing::EBICS::KeyStore.encrypt_keys(keys, secret)
   end
 end

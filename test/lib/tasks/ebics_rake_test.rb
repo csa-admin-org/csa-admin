@@ -12,6 +12,16 @@ class EbicsRakeTest < ActiveSupport::TestCase
     Rake::Task["ebics:monitor"].reenable
     Rake::Task["ebics:capabilities"].reenable
     Rake::Task["ebics:btf_download"].reenable
+    Rake::Task["ebics:key_rotation:readiness"].reenable
+    Rake::Task["ebics:key_rotation:prepare"].reenable
+    Rake::Task["ebics:key_rotation:validate"].reenable
+    Rake::Task["ebics:key_rotation:build"].reenable
+    Rake::Task["ebics:key_rotation:submit"].reenable
+    Rake::Task["ebics:key_rotation:verify"].reenable
+    Rake::Task["ebics:key_rotation:promote"].reenable
+    Rake::Task["ebics:key_rotation:perform"].reenable
+    Rake::Task["ebics:key_rotation:rollback"].reenable
+    Rake::Task["ebics:key_rotation:recover_rollback"].reenable
     BankConnection.delete_all
   end
 
@@ -27,6 +37,93 @@ class EbicsRakeTest < ActiveSupport::TestCase
           end
         end
       end
+    end
+  end
+
+  test "key rotation readiness prints sanitized inventory as JSON" do
+    with_env("TENANT" => "ragedevert") do
+      Tenant.stub(:exists?, true) do
+        Tenant.stub(:switch, ->(_tenant, &block) { block.call }) do
+          Billing::EBICS::KeyRotation.stub(:new, key_rotation_stub) do
+            out, = capture_io { Rake::Task["ebics:key_rotation:readiness"].invoke }
+            json = JSON.parse(out)
+
+            assert_equal({ "unknown" => 1 }, json.fetch("summary"))
+            assert_equal "ragedevert", json.dig("results", 0, "tenant")
+            assert_equal "HOSTID", json.dig("results", 0, "group", "host_id")
+            assert_equal "unknown", json.dig("results", 0, "state")
+          end
+        end
+      end
+    end
+  end
+
+  test "key rotation prepare requires confirmation" do
+    with_env("TENANT" => "ragedevert", "CONFIRM" => nil) do
+      Tenant.stub(:exists?, true) do
+        assert_raises(SystemExit) { capture_io { Rake::Task["ebics:key_rotation:prepare"].invoke } }
+      end
+    end
+  end
+
+  test "key rotation prepare stores pending keys through model" do
+    org(country_code: "CH")
+    BankConnection.create!(
+      provider: "ebics",
+      name: "HOSTID",
+      active: true,
+      state: "ready",
+      credentials: ebics_credentials)
+
+    with_env("TENANT" => "ragedevert", "CONFIRM" => "true") do
+      Tenant.stub(:exists?, true) do
+        Tenant.stub(:switch, ->(_tenant, &block) { block.call }) do
+          Billing::EBICS::KeyRotation.stub(:new, key_rotation_stub) do
+            out, = capture_io { Rake::Task["ebics:key_rotation:prepare"].invoke }
+            json = JSON.parse(out)
+
+            assert json.fetch("prepared")
+            assert_equal "pending_rotation", json.fetch("state")
+          end
+        end
+      end
+    end
+  end
+
+  test "key rotation validate prints sanitized request-build metadata" do
+    org(country_code: "CH")
+    BankConnection.create!(
+      provider: "ebics",
+      name: "HOSTID",
+      active: true,
+      state: "ready",
+      credentials: ebics_credentials)
+
+    with_env("TENANT" => "ragedevert") do
+      Tenant.stub(:exists?, true) do
+        Tenant.stub(:switch, ->(_tenant, &block) { block.call }) do
+          Billing::EBICS::KeyRotation.stub(:new, key_rotation_stub) do
+            out, = capture_io { Rake::Task["ebics:key_rotation:validate"].invoke }
+            json = JSON.parse(out)
+
+            assert_equal "ok", json.fetch("status")
+            assert_equal "HCS", json.dig("safe_metadata", "request", "order_type")
+          end
+        end
+      end
+    end
+  end
+
+  test "key rotation submit verify promote perform rollback and recovery tasks call model with guards" do
+    %w[submit verify promote perform rollback recover_rollback].each do |task_name|
+      with_env("TENANT" => "ragedevert", "CONFIRM" => nil) do
+        Rake::Task["ebics:key_rotation:#{task_name}"].reenable
+        assert_raises(SystemExit) { capture_io { Rake::Task["ebics:key_rotation:#{task_name}"].invoke } }
+      end
+    end
+
+    %w[submit verify promote perform rollback recover_rollback].each do |task_name|
+      assert_key_rotation_task(task_name)
     end
   end
 
@@ -112,6 +209,33 @@ class EbicsRakeTest < ActiveSupport::TestCase
 
   private
 
+  def assert_key_rotation_task(task_name)
+    org(country_code: "CH")
+    BankConnection.delete_all
+    BankConnection.create!(
+      provider: "ebics",
+      name: "HOSTID",
+      active: true,
+      state: "ready",
+      credentials: ebics_credentials)
+
+    env = { "TENANT" => "ragedevert", "CONFIRM" => "true" }
+
+    with_env(env) do
+      Tenant.stub(:exists?, true) do
+        Tenant.stub(:switch, ->(_tenant, &block) { block.call }) do
+          Billing::EBICS::KeyRotation.stub(:new, key_rotation_stub) do
+            Rake::Task["ebics:key_rotation:#{task_name}"].reenable
+            out, = capture_io { Rake::Task["ebics:key_rotation:#{task_name}"].invoke }
+            json = JSON.parse(out)
+
+            assert_equal task_name, json.fetch("task")
+          end
+        end
+      end
+    end
+  end
+
   def ebics_credentials
     {
       keys: "keys",
@@ -158,6 +282,61 @@ class EbicsRakeTest < ActiveSupport::TestCase
     }
   end
 
+  def key_rotation_stub
+    ->(tenant:, connection: nil) {
+      assert_equal "ragedevert", tenant
+      assert_nil connection unless connection
+
+      Object.new.tap do |rotation|
+        rotation.define_singleton_method(:readiness) do
+          {
+            "tenant" => tenant,
+            "group" => {
+              "host_id" => "HOSTID"
+            },
+            "state" => "unknown"
+          }
+        end
+        rotation.define_singleton_method(:prepare_pending!) do
+          {
+            "tenant" => tenant,
+            "state" => "pending_rotation",
+            "prepared" => true
+          }
+        end
+        rotation.define_singleton_method(:request_build_validation) do
+          {
+            "tenant" => tenant,
+            "status" => "ok",
+            "safe_metadata" => {
+              "request" => {
+                "order_type" => "HCS"
+              }
+            }
+          }
+        end
+        rotation.define_singleton_method(:submit_pending!) do
+          { "task" => "submit" }
+        end
+        rotation.define_singleton_method(:verify_pending!) do
+          { "task" => "verify" }
+        end
+        rotation.define_singleton_method(:promote_pending!) do
+          { "task" => "promote" }
+        end
+        rotation.define_singleton_method(:perform!) do
+          { "task" => "perform" }
+        end
+        rotation.define_singleton_method(:rollback!) do
+          { "task" => "rollback" }
+        end
+        rotation.define_singleton_method(:recover_rollback!) do
+          { "task" => "recover_rollback" }
+        end
+      end
+    }
+  end
+
   def capabilities_report_stub
     ->(tenant:, connection:) {
       assert_equal "wilderauke", tenant
@@ -192,7 +371,7 @@ class EbicsRakeTest < ActiveSupport::TestCase
 
   def with_env(values)
     previous = values.keys.index_with { |key| ENV[key] }
-    values.each { |key, value| ENV[key] = value }
+    values.each { |key, value| value.nil? ? ENV.delete(key) : ENV[key] = value }
     yield
   ensure
     previous.each { |key, value| value.nil? ? ENV.delete(key) : ENV[key] = value }

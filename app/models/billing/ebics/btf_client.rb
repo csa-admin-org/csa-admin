@@ -18,6 +18,14 @@ module Billing
       end
 
       AdminOrderResult = Data.define(:order_data, :receipt_sent)
+      KeyChangeResult = Data.define(:transaction_id, :order_id) do
+        def to_h
+          {
+            "transaction_id" => transaction_id,
+            "order_id" => order_id
+          }.compact_blank
+        end
+      end
       AdminOrderDataError = Class.new(StandardError)
 
       class ResponseError < StandardError
@@ -143,6 +151,34 @@ module Billing
         upload_request(operation, document: document, **overrides).to_xml
       end
 
+      def key_change_request_xml(target_key_store:, order_type: "HCS", **overrides)
+        key_change_request(target_key_store: target_key_store, order_type: order_type, **overrides).to_xml
+      end
+
+      def key_change_order_data_xml(target_key_store:, order_type: "HCS")
+        Btf::KeyChangeOrderData.new(client: target_key_store, order_type: order_type).to_xml
+      end
+
+      def key_change(target_key_store:, order_type: "HCS")
+        initialisation_request = key_change_request(target_key_store: target_key_store, order_type: order_type)
+        initialisation_response = post_request(initialisation_request)
+        raise_response_error!(initialisation_response)
+
+        transaction_id = require_response_value!(
+          initialisation_response,
+          :transaction_id,
+          "Missing EBICS HCS initialisation TransactionID")
+
+        transfer_response = post_request(upload_transfer_request(
+          transaction_id,
+          initialisation_request.payload))
+        raise_response_error!(transfer_response)
+
+        KeyChangeResult.new(
+          transaction_id: transfer_response.transaction_id.presence || transaction_id,
+          order_id: transfer_response.order_id.presence || initialisation_response.order_id)
+      end
+
       def upload_transfer_request_xml(transaction_id:, document:, **overrides)
         payload = Btf::UploadPayload.new(client: client, document: document)
         upload_transfer_request(transaction_id, payload, **overrides).to_xml
@@ -224,6 +260,14 @@ module Billing
           client: client,
           operation: operation,
           document: document,
+          **request_options.merge(overrides))
+      end
+
+      def key_change_request(target_key_store:, order_type:, **overrides)
+        Btf::KeyChangeRequest.new(
+          client: client,
+          target_client: target_key_store,
+          order_type: order_type,
           **request_options.merge(overrides))
       end
 

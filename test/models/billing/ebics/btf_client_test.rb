@@ -58,6 +58,29 @@ class Billing::EBICS::BtfClientTest < ActiveSupport::TestCase
     assert_not_includes transport.requests.join, "<Document>pain</Document>"
   end
 
+  test "submits HCS key change through initialisation and transfer" do
+    transport = TransportStub.new([
+      response_xml(order_id: "A001"),
+      response_xml(order_id: "B002")
+    ])
+    client = btf_client(transport: transport)
+    target_key_store = Billing::EBICS::KeyStore.new(synthetic_ebics_credentials(keysize: 4096))
+
+    result = client.key_change(target_key_store: target_key_store)
+
+    assert_equal({ "transaction_id" => "TX123", "order_id" => "B002" }, result.to_h)
+    assert_equal 2, transport.requests.size
+    assert_includes transport.requests.first, "<AdminOrderType>HCS</AdminOrderType>"
+    assert_includes transport.requests.first, "<StandardOrderParams/>"
+    assert_not_includes transport.requests.first, "<BTUOrderParams>"
+    assert_includes transport.requests.first, "<SignatureData authenticate=\"true\">"
+    assert_includes transport.requests.first, "<DataDigest SignatureVersion=\"A006\">"
+    assert_includes transport.requests.second, "<TransactionPhase>Transfer</TransactionPhase>"
+    assert_includes transport.requests.second, "<OrderData>"
+    assert_not_includes transport.requests.join, "HCSRequestOrderData"
+    assert_not_includes transport.requests.join, "PRIVATE KEY"
+  end
+
   test "BTU upload returns the initialisation order id when transfer omits one" do
     transport = TransportStub.new([
       response_xml(order_id: "A001"),
