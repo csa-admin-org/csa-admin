@@ -135,10 +135,12 @@ class Members::MembersTest < ApplicationSystemTestCase
     org(features: Current.org.features - [ :maps ], member_form_depot_map: true)
     visit "/new"
     assert_no_selector "[data-controller~='depot-map']", visible: :all
+    assert_no_selector ".member-depot-picker-sticky", visible: :all
 
     org(features: Current.org.features | [ :maps ], member_form_depot_map: false)
     visit "/new"
     assert_no_selector "[data-controller~='depot-map']", visible: :all
+    assert_no_selector ".member-depot-picker-sticky", visible: :all
   end
 
   test "shop-only registration renders depot map when enabled" do

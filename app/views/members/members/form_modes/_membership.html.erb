@@ -170,7 +170,7 @@
           <% grouped_depots = all_visible_depots.group_by(&:group) %>
           <% has_groups = grouped_depots.keys.compact.any? %>
           <div
-            class="member-depot-picker-sticky <%= "disabled" if support_checked %>"
+            class="<%= [ ("member-depot-picker-sticky" if show_depot_map), ("disabled" if support_checked) ].compact.join(" ") %>"
             data-form-disabler-target="label"
           >
             <legend class="mb-1 text-base">
