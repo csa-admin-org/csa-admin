@@ -69,17 +69,7 @@ namespace :ebics do
       puts JSON.pretty_generate(with_key_rotation(&:perform!))
     end
 
-    desc "Rotate EBICS keys back to the previous encrypted key set (TENANT and CONFIRM=true required; live bank call)"
-    task rollback: :environment do
-      require_confirmation!
-      puts JSON.pretty_generate(with_key_rotation(&:rollback!))
-    end
 
-    desc "Recover a rollback after HCS may have succeeded but local promotion did not (TENANT and CONFIRM=true required; live bank call, no HCS)"
-    task recover_rollback: :environment do
-      require_confirmation!
-      puts JSON.pretty_generate(with_key_rotation(&:recover_rollback!))
-    end
 
     desc "Discard pending EBICS key rotation without changing active keys (TENANT and CONFIRM=true required; no live bank call)"
     task discard_pending: :environment do
@@ -101,9 +91,9 @@ namespace :ebics do
         puts JSON.pretty_generate(key_rotation_batch.prepare!)
       end
 
-      desc "Prepare, submit, verify, and promote EBICS keys for selected tenants (TENANTS=..., PROVIDER=..., or ALL=true; CONFIRM=true required; live bank calls)"
+      desc "Prepare, submit, verify, and promote EBICS keys for one tenant (TENANT=... and CONFIRM=true required; live bank calls)"
       task perform: :environment do
-        require_batch_selection!
+        require_single_batch_perform_tenant!
         require_confirmation!
         puts JSON.pretty_generate(key_rotation_batch.perform!)
       end
@@ -228,6 +218,13 @@ namespace :ebics do
     return if truthy_env?("ALL")
 
     abort "Set TENANTS, PROVIDER, or ALL=true"
+  end
+
+  def require_single_batch_perform_tenant!
+    abort "Use TENANT, not TENANTS, for live batch perform" if ENV["TENANTS"].present?
+    abort "PROVIDER is plan/prepare only; set one TENANT for live batch perform" if ENV["PROVIDER"].present?
+    abort "ALL=true is not supported for live batch perform; set one TENANT" if truthy_env?("ALL")
+    abort "Set exactly one TENANT for live batch perform" unless key_rotation_batch_tenant_names.one?
   end
 
   def with_key_rotation

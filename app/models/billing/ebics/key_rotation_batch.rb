@@ -41,6 +41,8 @@ module Billing
       end
 
       def perform!
+        validate_single_tenant_perform!
+
         report("perform", collect(action: "perform", stop_on_error: true) { |tenant, rotation, connection|
           readiness = rotation.readiness
 
@@ -67,6 +69,12 @@ module Billing
       private
 
       attr_reader :tenant_names, :provider, :all, :verify_payments, :now, :rotation_factory, :payment_processor
+
+      def validate_single_tenant_perform!
+        return if tenant_names.one? && provider.blank? && !all
+
+        raise UnsupportedOperation, "Live batch perform requires exactly one TENANT"
+      end
 
       def collect(action:, stop_on_error: false)
         validate_tenants!

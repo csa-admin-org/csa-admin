@@ -196,49 +196,7 @@ module Billing
         rotation.promote_pending!
       end
 
-      def rollback!
-        raise UnsupportedOperation, "Rollback HCS submission has an uncertain outcome; run recover_rollback or inspect bank state before retrying" if rollback_submit_started?
-        raise UnsupportedOperation, rollback_blockers.to_sentence if rollback_blockers.present?
 
-        update_connection!(
-          credentials: ebics_credentials.merge(PREVIOUS_CREDENTIAL_KEY => previous_credentials.merge(
-            "state" => "rollback_submitting",
-            "rollback_started_at" => now.iso8601)),
-          status: pending_status("rollback_submitting").merge("rollback_started_at" => now.iso8601))
-
-        target_key_store = previous_key_store
-        result = active_btf_client.key_change(target_key_store: target_key_store, order_type: ROTATION_ORDER_TYPE)
-        recover_rollback!(rollback_result: result.to_h)
-      rescue UnsupportedOperation
-        raise
-      rescue => e
-        fail_safely!(e, stage: "rollback")
-      end
-
-      def recover_rollback!(rollback_result: nil)
-        raise UnsupportedOperation, rollback_recovery_blockers.to_sentence if rollback_recovery_blockers.present?
-
-        verification = verify_credentials!(credentials_with_keys(previous_keys_json))
-        replaced = previous_credentials_payload(
-          keys: ebics_credentials.fetch("keys"),
-          reason: "rollback_replaced_keys")
-
-        update_connection!(
-          credentials: ebics_credentials
-            .merge("keys" => previous_keys_json, PREVIOUS_CREDENTIAL_KEY => replaced)
-            .except(PENDING_CREDENTIAL_KEY),
-          status: pending_status("candidate").merge(
-            "rolled_back_at" => now.iso8601,
-            "rollback_result" => rollback_result,
-            "rollback_verification" => verification,
-            "active_keys" => previous_summary.fetch("keys")))
-
-        refreshed.readiness.merge("rolled_back" => true, "result" => rollback_result)
-      rescue UnsupportedOperation
-        raise
-      rescue => e
-        fail_safely!(e, stage: "recover_rollback")
-      end
 
       def discard_pending!(reason: "manual_discard")
         return readiness.merge("discarded" => false, "message" => "No pending key rotation to discard") unless pending_keys_json.present?
@@ -319,20 +277,7 @@ module Billing
         values
       end
 
-      def rollback_blockers
-        values = blockers.dup
-        values << "Previous active keys are not available for rollback" unless previous_keys_json.present?
-        values.concat(previous_key_blockers) if previous_keys_json.present?
-        values << "HCS key-management order must be advertised or explicitly confirmed before rollback" unless rotation_supported?
-        values
-      end
 
-      def rollback_recovery_blockers
-        values = blockers.dup
-        values << "Previous active keys are not available for rollback recovery" unless previous_keys_json.present?
-        values.concat(previous_key_blockers) if previous_keys_json.present?
-        values
-      end
 
       def missing_credential_blockers
         return [] unless connection&.ebics?
@@ -364,11 +309,7 @@ module Billing
         end
       end
 
-      def previous_key_blockers
-        return [ previous_key_error_message ] if previous_key_error_message
 
-        []
-      end
 
       def required_credentials_present?
         connection&.ebics? && REQUIRED_CREDENTIALS.all? { |key| ebics_credentials[key].present? }
@@ -478,7 +419,6 @@ module Billing
           "state" => previous_credentials["state"],
           "reason" => previous_credentials["reason"],
           "created_at" => previous_credentials["created_at"],
-          "rollback_started_at" => previous_credentials["rollback_started_at"],
           "keys" => previous_key_error_message ? { "error" => previous_key_error_message } : split_key_metadata(previous_key_metadata)
         }.compact_blank
       end
@@ -656,9 +596,7 @@ module Billing
         pending_credentials["verified_at"].present?
       end
 
-      def rollback_submit_started?
-        previous_credentials["rollback_started_at"].present?
-      end
+
 
       def recorded_status
         connection&.status_details.to_h.dig(STATUS_DETAILS_KEY)

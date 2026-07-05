@@ -158,11 +158,9 @@ keys (`A006`, `X002`, and `E002`) and is the only key-change order CSA Admin use
 for 4096-bit rotation. Do not treat a bank as live-rotation capable just because
 the current keys are 2048-bit.
 
-Production note from the July 2026 rotation: most active EBICS connections
-accepted 4096-bit subscriber keys. Keep `lafermedugoupil`/`BCVDEBICS` on 2048-bit
-until `HCS` is advertised or explicitly confirmed. Keep `wilderauke`/`MULTIVIA` on
-2048-bit for now: MULTIVIA advertised `HCS`, but live key rotation failed with an
-authentication-signature error while the existing 2048-bit keys continued to work.
+Known 2048-bit exceptions should remain explicit in `billing:health` and
+`status_details["key_rotation"]`: keep them on 2048-bit when `HCS` is absent or a
+bank rejected HCS while active imports remain healthy.
 
 Prepare pending 4096-bit participant keys only for a single tenant and only
 after reviewing the readiness report:
@@ -211,13 +209,11 @@ After the flow is proven for a bank, the guarded all-in-one command is available
 TENANT=tenant CONFIRM=true bin/rails ebics:key_rotation:perform
 ```
 
-For a proven bank/provider, use the batch commands to rotate selected tenants
-sequentially. Always inspect the plan first. `TENANTS` is a comma/space-separated
-list. `PROVIDER` matches the active bank connection provider (`ebics`) or bank
-name/host id (`RAIFCHEC`, `PFEBICS`, etc.). Already-4096-bit or already-rotated
-connections are reported as `noop` and the batch continues to the next tenant.
-Unsupported or blocked tenants are skipped; a failed attempted rotation stops the
-batch.
+Use batch commands for read-only planning and local pending-key preparation only.
+Always inspect the plan first. `TENANTS` is a comma/space-separated list.
+`PROVIDER` matches the active bank connection provider (`ebics`) or bank name/host
+id (`RAIFCHEC`, `PFEBICS`, etc.). Already-4096-bit or already-rotated connections
+are reported as `noop`; unsupported or blocked tenants are skipped.
 
 ```sh
 bin/rails ebics:key_rotation:batch:plan
@@ -232,34 +228,24 @@ TENANTS=tenant-a,tenant-b CONFIRM=true bin/rails ebics:key_rotation:batch:prepar
 PROVIDER=RAIFCHEC CONFIRM=true bin/rails ebics:key_rotation:batch:prepare
 ```
 
-Run the live sequence one tenant at a time for the reviewed set:
+Run the live all-in-one batch sequence for exactly one reviewed tenant:
 
 ```sh
-TENANTS=tenant-a,tenant-b CONFIRM=true bin/rails ebics:key_rotation:batch:perform
-PROVIDER=RAIFCHEC CONFIRM=true bin/rails ebics:key_rotation:batch:perform
+TENANT=tenant CONFIRM=true bin/rails ebics:key_rotation:batch:perform
+TENANT=tenant CONFIRM=true VERIFY_PAYMENTS=true bin/rails ebics:key_rotation:batch:perform
 ```
 
-`batch:perform` prepares missing pending keys for `candidate` tenants before
-validating/submitting, so a separate `batch:prepare` is optional after the plan has
-been reviewed. Add `VERIFY_PAYMENTS=true` to run
-`Billing::PaymentsProcessor.retrieve_and_process!` after each successful
-promotion. Use `ALL=true` only when intentionally applying the command to every
-eligible active EBICS connection.
+`batch:perform` rejects `TENANTS`, `PROVIDER`, and `ALL=true` to avoid
+provider-wide live-bank blast radius. It prepares missing pending keys for a
+`candidate` tenant before validating/submitting. Add `VERIFY_PAYMENTS=true` to run
+`Billing::PaymentsProcessor.retrieve_and_process!` after a successful promotion.
 
-Rollback is also a live `HCS` key change. It rotates the bank back to the
-encrypted previous key set, verifies those keys with `HTD`, then promotes them
-locally:
-
-```sh
-TENANT=tenant CONFIRM=true bin/rails ebics:key_rotation:rollback
-```
-
-If a live submit has an uncertain outcome, do not retry `submit`. Run
-`verify` with the pending keys; if it succeeds, run `promote`. If it fails,
-inspect `status_details["key_rotation"]`, keep both active and pending key sets,
-and coordinate with the bank before doing anything else. When the bank confirms
-that the new keys were not accepted and the old active keys still work, discard the
-pending local key set without changing active keys:
+If a live submit has an uncertain outcome, do not retry `submit`. Run `verify`
+with the pending keys; if it succeeds, run `promote`. If it fails, inspect
+`status_details["key_rotation"]`, keep the active key set, and coordinate with the
+bank before doing anything else. When the bank confirms that the new keys were not
+accepted and the old active keys still work, discard the pending local key set
+without changing active keys:
 
 ```sh
 TENANT=tenant CONFIRM=true REASON=bank_rejected_hcs bin/rails ebics:key_rotation:discard_pending
@@ -268,16 +254,9 @@ TENANT=tenant CONFIRM=true REASON=bank_rejected_hcs bin/rails ebics:key_rotation
 The discard task is local-only and safe to rerun. It removes
 `credentials["pending_key_rotation"]` when present, keeps active
 `credentials["keys"]`, and keeps a sanitized `rotation_failed` status so batch
-rotation skips that tenant until the bank-specific issue is resolved.
-
-If a live rollback has an uncertain outcome, do not retry `rollback` because that
-would submit another `HCS`. First try the recovery task, which verifies the
-previous key set with `HTD` and promotes it locally without another key-change
-submission:
-
-```sh
-TENANT=tenant CONFIRM=true bin/rails ebics:key_rotation:recover_rollback
-```
+rotation skips that tenant until the bank-specific issue is resolved. CSA Admin
+keeps previous encrypted active keys after successful promotion for audit and
+manual recovery context, but does not expose a live automated rollback command.
 
 ## BAS
 

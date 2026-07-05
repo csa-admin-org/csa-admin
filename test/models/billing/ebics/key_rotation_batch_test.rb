@@ -28,6 +28,16 @@ class Billing::EBICS::KeyRotationBatchTest < ActiveSupport::TestCase
     assert_equal({ "ready" => 1 }, report.fetch("summary"))
   end
 
+  test "perform requires a single explicit tenant" do
+    assert_raises(Billing::EBICS::UnsupportedOperation) do
+      Billing::EBICS::KeyRotationBatch.new(provider: "RAIFCHEC").perform!
+    end
+
+    assert_raises(Billing::EBICS::UnsupportedOperation) do
+      Billing::EBICS::KeyRotationBatch.new(tenant_names: %w[acme demo]).perform!
+    end
+  end
+
   test "perform treats already rotated connections as no-op" do
     create_ebics_connection(keysize: 4096, capabilities: hcs_capabilities)
 

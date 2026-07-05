@@ -277,91 +277,7 @@ class Billing::EBICS::KeyRotationTest < ActiveSupport::TestCase
     assert_equal credentials_before, connection.credentials.to_h.deep_stringify_keys
   end
 
-  test "rollback rotates back to previous encrypted keys and preserves replaced keys" do
-    connection = create_ebics_connection(capabilities: hcs_capabilities)
-    original_keys = connection.credentials.to_h.deep_stringify_keys.fetch("keys")
-    generated_key = OpenSSL::PKey::RSA.generate(4096)
-    client = FakeBtfClient.new
 
-    rotation = key_rotation(connection, key_generator: -> { generated_key }, btf_client: client)
-    rotation.prepare_pending!
-    key_rotation(connection.reload, btf_client: client).submit_pending!
-    key_rotation(connection.reload, btf_client: client).verify_pending!
-    key_rotation(connection.reload, btf_client: client).promote_pending!
-    promoted_keys = connection.reload.credentials.to_h.deep_stringify_keys.fetch("keys")
-
-    rollback = key_rotation(connection.reload, btf_client: client).rollback!
-    connection.reload
-    credentials = connection.credentials.to_h.deep_stringify_keys
-
-    assert rollback.fetch("rolled_back")
-    assert_equal original_keys, credentials.fetch("keys")
-    assert_equal promoted_keys, credentials.dig("previous_key_rotation", "keys")
-    assert_equal "candidate", connection.status_details.dig("key_rotation", "state")
-    assert_equal "candidate", key_rotation(connection.reload).readiness.fetch("state")
-    assert_equal %w[HCS HCS], client.key_change_order_types
-    assert_equal %w[HTD HTD], client.admin_order_types
-  end
-
-  test "recover rollback promotes previous keys without submitting HCS again" do
-    connection = create_ebics_connection(capabilities: hcs_capabilities)
-    original_keys = connection.credentials.to_h.deep_stringify_keys.fetch("keys")
-    generated_key = OpenSSL::PKey::RSA.generate(4096)
-    setup_client = FakeBtfClient.new
-    rotation = key_rotation(connection, key_generator: -> { generated_key }, btf_client: setup_client)
-    rotation.prepare_pending!
-    key_rotation(connection.reload, btf_client: setup_client).submit_pending!
-    key_rotation(connection.reload, btf_client: setup_client).verify_pending!
-    key_rotation(connection.reload, btf_client: setup_client).promote_pending!
-    promoted_keys = connection.reload.credentials.to_h.deep_stringify_keys.fetch("keys")
-
-    recovery_client = FakeBtfClient.new
-    recovery = key_rotation(connection.reload, btf_client: recovery_client).recover_rollback!(rollback_result: { "transaction_id" => "TXROLLBACK" })
-    connection.reload
-    credentials = connection.credentials.to_h.deep_stringify_keys
-
-    assert recovery.fetch("rolled_back")
-    assert_equal original_keys, credentials.fetch("keys")
-    assert_equal promoted_keys, credentials.dig("previous_key_rotation", "keys")
-    assert_empty recovery_client.key_change_order_types
-    assert_equal [ "HTD" ], recovery_client.admin_order_types
-  end
-
-  test "rollback records uncertain state before live HCS failures and sanitizes persisted failure" do
-    connection = create_ebics_connection(capabilities: hcs_capabilities)
-    generated_key = OpenSSL::PKey::RSA.generate(4096)
-    setup_client = FakeBtfClient.new
-    rotation = key_rotation(connection, key_generator: -> { generated_key }, btf_client: setup_client)
-    rotation.prepare_pending!
-    key_rotation(connection.reload, btf_client: setup_client).submit_pending!
-    key_rotation(connection.reload, btf_client: setup_client).verify_pending!
-    key_rotation(connection.reload, btf_client: setup_client).promote_pending!
-
-    error = assert_raises(Billing::EBICS::UnsupportedOperation) do
-      key_rotation(connection.reload, btf_client: InspectingRollbackFailureClient.new(connection)).rollback!
-    end
-    connection.reload
-    status = connection.status_details.dig("key_rotation")
-    previous = connection.credentials.dig("previous_key_rotation")
-
-    assert_includes error.message, "EBICS key rotation failed during rollback"
-    assert_not_includes error.message, "raw rollback secret"
-    assert_equal "rollback_submitting", previous.fetch("state")
-    assert previous.fetch("rollback_started_at").present?
-    assert_equal "rotation_failed", status.fetch("state")
-    assert_equal "rollback", status.fetch("stage")
-    assert_equal "RuntimeError", status.fetch("error_class")
-    assert_equal "EBICS key rotation failed during rollback", status.fetch("error_message")
-    assert_not_includes status.to_json, "raw rollback secret"
-
-    client = FakeBtfClient.new
-    retry_error = assert_raises(Billing::EBICS::UnsupportedOperation) do
-      key_rotation(connection.reload, btf_client: client).rollback!
-    end
-
-    assert_includes retry_error.message, "uncertain outcome"
-    assert_empty client.key_change_order_types
-  end
 
   private
 
@@ -451,7 +367,7 @@ class Billing::EBICS::KeyRotationTest < ActiveSupport::TestCase
 
     def key_change(target_key_store:, order_type:)
       key_change_order_types << order_type
-      raise "Expected 4096-bit target participant keys" unless target_key_store.key_summary.fetch("participant_key_min_bits") == 4096 || key_change_order_types.size == 2
+      raise "Expected 4096-bit target participant keys" unless target_key_store.key_summary.fetch("participant_key_min_bits") == 4096
 
       Billing::EBICS::BtfClient::KeyChangeResult.new(transaction_id: "TX123", order_id: "N0DD")
     end
@@ -469,21 +385,6 @@ class Billing::EBICS::KeyRotationTest < ActiveSupport::TestCase
 
     def key_change(target_key_store:, order_type:)
       raise @message
-    end
-  end
-
-  class InspectingRollbackFailureClient
-    def initialize(connection)
-      @connection = connection
-    end
-
-    def key_change(target_key_store:, order_type:)
-      status = @connection.reload.status_details.fetch("key_rotation")
-
-      raise "rollback status was not persisted before live HCS" unless status.fetch("state") == "rollback_submitting"
-      raise "rollback start timestamp was not persisted before live HCS" unless status.fetch("rollback_started_at").present?
-
-      raise "raw rollback secret leaked by adapter"
     end
   end
 end

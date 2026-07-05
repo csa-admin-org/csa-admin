@@ -20,8 +20,6 @@ class EbicsRakeTest < ActiveSupport::TestCase
     Rake::Task["ebics:key_rotation:verify"].reenable
     Rake::Task["ebics:key_rotation:promote"].reenable
     Rake::Task["ebics:key_rotation:perform"].reenable
-    Rake::Task["ebics:key_rotation:rollback"].reenable
-    Rake::Task["ebics:key_rotation:recover_rollback"].reenable
     Rake::Task["ebics:key_rotation:discard_pending"].reenable
     Rake::Task["ebics:key_rotation:batch:plan"].reenable
     Rake::Task["ebics:key_rotation:batch:prepare"].reenable
@@ -118,15 +116,15 @@ class EbicsRakeTest < ActiveSupport::TestCase
     end
   end
 
-  test "key rotation submit verify promote perform rollback recovery and discard tasks call model with guards" do
-    %w[submit verify promote perform rollback recover_rollback discard_pending].each do |task_name|
+  test "key rotation submit verify promote perform and discard tasks call model with guards" do
+    %w[submit verify promote perform discard_pending].each do |task_name|
       with_env("TENANT" => "ragedevert", "CONFIRM" => nil) do
         Rake::Task["ebics:key_rotation:#{task_name}"].reenable
         assert_raises(SystemExit) { capture_io { Rake::Task["ebics:key_rotation:#{task_name}"].invoke } }
       end
     end
 
-    %w[submit verify promote perform rollback recover_rollback discard_pending].each do |task_name|
+    %w[submit verify promote perform discard_pending].each do |task_name|
       assert_key_rotation_task(task_name)
     end
   end
@@ -142,30 +140,50 @@ class EbicsRakeTest < ActiveSupport::TestCase
     end
   end
 
-  test "key rotation batch prepare and perform require selection and confirmation" do
-    %w[prepare perform].each do |task_name|
-      with_env("TENANTS" => nil, "PROVIDER" => nil, "ALL" => nil, "CONFIRM" => "true") do
-        Rake::Task["ebics:key_rotation:batch:#{task_name}"].reenable
-        assert_raises(SystemExit) { capture_io { Rake::Task["ebics:key_rotation:batch:#{task_name}"].invoke } }
-      end
+  test "key rotation batch prepare requires selection and confirmation" do
+    with_env("TENANTS" => nil, "PROVIDER" => nil, "ALL" => nil, "CONFIRM" => "true") do
+      assert_raises(SystemExit) { capture_io { Rake::Task["ebics:key_rotation:batch:prepare"].invoke } }
+    end
 
-      with_env("TENANTS" => "tapatate", "PROVIDER" => nil, "ALL" => nil, "CONFIRM" => nil) do
-        Rake::Task["ebics:key_rotation:batch:#{task_name}"].reenable
-        assert_raises(SystemExit) { capture_io { Rake::Task["ebics:key_rotation:batch:#{task_name}"].invoke } }
+    with_env("TENANTS" => "tapatate", "PROVIDER" => nil, "ALL" => nil, "CONFIRM" => nil) do
+      Rake::Task["ebics:key_rotation:batch:prepare"].reenable
+      assert_raises(SystemExit) { capture_io { Rake::Task["ebics:key_rotation:batch:prepare"].invoke } }
+    end
+  end
+
+  test "key rotation batch perform requires a single tenant and confirmation" do
+    [
+      { "TENANT" => nil, "TENANTS" => nil, "PROVIDER" => nil, "ALL" => nil, "CONFIRM" => "true" },
+      { "TENANT" => nil, "TENANTS" => "tapatate", "PROVIDER" => nil, "ALL" => nil, "CONFIRM" => "true" },
+      { "TENANT" => nil, "TENANTS" => nil, "PROVIDER" => "RAIFCHEC", "ALL" => nil, "CONFIRM" => "true" },
+      { "TENANT" => nil, "TENANTS" => nil, "PROVIDER" => nil, "ALL" => "true", "CONFIRM" => "true" },
+      { "TENANT" => "tapatate", "TENANTS" => nil, "PROVIDER" => nil, "ALL" => nil, "CONFIRM" => nil }
+    ].each do |env|
+      with_env(env) do
+        Rake::Task["ebics:key_rotation:batch:perform"].reenable
+        assert_raises(SystemExit) { capture_io { Rake::Task["ebics:key_rotation:batch:perform"].invoke } }
       end
     end
   end
 
-  test "key rotation batch prepare and perform call coordinator when confirmed" do
-    { "prepare" => :prepare!, "perform" => :perform! }.each do |task_name, expected_method|
-      with_env("TENANTS" => nil, "PROVIDER" => "RAIFCHEC", "ALL" => nil, "VERIFY_PAYMENTS" => "true", "CONFIRM" => "true") do
-        Billing::EBICS::KeyRotationBatch.stub(:new, key_rotation_batch_stub(expected_method: expected_method, expected_tenants: [], expected_provider: "RAIFCHEC", expected_all: false, expected_verify_payments: true)) do
-          Rake::Task["ebics:key_rotation:batch:#{task_name}"].reenable
-          out, = capture_io { Rake::Task["ebics:key_rotation:batch:#{task_name}"].invoke }
-          json = JSON.parse(out)
+  test "key rotation batch prepare calls coordinator when confirmed" do
+    with_env("TENANTS" => nil, "PROVIDER" => "RAIFCHEC", "ALL" => nil, "VERIFY_PAYMENTS" => "true", "CONFIRM" => "true") do
+      Billing::EBICS::KeyRotationBatch.stub(:new, key_rotation_batch_stub(expected_method: :prepare!, expected_tenants: [], expected_provider: "RAIFCHEC", expected_all: false, expected_verify_payments: true)) do
+        out, = capture_io { Rake::Task["ebics:key_rotation:batch:prepare"].invoke }
+        json = JSON.parse(out)
 
-          assert_equal task_name, json.fetch("action")
-        end
+        assert_equal "prepare", json.fetch("action")
+      end
+    end
+  end
+
+  test "key rotation batch perform calls coordinator for one confirmed tenant" do
+    with_env("TENANT" => "tapatate", "TENANTS" => nil, "PROVIDER" => nil, "ALL" => nil, "VERIFY_PAYMENTS" => "true", "CONFIRM" => "true") do
+      Billing::EBICS::KeyRotationBatch.stub(:new, key_rotation_batch_stub(expected_method: :perform!, expected_tenants: [ "tapatate" ], expected_provider: nil, expected_all: false, expected_verify_payments: true)) do
+        out, = capture_io { Rake::Task["ebics:key_rotation:batch:perform"].invoke }
+        json = JSON.parse(out)
+
+        assert_equal "perform", json.fetch("action")
       end
     end
   end
@@ -370,12 +388,7 @@ class EbicsRakeTest < ActiveSupport::TestCase
         rotation.define_singleton_method(:perform!) do
           { "task" => "perform" }
         end
-        rotation.define_singleton_method(:rollback!) do
-          { "task" => "rollback" }
-        end
-        rotation.define_singleton_method(:recover_rollback!) do
-          { "task" => "recover_rollback" }
-        end
+
         rotation.define_singleton_method(:discard_pending!) do |reason:|
           { "task" => "discard_pending", "reason" => reason }
         end
