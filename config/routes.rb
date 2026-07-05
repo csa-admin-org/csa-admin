@@ -28,6 +28,7 @@ Rails.application.routes.draw do
       defaults: { format: :ics }
     get "billing/:year" => "billings#show", as: :billing
     get "billing/snapshots/:id" => "billing_snapshots#show", as: :billing_snapshot
+    resource :ebics_initialization_letter, only: :show, controller: :ebics_onboarding_letters
 
     get "settings/:section/edit" => "organizations#edit", as: :edit_organization
     resource :organization, path: "settings", only: %i[show update]

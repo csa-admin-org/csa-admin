@@ -12,6 +12,12 @@ class EbicsRakeTest < ActiveSupport::TestCase
     Rake::Task["ebics:monitor"].reenable
     Rake::Task["ebics:capabilities"].reenable
     Rake::Task["ebics:btf_download"].reenable
+    Rake::Task["ebics:onboarding:status"].reenable
+    Rake::Task["ebics:onboarding:initialize"].reenable
+    Rake::Task["ebics:onboarding:letter"].reenable
+    Rake::Task["ebics:onboarding:submit_ini"].reenable
+    Rake::Task["ebics:onboarding:submit_hia"].reenable
+    Rake::Task["ebics:onboarding:finalize"].reenable
     Rake::Task["ebics:key_rotation:readiness"].reenable
     Rake::Task["ebics:key_rotation:prepare"].reenable
     Rake::Task["ebics:key_rotation:validate"].reenable
@@ -36,6 +42,100 @@ class EbicsRakeTest < ActiveSupport::TestCase
             json = JSON.parse(out)
 
             assert_equal [ { "tenant" => "ragedevert", "ebics" => { "protocol" => "H005" } } ], json.fetch("results")
+          end
+        end
+      end
+    end
+  end
+
+  test "onboarding status prints sanitized tenant report as JSON" do
+    org(country_code: "CH")
+    BankConnection.create!(provider: "ebics", name: "HOSTID", state: "initializing")
+
+    with_env("TENANT" => "ragedevert") do
+      Tenant.stub(:exists?, true) do
+        Tenant.stub(:switch, ->(_tenant, &block) { block.call }) do
+          Billing::EBICS::Onboarding.stub(:new, onboarding_stub) do
+            out, = capture_io { Rake::Task["ebics:onboarding:status"].invoke }
+            json = JSON.parse(out)
+
+            assert_equal "ragedevert", json.fetch("tenant")
+            assert_equal "initialized", json.fetch("state")
+            assert_equal "HOSTID", json.dig("group", "host_id")
+          end
+        end
+      end
+    end
+  end
+
+  test "onboarding initialize requires confirmation and endpoint ids" do
+    with_env("TENANT" => "ragedevert", "CONFIRM" => nil) do
+      Tenant.stub(:exists?, true) do
+        assert_raises(SystemExit) { capture_io { Rake::Task["ebics:onboarding:initialize"].invoke } }
+      end
+    end
+
+    with_env("TENANT" => "ragedevert", "CONFIRM" => "true", "URL" => nil) do
+      Rake::Task["ebics:onboarding:initialize"].reenable
+      Tenant.stub(:exists?, true) do
+        Tenant.stub(:switch, ->(_tenant, &block) { block.call }) do
+          assert_raises(SystemExit) { capture_io { Rake::Task["ebics:onboarding:initialize"].invoke } }
+        end
+      end
+    end
+  end
+
+  test "onboarding initialize calls backend when confirmed" do
+    with_env("TENANT" => "ragedevert", "CONFIRM" => "true", "URL" => "https://ebics.example.test", "HOST_ID" => "HOSTID", "PARTNER_ID" => "PARTNERID", "USER_ID" => "USERID", "NAME" => "Test Bank", "KEY_BITS" => "2048") do
+      Tenant.stub(:exists?, true) do
+        Tenant.stub(:switch, ->(_tenant, &block) { block.call }) do
+          Billing::EBICS::Onboarding.stub(:new, onboarding_stub) do
+            out, = capture_io { Rake::Task["ebics:onboarding:initialize"].invoke }
+            json = JSON.parse(out)
+
+            assert json.fetch("initialized")
+            assert_equal "initialized", json.fetch("state")
+          end
+        end
+      end
+    end
+  end
+
+  test "onboarding letter and live tasks call backend with guards" do
+    org(country_code: "CH")
+    BankConnection.create!(provider: "ebics", name: "HOSTID", state: "initializing")
+
+    %w[submit_ini submit_hia finalize].each do |task_name|
+      with_env("TENANT" => "ragedevert", "CONFIRM" => nil) do
+        Rake::Task["ebics:onboarding:#{task_name}"].reenable
+        assert_raises(SystemExit) { capture_io { Rake::Task["ebics:onboarding:#{task_name}"].invoke } }
+      end
+    end
+
+    with_env("TENANT" => "ragedevert", "OUTPUT" => Rails.root.join("tmp/test-ebics-letter.pdf").to_s, "CONFIRM" => nil) do
+      Tenant.stub(:exists?, true) do
+        Tenant.stub(:switch, ->(_tenant, &block) { block.call }) do
+          Billing::EBICS::Onboarding.stub(:new, onboarding_stub) do
+            out, = capture_io { Rake::Task["ebics:onboarding:letter"].invoke }
+            json = JSON.parse(out)
+
+            assert_equal "letter", json.fetch("task")
+          end
+        end
+      end
+    end
+
+    %w[submit_ini submit_hia finalize].each do |task_name|
+      with_env("TENANT" => "ragedevert", "CONFIRM" => "true") do
+        Rake::Task["ebics:onboarding:#{task_name}"].reenable
+        Tenant.stub(:exists?, true) do
+          Tenant.stub(:switch, ->(_tenant, &block) { block.call }) do
+            Billing::EBICS::Onboarding.stub(:new, onboarding_stub) do
+              out, = capture_io { Rake::Task["ebics:onboarding:#{task_name}"].invoke }
+              json = JSON.parse(out)
+
+              assert_equal task_name, json.fetch("task")
+            end
           end
         end
       end
@@ -338,6 +438,51 @@ class EbicsRakeTest < ActiveSupport::TestCase
             report: { "country_code" => "DE", "h005" => {} },
             status: "healthy",
             warnings: [])
+        end
+      end
+    }
+  end
+
+  def onboarding_stub
+    test = self
+    ->(tenant:, connection: nil) {
+      test.assert_equal "ragedevert", tenant
+
+      Object.new.tap do |onboarding|
+        onboarding.define_singleton_method(:connection) { connection || BankConnection.first }
+        onboarding.define_singleton_method(:status) do
+          {
+            "tenant" => tenant,
+            "state" => "initialized",
+            "group" => {
+              "host_id" => "HOSTID"
+            }
+          }
+        end
+        onboarding.define_singleton_method(:initialize_connection!) do |url:, host_id:, partner_id:, user_id:, name:, target_bits:|
+          test.assert_equal "https://ebics.example.test", url
+          test.assert_equal "HOSTID", host_id
+          test.assert_equal "PARTNERID", partner_id
+          test.assert_equal "USERID", user_id
+          test.assert_equal "Test Bank", name
+          test.assert_equal "2048", target_bits
+          status.merge("initialized" => true)
+        end
+        onboarding.define_singleton_method(:write_letter!) do |output:, locale:|
+          {
+            "task" => "letter",
+            "output" => output,
+            "locale" => locale.to_s
+          }
+        end
+        onboarding.define_singleton_method(:submit_ini!) do
+          { "task" => "submit_ini" }
+        end
+        onboarding.define_singleton_method(:submit_hia!) do
+          { "task" => "submit_hia" }
+        end
+        onboarding.define_singleton_method(:finalize!) do
+          { "task" => "finalize" }
         end
       end
     }

@@ -123,6 +123,71 @@ resolved.
 Run `ACK=true` only when you accept that returned payment data may be marked as
 consumed by the bank.
 
+### EBICS onboarding backend/operator flow
+
+New EBICS connections are initialized through the CSA Admin H005 setup backend. The
+flow creates an inactive tenant-local `bank_connections` row first, then submits
+`INI`/`HIA`, writes the printable initialization letter, waits for the bank to
+activate the subscriber, and finally runs `HPB` to fetch bank public keys.
+
+Create encrypted participant credentials and store only sanitized setup metadata:
+
+```sh
+TENANT=tenant \
+  URL=https://ebics.bank.example/ebics \
+  HOST_ID=HOSTID \
+  PARTNER_ID=PARTNERID \
+  USER_ID=USERID \
+  NAME="Bank name" \
+  CONFIRM=true \
+  bin/rails ebics:onboarding:initialize
+```
+
+The default participant key size is 4096-bit RSA. Use `KEY_BITS=2048` only when a
+bank explicitly requires it for a new subscriber. The generated `A006`, `X002`, and
+`E002` private keys are stored encrypted in `credentials["keys"]`; rake output and
+`status_details["onboarding"]` contain only public metadata, sizes, hashes, and
+state transitions.
+
+Inspect status and generate the signed-bank letter PDF:
+
+```sh
+TENANT=tenant bin/rails ebics:onboarding:status
+TENANT=tenant LOCALE=fr OUTPUT=tmp/tenant-ebics-letter.pdf bin/rails ebics:onboarding:letter
+```
+
+If multiple draft/onboarding EBICS connections exist, pass `BANK_CONNECTION_ID=...`.
+The letter uses the EBICS 3.0 certificate format: one page each for the `A006`
+signature certificate, `X002` authentication certificate, and `E002` encryption
+certificate. It prints public certificates and SHA-256 fingerprints only, never
+private keys, encrypted credentials, signed request XML, or EBICS signatures.
+
+Submit setup orders only after reviewing the status and letter:
+
+```sh
+TENANT=tenant CONFIRM=true bin/rails ebics:onboarding:submit_ini
+TENANT=tenant CONFIRM=true bin/rails ebics:onboarding:submit_hia
+```
+
+`INI` and `HIA` are live bank calls. CSA Admin records a `*_submit_started_at`
+timestamp before posting to the bank so an interrupted request is visible and not
+silently retried as if nothing happened. After `HIA`, the connection stays inactive
+and moves to `waiting_for_bank` until the signed letter has been sent and the bank
+confirms activation.
+
+Finalize only after bank activation:
+
+```sh
+TENANT=tenant CONFIRM=true bin/rails ebics:onboarding:finalize
+```
+
+Finalization runs `HPB` without requiring pre-existing bank public keys, stores the
+bank `HOSTID.X002` and `HOSTID.E002` public keys into encrypted credentials, then
+verifies the finalized credentials with `HTD` before marking the connection `ready`.
+It does not configure payment/download/upload BTF presets for the tenant and does
+not activate a new inactive row automatically; review settings and activate the
+connection only after the bank operations are confirmed.
+
 ### EBICS subscriber key rotation
 
 EBICS subscriber key rotation is an operator-only runbook. Do not expose it as an

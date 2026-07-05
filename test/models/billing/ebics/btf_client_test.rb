@@ -179,6 +179,23 @@ class Billing::EBICS::BtfClientTest < ActiveSupport::TestCase
     assert_not_includes transport.requests.second, "<ReceiptCode>0</ReceiptCode>"
   end
 
+  test "HPB bank key fetch sends failure receipt when key data is invalid" do
+    transport = TransportStub.new([
+      response_xml(segment_number: 1, last_segment: true, transaction_key: true, order_data: encrypted_order_data("<Document>unexpected</Document>")),
+      ok_receipt_response_xml
+    ])
+    client = btf_client(transport: transport)
+
+    assert_raises(Billing::EBICS::UnsupportedOperation) do
+      client.fetch_bank_public_keys
+    end
+
+    assert_equal 2, transport.requests.size
+    assert_includes transport.requests.first, "<AdminOrderType>HPB</AdminOrderType>"
+    assert_includes transport.requests.second, "<ReceiptCode>1</ReceiptCode>"
+    assert_not_includes transport.requests.second, "<ReceiptCode>0</ReceiptCode>"
+  end
+
   test "manual test download can acknowledge segmented BTD data" do
     xml_files = [ "<Document>one</Document>", "<Document>two</Document>" ]
     encrypted_segments = encrypted_order_data_segments(zip(xml_files))

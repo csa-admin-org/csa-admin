@@ -3,6 +3,54 @@
 require "json"
 
 namespace :ebics do
+  namespace :onboarding do
+    desc "Print sanitized EBICS onboarding status (TENANT required; optional BANK_CONNECTION_ID; no live bank calls)"
+    task status: :environment do
+      puts JSON.pretty_generate(with_ebics_onboarding(&:status))
+    end
+
+    desc "Create encrypted H005 EBICS onboarding credentials (TENANT, URL, HOST_ID, PARTNER_ID, USER_ID, CONFIRM=true required; no live bank calls)"
+    task initialize: :environment do
+      require_confirmation!
+      puts JSON.pretty_generate(with_ebics_onboarding(required_connection: false, implicit_connection: false) { |onboarding|
+        onboarding.initialize_connection!(
+          url: required_env!("URL"),
+          host_id: required_env!("HOST_ID"),
+          partner_id: required_env!("PARTNER_ID"),
+          user_id: required_env!("USER_ID"),
+          name: ENV["NAME"].presence,
+          target_bits: (ENV["KEY_BITS"].presence || Billing::EBICS::Onboarding::TARGET_BITS))
+      })
+    end
+
+    desc "Write printable EBICS initialization letter PDF (TENANT required; optional BANK_CONNECTION_ID, LOCALE, OUTPUT; no live bank calls)"
+    task letter: :environment do
+      puts JSON.pretty_generate(with_ebics_onboarding { |onboarding|
+        onboarding.write_letter!(
+          output: onboarding_letter_output(onboarding),
+          locale: ENV["LOCALE"].presence || I18n.locale)
+      })
+    end
+
+    desc "Submit EBICS INI setup order (TENANT, CONFIRM=true required; optional BANK_CONNECTION_ID; live bank call)"
+    task submit_ini: :environment do
+      require_confirmation!
+      puts JSON.pretty_generate(with_ebics_onboarding(&:submit_ini!))
+    end
+
+    desc "Submit EBICS HIA setup order (TENANT, CONFIRM=true required; optional BANK_CONNECTION_ID; live bank call)"
+    task submit_hia: :environment do
+      require_confirmation!
+      puts JSON.pretty_generate(with_ebics_onboarding(&:submit_hia!))
+    end
+
+    desc "Fetch HPB bank keys, verify finalized credentials with HTD, and mark connection ready (TENANT, CONFIRM=true required; optional BANK_CONNECTION_ID; live bank calls)"
+    task finalize: :environment do
+      require_confirmation!
+      puts JSON.pretty_generate(with_ebics_onboarding(&:finalize!))
+    end
+  end
+
   namespace :key_rotation do
     desc "Print sanitized EBICS key-rotation readiness inventory (optional TENANT=ragedevert; no live bank calls)"
     task readiness: :environment do
@@ -195,6 +243,51 @@ namespace :ebics do
 
   def key_rotation_request_build_validation
     with_key_rotation(&:request_build_validation)
+  end
+
+  def with_ebics_onboarding(required_connection: true, implicit_connection: true)
+    tenant_name = ENV["TENANT"].presence || ENV["TENANT_NAME"].presence
+
+    abort "TENANT is required" unless tenant_name
+    abort "Tenant '#{tenant_name}' does not exist" unless Tenant.exists?(tenant_name)
+
+    result = nil
+    Tenant.switch(tenant_name) do
+      connection = implicit_connection ? ebics_onboarding_connection : explicit_ebics_onboarding_connection
+      abort "Tenant '#{tenant_name}' has no EBICS onboarding bank connection" if required_connection && !connection
+
+      result = yield Billing::EBICS::Onboarding.new(tenant: tenant_name, connection: connection)
+    end
+    result
+  end
+
+  def ebics_onboarding_connection
+    explicit_ebics_onboarding_connection ||
+      BankConnection.where(provider: "ebics", state: %w[draft initializing waiting_for_bank errored]).order(id: :desc).first ||
+      ebics_active_bank_connection
+  end
+
+  def explicit_ebics_onboarding_connection
+    id = ENV["BANK_CONNECTION_ID"].presence || ENV["CONNECTION_ID"].presence
+    return unless id
+
+    BankConnection.find(id).tap do |connection|
+      abort "Bank connection ##{id} is not EBICS" unless connection.ebics?
+    end
+  end
+
+  def ebics_active_bank_connection
+    Current.org.active_bank_connection if Current.org.active_bank_connection&.ebics?
+  end
+
+  def onboarding_letter_output(onboarding)
+    ENV["OUTPUT"].presence || Rails.root.join(
+      "tmp",
+      "ebics-initialization-letter-#{Tenant.current}-#{onboarding.connection.id}.pdf").to_s
+  end
+
+  def required_env!(key)
+    ENV[key].presence || abort("#{key} is required")
   end
 
   def key_rotation_batch

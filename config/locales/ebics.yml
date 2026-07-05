@@ -1,0 +1,95 @@
+_:
+  ebics:
+    initialization_letter:
+      confirmation:
+        _en: I confirm the public certificate shown above for EBICS subscriber initialization.
+        _fr: Je confirme le certificat public ci-dessus pour l’initialisation EBICS.
+        _de: Das oben aufgeführte öffentliche Zertifikat für die EBICS-Initialisierung wird bestätigt.
+        _it: Confermiamo il certificato pubblico sopra indicato per l’inizializzazione EBICS.
+        _nl: Het bovenstaande publieke certificaat voor EBICS-initialisatie wordt bevestigd.
+      labels:
+        certificate:
+          _en: Certificate
+          _fr: Certificat
+          _de: Zertifikat
+          _it: Certificato
+          _nl: Certificaat
+        date:
+          _en: Date
+          _fr: Date
+          _de: Datum
+          _it: Data
+          _nl: Datum
+        hash:
+          _en: Hash
+          _fr: Empreinte
+          _de: Hashwert
+          _it: Hash
+          _nl: Hash
+        issued_in:
+          _en: Place/date
+          _fr: Lieu/date
+          _de: Ort/Datum
+          _it: Luogo/data
+          _nl: Plaats/datum
+        name:
+          _en: Name/company
+          _fr: Nom/entreprise
+          _de: Name/Firma
+          _it: Nome/azienda
+          _nl: Naam/bedrijf
+        organization:
+          _en: Organization
+          _fr: Organisation
+          _de: Organisation
+          _it: Organizzazione
+          _nl: Organisatie
+        recipient:
+          _en: Recipient
+          _fr: Destinataire
+          _de: Empfänger
+          _it: Destinatario
+          _nl: Ontvanger
+        signature:
+          _en: Signature
+          _fr: Signature
+          _de: Unterschrift
+          _it: Firma
+          _nl: Handtekening
+        time:
+          _en: Time
+          _fr: Heure
+          _de: Uhrzeit
+          _it: Ora
+          _nl: Tijd
+        version:
+          _en: Version
+          _fr: Version
+          _de: Version
+          _it: Versione
+          _nl: Versie
+      sections:
+        authentication:
+          _en: Initialization letter for AUTHENTICATION certificate (%{version})
+          _fr: Lettre d’initialisation pour le certificat d’AUTHENTIFICATION (%{version})
+          _de: Initialisierungsbrief für AUTHENTIFIZIERUNGS-Zertifikat (%{version})
+          _it: Lettera di inizializzazione per il certificato di AUTENTICAZIONE (%{version})
+          _nl: Initialisatiebrief voor AUTHENTICATIE-certificaat (%{version})
+        encryption:
+          _en: Initialization letter for ENCRYPTION certificate (%{version})
+          _fr: Lettre d’initialisation pour le certificat de CHIFFREMENT (%{version})
+          _de: Initialisierungsbrief für VERSCHLÜSSELUNGS-Zertifikat (%{version})
+          _it: Lettera di inizializzazione per il certificato di CIFRATURA (%{version})
+          _nl: Initialisatiebrief voor VERSLEUTELINGS-certificaat (%{version})
+        signature:
+          _en: Initialization letter for SIGNATURE certificate (%{version})
+          _fr: Lettre d’initialisation pour le certificat de SIGNATURE (%{version})
+          _de: Initialisierungsbrief für SIGNATUR-Zertifikat (%{version})
+          _it: Lettera di inizializzazione per il certificato di FIRMA (%{version})
+          _nl: Initialisatiebrief voor HANDTEKENING-certificaat (%{version})
+      unavailable:
+        _en: No EBICS bank connection is currently waiting for an initialization letter.
+        _fr: Aucune connexion bancaire EBICS n’attend actuellement de lettre d’initialisation.
+        _de: Derzeit wartet keine EBICS-Bankverbindung auf einen Initialisierungsbrief.
+        _it: Nessuna connessione bancaria EBICS è attualmente in attesa di una lettera di inizializzazione.
+        _nl: Er wacht momenteel geen EBICS-bankverbinding op een initialisatiebrief.

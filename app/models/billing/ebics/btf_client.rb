@@ -18,6 +18,23 @@ module Billing
       end
 
       AdminOrderResult = Data.define(:order_data, :receipt_sent)
+      SetupOrderResult = Data.define(:order_type, :transaction_id, :order_id) do
+        def to_h
+          {
+            "order_type" => order_type,
+            "transaction_id" => transaction_id,
+            "order_id" => order_id
+          }.compact_blank
+        end
+      end
+      BankPublicKeysResult = Data.define(:keys, :order_data, :receipt_sent) do
+        def to_h
+          {
+            "receipt_sent" => receipt_sent,
+            "bank_keys" => keys.to_h
+          }
+        end
+      end
       KeyChangeResult = Data.define(:transaction_id, :order_id) do
         def to_h
           {
@@ -159,6 +176,50 @@ module Billing
         Btf::KeyChangeOrderData.new(client: target_key_store, order_type: order_type).to_xml
       end
 
+      def initialization_order_data_xml(order_type, **overrides)
+        Btf::InitializationOrderData.new(
+          client: client,
+          order_type: order_type,
+          **setup_order_data_options.merge(overrides)).to_xml
+      end
+
+      def initialization_request_xml(order_type, **overrides)
+        initialization_request(order_type, **overrides).to_xml
+      end
+
+      def submit_initialization_order(order_type)
+        request = initialization_request(order_type)
+        response = post_request(request)
+        raise_response_error!(response)
+
+        SetupOrderResult.new(
+          order_type: order_type.to_s.upcase,
+          transaction_id: response.transaction_id.presence,
+          order_id: response.order_id.presence)
+      end
+
+      def hpb_request_xml(**overrides)
+        hpb_request(**overrides).to_xml
+      end
+
+      def fetch_bank_public_keys
+        responses = order_responses(hpb_request)
+        order_data = Btf::Payload.new(responses: responses).order_data
+        bank_public_keys = Btf::BankPublicKeys.new(host_id: client.host_id, order_data: order_data)
+        bank_public_keys.keys
+
+        receipt_sent = receipt_required?(responses)
+        send_receipt!(responses.last.transaction_id, Btf::ReceiptRequest::SUCCESS_CODE) if receipt_sent
+
+        BankPublicKeysResult.new(
+          keys: bank_public_keys,
+          order_data: order_data,
+          receipt_sent: receipt_sent)
+      rescue => e
+        safely_send_failure_receipt(responses) if defined?(responses)
+        raise e
+      end
+
       def key_change(target_key_store:, order_type: "HCS")
         initialisation_request = key_change_request(target_key_store: target_key_store, order_type: order_type)
         initialisation_response = post_request(initialisation_request)
@@ -253,6 +314,20 @@ module Billing
           **request_options.merge(overrides))
       end
 
+      def initialization_request(order_type, **overrides)
+        Btf::InitializationRequest.new(
+          client: client,
+          order_type: order_type,
+          **setup_request_options.merge(overrides))
+      end
+
+      def hpb_request(**overrides)
+        Btf::NoPubKeyDigestsRequest.new(
+          client: client,
+          order_type: "HPB",
+          **no_pub_key_digests_request_options.merge(overrides))
+      end
+
       def upload_request(operation, document:, **overrides)
         ensure_btf_upload!(operation)
 
@@ -327,6 +402,26 @@ module Billing
           receipt_code: receipt_code,
           signer: request_options[:signer])
       end
+
+      def setup_order_data_options
+        request_options.slice(:certificate_builder, :certificate_issued_at)
+      end
+
+      def setup_request_options
+        request_options.slice(
+          :nonce,
+          :timestamp,
+          :product_name,
+          :language,
+          :certificate_builder,
+          :certificate_issued_at,
+          :order_data)
+      end
+
+      def no_pub_key_digests_request_options
+        request_options.slice(:nonce, :timestamp, :product_name, :language, :signer)
+      end
+
 
       def receipt_required?(responses)
         responses&.last&.transaction_id.present? && responses.any?(&:order_data_present?)
