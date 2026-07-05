@@ -172,12 +172,28 @@ module Billing
       end
 
       def perform!
-        return readiness.merge("performed" => false, "message" => "Participant keys are already at #{TARGET_BITS} bits") if already_at_target?
+        rotation = refreshed
+        current_readiness = rotation.readiness
+        return current_readiness.merge("performed" => false, "message" => "Participant keys are already at #{TARGET_BITS} bits") if at_target?(current_readiness)
 
-        prepare_pending! unless pending_keys_json.present?
-        submit_pending! unless pending_submitted?
-        verify_pending! unless pending_verified?
-        promote_pending!
+        unless current_readiness["pending_rotation"].present?
+          rotation.prepare_pending!
+          rotation = refreshed
+          current_readiness = rotation.readiness
+        end
+
+        unless submit_attempted?(current_readiness)
+          rotation.submit_pending!
+          rotation = refreshed
+          current_readiness = rotation.readiness
+        end
+
+        unless verified?(current_readiness)
+          rotation.verify_pending!
+          rotation = refreshed
+        end
+
+        rotation.promote_pending!
       end
 
       def rollback!
@@ -595,6 +611,19 @@ module Billing
           "created_at" => now.iso8601,
           "keys" => keys
         }
+      end
+
+      def at_target?(readiness)
+        readiness.dig("active_keys", "participant_min_bits").to_i >= TARGET_BITS
+      end
+
+      def submit_attempted?(readiness)
+        readiness.dig("pending_rotation", "submitted_at").present? ||
+          readiness.dig("pending_rotation", "submit_started_at").present?
+      end
+
+      def verified?(readiness)
+        readiness.dig("pending_rotation", "verified_at").present?
       end
 
       def pending_submitted?

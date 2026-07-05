@@ -153,6 +153,27 @@ class Billing::EBICS::KeyRotationTest < ActiveSupport::TestCase
     assert_equal 4096, Billing::EBICS::KeyStore.new(credentials).key_summary.fetch("participant_key_min_bits")
   end
 
+  test "perform reloads persisted state between submit verify and promote" do
+    connection = create_ebics_connection(capabilities: hcs_capabilities)
+    active_keys = connection.credentials.to_h.deep_stringify_keys.fetch("keys")
+    generated_key = OpenSSL::PKey::RSA.generate(4096)
+    client = FakeBtfClient.new
+    key_rotation(connection, key_generator: -> { generated_key }, btf_client: client).prepare_pending!
+
+    rotation = key_rotation(connection.reload, btf_client: client)
+    assert_equal "ok", rotation.request_build_validation.fetch("status")
+    result = rotation.perform!
+    connection.reload
+    credentials = connection.credentials.to_h.deep_stringify_keys
+
+    assert result.fetch("promoted")
+    assert_equal "rotated", result.fetch("state")
+    assert_nil credentials["pending_key_rotation"]
+    assert_equal active_keys, credentials.dig("previous_key_rotation", "keys")
+    assert_equal [ "HCS" ], client.key_change_order_types
+    assert_equal [ "HTD" ], client.admin_order_types
+  end
+
   test "promotion requires verified pending keys" do
     connection = create_ebics_connection(capabilities: hcs_capabilities)
     generated_key = OpenSSL::PKey::RSA.generate(4096)
@@ -385,6 +406,14 @@ class Billing::EBICS::KeyRotationTest < ActiveSupport::TestCase
     def initialize
       @key_change_order_types = []
       @admin_order_types = []
+    end
+
+    def key_change_order_data_xml(target_key_store:, order_type:)
+      "<HCSRequestOrderData/>"
+    end
+
+    def key_change_request_xml(target_key_store:, order_type:)
+      "<ebicsRequest/>"
     end
 
     def key_change(target_key_store:, order_type:)
