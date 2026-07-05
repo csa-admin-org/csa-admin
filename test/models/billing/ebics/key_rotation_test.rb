@@ -244,6 +244,39 @@ class Billing::EBICS::KeyRotationTest < ActiveSupport::TestCase
     assert_equal "verified", connection.credentials.dig("pending_key_rotation", "state")
   end
 
+  test "discard pending keeps active keys and removes pending rotation" do
+    connection = create_ebics_connection(capabilities: hcs_capabilities)
+    active_keys = connection.credentials.to_h.deep_stringify_keys.fetch("keys")
+    generated_key = OpenSSL::PKey::RSA.generate(4096)
+    key_rotation(connection, key_generator: -> { generated_key }).prepare_pending!
+
+    report = key_rotation(connection.reload).discard_pending!(reason: "bank_rejected_hcs")
+    connection.reload
+    credentials = connection.credentials.to_h.deep_stringify_keys
+    status = connection.status_details.dig("key_rotation")
+
+    assert report.fetch("discarded")
+    assert_equal active_keys, credentials.fetch("keys")
+    assert_nil credentials["pending_key_rotation"]
+    assert_equal "rotation_failed", status.fetch("state")
+    assert_equal "discard_pending", status.fetch("stage")
+    assert_equal "bank_rejected_hcs", status.fetch("reason")
+    assert_equal "rotation_failed", report.fetch("state")
+    assert_sanitized report, connection
+  end
+
+  test "discard pending is a no-op when there is no pending rotation" do
+    connection = create_ebics_connection(capabilities: hcs_capabilities)
+    credentials_before = connection.credentials.to_h.deep_stringify_keys
+
+    report = key_rotation(connection).discard_pending!(reason: "already_absent")
+    connection.reload
+
+    assert_not report.fetch("discarded")
+    assert_equal "No pending key rotation to discard", report.fetch("message")
+    assert_equal credentials_before, connection.credentials.to_h.deep_stringify_keys
+  end
+
   test "rollback rotates back to previous encrypted keys and preserves replaced keys" do
     connection = create_ebics_connection(capabilities: hcs_capabilities)
     original_keys = connection.credentials.to_h.deep_stringify_keys.fetch("keys")

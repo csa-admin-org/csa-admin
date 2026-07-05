@@ -100,15 +100,25 @@ SEPA direct-debit upload example. Keep the same top-level
 }
 ```
 
-Useful EBICS checks:
+Useful billing and EBICS checks:
 
 ```sh
+bin/rails billing:health
+PROVIDER=ebics bin/rails billing:health
+TENANTS=tenant-a,tenant-b bin/rails billing:health
 TENANT=tenant bin/rails ebics:readiness
 TENANT=tenant bin/rails ebics:capabilities
 TENANT=tenant bin/rails ebics:monitor
 TENANT=tenant FROM=2026-07-01 TO=2026-07-03 bin/rails ebics:btf_download
 TENANT=tenant FROM=2026-07-01 TO=2026-07-03 ACK=true bin/rails ebics:btf_download
 ```
+
+`billing:health` is read-only and prints the active bank connection for each
+selected tenant, including provider/name, health status, latest import date,
+runtime version, EBICS subscriber-key strength (`2048`/`4096`), and any actionable
+key-rotation/error note. Successful rotations are implied by `4096`; failed HCS
+attempts stay visible as `HCS failed; kept 2048` until the bank-specific issue is
+resolved.
 
 Run `ACK=true` only when you accept that returned payment data may be marked as
 consumed by the bank.
@@ -147,6 +157,12 @@ capabilities or explicitly confirmed in settings. `HCS` replaces all subscriber
 keys (`A006`, `X002`, and `E002`) and is the only key-change order CSA Admin uses
 for 4096-bit rotation. Do not treat a bank as live-rotation capable just because
 the current keys are 2048-bit.
+
+Production note from the July 2026 rotation: most active EBICS connections
+accepted 4096-bit subscriber keys. Keep `lafermedugoupil`/`BCVDEBICS` on 2048-bit
+until `HCS` is advertised or explicitly confirmed. Keep `wilderauke`/`MULTIVIA` on
+2048-bit for now: MULTIVIA advertised `HCS`, but live key rotation failed with an
+authentication-signature error while the existing 2048-bit keys continued to work.
 
 Prepare pending 4096-bit participant keys only for a single tenant and only
 after reviewing the readiness report:
@@ -223,9 +239,12 @@ TENANTS=tenant-a,tenant-b CONFIRM=true bin/rails ebics:key_rotation:batch:perfor
 PROVIDER=RAIFCHEC CONFIRM=true bin/rails ebics:key_rotation:batch:perform
 ```
 
-Add `VERIFY_PAYMENTS=true` to run `Billing::PaymentsProcessor.retrieve_and_process!`
-after each successful promotion. Use `ALL=true` only when intentionally applying
-the command to every eligible active EBICS connection.
+`batch:perform` prepares missing pending keys for `candidate` tenants before
+validating/submitting, so a separate `batch:prepare` is optional after the plan has
+been reviewed. Add `VERIFY_PAYMENTS=true` to run
+`Billing::PaymentsProcessor.retrieve_and_process!` after each successful
+promotion. Use `ALL=true` only when intentionally applying the command to every
+eligible active EBICS connection.
 
 Rollback is also a live `HCS` key change. It rotates the bank back to the
 encrypted previous key set, verifies those keys with `HTD`, then promotes them
@@ -238,7 +257,18 @@ TENANT=tenant CONFIRM=true bin/rails ebics:key_rotation:rollback
 If a live submit has an uncertain outcome, do not retry `submit`. Run
 `verify` with the pending keys; if it succeeds, run `promote`. If it fails,
 inspect `status_details["key_rotation"]`, keep both active and pending key sets,
-and coordinate with the bank before doing anything else.
+and coordinate with the bank before doing anything else. When the bank confirms
+that the new keys were not accepted and the old active keys still work, discard the
+pending local key set without changing active keys:
+
+```sh
+TENANT=tenant CONFIRM=true REASON=bank_rejected_hcs bin/rails ebics:key_rotation:discard_pending
+```
+
+The discard task is local-only and safe to rerun. It removes
+`credentials["pending_key_rotation"]` when present, keeps active
+`credentials["keys"]`, and keeps a sanitized `rotation_failed` status so batch
+rotation skips that tenant until the bank-specific issue is resolved.
 
 If a live rollback has an uncertain outcome, do not retry `rollback` because that
 would submit another `HCS`. First try the recovery task, which verifies the

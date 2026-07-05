@@ -3,6 +3,16 @@
 require "json"
 
 namespace :billing do
+  desc "Print tenant bank-connection health table (optional TENANT=..., TENANTS=..., PROVIDER=...)"
+  task health: :environment do
+    tenant_names = billing_health_tenant_names
+    validate_billing_health_tenants!(tenant_names)
+
+    puts Billing::HealthReport.new(
+      tenant_names: tenant_names,
+      provider: ENV["PROVIDER"].presence).table
+  end
+
   namespace :payments do
     desc "Run live payment import processing (TENANT=..., PROVIDER=..., or ALL=true; CONFIRM=true required to execute)"
     task process: :environment do
@@ -41,6 +51,18 @@ namespace :billing do
         summary: results.map { |result| result.fetch("status") }.tally,
         results: results)
     end
+  end
+
+  def billing_health_tenant_names
+    (ENV["TENANTS"].presence || ENV["TENANT"].presence || ENV["TENANT_NAME"].presence)
+      .to_s
+      .split(/[,\s]+/)
+      .compact_blank
+  end
+
+  def validate_billing_health_tenants!(tenant_names)
+    unknown = tenant_names.reject { |tenant| Tenant.exists?(tenant) }
+    abort "Unknown tenant#{'s' if unknown.many?}: #{unknown.to_sentence}" if unknown.any?
   end
 
   def payment_import_process_result(tenant, provider:, confirm:, required: false)

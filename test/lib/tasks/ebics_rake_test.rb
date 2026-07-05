@@ -22,6 +22,7 @@ class EbicsRakeTest < ActiveSupport::TestCase
     Rake::Task["ebics:key_rotation:perform"].reenable
     Rake::Task["ebics:key_rotation:rollback"].reenable
     Rake::Task["ebics:key_rotation:recover_rollback"].reenable
+    Rake::Task["ebics:key_rotation:discard_pending"].reenable
     Rake::Task["ebics:key_rotation:batch:plan"].reenable
     Rake::Task["ebics:key_rotation:batch:prepare"].reenable
     Rake::Task["ebics:key_rotation:batch:perform"].reenable
@@ -117,15 +118,15 @@ class EbicsRakeTest < ActiveSupport::TestCase
     end
   end
 
-  test "key rotation submit verify promote perform rollback and recovery tasks call model with guards" do
-    %w[submit verify promote perform rollback recover_rollback].each do |task_name|
+  test "key rotation submit verify promote perform rollback recovery and discard tasks call model with guards" do
+    %w[submit verify promote perform rollback recover_rollback discard_pending].each do |task_name|
       with_env("TENANT" => "ragedevert", "CONFIRM" => nil) do
         Rake::Task["ebics:key_rotation:#{task_name}"].reenable
         assert_raises(SystemExit) { capture_io { Rake::Task["ebics:key_rotation:#{task_name}"].invoke } }
       end
     end
 
-    %w[submit verify promote perform rollback recover_rollback].each do |task_name|
+    %w[submit verify promote perform rollback recover_rollback discard_pending].each do |task_name|
       assert_key_rotation_task(task_name)
     end
   end
@@ -374,6 +375,9 @@ class EbicsRakeTest < ActiveSupport::TestCase
         end
         rotation.define_singleton_method(:recover_rollback!) do
           { "task" => "recover_rollback" }
+        end
+        rotation.define_singleton_method(:discard_pending!) do |reason:|
+          { "task" => "discard_pending", "reason" => reason }
         end
       end
     }

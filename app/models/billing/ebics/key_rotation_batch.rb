@@ -47,6 +47,11 @@ module Billing
           if noop?(readiness)
             readiness_result(tenant, connection, readiness, "noop", message: "Participant keys are already at target")
           elsif ready?(readiness)
+            if readiness.fetch("state") == "candidate"
+              rotation.prepare_pending!
+              rotation = rotation_for(tenant, connection)
+            end
+
             validation = rotation.request_build_validation
             raise UnsupportedOperation, validation.fetch("blockers").to_sentence unless validation.fetch("status") == "ok"
 
@@ -89,9 +94,13 @@ module Billing
         return no_ebics_result(tenant, connection) unless connection&.ebics?
         return provider_mismatch_result(tenant, connection) if provider && !provider_matches?(connection)
 
-        yield rotation_factory.call(tenant: tenant, connection: connection), connection
+        yield rotation_for(tenant, connection), connection
       rescue => error
         error_result(tenant, connection, action, error)
+      end
+
+      def rotation_for(tenant, connection)
+        rotation_factory.call(tenant: tenant, connection: connection.reload)
       end
 
       def selected_tenant_names

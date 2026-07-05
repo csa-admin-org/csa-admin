@@ -2,13 +2,35 @@
 
 require "test_helper"
 require "json"
+require "minitest/mock"
 require "rake"
 
 class BillingRakeTest < ActiveSupport::TestCase
   setup do
     Rails.application.load_tasks unless Rake::Task.task_defined?("billing:payments:process")
+    Rake::Task["billing:health"].reenable
     Rake::Task["billing:payments:process"].reenable
     BankConnection.delete_all
+  end
+
+  test "health prints table with optional tenant and provider filters" do
+    with_env("TENANTS" => "acme, demo", "PROVIDER" => "RAIFCHEC") do
+      Tenant.stub(:exists?, ->(tenant) { tenant.in?(%w[acme demo]) }) do
+        Billing::HealthReport.stub(:new, health_report_stub(expected_tenants: %w[acme demo], expected_provider: "RAIFCHEC")) do
+          out, = capture_io { Rake::Task["billing:health"].invoke }
+
+          assert_includes out, "billing health table"
+        end
+      end
+    end
+  end
+
+  test "health reports unknown tenants" do
+    with_env("TENANT" => "missing") do
+      Tenant.stub(:exists?, false) do
+        assert_raises(SystemExit) { capture_io { Rake::Task["billing:health"].invoke } }
+      end
+    end
   end
 
   test "payments process dry-run lists table-backed provider target without importing" do
@@ -78,6 +100,17 @@ class BillingRakeTest < ActiveSupport::TestCase
   end
 
   private
+
+  def health_report_stub(expected_tenants:, expected_provider:)
+    ->(tenant_names:, provider:) {
+      assert_equal expected_tenants, tenant_names
+      assert_equal expected_provider, provider
+
+      Object.new.tap do |report|
+        report.define_singleton_method(:table) { "billing health table" }
+      end
+    }
+  end
 
   def create_connection(provider:)
     BankConnection.create!(

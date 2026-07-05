@@ -81,6 +81,13 @@ namespace :ebics do
       puts JSON.pretty_generate(with_key_rotation(&:recover_rollback!))
     end
 
+    desc "Discard pending EBICS key rotation without changing active keys (TENANT and CONFIRM=true required; no live bank call)"
+    task discard_pending: :environment do
+      require_confirmation!
+      reason = ENV["REASON"].presence || "manual_discard"
+      puts JSON.pretty_generate(with_key_rotation { |rotation| rotation.discard_pending!(reason: reason) })
+    end
+
     namespace :batch do
       desc "Plan EBICS key rotation for selected tenants (optional TENANTS=..., PROVIDER=RAIFCHEC/ebics; no live bank calls)"
       task plan: :environment do

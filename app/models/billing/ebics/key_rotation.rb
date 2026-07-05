@@ -240,6 +240,24 @@ module Billing
         fail_safely!(e, stage: "recover_rollback")
       end
 
+      def discard_pending!(reason: "manual_discard")
+        return readiness.merge("discarded" => false, "message" => "No pending key rotation to discard") unless pending_keys_json.present?
+
+        update_connection!(
+          credentials: ebics_credentials.except(PENDING_CREDENTIAL_KEY),
+          status: pending_status("rotation_failed").merge(
+            "stage" => "discard_pending",
+            "discarded_at" => now.iso8601,
+            "reason" => reason,
+            "error_message" => "Pending EBICS key rotation discarded; active keys kept"))
+
+        refreshed.readiness.merge("discarded" => true)
+      rescue UnsupportedOperation
+        raise
+      rescue => e
+        fail_safely!(e, stage: "discard_pending")
+      end
+
       private
 
       attr_reader :tenant, :connection, :now, :error_reporter, :key_generator, :btf_client_factory

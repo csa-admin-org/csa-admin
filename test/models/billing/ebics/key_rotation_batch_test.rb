@@ -39,13 +39,28 @@ class Billing::EBICS::KeyRotationBatchTest < ActiveSupport::TestCase
     assert_equal 4096, report.dig("results", 0, "participant_min_bits")
   end
 
+  test "perform prepares candidates before validation and rotation" do
+    create_ebics_connection(capabilities: hcs_capabilities)
+    calls = []
+    rotations = [ CandidateRotation.new(calls), PreparedRotation.new(calls) ]
+    batch = Billing::EBICS::KeyRotationBatch.new(
+      tenant_names: [ "acme" ],
+      rotation_factory: ->(tenant:, connection:) { rotations.shift || PreparedRotation.new(calls) })
+
+    report = batch.perform!
+
+    assert_equal %w[readiness prepare validate perform], calls
+    assert_equal({ "rotated" => 1 }, report.fetch("summary"))
+    assert_equal "rotated", report.dig("results", 0, "status")
+  end
+
   test "perform can verify payments after a successful rotation" do
     create_ebics_connection(capabilities: hcs_capabilities)
     payment_processor = PaymentProcessorSpy.new
     batch = Billing::EBICS::KeyRotationBatch.new(
       tenant_names: [ "acme" ],
       verify_payments: true,
-      rotation_factory: ->(tenant:, connection:) { SuccessfulRotation.new(tenant) },
+      rotation_factory: ->(tenant:, connection:) { PreparedRotation.new([]) },
       payment_processor: payment_processor)
 
     report = batch.perform!
@@ -93,34 +108,33 @@ class Billing::EBICS::KeyRotationBatchTest < ActiveSupport::TestCase
     "test-passphrase-value"
   end
 
-  class SuccessfulRotation
-    def initialize(tenant)
-      @tenant = tenant
+  class CandidateRotation
+    def initialize(calls)
+      @calls = calls
     end
 
     def readiness
-      {
-        "tenant" => @tenant,
-        "state" => "candidate",
-        "target_bits" => 4096,
-        "protocol" => "H005",
-        "blockers" => [],
-        "group" => {
-          "host_id" => "HOSTID",
-          "endpoint_host" => "ebics.example.test"
-        },
-        "active_keys" => {
-          "participant_min_bits" => 2048,
-          "bank_min_bits" => 2048
-        },
-        "rotation_strategy" => {
-          "order_type" => "HCS",
-          "status" => "advertised"
-        }
-      }
+      @calls << "readiness"
+      Billing::EBICS::KeyRotationBatchTest.rotation_readiness("candidate", participant_min_bits: 2048)
+    end
+
+    def prepare_pending!
+      @calls << "prepare"
+      Billing::EBICS::KeyRotationBatchTest.rotation_readiness("pending_rotation", participant_min_bits: 2048)
+    end
+  end
+
+  class PreparedRotation
+    def initialize(calls)
+      @calls = calls
+    end
+
+    def readiness
+      Billing::EBICS::KeyRotationBatchTest.rotation_readiness("pending_rotation", participant_min_bits: 2048)
     end
 
     def request_build_validation
+      @calls << "validate"
       {
         "status" => "ok",
         "blockers" => []
@@ -128,14 +142,31 @@ class Billing::EBICS::KeyRotationBatchTest < ActiveSupport::TestCase
     end
 
     def perform!
-      readiness.merge(
-        "state" => "rotated",
-        "promoted" => true,
-        "active_keys" => {
-          "participant_min_bits" => 4096,
-          "bank_min_bits" => 2048
-        })
+      @calls << "perform"
+      Billing::EBICS::KeyRotationBatchTest.rotation_readiness("rotated", participant_min_bits: 4096).merge("promoted" => true)
     end
+  end
+
+  def self.rotation_readiness(state, participant_min_bits:)
+    {
+      "tenant" => "acme",
+      "state" => state,
+      "target_bits" => 4096,
+      "protocol" => "H005",
+      "blockers" => [],
+      "group" => {
+        "host_id" => "HOSTID",
+        "endpoint_host" => "ebics.example.test"
+      },
+      "active_keys" => {
+        "participant_min_bits" => participant_min_bits,
+        "bank_min_bits" => 2048
+      },
+      "rotation_strategy" => {
+        "order_type" => "HCS",
+        "status" => "advertised"
+      }
+    }
   end
 
   class PaymentProcessorSpy

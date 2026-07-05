@@ -36,6 +36,7 @@ gem "geocoder"
 gem "rack-status"
 gem "rack-cors"
 gem "faraday", require: false
+gem "terminal-table", require: false
 
 # Admin and UI
 gem "activeadmin", "~> 4.0.0.beta22"
@@ -103,7 +104,6 @@ group :development do
 
   # Email Testing
   gem "letter_opener"
-  gem "terminal-table", require: false
 
   # Code Quality
   gem "ruby-lsp-rails", require: false
