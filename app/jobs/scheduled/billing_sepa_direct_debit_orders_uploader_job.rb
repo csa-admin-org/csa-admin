@@ -6,7 +6,7 @@ module Scheduled
 
     def perform
       return unless Current.org.sepa_configured?
-      return unless Current.org.bank_connection?
+      return unless Current.org.bank_connection_sepa_direct_debit_upload?
 
       delay = Billing::SEPADirectDebit::AUTOMATIC_ORDER_UPLOAD_DELAY
       uploadable_invoices = Invoice

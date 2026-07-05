@@ -2,21 +2,12 @@
 
 module Billing
   class PaymentsProcessor
-    NoRecentPaymentsError = Class.new(StandardError)
-
     NO_RECENT_PAYMENTS_SINCE = 6.weeks
 
     def self.retrieve_and_process!
       return if Rails.env.development?
 
-      connection = Current.org.bank_connection
-      return unless connection
-
-      if connection.respond_to?(:process_payments!)
-        connection.process_payments!
-      else
-        new(connection.payments_data).process!
-      end
+      Current.org.bank_connection&.process_payments!
     end
 
     def initialize(payments_data, raise_on_error: false)

@@ -3,6 +3,38 @@
 require "application_system_test_case"
 
 class InvoicesTest < ApplicationSystemTestCase
+  test "shows manual SEPA XML export when bank connection cannot upload" do
+    enable_invoice_pdf
+    BankConnection.delete_all
+    german_org(sepa_creditor_identifier: "DE98ZZZ09999999999")
+    BankConnection.create!(
+      provider: "bas",
+      active: true,
+      state: "ready",
+      credentials: { account_number: "123", contract_password: "secret" })
+    member = members(:anna)
+    member.update!(language: "de", country_code: "DE")
+    member.sepa_mandates.create!(
+      iban: "DE21500500009876543210",
+      umr: "123456",
+      signed_on: Date.parse("2023-12-24"),
+      source: "admin")
+    member.reload
+    invoice = create_annual_fee_invoice(member: member)
+
+    login admins(:ultra)
+
+    visit invoice_path(invoice)
+
+    assert_selector "a[href='#{sepa_pain_invoice_path(invoice)}']", text: "SEPA Direct Debit (XML)"
+    assert_no_text "Send order to the bank"
+
+    visit invoices_path(scope: "open")
+    sepa_pain_all_path = sepa_pain_all_invoices_path(scope: "open")
+
+    assert_selector "a[href='#{sepa_pain_all_path}']", text: "SEPA Direct Debit (XML)"
+  end
+
   test "creates an invoice for a rejected activity participation" do
     enable_invoice_pdf
     travel_to "2024-09-01"

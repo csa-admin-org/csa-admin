@@ -27,14 +27,9 @@ module Billing
       @bank_connection = bank_connection
     end
 
-    def payments_data
-      files = get_camt_files
-      CamtFile.new(files).payments_data
-    rescue MaintenanceError
-      []
-    end
-
     def process_payments!
+      return unless Rails.env.production?
+
       operation = operation_config.payment_download
       process_btf_payments!(operation)
     rescue UnsupportedOperation => e
@@ -64,27 +59,6 @@ module Billing
     end
 
     private
-
-    def get_camt_files
-      operation = operation_config.payment_download
-      @bank_connection&.mark_import_attempted!(operation: operation)
-
-      files = ebics_client(operation).download(
-        operation,
-        from: payments_from,
-        to: payments_to)
-      @bank_connection&.mark_import_succeeded!(operation: operation, files_count: files.size)
-      files
-    rescue NoDownloadDataAvailable => e
-      @bank_connection&.mark_no_data!(operation: operation)
-      notify(:ebics_no_data_available, e.original_error)
-      []
-    rescue TechnicalError => e
-      @bank_connection&.mark_error!(e.original_error, operation: operation, operation_kind: "payment_download")
-      notify(:ebics_technical_error, e.original_error)
-      report_technical_error(e, operation, "payment_download")
-      raise MaintenanceError, "EBICS technical error occurred"
-    end
 
     def process_btf_payments!(operation)
       files_count = nil

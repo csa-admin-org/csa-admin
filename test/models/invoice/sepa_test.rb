@@ -167,6 +167,36 @@ class Invoice::SEPATest < ActiveSupport::TestCase
     assert_nil invoice.sepa_direct_debit_order_uploaded_at
   end
 
+  test "upload_sepa_direct_debit_order does nothing if bank connection cannot upload" do
+    BankConnection.delete_all
+    german_org(sepa_creditor_identifier: "DE98ZZZ09999999999")
+    BankConnection.create!(
+      provider: "bas",
+      active: true,
+      state: "ready",
+      credentials: { account_number: "123", contract_password: "secret" })
+    member = members(:anna)
+    member.update!(language: "de", country_code: "DE")
+    member.sepa_mandates.create!(
+      iban: "DE21500500009876543210",
+      umr: "123456",
+      signed_on: Date.parse("2023-12-24"),
+      source: "admin")
+    member.reload
+    invoice = create_annual_fee_invoice(member: member)
+    invoice.touch(:sent_at)
+
+    assert Current.org.bank_connection?
+    assert_not Current.org.bank_connection_sepa_direct_debit_upload?
+    assert_not invoice.sepa_direct_debit_order_uploadable?
+    assert_no_changes -> { invoice.reload.sepa_direct_debit_order_uploaded_at } do
+      invoice.upload_sepa_direct_debit_order
+    end
+
+    assert_nil invoice.sepa_direct_debit_order_id
+    assert_nil invoice.sepa_direct_debit_order_uploaded_at
+  end
+
   test "sepa direct debit PAIN XML defaults to owned pain.008.001.08 without bank connection" do
     BankConnection.delete_all
     german_org(sepa_creditor_identifier: "DE98ZZZ09999999999")
@@ -180,6 +210,38 @@ class Invoice::SEPATest < ActiveSupport::TestCase
     member.reload
     invoice = create_annual_fee_invoice(member: member)
 
+    assert_equal "pain.008.001.08", invoice.sepa_direct_debit_pain_schema
+    assert_includes invoice.sepa_direct_debit_pain_xml, "urn:iso:std:iso:20022:tech:xsd:pain.008.001.08"
+  end
+
+  test "sepa direct debit PAIN XML defaults to owned pain.008.001.08 without upload-capable bank connection" do
+    BankConnection.delete_all
+    german_org(sepa_creditor_identifier: "DE98ZZZ09999999999")
+    BankConnection.create!(
+      provider: "ebics",
+      name: "HOSTID",
+      active: true,
+      state: "ready",
+      credentials: { secret: "secret" },
+      settings: {
+        "downloads" => {
+          "payments" => {
+            "mode" => "btf",
+            "btf" => Billing::EBICS::Btf::Presets.camt054(service_name: "REP", scope: "CH", version: "04")
+          }
+        }
+      })
+    member = members(:anna)
+    member.update!(language: "de", country_code: "DE")
+    member.sepa_mandates.create!(
+      iban: "DE21500500009876543210",
+      umr: "123456",
+      signed_on: Date.parse("2023-12-24"),
+      source: "admin")
+    member.reload
+    invoice = create_annual_fee_invoice(member: member)
+
+    assert_not Current.org.bank_connection_sepa_direct_debit_upload?
     assert_equal "pain.008.001.08", invoice.sepa_direct_debit_pain_schema
     assert_includes invoice.sepa_direct_debit_pain_xml, "urn:iso:std:iso:20022:tech:xsd:pain.008.001.08"
   end

@@ -22,8 +22,10 @@ module Invoice::SEPA
   end
 
   def sepa_direct_debit_pain_schema
-    bank_connection = Current.org.bank_connection
-    return bank_connection.sepa_direct_debit_schema if bank_connection.respond_to?(:sepa_direct_debit_schema)
+    if Current.org.bank_connection_sepa_direct_debit_upload?
+      bank_connection = Current.org.bank_connection
+      return bank_connection.sepa_direct_debit_schema if bank_connection.respond_to?(:sepa_direct_debit_schema)
+    end
 
     Billing::SEPADirectDebit::PAIN_008_001_08
   end
@@ -47,7 +49,7 @@ module Invoice::SEPA
       && sepa?
       && sent?
       && !sepa_direct_debit_order_uploaded?
-      && Current.org.bank_connection?
+      && Current.org.bank_connection_sepa_direct_debit_upload?
   end
 
   def sepa_direct_debit_order_automatic_upload_due?

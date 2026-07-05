@@ -128,6 +128,32 @@ class Scheduled::BillingSEPADirectDebitOrdersUploaderJobTest < ActiveJob::TestCa
     end
   end
 
+  test "does nothing if bank connection cannot upload SEPA direct debits" do
+    german_org(sepa_creditor_identifier: "DE98ZZZ09999999999")
+    create_bas_bank_connection
+    assert Current.org.sepa_creditor_identifier?
+    assert Current.org.bank_connection?
+    assert_not Current.org.bank_connection_sepa_direct_debit_upload?
+
+    member = members(:anna)
+    member.update!(language: "de", country_code: "DE")
+    member.sepa_mandates.create!(
+      iban: "DE21500500009876543210",
+      umr: "123456",
+      signed_on: Date.parse("2023-12-24"),
+      source: "admin")
+    member.reload
+
+    qualifying_invoice = create_annual_fee_invoice(member: member)
+    qualifying_invoice.update!(sent_at: 5.days.ago)
+
+    assert_no_enqueued_jobs only: Billing::SEPADirectDebitOrderUploaderJob do
+      perform_enqueued_jobs only: Scheduled::BillingSEPADirectDebitOrdersUploaderJob do
+        Scheduled::BillingSEPADirectDebitOrdersUploaderJob.perform_later
+      end
+    end
+  end
+
   private
 
   def create_mock_bank_connection
@@ -136,5 +162,13 @@ class Scheduled::BillingSEPADirectDebitOrdersUploaderJobTest < ActiveJob::TestCa
       active: true,
       state: "ready",
       credentials: { password: "secret" })
+  end
+
+  def create_bas_bank_connection
+    BankConnection.create!(
+      provider: "bas",
+      active: true,
+      state: "ready",
+      credentials: { account_number: "123", contract_password: "secret" })
   end
 end

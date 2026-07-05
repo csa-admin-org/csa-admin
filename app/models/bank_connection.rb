@@ -48,6 +48,22 @@ class BankConnection < ApplicationRecord
     ebics? ? adapter : RuntimeAdapter.new(self, adapter)
   end
 
+  def sepa_direct_debit_upload?
+    case provider
+    when "ebics"
+      operation_config = Billing::EBICS::OperationConfig.new(settings)
+      operation_config.sepa_direct_debit_upload
+      operation_config.sepa_direct_debit_upload_schema
+      true
+    when "mock"
+      true
+    else
+      false
+    end
+  rescue Billing::EBICS::UnsupportedOperation
+    false
+  end
+
   def credential_keys
     credentials.to_h.keys.map(&:to_s).sort
   end

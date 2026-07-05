@@ -13,12 +13,24 @@ class Billing::EBICSTest < ActiveSupport::TestCase
     end
   end
 
-  test "payment downloads require explicit BTF settings" do
-    error = assert_raises(Billing::EBICS::UnsupportedOperation) do
-      Billing::EBICS.new(credentials).payments_data
+  test "process payments require explicit BTF settings" do
+    with_rails_env("production") do
+      error = assert_raises(Billing::EBICS::UnsupportedOperation) do
+        Billing::EBICS.new(credentials).process_payments!
+      end
+
+      assert_equal "Active EBICS payment_download must use explicit BTF settings", error.message
+    end
+  end
+
+  test "process payments is production-only" do
+    client = BtfClientStub.new([ file_fixture("camt054.xml") ])
+
+    with_rails_env("development") do
+      assert_nil Billing::EBICS.new(credentials, settings: btf_settings, ebics_client: client).process_payments!
     end
 
-    assert_equal "Active EBICS payment_download must use explicit BTF settings", error.message
+    assert_empty client.calls
   end
 
   test "process payments marks legacy payment download settings as configuration errors" do
@@ -33,8 +45,10 @@ class Billing::EBICSTest < ActiveSupport::TestCase
     }
     connection = bank_connection(settings: settings)
 
-    error = assert_raises(Billing::EBICS::UnsupportedOperation) do
-      Billing::EBICS.new(credentials, settings: settings, bank_connection: connection).process_payments!
+    error = with_rails_env("production") do
+      assert_raises(Billing::EBICS::UnsupportedOperation) do
+        Billing::EBICS.new(credentials, settings: settings, bank_connection: connection).process_payments!
+      end
     end
 
     assert_equal "Active EBICS payment_download must use explicit BTF settings", error.message
@@ -95,25 +109,13 @@ class Billing::EBICSTest < ActiveSupport::TestCase
     assert_equal "pain-xml", document
   end
 
-  test "explicit BTF settings use the H005 payment download operation" do
-    org(country_code: "CH")
-    settings = btf_settings
-    client = BtfClientStub.new([ file_fixture("camt054.xml") ])
-
-    payments_data = Billing::EBICS.new(credentials, settings: settings, ebics_client: client).payments_data
-
-    operation, range = client.calls.first
-    assert_equal "BTD", operation.order_type
-    assert_equal "camt.054", operation.btf.fetch("message_name")
-    assert_equal [ Billing::EBICS::GET_PAYMENTS_FROM.to_date.to_s, Date.current.to_s ], range
-    assert_equal "camt.054", payments_data.first.origin
-  end
-
   test "process payments uses ACK-after-processor for BTF downloads" do
     org(country_code: "CH")
     client = BtfClientStub.new([ file_fixture("camt054.xml") ])
 
-    assert Billing::EBICS.new(credentials, settings: btf_settings, ebics_client: client).process_payments!
+    with_rails_env("production") do
+      assert Billing::EBICS.new(credentials, settings: btf_settings, ebics_client: client).process_payments!
+    end
 
     method, operation, range = client.calls.first
     assert_equal :download_and_process, method
@@ -127,9 +129,11 @@ class Billing::EBICSTest < ActiveSupport::TestCase
     connection = bank_connection(settings: btf_settings)
     client = BtfClientStub.new([ file_fixture("camt054.xml") ])
 
-    assert Billing::EBICS
-      .new(credentials, settings: btf_settings, ebics_client: client, bank_connection: connection)
-      .process_payments!
+    with_rails_env("production") do
+      assert Billing::EBICS
+        .new(credentials, settings: btf_settings, ebics_client: client, bank_connection: connection)
+        .process_payments!
+    end
 
     connection.reload
     assert_equal "healthy", connection.health_status
@@ -168,12 +172,12 @@ class Billing::EBICSTest < ActiveSupport::TestCase
     client = BtfClientStub.new(error)
 
     with_rails_event(event) do
-      assert_empty Billing::EBICS.new(credentials, settings: btf_settings, ebics_client: client).payments_data
+      with_rails_env("production") do
+        assert Billing::EBICS.new(credentials, settings: btf_settings, ebics_client: client).process_payments!
+      end
     end
 
-    assert_equal 1, event.notifications.size
-    name, payload = event.notifications.first
-    assert_equal :ebics_no_data_available, name
+    _name, payload = event.notifications.find { |name, _payload| name == :ebics_no_data_available }
     assert_equal "StandardError", payload[:error]
     assert_includes payload[:error_message], "EBICS_NO_DOWNLOAD_DATA_AVAILABLE"
   end
@@ -184,12 +188,12 @@ class Billing::EBICSTest < ActiveSupport::TestCase
     client = BtfClientStub.new(error)
 
     with_rails_event(event) do
-      assert_empty Billing::EBICS.new(credentials, settings: btf_settings, ebics_client: client).payments_data
+      with_rails_env("production") do
+        assert Billing::EBICS.new(credentials, settings: btf_settings, ebics_client: client).process_payments!
+      end
     end
 
-    assert_equal 1, event.notifications.size
-    name, payload = event.notifications.first
-    assert_equal :ebics_technical_error, name
+    _name, payload = event.notifications.find { |name, _payload| name == :ebics_technical_error }
     assert_equal "StandardError", payload[:error]
     assert_includes payload[:error_message], "EBICS_INTERNAL_ERROR"
   end
@@ -272,13 +276,6 @@ class Billing::EBICSTest < ActiveSupport::TestCase
       [ "TX123", "A001" ]
     end
 
-    def download(operation, from:, to:)
-      @calls << [ operation, [ from, to ] ]
-      raise @files if @files.is_a?(Exception)
-
-      @files
-    end
-
     def download_and_process(operation, from:, to:)
       @calls << [ :download_and_process, operation, [ from, to ] ]
       raise @files if @files.is_a?(Exception)
@@ -294,8 +291,8 @@ class Billing::EBICSTest < ActiveSupport::TestCase
       @notifications = []
     end
 
-    def notify(name, **payload)
-      @notifications << [ name, payload ]
+    def notify(name, payload = nil, **attributes)
+      @notifications << [ name, (payload || {}).merge(attributes) ]
     end
   end
 end

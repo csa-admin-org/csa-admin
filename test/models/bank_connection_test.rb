@@ -247,6 +247,43 @@ class BankConnectionTest < ActiveSupport::TestCase
     assert_equal "camt.054", operation.btf.fetch("message_name")
   end
 
+  test "reports SEPA direct debit upload capability" do
+    ebics = BankConnection.new(
+      provider: "ebics",
+      credentials: ebics_credentials,
+      settings: {
+        "uploads" => {
+          "sepa_direct_debit" => {
+            "mode" => "btf",
+            "schema" => "pain.008.001.08",
+            "btf" => Billing::EBICS::Btf::Presets.sepa_direct_debit_upload(scope: "DE", container: "XML", version: nil)
+          }
+        }
+      })
+    missing_upload_settings = BankConnection.new(provider: "ebics", credentials: ebics_credentials)
+    legacy_upload_settings = BankConnection.new(
+      provider: "ebics",
+      credentials: ebics_credentials,
+      settings: {
+        "uploads" => {
+          "sepa_direct_debit" => {
+            "mode" => "order_type",
+            "order_type" => "CDD"
+          }
+        }
+      })
+    bas = BankConnection.new(provider: "bas", credentials: { account_number: "123", contract_password: "secret" })
+    bunq = BankConnection.new(provider: "bunq", credentials: { api_key: "secret" })
+    mock = BankConnection.new(provider: "mock", credentials: { password: "secret" })
+
+    assert ebics.sepa_direct_debit_upload?
+    assert_not missing_upload_settings.sepa_direct_debit_upload?
+    assert_not legacy_upload_settings.sepa_direct_debit_upload?
+    assert_not bas.sepa_direct_debit_upload?
+    assert_not bunq.sepa_direct_debit_upload?
+    assert mock.sepa_direct_debit_upload?
+  end
+
   test "keeps active scope separate from lifecycle state" do
     connection = BankConnection.create!(
       provider: "mock",

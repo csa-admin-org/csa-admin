@@ -150,7 +150,7 @@ ActiveAdmin.register Invoice do
     end
   end
 
-  sidebar :sepa_pain, only: :index, if: -> { params[:scope].in?([ nil, "all", "open" ]) && collection.offset(nil).limit(nil).open.sepa.any? && !Current.org.bank_connection? } do
+  sidebar :sepa_pain, only: :index, if: -> { params[:scope].in?([ nil, "all", "open" ]) && collection.offset(nil).limit(nil).open.sepa.any? && !Current.org.bank_connection_sepa_direct_debit_upload? } do
     side_panel "SEPA" do
       para t(".sepa_pain_text_html",
         count: collection.offset(nil).limit(nil).open.sepa.count,
@@ -289,7 +289,7 @@ ActiveAdmin.register Invoice do
               }
             end
 
-            if Current.org.bank_connection?
+            if Current.org.bank_connection_sepa_direct_debit_upload?
               h4(Invoice.human_attribute_name(:sepa_direct_debit), class: "m-2 mt-4")
               attributes_table do
                 row(:sepa_direct_debit_order_id) { invoice.sepa_direct_debit_order_id }

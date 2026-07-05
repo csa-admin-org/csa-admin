@@ -33,6 +33,10 @@ module Organization::Billing
       active_bank_connection.present?
     end
 
+    def bank_connection_sepa_direct_debit_upload?
+      active_bank_connection&.sepa_direct_debit_upload? || false
+    end
+
     def active_bank_connection
       BankConnection.active.first
     end
