@@ -195,6 +195,38 @@ After the flow is proven for a bank, the guarded all-in-one command is available
 TENANT=tenant CONFIRM=true bin/rails ebics:key_rotation:perform
 ```
 
+For a proven bank/provider, use the batch commands to rotate selected tenants
+sequentially. Always inspect the plan first. `TENANTS` is a comma/space-separated
+list. `PROVIDER` matches the active bank connection provider (`ebics`) or bank
+name/host id (`RAIFCHEC`, `PFEBICS`, etc.). Already-4096-bit or already-rotated
+connections are reported as `noop` and the batch continues to the next tenant.
+Unsupported or blocked tenants are skipped; a failed attempted rotation stops the
+batch.
+
+```sh
+bin/rails ebics:key_rotation:batch:plan
+PROVIDER=RAIFCHEC bin/rails ebics:key_rotation:batch:plan
+TENANTS=tenant-a,tenant-b bin/rails ebics:key_rotation:batch:plan
+```
+
+Prepare pending keys for a reviewed set without live bank calls:
+
+```sh
+TENANTS=tenant-a,tenant-b CONFIRM=true bin/rails ebics:key_rotation:batch:prepare
+PROVIDER=RAIFCHEC CONFIRM=true bin/rails ebics:key_rotation:batch:prepare
+```
+
+Run the live sequence one tenant at a time for the reviewed set:
+
+```sh
+TENANTS=tenant-a,tenant-b CONFIRM=true bin/rails ebics:key_rotation:batch:perform
+PROVIDER=RAIFCHEC CONFIRM=true bin/rails ebics:key_rotation:batch:perform
+```
+
+Add `VERIFY_PAYMENTS=true` to run `Billing::PaymentsProcessor.retrieve_and_process!`
+after each successful promotion. Use `ALL=true` only when intentionally applying
+the command to every eligible active EBICS connection.
+
 Rollback is also a live `HCS` key change. It rotates the bank back to the
 encrypted previous key set, verifies those keys with `HTD`, then promotes them
 locally:

@@ -22,6 +22,9 @@ class EbicsRakeTest < ActiveSupport::TestCase
     Rake::Task["ebics:key_rotation:perform"].reenable
     Rake::Task["ebics:key_rotation:rollback"].reenable
     Rake::Task["ebics:key_rotation:recover_rollback"].reenable
+    Rake::Task["ebics:key_rotation:batch:plan"].reenable
+    Rake::Task["ebics:key_rotation:batch:prepare"].reenable
+    Rake::Task["ebics:key_rotation:batch:perform"].reenable
     BankConnection.delete_all
   end
 
@@ -124,6 +127,45 @@ class EbicsRakeTest < ActiveSupport::TestCase
 
     %w[submit verify promote perform rollback recover_rollback].each do |task_name|
       assert_key_rotation_task(task_name)
+    end
+  end
+
+  test "key rotation batch plan passes filters to coordinator without confirmation" do
+    with_env("TENANTS" => "tapatate, clefdeschamps", "PROVIDER" => "RAIFCHEC", "ALL" => "true", "VERIFY_PAYMENTS" => "true", "CONFIRM" => nil) do
+      Billing::EBICS::KeyRotationBatch.stub(:new, key_rotation_batch_stub(expected_method: :plan)) do
+        out, = capture_io { Rake::Task["ebics:key_rotation:batch:plan"].invoke }
+        json = JSON.parse(out)
+
+        assert_equal "plan", json.fetch("action")
+      end
+    end
+  end
+
+  test "key rotation batch prepare and perform require selection and confirmation" do
+    %w[prepare perform].each do |task_name|
+      with_env("TENANTS" => nil, "PROVIDER" => nil, "ALL" => nil, "CONFIRM" => "true") do
+        Rake::Task["ebics:key_rotation:batch:#{task_name}"].reenable
+        assert_raises(SystemExit) { capture_io { Rake::Task["ebics:key_rotation:batch:#{task_name}"].invoke } }
+      end
+
+      with_env("TENANTS" => "tapatate", "PROVIDER" => nil, "ALL" => nil, "CONFIRM" => nil) do
+        Rake::Task["ebics:key_rotation:batch:#{task_name}"].reenable
+        assert_raises(SystemExit) { capture_io { Rake::Task["ebics:key_rotation:batch:#{task_name}"].invoke } }
+      end
+    end
+  end
+
+  test "key rotation batch prepare and perform call coordinator when confirmed" do
+    { "prepare" => :prepare!, "perform" => :perform! }.each do |task_name, expected_method|
+      with_env("TENANTS" => nil, "PROVIDER" => "RAIFCHEC", "ALL" => nil, "VERIFY_PAYMENTS" => "true", "CONFIRM" => "true") do
+        Billing::EBICS::KeyRotationBatch.stub(:new, key_rotation_batch_stub(expected_method: expected_method, expected_tenants: [], expected_provider: "RAIFCHEC", expected_all: false, expected_verify_payments: true)) do
+          Rake::Task["ebics:key_rotation:batch:#{task_name}"].reenable
+          out, = capture_io { Rake::Task["ebics:key_rotation:batch:#{task_name}"].invoke }
+          json = JSON.parse(out)
+
+          assert_equal task_name, json.fetch("action")
+        end
+      end
     end
   end
 
@@ -332,6 +374,25 @@ class EbicsRakeTest < ActiveSupport::TestCase
         end
         rotation.define_singleton_method(:recover_rollback!) do
           { "task" => "recover_rollback" }
+        end
+      end
+    }
+  end
+
+  def key_rotation_batch_stub(expected_method:, expected_tenants: %w[tapatate clefdeschamps], expected_provider: "RAIFCHEC", expected_all: true, expected_verify_payments: true)
+    ->(tenant_names:, provider:, all:, verify_payments:) {
+      assert_equal expected_tenants, tenant_names
+      assert_equal expected_provider, provider
+      assert_equal expected_all, all
+      assert_equal expected_verify_payments, verify_payments
+
+      Object.new.tap do |batch|
+        batch.define_singleton_method(expected_method) do
+          {
+            "action" => expected_method.to_s.delete_suffix("!"),
+            "summary" => {},
+            "results" => []
+          }
         end
       end
     }

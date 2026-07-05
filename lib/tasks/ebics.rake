@@ -80,6 +80,27 @@ namespace :ebics do
       require_confirmation!
       puts JSON.pretty_generate(with_key_rotation(&:recover_rollback!))
     end
+
+    namespace :batch do
+      desc "Plan EBICS key rotation for selected tenants (optional TENANTS=..., PROVIDER=RAIFCHEC/ebics; no live bank calls)"
+      task plan: :environment do
+        puts JSON.pretty_generate(key_rotation_batch.plan)
+      end
+
+      desc "Prepare pending EBICS keys for selected tenants (TENANTS=..., PROVIDER=..., or ALL=true; CONFIRM=true required; no live bank calls)"
+      task prepare: :environment do
+        require_batch_selection!
+        require_confirmation!
+        puts JSON.pretty_generate(key_rotation_batch.prepare!)
+      end
+
+      desc "Prepare, submit, verify, and promote EBICS keys for selected tenants (TENANTS=..., PROVIDER=..., or ALL=true; CONFIRM=true required; live bank calls)"
+      task perform: :environment do
+        require_batch_selection!
+        require_confirmation!
+        puts JSON.pretty_generate(key_rotation_batch.perform!)
+      end
+    end
   end
 
   desc "Print sanitized EBICS 3.0/H005 readiness report (optional TENANT=ragedevert; no live bank calls)"
@@ -179,6 +200,29 @@ namespace :ebics do
     with_key_rotation(&:request_build_validation)
   end
 
+  def key_rotation_batch
+    Billing::EBICS::KeyRotationBatch.new(
+      tenant_names: key_rotation_batch_tenant_names,
+      provider: ENV["PROVIDER"].presence,
+      all: truthy_env?("ALL"),
+      verify_payments: truthy_env?("VERIFY_PAYMENTS"))
+  end
+
+  def key_rotation_batch_tenant_names
+    (ENV["TENANTS"].presence || ENV["TENANT"].presence || ENV["TENANT_NAME"].presence)
+      .to_s
+      .split(/[,\s]+/)
+      .compact_blank
+  end
+
+  def require_batch_selection!
+    return if key_rotation_batch_tenant_names.present?
+    return if ENV["PROVIDER"].present?
+    return if truthy_env?("ALL")
+
+    abort "Set TENANTS, PROVIDER, or ALL=true"
+  end
+
   def with_key_rotation
     tenant_name = ENV["TENANT"].presence || ENV["TENANT_NAME"].presence
 
@@ -196,7 +240,11 @@ namespace :ebics do
   end
 
   def require_confirmation!
-    abort "CONFIRM=true is required" unless ENV["CONFIRM"].in?(%w[1 true])
+    abort "CONFIRM=true is required" unless truthy_env?("CONFIRM")
+  end
+
+  def truthy_env?(key)
+    ENV[key].in?(%w[1 true yes])
   end
 
   def monitor_capabilities_result(tenant, required: false)
