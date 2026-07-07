@@ -117,7 +117,8 @@ class Membership < ApplicationRecord
   end
 
   def can_stop?
-    !renewed? && started_on < Date.current && ended_on > Date.current
+    !renewed? && started_on < Date.current && ended_on > Date.current &&
+      delivery_cycle&.deliveries_in(started_on..Date.current)&.any?
   end
 
   def stop!

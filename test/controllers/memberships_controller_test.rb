@@ -42,6 +42,21 @@ class MembershipsControllerTest < ActionDispatch::IntegrationTest
     assert_select "form[action='#{membership_path(membership)}'] button[title='#{I18n.t("active_admin.delete_model")}']", false
   end
 
+  test "show hides stop action when stopping today would leave no delivery" do
+    travel_to "2024-05-01"
+    membership = create_membership(
+      member: create_member,
+      started_on: "2024-04-30",
+      ended_on: "2024-12-31")
+    login admins(:super)
+
+    get membership_path(membership)
+
+    assert_response :success
+    assert_not membership.can_stop?
+    assert_select "form[action='#{stop_membership_path(membership)}']", false
+  end
+
   test "stop ends membership today" do
     travel_to "2024-05-01"
     membership = memberships(:jane)
