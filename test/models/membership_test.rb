@@ -458,8 +458,9 @@ class MembershipTest < ActiveSupport::TestCase
     assert membership.fiscal_year_has_basket_size_price_percentage?
   end
 
-  test "can_stop? only allows stopping ongoing non-renewed memberships after their start date" do
+  test "can_stop? only allows stopping ongoing non-renewed memberships after a delivery" do
     membership = memberships(:jane)
+    first_delivery = membership.first_delivery
 
     travel_to membership.started_on - 1.day
     assert_not membership.can_stop?
@@ -467,7 +468,10 @@ class MembershipTest < ActiveSupport::TestCase
     travel_to membership.started_on
     assert_not membership.can_stop?
 
-    travel_to membership.started_on + 1.day
+    travel_to first_delivery.date - 1.day
+    assert_not membership.can_stop?
+
+    travel_to first_delivery.date
     assert membership.can_stop?
 
     membership.update_columns(renewed_at: Time.current)
