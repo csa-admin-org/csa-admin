@@ -14,15 +14,8 @@ class API::V1::MembersControllerTest < ActionDispatch::IntegrationTest
     post "/api/v1/members", headers: headers, params: params
   end
 
-  test "requires valid api_token" do
-    request(api_token: "not-the-good-one")
-    assert_response :unauthorized
-  end
-
-  test "creates a new member" do
-    admins(:ultra).update_column(:notifications, %w[ new_registration ])
-
-    params = {
+  def valid_params
+    {
       name: "John Woo",
       street: "123 Main St",
       zip: "12345",
@@ -38,9 +31,18 @@ class API::V1::MembersControllerTest < ActionDispatch::IntegrationTest
         { basket_complement_id: eggs_id, quantity: 2 }
       ]
     }
+  end
+
+  test "requires valid api_token" do
+    request(api_token: "not-the-good-one")
+    assert_response :unauthorized
+  end
+
+  test "creates a new member" do
+    admins(:ultra).update_column(:notifications, %w[ new_registration ])
 
     assert_difference("Member.count") do
-      request(params: params)
+      request(params: valid_params)
       perform_enqueued_jobs
     end
 
@@ -65,6 +67,41 @@ class API::V1::MembersControllerTest < ActionDispatch::IntegrationTest
     assert_equal "New registration", mail.subject
     assert_equal [ admins(:ultra).email ], mail.to
     assert_includes mail.html_part.body.to_s, "John Woo"
+  end
+
+  test "defaults desired shares number when omitted" do
+    org(features: Current.org.features | [ :shares ], share_price: 100, shares_number: 1)
+
+    assert_difference("Member.count") do
+      request(params: valid_params)
+    end
+
+    assert_response :created
+    assert_equal 1, Member.last.desired_shares_number
+  end
+
+  test "defaults desired shares number from basket size when omitted" do
+    org(features: Current.org.features | [ :shares ], share_price: 100, shares_number: 1)
+    basket_sizes(:small).update!(shares_number: 3)
+
+    assert_difference("Member.count") do
+      request(params: valid_params)
+    end
+
+    assert_response :created
+    assert_equal 3, Member.last.desired_shares_number
+  end
+
+  test "does not override explicit desired shares number" do
+    org(features: Current.org.features | [ :shares ], share_price: 100, shares_number: 1)
+
+    assert_no_difference("Member.count") do
+      request(params: valid_params.merge(desired_shares_number: 0))
+    end
+
+    assert_response :unprocessable_entity
+    json = JSON.parse(response.body)
+    assert_includes json["errors"]["desired_shares_number"], "must be greater than or equal to 1"
   end
 
   test "returns unprocessable entity for invalid member" do

@@ -4,9 +4,10 @@ module API
   module V1
     class MembersController < BaseController
       def create
-        member = Member.new(member_params)
+        attributes = member_params
+        member = Member.new(attributes)
         member.public_create = true
-        registration = MemberRegistration.new(member, member_params)
+        registration = MemberRegistration.new(member, attributes)
 
         if registration.save
           head :created
@@ -33,12 +34,39 @@ module API
           members_basket_complements_attributes: [
             :basket_complement_id, :quantity
           ])
+        normalize_members_basket_complements(permitted)
+        normalize_waiting_alternative_depots(permitted)
+        normalize_desired_shares_number(permitted)
+        permitted
+      end
+
+      def normalize_members_basket_complements(permitted)
         permitted[:members_basket_complements_attributes]&.select! { |attrs|
           attrs["quantity"].to_i > 0
         }
+      end
+
+      def normalize_waiting_alternative_depots(permitted)
         permitted[:waiting_alternative_depot_ids]&.map!(&:presence)&.compact!
-        permitted.delete(:desired_shares_number) unless Current.org.feature?("shares")
-        permitted
+      end
+
+      def normalize_desired_shares_number(permitted)
+        unless Current.org.feature?("shares")
+          permitted.delete(:desired_shares_number)
+          return
+        end
+
+        return if permitted[:desired_shares_number].present?
+
+        permitted[:desired_shares_number] = default_desired_shares_number(permitted)
+      end
+
+      def default_desired_shares_number(permitted)
+        waiting_basket_size(permitted)&.shares_number || Current.org.shares_number || 0
+      end
+
+      def waiting_basket_size(permitted)
+        BasketSize.find_by(id: permitted[:waiting_basket_size_id])
       end
     end
   end
