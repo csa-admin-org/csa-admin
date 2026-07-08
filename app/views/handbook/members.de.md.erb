@@ -52,14 +52,16 @@ Wenn die [Warteliste](/settings#waiting_list) aktiviert ist, bearbeite das Profi
 
 ## <%= Member.human_attribute_name(:salary_basket) %> {#salary-basket}
 
-Das Kennzeichen «<%= Member.human_attribute_name(:salary_basket) %>» im Profil eines Mitglieds zeigt an, dass dieses Mitglied seine <%= Basket.model_name.human %> als Teil seines Gehalts erhält (z.B. Angestellte des Betriebs). Wenn aktiviert:
+Die Option «<%= Member.human_attribute_name(:salary_basket) %>» im Profil eines Mitglieds zeigt an, dass dieses Mitglied seine <%= Basket.model_name.human %> als Teil seines Gehalts erhält (z.B. Angestellte des Betriebs). Wenn aktiviert:
 
-- Alle Abonnementspreise werden auf Null gesetzt (das Abonnement existiert weiterhin für die Lieferverfolgung, aber es wird nichts in Rechnung gestellt).
+- Alle Abonnementspreise werden auf null gesetzt, einschliesslich Taschen-Zusätzen (das Abonnement existiert weiterhin für die Lieferverfolgung, aber es wird nichts in Rechnung gestellt).
 - Das Mitglied wird von Abrechnungsberichten und vorläufiger Rechnungsstellung ausgeschlossen.
 - Die Standardanzahl angeforderter <%= activities_human_name.downcase %> wird auf 0 gesetzt.
 - Das Mitglied wird von [Beitragsrunden](/handbook/bidding_round) ausgeschlossen.
 
-Wenn das Kennzeichen bei einem bestehenden Mitglied aktiviert oder deaktiviert wird, werden dessen aktuelle und zukünftige Abonnements automatisch neu berechnet.
+> Wenn Zusätze weiterhin verrechnet werden sollen, aktiviere diese Option nicht. Setze stattdessen die Abonnementpreise für Taschengrösse/Depot manuell mit benutzerdefinierten Abonnementpreisen auf null.
+
+Wenn diese Option bei einem bestehenden Mitglied geändert wird, werden dessen aktuelle und zukünftige Abonnements automatisch neu berechnet.
 
 ## Essensnotiz & Liefernotiz {#notes}
 

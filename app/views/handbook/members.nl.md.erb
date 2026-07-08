@@ -52,14 +52,16 @@ Wanneer de [wachtlijst](/settings#waiting_list) is ingeschakeld, bewerk je het p
 
 ## <%= Member.human_attribute_name(:salary_basket) %> {#salary-basket}
 
-De «<%= Member.human_attribute_name(:salary_basket) %>»-markering op het profiel van een lid geeft aan dat dit lid zijn/haar <%= Basket.model_name.human.downcase %> ontvangt als onderdeel van het salaris (bijv. medewerkers van de boerderij). Wanneer ingeschakeld:
+De optie «<%= Member.human_attribute_name(:salary_basket) %>» op het profiel van een lid geeft aan dat dit lid zijn/haar <%= Basket.model_name.human.downcase %> ontvangt als onderdeel van het salaris (bijv. medewerkers van de boerderij). Wanneer ingeschakeld:
 
-- Alle lidmaatschapsprijzen worden op nul gezet (het lidmaatschap bestaat nog steeds voor leveringstracking, maar er wordt niets gefactureerd).
+- Alle lidmaatschapsprijzen worden op nul gezet, inclusief pakketaanvullingen (het lidmaatschap bestaat nog steeds voor leveringstracking, maar er wordt niets gefactureerd).
 - Het lid wordt uitgesloten van factureringsrapporten en voorlopige facturering.
 - Het standaard aantal gevraagde <%= activities_human_name.downcase %> wordt op 0 gezet.
 - Het lid wordt uitgesloten van [biedrondes](/handbook/bidding_round).
 
-Als de markering wordt in- of uitgeschakeld bij een bestaand lid, worden hun huidige en toekomstige lidmaatschappen automatisch herberekend.
+> Als aanvullingen toch gefactureerd moeten worden, schakel deze optie dan niet in. Zet in plaats daarvan de lidmaatschapsprijzen voor pakketgrootte/depot handmatig op nul met aangepaste lidmaatschapsprijzen.
+
+Als deze optie wordt gewijzigd bij een bestaand lid, worden de huidige en toekomstige lidmaatschappen automatisch herberekend.
 
 ## Voedingsnotitie & leveringsnotitie {#notes}
 

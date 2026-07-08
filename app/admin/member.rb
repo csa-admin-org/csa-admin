@@ -718,7 +718,7 @@ ActiveAdmin.register Member do
       if Current.org.trial_baskets? || f.object.trial_baskets_count != Current.org.trial_baskets_count
         f.input :trial_baskets_count
       end
-      f.input :salary_basket
+      f.input :salary_basket, hint: t("formtastic.hints.member.salary_basket_html")
       if feature?("local_currency")
         f.input :use_local_currency
       end

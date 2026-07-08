@@ -52,14 +52,16 @@ When the [waiting list](/settings#waiting_list) feature is enabled, edit an inac
 
 ## <%= Member.human_attribute_name(:salary_basket) %> {#salary-basket}
 
-The "<%= Member.human_attribute_name(:salary_basket) %>" flag on a member's profile indicates that this member receives their <%= Basket.model_name.human.downcase %> as part of their salary (e.g. farm employees). When enabled:
+The "<%= Member.human_attribute_name(:salary_basket) %>" option on a member's profile indicates that this member receives their <%= Basket.model_name.human.downcase %> as part of their salary (e.g. farm employees). When enabled:
 
-- All membership prices are set to zero (the membership still exists for delivery tracking, but nothing is billed).
+- All membership prices are set to zero, including basket complements (the membership still exists for delivery tracking, but nothing is billed).
 - The member is excluded from billing reports and previsional invoicing.
 - The default number of requested <%= activities_human_name.downcase %> is set to 0.
 - The member is excluded from [bidding rounds](/handbook/bidding_round).
 
-If the flag is toggled on an existing member, their current and future memberships are automatically recalculated.
+> If complements should still be billed, do not enable this option. Instead, set the membership basket size/depot prices to zero manually with custom membership prices.
+
+If this option is changed on an existing member, their current and future memberships are automatically recalculated.
 
 ## Food note & delivery note {#notes}
 

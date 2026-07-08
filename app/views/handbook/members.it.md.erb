@@ -52,14 +52,16 @@ Quando la [lista d'attesa](/settings#waiting_list) è attiva, modifica il profil
 
 ## <%= Member.human_attribute_name(:salary_basket) %> {#salary-basket}
 
-Il flag «<%= Member.human_attribute_name(:salary_basket) %>» nel profilo di un socio indica che questo socio riceve la sua <%= Basket.model_name.human.downcase %> come parte del suo stipendio (ad esempio, dipendenti dell'azienda agricola). Quando attivato:
+L'opzione «<%= Member.human_attribute_name(:salary_basket) %>» nel profilo di un socio indica che questo socio riceve la sua <%= Basket.model_name.human.downcase %> come parte del suo stipendio (ad esempio, dipendenti dell'azienda agricola). Quando attivata:
 
-- Tutti i prezzi dell'abbonamento sono azzerati (l'abbonamento esiste ancora per il tracciamento delle consegne, ma nulla viene fatturato).
+- Tutti i prezzi dell'abbonamento sono azzerati, compresi i complementi cesto (l'abbonamento esiste ancora per il tracciamento delle consegne, ma nulla viene fatturato).
 - Il socio è escluso dai rapporti di fatturazione e dalla fatturazione previsionale.
 - Il numero predefinito di <%= activities_human_name.downcase %> richieste è impostato a 0.
 - Il socio è escluso dai [turni di impegno](/handbook/bidding_round).
 
-Se il flag viene attivato o disattivato su un socio esistente, i suoi abbonamenti attuali e futuri vengono automaticamente ricalcolati.
+> Se i complementi devono comunque essere fatturati, non attivare questa opzione. Imposta invece manualmente a zero i prezzi dimensione cesto/deposito dell'abbonamento con prezzi d'abbonamento personalizzati.
+
+Se questa opzione viene modificata su un socio esistente, i suoi abbonamenti attuali e futuri vengono automaticamente ricalcolati.
 
 ## Nota alimentare e nota di consegna {#notes}
 

@@ -54,14 +54,16 @@ Lorsque la [liste d'attente](/settings#waiting_list) est activée, éditez le pr
 
 ## <%= Member.human_attribute_name(:salary_basket) %> {#salary-basket}
 
-Le drapeau «<%= Member.human_attribute_name(:salary_basket) %>» sur le profil d'un membre indique que ce membre reçoit son <%= Basket.model_name.human.downcase %> dans le cadre de son salaire (par exemple, les employés de la ferme). Lorsqu'il est activé :
+L'option «<%= Member.human_attribute_name(:salary_basket) %>» sur le profil d'un membre indique que ce membre reçoit son <%= Basket.model_name.human.downcase %> dans le cadre de son salaire (par exemple, les employés de la ferme). Lorsqu'elle est activée :
 
-- Tous les prix de l'abonnement sont mis à zéro (l'abonnement existe toujours pour le suivi des livraisons, mais rien n'est facturé).
+- Tous les prix de l'abonnement sont mis à zéro, y compris les compléments de panier (l'abonnement existe toujours pour le suivi des livraisons, mais rien n'est facturé).
 - Le membre est exclu des rapports de facturation et de la facturation prévisionnelle.
 - Le nombre par défaut de <%= activities_human_name.downcase %> demandées est mis à 0.
 - Le membre est exclu des [tours d'engagement](/handbook/bidding_round).
 
-Si le drapeau est activé ou désactivé sur un membre existant, ses abonnements actuels et futurs sont automatiquement recalculés.
+> Si les compléments doivent tout de même être facturés, n'activez pas cette option. Mettez plutôt manuellement à zéro les prix taille de panier/dépôt de l'abonnement avec des prix d'abonnement personnalisés.
+
+Si cette option est modifiée sur un membre existant, ses abonnements actuels et futurs sont automatiquement recalculés.
 
 ## Note alimentaire et note de livraison {#notes}
 
