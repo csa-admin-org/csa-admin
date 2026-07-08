@@ -909,18 +909,18 @@ _:
           _de: Ermöglicht die Änderung der Standardanzahl, die von der Taschengrösse des aktuellen Abonnements abhängt.
           _it: Consente di modificare il numero predefinito che dipende dalla dimensione della cesta dell'abbonamento corrente.
           _nl: Maakt het mogelijk het standaardaantal te wijzigen, dat afhangt van de pakketgrootte van het huidige lidmaatschap.</br>Een negatief getal geeft aan dat de aandelen niet worden terugbetaald om het lid inactief te maken.
-        send_validation_email_html:
-          _en: <a href="%{url}">This email</a> is sent automatically when new members use <a href="%{new_members_url}">the registration form</a> and are validated by an admin.
-          _fr: <a href="%{url}">Cet email</a> est envoyé automatiquement lorsque de nouveaux membres utilisent <a href="%{new_members_url}">le formulaire d'inscription</a> et sont validés par un administrateur.
-          _de: Diese E-Mail wird automatisch gesendet, wenn neue Mitglieder das <a href="%{new_members_url}">Registrierungsformular</a> verwenden und von einem Administrator validiert werden.
-          _it: Questa email verrà inviata automaticamente quando i nuovi soci utilizzano il <a href="%{new_members_url}">modulo di registrazione</a> e vengono validati da un amministratore.
-          _nl: Deze e-mail wordt standaard verzonden zodra nieuwe leden het <a href="%{new_members_url}">registratieformulier</a> gebruiken en door een beheerder worden gevalideerd.
         salary_basket_html:
           _en: Sets all membership prices to zero, including basket complements. <a href="/handbook/members#salary-basket">Learn more</a>
           _fr: Met tous les prix de l'abonnement à zéro, y compris les compléments de panier. <a href="/handbook/members#salary-basket">En savoir plus</a>
           _de: Setzt alle Abonnementspreise auf null, einschliesslich Taschen-Zusätzen. <a href="/handbook/members#salary-basket">Mehr erfahren</a>
           _it: Imposta a zero tutti i prezzi dell'abbonamento, compresi i complementi cesto. <a href="/handbook/members#salary-basket">Scopri di più</a>
           _nl: Zet alle lidmaatschapsprijzen op nul, inclusief pakketaanvullingen. <a href="/handbook/members#salary-basket">Meer informatie</a>
+        send_validation_email_html:
+          _en: <a href="%{url}">This email</a> is sent automatically when new members use <a href="%{new_members_url}">the registration form</a> and are validated by an admin.
+          _fr: <a href="%{url}">Cet email</a> est envoyé automatiquement lorsque de nouveaux membres utilisent <a href="%{new_members_url}">le formulaire d'inscription</a> et sont validés par un administrateur.
+          _de: Diese E-Mail wird automatisch gesendet, wenn neue Mitglieder das <a href="%{new_members_url}">Registrierungsformular</a> verwenden und von einem Administrator validiert werden.
+          _it: Questa email verrà inviata automaticamente quando i nuovi soci utilizzano il <a href="%{new_members_url}">modulo di registrazione</a> e vengono validati da un amministratore.
+          _nl: Deze e-mail wordt standaard verzonden zodra nieuwe leden het <a href="%{new_members_url}">registratieformulier</a> gebruiken en door een beheerder worden gevalideerd.
         sepa_mandate_id:
           _en: Unique reference number among your members (reusing the member's ID is recommended).
           _fr: Numéro de référence unique parmi vos membres (réutiliser l'ID du membre est recommandé).
