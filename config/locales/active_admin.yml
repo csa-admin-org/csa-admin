@@ -1461,6 +1461,12 @@ _:
           _de: Details
           _it: Dettagli
           _nl: Details
+        documents:
+          _en: Documents
+          _fr: Documents
+          _de: Dokumente
+          _it: Documenti
+          _nl: Documenten
         documents_to_validate:
           _en: Documents to validate
           _fr: Documents à valider

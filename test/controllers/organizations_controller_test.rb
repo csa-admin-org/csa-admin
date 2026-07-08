@@ -396,7 +396,7 @@ class OrganizationsControllerTest < ActionDispatch::IntegrationTest
     assert_select "#registration", text: /#{Regexp.escape(Member.human_attribute_name(:come_from, locale: locale))}/
     assert_select "#registration [data-status='visible']", text: I18n.t("form_modes.visible", locale: locale)
     assert_select "#registration [data-status='required']", text: I18n.t("form_modes.required", locale: locale)
-    assert_select "#registration", text: /#{Regexp.escape(I18n.t("active_admin.resource.form.documents_to_validate", locale: locale))}/
+    assert_select "#registration", text: /#{Regexp.escape(I18n.t("active_admin.resource.form.documents", locale: locale))}/
     assert_select "#registration a[href='https://example.org/charter.pdf']", text: I18n.t("members.members.new.documents.charter", locale: locale)
     assert_select "#registration a[href='https://example.org/privacy.pdf']", text: I18n.t("members.members.new.documents.privacy_policy", locale: locale)
     assert_select "#registration tr[data-row='member_form_extra_text']", false
