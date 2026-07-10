@@ -118,7 +118,7 @@ module Billing
           private
 
           def serial_for(key, version)
-            OpenSSL::BN.new(OpenSSL::Digest::SHA256.hexdigest("#{version}:#{key.n}:#{key.e}")[0, 32], 16).to_i
+            OpenSSL::BN.new(OpenSSL::Digest::SHA256.hexdigest("#{version}:#{key.n}:#{key.e}")[0, 15], 16).to_i + 1
           end
 
           def subject_for(client, version)

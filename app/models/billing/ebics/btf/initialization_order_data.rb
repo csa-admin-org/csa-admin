@@ -40,9 +40,9 @@ module Billing
 
         def ini_xml
           Nokogiri::XML::Builder.new do |xml|
-            xml.SignaturePubKeyOrderData(root_attributes) {
+            xml.SignaturePubKeyOrderData(signature_root_attributes) {
               xml.SignaturePubKeyInfo {
-                public_key_info(xml, client.a.key, "A006", timestamp: true)
+                public_key_info(xml, client.a.key, "A006")
                 xml.SignatureVersion "A006"
               }
               xml.PartnerID client.partner_id
@@ -76,11 +76,13 @@ module Billing
           }
         end
 
-        def public_key_info(xml, key, version, timestamp: false)
+        def signature_root_attributes
+          root_attributes.merge("xmlns" => SIGNATURE_NAMESPACE)
+        end
+
+        def public_key_info(xml, key, version)
           x509_data(xml, key, version)
-          pub_key_value(xml, key) do
-            xml.TimeStamp certificate_issued_at.iso8601 if timestamp
-          end
+          key_value(xml, key)
         end
 
         def x509_data(xml, key, version)
@@ -99,13 +101,12 @@ module Billing
           }
         end
 
-        def pub_key_value(xml, key)
-          xml.PubKeyValue {
+        def key_value(xml, key)
+          xml["ds"].KeyValue {
             xml["ds"].RSAKeyValue {
               xml["ds"].Modulus crypto_binary(key.n)
               xml["ds"].Exponent crypto_binary(key.e)
             }
-            yield if block_given?
           }
         end
 

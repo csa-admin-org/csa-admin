@@ -29,8 +29,11 @@ module Billing
           ensure_supported_order_type!
 
           serialize_xml(Nokogiri::XML::Builder.new do |xml|
-            xml.ebicsNoPubKeyDigestsRequest(root_attributes) {
-              initialisation_header(xml, bank_public_key_digests: false) { order_details(xml) }
+            xml.ebicsNoPubKeyDigestsRequest(key_management_root_attributes) {
+              initialisation_header(
+                xml,
+                bank_public_key_digests: false,
+                transaction_phase: false) { order_details(xml) }
               auth_signature(xml)
               xml.body
             }
@@ -47,10 +50,13 @@ module Billing
           raise UnsupportedOperation, "EBICS no-bank-digest request only supports #{SUPPORTED_ORDER_TYPES.to_sentence}"
         end
 
+        def key_management_root_attributes
+          root_attributes.merge("xsi:schemaLocation" => "#{DownloadRequest::H005_NAMESPACE} ebics_keymgmt_request_H005.xsd")
+        end
+
         def order_details(xml)
           xml.OrderDetails {
             xml.AdminOrderType order_type
-            xml.StandardOrderParams
           }
         end
       end

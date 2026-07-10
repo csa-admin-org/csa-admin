@@ -89,8 +89,8 @@ class Billing::EBICS::Btf::DownloadRequestTest < ActiveSupport::TestCase
   class FakeSigner
     def sign(xml)
       doc = Nokogiri::XML(xml)
-      doc.at_xpath("//ds:DigestValue", ds: XMLDSIG_NAMESPACE).content = "DIGEST"
-      doc.at_xpath("//ds:SignatureValue", ds: XMLDSIG_NAMESPACE).content = "SIGNATURE"
+      doc.at_xpath("//ds:DigestValue", ds: XMLDSIG_NAMESPACE).content = "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA="
+      doc.at_xpath("//ds:SignatureValue", ds: XMLDSIG_NAMESPACE).content = "U0lHTkFUVVJF"
       doc.to_xml(save_with: Nokogiri::XML::Node::SaveOptions::AS_XML, encoding: "utf-8")
     end
   end
@@ -105,11 +105,11 @@ class Billing::EBICS::Btf::DownloadRequestTest < ActiveSupport::TestCase
     end
 
     def bank_x
-      FakeKey.new("BANK-X-DIGEST")
+      FakeKey.new("AQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQE=")
     end
 
     def bank_e
-      FakeKey.new("BANK-E-DIGEST")
+      FakeKey.new("AgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgI=")
     end
   end
 

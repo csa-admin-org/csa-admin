@@ -18,12 +18,14 @@ module Billing
           DownloadRequest::ROOT_ATTRIBUTES
         end
 
-        def initialisation_header(xml, bank_public_key_digests: true, num_segments: nil)
+        def initialisation_header(xml, bank_public_key_digests: true, num_segments: nil, nonce_timestamp: true, transaction_phase: "Initialisation")
           xml.header(authenticate: true) {
             xml.static {
               xml.HostID client.host_id
-              xml.Nonce nonce
-              xml.Timestamp timestamp
+              if nonce_timestamp
+                xml.Nonce nonce
+                xml.Timestamp timestamp
+              end
               xml.PartnerID client.partner_id
               xml.UserID client.user_id
               xml.Product product_name, Language: language
@@ -33,7 +35,7 @@ module Billing
               xml.NumSegments num_segments if num_segments
             }
             xml.mutable {
-              xml.TransactionPhase "Initialisation"
+              xml.TransactionPhase transaction_phase if transaction_phase
             }
           }
         end

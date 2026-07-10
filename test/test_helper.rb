@@ -43,6 +43,7 @@ module ActiveSupport
     include QRCodeHelper
     include EnvHelper
     include EbicsKeyStoreHelper
+    include EbicsSchemaHelper
     include RailsEnvHelper
     include RailsErrorHelper
     include TenantHelper
